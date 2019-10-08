@@ -1,13 +1,13 @@
 GIT_BRANCH=$(shell git rev-parse --abbrev-ref HEAD)
 USER=$(shell whoami)
 STAGING_URL="https://docs-mongodborg-staging.corp.mongodb.com"
-PRODUCTION_URL="https://docs.mongodb.com/ecosystem"
+PRODUCTION_URL="https://docs.mongodb.com/realm"
 STAGING_BUCKET=docs-mongodb-org-staging
 PRODUCTION_BUCKET=docs-mongodb-org-prod
 
 # "PROJECT" currently exists to support having multiple projects
 # within one bucket.
-PROJECT=ecosystem
+PROJECT=realm
 
 .PHONY: help lint html stage deploy deploy-search-index
 

@@ -31,7 +31,9 @@ extensions = [
     'mongodb',
     'directives',
     'intermanual',
-    'fasthtml'
+    # 'fasthtml',
+    'tabs',
+    'stitch-builders',
 ]
 
 templates_path = ['.templates']

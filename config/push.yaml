@@ -1,6 +1,6 @@
 target: push
 paths:
-  remote: /data/sites/docs/ecosystem
+  remote: /data/sites/docs/realm
   local: public
   static: ['.htaccess']
 options: ['recursive']
@@ -9,7 +9,7 @@ dependency: push-if-up-to-date
 ---
 target: push-with-delete
 paths:
-  remote: /data/sites/docs/ecosystem
+  remote: /data/sites/docs/realm
   local: public
   static: ['.htaccess']
 options: ['delete', 'recursive']
@@ -18,7 +18,7 @@ dependency: publish
 ---
 target: stage
 paths:
-  remote: /srv/public/test/ecosystem
+  remote: /srv/public/test/realm
   local: public
 options: ['recursive']
 env: staging
@@ -26,7 +26,7 @@ dependency: stage-if-up-to-date
 ---
 target: stage-with-delete
 paths:
-  remote: /srv/public/test/ecosystem
+  remote: /srv/public/test/realm
   local: public
 options: ['delete', 'recursive']
 env: staging

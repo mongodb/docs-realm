@@ -5,29 +5,25 @@ git:
 project:
   name: 'realm'
   tag: 'realm'
-  url: 'http://docs.mongodb.com'
+  url: 'http://docs.mongodb.com/realm'
   title: "MongoDB Realm"
   branched: false
 system:
-  tools:
-    ref: HEAD
-    pinned: false
   make:
     generated:
-      - 'sphinx'
       - 'meta'
-      - 'push'
-      - 'migrations'
       - 'integration'
+      - 'sphinx'
     static:
       - 'makefile.compatibility'
       - 'makefile.clean'
+      - 'makefile.dtf'
   files:
+    - 'htaccess.yaml'
     - 'intersphinx.yaml'
-    - 'push.yaml'
     - 'integration.yaml'
+    - 'push.yaml'
     - 'sphinx_local.yaml'
-    - htaccess: ['htaccess.yaml']
 version:
   release: '2.6.4'
   branch: '2.6'
@@ -35,9 +31,6 @@ assets:
   - branch: master
     path: build/docs-tools
     repository: http://github.com/mongodb/docs-tools.git
-  - branch: ecosystem
-    path: source/figures
-    repository: http://github.com/mongodb/docs-assets.git
 paths:
   output: 'build'
   source: 'source'
