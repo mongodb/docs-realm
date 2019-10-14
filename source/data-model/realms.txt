@@ -49,6 +49,8 @@ A realm is not a collection of schemaless documents.
 Key Concepts
 ------------
 
+.. _realm-schema:
+
 Realm Schema
 ~~~~~~~~~~~~
 
@@ -102,6 +104,8 @@ in the schema. All objects in a realm must conform to the realm schema.
    client provided one. For more information, see :doc:`Migrations
    </data-model/migrations>`.
 
+.. _realm-permissions:
+
 Realm Permissions
 ~~~~~~~~~~~~~~~~~
 
@@ -110,6 +114,10 @@ authorized to access, modify, or manage a realm. Permissions are defined
 individually for each realm and either apply to a specific user or
 configure the default permission for all users that don't have
 permissions specified on the realm.
+
+Realms are private by default, which means that the owner has full
+permissions and no other user has any permissions unless explicitly
+granted by the owner or a user with manage permissions on the realm.
 
 MongoDB Realm supports the following permissions:
 
@@ -141,6 +149,8 @@ MongoDB Realm supports the following permissions:
        Manage access requires write access, so the ``mayManage``
        permission also sets ``mayWrite`` and ``mayRead`` to ``true`` for
        the user.
+
+.. _realm-path:
 
 Realm Path
 ~~~~~~~~~~
