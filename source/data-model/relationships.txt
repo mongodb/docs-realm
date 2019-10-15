@@ -1,0 +1,107 @@
+=============
+Relationships
+=============
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+Realm allows you to define explicit relationships between the types of
+objects in a realm. A relationship is an object property that references
+another Realm object rather than one of the primitive data types. You
+define relationships by setting the type of an object property to
+another object type in the :ref:`property schema <property-schema>`.
+
+Relationships are direct references to other objects in a realm, which
+means that you don't need bridge tables or explicit joins to define a
+relationship like you would in a relational database. Instead you can
+access related objects by reading and writing to the property that
+defines the relationship. Realm executes read operations lazily as they
+come in, so querying a relationship is just as performant as reading a
+regular property.
+
+There are three primary types of relationships between objects:
+
+- :ref:`One-to-One Relationship <to-one-relationship>`
+- :ref:`One-to-Many Relationship <to-many-relationship>`
+- :ref:`Inverse Relationship <inverse-relationship>`
+
+Key Concepts
+------------
+
+.. _to-one-relationship:
+
+To-One Relationship
+~~~~~~~~~~~~~~~~~~~
+
+A **to-one** relationship means that an object is related in a specific
+way to no more than one other object. You define a to-one relationship
+for an object type in its :ref:`object schema <object-schema>` by
+specifying a property where the type is the related Realm object type.
+
+.. _to-many-relationship:
+
+To-Many Relationship
+~~~~~~~~~~~~~~~~~~~~
+
+A **to-many** relationship means that an object is related in a specific
+way to multiple objects. You define a to-many relationship for an object
+type in its :ref:`object schema <object-schema>` by specifying a
+property where the type is a list or array of the related Realm object
+type.
+
+.. _inverse-relationship:
+
+Inverse Relationship
+~~~~~~~~~~~~~~~~~~~~
+
+An **inverse relationship** allows an object to keep track of other
+objects that contain it in a relationship. An object referred to by a
+to-one or to-many relationship does not automatically have a reference
+to the object that defines the relationship. For example, the to-many
+relationship "Person owns Dogs" does not automatically create the
+relationship "Dog is owned by Person". As a result you must explicitly
+define inverse relationships.
+
+There are two ways to define an inverse relationship: explicit and
+implicit.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 20 80
+
+   * - Type
+     - Description
+
+   * - Explicit
+     - An *explicit* inverse relationship is a regular to-one or to-many
+       relationship that goes in the opposite direction of the
+       relationship that it inverts, from the subject of the original
+       relationship to the object that defines it.
+       
+       Explicit inverse relationships are regular object properties,
+       which means that they are independent of the relationships that
+       they invert. As a result, you must manually keep the two
+       relationships in sync.
+
+       .. example::
+          
+          .. include:: /examples/Relationships/ExplicitInverse/ExplicitInverse.rst
+
+   * - Implicit
+     - An *implicit* inverse relationship is an object property that
+       dynamically links an object to other objects that define a
+       specific relationship with it. Implicit inverse relationship
+       properties contain a ``LinkingObjects`` value that specifies the
+       object type and field name that define the original relationship.
+
+       .. example::
+          
+          .. include:: /examples/Relationships/ImplicitInverse/ImplicitInverse.rst
