@@ -60,15 +60,14 @@ rst_epilog = '\n'.join([
 ])
 
 extlinks = {
-    'issue': ('https://jira.mongodb.org/browse/%s', '' ),
-    'api': ('http://api.mongodb.com/%s', ''),
+    # MongoDB Docs Sites
     'manual': ('http://docs.mongodb.org/manual%s', ''),
-    'gettingstarted': ('http://docs.mongodb.org/getting-started%s', ''),
     'atlas': ('https://docs.atlas.mongodb.com%s',''),
     'mms-docs': ('https://docs.cloud.mongodb.com%s', ''),
     'mms-home': ('https://cloud.mongodb.com%s', ''),
     'guides': ('https://docs.mongodb.com/guides%s', ''),
-    'java-docs-latest': ('http://mongodb.github.io/mongo-java-driver/3.11/%s', ''),
+    # True External Links
+    'wikipedia': ('https://en.wikipedia.org/wiki/%s', ''),
 }
 
 intersphinx_mapping = {}
