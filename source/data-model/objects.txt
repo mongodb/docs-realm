@@ -16,21 +16,22 @@ Overview
 Realm applications model data as objects composed of field-value pairs
 that each contain one or more primitive data types or other Realm
 objects. Realm objects are essentially the same as regular objects in
-most programming languages but they also include additional features
+most programming languages, but they also include additional features
 like :ref:`real-time updating data views <live-object>` and reactive
 change event handlers.
 
-Every object in a realm has a *type* which is analagous to an object
-class. Object types configure the properties and relationships of a
-class of objects with an :ref:`object schema <object-schema>`. Realm
-client applications typically use native classes in their respective
-language as the schema for an object type.
+Every Realm object has an *object type* that refers to the object's
+class. Objects of the same type share an :ref:`object schema
+<object-schema>` that defines the properties and relationships of those
+objects. In most languages you define object schemas using the native
+class implementation.
 
 .. example::
 
    The following code block shows an object schema that describes a Dog.
-   In most most languages Realm uses native classes to define the
-   schema.
+   Every Dog object must include a ``name`` and ``age`` and may
+   optionally include the dog's ``breed`` and a reference to a Person
+   object that represents the dog's ``owner``.
 
    .. include:: /examples/DogSchema/DogSchema.rst
 
@@ -42,23 +43,24 @@ Key Concepts
 Live Object
 ~~~~~~~~~~~
 
-Objects in Realm applications are **live objects** that allow you to
-work with object-oriented data natively without an :wikipedia:`ORM
-<Object-relational_mapping>` tool. Live objects update automatically to
-reflect data changes, including synced remote changes, and emit
-notification events that you can subscribe to whenever their underlying
-data changes.
+Objects in Realm applications are **live objects** that update
+automatically to reflect data changes, including synced remote changes,
+and emit notification events that you can subscribe to whenever their
+underlying data changes. You can use live objects to work with
+object-oriented data natively without an :wikipedia:`ORM
+<Object-relational_mapping>` tool.
 
 Live objects are direct proxies to the underlying stored data, which
 means that a live object doesn't directly contain data. Instead, a live
-object :wikipedia:`lazy loads <Lazy_loading>` data when a read operation
-accesses it. This means that a realm can contain many objects but only
-pay the performance cost for data that the application is actually
-using.
+object always references the most up-to-date data on disk and
+:wikipedia:`lazy loads <Lazy_loading>` property values when you access
+them from a :doc:`collection </crud/collections>`. This means that a
+realm can contain many objects but only pay the performance cost for
+data that the application is actually using.
 
-Write operations on a live object automatically persist to the realm and
-propagate to any other synced clients. You do not need to call an update
-method, modify the realm, or otherwise "push" updates.
+Valid write operations on a live object automatically persist to the
+realm and propagate to any other synced clients. You do not need to call
+an update method, modify the realm, or otherwise "push" updates.
 
 .. _object-schema:
 
@@ -66,17 +68,21 @@ Object Schema
 ~~~~~~~~~~~~~
 
 An **object schema** is a configuration object that defines the shape,
-contents, and relationships of a Realm object type. Object schemas
-specify constraints on object properties such as the data type of each
-property, whether or not a property is required, and the default value
-for optional properties. Schemas can also define :doc:`relationships
-</data-model/relationships>` between object types in a realm.
+contents, and relationships of a Realm object type. Realm client
+applications define object schemas with the native class implementation
+in their respective language.
 
-Client applications define a :ref:`realm schema <realm-schema>` by
-providing a list of object schemas for each type of object that a realm
-may contain. Realm guarantees that all objects in a realm conform to the
-schema for their object type and validates objects whenever they're
-created, modified, or deleted.
+Object schemas specify constraints on object properties such as the data
+type of each property, whether or not a property is required, and the
+default value for optional properties. Schemas can also define
+:doc:`relationships </data-model/relationships>` between object types in
+a realm.
+
+Every realm has a :ref:`realm schema <realm-schema>` composed of a list
+of object schemas for each type of object that the realm may contain.
+Realm guarantees that all objects in a realm conform to the schema for
+their object type and validates objects whenever they're created,
+modified, or deleted.
 
 .. _primary-key:
 
@@ -89,10 +95,11 @@ object type as part of the :ref:`object schema <object-schema>`.
 Realm automatically indexes primary key properties, which allows you to
 efficiently read and modify objects based on their primary key.
 
-Primary key properties are always required and the value of an object's
-primary key must be unique among objects of the same type in a realm.
-You cannot change the primary key for an object type after any object of
-that type is added to the realm.
+If an object type has a primary key, then all objects of that type must
+include the private key property with a value that is unique among
+objects of the same type in a realm. You cannot change the primary key
+property for an object type after any object of that type is added to
+the realm.
 
 .. _property-schema:
 
@@ -103,7 +110,7 @@ A **property schema** is a field-level configuration that defines and
 constrains a specific property in an object schema. Every object schema
 must include a property schema for each property in the object. At
 minimum, a property schema defines a property's data type and indicates
-whether or not the property is required
+whether or not the property is required.
 
 You can configure the following constraints for a given property:
 

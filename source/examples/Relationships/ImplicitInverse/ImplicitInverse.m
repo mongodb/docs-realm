@@ -6,7 +6,9 @@
 RLM_ARRAY_TYPE(Person) // define RLMArray<Person>
 
 @implementation Person
-// None required
++ (NSArray *)requiredProperties {
+    return @[@"name", @"birthdate"];
+}
 @end
 
 @interface Dog : RLMObject

@@ -1,7 +1,7 @@
 @interface Person : RLMObject
 @property NSString             *name;
 @property NSDate               *birthdate;
-@property RLMArray<Dog *><Dog> *dogs;
+@property Dog *dog;
 @end
 RLM_ARRAY_TYPE(Person) // define RLMArray<Person>
 
@@ -15,7 +15,6 @@ RLM_ARRAY_TYPE(Person) // define RLMArray<Person>
 @property NSString *name;
 @property NSInteger *age;
 @property NSString *breed;
-@property Person   *owner;
 @end
 RLM_ARRAY_TYPE(Dog) // define RLMArray<Dog>
 
