@@ -46,6 +46,14 @@ way to no more than one other object. You define a to-one relationship
 for an object type in its :ref:`object schema <object-schema>` by
 specifying a property where the type is the related Realm object type.
 
+.. example::
+
+   An application could use the following object schemas to indicate
+   that a Person may or may not own a single Dog by including it in its
+   ``dog`` property:
+   
+   .. include:: /examples/Relationships/ToOne/ToOne.rst
+
 .. _to-many-relationship:
 
 To-Many Relationship
@@ -56,6 +64,14 @@ way to multiple objects. You define a to-many relationship for an object
 type in its :ref:`object schema <object-schema>` by specifying a
 property where the type is a list or array of the related Realm object
 type.
+
+.. example::
+   
+   An application could use the following object schemas to indicate
+   that a Person may own multiple Dogs by including them in its ``dog``
+   property:
+   
+   .. include:: /examples/Relationships/ToMany/ToMany.rst
 
 .. _inverse-relationship:
 
@@ -88,20 +104,36 @@ implicit.
        
        Explicit inverse relationships are regular object properties,
        which means that they are independent of the relationships that
-       they invert. As a result, you must manually keep the two
-       relationships in sync.
-
+       they invert. You must manually keep the two relationships in
+       sync in your application code.
+       
        .. example::
+          
+          An application could use the following object schemas to
+          indicate that a Person may own multiple Dogs by including them
+          in their ``dogs`` property and that a dog has a specific owner
+          which the application must set manually in its ``owner``
+          property:
           
           .. include:: /examples/Relationships/ExplicitInverse/ExplicitInverse.rst
 
    * - Implicit
      - An *implicit* inverse relationship is an object property that
        dynamically links an object to other objects that define a
-       specific relationship with it. Implicit inverse relationship
-       properties contain a ``LinkingObjects`` value that specifies the
-       object type and field name that define the original relationship.
+       specific relationship with it. Implicit relationships link to a
+       specific to-one or to-many relationship property on an object
+       type.
+       
+       Realm automatically updates implicit relationships whenever an
+       object is included or removed in the specified relationship. You
+       cannot manually set the value of an inverse relationship
+       property.
 
        .. example::
+          
+          An application could use the following object schemas to
+          indicate that a Person may own multiple Dogs by including them
+          in their ``dogs`` property and that Realm should implicitly
+          keep track of each dog's owner in its ``owner`` property:
           
           .. include:: /examples/Relationships/ImplicitInverse/ImplicitInverse.rst

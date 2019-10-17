@@ -3,7 +3,7 @@ const Person = {
   properties: {
     name: "string",
     birthdate: "date",
-    dogs: "Dog[]"
+    dog: "Dog?"
   }
 };
 
@@ -12,11 +12,6 @@ const Dog = {
   properties: {
     name: "string",
     age: "int",
-    breed: "string?",
-    owners: {
-      type: 'linkingObjects',
-      objectType: 'Person',
-      property: 'dogs'
-    }
+    breed: "string?"
   }
 };

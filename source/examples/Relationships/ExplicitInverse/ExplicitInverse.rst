@@ -40,4 +40,4 @@
 
       .. literalinclude:: /examples/Relationships/ExplicitInverse/ExplicitInverse.m
          :language: objective-c
-         :emphasize-lines: 4, 16
+         :emphasize-lines: 4, 18

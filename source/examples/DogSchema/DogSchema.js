@@ -1,4 +1,4 @@
-{
+const Dog = {
   name: "Dog",
   properties: {
     name: "string",
