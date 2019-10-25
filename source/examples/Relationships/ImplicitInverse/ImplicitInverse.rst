@@ -26,7 +26,7 @@
 
       .. literalinclude:: /examples/Relationships/ImplicitInverse/ImplicitInverse.cs
          :language: csharp
-         :emphasize-lines: 5, 13
+         :emphasize-lines: 5, 13-14
 
    .. tab::
       :tabid: java

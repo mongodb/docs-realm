@@ -8,5 +8,5 @@ class Dog: Object {
     dynamic var name: String = ""
     dynamic var age: Int = 0
     dynamic var breed: String? = nil
-    dynamic var owner: LinkingObjects(fromType: Person.self, property: "dogs")
+    dynamic var owners: LinkingObjects(fromType: Person.self, property: "dogs")
 }
