@@ -1,0 +1,69 @@
+=============
+Notifications
+=============
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+Realm's notification system allows you to watch for and
+react to changes in your data.
+
+Realm emits three kinds of notifications:
+
+- :ref:`realm notifications <realm-notifications>` when the realm as a whole is changed;
+- :ref:`collection notifications <collection-notifications>` when objects are changed, added, or removed; and
+- :ref:`object notifications <object-notifications>` when a specific object is changed or removed.
+
+.. _realm-notifications:
+
+Realm Notifications
+-------------------
+You can register a notification handler on an entire realm.
+The handler will react whenever any write transaction
+involving that Realm is committed.
+
+.. example::
+
+   .. include:: /examples/Notifications/RealmNotification.rst
+
+.. _collection-notifications:
+
+Collection Notifications
+------------------------
+You can register a notification handler on a specific
+collection within a realm. The handler receives a
+description of changes since the last notification.
+Specifically, this description consists of the indices of
+objects that have been added, removed, or modified.
+
+Realm emits an initial notification after retrieving the
+collection. After that, Realm delivers collection
+notifications asynchronously whenever a write transaction
+adds, changes, or removes objects in the collection.
+
+.. example::
+
+   .. include:: /examples/Notifications/CollectionNotification.rst
+
+.. _object-notifications:
+
+Object Notifications
+--------------------
+
+You can register a notification handler on a specific object
+within a realm. Realm will notify your handler:
+
+- when the object is deleted, or
+- when any of its managed properties change.
+
+.. example::
+
+   .. include:: /examples/Notifications/ObjectNotification.rst
