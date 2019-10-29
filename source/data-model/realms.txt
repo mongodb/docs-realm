@@ -21,8 +21,8 @@ Realms allow you to partition data according to who uses it and when
 they use it. Every realm stores data in a separate realm file that
 contains a binary encoding of each object in the realm. You can
 automatically synchronize realms across multiple devices and set up
-reactive event handlers that call a function any time an object in a
-realm is created, modified, or deleted.
+:doc:`reactive event handlers </crud/notifications>` that call a
+function any time an object in a realm is created, modified, or deleted.
 
 Comparison with Other Databases
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -56,10 +56,12 @@ Realm Schema
 
 A **realm schema** is a list of valid :doc:`object schemas
 </data-model/objects>` that each define an object type that the realm
-may contain. Object schemas specify relationships between objects in the
-realm as well as field-level constraints such as the data type of each
-field, whether or not a field is required, and the default value for
-optional fields.
+may contain. All objects in a realm must conform to the realm schema.
+
+Client applications provide a realm schema when they open a realm. If a
+realm already contains data, then Realm validates each existing object
+to ensure that an object schema was provided for its type and that it
+meets all of the constraints specified in the schema.
 
 .. example::
    
@@ -81,7 +83,7 @@ optional fields.
           "primaryKey": "isbn",
           "properties": {
             "isbn": "string",
-            "title: "string",
+            "title": "string",
             "author": "string",
             "numberOwned": { "type": "int?", "default": 0 },
             "numberLoaned": { "type": "int?", "default": 0 }
@@ -89,20 +91,30 @@ optional fields.
         }
       ]
 
-Client applications provide a realm schema with a specific schema
-version number when they open a realm. If a realm already contains data,
-then Realm validates each existing object to ensure that a schema was
-provided for its type and that it meets all of the constraints specified
-in the schema. All objects in a realm must conform to the realm schema.
+.. _schema-version:
 
-.. admonition:: Schema Version Migrations
-   :class: note
+Schema Version
+~~~~~~~~~~~~~~
+
+A **schema version** identifies the state of a :ref:`realm schema
+<realm-schema>` at some point in time. Realm tracks the schema version
+that each realm conforms to and uses it to map the objects in each realm
+to the correct schema.
+
+Schema versions are ascending integers that you can optionally include
+in the realm configuration when you open a realm. If a client
+application does not specify a version number when it opens a realm then
+the realm defaults to version ``0``.
+
+.. admonition:: Increase Versions Monotonically
+   :class: important
    
-   If an object fails validation and was last modified in a realm with a
-   different schema version, Realm attempts to migrate the object to the
-   current schema version by calling the migration function, if the
-   client provided one. For more information, see :doc:`Migrations
-   </data-model/migrations>`.
+   :doc:`Migrations </data-model/migrations>` must update a realm to a
+   higher schema version. Realm will throw an error if a client
+   application opens a realm with a schema version that is lower than
+   the realm's current version or if the specified schema version is the
+   same as the realm's current version but includes different
+   :ref:`object schemas <object-schema>`.
 
 .. _realm-permissions:
 

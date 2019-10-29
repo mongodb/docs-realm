@@ -1,0 +1,124 @@
+==========
+Migrations
+==========
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+A **migration** transforms an existing realm and its objects from its
+current :ref:`schema version <schema-version>` to a newer one.
+Application data models frequently change over time to accommodate new
+requirements and features. Migrations give you the flexibility to
+automatically update your existing application data whenever a client
+application upgrades to a newer version.
+
+Key Concepts
+------------
+
+.. _synced-migration:
+
+Synced Migration
+~~~~~~~~~~~~~~~~
+
+A **synced migration** is a migration for a realm that automatically
+syncs with another remote realm. Synced realms represent multiple end
+users and devices that will likely not all immediately update to the
+most recent version of an application.
+
+Realm ensures that synced schema changes are backwards compatible which
+means that client applications that have not updated to the most recent
+version can still sync with clients that are using the most recent
+version. To guarantee this, realm automatically handles all synced
+schema migrations and does not allow you to specify a migration
+function. Realm handles synced migrations using the following frameowrk:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 20 80
+
+   * - Change Type
+     - Description
+
+   * - **Schema Version**
+     - Realm ignores any :ref:`schema version <schema-version>` set by the
+       client application.
+
+   * - **Migration Function**
+     - Realm throws an error if the realm configuration includes a
+       :ref:`local migration <local-migration>` function.
+
+   * - **Additions**
+     - Realm automatically applies additive changes, such as a new class
+       or class property.
+
+   * - **Deletions**
+     - Realm does not delete removed fields from the database, but
+       ignores them in future read operations. Realm includes deleted
+       properties in new objects with a default value that depends on
+       whether or not the property was required:
+
+       - Realm sets the value of optional deleted properties to
+         ``null``.
+       
+       - Realm sets the value of required deleted properties to the
+         empty value of the property type (e.g. ``0`` for numeric
+         fields, ``""`` for string properties, etc.).
+
+   * - **Modifications**
+     - Realm prevents modifications to an existing property other than
+       delete operations. Modifications that synced realms do not
+       support include:
+       
+       - Changing a property’s type but keeping the same name.
+       - Changing an object type's :ref:`primary key <primary-key>`.
+       - Changing a property from optional to required (or vice-versa).
+
+.. _local-migration:
+
+Local Migration
+~~~~~~~~~~~~~~~
+
+A **local migration** is a migration for a realm that does not
+automatically sync with another realm. Local migrations have access to
+the existing realm schema, version, and objects and define logic that
+incrementally updates the realm to its new schema version. To perform a
+local migration you must specify a new schema version that is higher
+than the current version and provide a migration function when you open
+the out-of-date realm.
+
+Realm automatically migrates certain changes, such as new and deleted
+properties, but does not automatically set values for new properties
+unless the updated object schema specifies a default value. You can
+define additional logic in the migration that dynamically calculates a
+new property's value. Migrations do not allow you to directly rename a
+property. Instead, it treats a renamed property as a new property that
+you must set to the value of the old property before Realm automatically
+deletes it.
+
+.. example::
+   
+   A realm using schema version ``1`` has a ``Person`` object type:
+   
+   .. include:: /examples/Migrations/PersonClassV1/PersonClassV1.rst
+   
+   The developer decides that the ``Person`` class should use a combined
+   ``fullName`` field instead of the separate ``firstName`` and
+   ``lastName`` fields:
+   
+   .. include:: /examples/Migrations/PersonClassV2/PersonClassV2.rst
+   
+   To migrate the realm to conform to the updated ``Person`` schema, the
+   developer sets the realm's :ref:`schema version <schema-version>` to
+   ``2`` and defines a migration function to set the value of
+   ``fullName`` based on the existing ``firstName`` and ``lastName``
+   properties:
+   
+   .. include:: /examples/Migrations/LocalMigration/LocalMigration.rst
