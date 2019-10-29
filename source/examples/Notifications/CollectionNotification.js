@@ -1,6 +1,6 @@
-collectionListenerRetainer = realm.objects('Dog').filtered('age < 2');
+const puppies = realm.objects('Dog').filtered('age < 2');
 
-// Observe Collection Notifications
+// Define the collection notification listener
 function listener(puppies, changes) {
 
   // Update UI in response to inserted objects
@@ -18,15 +18,15 @@ function listener(puppies, changes) {
   // Update UI in response to deleted objects
   changes.deletions.forEach((index) => {
     // Deleted objects cannot be accessed directly
-    // Support for accessing deleted objects coming soon...
     // ...
   });
 }
 
-collectionListenerRetainer.addListener(listener);
+// Register the collection listener
+puppies.addListener(listener);
 
 // Unregister all listeners
 realm.removeAllListeners();
 
 // OR Unregister this listener
-collectionListenerRetainer.removeListener(listener);
+puppies.removeListener(listener);
