@@ -1,3 +1,4 @@
+// Define the dog class.
 class Dog: Object {
     @objc dynamic var name = ""
 }
@@ -7,6 +8,8 @@ var token: NotificationToken?
 func example() {
     let dog = Dog()
     dog.name = "Max"
+
+    // Open the default realm.
     let realm = try! Realm()
     try! realm.write {
         realm.add(dog)

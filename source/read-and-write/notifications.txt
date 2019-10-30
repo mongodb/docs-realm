@@ -109,12 +109,16 @@ Object Notifications
 You can register a notification handler on a specific object
 within a realm. Realm will notify your handler:
 
-- when the object is deleted, or
-- when any of its properties change.
+- When the object is deleted.
+- When any of its properties change.
 
 The handler receives information about what fields changed
 and whether the object was deleted.
 
 .. example::
+
+   The following example shows how to open a default realm,
+   create a new instance of a class, and observe that
+   instance for changes.
 
    .. include:: /examples/Notifications/ObjectNotification.rst

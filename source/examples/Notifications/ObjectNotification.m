@@ -1,3 +1,4 @@
+// Define the dog.
 @interface Dog : RLMObject
 @property NSString *name; 
 @end
@@ -5,7 +6,7 @@
 @implementation Dog
 @end
 
-// ...
+// ...elsewhere, in a ViewController implementation
 
 RLMNotificationToken *notificationToken;
 
@@ -13,6 +14,8 @@ RLMNotificationToken *notificationToken;
     [super viewDidLoad];
     Dog *dog = [[Dog alloc] init];
     dog.name = @"Max";
+
+    // Open the default realm.
     RLMRealm *realm = [RLMRealm defaultRealm];
     [realm beginWriteTransaction];
     [realm addObject:dog];

@@ -1,12 +1,10 @@
 async function example() {
-  // Open the realm
-  const realm = await Realm.open({
-    schema: [{name: 'Dog', properties: {name: 'string'}}],
-  });
+  // Open the default realm.
+  const realm = await Realm.open();
 
   let dog;
 
-  // Create an entry
+  // Create an entry.
   realm.write(() => {
     dog = realm.create('Dog', {name: 'Max'})
   });
@@ -21,7 +19,7 @@ async function example() {
     });
   });
 
-  // Later update the dog to trigger the notification
+  // Later, update the dog to trigger the notification.
   realm.write(() => {
     dog.name = 'Wolfie'
   });
