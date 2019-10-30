@@ -1,8 +1,15 @@
-var account = new Account();
-realm.Write(() => realm.Add(account));
-account.PropertyChanged += (sender, e) =>
-{
-    Debug.WriteLine($"New value set for {e.PropertyName}");
-}
+var dog = new Dog();
+dog.Name = "Max";
+// Add the dog to the realm.
+realm.Write(() => {
+    realm.Add(dog);
+});
 
-realm.Write(() => account.Balance = 10); // => "New value set for Balance"
+// Observe object notifications.
+dog.PropertyChanged += (sender, eventArgs) =>
+{
+    Debug.WriteLine($"New value set for '{eventArgs.PropertyName}'");
+};
+
+// Update the dog to trigger the notification.
+realm.Write(() => dog.Name = "Wolfie"); // => "New value set for 'Name'"

@@ -1,4 +1,7 @@
-realm.RealmChanged += (s, e) =>
+// Observe realm notifications
+realm.RealmChanged += (sender, eventArgs) =>
 {
-    // Update UI
+    // sender is the realm that has changed.
+    // eventArgs is reserved for future use.
+    // ... update UI ...
 }

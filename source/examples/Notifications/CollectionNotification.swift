@@ -4,7 +4,7 @@ class ViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         let realm = try! Realm()
-        let results = realm.objects(Person.self).filter("age > 5")
+        let results = realm.objects(Dog.self)
 
         // Observe results notifications. Keep a strong
         // reference to the notification token or the

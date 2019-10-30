@@ -19,7 +19,7 @@
 
       .. literalinclude:: /examples/Notifications/RealmNotification.cs
          :language: csharp
-         :emphasize-lines: 1
+         :emphasize-lines: 2
 
    .. tab::
       :tabid: java

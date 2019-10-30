@@ -1,16 +1,44 @@
-RealmObjectChangeListener<Dog> listener = new RealmObjectChangeListener<Dog>() {
+// Dog.java
+public class Dog extends RealmObject {
+    @Required
+    public String name;
+}
+
+// MyActivity.java
+public class MyActivity extends Activity {
+    private static final String TAG = "MyActivity";
+
+    RealmObjectChangeListener<Dog> listener;
+    Dog dog;
+
     @Override
-    public void onChange(Dog dog, ObjectChangeSet changeSet) {
-        if (changeSet.isDeleted()) {
-            Log.i(TAG, "The dog was deleted");
-            return;
-        }
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Realm realm = Realm.getDefaultInstance();
+        // Create a dog in the realm.
+        realm.executeTransaction(r -> {
+            dog = realm.createObject(Dog.class);
+            dog.name = "Max";
+        });
 
-        for (String fieldName : changeSet.getChangedFields()) {
-            Log.i(TAG, "Field " + fieldName + " was changed.");
-        }
+        // Set up the listener.
+        listener = (dog, changeSet) -> {
+            if (changeSet.isDeleted()) {
+                Log.i(TAG, "The dog was deleted");
+                return;
+            }
+
+            for (String fieldName : changeSet.getChangedFields()) {
+                Log.i(TAG, "Field '" + fieldName + "' changed.");
+            }
+        };
+
+        // Begin watching for changes.
+        dog.addChangeListener(listener);
+
+        // Update the dog to see the effect.
+        realm.executeTransaction(r -> {
+            dog.name = "Wolfie"; // -> "Field 'name' was changed."
+        });
     }
-};
-
-Dog dog = realm.where(Dog.class).findFirst();
-dog.addChangeListener(listener);
+}

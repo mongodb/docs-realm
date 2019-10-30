@@ -4,15 +4,15 @@ public class MyActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-      super.onCreate(savedInstanceState);
-      realm = Realm.getDefaultInstance();
-      realmListener = new RealmChangeListener<Realm>() {
-          @Override
-          public void onChange(Realm realm) {
-            // ... do something with the updates (UI, etc.) ...
-          }
-        };
-      realm.addChangeListener(realmListener);
+        super.onCreate(savedInstanceState);
+        realm = Realm.getDefaultInstance();
+        realmListener = new RealmChangeListener<Realm>() {
+            @Override
+            public void onChange(Realm realm) {
+              // ... do something with the updates (UI, etc.) ...
+            }
+          };
+        realm.addChangeListener(realmListener);
     }
 
     @Override

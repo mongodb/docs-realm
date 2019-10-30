@@ -25,9 +25,9 @@ data, independent of the writes that caused the changes.
 
 Realm emits three kinds of notifications:
 
-- :ref:`realm notifications <realm-notifications>` whenever any write transaction involving the realm is committed;
-- :ref:`collection notifications <collection-notifications>` whenever any objects in a collection are changed, added, or removed; and
-- :ref:`object notifications <object-notifications>` whenever a specific object is changed or removed.
+- :ref:`Realm notifications <realm-notifications>` whenever any write transaction involving the realm is committed.
+- :ref:`Collection notifications <collection-notifications>` whenever any objects in a collection are changed, added, or removed.
+- :ref:`Object notifications <object-notifications>` whenever a specific object is changed or removed.
 
 .. _subscribe-to-changes:
 
@@ -39,7 +39,7 @@ Generally, this is how you observe a realm, collection, or object:
 1. Create a notification handler for the realm, collection, or object notification.
 2. Add the notification handler to the realm, collection, or object that you want to observe.
 3. Receive a notification token from the call to add the handler. Retain this token as long as you want to observe.
-4. When you are done observing, you invalidate the token.
+4. When you are done observing, invalidate the token.
 
 .. _realm-notifications:
 
@@ -74,9 +74,17 @@ description of changes since the last notification.
 Specifically, this description consists of three lists of
 indices:
 
-- the indices of the objects that were added;
-- the indices of the objects that were removed; and
-- the indices of the objects that were modified.
+- The indices of the objects that were deleted.
+- The indices of the objects that were inserted.
+- The indices of the objects that were modified.
+
+.. admonition:: Order Matters
+   :class: important
+
+   In collection notification handlers, always apply changes
+   in the following order: deletions, insertions, then
+   modifications. Handling insertions before deletions may
+   result in unexpected behavior.
 
 Realm emits an initial notification after retrieving the
 collection. After that, Realm delivers collection

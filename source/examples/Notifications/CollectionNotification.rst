@@ -19,14 +19,14 @@
 
       .. literalinclude:: /examples/Notifications/CollectionNotification.cs
          :language: csharp
-         :emphasize-lines: 1
+         :emphasize-lines: 2
 
    .. tab::
       :tabid: java
 
       .. literalinclude:: /examples/Notifications/CollectionNotification.java
          :language: java
-         :emphasize-lines: 29
+         :emphasize-lines: 31
 
    .. tab::
       :tabid: objective-c

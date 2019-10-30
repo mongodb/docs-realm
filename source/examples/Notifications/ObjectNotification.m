@@ -1,32 +1,42 @@
-@interface RLMStepCounter : RLMObject
-@property NSInteger steps;
+@interface Dog : RLMObject
+@property NSString *name; 
 @end
 
-@implementation RLMStepCounter
+@implementation Dog
 @end
 
-RLMStepCounter *counter = [[RLMStepCounter alloc] init];
-counter.steps = 0;
-RLMRealm *realm = [RLMRealm defaultRealm];
-[realm beginWriteTransaction];
-[realm addObject:counter];
-[realm commitWriteTransaction];
+// ...
 
-__block RLMNotificationToken *token = [counter addNotificationBlock:^(BOOL deleted,
-                                                                      NSArray<RLMPropertyChange *> *changes,
-                                                                      NSError *error) {
-    if (deleted) {
-        NSLog(@"The object was deleted.");
-    } else if (error) {
-        NSLog(@"An error occurred: %@", error);
-    } else {
-        for (RLMPropertyChange *property in changes) {
-            if ([property.name isEqualToString:@"steps"] && [property.value integerValue] > 1000) {
-                NSLog(@"Congratulations, you've exceeded 1000 steps.");
-                [token invalidate];
-                token = nil;
+RLMNotificationToken *notificationToken;
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    Dog *dog = [[Dog alloc] init];
+    dog.name = @"Max";
+    RLMRealm *realm = [RLMRealm defaultRealm];
+    [realm beginWriteTransaction];
+    [realm addObject:dog];
+    [realm commitWriteTransaction];
+    // Retain the notification token as long as you want to keep observing.
+    notificationToken = [dog addNotificationBlock:^(BOOL deleted,
+                                        NSArray<RLMPropertyChange *> *changes,
+                                        NSError *error) {
+        if (deleted) {
+            NSLog(@"The object was deleted.");
+        } else if (error) {
+            NSLog(@"An error occurred: %@", error);
+        } else {
+            for (RLMPropertyChange *property in changes) {
+                // List which properties have changed.
+                NSLog(@"Property '%@' changed.", property.name);
             }
         }
+    }];
+    [realm beginWriteTransaction];
+    dog.name = @"Wolfie";
+    [realm commitWriteTransaction];
+}
 
-    }
-}];
+- (void)dealloc {
+    [notificationToken invalidate];
+}

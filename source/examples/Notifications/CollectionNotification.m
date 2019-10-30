@@ -1,10 +1,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    // Observe RLMResults Notifications
+    // Observe RLMResults notifications. Retain the token to keep observing.
     __weak typeof(self) weakSelf = self;
-    self.notificationToken = [[Person objectsWhere:@"age > 5"] 
-      addNotificationBlock:^(RLMResults<Person *> *results, RLMCollectionChange *changes, NSError *error) {
+    self.notificationToken = [[Dog allObjects] 
+      addNotificationBlock:^(RLMResults<Dog *> *results, RLMCollectionChange *changes, NSError *error) {
         
         if (error) {
             NSLog(@"Failed to open Realm on background worker: %@", error);

@@ -1,32 +1,32 @@
-const puppies = realm.objects('Dog').filtered('age < 2');
+const dogs = realm.objects('Dog');
 
 // Define the collection notification listener
-function listener(puppies, changes) {
+function listener(dogs, changes) {
+
+  // Update UI in response to deleted objects
+  changes.deletions.forEach((index) => {
+    // Deleted objects cannot be accessed directly,
+    // but we can update a UI list, etc. knowing the index.
+  });
 
   // Update UI in response to inserted objects
   changes.insertions.forEach((index) => {
-    let insertedDog = puppies[index];
+    let insertedDog = dogs[index];
     // ...
   });
 
   // Update UI in response to modified objects
   changes.modifications.forEach((index) => {
-    let modifiedDog = puppies[index];
-    // ...
-  });
-
-  // Update UI in response to deleted objects
-  changes.deletions.forEach((index) => {
-    // Deleted objects cannot be accessed directly
+    let modifiedDog = dogs[index];
     // ...
   });
 }
 
 // Register the collection listener
-puppies.addListener(listener);
+dogs.addListener(listener);
 
 // Unregister all listeners
 realm.removeAllListeners();
 
 // OR Unregister this listener
-puppies.removeListener(listener);
+dogs.removeListener(listener);
