@@ -28,6 +28,7 @@ public class DogsRecyclerAdapter extends RealmRecyclerViewAdapter<Dog, TasksRecy
         };
         Realm realm = Realm.getDefaultInstance();
         dogs = realm.where(Dog.class).findAll();
+        // Observe collection notifications.
         dogs.addChangeListener(changeListener);
     }
     // ...

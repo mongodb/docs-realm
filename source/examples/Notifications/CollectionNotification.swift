@@ -6,7 +6,7 @@ class ViewController: UITableViewController {
         let realm = try! Realm()
         let results = realm.objects(Dog.self)
 
-        // Observe results notifications. Keep a strong
+        // Observe collection notifications. Keep a strong
         // reference to the notification token or the
         // observation will stop.
         notificationToken = results.observe { [weak self] (changes: RealmCollectionChange) in

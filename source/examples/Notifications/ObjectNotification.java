@@ -33,7 +33,7 @@ public class MyActivity extends Activity {
             }
         };
 
-        // Begin watching for changes.
+        // Observe object notifications.
         dog.addChangeListener(listener);
 
         // Update the dog to see the effect.

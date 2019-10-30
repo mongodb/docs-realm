@@ -1,4 +1,4 @@
-// Observe realm notifications
+// Observe realm notifications.
 realm.RealmChanged += (sender, eventArgs) =>
 {
     // sender is the realm that has changed.

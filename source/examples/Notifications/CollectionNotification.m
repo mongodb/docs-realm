@@ -1,7 +1,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    // Observe RLMResults notifications. Retain the token to keep observing.
+    // Observe collection notifications. Retain the token to keep observing.
     __weak typeof(self) weakSelf = self;
     self.notificationToken = [[Dog allObjects] 
       addNotificationBlock:^(RLMResults<Dog *> *results, RLMCollectionChange *changes, NSError *error) {

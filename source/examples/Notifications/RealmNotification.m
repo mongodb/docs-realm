@@ -1,4 +1,4 @@
-// Observe Realm notifications
+// Observe realm notifications.
 token = [realm addNotificationBlock:^(NSString *notification, RLMRealm *realm) {
     // update UI...
 }];

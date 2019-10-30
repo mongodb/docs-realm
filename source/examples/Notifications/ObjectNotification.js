@@ -11,7 +11,7 @@ async function example() {
     dog = realm.create('Dog', {name: 'Max'})
   });
 
-  // Observe the dog for changes
+  // Observe object notifications.
   dog.addListener((obj, changes) => {
     // obj === dog
     console.log(`object is deleted? ${changes.deleted}`);

@@ -22,7 +22,7 @@ function listener(dogs, changes) {
   });
 }
 
-// Register the collection listener
+// Observe collection notifications.
 dogs.addListener(listener);
 
 // Unregister all listeners

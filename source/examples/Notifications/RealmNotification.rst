@@ -26,7 +26,7 @@
 
       .. literalinclude:: /examples/Notifications/RealmNotification.java
          :language: java
-         :emphasize-lines: 15
+         :emphasize-lines: 16
 
    .. tab::
       :tabid: objective-c

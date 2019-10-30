@@ -12,6 +12,7 @@ public class MyActivity extends Activity {
               // ... do something with the updates (UI, etc.) ...
             }
           };
+        // Observe realm notifications.
         realm.addChangeListener(realmListener);
     }
 

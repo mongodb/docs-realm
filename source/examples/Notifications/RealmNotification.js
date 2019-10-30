@@ -1,8 +1,8 @@
 function updateUI() {
-  // ...
+  // ... handle update to the UI ...
 }
 
-// Observe Realm notifications
+// Observe realm notifications.
 realm.addListener('change', updateUI);
 
 // ..later remove the listener

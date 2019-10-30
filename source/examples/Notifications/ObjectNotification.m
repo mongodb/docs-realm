@@ -17,7 +17,7 @@ RLMNotificationToken *notificationToken;
     [realm beginWriteTransaction];
     [realm addObject:dog];
     [realm commitWriteTransaction];
-    // Retain the notification token as long as you want to keep observing.
+    // Observe object notifications. Retain the notification token as long as you want to keep observing.
     notificationToken = [dog addNotificationBlock:^(BOOL deleted,
                                         NSArray<RLMPropertyChange *> *changes,
                                         NSError *error) {

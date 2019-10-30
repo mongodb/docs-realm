@@ -11,7 +11,7 @@ func example() {
     try! realm.write {
         realm.add(dog)
     }
-    // Observe the object. Keep a strong reference to the notification token
+    // Observe object notifications. Keep a strong reference to the notification token
     // or the observation will stop. Invalidate the token when done observing.
     token = dog.observe { change in
         switch change {
