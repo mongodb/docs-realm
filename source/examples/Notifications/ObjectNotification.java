@@ -8,13 +8,14 @@ public class Dog extends RealmObject {
 public class MyActivity extends Activity {
     private static final String TAG = "MyActivity";
 
+    Realm realm;
     RealmObjectChangeListener<Dog> listener;
     Dog dog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Realm realm = Realm.getDefaultInstance();
+        realm = Realm.getDefaultInstance();
         // Create a dog in the realm.
         realm.executeTransaction(r -> {
             dog = realm.createObject(Dog.class);
@@ -40,5 +41,12 @@ public class MyActivity extends Activity {
         realm.executeTransaction(r -> {
             dog.name = "Wolfie"; // -> "Field 'name' was changed."
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // Close the Realm instance.
+        realm.close();
     }
 }

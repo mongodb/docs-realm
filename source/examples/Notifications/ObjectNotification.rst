@@ -26,7 +26,7 @@
 
       .. literalinclude:: /examples/Notifications/ObjectNotification.java
          :language: java
-         :emphasize-lines: 37
+         :emphasize-lines: 38
 
    .. tab::
       :tabid: objective-c

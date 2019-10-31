@@ -26,7 +26,7 @@
 
       .. literalinclude:: /examples/Notifications/CollectionNotification.java
          :language: java
-         :emphasize-lines: 32
+         :emphasize-lines: 34
 
    .. tab::
       :tabid: objective-c

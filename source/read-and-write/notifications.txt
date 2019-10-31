@@ -46,21 +46,22 @@ Generally, this is how you observe a realm, collection, or object:
 Realm Notifications
 -------------------
 You can register a notification handler on an entire realm.
-Realm will notify the notification handler whenever any
-write transaction involving that Realm is committed. The
-handler receives no information about the change.
+Realm calls the notification handler whenever any write
+transaction involving that Realm is committed. The handler
+receives no information about the change.
 
 This is useful when you want to know that there has been a
 change but do not care to know specifically what changed.
-For example, suppose you are writing a real-time
-collaborative app. To give the sense that your app is
-buzzing with collaborative activity, you want to have an
-indicator that lights up when any change is made. In that
-case, a realm notification handler would be a great way to
-drive the code that controls the indicator.
 
 .. example::
 
+   Suppose you are writing a real-time collaborative app. To
+   give the sense that your app is buzzing with
+   collaborative activity, you want to have an indicator
+   that lights up when any change is made. In that case, a
+   realm notification handler would be a great way to drive
+   the code that controls the indicator.
+   
    .. include:: /examples/Notifications/RealmNotification.rst
 
 .. _collection-notifications:
@@ -99,6 +100,9 @@ list or other view that represents the collection in the UI.
 
 .. example::
 
+   The following code shows how to observe a collection for
+   changes in order to update the UI.
+
    .. include:: /examples/Notifications/CollectionNotification.rst
 
 .. _object-notifications:
@@ -110,14 +114,14 @@ You can register a notification handler on a specific object
 within a realm. Realm will notify your handler:
 
 - When the object is deleted.
-- When any of its properties change.
+- When any of the object's properties change.
 
 The handler receives information about what fields changed
 and whether the object was deleted.
 
 .. example::
 
-   The following example shows how to open a default realm,
+   The following code shows how to open a default realm,
    create a new instance of a class, and observe that
    instance for changes.
 

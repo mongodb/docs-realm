@@ -1,8 +1,11 @@
-public class DogsRecyclerAdapter extends RealmRecyclerViewAdapter<Dog, TasksRecyclerAdapter.MyViewHolder> {
+// Implement a RecycleView Adapter that observes a collection for changes.
+// This is just an example. Prefer RealmRecyclerViewAdapter for convenience.
+public class DogsRecyclerAdapter extends RecyclerView.Adapter {
     RealmResults<Dog> dogs;
-    public DogsRecyclerAdapter(OrderedRealmCollection<Dog> data) {
-        super(data, true);
 
+    // The constructor takes an open realm.
+    public DogsRecyclerAdapter(Realm realm) {
+        // Set up the collection notification handler.
         OrderedRealmCollectionChangeListener<RealmResults<Dog>> changeListener = (dogs, changeSet) -> {
             // `null`  means the async query returns the first time.
             if (changeSet == null) {
@@ -26,7 +29,6 @@ public class DogsRecyclerAdapter extends RealmRecyclerViewAdapter<Dog, TasksRecy
                 notifyItemRangeChanged(range.startIndex, range.length);
             }
         };
-        Realm realm = Realm.getDefaultInstance();
         dogs = realm.where(Dog.class).findAll();
         // Observe collection notifications.
         dogs.addChangeListener(changeListener);
