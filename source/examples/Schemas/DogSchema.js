@@ -1,4 +1,4 @@
-const Dog = {
+const DogSchema = {
   name: "Dog",
   properties: {
     name: "string",

@@ -1,0 +1,267 @@
+======
+Writes
+======
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+To deliver a great user experience, you want data on hand
+whenever and wherever you need it. Imagine multiple views
+that show various facets of your data while a background
+task crunches numbers based on the same information. If
+every data consumer had to wait their turn to read, the app
+would not feel graceful at all. Realm enables smooth user
+experiences by allowing many simultaneous readers thanks to
+its :wikipedia:`multiversion concurrency control (MVCC)
+<Multiversion_concurrency_control>` architecture.
+
+When it comes to writes, however, there can be only one
+writer at a time. Writes are performed using
+**transactions**.
+
+.. admonition:: Remember
+   :class: note
+
+   All writes must be in a transaction.
+
+A **transaction** is a list of read and write operations that a
+database treats as a single indivisable operation. In other
+words, a transaction is *all or nothing*: either all of the
+operations in the transaction succeed or none of the
+operations in the transaction take effect. This establishes
+Realm's :wikipedia:`atomicity
+<Atomicity_(database_systems)>`, protects against data
+corruption, and ensures thread safety.
+
+At the end of a write operation, you can either **commit** a
+transaction or **cancel** it:
+
+- When you **commit** a transaction, Realm writes all changes to
+  disk. If the realm is synced, Realm queues the change for
+  synchronization with the Realm Object Server.
+- When you **cancel** a write transaction, all changes are
+  discarded (or "rolled back").
+
+.. _open-a-transaction:
+
+Open a Transaction
+------------------
+
+You can manually **open**, **commit**, and **cancel** a
+transaction. You must commit or cancel all transactions that
+you open. Transactions block each other, so if you
+accidentally leave a transaction open indefinitely, your app
+will not behave properly.
+
+You can **avoid this kind of error** by using the realm's write
+method that takes the transaction code block as a callback.
+If the code in the callback throws an exception, Realm
+cancels the transaction. Otherwise, Realm commits the
+transaction immediately after the code block.
+
+.. admonition:: Concurrency Concerns
+   :class: important
+
+   Since transactions block each other, it's best to avoid
+   opening transactions on the UI thread and a background
+   thread.
+
+.. example::
+
+   The best way to open a transaction is to use the realm's
+   write method that takes the transaction code block as an
+   argument. If the code in the callback throws an
+   exception, Realm cancels the transaction. Otherwise,
+   Realm commits the transaction. The following code shows
+   how to do this:
+
+   .. include:: /examples/CRUD/Transaction.rst
+
+   It is possible to begin, commit, and cancel a transaction
+   manually, but we recommend avoiding this wherever
+   possible:
+
+   .. include:: /examples/CRUD/TransactionCounterexample.rst
+
+.. _create-an-object:
+
+Create an Object
+----------------
+
+In general, instantiate :doc:`Realm Objects
+</data-model/objects>` as you would any other object. Add
+the object to the realm in a transaction. When you add an
+instance to the realm, it becomes **managed** by that realm.
+
+With the Java and JavaScript SDKs, instead use the realm's
+factory method in a transaction to instantiate your class.
+This automatically inserts the instance into the realm.
+
+.. example::
+
+   This code demonstrates how to create an object with Realm:
+
+   .. include:: /examples/CRUD/Create.rst
+
+.. _update:
+
+Update
+------
+
+Within a transaction, you can update a Realm object the same
+way you would update any other object in your language of
+choice: just assign a new value to the property or update
+the property.
+
+.. example::
+
+   This code demonstrates how to update an object with Realm:
+
+   .. include:: /examples/CRUD/Update.rst
+
+.. _upsert:
+
+Upsert
+~~~~~~
+
+Sometimes, you want to update an object if it exists in the
+realm or create it if it does not exist. We call this an
+**upsert** because it is an "**update** or **insert**"
+operation. For example, consider the task of importing a
+dataset to an existing realm. Upserting is an elegant way to
+update existing entries while adding any new entries.
+
+If your object uses a primary key, you can upsert by
+passing a special parameter to realm's add method.
+
+.. example::
+
+   This code demonstrates how to upsert an object with
+   Realm:
+
+   .. include:: /examples/CRUD/Upsert.rst
+
+.. _batch-update:
+
+Batch Update
+~~~~~~~~~~~~
+
+Realm supports batch updates of fields on a collection.
+
+.. example::
+
+   The following code demonstrates how to batch update a
+   collection. Thanks to the :ref:`implicit inverse
+   relationship <inverse-relationship>` between the Dog's
+   ``owner`` field and the Person's ``dogs`` field, Realm
+   automatically updates the corresponding field, even when
+   batching.
+
+   .. include:: /examples/CRUD/BatchUpdate.rst
+
+.. _delete:
+
+Delete
+------
+
+In general, to delete an object from a realm, pass the
+instance to the delete method of the realm within a
+transaction.
+
+With the Java SDK, call ``deleteFromRealm()`` on the
+instance itself.
+
+.. admonition:: Discard references after delete
+   :class: note
+
+   When you delete an object from the realm, it's a good
+   idea to discard your reference to that object.
+
+.. example::
+
+   The following code shows how to delete one object from
+   its realm:
+
+   .. include:: /examples/CRUD/Delete.rst
+
+.. _delete-collection:
+
+Delete a Collection
+~~~~~~~~~~~~~~~~~~~
+
+In general, to delete a collection of objects from a realm,
+pass the collection to the delete method of the realm within
+a transaction.
+
+With the Java SDK, call ``deleteFromRealm()`` on the
+collection itself.
+
+.. example::
+
+   The following code demonstrates how to delete a
+   collection from a realm:
+
+   .. include:: /examples/CRUD/DeleteCollection.rst
+
+.. _cascading-delete:
+
+Cascading Delete
+~~~~~~~~~~~~~~~~
+
+Sometimes, you have :doc:`dependent objects
+</data-model/relationships>` that you want to delete when
+you delete the parent object. We call this a **cascading
+delete**. If you do not delete the dependent objects, they
+will remain orphaned in your realm. Whether or not this is a
+problem depends on your application's needs.
+
+Currently, the best way to delete dependent objects is to
+iterate through the dependencies and delete them before
+deleting the parent object.
+
+.. example::
+
+   The following code demonstrates how to perform a
+   cascading delete:
+
+   .. include:: /examples/CRUD/CascadingDelete.rst
+
+.. _delete-all-of-object:
+
+Delete All Instances of a Realm Object
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Realm supports deleting all instances of a Realm Object from
+a realm.
+
+.. example::
+
+   The following code demonstrates how to delete all
+   instances of a Realm Object from a realm.
+
+   .. include:: /examples/CRUD/DeleteAllOfClass.rst
+
+.. _delete-all:
+
+Delete Everything
+~~~~~~~~~~~~~~~~~
+
+It is possible to delete all objects from the realm. This is
+useful for quickly clearing out your realm while
+prototyping.
+
+.. example::
+
+   The following code demonstrates how to delete everything
+   from a realm.
+
+   .. include:: /examples/CRUD/DeleteAll.rst
+
