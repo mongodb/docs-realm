@@ -1,0 +1,128 @@
+=============
+Notifications
+=============
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+Any modern app should be able to react when data changes,
+regardless of where that change originated. When a user adds
+a new item to a list, you may want to update the UI, show a
+notification, or log a message. When someone updates that
+item, you may want to change its visual state or fire off a
+network request. Finally, when someone deletes the item, you
+probably want to remove it from the UI. Realm's notification
+system allows you to watch for and react to changes in your
+data, independent of the writes that caused the changes.
+
+Realm emits three kinds of notifications:
+
+- :ref:`Realm notifications <realm-notifications>` whenever any write transaction involving the realm is committed.
+- :ref:`Collection notifications <collection-notifications>` whenever any objects in a collection are changed, added, or removed.
+- :ref:`Object notifications <object-notifications>` whenever a specific object is changed or removed.
+
+.. _subscribe-to-changes:
+
+Subscribe to Changes
+--------------------
+
+Generally, this is how you observe a realm, collection, or object:
+
+1. Create a notification handler for the realm, collection, or object notification.
+2. Add the notification handler to the realm, collection, or object that you want to observe.
+3. Receive a notification token from the call to add the handler. Retain this token as long as you want to observe.
+4. When you are done observing, invalidate the token.
+
+.. _realm-notifications:
+
+Realm Notifications
+-------------------
+You can register a notification handler on an entire realm.
+Realm calls the notification handler whenever any write
+transaction involving that Realm is committed. The handler
+receives no information about the change.
+
+This is useful when you want to know that there has been a
+change but do not care to know specifically what changed.
+
+.. example::
+
+   Suppose you are writing a real-time collaborative app. To
+   give the sense that your app is buzzing with
+   collaborative activity, you want to have an indicator
+   that lights up when any change is made. In that case, a
+   realm notification handler would be a great way to drive
+   the code that controls the indicator.
+   
+   .. include:: /examples/Notifications/RealmNotification.rst
+
+.. _collection-notifications:
+
+Collection Notifications
+------------------------
+
+You can register a notification handler on a specific
+collection within a realm. The handler receives a
+description of changes since the last notification.
+Specifically, this description consists of three lists of
+indices:
+
+- The indices of the objects that were deleted.
+- The indices of the objects that were inserted.
+- The indices of the objects that were modified.
+
+.. admonition:: Order Matters
+   :class: important
+
+   In collection notification handlers, always apply changes
+   in the following order: deletions, insertions, then
+   modifications. Handling insertions before deletions may
+   result in unexpected behavior.
+
+Realm emits an initial notification after retrieving the
+collection. After that, Realm delivers collection
+notifications asynchronously whenever a write transaction
+adds, changes, or removes objects in the collection.
+
+Unlike realm notifications, collection notifications contain
+detailed information about the change. This enables
+sophisticated and selective reactions to changes. Collection
+notifications provide all the information needed to manage a
+list or other view that represents the collection in the UI.
+
+.. example::
+
+   The following code shows how to observe a collection for
+   changes in order to update the UI.
+
+   .. include:: /examples/Notifications/CollectionNotification.rst
+
+.. _object-notifications:
+
+Object Notifications
+--------------------
+
+You can register a notification handler on a specific object
+within a realm. Realm will notify your handler:
+
+- When the object is deleted.
+- When any of the object's properties change.
+
+The handler receives information about what fields changed
+and whether the object was deleted.
+
+.. example::
+
+   The following code shows how to open a default realm,
+   create a new instance of a class, and observe that
+   instance for changes.
+
+   .. include:: /examples/Notifications/ObjectNotification.rst
