@@ -59,9 +59,10 @@ transaction immediately after the code block.
 .. admonition:: Concurrency Concerns
    :class: important
 
-   Since transactions block each other, it's best to avoid
-   opening transactions on both the UI thread and a background
-   thread.
+   Since transactions block each other, it is best to avoid
+   opening transactions on both the UI thread and a
+   background thread. If you are using Sync, avoid opening
+   transactions on the UI thread altogether.
 
 .. example::
 
