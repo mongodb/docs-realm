@@ -2,12 +2,11 @@ Realm realm = Realm.getDefaultInstance();
 
 // Open a thread-safe transaction.
 realm.executeTransaction(r -> {
-    // Instantiate the class using the factory function.
-    dog = realm.createObject(Dog.class);
-
-    // Configure the instance.
-    dog.setName("Max");
-    dog.setAge(5);
+    // ... Make changes
+    // Realm automatically cancels the transaction if this
+    // code block throws an exception. Otherwise, Realm
+    // automatically commits the transaction at the end
+    // of the code block.
 });
 
 // ...
