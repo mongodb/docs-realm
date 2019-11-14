@@ -13,48 +13,68 @@ Writes
 Overview
 --------
 
-Realm supports many concurrent readers, but there can be
-only one writer at a time. All writes must happen in a
-**transaction**.
+Realm has a highly efficient storage engine that you can use
+to persist objects. You can **create** objects in a realm,
+**update** objects in a realm, and eventually **delete**
+objects from a realm. Because these operations modify the
+state of the realm, we call them writes.
 
-A **transaction** is a list of read and write operations
-that a database treats as a single indivisable operation. In
-other words, a transaction is *all or nothing*: either all
-of the operations in the transaction succeed or none of the
+Realm handles writes in terms of **transactions**. A
+transaction is a list of read and write operations that
+Realm treats as a single indivisable operation. In other
+words, a transaction is *all or nothing*: either all of the
+operations in the transaction succeed or none of the
 operations in the transaction take effect.
 
-At the end of a write operation, you can either **commit** a
-transaction or **cancel** it:
+.. admonition:: Remember
+   :class: note
 
-- When you **commit** a transaction, Realm writes all changes to
+   All writes must happen in a transaction.
+
+A realm allows only one open transaction at a time. Realm
+blocks other writes on other threads until the open
+transaction is complete. Consequently, there is no race
+condition when reading values from the realm within a
+transaction.
+
+When you are done with your transaction, Realm either
+**commits** it or **cancels** it:
+
+- When Realm **commits** a transaction, Realm writes all changes to
   disk. If the realm is synced, Realm queues the change for
   synchronization with the Realm Object Server.
-- When you **cancel** a write transaction, all changes are
-  discarded (or "rolled back").
+- When Realm **cancels** a write transaction or an operation in
+  the transaction causes an error, all changes are discarded
+  (or "rolled back").
 
 .. _acid-compliance:
 
 Realm is ACID Compliant
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-Rightfully, you expect strict guarantees about how your
-database handles your data. Realm is :wikipedia:`ACID
-compliant <ACID>`:
+Realm guarantees that transactions are :wikipedia:`ACID
+<ACID>` compliant. This means that all committed write
+operations are guaranteed to be valid and that clients don't
+see transient states in the event of a system crash.
 
-- The all or nothing nature of transactions establishes Realm's :wikipedia:`atomicity <Atomicity_(database_systems)>`.
-- The validation of changes against the schema avoids data corruption and establishes Realm's :wikipedia:`consistency <Consistency_(database_systems)>`.
-- The allowance of only one writer at a time ensures thread safety and establishes Realm's :wikipedia:`isolation <Isolation_(database_systems)>`.
-- Writing to disk upon transaction commit establishes Realm's :wikipedia:`durability <Durability_(database_systems)>`. 
+- Realm establishes :wikipedia:`atomicity <Atomicity_(database_systems)>` by grouping operations in transactions and rolling back all operations in a transaction if any of them fail.
+- Realm establishes :wikipedia:`consistency <Consistency_(database_systems)>` and avoids data corruption by validating changes against the schema. If the result of any write operation is not valid, Realm cancels and rolls back the entire transaction.
+- Realm establishes :wikipedia:`isolation <Isolation_(database_systems)>` by allowing only one writer at a time. This ensures thread safety between transactions.
+- Finally, Realm establishes :wikipedia:`durability <Durability_(database_systems)>` by writing to disk immediately when a transaction is committed. In the event of an app crash, for example, the changes are not lost or corrupted.
 
 .. _open-a-transaction:
 
 Run a Transaction
 -----------------
 
-Run a transaction by passing a callback the realm's write
-method. If the code in the callback throws an exception,
+Realm represents each transaction as a callback function
+that contains zero or more read and write operations. To run
+a transaction, define a transaction callback and pass it to
+the realm's ``write`` method. Within this callback, you are
+free to create, update, and delete Realm objects. If the
+code in the callback throws an exception when Realm runs it,
 Realm cancels the transaction. Otherwise, Realm commits the
-transaction immediately after the code block.
+transaction immediately after the callback.
 
 .. admonition:: Concurrency Concerns
    :class: important
@@ -62,7 +82,10 @@ transaction immediately after the code block.
    Since transactions block each other, it is best to avoid
    opening transactions on both the UI thread and a
    background thread. If you are using Sync, avoid opening
-   transactions on the UI thread altogether.
+   transactions on the UI thread altogether, as Realm
+   processes synchronizations on a background thread. If a
+   background transaction blocks your UI thread's
+   transaction, your app may appear unresponsive.
 
 .. example::
 
@@ -73,24 +96,17 @@ transaction immediately after the code block.
 
    .. include:: /examples/CRUD/Transaction.rst
 
-   You can manually **open**, **commit**, and **cancel** a
-   transaction, but we recommend avoiding this wherever
-   possible. You must commit or cancel all transactions that
-   you open. Transactions block each other, so if you
-   accidentally leave a transaction open indefinitely, your
-   app will not behave properly.
-
-   .. include:: /examples/CRUD/TransactionCounterexample.rst
-
 .. _create-an-object:
 
 Create an Object
 ----------------
 
 In general, instantiate :doc:`Realm objects
-</data-model/objects>` as you would any other object. Add
-the object to the realm in a transaction. When you add an
-instance to the realm, it becomes **managed** by that realm.
+</data-model/objects>` as you would any other object. In a
+transaction, you can add the object to the realm if the
+realm's :ref:`schema <realm-schema>` includes the object
+type. When you add an instance to the realm, it becomes
+*managed* by that realm.
 
 With the Java and JavaScript SDKs, instead use the realm's
 factory method in a transaction to instantiate your class.
@@ -102,10 +118,32 @@ This automatically inserts the instance into the realm.
 
    .. include:: /examples/CRUD/Create.rst
 
+.. _upsert:
+
+Upsert an Object
+~~~~~~~~~~~~~~~~
+
+An **upsert** is a write operation that either inserts a new
+object with a given primary key or updates an existing
+object that already has that primary key. We call this an
+upsert because it is an "**update** or **insert**"
+operation. This is useful when an object may or may not
+already exist, such as when bulk importing a dataset into an
+existing realm. Upserting is an elegant way to update
+existing entries while adding any new entries.
+
+.. example::
+
+   This code demonstrates how to upsert an object with
+   Realm. We create a new user named "Drew" and then update
+   their name to "Andy" via upsert:
+
+   .. include:: /examples/CRUD/Upsert.rst
+
 .. _update:
 
-Update
-------
+Update an Object
+----------------
 
 Within a transaction, you can update a Realm object the same
 way you would update any other object in your language of
@@ -119,54 +157,29 @@ the property.
 
    .. include:: /examples/CRUD/Update.rst
 
-.. _upsert:
-
-Upsert
-~~~~~~
-
-Sometimes, you don't know if an object exists in the realm
-or not. If it exists, you want to update it; if it does not
-exist, you want to create it. We call this an **upsert**
-because it is an "**update** or **insert**" operation. For
-example, consider the task of importing a dataset to an
-existing realm. Upserting is an elegant way to update
-existing entries while adding any new entries.
-
-If your object uses a primary key, you can upsert by
-passing a special parameter to realm's add method.
-
-.. example::
-
-   This code demonstrates how to upsert an object with
-   Realm. We create a new user named "Drew" and then update
-   their name to "Andy" via upsert:
-
-   .. include:: /examples/CRUD/Upsert.rst
-
 .. _batch-update:
 
-Batch Update
-~~~~~~~~~~~~
+Update a Collection
+~~~~~~~~~~~~~~~~~~~
 
-Realm supports **batch updates** of fields on a collection.
-A batch update applies the same update to several objects at
-once.
+Realm supports collection-wide updates. A collection update
+applies the same update to specific properties of several
+objects in a collection at once.
 
 .. example::
 
-   The following code demonstrates how to batch update a
+   The following code demonstrates how to update a
    collection. Thanks to the :ref:`implicit inverse
    relationship <inverse-relationship>` between the Dog's
-   ``owner`` field and the Person's ``dogs`` field, Realm
-   automatically updates the corresponding field, even when
-   executing a batch update.
+   ``owner`` property and the Person's ``dogs`` property,
+   Realm automatically updates Ali's list of dogs.
 
    .. include:: /examples/CRUD/BatchUpdate.rst
 
 .. _delete:
 
-Delete
-------
+Delete an Object
+----------------
 
 In general, to delete an object from a realm, pass the
 instance to the delete method of the realm within a
@@ -175,12 +188,11 @@ transaction.
 With the Java SDK, call ``deleteFromRealm()`` on the
 instance itself.
 
-.. admonition:: Discard references after delete
-   :class: note
+.. admonition:: Do not use objects after delete
+   :class: important
 
-   When you delete an object from the realm, it's a good
-   idea to discard your reference to that object. For
-   example, set the variable to null.
+   Realm throws an error if you try to use an object after
+   it has been deleted.
 
 .. example::
 
@@ -213,11 +225,12 @@ collection itself.
 Cascading Delete
 ~~~~~~~~~~~~~~~~
 
-Sometimes, you have :doc:`related objects
+Sometimes, you have :doc:`dependent objects
 </data-model/relationships>` that you want to delete when
 you delete the parent object. We call this a **cascading
-delete**. If you do not delete the dependent objects, they
-will remain orphaned in your realm. Whether or not this is a
+delete**. Realm will not delete the dependent objects for
+you. If you do not delete the objects yourself, they will
+remain orphaned in your realm. Whether or not this is a
 problem depends on your application's needs.
 
 Currently, the best way to delete dependent objects is to
@@ -252,9 +265,9 @@ Realm supports deleting all instances of a :doc:`Realm type
 Delete Everything
 ~~~~~~~~~~~~~~~~~
 
-It is possible to delete all objects from the realm. This is
-useful for quickly clearing out your realm while
-prototyping.
+It is possible to delete all objects from the realm. This
+does not affect the schema of the realm. This is useful for
+quickly clearing out your realm while prototyping.
 
 .. example::
 
