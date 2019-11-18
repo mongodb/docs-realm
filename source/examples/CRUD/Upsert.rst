@@ -1,0 +1,36 @@
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: c-sharp
+
+      .. literalinclude:: /examples/CRUD/Upsert.cs
+         :language: csharp
+         :emphasize-lines: 6, 11
+
+   .. tab::
+      :tabid: java
+
+      .. literalinclude:: /examples/CRUD/Upsert.java
+         :language: java
+         :emphasize-lines: 7, 14
+
+   .. tab::
+      :tabid: javascript
+
+      .. literalinclude:: /examples/CRUD/Upsert.js
+         :language: javascript
+         :emphasize-lines: 4, 9
+
+   .. tab::
+      :tabid: objective-c
+
+      .. literalinclude:: /examples/CRUD/Upsert.m
+         :language: objective-c
+         :emphasize-lines: 5, 10
+
+   .. tab::
+      :tabid: swift
+
+      .. literalinclude:: /examples/CRUD/Upsert.swift
+         :language: swift
+         :emphasize-lines: 5, 15

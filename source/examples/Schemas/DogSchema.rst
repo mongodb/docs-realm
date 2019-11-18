@@ -3,35 +3,35 @@
    .. tab::
       :tabid: javascript
 
-      .. literalinclude:: /examples/DogSchema/DogSchema.js
+      .. literalinclude:: /examples/Schemas/DogSchema.js
          :language: javascript
    
    .. tab::
       :tabid: swift
 
-      .. literalinclude:: /examples/DogSchema/DogSchema.swift
+      .. literalinclude:: /examples/Schemas/DogSchema.swift
          :language: swift
    
    .. tab::
       :tabid: kotlin
 
-      .. literalinclude:: /examples/DogSchema/DogSchema.kt
+      .. literalinclude:: /examples/Schemas/DogSchema.kt
          :language: kotlin
    
    .. tab::
       :tabid: c-sharp
 
-      .. literalinclude:: /examples/DogSchema/DogSchema.cs
+      .. literalinclude:: /examples/Schemas/DogSchema.cs
          :language: csharp
 
    .. tab::
       :tabid: java
 
-      .. literalinclude:: /examples/DogSchema/DogSchema.java
+      .. literalinclude:: /examples/Schemas/DogSchema.java
          :language: java
 
    .. tab::
       :tabid: objective-c
 
-      .. literalinclude:: /examples/DogSchema/DogSchema.m
+      .. literalinclude:: /examples/Schemas/DogSchema.m
          :language: objective-c
