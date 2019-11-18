@@ -1,0 +1,137 @@
+=====
+Reads
+=====
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+To deliver a great user experience, you want data on hand
+whenever and wherever you need it. Imagine multiple views
+that show various facets of your data while a background
+task crunches numbers based on the same information. If
+every data consumer had to wait their turn to read, the app
+would not feel graceful at all. Realm enables smooth user
+experiences by allowing many simultaneous readers thanks to
+its :wikipedia:`multiversion concurrency control (MVCC)
+<Multiversion_concurrency_control>` architecture.
+
+This page details how to access your data in Realm.
+
+Read Characteristics
+--------------------
+
+Here are a few important things to know about reads in
+Realm.
+
+Results Are Not Copies
+~~~~~~~~~~~~~~~~~~~~~~
+
+Results to a query are not copies of your data: modifying
+the results of a query (within a write transaction) will
+modify the data on disk directly.
+
+Results Are Lazy
+~~~~~~~~~~~~~~~~
+
+Realm defers execution of a query until you access the
+results. You can chain several filter and sort operations
+without requiring extra work to process the intermediate
+state.
+
+References Are Retained
+~~~~~~~~~~~~~~~~~~~~~~~
+
+One benefit of Realm's object model is that Realm retains
+its :doc:`relationships </data-model/relationships>` in the
+data.
+
+On some other databases, you would typically store a primary
+key of a dependent entity in a property of a parent entity.
+When you load the parent entity, you also need to load the
+dependent entity using this primary key to reconstruct this
+relationship.
+
+When you read from a realm, you do not need to reconstruct
+relationships. Realm stores objects as objects, and the
+references to dependent objects are retained. This means you
+can traverse your graph of relationships directly from the
+Objects contained in a Results.
+
+
+How to Read
+-----------
+
+A read from a realm generally consists of the following
+steps:
+
+- Query all objects of a specific Realm type.
+- Filter the results using the :doc:`query engine </crud/query-language>`.
+- Sort the results.
+
+The examples on this page will use the Realm objects of a
+project management app. There are two Realm object types:
+Project and Task. A Project has zero or more Tasks.
+
+See the schema for these two classes, Project and Task,
+below:
+
+.. include:: /examples/Schemas/ProjectAndTask.rst
+
+Get All Objects
+~~~~~~~~~~~~~~~
+
+The first step of any read is to access all objects of a
+certain type in a realm. This is the foundation for
+subsequent filtering.
+
+In order to access all instances of Project and Task, use
+the following syntax:
+
+.. include:: /examples/CRUD/Objects.rst
+
+Realm returns a Results object that you can filter, sort, or
+present.
+
+Filter Results
+~~~~~~~~~~~~~~
+
+You can filter to refine results, present only relevant
+objects, and gain some insight into your data.
+
+Realm provides a full-featured :doc:`query language
+</crud/query-language>` you can use.
+
+The most common use case is to find objects where a certain
+property matches a certain value. In the following example,
+we use the query language's comparison operators to:
+
+- Find high priority Tasks by comparing the value of the ``priority`` property value with a threshold number, above which priority can be considered high.
+- Find just-started or short-running Tasks by seeing if the ``progressMinutes`` property falls within a certain range.
+- Find unassigned Tasks by finding Tasks where the ``assignee`` property is equal to null.
+- Find Tasks assigned to specific teammates Ali or Jamie by seeing if the ``assignee`` property is in a list of names.
+
+.. include:: /examples/Query/Comparison.rst
+
+Sort Results
+~~~~~~~~~~~~
+
+Sorting allows you to present your data in the most relevant
+way for your use case.
+
+The order of Results is only guaranteed to stay consistent
+when the query is sorted. For performance reasons, insertion
+order is not guaranteed to be preserved.
+
+.. example::
+
+   The following code sorts the Projects by name descending.
+
+   .. include:: /examples/CRUD/Sort.rst
