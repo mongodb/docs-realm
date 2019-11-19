@@ -14,12 +14,11 @@ Overview
 --------
 
 One of the fundamental building blocks when working with any
-database is the **collection**. Generally, a collection is
-an object that contains zero or more other objects. With
-Realm, a collection is an object that contains zero or more
-instances of one :doc:`Realm type </data-model/objects>`.
-Collections are homogenous, i.e. all objects in a collection
-are of the same type.
+database is the **collection**. A Realm collection is an
+object that contains zero or more instances of one
+:doc:`Realm type </data-model/objects>`. Realm collections
+are homogenous, i.e. all objects in a collection are of the
+same type.
 
 You can filter and sort any collection using Realm's
 :doc:`query syntax </crud/query-language>`. Collections are
@@ -28,32 +27,113 @@ current state of the realm on the current thread. You can
 also listen for changes in the collection by subscribing to
 :ref:`collection notifications <collection-notifications>`.
 
-Realm has two kinds of collections:
+Realm has two kinds of collections: **lists** and **results**.
 
-List Collection
-  Represents a one-to-many between two Realm types.
+.. _list-collections:
 
-Results Collection
-  Represents the live, lazily-evaluated results of a query operation.
+List Collections
+~~~~~~~~~~~~~~~~
+
+A **list collection** represents a to-many relationship
+between two Realm types. Lists are mutable: within a write
+transaction, you can add and remove elements on a list.
+Lists are not associated with a query.
+
+.. _results-collections:
+
+Results Collections
+~~~~~~~~~~~~~~~~~~~
+
+A **results collection** represents the lazily-evaluated
+results of a query operation. Results are immutable: you
+cannot add or remove elements on the results collection.
+Results have an associated query that determines their
+contents.
+
+.. _live-collections:
+
+Collections are Live
+--------------------
+
+Collections are usually :ref:`live objects <live-object>`:
+
+- Live results collections always reflect the current results of the associated query.
+- Live lists always reflect the current state of the list on the realm.
+
+There are only two cases when a collection is **not** live:
+
+- The collection is part of a snapshot (JavaScript and Java SDKs only).
+- The collection is unmanaged, e.g. a List property of a Realm object that has not been added to a realm yet.
+
+Combined with :ref:`collection notifications
+<collection-notifications>`, live collections enable clean,
+reactive code. For example, suppose your view displays the
+results of a query. You can store the results collection as
+a member of the view and read the results collection as
+needed without having to refresh it or validate that it is
+up-to-date.
+
+.. admonition:: Indexes may change
+   :class: important
+
+   Since results update themselves automatically, avoid
+   storing collection indexes and element counts. The stored
+   index or count value could be outdated by the time you
+   use them.
+
+.. _lazy-evaluated-results:
+
+Results are Lazily Evaluated
+----------------------------
+
+Realm only runs a query when you actually request the
+results of that query, e.g. by accessing elements of the
+results collection. This lazy evaluation enables you to
+write elegant, highly performant code for handling large
+data sets and complex queries.
+
+.. _limiting-results:
+
+Limiting Query Results
+~~~~~~~~~~~~~~~~~~~~~~
+
+As a result of lazy evaluation, you do not need any special
+mechanism to limit query results with realm. For example, if
+your query matches thousands of objects, but you only want
+to load the first ten, simply access only the first ten
+elements of the results collection.
+
+.. _pagination:
+
+Pagination
+~~~~~~~~~~
+
+Thanks to lazy evaluation, the common task of pagination
+becomes quite simple. For example, suppose you have a
+results collection associated with a query that matches
+thousands of objects in your realm. You display one hundred
+objects per page. To advance to any page, simply access the
+elements of the results collection starting at the index
+that corresponds to the target page.
 
 .. _list-vs-results:
 
 List vs. Results
 ----------------
 
-When deciding which collection type to use to interact with
-a realm, follow these rules of thumb:
+When you need a collection, you can use the following rule
+of thumb to determine whether a list or a results collection
+is appropriate:
 
-- Use lists in your Realm type definitions to define a
-  one-to-many relationship, except for :doc:`implicit
-  inverse relationship </data-model/relationships>`.
-- Use results collections everywhere else.
+- When you define the properties of your Realm objects, use lists to define to-many relationships except :doc:`implicit inverse relationships </data-model/relationships>`.
+- Use results everywhere else.
 
-To understand the difference between list and result
-collections -- and when to use which -- consider whether you
-need to add or remove objects directly. Lists allow you to
-add and remove objects directly, while results collections
-do not because their contents are determined by a query.
+To understand these different use cases, consider whether
+you should be able to add or remove objects directly. Lists
+allow you to add and remove objects directly, because you
+control the relationships. Results collections do not allow
+you to add or remove objects directly, because their contents
+are determined by a query.
 
 .. example::
 
@@ -73,7 +153,7 @@ do not because their contents are determined by a query.
 
 .. _collection-type-for-implicit-inverse-relationships:
 
-.. admonition:: Inverse one-to-many relationship fields exception
+.. admonition:: Inverse one-to-many relationship property exception
    :class: note
 
    Since Realm automatically determines the contents of
@@ -81,76 +161,4 @@ do not because their contents are determined by a query.
    </data-model/relationships>` collections, you may not add
    or remove objects from such a collection directly.
    Therefore, the type of such a one-to-many relationship
-   field is actually a results collection, not a list.
-
-.. _properties-of-results-collections:
-
-Properties of Results Collections
----------------------------------
-
-There are two major properties you need to know about
-results collections:
-
-- Results are **live**.
-- Results are **lazily evaluated**.
-
-These properties and their implications are detailed in the
-following sections.
-
-.. _live-results:
-
-Results are Live
-~~~~~~~~~~~~~~~~
-
-Results are :ref:`live objects <live-object>`, so they
-always reflect the current results of the associated query.
-Combined with :ref:`collection notifications
-<collection-notifications>`, this feature enables clean,
-reactive code. For example, suppose your view displays the
-results of a query. You can store the results collection as
-a member of the view and read the results collection as
-needed without having to refresh it or validate that it is
-up-to-date.
-
-.. admonition:: Indexes may change
-   :class: important
-
-   Since results update themselves automatically, avoid
-   storing collection indexes and element counts. The stored
-   index or count value could be outdated by the time you
-   use them.
-
-.. _lazy-evaluation:
-
-Results are Lazily Evaluated
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Realm only runs a query when you actually request the
-results of that query, e.g. by accessing elements of the
-results collection. This lazy evaluation enables you to
-write elegant, highly performant code for handling large
-data sets and complex queries.
-
-.. _limiting-results:
-
-Limiting Query Results
-^^^^^^^^^^^^^^^^^^^^^^
-
-As a result of lazy evaluation, you do not need any special
-mechanism to limit query results with realm. For example, if
-your query matches thousands of objects, but you only want
-to load the first ten, simply access only the first ten
-elements of the results collection.
-
-.. _pagination:
-
-Pagination
-^^^^^^^^^^
-
-Thanks to lazy evaluation, the common task of pagination
-becomes quite simple. For example, suppose you have a
-results collection associated with a query that matches
-thousands of objects in your realm. You display one hundred
-objects per page. To advance to any page, simply access the
-elements of the results collection starting at the index
-that corresponds to the target page.
+   property is actually a results collection, not a list.
