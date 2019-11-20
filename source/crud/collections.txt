@@ -34,10 +34,11 @@ Realm has two kinds of collections: **lists** and **results**.
 List Collections
 ~~~~~~~~~~~~~~~~
 
-A **list collection** represents a to-many relationship
-between two Realm types. Lists are mutable: within a write
-transaction, you can add and remove elements on a list.
-Lists are not associated with a query.
+A **list collection** represents a :ref:`to-many
+relationship <to-many-relationship>` between two Realm
+types. Lists are mutable: within a write transaction, you
+can add and remove elements on a list. Lists are not
+associated with a query.
 
 .. _results-collections:
 
@@ -55,10 +56,11 @@ contents.
 Collections are Live
 --------------------
 
-Collections are usually :ref:`live objects <live-object>`:
+Like :ref:`live objects <live-object>`, Realm collections
+are usually **live**:
 
 - Live results collections always reflect the current results of the associated query.
-- Live lists always reflect the current state of the list on the realm.
+- Live lists always reflect the current state of the relationship on the realm.
 
 There are only two cases when a collection is **not** live:
 
@@ -68,18 +70,19 @@ There are only two cases when a collection is **not** live:
 Combined with :ref:`collection notifications
 <collection-notifications>`, live collections enable clean,
 reactive code. For example, suppose your view displays the
-results of a query. You can store the results collection as
-a member of the view and read the results collection as
-needed without having to refresh it or validate that it is
-up-to-date.
+results of a query. You can keep a reference to the results
+collection in your view class, then read the results
+collection as needed without having to refresh it or
+validate that it is up-to-date.
 
 .. admonition:: Indexes may change
    :class: important
 
-   Since results update themselves automatically, avoid
-   storing collection indexes and element counts. The stored
-   index or count value could be outdated by the time you
-   use them.
+   Since results update themselves automatically, do not
+   store the positional index of an object in the collection
+   or the count of objects in a collection. The stored index
+   or count value could be outdated by the time you use
+   them.
 
 .. _lazy-evaluated-results:
 
