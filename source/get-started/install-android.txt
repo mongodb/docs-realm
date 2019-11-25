@@ -1,0 +1,52 @@
+=========================
+Install Realm for Android
+=========================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+Realm's Android SDK enables your Android applications to
+interact with Realm using either the Java or Kotlin
+languages. This page details how to install Realm in your
+project and get started.
+
+Prerequisites
+-------------
+
+Before getting started, ensure your development environment
+meets the following prerequisites:
+
+- `Android Studio <https://developer.android.com/studio/index.html>`__ version 1.5.1 or higher.
+- JDK version 7.0 or higher.
+- Android API Level 9 or higher (Android 2.3 and above).
+
+.. admonition:: No Java Support without Android
+   :class: important
+
+   Realm does not support Java or Kotlin outside of Android.
+   Realm also does not support Eclipse as an IDE. Please
+   migrate to Android Studio.
+
+Installation
+------------
+
+Realm supports the Gradle build system. The Maven and Ant
+build systems are not supported. Follow these steps to add
+the Realm Android SDK to your project.
+
+.. admonition:: A note on ProGuard
+   :class: note
+
+   Because Realm provides a ProGuard configuration as part
+   of the Realm library, you do not need to add any
+   Realm-specific rules to your ProGuard configuration.
+
+.. include:: /includes/steps/install-android.rst
