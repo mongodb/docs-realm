@@ -83,8 +83,17 @@ more detail.
 Operators
 ---------
 
-The various operators available to filter a Realm collection
-are detailed below.
+There are several types of operators available to filter a
+Realm collection. Filters work by **evaluating** an operator
+expression for every object in the collection being
+filtered. If the expression resolves to ``true``, Realm
+includes the object in the results collection.
+
+An **expression** consists of one of the following:
+
+- The name of a property of the object currently being evaluated.
+- An operator and up to two argument expression(s).
+- A literal string, number, or date.
 
 .. admonition:: About the examples on this page
    :class: note
