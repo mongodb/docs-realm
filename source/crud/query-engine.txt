@@ -1,6 +1,6 @@
-==============
-Query Language
-==============
+============
+Query Engine
+============
 
 .. default-domain:: mongodb
 
@@ -13,20 +13,17 @@ Query Language
 Overview
 --------
 
-To interact with data in your realms, you can leverage
-Realm's query engine. Each SDK has its own idiomatic
-manifestation of the query language: 
+To filter data in your realms, you can leverage Realm's
+query engine. Each SDK has its own idiomatic approach to the
+query engine:
 
 - In the Swift, Objective-C, and JavaScript SDKs, Realm's query engine uses a query language based on `NSPredicate <https://developer.apple.com/documentation/foundation/nspredicate>`__ syntax.
 - In the C#/.NET SDK, Realm's query engine implements standard `LINQ <https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/linq/introduction-to-linq-queries>`__ syntax.
 - In the Java SDK, Realm's query engine uses a :wikipedia:`Fluent interface <Fluent_interface>` to construct queries.
 
 Regardless of the implementation details, the overall
-functionality of the query language across SDKs is
+functionality of the query engine across SDKs is
 comparable.
-
-Syntax
-~~~~~~
 
 This page outlines the query operators in general. The exact
 syntax for using query operators depends on which SDK you
@@ -89,18 +86,19 @@ Operators
 The various operators available to filter a Realm collection
 are detailed below.
 
-.. admonition:: About the examples below
+.. admonition:: About the examples on this page
    :class: note
 
-   The examples in this page use a simple data set for a task
-   list app. The two Realm object types are Project and Task. A
-   Task has a name, assignee's name, and completed flag. There
-   is also an arbitrary number for priority -- higher is more
-   important -- and a count of minutes spent working on it. A
-   Project has zero or more Tasks.
+   The examples in this page use a simple data set for a
+   task list app. The two Realm object types are ``Project``
+   and ``Task``. A ``Task`` has a name, assignee's name, and
+   completed flag. There is also an arbitrary number for
+   priority -- higher is more important -- and a count of
+   minutes spent working on it. A ``Project`` has zero or more
+   ``Tasks``.
 
-   See the schema for these two classes, Project and Task,
-   below:
+   See the schema for these two classes, ``Project`` and
+   ``Task``, below:
 
    .. include:: /examples/Schemas/ProjectAndTask.rst
 
@@ -118,46 +116,44 @@ values.
      - Description
 
    * - ``between``
-     - Evaluates to true if the left-hand argument is between or equal to the right-hand expression.
-       Not supported on the JS or C# SDKs.
+     - Evaluates to ``true`` if the left-hand numerical or date expression is between or equal to the right-hand range. For dates, this evaluates to ``true`` if the left-hand date is within the right-hand date range. Not supported on the JS or C# SDKs.
 
    * - | ``equalTo`` (Java)
        | ``==`` (C#, JS, Obj-C, Swift)
-     - Evaluates to true if the left-hand argument is equal to the right-hand argument.
+     - Evaluates to ``true`` if the left-hand expression is equal to the right-hand expression.
 
    * - | ``greaterThan`` (Java)
        | ``>`` (C#, JS, Obj-C, Swift)
-     - Evaluates to true if the left-hand argument is greater than the right-hand argument.
+     - Evaluates to ``true`` if the left-hand numerical or date expression is greater than the right-hand numerical or date expression. For dates, this evaluates to ``true`` if the left-hand date is later than the right-hand date.
 
    * - | ``greaterThanOrEqualTo`` (Java)
        | ``>=`` (C#, JS, Obj-C, Swift)
-     - Evaluates to true if the left-hand argument is greater than or equal to the right-hand argument.
+     - Evaluates to ``true`` if the left-hand numerical or date expression is greater than or equal to the right-hand numerical or date expression. For dates, this evaluates to ``true`` if the left-hand date is later than or the same as the right-hand date.
 
    * - ``in``
-     - Evaluates to true if the left-hand argument is in the right-hand list.
-       Not supported on the C# SDK.
+     - Evaluates to ``true`` if the left-hand expression is in the right-hand list. Not supported on the C# SDK.
 
    * - | ``lessThan`` (Java)
        | ``<`` (C#, JS, Obj-C, Swift)
-     - Evaluates to true if the left-hand argument is less than the right-hand argument.
+     - Evaluates to ``true`` if the left-hand numerical or date expression is less than the right-hand numerical or date expression. For dates, this evaluates to ``true`` if the left-hand date is earlier than the right-hand date.
 
    * - | ``lessThanOrEqualTo`` (Java)
        | <= (C#, JS, Obj-C, Swift)
-     - Evaluates to true if the left-hand argument is less than or equal to the right-hand argument.
+     - Evaluates to ``true`` if the left-hand numeric expression is less than or equal to the right-hand numeric expression. For dates, this evaluates to ``true`` if the left-hand date is earlier than or the same as the right-hand date.
 
    * - | ``notEqualTo`` (Java)
        | ``!=`` (C#, JS, Obj-C, Swift)
-     - Evaluates to true if the left-hand argument is not equal to the right-hand argument.
+     - Evaluates to ``true`` if the left-hand expression is not equal to the right-hand expression.
 
 .. example::
 
-   The following example uses the query language's
+   The following example uses the query engine's
    comparison operators to:
 
-   - Find high priority Tasks by comparing the value of the ``priority`` property value with a threshold number, above which priority can be considered high.
-   - Find just-started or short-running Tasks by seeing if the ``progressMinutes`` property falls within a certain range.
-   - Find unassigned Tasks by finding Tasks where the ``assignee`` property is equal to null.
-   - Find Tasks assigned to specific teammates Ali or Jamie by seeing if the ``assignee`` property is in a list of names.
+   - Find high priority tasks by comparing the value of the ``priority`` property value with a threshold number, above which priority can be considered high.
+   - Find just-started or short-running tasks by seeing if the ``progressMinutes`` property falls within a certain range.
+   - Find unassigned tasks by finding tasks where the ``assignee`` property is equal to ``null``.
+   - Find tasks assigned to specific teammates Ali or Jamie by seeing if the ``assignee`` property is in a list of names.
 
    .. include:: /examples/Query/Comparison.rst
 
@@ -175,29 +171,29 @@ You can make compound predicates using logical operators.
 
    * - | ``and`` (Java, JS, Obj-C, Swift)
        | ``&&`` (C#, JS, Obj-C, Swift)
-     - Evaluates to true if both left-hand and right-hand predicates are true.
+     - Evaluates to ``true`` if both left-hand and right-hand expressions are ``true``.
 
    * - | ``not`` (Java, JS, Obj-C, Swift)
        | ``!`` (C#, JS, Obj-C, Swift)
-     - Negates the result of the given predicate.
+     - Negates the result of the given expression.
 
    * - | ``or`` (Java, JS, Obj-C, Swift)
        | ``||`` (C#, JS, Obj-C, Swift)
-     - Evaluates to true if either predicate returns true.
+     - Evaluates to ``true`` if either expression returns ``true``.
 
 .. example::
 
    We can use the query language's logical operators to find
-   all of Ali's completed Tasks. That is, we find all Tasks
-   where the assignee property value is equal to 'Ali' AND
-   the isCompleted property value is true:
+   all of Ali's completed tasks. That is, we find all tasks
+   where the ``assignee`` property value is equal to 'Ali' AND
+   the ``isComplete`` property value is ``true``:
 
    .. include:: /examples/Query/Logical.rst
 
 String Operators
 ~~~~~~~~~~~~~~~~
 
-You can compare string values for common string use cases.
+You can compare string values using these string operators.
 Regex-like wildcards allow more flexibility in search.
 
 .. list-table::
@@ -209,39 +205,51 @@ Regex-like wildcards allow more flexibility in search.
 
    * - | ``beginsWith`` (Java, JS, Obj-C, Swift)
        | ``StartsWith`` (C#)
-     - Evaluates to true if the left-hand string begins with the right-hand string.
+     - Evaluates to ``true`` if the left-hand string expression begins with the right-hand string expression. This is similar to ``contains``, but only matches if the left-hand string expression is found at the beginning of the right-hand string expression.
 
    * - ``contains``
-     - Evaluates to true if the left-hand string contains the right-hand string.
+     - Evaluates to ``true`` if the left-hand string expression is found anywhere in the right-hand string expression.
        Not supported on the C# SDK.
 
    * - | ``endsWith`` (Java, JS, Obj-C, Swift)
        | ``EndsWith`` (C#)
-     - Evaluates to true if the left-hand string ends with the right-hand string.
+     - Evaluates to ``true`` if the left-hand string expression ends with the right-hand string expression. This is similar to ``contains``, but only matches if the left-hand string expression is found at the very end of the right-hand string expression.
 
    * - | ``like`` (Java, JS, Obj-C, Swift)
        | ``Like`` (C#)
-     - Evaluates to true if the left-hand string matches the right-hand string string. The right-hand string may use the ``*`` wildcard to match zero or more of any character and the ``?`` wildcard to match one of any character.
+     - Evaluates to ``true`` if the left-hand string expression
+       matches the right-hand string wildcard string
+       expression. A wildcard string expression is a string
+       that uses normal characters with two special wildcard
+       characters:
+
+       - The ``*`` wildcard matches zero or more of any character
+       - The ``?`` wildcard matches any character.
+
+       For example, the wildcard string "d?g" matches "dog",
+       "dig", and "dug", but not "ding", "dg", or "a dog".
 
    * - | ``equalTo`` (Java)
        | ``==`` (JS, Obj-C, Swift)
        | ``Equals`` (C#)
-     - Evaluates to true if the left-hand string is lexicographically equal to the right-hand string.
+     - Evaluates to ``true`` if the left-hand string is lexicographically equal to the right-hand string.
 
 
 .. example::
 
-   We use the query language's string operators to find
-   Projects with a name starting with the letter 'e' and
-   Projects with names that contain 'ie':
+   We use the query engine's string operators to find
+   projects with a name starting with the letter 'e' and
+   projects with names that contain 'ie':
 
    .. include:: /examples/Query/String.rst
 
 Aggregate Operators
 ~~~~~~~~~~~~~~~~~~~
 
-You can apply an aggregate operator to a collection property of a Realm object.
-Aggregate operators traverse a collection and reduce it to a single value.
+You can apply an aggregate operator to a collection property
+of a Realm object. Aggregate operators traverse a
+:doc:`collection </crud/collections>` and reduce it to a
+single value.
 
 .. list-table::
    :header-rows: 1
@@ -252,8 +260,7 @@ Aggregate operators traverse a collection and reduce it to a single value.
 
    * - | ``average`` (Java)
        | ``@avg`` (JS, Obj-C, Swift)
-     - Evaluates to the average value of a given field across a collection.
-       Not supported on the C# SDK.
+     - Evaluates to the average value of a given numerical property across a collection. Not supported on the C# SDK.
 
    * - | ``count`` (Java)
        | ``@count`` (JS, Obj-C, Swift)
@@ -262,35 +269,36 @@ Aggregate operators traverse a collection and reduce it to a single value.
 
    * - | ``max`` (Java)
        | ``@max`` (JS, Obj-C, Swift)
-     - Evaluates to the highest value of a given field across a collection.
+     - Evaluates to the highest value of a given numerical property across a collection.
        Not supported on the C# SDK.
 
    * - | ``min`` (Java)
        | ``@min`` (JS, Obj-C, Swift)
-     - Evaluates to the lowest value of a given field across a collection.
+     - Evaluates to the lowest value of a given numerical property across a collection.
        Not supported on the C# SDK.
 
    * - | ``sum`` (Java)
        | ``@sum`` (JS, Obj-C, Swift)
-     - Evaluates to the sum of a given field across a collection.
+     - Evaluates to the sum of a given numerical property across a collection.
 
 .. example::
 
-   Let's create a few filters to show facets of our data:
+   We create a couple of filters to show different facets of
+   the data:
 
    - Projects with average tasks priority above 5.
-   - Long running Projects.
+   - Long running projects.
 
    .. include:: /examples/Query/Accumulator.rst
 
 Set Operators
 ~~~~~~~~~~~~~
 
-You can apply a set operator to a collection property of the
-target Realm object. The set operator will traverse the
-collection to evaluate its condition on the elements of the
-collection. If the predicate evaluates to true, that parent
-object will be included in the results set.
+A **set operator** uses specific rules to determine whether
+to pass each input collection object to the output
+collection by applying a given predicate to every element of
+a given :ref:`list <list-collections>` property of the
+object.
 
 .. list-table::
    :header-rows: 1
@@ -300,21 +308,21 @@ object will be included in the results set.
      - Description
 
    * - ``All``
-     - Returns objects where predicate evaluates to true for all objects in the collection.
+     - Returns objects where the predicate evaluates to ``true`` for all objects in the collection.
        Not supported on the C# or Java SDKs.
 
    * - ``Any``
-     - Returns objects where predicate evaluates to true for any objects in the collection.
+     - Returns objects where the predicate evaluates to ``true`` for any objects in the collection.
        Not supported on the Java SDK.
 
    * - ``None``
-     - Returns objects where predicate evaluates to false for all objects in the collection.
+     - Returns objects where the predicate evaluates to false for all objects in the collection.
        Not supported on the C# or Java SDKs. 
 
 
 .. example::
 
-   We use the query language's set operators to find:
+   We use the query engine's set operators to find:
 
    - Projects with no complete tasks.
    - Projects with any top priority tasks.

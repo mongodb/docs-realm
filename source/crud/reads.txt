@@ -23,20 +23,22 @@ experiences by allowing many simultaneous readers thanks to
 its :wikipedia:`multiversion concurrency control (MVCC)
 <Multiversion_concurrency_control>` architecture.
 
-This page details how to access your data in Realm.
+This page details the key characteristics of read operations
+in Realm and how to access your data.
 
 Read Characteristics
 --------------------
-
-Here are a few important things to know about reads in
-Realm.
 
 Results Are Not Copies
 ~~~~~~~~~~~~~~~~~~~~~~
 
 Results to a query are not copies of your data: modifying
 the results of a query (within a write transaction) will
-modify the data on disk directly.
+modify the data on disk directly. This memory mapping also
+means that results are **live**: that is, they always
+reflect the current state on disk.
+
+See also: :ref:`Collections are Live <live-collections>`.
 
 Results Are Lazy
 ~~~~~~~~~~~~~~~~
@@ -46,92 +48,110 @@ results. You can chain several filter and sort operations
 without requiring extra work to process the intermediate
 state.
 
+See also: :ref:`Results are Lazily Evaluated
+<lazy-evaluated-results>`.
+
 References Are Retained
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-One benefit of Realm's object model is that Realm retains
-its :doc:`relationships </data-model/relationships>` in the
-data.
+One benefit of Realm's object model is that Realm
+automatically retains all of an object's :doc:`relationships
+</data-model/relationships>`. Realm stores objects as
+objects, and the references to dependent objects are
+retained. This means you can traverse your graph of
+relationships directly through the results of a query.
 
-On some other databases, you would typically store a primary
-key of a dependent entity in a property of a parent entity.
-When you load the parent entity, you also need to load the
-dependent entity using this primary key to reconstruct this
-relationship.
+By contrast, in a relational database you would typically
+store a primary key of a dependent entity in a property of a
+parent entity. When you load the parent entity, you have to
+reconstruct this relationship by joining tables or using
+another mechanism to load the dependent entity based on this
+primary key.
 
-When you read from a realm, you do not need to reconstruct
-relationships. Realm stores objects as objects, and the
-references to dependent objects are retained. This means you
-can traverse your graph of relationships directly from the
-Objects contained in a Results.
+.. _read-from-realm:
 
-
-How to Read
------------
+Read from Realm
+---------------
 
 A read from a realm generally consists of the following
 steps:
 
 - Query all objects of a specific Realm type.
-- Filter the results using the :doc:`query engine </crud/query-language>`.
+- Filter the results using the :doc:`query engine </crud/query-engine>`.
 - Sort the results.
 
-The examples on this page will use the Realm objects of a
-project management app. There are two Realm object types:
-Project and Task. A Project has zero or more Tasks.
+All query, filter, and sort operations return a
+:ref:`results collection <results-collections>`. The results
+collections are live, meaning they always contain the latest
+results of the associated query.
 
-See the schema for these two classes, Project and Task,
-below:
+The examples on this page use the data model of a project
+management app that has two Realm object types: ``Project``
+and ``Task``. A ``Project`` has zero or more ``Tasks``.
+
+See the schema for these two classes, ``Project`` and
+``Task``, below:
 
 .. include:: /examples/Schemas/ProjectAndTask.rst
+
+.. _get-all-objects:
 
 Get All Objects
 ~~~~~~~~~~~~~~~
 
-The first step of any read is to access all objects of a
-certain type in a realm. This is the foundation for
-subsequent filtering.
+The first step of any read is to **get all objects** of a
+certain type in a realm. With this results collection, you
+can operate on all instances on a type or filter and sort to
+refine the results.
 
-In order to access all instances of Project and Task, use
-the following syntax:
+.. example::
 
-.. include:: /examples/CRUD/Objects.rst
+   In order to access all instances of ``Project`` and ``Task``, use
+   the following syntax:
 
-Realm returns a Results object that you can filter, sort, or
-present.
+   .. include:: /examples/CRUD/Objects.rst
+
+.. _filter-results:
 
 Filter Results
 ~~~~~~~~~~~~~~
 
-You can filter to refine results, present only relevant
-objects, and gain some insight into your data.
+To **filter** is to select a subset of results based on the
+value(s) of one or more object properties. Realm provides a
+full-featured :doc:`query engine </crud/query-engine>` you
+can use to define filters. The most common use case is to
+find objects where a certain property matches a certain
+value. Additionally, you can compare strings, aggregate over
+collections of numbers, and use logical operators to build
+up complex queries.
 
-Realm provides a full-featured :doc:`query language
-</crud/query-language>` you can use.
+.. example::
 
-The most common use case is to find objects where a certain
-property matches a certain value. In the following example,
-we use the query language's comparison operators to:
+   In the following example, we use the query
+   engine's comparison operators to:
 
-- Find high priority Tasks by comparing the value of the ``priority`` property value with a threshold number, above which priority can be considered high.
-- Find just-started or short-running Tasks by seeing if the ``progressMinutes`` property falls within a certain range.
-- Find unassigned Tasks by finding Tasks where the ``assignee`` property is equal to null.
-- Find Tasks assigned to specific teammates Ali or Jamie by seeing if the ``assignee`` property is in a list of names.
+   - Find high priority tasks by comparing the value of the ``priority`` property value with a threshold number, above which priority can be considered high.
+   - Find just-started or short-running tasks by seeing if the ``progressMinutes`` property falls within a certain range.
+   - Find unassigned tasks by finding tasks where the ``assignee`` property is equal to null.
+   - Find tasks assigned to specific teammates Ali or Jamie by seeing if the ``assignee`` property is in a list of names.
 
-.. include:: /examples/Query/Comparison.rst
+   .. include:: /examples/Query/Comparison.rst
+
+.. _sort-results:
 
 Sort Results
 ~~~~~~~~~~~~
 
-Sorting allows you to present your data in the most relevant
-way for your use case.
+**Sorting** allows you to configure the order in which Realm
+returns queried objects. You can sort based on one or more
+properties of the objects in the results collection.
 
-The order of Results is only guaranteed to stay consistent
-when the query is sorted. For performance reasons, insertion
-order is not guaranteed to be preserved.
+Realm only guarantees a consistent order of results when the
+results are sorted.
 
 .. example::
 
-   The following code sorts the Projects by name descending.
+   The following code sorts the projects by name in reverse
+   alphabetical order (i.e. "descending" order).
 
    .. include:: /examples/CRUD/Sort.rst
