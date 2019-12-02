@@ -29,6 +29,8 @@ in Realm and how to access your data.
 Read Characteristics
 --------------------
 
+.. _results-are-not-copies:
+
 Results Are Not Copies
 ~~~~~~~~~~~~~~~~~~~~~~
 
@@ -39,6 +41,8 @@ means that results are **live**: that is, they always
 reflect the current state on disk.
 
 See also: :ref:`Collections are Live <live-collections>`.
+
+.. _results-are-lazy:
 
 Results Are Lazy
 ~~~~~~~~~~~~~~~~
@@ -51,22 +55,31 @@ state.
 See also: :ref:`Results are Lazily Evaluated
 <lazy-evaluated-results>`.
 
+.. _references-retained:
+
 References Are Retained
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 One benefit of Realm's object model is that Realm
 automatically retains all of an object's :doc:`relationships
-</data-model/relationships>`. Realm stores objects as
-objects, and the references to dependent objects are
-retained. This means you can traverse your graph of
-relationships directly through the results of a query.
+</data-model/relationships>` as direct references, so you
+can traverse your graph of relationships directly through
+the results of a query.
 
-By contrast, in a relational database you would typically
-store a primary key of a dependent entity in a property of a
-parent entity. When you load the parent entity, you have to
-reconstruct this relationship by joining tables or using
-another mechanism to load the dependent entity based on this
-primary key.
+A **direct reference**, or pointer, allows you to access a
+related object's properties directly through the reference.
+
+In other databases, you usually have to serialize your
+object in order to store it. In doing so, you lose any
+direct references to other objects your object may have. In
+order to reconstruct this relationship later, you would
+represent the relationship in the serialized format by
+storing the primary key of the related entity with the
+object. When you load and deserialize the object, you then
+have to reconstruct this relationship by joining tables or
+using another mechanism to load the related entity based on
+this primary key. Realm bypasses all of this by just storing
+objects as objects.
 
 .. _read-from-realm:
 
@@ -85,14 +98,17 @@ All query, filter, and sort operations return a
 collections are live, meaning they always contain the latest
 results of the associated query.
 
-The examples on this page use the data model of a project
-management app that has two Realm object types: ``Project``
-and ``Task``. A ``Project`` has zero or more ``Tasks``.
+.. admonition:: About the examples on this page
+   :class: note
 
-See the schema for these two classes, ``Project`` and
-``Task``, below:
+   The examples on this page use the data model of a project
+   management app that has two Realm object types: ``Project``
+   and ``Task``. A ``Project`` has zero or more ``Tasks``.
 
-.. include:: /examples/Schemas/ProjectAndTask.rst
+   See the schema for these two classes, ``Project`` and
+   ``Task``, below:
+
+   .. include:: /examples/Schemas/ProjectAndTask.rst
 
 .. _get-all-objects:
 
@@ -116,7 +132,7 @@ refine the results.
 Filter Results
 ~~~~~~~~~~~~~~
 
-To **filter** is to select a subset of results based on the
+A **filter** selects a subset of results based on the
 value(s) of one or more object properties. Realm provides a
 full-featured :doc:`query engine </crud/query-engine>` you
 can use to define filters. The most common use case is to
@@ -142,9 +158,10 @@ up complex queries.
 Sort Results
 ~~~~~~~~~~~~
 
-**Sorting** allows you to configure the order in which Realm
-returns queried objects. You can sort based on one or more
-properties of the objects in the results collection.
+A **sort** operation allows you to configure the order in
+which Realm returns queried objects. You can sort based on
+one or more properties of the objects in the results
+collection.
 
 Realm only guarantees a consistent order of results when the
 results are sorted.
