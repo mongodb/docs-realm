@@ -1,0 +1,78 @@
+======================
+Install Realm for .NET
+======================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+Realm's C#/.NET SDK enables development for the following
+targets:
+
+- .NET Core 2.0 or later on the following platforms:
+
+  - Debian 8 or later.
+  - RHEL 7.1 or later.
+  - Ubuntu 16.04 or later.
+  - Windows 8.1 or later.
+  - macOS 10.11 or later.
+
+- .NET Framework 4.6.1 or later for Windows 8.1 or later.
+- Universal Windows Platform (UWP) applications using .NET Standard 2.0 or later (Fall Creators Update).
+- Xamarin.Android for API level 10 or later using native UI or Xamarin Forms.
+- Xamarin.Mac for macOS 10.11 or later using native UI or Xamarin Forms.
+- Xamarin.iOS for iOS 7 or later using native UI or Xamarin Forms.
+
+Prerequisites
+-------------
+
+Before getting started, ensure your development environment
+meets the following prerequisites:
+
+- `Visual Studio <https://visualstudio.microsoft.com/downloads/>`__ 2015 Update 2 or later.
+- `Visual Studio for Mac <https://visualstudio.microsoft.com/vs/mac/>`__ 7.0 or later.
+
+Installation
+------------
+
+Follow these steps to add the Realm C# SDK to your project.
+
+.. tabs::
+
+   .. tab:: Visual Studio for Mac
+      :tabid: vs-mac
+
+      .. include:: /includes/steps/install-dotnet-vs-mac.rst
+
+   .. tab:: Visual Studio on Windows
+      :tabid: vs-win
+
+      .. include:: /includes/steps/install-dotnet-vs-win.rst
+
+
+.. admonition:: Update the Fody Weavers File
+   :class: important
+
+   Realm depends on the `Fody
+   <https://github.com/Fody/Fody>`__ weaver. If you were not
+   already using Fody in your project, Visual Studio will
+   generate a properly-configured ``FodyWeavers.xml`` file
+   for you.
+
+   However, if your project was already using Fody, you must
+   manually add the Realm weaver to the ``FodyWeavers.xml``
+   file. When done, your ``FodyWeavers.xml`` file should
+   look something like this:
+
+   .. code-block:: xml
+
+      <Weavers xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="FodyWeavers.xsd">
+        <Realm />
+      </Weavers>
