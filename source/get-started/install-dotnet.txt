@@ -13,22 +13,47 @@ Install Realm for .NET
 Overview
 --------
 
-Realm's C#/.NET SDK enables development for the following
-targets:
+Realm's .NET SDK enables development of applications in the
+C#, .NET, `UWP
+<https://docs.microsoft.com/en-us/windows/uwp/get-started/>`__,
+and `Xamarin <https://dotnet.microsoft.com/apps/xamarin>`__
+ecosystems. When building for platforms with Xamarin, you
+can use either native UI or `Xamarin Forms
+<https://docs.microsoft.com/en-us/xamarin/xamarin-forms/>`__.
 
-- .NET Core 2.0 or later on the following platforms:
 
-  - Debian 8 or later.
-  - RHEL 7.1 or later.
-  - Ubuntu 16.04 or later.
-  - Windows 8.1 or later.
-  - macOS 10.11 or later.
+The following table shows which .NET and Xamarin framework
+version(s) you can use with Realm on your target platforms:
 
-- .NET Framework 4.6.1 or later for Windows 8.1 or later.
-- Universal Windows Platform (UWP) applications using .NET Standard 2.0 or later (Fall Creators Update).
-- Xamarin.Android for API level 10 or later using native UI or Xamarin Forms.
-- Xamarin.Mac for macOS 10.11 or later using native UI or Xamarin Forms.
-- Xamarin.iOS for iOS 7 or later using native UI or Xamarin Forms.
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
+
+   * - Target Platform
+     - Supported Framework Version(s)
+
+   * - | Debian 8 or later
+       | RHEL 7.1 or later
+       | Ubuntu 16.04 or later
+     - .NET Core 2.0 or later
+
+   * - Windows 8.1 or later
+     - | .NET Core 2.0 or later
+       | .NET Framework 4.6.1 or later
+
+   * - Universal Windows Platform (UWP)
+     - .NET Standard 2.0 or later (Fall Creators Update)
+
+   * - Android API level 10 or later
+     - Xamarin.Android for API level 10 or later
+
+   * - macOS 10.11 or later
+     - | .NET Core 2.0 or later
+       | Xamarin.Mac for macOS 10.11 or later
+
+   * - iOS 7 or later
+     - Xamarin.iOS for iOS 7 or later
+
 
 Prerequisites
 -------------
@@ -42,7 +67,7 @@ meets the following prerequisites:
 Installation
 ------------
 
-Follow these steps to add the Realm C# SDK to your project.
+Follow these steps to add the Realm .NET SDK to your project.
 
 .. tabs::
 
@@ -57,22 +82,11 @@ Follow these steps to add the Realm C# SDK to your project.
       .. include:: /includes/steps/install-dotnet-vs-win.rst
 
 
-.. admonition:: Update the Fody Weavers File
-   :class: important
+Import Realm
+------------
 
-   Realm depends on the `Fody
-   <https://github.com/Fody/Fody>`__ weaver. If you were not
-   already using Fody in your project, Visual Studio will
-   generate a properly-configured ``FodyWeavers.xml`` file
-   for you.
+Add the following line to the top of your source files to use Realm:
 
-   However, if your project was already using Fody, you must
-   manually add the Realm weaver to the ``FodyWeavers.xml``
-   file. When done, your ``FodyWeavers.xml`` file should
-   look something like this:
+.. code-block:: csharp
 
-   .. code-block:: xml
-
-      <Weavers xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="FodyWeavers.xsd">
-        <Realm />
-      </Weavers>
+   using Realms;
