@@ -33,6 +33,7 @@ extensions = [
     'intermanual',
     # 'fasthtml',
     'tabs',
+    'tab-content',
     'stitch-builders',
 ]
 
