@@ -1,0 +1,69 @@
+title: Update the CocoaPods repositories
+ref: update-pod-repo
+content: |
+
+   On the command line, run ``pod repo update`` to ensure
+   CocoaPods can access the latest available Realm versions.
+
+---
+title: Initialize CocoaPods for Your Project
+ref: initialize-cocoapods
+content: |
+
+   If you do not already have a Podfile for your project,
+   run ``pod init`` in the root directory of your project to
+   create a Podfile for your project. A Podfile allows you
+   to specify project dependencies to CocoaPods.
+
+---
+title: Add Realm as a Dependency in Your Podfile
+ref: update-podfile
+content: |
+
+   Add the line ``pod 'RealmSwift'`` to your main and test
+   targets.
+
+   Add the line ``use_frameworks!`` as well if it is not
+   already there.
+
+   When done, your Podfile should look something like this:
+
+   .. code-block:: text
+      :emphasize-lines: 9, 14
+
+      # Uncomment the next line to define a global platform for your project
+      # platform :ios, '9.0'
+
+      target 'MyRealmProject' do
+        # Comment the next line if you don't want to use dynamic frameworks
+        use_frameworks!
+
+        # Pods for MyRealmProject
+        pod 'RealmSwift'
+
+        target 'MyRealmProjectTests' do
+          inherit! :search_paths
+          # Pods for testing
+          pod 'RealmSwift'
+        end
+
+      end
+
+---
+title: Install the Dependencies
+ref: install-dependencies
+content: |
+
+   From the command line, run ``pod install`` to fetch the
+   dependencies.
+
+---
+title: Use the CocoaPods-Generated ``.xcworkspace`` File
+ref: use-xcworkspace
+content: |
+
+   CocoaPods generates an ``.xcworkspace`` file for you. This
+   file has all of the dependencies configured. From now on,
+   open this file -- not the ``.xcodeproj`` file -- to work
+   on your project.
+
