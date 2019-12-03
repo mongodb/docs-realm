@@ -1,0 +1,92 @@
+======================
+Install Realm for .NET
+======================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+Realm's .NET SDK enables development of applications in the
+C#, .NET, `UWP
+<https://docs.microsoft.com/en-us/windows/uwp/get-started/>`__,
+and `Xamarin <https://dotnet.microsoft.com/apps/xamarin>`__
+ecosystems. When building for platforms with Xamarin, you
+can use either native UI or `Xamarin Forms
+<https://docs.microsoft.com/en-us/xamarin/xamarin-forms/>`__.
+
+
+The following table shows which .NET and Xamarin framework
+version(s) you can use with Realm on your target platforms:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
+
+   * - Target Platform
+     - Supported Framework Version(s)
+
+   * - | Debian 8 or later
+       | RHEL 7.1 or later
+       | Ubuntu 16.04 or later
+     - .NET Core 2.0 or later
+
+   * - Windows 8.1 or later
+     - | .NET Core 2.0 or later
+       | .NET Framework 4.6.1 or later
+
+   * - Universal Windows Platform (UWP)
+     - .NET Standard 2.0 or later (Fall Creators Update)
+
+   * - Android API level 10 or later
+     - Xamarin.Android for API level 10 or later
+
+   * - macOS 10.11 or later
+     - | .NET Core 2.0 or later
+       | Xamarin.Mac for macOS 10.11 or later
+
+   * - iOS 7 or later
+     - Xamarin.iOS for iOS 7 or later
+
+
+Prerequisites
+-------------
+
+Before getting started, ensure your development environment
+meets the following prerequisites:
+
+- `Visual Studio <https://visualstudio.microsoft.com/downloads/>`__ 2015 Update 2 or later.
+- `Visual Studio for Mac <https://visualstudio.microsoft.com/vs/mac/>`__ 7.0 or later.
+
+Installation
+------------
+
+Follow these steps to add the Realm .NET SDK to your project.
+
+.. tabs::
+
+   .. tab:: Visual Studio for Mac
+      :tabid: vs-mac
+
+      .. include:: /includes/steps/install-dotnet-vs-mac.rst
+
+   .. tab:: Visual Studio on Windows
+      :tabid: vs-win
+
+      .. include:: /includes/steps/install-dotnet-vs-win.rst
+
+
+Import Realm
+------------
+
+Add the following line to the top of your source files to use Realm:
+
+.. code-block:: csharp
+
+   using Realms;
