@@ -1,0 +1,67 @@
+=========================
+Install Realm for Node.js
+=========================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+The Realm Node.js SDK enables development of applications
+using the JavaScript and `TypeScript
+<https://www.typescriptlang.org/>`__ languages. Realm on
+Node.js is best suited for writing server-side applications.
+Your Node.js application could be one component in a wider
+stack that also includes iOS and Android apps.
+
+For front-end web application development, the Realm Node.js
+SDK is not suitable due to limitations of the browser
+environment. Instead, see the :doc:`GraphQL installation
+page </get-started/graphql>`. Realm also does not officially
+support other environments, such as `Electron
+<https://electronjs.org/>`__.
+
+
+Prerequisites
+-------------
+
+Before getting started, ensure your development environment
+meets the following prerequisites:
+
+- `Node.js <https://nodejs.org/en/>`__ version 8.3.0 (and later versions in 8.x) or Node.js 10.x.
+- Linux, macOS, or Windows 8 (and later).
+
+Installation
+------------
+
+Follow these steps to create a Node.js project and add the
+Realm Node.js SDK to it.
+
+.. include:: /includes/steps/install-node.rst
+
+Import Realm
+------------
+
+Add the following line to the top of your source files to use Realm:
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: javascript
+
+      .. code-block:: javascript
+
+         const Realm = require("realm");
+
+   .. tab::
+      :tabid: typescript
+
+      .. code-block:: typescript
+
+         import Realm from "realm";
