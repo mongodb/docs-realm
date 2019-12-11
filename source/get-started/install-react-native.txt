@@ -34,8 +34,11 @@ meets the following prerequisites:
    :class: important
 
    Unfortunately, `Expo does not support Realm
-   <https://expo.canny.io/feature-requests/p/support-for-realm>`__,
-   so ``create-react-native-app`` does not work with Realm.
+   <https://expo.canny.io/feature-requests/p/support-for-realm>`__.
+   You would need to "eject" your Expo project in order to
+   use Realm, which effectively defeats the purpose of using
+   Expo. Therefore, we recommend not using Expo CLI or
+   ``create-react-native-app`` to initialize your project.
 
 Installation
 ------------
@@ -59,8 +62,8 @@ and add the Realm React Native SDK to it.
 Import Realm
 ------------
 
-Add the following line to the top of your source files to
-use Realm:
+Add the following line to the top of your source files where
+you want to use Realm:
 
 .. tabs-realm-languages::
 
