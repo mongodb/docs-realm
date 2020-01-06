@@ -1,6 +1,6 @@
-==============
-Multithreading
-==============
+=========
+Threading
+=========
 
 .. default-domain:: mongodb
 
@@ -21,33 +21,35 @@ app developers spread this work across multiple threads: the
 main or UI thread for all of the user interface-related
 work, and one or more background threads to compute heavier
 workloads before sending it to the UI thread for
-presentation. But writing thread-safe, performant, and
-maintainable multithreaded code is `difficult to get right
-<https://softwareengineering.stackexchange.com/questions/81003/how-to-explain-why-multi-threading-is-difficult>`__.
-Realm aims to simplify this for you. This page details how.
+presentation. By offloading heavy work to background
+threads, the UI thread can remain highly responsive
+regardless of the size of the workload. But writing
+thread-safe, performant, and maintainable multithreaded code
+can be difficult to get right. Realm aims to simplify this
+for you.
 
 Three Rules to Keep in Mind
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Realm enables simple and safe multithreaded code when you
-keep these rules in mind:
+follow these three rules:
 
 Don't lock to read:
-  You can freely read from realms on any thread without the
-  need for locks or mutexes. Needing to lock would be a
-  performance bottleneck, since each thread might need to
-  wait its turn before reading. Realm's :ref:`Multiversion
-  Concurrency Control (MVCC) <mvcc>` architecture --
-  detailed on this page -- eliminates the need for locks.
-  The values you read will never be corrupted or in a
-  partially-modified state.
+  Realm's :ref:`Multiversion Concurrency Control (MVCC)
+  <mvcc>` architecture eliminates the need for locks. The
+  values you read will never be corrupted or in a
+  partially-modified state. You can freely read from realms
+  on any thread without the need for locks or mutexes.
+  Needing to lock would be a performance bottleneck, since
+  each thread might need to wait its turn before reading.
 
 If you write on a background thread, avoid writes on the UI thread:
   You can :doc:`write </crud/writes>` to a realm from any
   thread, but there can be only one writer at a time.
-  Consequently, write transactions block each other. If you
-  write to a realm on a background thread, avoid writing to
-  that realm on the UI thread.
+  Consequently, write transactions block each other. A write
+  on the UI thread may result in your app appearing
+  unresponsive while it waits for a write on a background
+  thread to complete.
 
 Don't pass live objects, collections, or realms to other threads:
   Live objects, collections, and realms themselves are
@@ -55,15 +57,9 @@ Don't pass live objects, collections, or realms to other threads:
   thread on which they were created. Practically speaking,
   this means you cannot pass live objects to other threads.
   This limitation is a deliberate design decision in the
-  interest of performance.
-
-  If you need to access the same object on two threads, you
-  have several options:
-
-  - You can query for the object on both threads.
-  - You can :ref:`"freeze" <frozen-objects>` the object to obtain a read-only version.
-  - You can also use Realm's :doc:`notifications </crud/notifications>` to watch for and react to changes in your data.
-
+  interest of performance. However, Realm offers several
+  mechanisms for :ref:`sharing objects across threads
+  <communication-across-threads>`.
 
 .. _communication-across-threads:
 
@@ -73,19 +69,24 @@ Communication Across Threads
 You are free to read and write with realms on the thread
 where you first opened them. But one of the key rules when
 working with realm in a multithreaded environment is that
-objects are **thread-confined**: you may not access a realm,
-collection, or object that originated on a different thread.
-Realm's  :ref:`Multiversion Concurrency Control (MVCC)
-<mvcc>` architecture means that there could be many active
-versions of the database at any time. Thread-confinement
-ensures that all objects in that thread are on the same
-internal version. This makes everything simpler to work
-with, less space-consuming, and more performant.
+objects are **thread-confined**: you may not access the
+instances (of a realm, collection, or object) that
+originated on other threads. Realm's :ref:`Multiversion
+Concurrency Control (MVCC) <mvcc>` architecture means that
+there could be many active versions of an object at any
+time. Thread-confinement ensures that all objects in that
+thread are on the same internal version. This makes
+everything simpler to work with, less space-consuming, and
+more performant.
 
-Despite this deliberate limitation, you still need a way to
-communicate across threads. This section details how to work
-with realms, collections, and objects that are confined to
-other threads.
+When you need to communicate across threads, you have
+several options depending on your use case:
+
+- To work with and modify the data on multiple threads, :doc:`query </crud/query-engine>` for the object on each thread.
+- To react to changes in your data, use Realm's :doc:`notifications </crud/notifications>`.
+- To see changes from other threads in the realm on the current thread, :ref:`refresh <refreshing-realms>` your realm.
+- To send a fast read-only view of the object to other threads, :ref:`"freeze" <frozen-objects>` the object.
+- To keep and share many read-only views of the object in your app, copy the object from the realm.
 
 .. _refreshing-realms:
 
@@ -117,7 +118,8 @@ version of a specific object without copying it off disk.
 You can then share a frozen object across threads without
 concern for thread issues.
 
-Attempting to do any of the following throws an exception:
+When working with frozen objects, attempting to do any of
+the following throws an exception:
 
 - Opening a write transaction on a frozen realm.
 - Modifying a frozen object.
@@ -152,10 +154,10 @@ frozen realms before the live realm is closed.
 Realm's Threading Model in Depth
 --------------------------------
 
-This section goes into some detail about how Realm provides
-safe, fast, lock free, concurrent access across threads with
-its :wikipedia:`Multiversion Concurrency Control (MVCC)
-<Multiversion_concurrency_control>` architecture.
+Realm provides safe, fast, lock free, concurrent access
+across threads with its :wikipedia:`Multiversion Concurrency
+Control (MVCC) <Multiversion_concurrency_control>`
+architecture.
 
 Compared and Contrasted with Git
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -200,27 +202,24 @@ phases:
 - Realm then sets its latest version pointer to point to the newly-written version.
 
 This two-step commit process guarantees that even if the
-write failed part way, the old version is not corrupted
+write failed partway, the original version is not corrupted
 in any way because the changes were made to a copy of the
 relevant part of the tree. Likewise, the realm's root
-pointer will point to the old version until the new
+pointer will point to the original version until the new
 version is guaranteed to be valid.
 
-.. figure:: /images/mvcc-diagram.png
-   :alt: Realm copies the relevant part of the tree for writes, then replaces the latest version by updating a pointer.
-   :lightbox:
+.. admonition:: Diagram
+   :class: note
 
+   The following diagram illustrates the commit process:
 
-   1) The realm is structured as a tree. The realm has a
-   pointer to its latest version, V1. 2) When writing, Realm
-   creates a new version V2 based on V1. Realm makes copies
-   of objects for modification (A\ :sup:`1`, C\ :sup:`1`),
-   while links to unmodified objects continue to point to
-   the original versions (B, D). 3) After validating the
-   commit, Realm updates the realm's pointer to the new
-   latest version, V2. Realm discards old nodes no longer
-   connected to the tree.
+   1. The realm is structured as a tree. The realm has a pointer to its latest version, V1.
+   #. When writing, Realm creates a new version V2 based on V1. Realm makes copies of objects for modification (A\ :sup:`1`, C\ :sup:`1`),  while links to unmodified objects continue to point to the original versions (B, D).
+   #. After validating the commit, Realm updates the realm's pointer to the new latest version, V2. Realm discards old nodes no longer connected to the tree.
 
+   .. figure:: /images/mvcc-diagram.png
+      :alt: Realm copies the relevant part of the tree for writes, then replaces the latest version by updating a pointer.
+      :lightbox:
 
 Realm uses :wikipedia:`zero-copy <Zero-copy>` techniques
 like memory mapping to handle data. When you read a value
