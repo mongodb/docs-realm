@@ -1,7 +1,8 @@
-// Observe realm notifications.
+// Observe realm notifications. Keep a strong reference to the notification token
+// or the observation will stop.
 token = [realm addNotificationBlock:^(NSString *notification, RLMRealm *realm) {
-    // update UI...
+    // Update UI...
 }];
 
-// later
+// Later, explicitly stop observing.
 [token invalidate];

@@ -1,3 +1,7 @@
+The following code shows how to open a default realm, create
+a new instance of a class, and observe that instance for
+changes.
+
 .. tabs-realm-languages::
 
    .. tab::
@@ -27,6 +31,13 @@
       .. literalinclude:: /examples/Notifications/ObjectNotification.java
          :language: java
          :emphasize-lines: 38
+
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/Notifications/ObjectNotification.kt
+         :language: kotlin
+         :emphasize-lines: 34
 
    .. tab::
       :tabid: objective-c

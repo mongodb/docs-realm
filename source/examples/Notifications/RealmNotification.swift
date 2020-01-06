@@ -7,5 +7,5 @@ let token = realm.observe { notification, realm in
     viewController.updateUI()
 }
 
-// later
+// Later, explicitly stop observing.
 token.invalidate()
