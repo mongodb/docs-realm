@@ -36,7 +36,7 @@ follow these three rules:
 
 Don't lock to read:
   Realm's :ref:`Multiversion Concurrency Control (MVCC)
-  <mvcc>` architecture eliminates the need for locks. The
+  <mvcc>` architecture eliminates the need to lock for read operations. The
   values you read will never be corrupted or in a
   partially-modified state. You can freely read from realms
   on any thread without the need for locks or mutexes.
@@ -228,5 +228,4 @@ the actual disk, not a copy of it. This is the basis for
 :ref:`live objects <live-object>`. This is also why a Realm
 head pointer can be set to point to the new version after
 the write to disk has been validated.
-
 
