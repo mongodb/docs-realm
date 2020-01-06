@@ -40,8 +40,9 @@ Don't lock to read:
   values you read will never be corrupted or in a
   partially-modified state. You can freely read from realms
   on any thread without the need for locks or mutexes.
-  Needing to lock would be a performance bottleneck, since
-  each thread might need to wait its turn before reading.
+  Unnecessarily locking would be a performance bottleneck
+  since each thread might need to wait its turn before
+  reading.
 
 If you write on a background thread, avoid writes on the UI thread:
   You can :doc:`write </crud/writes>` to a realm from any
@@ -213,13 +214,13 @@ version is guaranteed to be valid.
 
    The following diagram illustrates the commit process:
 
-   1. The realm is structured as a tree. The realm has a pointer to its latest version, V1.
-   #. When writing, Realm creates a new version V2 based on V1. Realm makes copies of objects for modification (A\ :sup:`1`, C\ :sup:`1`),  while links to unmodified objects continue to point to the original versions (B, D).
-   #. After validating the commit, Realm updates the realm's pointer to the new latest version, V2. Realm discards old nodes no longer connected to the tree.
-
    .. figure:: /images/mvcc-diagram.png
       :alt: Realm copies the relevant part of the tree for writes, then replaces the latest version by updating a pointer.
       :lightbox:
+
+   1. The realm is structured as a tree. The realm has a pointer to its latest version, V1.
+   #. When writing, Realm creates a new version V2 based on V1. Realm makes copies of objects for modification (A\ :sup:`1`, C\ :sup:`1`),  while links to unmodified objects continue to point to the original versions (B, D).
+   #. After validating the commit, Realm updates the realm's pointer to the new latest version, V2. Realm discards old nodes no longer connected to the tree.
 
 Realm uses :wikipedia:`zero-copy <Zero-copy>` techniques
 like memory mapping to handle data. When you read a value
