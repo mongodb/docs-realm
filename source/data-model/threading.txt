@@ -23,9 +23,10 @@ work, and one or more background threads to compute heavier
 workloads before sending it to the UI thread for
 presentation. By offloading heavy work to background
 threads, the UI thread can remain highly responsive
-regardless of the size of the workload. But writing
-thread-safe, performant, and maintainable multithreaded code
-can be difficult to get right. Realm aims to simplify this
+regardless of the size of the workload. But it can be
+notoriously difficult to write thread-safe, performant, and
+maintainable multithreaded code that avoids issues like
+deadlocking and race conditions. Realm aims to simplify this
 for you.
 
 Three Rules to Keep in Mind
@@ -53,13 +54,12 @@ If you write on a background thread, avoid writes on the UI thread:
   thread to complete.
 
 Don't pass live objects, collections, or realms to other threads:
-  Live objects, collections, and realms themselves are
+  Live objects, collections, and realm instances are
   **thread-confined**: that is, they are only valid on the
   thread on which they were created. Practically speaking,
-  this means you cannot pass live objects to other threads.
-  This limitation is a deliberate design decision in the
-  interest of performance. However, Realm offers several
-  mechanisms for :ref:`sharing objects across threads
+  this means you cannot pass live instances to other
+  threads. However, Realm offers several mechanisms for
+  :ref:`sharing objects across threads
   <communication-across-threads>`.
 
 .. _communication-across-threads:
@@ -67,26 +67,36 @@ Don't pass live objects, collections, or realms to other threads:
 Communication Across Threads
 ----------------------------
 
-You are free to read and write with realms on the thread
-where you first opened them. But one of the key rules when
-working with realm in a multithreaded environment is that
-objects are **thread-confined**: you may not access the
-instances (of a realm, collection, or object) that
-originated on other threads. Realm's :ref:`Multiversion
-Concurrency Control (MVCC) <mvcc>` architecture means that
-there could be many active versions of an object at any
-time. Thread-confinement ensures that all objects in that
-thread are on the same internal version. This makes
-everything simpler to work with, less space-consuming, and
-more performant.
+You can have the same realm open on multiple threads as
+separate realm instances. You are free to read and write
+with realm instances on the thread where you first opened
+them. One of the key rules when working with realm in a
+multithreaded environment is that objects are
+**thread-confined**: you may not access the instances of a
+realm, collection, or object that originated on other
+threads. Realm's :ref:`Multiversion Concurrency Control
+(MVCC) <mvcc>` architecture means that there could be many
+active versions of an object at any time. Thread-confinement
+ensures that all instances in that thread are of the same
+internal version.
+
+A realm instance is designed to work with one version at a
+time, not several different versions. Consider what Realm
+would have to do to support this: it would need to store a
+potentially enormous graph to allow the realm instance to
+reconcile the different object versions internally. Faced
+with this, it seems more reasonable to impose the limitation
+that you cannot pass live instances across threads. This
+design choice keeps the implementation relatively simple,
+more space-efficient, and more performant as a result.
 
 When you need to communicate across threads, you have
 several options depending on your use case:
 
-- To work with and modify the data on multiple threads, :doc:`query </crud/query-engine>` for the object on each thread.
-- To react to changes in your data, use Realm's :doc:`notifications </crud/notifications>`.
+- To work modify the data on two threads, :doc:`query </crud/query-engine>` for the object on both threads.
+- To react to changes made on any thread, use Realm's :doc:`notifications </crud/notifications>`.
 - To see changes from other threads in the realm on the current thread, :ref:`refresh <refreshing-realms>` your realm.
-- To send a fast read-only view of the object to other threads, :ref:`"freeze" <frozen-objects>` the object.
+- To send a fast, read-only view of the object to other threads, :ref:`"freeze" <frozen-objects>` the object.
 - To keep and share many read-only views of the object in your app, copy the object from the realm.
 
 .. _refreshing-realms:
@@ -95,8 +105,8 @@ Refreshing Realms
 ~~~~~~~~~~~~~~~~~
 
 When you open a realm, it reflects the most recent
-successful write commit and remains on that version until
-**refreshed**. This means that the realm will not see
+successful write commit and remains on that version until it
+is **refreshed**. This means that the realm will not see
 changes that happened on another thread until the next
 refresh. Realms on the UI thread -- more precisely, on any
 "loop" thread (`run loop
@@ -105,21 +115,30 @@ refresh. Realms on the UI thread -- more precisely, on any
 <https://developer.android.com/reference/android/os/Looper>`__
 (Android)) -- automatically refresh themselves at the
 beginning of that thread's loop. However, you must manually
-refresh realms on non-loop threads and realms with their
-auto-refresh disabled.
+refresh realm instances that exist on non-loop threads or
+that have auto-refresh disabled.
 
 .. _frozen-objects:
 
 Frozen Objects
 ~~~~~~~~~~~~~~
 
-Since Realm 7, you can **freeze** objects, collections, and
-realms. Freezing is a mechanism for creating a read-only
-version of a specific object without copying it off disk.
-You can then share a frozen object across threads without
-concern for thread issues.
+Live, thread-confined objects work fine in most cases.
+However, some apps -- those based on reactive, event
+stream-based architectures, for example -- need to send
+immutable copies around to many threads for processing
+before ultimately ending up on the UI thread. Making a deep
+copy every time would be expensive, and Realm does not allow
+live instances to be shared across threads. In this case,
+you can **freeze** objects, collections, and realms.
 
-When working with frozen objects, attempting to do any of
+Freezing creates an immutable view of a specific object,
+collection, or realm that still exists on disk and does not
+need to be deeply copied when passed around to other
+threads. You can freely share a frozen object across threads
+without concern for thread issues.
+
+When working with frozen objects, an attempt to do any of
 the following throws an exception:
 
 - Opening a write transaction on a frozen realm.
@@ -137,25 +156,29 @@ Frozen objects are not live and do not automatically update.
 They are effectively snapshots of the object state at the
 time of freezing.
 
-Frozen objects are valid as long as the live realm that
-spawned them stays open. Avoid closing the live Realm until
-all threads are done with the frozen objects. You can close
-frozen realms before the live realm is closed.
+When you freeze a realm, its child objects also become
+frozen.
+
+Frozen objects remain valid as long as the live realm that
+spawned them stays open. Therefore, avoid closing the live
+Realm until all threads are done with the frozen objects.
+You can close frozen realms before the live realm is closed.
 
 .. admonition:: On caching frozen objects
    :class: important
 
    Caching too many frozen objects can have a negative
-   impact on the realm file size. If you need to cache a
-   large number of versions, consider copying what you need
-   out of the realm instead.
+   impact on the realm file size. "Too many" depends on your
+   specific target device and the size of your realm
+   objects. If you need to cache a large number of versions,
+   consider copying what you need out of the realm instead.
 
 .. _mvcc:
 
 Realm's Threading Model in Depth
 --------------------------------
 
-Realm provides safe, fast, lock free, concurrent access
+Realm provides safe, fast, lock-free, and concurrent access
 across threads with its :wikipedia:`Multiversion Concurrency
 Control (MVCC) <Multiversion_concurrency_control>`
 architecture.
@@ -186,9 +209,9 @@ latest version of the truth.
 Internal Structure
 ~~~~~~~~~~~~~~~~~~
 
-A realm is implemented using a :wikipedia:`B+-tree
-<B%2B_tree>` data structure. Each top-level node represents
-a version of the realm; child nodes are objects in that
+A realm is implemented using a :wikipedia:`B+ tree
+<B%2B_tree>` data structure. The top-level node represents a
+version of the realm; child nodes are objects in that
 version of the realm. The realm has a pointer to its latest
 version, much like how Git has a pointer to its HEAD commit.
 
@@ -229,4 +252,3 @@ the actual disk, not a copy of it. This is the basis for
 :ref:`live objects <live-object>`. This is also why a Realm
 head pointer can be set to point to the new version after
 the write to disk has been validated.
-
