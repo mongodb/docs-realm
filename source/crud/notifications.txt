@@ -55,13 +55,6 @@ change but do not care to know specifically what changed.
 
 .. example::
 
-   Suppose you are writing a real-time collaborative app. To
-   give the sense that your app is buzzing with
-   collaborative activity, you want to have an indicator
-   that lights up when any change is made. In that case, a
-   realm notification handler would be a great way to drive
-   the code that controls the indicator.
-   
    .. include:: /examples/Notifications/RealmNotification.rst
 
 .. _collection-notifications:
@@ -100,9 +93,6 @@ list or other view that represents the collection in the UI.
 
 .. example::
 
-   The following code shows how to observe a collection for
-   changes in order to update the UI.
-
    .. include:: /examples/Notifications/CollectionNotification.rst
 
 .. _object-notifications:
@@ -120,9 +110,5 @@ The handler receives information about what fields changed
 and whether the object was deleted.
 
 .. example::
-
-   The following code shows how to open a default realm,
-   create a new instance of a class, and observe that
-   instance for changes.
 
    .. include:: /examples/Notifications/ObjectNotification.rst

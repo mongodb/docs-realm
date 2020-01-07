@@ -1,3 +1,6 @@
+The following code shows how to observe a collection for
+changes in order to update the UI.
+
 .. tabs-realm-languages::
 
    .. tab::
@@ -27,6 +30,13 @@
       .. literalinclude:: /examples/Notifications/CollectionNotification.java
          :language: java
          :emphasize-lines: 34
+
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/Notifications/CollectionNotification.kt
+         :language: kotlin
+         :emphasize-lines: 37
 
    .. tab::
       :tabid: objective-c
