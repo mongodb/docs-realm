@@ -36,7 +36,7 @@ changes in order to update the UI.
 
       .. literalinclude:: /examples/Notifications/CollectionNotification.kt
          :language: kotlin
-         :emphasize-lines: 35
+         :emphasize-lines: 37
 
    .. tab::
       :tabid: objective-c

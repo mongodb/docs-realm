@@ -1,3 +1,5 @@
+import io.realm.kotlin.*
+
 // Implement a RecycleView Adapter that observes a collection for changes.
 // This is just an example. Prefer RealmRecyclerViewAdapter for convenience.
 class DogsRecyclerAdapter(

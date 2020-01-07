@@ -13,7 +13,7 @@ class MyActivity : Activity() {
         super.onCreate(savedInstanceState)
         realm = Realm.getDefaultInstance()
         // Create a dog in the realm.
-        realm.executeTransaction { r ->
+        realm.executeTransaction { realm ->
             dog = realm.createObject(Dog::class.java)
             dog.name = "Max"
         }
@@ -34,7 +34,7 @@ class MyActivity : Activity() {
         dog.addChangeListener(listener)
 
         // Update the dog to see the effect.
-        realm.executeTransaction { r ->
+        realm.executeTransaction { realm ->
             dog.name = "Wolfie" // -> "Field 'name' was changed."
         }
     }
