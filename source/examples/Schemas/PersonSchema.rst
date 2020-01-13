@@ -25,6 +25,12 @@
          :language: java
 
    .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/Schemas/PersonSchema.kt
+         :language: kotlin
+
+   .. tab::
       :tabid: objective-c
 
       .. literalinclude:: /examples/Schemas/PersonSchema.m
