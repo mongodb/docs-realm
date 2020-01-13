@@ -22,6 +22,13 @@
          :emphasize-lines: 8-9
 
    .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/CRUD/Update.kt
+         :language: kotlin
+         :emphasize-lines: 8-9
+
+   .. tab::
       :tabid: objective-c
 
       .. literalinclude:: /examples/CRUD/Update.m

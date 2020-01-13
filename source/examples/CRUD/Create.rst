@@ -12,7 +12,7 @@
 
       .. literalinclude:: /examples/CRUD/Create.java
          :language: java
-         :emphasize-lines: 4
+         :emphasize-lines: 4, 12
 
    .. tab::
       :tabid: javascript
@@ -20,6 +20,13 @@
       .. literalinclude:: /examples/CRUD/Create.js
          :language: javascript
          :emphasize-lines: 7
+
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/CRUD/Create.kt
+         :language: kotlin
+         :emphasize-lines: 4, 12
 
    .. tab::
       :tabid: objective-c

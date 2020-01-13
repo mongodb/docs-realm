@@ -1,10 +1,10 @@
 // Open a thread-safe transaction.
-realm.executeTransaction(r -> {
+realm.executeTransaction { r ->
     // Get a dog to update.
-    var dog = realm.where(Dog.class).findFirst();
+    val dog = realm.where<Dog>().findFirst()
 
     // Update some properties on the instance.
     // These changes are saved to the realm.
-    dog.setName("Wolfie");
-    dog.setAge(dog.getAge() + 1);
-});
+    dog.name = "Wolfie"
+    dog.age = dog.age + 1
+}

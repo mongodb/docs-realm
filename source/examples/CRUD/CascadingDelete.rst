@@ -19,6 +19,12 @@
          :language: javascript
 
    .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/CRUD/CascadingDelete.kt
+         :language: kotlin
+
+   .. tab::
       :tabid: objective-c
 
       .. literalinclude:: /examples/CRUD/CascadingDelete.m

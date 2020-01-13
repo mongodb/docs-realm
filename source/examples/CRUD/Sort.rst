@@ -13,6 +13,12 @@
          :language: java
 
    .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/CRUD/Sort.kt
+         :language: kotlin
+
+   .. tab::
       :tabid: javascript
 
       .. literalinclude:: /examples/CRUD/Sort.js

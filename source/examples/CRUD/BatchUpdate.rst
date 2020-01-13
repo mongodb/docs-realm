@@ -22,6 +22,13 @@
          :emphasize-lines: 9-12
 
    .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/CRUD/BatchUpdate.kt
+         :language: kotlin
+         :emphasize-lines: 11
+
+   .. tab::
       :tabid: objective-c
 
       .. literalinclude:: /examples/CRUD/BatchUpdate.m
