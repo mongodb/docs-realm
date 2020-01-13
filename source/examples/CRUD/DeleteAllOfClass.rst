@@ -22,6 +22,13 @@
          :emphasize-lines: 3
 
    .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/CRUD/DeleteAllOfClass.kt
+         :language: kotlin
+         :emphasize-lines: 4
+
+   .. tab::
       :tabid: objective-c
 
       .. literalinclude:: /examples/CRUD/DeleteAllOfClass.m

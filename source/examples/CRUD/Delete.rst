@@ -22,6 +22,13 @@
          :emphasize-lines: 3
 
    .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/CRUD/Delete.kt
+         :language: kotlin
+         :emphasize-lines: 6
+
+   .. tab::
       :tabid: objective-c
 
       .. literalinclude:: /examples/CRUD/Delete.m

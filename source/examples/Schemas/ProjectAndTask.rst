@@ -25,6 +25,12 @@
          :language: java
 
    .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/Schemas/ProjectAndTask.kt
+         :language: kotlin
+
+   .. tab::
       :tabid: objective-c
 
       .. literalinclude:: /examples/Schemas/ProjectAndTask.m

@@ -15,6 +15,13 @@
          :emphasize-lines: 7, 14
 
    .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/CRUD/Upsert.kt
+         :language: kotlin
+         :emphasize-lines: 7, 14
+
+   .. tab::
       :tabid: javascript
 
       .. literalinclude:: /examples/CRUD/Upsert.js

@@ -7,5 +7,5 @@ realm.executeTransaction(r -> {
     RealmResults<Dog> puppies = realm.where(Dog.class).lessThan("age", 2).findAll();
 
     // Give all puppies to Ali.
-    puppies.setObject("owner", john);
+    puppies.setObject("owner", ali);
 });

@@ -1,0 +1,126 @@
+=================
+Read & Write Data
+=================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+========
+
+The following examples demonstrate how to read and write
+data with Realm.
+
+Realm Objects Used on This Page
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The following Realm object types are used in the examples on
+this page:
+
+.. include:: /examples/Schemas/DogSchema.rst
+
+.. include:: /examples/Schemas/PersonSchema.rst
+
+.. include:: /examples/Schemas/ProjectAndTask.rst
+
+.. _create-examples:
+
+Create
+======
+
+Create an Object
+~~~~~~~~~~~~~~~~
+
+To :ref:`create an object <create-an-object>` in Realm, open
+a transaction and either add an existing instance to the
+realm or use the realm's factory function to create an
+instance.
+
+.. include:: /examples/CRUD/Create.rst
+
+.. _read-examples:
+
+Read
+====
+
+Get All Objects
+~~~~~~~~~~~~~~~
+
+To begin a query, access all objects of a given :doc:`Realm
+object type </data-model/objects>`. You do not need to open
+a transaction to read.
+
+.. include:: /examples/CRUD/Objects.rst
+
+Filter Results
+~~~~~~~~~~~~~~
+
+You can filter results using Realm's :doc:`query engine
+</crud/query-engine>`. Here are a few examples:
+
+.. include:: /examples/Query/Comparison.rst
+
+Sort Results
+~~~~~~~~~~~~
+
+.. include:: /examples/CRUD/Sort.rst
+
+.. _update-examples:
+
+Update
+======
+
+Upsert an Object
+~~~~~~~~~~~~~~~~
+
+You can :ref:`upsert <upsert>` objects with a
+:ref:`primary key <primary-key>`. To upsert is to update an
+object if it already exists in the realm and insert the
+object if it does not already exist in the realm.
+
+.. include:: /examples/CRUD/Upsert.rst
+
+Update an Object
+~~~~~~~~~~~~~~~~
+
+.. include:: /examples/CRUD/Update.rst
+
+Update a Collection
+~~~~~~~~~~~~~~~~~~~
+
+.. include:: /examples/CRUD/BatchUpdate.rst
+
+.. _delete-examples:
+
+Delete
+======
+
+Delete an Object
+~~~~~~~~~~~~~~~~
+
+.. include:: /examples/CRUD/Delete.rst
+
+Delete a Collection
+~~~~~~~~~~~~~~~~~~~
+
+.. include:: /examples/CRUD/DeleteCollection.rst
+
+Cascading Delete
+~~~~~~~~~~~~~~~~
+
+.. include:: /examples/CRUD/CascadingDelete.rst
+
+Delete All Instances of a Type
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. include:: /examples/CRUD/DeleteAllOfClass.rst
+
+Delete Everything
+~~~~~~~~~~~~~~~~~
+
+.. include:: /examples/CRUD/DeleteAll.rst

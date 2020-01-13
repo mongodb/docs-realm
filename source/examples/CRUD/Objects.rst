@@ -13,6 +13,12 @@
          :language: java
 
    .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/CRUD/Objects.kt
+         :language: kotlin
+
+   .. tab::
       :tabid: javascript
 
       .. literalinclude:: /examples/CRUD/Objects.js

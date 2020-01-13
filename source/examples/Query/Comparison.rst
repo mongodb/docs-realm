@@ -13,6 +13,12 @@
          :language: java
 
    .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/Query/Comparison.kt
+         :language: kotlin
+
+   .. tab::
       :tabid: javascript
 
       .. literalinclude:: /examples/Query/Comparison.js
