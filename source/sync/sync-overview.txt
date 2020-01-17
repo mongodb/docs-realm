@@ -95,10 +95,10 @@ Sync includes **automatic conflict resolution**.
 Resolving Conflicts
 -------------------
 
-Realm Sync's conflict resolution engine deterministically
-converges on the same result, both on the server and on all
-clients. As such, Realm Sync is :wikipedia:`strongly
-eventually consistent
+Realm Sync's conflict resolution engine is deterministic.
+Changes received out-of-order eventually converge on the
+same state across the server and all clients. As such, Realm
+Sync is :wikipedia:`strongly eventually consistent
 <Eventual_consistency#Strong_eventual_consistency>`.
 
 .. admonition:: Realm Sync's Internal Conflict
@@ -109,25 +109,25 @@ eventually consistent
    guarantee that an earlier-timestamped changeset from one
    client actually arrives before a later-timestamped
    changeset from another client. As a result, the server
-   has to be able to process events out-of-order. Because
-   Realm keeps a history of transactions on a per-realm
-   basis to track which changeset was integrated when, it is
-   possible to determine the appropriate action when faced
-   with conflicting, out-of-order changes.
+   has to be able to process events out-of-order. Realm
+   keeps a per-realm transaction history to deal with the
+   out-of-order nature of messages.
 
 In simple terms, Realm Sync's conflict resolution comes down
 to **last write wins**. Realm Sync may also use more
 sophisticated techniques like :wikipedia:`operational
 transform <Operational_transformation>` to handle, for
-example, insertions into lists. In practice, reliable
-conflict resolution is complex and CPU-intensive. Too many
-writers writing on the same realm concurrently can impact
-performance, leading to scalability concerns.
+example, insertions into lists.
 
 .. _scalability:
 
 Use Case Profiles and Scalability
 ---------------------------------
+
+In practice, reliable conflict resolution is complex and
+CPU-intensive. Too many writers writing on the same realm
+concurrently can impact performance, leading to scalability
+concerns.
 
 To use Realm Sync effectively, it is important to understand
 the different use case profiles and their scalability
@@ -166,5 +166,5 @@ Summary
 -------
 
 - Realm Sync enables offline-first app development by handling network loss and recovery automatically.
-- Realm Sync has a built-in conflict resolution engine that guarantees strong eventually consistency.
+- Realm Sync has a built-in conflict resolution engine that guarantees strong eventual consistency.
 - To get the best performance with Realm Sync, it is essential to understand the different use case profiles and their implications on scalability.
