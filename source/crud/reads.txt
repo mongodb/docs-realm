@@ -20,8 +20,8 @@ task crunches numbers based on the same information. If
 every data consumer had to wait their turn to read, the app
 would not feel graceful at all. Realm enables smooth user
 experiences by allowing many simultaneous readers thanks to
-its :wikipedia:`multiversion concurrency control (MVCC)
-<Multiversion_concurrency_control>` architecture.
+its :ref:`multiversion concurrency control (MVCC)
+<mvcc>` architecture.
 
 This page details the key characteristics of read operations
 in Realm and how to access your data.
@@ -172,3 +172,10 @@ results are sorted.
    alphabetical order (i.e. "descending" order).
 
    .. include:: /examples/CRUD/Sort.rst
+
+Summary
+-------
+
+- When you read from Realm, the results are not copies. Instead, through memory mapping, results point directly to the version on disk.
+- Queries are lazily-evaluated.
+- To read, first get all objects of a certain type from the realm, then filter using the query engine, then (optionally) sort the results.
