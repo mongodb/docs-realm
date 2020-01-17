@@ -71,11 +71,10 @@ Realm represents each transaction as a callback function
 that contains zero or more read and write operations. To run
 a transaction, define a transaction callback and pass it to
 the realm's ``write`` method. Within this callback, you are
-free to create, update, and delete Realm objects as well as
-read them. If the code in the callback throws an exception
-when Realm runs it, Realm cancels the transaction.
-Otherwise, Realm commits the transaction immediately after
-the callback.
+free to create, read, update, and delete on the realm. If
+the code in the callback throws an exception when Realm runs
+it, Realm cancels the transaction. Otherwise, Realm commits
+the transaction immediately after the callback.
 
 .. admonition:: Concurrency Concerns
    :class: important
