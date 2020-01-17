@@ -18,7 +18,7 @@ that each contain one or more primitive data types or other Realm
 objects. Realm objects are essentially the same as regular objects in
 most programming languages, but they also include additional features
 like :ref:`real-time updating data views <live-object>` and reactive
-change event handlers.
+:doc:`change event handlers </crud/notifications>`.
 
 Every Realm object has an *object type* that refers to the object's
 class. Objects of the same type share an :ref:`object schema
@@ -43,11 +43,13 @@ Key Concepts
 Live Object
 ~~~~~~~~~~~
 
-Objects in Realm applications are **live objects** that update
-automatically to reflect data changes, including synced remote changes,
-and emit notification events that you can subscribe to whenever their
-underlying data changes. You can use live objects to work with
-object-oriented data natively without an :wikipedia:`ORM
+Objects in Realm applications are **live objects** that
+update automatically to reflect data changes, including
+:doc:`synced </sync/sync-overview>` remote changes, and emit
+:doc:`notification events </crud/notifications>` that you
+can subscribe to whenever their underlying data changes. You
+can use live objects to work with object-oriented data
+natively without an :wikipedia:`ORM
 <Object-relational_mapping>` tool.
 
 Live objects are direct proxies to the underlying stored data, which
@@ -166,3 +168,11 @@ You can configure the following constraints for a given property:
        operations. Indexes are particularly useful for equality
        comparison, such as querying for an object based on the value of
        a property.
+
+Summary
+-------
+
+- Realm objects are of a **type** defined as you would any other class in the given programming language.
+- Realm objects are **live**: they always reflect the latest version on disk and update automatically when the underlying object changes.
+- A realm object type may have a **primary key** property to uniquely identify each instance of the object type.
+- The realm object's **schema** defines the properties of the object and which properties are optional, which properties have a default value, and which properties are indexed.

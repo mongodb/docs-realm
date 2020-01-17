@@ -17,12 +17,14 @@ A **realm** is a set of related objects that conform to a pre-defined
 schema and share user-level access permissions. Realms may contain more
 than one type of data as long as a schema exists for each type.
 
-Realms allow you to partition data according to who uses it and when
-they use it. Every realm stores data in a separate realm file that
-contains a binary encoding of each object in the realm. You can
-automatically synchronize realms across multiple devices and set up
-:doc:`reactive event handlers </crud/notifications>` that call a
-function any time an object in a realm is created, modified, or deleted.
+Realms allow you to partition data according to who uses it
+and when they use it. Every realm stores data in a separate
+realm file that contains a binary encoding of each object in
+the realm. You can automatically :doc:`synchronize realms
+across multiple devices </sync/sync-overview>` and set up
+:doc:`reactive event handlers </crud/notifications>` that
+call a function any time an object in a realm is created,
+modified, or deleted.
 
 Comparison with Other Databases
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -225,3 +227,11 @@ each type of realm path:
              :copyable: False
              
              /~/someUserRealm
+
+Summary
+-------
+
+- A **realm** is a collection of objects that conform to a schema. It is not a single, application-wide database. There can and usually will be more than one realm per application.
+- A **realm schema** is a versioned specification of the object types used in the realm.
+- Realm **permissions** define who can read, write, or manage the realm and apply to the realm as a whole.
+- A realm **path** is a realm's unique ID and indicates whether the realm is public or private.

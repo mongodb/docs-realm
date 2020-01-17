@@ -45,13 +45,15 @@ Don't lock to read:
   since each thread might need to wait its turn before
   reading.
 
-If you write on a background thread, avoid writes on the UI thread:
+Avoid writes on the UI thread if you write on a background thread:
   You can :doc:`write </crud/writes>` to a realm from any
   thread, but there can be only one writer at a time.
   Consequently, write transactions block each other. A write
   on the UI thread may result in your app appearing
   unresponsive while it waits for a write on a background
-  thread to complete.
+  thread to complete. If you are using :doc:`Sync
+  </sync/sync-overview>`, avoid writing on the UI thread as
+  Sync writes on a background thread.
 
 Don't pass live objects, collections, or realms to other threads:
   Live objects, collections, and realm instances are
@@ -115,7 +117,7 @@ refresh. Realms on the UI thread -- more precisely, on any
 <https://developer.android.com/reference/android/os/Looper>`__
 (Android)) -- automatically refresh themselves at the
 beginning of that thread's loop. However, you must manually
-refresh realm instances that exist on non-loop threads or
+refresh realm instances that do not exist on loop threads or
 that have auto-refresh disabled.
 
 .. _frozen-objects:
@@ -252,3 +254,14 @@ the actual disk, not a copy of it. This is the basis for
 :ref:`live objects <live-object>`. This is also why a Realm
 head pointer can be set to point to the new version after
 the write to disk has been validated.
+
+Summary
+-------
+
+- Realm enables simple and safe multithreaded code when you follow three rules: don't lock to read; avoid writes on the UI thread if you write on background threads or use :doc:`Sync </sync/sync-overview>`; and don't pass live objects to other threads.
+- There is a proper way to share objects across threads for each use case.
+- In order to see changes made on other threads in your realm instance, you must manually **refresh** realm instances that do not exist on "loop" threads or that have auto-refresh disabled.
+- For apps based on reactive, event-stream-based architectures, you can **freeze** objects, collections, and realms in order to pass shallow copies around efficiently to different threads for processing.
+- Realm's multiversion concurrency control (MVCC) architecture is similar to Git's. Unlike Git, Realm has only one true latest version.
+- Realm commits in two stages to guarantee isolation and durability.
+

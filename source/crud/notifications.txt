@@ -52,6 +52,11 @@ receives no information about the change.
 
 This is useful when you want to know that there has been a
 change but do not care to know specifically what changed.
+For example, proof of concept apps often use this
+notification type and simply refresh the entire UI when
+anything changes. As the app becomes more sophisticated and
+performance-sensitive, the app developers shift to more
+granular notifications.
 
 .. example::
 
@@ -112,3 +117,10 @@ and whether the object was deleted.
 .. example::
 
    .. include:: /examples/Notifications/ObjectNotification.rst
+
+Summary
+-------
+
+- Notifications allow you to watch for and react to changes on your objects, collections, and realms.
+- When you add a notification handler to an object, collection, or realm that you wish to observe, you receive a token. Retain this token as long as you wish to keep observing.
+- Realm has three notification types: realm, collection, and object notifications. Realm notifications only tell you that something changed, while collection and object notifications allow for more granular observation.

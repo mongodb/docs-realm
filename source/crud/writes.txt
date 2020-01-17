@@ -71,21 +71,23 @@ Realm represents each transaction as a callback function
 that contains zero or more read and write operations. To run
 a transaction, define a transaction callback and pass it to
 the realm's ``write`` method. Within this callback, you are
-free to create, update, and delete Realm objects. If the
-code in the callback throws an exception when Realm runs it,
-Realm cancels the transaction. Otherwise, Realm commits the
-transaction immediately after the callback.
+free to create, update, and delete Realm objects as well as
+read them. If the code in the callback throws an exception
+when Realm runs it, Realm cancels the transaction.
+Otherwise, Realm commits the transaction immediately after
+the callback.
 
 .. admonition:: Concurrency Concerns
    :class: important
 
    Since transactions block each other, it is best to avoid
    opening transactions on both the UI thread and a
-   background thread. If you are using Sync, avoid opening
-   transactions on the UI thread altogether, as Realm
-   processes synchronizations on a background thread. If a
-   background transaction blocks your UI thread's
-   transaction, your app may appear unresponsive.
+   background thread. If you are using :doc:`Sync
+   </sync/sync-overview>`, avoid opening transactions on the
+   UI thread altogether, as Realm processes synchronizations
+   on a background thread. If a background transaction
+   blocks your UI thread's transaction, your app may appear
+   unresponsive.
 
 .. example::
 
@@ -276,3 +278,9 @@ quickly clearing out your realm while prototyping.
 
    .. include:: /examples/CRUD/DeleteAll.rst
 
+Summary
+-------
+
+- Realm handles writes in terms of **transactions**. All writes must occur in a transaction.
+- Realm transactions are ACID compliant.
+- To write to realm, define the transaction in a callback function that you pass to the realm's ``write`` method.
