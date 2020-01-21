@@ -65,7 +65,7 @@ When using :doc:`Realm Sync </sync/sync-overview>`, a **client
 reset** is a serious error recovery task that your client
 app must perform in the following situation:
 
-- The given synced realm on the server was restored from a backup, e.g. due to a Realm server crash.
+- The given synced realm on the server was restored from a backup. For example, due to a Realm server crash.
 - The client app made changes to that realm since the backup was made, but did not sync those changes back to the server before the server was restored.
 
 In other words, the client app must carry out a client reset
