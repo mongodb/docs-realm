@@ -1,6 +1,6 @@
-=============
-Support Files
-=============
+===============
+Auxiliary Files
+===============
 
 .. default-domain:: mongodb
 
@@ -13,18 +13,17 @@ Support Files
 Overview
 --------
 
-Realm stores data on the filesystem in **support files**.
-Generally, you should not interact with these files
-directly. Instead, access these files through the Realm SDK
-or Realm Studio. In advanced cases, you might need to manually
-delete the support files. Otherwise, these are
-implementation details that you can safely ignore, presented
-here only for the curious.
+Realm stores data on the filesystem in **auxiliary files**.
+You can access these files through the Realm SDK or Realm
+Studio. In some error situations detailed below, you might
+need to manually delete the auxiliary files. Otherwise,
+these are implementation details that you can safely ignore,
+presented here only for the curious.
 
-Support File Types
-------------------
+Auxiliary File Types
+--------------------
 
-Realm's internal operation depends on several support file
+Realm's internal operation depends on several auxiliary file
 types:
 
 ``<path>.realm``:
@@ -39,23 +38,22 @@ types:
 ``<name>.realm.note``:
   The **note file** is a :wikipedia:`named pipe
   <Named_pipe>` for inter-thread and inter-process
-  notifications. While usually completely internal, it has
-  been known to cause the "unsupported resource found" error
-  in iOS builds when it is accidentally added to the app
-  bundle, e.g. when bundling a realm file with the app. If
-  that happens, delete the pipe.
+  notifications. While usually completely internal, the note
+  file can cause the "unsupported resource found" error in
+  iOS builds if you accidentally add it to the app bundle.
+  If you see this error, delete the pipe.
 
 ``<name>.realm.management``:
   The **management directory** contains internal files for
   the realm's state management.
 
-Manually Deleting Support Files
--------------------------------
+Manually Deleting Auxiliary Files
+---------------------------------
 
-In some circumstances, you might need to delete the support
-files. You may delete support files when the realm is
+In some circumstances, you might need to delete the
+auxiliary files. You may auxiliary files when the realm is
 closed. Deleting any of a realm's files while the realm is
-open may corrupt the realm or disrupt :doc:`Sync
+open might corrupt the realm or disrupt :doc:`Sync
 </sync/sync-overview>`.
 
 Client Reset Scenario
@@ -72,8 +70,7 @@ In other words, the client app must carry out a client reset
 on a given synced realm if the server is restored to a
 version older than the version on the client.
 
-On the client app side, the client reset procedure is as follows:
-
+To perform a client reset, follow these steps:
 1. Create a backup of the local realm file.
 #. Delete the local realm file.
-#. The next time the app connects to the server and opens that realm, the app will download a fresh copy of the realm file. The local changes made since the backup on the server are not reflected in the new file.
+#. The next time the app connects to the server and opens that realm, the app dowloads a fresh copy of the realm file. The local changes made since the backup on the server are not reflected in the new file.
