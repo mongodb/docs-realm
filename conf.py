@@ -70,6 +70,9 @@ extlinks = {
     'guides': ('https://docs.mongodb.com/guides%s', ''),
     # True External Links
     'wikipedia': ('https://en.wikipedia.org/wiki/%s', ''),
+    'android-sdk': ('https://docs.mongodb.com/stitch-sdks/java/4/%s', ''),
+    'js-sdk': ('https://docs.mongodb.com/stitch-sdks/js/4/%s', ''),
+    'ios-sdk': ('https://docs.mongodb.com/stitch-sdks/swift/6/%s', ''),
 }
 
 intersphinx_mapping = {}
