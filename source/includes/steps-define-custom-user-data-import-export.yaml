@@ -1,0 +1,106 @@
+title: Export Your Realm Application
+ref: export-your-realm-application
+content: |
+  You can set up and enable custom user data through Realm CLI or
+  automatic GitHub deployment. To configure custom user data, you need
+  the latest version of the :ref:`application directory
+  <application-directory>` for your application.
+
+  You can :doc:`export </deploy/export-stitch-app>` your application
+  from the :guilabel:`Export` tab of the :guilabel:`Settings` page in
+  the Stitch UI, or by running the following command from an
+  authenticated instance of :doc:`stitch-cli
+  </deploy/stitch-cli-reference>`:
+
+  .. code-block:: shell
+
+     stitch-cli export --app-id=<App ID>
+---
+title: Configure Custom User Data
+ref: configure-custom-user-data
+content: |
+  You must store the custom data for your application's users in a
+  single collection of a linked MongoDB Atlas cluster. Every document in
+  the collection should have a field that contains the user ID of the
+  Realm user that it describes.
+  
+  To configure your application to read user data from this collection,
+  specify a configuration document in the ``custom_user_data_config``
+  field of ``stitch.json``:
+  
+  .. code-block:: json
+     :caption: stitch.json
+
+     {
+       ...,
+       "custom_user_data_config": {
+         "enabled": <boolean>,
+         "mongo_service_id": "<Linked MongoDB Cluster Service ID>",
+         "database_name": "<Database Name>",
+         "collection_name": "<Collection Name>",
+         "user_id_field": "<User ID Field Name>"
+       }
+     }
+  
+  .. list-table::
+     :header-rows: 1
+     :widths: 20 80
+     
+     * - Field
+       - Description
+     
+     * - ``enabled``
+       - A boolean that, if ``true``, indicates that Realm should
+         associate data in the specified collection with application
+         users.
+     
+     * - ``mongo_service_id``
+       - The service ID of the :doc:`linked MongoDB cluster </mongodb>`
+         that contains the custom user data collection.
+     
+     * - ``database_name``
+       - The name of the MongoDB database that contains the custom user
+         data collection.
+     
+     * - ``collection_name``
+       - The name of the MongoDB collection that contains custom user
+         data.
+     
+     * - ``user_id_field``
+       - The name of a field that contains an application user's ID
+         value. All user documents in the collection must have this
+         field and no two documents may contain the same user ID.
+---
+title: Deploy the Updated Application
+ref: deploy-the-updated-application
+content: |
+  Once you have configured the customer user data collection, you can
+  make custom user data available to client applications by deploying
+  your application.
+  
+  To deploy a draft application with Realm CLI:
+
+  .. code-block:: shell
+
+     stitch-cli import
+  
+  To deploy a draft application with automatic :doc:`GitHub deployment
+  </deploy/deploy-automatically-with-github>`:
+
+  .. code-block:: shell
+
+     git add stitch.json
+     git commit -m "Configure and Enable Custom User Data"
+     git push origin master
+
+  Once the application successfully deploys, Realm begins to associate
+  custom data with users. When a user logs in, Realm automatically
+  queries the custom user data collection for a document where the
+  specified :guilabel:`User ID Field` contains the user's ID. If a
+  document matches, Realm exposes the data in the document in the
+  ``custom_data`` field of that user's :ref:`user object
+  <user-objects>`.
+
+  .. include:: /includes/configure-custom-user-data-example.rst
+
+...
