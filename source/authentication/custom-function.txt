@@ -1,0 +1,83 @@
+.. _custom-function-authentication:
+
+==============================
+Custom Function Authentication
+==============================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+.. _custom-function-authentication-overview:
+
+Overview
+--------
+
+The Custom Function authentication provider allows you to use a
+:doc:`Realm function </functions>` to implement your own user
+authentication logic or flexibly integrate an external authentication
+system. You can use the Custom Function provider to integrate with any
+authentication system as long as the system maintains a unique ID value
+for each user.
+
+The **authentication function** is a :doc:`Realm function </functions>`
+that you define to handle authentication logic for users that log in
+with the Custom Function provider. You can use the function to
+coordinate with an external authentication system and/or use data that
+you store in MongoDB to identify and authenticate users.
+
+.. admonition:: Validate and Authenticate Custom Function Users
+   :class: important
+
+   Realm does not perform any data validation or authentication checks
+   for the Custom Function provider. Make sure that you validate
+   incoming data and that your authentication system performs
+   appropriate authentication checks, such as requiring a password, two
+   factor authentication, or a :wikipedia:`single sign-on
+   <Single_sign-on>` token.
+
+.. _custom-function-authentication-configuration:
+
+Configuration
+-------------
+
+.. tabs-stitch-interfaces::
+
+   .. tab::
+      :tabid: stitch-ui
+
+      .. include:: /includes/steps/configure-custom-function-auth-stitch-ui.rst
+
+   .. tab::
+      :tabid: import-export
+
+      .. include:: /includes/steps/configure-custom-function-auth-import-export.rst
+
+.. _custom-function-authentication-usage:
+
+Usage
+-----
+
+.. _custom-function-authentication-usage-authenticate-a-user:
+
+Authenticate a User
+~~~~~~~~~~~~~~~~~~~
+
+.. tabs-stitch-sdks::
+
+   tabs:
+     - id: javascript
+       content: |
+         TBD
+
+     - id: android
+       content: |
+         TBD
+
+     - id: ios
+       content: |
+         TBD
