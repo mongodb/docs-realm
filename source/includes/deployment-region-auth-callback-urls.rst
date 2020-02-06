@@ -4,7 +4,7 @@
    :widths: 1 4
 
    * - Region
-     - Stitch Authentication Callback URL
+     - Realm Authentication Callback URL
 
    * - | **Global**
      - .. code-block:: none
