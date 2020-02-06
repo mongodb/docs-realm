@@ -1,0 +1,231 @@
+=====================
+Google Authentication
+=====================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+The Google authentication provider allows users to log in with their
+existing Google account through `Google Sign-In
+<https://developers.google.com/identity/>`_. When a user logs in, Google
+provides Realm with an `OAuth 2.0 access token
+<https://www.oauth.com/oauth2-servers/access-tokens/>`_ for the user.
+Realm uses the token to identify the user and access approved data from
+Google APIs on their behalf.
+
+.. _auth-google-configuration:
+
+Configuration
+-------------
+
+.. tabs-stitch-interfaces::
+   
+   .. tab::
+      :tabid: stitch-ui
+      
+      You can enable and configure the Google authentication provider
+      from the Realm UI by selecting :guilabel:`Google` from the
+      :guilabel:`Users > Providers` page.
+   
+   .. tab::
+      :tabid: import-export
+      
+      You can enable and configure the Google authentication provider
+      with :doc:`stitch-cli </deploy/stitch-cli-reference>` by importing
+      an application directory that contains a :ref:`configuration file
+      <appschema-authentication-providers>` for the provider.
+      
+      The configuration file must be named ``oauth2-google.json`` and
+      stored in the ``/auth_providers`` directory. Configuration files
+      for the Google authentication provider have the following form:
+      
+      .. cssclass:: wide-container
+      .. code-block:: none
+         :caption: ``/auth_providers/oauth2-google.json``
+      
+         {
+           "name": "oauth2-google",
+           "type": "oauth2-google",
+           "disabled": <boolean>,
+           "config": {
+             "clientId": <string>
+           },
+           "secret_config": {
+             "clientSecret": <string>
+           },
+           "metadata_fields": [<document>, ...],
+           "redirect_uris": [<string>, ...],
+           "domain_restrictions": [<string>, ...]
+         }
+
+The Google authentication provider has the following configuration
+options:
+
+.. cssclass:: auth-table
+.. list-table::
+   :header-rows: 1
+   :widths: 15 30
+
+   * - Field
+     - Description
+
+   * - :guilabel:`Client ID`
+
+       .. tab-content:: tabs-stitch-interfaces
+          :tab-id: import-export
+       
+          | *config.clientId*
+       
+     - Required. An :guilabel:`OAuth 2.0 Client ID` for your project
+       in the Google API Console.
+       
+       See :ref:`auth-gcp-project-setup` for information about setting
+       up OAuth Credentials for your GCP project.
+       
+   * - :guilabel:`Client Secret`
+       
+       .. tab-content:: tabs-stitch-interfaces
+          :tab-id: import-export
+          
+          | *secret_config.clientSecret*
+       
+     - Required. The name of a :ref:`Secret <app-secret>` that stores
+       an :guilabel:`OAuth 2.0 Client Secret` for your project from the
+       Google API Console.
+       
+       See :ref:`auth-gcp-project-setup` for information about setting
+       up OAuth Credentials for your GCP project.
+       
+   * - :guilabel:`Metadata Fields`
+       
+       .. tab-content:: tabs-stitch-interfaces
+          :tab-id: import-export
+          
+          | *metadata_fields*
+
+     - Optional. A list of fields describing the authenticated user that
+       your application will request from the :google-dev:`Google
+       Identity API
+       <identity/sign-in/web/reference#googleusergetbasicprofile>`.
+
+       All metadata fields are omitted by default and can be required on
+       a field-by-field basis. Users must explicitly grant your app
+       permission to access each required field.
+       If a metadata field is required and exists for a particular user,
+       it will be included in their user object.
+
+       .. tab-content:: tabs-stitch-interfaces
+          :tab-id: import-export
+
+          To require a metadata field from an import/export
+          configuration file, add an entry for the field to the
+          ``metadata_fields`` array. Each entry should be a document of
+          the following form:
+
+          .. code-block:: javascript
+
+             { name: "<metadata field name>", required: "<boolean>" }
+
+   * - :guilabel:`Redirect URIs`
+
+       .. tab-content:: tabs-stitch-interfaces
+          :tab-id: import-export
+
+          | *redirect_uris*
+
+     - Required for web applications.
+       A list of allowed redirect :abbr:`URIs (Uniform Resource
+       Identifiers)`.
+
+       Once a user completes the authentication process on Google, Realm
+       redirects them back to either a specified redirect URI or, if no
+       redirect URI is specified, the URL that they initiated the
+       authentication request from. Realm will only redirect a user to a
+       URI that exactly matches an entry in this list, including the
+       protocol and any trailing slashes.
+
+   * - :guilabel:`Domain Restrictions`
+
+       .. tab-content:: tabs-stitch-interfaces
+          :tab-id: import-export
+
+          | *domain_restrictions*
+
+     - Optional. A list of approved :wikipedia:`domains <Domain_name>`
+       for user accounts.
+
+       If specified, the provider checks the domain of a user's primary
+       email address on Google and only allows them to authenticate if
+       the domain matches an entry in this list.
+
+       For example, if ``example1.com`` and ``example2.com`` are listed,
+       a Google user with a primary email of ``joe.schmoe@example1.com``
+       would be allowed to log in, while a user with a primary email of
+       ``joe.schmoe@example3.com`` would not be allowed to log in.
+
+       .. note::
+
+          If you've specified any domain restrictions, you must also
+          require the email address field in the :guilabel:`Metadata
+          Fields` setting.
+
+Usage
+-----
+
+.. _auth-gcp-project-setup:
+
+Set Up a Project in the Google API Console
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. tabs-stitch-sdks::
+
+   tabs:
+     - id: javascript
+       content: ""
+     - id: android
+       content: ""
+     - id: ios
+       content: ""
+
+The Google authentication provider requires a :gcp:`project in the Google
+API Console<>` to manage authentication and user permissions. The
+following steps walk through creating the project, generating OAuth
+credentials, and configuring the provider to connect with the project.
+
+.. include:: /includes/steps/auth-google-project-setup.rst
+
+.. _auth-google-client-sdks:
+
+Authenticate a User
+~~~~~~~~~~~~~~~~~~~
+
+.. tabs-stitch-sdks::
+
+   .. tab::
+      :tabid: javascript
+      
+      TODO
+      
+      .. .. include:: ./usage-examples/google/js.rst
+   
+   .. tab::
+      :tabid: android
+      
+      TODO
+      
+      .. .. include:: ./usage-examples/google/android.rst
+   
+   .. tab::
+      :tabid: ios
+      
+      TODO
+      
+      .. .. include:: ./usage-examples/google/ios.rst
