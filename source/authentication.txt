@@ -1,0 +1,153 @@
+----------------------
+Users & Authentication
+----------------------
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Introduction
+------------
+
+MongoDB Realm manages authentication for your application's end users
+and allows you to store and access metadata for each user. Every request
+in Realm is associated with an authenticated user, which enables Realm's
+role-based :doc:`data access rules </rules>` to dynamically determine
+read & write permissions for every object included in their request.
+
+Users log in through modular :doc:`authentication providers
+</authentication/providers>` that each represent a specific method of
+authentication. Realm includes several built-in providers for common use
+cases as well as custom providers that allow you to integrate any
+external authentication system.
+
+Concepts
+--------
+
+.. _auth-providers:
+
+Authentication Providers
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+An **authentication provider** is a modular service that maintains
+information about your application's users and allows them to verify
+their identity.
+
+Users authenticate themselves by providing a set of credentials to an
+authentication provider. If the credentials are valid, the provider
+returns a unique identity associated with the user and Realm logs them
+in as the :ref:`active user <active-user>`.
+
+Realm includes built-in authentication providers for common use cases,
+including :doc:`anonymous </authentication/anonymous>` users,
+:doc:`email/password </authentication/userpass>` combinations, :doc:`API
+keys </authentication/api-key>`, and OAuth 2.0 through :doc:`Facebook
+</authentication/facebook>`, :doc:`Google </authentication/google>`, and
+:doc:`Apple ID </authentication/apple>`.
+
+You can also configure your own custom authentication providers to
+integrate external authentication systems. The :doc:`Custom JWT
+</authentication/custom-token>` provider accepts JSON web tokens signed
+by the external system and the :doc:`Custom Function
+</authentication/custom-function>` provider allows you to define custom
+logic in a Realm function.
+
+.. admonition:: User Authentication is Required
+   :class: important
+   
+   Every application must have at least one authentication provider
+   configured and enabled before a client application can successfully
+   connect. For more information on how to configure and enable
+   authentication providers, see :doc:`Authentication Providers
+   </authentication/providers>`.
+
+.. _user-accounts:
+
+User Accounts
+~~~~~~~~~~~~~
+
+A **user account** represents a single, distinct user of your
+application. Every user account has a unique ID and is associated with
+at least one authentication provider identity. Realm automatically
+sources user metadata, such as their email address or birthday, from
+authentication providers and allows you to associate each user with
+:doc:`custom data </users/define-custom-user-data>` stored in a MongoDB
+collection.
+
+.. admonition:: Link Multiple Identities to One User Account
+   :class: note
+
+   When a user authenticates with a provider for the first time, Realm
+   creates a new account and associates the authenticated identity with
+   that account. Some providers allow you to associate the identity with
+   an existing user account instead of creating a new one. This allows
+   users to log in to the same account with multiple authentication
+   providers. For more information, see :doc:`Link a New Identity to a
+   User Account </authentication/link>`.
+
+.. _active-user:
+
+Active User
+~~~~~~~~~~~
+
+The **active user** is a user account associated with an application
+request. When Realm receives a request from a client application, it
+executes the request in the context of the active user, replacing any
+dynamic references to the user (e.g. :json-expansion:`%%user` in a JSON
+expression) with the active user's information.
+
+In most circumstances, the active user is the authenticated user that
+issued a request. You can also configure a specific active user for
+functions, triggers, and webhooks or choose to use a :ref:`system user
+<system-users>` instead.
+
+In the Realm SDKs, multiple users can log in simultaneously, but only
+one account can be active at any given time. For more information on
+managing multiple logged in users in a client application, see
+:doc:`Work with Multiple User Accounts
+</authentication/work-with-multiple-user-accounts>`.
+
+.. _system-users:
+
+System Users
+~~~~~~~~~~~~
+
+A **system user** is an internal user that has advanced privileges and
+automatically bypasses all rules. You can configure :doc:`Functions
+</functions>` and :ref:`incoming webhooks <incoming-webhooks>` to run in
+the context of a system user instead of the user account that issued a
+request. Triggers always run in the context of a system user.
+
+System users are useful for administrative tasks that need to circumvent
+rules and queries that need :doc:`unrestricted access
+</mongodb/mongodb-service-limitations>` to MongoDB CRUD and aggregation
+operations.
+
+.. admonition:: Security Warning
+   :class: important
+
+   Rules do not apply to system users, which means that functions and
+   webhooks that run as a system user can be a security liability.
+   Ensure that you do not expose these functions to unauthorized users.
+   
+   For example, instead of calling a system function directly from a
+   client application, you could call it inside of a second, non-system
+   function that you call from the client. The non-system Function can
+   use :ref:`function context <context-user>` to check if the active
+   user is allowed to call the system function, e.g.:
+
+   .. code-block:: javascript
+
+      exports = function() {
+        const activeUser = context.user
+        const adminUserId = context.values.get("adminUserId");
+        if(activeUser.id == adminUserId) {
+          return context.functions.execute("mySystemFunction");
+        } else {
+          throw Error("This user is not allowed to execute the system function")
+        }
+      }
