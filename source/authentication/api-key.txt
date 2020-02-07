@@ -17,19 +17,19 @@ API Key Authentication
 Overview
 --------
 
-The API Key authentication provider allows users to log in using
-generated keys. There are two types of API keys in MongoDB Realm:
-server keys and user keys.
+The API Key :ref:`authentication provider <authentication-providers>`
+allows users to log in using generated keys. There are two types of API
+keys in MongoDB Realm: server keys and user keys.
 
 .. _api-key-authentication-server-api-key:
 
 Server API Keys
 ~~~~~~~~~~~~~~~
 
-Server API keys are generated centrally in the Realm UI and are associated
-with automatically created Realm server users. Provide a server key to
-external applications and services to allow them to authenticate
-directly with Realm.
+Server API keys are generated in the Realm UI. Creating a server API key
+associates that API key with an automatically created Realm server user.
+Provide a server key to external applications and services to allow them
+to authenticate directly with Realm.
 
 .. _api-key-authentication-user-api-key:
 
@@ -38,7 +38,7 @@ User API Keys
 
 User API keys are generated for specific application users by the client
 SDKs. You can allow devices or services to communicate with Realm on
-behalf of a user by associating a unique user key with each device.
+behalf of a user by associating a unique user API key with each device.
 
 User keys are always associated with a user object created by another
 authentication provider. Each user can associate up to 20 user keys with
@@ -152,7 +152,7 @@ Key`. Enter a unique name for the key and click :guilabel:`Save`.
 
    Remember to copy the server key's value as soon as you create it.
    Once you leave the provider configuration page or disable the key you
-   will not be able to find the value again in the Realm UI.
+   cannot retrieve the value from the Realm UI.
 
 .. _api-key-authentication-usage-look-up-user-key:
 
@@ -210,3 +210,14 @@ Delete an API Key
      - id: ios
        content: |
          TBD
+
+Summary
+-------
+
+- The Realm API Key authentication provider allows users and services
+  to connect to a Realm application using API keys that look like a
+  string of characters.
+- User API Keys allow a user to interact with services via the Realm
+  SDK. They are automatically generated in the client SDK.
+- Server API Keys allow external services to interact with your Realm
+  application. These keys can only be generated via the Realm UI.
