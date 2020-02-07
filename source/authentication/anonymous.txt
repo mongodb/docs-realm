@@ -70,7 +70,7 @@ Configuration
      - id: import-export
        content: |
          You can enable the Anonymous authentication provider with
-         :doc:`stitch-cli </deploy/stitch-cli-reference>` by
+         :doc:`realm-cli </deploy/realm-cli-reference>` by
          importing an application directory that contains a
          :ref:`configuration file <appschema-authentication-providers>`
          for the provider.
@@ -117,3 +117,15 @@ Authenticate a User
      - id: ios
        content: |
          TBD
+
+
+.. _anonymous-authentication-summary:
+
+Summary
+-------
+
+- Anonymous authentication allows users to interact with your
+  application creating an identity.
+- To persist data from an anonymous session after a user creates an
+  identity with a different authentication provider, you can link the
+  two identities.
