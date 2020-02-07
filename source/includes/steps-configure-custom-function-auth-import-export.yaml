@@ -1,0 +1,97 @@
+title: Export Your Realm Application
+ref: export-your-application
+content: |
+  You can set up and enable the Custom Function authentication provider
+  through Realm CLI or automatic GitHub deployment. To configure the
+  provider, you need the latest version of the :ref:`application
+  directory <application-directory>` for your application.
+
+  You can :doc:`export </deploy/export-stitch-app>` your application
+  from the :guilabel:`Export` tab of the :guilabel:`Settings` page in
+  the Realm UI, or by running the following command from an
+  authenticated instance of :doc:`stitch-cli
+  </deploy/stitch-cli-reference>`:
+
+  .. code-block:: shell
+
+     TODO
+---
+title: Define the Authentication Function
+ref: define-the-authentication-function
+content: |
+  The authentication function must return a string ID value that
+  uniquely identifies the user. Realm uses this value to lookup an
+  existing Realm user and automatically creates a new user if it does
+  not match an existing user. If the function does not return a string,
+  Realm throws an error and does not create or authenticate a user.
+  
+  .. admonition:: Realm Generates New User ID Values
+     :class: important
+     
+     The ID value that you return from the authentication function is
+     **not** the internal Realm user id (i.e. the value that
+     :json-expansion:`%%user` and :ref:`context.user <context-user>`
+     resolve to). Realm automatically generates a unique id for Custom
+     Function users when it creates them.
+  
+  To create the authentication function, write the function code and
+  then follow the steps in :doc:`Define a Function
+  </functions/define-a-function>` to add it to your application.
+  
+  .. example::
+     
+     An application implements a Custom Function authentication provider
+     that stores user data in the ``app.users`` MongoDB collection. The
+     app lets users log in by specifying their ``username`` but does not
+     require a password or any other type of authentication.
+     
+     The application's authentication function queries the ``users``
+     collection for an existing user with the specified username. If the
+     user already exists, the function returns their stored ``id`` value. If
+     the user does not exist, the function stores a new user document in
+     the collection and returns that document's ``id`` value.
+     
+     .. code-block:: javascript
+        :emphasize-lines: 9, 12, 16, 20
+        
+        TODO
+---
+title: Add a Provider Configuration File
+ref: add-a-provider-configuration-file
+content: |
+  To configure the Custom Function authentication provider, create a new
+  authentication provider configuration file named
+  ``custom-function.json`` in the ``auth_providers`` directory and set
+  the value of ``config.authFunctionName`` the name of the
+  authentication function:
+
+  .. code-block:: json
+     :caption: ``/auth_providers/custom-function.json``
+     :emphasize-lines: 5
+
+     TODO
+---
+title: Deploy the Updated Application
+ref: deploy-the-updated-application
+content: |
+  Once you have created the authentication function and configured the
+  provider, you can make Custom Function authentication available to
+  client applications by deploying your application.
+  
+  To deploy a draft application with Realm CLI:
+
+  .. code-block:: shell
+
+     TODO
+  
+  To deploy a draft application with automatic :doc:`GitHub deployment
+  </deploy/deploy-automatically-with-github>`:
+
+  .. code-block:: shell
+
+     TODO
+
+  Once the application successfully deploys, you will be able to create
+  a user and log in with the Custom Function provider from a client
+  application.
+...
