@@ -12,15 +12,15 @@ to your app.
 
 - For applications where you want users to be able to view or manipulate
   data without registering or creating an account, you can use
-  :doc:`Anonymous Authentication </authentication/anonymous>`.
+  :ref:`Anonymous Authentication <anonymous-authentication>`.
 
 - For applications where end users create an account or log in with
   existing credentials, you can use providers that integrate with
   existing login services (:doc:`Facebook </authentication/facebook>`
   and :doc:`Google </authentication/google>`), or use providers that
   allow you or your end users to create new credentials
-  (:doc:`Email/Password </authentication/userpass>`, :doc:`API Keys
-  </authentication/api-key>`, :doc:`Custom JWT Auth
+  (:ref:`Email/Password <email-password-authentication>`, :ref:`API Keys
+  <api-key-authentication>`, :doc:`Custom JWT Auth
   </authentication/custom-token>` and :doc:`Custom Function Auth
   </authentication/custom-function>`).
 
@@ -60,7 +60,7 @@ available in Realm:
        identity. You can later :doc:`link </authentication/link>` the data
        from the Anonymous session with a new identity.
 
-   * - :doc:`Email/Password </authentication/userpass>`
+   * - :ref:`Email/Password <email-password-authentication>`
      - Mechanism for authenticating with an email address and password.
        Requires implementing scripts with the SDKs for confirming an
        email and resetting a password.
@@ -75,7 +75,7 @@ available in Realm:
      - OAuth2-based mechanism for logging in with an
        `existing Facebook account <https://developers.facebook.com/docs/facebook-login/>`_.
 
-   * - :doc:`API Key </authentication/api-key>`
+   * - :ref:`API Key <api-key-authentication>`
      - Mechanism for logging in with API keys generated in the
        Realm admin console or by your end users.
 
