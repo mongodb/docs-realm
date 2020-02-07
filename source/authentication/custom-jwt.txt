@@ -1,0 +1,642 @@
+.. _custom-jwt-authentication:
+
+=========================
+Custom JWT Authentication
+=========================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+.. _custom-jwt-authentication-overview:
+
+Overview
+--------
+
+The Custom JWT authentication provider allows users to authenticate with
+an authentication system that is independent from Realm. The external
+system must return a signed :jwt-io:`JSON Web Token <introduction>` that
+contains a unique ID value for the authenticated user.
+
+Realm uses the :abbr:`JWT (JSON Web Token)` to identify your
+application's users and authenticate their requests but does not impose
+any restrictions on the external authentication system's requirements or
+authentication methods. For example, the system could require the user
+to perform two factor authentication, provide specific credentials, or
+otherwise identify themself.
+
+.. figure:: TBD
+   :alt: Diagram of Custom JWT authentication architecture.
+   :figwidth: 750px
+
+.. _custom-jwt-authentication-configuration:
+
+Configuration
+-------------
+
+.. tabs-stitch-interfaces::
+
+   .. tab::
+      :tabid: stitch-ui
+
+      You can enable the JWT authentication provider from the Realm UI
+      by selecting :guilabel:`Custom JWT Authentication` from the
+      :guilabel:`Users > Providers` page.
+
+      You can configure the following properties for the provider:
+
+      - :ref:`Audience <custom-jwt-audience>`
+      - :ref:`Verification Method <custom-jwt-verification-method>`
+      - :ref:`Metadata Fields <custom-jwt-metadata-fields>`
+
+   .. tab::
+      :tabid: import-export
+
+      You can enable the Custom JWT authentication provider with
+      :doc:`realm-cli </deploy/realm-cli-reference>` by importing an
+      application directory that contains a :ref:`configuration file
+      <appschema-authentication-providers>` for the provider.
+
+      The configuration file must be named ``custom-token.json`` and
+      stored in the ``/auth_providers`` directory. Configuration files
+      for the Custom authentication provider have the following form:
+
+      .. cssclass:: wide-container
+      .. code-block:: none
+         :caption: ``/auth_providers/custom-token.json``
+
+         {
+           "name": "custom-token",
+           "type": "custom-token",
+           "config": {
+             "audience": "<JWT Audience>",
+             "signingAlgorithm": "<JWT Signing Algorithm>",
+             "useJWKURI": <boolean>,
+             "jwkURI": "<JWK or JWKS URL>",
+           },
+           "secret_config": {
+             "signingKeys": [
+               "<Signing Key Secret Name>",
+               ...
+             ]
+           },
+           "metadata_fields": [
+             {
+               "required": <boolean>,
+               "name": "<JWT Field Path>",
+               "field_name": "<Metadata Field Name>",
+             },
+             ...
+           ],
+           "disabled": <boolean>,
+         }
+
+.. _custom-jwt-authentication-configuration-audience:
+
+Audience
+~~~~~~~~
+
+The :guilabel:`Audience` of a JWT specifies its intended recipient. JWTs
+describe their audience in the ``aud`` claim. By default, Realm expects
+``aud`` to contain the App ID of the Realm app for which the provider
+is configured.
+
+If the external authentication system JWT specifies a different ``aud``
+value, then you can configure the provider to use that value instead.
+
+.. tabs-stitch-interfaces::
+
+   .. tab::
+      :tabid: stitch-ui
+
+      To override the default audience, specify a new value in the
+      :guilabel:`Audience` input:
+
+      .. cssclass:: bordered-figure
+      .. figure:: TBD
+         :alt: The Custom JWT audience configuration input
+
+   .. tab::
+      :tabid: import-export
+
+      To override the default audience, set the value of
+      ``config.audience``:
+
+      .. code-block:: json
+
+         "config": {
+           "audience": "<JWT Audience>",
+         }
+
+.. _custom-jwt-authentication-configuration-verification-method:
+
+Verification Method
+~~~~~~~~~~~~~~~~~~~
+
+The :guilabel:`Verification Method` configures how the provider
+determines which signing algorithm and signing keys the external
+authentication system must use to sign each JWT.
+
+You can either :ref:`manually specify signing keys
+<custom-jwt-signing-manual>` or :ref:`specify a JSON Web Key URI
+<custom-jwt-signing-jwks>`.
+
+.. _custom-jwt-authentication-confirmation-manually-signing-keys:
+
+Manually Specify Signing Keys
++++++++++++++++++++++++++++++
+
+You can manually configure the signing algorithm and specify one or more
+signing keys that the external authentication system may use to sign
+JWTs.
+
+.. tabs-stitch-interfaces::
+
+   .. tab::
+      :tabid: stitch-ui
+
+   .. tab::
+      :tabid: import-export
+
+      .. code-block:: javascript
+         :emphasize-lines: 2, 5-8
+
+         "config": {
+           "signingAlgorithm": "<JWT Signing Algorithm>",
+         },
+         "secret_config": {
+           "signingKeys": [
+             "<Signing Key Secret Name>",
+             ...
+           ]
+         }
+
+.. cssclass:: auth-table
+.. list-table::
+   :header-rows: 1
+   :widths: 15 30
+
+   * - Field
+     - Description
+
+   * - :guilabel:`Signing Algorithm`
+
+       .. tab-content:: tabs-stitch-interfaces
+          :tab-id: import-export
+
+          | *config.signingAlgorithm*
+
+     - The cryptographic method that the external system uses to sign
+       the JWT. Custom authentication supports JWTs signed using any of
+       the following algorithms:
+
+       - ``HS256``
+       - ``RS256``
+
+       .. tab-content:: tabs-stitch-interfaces
+          :tab-id: stitch-ui
+
+          .. cssclass:: bordered-figure
+          .. figure:: /images/custom-jwt-signing-algorithm.png
+             :alt: The Signing Algorithm configuration dropdown
+
+   * - :guilabel:`Signing Key`
+
+       .. tab-content:: tabs-stitch-interfaces
+          :tab-id: import-export
+
+          | *secret_config.signingKeys*
+
+     - A list of the names of up to three :ref:`Secrets <app-secret>`
+       that each contain a signing key used by the external
+       authentication system to sign :abbr:`JWTs (JSON Web Tokens)`.
+       Each signing key Secret must be a string with length between 32
+       and 512 characters.
+
+       .. tab-content:: tabs-stitch-interfaces
+          :tab-id: stitch-ui
+
+          .. cssclass:: bordered-figure
+          .. figure:: /images/custom-jwt-signing-key.png
+             :alt: The Signing Keys configuration inputs
+
+       .. warning::
+
+          A :guilabel:`Signing Key` is a secret key and anyone with the
+          key can issue valid user credentials for your app. Ensure that
+          it's never stored in a publicly accessible location, such as a
+          git repository, message board, or in your code.
+
+.. _custom-jwt-authentication-configuration-jwk-uri:
+
+Use a JWK URI
++++++++++++++
+
+Some external authentication systems provide a `JSON Web Key Set
+<https://tools.ietf.org/html/rfc7517>`_ that describes the signing
+algorithm and signing keys the system uses to sign JWTs. You can use the
+JWKS to configure the provider instead of manually specifying the
+signing algorithm and keys.
+
+.. tabs-stitch-interfaces::
+
+   .. tab::
+      :tabid: stitch-ui
+
+   .. tab::
+      :tabid: import-export
+
+      .. code-block:: javascript
+
+         "config": {
+           "useJWKURI": <boolean>,
+           "jwkURI": "<JWK or JWKS URL>"
+         }
+
+.. cssclass:: auth-table
+.. list-table::
+   :header-rows: 1
+   :widths: 15 30
+
+   * - Field
+     - Description
+
+   * - :guilabel:`Use JWK URI`
+
+       .. tab-content:: tabs-stitch-interfaces
+          :tab-id: import-export
+
+          | *config.useJWKURI*
+
+     - If ``true``, configures Realm to use a signing algorithm and
+       signing keys defined in a :abbr:`JWK (JSON Web Key)` or
+       :abbr:`JWKS (JSON Web Key Set)`. The JWKS must be accessible at a
+       URL that you specify.
+
+   * - :guilabel:`JWK URI`
+
+       .. tab-content:: tabs-stitch-interfaces
+          :tab-id: import-export
+
+          | *config.jwkURI*
+
+     - A URL that hosts a JWK or JWKS that describes the signing method
+       and signing keys the JWTs should use. The JWKS may specify up to
+       three signing keys and must use the ``RS256`` algorithm.
+
+       .. tab-content:: tabs-stitch-interfaces
+          :tab-id: stitch-ui
+
+          .. cssclass:: bordered-figure
+          .. figure:: TBD
+             :alt: The JWK URI input
+
+.. _custom-jwt-authentication-configuration-metadata-fields:
+
+Metadata Fields
+~~~~~~~~~~~~~~~
+
+:guilabel:`Metadata Fields` are additional data that describe each user.
+Realm determines the value of each metadata field from the value of
+some field included in the JWT from the external authentication system.
+Realm refreshes a user's metadata whenever they log in and exposes the
+fields in the ``data`` object of the :doc:`user object </users>`.
+
+.. tabs-stitch-interfaces::
+
+   .. tab::
+      :tabid: stitch-ui
+
+      To define a metadata field, click :guilabel:`Add Field` and
+      specify the mapping between the metadata field in the JWT and its
+      corresponding field name in the user object.
+
+      .. cssclass:: bordered-figure
+      .. figure:: TBD
+         :alt: The metadata fields configuration table
+
+   .. tab::
+      :tabid: import-export
+
+      To define a metadata field in a Custom JWT authentication
+      configuration file, add an entry for the field to the
+      ``metadata_fields`` array. Each entry should be a document of the
+      following form:
+
+      .. code-block:: javascript
+
+         {
+           required: <boolean>,
+           name: "<field path>",
+           field_name: "<metadata field name>"
+         }
+
+.. list-table::
+   :header-rows: 1
+   :widths: 10 30
+
+   * - Field
+     - Description
+
+   * - :guilabel:`Required`
+
+       .. tab-content:: tabs-stitch-interfaces
+          :tab-id: import-export
+
+          | *required*
+
+     - If ``true`` , the metadata field is required for all
+       users associated with the provider, i.e. the :ref:`JWT
+       <json-web-tokens>` returned by the external system must have a
+       value assigned to the field designated by :guilabel:`Path`.
+
+   * - :guilabel:`Path`
+
+       .. tab-content:: tabs-stitch-interfaces
+          :tab-id: import-export
+
+          | *name*
+
+     - The name of a field in the :ref:`JWT <json-web-tokens>` that
+       contains the value for the metadata field. To specify a field in
+       an embedded object, use :manual:`dot notation
+       </core/document/#dot-notation>`.
+
+   * - :guilabel:`Field Name`
+
+       .. tab-content:: tabs-stitch-interfaces
+          :tab-id: import-export
+
+          | *field_name*
+
+     - Optional. A name for the field in the user object's ``data``
+       document that exposes the metadata field value. If not specified,
+       this defaults to the same name as the JWT field that contains the
+       value. The metadata field name may not contain no more than 64
+       characters.
+
+       .. tab-content:: tabs-stitch-interfaces
+          :tab-id: stitch-ui
+
+          For example, if you specify a ``name`` of
+          ``location.primary.city``, the default value for
+          ``field_name`` is ``city``.
+
+       .. tab-content:: tabs-stitch-interfaces
+          :tab-id: import-export
+
+          For example, if you specify a :guilabel:`Path` of
+          ``location.primary.city``, the default value for
+          :guilabel:`Field Name` is ``city``.
+
+.. example::
+
+   An external authentication system returns JWTs that include
+   additional information about each user in the ``user_data`` field:
+
+   .. code-block:: json
+
+      {
+        "aud": "myapp-abcde",
+        "exp": 1516239022,
+        "sub": "24601",
+        "user_data": {
+          "name": "Jean Valjean",
+          "aliases": [
+            "Monsieur Madeleine",
+            "Ultime Fauchelevent",
+            "Urbain Fabre"
+          ]
+        }
+      }
+
+   To include the values from the ``user_data`` field in each user's
+   :ref:`user object <user-objects>`, you could specify the following
+   metadata fields:
+
+   .. list-table::
+      :header-rows: 1
+
+      * - Path
+        - Field Name
+
+      * - ``user_data.name``
+        - ``name``
+
+      * - ``user_data.aliases``
+        - ``aliases``
+
+   We can now access the mapped values directly from the :ref:`user
+   object <user-objects>`, which would resemble the following for the
+   given JWT:
+
+   .. code-block:: json
+
+      {
+        "id": "59fdd02846244cdse5369ebf",
+        "type": "normal",
+        "data": {
+          "name": "Jean Valjean",
+          "aliases": [
+            "Monsieur Madeleine",
+            "Ultime Fauchelevent",
+            "Urbain Fabre"
+          ]
+        },
+        identities: [
+          {
+            "id": "24601",
+            "provider_type": "custom-token",
+            "data": {
+              "name": "Jean Valjean",
+              "aliases": [
+                "Monsieur Madeleine",
+                "Ultime Fauchelevent",
+                "Urbain Fabre"
+              ]
+            },
+          }
+        ]
+      }
+
+.. _custom-jwt-authentication-usage:
+
+Usage
+-----
+
+.. _custom-jwt-authentication-usage-authenticate-a-user:
+
+Authenticate a User
+~~~~~~~~~~~~~~~~~~~
+
+.. tabs-stitch-sdks::
+
+   tabs:
+     - id: javascript
+       content: |
+         TBD
+
+     - id: android
+       content: |
+         TBD
+
+     - id: ios
+       content: |
+         TBD
+
+.. _custom-jwt-authentication-usage-jwt:
+
+JSON Web Tokens
+~~~~~~~~~~~~~~~
+
+The external authentication system must return a `JSON web token
+<https://jwt.io/introduction/>`_ that uniquely identifies the
+authenticated user. JSON web tokens are an industry standard (`RFC 7519
+<https://tools.ietf.org/html/rfc7519>`_) for securely representing
+claims between two parties. A JWT is a string that consists of three
+parts: a header, a payload and a signature and has the following form:
+
+.. code-block:: none
+
+   <header>.<payload>.<signature>
+
+.. _custom-jwt-authentication-usage-jwt-header:
+
+Header
+++++++
+
+The header portion of the JWT consists of a ``Base64UrlEncoded``
+document of the following form:
+
+.. code-block:: javascript
+
+   {
+     "alg": "HS256",
+     "typ": "JWT"
+   }
+
+.. list-table::
+   :header-rows: 1
+   :widths: 15 60
+
+   * - Field
+     - Description
+
+   * - .. data:: alg
+
+     - Required. A string representing the hashing algorithm being used.
+
+       Realm supports JWTs encoded with the following algorithms:
+
+       .. list-table::
+          :header-rows: 1
+          :widths: 40 10
+
+          * - Algorithm
+            - Value
+
+          * - HMAC SHA-256
+            - ``"HS256"``
+
+          * - RSA Signature SHA-256
+            - ``"RS256"``
+
+
+   * - .. data:: typ
+
+     - Required. The type of the token. Realm expects a JSON web token
+       so the value should be ``"JWT"``.
+
+.. _custom-jwt-authentication-usage-jwt-payload:
+
+Payload
++++++++
+
+The payload portion of the JWT consists of a ``Base64UrlEncoded``
+document of the following form:
+
+.. code-block:: javascript
+
+   {
+     "aud": "<realm app id>"
+     "sub": "<unique user id>",
+     "exp": <NumericDate>,
+     "iat": <NumericDate>,
+     "nbf": <NumericDate>,
+     ...
+   }
+
+.. list-table::
+   :header-rows: 1
+   :widths: 15 60
+
+   * - Field
+     - Description
+
+   * - .. data:: aud
+
+     - Required. The audience of the token.
+       By default, Realm expects this value to be the App ID of your
+       Realm application. If your external authentication service
+       returns a different ``aud`` value, you should specify that value
+       instead.
+
+   * - .. data:: sub
+
+     - Required. The subject of the token. The value should be a unique
+       ID for the authenticated user from your custom-built
+       authentication system.
+
+   * - .. data:: exp
+
+     - Required. The Expiration date of the token. The value should be a
+       NumericDate number indicating the time at which the token expires.
+
+       .. note::
+
+          Realm will not accept expired authentication tokens.
+
+   * - .. data:: iat
+
+     - Optional. The "issued at" date of the token . The value
+       should be a NumericDate number that indicates the time after
+       which the token is considered valid. This field is functionally
+       identical to ``nbf``.
+
+   * - .. data:: nbf
+
+     - Optional. The "not before" date of the token. The value should be
+       a NumericDate number that indicates the time before which the
+       token is considered invalid. This field is functionally identical
+       to ``iat``.
+
+.. note::
+
+   Realm ignores any additional fields in the JWT payload unless you
+   have mapped them to metadata fields in the :ref:`provider
+   configuration <auth-custom-token-configuration>`. Realm includes the
+   values of mapped fields in the ``data`` document of the authenticated
+   user's :doc:`user object </users>`.
+
+.. _custom-jwt-authentication-usage-jwt-signature:
+
+Signature
++++++++++
+
+The signature portion of the JWT is a hash of the encoded token header
+and payload. To form the signature, concatentate the encoded header and
+payload with a period and sign the result with the :guilabel:`Signing
+Key` specified in the authentication provider :ref:`configuration
+<auth-custom-token-configuration>` using the hashing algorithm specified in
+the ``"alg"`` field of the header.
+
+.. code-block:: none
+
+   HMACSHA256(
+     base64UrlEncode(header) + "." + base64UrlEncode(payload),
+     signingKey
+   )
