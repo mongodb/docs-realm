@@ -18,7 +18,7 @@ Overview
 --------
 
 The Custom Function authentication provider allows you to use a
-:doc:`Realm function </functions>` to implement your own user
+:doc:`Realm Function </functions>` to implement your own user
 authentication logic or flexibly integrate an external authentication
 system. You can use the Custom Function provider to integrate with any
 authentication system as long as the system maintains a unique ID value
@@ -81,3 +81,14 @@ Authenticate a User
      - id: ios
        content: |
          TBD
+
+.. _custom-function-authentication-summary:
+
+Summary
+-------
+
+- Custom Function authentication allows you to define your
+  authentication process in a Realm Function.
+- The Realm Function that you use for authentication should return a
+  unique ID for each user based on the information passed from the
+  client SDK.
