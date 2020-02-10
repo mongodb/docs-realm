@@ -21,9 +21,9 @@ authorization protocol.
 
 When a user successfully logs in through Sign in with Apple, Apple
 returns a credential object that includes a :jwt-io:`JSON Web Token
-<introduction>` that the provider uses to authenticate the user. The
-credential may also include the user's name and email address if they
-have granted your app permission to access them.
+<introduction>` that the Apple ID provider uses to authenticate the
+user. If the user has granted permissions to your app, the credential
+object may also include the user's name and email address.
 
 For additional information on how to implement Sign in with Apple, check
 out the `Introducing Sign In with Apple
@@ -34,8 +34,22 @@ WWDC 2019 and the associated `reference application
 .. admonition:: Only Available on iOS
    :class: note
 
-   Apple ID authentication is currently only available through the iOS
-   client SDK for apps that target iOS 13 or newer.
+   You can currently only use Apple ID authentication in the iOS SDK. An
+   iOS app that uses Apple ID authentication must target iOS 13 or
+   newer.
+
+.. _apple-auth-prerequisites:
+
+What You'll Need
+----------------
+
+Before you can implement Apple ID authentication you will need the
+following:
+
+- An active `Apple Developer Program
+  <https://developer.apple.com/programs/>`_ account.
+
+- `Xcode 11 <https://developer.apple.com/xcode/>` or newer.
 
 .. _configure-apple-auth:
 

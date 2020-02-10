@@ -29,8 +29,8 @@ title: Create a Services ID
 ref: create-a-services-id
 content: |
    An Apple **Services ID** represents a single application and allows
-   you to configure authorization callback URL and define a private key
-   for the application.
+   you to configure an authorization callback URL and define a private
+   key for the application.
 
    1. Click :guilabel:`Identifiers` in the left-hand navigation.
 
@@ -77,26 +77,26 @@ content: |
    4. On the :guilabel:`Configure Key` page, select the App ID that you
       created as the :guilabel:`Primary App ID` and then click
       :guilabel:`Save`.
+      
+      .. cssclass:: bordered-figure
+      .. figure:: /images/apple-auth-configure-key.png
+         :alt: The Configure Key page in the Apple Developer Portal
    
    5. Click :guilabel:`Continue` to review your key configuration. When
       you're sure that you've configured the key correctly, click
       :guilabel:`Register`.
-      :guilabel:`Save`.
    
-   6. Note down the :guilabel:`Key ID` and then click
-      :guilabel:`Download` to download the key as a ``.p8`` text file.
-      You will use these to generate the client secret.
+   6. Copy the :guilabel:`Key ID` value somewhere that you can access it
+      later and then click :guilabel:`Download` to download the key as a
+      ``.p8`` text file. You will use these to generate the client
+      secret.
       
       .. admonition:: Save the Key
          :class: important
          
          You can only download the key one time. Make sure that you save
-         the key someplace safe in case you need it again. If you lose
+         the key somewhere safe in case you need it again. If you lose
          the key, you will need to generate a new one.
-      
-      .. cssclass:: bordered-figure
-      .. figure:: /images/apple-auth-configure-key.png
-         :alt: The Configure Key page in the Apple Developer Portal
 ---
 title: Create the Client Secret JWT
 ref: create-the-client-secret-jwt
@@ -120,7 +120,7 @@ content: |
    Once you've confirmed that you have all the required information,
    create a new file called ``generate_client_secret.rb`` and copy the
    following code block into the file.
-
+   
    .. code-block:: ruby
       :caption: generate_client_secret.rb
       
@@ -204,18 +204,10 @@ content: |
          
          5. For :guilabel:`Redirect URIs`, click :guilabel:`Add Redirect
             URI` and enter the URL that Realm should redirect to once
-            the OAuth process is complete. Once a user completes the
-            authentication process, Realm redirects them back to either
-            a specified redirect URI or, if no redirect URI is
-            specified, the URL that they initiated the authentication
-            request from. Realm will only redirect a user to a URI that
-            exactly matches an entry in this list, including the
-            protocol and any trailing slashes.
-
-            Consider providing a URL for a domain that you control and
-            then using a `universal link
+            the OAuth process is complete. Provide a URL for a domain
+            that you control and then use a `universal link
             <https://developer.apple.com/library/content/documentation/General/Conceptual/AppSearch/UniversalLinks.html>`_
-            to handle authentication in your app.
+            to handle the rest of the authentication flow in your app.
 
          6. Click :guilabel:`Save` to finish configuring the provider.
             To make the provider available to client applications, you
