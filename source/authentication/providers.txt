@@ -86,3 +86,81 @@ available in Realm:
    * - :ref:`Custom Function <custom-function-authentication>`
      - Allows users to log in with arbitrary credentials according to
        custom authentication logic that you define.
+
+
+.. _user-metadata:
+
+User Metadata
+-------------
+
+Each authentication provider can associate a distinct set of metadata
+fields with an application user. Some providers (such as Email/Password)
+always add specific fields, whereas others allow you to configure the
+data to associate with each user. The following table describes the
+metadata fields that each authentication provider includes in a user
+object:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 30 70
+   
+   * - Authentication Provider
+     - Details
+   
+   * - :doc:`Anonymous </authentication/anonymous>`
+     - Anonymous users are not associated with any metadata.
+   
+   * - :doc:`Email/Password </authentication/userpass>`
+     - Email/Password users are always associated with the following
+       metadata fields:
+   
+       .. cssclass:: config-table
+       .. list-table::
+          :header-rows: 1
+          :widths: 10 20
+          
+          * - Field
+            - Description
+          
+          * - ``email``
+            - The user's email address.
+   
+   * - :doc:`API Key (Server & User) </authentication/api-key>`
+     - API Key users are always associated with the following metadata
+       fields:
+   
+       .. cssclass:: config-table
+       .. list-table::
+          :header-rows: 1
+          :widths: 10 20
+          
+          * - Field
+            - Description
+          
+          * - ``name``
+            - The name associated with the API key that the user
+              authenticated with.
+   
+   * - OAuth 2.0 (:doc:`Facebook </authentication/facebook>` & :doc:`Google </authentication/google>`)
+     - OAuth 2.0 users can be associated with data provided by the
+       external authentication service according to the provider's
+       :guilabel:`Metadata Fields` configuration. Users must explicitly
+       grant your application permission to access the data.
+   
+   * - :doc:`Custom Function </authentication/custom-function>`
+     - Custom Function authentication users are not automatically
+       associated with any data.
+   
+   * - :doc:`Custom JWT </authentication/custom-token>`
+     - Custom JWT authentication users can be associated with any data
+       included in the JWT returned from the external authentication
+       system. The provider's :guilabel:`Metadata Fields` configuration
+       maps fields in the JWT to fields that appear in the user object's
+       ``data`` and ``identity`` fields.
+
+Summary
+-------
+
+- Realm supports various **authentication providers** to allow users to log in to your app.
+- You can :doc:`link </authentication/link>` a specific user across multiple providers.
+- Each authentication provider has different metadata about a user's identity.
