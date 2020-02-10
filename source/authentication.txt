@@ -70,12 +70,14 @@ logic in a Realm function.
 User Accounts
 ~~~~~~~~~~~~~
 
-A **user account** represents a single, distinct user of your
-application. Every user account has a unique ID and is associated with
-at least one authentication provider identity. Realm automatically
-sources user metadata, such as their email address or birthday, from
-authentication providers and allows you to associate each user with
-:doc:`custom data </users/define-custom-user-data>` stored in a MongoDB
+A **user account** represents a single, distinct user of
+your application. Every user account has a unique ID and is
+associated with at least one :ref:`authentication provider
+identity <authentication-provider-identities>`. Realm
+automatically sources user metadata, such as their email
+address or birthday, from authentication providers and
+allows you to associate each user with :doc:`custom data
+</users/define-custom-user-data>` stored in a MongoDB
 collection.
 
 .. admonition:: Link Multiple Identities to One User Account
@@ -89,56 +91,81 @@ collection.
    providers. For more information, see :doc:`Link a New Identity to a
    User Account </authentication/link>`.
 
+
+.. _authentication-provider-identities:
+
+Authentication Provider Identities
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+An **authentication provider identity** is a set of metadata
+about a user that Realm obtains from each authentication
+provider used to authenticate that user. A single user
+account can have multiple identities if the user associates
+their account with multiple authentication providers.
+
+When a user first logs in with an authentication provider,
+Realm associates the user with an identity object that
+contains a unique identifier and :ref:`additional,
+provider-specific metadata <user-metadata>` about the user.
+On subsequent logins, Realm refreshes the existing identity
+data but does not create a new identity.
+
 .. _active-user:
 
 Active User
 ~~~~~~~~~~~
 
-The **active user** is a user account associated with an application
-request. When Realm receives a request from a client application, it
-executes the request in the context of the active user, replacing any
-dynamic references to the user (e.g. :json-expansion:`%%user` in a JSON
-expression) with the active user's information.
+In the Realm SDKs, multiple users can log in simultaneously,
+but only one account can be **active** at any given time.
+The **active user** is a user account associated with an
+application request. When Realm receives a request from a
+client application, it executes the request in the context
+of the active user, replacing any dynamic references to the
+user (e.g. :json-expansion:`%%user` in a JSON expression)
+with the active user's information.
 
-In most circumstances, the active user is the authenticated user that
-issued a request. You can also configure a specific active user for
-functions, triggers, and webhooks or choose to use a :ref:`system user
-<system-users>` instead.
+In most circumstances, the active user is the authenticated
+user that issued a request. You can also configure a
+specific active user for Functions, Triggers, and webhooks
+or choose to use the :ref:`system user <system-users>`
+instead.
 
-In the Realm SDKs, multiple users can log in simultaneously, but only
-one account can be active at any given time. For more information on
-managing multiple logged in users in a client application, see
-:doc:`Work with Multiple User Accounts
+To manage multiple logged-in users in a client application,
+see :doc:`Work with Multiple User Accounts
 </authentication/work-with-multiple-user-accounts>`.
 
-.. _system-users:
+.. _system-user:
 
-System Users
-~~~~~~~~~~~~
+System User
+~~~~~~~~~~~
 
-A **system user** is an internal user that has advanced privileges and
-automatically bypasses all rules. You can configure :doc:`Functions
-</functions>` and :ref:`incoming webhooks <incoming-webhooks>` to run in
-the context of a system user instead of the user account that issued a
-request. Triggers always run in the context of a system user.
+The **system user** is an internal user that has advanced
+privileges and automatically bypasses all rules. You can
+configure :doc:`Functions </functions>` and :ref:`incoming
+webhooks <incoming-webhooks>` to run in the context of the
+system user instead of the user account that issued a
+request. Triggers always run in the context of the system
+user.
 
-System users are useful for administrative tasks that need to circumvent
-rules and queries that need :doc:`unrestricted access
-</mongodb/mongodb-service-limitations>` to MongoDB CRUD and aggregation
-operations.
+The system user is useful for administrative tasks that need
+to circumvent rules and queries that need :doc:`unrestricted
+access </mongodb/mongodb-service-limitations>` to MongoDB
+CRUD and aggregation operations.
 
 .. admonition:: Security Warning
    :class: important
 
-   Rules do not apply to system users, which means that functions and
-   webhooks that run as a system user can be a security liability.
-   Ensure that you do not expose these functions to unauthorized users.
+   Rules do not apply to the system user, which means that
+   functions and webhooks that run as the system user can be
+   a security liability. Ensure that you do not expose these
+   functions to unauthorized users.
    
-   For example, instead of calling a system function directly from a
-   client application, you could call it inside of a second, non-system
-   function that you call from the client. The non-system Function can
-   use :ref:`function context <context-user>` to check if the active
-   user is allowed to call the system function, e.g.:
+   For example, instead of calling a system function
+   directly from a client application, you could call it
+   inside of a second, non-system function that you call
+   from the client. The non-system Function can use
+   :ref:`function context <context-user>` to check if the
+   active user is allowed to call the system function, e.g.:
 
    .. code-block:: javascript
 
@@ -151,3 +178,65 @@ operations.
           throw Error("This user is not allowed to execute the system function")
         }
       }
+
+.. _user-sessions:
+
+User Sessions
+~~~~~~~~~~~~~
+
+A **user session** is a user's state of being authenticated
+with your app for a certain period of time. While a user is
+authenticated, they can interact with app data without
+needing to enter their password or otherwise
+re-authenticate.
+
+Sessions are managed with access tokens and a refresh token
+provided by Realm. The client SDKs implement the logic of
+managing these tokens and providing them to Realm when
+making requests.
+
+For web browsers, the JavaScript SDK stores these tokens in
+`HTML5 local storage <https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API>`_.
+In the Android SDK, they are stored in
+`Shared Preferences <https://developer.android.com/guide/topics/data/data-storage.html#pref>`_.
+In the iOS SDK, they are stored in the
+`Keychain <https://developer.apple.com/documentation/security/keychain_services>`_.
+
+The access token for a session expires after thirty minutes.
+However, a new session can be started by retrieving a new
+access token from Realm using the refresh token. The SDKs
+automatically take care of refreshing access tokens, so you
+do not need to worry about this when implementing client
+applications.
+
+You can invalidate a refresh token by calling the
+``logout()`` method on the client, which does two things: 
+
+- It deletes the local session information by deleting both the access and refresh tokens.
+- It invalidates the refresh token on the Realm server.
+
+.. note::
+
+   The ``logout()`` method provided by the SDKs does **NOT**
+   invalidate any active sessions on the server. This means
+   that if you somehow expose the access token to a
+   malicious user before ``logout()`` is called, the
+   malicious user could theoretically use the token to
+   continue making requests on behalf of the user who
+   "logged out" for up to thirty minutes (that is, until
+   that access token expires).
+
+The user list under the :guilabel:`Users` tab, on the
+:guilabel:`Users` page of the Realm admin console, provides a way to
+revoke all sessions for a specific user. This will
+invalidate all access tokens and refresh tokens for that user. See the
+:ref:`Revoking User Sessions <revoke-user-sessions>` page for the specific
+steps.
+
+Summary
+-------
+
+- Realm supports authentication and user accounts through a variety of :doc:`authentication providers </authentication/providers>`. Users can associate themselves with multiple authentication providers and have identity information from multiple providers.
+- Realm supports having multiple users logged in at the same time. There is only one **active user** at a time.
+- The **system user** is a special user on the Realm server that bypasses all rules.
+- Realm handles the access tokens and refresh tokens that comprise a **user session** automatically.

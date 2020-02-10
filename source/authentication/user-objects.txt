@@ -1,0 +1,75 @@
+.. _user-objects:
+
+------------
+User Objects
+------------
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+Realm represents each application user internally with a
+**User Object** that includes a unique ID and additional
+metadata that describes the user. You can access user
+objects in the following ways:
+
+- In a :doc:`Function </functions>` by accessing :ref:`context.user
+  <context-user>`.
+
+- In :doc:`rule expressions </services/json-expressions>` with the
+  :json-expansion:`%%user` expansion.
+
+- In client applications with the RealmAuth interface
+
+Schema
+------
+
+User objects have the following form:
+
+.. code-block:: json
+
+   {
+     "id": "<Unique User ID>",
+     "type": "<User Type>",
+     "data": {
+       "<Metdata Field>": <Value>,
+       ...
+     },
+     "custom_data": {
+       "<Custom Data Field>": <Value>,
+       ...
+     },
+     "identities": [
+       {
+         "id": <Unique Identity ID>,
+         "provider_type": "<Authentication Provider>",
+         "data": {
+           "<Metdata Field>": <Value>,
+           ...
+         }
+       }
+     ]
+   }
+
+.. include:: /includes/user-object-fields.rst
+
+.. note::
+
+   In general, Realm creates a user object for a given user
+   the first time that they authenticate. If you create a
+   test :doc:`Email/Password </authentication/userpass>`
+   user through the Realm UI, Realm creates that user's user
+   object immediately.
+
+Summary
+-------
+
+- The user object contains relevant information about the user that you can use in your app logic.
+- The exact information contained in the user object depends on the :doc:`authentication providers </authentication/providers>` used.
