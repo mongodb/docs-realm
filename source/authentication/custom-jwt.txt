@@ -640,3 +640,22 @@ the ``"alg"`` field of the header.
      base64UrlEncode(header) + "." + base64UrlEncode(payload),
      signingKey
    )
+
+.. _custom-jwt-authentication-summary:
+
+Summary
+-------
+
+- Custom JWT authentication allows you to identify your application's
+  users via a Json Web Token issued outside of Realm.
+- Realm expects JWT audience values to be the App ID of the Realm app
+  unless otherwise configured in the application.
+- Realm can verify JWTs using either
+  :ref:`manually specified keys and signing algorithms
+  <custom-jwt-authentication-confirmation-manually-signing-keys` or a
+  :ref:`JSON Web Key URI
+  <custom-jwt-authentication-confirmation-jwk-uri>`.
+- You can pass custom :ref:`user data
+  <custom-jwt-metadata-fields>` in your JWT that Realm refreshes
+  whenever the user refreshes their token.
+
