@@ -212,17 +212,19 @@ applications.
 You can invalidate a refresh token by calling the
 ``logout()`` method on the client, which does two things: 
 
-- It locally deletes current session information by deleting both the access and refresh tokens.
+- It deletes the local session information by deleting both the access and refresh tokens.
 - It invalidates the refresh token on the Realm server.
 
 .. note::
 
-   The ``logout()`` method provided by the SDKs does **NOT** invalidate
-   any active sessions on the server. This means that if an access
-   token is leaked out of storage before ``logout()`` is called, that
-   access token can be theoretically used by an attacker to continue
-   making requests on behalf of the user who "logged out" for up to
-   thirty minutes (until that access token expires).
+   The ``logout()`` method provided by the SDKs does **NOT**
+   invalidate any active sessions on the server. This means
+   that if you somehow expose the access token to a
+   malicious user before ``logout()`` is called, the
+   malicious user could theoretically use the token to
+   continue making requests on behalf of the user who
+   "logged out" for up to thirty minutes (that is, until
+   that access token expires).
 
 The user list under the :guilabel:`Users` tab, on the
 :guilabel:`Users` page of the Realm admin console, provides a way to
