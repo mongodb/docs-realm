@@ -155,25 +155,21 @@ CRUD and aggregation operations.
 .. admonition:: Security Warning
    :class: important
 
-   Rules do not apply to the system user, which means that
-   functions and webhooks that run as the system user can be
-   a security liability. Ensure that you do not expose these
-   functions to unauthorized users.
+   Rules do not apply to the system user, which means that functions and
+   webhooks that run as the system user can be a security liability.
+   Ensure that you do not expose these functions to unauthorized users.
    
-   For example, instead of calling a system function
-   directly from a client application, you could call it
-   inside of a second, non-system function that you call
-   from the client. The non-system Function can use
-   :ref:`function context <context-user>` to check if the
-   active user is allowed to call the system function, e.g.:
+   For example, you can use :ref:`function context <context-user>` to
+   check if the active user is allowed to call the system function based
+   on a condition that you define, e.g.:
 
    .. code-block:: javascript
-
+      
       exports = function() {
         const activeUser = context.user
         const adminUserId = context.values.get("adminUserId");
         if(activeUser.id == adminUserId) {
-          return context.functions.execute("mySystemFunction");
+          // The user can only execute code here if they're an admin.
         } else {
           throw Error("This user is not allowed to execute the system function")
         }
@@ -210,7 +206,7 @@ do not need to worry about this when implementing client
 applications.
 
 You can invalidate a refresh token by calling the
-``logout()`` method on the client, which does two things: 
+``logout()`` method on the client, which does two things:
 
 - It deletes the local session information by deleting both the access and refresh tokens.
 - It invalidates the refresh token on the Realm server.
