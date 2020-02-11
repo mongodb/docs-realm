@@ -7,6 +7,6 @@ realm.write(() => {
 
   // If an object exists, setting the third parameter (`updateMode`) to
   // "modified" only updates properties that have changed, resulting in
-  // faster operations
+  // faster operations.
   const andy = realm.create("Person", { id: 1234, name: "Andy" }, "modified");
 });
