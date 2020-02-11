@@ -5,9 +5,9 @@ realm.write(() => {
 
   // Judging by the ID, it's the same person, just with a different name.
 
-  // If an object exists, setting the third parameter (`update`) to
-  // "modified", will only update properties where the value has
-  // changed, decreasing notifications and improving server-side
-  // performance
+  // If an object exists, setting the third parameter (`updateMode`) to
+  // "modified" only updates properties that have changed. This results in
+  // faster operations and changes the way that Realm resolves conflicts
+  // between multiple write operations.
   const andy = realm.create("Person", { id: 1234, name: "Andy" }, "modified");
 });
