@@ -26,7 +26,7 @@
 
       .. literalinclude:: /examples/CRUD/Upsert.js
          :language: javascript
-         :emphasize-lines: 4, 9
+         :emphasize-lines: 4, 11
 
    .. tab::
       :tabid: objective-c
