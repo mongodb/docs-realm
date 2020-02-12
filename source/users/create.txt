@@ -10,30 +10,22 @@ Create a User
    :depth: 1
    :class: singlecol
 
-On the :guilabel:`Users` page, you can manage user accounts. The
-Realm console makes it easy to create test user accounts, delete
-user accounts, and revoke sessions.
-
-
-
 Creating an Email/Password User
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. default-domain:: mongodb
 
-In most cases, you do not need to create MongoDB Realm users manually. If,
-for example, the :doc:`Email/Password authentication provider
-</authentication/userpass>` is enabled, users will be prompted to create
-their own accounts the first time they connect to your Realm
-application. For all other :doc:`authentication providers
-</authentication/providers>`, the user object is created when an end
-user authenticates for the first time.
+For most :doc:`authentication providers </authentication/providers>`,
+when an end-user authenticates for the first time, the user object is
+created.  For the :doc:`Email/Password authentication provider
+</authentication/userpass>`, a prompt requires users to create an
+account the first time they connect to your Realm application.
 
-However, for testing and debugging with the :doc:`Email/Password
-authentication provider </authentication/userpass>`, you can create new
-users from within the MongoDB Realm admin console.
+For testing and debugging with the Email/Password authentication
+provider, create new users from within the MongoDB Realm admin console
+by following the steps below: 
 
-Use the following procedure to manually create a new user:
+Use the following procedure to create a new user manually:
 
 #. Select :guilabel:`Users` from the left-side navigation.
 
@@ -81,8 +73,8 @@ process. For example:
 - an implementation error could cause the client application's user
   confirmation page to fail for specific use cases.
 
-To help you work around cases like this, Stitch allows you to manually
-confirm users. To manually confirm a user from the Stitch UI:
+To help you work around cases like this, Stitch allows you to confirm
+users manually by following the below steps:
 
 #. Select :guilabel:`Users` from the left-hand navigation.
 
@@ -111,7 +103,7 @@ Re-run User Confirmation Workflow
 .. default-domain:: mongodb
 
 A few circumstances can lead to incomplete Email/Password user
-confirmation worflows:
+confirmation workflows:
 
 - An email is caught by a spam filter, not delivered due to a bug, or
   accidentally deleted by a prospective Stitch user.
@@ -130,9 +122,9 @@ existing account because it has not been confirmed.
 Applications that use Stitch's built-in email confirmation service can
 use the ``resendConfirmationEmail`` Client SDK method to send a new
 email with a new confirmation link to the user, allowing them to confirm
-their account and log in. Any application using a confirmation flow
-other than ``send a confirmation email`` will generate an error if this
-method is called.
+their account and log in. Calling this method will result in an error by
+any application using a confirmation flow other than ``send a
+confirmation email``.
 
 There is no such specific method to re-run a custom confirmation
 function. Instead, Stitch has a method to trigger a re-run of whatever
