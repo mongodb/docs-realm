@@ -1,0 +1,68 @@
+==========================================================
+Delete or Prevent Users From Accessing a Realm Application
+==========================================================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 1
+   :class: singlecol
+
+On the :guilabel:`Users` page, you can manage user accounts. The
+Realm console makes it easy to create test user accounts, delete
+user accounts, and revoke sessions.
+
+Deleting or Disabling a User
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. default-domain:: mongodb
+
+There may be a situation when you need to disable or completely remove a
+user from your MongoDB Realm application. To do so, use the following procedure:
+
+#. Select :guilabel:`Users` from the left-hand navigation.
+
+#. Select either :guilabel:`Confirmed` or :guilabel:`Pending`, depending
+   on the current state of the user you wish to delete.
+
+#. Under the :guilabel:`Users` tab, find a user in the list and click on
+   the ellipsis (``...``).
+
+#. Choose either :guilabel:`Disable User` or :guilabel:`Delete User`.
+   Both options invalidate all access tokens and refresh tokens for the
+   user, and the user can no longer log in. :guilabel:`Delete User`
+   also removes the account from your Realm application. Users
+   that have not yet been confirmed cannot be disabled, only deleted.
+
+.. note::
+
+   Deleting a user will not automatically delete any data in your
+   MongoDB database that you have associated with that user. For
+   example, if you have a ``todo_items`` collection with an
+   ``"owner_id"`` field, deleting a user will not automatically delete
+   all of their To-Do items. You will need to manually remove those
+   documents from your database if you want to fully remove all traces
+   of that user.
+
+
+Revoking User Sessions
+~~~~~~~~~~~~~~~~~~~~~~
+
+Situations may arise where you need to log a particular user out of
+all of their :ref:`sessions <user-sessions>`, and prevent them from making
+further requests until they reauthenticate. The MongoDB Realm admin console
+makes this a straightforward process.
+
+Use the following procedure to revoke all the sessions for a particular
+user:
+
+#. Select :guilabel:`Users` from the left-side navigation.
+
+#. Under the :guilabel:`Users` tab, find a user in the list and click on the ellipsis (``...``).
+
+#. Click :guilabel:`Revoke all sessions`. This invalidates all access
+   tokens and refresh tokens for that user. This means that to perform
+   any further requests in any of their sessions, they will need to
+   reauthenticate.
