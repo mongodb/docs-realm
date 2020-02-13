@@ -1,0 +1,46 @@
+=====================
+Linking User Accounts
+=====================
+
+.. default-domain:: mongodb
+
+MongoDB Realm provides multiple ways for you to integrate user
+authentication into your apps. For this reason, you may want to provide
+a way for your users to link their account from one provider with
+another.
+
+For example, suppose you have an app that enables users to authenticate
+using Google or Facebook, but also allows anonymous log in. New users
+of your app may explore the app's functionality as an anonymous user.
+After working with the app for a while, a user decides to create an
+account. The user logs in using their Google credentials, and your app
+can link the data from their anonymous session to their account by using
+Realm's user-linking feature.
+
+To provide user account linking in your code, add your app's hosted
+domain to the list of :guilabel:`Allowed Request Origins` in
+:guilabel:`General Settings` and then use the
+:guilabel:`linkWithCredential` method of the :guilabel:`StitchUser`
+class. Documentation for this method can be found in the SDKs:
+
+- :android-sdk:`Android SDK <com/mongodb/stitch/android/core/auth/StitchUser.html#linkWithCredential-com.mongodb.stitch.core.auth.StitchCredential->`
+
+- :ios-sdk:`iOS SDK <Protocols/StitchUser.html#/s:10StitchCore0A4UserP4linky0aB3SDK0A10Credential_p04withF0_yAA0A6ResultOyAaB_pGctF>`
+
+- :js-sdk:`JavaScript SDK <interfaces/stitchuser.html#linkwithcredential>`
+
+Usage
+-----
+
+.. tabs-stitch-sdks::
+
+   tabs:
+     - id: javascript
+       content: |
+         .. include:: ./usage-examples/linking/js.rst
+     - id: android
+       content: |
+         .. include:: ./usage-examples/linking/android.rst
+     - id: ios
+       content: |
+         .. include:: ./usage-examples/linking/ios.rst
