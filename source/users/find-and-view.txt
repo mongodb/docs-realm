@@ -36,8 +36,8 @@ you to find a specific user by their ID.
 Viewing a User's Devices
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-When a user connects to your Realm application, Realm logs 
-information about the device that was used to connect, like this:
+When a user connects to your application, Realm logs information similar
+to the following: 
 
 .. figure:: /images/devices.png
    :figwidth: 750px
@@ -61,9 +61,9 @@ Viewing a User's Provider Data
 
 .. default-domain:: mongodb
 
-Whenever a user connects to your MongoDB Realm application and authenticates 
-using one of the authentication providers you have enabled, the provider 
-data is logged. 
+Whenever a user connects to your application and authenticates using one
+of the authentication providers you have enabled, MongoDB Realm logs the
+provider data. 
 
 .. figure:: /images/provider.png
    :figwidth: 750px
@@ -81,11 +81,10 @@ You can view this collection of Provider Data from within the list of
 Viewing a User's Activity Log
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-MongoDB Realm logs every request made by each of your Realm application 
-users, as well as every function call that was executed as part of 
-their request. In addition, if a function writes to the log using 
-``console.log``, ``console.warn``, or ``console.error``, these entries 
-will be included within the function's log output.
+MongoDB Realm logs every request made by each of your Realm application
+users, including executed function calls.  Also, if a function writes to
+the log using ``console.log``, ``console.warn``, or ``console.error``,
+these entries will be included within the function’s log output.
 
 .. figure:: /images/user_log.png
    :figwidth: 750px
