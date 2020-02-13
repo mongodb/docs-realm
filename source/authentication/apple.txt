@@ -1,0 +1,66 @@
+=======================
+Apple ID Authentication
+=======================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+The Apple ID authentication provider allows users to log in with their
+Apple ID credentials through `Sign in with Apple
+<https://developer.apple.com/sign-in-with-apple/>`_. This authentication
+method uses the industry-standard `OAuth 2.0 <https://oauth.net/2/>`_
+authorization protocol.
+
+When a user successfully logs in through Sign in with Apple, Apple
+returns a credential object that includes a :jwt-io:`JSON Web Token
+<introduction>` that the Apple ID provider uses to authenticate the
+user. If the user has granted permissions to your app, the credential
+object may also include the user's name and email address.
+
+For additional information on how to implement Sign in with Apple, check
+out the `Introducing Sign In with Apple
+<https://developer.apple.com/videos/play/wwdc2019/706>`_ session from
+WWDC 2019 and the associated `reference application
+<https://developer.apple.com/documentation/authenticationservices/adding_the_sign_in_with_apple_flow_to_your_app>`_.
+
+.. admonition:: Only Available on iOS
+   :class: note
+
+   You can currently only use Apple ID authentication in the iOS SDK. An
+   iOS app that uses Apple ID authentication must target iOS 13 or
+   newer.
+
+.. _apple-auth-prerequisites:
+
+What You'll Need
+----------------
+
+Before you can implement Apple ID authentication you will need the
+following:
+
+- An active `Apple Developer Program
+  <https://developer.apple.com/programs/>`_ account.
+
+- `Xcode 11 <https://developer.apple.com/xcode/>`_ or newer.
+
+.. _configure-apple-auth:
+
+Configure Apple ID Authentication
+---------------------------------
+
+.. include:: /includes/steps/apple-auth-configure.rst
+
+.. _setup-apple-auth-client:
+
+Set Up Your Client Application
+------------------------------
+
+.. include:: /includes/steps/apple-auth-setup-client.rst
