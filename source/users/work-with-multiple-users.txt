@@ -23,7 +23,11 @@ User Account States
 ~~~~~~~~~~~~~~~~~~~
 
 When a user first logs in to a client application on a given device, the
-SDK saves the user's information to the device. There are
+SDK saves the user's information to the device. An on-device user may or
+may not be logged in. Stitch client applications runs in the context of
+a single user even if multiple users are logged in simultaneously.
+
+The following states describe an on-device user at any given time:
 
 - **Authenticated:** any user that has logged in on the client device
   and has not logged out or had its session revoked.
@@ -35,7 +39,7 @@ SDK saves the user's information to the device. There are
    - **Inactive**: all authenticated users that are not the current
      active user.
 
-- **Logged Out:** any user that has logged in on the client device but
+- **Logged Out:** any user that authenticated on the client device but
   has since logged out or had its session revoked.
 
 The following diagram shows how client application users transition
