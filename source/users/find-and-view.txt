@@ -10,18 +10,12 @@ Find and View a User
    :depth: 1
    :class: singlecol
 
-On the :guilabel:`Users` page, you can manage user accounts. The
-Realm console makes it easy to create test user accounts, delete
-user accounts, and revoke sessions.
-
-
-
 Find a User
 ~~~~~~~~~~~
 
 To find a specific user, click :guilabel:`Users` in the left navigation 
 pane. The Users page displays with the :guilabel:`Users` tab as the 
-default view. You will see a list of users associated with your Stitch 
+default view. You will see a list of users associated with your Realm 
 application, like this:
 
 .. figure:: /images/find.png
@@ -35,14 +29,14 @@ to limit the types of users. You can filter by:
   Facebook, API Keys, or Custom Authentication
 - :guilabel:`Status` -- Enabled or Disabled
 
-In addition, the :guilabel:`filter bar` contains a search box, enabling 
+Also, the :guilabel:`filter bar` contains a search box, enabling 
 you to find a specific user by their ID.
 
 
 Viewing a User's Devices
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-When a user connects to your Stitch application, |stitch-short| logs 
+When a user connects to your Realm application, Realm logs 
 information about the device that was used to connect, like this:
 
 .. figure:: /images/devices.png
@@ -67,7 +61,7 @@ Viewing a User's Provider Data
 
 .. default-domain:: mongodb
 
-Whenever a user connects to your |stitch| application and authenticates 
+Whenever a user connects to your MongoDB Realm application and authenticates 
 using one of the authentication providers you have enabled, the provider 
 data is logged. 
 
@@ -87,7 +81,7 @@ You can view this collection of Provider Data from within the list of
 Viewing a User's Activity Log
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-|stitch| logs every request made by each of your Stitch application 
+MongoDB Realm logs every request made by each of your Realm application 
 users, as well as every function call that was executed as part of 
 their request. In addition, if a function writes to the log using 
 ``console.log``, ``console.warn``, or ``console.error``, these entries 
