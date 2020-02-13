@@ -1,20 +1,20 @@
 title: Export Your Stitch Application
 ref: export-your-application
 content: |
-  To define a Value using :doc:`stitch-cli
-  </deploy/stitch-cli-reference>` you need to export an
+  To define a Value using :doc:`realm-cli
+  </deploy/realm-cli-reference>` you need to export an
   :ref:`application directory <application-directory>` for your
   application.
 
-  You can :doc:`export </deploy/export-stitch-app>` your
+  You can :doc:`export </deploy/export-realm-app>` your
   application from the :guilabel:`Export` tab of the
   :guilabel:`Settings` page in the Stitch UI, or by running the
-  following command from an authenticated instance of :doc:`stitch-cli
-  </deploy/stitch-cli-reference>`:
+  following command from an authenticated instance of :doc:`realm-cli
+  </deploy/realm-cli-reference>`:
 
   .. code-block:: shell
 
-     stitch-cli export --app-id=<App ID>
+     realm-cli export --app-id=<App ID>
 ---
 title: Add a Value Configuration File
 ref: add-a-value-configuration-file
@@ -68,18 +68,20 @@ ref: import-your-application-directory
 content: |
   Ensure that the Value configuration file is saved and then navigate to
   the root of your exported application directory. Log in to MongoDB
-  Atlas with ``stitch-cli``:
+  Atlas with ``realm-cli``:
 
   .. code-block:: shell
 
-     stitch-cli login --username="<MongoDB Cloud Username>" --api-key="<MongoDB Cloud API Key>"
+     realm-cli login --username="<MongoDB Cloud Username>" --api-key="<MongoDB Cloud API Key>"
 
   Once you're logged in, import the directory:
 
   .. code-block:: shell
 
-     stitch-cli import
+     realm-cli import
 
-  Once the import completes, you can immediately begin to :doc:`access
-  the Value </values/access-a-value>` in rules and functions.
+  Once the import completes, you can immediately begin to
+  :doc:`access the Value
+  </values-and-secrets/access-a-value>` in rules and
+  functions.
 ...
