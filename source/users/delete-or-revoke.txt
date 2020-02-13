@@ -10,10 +10,6 @@ Delete or Prevent Users From Accessing a Realm Application
    :depth: 1
    :class: singlecol
 
-On the :guilabel:`Users` page, you can manage user accounts. The
-Realm console makes it easy to create test user accounts, delete
-user accounts, and revoke sessions.
-
 Deleting or Disabling a User
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -32,9 +28,9 @@ user from your MongoDB Realm application. To do so, use the following procedure:
 
 #. Choose either :guilabel:`Disable User` or :guilabel:`Delete User`.
    Both options invalidate all access tokens and refresh tokens for the
-   user, and the user can no longer log in. :guilabel:`Delete User`
-   also removes the account from your Realm application. Users
-   that have not yet been confirmed cannot be disabled, only deleted.
+   user, and the user can no longer log in. :guilabel:`Delete User` also
+   removes the account from your Realm application. Users who are not
+   yet confirmed cannot be disabled, only deleted.
 
 .. note::
 
@@ -43,15 +39,15 @@ user from your MongoDB Realm application. To do so, use the following procedure:
    example, if you have a ``todo_items`` collection with an
    ``"owner_id"`` field, deleting a user will not automatically delete
    all of their To-Do items. You will need to manually remove those
-   documents from your database if you want to fully remove all traces
-   of that user.
+   documents from your database if you want to remove all traces
+   of that user fully.
 
 
 Revoking User Sessions
 ~~~~~~~~~~~~~~~~~~~~~~
 
 Situations may arise where you need to log a particular user out of
-all of their :ref:`sessions <user-sessions>`, and prevent them from making
+all of their :ref:`sessions <user-sessions>` and prevent them from making
 further requests until they reauthenticate. The MongoDB Realm admin console
 makes this a straightforward process.
 
@@ -63,6 +59,6 @@ user:
 #. Under the :guilabel:`Users` tab, find a user in the list and click on the ellipsis (``...``).
 
 #. Click :guilabel:`Revoke all sessions`. This invalidates all access
-   tokens and refresh tokens for that user. This means that to perform
-   any further requests in any of their sessions, they will need to
+   tokens and refresh tokens for that user, meaning that to perform
+   any further requests in any of their sessions, users will need to
    reauthenticate.
