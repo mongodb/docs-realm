@@ -25,7 +25,6 @@ For testing and debugging with the Email/Password authentication
 provider, create new users from within the MongoDB Realm admin console
 by following the steps below: 
 
-Use the following procedure to create a new user manually:
 
 #. Select :guilabel:`Users` from the left-side navigation.
 
@@ -65,11 +64,11 @@ application. You can read more about Email/Password user confirmation at
 Sometimes, however, users are unable to complete the confirmation
 process. For example:
 
-- an overzealous spam filter might block Realm email confirmation
-  emails
+- An overzealous spam filter might block Realm email confirmation
+  emails.
 
-- a proxy or web blocker could prevent a user from activating the
-  ``confirmUser`` client SDK function via the client application
+- A proxy or web blocker could prevent a user from activating the
+  ``confirmUser`` client SDK function via the client application.
 
 - an implementation error could cause the client application's user
   confirmation page to fail for specific use cases.
@@ -164,5 +163,3 @@ Summary
 - The Email/Password authentication provider requires users to create an account the first time they connect to your MongoDB Realm application 
 - Email/Password users must be confirmed manually through the Realm UI 
 - Users caught in an incomplete Email/Password confirmation workflow must re-run the confirmation through the Realm UI
-
-
