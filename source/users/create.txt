@@ -64,7 +64,7 @@ application. You can read more about Email/Password user confirmation at
 Sometimes, however, users are unable to complete the confirmation
 process. For example:
 
-- an overzealous spam filter might block Stitch email confirmation
+- an overzealous spam filter might block Realm email confirmation
   emails
 
 - a proxy or web blocker could prevent a user from activating the
@@ -73,7 +73,7 @@ process. For example:
 - an implementation error could cause the client application's user
   confirmation page to fail for specific use cases.
 
-To help you work around cases like this, Stitch allows you to confirm
+To help you work around cases like this, Realm allows you to confirm
 users manually by following the below steps:
 
 #. Select :guilabel:`Users` from the left-hand navigation.
@@ -93,7 +93,7 @@ users manually by following the below steps:
 
 A manually confirmed user continues to appear in the :guilabel:`PENDING`
 user list until they log in to your application for the first time, at
-which point Stitch moves them into the list of confirmed users and
+which point Realm moves them into the list of confirmed users and
 transitions their :guilabel:`User Status` to ``confirmed``.
 
 
@@ -106,20 +106,20 @@ A few circumstances can lead to incomplete Email/Password user
 confirmation workflows:
 
 - An email is caught by a spam filter, not delivered due to a bug, or
-  accidentally deleted by a prospective Stitch user.
+  accidentally deleted by a prospective Realm user.
 
 - A custom confirmation function is unable to communicate with an
   unconfirmed user due to a bug or oversight.
 
 - An unconfirmed user forgot to visit their confirmation link within 30
-  minutes of receiving their login tokens and the tokens expired.
+  minutes of receiving their login tokens, and the tokens expired.
 
 Users caught in this situation appear stuck in an unconfirmed state.
-They cannot create another account with their email address since it is
-registered to an existing account, but they cannot log into their
-existing account because it has not been confirmed.
+Since an existing account has their email registered to it, users cannot
+create a new account with the same email address. Also, they cannot log
+into an account that is not confirmed. 
 
-Applications that use Stitch's built-in email confirmation service can
+Applications that use Realm's built-in email confirmation service can
 use the ``resendConfirmationEmail`` Client SDK method to send a new
 email with a new confirmation link to the user, allowing them to confirm
 their account and log in. Calling this method will result in an error by
@@ -127,12 +127,12 @@ any application using a confirmation flow other than ``send a
 confirmation email``.
 
 There is no such specific method to re-run a custom confirmation
-function. Instead, Stitch has a method to trigger a re-run of whatever
+function. Instead, Realm has a method to trigger a re-run of whatever
 the current Email/Password user confirmation workflow happens to be. You
 can manually re-run the currently selected user confirmation flow using
-the :doc:`Stitch Admin API </admin/api/admin-v3>` or via the Stitch UI:
+the :doc:`Realm Admin API </admin/api/admin-v3>` or via the Realm UI:
 
-To re-run the confirmation workflow for a user through the Stitch UI:
+To re-run the confirmation workflow for a user through the Realm UI:
 
 #. Select :guilabel:`Users` from the left-hand navigation.
 
