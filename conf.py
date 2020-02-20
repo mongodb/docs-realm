@@ -69,6 +69,7 @@ extlinks = {
     'mms-home': ('https://cloud.mongodb.com%s', ''),
     'guides': ('https://docs.mongodb.com/guides%s', ''),
     # True External Links
+    'github': ('https://github.com/%s', ''),
     'wikipedia': ('https://en.wikipedia.org/wiki/%s', ''),
     'android-sdk': ('https://docs.mongodb.com/stitch-sdks/java/4/%s', ''),
     'js-sdk': ('https://docs.mongodb.com/stitch-sdks/js/4/%s', ''),
