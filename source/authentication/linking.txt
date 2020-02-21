@@ -6,22 +6,24 @@ Linking User Accounts
 
 MongoDB Realm provides multiple ways for you to integrate user
 authentication into your apps. For this reason, you may want to provide
-a way for your users to link their account from one provider with
+a means for your users to link their accounts from one provider with
 another.
 
-For example, suppose you have an app that enables users to authenticate
-using Google or Facebook, but also allows anonymous log in. New users
-of your app may explore the app's functionality as an anonymous user.
-After working with the app for a while, a user decides to create an
-account. The user logs in using their Google credentials, and your app
-can link the data from their anonymous session to their account by using
-Realm's user-linking feature.
+For example, suppose you have an app that enables users to register and
+authenticate using a Username and Password. The application also allows
+users to log in anonymously, allowing new users to explore the app
+without signing up. After working with the app for a while, a user
+decides to create an account. The user now has two accounts with
+separate data on each account. The user would like to consolidate this
+into one account. They can do this by linking the accounts with Realm's
+``linkWithCredential()`` method that is called on the ``StitchUser`` instance.
 
 To provide user account linking in your code, add your app's hosted
 domain to the list of :guilabel:`Allowed Request Origins` in
 :guilabel:`General Settings` and then use the
-:guilabel:`linkWithCredential` method of the :guilabel:`StitchUser`
-class. Documentation for this method can be found in the SDKs:
+:guilabel:`linkWithCredential()` method of the :guilabel:`StitchUser`
+class. Find documentation on the ``linkWithCredential()`` method in the
+following SDKs: 
 
 - :android-sdk:`Android SDK <com/mongodb/stitch/android/core/auth/StitchUser.html#linkWithCredential-com.mongodb.stitch.core.auth.StitchCredential->`
 
@@ -29,14 +31,29 @@ class. Documentation for this method can be found in the SDKs:
 
 - :js-sdk:`JavaScript SDK <interfaces/stitchuser.html#linkwithcredential>`
 
+.. warning::
+
+   Accounts created with the Email/Password authentication provider must
+   in the "Pending User Login" user status. This means that the user has
+   received and clicked their confirmation email, but has not yet
+   attempted to login after confirming their account.
+
+
 Usage
 -----
+
+The following usage example simulates an anonymous user login with the
+``loginWithCredential()`` method. This method returns the anonymous
+user. The anonymous user is then linked to an existing user created with
+the username/password authentication provider by calling
+``linkWithCredential()``.
+
 
 .. tabs-stitch-sdks::
 
    tabs:
      - id: javascript
-       content: |
+       content: | 
          .. include:: ./usage-examples/linking/js.rst
      - id: android
        content: |
