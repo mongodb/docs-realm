@@ -49,7 +49,13 @@ content: |
      Realm may not be able to find the validation record if your DNS
      provider proxies requests for the domain. If Realm cannot validate
      your domain, ensure that you have disabled any HTTP proxies for the
-     validation CNAME record.
+     validation CNAME record on your DNS provider.
+
+  .. note::
+
+     If an error is encountered during custom domain name validation,
+     Realm sends the project owner an email alerting them of the
+     issue.
 ---
 title: Add a Redirect CNAME Record
 ref: add-a-redirect-cname-record
