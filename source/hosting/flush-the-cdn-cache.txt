@@ -1,0 +1,51 @@
+===================
+Flush the CDN Cache
+===================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+Realm serves hosted files through a :wikipedia:`CDN
+<Content_delivery_network>` in order to minimize the latency between
+receiving a request for a resource and returning the requested resource.
+When a client requests a resource that's hosted in Realm, the CDN server
+that processes the request checks for a cached copy of the file that it
+can return instead of requesting a new copy of the file from Realm.
+
+The CDN caching process decreases the latency for end users when they
+request a resource, but it can also prevent them from receiving the most
+up-to-date version of a resource if the file has changed since the CDN
+server cached it. You can invalidate all cached files to force the CDN
+servers to fetch new copies from Realm.
+
+To flush the CDN cache for all hosted files, select the tab below that
+corresponds to the interface you want to use and follow the procedure.
+
+.. note::
+
+   You can configure the caching behavior for an individual file by
+   adding a a :ref:`Cache-Control <metadata-cache-control>` attribute to
+   the file.
+
+Procedure
+---------
+
+.. tabs-stitch-interfaces::
+
+   .. tab::
+      :tabid: stitch-ui
+       
+       .. include:: /includes/steps/flush-the-cdn-cache-realm-ui.rst
+     
+   .. tab::
+      :tabid: import-export
+       
+       .. include:: /includes/steps/flush-the-cdn-cache-import-export.rst
