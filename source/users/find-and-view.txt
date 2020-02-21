@@ -11,41 +11,40 @@ Find and View a User
    :class: singlecol
 
 Find a User
-~~~~~~~~~~~
+-----------
 
-To find a specific user, click :guilabel:`Users` in the left navigation 
-pane. The Users page displays with the :guilabel:`Users` tab as the 
-default view. You will see a list of users associated with your Realm 
+To find a specific user, click :guilabel:`Users` in the left navigation
+pane. The Users page displays with the :guilabel:`Users` tab as the
+default view. You will see a list of users associated with your Realm
 application, like this:
 
 .. figure:: /images/find.png
    :figwidth: 750px
 
-As the number of users increases, you may find it convenient to filter 
-the view to a subset of users. To do this, use the :guilabel:`filter bar` 
+As the number of users increases, you may find it convenient to filter
+the view to a subset of users. To do this, use the :guilabel:`filter bar`
 to limit the types of users. You can filter by:
 
-- :guilabel:`Provider type` -- Anonymous, Email/Password, Google, 
+- :guilabel:`Provider type` -- Anonymous, Email/Password, Google,
   Facebook, API Keys, or Custom Authentication
 - :guilabel:`Status` -- Enabled or Disabled
 
-Also, the :guilabel:`filter bar` contains a search box, enabling 
+Also, the :guilabel:`filter bar` contains a search box, enabling
 you to find a specific user by their ID.
 
-
-Viewing a User's Devices
-~~~~~~~~~~~~~~~~~~~~~~~~
+View a User's Devices
+---------------------
 
 When a user connects to your application, Realm logs information similar
-to the following: 
+to the following:
 
 .. figure:: /images/devices.png
    :figwidth: 750px
 
 Logged information includes:
 
-- The device platform, which will be either an http client 
-  ("chrome", "firefox", "phantomjs", etc.) or a mobile OS ("ios", 
+- The device platform, which will be either an http client
+  ("chrome", "firefox", "phantomjs", etc.) or a mobile OS ("ios",
   "android", etc.)
 - The platform version.
 - Your app version on the device.
@@ -56,20 +55,17 @@ To view this information, from the list of :guilabel:`Users`, expand any
 
 .. _view-provider-data:
 
-Viewing a User's Provider Data
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. default-domain:: mongodb
+View a User's Provider Data
+---------------------------
 
 Whenever a user connects to your application and authenticates using one
 of the authentication providers you have enabled, MongoDB Realm logs the
-provider data. 
+provider data.
 
 .. figure:: /images/provider.png
    :figwidth: 750px
 
-
-You can view this collection of Provider Data from within the list of 
+You can view this collection of Provider Data from within the list of
 :guilabel:`Users` by doing the following:
 
 #. Find a user in the list of :guilabel:`Users`.
@@ -78,8 +74,8 @@ You can view this collection of Provider Data from within the list of
 
 .. _view-user-log:
 
-Viewing a User's Activity Log
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+View a User's Activity Log
+--------------------------
 
 MongoDB Realm logs every request made by each of your Realm application
 users, including executed function calls.  Also, if a function writes to
