@@ -12,7 +12,7 @@
     console.log(`Logged in as anonymous user with id: ${user.id}`);
     user
       .linkWithCredential(
-        new UserPasswordCredential("jonsnow@mailinator.com", "Test123!") // call user.linkWithCredential to link the anonymous user with an already registered user/password user
+        new UserPasswordCredential("<username>", "<password>") // call user.linkWithCredential to link the anonymous user with an already registered user/password user
       )
       .then(users => {
         console.error("accounts linked:\t", users);
