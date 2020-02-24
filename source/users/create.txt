@@ -10,10 +10,8 @@ Create a User
    :depth: 1
    :class: singlecol
 
-Creating an Email/Password User
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. default-domain:: mongodb
+Create an Email/Password User
+-----------------------------
 
 For most :doc:`authentication providers </authentication/providers>`,
 when an end-user authenticates for the first time, the user object is
@@ -23,7 +21,7 @@ account the first time they connect to your Realm application.
 
 For testing and debugging with the Email/Password authentication
 provider, create new users from within the MongoDB Realm admin console
-by following the steps below: 
+by following the steps below:
 
 
 #. Select :guilabel:`Users` from the left-side navigation.
@@ -40,18 +38,15 @@ by following the steps below:
 #. Click :guilabel:`Create`.
 
 .. note::
+   
    You can also create API keys that applications use to connect to your
    MongoDB Realm application. Although API Keys are not associated with
    a single user, the :guilabel:`Users` tab lists them. To learn more
    about API keys, see :doc:`API Key Authentication
    </authentication/api-key>`.
 
-Confirming a User
-~~~~~~~~~~~~~~~~~
-
-.. default-domain:: mongodb
-
-.. _handshake: https://en.wikipedia.org/wiki/Handshaking
+Confirm a User
+--------------
 
 You must confirm the email address of new
 :doc:`Email/Password users </authentication/userpass>` before they are
@@ -96,11 +91,8 @@ user list until they log in to your application for the first time, at
 which point Realm moves them into the list of confirmed users and
 transitions their :guilabel:`User Status` to ``confirmed``.
 
-
-Re-run User Confirmation Workflow
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. default-domain:: mongodb
+Re-run the User Confirmation Workflow
+-------------------------------------
 
 A few circumstances can lead to incomplete Email/Password user
 confirmation workflows:
@@ -117,7 +109,7 @@ confirmation workflows:
 Users caught in this situation appear stuck in an unconfirmed state.
 Since an existing account has their email registered to it, users cannot
 create a new account with the same email address. Also, they cannot log
-into an account that is not confirmed. 
+into an account that is not confirmed.
 
 Applications that use Realm's built-in email confirmation service can
 use the ``resendConfirmationEmail`` Client SDK method to send a new
@@ -156,10 +148,9 @@ To re-run the confirmation workflow for a user through the Realm UI:
 If the re-run fails or the user's tokens expire again, you can re-run
 the confirmation function as many times as necessary.
 
-
 Summary
 -------
 
-- The Email/Password authentication provider requires users to create an account the first time they connect to your MongoDB Realm application 
-- Email/Password users must be confirmed manually through the Realm UI 
+- The Email/Password authentication provider requires users to create an account the first time they connect to your MongoDB Realm application
+- Email/Password users must be confirmed manually through the Realm UI
 - Users caught in an incomplete Email/Password confirmation workflow must re-run the confirmation through the Realm UI
