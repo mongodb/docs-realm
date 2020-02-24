@@ -51,8 +51,8 @@ content: |
   .. note::
 
      If you include an entry in ``metadata.json`` for a file that does
-     not exist, you will not be able to import your changes. Ensure that
-     only hosted files are represented in ``metadata.json``.
+     not exist, you will not be able to import your changes. The
+     metadata.json must only have hosted files represented.
 ---
 title: Add Files to the Hosting Directory
 ref: add-files-to-the-hosting-directory
@@ -81,6 +81,6 @@ content: |
      realm-cli import --include-hosting
 
   After successfully importing the application directory, Realm will
-  begin uploading your files. The upload might take some time to
-  complete depending on the number and size of the files you selected as
-  well as your network connection.
+  begin uploading your files. The rate of upload time will vary depending
+  on network connection speed and the number and size of the files
+  selected.
