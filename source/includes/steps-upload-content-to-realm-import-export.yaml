@@ -1,0 +1,88 @@
+title: Export Your Realm Application
+ref: export-your-application
+content: |
+  To upload files to Realm with :doc:`realm-cli
+  </deploy/realm-cli-reference>` you need an :ref:`application
+  directory <application-directory>` for your application.
+
+  You can :doc:`export your application </deploy/export-realm-app>`
+  from the :guilabel:`Export` tab of the :guilabel:`Settings` page in
+  the Realm UI, or by running the following command from an
+  authenticated instance of :doc:`realm-cli
+  </deploy/realm-cli-reference>`:
+
+  .. code-block:: shell
+
+     realm-cli export --app-id=<App ID> --include-hosting
+---
+title: Add a Hosting Directory
+ref: add-a-hosting-directory
+content: |
+  .. note::
+
+     This step is only necessary if you did not export your Realm app with the
+     ``--include-hosting`` flag.
+
+  Realm looks for files to upload in the ``/hosting/files``
+  subdirectory of your application directory. If this directory doesn't
+  already exist, create it:
+
+  .. code-block:: shell
+
+     mkdir -p hosting/files
+---
+title: Add a Metadata Configuration File
+ref: add-a-metadata-configuration-file
+content: |
+  To deploy hosted files through Realm CLI you must include a
+  ``metadata.json`` file in the ``/hosting`` directory. If the
+  configuration file does not exist, create it:
+
+  .. code-block:: shell
+
+     touch hosting/metadata.json
+
+  The configuration does not need to specify metadata for any files but
+  must be present. For more information, see :doc:`Configure File
+  Metadata </hosting/configure-file-metadata>`.
+
+  .. include:: /hosting/includes/metadata-config-json.rst
+
+  .. note::
+
+     If you include an entry in ``metadata.json`` for a file that does
+     not exist, you will not be able to import your changes. Ensure that
+     only hosted files are represented in ``metadata.json``.
+---
+title: Add Files to the Hosting Directory
+ref: add-files-to-the-hosting-directory
+content: |
+  To upload or edit files, add them to the ``/hosting/files``
+  subdirectory of your application directory. When you import your
+  application, Realm will map this subdirectory to the root of your
+  application's hosted file tree.
+
+  .. note::
+
+     You can nest additional directories inside of the
+     ``/hosting/files`` subdirectory. Nested directories are listed
+     before a file's name in its resource path.
+---
+title: Import the Files
+ref: import-the-files
+content: |
+  Once you have added the files you want to host to the
+  ``/hosting/files`` subdirectory, you can upload them to Realm by
+  importing your updated application directory with the
+  ``--include-hosting`` flag:
+
+  .. code-block:: shell
+
+     realm-cli import --include-hosting
+
+  After successfully importing the application directory, Realm will
+  begin uploading your files. The upload might take some time to
+  complete depending on the number and size of the files you selected as
+  well as your network connection.
+---
+
