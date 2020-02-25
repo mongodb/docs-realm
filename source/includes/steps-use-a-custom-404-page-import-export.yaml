@@ -8,36 +8,36 @@ content: |
     exist."
   - Alternative links or options for the user to continue navigating.
 ---
-title: Export Your Stitch Application
+title: Export Your Realm Application
 ref: export-your-application
 content: |
-  To configure a custom 404 page with :doc:`stitch-cli
-  </deploy/stitch-cli-reference>` you need to export an
+  To configure a custom 404 page with :doc:`realm-cli
+  </deploy/realm-cli-reference>` you need to export an
   :ref:`application directory <application-directory>`.
 
   You can :doc:`export your application
-  </deploy/export-stitch-app>` configuration from the
-  :guilabel:`Export` tab of the :guilabel:`Settings` page in the Stitch
+  </deploy/export-realm-app>` configuration from the
+  :guilabel:`Export` tab of the :guilabel:`Settings` page in the Realm
   UI, or by running the following command from an authenticated instance
-  of :doc:`stitch-cli </deploy/stitch-cli-reference>`:
+  of :doc:`realm-cli </deploy/realm-cli-reference>`:
 
   .. code-block:: shell
 
-     stitch-cli export --app-id=<App ID>
+     realm-cli export --app-id=<App ID>
 ---
-title: Host the HTML File in Stitch
-ref: host-the-html-file-in-stitch
+title: Host the HTML File in Realm
+ref: host-the-html-file-in-realm
 content: |
   Once you've created the custom HTML file, you need to :doc:`host it in
-  Stitch </hosting/upload-content-to-stitch>`.
+  Realm </hosting/upload-content-to-realm>`.
 
-  If you aren't already hosting the HTML file in Stitch, add it to the
+  If you aren't already hosting the HTML file in Realm, add it to the
   :guilabel:`/hosting` subdirectory of the exported directory.
 ---
 title: Specify the 404 Page in the Application Configuration
 ref: specify-the-404-page-in-the-application-configuration
 content: |
-  In :ref:`stitch.json <appschema-stitch-config>`, set the value of
+  In :ref:`realm.json <appschema-realm-config>`, set the value of
   ``hosting.default_error_path`` to the :ref:`resource path
   <hosting-resource-path>` of the HTML file then save the configuration
   file.
@@ -52,14 +52,14 @@ content: |
 title: Import the Updated Application Directory
 ref: import-the-updated-application-directory
 content: |
-  Once you have specified the custom 404 page path in ``stitch.json``,
+  Once you have specified the custom 404 page path in ``realm.json``,
   you can import the directory into your application. If you added the
   custom HTML file to ``/hosting``, make sure to use the
   ``--include-hosting`` flag.
 
   .. code-block:: shell
 
-     stitch-cli import --include-hosting
+     realm-cli import --include-hosting
 
-  After you have successfully imported the changes, Stitch will begin
+  After you have successfully imported the changes, Realm will begin
   serving your custom HTML instead of the default 404 page.
