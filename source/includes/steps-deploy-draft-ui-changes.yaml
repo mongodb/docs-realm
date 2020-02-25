@@ -1,0 +1,43 @@
+title: Make Changes to Your Application
+ref: make-changes-to-your-application
+content: |
+  A deployment contains one or more draft changes that you've made to
+  your application since the previous deployment. To set up a new
+  deployment, make any additions, modifications, or deletions that you
+  want to include in the deployment through the Realm UI.
+
+  .. note::
+     
+     You can only create draft changes through the Realm UI or Admin
+     API. Any changes that you make with git or the Realm CLI are
+     deployed independently of draft changes.
+---
+title: Review Draft Changes
+ref: review-draft-changes
+content: |
+  You can review all of the draft changes to your application prior to
+  deploying them.
+
+  Click :guilabel:`Deploy` in the left-hand navigation to navigate to
+  your app's deployment history table. The top row of the table
+  represents all of the draft changes that you've made since the
+  previous deployment.
+  
+  Click the :guilabel:`Review & Deploy Changes` button in the top row to
+  see a diff of the underlying :ref:`app configuration files
+  <app-config>` that represents the draft changes that you've made.
+
+  .. cssclass:: bordered-figure
+  .. figure:: /images/review-draft-ui-changes-modal.png
+     :alt: A diff of changes from the previous deployment
+---
+title: Deploy a New App Version
+ref: deploy-a-new-app-version
+content: |
+  After you've reviewed your draft changes and confirmed that you want
+  to deploy them, click :guilabel:`Deploy`. Realm immediately deploys a
+  new version of your application that includes the draft changes.
+  Client applications will automatically use the newest version, so make
+  sure that you also update your client code to use the new version if
+  necessary.
+...
