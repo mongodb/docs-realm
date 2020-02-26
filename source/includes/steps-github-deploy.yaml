@@ -1,0 +1,157 @@
+title: Link Your GitHub Account
+ref: link-your-github-account
+content: |
+  In order to automatically deploy based on a GitHub repository, Realm
+  requires that you link a GitHub account that has, at minimum, read
+  access to the repository.
+  
+  To link a GitHub account, click :guilabel:`Deploy` in the left-hand
+  navigation of the Realm UI and then select the
+  :guilabel:`Configuration` tab. Expand the :guilabel:`Automatic
+  Deployment` section and then click :guilabel:`Grant GitHub Account
+  Access`. A new browser window will open to the GitHub application
+  installation flow.
+  
+  In the new window, provide your GitHub account credentials to log in.
+     
+  .. cssclass:: bordered-figure
+  .. figure:: /images/sign-in-to-github.png
+     :width: 400px
+  
+  After logging in, GitHub will prompt you to specify one or more
+  repositories for which you want to grant Realm read access. You can
+  either select specific repositories or grant access to all of your
+  repositories on GitHub. Select the repositories you want to use and
+  then click :guilabel:`Install`.
+  
+  .. cssclass:: bordered-figure
+  .. figure:: /images/github-auth-page.png
+     :alt: GitHub Application authorization screen
+     :width: 400px
+  
+  After you install the application, the window will close and the
+  Realm UI will update to show your linked account in the
+  :guilabel:`Configuration` tab of the :guilabel:`Deploy` page. You can
+  manage permissions for the Realm GitHub application from the
+  :github:`Installed GitHub Apps <settings/installations>` page in your
+  GitHub settings.
+---
+title: Specify a GitHub Repository
+ref: specify-a-github-repository
+content: |
+  Once you have linked your GitHub account to your Realm app, you can
+  specify a repository that Realm should automatically deploy. Click
+  the :guilabel:`Repository` drop-down, select the repo's name from the
+  list, and then click :guilabel:`Save`.
+  
+  .. cssclass:: bordered-figure
+  .. figure:: /images/automatic-deploy-select-repo.png
+     :alt: GitHub repository selection
+     :width: 750px
+  
+  .. note::
+
+     The list of repositories will only contain repos that you have
+     granted Realm read access to.
+---
+title: Initialize the Repository
+ref: initialize-the-repository
+content: |
+  Clone a local copy of the Git repository that you specified:
+  
+  .. code-block:: shell
+     
+     git clone https://github.com/<organization>/<repo>.git
+  
+  The repository needs to contain an :ref:`application directory
+  <app-directory>` with configuration files that define your
+  application. You can create the application directory manually or
+  :doc:`export the application directory </deploy/export-realm-app>`
+  using the ``--for-source-control`` option for an existing app.
+  
+  .. important::
+
+     Realm applications deployed via GitHub *must not* specify
+     the ``name``, ``app_id``, ``location``, or ``deployment_model``
+     fields in the ``realm.json`` file. Applications deployed via
+     GitHub must also omit the ``config.clusterName`` field of the
+     ``config.json`` of any Atlas clusters connected to the application.
+     Application configurations exported with the
+     ``--for-source-control`` flag omit these fields automatically.
+  
+  Add the application directory to the repository
+  and then commit the changes:
+
+  .. code-block:: shell
+     
+     git add -A
+     git commit -m "Adds Realm Application Directory"
+  
+  Once you have committed the latest version of the application to the
+  repository, push it to the ``master`` branch of your repository on
+  GitHub:
+
+  .. code-block:: shell
+     
+     git push origin master
+---
+title: Enable Automatic Deployment
+ref: enable-automatic-deployment
+content: |
+  After you have specified a repository to deploy and initialized it
+  with the latest version of your app, you need to enable automatic
+  deployment to begin deploying it. On the :guilabel:`Configuration` tab
+  of the :guilabel:`Deploy` page, click :guilabel:`Enable Automatic
+  Deployment`. In the modal that appears, click :guilabel:`Enable
+  Automatic Deployment` to confirm your selection.
+  
+  .. cssclass:: bordered-figure
+  .. figure:: /images/enable-automatic-deployment.png
+     :alt: Enable Automatic GitHub Deployment in the Realm UI
+     :width: 750px
+---
+title: Make Changes to Your Application
+ref: make-changes-to-your-application
+content: |
+  A deployment contains one or more changes that you have
+  made to your application since the previous deployment.
+  Make any additions, modifications, or deletions to the
+  repository that you want to include in your deployment.
+
+  Refer to the :doc:`Application File Schema
+  </deploy/application-schema>` reference page and individual
+  component reference pages for details on the structure and schema of
+  your application directory.
+---
+title: Commit and Push Your Changes
+ref: commit-and-push-your-changes
+content: |
+  Once you have updated your application configuration, you
+  can deploy the updates as a new version of your Realm app
+  by pushing them to the GitHub repo that you specified. If
+  Automatic GitHub Deployment is enabled, Realm immediately
+  deploys the latest commit from the ``master`` branch.
+  
+  When you are ready to deploy, commit all of the files that
+  you want to include and then push them to GitHub:
+
+  .. code-block:: sh
+  
+     git add -A
+     git commit -m "<commit message>"
+     git push origin master
+  
+  Once you successfully push your changes to ``master`` in the GitHub
+  repo, Realm immediately deploys a new version of your application
+  that matches the state of the latest commit. Client applications will
+  automatically use the newest version, so make sure that you also
+  update your client code to use the new version if necessary.
+
+  .. admonition:: Deployment History
+     :class: note
+
+     You can see the currently deployed version of your
+     application as well as a historical log of previous
+     deployments in the :ref:`Deployment History
+     <deployment-history>` table in the Realm UI.
+...
