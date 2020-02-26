@@ -1,0 +1,87 @@
+===============================
+Application Configuration Files
+===============================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+Stitch uses JSON files and source code files to define and configure
+every component of an application. Each component has a specific
+configuration file schema and every application uses a standard file
+structure to organize the configuration files.
+
+When Will I Use Configuration Files?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Every Stitch app is composed of a collection of configuration files, so
+you use application configuration files whenever you create or modify a
+Stitch application. If you use the Stitch UI then you rarely deal
+directly with the configuration files themselves, but other deployment
+methods, like :doc:`Stitch CLI </deploy/deploy-changes-with-stitch-cli>`
+and :doc:`GitHub </deploy/deploy-automatically-with-github>` allow you
+to define and edit the configuration files directly.
+
+Directory Structure
+~~~~~~~~~~~~~~~~~~~
+
+The following figure shows a high-level view of a Stitch application's
+directory structure:
+
+.. include:: /includes/realm-application-file-schema.rst
+
+.. _appschema-stitch-config:
+
+Application Configuration
+-------------------------
+
+.. include:: /includes/appschema-configuration.rst
+
+.. _appschema-authentication-providers:
+
+Authentication Providers
+------------------------
+
+.. include:: /includes/appschema-auth-providers.rst
+
+.. _appschema-functions:
+
+Functions
+---------
+
+.. include:: /includes/appschema-functions.rst
+
+.. _appschema-services:
+
+External Services
+-----------------
+
+.. include:: /includes/appschema-services.rst
+
+.. _appschema-triggers:
+
+Triggers
+--------
+
+.. include:: /includes/appschema-triggers.rst
+
+.. _appschema-hosting:
+
+Hosting
+-------
+
+.. include:: /includes/appschema-hosting.rst
+
+.. _appschema-values:
+
+Values
+------
+
+.. include:: /includes/appschema-values.rst
