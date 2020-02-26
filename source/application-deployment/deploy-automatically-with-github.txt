@@ -1,0 +1,56 @@
+================================
+Deploy Automatically with GitHub
+================================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+You can deploy changes to your application by directly
+modifying the underlying :ref:`configuration files
+<config-files>` in an :ref:`application directory
+<app-directory>` that you host on :github:`GitHub <>`. Realm
+uses Git to version control your application and can
+automatically deploy new versions based on the latest commit
+in a GitHub repository that you specify. You can clone the
+GitHub repository to your computer and then use standard Git
+commands to pull down the latest versions and push new
+versions. This guide assumes that you are using the Git CLI.
+
+Prerequisites
+-------------
+
+- A :github:`GitHub <>` account and repository. The repository should
+  either contain an :ref:`application directory <app-directory>` or be
+  empty. For information on how to create an empty repository, see
+  GitHub's `create a repo
+  <https://help.github.com/en/articles/create-a-repo>`_ guide.
+
+- An installed copy of the Git CLI. If you do not have ``git``
+  installed, see the official guide for `Installing Git
+  <https://git-scm.com/book/en/v1/Getting-Started-Installing-Git>`_.
+
+- A MongoDB Atlas :atlas:`Programmatic API Key
+  </configure-api-access/#programmatic-api-keys>` to authenticate and
+  authorize access to your app's underlying Git repo. If you have not
+  yet generated a programmatic API key for your Atlas organization, do
+  so now.
+
+Procedure
+---------
+
+.. include:: /includes/steps/github-deploy.rst
+
+Summary
+-------
+
+- You can deploy your Realm application by modifying a repo hosted on GitHub.
+- When Automatic GitHub Deployment is enabled, Realm immediately deploys the latest commit from the ``master`` branch. To deploy, commit your changes locally, then push them to the ``master`` branch of your repo on GitHub.
+- Realm keeps track of your :ref:`Deployment History <deployment-history>`.
