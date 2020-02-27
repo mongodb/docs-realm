@@ -1,0 +1,136 @@
+===============
+Call a Function
+===============
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 3
+   :class: singlecol
+
+Overview
+--------
+
+You can call a :doc:`function </functions>` from other parts of your
+Realm application or from a connected client application.
+
+Usage
+-----
+
+The examples in this section demonstrate calling a simple function named
+``sum`` that takes two arguments, adds them, and returns the result:
+
+.. code-block:: javascript
+
+   // sum: adds two numbers
+   exports = function(a, b) {
+     return a + b;
+   };
+
+Call from Another Function
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can call a function from another function, including incoming
+webhooks and triggers, by :doc:`accessing function context
+</functions/access-function-context>` with the ``context.functions``
+global variable:
+
+For additional information, see the :doc:`Function Context
+</functions/context>` reference page.
+
+.. code-block:: javascript
+
+   // difference: subtracts b from a using the sum function
+   exports = function(a, b) {
+       return context.functions.execute("sum", a, -1 * b);
+   };
+
+.. _call-function-json-expression:
+
+Call from a JSON Expression
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can call a function from a Realm :doc:`JSON Expression
+</services/json-expressions>`, including service rules, by using the
+:json-operator:`%function` operator:
+
+.. code-block:: json
+
+   {
+     "numGamesPlayed": {
+       "%function": {
+         "name": "sum",
+         "arguments": [
+           "%%root.numWins",
+           "%%root.numLosses"
+         ]
+       }
+     }
+   }
+
+Call from a Client Application
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can call a function from client applications that are connected with
+a Client SDK or over the :ref:`wire protocol <wire-protocol-usage-call-function>`.
+
+.. tab-bar:: tabs-stitch-sdks
+   :tab-ids: javascript, android, ios
+
+.. tabs-stitch-sdks::
+
+   hidden: true
+   tabs:
+     - id: javascript
+       content: |
+         To execute a function from a JavaScript Client SDK, use the
+         :js-sdk:`callFunction() <interfaces/realmappclient.html#callfunction>`
+         method.
+
+         .. code-block:: javascript
+
+            const client = Realm.defaultAppClient;
+            client.callFunction("sum", [3, 4]).then(result => {
+                console.log(result) // Output: 7
+            });
+
+     - id: android
+       content: |
+         To execute a function from the Android Client SDK, use the
+         :android-sdk:`callFunction() <com/mongodb/realm/android/core/RealmAppClient.html#callFunction-java.lang.String-java.util.List-java.lang.Class->`
+         method.
+
+         .. code-block:: java
+
+            RealmAppClient client = Realm.getDefaultAppClient()
+            client.callFunction("sum", Arrays.asList(3, 4), BsonValue.class)
+                  .addOnCompleteListener(new OnCompleteListener<BsonValue>() {
+                    @Override
+                    public void onComplete(@NonNull final Task<BsonValue> task) {
+                      if (task.isSuccessful()) {
+                        Log.d("realm", String.format("%s", task.getResult())); // Output: 7
+                      } else {
+                        Log.e("realm", "Error calling function:", task.getException());
+                      }
+                    }
+                  });
+
+     - id: ios
+       content: |
+         To execute a function from the iOS Client SDK, use the
+         :ios-sdk:`callFunction(withName:withArgs:_:) <Protocols/RealmAppClient.html#/s:10RealmCore0A9AppClientP12callFunctionySS8withName_Say10MongoSwift9BsonValue_pG0G4ArgsyAA0A6ResultOyqd__Gcts9DecodableRd__lF>`
+         method.
+
+         .. code-block:: swift
+
+             let client = Realm.defaultAppClient!
+             client.callFunction(withName: "sum", withArgs: [3, 4]) { (result: RealmResult<String>) in
+                 switch result {
+                 case .success(let sum):
+                     print(sum)
+                 case .failure(let error):
+                     print("Failed to calculate sum: \(String(describing: error))")
+                 }
+             }
