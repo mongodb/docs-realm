@@ -1,0 +1,96 @@
+=============================
+Link a New Identity to a User
+=============================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+
+Overview
+--------
+
+MongoDB Realm provides multiple ways for you to integrate user
+authentication into your apps. When a user logs in with a specific
+provider, MongoDB Realm associates an ``identity`` object that contains
+the provider type of the user. Since there are multiple
+:doc:`Authentication Providers </authentication/providers>`, you may
+want to link an additional, new identity to an existing user account.
+
+Consider an example application that allows users to explore anonymously
+without first signing up for an account. After using the app for a
+while, a user decides to create a new account by providing their email
+and password. The user wants to associate their anonymous browsing history with their
+new account. Luckily, the app developer made this possible by allowing
+linking of the anonymous idenitity with the user account. This is done
+by calling Realm's ``linkWithCredential()`` method on the ``StitchUser``
+instance.
+
+.. tabs-stitch-sdks::
+   :hidden: true
+
+   .. tab::
+      :tabid: javascript
+
+      To provide user account linking in your code, add your app's
+      hosted domain to the list of :guilabel:`Allowed Request Origins`
+      in :guilabel:`General Settings` and then use the
+      :js-sdk:`linkWithCredential() <interfaces/stitchuser.html#linkwithcredential>` method of the
+      :guilabel:`StitchUser` class.
+
+   .. tab::
+      :tabid: android
+
+      To provide user account linking in your code, add your app's
+      hosted domain to the list of :guilabel:`Allowed Request Origins`
+      in :guilabel:`General Settings` and then use the
+      :android-sdk:`linkWithCredential() <com/mongodb/stitch/android/core/auth/StitchUser.html#linkWithCredential-com.mongodb.stitch.core.auth.StitchCredential->` method
+      of the :guilabel:`StitchUser` class.     
+
+   .. tab::
+      :tabid: ios
+
+      To provide user account linking in your code, add your app's
+      hosted domain to the list of :guilabel:`Allowed Request Origins`
+      in :guilabel:`General Settings` and then use the :ios-sdk:`linkWithCredential() <Protocols/StitchUser.html#/s:10StitchCore0A4UserP4linky0aB3SDK0A10Credential_p04withF0_yAA0A6ResultOyAaB_pGctF>`
+      method of the :guilabel:`StitchUser` class. 
+
+.. warning::
+
+   Accounts created with the Email/Password authentication provider must
+   in the "Pending User Login" user status. This means that the user has
+   received and clicked their confirmation email, but has not yet
+   attempted to login after confirming their account.
+
+Usage
+-----
+
+The following usage example simulates an anonymous user login with the
+``loginWithCredential()`` method. This method returns the anonymous
+user. The anonymous user is then linked to an existing user created with
+the username/password authentication provider by calling
+``linkWithCredential()``.
+
+
+.. tabs-stitch-sdks::
+
+   tabs:
+     - id: javascript
+       content: | 
+         .. include:: ./usage-examples/linking/js.rst
+     - id: android
+       content: |
+         .. include:: ./usage-examples/linking/android.rst
+     - id: ios
+       content: |
+         .. include:: ./usage-examples/linking/ios.rst
+
+
+Summary
+-------
+- MongoDB Realm applications can have multiple authentication providers, and multiple identities from various authentication providers can be linked to one Realm user.
+- Identities are linked to a user using the ``linkWithCredential()`` method on a ``StitchUser`` instance.
