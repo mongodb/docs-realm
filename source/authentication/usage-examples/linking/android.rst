@@ -6,7 +6,7 @@
     final StitchAuth auth = Stitch.getDefaultAppClient().getAuth();
     final StitchUser user = auth.getUser();
 
-    // Create and link a new account with the given username and password.
+    // Create and link a new identity with the given username and password.
     user.linkWithCredential(new UserPasswordCredential(username, password))
       .addOnCompleteListener(new OnCompleteListener<StitchUser>() {
         @Override
