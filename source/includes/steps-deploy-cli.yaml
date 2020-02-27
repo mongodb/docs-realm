@@ -1,0 +1,82 @@
+title: Prepare the Application Directory
+ref: prepare-application-directory
+content: |
+  :doc:`Export </deploy/export-realm-app>` your application to a local
+  application directory. Alternatively, create a new application
+  directory that contains a :ref:`realm.json <appschema-realm-config>`
+  file with your application's ``app_id``.
+
+  .. code-block:: json
+
+     {
+       "app_id": "<Your Application ID>"
+     }
+---
+title: Add or Update Application Entities
+ref: add-update-application-entities
+content: |
+  Add sub-directories and configuration files for any new entities
+  you're importing, or update the values in existing entity files. All
+  configuration files must conform to the :doc:`Application File Schema
+  </deploy/application-schema>`.
+---
+title: Authenticate a MongoDB Atlas User
+ref: authenticate-atlas-user
+content: |
+  To import or update a Realm application with ``realm-cli``, users
+  must authenticate with Atlas using an API Key.
+
+  .. code-block:: shell
+
+     realm-cli login --api-key=my-api-key --private-api-key=my-private-api-key
+---
+title: Run the Import Command
+ref: run-import-command
+content: |
+  Use the ``realm-cli`` :ref:`import <realm-cli-import>` to deploy
+  your changes:
+
+  .. code-block:: shell
+     
+     realm-cli import --strategy=merge
+  
+  .. admonition:: Import Strategy
+     :class: note
+     
+     The ``--strategy`` flag indicates how you want Realm to handle
+     configuration files that are missing or duplicated compared to the
+     currently deployed version of your application. For more
+     information, see :ref:`import strategies
+     <realm-import-strategies>`.
+  
+  If you want to :doc:`upload static assets to Realm Hosting
+  </hosting/upload-content-to-realm>`, include the static assets in the
+  ``/hosting/files`` directory and specify the
+  :option:`--include-hosting <realm-cli import --include-hosting>`
+  option:
+
+  .. code-block:: shell
+
+     realm-cli import --strategy=merge --include-hosting
+
+  If you want to :doc:`upload external dependencies
+  </functions/upload-external-dependencies>`, include your archived
+  ``node_modules`` in the ``/functions`` directory and specify the
+  :option:`--include-dependencies
+  <realm-cli import --include-dependencies>` option:
+
+  .. code-block:: shell
+
+     realm-cli import --strategy=merge --include-dependencies
+---
+title: Review and Confirm Import Diff
+ref: confirm-import-diff
+content: |
+  Before committing the import, ``realm-cli`` will show you a diff of
+  the changes that will be made to your application. Review the diff to
+  ensure that all changes are correct then confirm the import.
+
+  After successfully importing your application, Realm will
+  automatically deploy a new version of your app and update your local
+  application directory to match the new deployment.
+...

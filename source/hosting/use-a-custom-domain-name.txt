@@ -1,0 +1,44 @@
+========================
+Use a Custom Domain Name
+========================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+You can use your own custom domain name for your hosted content. By
+default, content that you upload is available at a domain with the
+following form:
+
+.. code-block:: none
+
+   <Your App ID>.mongodbstitch.com
+
+You can configure a custom domain name for your application's hosted
+content from the Realm UI or by :doc:`importing
+</deploy/deploy-changes-with-realm-cli>` an application configuration
+directory that specifies the domain in its ``realm.json`` configuration
+file. Select the tab below that corresponds to the method you want to
+use.
+
+Procedure
+---------
+
+.. tabs-stitch-interfaces::
+
+   .. tab::
+      :tabid: stitch-ui
+      
+      .. include:: /includes/steps/use-a-custom-domain-name-realm-ui.rst
+
+   .. tab::
+      :tabid: import-export
+      
+      .. include:: /includes/steps/use-a-custom-domain-name-import-export.rst

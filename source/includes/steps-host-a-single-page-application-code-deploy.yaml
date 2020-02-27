@@ -1,0 +1,81 @@
+title: Get a Local Copy of Your Realm App
+ref: get-a-local-copy-of-your-realm-app
+content: |
+  To use code deploy to configure a SPA, you need a local copy of your
+  :ref:`application directory <application-directory>` that is
+  up-to-date with the latest version of your Realm application. Clone
+  the most recent version of your Realm app from GitHub or export it
+  directly from Realm.
+
+  .. admonition:: Export Your Application
+     :class: note
+  
+     You can :doc:`export </deploy/export-realm-app>` a copy of the
+     latest version of your application directory from the
+     :guilabel:`Import/Export App` tab of the :guilabel:`Deploy` page in
+     the Realm UI, or by running the following command from an
+     authenticated instance of :doc:`realm-cli
+     </deploy/realm-cli-reference>`:
+     
+     .. code-block:: shell
+     
+        realm-cli export --app-id=<App ID>
+---
+title: Add Your Built Application Code
+ref: add-your-built-application-code
+content: |
+  Single-page applications render in a single, specific HTML file,
+  typically ``/index.html``. The file should include the necessary
+  JavaScript code to wire up and render your application, either inline
+  in a ``<script>`` tag or imported from an external file. You'll also
+  need to host any resources that you don't intend to access through a
+  CDN.
+  
+  When you are ready to host your SPA, run your application's build
+  script and then copy the output build folder into the
+  ``/hosting/files`` directory of your application directory.
+---
+title: Configure Realm to Serve Your Application
+ref: configure-realm-to-serve-your-application
+content: |
+  In :ref:`realm.json <appschema-realm-config>`, set the value of
+  ``hosting.default_response_code`` to ``200`` and set the value of
+  ``hosting.default_error_path`` to the :ref:`resource path
+  <hosting-resource-path>` of your SPA's root HTML file. Make sure to
+  save the file when you're done.
+
+  .. code-block:: json
+     :caption: ``realm.json``
+  
+     "hosting": {
+       "enabled": true,
+       "default_response_code": 200,
+       "default_error_path": "/index.html",
+     }
+---
+title: Deploy Your Changes
+ref: deploy-your-changes
+content: |
+  Now that you've added the SPA code to the ``hosting/files`` directory
+  and configured Realm to serve the root HTML file, all that's left is
+  to deploy the changes.
+
+  Navigate to the application directory root and then run the command
+  that matches your deployment method.
+
+  If you want to :doc:`deploy with Realm CLI
+  </deploy/deploy-changes-with-realm-cli>`:
+  
+  .. code-block:: shell
+     
+     realm-cli import --include-hosting
+  
+  If you want to :doc:`deploy automatically with GitHub
+  </deploy/deploy-automatically-with-github>`:
+
+  .. code-block:: shell
+     
+     git add -A
+     git commit -m "<descriptive commit message>"
+     git push <github remote> <branch>
+...
