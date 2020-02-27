@@ -1,0 +1,75 @@
+.. _export-realm-app:
+
+====================================
+Export an Existing Realm Application
+====================================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+As you develop a Realm app, you might want to share the
+codebase with team members, make a backup, or work with a
+version control system like Git. Realm's export
+functionality makes this possible.
+
+You can export Realm applications to a local application
+directory from the Realm UI or with the ``realm-cli``
+:ref:`export <realm-cli-export>` command.
+
+Exported application directories use the same name as the Realm
+application by default. Every configuration file must conform to its
+:doc:`configuration file schema
+</deploy/application-configuration-files>`.
+
+Procedure
+---------
+
+Export from the Realm UI
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The simplest way to export a Realm application is directly from the
+Realm UI. To do so, click :guilabel:`Deploy` in the left-hand
+navigation, select the :guilabel:`Import/Export App` tab, and then click
+the :guilabel:`Export App` button.
+
+.. cssclass:: bordered-figure
+.. figure:: /images/export-app-button.png
+   :figwidth: 750px
+
+Export with ``realm-cli``
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Realm applications can be exported programmatically via the
+:doc:`Command Line Interface </deploy/realm-cli-reference>`
+(``realm-cli``).
+
+Before beginning, ensure that you have properly :ref:`installed
+<install-realm-cli>` ``realm-cli``.
+
+.. include:: /includes/steps/cli-export.rst
+
+Output
+------
+
+Your application will be exported to a local application directory. If
+you did not specify a path for the directory with ``--output``, it will
+be exported with the same name as the application into the current
+working directory.
+
+Only entities that are configured in your application will appear in
+your exported application directory. See :doc:`Application Configuration
+Files </deploy/application-configuration-files>` for more information on
+the schema and contents of Realm applications.
+
+.. include:: /includes/realm-application-file-schema.rst
+
+Summary
+-------
+
+- You can use Realm's export functionality to share your codebase, make a backup, or work with a version control system.
+- You can export Realm applications with the Realm UI or with the ``realm-cli`` :ref:`export <realm-cli-export>` command.
