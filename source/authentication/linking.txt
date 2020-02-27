@@ -20,15 +20,15 @@ provider, MongoDB Realm associates an ``identity`` object that contains
 the provider type of the user. Since there are multiple
 :doc:`Authentication Providers </authentication/providers>`, you may
 want to link an additional, new identity to an existing user account.
-Consider the following example:
 
-A developer using MongoDB Realm has an app that allows users to explore
-the app anonymously without signing up upon first viewing. After working
-with an app, a user decides to create an account with their
-Email/Password.  The user now has data associated with their anonymous
-identity, and they would like to link it to their newly created
-Email/Password user account. They can do this by calling Realm's
-``linkWithCredential()`` method on the ``StitchUser`` instance.
+Consider an example application that allows users to explore anonymously
+without first signing up for an account. After using the app for a
+while, a user decides to create a new account by providing their email
+and password. The user wants to associate their anonymous browsing history with their
+new account. Luckily, the app developer made this possible by allowing
+linking of the anonymous idenitity with the user account. This is done
+by calling Realm's ``linkWithCredential()`` method on the ``StitchUser``
+instance.
 
 .. tabs-stitch-sdks::
    :hidden: true
@@ -41,6 +41,7 @@ Email/Password user account. They can do this by calling Realm's
       in :guilabel:`General Settings` and then use the
       :js-sdk:`linkWithCredential() <interfaces/stitchuser.html#linkwithcredential>` method of the
       :guilabel:`StitchUser` class.
+
    .. tab::
       :tabid: android
 
@@ -49,6 +50,7 @@ Email/Password user account. They can do this by calling Realm's
       in :guilabel:`General Settings` and then use the
       :android-sdk:`linkWithCredential() <com/mongodb/stitch/android/core/auth/StitchUser.html#linkWithCredential-com.mongodb.stitch.core.auth.StitchCredential->` method
       of the :guilabel:`StitchUser` class.     
+
    .. tab::
       :tabid: ios
 

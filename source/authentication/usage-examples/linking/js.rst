@@ -4,21 +4,17 @@
     Stitch,
     AnonymousCredential,
     UserPasswordCredential
-  } = require("mongodb-stitch-server-sdk");
-  
+  } = require("mongodb-stitch-browser-sdk");
+
   Stitch.defaultAppClient.auth
-  .loginWithCredential(new AnonymousCredential()) // log the user in anonymously
-  .then(user => {
-    console.log(`Logged in as anonymous user with id: ${user.id}`);
-    user
-      .linkWithCredential(
-        new UserPasswordCredential("<username>", "<password>") // call user.linkWithCredential to link the anonymous identity (and it's data) to the account created with that username and password
-      )
-      .then(users => {
-        console.error("accounts linked:\t", users);
-      })
-      .catch(err => {
-        console.error("err occurred in linking:\t", err);
-      });
-  })
-  .catch(console.error);
+    .loginWithCredential(new AnonymousCredential()) // log the user in anonymously
+    .then(user => {
+      console.log(`Logged in as anonymous user with id: ${user.id}`);
+      // Link the anonymous identity (and its data) to the new email/password user
+      return user.linkWithCredential(
+        new UserPasswordCredential("<username>", "<password>")
+      );
+    })
+    .catch(err => {
+      console.error("Failed to link user: ", err);
+    });
