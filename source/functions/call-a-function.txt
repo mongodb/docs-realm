@@ -80,57 +80,59 @@ a Client SDK or over the :ref:`wire protocol <wire-protocol-usage-call-function>
    :tab-ids: javascript, android, ios
 
 .. tabs-stitch-sdks::
+   :hidden:
 
-   hidden: true
-   tabs:
-     - id: javascript
-       content: |
-         To execute a function from a JavaScript Client SDK, use the
-         :js-sdk:`callFunction() <interfaces/realmappclient.html#callfunction>`
-         method.
+   .. tab::
+      :tabid: javascript
 
-         .. code-block:: javascript
+      To execute a function from a JavaScript Client SDK, use the
+      :js-sdk:`callFunction() <interfaces/realmappclient.html#callfunction>`
+      method.
 
-            const client = Realm.defaultAppClient;
-            client.callFunction("sum", [3, 4]).then(result => {
-                console.log(result) // Output: 7
-            });
+      .. code-block:: javascript
 
-     - id: android
-       content: |
-         To execute a function from the Android Client SDK, use the
-         :android-sdk:`callFunction() <com/mongodb/realm/android/core/RealmAppClient.html#callFunction-java.lang.String-java.util.List-java.lang.Class->`
-         method.
+         const client = Realm.defaultAppClient;
+         client.callFunction("sum", [3, 4]).then(result => {
+               console.log(result) // Output: 7
+         });
 
-         .. code-block:: java
+   .. tab::
+      :tabid: android
 
-            RealmAppClient client = Realm.getDefaultAppClient()
-            client.callFunction("sum", Arrays.asList(3, 4), BsonValue.class)
-                  .addOnCompleteListener(new OnCompleteListener<BsonValue>() {
-                    @Override
-                    public void onComplete(@NonNull final Task<BsonValue> task) {
-                      if (task.isSuccessful()) {
-                        Log.d("realm", String.format("%s", task.getResult())); // Output: 7
-                      } else {
-                        Log.e("realm", "Error calling function:", task.getException());
-                      }
-                    }
-                  });
+      To execute a function from the Android Client SDK, use the
+      :android-sdk:`callFunction() <com/mongodb/realm/android/core/RealmAppClient.html#callFunction-java.lang.String-java.util.List-java.lang.Class->`
+      method.
 
-     - id: ios
-       content: |
-         To execute a function from the iOS Client SDK, use the
-         :ios-sdk:`callFunction(withName:withArgs:_:) <Protocols/RealmAppClient.html#/s:10RealmCore0A9AppClientP12callFunctionySS8withName_Say10MongoSwift9BsonValue_pG0G4ArgsyAA0A6ResultOyqd__Gcts9DecodableRd__lF>`
-         method.
+      .. code-block:: java
 
-         .. code-block:: swift
+         RealmAppClient client = Realm.getDefaultAppClient()
+         client.callFunction("sum", Arrays.asList(3, 4), BsonValue.class)
+               .addOnCompleteListener(new OnCompleteListener<BsonValue>() {
+                  @Override
+                  public void onComplete(@NonNull final Task<BsonValue> task) {
+                     if (task.isSuccessful()) {
+                     Log.d("realm", String.format("%s", task.getResult())); // Output: 7
+                     } else {
+                     Log.e("realm", "Error calling function:", task.getException());
+                     }
+                  }
+               });
 
-             let client = Realm.defaultAppClient!
-             client.callFunction(withName: "sum", withArgs: [3, 4]) { (result: RealmResult<String>) in
-                 switch result {
-                 case .success(let sum):
-                     print(sum)
-                 case .failure(let error):
-                     print("Failed to calculate sum: \(String(describing: error))")
-                 }
-             }
+   .. tab::
+      :tabid: ios
+
+      To execute a function from the iOS Client SDK, use the
+      :ios-sdk:`callFunction(withName:withArgs:_:) <Protocols/RealmAppClient.html#/s:10RealmCore0A9AppClientP12callFunctionySS8withName_Say10MongoSwift9BsonValue_pG0G4ArgsyAA0A6ResultOyqd__Gcts9DecodableRd__lF>`
+      method.
+
+      .. code-block:: swift
+
+            let client = Realm.defaultAppClient!
+            client.callFunction(withName: "sum", withArgs: [3, 4]) { (result: RealmResult<String>) in
+               switch result {
+               case .success(let sum):
+                  print(sum)
+               case .failure(let error):
+                  print("Failed to calculate sum: \(String(describing: error))")
+               }
+            }
