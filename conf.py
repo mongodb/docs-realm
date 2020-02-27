@@ -77,6 +77,7 @@ extlinks = {
     'jwt-io': ('https://jwt.io/%s', ''),
     'nodejs': ('https://nodejs.org/api/%s', ''),
     'npm': ('https://www.npmjs.com/%s', ''),
+    'mdn': ('https://developer.mozilla.org/en-US/docs/%s', ''),
 }
 
 intersphinx_mapping = {}
