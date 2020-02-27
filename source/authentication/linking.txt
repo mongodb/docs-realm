@@ -17,11 +17,10 @@ Overview
 MongoDB Realm provides multiple ways for you to integrate user
 authentication into your apps. When a user logs in with a specific
 provider, MongoDB Realm associates an ``identity`` object that contains
-the provider type with the user. 
-
-Since there are multiple authentication providers, you may want to link
-an additional, new identity to an existing user account. Consider the
-following example:
+the provider type with the user. Since there are multiple
+:doc:`Authentication Providers </authentication/providers>`, you may
+want to link an additional, new identity to an existing user account.
+Consider the following example:
 
 A developer using MongoDB Realm has an app that allows users to explore
 the app anonymously without signing up upon first viewing. After working
@@ -29,20 +28,34 @@ with an app, a user decides to create an account with their
 Email/Password.  The user now has data associated with their anonymous
 identity, and they would like to link it to their newly created
 Email/Password user account. They can do this by calling Realm's
-``linkWithCredential()`` method called on the ``StitchUser`` instance. 
+``linkWithCredential()`` method on the ``StitchUser`` instance.
 
-To provide user account linking in your code, add your app's hosted
-domain to the list of :guilabel:`Allowed Request Origins` in
-:guilabel:`General Settings` and then use the
-:guilabel:`linkWithCredential()` method of the :guilabel:`StitchUser`
-class. Find documentation on the ``linkWithCredential()`` method in the
-following SDKs: 
+.. tabs-stitch-sdks::
+   :hidden: true
 
-- :android-sdk:`Android SDK <com/mongodb/stitch/android/core/auth/StitchUser.html#linkWithCredential-com.mongodb.stitch.core.auth.StitchCredential->`
+   .. tab::
+      :tabid: javascript
 
-- :ios-sdk:`iOS SDK <Protocols/StitchUser.html#/s:10StitchCore0A4UserP4linky0aB3SDK0A10Credential_p04withF0_yAA0A6ResultOyAaB_pGctF>`
+      To provide user account linking in your code, add your app's
+      hosted domain to the list of :guilabel:`Allowed Request Origins`
+      in :guilabel:`General Settings` and then use the
+      :js-sdk:`linkWithCredential() <interfaces/stitchuser.html#linkwithcredential>` method of the
+      :guilabel:`StitchUser` class.
+   .. tab::
+      :tabid: android
 
-- :js-sdk:`JavaScript SDK <interfaces/stitchuser.html#linkwithcredential>`
+      To provide user account linking in your code, add your app's
+      hosted domain to the list of :guilabel:`Allowed Request Origins`
+      in :guilabel:`General Settings` and then use the
+      :android-sdk:`linkWithCredential() <com/mongodb/stitch/android/core/auth/StitchUser.html#linkWithCredential-com.mongodb.stitch.core.auth.StitchCredential->` method
+      of the :guilabel:`StitchUser` class.     
+   .. tab::
+      :tabid: ios
+
+      To provide user account linking in your code, add your app's
+      hosted domain to the list of :guilabel:`Allowed Request Origins`
+      in :guilabel:`General Settings` and then use the :ios-sdk:`linkWithCredential() <Protocols/StitchUser.html#/s:10StitchCore0A4UserP4linky0aB3SDK0A10Credential_p04withF0_yAA0A6ResultOyAaB_pGctF>`
+      method of the :guilabel:`StitchUser` class. 
 
 .. warning::
 
@@ -50,7 +63,6 @@ following SDKs:
    in the "Pending User Login" user status. This means that the user has
    received and clicked their confirmation email, but has not yet
    attempted to login after confirming their account.
-
 
 Usage
 -----
