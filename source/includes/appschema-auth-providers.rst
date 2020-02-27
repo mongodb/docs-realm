@@ -7,14 +7,12 @@
       └── auth_providers/
           └── <provider name>.json
 
-.. div:: section-intro
+:ref:`Authentication <realm-authentication>` providers are defined in
+your application's ``/auth_providers`` directory.
 
-   :ref:`Authentication <realm-authentication>` providers are defined
-   in your application's ``/auth_providers`` directory.
-
-   Each provider is defined in its own JSON file named after the
-   provider. For detailed information on configuring and using a
-   specific authentication provider, see that provider's reference page.
+Each provider is defined in its own JSON file named after the provider.
+For detailed information on configuring and using a specific
+authentication provider, see that provider's reference page.
 
 Configuration
 ~~~~~~~~~~~~~

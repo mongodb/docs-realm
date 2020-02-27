@@ -13,17 +13,15 @@
               └── rules/
                   └── <rule name>.json
 
-.. div:: section-intro
+Services, including both :doc:`MongoDB services </mongodb>` and
+:doc:`external services </services>`, are defined the ``/services``
+directory. Each service maps to its own sub-directory with the same
+name as the service.
 
-   Services, including both :doc:`MongoDB services </mongodb>` and
-   :doc:`external services </services>`, are defined the ``/services``
-   directory. Each service maps to its own sub-directory with the same
-   name as the service.
-
-   Each service directory contains a service configuration file
-   (``config.json``), a sub-directory of service rule configurations
-   (``/rules``), and a sub-directory of webhook configurations
-   (``/incoming_webhooks``) if the service supports webhooks.
+Each service directory contains a service configuration file
+(``config.json``), a sub-directory of service rule configurations
+(``/rules``), and a sub-directory of webhook configurations
+(``/incoming_webhooks``) if the service supports webhooks.
 
 Service Configuration
 ~~~~~~~~~~~~~~~~~~~~~

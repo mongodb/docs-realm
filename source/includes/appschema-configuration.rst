@@ -6,11 +6,9 @@
       yourRealmApp/
       └── realm.json
 
-.. div:: section-intro
-
-   Application-level configuration information is defined in a single
-   document named ``realm.json`` stored in your application's root
-   directory.
+Application-level configuration information is defined in a single
+document named ``realm.json`` stored in your application's root
+directory.
 
 Configuration
 ~~~~~~~~~~~~~
