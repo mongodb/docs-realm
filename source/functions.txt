@@ -1,0 +1,227 @@
+=========
+Functions
+=========
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 3
+   :class: singlecol
+
+Introduction
+------------
+
+Realm Functions allow you to define and execute server-side logic for
+your application. You can call functions from your client applications
+as well as from other functions and in JSON expressions throughout
+Realm.
+
+Functions are written in modern JavaScript (ES6+) and execute in a
+serverless manner. When you :doc:`call a function
+</functions/call-a-function>`, you can dynamically access components of
+the current application as well as information about the request to
+execute the function and the logged in user that sent the request.
+
+By default, Realm Functions have no Node.js modules available for
+import. If you would like to make use of any such modules, you can
+:doc:`upload external dependencies </functions/upload-external-dependencies>`
+to make them available to
+:doc:`import into your Realm Functions </functions/import-external-dependencies>`.
+
+Use Cases
+~~~~~~~~~
+
+You can use functions to handle low-latency, short-running connection
+logic and other server-side interactions. Functions are particularly
+useful when you want to work with multiple services, behave dynamically
+based on the current user, or abstract away implementation details from
+your client applications. You can upload external Node.js packages and
+import them into your functions to streamline data processing and reuse
+shared code.
+
+Realm also uses functions internally for incoming webhooks and
+triggers. The functions that you create for these components are regular
+Realm functions that take specific arguments depending on the service.
+
+Behavior
+~~~~~~~~
+
+- Realm automatically encodes values returned from functions as
+  :manual:`Extended JSON </reference/mongodb-extended-json>`.
+
+- Functions do not continue to execute after they return. You cannot use
+  functions with asynchronous callbacks or event listeners. If you need
+  to do asynchronous work in a function, use a :mdn:`Promise
+  <Web/JavaScript/Reference/Global_Objects/Promise>`.
+
+.. _function-constraints:
+
+Constraints
+~~~~~~~~~~~
+
+- Function runtime is limited to 90 seconds.
+
+- Function memory usage is limited to 256MB.
+
+- Functions and uploaded npm modules currently do not support the
+  following ES6+ features:
+
+  - New Global Object Types (i.e. ``WeakMap``, ``Set``, ``WeakSet``,
+    ``Symbol``, ``Proxy``)
+
+  - New Math, Number, String, Array, and Object APIs (e.g. ``Array.prototype.includes``)
+
+- Uploaded npm modules should be transpiled to ES5. Since transpiling
+  to ES5 using Babel is commonplace in the Node.js community, *most*
+  modules should be available in a transpiled format.
+
+- Functions currently do not support some Node.js built-in modules. The
+  following chart lists current support for each module:
+
+.. list-table::
+   :stub-columns: 1
+
+   * - Supported Modules
+     - - :nodejs:`url <url.html>`
+       - :nodejs:`buffer <buffer.html>`
+       - :nodejs:`events <events.html>`
+       - :nodejs:`util <util.html>`
+       - :nodejs:`stream <stream.html>`
+       - :nodejs:`timers <timers.html>`
+       - :nodejs:`process <process.html>`
+       - :nodejs:`assert <assert.html>`
+       - :nodejs:`zlib <zlib.html>`
+       - :nodejs:`net <net.html>` (Max 5 sockets per function)
+
+   * - Unsupported Modules
+     - - :nodejs:`crypto <crypto.html>`
+       - :nodejs:`tls <tls.html>`
+       - :nodejs:`http <http.html>`
+       - :nodejs:`https <https.html>`
+
+Concepts
+--------
+
+.. _function-active-user:
+
+Active User
+~~~~~~~~~~~
+
+The **active user** of a given function execution is the authenticated
+:ref:`user <user-accounts>` that called the function. Functions inherit
+the user context of other functions that call them.
+
+Realm evaluates rules in the context of the active user and resolves
+dynamic references like :ref:`context.user <context-user>` and
+:json-expansion:`%%user` to their :doc:`user object </users>`.
+
+.. _function-run-as-system:
+.. _function-system-user:
+.. _system-functions:
+
+System Functions
+~~~~~~~~~~~~~~~~
+
+A **System Function** is a function that runs as the :ref:`system user
+<system-users>` rather than an :ref:`application user <user-accounts>`.
+System functions have full access to MongoDB CRUD and Aggregation APIs
+bypass collection rules and schema validation.
+
+You can configure a Function to run as the :ref:`system user
+<system-users>` by enabling its :guilabel:`Run As System` configuration
+option. To determine if a function executes as a system user at runtime,
+call :method:`context.runningAsSystem()`.
+
+.. admonition:: System Function Active User
+   :class: note
+   
+   Realm always resolves dynamic references like :ref:`context.user
+   <context-user>` and :json-expansion:`%%user` to the authenticated
+   user that called a function if there was one. If a function executes
+   without being called by an authenticated user, such as in a trigger
+   or webhook, then Realm resolves the dynamic references to the
+   :ref:`system user <system-users>` instead.
+
+.. _external-dependencies:
+
+External Dependencies
+~~~~~~~~~~~~~~~~~~~~~
+
+An **external dependency** is an external library that includes logic
+you'd rather not implement yourself, such as string parsing, convenience
+functions for array manipulations, and data structure or algorithm
+implementations.
+
+Realm allows you to upload external dependencies from the
+`npm repository <https://www.npmjs.com/>`__ and then import those
+dependencies into your functions using standard JavaScript module
+syntax. To get started with external dependencies, check out the
+following guides:
+
+- :doc:`Upload External Dependencies </functions/upload-external-dependencies>`
+- :doc:`Import External Dependencies </functions/import-external-dependencies>`
+
+.. admonition:: Create Your Own Modules
+   :class: note
+
+   Though most npm modules are written by third parties, you can also
+   create and publish your own npm modules to house logic specific to
+   your application. You can make your modules available to the Node.js
+   community or reserve them for private use. For more information,
+   check out npm's guide on `Contributing packages to the registry
+   <https://docs.npmjs.com/packages-and-modules/contributing-packages-to-the-registry>`_.
+
+Guides
+------
+
+.. list-table::
+   :header-rows: 1
+   :widths: 20 50
+
+   * - Guide
+     - Description
+
+   * - :doc:`Define a Function </functions/define-a-function>`
+     - Learn how to write and add new functions to your Realm application.
+
+   * - :doc:`Upload an External Dependency </functions/upload-external-dependencies>`
+     - Learn how to make Node.js packages available for import in your
+       Realm functions.
+
+   * - :doc:`Call a Function </functions/call-a-function>`
+     - Learn how to execute functions that you've defined from a client
+       application or from another Realm component.
+
+   * - :doc:`Import an External Dependency </functions/import-external-dependencies>`
+     - Learn how to import and call uploaded Node.js packages within
+       a Realm Function.
+
+   * - :doc:`Access Function Context </functions/access-function-context>`
+     - Learn how to access runtime information and interfaces to other
+       components of your application from within a function.
+
+Reference Documentation
+-----------------------
+
+.. toctree::
+   :caption: Reference
+   :hidden:
+
+   Function Context </functions/context>
+   Utility Packages </functions/utilities>
+
+.. list-table::
+   :header-rows: 1
+   :widths: 20 50
+
+   * - Subject
+     - Description
+
+   * - :doc:`Function Context </functions/context>`
+     - Includes detailed information about specific application
+       ``context`` modules as well as examples of runtime data objects.
+
+   * - :doc:`Utility Packages </functions/utilities>`
+     - Includes detailed information about global utility packages.
