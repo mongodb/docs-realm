@@ -15,18 +15,21 @@ Overview
 --------
 
 MongoDB Realm provides multiple ways for you to integrate user
-authentication into your apps. For this reason, you may want to provide
-a means for your users to link their accounts from one provider with
-another.
+authentication into your apps. When a user logs in with a specific
+provider, MongoDB Realm associates an ``identity`` object that contains
+the provider type with the user. 
 
-For example, suppose you have an app that enables users to register and
-authenticate using a Username and Password. The application also allows
-users to log in anonymously, allowing new users to explore the app
-without signing up. After working with the app for a while, a user
-decides to create an account. The user now has two accounts with
-separate data on each account. The user would like to consolidate this
-into one account. They can do this by linking the accounts with Realm's
-``linkWithCredential()`` method that is called on the ``StitchUser`` instance.
+Since there are multiple authentication providers, you may want to link
+an additional, new identity to an existing user account. Consider the
+following example:
+
+A developer using MongoDB Realm has an app that allows users to explore
+the app anonymously without signing up upon first viewing. After working
+with an app, a user decides to create an account with their
+Email/Password.  The user now has data associated with their anonymous
+identity, and they would like to link it to their newly created
+Email/Password user account. They can do this by calling Realm's
+``linkWithCredential()`` method called on the ``StitchUser`` instance. 
 
 To provide user account linking in your code, add your app's hosted
 domain to the list of :guilabel:`Allowed Request Origins` in
