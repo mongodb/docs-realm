@@ -86,3 +86,9 @@ the username/password authentication provider by calling
      - id: ios
        content: |
          .. include:: ./usage-examples/linking/ios.rst
+
+
+Summary
+-------
+- MongoDB Realm applications can have multiple authentication providers, and multiple identities from various authentication providers can be linked to one Realm user.
+- Identities are linked to a user using the ``linkWithCredential()`` method on a ``StitchUser`` instance.
