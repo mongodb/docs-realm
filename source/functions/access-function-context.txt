@@ -115,7 +115,7 @@ to access the :mdn:`HTTP Header <Web/HTTP/Headers>` that were included
 in the request that caused the function to execute.
 
 .. code-block:: javascript
-   
+
    exports = function() {
      return context.request.requestHeaders;
      // e.g. {
@@ -181,7 +181,7 @@ access the webhook URL on the ``webhookUrl`` property of the
 :ref:`context.request <context-request>` object:
 
 .. code-block:: javascript
-   
+
    exports = function(payload, response) {
      // Returns the webhook URL as a string
      return context.request.webhookUrl
