@@ -7,11 +7,9 @@
       └── values/
           └── <value name>.json
 
-.. div:: section-intro
+Values are defined in your application's ``/values`` directory.
 
-   Values are defined in your application's ``/values`` directory.
-
-   Each value is defined in its own JSON file named after the value.
+Each value is defined in its own JSON file named after the value.
 
 Configuration
 ~~~~~~~~~~~~~

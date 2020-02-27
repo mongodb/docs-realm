@@ -7,13 +7,11 @@
       └── triggers/
           └── <trigger name>.json
 
-.. div:: section-intro
+:doc:`Triggers </triggers>` are defined in your application's
+``/triggers`` directory.
 
-   :doc:`Triggers </triggers>` are defined in your application's
-   ``/triggers`` directory.
-
-   Each trigger is defined in its own JSON file with the same name as
-   the trigger.
+Each trigger is defined in its own JSON file with the same name as the
+trigger.
 
 Configuration
 ~~~~~~~~~~~~~

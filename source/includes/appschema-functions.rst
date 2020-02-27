@@ -9,14 +9,12 @@
               ├── config.json
               └── source.js
 
-.. div:: section-intro
+Realm functions are defined in a sub-directory of your application's
+``/functions`` directory. Each function maps to its own subdirectory
+with the same name as the function.
 
-   Realm functions are defined in a sub-directory of your application's
-   ``/functions`` directory. Each function maps to its own subdirectory
-   with the same name as the function.
-
-   Each function is configured in ``config.json`` and has its source
-   code defined in ``source.js``.
+Each function is configured in ``config.json`` and has its source code
+defined in ``source.js``.
 
 Configuration
 ~~~~~~~~~~~~~
