@@ -72,8 +72,8 @@ to each type of trigger.
 Examples
 --------
 
-.. tab-bar:: tabs-realm-interfaces
-   :tab-ids: realm-ui, import-export
+.. tab-bar:: tabs-stitch-interfaces
+   :tab-ids: stitch-ui, import-export
 
 Database Trigger
 ~~~~~~~~~~~~~~~~
@@ -105,11 +105,11 @@ When the trigger observes an ``UPDATE`` event, it passes the
 changes to the ``shippingLocation`` field and, if it was updated, sends
 a text message to the customer with the new location of the order.
 
-.. tabs-realm-interfaces::
+.. tabs-stitch-interfaces::
 
    hidden: true
    tabs:
-     - id: realm-ui
+     - id: stitch-ui
        content: |
          .. cssclass:: bordered-figure
          .. figure:: /images/trigger-location-updater.png
@@ -182,11 +182,11 @@ function, ``createNewUserDocument``. The function creates a new document
 describing the user and their activity and inserts it into the
 ``store.customers`` collection.
 
-.. tabs-realm-interfaces::
+.. tabs-stitch-interfaces::
 
    hidden: true
    tabs:
-     - id: realm-ui
+     - id: stitch-ui
        content: |
          .. cssclass:: bordered-figure
          .. figure:: /images/trigger-example-new-user.png
