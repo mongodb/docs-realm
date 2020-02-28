@@ -1,0 +1,466 @@
+.. _function-globals:
+.. _function_context:
+
+===============
+Context Modules
+===============
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+Realm functions can interact with connected services, user
+information, predefined values, and other functions through modules
+attached to the global ``context`` variable.
+
+The ``context`` variable contains the following modules:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 20 80
+
+   * - Property
+     - Description
+
+   * - ``context.services``
+     - Access service clients for the :doc:`services </services>` you've
+       configured.
+
+   * - ``context.values``
+     - Access :doc:`values </values>` that you've defined.
+
+   * - ``context.user``
+     - Access information about the :doc:`user </users>` that initiated
+       the request.
+
+   * - ``context.request``
+     - Access information about the HTTP request that triggered this function
+       call.
+
+   * - ``context.functions``
+     - Execute other functions in your Realm application.
+
+   * - ``context.http``
+     - Access the HTTP service for ``get``, ``post``, ``put``, ``patch``,
+       ``delete``, and ``head`` actions.
+
+Context Modules
+---------------
+
+.. _context-services:
+
+context.services
+~~~~~~~~~~~~~~~~
+
+An object that provides access to service clients for :doc:`Services
+</services>` in your application, including the :doc:`MongoDB Service
+</mongodb>`. A service client exposes all actions associated with its
+service as methods.
+
+.. method:: context.services.get(serviceName)
+
+   Returns a service client object or ``undefined`` if no such service
+   exists.
+
+   .. list-table::
+      :header-rows: 1
+      :widths: 20 10 70
+
+      * - Parameter
+        - Type
+        - Description
+
+      * - ``serviceName``
+        - string
+        - The unique name of the service assigned when the
+          :doc:`service was created </services/create-a-service>`.
+
+          You can find the name of the Service associated with a
+          particular external service or linked cluster in the Realm UI
+          or in an exported application directory:
+
+          .. list-table::
+             :widths: 30 70
+             
+             * - **Realm UI**
+               - Refer to the :guilabel:`Service Name` column of the
+                 table on the :guilabel:`Services` page or the
+                 :guilabel:`Realm Service Name` column of the table on
+                 the :guilabel:`Clusters` page.
+             
+             * - **Application Directory**
+               - Refer to the ``name`` field of the service's
+                 :ref:`config.json <appschema-services>` file.
+
+          .. admonition:: MongoDB Service Names
+             :class: note
+             
+             The default name for the :doc:`MongoDB Service </mongodb>`
+             associated with a Realm application's initial linked
+             cluster is ``mongodb-atlas``.
+
+.. _context-functions:
+
+context.functions
+~~~~~~~~~~~~~~~~~
+
+An object that provides access to other :doc:`Functions </functions>` in
+your application.
+
+.. method:: context.functions.execute(functionName, args...)
+
+   Calls the specified :doc:`Function </functions>` with any provided
+   arguments and returns the result.
+
+   .. list-table::
+      :header-rows: 1
+      :widths: 20 20 60
+
+      * - Parameter
+        - Type
+        - Description
+
+      * - ``functionName``
+        - string
+        - The name of the function.
+
+      * - ``args``...
+        - mixed
+        - A variadic list of arguments to pass to the function. Each
+          function parameter maps to a separate, comma-separated
+          argument.
+
+.. _context-values:
+
+context.values
+~~~~~~~~~~~~~~
+
+An object that provides access to :doc:`Values </values>` via a "getter"
+method.
+
+.. method:: context.values.get(valueName)
+
+   Returns the plain text data or :ref:`Secret <app-secret>` value
+   associated with the provided value name.
+
+   .. list-table::
+      :header-rows: 1
+      :widths: 20 20 60
+
+      * - Parameter
+        - Type
+        - Description
+
+      * - ``valueName``
+        - string
+        - The name of the :doc:`Value </values>`.
+
+.. _context-http:
+
+context.http
+~~~~~~~~~~~~
+
+A general purpose HTTP client that exposes all :ref:`HTTP service
+actions <http-service-actions>` and is not affected by :doc:`service
+rules </services/define-a-service-rule/>`.
+
+.. method:: context.http.get()
+   
+   Sends an :mdn:`HTTP GET <Web/HTTP/Methods/GET>` request to the
+   specified URL. See :method:`http.get()` for detailed reference
+   information, including parameter definitions and return types.
+
+   .. code-block:: javascript
+
+      exports = async function() {
+        const response = await context.http.get({ url: "https://www.example.com/users" })
+        // The response body is a BSON.Binary object. Parse it and return.
+        return EJSON.parse(response.body.text());
+      };
+
+.. method:: context.http.post()
+   
+   Sends an :mdn:`HTTP POST <Web/HTTP/Methods/POST>` request to the
+   specified URL. See :method:`http.post()` for detailed reference
+   information, including parameter definitions and return types.
+
+   .. code-block:: javascript
+ 
+      exports = async function() {
+        const response = await context.http.post({
+          url: "https://www.example.com/messages",
+          body: { msg: "This is in the body of a POST request!" },
+          encodeBodyAsJSON: true
+        })
+        // The response body is a BSON.Binary object. Parse it and return.
+        return EJSON.parse(response.body.text());
+      };
+
+.. method:: context.http.put()
+   
+   Sends an :mdn:`HTTP PUT <Web/HTTP/Methods/PUT>` request to the
+   specified URL. See :method:`http.put()` for detailed reference
+   information, including parameter definitions and return types.
+
+   .. code-block:: javascript
+ 
+      exports = async function() {
+        const response = await context.http.put({
+          url: "https://www.example.com/messages",
+          body: { msg: "This is in the body of a PUT request!" },
+          encodeBodyAsJSON: true
+        })
+        // The response body is a BSON.Binary object. Parse it and return.
+        return EJSON.parse(response.body.text());
+      };
+
+.. method:: context.http.patch()
+
+   Sends an :mdn:`HTTP PATCH <Web/HTTP/Methods/PATCH>` request to the
+   specified URL. See :method:`http.patch()` for detailed reference
+   information, including parameter definitions and return types.
+
+   .. code-block:: javascript
+ 
+      exports = async function() {
+        const response = await context.http.patch({
+          url: "https://www.example.com/diff.txt",
+          body: { msg: "This is in the body of a PATCH request!" },
+          encodeBodyAsJSON: true
+        })
+        // The response body is a BSON.Binary object. Parse it and return.
+        return EJSON.parse(response.body.text());
+      };
+
+.. method:: context.http.delete()
+
+   Sends an :mdn:`HTTP DELETE <Web/HTTP/Methods/DELETE>` request to the
+   specified URL. See :method:`http.delete()` for detailed reference
+   information, including parameter definitions and return types.
+
+   .. code-block:: javascript
+ 
+      exports = async function() {
+        const response = await context.http.delete({ url: "https://www.example.com/user/8675309" })
+      };
+
+.. method:: context.http.head()
+
+   Sends an :mdn:`HTTP HEAD <Web/HTTP/Methods/HEAD>` request to the
+   specified URL. See :method:`http.head()` for detailed reference
+   information, including parameter definitions and return types.
+
+   .. code-block:: javascript
+ 
+      exports = async function() {
+        const response = await context.http.head({ url: "https://www.example.com/users" })
+        // The response body is a BSON.Binary object. Parse it and return.
+        EJSON.parse(response.body.text());
+      };
+
+Context Properties
+------------------
+
+.. _context-user:
+
+context.user
+~~~~~~~~~~~~
+
+A property that contains the :ref:`user object <user-objects>` of the
+function's :ref:`active user <function-active-user>`.
+
+.. admonition:: System Functions
+   :class: note
+
+   ``context.user`` always resolves to the authenticated application
+   user that called the function, even if the function is a
+   :ref:`system function <system-functions>` running without regard for
+   Realm rules. However, some functions are not called by authenticated
+   users, such as webhook and trigger functions. For these functions,
+   ``context.user`` resolves to a system user object that contains no
+   data.
+
+.. code-block:: javascript
+
+   {
+       "id": <string>,
+       "type": <string>,
+       "data": <document>,
+       "identities": <array>
+   }
+
+.. include:: /includes/user-object-fields.rst
+
+.. example::
+
+   The following ``context.user`` document reflects an
+   :doc:`Email/Password </authentication/userpass>` user that is
+   associated with a single :ref:`User API Key <user-api-key>`.
+
+   .. code-block:: json
+
+      {
+        "id": "5cbf68583025b12840664682",
+        "type": "normal",
+        "data": {
+          "email": "someone@example.com",
+          "name": "myApiKeyName"
+        },
+        "identities": [
+          {
+            "id": "5cbf68583025b12880667681",
+            "provider_type": "local-userpass"
+          },
+          {
+            "id": "5cbf6c6a922616045a388c71",
+            "provider_type": "api-key"
+          }
+        ]
+      }
+
+.. _context-request:
+
+context.request
+~~~~~~~~~~~~~~~
+
+A property that contains information about the external HTTP request
+that triggered the function call. This information can help you
+determine the origin of the call. It may contain the following fields:
+
+.. code-block:: javascript
+
+   {
+      "remoteIPAddress": <string>,
+      "requestHeaders": <object>,
+      "webhookUrl": <string>,
+      "httpMethod": <string>,
+      "rawQueryString": <string>,
+      "httpReferrer": <string>,
+      "httpUserAgent": <string>,
+      "service": <string>,
+      "action":"<string>
+   }
+
+.. list-table::
+   :header-rows: 1
+   :widths: 20 20 60
+
+   * - Field
+     - Type
+     - Description
+
+   * - ``remoteIPAddress``
+     - string
+     - The IP address of the client that issued the Function request.
+
+   * - ``requestHeaders``
+     - object
+     - An object where each field maps to a type of :mdn:`HTTP Header
+       <Web/HTTP/Headers>` that was included in the request that caused
+       the function to execute. The value of each field is an array of
+       strings where each string maps to a header of the specified type
+       that was included in the request.
+
+       .. example::
+
+          .. code-block:: json
+
+             {
+               "requestHeaders": {
+                 "Content-Type": ["application/json"],
+                 "Cookie": [
+                   "someCookie=someValue",
+                   "anotherCookie=anotherValue"
+                 ]
+               }
+             }
+
+   * - ``webhookUrl``
+     - string
+     - Optional. The webhook URL of the :ref:`incoming webhook
+       <http-webhooks>` that the Function is assigned to, if applicable.
+
+   * - ``httpMethod``
+     - string
+     - Optional. The :mdn:`HTTP method <Web/HTTP/Methods>` of the
+       request that called the :ref:`incoming webhook <http-webhooks>`
+       associated with the Function, if applicable.
+
+   * - ``rawQueryString``
+     - string
+
+     - The :wikipedia:`query string <Query_string>` from the URL of the
+       incoming HTTP request that caused the function to execute. All
+       query parameters appear in the same order as they were specified.
+
+       .. admonition:: Realm Removes The Secret Parameter
+          :class: important
+
+          For security reasons, Realm automatically removes any query
+          string key/value pair where the key is ``secret``. For
+          example, if an incoming request has the query string
+          ``?secret=hello&someParam=42`` then the ``rawQueryString`` for
+          that request is ``"someParam=42"``.
+
+   * - ``httpReferrer``
+     - string
+     - Optional. The URL of the page that the Function request
+       was issued from. Derived from the :mdn:`Referer HTTP header
+       <Web/HTTP/Headers/Referer>`.
+
+   * - ``httpUserAgent``
+     - string
+     - Optional. Characteristic information that identifies the source
+       of the request, such as the software vendor, operating system, or
+       application type. Derived from the :mdn:`User-Agent HTTP header
+       <Web/HTTP/Headers/User-Agent>`.
+   * - ``service``
+     - string
+     - Contains the name of the `service` called within the function.
+   * - ``action``
+     - string
+     - The action executed on the service.
+
+.. note::
+
+   If there is no ``Referer`` header or ``User-Agent`` header present in
+   the request, the respective field will be omitted.
+
+.. example::
+
+   The following ``context.request`` document reflects a function call
+   issued from ``https://myapp.example.com/`` by a user browsing with
+   Chrome 73 on macOS High Sierra:
+   
+   .. code-block:: json
+   
+      {
+         "remoteIPAddress": "54.173.82.137",
+         "httpReferrer": "https://myapp.example.com/",
+         "httpUserAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36"
+      }
+
+ 
+Context Methods
+---------------
+
+.. method:: context.runningAsSystem()
+
+   Returns ``true`` if the function is running as a :guilabel:`System
+   User`, otherwise returns ``false``.
+
+   .. code-block:: javascript
+   
+      const isSystemUser = context.runningAsSystem()
+      if(isSystemUser) {
+        // Do some work that bypasses rules
+      } else {
+        // Do some work in the context of the user that called the function.
+      }
