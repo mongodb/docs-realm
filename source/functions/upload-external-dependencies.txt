@@ -1,0 +1,45 @@
+============================
+Upload External Dependencies
+============================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+You can upload npm modules into your Realm application and use the
+uploaded :ref:`external dependencies <external-dependencies>` in your
+Functions. This allows your application to depend upon external
+libraries for code reuse.
+
+To use external dependencies, upload an archive of an npm
+``node_modules`` folder via the Realm UI. Once uploaded, any Realm
+Function can import and use any dependencies listed on the dependencies
+page of the Realm UI.
+
+.. admonition:: External Dependency Size Constraints
+   :class: important
+
+   Uploaded zip files are subject to a ``10MB`` size cap.
+
+Procedure
+---------
+
+.. include:: /includes/steps/upload-external-dependencies.rst
+
+
+Summary
+-------
+- External Dependencies can be uploaded through the Realm UI 
+- Uploaded Dependencies can be used in Realm Functions
+
+Next Steps
+----------
+
+- You have installed and archived your external dependencies locally, uploaded them to Realm, and deployed your application. Now you can :doc:`import external dependencies </functions/import-external-dependencies>` in a Realm Function.

@@ -1,0 +1,545 @@
+.. _realm-cli:
+
+=========
+Realm CLI
+=========
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+.. program:: realm-cli
+.. binary:: realm-cli
+
+The MongoDB Realm Command Line Interface (``realm-cli``)
+allows you to programmatically manage your Realm
+applications. With ``realm-cli``, you can create or update
+Realm applications from a local directory as well as export
+existing applications to a local directory.
+
+.. _install-realm-cli:
+
+Installation
+------------
+
+.. tabs::
+
+   tabs:
+     - id: npm
+       name: npm / Yarn
+       content: |
+         The easiest way to install ``realm-cli`` is with the `npm
+         <https://www.npmjs.com/get-npm>`_ package manager. Ensure that
+         you have `Node.js <https://nodejs.org/en/download/>`_
+         installed, then run the following command in your shell:
+
+         .. code-block:: shell
+
+            npm install -g mongodb-realm-cli
+
+         You can also install the CLI from npm with `Yarn
+         <https://yarnpkg.com/en/>`_:
+
+         .. code-block:: shell
+
+            yarn global add mongodb-realm-cli
+
+     - id: manual-install
+       name: Manual Install
+       content: |
+         .. include:: /includes/steps/cli-install.rst
+
+.. _realm-cli-general-options:
+
+General Options
+---------------
+
+
+The following options are available for all ``realm-cli`` commands:
+
+.. include:: /includes/option/option-realm-cli-config-path.rst
+
+.. include:: /includes/option/option-realm-cli-disable-color.rst
+
+.. include:: /includes/option/option-realm-cli-yes.rst
+
+Authentication
+--------------
+
+.. _realm-cli-login:
+
+Authenticate a CLI User
+~~~~~~~~~~~~~~~~~~~~~~~
+
+.. program:: realm-cli login
+.. binary:: realm-cli login
+
+Use ``realm-cli login`` to authenticate a MongoDB Cloud user
+with a :atlas:`MongoDB Atlas programmatic API Key
+</configure-api-access/#programmatic-api-keys>`.
+
+.. code-block:: shell
+
+   realm-cli login --api-key=my-api-key --private-api-key=my-private-api-key
+
+.. include:: /includes/option/option-realm-cli-login-api-key.rst
+.. include:: /includes/option/option-realm-cli-login-private-api-key.rst
+.. include:: /includes/option/option-realm-cli-login-username.rst
+
+.. _realm-cli-logout:
+
+Log Out the Current CLI User
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. program:: realm-cli logout
+.. binary:: realm-cli logout
+
+Use ``realm-cli logout`` to log out the currently logged in user.
+
+.. code-block:: shell
+
+   realm-cli logout
+
+.. _realm-cli-whoami:
+
+View the Currently Logged In User
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. program:: realm-cli whoami
+.. binary:: realm-cli whoami
+
+Use ``realm-cli whoami`` to see details on the user that is currently
+logged in to the CLI, if applicable.
+
+.. code-block:: shell
+
+   realm-cli whoami
+
+If there is a currently logged-in user, their information will display
+on the next line in the following format:
+
+.. code-block:: shell
+
+   <username> [API Key: ********-****-****-****-<last 12 digits of API key>]
+
+If no user is logged in, ``realm-cli`` will return the following
+message:
+
+.. code-block:: shell
+
+   no user info available
+
+Realm Applications
+-------------------
+
+.. _realm-cli-import:
+
+Import an Application
+~~~~~~~~~~~~~~~~~~~~~
+
+.. program:: realm-cli import
+.. binary:: realm-cli import
+
+Use ``realm-cli import`` to import a local application directory into a
+hosted Realm application. If you import a directory into an application
+that doesn't exist, ``realm-cli`` can :doc:`create the application
+</import-export/create-realm-app>` for you.
+
+.. code-block:: shell
+
+   realm-cli import \
+     --app-id=myapp-abcde \
+     --path=./path/to/app/dir \
+     --strategy=merge \
+     --include-hosting \
+     --include-dependencies
+
+.. include:: /includes/option/option-realm-cli-import-app-id.rst
+.. include:: /includes/option/option-realm-cli-import-path.rst
+.. include:: /includes/option/option-realm-cli-import-strategy.rst
+.. include:: /includes/option/option-realm-cli-import-project-id.rst
+.. include:: /includes/option/option-realm-cli-import-include-hosting.rst
+.. include:: /includes/option/option-realm-cli-import-include-dependencies.rst
+
+.. _realm-cli-export:
+
+Export an Application
+~~~~~~~~~~~~~~~~~~~~~
+
+.. program:: realm-cli export
+.. binary:: realm-cli export
+
+Use ``realm-cli export`` to save a Realm application configuration to
+a local application directory.
+
+.. code-block:: shell
+
+   realm-cli export \
+     --app-id=myRealmApp-abcde \
+     --output=path/to/exported/app/dir \
+     --include-hosting \
+     --as-template
+
+.. include:: /includes/option/option-realm-cli-export-app-id.rst
+.. include:: /includes/option/option-realm-cli-export-output.rst
+.. include:: /includes/option/option-realm-cli-export-include-hosting.rst
+.. include:: /includes/option/option-realm-cli-export-for-source-control.rst
+
+.. _realm-cli-export-as-template:
+
+.. include:: /includes/option/option-realm-cli-export-as-template.rst
+
+.. _realm-cli-diff:
+
+Diff Pending Application Changes
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. program:: realm-cli diff
+.. binary:: realm-cli diff
+
+Use ``realm-cli diff`` to return a diff of the configuration files
+between the deployed application and your local application directory.
+
+.. code-block:: shell
+
+   # Diff application config files
+   realm-cli diff
+   
+   # Diff application config files and hosted files
+   realm-cli diff --include-hosting
+
+The diff resembles the following:
+
+.. code-block:: shell
+   :emphasize-lines: 1-2, 6, 10-11, 15
+
+   --- functions/oldFunctionName/config.json
+   +++ functions/oldFunctionName/config.json
+   @@ -1,6 +1 @@
+   -{
+   -    "id": "5d4c6a5cd28e555496a705da",
+   -    "name": "oldFunctionName",
+   -    "private": false
+   -}
+   
+   --- functions/newFunctionName/config.json
+   +++ functions/newFunctionName/config.json
+   @@ -1 +1,6 @@
+   +{
+   +    "id": "5d4c6a5cd28e555496a705da",
+   +    "name": "newFunctionName",
+   +    "private": false
+   +}
+   
+   Modified Files:
+           * /index.html
+           * /auth/confirmEmail.html
+           * /auth/resetPassword.html
+
+.. include:: /includes/option/option-realm-cli-diff-include-hosting.rst
+
+Secrets
+-------
+
+.. _realm-cli-secrets-list:
+
+List All Secrets
+~~~~~~~~~~~~~~~~
+
+.. program:: realm-cli secrets list
+.. binary:: realm-cli secrets list
+
+Use ``realm-cli secrets list`` to return a list that contains the Name
+and ID of each :ref:`Secret <app-secret>` in your application.
+
+.. code-block:: shell
+
+   realm-cli secrets list
+
+The returned list of secrets resembles the following:
+
+.. code-block:: shell
+   
+   ID                       Name
+   5d5c25415e30c7ef857c6a10 test-secret-please-ignore
+   5d56dd453b467e2a48a6ec32 some-other-secret
+
+.. _realm-cli-secrets-add:
+
+Create a Secret
+~~~~~~~~~~~~~~~
+
+.. program:: realm-cli secrets add
+.. binary:: realm-cli secrets add
+
+Use ``realm-cli secrets add`` to create a new :ref:`Secret
+<app-secret>` with the specified name and value.
+
+.. code-block:: shell
+
+   realm-cli secrets add --name=mySecret --value=SuperSecretValue!
+
+.. include:: /includes/option/option-realm-cli-secrets-add-name.rst
+.. include:: /includes/option/option-realm-cli-secrets-add-value.rst
+
+.. _realm-cli-secrets-update:
+
+Update a Secret's Value
+~~~~~~~~~~~~~~~~~~~~~~~
+
+.. program:: realm-cli secrets update
+.. binary:: realm-cli secrets update
+
+Use ``realm-cli secrets update`` to change the value of an existing
+:ref:`Secret <app-secret>` in your application.
+
+.. code-block:: shell
+
+   # Update a Secret by name
+   realm-cli secrets update --secret-name=mySecret --value=NewSecretValue
+   realm-cli secrets update --name=mySecret --value=NewSecretValue
+   
+   # Update a Secret by name
+   realm-cli secrets update --secret-id=5ba9c5c2e707c02b38031412 --value=NewSecretValue
+   realm-cli secrets update --id=5ba9c5c2e707c02b38031412 --value=NewSecretValue
+
+.. include:: /includes/option/option-realm-cli-secrets-update-secret-name.rst
+.. include:: /includes/option/option-realm-cli-secrets-update-name.rst
+
+.. include:: /includes/option/option-realm-cli-secrets-update-secret-id.rst
+.. include:: /includes/option/option-realm-cli-secrets-update-id.rst
+
+.. include:: /includes/option/option-realm-cli-secrets-update-value.rst
+
+.. _realm-cli-secrets-remove:
+
+Remove a Secret
+~~~~~~~~~~~~~~~
+
+.. program:: realm-cli secrets remove
+.. binary:: realm-cli secrets remove
+
+Use ``realm-cli secrets remove`` to delete an existing :ref:`Secret
+<app-secret>` from your application.
+
+.. code-block:: shell
+
+   # Remove a Secret by name
+   realm-cli secrets remove --secret-name=mySecret
+   realm-cli secrets remove --name=mySecret
+   
+   # Remove a Secret by ID
+   realm-cli secrets remove --secret-id=5ba9c5c2e707c02b38031412
+   realm-cli secrets remove --id=5ba9c5c2e707c02b38031412
+
+.. include:: /includes/option/option-realm-cli-secrets-remove-secret-name.rst
+.. include:: /includes/option/option-realm-cli-secrets-remove-name.rst
+
+.. include:: /includes/option/option-realm-cli-secrets-remove-secret-id.rst
+.. include:: /includes/option/option-realm-cli-secrets-remove-id.rst
+
+.. _realm-import-strategies:
+
+Import Strategies
+-----------------
+
+When performing an application import, there are multiple built-in
+strategies for handling existing entities.
+
+All imports default to the ``merge`` strategy unless otherwise
+specified.
+
+.. _realm-cli-import-merge:
+
+Merge
+~~~~~
+
+.. code-block:: shell
+
+   realm-cli import --strategy=merge
+
+Under the ``merge`` strategy, entities in the application directory are
+added to the application non-destructively. Any existing entities in an
+application are left unchanged if they are not represented in the
+imported application directory.
+
+If an imported entity's ``id`` value matches the ``id`` of an existing
+entity, the existing entity will be updated to match the imported
+entity. Realm assigns system-generated ``id`` values to
+entities without ``id`` values before importing them as new entities.
+
+If an entity is imported with an ``id`` that does not match an
+existing entity, the import will fail. Importing an entity with a
+non-ObjectID ``id`` value causes an error.
+
+.. note::
+
+   If an imported entity has an ``id`` field, the value must be an
+   ObjectID or the merge will fail.
+
+.. example::
+
+   An existing application has three functions:
+
+   .. code-block:: none
+      :copyable: False
+
+      { "id": <ObjectID 1>, "name": "FunctionA", ... }
+      { "id": <ObjectID 2>, "name": "FunctionB", ... }
+      { "id": <ObjectID 3>, "name": "FunctionC", ... }
+
+   | A local application directory is imported with the ``merge``
+     strategy.
+   | The directory contains configuration files for the
+     following functions:
+
+   .. code-block:: none
+      :copyable: False
+
+      { "id": <ObjectID 1>, "name": "FunctionA_Updated!", ... }
+      { "name": "FunctionD", ... }
+
+   After importing, the application has the following functions:
+
+   .. code-block:: none
+      :copyable: False
+
+      { "id": <ObjectID 1>, "name": "FunctionA_Updated!" }
+      { "id": <ObjectID 2>, "name": "FunctionB", ... }
+      { "id": <ObjectID 3>, "name": "FunctionC", ... }
+      { "id": <ObjectID 4>, "name": "FunctionD", ... }
+
+   ``FunctionA`` was updated based on its imported configuration file.
+   ``FunctionB`` and ``FunctionC`` were not included in the imported
+   application directory, so they remained unchanged after importing
+   with the ``merge`` strategy. ``FunctionD`` was imported as a new
+   entity and assigned a system-generated ``id`` value.
+
+.. _realm-cli-import-replace:
+
+Replace
+~~~~~~~
+
+.. code-block:: shell
+
+   realm-cli import --strategy=replace
+
+Under the ``replace`` strategy, if an imported entity's ``id`` value
+matches the ``id`` of an existing entity, Realm replaces the
+existing entity with the imported entity. If an imported entity's ``id``
+value does not match an existing entity, the import fails.
+If an existing entity's ``id`` does not match
+the ``id`` of any imported entity, Realm deletes that
+existing entity.
+
+Realm generates ``id`` values for entities that lack ``id``
+values before importing them as new entities. Importing an entity with
+a non-ObjectID ``id`` value does not throw an error.
+
+.. example::
+
+   An existing application has three functions:
+
+   .. code-block:: none
+      :copyable: False
+
+      { "id": <ObjectID 1>, "name": "FunctionA", ... }
+      { "id": <ObjectID 2>, "name": "FunctionB", ... }
+      { "id": <ObjectID 3>, "name": "FunctionC", ... }
+
+   | A local application directory is imported with the ``replace``
+     strategy.
+   | The directory contains configuration files for the
+     following functions:
+
+   .. code-block:: none
+      :copyable: False
+
+      { "id": <ObjectID 1>, "name": "FunctionA_Updated!", ... }
+      { "name": "FunctionD", ... }
+      { "id": "non-ObjectID-value", "name": "FunctionE", ... }
+
+   After importing, the application has the following functions:
+
+   .. code-block:: none
+      :copyable: False
+
+      { "id": <ObjectID 1>, "name": "FunctionA_Updated!" }
+      { "id": <ObjectID 4>, "name": "FunctionD", ... }
+      { "id": <ObjectID 5>, "name": "FunctionE", ... }
+
+   ``FunctionA`` was updated based on its imported configuration file.
+   ``FunctionB`` and ``FunctionC`` were not included in the imported
+   application directory, so they are not present in the app after
+   importing with the ``replace`` strategy. ``FunctionD`` and
+   ``FunctionE`` were imported as new entities and assigned
+   system-generated ``id`` values.
+
+.. _realm-cli-import-replace-by-name:
+
+Replace by Name
+~~~~~~~~~~~~~~~
+
+.. code-block:: shell
+
+   realm-cli import --strategy=replace-by-name
+
+Under the ``replace-by-name`` strategy, if an imported
+entity's ``name`` value matches the ``name`` of an existing
+entity, Realm replaces the existing entity with the imported
+entity. If an imported entity's ``name`` value does not
+match an existing entity, the entity becomes a new entity.
+If an existing entity's ``name`` does not match the ``name``
+of any imported entity, Realm deletes that existing entity.
+
+If an imported entity has no ``name`` value, ``realm-cli`` will throw
+an error.
+
+.. example::
+
+   An existing application has three functions:
+
+   .. code-block:: none
+      :copyable: False
+
+      { "id": <ObjectID 1>, "name": "FunctionA", ... }
+      { "id": <ObjectID 2>, "name": "FunctionB", ... }
+      { "id": <ObjectID 3>, "name": "FunctionC", ... }
+
+   | A local application directory is imported with the ``replace``
+     strategy.
+   | The directory contains configuration files for the
+     following functions:
+
+   .. code-block:: none
+      :copyable: False
+
+      { "name": "FunctionZ", ... }
+      { "name": "FunctionB", ... }
+      { "name": "FunctionC", ... }
+
+   After importing, the application has the following functions:
+
+   .. code-block:: none
+      :copyable: False
+
+      { "id": <ObjectID 2>, "name": "FunctionB", ... }
+      { "id": <ObjectID 3>, "name": "FunctionC", ... }
+      { "id": <ObjectID 4>, "name": "FunctionZ", ... }
+
+   Both the existing application and the imported configuration directory
+   contained functions with the names ``FunctionB`` and ``FunctionC``.
+   As a result, both functions retained their previous ``id`` values and
+   names. The rest of both function's values reflect the values uploaded
+   from the configuration files. ``FunctionA`` was not included in the
+   imported application directory, so it is not present in the app after
+   importing with the ``replace-by-name`` strategy. ``FunctionZ`` was
+   imported as a new entity and assigned a system-generated ``id``
+   value.
