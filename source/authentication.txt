@@ -42,19 +42,22 @@ authentication provider. If the credentials are valid, the provider
 returns a unique identity associated with the user and Realm logs them
 in as the :ref:`active user <active-user>`.
 
-Realm includes built-in authentication providers for common use cases,
-including :doc:`anonymous </authentication/anonymous>` users,
-:doc:`email/password </authentication/userpass>` combinations, :doc:`API
-keys </authentication/api-key>`, and OAuth 2.0 through :doc:`Facebook
-</authentication/facebook>`, :doc:`Google </authentication/google>`, and
-:doc:`Apple ID </authentication/apple>`.
+Realm includes built-in authentication providers for common
+use cases, including :doc:`anonymous
+</authentication/anonymous>` users, :doc:`email/password
+</authentication/email-password>` combinations, :doc:`API
+keys </authentication/api-key>`, and OAuth 2.0 through
+:doc:`Facebook </authentication/facebook>`, :doc:`Google
+</authentication/google>`, and :doc:`Apple ID
+</authentication/apple>`.
 
-You can also configure your own custom authentication providers to
-integrate external authentication systems. The :doc:`Custom JWT
-</authentication/custom-token>` provider accepts JSON web tokens signed
-by the external system and the :doc:`Custom Function
-</authentication/custom-function>` provider allows you to define custom
-logic in a Realm function.
+You can also configure your own custom authentication
+providers to integrate external authentication systems. The
+:doc:`Custom JWT </authentication/custom-jwt>` provider
+accepts JSON web tokens signed by the external system and
+the :doc:`Custom Function </authentication/custom-function>`
+provider allows you to define custom logic in a Realm
+function.
 
 .. admonition:: User Authentication is Required
    :class: important
@@ -83,13 +86,15 @@ collection.
 .. admonition:: Link Multiple Identities to One User Account
    :class: note
 
-   When a user authenticates with a provider for the first time, Realm
-   creates a new account and associates the authenticated identity with
-   that account. Some providers allow you to associate the identity with
-   an existing user account instead of creating a new one. This allows
-   users to log in to the same account with multiple authentication
-   providers. For more information, see :doc:`Link a New Identity to a
-   User Account </authentication/link>`.
+   When a user authenticates with a provider for the first
+   time, Realm creates a new account and associates the
+   authenticated identity with that account. Some providers
+   allow you to associate the identity with an existing user
+   account instead of creating a new one. This allows users
+   to log in to the same account with multiple
+   authentication providers. For more information, see
+   :doc:`Link a New Identity to a User
+   </authentication/linking>`.
 
 
 .. _authentication-provider-identities:
@@ -127,7 +132,7 @@ with the active user's information.
 In most circumstances, the active user is the authenticated
 user that issued a request. You can also configure a
 specific active user for Functions, Triggers, and webhooks
-or choose to use the :ref:`system user <system-users>`
+or choose to use the :ref:`system user <system-user>`
 instead.
 
 To manage multiple logged-in users in a client application,

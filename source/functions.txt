@@ -125,12 +125,12 @@ System Functions
 ~~~~~~~~~~~~~~~~
 
 A **System Function** is a function that runs as the :ref:`system user
-<system-users>` rather than an :ref:`application user <user-accounts>`.
+<system-user>` rather than an :ref:`application user <user-accounts>`.
 System functions have full access to MongoDB CRUD and Aggregation APIs
 bypass collection rules and schema validation.
 
 You can configure a Function to run as the :ref:`system user
-<system-users>` by enabling its :guilabel:`Run As System` configuration
+<system-user>` by enabling its :guilabel:`Run As System` configuration
 option. To determine if a function executes as a system user at runtime,
 call :method:`context.runningAsSystem()`.
 
@@ -142,7 +142,7 @@ call :method:`context.runningAsSystem()`.
    user that called a function if there was one. If a function executes
    without being called by an authenticated user, such as in a trigger
    or webhook, then Realm resolves the dynamic references to the
-   :ref:`system user <system-users>` instead.
+   :ref:`system user <system-user>` instead.
 
 .. _external-dependencies:
 

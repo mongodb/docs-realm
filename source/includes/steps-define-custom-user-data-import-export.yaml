@@ -6,15 +6,15 @@ content: |
   the latest version of the :ref:`application directory
   <application-directory>` for your application.
 
-  You can :doc:`export </deploy/export-stitch-app>` your application
+  You can :doc:`export </deploy/export-realm-app>` your application
   from the :guilabel:`Export` tab of the :guilabel:`Settings` page in
   the Stitch UI, or by running the following command from an
-  authenticated instance of :doc:`stitch-cli
-  </deploy/stitch-cli-reference>`:
+  authenticated instance of :doc:`realm-cli
+  </deploy/realm-cli-reference>`:
 
   .. code-block:: shell
 
-     stitch-cli export --app-id=<App ID>
+     realm-cli export --app-id=<App ID>
 ---
 title: Configure Custom User Data
 ref: configure-custom-user-data
@@ -26,10 +26,10 @@ content: |
   
   To configure your application to read user data from this collection,
   specify a configuration document in the ``custom_user_data_config``
-  field of ``stitch.json``:
+  field of ``realm.json``:
   
   .. code-block:: json
-     :caption: stitch.json
+     :caption: realm.json
 
      {
        ...,
@@ -82,14 +82,14 @@ content: |
 
   .. code-block:: shell
 
-     stitch-cli import
+     realm-cli import
   
   To deploy a draft application with automatic :doc:`GitHub deployment
   </deploy/deploy-automatically-with-github>`:
 
   .. code-block:: shell
 
-     git add stitch.json
+     git add realm.json
      git commit -m "Configure and Enable Custom User Data"
      git push origin master
 
