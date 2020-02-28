@@ -240,7 +240,7 @@ rules </services/define-a-service-rule/>`.
       };
 
 .. method:: context.http.delete()
-   
+
    Sends an :mdn:`HTTP DELETE <Web/HTTP/Methods/DELETE>` request to the
    specified URL. See :method:`http.delete()` for detailed reference
    information, including parameter definitions and return types.
@@ -252,7 +252,7 @@ rules </services/define-a-service-rule/>`.
       };
 
 .. method:: context.http.head()
-   
+
    Sends an :mdn:`HTTP HEAD <Web/HTTP/Methods/HEAD>` request to the
    specified URL. See :method:`http.head()` for detailed reference
    information, including parameter definitions and return types.
@@ -278,13 +278,14 @@ function's :ref:`active user <function-active-user>`.
 
 .. admonition:: System Functions
    :class: note
-   
-   In a :ref:`system function <system-functions>`, ``context.user``
-   resolves to the authenticated application user that called a function
-   even though the function executes as the system user and bypasses all
-   rules. If the function was not called by an authenticated user, such
-   as in a webhook or trigger, then ``context.user`` resolves to a
-   system user object that has no data.
+
+   ``context.user`` always resolves to the authenticated application
+   user that called the function, even if the function is a
+   :ref:`system function <system-functions>` running without regard for
+   Realm rules. However, some functions are not called by authenticated
+   users, such as webhook and trigger functions. For these functions,
+   ``context.user`` resolves to a system user object that contains no
+   data.
 
 .. code-block:: javascript
 
@@ -302,9 +303,9 @@ function's :ref:`active user <function-active-user>`.
    The following ``context.user`` document reflects an
    :doc:`Email/Password </authentication/userpass>` user that is
    associated with a single :ref:`User API Key <user-api-key>`.
-   
+
    .. code-block:: json
-   
+
       {
         "id": "5cbf68583025b12840664682",
         "type": "normal",
