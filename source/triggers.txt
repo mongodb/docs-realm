@@ -1,0 +1,346 @@
+========
+Triggers
+========
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+.. toctree::
+   :caption: Trigger Types
+   :titlesonly:
+   :includehidden:
+   :hidden:
+   
+   Database Triggers </triggers/database-triggers>
+   Authentication Triggers </triggers/authentication-triggers>
+   Scheduled Triggers </triggers/scheduled-triggers>
+
+.. toctree::
+   :caption: Reference
+   :titlesonly:
+   :includehidden:
+   :hidden:
+   
+   Send Trigger Events to AWS EventBridge </triggers/eventbridge>
+   Trigger Snippets </triggers/trigger-snippets>
+   CRON Expressions </triggers/cron-expressions>
+
+Introduction
+------------
+
+MongoDB Realm triggers enable you to execute application and database
+logic automatically, either in response to events or based on a
+pre-defined schedule. Realm supports three types of triggers:
+
+- :doc:`Database triggers </triggers/database-triggers>`, which can automatically respond upon any document insertion, alteration, or removal in a linked MongoDB collection.
+
+- :doc:`Authentication triggers </triggers/authentication-triggers>`,
+  which execute additional server-side logic upon user creation,
+  authentication, or deletion.
+
+- :doc:`Scheduled triggers </triggers/scheduled-triggers>`, which
+  execute functions at regular intervals according to a pre-defined
+  schedule.
+
+Triggers listen for application events of a configured type and are each
+linked with a specific :doc:`Realm function </functions>`. Whenever a
+trigger observes an event that matches your configuration, it *"fires"*
+and passes the event object that caused it to fire as the argument to
+its linked function. You can configure the events that cause a trigger
+to fire based on their *operation type* as well as other values specific
+to each type of trigger.
+
+.. note::
+
+   Realm limits the execution of trigger functions to a rate of 1000
+   executions per second across all triggers in an application. If
+   additional triggers fire beyond this threshold, Realm adds their
+   associated functions to a queue and executes the functions once
+   capacity becomes available.
+
+   Database Triggers with *event ordering* enabled are an exception to
+   this rule. Each ordered trigger processes events in order, waiting
+   for the previous event execution to complete before handling the next
+   event. Therefore, only one execution of a particular ordered trigger
+   executes at any given time.
+
+Examples
+--------
+
+.. tab-bar:: tabs-realm-interfaces
+   :tab-ids: realm-ui, import-export
+
+Database Trigger
+~~~~~~~~~~~~~~~~
+
+An online store wants to notify its customers whenever one of their
+orders changes location. They record each order in the ``store.orders``
+collection as a document that resembles the following:
+
+.. code-block:: json
+
+   {
+     _id: ObjectId("59cf1860a95168b8f685e378"),
+     customerId: ObjectId("59cf17e1a95168b8f685e377"),
+     orderDate: ISODate("2018-06-26T16:20:42.313Z"),
+     shipDate: ISODate("2018-06-27T08:20:23.311Z"),
+     orderContents: [
+       { qty: 1, name: "Earl Grey Tea Bags - 100ct", price: NumberDecimal("10.99") }
+     ],
+     shippingLocation: [
+       { location: "Memphis", time: ISODate("2018-06-27T18:22:33.243Z") },
+     ]
+   }
+
+To automate this process, the store creates a database trigger that
+listens for ``UPDATE`` change events in the ``store.orders`` collection.
+When the trigger observes an ``UPDATE`` event, it passes the
+:ref:`change event object <database-events>` to its associated function,
+``textShippingUpdate``. The function checks the change event for any
+changes to the ``shippingLocation`` field and, if it was updated, sends
+a text message to the customer with the new location of the order.
+
+.. tabs-realm-interfaces::
+
+   hidden: true
+   tabs:
+     - id: realm-ui
+       content: |
+         .. cssclass:: bordered-figure
+         .. figure:: /images/trigger-location-updater.png
+
+     - id: import-export
+       content: |
+         .. code-block:: json
+            :caption: Trigger Configuration
+
+            {
+              "type": "DATABASE",
+              "name": "shippingLocationUpdater",
+              "function_name": "textShippingUpdate",
+              "config": {
+                "service_name": "mongodb-atlas",
+                "database": "store",
+                "collection": "orders",
+                "operation_types": ["UPDATE"],
+                "unordered": false,
+                "full_document": true,
+                "match": {}
+              },
+              "disabled": false
+            }
+
+.. code-block:: javascript
+   :caption: ``textShippingUpdate``
+
+   exports = async function (changeEvent) {
+     // Destructure out fields from the change stream event object
+     const { updateDescription, fullDocument } = changeEvent;
+
+     // Check if the shippingLocation field was updated
+     const updatedFields = Object.keys(updateDescription.updatedFields);
+     const isNewLocation = updatedFields.some(field =>
+       field.match(/shippingLocation/)
+     );
+
+     // If the location changed, text the customer the updated location.
+     if (isNewLocation) {
+       const { customerId, shippingLocation } = fullDocument;
+       const twilio = context.services.get("myTwilioService");
+       const mongodb = context.services.get("mongodb-atlas");
+       const customers = mongodb.db("store").collection("customers");
+
+       const { location } = shippingLocation.pop();
+       const customer = await customers.findOne({ _id: customer_id })
+       twilio.send({
+         to: customer.phoneNumber,
+         from: context.values.get("ourPhoneNumber"),
+         body: `Your order has moved! The new location is ${location}.`
+       });
+     }
+   };
+
+Authentication Trigger
+~~~~~~~~~~~~~~~~~~~~~~
+
+An online store wants to store custom metadata for each of its customers
+in MongoDB. Each customer should have a document in the
+``store.customers`` collection where metadata about them can be recorded
+and queried.
+
+To guarantee that the collection represents each customer, the store
+creates an authentication trigger that listens for newly created users
+in the :doc:`email/password </authentication/userpass>` authentication
+provider. When the trigger observes a ``CREATE`` event, it passes the
+:ref:`authentication event object <authentication-events>` to its linked
+function, ``createNewUserDocument``. The function creates a new document
+describing the user and their activity and inserts it into the
+``store.customers`` collection.
+
+.. tabs-realm-interfaces::
+
+   hidden: true
+   tabs:
+     - id: realm-ui
+       content: |
+         .. cssclass:: bordered-figure
+         .. figure:: /images/trigger-example-new-user.png
+
+     - id: import-export
+       content: |
+         .. code-block:: json
+            :caption: Trigger Configuration
+
+            {
+              "type": "AUTHENTICATION",
+              "name": "newUserHandler",
+              "function_name": "createNewUserDocument",
+              "config": {
+                "providers": ["local-userpass"],
+                "operation_type": "CREATE"
+              },
+              "disabled": false
+            }
+
+.. code-block:: javascript
+   :caption: ``createNewUserDocument``
+
+   exports = async function(authEvent) {
+     const mongodb = context.services.get("mongodb-atlas");
+     const customers = mongodb.db("store").collection("customers");
+
+     const { user, time } = authEvent;
+     const newUser = { ...user, eventLog: [ { "created": time } ] };
+     await customers.insertOne(newUser);
+   }
+
+Scheduled Trigger
+~~~~~~~~~~~~~~~~~
+
+An online store wants to generate a daily report of all sales from the
+previous day. They record all orders in the ``store.orders`` collection
+as documents that resemble the following:
+
+.. code-block:: json
+
+   {
+     _id: ObjectId("59cf1860a95168b8f685e378"),
+     customerId: ObjectId("59cf17e1a95168b8f685e377"),
+     orderDate: ISODate("2018-06-26T16:20:42.313Z"),
+     shipDate: ISODate("2018-06-27T08:20:23.311Z"),
+     orderContents: [
+       { qty: 1, name: "Earl Grey Tea Bags - 100ct", price: Decimal128("10.99") }
+     ],
+     shippingLocation: [
+       { location: "Memphis", time: ISODate("2018-06-27T18:22:33.243Z") },
+     ]
+   }
+
+To generate the daily report, the store creates a :doc:`scheduled
+trigger </triggers/scheduled-triggers>` that fires every
+morning at ``7:00 AM UTC-0400``. When the trigger fires, it calls its
+linked function, ``generateDailyReport``, which runs an aggregation
+query on the ``store.orders`` collection to generate the report. The
+function then stores the result of the aggregation in the
+``store.reports`` collection.
+
+.. tabs-realm-interfaces::
+
+   hidden: true
+   tabs:
+     - id: realm-ui
+       content: |
+         .. cssclass:: bordered-figure
+         .. figure:: /images/trigger-example-scheduled.png
+
+     - id: import-export
+       content: |
+         .. code-block:: json
+            :caption: Trigger Configuration
+
+            {
+              "type": "SCHEDULED",
+              "name": "reportDailyOrders",
+              "function_name": "generateDailyReport",
+              "config": {
+                "schedule": "0 7 * * *"
+              },
+              "disabled": false
+            }
+
+.. code-block:: javascript
+   :caption: ``generateDailyReport``
+
+   exports = function() {
+     // Instantiate MongoDB collection handles
+     const mongodb = context.services.get("mongodb-atlas");
+     const orders = mongodb.db("store").collection("orders");
+     const reports = mongodb.db("store").collection("reports");
+ 
+     // Generate the daily report
+     return orders.aggregate([
+       // Only report on orders placed since yesterday morning
+       { $match: {
+           orderDate: {
+             $gte: makeYesterdayMorningDate(),
+             $lt: makeThisMorningDate()
+           }
+       } },
+       // Add a boolean field that indicates if the order has already shipped
+       { $addFields: {
+           orderHasShipped: {
+             $cond: {
+               if: "$shipDate", // if shipDate field exists
+               then: 1,
+               else: 0
+             }
+           }
+       } },
+       // Unwind individual items within each order
+       { $unwind: {
+           path: "$orderContents"
+       } },
+       // Calculate summary metrics for yesterday's orders
+       { $group: {
+           _id: "$orderDate",
+           orderIds: { $addToSet: "$_id" },
+           numSKUsOrdered: { $sum: 1 },
+           numItemsOrdered: { $sum: "$orderContents.qty" },
+           totalSales: { $sum: "$orderContents.price" },
+           averageOrderSales: { $avg: "$orderContents.price" },
+           numItemsShipped: { $sum: "$orderHasShipped" },
+       } },
+       // Add the total number of orders placed
+       { $addFields: {
+           numOrders: { $size: "$orderIds" }
+       } }
+     ]).next()
+       .then(dailyReport => {
+         reports.insertOne(dailyReport);
+       })
+       .catch(err => console.error("Failed to generate report:", err));
+   };
+ 
+   function makeThisMorningDate() {
+     return setTimeToMorning(new Date());
+   }
+ 
+   function makeYesterdayMorningDate() {
+     const thisMorning = makeThisMorningDate();
+     const yesterdayMorning = new Date(thisMorning);
+     yesterdayMorning.setDate(thisMorning.getDate() - 1);
+     return yesterdayMorning;
+   }
+ 
+   function setTimeToMorning(date) {
+     date.setHours(7);
+     date.setMinutes(0);
+     date.setSeconds(0);
+     date.setMilliseconds(0);
+     return date;
+   }
