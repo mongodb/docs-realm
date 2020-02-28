@@ -33,7 +33,7 @@
               :doc:`Realm API Key </authentication/api-key>`.
 
           * - "system"
-            - The user is the :ref:`system user <system-users>` that
+            - The user is the :ref:`system user <system-user>` that
               bypasses all rules.
 
    * - ``data``
