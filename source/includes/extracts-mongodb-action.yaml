@@ -1,0 +1,2626 @@
+---
+ref: mongodb-action-params-find-function
+content: |
+  .. cssclass:: config-table
+  .. list-table::
+     :header-rows: 1
+     :widths: 2 3
+
+     * - Parameter
+       - Description
+
+     * - :guilabel:`Query Filter`
+
+         | ``query: <document>``
+
+       - Optional. A standard :manual:`MongoDB query
+         </tutorial/query-documents/>` document that specifies which
+         documents to find. You can use most :manual:`query selectors
+         </reference/operator/query/#query-selectors>` except for
+         :manual:`evaluation </reference/operator/query/#evaluation>`,
+         :manual:`geospatial </reference/operator/query/#geospatial>`, or
+         :manual:`bitwise </reference/operator/query/#bitwise>` selectors.
+
+         Specify an empty query filter (``{}``) or omit this parameter to
+         return the all documents in the collection.
+
+     * - :guilabel:`Projection`
+
+         | ``projection: <document>``
+
+       - Optional. A document that specifies which fields MongoDB
+         should return or withhold in each document that matches the
+         query.
+
+         To return all fields in the matching documents, omit this
+         parameter or specify an empty projection document (``{}``).
+
+         To return specific fields and the document's ``_id``, specify the
+         fields in the projection document with a value of ``1``:
+
+         .. code-block:: javascript
+
+            // Includes the field in returned documents
+            { <Field Name>: 1 }
+
+         To withhold specific fields, specify the fields in the projection
+         document with a value of ``0``:
+
+         .. code-block:: javascript
+
+            // Withholds the field from returned documents
+            { <Field Name>: 0 }
+
+         .. note::
+
+            You may specify either fields to include or fields to withhold
+            but not both. For example, the following projection is
+            **invalid** because it simultaneously includes the ``name``
+            field and withholds the ``address`` field:
+
+            .. code-block:: javascript
+
+               // Invalid
+               // Can't simultaneously include and withhold
+               { "name": 1, "address": 0 }
+
+            The exception to this rule is the ``_id`` field, which you
+            may withhold from any query:
+
+            .. code-block:: javascript
+
+               // Valid
+               // Can exclude _id while including other fields
+               { "_id": 0, "name": 1 }
+
+---
+ref: mongodb-action-params-find-sdk
+content: |
+  .. cssclass:: config-table
+  .. list-table::
+     :header-rows: 1
+     :widths: 2 3
+
+     * - Parameter
+       - Description
+
+     * - :guilabel:`Query Filter`
+
+         | ``query: <document>``
+
+       - Optional. A standard :manual:`MongoDB query
+         </tutorial/query-documents/>` document that specifies which
+         documents to find. You can use most :manual:`query selectors
+         </reference/operator/query/#query-selectors>` except for
+         :manual:`evaluation </reference/operator/query/#evaluation>`,
+         :manual:`geospatial </reference/operator/query/#geospatial>`, or
+         :manual:`bitwise </reference/operator/query/#bitwise>` selectors.
+
+         Specify an empty query filter (``{}``) or omit this parameter to
+         return the all documents in the collection.
+
+     * - :guilabel:`Query Options`
+
+         | ``options: <document>``
+
+       - .. tab-content:: tabs-stitch-sdks
+            :tab-id: functions
+
+            ""
+
+         .. tab-content:: tabs-stitch-sdks
+            :tab-id: javascript
+
+            A document that specifies configuration options for the
+            query. The ``options`` document has the following form:
+
+            .. code-block:: json
+
+               {
+                  "projection": <document>,
+                  "sort": <document>,
+                  "limit": <integer>
+               }
+
+         .. tab-content:: tabs-stitch-sdks
+            :tab-id: ios
+
+            A :ios-sdk:`RemoteFindOptions
+            <Structs/RemoteFindOptions.html>` object, which has the
+            following properties:
+
+            .. code-block:: json
+
+               {
+                  "projection": <document>,
+                  "sort": <document>,
+                  "limit": <integer>
+               }
+
+     * - :guilabel:`Projection`
+
+         | ``options.projection: <document>``
+
+       - Optional. A document that specifies which fields MongoDB
+         should return or withhold in each document that matches the
+         query.
+
+         To return all fields in the matching documents, omit this
+         parameter or specify an empty projection document (``{}``).
+
+         To return specific fields and the document's ``_id``, specify the
+         fields in the projection document with a value of ``1``:
+
+         .. code-block:: javascript
+
+            // Includes the field in returned documents
+            { <Field Name>: 1 }
+
+         To withhold specific fields, specify the fields in the projection
+         document with a value of ``0``:
+
+         .. code-block:: javascript
+
+            // Withholds the field from returned documents
+            { <Field Name>: 0 }
+
+         .. note::
+
+            You may specify either fields to include or fields to withhold
+            but not both. For example, the following projection is
+            **invalid** because it simultaneously includes the ``name``
+            field and withholds the ``address`` field:
+
+            .. code-block:: javascript
+
+               // Invalid
+               // Can't simultaneously include and withhold
+               { "name": 1, "address": 0 }
+
+            The exception to this rule is the ``_id`` field, which you
+            may withhold from any query:
+
+            .. code-block:: javascript
+
+               // Valid
+               // Can exclude _id while including other fields
+               { "_id": 0, "name": 1 }
+
+     * - :guilabel:`Sort`
+
+         | ``options.sort: <document>``
+
+       - Optional. A document that specifies a ``sort`` order for the
+         query result set. Sort documents specify one or more fields to
+         sort on. The value of each field indicates whether MongoDB
+         should sort it in ascending (``1``) or descending (``0``)
+         order. For more information, see :manual:`cursor.sort
+         </reference/method/cursor.sort>`.
+
+         .. tab-content:: tabs-stitch-sdks
+            :tab-id: javascript
+
+            See :js-sdk:`RemoteFindOptions.sort() <interfaces/remotefindoptions.html#sort>`
+
+         .. tab-content:: tabs-stitch-sdks
+            :tab-id: ios
+
+            See :ios-sdk:`RemoteFindOptions.sort() <Structs/RemoteFindOptions.html#/>`
+
+         .. example::
+
+            The following sort document specifies that documents should be
+            sorted first by ``age`` from highest to lowest. Once sorted by
+            age, the result set should further be sorted by ``name`` in
+            alphabetical order for each distinct age value.
+
+            .. code-block:: javascript
+
+               { age: 0, name: 1 }
+
+     * - :guilabel:`Limit`
+
+         | ``options.limit: <integer>``
+
+       - Optional. The maximum number of documents to include in the
+         query result set. If the result set contains more documents
+         than the specified ``limit``, the query will return documents
+         in order up to the limit.
+
+---
+ref: mongodb-action-params-find-android
+content: |
+  .. cssclass:: config-table
+  .. list-table::
+     :header-rows: 1
+     :widths: 2 3
+
+     * - Parameter
+       - Description
+
+     * - :guilabel:`Query Filter`
+
+         | ``filter: <document>``
+
+       - Optional. A standard :manual:`MongoDB query
+         </tutorial/query-documents/>` document that specifies which
+         documents to find. You can use most :manual:`query selectors
+         </reference/operator/query/#query-selectors>` except for
+         :manual:`evaluation </reference/operator/query/#evaluation>`,
+         :manual:`geospatial </reference/operator/query/#geospatial>`, or
+         :manual:`bitwise </reference/operator/query/#bitwise>` selectors.
+
+         Specify an empty query filter (``{}``) or omit this parameter to
+         return the all documents in the collection.
+
+     * - :guilabel:`Result Class`
+
+         | ``resultClass: <class>``
+
+       - Optional. Indicates the type of the document returned
+         by the operation.
+
+---
+ref: mongodb-action-params-findOne-android
+content: |
+  .. cssclass:: config-table
+  .. list-table::
+     :header-rows: 1
+     :widths: 2 3
+
+     * - Parameter
+       - Description
+
+     * - :guilabel:`Query Filter`
+
+         | ``filter: <document>``
+
+       - Required. A standard :manual:`MongoDB query
+         </tutorial/query-documents/>` document that specifies which
+         document to find. You can use most :manual:`query selectors
+         </reference/operator/query/#query-selectors>` except for
+         :manual:`evaluation </reference/operator/query/#evaluation>`,
+         :manual:`geospatial </reference/operator/query/#geospatial>`,
+         or :manual:`bitwise </reference/operator/query/#bitwise>`
+         selectors.
+
+         If multiple documents match the query, only the first document
+         in sort order or :term:`natural order` will be updated.
+
+     * - :guilabel:`Find Options`
+
+         | ``options: <RemoteFindOptions>``
+
+       - Optional: An instance of the `RemoteFindOptions <https://docs.mongodb.com/stitch-sdks/java/4/com/mongodb/stitch/core/services/mongodb/remote/RemoteFindOptions.html>`_.
+         class.
+        
+         .. code-block:: java
+
+            RemoteFindOptions options = new RemoteFindOptions()
+                .sort(sort)
+                .projection(projection);
+
+     * - :guilabel:`Sort`
+
+         | ``RemoteFindOneOptions.sort: <document>``
+
+       - Optional. Specifies the query sort order. Sort documents
+         specify one or more fields to sort on where the value of each
+         field indicates whether MongoDB should sort it in ascending
+         (``1``) or descending (``0``) order. The sort order determines
+         which document :method:`collection.findOne()` returns.
+
+         .. example::
+
+            The following sort document specifies that documents should be
+            sorted first by ``age`` from highest to lowest. Once sorted by
+            age, the result set should further be sorted by ``name`` in
+            alphabetical order for each distinct age value.
+
+            .. code-block:: java
+
+               Document sort = new Document()
+                .append("age", 0)
+                .append("name", 1);
+
+     * - :guilabel:`Projection`
+
+         | ``RemoteFindOneOptions.projection: <document>``
+
+       - Optional. A document that specifies which fields MongoDB
+         should return or withhold in the document returned by the
+         query.
+
+         To return all fields in the matching document, omit this
+         parameter or specify an empty projection document (``new Document()``).
+
+         To return specific fields and the document's ``_id``, specify the
+         fields in the projection document with a value of ``1``:
+
+         .. code-block:: java
+
+            // Includes the field in returned document
+            Document sort = new Document()
+              .append(<Field Name>, 1);
+
+         To withhold specific fields, specify the fields in the projection
+         document with a value of ``0``:
+
+         .. code-block:: java
+
+            // Withholds the field from returned document
+            Document sort = new Document()
+              .append(<Field Name>, 0);
+
+         .. note::
+
+            You may specify either fields to include or fields to withhold
+            but not both. For example, the following projection is
+            **invalid** because it simultaneously includes the ``name``
+            field and withholds the ``address`` field:
+
+            .. code-block:: java
+
+               // Invalid
+               // Can't simultaneously include and withhold
+               Document sort = new Document()
+                .append("name", 1)
+                .append("address", 0);
+
+            The exception to this rule is the ``_id`` field, which you
+            may withhold from any query:
+
+            .. code-block:: swift
+
+               // Valid
+               // Can exclude _id while including other fields
+               Document sort = new Document()
+                .append("_id", 0)
+                .append("name", 1);
+
+     * - :guilabel:`Limit`
+
+         | ``RemoteFindOptions.limit: <int>``
+
+       - Optional. The ``findOne`` method ignores this value completely.
+
+     * - :guilabel:`Result Class`
+
+         | ``resultClass: <class>``
+
+       - Optional. Indicates the type of the document returned
+         by the operation.
+
+---
+ref: mongodb-action-params-findOneAndUpdate-android
+content: |
+  .. cssclass:: config-table
+  .. list-table::
+     :header-rows: 1
+     :widths: 2 3
+
+     * - Parameter
+       - Description
+
+     * - :guilabel:`Query Filter`
+
+         | ``filter: <document>``
+
+       - Required. A standard :manual:`MongoDB query
+         </tutorial/query-documents/>` document that specifies which
+         document to update. You can use most :manual:`query selectors
+         </reference/operator/query/#query-selectors>` except for
+         :manual:`evaluation </reference/operator/query/#evaluation>`,
+         :manual:`geospatial </reference/operator/query/#geospatial>`,
+         or :manual:`bitwise </reference/operator/query/#bitwise>`
+         selectors.
+
+         If multiple documents match the query, only the first document
+         in sort order or :term:`natural order` will be updated.
+
+     * - :guilabel:`Update Operation`
+
+         | ``update: <document>``
+
+       - Required.  A standard :manual:`MongoDB update
+         </tutorial/update-documents/>` document that specifies the
+         update operation to perform on the document that matches the
+         query. You can use most :manual:`update operators
+         </reference/operator/update/>`.
+
+     * - :guilabel:`Update Options`
+
+         | ``options: <RemoteFindOneAndModifyOptions>``
+
+       - Optional: An instance of the `RemoteFindOneAndModifyOptions <https://docs.mongodb.com/stitch-sdks/java/4/com/mongodb/stitch/core/services/mongodb/remote/RemoteFindOneAndModifyOptions.html>`_.
+         class.
+        
+         .. code-block:: java
+
+            RemoteFindOneAndModifyOptions options =
+              new RemoteFindOneAndModifyOptions()
+              .sort(<document>)
+              .projection(<document>)
+              .returnNewDocument(<bool>)
+              .upsert(<bool>);
+
+     * - :guilabel:`Sort`
+
+         | ``RemoteFindOneAndModifyOptions.sort: <document>``
+
+       - Optional. Specifies the query sort order. Sort documents
+         specify one or more fields to sort on where the value of each
+         field indicates whether MongoDB should sort it in ascending
+         (``1``) or descending (``0``) order. The sort order determines
+         which document :method:`collection.findOneAndUpdate()` affects.
+
+         .. example::
+
+            The following sort document specifies that documents should be
+            sorted first by ``age`` from highest to lowest. Once sorted by
+            age, the result set should further be sorted by ``name`` in
+            alphabetical order for each distinct age value.
+
+            .. code-block:: java
+
+               Document sort = new Document()
+                .append("age", 0)
+                .append("name", 1);
+
+     * - :guilabel:`Projection`
+
+         | ``RemoteFindOneAndModifyOptions.projection: <document>``
+
+       - Optional. A document that specifies which fields MongoDB
+         should return or withhold in the document returned by the
+         query.
+
+         To return all fields in the matching document, omit this
+         parameter or specify an empty projection document (``new Document()``).
+
+         To return specific fields and the document's ``_id``, specify the
+         fields in the projection document with a value of ``1``:
+
+         .. code-block:: java
+
+            // Includes the field in returned document
+            Document sort = new Document()
+              .append(<Field Name>, 1);
+
+         To withhold specific fields, specify the fields in the projection
+         document with a value of ``0``:
+
+         .. code-block:: java
+
+            // Withholds the field from returned document
+            Document sort = new Document()
+              .append(<Field Name>, 0);
+
+         .. note::
+
+            You may specify either fields to include or fields to withhold
+            but not both. For example, the following projection is
+            **invalid** because it simultaneously includes the ``name``
+            field and withholds the ``address`` field:
+
+            .. code-block:: java
+
+               // Invalid
+               // Can't simultaneously include and withhold
+               Document sort = new Document()
+                .append("name", 1)
+                .append("address", 0);
+
+            The exception to this rule is the ``_id`` field, which you
+            may withhold from any query:
+
+            .. code-block:: swift
+
+               // Valid
+               // Can exclude _id while including other fields
+               Document sort = new Document()
+                .append("_id", 0)
+                .append("name", 1);
+
+     * - :guilabel:`Upsert`
+
+         | ``RemoteFindAndModifyOptions.upsert: <boolean>``
+
+       - Optional. Default: ``false``. A boolean that, if ``true``,
+         indicates that MongoDB should insert a new document that
+         matches the query filter when the query does not match any
+         existing documents in the collection.
+
+     * - :guilabel:`Return New Document`
+
+         | ``RemoteFindAndModifyOptions.returnNewDocument: <boolean>``
+
+       - Optional. Default: ``false``. A boolean that, if ``true``,
+         indicates that the action should return the document in its
+         post-replace form instead of its original form from before the
+         replace operation.
+
+     * - :guilabel:`Result Class`
+
+         | ``resultClass: <class>``
+
+       - Optional. Indicates the type of the document returned
+         by the operation.
+
+---
+ref: mongodb-action-params-findOneAndReplace-android
+content: |
+  .. cssclass:: config-table
+  .. list-table::
+     :header-rows: 1
+     :widths: 2 3
+
+     * - Parameter
+       - Description
+
+     * - :guilabel:`Query Filter`
+
+         | ``filter: <document>``
+
+       - Required. A standard :manual:`MongoDB query
+         </tutorial/query-documents/>` document that specifies which
+         document to replace. You can use most :manual:`query selectors
+         </reference/operator/query/#query-selectors>` except for
+         :manual:`evaluation </reference/operator/query/#evaluation>`,
+         :manual:`geospatial </reference/operator/query/#geospatial>`,
+         or :manual:`bitwise </reference/operator/query/#bitwise>`
+         selectors.
+
+         If multiple documents match the query, only the first document
+         in sort order or :term:`natural order` will be replaced.
+
+     * - :guilabel:`Replacement Document`
+
+         | ``replacement: <document>``
+
+       - Required. The document that should replace the found document.
+         The document cannot contain any MongoDB :manual:`update
+         operators </reference/operator/update/>`.
+
+     * - :guilabel:`Update Options`
+
+         | ``options: <RemoteFindOneAndModifyOptions>``
+
+       - Optional: An instance of the `RemoteFindOneAndModifyOptions <https://docs.mongodb.com/stitch-sdks/java/4/com/mongodb/stitch/core/services/mongodb/remote/RemoteFindOneAndModifyOptions.html>`_.
+         class.
+        
+         .. code-block:: java
+
+            RemoteFindOneAndModifyOptions options =
+              new RemoteFindOneAndModifyOptions()
+              .sort(<document>)
+              .projection(<document>)
+              .returnNewDocument(<bool>)
+              .upsert(<bool>);
+
+     * - :guilabel:`Sort`
+
+         | ``RemoteFindOneAndModifyOptions.sort: <document>``
+
+       - Optional. Specifies the query sort order. Sort documents
+         specify one or more fields to sort on where the value of each
+         field indicates whether MongoDB should sort it in ascending
+         (``1``) or descending (``0``) order. The sort order determines
+         which document :method:`collection.findOneAndReplace()` affects.
+
+         .. example::
+
+            The following sort document specifies that documents should be
+            sorted first by ``age`` from highest to lowest. Once sorted by
+            age, the result set should further be sorted by ``name`` in
+            alphabetical order for each distinct age value.
+
+            .. code-block:: java
+
+               Document sort = new Document()
+                .append("age", 0)
+                .append("name", 1);
+
+     * - :guilabel:`Projection`
+
+         | ``RemoteFindOneAndModifyOptions.projection: <document>``
+
+       - Optional. A document that specifies which fields MongoDB
+         should return or withhold in the document returned by the
+         query.
+
+         To return all fields in the matching document, omit this
+         parameter or specify an empty projection document (``new Document()``).
+
+         To return specific fields and the document's ``_id``, specify the
+         fields in the projection document with a value of ``1``:
+
+         .. code-block:: java
+
+            // Includes the field in returned document
+            Document sort = new Document()
+              .append(<Field Name>, 1);
+
+         To withhold specific fields, specify the fields in the projection
+         document with a value of ``0``:
+
+         .. code-block:: java
+
+            // Withholds the field from returned document
+            Document sort = new Document()
+              .append(<Field Name>, 0);
+
+         .. note::
+
+            You may specify either fields to include or fields to withhold
+            but not both. For example, the following projection is
+            **invalid** because it simultaneously includes the ``name``
+            field and withholds the ``address`` field:
+
+            .. code-block:: java
+
+               // Invalid
+               // Can't simultaneously include and withhold
+               Document sort = new Document()
+                .append("name", 1)
+                .append("address", 0);
+
+            The exception to this rule is the ``_id`` field, which you
+            may withhold from any query:
+
+            .. code-block:: swift
+
+               // Valid
+               // Can exclude _id while including other fields
+               Document sort = new Document()
+                .append("_id", 0)
+                .append("name", 1);
+
+     * - :guilabel:`Upsert`
+
+         | ``RemoteFindAndModifyOptions.upsert: <boolean>``
+
+       - Optional. Default: ``false``. A boolean that, if ``true``,
+         indicates that MongoDB should insert a new document that
+         matches the query filter when the query does not match any
+         existing documents in the collection.
+
+     * - :guilabel:`Return New Document`
+
+         | ``RemoteFindAndModifyOptions.returnNewDocument: <boolean>``
+
+       - Optional. Default: ``false``. A boolean that, if ``true``,
+         indicates that the action should return the document in its
+         post-replace form instead of its original form from before the
+         replace operation.
+
+     * - :guilabel:`Result Class`
+
+         | ``resultClass: <class>``
+
+       - Optional. Indicates the type of the document returned
+         by the operation.
+
+---
+ref: mongodb-action-params-findOneAndDelete-android
+content: |
+  .. cssclass:: config-table
+  .. list-table::
+     :header-rows: 1
+     :widths: 2 3
+
+     * - Parameter
+       - Description
+
+     * - :guilabel:`Query Filter`
+
+         | ``filter: <document>``
+
+       - Required. A standard :manual:`MongoDB query
+         </tutorial/query-documents/>` document that specifies which
+         document to delete. You can use most :manual:`query selectors
+         </reference/operator/query/#query-selectors>` except for
+         :manual:`evaluation </reference/operator/query/#evaluation>`,
+         :manual:`geospatial </reference/operator/query/#geospatial>`,
+         or :manual:`bitwise </reference/operator/query/#bitwise>`
+         selectors.
+
+         If multiple documents match the query, only the first document
+         in sort order or :term:`natural order` will be deleted.
+
+     * - :guilabel:`Update Options`
+
+         | ``options: <RemoteFindOneAndModifyOptions>``
+
+       - Optional: An instance of the `RemoteFindOneAndModifyOptions <https://docs.mongodb.com/stitch-sdks/java/4/com/mongodb/stitch/core/services/mongodb/remote/RemoteFindOneAndModifyOptions.html>`_.
+         class. The ``returnNewDocument`` and ``upsert`` options can be
+         configured for a ``RemoteFindOneAndModifyOptions`` object used
+         for a ``findOneAndDelete`` operation, but have no effect.
+        
+         .. code-block:: java
+
+            RemoteFindOneAndModifyOptions options =
+              new RemoteFindOneAndModifyOptions()
+              .sort(<document>)
+              .projection(<document>);
+
+     * - :guilabel:`Sort`
+
+         | ``RemoteFindOneAndModifyOptions.sort: <document>``
+
+       - Optional. Specifies the query sort order. Sort documents
+         specify one or more fields to sort on where the value of each
+         field indicates whether MongoDB should sort it in ascending
+         (``1``) or descending (``0``) order. The sort order determines
+         which document :method:`collection.findOneAndDelete()` affects.
+
+         .. example::
+
+            The following sort document specifies that documents should be
+            sorted first by ``age`` from highest to lowest. Once sorted by
+            age, the result set should further be sorted by ``name`` in
+            alphabetical order for each distinct age value.
+
+            .. code-block:: java
+
+               Document sort = new Document()
+                .append("age", 0)
+                .append("name", 1);
+
+     * - :guilabel:`Projection`
+
+         | ``RemoteFindOneAndModifyOptions.projection: <document>``
+
+       - Optional. A document that specifies which fields MongoDB
+         should return or withhold in the document returned by the
+         query.
+
+         To return all fields in the matching document, omit this
+         parameter or specify an empty projection document (``new Document()``).
+
+         To return specific fields and the document's ``_id``, specify the
+         fields in the projection document with a value of ``1``:
+
+         .. code-block:: java
+
+            // Includes the field in returned document
+            Document sort = new Document()
+              .append(<Field Name>, 1);
+
+         To withhold specific fields, specify the fields in the projection
+         document with a value of ``0``:
+
+         .. code-block:: java
+
+            // Withholds the field from returned document
+            Document sort = new Document()
+              .append(<Field Name>, 0);
+
+         .. note::
+
+            You may specify either fields to include or fields to withhold
+            but not both. For example, the following projection is
+            **invalid** because it simultaneously includes the ``name``
+            field and withholds the ``address`` field:
+
+            .. code-block:: java
+
+               // Invalid
+               // Can't simultaneously include and withhold
+               Document sort = new Document()
+                .append("name", 1)
+                .append("address", 0);
+
+            The exception to this rule is the ``_id`` field, which you
+            may withhold from any query:
+
+            .. code-block:: swift
+
+               // Valid
+               // Can exclude _id while including other fields
+               Document sort = new Document()
+                .append("_id", 0)
+                .append("name", 1);
+
+     * - :guilabel:`Result Class`
+
+         | ``resultClass: <class>``
+
+       - Optional. Indicates the type of the document returned
+         by the operation.
+
+---
+ref: mongodb-action-params-findOne-function
+content: |
+  .. cssclass:: config-table
+  .. list-table::
+     :header-rows: 1
+     :widths: 2 3
+
+     * - Parameter
+       - Description
+
+     * - :guilabel:`Query Filter`
+
+         | ``query: <document>``
+
+       - Optional. A standard :manual:`MongoDB query
+         </tutorial/query-documents/>` document that specifies which
+         documents to find. You can use most :manual:`query selectors
+         </reference/operator/query/#query-selectors>` except for
+         :manual:`evaluation </reference/operator/query/#evaluation>`,
+         :manual:`geospatial </reference/operator/query/#geospatial>`, or
+         :manual:`bitwise </reference/operator/query/#bitwise>` selectors.
+
+         Specify an empty query filter (``{}``) or omit this parameter to
+         return the first document in the collection.
+
+     * - :guilabel:`Projection`
+
+         | ``projection: <document>``
+
+       - Optional. A document that specifies which fields MongoDB
+         should return or withhold from a returned document.
+
+         To return all fields in the document, omit this parameter or
+         specify an empty projection document (``{}``).
+
+         To return specific fields and the document's ``_id``, specify the
+         fields in the projection document with a value of ``1``:
+
+         .. code-block:: javascript
+
+            // Includes the field in returned documents
+            { <Field Name>: 1 }
+
+         To withhold specific fields, specify the fields in the projection
+         document with a value of ``0``:
+
+         .. code-block:: javascript
+
+            // Withholds the field from returned documents
+            { <Field Name>: 0 }
+
+         .. note::
+
+            You may specify either fields to include or fields to withhold
+            but not both. For example, the following projection is
+            **invalid** because it simultaneously includes the ``name``
+            field and withholds the ``address`` field:
+
+            .. code-block:: javascript
+
+               // Invalid
+               // Can't simultaneously include and withhold
+               { "name": 1, "address": 0 }
+
+            The exception to this rule is the ``_id`` field, which you
+            may withhold from any query:
+
+            .. code-block:: javascript
+
+               // Valid
+               // Can exclude _id while including other fields
+               { "_id": 0, "name": 1 }
+
+---
+ref: mongodb-action-params-findOne-sdk
+content: |
+  .. cssclass:: config-table
+  .. list-table::
+     :header-rows: 1
+     :widths: 2 3
+
+     * - Parameter
+       - Description
+
+     * - :guilabel:`Query Filter`
+
+         | ``query: <document>``
+
+       - Optional. A standard :manual:`MongoDB query
+         </tutorial/query-documents/>` document that specifies which
+         documents to find. You can use most :manual:`query selectors
+         </reference/operator/query/#query-selectors>` except for
+         :manual:`evaluation </reference/operator/query/#evaluation>`,
+         :manual:`geospatial </reference/operator/query/#geospatial>`, or
+         :manual:`bitwise </reference/operator/query/#bitwise>` selectors.
+
+         Specify an empty query filter (``{}``) or omit this parameter to
+         return the first document in the collection.
+
+     * - :guilabel:`Query Options`
+
+         | ``options: <document>``
+
+       - .. tab-content:: tabs-stitch-sdks
+            :tab-id: functions
+
+            ""
+
+         .. tab-content:: tabs-stitch-sdks
+            :tab-id: javascript
+
+            A document that specifies configuration options for the
+            query. The ``options`` document has the following form:
+
+            .. code-block:: json
+
+               {
+                  "projection": <document>,
+                  "sort": <document>
+               }
+
+     * - :guilabel:`Projection`
+
+         | ``options.projection: <document>``
+
+       - Optional. A document that specifies which fields MongoDB
+         should return or withhold in the returned document.
+
+         To return all fields in the document, omit this parameter or
+         specify an empty projection document (``{}``).
+
+         To return specific fields and the document's ``_id``, specify the
+         fields in the projection document with a value of ``1``:
+
+         .. code-block:: javascript
+
+            // Includes the field in returned documents
+            { <Field Name>: 1 }
+
+         To withhold specific fields, specify the fields in the projection
+         document with a value of ``0``:
+
+         .. code-block:: javascript
+
+            // Withholds the field from returned documents
+            { <Field Name>: 0 }
+
+         .. note::
+
+            You may specify either fields to include or fields to
+            withhold but not both. For example, the following projection
+            is **invalid** because it simultaneously includes the
+            ``name`` field and withholds the ``address`` field:
+
+            .. code-block:: javascript
+
+               // Invalid
+               // Can't simultaneously include and withhold
+               { "name": 1, "address": 0 }
+
+            The exception to this rule is the ``_id`` field, which you
+            may withhold from any query:
+
+            .. code-block:: javascript
+
+               // Valid
+               // Can exclude _id while including other fields
+               { "_id": 0, "name": 1 }
+
+     * - :guilabel:`Sort`
+
+         | ``options.sort: <document>``
+
+       - Optional. A document that specifies a ``sort`` order for the
+         query result set. Sort documents specify one or more fields to
+         sort on. The value of each field indicates whether MongoDB
+         should sort it in ascending (``1``) or descending (``0``)
+         order. For more information, see :manual:`cursor.sort
+         </reference/method/cursor.sort>`.
+
+         .. tab-content:: tabs-stitch-sdks
+            :tab-id: javascript
+
+            See :js-sdk:`RemoteFindOptions.sort() <interfaces/remotefindoptions.html#sort>`
+
+         .. tab-content:: tabs-stitch-sdks
+            :tab-id: ios
+
+            See :ios-sdk:`RemoteFindOptions.sort() <Structs/RemoteFindOptions.html#/>`
+
+         .. example::
+
+            The following sort document specifies that documents should be
+            sorted first by ``age`` from highest to lowest. Once sorted by
+            age, the result set should further be sorted by ``name`` in
+            alphabetical order for each distinct age value.
+
+            .. code-block:: javascript
+
+               { age: 0, name: 1 }
+
+---
+ref: mongodb-action-params-count
+content: |
+  .. cssclass:: config-table
+  .. list-table::
+     :header-rows: 1
+     :widths: 2 3
+
+     * - Parameter
+       - Description
+
+     * - :guilabel:`Query Filter`
+
+         | ``query: <document>``
+
+       - Optional. A standard :manual:`MongoDB query
+         </tutorial/query-documents/>` document that specifies which
+         documents to count. You can use most :manual:`query selectors
+         </reference/operator/query/#query-selectors>` except for
+         :manual:`evaluation </reference/operator/query/#evaluation>`,
+         :manual:`geospatial </reference/operator/query/#geospatial>`, or
+         :manual:`bitwise </reference/operator/query/#bitwise>` selectors.
+
+         Specify an empty query filter (``{}``) or omit this parameter
+         to count all documents in the collection.
+
+---
+ref: mongodb-action-params-updateMany
+content: |
+  .. cssclass:: config-table
+  .. list-table::
+     :header-rows: 1
+     :widths: 2 3
+
+     * - Parameter
+       - Description
+
+     * - :guilabel:`Query Filter`
+
+         | ``filter: <document>``
+
+       - Required. A standard :manual:`MongoDB query
+         </tutorial/query-documents/>` document that specifies which
+         documents to update. You can use most :manual:`query selectors
+         </reference/operator/query/#query-selectors>` except for
+         :manual:`evaluation </reference/operator/query/#evaluation>`,
+         :manual:`geospatial </reference/operator/query/#geospatial>`,
+         or :manual:`bitwise </reference/operator/query/#bitwise>`
+         selectors.
+
+         Specify an empty query filter (``{}``) to update all documents
+         in the collection.
+
+     * - :guilabel:`Update Operation`
+
+         | ``update: <document>``
+
+       - Required. A standard :manual:`MongoDB update
+         </tutorial/update-documents/>` document that specifies the
+         update operation to perform on all documents that match the
+         query. You can use most :manual:`update operators
+         </reference/operator/update/>`.
+
+     * - :guilabel:`Update Options`
+
+         | ``options: <document>``
+
+       - A document that specifies configuration options for the query.
+         The ``options`` document has the following form:
+
+         .. code-block:: json
+
+            {
+               "upsert": <boolean>
+            }
+
+     * - :guilabel:`Upsert`
+
+         | ``options.upsert: <boolean>``
+
+       - Optional. Default: ``false``. A boolean that, if ``true``,
+         indicates that MongoDB should insert a new document that
+         matches the query filter when the query does not match any
+         existing documents in the collection.
+
+---
+ref: mongodb-action-params-updateOne
+content: |
+  .. cssclass:: config-table
+  .. list-table::
+     :header-rows: 1
+     :widths: 2 3
+
+     * - Parameter
+       - Description
+
+     * - :guilabel:`Query Filter`
+
+         | ``query: <document>``
+
+       - Required. A standard :manual:`MongoDB query
+         </tutorial/query-documents/>` document that specifies which
+         document to update. You can use most :manual:`query selectors
+         </reference/operator/query/#query-selectors>` except for
+         :manual:`evaluation </reference/operator/query/#evaluation>`,
+         :manual:`geospatial </reference/operator/query/#geospatial>`,
+         or :manual:`bitwise </reference/operator/query/#bitwise>`
+         selectors.
+
+         If multiple documents match the query, only the first document
+         in sort order or :term:`natural order` will be updated.
+
+     * - :guilabel:`Update Operation`
+
+         | ``update: <document>``
+
+       - Required. A standard :manual:`MongoDB update
+         </tutorial/update-documents/>` document that specifies the
+         update operation to perform on the document that matches the
+         query. You can use most :manual:`update operators
+         </reference/operator/update/>`.
+
+     * - :guilabel:`Update Options`
+
+         | ``options: <document>``
+
+       - A document that specifies configuration options for the query.
+         The ``options`` document has the following form:
+
+         .. code-block:: json
+
+            {
+               "upsert": <boolean>
+            }
+
+     * - :guilabel:`Upsert`
+
+         | ``options.upsert: <boolean>``
+
+       - Optional. Default: ``false``. A boolean that, if ``true``,
+         indicates that MongoDB should insert a new document that
+         matches the query filter when the query does not match any
+         existing documents in the collection.
+
+---
+ref: mongodb-action-params-deleteOne
+content: |
+  .. cssclass:: config-table
+  .. list-table::
+     :header-rows: 1
+     :widths: 2 3
+
+     * - Parameter
+       - Description
+
+     * - :guilabel:`Query Filter`
+
+         | ``query: <document>``
+
+       - Optional. A standard :manual:`MongoDB query
+         </tutorial/query-documents/>` document that specifies which
+         document to delete. You can use most :manual:`query selectors
+         </reference/operator/query/#query-selectors>` except for
+         :manual:`evaluation </reference/operator/query/#evaluation>`,
+         :manual:`geospatial </reference/operator/query/#geospatial>`,
+         or :manual:`bitwise </reference/operator/query/#bitwise>`
+         selectors.
+
+         If multiple documents match the query, only the first document
+         in sort order or :term:`natural order` will be deleted.
+---
+ref: mongodb-action-params-deleteMany
+content: |
+  .. cssclass:: config-table
+  .. list-table::
+     :header-rows: 1
+     :widths: 2 3
+
+     * - Parameter
+       - Description
+
+     * - :guilabel:`Query Filter`
+
+         | ``query: <document>``
+
+       - Optional. A standard :manual:`MongoDB query
+         </tutorial/query-documents/>` document that specifies which
+         documents to delete. You can use most :manual:`query selectors
+         </reference/operator/query/#query-selectors>` except for
+         :manual:`evaluation </reference/operator/query/#evaluation>`,
+         :manual:`geospatial </reference/operator/query/#geospatial>`,
+         or :manual:`bitwise </reference/operator/query/#bitwise>`
+         selectors.
+
+---
+ref: mongodb-action-params-insertOne
+content: |
+  .. cssclass:: config-table
+  .. list-table::
+     :header-rows: 1
+     :widths: 2 3
+
+     * - Parameter
+       - Description
+
+     * - :guilabel:`Insert Document`
+
+         | ``document: <document>``
+
+       - A document to insert into the collection.
+---
+ref: mongodb-action-params-insertMany
+content: |
+  .. cssclass:: config-table
+  .. list-table::
+     :header-rows: 1
+     :widths: 2 3
+
+     * - Parameter
+       - Description
+
+     * - :guilabel:`Insert Document`
+
+         | ``documents: Array<document>``
+
+       - An array of documents to insert into the collection.
+
+---
+ref: mongodb-action-find-cursor
+content: |
+  .. cssclass:: config-table
+  .. list-table::
+     :header-rows: 1
+     :widths: 40 60
+
+     * - Method
+       - Description
+
+     * - ``cursor.sort(sort)``
+       - Sorts documents in the result set according to the ``sort``
+         filter. Sort documents specify one or more fields to sort on. The
+         value of each field indicates whether MongoDB should sort it in
+         ascending (``1``) or descending (``0``) order. For more
+         information, see :manual:`cursor.sort
+         </reference/method/cursor.sort>`.
+
+         .. note::
+
+            You cannot call this method after retrieving one or more
+            documents using ``cursor.next()`` or ``cursor.toArray()``.
+
+         .. example::
+
+            The following sort document specifies that documents should be
+            sorted first by ``age`` from highest to lowest. Once sorted by
+            age, the result set should further be sorted by ``name`` in
+            alphabetical order for each distinct age value.
+
+            .. code-block:: javascript
+
+               { age: 0, name: 1 }
+
+     * - ``cursor.limit(limit)``
+       - Specifies the maximum number of documents to include in the
+         query result set. If the result set contains more documents than
+         the specified ``limit``, the cursor will return documents in
+         order up to the limit.
+
+         .. note::
+
+            You cannot call this method after retrieving one or more
+            documents using ``cursor.next()`` or ``cursor.toArray()``.
+
+     * - ``cursor.next()``
+       - Iterates the cursor and returns a :mdn:`Promise
+         <Web/JavaScript/Reference/Global_Objects/Promise>` that
+         resolves to the next document in the cursor. If the cursor is
+         exhausted, the promise resolves to ``undefined``.
+
+         .. example::
+
+            .. code-block:: javascript
+
+               collection.find().next()
+                 .then(doc => console.log("next document", doc))
+
+     * - ``cursor.toArray()``
+       - Iterates the cursor to exhaustion and returns a :mdn:`Promise
+         <Web/JavaScript/Reference/Global_Objects/Promise>` that
+         resolves to an array that contains all of the iterated
+         documents.
+
+         .. example::
+
+            .. code-block:: javascript
+
+               collection.find().toArray()
+                 .then(docs => console.log("all documents", docs))
+---
+ref: mongodb-action-remotemongoreadoperation
+content: |
+  .. cssclass:: config-table
+  .. list-table::
+     :header-rows: 1
+     :widths: 45 55
+
+     * - Method
+       - Description
+
+     * - :guilabel:`First Document`
+
+         | ``result.first()``
+
+       - .. tab-content:: tabs-stitch-sdks
+            :tab-id: android
+
+            ""
+
+         .. tab-content:: tabs-stitch-sdks
+            :tab-id: javascript
+
+            Return a :mdn:`Promise
+            <Web/JavaScript/Reference/Global_Objects/Promise>` that
+            resolves to the first document from the query result set.
+
+            See :js-sdk:`RemoteMongoReadOperation.first() <classes/remotemongoreadoperation.html#first>`.
+
+         .. tab-content:: tabs-stitch-sdks
+            :tab-id: ios
+
+            Return a :ios-sdk:`StitchResult <Enums/StitchResult.html>`
+            enum to the completion handler that resolves to the first
+            document from the query result set.
+
+            See :ios-sdk:`RemoteMongoReadOperation.first() <Classes/RemoteMongoReadOperation.html>`.
+
+     * - :guilabel:`Array of Documents`
+
+         | ``result.toArray()``
+
+       - .. tab-content:: tabs-stitch-sdks
+            :tab-id: android
+
+            ""
+
+         .. tab-content:: tabs-stitch-sdks
+            :tab-id: javascript
+
+            Return a :mdn:`Promise
+            <Web/JavaScript/Reference/Global_Objects/Promise>` that
+            resolves to an array that contains all documents in the query
+            result set.
+
+            See :js-sdk:`RemoteMongoReadOperation.toArray() <classes/remotemongoreadoperation.html#toarray>`.
+
+         .. tab-content:: tabs-stitch-sdks
+            :tab-id: ios
+
+            Return a :ios-sdk:`StitchResult <Enums/StitchResult.html>`
+            enum to the completion handler that resolves to an array that
+            contains all documents in the query result set.
+
+            See :ios-sdk:`RemoteMongoReadOperation.toArray() <Classes/RemoteMongoReadOperation.html>`.
+
+     * - :guilabel:`Query Cursor`
+
+         | ``result.iterator()``
+
+       - .. tab-content:: tabs-stitch-sdks
+            :tab-id: android
+
+            ""
+
+         .. tab-content:: tabs-stitch-sdks
+            :tab-id: javascript
+
+            Return a :mdn:`Promise
+            <Web/JavaScript/Reference/Global_Objects/Promise>` that
+            resolves to a `RemoteMongoCursor <js-RemoteMongoCursor_>`_
+            object. You can use this :term:`cursor` to iterate through
+            each document in the query result set with the
+            :js-sdk:`RemoteMongoCursor.next()
+            <classes/remotemongocursor.html#next>` method.
+
+            See :js-sdk:`RemoteMongoReadOperation.iterator() <classes/remotemongoreadoperation.html#iterator>`.
+
+         .. tab-content:: tabs-stitch-sdks
+            :tab-id: ios
+
+            Return a :ios-sdk:`StitchResult <Enums/StitchResult.html>`
+            enum to the completion handler that resolves to a
+            `RemoteMongoCursor <swift-RemoteMongoCursor_>`_ object. You
+            can use this :term:`cursor` to iterate through each document
+            in the query result set with the
+            :ios-sdk:`RemoteMongoCursor.next()
+            <Classes/RemoteMongoCursor.html>` method.
+
+            See :ios-sdk:`RemoteMongoReadOperation.iterator() <Classes/RemoteMongoReadOperation.html>`.
+
+---
+ref: mongodb-action-remotefinditerable
+content: |
+  .. cssclass:: config-table
+  .. list-table::
+     :header-rows: 1
+     :widths: 45 55
+
+     * - Method
+       - Description
+
+     * - :guilabel:`Projection`
+
+         | ``result.projection(<document>)``
+
+       - Specifies which fields MongoDB should return or
+         withhold in each document that matches the query.
+
+         To return all fields in the matching documents, omit this
+         parameter or specify an empty projection document (``{}``).
+
+         To return specific fields and the document's ``_id``, specify
+         the fields in the projection document with a value of ``1``:
+
+         .. code-block:: javascript
+
+            // Includes the field in returned documents
+            { <Field Name>: 1 }
+
+         To withhold specific fields, specify the fields in the
+         projection document with a value of ``0``:
+
+         .. code-block:: javascript
+
+            // Withholds the field from returned documents
+            { <Field Name>: 0 }
+
+         .. note::
+
+            You may specify either fields to include or fields to
+            withhold but not both. For example, the following projection
+            is **invalid** because it simultaneously includes the
+            ``name`` field and withholds the ``address`` field:
+
+            .. code-block:: javascript
+
+               // Invalid
+               // Can't simultaneously include and withhold
+               { "name": 1, "address": 0 }
+
+            The exception to this rule is the ``_id`` field, which you
+            may withhold from any query:
+
+            .. code-block:: javascript
+
+               // Valid
+               // Can exclude _id while including other fields
+               { "_id": 0, "name": 1 }
+
+         See :android-sdk:`RemoteFindIterable.projection() <com/mongodb/stitch/android/services/mongodb/remote/RemoteFindIterable.html#projection-org.bson.conversions.Bson->`
+
+     * - :guilabel:`Limit`
+
+         | ``result.limit(<integer>)``
+
+       - Limits the query result set to include no more than the
+         specified number of documents. If the result set contains more
+         documents than the specified ``limit``, the query will return
+         documents in order up to the limit.
+
+         See :android-sdk:`RemoteFindIterable.limit() <com/mongodb/stitch/android/services/mongodb/remote/RemoteFindIterable.html#limit-int->`
+
+     * - :guilabel:`Sort`
+
+         | ``result.sort(<document>)``
+
+       - Sorts documents in the result set according to the ``sort``
+         filter. Sort documents specify one or more fields to sort on. The
+         value of each field indicates whether MongoDB should sort it in
+         ascending (``1``) or descending (``0``) order. For more
+         information, see :manual:`cursor.sort
+         </reference/method/cursor.sort>`.
+
+         See :android-sdk:`RemoteFindIterable.sort() <com/mongodb/stitch/android/services/mongodb/remote/RemoteFindIterable.html#sort-org.bson.conversions.Bson->`
+
+         .. note::
+
+            You cannot call this method after retrieving one or more
+            documents using ``cursor.next()`` or ``cursor.toArray()``.
+
+         .. example::
+
+            The following sort document specifies that documents should be
+            sorted first by ``age`` from highest to lowest. Once sorted by
+            age, the result set should further be sorted by ``name`` in
+            alphabetical order for each distinct age value.
+
+            .. code-block:: javascript
+
+               { age: 0, name: 1 }
+
+     * - :guilabel:`First Document`
+
+         | ``result.first()``
+
+       - Return a :android:`Task
+         <com/google/android/play/core/tasks/Task>` that resolves to the
+         first document from the query result set.
+
+         See :android-sdk:`RemoteMongoIterable.first() <com/mongodb/stitch/android/services/mongodb/remote/RemoteMongoIterable.html#first-->`
+
+     * - :guilabel:`Array of Documents`
+
+         | ``result.into(<target>)``
+
+       - Iterate all documents in the query result set into the
+         target object. Return a :android:`Task
+         <com/google/android/play/core/tasks/Task>` that resolves to the
+         populated target object.
+
+         See :android-sdk:`RemoteMongoIterable.into() <com/mongodb/stitch/android/services/mongodb/remote/RemoteMongoIterable.html#into-A->`
+
+     * - :guilabel:`For Each`
+
+         | ``result.forEach(<Block>)``
+
+       - Iterate over the result set and apply the given block to each
+         document. Does not return a value.
+
+         See :android-sdk:`RemoteMongoIterable.forEach() <com/mongodb/stitch/android/services/mongodb/remote/RemoteMongoIterable.html#forEach-com.mongodb.Block->`
+
+     * - :guilabel:`Map Document Type`
+
+         | ``result.map(<Function>)``
+
+       - Return a new iterator that maps each ``result`` document to a
+         new type specified by the provided function.
+
+         See :android-sdk:`RemoteMongoIterable.map() <com/mongodb/stitch/android/services/mongodb/remote/RemoteMongoIterable.html#map-com.mongodb.Function->`
+
+     * - :guilabel:`Query Cursor`
+
+         | ``result.iterator()``
+
+       - Return a :android:`Task
+         <com/google/android/play/core/tasks/Task>` that resolves to a
+         `RemoteMongoCursor <java-RemoteMongoCursor_>`_ object. You can
+         use this :term:`cursor` to iterate through each document in the
+         query result set with the
+         :android-sdk:`RemoteMongoCursor.tryNext()
+         <com/mongodb/stitch/android/services/mongodb/remote/RemoteMongoCursor.html#tryNext-->`
+         method.
+
+         See :android-sdk:`RemoteMongoIterable.iterator() <com/mongodb/stitch/android/services/mongodb/remote/RemoteMongoIterable.html#iterator-->`
+---
+ref: mongodb-action-remoteaggregateiterable
+content: |
+  .. cssclass:: config-table
+  .. list-table::
+     :header-rows: 1
+     :widths: 45 55
+
+     * - Method
+       - Description
+
+     * - :guilabel:`First Document`
+
+         | ``result.first()``
+
+       - Return a :android:`Task
+         <com/google/android/play/core/tasks/Task>` that resolves to the
+         first document from the query result set.
+
+         See :android-sdk:`RemoteMongoIterable.first() <com/mongodb/stitch/android/services/mongodb/remote/RemoteMongoIterable.html#first-->`
+
+     * - :guilabel:`Array of Documents`
+
+         | ``result.into(<target>)``
+
+       - Iterate all documents in the query result set into the
+         target object. Return a :android:`Task
+         <com/google/android/play/core/tasks/Task>` that resolves to the
+         populated target object.
+
+         See :android-sdk:`RemoteMongoIterable.into() <com/mongodb/stitch/android/services/mongodb/remote/RemoteMongoIterable.html#into-A->`
+
+     * - :guilabel:`For Each`
+
+         | ``result.forEach(<Block>)``
+
+       - Iterate over the result set and apply the given block to each
+         document. Does not return a value.
+
+         See :android-sdk:`RemoteMongoIterable.forEach() <com/mongodb/stitch/android/services/mongodb/remote/RemoteMongoIterable.html#forEach-com.mongodb.Block->`
+
+     * - :guilabel:`Map Document Type`
+
+         | ``result.map(<Function>)``
+
+       - Return a new iterator that maps each ``result`` document to a
+         new type specified by the provided function.
+
+         See :android-sdk:`RemoteMongoIterable.map() <com/mongodb/stitch/android/services/mongodb/remote/RemoteMongoIterable.html#map-com.mongodb.Function->`
+
+     * - :guilabel:`Query Cursor`
+
+         | ``result.iterator()``
+
+       - Return a :android:`Task
+         <com/google/android/play/core/tasks/Task>` that resolves to a
+         `RemoteMongoCursor <java-RemoteMongoCursor_>`_ object. You can
+         use this :term:`cursor` to iterate through each document in the
+         query result set with the
+         :android-sdk:`RemoteMongoCursor.tryNext()
+         <com/mongodb/stitch/android/services/mongodb/remote/RemoteMongoCursor.html#tryNext-->`
+         method.
+
+         See :android-sdk:`RemoteMongoIterable.iterator() <com/mongodb/stitch/android/services/mongodb/remote/RemoteMongoIterable.html#iterator-->`
+---
+ref: mongodb-action-aggregate-cursor
+content: |
+  .. cssclass:: config-table
+  .. list-table::
+     :header-rows: 1
+     :widths: 45 55
+
+     * - Method
+       - Description
+
+     * - ``cursor.next()``
+       - Iterates the cursor and returns a :mdn:`Promise
+         <Web/JavaScript/Reference/Global_Objects/Promise>` that resolves to the
+         next document in the cursor. If the cursor is exhausted, the
+         promise resolves to ``undefined``.
+
+         .. example::
+
+            .. code-block:: javascript
+
+               collection.aggregate(pipeline).next()
+                 .then(doc => console.log("next document", doc))
+
+     * - ``cursor.toArray()``
+       - Iterates the cursor to exhaustion and returns a :mdn:`Promise
+         <Web/JavaScript/Reference/Global_Objects/Promise>` that
+         resolves to an array that contains all of the iterated documents.
+
+         .. example::
+
+            .. code-block:: javascript
+
+               collection.aggregate(pipeline).toArray()
+                 .then(docs => console.log("all documents", docs))
+---
+ref: mongodb-action-params-findOneAndUpdate-function
+content: |
+  .. cssclass:: config-table
+  .. list-table::
+     :header-rows: 1
+     :widths: 2 3
+
+     * - Parameter
+       - Description
+
+     * - :guilabel:`Query Filter`
+
+         | ``query: <document>``
+
+       - Required. A standard :manual:`MongoDB query
+         </tutorial/query-documents/>` document that specifies which
+         document to update. You can use most :manual:`query selectors
+         </reference/operator/query/#query-selectors>` except for
+         :manual:`evaluation </reference/operator/query/#evaluation>`,
+         :manual:`geospatial </reference/operator/query/#geospatial>`,
+         or :manual:`bitwise </reference/operator/query/#bitwise>`
+         selectors.
+
+         If multiple documents match the query, only the first document
+         in sort order or :term:`natural order` will be updated.
+
+     * - :guilabel:`Update Operation`
+
+         | ``update: <document>``
+
+       - Required. A standard :manual:`MongoDB update
+         </tutorial/update-documents/>` document that specifies the
+         update operation to perform on the document that matches the
+         query. You can use most :manual:`update operators
+         </reference/operator/update/>`.
+
+     * - :guilabel:`Update Options`
+
+         | ``options: <document>``
+
+       - A document that specifies configuration options for the query.
+         The ``options`` document has the following form:
+
+         .. code-block:: json
+
+            {
+               "upsert": <boolean>,
+               "sort": <document>,
+               "projection": <document>,
+               "returnNewDocument": <boolean>
+            }
+
+     * - :guilabel:`Upsert`
+
+         | ``options.upsert: <boolean>``
+
+       - Optional. Default: ``false``. A boolean that, if ``true``,
+         indicates that MongoDB should insert a new document that
+         matches the query filter when the query does not match any
+         existing documents in the collection.
+
+     * - :guilabel:`Sort`
+
+         | ``options.sort: <document>``
+
+       - Optional. Specifies the query sort order. Sort documents
+         specify one or more fields to sort on where the value of each
+         field indicates whether MongoDB should sort it in ascending
+         (``1``) or descending (``0``) order. The sort order determines
+         which document :method:`collection.findOneAndUpdate()` affects.
+
+         .. example::
+
+            The following sort document specifies that documents should be
+            sorted first by ``age`` from highest to lowest. Once sorted by
+            age, the result set should further be sorted by ``name`` in
+            alphabetical order for each distinct age value.
+
+            .. code-block:: javascript
+
+               { age: 0, name: 1 }
+
+     * - :guilabel:`Projection`
+
+         | ``options.projection: <document>``
+
+       - Optional. A document that specifies which fields MongoDB
+         should return or withhold in each document that matches the
+         query.
+
+         To return all fields in the matching documents, omit this
+         parameter or specify an empty projection document (``{}``).
+
+         To return specific fields and the document's ``_id``, specify the
+         fields in the projection document with a value of ``1``:
+
+         .. code-block:: javascript
+
+            // Includes the field in returned documents
+            { <Field Name>: 1 }
+
+         To withhold specific fields, specify the fields in the projection
+         document with a value of ``0``:
+
+         .. code-block:: javascript
+
+            // Withholds the field from returned documents
+            { <Field Name>: 0 }
+
+         .. note::
+
+            You may specify either fields to include or fields to withhold
+            but not both. For example, the following projection is
+            **invalid** because it simultaneously includes the ``name``
+            field and withholds the ``address`` field:
+
+            .. code-block:: javascript
+
+               // Invalid
+               // Can't simultaneously include and withhold
+               { "name": 1, "address": 0 }
+
+            The exception to this rule is the ``_id`` field, which you
+            may withhold from any query:
+
+            .. code-block:: javascript
+
+               // Valid
+               // Can exclude _id while including other fields
+               { "_id": 0, "name": 1 }
+
+     * - :guilabel:`Return New Document`
+
+         | ``options.returnNewDocument: <boolean>``
+
+       - Optional. Default: ``false``. A boolean that, if ``true``,
+         indicates that the action should return the document in its
+         updated form instead of its original, pre-update form.
+---
+ref: mongodb-action-params-findOneAndReplace-function
+content: |
+  .. cssclass:: config-table
+  .. list-table::
+     :header-rows: 1
+     :widths: 2 3
+
+     * - Parameter
+       - Description
+
+     * - :guilabel:`Query Filter`
+
+         | ``query: <document>``
+
+       - Required. A standard :manual:`MongoDB query
+         </tutorial/query-documents/>` document that specifies which
+         document to replace. You can use most :manual:`query selectors
+         </reference/operator/query/#query-selectors>` except for
+         :manual:`evaluation </reference/operator/query/#evaluation>`,
+         :manual:`geospatial </reference/operator/query/#geospatial>`,
+         or :manual:`bitwise </reference/operator/query/#bitwise>`
+         selectors.
+
+         If multiple documents match the query, only the first document
+         in sort order or :term:`natural order` will be updated.
+
+     * - :guilabel:`Replacement Document`
+
+         | ``replacement: <document>``
+
+       - Required. The document that should replace the found document.
+         The document cannot contain any MongoDB :manual:`update
+         operators </reference/operator/update/>`.
+
+     * - :guilabel:`Replacement Options`
+
+         | ``options: <document>``
+
+       - A document that specifies configuration options for the query.
+         The ``options`` document has the following form:
+
+         .. code-block:: json
+
+            {
+               "upsert": <boolean>,
+               "sort": <document>,
+               "projection": <document>,
+               "returnNewDocument": <boolean>
+            }
+
+     * - :guilabel:`Upsert`
+
+         | ``options.upsert: <boolean>``
+
+       - Optional. Default: ``false``. A boolean that, if ``true``,
+         indicates that MongoDB should insert a new document that
+         matches the query filter when the query does not match any
+         existing documents in the collection.
+
+     * - :guilabel:`Sort`
+
+         | ``options.sort: <document>``
+
+       - Optional. Specifies the query sort order. Sort documents
+         specify one or more fields to sort on where the value of each
+         field indicates whether MongoDB should sort it in ascending
+         (``1``) or descending (``0``) order. The sort order determines
+         which document :method:`collection.findOneAndReplace()`
+         affects.
+
+         .. example::
+
+            The following sort document specifies that documents should be
+            sorted first by ``age`` from highest to lowest. Once sorted by
+            age, the result set should further be sorted by ``name`` in
+            alphabetical order for each distinct age value.
+
+            .. code-block:: javascript
+
+               { age: 0, name: 1 }
+
+     * - :guilabel:`Projection`
+
+         | ``options.projection: <document>``
+
+       - Optional. A document that specifies which fields MongoDB
+         should return or withhold in each document that matches the
+         query.
+
+         To return all fields in the matching documents, omit this
+         parameter or specify an empty projection document (``{}``).
+
+         To return specific fields and the document's ``_id``, specify the
+         fields in the projection document with a value of ``1``:
+
+         .. code-block:: javascript
+
+            // Includes the field in returned documents
+            { <Field Name>: 1 }
+
+         To withhold specific fields, specify the fields in the projection
+         document with a value of ``0``:
+
+         .. code-block:: javascript
+
+            // Withholds the field from returned documents
+            { <Field Name>: 0 }
+
+         .. note::
+
+            You may specify either fields to include or fields to withhold
+            but not both. For example, the following projection is
+            **invalid** because it simultaneously includes the ``name``
+            field and withholds the ``address`` field:
+
+            .. code-block:: javascript
+
+               // Invalid
+               // Can't simultaneously include and withhold
+               { "name": 1, "address": 0 }
+
+            The exception to this rule is the ``_id`` field, which you
+            may withhold from any query:
+
+            .. code-block:: javascript
+
+               // Valid
+               // Can exclude _id while including other fields
+               { "_id": 0, "name": 1 }
+
+     * - :guilabel:`Return New Document`
+
+         | ``options.returnNewDocument: <boolean>``
+
+       - Optional. Default: ``false``. A boolean that, if ``true``,
+         indicates that the action should return the document in its
+         post-replace form instead of its original form from before the
+         replace operation.
+---
+ref: mongodb-action-params-findOneAndDelete-function
+content: |
+  .. cssclass:: config-table
+  .. list-table::
+     :header-rows: 1
+     :widths: 2 3
+
+     * - Parameter
+       - Description
+
+     * - :guilabel:`Query Filter`
+
+         | ``query: <document>``
+
+       - Required. A standard :manual:`MongoDB query
+         </tutorial/query-documents/>` document that specifies which
+         document to delete. You can use most :manual:`query selectors
+         </reference/operator/query/#query-selectors>` except for
+         :manual:`evaluation </reference/operator/query/#evaluation>`,
+         :manual:`geospatial </reference/operator/query/#geospatial>`,
+         or :manual:`bitwise </reference/operator/query/#bitwise>`
+         selectors.
+
+         If multiple documents match the query, only the first document
+         in sort order or :term:`natural order` will be updated.
+
+     * - :guilabel:`Delete Options`
+
+         | ``options: <document>``
+
+       - A document that specifies configuration options for the query.
+         The ``options`` document has the following form:
+
+         .. code-block:: json
+
+            {
+               "sort": <document>,
+               "projection": <document>
+            }
+
+     * - :guilabel:`Sort`
+
+         | ``options.sort: <document>``
+
+       - Optional. Specifies the query sort order. Sort documents
+         specify one or more fields to sort on where the value of each
+         field indicates whether MongoDB should sort it in ascending
+         (``1``) or descending (``0``) order. The sort order determines
+         which document :method:`collection.findOneAndReplace()`
+         affects.
+
+         .. example::
+
+            The following sort document specifies that documents should be
+            sorted first by ``age`` from highest to lowest. Once sorted by
+            age, the result set should further be sorted by ``name`` in
+            alphabetical order for each distinct age value.
+
+            .. code-block:: javascript
+
+               { age: 0, name: 1 }
+
+     * - :guilabel:`Projection`
+
+         | ``options.projection: <document>``
+
+       - Optional. A document that specifies which fields MongoDB
+         should return or withhold in each document that matches the
+         query.
+
+         To return all fields in the matching documents, omit this
+         parameter or specify an empty projection document (``{}``).
+
+         To return specific fields and the document's ``_id``, specify the
+         fields in the projection document with a value of ``1``:
+
+         .. code-block:: javascript
+
+            // Includes the field in returned documents
+            { <Field Name>: 1 }
+
+         To withhold specific fields, specify the fields in the projection
+         document with a value of ``0``:
+
+         .. code-block:: javascript
+
+            // Withholds the field from returned documents
+            { <Field Name>: 0 }
+
+         .. note::
+
+            You may specify either fields to include or fields to withhold
+            but not both. For example, the following projection is
+            **invalid** because it simultaneously includes the ``name``
+            field and withholds the ``address`` field:
+
+            .. code-block:: javascript
+
+               // Invalid
+               // Can't simultaneously include and withhold
+               { "name": 1, "address": 0 }
+
+            The exception to this rule is the ``_id`` field, which you
+            may withhold from any query:
+
+            .. code-block:: javascript
+
+               // Valid
+               // Can exclude _id while including other fields
+               { "_id": 0, "name": 1 }
+---
+ref: mongodb-action-params-findOne-ios
+content: |
+  .. cssclass:: config-table
+  .. list-table::
+     :header-rows: 1
+     :widths: 2 3
+
+     * - Parameter
+       - Description
+
+     * - :guilabel:`Query Filter`
+
+         | ``filter: <document>``
+
+       - Optional. Default ``[:]`` A standard :manual:`MongoDB query
+         </tutorial/query-documents/>` document that specifies which
+         document to update. You can use most :manual:`query selectors
+         </reference/operator/query/#query-selectors>` except for
+         :manual:`evaluation </reference/operator/query/#evaluation>`,
+         :manual:`geospatial </reference/operator/query/#geospatial>`,
+         or :manual:`bitwise </reference/operator/query/#bitwise>`
+         selectors.
+
+         If multiple documents match the query, only the first document
+         in sort order or :term:`natural order` will be updated.
+
+     * - :guilabel:`Find Options`
+
+         | ``options: <RemoteFindOptions>``
+
+       - Optional: A ``RemoteFindOptions`` struct that can be
+         initialized with the following values.
+
+         .. code-block:: swift
+
+            RemoteFindOptions.init(
+                "limit": <Int64>,
+                "projection": <document>,
+                "sort": <document>,
+            )
+
+     * - :guilabel:`Limit`
+
+         | ``RemoteFindOptions.limit: <Int64>``
+
+       - Optional. The maximum number of documents to include in the
+         query result set. If the result set contains more documents
+         than the specified ``limit``, the query will return documents
+         in order up to the limit not to exceed 50,000 documents.
+
+
+     * - :guilabel:`Projection`
+
+         | ``RemoteFindOptions.projection: <document>``
+
+       - Optional. A document that specifies which fields MongoDB
+         should return or withhold in the returned document.
+
+         To return all fields in the document, omit this parameter.
+
+         To return specific fields and the document's ``_id``, specify the
+         fields in the projection document with a value of ``1``:
+
+         .. code-block:: swift
+
+            // Includes the field in returned documents
+            [ <Field Name>: 1 ]
+
+         To withhold specific fields, specify the fields in the projection
+         document with a value of ``0``:
+
+         .. code-block:: swift
+
+            // Withholds the field from returned documents
+            [ <Field Name>: 0 ]
+
+         .. note::
+
+            You may specify either fields to include or fields to
+            withhold but not both. For example, the following projection
+            is **invalid** because it simultaneously includes the
+            ``name`` field and withholds the ``address`` field:
+
+            .. code-block:: swift
+
+               // Invalid
+               // Can't simultaneously include and withhold
+               [ "name": 1, "address": 0 ]
+
+            The exception to this rule is the ``_id`` field, which you
+            may withhold from any query:
+
+            .. code-block:: swift
+
+               // Valid
+               // Can exclude _id while including other fields
+               [ "_id": 0, "name": 1 ]
+
+     * - :guilabel:`Sort`
+
+         | ``RemoteFindOptions.sort: <document>``
+
+       - Optional. Specifies the query sort order. Sort documents
+         specify one or more fields to sort on where the value of each
+         field indicates whether MongoDB should sort it in ascending
+         (``1``) or descending (``0``) order. The sort order determines
+         which document :method:`collection.findOneAndUpdate()` affects.
+
+         .. example::
+
+            The following sort document specifies that documents should be
+            sorted first by ``age`` from highest to lowest. Once sorted by
+            age, the result set should further be sorted by ``name`` in
+            alphabetical order for each distinct age value.
+
+            .. code-block:: swift
+
+               [ "age": 0, "name": 1 ]
+
+
+     * - :guilabel:`completionHandler`
+
+         | ``(StitchResult<CollectionType?>) -> Void``
+
+       - Required. A completion handler that accepts `StitchResult` optional.
+
+         This should be matched to check for successful completion of the
+         operation.
+---
+ref: mongodb-action-params-findOneAndUpdate-ios
+content: |
+  .. cssclass:: config-table
+  .. list-table::
+     :header-rows: 1
+     :widths: 2 3
+
+     * - Parameter
+       - Description
+
+     * - :guilabel:`Query Filter`
+
+         | ``filter: <document>``
+
+       - Required. A standard :manual:`MongoDB query
+         </tutorial/query-documents/>` document that specifies which
+         document to update. You can use most :manual:`query selectors
+         </reference/operator/query/#query-selectors>` except for
+         :manual:`evaluation </reference/operator/query/#evaluation>`,
+         :manual:`geospatial </reference/operator/query/#geospatial>`,
+         or :manual:`bitwise </reference/operator/query/#bitwise>`
+         selectors.
+
+         If multiple documents match the query, only the first document
+         in sort order or :term:`natural order` will be updated.
+
+     * - :guilabel:`Update Operation`
+
+         | ``update: <document>``
+
+       - Required. A standard :manual:`MongoDB update
+         </tutorial/update-documents/>` document that specifies the
+         update operation to perform on the document that matches the
+         query. You can use most :manual:`update operators
+         </reference/operator/update/>`.
+
+     * - :guilabel:`Update Options`
+
+         | ``options: <RemoteFindOneAndModifyOptions>``
+
+       - Optional: A ``RemoteFindOneAndModifyOptions>`` struct that can be
+         initialized with the following values.
+
+         .. code-block:: swift
+
+            RemoteFindOneAndModifyOptions.init(
+                "sort": <document>,
+                "projection": <document>,
+                "upsert": <bool>,
+                "returnNewDocument": <bool>
+            )
+
+     * - :guilabel:`Sort`
+
+         | ``RemoteFindOneAndModifyOptions.sort: <document>``
+
+       - Optional. Specifies the query sort order. Sort documents
+         specify one or more fields to sort on where the value of each
+         field indicates whether MongoDB should sort it in ascending
+         (``1``) or descending (``0``) order. The sort order determines
+         which document :method:`collection.findOneAndUpdate()` affects.
+
+         .. example::
+
+            The following sort document specifies that documents should be
+            sorted first by ``age`` from highest to lowest. Once sorted by
+            age, the result set should further be sorted by ``name`` in
+            alphabetical order for each distinct age value.
+
+            .. code-block:: swift
+
+               [ "age": 0, "name": 1 ]
+
+     * - :guilabel:`Projection`
+
+         | ``RemoteFindOneAndModifyOptions.projection: <document>``
+
+       - Optional. A document that specifies which fields MongoDB
+         should return or withhold in each document that matches the
+         query.
+
+         To return all fields in the matching documents, omit this
+         parameter or specify an empty projection document (``[]``).
+
+         To return specific fields and the document's ``_id``, specify the
+         fields in the projection document with a value of ``1``:
+
+         .. code-block:: swift
+
+            // Includes the field in returned documents
+            [ <Field Name>: 1 ]
+
+         To withhold specific fields, specify the fields in the projection
+         document with a value of ``0``:
+
+         .. code-block:: swift
+
+            // Withholds the field from returned documents
+            [ <Field Name>: 0 ]
+
+         .. note::
+
+            You may specify either fields to include or fields to withhold
+            but not both. For example, the following projection is
+            **invalid** because it simultaneously includes the ``name``
+            field and withholds the ``address`` field:
+
+            .. code-block:: swift
+
+               // Invalid
+               // Can't simultaneously include and withhold
+               [ "name": 1, "address": 0 ]
+
+            The exception to this rule is the ``_id`` field, which you
+            may withhold from any query:
+
+            .. code-block:: swift
+
+               // Valid
+               // Can exclude _id while including other fields
+               [ "_id": 0, "name": 1 ]
+
+     * - :guilabel:`Upsert`
+
+         | ``RemoteFindAndModifyOptions.upsert: <boolean>``
+
+       - Optional. Default: ``false``. A boolean that, if ``true``,
+         indicates that MongoDB should insert a new document that
+         matches the query filter when the query does not match any
+         existing documents in the collection.
+
+     * - :guilabel:`Return New Document`
+
+         | ``RemoteFindAndModifyOptions.returnNewDocument: <boolean>``
+
+       - Optional. Default: ``false``. A boolean that, if ``true``,
+         indicates that the action should return the document in its
+         post-replace form instead of its original form from before the
+         replace operation.
+
+     * - :guilabel:`completionHandler`
+
+         | ``(StitchResult<CollectionType?>) -> Void``
+
+       - Required. A completion handler that accepts `StitchResult` optional.
+
+         This should be matched to check for successful completion of the
+         operation.
+---
+ref: mongodb-action-params-findOneAndDelete-ios
+content: |
+  .. cssclass:: config-table
+  .. list-table::
+     :header-rows: 1
+     :widths: 2 3
+
+     * - Parameter
+       - Description
+
+     * - :guilabel:`Query Filter`
+
+         | ``filter: <document>``
+
+       - Required. A standard :manual:`MongoDB query
+         </tutorial/query-documents/>` document that specifies which
+         document to delete. You can use most :manual:`query selectors
+         </reference/operator/query/#query-selectors>` except for
+         :manual:`evaluation </reference/operator/query/#evaluation>`,
+         :manual:`geospatial </reference/operator/query/#geospatial>`,
+         or :manual:`bitwise </reference/operator/query/#bitwise>`
+         selectors.
+
+         If multiple documents match the query, only the first document
+         in sort order or :term:`natural order` will be updated.
+
+     * - :guilabel:`Update Options`
+
+         | ``options: <RemoteFindOneAndModifyOptions>``
+
+       - Optional: A ``RemoteFindOneAndModifyOptions>`` struct that can be
+         initialized with the following values.
+
+         .. note::
+
+            ``findOneAndDelete`` will only evaluate the ``projection`` and
+            ``sort`` options.
+
+         .. code-block:: swift
+
+            RemoteFindOneAndModifyOptions.init(
+                "sort": <document>,
+                "projection": <document>,
+                "upsert": <bool>,
+                "returnNewDocument": <bool>
+            )
+
+     * - :guilabel:`Sort`
+
+         | ``RemoteFindOneAndModifyOptions.sort: <document>``
+
+       - Optional. Specifies the query sort order. Sort documents
+         specify one or more fields to sort on where the value of each
+         field indicates whether MongoDB should sort it in ascending
+         (``1``) or descending (``0``) order. The sort order determines
+         which document :method:`collection.findOneAndDelete()`
+         affects.
+
+         .. example::
+
+            The following sort document specifies that documents should be
+            sorted first by ``age`` from highest to lowest. Once sorted by
+            age, the result set should further be sorted by ``name`` in
+            alphabetical order for each distinct age value.
+
+            .. code-block:: swift
+
+               [ age: 0, name: 1 ]
+
+     * - :guilabel:`Projection`
+
+         | ``RemoteFindOneAndModifyOptions.projection: <document>``
+
+       - Optional. A document that specifies which fields MongoDB
+         should return or withhold in each document that matches the
+         query.
+
+         To return all fields in the matching documents, omit this
+         parameter or specify an empty projection document (``{}``).
+
+         To return specific fields and the document's ``_id``, specify the
+         fields in the projection document with a value of ``1``:
+
+         .. code-block:: swift
+
+            // Includes the field in returned documents
+            [ <Field Name>: 1 ]
+
+         To withhold specific fields, specify the fields in the projection
+         document with a value of ``0``:
+
+         .. code-block:: swift
+
+            // Withholds the field from returned documents
+            [ <Field Name>: 0 ]
+
+         .. note::
+
+            You may specify either fields to include or fields to withhold
+            but not both. For example, the following projection is
+            **invalid** because it simultaneously includes the ``name``
+            field and withholds the ``address`` field:
+
+            .. code-block:: swift
+
+               // Invalid
+               // Can't simultaneously include and withhold
+               [ "name": 1, "address": 0 ]
+
+            The exception to this rule is the ``_id`` field, which you
+            may withhold from any query:
+
+            .. code-block:: javascript
+
+               // Valid
+               // Can exclude _id while including other fields
+               [ "_id": 0, "name": 1 ]
+
+     * - :guilabel:`completionHandler`
+
+         | ``(StitchResult<CollectionType?>) -> Void``
+
+       - Required. A completion handler that accepts `StitchResult` optional.
+
+         This should be matched to check for successful completion of the
+         operation.
+---
+ref: mongodb-action-params-findOneAndReplace-ios
+content: |
+  .. cssclass:: config-table
+  .. list-table::
+     :header-rows: 1
+     :widths: 2 3
+
+     * - Parameter
+       - Description
+
+     * - :guilabel:`Query Filter`
+
+         | ``filter: <document>``
+
+       - Required. A standard :manual:`MongoDB query
+         </tutorial/query-documents/>` document that specifies which
+         document to update. You can use most :manual:`query selectors
+         </reference/operator/query/#query-selectors>` except for
+         :manual:`evaluation </reference/operator/query/#evaluation>`,
+         :manual:`geospatial </reference/operator/query/#geospatial>`,
+         or :manual:`bitwise </reference/operator/query/#bitwise>`
+         selectors.
+
+         If multiple documents match the query, only the first document
+         in sort order or :term:`natural order` will be updated.
+
+     * - :guilabel:`Replacement Document`
+
+         | ``replacement: <document>``
+
+       - Required. The document that should replace the found document.
+         The document cannot contain any MongoDB :manual:`update
+         operators </reference/operator/update/>`.
+
+     * - :guilabel:`Update Options`
+
+         | ``options: <RemoteFindOneAndModifyOptions>``
+
+       - Optional: A ``RemoteFindOneAndModifyOptions>`` struct that can be
+         initialized with the following values.
+
+         .. code-block:: swift
+
+            RemoteFindOneAndModifyOptions.init(
+                "sort": <document>,
+                "projection": <document>,
+                "upsert": <bool>,
+                "returnNewDocument": <bool>
+            )
+
+     * - :guilabel:`Sort`
+
+         | ``RemoteFindOneAndModifyOptions.sort: <document>``
+
+       - Optional. Specifies the query sort order. Sort documents
+         specify one or more fields to sort on where the value of each
+         field indicates whether MongoDB should sort it in ascending
+         (``1``) or descending (``0``) order. The sort order determines
+         which document :method:`collection.findOneAndUpdate()` affects.
+
+         .. example::
+
+            The following sort document specifies that documents should be
+            sorted first by ``age`` from highest to lowest. Once sorted by
+            age, the result set should further be sorted by ``name`` in
+            alphabetical order for each distinct age value.
+
+            .. code-block:: swift
+
+               [ "age": 0, "name": 1 ]
+
+     * - :guilabel:`Projection`
+
+         | ``RemoteFindOneAndModifyOptions.projection: <document>``
+
+       - Optional. A document that specifies which fields MongoDB
+         should return or withhold in each document that matches the
+         query.
+
+         To return all fields in the matching documents, omit this
+         parameter or specify an empty projection document (``[]``).
+
+         To return specific fields and the document's ``_id``, specify the
+         fields in the projection document with a value of ``1``:
+
+         .. code-block:: swift
+
+            // Includes the field in returned documents
+            [ <Field Name>: 1 ]
+
+         To withhold specific fields, specify the fields in the projection
+         document with a value of ``0``:
+
+         .. code-block:: swift
+
+            // Withholds the field from returned documents
+            [ <Field Name>: 0 ]
+
+         .. note::
+
+            You may specify either fields to include or fields to withhold
+            but not both. For example, the following projection is
+            **invalid** because it simultaneously includes the ``name``
+            field and withholds the ``address`` field:
+
+            .. code-block:: swift
+
+               // Invalid
+               // Can't simultaneously include and withhold
+               [ "name": 1, "address": 0 ]
+
+            The exception to this rule is the ``_id`` field, which you
+            may withhold from any query:
+
+            .. code-block:: swift
+
+               // Valid
+               // Can exclude _id while including other fields
+               [ "_id": 0, "name": 1 ]
+
+     * - :guilabel:`Upsert`
+
+         | ``RemoteFindAndModifyOptions.upsert: <boolean>``
+
+       - Optional. Default: ``false``. A boolean that, if ``true``,
+         indicates that MongoDB should insert a new document that
+         matches the query filter when the query does not match any
+         existing documents in the collection.
+
+     * - :guilabel:`Return New Document`
+
+         | ``RemoteFindAndModifyOptions.returnNewDocument: <boolean>``
+
+       - Optional. Default: ``false``. A boolean that, if ``true``,
+         indicates that the action should return the document in its
+         post-replace form instead of its original form from before the
+         replace operation.
+
+     * - :guilabel:`completionHandler`
+
+         | ``(StitchResult<CollectionType?>) -> Void``
+
+       - Required. A completion handler that accepts `StitchResult` optional.
+
+         This should be matched to check for successful completion of the
+         operation
