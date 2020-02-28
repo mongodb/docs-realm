@@ -1,0 +1,91 @@
+title: Locally Install External Dependencies
+ref: locally-install-external-dependencies
+content: |
+  To upload external dependencies, you first need a local
+  ``node_modules`` folder containing at least one Node.js package. You
+  can use the following code snippet to install a dependency locally
+  you would like to upload:
+
+  .. code-block:: shell
+
+     npm install <package name>
+
+  If the ``node_modules`` folder does not already exist, this command
+  automatically creates it.
+
+  .. admonition:: Alternative Methods of Installation
+     :class: note
+     
+     You can also configure a ``package.json`` and run the
+     ``npm install`` command to install all packages (and their
+     dependencies) listed in your ``package.json``.
+
+     To learn more about npm and ``node_modules``, consult the
+     `npm documentation <https://docs.npmjs.com/cli/install>`_ .
+
+---
+title: Create a Dependency Archive
+ref: create-a-dependency-archive
+content: |
+  Now that you've downloaded all of your npm modules, you need to
+  package them up in an archive so you can upload them to Realm. Create
+  an archive containing the ``node_modules`` folder:
+
+  .. code-block:: shell
+     
+     tar -czf node_modules.tar.gz node_modules/
+
+  .. admonition:: Supported Archive Formats
+     :class: note
+     
+     Realm supports ``.tar``, ``.tar.gz``, and ``.zip`` archive
+     formats.
+
+---
+title: Upload the Dependency Archive
+ref: upload-the-dependency-archive
+content: |
+  Once you've created an archive containing your dependencies, you can upload your
+  dependency archive using the Realm UI or Realm CLI:
+
+  .. tabs-stitch-interfaces::
+     
+     .. tab::
+        :tabid: stitch-ui
+
+        #. Select :guilabel:`Functions` from the left-side navigation.
+        #. Select the :guilabel:`Dependencies` tab.
+      
+        #. Click the :guilabel:`Upload` button.
+      
+        #. In the file picker, select the ``node_modules.tar.gz`` archive you
+           just created and click Open. Realm automatically uploads the
+           archive file, which may take several minutes depending on the
+           speed of your internet connection and the size of your dependency
+           archive.
+      
+        #. Whether the operation succeeded or failed, Realm displays a banner
+           indicating the success or failure of the operation. If successful,
+           the :guilabel:`Dependencies` tab displays a list of the
+           dependencies that you included in your dependency archive. If
+           drafts are enabled, you will also need to click
+           :guilabel:`Review & Deploy` to apply these changes. If drafts are
+           disabled, the change will take effect within 5 to 60 seconds
+           depending on the size of your dependency archive.
+     
+     .. tab::
+        :tabid: import-export
+        
+        #. Add the ``node_modules`` archive to your ``/functions``
+           directory:
+           
+           .. code-block:: shell
+              
+              mv node_modules.tar.gz ./myapp/functions
+        
+        #. Import your application with the :option:`--include-dependencies
+           <realm-cli import --include-dependencies>` option:
+           
+           .. code-block:: shell
+              
+              realm-cli import --include-dependencies

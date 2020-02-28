@@ -75,6 +75,11 @@ extlinks = {
     'js-sdk': ('https://docs.mongodb.com/stitch-sdks/js/4/%s', ''),
     'ios-sdk': ('https://docs.mongodb.com/stitch-sdks/swift/6/%s', ''),
     'jwt-io': ('https://jwt.io/%s', ''),
+    'nodejs': ('https://nodejs.org/api/%s', ''),
+    'npm': ('https://www.npmjs.com/%s', ''),
+    'mdn': ('https://developer.mozilla.org/en-US/docs/%s', ''),
+    'gcp': ('https://cloud.google.com/%s', ''),
+    'google-dev': ('https://developers.google.com/%s', ''),
 }
 
 intersphinx_mapping = {}
