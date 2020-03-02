@@ -123,8 +123,8 @@ Authentication Trigger Configuration
 
           | *type*
 
-     - Required. The type of the trigger. Set this value to
-     ``AUTHENTICATION`` for authentication triggers.
+     - Required. The type of the trigger. For authentication triggers,
+       this value should be set to ``AUTHENTICATION``.
 
    * - :guilabel:`Trigger Name`
 
@@ -142,7 +142,7 @@ Authentication Trigger Configuration
 
           | *function_name*
 
-     - Required. The name of the Realm function that the trigger
+     - Required. The name of the Stitch function that the trigger
        executes whenever it fires. The trigger passes the
        :ref:`authentication event object <authentication-events>` that
        caused it to fire as the only argument to this function.
