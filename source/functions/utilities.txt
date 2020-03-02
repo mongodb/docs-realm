@@ -275,7 +275,6 @@ The ``utils.jwt`` package provides methods for working with
       .. code-block:: javascript
          
          exports = function(jwtString) {
-           const signingMethod = "HS512";
            const key = "SuperSecret";
            return utils.jwt.decode(jwtString, key);
          }

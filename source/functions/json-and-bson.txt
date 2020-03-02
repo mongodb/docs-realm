@@ -13,7 +13,30 @@ JSON & BSON
 Overview
 --------
 
-TODO
+Stitch :doc:`functions </functions>` include built-in global modules
+that allow you to process and convert between data formats. Each format
+supports various different data types and encodings.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 20 80
+   
+   * - Module
+     - Description
+   
+   * - :ref:`JSON <json>`
+     - Includes methods that convert between string and object
+       representations of :wikipedia:`JSON <JSON>` data.
+   
+   * - :ref:`EJSON <ejson>`
+     - Includes methods that convert between string and object
+       representations of :manual:`Extended JSON
+       </reference/mongodb-extended-json>` data.
+   
+   * - :ref:`BSON <bson>`
+     - Includes methods that create :wikipedia:`Binary JSON <BSON>`
+       objects and convert between various BSON data types and
+       encodings.
 
 .. _json:
 
@@ -230,8 +253,7 @@ identifier.
 
       * - ``id``
         - string
-        - Optional. A 12-byte :manual:`ObjectId
-          </reference/method/ObjectId>` string.
+        - Optional. A 12-byte string or a string of 24 hex characters.
 
    :returns:
       
@@ -313,8 +335,8 @@ The ``BSON.Binary`` type represents a binary-encoded data string.
 
       * - ``hexString``
         - string
-        - A string of hexadecimal characters (0-9 and A-F). The encoding
-          must be byte aligned.
+        - A :wikipedia:`byte aligned <Data_structure_alignment>` string
+          of hexadecimal characters (0-9 and A-F).
 
       * - ``subType``
         - integer
@@ -549,7 +571,7 @@ number.
    exactly, e.g. financial data. For these cases, use
    :ref:`BSON.Decimal128 <bson-decimal128>` instead.
 
-.. method:: BSON.Double(double);
+.. method:: BSON.Double(double)
 
    Constructs a ``BSON.Double`` object from a 64-bit decimal value.
 
