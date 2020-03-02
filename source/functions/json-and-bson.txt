@@ -58,8 +58,8 @@ objects.
       .. code-block:: javascript
 
          const jsonString = `{
-           someField: "someValue",
-           anotherField: 42
+           answer: 42,
+           submittedAt: "2020-03-02T16:50:24.475Z"
          }`;
          const object = JSON.parse(jsonString);
 
@@ -89,8 +89,8 @@ objects.
       .. code-block:: javascript
 
          const object = {
-           someField: "someValue",
-           anotherField: 42
+           answer: 42,
+           submittedAt: new Date("2020-03-02T16:46:47.977Z")
          };
          const jsonString = JSON.stringify(object);
 
@@ -137,8 +137,14 @@ preserves additional type information.
       .. code-block:: javascript
 
          const ejsonString = `{
-           someField: "someValue",
-           anotherField: 42
+           answer: {
+             "$numberLong": "42"
+           },
+           submittedAt: {
+             "$date": {
+               "$numberLong": "1583167607977"
+             }
+           }
          }`;
          const object = EJSON.stringify(ejsonString);
 
@@ -170,8 +176,8 @@ preserves additional type information.
       .. code-block:: javascript
 
          const object = {
-           someField: "someValue",
-           anotherField: 42
+           answer: 42,
+           submittedAt: new Date("2020-03-02T16:46:47.977Z")
          };
          const ejsonString = EJSON.stringify(object);
 
@@ -198,8 +204,8 @@ types and encodings.
    :class: note
 
    MongoDB stores all documents in BSON format, so you'll use the
-   ``BSON`` package most commonly when you read and write data to a
-   MongoDB collection.
+   ``BSON`` package most commonly when you run :ref:`CRUD & Aggregation
+   operations <crud-aggregation-operations>`.
 
 .. _bson-objectid:
 
