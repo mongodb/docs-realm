@@ -1,0 +1,247 @@
+-----------------------
+Authentication Triggers
+-----------------------
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+
+Overview
+--------
+
+Authentication triggers allow you to execute server-side logic whenever
+a user interacts with an :doc:`authentication provider
+</authentication/providers>`. You can use authentication triggers to
+implement advanced user management, including storing new user data in
+MongoDB, maintaining data integrity upon user deletion, or calling a
+service with a user’s information when they log in.
+
+
+Create an Authentication Trigger
+--------------------------------
+
+.. tabs-stitch-interfaces::
+
+   tabs:
+     - id: stitch-ui
+       content: |
+         To create an authentication trigger in the Realm UI:
+
+         1. Click :guilabel:`Triggers` under :guilabel:`MongoDB
+            Cluster` in the left-hand navigation.
+
+         2. Select the :guilabel:`Authentication Triggers` tab.
+
+         3. Click :guilabel:`Add Authentication Trigger` in the top
+            right to open the trigger configuration page.
+
+         4. Enter :ref:`configuration values <auth-trigger-configuration>`
+            for the trigger and click :guilabel:`Save` at the bottom of
+            the page.
+
+         .. figure:: /images/auth-trigger-config.png
+            :width: 750px
+            :lightbox:
+
+     - id: import-export
+       content: |
+         To create an authentication trigger with :doc:`realm-cli
+         </deploy/realm-cli-reference>`:
+
+         1. Add an authentication trigger :ref:`configuration file
+            <auth-trigger-configuration>` to the ``triggers``
+            subdirectory of a local application directory.
+
+            .. note::
+
+               Realm does not enforce specific filenames for trigger
+               configuration files. However, once imported, Realm will
+               rename each configuration file to match the name of the
+               trigger it defines, e.g. ``mytrigger.json``.
+
+         2. :doc:`Import </deploy/deploy-changes-with-realm-cli>` the
+            application directory into your application.
+
+            .. code-block:: shell
+
+               realm-cli import
+
+
+Reference
+---------
+
+.. _auth-trigger-configuration:
+
+Authentication Trigger Configuration
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. tabs-stitch-interfaces::
+
+   tabs:
+     - id: import-export
+       content: |
+         Configuration files for authentication triggers have the
+         following form:
+
+         .. cssclass:: wide-container
+         .. code-block:: none
+            :caption: ``/triggers/<trigger name>.json``
+
+            {
+               "type": <string>,
+               "name": <string>,
+               "function_name": <string>,
+               "config": {
+                 "operation_type": <string>,
+                 "providers": [<string>, ...]
+               },
+               "disabled": <boolean>
+            }
+
+     - id: stitch-ui
+       content: |
+         Authentication triggers have the following configuration
+         parameters:
+
+.. cssclass:: auth-table
+.. list-table::
+   :header-rows: 1
+   :widths: 15 30
+
+   * - Field
+     - Description
+
+   * - :guilabel:`Trigger Type`
+
+       .. tab-content:: tabs-stitch-interfaces
+          :tab-id: import-export
+
+          | *type*
+
+     - Required. The type of the trigger. For authentication triggers,
+       this value should be set to ``AUTHENTICATION``.
+
+   * - :guilabel:`Trigger Name`
+
+       .. tab-content:: tabs-stitch-interfaces
+          :tab-id: import-export
+
+          | *name*
+
+     - Required. The name of the trigger.
+
+   * - :guilabel:`Linked Function`
+
+       .. tab-content:: tabs-stitch-interfaces
+          :tab-id: import-export
+
+          | *function_name*
+
+     - Required. The name of the Stitch function that the trigger
+       executes whenever it fires. The trigger passes the
+       :ref:`authentication event object <authentication-events>` that
+       caused it to fire as the only argument to this function.
+
+   * - :guilabel:`Operation Type`
+
+       .. tab-content:: tabs-stitch-interfaces
+          :tab-id: import-export
+
+          | *config.operation_type*
+
+     - Required. The :ref:`authentication operation
+       type <authentication-event-operation-types>` that causes the
+       trigger to fire. The operation type must be formatted as a
+       fully-capitalized string, e.g. ``"LOGIN"``.
+
+   * - :guilabel:`Providers`
+
+       .. tab-content:: tabs-stitch-interfaces
+          :tab-id: import-export
+
+          | *config.providers*
+
+     - Required. A list of one or more :doc:`authentication provider
+       </authentication/providers>` types. The trigger will only listen
+       for :ref:`authentication events <authentication-events>` produced
+       by these providers.
+
+       The following values are valid:
+
+       .. include:: /includes/auth-provider-internal-names.rst
+
+.. _authentication-events:
+
+Authentication Events
+~~~~~~~~~~~~~~~~~~~~~
+
+.. _authentication-event-operation-types:
+
+Authentication events represent user interactions with an authentication
+provider. Each event corresponds to a single user action with one of the
+following operation types:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 10 30
+
+   * - Operation Type
+     - Description
+
+   * - ``LOGIN``
+     - Represents a single instance of a user logging in.
+
+   * - ``CREATE``
+     - Represents the creation of a new user.
+
+   * - ``DELETE``
+     - Represents the deletion of a user.
+
+Authentication event objects have the following form:
+
+.. code-block:: json
+   :copyable: false
+
+   {
+     "operationType": <string>,
+     "providers": <array of strings>,
+     "user": <user object>,
+     "time": <ISODate>
+   }
+
+.. list-table::
+   :header-rows: 1
+   :widths: 10 30
+
+   * - Field
+     - Description
+   * - ``operationType``
+     - The :ref:`operation type <authentication-event-operation-types>`
+       of the authentication event.
+   * - ``providers``
+     - The :doc:`authentication providers </authentication/providers>`
+       that emitted the event.
+
+       One of the following names represents each authentication provider:
+
+       .. include:: /includes/auth-provider-internal-names.rst
+
+       .. note::
+
+          Generally, only one authentication provider emits each event.
+          When a user :doc:`linked </authentication/linking>` to
+          multiple providers becomes deleted, the ``DELETE`` event for
+          that user will include all linked providers. 
+   * - ``user``
+     - The :doc:`user object </users>` of the user that interacted with
+       the authentication provider.
+   * - ``time``
+     - The time at which the event occurred.
+
+
+
