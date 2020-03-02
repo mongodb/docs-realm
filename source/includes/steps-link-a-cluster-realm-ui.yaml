@@ -1,0 +1,51 @@
+title: Navigate to the Cluster Management Screen
+ref: navigate-to-the-cluster-management-screen
+content: |
+  In the Realm UI, click :guilabel:`Clusters` under :guilabel:`MongoDB
+  Clusters` in the left-hand navigation.
+---
+title: Link a New Cluster
+ref: link-a-new-cluster
+content: |
+  Click :guilabel:`Link a Cluster` and provide the following
+  configuration information on the :guilabel:`Cluster Configuration`
+  screen:
+  .. list-table::
+     :header-rows: 1
+     * - Field
+       - Description
+     * - :guilabel:`Atlas Cluster`
+       - A MongoDB Atlas cluster associated with the same project as
+         your Realm application.
+     * - :guilabel:`Realm Service Name`
+       - A name for the Realm service that connects to the cluster.
+         You will use this name when referring to the cluster in other
+         parts of your application, such as when you instantiate a
+         MongoDB service client.
+         .. example::
+            Consider a MongoDB cluster with the :guilabel:`Realm
+            Service Name` ``myAtlasCluster``. To create a service client
+            in a :doc:`function </functions>` you would use the
+            following code:
+            .. code-block:: javascript
+               const myAtlasCluster = context.services.get("myAtlasCluster");
+     * - :guilabel:`MongoDB Connection String`
+       - If enabled, you may :doc:`connect to this cluster through Realm over
+         the wire protocol </mongodb/connect-over-the-wire-protocol>`.
+         You can also find a connection string that Realm generates for
+         you here.
+---
+title: Save the Linked Cluster
+ref: save-the-linked-cluster
+content: |
+  Once you've selected and configured a MongoDB cluster, click
+  :guilabel:`Save`.
+  Realm will immediately begin the process of linking to the cluster,
+  which could take up to five minutes. Once Realm is finished linking
+  to the cluster, you can start reading and writing data.
+  .. see::
+     - :doc:`Add Data to Mongodb </mongodb/add-data-to-mongodb>`
+     - :doc:`Find Documents </mongodb/find-documents-in-mongodb>`
+     - :doc:`Update Documents </mongodb/update-documents-in-mongodb>`
+     - :doc:`Delete Documents </mongodb/delete-documents-from-mongodb>`
+     - :doc:`Run Aggregation Pipelines </mongodb/run-aggregation-pipelines>`
