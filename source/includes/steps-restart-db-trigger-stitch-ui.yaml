@@ -3,7 +3,7 @@ ref: find-the-suspended-trigger
 content: |
   On the :guilabel:`Database Triggers` tab of the :guilabel:`Triggers`
   page, find the trigger that you want to resume in the list of
-  triggers. Stitch marks suspended triggers with a :guilabel:`Status` of
+  triggers. Realm marks suspended triggers with a :guilabel:`Status` of
   :guilabel:`Suspended`.
   .. cssclass:: bordered-figure
   .. figure:: /images/suspended-db-trigger.png
@@ -19,7 +19,7 @@ content: |
   .. admonition:: Resume Tokens
      :class: note
      If you use a :manual:`resume token
-     </changeStreams/#resume-a-change-stream>`, Stitch attempts to
+     </changeStreams/#resume-a-change-stream>`, Realm attempts to
      resume the trigger's underlying change stream at the event
      immediately following the last change event it processed. If
      successful, the trigger processes any events that occurred while it
@@ -29,4 +29,3 @@ content: |
      was suspended.
   .. cssclass:: bordered-figure
   .. figure:: /images/resume-database-trigger-modal.png
-...

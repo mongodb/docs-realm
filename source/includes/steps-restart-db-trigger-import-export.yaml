@@ -1,16 +1,16 @@
-title: Export Your Stitch Application
+title: Export Your Realm Application
 ref: export-your-application
 content: |
-  Stitch automatically attempts to resume any suspended triggers that
+  Realm automatically attempts to resume any suspended triggers that
   are included in an imported :ref:`application directory
   <application-directory>`. To begin restarting a suspended trigger,
-  :doc:`export </deploy/export-stitch-app>` a copy of your
+  :doc:`export </deploy/export-realm-app>` a copy of your
   application from the :guilabel:`Export` tab of the
-  :guilabel:`Settings` page in the Stitch UI, or by running the
-  following command from an authenticated instance of :doc:`stitch-cli
-  </deploy/stitch-cli-reference>`:
+  :guilabel:`Settings` page in the Realm UI, or by running the
+  following command from an authenticated instance of :doc:`realm-cli
+  </deploy/realm-cli-reference>`:
   .. code-block:: shell
-     stitch-cli export --app-id=<App ID>.
+     realm-cli export --app-id=<App ID>.
 ---
 title: Verify that the Trigger Configuration File Exists
 ref: verify-that-the-trigger-configuration-file-exists
@@ -28,5 +28,4 @@ content: |
   import the trigger configuration by running the following command from
   the root of your exported application directory:
   .. code-block:: shell
-     stitch-cli import
-...
+     realm-cli import
