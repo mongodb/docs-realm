@@ -18,8 +18,8 @@ document is added, updated, or removed in a linked :doc:`MongoDB cluster
 </mongodb>`.
 You can use database triggers to implement complex data interactions,
 including updating information in one document when a related document
-changes or interacting with a :doc:`service </services>` when a new
-document is inserted.
+changes or interacting with a :doc:`service </services>` upon the insertion
+of a new document.
 
 Database triggers use MongoDB :manual:`change streams </changeStreams>`
 to listen for changes to documents in a collection and pass
@@ -97,7 +97,7 @@ Restart a Database Trigger
 Database triggers may enter a :guilabel:`suspended` state in response to
 an event that prevents the trigger's change stream from continuing, such
 as a network disruption or change to the underlying cluster. When a
-trigger is suspended, it does not receive change events and will not
+trigger enters a suspended state, it does not receive change events and will not
 fire.
 
 .. note:: 
@@ -371,7 +371,7 @@ following operation types:
      - Description
 
    * - ``INSERT``
-     - Represents a new document that was added to the collection.
+     - Represents a new document added to the collection.
 
    * - ``UPDATE``
      - Represents a change to an existing document in the collection.
@@ -380,7 +380,7 @@ following operation types:
      - Represents a new document that replaced a document in the collection.
 
    * - ``DELETE``
-     - Represents a document that was deleted from the collection.
+     - Represents a document deleted from the collection.
 
 Database change event objects have the following general form:
 
