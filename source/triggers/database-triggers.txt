@@ -29,9 +29,9 @@ function.
 .. admonition:: Change Stream Limitations
    :class: important
 
-   Stitch opens a single change stream for each collection with at least
+   Realm opens a single change stream for each collection with at least
    one enabled trigger and limits the total number of open change
-   streams on each linked cluster across all Stitch apps based on the
+   streams on each linked cluster across all Realm apps based on the
    cluster's size. See :ref:`change stream limitations
    <mongodb-service-limitations-change-streams>` for more information.
 
@@ -50,7 +50,7 @@ Create a Database Trigger
    tabs:
      - id: stitch-ui
        content: |
-         To create a database trigger in the Stitch UI:
+         To create a database trigger in the Realm UI:
 
          1. Click :guilabel:`Triggers` under :guilabel:`MongoDB
             Cluster` in the left-hand navigation.
@@ -70,24 +70,24 @@ Create a Database Trigger
 
      - id: import-export
        content: |
-         To create a database trigger with :doc:`stitch-cli
-         </deploy/stitch-cli-reference>`:
+         To create a database trigger with :doc:`realm-cli
+         </deploy/realm-cli-reference>`:
 
          1. Add a database trigger :ref:`configuration file
             <database-trigger-configuration>` to the ``triggers``
             subdirectory of a local application directory.
 
-         2. :doc:`Import </deploy/deploy-changes-with-stitch-cli>` the
+         2. :doc:`Import </deploy/deploy-changes-with-realm-cli>` the
             application directory into your application.
 
             .. code-block:: shell
 
-               stitch-cli import
+               realm-cli import
 
          .. note::
 
-            Stitch does not enforce specific filenames for trigger
-            configuration files. However, once imported, Stitch will
+            Realm does not enforce specific filenames for trigger
+            configuration files. However, once imported, Realm will
             rename each configuration file to match the name of the
             trigger it defines, e.g. ``mytrigger.json``.
 
@@ -102,11 +102,11 @@ fire.
 
 .. note:: 
 
-   In the event of a suspended or failed trigger, Stitch sends the 
+   In the event of a suspended or failed trigger, Realm sends the 
    project owner an email alerting them of the issue. 
 
-You can attempt to restart a suspended trigger from the Stitch UI or by
-importing an application directory with Stitch CLI.
+You can attempt to restart a suspended trigger from the Realm UI or by
+importing an application directory with Realm CLI.
 
 .. tabs-stitch-interfaces::
 
@@ -192,7 +192,7 @@ Database Trigger Configuration
 
           | *function_name*
 
-     - Required. The name of the Stitch function that the trigger
+     - Required. The name of the Realm function that the trigger
        executes whenever it fires. The trigger passes the
        :ref:`database event object <database-events>` that
        caused it to fire as the only argument to this function.
@@ -327,7 +327,7 @@ Database Trigger Configuration
 
      - Optional.
        A :manual:`$match </reference/operator/aggregation/match>`
-       expression document that |stitch-short| includes in the
+       expression document that Realm includes in the
        underlying change stream pipeline for the trigger. All change
        event objects for the trigger are evaluated against this match
        expression and the trigger will not fire unless the expression
