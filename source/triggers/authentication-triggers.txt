@@ -18,8 +18,9 @@ Authentication triggers allow you to execute server-side logic whenever
 a user interacts with an :doc:`authentication provider
 </authentication/providers>`. You can use authentication triggers to
 implement advanced user management, including storing new user data in
-MongoDB, maintaining data integrity when a user is deleted, or calling a
-service with a user's information when they log in.
+MongoDB, maintaining data integrity upon user deletion, or calling a
+service with a user’s information when they log in.
+
 
 Create an Authentication Trigger
 --------------------------------
@@ -29,7 +30,7 @@ Create an Authentication Trigger
    tabs:
      - id: stitch-ui
        content: |
-         To create an authentication trigger in the Stitch UI:
+         To create an authentication trigger in the Realm UI:
 
          1. Click :guilabel:`Triggers` under :guilabel:`MongoDB
             Cluster` in the left-hand navigation.
@@ -49,8 +50,8 @@ Create an Authentication Trigger
 
      - id: import-export
        content: |
-         To create an authentication trigger with :doc:`stitch-cli
-         </deploy/stitch-cli-reference>`:
+         To create an authentication trigger with :doc:`realm-cli
+         </deploy/realm-cli-reference>`:
 
          1. Add an authentication trigger :ref:`configuration file
             <auth-trigger-configuration>` to the ``triggers``
@@ -58,17 +59,17 @@ Create an Authentication Trigger
 
             .. note::
 
-               Stitch does not enforce specific filenames for trigger
-               configuration files. However, once imported, Stitch will
+               Realm does not enforce specific filenames for trigger
+               configuration files. However, once imported, Realm will
                rename each configuration file to match the name of the
                trigger it defines, e.g. ``mytrigger.json``.
 
-         2. :doc:`Import </deploy/deploy-changes-with-stitch-cli>` the
+         2. :doc:`Import </deploy/deploy-changes-with-realm-cli>` the
             application directory into your application.
 
             .. code-block:: shell
 
-               stitch-cli import
+               realm-cli import
 
 
 Reference
@@ -122,8 +123,8 @@ Authentication Trigger Configuration
 
           | *type*
 
-     - Required. The type of the trigger. For authentication triggers,
-       this value should be set to ``AUTHENTICATION``.
+     - Required. The type of the trigger. Set this value to
+     ``AUTHENTICATION`` for authentication triggers.
 
    * - :guilabel:`Trigger Name`
 
@@ -141,7 +142,7 @@ Authentication Trigger Configuration
 
           | *function_name*
 
-     - Required. The name of the Stitch function that the trigger
+     - Required. The name of the Realm function that the trigger
        executes whenever it fires. The trigger passes the
        :ref:`authentication event object <authentication-events>` that
        caused it to fire as the only argument to this function.
@@ -226,19 +227,21 @@ Authentication event objects have the following form:
      - The :doc:`authentication providers </authentication/providers>`
        that emitted the event.
 
-       Each authentication provider is represented by one of the
-       following names:
+       One of the following names represents each authentication provider:
 
        .. include:: /includes/auth-provider-internal-names.rst
 
        .. note::
 
           Generally, only one authentication provider emits each event.
-          If a user that is :doc:`linked </authentication/linking>` to
-          multiple providers is deleted, the ``DELETE`` event for that
-          user will include all linked providers.
+          When a user :doc:`linked </authentication/linking>` to
+          multiple providers becomes deleted, the ``DELETE`` event for
+          that user will include all linked providers. 
    * - ``user``
      - The :doc:`user object </users>` of the user that interacted with
        the authentication provider.
    * - ``time``
      - The time at which the event occurred.
+
+
+
