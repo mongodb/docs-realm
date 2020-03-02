@@ -1,0 +1,672 @@
+=========================
+GraphQL Types & Resolvers
+=========================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+Realm automatically generates GraphQL types & resolvers for any
+collection that has a defined :doc:`collection schema
+</mongodb/enforce-a-document-schema>`. For each collection, Realm
+defines a GraphQL :ref:`document type <graphql-document-types>` that
+represents a single document in the collection as well as a set of
+:ref:`queries <graphql-query-resolvers>` and :ref:`mutations
+<graphql-mutation-resolvers>` to work with that type.
+
+.. admonition:: Example Collection Schema
+   :class: note
+
+   This page includes examples that demonstrate generated values based
+   on the following schema for a ``movies`` collection:
+
+   .. code-block:: json
+      
+      {
+        "title": "Movie",
+        "required": ["title"],
+        "properties": {
+          "_id": { "bsonType": "objectId" },
+          "title": { "bsonType": "string" },
+          "year": { "bsonType": "int" },
+          "runtime": { "bsonType": "int" },
+          "director": { "bsonType": "string" }
+        }
+      }
+
+.. _graphql-data-types:
+
+Data Types
+----------
+
+Realm automatically generates types that you can use in the GraphQL
+API.
+
+.. _graphql-document-types:
+
+Document Types
+~~~~~~~~~~~~~~
+
+Realm generates a single :graphql:`GraphQL type <learn/schema/>` for
+documents in a collection based on the collection schema. The type uses
+the name set in the ``title`` field of the schema or the collection name
+if no ``title`` is specified.
+
+Realm automatically maps BSON field types defined in the schema to
+GraphQL types according to the :ref:`BSON Type Mapping
+<graphql-bson-type-mapping>`.
+
+.. code-block:: text
+   
+   type Movie {
+     _id: ObjectId
+     title: String!
+     year: Int
+     runtime: Int
+     director: String
+   }
+
+.. _graphql-input-types:
+
+Input Types
+~~~~~~~~~~~
+
+GraphQL uses :graphql:`input types <learn/schema/#input-types>` to
+represent parameters that you pass to a mutation. This is a standard
+approach used by all GraphQL APIs. The GraphQL docs describe why:
+
+    Objects can contain fields that express circular references or
+    references to interfaces and unions, neither of which is appropriate
+    for use as an input argument. For this reason, input objects have a
+    separate type in the system.
+
+The Realm GraphQL API uses the following input types:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 20 80
+
+   * - Input Type
+     - Description
+   
+   * - ``QueryInput``
+     - An object that defines a filter for documents in the collection.
+       The object may specify one or more fields from the data type and
+       must include a value for each field. The query matches all
+       documents that include the specified field values.
+   
+   * - ``InsertInput``
+     - A document to insert into the collection. If the collection
+       schema marks a field as required then this document must include
+       a valid value for that field. Realm automatically converts
+       GraphQL types in the ``InsertInput`` object into their
+       respective BSON type.
+   
+   * - ``UpdateInput``
+     - An object that defines a new value for one or more fields in the
+       document. The updated document will include the new field values.
+       Any fields that you do not specify remain unchanged. Realm
+       automatically converts GraphQL types in the ``UpdateInput``
+       object into their respective BSON type.
+   
+   * - ``SortByInput``
+     - A value that defines a sort order for documents in the query
+       result set. You can sort in ascending and descending order by any
+       root-level field that does not have a type of ``object`` or
+       ``array``.
+
+       The ``sortBy`` value is a fully-capitalized identifier that
+       combines the field name and the sort direction. For example:
+       
+       - to sort by title from A to Z you would use ``TITLE_ASC``
+       - to sory by rating from highest to lowest you would use ``RATING_DESC``
+
+.. _graphql-bson-type-mapping:
+
+BSON Type Mapping
+~~~~~~~~~~~~~~~~~
+
+The GraphQL type system is similar but not identical to the BSON types
+that you can use in a :doc:`schema </mongodb/document-schemas>`. Realm
+automatically maps between BSON types and GraphQL types based on the
+schema.
+
+The following table lists BSON types that you can use in a collection
+schema and the GraphQL types that they map to:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
+
+   * - JSON/BSON Type
+     - GraphQL Type
+   
+   * - ``objectId``
+     - ``ObjectId``
+   
+   * - ``int``
+     - ``Int``
+   
+   * - ``long``
+     - ``Int``
+   
+   * - ``double``
+     - ``Float``
+   
+   * - ``decimal``
+     - ``Float``
+   
+   * - ``date``
+     - ``DateTime``
+   
+   * - ``timestamp``
+     - ``DateTime``
+
+.. _graphql-query-resolvers:
+
+Query Resolvers
+---------------
+
+Realm generates two query fields for each collection. These allow you
+to find a single document in the collection or to find and return
+multiple documents.
+
+.. _graphql-findOne:
+
+Find a Single Document
+~~~~~~~~~~~~~~~~~~~~~~
+
+The single document query field uses the same name as the data type
+that the collection contains. It returns a single document of the
+queried type and accepts the following parameters:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 20 20 60
+   
+   * - Parameter
+     - Type
+     - Description
+   
+   * - ``query``
+     - QueryInput
+     - An object that defines a filter for documents in the collection.
+       The object may specify one or more fields from the data type and
+       must include a value for each field. The query matches all
+       documents that include the specified field values.
+
+       If you do not specify a ``query`` parameter then the query
+       operation matches all documents.
+
+.. code-block:: text
+   
+   query {
+     movie(query: { title: "The Matrix" }) {
+       title
+       year
+       runtime
+       director
+     }
+   }
+
+.. _graphql-findMany:
+
+Find Multiple Documents
+~~~~~~~~~~~~~~~~~~~~~~~
+
+The multiple document query field uses the same name as the data type
+that the collection contains but has an additional ``"s"`` appended to
+the type name. It returns an array of documents of the queried type and
+accepts the following parameters:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 20 20 60
+   
+   * - Parameter
+     - GraphQL Type
+     - Description
+   
+   * - ``query``
+     - QueryInput
+     - An object that defines a filter for documents in the collection.
+       The object may specify one or more fields from the data type and
+       must include a value for each field. The query matches all
+       documents that include the specified field values.
+
+       If you do not specify a ``query`` argument then the query
+       operation matches all documents.
+   
+   * - ``limit``
+     - Int
+     - The maximum number of documents to include in the query result
+       set. If the query matches more than the set limit then it only
+       returns a subset of matched documents.
+       
+       If you do not specify a ``limit`` argument then the query
+       operation returns all matching documents.
+   
+   * - ``sortBy``
+     - SortByInput
+     
+     - A value that defines a sort order for documents in the query
+       result set. You can sort in ascending and descending order by any
+       root-level field that does not have a type of ``object`` or
+       ``array``.
+
+       The ``sortBy`` value is a fully-capitalized identifier that
+       combines the field name and the sort direction. For example:
+       
+       - to sort by title from A to Z you would use ``TITLE_ASC``
+       - to sory by rating from highest to lowest you would use ``RATING_DESC``
+
+       If you do not specify a ``sortBy`` argument then the query
+       operation does not guarantee the order of documents in the result
+       set.
+
+.. code-block:: text
+   
+   query {
+     movies(
+       query: { year: 2000 }
+       limit: 100
+       sortBy: TITLE_ASC
+     ) {
+       title
+       year
+       runtime
+       director
+     }
+   }
+
+.. _graphql-mutation-resolvers:
+
+Mutation Resolvers
+------------------
+
+Realm generates a set of mutation fields for each collection. These
+allow you insert, modify, and delete one or more documents.
+
+.. _graphql-insertOne:
+
+Insert a Single Document
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+The single document insert mutation field uses the name
+``insertOne<Type>`` where ``<Type>`` is the singular name of the data
+type that the collection contains. It returns the inserted document and
+accepts the following parameters:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 20 20 60
+   
+   * - Parameter
+     - Type
+     - Description
+   
+   * - ``data``
+     - InsertInput!
+     - A document to insert into the collection. If the collection
+       schema marks a field as required then this document must include
+       a valid value for that field. Realm automatically converts
+       GraphQL types in the ``InsertInput`` object into their
+       respective BSON type.
+
+.. code-block:: text
+   
+   mutation {
+     insertOneMovie(data: {
+       title: "Little Women"
+       director: "Greta Gerwig"
+       year: 2019
+       runtime: 135
+     }) {
+       _id
+       title
+     }
+   }
+
+.. _graphql-insertMany:
+
+Insert Multiple Documents
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The multiple document insert mutation field uses the name
+``insertMany<Type>s`` where ``<Type>`` is the singular name of the data
+type that the collection contains. It returns the inserted document and
+accepts the following parameters:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 20 20 60
+   
+   * - Parameter
+     - Type
+     - Description
+   
+   * - ``data``
+     - [InsertInput!]!
+     - An array of documents to insert into the collection. The array
+       must contain at least one document. If the collection schema
+       marks a field as required then each document must include a valid
+       value for that field. Realm automatically converts GraphQL types
+       in the ``InsertInput`` object into their respective BSON type.
+
+.. code-block:: text
+   
+   mutation {
+     insertManyMovies(data: [
+       {
+         title: "Little Women"
+         director: "Greta Gerwig"
+         year: 2019
+         runtime: 135
+       },
+       {
+         title: "1917"
+         director: "Sam Mendes"
+         year: 2019
+         runtime: 119
+       }
+     ]) {
+       _id
+       title
+     }
+   }
+
+.. _graphql-updateOne:
+
+Update a Single Document
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+The single document update mutation field uses the name
+``updateOne<Type>`` where ``<Type>`` is the singular name of the data
+type that the collection contains. It returns the updated document and
+accepts the following parameters:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 20 20 60
+   
+   * - Parameter
+     - Type
+     - Description
+   
+   * - ``query``
+     - QueryInput
+     - An object that configures which documents in the collection to
+       update. The object may specify one or more fields from the data
+       type and must include a value for each field. The query matches
+       all documents that include the specified field values.
+
+       If you do not specify a ``query`` argument then the mutation
+       updates the first document in the result set, which is likely but
+       not guaranteed to be the most recently inserted document.
+   
+   * - ``set``
+     - UpdateInput!
+     - An object that defines a new value for one or more fields in the
+       document. The updated document will include the new field values.
+       Any fields that you do not specify remain unchanged. Realm
+       automatically converts GraphQL types in the ``UpdateInput``
+       object into their respective BSON type.
+
+.. code-block:: text
+   
+   mutation {
+     updateOneMovie(
+       query: { title: "The Room" }
+       set: { runtime: 99 }
+     ) {
+       _id
+       title
+     }
+   }
+
+.. _graphql-updateMany:
+
+Update Multiple Documents
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The multiple document update mutation field uses the name
+``updateMany<Type>s`` where ``<Type>`` is the singular name of the data
+type that the collection contains. It returns an ``UpdateManyPayload``
+document that describes the number of fields that were matched and
+modified and accepts the following parameters:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 20 20 60
+   
+   * - Parameter
+     - Type
+     - Description
+   
+   * - ``query``
+     - QueryInput
+     - An object that configures which documents in the collection to
+       update. The object may specify one or more fields from the data
+       type and must include a value for each field. The query matches
+       all documents that include the specified field values.
+
+       If you do not specify a ``query`` argument then the mutation
+       updates the first document in the result set, which is likely but
+       not guaranteed to be the most recently inserted document.
+   
+   * - ``set``
+     - UpdateInput!
+     - An object that defines a new value for one or more fields in the
+       document. The updated document will include the new field values.
+       Any fields that you do not specify remain unchanged. Realm
+       automatically converts GraphQL types in the ``UpdateInput``
+       object into their respective BSON type.
+
+.. code-block:: text
+   
+   mutation {
+     updateManyMovies(
+       query: { director: "Tommy Wiseau" }
+       set: { director: "Tom Wiseau" }
+     ) {
+       matchedCount
+       modifiedCount
+     }
+   }
+
+.. _graphql-upsertOne:
+
+Upsert a Single Document
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+The single document upsert mutation field uses the name
+``upsertOne<Type>`` where ``<Type>`` is the singular name of the data
+type that the collection contains. This resolver updates a document that
+matches the query parameter and inserts a new document if none match the
+query. It returns the upserted document and accepts the following
+parameters:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 20 20 60
+   
+   * - Parameter
+     - Type
+     - Description
+   
+   * - ``query``
+     - QueryInput
+     
+     - An object that configures which document to update. The object
+       may specify one or more fields from the data type and must
+       include a value for each field. The query matches all documents
+       that include the specified field values.
+
+       If you do not specify a ``query`` argument or no documents match,
+       then the mutation inserts the document specified in the ``data``
+       parameter.
+   
+   * - ``data``
+     - InsertInput!
+     - The document to insert if the ``query`` does not match any
+       existing documents. If the ``query`` does match a document
+       replaces the queried document. If the collection schema marks a
+       field as required then this document must include a valid value
+       for that field. Realm automatically converts GraphQL types in
+       the ``InsertInput`` object into their respective BSON type.
+
+.. code-block:: text
+   
+   mutation {
+     upsertOneMovie(
+       query: { title: "Blacksmith Scene" }
+       data: {
+         title: "Sandcastles in the Sand",
+         director: "Robin Scherbatsky"
+         runtime: 90
+         year: 2002
+       }
+     ) {
+       _id
+       title
+     }
+   }
+
+.. _graphql-replaceOne:
+
+Replace a Single Document
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The single document replacement mutation field uses the name
+``replaceOne<Type>`` where ``<Type>`` is the singular name of the data
+type that the collection contains. It returns the replaced document and
+accepts the following parameters:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 20 20 60
+   
+   * - Parameter
+     - Type
+     - Description
+   
+   * - ``query``
+     - QueryInput
+     - An object that configures which documents in the collection to
+       replace. The object may specify one or more fields from the data
+       type and must include a value for each field. The query matches
+       all documents that include the specified field values.
+
+       If you do not specify a ``query`` argument then the mutation
+       replaces the first document in the result set, which is likely
+       but not guaranteed to be the most recently inserted document.
+   
+   * - ``data``
+     - InsertInput!
+     - The document that replaces the queried document. If the
+       collection schema marks a field as required then this document
+       must include a valid value for that field. Realm automatically
+       converts GraphQL types in the ``InsertInput`` object into their
+       respective BSON type.
+
+.. code-block:: text
+   
+   mutation {
+     replaceOneMovie(
+       query: { title: "Blacksmith Scene" }
+       data: {
+         title: "Sandcastles in the Sand",
+         director: "Robin Scherbatsky"
+         runtime: 90
+         year: 2002
+       }
+     ) {
+       _id
+       title
+     }
+   }
+
+.. _graphql-deleteOne:
+
+Delete a Single Document
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+The single document delete mutation field uses the name
+``replaceOne<Type>`` where ``<Type>`` is the singular name of the data
+type that the collection contains. It returns the deleted document and
+accepts the following parameters:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 20 20 60
+   
+   * - Parameter
+     - Type
+     - Description
+   
+   * - ``query``
+     - QueryInput!
+     - An object that configures which document in the collection to
+       delete. The object may specify one or more fields from the data
+       type and must include a value for each field. The query matches
+       all documents that include the specified field values.
+
+       If the ``query`` matches multiple documents, the mutation deletes
+       the first document in the result set, which is likely but not
+       guaranteed to be the most recently inserted document.
+
+.. code-block:: text
+   
+   mutation {
+     deleteOneMovie(query: { title: "The Room" }) {
+       _id
+       title
+       year
+       runtime
+       director
+     }
+   }
+
+.. _graphql-deleteMany:
+
+Delete Multiple Documents
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The multiple document delete mutation field uses the name
+``replaceMany<Type>s`` where ``<Type>`` is the singular name of the data
+type that the collection contains. It returns a ``DeleteManyPayload``
+document that describes the number of documents that were deleted and
+accepts the following parameters:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 20 20 60
+   
+   * - Parameter
+     - Type
+     - Description
+   
+   * - ``query``
+     - QueryInput
+     - An object that configures which document in the collection to
+       delete. The object may specify one or more fields from the data
+       type and must include a value for each field. The query matches
+       all documents that include the specified field values.
+
+       If you do not specify a ``query`` argument then the mutation
+       deletes all documents in the collection.
+
+.. code-block:: text
+   
+   mutation {
+     deleteManyMovies(query: { director: "Tommy Wiseau" }) {
+       deletedCount
+     }
+   }

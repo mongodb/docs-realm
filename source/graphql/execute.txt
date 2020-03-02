@@ -25,40 +25,40 @@ Set Up
 ------
 
 .. tabs::
-   
+
    .. tab:: Apollo (React)
       :tabid: apollo-react
-      
+
       You can use Apollo's React hooks to execute GraphQL operations.
       The hooks are available in the :npm:`@apollo/react-hooks
       <packages/@apollo/react-hooks>` package and all require the
       :npm:`graphql-tag <packages/graphql-tag>` package to define
       operations.
-      
+
       .. important::
-         
+
          To execute a GraphQL operation with Apollo, you first need to
          :doc:`connect your client application
          </graphql/connect-from-a-client-application>`.
 
       To install the required packages, run the following:
-      
+
       .. code-block:: shell
-               
+
          npm install graphql-tag @apollo/react-hooks
-   
+
    .. tab:: graphqurl (CLI)
       :tabid: graphqurl
-      
+
       You can use the :github:`graphqurl <hasura/graphqurl>` CLI to
       execute GraphQL operations from a command line. You must
       authenticate all requests, so make sure to :doc:`get a valid
       access token </graphql/authenticate-graphql-requests>`.
 
       To install the ``graphqurl`` CLI, run the following:
-      
+
       .. code-block:: shell
-               
+
          npm install -g graphqurl
 
 .. _grapqhl-run-a-query:
@@ -70,18 +70,18 @@ Run a Query
 
    .. tab:: Apollo (React)
       :tabid: apollo-react
-      
+
       Define the query with the ``qgl`` tag and then use the
-      :apollo-docs:`useQuery() <react/api/react-hooks/#usequery>` hook
+      :apollo-docs:`useQuery() </react/api/react-hooks/#usequery>` hook
       to run the query whenever the component mounts.
-      
+
       .. code-block:: javascript
          :emphasize-lines: 2-3, 5-13, 17
-         
+
          import React from "react";
          import { useQuery } from "@apollo/react-hooks";
          import gql from "graphql-tag";
-         
+
          const allMoviesFrom200Query = gql`
            query AllMoviesFrom2000 {
              movies(query: { year: 2000 }) {
@@ -91,7 +91,7 @@ Run a Query
              }
            }
          `
-         
+
          export default function App() {
            // Must be rendered inside of an ApolloProvider
            const { loading, error, data } = useQuery(allMoviesFrom200Query);
@@ -103,12 +103,12 @@ Run a Query
              </div>
            );
          }
-   
+
    .. tab:: graphqurl (CLI)
       :tabid: graphqurl
 
       .. code-block:: shell
-         
+
          gq https://stitch.mongodb.com/api/client/v2.0/app/<Your App ID>/graphql \
              -H 'Authorization: Bearer <Valid Access Token>' \
              -q 'query AllMoviesFrom2000 {  movies(query: { year: 2000 }) { title year runtime }}'
@@ -122,18 +122,18 @@ Run a Mutation
 
    .. tab:: Apollo (React)
       :tabid: apollo-react
-      
+
       Define the mutation with the ``qgl`` tag and then use the
-      :apollo-docs:`useMutation() <react/api/react-hooks/#usemutation>`
+      :apollo-docs:`useMutation() </react/api/react-hooks/#usemutation>`
       hook to get a function that executes the mutation.
-      
+
       .. code-block:: javascript
          :emphasize-lines: 2, 13-23, 17, 28, 29-31
-         
+
          import React from "react";
          import { useQuery, useMutation } from "@apollo/react-hooks";
          import gql from "graphql-tag";
-         
+
          const moviesQuery = gql`
            query AllMovies {
              movies {
@@ -153,7 +153,7 @@ Run a Mutation
              }
            }
          `
-         
+
          export default function App() {
            // Must be rendered inside of an ApolloProvider
            const { loading, error, data } = useQuery(moviesQuery);
@@ -170,12 +170,12 @@ Run a Mutation
              </div>
            );
          }
-   
+
    .. tab:: graphqurl (CLI)
       :tabid: graphqurl
 
       .. code-block:: shell
-         
+
          gq https://stitch.mongodb.com/api/client/v2.0/app/<Your App ID>/graphql \
              -H 'Authorization: Bearer <Valid Access Token>' \
              -q 'mutation UpdateMovieTitle($oldTitle: String!, $newTitle: String!) { updateOneMovie(query: { title: $oldTitle } set: { title: $newTitle }) { title year } }'
