@@ -1,0 +1,38 @@
+============================
+Link a MongoDB Atlas Cluster
+============================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+You can use Realm to work with any MongoDB Atlas cluster associated
+with the same Atlas project as your Realm application. To connect to a
+cluster through Realm, you must first link it to a new MongoDB service
+in your application.
+
+You can create a MongoDB service and link a cluster to your Realm
+application through the Realm UI or with an :doc:`import/export
+</deploy/deploy-changes-with-realm-cli>` configuration directory.
+Select the tab below that corresponds to the method you want to use.
+
+Procedure
+---------
+
+.. tabs-stitch-interfaces::
+
+   tabs:
+     - id: stitch-ui
+       content: |
+         .. include:: /includes/steps/link-a-cluster-realm-ui.rst
+
+     - id: import-export
+       content: |
+         .. include:: /includes/steps/link-a-cluster-import-export.rst
