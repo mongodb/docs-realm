@@ -69,17 +69,18 @@ extlinks = {
     'mms-home': ('https://cloud.mongodb.com%s', ''),
     'guides': ('https://docs.mongodb.com/guides%s', ''),
     # True External Links
-    'github': ('https://github.com/%s', ''),
-    'wikipedia': ('https://en.wikipedia.org/wiki/%s', ''),
     'android-sdk': ('https://docs.mongodb.com/stitch-sdks/java/4/%s', ''),
-    'js-sdk': ('https://docs.mongodb.com/stitch-sdks/js/4/%s', ''),
+    'gcp': ('https://cloud.google.com/%s', ''),
+    'github': ('https://github.com/%s', ''),
+    'google-dev': ('https://developers.google.com/%s', ''),
+    'graphql': ('https://graphql.org/%s', ''),
     'ios-sdk': ('https://docs.mongodb.com/stitch-sdks/swift/6/%s', ''),
+    'js-sdk': ('https://docs.mongodb.com/stitch-sdks/js/4/%s', ''),
     'jwt-io': ('https://jwt.io/%s', ''),
     'nodejs': ('https://nodejs.org/api/%s', ''),
     'npm': ('https://www.npmjs.com/%s', ''),
     'mdn': ('https://developer.mozilla.org/en-US/docs/%s', ''),
-    'gcp': ('https://cloud.google.com/%s', ''),
-    'google-dev': ('https://developers.google.com/%s', ''),
+    'wikipedia': ('https://en.wikipedia.org/wiki/%s', ''),
 }
 
 intersphinx_mapping = {}

@@ -1,0 +1,182 @@
+==================
+GraphQL API (Beta)
+==================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+The Realm :graphql:`GraphQL <>` API (Beta Release) allows client
+applications to access data stored in a linked MongoDB cluster using any
+standard GraphQL client. Realm automatically creates GraphQL types for
+every linked collection that has a defined :doc:`document schema
+</mongodb/enforce-a-document-schema>` and evaluates :doc:`role-based
+permissions </mongodb/define-roles-and-permissions>` for all GraphQL
+requests.
+
+.. admonition:: Create an Atlas Cluster for Free
+   :class: note
+
+   The GraphQL API lets you access data that you have stored in a
+   `MongoDB Atlas <https://www.mongodb.com/cloud/atlas?jmp=docs>`__
+   cluster. To get started, create a free cluster and :doc:`link it to
+   your Realm application </mongodb/link-a-cluster>`.
+
+   If you don't have any data yet but you still want to explore the
+   GraphQL API, consider adding a :atlas:`sample data set
+   </sample-data>` to your cluster.
+
+To learn how to make data available through the GraphQL API, see
+:doc:`Expose Data in a Collection </graphql/expose-data>`.
+
+To learn how to connect to the GraphQL API from a client application,
+see :doc:`Connect from a Client Application
+</graphql/connect-from-a-client-application>`.
+
+To learn how to run queries and mutations from your preferred client,
+see :doc:`Execute a GraphQL Operation
+</graphql/execute-a-graphql-operation>`.
+
+To learn about the types and operations that you can use with the Realm
+GraphQL API, see :doc:`GraphQL Types & Resolvers
+</graphql/graphql-types-and-resolvers>`.
+
+.. include:: /graphql/note-temporary-graphql-limitations.rst
+
+Why GraphQL?
+------------
+
+GraphQL is a declarative, strongly-typed query language for client
+applications. Clients define the exact data shape and contents that they
+need in a single request which eliminates overfetching problems and
+circumvents the need for multiple costly round trips to the server.
+
+To learn more about GraphQL, check out the :graphql:`official GraphQL
+tutorial <learn>`.
+
+GraphQL Operations
+------------------
+
+Realm automatically generates types and resolvers for data that you
+:doc:`expose to the GraphQL API </graphql/expose-data>`. The generated
+types and operations are all named after the base type name for each
+exposed collection. If you don't define a type name, Realm uses the
+collection name instead.
+
+For more information on how to expose a collection and name its data
+type, see :doc:`Expose Data in a Collection </graphql/expose-data>`.
+
+Queries
+~~~~~~~
+
+A GraphQL **query** is a read operation that requests specific fields
+from one or more types. Realm automatically generates query types for
+documents in each collection that has a defined :doc:`schema
+</mongodb/enforce-a-document-schema>`.
+
+For more information and examples, including a list of all automatically
+generated query types, see :ref:`Query Resolvers
+<graphql-query-resolvers>`.
+
+For an example of how to run a query from a client application, see
+:ref:`Run a GraphQL Query <grapqhl-run-a-query>`.
+
+.. code-block:: text
+
+   # Find a single movie by name
+   query {
+     movie(query: { title: "The Matrix" }) {
+       _id
+       title
+       year
+       runtime
+     }
+   }
+
+   # Find all movies from the year 2000
+   query {
+     movies(query: { year: 2000 }) {
+       _id
+       title
+       year
+       runtime
+     }
+   }
+
+   # Find the ten longest movies from the year 2000
+   query {
+     movies(
+       query: { year: 2000 }
+       sortBy: RUNTIME_DESC
+       limit: 10
+     ) {
+       _id
+       title
+       year
+       runtime
+     }
+   }
+
+Mutations
+~~~~~~~~~
+
+A GraphQL **mutation** is a write operation that creates, modifies, or
+deletes one or more documents. Realm automatically generates mutation
+types for documents in each collection that has a defined :doc:`schema
+</mongodb/enforce-a-document-schema>`.
+
+For more information and examples, including a list of all automatically
+generated mutation types, see :ref:`Mutation Resolvers
+<graphql-mutation-resolvers>`.
+
+For an example of how to run a mutation from a client application, see
+:ref:`Run a GraphQL Mutation <grapqhl-run-a-mutation>`.
+
+.. code-block:: text
+
+   # Insert a new movie
+   mutation {
+     insertOneMovie(data: {
+       title: "Little Women"
+       director: "Greta Gerwig"
+       year: 2019
+       runtime: 135
+     }) {
+       _id
+       title
+     }
+   }
+
+   # Update the year of a movie
+   mutation {
+     updateOneMovie(
+       query: { title: "The Matrix" }
+       set: { year: 1999 }
+     ) {
+       _id
+       title
+     }
+   }
+
+   # Delete a movie
+   mutation {
+     deleteOneMovie(query: { title: "The Room" }) {
+       _id
+       title
+     }
+   }
+
+   # Delete multiple movies
+   mutation {
+     deleteManyMovies(query: { director: "Tommy Wiseau" }) {
+       _id
+       title
+     }
+   }
