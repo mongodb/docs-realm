@@ -1,0 +1,402 @@
+-----------------
+Database Triggers
+-----------------
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+Database triggers allow you to execute server-side logic whenever a
+document is added, updated, or removed in a linked :doc:`MongoDB cluster
+</mongodb>`.
+You can use database triggers to implement complex data interactions,
+including updating information in one document when a related document
+changes or interacting with a :doc:`service </services>` when a new
+document is inserted.
+
+Database triggers use MongoDB :manual:`change streams </changeStreams>`
+to listen for changes to documents in a collection and pass
+:ref:`database events <database-events>` to their associated trigger
+function.
+
+.. admonition:: Change Stream Limitations
+   :class: important
+
+   Stitch opens a single change stream for each collection with at least
+   one enabled trigger and limits the total number of open change
+   streams on each linked cluster across all Stitch apps based on the
+   cluster's size. See :ref:`change stream limitations
+   <mongodb-service-limitations-change-streams>` for more information.
+
+.. note::
+
+   Database triggers are only available for MongoDB Clusters that are
+   running MongoDB version 3.6 or newer.
+
+.. _create-a-database-trigger:
+
+Create a Database Trigger
+-------------------------
+
+.. tabs-stitch-interfaces::
+
+   tabs:
+     - id: stitch-ui
+       content: |
+         To create a database trigger in the Stitch UI:
+
+         1. Click :guilabel:`Triggers` under :guilabel:`MongoDB
+            Cluster` in the left-hand navigation.
+
+         2. Select the :guilabel:`Database Triggers` tab.
+
+         3. Click :guilabel:`Add Database Trigger` in the top
+            right to open the trigger configuration page.
+
+         4. Enter :ref:`configuration values <database-trigger-configuration>`
+            for the trigger and click :guilabel:`Save` at the bottom of
+            the page.
+
+         .. figure:: /images/database-trigger-config.png
+            :width: 750px
+            :lightbox:
+
+     - id: import-export
+       content: |
+         To create a database trigger with :doc:`stitch-cli
+         </deploy/stitch-cli-reference>`:
+
+         1. Add a database trigger :ref:`configuration file
+            <database-trigger-configuration>` to the ``triggers``
+            subdirectory of a local application directory.
+
+         2. :doc:`Import </deploy/deploy-changes-with-stitch-cli>` the
+            application directory into your application.
+
+            .. code-block:: shell
+
+               stitch-cli import
+
+         .. note::
+
+            Stitch does not enforce specific filenames for trigger
+            configuration files. However, once imported, Stitch will
+            rename each configuration file to match the name of the
+            trigger it defines, e.g. ``mytrigger.json``.
+
+Restart a Database Trigger
+--------------------------
+
+Database triggers may enter a :guilabel:`suspended` state in response to
+an event that prevents the trigger's change stream from continuing, such
+as a network disruption or change to the underlying cluster. When a
+trigger is suspended, it does not receive change events and will not
+fire.
+
+.. note:: 
+
+   In the event of a suspended or failed trigger, Stitch sends the 
+   project owner an email alerting them of the issue. 
+
+You can attempt to restart a suspended trigger from the Stitch UI or by
+importing an application directory with Stitch CLI.
+
+.. tabs-stitch-interfaces::
+
+   tabs:
+     - id: stitch-ui
+       content: |
+         .. include:: /includes/steps/restart-db-trigger-stitch-ui.rst
+     - id: import-export
+       content: |
+         .. include:: /includes/steps/restart-db-trigger-import-export.rst
+
+Reference
+---------
+
+.. _database-trigger-configuration:
+
+Database Trigger Configuration
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. tabs-stitch-interfaces::
+
+   tabs:
+     - id: import-export
+       content: |
+         Configuration files for database triggers have the
+         following form:
+
+         .. cssclass:: wide-container
+         .. code-block:: none
+            :caption: ``/triggers/<trigger name>.json``
+
+            {
+               "type": <string>,
+               "name": <string>,
+               "function_name": <string>,
+               "config": {
+                 "service_name": <string>,
+                 "database": <string>,
+                 "collection": <string>,
+                 "operation_types": [<string>, ...],
+                 "full_document": <boolean>,
+                 "unordered": <boolean>,
+                 "match": <document>
+               },
+               "disabled": <boolean>
+            }
+
+     - id: stitch-ui
+       content: |
+         Database triggers have the following configuration parameters:
+
+.. cssclass:: auth-table
+.. list-table::
+   :header-rows: 1
+   :widths: 15 30
+
+   * - Field
+     - Description
+
+   * - :guilabel:`Trigger Type`
+
+       .. tab-content:: tabs-stitch-interfaces
+          :tab-id: import-export
+
+          | *type*
+
+     - Required. The type of the trigger. For database triggers,
+       this value should be set to ``DATABASE``.
+
+   * - :guilabel:`Trigger Name`
+
+       .. tab-content:: tabs-stitch-interfaces
+          :tab-id: import-export
+
+          | *name*
+
+     - Required. The name of the trigger.
+
+   * - :guilabel:`Linked Function`
+
+       .. tab-content:: tabs-stitch-interfaces
+          :tab-id: import-export
+
+          | *function_name*
+
+     - Required. The name of the Stitch function that the trigger
+       executes whenever it fires. The trigger passes the
+       :ref:`database event object <database-events>` that
+       caused it to fire as the only argument to this function.
+
+   * - :guilabel:`Cluster`
+
+       .. tab-content:: tabs-stitch-interfaces
+          :tab-id: import-export
+
+          | *config.service_name*
+
+     - Required. The name of the MongoDB Service that the trigger is
+       associated with.
+
+   * - :guilabel:`Database Name`
+
+       .. tab-content:: tabs-stitch-interfaces
+          :tab-id: import-export
+
+          | *config.database*
+
+     - Required. The MongoDB database that contains the watched
+       collection.
+
+   * - :guilabel:`Collection Name`
+
+       .. tab-content:: tabs-stitch-interfaces
+          :tab-id: import-export
+
+          | *config.collection*
+
+     - Required. The name of the collection that the trigger watches for
+       change events.
+
+   * - :guilabel:`Operation Types`
+
+       .. tab-content:: tabs-stitch-interfaces
+          :tab-id: import-export
+
+          | *config.operation_types*
+
+     - Required. A list of one or more :ref:`database operation
+       types <database-event-operation-types>` that cause the trigger to
+       fire. Each operation type must be formatted as a
+       fully-capitalized string, e.g. ``"INSERT"``.
+
+   * - :guilabel:`Full Document`
+
+       .. tab-content:: tabs-stitch-interfaces
+          :tab-id: import-export
+
+          | *config.full_document*
+
+     - Required. If true, indicates that ``UPDATE`` change events should
+       include the most current :manual:`majority-committed
+       </reference/read-concern-majority/>` version of the modified
+       document in the ``fullDocument`` field.
+
+       .. note::
+
+          This option only affects ``UPDATE`` change events. ``INSERT``
+          and ``REPLACE`` events always include the ``fullDocument``
+          field. ``DELETE`` events never include the ``fullDocument``
+          field. For more information, see the :manual:`change events
+          </reference/change-events/>` reference page.
+
+       .. warning::
+
+          Update operations executed from MongoDB Compass or the
+          MongoDB Atlas Data Explorer fully replace the previous
+          document. As a result, update operations from these clients
+          will generate ``REPLACE`` change events rather than ``UPDATE``
+          events.
+
+   * - :guilabel:`Event Ordering`
+
+       .. tab-content:: tabs-stitch-interfaces
+          :tab-id: import-export
+
+          | *config.unordered*
+
+     - .. tab-content:: tabs-stitch-interfaces
+          :tab-id: import-export
+
+
+
+       .. tab-content:: tabs-stitch-interfaces
+          :tab-id: stitch-ui
+
+          Default: Enabled.
+
+          Indicates whether event ordering is enabled for this trigger.
+
+       .. tab-content:: tabs-stitch-interfaces
+          :tab-id: import-export
+
+          Optional. Default: ``false``.
+
+          If ``true``, indicates that event ordering is disabled for
+          this trigger.
+
+       If event ordering is enabled, multiple executions of this trigger
+       will occur sequentially based on the timestamps of the change
+       events. If event ordering is disabled, multiple executions of
+       this trigger will occur independently.
+
+       .. tip::
+
+          Consider disabling event ordering if your trigger fires on a
+          collection that receives short bursts of events (e.g.
+          inserting data as part of a daily batch job).
+
+          Ordered triggers wait to execute a function for a particular
+          event until the functions of previous events have finished
+          executing. As a consequence, ordered triggers are effectively
+          rate-limited by the run time of each sequential trigger
+          function. This may cause a significant delay between the
+          database event and the trigger firing if a sufficiently large
+          number of trigger executions are queued.
+
+          Unordered triggers execute functions in parallel if possible,
+          which can be significantly faster (depending on your use case)
+          but does not guarantee that multiple executions of a trigger
+          function occur in event order.
+
+   * - :guilabel:`Match Expression`
+
+       .. tab-content:: tabs-stitch-interfaces
+          :tab-id: import-export
+
+          | *config.match*
+
+     - Optional.
+       A :manual:`$match </reference/operator/aggregation/match>`
+       expression document that |stitch-short| includes in the
+       underlying change stream pipeline for the trigger. All change
+       event objects for the trigger are evaluated against this match
+       expression and the trigger will not fire unless the expression
+       evaluates to true for a given change event. This is useful when
+       you want to filter change events beyond their operation type.
+
+       .. example::
+
+          The following :guilabel:`Match Expression` document prevents
+          the trigger from firing unless the document's ``status`` field
+          was updated to have a value of ``"blocked"``:
+
+          .. code-block:: javascript
+
+             {
+               "updateDescription.updatedFields": {
+                 "status": "blocked"
+               }
+             }
+
+.. _database-events:
+
+Database Change Events
+~~~~~~~~~~~~~~~~~~~~~~
+
+.. _database-event-operation-types:
+
+Database change events represent individual changes in a specific
+collection of your linked MongoDB cluster.
+
+Every database event has the same operation type and structure as the
+:manual:`change event </reference/change-events/>` object that was
+emitted by the underlying change stream. Change events have the
+following operation types:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 10 30
+
+   * - Operation Type
+     - Description
+
+   * - ``INSERT``
+     - Represents a new document that was added to the collection.
+
+   * - ``UPDATE``
+     - Represents a change to an existing document in the collection.
+
+   * - ``REPLACE``
+     - Represents a new document that replaced a document in the collection.
+
+   * - ``DELETE``
+     - Represents a document that was deleted from the collection.
+
+Database change event objects have the following general form:
+
+.. code-block:: json
+
+   {
+      _id : <ObjectId>,
+      "operationType": <string>,
+      "fullDocument": <document>,
+      "ns": {
+         "db" : <string>,
+         "coll" : <string>
+      },
+      "documentKey": {
+        "_id": <ObjectId>
+      },
+      "updateDescription": <document>,
+      "clusterTime": <Timestamp>
+   }
