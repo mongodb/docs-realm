@@ -28,7 +28,7 @@ content: |
 
   .. code-block:: shell
 
-     realm-cli login --api-key=my-api-key --private-api-key=my-private-api-key
+     realm-cli login --api-key=<my api key> --private-api-key=<my private api key>
 ---
 title: Run the Import Command
 ref: run-import-command
@@ -39,7 +39,7 @@ content: |
   .. code-block:: shell
      
      realm-cli import --strategy=merge
-  
+
   .. admonition:: Import Strategy
      :class: note
      
@@ -48,7 +48,7 @@ content: |
      currently deployed version of your application. For more
      information, see :ref:`import strategies
      <realm-import-strategies>`.
-  
+
   If you want to :doc:`upload static assets to Realm Hosting
   </hosting/upload-content-to-realm>`, include the static assets in the
   ``/hosting/files`` directory and specify the
@@ -79,4 +79,3 @@ content: |
   After successfully importing your application, Realm will
   automatically deploy a new version of your app and update your local
   application directory to match the new deployment.
-...
