@@ -12,7 +12,7 @@ content: |
 
   .. code-block:: shell
 
-     stitch-cli export --app-id=<App ID>
+     realm-cli export --app-id=<App ID>
 
 ---
 title: Create a MongoDB Service Configuration Directory
@@ -59,7 +59,7 @@ content: |
         want to link to your application.
     * - | :guilabel:`MongoDB Connection String`
         | *config.wireProtocolEnabled*
-      - Required. A boolean indicating whether Stitch should allow
+      - Required. A boolean indicating whether Realm should allow
         clients to :doc:`connect to this cluster with a connection
         string over the wire protocol
         </mongodb/connect-over-the-wire-protocol>`.
@@ -77,7 +77,7 @@ content: |
 
      .. code-block:: shell
 
-        stitch-cli login --username="<MongoDB Cloud Username>" --api-key="<MongoDB Cloud API Key>"
+        realm-cli login --api-key=<My API Key> --private-api-key=<My Private API Key>
 
   #. Import the directory:
 
