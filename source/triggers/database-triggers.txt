@@ -173,8 +173,7 @@ Database Trigger Configuration
 
           | *type*
 
-     - Required. The type of the trigger. For database triggers,
-       this value should be set to ``DATABASE``.
+     - Required. The type of the trigger. Set this value to ``DATABASE`` for database triggers
 
    * - :guilabel:`Trigger Name`
 
@@ -236,8 +235,7 @@ Database Trigger Configuration
 
      - Required. A list of one or more :ref:`database operation
        types <database-event-operation-types>` that cause the trigger to
-       fire. Each operation type must be formatted as a
-       fully-capitalized string, e.g. ``"INSERT"``.
+       fire. Format each operation type as a fully capitalized string, e.g., ``"INSERT"``.
 
    * - :guilabel:`Full Document`
 
@@ -311,7 +309,7 @@ Database Trigger Configuration
           rate-limited by the run time of each sequential trigger
           function. This may cause a significant delay between the
           database event and the trigger firing if a sufficiently large
-          number of trigger executions are queued.
+          number of trigger executions are currently in the queue.
 
           Unordered triggers execute functions in parallel if possible,
           which can be significantly faster (depending on your use case)
@@ -327,24 +325,35 @@ Database Trigger Configuration
 
      - Optional.
        A :manual:`$match </reference/operator/aggregation/match>`
-       expression document that Realm includes in the
-       underlying change stream pipeline for the trigger. All change
-       event objects for the trigger are evaluated against this match
-       expression and the trigger will not fire unless the expression
-       evaluates to true for a given change event. This is useful when
-       you want to filter change events beyond their operation type.
+       expression document that Stitch uses to filter which change
+       events cause the trigger to fire. The trigger evaluates all
+       change event objects that it receives against this match
+       expression and only executes if the expression evaluates to
+       ``true`` for a given change event.
+          
+       .. admonition:: Use Dot-Notation for Embedded Fields
+          :class: note
+          
+          MongoDB performs a full equality match for embedded
+          documents in a match expression. If you want to match a
+          specific field in an embedded document, refer to the field
+          directly using :manual:`dot-notation
+          </core/document/#document-dot-notation>`. For more
+          information, see :manual:`Query on Embedded Documents
+          </tutorial/query-embedded-documents>` in the MongoDB server
+          manual.
 
        .. example::
 
-          The following :guilabel:`Match Expression` document prevents
-          the trigger from firing unless the document's ``status`` field
-          was updated to have a value of ``"blocked"``:
-
+          The following :guilabel:`Match Expression` configures a
+          trigger to fire only if the change event object specifies that
+          the ``status`` field in a document changed.
+          
           .. code-block:: javascript
 
              {
-               "updateDescription.updatedFields": {
-                 "status": "blocked"
+               "updateDescription.updatedFields.status": {
+                 "$exists": true
                }
              }
 
