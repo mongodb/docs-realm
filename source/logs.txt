@@ -97,12 +97,12 @@ your query.
 Error Logs
 ~~~~~~~~~~
 
-All Realm log entries have one of two possible statuses: ``OK``
-and ``Error``. If an event exits successfully, Realm generates
-an ``OK`` log entry based on the event. If an event does not exit
-successfully for any reason, Realm creates a log entry with a status
-of the :doc:`Realm Error </troubleshooting>` that caused the problem.
-You may encounter errors if you:
+All Realm log entries have one of two possible statuses:
+``OK`` and ``Error``. If an event exits successfully, Realm
+generates an ``OK`` log entry based on the event. If an
+event does not exit successfully for any reason, Realm
+creates a log entry with a status of the Realm error that
+caused the problem. You may encounter errors if you:
 
 - Attempt to access data from MongoDB Atlas for which there is no
   applicable rule
@@ -139,24 +139,6 @@ each log to extract and externally store your log history.
 
 Reference Documentation
 -----------------------
-
-.. toctree::
-   :caption: Types
-   :hidden:
-
-   Authentication Logs </logs/authentication>
-   MongoDB Change Stream Logs </logs/changestream>
-   Function Logs </logs/function>
-   Trigger Logs </logs/trigger>
-   Service Logs </logs/service>
-
-.. toctree::
-   :caption: Work with Logs
-   :titlesonly:
-   :includehidden:
-   :hidden:
-
-   Access Logs With the Admin API </logs/api>
 
 .. list-table::
    :header-rows: 1

@@ -14,6 +14,7 @@ content: |
   of :doc:`realm-cli </deploy/realm-cli-reference>`:
 
   .. code-block:: shell
+
      realm-cli export --app-id=<App ID>
 ---
 title: Specify a Cluster Read Preference
@@ -27,6 +28,7 @@ content: |
 
   .. code-block:: json
      :emphasize-lines: 5
+
      {
         "name": "<MongoDB Service Name>",
         "type": "mongodb-atlas",
@@ -55,6 +57,7 @@ content: |
 
   .. code-block:: json
      :emphasize-lines: 6-9
+
      {
         "name": "<MongoDB Service Name>",
         "type": "mongodb-atlas",
@@ -69,6 +72,7 @@ content: |
 
   .. admonition:: Atlas Cluster Tag Sets
      :class: note
+
      Atlas clusters are configured with pre-defined tag sets for each
      member node depending on the member's type. For detailed information
      on which tags are defined nodes in an Atlas cluster, see :atlas:`Atlas
@@ -91,6 +95,7 @@ content: |
   database read requests for the cluster according to your preference.
 
   .. note::
+
      For a detailed walkthrough of importing an application directory,
      see :doc:`Deploy Changes with Realm CLI
-     </deploy/deploy-changes-with-realm-cli>`
+     </deploy/deploy-cli>`

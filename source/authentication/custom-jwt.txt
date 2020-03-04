@@ -49,9 +49,9 @@ Configuration
 
       You can configure the following properties for the provider:
 
-      - :ref:`Audience <custom-jwt-audience>`
-      - :ref:`Verification Method <custom-jwt-verification-method>`
-      - :ref:`Metadata Fields <custom-jwt-metadata-fields>`
+      - :ref:`Audience <custom-jwt-authentication-configuration-audience>`
+      - :ref:`Verification Method <custom-jwt-authentication-configuration-verification-method>`
+      - :ref:`Metadata Fields <custom-jwt-authentication-configuration-metadata-fields>`
 
    .. tab::
       :tabid: import-export
@@ -142,8 +142,9 @@ determines which signing algorithm and signing keys the external
 authentication system must use to sign each JWT.
 
 You can either :ref:`manually specify signing keys
-<custom-jwt-signing-manual>` or :ref:`specify a JSON Web Key URI
-<custom-jwt-signing-jwks>`.
+<custom-jwt-authentication-configuration-manually-signing-keys>`
+or :ref:`specify a JSON Web Key URI
+<custom-jwt-authentication-configuration-jwk-uri>`.
 
 .. _custom-jwt-authentication-configuration-manually-signing-keys:
 
@@ -304,7 +305,7 @@ Metadata Fields
 Realm determines the value of each metadata field from the value of
 some field included in the JWT from the external authentication system.
 Realm refreshes a user's metadata whenever they log in and exposes the
-fields in the ``data`` object of the :doc:`user object </users>`.
+fields in the ``data`` object of the :doc:`user object </authentication>`.
 
 .. tabs-stitch-interfaces::
 
@@ -617,23 +618,26 @@ document of the following form:
 
 .. note::
 
-   Realm ignores any additional fields in the JWT payload unless you
-   have mapped them to metadata fields in the :ref:`provider
-   configuration <auth-custom-token-configuration>`. Realm includes the
-   values of mapped fields in the ``data`` document of the authenticated
-   user's :doc:`user object </users>`.
+   Realm ignores any additional fields in the JWT payload
+   unless you have mapped them to metadata fields in the
+   :ref:`provider configuration
+   <custom-jwt-authentication-configuration>`. Realm
+   includes the values of mapped fields in the ``data``
+   document of the authenticated user's :doc:`user object
+   </authentication>`.
 
 .. _custom-jwt-authentication-usage-jwt-signature:
 
 Signature
 +++++++++
 
-The signature portion of the JWT is a hash of the encoded token header
-and payload. To form the signature, concatentate the encoded header and
-payload with a period and sign the result with the :guilabel:`Signing
-Key` specified in the authentication provider :ref:`configuration
-<auth-custom-token-configuration>` using the hashing algorithm specified in
-the ``"alg"`` field of the header.
+The signature portion of the JWT is a hash of the encoded
+token header and payload. To form the signature,
+concatentate the encoded header and payload with a period
+and sign the result with the :guilabel:`Signing Key`
+specified in the authentication provider :ref:`configuration
+<custom-jwt-authentication-configuration>` using the hashing
+algorithm specified in the ``"alg"`` field of the header.
 
 .. code-block:: none
 

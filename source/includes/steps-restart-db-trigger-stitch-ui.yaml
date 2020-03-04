@@ -20,15 +20,17 @@ content: |
 
   .. admonition:: Resume Tokens
      :class: note
+     
      If you use a :manual:`resume token
-     </changeStreams/#resume-a-change-stream>`, Realm attempts to
-     resume the trigger's underlying change stream at the event
-     immediately following the last change event it processed. If
-     successful, the trigger processes any events that occurred while it
-     was suspended.
-     If you do not use a resume token, the trigger begins listening for
-     new events but will not fire for any events that occurred while it
-     was suspended.
+     </changeStreams/#resume-a-change-stream>`, Realm
+     attempts to resume the trigger's underlying change
+     stream at the event immediately following the last
+     change event it processed. If successful, the trigger
+     processes any events that occurred while it was
+     suspended. If you do not use a resume token, the
+     trigger begins listening for new events but will not
+     fire for any events that occurred while it was
+     suspended.
 
   .. cssclass:: bordered-figure
   .. figure:: /images/resume-database-trigger-modal.png

@@ -10,25 +10,6 @@ Triggers
    :depth: 2
    :class: singlecol
 
-.. toctree::
-   :caption: Trigger Types
-   :titlesonly:
-   :includehidden:
-   :hidden:
-
-   Authentication Triggers </triggers/authentication-triggers>
-   Database Triggers </triggers/database-triggers>
-   Scheduled Triggers </triggers/scheduled-triggers>
-
-.. toctree::
-   :caption: Reference
-   :titlesonly:
-   :includehidden:
-   :hidden:
-
-   Trigger Snippets </triggers/trigger-snippets>
-   CRON Expressions </triggers/cron-expressions>
-
 Introduction
 ------------
 
@@ -176,7 +157,7 @@ and queried.
 
 To guarantee that the collection represents each customer, the store
 creates an authentication trigger that listens for newly created users
-in the :doc:`email/password </authentication/userpass>` authentication
+in the :doc:`email/password </authentication/email-password>` authentication
 provider. When the trigger observes a ``CREATE`` event, it passes the
 :ref:`authentication event object <authentication-events>` to its linked
 function, ``createNewUserDocument``. The function creates a new document
