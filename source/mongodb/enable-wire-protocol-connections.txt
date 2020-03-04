@@ -1,0 +1,34 @@
+================================
+Enable Wire Protocol Connections
+================================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+You must enable wire protocol connections for a :doc:`linked MongoDB
+cluster </mongodb/link-a-cluster>` before you can connect to a Realm
+app with a connection string. You can enable wire protocol connections
+for a cluster in the Realm UI or by importing an updated MongoDB
+service configuration:
+
+Procedure
+---------
+
+.. tabs-stitch-interfaces::
+
+   tabs:
+     - id: stitch-ui
+       content: |
+         .. include:: /includes/steps/enable-wire-protocol-realm-ui.rst
+
+     - id: import-export
+       content: |
+         .. include:: /includes/steps/enable-wire-protocol-import-export.rst
