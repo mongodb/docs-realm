@@ -22,10 +22,10 @@ report, or sending an automated weekly email newsletter.
 Create a Scheduled Trigger
 --------------------------
 
-.. tabs-stitch-interfaces::
+.. tabs-realm-admin-interfaces::
 
    tabs:
-     - id: stitch-ui
+     - id: ui
        content: |
          To create a scheduled trigger in the Realm UI:
 
@@ -56,7 +56,7 @@ Create a Scheduled Trigger
          .. cssclass:: bordered-figure
          .. figure:: /images/trigger-example-scheduled.png
 
-     - id: import-export
+     - id: cli
        content: |
          To create a scheduled trigger with :doc:`realm-cli
          </deploy/realm-cli-reference>`:
@@ -87,10 +87,10 @@ Reference
 Scheduled Trigger Configuration
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. tabs-stitch-interfaces::
+.. tabs-realm-admin-interfaces::
 
    tabs:
-     - id: import-export
+     - id: cli
        content: |
          Scheduled trigger configuration files have the following form:
 
@@ -108,7 +108,7 @@ Scheduled Trigger Configuration
                "disabled": <boolean>
             }
 
-     - id: stitch-ui
+     - id: ui
        content: |
          Scheduled triggers have the following configuration parameters:
 
@@ -122,23 +122,23 @@ Scheduled Trigger Configuration
 
    * - :guilabel:`Trigger Type`
 
-       .. tab-content:: tabs-stitch-interfaces
-          :tab-id: import-export
+       .. tab-content:: tabs-realm-admin-interfaces
+          :tab-id: cli
 
           | ``type: <string>``
 
      - Required. The type of the trigger.
 
-       .. tab-content:: tabs-stitch-interfaces
-          :tab-id: import-export
+       .. tab-content:: tabs-realm-admin-interfaces
+          :tab-id: cli
 
           For scheduled triggers, this value should be set to
           ``SCHEDULED``.
 
    * - :guilabel:`Trigger Name`
 
-       .. tab-content:: tabs-stitch-interfaces
-          :tab-id: import-export
+       .. tab-content:: tabs-realm-admin-interfaces
+          :tab-id: cli
 
           | ``name: <string>``
 
@@ -146,8 +146,8 @@ Scheduled Trigger Configuration
 
    * - :guilabel:`Linked Function`
 
-       .. tab-content:: tabs-stitch-interfaces
-          :tab-id: import-export
+       .. tab-content:: tabs-realm-admin-interfaces
+          :tab-id: cli
 
           | ``function_name: <string>``
 
@@ -161,8 +161,8 @@ Scheduled Trigger Configuration
 
    * - :guilabel:`Schedule`
 
-       .. tab-content:: tabs-stitch-interfaces
-          :tab-id: import-export
+       .. tab-content:: tabs-realm-admin-interfaces
+          :tab-id: cli
 
           | ``config.schedule: <string>``
 
