@@ -26,6 +26,7 @@ Triggers
    :includehidden:
    :hidden:
 
+   Trigger Snippets </triggers/trigger-snippets>
    CRON Expressions </triggers/cron-expressions>
 
 Introduction
@@ -72,8 +73,8 @@ to each type of trigger.
 Examples
 --------
 
-.. tab-bar:: tabs-stitch-interfaces
-   :tab-ids: stitch-ui, import-export
+.. tab-bar:: tabs-realm-admin-interfaces
+   :tab-ids: ui, cli
 
 Database Trigger
 ~~~~~~~~~~~~~~~~
@@ -105,16 +106,16 @@ When the trigger observes an ``UPDATE`` event, it passes the
 changes to the ``shippingLocation`` field and, if it was updated, sends
 a text message to the customer with the new location of the order.
 
-.. tabs-stitch-interfaces::
+.. tabs-realm-admin-interfaces::
 
    hidden: true
    tabs:
-     - id: stitch-ui
+     - id: ui
        content: |
          .. cssclass:: bordered-figure
          .. figure:: /images/trigger-location-updater.png
 
-     - id: import-export
+     - id: cli
        content: |
          .. code-block:: json
             :caption: Trigger Configuration
@@ -182,16 +183,16 @@ function, ``createNewUserDocument``. The function creates a new document
 describing the user and their activity and inserts it into the
 ``store.customers`` collection.
 
-.. tabs-stitch-interfaces::
+.. tabs-realm-admin-interfaces::
 
    hidden: true
    tabs:
-     - id: stitch-ui
+     - id: ui
        content: |
          .. cssclass:: bordered-figure
          .. figure:: /images/trigger-example-new-user.png
 
-     - id: import-export
+     - id: cli
        content: |
          .. code-block:: json
             :caption: Trigger Configuration
@@ -249,16 +250,16 @@ query on the ``store.orders`` collection to generate the report. The
 function then stores the result of the aggregation in the
 ``store.reports`` collection.
 
-.. tabs-realm-interfaces::
+.. tabs-realm-admin-interfaces::
 
    hidden: true
    tabs:
-     - id: realm-ui
+     - id: ui
        content: |
          .. cssclass:: bordered-figure
          .. figure:: /images/trigger-example-scheduled.png
 
-     - id: import-export
+     - id: cli
        content: |
          .. code-block:: json
             :caption: Trigger Configuration
@@ -281,7 +282,7 @@ function then stores the result of the aggregation in the
      const mongodb = context.services.get("mongodb-atlas");
      const orders = mongodb.db("store").collection("orders");
      const reports = mongodb.db("store").collection("reports");
- 
+
      // Generate the daily report
      return orders.aggregate([
        // Only report on orders placed since yesterday morning
@@ -325,18 +326,18 @@ function then stores the result of the aggregation in the
        })
        .catch(err => console.error("Failed to generate report:", err));
    };
- 
+
    function makeThisMorningDate() {
      return setTimeToMorning(new Date());
    }
- 
+
    function makeYesterdayMorningDate() {
      const thisMorning = makeThisMorningDate();
      const yesterdayMorning = new Date(thisMorning);
      yesterdayMorning.setDate(thisMorning.getDate() - 1);
      return yesterdayMorning;
    }
- 
+
    function setTimeToMorning(date) {
      date.setHours(7);
      date.setMinutes(0);
