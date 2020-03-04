@@ -1,0 +1,170 @@
+------------------
+Scheduled Triggers
+------------------
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+Scheduled triggers allow you to execute server-side logic on a
+:doc:`regular schedule that you define </triggers/cron-expressions>`.
+You can use scheduled triggers to do work that happens on a periodic
+basis, such as updating a document every minute, generating a nightly
+report, or sending an automated weekly email newsletter.
+
+Create a Scheduled Trigger
+--------------------------
+
+.. tabs-stitch-interfaces::
+
+   tabs:
+     - id: stitch-ui
+       content: |
+         To create a scheduled trigger in the Realm UI:
+
+         1. Click :guilabel:`Triggers` under :guilabel:`MongoDB
+            Cluster` in the left-hand navigation.
+
+         2. Select :guilabel:`Scheduled Triggers` from the trigger type
+            dropdown menu.
+
+         3. Click :guilabel:`Add a Trigger` to open the trigger
+            configuration page.
+
+         4. Enter :ref:`configuration values
+            <scheduled-trigger-configuration>` for the trigger.
+            You can configure two types of trigger schedules:
+            :guilabel:`Basic` or :guilabel:`Advanced`.
+
+            - A :guilabel:`Basic` schedule executes the trigger
+              periodically based on a single unit of time and an
+              interval, such as "every five minutes" or "every Monday".
+
+            - An :guilabel:`Advanced` schedule executes the trigger
+              based on a custom :doc:`CRON expression
+              </triggers/cron-expressions>` that you define.
+
+         5. Click :guilabel:`Save`.
+
+         .. cssclass:: bordered-figure
+         .. figure:: /images/trigger-example-scheduled.png
+
+     - id: import-export
+       content: |
+         To create a scheduled trigger with :doc:`realm-cli
+         </deploy/realm-cli-reference>`:
+
+         1. Add a scheduled trigger :ref:`configuration file
+            <scheduled-trigger-configuration>` to the ``triggers``
+            subdirectory of a local application directory.
+
+            .. note::
+
+               You cannot create a trigger that runs on a
+               :guilabel:`Basic` schedule using Realm CLI. All imported
+               scheduled trigger configurations must specify a
+               :doc:`CRON expression </triggers/cron-expressions>`.
+
+         2. :doc:`Import </deploy/deploy-changes-with-realm-cli>` the
+            application directory into your application.
+
+            .. code-block:: shell
+
+               realm-cli import
+
+Reference
+---------
+
+.. _scheduled-trigger-configuration:
+
+Scheduled Trigger Configuration
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. tabs-stitch-interfaces::
+
+   tabs:
+     - id: import-export
+       content: |
+         Scheduled trigger configuration files have the following form:
+
+         .. cssclass:: wide-container
+         .. code-block:: none
+            :caption: ``/triggers/<triggers name>.json``
+
+            {
+               "type": "SCHEDULED",
+               "name": "<Trigger Name>",
+               "function_name": "<Trigger Function Name>",
+               "config": {
+                 "schedule": "<CRON expression>"
+               },
+               "disabled": <boolean>
+            }
+
+     - id: stitch-ui
+       content: |
+         Scheduled triggers have the following configuration parameters:
+
+.. cssclass:: auth-table
+.. list-table::
+   :header-rows: 1
+   :widths: 15 30
+
+   * - Field
+     - Description
+
+   * - :guilabel:`Trigger Type`
+
+       .. tab-content:: tabs-stitch-interfaces
+          :tab-id: import-export
+
+          | ``type: <string>``
+
+     - Required. The type of the trigger.
+
+       .. tab-content:: tabs-stitch-interfaces
+          :tab-id: import-export
+
+          For scheduled triggers, this value should be set to
+          ``SCHEDULED``.
+
+   * - :guilabel:`Trigger Name`
+
+       .. tab-content:: tabs-stitch-interfaces
+          :tab-id: import-export
+
+          | ``name: <string>``
+
+     - Required. The name of the trigger.
+
+   * - :guilabel:`Linked Function`
+
+       .. tab-content:: tabs-stitch-interfaces
+          :tab-id: import-export
+
+          | ``function_name: <string>``
+
+     - Required. The name of the Realm function that the trigger
+       executes whenever it fires.
+
+       .. note::
+
+          A scheduled trigger does not pass any arguments to its linked
+          function.
+
+   * - :guilabel:`Schedule`
+
+       .. tab-content:: tabs-stitch-interfaces
+          :tab-id: import-export
+
+          | ``config.schedule: <string>``
+
+     - Required. The :doc:`CRON expression </triggers/cron-expressions>`
+       that Realm uses to determine when to fire the trigger.
