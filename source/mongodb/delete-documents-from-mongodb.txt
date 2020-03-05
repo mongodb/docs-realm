@@ -1,0 +1,53 @@
+=============================
+Delete Documents from MongoDB
+=============================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+The code snippets on this page demonstrate how to delete documents that
+are stored in a MongoDB collection. Delete operations use a query filter
+to specify which documents to delete.
+
+.. include:: /mongodb/crud-snippets/data-model.rst
+
+.. include:: /mongodb/crud-snippets/setup.rst
+
+Methods
+-------
+
+Delete a Single Document
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can delete a single document from a collection using the
+:method:`collection.deleteOne()` action.
+
+The following snippet deletes one document in the ``items`` collection
+that has a ``name`` value of ``legos``:
+
+.. tab-bar:: tabs-stitch-sdks
+   :tab-ids: functions, javascript, android, ios
+
+.. include:: /mongodb/crud-snippets/deleteOne/all.rst
+
+Delete One or More Documents
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can delete multiple items from a collection using the
+:method:`collection.deleteMany()` action.
+
+The following snippet deletes all documents in the ``items`` collection
+that do not have any ``reviews``:
+
+.. tab-bar:: tabs-stitch-sdks
+   :tab-ids: functions, javascript, android, ios
+
+.. include:: /mongodb/crud-snippets/deleteMany/all.rst
