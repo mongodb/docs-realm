@@ -22,15 +22,13 @@ collection. You can use a schema to require a specific set of fields,
 configure the content of a field, or to validate changes to a document
 based on its beginning and ending states.
 
-Document schemas follow the same JSON schema specification as the
-:manual:`document validation </core/document-validation>` built in to
-In addition to standard JSON schema, document schemas can represent any
-of the :manual:`BSON types
+Document schemas follow the same JSON schema specification as
+:manual:`document validation </core/document-validation>` in
+the MongoDB server. In addition to standard JSON schema,
+document schemas can represent any of the :manual:`BSON types
 </reference/operator/query/type/#document-type-available-types>`
-supported by the ``$type`` operator.
-types </reference/operator/query/type/#document-type-available-types>`
-supported by the ``$type`` operator. This page describes schemas for the
-following common types:
+supported by the ``$type`` operator. This page describes
+schemas for the following common types:
 
 - :ref:`Arrays <schema-type-arrays>`
 - :ref:`Objects <schema-type-objects>`
