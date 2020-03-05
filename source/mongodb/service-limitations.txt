@@ -1,0 +1,165 @@
+.. _mongodb-service-limitations:
+
+===================
+Service Limitations
+===================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+.. raw:: html
+
+   <style>
+   table.docutils td table td {
+       border-bottom: 0;
+   }
+   table.hlist td {
+       padding-top: 0;
+       vertical-align: top;
+   }
+   table.hlist td ul { padding-inline-start: 20px; }
+   </style>
+
+.. _mongodb-service-limitations-overview:
+
+Overview
+--------
+
+You can access most of the CRUD and Aggregation functionality of MongoDB
+version 3.6 with the :doc:`MongoDB service </mongodb>`; however, Realm
+does not support all operations and features available in standard tools
+and clients. This page provides a high-level overview of MongoDB feature
+availability in Realm. For a list of specific MongoDB operations that
+are available when you connect to MongoDB through Realm, see
+:ref:`the CRUD & Aggregation API reference
+<mongodb-crud-and-aggregation-apis>`.
+
+.. _mongodb-service-limitations-query-results:
+
+Query Results
+-------------
+
+MongoDB queries executed through Realm can return a maximum of 50,000
+documents. If you need to return more documents, consider paginating
+your query.
+
+.. _mongodb-service-limitations-query-options:
+
+Query Options
+-------------
+
+Realm supports all query options in :ref:`system functions
+<function-system-user>`. Realm does not support certain options for
+CRUD operations run from :ref:`user functions <function-active-user>`.
+For a list of specific options that are available when you connect to
+MongoDB through Realm, see :ref:`Query Options
+<mongodb-crud-and-aggregation-apis-query-options>`.
+
+.. _mongodb-service-limitations-aggregation:
+
+Aggregation
+-----------
+
+Realm supports all :manual:`aggregation pipeline
+stages </reference/operator/aggregation-pipeline/>` in
+:ref:`system functions <function-system-user>`. Realm does not support
+some aggregation pipeline stages when you :doc:`run
+an aggregation pipeline </mongodb/run-aggregation-pipelines>` in a
+:ref:`user function <function-active-user>`. For a list of
+pipeline stages that are available when you connect to MongoDB through
+Realm, see :ref:`Aggregation
+<mongodb-crud-and-aggregation-apis-aggregation>`.
+
+.. _mongodb-service-limitations-transactions:
+
+Transactions
+------------
+
+Realm does not support multi-document :manual:`transactions
+</core/transactions>` via the MongoDB service. Consider using a
+:manual:`denormalized data model
+</core/data-model-design/#data-modeling-embedding>` for workflows that
+traditionally use multi-document transactions.
+
+.. _mongodb-service-limitations-database-commmands:
+
+Database Commands
+-----------------
+
+Realm does not support any :manual:`database commands
+</reference/command>` in the Client SDKs or :doc:`Functions
+</functions>`. You can, however, call a limited subset of database
+commands when when connected to a MongoDB cluster over the :doc:`Realm
+wire protocol </mongodb/connect-over-the-wire-protocol>`. For a list of
+wire protocol supported commands, see
+:ref:`Database Commands
+<mongodb-crud-and-aggregation-apis-database-commands>`.
+
+.. _mongodb-service-limitations-change-streams:
+
+Change Streams
+--------------
+
+Realm limits the total number of change streams open against a given
+cluster across all Realm apps based on the cluster's size.
+It also limits the number of client applications that can concurrently
+listen for changes using :doc:`Watch </mongodb/watch>` and :ref:`Mobile
+Sync <sync-overview>`. The following table lists the limitations for
+each cluster size:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 40 30 30
+
+   * - Cluster Size
+     - Maximum Number of Change Streams
+     - Maximum Number of Concurrent Listening Clients
+
+   * - Free Tier (``M0``)
+     - 5
+     - 250
+
+   * - Shared Clusters (``M2``/``M5``)
+     - 10
+     - 500
+
+   * - Small, Dedicated Clusters (``M10``/``M20``)
+     - 100
+     - 1000
+
+   * - Standard Clusters (``M30``/``M40``)
+     - 1000
+     - 10000
+
+   * - Standard Clusters (``M50`` - ``M90``)
+     - 1000
+     - 50000
+
+   * - High-Power Clusters (``M100+``)
+     - 1000
+     - 100000 (Contact Support for Additional Usage)
+
+.. note::
+
+   Realm opens a single change stream on each collection that is
+   associated with a :doc:`Database Trigger </triggers>`,
+   :ref:`Collection Sync <sync-overview>`, or :doc:`Watch operation
+   </mongodb/watch>`.
+
+.. admonition:: Usage Recommendation
+   :class: important
+
+   To minimize the number of concurrent listening clients and open
+   change streams:
+
+   - Start Watch and Sync operations only when necessary. Close any open
+     Watch and Sync streams immediately when they're no longer
+     necessary.
+
+   - Avoid data models that require you to Watch or Sync an unbounded
+     number of collections.
