@@ -1,0 +1,137 @@
+title: Export Your Realm Application
+ref: export-your-application
+content: |
+  To enforce a document schema with :doc:`realm-cli
+  </deploy/realm-cli-reference>` you need to export an
+  :ref:`application directory <application-directory>` for your
+  application.
+  You can :doc:`export </deploy/export-realm-app>` your application
+  from the :guilabel:`Export` tab of the :guilabel:`Settings` page in
+  the Realm UI, or by running the following command from an
+  authenticated instance of :doc:`realm-cli
+  </deploy/realm-cli-reference>`:
+
+  .. code-block:: shell
+
+     realm-cli export --app-id=<App ID>
+
+---
+title: Add a Rule Configuration File
+ref: add-a-rule-configuration-file
+content: |
+  The ``rules`` subdirectory of the :doc:`linked cluster
+  </mongodb/link-a-cluster>`'s service directory configures the rules for
+  a MongoDB collection. The rules configuration file is a JSON file with
+  the same name as the collection namespace. For example, the file
+  ``/services/mongodb-atlas/rules/app.users.json`` defines the rules for
+  the collection ``app.users`` in the ``mongodb-atlas`` cluster. If you
+  have not configured rules for the collection, add a configuration file
+  for it to the ``rules`` directory:
+
+  .. code-block:: shell
+
+     touch services/<cluster name>/rules/<db>.<collection>.json
+
+  The configuration file should have the following general form:
+
+  .. code-block:: json
+
+     {
+       "roles": [],
+       "filters": [],
+       "schema": {}
+     }
+
+  .. note::
+
+     This guide focuses on creating a ``schema`` for the collection.
+     Check out the other configuration guides to learn how to
+     :doc:`define roles and permissions
+     </mongodb/define-roles-and-permissions>` and :doc:`create filters
+     </mongodb/filter-incoming-queries>`.
+
+---
+title: Add a Schema Document
+ref: add-a-schema-document
+content: |
+  Add an :ref:`object schema <schema-type-objects>` document to the
+  ``schema`` field that. You can use additional :doc:`schema types
+  </mongodb/document-schemas>` to configure specific fields within the
+  ``properties`` array. At a minimum, the ``schema`` should resemble the
+  following:
+
+  .. code-block:: javascript
+
+     {
+       "bsonType": "object",
+       "properties": {
+         "<Field Name>": <Schema Document>,
+         ...
+       }
+     }
+
+  In addition to configuring the content of each field, you can validate
+  changes to documents by defining a validation :doc:`expression
+  </services/json-expressions>` in the ``validate`` field of a schema.
+  Validation expressions can use the :json-expansion:`%%prev` and
+  :json-expansion:`%%prevRoot` expansions to access a field or
+  document's values *before* the insert or update operation occurred.
+
+  .. example::
+
+     Consider a collection where the document's ``owner_id`` field
+     represents the owner of each document. The business rules for this
+     collection specify that once a document has an owner, the value of
+     ``owner_id`` should never change. We can enforce this constraint
+     with the following validation expression that ensures that update
+     operations do not change the ``owner_id`` value unless its to
+     assign an owner where there was none previously:
+
+     .. code-block:: javascript
+
+        "owner_id": {
+          "validate": {
+            "%or": [
+              { "%%prev": { "%exists": false } },
+              { "%%prev": "%%this" }
+            ]
+          }
+        }
+
+     We could also use the :json-expansion:`%%prevRoot` expansion to
+     create the following equivalent validation expression:
+
+     .. code-block:: javascript
+
+        "owner_id": {
+          "validate": {
+            "%or": [
+              { "%%prevRoot.owner_id": { "%exists": false } },
+              { "%%prevRoot.owner_id": "%%root.owner_id" }
+            ]
+          }
+        }
+
+---
+title: Import Your Application Directory
+ref: import-your-application-directory
+content: |
+  Once you've added the schema to the collection rule configuration
+  file, all that's left is to import the rule.
+  Save the rule configuration file then navigate to the
+  root of the exported application directory. Log in to MongoDB Atlas
+  with ``realm-cli``:
+
+  .. code-block:: shell
+
+     realm-cli login --api-key=<my api key> --private-api-key=<my private api key>
+
+  After logging in, import the directory:
+
+  .. code-block:: shell
+
+     realm-cli import
+     
+  Once the import completes, Realm will immediately begin evaluating
+  the results of all insert and update operations on the collection
+  against the schema to ensure that they conform to your specification.
