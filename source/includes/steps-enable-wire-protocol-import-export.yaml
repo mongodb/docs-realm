@@ -1,0 +1,42 @@
+title: Export Your Realm Application
+ref: export-your-application
+content: |
+  To enable wire protocol connections with :doc:`realm-cli
+  </deploy/realm-cli-reference>` you need to export an
+  :ref:`application directory <application-directory>` for your
+  application.
+  You can :doc:`export </deploy/export-realm-app>` your
+  application from the :guilabel:`Export` tab of the
+  :guilabel:`Settings` page in the Realm UI, or by running the
+  following command from an authenticated instance of :doc:`realm-cli
+  </deploy/realm-cli-reference>`:
+
+  .. code-block:: shell
+
+     realm-cli export --app-id=<App ID>
+---
+title: Enable Wire Protocol for the Cluster
+ref: enable-wire-protocol-for-the-cluster
+content: |
+  The ``config.json`` configuration file in the :doc:`linked cluster
+  </mongodb/link-a-cluster>`'s service directory configures wire
+  protocol connections.
+
+  In the configuration file, set ``config.wireProtocolEnabled`` to ``true``:
+
+  .. code-block:: json
+
+     {
+       "config": { "wireProtocolEnabled": true }
+     }
+---
+title: Import Your Application Directory
+ref: import-your-application-directory
+content: |
+  Save the cluster configuration file, then navigate to
+  the root of the exported application directory and run the following
+  command to import the directory:
+
+  .. code-block:: shell
+
+     realm-cli import
