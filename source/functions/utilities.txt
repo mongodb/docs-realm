@@ -52,7 +52,7 @@ The ``utils.jwt`` package provides methods for working with
       * - ``signingMethod``
         - String
         - The cryptographic algorithm to use when encoding the JWT.
-          Stitch supports the following JWT signing methods:
+          Realm supports the following JWT signing methods:
           
           .. list-table::
              :class: config-table
@@ -98,7 +98,7 @@ The ``utils.jwt`` package provides methods for working with
 
       * - ``secret``
         - String
-        - A secret string that Stitch uses to sign the token. The value
+        - A secret string that Realm uses to sign the token. The value
           of the string depends on the signing method that you use:
           
           .. list-table::
@@ -198,7 +198,7 @@ The ``utils.jwt`` package provides methods for working with
 
       * - ``key``
         - String
-        - A string that Stitch uses to verify the token signature. The
+        - A string that Realm uses to verify the token signature. The
           value of the string depends on the signing method that you use:
           
           .. list-table::
@@ -387,7 +387,7 @@ cryptographic algorithms.
          
          "603082712271C525E087BD999A4E0738"
       
-      We can encrypt a message with this key using the following Stitch
+      We can encrypt a message with this key using the following Realm
       function:
 
       .. code-block:: javascript
@@ -471,7 +471,7 @@ cryptographic algorithms.
          "603082712271C525E087BD999A4E0738"
       
       We can decrypt a message that was encrypted with this key using
-      the following Stitch function:
+      the following Realm function:
       
       .. code-block:: javascript
          :emphasize-lines: 7
@@ -532,7 +532,7 @@ cryptographic algorithms.
           .. admonition:: Key Format
              :class: reference-block
              
-             Not all RSA keys use the same format. Stitch can only sign
+             Not all RSA keys use the same format. Realm can only sign
              messages with a private key that conforms to the standard
              :wikipedia:`PKCS#1 <PKCS_1>` format. Private keys in this
              format have the header ``-----BEGIN RSA PRIVATE KEY-----``.
@@ -544,7 +544,7 @@ cryptographic algorithms.
         - Optional. Default: ``"pss"``
           
           The :wikipedia:`padding scheme <Padding_(cryptography)>` that
-          the signature should use. Stitch supports signing messages
+          the signature should use. Realm supports signing messages
           with the following schemes:
 
           - :wikipedia:`Probabilistic signature scheme <Probabilistic_signature_scheme>` (``"pss"``)
@@ -579,7 +579,7 @@ cryptographic algorithms.
          9ZYQg/fji70FERkq2KHtY7aLhCHzy0d4n9xgE/pjV+I=
          -----END RSA PRIVATE KEY-----
       
-      We can sign a message with this key using the following Stitch
+      We can sign a message with this key using the following Realm
       function:
 
       .. code-block:: javascript
@@ -644,7 +644,7 @@ cryptographic algorithms.
           .. admonition:: Key Format
              :class: reference-block
              
-             Not all RSA keys use the same format. Stitch can only
+             Not all RSA keys use the same format. Realm can only
              verify signatures with RSA keys that conform to the
              standard :wikipedia:`PKCS#1 <PKCS_1>` format. Public keys
              in this format have the header ``-----BEGIN RSA PUBLIC
@@ -661,7 +661,7 @@ cryptographic algorithms.
         - Optional. Default: ``"pss"``
           
           The :wikipedia:`padding scheme <Padding_(cryptography)>` that
-          the signature uses. Stitch supports verifying signatures that
+          the signature uses. Realm supports verifying signatures that
           use the following schemes:
 
           - :wikipedia:`Probabilistic signature scheme <Probabilistic_signature_scheme>` (``"pss"``)
@@ -687,7 +687,7 @@ cryptographic algorithms.
          JTuTHn4pvqS2CiOGTyhxlGSiszwUTKWSsrOBKt9rLQ9xYc+wqWZ5AgMBAAE=
          -----END RSA PUBLIC KEY-----
 
-      We can use the following Stitch function to verify the RSA
+      We can use the following Realm function to verify the RSA
       signature:
       
       .. code-block:: javascript
