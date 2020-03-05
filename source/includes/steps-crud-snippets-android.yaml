@@ -1,0 +1,80 @@
+title: Set Up Your Project
+ref: set-up-your-project
+level: 4
+content: |
+  Follow the steps in the :doc:`Set up a MongoDB Mobile Project
+  </mongodb/mobile/getting-started/>` guide.
+
+  .. note::
+
+     For more details on setting up your Android app to use Realm,
+     refer to :doc:`Build a Mobile App with Sync </mongodb/mobile/build-sync/>`
+     or :doc:`Build a Local-Only Mobile App </mongodb/mobile/build-local/>`.
+---
+title: Import Realm Dependencies
+ref: import-realm-dependencies
+level: 4
+content: |
+  For CRUD operations on a remote MongoDB collection, you will use one
+  or more of the following ``import`` statements:
+
+  .. code-block:: java
+
+     // Base Stitch Packages
+     import com.mongodb.stitch.android.core.Stitch;
+     import com.mongodb.stitch.android.core.StitchAppClient;
+     // Stitch Authentication Packages
+     import com.mongodb.stitch.android.core.auth.StitchUser;
+     import com.mongodb.stitch.core.auth.providers.anonymous.AnonymousCredential;
+     // MongoDB Service Packages
+     import com.mongodb.client.MongoClient;
+     import com.mongodb.client.MongoCollection;
+     // Utility Packages
+     import com.mongodb.stitch.core.internal.common.BsonUtils;
+
+  To :ref:`Sync <sync-overview>` documents between a remote and a local
+  MongoDB instance, you will also need to import the following packages:
+
+  .. code-block:: java
+
+     // Stitch Sync Packages
+     import com.mongodb.stitch.core.services.mongodb.remote.sync.ChangeEventListener;
+     import com.mongodb.stitch.core.services.mongodb.remote.sync.DefaultSyncConflictResolvers;
+     import com.mongodb.stitch.core.services.mongodb.remote.sync.ErrorListener;
+     import com.mongodb.stitch.core.services.mongodb.remote.sync.internal.ChangeEvent;
+
+  .. important::
+
+     If you use Sync, be sure to add ``.sync()`` before every remote
+     database call in the examples below, as in the following:
+
+     .. code-block:: java
+
+        itemsCollections.sync().find()
+
+  To perform CRUD operations *only* on the local (on-device) database,
+  import the following packages:
+
+  .. code-block:: java
+
+     // MongoDB Mobile Local Database Packages
+     import com.mongodb.stitch.android.services.mongodb.local.LocalMongoDbService;
+---
+title: Instantiate a MongoDB Collection Handle
+ref: instantiate-a-mongodb-collection-handle
+level: 4
+content: |
+  .. code-block:: java
+     :caption: Top of Activity File
+
+     private StitchAppClient stitchClient;
+     private RemoteMongoClient mongoClient;
+     private RemoteMongoCollection itemsCollection;
+
+  .. code-block:: java
+     :caption: In ``Activity.onCreate()``
+
+     stitchClient = Stitch.getDefaultAppClient();
+     mongoClient = stitchClient.getServiceClient(RemoteMongoClient.factory, "mongodb-atlas");
+     itemsCollection = mongoClient.getDatabase("store").getCollection("items");
+     purchasesCollection = mongoClient.getDatabase("store").getCollection("purchases");
