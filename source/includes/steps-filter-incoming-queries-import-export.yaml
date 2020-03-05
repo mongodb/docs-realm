@@ -1,0 +1,80 @@
+title: Export Your Realm Application
+ref: export-your-application
+content: |
+  To define query filters with :doc:`realm-cli
+  </deploy/realm-cli-reference>` you need to export an
+  :ref:`application directory <application-directory>` for your
+  application.
+  You can :doc:`export </deploy/export-realm-app>` your
+  application from the :guilabel:`Export` tab of the
+  :guilabel:`Settings` page in the Realm UI, or by running the
+  following command from an authenticated instance of :doc:`realm-cli
+  </deploy/realm-cli-reference>`:
+
+  .. code-block:: shell
+
+     realm-cli export --app-id=<App ID>
+---
+title: Add a Rule Configuration File
+ref: add-a-rule-configuration-file
+content: |
+  The ``rules`` subdirectory of the :doc:`linked cluster
+  </mongodb/link-a-cluster>`'s service directory configures the rules
+  for a MongoDB collection. The rules configuration file is a JSON file
+  with the same name as the collection namespace. For example, the file
+  ``/services/mongodb-atlas/rules/app.users.json`` defines the rules for
+  the collection ``app.users`` in the ``mongodb-atlas`` cluster. If you
+  have not configured rules for the collection, add a configuration file
+  for it to the ``rules`` directory:
+
+  .. code-block:: shell
+
+     touch services/<cluster name>/rules/<db>.<collection>.json
+
+  The configuration file should have the following general form:
+
+  .. code-block:: shell
+
+     {
+       "roles": [],
+       "filters": [],
+       "schema": {}
+     }
+
+  .. note::
+     This guide focuses on creating ``filters`` for the collection.
+     Check out the other configuration guides to learn how to
+     :doc:`define roles and permissions
+     </mongodb/define-roles-and-permissions>` and :doc:`enforce document
+     schemas </mongodb/enforce-a-document-schema>`.
+---
+title: Add One or More Filters
+ref: add-one-or-more-filters
+content: |
+  Add a document to the ``filters`` array for each filter that you want
+  to configure. Filter documents have the following form:
+
+  .. include:: /mongodb/tables/query-filter-params.rst
+
+---
+title: Import Your Application Directory
+ref: import-your-application-directory
+content: |
+  Once you've added the filter configurations to the collection rule
+  configuration file, all that's left is to import the rule.
+  Save the rule configuration file then navigate to the
+  root of the exported application directory. Log in to MongoDB Atlas
+  with ``realm-cli``:
+
+  .. code-block:: shell
+
+     realm-cli login --api-key=<my api key> --private-api-key=<my private api key>
+
+  After logging in, import the directory:
+
+  .. code-block:: shell
+
+     realm-cli import
+     
+  Once the import completes, Realm will immediately begin evaluating
+  and applying the filters to incoming queries on the collection.

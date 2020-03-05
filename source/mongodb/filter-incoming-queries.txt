@@ -1,0 +1,48 @@
+=======================
+Filter Incoming Queries
+=======================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+You can define filters on incoming queries that Realm evaluates and
+applies before its initial query to your MongoDB cluster. Adding a
+filter to a collection allows you to control the shape of queried
+documents using projection filters and can improve query performance by
+reducing the number of documents for which Realm needs to evaluate a
+role.
+
+Every filter consists of an :guilabel:`Apply When` :doc:`JSON expression
+</services/json-expressions>` and a :guilabel:`Filter Query` document.
+When Realm receives an incoming MongoDB query, it evaluates the
+:guilabel:`Apply When` expression of all filters on the collection and
+merges the :guilabel:`Filter Query` document into the incoming query.
+
+This guide walks through creating one or more query filters for a
+collection.
+
+.. note::
+
+   This guide requires a :doc:`linked MongoDB Atlas cluster
+   </mongodb/link-a-cluster>`.
+
+Procedure
+---------
+
+.. tabs-realm-admin-interfaces::
+
+   tabs:
+     - id: ui
+       content: |
+         .. include:: /includes/steps/filter-incoming-queries-realm-ui.rst
+     - id: cli
+       content: |
+         .. include:: /includes/steps/filter-incoming-queries-import-export.rst

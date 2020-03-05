@@ -1,0 +1,82 @@
+title: Navigate to the MongoDB Rules Screen
+ref: navigate-to-the-mongodb-rules-screen
+level: 4
+content: |
+  You can create and manage query filters from the MongoDB rules screen
+  in the Realm UI. To get to the rules screen, click :guilabel:`Rules`
+  beneath :guilabel:`MongoDB Clusters` in the left-hand navigation.
+---
+title: Create a New Filter
+ref: create-a-new-filter
+level: 4
+content: |
+  Select the collection that you want to configure a filter for from
+  the :guilabel:`Rules` menu then click the :guilabel:`Filters` tab.
+  Click :guilabel:`New Filter` and enter a :guilabel:`Name` for the new
+  filter.
+---
+title: Specify the Apply When Expression
+ref: specify-the-apply-when-expression
+level: 4
+content: |
+  In the :guilabel:`Apply When` input box, enter a :doc:`JSON expression
+  </services/json-expressions>` that defines when the filter applies to
+  a query. If the expression evaluates to ``true`` for an incoming
+  query, Realm adds the :guilabel:`Filter Query` parameters to the
+  incoming query.
+
+  .. cssclass:: bordered-figure
+  .. figure:: /images/mongodb-filters-apply-when.png
+     :alt: Filter Apply When Input Screenshot
+
+  .. include:: /includes/note-filters-no-mongodb-expansions.rst
+---
+title: Specify the Filter Query Predicates
+ref: specify-the-filter-query-predicates
+level: 4
+content: |
+  In the :guilabel:`Query` input box, specify a document that contains
+  additional query predicates to merge into the incoming query when the
+  filter applies. For example, a filter that withholds documents that
+  have a ``score`` below ``20`` could use the following filter query:
+
+  .. code-block:: shell
+
+     { "score": { "$gt": 20 } }
+
+  .. cssclass:: bordered-figure
+  .. figure:: /images/mongodb-filters-query.png
+     :alt: Filter Query Input Screenshot
+---
+title: Specify the Filter Projection
+ref: specify-the-filter-projection
+level: 4
+content: |
+  In the :guilabel:`Projection` input box, specify a document that
+  contains a :manual:`projection
+  </tutorial/project-fields-from-query-results>` document to merge into
+  the incoming query when the filter applies.
+
+  For example, a filter that withholds the ``career_stats`` and
+  ``personal`` fields from documents could use the following filter
+  projection:
+
+  .. code-block:: shell
+
+     {
+       "career_stats": 0,
+       "personal": 0
+     }
+     
+  .. cssclass:: bordered-figure
+  .. figure:: /images/mongodb-filters-projection.png
+     :alt: Filter Projection Input Screenshot
+---
+title: Save the Filter
+ref: save-the-filter
+level: 4
+content: |
+  After you have configured the :guilabel:`Filter Query` and the
+  :guilabel:`Apply When` expression, click :guilabel:`Save`. After
+  saving, Realm immediately begins evaluating and applying filters to
+  incoming queries on the collection.

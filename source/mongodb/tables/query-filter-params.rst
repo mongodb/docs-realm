@@ -56,7 +56,7 @@
           they can either return only specified fields or withhold
           fields that are not specified. If multiple filters apply to a
           query, the filters must all specify the same type of
-          projection or the query will fail.
+          projection, or the query will fail.
 
        .. example::
 
