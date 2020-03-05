@@ -1,0 +1,638 @@
+.. _mongodb-crud-and-aggregation-apis:
+
+=======================
+CRUD & Aggregation APIs
+=======================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+.. _mongodb-crud-and-aggregation-apis-overview:
+
+Overview
+--------
+
+You can access most of the CRUD and Aggregation functionality of MongoDB
+version 3.6 with the :doc:`MongoDB service </mongodb>`; however, Realm
+does not support all operations available in standard tools and clients.
+This page lists specific MongoDB operations that are not available when
+you connect to MongoDB through Realm. For a high-level overview of
+MongoDB feature availability in Realm, see
+:doc:`Service Limitations </mongodb/service-limitations>`.
+
+.. note::
+
+   The following tables track operation support with the labels "User
+   Function" and "System Function". A "User Function" is a Function run
+   using an :ref:`application user's user context only
+   <function-active-user>`. This is the default behavior for all
+   Functions, and all rules, roles, and permissions apply to the active
+   user. A "System Function" is a Function run without regard for
+   rules, roles, and permissions. You can learn more about how to run a
+   Function as a system user in the :ref:`Functions overview
+   <function-system-user>`.
+
+.. _mongodb-crud-and-aggregation-apis-crud-operations:
+
+CRUD Operations
+---------------
+
+.. _mongodb-crud-and-aggregation-apis-query-operators:
+
+Query Operators
+~~~~~~~~~~~~~~~
+
+Realm supports most :manual:`query operators
+</reference/operator/query>` for queries that run in a
+:ref:`user function <function-active-user>`. However, some evaluation
+operators and all geospatial and bitwise operators are only available
+in :ref:`system functions <function-system-user>`.
+
+Comparison Operator Availability
+++++++++++++++++++++++++++++++++
+
+.. cssclass:: config-table
+.. list-table::
+   :header-rows: 1
+   :widths: 25 10 10
+
+   * - Operation
+     - User Function
+     - System Function
+
+   * - :manual:`$eq </reference/operator/query/eq>`
+     - Yes
+     - Yes
+
+   * - :manual:`$gt </reference/operator/query/gt>`
+     - Yes
+     - Yes
+
+   * - :manual:`$gte </reference/operator/query/gte>`
+     - Yes
+     - Yes
+
+   * - :manual:`$in </reference/operator/query/in>`
+     - Yes
+     - Yes
+
+   * - :manual:`$lt </reference/operator/query/lt>`
+     - Yes
+     - Yes
+
+   * - :manual:`$lte </reference/operator/query/lte>`
+     - Yes
+     - Yes
+
+   * - :manual:`$ne </reference/operator/query/ne>`
+     - Yes
+     - Yes
+
+   * - :manual:`$nin </reference/operator/query/nin>`
+     - Yes
+     - Yes
+
+Logical Operator Availability
++++++++++++++++++++++++++++++
+
+.. cssclass:: config-table
+.. list-table::
+   :header-rows: 1
+   :widths: 25 10 10
+
+   * - Operation
+     - User Function
+     - System Function
+
+   * - :manual:`$and </reference/operator/query/and>`
+     - Yes
+     - Yes
+
+   * - :manual:`$not </reference/operator/query/not>`
+     - Yes
+     - Yes
+
+   * - :manual:`$nor </reference/operator/query/nor>`
+     - Yes
+     - Yes
+
+   * - :manual:`$or </reference/operator/query/or>`
+     - Yes
+     - Yes
+
+Array Operator Availability
++++++++++++++++++++++++++++
+
+.. cssclass:: config-table
+.. list-table::
+   :header-rows: 1
+   :widths: 25 10 10
+
+   * - Operation
+     - User Function
+     - System Function
+
+   * - :manual:`$all </reference/operator/query/all>`
+     - Yes
+     - Yes
+
+   * - :manual:`$elemMatch </reference/operator/query/elemMatch>`
+     - Yes
+     - Yes
+
+   * - :manual:`$size </reference/operator/query/size>`
+     - Yes
+     - Yes
+
+Element Operator Availability
++++++++++++++++++++++++++++++
+
+.. cssclass:: config-table
+.. list-table::
+   :header-rows: 1
+   :widths: 25 10 10
+
+   * - Operation
+     - User Function
+     - System Function
+
+   * - :manual:`$exists </reference/operator/query/exists>`
+     - Yes
+     - Yes
+
+   * - :manual:`$type </reference/operator/query/type>`
+     - Yes
+     - Yes
+
+Evaluation Operator Availability
+++++++++++++++++++++++++++++++++
+
+.. cssclass:: config-table
+.. list-table::
+   :header-rows: 1
+   :widths: 25 10 10
+
+   * - Operation
+     - User Function
+     - System Function
+
+   * - :manual:`$mod </reference/operator/query/mod>`
+     - Yes
+     - Yes
+
+   * - :manual:`$expr </reference/operator/query/expr>`
+     - No
+     - Yes
+
+   * - :manual:`$jsonSchema </reference/operator/query/jsonSchema>`
+     - No
+     - Yes
+
+   * - :manual:`$regex </reference/operator/query/regex>`
+     - No
+     - Yes
+
+   * - :manual:`$text </reference/operator/query/text>`
+     - No
+     - Yes
+
+   * - :manual:`$where </reference/operator/query/where>`
+     - No
+     - Yes
+
+Geospatial Operator Availability
+++++++++++++++++++++++++++++++++
+
+.. cssclass:: config-table
+.. list-table::
+   :header-rows: 1
+   :widths: 25 10 10
+
+   * - Operation
+     - User Function
+     - System Function
+
+   * - :manual:`$geoIntersects </reference/operator/query/geoIntersects>`
+     - No
+     - Yes
+
+   * - :manual:`$geoWithin </reference/operator/query/geoWithin>`
+     - No
+     - Yes
+
+   * - :manual:`$near </reference/operator/query/near>`
+     - No
+     - Yes
+
+   * - :manual:`$nearSphere </reference/operator/query/nearSphere>`
+     - No
+     - Yes
+
+Bitwise Operator Availability
++++++++++++++++++++++++++++++
+
+.. cssclass:: config-table
+.. list-table::
+   :header-rows: 1
+   :widths: 25 10 10
+
+   * - Operation
+     - User Function
+     - System Function
+
+   * - :manual:`$bitsAllClear </reference/operator/query/bitsAllClear>`
+     - No
+     - Yes
+
+   * - :manual:`$bitAllSet </reference/operator/query/bitAllSet>`
+     - No
+     - Yes
+
+   * - :manual:`$bitsAnyClear </reference/operator/query/bitsAnyClear>`
+     - No
+     - Yes
+
+   * - :manual:`$bitsAnySet </reference/operator/query/bitsAnySet>`
+     - No
+     - Yes
+
+.. _mongodb-crud-and-aggregation-apis-update-operators:
+
+Update Operators
+~~~~~~~~~~~~~~~~
+
+Realm supports most :manual:`update operators
+</reference/operator/update>` for queries that run in a
+:ref:`user function <function-active-user>`. However, some array update
+operators are only available in :ref:`system functions
+<function-system-user>`.
+
+Field Update Operator Availability
+++++++++++++++++++++++++++++++++++
+
+.. cssclass:: config-table
+.. list-table::
+   :header-rows: 1
+   :widths: 25 10 10
+
+   * - Operation
+     - User Function
+     - System Function
+
+   * - :manual:`$currentDate </reference/operator/update/currentDate>`
+     - Yes
+     - Yes
+
+   * - :manual:`$inc </reference/operator/update/inc>`
+     - Yes
+     - Yes
+
+   * - :manual:`$min </reference/operator/update/min>`
+     - Yes
+     - Yes
+
+   * - :manual:`$max </reference/operator/update/max>`
+     - Yes
+     - Yes
+
+   * - :manual:`$mul </reference/operator/update/mul>`
+     - Yes
+     - Yes
+
+   * - :manual:`$rename </reference/operator/update/rename>`
+     - Yes
+     - Yes
+
+   * - :manual:`$set </reference/operator/update/set>`
+     - Yes
+     - Yes
+
+   * - :manual:`$setOnInsert </reference/operator/update/setOnInsert>`
+     - Yes
+     - Yes
+
+   * - :manual:`$unset </reference/operator/update/unset>`
+     - Yes
+     - Yes
+
+Array Update Operator Availability
+++++++++++++++++++++++++++++++++++
+
+.. cssclass:: config-table
+.. list-table::
+   :header-rows: 1
+   :widths: 25 10 10
+
+   * - Operation
+     - User Function
+     - System Function
+
+   * - :manual:`$ (Positional Update) </reference/operator/update/positional>`
+     - Yes
+     - Yes
+
+   * - :manual:`$addToSet </reference/operator/update/addToSet>`
+     - Yes
+     - Yes
+
+   * - :manual:`$pop </reference/operator/update/pop>`
+     - Yes
+     - Yes
+
+   * - :manual:`$pull </reference/operator/update/pull>`
+     - Yes
+     - Yes
+
+   * - :manual:`$push </reference/operator/update/push>`
+     - Yes
+     - Yes
+
+   * - :manual:`$pullAll </reference/operator/update/pullAll>`
+     - Yes
+     - Yes
+
+   * - :manual:`$[] (All Positional Update) </reference/operator/update/positional-all>`
+     - No
+     - Yes
+
+   * - :manual:`$[element] (Filtered Positional Update) </reference/operator/update/positional-filtered>`
+     - No
+     - Yes
+
+Array Update Operator Modifiers Availability
+++++++++++++++++++++++++++++++++++++++++++++
+
+.. cssclass:: config-table
+.. list-table::
+   :header-rows: 1
+   :widths: 25 10 10
+
+   * - Modifier
+     - User Function
+     - System Function
+
+   * - :manual:`$each </reference/operator/update/each>`
+     - Yes
+     - Yes
+
+   * - :manual:`$position </reference/operator/update/position>`
+     - Yes
+     - Yes
+
+   * - :manual:`$slice </reference/operator/update/slice>`
+     - Yes
+     - Yes
+
+   * - :manual:`$sort </reference/operator/update/sort>`
+     - Yes
+     - Yes
+
+Bitwise Update Operator Availability
+++++++++++++++++++++++++++++++++++++
+
+.. cssclass:: config-table
+.. list-table::
+   :header-rows: 1
+   :widths: 25 10 10
+
+   * - Operator
+     - User Function
+     - System Function
+
+   * - :manual:`$bit </reference/operator/update/bit>`
+     - Yes
+     - Yes
+
+.. _mongodb-crud-and-aggregation-apis-bulk-write-operations:
+
+Bulk Write Operations
+~~~~~~~~~~~~~~~~~~~~~
+
+Realm does not support any :manual:`bulk write operations
+</core/bulk-write-operations>`.
+
+Bulk Write Operation Availability
++++++++++++++++++++++++++++++++++
+
+.. cssclass:: config-table
+.. list-table::
+   :header-rows: 1
+   :widths: 25 10 10
+
+   * - Operation
+     - User Function
+     - System Function
+
+   * - :manual:`insertOne </reference/method/db.collection.insertOne>`
+     - No
+     - No
+
+   * - :manual:`replaceOne </reference/method/db.collection.replaceOne>`
+     - No
+     - No
+
+   * - :manual:`updateOne </reference/method/db.collection.updateOne>`
+     - No
+     - No
+
+   * - :manual:`updateMany </reference/method/db.collection.updateMany>`
+     - No
+     - No
+
+   * - :manual:`deleteMany </reference/method/db.collection.deleteMany>`
+     - No
+     - No
+
+   * - :manual:`deleteOne </reference/method/db.collection.deleteOne>`
+     - No
+     - No
+
+.. _mongodb-crud-and-aggregation-apis-query-options:
+
+Query Options
+~~~~~~~~~~~~~
+
+Realm does not support configuring the following options for any
+CRUD operation in :ref:`user functions <function-active-user>`. All query
+options are available in :ref:`system functions <function-system-user>`.
+
+Query Option Availability
++++++++++++++++++++++++++
+
+.. cssclass:: config-table
+.. list-table::
+   :header-rows: 1
+   :widths: 25 10 10
+
+   * - Modifier
+     - User Context
+     - System Context
+
+   * - :manual:`Read Isolation (Read Concern) </reference/read-concern>`
+     - No
+     - Yes
+
+   * - :manual:`Write Acknowledgment (Write Concern) </reference/write-concern>`
+     - No
+     - Yes
+
+   * - :manual:`Collation </reference/collation>`
+     - No
+     - Yes
+
+.. _mongodb-crud-and-aggregation-apis-aggregation:
+
+Aggregation
+-----------
+
+Realm does not support the following :manual:`aggregation pipeline
+stages </reference/operator/aggregation-pipeline/>` when you :doc:`run
+an aggregation pipeline </mongodb/run-aggregation-pipelines>` in the
+context of an :ref:`application user <user-accounts>`. All aggregation
+pipeline stages are available to the system user.
+
+Aggregation Pipeline Stage Availability
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. cssclass:: config-table
+.. list-table::
+   :header-rows: 1
+   :widths: 25 10 10
+
+   * - Modifier
+     - User Context
+     - System Context
+
+   * - :manual:`$collStats </reference/operator/aggregation/collStats/>`
+     - No
+     - Yes
+
+   * - :manual:`$currentOp </reference/operator/aggregation/currentOp/>`
+     - No
+     - Yes
+
+   * - :manual:`$lookup </reference/operator/aggregation/lookup/>`
+     - No
+     - Yes
+
+   * - :manual:`$out </reference/operator/aggregation/out/>`
+     - No
+     - Yes
+
+   * - :manual:`$indexStats </reference/operator/aggregation/indexStats/>`
+     - No
+     - Yes
+
+   * - :manual:`$facet </reference/operator/aggregation/facet/>`
+     - No
+     - Yes
+
+   * - :manual:`$graphLookup </reference/operator/aggregation/graphLookup/>`
+     - No
+     - Yes
+
+   * - :manual:`$text </reference/operator/aggregation/text/>`
+     - No
+     - Yes
+
+   * - :manual:`$geoNear </reference/operator/aggregation/geoNear/>`
+     - No
+     - Yes
+
+.. _mongodb-crud-and-aggregation-apis-database-commands:
+
+Database Commands
+-----------------
+
+Realm does not support any :manual:`database commands
+</reference/command>` in the Client SDKs or :doc:`Functions
+</functions>`. You can, however, call a limited subset of database
+commands when when connected to a MongoDB cluster over the :doc:`Realm
+wire protocol </mongodb/connect-over-the-wire-protocol>`.
+
+The following :manual:`database commands </reference/command>` are
+partially supported over the wire protocol. Unsupported options for each
+command are listed below.
+
+Database Command Availability
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. cssclass:: config-table
+.. list-table::
+   :header-rows: 1
+   :widths: 10 40
+
+   * - Command
+     - Unsupported Options
+
+   * - :manual:`find </reference/command/find>`
+     - .. hlist::
+          :columns: 2
+
+          - ``hint``
+          - ``skip``
+          - ``batchSize``
+          - ``comment``
+          - ``maxScan``
+          - ``maxTimeMS``
+          - ``readConcern``
+          - ``max``
+          - ``min``
+          - ``returnKey``
+          - ``showRecordId``
+          - ``tailable``
+          - ``awaitData``
+          - ``oplogReplay``
+          - ``noCursorTimeout``
+          - ``allowPartialResults``
+          - ``collation``
+
+   * - :manual:`aggregate </reference/command/aggregate>`
+     - .. hlist::
+          :columns: 2
+
+          - ``explain``
+          - ``allowDiskUse``
+          - ``maxTimeMS``
+          - ``readConcern``
+          - ``collation``
+          - ``bypassDocumentValidation``
+          - ``hint``
+          - ``comment``
+          - ``writeConcern``
+
+   * - :manual:`count </reference/command/count>`
+     - .. hlist::
+          :columns: 1
+
+          - ``limit``
+          - ``skip``
+          - ``hint``
+          - ``readConcern``
+
+   * - :manual:`insert </reference/command/insert>`
+     - .. hlist::
+          :columns: 1
+
+          - ``writeConcern``
+          - ``bypassDocumentValidation``
+
+   * - :manual:`update </reference/command/update>`
+     - .. hlist::
+          :columns: 1
+
+          - ``bypassDocumentValidation``
+          - ``collation``
+          - ``arrayFilters``
+
+   * - :manual:`delete </reference/command/delete>`
+     - .. hlist::
+          :columns: 1
+
+          - ``collation``
+
