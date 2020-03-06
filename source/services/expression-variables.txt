@@ -76,16 +76,17 @@ application.
 
    * - .. json-expansion:: %%values
      - any
-     - An object that includes all :doc:`global values </values>`
+     - An object that includes all :doc:`global values </values-and-secrets>`
        that you've defined in your Stitch application. You can access a
        specific value from this object.
 
        .. example::
 
-          The following is a MongoDB schema validation expression that
-          evaluates to ``true`` if the document's ``secret`` field
-          matches the used-defined :doc:`value </values>` named
-          ``secretString``:
+          The following is a MongoDB schema validation
+          expression that evaluates to ``true`` if the
+          document's ``secret`` field matches the
+          used-defined :doc:`value </values-and-secrets>`
+          named ``secretString``:
 
           .. code-block:: json
 
@@ -104,10 +105,11 @@ application.
 Authenticated User
 ~~~~~~~~~~~~~~~~~~
 
-The :json-expansion:`%%user` expansion represents the currently
-authenticated :doc:`user </users>` and allows you to access their
-information. You can use this expansion to create expressions that
-evaluate based on the user that initiated a request or action.
+The :json-expansion:`%%user` expansion represents the
+currently authenticated :doc:`user </authentication>` and
+allows you to access their information. You can use this
+expansion to create expressions that evaluate based on the
+user that initiated a request or action.
 
 .. cssclass:: auth-table
 .. list-table::
@@ -121,7 +123,7 @@ evaluate based on the user that initiated a request or action.
    * - .. json-expansion:: %%user
      - Document
      - A document containing information and data about the
-       authenticated :doc:`user </users>`.
+       authenticated :doc:`user </authentication>`.
 
    * - .. json-expansion:: %%user.id
      - String
