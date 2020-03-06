@@ -71,6 +71,7 @@ extlinks = {
     # True External Links
     'android-sdk': ('https://docs.mongodb.com/stitch-sdks/java/4/%s', ''),
     'apollo-docs': ('https://www.apollographql.com/docs%s', ''),
+    'codesandbox': ('https://codesandbox.io/%s', ''),
     'gcp': ('https://cloud.google.com/%s', ''),
     'github': ('https://github.com/%s', ''),
     'google-dev': ('https://developers.google.com/%s', ''),
