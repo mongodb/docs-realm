@@ -1,0 +1,432 @@
+.. _mongodb-document-schemas:
+.. _mongodb-schemas:
+
+================
+Document Schemas
+================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+A **document schema** is a JSON object that allows you
+to define the shape and content of documents and embedded documents in a
+collection. You can use a schema to require a specific set of fields,
+configure the content of a field, or to validate changes to a document
+based on its beginning and ending states.
+
+Document schemas follow the same JSON schema specification as
+:manual:`document validation </core/document-validation>` in
+the MongoDB server. In addition to standard JSON schema,
+document schemas can represent any of the :manual:`BSON types
+</reference/operator/query/type/#document-type-available-types>`
+supported by the ``$type`` operator. This page describes
+schemas for the following common types:
+
+- :ref:`Arrays <schema-type-arrays>`
+- :ref:`Objects <schema-type-objects>`
+- :ref:`Strings <schema-type-strings>`
+- :ref:`Numbers <schema-type-numbers>`
+- :ref:`Booleans <schema-type-booleans>`
+
+Schema Enforcement Process
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Realm evaluates the result of all document writes (inserts and updates)
+and compares them against the schema before committing the writes to
+your cluster. If the result of a write operation does not match the
+schema, Realm will roll back the write operation and return an error to
+the user.
+
+.. example::
+
+   A collection has the following document schema:
+
+   .. code-block:: json
+
+      {
+        "properties": {
+          "_id": { "bsonType": "objectId" },
+          "name": { "bsonType": "string" }
+        }
+      }
+
+   A user with permission to read and write all fields wants to update
+   the ``name`` field of a particular document. They issue the following
+   query:
+
+   .. code-block:: javascript
+      :copyable: False
+
+      collection.updateOne(
+        { "_id": BSON.ObjectId("5ae782e48f25b9dc5c51c4d0") },
+        { "$set": { "name": 42 } }
+      )
+
+   The query attempts to set the value of ``name`` to the number ``42``,
+   but the schema requires the value to be a ``string``. Realm will
+   reject this write operation even though the user had permission to
+   update the document because the write result does not conform to the
+   schema.
+
+.. _document-schema-config:
+
+Document Schema Configuration
+-----------------------------
+
+Documents in MongoDB are objects stored in a format called BSON,
+a binary-encoded superset of JSON that supports additional data types.
+The root of every document schema in Realm is a :ref:`BSON Object schema
+<schema-type-objects>` that applies to each document in a collection.
+
+.. code-block:: json
+   
+   {
+     "bsonType": "object",
+     "title": "<Type Name>",
+     "required": ["<Required Field Name>", ...],
+     "properties": {
+       "<Field Name>": <Schema Document>
+     }
+   }
+
+.. _schema-types:
+
+Schema Data Types
+-----------------
+
+.. _schema-type-general:
+
+General
+~~~~~~~
+
+The following fields are available for all schema types:
+
+.. code-block:: json
+
+   {
+     "type": "<JSON Type>" | ["<JSON Type>", ...],
+     "bsonType": "<BSON Type>" | ["<BSON Type>", ...],
+     "enum": [<Value 1>, <Value 2>, ...],
+     "description": "<Descriptive Text>,
+     "title": "<Short Description>"
+   }
+
+.. cssclass:: config-table
+.. list-table::
+   :header-rows: 1
+   :widths: 15 40
+
+   * - Field Name
+     - Description
+
+   * - ``type``
+     - The JSON type of the property the schema describes. If the
+       property's value can be of multiple types, specify an array of
+       JSON types. Cannot be used with the ``bsonType`` field.
+
+       The following standard JSON types are available:
+
+       - object
+       - array
+       - number
+       - boolean
+       - string
+       - null
+
+       .. note::
+
+          MongoDB's JSON Schema implementation does not support the
+          ``integer`` JSON type. Instead, use the ``bsonType`` field
+          with ``int`` or ``long`` as the value.
+
+   * - ``bsonType``
+     - The BSON type of the property the schema describes. If the
+       property's value can be of multiple types, specify an array of
+       BSON types. Cannot be used with the ``type`` field.
+
+       BSON types include all JSON types as well as additional types
+       that you can reference by their :manual:`string alias
+       </reference/operator/query/type/#document-type-available-types>`,
+       such as:
+
+       - objectId
+       - int
+       - long
+       - double
+       - decimal
+       - date
+       - timestamp
+       - regex
+
+   * - ``enum``
+     - An array that includes all valid values for the data that the
+       schema describes.
+
+   * - ``title``
+     - A short title or name for the data that the schema models. This
+       field is used for metadata purposes only and has no impact on
+       schema validation.
+
+   * - ``description``
+     - A detailed description of the data that the schema models. This
+       field is used for metadata purposes only and has no impact on
+       schema validation.
+
+.. _schema-type-objects:
+
+Objects
+~~~~~~~
+
+The ``object`` schema type configures the content of documents. The
+following fields are available for ``object`` schemas:
+
+For more information, see the official JSON Schema `object guide
+<https://json-schema.org/understanding-json-schema/reference/object.html>`_.
+
+.. code-block:: json
+
+   {
+     "bsonType": "object",
+     "title": "<Type Name>",
+     "required": ["<Required Field Name>", ...],
+     "properties": {
+       "<Field Name>": <Schema Document>
+     },
+     "minProperties": <integer>,
+     "maxProperties": <integer>,
+     "patternProperties": {
+       "<Field Name Regex>": <Schema Document>
+     },
+     "additionalProperties": <boolean> | <Schema Document>,
+     "dependencies": {
+       "<Field Name>": <Schema Document> | ["<Field Name>", ...]
+     }
+   }
+
+.. cssclass:: config-table
+.. list-table::
+   :header-rows: 1
+   :widths: 15 40
+
+   * - Field Name
+     - Description
+
+   * - ``required``
+     - An array of field names that must be included in the document.
+
+   * - ``title``
+     - A type name for the object. Realm uses this value to name
+       the document's type in the :doc:`GraphQL API </graphql>`.
+
+   * - ``properties``
+     - An object where each field maps to a field in the parent
+       object by name. The value of each field is a schema document
+       that configures the value of the field.
+
+   * - ``minProperties``
+     - The minimum number of fields allowed in the object.
+
+   * - ``maxProperties``
+     - The maximum number of fields allowed in the object.
+
+   * - ``patternProperties``
+     - An object where each field is a regular expression string that
+       maps to all fields in the parent object that match. The value
+       of each field is a schema document that configures the value
+       of matched fields.
+
+   * - ``additionalProperties``
+     - Default: ``true``.
+
+       If ``true``, a document may contain additional fields that are
+       not defined in the schema. If ``false``, only fields that are
+       explicitly defined in the schema may appear in a document.
+
+       If the value is a schema object, any additional fields must
+       validate against the schema.
+
+   * - ``dependencies``
+     - Specify property and schema dependencies.
+
+.. _schema-type-arrays:
+
+Arrays
+~~~~~~
+
+The ``array`` schema type configures the content of array fields. The
+following fields are available for ``array`` schemas:
+
+For more information, see the official JSON Schema `array guide
+<https://json-schema.org/understanding-json-schema/reference/array.html>`_.
+
+.. code-block:: json
+
+   {
+     "bsonType": "array",
+     "items": <Schema Document> | [<Schema Document>, ...],
+     "additionalItems": <boolean> | <Schema Document>,
+     "maxItems": <integer>,
+     "minItems": <integer>,
+     "uniqueItems": <boolean>
+   }
+
+.. cssclass:: config-table
+.. list-table::
+   :header-rows: 1
+   :widths: 15 40
+
+   * - Field Name
+     - Description
+
+   * - ``items``
+     - A schema for all array items, or an array of schemas where
+       order matters.
+
+   * - ``additionalItems``
+     - Default: ``true``.
+
+       If ``true``, the array may contain additional values that are
+       not defined in the schema. If ``false``, only values that are
+       explicitly listed in the ``items`` array may appear in the
+       array.
+
+       If the value is a schema object, any additional fields must
+       validate against the schema.
+
+       .. note::
+
+          The ``additionalItems`` field only affects array schemas
+          that have an array-valued ``items`` field. If the ``items``
+          field is a single schema object, ``additionalItems`` has no
+          effect.
+
+   * - ``maxItems``
+     - The maximum length of the array.
+
+   * - ``minItems``
+     - The minimum length of the array.
+
+   * - ``uniqueItems``
+     - Default: ``false``
+
+       If ``true``, each item in the array must be unique.
+       If ``false``, multiple array items may be identical.
+
+.. _schema-type-strings:
+
+Strings
+~~~~~~~
+
+The ``string`` schema type configures the value of string fields. The
+following fields are available for ``string`` schemas:
+
+For more information, see the official JSON Schema `string guide
+<https://json-schema.org/understanding-json-schema/reference/string.html>`_.
+
+.. code-block:: json
+
+   {
+     "bsonType": "string",
+     "maxLength": <integer>,
+     "minLength": <integer>,
+     "pattern": "<Regular Expression>"
+   }
+
+.. cssclass:: config-table
+.. list-table::
+   :header-rows: 1
+   :widths: 15 40
+
+   * - Field Name
+     - Description
+
+   * - ``maxLength``
+     - The maximum number of characters in the string.
+
+   * - ``minLength``
+     - The minimum number of characters in the string.
+
+   * - ``pattern``
+     - A regular expression string that must match the string value.
+
+.. _schema-type-numbers:
+.. _schema-type-numerics:
+
+Numbers
+~~~~~~~
+
+The ``numeric`` schema type configures the content of numeric fields,
+such as integers and decimals. The following fields are available for
+``numeric`` schemas:
+
+For more information, see the official JSON Schema `numeric guide
+<https://json-schema.org/understanding-json-schema/reference/numeric.html>`_.
+
+
+.. code-block:: json
+
+   {
+     "bsonType": "int" | "long" | "double" | "decimal",
+     "multipleOf": <number>,
+     "maximum": <number>,
+     "exclusiveMaximum": <boolean>,
+     "minimum": <number>,
+     "exclusiveMinimum": <boolean>
+   }
+
+.. cssclass:: config-table
+.. list-table::
+   :header-rows: 1
+   :widths: 15 40
+
+   * - Field Name
+     - Description
+
+   * - ``multipleOf``
+     - An integer divisor of the field value. For example, if
+       ``multipleOf`` is set to ``3``,  ``6`` is a valid value but
+       ``7`` is not.
+
+   * - ``maximum``
+     - The maximum value of the number.
+
+   * - ``exclusiveMaximum``
+     - Default: ``false``
+
+       If ``true``, the field value must be strictly less than the
+       ``maximum`` value. If ``false``, the field value may also be
+       equal to the ``maximum`` value.
+
+   * - ``minimum``
+     - The minimum value of the number.
+
+   * - ``exclusiveMinimum``
+     - Default: ``false``
+
+       If ``true``, the field value must be strictly greater than the
+       ``minimum`` value. If ``false``, the field value may also be
+       equal to the ``minimum`` value.
+
+.. _schema-type-booleans:
+
+Booleans
+~~~~~~~~
+
+The ``boolean`` schema type configures the content of fields that are
+either ``true`` or ``false``.
+
+For more information, see the official JSON Schema `boolean guide
+<https://json-schema.org/understanding-json-schema/reference/boolean.html>`_.
+
+
+.. code-block:: json
+
+   { "bsonType": "bool" }
