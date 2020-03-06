@@ -78,7 +78,7 @@ Watch a Collection
      - id: javascript
        content: |
          You can open a stream of changes made to a collection by calling
-         :js-sdk:`collection.watch() <interfaces/remotemongocollection.html#watch>`
+         :js-sdk:`collection.watch() <interfaces/remotemongocollection.html#watch-documents>`
          with no argument. Whenever the watched collection changes, the stream's
          event handler fires with a :js-sdk:`ChangeEvent <interfaces/changeevent.html>`
          object as its only argument.
@@ -156,7 +156,7 @@ Watch a Collection with a Filter
      - id: javascript
        content: |
          You can open a stream of changes that match a filter by calling
-         :js-sdk:`collection.watch(delegate:) <interfaces/remotemongocollection.html#watch>`
+         :js-sdk:`collection.watch(delegate:) <interfaces/remotemongocollection.html#watch-documents>`
          with a :manual:`$match expression </reference/operator/aggregation/match/>`
          as the argument. Whenever the watched collection changes and the
          :js-sdk:`ChangeEvent <interfaces/changeevent.html>` matches the provided

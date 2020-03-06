@@ -17,7 +17,7 @@ Overview
 
 To connect to Realm over the wire protocol, you must construct a
 :manual:`MongoDB connection string </reference/connection-string>` that
-includes credentials for an application :doc:`user </users>` and an
+includes credentials for an application :doc:`user </authentication>` and an
 application-specific ``appName`` query parameter.
 
 .. cssclass:: important
@@ -44,9 +44,9 @@ Credentials
 All Realm operations that you issue over the wire protocol run in the
 context of a specific application user that you specify in the
 connection string. The user must be registered with the
-:doc:`Email/Password </authentication/userpass>`, :doc:`API Key
+:doc:`Email/Password </authentication/email-password>`, :doc:`API Key
 </authentication/api-key>`, or :doc:`Custom JWT
-</authentication/custom-token>` authentication provider.
+</authentication/custom-jwt>` authentication provider.
 
 The contents of connection string credentials depend on the
 authentication provider with which the user registered:
