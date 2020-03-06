@@ -1,7 +1,7 @@
 Snippet Setup
 ~~~~~~~~~~~~~
 
-.. tabs-stitch-sdks::
+.. tabs-realm-sdks::
 
    tabs:
      - id: functions

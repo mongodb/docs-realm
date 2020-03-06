@@ -1,0 +1,44 @@
+=========================
+Enforce a Document Schema
+=========================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+You can control the shape and contents of documents in a collection by
+defining a :ref:`document schema <mongodb-schemas>`. Schemas are regular
+documents that adhere to the same JSON schema specification as the
+:manual:`schema validation </core/schema-validation>` built into the
+core MongoDB server. You can use schemas to control the type of a
+field's value, require specific fields, and validate changes before
+committing the results of insert and update operations.
+
+This guide walks through creating a document schema for a MongoDB Atlas
+collection.
+
+.. note::
+
+   This guide requires a :doc:`linked MongoDB Atlas cluster
+   </mongodb/link-a-cluster>`.
+
+Procedure
+---------
+
+.. tabs-realm-admin-interfaces::
+
+   tabs:
+     - id: ui
+       content: |
+         .. include:: /includes/steps/enforce-a-document-schema-realm-ui.rst
+     - id: cli
+       content: |
+         .. include:: /includes/steps/enforce-a-document-schema-import-export.rst
+

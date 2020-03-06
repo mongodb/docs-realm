@@ -26,11 +26,13 @@ content: |
      // Realm Authentication Packages
      import com.mongodb.realm.android.core.auth.RealmUser;
      import com.mongodb.realm.core.auth.providers.anonymous.AnonymousCredential;
+
      // MongoDB Service Packages
      import com.mongodb.client.MongoClient;
      import com.mongodb.client.MongoCollection;
      // Utility Packages
      import com.mongodb.realm.core.internal.common.BsonUtils;
+
 
   To :ref:`Sync <sync-overview>` documents between a remote and a local
   MongoDB instance, you will also need to import the following packages:
@@ -42,6 +44,7 @@ content: |
      import com.mongodb.realm.core.services.mongodb.remote.sync.DefaultSyncConflictResolvers;
      import com.mongodb.realm.core.services.mongodb.remote.sync.ErrorListener;
      import com.mongodb.realm.core.services.mongodb.remote.sync.internal.ChangeEvent;
+
 
   .. important::
 
@@ -59,6 +62,7 @@ content: |
 
      // MongoDB Mobile Local Database Packages
      import com.mongodb.realm.android.services.mongodb.local.LocalMongoDbService;
+
 ---
 title: Instantiate a MongoDB Collection Handle
 ref: instantiate-a-mongodb-collection-handle
@@ -76,5 +80,6 @@ content: |
 
      realmClient = Realm.getDefaultAppClient();
      mongoClient = realmClient.getServiceClient(RemoteMongoClient.factory, "mongodb-atlas");
+     
      itemsCollection = mongoClient.getDatabase("store").getCollection("items");
      purchasesCollection = mongoClient.getDatabase("store").getCollection("purchases");

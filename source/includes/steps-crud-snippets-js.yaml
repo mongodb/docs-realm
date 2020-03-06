@@ -23,6 +23,7 @@ content: |
        RemoteMongoClient,
        BSON
      } from "mongodb-realm-browser-sdk";
+
 ---
 title: Instantiate a MongoDB Remote Collection Handle
 ref: instantiate-a-mongodb-collection-handle
@@ -32,5 +33,6 @@ content: |
 
      const realmApp = Realm.initializeDefaultAppClient("<Your App ID>");
      const mongodb = realmApp.getServiceClient(RemoteMongoClient.factory, "mongodb-atlas");
+
      const itemsCollection = mongodb.db("store").collection("items");
      const purchasesCollection = mongodb.db("store").collection("purchases");
