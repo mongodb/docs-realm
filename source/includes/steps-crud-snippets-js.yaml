@@ -1,15 +1,15 @@
-title: Import Stitch Dependencies
-ref: import-stitch-dependencies
+title: Import Realm Dependencies
+ref: import-realm-dependencies
 level: 4
 content: |
   .. code-block:: html
      :caption: Import from CDN
 
-     <!-- Import the Stitch JS SDK at the top of the file -->
-     <script src="https://s3.amazonaws.com/stitch-sdks/js/bundles/4/stitch.js"></script>
+     <!-- Import the Realm JS SDK at the top of the file -->
+     <script src="https://s3.amazonaws.com/realm-sdks/js/bundles/4/realm.js"></script>
      <script>
-       // Destructure Stitch JS SDK Components
-       const { Stitch, RemoteMongoClient, BSON } = stitch;
+       // Destructure Realm JS SDK Components
+       const { Realm, RemoteMongoClient, BSON } = realm;
      </script>
 
   -- or --
@@ -17,12 +17,13 @@ content: |
   .. code-block:: javascript
      :caption: Import from Module
 
-     // Import components of the Stitch JS SDK at the top of the file
+     // Import components of the Realm JS SDK at the top of the file
      import {
-       Stitch,
+       Realm,
        RemoteMongoClient,
        BSON
-     } from "mongodb-stitch-browser-sdk";
+     } from "mongodb-realm-browser-sdk";
+
 ---
 title: Instantiate a MongoDB Remote Collection Handle
 ref: instantiate-a-mongodb-collection-handle
@@ -30,7 +31,8 @@ level: 4
 content: |
   .. code-block:: javascript
 
-     const stitchApp = Stitch.initializeDefaultAppClient("<Your App ID>");
-     const mongodb = stitchApp.getServiceClient(RemoteMongoClient.factory, "mongodb-atlas");
+     const realmApp = Realm.initializeDefaultAppClient("<Your App ID>");
+     const mongodb = realmApp.getServiceClient(RemoteMongoClient.factory, "mongodb-atlas");
+
      const itemsCollection = mongodb.db("store").collection("items");
      const purchasesCollection = mongodb.db("store").collection("purchases");

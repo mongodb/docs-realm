@@ -20,28 +20,31 @@ content: |
 
   .. code-block:: java
 
-     // Base Stitch Packages
-     import com.mongodb.stitch.android.core.Stitch;
-     import com.mongodb.stitch.android.core.StitchAppClient;
-     // Stitch Authentication Packages
-     import com.mongodb.stitch.android.core.auth.StitchUser;
-     import com.mongodb.stitch.core.auth.providers.anonymous.AnonymousCredential;
+     // Base Realm Packages
+     import com.mongodb.realm.android.core.Realm;
+     import com.mongodb.realm.android.core.RealmAppClient;
+     // Realm Authentication Packages
+     import com.mongodb.realm.android.core.auth.RealmUser;
+     import com.mongodb.realm.core.auth.providers.anonymous.AnonymousCredential;
+
      // MongoDB Service Packages
      import com.mongodb.client.MongoClient;
      import com.mongodb.client.MongoCollection;
      // Utility Packages
-     import com.mongodb.stitch.core.internal.common.BsonUtils;
+     import com.mongodb.realm.core.internal.common.BsonUtils;
+
 
   To :ref:`Sync <sync-overview>` documents between a remote and a local
   MongoDB instance, you will also need to import the following packages:
 
   .. code-block:: java
 
-     // Stitch Sync Packages
-     import com.mongodb.stitch.core.services.mongodb.remote.sync.ChangeEventListener;
-     import com.mongodb.stitch.core.services.mongodb.remote.sync.DefaultSyncConflictResolvers;
-     import com.mongodb.stitch.core.services.mongodb.remote.sync.ErrorListener;
-     import com.mongodb.stitch.core.services.mongodb.remote.sync.internal.ChangeEvent;
+     // Realm Sync Packages
+     import com.mongodb.realm.core.services.mongodb.remote.sync.ChangeEventListener;
+     import com.mongodb.realm.core.services.mongodb.remote.sync.DefaultSyncConflictResolvers;
+     import com.mongodb.realm.core.services.mongodb.remote.sync.ErrorListener;
+     import com.mongodb.realm.core.services.mongodb.remote.sync.internal.ChangeEvent;
+
 
   .. important::
 
@@ -58,7 +61,8 @@ content: |
   .. code-block:: java
 
      // MongoDB Mobile Local Database Packages
-     import com.mongodb.stitch.android.services.mongodb.local.LocalMongoDbService;
+     import com.mongodb.realm.android.services.mongodb.local.LocalMongoDbService;
+
 ---
 title: Instantiate a MongoDB Collection Handle
 ref: instantiate-a-mongodb-collection-handle
@@ -67,14 +71,15 @@ content: |
   .. code-block:: java
      :caption: Top of Activity File
 
-     private StitchAppClient stitchClient;
+     private RealmAppClient realmClient;
      private RemoteMongoClient mongoClient;
      private RemoteMongoCollection itemsCollection;
 
   .. code-block:: java
      :caption: In ``Activity.onCreate()``
 
-     stitchClient = Stitch.getDefaultAppClient();
-     mongoClient = stitchClient.getServiceClient(RemoteMongoClient.factory, "mongodb-atlas");
+     realmClient = Realm.getDefaultAppClient();
+     mongoClient = realmClient.getServiceClient(RemoteMongoClient.factory, "mongodb-atlas");
+     
      itemsCollection = mongoClient.getDatabase("store").getCollection("items");
      purchasesCollection = mongoClient.getDatabase("store").getCollection("purchases");

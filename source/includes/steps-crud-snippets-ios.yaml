@@ -12,9 +12,10 @@ content: |
   .. code-block:: swift
      :caption: In scope (e.g. ``UIViewController``)
 
-     import StitchCore
-     import StitchCoreRemoteMongoDBService
-     import StitchRemoteMongoDBService
+     import RealmCore
+     import RealmCoreRemoteMongoDBService
+     import RealmRemoteMongoDBService
+
 ---
 title: Initialize the MongoDB Realm iOS SDK
 ref: initialize-the-mongodb-realm-ios-sdk
@@ -24,11 +25,11 @@ content: |
      :caption: Application Startup (e.g. ``AppDelegate.didFinishLaunchingWithOptions()``)
 
      do {
-         let _ = try Stitch.initializeDefaultAppClient(
+         let _ = try Realm.initializeDefaultAppClient(
              withClientAppID: "YOUR-APP-ID"
          )
      } catch {
-         print("Failed to initialize MongoDB Stitch iOS SDK: \(error)")
+         print("Failed to initialize MongoDB Realm iOS SDK: \(error)")
      }
 ---
 title: Instantiate a MongoDB Collection Handle
@@ -39,12 +40,12 @@ content: |
      :caption: In scope (e.g. ``UIViewController``)
 
      // Variables in scope:
-     private lazy var stitchClient = Stitch.defaultAppClient!
+     private lazy var realmClient = Realm.defaultAppClient!
      private var mongoClient: RemoteMongoClient?
      private var itemsCollection: RemoteMongoCollection<Document>?
 
-     // Set the stitch variables declared above in viewDidLoad()
-     mongoClient = stitchClient.serviceClient(
+     // Set the realm variables declared above in viewDidLoad()
+     mongoClient = realmClient.serviceClient(
          fromFactory: remoteMongoClientFactory,
          withName: "mongodb-atlas"
      )
