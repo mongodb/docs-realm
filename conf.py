@@ -32,6 +32,7 @@ extensions = [
     'directives',
     'intermanual',
     # 'fasthtml',
+    'sphinx_openapi',
     'tabs',
     'tab-content',
     'stitch-builders',

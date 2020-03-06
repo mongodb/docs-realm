@@ -1,0 +1,162 @@
+========================
+Realm Administration API
+========================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: twocols-rootonly
+
+Realm provides an API for programmatically performing administrative
+tasks outside of the Realm UI. This includes tasks such as
+modifying authentication providers, creating rules, and defining
+functions. The admin API is *not* for Realm client
+applications: tasks like authenticating users, calling functions, and
+interacting with services should be done using the
+:doc:`client SDK </procedures/init-realmclient>` for production client
+uses.
+
+.. _realm-api-authentication:
+
+API Authentication
+------------------
+
+Every request to the Realm Admin API must include a valid and current
+authorization token from the MongoDB Cloud API as a bearer token in the
+``Authorization`` header. You will need a valid :atlas:`programmatic API
+key </configure-api-access#programmatic-api-keys>` for MongoDB Atlas to
+get a token.
+
+Once you have an API key pair, call the authentication endpoint:
+
+.. code-block:: shell
+
+   curl --request POST \
+     --header 'Content-Type: application/json' \
+     --header 'Accept: application/json' \
+     --data '{"username": "<Public API Key>", "apiKey": "<Private API Key>"}' \
+     https://realm.mongodb.com/api/admin/v3.0/auth/providers/mongodb-cloud/login
+
+If authentication succeeds, Realm returns an access token as part of
+the JSON response document:
+
+.. code-block:: json
+   :emphasize-lines: 2
+
+   {
+     "access_token": "<access_token>",
+     "refresh_token": "<refresh_token>",
+     "user_id": "<user_id>",
+     "device_id": "<device_id>"
+   }
+
+The ``access_token`` represents a limited-time authorization to interact
+with the Admin API. To authenticate a request, include the token in a
+:mdn:`Bearer token <Web/HTTP/Authentication>` ``Authorization`` header.
+
+.. code-block:: http
+
+   Authorization: Bearer <access_token>
+
+.. _realm-api-project-and-application-ids:
+
+Project & Application IDs
+-------------------------
+
+.. note::
+
+   The terms *Project ID* and *Group ID* are interchangeable.
+
+Realm APIs frequently require two parameters: your |atlas|
+*Project/Group ID*, and your Realm *Application ID*.
+
+Project ID
+~~~~~~~~~~
+
+To find your Project ID, go to your |atlas| administration console,
+click :guilabel:`Settings` in the left-hand navigation bar, and look
+under the :guilabel:`Project ID` heading.
+
+Application ID
+~~~~~~~~~~~~~~
+
+To find your Application ID, make a request to the Realm
+:ref:`get-/groups/{groupid}/apps` API endpoint.
+
+This request has the following format, referencing the ``access_token``
+described in :ref:`realm-api-authentication`:
+
+.. code-block:: sh
+
+   curl --request GET \
+     --header 'Authorization: Bearer <access_token>' \
+     https://realm.mongodb.com/api/admin/v3.0/groups/{groupId}/apps
+
+This will return a list of objects describing each Realm
+application in the provided group. The ``_id`` field contains the
+Application ID.
+
+Example
+-------
+
+.. _admin-api-pagination:
+
+Pagination with the Logging API
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The Logging endpoint returns up to 100 log entries per page. If the
+query matches more than 100 entries, the result will be :wikipedia:`paginated <Pagination>`.
+Such a result will contain two pieces of information that you will need to request
+the next page of entries for the same query: the ``nextEndDate`` and ``nextSkip`` fields.
+
+Paginated results always contain the ``nextEndDate`` field. A paginated
+result will also contain the ``nextSkip`` field if the timestamp of the
+first entry on the next page is identical to the timestamp of the last
+entry on the current page.
+
+To request the first page of up to 100 log entries, use the endpoint as usual:
+
+.. code-block:: sh
+
+   curl --request GET \
+     --header 'Authorization: Bearer <access_token>' \
+     'https://realm.mongodb.com/api/admin/v3.0/groups/{groupId}/apps/{appId}/logs'
+
+To request the next page of up to 100 log entries, pass the values of ``nextEndDate``
+and ``nextSkip`` as the ``end_date`` and ``skip`` parameters, respectively:
+
+.. code-block:: sh
+
+   curl --request GET \
+     --header 'Authorization: Bearer <access_token>' \
+     'https://realm.mongodb.com/api/admin/v3.0/groups/{groupId}/apps/{appId}/logs?end_date={nextEndDate of previous response}&skip={nextSkip of previous response}'
+
+Repeat this step to get more pages until the response does not have a ``nextEndDate`` field.
+This signifies that you have reached the last page.
+
+For more information, see :ref:`get-/groups/{groupId}/apps/{appId}/logs`.
+
+.. _admin-api-draft-deploy:
+
+Draft and Deploy a Group of Changes
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can :doc:`deploy </deploy>` a group of application changes together
+by creating and deploying a draft. To create and deploy a set of draft
+changes:
+
+.. include:: /includes/steps/admin-api-deploy-a-draft.rst
+
+Resources
+---------
+
+.. contents::
+   :local:
+   :backlinks: none
+   :depth: 1
+   :class: twocols
+
+.. openapi:: /openapi-admin-v3.yaml
