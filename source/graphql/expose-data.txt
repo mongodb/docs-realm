@@ -1,0 +1,224 @@
+===========================
+Expose Data in a Collection
+===========================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+You can expose data from a MongoDB collection to client applications
+through the GraphQL API. Realm automatically generates GraphQL types
+and resolvers based on the :doc:`collection schema
+</mongodb/enforce-a-document-schema>` and enforces :ref:`collection
+rules <mongodb-rules>` for all GraphQL operations.
+
+Procedure
+---------
+
+1. Configure Roles for the Collection
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Realm enforces :ref:`collection rules <mongodb-rules>` for all incoming
+GraphQL requests, so you need to define at least one :doc:`collection
+role </mongodb/define-roles-and-permissions>` with the permissions that
+your application requires.
+
+All GraphQL requests include an authentication token that identifies the
+logged in Realm user that sent the request. Realm evaluates a role for
+every document included in a GraphQL operation and only returns fields
+and documents that the user has permission to see. If Realm omits a
+field, the field has a ``null`` value in the returned document.
+
+2. Define a Schema for Documents in the Collection
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+GraphQL requires that all data conforms to a well-defined type, so you
+must :doc:`define a schema </mongodb/enforce-a-document-schema>` for
+documents in the collection. Realm automatically generates
+:doc:`GraphQL types and resolvers
+</graphql/graphql-types-and-resolvers>` for documents in the collection
+based on the collection schema and regenerates new types whenever the
+schema changes.
+
+.. admonition:: Automatically Generate a Schema
+   :class: note
+
+   Realm can generate a collection schema for you based on a sample of
+   existing documents in the collection. If you don't have existing
+   data, you can insert a new document that has a mock implementation of
+   the fields you want to include in your schema and then generate a
+   schema based on the mock.
+
+3. Define Relationships to Other Collections
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can use a collection schema to define relationships between the
+documents in two collections. Realm can join related documents in a
+single query.
+
+Realm supports reference-based relationships where a value or array
+field in one document matches or contains the value of a field in a
+different document. Realm automatically looks up and resolves
+relationships in GraphQL queries.
+
+Relationship definitions have the following form:
+
+.. code-block:: json
+
+   {
+     "<Field Name>": {
+       "ref": "#/realm/<Cluster>/<Database>/<Collection>",
+       "foreign_key": "<Foreign Collection Field Name>",
+       "is_list": <Boolean>
+     }
+   }
+
+A relationship applies to a specific field and resolves to one or more
+documents in another collection. You specify the foreign collection with
+the ``ref`` field and the name of the field to look up in the foreign
+collection with the ``foreign_key`` field. The ``is_list`` boolean is
+``true`` only if the field that the relationship is defined on contains
+an array and indicates whether the relationship resolves to one or many
+documents.
+
+.. example::
+
+   An application has two collections:
+
+   - The ``movies`` collection contains documents that each describe a
+     movie.
+   - The ``comments`` collection contains documents that each describe a
+     user's comment on a specific movie.
+
+   The ``comments`` field of each document in the ``movies`` collection
+   is an array that contains the ``_id`` value of each document in the
+   ``comments`` collection that applies to the movie.
+
+   .. code-block:: json
+      :caption: Movie Collection Schema
+      :emphasize-lines: 5-8
+
+      {
+        "title": "Movie",
+        "properties": {
+          "title": { "bsonType": "string" },
+          "comments": {
+            "bsonType": "array",
+            "items": { "bsonType": "objectId" }
+          },
+          ...
+        }
+      }
+
+   .. code-block:: json
+      :caption: Comment Collection Schema
+      :emphasize-lines: 4
+
+      {
+        "title": "Comment",
+        "properties": {
+          "_id": { "bsonType": "objectId" },
+          "name": { "bsonType": "string" },
+          "date": { "bsonType": "date" },
+          "text": { "bsonType": "string" }
+        }
+      }
+
+   To define the relationship, the app uses the following relationship
+   on the ``movies`` collection schema:
+
+   .. code-block:: json
+
+      {
+        "comments": {
+          "ref": "#/realm/mongodb-atlas/sample_mflix/comments",
+          "foreign_key": "_id",
+          "is_list": true
+        }
+      }
+
+   Once the relationship is defined, Realm can fluidly include the
+   movie and its comments in the same GraphQL query.
+
+   .. code-block:: text
+
+      query CommentsForMovie {
+        movie(query: { title: "The Matrix" }) {
+          title
+          comments {
+            name
+            date
+            text
+          }
+        }
+      }
+
+4. Name the Data Type
+~~~~~~~~~~~~~~~~~~~~~
+
+Realm names the GraphQL types that it generates based on the data type
+that documents in the collection conform to. You can configure the name
+of the GraphQL types by setting the ``title`` field in a schema to the
+name of the data type that the schema defines.
+
+There are three situations where you can set the ``title`` field:
+
+- You can define the type name for each document in a collection by
+  setting ``title`` at the root level of the schema. If you don't
+  specify a title, Realm uses the name of the collection instead.
+
+- You can define the type name for an embedded object by setting
+  ``title`` in the embedded object schema.
+
+- You can define the type name for a field that has a defined
+  relationship by setting ``title`` in the field schema. Realm uses the
+  ``title`` instead of the defined field name when it resolves
+  relationships in GraphQL.
+
+.. code-block:: json
+   :emphasize-lines: 2
+
+   {
+     "title": "movie",
+     "properties": {
+       "_id": { "bsonType": "objectId" },
+       "title": { "bsonType": "string" },
+       "year": { "bsonType": "int" },
+       "director": { "bsonType": "int" }
+     }
+   }
+
+.. admonition:: Singular and Plural Types
+   :class: note
+
+   Realm generates two GraphQL query types for each collection: a
+   singular query and a plural query . A **singular** query refers to a
+   specific document in the collection. A **plural** query refers to all
+   documents in the collection.
+
+   Realm uses the schema's ``title`` as the name of the *singular*
+   query type and uses the schema's ``title`` with an ``"s"`` appended
+   to the end as the name of the *plural* query type. For example, if
+   the ``title`` is ``movie``, Realm generates the ``Movie`` (singular)
+   and ``Movies`` (plural) GraphQL query types.
+
+Next Steps
+----------
+
+Once you have defined a schema for the collection, Realm automatically
+exposes the documents in the collection through the GraphQL API. You can
+now :doc:`connect from a client application
+</graphql/connect-from-a-client-application>` and :doc:`execute GraphQL
+operations </graphql/execute-a-graphql-operation>` like queries and
+mutations.
+
+To :doc:`configure validation </graphql/configure-validation>` for read
+and write operations explore your data with the GraphiQL explorer,
+navigate to the :guilabel:`GraphQL` screen in the Realm UI.

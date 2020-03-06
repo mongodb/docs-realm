@@ -1,0 +1,46 @@
+============================
+Define Roles And Permissions
+============================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 1
+   :class: singlecol
+
+Overview
+--------
+
+The MongoDB service uses a strict rules system that prevents all
+operations unless they are specifically allowed. Realm determines if
+each operation is allowed dynamically when it receives the request from
+the client based on roles that you define.
+
+Roles are sets of document-level and field-level CRUD permissions and
+are chosen individually for each document associated with a query. This
+guide walks through configuring one or more roles for a collection.
+
+.. important::
+
+   You must define at least one role before you can successfully query a
+   collection.
+
+.. note::
+
+   This guide requires a :doc:`linked MongoDB Atlas cluster
+   </mongodb/link-a-cluster>`.
+
+Procedure
+---------
+
+.. tabs-realm-admin-interfaces::
+
+   tabs:
+     - id: ui
+       content: |
+         .. include:: /includes/steps/define-roles-and-permissions-ui.rst
+     - id: cli
+       content: |
+         .. include:: /includes/steps/define-roles-and-permissions-cli.rst
