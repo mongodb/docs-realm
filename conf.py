@@ -32,6 +32,7 @@ extensions = [
     'directives',
     'intermanual',
     # 'fasthtml',
+    'sphinx_openapi',
     'tabs',
     'tab-content',
     'stitch-builders',
@@ -57,7 +58,9 @@ rst_epilog = '\n'.join([
     '.. |ent-build| replace:: MongoDB Enterprise',
     '.. |hardlink| replace:: http://docs.mongodb.com/realm/',
     '.. |atlas-full| replace:: MongoDB Atlas',
-    '.. |atlas| replace:: Atlas'
+    '.. |atlas| replace:: Atlas',
+    '.. |compass| replace:: MongoDB Compass',
+    '.. _compass: https://docs.mongodb.com/compass'
 ])
 
 extlinks = {

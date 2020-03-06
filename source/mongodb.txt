@@ -48,21 +48,21 @@ directly from your client applications and :doc:`Functions </functions>`
 using standard, platform-idiomatic MongoDB query syntax.
 
 The following guides demonstrate how to use :doc:`MongoDB service
-actions </mongodb/mongodb-actions>` to work with data in a linked
+actions </mongodb/actions>` to work with data in a linked
 cluster:
 
-- :doc:`Add Data to MongoDB </mongodb/add-data-to-mongodb>`
-- :doc:`Find Documents in MongoDB </mongodb/find-documents-in-mongodb>`
-- :doc:`Update Documents in MongoDB </mongodb/update-documents-in-mongodb>`
-- :doc:`Delete Documents from MongoDB </mongodb/delete-documents-from-mongodb>`
-- :doc:`Watch for Document Changes </mongodb/watch-for-document-changes>`
+- :doc:`Insert Documents </mongodb/insert-documents>`
+- :doc:`Find Documents </mongodb/find-documents>`
+- :doc:`Update Documents </mongodb/update-documents>`
+- :doc:`Delete Documents </mongodb/delete-documents>`
+- :doc:`Watch for Document Changes </mongodb/watch-documents>`
 - :doc:`Run Aggregation Pipelines </mongodb/run-aggregation-pipelines>`
 
 .. admonition:: Define Collection Rules
    :class: important
 
    Realm dynamically determines which documents and fields
-   in a collection each :doc:`application user </users>` can
+   in a collection each :doc:`application user </authentication>` can
    read and write for all incoming query operations by
    evaluating :ref:`collection rules <mongodb-rules>` that
    you define.
@@ -75,7 +75,7 @@ cluster:
 
    Realm does not support all MongoDB CRUD and Aggregation
    operations when you query MongoDB as a specific
-   :doc:`user </users>`. You can bypass this limitation by
+   :doc:`user </authentication>`. You can bypass this limitation by
    querying MongoDB from a :doc:`Function </functions>` that
    runs as the :ref:`system user <system-user>`, which has
    access to the full MongoDB CRUD and Aggregation APIs.
@@ -101,7 +101,7 @@ while transparently preventing unauthorized reads and
 writes. Rules are defined for entire collections in a linked
 MongoDB Atlas cluster and apply to individual documents in
 the collection dynamically based on the :doc:`application
-user </users>` that issued a query.
+user </authentication>` that issued a query.
 
 The rules engine handles incoming queries with the following 4-step
 process:
@@ -159,25 +159,6 @@ Related Content
 Configuration Guides
 ~~~~~~~~~~~~~~~~~~~~
 
-.. toctree::
-   :caption: Configure MongoDB
-   :titlesonly:
-   :includehidden:
-   :hidden:
-
-   Link a MongoDB Atlas Cluster </mongodb/link-a-cluster>
-   Configure Advanced Rules </mongodb/configure-advanced-rules>
-   Define Roles and Permissions </mongodb/define-roles-and-permissions>
-   Enforce a Document Schema </mongodb/enforce-a-document-schema>
-
-.. toctree::
-   :caption: Work With MongoDB
-   :titlesonly:
-   :includehidden:
-   :hidden:
-
-   Connect Over the Wire Protocol </mongodb/connect-over-the-wire-protocol>
-
 .. list-table::
    :header-rows: 1
    :widths: 20 50
@@ -231,23 +212,23 @@ Usage Guides
    * - Guide
      - Description
 
-   * - :doc:`Add Data to MongoDB </mongodb/add-data-to-mongodb>`
+   * - :doc:`Insert Documents </mongodb/insert-documents>`
      - Learn how to insert one or more documents into a MongoDB
        collection.
 
-   * - :doc:`Find Documents </mongodb/find-documents-in-mongodb>`
+   * - :doc:`Find Documents </mongodb/find-documents>`
      - Learn how to find documents in a collection, including
        patterns and operators that you can use to refine your query.
 
-   * - :doc:`Update Documents </mongodb/update-documents-in-mongodb>`
+   * - :doc:`Update Documents </mongodb/update-documents>`
      - Learn how to update documents in a collection, including
        operators for manipulating specific fields.
 
-   * - :doc:`Delete Documents </mongodb/delete-documents-from-mongodb>`
+   * - :doc:`Delete Documents </mongodb/delete-documents>`
      - Learn how to remove one or more documents from a MongoDB
        collection.
 
-   * - :doc:`Watch for Document Changes </mongodb/watch-for-document-changes>`
+   * - :doc:`Watch for Document Changes </mongodb/watch-documents>`
      - Learn how to use the ``watch`` API to notify browser-based
        applications when specific documents change.
 
@@ -276,7 +257,7 @@ Reference Documentation
    Service Limitations </mongodb/service-limitations>
    CRUD & Aggregation APIs </mongodb/crud-and-aggregation-apis>
    Query Roles </mongodb/query-roles>
-
+   
 .. list-table::
    :header-rows: 1
    :widths: 20 50
@@ -284,7 +265,7 @@ Reference Documentation
    * - Guide
      - Description
 
-   * - :doc:`MongoDB Actions </mongodb/mongodb-actions>`
+   * - :doc:`MongoDB Actions </mongodb/actions>`
      - Look up detailed examples and parameters for all MongoDB service
        actions.
 

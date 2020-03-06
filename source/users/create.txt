@@ -16,7 +16,7 @@ Create an Email/Password User
 For most :doc:`authentication providers </authentication/providers>`,
 when an end-user authenticates for the first time, the user object is
 created.  For the :doc:`Email/Password authentication provider
-</authentication/userpass>`, a prompt requires users to create an
+</authentication/email-password>`, a prompt requires users to create an
 account the first time they connect to your Realm application.
 
 For testing and debugging with the Email/Password authentication
@@ -49,12 +49,14 @@ Confirm a User
 --------------
 
 You must confirm the email address of new
-:doc:`Email/Password users </authentication/userpass>` before they are
-permitted to log into MongoDB Realm. The exact method of confirmation
-depends upon your provider configuration, but typically involves
-a :wikipedia:`handshake process <Handshaking>` between the user and your
-application. You can read more about Email/Password user confirmation at
-:ref:`Email/Password Confirmation <auth-confirmation>`.
+:doc:`Email/Password users </authentication/email-password>`
+before they are permitted to log into MongoDB Realm. The
+exact method of confirmation depends upon your provider
+configuration, but typically involves a
+:wikipedia:`handshake process <Handshaking>` between the
+user and your application. You can read more about
+Email/Password user confirmation at :ref:`Email/Password
+Confirmation <email-password-authentication-confirmation>`.
 
 Sometimes, however, users are unable to complete the confirmation
 process. For example:
