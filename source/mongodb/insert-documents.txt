@@ -1,0 +1,54 @@
+================
+Insert Documents
+================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+The code snippets on this page demonstrate how to insert one or more
+documents into a MongoDB collection. Insert operations take the
+documents to add to MongoDB as an argument and return documents that
+describe the results of the operation.
+
+.. include:: /mongodb/crud-snippets/data-model.rst
+
+.. include:: /mongodb/crud-snippets/setup.rst
+
+Methods
+-------
+
+Insert a Single Document
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can insert a single document using the
+:method:`collection.insertOne()` action.
+
+The following snippet inserts a single item document into the ``items``
+collection:
+
+.. tab-bar:: tabs-realm-sdks
+   :tab-ids: functions, javascript, android, ios
+
+.. include:: /mongodb/crud-snippets/insertOne/all.rst
+
+Insert One or More Documents
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can insert multiple documents at the same time using the
+:method:`collection.insertMany()` action.
+
+The following snippet inserts multiple item documents into the ``items``
+collection:
+
+.. tab-bar:: tabs-realm-sdks
+   :tab-ids: functions, javascript, android, ios
+
+.. include:: /mongodb/crud-snippets/insertMany/all.rst
