@@ -86,20 +86,21 @@ extlinks = {
     'npm': ('https://www.npmjs.com/%s', ''),
     'mdn': ('https://developer.mozilla.org/en-US/docs/%s', ''),
     'wikipedia': ('https://en.wikipedia.org/wiki/%s', ''),
+    'aws-docs': ('https://docs.aws.amazon.com/%s', ''),
 }
 
 intersphinx_mapping = {}
 
 try:
     for i in intersphinx_libs:
-        intersphinx_mapping[i['name']] = ( i['url'], os.path.join(conf.paths.projectroot,
-                                                              conf.paths.output,
-                                                              i['path']))
+        intersphinx_mapping[i['name']] = (i['url'], os.path.join(conf.paths.projectroot,
+                                                                 conf.paths.output,
+                                                                 i['path']))
 except:
     for i in intersphinx_libs:
-        intersphinx_mapping[i.name] = ( i.url, os.path.join(conf.paths.projectroot,
-                                                              conf.paths.output,
-                                                              i.path))
+        intersphinx_mapping[i.name] = (i.url, os.path.join(conf.paths.projectroot,
+                                                           conf.paths.output,
+                                                           i.path))
 
 
 languages = [
