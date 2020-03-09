@@ -17,7 +17,7 @@ You can connect a client application to the GraphQL API to read and
 write data that you have :doc:`exposed from a collection
 </graphql/expose-data>`. This guide includes example code that
 demonstrates how to configure a GraphQL client and :doc:`authenticate
-requests </graphql/authenticate-graphql-requests>` in common GraphQL
+requests </graphql/authenticate>` in common GraphQL
 libraries and frameworks.
 
 Once you've connected your client application, you can begin to
@@ -69,7 +69,7 @@ Create a GraphQL Client
       called :npm:`apollo-boost <packages/apollo-boost>`.
 
       You also need to add an :doc:`authentication header
-      </graphql/authenticate-graphql-requests>` that includes a valid
+      </graphql/authenticate>` that includes a valid
       Realm user access token to each GraphQL request. You can get the
       access token with the Realm browser SDK and add the header to
       every request with the :npm:`apollo-link-context

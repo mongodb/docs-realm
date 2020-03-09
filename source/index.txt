@@ -12,6 +12,8 @@ MongoDB Realm
    Install Realm for .NET </get-started/install-dotnet>
    Install Realm for Node.js </get-started/install-node>
    Install Realm for React Native </get-started/install-react-native>
+   Create a Realm App </procedures/create-realm-app>
+   Init the RealmAppClient </procedures/init-realmclient>
 
 .. toctree::
    :titlesonly:
@@ -68,17 +70,60 @@ MongoDB Realm
    :caption: MongoDB
 
    Overview </mongodb>
+   Link a Cluster </mongodb/link-a-cluster>
+   Actions </mongodb/actions>
    Insert Documents </mongodb/insert-documents>
    Find Documents </mongodb/find-documents>
    Update Documents </mongodb/update-documents>
    Delete Documents </mongodb/delete-documents>
    Watch for Document Changes </mongodb/watch-documents>
+   Configure Advanced Rules </mongodb/configure-advanced-rules>
+   Connection Strings </mongodb/connection-strings>
+   CRUD & Aggregation APIs </mongodb/crud-and-aggregation-apis>
+   Define Roles And Permissions </mongodb/define-roles-and-permissions>
+   Document Schemas </mongodb/document-schemas>
+   Enable Wire Protocol Connections </mongodb/enable-wire-protocol-connections>
+   Connect Over the Wire Protocol </mongodb/connect-over-the-wire-protocol>
+   Enforce a Document Schema </mongodb/enforce-a-document-schema>
+   Filter Incoming Queries </mongodb/filter-incoming-queries>
+   Query Filters </mongodb/query-filters>
+   Service Limitations </mongodb/service-limitations>
+   Specify Read Preference for a MongoDB Cluster </mongodb/specify-cluster-read-preference>
+   mongodb.db() </mongodb/actions/mongodb.db>
+   database.collection() </mongodb/actions/database.collection>
+   collection.find() </mongodb/actions/collection.find>
+   collection.findOne() </mongodb/actions/collection.findOne>
+   collection.findOneAndUpdate() </mongodb/actions/collection.findOneAndUpdate>
+   collection.findOneAndReplace() </mongodb/actions/collection.findOneAndReplace>
+   collection.findOneAndDelete() </mongodb/actions/collection.findOneAndDelete>
+   collection.insertOne() </mongodb/actions/collection.insertOne>
+   collection.insertMany() </mongodb/actions/collection.insertMany>
+   collection.updateOne() </mongodb/actions/collection.updateOne>
+   collection.updateMany() </mongodb/actions/collection.updateMany>
+   collection.deleteOne() </mongodb/actions/collection.deleteOne>
+   collection.deleteMany() </mongodb/actions/collection.deleteMany>
+   collection.aggregate() </mongodb/actions/collection.aggregate>
+   collection.count() </mongodb/actions/collection.count>
+
+.. toctree::
+   :titlesonly:
+   :caption: Services
+
+   Define a Service Rule </services/define-a-service-rule>
+   Expression Variables </services/expression-variables>
+   JSON Expressions </services/json-expressions>
+   Webhook Requests & Responses </services/webhook-requests-and-responses>
 
 .. toctree::
    :titlesonly:
    :caption: Triggers
 
    Triggers Overview </triggers>
+   Authentication Triggers </triggers/authentication-triggers>
+   CRON Expressions </triggers/cron-expressions>
+   Database Triggers </triggers/database-triggers>
+   Scheduled Triggers </triggers/scheduled-triggers>
+   Trigger Snippets </triggers/trigger-snippets>
 
 .. toctree::
    :titlesonly:
@@ -122,7 +167,7 @@ MongoDB Realm
    Deploy from the Realm UI </deploy/deploy-ui>
    Deploy Automatically with GitHub </deploy/deploy-automatically-with-github>
    Deploy with the Realm CLI </deploy/deploy-cli>
-   Deploy Automatically with GitHub </deploy/deploy-automatically-with-github>
+   Create a Realm App with Realm CLI </deploy/create-with-cli>
    Export an Existing Realm Application </deploy/export-realm-app>
    Application Configuration Files </deploy/application-configuration-files>
    Realm CLI Reference </deploy/realm-cli-reference>
@@ -132,6 +177,14 @@ MongoDB Realm
    :caption: Static Hosting
 
    Overview </hosting>
+   Configure File Metadata </hosting/configure-file-metadata>
+   Enable Hosting </hosting/enable-hosting>
+   File Metadata Attributes </hosting/file-metadata-attributes>
+   Flush the CDN Cache </hosting/flush-the-cdn-cache>
+   Host a Single-Page Application </hosting/host-a-single-page-application>
+   Upload Content to Realm </hosting/upload-content-to-realm>
+   Use a Custom 404 Page </hosting/use-a-custom-404-page>
+   Use a Custom Domain Name </hosting/use-a-custom-domain-name>
 
 .. toctree::
    :titlesonly:
@@ -145,6 +198,12 @@ MongoDB Realm
    :caption: Logs
 
    Logs </logs>
+   Access Logs with the Admin API </logs/api>
+   Authentication Logs </logs/authentication>
+   Change Stream Logs </logs/changestream>
+   Function Logs </logs/function>
+   Service Logs </logs/service>
+   Trigger Logs </logs/trigger>
 
 .. toctree::
    :titlesonly:
@@ -152,3 +211,4 @@ MongoDB Realm
 
    Deployment Models & Regions </admin/deployment-models-and-regions>
    MongoDB Cloud Users </admin/users-and-groups>
+   Realm Administration API </admin/api/v3.txt>

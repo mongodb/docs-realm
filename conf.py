@@ -32,6 +32,7 @@ extensions = [
     'directives',
     'intermanual',
     # 'fasthtml',
+    'sphinx_openapi',
     'tabs',
     'tab-content',
     'stitch-builders',
@@ -57,7 +58,9 @@ rst_epilog = '\n'.join([
     '.. |ent-build| replace:: MongoDB Enterprise',
     '.. |hardlink| replace:: http://docs.mongodb.com/realm/',
     '.. |atlas-full| replace:: MongoDB Atlas',
-    '.. |atlas| replace:: Atlas'
+    '.. |atlas| replace:: Atlas',
+    '.. |compass| replace:: MongoDB Compass',
+    '.. _compass: https://docs.mongodb.com/compass'
 ])
 
 extlinks = {
@@ -70,7 +73,7 @@ extlinks = {
     'guides': ('https://docs.mongodb.com/guides%s', ''),
     # True External Links
     'android-sdk': ('https://docs.mongodb.com/stitch-sdks/java/4/%s', ''),
-    'apollo-docs': ('https://www.apollographql.com/docs%s', ''),
+    'apollo-docs': ('https://www.apollographql.com/docs/%s', ''),
     'codesandbox': ('https://codesandbox.io/%s', ''),
     'gcp': ('https://cloud.google.com/%s', ''),
     'github': ('https://github.com/%s', ''),

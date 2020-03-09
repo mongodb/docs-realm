@@ -34,10 +34,10 @@ The ``context`` variable contains the following modules:
        configured.
 
    * - ``context.values``
-     - Access :doc:`values </values>` that you've defined.
+     - Access :doc:`values </values-and-secrets>` that you've defined.
 
    * - ``context.user``
-     - Access information about the :doc:`user </users>` that initiated
+     - Access information about the :doc:`user </authentication>` that initiated
        the request.
 
    * - ``context.request``
@@ -142,7 +142,7 @@ your application.
 context.values
 ~~~~~~~~~~~~~~
 
-An object that provides access to :doc:`Values </values>` via a "getter"
+An object that provides access to :doc:`Values </values-and-secrets>` via a "getter"
 method.
 
 .. method:: context.values.get(valueName)
@@ -160,7 +160,7 @@ method.
 
       * - ``valueName``
         - string
-        - The name of the :doc:`Value </values>`.
+        - The name of the :doc:`Value </values-and-secrets>`.
 
 .. _context-http:
 
@@ -301,7 +301,7 @@ function's :ref:`active user <function-active-user>`.
 .. example::
 
    The following ``context.user`` document reflects an
-   :doc:`Email/Password </authentication/userpass>` user that is
+   :doc:`Email/Password </authentication/email-password>` user that is
    associated with a single :ref:`User API Key <user-api-key>`.
 
    .. code-block:: json

@@ -18,7 +18,7 @@ Overview
 You can access data that you've :doc:`exposed from a collection
 </graphql/expose-data>` through the GraphQL API. Realm enforces
 :ref:`collection rules <mongodb-rules>` for all GraphQL operations, so
-you need to :doc:`authenticate </graphql/authenticate-graphql-requests>`
+you need to :doc:`authenticate </graphql/authenticate>`
 each request.
 
 Set Up
@@ -39,7 +39,7 @@ Set Up
 
          To execute a GraphQL operation with Apollo, you first need to
          :doc:`connect your client application
-         </graphql/connect-from-a-client-application>`.
+         </graphql/connect>`.
 
       To install the required packages, run the following:
 
@@ -53,7 +53,7 @@ Set Up
       You can use the :github:`graphqurl <hasura/graphqurl>` CLI to
       execute GraphQL operations from a command line. You must
       authenticate all requests, so make sure to :doc:`get a valid
-      access token </graphql/authenticate-graphql-requests>`.
+      access token </graphql/authenticate>`.
 
       To install the ``graphqurl`` CLI, run the following:
 
@@ -65,6 +65,13 @@ Set Up
 
 Run a Query
 -----------
+
+.. admonition:: GraphQL Queries
+   :class: note
+   
+   The GraphQL API supports several different types of queries. For
+   detailed information on all supported query types, including
+   examples, see :ref:`query resolvers <graphql-query-resolvers>`.
 
 .. tabs::
 
@@ -117,6 +124,13 @@ Run a Query
 
 Run a Mutation
 --------------
+
+.. admonition:: GraphQL Mutations
+   :class: note
+   
+   The GraphQL API supports several different types of mutations. For
+   detailed information on all supported mutation types, including
+   examples, see :ref:`mutation resolvers <graphql-mutation-resolvers>`.
 
 .. tabs::
 

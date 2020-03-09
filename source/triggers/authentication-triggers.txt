@@ -64,7 +64,7 @@ Create an Authentication Trigger
                rename each configuration file to match the name of the
                trigger it defines, e.g. ``mytrigger.json``.
 
-         2. :doc:`Import </deploy/deploy-changes-with-realm-cli>` the
+         2. :doc:`Import </deploy/deploy-cli>` the
             application directory into your application.
 
             .. code-block:: shell
@@ -238,7 +238,7 @@ Authentication event objects have the following form:
           multiple providers becomes deleted, the ``DELETE`` event for
           that user will include all linked providers. 
    * - ``user``
-     - The :doc:`user object </users>` of the user that interacted with
+     - The :doc:`user object </authentication>` of the user that interacted with
        the authentication provider.
    * - ``time``
      - The time at which the event occurred.

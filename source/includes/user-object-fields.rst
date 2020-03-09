@@ -24,7 +24,7 @@
             - Description
 
           * - "normal"
-            - The user is an :doc:`application user </users>` logged in
+            - The user is an :doc:`application user </authentication>` logged in
               through an authentication provider other than the
               :doc:`API Key </authentication/api-key>` provider.
 
@@ -56,7 +56,7 @@
      - document
      
      - A document from your application's :doc:`custom user
-       data collection </users/configure-custom-user-data>` that
+       data collection </users/define-custom-user-data>` that
        specifies the user's ID. You can use the customer user data
        collection to store arbitrary data about your application's
        users. Realm automatically fetches a new copy of the data

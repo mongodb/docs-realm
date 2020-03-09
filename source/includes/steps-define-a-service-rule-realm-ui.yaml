@@ -1,0 +1,51 @@
+title: Create a New Rule
+ref: create-a-new-rule
+content: |
+  You can create and configure a service rule from its associated
+  :doc:`service </services>` page in the Stitch UI.
+
+  To define a new service rule:
+
+  1. Click :guilabel:`Services` in the left-hand navigation.
+
+  2. Click on the service that you want to specify a rule for.
+
+  3. Click on the :guilabel:`Rules` tab of the service.
+
+  4. Click :guilabel:`New Rule`.
+
+  5. Specify a name for the rule in the textbox that appears.
+
+  6. Click :guilabel:`Add Rule` to confirm the creation of the new rule.
+---
+title: Configure the Rule
+ref: configure-the-rule
+content: |
+  To configure the new service rule you just created:
+
+  1. Click on the newly created rule in the rules list on the left-hand
+     side of the page.
+
+  2. In the list of :guilabel:`Actions`, select all of the actions that
+     you want the rule to apply to.
+
+  3. For the :guilabel:`When` box, specify a :doc:`JSON expression
+     </services/json-expressions>` that will evaluate to ``true`` when
+     you want the action to be permitted.
+
+     .. note::
+
+        If you specify ``{}``, the expression will always evaluate to
+        ``true`` and Stitch will always allow the associated actions to
+        be called.
+
+  .. figure:: /images/define-service-rule.png
+     :lightbox:
+
+---
+title: Save the Configured Rule
+ref: save-the-configured-rule
+content: |
+  Once you've finished configuring the rule, click :guilabel:`Save`.
+  Once saved, the rule takes effect immediately.
+...
