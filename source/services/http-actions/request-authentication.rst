@@ -57,9 +57,9 @@ Digest Authentication
 
 HTTP :wikipedia:`digest authentication <Digest_access_authentication>`
 requires that incoming requests include an authorization key based on a
-random "nonce" value returned from the server. Realm can automatically
-construct the key and authorize requests given a valid username and
-password.
+random :wikipedia:`nonce <Cryptographic_nonce>` value returned from the
+server. Realm can automatically construct the key and authorize requests
+given a valid username and password.
 
 To configure a request to use digest authentication, set the
 ``digestAuth`` field to ``true`` and specify the user credentials in the
