@@ -74,6 +74,7 @@ extlinks = {
     # True External Links
     'android-sdk': ('https://docs.mongodb.com/stitch-sdks/java/4/%s', ''),
     'apollo-docs': ('https://www.apollographql.com/docs/%s', ''),
+    'aws-docs': ('https://docs.aws.amazon.com/%s', ''),
     'codesandbox': ('https://codesandbox.io/%s', ''),
     'gcp': ('https://cloud.google.com/%s', ''),
     'github': ('https://github.com/%s', ''),
@@ -85,6 +86,7 @@ extlinks = {
     'nodejs': ('https://nodejs.org/api/%s', ''),
     'npm': ('https://www.npmjs.com/%s', ''),
     'mdn': ('https://developer.mozilla.org/en-US/docs/%s', ''),
+    'twilio': ('https://www.twilio.com/%s', ''),
     'wikipedia': ('https://en.wikipedia.org/wiki/%s', ''),
     'aws-docs': ('https://docs.aws.amazon.com/%s', ''),
     'fcm': ('https://firebase.google.com/docs/%s', ''),
