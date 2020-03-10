@@ -17,27 +17,27 @@ Introduction
 ------------
 
 Modern applications often use multiple external services to handle
-complex use cases such as messaging, analytics, and data management. You
-can connect to these services through Realm by creating and configuring
-service interfaces.
+complex use cases, such as messaging, analytics, and data management.
+You can connect to these services through Realm by creating and
+configuring service interfaces.
 
 Service interfaces specify the connection details for a specific
-external service and allow you to define the scope of that service's
+external service and enable you to define the scope of that service's
 capabilities with custom :ref:`service rules <service-rules>`.
 Once you've configured an interface for a service, you can instantiate a
 :ref:`service client <service-clients>` that connects to the interface
 and exposes the service's :ref:`actions <service-actions>` as methods.
 You can also create :ref:`incoming webhooks <service-webhooks>` that
-allow external services to communicate directly with your Realm
+enable external services to communicate directly with your Realm
 application over HTTP.
 
 .. cssclass:: note
-.. admonition:: Built-In Service Integrations
+.. admonition:: Built-In Services
 
-   Realm includes integrations for some common external services, such
+   Realm includes clients for certain external services, such
    as :doc:`Twilio </services/twilio>` and :doc:`AWS </services/aws>`.
-   You can communicate with a service that doesn't have a custom
-   integration through the :doc:`HTTP service </services/http>`.
+   You can communicate with a service that doesn't have a built-in
+   client through the :doc:`HTTP service </services/http>`.
 
 Concepts
 --------
@@ -48,7 +48,7 @@ Service Clients
 ~~~~~~~~~~~~~~~
 
 A service client is an object that connects to a service interface and
-allows you to call :ref:`actions <service-actions>` associated with
+enables you to call :ref:`actions <service-actions>` associated with
 the service. You can instantiate service clients in :doc:`functions
 </functions>` (using :ref:`function context
 <context-connect-to-an-external-service>`) as well as in your client
