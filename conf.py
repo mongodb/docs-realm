@@ -88,6 +88,8 @@ extlinks = {
     'mdn': ('https://developer.mozilla.org/en-US/docs/%s', ''),
     'twilio': ('https://www.twilio.com/%s', ''),
     'wikipedia': ('https://en.wikipedia.org/wiki/%s', ''),
+    'aws-docs': ('https://docs.aws.amazon.com/%s', ''),
+    'fcm': ('https://firebase.google.com/docs/%s', ''),
 }
 
 intersphinx_mapping = {}
