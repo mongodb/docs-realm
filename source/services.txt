@@ -62,12 +62,13 @@ Service Action </services/call-a-service-action>`.
 Service Actions
 ~~~~~~~~~~~~~~~
 
-A service action is a method that handles a specific use case for a
-particular service, such as :doc:`sending a text message
-</services/twilio-actions/twilio.send>` with Twilio or :ref:`putting an
-object <aws-usage-s3>` to an AWS S3 bucket. Actions encapsulate
-implementation details like request authentication and HTTP methods
-behind semantic methods that are specific to each service.
+A service action is a method that handles a specific use
+case for a particular service, such as :doc:`sending a text
+message </services/twilio-actions/send>` with Twilio or
+:ref:`putting an object <aws-usage-s3>` to an AWS S3 bucket.
+Actions encapsulate implementation details like request
+authentication and HTTP methods behind semantic methods that
+are specific to each service.
 
 When you :doc:`call a service action </services/call-a-service-action>`,
 Realm evaluates each :ref:`service rule <service-rules>` that applies
@@ -77,8 +78,9 @@ to ``true``.
 .. important::
 
   **Realm blocks all service actions by default.** You must
-  :doc:`define a service rule </services/define-a-service-rule>` that
-  enables a particular action before you can call it.
+  :doc:`configure a service rule
+  </services/configure/service-rules>` that enables a
+  particular action before you can call it.
 
 .. _service-rules:
 
@@ -118,8 +120,8 @@ An incoming webhook is a custom handler for events that originate from
 an external service, such as when someone opens a new pull request on
 :doc:`GitHub </services/github>` or sends a text message to a
 :doc:`Twilio </services/twilio>` phone number. Get started with incoming
-webhooks by :doc:`creating a service webhook
-</services/create-a-service-webhook>`.
+webhooks by :doc:`configuring a service webhook
+</services/configure/service-webhooks>`.
 
 Incoming webhooks consist of two primary components: the webhook URL and
 the webhook function.
@@ -165,25 +167,20 @@ Guides
    * - Guide
      - Description
 
-   * - :doc:`Create a Service Interface </services/create-a-service>`
+   * - :doc:`Configure Third-Party Services </services/configure/services>`
      - Learn how to create a new external service interface.
 
-   * - :doc:`Create an Incoming Webhook </services/create-a-service-webhook>`
+   * - :doc:`Configure Service Webhooks </services/configure/service-webhooks>`
      - Learn how to configure and execute an incoming webhook to handle
        events in external services.
 
-   * - :doc:`Define a Service Rule </services/define-a-service-rule>`
+   * - :doc:`Configure Service Rules </services/configure/service-rules>`
      - Learn how to safely expose a service action for use in a function
        or client application.
 
    * - :doc:`Call a Service Action </services/call-a-service-action>`
      - Learn how to call a service action from a function or client
        application.
-
-   * - :doc:`Send Mobile Push Notifications </services/send-mobile-push-notifications>`
-     - Learn how to send and manage push notifications for iOS and
-       Android client applications.
-
 
 Built-In Services
 -----------------

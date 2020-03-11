@@ -80,7 +80,7 @@ service as methods.
       * - ``serviceName``
         - string
         - The unique name of the service assigned when the
-          :doc:`service was created </services/create-a-service>`.
+          :doc:`service was created </services/configure/services>`.
 
           You can find the name of the Service associated with a
           particular external service or linked cluster in the Realm UI
@@ -169,7 +169,7 @@ context.http
 
 A general purpose HTTP client that exposes all :ref:`HTTP service
 actions <http-service-actions>` and is not affected by :doc:`service
-rules </services/define-a-service-rule/>`.
+rules </services/configure/service-rules>`.
 
 .. method:: context.http.get()
    
@@ -301,8 +301,9 @@ function's :ref:`active user <function-active-user>`.
 .. example::
 
    The following ``context.user`` document reflects an
-   :doc:`Email/Password </authentication/email-password>` user that is
-   associated with a single :ref:`User API Key <user-api-key>`.
+   :doc:`Email/Password </authentication/email-password>`
+   user that is associated with a single :ref:`User API Key
+   <api-key-authentication-user-api-key>`.
 
    .. code-block:: json
 

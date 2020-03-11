@@ -25,7 +25,7 @@ Configuration Parameters
 ------------------------
 
 You will need to provide values for the following parameters when you
-:doc:`create a GitHub service interface </services/create-a-service>`:
+:doc:`create a GitHub service interface </services/configure/services>`:
 
 .. tab-bar:: tabs-realm-admin-interfaces
    :tab-ids: ui, cli
@@ -89,14 +89,14 @@ Configuration
      - id: ui
        content: |
          You will need to provide values for the following parameters
-         when you :doc:`create a GitHub incoming webhook
-         </services/create-a-service-webhook>`:
+         when you :doc:`configure a GitHub incoming webhook
+         </services/configure/service-webhooks>`:
 
      - id: cli
        content: |
          You will need to provide a configuration file of the following
-         form when you :doc:`create a GitHub incoming webhook
-         </services/create-a-service-webhook>`:
+         form when you :doc:`configure a GitHub incoming webhook
+         </services/configure/service-webhooks>`:
 
          .. code-block:: javascript
 
@@ -146,7 +146,7 @@ Configuration
           | *run_as_user_id*
           | *run_as_user_id_script_source*
 
-     - Optional. The id of the :doc:`Realm user </users>` that
+     - Optional. The id of the :doc:`Realm user </authentication>` that
        executes the webhook function when the webhook is called.
 
        .. tab-content:: tabs-realm-admin-interfaces
@@ -157,15 +157,17 @@ Configuration
        .. tab-content:: tabs-realm-admin-interfaces
           :tab-id: cli
 
-          You can specify the user id directly in ``run_as_user_id``
-          or provide a stringified :doc:`Realm function </functions>`
-          that accepts the webhook payload and returns the user id in
-          ``run_as_user_id_script_source``. If you do not specify a
-          specific user id or a function that resolves to a user id,
-          Realm executes the webhook function as a :ref:`system user
-          <system-users>` that has full access to MongoDB CRUD and
-          Aggregation APIs and is not affected by any rules, roles, or
-          permissions.
+          You can specify the user id directly in
+          ``run_as_user_id`` or provide a stringified
+          :doc:`Realm function </functions>` that accepts
+          the webhook payload and returns the user id in
+          ``run_as_user_id_script_source``. If you do not
+          specify a specific user id or a function that
+          resolves to a user id, Realm executes the webhook
+          function as the :ref:`system user <system-user>`,
+          which has full access to MongoDB CRUD and
+          Aggregation APIs and is not affected by any rules,
+          roles, or permissions.
 
    * - :guilabel:`Request Validation`
 

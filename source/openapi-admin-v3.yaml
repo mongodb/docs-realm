@@ -346,10 +346,10 @@ paths:
     get:
       tags: ["values"]
       operationId: "adminListValues"
-      summary: "List all :doc:`values </values>` defined in an application."
+      summary: "List all :doc:`values </values-and-secrets>` defined in an application."
       responses:
         '200':
-          description: ":doc:`values </values>` were successfully enumerated."
+          description: ":doc:`values </values-and-secrets>` were successfully enumerated."
           content:
             application/json:
               schema:
@@ -358,7 +358,7 @@ paths:
     post:
       tags: ["values"]
       operationId: "adminCreateValue"
-      summary: "Define a :doc:`Value </values>` in an application."
+      summary: "Define a :doc:`Value </values-and-secrets>` in an application."
       requestBody:
         description: "The value to create."
         required: true
@@ -368,7 +368,7 @@ paths:
               $ref: "#/components/schemas/NewValue"
       responses:
         '201':
-          description: "The :doc:`value </values>` was successfully defined."
+          description: "The :doc:`value </values-and-secrets>` was successfully defined."
           content:
             application/json:
               schema:
@@ -381,7 +381,7 @@ paths:
     get:
       tags: ["values"]
       operationId: "adminGetValue"
-      summary: "Retrieve a :doc:`value </values>` definition from an application."
+      summary: "Retrieve a :doc:`value </values-and-secrets>` definition from an application."
       responses:
         '200':
           description: "Successfully retrieved the value."
@@ -392,14 +392,14 @@ paths:
     delete:
       tags: ["values"]
       operationId: "adminDeleteValue"
-      summary: "Delete a :doc:`value </values>` defined in an application."
+      summary: "Delete a :doc:`value </values-and-secrets>` defined in an application."
       responses:
         '204':
           description: "Successfully deleted the value."
     put:
       tags: ["values"]
       operationId: "adminUpdateValue"
-      summary: "Update a :doc:`value </values>` definition in an application."
+      summary: "Update a :doc:`value </values-and-secrets>` definition in an application."
       responses:
         '200':
           description: "Successfully updated the value."
@@ -918,7 +918,7 @@ paths:
     post:
       tags: ["email"]
       operationId: "adminSendConfirmationEmail"
-      summary: "Send a :doc:`confirmation email </authentication/userpass>`."
+      summary: "Send a :doc:`confirmation email </authentication/email-password>`."
       responses:
         '200':
           description: "Successfully sent."
@@ -944,7 +944,7 @@ paths:
     post:
       tags: ["email"]
       operationId: "adminRerunPendingUserConfirmation"
-      summary: "Re-runs a pending :ref:`user's <users>` :ref:`confirmation workflow <auth-confirmation>`."
+      summary: "Re-runs a pending :ref:`user's <users>` :ref:`confirmation workflow <email-password-authentication-confirmation>`."
       responses:
         '202':
           description: "Successfully re-ran confirmation workflow."
@@ -1012,7 +1012,7 @@ paths:
     get:
       tags: ["authproviders"]
       operationId: "adminListAuthProviders"
-      summary: "List :ref:`authentication <realm-authentication>` providers within a Realm application."
+      summary: "List :doc:`authentication providers </authentication/providers>` within a Realm application."
       responses:
         '200':
           description: "Successfully listed."
@@ -1024,7 +1024,7 @@ paths:
     post:
       tags: ["authproviders"]
       operationId: "adminCreateAuthProvider"
-      summary: "Create an :ref:`authentication <realm-authentication>` provider."
+      summary: "Create an :doc:`authentication provider </authentication/providers>`."
       requestBody:
         required: true
         description: ""
@@ -1043,7 +1043,7 @@ paths:
     get:
       tags: ["authproviders"]
       operationId: "adminGetAuthProvider"
-      summary: "Retrieve information about one of an application's :ref:`authentication <realm-authentication>` providers"
+      summary: "Retrieve information about one of an application's :doc:`authentication providers </authentication/providers>`"
       responses:
         '200':
           description: "Successfully retrieved."
@@ -1053,14 +1053,14 @@ paths:
     delete:
       tags: ["authproviders"]
       operationId: "adminDeleteAuthProvider"
-      summary: "Delete an :ref:`authentication <realm-authentication>` provider."
+      summary: "Delete an :doc:`authentication provider </authentication/providers>`."
       responses:
         '204':
           description: "Successfully deleted."
     patch:
       tags: ["authproviders"]
       operationId: "adminUpdateAuthProvider"
-      summary: "Update an :ref:`authentication <realm-authentication>` provider."
+      summary: "Update an :doc:`authentication provider </authentication/providers>`."
       requestBody:
         required: true
         description: ""
@@ -1080,7 +1080,7 @@ paths:
     put:
       tags: ["authproviders"]
       operationId: "adminDisableAuthProvider"
-      summary: "Disable an :ref:`authentication <realm-authentication>` provider."
+      summary: "Disable an :doc:`authentication provider </authentication/providers>`."
       responses:
         '204':
           description: "Successfully disabled."
@@ -1093,7 +1093,7 @@ paths:
     put:
       tags: ["authproviders"]
       operationId: "adminEnableAuthProvider"
-      summary: "Enable an :ref:`authentication <realm-authentication>` provider."
+      summary: "Enable an :doc:`authentication provider </authentication/providers>`."
       responses:
         '204':
           description: "Successfully enabled."
@@ -1320,7 +1320,7 @@ paths:
     get:
       tags: ["secrets"]
       operationId: "adminGetAllSecrets"
-      summary: "List :doc:`Secrets </values/define-a-secret>` associated with a Realm application."
+      summary: "List :doc:`Secrets </values-and-secrets/define-a-secret>` associated with a Realm application."
       responses:
         '200':
           description: "The Secrets were successfully listed."
@@ -1334,7 +1334,7 @@ paths:
     post:
       tags: ["secrets"]
       operationId: "adminCreateASecret"
-      summary: "Create a new :doc:`Secret </values/define-a-secret>`."
+      summary: "Create a new :doc:`Secret </values-and-secrets/define-a-secret>`."
       requestBody:
         description: "The Secret to create."
         required: true
@@ -1359,7 +1359,7 @@ paths:
     put:
       tags: ["secrets"]
       operationId: "adminModifyASecret"
-      summary: "Modify a :doc:`Secret </values/define-a-secret>` associated with a Realm application."
+      summary: "Modify a :doc:`Secret </values-and-secrets/define-a-secret>` associated with a Realm application."
       requestBody:
         description: "The modified value of the Secret."
         required: true
