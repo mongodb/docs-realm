@@ -74,9 +74,14 @@ extlinks = {
     # True External Links
     'android-sdk': ('https://docs.mongodb.com/stitch-sdks/java/4/%s', ''),
     'apollo-docs': ('https://www.apollographql.com/docs/%s', ''),
+    'aws-docs': ('https://docs.aws.amazon.com/%s', ''),
+    'aws-go': ('https://docs.aws.amazon.com/sdk-for-go/api/service/%s', ''),
+    'aws-iam': ('https://docs.aws.amazon.com/IAM/latest/%s', ''),
+    'aws-reference': ('https://docs.aws.amazon.com/general/latest/%s', ''),
     'codesandbox': ('https://codesandbox.io/%s', ''),
     'gcp': ('https://cloud.google.com/%s', ''),
     'github': ('https://github.com/%s', ''),
+    'github-dev': ('https://developer.github.com/%s', ''),
     'google-dev': ('https://developers.google.com/%s', ''),
     'graphql': ('https://graphql.org/%s', ''),
     'ios-sdk': ('https://docs.mongodb.com/stitch-sdks/swift/6/%s', ''),
@@ -85,8 +90,10 @@ extlinks = {
     'nodejs': ('https://nodejs.org/api/%s', ''),
     'npm': ('https://www.npmjs.com/%s', ''),
     'mdn': ('https://developer.mozilla.org/en-US/docs/%s', ''),
+    'twilio': ('https://www.twilio.com/%s', ''),
     'wikipedia': ('https://en.wikipedia.org/wiki/%s', ''),
     'aws-docs': ('https://docs.aws.amazon.com/%s', ''),
+    'fcm': ('https://firebase.google.com/docs/%s', ''),
 }
 
 intersphinx_mapping = {}
