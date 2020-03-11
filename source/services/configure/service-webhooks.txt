@@ -1,0 +1,36 @@
+==========================
+Configure Service Webhooks
+==========================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+Some external services allow you to create :ref:`incoming webhooks
+<service-webhooks>` that external clients can call over HTTP. You can
+create webhooks for these services from the Realm UI or by
+:doc:`importing </deploy/deploy-changes-with-realm-cli>` a service
+configuration directory that contains a webhook configuration. Select
+the tab below that corresponds to the method you want to use.
+
+Procedure
+---------
+
+.. tabs-realm-admin-interfaces::
+   
+   .. tab::
+      :tabid: ui
+      
+      .. include:: /includes/steps/create-a-service-webhook-ui.rst
+   
+   .. tab::
+      :tabid: cli
+      
+      .. include:: /includes/steps/create-a-service-webhook-cli.rst
