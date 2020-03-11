@@ -73,7 +73,11 @@ Example
               .addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull final Task<Void> task) {
-                  if (task.isSuccessful()) { Log.d("realm", "Successfully sent text message!"); } else { Log.e("realm", "Error sending text message:", task.getException()); }
+                  if (task.isSuccessful()) {
+                    Log.d("realm", "Successfully sent text message!");
+                  } else {
+                    Log.e("realm", "Error sending text message:", task.getException());
+                  }
                 }
               });
 
@@ -226,7 +230,7 @@ Rule Templates
 
 .. _twilio-send-rule-template-from-specific-number:
 
-Users Can Send Only Messages From a Specific Phone Number
+Users Can Send Only Messages from a Specific Phone Number
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: json
@@ -235,7 +239,7 @@ Users Can Send Only Messages From a Specific Phone Number
      "%%args.from": "+15551234"
    }
 
-Users Can Only Send Messages To a Limited Set of Phone Numbers
+Users Can Only Send Messages to a Limited Set of Phone Numbers
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: json
