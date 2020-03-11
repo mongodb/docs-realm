@@ -81,6 +81,7 @@ extlinks = {
     'codesandbox': ('https://codesandbox.io/%s', ''),
     'gcp': ('https://cloud.google.com/%s', ''),
     'github': ('https://github.com/%s', ''),
+    'github-dev': ('https://developer.github.com/%s', ''),
     'google-dev': ('https://developers.google.com/%s', ''),
     'graphql': ('https://graphql.org/%s', ''),
     'ios-sdk': ('https://docs.mongodb.com/stitch-sdks/swift/6/%s', ''),
