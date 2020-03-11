@@ -19,11 +19,10 @@ If your app does not have a GitHub Service interface, :doc:`create one
 Log All Commits in MongoDB
 --------------------------
 
-.. _GitHub-PushEvent: https://developer.github.com/v3/activity/events/types/#pushevent
-
 This :ref:`GitHub incoming webhook <github-incoming-webhooks>` function
-records all commits pushed to a repo in MongoDB based on a `PushEvent
-<GitHub-PushEvent_>`_ payload from GitHub.
+records all commits pushed to a repo in MongoDB based on a
+:github-dev:`PushEvent <v3/activity/events/types/#pushevent>` payload
+from GitHub.
 
 .. code-block:: javascript
 
@@ -60,14 +59,13 @@ records all commits pushed to a repo in MongoDB based on a `PushEvent
 Automatically Comment On New Pull Requests
 ------------------------------------------
 
-.. _GitHub-PullRequestEvent: https://developer.github.com/v3/activity/events/types/#pullrequestevent
-
 This :ref:`GitHub incoming webhook <github-incoming-webhooks>` function
 adds a comment to new pull requests that thanks users for submitting.
-The webhook accepts a `PullRequestEvent <GitHub-PullRequestEvent>`_
-payload from GitHub and uses an :doc:`HTTP service </services/http>`
-client to :github-dev:`create a comment
-<v3/issues/comments/#create-a-comment>` through the GitHub API.
+The webhook accepts a :github-dev:`PullRequestEvent
+<v3/activity/events/types/#pullrequestevent>` payload from GitHub and
+uses an :doc:`HTTP service </services/http>` client to
+:github-dev:`create a comment <v3/issues/comments/#create-a-comment>`
+through the GitHub API.
 
 .. code-block:: javascript
    :emphasize-lines: 34-35
