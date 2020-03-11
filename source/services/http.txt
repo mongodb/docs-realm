@@ -141,7 +141,7 @@ Configuration
 
        .. note::
 
-          Each incoming webhook in a Twilio service interface must
+          Each incoming webhook in an HTTP service interface must
           have a unique name.
 
    * - :guilabel:`Respond With Result`
@@ -154,12 +154,6 @@ Configuration
      - Required. If ``true``, Realm sends a response to the client that
        called the webhook. The response body will be the return value
        of the webhook function.
-
-       .. note::
-
-          If Twilio receives a webhook response, it will automatically
-          send a text message containing the webhook response's body
-          to the phone number that sent the initial message.
 
    * - :guilabel:`Run Webhook As`
 
