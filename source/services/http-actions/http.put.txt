@@ -1,0 +1,246 @@
+==========
+http.put()
+==========
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Definition
+----------
+
+.. method:: http.put()
+
+Sends an :mdn:`HTTP PUT <Web/HTTP/Methods/PUT>` request to the specified
+URL using the MongoDB Realm :doc:`HTTP Service </services/http>`.
+
+
+Usage
+-----
+
+Example
+~~~~~~~
+
+.. tabs-realm-sdks::
+
+   tabs:
+     - id: functions
+       content: |
+         .. note::
+
+            This examples assume you have :doc:`created an HTTP service called
+            "myHttp" </services/create-a-service>`. If you do not need this
+            HTTP action validated with :doc:`Service Rules </services/define-a-service-rule/>`,
+            you can use the :ref:`context-http` module.
+
+         .. code-block:: javascript
+            :emphasize-lines: 3-6
+
+            exports = function() {
+              const http = context.services.get("myHttp");
+              return http.put({
+                url: "https://www.example.com/messages",
+                body: { msg: "This is in the body of a PUT request!" },
+                encodeBodyAsJSON: true
+              })
+              .then(response => {
+                // The response body is encoded as raw BSON.Binary. Parse it to JSON.
+                const ejson_body = EJSON.parse(response.body.text());
+                return ejson_body;
+              })
+            };
+
+     - id: javascript
+       content: |
+         .. code-block:: javascript
+            :emphasize-lines: 10, 13-17, 20
+
+            import { Realm } from 'mongodb-realm-browser-sdk';
+            import {
+              HttpServiceClient,
+              HttpRequest,
+              HttpMethod
+            } from 'mongodb-realm-browser-services-http';
+
+            // 1. Instantiate an HTTP Service Client
+            const app = Realm.defaultAppClient;
+            const http = app.getServiceClient(HttpServiceClient.factory, "myHttp");
+
+            // 2. Build a new HttpRequest
+            const request = new HttpRequest.Builder()
+              .withMethod(HttpMethod.PUT)
+              .withUrl("https://www.example.com/messages")
+              .withBody({ msg: "This is in the body of a PUT request!" })
+              .build();
+
+            // 3. Execute the built request
+            http.execute(request)
+              .then(console.log)
+              .catch(console.error)
+
+     - id: android
+       content: |
+         .. code-block:: java
+            :emphasize-lines: 3, 6-10, 13
+
+            // 1. Instantiate an HTTP Service Client
+            RealmAppClient client = Realm.getDefaultAppClient();
+            RealmServiceClient http = client.getServiceClient(HttpServiceClient.factory, "myHttp");
+
+            // 2. Build a new HttpRequest
+            HttpRequest request = new HttpRequest.Builder()
+              .withMethod(HttpMethod.PUT)
+              .withUrl("https://www.example.com/diff.txt")
+              .withBody(Document("msg", "This is in the body of a PUT request!"))
+              .build();
+
+            // 3. Execute the built request
+            http.execute(request)
+              .addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull final Task<Void> task) {
+                  if (task.isSuccessful()) { Log.d("realm", "Successfully sent PUT request!"); } else { Log.e("realm", "Error sending PUT request:", task.getException()); }
+                }
+              });
+
+     - id: ios
+       content: |
+         .. code-block:: swift
+            :emphasize-lines: 3-6, 9-13, 16
+
+            // 1. Instantiate an HTTP Service Client
+            let app = Realm.defaultAppClient!
+            let http = app.serviceClient(
+              fromFactory: httpServiceClientFactory,
+              withName: "myHttp"
+            )
+
+            // 2. Build a new HTTPRequest
+            let request: HTTPRequest = HTTPRequestBuilder()
+              .with(method: HTTPMethod.put)
+              .with(url: "https://www.example.com/diff.txt")
+              .with(body: ["msg", "This is in the body of a PUT request!"])
+              .build()
+
+            // 3. Execute the built request
+            http.execute(request) { result in
+              switch result {
+              case .success:
+                print("Successfully sent PUT request!")
+              case .failure(let error):
+                print("Error sending PUT request: \(error)")
+              }
+            }
+
+Parameters
+~~~~~~~~~~
+
+.. tabs-realm-sdks::
+
+   tabs:
+     - id: functions
+       content: |
+         The ``http.put()`` action accepts one argument of the
+         following form:
+
+         .. code-block:: javascript
+
+            {
+                "url": <string>,
+                "headers": <document>,
+                "body": <string>,
+                "form": <document>,
+                "cookies": <string>,
+                "authUrl": <string>,
+                "followRedirects": <boolean>
+            }
+
+         .. include:: /includes/extracts/http-action-params-put.rst
+
+     - id: javascript
+       content: |
+         You can configure HTTP PUT request parameters with the
+         following builder methods:
+
+         .. include:: /includes/extracts/http-action-builders-put.rst
+
+     - id: android
+       content: |
+         You can configure HTTP PUT request parameters with the
+         following builder methods:
+
+         .. include:: /includes/extracts/http-action-builders-put.rst
+
+     - id: ios
+       content: |
+         You can configure HTTP PUT request parameters with the
+         following builder methods:
+
+         .. include:: /includes/extracts/http-action-builders-put.rst
+
+.. _url-alternative-put:
+
+.. include:: /includes/extracts/http-action-url-alternative.rst
+
+Return Value
+~~~~~~~~~~~~
+
+The ``http.put()`` action returns a promise that resolves to a
+document with the following form:
+
+.. include:: /includes/extracts/http-action-return.rst
+
+.. _http-put-request-authentication:
+
+.. include:: /services/http-actions/request-authentication.rst
+
+Rule Templates
+--------------
+
+.. _http-put-rule-template-to-specific-host:
+
+Users Can Only Send Requests to a Specific Host
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: json
+
+   {
+     "%%args.url.host": "example.com"
+   }
+
+.. _http-put-rule-template-include-specific-query-param:
+
+Requests URLs Must Include a Specific Query Parameter
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: json
+
+   {
+     "%%args.url.query.someParameter": "importantValue"
+   }
+
+.. _http-put-rule-template-require-specific-field:
+
+Request Bodies Must Include a Specific Field
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: json
+
+   {
+     "body.name": { "%exists": 1 }
+   }
+
+.. _http-put-rule-template-require-specific-values:
+
+Request Bodies Must Include Fields with Specific Values
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: json
+
+   {
+     "body.city": "New York City"
+   }

@@ -1,6 +1,6 @@
-==========
-http.get()
-==========
+============
+http.patch()
+============
 
 .. default-domain:: mongodb
 
@@ -13,10 +13,10 @@ http.get()
 Definition
 ----------
 
-.. method:: http.get()
+.. method:: http.patch()
 
-Sends an :mdn:`HTTP GET <Web/HTTP/Methods/GET>` request to the specified
-URL using the MongoDB Realm :doc:`HTTP Service </services/http>`.
+Sends an :mdn:`HTTP PATCH <Web/HTTP/Methods/PATCH>` request to the
+specified URL using the MongoDB Realm :doc:`HTTP Service </services/http>`.
 
 Usage
 -----
@@ -29,10 +29,9 @@ Example
    tabs:
      - id: functions
        content: |
-
          .. note::
 
-            This example assumes you have :doc:`created an HTTP service called
+            This examples assume you have :doc:`created an HTTP service called
             "myHttp" </services/create-a-service>`. If you do not need this
             HTTP action validated with :doc:`Service Rules </services/define-a-service-rule/>`,
             you can use the :ref:`context-http` module.
@@ -44,7 +43,7 @@ Example
             exports = function() {
               const http = context.services.get("myHttp");
               return http
-                .get({ url: "https://www.example.com/users" })
+                .patch({ url: "https://www.example.com/diff.txt" })
                 .then(response => {
                   // The response body is encoded as raw BSON.Binary. Parse it to JSON.
                   const ejson_body = EJSON.parse(response.body.text());
@@ -54,19 +53,6 @@ Example
 
      - id: javascript
        content: |
-         In the JavaScript Client SDKs, you call :doc:`HTTP service
-         </services/http>` actions by passing a configured and built
-         :js-sdk:`HttpRequest <classes/httprequest.html>` object to the
-         HTTP service client's :js-sdk:`execute()
-         <modules/httpserviceclient.html#execute>` method.
-
-         You configure the ``HTTPRequest`` object by instantiating a new
-         :js-sdk:`HTTP request builder
-         <classes/httprequest.builder.html>` and passing parameters to
-         its builder methods. Once you've configured a request, you
-         build it by calling the builder's :js-sdk:`.build()
-         <classes/httprequest.builder.html#build>` method.
-
          .. code-block:: javascript
             :emphasize-lines: 10, 13-16, 19
 
@@ -83,8 +69,8 @@ Example
 
             // 2. Build a new HttpRequest
             const request = new HttpRequest.Builder()
-              .withMethod(HttpMethod.GET)
-              .withUrl("https://www.example.com/users")
+              .withMethod(HttpMethod.PATCH)
+              .withUrl("https://www.example.com/diff.txt")
               .build()
 
             // 3. Execute the built request
@@ -92,26 +78,8 @@ Example
               .then(console.log)
               .catch(console.error)
 
-
      - id: android
        content: |
-         In the Java/Android Client SDK, you call :doc:`HTTP service
-         </services/http>` actions by passing a configured and built
-         :android-sdk:`HttpRequest
-         <com/mongodb/realm/core/services/http/HttpRequest.html>`
-         object to the HTTP service client's :android-sdk:`execute()
-         <com/mongodb/realm/android/services/http/HttpServiceClient.html#execute-com.mongodb.realm.core.services.http.HttpRequest->`
-         method.
-
-         You configure the ``HTTPRequest`` object by instantiating a new
-         :android-sdk:`HttpRequest.Builder
-         <com/mongodb/realm/core/services/http/HttpRequest.Builder.html>`
-         and passing parameters to its builder methods. Once you've
-         configured a request, you build it by calling the builder's
-         :android-sdk:`.build()
-         <com/mongodb/realm/core/services/http/HttpRequest.Builder.html#build-->`
-         method.
-
          .. code-block:: java
             :emphasize-lines: 3, 6-9, 12
 
@@ -121,8 +89,8 @@ Example
 
             // 2. Build a new HttpRequest
             HttpRequest request = new HttpRequest.Builder()
-              .withMethod(HttpMethod.GET)
-              .withUrl("https://www.example.com/users")
+              .withMethod(HttpMethod.PATCH)
+              .withUrl("https://www.example.com/diff.txt")
               .build();
 
             // 3. Execute the built request
@@ -130,26 +98,12 @@ Example
               .addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull final Task<Void> task) {
-                  if (task.isSuccessful()) { Log.d("realm", "Successfully sent GET request!"); } else { Log.e("realm", "Error sending GET request:", task.getException()); }
+                  if (task.isSuccessful()) { Log.d("realm", "Successfully sent PATCH request!"); } else { Log.e("realm", "Error sending PATCH request:", task.getException()); }
                 }
               });
 
      - id: ios
        content: |
-         In the Swift/iOS Client SDK, you call :doc:`HTTP Service
-         </services/http>` actions by passing a configured and built
-         :ios-sdk:`HTTPRequest <Structs/HTTPRequest.html>` object to the
-         HTTP service client's :ios-sdk:`execute()
-         <Protocols/HTTPServiceClient.html#/>` method.
-
-         You configure the ``HTTPRequest`` object by instantiating a new
-         :ios-sdk:`HTTPRequestBuilder <Classes/HTTPRequestBuilder.html>`
-         and passing parameters to its builder methods. Once you've
-         configured a request, you build it by calling the builder's
-         :ios-sdk:`.build()
-         <Classes/HTTPRequestBuilder.html#/s:21RealmCoreHTTPService18HTTPRequestBuilderC5buildAA0D0VyKF>`
-         method.
-
          .. code-block:: swift
             :emphasize-lines: 3-6, 9-12, 15
 
@@ -162,17 +116,17 @@ Example
 
             // 2. Build a new HTTPRequest
             let request: HTTPRequest = HTTPRequestBuilder()
-              .with(method: HTTPMethod.get)
-              .with(url: "https://www.example.com/users")
+              .with(method: HTTPMethod.patch)
+              .with(url: "https://www.example.com/diff.txt")
               .build()
 
             // 3. Execute the built request
             http.execute(request) { result in
               switch result {
               case .success:
-                print("Successfully sent GET request!")
+                print("Successfully sent PATCH request!")
               case .failure(let error):
-                print("Error sending GET request: \(error)")
+                print("Error sending PATCH request: \(error)")
               }
             }
 
@@ -184,7 +138,7 @@ Parameters
    tabs:
      - id: functions
        content: |
-         The ``http.get()`` action accepts one argument of the
+         The ``http.patch()`` action accepts one argument of the
          following form:
 
          .. code-block:: javascript
@@ -193,54 +147,53 @@ Parameters
                 "url": <string>,
                 "headers": <document>,
                 "cookies": <string>,
-                "digestAuth": <boolean>,
                 "authUrl": <string>,
                 "followRedirects": <boolean>
             }
 
-         .. include:: /includes/extracts/http-action-params-get.rst
+         .. include:: /includes/extracts/http-action-params-patch.rst
 
      - id: javascript
        content: |
-         You can configure HTTP GET request parameters with the
+         You can configure HTTP PATCH request parameters with the
          following builder methods:
 
-         .. include:: /includes/extracts/http-action-builders-get.rst
+         .. include:: /includes/extracts/http-action-builders-patch.rst
 
      - id: android
        content: |
-         You can configure HTTP GET request parameters with the
+         You can configure HTTP PATCH request parameters with the
          following builder methods:
 
-         .. include:: /includes/extracts/http-action-builders-get.rst
+         .. include:: /includes/extracts/http-action-builders-patch.rst
 
      - id: ios
        content: |
-         You can configure HTTP GET request parameters with the
+         You can configure HTTP PATCH request parameters with the
          following builder methods:
 
-         .. include:: /includes/extracts/http-action-builders-get.rst
+         .. include:: /includes/extracts/http-action-builders-patch.rst
 
-.. _url-alternative-get:
+.. _url-alternative-patch:
 
 .. include:: /includes/extracts/http-action-url-alternative.rst
 
 Return Value
 ~~~~~~~~~~~~
 
-The ``http.get()`` action returns a promise that resolves to a document
-with the following form:
+The ``http.patch()`` action returns a promise that resolves to a
+document with the following form:
 
 .. include:: /includes/extracts/http-action-return.rst
 
-.. _http-get-request-authentication:
+.. _http-patch-request-authentication:
 
 .. include:: /services/http-actions/request-authentication.rst
 
 Rule Templates
 --------------
 
-.. _http-get-rule-template-to-specific-host:
+.. _http-patch-rule-template-to-specific-host:
 
 Users Can Only Send Requests to a Specific Host
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -251,7 +204,7 @@ Users Can Only Send Requests to a Specific Host
      "%%args.url.host": "example.com"
    }
 
-.. _http-get-rule-template-include-specific-query-param:
+.. _http-patch-rule-template-include-specific-query-param:
 
 Requests URLs Must Include a Specific Query Parameter
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -262,15 +215,24 @@ Requests URLs Must Include a Specific Query Parameter
      "%%args.url.query.someParameter": "importantValue"
    }
 
-.. _http-get-rule-template-specific-path:
+.. _http-patch-rule-template-require-specific-field:
 
-Requests Must Be To A Specific Path
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Request Bodies Must Include a Specific Field
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: json
 
    {
-     "%%args.url.scheme: "https",
-     "%%args.url.host" : "www.example.com",
-     "%%args.url.path" : "/api/v1.0/messages"
+     "body.name": { "%exists": 1 }
+   }
+
+.. _http-patch-rule-template-require-specific-values:
+
+Request Bodies Must Include Fields with Specific Values
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: json
+
+   {
+     "body.city": "New York City"
    }
