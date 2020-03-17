@@ -281,6 +281,23 @@ ________________
       return result;
    };
 
+``S3 PresignURL``
+_________________
+
+.. code-block:: javascript
+   
+   exports = function(){
+     const s3 = context.services.get("MyAwsService").s3("us-east-1");
+     const presignedUrl = s3.PresignURL({
+      "Bucket": "my-s3-bucket-name",
+      "Key": "/some/path",
+      // HTTP method that is valid for this signed URL. Can use PUT for uploads, or GET for downloads.
+      "Method": "GET",
+      // Duration of the lifetime of the signed url, in milliseconds
+      "ExpirationMS": 30000,
+     })
+     return presignedUrl
+   };
 
 Refer to the :aws-go:`S3 API Reference <s3>` for implementation details.
 
