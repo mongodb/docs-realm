@@ -36,6 +36,7 @@ extensions = [
     'tabs',
     'tab-content',
     'stitch-builders',
+    'icon',
 ]
 
 templates_path = ['.templates']
