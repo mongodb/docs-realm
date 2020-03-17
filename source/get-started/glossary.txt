@@ -1,0 +1,128 @@
+========
+Glossary
+========
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 1
+   :class: singlecol
+
+.. glossary::
+   :sorted:
+
+   MongoDB Atlas
+      Cloud-hosted managed instances of MongoDB.
+
+   MongoDB Realm
+      Cloud-hosted Backend-as-a-Service (BaaS) providing client-side
+      functionality via the Realm SDK and an administrative interface
+      via a website.
+
+   MongoDB Document
+      See the MongoDB Manual's :manual:`definition of document
+      </core/document/>`.
+
+   Partition Key
+      A field within a :term:`MongoDB Document` that determines which Realm the
+      corresponding Realm Object belongs to.
+
+   Realm
+      A collection of :term:`Realm Object`s sharing the same
+      :term:`Partition Key` value.
+      Client instances subscribe to individual Realms which then passively
+      synchronize changes as network availability allows.
+
+   Realm Database
+      An :ref:`ACID`-compliant offline-first object database for mobile devices.
+      Using the Realm SDK, you can query a local instance of the Realm
+      Database and synchronize your local instance with data stored
+      inside :term:`MongoDB Atlas`. Offline-first functionality ensures that
+      reads and writes query the local database instance only. When Sync
+      is enabled, a separate background thread handles synchronization
+      of changes between the local instance and your instance of MongoDB
+      Atlas.
+   
+   Realm Object
+      Object that you can store in a :term:`Realm`, defined by a
+      :term:`Realm Schema` through either any Realm SDK or the
+      Realm Schema editor on the MongoDB Realm admin site. Object schemas
+      can define primitive fields as well as embedded lists and relations.
+
+   Realm Platform
+      The combination of :term:`MongoDB Atlas` with a :term:`MongoDB Realm`
+      sync-enabled mobile app.
+      This platform abstracts away the network, synchronization, and
+      conflict-resolution aspects of your application. Object data within
+      the mobile :term:`Realm Database` synchronizes with collections of
+      documents representing those objects in MongoDB Atlas. Realm
+      membership is determined using a :term:`Partition Key`.
+
+   GraphQL
+      Open-source data query and manipulation language for APIs. Realm
+      GraphQL supports reading and writing data as well as subscribing
+      to data changes. An alternative to :term:`Realm Database` queries
+      using the client's native query language.
+
+   Realm Compaction
+      Allocation and deallocation of data within a :term:`Realm Database`
+      can lead to memory fragmentation. Calling the ``compact()`` method
+      reorganizes internal data structures to reduce the storage
+      overhead of your local Realm instance in the event of
+      fragmentation.
+
+   Realm Schema
+      Definition of all :term:`Realm Objects` that you can read or write
+      into your local :term:`Realm Instance`.
+
+   Live Objects
+      Instances of objects from your :term:`Realm Schema` that
+      automatically update in value to match the value of the underlying
+      object in the enclosing :term:`Read Transaction`. Note that the
+      enclosing read transaction might not reference the latest
+      :term:`version <Realm Version>`.
+
+   Write Transaction
+      You can only write to a :term:`Realm Instance` during a write
+      transaction.
+
+   Read Transaction
+      Every :term:`Realm Instance` uses an implicit "read transaction" to
+      generate valid instances of :term:`Live Objects`. As a result,
+      the ``realm.open()`` method begins a read transaction and the
+      ``realm.close()`` method closes the read transaction. Read
+      transactions always use the :term:`Realm Version` that was most
+      current when the realm was opened unless the client explicitly
+      advances the version. You can explicitly advance the version of a
+      read transaction by starting or committing a write transaction on
+      the same thread as the read transaction, or by calling the
+      ``realm.refresh()`` method. Platforms with a built in
+      :term:`Event Loop` also refresh UI-thread read transactions in
+      between instances of the event loop.
+
+   Event Loop
+      Also known as the **main loop** or **main event loop** on some
+      platforms. A programming paradigm in which a central loop waits
+      for signals from a UI or data source before updating underlying
+      user-facing components.
+
+   Realm Instance
+      An interface through which a client application can read and write
+      to a local :term:`Realm`.
+
+   Realm Version
+      A snapshot of data in a local :term:`Realm` at a given moment.
+
+   Realm File
+      File containing all data for a local :term:`Realm` for an instance
+      of :term:`Realm Database`. Because Realm Database reads and
+      writes Realm data using :wikipedia:`memory mapping
+      </Memory-mapped_file`, Realm files should not exceed the amount of
+      RAM on a mobile device.
+
+   ACID
+      Acronym for "Atomicity, Consistency, Isolation, and Durability".
+      See :wikipedia:`the Wikipedia entry for ACID </ACID>` for more
+      information.
