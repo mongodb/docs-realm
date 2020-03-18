@@ -36,6 +36,7 @@ extensions = [
     'tabs',
     'tab-content',
     'stitch-builders',
+    'icon',
 ]
 
 templates_path = ['.templates']
@@ -72,6 +73,7 @@ extlinks = {
     'mms-home': ('https://cloud.mongodb.com%s', ''),
     'guides': ('https://docs.mongodb.com/guides%s', ''),
     # True External Links
+    'android': ('https://developer.android.com/reference/%s', ''),
     'android-sdk': ('https://docs.mongodb.com/stitch-sdks/java/4/%s', ''),
     'apollo-docs': ('https://www.apollographql.com/docs/%s', ''),
     'aws-docs': ('https://docs.aws.amazon.com/%s', ''),

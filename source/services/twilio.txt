@@ -40,6 +40,8 @@ apps. The Realm Twilio service supports integrating Twilio's
    :twilio:`Programmable SMS Quickstart
    <docs/quickstart?filter-product=sms>` guide.
 
+.. _twilio-service-configuration:
+
 Configuration Parameters
 ------------------------
 
@@ -201,7 +203,7 @@ Configuration
           | *run_as_user_id*
           | *run_as_user_id_script_source*
 
-     - Optional. The id of the :doc:`Realm user </users>` that
+     - Optional. The id of the :doc:`Realm user </authentication>` that
        executes the webhook function when the webhook is called.
 
        .. tab-content:: tabs-realm-admin-interfaces
@@ -212,15 +214,17 @@ Configuration
        .. tab-content:: tabs-realm-admin-interfaces
           :tab-id: cli
 
-          You can specify the user id directly in ``run_as_user_id``
-          or provide a stringified :doc:`Realm function </functions>`
-          that accepts the webhook payload and returns the user id in
-          ``run_as_user_id_script_source``. If you do not specify a
-          specific user id or a function that resolves to a user id,
-          Realm executes the webhook function as a :ref:`system user
-          <system-users>` that has full access to MongoDB CRUD and
-          Aggregation APIs and is not affected by any rules, roles, or
-          permissions.
+          You can specify the user id directly in
+          ``run_as_user_id`` or provide a stringified
+          :doc:`Realm function </functions>` that accepts
+          the webhook payload and returns the user id in
+          ``run_as_user_id_script_source``. If you do not
+          specify a specific user id or a function that
+          resolves to a user id, Realm executes the webhook
+          function as the :ref:`system user <system-user>`
+          that has full access to MongoDB CRUD and
+          Aggregation APIs and is not affected by any rules,
+          roles, or permissions.
 
 .. _twilio-webhook-request-payload:
 

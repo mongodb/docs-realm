@@ -23,16 +23,18 @@ that does not have a custom service built-in to Realm.
 - To send an outbound HTTP request, call one of the :ref:`HTTP actions
   <http-service-actions>`.
 
-- To handle incoming requests from an external service, :doc:`create an
-  incoming webhook <create-a-service-webhook>` and provide it to the
+- To handle incoming requests from an external service, :doc:`configure an
+  incoming webhook <configure/service-webhooks>` and provide it to the
   service, if possible. See the :ref:`incoming webhooks
   <http-webhooks>` section on this page for an example.
+
+.. _http-service-configuration:
 
 Configuration Parameters
 ------------------------
 
 You will need to provide values for the following parameters when you
-:doc:`create an HTTP service interface </services/create-a-service>`:
+:doc:`create an HTTP service interface </services/configure/services>`:
 
 .. tab-bar:: tabs-realm-admin-interfaces
    :tab-ids: ui, cli
@@ -81,7 +83,7 @@ Service Action <call-a-service-action>`.
 .. note::
 
    You must enable a service action in a :doc:`service rule
-   <define-a-service-rule>` before you can call it.
+   <configure/service-rules>` before you can call it.
 
 .. include:: /includes/extracts/service-actions-http.rst
 
@@ -99,14 +101,14 @@ Configuration
      - id: ui
        content: |
          You will need to provide values for the following parameters
-         when you :doc:`create an HTTP incoming webhook
-         </services/create-a-service-webhook>`:
+         when you :doc:`configure an HTTP incoming webhook
+         </services/configure/service-webhooks>`:
 
      - id: cli
        content: |
          You will need to provide a configuration file of the following
-         form when you :doc:`create an HTTP incoming webhook
-         </services/create-a-service-webhook>`:
+         form when you :doc:`configure an HTTP incoming webhook
+         </services/configure/service-webhooks>`:
 
          .. code-block:: javascript
 
@@ -163,7 +165,7 @@ Configuration
           | *run_as_user_id*
           | *run_as_user_id_script_source*
 
-     - Optional. The id of the :doc:`Realm user </users>` that
+     - Optional. The id of the :doc:`Realm user </authentication>` that
        executes the webhook function when the webhook is called.
 
        .. tab-content:: tabs-realm-admin-interfaces
@@ -174,15 +176,17 @@ Configuration
        .. tab-content:: tabs-realm-admin-interfaces
           :tab-id: cli
 
-          You can specify the user id directly in ``run_as_user_id``
-          or provide a stringified :doc:`Realm function </functions>`
-          that accepts the webhook payload and returns the user id in
-          ``run_as_user_id_script_source``. If you do not specify a
-          specific user id or a function that resolves to a user id,
-          Realm executes the webhook function as a :ref:`system user
-          <system-users>` that has full access to MongoDB CRUD and
-          Aggregation APIs and is not affected by any rules, roles, or
-          permissions.
+          You can specify the user id directly in
+          ``run_as_user_id`` or provide a stringified
+          :doc:`Realm function </functions>` that accepts
+          the webhook payload and returns the user id in
+          ``run_as_user_id_script_source``. If you do not
+          specify a specific user id or a function that
+          resolves to a user id, Realm executes the webhook
+          function as the :ref:`system user <system-user>`,
+          which has full access to MongoDB CRUD and
+          Aggregation APIs and is not affected by any rules,
+          roles, or permissions.
 
    * - :guilabel:`HTTP Method`
 
@@ -305,7 +309,7 @@ following form:
 
    * - ``body``
 
-     - A :ref:`BSON.Binary <bson-in-realm>` object encoded from the
+     - A :ref:`BSON.Binary <bson>` object encoded from the
        request body. You can access the request body by serializing the
        binary object to a string and then parsing the string to EJSON:
 

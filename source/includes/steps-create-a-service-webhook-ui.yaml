@@ -26,11 +26,11 @@ content: |
 title: Configure User Authentication
 ref: configure-user-authentication
 content: |
-  Functions in Realm, including webhooks, always execute in the context
-  of a specific application user or as a :ref:`system user
-  <system-users>` that bypasses rules. To configure the webhook's
-  execution user, specify the type of authentication that Realm should
-  use for the webhook.
+  Functions in Realm, including webhooks, always execute in
+  the context of a specific application user or as the
+  :ref:`system user <system-user>`, which bypasses rules. To
+  configure the webhook's execution user, specify the type
+  of authentication that Realm should use for the webhook.
 
   .. list-table::
      :widths: 20 80
@@ -87,10 +87,10 @@ content: |
             and does not execute the function.
      
      * - System
-       - This type of authentication configures a webhook to run as a
-         :ref:`system user <system-users>` that has full access to
-         MongoDB CRUD and Aggregation APIs and is not affected by any
-         rules, roles, or permissions.
+       - This type of authentication configures a webhook to run as the
+         :ref:`system user <system-user>`, which has full
+         access to MongoDB CRUD and Aggregation APIs and is
+         not affected by any rules, roles, or permissions.
      
      * - User ID
        - This type of authentication configures a webhook to always run
