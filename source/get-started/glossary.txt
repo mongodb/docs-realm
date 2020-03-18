@@ -26,39 +26,38 @@ Glossary
       </core/document/>`.
 
    Partition Key
-      A field within a :term:`MongoDB Document` that determines which Realm the
-      corresponding Realm Object belongs to.
+      A field within a :term:`MongoDB Document` that determines which realm
+      contains the corresponding Realm Object.
 
    Realm
-      A collection of :term:`Realm Object`s sharing the same
-      :term:`Partition Key` value.
-      Client instances subscribe to individual Realms which then passively
-      synchronize changes as network availability allows.
+      A collection of :term:`Realm Objects <Realm Object>` sharing the same
+      :term:`Partition Key` value. Client instances subscribe to
+      individual realms which passively synchronize changes as network
+      availability allows.
+
+   Realm Client
+      Anything that interacts with a :term:`Realm App` using the
+      :term:`Realm SDK`. Examples include phone apps, IoT devices,
+      and server applications.
+
+   Realm App
+      An instance of the :term:`MongoDB Realm` Backend-as-a-Service.
 
    Realm Database
       An :ref:`ACID`-compliant offline-first object database for mobile devices.
       Using the Realm SDK, you can query a local instance of the Realm
       Database and synchronize your local instance with data stored
-      inside :term:`MongoDB Atlas`. Offline-first functionality ensures that
+      inside :term:`MongoDB Atlas`. Offline-first design ensures that
       reads and writes query the local database instance only. When Sync
       is enabled, a separate background thread handles synchronization
       of changes between the local instance and your instance of MongoDB
       Atlas.
    
    Realm Object
-      Object that you can store in a :term:`Realm`, defined by a
+      Object that you can store in a :term:`realm <Realm>`, defined by a
       :term:`Realm Schema` through either any Realm SDK or the
       Realm Schema editor on the MongoDB Realm admin site. Object schemas
       can define primitive fields as well as embedded lists and relations.
-
-   Realm Platform
-      The combination of :term:`MongoDB Atlas` with a :term:`MongoDB Realm`
-      sync-enabled mobile app.
-      This platform abstracts away the network, synchronization, and
-      conflict-resolution aspects of your application. Object data within
-      the mobile :term:`Realm Database` synchronizes with collections of
-      documents representing those objects in MongoDB Atlas. Realm
-      membership is determined using a :term:`Partition Key`.
 
    GraphQL
       Open-source data query and manipulation language for APIs. Realm
@@ -66,7 +65,7 @@ Glossary
       to data changes. An alternative to :term:`Realm Database` queries
       using the client's native query language.
 
-   Realm Compaction
+   Compaction
       Allocation and deallocation of data within a :term:`Realm Database`
       can lead to memory fragmentation. Calling the ``compact()`` method
       reorganizes internal data structures to reduce the storage
@@ -75,7 +74,13 @@ Glossary
 
    Realm Schema
       Definition of all :term:`Realm Objects` that you can read or write
-      into your local :term:`Realm Instance`.
+      into a client :term:`Realm Instance` or :term:`MongoDB Atlas`
+      instance.
+
+   Schema Validation
+      Rules for an instance of MongoDB that specify the form of documents
+      that you can insert into each collection, including both fields
+      and values.
 
    Live Objects
       Instances of objects from your :term:`Realm Schema` that
@@ -102,24 +107,26 @@ Glossary
       :term:`Event Loop` also refresh UI-thread read transactions in
       between instances of the event loop.
 
-   Event Loop
-      Also known as the **main loop** or **main event loop** on some
-      platforms. A programming paradigm in which a central loop waits
+   Loop Thread
+      A design pattern in which a central loop waits
       for signals from a UI or data source before updating underlying
-      user-facing components.
+      data structures. On iOS, known as a :apple-dev:`run loop
+      <foundation/runloop>`. On Android, known as a :android-dev:`Looper
+      <reference/android/os/Looper>`. Also known as the **main loop** or
+      **main event loop** on some platforms.
 
    Realm Instance
       An interface through which a client application can read and write
-      to a local :term:`Realm`.
+      to a local :term:`realm <Realm>`.
 
    Realm Version
-      A snapshot of data in a local :term:`Realm` at a given moment.
+      A snapshot of data in a local :term:`realm <Realm>` at a given moment.
 
    Realm File
       File containing all data for a local :term:`Realm` for an instance
       of :term:`Realm Database`. Because Realm Database reads and
       writes Realm data using :wikipedia:`memory mapping
-      </Memory-mapped_file`, Realm files should not exceed the amount of
+      </Memory-mapped_file>`, Realm files should not exceed the amount of
       RAM on a mobile device.
 
    ACID
