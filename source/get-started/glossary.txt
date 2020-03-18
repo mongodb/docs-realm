@@ -14,7 +14,11 @@ Glossary
    :sorted:
 
    MongoDB Atlas
-      Cloud-hosted managed instances of MongoDB.
+      `MongoDB Atlas
+      <https://www.mongodb.com/cloud/atlas?tck=docs_realm>`_ is a hosted
+      MongoDB service option in the cloud which requires no installation
+      overhead and offers a free tier to get started. To learn more
+      about MongoDB Atlas, see the :atlas:`Atlas documentation <>`. 
 
    MongoDB Realm
       Cloud-hosted Backend-as-a-Service (BaaS) providing client-side
@@ -29,7 +33,7 @@ Glossary
       A field within a :term:`MongoDB Document` that determines which realm
       contains the corresponding Realm Object.
 
-   Realm
+   realm
       A collection of :term:`Realm Objects <Realm Object>` sharing the same
       :term:`Partition Key` value. Client instances subscribe to
       individual realms which passively synchronize changes as network
@@ -54,7 +58,7 @@ Glossary
       Atlas.
    
    Realm Object
-      Object that you can store in a :term:`realm <Realm>`, defined by a
+      Object that you can store in a :term:`realm`, defined by a
       :term:`Realm Schema` through either any Realm SDK or the
       Realm Schema editor on the MongoDB Realm admin site. Object schemas
       can define primitive fields as well as embedded lists and relations.
@@ -117,13 +121,13 @@ Glossary
 
    Realm Instance
       An interface through which a client application can read and write
-      to a local :term:`realm <Realm>`.
+      to a local :term:`realm`.
 
    Realm Version
-      A snapshot of data in a local :term:`realm <Realm>` at a given moment.
+      A snapshot of data in a local :term:`realm` at a given moment.
 
    Realm File
-      File containing all data for a local :term:`Realm` for an instance
+      File containing all data for a local :term:`realm` for an instance
       of :term:`Realm Database`. Because Realm Database reads and
       writes Realm data using :wikipedia:`memory mapping
       </Memory-mapped_file>`, Realm files should not exceed the amount of
