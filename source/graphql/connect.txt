@@ -88,7 +88,7 @@ Create a GraphQL Client
       sure to set the value of ``APP_ID`` with your :guilabel:`App ID`.
 
       .. code-block:: javascript
-         :emphasize-lines: 6-7, 9, 13, 33
+         :emphasize-lines: 6-7, 9, 13, 37
 
          // React
          import React from "react";
@@ -101,7 +101,7 @@ Create a GraphQL Client
          import { Realm, AnonymousCredential } from "mongodb-realm-browser-sdk";
 
          // Instantiate a RealmClient
-         // TODO: Replace this with your Stich App ID
+         // TODO: Replace this with your Realm App ID
          const APP_ID = "myapp-abcde";
          const app = Realm.hasAppClient(APP_ID)
            ? Realm.getAppClient(APP_ID)
@@ -109,7 +109,11 @@ Create a GraphQL Client
 
          // Get the logged in user's access token from the RealmAuth interface
          export async function getAccessToken(credential) {
-           await app.auth.loginWithCredential(credential);
+           if(!app.auth.user) {
+             await app.auth.loginWithCredential(credential);
+           } else {
+             await app.auth.refreshAccessToken();
+           }
            const { accessToken } = app.auth.activeUserAuthInfo;
            return accessToken;
          }
