@@ -111,7 +111,7 @@ successful write commit and remains on that version until it
 is **refreshed**. This means that the realm will not see
 changes that happened on another thread until the next
 refresh. Realms on the UI thread -- more precisely, on any
-:term:`Loop Thread` -- automatically refresh themselves at the
+:term:`event loop` thread -- automatically refresh themselves at the
 beginning of that thread's loop. However, you must manually
 refresh realm instances that do not exist on loop threads or
 that have auto-refresh disabled.

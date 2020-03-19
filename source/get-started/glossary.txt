@@ -25,26 +25,26 @@ Glossary
       functionality via the Realm SDK and an administrative interface
       via a website.
 
-   MongoDB Document
+   MongoDB document
       See the MongoDB Manual's :manual:`definition of document
       </core/document/>`.
 
-   Partition Key
-      A field within a :term:`MongoDB Document` that determines which realm
+   partition key
+      A field within a :term:`MongoDB document` that determines which Realm
       contains the corresponding Realm Object.
 
-   realm
-      A collection of :term:`Realm Objects <Realm Object>` sharing the same
-      :term:`Partition Key` value. Client instances subscribe to
-      individual realms which passively synchronize changes as network
+   Realm
+      A collection of :term:`Realm objects <Realm Object>` sharing the same
+      :term:`partition key` value. Client instances subscribe to
+      individual Realms which passively synchronize changes as network
       availability allows.
 
-   Realm Client
-      Anything that interacts with a :term:`Realm App` using the
+   Realm client
+      Anything that interacts with a :term:`Realm app` using the
       :term:`Realm SDK`. Examples include phone apps, IoT devices,
       and server applications.
 
-   Realm App
+   Realm app
       An instance of the :term:`MongoDB Realm` Backend-as-a-Service.
 
    Realm Database
@@ -57,8 +57,8 @@ Glossary
       of changes between the local instance and your instance of MongoDB
       Atlas.
    
-   Realm Object
-      Object that you can store in a :term:`realm`, defined by a
+   Realm object
+      Object that you can store in a :term:`Realm`, defined by a
       :term:`Realm Schema` through either any Realm SDK or the
       Realm Schema editor on the MongoDB Realm admin site. Object schemas
       can define primitive fields as well as embedded lists and relations.
@@ -69,16 +69,17 @@ Glossary
       to data changes. An alternative to :term:`Realm Database` queries
       using the client's native query language.
 
-   Compaction
+   compaction
       Allocation and deallocation of data within a :term:`Realm Database`
-      can lead to memory fragmentation. Calling the ``compact()`` method
+      and/or exceeding the size of physical memory can lead to
+      fragmentation on disk. Calling the ``compact()`` method
       reorganizes internal data structures to reduce the storage
       overhead of your local Realm instance in the event of
       fragmentation.
 
    Realm Schema
-      Definition of all :term:`Realm Objects` that you can read or write
-      into a client :term:`Realm Instance` or linked
+      Definition of all :term:`Realm objects` that you can read or write
+      into a client :term:`Realm instance` or linked
       :term:`MongoDB Atlas` cluster.
 
    Schema Validation
@@ -86,32 +87,23 @@ Glossary
       that you can insert into each collection, including both fields
       and values.
 
-   Live Objects
-      Instances of objects from your :term:`Realm Schema` that
-      automatically update in value to match the value of the underlying
-      object in the enclosing :term:`Read Transaction`. Note that the
-      enclosing read transaction might not reference the latest
-      :term:`version <Realm Version>`.
+   live objects
+      Instances of :term:`Realm objects <Realm Object>` that always
+      reflect the state of the underlying object in the
+      :term:`Realm version` of the enclosing
+      :term:`Realm instance <Realm instance>`. Implemented using
+      :term:`Zero-Copy` objects that access object attributes via
+      shallow pointers into memory-mapped data. You can subscribe to
+      changes to any live object or collection of live objects,
+      including realm instances.
 
-   Write Transaction
-      You can only write to a :term:`Realm Instance` during a write
-      transaction.
+   write transaction
+      You can only write to a :term:`Realm` during a write
+      transaction. Beginning or committing a write transaction has the
+      side effect of advancing the :term:`Realm version` of the
+      enclosing :term:`Realm instance`.
 
-   Read Transaction
-      Every :term:`Realm Instance` uses an implicit "read transaction" to
-      generate valid instances of :term:`Live Objects`. As a result,
-      the ``realm.open()`` method begins a read transaction and the
-      ``realm.close()`` method closes the read transaction. Read
-      transactions always use the :term:`Realm Version` that was most
-      current when the realm was opened unless the client explicitly
-      advances the version. You can explicitly advance the version of a
-      read transaction by starting or committing a write transaction on
-      the same thread as the read transaction, or by calling the
-      ``realm.refresh()`` method. Platforms with a built in
-      :term:`Event Loop` also refresh UI-thread read transactions in
-      between instances of the event loop.
-
-   Loop Thread
+   event loop
       A design pattern in which a central loop waits
       for signals from a UI or data source before updating underlying
       data structures. On iOS, known as a :apple-dev:`run loop
@@ -119,21 +111,35 @@ Glossary
       <reference/android/os/Looper>`. Also known as the **main loop** or
       **main event loop** on some platforms.
 
-   Realm Instance
+   Realm instance
       An interface through which a client application can read and write
-      to a local :term:`realm`.
+      to a local :term:`Realm`. Every Realm instance references a
+      :term:`Realm version`. You can update the Realm version referenced
+      by a Realm instance by explicitly calling the ``refresh`` method
+      on that Realm instance. Beginning or committing a write
+      transaction on your Realm instance also advances the Realm
+      version. Platform with a built-in :term:`event loop` automatically
+      refresh the Realm instance on the event loop thread between
+      iterations of the event loop.
 
-   Realm Version
-      A snapshot of data in a local :term:`realm` at a given moment.
+   Realm version
+      A snapshot of data in a local :term:`Realm` at a given moment.
+      Each :term:`Realm instance` references a Realm version. The
+      :term:`Realm SDK` cannot free resources for a Realm version
+      while any :term:`Realm instance` continues to reference it.
 
-   Realm File
-      File containing all data for a local :term:`realm` for an instance
-      of :term:`Realm Database`. Because Realm Database reads and
-      writes Realm data using :wikipedia:`memory mapping
-      </Memory-mapped_file>`, Realm files should not exceed the amount of
-      RAM on a mobile device.
+   Realm file
+      File containing all data for a local :term:`Realm` for an instance
+      of :term:`Realm Database`.
+
+   Zero-Copy
+      Principle upon which :term:`Realm` is built. While traditional
+      ORMs copy data from the database into native-language objects,
+      :term:`Realm objects<Realm object>` read and write data using
+      :wikipedia:`memory mapping </Memory-mapped_file>` to read and
+      write data directly to and from the database without indirection.
 
    ACID
-      Acronym for "Atomicity, Consistency, Isolation, and Durability".
-      See :wikipedia:`the Wikipedia entry for ACID </ACID>` for more
-      information.
+      Acronym for "**A**tomicity, **C**onsistency, **I**solation, and
+      **D**urability". See :wikipedia:`the Wikipedia entry for ACID
+      </ACID>` for more information.
