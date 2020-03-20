@@ -13,7 +13,7 @@ Migrations
 Overview
 --------
 
-A **migration** transforms an existing realm and its objects from its
+A **migration** transforms an existing Realm and its objects from its
 current :ref:`schema version <schema-version>` to a newer one.
 Application data models typically change over time to accommodate new
 requirements and features. Migrations give you the flexibility to
@@ -28,14 +28,14 @@ Key Concepts
 Local Migration
 ~~~~~~~~~~~~~~~
 
-A **local migration** is a migration for a realm that does
+A **local migration** is a migration for a Realm that does
 not automatically :doc:`sync </sync/sync-overview>` with
-another realm. Local migrations have access to the existing
-realm schema, version, and objects and define logic that
-incrementally updates the realm to its new schema version.
+another Realm. Local migrations have access to the existing
+Realm schema, version, and objects and define logic that
+incrementally updates the Realm to its new schema version.
 To perform a local migration you must specify a new schema
 version that is higher than the current version and provide
-a migration function when you open the out-of-date realm.
+a migration function when you open the out-of-date Realm.
 
 Realm automatically migrates certain changes, such as new and deleted
 properties, but does not automatically set values for new properties
@@ -48,7 +48,7 @@ deletes it.
 
 .. example::
    
-   A realm using schema version ``1`` has a ``Person`` object type:
+   A Realm using schema version ``1`` has a ``Person`` object type:
    
    .. include:: /examples/Migrations/PersonClassV1/PersonClassV1.rst
    
@@ -58,8 +58,8 @@ deletes it.
    
    .. include:: /examples/Migrations/PersonClassV2/PersonClassV2.rst
    
-   To migrate the realm to conform to the updated ``Person`` schema, the
-   developer sets the realm's :ref:`schema version <schema-version>` to
+   To migrate the Realm to conform to the updated ``Person`` schema, the
+   developer sets the Realm's :ref:`schema version <schema-version>` to
    ``2`` and defines a migration function to set the value of
    ``fullName`` based on the existing ``firstName`` and ``lastName``
    properties:
@@ -71,13 +71,13 @@ deletes it.
 Synced Migration
 ~~~~~~~~~~~~~~~~
 
-A **synced migration** is a migration for a realm that
+A **synced migration** is a migration for a Realm that
 automatically :doc:`syncs </sync/sync-overview>` with
-another remote realm. Realm automatically handles all synced
+another remote Realm. Realm Database automatically handles all synced
 schema migrations and does not allow you to specify a
 migration function.
 
-Synced realms represent multiple end users and devices that will likely
+Synced Realms represent multiple end users and devices that will likely
 not all immediately update to the most recent version of an application.
 Realm ensures that synced schema changes are backwards compatible, which
 means that client applications that have not updated to the most recent
@@ -98,7 +98,7 @@ Realm handles synced migrations using the following framework:
        client application.
 
    * - **Migration Function**
-     - Realm throws an error if the realm configuration includes a
+     - Realm throws an error if the Realm configuration includes a
        :ref:`local migration <local-migration>` function.
 
    * - **Additions**
@@ -120,7 +120,7 @@ Realm handles synced migrations using the following framework:
 
    * - **Modifications**
      - Realm prevents modifications to an existing property other than
-       delete operations. Modifications that synced realms do not
+       delete operations. Modifications that synced Realms do not
        support include:
        
        - Changing a property’s type but keeping the same name.
@@ -130,6 +130,6 @@ Realm handles synced migrations using the following framework:
 Summary
 -------
 
-- A **migration** transforms an existing realm and its objects from its current schema version to a later one.
-- Realm allows you to specify migration functions for **local migrations**, i.e. migrations where the realm is not :doc:`synced </sync/sync-overview>` with a remote realm.
-- Realm automatically handles **synced migration**, i.e. migrations where the realm is synced. Realm does not allow migration functions for such migrations.
+- A **migration** transforms an existing Realm and its objects from its current schema version to a later one.
+- Realm allows you to specify migration functions for **local migrations**, i.e. migrations where the Realm is not :doc:`synced </sync/sync-overview>` with a remote Realm.
+- Realm automatically handles **synced migration**, i.e. migrations where the Realm is synced. Realm does not allow migration functions for such migrations.

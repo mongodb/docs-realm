@@ -21,7 +21,7 @@ Glossary
       about MongoDB Atlas, see the :atlas:`Atlas documentation <>`. 
 
    MongoDB Realm
-      Cloud-hosted Backend-as-a-Service (BaaS) providing client-side
+      A cloud-hosted Backend-as-a-Service (BaaS) providing client-side
       functionality via the Realm SDK and an administrative interface
       via a website.
 
@@ -45,7 +45,7 @@ Glossary
       and server applications.
 
    Realm SDK
-      Library used by a :term:`Realm client` to connect to a
+      A library used by a :term:`Realm client` to connect to a
       :term:`MongoDB Realm` application or a local
       :term:`Realm Database`.
 
@@ -63,7 +63,7 @@ Glossary
       Atlas.
    
    Realm object
-      Object that you can store in a :term:`Realm`, defined by a
+      An object that you can store in a :term:`Realm`, defined by a
       :term:`Realm Schema` through either any Realm SDK or the
       Realm Schema editor on the MongoDB Realm admin site. Object schemas
       can define primitive fields as well as embedded lists and relations.
@@ -139,7 +139,7 @@ Glossary
       of :term:`Realm Database`.
 
    zero-copy
-      Principle upon which :term:`Realm` is built. While traditional
+      A principle upon which :term:`Realm` is built. While traditional
       ORMs copy data from the database into native-language objects,
       :term:`Realm objects<Realm object>` read and write data using
       :wikipedia:`memory mapping </Memory-mapped_file>` to read and
@@ -147,79 +147,99 @@ Glossary
       wrappers.
 
    ACID
-      Acronym that expands to "Atomicity, Consistency, Isolation, and
-      Durability". See :wikipedia:`the Wikipedia entry for ACID
-      </ACID>` for more information.
+      An acronym that expands to "Atomicity, Consistency, Isolation, and
+      Durability". Realm is :ref:`ACID-compliant <acid-compliance>`. See
+      :wikipedia:`the Wikipedia entry for ACID </ACID>` for more
+      information.
+
+   Realm webhook
+      An HTTP endpoint that calls a function upon request.
 
    Realm function
       Server-side logic for your Realm application. You can call
       functions from any :term:`Realm client`, from other functions,
-      and using any :term:`Realm trigger`.
+      with a :term:`Realm trigger`, or a :term:`Realm webhook`.
 
    Realm trigger
-      Allow you to configure responses to :term:`data changes
+      Execute a function automatically when an event occurs or at a
+      scheduled time. You can configure responses to :term:`data changes
       <database trigger>`, :term:`user logins <authentication trigger>`,
       and :term:`scheduled events <scheduled trigger>`. Every trigger
       activation calls a :term:`Realm function`.
 
    database trigger
-      Activate a :term:`Realm function` whenever a document is added,
-      updated, or removed in a :term:`linked cluster`.
+      Call a :term:`Realm function` whenever a document is added,
+      updated, or removed in a :term:`linked cluster`. Passes a
+      change event describing the data that changed to the linked
+      function.
 
    authentication trigger
-      Activate a :term:`Realm function` whenever a user interacts with
+      Call a :term:`Realm function` whenever a user interacts with
       an authentication provider, such as whenever a user logs into your
-      :term:`Realm app`.
+      :term:`Realm app`. Passes an authentication event describing the
+      user and interaction to the linked function.
 
    scheduled trigger
-      Activate a :term:`Realm function` based on a schedule that you
+      Call a :term:`Realm function` based on a schedule that you
       define.
    
    linked cluster
-      A :term:`MongoDB Atlas` database cluster that :term:`Realm clients
-      <Realm client>` can query based on roles and filters or
-      synchronize data to and from using :term:`Realm database`.
+      A :term:`MongoDB Atlas` database cluster that is associated with
+      your :term:`Realm app`. You can define data schemas and access
+      rules to control who can access what in any linked cluster.
+      :term:`Realm Database` data is automatically synchronized with
+      your linked cluster when :term:`Realm sync` is enabled. Access
+      data in your linked cluster from a :term:`Realm client` using
+      Realm Database or the MongoDB Atlas service.
 
    system function
-      :term:`Realm function` that runs as the :term:`system user`.
+      A :term:`Realm function` that runs as the :term:`system user`.
    
    system user
-      A user that bypasses collection rules and schema validation for
-      the :term:`linked cluster` CRUD and Aggregation APIs.
+      A user that communicates directly with the :term:`linked cluster`
+      and other services, bypassing collection rules and schema
+      validation. Also bypasses most restrictions on the
+      :ref:`CRUD & Aggregation APIs <mongodb-crud-and-aggregation-apis>`.
    
    custom user data
-      Mapped :term:`MongoDB document` that stores arbitrary fields for
-      each Realm user, such as preferred language or timezone.
+      A mapped :term:`MongoDB document` that stores arbitrary
+      information about a given Realm user. For example, you can store
+      a user's preferred language, local timezone, or an ID for an
+      external service.
    
    external dependencies
-      An uploaded collection of npm modules that you can import into and
-      call from any :term:`Realm function`.
+      One or more JavaScript modules from ``npm`` that you have uploaded
+      to your :term:`Realm app`. You can import and use external
+      dependencies from any :term:`Realm function`.
 
    function context
-      A variable available in any :term:`Realm function` through which
-      you can access :term:`Realm app` components, including functions
-      and :term:`MongoDB Atlas` data.
+      A global variable available that allows you to interface with
+      components of your :term:`Realm app` from a :term:`Realm function`.
+      For example, you can call another function, communicate with an
+      external service using the HTTP module, or access data in a
+      :term:`linked cluster`.
 
    Realm value
-      A named reference to a piece of static data stored by
+      A named reference to a piece of static data defined in
       :term:`MongoDB Realm`, accessible through :term:`Realm functions
-      <Realm function>` and :term:`Realm rules`.
+      <Realm function>` and :term:`rule <Realm rules>` expressions.
 
    Realm rules
-      True or false expressions that determine whether or not a user can
-      modify, insert, or read a given piece of data.
+      Boolean expressions that determine the read and write permissions
+      for a given user for a particular resource.
 
    Realm secret
       A private value stored in :term:`MongoDB Realm` that cannot be
-      directly read, but can be linked in authentication providers and
-      service configurations.
+      directly read, but can be assigned to variables. Realm secrets are
+      automatically obscured from MongoDB Realm logs, and are typically
+      used in authentication provider and service configurations.
 
    Realm UI
-      A front-end from which an administrator can modify your
-      :term:`MongoDB Realm` configuration with tasks including defining
-      :term:`functions <Realm function>`, creating :term:`triggers
-      <Realm trigger>`, linking :term:`MongoDB Atlas` clusters, and
-      more.
+      A web interface from which you can manage any
+      :term:`MongoDB Realm` :term:`app <Realm app>`. For example, you
+      can define :term:`functions <Realm function>`,
+      create automated :term:`triggers <Realm trigger>`, view logs, and
+      link :term:`MongoDB Atlas` clusters.
 
    Realm sync
       Shares data changes between a :term:`MongoDB Realm`
@@ -228,15 +248,15 @@ Glossary
       changes consistently between clients so all connected clients
       eventually arrive at the same state.
 
-   realm-cli
-      A command line interface from which an administrator can modify
-      your :term:`MongoDB Realm` configuration with tasks including
-      defining :term:`functions <Realm function>`, creating
-      :term:`triggers <Realm trigger>`, linking :term:`MongoDB Atlas`
-      clusters, and more.
+   Realm CLI
+      A command line interface named ``realm-cli`` from which you
+      can manage any :term:`MongoDB Realm` :term:`app <Realm app>`. For
+      example, you can define :term:`functions <Realm function>`,
+      create automated :term:`triggers <Realm trigger>`, view logs, and
+      link :term:`MongoDB Atlas` clusters.
 
-   Realm Administrative API
-      An REST API through which you can perform a number of
+   Realm Administration API
+      A :ref:`HTTP API <admin-api>` through which you can perform
       administrative tasks.
 
    developer mode
