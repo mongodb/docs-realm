@@ -75,7 +75,9 @@ extlinks = {
     # True External Links
     'android': ('https://developer.android.com/reference/%s', ''),
     'android-sdk': ('https://docs.mongodb.com/stitch-sdks/java/4/%s', ''),
+    'android-dev': ('https://developer.android.com/%s', ''),
     'apollo-docs': ('https://www.apollographql.com/docs/%s', ''),
+    'apple-dev': ('https://developer.apple.com/documentation/%s', ''),
     'aws-docs': ('https://docs.aws.amazon.com/%s', ''),
     'aws-go': ('https://docs.aws.amazon.com/sdk-for-go/api/service/%s', ''),
     'aws-iam': ('https://docs.aws.amazon.com/IAM/latest/%s', ''),

@@ -13,11 +13,11 @@ Query Engine
 Overview
 --------
 
-To filter data in your realms, you can leverage Realm's
+To filter data in your Realms, you can leverage Realm Database's
 query engine. Each SDK has its own idiomatic approach to the
 query engine:
 
-- In the Swift, Objective-C, and JavaScript SDKs, Realm's query engine uses a query language based on `NSPredicate <https://developer.apple.com/documentation/foundation/nspredicate>`__ syntax.
+- In the Swift, Objective-C, and JavaScript SDKs, Realm Database's query engine uses a query language based on `NSPredicate <https://developer.apple.com/documentation/foundation/nspredicate>`__ syntax.
 - In the C#/.NET SDK, Realm's query engine implements standard `LINQ <https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/linq/introduction-to-linq-queries>`__ syntax.
 - In the Java SDK, Realm's query engine uses a :wikipedia:`Fluent interface <Fluent_interface>` to construct queries.
 
@@ -42,7 +42,7 @@ more detail.
    .. tab::
       :tabid: java
 
-      Realm’s query engine uses a Fluent interface to
+      Realm Database’s query engine uses a Fluent interface to
       construct multi-clause queries. See `RealmQuery API
       <https://realm.io/docs/java/latest/api/io/realm/RealmQuery.html>`__
       for a complete list of available methods.
@@ -50,7 +50,7 @@ more detail.
    .. tab::
       :tabid: javascript
 
-      Realm's query engine uses a language inspired by
+      Realm Database's query engine uses a language inspired by
       NSPredicate. For an introduction to NSPredicate in
       general, See Apple’s `Predicates Programming Guide
       <https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/Predicates/AdditionalChapters/Introduction.html>`__.
@@ -61,7 +61,7 @@ more detail.
    .. tab::
       :tabid: objective-c
 
-      Realm's query engine supports common predicates of
+      Realm Database's query engine supports common predicates of
       NSPredicate. For an introduction to NSPredicate in
       general, See Apple’s `Predicates Programming Guide
       <https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/Predicates/AdditionalChapters/Introduction.html>`__.
@@ -72,7 +72,7 @@ more detail.
    .. tab::
       :tabid: swift
 
-      Realm's query engine supports common predicates of
+      Realm Database's query engine supports common predicates of
       NSPredicate. For an introduction to NSPredicate in
       general, See Apple’s `Predicates Programming Guide
       <https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/Predicates/AdditionalChapters/Introduction.html>`__.
@@ -84,9 +84,10 @@ Operators
 ---------
 
 There are several types of operators available to filter a
-Realm collection. Filters work by **evaluating** an operator
-expression for every object in the collection being
-filtered. If the expression resolves to ``true``, Realm
+:doc:`Realm collection </crud/collections>`. Filters work by
+**evaluating** an operator expression for every :term:`object
+<Realm object>` in the collection
+being filtered. If the expression resolves to ``true``, Realm Database
 includes the object in the results collection.
 
 An **expression** consists of one of the following:

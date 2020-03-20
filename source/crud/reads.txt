@@ -18,13 +18,13 @@ whenever and wherever you need it. Imagine multiple views
 that show various facets of your data while a background
 task crunches numbers based on the same information. If
 every data consumer had to wait their turn to read, the app
-would not feel graceful at all. Realm enables smooth user
-experiences by allowing many simultaneous readers thanks to
+would not feel graceful at all. :term:`Realm Database` enables smooth
+user experiences by allowing many simultaneous readers thanks to
 its :ref:`multiversion concurrency control (MVCC)
 <mvcc>` architecture.
 
 This page details the key characteristics of read operations
-in Realm and how to access your data.
+in Realm Database and how to access your data.
 
 Read Characteristics
 --------------------
@@ -47,7 +47,7 @@ See also: :ref:`Collections are Live <live-collections>`.
 Results Are Lazy
 ~~~~~~~~~~~~~~~~
 
-Realm defers execution of a query until you access the
+Realm Database defers execution of a query until you access the
 results. You can chain several filter and sort operations
 without requiring extra work to process the intermediate
 state.
@@ -60,7 +60,7 @@ See also: :ref:`Results are Lazily Evaluated
 References Are Retained
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-One benefit of Realm's object model is that Realm
+One benefit of Realm Database's object model is that Realm Database
 automatically retains all of an object's :doc:`relationships
 </data-model/relationships>` as direct references, so you
 can traverse your graph of relationships directly through
@@ -69,24 +69,30 @@ the results of a query.
 A **direct reference**, or pointer, allows you to access a
 related object's properties directly through the reference.
 
-In other databases, you usually have to serialize your
-object in order to store it. In doing so, you lose any
-direct references to other objects your object may have. In
-order to reconstruct this relationship later, you would
-represent the relationship in the serialized format by
-storing the primary key of the related entity with the
-object. When you load and deserialize the object, you then
-have to reconstruct this relationship by joining tables or
-using another mechanism to load the related entity based on
-this primary key. Realm bypasses all of this by just storing
-objects as objects.
+Other databases typically copy objects from database storage into
+application memory when you need to work with them directly. Because
+objects contain direct references, you are left with a choice: copy
+the object referred to by each direct reference out of the database
+in case it's needed, or just copy the foreign key for each object and
+query for the object with that key if it's accessed. If you choose to
+copy referenced objects into application memory, you can use up a lot of
+resources for objects that are never accessed, but if you choose to only
+copy the foreign key, referenced object lookups can cause your
+application to slow down.
+
+Realm Database bypasses all of this using :term:`zero-copy`
+:term:`live objects`. :term:`Realm object` accessors point directly into
+database storage using memory mapping, so there is no distinction
+between the objects in Realm database and the results of your query in
+application memory. Because of this, you can traverse direct references
+across an entire Realm from any query result.
 
 .. _read-from-realm:
 
-Read from Realm
----------------
+Read from Realm Database
+------------------------
 
-A read from a realm generally consists of the following
+A read from a Realm generally consists of the following
 steps:
 
 - Query all objects of a specific Realm type.
@@ -116,7 +122,7 @@ Get All Objects
 ~~~~~~~~~~~~~~~
 
 The first step of any read is to **get all objects** of a
-certain type in a realm. With this results collection, you
+certain type in a Realm. With this results collection, you
 can operate on all instances on a type or filter and sort to
 refine the results.
 
@@ -133,7 +139,7 @@ Filter Results
 ~~~~~~~~~~~~~~
 
 A **filter** selects a subset of results based on the
-value(s) of one or more object properties. Realm provides a
+value(s) of one or more object properties. Realm Database provides a
 full-featured :doc:`query engine </crud/query-engine>` you
 can use to define filters. The most common use case is to
 find objects where a certain property matches a certain
@@ -159,11 +165,11 @@ Sort Results
 ~~~~~~~~~~~~
 
 A **sort** operation allows you to configure the order in
-which Realm returns queried objects. You can sort based on
+which Realm Database returns queried objects. You can sort based on
 one or more properties of the objects in the results
 collection.
 
-Realm only guarantees a consistent order of results when the
+Realm Database only guarantees a consistent order of results when the
 results are sorted.
 
 .. example::
@@ -176,6 +182,6 @@ results are sorted.
 Summary
 -------
 
-- When you read from Realm, the results are not copies. Instead, through memory mapping, results point directly to the version on disk.
+- When you read from Realm Database, the results are not copies. Instead, through memory mapping, results point directly to the version on disk.
 - Queries are lazily-evaluated.
-- To read, first get all objects of a certain type from the realm, then filter using the query engine, then (optionally) sort the results.
+- To read, first get all objects of a certain type from the Realm, then filter using the query engine, then (optionally) sort the results.

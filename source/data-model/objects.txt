@@ -15,9 +15,10 @@ Overview
 
 Realm applications model data as objects composed of field-value pairs
 that each contain one or more primitive data types or other Realm
-objects. Realm objects are essentially the same as regular objects in
-most programming languages, but they also include additional features
-like :ref:`real-time updating data views <live-object>` and reactive
+objects. :term:`Realm objects <Realm object>` are essentially the same
+as regular objects in most programming languages, but they also include
+additional features like
+:ref:`real-time updating data views <live-object>` and reactive
 :doc:`change event handlers </crud/notifications>`.
 
 Every Realm object has an *object type* that refers to the object's
@@ -57,12 +58,12 @@ means that a live object doesn't directly contain data. Instead, a live
 object always references the most up-to-date data on disk and
 :wikipedia:`lazy loads <Lazy_loading>` property values when you access
 them from a :doc:`collection </crud/collections>`. This means that a
-realm can contain many objects but only pay the performance cost for
+Realm can contain many objects but only pay the performance cost for
 data that the application is actually using.
 
 Valid write operations on a live object automatically persist to the
-realm and propagate to any other synced clients. You do not need to call
-an update method, modify the realm, or otherwise "push" updates.
+Realm and propagate to any other synced clients. You do not need to call
+an update method, modify the Realm, or otherwise "push" updates.
 
 .. _object-schema:
 
@@ -78,11 +79,11 @@ Object schemas specify constraints on object properties such as the data
 type of each property, whether or not a property is required, and the
 default value for optional properties. Schemas can also define
 :doc:`relationships </data-model/relationships>` between object types in
-a realm.
+a Realm.
 
-Every realm has a :ref:`realm schema <realm-schema>` composed of a list
-of object schemas for each type of object that the realm may contain.
-Realm guarantees that all objects in a realm conform to the schema for
+Every Realm has a :ref:`Realm schema <realm-schema>` composed of a list
+of object schemas for each type of object that the Realm may contain.
+Realm guarantees that all objects in a Realm conform to the schema for
 their object type and validates objects whenever they're created,
 modified, or deleted.
 
@@ -99,9 +100,9 @@ efficiently read and modify objects based on their primary key.
 
 If an object type has a primary key, then all objects of that type must
 include the private key property with a value that is unique among
-objects of the same type in a realm. You cannot change the primary key
+objects of the same type in a Realm. You cannot change the primary key
 property for an object type after any object of that type is added to
-the realm.
+the Realm.
 
 .. _property-schema:
 
@@ -126,7 +127,7 @@ You can configure the following constraints for a given property:
    * - Type
      - Every property in a Realm object has a strongly defined data
        type. A property's type can be a primitive data type or an object
-       type defined in the same realm. The type also specifies whether
+       type defined in the same Realm. The type also specifies whether
        the property contains a single value or a list of values.
        
        Realm supports the following primitive data types:
@@ -160,7 +161,7 @@ You can configure the following constraints for a given property:
        
        Objects that are missing a required field without a defined
        default value will fail validation when you attempt to create
-       them and will not persist to the realm.
+       them and will not persist to the Realm.
 
    * - Indexed
      - A property index significantly increases the speed of certain
@@ -174,5 +175,5 @@ Summary
 
 - Realm objects are of a **type** defined as you would any other class in the given programming language.
 - Realm objects are **live**: they always reflect the latest version on disk and update automatically when the underlying object changes.
-- A realm object type may have a **primary key** property to uniquely identify each instance of the object type.
-- The realm object's **schema** defines the properties of the object and which properties are optional, which properties have a default value, and which properties are indexed.
+- A Realm object type may have a **primary key** property to uniquely identify each instance of the object type.
+- The Realm object's **schema** defines the properties of the object and which properties are optional, which properties have a default value, and which properties are indexed.

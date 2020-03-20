@@ -1,0 +1,267 @@
+========
+Glossary
+========
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 1
+   :class: singlecol
+
+.. glossary::
+   :sorted:
+
+   MongoDB Atlas
+      `MongoDB Atlas
+      <https://www.mongodb.com/cloud/atlas?tck=docs_realm>`_ is a hosted
+      MongoDB service option in the cloud which requires no installation
+      overhead and offers a free tier to get started. To learn more
+      about MongoDB Atlas, see the :atlas:`Atlas documentation <>`. 
+
+   MongoDB Realm
+      A cloud-hosted Backend-as-a-Service (BaaS) providing client-side
+      functionality via the Realm SDK and an administrative interface
+      via a website.
+
+   MongoDB document
+      See the MongoDB Manual's :manual:`definition of document
+      </core/document/>`.
+
+   partition key
+      A field within a :term:`MongoDB document` that determines which Realm
+      contains the corresponding Realm Object.
+
+   Realm
+      A collection of :term:`Realm objects <Realm Object>` sharing the same
+      :term:`partition key` value. Client instances subscribe to
+      individual Realms which passively synchronize changes as network
+      availability allows.
+
+   Realm client
+      Anything that interacts with a :term:`Realm app` using the
+      :term:`Realm SDK`. Examples include phone apps, IoT devices,
+      and server applications.
+
+   Realm SDK
+      A library used by a :term:`Realm client` to connect to a
+      :term:`MongoDB Realm` application or a local
+      :term:`Realm Database`.
+
+   Realm app
+      An instance of the :term:`MongoDB Realm` Backend-as-a-Service.
+
+   Realm Database
+      An :term:`ACID`-compliant offline-first object database for mobile
+      devices. Using the Realm SDK, you can query a local instance of
+      the Realm Database and synchronize your local instance with data stored
+      inside :term:`MongoDB Atlas`. Offline-first design ensures that
+      reads and writes query the local database instance only. When Sync
+      is enabled, a separate background thread handles synchronization
+      of changes between the local instance and your instance of MongoDB
+      Atlas.
+   
+   Realm object
+      An object that you can store in a :term:`Realm`, defined by a
+      :term:`Realm Schema` through either any Realm SDK or the
+      Realm Schema editor on the MongoDB Realm admin site. Object schemas
+      can define primitive fields as well as embedded lists and relations.
+
+   GraphQL
+      Open-source data query and manipulation language for APIs. Realm
+      GraphQL supports reading and writing data as well as subscribing
+      to data changes. An alternative to :term:`Realm Database` queries
+      using the client's native query language.
+
+   compaction
+      Allocation and deallocation of data within a :term:`Realm Database`
+      and/or exceeding the size of physical memory can lead to
+      fragmentation on disk. Calling the ``compact`` method
+      reorganizes internal data structures to reduce the storage
+      overhead of your local Realm instance in the event of
+      fragmentation.
+
+   Realm Schema
+      Definition of all :term:`Realm objects <Realm object>` that you
+      can read or write into a client :term:`Realm instance` or linked
+      :term:`MongoDB Atlas` cluster.
+
+   Schema Validation
+      Rules for an instance of MongoDB that specify the form of documents
+      that you can insert into each collection, including both fields
+      and values.
+
+   live objects
+      Instances of :term:`Realm objects <Realm Object>` that always
+      reflect the state of the underlying object in the
+      :term:`Realm version` of the enclosing
+      :term:`Realm instance <Realm instance>`. Implemented using
+      :term:`zero-copy` objects that access object attributes via
+      shallow pointers into memory-mapped data. You can subscribe to
+      changes to any live object or collection of live objects,
+      including Realm instances.
+
+   write transaction
+      You can only write to a :term:`Realm` during a write
+      transaction. Beginning or committing a write transaction has the
+      side effect of advancing the :term:`Realm version` of the
+      enclosing :term:`Realm instance`.
+
+   event loop
+      A design pattern in which a central loop waits
+      for signals from a UI or data source before updating underlying
+      data structures. On iOS, known as a :apple-dev:`run loop
+      <foundation/runloop>`. On Android, known as a :android-dev:`Looper
+      <reference/android/os/Looper>`. Also known as the **main loop** or
+      **main event loop** on some platforms.
+
+   Realm instance
+      The result returned by a call to ``realm.open()``. An interface
+      through which a :term:`Realm client` application can read and write
+      to a local :term:`Realm`. Every Realm instance references a
+      :term:`Realm version`. You can update the Realm version referenced
+      by a Realm instance by explicitly calling the ``refresh`` method
+      on that Realm instance. Beginning or committing a write
+      transaction on your Realm instance also advances the Realm
+      version. Platform with a built-in :term:`event loop` automatically
+      refresh the Realm instance on the event loop thread between
+      iterations of the event loop.
+
+   Realm version
+      A snapshot of data in a local :term:`Realm` at a given moment.
+      Each :term:`Realm instance` references a Realm version. The
+      :term:`Realm SDK` cannot free resources for a Realm version
+      while any :term:`Realm instance` continues to reference it.
+
+   Realm file
+      File containing all data for a local :term:`Realm` for an instance
+      of :term:`Realm Database`.
+
+   zero-copy
+      A principle upon which :term:`Realm` is built. While traditional
+      ORMs copy data from the database into native-language objects,
+      :term:`Realm objects<Realm object>` read and write data using
+      :wikipedia:`memory mapping </Memory-mapped_file>` to read and
+      write data directly to and from the database via shallow object
+      wrappers.
+
+   ACID
+      An acronym that expands to "Atomicity, Consistency, Isolation, and
+      Durability". Realm is :ref:`ACID-compliant <acid-compliance>`. See
+      :wikipedia:`the Wikipedia entry for ACID </ACID>` for more
+      information.
+
+   Realm webhook
+      An HTTP endpoint that calls a function upon request.
+
+   Realm function
+      Server-side logic for your Realm application. You can call
+      functions from any :term:`Realm client`, from other functions,
+      with a :term:`Realm trigger`, or a :term:`Realm webhook`.
+
+   Realm trigger
+      Execute a function automatically when an event occurs or at a
+      scheduled time. You can configure responses to :term:`data changes
+      <database trigger>`, :term:`user logins <authentication trigger>`,
+      and :term:`scheduled events <scheduled trigger>`. Every trigger
+      activation calls a :term:`Realm function`.
+
+   database trigger
+      Call a :term:`Realm function` whenever a document is added,
+      updated, or removed in a :term:`linked cluster`. Passes a
+      change event describing the data that changed to the linked
+      function.
+
+   authentication trigger
+      Call a :term:`Realm function` whenever a user interacts with
+      an authentication provider, such as whenever a user logs into your
+      :term:`Realm app`. Passes an authentication event describing the
+      user and interaction to the linked function.
+
+   scheduled trigger
+      Call a :term:`Realm function` based on a schedule that you
+      define.
+   
+   linked cluster
+      A :term:`MongoDB Atlas` database cluster that is associated with
+      your :term:`Realm app`. You can define data schemas and access
+      rules to control who can access what in any linked cluster.
+      :term:`Realm Database` data is automatically synchronized with
+      your linked cluster when :term:`Realm sync` is enabled. Access
+      data in your linked cluster from a :term:`Realm client` using
+      Realm Database or the MongoDB Atlas service.
+
+   system function
+      A :term:`Realm function` that runs as the :term:`system user`.
+   
+   system user
+      A user that communicates directly with the :term:`linked cluster`
+      and other services, bypassing collection rules and schema
+      validation. Also bypasses most restrictions on the
+      :ref:`CRUD & Aggregation APIs <mongodb-crud-and-aggregation-apis>`.
+   
+   custom user data
+      A mapped :term:`MongoDB document` that stores arbitrary
+      information about a given Realm user. For example, you can store
+      a user's preferred language, local timezone, or an ID for an
+      external service.
+   
+   external dependencies
+      One or more JavaScript modules from ``npm`` that you have uploaded
+      to your :term:`Realm app`. You can import and use external
+      dependencies from any :term:`Realm function`.
+
+   function context
+      A global variable available that allows you to interface with
+      components of your :term:`Realm app` from a :term:`Realm function`.
+      For example, you can call another function, communicate with an
+      external service using the HTTP module, or access data in a
+      :term:`linked cluster`.
+
+   Realm value
+      A named reference to a piece of static data defined in
+      :term:`MongoDB Realm`, accessible through :term:`Realm functions
+      <Realm function>` and :term:`rule <Realm rules>` expressions.
+
+   Realm rules
+      Boolean expressions that determine the read and write permissions
+      for a given user for a particular resource.
+
+   Realm secret
+      A private value stored in :term:`MongoDB Realm` that cannot be
+      directly read, but can be assigned to variables. Realm secrets are
+      automatically obscured from MongoDB Realm logs, and are typically
+      used in authentication provider and service configurations.
+
+   Realm UI
+      A web interface from which you can manage any
+      :term:`MongoDB Realm` :term:`app <Realm app>`. For example, you
+      can define :term:`functions <Realm function>`,
+      create automated :term:`triggers <Realm trigger>`, view logs, and
+      link :term:`MongoDB Atlas` clusters.
+
+   Realm sync
+      Shares data changes between a :term:`MongoDB Realm`
+      :term:`linked cluster` and a :term:`Realm client`-local
+      :term:`Realm database`. MongoDB Realm resolves conflicts between
+      changes consistently between clients so all connected clients
+      eventually arrive at the same state.
+
+   Realm CLI
+      A command line interface named ``realm-cli`` from which you
+      can manage any :term:`MongoDB Realm` :term:`app <Realm app>`. For
+      example, you can define :term:`functions <Realm function>`,
+      create automated :term:`triggers <Realm trigger>`, view logs, and
+      link :term:`MongoDB Atlas` clusters.
+
+   Realm Administration API
+      A :ref:`HTTP API <admin-api>` through which you can perform
+      administrative tasks.
+
+   developer mode
+      Allows you to synchronize data between an instance of
+      :term:`Realm Database` and a :term:`linked Atlas cluster
+      <linked cluster>` without defining a strict, inviolable schema.
+      Intended for fast interation during early stages of development
+      before defining a schema.
