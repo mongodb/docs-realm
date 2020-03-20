@@ -112,7 +112,8 @@ Glossary
       **main event loop** on some platforms.
 
    Realm instance
-      An interface through which a client application can read and write
+      The result returned by a call to ``realm.open()``. An interface
+      through which a :term:`Realm client` application can read and write
       to a local :term:`Realm`. Every Realm instance references a
       :term:`Realm version`. You can update the Realm version referenced
       by a Realm instance by explicitly calling the ``refresh`` method
