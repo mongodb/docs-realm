@@ -15,15 +15,15 @@ Define Sync Rules
 Overview
 --------
 
-In order to control who can sync, read, and write sections
-of data, MongoDB Realm allows you to configure **rules**.
+In order to control who can sync, read, and write data,
+:term:`MongoDB Realm` allows you to configure **rules**.
 Rules enforce two essential data access principles:
 
 - Users can only read the objects that they are allowed to see.
 - Users can only make changes to the objects that they are allowed to write to.
 
-You can edit rules in the Rules UI in MongoDB Realm. You can
-also import rules using the Realm CLI.
+You can edit rules in the MongoDB :term:`Realm UI`. You can
+also import rules using the :term:`Realm CLI`.
 
 Rules and Partitions
 --------------------
@@ -51,10 +51,11 @@ partition your data.
 Users and Sync Roles
 --------------------
 
-A **sync role** is a set of partition-level permissions that
-Realm evaluates when determining whether a user may sync a
-given partition. You select a property of the :ref:`user
-object <user-objects>` that determines whether 
+A :term:`sync role` is a set of partition-level permissions
+that Realm evaluates when determining whether a user may
+sync a given partition. You select a property of the
+:ref:`user object <user-objects>` that Realm uses to
+determine whether that user may sync the partition.
 
 There are two initial roles:
 
@@ -71,11 +72,11 @@ partition key value with the ``%%partition``
    Suppose the store management application uses
    :ref:`custom JWT authentication
    <custom-jwt-authentication>`. In order to control who can
-   read and write store data, we provide the user object
-   with two custom properties:
+   read and write store data, we provide the :ref:`user
+   object <user-objects>` with two custom properties:
    
    - ``Store_List``: an array of IDs of the stores that the user can read from.
-   - ``Managed_Stores``: an array of IDs of the store that the user manages and can modify.
+   - ``Managed_Stores``: an array of IDs of the stores that the user manages and can modify.
 
    By adding store IDs to these arrays on the user object,
    we can:
@@ -84,8 +85,8 @@ partition key value with the ``%%partition``
    - Grant a manager read/write access to their own store, and read-only access to other stores.
    - Grant a regional manager read/write access to many stores.
 
-   The roles part of the realm configuration file would
-   looks like this:
+   The roles part of the cluster :ref:`configuration file
+   <service-configuration-file>` would look like this:
 
    .. code-block:: json
       :emphasize-lines: 5-7, 14-16

@@ -20,16 +20,12 @@ title: Add a Rule Configuration File
 ref: add-a-rule-configuration-file
 content: |
   The sync rules for a cluster are configured in the
-  ``rules`` subdirectory of the :doc:`linked cluster
-  </mongodb/link-a-cluster>`'s directory. The rules
-  configuration file is a JSON file.
-
-  If you have not configured rules for the cluster, add a
-  configuration file for it to the ``rules`` directory:
+  :ref:`configuration file <service-configuration-file>` of
+  the cluster:
 
   .. code-block:: shell
 
-     touch services/<cluster name>/sync.json
+     touch services/<cluster name>/config.json
 
   The configuration file should have the following general form:
 

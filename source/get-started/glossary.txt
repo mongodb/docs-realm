@@ -39,6 +39,9 @@ Glossary
       individual Realms which passively synchronize changes as network
       availability allows.
 
+   partition
+      See :term:`Realm`.
+
    Realm client
       Anything that interacts with a :term:`Realm app` using the
       :term:`Realm SDK`. Examples include phone apps, IoT devices,
@@ -265,3 +268,8 @@ Glossary
       <linked cluster>` without defining a strict, inviolable schema.
       Intended for fast interation during early stages of development
       before defining a schema.
+
+   Sync role
+      A set of :term:`partition`-level permissions that
+      MongoDB Realm evaluates to determine whether a user
+      may sync a given partition. See :ref:`<sync-rules>`.

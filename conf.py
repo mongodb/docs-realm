@@ -61,7 +61,7 @@ rst_epilog = '\n'.join([
     '.. |atlas-full| replace:: MongoDB Atlas',
     '.. |atlas| replace:: Atlas',
     '.. |compass| replace:: MongoDB Compass',
-    '.. |realm|: replace:: realm',
+    '.. |realm| replace:: realm',
     '.. _compass: https://docs.mongodb.com/compass'
 ])
 
