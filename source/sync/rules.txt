@@ -16,51 +16,60 @@ Overview
 --------
 
 In order to control who can sync, read, and write data,
-:term:`MongoDB Realm` allows you to configure **rules**.
-Rules enforce two essential data access principles:
+:term:`MongoDB Realm` allows you to configure **sync
+rules**. Sync rules enforce two essential data access
+principles:
 
-- Users can only read the objects that they are allowed to see.
-- Users can only make changes to the objects that they are allowed to write to.
+- Users can only sync and read a :term:`Realm` that they are allowed to see.
+- Users can only sync and make changes to a |realm| that they are allowed to write to.
 
-You can edit rules in the MongoDB :term:`Realm UI`. You can
-also import rules using the :term:`Realm CLI`.
+Rules are bundled into :ref:`sync roles <sync-roles>`, which
+are then associated with a :ref:`user <user-objects>` to
+determine whether that user can sync, read, or write a given
+|realm|. You can edit roles in the MongoDB :term:`Realm UI`
+or import them using the :term:`Realm CLI`.
 
-Rules and Partitions
---------------------
+.. _rules-and-realms:
 
-Rules apply to entire :ref:`partitions <partitions>`. This
-level of access control is suitable for most applications
-without compromising sync performance.
+Rules and Realms
+----------------
 
-For example, consider an app that manages a chain of stores.
-By using the individual store ID as the :term:`partition
-key`, we divide each store's data into its own partition. We
-can grant the manager of each store write access only to the
-store they manage. In other words, the manager gets
-permission to modify any object within that partition.
+Rules apply to entire :ref:`realms <realms>`. That is, you
+can either sync an entire |realm| or none of it. This level
+of access control strikes a balance between suitability for
+most applications and scalability of sync.
 
-However, with the store ID as partition key, we cannot grant
-write access to only *part* of a store. If we needed to
-grant access to specific sections of the store, we would
-instead design the app to use section IDs as the partition
-keys. How you intend to grant access should inform how you
-partition your data.
+.. example::
+
+   Consider an app that manages a chain of stores. By using
+   the individual store ID as the :term:`partition key`, we
+   divide each store's data into its own |realm|. We can
+   grant the manager of each store write access only to the
+   store they manage. In other words, the manager gets
+   permission to modify any object within that |realm|.
+
+   However, with the store ID as partition key, we cannot
+   grant write access to only *part* of a store. If we
+   needed to grant access to specific sections of the store,
+   we would instead design the app to use section IDs as the
+   partition keys. How you intend to grant access should
+   inform how you partition your data into |realms|.
 
 .. _sync-roles:
 
 Users and Sync Roles
 --------------------
 
-A :term:`sync role` is a set of partition-level permissions
+A :term:`sync role` is a set of |realm|-level permissions
 that Realm evaluates when determining whether a user may
-sync a given partition. You select a property of the
+sync a given |realm|. You select a property of the
 :ref:`user object <user-objects>` that Realm uses to
-determine whether that user may sync the partition.
+determine whether that user may sync the |realm|.
 
 There are two initial roles:
 
-- :guilabel:`Read-only`: the user may sync the partition and read the data.
-- :guilabel:`Read/Write`: the user may sync the partition, read the data, and modify the data.
+- :guilabel:`Read-only`: the user may sync the |realm| and read the data.
+- :guilabel:`Read/Write`: the user may sync the |realm|, read the data, and modify the data.
 
 You may define custom roles with a rules :ref:`expression
 <expressions>`. In a sync rules expression, access the
@@ -115,7 +124,6 @@ partition key value with the ``%%partition``
         ...
       }
 
-
 Procedure
 ---------
 
@@ -132,7 +140,7 @@ Procedure
 Summary
 -------
 
-- **Sync rules** allow you to control who can read and write on which :ref:`partition <partitions>`.
-- **Roles** are collections of permissions that Realm evaluates to determine whether a user may sync a partition.
+- **Sync rules** allow you to control who can read and write on which :term:`Realm`.
+- **Roles** are collections of permissions that Realm evaluates to determine whether a user may sync a |realm|.
 - You can define rules in the Realm UI or by importing them with the Realm CLI.
 
