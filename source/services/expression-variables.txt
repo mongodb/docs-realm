@@ -1,3 +1,5 @@
+.. _expression-variables:
+
 ====================
 Expression Variables
 ====================
@@ -244,8 +246,8 @@ expressions:
 
 .. _service-expansions:
 
-Service Actions
-~~~~~~~~~~~~~~~
+Service Expansions
+~~~~~~~~~~~~~~~~~~
 
 You can use the following expansions in :ref:`external service rules
 <service-rules>`:
@@ -276,6 +278,27 @@ You can use the following expansions in :ref:`external service rules
       {
         "%%args.from": "+15558675309"
       }
+
+.. _sync-expansions:
+
+Sync Expansions
+~~~~~~~~~~~~~~~
+
+You can use the following expansions in :ref:`sync rules
+<sync-rules>`:
+
+.. cssclass:: auth-table
+.. list-table::
+   :header-rows: 1
+   :widths: 10 10 30
+
+   * - Name
+     - Type
+     - Description
+
+   * - .. json-expansion:: %%partition
+     - any
+     - The partition key value of the current partition being evaluated.
 
 .. _expression-operators:
 
