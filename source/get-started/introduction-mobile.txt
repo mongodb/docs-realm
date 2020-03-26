@@ -11,49 +11,56 @@ Introduction to MongoDB Realm for Mobile Developers
    :class: singlecol
 
 This introduction explains the MongoDB Realm product at a high level for
-developers with experience developing mobile applications. If you have
-significant experience working on the back-end or on web applications,
-you should consider reading the :doc:`Introduction for Web Developers
-</get-started/introduction-web>` or the
-:doc:`Introduction for Back-end Developers
-</get-started/introduction-back-end>`.
+developers with experience developing mobile applications. After
+reading, you should understand what MongoDB Realm is, how it interacts
+with Realm Database, and which benefits it offers compared to
+traditional mobile development stacks.
+
+.. note::
+   If you have significant experience working on the backend or on web
+   applications, you should consider reading the
+   :doc:`Introduction for Web Developers
+   </get-started/introduction-web>` or the
+   :doc:`Introduction for Back-end Developers
+   </get-started/introduction-backend>`.
 
 What Problem Does MongoDB Realm Solve?
 --------------------------------------
 
-Mobile application development today requires proficiency in a number
-of different domains of software development:
+As a developer, you face a number of challenges during the
+development of any mobile application. To name a few, mobile developers
+must:
 
-- Programming in the languages and frameworks for one or more mobile
-  operating systems
+- Program in the languages and frameworks for one or more mobile
+  operating systems.
 
-- Gracefully handling the "hostile environment" of mobile, where
-  connections can be lost, devices can shutdown at any time, and clients
-  usually update with a significant delay after release, if at all
+- Gracefully handle the unpredictable environment of mobile apps in
+  which connections can be lost, devices can shutdown at any time, and
+  clients usually update with a significant delay after release, if at
+  all.
 
-- Coordination between mobile clients, back-end APIs, and databases to
+- Coordinate between mobile clients, backend APIs, and databases to
   maintain a common schema of objects and endpoints with which to
-  communicate
+  communicate.
 
-- Mindfulness of security vulnerabilities across all components in an
-  ecosystem, from the HTTP protocol to API endpoints to data stored on
-  the client
+- Stay aware of security vulnerabilities across all components in an
+  ecosystem, from the HTTP protocol, to API endpoints, to data stored on
+  the client.
 
-- Consistent serialization of objects between networks,
-  database storage, and application memory
+- Consistently serialize objects between networks, database storage,
+  and application memory.
 
-All of these domains present different challenges and most feature a
-wide variety of libraries and frameworks you can use to solve different
-issues in isolation. Deciding which solution solves each problem with
-the right tradeoffs for your use case is a challenge most developers
-know all too well.
+All of these challenges present different obstacles. You can solve each
+in isolation with a wide variety of libraries and frameworks. Deciding
+which solution solves each problem with the right tradeoffs for your use
+case is a challenge most developers know all too well.
 
 In addition to the challenges presented by each component individually,
 the combination of multiple components creates even more challenges.
 For instance, you can use a Java library on your Android client to
 serialize objects in that environment, but consistently serializing
-across Android, iOS, the web, and each of your back-end
-services presents more of a challenge.
+across Android, iOS, the web, and each of your backend services
+presents more of a challenge.
 
 Realm Database
 --------------
@@ -68,7 +75,7 @@ and keeping UIs reactive (up-to-date as underlying data changes).
   When :term:`Realm sync` is enabled, Realm Database synchronizes
   data with MongoDB Realm over the network in a background thread,
   pushing local data changes to MongoDB Realm and pulling remote changes
-  down. The :term:`sync protocol` ensures that conflicts are resolved
+  down. The :term:`Realm sync protocol` resolves conflicts
   consistently on each client and in the
   :term:`linked MongoDB Atlas cluster <linked cluster>`.
 
@@ -89,13 +96,13 @@ and files, posts and comments on a blog, or inventory volumes in a
 kitchen, you need to store that data somewhere. MongoDB Atlas provides
 cloud-hosted managed instances of MongoDB that are always available. And
 because it's MongoDB, it's flexible and supports a wide range of
-languages for your back-end number-crunching services.
+languages for your backend number-crunching services.
 
 MongoDB Realm
 -------------
 
 MongoDB Realm stitches together Realm Database and MongoDB Atlas in a
-single back-end service. MongoDB also provides several common service
+single backend service. MongoDB also provides several common service
 components in addition to Realm Database and MongoDB Atlas:
 
 - :ref:`Realm functions <functions>`, server-side logic for
@@ -113,7 +120,7 @@ components in addition to Realm Database and MongoDB Atlas:
   :ref:`Google <google-authentication>`, and
   :ref:`Apple <apple-id-authentication>`.
 
-- Permissioning via :ref:`Realm rules` gives you fine-grained control
+- Permissioning via :term:`Realm rules` gives you fine-grained control
   over who accesses what data.
 
 - Server-side :ref:`Realm values and Realm secrets <values-and-secrets>`
