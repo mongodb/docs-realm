@@ -110,11 +110,14 @@ content: |
               "bsonType": "array",
               "uniqueItems": true,
               "items": {
-                "rank": { "bsonType": "int" },
-                "name": { "bsonType": "string" },
-                "hexCode": {
-                  "bsonType": "string",
-                  "pattern": "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$"
+                "bsonType": "object",
+                "properties": {
+                  "rank": { "bsonType": "int" },
+                  "name": { "bsonType": "string" },
+                  "hexCode": {
+                    "bsonType": "string",
+                    "pattern": "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$"
+                  }
                 }
               }
             }
