@@ -128,6 +128,30 @@ The Realm GraphQL API uses the following input types:
        - to sort by title from A to Z you would use ``TITLE_ASC``
        - to sory by rating from highest to lowest you would use ``RATING_DESC``
 
+.. _graphql-default-payload:
+
+Custom Resolver Default Payload
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+If a :doc:`custom query or mutation </graphql/custom-resolvers>` does
+not define a :guilabel:`Payload Type`, Realm returns a
+``DefaultPayload`` that has the following signature:
+
+.. code-block:: graphql
+   
+   type DefaultPayload {
+     status: String!
+   }
+
+The ``status`` field will always resolve to ``"complete"`` regardless of
+the resolver function's return value.
+
+.. code-block:: graphql
+   
+   {
+     status: "complete"
+   }
+
 .. _graphql-bson-type-mapping:
 
 BSON Type Mapping
