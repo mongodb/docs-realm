@@ -147,8 +147,8 @@ Summary
   Realm app with custom logic via functions and triggers, custom
   permissions via rules, and authentication via third-party SSO.
 
-- Realm Database is an mobile object database in which you can directly
-  access and store live objects without an :wikipedia:`ORM
+- Realm Database is an offline-first mobile object database in which you
+  can directly access and store live objects without an :wikipedia:`ORM
   </Object-relational_mapping>`.
 
 - Live Objects and Realm Sync offer significant benefits
@@ -158,10 +158,11 @@ Summary
     making it easier to keep your UI in sync with changes to your data,
     regardless of where those changes come from.
 
-  - Realm Sync synchronizes data between client-side Realm
-    Databases and the server-side MongoDB Atlas cluster linked to your
+  - Realm Sync synchronizes data between client-side Realms and the
+    server-side MongoDB Atlas cluster linked to your
     Realm app. The Realm sync protocol resolves conflicts consistently
-    across the server and all client instances of a Realm.
+    across all instances of a Realm, both on the server and in client
+    applications.
   
   - Realm Database synchronizes data in a background thread, abstracting
     away network usage so you don't have to worry about latency, timeouts,
