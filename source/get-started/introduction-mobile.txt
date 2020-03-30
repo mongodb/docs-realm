@@ -138,3 +138,31 @@ provides components to fulfill several common application requirements:
 
 The Realm Mobile SDKs let you can call functions, authenticate users,
 sync remote Realms, and query your local Realms.
+
+Summary
+-------
+
+- MongoDB Realm is a Backend-as-a-Service (BaaS) that takes care of the
+  details of deployment and scaling for you. You can customize your
+  Realm app with custom logic via functions and triggers, custom
+  permissions via rules, and authentication via third-party SSO.
+
+- Realm Database is an mobile object database in which you can directly
+  access and store live objects without an :wikipedia:`ORM
+  </Object-relational_mapping>`.
+
+- Live Objects and Realm Sync offer significant benefits
+  over traditional mobile development stacks.
+
+- Live Objects always reflect the latest state of data in the database,
+  making it easier to keep your UI in sync with changes to your data,
+  regardless of where those changes come from.
+
+- Realm Sync synchronizes data between client-side Realm
+  Databases and the server-side MongoDB Atlas cluster linked to your
+  Realm app. The Realm sync protocol resolves conflicts consistently
+  across the server and all client instances of a Realm.
+  
+- Realm Database synchronizes data in a background thread, abstracting
+  away network usage so you don't have to worry about latency, timeouts,
+  or dropped connections.
