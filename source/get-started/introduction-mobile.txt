@@ -31,9 +31,6 @@ As a developer, you face a number of challenges during the
 development of any mobile application. To name a few, mobile developers
 must:
 
-- Program in the languages and frameworks for one or more mobile
-  operating systems.
-
 - Gracefully handle the unpredictable environment of mobile apps in
   which connections can be lost, devices can shut down at any time, and
   clients usually update with a significant delay after release, if at
@@ -49,6 +46,9 @@ must:
 
 - Consistently serialize objects between networks, database storage,
   and application memory.
+
+- Program in the languages and frameworks for one or more mobile
+  operating systems.
 
 All of these challenges present different obstacles. You can solve each
 in isolation with a wide variety of libraries and frameworks. Deciding
@@ -70,6 +70,11 @@ the mobile environment, including network reliability, local storage,
 and keeping UIs reactive (up-to-date as underlying data changes).
 :term:`Realm Database` solves many common mobile programming headaches:
 
+- **Local storage**: Realm Database runs right on client devices. Access
+  objects using the native query language for each
+  platform, so storing, accessing, and updating your data is simple and
+  lightweight.
+
 - **Network reliability**: Realm Database is offline-first: you always
   read from and write to the local database, not over the network.
   When :term:`Realm sync` is enabled, Realm Database synchronizes
@@ -79,13 +84,12 @@ and keeping UIs reactive (up-to-date as underlying data changes).
   consistently on each client and in the
   :term:`linked MongoDB Atlas cluster <linked cluster>`.
 
-- **Local storage**: Realm Database runs right on client devices, just
-  like SQLite. Access data using the native query language for each
-  platform, so storing, accessing, and updating your data is simple.
-
 - **Reactive UI**: :term:`Live objects <live objects>` always reflect
   the latest data stored in Realm Database and allow you to subscribe to
   changes, so you can keep your UI up-to-date at all times.
+
+The Realm SDK lets you connect to local Realms on Android, iOS, Node.js,
+React Native, Xamarin, and UWP development.
 
 MongoDB Atlas
 -------------
@@ -101,14 +105,23 @@ capabilities of MongoDB. You can connect to your Atlas instance in your
 backend services using MongoDB drivers for a wide range of languages. Or
 connect your Atlas instance to `MongoDB Charts
 <https://www.mongodb.com/products/charts?tck=docs_realm>`_ to visualize
-your data in real time.
+your data in real time. Storing your data in Atlas makes it easy to
+share data across users and platforms.
 
 MongoDB Realm
 -------------
 
-MongoDB Realm stitches together Realm Database and MongoDB Atlas in a
-single backend service. To support these services, MongoDB Realm also
+MongoDB Realm enables sync between Realm Database and MongoDB Atlas,
+seamlessly stitching together the two components into an application
+layer for your mobile app. To support these services, MongoDB Realm also
 provides components to fulfill several common application requirements:
+
+- :ref:`Realm Users and Authentication <users-and-authentication>`
+  provide built-in user management with easy integration into
+  :ref:`third-party authentication providers <auth-providers>`,
+  like :ref:`Facebook <facebook-authentication>`,
+  :ref:`Google <google-authentication>`, and
+  :ref:`Apple <apple-id-authentication>`.
 
 - :ref:`Realm functions <functions>` provide server-side logic for
   your :term:`Realm app`. Similar to endpoints in a REST API, except
@@ -119,13 +132,6 @@ provides components to fulfill several common application requirements:
 - :ref:`Realm triggers <triggers>` automatically
   execute a function at a scheduled time or when an event occurs, such
   as a change to a database or a call to a HTTP endpoint.
-
-- :ref:`Realm Users and Authentication <users-and-authentication>`
-  provide built-in user management with easy integration into
-  :ref:`third-party authentication providers <auth-providers>`,
-  like :ref:`Facebook <facebook-authentication>`,
-  :ref:`Google <google-authentication>`, and
-  :ref:`Apple <apple-id-authentication>`.
 
 - :term:`Realm rules` let you control who accesses what data.
 
@@ -142,8 +148,8 @@ sync remote Realms, and query your local Realms.
 Summary
 -------
 
-- MongoDB Realm is a Backend-as-a-Service (BaaS) that takes care of the
-  details of deployment and scaling for you. You can customize your
+- MongoDB Realm is a serverless application platform that takes care of
+  the details of deployment and scaling for you. You can customize your
   Realm app with custom logic via functions and triggers, custom
   permissions via rules, and authentication via third-party SSO.
 
