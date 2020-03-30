@@ -1,0 +1,49 @@
+============
+Partitioning
+============
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+The MongoDB Atlas cluster linked to your MongoDB Realm app likely contains a significant amount of data. This data differs from the data
+stored on client mobile devices in several ways. 
+
+- The data stored in Atlas takes up more physical storage than any
+  single client device generates or has the capacity to store.
+
+- Atlas data encompasses all permissions and all clients; most clients
+  (aside from administrators) only require the subset of data that they
+  have the permission to read or write.
+
+Realms contain collections of objects that share the same permissioning. A single Realm might contain all of the objects that
+one specific user has the permission to write. A single Realm could
+also contain all of the objects that a larger group of users has the
+permission to read. The concept is the same: a realm is a group of
+objects that share the same access requirements. In most cases, a
+Realm is only a small fraction of the data stored by your application.
+
+You can break up the large amount of data stored by your Realm app in
+MongoDB Atlas into the small collections of data required by individual
+clients with partitioning. To partition your data into Realms, you'll
+need to assign a :term:`partition key`. The partition key is a field
+in every MongoDB docment in every MongoDB collection inside atlas whose value determines the Realm that owns that document. The **partition value** is the value of that field, and each unique partition value translates directly to a unique Realm.
+
+Client devices can sync multiple Realms at a time at the cost of
+additional space and additional network usage to sync changes. Sync
+Realms from your Realm app to a client mobile device using the Realm Mobile SDKs.
+
+You must specify the partition key for your Realm app when enabling
+Realm Sync.
+
+Partition Key Limitations
+-------------------------
+
+Because of the relationship between partition values, client synchronization, and permissions, partition values are subject to certain limitations. Specifically:
+
+- the name of a partition key field cannot change
+- MongoDB Realm only allows partition values to use the String, ObjectID, Int, or Long types
