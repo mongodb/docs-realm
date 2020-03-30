@@ -14,7 +14,7 @@
           
             const app = Stitch.defaultAppClient;
             const user = app.auth.user;
-            const speaksEnglish = user.profile.customData.primaryLanguage === "English";
+            const speaksEnglish = user.customData.primaryLanguage === "English";
       
       .. tab::
          :tabid: android

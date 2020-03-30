@@ -23,6 +23,8 @@ Each service directory contains a service configuration file
 (``/rules``), and a sub-directory of webhook configurations
 (``/incoming_webhooks``) if the service supports webhooks.
 
+.. _service-configuration-file:
+
 Service Configuration
 ~~~~~~~~~~~~~~~~~~~~~
 

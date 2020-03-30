@@ -1,0 +1,105 @@
+title: Export Your Realm Application
+ref: export-your-application
+content: |
+  To define roles and permissions with :doc:`realm-cli
+  </deploy/realm-cli-reference>`, export an
+  :ref:`application directory <application-directory>` for
+  your application.
+
+  You can :doc:`export </deploy/export-realm-app>` your
+  application from the :guilabel:`Export` tab of the
+  :guilabel:`Settings` page in the Realm UI, or by running the
+  following command from an authenticated instance of :doc:`realm-cli
+  </deploy/realm-cli-reference>`:
+
+  .. code-block:: shell
+
+     realm-cli export --app-id=<App ID>
+---
+title: Add a Rule Configuration File
+ref: add-a-rule-configuration-file
+content: |
+  The sync rules for a cluster are configured in the
+  :ref:`configuration file <service-configuration-file>` of
+  the cluster:
+
+  .. code-block:: shell
+
+     touch services/<cluster name>/config.json
+
+  The configuration file should have the following general form:
+
+  .. code-block:: json
+
+     {
+       "roles": [],
+       "filters": [],
+       "schema": {}
+     }
+
+---
+title: Add One or More Roles
+ref: add-one-or-more-roles
+content: |
+  Add a document to the ``roles`` array for each role that you want to
+  configure. Role documents have the following form:
+
+  .. code-block:: javascript
+
+     {
+       "name": "<Role Name>",
+       "apply_when": <JSON Expression>,
+       "read": <boolean>,
+       "write": <boolean>
+     }
+
+  .. list-table::
+     :header-rows: 1
+     :widths: 15 40
+
+     * - Field
+       - Description
+
+     * - ``name``
+       - Required. The name of the role. Limited to 100 characters or
+         fewer.
+
+     * - ``apply_when``
+       - Required. A :doc:`JSON expression </services/json-expressions>` that
+         determines when this role applies to a given partition.
+
+     * - ``read``
+       - Optional. Default: ``false``. A boolean that, if ``true``,
+         indicates that the role has permission to sync and
+         read *all* objects in a partition.
+
+     * - ``write``
+       - Optional. Default: ``false``. A boolean that, if ``true``,
+         indicates that the role has permission to sync and
+         write to *all* objects in a partition.
+
+---
+title: Import Your Application Directory
+ref: import-your-application-directory
+content: |
+  Once you have added your role configurations to the
+  cluster sync configuration file, all that's left is to
+  import the rule.
+
+  Ensure that the rule configuration file is saved, then
+  navigate to the root of the exported application
+  directory. Log in to MongoDB Atlas with ``realm-cli``:
+
+  .. code-block:: shell
+
+     realm-cli login --api-key="<my api key>" --private-api-key="<my private api key>"
+
+  Once you're logged in, import the directory:
+
+  .. code-block:: shell
+
+     realm-cli import
+
+  Once the import completes, Realm will immediately begin
+  using the roles you defined for all incoming requests to
+  sync that partition.
