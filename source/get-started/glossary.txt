@@ -174,9 +174,10 @@ Glossary
       function.
 
    authentication trigger
-      Call a :term:`Realm function` whenever a user interacts with
-      an authentication provider, such as whenever a user logs into your
-      :term:`Realm app`. Passes an authentication event describing the
+      Call a :term:`Realm function` whenever a user
+      interacts with an :term:`authentication provider`,
+      such as whenever a user logs into your :term:`Realm
+      app`. Passes an authentication event describing the
       user and interaction to the linked function.
 
    scheduled trigger
@@ -229,10 +230,12 @@ Glossary
       for a given user for a particular resource.
 
    Realm secret
-      A private value stored in :term:`MongoDB Realm` that cannot be
-      directly read, but can be assigned to variables. Realm secrets are
-      automatically obscured from MongoDB Realm logs, and are typically
-      used in authentication provider and service configurations.
+      A private value stored in :term:`MongoDB Realm` that
+      cannot be directly read, but can be assigned to
+      variables. Realm secrets are automatically obscured
+      from MongoDB Realm logs, and are typically used in
+      :term:`authentication provider` and service
+      configurations.
 
    Realm UI
       A web interface from which you can manage any
@@ -278,3 +281,14 @@ Glossary
       Realm evaluates to determine whether a user may sync a
       given |realm|. See :ref:`Define Sync Rules
       <sync-rules>`.
+
+   authentication provider
+      An integration of a specific authentication mechanism
+      into MongoDB Realm's user authentication system. Realm
+      provides several authentication providers -- such as
+      :ref:`email/password <email-password-authentication>`
+      authentication, :ref:`Google authentication
+      <google-authentication>`, and :ref:`custom JWT
+      authentication <custom-jwt-authentication>` -- that
+      you can use in your client application to allow users
+      to log in.
