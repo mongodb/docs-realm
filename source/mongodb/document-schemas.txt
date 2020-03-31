@@ -430,3 +430,13 @@ For more information, see the official JSON Schema `boolean guide
 .. code-block:: json
 
    { "bsonType": "bool" }
+
+
+
+
+.. note::
+
+   The ``additionalItems`` field only affects array schemas
+   that have an array-valued ``items`` field. If the ``items``
+   field is a single schema object, ``additionalItems`` has no
+   effect.
