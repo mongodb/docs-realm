@@ -11,8 +11,10 @@ Introduction to MongoDB Realm for Backend Developers
    :class: singlecol
 
 As a backend developer, you can use MongoDB Realm to rapidly
-develop cloud-based applications that scale to meet demand
-without having to manage your own database or server
+develop cloud-based applications that can react to changes
+in your :term:`MongoDB Atlas` data, connect that data to
+other systems and services, and scale to meet demand without
+the need for managing your own database and server
 infrastructure.
 
 .. note::
@@ -38,18 +40,18 @@ MongoDB Realm is:
 
 Serverless:
   - Deploy server-side applications without having to set up and manage server infrastructure -- including provisioning, deployment, operating systems, web servers, logging, backups, and redundancy.
-  - Run cloud-based :term:`Realm functions <Realm function>` that can crunch data or interact with third-party services, such as Slack, Twilio, or Twitter.
-  - Upload and serve static documents and images with :doc:`Realm hosting </hosting>`.
+  - Run cloud-based :term:`Realm functions <Realm function>` that can crunch data or interact with third-party services, such as Slack, Twilio, or Twitter. You can integrate virtually any Node.js module in your functions with :ref:`dependency resolution <dependency-resolution>`.
+  - Skip writing an additional API on top of your MongoDB Realm service -- authenticated clients may directly interact with the parts of the database they have permission to access.
 
 Dynamic and responsive:
   - React to data changes in MongoDB Atlas, process data from incoming webhooks, or run functions on a schedule with :term:`Realm triggers <Realm trigger>`.
-  - Get up and running quickly with MongoDB Realm's free tier, then scale according to the demands of your application. On paid tiers, you pay only for what you use.
-  - Incorporate virtually any Node.js module in your functions with :ref:`dependency resolution <dependency-resolution>`.
+  - Get up and running quickly for free, then scale according to the demands of your application.
+  - Pay for and receive only the exact amount of compute you need at any given time with MongoDB Realm's usage-based pricing model. Usage under a certain amount per month is always free.
 
 Simply secure:
-  - Meet users where they are by integrating MongoDB Realm's built-in :term:`authentication providers <authentication provider>` into your app.
-  - Control which users may read and write data with built-in and customizable :ref:`rules and roles <data-access-permissions>`.
-  - Skip writing an additional API on top of your MongoDB Realm service. Authenticated clients may directly interact with the parts of the database they have permission to access.
+  - Allow users to log in with familiar :term:`authentication providers <authentication provider>` that are built in to MongoDB Realm.
+  - Control which users may read and write data on a per-field basis with :ref:`rules and roles <data-access-permissions>` that you can define declaratively or with a function.
+  - Enforce data integrity by defining :ref:`validation logic <add-change-validation-expressions>` with :term:`Realm schema <Realm schema>`.
 
 You can make entirely cloud-based applications with MongoDB
 Realm or tie your MongoDB Realm application into mobile or
