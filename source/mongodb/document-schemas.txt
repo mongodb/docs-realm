@@ -36,6 +36,14 @@ schemas for the following common types:
 - :ref:`Numbers <schema-type-numbers>`
 - :ref:`Booleans <schema-type-booleans>`
 
+.. note::
+
+   MongoDB Realm can be used to automatically create a :doc:`GraphQL
+   </graphql>` types or :doc:`Realm Data Models
+   </get-started/define-realm-schema>` for collections that have a
+   defined document schema.
+
+
 Schema Enforcement Process
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -430,13 +438,3 @@ For more information, see the official JSON Schema `boolean guide
 .. code-block:: json
 
    { "bsonType": "bool" }
-
-
-
-
-.. note::
-
-   The ``additionalItems`` field only affects array schemas
-   that have an array-valued ``items`` field. If the ``items``
-   field is a single schema object, ``additionalItems`` has no
-   effect.
