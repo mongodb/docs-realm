@@ -1,0 +1,165 @@
+title: Enable Schema Development Mode
+ref: export-your-application
+content: |
+  In the MongoDB Realm UI you can enable 'Schema Development Mode'. Go
+  to your Schema settings to enable this. Then set ``developerMode`` to
+  ``TRUE`` wherever you set realmConfiguration in client-side code
+     realm-cli export --app-id=<App ID>
+---
+title: Add a Rule Configuration File
+ref: add-a-rule-configuration-file
+content: |
+  The rules for a MongoDB collection are configured in the ``rules``
+  subdirectory of the :doc:`linked cluster </mongodb/link-a-cluster>`'s
+  service directory. The rules configuration file is a JSON file with
+  the same name as the collection namespace.
+
+  For example, the rules for the collection ``app.users`` in the
+  ``mongodb-atlas`` cluster are defined in the file
+  ``/services/mongodb-atlas/rules/app.users.json``.
+
+  If you have not configured rules for the collection, add a
+  configuration file for it to the ``rules`` directory:
+
+  .. code-block:: shell
+
+     touch services/<cluster name>/rules/<db>.<collection>.json
+
+  The configuration file should have the following general form:
+
+  .. code-block:: json
+
+     {
+       "roles": [],
+       "filters": [],
+       "schema": {}
+     }
+
+  .. note::
+
+     This guide focuses on creating ``roles`` for the collection. Check
+     out the other configuration guides to learn how to :doc:`create
+     filters </mongodb/filter-incoming-queries>` and :doc:`enforce
+     document schemas </mongodb/enforce-a-document-schema>`.
+---
+title: Add One or More Roles
+ref: add-one-or-more-roles
+content: |
+  Add a document to the ``roles`` array for each role that you want to
+  configure. Role documents have the following form:
+
+  .. code-block:: javascript
+
+     {
+       "name": "<Role Name>",
+       "apply_when": <JSON Expression>,
+       "insert": <boolean>,
+       "delete": <boolean>,
+       "read": <boolean>,
+       "write": <boolean>,
+       "fields": {
+         "<Field Name>": {
+           "read": <boolean>,
+           "write": <boolean>
+         },
+         ...
+       },
+       "additional_fields": {
+         "read": <boolean>,
+         "write": <boolean>
+       }
+     }
+
+  .. list-table::
+     :header-rows: 1
+     :widths: 15 40
+
+     * - Field
+       - Description
+
+     * - ``name``
+       - Required. The name of the role. Limited to 100 characters or
+         fewer.
+
+     * - ``apply_when``
+       - Required. A :doc:`JSON expression </services/json-expressions>` that
+         determines when this role applies to a given document.
+
+     * - ``insert``
+       - Optional. Default: ``false``. A boolean that, if ``true``,
+         indicates that the role has permission to insert a new
+         document. This document-level permission does not override any
+         field-level permissions configured in ``fields``, i.e. the role
+         must have permission to write to all inserted fields in
+         addition to insert permission.
+
+     * - ``delete``
+       - Optional. Default: ``false``. A boolean that, if ``true``,
+         indicates that the role has permission to delete a new
+         document.
+
+     * - ``read``
+       - Optional. Default: ``false``. A boolean that, if ``true``,
+         indicates that the role has permission to read *all* fields in
+         a document. This document-level read permission overrides any
+         field-level permissions configured in ``fields``.
+
+     * - ``write``
+       - Optional. Default: ``false``. A boolean that, if ``true``,
+         indicates that the role has permission to write to *all* fields
+         in a document. Further, write permissions require matching read
+         permissions, so if this is ``true``, then ``read`` is also
+         ``true``. These document-level read and write permissions
+         override any field-level permissions configured in ``fields``.
+
+     * - ``fields``
+       - Required. A document where each field matches the name of a
+         field in a collection document. The value of each field is a
+         document that specifies read and write permissions for the
+         field.
+
+         .. example::
+
+            .. code-block:: javascript
+
+               "fields": {
+                 "id": {
+                    "read": true,
+                    "write": false
+                 },
+               }
+
+     * - ``additional_fields``
+       - Optional. Default: ``{ "read": false, "write": false }``. A
+         document that specifies the role's default read and write
+         permissions for any fields that are not explicitly defined.
+
+         .. code-block:: javascript
+
+            "additional_fields": {
+                 "read": true,
+                 "write": false
+            }
+---
+title: Import Your Application Directory
+ref: import-your-application-directory
+content: |
+  Once you've added your role configurations to the collection rule
+  configuration file, all that's left is to import the rule.
+
+  Ensure that the rule configuration file is saved then navigate to the
+  root of the exported application directory. Log in to MongoDB Atlas
+  with ``realm-cli``:
+
+  .. code-block:: shell
+
+     realm-cli login --api-key="<my api key>" --private-api-key="<my private api key>"
+
+  Once you're logged in, import the directory:
+
+  .. code-block:: shell
+
+     realm-cli import
+
+  Once the import completes, Realm will immediately begin using the
+  roles you defined for all incoming queries on the collection.
