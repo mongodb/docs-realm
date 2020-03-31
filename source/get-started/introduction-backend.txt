@@ -10,9 +10,10 @@ Introduction to MongoDB Realm for Backend Developers
    :depth: 2
    :class: singlecol
 
-As a backend developer, you can use MongoDB Realm to create
-lightweight, serverless applications without having to
-manage your own database or server infrastructure.
+As a backend developer, you can use MongoDB Realm to rapidly
+develop cloud-based applications that scale to meet demand
+without having to manage your own database or server
+infrastructure.
 
 .. note::
    If you prefer working on mobile or web applications,
@@ -27,44 +28,46 @@ What Problem Does MongoDB Realm Solve?
 It takes time, resources, and expertise to build,
 administer, and maintain backend infrastructure. User
 authentication and access control are common but complex
-systems that you do not need to write from scratch.
+systems that you do not need to write from scratch. Built on
+`MongoDB Atlas
+<https://www.mongodb.com/cloud/atlas?tck=docs_realm>`_,
 :term:`MongoDB Realm` manages all parts of the backend
 infrastructure and user management for you, enabling you to
-focus on what makes your app special so you can go to market
-faster.
+focus on what makes your app special so you can get it to
+your users faster.
 
-Built on `MongoDB Atlas
-<https://www.mongodb.com/cloud/atlas?tck=docs_realm>`_,
 MongoDB Realm is:
 
 Serverless:
-  - Deploy server-side applications without having to set up and manage server infrastructure.
+  - Deploy server-side applications without having to set up and manage server infrastructure -- including provisioning, deployment, operating systems, web servers, logging, backups, and redundancy.
   - Run cloud-based :term:`Realm functions <Realm function>` that can crunch data or interact with third-party services, such as Slack, Twilio, or Twitter.
   - Upload and serve static documents and images with :doc:`Realm hosting </hosting>`.
 
 Dynamic and responsive:
-  - React to data changes in MongoDB Atlas or run functions on a schedule with :term:`Realm triggers <Realm trigger>`.
-  - Like Atlas, MongoDB Realm has a free tier to get started and can scale according to the demands of your application.
+  - React to data changes in MongoDB Atlas, process data from incoming webhooks, or run functions on a schedule with :term:`Realm triggers <Realm trigger>`.
+  - Get up and running quickly with MongoDB Realm's free tier, then scale according to the demands of your application. On paid tiers, you pay only for what you use.
   - Incorporate virtually any Node.js module in your functions with :ref:`dependency resolution <dependency-resolution>`.
 
 Simply secure:
-  - Enable authentication with major :term:`authentication providers <authentication provider>` and control which users may read and write data with :term:`Realm rules`.
-  - Authenticated clients may interact with the database directly. There's no need to write an additional API on top of your MongoDB Realm service.
+  - Meet users where they are by integrating MongoDB Realm's built-in :term:`authentication providers <authentication provider>` into your app.
+  - Control which users may read and write data with built-in and customizable :ref:`rules and roles <data-access-permissions>`.
+  - Interact directly with the database. There's no need to write an additional API on top of your MongoDB Realm service. Authenticated clients may interact directly with the parts of the database they have permission to access.
 
 You can make entirely cloud-based applications with MongoDB
 Realm or tie your MongoDB Realm application into mobile or
-web clients and seamlessly :term:`sync` data across devices.
+web clients and seamlessly sync data across devices with
+:term:`Realm sync`.
 
 Get Started Now
 ---------------
 
 You can start developing a MongoDB Realm application for
-free by following the steps `here
+free by `following these steps
 <https://www.mongodb.com/download-center>`_.
 
 Summary
 -------
 
-- MongoDB Realm allows you to deploy serverless, cloud-based applications based on :term:`MongoDB Atlas` without having to manage your own backend infrastructure.
-- Typical use cases for backend developers using MongoDB Realm include processing data, reacting to data changes in Atlas, and interacting with third-party services.
-- MongoDB Realm's built-in :doc:`authentication system </authentication>` allows you to add users to your app and control who can read and write data.
+- MongoDB Realm allows you to deploy serverless, cloud-based applications without having to manage your own backend infrastructure.
+- Typical use cases for backend developers using MongoDB Realm include crunching data, reacting to data changes in Atlas, and interacting with third-party services.
+- MongoDB Realm's built-in :doc:`authentication system </authentication>` allows you to add users to your app and define :ref:`permissions <mongodb-permissions>` that control who can read and write data.
