@@ -13,22 +13,24 @@ Define a Realm Schema
 Overview
 --------
 
-You can create a ``data model`` to define the structure of the data you
-are storing in your database. Setting a data model is a useful technique
-to enforce document validation on your collection. Although MongoDB and
-Realm are both object centric, there are differences between their data
-models, such as the structuring of relationships, supported types, etc.
+You can create a :manual:`Data Model </data-modeling/>`. to define the
+structure of the data you are storing in your database. Setting a data
+model is a useful technique to enforce document validation on your
+collection. Although MongoDB and Realm are both object centric, there
+are differences between their data models, such as the structuring of
+relationships, supported types, etc.
 
 This guide teaches how to define a Data Model using MongoDB Realm. If
-you currently have data in MongoDB Atlas, you will learn how to
+you currently have data in `MongoDB Atlas
+<http://www.mongodb.com/cloud/atlas/>`_, you will learn how to
 translate this data into a Data Model suitable for Realm mobile
 development. If you do not have data in Atlas, you will learn how to use
-'Schema Development Mode' to create a schema for Atlas so that you can
+``Schema Development Mode`` to create a schema for Atlas so that you can
 take your mobile application to production. 
 
 
-Starting with Data in MongoDB:
-------------------------------
+Starting with Data in MongoDB
+-----------------------------
 You can create a Data Model for Realm if you already have data in
 MongoDB Atlas. Through the MongoDB Realm UI you can sample the data in
 your collection to automatically generate a schema. Then you can edit
@@ -40,12 +42,30 @@ Procedure
 
 #. Sign up for Atlas and create a cluster
 #. Create a MongoDB Realm application
-#. Navigate to the SDKs to link your MongoDB Realm to your Atlas Cluster
-#. Generate a JSON Schema based on your cluster data
+#. Navigate to the SDKs to link your MongoDB Realm application to your Atlas Cluster
 #. In the ``rules`` section, click "Generate Schema" to automatically create a JSON Schema based on your cluster data
+
+   .. figure:: /images/generate-schema-based-on-cluster-data.png
+      :width: 750px
+      :lightbox:
+
 #. Edit your JSON Schema
+
+   .. figure:: /images/edit-schema-based-on-cluster-data.png
+      :width: 750px
+      :lightbox:
+
 #. In the SDKs tab, view your JSON Schema as a Realm Data Model in your language of choice
 
+   .. figure:: /images/translate-jsonschema-into-realm-data-model.png
+      :width: 750px
+      :lightbox:
+
+#. Click ``View all Schema Errors`` to see the errors & warnings from translating your schema into a data model
+
+   .. figure:: /images/schema-translation-errors-warnings.png
+      :width: 750px
+      :lightbox:
 
 Starting with your application using 'Schema Development Mode'
 --------------------------------------------------------------
@@ -60,13 +80,32 @@ Procedure
 
 #. Sign up for Atlas and create a cluster
 #. Create a MongoDB Realm application
-#. Navigate to the SDKs to link your MongoDB Realm to your Atlas Cluster
+#. Navigate to the SDKs to link your MongoDB Realm application to your Atlas Cluster
 #. Enable "Schema Development Mode automatically by navigating to the SDKs page
-#. Create a Data Model in the language of your choice with the Realm Client SDKs
-#. Alter Validation Settings in the ``Sync`` tab
-#. Click Save
-#. Click View my JSON Schema to view your generated schema for Atlas
 
+   .. figure:: /images/enable-schema-development-mode.png
+      :width: 750px
+      :lightbox:
+
+#. Create a Data Model in the language of your choice with the Realm Client SDKs
+
+   .. figure:: /images/define-your-data-models.png
+      :width: 750px
+      :lightbox:
+
+#. Alter Validation Settings in the ``Sync`` tab
+
+   .. figure:: /images/alter-validation-settings.png
+      :width: 750px
+      :lightbox:
+      
+#. Click Save
+#. A modal will appear, click ``View my JSON Schema`` to view your generated schema for Atlas
+
+   .. figure:: /images/view-my-json-schema.png
+      :width: 461px
+      :lightbox:
+      
 Summary
 -------
 - If you already have application data stored in MongoDB Atlas, you can translate your automatically generated document schema into a Data Model to use for your Realm Mobile Application.
