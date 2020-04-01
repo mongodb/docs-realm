@@ -19,24 +19,25 @@ data for every client, every user, and every object you chose to persist
 in a database.
 
 Client applications only need the data relevant to that specific client.
-Many clients only have permission to access certain data. And most
-clients should never access private data for other clients,
+Many clients only have permission to access certain data. Most
+clients must never access private data for other clients,
 like user settings or personal information.
 
 Partitioning helps you turn the large amount of data stored by your
-application into the small amount of data needed by invididual clients,
+application into the small amount of data needed by individual clients,
 called :term:`Realms <Realm>`.
 
 Partition Keys
 --------------
 
 MongoDB Realm uses the :term:`partition key` to sort
-:term:`MongoDB document <MongoDB document>` in Atlas into Realms. The
+:term:`MongoDB documents <MongoDB document>` in Atlas into
+:term:`Realm objects <Realm object>` in Realms. The
 partition key is a field that must exist in every document in every
 collection of your MongoDB Atlas cluster. Each unique
 :term:`partition value`, or value of a partition key, maps to a
 different Realm. Documents that share the same parition value belong to
-the same Realm, and as a result share the same set of permissions.
+the same Realm and, as a result, share the same permissions.
 
 Choose a Partition Key
 ----------------------
@@ -44,11 +45,14 @@ Choose a Partition Key
 The field selected as your partition key must exist in every document in
 your linked MongoDB Atlas database. All documents that share the same
 partition key also share the same permissions, so you should select a
-key whose unique values correspond with permissions. For example, you
-might use the ``owner_id`` field to partition a database into Realms
-corresponding to individual users. If your application shares resources
-across an entire company, but not across separate companies, you could
-define and partition your data by ``company_id``.
+key whose unique values correspond with permissions.
+
+.. example::
+
+   You might use the ``owner_id`` field to partition a database into Realms
+   corresponding to individual users. If your application shares resources
+   across an entire company, but not across separate companies, you could
+   define and partition your data by ``company_id``.
 
 Define a Partition Key
 ----------------------
@@ -65,10 +69,10 @@ Partition keys are subject to certain limitations:
 - You can only define partition keys using values of the String,
   ObjectID, Int, or Long types.
 
-- Once you've chosed a partition key and enabled sync, you cannot change
-  the partition key to a different field. To use a different field as
-  your partition key, disable Realm sync and enable Realm sync again,
-  selecting the new field as your partition key.
+- Once you have chosen a partition key and enabled sync, you cannot
+  change the partition key to a different field. To use a different
+  field as your partition key, disable Realm sync and enable Realm sync
+  again, selecting the new field as your partition key.
 
 - You cannot change the field name for your partition key.
 
@@ -78,4 +82,4 @@ Partition keys are subject to certain limitations:
   insertion of a new Realm object into its new Realm.
   
 - Changing a partition value from the Realm SDK is an error and will
-  trigger a client reset.
+  trigger a :ref:`client reset <client-reset>`.
