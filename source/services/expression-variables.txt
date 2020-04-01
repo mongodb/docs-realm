@@ -18,8 +18,9 @@ Overview
 You can use special variables in :doc:`JSON expressions
 </services/json-expressions>` to represent dynamic values and
 operations. There are two types of expression variables:
-:ref:`expansions <expansions>` and :ref:`operators
-<expression-operators>`.
+
+- :ref:`Expansions <expansions>`, which represent dynamic values and begin with two percent signs (``%%``).
+- :ref:`Operators <expression-operators>`, which represent runtime operations and begin with one percent sign (``%``).
 
 .. _expansions:
 .. _expression-expansions:
@@ -27,7 +28,7 @@ operations. There are two types of expression variables:
 Expansions
 ----------
 
-Expansions represent dynamic values that Stitch replaces when it
+Expansions represent dynamic values that Realm replaces when it
 evaluates an expression. Expansion variables begin with two percent
 signs (``%%``).
 
@@ -77,10 +78,10 @@ application.
      - Description
 
    * - .. json-expansion:: %%values
-     - any
-     - An object that includes all :doc:`global values </values-and-secrets>`
-       that you've defined in your Stitch application. You can access a
-       specific value from this object.
+     - Document
+     - A document that includes all :doc:`global values </values-and-secrets>`
+       that you have defined in your Realm application. You
+       can access a specific value from this document.
 
        .. example::
 
@@ -96,8 +97,8 @@ application.
                "%%root.secret": "%%values.secretString"
              }
    * - .. json-expansion:: %%request
-     - object
-     - An object that includes :doc:`context request </functions/context>`
+     - Document
+     - A document that includes :doc:`context request </functions/context>`
        information about the external HTTP request that triggered the function
        call.
 
@@ -207,24 +208,20 @@ expressions:
 
    * - .. json-expansion:: %%this
      - any
-     - The value of a particular field as it exists at the end of a
-       database operation.
+     - The value of a particular field as it exists at the end of a database operation.
 
    * - .. json-expansion:: %%prev
      - any
 
-     - The value of a particular field as it exists before
-       it is changed by a write operation.
+     - The value of a particular field before it is changed by a write operation.
 
    * - .. json-expansion:: %%root
      - Document
-     - The full document as it exists at the end of a database
-       operation.
+     - The full document as it exists at the end of a database operation.
 
    * - .. json-expansion:: %%prevRoot
      - Document
-     - The full document as it exists before it is changed by a write
-       operation.
+     - The full document before it is changed by a write operation.
 
 .. example::
 
@@ -262,7 +259,7 @@ You can use the following expansions in :ref:`external service rules
      - Description
 
    * - .. json-expansion:: %%args
-     - any
+     - Document
      - A document containing the values passed as arguments to a
        :ref:`service action <service-actions>`. You can access each
        argument by its parameter name.
@@ -305,14 +302,14 @@ You can use the following expansions in :ref:`sync rules
 Operators
 ---------
 
-Operators represent run time operations that Stitch executes when it
+Operators represent runtime operations that Realm executes when it
 evaluates an expression. Operator variables begin with one percent sign
 (``%``).
 
 Application Components
 ~~~~~~~~~~~~~~~~~~~~~~
 
-The following operators allow you access other components of your Stitch
+The following operators allow you access other components of your Realm
 application and are available in all :doc:`JSON expressions
 </services/json-expressions>`:
 
@@ -492,3 +489,10 @@ expressions </services/json-expressions>`:
           .. code-block:: json
 
              { "score": { "%lte": 0 } }
+
+Summary
+-------
+
+- You can use expression variables in :doc:`JSON expressions </services/json-expressions>` to represent dynamic values and operations.
+- :ref:`Expansions <expansions>` represent dynamic values and begin with two percent signs (``%%``).
+- :ref:`Operators <expression-operators>` represent runtime operations and begin with one percent sign (``%``).
