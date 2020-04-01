@@ -10,40 +10,72 @@ Partitioning
    :depth: 2
    :class: singlecol
 
-The MongoDB Atlas cluster linked to your MongoDB Realm app likely contains a significant amount of data. This data differs from the data
-stored on client mobile devices in several ways. 
+Overview
+--------
 
-- The data stored in Atlas takes up more physical storage than any
-  single client device generates or has the capacity to store.
+Your :term:`Realm app's <Realm app>` :term:`linked MongoDB Atlas cluster
+<linked cluster>` contains all of the data stored by your application:
+data for every client, every user, and every object you chose to persist
+in a database.
 
-- Atlas data encompasses all permissions and all clients; most clients
-  (aside from administrators) only require the subset of data that they
-  have the permission to read or write.
+Client applications only need the data relevant to that specific client.
+Many clients only have permission to access certain data. And most
+clients should never access private data for other clients,
+like user settings or personal information.
 
-Realms contain collections of objects that share the same permissioning. A single Realm might contain all of the objects that
-one specific user has the permission to write. A single Realm could
-also contain all of the objects that a larger group of users has the
-permission to read. The concept is the same: a realm is a group of
-objects that share the same access requirements. In most cases, a
-Realm is only a small fraction of the data stored by your application.
+Partitioning helps you turn the large amount of data stored by your
+application into the small amount of data needed by invididual clients,
+called :term:`Realms <Realm>`.
 
-You can break up the large amount of data stored by your Realm app in
-MongoDB Atlas into the small collections of data required by individual
-clients with partitioning. To partition your data into Realms, you'll
-need to assign a :term:`partition key`. The partition key is a field
-in every MongoDB docment in every MongoDB collection inside atlas whose value determines the Realm that owns that document. The **partition value** is the value of that field, and each unique partition value translates directly to a unique Realm.
+Partition Keys
+--------------
 
-Client devices can sync multiple Realms at a time at the cost of
-additional space and additional network usage to sync changes. Sync
-Realms from your Realm app to a client mobile device using the Realm Mobile SDKs.
+MongoDB Realm uses the :term:`partition key` to sort
+:term:`MongoDB document <MongoDB document>` in Atlas into Realms. The
+partition key is a field that must exist in every document in every
+collection of your MongoDB Atlas cluster. Each unique
+:term:`partition value`, or value of a partition key, maps to a
+different Realm. Documents that share the same parition value belong to
+the same Realm, and as a result share the same set of permissions.
 
-You must specify the partition key for your Realm app when enabling
-Realm Sync.
+Choose a Partition Key
+----------------------
 
-Partition Key Limitations
--------------------------
+The field selected as your partition key must exist in every document in
+your linked MongoDB Atlas database. All documents that share the same
+partition key also share the same permissions, so you should select a
+key whose unique values correspond with permissions. For example, you
+might use the ``owner_id`` field to partition a database into Realms
+corresponding to individual users. If your application shares resources
+across an entire company, but not across separate companies, you could
+define and partition your data by ``company_id``.
 
-Because of the relationship between partition values, client synchronization, and permissions, partition values are subject to certain limitations. Specifically:
+Define a Partition Key
+----------------------
 
-- the name of a partition key field cannot change
-- MongoDB Realm only allows partition values to use the String, ObjectID, Int, or Long types
+You can define a partition key when enabling :term:`Realm sync` for your
+Realm app. After selecting a cluster to sync, choose your partition key.
+You can either use an existing field or create a new field.
+
+Limitations of Partition Keys
+-----------------------------
+
+Partition keys are subject to certain limitations:
+
+- You can only define partition keys using values of the String,
+  ObjectID, Int, or Long types.
+
+- Once you've chosed a partition key and enabled sync, you cannot change
+  the partition key to a different field. To use a different field as
+  your partition key, disable Realm sync and enable Realm sync again,
+  selecting the new field as your partition key.
+
+- You cannot change the field name for your partition key.
+
+- Partition values should only change rarely. If you change a partition
+  value from Atlas, Realm interprets the change as a deletion of the
+  corresponding :term:`Realm object` from its original Realm and an
+  insertion of a new Realm object into its new Realm.
+  
+- Changing a partition value from the Realm SDK is an error and will
+  trigger a client reset.

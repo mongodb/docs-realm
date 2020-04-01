@@ -27,11 +27,20 @@ Glossary
 
    MongoDB document
       See the MongoDB Manual's :manual:`definition of document
-      </core/document/>`.
+      </core/document/>`. For :term:`Realm apps <Realm app>` that use
+      :term:`Realm sync`, every MongoDB document in the Realm
+      app's :term:`linked Atlas cluster <linked cluster>` corresponds to
+      a synced :term:`Realm object` in a client :term:`Realm`.
 
    partition key
-      A field within a :term:`MongoDB document` that determines which Realm
-      contains the corresponding Realm Object.
+      A field within a :term:`MongoDB document` whose
+      :term:`value <partition value>` determines which :term:`Realm`
+      contains the document's corresponding :term:`Realm object`.
+
+   partition value
+      A value of a :term:`Realm app`'s :term:`partition key` field.
+      Every unique partition value corresponds to a different
+      :term:`Realm` assignment.
 
    Realm
       A collection of :term:`Realm objects <Realm Object>` sharing the same
@@ -67,6 +76,10 @@ Glossary
       :term:`Realm Schema` through either any Realm SDK or the
       Realm Schema editor on the MongoDB Realm admin site. Object schemas
       can define primitive fields as well as embedded lists and relations.
+      For :term:`Realm apps <Realm app>` that use :term:`Realm sync`,
+      every Realm object in a client Realm corresponds to a synced
+      :term:`MongoDB document` in the Realm app's
+      :term:`linked Atlas cluster <linked cluster>`.
 
    GraphQL
       Open-source data query and manipulation language for APIs. Realm
