@@ -1,6 +1,8 @@
-============
-Partitioning
-============
+.. _partitioning:
+
+================================
+Partition Atlas Data into Realms
+================================
 
 .. default-domain:: mongodb
 
@@ -15,44 +17,74 @@ Overview
 
 Your :term:`Realm app's <Realm app>` :term:`linked MongoDB Atlas cluster
 <linked cluster>` contains all of the data stored by your application:
-data for every client, every user, and every object you chose to persist
-in a database.
+your entire data model, client data, :ref:`custom user data
+<custom-user-data>`, administrative data, and more.
 
-Client applications only need the data relevant to that specific client.
-Many clients only have permission to access certain data. Most
-clients must never access private data for other clients,
-like user settings or personal information.
+Client applications only need the data relevant to the current user.
+Most users only have permission to access a limited subset of the data
+in a linked cluster. Some data, like user settings and personal
+information, are only relevant to a single user.
 
-Partitioning helps you turn the large amount of data stored by your
-application into the small amount of data needed by individual clients,
-called :term:`Realms <Realm>`.
+:term:`Partitioning <partitioning>` helps you turn the large amount of
+data stored by your application into the small amount of data needed by
+individual clients, called :term:`Realms <Realm>`.
+
+.. figure:: /images/partitioning.svg
+   :alt: Partitioning shape data in an Atlas cluster using a ``color``
+         partition key with partition values ``red``, ``blue``, and
+         ``green``.
+
+.. _partition-keys:
 
 Partition Keys
 --------------
 
-MongoDB Realm uses the :term:`partition key` to sort
-:term:`MongoDB documents <MongoDB document>` in Atlas into
-:term:`Realm objects <Realm object>` in Realms. The
-partition key is a field that must exist in every document in every
-collection of your MongoDB Atlas cluster. Each unique
-:term:`partition value`, or value of a partition key, maps to a
-different Realm. Documents that share the same parition value belong to
-the same Realm and, as a result, share the same permissions.
+MongoDB Realm uses the :term:`partition key` to map
+:term:`MongoDB documents <MongoDB document>` in a
+:term:`synced MongoDB Atlas cluster <synced cluster>` into
+:term:`Realm objects <Realm object>` in Realms. The partition key is a
+field that must exist in every document in every synced collection of
+your synced cluster. Each unique :term:`partition value`, or value of a
+partition key, maps to a different Realm. Documents that share the same
+partition value belong to the same Realm and, as a result, share the
+same permissions.
 
 Choose a Partition Key
 ----------------------
 
 The field selected as your partition key must exist in every document in
-your linked MongoDB Atlas database. All documents that share the same
-partition key also share the same permissions, so you should select a
-key whose unique values correspond with permissions.
+the synced collections of your linked cluster. You should
+define your partition key in the Realm schema for each collection of
+your linked cluster. However, you don't have to include the partition
+key in all collections; any collections of documents that lack the
+partition key just won't be synced.
+
+All documents that share the same partition key also share the same
+permissions, so you should select a key whose unique values correspond
+with permissions. Your partition key depends entirely on your use case:
+some applications only require a per-user permission scheme, but many
+require permissions based on collections of users.
+
+In addition to realms
+belonging to individual users or collections of users, it's often
+helpful to store read-only data viewable to all users; for this kind of
+use case, you can create a special partition key like ``PUBLIC`` that
+all users will sync with read permissions only. You can use this same
+idea to create a private Realm, only viewable by administrators, with
+a special partition key like ``PRIVATE``.
+
+See our :ref:`partition key examples <partition-key-examples>` for more
+information about managing partition keys in specific use cases.
 
 .. example::
 
-   You might use the ``owner_id`` field to partition a database into Realms
-   corresponding to individual users. If your application shares resources
-   across an entire company, but not across separate companies, you could
-   define and partition your data by ``company_id``.
+   - **CASE 1**: If your application stores data privately for each
+     individual user, you could use the ``owner_id`` field to partition
+     a database into Realms corresponding to individual users.
+     
+   - **CASE 2**: If your application shares resources across an entire
+     company, but not across separate companies, you could define and
+     partition your data by ``company_id``.
 
 Define a Partition Key
 ----------------------
@@ -61,25 +93,288 @@ You can define a partition key when enabling :term:`Realm sync` for your
 Realm app. After selecting a cluster to sync, choose your partition key.
 You can either use an existing field or create a new field.
 
+.. _partition-key-limitations:
+
 Limitations of Partition Keys
 -----------------------------
 
 Partition keys are subject to certain limitations:
 
-- You can only define partition keys using values of the String,
-  ObjectID, Int, or Long types.
+- Partition keys must be one of the following types:
+
+  - String
+
+  - ObjectID
+
+  - Int
+
+  - Long
 
 - Once you have chosen a partition key and enabled sync, you cannot
   change the partition key to a different field. To use a different
   field as your partition key, disable Realm sync and enable Realm sync
-  again, selecting the new field as your partition key.
+  again, selecting the new field as your partition key. Disabling and
+  re-enabling sync will trigger a :ref:`client reset <client-reset>` on
+  all clients.
 
-- You cannot change the field name for your partition key.
+- You cannot change the field name for your partition key. To alter the
+  field name of your partition key, disable Realm sync, change the field
+  name, and enable Realm sync again, selecting the updated field name as
+  your partition key. Disabling and re-enabling sync will trigger a
+  :ref:`client reset <client-reset>` on all clients.
 
-- Partition values should only change rarely. If you change a partition
-  value from Atlas, Realm interprets the change as a deletion of the
-  corresponding :term:`Realm object` from its original Realm and an
-  insertion of a new Realm object into its new Realm.
+- If you change a partition value from Atlas, MongoDB Realm interprets
+  the change as a delete, then an insert. First, MongoDB Realm deletes
+  the corresponding :term:`Realm object` from the object's original
+  Realm. Next, MongoDB Realm inserts a new Realm object containing the
+  same data into the object's new Realm. Any client updates to the
+  object that have not yet synced to Atlas will be lost.
   
-- Changing a partition value from the Realm SDK is an error and will
+- Changing a partition value from the Realm SDK throws an error and will
   trigger a :ref:`client reset <client-reset>`.
+
+.. _partition-key-examples:
+
+Partition Key Examples
+----------------------
+
+Because Realms correspond to collections of documents that share the
+same permissions, partitioning can vary between Realm apps.
+
+.. example::
+
+   Consider the following documents in three MongoDB collections
+   describing user data in a music app:
+
+   .. code-block:: javascript
+
+      collection playlists: [
+         { name: "Work", owner_id: "dog_enthusiast_95", song_ids: [ ... ] }
+         { name: "Party", owner_id: "cat_enthusiast_92", song_ids: [ ... ] }
+         { name: "Dance", owner_id: "troll_2", song_ids: [ ... ] }
+         { name: "Soup Tunes", owner_id: "dog_enthusiast_95", song_ids: [ ... ] }
+         { name: "Disco Anthems", owner_id: "PUBLIC", song_ids: [ ... ] }
+         { name: "Deep Focus", owner_id: "PUBLIC", song_ids: [ ... ] }
+      ]
+
+      collection follows: [
+         { owner_id: "dog_enthusiast_95", playlist_ids: [ ... ] }
+         { owner_id: "cat_enthusiast_92", playlist_ids: [ ... ] }
+         { owner_id: "troll_2", playlist_ids: [ ... ] }
+         { owner_id: "OP", playlist_ids: [ ... ] }
+      ]
+
+      collection dispositions: [
+         { owner_id: "dog_enthusiast_95", song_id: 3, rating: -1 }
+         { owner_id: "cat_enthusiast_92", song_id: 1, rating: 1 }
+         { owner_id: "troll_2", song_id: 2, rating: 1 }
+         { owner_id: "dog_enthusiast_95", song_id: 1, rating: 1 }
+      ]
+
+   In this application, the ``owner_id`` field is a good candidate for a
+   partition key. This field works well as a partition key because it
+   splits documents into Realms that make sense given user permissions
+   and it makes it easy for users to sync a limited number of Realms:
+   
+   - Every user has read and write access to the Realm
+     containing objects owned by them -- playlists they've made and song
+     ratings.
+     
+   - Every user has read access to the Realm for partition value
+     ``PUBLIC``, which contains all playlists that are available to all
+     users.
+
+   - Users sync to two Realms: the Realm for the partition value
+     corresponding to their user ID, and the Realm for the ``PUBLIC``
+     partition value. This minimizes data synced over the network to
+     only the data relevant for each Realm user.
+
+   Partitioning this data by ``owner_id`` results in the following
+   Realms:
+
+   .. code-block:: javascript
+
+      Realm dog_enthusiast_95: [
+         { owner_id: "dog_enthusiast_95", playlist_ids: [ ... ] }
+         { name: "Work", owner_id: "dog_enthusiast_95", song_ids: [ ... ] }
+         { name: "Soup Tunes", owner_id: "dog_enthusiast_95", song_ids: [ ... ] }
+         { owner_id: "dog_enthusiast_95", song_id: 3, rating: -1 }
+         { owner_id: "dog_enthusiast_95", song_id: 1, rating: 1 }
+      ]
+
+      Realm cat_enthusiast_92: [
+         { owner_id: "cat_enthusiast_92", playlist_ids: [ ... ] }
+         { name: "Party", owner_id: "cat_enthusiast_92", song_ids: [ ... ] }
+         { owner_id: "cat_enthusiast_92", song_id: 1, rating: 1 }
+      ]
+
+      Realm troll_2: [
+         { owner_id: "troll_2", playlist_ids: [ ... ] }
+         { owner_id: "troll_2", song_id: 2, rating: 1 }
+         { name: "Dance", owner_id: "troll_2", song_ids: [ ... ] }
+      ]
+
+      Realm OP: [
+         { owner_id: "OP", playlist_ids: [ ... ] }
+      ]
+
+      Realm PUBLIC: [
+         { name: "Disco Anthems", owner_id: "PUBLIC", song_ids: [ ... ] }
+         { name: "Deep Focus", owner_id: "PUBLIC", song_ids: [ ... ] }
+      ]
+
+.. example::
+
+   Consider the following documents in MongoDB collections
+   describing inventory and sales at a paper company:
+
+   .. code-block:: javascript
+
+      collection branches: [
+         { name: "Scranton", partitionKey: "PUBLIC", salespeople: [ "Jim", "Pam", "Dwight" ] }
+         { name: "Albany", partitionKey: "PUBLIC", salespeople: [ "Karen" ] }
+         { name: "Utica", partitionKey: "PUBLIC", salespeople: [ "Jeff" ] }
+         { name: "Yonkers", partitionKey: "PUBLIC", salespeople: [ "Arnold" ] }
+      ]
+
+      collection inventory: [
+         { type: "A4", partitionKey: "branch=Scranton", volume: 326}
+         { type: "A4", partitionKey: "branch=Albany", volume: 567}
+         { type: "A4", partitionKey: "branch=Utica", volume: 48}
+      ]
+
+      collection sales: [
+         { item: "A4", partitionKey: "salesperson=Jim", volume: 33, customer: "school" }
+         { item: "A4", partitionKey: "salesperson=Karen", volume: 78, customer: "law firm" }
+         { item: "A4", partitionKey: "salesperson=Jim", volume: 57, customer: "gym" }
+         { item: "A4", partitionKey: "salesperson=Jeff", volume: 15, customer: "mom" }
+         { item: "A4", partitionKey: "salesperson=Arnold", volume: 54, customer: "dad" }
+      ]
+
+      collection delivery: [
+         { item: "A4", partitionKey: "delivery_truck=3", volume: 33, customer: "school" }
+         { item: "A4", partitionKey: "delivery_truck=3", volume: 57, customer: "gym" }
+         { item: "A4", partitionKey: "delivery_truck=7", volume: 12, customer: "law firm" }
+      ]
+
+      collection catalog: [
+         { item: "A4", partitionKey: "PUBLIC", price: .25 }
+         { item: "A5", partitionKey: "PUBLIC", price: .75 }
+         { item: "legal", partitionKey: "PUBLIC", price: .35 }
+         { item: "panama", partitionKey: "PRIVATE", price: 1.05 }
+      ]
+
+      collection leads: [
+         { customer: "yellow pages", contact: "123-456-7890", partitionKey: "branch=Scranton" }
+         { customer: "newspaper", contact: "456-456-7890", partitionKey: "branch=Scranton" }
+         { customer: "diner", contact: "345-623-5467", partitionKey: "branch=Albany" }
+         { customer: "mom", contact: "342-576-6733", partitionKey: "salesperson=Jeff" }
+         { customer: "NYSDEC", contact: "145-674-7890", partitionKey: "branch=Utica" }
+      ]
+
+   For this data, there is no single collection of owners -- depending
+   on the collection, data might be owned by:
+   
+   - a branch of the company, such as Scranton
+
+   - a salesperson, such as Jim
+
+   - a delivery truck, such as truck number 7
+
+   - the company in general, public or private
+
+   To partition this data into Realms, you can create partition keys
+   containing prefixes that indicate which kind of entity owns the data.
+   In this case, the application uses the categories of branch,
+   salesperson, delivery truck, or public/private. You can also create
+   a unique ID for each entity across categories and map those IDs in a
+   separate entity metadata collection.
+
+   It makes sense to partition data in this way because it separates
+   data into groups of documents with the same permissions.
+   Additionally, clients only sync a small number of relevant Realms for
+   each use case:
+
+   - A mobile client assigned to a delivery truck has read and write
+     access to the inventory of their delivery truck, and syncs
+     the Realm correponding to their delivery truck's ID. No other
+     information is relevant for that delivery truck, so they only
+     access the information they need.
+
+   - Every salesperson has read and write access to their own sales data
+     and syncs the Realm corresponding to their own sales data.
+
+   - Every branch warehouse can read and write data in their own
+     inventory Realm.
+
+   - Every user can read public company information located in the
+     ``PUBLIC`` Realm, and only company administrators can read and
+     write public or private company information.
+
+   - Because most users only read and write to one or two Realms, this
+     partitioning scheme only exposes data to those who need it. The
+     partitioning remains flexible enough to accommodate future
+     features.
+
+   
+   Partitioning this data by ``partitionKey`` results in the following
+   Realms:
+
+   .. code-block:: javascript
+
+      Realm PUBLIC: [
+         { name: "Scranton", partitionKey: "PUBLIC", salespeople: [ "Jim", "Pam", "Dwight" ] }
+         { name: "Albany", partitionKey: "PUBLIC", salespeople: [ "Karen" ] }
+         { name: "Utica", partitionKey: "PUBLIC", salespeople: [ "Jeff" ] }
+         { name: "Yonkers", partitionKey: "PUBLIC", salespeople: [ "Arnold" ] }
+         { item: "A4", partitionKey: "PUBLIC", price: .25 }
+         { item: "A5", partitionKey: "PUBLIC", price: .75 }
+         { item: "legal", partitionKey: "PUBLIC", price: .35 }
+      ]
+
+      Realm PRIVATE: [
+         { item: "panama", partitionKey: "PRIVATE", price: 1.05 }
+      ]
+
+      Realm branch=Scranton: [
+         { type: "A4", partitionKey: "branch=Scranton", volume: 326}
+         { customer: "yellow pages", contact: "123-456-7890", partitionKey: "branch=Scranton" }
+         { customer: "newspaper", contact: "456-456-7890", partitionKey: "branch=Scranton" }
+      ]
+
+      Realm branch=Albany: [
+         { type: "A4", partitionKey: "branch=Albany", volume: 567}
+         { customer: "diner", contact: "345-623-5467", partitionKey: "branch=Albany" }
+      ]
+
+      Realm branch=Utica: [
+         { type: "A4", partitionKey: "branch=Utica", volume: 48}
+         { customer: "NYSDEC", contact: "145-674-7890", partitionKey: "branch=Utica" }
+      ]
+
+      Realm salesperson=Jim: [
+         { item: "A4", partitionKey: "salesperson=Jim", volume: 33, customer: "school" }
+         { item: "A4", partitionKey: "salesperson=Jim", volume: 57, customer: "gym" }
+      ]
+
+      Realm salesperson=Karen: [
+         { item: "A4", partitionKey: "salesperson=Karen", volume: 78, customer: "law firm" }
+      ]
+
+      Realm salesperson=Jeff: [
+         { item: "A4", partitionKey: "salesperson=Jeff", volume: 15, customer: "mom" }
+         { customer: "mom", contact: "342-576-6733", partitionKey: "salesperson=Jeff" }
+      ]
+
+      Realm salesperson=Arnold: [
+         { item: "A4", partitionKey: "salesperson=Arnold", volume: 54, customer: "dad" }
+      ]
+
+      Realm delivery_truck=3: [
+         { item: "A4", partitionKey: "delivery_truck=3", volume: 33, customer: "school" }
+         { item: "A4", partitionKey: "delivery_truck=3", volume: 57, customer: "gym" }
+      ]
+
+      Realm delivery_truck=7: [
+         { item: "A4", partitionKey: "delivery_truck=7", volume: 12, customer: "law firm" }
+      ]

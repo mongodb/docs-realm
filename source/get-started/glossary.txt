@@ -201,9 +201,25 @@ Glossary
       your :term:`Realm app`. You can define data schemas and access
       rules to control who can access what in any linked cluster.
       :term:`Realm Database` data is automatically synchronized with
-      your linked cluster when :term:`Realm sync` is enabled. Access
-      data in your linked cluster from a :term:`Realm client` using
-      Realm Database or the MongoDB Atlas service.
+      your linked cluster when :term:`Realm sync` is enabled, which
+      makes that linked cluster a :term:`synced cluster`. Access
+      data in your synced cluster from a :term:`Realm client` using
+      the MongoDB Atlas service in the Realm SDK.
+
+   synced cluster
+      A :term:`MongoDB Atlas` database cluster that is
+      :term:`partitioned <partitioning>` into
+      :term:`Realms <Realm>` and synchronizes data with client
+      :term:`Realm instances <Realm instance>` via your
+      :term:`Realm app`. Access data in your synced cluster from a
+      :term:`Realm client` using Realm Database via the Realm SDK.
+
+   partitioning
+      Map :term:`MongoDB documents <MongoDB document>` in a
+      :term:`synced Atlas cluster <synced cluster>` into
+      :term:`Realm objects <Realm object>` in client
+      :term:`Realms <Realm>`. See the :ref:`partitioning` documentation
+      for details.
 
    system function
       A :term:`Realm function` that runs as the :term:`system user`.
