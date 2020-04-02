@@ -1,3 +1,5 @@
+.. _realm-database-reads:
+
 =====
 Reads
 =====
@@ -13,91 +15,27 @@ Reads
 Overview
 --------
 
-To deliver a great user experience, you want data on hand
-whenever and wherever you need it. Imagine multiple views
-that show various facets of your data while a background
-task crunches numbers based on the same information. If
-every data consumer had to wait their turn to read, the app
-would not feel graceful at all. :term:`Realm Database` enables smooth
-user experiences by allowing many simultaneous readers thanks to
-its :ref:`multiversion concurrency control (MVCC)
-<mvcc>` architecture.
-
-This page details the key characteristics of read operations
-in Realm Database and how to access your data.
-
-Read Characteristics
---------------------
-
-.. _results-are-not-copies:
-
-Results Are Not Copies
-~~~~~~~~~~~~~~~~~~~~~~
-
-Results to a query are not copies of your data: modifying
-the results of a query (within a write transaction) will
-modify the data on disk directly. This memory mapping also
-means that results are **live**: that is, they always
-reflect the current state on disk.
-
-See also: :ref:`Collections are Live <live-collections>`.
-
-.. _results-are-lazy:
-
-Results Are Lazy
-~~~~~~~~~~~~~~~~
-
-Realm Database defers execution of a query until you access the
-results. You can chain several filter and sort operations
-without requiring extra work to process the intermediate
-state.
-
-See also: :ref:`Results are Lazily Evaluated
-<lazy-evaluated-results>`.
-
-.. _references-retained:
-
-References Are Retained
-~~~~~~~~~~~~~~~~~~~~~~~
-
-One benefit of Realm Database's object model is that Realm Database
-automatically retains all of an object's :doc:`relationships
-</data-model/relationships>` as direct references, so you
-can traverse your graph of relationships directly through
-the results of a query.
-
-A **direct reference**, or pointer, allows you to access a
-related object's properties directly through the reference.
-
-Other databases typically copy objects from database storage into
-application memory when you need to work with them directly. Because
-objects contain direct references, you are left with a choice: copy
-the object referred to by each direct reference out of the database
-in case it's needed, or just copy the foreign key for each object and
-query for the object with that key if it's accessed. If you choose to
-copy referenced objects into application memory, you can use up a lot of
-resources for objects that are never accessed, but if you choose to only
-copy the foreign key, referenced object lookups can cause your
-application to slow down.
-
-Realm Database bypasses all of this using :term:`zero-copy`
-:term:`live objects`. :term:`Realm object` accessors point directly into
-database storage using memory mapping, so there is no distinction
-between the objects in Realm database and the results of your query in
-application memory. Because of this, you can traverse direct references
-across an entire Realm from any query result.
+You can, of course, easily read back the data that you have
+:ref:`stored <realm-database-writes>` in :term:`Realm
+Database`: the standard data access pattern across Realm
+SDKs is to find, filter, and sort objects, in that order. To
+get the best performance from Realm as your app grows and
+your queries become more complex, design your app's data
+access patterns around a solid understanding of Realm
+Database's :ref:`read characteristics
+<realm-read-characteristics>`.
 
 .. _read-from-realm:
 
 Read from Realm Database
 ------------------------
 
-A read from a Realm generally consists of the following
+A read from a :term:`Realm` generally consists of the following
 steps:
 
-- Query all objects of a specific Realm type.
-- Filter the results using the :doc:`query engine </crud/query-engine>`.
-- Sort the results.
+- Get all :ref:`objects <realm-objects>` of a certain type from the Realm.
+- Optionally, filter the results using the :doc:`query engine </crud/query-engine>`.
+- Optionally, sort the results.
 
 All query, filter, and sort operations return a
 :ref:`results collection <results-collections>`. The results
@@ -179,9 +117,80 @@ results are sorted.
 
    .. include:: /examples/CRUD/Sort.rst
 
+
+.. _realm-read-characteristics:
+
+Read Characteristics
+--------------------
+
+When you design your app's data access patterns around the
+three key characteristics of reads in Realm Database, you
+can be confident you are reading data as efficiently as
+possible.
+
+.. _results-are-not-copies:
+
+Results Are Not Copies
+~~~~~~~~~~~~~~~~~~~~~~
+
+Results to a query are not copies of your data: modifying
+the results of a query (within a write transaction) will
+modify the data on disk directly. This memory mapping also
+means that results are **live**: that is, they always
+reflect the current state on disk.
+
+See also: :ref:`Collections are Live <live-collections>`.
+
+.. _results-are-lazy:
+
+Results Are Lazy
+~~~~~~~~~~~~~~~~
+
+Realm Database defers execution of a query until you access the
+results. You can chain several filter and sort operations
+without requiring extra work to process the intermediate
+state.
+
+See also: :ref:`Results are Lazily Evaluated
+<lazy-evaluated-results>`.
+
+.. _references-retained:
+
+References Are Retained
+~~~~~~~~~~~~~~~~~~~~~~~
+
+One benefit of Realm Database's object model is that Realm Database
+automatically retains all of an object's :doc:`relationships
+</data-model/relationships>` as direct references, so you
+can traverse your graph of relationships directly through
+the results of a query.
+
+A **direct reference**, or pointer, allows you to access a
+related object's properties directly through the reference.
+
+Other databases typically copy objects from database storage into
+application memory when you need to work with them directly. Because
+objects contain direct references, you are left with a choice: copy
+the object referred to by each direct reference out of the database
+in case it's needed, or just copy the foreign key for each object and
+query for the object with that key if it's accessed. If you choose to
+copy referenced objects into application memory, you can use up a lot of
+resources for objects that are never accessed, but if you choose to only
+copy the foreign key, referenced object lookups can cause your
+application to slow down.
+
+Realm Database bypasses all of this using :term:`zero-copy`
+:term:`live objects`. :term:`Realm object` accessors point directly into
+database storage using memory mapping, so there is no distinction
+between the objects in Realm database and the results of your query in
+application memory. Because of this, you can traverse direct references
+across an entire Realm from any query result.
+
+
 Summary
 -------
 
+- To read, first get all objects of a certain type from the Realm, then filter using the query engine, then (optionally) sort the results.
 - When you read from Realm Database, the results are not copies. Instead, through memory mapping, results point directly to the version on disk.
 - Queries are lazily-evaluated.
-- To read, first get all objects of a certain type from the Realm, then filter using the query engine, then (optionally) sort the results.
+
