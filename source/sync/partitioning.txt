@@ -30,9 +30,8 @@ data stored by your application into the small amount of data needed by
 individual clients, called :term:`Realms <Realm>`.
 
 .. figure:: /images/partitioning.svg
-   :alt: Partitioning shape data in an Atlas cluster using a ``color``
-         partition key with partition values ``red``, ``blue``, and
-         ``green``.
+   Partitioning shape data in an Atlas cluster using a ``color``
+   partition key with partition values ``red``, ``blue``, and ``green``.
 
 .. _partition-keys:
 
@@ -68,10 +67,10 @@ require permissions based on collections of users.
 In addition to realms
 belonging to individual users or collections of users, it's often
 helpful to store read-only data viewable to all users; for this kind of
-use case, you can create a special partition key like ``PUBLIC`` that
-all users will sync with read permissions only. You can use this same
+use case, you can create a special partition key, such as ``PUBLIC``,
+that all users sync with read permissions only. You can use this same
 idea to create a private Realm, only viewable by administrators, with
-a special partition key like ``PRIVATE``.
+a special partition key, such as ``PRIVATE``.
 
 See our :ref:`partition key examples <partition-key-examples>` for more
 information about managing partition keys in specific use cases.
