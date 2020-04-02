@@ -52,12 +52,13 @@ same permissions.
 Choose a Partition Key
 ----------------------
 
-The field selected as your partition key must exist in every document in
-the synced collections of your linked cluster. You should
+The field selected as your partition key should exist in every document
+in the synced collections of your synced cluster. You should
 define your partition key in the Realm schema for each collection of
 your linked cluster. However, you don't have to include the partition
-key in all collections; any collections of documents that lack the
-partition key just won't be synced.
+key in all collections; Real sync will ignore any collections that lack
+a Realm schema as well as any documents that lack a valid partition
+value.
 
 All documents that share the same partition key also share the same
 permissions, so you should select a key whose unique values correspond
@@ -82,9 +83,9 @@ information about managing partition keys in specific use cases.
      individual user, you could use the ``owner_id`` field to partition
      a database into Realms corresponding to individual users.
      
-   - **CASE 2**: If your application shares resources across an entire
-     company, but not across separate companies, you could define and
-     partition your data by ``company_id``.
+   - **CASE 2**: If your application shares resources across teams, but
+     not across your entire company, you could partition your
+     data using a ``team_id``.
 
 Define a Partition Key
 ----------------------
