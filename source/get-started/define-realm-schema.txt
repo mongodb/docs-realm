@@ -12,35 +12,43 @@ Define a Realm Schema
 
 Overview
 --------
-You can create a :manual:`Data Model </data-modeling/>` to define the
-structure of the data you are storing in your database. Setting a data
-model is a useful technique to enforce :wikipedia:`data
-validation</Data_validation>` on your collection. Although MongoDB and
-Realm are both object-centric, there are differences between their Data
-Models, such as how they structure relationships and which types they support.
 
-This page teaches how to define a Data Model using MongoDB Realm. If you
-currently have data in `MongoDB Atlas
-<http://www.mongodb.com/cloud/atlas/>`_, you will learn how to translate
-this data into a Data Model suitable for Realm mobile development. If
-you do not have data in Atlas, you will learn how to use ``Development
-Mode`` to create a :doc:`schema</mongodb/document-schemas>` for Atlas so
-that you can take your mobile application to production. 
+
+In modern applications, users update their data continuously. Users also
+expect their data to be available and accurate cross-platform and in
+realtime. Storing your data in `MongoDB Atlas
+<http://www.mongodb.com/cloud/atlas/>`_ ensures the availability of
+your data. Also, using schemas ensures the accuracy of the data by
+performing type and format checks on fields. 
+
+There are two different types of schemas you will need: a :doc:`Realm
+Database Schema </data-model/realms>`, for your mobile application, and
+a :doc:`JSON Schema </mongodb/document-schemas>`, for your MongoDB Atlas
+cluster. 
+
+You may have already started storing your application data on MongoDB
+Atlas, in which case you can generate a JSON Schema through ``Automated
+Schema Generation with MongoDB Realm`` and translate that JSON Schema
+into the Realm Database Schema you need for mobile. Alternatively, if you
+have not started storing your application data yet in Atlas,
+``Development Mode with MongoDB Realm`` allows you to create both
+the schemas that you will need.
 
 .. note:: 
 
   There are some differences between `JSON Schema
-  <https://json-schema.org/>`_ and Realm Data Models: the
-  structure of data in regards to relationships, restrictions on certain
-  data types. To learn   more, read the :doc:`Data Model
-  Restrictions</data-model-restrictions>` page. 
+  <https://json-schema.org/>`_ and Realm Database Schemas: the structure
+  of relationships, restrictions on certain data
+  types. To learn more, read the :doc:`Realm Database Restrictions
+  </realm-database-restrictions>` page. 
 
-Starting with Data in MongoDB
------------------------------
+Automated Schema Generation with MongoDB Realm
+----------------------------------------------
+
 You can create a Data Model for Realm if you already have data in
 MongoDB Atlas. Navigate through the MongoDB Realm UI to sample the data
 in your collection to automatically generate a schema. You can then edit that
-schema and translate it into a Realm Data Model for the language of
+schema and translate it into a Realm Database Schema for the language of
 your choice. 
 
 Procedure
@@ -61,7 +69,7 @@ Procedure
       :width: 750px
       :lightbox:
 
-#. In the ``SDKs`` page, view your ``JSON Schema`` as a Realm Data Model in your language of choice.
+#. In the ``SDKs`` page, view your ``JSON Schema`` as a Realm Database Schema in your language of choice.
 
    .. figure:: /images/translate-jsonschema-into-realm-data-model.png
       :width: 750px
@@ -73,8 +81,9 @@ Procedure
       :width: 750px
       :lightbox:
 
-Starting with your application using Development Mode
------------------------------------------------------
+Development Mode with MongoDB Realm
+-----------------------------------
+
 You can create a schema suitable for MongoDB Atlas so that you can take
 your application to production. Through ``Development Mode`` in
 the MongoDB Realm UI, you can develop your Data Model. After developing
