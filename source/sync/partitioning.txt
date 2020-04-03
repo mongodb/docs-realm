@@ -147,7 +147,7 @@ Partition keys and values are subject to certain limitations:
   2) enable Realm sync again with the new field selected as your
      partition key.
      
-  .. admonition::
+  .. warning::
 
      Disabling and re-enabling sync will trigger a
      :ref:`client reset <client-reset>` on all clients.
@@ -163,7 +163,7 @@ Partition keys and values are subject to certain limitations:
   3) enable Realm sync again with the updated field name selected as
      your partition key.
 
-  .. admonition::
+  .. warning::
 
      Disabling and re-enabling sync will trigger a
      :ref:`client reset <client-reset>` on all clients.
@@ -174,7 +174,7 @@ Partition keys and values are subject to certain limitations:
   Realm. Next, MongoDB Realm inserts a new Realm object containing the
   same data into the object's new Realm. 
   
-  .. admonition::
+  .. warning::
 
      Changing a partition value in Atlas will lose any un-synced client
      updates to the object.
