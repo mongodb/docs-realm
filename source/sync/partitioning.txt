@@ -17,7 +17,7 @@ Overview
 
 Your :term:`Realm app's <Realm app>` :term:`linked MongoDB Atlas cluster
 <linked cluster>` contains all of the data stored by your application:
-your entire data model, client data, :ref:`custom user data
+your application data, client data, :ref:`custom user data
 <custom-user-data>`, administrative data, and more.
 
 Client applications only need the data relevant to the current user.
@@ -46,20 +46,40 @@ MongoDB Realm uses :term:`partition keys <partition key>` to map
 partition key is a special field used by MongoDB Realm to determine the
 Realm membership for MongoDB documents. Your partition key should exist
 in every document that your application needs to synchronize between
-clients and Atlas.
+clients and Atlas. The partition key field name is universal across a
+Realm app -- every synced document uses the same field name to
+partition.
 
 Choose a Partition Key
 ++++++++++++++++++++++
 
 Your partition key depends entirely on your use case: some applications
 only require a per-user permission scheme, but many require permissions
-based on collections of users.
+based on collections of users. Generally, a few guidelines exist to
+choose partition keys:
 
-You should define your partition key in the Realm schema for each
-collection of your linked cluster. However, you don't have to include
-the partition key in all collections; Realm sync will ignore any
-collections that lack a Realm schema as well as any documents that lack
-a valid partition value.
+- Realm clients should never modify the partition value directly. Any
+  field that clients can modify cannot be used as a partition
+  key.
+
+- Changing a partition value is an expensive operation, requiring a
+  deletion of the object from one Realm and an insertion of the same
+  object into another Realm. As a result, you should choose a partition
+  key that rarely, if ever, needs to change.
+
+- Partition keys use the same field name in every synced document. Pick
+  a field name that is unlikely to collide with an another field name
+  in any Realm object's schema. You can begin an underscore, (e.g.
+  ``_partitionKey`` to decrease the likelihood of collisions) and
+  indicate the importance of the field in the schema itself.
+
+- Partition keys must have a value of one of the
+  :ref:`supported types for partition keys
+  <partition-limitations-types>`.
+
+For more information about how to choose
+a partition key for your application, see :ref:`Partition Strategies
+<partition-strategies>`.
 
 Define a Partition Key
 ++++++++++++++++++++++
@@ -68,12 +88,19 @@ You can define a partition key when enabling :term:`Realm sync` for your
 Realm app. After selecting a cluster to sync, choose your partition key.
 You can either use an existing field or create a new field.
 
+The :term:`Realm schema` for each synced collection of your synced
+cluster should include the partition key for your application. However,
+you don't have to include the partition key in all collections; Realm
+sync will ignore any collections that lack a Realm schema as well as any
+documents that lack a valid partition value.
+
 Partition Values
 ----------------
 
 Each unique :term:`partition value`, or value of a partition key, maps
 to a different Realm. Documents that share the same partition value
-belong to the same Realm and, as a result, share the same permissions.
+belong to the same Realm. All documents in a Realm share the same
+read and write permissions.
 
 Map Documents to Realms
 +++++++++++++++++++++++
@@ -86,32 +113,35 @@ separates one user's data from another? The concepts of ownership
 (which users can change which data?) and access (which users can see
 which data?) decide how you should partition your data.
 
+.. _partition-strategies:
+
 Partition Strategies
 ++++++++++++++++++++
 
 Most applications partition data into Realms based on individual users
 or groups of users:
 
-.. example::
-
-   If your application stores data privately for each
-   individual user, you could use the ``owner_id`` field to partition
-   a database into Realms corresponding to individual users.
+- If your application stores data privately for each
+  individual user, you could create an ``owner_id`` field containing a
+  specific user ID on every document. Selecting the ``owner_id``
+  field as your partition key would partition your database into Realms
+  corresponding to individual users.
      
-.. example::
+- If your application shares resources across teams, but
+  not across your entire company, you could create a ``teams``
+  collection that maps user IDs to team IDs. You could then create a
+  ``team_id`` field containing a specific team ID on every document you
+  want to sync. Selecting the ``team_id`` field as your partition key
+  would partition your database into Realms containing data for
+  entire teams.
 
-   If your application shares resources across teams, but
-   not across your entire company, you could partition your
-   data using a ``team_id``.
-
-However, there are many other ways to partition your data.
-
-It's often helpful to store read-only data viewable to all users; for
-this kind of use case, you can create a special partition value, such as
-``PUBLIC``, that all users sync with read permissions only. You can use
-this same idea to create a private Realm, only viewable by
-administrators, with a different special partition value, such as
-``PRIVATE``.
+- It's often helpful to store read-only data viewable to all users; for
+  this kind of use case, you can define a special partition value in
+  your permissions, such as ``PUBLIC``, that all users sync with read
+  permissions only.
+  
+- To create a Realm that is only viewable by administrators, you can
+  define a different special partition value, such as ``PRIVATE``.
 
 You can combine these patterns with a per-user or per-group
 partitioning strategy to create applications that make some data
@@ -128,6 +158,8 @@ Partitioning Limitations
 
 Partition keys and values are subject to certain limitations:
 
+.. _partition-limitations-types:
+
 - Partition keys must be one of the following types:
 
   - String
@@ -142,9 +174,9 @@ Partition keys and values are subject to certain limitations:
   reassign the partition key to a different field. To use a different
   field as your partition key:
   
-  1) disable Realm sync
+  1) Disable Realm sync
   
-  2) enable Realm sync again with the new field selected as your
+  2) Enable Realm sync again with the new field selected as your
      partition key.
      
   .. warning::
@@ -156,11 +188,11 @@ Partition keys and values are subject to certain limitations:
   change the name of the field you selected as your partition key. To
   alter the field name of your partition key:
 
-  1) disable Realm sync
+  1) Disable Realm sync
   
-  2) change the field name
+  2) Change the field name
 
-  3) enable Realm sync again with the updated field name selected as
+  3) Enable Realm sync again with the updated field name selected as
      your partition key.
 
   .. warning::
