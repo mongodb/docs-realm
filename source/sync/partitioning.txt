@@ -141,12 +141,13 @@ or groups of users:
   permissions only.
   
 - **Hidden Realms**: To create a Realm that is only viewable by administrators, you can
-  define a different special partition value, such as ``PRIVATE``.
+  define a different special partition value, such as ``PRIVATE``. You
+  can use this strategy to verify new content for correctness before
+  moving it into an individual, team, or public Realm.
 
-You can combine these patterns with a per-user or per-group
-partitioning strategy to create applications that make some data
-publicly available, like announcements or an organizational chart, but
-restrict other data to privileged users.
+You can combine these partitioning strategies to create applications
+that make some data publicly available, like announcements or an
+organizational chart, but restrict other data to privileged users.
 
 See our :ref:`partition key examples <partition-key-examples>` for more
 information about partitioning strategies.
