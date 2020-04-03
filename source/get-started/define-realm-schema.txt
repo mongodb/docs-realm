@@ -39,7 +39,7 @@ the schemas that you will need.
   There are some differences between `JSON Schema
   <https://json-schema.org/>`_ and Realm Database Schemas including the
   structure of relationships and restrictions on certain data types. To
-  learn more, read the :doc:`Realm Database Restrictions
+  learn more, read the :doc:`Realm Database Schema Restrictions
   </realm-database-restrictions>` page. 
 
 Automated Schema Generation with MongoDB Realm
@@ -84,11 +84,10 @@ Procedure
 Development Mode with MongoDB Realm
 -----------------------------------
 
-You can create a JSON Schema suitable for MongoDB Atlas so that you can
-take your application to production. Through ``Development Mode`` in the
-MongoDB Realm UI, you can develop your Realm Database Schema. After
-developing your Realm Database Schema, MongoDB will automatically
-generate a JSON Schema for your Atlas cluster. 
+Through ``Development Mode`` in the MongoDB Realm UI, you can develop
+your Realm Database Schema to use for your mobile application. After developing your Realm Database Schema,
+MongoDB will automatically generate a JSON Schema for your Atlas
+cluster. 
 
 Procedure
 ~~~~~~~~~
@@ -102,7 +101,15 @@ Procedure
       :width: 750px
       :lightbox:
 
-#. Copy the code to create a Realm Schema in the SDK of your choice, and paste it into your mobile application source code. 
+#. Define the Realm Database Schema in the language of your choice.
+   
+   .. figure:: /images/define-the-database-schema.png
+      :width: 750px
+      :alt: IMAGE NEEDED - Defining the Realm Database Schema
+      :lightbox:
+
+
+#. Copy the code to create a Realm Database Schema, and paste it into your mobile application source code. 
 
    .. figure:: /images/define-your-data-models.png
       :width: 750px
