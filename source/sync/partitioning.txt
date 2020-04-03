@@ -56,36 +56,45 @@ The field selected as your partition key should exist in every document
 in the synced collections of your synced cluster. You should
 define your partition key in the Realm schema for each collection of
 your linked cluster. However, you don't have to include the partition
-key in all collections; Real sync will ignore any collections that lack
+key in all collections; Realm sync will ignore any collections that lack
 a Realm schema as well as any documents that lack a valid partition
 value.
 
-All documents that share the same partition key also share the same
-permissions, so you should select a key whose unique values correspond
-with permissions. Your partition key depends entirely on your use case:
-some applications only require a per-user permission scheme, but many
-require permissions based on collections of users.
+Map Documents to Realms
+-----------------------
 
-In addition to realms
-belonging to individual users or collections of users, it's often
+All documents that share the same partition value also share the same
+permissions, so you should select a key whose unique values correspond
+with permissions. Consider what documents each user needs to read, and
+what documents each user needs to write. What separates one user's data
+from another? The concepts of ownership (which users can change which
+data?) and access (which users can see which data?) decide how you
+should partition your data.
+
+Your partition key depends entirely on your use
+case: some applications only require a per-user permission scheme, but
+many require permissions based on collections of users. In addition to
+Realms owned by individual users or collections of users, it's often
 helpful to store read-only data viewable to all users; for this kind of
-use case, you can create a special partition key, such as ``PUBLIC``,
+use case, you can create a special partition value, such as ``PUBLIC``,
 that all users sync with read permissions only. You can use this same
 idea to create a private Realm, only viewable by administrators, with
-a special partition key, such as ``PRIVATE``.
+a special partition value, such as ``PRIVATE``.
 
 See our :ref:`partition key examples <partition-key-examples>` for more
 information about managing partition keys in specific use cases.
 
 .. example::
 
-   - **CASE 1**: If your application stores data privately for each
-     individual user, you could use the ``owner_id`` field to partition
-     a database into Realms corresponding to individual users.
+   If your application stores data privately for each
+   individual user, you could use the ``owner_id`` field to partition
+   a database into Realms corresponding to individual users.
      
-   - **CASE 2**: If your application shares resources across teams, but
-     not across your entire company, you could partition your
-     data using a ``team_id``.
+.. example::
+
+   If your application shares resources across teams, but
+   not across your entire company, you could partition your
+   data using a ``team_id``.
 
 Define a Partition Key
 ----------------------
@@ -96,10 +105,10 @@ You can either use an existing field or create a new field.
 
 .. _partition-key-limitations:
 
-Limitations of Partition Keys
------------------------------
+Partitioning Limitations
+-------------------------
 
-Partition keys are subject to certain limitations:
+Partition keys and values are subject to certain limitations:
 
 - Partition keys must be one of the following types:
 
@@ -136,246 +145,248 @@ Partition keys are subject to certain limitations:
 
 .. _partition-key-examples:
 
-Partition Key Examples
-----------------------
+Partitioning Examples
+---------------------
 
 Because Realms correspond to collections of documents that share the
 same permissions, partitioning can vary between Realm apps.
 
-.. example::
+Example: Partitioning by User
++++++++++++++++++++++++++++++
 
-   Consider the following documents in three MongoDB collections
-   describing user data in a music app:
+Consider the following documents in three MongoDB collections
+describing user data in a music app:
 
-   .. code-block:: javascript
+.. code-block:: javascript
 
-      collection playlists: [
-         { name: "Work", owner_id: "dog_enthusiast_95", song_ids: [ ... ] }
-         { name: "Party", owner_id: "cat_enthusiast_92", song_ids: [ ... ] }
-         { name: "Dance", owner_id: "troll_2", song_ids: [ ... ] }
-         { name: "Soup Tunes", owner_id: "dog_enthusiast_95", song_ids: [ ... ] }
-         { name: "Disco Anthems", owner_id: "PUBLIC", song_ids: [ ... ] }
-         { name: "Deep Focus", owner_id: "PUBLIC", song_ids: [ ... ] }
-      ]
+   collection playlists: [
+      { name: "Work", owner_id: "dog_enthusiast_95", song_ids: [ ... ] }
+      { name: "Party", owner_id: "cat_enthusiast_92", song_ids: [ ... ] }
+      { name: "Dance", owner_id: "troll_2", song_ids: [ ... ] }
+      { name: "Soup Tunes", owner_id: "dog_enthusiast_95", song_ids: [ ... ] }
+      { name: "Disco Anthems", owner_id: "PUBLIC", song_ids: [ ... ] }
+      { name: "Deep Focus", owner_id: "PUBLIC", song_ids: [ ... ] }
+   ]
 
-      collection follows: [
-         { owner_id: "dog_enthusiast_95", playlist_ids: [ ... ] }
-         { owner_id: "cat_enthusiast_92", playlist_ids: [ ... ] }
-         { owner_id: "troll_2", playlist_ids: [ ... ] }
-         { owner_id: "OP", playlist_ids: [ ... ] }
-      ]
+   collection follows: [
+      { owner_id: "dog_enthusiast_95", playlist_ids: [ ... ] }
+      { owner_id: "cat_enthusiast_92", playlist_ids: [ ... ] }
+      { owner_id: "troll_2", playlist_ids: [ ... ] }
+      { owner_id: "OP", playlist_ids: [ ... ] }
+   ]
 
-      collection dispositions: [
-         { owner_id: "dog_enthusiast_95", song_id: 3, rating: -1 }
-         { owner_id: "cat_enthusiast_92", song_id: 1, rating: 1 }
-         { owner_id: "troll_2", song_id: 2, rating: 1 }
-         { owner_id: "dog_enthusiast_95", song_id: 1, rating: 1 }
-      ]
+   collection dispositions: [
+      { owner_id: "dog_enthusiast_95", song_id: 3, rating: -1 }
+      { owner_id: "cat_enthusiast_92", song_id: 1, rating: 1 }
+      { owner_id: "troll_2", song_id: 2, rating: 1 }
+      { owner_id: "dog_enthusiast_95", song_id: 1, rating: 1 }
+   ]
 
-   In this application, the ``owner_id`` field is a good candidate for a
-   partition key. This field works well as a partition key because it
-   splits documents into Realms that make sense given user permissions
-   and it makes it easy for users to sync a limited number of Realms:
+In this application, the ``owner_id`` field is a good candidate for a
+partition key. This field works well as a partition key because it
+splits documents into Realms that make sense given user permissions
+and it makes it easy for users to sync a limited number of Realms:
+
+- Every user has read and write access to the Realm
+   containing objects owned by them -- playlists they've made and song
+   ratings.
    
-   - Every user has read and write access to the Realm
-     containing objects owned by them -- playlists they've made and song
-     ratings.
-     
-   - Every user has read access to the Realm for partition value
-     ``PUBLIC``, which contains all playlists that are available to all
-     users.
+- Every user has read access to the Realm for partition value
+   ``PUBLIC``, which contains all playlists that are available to all
+   users.
 
-   - Users sync to two Realms: the Realm for the partition value
-     corresponding to their user ID, and the Realm for the ``PUBLIC``
-     partition value. This minimizes data synced over the network to
-     only the data relevant for each Realm user.
+- Users sync to two Realms: the Realm for the partition value
+   corresponding to their user ID, and the Realm for the ``PUBLIC``
+   partition value. This minimizes data synced over the network to
+   only the data relevant for each Realm user.
 
-   Partitioning this data by ``owner_id`` results in the following
-   Realms:
+Partitioning this data by ``owner_id`` results in the following
+Realms:
 
-   .. code-block:: javascript
+.. code-block:: javascript
 
-      Realm dog_enthusiast_95: [
-         { owner_id: "dog_enthusiast_95", playlist_ids: [ ... ] }
-         { name: "Work", owner_id: "dog_enthusiast_95", song_ids: [ ... ] }
-         { name: "Soup Tunes", owner_id: "dog_enthusiast_95", song_ids: [ ... ] }
-         { owner_id: "dog_enthusiast_95", song_id: 3, rating: -1 }
-         { owner_id: "dog_enthusiast_95", song_id: 1, rating: 1 }
-      ]
+   Realm dog_enthusiast_95: [
+      { owner_id: "dog_enthusiast_95", playlist_ids: [ ... ] }
+      { name: "Work", owner_id: "dog_enthusiast_95", song_ids: [ ... ] }
+      { name: "Soup Tunes", owner_id: "dog_enthusiast_95", song_ids: [ ... ] }
+      { owner_id: "dog_enthusiast_95", song_id: 3, rating: -1 }
+      { owner_id: "dog_enthusiast_95", song_id: 1, rating: 1 }
+   ]
 
-      Realm cat_enthusiast_92: [
-         { owner_id: "cat_enthusiast_92", playlist_ids: [ ... ] }
-         { name: "Party", owner_id: "cat_enthusiast_92", song_ids: [ ... ] }
-         { owner_id: "cat_enthusiast_92", song_id: 1, rating: 1 }
-      ]
+   Realm cat_enthusiast_92: [
+      { owner_id: "cat_enthusiast_92", playlist_ids: [ ... ] }
+      { name: "Party", owner_id: "cat_enthusiast_92", song_ids: [ ... ] }
+      { owner_id: "cat_enthusiast_92", song_id: 1, rating: 1 }
+   ]
 
-      Realm troll_2: [
-         { owner_id: "troll_2", playlist_ids: [ ... ] }
-         { owner_id: "troll_2", song_id: 2, rating: 1 }
-         { name: "Dance", owner_id: "troll_2", song_ids: [ ... ] }
-      ]
+   Realm troll_2: [
+      { owner_id: "troll_2", playlist_ids: [ ... ] }
+      { owner_id: "troll_2", song_id: 2, rating: 1 }
+      { name: "Dance", owner_id: "troll_2", song_ids: [ ... ] }
+   ]
 
-      Realm OP: [
-         { owner_id: "OP", playlist_ids: [ ... ] }
-      ]
+   Realm OP: [
+      { owner_id: "OP", playlist_ids: [ ... ] }
+   ]
 
-      Realm PUBLIC: [
-         { name: "Disco Anthems", owner_id: "PUBLIC", song_ids: [ ... ] }
-         { name: "Deep Focus", owner_id: "PUBLIC", song_ids: [ ... ] }
-      ]
+   Realm PUBLIC: [
+      { name: "Disco Anthems", owner_id: "PUBLIC", song_ids: [ ... ] }
+      { name: "Deep Focus", owner_id: "PUBLIC", song_ids: [ ... ] }
+   ]
 
-.. example::
+Example: Partitioning Data Across Groups
+++++++++++++++++++++++++++++++++++++++++
 
-   Consider the following documents in MongoDB collections
-   describing inventory and sales at a paper company:
+Consider the following documents in MongoDB collections
+describing inventory and sales at a paper company:
 
-   .. code-block:: javascript
+.. code-block:: javascript
 
-      collection branches: [
-         { name: "Scranton", partitionKey: "PUBLIC", salespeople: [ "Jim", "Pam", "Dwight" ] }
-         { name: "Albany", partitionKey: "PUBLIC", salespeople: [ "Karen" ] }
-         { name: "Utica", partitionKey: "PUBLIC", salespeople: [ "Jeff" ] }
-         { name: "Yonkers", partitionKey: "PUBLIC", salespeople: [ "Arnold" ] }
-      ]
+   collection branches: [
+      { name: "Scranton", partitionKey: "PUBLIC", salespeople: [ "Jim", "Pam", "Dwight" ] }
+      { name: "Albany", partitionKey: "PUBLIC", salespeople: [ "Karen" ] }
+      { name: "Utica", partitionKey: "PUBLIC", salespeople: [ "Jeff" ] }
+      { name: "Yonkers", partitionKey: "PUBLIC", salespeople: [ "Arnold" ] }
+   ]
 
-      collection inventory: [
-         { type: "A4", partitionKey: "branch=Scranton", volume: 326}
-         { type: "A4", partitionKey: "branch=Albany", volume: 567}
-         { type: "A4", partitionKey: "branch=Utica", volume: 48}
-      ]
+   collection inventory: [
+      { type: "A4", partitionKey: "branch=Scranton", volume: 326}
+      { type: "A4", partitionKey: "branch=Albany", volume: 567}
+      { type: "A4", partitionKey: "branch=Utica", volume: 48}
+   ]
 
-      collection sales: [
-         { item: "A4", partitionKey: "salesperson=Jim", volume: 33, customer: "school" }
-         { item: "A4", partitionKey: "salesperson=Karen", volume: 78, customer: "law firm" }
-         { item: "A4", partitionKey: "salesperson=Jim", volume: 57, customer: "gym" }
-         { item: "A4", partitionKey: "salesperson=Jeff", volume: 15, customer: "mom" }
-         { item: "A4", partitionKey: "salesperson=Arnold", volume: 54, customer: "dad" }
-      ]
+   collection sales: [
+      { item: "A4", partitionKey: "salesperson=Jim", volume: 33, customer: "school" }
+      { item: "A4", partitionKey: "salesperson=Karen", volume: 78, customer: "law firm" }
+      { item: "A4", partitionKey: "salesperson=Jim", volume: 57, customer: "gym" }
+      { item: "A4", partitionKey: "salesperson=Jeff", volume: 15, customer: "mom" }
+      { item: "A4", partitionKey: "salesperson=Arnold", volume: 54, customer: "dad" }
+   ]
 
-      collection delivery: [
-         { item: "A4", partitionKey: "delivery_truck=3", volume: 33, customer: "school" }
-         { item: "A4", partitionKey: "delivery_truck=3", volume: 57, customer: "gym" }
-         { item: "A4", partitionKey: "delivery_truck=7", volume: 12, customer: "law firm" }
-      ]
+   collection delivery: [
+      { item: "A4", partitionKey: "delivery_truck=3", volume: 33, customer: "school" }
+      { item: "A4", partitionKey: "delivery_truck=3", volume: 57, customer: "gym" }
+      { item: "A4", partitionKey: "delivery_truck=7", volume: 12, customer: "law firm" }
+   ]
 
-      collection catalog: [
-         { item: "A4", partitionKey: "PUBLIC", price: .25 }
-         { item: "A5", partitionKey: "PUBLIC", price: .75 }
-         { item: "legal", partitionKey: "PUBLIC", price: .35 }
-         { item: "panama", partitionKey: "PRIVATE", price: 1.05 }
-      ]
+   collection catalog: [
+      { item: "A4", partitionKey: "PUBLIC", price: .25 }
+      { item: "A5", partitionKey: "PUBLIC", price: .75 }
+      { item: "legal", partitionKey: "PUBLIC", price: .35 }
+      { item: "panama", partitionKey: "PRIVATE", price: 1.05 }
+   ]
 
-      collection leads: [
-         { customer: "yellow pages", contact: "123-456-7890", partitionKey: "branch=Scranton" }
-         { customer: "newspaper", contact: "456-456-7890", partitionKey: "branch=Scranton" }
-         { customer: "diner", contact: "345-623-5467", partitionKey: "branch=Albany" }
-         { customer: "mom", contact: "342-576-6733", partitionKey: "salesperson=Jeff" }
-         { customer: "NYSDEC", contact: "145-674-7890", partitionKey: "branch=Utica" }
-      ]
+   collection leads: [
+      { customer: "yellow pages", contact: "123-456-7890", partitionKey: "branch=Scranton" }
+      { customer: "newspaper", contact: "456-456-7890", partitionKey: "branch=Scranton" }
+      { customer: "diner", contact: "345-623-5467", partitionKey: "branch=Albany" }
+      { customer: "mom", contact: "342-576-6733", partitionKey: "salesperson=Jeff" }
+      { customer: "NYSDEC", contact: "145-674-7890", partitionKey: "branch=Utica" }
+   ]
 
-   For this data, there is no single collection of owners -- depending
-   on the collection, data might be owned by:
-   
-   - a branch of the company, such as Scranton
+For this data, there is no single collection of owners -- depending
+on the collection, data might be owned by:
 
-   - a salesperson, such as Jim
+- a branch of the company, such as Scranton
 
-   - a delivery truck, such as truck number 7
+- a salesperson, such as Jim
 
-   - the company in general, public or private
+- a delivery truck, such as truck number 7
 
-   To partition this data into Realms, you can create partition keys
-   containing prefixes that indicate which kind of entity owns the data.
-   In this case, the application uses the categories of branch,
-   salesperson, delivery truck, or public/private. You can also create
-   a unique ID for each entity across categories and map those IDs in a
-   separate entity metadata collection.
+- the company in general, public or private
 
-   It makes sense to partition data in this way because it separates
-   data into groups of documents with the same permissions.
-   Additionally, clients only sync a small number of relevant Realms for
-   each use case:
+To partition this data into Realms, you can create partition keys
+containing prefixes that indicate which kind of entity owns the data.
+In this case, the application uses the categories of branch,
+salesperson, delivery truck, or public/private. You can also create
+a unique ID for each entity across categories and map those IDs in a
+separate entity metadata collection.
 
-   - A mobile client assigned to a delivery truck has read and write
-     access to the inventory of their delivery truck, and syncs
-     the Realm correponding to their delivery truck's ID. No other
-     information is relevant for that delivery truck, so they only
-     access the information they need.
+It makes sense to partition data in this way because it separates
+data into groups of documents with the same permissions.
+Additionally, clients only sync a small number of relevant Realms for
+each use case:
 
-   - Every salesperson has read and write access to their own sales data
-     and syncs the Realm corresponding to their own sales data.
+- A mobile client assigned to a delivery truck has read and write
+   access to the inventory of their delivery truck, and syncs
+   the Realm correponding to their delivery truck's ID. No other
+   information is relevant for that delivery truck, so they only
+   access the information they need.
 
-   - Every branch warehouse can read and write data in their own
-     inventory Realm.
+- Every salesperson has read and write access to their own sales data
+   and syncs the Realm corresponding to their own sales data.
 
-   - Every user can read public company information located in the
-     ``PUBLIC`` Realm, and only company administrators can read and
-     write public or private company information.
+- Every branch warehouse can read and write data in their own
+   inventory Realm.
 
-   - Because most users only read and write to one or two Realms, this
-     partitioning scheme only exposes data to those who need it. The
-     partitioning remains flexible enough to accommodate future
-     features.
+- Every user can read public company information located in the
+   ``PUBLIC`` Realm, and only company administrators can read and
+   write public or private company information.
 
-   
-   Partitioning this data by ``partitionKey`` results in the following
-   Realms:
+- Because most users only read and write to one or two Realms, this
+   partitioning scheme only exposes data to those who need it. The
+   partitioning remains flexible enough to accommodate future
+   features.
 
-   .. code-block:: javascript
 
-      Realm PUBLIC: [
-         { name: "Scranton", partitionKey: "PUBLIC", salespeople: [ "Jim", "Pam", "Dwight" ] }
-         { name: "Albany", partitionKey: "PUBLIC", salespeople: [ "Karen" ] }
-         { name: "Utica", partitionKey: "PUBLIC", salespeople: [ "Jeff" ] }
-         { name: "Yonkers", partitionKey: "PUBLIC", salespeople: [ "Arnold" ] }
-         { item: "A4", partitionKey: "PUBLIC", price: .25 }
-         { item: "A5", partitionKey: "PUBLIC", price: .75 }
-         { item: "legal", partitionKey: "PUBLIC", price: .35 }
-      ]
+Partitioning this data by ``partitionKey`` results in the following
+Realms:
 
-      Realm PRIVATE: [
-         { item: "panama", partitionKey: "PRIVATE", price: 1.05 }
-      ]
+.. code-block:: javascript
 
-      Realm branch=Scranton: [
-         { type: "A4", partitionKey: "branch=Scranton", volume: 326}
-         { customer: "yellow pages", contact: "123-456-7890", partitionKey: "branch=Scranton" }
-         { customer: "newspaper", contact: "456-456-7890", partitionKey: "branch=Scranton" }
-      ]
+   Realm PUBLIC: [
+      { name: "Scranton", partitionKey: "PUBLIC", salespeople: [ "Jim", "Pam", "Dwight" ] }
+      { name: "Albany", partitionKey: "PUBLIC", salespeople: [ "Karen" ] }
+      { name: "Utica", partitionKey: "PUBLIC", salespeople: [ "Jeff" ] }
+      { name: "Yonkers", partitionKey: "PUBLIC", salespeople: [ "Arnold" ] }
+      { item: "A4", partitionKey: "PUBLIC", price: .25 }
+      { item: "A5", partitionKey: "PUBLIC", price: .75 }
+      { item: "legal", partitionKey: "PUBLIC", price: .35 }
+   ]
 
-      Realm branch=Albany: [
-         { type: "A4", partitionKey: "branch=Albany", volume: 567}
-         { customer: "diner", contact: "345-623-5467", partitionKey: "branch=Albany" }
-      ]
+   Realm PRIVATE: [
+      { item: "panama", partitionKey: "PRIVATE", price: 1.05 }
+   ]
 
-      Realm branch=Utica: [
-         { type: "A4", partitionKey: "branch=Utica", volume: 48}
-         { customer: "NYSDEC", contact: "145-674-7890", partitionKey: "branch=Utica" }
-      ]
+   Realm branch=Scranton: [
+      { type: "A4", partitionKey: "branch=Scranton", volume: 326}
+      { customer: "yellow pages", contact: "123-456-7890", partitionKey: "branch=Scranton" }
+      { customer: "newspaper", contact: "456-456-7890", partitionKey: "branch=Scranton" }
+   ]
 
-      Realm salesperson=Jim: [
-         { item: "A4", partitionKey: "salesperson=Jim", volume: 33, customer: "school" }
-         { item: "A4", partitionKey: "salesperson=Jim", volume: 57, customer: "gym" }
-      ]
+   Realm branch=Albany: [
+      { type: "A4", partitionKey: "branch=Albany", volume: 567}
+      { customer: "diner", contact: "345-623-5467", partitionKey: "branch=Albany" }
+   ]
 
-      Realm salesperson=Karen: [
-         { item: "A4", partitionKey: "salesperson=Karen", volume: 78, customer: "law firm" }
-      ]
+   Realm branch=Utica: [
+      { type: "A4", partitionKey: "branch=Utica", volume: 48}
+      { customer: "NYSDEC", contact: "145-674-7890", partitionKey: "branch=Utica" }
+   ]
 
-      Realm salesperson=Jeff: [
-         { item: "A4", partitionKey: "salesperson=Jeff", volume: 15, customer: "mom" }
-         { customer: "mom", contact: "342-576-6733", partitionKey: "salesperson=Jeff" }
-      ]
+   Realm salesperson=Jim: [
+      { item: "A4", partitionKey: "salesperson=Jim", volume: 33, customer: "school" }
+      { item: "A4", partitionKey: "salesperson=Jim", volume: 57, customer: "gym" }
+   ]
 
-      Realm salesperson=Arnold: [
-         { item: "A4", partitionKey: "salesperson=Arnold", volume: 54, customer: "dad" }
-      ]
+   Realm salesperson=Karen: [
+      { item: "A4", partitionKey: "salesperson=Karen", volume: 78, customer: "law firm" }
+   ]
 
-      Realm delivery_truck=3: [
-         { item: "A4", partitionKey: "delivery_truck=3", volume: 33, customer: "school" }
-         { item: "A4", partitionKey: "delivery_truck=3", volume: 57, customer: "gym" }
-      ]
+   Realm salesperson=Jeff: [
+      { item: "A4", partitionKey: "salesperson=Jeff", volume: 15, customer: "mom" }
+      { customer: "mom", contact: "342-576-6733", partitionKey: "salesperson=Jeff" }
+   ]
 
-      Realm delivery_truck=7: [
-         { item: "A4", partitionKey: "delivery_truck=7", volume: 12, customer: "law firm" }
-      ]
+   Realm salesperson=Arnold: [
+      { item: "A4", partitionKey: "salesperson=Arnold", volume: 54, customer: "dad" }
+   ]
+
+   Realm delivery_truck=3: [
+      { item: "A4", partitionKey: "delivery_truck=3", volume: 33, customer: "school" }
+      { item: "A4", partitionKey: "delivery_truck=3", volume: 57, customer: "gym" }
+   ]
+
+   Realm delivery_truck=7: [
+      { item: "A4", partitionKey: "delivery_truck=7", volume: 12, customer: "law firm" }
+   ]
