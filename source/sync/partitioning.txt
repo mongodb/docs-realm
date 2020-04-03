@@ -39,50 +39,58 @@ individual clients, called :term:`Realms <Realm>`.
 Partition Keys
 --------------
 
-MongoDB Realm uses the :term:`partition key` to map
+MongoDB Realm uses :term:`partition keys <partition key>` to map
 :term:`MongoDB documents <MongoDB document>` in a
 :term:`synced MongoDB Atlas cluster <synced cluster>` into
-:term:`Realm objects <Realm object>` in Realms. The partition key is a
-field that must exist in every document in every synced collection of
-your synced cluster. Each unique :term:`partition value`, or value of a
-partition key, maps to a different Realm. Documents that share the same
-partition value belong to the same Realm and, as a result, share the
-same permissions.
+:term:`Realm objects <Realm object>` in :term:`Realms <Realm>`. A
+partition key is a special field used by MongoDB Realm to determine the
+Realm membership for MongoDB documents. Your partition key should exist
+in every document that your application needs to synchronize between
+clients and Atlas.
 
 Choose a Partition Key
-----------------------
+++++++++++++++++++++++
 
-The field selected as your partition key should exist in every document
-in the synced collections of your synced cluster. You should
-define your partition key in the Realm schema for each collection of
-your linked cluster. However, you don't have to include the partition
-key in all collections; Realm sync will ignore any collections that lack
-a Realm schema as well as any documents that lack a valid partition
-value.
+Your partition key depends entirely on your use case: some applications
+only require a per-user permission scheme, but many require permissions
+based on collections of users.
+
+You should define your partition key in the Realm schema for each
+collection of your linked cluster. However, you don't have to include
+the partition key in all collections; Realm sync will ignore any
+collections that lack a Realm schema as well as any documents that lack
+a valid partition value.
+
+Define a Partition Key
+++++++++++++++++++++++
+
+You can define a partition key when enabling :term:`Realm sync` for your
+Realm app. After selecting a cluster to sync, choose your partition key.
+You can either use an existing field or create a new field.
+
+Partition Values
+----------------
+
+Each unique :term:`partition value`, or value of a partition key, maps
+to a different Realm. Documents that share the same partition value
+belong to the same Realm and, as a result, share the same permissions.
 
 Map Documents to Realms
------------------------
++++++++++++++++++++++++
 
-All documents that share the same partition value also share the same
-permissions, so you should select a key whose unique values correspond
-with permissions. Consider what documents each user needs to read, and
-what documents each user needs to write. What separates one user's data
-from another? The concepts of ownership (which users can change which
-data?) and access (which users can see which data?) decide how you
-should partition your data.
+Since all documents that share the same partition value also share the
+same permissions, you should select a key whose unique values correspond
+with permissions within your application. Consider which documents each
+user needs to read, and which documents each user needs to write. What
+separates one user's data from another? The concepts of ownership
+(which users can change which data?) and access (which users can see
+which data?) decide how you should partition your data.
 
-Your partition key depends entirely on your use
-case: some applications only require a per-user permission scheme, but
-many require permissions based on collections of users. In addition to
-Realms owned by individual users or collections of users, it's often
-helpful to store read-only data viewable to all users; for this kind of
-use case, you can create a special partition value, such as ``PUBLIC``,
-that all users sync with read permissions only. You can use this same
-idea to create a private Realm, only viewable by administrators, with
-a special partition value, such as ``PRIVATE``.
+Partition Strategies
+++++++++++++++++++++
 
-See our :ref:`partition key examples <partition-key-examples>` for more
-information about managing partition keys in specific use cases.
+Most applications partition data into Realms based on individual users
+or groups of users:
 
 .. example::
 
@@ -96,12 +104,22 @@ information about managing partition keys in specific use cases.
    not across your entire company, you could partition your
    data using a ``team_id``.
 
-Define a Partition Key
-----------------------
+However, there are many other ways to partition your data.
 
-You can define a partition key when enabling :term:`Realm sync` for your
-Realm app. After selecting a cluster to sync, choose your partition key.
-You can either use an existing field or create a new field.
+It's often helpful to store read-only data viewable to all users; for
+this kind of use case, you can create a special partition value, such as
+``PUBLIC``, that all users sync with read permissions only. You can use
+this same idea to create a private Realm, only viewable by
+administrators, with a different special partition value, such as
+``PRIVATE``.
+
+You can combine these patterns with a per-user or per-group
+partitioning strategy to create applications that make some data
+publicly available, like announcements or an organizational chart, but
+restrict other data to privileged users.
+
+See our :ref:`partition key examples <partition-key-examples>` for more
+information about partitioning strategies.
 
 .. _partition-key-limitations:
 
@@ -121,27 +139,48 @@ Partition keys and values are subject to certain limitations:
   - Long
 
 - Once you have chosen a partition key and enabled sync, you cannot
-  change the partition key to a different field. To use a different
-  field as your partition key, disable Realm sync and enable Realm sync
-  again, selecting the new field as your partition key. Disabling and
-  re-enabling sync will trigger a :ref:`client reset <client-reset>` on
-  all clients.
+  reassign the partition key to a different field. To use a different
+  field as your partition key:
+  
+  1) disable Realm sync
+  
+  2) enable Realm sync again with the new field selected as your
+     partition key.
+     
+  .. admonition::
 
-- You cannot change the field name for your partition key. To alter the
-  field name of your partition key, disable Realm sync, change the field
-  name, and enable Realm sync again, selecting the updated field name as
-  your partition key. Disabling and re-enabling sync will trigger a
-  :ref:`client reset <client-reset>` on all clients.
+     Disabling and re-enabling sync will trigger a
+     :ref:`client reset <client-reset>` on all clients.
 
-- If you change a partition value from Atlas, MongoDB Realm interprets
+- Once you have chosen a partition key and enabled sync, you cannot
+  change the name of the field you selected as your partition key. To
+  alter the field name of your partition key:
+
+  1) disable Realm sync
+  
+  2) change the field name
+
+  3) enable Realm sync again with the updated field name selected as
+     your partition key.
+
+  .. admonition::
+
+     Disabling and re-enabling sync will trigger a
+     :ref:`client reset <client-reset>` on all clients.
+
+- If you change a partition value in Atlas, MongoDB Realm interprets
   the change as a delete, then an insert. First, MongoDB Realm deletes
   the corresponding :term:`Realm object` from the object's original
   Realm. Next, MongoDB Realm inserts a new Realm object containing the
-  same data into the object's new Realm. Any client updates to the
-  object that have not yet synced to Atlas will be lost.
+  same data into the object's new Realm. 
   
-- Changing a partition value from the Realm SDK throws an error and will
-  trigger a :ref:`client reset <client-reset>`.
+  .. admonition::
+
+     Changing a partition value in Atlas will lose any un-synced client
+     updates to the object.
+
+- Changing a partition value in a Realm object using the Realm SDK
+  will throw an error and trigger a :ref:`client reset <client-reset>`.
 
 .. _partition-key-examples:
 
