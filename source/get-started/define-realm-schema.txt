@@ -45,9 +45,9 @@ the schemas that you will need.
 Automated Schema Generation with MongoDB Realm
 ----------------------------------------------
 
-You can create a Data Model for Realm if you already have data in
-MongoDB Atlas. Navigate through the MongoDB Realm UI to sample the data
-in your collection to automatically generate a schema. You can then edit that
+You can create a JSON Schema if you already have data in MongoDB Atlas.
+Navigate through the MongoDB Realm UI to sample the data in your
+collection to automatically generate a schema. You can then edit that
 schema and translate it into a Realm Database Schema for the language of
 your choice. 
 
@@ -57,7 +57,7 @@ Procedure
 #. Sign up for Atlas and create a cluster.
 #. Create a MongoDB Realm application.
 #. Navigate to the ``SDKs`` page to link your MongoDB Realm application to your Atlas Cluster.
-#. In the ``rules`` page, click ``Generate Schema`` to automatically create a schema based on your cluster data.
+#. In the ``rules`` page, click ``Generate Schema`` to automatically create a JSON Schema based on your cluster data.
 
    .. figure:: /images/generate-schema-based-on-cluster-data.png
       :width: 750px
@@ -75,7 +75,7 @@ Procedure
       :width: 750px
       :lightbox:
 
-#. Click ``View all Schema Errors`` to see the errors & warnings from translating your ``JSON Schema`` into a Data Model.
+#. Click ``View all Schema Errors`` to see the errors & warnings from translating your ``JSON Schema`` into a Realm Database Schema.
 
    .. figure:: /images/schema-translation-errors-warnings.png
       :width: 750px
@@ -84,11 +84,11 @@ Procedure
 Development Mode with MongoDB Realm
 -----------------------------------
 
-You can create a schema suitable for MongoDB Atlas so that you can take
-your application to production. Through ``Development Mode`` in
-the MongoDB Realm UI, you can develop your Data Model. After developing
-your Data Model, MongoDB will automatically generate a schema for your
-Atlas cluster. 
+You can create a JSON Schema suitable for MongoDB Atlas so that you can
+take your application to production. Through ``Development Mode`` in the
+MongoDB Realm UI, you can develop your Realm Database Schema. After
+developing your Realm Database Schema, MongoDB will automatically
+generate a JSON Schema for your Atlas cluster. 
 
 Procedure
 ~~~~~~~~~
@@ -102,7 +102,7 @@ Procedure
       :width: 750px
       :lightbox:
 
-#. Create a Data Model in the language of your choice with the Realm Client SDKs.
+#. Create a Realm Database Schema in the language of your choice with the Realm Client SDKs.
 
    .. figure:: /images/define-your-data-models.png
       :width: 750px
@@ -123,5 +123,5 @@ Procedure
       
 Summary
 -------
-- If you already have application data stored in MongoDB Atlas, you can translate your automatically-generated schema into a Data Model to use for your Realm Mobile Application.
-- If you want to take your Realm app to production but do not already have application data stored in MongoDB Atlas, you can activate ``Development Mode`` in the MongoDB Realm UI. This will allow you to develop your Data Model and have it automatically translated into a schema for Atlas. 
+- If you already have application data stored in MongoDB Atlas, you can translate your automatically-generated schema into a Realm Database Schema to use for your Realm Mobile Application.
+- If you want to take your Realm app to production but do not already have application data stored in MongoDB Atlas, you can activate ``Development Mode`` in the MongoDB Realm UI. This will allow you to develop your Realm Database Schema and have it automatically translated into a JSON Schema for Atlas. 
