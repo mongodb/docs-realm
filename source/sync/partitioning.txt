@@ -69,9 +69,10 @@ choose partition keys:
 
 - Partition keys use the same field name in every synced document. Pick
   a field name that is unlikely to collide with an another field name
-  in any Realm object's schema. You can begin an underscore, (e.g.
-  ``_partitionKey`` to decrease the likelihood of collisions) and
-  indicate the importance of the field in the schema itself.
+  in any Realm object's schema. You can begin the field name with an
+  underscore, (e.g. ``_partitionKey``) to decrease the likelihood of
+  collisions and indicate the importance of the field in the schema
+  itself.
 
 - Partition keys must have a value of one of the
   :ref:`supported types for partition keys
@@ -92,7 +93,7 @@ The :term:`Realm schema` for each synced collection of your synced
 cluster should include the partition key for your application. However,
 you don't have to include the partition key in all collections; Realm
 sync will ignore any collections that lack a Realm schema as well as any
-documents that lack a valid partition value.
+documents that lack a valid value for the partition key.
 
 Partition Values
 ----------------
@@ -116,40 +117,50 @@ which data?) decide how you should partition your data.
 .. _partition-strategies:
 
 Partition Strategies
-++++++++++++++++++++
+--------------------
 
-Most applications partition data into Realms based on individual users
-or groups of users:
+Most applications access data in similar ways. A few common patterns,
+applied individually or in combination, cover a vast majority of Realm
+permissioning use cases:
 
-- **Individual Realms**: If your application stores data privately for each
+- **User Realms**: If your application stores data privately for each
   individual user, you could create an ``owner_id`` field containing a
-  specific user ID on every document. Selecting the ``owner_id``
+  specific user ID for every document. Selecting the ``owner_id``
   field as your partition key would partition your database into Realms
   corresponding to individual users.
      
-- **Team Realms**: If your application shares resources across teams, but
-  not across your entire company, you could create a ``teams``
-  collection that maps user IDs to team IDs. You could then create a
-  ``team_id`` field containing a specific team ID on every document you
-  want to sync. Selecting the ``team_id`` field as your partition key
-  would partition your database into Realms containing data for
-  entire teams.
+- **Team Realms**: If your application shares resources across teams,
+  you could create a ``teams`` collection that maps user IDs to team
+  IDs. You could then create a ``team_id`` field containing a specific
+  team ID for every document you want to sync. Selecting the ``team_id``
+  field as your partition key would partition your database into Realms
+  containing data for entire teams.
 
-- **Public Realms**: It's often helpful to store read-only data viewable to all users; for
-  this kind of use case, you can define a special partition value in
-  your permissions, such as ``PUBLIC``, that all users sync with read
-  permissions only.
-  
-- **Hidden Realms**: To create a Realm that is only viewable by administrators, you can
-  define a different special partition value, such as ``PRIVATE``. You
-  can use this strategy to verify new content for correctness before
-  moving it into an individual, team, or public Realm.
+- **Public Realms**: It's often helpful to store read-only data viewable
+  to all users; for this kind of use case, you can define a special
+  partition value in your permissions, such as ``PUBLIC``, that all
+  users sync with read permissions only.
 
 You can combine these partitioning strategies to create applications
 that make some data publicly available, like announcements or an
 organizational chart, but restrict other data to privileged users.
 
-See our :ref:`partition key examples <partition-key-examples>` for more
+To combine strategies, you can use a generic partition key field name
+like ``_partitionKey`` with a partition value structured like a query
+string. For example:
+
+.. code-block:: javascript
+
+   _partitionKey: "team_id=1234"
+   _partitionKey: "user_id=abcdefg"
+
+You can use Realm rule expressions can check the prefix before looking
+up the team or user ID in the appropriate lookup collection to determine
+whether or not a given user has access to a Realm. Structuring your
+partition values like a query string lets you take
+advantage of multiple partitioning strategies at once, providing the
+power of user, team, and public realms all at once. See the
+:ref:`partition key examples <partition-key-examples>` for more
 information about partitioning strategies.
 
 .. _partition-key-limitations:
