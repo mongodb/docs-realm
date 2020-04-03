@@ -158,14 +158,14 @@ Multiple writer, multiple reader:
   which users can collaborate works best in its own Realm.
 
 Single writer, multiple reader:
-  When a single writer, such as a publisher
+  A single writer, such as a publisher
   application on the backend, inserts data into a global
   Realm that all frontend clients can read from but not
   write to. This can scale past tens of thousands of
   concurrent users.
 
 Single writer, single reader:
-  When each user has their own private Realm to
+  Each user has their own private Realm to
   store, e.g., user account information, preferences, or the
   individual user's shopping cart. As long as only the user
   or a backend application interacts with the realm data,
