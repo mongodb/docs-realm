@@ -1,8 +1,8 @@
 .. _sync-overview:
 
-====
-Sync
-====
+===================================
+Sync Data Between Atlas and Clients
+===================================
 
 .. default-domain:: mongodb
 
@@ -15,108 +15,123 @@ Sync
 Overview
 --------
 
-Realm Sync is a feature of Realm that enables you to share
-data across devices. It handles data serialization, network
-recovery, and conflict resolution automatically.
+Realm sync enables you to share data between
+:term:`Realm clients <Realm client>` and a
+:term:`synced Atlas cluster <synced cluster>`.
+Realm sync handles data serialization,
+network recovery, and conflict resolution automatically.
 
 .. _the-connectivity-problem:
 
 The Connectivity Problem
 ------------------------
 
-You are already familiar with Realm as a :doc:`local, mobile
-database </data-model/realms>` in which your app can store
-data. Eventually, your app probably needs to share that data
-with the outside world. Consider a few examples:
+:term:`Realm Database` is a local, mobile database in
+which your app can store data. Eventually, most apps
+need to share that data with the outside world.
+Consider a few examples:
 
-- A team app encourages real-time collaboration on a shared document across the Internet.
-- A front-line worker app submits a report that was filled out while working somewhere with low or no network connectivity.
+- A team collaborates in real-time on a shared
+  document across the Internet.
+
+- A front-line worker fills out a report while
+  working somewhere with low or no network connectivity.
+
 - An IoT device uploads its sensor data to the cloud.
 
-Traditionally, developers would set up a server with a REST
-API, serialize the data, and send it all over the network.
-In an ideal world where network connections are always
-reliable, bandwidth is cheap, and power is unlimited, this
-would work well. Unfortunately, mobile development is far
-from that ideal world. As a result, app developers spend a
-lot of time and write a lot of code to account for error
-cases related to connection loss and recovery. Realm offers
-Sync to handle this problem area for you.
+Traditionally, developers use an HTTP client in a mobile app to
+manually communicate with a REST API over the Internet. This means that
+every mobile app needs to solve the following problems for every
+client platform:
+
+- serialization
+
+- a consistent schema of objects
+
+- gracefully handling network failures and slowdowns
+
+- resolving conflicts between changes to the same data on different
+  clients
+
+Realm sync handles network access and conflict resolution in a
+background thread of your application, so your application logic
+stays the same regardless of network conditions. MongoDB Realm schemas
+make it easy to manage a consistent schema of objects in your database
+and across all client platforms.
 
 .. _offline-first:
 
 Think Offline-first
 -------------------
 
-Realm Sync is built on the assumption that connectivity will
+Realm sync is built on the assumption that connectivity will
 drop. We call this mentality **offline-first**. After you
-make changes to the local realm on the client device, Realm
-Sync automatically sends the changes to the server as soon
-as it can. Likewise, it automatically receives changes from
-the server and integrates those changes into the local
-realm. In effect, you continue to work with the local realm
-without moment-to-moment concern for network connectivity or
-lack thereof.
+make changes to the local Realm on the client device, the Realm
+SDK automatically sends the changes to the server as soon
+as possible. Likewise, the Realm SDK automatically receives
+changes from the server and integrates those changes into
+the local Realm. In effect, you continue to work with the
+local Realm without moment-to-moment concern for network
+connectivity or lack thereof.
 
 The offline-first design leads to some of the main benefits
-of Sync:
+of MongoDB Realm:
 
 Seamless User Experience:
   Users interact with local data with zero latency
   regardless of their moment-to-moment connectivity.
 
 Live Objects Across Devices:
-  Realm's :ref:`live object <live-object>` concept is
-  extended across devices: an update on one device syncs to
-  the corresponding objects on other devices. This enables
-  reactive app development, especially when combined with
-  :doc:`notifications </crud/notifications>` to react to
-  local and remote changes.
+  MongoDB Realm's :ref:`live object <live-object>` concept
+  extends across devices: updates on one device sync to
+  the corresponding objects on other devices.
+  :doc:`Notifications </crud/notifications>` based on these
+  updates make it easy to update the application UI to
+  react to local and remote changes.
 
 It's Automatic:
-  Sync is built into Realm. You do not need to write your
-  own synchronization protocol and deal with connectivity
-  issues when synchronizing data. The Realm Sync protocol is
+  Sync is built into the Realm SDK. You do not need to write
+  your own synchronization protocol and deal with connectivity
+  issues when synchronizing data. The Realm :term:`sync protocol` is
   the same across platforms. Realm handles passing the
   objects across the network automatically, so there is no
   need to map from one platform's database to another or
   serialize and deserialize objects in order to send and
   receive them over the network.
 
-So, thanks to its offline-first design, Realm Sync has
-benefits for both the app developer and end user. However,
-there is a slight problem: if the device may be offline at
-any point, a client might be working with old data. When
-that client comes back online and automatically uploads its
-changes, Realm needs to reconcile those changes with any
-other changes it missed while offline. This is why Realm
-Sync includes **automatic conflict resolution**.
+Despite these advantages, offline-first design introduces one
+problem: if client devices can remain offline while changes
+are made locally and remotely, they must share those changes
+when those client devices come back online.
+To make matters more complicated, every client device must
+arrive at the same state when all changes have been synced.
+This is why Realm sync includes **automatic conflict resolution**.
 
 .. _conflict-resolution:
 
 Resolving Conflicts
 -------------------
 
-Realm Sync's conflict resolution engine is deterministic.
+Realm's sync conflict resolution engine is deterministic.
 Changes received out-of-order eventually converge on the
 same state across the server and all clients. As such, Realm
-Sync is :wikipedia:`strongly eventually consistent
+sync is :wikipedia:`strongly eventually consistent
 <Eventual_consistency#Strong_eventual_consistency>`.
 
 .. admonition:: Realm Sync's Internal Conflict
    :class: note
 
-   From the Realm server's perspective, changesets may
+   From MongoDB Realm's perspective, changesets may
    arrive any time that connectivity allows. There is no
    guarantee that an earlier-timestamped changeset from one
    client actually arrives before a later-timestamped
    changeset from another client. As a result, the server
-   has to be able to process events out-of-order. Realm
-   keeps a per-realm transaction history to deal with the
+   has to be able to process events out-of-order. MongoDB Realm
+   keeps a per-Realm transaction history to deal with the
    out-of-order nature of messages.
 
-In simple terms, Realm Sync's conflict resolution comes down
-to **last write wins**. Realm Sync may also use more
+In simple terms, Realm sync's conflict resolution comes down
+to **last write wins**. Realm sync also uses more
 sophisticated techniques like :wikipedia:`operational
 transform <Operational_transformation>` to handle, for
 example, insertions into lists.
@@ -131,42 +146,44 @@ CPU-intensive. Too many writers writing on the same realm
 concurrently can impact performance, leading to scalability
 concerns.
 
-To use Realm Sync effectively, it is important to understand
+To use Realm sync effectively, it is important to understand
 the different use case profiles and their scalability
-implications. Realm Sync use cases can be categorized in
+implications. You can categorize Realm sync use cases in
 terms of **number of writers, number of readers**:
 
 Multiple writer, multiple reader:
-  This is the real-time collaboration app use case.
-  Generally speaking, the Realm server can handle up to 30
-  concurrent writers per realm. As such, each 'project' on
-  which users can collaborate works best if it is in its own
-  realm.
+  The real-time collaboration app use case.
+  Generally speaking, MongoDB Realm can handle up to 30
+  concurrent writers per Realm. As such, each 'project' on
+  which users can collaborate works best in its own Realm.
 
 Single writer, multiple reader:
-  This is when a single writer, such as a publisher
+  A single writer, such as a publisher
   application on the backend, inserts data into a global
-  realm that all frontend clients can read from but not
+  Realm that all frontend clients can read from but not
   write to. This can scale past tens of thousands of
   concurrent users.
 
 Single writer, single reader:
-  This is when each user has their own private realm to
+  Each user has their own private Realm to
   store, e.g., user account information, preferences, or the
   individual user's shopping cart. As long as only the user
   or a backend application interacts with the realm data,
   the performance is ideal and scales linearly with number
   of users.
 
-To get the best performance from Realm Sync, design your
-realm application with use case profiles in mind. If you
-intend to have many concurrent writers, avoid putting
-everything into one realm. Instead, think of ways to split
-the data across multiple realms.
+To get the best performance from Realm sync, design your
+Realm app with use case profiles in mind. If you
+intend to have many concurrent writers, split projects
+across Realms.
 
 Summary
 -------
 
-- Realm Sync enables offline-first app development by handling network loss and recovery automatically.
-- Realm Sync has a built-in conflict resolution engine that guarantees strong eventual consistency.
-- To get the best performance with Realm Sync, it is essential to understand the different use case profiles and their implications on scalability.
+- Realm sync enables offline-first app development by handling network
+  loss and recovery automatically.
+- Realm sync has a built-in conflict resolution engine that guarantees
+  strong eventual consistency.
+- To get the best performance with Realm sync, it is essential to
+  understand the different use case profiles and their implications
+  on scalability.
