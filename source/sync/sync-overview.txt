@@ -31,37 +31,17 @@ which your app can store data. Eventually, most apps
 need to share that data with the outside world.
 Consider a few examples:
 
-- A team app collaborates in real-time on a shared
+- A team collaborates in real-time on a shared
   document across the Internet.
 
-- A front-line worker app fills out a report while
+- A front-line worker fills out a report while
   working somewhere with low or no network connectivity.
 
 - An IoT device uploads its sensor data to the cloud.
 
-Traditionally, developers:
-
-1) Set up a server hosting a database.
-
-2) Set up a service hosting a REST API that authenticates users,
-   deserializes requests, translates the data into an object model
-   for the database, and then serializes from one of those objects
-   into a database query.
-
-3) Communicate with that REST API via HTTP over the internet from the
-   client API, serializing data into REST endpoint API calls.
-
-For many use cases, this works well. However, not every
-developer needs to re-implement:
-
-- an authentication system
-
-- a database data access layer
-
-- a collection of REST endpoints to create, read, update, and destroy
-  every object in the application's object model
-
-Additionally, developers need to solve the following problems for every
+Traditionally, developers use an HTTP client in a mobile app to
+manually communicate with a REST API over the Internet. This means that
+every mobile app needs to solve the following problems for every
 client platform:
 
 - serialization
@@ -73,14 +53,11 @@ client platform:
 - resolving conflicts between changes to the same data on different
   clients
 
-MongoDB Realm helps you avoid re-implementing complex, common tasks
-like authentication, database access, object serialization, and
-authorization, and makes it easy to manage a consistent schema of
-objects for your database and each client platform.
-
 Realm sync handles network access and conflict resolution in a
 background thread of your application, so your application logic
-stays the same regardless of network conditions.
+stays the same regardless of network conditions. MongoDB Realm schemas
+make it easy to manage a consistent schema of objects in your database
+and across all client platforms.
 
 .. _offline-first:
 
@@ -124,8 +101,8 @@ It's Automatic:
 
 Despite these advantages, offline-first design introduces one
 problem: if client devices can remain offline while changes
-are made locally and remotely, when those client devices
-come back online, those changes must be shared between devices.
+are made locally and remotely, they must share those changes
+when those client devices come back online.
 To make matters more complicated, every client device must
 arrive at the same state when all changes have been synced.
 This is why Realm sync includes **automatic conflict resolution**.
@@ -135,7 +112,7 @@ This is why Realm sync includes **automatic conflict resolution**.
 Resolving Conflicts
 -------------------
 
-Realm sync's conflict resolution engine is deterministic.
+Realm's sync conflict resolution engine is deterministic.
 Changes received out-of-order eventually converge on the
 same state across the server and all clients. As such, Realm
 sync is :wikipedia:`strongly eventually consistent
