@@ -121,13 +121,13 @@ Partition Strategies
 Most applications partition data into Realms based on individual users
 or groups of users:
 
-- If your application stores data privately for each
+- **Individual Realms**: If your application stores data privately for each
   individual user, you could create an ``owner_id`` field containing a
   specific user ID on every document. Selecting the ``owner_id``
   field as your partition key would partition your database into Realms
   corresponding to individual users.
      
-- If your application shares resources across teams, but
+- **Team Realms**: If your application shares resources across teams, but
   not across your entire company, you could create a ``teams``
   collection that maps user IDs to team IDs. You could then create a
   ``team_id`` field containing a specific team ID on every document you
@@ -135,12 +135,12 @@ or groups of users:
   would partition your database into Realms containing data for
   entire teams.
 
-- It's often helpful to store read-only data viewable to all users; for
+- **Public Realms**: It's often helpful to store read-only data viewable to all users; for
   this kind of use case, you can define a special partition value in
   your permissions, such as ``PUBLIC``, that all users sync with read
   permissions only.
   
-- To create a Realm that is only viewable by administrators, you can
+- **Hidden Realms**: To create a Realm that is only viewable by administrators, you can
   define a different special partition value, such as ``PRIVATE``.
 
 You can combine these patterns with a per-user or per-group
@@ -174,7 +174,7 @@ Partition keys and values are subject to certain limitations:
   reassign the partition key to a different field. To use a different
   field as your partition key:
   
-  1) Disable Realm sync
+  1) Disable Realm sync.
   
   2) Enable Realm sync again with the new field selected as your
      partition key.
@@ -188,9 +188,9 @@ Partition keys and values are subject to certain limitations:
   change the name of the field you selected as your partition key. To
   alter the field name of your partition key:
 
-  1) Disable Realm sync
+  1) Disable Realm sync.
   
-  2) Change the field name
+  2) Change the field name.
 
   3) Enable Realm sync again with the updated field name selected as
      your partition key.
