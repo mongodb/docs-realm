@@ -271,17 +271,17 @@ splits documents into Realms that make sense given user permissions
 and it makes it easy for users to sync a limited number of Realms:
 
 - Every user has read and write access to the Realm
-   containing objects owned by them -- playlists they've made and song
-   ratings.
+  containing objects owned by them -- playlists they've made and song
+  ratings.
    
 - Every user has read access to the Realm for partition value
-   ``PUBLIC``, which contains all playlists that are available to all
-   users.
+  ``PUBLIC``, which contains all playlists that are available to all
+  users.
 
 - Users sync to two Realms: the Realm for the partition value
-   corresponding to their user ID, and the Realm for the ``PUBLIC``
-   partition value. This minimizes data synced over the network to
-   only the data relevant for each Realm user.
+  corresponding to their user ID, and the Realm for the ``PUBLIC``
+  partition value. This minimizes data synced over the network to
+  only the data relevant for each Realm user.
 
 Partitioning this data by ``owner_id`` results in the following
 Realms:
@@ -391,25 +391,25 @@ Additionally, clients only sync a small number of relevant Realms for
 each use case:
 
 - A mobile client assigned to a delivery truck has read and write
-   access to the inventory of their delivery truck, and syncs
-   the Realm correponding to their delivery truck's ID. No other
-   information is relevant for that delivery truck, so they only
-   access the information they need.
+  access to the inventory of their delivery truck, and syncs
+  the Realm correponding to their delivery truck's ID. No other
+  information is relevant for that delivery truck, so they only
+  access the information they need.
 
 - Every salesperson has read and write access to their own sales data
-   and syncs the Realm corresponding to their own sales data.
+  and syncs the Realm corresponding to their own sales data.
 
 - Every branch warehouse can read and write data in their own
-   inventory Realm.
+  inventory Realm.
 
 - Every user can read public company information located in the
-   ``PUBLIC`` Realm, and only company administrators can read and
-   write public or private company information.
+  ``PUBLIC`` Realm, and only company administrators can read and
+  write public or private company information.
 
 - Because most users only read and write to one or two Realms, this
-   partitioning scheme only exposes data to those who need it. The
-   partitioning remains flexible enough to accommodate future
-   features.
+  partitioning scheme only exposes data to those who need it. The
+  partitioning remains flexible enough to accommodate future
+  features.
 
 
 Partitioning this data by ``partitionKey`` results in the following
