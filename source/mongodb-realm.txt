@@ -8,13 +8,6 @@ MongoDB Realm
 
    Create a Realm App </procedures/create-realm-app>
 
-
-.. toctree::
-   :titlesonly:
-   :caption: Reference
-
-   Glossary </get-started/glossary>
-
 .. toctree::
    :titlesonly:
    :caption: Sync
@@ -34,11 +27,10 @@ MongoDB Realm
    Create a Realm App with Realm CLI </deploy/create-with-cli>
    Export an Existing Realm Application </deploy/export-realm-app>
    Application Configuration Files </deploy/application-configuration-files>
-   Realm CLI Reference </deploy/realm-cli-reference>
    Deployment Models & Regions </admin/deployment-models-and-regions>
    MongoDB Cloud Users </admin/users-and-groups>
-   Realm Administration API </admin/api/v3.txt>
    Static Hosting </static-hosting>
+   Logs </logs>
 
 .. toctree::
    :titlesonly:
@@ -46,14 +38,12 @@ MongoDB Realm
 
    Overview </mongodb>
    Link a Cluster </mongodb/link-a-cluster>
-   MongoDB Actions </mongodb/actions>
    Document Schemas </mongodb/document-schemas>
+   Enforce a Document Schema </mongodb/enforce-a-document-schema>
    Filter Incoming Queries </mongodb/filter-incoming-queries>
    Query Filters </mongodb/query-filters>
    Service Limitations </mongodb/service-limitations>
-   Document Schemas </mongodb/document-schemas>
    Enable Wire Protocol Connections </mongodb/enable-wire-protocol-connections>
-   Enforce a Document Schema </mongodb/enforce-a-document-schema>
    Specify Read Preference for a MongoDB Cluster </mongodb/specify-cluster-read-preference>
 
 .. toctree::
@@ -80,21 +70,12 @@ MongoDB Realm
 
    Users & Authentication </authentication>
    User Objects </authentication/user-objects>
-   Authentication Providers </authentication/providers>
-   Anonymous Authentication </authentication/anonymous>
-   Email/Password Authentication </authentication/email-password>
-   Custom JWT Authentication </authentication/custom-jwt>
-   Custom Function Authentication  </authentication/custom-function>
-   API Key Authentication </authentication/api-key>
-   Facebook Authentication  </authentication/facebook>
-   Google Authentication  </authentication/google>
-   Link a New Identity to a User </authentication/linking>
    Create a User </users/create>
    Find and View a User </users/find-and-view>
-   Delete or Prevent Users From Accessing a Realm Application </users/delete-or-revoke>
-   Apple ID Authentication  </authentication/apple>
    Define Custom User Data </users/define-custom-user-data>
    Work with Multiple Users  </users/work-with-multiple-users>
+   Link a New Identity to a User </authentication/linking>
+   Delete or Prevent Users From Accessing a Realm Application </users/delete-or-revoke>
 
 .. toctree::
    :titlesonly:
@@ -103,47 +84,33 @@ MongoDB Realm
    Functions Overview </functions>
    Define a Function </functions/define-a-function>
    Access Function Context </functions/access-function-context>
-   Function Context Reference </functions/context>
+   Utility Packages </functions/utilities>
+   JSON & BSON </functions/json-and-bson>
    Upload External Dependencies </functions/upload-external-dependencies>
    Import External Dependencies </functions/import-external-dependencies>
-   JSON & BSON </functions/json-and-bson>
-   Utility Packages </functions/utilities>
 
 .. toctree::
    :titlesonly:
    :caption: Triggers
 
    Triggers Overview </triggers>
-   Authentication Triggers </triggers/authentication-triggers>
-   CRON Expressions </triggers/cron-expressions>
-   Database Triggers </triggers/database-triggers>
-   Scheduled Triggers </triggers/scheduled-triggers>
    Trigger Snippets </triggers/trigger-snippets>
+   Send Trigger Events to AWS EventBridge </triggers/eventbridge>
 
 .. toctree::
    :titlesonly:
    :caption: Services
 
    Services Overview </services>
+   Configure External Services </services/configure>
+   Work With Services </services/work-with>
    HTTP Service </services/http>
-   http.get() </services/http-actions/http.get>
-   http.post() </services/http-actions/http.post>
-   http.put() </services/http-actions/http.put>
-   http.patch() </services/http-actions/http.patch>
-   http.delete() </services/http-actions/http.delete>
-   http.head() </services/http-actions/http.head>
    Twilio Service </services/twilio>
-   Twilio.send() </services/twilio-actions/send>
    AWS Service </services/aws>
    GitHub Service </services/github>
-   Configure Third-Party Services </services/configure/services>
-   Configure Service Webhooks </services/configure/service-webhooks>
-   Configure Service Rules </services/configure/service-rules>
-   Expression Variables </services/expression-variables>
-   JSON Expressions </services/json-expressions>
    Webhook Requests & Responses </services/webhook-requests-and-responses>
-   Push Notifications </services/push-notifications>
    Send Mobile Push Notifications </services/send-mobile-push-notifications>
+   Push Notifications </services/push-notifications>
 
 .. toctree::
    :titlesonly:
@@ -153,15 +120,3 @@ MongoDB Realm
    Define a Value  </values-and-secrets/define-a-value>
    Define a Secret  </values-and-secrets/define-a-secret>
    Access a Value </values-and-secrets/access-a-value>
-
-.. toctree::
-   :titlesonly:
-   :caption: Logs
-
-   Logs </logs>
-   Access Logs with the Admin API </logs/api>
-   Authentication Logs </logs/authentication>
-   Change Stream Logs </logs/changestream>
-   Function Logs </logs/function>
-   Service Logs </logs/service>
-   Trigger Logs </logs/trigger>
