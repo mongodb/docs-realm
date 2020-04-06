@@ -5,8 +5,6 @@
 #
 # This file is execfile()d with the current directory set to its containing dir.
 
-from giza.config.helper import fetch_config, get_versions, get_manual_path
-from giza.config.runtime import RuntimeStateConfig
 import sys
 import os.path
 import datetime
@@ -14,13 +12,14 @@ import datetime
 project_root = os.path.join(os.path.abspath(os.path.dirname(__file__)))
 sys.path.append(project_root)
 
+from giza.config.runtime import RuntimeStateConfig
+from giza.config.helper import fetch_config, get_versions, get_manual_path
 
 conf = fetch_config(RuntimeStateConfig())
 intersphinx_libs = conf.system.files.data.intersphinx
 sconf = conf.system.files.data.sphinx_local
 
-sys.path.append(os.path.join(conf.paths.projectroot,
-                             conf.paths.buildsystem, 'sphinxext'))
+sys.path.append(os.path.join(conf.paths.projectroot, conf.paths.buildsystem, 'sphinxext'))
 
 # -- General configuration ----------------------------------------------------
 
@@ -70,7 +69,7 @@ rst_epilog = '\n'.join([
 extlinks = {
     # MongoDB Docs Sites
     'manual': ('http://docs.mongodb.org/manual%s', ''),
-    'atlas': ('https://docs.atlas.mongodb.com%s', ''),
+    'atlas': ('https://docs.atlas.mongodb.com%s',''),
     'fb-dev-docs': ('https://developers.facebook.com/docs/%s', ''),
     'mms-docs': ('https://docs.cloud.mongodb.com%s', ''),
     'mms-home': ('https://cloud.mongodb.com%s', ''),
@@ -141,7 +140,7 @@ languages = [
 # -- Options for HTML output ---------------------------------------------------
 
 html_theme = sconf.theme.name
-html_theme_path = [os.path.join(conf.paths.buildsystem, 'themes')]
+html_theme_path = [ os.path.join(conf.paths.buildsystem, 'themes') ]
 html_title = conf.project.title
 htmlhelp_basename = 'MongoDBdoc'
 
