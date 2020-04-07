@@ -17,7 +17,7 @@ Overview
 
 You can, of course, easily read back the data that you have
 :ref:`stored <realm-database-writes>` in :term:`Realm
-Database`: the standard data access pattern across Realm
+Database`. The standard data access pattern across Realm
 SDKs is to find, filter, and sort objects, in that order. To
 get the best performance from Realm as your app grows and
 your queries become more complex, design your app's data
@@ -34,8 +34,8 @@ A read from a :term:`Realm` generally consists of the following
 steps:
 
 - Get all :ref:`objects <realm-objects>` of a certain type from the Realm.
-- Optionally, filter the results using the :doc:`query engine </crud/query-engine>`.
-- Optionally, sort the results.
+- Optionally, :ref:`filter <filter-results>` the results using the :doc:`query engine </crud/query-engine>`.
+- Optionally, :ref:`sort <sort-results>` the results.
 
 All query, filter, and sort operations return a
 :ref:`results collection <results-collections>`. The results
@@ -124,9 +124,9 @@ Read Characteristics
 --------------------
 
 When you design your app's data access patterns around the
-three key characteristics of reads in Realm Database, you
-can be confident you are reading data as efficiently as
-possible.
+following three key characteristics of reads in Realm
+Database, you can be confident you are reading data as
+efficiently as possible.
 
 .. _results-are-not-copies:
 
@@ -134,10 +134,10 @@ Results Are Not Copies
 ~~~~~~~~~~~~~~~~~~~~~~
 
 Results to a query are not copies of your data: modifying
-the results of a query (within a write transaction) will
-modify the data on disk directly. This memory mapping also
-means that results are **live**: that is, they always
-reflect the current state on disk.
+the results of a query will modify the data on disk
+directly. This memory mapping also means that results are
+**live**: that is, they always reflect the current state on
+disk.
 
 See also: :ref:`Collections are Live <live-collections>`.
 
@@ -168,16 +168,18 @@ the results of a query.
 A **direct reference**, or pointer, allows you to access a
 related object's properties directly through the reference.
 
-Other databases typically copy objects from database storage into
-application memory when you need to work with them directly. Because
-objects contain direct references, you are left with a choice: copy
-the object referred to by each direct reference out of the database
-in case it's needed, or just copy the foreign key for each object and
-query for the object with that key if it's accessed. If you choose to
-copy referenced objects into application memory, you can use up a lot of
-resources for objects that are never accessed, but if you choose to only
-copy the foreign key, referenced object lookups can cause your
-application to slow down.
+Other databases typically copy objects from database storage
+into application memory when you need to work with them
+directly. Because application objects contain direct
+references, you are left with a choice: copy the object
+referred to by each direct reference out of the database in
+case it's needed, or just copy the foreign key for each
+object and query for the object with that key if it's
+accessed. If you choose to copy referenced objects into
+application memory, you can use up a lot of resources for
+objects that are never accessed, but if you choose to only
+copy the foreign key, referenced object lookups can cause
+your application to slow down.
 
 Realm Database bypasses all of this using :term:`zero-copy`
 :term:`live objects`. :term:`Realm object` accessors point directly into
@@ -190,7 +192,7 @@ across an entire Realm from any query result.
 Summary
 -------
 
-- To read, first get all objects of a certain type from the Realm, then filter using the query engine, then (optionally) sort the results.
-- When you read from Realm Database, the results are not copies. Instead, through memory mapping, results point directly to the version on disk.
+- To read from Realm Database, first get all objects of a certain type from the Realm, then filter using the query engine, then (optionally) sort the results.
+- When you read, the results are not copies. Instead, through memory mapping, results point directly to the version on disk.
 - Queries are lazily-evaluated.
 
