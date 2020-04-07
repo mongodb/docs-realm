@@ -67,26 +67,19 @@ Constraints
 
 - Function memory usage is limited to 256MB.
 
-- Functions and uploaded npm modules currently do not support the
-  following ES6+ features:
+- Functions currently do not support the following ES6+ features:
 
   - New Global Object Types (i.e. ``WeakMap``, ``Set``, ``WeakSet``,
     ``Symbol``, ``Proxy``)
 
   - New Math, Number, String, Array, and Object APIs (e.g. ``Array.prototype.includes``)
 
-- Uploaded npm modules must be transpiled to ES5. To import a package
-  that uses one or more ES6 features, use `Babel <https://babeljs.io/>`_
-  to transpile the package before you import. Many packages on the
-  ``npm`` registry are already transpiled to ES5, so you may not need to
-  transpile.
-
-- Functions do not currently support the :nodejs:`crypto
-  <crypto.html>` built-in module. Use :ref:`utils.crypto
-  <function-utils-crypto>` instead.
-
 - A function may open a maximum of 5 sockets using the :nodejs:`net
   <net.html>` built-in module.
+
+- Stitch does not support some built-in Node modules. For a full list of
+  unsupported modules, see :ref:`Built-In Module Support
+  <builtin-module-support>`.
 
 Concepts
 --------
@@ -141,10 +134,10 @@ you'd rather not implement yourself, such as string parsing, convenience
 functions for array manipulations, and data structure or algorithm
 implementations.
 
-Realm allows you to upload external dependencies from the :npm:`npm
-registry <>` and then import those dependencies into your functions
-using standard JavaScript module syntax. Functions support most built-in
-Node.js modules. To get started with external dependencies, check out
+Realm allows you to upload external dependencies from the :npm:`npm registry <>`
+and then import those dependencies into your functions using standard JavaScript
+module syntax. Realm automatically transpiles dependencies and supports most
+built-in Node.js modules. To get started with external dependencies, check out
 the following guides:
 
 - :doc:`Upload External Dependencies </functions/upload-external-dependencies>`
