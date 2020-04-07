@@ -139,6 +139,20 @@ user that initiated a request or action.
        ``"server"`` for :doc:`API key </authentication/api-key>` users
        and ``"normal"`` for all other users.
 
+   * - .. json-expansion:: %%user.custom_data
+     - Document
+     - The user's custom data. The exact contents will vary depending on
+       the :doc:`custom user data </users/define-custom-user-data/>`
+       available.
+
+       .. example::
+
+          .. code-block:: json
+
+             "custom_data": {
+               "primaryLanguage": "English",
+             }
+
    * - .. json-expansion:: %%user.data
      - Document
      - The user's metadata. The exact contents will vary depending on
