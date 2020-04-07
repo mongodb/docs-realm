@@ -16,9 +16,9 @@ Overview
 --------
 
 A JSON expression is a dynamic EJSON document that you use to define
-service rules in Stitch. Stitch evaluates expressions to boolean values
-and uses the result to determine whether or not to allow specific
-actions.
+service rules in MongoDB Realm. MongoDB Realm evaluates expressions to
+boolean values and uses the result to determine whether or not to allow
+specific actions.
 
 .. _rule-expression-syntax:
 .. _json-expression-syntax:
@@ -47,10 +47,11 @@ Expressions documents have the following general format:
 Evaluation
 ----------
 
-Stitch evaluates expressions by first replacing expansions with their
-runtime values and then evaluating each field of the expanded expression
-document to a boolean expression. If all fields in an expression
-evaluate to ``true``, the expression also evaluates to ``true``.
+MongoDB Realm evaluates expressions by first replacing expansions with
+their runtime values and then evaluating each field of the expanded
+expression document to a boolean expression. If all fields in an
+expression evaluate to ``true``, the expression also evaluates to
+``true``.
 
 Expression fields evaluate based on the following rules:
 
@@ -84,9 +85,9 @@ Embedded Expressions
 ~~~~~~~~~~~~~~~~~~~~
 
 You can embed multiple expression documents in the fields of another
-expression document to handle complex evaluation logic. Stitch evaluates
-expressions *depth-first*, i.e. it evaluates the most-deeply embedded
-documents first and works back to the root-level fields.
+expression document to handle complex evaluation logic. MongoDB Realm
+evaluates expressions *depth-first*, i.e. it evaluates the most-deeply
+embedded documents first and works back to the root-level fields.
 
 .. example::
 
