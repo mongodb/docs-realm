@@ -18,19 +18,46 @@ MongoDB Realm
 
 .. toctree::
    :titlesonly:
-   :caption: Application Management
+   :caption: Users & Authentication
+   :maxdepth: 2
 
-   Application Deployment  </deploy>
-   Deploy from the Realm UI </deploy/deploy-ui>
-   Deploy Automatically with GitHub </deploy/deploy-automatically-with-github>
-   Deploy with the Realm CLI </deploy/deploy-cli>
-   Create a Realm App with Realm CLI </deploy/create-with-cli>
-   Export an Existing Realm Application </deploy/export-realm-app>
-   Application Configuration Files </deploy/application-configuration-files>
-   Deployment Models & Regions </admin/deployment-models-and-regions>
-   MongoDB Cloud Users </admin/users-and-groups>
-   Static Hosting </static-hosting>
-   Logs </logs>
+   Users & Authentication </authentication>
+   User Objects </authentication/user-objects>
+   Create a User </users/create>
+   Find and View a User </users/find-and-view>
+   Define Custom User Data </users/define-custom-user-data>
+   Work with Multiple Users  </users/work-with-multiple-users>
+   Link a New Identity to a User </authentication/linking>
+   Delete or Prevent Users From Accessing a Realm Application </users/delete-or-revoke>
+
+.. toctree::
+   :titlesonly:
+   :caption: Functions
+
+   Functions Overview </functions>
+   Define a Function </functions/define-a-function>
+   Access Function Context </functions/access-function-context>
+   Utility Packages </functions/utilities>
+   JSON & BSON </functions/json-and-bson>
+   Upload External Dependencies </functions/upload-external-dependencies>
+   Import External Dependencies </functions/import-external-dependencies>
+
+.. toctree::
+   :titlesonly:
+   :caption: Values & Secrets
+
+   Values & Secrets  </values-and-secrets>
+   Define a Value  </values-and-secrets/define-a-value>
+   Define a Secret  </values-and-secrets/define-a-secret>
+   Access a Value </values-and-secrets/access-a-value>
+
+.. toctree::
+   :titlesonly:
+   :caption: Triggers
+
+   Triggers Overview </triggers>
+   Trigger Snippets </triggers/trigger-snippets>
+   Send Trigger Events to AWS EventBridge </triggers/eventbridge>
 
 .. toctree::
    :titlesonly:
@@ -60,40 +87,6 @@ MongoDB Realm
 
 .. toctree::
    :titlesonly:
-   :caption: Users & Authentication
-   :maxdepth: 2
-
-   Users & Authentication </authentication>
-   User Objects </authentication/user-objects>
-   Create a User </users/create>
-   Find and View a User </users/find-and-view>
-   Define Custom User Data </users/define-custom-user-data>
-   Work with Multiple Users  </users/work-with-multiple-users>
-   Link a New Identity to a User </authentication/linking>
-   Delete or Prevent Users From Accessing a Realm Application </users/delete-or-revoke>
-
-.. toctree::
-   :titlesonly:
-   :caption: Functions
-
-   Functions Overview </functions>
-   Define a Function </functions/define-a-function>
-   Access Function Context </functions/access-function-context>
-   Utility Packages </functions/utilities>
-   JSON & BSON </functions/json-and-bson>
-   Upload External Dependencies </functions/upload-external-dependencies>
-   Import External Dependencies </functions/import-external-dependencies>
-
-.. toctree::
-   :titlesonly:
-   :caption: Triggers
-
-   Triggers Overview </triggers>
-   Trigger Snippets </triggers/trigger-snippets>
-   Send Trigger Events to AWS EventBridge </triggers/eventbridge>
-
-.. toctree::
-   :titlesonly:
    :caption: Services
 
    Services Overview </services>
@@ -109,9 +102,29 @@ MongoDB Realm
 
 .. toctree::
    :titlesonly:
-   :caption: Values & Secrets
+   :caption: Static Hosting
 
-   Values & Secrets  </values-and-secrets>
-   Define a Value  </values-and-secrets/define-a-value>
-   Define a Secret  </values-and-secrets/define-a-secret>
-   Access a Value </values-and-secrets/access-a-value>
+   Overview </hosting>
+   Configure File Metadata </hosting/configure-file-metadata>
+   Enable Hosting </hosting/enable-hosting>
+   File Metadata Attributes </hosting/file-metadata-attributes>
+   Flush the CDN Cache </hosting/flush-the-cdn-cache>
+   Host a Single-Page Application </hosting/host-a-single-page-application>
+   Upload Content to Realm </hosting/upload-content-to-realm>
+   Use a Custom 404 Page </hosting/use-a-custom-404-page>
+   Use a Custom Domain Name </hosting/use-a-custom-domain-name>
+
+.. toctree::
+   :titlesonly:
+   :caption: Application Management
+
+   Application Deployment  </deploy>
+   Deploy from the Realm UI </deploy/deploy-ui>
+   Deploy Automatically with GitHub </deploy/deploy-automatically-with-github>
+   Deploy with the Realm CLI </deploy/deploy-cli>
+   Create a Realm App with Realm CLI </deploy/create-with-cli>
+   Export an Existing Realm Application </deploy/export-realm-app>
+   Application Configuration Files </deploy/application-configuration-files>
+   Deployment Models & Regions </admin/deployment-models-and-regions>
+   MongoDB Cloud Users </admin/users-and-groups>
+   Logs </logs>
