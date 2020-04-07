@@ -86,20 +86,3 @@ single submodule of an external dependency into a Realm Function:
       console.log(`copy: ${copy.name}`);
       return (original != copy);
    };
-
-Constraints
------------
-
-External dependencies are subject to the following limitations:
-
-- Modules will not function and throw an error if published in native
-  ES6. Modules using ES6 features must be transpiled to ES5 before they
-  will function in Realm.
-
-- Require statements *must* appear inside a function declaration, not
-  outside it. Realm does not currently support statements in the global
-  scope.
-
-- Realm does not currently support Node.js standard libraries, so
-  packages making use of those libraries will fail. Network requests and 
-  file accesses often invoke Node.js standard libraries. 
