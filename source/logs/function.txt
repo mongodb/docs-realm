@@ -13,10 +13,10 @@ Function Logs
 Overview
 ------------
 
-Function logs are created whenever a user calls a MongoDB Realm
-Function using a Realm SDK. While Functions can be executed via a
-:doc:`Trigger </triggers>`, only functions directly called via an SDK
-generate logs of the Function type.
+Function logs are created whenever a user calls a {+function+} using a
+Realm SDK. While you can execute {+functions-short+} with a
+:doc:`Trigger </triggers>`, only {+functions=short+} directly called
+from an SDK generate logs of the Function type.
 
 Log Format
 ----------
@@ -62,7 +62,7 @@ Fields
      - Description
 
    * - Remote IP Address
-     - The IP Address that sent the request to MongoDB Realm. (e.g. ``52.21.89.200``)
+     - The IP Address that sent the request to {+backend+}. (e.g. ``52.21.89.200``)
 
    * - Compute Used
      - The computational load of the operation.
@@ -93,7 +93,7 @@ Fields
      - The data center in which the function was executed.
 
    * - Logs
-     - A list of ``console.log`` outputs. Realm saves the first 256 bytes of the first 10 ``console.log()`` calls.
+     - A list of ``console.log`` outputs. {+service+} saves the first 256 bytes of the first 10 ``console.log()`` calls.
 
 Error Fields
 ------------

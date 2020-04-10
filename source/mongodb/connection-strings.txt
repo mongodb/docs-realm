@@ -1,8 +1,8 @@
 .. _connection-strings:
 
-------------------
+==================
 Connection Strings
-------------------
+==================
 
 .. default-domain:: mongodb
 
@@ -15,7 +15,7 @@ Connection Strings
 Overview
 --------
 
-To connect to Realm over the wire protocol, you must construct a
+To connect to {+backend+} over the wire protocol, you must construct a
 :manual:`MongoDB connection string </reference/connection-string>` that
 includes credentials for an application :doc:`user </authentication>` and an
 application-specific ``appName`` query parameter.
@@ -24,10 +24,10 @@ application-specific ``appName`` query parameter.
 .. admonition:: URL Encoding
 
    You must :wikipedia:`URL encode <Percent-encoding>` connection
-   strings before you can use them to connect to Realm. Connection
-   strings in the Realm UI are properly encoded by default.
+   strings before you can use them to connect to {+backend+}. Connection
+   strings in the {+ui+} are properly encoded by default.
 
-Realm connection strings have the following form:
+{+service+} connection strings have the following form:
 
 .. code-block:: shell
 
@@ -41,8 +41,8 @@ Connection String Components
 Credentials
 ~~~~~~~~~~~
 
-All Realm operations that you issue over the wire protocol run in the
-context of a specific application user that you specify in the
+All {+service+} operations that you issue over the wire protocol run in
+the context of a specific application user that you specify in the
 connection string. The user must be registered with the
 :doc:`Email/Password </authentication/email-password>`, :doc:`API Key
 </authentication/api-key>`, or :doc:`Custom JWT
@@ -139,12 +139,12 @@ authentication provider with which the user registered:
 Parameters
 ~~~~~~~~~~
 
-Realm requires specific connection string options that identify the
+{+service+} requires specific connection string options that identify the
 application you want to connect to and the authentication provider
 associated with the :ref:`credentials
 <wire-protocol-credentials-userpass>` that you provide.
 
-Realm connection strings have the following query parameters:
+{+service+} connection strings have the following query parameters:
 
 .. list-table::
    :header-rows: 1
@@ -174,7 +174,7 @@ Realm connection strings have the following query parameters:
           :widths: 10 40
 
           * - ``<app id>``
-            - The :guilabel:`App ID` of the Realm application.
+            - The :guilabel:`App ID` of the {+instance+}.
 
           * - ``<service>``
             - The name of the MongoDB Service that you want to connect
