@@ -17,17 +17,17 @@ Introduction
 
 MongoDB Realm manages authentication for your application's
 end users and allows you to store and access metadata for
-each user. Every request in Realm is associated with an
-authenticated user, which enables Realm's role-based
+each user. Every request in MongoDB Realm is associated with an
+authenticated user, which enables MongodB Realm's role-based
 :ref:`data access rules <mongodb-rules>` to dynamically
 determine read & write permissions for every object included
 in their request.
 
 Users log in through modular :doc:`authentication providers
 </authentication/providers>` that each represent a specific method of
-authentication. Realm includes several built-in providers for common use
-cases as well as custom providers that allow you to integrate any
-external authentication system.
+authentication. MongoDB Realm includes several built-in providers for
+common use cases as well as custom providers that allow you to integrate
+any external authentication system.
 
 Concepts
 --------
@@ -43,10 +43,10 @@ their identity.
 
 Users authenticate themselves by providing a set of credentials to an
 authentication provider. If the credentials are valid, the provider
-returns a unique identity associated with the user and Realm logs them
-in as the :ref:`active user <active-user>`.
+returns a unique identity associated with the user and MongoDB Realm
+logs them in as the :ref:`active user <active-user>`.
 
-Realm includes built-in authentication providers for common
+MongoDB Realm includes built-in authentication providers for common
 use cases, including :doc:`anonymous
 </authentication/anonymous>` users, :doc:`email/password
 </authentication/email-password>` combinations, :doc:`API
@@ -60,8 +60,7 @@ providers to integrate external authentication systems. The
 :doc:`Custom JWT </authentication/custom-jwt>` provider
 accepts JSON web tokens signed by the external system and
 the :doc:`Custom Function </authentication/custom-function>`
-provider allows you to define custom logic in a Realm
-function.
+provider allows you to define custom logic in a :term:`Realm function`.
 
 .. admonition:: User Authentication is Required
    :class: important

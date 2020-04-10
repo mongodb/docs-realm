@@ -15,7 +15,7 @@ Partition Atlas Data into Realms
 Overview
 --------
 
-Your :term:`Realm app's <Realm app>` :term:`linked MongoDB Atlas cluster
+Your :term:`{+instance+}'s <{+instance+}>` :term:`linked {+atlas+} cluster
 <linked cluster>` contains all of the data stored by your application:
 your application data, client data, :ref:`custom user data
 <custom-user-data>`, administrative data, and more.
@@ -27,7 +27,7 @@ information, are only relevant to a single user.
 
 :term:`Partitioning <partitioning>` helps you turn the large amount of
 data stored by your application into the small amount of data needed by
-individual clients, called :term:`Realms <Realm>`.
+individual clients, called :term:`{+realms+} <{+realm+}>`.
 
 .. figure:: /images/partitioning.svg
 
@@ -39,16 +39,16 @@ individual clients, called :term:`Realms <Realm>`.
 Partition Keys
 --------------
 
-MongoDB Realm uses :term:`partition keys <partition key>` to map
+{+service+} uses :term:`partition keys <partition key>` to map
 :term:`MongoDB documents <MongoDB document>` in a
-:term:`synced MongoDB Atlas cluster <synced cluster>` into
-:term:`Realm objects <Realm object>` in :term:`Realms <Realm>`. A
-partition key is a special field used by MongoDB Realm to determine the
-Realm membership for MongoDB documents. Your partition key should exist
+:term:`synced {+atlas+} cluster <synced cluster>` into
+:term:`Realm objects <Realm object>` in :term:`{+realms+} <{+realm+}>`.
+{+service+} uses a special field called a partition key to determine the
+{+realm+} membership of MongoDB documents. Your partition key should exist
 in every document that your application needs to synchronize between
-clients and Atlas. The partition key field name is universal across a
-Realm app -- every synced document uses the same field name to
-partition.
+clients and {+atlas-short+}. The partition key field name is universal
+across a {+instance+} -- every synced document uses the same field name
+to partition.
 
 Choose a Partition Key
 ++++++++++++++++++++++
@@ -63,8 +63,8 @@ choose partition keys:
   key.
 
 - Changing a partition value is an expensive operation, requiring a
-  deletion of the object from one Realm and an insertion of the same
-  object into another Realm. As a result, you should choose a partition
+  deletion of the object from one {+realm+} and an insertion of the same
+  object into another {+realm+}. As a result, you should choose a partition
   key that rarely, if ever, needs to change.
 
 - Partition keys use the same field name in every synced document. Pick
@@ -85,22 +85,22 @@ a partition key for your application, see :ref:`Partition Strategies
 Define a Partition Key
 ++++++++++++++++++++++
 
-You can define a partition key when enabling :term:`Realm sync` for your
-Realm app. After selecting a cluster to sync, choose your partition key.
-You can either use an existing field or create a new field.
+You can define a partition key when enabling :term:`{+sync+}` for your
+{+instance+}. After selecting a cluster to sync, choose your partition
+key. You can either use an existing field or create a new field.
 
-The :term:`Realm schema` for each synced collection of your synced
+The :term:`{+backend-schema+}` for each synced collection of your synced
 cluster should include the partition key for your application. However,
-you don't have to include the partition key in all collections; Realm
-sync will ignore any collections that lack a Realm schema as well as any
+you don't have to include the partition key in all collections; {+sync+}
+ignores any collections that lack a {+backend-schema+} as well as any
 documents that lack a valid value for the partition key.
 
 Partition Values
 ----------------
 
 Each unique :term:`partition value`, or value of a partition key, maps
-to a different Realm. Documents that share the same partition value
-belong to the same Realm. All documents in a Realm share the same
+to a different {+realm+}. Documents that share the same partition value
+belong to the same {+realm+}. All documents in a {+realm+} share the same
 read and write permissions.
 
 Map Documents to Realms
@@ -120,20 +120,20 @@ Partition Strategies
 --------------------
 
 Most applications access data in similar ways. A few common patterns,
-applied individually or in combination, cover a vast majority of Realm
+applied individually or in combination, cover a vast majority of
 permissioning use cases:
 
 - **User Realms**: If your application stores data privately for each
   individual user, you could create an ``owner_id`` field containing a
   specific user ID for every document. Selecting the ``owner_id``
-  field as your partition key would partition your database into Realms
+  field as your partition key would partition your database into {+realms+}
   corresponding to individual users.
      
 - **Team Realms**: If your application shares resources across teams,
   you could create a ``teams`` collection that maps user IDs to team
   IDs. You could then create a ``team_id`` field containing a specific
   team ID for every document you want to sync. Selecting the ``team_id``
-  field as your partition key would partition your database into Realms
+  field as your partition key would partition your database into {+realms+}
   containing data for entire teams.
 
 - **Public Realms**: It's often helpful to store read-only data viewable
@@ -154,12 +154,12 @@ string. For example:
    _partitionKey: "team_id=1234"
    _partitionKey: "user_id=abcdefg"
 
-You can use Realm rule expressions can check the prefix before looking
+{+rules+} expressions can check the prefix before looking
 up the team or user ID in the appropriate lookup collection to determine
-whether or not a given user has access to a Realm. Structuring your
+whether or not a given user has access to a {+realm+}. Structuring your
 partition values like a query string lets you take
 advantage of multiple partitioning strategies at once, providing the
-power of user, team, and public realms all at once. See the
+power of user, team, and public {+realms+} all at once. See the
 :ref:`partition key examples <partition-key-examples>` for more
 information about partitioning strategies.
 
@@ -186,41 +186,41 @@ Partition keys and values are subject to certain limitations:
   reassign the partition key to a different field. To use a different
   field as your partition key:
   
-  1) Disable Realm sync.
+  1) Disable {+sync+}.
   
-  2) Enable Realm sync again with the new field selected as your
+  2) Enable {+sync+} again with the new field selected as your
      partition key.
      
   .. warning::
 
-     Disabling and re-enabling sync will trigger a
+     Disabling and re-enabling {+sync-short+} will trigger a
      :ref:`client reset <client-reset>` on all clients.
 
-- Once you have chosen a partition key and enabled sync, you cannot
-  change the name of the field you selected as your partition key. To
-  alter the field name of your partition key:
+- Once you have chosen a partition key and enabled {+sync-short+}, you
+  cannot change the name of the field you selected as your partition
+  key. To alter the field name of your partition key:
 
-  1) Disable Realm sync.
+  1) Disable {+sync+}.
   
   2) Change the field name.
 
-  3) Enable Realm sync again with the updated field name selected as
+  3) Enable {+sync+} again with the updated field name selected as
      your partition key.
 
   .. warning::
 
-     Disabling and re-enabling sync will trigger a
+     Disabling and re-enabling {+sync+} will trigger a
      :ref:`client reset <client-reset>` on all clients.
 
-- If you change a partition value in Atlas, MongoDB Realm interprets
-  the change as a delete, then an insert. First, MongoDB Realm deletes
+- If you change a partition value in {+atlas-short+}, {+backend+} interprets
+  the change as a delete, then an insert. First, {+backend+} deletes
   the corresponding :term:`Realm object` from the object's original
-  Realm. Next, MongoDB Realm inserts a new Realm object containing the
-  same data into the object's new Realm. 
+  {+realm+}. Next, {+backend+} inserts a new Realm object containing the
+  same data into the object's new {+realm+}. 
   
   .. warning::
 
-     Changing a partition value in Atlas will lose any un-synced client
+     Changing a partition value in {+atlas-short+} will lose any un-synced client
      updates to the object.
 
 - Changing a partition value in a Realm object using the Realm SDK
@@ -231,8 +231,8 @@ Partition keys and values are subject to certain limitations:
 Partitioning Examples
 ---------------------
 
-Because Realms correspond to collections of documents that share the
-same permissions, partitioning can vary between Realm apps.
+Because {+realms+} correspond to collections of documents that share the
+same permissions, partitioning can vary between {+instances+}.
 
 Example: Partitioning by User
 +++++++++++++++++++++++++++++
@@ -267,28 +267,28 @@ describing user data in a music app:
 
 In this application, the ``owner_id`` field is a good candidate for a
 partition key. This field works well as a partition key because it
-splits documents into Realms that make sense given user permissions
-and it makes it easy for users to sync a limited number of Realms:
+splits documents into {+realms+} that make sense given user permissions
+and it makes it easy for users to sync a limited number of {+realms+}:
 
-- Every user has read and write access to the Realm
+- Every user has read and write access to the {+realm+}
   containing objects owned by them -- playlists they've made and song
   ratings.
    
-- Every user has read access to the Realm for partition value
+- Every user has read access to the {+realm+} for partition value
   ``PUBLIC``, which contains all playlists that are available to all
   users.
 
-- Users sync to two Realms: the Realm for the partition value
-  corresponding to their user ID, and the Realm for the ``PUBLIC``
+- Users sync to two {+realms+}: the {+realm+} for the partition value
+  corresponding to their user ID, and the {+realm+} for the ``PUBLIC``
   partition value. This minimizes data synced over the network to
   only the data relevant for each Realm user.
 
 Partitioning this data by ``owner_id`` results in the following
-Realms:
+{+realms+}:
 
 .. code-block:: javascript
 
-   Realm dog_enthusiast_95: [
+   realm dog_enthusiast_95: [
       { owner_id: "dog_enthusiast_95", playlist_ids: [ ... ] }
       { name: "Work", owner_id: "dog_enthusiast_95", song_ids: [ ... ] }
       { name: "Soup Tunes", owner_id: "dog_enthusiast_95", song_ids: [ ... ] }
@@ -296,23 +296,23 @@ Realms:
       { owner_id: "dog_enthusiast_95", song_id: 1, rating: 1 }
    ]
 
-   Realm cat_enthusiast_92: [
+   realm cat_enthusiast_92: [
       { owner_id: "cat_enthusiast_92", playlist_ids: [ ... ] }
       { name: "Party", owner_id: "cat_enthusiast_92", song_ids: [ ... ] }
       { owner_id: "cat_enthusiast_92", song_id: 1, rating: 1 }
    ]
 
-   Realm troll_2: [
+   realm troll_2: [
       { owner_id: "troll_2", playlist_ids: [ ... ] }
       { owner_id: "troll_2", song_id: 2, rating: 1 }
       { name: "Dance", owner_id: "troll_2", song_ids: [ ... ] }
    ]
 
-   Realm OP: [
+   realm OP: [
       { owner_id: "OP", playlist_ids: [ ... ] }
    ]
 
-   Realm PUBLIC: [
+   realm PUBLIC: [
       { name: "Disco Anthems", owner_id: "PUBLIC", song_ids: [ ... ] }
       { name: "Deep Focus", owner_id: "PUBLIC", song_ids: [ ... ] }
    ]
@@ -378,7 +378,7 @@ on the collection, data might be owned by:
 
 - the company in general, public or private
 
-To partition this data into Realms, you can create partition keys
+To partition this data into {+realms+}, you can create partition keys
 containing prefixes that indicate which kind of entity owns the data.
 In this case, the application uses the categories of branch,
 salesperson, delivery truck, or public/private. You can also create
@@ -392,32 +392,32 @@ each use case:
 
 - A mobile client assigned to a delivery truck has read and write
   access to the inventory of their delivery truck, and syncs
-  the Realm correponding to their delivery truck's ID. No other
+  the {+realms+} correponding to their delivery truck's ID. No other
   information is relevant for that delivery truck, so they only
   access the information they need.
 
 - Every salesperson has read and write access to their own sales data
-  and syncs the Realm corresponding to their own sales data.
+  and syncs the {+realm+} corresponding to their own sales data.
 
 - Every branch warehouse can read and write data in their own
-  inventory Realm.
+  inventory {+realm+}.
 
 - Every user can read public company information located in the
-  ``PUBLIC`` Realm, and only company administrators can read and
+  ``PUBLIC`` {+realm+}, and only company administrators can read and
   write public or private company information.
 
-- Because most users only read and write to one or two Realms, this
+- Because most users only read and write to one or two {+realms+}, this
   partitioning scheme only exposes data to those who need it. The
   partitioning remains flexible enough to accommodate future
   features.
 
 
 Partitioning this data by ``partitionKey`` results in the following
-Realms:
+{+realms+}:
 
 .. code-block:: javascript
 
-   Realm PUBLIC: [
+   realm PUBLIC: [
       { name: "Scranton", partitionKey: "PUBLIC", salespeople: [ "Jim", "Pam", "Dwight" ] }
       { name: "Albany", partitionKey: "PUBLIC", salespeople: [ "Karen" ] }
       { name: "Utica", partitionKey: "PUBLIC", salespeople: [ "Jeff" ] }
@@ -427,49 +427,49 @@ Realms:
       { item: "legal", partitionKey: "PUBLIC", price: .35 }
    ]
 
-   Realm PRIVATE: [
+   realm PRIVATE: [
       { item: "panama", partitionKey: "PRIVATE", price: 1.05 }
    ]
 
-   Realm branch=Scranton: [
+   realm branch=Scranton: [
       { type: "A4", partitionKey: "branch=Scranton", volume: 326}
       { customer: "yellow pages", contact: "123-456-7890", partitionKey: "branch=Scranton" }
       { customer: "newspaper", contact: "456-456-7890", partitionKey: "branch=Scranton" }
    ]
 
-   Realm branch=Albany: [
+   realm branch=Albany: [
       { type: "A4", partitionKey: "branch=Albany", volume: 567}
       { customer: "diner", contact: "345-623-5467", partitionKey: "branch=Albany" }
    ]
 
-   Realm branch=Utica: [
+   realm branch=Utica: [
       { type: "A4", partitionKey: "branch=Utica", volume: 48}
       { customer: "NYSDEC", contact: "145-674-7890", partitionKey: "branch=Utica" }
    ]
 
-   Realm salesperson=Jim: [
+   realm salesperson=Jim: [
       { item: "A4", partitionKey: "salesperson=Jim", volume: 33, customer: "school" }
       { item: "A4", partitionKey: "salesperson=Jim", volume: 57, customer: "gym" }
    ]
 
-   Realm salesperson=Karen: [
+   realm salesperson=Karen: [
       { item: "A4", partitionKey: "salesperson=Karen", volume: 78, customer: "law firm" }
    ]
 
-   Realm salesperson=Jeff: [
+   realm salesperson=Jeff: [
       { item: "A4", partitionKey: "salesperson=Jeff", volume: 15, customer: "mom" }
       { customer: "mom", contact: "342-576-6733", partitionKey: "salesperson=Jeff" }
    ]
 
-   Realm salesperson=Arnold: [
+   realm salesperson=Arnold: [
       { item: "A4", partitionKey: "salesperson=Arnold", volume: 54, customer: "dad" }
    ]
 
-   Realm delivery_truck=3: [
+   realm delivery_truck=3: [
       { item: "A4", partitionKey: "delivery_truck=3", volume: 33, customer: "school" }
       { item: "A4", partitionKey: "delivery_truck=3", volume: 57, customer: "gym" }
    ]
 
-   Realm delivery_truck=7: [
+   realm delivery_truck=7: [
       { item: "A4", partitionKey: "delivery_truck=7", volume: 12, customer: "law firm" }
    ]
