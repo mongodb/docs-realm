@@ -20,13 +20,16 @@ real time. Storing your data in `MongoDB Atlas
 your data. Using schemas ensures the accuracy of the data by
 performing type and format checks on fields. 
 
-There are two different types of schemas you will need:
+There are two different types of :term:`Realm Data Models` you will need:
 
-* A :doc:`Realm Object Model </data-model/realms>`, for your mobile application.
-* A :doc:`Realm Schema </mongodb/document-schemas>`, for your MongoDB Atlas cluster. 
+- :doc:`Realm Schema </mongodb/document-schemas>`, which defines your data as
+  MongoDB documents.
+
+- :doc:`Realm Object Model </data-model/realms>`, which defines your data as
+  native objects in your mobile application.
 
 If you have already started storing your application data on MongoDB
-Atlas, you can generate a Realm Schema through ``Automated
+Atlas, MongoDB Realm can generate a Realm Schema through ``Automated
 Schema Generation with MongoDB Realm`` and translate that Realm Schema
 into the Realm Object Model you need for mobile. Alternatively, if you
 have not started storing your application data yet in Atlas,
@@ -44,11 +47,12 @@ the schemas that you will need.
 Automated Schema Generation with MongoDB Realm
 ----------------------------------------------
 
-You can generate a Realm Schema if you already have data in MongoDB Atlas.
-Navigate through the MongoDB Realm UI to sample the data in your
-collection to automatically generate a schema. You can then edit that
-schema and translate it into a Realm Object Model for the language of
-your choice. 
+You can generate a Realm Schema if you already have data in MongoDB
+Atlas. Navigate through the MongoDB Realm UI to sample the data in your
+collection and automatically generate a schema. You can then edit that
+schema and once you are done editing, MongoDB Realm automatically
+translates it into a Realm Object Model for the language of your choice.
+
 
 Procedure
 ~~~~~~~~~
@@ -58,8 +62,8 @@ Procedure
 Development Mode with MongoDB Realm
 -----------------------------------
 
-Through :guilabel:`Development Mode` in the MongoDB Realm UI, you can develop
-your Realm Object Model to use for your mobile application. After developing your Realm Object Model,
+Through :guilabel:`Development Mode`, you can develop
+your Realm Object Model to use in your mobile application. After developing your Realm Object Model,
 MongoDB will automatically generate a Realm Schema for your Atlas
 cluster. 
 
