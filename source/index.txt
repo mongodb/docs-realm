@@ -4,242 +4,50 @@ MongoDB Realm
 
 .. toctree::
    :titlesonly:
-   :caption: Get Started
+   :caption: Introduction
 
    What is Realm?  </get-started/what-is-realm>
    Introduction for Mobile Developers </get-started/introduction-mobile>
    Introduction for Backend Developers  </get-started/introduction-backend>
-   Install Realm for Android </get-started/install-android>
-   Install Realm for iOS, macOS, tvOS, and watchOS </get-started/install-ios>
-   Install Realm for .NET </get-started/install-dotnet>
-   Install Realm for Node.js </get-started/install-node>
-   Install Realm for React Native </get-started/install-react-native>
-   Create a Realm App </procedures/create-realm-app>
-   Init the RealmAppClient </procedures/init-realmclient>
+
+.. toctree::
+   :titlesonly:
+   :caption: MongoDB Realm
+
+   MongoDB Realm </mongodb-realm>
+
+.. toctree::
+   :titlesonly:
+   :caption: Android SDK
+
+   Android Client SDK </android>
+
+.. toctree::
+   :titlesonly:
+   :caption: iOS SDK
+
+   iOS Client SDK </ios>
+
+.. toctree::
+   :titlesonly:
+   :caption: React Native SDK
+
+   React Native Client SDK </react-native>
+
+.. toctree::
+   :titlesonly:
+   :caption: Web SDK
+
+   Web Client SDK </web>
+
+.. toctree::
+   :titlesonly:
+   :caption: Reference
+
    Glossary </get-started/glossary>
-
-.. toctree::
-   :titlesonly:
-   :caption: Data Model
-
-   Realms  </data-model/realms>
-   Objects  </data-model/objects>
-   Relationships  </data-model/relationships>
-   Migrations  </data-model/migrations>
-   Threading  </data-model/threading>
-   Auxiliary Files  </data-model/auxiliary-files>
-
-.. toctree::
-   :titlesonly:
-   :caption: Read & Write
-
-   Reads  </crud/reads>
-   Query Engine  </crud/query-engine>
-   Collections  </crud/collections>
-   Writes  </crud/writes>
-   Notifications  </crud/notifications>
-
-.. toctree::
-   :titlesonly:
-   :caption: Sync
-
-   Sync Overview  </sync/sync-overview>
-   Define Sync Rules  </sync/rules>
-   Partition Atlas Data into Realms </sync/partitioning>
-
-.. toctree::
-   :titlesonly:
-   :caption: Users & Authentication
-   :maxdepth: 2
-
-   Users & Authentication </authentication>
-   User Objects </authentication/user-objects>
-   Authentication Providers </authentication/providers>
-   Anonymous Authentication </authentication/anonymous>
-   Email/Password Authentication </authentication/email-password>
-   Custom JWT Authentication </authentication/custom-jwt>
-   Custom Function Authentication  </authentication/custom-function>
-   API Key Authentication </authentication/api-key>
-   Facebook Authentication  </authentication/facebook>
-   Google Authentication  </authentication/google>
-   Link a New Identity to a User </authentication/linking>
-   Create a User </users/create>
-   Find and View a User </users/find-and-view>
-   Delete or Prevent Users From Accessing a Realm Application </users/delete-or-revoke>
-   Apple ID Authentication  </authentication/apple>
-   Define Custom User Data </users/define-custom-user-data>
-   Work with Multiple Users  </users/work-with-multiple-users>
-
-.. toctree::
-   :titlesonly:
-   :caption: MongoDB
-
-   Overview </mongodb>
-   Link a Cluster </mongodb/link-a-cluster>
-   MongoDB Actions </mongodb/actions>
-   Document Schemas </mongodb/document-schemas>
-   Query Filters </mongodb/query-filters>
-   Connection Strings </mongodb/connection-strings>
-   Service Limitations </mongodb/service-limitations>
-   CRUD & Aggregation APIs </mongodb/crud-and-aggregation-apis>
-   Query Roles </mongodb/query-roles>
-   Insert Documents </mongodb/insert-documents>
-   Find Documents </mongodb/find-documents>
-   Update Documents </mongodb/update-documents>
-   Delete Documents </mongodb/delete-documents>
-   Watch for Document Changes </mongodb/watch-documents>
-   Configure Advanced Rules </mongodb/configure-advanced-rules>
-   Connection Strings </mongodb/connection-strings>
-   CRUD & Aggregation APIs </mongodb/crud-and-aggregation-apis>
-   Define Roles And Permissions </mongodb/define-roles-and-permissions>
-   Document Schemas </mongodb/document-schemas>
-   Enable Wire Protocol Connections </mongodb/enable-wire-protocol-connections>
-   Connect Over the Wire Protocol </mongodb/connect-over-the-wire-protocol>
-   Enforce a Document Schema </mongodb/enforce-a-document-schema>
-   Filter Incoming Queries </mongodb/filter-incoming-queries>
-   Query Filters </mongodb/query-filters>
-   Service Limitations </mongodb/service-limitations>
-   Specify Read Preference for a MongoDB Cluster </mongodb/specify-cluster-read-preference>
-   mongodb.db() </mongodb/actions/mongodb.db>
-   database.collection() </mongodb/actions/database.collection>
-   collection.find() </mongodb/actions/collection.find>
-   collection.findOne() </mongodb/actions/collection.findOne>
-   collection.findOneAndUpdate() </mongodb/actions/collection.findOneAndUpdate>
-   collection.findOneAndReplace() </mongodb/actions/collection.findOneAndReplace>
-   collection.findOneAndDelete() </mongodb/actions/collection.findOneAndDelete>
-   collection.insertOne() </mongodb/actions/collection.insertOne>
-   collection.insertMany() </mongodb/actions/collection.insertMany>
-   collection.updateOne() </mongodb/actions/collection.updateOne>
-   collection.updateMany() </mongodb/actions/collection.updateMany>
-   collection.deleteOne() </mongodb/actions/collection.deleteOne>
-   collection.deleteMany() </mongodb/actions/collection.deleteMany>
-   collection.aggregate() </mongodb/actions/collection.aggregate>
-   collection.count() </mongodb/actions/collection.count>
-
-.. toctree::
-   :titlesonly:
-   :caption: Services
-
-   Services Overview </services>
-   HTTP Service </services/http>
-   http.get() </services/http-actions/http.get>
-   http.post() </services/http-actions/http.post>
-   http.put() </services/http-actions/http.put>
-   http.patch() </services/http-actions/http.patch>
-   http.delete() </services/http-actions/http.delete>
-   http.head() </services/http-actions/http.head>
-   Twilio Service </services/twilio>
-   Twilio.send() </services/twilio-actions/send>
-   AWS Service </services/aws>
-   AWS S3 Service Snippets </services/snippets/s3>
-   GitHub Service </services/github>
-   GitHub Service Snippets </services/snippets/github>
-   Configure Third-Party Services </services/configure/services>
-   Configure Service Webhooks </services/configure/service-webhooks>
-   Configure Service Rules </services/configure/service-rules>
+   Function Context Reference </functions/context>
+   Realm Administration API </admin/api/v3.txt>
+   Realm CLI Reference </deploy/realm-cli-reference>
+   CRON Expressions </triggers/cron-expressions>
    Expression Variables </services/expression-variables>
    JSON Expressions </services/json-expressions>
-   Webhook Requests & Responses </services/webhook-requests-and-responses>
-   Push Notifications </services/push-notifications>
-   Call a Service Action </services/call-a-service-action>
-   Send Mobile Push Notifications </services/send-mobile-push-notifications>
-
-.. toctree::
-   :titlesonly:
-   :caption: Triggers
-
-   Triggers Overview </triggers>
-   Authentication Triggers </triggers/authentication-triggers>
-   CRON Expressions </triggers/cron-expressions>
-   Database Triggers </triggers/database-triggers>
-   Scheduled Triggers </triggers/scheduled-triggers>
-   Trigger Snippets </triggers/trigger-snippets>
-
-.. toctree::
-   :titlesonly:
-   :caption: GraphQL
-
-   GraphQL API Overview </graphql>
-   Expose Data in a Collection </graphql/expose-data>
-   Authenticate GraphQL Requests </graphql/authenticate>
-   Connect From a Client Application </graphql/connect>
-   Execute a GraphQL Operation </graphql/execute>
-   Define a Custom Query or Mutation </graphql/custom-resolvers>
-   GraphQL Types and Resolvers </graphql/types-and-resolvers>
-
-.. toctree::
-   :titlesonly:
-   :caption: Functions
-
-   Functions Overview </functions>
-   Define a Function </functions/define-a-function>
-   Call a Function </functions/call-a-function>
-   Access Function Context </functions/access-function-context>
-   Function Context Reference </functions/context>
-   Upload External Dependencies </functions/upload-external-dependencies>
-   Import External Dependencies </functions/import-external-dependencies>
-   JSON & BSON </functions/json-and-bson>
-   Utility Packages </functions/utilities>
-
-.. toctree::
-   :titlesonly:
-   :caption: Values & Secrets
-
-   Values & Secrets  </values-and-secrets>
-   Define a Value  </values-and-secrets/define-a-value>
-   Define a Secret  </values-and-secrets/define-a-secret>
-   Access a Value </values-and-secrets/access-a-value>
-
-.. toctree::
-   :titlesonly:
-   :caption: Application Deployment
-
-   Application Deployment  </deploy>
-   Deploy from the Realm UI </deploy/deploy-ui>
-   Deploy Automatically with GitHub </deploy/deploy-automatically-with-github>
-   Deploy with the Realm CLI </deploy/deploy-cli>
-   Create a Realm App with Realm CLI </deploy/create-with-cli>
-   Export an Existing Realm Application </deploy/export-realm-app>
-   Application Configuration Files </deploy/application-configuration-files>
-   Realm CLI Reference </deploy/realm-cli-reference>
-
-.. toctree::
-   :titlesonly:
-   :caption: Static Hosting
-
-   Overview </hosting>
-   Configure File Metadata </hosting/configure-file-metadata>
-   Enable Hosting </hosting/enable-hosting>
-   File Metadata Attributes </hosting/file-metadata-attributes>
-   Flush the CDN Cache </hosting/flush-the-cdn-cache>
-   Host a Single-Page Application </hosting/host-a-single-page-application>
-   Upload Content to Realm </hosting/upload-content-to-realm>
-   Use a Custom 404 Page </hosting/use-a-custom-404-page>
-   Use a Custom Domain Name </hosting/use-a-custom-domain-name>
-
-.. toctree::
-   :titlesonly:
-   :caption: Realm by Example
-
-   Read & Write Data  </by-example/read-and-write>
-   Observe Changes  </by-example/observe-changes>
-
-.. toctree::
-   :titlesonly:
-   :caption: Logs
-
-   Logs </logs>
-   Access Logs with the Admin API </logs/api>
-   Authentication Logs </logs/authentication>
-   Change Stream Logs </logs/changestream>
-   Function Logs </logs/function>
-   Service Logs </logs/service>
-   Trigger Logs </logs/trigger>
-
-.. toctree::
-   :titlesonly:
-   :caption: Realm Administation
-
-   Deployment Models & Regions </admin/deployment-models-and-regions>
-   MongoDB Cloud Users </admin/users-and-groups>
-   Realm Administration API </admin/api/v3.txt>

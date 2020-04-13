@@ -15,6 +15,11 @@ GraphQL API (Beta)
 Overview
 --------
 
+.. admonition:: Version Requirement
+   :class: note
+
+   GraphQL requires MongoDB version 4.0 or greater.
+
 The Realm :graphql:`GraphQL <>` API (Beta Release) allows client
 applications to access data stored in a linked MongoDB cluster using any
 standard GraphQL client. Realm automatically creates GraphQL types for
@@ -135,7 +140,8 @@ Mutations
 A GraphQL **mutation** is a write operation that creates, modifies, or
 deletes one or more documents. Realm automatically generates mutation
 types for documents in each collection that has a defined :doc:`schema
-</mongodb/enforce-a-document-schema>`.
+</mongodb/enforce-a-document-schema>`. Realm uses transactions to ensure
+safe writes via mutations.
 
 For more information and examples, including a list of all automatically
 generated mutation types, see :ref:`Mutation Resolvers
