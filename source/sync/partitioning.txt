@@ -69,9 +69,9 @@ choose partition keys:
 
 - Partition keys use the same field name in every synced document. Pick
   a field name that is unlikely to collide with an another field name
-  in any Realm object's schema. You can begin the field name with an
+  in any Realm object's model. You can begin the field name with an
   underscore, (e.g. ``_partitionKey``) to decrease the likelihood of
-  collisions and indicate the importance of the field in the schema
+  collisions and indicate the importance of the field in the Object Model
   itself.
 
 - Partition keys must have a value of one of the
@@ -89,10 +89,10 @@ You can define a partition key when enabling :term:`Realm sync` for your
 Realm app. After selecting a cluster to sync, choose your partition key.
 You can either use an existing field or create a new field.
 
-The :term:`Realm schema` for each synced collection of your synced
+The :term:`Realm Object Model` for each synced collection of your synced
 cluster should include the partition key for your application. However,
 you don't have to include the partition key in all collections; Realm
-sync will ignore any collections that lack a Realm schema as well as any
+sync will ignore any collections that lack a Realm Object Model as well as any
 documents that lack a valid value for the partition key.
 
 Partition Values

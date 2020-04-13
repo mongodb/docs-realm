@@ -55,8 +55,8 @@ client platform:
 
 Realm sync handles network access and conflict resolution in a
 background thread of your application, so your application logic
-stays the same regardless of network conditions. MongoDB Realm schemas
-make it easy to manage a consistent schema of objects in your database
+stays the same regardless of network conditions. MongoDB Realm Object Model
+makes it easy to manage a consistent schema of objects in your database
 and across all client platforms.
 
 .. _offline-first:
@@ -90,13 +90,12 @@ Live Objects Across Devices:
   react to local and remote changes.
 
 It's Automatic:
-  Sync is built into the Realm SDK. You do not need to write
-  your own synchronization protocol and deal with connectivity
-  issues when synchronizing data. The Realm :term:`sync protocol` is
-  the same across platforms. Realm handles passing the
-  objects across the network automatically, so there is no
-  need to map from one platform's database to another or
-  serialize and deserialize objects in order to send and
+  Sync is built into the Realm SDK. You do not need to write your own
+  synchronization protocol and deal with connectivity issues when
+  synchronizing data. The Realm :term:`Realm sync protocol` is the same
+  across platforms. Realm handles passing the objects across the network
+  automatically, so there is no need to map from one platform's database
+  to another or serialize and deserialize objects in order to send and
   receive them over the network.
 
 Despite these advantages, offline-first design introduces one
