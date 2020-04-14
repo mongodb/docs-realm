@@ -88,7 +88,7 @@ source_constants = {
     'instance-short': 'app',
     'instances-short': 'apps',
     'schema': 'Realm Data Model',
-    'backend-schema': 'Realm Schema',
+    'backend-schema': 'MongoDB Realm Schema',
     'frontend-schema': 'Realm Object Model',
     'cli': 'realm-cli',
     'ui': 'Realm UI',

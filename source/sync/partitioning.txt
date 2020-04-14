@@ -69,9 +69,9 @@ choose partition keys:
 
 - Partition keys use the same field name in every synced document. Pick
   a field name that is unlikely to collide with an another field name
-  in any Realm object's schema. You can begin the field name with an
+  in any Realm object's model. You can begin the field name with an
   underscore, (e.g. ``_partitionKey``) to decrease the likelihood of
-  collisions and indicate the importance of the field in the schema
+  collisions and indicate the importance of the field in the Object Model
   itself.
 
 - Partition keys must have a value of one of the
