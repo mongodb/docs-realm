@@ -7,9 +7,9 @@ Access a Value
 Overview
 --------
 
-You can reference a :ref:`Value <app-value>` from a
+You can reference a :ref:`{+value+} <app-value>` from a
 :doc:`JSON expression </services/json-expressions>` or a
-:doc:`Function </functions>`.
+:doc:`{+function+} </functions>`.
 
 Usage
 -----
@@ -17,8 +17,8 @@ Usage
 Reference a Value in a JSON Expression
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-You can access a Value's stored data from a JSON expression using the
-:json-expansion:`%%values` expansion.
+You can access a {+value-short+}'s stored data from a JSON expression
+using the :json-expansion:`%%values` expansion.
 
 .. code-block:: javascript
 
@@ -27,7 +27,8 @@ You can access a Value's stored data from a JSON expression using the
 .. example::
 
    The following JSON expression evaluates to ``true`` when the active
-   user's id is included in the plain text array Value ``adminUsers``:
+   user's id is included in the plain text array {+value-short+}
+   ``adminUsers``:
    
    .. code-block:: javascript
    
@@ -36,8 +37,8 @@ You can access a Value's stored data from a JSON expression using the
 Reference a Value in a Function
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-You can access a Value's stored data from a Function using
-the :ref:`context.values <context-values>` module.
+You can access a {+value-short+}'s stored data from a {+function-short+}
+using the :ref:`context.values <context-values>` module.
 
 .. code-block:: javascript
 
@@ -45,8 +46,9 @@ the :ref:`context.values <context-values>` module.
 
 .. example::
 
-   The following Function returns ``true`` when the active
-   user's id is included in the plain text array Value ``adminUsers``:
+   The following {+function-short+} returns ``true`` when the active
+   user's id is included in the plain text array {+value-short+}
+   ``adminUsers``:
    
    .. code-block:: javascript
    
@@ -59,4 +61,4 @@ the :ref:`context.values <context-values>` module.
 Summary
 -------
 
-- You can access a Value from a :doc:`JSON expression </services/json-expressions>` or from a :doc:`Function </functions>`.
+- You can access a {+value+} from a :doc:`JSON expression </services/json-expressions>` or from a :doc:`{+function+} </functions>`.

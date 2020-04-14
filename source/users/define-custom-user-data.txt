@@ -16,18 +16,18 @@ Overview
 --------
 
 You can store arbitrary data about your application users in a MongoDB
-collection and configure Realm to automatically expose each user's data
+collection and configure {+service+} to automatically expose each user's data
 in a field of their :ref:`user object <user-objects>`. For example, you
 might store a user's preferred language, date of birth, or their local
 timezone.
 
-Realm automatically finds a user's custom data document and includes it
+{+service+} automatically finds a user's custom data document and includes it
 in their access token when they log in. You can access the data in the
 ``custom_data`` field of the user's object in :ref:`function context
 <context-get-user-information>`, the :json-expansion:`%%user` expansion,
 and their client application access token.
 
-Realm does not manage custom user documents so you are responsible for
+{+service+} does not manage custom user documents so you are responsible for
 creating and deleting them. The underlying data is a regular MongoDB
 document, so you can use standard CRUD operations through the
 :doc:`MongoDB Atlas service </mongodb>` to define and modify a user's
@@ -43,32 +43,32 @@ documents, such as storing the time of their most recent login in the
 
    Documents that contain user data must include the user's ID in a
    specific field. If multiple documents specify the same user's ID,
-   Realm only exposes the data from the document that was inserted
+   {+service+} only exposes the data from the document that was inserted
    first.
 
 .. admonition:: Custom Data May Be Stale
    :class: warning
    
-   Realm does not dynamically update a user's custom data if the
-   underlying document changes. Instead, Realm fetches a new copy of the
-   data whenever a user refreshes their access token, such as when they
-   log in. This may mean that the custom data won't immediately reflect
-   changes, e.g. updates from an authentication trigger. The client SDKs
-   automatically refresh a logged-in user's access token periodically,
-   so the user's custom data should not be stale for more than 30
-   minutes.
+   {+backend+} does not dynamically update a user's custom data if the
+   underlying document changes. Instead, {+backend+] fetches a new copy
+   of the data whenever a user refreshes their access token, such as
+   when they log in. This may mean that the custom data won't
+   immediately reflect changes, e.g. updates from an authentication
+   {+trigger-short+}. The client SDKs automatically refresh a logged-in
+   user's access token periodically, so the user's custom data should
+   never remain stale for more than 30 minutes.
 
 Procedure
 ---------
 
-.. tabs-stitch-interfaces::
+.. tabs-realm-admin-interfaces::
 
    .. tab::
-      :tabid: stitch-ui
+      :tabid: ui
       
       .. include:: /includes/steps/define-custom-user-data-realm-ui.rst
    
    .. tab::
-      :tabid: import-export
+      :tabid: cli
       
       .. include:: /includes/steps/define-custom-user-data-import-export.rst

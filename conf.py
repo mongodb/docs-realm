@@ -102,6 +102,8 @@ source_constants = {
     'triggers-short': 'Triggers',
     'rule': 'Realm rule',
     'rules': 'Realm rules',
+    'rule-short': 'Rule',
+    'rules-short': 'Rules',
     'secret': 'Realm secret',
     'secrets': 'Realm secrets',
     'secret-short': 'Secret',
