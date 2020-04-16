@@ -15,10 +15,10 @@ Sync Data Between Atlas and Clients
 Overview
 --------
 
-Realm sync enables you to share data between
+{+sync+} enables you to share data between
 :term:`Realm clients <Realm client>` and a
-:term:`synced Atlas cluster <synced cluster>`.
-Realm sync handles data serialization,
+:term:`synced {+atlas+} cluster <synced cluster>`.
+{+sync+} handles data serialization,
 network recovery, and conflict resolution automatically.
 
 .. _the-connectivity-problem:
@@ -26,7 +26,7 @@ network recovery, and conflict resolution automatically.
 The Connectivity Problem
 ------------------------
 
-:term:`Realm Database` is a local, mobile database in
+:term:`{+client-database+}` is a local, mobile database in
 which your app can store data. Eventually, most apps
 need to share that data with the outside world.
 Consider a few examples:
@@ -53,9 +53,9 @@ client platform:
 - resolving conflicts between changes to the same data on different
   clients
 
-Realm sync handles network access and conflict resolution in a
+{+sync+} handles network access and conflict resolution in a
 background thread of your application, so your application logic stays
-the same regardless of network conditions. :term:`Realm Data Models`
+the same regardless of network conditions. :term:`{+schema+}`
 makes it easy to manage a consistent schema of objects in your database
 and across all client platforms.
 
@@ -64,25 +64,25 @@ and across all client platforms.
 Think Offline-first
 -------------------
 
-Realm sync is built on the assumption that connectivity will
+{+sync+} is built on the assumption that connectivity will
 drop. We call this mentality **offline-first**. After you
-make changes to the local Realm on the client device, the Realm
+make changes to the local {+realm+} on the client device, the Realm
 SDK automatically sends the changes to the server as soon
 as possible. Likewise, the Realm SDK automatically receives
 changes from the server and integrates those changes into
-the local Realm. In effect, you continue to work with the
-local Realm without moment-to-moment concern for network
+the local {+realm+}. In effect, you continue to work with the
+local {+realm+} without moment-to-moment concern for network
 connectivity or lack thereof.
 
 The offline-first design leads to some of the main benefits
-of MongoDB Realm:
+of {+service+}:
 
 Seamless User Experience:
   Users interact with local data with zero latency
   regardless of their moment-to-moment connectivity.
 
 Live Objects Across Devices:
-  MongoDB Realm's :ref:`live object <live-object>` concept
+  {+service+}'s :ref:`live object <live-object>` concept
   extends across devices: updates on one device sync to
   the corresponding objects on other devices.
   :doc:`Notifications </crud/notifications>` based on these
@@ -90,10 +90,10 @@ Live Objects Across Devices:
   react to local and remote changes.
 
 It's Automatic:
-  Sync is built into the Realm SDK. You do not need to write
+  {+sync+} is built into the Realm SDK. You do not need to write
   your own synchronization protocol and deal with connectivity
-  issues when synchronizing data. The :term:`Realm sync protocol` is
-  the same across platforms. Realm handles passing the
+  issues when synchronizing data. The :term:`{+sync-protocol+}` is
+  the same across platforms. {+service+} handles passing the
   objects across the network automatically, so there is no
   need to map from one platform's database to another or
   serialize and deserialize objects in order to send and
@@ -112,26 +112,26 @@ This is why Realm sync includes **automatic conflict resolution**.
 Resolving Conflicts
 -------------------
 
-Realm's sync conflict resolution engine is deterministic.
-Changes received out-of-order eventually converge on the
-same state across the server and all clients. As such, Realm
-sync is :wikipedia:`strongly eventually consistent
+Realm's :term:`sync conflict resolution engine <{+sync-protocol+}>` is
+deterministic. Changes received out-of-order eventually converge on the
+same state across the server and all clients. As such, {+sync+}
+is :wikipedia:`strongly eventually consistent
 <Eventual_consistency#Strong_eventual_consistency>`.
 
 .. admonition:: Realm Sync's Internal Conflict
    :class: note
 
-   From MongoDB Realm's perspective, changesets may
+   From {+service+}'s perspective, changesets may
    arrive any time that connectivity allows. There is no
    guarantee that an earlier-timestamped changeset from one
    client actually arrives before a later-timestamped
    changeset from another client. As a result, the server
-   has to be able to process events out-of-order. MongoDB Realm
-   keeps a per-Realm transaction history to deal with the
+   has to be able to process events out-of-order. {+service+}
+   keeps a per-{+realm+} transaction history to deal with the
    out-of-order nature of messages.
 
-In simple terms, Realm sync's conflict resolution comes down
-to **last write wins**. Realm sync also uses more
+In simple terms, {+sync+}'s conflict resolution comes down
+to **last write wins**. {+sync+} also uses more
 sophisticated techniques like :wikipedia:`operational
 transform <Operational_transformation>` to handle, for
 example, insertions into lists.
@@ -146,44 +146,46 @@ CPU-intensive. Too many writers writing on the same realm
 concurrently can impact performance, leading to scalability
 concerns.
 
-To use Realm sync effectively, it is important to understand
+To use {+sync+} effectively, it is important to understand
 the different use case profiles and their scalability
-implications. You can categorize Realm sync use cases in
+implications. You can categorize {+sync+} use cases in
 terms of **number of writers, number of readers**:
 
 Multiple writer, multiple reader:
   The real-time collaboration app use case.
-  Generally speaking, MongoDB Realm can handle up to 30
-  concurrent writers per Realm. As such, each 'project' on
-  which users can collaborate works best in its own Realm.
+  Generally speaking, {+service+} can handle up to 30
+  concurrent writers per {+realm+}. As such, each 'project' on
+  which users can collaborate works best in its own {+realm+}.
 
 Single writer, multiple reader:
   A single writer, such as a publisher
   application on the backend, inserts data into a global
-  Realm that all frontend clients can read from but not
+  {+realm+} that all frontend clients can read from but not
   write to. This can scale past tens of thousands of
   concurrent users.
 
 Single writer, single reader:
-  Each user has their own private Realm to
+  Each user has their own private {+realm+} to
   store, e.g., user account information, preferences, or the
   individual user's shopping cart. As long as only the user
-  or a backend application interacts with the realm data,
+  or a backend application interacts with the {+realm+} data,
   the performance is ideal and scales linearly with number
   of users.
 
-To get the best performance from Realm sync, design your
-Realm app with use case profiles in mind. If you
+To get the best performance from {+sync+}, design your
+{+instance+} with use case profiles in mind. If you
 intend to have many concurrent writers, split projects
-across Realms.
+across {+realms+}.
 
 Summary
 -------
 
-- Realm sync enables offline-first app development by handling network
+- {+sync+} enables offline-first app development by handling network
   loss and recovery automatically.
-- Realm sync has a built-in conflict resolution engine that guarantees
+
+- {+sync+} has a built-in conflict resolution engine that guarantees
   strong eventual consistency.
-- To get the best performance with Realm sync, it is essential to
+
+- To get the best performance with {+sync+}, it is essential to
   understand the different use case profiles and their implications
   on scalability.

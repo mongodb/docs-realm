@@ -13,9 +13,9 @@ Scheduled Triggers
 Overview
 --------
 
-Scheduled triggers allow you to execute server-side logic on a
+Scheduled {+triggers-short+} allow you to execute server-side logic on a
 :doc:`regular schedule that you define </triggers/cron-expressions>`.
-You can use scheduled triggers to do work that happens on a periodic
+You can use scheduled {+triggers-short+} to do work that happens on a periodic
 basis, such as updating a document every minute, generating a nightly
 report, or sending an automated weekly email newsletter.
 
@@ -27,27 +27,27 @@ Create a Scheduled Trigger
    tabs:
      - id: ui
        content: |
-         To create a scheduled trigger in the Realm UI:
+         To create a scheduled {+trigger-short+} in the {+ui+}:
 
          1. Click :guilabel:`Triggers` under :guilabel:`MongoDB
             Cluster` in the left-hand navigation.
 
-         2. Select :guilabel:`Scheduled Triggers` from the trigger type
+         2. Select :guilabel:`Scheduled Triggers` from the {+trigger-short+} type
             dropdown menu.
 
-         3. Click :guilabel:`Add a Trigger` to open the trigger
+         3. Click :guilabel:`Add a Trigger` to open the {+trigger-short+}
             configuration page.
 
          4. Enter :ref:`configuration values
-            <scheduled-trigger-configuration>` for the trigger.
-            You can configure two types of trigger schedules:
+            <scheduled-trigger-configuration>` for the {+trigger-short+}.
+            You can configure two types of {+trigger-short+} schedules:
             :guilabel:`Basic` or :guilabel:`Advanced`.
 
-            - A :guilabel:`Basic` schedule executes the trigger
+            - A :guilabel:`Basic` schedule executes the {+trigger-short+}
               periodically based on a single unit of time and an
               interval, such as "every five minutes" or "every Monday".
 
-            - An :guilabel:`Advanced` schedule executes the trigger
+            - An :guilabel:`Advanced` schedule executes the {+trigger-short+}
               based on a custom :doc:`CRON expression
               </triggers/cron-expressions>` that you define.
 
@@ -58,18 +58,18 @@ Create a Scheduled Trigger
 
      - id: cli
        content: |
-         To create a scheduled trigger with :doc:`realm-cli
+         To create a scheduled {+trigger-short+} with :doc:`realm-cli
          </deploy/realm-cli-reference>`:
 
-         1. Add a scheduled trigger :ref:`configuration file
+         1. Add a scheduled {+trigger-short+} :ref:`configuration file
             <scheduled-trigger-configuration>` to the ``triggers``
             subdirectory of a local application directory.
 
             .. note::
 
-               You cannot create a trigger that runs on a
+               You cannot create a {+trigger-short+} that runs on a
                :guilabel:`Basic` schedule using Realm CLI. All imported
-               scheduled trigger configurations must specify a
+               scheduled {+trigger-short+} configurations must specify a
                :doc:`CRON expression </triggers/cron-expressions>`.
 
          2. :doc:`Import </deploy/deploy-cli>` the
@@ -92,7 +92,7 @@ Scheduled Trigger Configuration
    tabs:
      - id: cli
        content: |
-         Scheduled trigger configuration files have the following form:
+         Scheduled {+trigger-short+} configuration files have the following form:
 
          .. cssclass:: wide-container
          .. code-block:: none
@@ -110,7 +110,7 @@ Scheduled Trigger Configuration
 
      - id: ui
        content: |
-         Scheduled triggers have the following configuration parameters:
+         Scheduled {+triggers-short+} have the following configuration parameters:
 
 .. cssclass:: auth-table
 .. list-table::
@@ -127,12 +127,12 @@ Scheduled Trigger Configuration
 
           | ``type: <string>``
 
-     - Required. The type of the trigger.
+     - Required. The type of the {+trigger-short+}.
 
        .. tab-content:: tabs-realm-admin-interfaces
           :tab-id: cli
 
-          For scheduled triggers, this value should be set to
+          For scheduled {+triggers-short+}, this value should be set to
           ``SCHEDULED``.
 
    * - :guilabel:`Trigger Name`
@@ -142,7 +142,7 @@ Scheduled Trigger Configuration
 
           | ``name: <string>``
 
-     - Required. The name of the trigger.
+     - Required. The name of the {+trigger-short+}.
 
    * - :guilabel:`Linked Function`
 
@@ -151,13 +151,13 @@ Scheduled Trigger Configuration
 
           | ``function_name: <string>``
 
-     - Required. The name of the Realm function that the trigger
+     - Required. The name of the {+function+} that the {+trigger-short+}
        executes whenever it fires.
 
        .. note::
 
-          A scheduled trigger does not pass any arguments to its linked
-          function.
+          A scheduled {+trigger-short+} does not pass any arguments to its linked
+          {+function-short+}.
 
    * - :guilabel:`Schedule`
 
@@ -167,4 +167,4 @@ Scheduled Trigger Configuration
           | ``config.schedule: <string>``
 
      - Required. The :doc:`CRON expression </triggers/cron-expressions>`
-       that Realm uses to determine when to fire the trigger.
+       that {+backend+} uses to determine when to fire the {+trigger-short+}.

@@ -1,3 +1,5 @@
+.. _logs:
+
 ================
 Application Logs
 ================
@@ -13,11 +15,11 @@ Application Logs
 Introduction
 ------------
 
-Realm logs all incoming requests and application events such as user
+{+service+} logs all incoming requests and application events such as user
 authentication, trigger execution, and service interactions. You
 can access your application's logs from the :guilabel:`Logs` page in the
-Realm UI or request them programmatically through the
-:doc:`Realm Admin API </logs/api>`. Realm saves logs for 30 days.
+{+ui+} or request them programmatically through the
+:doc:`Realm Admin API </logs/api>`. {+service+} saves logs for 30 days.
 
 Concepts
 --------
@@ -25,10 +27,10 @@ Concepts
 Log Entry
 ~~~~~~~~~
 
-A log entry describes a single event within MongoDB Realm.
-Different events in MongoDB Realm execute in different ways, requiring
+A log entry describes a single event within {+backend+}.
+Different events in {+backend+} execute in different ways, requiring
 various permissions, underlying components and services.
-Realm groups log entries based on the type of event or request that
+{+backend+} groups log entries based on the type of event or request that
 they record. Each type of log contains fields that describe that
 particular event or request. As a result, your application
 logs may include entries of the following types:
@@ -36,15 +38,15 @@ logs may include entries of the following types:
 - :doc:`Authentication Requests </logs/authentication>`, including user
   creation, login, and deletion.
 
-- :doc:`Functions </logs/function>`, including both Realm Functions
-  as well as Service Functions, like MongoDB Atlas.
+- :doc:`{+functions-short+} </logs/function>`, including both {+functions+}
+  as well as individual queries to :term:`linked {+atlas+} clusters
+  <linked cluster>` made using the MongoDB service of the Realm SDK.
 
-- :doc:`Triggers </logs/trigger>`, including Database Triggers,
+- :doc:`{+triggers-short+} </logs/trigger>`, including Database Triggers,
   Authentication Triggers, and Scheduled Triggers.
 
 - :doc:`Service Requests </logs/service>`, including webhooks and
-  service action calls issued from the Realm client SDK on iOS,
-  Android, and Node.js.
+  service action calls issued from the Realm SDK.
 
 - :doc:`Change Stream </logs/changestream>`, including any time a user
   opens or closes a stream of change events.
@@ -60,7 +62,7 @@ Parts of a Log Entry
      - Description
 
    * - Metadata
-     - MongoDB Realm logs contain details like the status, timestamp,
+     - {+backend+} logs contain details like the status, timestamp,
        elapsed time, unique id, user, name, and type of a given log
        entry.
 
@@ -70,26 +72,26 @@ Parts of a Log Entry
        compute resources used, remote IP address, SDK, platform version,
        and performance metrics. Requesting log entries via the Realm
        Admin API will expose these as top-level fields in log entry
-       objects. On the Realm UI, clicking on a log entry will expose
+       objects. On the {+ui+}, clicking on a log entry will expose
        this information.
 
    * - Arguments
-     - Realm logs the arguments passed to Functions, including Service
-       requests. Other log entries do not preserve a record of
-       arguments.
+     - {+backend+} logs the arguments passed to {+functions-short+},
+       including requests made via the MongoDB service. Other log
+       entries do not preserve a record of arguments.
 
    * - Error Info
-     - When a Realm event exits unsuccessfully, it generates an Error
+     - When a {+backend+} event exits unsuccessfully, it generates an Error
        log entry containing debugging information that can help diagnose
        what caused the issue.
 
 Log Filters
 ~~~~~~~~~~~
 
-Because Realm creates log entries for most common kinds of user
+Because {+backend+} creates log entries for most common kinds of user
 interaction, it can become difficult to find a specific group of logs
 due to the sheer volume of logs an application generates.
-For performance reasons, Realm limits individual queries to a maximum
+For performance reasons, {+backend+} limits individual queries to a maximum
 of 100 log entries per page. You can filter entries by type, status,
 timestamp, user, and request ID to return only logs that are relevant to
 your query.
@@ -97,19 +99,18 @@ your query.
 Error Logs
 ~~~~~~~~~~
 
-All Realm log entries have one of two possible statuses:
-``OK`` and ``Error``. If an event exits successfully, Realm
+All {+service+} log entries have one of two possible statuses:
+``OK`` and ``Error``. If an event exits successfully, {+backend+}
 generates an ``OK`` log entry based on the event. If an
-event does not exit successfully for any reason, Realm
-creates a log entry with a status of the Realm error that
+event does not exit successfully for any reason, {+backend+}
+creates a log entry with a status of the {+backend+} error that
 caused the problem. You may encounter errors if you:
 
-- Attempt to access data from MongoDB Atlas for which there is no
+- Attempt to access data from {+atlas+} for which there is no
   applicable rule
-- Fail to catch an exception or promise rejection in a Realm
-  Function
+- Fail to catch an exception or promise rejection in a {+function+}
 - Call ``context.services.get()`` for a service which does not exist
-- Call a MongoDB Atlas service action with invalid or missing
+- Call a {+atlas+} service action with invalid or missing
   parameters
 
 Constraints
@@ -119,20 +120,21 @@ Log Lines
 ~~~~~~~~~
 
 Functions can log information using JavaScript's ``console.log()``
-method. Realm stringifies each console log and stores each string as a
-single line. Realm truncates lines to 256 bytes in length. For ASCII
-character sets, this translates to 256 characters; depending on the
-character set you use, you may see truncation at lower character counts.
+method. {+backend+} stringifies each console log and stores each string
+as a single line. {+backend+} truncates lines to 256 bytes in length.
+For ASCII character sets, this translates to 256 characters; depending
+on the character set you use, you may see truncation at lower character
+counts.
 
-Realm saves only the first 10 log lines for a given log entry.
+{+backend+} saves only the first 10 log lines for a given log entry.
 
-Realm stores each string as a single line in the log entry's ``Logs``
-field.
+{+backend+} stores each output as a single string in the log entry's
+``Logs`` field.
 
 Log Retention
 ~~~~~~~~~~~~~~
 
-MongoDB Realm retains logs for 30 days, after which point they are
+{+service+} retains logs for 30 days, after which point they are
 deleted. If you require logs older than 30 days, you can use the
 :doc:`admin log API </logs/api>` prior to the 30 day expiration date of
 each log to extract and externally store your log history.

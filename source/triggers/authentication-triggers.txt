@@ -1,6 +1,6 @@
------------------------
+=======================
 Authentication Triggers
------------------------
+=======================
 
 .. default-domain:: mongodb
 
@@ -14,23 +14,23 @@ Authentication Triggers
 Overview
 --------
 
-Authentication triggers allow you to execute server-side logic whenever
-a user interacts with an :doc:`authentication provider
-</authentication/providers>`. You can use authentication triggers to
-implement advanced user management, including storing new user data in
-MongoDB, maintaining data integrity upon user deletion, or calling a
-service with a user’s information when they log in.
-
+Authentication {+triggers-short+} allow you to execute server-side logic
+whenever a user interacts with an :doc:`authentication provider
+</authentication/providers>`. You can use authentication {+triggers-short+}
+to implement advanced user management, including storing new user data
+in your :term:`linked cluster`, maintaining data integrity upon user
+deletion, or calling a service with a user’s information when they log
+in.
 
 Create an Authentication Trigger
 --------------------------------
 
-.. tabs-stitch-interfaces::
+.. tabs-realm-admin-interfaces::
 
    tabs:
-     - id: stitch-ui
+     - id: ui
        content: |
-         To create an authentication trigger in the Realm UI:
+         To create an authentication trigger in the {+ui+}:
 
          1. Click :guilabel:`Triggers` under :guilabel:`MongoDB
             Cluster` in the left-hand navigation.
@@ -48,21 +48,21 @@ Create an Authentication Trigger
             :width: 750px
             :lightbox:
 
-     - id: import-export
+     - id: cli
        content: |
-         To create an authentication trigger with :doc:`realm-cli
+         To create an authentication {+trigger-short+} with :doc:`{+cli+}
          </deploy/realm-cli-reference>`:
 
-         1. Add an authentication trigger :ref:`configuration file
+         1. Add an authentication {+trigger-short+} :ref:`configuration file
             <auth-trigger-configuration>` to the ``triggers``
             subdirectory of a local application directory.
 
             .. note::
 
-               Realm does not enforce specific filenames for trigger
-               configuration files. However, once imported, Realm will
+               {+backend+} does not enforce specific filenames for {+trigger+}
+               configuration files. However, once imported, {+backend+} will
                rename each configuration file to match the name of the
-               trigger it defines, e.g. ``mytrigger.json``.
+               {+trigger-short+} it defines, e.g. ``mytrigger.json``.
 
          2. :doc:`Import </deploy/deploy-cli>` the
             application directory into your application.
@@ -80,12 +80,12 @@ Reference
 Authentication Trigger Configuration
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. tabs-stitch-interfaces::
+.. tabs-realm-admin-interfaces::
 
    tabs:
-     - id: import-export
+     - id: cli
        content: |
-         Configuration files for authentication triggers have the
+         Configuration files for authentication {+triggers-short+} have the
          following form:
 
          .. cssclass:: wide-container
@@ -103,9 +103,9 @@ Authentication Trigger Configuration
                "disabled": <boolean>
             }
 
-     - id: stitch-ui
+     - id: ui
        content: |
-         Authentication triggers have the following configuration
+         Authentication {+triggers-short+} have the following configuration
          parameters:
 
 .. cssclass:: auth-table
@@ -118,18 +118,18 @@ Authentication Trigger Configuration
 
    * - :guilabel:`Trigger Type`
 
-       .. tab-content:: tabs-stitch-interfaces
-          :tab-id: import-export
+       .. tab-content:: tabs-realm-admin-interfaces
+          :tab-id: cli
 
           | *type*
 
-     - Required. The type of the trigger. For authentication triggers,
+     - Required. The type of the trigger. For authentication {+triggers-short+},
        this value should be set to ``AUTHENTICATION``.
 
    * - :guilabel:`Trigger Name`
 
-       .. tab-content:: tabs-stitch-interfaces
-          :tab-id: import-export
+       .. tab-content:: tabs-realm-admin-interfaces
+          :tab-id: cli
 
           | *name*
 
@@ -137,20 +137,20 @@ Authentication Trigger Configuration
 
    * - :guilabel:`Linked Function`
 
-       .. tab-content:: tabs-stitch-interfaces
-          :tab-id: import-export
+       .. tab-content:: tabs-realm-admin-interfaces
+          :tab-id: cli
 
           | *function_name*
 
-     - Required. The name of the Stitch function that the trigger
-       executes whenever it fires. The trigger passes the
+     - Required. The name of the {+function+} that the {+trigger-short+}
+       executes whenever it fires. The {+trigger-short+} passes the
        :ref:`authentication event object <authentication-events>` that
        caused it to fire as the only argument to this function.
 
    * - :guilabel:`Operation Type`
 
-       .. tab-content:: tabs-stitch-interfaces
-          :tab-id: import-export
+       .. tab-content:: tabs-realm-admin-interfaces
+          :tab-id: cli
 
           | *config.operation_type*
 
@@ -161,15 +161,15 @@ Authentication Trigger Configuration
 
    * - :guilabel:`Providers`
 
-       .. tab-content:: tabs-stitch-interfaces
-          :tab-id: import-export
+       .. tab-content:: tabs-realm-admin-interfaces
+          :tab-id: cli
 
           | *config.providers*
 
      - Required. A list of one or more :doc:`authentication provider
-       </authentication/providers>` types. The trigger will only listen
-       for :ref:`authentication events <authentication-events>` produced
-       by these providers.
+       </authentication/providers>` types. The {+trigger-short+} will
+       only listen for :ref:`authentication events
+       <authentication-events>` produced by these providers.
 
        The following values are valid:
 
@@ -242,6 +242,3 @@ Authentication event objects have the following form:
        the authentication provider.
    * - ``time``
      - The time at which the event occurred.
-
-
-

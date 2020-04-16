@@ -26,41 +26,41 @@ threads, the UI thread can remain highly responsive
 regardless of the size of the workload. But it can be
 notoriously difficult to write thread-safe, performant, and
 maintainable multithreaded code that avoids issues like
-deadlocking and race conditions. Realm aims to simplify this
+deadlocking and race conditions. {+service+} aims to simplify this
 for you.
 
 Three Rules to Keep in Mind
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Realm enables simple and safe multithreaded code when you
+{+service+} enables simple and safe multithreaded code when you
 follow these three rules:
 
 Don't lock to read:
-  Realm's :ref:`Multiversion Concurrency Control (MVCC)
+  {+client-database+}'s :ref:`Multiversion Concurrency Control (MVCC)
   <mvcc>` architecture eliminates the need to lock for read operations. The
   values you read will never be corrupted or in a
-  partially-modified state. You can freely read from Realms
+  partially-modified state. You can freely read from {+realms+}
   on any thread without the need for locks or mutexes.
   Unnecessarily locking would be a performance bottleneck
   since each thread might need to wait its turn before
   reading.
 
 Avoid writes on the UI thread if you write on a background thread:
-  You can :doc:`write </crud/writes>` to a Realm from any
+  You can :doc:`write </crud/writes>` to a {+realm+} from any
   thread, but there can be only one writer at a time.
   Consequently, write transactions block each other. A write
   on the UI thread may result in your app appearing
   unresponsive while it waits for a write on a background
-  thread to complete. If you are using :doc:`Sync
+  thread to complete. If you are using :doc:`{+sync+}
   </sync/sync-overview>`, avoid writing on the UI thread as
-  Sync writes on a background thread.
+  {+sync-short+} writes on a background thread.
 
-Don't pass live objects, collections, or Realms to other threads:
-  Live objects, collections, and Realm instances are
+Don't pass live objects, collections, or {+realms+} to other threads:
+  Live objects, collections, and {+realm+} instances are
   **thread-confined**: that is, they are only valid on the
   thread on which they were created. Practically speaking,
   this means you cannot pass live instances to other
-  threads. However, Realm offers several mechanisms for
+  threads. However, {+client-database+} offers several mechanisms for
   :ref:`sharing objects across threads
   <communication-across-threads>`.
 
@@ -69,23 +69,23 @@ Don't pass live objects, collections, or Realms to other threads:
 Communication Across Threads
 ----------------------------
 
-You can have the same Realm open on multiple threads as
-separate Realm instances. You are free to read and write
-with Realm instances on the thread where you first opened
-them. One of the key rules when working with Realm in a
+You can have the same {+realm+} open on multiple threads as
+separate {+realm+} instances. You are free to read and write
+with {+realm+} instances on the thread where you first opened
+them. One of the key rules when working with {+realm+} in a
 multithreaded environment is that objects are
 **thread-confined**: you may not access the instances of a
-Realm, collection, or object that originated on other
-threads. Realm's :ref:`Multiversion Concurrency Control
+{+realm+}, collection, or object that originated on other
+threads. {+realm+}'s :ref:`Multiversion Concurrency Control
 (MVCC) <mvcc>` architecture means that there could be many
 active versions of an object at any time. Thread-confinement
 ensures that all instances in that thread are of the same
 internal version.
 
-A :term:`Realm instance` is designed to work with one version at a
-time, not several different versions. Consider what Realm
+A :term:`{+realm+} instance` is designed to work with one version at a
+time, not several different versions. Consider what {+client-database+}
 would have to do to support this: it would need to store a
-potentially enormous graph to allow the Realm instance to
+potentially enormous graph to allow the {+realm+} instance to
 reconcile the different object versions internally. Faced
 with this, it seems more reasonable to impose the limitation
 that you cannot pass live instances across threads. This
@@ -95,25 +95,34 @@ more space-efficient, and more performant as a result.
 When you need to communicate across threads, you have
 several options depending on your use case:
 
-- To work modify the data on two threads, :doc:`query </crud/query-engine>` for the object on both threads.
-- To react to changes made on any thread, use Realm Database's :doc:`notifications </crud/notifications>`.
-- To see changes from other threads in the Realm on the current thread, :ref:`refresh <refreshing-realms>` your Realm.
-- To send a fast, read-only view of the object to other threads, :ref:`"freeze" <frozen-objects>` the object.
-- To keep and share many read-only views of the object in your app, copy the object from the Realm.
+- To work modify the data on two threads, :doc:`query </crud/query-engine>`
+  for the object on both threads.
+
+- To react to changes made on any thread, use {+client-database+}'s
+  :doc:`notifications </crud/notifications>`.
+
+- To see changes from other threads in the {+realm+} on the current
+  thread, :ref:`refresh <refreshing-realms>` your {+realm+} instance.
+
+- To send a fast, read-only view of the object to other threads,
+  :ref:`"freeze" <frozen-objects>` the object.
+
+- To keep and share many read-only views of the object in your app, copy
+  the object from the {+realm+}.
 
 .. _refreshing-realms:
 
 Refreshing Realms
 ~~~~~~~~~~~~~~~~~
 
-When you open a Realm, it reflects the most recent
+When you open a {+realm+}, it reflects the most recent
 successful write commit and remains on that version until it
-is **refreshed**. This means that the Realm will not see
+is **refreshed**. This means that the {+realm+} will not see
 changes that happened on another thread until the next
-refresh. Realms on the UI thread -- more precisely, on any
+refresh. {+realms+} on the UI thread -- more precisely, on any
 :term:`event loop` thread -- automatically refresh themselves at the
 beginning of that thread's loop. However, you must manually
-refresh Realm instances that do not exist on loop threads or
+refresh {+realm+} instances that do not exist on loop threads or
 that have auto-refresh disabled.
 
 .. _frozen-objects:
@@ -126,12 +135,12 @@ However, some apps -- those based on reactive, event
 stream-based architectures, for example -- need to send
 immutable copies around to many threads for processing
 before ultimately ending up on the UI thread. Making a deep
-copy every time would be expensive, and Realm does not allow
+copy every time would be expensive, and {+realm+} does not allow
 live instances to be shared across threads. In this case,
-you can **freeze** objects, collections, and Realms.
+you can **freeze** objects, collections, and {+realms+}.
 
 Freezing creates an immutable view of a specific object,
-collection, or Realm that still exists on disk and does not
+collection, or {+realm+} that still exists on disk and does not
 need to be deeply copied when passed around to other
 threads. You can freely share a frozen object across threads
 without concern for thread issues.
@@ -139,44 +148,44 @@ without concern for thread issues.
 When working with frozen objects, an attempt to do any of
 the following throws an exception:
 
-- Opening a write transaction on a frozen Realm.
+- Opening a write transaction on a frozen {+realm+}.
 - Modifying a frozen object.
-- Adding a change listener to a frozen Realm, collection, or object.
+- Adding a change listener to a frozen {+realm+}, collection, or object.
 
 Once frozen, it is not possible to unfreeze an object. You
 can use ``isFrozen()`` to check if the object is frozen.
 This method is always thread-safe.
 
 To modify a frozen object, query for it on an unfrozen
-Realm, then modify it.
+{+realm+}, then modify it.
 
 Frozen objects are not live and do not automatically update.
 They are effectively snapshots of the object state at the
 time of freezing.
 
-When you freeze a Realm, its child objects also become
+When you freeze a {+realm+}, its child objects also become
 frozen.
 
-Frozen objects remain valid as long as the live Realm that
+Frozen objects remain valid as long as the live {+realm+} that
 spawned them stays open. Therefore, avoid closing the live
-Realm until all threads are done with the frozen objects.
-You can close frozen Realms before the live Realm is closed.
+{+realm+} until all threads are done with the frozen objects.
+You can close frozen {+realm+} before the live {+realm+} is closed.
 
 .. admonition:: On caching frozen objects
    :class: important
 
    Caching too many frozen objects can have a negative
-   impact on the Realm file size. "Too many" depends on your
-   specific target device and the size of your Realm
+   impact on the {+realm+} file size. "Too many" depends on your
+   specific target device and the size of your {+realm+}
    objects. If you need to cache a large number of versions,
-   consider copying what you need out of the Realm instead.
+   consider copying what you need out of the {+realm+] instead.
 
 .. _mvcc:
 
 Realm's Threading Model in Depth
 --------------------------------
 
-Realm provides safe, fast, lock-free, and concurrent access
+{+realm+} provides safe, fast, lock-free, and concurrent access
 across threads with its :wikipedia:`Multiversion Concurrency
 Control (MVCC) <Multiversion_concurrency_control>`
 architecture.
@@ -192,41 +201,41 @@ elements of Git are:
 - Commits, which are atomic writes.
 - Branches, which are different versions of the commit history.
 
-Similarly, Realm has atomically-committed writes in the form
-of :doc:`transactions </crud/writes>`. Realm also has many
+Similarly, {+client-database+} has atomically-committed writes in the form
+of :doc:`transactions </crud/writes>`. {+client-database+} also has many
 different versions of the history at any given time, like
 branches.
 
 Unlike Git, which actively supports distribution and
-divergence through forking, a Realm only has one true latest
+divergence through forking, a {+realm+} only has one true latest
 version at any given time and always writes to the head of
-that latest version. Realm cannot write to a previous
+that latest version. {+client-database+} cannot write to a previous
 version. This makes sense: your data should converge on one
 latest version of the truth.
 
 Internal Structure
 ~~~~~~~~~~~~~~~~~~
 
-A Realm is implemented using a :wikipedia:`B+ tree
+A {+realm+} is implemented using a :wikipedia:`B+ tree
 <B%2B_tree>` data structure. The top-level node represents a
-version of the Realm; child nodes are objects in that
-version of the Realm. The Realm has a pointer to its latest
+version of the {+realm+}; child nodes are objects in that
+version of the {+realm+}. The {+realm+} has a pointer to its latest
 version, much like how Git has a pointer to its HEAD commit.
 
-Realm uses a copy-on-write technique to ensure
+{+realm+} uses a copy-on-write technique to ensure
 :wikipedia:`isolation <Isolation_(database_systems)>` and
 :wikipedia:`durability <Durability_(database_systems)>`.
-When you make changes, Realm copies the relevant part of the
-tree for writing. Realm then commits the changes in two
+When you make changes, {+realm+} copies the relevant part of the
+tree for writing. {+realm+} then commits the changes in two
 phases:
 
-- Realm writes changes to disk and verifies success.
-- Realm then sets its latest version pointer to point to the newly-written version.
+- {+realm+} writes changes to disk and verifies success.
+- {+realm+} then sets its latest version pointer to point to the newly-written version.
 
 This two-step commit process guarantees that even if the
 write failed partway, the original version is not corrupted
 in any way because the changes were made to a copy of the
-relevant part of the tree. Likewise, the Realm's root
+relevant part of the tree. Likewise, the {+realm+}'s root
 pointer will point to the original version until the new
 version is guaranteed to be valid.
 
@@ -236,28 +245,53 @@ version is guaranteed to be valid.
    The following diagram illustrates the commit process:
 
    .. figure:: /images/mvcc-diagram.png
-      :alt: Realm copies the relevant part of the tree for writes, then replaces the latest version by updating a pointer.
+      :alt: {+realm+} copies the relevant part of the tree for writes, then replaces the latest version by updating a pointer.
       :lightbox:
 
-   1. The Realm is structured as a tree. The Realm has a pointer to its latest version, V1.
-   #. When writing, Realm creates a new version V2 based on V1. Realm makes copies of objects for modification (A\ :sup:`1`, C\ :sup:`1`),  while links to unmodified objects continue to point to the original versions (B, D).
-   #. After validating the commit, Realm updates the Realm's pointer to the new latest version, V2. Realm discards old nodes no longer connected to the tree.
+   1. The {+realm+} is structured as a tree. The {+realm+} has a pointer
+      to its latest version, V1.
 
-Realm uses :term:`zero-copy` techniques
+   #. When writing, {+client-database+} creates a new version V2 based on V1.
+      {+client-database+} makes copies of objects for modification (A\ :sup:`1`,
+      C\ :sup:`1`),  while links to unmodified objects continue to
+      point to the original versions (B, D).
+
+   #. After validating the commit, {+client-database+} updates the {+realm+}'s
+      pointer to the new latest version, V2. {+client-database+} discards
+      old nodes no longer connected to the tree.
+
+{+client-database+} uses :term:`zero-copy` techniques
 like memory mapping to handle data. When you read a value
-from the Realm, you are virtually looking at the value on
+from the {+realm+}, you are virtually looking at the value on
 the actual disk, not a copy of it. This is the basis for
-:ref:`live objects <live-object>`. This is also why a Realm
+:ref:`live objects <live-object>`. This is also why a {+realm+}
 head pointer can be set to point to the new version after
 the write to disk has been validated.
 
 Summary
 -------
 
-- Realm enables simple and safe multithreaded code when you follow three rules: don't lock to read; avoid writes on the UI thread if you write on background threads or use :doc:`Sync </sync/sync-overview>`; and don't pass live objects to other threads.
-- There is a proper way to share objects across threads for each use case.
-- In order to see changes made on other threads in your Realm instance, you must manually **refresh** Realm instances that do not exist on "loop" threads or that have auto-refresh disabled.
-- For apps based on reactive, event-stream-based architectures, you can **freeze** objects, collections, and Realms in order to pass shallow copies around efficiently to different threads for processing.
-- Realm's multiversion concurrency control (MVCC) architecture is similar to Git's. Unlike Git, Realm has only one true latest version.
-- Realm commits in two stages to guarantee isolation and durability.
+- {+service+} enables simple and safe multithreaded code when you follow
+  three rules:
+  - don't lock to read
 
+  - avoid writes on the UI thread if you write on background threads or
+    use :doc:`{+sync+} </sync/sync-overview>`
+    
+  - don't pass live objects to other threads.
+
+- There is a proper way to share objects across threads for each use case.
+
+- In order to see changes made on other threads in your {+realm+}
+  instance, you must manually **refresh** {+realm+} instances that do
+  not exist on "loop" threads or that have auto-refresh disabled.
+
+- For apps based on reactive, event-stream-based architectures, you can
+  **freeze** objects, collections, and {+realms+} in order to pass
+  shallow copies around efficiently to different threads for processing.
+
+- {+client-database+}'s multiversion concurrency control (MVCC)
+  architecture is similar to Git's. Unlike Git, {+client-database+} has
+  only one true latest version for each {+realm+}.
+
+- {+realm+} commits in two stages to guarantee isolation and durability.

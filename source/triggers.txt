@@ -25,9 +25,9 @@ Triggers
 Introduction
 ------------
 
-MongoDB Realm triggers enable you to execute application and database
+{+triggers+} enable you to execute application and database
 logic automatically, either in response to events or based on a
-pre-defined schedule. Realm supports three types of triggers:
+pre-defined schedule. {+service+} supports three types of triggers:
 
 - :doc:`Database triggers </triggers/database-triggers>`, which can
   automatically respond upon any document insertion, alteration, or
@@ -41,27 +41,29 @@ pre-defined schedule. Realm supports three types of triggers:
   execute functions at regular intervals according to a pre-defined
   schedule.
 
-Triggers listen for application events of a configured type and are each
-linked with a specific :doc:`Realm function </functions>`. Whenever a
-trigger observes an event that matches your configuration, it *"fires"*
-and passes the event object that caused it to fire as the argument to
-its linked function. You can configure the events that cause a trigger
-to fire based on their *operation type* as well as other values specific
-to each type of trigger.
+{+triggers-short+} listen for application events of a configured type
+and are each linked with a specific :doc:`{+function+} </functions>`.
+Whenever a {+trigger-short+} observes an event that matches your
+configuration, it *"fires"* and passes the event object that caused it
+to fire as the argument to its linked {+function-short+}. You can
+configure the events that cause a {+trigger-short+} to fire based on
+their *operation type* as well as other values specific to each type of
+{+trigger-short+}.
 
 .. note::
 
-   Realm limits the execution of trigger functions to a rate of 1000
-   executions per second across all triggers in an application. If
-   additional triggers fire beyond this threshold, Realm adds their
-   associated functions to a queue and executes the functions once
-   capacity becomes available.
+   {+service+} limits the execution of {+trigger-short+}
+   {+functions-short+} to a rate of 1000 executions per second across
+   all {+triggers-short+} in an application. If additional
+   {+triggers-short+} fire beyond this threshold, {+backend+} adds their
+   associated {+function-short+} calls to a queue and executes the
+   {+function-short+} calls once capacity becomes available.
 
    Database Triggers with *event ordering* enabled are an exception to
-   this rule. Each ordered trigger processes events in order, waiting
-   for the previous event execution to complete before handling the next
-   event. Therefore, only one execution of a particular ordered trigger
-   executes at any given time.
+   this rule. Each ordered {+trigger-short+} processes events in order,
+   waiting for the previous event execution to complete before handling
+   the next event. Therefore, only one execution of a particular ordered
+   {+trigger-short+} executes at any given time.
 
 Examples
 --------
@@ -91,11 +93,11 @@ collection as a document that resembles the following:
      ]
    }
 
-To automate this process, the store creates a database trigger that
+To automate this process, the store creates a database {+trigger-short+} that
 listens for ``UPDATE`` change events in the ``store.orders`` collection.
 When the trigger observes an ``UPDATE`` event, it passes the
-:ref:`change event object <database-events>` to its associated function,
-``textShippingUpdate``. The function checks the change event for any
+:ref:`change event object <database-events>` to its associated {+function-short+},
+``textShippingUpdate``. The {+function-short+} checks the change event for any
 changes to the ``shippingLocation`` field and, if it was updated, sends
 a text message to the customer with the new location of the order.
 
@@ -163,16 +165,16 @@ Authentication Trigger
 ~~~~~~~~~~~~~~~~~~~~~~
 
 An online store wants to store custom metadata for each of its customers
-in MongoDB. Each customer should have a document in the
+in {+atlas+}. Each customer should have a document in the
 ``store.customers`` collection where metadata about them can be recorded
 and queried.
 
 To guarantee that the collection represents each customer, the store
-creates an authentication trigger that listens for newly created users
+creates an authentication {+trigger-short+} that listens for newly created users
 in the :doc:`email/password </authentication/email-password>` authentication
 provider. When the trigger observes a ``CREATE`` event, it passes the
 :ref:`authentication event object <authentication-events>` to its linked
-function, ``createNewUserDocument``. The function creates a new document
+function, ``createNewUserDocument``. The {+function+} creates a new document
 describing the user and their activity and inserts it into the
 ``store.customers`` collection.
 
@@ -236,11 +238,11 @@ as documents that resemble the following:
    }
 
 To generate the daily report, the store creates a :doc:`scheduled
-trigger </triggers/scheduled-triggers>` that fires every
-morning at ``7:00 AM UTC-0400``. When the trigger fires, it calls its
-linked function, ``generateDailyReport``, which runs an aggregation
+{+trigger+} </triggers/scheduled-triggers>` that fires every
+morning at ``7:00 AM UTC-0400``. When the {+trigger+} fires, it calls its
+linked {+function+}, ``generateDailyReport``, which runs an aggregation
 query on the ``store.orders`` collection to generate the report. The
-function then stores the result of the aggregation in the
+{+function+} then stores the result of the aggregation in the
 ``store.reports`` collection.
 
 .. tabs-realm-admin-interfaces::

@@ -32,28 +32,28 @@ Overview
 --------
 
 A MongoDB service **role** is a group of document-level and field-level
-CRUD permissions that Realm evaluates and enforces for each document
+CRUD permissions that {+backend+} evaluates and enforces for each document
 that matches an incoming request.
 
 Roles define what the user who issued a query is allowed to do with a
 particular document, including which fields they can read and write to
 and whether or not they can insert or delete entire documents. Every
-role is associated with a specific collection in a linked cluster, and
-any collection can include multiple roles.
+role is associated with a specific collection in a
+:term:`linked cluster`, and any collection can include multiple roles.
 
 Role Evaluation Process
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-When Realm receives a query request, it determines which documents in
-the collection the query applies to and evaluates a separate role for
-each document. To assign a role to a document, Realm steps through each
-role definition in order and evaluates the :guilabel:`Apply When`
+When {+backend+} receives a query request, it determines which documents
+in the collection the query applies to and evaluates a separate role for
+each document. To assign a role to a document, {+backend+} steps through
+each role definition in order and evaluates the :guilabel:`Apply When`
 :doc:`JSON expression </services/json-expressions>` that you defined for
 the role. If a role's :guilabel:`Apply When` expression evaluates to
-``true``, Realm assigns the role to the current document and moves on
-to the next document. If the expression evaluates to ``false``, Realm
+``true``, {+backend+} assigns the role to the current document and moves
+on to the next document. If the expression evaluates to ``false``, {+backend+}
 evaluates the next role definition. If no roles apply to a document,
-Realm withholds the entire document and prevents any modifications.
+{+backend+} withholds the entire document and prevents any modifications.
 
 .. _query-role-config:
 
@@ -77,7 +77,7 @@ you might encounter when you define roles for your collection.
 Apply When Expressions
 ~~~~~~~~~~~~~~~~~~~~~~
 
-Realm determines if a role applies to a given document by evaluating
+{+backend+} determines if a role applies to a given document by evaluating
 the :guilabel:`Apply When` :doc:`expression
 </services/json-expressions>` that you define for each role.
 
@@ -174,7 +174,7 @@ active user's id value.
 
 .. note::
 
-   You can call any Realm Function from a JSON expression using the
+   You can call any {+service+} Function from a JSON expression using the
    :json-operator:`%function` operator.
 
 .. code-block:: javascript
@@ -191,7 +191,7 @@ active user's id value.
 CRUD Permissions
 ~~~~~~~~~~~~~~~~
 
-Realm uses a role's permissions configuration to determine if the
+{+service+} uses a role's permissions configuration to determine if the
 active user can insert or delete a document as well as which fields in
 the document they can read and write.
 
@@ -359,9 +359,9 @@ Advanced Role Patterns
 
 The use cases described in this section require you to use advanced
 functionality that is not supported by the default collection rules
-editor in the Realm UI. To use this template, :doc:`convert to advanced
+editor in the {+ui+}. To use this template, :doc:`convert to advanced
 mode </mongodb/configure-advanced-rules>` or import a collection rule
-configuration with :doc:`Realm CLI </deploy/realm-cli-reference>`.
+configuration with :doc:`{+cli+} </deploy/realm-cli-reference>`.
 
 .. _role-template-insert-only:
 
@@ -429,6 +429,6 @@ field to the ``fields`` document.
 
 .. note::
    
-   Realm applies any ``read`` and ``write`` permissions defined for a
+   {+service+} applies any ``read`` and ``write`` permissions defined for a
    given field to all embedded fields that the field contains regardless
    of any permissions defined for those fields.

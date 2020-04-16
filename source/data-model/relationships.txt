@@ -13,19 +13,19 @@ Relationships
 Overview
 --------
 
-Realm allows you to define explicit relationships between the types of
-objects in a Realm. A relationship is an object property that references
-another Realm object rather than one of the primitive data types. You
+{+service+} allows you to define explicit relationships between the types of
+objects in a {+instance+}. A relationship is an object property that references
+another {+realm+} object rather than one of the primitive data types. You
 define relationships by setting the type of an object property to
 another object type in the :ref:`property schema <property-schema>`.
 
-Relationships are direct references to other objects in a Realm, which
+Relationships are direct references to other objects in a {+realm+}, which
 means that you don't need bridge tables or explicit joins to define a
 relationship like you would in a relational database. Instead you can
 access related objects by reading and writing to the property that
-defines the relationship. Realm executes read operations lazily as they
-come in, so querying a relationship is just as performant as reading a
-regular property.
+defines the relationship. {+client-database+} executes read operations
+lazily as they come in, so querying a relationship is just as performant
+as reading a regular property.
 
 There are three primary types of relationships between objects:
 
@@ -44,7 +44,7 @@ To-One Relationship
 A **to-one** relationship means that an object is related in a specific
 way to no more than one other object. You define a to-one relationship
 for an object type in its :ref:`object schema <object-schema>` by
-specifying a property where the type is the related Realm object type.
+specifying a property where the type is the related {+realm+} object type.
 
 .. example::
 
@@ -62,7 +62,7 @@ To-Many Relationship
 A **to-many** relationship means that an object is related in a specific
 way to multiple objects. You define a to-many relationship for an object
 type in its :ref:`object schema <object-schema>` by specifying a
-property where the type is a list or array of the related Realm object
+property where the type is a list or array of the related {+realm+} object
 type.
 
 .. example::
@@ -124,7 +124,7 @@ implicit.
        specific to-one or to-many relationship property on an object
        type.
        
-       Realm automatically updates implicit relationships whenever an
+       {+client-database+} automatically updates implicit relationships whenever an
        object is included or removed in the specified relationship. You
        cannot manually set the value of an inverse relationship
        property.
@@ -133,7 +133,7 @@ implicit.
           
           An application could use the following object schemas to
           indicate that a Person may own multiple Dogs by including them
-          in their ``dogs`` property and that Realm should implicitly
+          in their ``dogs`` property and that {+client-database+} should implicitly
           keep track of each dog's owner in its ``owner`` property:
           
           .. include:: /examples/Relationships/ImplicitInverse/ImplicitInverse.rst
@@ -141,6 +141,11 @@ implicit.
 Summary
 -------
 
-- A **relationship** is when a Realm object property references another Realm object.
-- Relationships are direct references. You can access a related object directly through the relationship property of another object.
-- Realm supports to-one, to-many, explicit inverse and implicit inverse relationships.
+- A **relationship** is when a {+realm+} object property references
+  another {+realm+} object.
+
+- Relationships are direct references. You can access a related object
+  directly through the relationship property of another object.
+
+- {+realm+} supports to-one, to-many, explicit inverse and implicit
+  inverse relationships.

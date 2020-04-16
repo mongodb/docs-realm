@@ -15,19 +15,19 @@ Users & Authentication
 Introduction
 ------------
 
-MongoDB Realm manages authentication for your application's
+{+service+} manages authentication for your application's
 end users and allows you to store and access metadata for
-each user. Every request in Realm is associated with an
-authenticated user, which enables Realm's role-based
+each user. Every request in {+service+} is associated with an
+authenticated user, which enables {+service+}'s role-based
 :ref:`data access rules <mongodb-rules>` to dynamically
 determine read & write permissions for every object included
 in their request.
 
 Users log in through modular :doc:`authentication providers
 </authentication/providers>` that each represent a specific method of
-authentication. Realm includes several built-in providers for common use
-cases as well as custom providers that allow you to integrate any
-external authentication system.
+authentication. {+service+} includes several built-in providers for
+common use cases as well as custom providers that allow you to integrate
+any external authentication system.
 
 Concepts
 --------
@@ -43,10 +43,10 @@ their identity.
 
 Users authenticate themselves by providing a set of credentials to an
 authentication provider. If the credentials are valid, the provider
-returns a unique identity associated with the user and Realm logs them
-in as the :ref:`active user <active-user>`.
+returns a unique identity associated with the user and {+backend+}
+logs them in as the :ref:`active user <active-user>`.
 
-Realm includes built-in authentication providers for common
+{+service+} includes built-in authentication providers for common
 use cases, including :doc:`anonymous
 </authentication/anonymous>` users, :doc:`email/password
 </authentication/email-password>` combinations, :doc:`API
@@ -60,14 +60,13 @@ providers to integrate external authentication systems. The
 :doc:`Custom JWT </authentication/custom-jwt>` provider
 accepts JSON web tokens signed by the external system and
 the :doc:`Custom Function </authentication/custom-function>`
-provider allows you to define custom logic in a Realm
-function.
+provider allows you to define custom logic in a :term:`{+function+}`.
 
 .. admonition:: User Authentication is Required
    :class: important
    
    Every application must have at least one authentication provider
-   configured and enabled before a client application can successfully
+   configured and enabled before any client application can successfully
    connect. For more information on how to configure and enable
    authentication providers, see :doc:`Authentication Providers
    </authentication/providers>`.
@@ -94,18 +93,18 @@ User Accounts
 A **user account** represents a single, distinct user of
 your application. Every user account has a unique ID and is
 associated with at least one :ref:`authentication provider
-identity <authentication-provider-identities>`. Realm
+identity <authentication-provider-identities>`. {+backend+}
 automatically sources user metadata, such as their email
 address or birthday, from authentication providers and
 allows you to associate each user with :doc:`custom data
-</users/define-custom-user-data>` stored in a MongoDB
-collection.
+</users/define-custom-user-data>` stored in a collection
+of your :term:`linked {+atlas+} cluster <linked cluster>`.
 
 .. admonition:: Link Multiple Identities to One User Account
    :class: note
 
    When a user authenticates with a provider for the first
-   time, Realm creates a new account and associates the
+   time, {+backend+} creates a new account and associates the
    authenticated identity with that account. Some providers
    allow you to associate the identity with an existing user
    account instead of creating a new one. This allows users
@@ -121,16 +120,16 @@ Authentication Provider Identities
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 An **authentication provider identity** is a set of metadata
-about a user that Realm obtains from each authentication
+about a user that {+backend+} obtains from each authentication
 provider used to authenticate that user. A single user
 account can have multiple identities if the user associates
 their account with multiple authentication providers.
 
 When a user first logs in with an authentication provider,
-Realm associates the user with an identity object that
+{+backend+} associates the user with an identity object that
 contains a unique identifier and :ref:`additional,
 provider-specific metadata <user-metadata>` about the user.
-On subsequent logins, Realm refreshes the existing identity
+On subsequent logins, {+backend+} refreshes the existing identity
 data but does not create a new identity.
 
 .. _active-user:
@@ -141,7 +140,7 @@ Active User
 In the Realm SDKs, multiple users can log in simultaneously,
 but only one account can be **active** at any given time.
 The **active user** is a user account associated with an
-application request. When Realm receives a request from a
+application request. When {+backend+} receives a request from a
 client application, it executes the request in the context
 of the active user, replacing any dynamic references to the
 user (e.g. :json-expansion:`%%user` in a JSON expression)
@@ -164,10 +163,10 @@ System User
 
 The **system user** is an internal user that has advanced
 privileges and automatically bypasses all rules. You can
-configure :doc:`Functions </functions>` and :ref:`incoming
+configure :doc:`{+functions-short+} </functions>` and :ref:`incoming
 webhooks <incoming-webhooks>` to run in the context of the
 system user instead of the user account that issued a
-request. Triggers always run in the context of the system
+request. {+triggers-short+} always run in the context of the system
 user.
 
 The system user is useful for administrative tasks that need
@@ -178,9 +177,10 @@ CRUD and aggregation operations.
 .. admonition:: Security Warning
    :class: important
 
-   Rules do not apply to the system user, which means that functions and
-   webhooks that run as the system user can be a security liability.
-   Ensure that you do not expose these functions to unauthorized users.
+   Rules do not apply to the system user, which means that
+   {+functions-short+} and webhooks that run as the :term:`system user`
+   can become a security liability. Ensure that you do not expose these
+   functions to unauthorized users.
    
    For example, you can use :ref:`function context <context-user>` to
    check if the active user is allowed to call the system function based
@@ -210,8 +210,8 @@ needing to enter their password or otherwise
 re-authenticate.
 
 Sessions are managed with access tokens and a refresh token
-provided by Realm. The client SDKs implement the logic of
-managing these tokens and providing them to Realm when
+provided by {+backend+}. The client SDKs implement the logic of
+managing these tokens and providing them to {+backend+} when
 making requests.
 
 For web browsers, the JavaScript SDK stores these tokens in
@@ -223,7 +223,7 @@ In the iOS SDK, they are stored in the
 
 The access token for a session expires after thirty minutes.
 However, a new session can be started by retrieving a new
-access token from Realm using the refresh token. The SDKs
+access token from {+backend+} using the refresh token. The SDKs
 automatically take care of refreshing access tokens, so you
 do not need to worry about this when implementing client
 applications.
@@ -232,7 +232,7 @@ You can invalidate a refresh token by calling the
 ``logout()`` method on the client, which does two things:
 
 - It deletes the local session information by deleting both the access and refresh tokens.
-- It invalidates the refresh token on the Realm server.
+- It invalidates the refresh token in the {+backend+} backend.
 
 .. note::
 
@@ -255,7 +255,16 @@ steps.
 Summary
 -------
 
-- Realm supports authentication and user accounts through a variety of :doc:`authentication providers </authentication/providers>`. Users can associate themselves with multiple authentication providers and have identity information from multiple providers.
-- Realm supports having multiple users logged in at the same time. There is only one **active user** at a time.
-- The **system user** is a special user on the Realm server that bypasses all rules.
-- Realm handles the access tokens and refresh tokens that comprise a **user session** automatically.
+- {+service+} supports authentication and user accounts through a
+  variety of :doc:`authentication providers </authentication/providers>`.
+  Users can associate themselves with multiple authentication providers
+  and have identity information from multiple providers.
+
+- {+service+} supports having multiple users logged in at the same time.
+  There is only one **active user** at a time.
+
+- The **system user** is a special user in {+backend+} that
+  bypasses all rules.
+
+- {+backend+} handles the access tokens and refresh tokens that comprise
+  a **user session** automatically.

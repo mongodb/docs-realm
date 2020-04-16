@@ -1,3 +1,5 @@
+.. _CRON-expresssions:
+
 ================
 CRON Expressions
 ================
@@ -16,7 +18,7 @@ Overview
 CRON expressions are user-defined strings that use standard
 :wikipedia:`cron <Cron>` job syntax to define when a :doc:`scheduled
 trigger </triggers/scheduled-triggers>` should execute. Whenever all of
-the fields in a CRON expression match the current date and time, Realm
+the fields in a CRON expression match the current date and time, {+backend+}
 fires the trigger associated with the expression.
 
 Expression Syntax
@@ -209,7 +211,7 @@ describes valid field values and expressions:
 Summary
 -------
 
-- Schedule trigger executions using CRON job syntax in Realm.
+- Schedule trigger executions using CRON job syntax in {+service+}.
 - Specify a CRON schedule using month, day, minute, and hour parameters.
 - Define CRON values with exact values or expressions like wildcards,
   lists, ranges, and for some parameters, modulo.
