@@ -15,37 +15,37 @@ Realms
 Overview
 --------
 
-A **Realm** is a set of related objects that conform to a pre-defined
-schema and share user-level access permissions. Realms may contain more
+A **{+realm+}** is a set of related objects that conform to a pre-defined
+schema and share user-level access permissions. {+realms+} may contain more
 than one type of data as long as a schema exists for each type.
 
-Realms allow you to partition data according to who uses it
-and when they use it. Every Realm stores data in a separate
-:term:`Realm file` that contains a binary encoding of each object in
-the Realm. You can automatically :doc:`synchronize Realms
+{+realms+} allow you to partition data according to who uses it
+and when they use it. Every {+realm+} stores data in a separate
+:term:`{+realm+} file` that contains a binary encoding of each object in
+the {+realm+}. You can automatically :doc:`synchronize {+realm+}
 across multiple devices </sync/sync-overview>` and set up
 :doc:`reactive event handlers </crud/notifications>` that
-call a function any time an object in a Realm is created,
+call a function any time an object in a {+realm+} is created,
 modified, or deleted.
 
 Comparison with Other Databases
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The MongoDB Realm data model is similar to both relational and document
+The {+service+} data model is similar to both relational and document
 databases but has distinct differences from both. To underscore these
-differences, it's helpful to highlight what a Realm **is not**:
+differences, it's helpful to highlight what a {+realm+} **is not**:
 
-A Realm is not a single, application-wide database.
+A {+realm+} is not a single, application-wide database.
     Unlike other applications, which store all of their data in a single
     database, Realm apps often split data across multiple Realms to
     organize data more efficiently and to enforce access controls.
 
-A Realm is not a table.
+A {+realm+} is not a table.
     Tables typically only store one kind of information, such as street
     addresses or items in a store inventory, whereas a Realm can contain
     any number of object types.
 
-A Realm is not a collection of schemaless documents.
+A {+realm+} is not a collection of schemaless documents.
     Application objects are similar to documents, but every object in a
     Realm conforms to a defined schema for its object type. An object
     cannot contain a field that is not described by its schema.
@@ -58,18 +58,19 @@ Key Concepts
 Realm Schema
 ~~~~~~~~~~~~
 
-A **Realm schema** is a list of valid :doc:`object schemas
-</data-model/objects>` that each define an object type that the Realm
-may contain. All objects in a Realm must conform to the Realm schema.
+A **{+backend-schema+}** is a list of valid :doc:`object schemas
+</data-model/objects>` that each define an object type that a {+instance+}
+may persist. All objects in a {+realm+} must conform to the {+backend-schema+}.
 
-Client applications provide a Realm schema when they open a Realm. If a
-Realm already contains data, then Realm validates each existing object
-to ensure that an object schema was provided for its type and that it
-meets all of the constraints specified in the schema.
+Client applications provide a {+frontend-schema+} when they open a
+{+realm+}. If a {+realm+} already contains data, then {+client-database+}
+validates each existing object to ensure that an object schema was
+provided for its type and that it meets all of the constraints specified
+in the schema.
 
 .. example::
    
-   A Realm that contains basic data about books in libraries might use a
+   A {+realm+} that contains basic data about books in libraries might use a
    schema like the following:
    
    .. code-block:: json
@@ -100,24 +101,24 @@ meets all of the constraints specified in the schema.
 Schema Version
 ~~~~~~~~~~~~~~
 
-A **schema version** identifies the state of a :ref:`Realm schema
-<realm-schema>` at some point in time. Realm Database tracks the schema
-version of each Realm and uses it to map the objects in each Realm
+A **schema version** identifies the state of a :ref:`{+backend-schema+}
+<realm-schema>` at some point in time. {+client-database+} tracks the schema
+version of each {+realm+} and uses it to map the objects in each {+realm+}
 to the correct schema.
 
 Schema versions are ascending integers that you can optionally include
-in the Realm configuration when you open a Realm. If a client
-application does not specify a version number when it opens a Realm then
-the Realm defaults to version ``0``.
+in the {+realm+} configuration when you open a {+realm+}. If a client
+application does not specify a version number when it opens a {+realm+} then
+the {+realm+} defaults to version ``0``.
 
 .. admonition:: Increase Versions Monotonically
    :class: important
    
-   :doc:`Migrations </data-model/migrations>` must update a Realm to a
-   higher schema version. Realm Database will throw an error if a client
-   application opens a Realm with a schema version that is lower than
-   the Realm's current version or if the specified schema version is the
-   same as the Realm's current version but includes different
+   :doc:`Migrations </data-model/migrations>` must update a {+realm+} to a
+   higher schema version. {+client-database+} will throw an error if a client
+   application opens a {+realm+} with a schema version that is lower than
+   the {+realm+]'s current version or if the specified schema version is the
+   same as the {+realm+}'s current version but includes different
    :ref:`object schemas <object-schema>`.
 
 .. _realm-permissions:
@@ -126,16 +127,16 @@ Realm Permissions
 ~~~~~~~~~~~~~~~~~
 
 A **permission** is a boolean flag that indicates that a user is
-authorized to access, modify, or manage a Realm. Permissions are defined
-individually for each Realm and either apply to a specific user or
+authorized to access, modify, or manage a {+realm+}. Permissions are defined
+individually for each {+realm+} and either apply to a specific user or
 configure the default permission for all users that don't have
-permissions specified on the Realm.
+permissions specified on the {+realm+}.
 
-Realms are private by default, which means that the owner has full
+{+realms+} are private by default, which means that the owner has full
 permissions and no other user has any permissions unless explicitly
-granted by the owner or a user with manage permissions on the Realm.
+granted by the owner or a user with manage permissions on the {+realm+}.
 
-MongoDB Realm supports the following permissions:
+{+service+} supports the following permissions:
 
 .. list-table::
    :header-rows: 1
@@ -146,21 +147,21 @@ MongoDB Realm supports the following permissions:
 
    * - ``mayRead``
      - If ``true``, the user has read access to all objects in the
-       Realm.
+       {+realm+}.
        
        Read access does not imply write access, so a user may not
-       be able to modify a Realm that they can read.
+       be able to modify a {+realm+} that they can read.
 
    * - ``mayWrite``
      - If ``true``, the user has read and write access to all objects in
-       the Realm.
+       the {+realm+}.
        
        Write access requires read access, so the ``mayWrite``
        permission also sets ``mayRead`` to ``true`` for the user.
 
    * - ``mayManage``
      - If ``true``, the user has read and write access to all objects in
-       the Realm and can set permissions on the Realm for other users.
+       the {+realm+} and can set permissions on the Realm for other users.
        
        Manage access requires write access, so the ``mayManage``
        permission also sets ``mayWrite`` and ``mayRead`` to ``true`` for
@@ -171,15 +172,15 @@ MongoDB Realm supports the following permissions:
 Realm Path
 ~~~~~~~~~~
 
-A Realm's **path** is a string that serves as the Realm's unique ID. The
-path can also optionally include the ID of a specific Realm user that
-owns and manages the Realm. A Realm path determines the default read,
-write, and manage permissions for its associated Realm. There are two
-types of Realm path - *public* and *private* - based on whether or not a
+A {+realm+}'s **path** is a string that serves as the {+realm+}'s unique ID. The
+path can also optionally include the ID of a specific {+realm+} user that
+owns and manages the {+realm+}. A {+realm+} path determines the default read,
+write, and manage permissions for its associated {+realm+}. There are two
+types of {+realm+} path - *public* and *private* - based on whether or not a
 path includes a user ID.
 
 The following table describes the default permissions and syntax for
-each type of Realm path:
+each type of {+realm+} path:
 
 .. list-table::
    :header-rows: 1
@@ -189,12 +190,12 @@ each type of Realm path:
      - Description
 
    * - Public
-     - A Realm that does not specify an owner is a **public Realm**. By
-       default in a public Realm, non-admin users have read-only
+     - A {+realm+} that does not specify an owner is a **public {+realm+}**. By
+       default in a public {+realm+}, non-admin users have read-only
        privileges and admin users have read-write-manage privileges.
        
-       Public Realm paths begin with a slash (``/``) followed by any
-       string that is not a Realm user's ID or a tilde (``~``), such as
+       Public {+realm+} paths begin with a slash (``/``) followed by any
+       string that is not a {+realm+} user's ID or a tilde (``~``), such as
        the following example:
        
        .. code-block:: text
@@ -203,13 +204,13 @@ each type of Realm path:
           /someGlobalRealm
 
    * - Private
-     - A Realm that specifies an owner is a **private Realm**. By
-       default in a private Realm, the owner has read-write-manage
+     - A {+realm+} that specifies an owner is a **private Realm**. By
+       default in a private {+realm+}, the owner has read-write-manage
        privileges, all other non-admin users have no read or write
        privileges, and admin users have read-write-manage permissions.
        
-       Private Realm paths begin with a slash (``/``) followed by a
-       specific Realm user's ID, another slash, and then a string, such
+       Private {+realm+} paths begin with a slash (``/``) followed by a
+       specific {+realm+} user's ID, another slash, and then a string, such
        as the following example:
        
        .. code-block:: text
@@ -233,7 +234,15 @@ each type of Realm path:
 Summary
 -------
 
-- A :term:`Realm` is a collection of objects that conform to a schema. It is not a single, application-wide database. There can and usually will be more than one Realm per application.
-- A :term:`{+backend-schema+}` is a versioned specification of the object types used in the Realm.
-- Realm **permissions** define who can read, write, or manage the Realm and apply to the Realm as a whole.
-- A Realm **path** is a Realm's unique ID and indicates whether the Realm is public or private.
+- A :term:`{+realm+}` is a collection of objects that conform to a
+  schema. It is not a single, application-wide database. There can and
+  usually will be more than one {+realm+} per application.
+
+- A :term:`{+backend-schema+}` is a versioned specification of the
+  object types used in a {+instance+}.
+
+- {+realm+} **permissions** define who can read, write, or manage
+  the {+realm+} and apply to the {+realm+} as a whole.
+
+- A {+realm+} **path** is a {+realm+}'s unique ID and indicates whether
+  the {+realm+} is public or private.

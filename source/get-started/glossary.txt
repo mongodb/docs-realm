@@ -103,17 +103,17 @@ Glossary
       Instances of :term:`Realm objects <Realm Object>` that always
       reflect the state of the underlying object in the
       :term:`Realm version` of the enclosing
-      :term:`Realm instance <Realm instance>`. Implemented using
+      :term:`{+realm+} instance <{+realm+} instance>`. Implemented using
       :term:`zero-copy` objects that access object attributes via
       shallow pointers into memory-mapped data. You can subscribe to
       changes to any live object or collection of live objects,
-      including Realm instances.
+      including {+realm+} instances.
 
    write transaction
       You can only write to a :term:`{+realm+}` during a write
       transaction. Beginning or committing a write transaction has the
       side effect of advancing the :term:`Realm version` of the
-      enclosing :term:`Realm instance`.
+      enclosing :term:`{+realm+} instance`.
 
    event loop
       A design pattern in which a central loop waits
@@ -123,23 +123,23 @@ Glossary
       <reference/android/os/Looper>`. Also known as the **main loop** or
       **main event loop** on some platforms.
 
-   Realm instance
+   {+realm+} instance
       The result returned by a call to ``realm.open()``. An interface
       through which a :term:`Realm client` application can read and write
-      to a local :term:`{+realm+}`. Every Realm instance references a
+      to a local :term:`{+realm+}`. Every {+realm+} instance references a
       :term:`Realm version`. You can update the Realm version referenced
-      by a Realm instance by explicitly calling the ``refresh`` method
-      on that Realm instance. Beginning or committing a write
-      transaction on your Realm instance also advances the Realm
+      by a {+realm+} instance by explicitly calling the ``refresh`` method
+      on that {+realm+} instance. Beginning or committing a write
+      transaction on your {+realm+} instance also advances the Realm
       version. Platform with a built-in :term:`event loop` automatically
-      refresh the Realm instance on the event loop thread between
+      refresh the {+realm+} instance on the event loop thread between
       iterations of the event loop.
 
    Realm version
       A snapshot of data in a local :term:`{+realm+}` at a given moment.
-      Each :term:`Realm instance` references a Realm version. The
+      Each :term:`{+realm+} instance` references a Realm version. The
       :term:`Realm SDK` cannot free resources for a Realm version
-      while any :term:`Realm instance` continues to reference it.
+      while any :term:`{+realm+} instance` continues to reference it.
 
    Realm file
       File containing all data for a local :term:`{+realm+}` for an instance
@@ -327,7 +327,7 @@ Glossary
    {+frontend-schema+}
       The structure that defines the fields of and relationships between
       all :term:`Realm objects <Realm object>` that you can read or write
-      into a client-local :term:`Realm instance`. Defined natively in
+      into a client-local :term:`{+realm+} instance`. Defined natively in
       the code of your client application.
 
    {+schema+}
