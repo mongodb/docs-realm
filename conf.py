@@ -69,8 +69,8 @@ rst_epilog = '\n'.join([
 ])
 
 source_constants = {
-    'realm': 'realm',
-    'realms': 'realms',
+    'realm': 'Realm',
+    'realms': 'Realms',
     'client-database': 'Realm Database',
     'atlas': 'MongoDB Atlas',
     'atlas-short': 'Atlas',
@@ -78,7 +78,6 @@ source_constants = {
     'backend-short': 'Realm',
     'service': 'MongoDB Realm',
     'service-short': 'Realm',
-    'realm': 'realm',
     'sync': 'Realm Sync',
     'sync-short': 'Sync',
     'sync-protocol': 'Realm Sync Protocol',
