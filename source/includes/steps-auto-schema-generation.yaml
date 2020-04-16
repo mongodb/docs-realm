@@ -1,47 +1,94 @@
-title: In the :guilabel:`rules` page of the MongoDB Realm UI, click :guilabel:`Generate Schema` to automatically create a Realm Schema
-ref: generate-schema
+title: Define a Realm Schema
+ref: define-realm-schema
 content: |
 
-  Clicking `Generate Schema` will automatically generate a Realm Schema based on your cluster data. If you haven't already :atlas:`insert data into your cluster
-  </tutorial/insert-data-into-your-cluster/>`. 
+  To get started, ensure you have a Realm Schema defined. This Realm
+  Schema will be translated into a Realm Object Model to be configured
+  and utilized in your mobile application.
 
-  .. figure:: /images/generate-schema-based-on-cluster-data.png
-     :width: 750px
-     :lightbox:
+  .. note:: 
 
----
-title: Edit your ``Realm Schema``
-ref: edit-json-schema
-content: |
-
-  Optionally, edit your schema to specify additional formatting on your data. 
-
-  .. figure:: /images/edit-schema-based-on-cluster-data.png
-     :width: 750px
-     :lightbox:
+    To learn how to define a Realm Schema, see the :doc:`Enforce a Document Schema </mongodb/enforce-a-document-schema>` page.
 
 ---
-title: In the :guilabel:`SDKs` page, view your ``Realm Schema`` as a Realm Object Model in your language of choice
+title: View the Realm Object Model
 ref: view-realm-db-schema
 content: |
 
-  .. figure:: /images/translate-jsonschema-into-realm-data-model.png
+  The Realm Object Model will be used to define and validate your data
+  in your mobile client application. To view your Realm Object Model,
+  navigate to the :guilabel:`SDKs` page and there you will be able to
+  view your Realm Schema as a Realm Object Model in your language of
+  choice.
+
+    .. figure:: /images/translate-jsonschema-into-realm-data-model.png
      :width: 750px
      :lightbox:
 
 ---
-title: Click :guilabel:`View all Schema Errors`
+title: View and Fix Schema Errors
 ref: view-schema-errors
 content: |
 
-  View the errors and warnings on the ``Schema Error/Warnings`` modal.
-  These errors relate to mismatched types or relationships and prevent
-  MongoDB Realm from translating your Realm Schema into a Realm Object
-  Model. To address these errors, edit your schema to adhere to both
-  Realm Object Model structure. To learn more about the technical
-  differences between the two data models read the :doc:`Realm Object
-  Model Restrictions </realm-database-restrictions>` page. 
+  Translating your data model from a Realm Schema to a Realm Object
+  Model can cause several errors or warnings, preventing MongoDB Realm
+  from translating your Realm Schema into a Realm Object Model. Some
+  examples of errors or warning are mismatched data types that are
+  supported in MongoDB Documents but not in the native language, or
+  errors related to the differences in the way relationships are
+  represented in the two respective models.
+
+  .. note::
+    
+    To learn more about the technical differences between the two data
+    models read the :doc:`Realm Object Model Restrictions
+    </realm-database-restrictions>` page. 
 
   .. figure:: /images/schema-translation-errors-warnings.png
      :width: 750px
      :lightbox:
+
+  To address these errors, edit your Realm Schema to adhere to both data
+  model's structure. Click :guilabel:`Edit Schema` under the
+  :guilabel:`Schema Tab` of the :guilabel:`Rules` page in the MongoDB
+  Realm UI to define and edit document fields to fix corresponding
+  errors and warnings related to translating from a Realm Schema to a
+  Realm Object Model. After you have configured the schema, click
+  :guilabel:`Save`. After saving, Realm immediately begins enforcing the
+  Realm Schema for all future queries against your Atlas cluster and a
+  Realm Object Model will be translated again from your updated Realm
+  Schema.
+
+title: Open a Realm with the Realm Object Model 
+ref: open-realm-with-data-model
+content: |
+
+  To begin enforcing data validation with your data model, you can open
+  a Realm with the generated Realm Object Model. This will prevent
+  improper data from entering your database from your mobile client.
+  Click :guilabel:`Copy` on the right-hand side of the Realm Object
+  Model for the Object you want to begin modeling with, this will copy
+  the Realm Object Model code for the sdk of your choice into your
+  clipboard. Open your mobile application code in your IDE and paste the
+  Realm Object Model code in. 
+  
+  
+  .. tabs-realm-languages::
+
+    .. tab::
+        :tabid: javascript
+
+        .. code-block:: javascript
+           
+          const realmObjectModel = { // your copied and pasted Realm Object Model
+            name: 'User',
+            properties: {
+              name:     'string',
+              birthday: 'date'
+            }
+          };
+          // Initialize a Realm with your Realm Object Model
+          Realm.open({schema: realmObjectModel})
+            .then(realm => {
+              // ... use the realm instance to read and modify data
+            })
