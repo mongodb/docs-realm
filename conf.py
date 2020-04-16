@@ -112,7 +112,8 @@ source_constants = {
     'values': 'Realm values',
     'value-short': 'Value',
     'values-short': 'Values',
-    'compass': 'MongoDB Compass'
+    'compass': 'MongoDB Compass',
+    'sdk': 'Realm SDK'
 }
 
 extlinks = {
