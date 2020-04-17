@@ -14,9 +14,9 @@ Overview
 --------
 
 You can replace the default :wikipedia:`404 page
-<HTTP_404#Custom_error_pages>` that Realm displays when a user tries to
+<HTTP_404#Custom_error_pages>` that {+service+} displays when a user tries to
 access a resource that does not exist with a custom HTML document. You
-can specify this custom 404 page from the Realm UI or by :doc:`importing
+can specify this custom 404 page from the {+ui+} or by :doc:`importing
 </deploy/deploy-cli>` an application configuration
 directory that includes the page in its ``hosting`` directory. Select
 the tab below that corresponds to the method you want to use.
@@ -26,12 +26,12 @@ the tab below that corresponds to the method you want to use.
 Procedure
 ---------
 
-.. tabs-stitch-interfaces::
+.. tabs-realm-admin-interfaces::
 
    tabs:
-     - id: stitch-ui
+     - id: ui
        content: |
          .. include:: /includes/steps/use-a-custom-404-page-realm-ui.rst
-     - id: import-export
+     - id: cli
        content: |
          .. include:: /includes/steps/use-a-custom-404-page-import-export.rst

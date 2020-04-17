@@ -15,20 +15,20 @@ content: |
 
   .. note::
 
-     Stitch web applications do not require you to install the Facebook
+     {+service-short+} web applications do not require you to install the Facebook
      SDK to use the Facebook authentication provider. If you are
      incorporating Facebook Login into a web application you can skip
      any steps in the quickstart related to setting up the Facebook SDK
      for Javascript.
 ---
-title: Add Stitch as a Valid OAuth Redirect URI
-ref: auth-add-stitch-as-valid-oauth-redirect-uri
+title: Add Realm as a Valid OAuth Redirect URI
+ref: auth-add-realm-as-valid-oauth-redirect-uri
 content: |
   When a user completes the login flow for your Facebook app they need
-  to be redirected back to Stitch. Facebook Login will only allow users
+  to be redirected back to {+service-short+}. Facebook Login will only allow users
   to redirect to a pre-approved list of URIs.
 
-  From the :guilabel:`Facebook Login > Settings` page, add a Stitch
+  From the :guilabel:`Facebook Login > Settings` page, add a {+service-short+}
   authentication callback URL that corresponds to the :doc:`deployment
   region </admin/deployment-models-and-regions>` of your application to
   the list of :guilabel:`Valid OAuth Redirect URIs`.
@@ -40,7 +40,7 @@ title: Configure the Facebook Authentication Provider
 ref: auth-configure-facebook-auth-provider
 content: |
 
-  To connect your Facebook app to Stitch, find your Facebook app's
+  To connect your Facebook app to {+service-short+}, find your Facebook app's
   :guilabel:`App ID` and :guilabel:`App Secret` values on the
   :guilabel:`Settings > Basic` page and add them to your authentication
   provider :ref:`configuration <auth-facebook-configuration>`.

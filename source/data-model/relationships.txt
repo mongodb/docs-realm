@@ -15,7 +15,7 @@ Overview
 
 {+service+} allows you to define explicit relationships between the types of
 objects in a {+instance+}. A relationship is an object property that references
-another {+realm+} object rather than one of the primitive data types. You
+another {+service-short+} object rather than one of the primitive data types. You
 define relationships by setting the type of an object property to
 another object type in the :ref:`property schema <property-schema>`.
 
@@ -44,7 +44,7 @@ To-One Relationship
 A **to-one** relationship means that an object is related in a specific
 way to no more than one other object. You define a to-one relationship
 for an object type in its :ref:`object schema <object-schema>` by
-specifying a property where the type is the related {+realm+} object type.
+specifying a property where the type is the related {+service-short+} object type.
 
 .. example::
 
@@ -62,7 +62,7 @@ To-Many Relationship
 A **to-many** relationship means that an object is related in a specific
 way to multiple objects. You define a to-many relationship for an object
 type in its :ref:`object schema <object-schema>` by specifying a
-property where the type is a list or array of the related {+realm+} object
+property where the type is a list or array of the related {+service-short+} object
 type.
 
 .. example::
@@ -141,11 +141,11 @@ implicit.
 Summary
 -------
 
-- A **relationship** is when a {+realm+} object property references
-  another {+realm+} object.
+- A **relationship** is when a {+service-short+} object property references
+  another {+service-short+} object.
 
 - Relationships are direct references. You can access a related object
   directly through the relationship property of another object.
 
-- {+realm+} supports to-one, to-many, explicit inverse and implicit
+- {+client-database+} supports to-one, to-many, explicit inverse and implicit
   inverse relationships.

@@ -15,15 +15,15 @@ Writes
 Overview
 --------
 
-:term:`Realm Database` uses a highly efficient storage engine
-to persist objects. You can **create** objects in a :term:`Realm`,
-**update** objects in a Realm, and eventually **delete**
-objects from a Realm. Because these operations modify the
-state of the Realm, we call them writes.
+:term:`{+client-database+}` uses a highly efficient storage engine
+to persist objects. You can **create** objects in a :term:`{+realm+}`,
+**update** objects in a {+realm+}, and eventually **delete**
+objects from a {+realm+}. Because these operations modify the
+state of the {+realm+}, we call them writes.
 
-Realm Database handles writes in terms of **transactions**. A
+{+client-database+} handles writes in terms of **transactions**. A
 transaction is a list of read and write operations that
-Realm Database treats as a single indivisable operation. In other
+{+client-database+} treats as a single indivisable operation. In other
 words, a transaction is *all or nothing*: either all of the
 operations in the transaction succeed or none of the
 operations in the transaction take effect.
@@ -33,19 +33,19 @@ operations in the transaction take effect.
 
    All writes must happen in a transaction.
 
-A Realm allows only one open transaction at a time. Realm Database
+A {+realm+} allows only one open transaction at a time. {+client-database+}
 blocks other writes on other threads until the open
 transaction is complete. Consequently, there is no race
-condition when reading values from the Realm within a
+condition when reading values from the {+realm+} within a
 transaction.
 
-When you are done with your transaction, Realm Database either
+When you are done with your transaction, {+client-database+} either
 **commits** it or **cancels** it:
 
-- When Realm Database **commits** a transaction, Realm Database writes
-  all changes to disk. For :term:`synced Realms <Realm sync>`, Realm Database queues the change
-  for synchronization with :term:`MongoDB Realm`.
-- When Realm Database **cancels** a write transaction or an operation in
+- When {+client-database+} **commits** a transaction, {+client-database+} writes
+  all changes to disk. For :term:`synced {+realms+} <{+sync+]>`, {+client-database+} queues the change
+  for synchronization with :term:`{+service+}`.
+- When {+client-database+} **cancels** a write transaction or an operation in
   the transaction causes an error, all changes are discarded
   (or "rolled back").
 
@@ -54,28 +54,28 @@ When you are done with your transaction, Realm Database either
 Realm is ACID Compliant
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-Realm Database guarantees that transactions are :term:`ACID`
+{+client-database+] guarantees that transactions are :term:`ACID`
 compliant. This means that all committed write
 operations are guaranteed to be valid and that clients don't
 see transient states in the event of a system crash.
 
-- Realm Database establishes :wikipedia:`atomicity <Atomicity_(database_systems)>` by grouping operations in transactions and rolling back all operations in a transaction if any of them fail.
-- Realm Database establishes :wikipedia:`consistency <Consistency_(database_systems)>` and avoids data corruption by validating changes against the schema. If the result of any write operation is not valid, Realm Database cancels and rolls back the entire transaction.
-- Realm Database establishes :wikipedia:`isolation <Isolation_(database_systems)>` by allowing only one writer at a time. This ensures thread safety between transactions.
-- Finally, Realm Database establishes :wikipedia:`durability <Durability_(database_systems)>` by writing to disk immediately when a transaction is committed. In the event of an app crash, for example, the changes are not lost or corrupted.
+- {+client-database+} establishes :wikipedia:`atomicity <Atomicity_(database_systems)>` by grouping operations in transactions and rolling back all operations in a transaction if any of them fail.
+- {+client-database+} establishes :wikipedia:`consistency <Consistency_(database_systems)>` and avoids data corruption by validating changes against the schema. If the result of any write operation is not valid, {+client-database+] cancels and rolls back the entire transaction.
+- {+client-database+} establishes :wikipedia:`isolation <Isolation_(database_systems)>` by allowing only one writer at a time. This ensures thread safety between transactions.
+- Finally, {+client-database+} establishes :wikipedia:`durability <Durability_(database_systems)>` by writing to disk immediately when a transaction is committed. In the event of an app crash, for example, the changes are not lost or corrupted.
 
 .. _open-a-transaction:
 
 Run a Transaction
 -----------------
 
-Realm Database represents each transaction as a callback function
+{+client-database+} represents each transaction as a callback function
 that contains zero or more read and write operations. To run
 a transaction, define a transaction callback and pass it to
-the Realm's ``write`` method. Within this callback, you are
-free to create, read, update, and delete on the Realm. If
-the code in the callback throws an exception when Realm Database runs
-it, Realm cancels the transaction. Otherwise, Realm Database commits
+the {+realm+}'s ``write`` method. Within this callback, you are
+free to create, read, update, and delete on the {+realm+}. If
+the code in the callback throws an exception when {+client-database+} runs
+it, {+client-database+} cancels the transaction. Otherwise, {+client-database+} commits
 the transaction immediately after the callback.
 
 .. admonition:: Concurrency Concerns
@@ -85,7 +85,7 @@ the transaction immediately after the callback.
    opening transactions on both the UI thread and a
    background thread. If you are using :doc:`Sync
    </sync/sync-overview>`, avoid opening transactions on the
-   UI thread altogether, as Realm Database processes synchronizations
+   UI thread altogether, as {+client-database+} processes synchronizations
    on a background thread. If a background transaction
    blocks your UI thread's transaction, your app may appear
    unresponsive.
@@ -93,9 +93,9 @@ the transaction immediately after the callback.
 .. example::
 
    The following code shows how to run a transaction with
-   the Realm's write method. If the code in the callback
-   throws an exception, Realm Database cancels the transaction.
-   Otherwise, Realm Database commits the transaction.
+   the {+realm+}'s write method. If the code in the callback
+   throws an exception, {+client-database+} cancels the transaction.
+   Otherwise, {+client-database+} commits the transaction.
 
    .. include:: /examples/CRUD/Transaction.rst
 
@@ -104,12 +104,12 @@ the transaction immediately after the callback.
 Create an Object
 ----------------
 
-In general, instantiate :doc:`Realm objects
+In general, instantiate :doc:`{+service-short+} objects
 </data-model/objects>` as you would any other object. In a
-transaction, you can add the object to the Realm if the
-Realm's :ref:`schema <realm-schema>` includes the object
-type. When you add an instance to the Realm, it becomes
-*managed* by that Realm.
+transaction, you can add the object to the {+realm+} if the
+{+realm+}'s :ref:`schema <realm-schema>` includes the object
+type. When you add an instance to the {+realm+}, it becomes
+*managed* by that {+realm+].
 
 With the Java and JavaScript SDKs, instead use the Realm's
 factory method in a transaction to instantiate your class.
@@ -117,7 +117,7 @@ This automatically inserts the instance into the Realm.
 
 .. example::
 
-   This code demonstrates how to create an object with Realm Database:
+   This code demonstrates how to create an object with {+client-database+}:
 
    .. include:: /examples/CRUD/Create.rst
 
@@ -131,13 +131,13 @@ with a given primary key or updates an existing object that already has
 that primary key. We call this an upsert because it is an "**update** or
 **insert**" operation. This is useful when an object may or may not
 already exist, such as when bulk importing a dataset into an existing
-Realm. Upserting is an elegant way to update existing entries while
+{+realm+}. Upserting is an elegant way to update existing entries while
 adding any new entries.
 
 .. example::
 
    This code demonstrates how to upsert an object with
-   Realm. We create a new user named "Drew" and then update
+   {+realm+}. We create a new user named "Drew" and then update
    their name to "Andy" via upsert:
 
    .. include:: /examples/CRUD/Upsert.rst
@@ -147,7 +147,7 @@ adding any new entries.
 Update an Object
 ----------------
 
-Within a transaction, you can update a Realm object the same
+Within a transaction, you can update a {+service-short+} object the same
 way you would update any other object in your language of
 choice: just assign a new value to the property or update
 the property.
@@ -164,7 +164,7 @@ the property.
 Update a Collection
 ~~~~~~~~~~~~~~~~~~~
 
-Realm Database supports collection-wide updates. A collection update
+{+client-database+} supports collection-wide updates. A collection update
 applies the same update to specific properties of several
 objects in a collection at once.
 
@@ -174,7 +174,7 @@ objects in a collection at once.
    collection. Thanks to the :ref:`implicit inverse
    relationship <inverse-relationship>` between the Dog's
    ``owner`` property and the Person's ``dogs`` property,
-   Realm Database automatically updates Ali's list of dogs.
+   {+client-database+} automatically updates Ali's list of dogs.
 
    .. include:: /examples/CRUD/BatchUpdate.rst
 
@@ -183,8 +183,8 @@ objects in a collection at once.
 Delete an Object
 ----------------
 
-In general, to delete an object from a Realm, pass the
-instance to the delete method of the Realm within a
+In general, to delete an object from a {+realm+}, pass the
+instance to the delete method of the {+realm+} within a
 transaction.
 
 With the Java SDK, call ``deleteFromRealm()`` on the
@@ -193,13 +193,13 @@ instance itself.
 .. admonition:: Do not use objects after delete
    :class: important
 
-   Realm Database throws an error if you try to use an object after
+   {+client-database+} throws an error if you try to use an object after
    it has been deleted.
 
 .. example::
 
    The following code shows how to delete one object from
-   its Realm:
+   its {+realm+}:
 
    .. include:: /examples/CRUD/Delete.rst
 
@@ -208,8 +208,8 @@ instance itself.
 Delete a Collection
 ~~~~~~~~~~~~~~~~~~~
 
-In general, to delete a collection of objects from a Realm,
-pass the collection to the delete method of the Realm within
+In general, to delete a collection of objects from a {+realm+},
+pass the collection to the delete method of the {+realm+} within
 a transaction.
 
 With the Java SDK, call ``deleteFromRealm()`` on the
@@ -218,7 +218,7 @@ collection itself.
 .. example::
 
    The following code demonstrates how to delete a
-   collection from a Realm:
+   collection from a {+realm+}:
 
    .. include:: /examples/CRUD/DeleteCollection.rst
 
@@ -230,9 +230,9 @@ Cascading Delete
 Sometimes, you have :doc:`dependent objects
 </data-model/relationships>` that you want to delete when
 you delete the parent object. We call this a **cascading
-delete**. Realm Database will not delete the dependent objects for
+delete**. {+client-database+} will not delete the dependent objects for
 you. If you do not delete the objects yourself, they will
-remain orphaned in your Realm. Whether or not this is a
+remain orphaned in your {+realm+}. Whether or not this is a
 problem depends on your application's needs.
 
 Currently, the best way to delete dependent objects is to
@@ -252,13 +252,13 @@ deleting the parent object.
 Delete All Instances of a Type
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Realm Database supports deleting all instances of a :doc:`Realm type
-</data-model/objects>` from a Realm.
+{+client-database+} supports deleting all instances of a :doc:`{+service-short+} type
+</data-model/objects>` from a {+realm+}.
 
 .. example::
 
    The following code demonstrates how to delete all
-   Dog instances from a Realm:
+   Dog instances from a {+realm+}:
 
    .. include:: /examples/CRUD/DeleteAllOfClass.rst
 
@@ -267,20 +267,20 @@ Realm Database supports deleting all instances of a :doc:`Realm type
 Delete Everything
 ~~~~~~~~~~~~~~~~~
 
-It is possible to delete all objects from the Realm. This
-does not affect the schema of the Realm. This is useful for
-quickly clearing out your Realm while prototyping.
+It is possible to delete all objects from the {+realm+}. This
+does not affect the schema of the {+realm+}. This is useful for
+quickly clearing out your {+realm+} while prototyping.
 
 .. example::
 
    The following code demonstrates how to delete everything
-   from a Realm:
+   from a {+realm+}:
 
    .. include:: /examples/CRUD/DeleteAll.rst
 
 Summary
 -------
 
-- Realm Database handles writes in terms of **transactions**. All writes must occur in a transaction.
-- Realm Database transactions are ACID compliant.
-- To write to Realm, define the transaction in a callback function that you pass to the Realm's ``write`` method.
+- {+client-database+} handles writes in terms of **transactions**. All writes must occur in a transaction.
+- {+client-database+} transactions are ACID compliant.
+- To write to {+client-database+}, define the transaction in a callback function that you pass to the {+realm+}'s ``write`` method.
