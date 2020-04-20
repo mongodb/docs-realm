@@ -4,7 +4,7 @@
    :doc:`functions </functions>` and :doc:`rule expressions
    </services/json-expressions>`.
 
-   .. tabs-stitch-sdks::
+   .. tabs-realm-sdks::
       
       .. tab::
          :tabid: javascript
@@ -12,7 +12,7 @@
          .. code-block:: javascript
             :emphasize-lines: 3
           
-            const app = Stitch.defaultAppClient;
+            const app = Realm.defaultAppClient;
             const user = app.auth.user;
             const speaksEnglish = user.customData.primaryLanguage === "English";
       
@@ -22,8 +22,8 @@
          .. code-block:: java
             :emphasize-lines: 3
           
-            StitchAppClient app = Stitch.getDefaultAppClient();
-            StitchUser user = client.getAuth().getUser();
+            RealmAppClient app = Realm.getDefaultAppClient();
+            RealmUser user = client.getAuth().getUser();
             Boolean speaksEnglish = user.getCustomData().primaryLanguage == "English";
       
       .. tab::
@@ -32,8 +32,8 @@
          .. code-block:: swift
             :emphasize-lines: 3
           
-            let app: StitchAppClient = Stitch.defaultAppClient
-            let user: StitchUser = app.auth.currentUser
+            let app: RealmAppClient = Realm.defaultAppClient
+            let user: RealmUser = app.auth.currentUser
             let speaksEnglish: Bool = user.customData.primaryLanguage == "English"
       
       .. tab::

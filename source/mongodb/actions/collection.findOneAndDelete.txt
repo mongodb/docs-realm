@@ -25,8 +25,8 @@ command. This avoids the risk of other update operations changing the
 document between separate :doc:`find </mongodb/actions/collection.find>`
 and :doc:`delete </mongodb/actions/collection.deleteOne>` operations.
 
-.. _js-collection.findOneAndDelete: https://docs.mongodb.com/stitch-sdks/js/4/interfaces/remotemongocollection.html#findOneAndDelete
-.. _java-collection.findOneAndDelete: https://docs.mongodb.com/stitch-sdks/java/4/com/mongodb/stitch/android/services/mongodb/remote/RemoteMongoCollection.html#findOneAndDelete(org.bson.conversions.Bson)
+.. _js-collection.findOneAndDelete: https://docs.mongodb.com/realm-sdks/js/4/interfaces/remotemongocollection.html#findOneAndDelete
+.. _java-collection.findOneAndDelete: https://docs.mongodb.com/realm-sdks/java/4/com/mongodb/realm/android/services/mongodb/remote/RemoteMongoCollection.html#findOneAndDelete(org.bson.conversions.Bson)
 
 Usage
 -----
@@ -34,7 +34,7 @@ Usage
 Example
 ~~~~~~~
 
-.. tabs-stitch-sdks::
+.. tabs-realm-sdks::
 
    tabs:
      - id: functions
@@ -72,7 +72,7 @@ Example
 Parameters
 ~~~~~~~~~~
 
-.. tabs-stitch-sdks::
+.. tabs-realm-sdks::
 
    tabs:
      - id: functions
@@ -115,14 +115,14 @@ Parameters
 
             public func findOneAndDelete(filter: Document,
                              options: RemoteFindOneAndModifyOptions? = nil,
-                             _ completionHandler: @escaping (StitchResult<CollectionType?>) -> Void)
+                             _ completionHandler: @escaping (RealmResult<CollectionType?>) -> Void)
 
          .. include: /includes/extracts/mongodb-actions-params-findOneAndDelete-ios.rst
 
 Return Value
 ~~~~~~~~~~~~
 
-.. tabs-stitch-sdks::
+.. tabs-realm-sdks::
 
    tabs:
      - id: functions
@@ -162,7 +162,7 @@ Return Value
          :android:`Task <com/google/android/play/core/tasks/Task>`
          varies based on the configuration of the
          :android-sdk:`RemoteMongoCollection
-         <com/mongodb/stitch/android/services/mongodb/remote/RemoteMongoCollection.html>`
+         <com/mongodb/realm/android/services/mongodb/remote/RemoteMongoCollection.html>`
          used for the operation and the value of the ``resultClass``
          parameter.
 
@@ -175,7 +175,7 @@ Return Value
            contains an object of type ``DocumentT``, which
            resolves to type ``Document`` unless otherwise specified when
            the :android-sdk:`RemoteMongoCollection
-           <com/mongodb/stitch/android/services/mongodb/remote/RemoteMongoCollection.html>`
+           <com/mongodb/realm/android/services/mongodb/remote/RemoteMongoCollection.html>`
            was instantiated.
          - If no document matches the provided query, the task will fail
            and details can be accessed using ``task.getException()``.
@@ -188,4 +188,4 @@ Return Value
        content: |
 
          The ``findOneAndDelete`` method will call the supplied
-         ``completionHandler`` with a ``StitchResult``.
+         ``completionHandler`` with a ``RealmResult``.

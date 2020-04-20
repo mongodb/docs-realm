@@ -72,11 +72,11 @@ Communication Across Threads
 You can have the same {+realm+} open on multiple threads as
 separate {+realm+} instances. You are free to read and write
 with {+realm+} instances on the thread where you first opened
-them. One of the key rules when working with {+realm+} in a
+them. One of the key rules when working with {+client-database+} in a
 multithreaded environment is that objects are
 **thread-confined**: you may not access the instances of a
 {+realm+}, collection, or object that originated on other
-threads. {+realm+}'s :ref:`Multiversion Concurrency Control
+threads. {+client-database+}'s :ref:`Multiversion Concurrency Control
 (MVCC) <mvcc>` architecture means that there could be many
 active versions of an object at any time. Thread-confinement
 ensures that all instances in that thread are of the same
@@ -135,7 +135,7 @@ However, some apps -- those based on reactive, event
 stream-based architectures, for example -- need to send
 immutable copies around to many threads for processing
 before ultimately ending up on the UI thread. Making a deep
-copy every time would be expensive, and {+realm+} does not allow
+copy every time would be expensive, and {+client-database+} does not allow
 live instances to be shared across threads. In this case,
 you can **freeze** objects, collections, and {+realms+}.
 
@@ -176,16 +176,16 @@ You can close frozen {+realm+} before the live {+realm+} is closed.
 
    Caching too many frozen objects can have a negative
    impact on the {+realm+} file size. "Too many" depends on your
-   specific target device and the size of your {+realm+}
+   specific target device and the size of your {+service-short+}
    objects. If you need to cache a large number of versions,
-   consider copying what you need out of the {+realm+] instead.
+   consider copying what you need out of the {+realm+} instead.
 
 .. _mvcc:
 
 Realm's Threading Model in Depth
 --------------------------------
 
-{+realm+} provides safe, fast, lock-free, and concurrent access
+{+client-database+} provides safe, fast, lock-free, and concurrent access
 across threads with its :wikipedia:`Multiversion Concurrency
 Control (MVCC) <Multiversion_concurrency_control>`
 architecture.
@@ -222,15 +222,15 @@ version of the {+realm+}; child nodes are objects in that
 version of the {+realm+}. The {+realm+} has a pointer to its latest
 version, much like how Git has a pointer to its HEAD commit.
 
-{+realm+} uses a copy-on-write technique to ensure
+{+client-database+} uses a copy-on-write technique to ensure
 :wikipedia:`isolation <Isolation_(database_systems)>` and
 :wikipedia:`durability <Durability_(database_systems)>`.
-When you make changes, {+realm+} copies the relevant part of the
-tree for writing. {+realm+} then commits the changes in two
+When you make changes, {+client-database+} copies the relevant part of the
+tree for writing. {+client-database+} then commits the changes in two
 phases:
 
-- {+realm+} writes changes to disk and verifies success.
-- {+realm+} then sets its latest version pointer to point to the newly-written version.
+- {+client-database+} writes changes to disk and verifies success.
+- {+client-database+} then sets its latest version pointer to point to the newly-written version.
 
 This two-step commit process guarantees that even if the
 write failed partway, the original version is not corrupted
@@ -245,7 +245,7 @@ version is guaranteed to be valid.
    The following diagram illustrates the commit process:
 
    .. figure:: /images/mvcc-diagram.png
-      :alt: {+realm+} copies the relevant part of the tree for writes, then replaces the latest version by updating a pointer.
+      :alt: {+client-database+} copies the relevant part of the tree for writes, then replaces the latest version by updating a pointer.
       :lightbox:
 
    1. The {+realm+} is structured as a tree. The {+realm+} has a pointer
@@ -294,4 +294,4 @@ Summary
   architecture is similar to Git's. Unlike Git, {+client-database+} has
   only one true latest version for each {+realm+}.
 
-- {+realm+} commits in two stages to guarantee isolation and durability.
+- {+client-database+} commits in two stages to guarantee isolation and durability.

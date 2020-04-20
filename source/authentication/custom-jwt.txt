@@ -38,10 +38,10 @@ otherwise identify themself.
 Configuration
 -------------
 
-.. tabs-stitch-interfaces::
+.. tabs-realm-admin-interfaces::
 
    .. tab::
-      :tabid: stitch-ui
+      :tabid: ui
 
       You can enable the JWT authentication provider from the Realm UI
       by selecting :guilabel:`Custom JWT Authentication` from the
@@ -54,7 +54,7 @@ Configuration
       - :ref:`Metadata Fields <custom-jwt-authentication-configuration-metadata-fields>`
 
    .. tab::
-      :tabid: import-export
+      :tabid: cli
 
       You can enable the Custom JWT authentication provider with
       :doc:`realm-cli </deploy/realm-cli-reference>` by importing an
@@ -108,10 +108,10 @@ is configured.
 If the external authentication system JWT specifies a different ``aud``
 value, then you can configure the provider to use that value instead.
 
-.. tabs-stitch-interfaces::
+.. tabs-realm-admin-interfaces::
 
    .. tab::
-      :tabid: stitch-ui
+      :tabid: ui
 
       To override the default audience, specify a new value in the
       :guilabel:`Audience` input:
@@ -121,7 +121,7 @@ value, then you can configure the provider to use that value instead.
          :alt: The Custom JWT audience configuration input
 
    .. tab::
-      :tabid: import-export
+      :tabid: cli
 
       To override the default audience, set the value of
       ``config.audience``:
@@ -155,13 +155,13 @@ You can manually configure the signing algorithm and specify one or more
 signing keys that the external authentication system may use to sign
 JWTs.
 
-.. tabs-stitch-interfaces::
+.. tabs-realm-admin-interfaces::
 
    .. tab::
-      :tabid: stitch-ui
+      :tabid: ui
 
    .. tab::
-      :tabid: import-export
+      :tabid: cli
 
       .. code-block:: javascript
          :emphasize-lines: 2, 5-8
@@ -186,8 +186,8 @@ JWTs.
 
    * - :guilabel:`Signing Algorithm`
 
-       .. tab-content:: tabs-stitch-interfaces
-          :tab-id: import-export
+       .. tab-content:: tabs-realm-admin-interfaces
+          :tab-id: cli
 
           | *config.signingAlgorithm*
 
@@ -198,8 +198,8 @@ JWTs.
        - ``HS256``
        - ``RS256``
 
-       .. tab-content:: tabs-stitch-interfaces
-          :tab-id: stitch-ui
+       .. tab-content:: tabs-realm-admin-interfaces
+          :tab-id: ui
 
           .. cssclass:: bordered-figure
           .. figure:: /images/custom-jwt-signing-algorithm.png
@@ -207,8 +207,8 @@ JWTs.
 
    * - :guilabel:`Signing Key`
 
-       .. tab-content:: tabs-stitch-interfaces
-          :tab-id: import-export
+       .. tab-content:: tabs-realm-admin-interfaces
+          :tab-id: cli
 
           | *secret_config.signingKeys*
 
@@ -218,8 +218,8 @@ JWTs.
        Each signing key Secret must be a string with length between 32
        and 512 characters.
 
-       .. tab-content:: tabs-stitch-interfaces
-          :tab-id: stitch-ui
+       .. tab-content:: tabs-realm-admin-interfaces
+          :tab-id: ui
 
           .. cssclass:: bordered-figure
           .. figure:: /images/custom-jwt-signing-key.png
@@ -243,13 +243,13 @@ algorithm and signing keys the system uses to sign JWTs. You can use the
 JWKS to configure the provider instead of manually specifying the
 signing algorithm and keys.
 
-.. tabs-stitch-interfaces::
+.. tabs-realm-admin-interfaces::
 
    .. tab::
-      :tabid: stitch-ui
+      :tabid: ui
 
    .. tab::
-      :tabid: import-export
+      :tabid: cli
 
       .. code-block:: javascript
 
@@ -268,8 +268,8 @@ signing algorithm and keys.
 
    * - :guilabel:`Use JWK URI`
 
-       .. tab-content:: tabs-stitch-interfaces
-          :tab-id: import-export
+       .. tab-content:: tabs-realm-admin-interfaces
+          :tab-id: cli
 
           | *config.useJWKURI*
 
@@ -280,8 +280,8 @@ signing algorithm and keys.
 
    * - :guilabel:`JWK URI`
 
-       .. tab-content:: tabs-stitch-interfaces
-          :tab-id: import-export
+       .. tab-content:: tabs-realm-admin-interfaces
+          :tab-id: cli
 
           | *config.jwkURI*
 
@@ -289,8 +289,8 @@ signing algorithm and keys.
        and signing keys the JWTs should use. The JWKS may specify up to
        three signing keys and must use the ``RS256`` algorithm.
 
-       .. tab-content:: tabs-stitch-interfaces
-          :tab-id: stitch-ui
+       .. tab-content:: tabs-realm-admin-interfaces
+          :tab-id: ui
 
           .. cssclass:: bordered-figure
           .. figure:: /images/custom-jwt-jwk-uri.png
@@ -307,10 +307,10 @@ some field included in the JWT from the external authentication system.
 Realm refreshes a user's metadata whenever they log in and exposes the
 fields in the ``data`` object of the :doc:`user object </authentication>`.
 
-.. tabs-stitch-interfaces::
+.. tabs-realm-admin-interfaces::
 
    .. tab::
-      :tabid: stitch-ui
+      :tabid: ui
 
       To define a metadata field, click :guilabel:`Add Field` and
       specify the mapping between the metadata field in the JWT and its
@@ -321,7 +321,7 @@ fields in the ``data`` object of the :doc:`user object </authentication>`.
          :alt: The metadata fields configuration table
 
    .. tab::
-      :tabid: import-export
+      :tabid: cli
 
       To define a metadata field in a Custom JWT authentication
       configuration file, add an entry for the field to the
@@ -345,8 +345,8 @@ fields in the ``data`` object of the :doc:`user object </authentication>`.
 
    * - :guilabel:`Required`
 
-       .. tab-content:: tabs-stitch-interfaces
-          :tab-id: import-export
+       .. tab-content:: tabs-realm-admin-interfaces
+          :tab-id: cli
 
           | *required*
 
@@ -357,8 +357,8 @@ fields in the ``data`` object of the :doc:`user object </authentication>`.
 
    * - :guilabel:`Path`
 
-       .. tab-content:: tabs-stitch-interfaces
-          :tab-id: import-export
+       .. tab-content:: tabs-realm-admin-interfaces
+          :tab-id: cli
 
           | *name*
 
@@ -369,8 +369,8 @@ fields in the ``data`` object of the :doc:`user object </authentication>`.
 
    * - :guilabel:`Field Name`
 
-       .. tab-content:: tabs-stitch-interfaces
-          :tab-id: import-export
+       .. tab-content:: tabs-realm-admin-interfaces
+          :tab-id: cli
 
           | *field_name*
 
@@ -380,15 +380,15 @@ fields in the ``data`` object of the :doc:`user object </authentication>`.
        value. The metadata field name may not contain no more than 64
        characters.
 
-       .. tab-content:: tabs-stitch-interfaces
-          :tab-id: stitch-ui
+       .. tab-content:: tabs-realm-admin-interfaces
+          :tab-id: ui
 
           For example, if you specify a ``name`` of
           ``location.primary.city``, the default value for
           ``field_name`` is ``city``.
 
-       .. tab-content:: tabs-stitch-interfaces
-          :tab-id: import-export
+       .. tab-content:: tabs-realm-admin-interfaces
+          :tab-id: cli
 
           For example, if you specify a :guilabel:`Path` of
           ``location.primary.city``, the default value for
@@ -474,7 +474,7 @@ Usage
 Authenticate a User
 ~~~~~~~~~~~~~~~~~~~
 
-.. tabs-stitch-sdks::
+.. tabs-realm-sdks::
 
    tabs:
      - id: javascript

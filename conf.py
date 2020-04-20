@@ -69,8 +69,8 @@ rst_epilog = '\n'.join([
 ])
 
 source_constants = {
-    'realm': 'Realm',
-    'realms': 'Realms',
+    'realm': 'realm',
+    'realms': 'realms',
     'client-database': 'Realm Database',
     'atlas': 'MongoDB Atlas',
     'atlas-short': 'Atlas',

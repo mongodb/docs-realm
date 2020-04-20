@@ -49,16 +49,16 @@ their account.
 Configuration
 -------------
 
-.. tabs-stitch-interfaces::
+.. tabs-realm-admin-interfaces::
 
    tabs:
-     - id: stitch-ui
+     - id: ui
        content: |
          You can enable and configure the API Key authentication
-         provider from the Realm UI by selecting :guilabel:`API Keys`
+         provider from the {+ui+} by selecting :guilabel:`API Keys`
          from the :guilabel:`Users > Providers` page.
 
-     - id: import-export
+     - id: cli
        content: |
          You can enable and configure the API Key authentication
          provider with :doc:`realm-cli
@@ -91,7 +91,7 @@ Configuration
 Usage
 -----
 
-.. tabs-stitch-sdks::
+.. tabs-realm-sdks::
 
    tabs:
      - id: javascript
@@ -106,7 +106,7 @@ Usage
 Authenticate with an API Key
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. tabs-stitch-sdks::
+.. tabs-realm-sdks::
 
    hidden: true
    tabs:
@@ -125,7 +125,7 @@ Authenticate with an API Key
 Create a User API Key
 ~~~~~~~~~~~~~~~~~~~~~
 
-.. tabs-stitch-sdks::
+.. tabs-realm-sdks::
 
    hidden: true
    tabs:
@@ -159,7 +159,7 @@ Key`. Enter a unique name for the key and click :guilabel:`Save`.
 Look up an Existing User Key
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. tabs-stitch-sdks::
+.. tabs-realm-sdks::
 
    hidden: true
    tabs:
@@ -178,7 +178,7 @@ Look up an Existing User Key
 Enable or Disable an API Key
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. tabs-stitch-sdks::
+.. tabs-realm-sdks::
 
    hidden: true
    tabs:
@@ -197,7 +197,7 @@ Enable or Disable an API Key
 Delete an API Key
 ~~~~~~~~~~~~~~~~~
 
-.. tabs-stitch-sdks::
+.. tabs-realm-sdks::
 
    hidden: true
    tabs:
@@ -216,10 +216,10 @@ Delete an API Key
 Summary
 -------
 
-- The Realm API Key authentication provider allows users and services
-  to connect to a Realm application using API keys that look like a
+- The {+service-short+} API Key authentication provider allows users and services
+  to connect to a {+service-short+} application using API keys that look like a
   string of characters.
-- User API Keys allow a user to interact with services via the Realm
+- User API Keys allow a user to interact with services via the {+service-short+}
   SDK. They are automatically generated in the client SDK.
-- Server API Keys allow external services to interact with your Realm
-  application. These keys can only be generated via the Realm UI.
+- Server API Keys allow external services to interact with your {+instance+}.
+  These keys can only be generated via the {+ui+}.

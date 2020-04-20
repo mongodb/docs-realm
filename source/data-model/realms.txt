@@ -19,7 +19,7 @@ A **{+realm+}** is a set of related objects that conform to a pre-defined
 schema and share user-level access permissions. {+realms+} may contain more
 than one type of data as long as a schema exists for each type.
 
-{+realms+} allow you to partition data according to who uses it
+A {+realm+} allows you to partition data according to who uses it
 and when they use it. Every {+realm+} stores data in a separate
 :term:`{+realm+} file` that contains a binary encoding of each object in
 the {+realm+}. You can automatically :doc:`synchronize {+realm+}
@@ -117,7 +117,7 @@ the {+realm+} defaults to version ``0``.
    :doc:`Migrations </data-model/migrations>` must update a {+realm+} to a
    higher schema version. {+client-database+} will throw an error if a client
    application opens a {+realm+} with a schema version that is lower than
-   the {+realm+]'s current version or if the specified schema version is the
+   the {+realm+}'s current version or if the specified schema version is the
    same as the {+realm+}'s current version but includes different
    :ref:`object schemas <object-schema>`.
 
@@ -132,7 +132,7 @@ individually for each {+realm+} and either apply to a specific user or
 configure the default permission for all users that don't have
 permissions specified on the {+realm+}.
 
-{+realms+} are private by default, which means that the owner has full
+All {+realms+} are private by default, which means that the owner has full
 permissions and no other user has any permissions unless explicitly
 granted by the owner or a user with manage permissions on the {+realm+}.
 
@@ -195,7 +195,7 @@ each type of {+realm+} path:
        privileges and admin users have read-write-manage privileges.
        
        Public {+realm+} paths begin with a slash (``/``) followed by any
-       string that is not a {+realm+} user's ID or a tilde (``~``), such as
+       string that is not a {+service-short+} user's ID or a tilde (``~``), such as
        the following example:
        
        .. code-block:: text
@@ -210,7 +210,7 @@ each type of {+realm+} path:
        privileges, and admin users have read-write-manage permissions.
        
        Private {+realm+} paths begin with a slash (``/``) followed by a
-       specific {+realm+} user's ID, another slash, and then a string, such
+       specific {+service-short+} user's ID, another slash, and then a string, such
        as the following example:
        
        .. code-block:: text

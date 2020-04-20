@@ -16,17 +16,17 @@ Overview
 Many web applications built with modern frameworks, like React, Vue, and
 Angular, are single-page applications (SPAs) that dynamically handle
 routing and rendering client-side instead of fetching each rendered page
-from the server. You can use Realm to host your SPA and serve it to
+from the server. You can use {+service+} to host your SPA and serve it to
 clients.
 
-To host your app, you need to specify that it's a SPA in Realm. By
-default, Realm handles requests for a given resource by returning the
+To host your app, you need to specify that it's a SPA in {+service-short+}. By
+default, {+service-short+} handles requests for a given resource by returning the
 file hosted at the specified resource path or a 404 if no file matches
 the path. However, SPAs render in a single, specific HTML file so all
 requests should return that file regardless of the requested resource
 path.
 
-This guide covers how you can configure Realm Hosting to redirect all
+This guide covers how you can configure {+service-short+} Hosting to redirect all
 resource requests to a single file to support the SPA pattern.
 
 .. include:: /hosting/spa-404-note.rst
@@ -34,14 +34,14 @@ resource requests to a single file to support the SPA pattern.
 Procedure
 ---------
 
-.. tabs-stitch-interfaces::
+.. tabs-realm-admin-interfaces::
    
    .. tab::
-      :tabid: stitch-ui
+      :tabid: ui
       
       .. include:: /includes/steps/host-a-single-page-application-realm-ui.rst
    
    .. tab::
-      :tabid: import-export
+      :tabid: cli
       
       .. include:: /includes/steps/host-a-single-page-application-code-deploy.rst

@@ -16,24 +16,23 @@ Overview
 --------
 
 You can, of course, easily read back the data that you have
-:ref:`stored <realm-database-writes>` in :term:`Realm
-Database`. The standard data access pattern across Realm
+:ref:`stored <realm-database-writes>` in :term:`{+client-database+}`.
+The standard data access pattern across {+service+}
 SDKs is to find, filter, and sort objects, in that order. To
-get the best performance from Realm as your app grows and
+get the best performance from {+service+} as your app grows and
 your queries become more complex, design your app's data
-access patterns around a solid understanding of Realm
-Database's :ref:`read characteristics
-<realm-read-characteristics>`.
+access patterns around a solid understanding of {+client-database+}
+:ref:`read characteristics <realm-read-characteristics>`.
 
 .. _read-from-realm:
 
 Read from Realm Database
 ------------------------
 
-A read from a :term:`Realm` generally consists of the following
+A read from a :term:`{+realm+}` generally consists of the following
 steps:
 
-- Get all :ref:`objects <realm-objects>` of a certain type from the Realm.
+- Get all :ref:`objects <realm-objects>` of a certain type from the {+realm+}.
 - Optionally, :ref:`filter <filter-results>` the results using the :doc:`query engine </crud/query-engine>`.
 - Optionally, :ref:`sort <sort-results>` the results.
 
@@ -46,7 +45,7 @@ results of the associated query.
    :class: note
 
    The examples on this page use the data model of a project
-   management app that has two Realm object types: ``Project``
+   management app that has two {+service-short+} object types: ``Project``
    and ``Task``. A ``Project`` has zero or more ``Tasks``.
 
    See the schema for these two classes, ``Project`` and
@@ -60,7 +59,7 @@ Get All Objects
 ~~~~~~~~~~~~~~~
 
 The first step of any read is to **get all objects** of a
-certain type in a Realm. With this results collection, you
+certain type in a {+realm+}. With this results collection, you
 can operate on all instances on a type or filter and sort to
 refine the results.
 
@@ -77,7 +76,7 @@ Filter Results
 ~~~~~~~~~~~~~~
 
 A **filter** selects a subset of results based on the
-value(s) of one or more object properties. Realm Database provides a
+value(s) of one or more object properties. {+client-database+} provides a
 full-featured :doc:`query engine </crud/query-engine>` you
 can use to define filters. The most common use case is to
 find objects where a certain property matches a certain
@@ -103,11 +102,11 @@ Sort Results
 ~~~~~~~~~~~~
 
 A **sort** operation allows you to configure the order in
-which Realm Database returns queried objects. You can sort based on
+which {+client-database+} returns queried objects. You can sort based on
 one or more properties of the objects in the results
 collection.
 
-Realm Database only guarantees a consistent order of results when the
+{+client-database+} only guarantees a consistent order of results when the
 results are sorted.
 
 .. example::
@@ -124,8 +123,8 @@ Read Characteristics
 --------------------
 
 When you design your app's data access patterns around the
-following three key characteristics of reads in Realm
-Database, you can be confident you are reading data as
+following three key characteristics of reads in {+client-database+},
+you can be confident you are reading data as
 efficiently as possible.
 
 .. _results-are-not-copies:
@@ -146,7 +145,7 @@ See also: :ref:`Collections are Live <live-collections>`.
 Results Are Lazy
 ~~~~~~~~~~~~~~~~
 
-Realm Database defers execution of a query until you access the
+{+client-database+} defers execution of a query until you access the
 results. You can chain several filter and sort operations
 without requiring extra work to process the intermediate
 state.
@@ -159,7 +158,7 @@ See also: :ref:`Results are Lazily Evaluated
 References Are Retained
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-One benefit of Realm Database's object model is that Realm Database
+One benefit of {+client-database+}'s object model is that {+client-database+}
 automatically retains all of an object's :doc:`relationships
 </data-model/relationships>` as direct references, so you
 can traverse your graph of relationships directly through
@@ -181,18 +180,18 @@ objects that are never accessed, but if you choose to only
 copy the foreign key, referenced object lookups can cause
 your application to slow down.
 
-Realm Database bypasses all of this using :term:`zero-copy`
-:term:`live objects`. :term:`Realm object` accessors point directly into
+{+client-database+} bypasses all of this using :term:`zero-copy`
+:term:`live objects`. :term:`{+service-short+} object` accessors point directly into
 database storage using memory mapping, so there is no distinction
-between the objects in Realm database and the results of your query in
+between the objects in {+client-database+} and the results of your query in
 application memory. Because of this, you can traverse direct references
-across an entire Realm from any query result.
+across an entire {+realm+} from any query result.
 
 
 Summary
 -------
 
-- To read from Realm Database, first get all objects of a certain type from the Realm, then filter using the query engine, then (optionally) sort the results.
+- To read from {+client-database+}, first get all objects of a certain type from the {+realm+}, then filter using the query engine, then (optionally) sort the results.
 - When you read, the results are not copies. Instead, through memory mapping, results point directly to the version on disk.
 - Queries are lazily-evaluated.
 

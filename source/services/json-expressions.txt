@@ -16,7 +16,7 @@ Overview
 --------
 
 A JSON expression is a dynamic EJSON document that you use to define
-service rules in MongoDB Realm. MongoDB Realm evaluates expressions to
+service rules in {+service+}. {+service-short+} evaluates expressions to
 boolean values and uses the result to determine whether or not to allow
 specific actions.
 
@@ -47,7 +47,7 @@ Expressions documents have the following general format:
 Evaluation
 ----------
 
-MongoDB Realm evaluates expressions by first replacing expansions with
+{+service+} evaluates expressions by first replacing expansions with
 their runtime values and then evaluating each field of the expanded
 expression document to a boolean expression. If all fields in an
 expression evaluate to ``true``, the expression also evaluates to
@@ -85,7 +85,7 @@ Embedded Expressions
 ~~~~~~~~~~~~~~~~~~~~
 
 You can embed multiple expression documents in the fields of another
-expression document to handle complex evaluation logic. MongoDB Realm
+expression document to handle complex evaluation logic. {+service+}
 evaluates expressions *depth-first*, i.e. it evaluates the most-deeply
 embedded documents first and works back to the root-level fields.
 

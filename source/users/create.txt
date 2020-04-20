@@ -20,7 +20,7 @@ created.  For the :doc:`Email/Password authentication provider
 account the first time they connect to your :term:`{+instance+}`.
 
 For testing and debugging with the Email/Password authentication
-provider, create new users from within the Realm admin console
+provider, create new users from within the {+service-short+} admin console
 by following the steps below:
 
 
@@ -83,7 +83,7 @@ users manually by following the below steps:
 #. Select the :guilabel:`Confirm User` option from the context menu that
    appears.
 
-#. If the operation succeeds, the banner at the top of the Realm
+#. If the operation succeeds, the banner at the top of the {+service-short+}
    admin console should display a confirmation message. The user's
    :guilabel:`User Status` changes from :guilabel:`Pending Confirmation`
    to :guilabel:`Pending User Login`.
@@ -100,7 +100,7 @@ A few circumstances can lead to incomplete Email/Password user
 confirmation workflows:
 
 - An email is caught by a spam filter, not delivered due to a bug, or
-  accidentally deleted by a prospective Realm user.
+  accidentally deleted by a prospective {+service-short+} user.
 
 - A custom confirmation function is unable to communicate with an
   unconfirmed user due to a bug or oversight.
@@ -124,7 +124,7 @@ There is no such specific method to re-run a custom confirmation
 function. Instead, {+service+} has a method to trigger a re-run of whatever
 the current Email/Password user confirmation workflow happens to be. You
 can manually re-run the currently selected user confirmation flow using
-the :doc:`Realm Admin API </admin/api/v3>` or via the {+ui+]:
+the :doc:`{+service-short+} Admin API </admin/api/v3>` or via the {+ui+]:
 
 To re-run the confirmation workflow for a user through the {+ui+}:
 
@@ -141,7 +141,7 @@ To re-run the confirmation workflow for a user through the {+ui+}:
 #. Select the :guilabel:`Run User Confirmation` button in the dialogue
    box that appears.
 
-#. If the operation succeeds, the banner at the top of the Realm
+#. If the operation succeeds, the banner at the top of the {+service-short+}
    admin console should display a confirmation message. The user's
    :guilabel:`User Status` changes from :guilabel:`Pending Confirmation`
    to :guilabel:`Pending User Login`. Once the user logs in, they will
