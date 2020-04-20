@@ -52,7 +52,7 @@ Approach 1: Use an Automatically Created Realm Object Model
 You can generate a Realm Schema if you already have data in MongoDB
 Atlas. Navigate through the MongoDB Realm UI to sample the data in your
 collection and automatically generate a schema. You can then edit that
-schema and once you are done editing, MongoDB Realm automatically
+schema, and once you finish editing, MongoDB Realm automatically
 translates it into a Realm Object Model for the language of your choice.
 
 Procedure
@@ -65,7 +65,7 @@ Approach 2: Create a Realm Schema From a Realm Object Model
 
 When you link a MongoDB Realm application to an atlas cluster, updating
 your Realm Object Model will automatically update your Realm Schema if
-:guilabel:`Development Mode` is turned on in the MongoDB Realm UI.
+:guilabel:`Development Mode` is on in the MongoDB Realm UI.
 Turning off :guilabel:`Development Mode` will generate a Realm Schema,
 based on your Realm Object Model, that your Atlas cluster uses. 
 
@@ -83,6 +83,6 @@ Procedure
 
 Summary
 -------
-- MongoDB Realm uses two different data models, a Realm Object Model for mobile and a Realm Schema for Atlas. Changes to one data model are reflected in the other data model. 
+- MongoDB Realm uses two different data models, a Realm Object Model for mobile and a Realm Schema for Atlas. Changes to one data model match the other data model. 
 - If you already have data in Atlas, MongoDB Realm creates a Realm Schema by sampling that data. That Realm Schema can be translated into a Realm Object Model to be used in your Realm mobile application code. 
-- If you do not have data in Atlas or are developing with a mobile-first approach, you can turn on :guilabel:`Development Mode` to allow for data model changes from a Realm mobile client. When you are done developing your Realm Object Model, :guilabel:`Development Mode` can be turned off and your Realm Schema will be auto-updated with your updated data model configuration. Atlas will begin using this updated data model configuration for data validation on your cluster immediately. 
+- If you do not have data in Atlas or are developing with a mobile-first approach, you can turn on :guilabel:`Development Mode` to allow for data model changes from a Realm mobile client. When you finish developing your Realm Object Model, you can turn off :guilabel:`Development Mode`, and your Realm Schema will be auto-updated with your updated data model configuration. Atlas will begin using this updated data model configuration for data validation on your cluster immediately. 

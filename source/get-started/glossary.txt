@@ -27,11 +27,20 @@ Glossary
 
    MongoDB document
       See the MongoDB Manual's :manual:`definition of document
-      </core/document/>`.
+      </core/document/>`. For :term:`Realm apps <Realm app>` that use
+      :term:`Realm sync`, every MongoDB document in the Realm
+      app's :term:`linked Atlas cluster <linked cluster>` corresponds to
+      a synced :term:`Realm object` in a client :term:`Realm`.
 
    partition key
-      A field within a :term:`MongoDB document` that determines which Realm
-      contains the corresponding Realm Object.
+      A field within a :term:`MongoDB document` whose
+      :term:`value <partition value>` determines which :term:`Realm`
+      contains the document's corresponding :term:`Realm object`.
+
+   partition value
+      A value of a :term:`Realm app`'s :term:`partition key` field.
+      Every unique partition value corresponds to a different
+      :term:`Realm` assignment.
 
    Realm
       A collection of :term:`Realm objects <Realm Object>` sharing the same
@@ -64,9 +73,13 @@ Glossary
    
    Realm object
       An object that you can store in a :term:`Realm`, defined by a
-      :term:`Realm Schema` through either any Realm SDK or the
-      Realm Schema editor on the MongoDB Realm admin site. Object schemas
+      :term:`Realm Object Model` through either any Realm SDK or the
+      Realm Schema editor on the MongoDB Realm admin site. Realm Object Models
       can define primitive fields as well as embedded lists and relations.
+      For :term:`Realm apps <Realm app>` that use :term:`Realm sync`,
+      every Realm object in a client Realm corresponds to a synced
+      :term:`MongoDB document` in the Realm app's
+      :term:`linked Atlas cluster <linked cluster>`.
 
    GraphQL
       Open-source data query and manipulation language for APIs. Realm
@@ -81,11 +94,6 @@ Glossary
       reorganizes internal data structures to reduce the storage
       overhead of your local Realm instance in the event of
       fragmentation.
-
-   Realm Schema
-      Definition of all :term:`Realm objects <Realm object>` that you
-      can read or write into a client :term:`Realm instance` or linked
-      :term:`MongoDB Atlas` cluster.
 
    Schema Validation
       Rules for an instance of MongoDB that specify the form of documents
@@ -174,9 +182,10 @@ Glossary
       function.
 
    authentication trigger
-      Call a :term:`Realm function` whenever a user interacts with
-      an authentication provider, such as whenever a user logs into your
-      :term:`Realm app`. Passes an authentication event describing the
+      Call a :term:`Realm function` whenever a user
+      interacts with an :term:`authentication provider`,
+      such as whenever a user logs into your :term:`Realm
+      app`. Passes an authentication event describing the
       user and interaction to the linked function.
 
    scheduled trigger
@@ -188,9 +197,25 @@ Glossary
       your :term:`Realm app`. You can define data schemas and access
       rules to control who can access what in any linked cluster.
       :term:`Realm Database` data is automatically synchronized with
-      your linked cluster when :term:`Realm sync` is enabled. Access
-      data in your linked cluster from a :term:`Realm client` using
-      Realm Database or the MongoDB Atlas service.
+      your linked cluster when :term:`Realm sync` is enabled, which
+      makes that linked cluster a :term:`synced cluster`. Access
+      data in your synced cluster from a :term:`Realm client` using
+      the MongoDB Atlas service in the Realm SDK.
+
+   synced cluster
+      A :term:`MongoDB Atlas` database cluster that is
+      :term:`partitioned <partitioning>` into
+      :term:`Realms <Realm>` and synchronizes data with client
+      :term:`Realm instances <Realm instance>` via your
+      :term:`Realm app`. Access data in your synced cluster from a
+      :term:`Realm client` using Realm Database via the Realm SDK.
+
+   partitioning
+      A process that maps :term:`MongoDB documents <MongoDB document>`
+      in a :term:`synced Atlas cluster <synced cluster>` into
+      :term:`Realm objects <Realm object>` in client
+      :term:`Realms <Realm>`. See the :ref:`partitioning` documentation
+      for details.
 
    system function
       A :term:`Realm function` that runs as the :term:`system user`.
@@ -229,10 +254,12 @@ Glossary
       for a given user for a particular resource.
 
    Realm secret
-      A private value stored in :term:`MongoDB Realm` that cannot be
-      directly read, but can be assigned to variables. Realm secrets are
-      automatically obscured from MongoDB Realm logs, and are typically
-      used in authentication provider and service configurations.
+      A private value stored in :term:`MongoDB Realm` that
+      cannot be directly read, but can be assigned to
+      variables. Realm secrets are automatically obscured
+      from MongoDB Realm logs, and are typically used in
+      :term:`authentication provider` and service
+      configurations.
 
    Realm UI
       A web interface from which you can manage any
@@ -247,6 +274,13 @@ Glossary
       :term:`Realm database`. MongoDB Realm resolves conflicts between
       changes consistently between clients so all connected clients
       eventually arrive at the same state.
+
+   Realm sync protocol
+      Procedure used by :term:`Realm Database` when :term:`Realm sync`
+      is enabled to update local data to reflect remote data changes and
+      push local changes to :term:`MongoDB Realm`. This protocol merges
+      changes and resolves conflicts between those changes consistently
+      across all synced instances of a :term:`Realm`.
 
    Realm CLI
       A command line interface named ``realm-cli`` from which you
@@ -271,3 +305,26 @@ Glossary
       Realm evaluates to determine whether a user may sync a
       given |realm|. See :ref:`Define Sync Rules
       <sync-rules>`.
+
+   authentication provider
+      An integration of a specific authentication mechanism
+      into MongoDB Realm's user authentication system. Realm
+      provides several authentication providers -- such as
+      :ref:`email/password <email-password-authentication>`
+      authentication, :ref:`Google authentication
+      <google-authentication>`, and :ref:`custom JWT
+      authentication <custom-jwt-authentication>` -- that
+      you can use in your client application to allow users
+      to log in.
+   Realm Object Model
+      A representation of all :term:`Realm objects <Realm object>` used
+      by the Realm Client SDKs to standardize fields (and their
+      respective data types) and database relationships.
+   MongoDB Realm Schema
+      A JSON Object representation of the structure of documents and
+      embedded documents in a collection of a MongoDB Cluster.
+   Realm Data Models
+      The structure of :term:`Realm objects` synchronized via
+      :term:`Realm Sync` between mobile :term:`Realm clients` using the
+      :term:`Realm Object Models` and a backend :term:`Realm app` using
+      :term:`Realm Schema`.
