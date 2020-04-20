@@ -52,7 +52,7 @@ Service Configuration
    
    * - | ``id``
        | String
-     - A string that uniquely identifies the service. Realm
+     - A string that uniquely identifies the service. {+service-short+}
        automatically generates a unique ID for a service when you create
        it.
    
@@ -120,7 +120,7 @@ Each rule maps to its own JSON file with the same name as the rule.
    
    * - | ``id``
        | String
-     - A string that uniquely identifies the rule. Realm automatically
+     - A string that uniquely identifies the rule. {+service-short+} automatically
        generates a unique ID for a rule when you create it.
    
    * - | ``name``
@@ -167,7 +167,7 @@ name as the collection namespace.
 
    * - | ``id``
        | String
-     - A string that uniquely identifies the trigger. Realm
+     - A string that uniquely identifies the trigger. {+service-short+}
        automatically generates a unique ID for a trigger when you create
        it.
 
@@ -249,7 +249,7 @@ Configuration
    
    * - | ``id``
        | String
-     - A value that uniquely identifies the function. Realm
+     - A value that uniquely identifies the function. {+service-short+}
        automatically generates a unique ID for a function when you
        create it.
    
@@ -271,7 +271,7 @@ Configuration
    
    * - | ``disable_arg_logs``
        | Boolean
-     - If ``true``, Realm omits the arguments provided to a function
+     - If ``true``, {+service-short+} omits the arguments provided to a function
        from the :doc:`function execution log entry </logs/function>`.
    
    * - | ``run_as_system``
@@ -282,20 +282,20 @@ Configuration
    
    * - | ``run_as_user_id``
        | String
-     - The unique ID of a :doc:`Realm User </authentication>` that the
+     - The unique ID of a :doc:`{+service-short+} User </authentication>` that the
        function always executes as. Cannot be used with
        ``run_as_user_id_script_source``.
    
    * - | ``run_as_user_id_script_source``
        | String
      - A stringified :doc:`function </functions>` that runs whenever the
-       webhook is called and returns the unique ID of a :doc:`Realm
+       webhook is called and returns the unique ID of a :doc:`{+service-short+}
        User </authentication>` that the function executes as. Cannot be used with
        ``run_as_user_id``.
    
    * - | ``respond_result``
        | Boolean
-     - If ``true``, Realm includes the webhook function return value as
+     - If ``true``, {+service-short+} includes the webhook function return value as
        the body of the HTTP response it sends to the client that
        initiated the webhook request.
    

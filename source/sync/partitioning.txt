@@ -42,7 +42,7 @@ Partition Keys
 {+service+} uses :term:`partition keys <partition key>` to map
 :term:`MongoDB documents <MongoDB document>` in a
 :term:`synced {+atlas+} cluster <synced cluster>` into
-:term:`Realm objects <Realm object>` in :term:`{+realms+} <{+realm+}>`.
+:term:`{+service-short+} objects <{+service-short+} object>` in :term:`{+realms+} <{+realm+}>`.
 {+service+} uses a special field called a partition key to determine the
 {+realm+} membership of MongoDB documents. Your partition key should exist
 in every document that your application needs to synchronize between
@@ -58,7 +58,7 @@ only require a per-user permission scheme, but many require permissions
 based on collections of users. Generally, a few guidelines exist to
 choose partition keys:
 
-- Realm clients should never modify the partition value directly. Any
+- {+service-short+} clients should never modify the partition value directly. Any
   field that clients can modify cannot be used as a partition
   key.
 
@@ -69,7 +69,7 @@ choose partition keys:
 
 - Partition keys use the same field name in every synced document. Pick
   a field name that is unlikely to collide with an another field name
-  in any Realm object's model. You can begin the field name with an
+  in any {+service-short+} object's model. You can begin the field name with an
   underscore, (e.g. ``_partitionKey``) to decrease the likelihood of
   collisions and indicate the importance of the field in the Object Model
   itself.
@@ -123,20 +123,20 @@ Most applications access data in similar ways. A few common patterns,
 applied individually or in combination, cover a vast majority of
 permissioning use cases:
 
-- **User Realms**: If your application stores data privately for each
+- **User {+service-short+}s**: If your application stores data privately for each
   individual user, you could create an ``owner_id`` field containing a
   specific user ID for every document. Selecting the ``owner_id``
   field as your partition key would partition your database into {+realms+}
   corresponding to individual users.
      
-- **Team Realms**: If your application shares resources across teams,
+- **Team {+service-short+}s**: If your application shares resources across teams,
   you could create a ``teams`` collection that maps user IDs to team
   IDs. You could then create a ``team_id`` field containing a specific
   team ID for every document you want to sync. Selecting the ``team_id``
   field as your partition key would partition your database into {+realms+}
   containing data for entire teams.
 
-- **Public Realms**: It's often helpful to store read-only data viewable
+- **Public {+service-short+}s**: It's often helpful to store read-only data viewable
   to all users; for this kind of use case, you can define a special
   partition value in your permissions, such as ``PUBLIC``, that all
   users sync with read permissions only.
@@ -214,8 +214,8 @@ Partition keys and values are subject to certain limitations:
 
 - If you change a partition value in {+atlas-short+}, {+backend+} interprets
   the change as a delete, then an insert. First, {+backend+} deletes
-  the corresponding :term:`Realm object` from the object's original
-  {+realm+}. Next, {+backend+} inserts a new Realm object containing the
+  the corresponding :term:`{+service-short+} object` from the object's original
+  {+realm+}. Next, {+backend+} inserts a new {+service-short+} object containing the
   same data into the object's new {+realm+}. 
   
   .. warning::
@@ -223,7 +223,7 @@ Partition keys and values are subject to certain limitations:
      Changing a partition value in {+atlas-short+} will lose any un-synced client
      updates to the object.
 
-- Changing a partition value in a Realm object using the Realm SDK
+- Changing a partition value in a {+service-short+} object using the {+service-short+} SDK
   will throw an error and trigger a :ref:`client reset <client-reset>`.
 
 .. _partition-key-examples:
@@ -281,7 +281,7 @@ and it makes it easy for users to sync a limited number of {+realms+}:
 - Users sync to two {+realms+}: the {+realm+} for the partition value
   corresponding to their user ID, and the {+realm+} for the ``PUBLIC``
   partition value. This minimizes data synced over the network to
-  only the data relevant for each Realm user.
+  only the data relevant for each {+service-short+} user.
 
 Partitioning this data by ``owner_id`` results in the following
 {+realms+}:
@@ -387,7 +387,7 @@ separate entity metadata collection.
 
 It makes sense to partition data in this way because it separates
 data into groups of documents with the same permissions.
-Additionally, clients only sync a small number of relevant Realms for
+Additionally, clients only sync a small number of relevant {+realms+} for
 each use case:
 
 - A mobile client assigned to a delivery truck has read and write

@@ -16,7 +16,7 @@ Overview
 GitHub is a web-based development platform for hosting and reviewing
 Git repositories.
 
-The Realm GitHub service allows your application to react to events in
+The {+service+} GitHub service allows your application to react to events in
 a GitHub repository, such as new pull requests or issues.
 
 .. _github-service-configuration:
@@ -135,7 +135,7 @@ Configuration
 
           | *respond_result*
 
-     - Required. If ``true``, Realm sends the return value of the
+     - Required. If ``true``, {+service-short+} sends the return value of the
        webhook function to GitHub in the response body.
 
    * - :guilabel:`Run Webhook As`
@@ -146,7 +146,7 @@ Configuration
           | *run_as_user_id*
           | *run_as_user_id_script_source*
 
-     - Optional. The id of the :doc:`Realm user </authentication>` that
+     - Optional. The id of the :doc:`{+service-short+} user </authentication>` that
        executes the webhook function when the webhook is called.
 
        .. tab-content:: tabs-realm-admin-interfaces
@@ -159,11 +159,11 @@ Configuration
 
           You can specify the user id directly in
           ``run_as_user_id`` or provide a stringified
-          :doc:`Realm function </functions>` that accepts
+          :doc:`{+function+} </functions>` that accepts
           the webhook payload and returns the user id in
           ``run_as_user_id_script_source``. If you do not
           specify a specific user id or a function that
-          resolves to a user id, Realm executes the webhook
+          resolves to a user id, {+service-short+} executes the webhook
           function as the :ref:`system user <system-user>`,
           which has full access to MongoDB CRUD and
           Aggregation APIs and is not affected by any rules,
@@ -186,7 +186,7 @@ Configuration
 Request Payload
 ~~~~~~~~~~~~~~~
 
-Realm automatically passes a ``payload`` document as the first argument
+{+service-short+} automatically passes a ``payload`` document as the first argument
 to incoming webhook functions. In a GitHub Service incoming webhook the
 ``payload`` object represents the GitHub event that caused GitHub to
 call the webhook.

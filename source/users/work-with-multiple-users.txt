@@ -13,7 +13,7 @@ Work with Multiple Users
 Overview
 --------
 
-Multiple :ref:`users <user-accounts>` can log in to a :term:`Realm client`
+Multiple :ref:`users <user-accounts>` can log in to a :term:`{+service-short+} client`
 simultaneously. You can set the app's :ref:`active user <active-user>`
 to be any authenticated user at any time, which lets you
 quickly switch between users without requiring them to log in again.
@@ -22,9 +22,9 @@ This is particularly useful when multiple users share a single device.
 User Account States
 ~~~~~~~~~~~~~~~~~~~
 
-When a user first logs in to a Realm client on a given device, the
+When a user first logs in to a {+service-short+} client on a given device, the
 SDK saves the user's information to the device. An on-device user may or
-may not be logged in. Realm clients run in the context of
+may not be logged in. {+service-short+} clients run in the context of
 a single user even if multiple users are logged in simultaneously.
 
 The following states describe an on-device user at any given time:
@@ -42,7 +42,7 @@ The following states describe an on-device user at any given time:
 - **Logged Out:** any user that authenticated on the client device but
   has since logged out or had its session revoked.
 
-The following diagram shows how users within a Realm client transition
+The following diagram shows how users within a {+service-short+} client transition
 between states when different events occur:
 
 .. figure:: /images/multi-user.png
@@ -141,7 +141,7 @@ List All On-Device Users
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
 You can access a list of all :ref:`user accounts <user-accounts>` that
-have logged in to a Realm client on a given device regardless of
+have logged in to a {+service-short+} client on a given device regardless of
 whether they are currently authenticated.
 
 .. tabs-realm-sdks::
@@ -193,7 +193,7 @@ whether they are currently authenticated.
 Switch the Active User
 ~~~~~~~~~~~~~~~~~~~~~~
 
-You can switch a Realm client's :ref:`active user <active-user>`
+You can switch a {+service-short+} client's :ref:`active user <active-user>`
 to any authenticated user by specifying their User ID.
 
 .. tabs-realm-sdks::

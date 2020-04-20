@@ -79,7 +79,7 @@ Configuration
               | Array<String>
             - An array of URLs that incoming requests may originate
               from. If you define any allowed request origins, then
-              Realm blocks any incoming request from an origin that is
+              {+service-short+} blocks any incoming request from an origin that is
               not listed.
               
               Request origins are URLs with the following form:
@@ -124,7 +124,7 @@ Configuration
           * - | ``app_default_domain``
               | String
             - The default domain for your application's hosted files.
-              Realm automatically sets this value and you cannot change
+              {+service-short+} automatically sets this value and you cannot change
               it.
    
    * - | ``config_version``
