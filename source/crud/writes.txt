@@ -43,7 +43,7 @@ When you are done with your transaction, {+client-database+} either
 **commits** it or **cancels** it:
 
 - When {+client-database+} **commits** a transaction, {+client-database+} writes
-  all changes to disk. For :term:`synced {+realms+} <{+sync+]>`, {+client-database+} queues the change
+  all changes to disk. For :term:`synced {+realms+} <{+sync+}>`, {+client-database+} queues the change
   for synchronization with :term:`{+service+}`.
 - When {+client-database+} **cancels** a write transaction or an operation in
   the transaction causes an error, all changes are discarded
@@ -54,13 +54,13 @@ When you are done with your transaction, {+client-database+} either
 Realm is ACID Compliant
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-{+client-database+] guarantees that transactions are :term:`ACID`
+{+client-database+} guarantees that transactions are :term:`ACID`
 compliant. This means that all committed write
 operations are guaranteed to be valid and that clients don't
 see transient states in the event of a system crash.
 
 - {+client-database+} establishes :wikipedia:`atomicity <Atomicity_(database_systems)>` by grouping operations in transactions and rolling back all operations in a transaction if any of them fail.
-- {+client-database+} establishes :wikipedia:`consistency <Consistency_(database_systems)>` and avoids data corruption by validating changes against the schema. If the result of any write operation is not valid, {+client-database+] cancels and rolls back the entire transaction.
+- {+client-database+} establishes :wikipedia:`consistency <Consistency_(database_systems)>` and avoids data corruption by validating changes against the schema. If the result of any write operation is not valid, {+client-database+} cancels and rolls back the entire transaction.
 - {+client-database+} establishes :wikipedia:`isolation <Isolation_(database_systems)>` by allowing only one writer at a time. This ensures thread safety between transactions.
 - Finally, {+client-database+} establishes :wikipedia:`durability <Durability_(database_systems)>` by writing to disk immediately when a transaction is committed. In the event of an app crash, for example, the changes are not lost or corrupted.
 
@@ -109,11 +109,11 @@ In general, instantiate :doc:`{+service-short+} objects
 transaction, you can add the object to the {+realm+} if the
 {+realm+}'s :ref:`schema <realm-schema>` includes the object
 type. When you add an instance to the {+realm+}, it becomes
-*managed* by that {+realm+].
+*managed* by that {+realm+}.
 
-With the Java and JavaScript SDKs, instead use the Realm's
+With the Java and JavaScript SDKs, instead use the {+realm+}'s
 factory method in a transaction to instantiate your class.
-This automatically inserts the instance into the Realm.
+This automatically inserts the instance into the {+realm+}.
 
 .. example::
 

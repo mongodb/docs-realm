@@ -1,7 +1,7 @@
 title: Create a New Custom Resolver
 ref: create-a-new-custom-resolver
 content: |
-  In the Realm UI, click :guilabel:`GraphQL` in the navigation sidebar
+  In the {+ui+}, click :guilabel:`GraphQL` in the navigation sidebar
   and then select the :guilabel:`Custom Resolvers` tab.
   
   Click the :guilabel:`Add a Custom Resolver` button to open the
@@ -9,7 +9,7 @@ content: |
   
   .. cssclass:: bordered-figure
   .. figure:: /images/graphql-add-a-custom-resolver.png
-     :alt: The custom resolvers screen in the Realm UI
+     :alt: The custom resolvers screen in the {+ui+}
      :width: 750px
 ---
 title: Define the Resolver Name and Type
@@ -50,7 +50,7 @@ content: |
   
   .. example::
   
-     Realm uses the input and payload type JSON schemas to define
+     {+service+} uses the input and payload type JSON schemas to define
      GraphQL types for your resolver. For example, the following JSON
      schema and GraphQL type are equivalent:
      
@@ -96,10 +96,10 @@ content: |
 title: Define the Resolver Function
 ref: define-the-resolver-function
 content: |
-  When a user calls a custom query or mutation, Realm executes the
+  When a user calls a custom query or mutation, {+backend+} executes the
   resolver function and returns the result, which must conform to the
   :guilabel:`Payload Type` if you defined it. If you defined an
-  :guilabel:`Input Type`, Realm passes the provided ``input`` argument
+  :guilabel:`Input Type`, {+backend+} passes the provided ``input`` argument
   to the resolver function.
   
   To configure the resolver function, click the :guilabel:`Function`

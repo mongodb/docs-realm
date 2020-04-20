@@ -5,7 +5,7 @@ directive: option
 description: |
   | **Optional.**
 
-  The Application ID of your MongoDB Realm application.
+  The Application ID of your {+instance+}.
 ---
 program: realm-cli import
 name: app-id
@@ -24,7 +24,7 @@ post: |
   .. admonition:: New Application App IDs
      :class: note
   
-     If you create a new application with ``realm-cli``, Realm
+     If you create a new application with ``realm-cli``, {+service+}
      generates a new App ID and ignores any value that you specify for
      the ``--app-id`` flag.
 ---
@@ -97,7 +97,7 @@ optional: true
 description: |
   | **Optional.**
 
-  The path of the directory where Realm will export your application.
+  The path of the directory where {+service-short+} will export your application.
 
   If specified, ``realm-cli`` creates a directory at the given path
   and exports the application configuration into the new directory. If a
@@ -144,7 +144,7 @@ description: |
   | **Optional.**
 
   The :guilabel:`Project ID` of the :ref:`Atlas project <projects>` on
-  which you want to host a newly created Realm application. If
+  which you want to host a newly created {+instance+}. If
   specified, ``realm-cli`` will not prompt you to select a project when
   creating a new app.
 
@@ -210,7 +210,7 @@ description: |
   | **Optional.**
 
   If specified, uploads and deploys any static assets in the
-  ``/hosting/files`` directory of your Realm application.
+  ``/hosting/files`` directory of your {+instance+}.
 ---
 program: realm-cli import
 name: include-dependencies
@@ -221,7 +221,7 @@ description: |
 
   If specified, uploads and deploys any external dependencies included
   in a ``node_modules`` archive in the ``/functions`` directory of your
-  Realm application.
+  {+instance+}.
 ---
 program: realm-cli export
 name: include-hosting
@@ -231,7 +231,7 @@ description: |
   | **Optional.**
 
   If specified, exports all hosted static assets in the
-  ``hosting/files`` directory of your Realm application.
+  ``hosting/files`` directory of your {+instance+}.
 ---
 program: realm-cli diff
 name: include-hosting
@@ -241,7 +241,7 @@ description: |
   | **Optional.**
 
   If specified, the diff includes a list of files in the
-  ``hosting/files`` directory of your Realm application that are
+  ``hosting/files`` directory of your {+instance+} that are
   different from your app's deployed files.
 ---
 program: realm-cli secrets add
@@ -273,7 +273,7 @@ args: <Secret Name>
 directive: option
 optional: false
 description: |
-  The name of the Secret to remove from your application.
+  The name of the Secret to remove from your {+instance+}.
 ---
 program: realm-cli secrets remove
 name: secret-id
@@ -287,7 +287,7 @@ args: <Secret ID>
 directive: option
 optional: false
 description: |
-  The ID value of the Secret to remove from your application.
+  The ID value of the Secret to remove from your {+instance+}.
 ---
 program: realm-cli secrets update
 name: secret-name

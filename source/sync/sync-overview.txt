@@ -16,7 +16,7 @@ Overview
 --------
 
 {+sync+} enables you to share data between
-:term:`Realm clients <Realm client>` and a
+:term:`{+service-short+} clients <{+service-short+} client>` and a
 :term:`synced {+atlas+} cluster <synced cluster>`.
 {+sync+} handles data serialization,
 network recovery, and conflict resolution automatically.
@@ -66,9 +66,9 @@ Think Offline-first
 
 {+sync+} is built on the assumption that connectivity will
 drop. We call this mentality **offline-first**. After you
-make changes to the local {+realm+} on the client device, the Realm
+make changes to the local {+realm+} on the client device, the {+service-short+}
 SDK automatically sends the changes to the server as soon
-as possible. Likewise, the Realm SDK automatically receives
+as possible. Likewise, the {+service-short+} SDK automatically receives
 changes from the server and integrates those changes into
 the local {+realm+}. In effect, you continue to work with the
 local {+realm+} without moment-to-moment concern for network
@@ -90,7 +90,7 @@ Live Objects Across Devices:
   react to local and remote changes.
 
 It's Automatic:
-  {+sync+} is built into the Realm SDK. You do not need to write
+  {+sync+} is built into the {+service-short+} SDK. You do not need to write
   your own synchronization protocol and deal with connectivity
   issues when synchronizing data. The :term:`{+sync-protocol+}` is
   the same across platforms. {+service+} handles passing the
@@ -105,14 +105,14 @@ are made locally and remotely, they must share those changes
 when those client devices come back online.
 To make matters more complicated, every client device must
 arrive at the same state when all changes have been synced.
-This is why Realm sync includes **automatic conflict resolution**.
+This is why {+sync+} includes **automatic conflict resolution**.
 
 .. _conflict-resolution:
 
 Resolving Conflicts
 -------------------
 
-Realm's :term:`sync conflict resolution engine <{+sync-protocol+}>` is
+{+service+}'s :term:`sync conflict resolution engine <{+sync-protocol+}>` is
 deterministic. Changes received out-of-order eventually converge on the
 same state across the server and all clients. As such, {+sync+}
 is :wikipedia:`strongly eventually consistent

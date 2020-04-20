@@ -9,7 +9,7 @@
               ├── config.json
               └── source.js
 
-Realm functions are defined in a sub-directory of your application's
+{+functions+} are defined in a sub-directory of your application's
 ``/functions`` directory. Each function maps to its own subdirectory
 with the same name as the function.
 
@@ -64,7 +64,7 @@ Configuration
    
    * - | ``disable_arg_logs``
        | Boolean
-     - If ``true``, Realm omits the arguments provided to a function
+     - If ``true``, {+service-short+} omits the arguments provided to a function
        from the :doc:`function execution log entry </logs/function>`.
    
    * - | ``run_as_system``
@@ -75,14 +75,14 @@ Configuration
    
    * - | ``run_as_user_id``
        | String
-     - The unique ID of a :doc:`Realm User </authentication>` that the
+     - The unique ID of a :doc:`{+service-short+} User </authentication>` that the
        function always executes as. Cannot be used with
        ``run_as_user_id_script_source``.
    
    * - | ``run_as_user_id_script_source``
        | String
      - A stringified :doc:`function </functions>` that runs whenever the
-       function is called and returns the unique ID of a :doc:`Realm
+       function is called and returns the unique ID of a :doc:`{+service-short+}
        User </authentication>` that the function executes as. Cannot be used with
        ``run_as_user_id``.
 

@@ -30,7 +30,7 @@
 
           * - "server"
             - The user is a server process logged in with any type of
-              :doc:`Realm API Key </authentication/api-key>`.
+              :doc:`{+service-short+} API Key </authentication/api-key>`.
 
           * - "system"
             - The user is the :ref:`system user <system-user>` that
@@ -59,7 +59,7 @@
        data collection </users/define-custom-user-data>` that
        specifies the user's ID. You can use the customer user data
        collection to store arbitrary data about your application's
-       users. Realm automatically fetches a new copy of the data
+       users. {+service-short+} automatically fetches a new copy of the data
        whenever a user refreshes their access token, such as when they
        log in. The underlying data is a regular MongoDB document, so you
        can use standard CRUD operations through the :doc:`MongoDB Atlas
@@ -81,10 +81,10 @@
    * - ``identities``
      - array
      - A list of authentication provider identities associated with the
-       user. When a user first logs in with a specific provider, Realm
+       user. When a user first logs in with a specific provider, {+service-short+}
        associates the user with an identity object that contains a
        unique identifier and additional metadata about the user from the
-       provider. For subsequent logins, Realm refreshes the existing
+       provider. For subsequent logins, {+service-short+} refreshes the existing
        identity data but does not create a new identity. Identity
        objects have the following form:
 

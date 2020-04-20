@@ -14,12 +14,12 @@ Overview
 ========
 
 The following examples demonstrate how to read and write
-data with :term:`Realm Database`.
+data with :term:`{+client-database+}`.
 
 Realm Objects Used on This Page
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The following :term:`Realm object` types are used in the examples on
+The following :term:`{+service-short+} object` types are used in the examples on
 this page:
 
 .. include:: /examples/Schemas/DogSchema.rst
@@ -36,9 +36,9 @@ Create
 Create an Object
 ~~~~~~~~~~~~~~~~
 
-To :ref:`create an object <create-an-object>` in Realm, open
+To :ref:`create an object <create-an-object>` in {+service-short+}, open
 a transaction and either add an existing instance to the
-realm or use the realm's factory function to create an
+{+realm+} or use the {+realm+}'s factory function to create an
 instance.
 
 .. include:: /examples/CRUD/Create.rst
@@ -51,7 +51,7 @@ Read
 Get All Objects
 ~~~~~~~~~~~~~~~
 
-To begin a query, access all objects of a given :doc:`Realm
+To begin a query, access all objects of a given :doc:`{+service-short+}
 object type </data-model/objects>`. You do not need to open
 a transaction to read.
 
@@ -60,7 +60,7 @@ a transaction to read.
 Filter Results
 ~~~~~~~~~~~~~~
 
-You can filter results using Realm's :doc:`query engine
+You can filter results using {+client-database+}'s :doc:`query engine
 </crud/query-engine>`. Here are a few examples:
 
 .. include:: /examples/Query/Comparison.rst
@@ -80,8 +80,8 @@ Upsert an Object
 
 You can :ref:`upsert <upsert>` objects with a
 :ref:`primary key <primary-key>`. To upsert is to update an
-object if it already exists in the realm and insert the
-object if it does not already exist in the realm.
+object if it already exists in the {+realm+} and insert the
+object if it does not already exist in the {+realm+}.
 
 .. include:: /examples/CRUD/Upsert.rst
 

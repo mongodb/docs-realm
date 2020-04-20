@@ -4,7 +4,7 @@
    :widths: 1 4
 
    * - Region
-     - Realm Authentication Callback URL
+     - {+service-short+} Authentication Callback URL
 
    * - | **Global**
      - .. code-block:: text

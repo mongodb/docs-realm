@@ -17,8 +17,8 @@ content: |
 
   You can :doc:`export your application
   </deploy/export-realm-app>` configuration from the
-  :guilabel:`Export` tab of the :guilabel:`Settings` page in the Realm
-  UI, or by running the following command from an authenticated instance
+  :guilabel:`Export` tab of the :guilabel:`Settings` page in the {+ui+},
+  or by running the following command from an authenticated instance
   of :doc:`realm-cli </deploy/realm-cli-reference>`:
 
   .. code-block:: shell
@@ -29,9 +29,9 @@ title: Host the HTML File in Realm
 ref: host-the-html-file-in-realm
 content: |
   Once you've created the custom HTML file, you need to :doc:`host it in
-  Realm </hosting/upload-content-to-realm>`.
+  {+service-short+} </hosting/upload-content-to-realm>`.
 
-  If you aren't already hosting the HTML file in Realm, add it to the
+  If you aren't already hosting the HTML file in {+service-short+}, add it to the
   :guilabel:`/hosting` subdirectory of the exported directory.
 ---
 title: Specify the 404 Page in the Application Configuration
@@ -61,5 +61,5 @@ content: |
 
      realm-cli import --include-hosting
 
-  After you have successfully imported the changes, Realm will begin
+  After you have successfully imported the changes, {+backend+} will begin
   serving your custom HTML instead of the default 404 page.

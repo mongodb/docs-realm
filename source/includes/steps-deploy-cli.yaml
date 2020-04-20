@@ -23,7 +23,7 @@ content: |
 title: Authenticate a MongoDB Atlas User
 ref: authenticate-atlas-user
 content: |
-  To import or update a Realm application with ``realm-cli``, users
+  To import or update a {+instance+} with ``realm-cli``, users
   must authenticate with Atlas using an API Key.
 
   .. code-block:: shell
@@ -43,13 +43,13 @@ content: |
   .. admonition:: Import Strategy
      :class: note
      
-     The ``--strategy`` flag indicates how you want Realm to handle
+     The ``--strategy`` flag indicates how you want {+service-short+} to handle
      configuration files that are missing or duplicated compared to the
      currently deployed version of your application. For more
      information, see :ref:`import strategies
      <realm-import-strategies>`.
 
-  If you want to :doc:`upload static assets to Realm Hosting
+  If you want to :doc:`upload static assets to {+service-short+} Hosting
   </hosting/upload-content-to-realm>`, include the static assets in the
   ``/hosting/files`` directory and specify the
   :option:`--include-hosting <realm-cli import --include-hosting>`
@@ -76,6 +76,6 @@ content: |
   the changes that will be made to your application. Review the diff to
   ensure that all changes are correct then confirm the import.
 
-  After successfully importing your application, Realm will
+  After successfully importing your application, {+service-short+} will
   automatically deploy a new version of your app and update your local
   application directory to match the new deployment.

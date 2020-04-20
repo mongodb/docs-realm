@@ -48,7 +48,7 @@ Configuration
    * - | ``id``
        | String
      - A value that uniquely identifies the authentication
-       provider. Realm automatically generates a unique ID for a
+       provider. {+service-short+} automatically generates a unique ID for a
        provider when you create it.
    
    * - | ``name``

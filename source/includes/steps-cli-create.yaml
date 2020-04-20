@@ -12,7 +12,7 @@ content: |
 
   .. note::
 
-     Upon successfully creating a new Realm application, ``realm-cli``
+     Upon successfully creating a new {+instance+}, ``realm-cli``
      will immediately update ``realm.json`` to reflect the new app.
 
      This overwrites any existing values in ``realm.json``.
@@ -39,7 +39,7 @@ content: |
 title: Authenticate a MongoDB Atlas User
 ref: authenticate-atlas-user
 content: |
-  To create a Realm application with ``realm-cli``, users must
+  To create a {+instance+} with ``realm-cli``, users must
   authenticate with Atlas using an API Key.
 
   .. code-block:: shell
@@ -58,7 +58,7 @@ content: |
   Before importing, ``realm-cli`` will search existing applications
   that the authenticated user has access to. If ``app_id`` was not
   provided or does not match any existing application, ``realm-cli``
-  will ask you if you'd like to create a new Realm application. After
+  will ask you if you'd like to create a new {+instance+}. After
   you confirm, ``realm-cli`` will prompt you for the following
   information:
 
@@ -72,7 +72,7 @@ content: |
      * - ``Atlas Project ID``
        - The :guilabel:`Project ID` or :guilabel:`Project Name` of the
          :ref:`Atlas project <projects>` that you want to host your
-         Realm application.
+         {+instance+}.
          You can find these values on the :guilabel:`Settings` page of
          the Atlas UI.
 
@@ -87,7 +87,7 @@ content: |
 title: Verify Application Creation
 ref: verify-app-creation
 content: |
-  You can confirm that your new application was successfully imported by
+  You can confirm that your new {+instance+} was successfully imported by
   checking ``realm.json``. If the creation was successful, the
   ``app_id`` and ``name`` fields will have updated values that reflect
   the new application.

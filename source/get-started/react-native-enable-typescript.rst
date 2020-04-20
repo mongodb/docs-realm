@@ -4,5 +4,5 @@ application-scale development more robust. If you'd like to
 use TypeScript in your project, follow the React Native
 team's official `TypeScript and React Native guide
 <https://facebook.github.io/react-native/docs/typescript#adding-typescript-to-an-existing-project>`__.
-Realm supports TypeScript natively and integrates easily
+{+service-short+} supports TypeScript natively and integrates easily
 into a TypeScript project.

@@ -84,7 +84,7 @@ which means that client applications that have not updated to the most
 recent version can still sync with clients that are using the most recent
 version.
 
-{+service+] handles synced migrations using the following framework:
+{+service+} handles synced migrations using the following framework:
 
 .. list-table::
    :header-rows: 1
@@ -119,7 +119,7 @@ version.
          fields, ``""`` for string properties, etc.).
 
    * - **Modifications**
-     - {+service+] prevents modifications to an existing property other
+     - {+service+} prevents modifications to an existing property other
        than delete operations. Modifications that synced {+realms+} do not
        support include:
        
@@ -137,6 +137,6 @@ Summary
   **local migrations**, i.e. migrations where the {+realm+} is not
   :doc:`synced </sync/sync-overview>` with {+backend+}.
 
-- {+service+] automatically handles **synced migration**, i.e. migrations
+- {+service+} automatically handles **synced migration**, i.e. migrations
   where the {+realm+} is synced. {+service+} does not allow migration
   functions for such migrations.
