@@ -38,18 +38,18 @@ schemas for the following common types:
 
 .. note::
 
-   You can automatically create GraphQL types or a Realm Data Model for
+   You can automatically create GraphQL types or a {+backend-schema+} for
    collections that have a defined document schema using the MongoDB
-   Realm UI. See the :doc:`GraphQL </graphql>` page or the :doc:`Realm
-   Data Models </get-started/define-realm-schema>` page to learn how.
+   {+ui+}. See the :doc:`GraphQL </graphql>` page or the :doc:`{+backend-schema+}
+   </get-started/define-realm-schema>` page to learn how.
 
 Schema Enforcement Process
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Realm evaluates the result of all document writes (inserts and updates)
+{+backend+} evaluates the result of all document writes (inserts and updates)
 and compares them against the schema before committing the writes to
 your cluster. If the result of a write operation does not match the
-schema, Realm will roll back the write operation and return an error to
+schema, {+backend+} will roll back the write operation and return an error to
 the user.
 
 .. example::
@@ -78,7 +78,7 @@ the user.
       )
 
    The query attempts to set the value of ``name`` to the number ``42``,
-   but the schema requires the value to be a ``string``. Realm will
+   but the schema requires the value to be a ``string``. {+backend+} will
    reject this write operation even though the user had permission to
    update the document because the write result does not conform to the
    schema.
@@ -90,7 +90,7 @@ Document Schema Configuration
 
 Documents in MongoDB are objects stored in a format called BSON,
 a binary-encoded superset of JSON that supports additional data types.
-The root of every document schema in Realm is a :ref:`BSON Object schema
+The root of every document schema in {+service-short+} is a :ref:`BSON Object schema
 <schema-type-objects>` that applies to each document in a collection.
 
 .. code-block:: json
@@ -230,7 +230,7 @@ For more information, see the official JSON Schema `object guide
      - An array of field names that must be included in the document.
 
    * - ``title``
-     - A type name for the object. Realm uses this value to name
+     - A type name for the object. {+service-short+} uses this value to name
        the document's type in the :doc:`GraphQL API </graphql>`.
 
    * - ``properties``

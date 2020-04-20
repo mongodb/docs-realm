@@ -18,11 +18,11 @@ Overview
 --------
 
 The Custom JWT authentication provider allows users to authenticate with
-an authentication system that is independent from Realm. The external
+an authentication system that is independent from {+service+}. The external
 system must return a signed :jwt-io:`JSON Web Token <introduction>` that
 contains a unique ID value for the authenticated user.
 
-Realm uses the :abbr:`JWT (JSON Web Token)` to identify your
+{+service-short+} uses the :abbr:`JWT (JSON Web Token)` to identify your
 application's users and authenticate their requests but does not impose
 any restrictions on the external authentication system's requirements or
 authentication methods. For example, the system could require the user
@@ -43,7 +43,7 @@ Configuration
    .. tab::
       :tabid: ui
 
-      You can enable the JWT authentication provider from the Realm UI
+      You can enable the JWT authentication provider from the {+ui+}
       by selecting :guilabel:`Custom JWT Authentication` from the
       :guilabel:`Users > Providers` page.
 
@@ -101,8 +101,8 @@ Audience
 ~~~~~~~~
 
 The :guilabel:`Audience` of a JWT specifies its intended recipient. JWTs
-describe their audience in the ``aud`` claim. By default, Realm expects
-``aud`` to contain the App ID of the Realm app for which the provider
+describe their audience in the ``aud`` claim. By default, {+service-short+} expects
+``aud`` to contain the App ID of the {+instance+} for which the provider
 is configured.
 
 If the external authentication system JWT specifies a different ``aud``
@@ -273,7 +273,7 @@ signing algorithm and keys.
 
           | *config.useJWKURI*
 
-     - If ``true``, configures Realm to use a signing algorithm and
+     - If ``true``, configures {+service-short+} to use a signing algorithm and
        signing keys defined in a :abbr:`JWK (JSON Web Key)` or
        :abbr:`JWKS (JSON Web Key Set)`. The JWKS must be accessible at a
        URL that you specify.
@@ -302,9 +302,9 @@ Metadata Fields
 ~~~~~~~~~~~~~~~
 
 :guilabel:`Metadata Fields` are additional data that describe each user.
-Realm determines the value of each metadata field from the value of
+{+service-short+} determines the value of each metadata field from the value of
 some field included in the JWT from the external authentication system.
-Realm refreshes a user's metadata whenever they log in and exposes the
+{+service-short+} refreshes a user's metadata whenever they log in and exposes the
 fields in the ``data`` object of the :doc:`user object </authentication>`.
 
 .. tabs-realm-admin-interfaces::
@@ -532,7 +532,7 @@ document of the following form:
 
      - Required. A string representing the hashing algorithm being used.
 
-       Realm supports JWTs encoded with the following algorithms:
+       {+service-short+} supports JWTs encoded with the following algorithms:
 
        .. list-table::
           :header-rows: 1
@@ -550,7 +550,7 @@ document of the following form:
 
    * - .. data:: typ
 
-     - Required. The type of the token. Realm expects a JSON web token
+     - Required. The type of the token. {+service-short+} expects a JSON web token
        so the value should be ``"JWT"``.
 
 .. _custom-jwt-authentication-usage-jwt-payload:
@@ -582,8 +582,8 @@ document of the following form:
    * - .. data:: aud
 
      - Required. The audience of the token.
-       By default, Realm expects this value to be the App ID of your
-       Realm application. If your external authentication service
+       By default, {+service-short+} expects this value to be the App ID of your
+       {+instance+}. If your external authentication service
        returns a different ``aud`` value, you should specify that value
        instead.
 
@@ -600,7 +600,7 @@ document of the following form:
 
        .. note::
 
-          Realm will not accept expired authentication tokens.
+          {+service-short+} will not accept expired authentication tokens.
 
    * - .. data:: iat
 
@@ -618,10 +618,10 @@ document of the following form:
 
 .. note::
 
-   Realm ignores any additional fields in the JWT payload
+   {+service-short+} ignores any additional fields in the JWT payload
    unless you have mapped them to metadata fields in the
    :ref:`provider configuration
-   <custom-jwt-authentication-configuration>`. Realm
+   <custom-jwt-authentication-configuration>`. {+service-short+}
    includes the values of mapped fields in the ``data``
    document of the authenticated user's :doc:`user object
    </authentication>`.
@@ -652,15 +652,15 @@ Summary
 -------
 
 - Custom JWT authentication allows you to identify your application's
-  users via a JSON Web Token issued outside of Realm.
-- Realm expects JWT audience values to be the App ID of the Realm app
+  users via a JSON Web Token issued outside of {+service-short+}.
+- {+service-short+} expects JWT audience values to be the App ID of the {+instance+}
   unless otherwise configured in the application.
-- Realm can verify JWTs using either
+- {+service-short+} can verify JWTs using either
   :ref:`manually specified keys and signing algorithms
   <custom-jwt-authentication-configuration-manually-signing-keys>` or a
   :ref:`JSON Web Key URI
   <custom-jwt-authentication-configuration-jwk-uri>`.
 - You can pass custom :ref:`user data
   <custom-jwt-authentication-configuration-metadata-fields>` in your JWT
-  that Realm refreshes whenever the user refreshes their token.
+  that {+service-short+} refreshes whenever the user refreshes their token.
 

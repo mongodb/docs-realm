@@ -18,13 +18,13 @@ Overview
 --------
 
 The Custom Function authentication provider allows you to use a
-:doc:`Realm Function </functions>` to implement your own user
+:doc:`{+function+} </functions>` to implement your own user
 authentication logic or flexibly integrate an external authentication
 system. You can use the Custom Function provider to integrate with any
 authentication system as long as the system maintains a unique ID value
 for each user.
 
-The **authentication function** is a :doc:`Realm function </functions>`
+The **authentication function** is a :doc:`{+function+} </functions>`
 that you define to handle authentication logic for users that log in
 with the Custom Function provider. You can use the function to
 coordinate with an external authentication system and/or use data that
@@ -33,8 +33,8 @@ you store in MongoDB to identify and authenticate users.
 .. admonition:: Validate and Authenticate Custom Function Users
    :class: important
 
-   Realm does not perform any data validation or authentication checks
-   for the Custom Function provider. Make sure that you validate
+   {+service-short+} does not perform any data validation or authentication
+   checks for the Custom Function provider. Make sure that you validate
    incoming data and that your authentication system performs
    appropriate authentication checks, such as requiring a password, two
    factor authentication, or a :wikipedia:`single sign-on
@@ -88,7 +88,7 @@ Summary
 -------
 
 - Custom Function authentication allows you to define your
-  authentication process in a Realm Function.
-- The Realm Function that you use for authentication should return a
+  authentication process in a {+function+}.
+- The {+function+} that you use for authentication should return a
   unique ID for each user based on the information passed from the
   client SDK.

@@ -1,12 +1,12 @@
 title: Find All Relevant Documents
 ref: find-all-relevant-documents
 content: |
-  Realm evaluates the queried collection's **Filters** in the context
+  {+backend+} evaluates the queried collection's **Filters** in the context
   of the incoming request. Filters dynamically add additional query
   predicates and projections to incoming queries based on an expression
   that you define.
   
-  After evaluating, Realm applies all relevant filters to the incoming
+  After evaluating, {+backend+} applies all relevant filters to the incoming
   query and then finds all documents that match the filtered query.
 
   .. admonition:: Query Filters
@@ -18,12 +18,12 @@ content: |
      To learn more about filters, explore the :doc:`Query Filters
      </mongodb/query-filters>` reference page. There you'll find more
      information, including configuration parameters and details on how
-     Realm applies filters.
+     {+backend+} applies filters.
 ---
 title: Evaluate A Role For Each Document
 ref: evaluate-a-role-for-each-document
 content: |
-  Realm evaluates a **Query Role** with specific read and write
+  {+backend+} evaluates a **Query Role** with specific read and write
   permissions for each document that matches the filtered query. You
   define the roles for each collection, including the permissions they
   have and the conditions under which they apply.
@@ -37,23 +37,23 @@ content: |
      To learn more about roles, explore the :doc:`Query Roles
      </mongodb/query-roles>` reference page. There you'll find more
      information, including configuration parameters, use-case examples,
-     and details on how Realm assigns roles to documents.
+     and details on how {+backend+} assigns roles to documents.
 ---
 title: Run The Query With The Assigned Roles
 ref: run-the-query-with-the-assigned-roles
 content: |
-  Once Realm has evaluated a role for each document, it runs the
+  Once {+backend+} has evaluated a role for each document, it runs the
   filtered query and prevents reads and writes on each document unless
   the document's role allows them. If no role applies to a specific
-  document, Realm withholds that document entirely and prevents the
+  document, {+backend+} withholds that document entirely and prevents the
   query from reading or writing any fields.
 ---
 title: Validate The Document Schema
 ref: validate-the-document-schema
 content: |
-  If the query was a write operation, Realm checks each affected
+  If the query was a write operation, {+backend+} checks each affected
   document to ensure that they conform to the collection's **Document
-  Schema**. If any document does not match the schema, Realm rolls back
+  Schema**. If any document does not match the schema, {+backend+} rolls back
   the operation and rejects the query.
 
   .. admonition:: Document Schemas
@@ -65,5 +65,5 @@ content: |
      To learn more about schemas, explore the :doc:`Document Schemas
      </mongodb/document-schemas>` reference page. There you'll find more
      information, including schemas for common data types, configuration
-     parameters, and details on how Realm enforces document schemas.
+     parameters, and details on how {+backend+} enforces document schemas.
 ...

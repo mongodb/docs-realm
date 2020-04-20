@@ -1,7 +1,7 @@
 title: Navigate to the Custom User Data Configuration Screen
 ref: navigate-to-the-custom-user-data-configuration-screen
 content: |
-  You can configure and enable customer user data in the Realm UI. To
+  You can configure and enable customer user data in the {+ui+}. To
   get to the configuration page, click :guilabel:`Users` in the
   left-hand navigation and then select the :guilabel:`Custom User Data`
   tab.
@@ -9,13 +9,13 @@ content: |
 title: Enable Custom User Data
 ref: enable-custom-user-data
 content: |
-  To configure Realm to associate data in a collection with your
+  To configure {+service+} to associate data in a collection with your
   application's users, set the :guilabel:`Enable Custom User Data`
   toggle to :guilabel:`On`.
   
   .. cssclass:: bordered-figure
   .. figure:: /images/enable-custom-user-data-toggle-stitch-ui.png
-     :alt: The toggle button to enable custom user data in the Realm UI, set to On.
+     :alt: The toggle button to enable custom user data in the {+ui+}, set to On.
      :width: 750px
      :lightbox:
 ---
@@ -38,7 +38,7 @@ content: |
   
   .. cssclass:: bordered-figure
   .. figure:: /images/custom-user-data-config-stitch-ui.png
-     :alt: Input boxes for the collection and user id field in the Realm UI.
+     :alt: Input boxes for the collection and user id field in the {+ui+}.
      :width: 750px
      :lightbox:
 ---
@@ -46,7 +46,7 @@ title: Specify the User ID Field
 ref: specify-the-user-id-field
 content: |
   Every document in the custom user data collection should have a field
-  that contains the user ID of the Realm user that it describes.
+  that contains the user ID of the {+service-short+} user that it describes.
   Specify the name of the field that contains each user's ID in the
   :guilabel:`User ID Field` input.
 ---
@@ -55,7 +55,7 @@ ref: deploy-the-updated-application
 content: |
   Once you have configured the customer user data collection, you can
   make custom user data available to client applications by deploying
-  your application. To deploy a draft application from the Realm UI:
+  your application. To deploy a draft application from the {+ui+}:
   
   1. Click :guilabel:`Deploy` in the left-hand navigation
   
@@ -64,11 +64,11 @@ content: |
   
   3. Review the diff of changes and then click :guilabel:`Deploy`.
 
-  Once the application successfully deploys, Realm begins to associate
-  custom data with users. When a user logs in, Realm automatically
+  Once the application successfully deploys, {+service-short+} begins to associate
+  custom data with users. When a user logs in, {+service-short+} automatically
   queries the custom user data collection for a document where the
   specified :guilabel:`User ID Field` contains the user's ID. If a
-  document matches, Realm exposes the data in the document in the
+  document matches, {+service-short+} exposes the data in the document in the
   ``custom_data`` field of that user's :ref:`user object
   <user-objects>`.
 ...

@@ -18,11 +18,11 @@ Overview
 --------
 
 You can access most of the CRUD and Aggregation functionality of MongoDB
-version 3.6 with the :doc:`MongoDB service </mongodb>`; however, Realm
+version 3.6 with the :doc:`MongoDB service </mongodb>`; however, {+service+}
 does not support all operations and features available in standard tools
 and clients. This page provides a high-level overview of MongoDB feature
-availability in Realm. For a list of specific MongoDB operations that
-are available when you connect to MongoDB through Realm, see
+availability in {+service-short+}. For a list of specific MongoDB operations that
+are available when you connect to MongoDB through {+service-short+}, see
 :ref:`the CRUD & Aggregation API reference
 <mongodb-crud-and-aggregation-apis>`.
 
@@ -31,7 +31,7 @@ are available when you connect to MongoDB through Realm, see
 Query Results
 -------------
 
-MongoDB queries executed through Realm can return a maximum of 50,000
+MongoDB queries executed through {+service-short+} can return a maximum of 50,000
 documents. If you need to return more documents, consider paginating
 your query.
 
@@ -40,11 +40,11 @@ your query.
 Query Options
 -------------
 
-Realm supports all query options in :ref:`system functions
-<function-system-user>`. Realm does not support certain options for
+{+service-short+} supports all query options in :ref:`system functions
+<function-system-user>`. {+service-short+} does not support certain options for
 CRUD operations run from :ref:`user functions <function-active-user>`.
 For a list of specific options that are available when you connect to
-MongoDB through Realm, see :ref:`Query Options
+MongoDB through {+service-short+}, see :ref:`Query Options
 <mongodb-crud-and-aggregation-apis-query-options>`.
 
 .. _mongodb-service-limitations-aggregation:
@@ -52,14 +52,14 @@ MongoDB through Realm, see :ref:`Query Options
 Aggregation
 -----------
 
-Realm supports all :manual:`aggregation pipeline
+{+service-short+} supports all :manual:`aggregation pipeline
 stages </reference/operator/aggregation-pipeline/>` in
-:ref:`system functions <function-system-user>`. Realm does not support
+:ref:`system functions <function-system-user>`. {+service-short+} does not support
 some aggregation pipeline stages when you :doc:`run
 an aggregation pipeline </mongodb/run-aggregation-pipelines>` in a
 :ref:`user function <function-active-user>`. For a list of
 pipeline stages that are available when you connect to MongoDB through
-Realm, see :ref:`Aggregation
+{+service-short+}, see :ref:`Aggregation
 <mongodb-crud-and-aggregation-apis-aggregation>`.
 
 .. _mongodb-service-limitations-transactions:
@@ -67,7 +67,7 @@ Realm, see :ref:`Aggregation
 Transactions
 ------------
 
-Realm does not support multi-document :manual:`transactions
+{+service-short+} does not support multi-document :manual:`transactions
 </core/transactions>` via the MongoDB service. Consider using a
 :manual:`denormalized data model
 </core/data-model-design/#data-modeling-embedding>` for workflows that
@@ -78,10 +78,10 @@ traditionally use multi-document transactions.
 Database Commands
 -----------------
 
-Realm does not support any :manual:`database commands
+{+service-short+} does not support any :manual:`database commands
 </reference/command>` in the Client SDKs or :doc:`Functions
 </functions>`. You can, however, call a limited subset of database
-commands when when connected to a MongoDB cluster over the :doc:`Realm
+commands when when connected to a MongoDB cluster over the :doc:`{+service-short+}
 wire protocol </mongodb/connect-over-the-wire-protocol>`. For a list of
 wire protocol supported commands, see
 :ref:`Database Commands
@@ -92,8 +92,8 @@ wire protocol supported commands, see
 Change Streams
 --------------
 
-Realm limits the total number of change streams open against a given
-cluster across all Realm apps based on the cluster's size.
+{+service-short+} limits the total number of change streams open against a given
+cluster across all {+instances+} based on the cluster's size.
 It also limits the number of client applications that can concurrently
 listen for changes using :doc:`Watch </mongodb/watch-documents>` and :ref:`Mobile
 Sync <sync-overview>`. The following table lists the limitations for
@@ -133,7 +133,7 @@ each cluster size:
 
 .. note::
 
-   Realm opens a single change stream on each collection that is
+   {+service-short+} opens a single change stream on each collection that is
    associated with a :doc:`Database Trigger </triggers>`,
    :ref:`Collection Sync <sync-overview>`, or :doc:`Watch operation
    </mongodb/watch-documents>`.

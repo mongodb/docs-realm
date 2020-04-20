@@ -3,9 +3,9 @@ ref: get-a-local-copy-of-your-realm-app
 content: |
   To use code deploy to configure a SPA, you need a local copy of your
   :ref:`application directory <application-directory>` that is
-  up-to-date with the latest version of your Realm application. Clone
-  the most recent version of your Realm app from GitHub or export it
-  directly from Realm.
+  up-to-date with the latest version of your {+instance+}. Clone
+  the most recent version of your {+instance+} from GitHub or export it
+  directly from {+backend+}.
 
   .. admonition:: Export Your Application
      :class: note
@@ -13,7 +13,7 @@ content: |
      You can :doc:`export </deploy/export-realm-app>` a copy of the
      latest version of your application directory from the
      :guilabel:`Import/Export App` tab of the :guilabel:`Deploy` page in
-     the Realm UI, or by running the following command from an
+     the {+ui+}, or by running the following command from an
      authenticated instance of :doc:`realm-cli
      </deploy/realm-cli-reference>`:
      
@@ -57,13 +57,13 @@ title: Deploy Your Changes
 ref: deploy-your-changes
 content: |
   Now that you've added the SPA code to the ``hosting/files`` directory
-  and configured Realm to serve the root HTML file, all that's left is
+  and configured {+service-short+} to serve the root HTML file, all that's left is
   to deploy the changes.
 
   Navigate to the application directory root and then run the command
   that matches your deployment method.
 
-  If you want to :doc:`deploy with Realm CLI
+  If you want to :doc:`deploy with {+cli+}
   </deploy/deploy-cli>`:
   
   .. code-block:: shell

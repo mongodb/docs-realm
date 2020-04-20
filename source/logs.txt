@@ -19,7 +19,7 @@ Introduction
 authentication, trigger execution, and service interactions. You
 can access your application's logs from the :guilabel:`Logs` page in the
 {+ui+} or request them programmatically through the
-:doc:`Realm Admin API </logs/api>`. {+service+} saves logs for 30 days.
+:doc:`{+service-short+} Admin API </logs/api>`. {+service+} saves logs for 30 days.
 
 Concepts
 --------
@@ -40,13 +40,13 @@ logs may include entries of the following types:
 
 - :doc:`{+functions-short+} </logs/function>`, including both {+functions+}
   as well as individual queries to :term:`linked {+atlas+} clusters
-  <linked cluster>` made using the MongoDB service of the Realm SDK.
+  <linked cluster>` made using the MongoDB service of the {+service-short+} SDK.
 
 - :doc:`{+triggers-short+} </logs/trigger>`, including Database Triggers,
   Authentication Triggers, and Scheduled Triggers.
 
 - :doc:`Service Requests </logs/service>`, including webhooks and
-  service action calls issued from the Realm SDK.
+  service action calls issued from the {+service-short+} SDK.
 
 - :doc:`Change Stream </logs/changestream>`, including any time a user
   opens or closes a stream of change events.
@@ -70,7 +70,7 @@ Parts of a Log Entry
      - Log entries can contain several types of request details,
        including event arguments, service name, function call location,
        compute resources used, remote IP address, SDK, platform version,
-       and performance metrics. Requesting log entries via the Realm
+       and performance metrics. Requesting log entries via the {+service-short+}
        Admin API will expose these as top-level fields in log entry
        objects. On the {+ui+}, clicking on a log entry will expose
        this information.
