@@ -161,7 +161,7 @@ granted by the owner or a user with manage permissions on the {+realm+}.
 
    * - ``mayManage``
      - If ``true``, the user has read and write access to all objects in
-       the {+realm+} and can set permissions on the Realm for other users.
+       the {+realm+} and can set permissions on the {+realm+} for other users.
        
        Manage access requires write access, so the ``mayManage``
        permission also sets ``mayWrite`` and ``mayRead`` to ``true`` for
@@ -169,67 +169,19 @@ granted by the owner or a user with manage permissions on the {+realm+}.
 
 .. _realm-path:
 
-Realm Path
-~~~~~~~~~~
+Realms are Partitions of Atlas Data
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-A {+realm+}'s **path** is a string that serves as the {+realm+}'s unique ID. The
-path can also optionally include the ID of a specific {+realm+} user that
-owns and manages the {+realm+}. A {+realm+} path determines the default read,
-write, and manage permissions for its associated {+realm+}. There are two
-types of {+realm+} path - *public* and *private* - based on whether or not a
-path includes a user ID.
+Each {+realm+} corresponds to a subset of the data in your
+:term:`{+instance+}'s <{+instance+}>`
+:term:`synced {+atlas+} cluster <synced cluster>`. You can customize the
+partitioning of data using your application's
+:ref:`partition key <partitioning>`. Unique values of the partition
+key, known as :term:`partition values <partition value>`, correspond to
+individual {+realms+}.
 
-The following table describes the default permissions and syntax for
-each type of {+realm+} path:
-
-.. list-table::
-   :header-rows: 1
-   :widths: 20 80
-
-   * - Realm Path Type
-     - Description
-
-   * - Public
-     - A {+realm+} that does not specify an owner is a **public {+realm+}**. By
-       default in a public {+realm+}, non-admin users have read-only
-       privileges and admin users have read-write-manage privileges.
-       
-       Public {+realm+} paths begin with a slash (``/``) followed by any
-       string that is not a {+service-short+} user's ID or a tilde (``~``), such as
-       the following example:
-       
-       .. code-block:: text
-          :copyable: False
-          
-          /someGlobalRealm
-
-   * - Private
-     - A {+realm+} that specifies an owner is a **private Realm**. By
-       default in a private {+realm+}, the owner has read-write-manage
-       privileges, all other non-admin users have no read or write
-       privileges, and admin users have read-write-manage permissions.
-       
-       Private {+realm+} paths begin with a slash (``/``) followed by a
-       specific {+service-short+} user's ID, another slash, and then a string, such
-       as the following example:
-       
-       .. code-block:: text
-          :copyable: False
-          
-          /user-id/someUserRealm
-       
-       .. admonition:: Use a Tilde to Represent the Current User
-          :class: note
-       
-          You can represent the current user's ID by specifying a tilde
-          (``~``) in place of the user id. This shorthand removes the
-          need to manually interpolate the current user's ID when you
-          refer to a private Realm.
-          
-          .. code-block:: text
-             :copyable: False
-             
-             /~/someUserRealm
+You can customize permissions for these partitions of data using
+:ref:`{+rules+} <sync-rules>`.
 
 Summary
 -------
@@ -241,8 +193,7 @@ Summary
 - A :term:`{+backend-schema+}` is a versioned specification of the
   object types used in a {+instance+}.
 
-- {+realm+} **permissions** define who can read, write, or manage
+- {+rules+} define who can read or write
   the {+realm+} and apply to the {+realm+} as a whole.
 
-- A {+realm+} **path** is a {+realm+}'s unique ID and indicates whether
-  the {+realm+} is public or private.
+- A :term:`partition value` is a {+realm+}'s unique identifier.
