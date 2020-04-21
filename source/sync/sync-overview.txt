@@ -55,7 +55,7 @@ client platform:
 
 {+sync+} handles network access and conflict resolution in a
 background thread of your application, so your application logic stays
-the same regardless of network conditions. :term:`{+schema+}`
+the same regardless of network conditions. The :term:`{+service-short+} data model`
 makes it easy to manage a consistent schema of objects in your database
 and across all client platforms.
 
@@ -92,7 +92,7 @@ Live Objects Across Devices:
 It's Automatic:
   {+sync+} is built into the {+service-short+} SDK. You do not need to write
   your own synchronization protocol and deal with connectivity
-  issues when synchronizing data. The :term:`{+sync-protocol+}` is
+  issues when synchronizing data. The :term:`sync protocol` is
   the same across platforms. {+service+} handles passing the
   objects across the network automatically, so there is no
   need to map from one platform's database to another or
@@ -112,7 +112,7 @@ This is why {+sync+} includes **automatic conflict resolution**.
 Resolving Conflicts
 -------------------
 
-{+service+}'s :term:`sync conflict resolution engine <{+sync-protocol+}>` is
+{+service+}'s :term:`sync conflict resolution engine <sync protocol>` is
 deterministic. Changes received out-of-order eventually converge on the
 same state across the server and all clients. As such, {+sync+}
 is :wikipedia:`strongly eventually consistent
@@ -173,7 +173,7 @@ Single writer, single reader:
   of users.
 
 To get the best performance from {+sync+}, design your
-{+instance+} with use case profiles in mind. If you
+{+app+} with use case profiles in mind. If you
 intend to have many concurrent writers, split projects
 across {+realms+}.
 

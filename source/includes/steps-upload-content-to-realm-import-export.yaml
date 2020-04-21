@@ -3,7 +3,7 @@ ref: export-your-application
 content: |
   To upload files to {+backend+} with :doc:`realm-cli
   </deploy/realm-cli-reference>` you need an :ref:`application
-  directory <application-directory>` for your {+instance+}.
+  directory <application-directory>` for your {+app+}.
 
   You can :doc:`export your application </deploy/export-realm-app>`
   from the :guilabel:`Export` tab of the :guilabel:`Settings` page in
@@ -20,7 +20,7 @@ ref: add-a-hosting-directory
 content: |
   .. note::
 
-     This step is only necessary if you did not export your {+instance+} with the
+     This step is only necessary if you did not export your {+app+} with the
      ``--include-hosting`` flag.
 
   {+backend+} looks for files to upload in the ``/hosting/files``
@@ -34,7 +34,7 @@ content: |
 title: Add a Metadata Configuration File
 ref: add-a-metadata-configuration-file
 content: |
-  To deploy hosted files through {+cli+} you must include a
+  To deploy hosted files through {+cli-bin+} you must include a
   ``metadata.json`` file in the ``/hosting`` directory. If the
   configuration file does not exist, create it:
 

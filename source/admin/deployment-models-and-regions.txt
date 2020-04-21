@@ -13,10 +13,10 @@ Deployment Models & Regions
 Overview
 --------
 
-When you first create a {+instance+}, you must select a
+When you first create a {+app+}, you must select a
 :ref:`deployment type <realm-deployment-models>` that determines where
 your application's data is stored and processed. You can deploy your
-{+instance+} globally or limit the deployment to a specific
+{+app+} globally or limit the deployment to a specific
 :ref:`cloud deployment region <realm-regions>`.
 
 .. _realm-deployment-models:
@@ -30,7 +30,7 @@ Deployment Models
 Global Deployment
 ~~~~~~~~~~~~~~~~~
 
-Globally deployed {+instances+} are hosted in every :ref:`cloud
+Globally deployed {+app+}s are hosted in every :ref:`cloud
 region <realm-regions>` that {+service+} supports. The {+service-short+} SDKs
 automatically execute application requests, such as reading user
 information or calling a function in the cloud region that's closest to
@@ -48,7 +48,7 @@ cluster.
 Local Deployment
 ~~~~~~~~~~~~~~~~
 
-Locally deployed {+instances+} are hosted in a specific
+Locally deployed {+app+}s are hosted in a specific
 :ref:`cloud region <realm-regions>` that you specify when you first
 :doc:`create your application </procedures/create-realm-app>`.
 Application requests and MongoDB write operations will all be handled

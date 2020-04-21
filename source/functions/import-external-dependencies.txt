@@ -13,9 +13,9 @@ Import External Dependencies
 Overview
 --------
 
-You can import npm modules into a {+function+} and use the imported
+You can import npm modules into a {+service-short+} Function and use the imported
 :ref:`external dependencies <external-dependencies>` in your code. This
-allows your {+instance+} to depend upon external libraries for
+allows your {+app+} to depend upon external libraries for
 code reuse.
 
 .. admonition:: Pre-requisites for Import
@@ -35,7 +35,7 @@ code reuse.
 Usage
 -----
 
-You can import dependencies into any {+function+} using the
+You can import dependencies into any {+service-short+} Function using the
 ``require`` keyword inside of the ``exports`` function. You cannot use
 ES Module ``import`` syntax. Since {+service-short+} does not support file or local
 module import, you should import dependencies in the style of a
@@ -48,7 +48,7 @@ consult the `Node.js documentation for the require keyword
 
    Node.js projects commonly place ``require`` statements in the
    global scope of each file, but {+service-short+} does not support this pattern.
-   You *must* place {+function+} ``require`` statements within a
+   You *must* place {+service-short+} Function ``require`` statements within a
    function scope.
 
 Import a Full Module
@@ -70,7 +70,7 @@ Import a Module Subfolder
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The following example demonstrates how to use ``require`` to import a
-single submodule of an external dependency into a {+function+}:
+single submodule of an external dependency into a {+service-short+} Function:
 
 .. code-block:: javascript
    :emphasize-lines: 2

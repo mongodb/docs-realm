@@ -14,9 +14,9 @@ Authentication Triggers
 Overview
 --------
 
-Authentication {+triggers-short+} allow you to execute server-side logic
+Authentication Triggers allow you to execute server-side logic
 whenever a user interacts with an :doc:`authentication provider
-</authentication/providers>`. You can use authentication {+triggers-short+}
+</authentication/providers>`. You can use authentication Triggers
 to implement advanced user management, including storing new user data
 in your :term:`linked cluster`, maintaining data integrity upon user
 deletion, or calling a service with a user’s information when they log
@@ -50,19 +50,19 @@ Create an Authentication Trigger
 
      - id: cli
        content: |
-         To create an authentication {+trigger-short+} with :doc:`{+cli+}
+         To create an authentication Trigger with :doc:`{+cli+}
          </deploy/realm-cli-reference>`:
 
-         1. Add an authentication {+trigger-short+} :ref:`configuration file
+         1. Add an authentication Trigger :ref:`configuration file
             <auth-trigger-configuration>` to the ``triggers``
             subdirectory of a local application directory.
 
             .. note::
 
-               {+backend+} does not enforce specific filenames for {+trigger+}
+               {+backend+} does not enforce specific filenames for {+service-short+} Trigger
                configuration files. However, once imported, {+backend+} will
                rename each configuration file to match the name of the
-               {+trigger-short+} it defines, e.g. ``mytrigger.json``.
+               Trigger it defines, e.g. ``mytrigger.json``.
 
          2. :doc:`Import </deploy/deploy-cli>` the
             application directory into your application.
@@ -85,7 +85,7 @@ Authentication Trigger Configuration
    tabs:
      - id: cli
        content: |
-         Configuration files for authentication {+triggers-short+} have the
+         Configuration files for authentication Triggers have the
          following form:
 
          .. cssclass:: wide-container
@@ -105,7 +105,7 @@ Authentication Trigger Configuration
 
      - id: ui
        content: |
-         Authentication {+triggers-short+} have the following configuration
+         Authentication Triggers have the following configuration
          parameters:
 
 .. cssclass:: auth-table
@@ -123,7 +123,7 @@ Authentication Trigger Configuration
 
           | *type*
 
-     - Required. The type of the trigger. For authentication {+triggers-short+},
+     - Required. The type of the trigger. For authentication Triggers,
        this value should be set to ``AUTHENTICATION``.
 
    * - :guilabel:`Trigger Name`
@@ -142,8 +142,8 @@ Authentication Trigger Configuration
 
           | *function_name*
 
-     - Required. The name of the {+function+} that the {+trigger-short+}
-       executes whenever it fires. The {+trigger-short+} passes the
+     - Required. The name of the {+service-short+} Function that the Trigger
+       executes whenever it fires. The Trigger passes the
        :ref:`authentication event object <authentication-events>` that
        caused it to fire as the only argument to this function.
 
@@ -167,7 +167,7 @@ Authentication Trigger Configuration
           | *config.providers*
 
      - Required. A list of one or more :doc:`authentication provider
-       </authentication/providers>` types. The {+trigger-short+} will
+       </authentication/providers>` types. The Trigger will
        only listen for :ref:`authentication events
        <authentication-events>` produced by these providers.
 

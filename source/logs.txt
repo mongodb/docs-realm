@@ -38,11 +38,11 @@ logs may include entries of the following types:
 - :doc:`Authentication Requests </logs/authentication>`, including user
   creation, login, and deletion.
 
-- :doc:`{+functions-short+} </logs/function>`, including both {+functions+}
+- :doc:`Functions </logs/function>`, including both {+service-short+} Functions
   as well as individual queries to :term:`linked {+atlas+} clusters
   <linked cluster>` made using the MongoDB service of the {+service-short+} SDK.
 
-- :doc:`{+triggers-short+} </logs/trigger>`, including Database Triggers,
+- :doc:`Triggers </logs/trigger>`, including Database Triggers,
   Authentication Triggers, and Scheduled Triggers.
 
 - :doc:`Service Requests </logs/service>`, including webhooks and
@@ -76,7 +76,7 @@ Parts of a Log Entry
        this information.
 
    * - Arguments
-     - {+backend+} logs the arguments passed to {+functions-short+},
+     - {+backend+} logs the arguments passed to Functions,
        including requests made via the MongoDB service. Other log
        entries do not preserve a record of arguments.
 
@@ -108,7 +108,7 @@ caused the problem. You may encounter errors if you:
 
 - Attempt to access data from {+atlas+} for which there is no
   applicable rule
-- Fail to catch an exception or promise rejection in a {+function+}
+- Fail to catch an exception or promise rejection in a {+service-short+} Function
 - Call ``context.services.get()`` for a service which does not exist
 - Call a {+atlas+} service action with invalid or missing
   parameters

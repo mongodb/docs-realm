@@ -81,7 +81,7 @@ headaches:
   When :term:`{+sync+}` is enabled, {+client-database+} synchronizes
   data with {+backend+} over the network in a background thread,
   pushing local data changes to {+backend+} and pulling remote changes
-  down. The :term:`{+sync-protocol+}` resolves conflicts
+  down. The :term:`sync protocol` resolves conflicts
   consistently on each client and in the
   :term:`linked {+atlas+} cluster <linked cluster>`.
 
@@ -104,7 +104,7 @@ cloud-hosted managed instances of MongoDB that are always available.
 Atlas supports aggregations and other complex workloads with the full
 capabilities of MongoDB. You can connect to your {+atlas-short+}
 instance in your backend services using MongoDB drivers for a wide range
-of languages. Or connect your {+atlas-short+} instance to `MongoDB Charts
+of languages. Or connect your {+atlas-short+} instance to `{+charts+}
 <https://www.mongodb.com/products/charts?tck=docs_realm>`_ to visualize
 your data in real time. Storing your data in {+atlas-short+} makes it
 easy to share data across users and platforms.
@@ -124,21 +124,21 @@ provides components to fulfill several common application requirements:
   :ref:`Google <google-authentication>`, and
   :ref:`Apple <apple-id-authentication>`.
 
-- :ref:`{+functions+} <functions>` provide server-side logic for
-  your :term:`{+instance+}`. Similar to endpoints in a REST API, except
+- :ref:`{+service-short+} Functions <functions>` provide server-side logic for
+  your :term:`{+app+}`. Similar to endpoints in a REST API, except
   instead of manually constructing the URL, headers, body, and method
-  for a call to an HTTP endpoint, you call {+functions+} from a module
+  for a call to an HTTP endpoint, you call {+service-short+} Functions from a module
   of the {+service-short+} SDK in your client application.
 
-- :ref:`{+triggers+} <triggers>` automatically
+- :ref:`{+service-short+} Triggers <triggers>` automatically
   execute a function at a scheduled time or when an event occurs, such
   as a change to a database or a call to a HTTP endpoint.
 
-- :term:`{+rules+}` let you control who accesses what data.
+- :term:`{+service-short+} Rules` let you control who accesses what data.
 
-- Server-side :ref:`{+values+} and {+secrets+} <values-and-secrets>`
+- Server-side :ref:`{+service-short+} Values and {+service-short+} Secrets <values-and-secrets>`
   enable you to define global variables and private credentials once and
-  use them across your entire {+instance+}.
+  use them across your entire {+app+}.
 
 - Use the :ref:`GraphQL API <graphql-api>` to access data stored in a
   linked MongoDB cluster using any standard GraphQL client.
@@ -151,7 +151,7 @@ Summary
 
 - {+service+} is a serverless application platform that takes care of
   the details of deployment and scaling for you. You can customize your
-  {+instance+} with custom logic via functions and triggers, custom
+  {+app+} with custom logic via functions and triggers, custom
   permissions via rules, and authentication via third-party SSO.
 
 - {+client-database+} is an offline-first mobile object database in
@@ -167,7 +167,7 @@ Summary
 
   - {+sync+} synchronizes data between client-side {+realms+} and the
     server-side {+atlas+} cluster linked to your
-    {+instance+}. The {+sync-protocol+} resolves conflicts consistently
+    {+app+}. The sync protocol resolves conflicts consistently
     across all instances of a {+realm+}, both on the server and in client
     applications.
   

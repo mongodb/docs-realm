@@ -136,7 +136,7 @@ paths:
       tags: ["apps"]
       operationId: "adminListApplications"
       summary: |
-        List all {+instances+} within an |atlas|
+        List all {+app+}s within an |atlas|
         :atlas:`project/group </tutorial/manage-projects/>`.
       responses:
         '200':
@@ -149,7 +149,7 @@ paths:
     post:
       tags: ["apps"]
       operationId: "adminCreateApplication"
-      summary: "Create a new {+instance+}."
+      summary: "Create a new {+app+}."
       parameters:
         - name: defaults
           in: query
@@ -1019,7 +1019,7 @@ paths:
     get:
       tags: ["authproviders"]
       operationId: "adminListAuthProviders"
-      summary: "List :doc:`authentication providers </authentication/providers>` within a {+instance+}."
+      summary: "List :doc:`authentication providers </authentication/providers>` within a {+app+}."
       responses:
         '200':
           description: "Successfully listed."
@@ -1237,7 +1237,7 @@ paths:
     get:
       tags: ["apikeys"]
       operationId: "adminListApiKeys"
-      summary: "List :doc:`API keys </authentication/api-key>` associated with a {+instance+}."
+      summary: "List :doc:`API keys </authentication/api-key>` associated with a {+app+}."
       responses:
         '200':
           description: "The API keys were successfully listed."
@@ -1327,7 +1327,7 @@ paths:
     get:
       tags: ["secrets"]
       operationId: "adminGetAllSecrets"
-      summary: "List :doc:`Secrets </values-and-secrets/define-a-secret>` associated with a {+instance+}."
+      summary: "List :doc:`Secrets </values-and-secrets/define-a-secret>` associated with a {+app+}."
       responses:
         '200':
           description: "The Secrets were successfully listed."
@@ -1366,7 +1366,7 @@ paths:
     put:
       tags: ["secrets"]
       operationId: "adminModifyASecret"
-      summary: "Modify a :doc:`Secret </values-and-secrets/define-a-secret>` associated with a {+instance+}."
+      summary: "Modify a :doc:`Secret </values-and-secrets/define-a-secret>` associated with a {+app+}."
       requestBody:
         description: "The modified value of the Secret."
         required: true
@@ -1469,7 +1469,7 @@ paths:
     get:
       tags: ["dependencies"]
       operationId: "adminGetAllDependencies"
-      summary: "List :ref:`external dependencies <external-dependencies>` uploaded to the {+instance+}."
+      summary: "List :ref:`external dependencies <external-dependencies>` uploaded to the {+app+}."
       responses:
         '200':
           description: "The function was successfully retrieved."
@@ -2000,7 +2000,7 @@ components:
           description: The unique ID of the deployment.
         app_id:
           type: "string"
-          description: The unique _id value of the {+instance+}.
+          description: The unique _id value of the {+app+}.
         draft_id:
           type: "string"
           description: The unique _id value of the deployment draft associated with the deployment, if applicable.
@@ -2413,7 +2413,7 @@ components:
       properties:
         appId:
           type: string
-          description: The unique App ID of the {+instance+} that is hosting the file.
+          description: The unique App ID of the {+app+} that is hosting the file.
         last_modified:
           type: integer
           description: |

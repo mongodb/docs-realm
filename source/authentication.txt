@@ -60,7 +60,7 @@ providers to integrate external authentication systems. The
 :doc:`Custom JWT </authentication/custom-jwt>` provider
 accepts JSON web tokens signed by the external system and
 the :doc:`Custom Function </authentication/custom-function>`
-provider allows you to define custom logic in a :term:`{+function+}`.
+provider allows you to define custom logic in a :term:`{+service-short+} Function`.
 
 .. admonition:: User Authentication is Required
    :class: important
@@ -163,10 +163,10 @@ System User
 
 The **system user** is an internal user that has advanced
 privileges and automatically bypasses all rules. You can
-configure :doc:`{+functions-short+} </functions>` and :ref:`incoming
+configure :doc:`Functions </functions>` and :ref:`incoming
 webhooks <incoming-webhooks>` to run in the context of the
 system user instead of the user account that issued a
-request. {+triggers-short+} always run in the context of the system
+request. Triggers always run in the context of the system
 user.
 
 The system user is useful for administrative tasks that need
@@ -178,7 +178,7 @@ CRUD and aggregation operations.
    :class: important
 
    Rules do not apply to the system user, which means that
-   {+functions-short+} and webhooks that run as the :term:`system user`
+   Functions and webhooks that run as the :term:`system user`
    can become a security liability. Ensure that you do not expose these
    functions to unauthorized users.
    
