@@ -13,31 +13,31 @@ Database Triggers
 Overview
 --------
 
-Database {+triggers-short+} allow you to execute server-side logic whenever a
+Database Triggers allow you to execute server-side logic whenever a
 document is added, updated, or removed in a
 :term:`linked {+atlas+} cluster <linked cluster>`.
-You can use database {+triggers-short+} to implement complex data interactions,
+You can use database Triggers to implement complex data interactions,
 including updating information in one document when a related document
 changes or interacting with a :doc:`service </services>` upon the insertion
 of a new document.
 
-Database {+triggers-short+} use MongoDB :manual:`change streams </changeStreams>`
+Database Triggers use MongoDB :manual:`change streams </changeStreams>`
 to listen for changes to documents in a collection and pass
-:ref:`database events <database-events>` to their associated {+trigger-short+}
+:ref:`database events <database-events>` to their associated Trigger
 function.
 
 .. admonition:: Change Stream Limitations
    :class: important
 
    {+backend+} opens a single change stream for each collection with at least
-   one enabled {+trigger-short+} and limits the total number of open change
-   streams on each linked cluster across all {+instance+}s based on the
+   one enabled Trigger and limits the total number of open change
+   streams on each linked cluster across all {+app+}s based on the
    cluster's size. See :ref:`change stream limitations
    <mongodb-service-limitations-change-streams>` for more information.
 
 .. note::
 
-   Database {+triggers-short+} are only available for {+atlas+} clusters
+   Database Triggers are only available for {+atlas+} clusters
    that are running MongoDB version 3.6 or newer.
 
 .. _create-a-database-trigger:
@@ -50,7 +50,7 @@ Create a Database Trigger
    tabs:
      - id: ui
        content: |
-         To create a database {+trigger-short+} in the {+ui+}:
+         To create a database Trigger in the {+ui+}:
 
          1. Click :guilabel:`Triggers` under :guilabel:`MongoDB
             Cluster` in the left-hand navigation.
@@ -58,10 +58,10 @@ Create a Database Trigger
          2. Select the :guilabel:`Database Triggers` tab.
 
          3. Click :guilabel:`Add Database Trigger` in the top
-            right to open the {+trigger-short+} configuration page.
+            right to open the Trigger configuration page.
 
          4. Enter :ref:`configuration values <database-trigger-configuration>`
-            for the {+trigger-short+} and click :guilabel:`Save` at the bottom of
+            for the Trigger and click :guilabel:`Save` at the bottom of
             the page.
 
          .. figure:: /images/database-trigger-config.png
@@ -86,18 +86,18 @@ Create a Database Trigger
 
          .. note::
 
-            {+service+} does not enforce specific filenames for {+trigger-short+}
+            {+service+} does not enforce specific filenames for Trigger
             configuration files. However, once imported, {+backend+} will
             rename each configuration file to match the name of the
-            {+trigger-short+} it defines, e.g. ``mytrigger.json``.
+            Trigger it defines, e.g. ``mytrigger.json``.
 
 Restart a Database Trigger
 --------------------------
 
-Database {+triggers-short+} may enter a :guilabel:`suspended` state in response to
-an event that prevents the {+trigger-short+}'s change stream from continuing, such
+Database Triggers may enter a :guilabel:`suspended` state in response to
+an event that prevents the Trigger's change stream from continuing, such
 as a network disruption or change to the underlying cluster. When a
-{+trigger-short+} enters a suspended state, it does not receive change events and will not
+Trigger enters a suspended state, it does not receive change events and will not
 fire.
 
 .. note:: 
@@ -105,8 +105,8 @@ fire.
    In the event of a suspended or failed trigger, {+service-short+} sends the 
    project owner an email alerting them of the issue. 
 
-You can attempt to restart a suspended {+trigger-short+} from the {+ui+} or by
-importing an application directory with {+cli+}.
+You can attempt to restart a suspended Trigger from the {+ui+} or by
+importing an application directory with {+cli-bin+}.
 
 .. tabs-realm-admin-interfaces::
 
@@ -131,7 +131,7 @@ Database Trigger Configuration
    tabs:
      - id: cli
        content: |
-         Configuration files for database {+triggers-short+} have the
+         Configuration files for database Triggers have the
          following form:
 
          .. cssclass:: wide-container
@@ -156,7 +156,7 @@ Database Trigger Configuration
 
      - id: ui
        content: |
-         Database {+triggers-short+} have the following configuration parameters:
+         Database Triggers have the following configuration parameters:
 
 .. cssclass:: auth-table
 .. list-table::
@@ -173,7 +173,7 @@ Database Trigger Configuration
 
           | *type*
 
-     - Required. The type of the {+trigger-short+}. Set this value to ``DATABASE`` for database {+triggers-short+}
+     - Required. The type of the Trigger. Set this value to ``DATABASE`` for database Triggers
 
    * - :guilabel:`Trigger Name`
 
@@ -182,7 +182,7 @@ Database Trigger Configuration
 
           | *name*
 
-     - Required. The name of the {+trigger-short+}.
+     - Required. The name of the Trigger.
 
    * - :guilabel:`Linked Function`
 
@@ -191,10 +191,10 @@ Database Trigger Configuration
 
           | *function_name*
 
-     - Required. The name of the {+function+} that the {+trigger-short+}
-       executes whenever it fires. The {+trigger-short+} passes the
+     - Required. The name of the {+service-short+} Function that the Trigger
+       executes whenever it fires. The Trigger passes the
        :ref:`database event object <database-events>` that
-       caused it to fire as the only argument to this {+function-short+}.
+       caused it to fire as the only argument to this Function.
 
    * - :guilabel:`Cluster`
 
@@ -203,7 +203,7 @@ Database Trigger Configuration
 
           | *config.service_name*
 
-     - Required. The name of the MongoDB Service that the {+trigger-short+} is
+     - Required. The name of the MongoDB Service that the Trigger is
        associated with.
 
    * - :guilabel:`Database Name`
@@ -223,7 +223,7 @@ Database Trigger Configuration
 
           | *config.collection*
 
-     - Required. The name of the collection that the {+trigger-short+} watches for
+     - Required. The name of the collection that the Trigger watches for
        change events.
 
    * - :guilabel:`Operation Types`
@@ -234,7 +234,7 @@ Database Trigger Configuration
           | *config.operation_types*
 
      - Required. A list of one or more :ref:`database operation
-       types <database-event-operation-types>` that cause the {+trigger-short+} to
+       types <database-event-operation-types>` that cause the Trigger to
        fire. Format each operation type as a fully capitalized string, e.g., ``"INSERT"``.
 
    * - :guilabel:`Full Document`
@@ -280,7 +280,7 @@ Database Trigger Configuration
 
           Default: Enabled.
 
-          Indicates whether event ordering is enabled for this {+trigger-short+}.
+          Indicates whether event ordering is enabled for this Trigger.
 
        .. tab-content:: tabs-realm-admin-interfaces
           :tab-id: cli
@@ -290,10 +290,10 @@ Database Trigger Configuration
           If ``true``, indicates that event ordering is disabled for
           this trigger.
 
-       If event ordering is enabled, multiple executions of this {+trigger-short+}
+       If event ordering is enabled, multiple executions of this Trigger
        will occur sequentially based on the timestamps of the change
        events. If event ordering is disabled, multiple executions of
-       this {+trigger-short+} will occur independently.
+       this Trigger will occur independently.
 
        .. tip::
 
@@ -301,18 +301,18 @@ Database Trigger Configuration
           collection that receives short bursts of events (e.g.
           inserting data as part of a daily batch job).
 
-          Ordered {+triggers-short+} wait to execute a {+function-short+} for a particular
-          event until the {+functions-short+} of previous events have finished
-          executing. As a consequence, ordered {+triggers-short+} are effectively
-          rate-limited by the run time of each sequential {+trigger-short+}
+          Ordered Triggers wait to execute a Function for a particular
+          event until the Functions of previous events have finished
+          executing. As a consequence, ordered Triggers are effectively
+          rate-limited by the run time of each sequential Trigger
           function. This may cause a significant delay between the
-          database event and the {+trigger-short+} firing if a sufficiently large
-          number of {+trigger-short+} executions are currently in the queue.
+          database event and the Trigger firing if a sufficiently large
+          number of Trigger executions are currently in the queue.
 
-          Unordered {+triggers-short+} execute functions in parallel if possible,
+          Unordered Triggers execute functions in parallel if possible,
           which can be significantly faster (depending on your use case)
-          but does not guarantee that multiple executions of a {+trigger-short+}
-          {+function-short+} occur in event order.
+          but does not guarantee that multiple executions of a Trigger
+          Function occur in event order.
 
    * - :guilabel:`Match Expression`
 
@@ -324,7 +324,7 @@ Database Trigger Configuration
      - Optional.
        A :manual:`$match </reference/operator/aggregation/match>`
        expression document that {+service+} uses to filter which change
-       events cause the {+trigger-short+} to fire. The {+trigger-short+}
+       events cause the Trigger to fire. The Trigger
        evaluates all change event objects that it receives against this
        match expression and only executes if the expression evaluates to
        ``true`` for a given change event.

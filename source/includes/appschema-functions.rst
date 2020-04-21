@@ -9,7 +9,7 @@
               ├── config.json
               └── source.js
 
-{+functions+} are defined in a sub-directory of your application's
+{+service-short+} Functions are defined in a sub-directory of your application's
 ``/functions`` directory. Each function maps to its own subdirectory
 with the same name as the function.
 

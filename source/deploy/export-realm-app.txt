@@ -12,16 +12,16 @@ Export an Existing Realm Application
    :depth: 2
    :class: singlecol
 
-As you develop a :term:`{+instance+}`, you might want to share the
+As you develop a :term:`{+app+}`, you might want to share the
 codebase with team members, make a backup, or work with a
 version control system like Git. {+service+}'s export
 functionality makes this possible.
 
-You can export {+instances+} to a local application
-directory from the {+ui+} or with the ``realm-cli``
+You can export {+app+}s to a local application
+directory from the {+ui+} or with the {+cli-bin+}
 :ref:`export <realm-cli-export>` command.
 
-Exported application directories use the same name as the {+instance+}
+Exported application directories use the same name as the {+app+}
 by default. Every configuration file must conform to its
 :doc:`configuration file schema
 </deploy/application-configuration-files>`.
@@ -32,7 +32,7 @@ Procedure
 Export from the Realm UI
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The simplest way to export a {+instance+} is directly from the
+The simplest way to export a {+app+} is directly from the
 {+ui+}. To do so, click :guilabel:`Deploy` in the left-hand
 navigation, select the :guilabel:`Import/Export App` tab, and then click
 the :guilabel:`Export App` button.
@@ -41,15 +41,15 @@ the :guilabel:`Export App` button.
 .. figure:: /images/export-app-button.png
    :figwidth: 750px
 
-Export with ``realm-cli``
+Export with {+cli-bin+}
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-{+instances+} can be exported programmatically via the
+{+app+}s can be exported programmatically via the
 :doc:`Command Line Interface </deploy/realm-cli-reference>`
-(``realm-cli``).
+({+cli-bin+}).
 
 Before beginning, ensure that you have properly :ref:`installed
-<install-realm-cli>` ``realm-cli``.
+<install-realm-cli>` {+cli-bin+}.
 
 .. include:: /includes/steps/cli-export.rst
 
@@ -64,7 +64,7 @@ working directory.
 Only entities that are configured in your application will appear in
 your exported application directory. See :doc:`Application Configuration
 Files </deploy/application-configuration-files>` for more information on
-the schema and contents of {+instances+}.
+the schema and contents of {+app+}s.
 
 .. include:: /includes/realm-application-file-schema.rst
 
@@ -72,4 +72,4 @@ Summary
 -------
 
 - You can use {+service-short+}'s export functionality to share your codebase, make a backup, or work with a version control system.
-- You can export {+instances+} with the {+ui+} or with the ``realm-cli`` :ref:`export <realm-cli-export>` command.
+- You can export {+app+}s with the {+ui+} or with the {+cli-bin+} :ref:`export <realm-cli-export>` command.

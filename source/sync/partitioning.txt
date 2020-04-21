@@ -15,7 +15,7 @@ Partition Atlas Data into Realms
 Overview
 --------
 
-Your :term:`{+instance+}'s <{+instance+}>` :term:`linked {+atlas+} cluster
+Your :term:`{+app+}'s <{+app+}>` :term:`linked {+atlas+} cluster
 <linked cluster>` contains all of the data stored by your application:
 your application data, client data, :ref:`custom user data
 <custom-user-data>`, administrative data, and more.
@@ -47,7 +47,7 @@ Partition Keys
 {+realm+} membership of MongoDB documents. Your partition key should exist
 in every document that your application needs to synchronize between
 clients and {+atlas-short+}. The partition key field name is universal
-across a {+instance+} -- every synced document uses the same field name
+across a {+app+} -- every synced document uses the same field name
 to partition.
 
 Choose a Partition Key
@@ -86,7 +86,7 @@ Define a Partition Key
 ++++++++++++++++++++++
 
 You can define a partition key when enabling :term:`{+sync+}` for your
-{+instance+}. After selecting a cluster to sync, choose your partition
+{+app+}. After selecting a cluster to sync, choose your partition
 key. You can either use an existing field or create a new field.
 
 The :term:`{+backend-schema+}` for each synced collection of your synced
@@ -154,7 +154,7 @@ string. For example:
    _partitionKey: "team_id=1234"
    _partitionKey: "user_id=abcdefg"
 
-{+rules+} expressions can check the prefix before looking
+{+service-short+} Rules expressions can check the prefix before looking
 up the team or user ID in the appropriate lookup collection to determine
 whether or not a given user has access to a {+realm+}. Structuring your
 partition values like a query string lets you take
@@ -232,7 +232,7 @@ Partitioning Examples
 ---------------------
 
 Because {+realms+} correspond to collections of documents that share the
-same permissions, partitioning can vary between {+instances+}.
+same permissions, partitioning can vary between {+app+}s.
 
 Example: Partitioning by User
 +++++++++++++++++++++++++++++

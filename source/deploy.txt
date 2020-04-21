@@ -46,7 +46,7 @@ particular development workflow.
           :class: reference-block
 
           - You want to use a browser-based GUI to develop and manage
-            your {+instance+}.
+            your {+app+}.
 
        .. admonition:: Deployment Pattern
           :class: reference-block
@@ -84,13 +84,13 @@ particular development workflow.
              them and push to the  GitHub. Automatically deploy the most
              recent version of a specific branch.
 
-   * - {+cli+}
+   * - {+cli-bin+}
      - .. admonition:: Use This Method If
           :class: reference-block
 
           - You want to use a code-first approach to app development.
           - You want to use a command line interface to manage and
-            deploy your {+instance+}.
+            deploy your {+app+}.
 
        .. admonition:: Deployment Pattern
           :class: reference-block
@@ -113,7 +113,7 @@ particular development workflow.
           :class: reference-block
 
           - You want to use a code-first approach to app development.
-          - You want to use an HTTP API to manage and deploy your {+instance+}.
+          - You want to use an HTTP API to manage and deploy your {+app+}.
 
        .. admonition:: Deployment Pattern
           :class: reference-block
@@ -134,8 +134,8 @@ particular development workflow.
 Application Components
 ~~~~~~~~~~~~~~~~~~~~~~
 
-{+instances+} are composed of components like
-:doc:`{+functions-short+} </functions>`, :doc:`{+triggers-short+} </triggers>`,
+{+app+}s are composed of components like
+:doc:`Functions </functions>`, :doc:`Triggers </triggers>`,
 :doc:`Auth Providers </authentication>`, and :doc:`Values
 </values-and-secrets>`. A deployment consist of at least one
 new, updated, or deleted component.
@@ -161,13 +161,13 @@ deleting configuration files directly.
 Application Directory
 +++++++++++++++++++++
 
-{+instances+} are structured in a nested directory format called
+{+app+}s are structured in a nested directory format called
 an **application directory** that contains configuration files for your
 application components. The configuration files are grouped into
 directories based on their component type. You can download a copy of
 the application directory for the most recently deployed version of an
 app by :doc:`exporting </deploy/export-realm-app>` it from the
-{+ui+} or {+cli+}, or by cloning the underlying Git repository.
+{+ui+} or {+cli-bin+}, or by cloning the underlying Git repository.
 
 For additional information on the structure of an application directory
 as well as the schema of each configuration file type, see
@@ -200,6 +200,6 @@ Summary
 -------
 
 - Deployment allows you to group updates to your application and make them available to client applications at the same time in a new version.
-- {+service-short+} provides four ways to deploy depending on your project's workflow: {+ui+} deployment, automatic GitHub deployment, {+cli+} deployment, and {+service-short+} Admin API deployment.
-- A deployment consists of at least one new, updated, or deleted {+service-short+} component such as a {+function-short+}, {+trigger-short+}, Auth Provider, or Value.
+- {+service-short+} provides four ways to deploy depending on your project's workflow: {+ui+} deployment, automatic GitHub deployment, {+cli-bin+} deployment, and {+service-short+} Admin API deployment.
+- A deployment consists of at least one new, updated, or deleted {+service-short+} component such as a Function, Trigger, Auth Provider, or Value.
 - {+service-short+} tracks deployment history up to 100 versions, allowing you to review past changes.

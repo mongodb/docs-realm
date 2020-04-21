@@ -28,7 +28,7 @@ Once you've configured an interface for a service, you can instantiate a
 :ref:`service client <service-clients>` that connects to the interface
 and exposes the service's :ref:`actions <service-actions>` as methods.
 You can also create :ref:`incoming webhooks <service-webhooks>` that
-enable external services to communicate directly with your {+instance+}
+enable external services to communicate directly with your {+app+}
 over HTTP.
 
 .. cssclass:: note
@@ -106,9 +106,9 @@ buckets.
    configure service rules based on the authenticated user that called
    an action (:json-expansion:`%%user`) and the arguments that they
    provided (:json-expansion:`%%args`). You can also create complex
-   rules that :ref:`call a {+function-short+}
+   rules that :ref:`call a Function
    <call-function-json-expression>` (:json-operator:`%function`) and
-   evaluate based on the {+function-short+}'s return value.
+   evaluate based on the Function's return value.
 
 .. _service-webhooks:
 .. _incoming-webhooks:
@@ -124,7 +124,7 @@ webhooks by :doc:`configuring a service webhook
 </services/configure/service-webhooks>`.
 
 Incoming webhooks consist of two primary components: the webhook URL and
-the webhook {+function-short+}.
+the webhook Function.
 
 .. _webhook-url:
 .. _webhook-function:
@@ -153,7 +153,7 @@ the webhook {+function-short+}.
           external service.
 
    * - :guilabel:`Webhook Function`
-     - A webhook function is a :doc:`{+function+} </functions>` that
+     - A webhook function is a :doc:`{+service-short+} Function </functions>` that
        accepts an incoming HTTP request with data from the external
        service as its argument and optionally returns an HTTP response.
 

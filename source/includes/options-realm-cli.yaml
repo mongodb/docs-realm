@@ -5,7 +5,7 @@ directive: option
 description: |
   | **Optional.**
 
-  The Application ID of your {+instance+}.
+  The Application ID of your {+app+}.
 ---
 program: realm-cli import
 name: app-id
@@ -16,15 +16,15 @@ inherit:
   program: _shared
   name: app-id
 post: |
-  If not specified, ``realm-cli`` will attempt to use the value of
+  If not specified, {+cli-bin+} will attempt to use the value of
   ``app_id`` defined in :ref:`realm.json <appschema-realm-config>`. If
-  ``realm.json`` does not have an ``app_id`` value, ``realm-cli``
+  ``realm.json`` does not have an ``app_id`` value, {+cli-bin+}
   prompts you to create a new application.
   
   .. admonition:: New Application App IDs
      :class: note
   
-     If you create a new application with ``realm-cli``, {+service+}
+     If you create a new application with {+cli-bin+}, {+service+}
      generates a new App ID and ignores any value that you specify for
      the ``--app-id`` flag.
 ---
@@ -74,7 +74,7 @@ description: |
   The directory must contain, at minimum, a valid :ref:`realm.json
   <appschema-realm-config>` file.
 
-  If the ``path`` argument is omitted, ``realm-cli`` will search for a
+  If the ``path`` argument is omitted, {+cli-bin+} will search for a
   ``realm.json`` file in the current application directory.
 ---
 program: realm-cli import
@@ -87,7 +87,7 @@ description: |
   | **Default:** Merge
 
   The :ref:`import strategy <realm-import-strategies>` that
-  ``realm-cli`` should use when reconciling imported entities.
+  {+cli-bin+} should use when reconciling imported entities.
 ---
 program: realm-cli export
 name: output
@@ -99,14 +99,14 @@ description: |
 
   The path of the directory where {+service-short+} will export your application.
 
-  If specified, ``realm-cli`` creates a directory at the given path
+  If specified, {+cli-bin+} creates a directory at the given path
   and exports the application configuration into the new directory. If a
   file or directory already exists at the specified path, the export
   will fail.
 
   .. note::
 
-     If the ``output`` argument is omitted, ``realm-cli`` will export the
+     If the ``output`` argument is omitted, {+cli-bin+} will export the
      application configuration to a new directory within the current
      working directory.
 ---
@@ -117,7 +117,7 @@ optional: true
 description: |
   | **Optional.**
 
-  If enabled, ``realm-cli`` exports the application configuration
+  If enabled, {+cli-bin+} exports the application configuration
   without any service ID values, including the App ID. This simplifies
   the creation of new applications from an exported configuration.
 ---
@@ -128,7 +128,7 @@ optional: true
 description: |
   | **Optional.**
 
-  If enabled, ``realm-cli`` exports the application configuration
+  If enabled, {+cli-bin+} exports the application configuration
   without any fields that conflict with deployment via GitHub source
   control, including fields like ``name``, ``app_id``, ``location``,
   and ``deployment_model`` in the ``realm.json`` file as well as the
@@ -144,13 +144,13 @@ description: |
   | **Optional.**
 
   The :guilabel:`Project ID` of the :ref:`Atlas project <projects>` on
-  which you want to host a newly created {+instance+}. If
-  specified, ``realm-cli`` will not prompt you to select a project when
+  which you want to host a newly created {+app+}. If
+  specified, {+cli-bin+} will not prompt you to select a project when
   creating a new app.
 
   .. note::
 
-     ``realm-cli`` ignores the value of ``--project-id``
+     {+cli-bin+} ignores the value of ``--project-id``
      unless you are :doc:`importing a new application
      </deploy/create-with-cli>`.
 ---
@@ -161,7 +161,7 @@ optional: true
 description: |
   | **Optional.**
 
-  If specified, suppress all text color in ``realm-cli`` output.
+  If specified, suppress all text color in {+cli-bin+} output.
 
   By default, some output such as errors and import diffs are
   colorized. Use this flag if you wish to prevent this behavior.
@@ -174,7 +174,7 @@ description: |
   | **Optional.**
 
   If specified, automatically respond affirmatively to any yes/no
-  prompts from ``realm-cli``.
+  prompts from {+cli-bin+}.
 ---
 program: realm-cli
 name: "config-path"
@@ -210,7 +210,7 @@ description: |
   | **Optional.**
 
   If specified, uploads and deploys any static assets in the
-  ``/hosting/files`` directory of your {+instance+}.
+  ``/hosting/files`` directory of your {+app+}.
 ---
 program: realm-cli import
 name: include-dependencies
@@ -221,7 +221,7 @@ description: |
 
   If specified, uploads and deploys any external dependencies included
   in a ``node_modules`` archive in the ``/functions`` directory of your
-  {+instance+}.
+  {+app+}.
 ---
 program: realm-cli export
 name: include-hosting
@@ -231,7 +231,7 @@ description: |
   | **Optional.**
 
   If specified, exports all hosted static assets in the
-  ``hosting/files`` directory of your {+instance+}.
+  ``hosting/files`` directory of your {+app+}.
 ---
 program: realm-cli diff
 name: include-hosting
@@ -241,7 +241,7 @@ description: |
   | **Optional.**
 
   If specified, the diff includes a list of files in the
-  ``hosting/files`` directory of your {+instance+} that are
+  ``hosting/files`` directory of your {+app+} that are
   different from your app's deployed files.
 ---
 program: realm-cli secrets add
@@ -273,7 +273,7 @@ args: <Secret Name>
 directive: option
 optional: false
 description: |
-  The name of the Secret to remove from your {+instance+}.
+  The name of the Secret to remove from your {+app+}.
 ---
 program: realm-cli secrets remove
 name: secret-id
@@ -287,7 +287,7 @@ args: <Secret ID>
 directive: option
 optional: false
 description: |
-  The ID value of the Secret to remove from your {+instance+}.
+  The ID value of the Secret to remove from your {+app+}.
 ---
 program: realm-cli secrets update
 name: secret-name

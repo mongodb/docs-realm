@@ -39,13 +39,13 @@ Configuration
 
    * - | ``id``
        | String
-     - A string that uniquely identifies the {+trigger-short+}. {+service-short+}
+     - A string that uniquely identifies the Trigger. {+service-short+}
        automatically generates a unique ID for a trigger when you create
        it.
 
    * - | ``name``
        | String
-     - The name of the {+trigger-short+}. The name may be at most 64 characters
+     - The name of the Trigger. The name may be at most 64 characters
        long and can only contain ASCII letters, numbers, underscores,
        and hyphens.
 
@@ -62,9 +62,9 @@ Configuration
 
    * - | ``function_name``
        | String
-     - The name of the {+function+} that the {+trigger-short+}
-       executes whenever it fires. The {+trigger-short+} automatically passes
-       arguments to the function depending on the {+trigger-short+} ``type``.
+     - The name of the {+service-short+} Function that the Trigger
+       executes whenever it fires. The Trigger automatically passes
+       arguments to the function depending on the Trigger ``type``.
 
    * - | ``config``
        | Document

@@ -102,7 +102,7 @@ Audience
 
 The :guilabel:`Audience` of a JWT specifies its intended recipient. JWTs
 describe their audience in the ``aud`` claim. By default, {+service-short+} expects
-``aud`` to contain the App ID of the {+instance+} for which the provider
+``aud`` to contain the App ID of the {+app+} for which the provider
 is configured.
 
 If the external authentication system JWT specifies a different ``aud``
@@ -583,7 +583,7 @@ document of the following form:
 
      - Required. The audience of the token.
        By default, {+service-short+} expects this value to be the App ID of your
-       {+instance+}. If your external authentication service
+       {+app+}. If your external authentication service
        returns a different ``aud`` value, you should specify that value
        instead.
 
@@ -653,7 +653,7 @@ Summary
 
 - Custom JWT authentication allows you to identify your application's
   users via a JSON Web Token issued outside of {+service-short+}.
-- {+service-short+} expects JWT audience values to be the App ID of the {+instance+}
+- {+service-short+} expects JWT audience values to be the App ID of the {+app+}
   unless otherwise configured in the application.
 - {+service-short+} can verify JWTs using either
   :ref:`manually specified keys and signing algorithms

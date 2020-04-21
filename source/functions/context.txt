@@ -45,7 +45,7 @@ The ``context`` variable contains the following modules:
        call.
 
    * - ``context.functions``
-     - Execute other functions in your {+instance+}.
+     - Execute other functions in your {+app+}.
 
    * - ``context.http``
      - Access the HTTP service for ``get``, ``post``, ``put``, ``patch``,
@@ -103,7 +103,7 @@ service as methods.
              :class: note
              
              The default name for the :doc:`MongoDB Service </mongodb>`
-             associated with a {+instance+}'s initial linked
+             associated with a {+app+}'s initial linked
              cluster is ``mongodb-atlas``.
 
 .. _context-functions:
@@ -111,7 +111,7 @@ service as methods.
 context.functions
 ~~~~~~~~~~~~~~~~~
 
-An object that provides access to other :doc:`{+functions-short+} </functions>` in
+An object that provides access to other :doc:`Functions </functions>` in
 your application.
 
 .. method:: context.functions.execute(functionName, args...)

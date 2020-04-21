@@ -25,7 +25,7 @@ Triggers
 Introduction
 ------------
 
-{+triggers+} enable you to execute application and database
+{+service-short+} Triggers enable you to execute application and database
 logic automatically, either in response to events or based on a
 pre-defined schedule. {+service+} supports three types of triggers:
 
@@ -41,29 +41,29 @@ pre-defined schedule. {+service+} supports three types of triggers:
   execute functions at regular intervals according to a pre-defined
   schedule.
 
-{+triggers-short+} listen for application events of a configured type
-and are each linked with a specific :doc:`{+function+} </functions>`.
-Whenever a {+trigger-short+} observes an event that matches your
+Triggers listen for application events of a configured type
+and are each linked with a specific :doc:`{+service-short+} Function </functions>`.
+Whenever a Trigger observes an event that matches your
 configuration, it *"fires"* and passes the event object that caused it
-to fire as the argument to its linked {+function-short+}. You can
-configure the events that cause a {+trigger-short+} to fire based on
+to fire as the argument to its linked Function. You can
+configure the events that cause a Trigger to fire based on
 their *operation type* as well as other values specific to each type of
-{+trigger-short+}.
+Trigger.
 
 .. note::
 
-   {+service+} limits the execution of {+trigger-short+}
-   {+functions-short+} to a rate of 1000 executions per second across
-   all {+triggers-short+} in an application. If additional
-   {+triggers-short+} fire beyond this threshold, {+backend+} adds their
-   associated {+function-short+} calls to a queue and executes the
-   {+function-short+} calls once capacity becomes available.
+   {+service+} limits the execution of Trigger
+   Functions to a rate of 1000 executions per second across
+   all Triggers in an application. If additional
+   Triggers fire beyond this threshold, {+backend+} adds their
+   associated Function calls to a queue and executes the
+   Function calls once capacity becomes available.
 
    Database Triggers with *event ordering* enabled are an exception to
-   this rule. Each ordered {+trigger-short+} processes events in order,
+   this rule. Each ordered Trigger processes events in order,
    waiting for the previous event execution to complete before handling
    the next event. Therefore, only one execution of a particular ordered
-   {+trigger-short+} executes at any given time.
+   Trigger executes at any given time.
 
 Examples
 --------
@@ -93,11 +93,11 @@ collection as a document that resembles the following:
      ]
    }
 
-To automate this process, the store creates a database {+trigger-short+} that
+To automate this process, the store creates a database Trigger that
 listens for ``UPDATE`` change events in the ``store.orders`` collection.
 When the trigger observes an ``UPDATE`` event, it passes the
-:ref:`change event object <database-events>` to its associated {+function-short+},
-``textShippingUpdate``. The {+function-short+} checks the change event for any
+:ref:`change event object <database-events>` to its associated Function,
+``textShippingUpdate``. The Function checks the change event for any
 changes to the ``shippingLocation`` field and, if it was updated, sends
 a text message to the customer with the new location of the order.
 
@@ -170,11 +170,11 @@ in {+atlas+}. Each customer should have a document in the
 and queried.
 
 To guarantee that the collection represents each customer, the store
-creates an authentication {+trigger-short+} that listens for newly created users
+creates an authentication Trigger that listens for newly created users
 in the :doc:`email/password </authentication/email-password>` authentication
 provider. When the trigger observes a ``CREATE`` event, it passes the
 :ref:`authentication event object <authentication-events>` to its linked
-function, ``createNewUserDocument``. The {+function+} creates a new document
+function, ``createNewUserDocument``. The {+service-short+} Function creates a new document
 describing the user and their activity and inserts it into the
 ``store.customers`` collection.
 
@@ -238,11 +238,11 @@ as documents that resemble the following:
    }
 
 To generate the daily report, the store creates a :doc:`scheduled
-{+trigger+} </triggers/scheduled-triggers>` that fires every
-morning at ``7:00 AM UTC-0400``. When the {+trigger+} fires, it calls its
-linked {+function+}, ``generateDailyReport``, which runs an aggregation
+{+service-short+} Trigger </triggers/scheduled-triggers>` that fires every
+morning at ``7:00 AM UTC-0400``. When the {+service-short+} Trigger fires, it calls its
+linked {+service-short+} Function, ``generateDailyReport``, which runs an aggregation
 query on the ``store.orders`` collection to generate the report. The
-{+function+} then stores the result of the aggregation in the
+{+service-short+} Function then stores the result of the aggregation in the
 ``store.reports`` collection.
 
 .. tabs-realm-admin-interfaces::

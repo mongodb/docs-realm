@@ -27,8 +27,8 @@ Glossary
 
    MongoDB document
       See the MongoDB Manual's :manual:`definition of document
-      </core/document/>`. For :term:`{+instances+} <{+instance+}>` that use
-      :term:`{+sync+}`, every MongoDB document in the {+instance+}'s
+      </core/document/>`. For :term:`{+app+}s <{+app+}>` that use
+      :term:`{+sync+}`, every MongoDB document in the {+app+}'s
       :term:`linked Atlas cluster <linked cluster>` corresponds to
       a synced :term:`{+service-short+} object` in a client :term:`{+realm+}`.
 
@@ -38,7 +38,7 @@ Glossary
       contains the document's corresponding :term:`{+service-short+} object`.
 
    partition value
-      A value of a :term:`{+instance+}`'s :term:`partition key` field.
+      A value of a :term:`{+app+}`'s :term:`partition key` field.
       Every unique partition value corresponds to a different
       :term:`{+realm+}` assignment.
 
@@ -49,7 +49,7 @@ Glossary
       availability allows.
 
    {+service-short+} client
-      Anything that interacts with a :term:`{+instance+}` using the
+      Anything that interacts with a :term:`{+app+}` using the
       :term:`{+service-short+} SDK`. Examples include phone apps, IoT devices,
       and server applications.
 
@@ -58,7 +58,7 @@ Glossary
       :term:`{+service+}` application or a local
       :term:`{+client-database+}`.
 
-   {+instance+}
+   {+app+}
       An instance of the :term:`{+service+}` Backend-as-a-Service.
 
    {+client-database+}
@@ -72,14 +72,31 @@ Glossary
       :term:`synced {+atlas+} cluster <synced cluster>`.
    
    {+service-short+} object
-      An object that you can store in a :term:`{+realm+}`, defined by a
-      :term:`{+schema+}` through either any :term:`{+service-short+} SDK` or the
-      {+backend-schema+} editor on the {+service+} admin site. {+schema+}s
-      can define primitive fields as well as embedded lists and relations.
-      For :term:`{+instances+} <{+instance+}>` that use :term:`{+sync+}`,
-      every :term:`{+service-short+} object` in a client {+realm+} corresponds to a synced
-      :term:`MongoDB document` in the {+instance+}'s
-      :term:`linked Atlas cluster <linked cluster>`.
+      An instance of a {+service-short+} type. An object that you can
+      store in a :term:`{+realm+}` and synchronized with a
+      :term:`synced {+atlas+} cluster <synced cluster>` using
+      :term:`{+sync+}`.
+
+   {+service-short+} type
+      A declaration of an object structure that can be stored and
+      synchronized using :term:`{+service+}`. This includes primitive
+      fields, embedded lists, and object relations. Collectively referred to
+      as the :term:`{+service-short+} data model`. You can customize
+      {+service-short+} types for your {+app+} in two different ways:
+      by altering or creating {+frontend-schema+} definitions in the
+      {+service-short+} SDK with :term:`developer mode` enabled in your
+      {+app+} or by creating or editing a
+      :ref:`JSON schema <mongodb-schemas>` assigned to a collection in
+      the {+ui+} or {+cli-bin+}, which directly edits the {+app+}'s
+      :term:`{+backend-schema+}`.
+
+   developer mode
+      A method of editing a :term:`{+app+}'s <{+app+}>`
+      :term:`data model <{+service-short+} data model>` that converts
+      :term:`{+frontend-schema+}` :term:`type <{+service-short+} type>`
+      declarations into :term:`{+backend-schema+}s <{+backend-schema+}`
+      for {+atlas+} collections with :ref:`JSON schema <mongodb-schemas>`.
+      Enables sync before a {+backend-schema+} has been defined.
 
    GraphQL
       Open-source data query and manipulation language for APIs. {+service+}
@@ -162,38 +179,38 @@ Glossary
    {+service-short+} webhook
       An HTTP endpoint that calls a function upon request.
 
-   {+function+}
-      Server-side logic for your {+instance+}. You can call
+   {+service-short+} Function
+      Server-side logic for your {+app+}. You can call
       functions from any :term:`{+service-short+} client`, from other functions,
-      with a :term:`{+trigger+}`, or a :term:`{+service-short+} webhook`.
+      with a :term:`{+service-short+} Trigger`, or a :term:`{+service-short+} webhook`.
 
-   {+trigger+}
+   {+service-short+} Trigger
       Execute a function automatically when an event occurs or at a
       scheduled time. You can configure responses to :term:`data changes
       <database trigger>`, :term:`user logins <authentication trigger>`,
       and :term:`scheduled events <scheduled trigger>`. Every trigger
-      activation calls a :term:`{+function+}`.
+      activation calls a :term:`{+service-short+} Function`.
 
    database trigger
-      Call a :term:`{+function+}` whenever a document is added,
+      Call a :term:`{+service-short+} Function` whenever a document is added,
       updated, or removed in a :term:`linked cluster`. Passes a
       change event describing the data that changed to the linked
       function.
 
    authentication trigger
-      Call a :term:`{+function+}` whenever a user
+      Call a :term:`{+service-short+} Function` whenever a user
       interacts with an :term:`authentication provider`,
       such as whenever a user logs into your :term:`{+service-short+}
       app`. Passes an authentication event describing the
       user and interaction to the linked function.
 
    scheduled trigger
-      Call a :term:`{+function+}` based on a schedule that you
+      Call a :term:`{+service-short+} Function` based on a schedule that you
       define using a :ref:`CRON expresssion <CRON-expresssions>`.
    
    linked cluster
       A :term:`{+atlas+}` database cluster that is associated with
-      your :term:`{+instance+}`. You can define data schemas and access
+      your :term:`{+app+}`. You can define data schemas and access
       rules to control who can access what in any linked cluster.
       :term:`{+client-database+}` data is automatically synchronized with
       your linked cluster when :term:`{+sync+}` is enabled, which
@@ -206,7 +223,7 @@ Glossary
       :term:`partitioned <partitioning>` into
       client :term:`{+realms+} <{+realm+}>` that
       :term:`synchronizes data <{+sync+}>` via your
-      :term:`{+instance+}`. Access data in your synced cluster from a
+      :term:`{+app+}`. Access data in your synced cluster from a
       :term:`{+service-short+} client` using {+client-database+} via the {+service-short+} SDK.
 
    partitioning
@@ -217,11 +234,11 @@ Glossary
       documentation for details.
 
    system function
-      A :term:`{+function+}` that runs as the :term:`system user`.
+      A :term:`{+service-short+} Function` that runs as the :term:`system user`.
    
    system user
       A user that communicates directly with the :term:`linked cluster`
-      and other services, bypassing collection :term:`{+rules+}` and
+      and other services, bypassing collection :term:`{+service-short+} Rules` and
       :term:`Schema Validation`. This user bypasses most restrictions on
       the
       :ref:`CRUD & Aggregation APIs <mongodb-crud-and-aggregation-apis>`.
@@ -234,37 +251,37 @@ Glossary
    
    external dependencies
       One or more JavaScript modules from ``npm`` that you have uploaded
-      to your :term:`{+instance+}`. You can import and use external
-      dependencies from any :term:`{+function+}`.
+      to your :term:`{+app+}`. You can import and use external
+      dependencies from any :term:`{+service-short+} Function`.
 
    function context
       A global variable available that allows you to interface with
-      components of your :term:`{+instance+}` from a :term:`{+function+}`.
-      For example, you can call another {+function-short+}, communicate
+      components of your :term:`{+app+}` from a :term:`{+service-short+} Function`.
+      For example, you can call another Function, communicate
       with an external service using the HTTP module, or access data in a
       :term:`linked cluster`.
 
-   {+value+}
+   {+service-short+} Value
       A named reference to a piece of static data defined in
-      :term:`{+backend+}`, accessible through :term:`{+function+}
-      <{+function+}>` and :term:`{+rule+} <{+rules+}>` expressions.
+      :term:`{+backend+}`, accessible through :term:`{+service-short+} Function
+      <{+service-short+} Function>` and :term:`{+service-short+} Rule <{+service-short+} Rules>` expressions.
 
-   {+rules+}
+   {+service-short+} Rules
       Boolean expressions that determine the read and write permissions
       for a given :ref:`user <user-objects>` for a particular resource.
 
-   {+secret+}
+   {+service-short+} Secret
       A private value stored in :term:`{+backend+}` that
       cannot be directly read, but can be assigned to
-      variables. {+secrets-short+} are automatically obscured
+      variables. Secrets are automatically obscured
       from {+backend+} logs. Common use cases include
       :term:`authentication provider` and service configurations.
 
    {+ui+}
       A web interface from which you can manage any
-      :term:`{+service+}` :term:`{+instance-short+} <{+instance+}>`. For example, you
-      can define :term:`{+functions-short+} <{+function+}>`,
-      create automated :term:`{+triggers-short+} <{+trigger+}>`, view
+      :term:`{+app+} <{+app+}>`. For example, you
+      can define :term:`Functions <{+service-short+} Function>`,
+      create automated :term:`Triggers <{+service-short+} Trigger>`, view
       :ref:`logs <logs>`, and link :term:`{+atlas+}` clusters.
 
    {+sync+}
@@ -274,7 +291,7 @@ Glossary
       changes consistently between clients so all connected clients
       eventually arrive at the same state.
 
-   {+sync-protocol+}
+   sync protocol
       Procedure used by :term:`{+client-database+}` when :term:`{+sync+}`
       is enabled to update local data to reflect remote data changes and
       push local changes to :term:`{+backend+}`. This protocol merges
@@ -282,23 +299,16 @@ Glossary
       across all synced instances of a :term:`{+realm+}`.
 
    {+cli+}
-      A command line interface named ``realm-cli`` from which you
-      can manage any :term:`{+service+}` :term:`{+instance-short+}
-      <{+instance+}>`. For
-      example, you can define :term:`{+functions-short+} <{+function+}>`,
-      create automated :term:`{+triggers-short+} <{+trigger+}>`,
+      A command line interface named {+cli-bin+} from which you
+      can manage any :term:`{+app+}
+      <{+app+}>`. For
+      example, you can define :term:`Functions <{+service-short+} Function>`,
+      create automated :term:`Triggers <{+service-short+} Trigger>`,
       view :ref:`logs <logs>`, and link :term:`{+atlas+}` clusters.
 
    {+service-short+} Administration API
       A :ref:`HTTP API <admin-api>` through which you can perform
       administrative tasks.
-
-   developer mode
-      Allows you to synchronize data between an instance of
-      :term:`{+client-database+}` and a :term:`linked {+atlas+} cluster
-      <linked cluster>` without defining a strict, inviolable
-      :term:`schema <{+schema+}>`. Intended for fast interation during
-      early stages of development before defining a schema.
 
    Sync role
       A set of :term:`{+realm+}`-level permissions that {+backend+}
@@ -320,9 +330,9 @@ Glossary
    {+backend-schema+}
       The structure that defines the fields of and relationships between
       all :term:`MongoDB documents <MongoDB document>` that you can read
-      or write into a :term:`{+instance+}'s <{+instance+}>`
+      or write into a :term:`{+app+}'s <{+app+}>`
       :term:`linked {+atlas+} cluster <linked cluster>`. Defined and
-      enforced in your {+instance+}.
+      enforced in your {+app+}.
 
    {+frontend-schema+}
       The structure that defines the fields of and relationships between
@@ -334,8 +344,9 @@ Glossary
       A library used by :term:`{+service-short+} clients <{+service-short+} client>`
       to connect to :term:`{+client-database+}` and :term:`{+backend+}`.
 
-   {+schema+}
-      The structure of :term:`{+service-short+} objects <{+service-short+} object>` synchronized
+   {+service-short+} data model
+      The collection of :term:`{+service-short+} object <{+service-short+} object>`
+      definitions that describes all data synchronized
       via :term:`{+sync+}` between mobile :term:`{+service-short+} clients
       <{+service-short+} client>` using the :term:`{+frontend-schema+}` and a
-      backend :term:`{+instance+}` using :term:`{+backend-schema+}`.
+      backend :term:`{+app+}` using :term:`{+backend-schema+}`.
