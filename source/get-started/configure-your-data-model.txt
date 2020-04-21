@@ -15,15 +15,16 @@ Configure Your Data Model
 Overview
 --------
 
-In modern applications, users expect their data to be accurate
-cross-platform. Data modeling ensures the accuracy of application data
-by performing type and format checks on fields. 
+In modern applications, users expect their data to be accurate no matter
+which device or browser they connect from. Data modeling ensures the
+accuracy of application data by performing type and format checks on
+fields. 
 
 
 MongoDB Realm allows you to define, synchronize, and enforce your data
 model in two formats: 
 
-- :doc:`Realm Schema </mongodb/document-schemas>`, which defines your data as MongoDB documents.
+- :doc:`Realm Schema </mongodb/document-schemas>`, which defines your data as MongoDB documents to enforce validation and synchronization in the cloud.
 
 - :doc:`Realm Object Model </data-model/realms>`, which defines your data as native objects in your mobile application.
 
@@ -35,16 +36,16 @@ write the data.
 Approaches
 ----------
 
-There are two parallel approaches to configuring both data models: 
-   1. If you have data in your Atlas cluster already, MongoDB generates a
-   Realm Schema by sampling your data. MongoDB Realm can then translate
-   that Realm Schema into a Realm Object Model to use in your mobile
-   application. 
+There are two alternative approaches to configuring both data models: 
 
-   2. Alternatively, if you are developing mobile-first and do not
-   already have data in your Atlas cluster, you can translate your Realm
-   Object Model into a Realm Schema for use with Atlas. 
+1. If you have data in your Atlas cluster already, MongoDB generates a
+Realm Schema by sampling your data. MongoDB Realm can then translate
+that Realm Schema into a Realm Object Model to use in your mobile
+application. 
 
+2. Alternatively, if you are developing mobile-first and do not
+already have data in your Atlas cluster, you can translate your Realm
+Object Model into a Realm Schema for use with Atlas. 
 Regardless of the approach that you take, when you configure both your
 Atlas cluster and Mobile application to use the respective data model,
 changes between the server and client are auto-updated.  
