@@ -175,7 +175,10 @@ Realms are Partitions of Atlas Data
 Each {+realm+} corresponds to a subset of the data in your
 :term:`{+instance+}'s <{+instance+}>`
 :term:`synced {+atlas+} cluster <synced cluster>`. You can customize the
-partitioning of data using your application's :ref:`partition key <partition-key>`.
+partitioning of data using your application's
+:ref:`partition key <partition-key>`. Unique values of the partition
+key, known as :term:`partition values <partition value>`, correspond to
+individual {+realms+}.
 
 You can customize permissions for these partitions of data using
 :ref:`{+rules+} <sync-rules>`.
@@ -190,8 +193,7 @@ Summary
 - A :term:`{+backend-schema+}` is a versioned specification of the
   object types used in a {+instance+}.
 
-- {+realm+} **permissions** define who can read, write, or manage
+- {+rules+} define who can read or write
   the {+realm+} and apply to the {+realm+} as a whole.
 
-- A {+realm+} **path** is a {+realm+}'s unique ID and indicates whether
-  the {+realm+} is public or private.
+- A :term:`partition value` is a {+realm+}'s unique identifier.
