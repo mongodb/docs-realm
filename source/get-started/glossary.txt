@@ -84,18 +84,19 @@ Glossary
       as the :term:`{+service-short+} data model`. You can customize
       {+service-short+} types for your {+app+} in two different ways:
       by altering or creating {+frontend-schema+} definitions in the
-      {+service-short+} SDK with :term:`Developer Mode` enabled in your
+      {+service-short+} SDK with :term:`developer mode` enabled in your
       {+app+} or by creating or editing a
       :ref:`JSON schema <mongodb-schemas>` assigned to a collection in
       the {+ui+} or {+cli-bin+}, which directly edits the {+app+}'s
       :term:`{+backend-schema+}`.
 
-   Developer Mode
+   developer mode
       A method of editing a :term:`{+app+}'s <{+app+}>`
       :term:`{+service-short+} data model` that converts
       :term:`{+frontend-schema+}` :term:`{+service-short+} type`
       declarations into :term:`{+backend-schema+}`s for {+atlas+}
-      collections with :ref:`JSON schema <mongodb-schemas>`.
+      collections with :ref:`JSON schema <mongodb-schemas>`. Enables
+      sync before a {+backend-schema+} has been defined.
 
    GraphQL
       Open-source data query and manipulation language for APIs. {+service+}
@@ -308,13 +309,6 @@ Glossary
    {+service-short+} Administration API
       A :ref:`HTTP API <admin-api>` through which you can perform
       administrative tasks.
-
-   developer mode
-      Allows you to synchronize data between an instance of
-      :term:`{+client-database+}` and a :term:`linked {+atlas+} cluster
-      <linked cluster>` without defining a strict, inviolable
-      :term:`schema <{+service-short+} data model>`. Intended for fast interation during
-      early stages of development before defining a schema.
 
    Sync role
       A set of :term:`{+realm+}`-level permissions that {+backend+}
