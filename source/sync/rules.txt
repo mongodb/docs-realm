@@ -15,17 +15,17 @@ Define Sync Rules
 Overview
 --------
 
-In order to control who can :term:`sync <{+sync+}>`, read, and write data,
-:term:`{+service+}` allows you to configure **sync
+In order to control who can :term:`{+sync-short+} <{+sync+}>`, read, and write data,
+:term:`{+service+}` allows you to configure **{+sync-short+}
 rules**. Sync rules enforce two essential data access
 principles:
 
-- Users can only sync and read a :term:`{+realm+}` that they are allowed to see.
-- Users can only sync and make changes to a {+realm+} that they are allowed to write to.
+- Users can only {+sync-short+} and read a :term:`{+realm+}` that they are allowed to see.
+- Users can only {+sync-short+} and make changes to a {+realm+} that they are allowed to write to.
 
-Rules are bundled into :ref:`sync roles <sync-roles>`, which
+Rules are bundled into :ref:`{+sync-short+} roles <sync-roles>`, which
 are then associated with a :ref:`user <user-objects>` to
-determine whether that user can sync, read, or write a given
+determine whether that user can {+sync-short+}, read, or write a given
 {+realm+}. You can edit roles in the MongoDB :term:`{+ui+}`
 or import them using the :term:`{+cli+}`.
 
@@ -35,9 +35,9 @@ Rules and Realms
 ----------------
 
 Rules apply to entire :ref:`{+realms+} <{+realms+}>`. That is, you
-can either sync an entire {+realm+} or none of it. This level
+can either {+sync-short+} an entire {+realm+} or none of it. This level
 of access control strikes a balance between suitability for
-most applications and scalability of sync.
+most applications and scalability of {+sync-short+}.
 
 .. example::
 
@@ -60,19 +60,19 @@ most applications and scalability of sync.
 Users and Sync Roles
 --------------------
 
-A :term:`sync role` is a set of {+realm+}-level permissions
+A :term:`{+sync-short+} role` is a set of {+realm+}-level permissions
 that {+backend+} evaluates when determining whether a user may
-sync a given {+realm+}. You select a property of the
+{+sync-short+} a given {+realm+}. You select a property of the
 :ref:`user object <user-objects>` that {+backend+} uses to
-determine whether that user may sync the {+realm+}.
+determine whether that user may {+sync-short+} the {+realm+}.
 
 There are two initial roles:
 
-- :guilabel:`Read-only`: the user may sync the {+realm+} and read the data.
-- :guilabel:`Read/Write`: the user may sync the {+realm+}, read the data, and modify the data.
+- :guilabel:`Read-only`: the user may {+sync-short+} the {+realm+} and read the data.
+- :guilabel:`Read/Write`: the user may {+sync-short+} the {+realm+}, read the data, and modify the data.
 
 You may define custom roles with a rules :ref:`expression
-<expressions>`. In a sync rules expression, access the
+<expressions>`. In a {+sync-short+} rules expression, access the
 partition key value with the ``%%partition``
 :ref:`expression expansion <expansions>`.
 
@@ -142,6 +142,6 @@ Summary
 -------
 
 - **Sync rules** allow you to control who can read and write on which :term:`{+realm+}`.
-- **Roles** are collections of permissions that {+realm+} evaluates to determine whether a user may sync a {+realm+}.
+- **Roles** are collections of permissions that {+realm+} evaluates to determine whether a user may {+sync-short+} a {+realm+}.
 - You can define rules in the {+ui+} or by importing them with :term:`{+cli+}`.
 
