@@ -2,9 +2,9 @@ title: Define a Realm Schema
 ref: define-realm-schema
 content: |
 
-  To get started, ensure you have a Realm Schema defined. This Realm
-  Schema will be translated into a Realm Object Model to be configured
-  and utilized in your mobile application.
+  To get started, ensure you have a Realm Schema defined. MongoDB Realm
+  will translate this Realm Schema into a Realm Object Model to be
+  configured and utilized in your mobile application.
 
   .. note:: 
 
@@ -15,11 +15,10 @@ title: View the Realm Object Model
 ref: view-realm-db-schema
 content: |
 
-  The Realm Object Model defines and validates your data
-  in your mobile client application. To view your Realm Object Model,
-  navigate to the :guilabel:`SDKs` page, where you can
-  view your Realm Schema as a Realm Object Model in your language of
-  choice.
+  The Realm Object Model defines and validates your data in your mobile
+  client application. To view your Realm Object Model, navigate to the
+  :guilabel:`SDKs` page, where you can view your Realm Schema as a
+  generated Realm Object Model in your language of choice.
 
     .. figure:: /images/translate-jsonschema-into-realm-data-model.png
      :width: 750px
@@ -30,13 +29,14 @@ title: View and Fix Schema Errors
 ref: view-schema-errors
 content: |
 
-  Translating your data model from a Realm Schema to a Realm Object
-  Model can cause several errors or warnings, preventing MongoDB Realm
-  from translating your Realm Schema into a Realm Object Model. Some
-  examples of errors or warning are mismatched data types that are
-  supported in MongoDB Documents but not in the native language, or
-  errors related to the differences in the way relationships are
-  represented in the two respective models.
+  Realm may fail to generate some or all of your Realm Object Model based on your
+  Realm Schema. You can view a list of the errors in your Realm Schema that
+  prevented Realm from generating the Realm Object Model on the :guilabel:`SDKs`
+  page of the Realm UI.
+
+  Common errors include mismatched types, and differences in the way
+  relationships are represented in the two respective models. For each
+  error or warning, modify your Realm Schema to fix the specified issue.
 
   .. note::
     
@@ -47,30 +47,21 @@ content: |
   .. figure:: /images/schema-translation-errors-warnings.png
      :width: 750px
      :lightbox:
-
-  To address these errors, edit your Realm Schema to adhere to both data
-  model's structure. Click :guilabel:`Edit Schema` under the
-  :guilabel:`Schema Tab` of the :guilabel:`Rules` page in the MongoDB
-  Realm UI to define and edit document fields to fix corresponding
-  errors and warnings related to translating from a Realm Schema to a
-  Realm Object Model. After you have configured the schema, click
-  :guilabel:`Save`. After saving, Realm immediately begins enforcing the
-  Realm Schema for all future queries against your Atlas cluster and a
-  Realm Object Model will be translated again from your updated Realm
-  Schema.
 ---
 title: Open a Realm with the Realm Object Model
 ref: open-realm-with-data-model
 content: |
 
-  To begin enforcing data validation with your data model, you can open
-  a Realm with the generated Realm Object Model. This will prevent
-  improper data from entering your database from your mobile client.
-  Click :guilabel:`Copy` on the right-hand side of the Realm Object
-  Model for the Object you want to begin modeling with to copy
-  the Realm Object Model code for the SDK of your choice into your
-  clipboard. Open your mobile application code in your IDE and paste the
-  Realm Object Model code in. 
+  You can immediately use the generated Realm Object Model in your
+  client application. In order to begin enforcing data validation with
+  your data model, you can open a Realm with the Realm Object Model.
+  This will prevent improper data from entering your database from your
+  mobile client. Click :guilabel:`Copy` on the right-hand side of the
+  Realm Object Model for the Object Model you want to integrate into
+  your mobile application code. This will copy the Realm Object Model
+  code for the SDK of your choice into your clipboard. Open your mobile
+  application code in your IDE and paste the Realm Object Model code in.
+
 
 
   .. tabs-realm-languages::

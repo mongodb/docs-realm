@@ -7,7 +7,7 @@ content: |
   when :guilabel:`Development Mode` is on in the MongoDB Realm UI.
   MongoDB Realm will reflect these changes to your Realm Object Model in
   your Realm Schema used for Atlas.
-  
+
   To enable :guilabel:`Development
   Mode`, navigate to the ``SDKs`` page, the "Development Mode is ON"
   modal will appear immediately, indicating that Realm Object Modal
@@ -60,7 +60,9 @@ content: |
 
   Once you make changes to your Realm Object Model, your Realm Schema
   should reflect those changes so that Atlas can enforce data validation
-  with the updated data model configuration. Turn off
+  with the updated data model configuration. This occurs when
+  :guilabel:`Development Mode` is turned off and a Realm Schema is
+  generated from your updated Realm Object Model. Turn off
   :guilabel:`Development Mode` by clicking the "Turn Dev Mode Off"
   button on the top right-hand side of the ``SDKs`` page. Turning off
   ``Development Mode`` will prevent data model changes, and generate a
@@ -79,9 +81,9 @@ content: |
   is OFF" modal will appear. The modal indicates that MongoDB Realm will
   stop accepting new data model changes from clients and that MongoDB
   Realm has generated a Realm Schema from your Realm Object Model.  This
-  Realm Schema is used for your Atlas Cluster to enforce data validation
-  using the configuration specified in the Realm Schema. To view your
-  updated Realm Schema, click the "View my Realm Schema" button.
+  Realm Schema is used by your Atlas Cluster to enforce data validation
+  using the rules specified. To view your updated Realm Schema, click
+  the "View my Realm Schema" button.
 
   .. figure:: /images/view-my-json-schema.png
      :width: 461px
@@ -90,4 +92,4 @@ content: |
   .. note:: 
 
     To make future data model updates from your mobile client code, you
-    will have to turn :guilabel:`Development Mode` back on.
+    can follow this procedure again.
