@@ -22,10 +22,13 @@ title: Edit Your Realm Object Model
 ref: edit-realm-object-model
 content: |
 
-  As your application needs grow and change, you will need to modify
+  As you continue to develop your application, you will need to modify
   your data model with it to enforce different data validation rules
   based on those changes. While :guilabel:`Development Mode` is on you
-  can edit your Realm Object Model in your client code.
+  can edit your Realm Object Model in your client code. Data Validation
+  occurs when :guilabel:`Development Mode` is off, so MongoDB Realm does
+  not accept changes to your Realm Object Model while
+  :guilabel:`Development Mode` is not on.
 
   .. example::
 
@@ -84,3 +87,4 @@ content: |
   .. figure:: /images/view-my-json-schema.png
      :width: 461px
      :lightbox:
+...
