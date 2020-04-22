@@ -58,38 +58,29 @@ title: Update Your Realm Schema with the Realm Object Model Changes
 ref: update-realm-schema
 content: |
 
-  Once you make changes to your Realm Object Model, your Realm Schema
-  should reflect those changes so that Atlas can enforce data validation
-  with the updated data model configuration. This occurs when
-  :guilabel:`Development Mode` is turned off and a Realm Schema is
-  generated from your updated Realm Object Model. Turn off
-  :guilabel:`Development Mode` by clicking the "Turn Dev Mode Off"
-  button on the top right-hand side of the ``SDKs`` page. Turning off
-  ``Development Mode`` will prevent data model changes, and generate a
-  Realm Schema based on your updated Realm Object Model.
+  While :guilabel:`Development Mode` is on, MongoDB Realm doesn't validate
+  writes against your data model, allowing you to freely update your Realm
+  Object Model. When you turn off :guilabel:`Development Mode`, MongoDB
+  Realm automatically updates your Realm Schema and starts to enforce data
+  validation for your Atlas cluster based on it. 
 
-  .. figure:: /images/turn-off-dev-mode.png
-     :width: 461px
-     :lightbox:
+  Click the "Turn Dev Mode Off" button on the top right-hand side of the
+  ``SDKs`` page to turn off :guilabel:`Development Mode`. Once you turn
+  off :guilabel:`Development Mode`, the "Development Mode is OFF" modal
+  will appear. The modal indicates that MongoDB Realm has stopped
+  accepting new data model changes from clients. Click the "View my Realm
+  Schema" button on the modal to view your updated Realm Schema.
 
----
-title: View Your Realm Schema
-ref: view-realm-schema
-content: |
 
-  Once you turn off :guilabel:`Development Mode`, the "Development Mode
-  is OFF" modal will appear. The modal indicates that MongoDB Realm will
-  stop accepting new data model changes from clients and that MongoDB
-  Realm has generated a Realm Schema from your Realm Object Model.  This
-  Realm Schema is used by your Atlas Cluster to enforce data validation
-  using the rules specified. To view your updated Realm Schema, click
-  the "View my Realm Schema" button.
-
-  .. figure:: /images/view-my-json-schema.png
-     :width: 461px
-     :lightbox:
-      
   .. note:: 
 
     To make future data model updates from your mobile client code, you
     can follow this procedure again.
+
+  .. figure:: /images/turn-off-dev-mode.png
+     :width: 750px
+     :lightbox:
+
+  .. figure:: /images/view-my-json-schema.png
+     :width: 461px
+     :lightbox:
