@@ -1,0 +1,212 @@
+.. _ios-client-relationships:
+
+=============
+Relationships
+=============
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+{+service+} allows you to define explicit relationships between the types of
+objects in a {+app+}. A relationship is an object property that references
+another {+service-short+} object rather than one of the primitive data types. You
+define relationships by setting the type of an object property to
+another object type in the :ref:`property schema <ios-property-schema>`.
+
+Relationships are direct references to other objects in a {+realm+}, which
+means that you don't need bridge tables or explicit joins to define a
+relationship like you would in a relational database. Instead you can
+access related objects by reading and writing to the property that
+defines the relationship. {+client-database+} executes read operations
+lazily as they come in, so querying a relationship is just as performant
+as reading a regular property.
+
+There are three primary types of relationships between objects:
+
+- :ref:`One-to-One Relationship <ios-to-one-relationship>`
+- :ref:`One-to-Many Relationship <ios-to-many-relationship>`
+- :ref:`Inverse Relationship <ios-inverse-relationship>`
+
+Key Concepts
+------------
+
+.. _ios-to-one-relationship:
+
+To-One Relationship
+~~~~~~~~~~~~~~~~~~~
+
+A **to-one** relationship means that an object is related in a specific
+way to no more than one other object. You define a to-one relationship
+for an object type in its :ref:`object schema <ios-object-schema>` by
+specifying a property where the type is the related {+service-short+} object type.
+
+.. example::
+
+   An application could use the following object schemas to indicate
+   that a Person may or may not own a single Dog by including it in its
+   ``dog`` property:
+   
+   .. tabs-realm-languages::
+          
+     .. tab::
+         :tabid: swift
+ 
+         .. literalinclude:: /examples/Relationships/ToOne/ToOne.swift
+           :language: swift
+           :emphasize-lines: 4
+     
+     .. tab::
+         :tabid: objective-c
+ 
+         .. literalinclude:: /examples/Relationships/ToOne/ToOne.m
+           :language: objective-c
+           :emphasize-lines: 4
+
+
+.. _ios-to-many-relationship:
+
+To-Many Relationship
+~~~~~~~~~~~~~~~~~~~~
+
+A **to-many** relationship means that an object is related in a specific
+way to multiple objects. You define a to-many relationship for an object
+type in its :ref:`object schema <ios-object-schema>` by specifying a
+property where the type is a list or array of the related {+service-short+} object
+type.
+
+.. example::
+   
+   An application could use the following object schemas to indicate
+   that a Person may own multiple Dogs by including them in its ``dog``
+   property:
+   
+   .. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: swift
+
+      .. literalinclude:: /examples/Relationships/ToMany/ToMany.swift
+         :language: swift
+         :emphasize-lines: 4
+
+   .. tab::
+      :tabid: objective-c
+
+      .. literalinclude:: /examples/Relationships/ToMany/ToMany.m
+         :language: objective-c
+         :emphasize-lines: 4
+
+
+.. _ios-inverse-relationship:
+
+Inverse Relationship
+~~~~~~~~~~~~~~~~~~~~
+
+An **inverse relationship** allows an object to keep track of other
+objects that contain it in a relationship. An object referred to by a
+to-one or to-many relationship does not automatically have a reference
+to the object that defines the relationship. For example, the to-many
+relationship "Person owns Dogs" does not automatically create the
+relationship "Dog is owned by Person". As a result you must explicitly
+define inverse relationships.
+
+There are two ways to define an inverse relationship: explicit and
+implicit.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 20 80
+
+   * - Type
+     - Description
+
+   * - Explicit
+     - An *explicit* inverse relationship is a regular to-one or to-many
+       relationship that goes in the opposite direction of the
+       relationship that it inverts, from the subject of the original
+       relationship to the object that defines it.
+       
+       Explicit inverse relationships are regular object properties,
+       which means that they are independent of the relationships that
+       they invert. You must manually keep the two relationships in
+       sync in your application code.
+       
+       .. example::
+          
+          An application could use the following object schemas to
+          indicate that a Person may own multiple Dogs by including them
+          in their ``dogs`` property and that a dog has a specific owner
+          which the application must set manually in its ``owner``
+          property:
+          
+          .. tabs-realm-languages::
+            
+            .. tab::
+                :tabid: swift
+
+                .. literalinclude:: /examples/Relationships/ExplicitInverse/ExplicitInverse.swift
+                  :language: swift
+                  :emphasize-lines: 4, 11
+
+            .. tab::
+                :tabid: objective-c
+
+                .. literalinclude:: /examples/Relationships/ExplicitInverse/ExplicitInverse.m
+                  :language: objective-c
+                  :emphasize-lines: 4, 18
+
+
+   * - Implicit
+     - An *implicit* inverse relationship is an object property that
+       dynamically links an object to other objects that define a
+       specific relationship with it. Implicit relationships link to a
+       specific to-one or to-many relationship property on an object
+       type.
+       
+       {+client-database+} automatically updates implicit relationships whenever an
+       object is included or removed in the specified relationship. You
+       cannot manually set the value of an inverse relationship
+       property.
+
+       .. example::
+          
+          An application could use the following object schemas to
+          indicate that a Person may own multiple Dogs by including them
+          in their ``dogs`` property and that {+client-database+} should implicitly
+          keep track of each dog's owner in its ``owner`` property:
+          
+          .. tabs-realm-languages::
+            
+            .. tab::
+                :tabid: swift
+
+                .. literalinclude:: /examples/Relationships/ImplicitInverse/ImplicitInverse.swift
+                  :language: swift
+                  :emphasize-lines: 4, 11
+
+            .. tab::
+                :tabid: objective-c
+
+                .. literalinclude:: /examples/Relationships/ImplicitInverse/ImplicitInverse.m
+                  :language: objective-c
+                  :emphasize-lines: 4, 18, 26-30
+
+Summary
+-------
+
+- A **relationship** is when a {+service-short+} object property references
+  another {+service-short+} object.
+
+- Relationships are direct references. You can access a related object
+  directly through the relationship property of another object.
+
+- {+client-database+} supports to-one, to-many, explicit inverse and implicit
+  inverse relationships.
