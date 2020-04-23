@@ -1,0 +1,187 @@
+.. _ios-client-notifications:
+
+=============
+Notifications
+=============
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+Any modern app should be able to react when data changes,
+regardless of where that change originated. When a user adds
+a new item to a list, you may want to update the UI, show a
+notification, or log a message. When someone updates that
+item, you may want to change its visual state or fire off a
+network request. Finally, when someone deletes the item, you
+probably want to remove it from the UI. Realm's notification
+system allows you to watch for and react to changes in your
+data, independent of the writes that caused the changes.
+
+Realm emits three kinds of notifications:
+
+- :ref:`Realm notifications <ios-realm-notifications>` whenever a specific Realm commits a write transaction.
+- :ref:`Collection notifications <ios-collection-notifications>` whenever any :term:`Realm object` in a collection changes, including inserts, updates, and deletes.
+- :ref:`Object notifications <ios-object-notifications>` whenever a specific Realm object changes, including updates and deletes.
+
+.. _ios-subscribe-to-changes:
+
+Subscribe to Changes
+--------------------
+
+Generally, this is how you observe a Realm, collection, or object:
+
+1. Create a notification handler for the Realm, collection, or object notification.
+2. Add the notification handler to the Realm, collection, or object that you want to observe.
+3. Receive a notification token from the call to add the handler. Retain this token as long as you want to observe.
+4. When you are done observing, invalidate the token.
+
+.. _ios-realm-notifications:
+
+Realm Notifications
+-------------------
+You can register a notification handler on an entire Realm.
+Realm Database calls the notification handler whenever any write
+transaction involving that Realm is committed. The
+handler receives no information about the change.
+
+This is useful when you want to know that there has been a
+change but do not care to know specifically what changed.
+For example, proof of concept apps often use this
+notification type and simply refresh the entire UI when
+anything changes. As the app becomes more sophisticated and
+performance-sensitive, the app developers shift to more
+granular notifications.
+
+.. example::
+
+  Suppose you are writing a real-time collaborative app. To
+  give the sense that your app is buzzing with collaborative
+  activity, you want to have an indicator that lights up when
+  any change is made. In that case, a realm notification
+  handler would be a great way to drive the code that controls
+  the indicator.
+
+  .. tabs-realm-languages::
+
+    .. tab::
+        :tabid: swift
+
+        .. literalinclude:: /examples/Notifications/RealmNotification.swift
+          :language: swift
+          :emphasize-lines: 3
+
+    .. tab::
+        :tabid: objective-c
+
+        .. literalinclude:: /examples/Notifications/RealmNotification.m
+          :language: objective-c
+          :emphasize-lines: 2
+
+
+.. _ios-collection-notifications:
+
+Collection Notifications
+------------------------
+
+You can register a notification handler on a specific
+collection within a Realm. The handler receives a
+description of changes since the last notification.
+Specifically, this description consists of three lists of
+indices:
+
+- The indices of the objects that were deleted.
+- The indices of the objects that were inserted.
+- The indices of the objects that were modified.
+
+.. admonition:: Order Matters
+   :class: important
+
+   In collection notification handlers, always apply changes
+   in the following order: deletions, insertions, then
+   modifications. Handling insertions before deletions may
+   result in unexpected behavior.
+
+Realm Database emits an initial notification after retrieving the
+collection. After that, Realm Database delivers collection
+notifications asynchronously whenever a write transaction
+adds, changes, or removes objects in the collection.
+
+Unlike Realm notifications, collection notifications contain
+detailed information about the change. This enables
+sophisticated and selective reactions to changes. Collection
+notifications provide all the information needed to manage a
+list or other view that represents the collection in the UI.
+
+.. example::
+
+  The following code shows how to observe a collection for
+  changes in order to update the UI.
+
+  .. tabs-realm-languages::
+
+    .. tab::
+        :tabid: swift
+
+        .. literalinclude:: /examples/Notifications/CollectionNotification.swift
+          :language: swift
+          :emphasize-lines: 12
+          
+    .. tab::
+        :tabid: objective-c
+
+        .. literalinclude:: /examples/Notifications/CollectionNotification.m
+          :language: objective-c
+          :emphasize-lines: 7
+
+
+.. _ios-object-notifications:
+
+Object Notifications
+--------------------
+
+You can register a notification handler on a specific object
+within a Realm. Realm Database notifies your handler:
+
+- When the object is deleted.
+- When any of the object's properties change.
+
+The handler receives information about what fields changed
+and whether the object was deleted.
+
+.. example::
+
+  The following code shows how to open a default realm, create
+  a new instance of a class, and observe that instance for
+  changes.
+
+  .. tabs-realm-languages::
+
+    .. tab::
+        :tabid: swift
+
+        .. literalinclude:: /examples/Notifications/ObjectNotification.swift
+          :language: swift
+          :emphasize-lines: 19
+
+    .. tab::
+        :tabid: objective-c
+
+        .. literalinclude:: /examples/Notifications/ObjectNotification.m
+          :language: objective-c
+          :emphasize-lines: 24
+
+
+Summary
+-------
+
+- Notifications allow you to watch for and react to changes on your objects, collections, and Realms.
+- When you add a notification handler to an object, collection, or Realm that you wish to observe, you receive a token. Retain this token as long as you wish to keep observing.
+- Realm Database has three notification types: Realm, collection, and object notifications. Realm notifications only tell you that something changed, while collection and object notifications allow for more granular observation.
