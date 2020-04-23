@@ -55,6 +55,12 @@ edited before it is translated into a Realm Object Model in order to
 synchronize the two models and perform data validation on your mobile
 application
 
+.. admonition:: Link a MongoDB Atlas Cluster
+   :class: note
+   
+   Your Realm app must have at least one :doc:`linked Atlas cluster
+   </mongodb/link-a-cluster>` in order to define a Realm Data Model.
+
 .. include:: /includes/steps/auto-schema-generation.rst
 
 .. _create-schema-from-rom:
@@ -68,11 +74,11 @@ your Realm Object Model will automatically update your Realm Schema if
 Turn off :guilabel:`Development Mode` to generate a Realm Schema
 based on your Realm Object Model for your Atlas cluster to use. 
 
-.. note:: 
-
-  To get started, sign up for MongoDB Atlas and create a cluster. Then
-  :doc:`link your Atlas cluster</mongodb/link-a-cluster>` to your
-  MongoDB Realm Application.
+.. admonition:: Link a MongoDB Atlas Cluster
+   :class: note
+   
+   Your Realm app must have at least one :doc:`linked Atlas cluster
+   </mongodb/link-a-cluster>` in order to define a Realm Data Model.
 
 .. include:: /includes/steps/development-mode-realm-schema.rst
 
