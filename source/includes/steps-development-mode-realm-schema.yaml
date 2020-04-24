@@ -1,3 +1,20 @@
+title: Configure ``Realm Sync``
+ref: enable-development-mode
+content: |
+
+  While working with your Realm Object Model in MongoDB Realm, you want your
+  Realm Schema to update with any changes that you make.
+  To do this you must configure :doc:`sync </sync/sync-overview>` for
+  our application. In order to map fields from MongoDB Documents to Realm Objects
+  to use with your mobile application, you also need to define a :doc:`partition
+  key</sync/partitioning.txt>`.
+  
+  To configure sync click :guilabel:`Sync` in the left-hand navigation.
+  Select the linked cluster that should store the synced data for your
+  application. Then define a :ref:`partition key <choose-a-partition-key>`.
+  Finally :doc:`Define your sync rules </sync/sync-rules>`.
+
+---
 title: Enable ``Development Mode``
 ref: enable-development-mode
 content: |
