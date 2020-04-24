@@ -1,4 +1,4 @@
-.. _client-relationships:
+.. _ios-client-relationships:
 
 =============
 Relationships
@@ -19,7 +19,7 @@ Overview
 objects in a {+app+}. A relationship is an object property that references
 another {+service-short+} object rather than one of the primitive data types. You
 define relationships by setting the type of an object property to
-another object type in the :ref:`property schema <property-schema>`.
+another object type in the :ref:`property schema <ios-property-schema>`.
 
 Relationships are direct references to other objects in a {+realm+}, which
 means that you don't need bridge tables or explicit joins to define a
@@ -31,21 +31,21 @@ as reading a regular property.
 
 There are three primary types of relationships between objects:
 
-- :ref:`One-to-One Relationship <to-one-relationship>`
-- :ref:`One-to-Many Relationship <to-many-relationship>`
-- :ref:`Inverse Relationship <inverse-relationship>`
+- :ref:`One-to-One Relationship <ios-to-one-relationship>`
+- :ref:`One-to-Many Relationship <ios-to-many-relationship>`
+- :ref:`Inverse Relationship <ios-inverse-relationship>`
 
 Key Concepts
 ------------
 
-.. _to-one-relationship:
+.. _ios-to-one-relationship:
 
 To-One Relationship
 ~~~~~~~~~~~~~~~~~~~
 
 A **to-one** relationship means that an object is related in a specific
 way to no more than one other object. You define a to-one relationship
-for an object type in its :ref:`object schema <object-schema>` by
+for an object type in its :ref:`object schema <ios-object-schema>` by
 specifying a property where the type is the related {+service-short+} object type.
 
 .. example::
@@ -54,16 +54,31 @@ specifying a property where the type is the related {+service-short+} object typ
    that a Person may or may not own a single Dog by including it in its
    ``dog`` property:
    
-   .. include:: /examples/Relationships/ToOne/ToOne.rst
+   .. tabs-realm-languages::
+          
+     .. tab::
+         :tabid: swift
+ 
+         .. literalinclude:: /examples/Relationships/ToOne/ToOne.swift
+           :language: swift
+           :emphasize-lines: 4
+     
+     .. tab::
+         :tabid: objective-c
+ 
+         .. literalinclude:: /examples/Relationships/ToOne/ToOne.m
+           :language: objective-c
+           :emphasize-lines: 4
 
-.. _to-many-relationship:
+
+.. _ios-to-many-relationship:
 
 To-Many Relationship
 ~~~~~~~~~~~~~~~~~~~~
 
 A **to-many** relationship means that an object is related in a specific
 way to multiple objects. You define a to-many relationship for an object
-type in its :ref:`object schema <object-schema>` by specifying a
+type in its :ref:`object schema <ios-object-schema>` by specifying a
 property where the type is a list or array of the related {+service-short+} object
 type.
 
@@ -73,9 +88,24 @@ type.
    that a Person may own multiple Dogs by including them in its ``dog``
    property:
    
-   .. include:: /examples/Relationships/ToMany/ToMany.rst
+   .. tabs-realm-languages::
+   
+      .. tab::
+         :tabid: swift
+   
+         .. literalinclude:: /examples/Relationships/ToMany/ToMany.swift
+            :language: swift
+            :emphasize-lines: 4
+   
+      .. tab::
+         :tabid: objective-c
+   
+         .. literalinclude:: /examples/Relationships/ToMany/ToMany.m
+            :language: objective-c
+            :emphasize-lines: 4
 
-.. _inverse-relationship:
+
+.. _ios-inverse-relationship:
 
 Inverse Relationship
 ~~~~~~~~~~~~~~~~~~~~
@@ -117,7 +147,22 @@ implicit.
           which the application must set manually in its ``owner``
           property:
           
-          .. include:: /examples/Relationships/ExplicitInverse/ExplicitInverse.rst
+          .. tabs-realm-languages::
+            
+            .. tab::
+                :tabid: swift
+
+                .. literalinclude:: /examples/Relationships/ExplicitInverse/ExplicitInverse.swift
+                  :language: swift
+                  :emphasize-lines: 4, 11
+
+            .. tab::
+                :tabid: objective-c
+
+                .. literalinclude:: /examples/Relationships/ExplicitInverse/ExplicitInverse.m
+                  :language: objective-c
+                  :emphasize-lines: 4, 18
+
 
    * - Implicit
      - An *implicit* inverse relationship is an object property that
@@ -138,7 +183,21 @@ implicit.
           in their ``dogs`` property and that {+client-database+} should implicitly
           keep track of each dog's owner in its ``owner`` property:
           
-          .. include:: /examples/Relationships/ImplicitInverse/ImplicitInverse.rst
+          .. tabs-realm-languages::
+            
+            .. tab::
+                :tabid: swift
+
+                .. literalinclude:: /examples/Relationships/ImplicitInverse/ImplicitInverse.swift
+                  :language: swift
+                  :emphasize-lines: 4, 11
+
+            .. tab::
+                :tabid: objective-c
+
+                .. literalinclude:: /examples/Relationships/ImplicitInverse/ImplicitInverse.m
+                  :language: objective-c
+                  :emphasize-lines: 4, 18, 26-30
 
 Summary
 -------

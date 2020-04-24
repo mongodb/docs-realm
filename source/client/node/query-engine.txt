@@ -1,4 +1,4 @@
-.. _client-query-engine:
+.. _react-native-client-query-engine:
 
 ============
 Query Engine
@@ -15,82 +15,22 @@ Query Engine
 Overview
 --------
 
-To filter data in your Realms, you can leverage Realm Database's
-query engine. Each SDK has its own idiomatic approach to the
-query engine:
-
-- In the Swift, Objective-C, and JavaScript SDKs, Realm Database's query engine uses a query language based on `NSPredicate <https://developer.apple.com/documentation/foundation/nspredicate>`__ syntax.
-- In the C#/.NET SDK, Realm's query engine implements standard `LINQ <https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/linq/introduction-to-linq-queries>`__ syntax.
-- In the Java SDK, Realm's query engine uses a :wikipedia:`Fluent interface <Fluent_interface>` to construct queries.
-
-Regardless of the implementation details, the overall
-functionality of the query engine across SDKs is
-comparable.
-
-This page outlines the query operators in general. The exact
-syntax for using query operators depends on which SDK you
-are using. Select your target SDK from the tabs below to see
-more detail.
-
-.. tabs-realm-languages::
-
-   .. tab::
-      :tabid: c-sharp
-
-      Queries implement standard LINQ syntax. See the exact
-      scope of LINQ implemented on the `LINQ Support page
-      <https://realm.io/docs/dotnet/latest/api/linqsupport.html>`__.
-
-   .. tab::
-      :tabid: java
-
-      Realm Database’s query engine uses a Fluent interface to
-      construct multi-clause queries. See `RealmQuery API
-      <https://realm.io/docs/java/latest/api/io/realm/RealmQuery.html>`__
-      for a complete list of available methods.
-
-   .. tab::
-      :tabid: javascript
-
-      Realm Database's query engine uses a language inspired by
-      NSPredicate. For an introduction to NSPredicate in
-      general, See Apple’s `Predicates Programming Guide
-      <https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/Predicates/AdditionalChapters/Introduction.html>`__.
-      For a brief tutorial on the JavaScript SDK
-      implementation, see `Query Language tutorial
-      <https://realm.io/docs/javascript/latest/api/tutorial-query-language.html>`__.
-
-   .. tab::
-      :tabid: objective-c
-
-      Realm Database's query engine supports common predicates of
-      NSPredicate. For an introduction to NSPredicate in
-      general, See Apple’s `Predicates Programming Guide
-      <https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/Predicates/AdditionalChapters/Introduction.html>`__.
-      For a quick reference to the Objective-C SDK
-      implementation, see `NSPredicate Cheatsheet
-      <https://academy.realm.io/posts/nspredicate-cheatsheet/>`__.
-
-   .. tab::
-      :tabid: swift
-
-      Realm Database's query engine supports common predicates of
-      NSPredicate. For an introduction to NSPredicate in
-      general, See Apple’s `Predicates Programming Guide
-      <https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/Predicates/AdditionalChapters/Introduction.html>`__.
-      For a quick reference to the Swift SDK implementation,
-      see `NSPredicate Cheatsheet
-      <https://academy.realm.io/posts/nspredicate-cheatsheet/>`__.
+To filter data in your Realms, you can leverage
+{+client-database+}'s query engine. {+client-database+}'s
+query engine uses a language inspired by NSPredicate. For an
+introduction to NSPredicate in general, See Apple’s
+`Predicates Programming Guide
+<https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/Predicates/AdditionalChapters/Introduction.html>`__.
 
 Operators
 ---------
 
 There are several types of operators available to filter a
-:doc:`Realm collection </crud/collections>`. Filters work by
-**evaluating** an operator expression for every :term:`object
-<Realm object>` in the collection
-being filtered. If the expression resolves to ``true``, Realm Database
-includes the object in the results collection.
+:ref:`Realm collection <react-native-client-collections>`.
+Filters work by **evaluating** an operator expression for
+every :term:`object <Realm object>` in the collection being
+filtered. If the expression resolves to ``true``, Realm
+Database includes the object in the results collection.
 
 An **expression** consists of one of the following:
 
@@ -112,7 +52,14 @@ An **expression** consists of one of the following:
    See the schema for these two classes, ``Project`` and
    ``Task``, below:
 
-   .. include:: /examples/Schemas/ProjectAndTask.rst
+   .. tabs-realm-languages::
+
+      .. tab::
+          :tabid: javascript
+
+          .. literalinclude:: /examples/Schemas/ProjectAndTask.js
+            :language: javascript
+
 
 Comparison Operators
 ~~~~~~~~~~~~~~~~~~~~
@@ -127,34 +74,25 @@ values.
    * - Operator
      - Description
 
-   * - ``between``
-     - Evaluates to ``true`` if the left-hand numerical or date expression is between or equal to the right-hand range. For dates, this evaluates to ``true`` if the left-hand date is within the right-hand date range. Not supported on the JS or C# SDKs.
-
-   * - | ``equalTo`` (Java)
-       | ``==`` (C#, JS, Obj-C, Swift)
+   * - | ``==``
      - Evaluates to ``true`` if the left-hand expression is equal to the right-hand expression.
 
-   * - | ``greaterThan`` (Java)
-       | ``>`` (C#, JS, Obj-C, Swift)
+   * - | ``>``
      - Evaluates to ``true`` if the left-hand numerical or date expression is greater than the right-hand numerical or date expression. For dates, this evaluates to ``true`` if the left-hand date is later than the right-hand date.
 
-   * - | ``greaterThanOrEqualTo`` (Java)
-       | ``>=`` (C#, JS, Obj-C, Swift)
+   * - | ``>=``
      - Evaluates to ``true`` if the left-hand numerical or date expression is greater than or equal to the right-hand numerical or date expression. For dates, this evaluates to ``true`` if the left-hand date is later than or the same as the right-hand date.
 
    * - ``in``
-     - Evaluates to ``true`` if the left-hand expression is in the right-hand list. Not supported on the C# SDK.
+     - Evaluates to ``true`` if the left-hand expression is in the right-hand list.
 
-   * - | ``lessThan`` (Java)
-       | ``<`` (C#, JS, Obj-C, Swift)
+   * - | ``<``
      - Evaluates to ``true`` if the left-hand numerical or date expression is less than the right-hand numerical or date expression. For dates, this evaluates to ``true`` if the left-hand date is earlier than the right-hand date.
 
-   * - | ``lessThanOrEqualTo`` (Java)
-       | <= (C#, JS, Obj-C, Swift)
+   * - | ``<=``
      - Evaluates to ``true`` if the left-hand numeric expression is less than or equal to the right-hand numeric expression. For dates, this evaluates to ``true`` if the left-hand date is earlier than or the same as the right-hand date.
 
-   * - | ``notEqualTo`` (Java)
-       | ``!=`` (C#, JS, Obj-C, Swift)
+   * - | ``!=``
      - Evaluates to ``true`` if the left-hand expression is not equal to the right-hand expression.
 
 .. example::
@@ -167,7 +105,14 @@ values.
    - Find unassigned tasks by finding tasks where the ``assignee`` property is equal to ``null``.
    - Find tasks assigned to specific teammates Ali or Jamie by seeing if the ``assignee`` property is in a list of names.
 
-   .. include:: /examples/Query/Comparison.rst
+   .. tabs-realm-languages::
+
+      .. tab::
+          :tabid: javascript
+
+          .. literalinclude:: /examples/Query/Comparison.js
+            :language: javascript
+
 
 Logical Operators
 ~~~~~~~~~~~~~~~~~
@@ -181,16 +126,16 @@ You can make compound predicates using logical operators.
    * - Operator
      - Description
 
-   * - | ``and`` (Java, JS, Obj-C, Swift)
-       | ``&&`` (C#, JS, Obj-C, Swift)
+   * - | ``and``
+       | ``&&``
      - Evaluates to ``true`` if both left-hand and right-hand expressions are ``true``.
 
-   * - | ``not`` (Java, JS, Obj-C, Swift)
-       | ``!`` (C#, JS, Obj-C, Swift)
+   * - | ``not``
+       | ``!``
      - Negates the result of the given expression.
 
-   * - | ``or`` (Java, JS, Obj-C, Swift)
-       | ``||`` (C#, JS, Obj-C, Swift)
+   * - | ``or``
+       | ``||``
      - Evaluates to ``true`` if either expression returns ``true``.
 
 .. example::
@@ -200,7 +145,14 @@ You can make compound predicates using logical operators.
    where the ``assignee`` property value is equal to 'Ali' AND
    the ``isComplete`` property value is ``true``:
 
-   .. include:: /examples/Query/Logical.rst
+   .. tabs-realm-languages::
+
+      .. tab::
+          :tabid: javascript
+
+          .. literalinclude:: /examples/Query/Logical.js
+            :language: javascript
+
 
 String Operators
 ~~~~~~~~~~~~~~~~
@@ -215,20 +167,17 @@ Regex-like wildcards allow more flexibility in search.
    * - Operator
      - Description
 
-   * - | ``beginsWith`` (Java, JS, Obj-C, Swift)
-       | ``StartsWith`` (C#)
+   * - | ``beginsWith``
      - Evaluates to ``true`` if the left-hand string expression begins with the right-hand string expression. This is similar to ``contains``, but only matches if the left-hand string expression is found at the beginning of the right-hand string expression.
 
    * - ``contains``
      - Evaluates to ``true`` if the left-hand string expression is found anywhere in the right-hand string expression.
        Not supported on the C# SDK.
 
-   * - | ``endsWith`` (Java, JS, Obj-C, Swift)
-       | ``EndsWith`` (C#)
+   * - | ``endsWith``
      - Evaluates to ``true`` if the left-hand string expression ends with the right-hand string expression. This is similar to ``contains``, but only matches if the left-hand string expression is found at the very end of the right-hand string expression.
 
-   * - | ``like`` (Java, JS, Obj-C, Swift)
-       | ``Like`` (C#)
+   * - | ``like``
      - Evaluates to ``true`` if the left-hand string expression
        matches the right-hand string wildcard string
        expression. A wildcard string expression is a string
@@ -241,9 +190,7 @@ Regex-like wildcards allow more flexibility in search.
        For example, the wildcard string "d?g" matches "dog",
        "dig", and "dug", but not "ding", "dg", or "a dog".
 
-   * - | ``equalTo`` (Java)
-       | ``==`` (JS, Obj-C, Swift)
-       | ``Equals`` (C#)
+   * - | ``==`` (JS, Obj-C, Swift)
      - Evaluates to ``true`` if the left-hand string is lexicographically equal to the right-hand string.
 
 
@@ -253,15 +200,22 @@ Regex-like wildcards allow more flexibility in search.
    projects with a name starting with the letter 'e' and
    projects with names that contain 'ie':
 
-   .. include:: /examples/Query/String.rst
+   .. tabs-realm-languages::
+
+      .. tab::
+          :tabid: javascript
+
+          .. literalinclude:: /examples/Query/String.js
+            :language: javascript
+
 
 Aggregate Operators
 ~~~~~~~~~~~~~~~~~~~
 
 You can apply an aggregate operator to a collection property
 of a Realm object. Aggregate operators traverse a
-:doc:`collection </crud/collections>` and reduce it to a
-single value.
+:ref:`collection <react-native-client-collections>` and reduce it
+to a single value.
 
 .. list-table::
    :header-rows: 1
@@ -270,27 +224,19 @@ single value.
    * - Operator
      - Description
 
-   * - | ``average`` (Java)
-       | ``@avg`` (JS, Obj-C, Swift)
-     - Evaluates to the average value of a given numerical property across a collection. Not supported on the C# SDK.
+   * - | ``@avg``
+     - Evaluates to the average value of a given numerical property across a collection.
 
-   * - | ``count`` (Java)
-       | ``@count`` (JS, Obj-C, Swift)
-       | ``Count`` (C#)
+   * - | ``@count``
      - Evaluates to the number of objects in the given collection.
 
-   * - | ``max`` (Java)
-       | ``@max`` (JS, Obj-C, Swift)
+   * - | ``@max``
      - Evaluates to the highest value of a given numerical property across a collection.
-       Not supported on the C# SDK.
 
-   * - | ``min`` (Java)
-       | ``@min`` (JS, Obj-C, Swift)
+   * - | ``@min``
      - Evaluates to the lowest value of a given numerical property across a collection.
-       Not supported on the C# SDK.
 
-   * - | ``sum`` (Java)
-       | ``@sum`` (JS, Obj-C, Swift)
+   * - | ``@sum``
      - Evaluates to the sum of a given numerical property across a collection.
 
 .. example::
@@ -301,7 +247,14 @@ single value.
    - Projects with average tasks priority above 5.
    - Long running projects.
 
-   .. include:: /examples/Query/Accumulator.rst
+   .. tabs-realm-languages::
+
+      .. tab::
+          :tabid: javascript
+
+          .. literalinclude:: /examples/Query/Accumulator.js
+            :language: javascript
+
 
 Set Operators
 ~~~~~~~~~~~~~
@@ -309,8 +262,8 @@ Set Operators
 A **set operator** uses specific rules to determine whether
 to pass each input collection object to the output
 collection by applying a given predicate to every element of
-a given :ref:`list <list-collections>` property of the
-object.
+a given :ref:`list <react-native-list-collections>` property of
+the object.
 
 .. list-table::
    :header-rows: 1
@@ -321,15 +274,12 @@ object.
 
    * - ``All``
      - Returns objects where the predicate evaluates to ``true`` for all objects in the collection.
-       Not supported on the C# or Java SDKs.
 
    * - ``Any``
      - Returns objects where the predicate evaluates to ``true`` for any objects in the collection.
-       Not supported on the Java SDK.
 
    * - ``None``
      - Returns objects where the predicate evaluates to false for all objects in the collection.
-       Not supported on the C# or Java SDKs. 
 
 
 .. example::
@@ -339,10 +289,16 @@ object.
    - Projects with no complete tasks.
    - Projects with any top priority tasks.
 
-   .. include:: /examples/Query/Set.rst
+   .. tabs-realm-languages::
+
+      .. tab::
+          :tabid: javascript
+
+          .. literalinclude:: /examples/Query/Set.js
+            :language: javascript
+
 
 Summary
 -------
 
-- Each SDK has its own language-idiomatic implementation of the query engine.
 - There are several categories of **operators** available to filter results: comparison, logical, string, aggregate, and set operators.

@@ -1,4 +1,4 @@
-.. _client-collections:
+.. _react-native-client-collections:
 
 ===========
 Collections
@@ -18,31 +18,31 @@ Overview
 One of the fundamental building blocks when working with any
 database is the **collection**. A {+service-short+} collection is an
 object that contains zero or more instances of one
-:doc:`{+service-short+} type </data-model/objects>`. {+service-short+} collections
+:ref:`{+service-short+} type <react-native-realm-objects>`. {+service-short+} collections
 are homogenous, i.e. all objects in a collection are of the
 same type.
 
 You can filter and sort any collection using {+client-database+}'s
-:doc:`query engine </crud/query-engine>`. Collections are
-:ref:`live <live-object>`, so they always reflect the
+:ref:`query engine <react-native-clientquery-engine>`. Collections are
+:ref:`live <react-native-live-object>`, so they always reflect the
 current state of the :term:`{+realm+} instance` on the current
 thread. You can also listen for changes in the collection by subscribing
-to :ref:`collection notifications <collection-notifications>`.
+to :ref:`collection notifications <react-native-collection-notifications>`.
 
 {+client-database+} has two kinds of collections: **lists** and **results**.
 
-.. _list-collections:
+.. _react-native-list-collections:
 
 List Collections
 ~~~~~~~~~~~~~~~~
 
 A **list collection** represents a :ref:`to-many
-relationship <to-many-relationship>` between two {+service-short+}
+relationship <react-native-to-many-relationship>` between two {+service-short+}
 types. Lists are mutable: within a write transaction, you
 can add and remove elements on a list. Lists are not
 associated with a query.
 
-.. _results-collections:
+.. _react-native-results-collections:
 
 Results Collections
 ~~~~~~~~~~~~~~~~~~~
@@ -53,12 +53,12 @@ cannot add or remove elements on the results collection.
 Results have an associated query that determines their
 contents.
 
-.. _live-collections:
+.. _react-native-live-collections:
 
 Collections are Live
 --------------------
 
-Like :ref:`live objects <live-object>`, {+service-short+} collections
+Like :ref:`live objects <react-native-live-object>`, {+service-short+} collections
 are usually **live**:
 
 - Live results collections always reflect the current results of the associated query.
@@ -67,11 +67,11 @@ are usually **live**:
 There are three cases when a collection is **not** live:
 
 - The collection is unmanaged, e.g. a List property of a {+service-short+} object that has not been added to a {+realm+} yet or that has been copied from a {+realm+}.
-- The collection is :ref:`frozen <frozen-objects>`.
+- The collection is :ref:`frozen <react-native-frozen-objects>`.
 - The collection is part of a snapshot (JavaScript and Java SDKs only).
 
 Combined with :ref:`collection notifications
-<collection-notifications>`, live collections enable clean,
+<react-native-collection-notifications>`, live collections enable clean,
 reactive code. For example, suppose your view displays the
 results of a query. You can keep a reference to the results
 collection in your view class, then read the results
@@ -87,7 +87,7 @@ validate that it is up-to-date.
    or count value could be outdated by the time you use
    it.
 
-.. _lazy-evaluated-results:
+.. _react-native-lazy-evaluated-results:
 
 Results are Lazily Evaluated
 ----------------------------
@@ -98,7 +98,7 @@ results collection. This lazy evaluation enables you to
 write elegant, highly performant code for handling large
 data sets and complex queries.
 
-.. _limiting-results:
+.. _react-native-limiting-results:
 
 Limiting Query Results
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -109,7 +109,7 @@ your query matches thousands of objects, but you only want
 to load the first ten, simply access only the first ten
 elements of the results collection.
 
-.. _pagination:
+.. _react-native-pagination:
 
 Pagination
 ~~~~~~~~~~
@@ -122,7 +122,7 @@ objects per page. To advance to any page, simply access the
 elements of the results collection starting at the index
 that corresponds to the target page.
 
-.. _list-vs-results:
+.. _react-native-list-vs-results:
 
 List vs. Results
 ----------------
@@ -131,7 +131,7 @@ When you need a collection, you can use the following rule
 of thumb to determine whether a list or a results collection
 is appropriate:
 
-- When you define the properties of your {+service-short+} objects, use lists to define :ref:`to-many relationships <to-many-relationship>` except :doc:`implicit inverse relationships </data-model/relationships>`.
+- When you define the properties of your {+service-short+} objects, use lists to define :ref:`to-many relationships <react-native-to-many-relationship>` except :ref:`implicit inverse relationships <react-native-inverse-relationship>`.
 - Use results everywhere else.
 
 To understand these different use cases, consider whether
@@ -157,14 +157,14 @@ are determined by a query.
    when the query matches a different set of Persons.
    Therefore, {+client-database+} gives you a **results** collection.
 
-.. _collection-type-for-implicit-inverse-relationships:
+.. _react-native-collection-type-for-implicit-inverse-relationships:
 
 .. admonition:: Inverse one-to-many relationship property exception
    :class: note
 
    Since {+client-database+} automatically determines the contents of
-   :doc:`implicit inverse relationship
-   </data-model/relationships>` collections, you may not add
+   :ref:`implicit inverse relationship
+   <react-native-inverse-relationship>` collections, you may not add
    or remove objects from such a collection directly.
    Therefore, the type of such a one-to-many relationship
    property is actually a results collection, not a list.
@@ -174,16 +174,16 @@ Summary
 
 - A {+service-short+} **collection** is a homogenous container of zero
   or more instances of one
-  :doc:`{+service-short+} type </data-model/objects>`.
+  :ref:`{+service-short+} type <react-native-realm-objects>`.
 
-- Collections are :ref:`live <live-object>`, i.e. auto-updating, unless
-  they are :ref:`frozen <frozen-objects>` or not part of a {+realm+}.
+- Collections are :ref:`live <react-native-live-object>`, i.e. auto-updating, unless
+  you have :ref:`frozen <react-native-frozen-objects>` them or they are not part of a {+realm+}.
 
 - Lazy evaluation of results collections means there is no need to
   design a special query to get limited or paginated results. Perform
   the query and read from the results collection as needed.
 
 - There are two main kinds of collection: **lists** and **results**.
-  Lists define the :ref:`to-many relationships <to-many-relationship>`
+  Lists define the :ref:`to-many relationships <react-native-to-many-relationship>`
   of your {+service-short+} types, while results represent the
-  lazily-loaded output of a :doc:`read operation </crud/reads>`.
+  lazily-loaded output of a :ref:`read operation <react-native-realm-database-reads>`.

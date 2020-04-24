@@ -1,4 +1,4 @@
-.. _realm-database-writes:
+.. _ios-realm-database-writes:
 
 ======
 Writes
@@ -49,7 +49,7 @@ When you are done with your transaction, {+client-database+} either
   the transaction causes an error, all changes are discarded
   (or "rolled back").
 
-.. _acid-compliance:
+.. _ios-acid-compliance:
 
 Realm is ACID Compliant
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -64,7 +64,7 @@ see transient states in the event of a system crash.
 - {+client-database+} establishes :wikipedia:`isolation <Isolation_(database_systems)>` by allowing only one writer at a time. This ensures thread safety between transactions.
 - Finally, {+client-database+} establishes :wikipedia:`durability <Durability_(database_systems)>` by writing to disk immediately when a transaction is committed. In the event of an app crash, for example, the changes are not lost or corrupted.
 
-.. _open-a-transaction:
+.. _ios-open-a-transaction:
 
 Run a Transaction
 -----------------
@@ -100,34 +100,6 @@ the transaction immediately after the callback.
    .. tabs-realm-languages::
 
       .. tab::
-         :tabid: c-sharp
-
-         .. literalinclude:: /examples/CRUD/BatchUpdate.cs
-            :language: csharp
-            :emphasize-lines: 11-15
-
-      .. tab::
-         :tabid: java
-
-         .. literalinclude:: /examples/CRUD/BatchUpdate.java
-            :language: java
-            :emphasize-lines: 10
-
-      .. tab::
-         :tabid: javascript
-
-         .. literalinclude:: /examples/CRUD/BatchUpdate.js
-            :language: javascript
-            :emphasize-lines: 9-12
-
-      .. tab::
-         :tabid: kotlin
-
-         .. literalinclude:: /examples/CRUD/BatchUpdate.kt
-            :language: kotlin
-            :emphasize-lines: 11
-
-      .. tab::
          :tabid: objective-c
 
          .. literalinclude:: /examples/CRUD/BatchUpdate.m
@@ -142,7 +114,7 @@ the transaction immediately after the callback.
             :emphasize-lines: 10
 
 
-.. _create-an-object:
+.. _ios-create-an-object:
 
 Create an Object
 ----------------
@@ -150,7 +122,7 @@ Create an Object
 In general, instantiate :doc:`{+service-short+} objects
 </data-model/objects>` as you would any other object. In a
 transaction, you can add the object to the {+realm+} if the
-{+realm+}'s :ref:`schema <realm-schema>` includes the object
+{+realm+}'s :ref:`schema <android-realm-schema>` includes the object
 type. When you add an instance to the {+realm+}, it becomes
 *managed* by that {+realm+}.
 
@@ -163,34 +135,6 @@ This automatically inserts the instance into the {+realm+}.
    This code demonstrates how to create an object with {+client-database+}:
 
    .. tabs-realm-languages::
-
-      .. tab::
-         :tabid: c-sharp
-
-         .. literalinclude:: /examples/CRUD/Create.cs
-            :language: csharp
-            :emphasize-lines: 8
-
-      .. tab::
-         :tabid: java
-
-         .. literalinclude:: /examples/CRUD/Create.java
-            :language: java
-            :emphasize-lines: 4, 12
-
-      .. tab::
-         :tabid: javascript
-
-         .. literalinclude:: /examples/CRUD/Create.js
-            :language: javascript
-            :emphasize-lines: 7
-
-      .. tab::
-         :tabid: kotlin
-
-         .. literalinclude:: /examples/CRUD/Create.kt
-            :language: kotlin
-            :emphasize-lines: 4, 12
 
       .. tab::
          :tabid: objective-c
@@ -207,7 +151,7 @@ This automatically inserts the instance into the {+realm+}.
             :emphasize-lines: 8
 
 
-.. _upsert:
+.. _ios-upsert:
 
 Upsert an Object
 ~~~~~~~~~~~~~~~~
@@ -229,34 +173,6 @@ adding any new entries.
    .. tabs-realm-languages::
 
       .. tab::
-         :tabid: c-sharp
-
-         .. literalinclude:: /examples/CRUD/Upsert.cs
-            :language: csharp
-            :emphasize-lines: 6, 11
-
-      .. tab::
-         :tabid: java
-
-         .. literalinclude:: /examples/CRUD/Upsert.java
-            :language: java
-            :emphasize-lines: 7, 14
-
-      .. tab::
-         :tabid: kotlin
-
-         .. literalinclude:: /examples/CRUD/Upsert.kt
-            :language: kotlin
-            :emphasize-lines: 7, 14
-
-      .. tab::
-         :tabid: javascript
-
-         .. literalinclude:: /examples/CRUD/Upsert.js
-            :language: javascript
-            :emphasize-lines: 4, 11
-
-      .. tab::
          :tabid: objective-c
 
          .. literalinclude:: /examples/CRUD/Upsert.m
@@ -271,7 +187,7 @@ adding any new entries.
             :emphasize-lines: 5, 15
 
 
-.. _update:
+.. _ios-update:
 
 Update an Object
 ----------------
@@ -289,34 +205,6 @@ the property.
    .. tabs-realm-languages::
 
       .. tab::
-         :tabid: c-sharp
-
-         .. literalinclude:: /examples/CRUD/Update.cs
-            :language: csharp
-            :emphasize-lines: 9-10
-
-      .. tab::
-         :tabid: java
-
-         .. literalinclude:: /examples/CRUD/Update.java
-            :language: java
-            :emphasize-lines: 8-9
-
-      .. tab::
-         :tabid: javascript
-
-         .. literalinclude:: /examples/CRUD/Update.js
-            :language: javascript
-            :emphasize-lines: 8-9
-
-      .. tab::
-         :tabid: kotlin
-
-         .. literalinclude:: /examples/CRUD/Update.kt
-            :language: kotlin
-            :emphasize-lines: 8-9
-
-      .. tab::
          :tabid: objective-c
 
          .. literalinclude:: /examples/CRUD/Update.m
@@ -331,7 +219,7 @@ the property.
             :emphasize-lines: 8-9
 
 
-.. _batch-update:
+.. _ios-batch-update:
 
 Update a Collection
 ~~~~~~~~~~~~~~~~~~~
@@ -344,39 +232,11 @@ objects in a collection at once.
 
    The following code demonstrates how to update a
    collection. Thanks to the :ref:`implicit inverse
-   relationship <inverse-relationship>` between the Dog's
+   relationship <android-inverse-relationship>` between the Dog's
    ``owner`` property and the Person's ``dogs`` property,
    {+client-database+} automatically updates Ali's list of dogs.
 
    .. tabs-realm-languages::
-
-      .. tab::
-         :tabid: c-sharp
-
-         .. literalinclude:: /examples/CRUD/BatchUpdate.cs
-            :language: csharp
-            :emphasize-lines: 11-15
-
-      .. tab::
-         :tabid: java
-
-         .. literalinclude:: /examples/CRUD/BatchUpdate.java
-            :language: java
-            :emphasize-lines: 10
-
-      .. tab::
-         :tabid: javascript
-
-         .. literalinclude:: /examples/CRUD/BatchUpdate.js
-            :language: javascript
-            :emphasize-lines: 9-12
-
-      .. tab::
-         :tabid: kotlin
-
-         .. literalinclude:: /examples/CRUD/BatchUpdate.kt
-            :language: kotlin
-            :emphasize-lines: 11
 
       .. tab::
          :tabid: objective-c
@@ -393,7 +253,7 @@ objects in a collection at once.
             :emphasize-lines: 10
 
 
-.. _delete:
+.. _ios-delete:
 
 Delete an Object
 ----------------
@@ -419,34 +279,6 @@ instance itself.
    .. tabs-realm-languages::
 
       .. tab::
-         :tabid: c-sharp
-
-         .. literalinclude:: /examples/CRUD/Delete.cs
-            :language: csharp
-            :emphasize-lines: 4
-
-      .. tab::
-         :tabid: java
-
-         .. literalinclude:: /examples/CRUD/Delete.java
-            :language: java
-            :emphasize-lines: 3
-
-      .. tab::
-         :tabid: javascript
-
-         .. literalinclude:: /examples/CRUD/Delete.js
-            :language: javascript
-            :emphasize-lines: 3
-
-      .. tab::
-         :tabid: kotlin
-
-         .. literalinclude:: /examples/CRUD/Delete.kt
-            :language: kotlin
-            :emphasize-lines: 6
-
-      .. tab::
          :tabid: objective-c
 
          .. literalinclude:: /examples/CRUD/Delete.m
@@ -461,7 +293,7 @@ instance itself.
             :emphasize-lines: 3
 
 
-.. _delete-collection:
+.. _ios-delete-collection:
 
 Delete a Collection
 ~~~~~~~~~~~~~~~~~~~
@@ -481,34 +313,6 @@ collection itself.
    .. tabs-realm-languages::
 
       .. tab::
-         :tabid: c-sharp
-
-         .. literalinclude:: /examples/CRUD/DeleteCollection.cs
-            :language: csharp
-            :emphasize-lines: 7
-
-      .. tab::
-         :tabid: java
-
-         .. literalinclude:: /examples/CRUD/DeleteCollection.java
-            :language: java
-            :emphasize-lines: 6
-
-      .. tab::
-         :tabid: javascript
-
-         .. literalinclude:: /examples/CRUD/DeleteCollection.js
-            :language: javascript
-            :emphasize-lines: 6
-
-      .. tab::
-         :tabid: kotlin
-
-         .. literalinclude:: /examples/CRUD/DeleteCollection.kt
-            :language: kotlin
-            :emphasize-lines: 6
-
-      .. tab::
          :tabid: objective-c
 
          .. literalinclude:: /examples/CRUD/DeleteCollection.m
@@ -523,13 +327,13 @@ collection itself.
             :emphasize-lines: 6
 
 
-.. _cascading-delete:
+.. _ios-cascading-delete:
 
 Cascading Delete
 ~~~~~~~~~~~~~~~~
 
-Sometimes, you have :doc:`dependent objects
-</data-model/relationships>` that you want to delete when
+Sometimes, you have :ref:`dependent objects
+<android-relationships>` that you want to delete when
 you delete the parent object. We call this a **cascading
 delete**. {+client-database+} will not delete the dependent objects for
 you. If you do not delete the objects yourself, they will
@@ -549,30 +353,6 @@ deleting the parent object.
    .. tabs-realm-languages::
 
       .. tab::
-         :tabid: c-sharp
-
-         .. literalinclude:: /examples/CRUD/CascadingDelete.cs
-            :language: csharp
-
-      .. tab::
-         :tabid: java
-
-         .. literalinclude:: /examples/CRUD/CascadingDelete.java
-            :language: java
-
-      .. tab::
-         :tabid: javascript
-
-         .. literalinclude:: /examples/CRUD/CascadingDelete.js
-            :language: javascript
-
-      .. tab::
-         :tabid: kotlin
-
-         .. literalinclude:: /examples/CRUD/CascadingDelete.kt
-            :language: kotlin
-
-      .. tab::
          :tabid: objective-c
 
          .. literalinclude:: /examples/CRUD/CascadingDelete.m
@@ -585,13 +365,13 @@ deleting the parent object.
             :language: swift
 
 
-.. _delete-all-of-object:
+.. _ios-delete-all-of-object:
 
 Delete All Instances of a Type
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-{+client-database+} supports deleting all instances of a :doc:`{+service-short+} type
-</data-model/objects>` from a {+realm+}.
+{+client-database+} supports deleting all instances of a :ref:`{+service-short+} type
+<android-objects>` from a {+realm+}.
 
 .. example::
 
@@ -599,34 +379,6 @@ Delete All Instances of a Type
    Dog instances from a {+realm+}:
 
    .. tabs-realm-languages::
-
-      .. tab::
-         :tabid: c-sharp
-
-         .. literalinclude:: /examples/CRUD/DeleteAllOfClass.cs
-            :language: csharp
-            :emphasize-lines: 4
-
-      .. tab::
-         :tabid: java
-
-         .. literalinclude:: /examples/CRUD/DeleteAllOfClass.java
-            :language: java
-            :emphasize-lines: 3
-
-      .. tab::
-         :tabid: javascript
-
-         .. literalinclude:: /examples/CRUD/DeleteAllOfClass.js
-            :language: javascript
-            :emphasize-lines: 3
-
-      .. tab::
-         :tabid: kotlin
-
-         .. literalinclude:: /examples/CRUD/DeleteAllOfClass.kt
-            :language: kotlin
-            :emphasize-lines: 4
 
       .. tab::
          :tabid: objective-c
@@ -643,7 +395,7 @@ Delete All Instances of a Type
             :emphasize-lines: 3-4
 
 
-.. _delete-all:
+.. _ios-delete-all:
 
 Delete Everything
 ~~~~~~~~~~~~~~~~~
@@ -658,34 +410,6 @@ quickly clearing out your {+realm+} while prototyping.
    from a {+realm+}:
 
    .. tabs-realm-languages::
-
-      .. tab::
-         :tabid: c-sharp
-
-         .. literalinclude:: /examples/CRUD/DeleteAll.cs
-            :language: csharp
-            :emphasize-lines: 3
-
-      .. tab::
-         :tabid: java
-
-         .. literalinclude:: /examples/CRUD/DeleteAll.java
-            :language: java
-            :emphasize-lines: 3
-
-      .. tab::
-         :tabid: javascript
-
-         .. literalinclude:: /examples/CRUD/DeleteAll.js
-            :language: javascript
-            :emphasize-lines: 3
-
-      .. tab::
-         :tabid: kotlin
-
-         .. literalinclude:: /examples/CRUD/DeleteAll.kt
-            :language: kotlin
-            :emphasize-lines: 3
 
       .. tab::
          :tabid: objective-c
