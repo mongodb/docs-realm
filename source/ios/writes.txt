@@ -122,7 +122,7 @@ Create an Object
 In general, instantiate :doc:`{+service-short+} objects
 </data-model/objects>` as you would any other object. In a
 transaction, you can add the object to the {+realm+} if the
-{+realm+}'s :ref:`schema <android-realm-schema>` includes the object
+{+realm+}'s :ref:`schema <ios-realm-schema>` includes the object
 type. When you add an instance to the {+realm+}, it becomes
 *managed* by that {+realm+}.
 
@@ -232,7 +232,7 @@ objects in a collection at once.
 
    The following code demonstrates how to update a
    collection. Thanks to the :ref:`implicit inverse
-   relationship <android-inverse-relationship>` between the Dog's
+   relationship <ios-inverse-relationship>` between the Dog's
    ``owner`` property and the Person's ``dogs`` property,
    {+client-database+} automatically updates Ali's list of dogs.
 
@@ -333,7 +333,7 @@ Cascading Delete
 ~~~~~~~~~~~~~~~~
 
 Sometimes, you have :ref:`dependent objects
-<android-relationships>` that you want to delete when
+<ios-client-relationships>` that you want to delete when
 you delete the parent object. We call this a **cascading
 delete**. {+client-database+} will not delete the dependent objects for
 you. If you do not delete the objects yourself, they will
@@ -371,7 +371,7 @@ Delete All Instances of a Type
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 {+client-database+} supports deleting all instances of a :ref:`{+service-short+} type
-<android-objects>` from a {+realm+}.
+<ios-realm-objects>` from a {+realm+}.
 
 .. example::
 

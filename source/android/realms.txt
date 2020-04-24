@@ -115,12 +115,14 @@ the {+realm+} defaults to version ``0``.
 .. admonition:: Increase Versions Monotonically
    :class: important
    
-   :ref:`Migrations <android-migrations>` must update a {+realm+} to a
-   higher schema version. {+client-database+} will throw an error if a client
-   application opens a {+realm+} with a schema version that is lower than
-   the {+realm+}'s current version or if the specified schema version is the
-   same as the {+realm+}'s current version but includes different
-   :ref:`object schemas <android-object-schema>`.
+   :ref:`Migrations <android-client-migrations>` must update
+   a {+realm+} to a higher schema version.
+   {+client-database+} will throw an error if a client
+   application opens a {+realm+} with a schema version that
+   is lower than the {+realm+}'s current version or if the
+   specified schema version is the same as the {+realm+}'s
+   current version but includes different :ref:`object
+   schemas <android-object-schema>`.
 
 .. _android-realm-permissions:
 

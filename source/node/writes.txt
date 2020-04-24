@@ -1,4 +1,4 @@
-.. _react-native-realm-database-writes:
+.. _node-realm-database-writes:
 
 ======
 Writes
@@ -49,7 +49,7 @@ When you are done with your transaction, {+client-database+} either
   the transaction causes an error, all changes are discarded
   (or "rolled back").
 
-.. _react-native-acid-compliance:
+.. _node-acid-compliance:
 
 Realm is ACID Compliant
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -64,7 +64,7 @@ see transient states in the event of a system crash.
 - {+client-database+} establishes :wikipedia:`isolation <Isolation_(database_systems)>` by allowing only one writer at a time. This ensures thread safety between transactions.
 - Finally, {+client-database+} establishes :wikipedia:`durability <Durability_(database_systems)>` by writing to disk immediately when a transaction is committed. In the event of an app crash, for example, the changes are not lost or corrupted.
 
-.. _react-native-open-a-transaction:
+.. _node-open-a-transaction:
 
 Run a Transaction
 -----------------
@@ -108,7 +108,7 @@ the transaction immediately after the callback.
 
 
 
-.. _react-native-create-an-object:
+.. _node-create-an-object:
 
 Create an Object
 ----------------
@@ -116,7 +116,7 @@ Create an Object
 In general, instantiate :doc:`{+service-short+} objects
 </data-model/objects>` as you would any other object. In a
 transaction, you can add the object to the {+realm+} if the
-{+realm+}'s :ref:`schema <android-realm-schema>` includes the object
+{+realm+}'s :ref:`schema <node-realm-schema>` includes the object
 type. When you add an instance to the {+realm+}, it becomes
 *managed* by that {+realm+}.
 
@@ -133,7 +133,7 @@ This automatically inserts the instance into the {+realm+}.
       :emphasize-lines: 7
 
 
-.. _react-native-upsert:
+.. _node-upsert:
 
 Upsert an Object
 ~~~~~~~~~~~~~~~~
@@ -156,7 +156,7 @@ adding any new entries.
       :language: javascript
       :emphasize-lines: 4, 11
 
-.. _react-native-update:
+.. _node-update:
 
 Update an Object
 ----------------
@@ -175,7 +175,7 @@ the property.
       :language: javascript
       :emphasize-lines: 8-9
 
-.. _react-native-batch-update:
+.. _node-batch-update:
 
 Update a Collection
 ~~~~~~~~~~~~~~~~~~~
@@ -188,7 +188,7 @@ objects in a collection at once.
 
    The following code demonstrates how to update a
    collection. Thanks to the :ref:`implicit inverse
-   relationship <android-inverse-relationship>` between the Dog's
+   relationship <node-inverse-relationship>` between the Dog's
    ``owner`` property and the Person's ``dogs`` property,
    {+client-database+} automatically updates Ali's list of dogs.
 
@@ -197,7 +197,7 @@ objects in a collection at once.
       :emphasize-lines: 9-12
 
 
-.. _react-native-delete:
+.. _node-delete:
 
 Delete an Object
 ----------------
@@ -224,7 +224,7 @@ instance itself.
       :language: javascript
       :emphasize-lines: 3
 
-.. _react-native-delete-collection:
+.. _node-delete-collection:
 
 Delete a Collection
 ~~~~~~~~~~~~~~~~~~~
@@ -245,13 +245,13 @@ collection itself.
       :language: javascript
       :emphasize-lines: 6
 
-.. _react-native-cascading-delete:
+.. _node-cascading-delete:
 
 Cascading Delete
 ~~~~~~~~~~~~~~~~
 
 Sometimes, you have :ref:`dependent objects
-<android-relationships>` that you want to delete when
+<node-client-relationships>` that you want to delete when
 you delete the parent object. We call this a **cascading
 delete**. {+client-database+} will not delete the dependent objects for
 you. If you do not delete the objects yourself, they will
@@ -272,13 +272,13 @@ deleting the parent object.
       :language: javascript
 
 
-.. _react-native-delete-all-of-object:
+.. _node-delete-all-of-object:
 
 Delete All Instances of a Type
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 {+client-database+} supports deleting all instances of a :ref:`{+service-short+} type
-<android-objects>` from a {+realm+}.
+<node-realm-objects>` from a {+realm+}.
 
 .. example::
 
@@ -289,7 +289,7 @@ Delete All Instances of a Type
       :language: javascript
       :emphasize-lines: 3
 
-.. _react-native-delete-all:
+.. _node-delete-all:
 
 Delete Everything
 ~~~~~~~~~~~~~~~~~
