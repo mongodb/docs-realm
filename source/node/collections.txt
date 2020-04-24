@@ -67,8 +67,7 @@ are usually **live**:
 There are three cases when a collection is **not** live:
 
 - The collection is unmanaged, e.g. a List property of a {+service-short+} object that has not been added to a {+realm+} yet or that has been copied from a {+realm+}.
-- The collection is :ref:`frozen <node-frozen-objects>`.
-- The collection is part of a snapshot (JavaScript and Java SDKs only).
+- The collection is part of a snapshot.
 
 Combined with :ref:`collection notifications
 <node-collection-notifications>`, live collections enable clean,
@@ -177,7 +176,7 @@ Summary
   :ref:`{+service-short+} type <node-realm-objects>`.
 
 - Collections are :ref:`live <node-live-object>`, i.e. auto-updating, unless
-  you have :ref:`frozen <node-frozen-objects>` them or they are not part of a {+realm+}.
+  they are a snapshot or they are not part of a {+realm+}.
 
 - Lazy evaluation of results collections means there is no need to
   design a special query to get limited or paginated results. Perform
