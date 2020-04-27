@@ -30,7 +30,7 @@ Usage
 Example
 ~~~~~~~
 
-.. tabs-stitch-sdks::
+.. tabs-realm-sdks::
 
    tabs:
      - id: functions
@@ -67,7 +67,7 @@ Example
 Parameters
 ~~~~~~~~~~
 
-.. tabs-stitch-sdks::
+.. tabs-realm-sdks::
 
    tabs:
      - id: functions
@@ -117,7 +117,7 @@ Return Value
 .. _java-RemoteInsertManyResult: https://docs.mongodb.com/stitch-sdks/java/4/com/mongodb/stitch/core/services/mongodb/remote/RemoteInsertManyResult.html
 .. _swift-RemoteInsertManyResult: https://docs.mongodb.com/stitch-sdks/swift/5/Structs/RemoteInsertManyResult.html
 
-.. tabs-stitch-sdks::
+.. tabs-realm-sdks::
 
    tabs:
      - id: functions
@@ -181,34 +181,34 @@ Return Value
 
    * - :guilabel:`Inserted IDs`
 
-       .. tab-content:: tabs-stitch-sdks
+       .. tab-content:: tabs-realm-sdks
           :tab-id: functions
 
           | ``result.insertedIds: Array<ObjectID>``
 
-       .. tab-content:: tabs-stitch-sdks
+       .. tab-content:: tabs-realm-sdks
           :tab-id: javascript
 
           | ``result.insertedIds: Document<Number, ObjectID>``
 
-       .. tab-content:: tabs-stitch-sdks
+       .. tab-content:: tabs-realm-sdks
           :tab-id: android
 
           | ``result.insertedIds: Map<Long, ObjectID>``
 
-       .. tab-content:: tabs-stitch-sdks
+       .. tab-content:: tabs-realm-sdks
           :tab-id: ios
 
           | ``result.insertedIds: Document<Int64, ObjectID>``
 
-     - .. tab-content:: tabs-stitch-sdks
+     - .. tab-content:: tabs-realm-sdks
           :tab-id: functions
 
           An array that contains the ``_id`` values for all documents
           that the insert operation added to the collection in the order
           that they were passed to the action.
 
-       .. tab-content:: tabs-stitch-sdks
+       .. tab-content:: tabs-realm-sdks
           :tab-id: javascript
 
           A document that contains the ``_id`` values for all documents
@@ -216,7 +216,7 @@ Return Value
           name is an integer that matches the index of the document
           that the ``_id`` represents.
 
-       .. tab-content:: tabs-stitch-sdks
+       .. tab-content:: tabs-realm-sdks
           :tab-id: android
 
           A ``Map`` that contains the ``_id`` values for all documents
@@ -224,7 +224,7 @@ Return Value
           an integer that matches the index of the document that the
           ``_id`` represents.
 
-       .. tab-content:: tabs-stitch-sdks
+       .. tab-content:: tabs-realm-sdks
           :tab-id: ios
 
           A document that contains the ``_id`` values for all documents

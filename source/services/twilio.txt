@@ -18,7 +18,7 @@ Overview
 --------
 
 Twilio provides messaging, voice, and chat services for web and mobile
-apps. The Realm Twilio service supports integrating Twilio's
+apps. The {+service+} Twilio service supports integrating Twilio's
 *Programmable SMS* service into your application.
 
 - To send an outbound text message, use the :doc:`send()
@@ -33,7 +33,7 @@ apps. The Realm Twilio service supports integrating Twilio's
 
 .. note::
 
-   To use Twilio with Realm, you must have a :guilabel:`Twilio Phone
+   To use Twilio with {+service-short+}, you must have a :guilabel:`Twilio Phone
    Number` registered to a messaging service associated with your Twilio
    account. You can create a new number from the :guilabel:`Numbers`
    page of the Twilio dashboard, or by following Twilio's
@@ -112,7 +112,7 @@ You will need to provide values for the following parameters when you
 Service Actions
 ---------------
 
-The Twilio service in Realm provides the following actions which are
+The Twilio service in {+service-short+} provides the following actions which are
 available in :doc:`functions </functions>` and in the SDKs:
 
 For instructions on using a service action, see :doc:`Call a Service
@@ -120,12 +120,18 @@ Action <call-a-service-action>`.
 
 .. include:: /includes/extracts/service-actions-twilio.rst
 
+.. toctree::
+   :titlesonly:
+   :caption: Twilio Service Actions
+
+   Twilio.send() </services/twilio-actions/send>
+
 .. _twilio-webhooks:
 
 Incoming Webhooks
 -----------------
 
-Incoming webhooks for the Twilio service enable your Realm app
+Incoming webhooks for the Twilio service enable your {+app+}
 to handle incoming text messages. Once you've created an incoming
 webhook, you can add it to a Twilio messaging service to handle incoming
 messages for that service.
@@ -186,7 +192,7 @@ Configuration
 
           | *respond_result*
 
-     - Required. If ``true``, Realm sends the return value of the
+     - Required. If ``true``, {+service-short+} sends the return value of the
        webhook function to Twilio in the response body.
 
        .. note::
@@ -203,7 +209,7 @@ Configuration
           | *run_as_user_id*
           | *run_as_user_id_script_source*
 
-     - Optional. The id of the :doc:`Realm user </authentication>` that
+     - Optional. The id of the :doc:`{+service-short+} user </authentication>` that
        executes the webhook function when the webhook is called.
 
        .. tab-content:: tabs-realm-admin-interfaces
@@ -216,11 +222,11 @@ Configuration
 
           You can specify the user id directly in
           ``run_as_user_id`` or provide a stringified
-          :doc:`Realm function </functions>` that accepts
+          :doc:`{+service-short+} Function </functions>` that accepts
           the webhook payload and returns the user id in
           ``run_as_user_id_script_source``. If you do not
           specify a specific user id or a function that
-          resolves to a user id, Realm executes the webhook
+          resolves to a user id, {+service-short+} executes the webhook
           function as the :ref:`system user <system-user>`
           that has full access to MongoDB CRUD and
           Aggregation APIs and is not affected by any rules,
@@ -231,7 +237,7 @@ Configuration
 Request Payload
 ~~~~~~~~~~~~~~~
 
-Realm automatically passes a ``payload`` document as the first argument
+{+service-short+} automatically passes a ``payload`` document as the first argument
 to incoming webhook functions. In a Twilio Service incoming webhook the
 ``payload`` object represents an incoming SMS message and has the
 following form:
@@ -351,6 +357,6 @@ Add a Webhook to a Twilio Project
 
 #. Click :guilabel:`Save`.
 
-Your Realm app is now integrated with Twilio's SMS messaging
+Your {+app+} is now integrated with Twilio's SMS messaging
 service. Send a message to your Twilio phone number to invoke the
-incoming webhook for your Realm app.
+incoming webhook for your {+app+}.

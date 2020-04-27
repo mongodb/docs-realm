@@ -1,0 +1,75 @@
+=================================
+Define a Custom Query or Mutation
+=================================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+You can define a custom query or mutation resolver to handle complex
+logic beyond the basic CRUD operations supported by :doc:`automatically
+generated queries and mutations <graphql-types-and-resolvers>`. Custom
+resolvers use a field name that you define, pass arguments from the
+query or mutation to a :doc:`function </functions>`, and return the
+result of the function back to the caller.
+
+Procedure
+---------
+
+.. include:: /includes/steps/custom-resolvers-ui.rst
+
+Example
+-------
+
+A custom query named ``verifyUserAge`` accepts a person's age and returns
+a boolean that is ``true`` if they're 18 years or older.
+
+.. code-block:: graphql
+   
+   query {
+     verifyUserAge(input: { age: 42 }) {
+       isOldEnough
+     }
+   }
+
+The query uses the following resolver function:
+
+.. code-block:: javascript
+   
+   exports = function(input) {
+     return input.age >= 18;
+   }
+
+The custom query requires the caller to provide an ``age`` argument, so
+the resolver uses the following :guilabel:`Input Type`:
+
+.. code-block:: json
+          
+   {
+     "bsonType": "object",
+     "title": "VerifyUserAgeInput",
+     "required": ["age"],
+     "properties": {
+       "age": { "bsonType": "number" }
+     }
+   }
+
+The query returns a single field, ``isOldEnough``, that contains a
+boolean, so the resolver uses the following :guilabel:`Payload Type`:
+
+.. code-block:: json
+     
+   {
+     "bsonType": "object",
+     "title": "VerifyUserAgePayload",
+     "properties": {
+       "isOldEnough": { "bsonType": "boolean" }
+     }
+   }

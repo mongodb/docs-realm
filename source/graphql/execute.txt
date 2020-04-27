@@ -116,7 +116,7 @@ Run a Query
 
       .. code-block:: shell
 
-         gq https://stitch.mongodb.com/api/client/v2.0/app/<Your App ID>/graphql \
+         gq https://realm.mongodb.com/api/client/v2.0/app/<Your App ID>/graphql \
              -H 'Authorization: Bearer <Valid Access Token>' \
              -q 'query AllMoviesFrom2000 {  movies(query: { year: 2000 }) { title year runtime }}'
 
@@ -190,7 +190,7 @@ Run a Mutation
 
       .. code-block:: shell
 
-         gq https://stitch.mongodb.com/api/client/v2.0/app/<Your App ID>/graphql \
+         gq https://realm.mongodb.com/api/client/v2.0/app/<Your App ID>/graphql \
              -H 'Authorization: Bearer <Valid Access Token>' \
              -q 'mutation UpdateMovieTitle($oldTitle: String!, $newTitle: String!) { updateOneMovie(query: { title: $oldTitle } set: { title: $newTitle }) { title year } }'
              -v 'oldTitle=The Matrix Reloaded'

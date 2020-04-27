@@ -13,11 +13,11 @@ Authenticate GraphQL Requests
 Overview
 --------
 
-Realm enforces :ref:`collection rules <mongodb-rules>` for all GraphQL
-operations. This means that all GraphQL requests must be made by a
-logged in :doc:`user </authentication>` of your Realm application.
+{+service+} enforces :ref:`collection rules <mongodb-rules>` for all
+GraphQL operations. This means that all GraphQL requests must be made by a
+logged in :doc:`user </authentication>` of your :term:`{+app+}`.
 
-The GraphQL API uses Realm client access tokens to authorize requests.
+The GraphQL API uses {+realm+} client access tokens to authorize requests.
 This guide demonstrates how to :ref:`get a valid access token
 <get-client-api-access-token>` for a user and how to :ref:`refresh the
 access token <refresh-client-api-access-token>` after it expires.
@@ -41,28 +41,28 @@ access token <refresh-client-api-access-token>` after it expires.
 Get a Client API Access Token
 -----------------------------
 
-To get an access token, you need to authenticate with the Realm Client
+To get an access token, you need to authenticate with the {+realm+} Client
 HTTP API using the user's login credentials. The Client API
 authentication endpoints accept valid user credentials in the body of a
 ``POST`` request and use the following URL form:
 
 .. code-block:: text
    
-   https://stitch.mongodb.com/api/client/v2.0/app/<yourappid-abcde>/auth/providers/<provider type>/login
+   https://realm.mongodb.com/api/client/v2.0/app/<yourappid-abcde>/auth/providers/<provider type>/login
 
 .. example::
 
-   The following request authenticates a Realm user with the client
+   The following request authenticates a {+realm+} user with the client
    API. The request body specifies the user's login credentials.
    
-   .. tabs-stitch-auth-providers::
+   .. tabs-realm-auth-providers::
 
       .. tab::
          :tabid: anon-user
 
          .. code-block:: shell
          
-            curl --location --request POST 'https://stitch.mongodb.com/api/client/v2.0/app/myapp-abcde/auth/providers/anon-user/login'
+            curl --location --request POST 'https://realm.mongodb.com/api/client/v2.0/app/myapp-abcde/auth/providers/anon-user/login'
 
       .. tab::
          :tabid: local-userpass
@@ -70,7 +70,7 @@ authentication endpoints accept valid user credentials in the body of a
          .. code-block:: shell
             :emphasize-lines: 4-5
          
-            curl --location --request POST 'https://stitch.mongodb.com/api/client/v2.0/app/myapp-abcde/auth/providers/local-userpass/login' \
+            curl --location --request POST 'https://realm.mongodb.com/api/client/v2.0/app/myapp-abcde/auth/providers/local-userpass/login' \
               --header 'Content-Type: application/json' \
               --data-raw '{
                 "username": "test@example.com",
@@ -83,7 +83,7 @@ authentication endpoints accept valid user credentials in the body of a
          .. code-block:: shell
             :emphasize-lines: 4
          
-            curl --location --request POST 'https://stitch.mongodb.com/api/client/v2.0/app/myapp-abcde/auth/providers/oauth2-google/login' \
+            curl --location --request POST 'https://realm.mongodb.com/api/client/v2.0/app/myapp-abcde/auth/providers/oauth2-google/login' \
               --header 'Content-Type: application/json' \
               --data-raw '{
                 "key": "hScMWZyOKnjQMbfDPMJ1qHgtdGT2raQXdVDDvlC2SzKEBKlHKV8FK9SPCSTnODPg"
@@ -95,7 +95,7 @@ authentication endpoints accept valid user credentials in the body of a
          .. code-block:: shell
             :emphasize-lines: 4
          
-            curl --location --request POST 'https://stitch.mongodb.com/api/client/v2.0/app/myapp-abcde/auth/providers/custom-token/login' \
+            curl --location --request POST 'https://realm.mongodb.com/api/client/v2.0/app/myapp-abcde/auth/providers/custom-token/login' \
               --header 'Content-Type: application/json' \
               --data-raw '{
               	 "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJ0ZXN0ZGV2LWJwcWVsIiwiZXhwIjoxNTE2MjM5MDIyLCJzdWIiOiIyNDYwMSIsInVzZXJfZGF0YSI6eyJuYW1lIjoiSmVhbiBWYWxqZWFuIiwiYWxpYXNlcyI6WyJNb25zaWV1ciBNYWRlbGVpbmUiLCJVbHRpbWUgRmF1Y2hlbGV2ZW50IiwiVXJiYWluIEZhYnJlIl19fQ.mVWr4yFf8nD1EhuhrJbgKfY7BEpMab38RflXzUxuaEI"
@@ -118,7 +118,7 @@ authentication endpoints accept valid user credentials in the body of a
 Refresh a Client API Access Token
 ---------------------------------
    
-Access tokens expire 30 minutes after Realm grants them. When an access
+Access tokens expire 30 minutes after {+service+} grants them. When an access
 token expires, you can either request another access token using the
 user's credentials or use the refresh token to request a new access
 token with including the user's credentials.
@@ -129,7 +129,7 @@ following URL:
 
 .. code-block:: text
    
-   https://stitch.mongodb.com/api/client/v2.0/auth/session
+   https://realm.mongodb.com/api/client/v2.0/auth/session
 
 .. example::
 
@@ -140,6 +140,6 @@ following URL:
    .. code-block:: shell
       :emphasize-lines: 3
    
-      curl --location --request POST 'https://stitch.mongodb.com/api/client/v2.0/auth/session' \
+      curl --location --request POST 'https://realm.mongodb.com/api/client/v2.0/auth/session' \
         --header 'Content-Type: application/json' \
         --header 'Authorization: Bearer <Refresh Token>'

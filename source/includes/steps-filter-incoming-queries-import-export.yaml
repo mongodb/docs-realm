@@ -7,7 +7,7 @@ content: |
   application.
   You can :doc:`export </deploy/export-realm-app>` your
   application from the :guilabel:`Export` tab of the
-  :guilabel:`Settings` page in the Realm UI, or by running the
+  :guilabel:`Settings` page in the {+ui+}, or by running the
   following command from an authenticated instance of :doc:`realm-cli
   </deploy/realm-cli-reference>`:
 
@@ -64,7 +64,7 @@ content: |
   configuration file, all that's left is to import the rule.
   Save the rule configuration file then navigate to the
   root of the exported application directory. Log in to MongoDB Atlas
-  with ``realm-cli``:
+  with {+cli-bin+}:
 
   .. code-block:: shell
 
@@ -76,5 +76,5 @@ content: |
 
      realm-cli import
      
-  Once the import completes, Realm will immediately begin evaluating
+  Once the import completes, {+service-short+} will immediately begin evaluating
   and applying the filters to incoming queries on the collection.

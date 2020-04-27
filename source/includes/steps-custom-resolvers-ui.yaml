@@ -1,0 +1,119 @@
+title: Create a New Custom Resolver
+ref: create-a-new-custom-resolver
+content: |
+  In the {+ui+}, click :guilabel:`GraphQL` in the navigation sidebar
+  and then select the :guilabel:`Custom Resolvers` tab.
+  
+  Click the :guilabel:`Add a Custom Resolver` button to open the
+  configuration screen for a new custom resolver.
+  
+  .. cssclass:: bordered-figure
+  .. figure:: /images/graphql-add-a-custom-resolver.png
+     :alt: The custom resolvers screen in the {+ui+}
+     :width: 750px
+---
+title: Define the Resolver Name and Type
+ref: define-the-resolver-name-and-type
+content: |
+  On the configuration screen, enter a name and type for the custom
+  resolver.
+  
+  The :guilabel:`GraphQL Field Name` is the name of the field that calls
+  the custom resolver and the :guilabel:`Parent Type` determines if the
+  resolver is a query or a mutation.
+  
+  .. cssclass:: bordered-figure
+  .. figure:: /images/graphql-custom-resolver-name-type.png
+     :alt: The name and type configuration inputs of a custom query
+     :width: 750px
+---
+title: Define Input and Payload Types
+ref: define-input-and-payload-types
+content: |
+  GraphQL is strongly typed, so if your custom query or mutation accepts
+  an argument or returns a value you must define a :doc:`JSON schema
+  </mongodb/document-schemas>` for the corresponding :guilabel:`Input
+  Type` or :guilabel:`Payload Type`. Input and payload type schemas must
+  be :ref:`objects <schema-type-objects>` that include a ``title``
+  field and at least one property.
+
+  The :guilabel:`Input Type` corresponds to the ``input`` parameter of
+  the custom query or mutation. If you don't specify an input type, the
+  custom resolver does not accept any arguments.
+
+  The :guilabel:`Payload Type` corresponds to the object returned by the
+  custom query or mutation. If you don't specify a payload type, the
+  custom resolver returns a :ref:`DefaultPayload
+  <graphql-default-payload>` that always resolves to the object
+  ``{status: "complete" }`` regardless of the resolver function's return
+  value.
+  
+  .. example::
+  
+     {+service+} uses the input and payload type JSON schemas to define
+     GraphQL types for your resolver. For example, the following JSON
+     schema and GraphQL type are equivalent:
+     
+     .. list-table::
+        :stub-columns: 1
+        :widths: 20 80
+
+        * - JSON Schema
+          - .. code-block:: json
+               
+               {
+                 "bsonType": "object",
+                 "title": "FlightStatusPayload",
+                 "required": [
+                    "flightNumber",
+                    "originAirport",
+                    "destinationAirport",
+                    "scheduledDeparture",
+                    "scheduledArrival"
+                 ],
+                 "properties": {
+                   "flightNumber": { "bsonType": "string" },
+                   "originAirport": { "bsonType": "string" },
+                   "destinationAirport": { "bsonType": "string" },
+                   "scheduledDeparture": { "bsonType": "date" },
+                   "scheduledArrival": { "bsonType": "date" },
+                   "isDelayed": { "bsonType": "boolean" },
+                 }
+               }
+        
+        * - GraphQL Type
+          - .. code-block:: graphql
+               
+               type FlightStatusPayload {
+                 flightNumber: String!
+                 originAirport: String!
+                 destinationAirport: String!
+                 scheduledDeparture: DateTime!
+                 scheduledArrival: DateTime!
+                 isDelayed: Boolean
+               }
+---
+title: Define the Resolver Function
+ref: define-the-resolver-function
+content: |
+  When a user calls a custom query or mutation, {+backend+} executes the
+  resolver function and returns the result, which must conform to the
+  :guilabel:`Payload Type` if you defined it. If you defined an
+  :guilabel:`Input Type`, {+backend+} passes the provided ``input`` argument
+  to the resolver function.
+  
+  To configure the resolver function, click the :guilabel:`Function`
+  dropdown and either select an existing function or create a new one.
+  
+  .. cssclass:: bordered-figure
+  .. figure:: /images/graphql-custom-resolver-function.png
+     :alt: The resolver function dropdown
+     :width: 750px
+---
+title: Save and Deploy the Resolver
+ref: save-and-deploy-the-resolver
+content: |
+  Once you have configured the resolver, click :guilabel:`Save` and then
+  :doc:`deploy </deploy>` your application. Once deployed, you can call
+  the custom resolver through the GraphQL API.
+...

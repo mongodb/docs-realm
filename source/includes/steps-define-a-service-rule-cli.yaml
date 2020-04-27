@@ -7,7 +7,7 @@ content: |
 
   You can :doc:`export your application
   </deploy/export-realm-app>` configuration from the :guilabel:`Export`
-  tab of the :guilabel:`Settings` page in the Realm UI, or by running the
+  tab of the :guilabel:`Settings` page in the {+ui+}, or by running the
   following command from an authenticated instance of :doc:`realm-cli
   </deploy/realm-cli-reference>`:
 
@@ -90,7 +90,7 @@ content: |
 
        - Required. A :doc:`JSON expression </services/json-expressions>`
          that determines if a service action should actually execute
-         after being called. Realm will only execute the action if the
+         after being called. {+backend+} will only execute the action if the
          expression resolves to ``true``. If you do not specify an
          expression, :guilabel:`Can Evaluate` defaults to ``true``.
 ---
@@ -98,13 +98,13 @@ title: Import the Service Rule
 ref: import-the-service-rule
 content: |
   Once you've configured the service rule, all that's left is to import
-  it into your Realm application.
+  it into your {+app+}.
 
   1. Ensure that ``<rule name>.json`` is saved.
 
   2. Navigate to the root of the exported application directory.
 
-  3. Log in to MongoDB Atlas with ``realm-cli``:
+  3. Log in to MongoDB Atlas with {+cli-bin+}:
 
      .. code-block:: shell
 

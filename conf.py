@@ -31,6 +31,7 @@ extensions = [
     'mongodb',
     'directives',
     'intermanual',
+    'source_constants',
     # 'fasthtml',
     'sphinx_openapi',
     'tabs',
@@ -63,8 +64,34 @@ rst_epilog = '\n'.join([
     '.. |compass| replace:: MongoDB Compass',
     '.. |realm| replace:: realm',
     '.. |realms| replace:: realms',
+    '.. |realm-cli| replace:: ``realm-cli``',
     '.. _compass: https://docs.mongodb.com/compass'
 ])
+
+source_constants = {
+    'package-name-org' : 'docs-realm',
+    'realm' : 'realm',
+    'realms' : 'realms',
+    'client-database' : 'Realm Database',
+    'atlas' : 'MongoDB Atlas',
+    'atlas-short' : 'Atlas',
+    'compass' : 'MongoDB Compass',
+    'compass-short' : 'Compass',
+    'charts' : 'MongoDB Charts',
+    'charts-short' : 'Charts',
+    'service' : 'MongoDB Realm', # product (backend + sdks)
+    'service-short' : 'Realm', # use as shorthand, AND as a prefix for features
+    'backend' : 'MongoDB Realm',
+    'backend-short' : 'Realm',
+    'sync' : 'Realm Sync',
+    'sync-short' : 'Sync', # feature/product name, NOT verb
+    'backend-schema' : 'Realm Schema',
+    'frontend-schema' : 'Realm Object Model',
+    'cli-bin' : '``realm-cli``', # binary -- DO NOT USE IN LINKS! Will break them.
+    'cli' : 'Realm CLI',
+    'ui' : 'Realm UI',
+    'app' : 'Realm app'
+}
 
 extlinks = {
     # MongoDB Docs Sites

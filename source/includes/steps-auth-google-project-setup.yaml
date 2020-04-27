@@ -8,7 +8,7 @@ content: |
 title: Generate OAuth Client Credentials
 ref: auth-enable-facebook-login
 content: |
-  .. tabs-stitch-sdks::
+  .. tabs-realm-sdks::
      :hidden:
 
      
@@ -27,34 +27,34 @@ content: |
 
            For iOS client applications, you need to create both a Web
            OAuth Client ID and an iOS OAuth Client ID. The former is
-           used by Realm, while the latter will be used by the app
+           used by {+service-short+}, while the latter will be used by the app
            itself.
            
            Refer to the :guilabel:`Web` tab of this section for
            instructions on creating the web application Client ID for
-           Realm.
+           {+service-short+}.
 
   Follow Google's support guide on `Setting up OAuth 2.0
   <https://support.google.com/cloud/answer/6158849?hl=en>`_ for your
   project.
 
-  .. tabs-stitch-sdks::
+  .. tabs-realm-sdks::
 
    hidden: true
    tabs:
      - id: javascript
        content: |
          You will need to create a web application :guilabel:`Client ID`
-         and provide several Realm-related values.
+         and provide several {+service-short+}-related values.
 
          For :guilabel:`Authorized JavaScript Origins`, enter the
          following URL:
 
          .. code-block:: none
 
-            https://stitch.mongodb.com
+            https://realm.mongodb.com
 
-         For :guilabel:`Authorized Redirect URIs`, enter the Realm
+         For :guilabel:`Authorized Redirect URIs`, enter the {+service-short+}
          authentication callback URL that corresponds to the
          :doc:`deployment region </admin/deployment-models-and-regions>`
          of your application. The following table lists the callback URL
@@ -105,12 +105,12 @@ content: |
 title: Configure the Google Authentication Provider
 ref: auth-configure-google-auth-provider
 content: |
-  To connect your GCP project to Realm add the OAuth 2.0
+  To connect your GCP project to {+service-short+} add the OAuth 2.0
   :guilabel:`Client ID` and :guilabel:`Client Secret` you generated in
   the previous step to your authentication provider :ref:`configuration
   <auth-google-configuration>`.
   
-  .. tabs-stitch-sdks::
+  .. tabs-realm-sdks::
      :hidden:
      
      .. tab::

@@ -15,8 +15,8 @@ Find a User
 
 To find a specific user, click :guilabel:`Users` in the left navigation
 pane. The Users page displays with the :guilabel:`Users` tab as the
-default view. You will see a list of users associated with your Realm
-application, like this:
+default view. You will see a list of users associated with your
+{+app+}, like this:
 
 .. figure:: /images/find.png
    :figwidth: 750px
@@ -35,8 +35,8 @@ you to find a specific user by their ID.
 View a User's Devices
 ---------------------
 
-When a user connects to your application, Realm logs information similar
-to the following:
+When a user connects to your application, {+backend+}
+:ref:`logs information <authentication-logs>` similar to the following:
 
 .. figure:: /images/devices.png
    :figwidth: 750px
@@ -51,7 +51,7 @@ Logged information includes:
 - A unique device ID.
 
 To view this information, from the list of :guilabel:`Users`, expand any
- user and then expand :guilabel:`Devices`.
+user and then expand :guilabel:`Devices`.
 
 .. _view-provider-data:
 
@@ -59,7 +59,7 @@ View a User's Provider Data
 ---------------------------
 
 Whenever a user connects to your application and authenticates using one
-of the authentication providers you have enabled, MongoDB Realm logs the
+of the authentication providers you have enabled, {+backend+} logs the
 provider data.
 
 .. figure:: /images/provider.png
@@ -77,7 +77,7 @@ You can view this collection of Provider Data from within the list of
 View a User's Activity Log
 --------------------------
 
-MongoDB Realm logs every request made by each of your Realm application
+{+backend+} logs every request made by each of your {+app+}
 users, including executed function calls.  Also, if a function writes to
 the log using ``console.log``, ``console.warn``, or ``console.error``,
 these entries will be included within the function’s log output.
@@ -97,5 +97,7 @@ To view a user's request logs, follow these steps:
 Summary
 -------
 
-- You can search for users in the ``Users`` page of the Realm UI.
-- Realm logs information such as user’s connected devices, provider data, and activity log
+- You can search for users in the ``Users`` page of the {+ui+}.
+
+- {+backend+} logs information such as user’s connected devices,
+  provider data, and activity log

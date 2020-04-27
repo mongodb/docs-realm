@@ -4,13 +4,13 @@ content: |
   You can configure the read preference for a linked cluster by
   importing an :ref:`application directory <application-directory>` that
   includes a cluster configuration file with your desired settings.
-  If you're configuring read preference for an existing Realm
-  application, the most straightforward method is to :doc:`export
+  If you're configuring read preference for an existing {+app+},
+  the most straightforward method is to :doc:`export
   </deploy/export-realm-app>` your application, update the
   cluster configuration, and then import the updated directory.
   To export your application, click the :guilabel:`Export App` button on
   the :guilabel:`Export` tab of the :guilabel:`Settings` page in the
-  Realm UI or run the following command from an authenticated instance
+  {+backend+} or run the following command from an authenticated instance
   of :doc:`realm-cli </deploy/realm-cli-reference>`:
 
   .. code-block:: shell
@@ -91,11 +91,11 @@ content: |
 
      realm-cli import
 
-  Once the import completes, Realm immediately routes all incoming
+  Once the import completes, {+backend+} immediately routes all incoming
   database read requests for the cluster according to your preference.
 
   .. note::
 
      For a detailed walkthrough of importing an application directory,
-     see :doc:`Deploy Changes with Realm CLI
+     see :doc:`Deploy Changes with {+cli+}
      </deploy/deploy-cli>`

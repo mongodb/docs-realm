@@ -48,7 +48,7 @@ this.
 .. cssclass:: important
 .. admonition:: Anonymous user expiration
 
-   Realm may delete an Anonymous user object that is 90 days old (or
+   {+service-short+} may delete an Anonymous user object that is 90 days old (or
    older). When an account is deleted, it is not recoverable and any
    associated user data is lost. Documents created or modified by the
    user remain unaffected.
@@ -58,16 +58,16 @@ this.
 Configuration
 -------------
 
-.. tabs-stitch-interfaces::
+.. tabs-realm-admin-interfaces::
 
    tabs:
-     - id: stitch-ui
+     - id: ui
        content: |
          You can enable the Anonymous authentication provider from the
-         Realm UI by selecting :guilabel:`Anonymous` from the
+         {+ui+} by selecting :guilabel:`Anonymous` from the
          :guilabel:`Users > Providers` page.
 
-     - id: import-export
+     - id: cli
        content: |
          You can enable the Anonymous authentication provider with
          :doc:`realm-cli </deploy/realm-cli-reference>` by
@@ -103,7 +103,7 @@ Usage
 Authenticate a User
 ~~~~~~~~~~~~~~~~~~~
 
-.. tabs-stitch-sdks::
+.. tabs-realm-sdks::
 
    tabs:
      - id: javascript

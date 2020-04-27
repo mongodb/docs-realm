@@ -1,12 +1,12 @@
 title: Link Your GitHub Account
 ref: link-your-github-account
 content: |
-  In order to automatically deploy based on a GitHub repository, Realm
+  In order to automatically deploy based on a GitHub repository, {+service-short+}
   requires that you link a GitHub account that has, at minimum, read
   access to the repository.
   
   To link a GitHub account, click :guilabel:`Deploy` in the left-hand
-  navigation of the Realm UI and then select the
+  navigation of the {+ui+} and then select the
   :guilabel:`Configuration` tab. Expand the :guilabel:`Automatic
   Deployment` section and then click :guilabel:`Grant GitHub Account
   Access`. A new browser window will open to the GitHub application
@@ -19,7 +19,7 @@ content: |
      :width: 400px
   
   After logging in, GitHub will prompt you to specify one or more
-  repositories for which you want to grant Realm read access. You can
+  repositories for which you want to grant {+backend+} read access. You can
   either select specific repositories or grant access to all of your
   repositories on GitHub. Select the repositories you want to use and
   then click :guilabel:`Install`.
@@ -30,17 +30,17 @@ content: |
      :width: 400px
   
   After you install the application, the window will close and the
-  Realm UI will update to show your linked account in the
+  {+ui+} will update to show your linked account in the
   :guilabel:`Configuration` tab of the :guilabel:`Deploy` page. You can
-  manage permissions for the Realm GitHub application from the
+  manage permissions for the {+service-short+} GitHub application from the
   :github:`Installed GitHub Apps <settings/installations>` page in your
   GitHub settings.
 ---
 title: Specify a GitHub Repository
 ref: specify-a-github-repository
 content: |
-  Once you have linked your GitHub account to your Realm app, you can
-  specify a repository that Realm should automatically deploy. Click
+  Once you have linked your GitHub account to your {+app+}, you can
+  specify a repository that {+service-short+} should automatically deploy. Click
   the :guilabel:`Repository` drop-down, select the repo's name from the
   list, and then click :guilabel:`Save`.
   
@@ -52,7 +52,7 @@ content: |
   .. note::
 
      The list of repositories will only contain repos that you have
-     granted Realm read access to.
+     granted {+service-short+} read access to.
 ---
 title: Initialize the Repository
 ref: initialize-the-repository
@@ -71,7 +71,7 @@ content: |
   
   .. important::
 
-     Realm applications deployed via GitHub *must not* specify
+     {+app+}s deployed via GitHub *must not* specify
      the ``name``, ``app_id``, ``location``, or ``deployment_model``
      fields in the ``realm.json`` file. Applications deployed via
      GitHub must also omit the ``config.clusterName`` field of the
@@ -85,7 +85,7 @@ content: |
   .. code-block:: shell
      
      git add -A
-     git commit -m "Adds Realm Application Directory"
+     git commit -m "Adds {+service-short+} Application Directory"
   
   Once you have committed the latest version of the application to the
   repository, push it to the ``master`` branch of your repository on
@@ -107,7 +107,7 @@ content: |
   
   .. cssclass:: bordered-figure
   .. figure:: /images/enable-automatic-deployment.png
-     :alt: Enable Automatic GitHub Deployment in the Realm UI
+     :alt: Enable Automatic GitHub Deployment in the {+ui+}
      :width: 750px
 ---
 title: Make Changes to Your Application
@@ -127,9 +127,9 @@ title: Commit and Push Your Changes
 ref: commit-and-push-your-changes
 content: |
   Once you have updated your application configuration, you
-  can deploy the updates as a new version of your Realm app
+  can deploy the updates as a new version of your {+app+}
   by pushing them to the GitHub repo that you specified. If
-  Automatic GitHub Deployment is enabled, Realm immediately
+  Automatic GitHub Deployment is enabled, {+service-short+} immediately
   deploys the latest commit from the ``master`` branch.
   
   When you are ready to deploy, commit all of the files that
@@ -142,7 +142,7 @@ content: |
      git push origin master
   
   Once you successfully push your changes to ``master`` in the GitHub
-  repo, Realm immediately deploys a new version of your application
+  repo, {+service-short+} immediately deploys a new version of your application
   that matches the state of the latest commit. Client applications will
   automatically use the newest version, so make sure that you also
   update your client code to use the new version if necessary.
@@ -153,5 +153,5 @@ content: |
      You can see the currently deployed version of your
      application as well as a historical log of previous
      deployments in the :ref:`Deployment History
-     <deployment-history>` table in the Realm UI.
+     <deployment-history>` table in the {+ui+}.
 ...

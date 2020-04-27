@@ -1,4 +1,4 @@
-.. tabs-stitch-sdks::
+.. tabs-realm-sdks::
 
    hidden: true
    tabs:

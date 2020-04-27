@@ -31,7 +31,7 @@ Usage
 Example
 ~~~~~~~
 
-.. tabs-stitch-sdks::
+.. tabs-realm-sdks::
 
    tabs:
      - id: functions
@@ -65,7 +65,7 @@ Example
 Parameters
 ~~~~~~~~~~
 
-.. tabs-stitch-sdks::
+.. tabs-realm-sdks::
 
    tabs:
      - id: functions
@@ -114,7 +114,7 @@ Parameters
 Return Value
 ~~~~~~~~~~~~
 
-.. tabs-stitch-sdks::
+.. tabs-realm-sdks::
 
    tabs:
      - id: functions
@@ -156,7 +156,7 @@ Return Value
          :android:`Task <com/google/android/play/core/tasks/Task>`
          varies based on the configuration of the
          :android-sdk:`RemoteMongoCollection
-         <com/mongodb/stitch/android/services/mongodb/remote/RemoteMongoCollection.html>`
+         <com/mongodb/realm/android/services/mongodb/remote/RemoteMongoCollection.html>`
          used for the operation and the value of the ``resultClass``
          parameter.
 
@@ -169,7 +169,7 @@ Return Value
            contains an object of type ``DocumentT``, which
            resolves to type ``Document`` unless otherwise specified when
            the :android-sdk:`RemoteMongoCollection
-           <com/mongodb/stitch/android/services/mongodb/remote/RemoteMongoCollection.html>`
+           <com/mongodb/realm/android/services/mongodb/remote/RemoteMongoCollection.html>`
            was instantiated.
          - If no document matches the provided query, the task will fail
            and details can be accessed using ``task.getException()``. If
@@ -183,4 +183,4 @@ Return Value
        content: |
 
          The ``findOne`` method will call the supplied ``completionHandler`` with
-         a ``StitchResult``
+         a ``RealmResult``

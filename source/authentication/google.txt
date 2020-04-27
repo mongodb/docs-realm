@@ -1,3 +1,5 @@
+.. _google-authentication:
+
 =====================
 Google Authentication
 =====================
@@ -16,9 +18,9 @@ Overview
 The Google authentication provider allows users to log in with their
 existing Google account through `Google Sign-In
 <https://developers.google.com/identity/>`_. When a user logs in, Google
-provides Realm with an `OAuth 2.0 access token
+provides {+service+} with an `OAuth 2.0 access token
 <https://www.oauth.com/oauth2-servers/access-tokens/>`_ for the user.
-Realm uses the token to identify the user and access approved data from
+{+service-short+} uses the token to identify the user and access approved data from
 Google APIs on their behalf.
 
 .. _auth-google-configuration:
@@ -26,17 +28,17 @@ Google APIs on their behalf.
 Configuration
 -------------
 
-.. tabs-stitch-interfaces::
+.. tabs-realm-admin-interfaces::
    
    .. tab::
-      :tabid: stitch-ui
+      :tabid: ui
       
       You can enable and configure the Google authentication provider
-      from the Realm UI by selecting :guilabel:`Google` from the
+      from the {+ui+} by selecting :guilabel:`Google` from the
       :guilabel:`Users > Providers` page.
    
    .. tab::
-      :tabid: import-export
+      :tabid: cli
       
       You can enable and configure the Google authentication provider
       with :doc:`realm-cli </deploy/realm-cli-reference>` by importing
@@ -79,8 +81,8 @@ options:
 
    * - :guilabel:`Client ID`
 
-       .. tab-content:: tabs-stitch-interfaces
-          :tab-id: import-export
+       .. tab-content:: tabs-realm-admin-interfaces
+          :tab-id: cli
        
           | *config.clientId*
        
@@ -92,8 +94,8 @@ options:
        
    * - :guilabel:`Client Secret`
        
-       .. tab-content:: tabs-stitch-interfaces
-          :tab-id: import-export
+       .. tab-content:: tabs-realm-admin-interfaces
+          :tab-id: cli
           
           | *secret_config.clientSecret*
        
@@ -106,8 +108,8 @@ options:
        
    * - :guilabel:`Metadata Fields`
        
-       .. tab-content:: tabs-stitch-interfaces
-          :tab-id: import-export
+       .. tab-content:: tabs-realm-admin-interfaces
+          :tab-id: cli
           
           | *metadata_fields*
 
@@ -122,8 +124,8 @@ options:
        If a metadata field is required and exists for a particular user,
        it will be included in their user object.
 
-       .. tab-content:: tabs-stitch-interfaces
-          :tab-id: import-export
+       .. tab-content:: tabs-realm-admin-interfaces
+          :tab-id: cli
 
           To require a metadata field from an import/export
           configuration file, add an entry for the field to the
@@ -136,8 +138,8 @@ options:
 
    * - :guilabel:`Redirect URIs`
 
-       .. tab-content:: tabs-stitch-interfaces
-          :tab-id: import-export
+       .. tab-content:: tabs-realm-admin-interfaces
+          :tab-id: cli
 
           | *redirect_uris*
 
@@ -145,17 +147,17 @@ options:
        A list of allowed redirect :abbr:`URIs (Uniform Resource
        Identifiers)`.
 
-       Once a user completes the authentication process on Google, Realm
+       Once a user completes the authentication process on Google, {+service-short+}
        redirects them back to either a specified redirect URI or, if no
        redirect URI is specified, the URL that they initiated the
-       authentication request from. Realm will only redirect a user to a
+       authentication request from. {+service-short+} will only redirect a user to a
        URI that exactly matches an entry in this list, including the
        protocol and any trailing slashes.
 
    * - :guilabel:`Domain Restrictions`
 
-       .. tab-content:: tabs-stitch-interfaces
-          :tab-id: import-export
+       .. tab-content:: tabs-realm-admin-interfaces
+          :tab-id: cli
 
           | *domain_restrictions*
 
@@ -185,7 +187,7 @@ Usage
 Set Up a Project in the Google API Console
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. tabs-stitch-sdks::
+.. tabs-realm-sdks::
 
    tabs:
      - id: javascript
@@ -207,7 +209,7 @@ credentials, and configuring the provider to connect with the project.
 Authenticate a User
 ~~~~~~~~~~~~~~~~~~~
 
-.. tabs-stitch-sdks::
+.. tabs-realm-sdks::
 
    .. tab::
       :tabid: javascript

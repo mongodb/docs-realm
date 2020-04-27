@@ -6,7 +6,7 @@
 
 If your project was already using `Fody
 <https://github.com/Fody/Fody>`__, you must manually add the
-Realm weaver to your ``FodyWeavers.xml`` file. When done,
+{+service-short+} weaver to your ``FodyWeavers.xml`` file. When done,
 your ``FodyWeavers.xml`` file should look something like
 this:
 

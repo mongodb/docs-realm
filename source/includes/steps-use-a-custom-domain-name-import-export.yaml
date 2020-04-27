@@ -14,7 +14,7 @@ content: |
 
   You can :doc:`export </deploy/export-realm-app>` your application from
   the :guilabel:`Export` tab of the :guilabel:`Settings` page in the
-  Realm UI, or by running the following command from an authenticated
+  {+ui+}, or by running the following command from an authenticated
   instance of :doc:`realm-cli </deploy/realm-cli-reference>`:
 
   .. code-block:: shell
@@ -62,32 +62,32 @@ content: |
   record <CNAME_record>` in your domain's DNS configuration. You can
   find the host name and target value to use in the record
   :guilabel:`Custom Domain` section of the :guilabel:`Hosting >
-  Settings` tab in the Realm UI.
+  Settings` tab in the {+ui+}.
 
   Once you have added the validation record it may take some time for the
-  DNS record to propagate. Realm will periodically check the domain's
+  DNS record to propagate. {+backend+} will periodically check the domain's
   DNS records for the validation ``CNAME`` and will mark the domain as
   verified if it finds the record.
 
   .. note::
 
-     Realm may not be able to find the validation record if your DNS
-     provider proxies requests for the domain. If Realm cannot validate
+     {+service-short+} may not be able to find the validation record if your DNS
+     provider proxies requests for the domain. If {+service-short+} cannot validate
      your domain, ensure that you have disabled any HTTP proxies for the
      validation CNAME record on your DNS provider.
 
   .. note::
 
      If an error is encountered during custom domain name validation,
-     Realm sends the project owner an email alerting them of the
+     {+service-short+} sends the project owner an email alerting them of the
      issue.
 ---
 title: Add a Redirect CNAME Record
 ref: add-a-redirect-cname-record
 content: |
-  Once Realm has verified your domain, all that's left to do is to add one or
+  Once {+service-short+} has verified your domain, all that's left to do is to add one or
   more ``CNAME`` DNS records for your domain that point to the default
-  Realm domain. Use the following host name and target value:
+  {+service-short+} domain. Use the following host name and target value:
 
   .. list-table::
      :header-rows: 1
@@ -107,5 +107,5 @@ content: |
 
          .. code-block:: none
 
-            <Your App ID>.mongodbstitch.com
+            <Your App ID>.mongodbrealm.com
 ...

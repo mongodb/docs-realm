@@ -17,10 +17,10 @@ For most :doc:`authentication providers </authentication/providers>`,
 when an end-user authenticates for the first time, the user object is
 created.  For the :doc:`Email/Password authentication provider
 </authentication/email-password>`, a prompt requires users to create an
-account the first time they connect to your Realm application.
+account the first time they connect to your :term:`{+app+}`.
 
 For testing and debugging with the Email/Password authentication
-provider, create new users from within the MongoDB Realm admin console
+provider, create new users from within the {+service-short+} admin console
 by following the steps below:
 
 
@@ -40,7 +40,7 @@ by following the steps below:
 .. note::
    
    You can also create API keys that applications use to connect to your
-   MongoDB Realm application. Although API Keys are not associated with
+   {+app+}. Although API Keys are not associated with
    a single user, the :guilabel:`Users` tab lists them. To learn more
    about API keys, see :doc:`API Key Authentication
    </authentication/api-key>`.
@@ -50,7 +50,7 @@ Confirm a User
 
 You must confirm the email address of new
 :doc:`Email/Password users </authentication/email-password>`
-before they are permitted to log into MongoDB Realm. The
+before they are permitted to log into {+service+}. The
 exact method of confirmation depends upon your provider
 configuration, but typically involves a
 :wikipedia:`handshake process <Handshaking>` between the
@@ -61,7 +61,7 @@ Confirmation <email-password-authentication-confirmation>`.
 Sometimes, however, users are unable to complete the confirmation
 process. For example:
 
-- An overzealous spam filter might block Realm email confirmation
+- An overzealous spam filter might block {+service+} email confirmation
   emails.
 
 - A proxy or web blocker could prevent a user from activating the
@@ -70,7 +70,7 @@ process. For example:
 - an implementation error could cause the client application's user
   confirmation page to fail for specific use cases.
 
-To help you work around cases like this, Realm allows you to confirm
+To help you work around cases like this, {+service+} allows you to confirm
 users manually by following the below steps:
 
 #. Select :guilabel:`Users` from the left-hand navigation.
@@ -83,14 +83,14 @@ users manually by following the below steps:
 #. Select the :guilabel:`Confirm User` option from the context menu that
    appears.
 
-#. If the operation succeeds, the banner at the top of the MongoDB Realm
+#. If the operation succeeds, the banner at the top of the {+service-short+}
    admin console should display a confirmation message. The user's
    :guilabel:`User Status` changes from :guilabel:`Pending Confirmation`
    to :guilabel:`Pending User Login`.
 
 A manually confirmed user continues to appear in the :guilabel:`PENDING`
 user list until they log in to your application for the first time, at
-which point Realm moves them into the list of confirmed users and
+which point {+backend+} moves them into the list of confirmed users and
 transitions their :guilabel:`User Status` to ``confirmed``.
 
 Re-run the User Confirmation Workflow
@@ -100,7 +100,7 @@ A few circumstances can lead to incomplete Email/Password user
 confirmation workflows:
 
 - An email is caught by a spam filter, not delivered due to a bug, or
-  accidentally deleted by a prospective Realm user.
+  accidentally deleted by a prospective {+service-short+} user.
 
 - A custom confirmation function is unable to communicate with an
   unconfirmed user due to a bug or oversight.
@@ -113,20 +113,20 @@ Since an existing account has their email registered to it, users cannot
 create a new account with the same email address. Also, they cannot log
 into an account that is not confirmed.
 
-Applications that use Realm's built-in email confirmation service can
-use the ``resendConfirmationEmail`` Client SDK method to send a new
+Applications that use {+service+}'s built-in email confirmation service
+can use the ``resendConfirmationEmail`` Client SDK method to send a new
 email with a new confirmation link to the user, allowing them to confirm
 their account and log in. Calling this method will result in an error by
 any application using a confirmation flow other than ``send a
 confirmation email``.
 
 There is no such specific method to re-run a custom confirmation
-function. Instead, Realm has a method to trigger a re-run of whatever
+function. Instead, {+service+} has a method to trigger a re-run of whatever
 the current Email/Password user confirmation workflow happens to be. You
 can manually re-run the currently selected user confirmation flow using
-the :doc:`Realm Admin API </admin/api/v3>` or via the Realm UI:
+the :doc:`{+service-short+} Admin API </admin/api/v3>` or via the {+ui+}:
 
-To re-run the confirmation workflow for a user through the Realm UI:
+To re-run the confirmation workflow for a user through the {+ui+}:
 
 #. Select :guilabel:`Users` from the left-hand navigation.
 
@@ -141,7 +141,7 @@ To re-run the confirmation workflow for a user through the Realm UI:
 #. Select the :guilabel:`Run User Confirmation` button in the dialogue
    box that appears.
 
-#. If the operation succeeds, the banner at the top of the MongoDB Realm
+#. If the operation succeeds, the banner at the top of the {+service-short+}
    admin console should display a confirmation message. The user's
    :guilabel:`User Status` changes from :guilabel:`Pending Confirmation`
    to :guilabel:`Pending User Login`. Once the user logs in, they will
@@ -153,6 +153,10 @@ the confirmation function as many times as necessary.
 Summary
 -------
 
-- The Email/Password authentication provider requires users to create an account the first time they connect to your MongoDB Realm application
-- Email/Password users must be confirmed manually through the Realm UI
-- Users caught in an incomplete Email/Password confirmation workflow must re-run the confirmation through the Realm UI
+- The Email/Password authentication provider requires users to create an
+  account the first time they connect to your {+app+}
+
+- Email/Password users must be confirmed manually through the {+ui+}
+
+- Users caught in an incomplete Email/Password confirmation workflow
+  must re-run the confirmation through the {+ui+}

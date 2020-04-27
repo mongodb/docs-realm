@@ -13,10 +13,10 @@ Deployment Models & Regions
 Overview
 --------
 
-When you first create a MongoDB Realm application, you must select a
+When you first create a {+app+}, you must select a
 :ref:`deployment type <realm-deployment-models>` that determines where
 your application's data is stored and processed. You can deploy your
-Realm application globally or limit the deployment to a specific
+{+app+} globally or limit the deployment to a specific
 :ref:`cloud deployment region <realm-regions>`.
 
 .. _realm-deployment-models:
@@ -30,15 +30,15 @@ Deployment Models
 Global Deployment
 ~~~~~~~~~~~~~~~~~
 
-Globally deployed Realm applications are hosted in every :ref:`cloud
-region <realm-regions>` that Realm supports. The Realm SDKs
+Globally deployed {+app+}s are hosted in every :ref:`cloud
+region <realm-regions>` that {+service+} supports. The {+service-short+} SDKs
 automatically execute application requests, such as reading user
 information or calling a function in the cloud region that's closest to
 the user that issued the request.
 
 Write operations to a linked MongoDB cluster are handled within a single
 region that you specify when you :doc:`create your application
-</procedures/create-realm-app>`. By default, Realm handles writes in
+</procedures/create-realm-app>`. By default, {+service-short+} handles writes in
 the region closest to your application's original linked MongoDB
 cluster.
 
@@ -48,7 +48,7 @@ cluster.
 Local Deployment
 ~~~~~~~~~~~~~~~~
 
-Locally deployed Realm applications are hosted in a specific
+Locally deployed {+app+}s are hosted in a specific
 :ref:`cloud region <realm-regions>` that you specify when you first
 :doc:`create your application </procedures/create-realm-app>`.
 Application requests and MongoDB write operations will all be handled
@@ -61,7 +61,7 @@ linked Atlas cluster or ``us-east-1`` if there is no linked cluster.
 Cloud Deployment Regions
 ------------------------
 
-Realm supports deployment and writes in the following AWS regions:
+{+service+} supports deployment and writes in the following AWS regions:
 
 - Virginia (``us-east-1``)
 - Oregon (``us-west-2``)

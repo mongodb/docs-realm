@@ -45,7 +45,7 @@ The ``context`` variable contains the following modules:
        call.
 
    * - ``context.functions``
-     - Execute other functions in your Realm application.
+     - Execute other functions in your {+app+}.
 
    * - ``context.http``
      - Access the HTTP service for ``get``, ``post``, ``put``, ``patch``,
@@ -83,7 +83,7 @@ service as methods.
           :doc:`service was created </services/configure/services>`.
 
           You can find the name of the Service associated with a
-          particular external service or linked cluster in the Realm UI
+          particular external service or linked cluster in the {+ui+}
           or in an exported application directory:
 
           .. list-table::
@@ -103,7 +103,7 @@ service as methods.
              :class: note
              
              The default name for the :doc:`MongoDB Service </mongodb>`
-             associated with a Realm application's initial linked
+             associated with a {+app+}'s initial linked
              cluster is ``mongodb-atlas``.
 
 .. _context-functions:
@@ -282,7 +282,7 @@ function's :ref:`active user <function-active-user>`.
    ``context.user`` always resolves to the authenticated application
    user that called the function, even if the function is a
    :ref:`system function <system-functions>` running without regard for
-   Realm rules. However, some functions are not called by authenticated
+   {+service-short+} rules. However, some functions are not called by authenticated
    users, such as webhook and trigger functions. For these functions,
    ``context.user`` resolves to a system user object that contains no
    data.
@@ -404,7 +404,7 @@ determine the origin of the call. It may contain the following fields:
        .. admonition:: Realm Removes The Secret Parameter
           :class: important
 
-          For security reasons, Realm automatically removes any query
+          For security reasons, {+service-short+} automatically removes any query
           string key/value pair where the key is ``secret``. For
           example, if an incoming request has the query string
           ``?secret=hello&someParam=42`` then the ``rawQueryString`` for

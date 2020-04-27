@@ -12,7 +12,7 @@ content: |
 
   .. note::
 
-     Upon successfully creating a new Realm application, ``realm-cli``
+     Upon successfully creating a new {+app+}, {+cli-bin+}
      will immediately update ``realm.json`` to reflect the new app.
 
      This overwrites any existing values in ``realm.json``.
@@ -39,7 +39,7 @@ content: |
 title: Authenticate a MongoDB Atlas User
 ref: authenticate-atlas-user
 content: |
-  To create a Realm application with ``realm-cli``, users must
+  To create a {+app+} with {+cli-bin+}, users must
   authenticate with Atlas using an API Key.
 
   .. code-block:: shell
@@ -55,11 +55,11 @@ content: |
 
      realm-cli import
 
-  Before importing, ``realm-cli`` will search existing applications
+  Before importing, {+cli-bin+} will search existing applications
   that the authenticated user has access to. If ``app_id`` was not
-  provided or does not match any existing application, ``realm-cli``
-  will ask you if you'd like to create a new Realm application. After
-  you confirm, ``realm-cli`` will prompt you for the following
+  provided or does not match any existing application, {+cli-bin+}
+  will ask you if you'd like to create a new {+app+}. After
+  you confirm, {+cli-bin+} will prompt you for the following
   information:
 
   .. list-table::
@@ -72,7 +72,7 @@ content: |
      * - ``Atlas Project ID``
        - The :guilabel:`Project ID` or :guilabel:`Project Name` of the
          :ref:`Atlas project <projects>` that you want to host your
-         Realm application.
+         {+app+}.
          You can find these values on the :guilabel:`Settings` page of
          the Atlas UI.
 
@@ -82,12 +82,12 @@ content: |
          Application names may only contain ASCII letters, numbers,
          underscores, and hyphens.
 
-         .. note:: ``realm-cli`` converts application names to lowercase.
+         .. note:: {+cli-bin+} converts application names to lowercase.
 ---
 title: Verify Application Creation
 ref: verify-app-creation
 content: |
-  You can confirm that your new application was successfully imported by
+  You can confirm that your new {+app+} was successfully imported by
   checking ``realm.json``. If the creation was successful, the
   ``app_id`` and ``name`` fields will have updated values that reflect
   the new application.
@@ -99,7 +99,7 @@ content: |
      1. A new application is created on the server.
      2. The local application directory is imported to the new application.
 
-     It's possible for ``realm-cli`` to successfully create a new app
+     It's possible for {+cli-bin+} to successfully create a new app
      but then throw an error during the import phase. In this case, no
      entities are imported but the new application is not deleted. If
      you encounter this, fix any errors causing the import to fail and

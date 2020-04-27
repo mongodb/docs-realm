@@ -48,7 +48,7 @@ content: |
          
          The :guilabel:`Identifier` value of the Services ID is your
          application's :guilabel:`Client ID`. You will need this value
-         later to configure the Apple ID provider in Realm.
+         later to configure the Apple ID provider in {+service-short+}.
 
    5. Check the checkbox to enable :guilabel:`Sign in with Apple` and
       then click :guilabel:`Configure`. Select the App ID that you
@@ -171,20 +171,20 @@ content: |
       
       The ``generate_client_secret.rb`` script saves the JWT string to a
       file called ``client_secret.txt``. You will need the JWT to
-      configure the Apple ID provider in Realm.
+      configure the Apple ID provider in {+service-short+}.
 ---
 title: Configure the Provider in Realm
 ref: configure-the-provider-in-realm
 content: |
    At this point you have configured an Apple application and generated
    the required OAuth 2.0 credentials. You can now configure the Apple
-   ID authentication provider with the credentials to allow Realm
+   ID authentication provider with the credentials to allow {+service-short+}
    client application users to log in.
 
-   .. tabs-stitch-interfaces::
+   .. tabs-realm-admin-interfaces::
       
       .. tab::
-         :tabid: stitch-ui
+         :tabid: ui
          
          1. Click :guilabel:`Users` in the left-hand navigation,
             select the :guilabel:`Providers` tab, and then click
@@ -202,7 +202,7 @@ content: |
             secret that contains the JWT.
          
          5. For :guilabel:`Redirect URIs`, click :guilabel:`Add Redirect
-            URI` and enter the URL that Realm should redirect to once
+            URI` and enter the URL that {+service-short+} should redirect to once
             the OAuth process is complete. Provide a URL for a domain
             that you control and then use a `universal link
             <https://developer.apple.com/library/content/documentation/General/Conceptual/AppSearch/UniversalLinks.html>`_
@@ -214,7 +214,7 @@ content: |
             Deploy Changes` and then click :guilabel:`Deploy`.
       
       .. tab::
-         :tabid: import-export
+         :tabid: cli
          
          Create a configuration file for the provider in your exported
          application directory at the path
@@ -268,9 +268,9 @@ content: |
                 Identifiers)`.
          
                 Once a user completes the authentication process,
-                Realm redirects them back to either a specified redirect URI or,
+                {+service-short+} redirects them back to either a specified redirect URI or,
                 if no redirect URI is specified, the URL that they initiated the
-                authentication request from. Realm will only redirect a user to
+                authentication request from. {+service-short+} will only redirect a user to
                 a URI that exactly matches an entry in this list, including the
                 protocol and any trailing slashes.
 

@@ -12,10 +12,10 @@ Realm Administration API
    :depth: 2
    :class: twocols-rootonly
 
-Realm provides an API for programmatically performing administrative
-tasks outside of the Realm UI. This includes tasks such as
+{+service+} provides an API for programmatically performing administrative
+tasks outside of the {+ui+}. This includes tasks such as
 modifying authentication providers, creating rules, and defining
-functions. The admin API is *not* for Realm client
+functions. The admin API is *not* for {+service-short+} client
 applications: tasks like authenticating users, calling functions, and
 interacting with services should be done using the
 :doc:`client SDK </procedures/init-realmclient>` for production client
@@ -26,7 +26,7 @@ uses.
 API Authentication
 ------------------
 
-Every request to the Realm Admin API must include a valid and current
+Every request to the {+service-short+} Admin API must include a valid and current
 authorization token from the MongoDB Cloud API as a bearer token in the
 ``Authorization`` header. You will need a valid :atlas:`programmatic API
 key </configure-api-access#programmatic-api-keys>` for MongoDB Atlas to
@@ -42,7 +42,7 @@ Once you have an API key pair, call the authentication endpoint:
      --data '{"username": "<Public API Key>", "apiKey": "<Private API Key>"}' \
      https://realm.mongodb.com/api/admin/v3.0/auth/providers/mongodb-cloud/login
 
-If authentication succeeds, Realm returns an access token as part of
+If authentication succeeds, {+backend+} returns an access token as part of
 the JSON response document:
 
 .. code-block:: json
@@ -72,8 +72,8 @@ Project & Application IDs
 
    The terms *Project ID* and *Group ID* are interchangeable.
 
-Realm APIs frequently require two parameters: your |atlas|
-*Project/Group ID*, and your Realm *Application ID*.
+{+service-short+} APIs frequently require two parameters: your |atlas|
+*Project/Group ID*, and your {+service-short+} *Application ID*.
 
 Project ID
 ~~~~~~~~~~
@@ -85,7 +85,7 @@ under the :guilabel:`Project ID` heading.
 Application ID
 ~~~~~~~~~~~~~~
 
-To find your Application ID, make a request to the Realm
+To find your Application ID, make a request to the {+service-short+}
 :ref:`get-/groups/{groupid}/apps` API endpoint.
 
 This request has the following format, referencing the ``access_token``
@@ -97,8 +97,8 @@ described in :ref:`realm-api-authentication`:
      --header 'Authorization: Bearer <access_token>' \
      https://realm.mongodb.com/api/admin/v3.0/groups/{groupId}/apps
 
-This will return a list of objects describing each Realm
-application in the provided group. The ``_id`` field contains the
+This will return a list of objects describing each {+app+}
+in the provided group. The ``_id`` field contains the
 Application ID.
 
 Example

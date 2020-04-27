@@ -13,15 +13,15 @@ Flush the CDN Cache
 Overview
 --------
 
-Realm serves hosted files through a :wikipedia:`Content Delivery Network
+{+service+} serves hosted files through a :wikipedia:`Content Delivery Network
 (CDN) <Content_delivery_network>` in order to minimize the latency
 between receiving a request for a resource and returning the requested
 resource.
 
-When a client requests a resource that's hosted in Realm, the CDN server
+When a client requests a resource that's hosted in {+service-short+}, the CDN server
 that processes the request checks for a cached copy of the file. If the
 server finds a valid cached copy of the resource, it returns it to the
-client. Otherwise, it forwards the request to Realm and caches the
+client. Otherwise, it forwards the request to {+service-short+} and caches the
 returned file before returning it to the client.
 
 The CDN caching process decreases the latency for end users when they
@@ -40,12 +40,12 @@ cached files and start serving the latest version of each file.
 Procedure
 ---------
 
-.. tabs-stitch-interfaces::
+.. tabs-realm-admin-interfaces::
 
    tabs:
-     - id: stitch-ui
+     - id: ui
        content: |
          .. include:: /includes/steps/flush-the-cdn-cache-realm-ui.rst
-     - id: import-export
+     - id: cli
        content: |
          .. include:: /includes/steps/flush-the-cdn-cache-import-export.rst

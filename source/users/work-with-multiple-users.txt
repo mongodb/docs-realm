@@ -13,18 +13,18 @@ Work with Multiple Users
 Overview
 --------
 
-Multiple :ref:`users <user-accounts>` can log in to a Realm client
-application simultaneously. You can set the app's :ref:`active user
-<active-user>` to be any authenticated user at any time, which lets you
+Multiple :ref:`users <user-accounts>` can log in to a :term:`{+service-short+} client`
+simultaneously. You can set the app's :ref:`active user <active-user>`
+to be any authenticated user at any time, which lets you
 quickly switch between users without requiring them to log in again.
 This is particularly useful when multiple users share a single device.
 
 User Account States
 ~~~~~~~~~~~~~~~~~~~
 
-When a user first logs in to a client application on a given device, the
+When a user first logs in to a {+service-short+} client on a given device, the
 SDK saves the user's information to the device. An on-device user may or
-may not be logged in. Stitch client applications runs in the context of
+may not be logged in. {+service-short+} clients run in the context of
 a single user even if multiple users are logged in simultaneously.
 
 The following states describe an on-device user at any given time:
@@ -32,17 +32,17 @@ The following states describe an on-device user at any given time:
 - **Authenticated:** any user that has logged in on the client device
   and has not logged out or had its session revoked.
   
-   - **Active**: a single authenticated user that the SDK associates
-     with outgoing Realm requests. See :ref:`active user <active-user>`
-     for more information.
+  - **Active**: a single authenticated user that the SDK associates
+    with outgoing {+backend+} requests. See :ref:`active user <active-user>`
+    for more information.
    
-   - **Inactive**: all authenticated users that are not the current
-     active user.
+  - **Inactive**: all authenticated users that are not the current
+    active user.
 
 - **Logged Out:** any user that authenticated on the client device but
   has since logged out or had its session revoked.
 
-The following diagram shows how client application users transition
+The following diagram shows how users within a {+service-short+} client transition
 between states when different events occur:
 
 .. figure:: /images/multi-user.png
@@ -58,14 +58,14 @@ credential exactly as you would in a single-user application. The newly
 added user immediately becomes the application's :ref:`active user
 <active-user>`.
 
-.. tabs-stitch-sdks::
+.. tabs-realm-sdks::
 
    .. tab::
       :tabid: javascript
       
       .. code-block:: javascript
       
-         const app = Stitch.defaultAppClient;
+         const app = Realm.defaultAppClient;
          const auth = app.auth;
          
          // Log in as user1
@@ -86,13 +86,13 @@ added user immediately becomes the application's :ref:`active user
       
       .. code-block:: java
 
-         StitchAppClient app = Stitch.getDefaultAppClient();
-         StitchAuth auth = app.getAuth();
+         RealmAppClient app = Realm.getDefaultAppClient();
+         RealmAuth auth = app.getAuth();
          
          // Log in as user1
          auth.loginWithCredential(new UserPasswordCredential("user1", "password"))
              .addOnCompleteListener(task -> {
-                 StitchUser user1 = task.getResult();
+                 RealmUser user1 = task.getResult();
                  // The active user is user1
                  assert (user1.id == auth.getUser().id);
              });
@@ -100,7 +100,7 @@ added user immediately becomes the application's :ref:`active user
          // Log in as user2
          auth.loginWithCredential(new UserPasswordCredential("user2", "password"))
              .addOnCompleteListener(task -> {
-                 StitchUser user2 = task.getResult();
+                 RealmUser user2 = task.getResult();
                  // The active user is user2
                  assert (user2.id == auth.getUser().id);
              });
@@ -110,14 +110,14 @@ added user immediately becomes the application's :ref:`active user
       
       .. code-block:: swift
          
-         let app: StitchAppClient = Stitch.defaultAppClient;
-         let auth: StitchAuth = app.auth;
+         let app: RealmAppClient = Realm.defaultAppClient;
+         let auth: RealmAuth = app.auth;
          
          // Log in as user1
-         let credentialForUser1: StitchCredential = UserPasswordCredential.init("user1", "password");
+         let credentialForUser1: RealmCredential = UserPasswordCredential.init("user1", "password");
          auth.login(withCredential: credentialForUser1) { result in
            switch result {
-           case .success(let user1: StitchUser):
+           case .success(let user1: RealmUser):
              // The active user is user1
              assert(user1.id == auth.currentUser.id)
            case .failure(let error):
@@ -126,10 +126,10 @@ added user immediately becomes the application's :ref:`active user
          }
          
          // Log in as user2
-         let credentialForUser2: StitchCredential = UserPasswordCredential.init("user2", "password");
+         let credentialForUser2: RealmCredential = UserPasswordCredential.init("user2", "password");
          auth.login(withCredential: credentialForUser2) { result in
            switch result {
-           case .success(let user2: StitchUser):
+           case .success(let user2: RealmUser):
              // The active user is user2
              assert(user2.id == auth.currentUser.id)
            case .failure(let error):
@@ -141,17 +141,17 @@ List All On-Device Users
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
 You can access a list of all :ref:`user accounts <user-accounts>` that
-have logged in to a client application on a given device regardless of
+have logged in to a {+service-short+} client on a given device regardless of
 whether they are currently authenticated.
 
-.. tabs-stitch-sdks::
+.. tabs-realm-sdks::
 
    .. tab::
       :tabid: javascript
       
       .. code-block:: javascript
       
-         const app = Stitch.defaultAppClient;
+         const app = Realm.defaultAppClient;
          const auth = app.auth;
          
          const users = auth.listUsers();
@@ -164,17 +164,17 @@ whether they are currently authenticated.
       
       .. code-block:: java
       
-         StitchAppClient app = Stitch.getDefaultAppClient();
-         StitchAuth auth = app.getAuth();
+         RealmAppClient app = Realm.getDefaultAppClient();
+         RealmAuth auth = app.getAuth();
          
-         List<StitchUser> loggedInUsers = client.getAuth().listUsers();
-         for (StitchUser user : loggedInUsers) {
+         List<RealmUser> loggedInUsers = client.getAuth().listUsers();
+         for (RealmUser user : loggedInUsers) {
             String message = String.format(
                "User with id %s is %s",
                user.id,
                user.isLoggedIn() ? "logged in" : "logged out"
             );
-             Log.d("Stitch", message);
+             Log.d("Realm", message);
          }
       
    .. tab::
@@ -182,10 +182,10 @@ whether they are currently authenticated.
       
       .. code-block:: swift
       
-         let app: StitchAppClient = Stitch.defaultAppClient;
-         let auth: StitchAuth = app.auth;
+         let app: RealmAppClient = Realm.defaultAppClient;
+         let auth: RealmAuth = app.auth;
          
-         let users: [StitchUser] = auth.listUsers()
+         let users: [RealmUser] = auth.listUsers()
          for user in users {
            print("User with id \(user.id) is $(user.isLoggedIn ? "logged in" : "logged out")")
          }
@@ -193,17 +193,17 @@ whether they are currently authenticated.
 Switch the Active User
 ~~~~~~~~~~~~~~~~~~~~~~
 
-You can switch a client application's :ref:`active user <active-user>`
+You can switch a {+service-short+} client's :ref:`active user <active-user>`
 to any authenticated user by specifying their User ID.
 
-.. tabs-stitch-sdks::
+.. tabs-realm-sdks::
 
    .. tab::
       :tabid: javascript
       
       .. code-block:: javascript
       
-         const app = Stitch.defaultAppClient;
+         const app = Realm.defaultAppClient;
          const auth = app.auth;
          
          // Get all on-device users
@@ -227,19 +227,19 @@ to any authenticated user by specifying their User ID.
       
       .. code-block:: java
       
-         StitchAppClient app = Stitch.getDefaultAppClient();
-         StitchAuth auth = app.getAuth();
+         RealmAppClient app = Realm.getDefaultAppClient();
+         RealmAuth auth = app.getAuth();
          
          // Get all on-device users
-         List<StitchUser> users = auth.listUsers();
+         List<RealmUser> users = auth.listUsers();
          // You can only switch to a logged-in user
-         List<StitchUser> authenticatedUsers = users
+         List<RealmUser> authenticatedUsers = users
              .stream()
              .filter(user -> user.isLoggedIn())
              .collect(Collectors.toList());
          // Switch between user1 and user2
-         StitchUser user1 = authenticatedUsers[0];
-         StitchUser user2 = authenticatedUsers[1];
+         RealmUser user1 = authenticatedUsers[0];
+         RealmUser user2 = authenticatedUsers[1];
          // Switch to user1
          auth.switchToUserWithId(user1.id);
          // The active user is now user1
@@ -254,16 +254,16 @@ to any authenticated user by specifying their User ID.
       
       .. code-block:: swift
       
-         let app: StitchAppClient = Stitch.defaultAppClient;
-         let auth: StitchAuth = app.auth;
+         let app: RealmAppClient = Realm.defaultAppClient;
+         let auth: RealmAuth = app.auth;
          
          // Get all on-device users
-         let users: [StitchUser] = auth.listUsers()
+         let users: [RealmUser] = auth.listUsers()
          // You can only switch to a logged-in user
-         let authenticatedUsers: [StitchUser] = users.filter { $0.isLoggedIn }
+         let authenticatedUsers: [RealmUser] = users.filter { $0.isLoggedIn }
          // Switch between user1 and user2
-         let user1: StitchUser = authenticatedUsers[0];
-         let user2: StitchUser = authenticatedUsers[1];
+         let user1: RealmUser = authenticatedUsers[0];
+         let user2: RealmUser = authenticatedUsers[1];
          // Switch to user1
          auth.switchToUser(withId: user1.id);
          // The active user is now user1
@@ -279,14 +279,14 @@ Remove the Active User from the Device
 You can remove all information about the current :ref:`active user
 <active-user>` from the device and automatically log the user out.
 
-.. tabs-stitch-sdks::
+.. tabs-realm-sdks::
 
    .. tab::
       :tabid: javascript
       
       .. code-block:: javascript
       
-         const app = Stitch.defaultAppClient;
+         const app = Realm.defaultAppClient;
          const auth = app.auth;
          
          const oldActiveUser = auth.user;
@@ -305,19 +305,19 @@ You can remove all information about the current :ref:`active user
       
       .. code-block:: java
       
-         StitchAppClient app = Stitch.getDefaultAppClient();
-         StitchAuth auth = app.getAuth();
+         RealmAppClient app = Realm.getDefaultAppClient();
+         RealmAuth auth = app.getAuth();
       
-         StitchUser oldActiveUser = auth.getUser();
+         RealmUser oldActiveUser = auth.getUser();
          auth.removeUser().addOnCompleteListener(task -> {
            if (task.isSuccessful()) {
                // The user is no longer the active user
-               StitchUser newActiveUser = auth.getUser();
+               RealmUser newActiveUser = auth.getUser();
                if(newActiveUser != null) {
                  assert (oldActiveUser.id != newActiveUser.id);
                }
                // The user is no longer on the device
-               StitchUser onDeviceUser = auth.listUsers()
+               RealmUser onDeviceUser = auth.listUsers()
                    .stream()
                    .filter(user -> user.id == oldActiveUser.id)
                    .findAny()
@@ -331,20 +331,20 @@ You can remove all information about the current :ref:`active user
       
       .. code-block:: swift
       
-         let app: StitchAppClient = Stitch.defaultAppClient;
-         let auth: StitchAuth = app.auth;
+         let app: RealmAppClient = Realm.defaultAppClient;
+         let auth: RealmAuth = app.auth;
          
-         let oldActiveUser: StitchUser = auth.currentUser
+         let oldActiveUser: RealmUser = auth.currentUser
          auth.removeUser() { result in
            switch result {
            case .success():
              // The user is no longer the active user
-             let newActiveUser: StitchUser = auth.currentUser?;
+             let newActiveUser: RealmUser = auth.currentUser?;
              if newActiveUser != nil {
                assert(oldActiveUser.id != newActiveUser.id)
              }
              // The user is no longer on the device
-             StitchUser onDeviceUser = auth.listUsers().first(where: { $0.id == oldActiveUser.id })
+             RealmUser onDeviceUser = auth.listUsers().first(where: { $0.id == oldActiveUser.id })
              assert(onDeviceUser == nil)
            }
          }
@@ -355,14 +355,14 @@ Remove a Specific User from the Device
 You can remove all information about a specific user on the device and
 automatically log the user out by specifying their User ID.
 
-.. tabs-stitch-sdks::
+.. tabs-realm-sdks::
 
    .. tab::
       :tabid: javascript
       
       .. code-block:: javascript
       
-         const app = Stitch.defaultAppClient;
+         const app = Realm.defaultAppClient;
          const auth = app.auth;
          
          const user1 = auth.user;
@@ -376,14 +376,14 @@ automatically log the user out by specifying their User ID.
       
       .. code-block:: java
       
-         StitchAppClient app = Stitch.getDefaultAppClient();
-         StitchAuth auth = app.getAuth();
+         RealmAppClient app = Realm.getDefaultAppClient();
+         RealmAuth auth = app.getAuth();
          
-         StitchUser user1 = auth.getUser();
+         RealmUser user1 = auth.getUser();
          auth.removeUserWithId(user1.id).addOnCompleteListener(task -> {
            if (task.isSuccessful()) {
                // The user is no longer on the device
-               StitchUser onDeviceUser = auth.listUsers()
+               RealmUser onDeviceUser = auth.listUsers()
                    .stream()
                    .filter(user -> user.id == user1.id)
                    .findAny()
@@ -397,15 +397,15 @@ automatically log the user out by specifying their User ID.
       
       .. code-block:: swift
       
-         let app: StitchAppClient = Stitch.defaultAppClient;
-         let auth: StitchAuth = app.auth;
+         let app: RealmAppClient = Realm.defaultAppClient;
+         let auth: RealmAuth = app.auth;
          
-         let user1: StitchUser = auth.currentUser
+         let user1: RealmUser = auth.currentUser
          auth.removeUser(withId: user1.id) { result in
            switch result {
            case .success():
              // The user is no longer on the device
-             StitchUser onDeviceUser = auth.listUsers().first(where: { $0.id == user1.id })
+             RealmUser onDeviceUser = auth.listUsers().first(where: { $0.id == user1.id })
              assert(onDeviceUser == nil)
            }
          }

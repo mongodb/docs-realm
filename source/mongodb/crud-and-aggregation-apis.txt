@@ -18,24 +18,26 @@ Overview
 --------
 
 You can access most of the CRUD and Aggregation functionality of MongoDB
-version 3.6 with the :doc:`MongoDB service </mongodb>`; however, Realm
+version 3.6 with the :doc:`MongoDB service </mongodb>`; however, {+service+}
 does not support all operations available in standard tools and clients.
 This page lists specific MongoDB operations that are not available when
-you connect to MongoDB through Realm. For a high-level overview of
-MongoDB feature availability in Realm, see
+you connect to {+atlas+} through {+backend+}. For a high-level overview of
+MongoDB feature availability in {+service+}, see
 :doc:`Service Limitations </mongodb/service-limitations>`.
 
 .. note::
 
    The following tables track operation support with the labels "User
-   Function" and "System Function". A "User Function" is a Function run
+   Function" and ":term:`System Function <system function>`". A
+   "User Function" is a :term:`Function <{+service-short+} Function>` run
    using an :ref:`application user's user context only
    <function-active-user>`. This is the default behavior for all
-   Functions, and all rules, roles, and permissions apply to the active
-   user. A "System Function" is a Function run without regard for
-   rules, roles, and permissions. You can learn more about how to run a
-   Function as a system user in the :ref:`Functions overview
-   <function-system-user>`.
+   Functions, and in this kind of Function all
+   rules, roles, and permissions apply to the active
+   user. A "System Function" is a Function run without regard
+   for rules, roles, and permissions. You can learn more about how to
+   run a Functions as a :term:`system user` in the
+   :ref:`Functions overview <function-system-user>`.
 
 .. _mongodb-crud-and-aggregation-apis-crud-operations:
 
@@ -47,7 +49,7 @@ CRUD Operations
 Query Operators
 ~~~~~~~~~~~~~~~
 
-Realm supports most :manual:`query operators
+{+service+} supports most :manual:`query operators
 </reference/operator/query>` for queries that run in a
 :ref:`user function <function-active-user>`. However, some evaluation
 operators and all geospatial and bitwise operators are only available
@@ -266,7 +268,7 @@ Bitwise Operator Availability
 Update Operators
 ~~~~~~~~~~~~~~~~
 
-Realm supports most :manual:`update operators
+{+service+} supports most :manual:`update operators
 </reference/operator/update>` for queries that run in a
 :ref:`user function <function-active-user>`. However, some array update
 operators are only available in :ref:`system functions
@@ -413,7 +415,7 @@ Bitwise Update Operator Availability
 Bulk Write Operations
 ~~~~~~~~~~~~~~~~~~~~~
 
-Realm does not support any :manual:`bulk write operations
+{+service+} does not support any :manual:`bulk write operations
 </core/bulk-write-operations>`.
 
 Bulk Write Operation Availability
@@ -457,7 +459,7 @@ Bulk Write Operation Availability
 Query Options
 ~~~~~~~~~~~~~
 
-Realm does not support configuring the following options for any
+{+service+} does not support configuring the following options for any
 CRUD operation in :ref:`user functions <function-active-user>`. All query
 options are available in :ref:`system functions <function-system-user>`.
 
@@ -490,7 +492,7 @@ Query Option Availability
 Aggregation
 -----------
 
-Realm does not support the following :manual:`aggregation pipeline
+{+service+} does not support the following :manual:`aggregation pipeline
 stages </reference/operator/aggregation-pipeline/>` when you :doc:`run
 an aggregation pipeline </mongodb/run-aggregation-pipelines>` in the
 context of an :ref:`application user <user-accounts>`. All aggregation
@@ -549,10 +551,10 @@ Aggregation Pipeline Stage Availability
 Database Commands
 -----------------
 
-Realm does not support any :manual:`database commands
+{+service+} does not support any :manual:`database commands
 </reference/command>` in the Client SDKs or :doc:`Functions
 </functions>`. You can, however, call a limited subset of database
-commands when when connected to a MongoDB cluster over the :doc:`Realm
+commands when when connected to a MongoDB cluster over the :doc:`{+service+}
 wire protocol </mongodb/connect-over-the-wire-protocol>`.
 
 The following :manual:`database commands </reference/command>` are
@@ -635,4 +637,3 @@ Database Command Availability
           :columns: 1
 
           - ``collation``
-

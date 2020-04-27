@@ -15,7 +15,7 @@ Overview
 
 Depending on the service, :ref:`incoming webhooks <incoming-webhooks>`
 offer several ways to validate requests and customize the response that
-Stitch sends back to the external service.
+{+service+} sends back to the external service.
 
 .. _request-validation-methods:
 .. _webhook-request-validation:
@@ -63,7 +63,7 @@ generated from the request body and ``secret`` string in the
       const body = { "message":"MESSAGE" }
       const secret = 12345
 
-   The following Stitch :doc:`function </functions>` generates the hash
+   The following :doc:`{+service-short+} Function </functions>` generates the hash
    for this ``body`` and ``secret``:
 
    .. code-block:: javascript
@@ -130,8 +130,8 @@ appended to the end of the URL.
 Webhook Response Object
 -----------------------
 
-Stitch automatically passes a ``response`` object that represents the
-webhook's HTTP response as the second argument to webhook functions.
+{+service-short+} automatically passes a ``response`` object that represents the
+webhook's HTTP response as the second argument to webhook Function.
 The following table lists the available methods for modifying the
 ``response`` object:
 

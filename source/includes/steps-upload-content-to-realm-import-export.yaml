@@ -1,13 +1,13 @@
 title: Export Your Realm Application
 ref: export-your-application
 content: |
-  To upload files to Realm with :doc:`realm-cli
+  To upload files to {+backend+} with :doc:`realm-cli
   </deploy/realm-cli-reference>` you need an :ref:`application
-  directory <application-directory>` for your application.
+  directory <application-directory>` for your {+app+}.
 
   You can :doc:`export your application </deploy/export-realm-app>`
   from the :guilabel:`Export` tab of the :guilabel:`Settings` page in
-  the Realm UI, or by running the following command from an
+  the {+ui+}, or by running the following command from an
   authenticated instance of :doc:`realm-cli
   </deploy/realm-cli-reference>`:
 
@@ -20,10 +20,10 @@ ref: add-a-hosting-directory
 content: |
   .. note::
 
-     This step is only necessary if you did not export your Realm app with the
+     This step is only necessary if you did not export your {+app+} with the
      ``--include-hosting`` flag.
 
-  Realm looks for files to upload in the ``/hosting/files``
+  {+backend+} looks for files to upload in the ``/hosting/files``
   subdirectory of your application directory. If this directory doesn't
   already exist, create it:
 
@@ -34,7 +34,7 @@ content: |
 title: Add a Metadata Configuration File
 ref: add-a-metadata-configuration-file
 content: |
-  To deploy hosted files through Realm CLI you must include a
+  To deploy hosted files through {+cli-bin+} you must include a
   ``metadata.json`` file in the ``/hosting`` directory. If the
   configuration file does not exist, create it:
 
@@ -59,7 +59,7 @@ ref: add-files-to-the-hosting-directory
 content: |
   To upload or edit files, add them to the ``/hosting/files``
   subdirectory of your application directory. When you import your
-  application, Realm will map this subdirectory to the root of your
+  application, {+backend+} will map this subdirectory to the root of your
   application's hosted file tree.
 
   .. note::
@@ -72,7 +72,7 @@ title: Import the Files
 ref: import-the-files
 content: |
   Once you have added the files you want to host to the
-  ``/hosting/files`` subdirectory, you can upload them to Realm by
+  ``/hosting/files`` subdirectory, you can upload them to {+backend+} by
   importing your updated application directory with the
   ``--include-hosting`` flag:
 
@@ -80,7 +80,7 @@ content: |
 
      realm-cli import --include-hosting
 
-  After successfully importing the application directory, Realm will
+  After successfully importing the application directory, {+backend+} will
   begin uploading your files. The rate of upload time will vary depending
   on network connection speed and the number and size of the files
   selected.

@@ -1,3 +1,5 @@
+.. _facebook-authentication:
+
 =======================
 Facebook Authentication
 =======================
@@ -16,9 +18,9 @@ Overview
 The Facebook authentication provider allows users to log in
 with their existing Facebook account through a companion
 Facebook application. When a user logs in, Facebook provides
-Realm with an `OAuth 2.0 access token
+{+service+} with an `OAuth 2.0 access token
 <https://www.oauth.com/oauth2-servers/access-tokens/>`_ for
-the user. Realm uses the token to identify the user and
+the user. {+service-short+} uses the token to identify the user and
 access approved data from the Facebook API on their behalf.
 For more information on Facebook Login, see `Facebook Login
 for Apps
@@ -29,16 +31,16 @@ for Apps
 Configuration
 -------------
 
-.. tabs-stitch-interfaces::
+.. tabs-realm-admin-interfaces::
 
    tabs:
-     - id: stitch-ui
+     - id: ui
        content: |
          You can enable and configure the Facebook authentication
-         provider from the Realm UI by selecting :guilabel:`Facebook`
+         provider from the {+ui+} by selecting :guilabel:`Facebook`
          from the :guilabel:`Users > Providers` page.
 
-     - id: import-export
+     - id: cli
        content: |
          You can enable and configure the Facebook authentication
          provider with :doc:`realm-cli
@@ -83,8 +85,8 @@ options:
 
    * - :guilabel:`Client ID`
 
-       .. tab-content:: tabs-stitch-interfaces
-          :tab-id: import-export
+       .. tab-content:: tabs-realm-admin-interfaces
+          :tab-id: cli
 
           | *config.clientId*
 
@@ -95,8 +97,8 @@ options:
 
    * - :guilabel:`Client Secret`
 
-       .. tab-content:: tabs-stitch-interfaces
-          :tab-id: import-export
+       .. tab-content:: tabs-realm-admin-interfaces
+          :tab-id: cli
 
           | *secret_config.clientSecret*
 
@@ -109,8 +111,8 @@ options:
 
    * - :guilabel:`Metadata Fields`
 
-       .. tab-content:: tabs-stitch-interfaces
-          :tab-id: import-export
+       .. tab-content:: tabs-realm-admin-interfaces
+          :tab-id: cli
 
           | *metadata_fields*
 
@@ -126,8 +128,8 @@ options:
        their user object.
 
 
-       .. tab-content:: tabs-stitch-interfaces
-          :tab-id: import-export
+       .. tab-content:: tabs-realm-admin-interfaces
+          :tab-id: cli
 
           To require a metadata field from an import/export
           configuration file, add an entry for the field to
@@ -140,8 +142,8 @@ options:
 
    * - :guilabel:`Redirect URIs`
 
-       .. tab-content:: tabs-stitch-interfaces
-          :tab-id: import-export
+       .. tab-content:: tabs-realm-admin-interfaces
+          :tab-id: cli
 
           | *redirect_uris*
 
@@ -150,18 +152,18 @@ options:
        Identifiers)`.
 
        Once a user completes the authentication process on
-       Facebook, Realm redirects them back to either a
+       Facebook, {+service-short+} redirects them back to either a
        specified redirect URI or, if no redirect URI is
        specified, the URL that they initiated the
-       authentication request from. Realm will only redirect
+       authentication request from. {+service-short+} will only redirect
        a user to a URI that exactly matches an entry in this
        list, including the protocol and any trailing
        slashes.
 
    * - :guilabel:`Domain Restrictions`
 
-       .. tab-content:: tabs-stitch-interfaces
-          :tab-id: import-export
+       .. tab-content:: tabs-realm-admin-interfaces
+          :tab-id: cli
 
           | *domain_restrictions*
 

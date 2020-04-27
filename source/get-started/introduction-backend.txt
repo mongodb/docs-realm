@@ -1,0 +1,73 @@
+====================================================
+Introduction to MongoDB Realm for Backend Developers
+====================================================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+As a backend developer, you can use {+service+} to rapidly
+develop cloud-based applications that can react to changes
+in your :term:`{+atlas+}` data, connect that data to
+other systems and services, and scale to meet demand without
+the need for managing your own database and server
+infrastructure.
+
+.. note::
+   If you prefer working on mobile or web applications,
+   check out the :doc:`Introduction for Mobile Developers
+   </get-started/introduction-mobile>` or the
+   :doc:`Introduction for Web Developers
+   </get-started/introduction-web>`.
+
+What Problem Does MongoDB Realm Solve?
+--------------------------------------
+
+It takes time, resources, and expertise to build,
+administer, and maintain backend infrastructure. User
+authentication and access control are common but complex
+systems that you do not need to write from scratch.
+:term:`{+service+}` manages all parts of the backend
+infrastructure and user management for you, enabling you to
+focus on what makes your app special so you can get it to
+your users faster.
+
+{+service+} is:
+
+Serverless:
+  - Deploy server-side applications without having to set up and manage server infrastructure -- including provisioning, deployment, operating systems, web servers, logging, backups, and redundancy.
+  - Run cloud-based :term:`{+service-short+} Functions <{+service-short+} Function>` that can crunch data or interact with third-party services, such as Slack, Twilio, or Twitter. You can integrate virtually any Node.js module in your functions with :ref:`dependency resolution <dependency-resolution>`.
+  - Skip writing an additional API on top of your {+service+} service -- authenticated clients may directly interact with the parts of the database they have permission to access.
+
+Dynamic and responsive:
+  - React to data changes in {+atlas+}, process data from incoming webhooks, or run {+service-short+} Functions on a schedule with :term:`{+service-short+} Triggers <{+service-short+} Trigger>`.
+  - Get up and running quickly for free, then scale according to the demands of your application.
+  - Pay for and receive only the exact amount of compute you need at any given time with {+service+}'s usage-based pricing model. Usage under a certain amount per month is always free.
+
+Simply secure:
+  - Allow users to log in with familiar :term:`authentication providers <authentication provider>` that are built into {+service+}.
+  - Control which users may read and write data on a per-field basis with :ref:`rules and roles <data-access-permissions>` that you can define declaratively or with a function.
+  - Enforce data integrity by defining :ref:`validation logic <add-change-validation-expressions>` with :term:`{+backend-schema+}`.
+
+You can make entirely cloud-based applications with {+service+}
+or tie your {+app+} into mobile or web clients and seamlessly sync
+data across devices with
+:term:`{+sync+}`.
+
+Get Started Now
+---------------
+
+You can start developing a {+service+} application for
+free by `following these steps
+<https://www.mongodb.com/download-center>`_.
+
+Summary
+-------
+
+- {+service+} allows you to deploy serverless, cloud-based applications without having to manage your own backend infrastructure.
+- Typical use cases for backend developers using {+service+} include crunching data, reacting to data changes in {+atlas+}, and interacting with third-party services.
+- {+service+}'s built-in :doc:`authentication system </authentication>` allows you to add users to your app and define :ref:`permissions <mongodb-permissions>` that control who can read and write data.

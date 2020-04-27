@@ -18,7 +18,7 @@ Introduction
 
 Modern applications often use multiple external services to handle
 complex use cases, such as messaging, analytics, and data management.
-You can connect to these services through Realm by creating and
+You can connect to these services through {+service+} by creating and
 configuring service interfaces.
 
 Service interfaces specify the connection details for a specific
@@ -28,13 +28,13 @@ Once you've configured an interface for a service, you can instantiate a
 :ref:`service client <service-clients>` that connects to the interface
 and exposes the service's :ref:`actions <service-actions>` as methods.
 You can also create :ref:`incoming webhooks <service-webhooks>` that
-enable external services to communicate directly with your Realm
-application over HTTP.
+enable external services to communicate directly with your {+app+}
+over HTTP.
 
 .. cssclass:: note
 .. admonition:: Built-In Service Clients
 
-   Realm includes clients for certain external services, such
+   {+service+} includes clients for certain external services, such
    as :doc:`Twilio </services/twilio>` and :doc:`AWS </services/aws>`.
    You can also use the :doc:`HTTP service </services/http>` to create a
    custom interface for any external service that offers a REST API.
@@ -71,13 +71,13 @@ authentication and HTTP methods behind semantic methods that
 are specific to each service.
 
 When you :doc:`call a service action </services/call-a-service-action>`,
-Realm evaluates each :ref:`service rule <service-rules>` that applies
-to the action and prevents execution unless one of the rules evaluates
-to ``true``.
+{+backend+} evaluates each :ref:`service rule <service-rules>` that
+applies to the action and prevents execution unless one of the rules
+evaluates to ``true``.
 
 .. important::
 
-  **Realm blocks all service actions by default.** You must
+  **{+service+} blocks all service actions by default.** You must
   :doc:`configure a service rule
   </services/configure/service-rules>` that enables a
   particular action before you can call it.
@@ -88,8 +88,8 @@ Service Rules
 ~~~~~~~~~~~~~
 
 A service rule is a :doc:`JSON expression </services/json-expressions>`
-that Realm evaluates to determine whether or not a user can execute one
-or more :ref:`actions <service-actions>` in a service.
+that {+backend+} evaluates to determine whether or not a user can
+execute one or more :ref:`actions <service-actions>` in a service.
 
 For example, you could create a :doc:`Twilio </services/twilio>` rule
 that only lets users send a text message from a specific phone number or
@@ -106,9 +106,9 @@ buckets.
    configure service rules based on the authenticated user that called
    an action (:json-expansion:`%%user`) and the arguments that they
    provided (:json-expansion:`%%args`). You can also create complex
-   rules that :ref:`call a function <call-function-json-expression>`
-   (:json-operator:`%function`) and evaluate based on the function's
-   return value.
+   rules that :ref:`call a Function
+   <call-function-json-expression>` (:json-operator:`%function`) and
+   evaluate based on the Function's return value.
 
 .. _service-webhooks:
 .. _incoming-webhooks:
@@ -124,7 +124,7 @@ webhooks by :doc:`configuring a service webhook
 </services/configure/service-webhooks>`.
 
 Incoming webhooks consist of two primary components: the webhook URL and
-the webhook function.
+the webhook Function.
 
 .. _webhook-url:
 .. _webhook-function:
@@ -153,7 +153,7 @@ the webhook function.
           external service.
 
    * - :guilabel:`Webhook Function`
-     - A webhook function is a :doc:`Realm function </functions>` that
+     - A webhook function is a :doc:`{+service-short+} Function </functions>` that
        accepts an incoming HTTP request with data from the external
        service as its argument and optionally returns an HTTP response.
 

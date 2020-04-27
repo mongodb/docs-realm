@@ -13,24 +13,24 @@ Watch for Document Changes
 Overview
 --------
 
-Realm allows you to watch a collection and receive client-side
+{+service+} allows you to watch a collection and receive client-side
 :ref:`database events <database-events>` whenever documents in the
 collection are inserted or modified. This enables you to develop real-time
 and collaborative applications without the overhead and complexity of
 alternatives such as long polling.
 
-Realm uses MongoDB :ref:`change streams <changeStreams>` on watched
+{+service-short+} uses MongoDB :ref:`change streams <changeStreams>` on watched
 collections to listen for changes and broadcast them to any client
 applications that are watching documents in the collection at the time
-of the event. Realm supports watching any change on a collection
+of the event. {+service-short+} supports watching any change on a collection
 and watching changes that match a certain filter.
 
 .. admonition:: Change Stream Limitations
    :class: important
 
-   Realm opens a single MongoDB :ref:`change stream <changeStreams>`
+   {+service-short+} opens a single MongoDB :ref:`change stream <changeStreams>`
    for each watched collection and limits the total number of open
-   change streams on each linked cluster across all Realm apps based on
+   change streams on each linked cluster across all {+app+}s based on
    the cluster's size. See :ref:`change stream limitations
    <mongodb-service-limitations-change-streams>` for more information.
 

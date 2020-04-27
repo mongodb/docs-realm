@@ -7,7 +7,7 @@ content: |
 
   You can :doc:`export your application </deploy/export-realm-app>`
   configuration from the :guilabel:`Export` tab of the
-  :guilabel:`Settings` page in the Realm UI, or by running the
+  :guilabel:`Settings` page in the {+ui+}, or by running the
   following command from an authenticated instance of :doc:`realm-cli
   </deploy/realm-cli-reference>`:
 
@@ -59,8 +59,8 @@ content: |
 title: Configure User Authentication
 ref: configure-user-authentication
 content: |
-  Specify the type of authentication that Realm should use for the
-  webhook. Realm supports the following webhook authentication methods:
+  Specify the type of authentication that {+service+} should use for the
+  webhook. {+service-short+} supports the following webhook authentication methods:
 
   .. list-table::
      :widths: 20 80
@@ -151,9 +151,9 @@ ref: specify-an-authorization-expression
 content: |
   You can dynamically authorize requests based on the contents of each
   request by defining a :guilabel:`Can Evaluate` :doc:`JSON expression
-  </services/json-expressions>`. Realm evaluates the expression
+  </services/json-expressions>`. {+backend+} evaluates the expression
   whenever the function is called. If you do not specify an expression
-  then Realm automatically authorizes all authenticated incoming
+  then {+backend+} automatically authorizes all authenticated incoming
   requests.
   
   The expression can expand standard :doc:`expression variables
@@ -214,7 +214,7 @@ content: |
 
   #. Navigate to the root of the exported application directory.
 
-  #. Log in to MongoDB Atlas with ``realm-cli``:
+  #. Log in to MongoDB Atlas with {+cli-bin+}:
 
      .. code-block:: shell
 

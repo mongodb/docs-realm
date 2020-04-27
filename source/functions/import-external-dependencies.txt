@@ -13,31 +13,31 @@ Import External Dependencies
 Overview
 --------
 
-You can import npm modules into a Realm Function and use the imported
+You can import npm modules into a {+service-short+} Function and use the imported
 :ref:`external dependencies <external-dependencies>` in your code. This
-allows your Realm application to depend upon external libraries for
+allows your {+app+} to depend upon external libraries for
 code reuse.
 
 .. admonition:: Pre-requisites for Import
    :class: note
 
    You must :doc:`upload dependencies to
-   Realm</functions/upload-external-dependencies>` before you can
+   {+service-short+}</functions/upload-external-dependencies>` before you can
    import them.
 
 .. admonition:: Node.js Built-In Module Support
    :class: note
 
-   Realm currently supports a subset of Node.js built-in modules. See :ref:`function
+   {+service-short+} currently supports a subset of Node.js built-in modules. See :ref:`function
    constraints <function-constraints>` for details on the support of various modules.
 
 
 Usage
 -----
 
-You can import dependencies into any Realm function using the
+You can import dependencies into any {+service-short+} Function using the
 ``require`` keyword inside of the ``exports`` function. You cannot use
-ES Module ``import`` syntax. Since Realm does not support file or local
+ES Module ``import`` syntax. Since {+service-short+} does not support file or local
 module import, you should import dependencies in the style of a
 ``node_modules`` module import. To learn more about ``require`` syntax,
 consult the `Node.js documentation for the require keyword
@@ -47,8 +47,8 @@ consult the `Node.js documentation for the require keyword
    :class: important
 
    Node.js projects commonly place ``require`` statements in the
-   global scope of each file, but Realm does not support this pattern.
-   You *must* place Realm Function ``require`` statements within a
+   global scope of each file, but {+service-short+} does not support this pattern.
+   You *must* place {+service-short+} Function ``require`` statements within a
    function scope.
 
 Import a Full Module
@@ -70,7 +70,7 @@ Import a Module Subfolder
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The following example demonstrates how to use ``require`` to import a
-single submodule of an external dependency into a Realm Function:
+single submodule of an external dependency into a {+service-short+} Function:
 
 .. code-block:: javascript
    :emphasize-lines: 2
@@ -86,20 +86,3 @@ single submodule of an external dependency into a Realm Function:
       console.log(`copy: ${copy.name}`);
       return (original != copy);
    };
-
-Constraints
------------
-
-External dependencies are subject to the following limitations:
-
-- Modules will not function and throw an error if published in native
-  ES6. Modules using ES6 features must be transpiled to ES5 before they
-  will function in Realm.
-
-- Require statements *must* appear inside a function declaration, not
-  outside it. Realm does not currently support statements in the global
-  scope.
-
-- Realm does not currently support Node.js standard libraries, so
-  packages making use of those libraries will fail. Network requests and 
-  file accesses often invoke Node.js standard libraries. 

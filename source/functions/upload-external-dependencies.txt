@@ -13,33 +13,86 @@ Upload External Dependencies
 Overview
 --------
 
-You can upload npm modules into your Realm application and use the
-uploaded :ref:`external dependencies <external-dependencies>` in your
-Functions. This allows your application to depend upon external
-libraries for code reuse.
+You can upload JavaScript modules from the npm registry into your {+app+}
+and use the uploaded :ref:`external dependencies
+<external-dependencies>` in your Functions. This allows your application to
+depend upon external libraries and reuse code.
 
-To use external dependencies, upload an archive of an npm
-``node_modules`` folder via the Realm UI. Once uploaded, any Realm
-Function can import and use any dependencies listed on the dependencies
-page of the Realm UI.
+To use external dependencies, you must first upload an archive of an npm
+``node_modules`` folder. {+service+} automatically transpiles uploaded modules to ES5
+and supports most built-in modules. You can :doc:`import an uploaded module
+</functions/import-external-dependencies>` in any {+service-short+} Function.
+
+You can see a list of uploaded packages on the :guilabel:`Functions` screen of
+the {+ui+} under the :guilabel:`Dependencies` tab.
 
 .. admonition:: External Dependency Size Constraints
    :class: important
 
-   Uploaded zip files are subject to a ``10MB`` size cap.
+   Uploaded ``node_modules`` archive files are subject to a ``10MB`` size cap.
+
+.. _builtin-module-support:
+
+Built-In Module Support
+-----------------------
+
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
+
+   * - Supported
+     - Unsupported
+
+   * - .. hlist::
+          :columns: 2
+          
+          - ``assert``
+          - ``buffer``
+          - ``crypto``
+          - ``events``
+          - ``fs``
+          - ``http``
+          - ``https``
+          - ``net``
+          - ``stream``
+          - ``timers``
+          - ``tls``
+          - ``url``
+          - ``util``
+          - ``zlib``
+     - .. hlist::
+          :columns: 2
+          
+          - ``child_process``
+          - ``cluster``
+          - ``dgram``
+          - ``dns``
+          - ``domain``
+          - ``os``
+          - ``path``
+          - ``punycode``
+          - ``querystring``
+          - ``readline``
+          - ``string_decoder``
+          - ``tty``
+          - ``v8``
+          - ``vm``
 
 Procedure
 ---------
 
 .. include:: /includes/steps/upload-external-dependencies.rst
 
-
 Summary
 -------
-- External Dependencies can be uploaded through the Realm UI 
-- Uploaded Dependencies can be used in Realm Functions
+
+- External Dependencies can be uploaded through the {+ui+} 
+- Uploaded Dependencies can be used in {+service-short+} Functions
 
 Next Steps
 ----------
 
-- You have installed and archived your external dependencies locally, uploaded them to Realm, and deployed your application. Now you can :doc:`import external dependencies </functions/import-external-dependencies>` in a Realm Function.
+- You have installed and archived your external dependencies locally,
+  uploaded them to {+backend+}, and deployed your application. Now you
+  can :doc:`import external dependencies
+  </functions/import-external-dependencies>` in a {+service-short+} Function.

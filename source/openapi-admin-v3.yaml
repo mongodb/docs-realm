@@ -2,16 +2,16 @@ openapi: "3.0.1"
 info:
   description: ""
   version: "3.0"
-  title: "Realm API"
+  title: "{+service-short+} API"
 servers:
   - url: "https://realm.mongodb.com/api/admin/v3.0"
-    description: "The root API resource and starting point for the Realm API."
+    description: "The root API resource and starting point for the {+service-short+} API."
 paths:
   /auth/providers:
     get:
       tags: ['admin']
       operationId: 'getAdminAuthProviders'
-      summary: 'Enumerate available Realm administration authentication providers.'
+      summary: 'Enumerate available {+service-short+} administration authentication providers.'
       responses:
         '200':
           description: 'Successfully enumerated available authentication providers.'
@@ -29,7 +29,7 @@ paths:
       tags: ['admin']
       operationId: 'adminLogin'
       summary: |
-        Authenticate as a Realm administrator. Use
+        Authenticate as a {+service-short+} administrator. Use
         :ref:`get-/auth/providers` to list the
         available authentication providers.
       requestBody:
@@ -91,7 +91,7 @@ paths:
     delete:
       tags: ['admin']
       operationId: adminDeleteSession
-      summary: "Delete a Realm access token."
+      summary: "Delete a {+service-short+} access token."
       responses:
         '204':
           description: "Successfully deleted."
@@ -99,7 +99,7 @@ paths:
       tags: ['admin']
       operationId: adminCreateSession
       summary: |
-        Obtain a Realm access token.
+        Obtain a {+service-short+} access token.
       responses:
         '201':
           description: "Successfully created."
@@ -136,7 +136,7 @@ paths:
       tags: ["apps"]
       operationId: "adminListApplications"
       summary: |
-        List all Realm applications within an |atlas|
+        List all {+app+}s within an |atlas|
         :atlas:`project/group </tutorial/manage-projects/>`.
       responses:
         '200':
@@ -149,7 +149,7 @@ paths:
     post:
       tags: ["apps"]
       operationId: "adminCreateApplication"
-      summary: "Create a new Realm application."
+      summary: "Create a new {+app+}."
       parameters:
         - name: defaults
           in: query
@@ -345,7 +345,7 @@ paths:
                 properties:
                   error:
                     type: string
-                    description: A description of the error that Realm encountered.
+                    description: A description of the error that {+service-short+} encountered.
 
   # Values
 
@@ -1019,7 +1019,7 @@ paths:
     get:
       tags: ["authproviders"]
       operationId: "adminListAuthProviders"
-      summary: "List :doc:`authentication providers </authentication/providers>` within a Realm application."
+      summary: "List :doc:`authentication providers </authentication/providers>` within a {+app+}."
       responses:
         '200':
           description: "Successfully listed."
@@ -1115,7 +1115,7 @@ paths:
       operationId: "adminListAllowedRequestOrigins"
       summary: |
         List the allowed `HTTP origins <https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Origin>`__
-        from which Realm should allow requests.
+        from which {+service+} should allow requests.
       responses:
         '200':
           description: "Successfully listed."
@@ -1129,7 +1129,7 @@ paths:
       operationId: "adminSetAllowedRequestOrigins"
       summary: |
         Set the allowed `HTTP origins <https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Origin>`__
-        from which Realm should allow requests.
+        from which {+service+} should allow requests.
       requestBody:
         required: true
         description: |
@@ -1151,7 +1151,7 @@ paths:
     get:
       tags: ["logs"]
       operationId: "adminGetLogs"
-      summary: "Retrieve Realm logs."
+      summary: "Retrieve {+service+} logs."
       parameters:
         - name: co_id
           in: query
@@ -1214,7 +1214,7 @@ paths:
                     required: False
                     description:
                       The end date and time of the next page of log entries in ISO 8601 format.
-                      Realm paginates the result sets of queries that match more than 100 log
+                      {+service+} paginates the result sets of queries that match more than 100 log
                       entries and includes this field in paginated responses. To get the next
                       page of up to 100 entries, pass this value as the ``end_date`` parameter
                       in a subsequent request.
@@ -1223,7 +1223,7 @@ paths:
                     required: False
                     description:
                       The offset into the next page of log entries in ISO 8601 format.
-                      Realm paginates the result sets of queries that match more than 100 log
+                      {+service+} paginates the result sets of queries that match more than 100 log
                       entries and includes this field in paginated responses where the first
                       entry on the next page has the same timestamp as the last entry on this page.
                       To get the next page of up to 100 entries, pass this value, if it is present,
@@ -1237,7 +1237,7 @@ paths:
     get:
       tags: ["apikeys"]
       operationId: "adminListApiKeys"
-      summary: "List :doc:`API keys </authentication/api-key>` associated with a Realm application."
+      summary: "List :doc:`API keys </authentication/api-key>` associated with a {+app+}."
       responses:
         '200':
           description: "The API keys were successfully listed."
@@ -1327,7 +1327,7 @@ paths:
     get:
       tags: ["secrets"]
       operationId: "adminGetAllSecrets"
-      summary: "List :doc:`Secrets </values-and-secrets/define-a-secret>` associated with a Realm application."
+      summary: "List :doc:`Secrets </values-and-secrets/define-a-secret>` associated with a {+app+}."
       responses:
         '200':
           description: "The Secrets were successfully listed."
@@ -1366,7 +1366,7 @@ paths:
     put:
       tags: ["secrets"]
       operationId: "adminModifyASecret"
-      summary: "Modify a :doc:`Secret </values-and-secrets/define-a-secret>` associated with a Realm application."
+      summary: "Modify a :doc:`Secret </values-and-secrets/define-a-secret>` associated with a {+app+}."
       requestBody:
         description: "The modified value of the Secret."
         required: true
@@ -1469,7 +1469,7 @@ paths:
     get:
       tags: ["dependencies"]
       operationId: "adminGetAllDependencies"
-      summary: "List :ref:`external dependencies <external-dependencies>` uploaded to the Realm application."
+      summary: "List :ref:`external dependencies <external-dependencies>` uploaded to the {+app+}."
       responses:
         '200':
           description: "The function was successfully retrieved."
@@ -2000,7 +2000,7 @@ components:
           description: The unique ID of the deployment.
         app_id:
           type: "string"
-          description: The unique _id value of the Realm app.
+          description: The unique _id value of the {+app+}.
         draft_id:
           type: "string"
           description: The unique _id value of the deployment draft associated with the deployment, if applicable.
@@ -2369,7 +2369,7 @@ components:
               description: |
                 | **Only Available for Database Triggers**
                 | A :manual:`$match </reference/operator/aggregation/match>`
-                  expression document that Realm includes in
+                  expression document that {+service+} includes in
                   the underlying change stream pipeline for the trigger.
                   This is useful when you want to filter change events
                   beyond their operation type. The trigger will only
@@ -2413,7 +2413,7 @@ components:
       properties:
         appId:
           type: string
-          description: The unique App ID of the Realm application that is hosting the file.
+          description: The unique App ID of the {+app+} that is hosting the file.
         last_modified:
           type: integer
           description: |
@@ -2457,7 +2457,7 @@ components:
 
 tags:
   - name: admin
-    description: "Realm Administrator APIs"
+    description: "{+service-short+} Administrator APIs"
   - name: apikeys
     description: "API Key APIs"
   - name: secrets

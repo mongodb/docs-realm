@@ -18,10 +18,10 @@ Overview
 .. program:: realm-cli
 .. binary:: realm-cli
 
-The MongoDB Realm Command Line Interface (``realm-cli``)
-allows you to programmatically manage your Realm
-applications. With ``realm-cli``, you can create or update
-Realm applications from a local directory as well as export
+The {+service+} Command Line Interface ({+cli-bin+})
+allows you to programmatically manage your {+app+}s.
+With {+cli-bin+}, you can create or update
+{+app+}s from a local directory as well as export
 existing applications to a local directory.
 
 .. _install-realm-cli:
@@ -35,7 +35,7 @@ Installation
      - id: npm
        name: npm / Yarn
        content: |
-         The easiest way to install ``realm-cli`` is with the `npm
+         The easiest way to install {+cli-bin+} is with the `npm
          <https://www.npmjs.com/get-npm>`_ package manager. Ensure that
          you have `Node.js <https://nodejs.org/en/download/>`_
          installed, then run the following command in your shell:
@@ -62,7 +62,7 @@ General Options
 ---------------
 
 
-The following options are available for all ``realm-cli`` commands:
+The following options are available for all {+cli-bin+} commands:
 
 .. include:: /includes/option/option-realm-cli-config-path.rst
 
@@ -129,7 +129,7 @@ on the next line in the following format:
 
    <username> [API Key: ********-****-****-****-<last 12 digits of API key>]
 
-If no user is logged in, ``realm-cli`` will return the following
+If no user is logged in, {+cli-bin+} will return the following
 message:
 
 .. code-block:: shell
@@ -148,8 +148,8 @@ Import an Application
 .. binary:: realm-cli import
 
 Use ``realm-cli import`` to import a local application directory into a
-hosted Realm application. If you import a directory into an application
-that doesn't exist, ``realm-cli`` can :doc:`create the application
+hosted {+app+}. If you import a directory into an application
+that doesn't exist, {+cli-bin+} can :doc:`create the application
 </deploy/create-with-cli>` for you.
 
 .. code-block:: shell
@@ -176,7 +176,7 @@ Export an Application
 .. program:: realm-cli export
 .. binary:: realm-cli export
 
-Use ``realm-cli export`` to save a Realm application configuration to
+Use ``realm-cli export`` to save a {+app+} configuration to
 a local application directory.
 
 .. code-block:: shell
@@ -372,7 +372,7 @@ imported application directory.
 
 If an imported entity's ``id`` value matches the ``id`` of an existing
 entity, the existing entity will be updated to match the imported
-entity. Realm assigns system-generated ``id`` values to
+entity. {+service-short+} assigns system-generated ``id`` values to
 entities without ``id`` values before importing them as new entities.
 
 If an entity is imported with an ``id`` that does not match an
@@ -432,14 +432,14 @@ Replace
    realm-cli import --strategy=replace
 
 Under the ``replace`` strategy, if an imported entity's ``id`` value
-matches the ``id`` of an existing entity, Realm replaces the
+matches the ``id`` of an existing entity, {+service-short+} replaces the
 existing entity with the imported entity. If an imported entity's ``id``
 value does not match an existing entity, the import fails.
 If an existing entity's ``id`` does not match
-the ``id`` of any imported entity, Realm deletes that
+the ``id`` of any imported entity, {+service-short+} deletes that
 existing entity.
 
-Realm generates ``id`` values for entities that lack ``id``
+{+service-short+} generates ``id`` values for entities that lack ``id``
 values before importing them as new entities. Importing an entity with
 a non-ObjectID ``id`` value does not throw an error.
 
@@ -493,13 +493,13 @@ Replace by Name
 
 Under the ``replace-by-name`` strategy, if an imported
 entity's ``name`` value matches the ``name`` of an existing
-entity, Realm replaces the existing entity with the imported
+entity, {+service-short+} replaces the existing entity with the imported
 entity. If an imported entity's ``name`` value does not
 match an existing entity, the entity becomes a new entity.
 If an existing entity's ``name`` does not match the ``name``
-of any imported entity, Realm deletes that existing entity.
+of any imported entity, {+service-short+} deletes that existing entity.
 
-If an imported entity has no ``name`` value, ``realm-cli`` will throw
+If an imported entity has no ``name`` value, {+cli-bin+} will throw
 an error.
 
 .. example::

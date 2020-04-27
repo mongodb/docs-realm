@@ -3,13 +3,13 @@ ref: navigate-to-the-mongodb-rules-screen
 level: 4
 content: |
   You can edit collection rules in Advanced Mode from the MongoDB rules
-  screen in the Realm UI. To get to the rules screen for a collection,
+  screen in the {+ui+}. To get to the rules screen for a collection,
   click :guilabel:`Rules` beneath :guilabel:`MongoDB Clusters` in the
   left-hand navigation and then select the collection from the list.
 
   .. cssclass:: bordered-figure
   .. figure:: /images/collection-rules-basic-mode.png
-     :alt: Basic mode rules editor in the Realm UI
+     :alt: Basic mode rules editor in the {+ui+}
 
 ---
 title: Convert to Advanced Mode
@@ -24,7 +24,7 @@ content: |
 
   .. cssclass:: bordered-figure
   .. figure:: /images/collection-rules-convert-to-advanced-mode.png
-     :alt: Advanced Mode preview in the Realm UI collection rules editor.
+     :alt: Advanced Mode preview in the {+ui+} collection rules editor.
 
 ---
 title: Define the Collection Rules
@@ -66,7 +66,7 @@ content: |
       
         .. important::
             
-            Realm evaluates roles for each query in the order that
+            {+service-short+} evaluates roles for each query in the order that
             they're defined. Ensure that each role configuration
             document's array index matches its desired position in the
             evaluation order.
@@ -90,5 +90,5 @@ ref: save-the-updated-collection-rules
 level: 4
 content: |
   Once you have finished editing the collection rules, click
-  :guilabel:`Save`. Realm will immediately begin using the new rule
+  :guilabel:`Save`. {+service+} will immediately begin using the new rule
   configuration you defined for all incoming queries on the collection.

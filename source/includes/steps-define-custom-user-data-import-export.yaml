@@ -1,14 +1,14 @@
 title: Export Your Realm Application
 ref: export-your-realm-application
 content: |
-  You can set up and enable custom user data through Realm CLI or
+  You can set up and enable custom user data through {+cli-bin+} or
   automatic GitHub deployment. To configure custom user data, you need
   the latest version of the :ref:`application directory
   <application-directory>` for your application.
 
   You can :doc:`export </deploy/export-realm-app>` your application
   from the :guilabel:`Export` tab of the :guilabel:`Settings` page in
-  the Stitch UI, or by running the following command from an
+  the {+ui+}, or by running the following command from an
   authenticated instance of :doc:`realm-cli
   </deploy/realm-cli-reference>`:
 
@@ -22,7 +22,7 @@ content: |
   You must store the custom data for your application's users in a
   single collection of a linked MongoDB Atlas cluster. Every document in
   the collection should have a field that contains the user ID of the
-  Realm user that it describes.
+  {+service-short+} user that it describes.
   
   To configure your application to read user data from this collection,
   specify a configuration document in the ``custom_user_data_config``
@@ -50,7 +50,7 @@ content: |
        - Description
      
      * - ``enabled``
-       - A boolean that, if ``true``, indicates that Realm should
+       - A boolean that, if ``true``, indicates that {+service-short+} should
          associate data in the specified collection with application
          users.
      
@@ -78,7 +78,7 @@ content: |
   make custom user data available to client applications by deploying
   your application.
   
-  To deploy a draft application with Realm CLI:
+  To deploy a draft application with {+cli-bin+}:
 
   .. code-block:: shell
 
@@ -93,11 +93,11 @@ content: |
      git commit -m "Configure and Enable Custom User Data"
      git push origin master
 
-  Once the application successfully deploys, Realm begins to associate
-  custom data with users. When a user logs in, Realm automatically
+  Once the application successfully deploys, {+service+} begins to associate
+  custom data with users. When a user logs in, {+service-short+} automatically
   queries the custom user data collection for a document where the
   specified :guilabel:`User ID Field` contains the user's ID. If a
-  document matches, Realm exposes the data in the document in the
+  document matches, {+service-short+} exposes the data in the document in the
   ``custom_data`` field of that user's :ref:`user object
   <user-objects>`.
 ...

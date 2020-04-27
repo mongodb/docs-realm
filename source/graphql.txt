@@ -1,3 +1,5 @@
+.. _graphql-api:
+
 ==================
 GraphQL API (Beta)
 ==================
@@ -13,9 +15,14 @@ GraphQL API (Beta)
 Overview
 --------
 
-The Realm :graphql:`GraphQL <>` API (Beta Release) allows client
+.. admonition:: Version Requirement
+   :class: note
+
+   GraphQL requires MongoDB version 4.0 or greater.
+
+The {+service+} :graphql:`GraphQL <>` API (Beta Release) allows client
 applications to access data stored in a linked MongoDB cluster using any
-standard GraphQL client. Realm automatically creates GraphQL types for
+standard GraphQL client. {+service-short+} automatically creates GraphQL types for
 every linked collection that has a defined :doc:`document schema
 </mongodb/enforce-a-document-schema>` and evaluates :doc:`role-based
 permissions </mongodb/define-roles-and-permissions>` for all GraphQL
@@ -25,9 +32,9 @@ requests.
    :class: note
 
    The GraphQL API lets you access data that you have stored in a
-   `MongoDB Atlas <https://www.mongodb.com/cloud/atlas?tck=docs_realm>`__ 
+   `MongoDB Atlas <https://www.mongodb.com/cloud/atlas?tck=docs_realm>`__
    cluster. To get started, create a free cluster and :doc:`link it to
-   your Realm application </mongodb/link-a-cluster>`.
+   your {+app+} </mongodb/link-a-cluster>`.
 
    If you don't have any data yet but you still want to explore the
    GraphQL API, consider adding a :atlas:`sample data set
@@ -44,7 +51,10 @@ To learn how to run queries and mutations from your preferred client,
 see :doc:`Execute a GraphQL Operation
 </graphql/execute>`.
 
-To learn about the types and operations that you can use with the Realm
+To learn how to define custom queries and mutations, see :doc:`Define a
+Custom Query or Mutation </graphql/custom-resolvers>`.
+
+To learn about the types and operations that you can use with the {+service-short+}
 GraphQL API, see :doc:`GraphQL Types & Resolvers
 </graphql/types-and-resolvers>`.
 
@@ -64,10 +74,10 @@ tutorial <learn>`.
 GraphQL Operations
 ------------------
 
-Realm automatically generates types and resolvers for data that you
+{+service-short+} automatically generates types and resolvers for data that you
 :doc:`expose to the GraphQL API </graphql/expose-data>`. The generated
 types and operations are all named after the base type name for each
-exposed collection. If you don't define a type name, Realm uses the
+exposed collection. If you don't define a type name, {+service-short+} uses the
 collection name instead.
 
 For more information on how to expose a collection and name its data
@@ -77,7 +87,7 @@ Queries
 ~~~~~~~
 
 A GraphQL **query** is a read operation that requests specific fields
-from one or more types. Realm automatically generates query types for
+from one or more types. {+service-short+} automatically generates query types for
 documents in each collection that has a defined :doc:`schema
 </mongodb/enforce-a-document-schema>`.
 
@@ -128,9 +138,10 @@ Mutations
 ~~~~~~~~~
 
 A GraphQL **mutation** is a write operation that creates, modifies, or
-deletes one or more documents. Realm automatically generates mutation
+deletes one or more documents. {+service-short+} automatically generates mutation
 types for documents in each collection that has a defined :doc:`schema
-</mongodb/enforce-a-document-schema>`.
+</mongodb/enforce-a-document-schema>`. {+backend+} uses transactions to ensure
+safe writes via mutations.
 
 For more information and examples, including a list of all automatically
 generated mutation types, see :ref:`Mutation Resolvers

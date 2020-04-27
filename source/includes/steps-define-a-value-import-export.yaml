@@ -1,4 +1,4 @@
-title: Export Your Stitch Application
+title: Export Your Realm Application
 ref: export-your-application
 content: |
   To define a Value using :doc:`realm-cli
@@ -8,7 +8,7 @@ content: |
 
   You can :doc:`export </deploy/export-realm-app>` your
   application from the :guilabel:`Export` tab of the
-  :guilabel:`Settings` page in the Stitch UI, or by running the
+  :guilabel:`Settings` page in the {+ui+}, or by running the
   following command from an authenticated instance of :doc:`realm-cli
   </deploy/realm-cli-reference>`:
 
@@ -55,7 +55,7 @@ content: |
          :ref:`Secret <app-secret>` instead of a plain-text JSON value.
 
      * - ``value``
-       - The stored data that Stitch exposes when the Value is referenced.
+       - The stored data that {+service-short+} exposes when the Value is referenced.
          
          If ``from_secret`` is ``false``, ``value`` can be a standard
          JSON string, array, or object.
@@ -68,7 +68,7 @@ ref: import-your-application-directory
 content: |
   Ensure that the Value configuration file is saved and then navigate to
   the root of your exported application directory. Log in to MongoDB
-  Atlas with ``realm-cli``:
+  Atlas with {+cli-bin+}:
 
   .. code-block:: shell
 

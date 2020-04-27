@@ -28,7 +28,7 @@ title: Create a Dependency Archive
 ref: create-a-dependency-archive
 content: |
   Now that you've downloaded all of your npm modules, you need to
-  package them up in an archive so you can upload them to Realm. Create
+  package them up in an archive so you can upload them to {+service-short+}. Create
   an archive containing the ``node_modules`` folder:
 
   .. code-block:: shell
@@ -38,7 +38,7 @@ content: |
   .. admonition:: Supported Archive Formats
      :class: note
      
-     Realm supports ``.tar``, ``.tar.gz``, and ``.zip`` archive
+     {+service-short+} supports ``.tar``, ``.tar.gz``, and ``.zip`` archive
      formats.
 
 ---
@@ -46,12 +46,12 @@ title: Upload the Dependency Archive
 ref: upload-the-dependency-archive
 content: |
   Once you've created an archive containing your dependencies, you can upload your
-  dependency archive using the Realm UI or Realm CLI:
+  dependency archive using the {+ui+} or {+cli-bin+}:
 
-  .. tabs-stitch-interfaces::
+  .. tabs-realm-admin-interfaces::
      
      .. tab::
-        :tabid: stitch-ui
+        :tabid: ui
 
         #. Select :guilabel:`Functions` from the left-side navigation.
         #. Select the :guilabel:`Dependencies` tab.
@@ -59,12 +59,12 @@ content: |
         #. Click the :guilabel:`Upload` button.
       
         #. In the file picker, select the ``node_modules.tar.gz`` archive you
-           just created and click Open. Realm automatically uploads the
+           just created and click Open. {+service-short+} automatically uploads the
            archive file, which may take several minutes depending on the
            speed of your internet connection and the size of your dependency
            archive.
       
-        #. Whether the operation succeeded or failed, Realm displays a banner
+        #. Whether the operation succeeded or failed, {+service-short+} displays a banner
            indicating the success or failure of the operation. If successful,
            the :guilabel:`Dependencies` tab displays a list of the
            dependencies that you included in your dependency archive. If
@@ -74,7 +74,7 @@ content: |
            depending on the size of your dependency archive.
      
      .. tab::
-        :tabid: import-export
+        :tabid: cli
         
         #. Add the ``node_modules`` archive to your ``/functions``
            directory:

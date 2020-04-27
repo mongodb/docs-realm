@@ -1,0 +1,176 @@
+===================================================
+Introduction to MongoDB Realm for Mobile Developers
+===================================================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+This introduction explains the {+service+} product at a high level for
+developers who primarily develop mobile applications. After
+reading, you should understand what {+service+} is, how it interacts
+with {+client-database+}, and which benefits {+backend+} offers compared
+to traditional mobile development stacks.
+
+.. note::
+   If you prefer working on the backend or on web
+   applications, consider reading the
+   :doc:`Introduction for Web Developers
+   </get-started/introduction-web>` or the
+   :doc:`Introduction for Back-end Developers
+   </get-started/introduction-backend>`.
+
+What Problem Does MongoDB Realm Solve?
+--------------------------------------
+
+As a developer, you face a number of challenges during the
+development of any mobile application. To name a few, mobile developers
+must:
+
+- Gracefully handle the unpredictable environment of mobile apps in
+  which connections can be lost, devices can shut down at any time, and
+  clients usually update with a significant delay after release, if at
+  all.
+
+- Coordinate between mobile clients, backend APIs, and databases to
+  maintain a common schema of objects and endpoints with which to
+  communicate.
+
+- Stay aware of security vulnerabilities across all components in an
+  ecosystem, from the HTTP protocol, to API endpoints, to data stored on
+  the client.
+
+- Consistently serialize objects between networks, database storage,
+  and application memory.
+
+- Program in the languages and frameworks for one or more mobile
+  operating systems.
+
+All of these challenges present different obstacles. You can solve each
+in isolation with a wide variety of libraries and frameworks. Deciding
+which solution solves each problem with the right tradeoffs for your use
+case is a challenge most developers know all too well.
+
+In addition to the challenges presented by each component individually,
+the combination of multiple components creates even more challenges.
+For instance, you can use a Java library on your Android client to
+serialize objects in that environment, but consistently serializing
+across Android, iOS, the web, and each of your backend services
+presents more of a challenge.
+
+Realm Database
+--------------
+
+Many, but not all, of these challenges arise due to particularities of
+the mobile environment, including network reliability, local storage,
+and keeping UIs reactive (up-to-date as underlying data changes).
+:term:`{+client-database+}` solves many common mobile programming
+headaches:
+
+- **Local storage**: {+client-database+} runs right on client devices.
+  Access objects using the native query language for each
+  platform, so storing, accessing, and updating your data is simple and
+  lightweight.
+
+- **Network reliability**: {+client-database+} is offline-first: you
+  always read from and write to the local database, not over the network.
+  When :term:`{+sync+}` is enabled, {+client-database+} synchronizes
+  data with {+backend+} over the network in a background thread,
+  pushing local data changes to {+backend+} and pulling remote changes
+  down. The :term:`sync protocol` resolves conflicts
+  consistently on each client and in the
+  :term:`linked {+atlas+} cluster <linked cluster>`.
+
+- **Reactive UI**: :term:`Live objects <live objects>` always reflect
+  the latest data stored in {+client-database+} and allow you to
+  subscribe to changes, so you can keep your UI up-to-date at all times.
+
+The {+service-short+} SDK lets you connect to local {+realms+} for Android, iOS,
+Node.js, React Native, and UWP development.
+
+MongoDB Atlas
+-------------
+
+Client applications generate a lot of data. Whether it's uploaded
+reviews and ratings, posts and comments on a blog, or inventory
+in a kitchen, you need to store that data somewhere. `{+atlas+}
+<https://www.mongodb.com/cloud/atlas?tck=docs_realm>`_ provides
+cloud-hosted managed instances of MongoDB that are always available.
+
+Atlas supports aggregations and other complex workloads with the full
+capabilities of MongoDB. You can connect to your {+atlas-short+}
+instance in your backend services using MongoDB drivers for a wide range
+of languages. Or connect your {+atlas-short+} instance to `{+charts+}
+<https://www.mongodb.com/products/charts?tck=docs_realm>`_ to visualize
+your data in real time. Storing your data in {+atlas-short+} makes it
+easy to share data across users and platforms.
+
+MongoDB Realm
+-------------
+
+{+service+} enables sync between {+client-database+} and {+atlas+},
+seamlessly stitching together the two components into an application
+layer for your mobile app. To support these services, {+backend+} also
+provides components to fulfill several common application requirements:
+
+- :ref:`{+service-short+} Users and Authentication <users-and-authentication>`
+  provide built-in user management with easy integration into
+  :ref:`third-party authentication providers <auth-providers>`,
+  like :ref:`Facebook <facebook-authentication>`,
+  :ref:`Google <google-authentication>`, and
+  :ref:`Apple <apple-id-authentication>`.
+
+- :ref:`{+service-short+} Functions <functions>` provide server-side logic for
+  your :term:`{+app+}`. Similar to endpoints in a REST API, except
+  instead of manually constructing the URL, headers, body, and method
+  for a call to an HTTP endpoint, you call {+service-short+} Functions from a module
+  of the {+service-short+} SDK in your client application.
+
+- :ref:`{+service-short+} Triggers <triggers>` automatically
+  execute a function at a scheduled time or when an event occurs, such
+  as a change to a database or a call to a HTTP endpoint.
+
+- :term:`{+service-short+} Rules` let you control who accesses what data.
+
+- Server-side :ref:`{+service-short+} Values and {+service-short+} Secrets <values-and-secrets>`
+  enable you to define global variables and private credentials once and
+  use them across your entire {+app+}.
+
+- Use the :ref:`GraphQL API <graphql-api>` to access data stored in a
+  linked MongoDB cluster using any standard GraphQL client.
+
+The {+service-short+} Mobile SDKs let you can call functions, authenticate users,
+sync remote {+realms+}, and query your local {+realms+}.
+
+Summary
+-------
+
+- {+service+} is a serverless application platform that takes care of
+  the details of deployment and scaling for you. You can customize your
+  {+app+} with custom logic via functions and triggers, custom
+  permissions via rules, and authentication via third-party SSO.
+
+- {+client-database+} is an offline-first mobile object database in
+  which you can directly access and store live objects without an
+  :wikipedia:`ORM </Object-relational_mapping>`.
+
+- Live Objects and {+sync+} offer significant benefits
+  over traditional mobile development stacks:
+
+  - Live Objects always reflect the latest state of data in the database,
+    making it easier to keep your UI in sync with changes to your data,
+    regardless of where those changes come from.
+
+  - {+sync+} synchronizes data between client-side {+realms+} and the
+    server-side {+atlas+} cluster linked to your
+    {+app+}. The sync protocol resolves conflicts consistently
+    across all instances of a {+realm+}, both on the server and in client
+    applications.
+  
+  - {+client-database+} synchronizes data in a background thread,
+    abstracting away network usage so you don't have to worry about
+    latency, timeouts, or dropped connections.
