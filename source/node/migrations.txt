@@ -1,4 +1,4 @@
-.. _dotnet-client-migrations:
+.. _node-client-migrations:
 
 ==========
 Migrations
@@ -16,7 +16,7 @@ Overview
 --------
 
 A **migration** transforms an existing {+realm+} and its objects from its
-current :ref:`{+backend-schema+} version <dotnet-schema-version>` to a newer one.
+current :ref:`{+backend-schema+} version <node-schema-version>` to a newer one.
 Application data models typically change over time to accommodate new
 requirements and features. Migrations give you the flexibility to
 automatically update your existing application data whenever a client
@@ -25,7 +25,7 @@ application upgrades to a newer version.
 Key Concepts
 ------------
 
-.. _dotnet-local-migration:
+.. _node-local-migration:
 
 Local Migration
 ~~~~~~~~~~~~~~~
@@ -55,12 +55,11 @@ deletes it.
    .. tabs-realm-languages::
      
      .. tab::
-         :tabid: c-sharp
+         :tabid: javascript
  
-         .. literalinclude:: /examples/Migrations/PersonClassV1/PersonClassV1.cs
-           :language: csharp
-           :emphasize-lines: 3, 4
-
+         .. literalinclude:: /examples/Migrations/PersonClassV1/PersonClassV1.js
+           :language: javascript
+           :emphasize-lines: 4, 5
    
    The developer decides that the ``Person`` class should use a combined
    ``fullName`` field instead of the separate ``firstName`` and
@@ -69,30 +68,28 @@ deletes it.
    .. tabs-realm-languages::
      
      .. tab::
-         :tabid: c-sharp
+         :tabid: javascript
  
-         .. literalinclude:: /examples/Migrations/PersonClassV2/PersonClassV2.cs
-           :language: csharp
-           :emphasize-lines: 3
-   
+         .. literalinclude:: /examples/Migrations/PersonClassV2/PersonClassV2.js
+           :language: javascript
+           :emphasize-lines: 4
+
    To migrate the {+realm+} to conform to the updated ``Person`` schema, the
-   developer sets the {+realm+}'s :ref:`android-schema version <schema-version>` to
+   developer sets the {+realm+}'s :ref:`schema version <node-schema-version>` to
    ``2`` and defines a migration function to set the value of
    ``fullName`` based on the existing ``firstName`` and ``lastName``
    properties:
    
    .. tabs-realm-languages::
      
-     
      .. tab::
-         :tabid: c-sharp
+         :tabid: javascript
  
-         .. literalinclude:: /examples/Migrations/LocalMigration/LocalMigration.cs
-           :language: csharp
-           :emphasize-lines: 3, 15
+         .. literalinclude:: /examples/Migrations/LocalMigration/LocalMigration.js
+           :language: javascript
+           :emphasize-lines: 3, 14
 
-
-.. _dotnet-synced-migration:
+.. _node-synced-migration:
 
 Synced Migration
 ~~~~~~~~~~~~~~~~
@@ -120,12 +117,12 @@ version.
      - Description
 
    * - **Schema Version**
-     - {+service+} ignores any :ref:`schema version <dotnet-schema-version>`
+     - {+service+} ignores any :ref:`schema version <node-schema-version>`
        set by the client application.
 
    * - **Migration Function**
      - {+service+} throws an error if the {+realm+} configuration
-       includes a :ref:`local migration <dotnet-local-migration>` function.
+       includes a :ref:`local migration <node-local-migration>` function.
 
    * - **Additions**
      - {+service+} automatically applies additive changes, such as a new
@@ -150,7 +147,7 @@ version.
        support include:
        
        - Changing a property’s type but keeping the same name.
-       - Changing an object type's :ref:`primary key <dotnet-primary-key>`.
+       - Changing an object type's :ref:`primary key <node-primary-key>`.
        - Changing a property from optional to required (or vice-versa).
 
 Summary

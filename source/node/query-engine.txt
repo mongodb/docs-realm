@@ -1,4 +1,4 @@
-.. _react-native-client-query-engine:
+.. _node-client-query-engine:
 
 ============
 Query Engine
@@ -15,18 +15,16 @@ Query Engine
 Overview
 --------
 
-To filter data in your {+realm+}, you can leverage
+To filter data in your Realms, you can leverage
 {+client-database+}'s query engine. {+client-database+}'s
-query engine uses a language inspired by NSPredicate. For an
-introduction to NSPredicate in general, See Apple’s
-`Predicates Programming Guide
+query engine uses a language inspired by `NSPredicate
 <https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/Predicates/AdditionalChapters/Introduction.html>`__.
 
 Operators
 ---------
 
 There are several types of operators available to filter a
-:ref:`Realm collection <react-native-client-collections>`.
+:ref:`Realm collection <node-client-collections>`.
 Filters work by **evaluating** an operator expression for
 every :term:`object <Realm object>` in the collection being
 filtered. If the expression resolves to ``true``, Realm
@@ -214,7 +212,7 @@ Aggregate Operators
 
 You can apply an aggregate operator to a collection property
 of a Realm object. Aggregate operators traverse a
-:ref:`collection <react-native-client-collections>` and reduce it
+:ref:`collection <node-client-collections>` and reduce it
 to a single value.
 
 .. list-table::
@@ -262,7 +260,7 @@ Set Operators
 A **set operator** uses specific rules to determine whether
 to pass each input collection object to the output
 collection by applying a given predicate to every element of
-a given :ref:`list <react-native-list-collections>` property of
+a given :ref:`list <node-list-collections>` property of
 the object.
 
 .. list-table::

@@ -1,4 +1,4 @@
-.. _dotnet-realm-database-writes:
+.. _node-realm-database-writes:
 
 ======
 Writes
@@ -49,7 +49,7 @@ When you are done with your transaction, {+client-database+} either
   the transaction causes an error, all changes are discarded
   (or "rolled back").
 
-.. _dotnet-acid-compliance:
+.. _node-acid-compliance:
 
 Realm is ACID Compliant
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -64,7 +64,7 @@ see transient states in the event of a system crash.
 - {+client-database+} establishes :wikipedia:`isolation <Isolation_(database_systems)>` by allowing only one writer at a time. This ensures thread safety between transactions.
 - Finally, {+client-database+} establishes :wikipedia:`durability <Durability_(database_systems)>` by writing to disk immediately when a transaction is committed. In the event of an app crash, for example, the changes are not lost or corrupted.
 
-.. _dotnet-open-a-transaction:
+.. _node-open-a-transaction:
 
 Run a Transaction
 -----------------
@@ -100,14 +100,15 @@ the transaction immediately after the callback.
    .. tabs-realm-languages::
 
       .. tab::
-         :tabid: c-sharp
+         :tabid: javascript
 
-         .. literalinclude:: /examples/CRUD/BatchUpdate.cs
-            :language: csharp
-            :emphasize-lines: 11-15
+         .. literalinclude:: /examples/CRUD/BatchUpdate.js
+            :language: javascript
+            :emphasize-lines: 9-12
 
 
-.. _dotnet-create-an-object:
+
+.. _node-create-an-object:
 
 Create an Object
 ----------------
@@ -115,7 +116,7 @@ Create an Object
 In general, instantiate :doc:`{+service-short+} objects
 </data-model/objects>` as you would any other object. In a
 transaction, you can add the object to the {+realm+} if the
-{+realm+}'s :ref:`schema <android-realm-schema>` includes the object
+{+realm+}'s :ref:`schema <node-realm-schema>` includes the object
 type. When you add an instance to the {+realm+}, it becomes
 *managed* by that {+realm+}.
 
@@ -127,17 +128,12 @@ This automatically inserts the instance into the {+realm+}.
 
    This code demonstrates how to create an object with {+client-database+}:
 
-   .. tabs-realm-languages::
-
-      .. tab::
-         :tabid: c-sharp
-
-         .. literalinclude:: /examples/CRUD/Create.cs
-            :language: csharp
-            :emphasize-lines: 8
+   .. literalinclude:: /examples/CRUD/Create.js
+      :language: javascript
+      :emphasize-lines: 7
 
 
-.. _dotnet-upsert:
+.. _node-upsert:
 
 Upsert an Object
 ~~~~~~~~~~~~~~~~
@@ -156,17 +152,11 @@ adding any new entries.
    {+realm+}. We create a new user named "Drew" and then update
    their name to "Andy" via upsert:
 
-   .. tabs-realm-languages::
+   .. literalinclude:: /examples/CRUD/Upsert.js
+      :language: javascript
+      :emphasize-lines: 4, 11
 
-      .. tab::
-         :tabid: c-sharp
-
-         .. literalinclude:: /examples/CRUD/Upsert.cs
-            :language: csharp
-            :emphasize-lines: 6, 11
-
-
-.. _dotnet-update:
+.. _node-update:
 
 Update an Object
 ----------------
@@ -181,17 +171,11 @@ the property.
    This code changes the dog's name to "Wolfie" and
    increments the age by 1:
 
-   .. tabs-realm-languages::
+   .. literalinclude:: /examples/CRUD/Update.js
+      :language: javascript
+      :emphasize-lines: 8-9
 
-      .. tab::
-         :tabid: c-sharp
-
-         .. literalinclude:: /examples/CRUD/Update.cs
-            :language: csharp
-            :emphasize-lines: 9-10
-
-
-.. _dotnet-batch-update:
+.. _node-batch-update:
 
 Update a Collection
 ~~~~~~~~~~~~~~~~~~~
@@ -204,21 +188,16 @@ objects in a collection at once.
 
    The following code demonstrates how to update a
    collection. Thanks to the :ref:`implicit inverse
-   relationship <android-inverse-relationship>` between the Dog's
+   relationship <node-inverse-relationship>` between the Dog's
    ``owner`` property and the Person's ``dogs`` property,
    {+client-database+} automatically updates Ali's list of dogs.
 
-   .. tabs-realm-languages::
-
-      .. tab::
-         :tabid: c-sharp
-
-         .. literalinclude:: /examples/CRUD/BatchUpdate.cs
-            :language: csharp
-            :emphasize-lines: 11-15
+   .. literalinclude:: /examples/CRUD/BatchUpdate.js
+      :language: javascript
+      :emphasize-lines: 9-12
 
 
-.. _dotnet-delete:
+.. _node-delete:
 
 Delete an Object
 ----------------
@@ -241,17 +220,11 @@ instance itself.
    The following code shows how to delete one object from
    its {+realm+}:
 
-   .. tabs-realm-languages::
+   .. literalinclude:: /examples/CRUD/Delete.js
+      :language: javascript
+      :emphasize-lines: 3
 
-      .. tab::
-         :tabid: c-sharp
-
-         .. literalinclude:: /examples/CRUD/Delete.cs
-            :language: csharp
-            :emphasize-lines: 4
-
-
-.. _dotnet-delete-collection:
+.. _node-delete-collection:
 
 Delete a Collection
 ~~~~~~~~~~~~~~~~~~~
@@ -268,22 +241,17 @@ collection itself.
    The following code demonstrates how to delete a
    collection from a {+realm+}:
 
-   .. tabs-realm-languages::
+   .. literalinclude:: /examples/CRUD/DeleteCollection.js
+      :language: javascript
+      :emphasize-lines: 6
 
-      .. tab::
-         :tabid: c-sharp
-
-         .. literalinclude:: /examples/CRUD/DeleteCollection.cs
-            :language: csharp
-            :emphasize-lines: 7
-
-.. _dotnet-cascading-delete:
+.. _node-cascading-delete:
 
 Cascading Delete
 ~~~~~~~~~~~~~~~~
 
 Sometimes, you have :ref:`dependent objects
-<android-relationships>` that you want to delete when
+<node-client-relationships>` that you want to delete when
 you delete the parent object. We call this a **cascading
 delete**. {+client-database+} will not delete the dependent objects for
 you. If you do not delete the objects yourself, they will
@@ -300,39 +268,28 @@ deleting the parent object.
    cascading delete by first deleting all of Ali's dogs,
    then deleting Ali:
 
-   .. tabs-realm-languages::
-
-      .. tab::
-         :tabid: c-sharp
-
-         .. literalinclude:: /examples/CRUD/CascadingDelete.cs
-            :language: csharp
+   .. literalinclude:: /examples/CRUD/CascadingDelete.js
+      :language: javascript
 
 
-.. _dotnet-delete-all-of-object:
+.. _node-delete-all-of-object:
 
 Delete All Instances of a Type
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 {+client-database+} supports deleting all instances of a :ref:`{+service-short+} type
-<android-objects>` from a {+realm+}.
+<node-realm-objects>` from a {+realm+}.
 
 .. example::
 
    The following code demonstrates how to delete all
    Dog instances from a {+realm+}:
 
-   .. tabs-realm-languages::
+   .. literalinclude:: /examples/CRUD/DeleteAllOfClass.js
+      :language: javascript
+      :emphasize-lines: 3
 
-      .. tab::
-         :tabid: c-sharp
-
-         .. literalinclude:: /examples/CRUD/DeleteAllOfClass.cs
-            :language: csharp
-            :emphasize-lines: 4
-
-
-.. _dotnet-delete-all:
+.. _node-delete-all:
 
 Delete Everything
 ~~~~~~~~~~~~~~~~~
@@ -346,15 +303,9 @@ quickly clearing out your {+realm+} while prototyping.
    The following code demonstrates how to delete everything
    from a {+realm+}:
 
-   .. tabs-realm-languages::
-
-      .. tab::
-         :tabid: c-sharp
-
-         .. literalinclude:: /examples/CRUD/DeleteAll.cs
-            :language: csharp
-            :emphasize-lines: 3
-
+   .. literalinclude:: /examples/CRUD/DeleteAll.js
+      :language: javascript
+      :emphasize-lines: 3
 
 Summary
 -------

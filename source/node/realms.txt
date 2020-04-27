@@ -1,4 +1,4 @@
-.. _react-native-realms:
+.. _node-realms:
 
 ======
 Realms
@@ -25,7 +25,7 @@ a separate :term:`{+realm+} file` that contains a binary
 encoding of each object in the {+realm+}. You can
 automatically :doc:`synchronize {+realm+} across multiple
 devices </sync/sync-overview>` and set up :ref:`reactive
-event handlers <react-native-realm-notifications>` that call a
+event handlers <node-realm-notifications>` that call a
 function any time an object in a {+realm+} is created,
 modified, or deleted.
 
@@ -54,13 +54,13 @@ A {+realm+} is not a collection of schemaless documents.
 Key Concepts
 ------------
 
-.. _react-native-realm-schema:
+.. _node-realm-schema:
 
 Realm Schema
 ~~~~~~~~~~~~
 
 A **{+backend-schema+}** is a list of valid :ref:`object schemas
-<react-native-realm-objects>` that each define an object type that a {+app+}
+<node-realm-objects>` that each define an object type that a {+app+}
 may persist. All objects in a {+realm+} must conform to the {+backend-schema+}.
 
 Client applications provide a {+frontend-schema+} when they open a
@@ -97,13 +97,13 @@ in the schema.
         }
       ]
 
-.. _react-native-schema-version:
+.. _node-schema-version:
 
 Schema Version
 ~~~~~~~~~~~~~~
 
 A **schema version** identifies the state of a :ref:`{+backend-schema+}
-<react-native-realm-schema>` at some point in time. {+client-database+} tracks the schema
+<node-realm-schema>` at some point in time. {+client-database+} tracks the schema
 version of each {+realm+} and uses it to map the objects in each {+realm+}
 to the correct schema.
 
@@ -115,14 +115,14 @@ the {+realm+} defaults to version ``0``.
 .. admonition:: Increase Versions Monotonically
    :class: important
    
-   :ref:`Migrations <react-native-migrations>` must update a {+realm+} to a
+   :ref:`Migrations <node-client-migrations>` must update a {+realm+} to a
    higher schema version. {+client-database+} will throw an error if a client
    application opens a {+realm+} with a schema version that is lower than
    the {+realm+}'s current version or if the specified schema version is the
    same as the {+realm+}'s current version but includes different
-   :ref:`object schemas <react-native-object-schema>`.
+   :ref:`object schemas <node-object-schema>`.
 
-.. _react-native-realm-permissions:
+.. _node-realm-permissions:
 
 Realm Permissions
 ~~~~~~~~~~~~~~~~~
@@ -168,7 +168,7 @@ granted by the owner or a user with manage permissions on the {+realm+}.
        permission also sets ``mayWrite`` and ``mayRead`` to ``true`` for
        the user.
 
-.. _react-native-realm-path:
+.. _node-realm-path:
 
 Realms are Partitions of Atlas Data
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

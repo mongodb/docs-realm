@@ -23,7 +23,7 @@ are homogenous, i.e. all objects in a collection are of the
 same type.
 
 You can filter and sort any collection using {+client-database+}'s
-:ref:`query engine <android-clientquery-engine>`. Collections are
+:ref:`query engine <android-client-query-engine>`. Collections are
 :ref:`live <android-live-object>`, so they always reflect the
 current state of the :term:`{+realm+} instance` on the current
 thread. You can also listen for changes in the collection by subscribing
@@ -68,7 +68,7 @@ There are three cases when a collection is **not** live:
 
 - The collection is unmanaged, e.g. a List property of a {+service-short+} object that has not been added to a {+realm+} yet or that has been copied from a {+realm+}.
 - The collection is :ref:`frozen <android-frozen-objects>`.
-- The collection is part of a snapshot (JavaScript and Java SDKs only).
+- The collection is part of a snapshot.
 
 Combined with :ref:`collection notifications
 <android-collection-notifications>`, live collections enable clean,

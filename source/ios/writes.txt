@@ -1,4 +1,4 @@
-.. _react-native-realm-database-writes:
+.. _ios-realm-database-writes:
 
 ======
 Writes
@@ -49,7 +49,7 @@ When you are done with your transaction, {+client-database+} either
   the transaction causes an error, all changes are discarded
   (or "rolled back").
 
-.. _react-native-acid-compliance:
+.. _ios-acid-compliance:
 
 Realm is ACID Compliant
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -64,7 +64,7 @@ see transient states in the event of a system crash.
 - {+client-database+} establishes :wikipedia:`isolation <Isolation_(database_systems)>` by allowing only one writer at a time. This ensures thread safety between transactions.
 - Finally, {+client-database+} establishes :wikipedia:`durability <Durability_(database_systems)>` by writing to disk immediately when a transaction is committed. In the event of an app crash, for example, the changes are not lost or corrupted.
 
-.. _react-native-open-a-transaction:
+.. _ios-open-a-transaction:
 
 Run a Transaction
 -----------------
@@ -100,15 +100,21 @@ the transaction immediately after the callback.
    .. tabs-realm-languages::
 
       .. tab::
-         :tabid: javascript
+         :tabid: objective-c
 
-         .. literalinclude:: /examples/CRUD/BatchUpdate.js
-            :language: javascript
-            :emphasize-lines: 9-12
+         .. literalinclude:: /examples/CRUD/BatchUpdate.m
+            :language: objective-c
+            :emphasize-lines: 10
+
+      .. tab::
+         :tabid: swift
+
+         .. literalinclude:: /examples/CRUD/BatchUpdate.swift
+            :language: swift
+            :emphasize-lines: 10
 
 
-
-.. _react-native-create-an-object:
+.. _ios-create-an-object:
 
 Create an Object
 ----------------
@@ -116,7 +122,7 @@ Create an Object
 In general, instantiate :doc:`{+service-short+} objects
 </data-model/objects>` as you would any other object. In a
 transaction, you can add the object to the {+realm+} if the
-{+realm+}'s :ref:`schema <android-realm-schema>` includes the object
+{+realm+}'s :ref:`schema <ios-realm-schema>` includes the object
 type. When you add an instance to the {+realm+}, it becomes
 *managed* by that {+realm+}.
 
@@ -128,12 +134,24 @@ This automatically inserts the instance into the {+realm+}.
 
    This code demonstrates how to create an object with {+client-database+}:
 
-   .. literalinclude:: /examples/CRUD/Create.js
-      :language: javascript
-      :emphasize-lines: 7
+   .. tabs-realm-languages::
+
+      .. tab::
+         :tabid: objective-c
+
+         .. literalinclude:: /examples/CRUD/Create.m
+            :language: objective-c
+            :emphasize-lines: 9
+
+      .. tab::
+         :tabid: swift
+
+         .. literalinclude:: /examples/CRUD/Create.swift
+            :language: swift
+            :emphasize-lines: 8
 
 
-.. _react-native-upsert:
+.. _ios-upsert:
 
 Upsert an Object
 ~~~~~~~~~~~~~~~~
@@ -152,11 +170,24 @@ adding any new entries.
    {+realm+}. We create a new user named "Drew" and then update
    their name to "Andy" via upsert:
 
-   .. literalinclude:: /examples/CRUD/Upsert.js
-      :language: javascript
-      :emphasize-lines: 4, 11
+   .. tabs-realm-languages::
 
-.. _react-native-update:
+      .. tab::
+         :tabid: objective-c
+
+         .. literalinclude:: /examples/CRUD/Upsert.m
+            :language: objective-c
+            :emphasize-lines: 5, 10
+
+      .. tab::
+         :tabid: swift
+
+         .. literalinclude:: /examples/CRUD/Upsert.swift
+            :language: swift
+            :emphasize-lines: 5, 15
+
+
+.. _ios-update:
 
 Update an Object
 ----------------
@@ -171,11 +202,24 @@ the property.
    This code changes the dog's name to "Wolfie" and
    increments the age by 1:
 
-   .. literalinclude:: /examples/CRUD/Update.js
-      :language: javascript
-      :emphasize-lines: 8-9
+   .. tabs-realm-languages::
 
-.. _react-native-batch-update:
+      .. tab::
+         :tabid: objective-c
+
+         .. literalinclude:: /examples/CRUD/Update.m
+            :language: objective-c
+            :emphasize-lines: 8-9
+
+      .. tab::
+         :tabid: swift
+
+         .. literalinclude:: /examples/CRUD/Update.swift
+            :language: swift
+            :emphasize-lines: 8-9
+
+
+.. _ios-batch-update:
 
 Update a Collection
 ~~~~~~~~~~~~~~~~~~~
@@ -188,16 +232,28 @@ objects in a collection at once.
 
    The following code demonstrates how to update a
    collection. Thanks to the :ref:`implicit inverse
-   relationship <android-inverse-relationship>` between the Dog's
+   relationship <ios-inverse-relationship>` between the Dog's
    ``owner`` property and the Person's ``dogs`` property,
    {+client-database+} automatically updates Ali's list of dogs.
 
-   .. literalinclude:: /examples/CRUD/BatchUpdate.js
-      :language: javascript
-      :emphasize-lines: 9-12
+   .. tabs-realm-languages::
+
+      .. tab::
+         :tabid: objective-c
+
+         .. literalinclude:: /examples/CRUD/BatchUpdate.m
+            :language: objective-c
+            :emphasize-lines: 10
+
+      .. tab::
+         :tabid: swift
+
+         .. literalinclude:: /examples/CRUD/BatchUpdate.swift
+            :language: swift
+            :emphasize-lines: 10
 
 
-.. _react-native-delete:
+.. _ios-delete:
 
 Delete an Object
 ----------------
@@ -220,11 +276,24 @@ instance itself.
    The following code shows how to delete one object from
    its {+realm+}:
 
-   .. literalinclude:: /examples/CRUD/Delete.js
-      :language: javascript
-      :emphasize-lines: 3
+   .. tabs-realm-languages::
 
-.. _react-native-delete-collection:
+      .. tab::
+         :tabid: objective-c
+
+         .. literalinclude:: /examples/CRUD/Delete.m
+            :language: objective-c
+            :emphasize-lines: 3
+
+      .. tab::
+         :tabid: swift
+
+         .. literalinclude:: /examples/CRUD/Delete.swift
+            :language: swift
+            :emphasize-lines: 3
+
+
+.. _ios-delete-collection:
 
 Delete a Collection
 ~~~~~~~~~~~~~~~~~~~
@@ -241,17 +310,30 @@ collection itself.
    The following code demonstrates how to delete a
    collection from a {+realm+}:
 
-   .. literalinclude:: /examples/CRUD/DeleteCollection.js
-      :language: javascript
-      :emphasize-lines: 6
+   .. tabs-realm-languages::
 
-.. _react-native-cascading-delete:
+      .. tab::
+         :tabid: objective-c
+
+         .. literalinclude:: /examples/CRUD/DeleteCollection.m
+            :language: objective-c
+            :emphasize-lines: 6
+
+      .. tab::
+         :tabid: swift
+
+         .. literalinclude:: /examples/CRUD/DeleteCollection.swift
+            :language: swift
+            :emphasize-lines: 6
+
+
+.. _ios-cascading-delete:
 
 Cascading Delete
 ~~~~~~~~~~~~~~~~
 
 Sometimes, you have :ref:`dependent objects
-<android-relationships>` that you want to delete when
+<ios-client-relationships>` that you want to delete when
 you delete the parent object. We call this a **cascading
 delete**. {+client-database+} will not delete the dependent objects for
 you. If you do not delete the objects yourself, they will
@@ -268,28 +350,52 @@ deleting the parent object.
    cascading delete by first deleting all of Ali's dogs,
    then deleting Ali:
 
-   .. literalinclude:: /examples/CRUD/CascadingDelete.js
-      :language: javascript
+   .. tabs-realm-languages::
+
+      .. tab::
+         :tabid: objective-c
+
+         .. literalinclude:: /examples/CRUD/CascadingDelete.m
+            :language: objective-c
+
+      .. tab::
+         :tabid: swift
+
+         .. literalinclude:: /examples/CRUD/CascadingDelete.swift
+            :language: swift
 
 
-.. _react-native-delete-all-of-object:
+.. _ios-delete-all-of-object:
 
 Delete All Instances of a Type
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 {+client-database+} supports deleting all instances of a :ref:`{+service-short+} type
-<android-objects>` from a {+realm+}.
+<ios-realm-objects>` from a {+realm+}.
 
 .. example::
 
    The following code demonstrates how to delete all
    Dog instances from a {+realm+}:
 
-   .. literalinclude:: /examples/CRUD/DeleteAllOfClass.js
-      :language: javascript
-      :emphasize-lines: 3
+   .. tabs-realm-languages::
 
-.. _react-native-delete-all:
+      .. tab::
+         :tabid: objective-c
+
+         .. literalinclude:: /examples/CRUD/DeleteAllOfClass.m
+            :language: objective-c
+            :emphasize-lines: 3-4
+
+      .. tab::
+         :tabid: swift
+
+         .. literalinclude:: /examples/CRUD/DeleteAllOfClass.swift
+            :language: swift
+            :emphasize-lines: 3-4
+
+
+.. _ios-delete-all:
 
 Delete Everything
 ~~~~~~~~~~~~~~~~~
@@ -303,9 +409,22 @@ quickly clearing out your {+realm+} while prototyping.
    The following code demonstrates how to delete everything
    from a {+realm+}:
 
-   .. literalinclude:: /examples/CRUD/DeleteAll.js
-      :language: javascript
-      :emphasize-lines: 3
+   .. tabs-realm-languages::
+
+      .. tab::
+         :tabid: objective-c
+
+         .. literalinclude:: /examples/CRUD/DeleteAll.m
+            :language: objective-c
+            :emphasize-lines: 3
+
+      .. tab::
+         :tabid: swift
+
+         .. literalinclude:: /examples/CRUD/DeleteAll.swift
+            :language: swift
+            :emphasize-lines: 3
+
 
 Summary
 -------
