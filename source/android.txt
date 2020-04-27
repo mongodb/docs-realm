@@ -1,22 +1,74 @@
-=======
-Android
-=======
+=========================
+MongoDB Realm Android SDK
+=========================
+
+The {+service+} Android SDK allows client applications on the Android
+platform to access data stored in local {+realms+} and interact with
+{+backend+} services like Functions, MongoDB Data Access, and
+authentication.
+
+To learn how to add the {+service+} Android SDK library as a dependency
+to your Android application, see :ref:`Install Realm for Android
+<install-android>`.
+
+To learn about the different kinds of data you can store in {+realms+},
+see :ref:`Realms <android-realms>`, :ref:`Objects <android-objects>`, and
+:ref:`Relationships <android-relationships>`.
+
+To learn how to read and write local {+realm+} data, see
+:ref:`Reads <android-realm-database-reads>` and :ref:`Writes
+<android-realm-database-writes>`
+
+To learn how to safely interact with Realm Database across threads in an
+application, see :ref:`Threading <android-client-threading>`.
+
+To learn how to query for data in local {+realms+}, see
+:ref:`Query Engine <android-client-query-engine>`.
+
+To learn how to work with {+realm+} query results, see
+:ref:`Collections <android-client-collections>`, :ref:`Notifications
+<android-client-notifications>`.
+
+To learn how to connect to a {+backend+} {+app-short+} to call
+Functions, query data in an instance of {+atlas+}, and synchronize data
+in {+realms+}, see :ref:`Call a Function <android-call-a-function>`.
+
+To learn how to handle schema updates in your client application, see
+:ref:`Migrations <android-client-migrations>`.
 
 .. toctree::
    :titlesonly:
-   :caption: Get Started
+   :caption: Data Model
+   :hidden:
 
-   Install Realm for Android </get-started/install-android>
-   Call a Function </functions/call-a-function>
+   Collections </client/android/collections>
+   Notifications </client/android/notifications>
    Realms </client/android/realms>
    Objects </client/android/objects>
    Relationships </client/android/relationships>
+
+.. toctree::
+   :titlesonly:
+   :caption: Realm Database
+   :hidden:
+
+   Threading </client/android/threading>
    Reads </client/android/reads>
    Writes </client/android/writes>
    Query Engine </client/android/query-engine>
-   Collections </client/android/collections>
-   Notifications </client/android/notifications>
-   Threading </client/android/threading>
+
+.. toctree::
+   :titlesonly:
+   :caption: MongoDB Realm
+   :hidden:
+
+   Call a Function </functions/call-a-function>
+
+.. toctree::
+   :titlesonly:
+   :caption: Reference
+   :hidden:
+
    Migrations </client/android/migrations>
    Auxiliary Files </client/android/auxiliary-files>
    
