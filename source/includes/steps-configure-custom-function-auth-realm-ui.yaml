@@ -1,0 +1,90 @@
+title: Navigate to the Custom Function Provider Settings Page
+ref: navigate-to-the-custom-function-provider-settings-page
+content: |
+  You can set up and enable the Custom Function authentication provider
+  in the Realm UI. To get to the settings page, click :guilabel:`Users`
+  in the left-hand navigation, select the :guilabel:`Providers` tab, and
+  then click :guilabel:`Custom Function Authentication`.
+
+  .. cssclass:: bordered-figure
+  .. figure:: /images/auth-provider-list-custom-function-realm-ui.png
+     :alt: The list of authentication providers in the Realm UI with the Custom Function provider highlighted.
+     :width: 750px
+     :lightbox:
+---
+title: Enable the Provider
+ref: enable-the-provider
+content: |
+  To create new users and allow them to log in, you must enable the
+  Custom Function provider. To do so, set the :guilabel:`Provider
+  Enabled` toggle to :guilabel:`On`.
+
+  .. cssclass:: bordered-figure
+  .. figure:: /images/provider-enabled-toggle.png
+     :alt: The toggle button to enable the provider from the Realm UI.
+     :width: 750px
+     :lightbox:
+---
+title: Define the Authentication Function
+ref: define-the-authentication-function
+content: |
+  The authentication function must return a string ID value that
+  uniquely identifies the user. Realm uses this value to lookup an
+  existing Realm user and automatically creates a new user if it does
+  not match an existing user. If the function does not return a string,
+  Realm throws an error and does not create or authenticate a user.
+  
+  .. admonition:: Realm Generates New User ID Values
+     :class: important
+     
+     The ID value that you return from the authentication function is
+     **not** the internal Realm user id (i.e. the value that
+     :json-expansion:`%%user` and :ref:`context.user <context-user>`
+     resolve to). Realm automatically generates a unique id for Custom
+     Function users when it creates them.
+  
+  To define a new authentication function, click the
+  :guilabel:`Function` dropdown and select :guilabel:`New Function`.
+
+  .. cssclass:: bordered-figure
+  .. figure:: /images/custom-function-dropdown.png
+     :alt: The function selection dropdown in the Realm UI.
+     :width: 750px
+     :lightbox:
+  
+  .. example::
+     
+     An application implements a Custom Function authentication provider
+     that stores user data in the ``app.users`` MongoDB collection. The
+     app lets users log in by specifying their ``username`` but does not
+     require a password or any other type of authentication.
+     
+     The appication's authentication function queries the ``users``
+     collection for an existing user with the specified username. If the
+     user already exists, the function returns their stored ``id`` value. If
+     the user does not exist, the function stores a new user document in
+     the collection and returns that document's ``id`` value.
+     
+     .. code-block:: javascript
+        :emphasize-lines: 9, 12, 16, 20
+        
+        TODO
+---
+title: Deploy the Updated Application
+ref: deploy-the-updated-application
+content: |
+  Once you have written and saved the authentication function, you can
+  make Custom Function authentication available to client applications
+  by deploying your application. To deploy a draft application from the
+  Realm UI:
+  
+  1. Click :guilabel:`Deploy` in the left-hand navigation
+  
+  2. Find the draft in the deployment history table and then click
+     :guilabel:`Review & Deploy Changes`.
+  
+  3. Review the diff of changes and then click :guilabel:`Deploy`.
+
+  Once the application successfully deploys, you will be able to create
+  and log in as a Custom Function user from a client application.
+...
