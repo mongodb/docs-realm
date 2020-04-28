@@ -70,10 +70,22 @@ content: |
    target platform. If you are not targeting iOS, change
    "iOS" in the paths below to "tvOS" or "watchOS":
 
-   .. code-block:: text
-      
-      $(SRCROOT)/Carthage/Build/iOS/Realm.framework
-      $(SRCROOT)/Carthage/Build/iOS/RealmSwift.framework
+   .. tabs-realm-languages::
+     
+     .. tab::
+         :tabid: swift
+
+         .. code-block:: text
+            
+            $(SRCROOT)/Carthage/Build/iOS/Realm.framework
+            $(SRCROOT)/Carthage/Build/iOS/RealmSwift.framework
+
+     .. tab::
+         :tabid: objective-c
+
+         .. code-block:: text
+            
+            $(SRCROOT)/Carthage/Build/iOS/Realm.framework
 
    .. figure:: /images/carthage-build-phase-script.png
       :alt: Enabling the copy frameworks script in Xcode
