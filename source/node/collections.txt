@@ -1,0 +1,188 @@
+.. _node-client-collections:
+
+===========
+Collections
+===========
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+One of the fundamental building blocks when working with any
+database is the **collection**. A {+service-short+} collection is an
+object that contains zero or more instances of one
+:ref:`{+service-short+} type <node-realm-objects>`. {+service-short+} collections
+are homogenous, i.e. all objects in a collection are of the
+same type.
+
+You can filter and sort any collection using {+client-database+}'s
+:ref:`query engine <node-client-query-engine>`. Collections are
+:ref:`live <node-live-object>`, so they always reflect the
+current state of the :term:`{+realm+} instance` on the current
+thread. You can also listen for changes in the collection by subscribing
+to :ref:`collection notifications <node-collection-notifications>`.
+
+{+client-database+} has two kinds of collections: **lists** and **results**.
+
+.. _node-list-collections:
+
+List Collections
+~~~~~~~~~~~~~~~~
+
+A **list collection** represents a :ref:`to-many
+relationship <node-to-many-relationship>` between two {+service-short+}
+types. Lists are mutable: within a write transaction, you
+can add and remove elements on a list. Lists are not
+associated with a query.
+
+.. _node-results-collections:
+
+Results Collections
+~~~~~~~~~~~~~~~~~~~
+
+A **results collection** represents the lazily-evaluated
+results of a query operation. Results are immutable: you
+cannot add or remove elements on the results collection.
+Results have an associated query that determines their
+contents.
+
+.. _node-live-collections:
+
+Collections are Live
+--------------------
+
+Like :ref:`live objects <node-live-object>`, {+service-short+} collections
+are usually **live**:
+
+- Live results collections always reflect the current results of the associated query.
+- Live lists always reflect the current state of the relationship on the {+realm+} instance.
+
+There are three cases when a collection is **not** live:
+
+- The collection is unmanaged, e.g. a List property of a {+service-short+} object that has not been added to a {+realm+} yet or that has been copied from a {+realm+}.
+- The collection is part of a snapshot.
+
+Combined with :ref:`collection notifications
+<node-collection-notifications>`, live collections enable clean,
+reactive code. For example, suppose your view displays the
+results of a query. You can keep a reference to the results
+collection in your view class, then read the results
+collection as needed without having to refresh it or
+validate that it is up-to-date.
+
+.. admonition:: Indexes may change
+   :class: important
+
+   Since results update themselves automatically, do not
+   store the positional index of an object in the collection
+   or the count of objects in a collection. The stored index
+   or count value could be outdated by the time you use
+   it.
+
+.. _node-lazy-evaluated-results:
+
+Results are Lazily Evaluated
+----------------------------
+
+{+client-database+} only runs a query when you actually request the
+results of that query, e.g. by accessing elements of the
+results collection. This lazy evaluation enables you to
+write elegant, highly performant code for handling large
+data sets and complex queries.
+
+.. _node-limiting-results:
+
+Limiting Query Results
+~~~~~~~~~~~~~~~~~~~~~~
+
+As a result of lazy evaluation, you do not need any special
+mechanism to limit query results with {+client-database+}. For example, if
+your query matches thousands of objects, but you only want
+to load the first ten, simply access only the first ten
+elements of the results collection.
+
+.. _node-pagination:
+
+Pagination
+~~~~~~~~~~
+
+Thanks to lazy evaluation, the common task of pagination
+becomes quite simple. For example, suppose you have a
+results collection associated with a query that matches
+thousands of objects in your {+realm+}. You display one hundred
+objects per page. To advance to any page, simply access the
+elements of the results collection starting at the index
+that corresponds to the target page.
+
+.. _node-list-vs-results:
+
+List vs. Results
+----------------
+
+When you need a collection, you can use the following rule
+of thumb to determine whether a list or a results collection
+is appropriate:
+
+- When you define the properties of your {+service-short+} objects, use lists to define :ref:`to-many relationships <node-to-many-relationship>` except :ref:`implicit inverse relationships <node-inverse-relationship>`.
+- Use results everywhere else.
+
+To understand these different use cases, consider whether
+you should be able to add or remove objects directly. Lists
+allow you to add and remove objects directly, because you
+control the relationships. Results collections do not allow
+you to add or remove objects directly, because their contents
+are determined by a query.
+
+.. example::
+
+   Consider a {+service-short+} type called Person with a field called
+   ``emails`` that is a collection of strings representing
+   email addresses. You control this data. Your application
+   needs to add and remove email addresses from your Person
+   instances. Therefore, use a **list** to define the field
+   type of ``emails``.
+
+   On the other hand, when you query the {+realm+} for all
+   Persons over the age of 25, it would not make sense for
+   you to add or remove Persons directly to the resulting
+   collection. The contents of that collection only change
+   when the query matches a different set of Persons.
+   Therefore, {+client-database+} gives you a **results** collection.
+
+.. _node-collection-type-for-implicit-inverse-relationships:
+
+.. admonition:: Inverse one-to-many relationship property exception
+   :class: note
+
+   Since {+client-database+} automatically determines the contents of
+   :ref:`implicit inverse relationship
+   <node-inverse-relationship>` collections, you may not add
+   or remove objects from such a collection directly.
+   Therefore, the type of such a one-to-many relationship
+   property is actually a results collection, not a list.
+
+Summary
+-------
+
+- A {+service-short+} **collection** is a homogenous container of zero
+  or more instances of one
+  :ref:`{+service-short+} type <node-realm-objects>`.
+
+- Collections are :ref:`live <node-live-object>`, i.e. auto-updating, unless
+  they are a snapshot or they are not part of a {+realm+}.
+
+- Lazy evaluation of results collections means there is no need to
+  design a special query to get limited or paginated results. Perform
+  the query and read from the results collection as needed.
+
+- There are two main kinds of collection: **lists** and **results**.
+  Lists define the :ref:`to-many relationships <node-to-many-relationship>`
+  of your {+service-short+} types, while results represent the
+  lazily-loaded output of a :ref:`read operation <node-realm-database-reads>`.

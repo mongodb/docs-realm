@@ -1,0 +1,90 @@
+=========================
+Configure Your Data Model
+=========================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+
+
+Overview
+--------
+
+In modern applications, users expect their data to be accurate no matter
+which device or browser they connect from. Data modeling ensures the
+accuracy of application data by performing type and format checks on
+fields. 
+
+
+MongoDB Realm allows you to define, synchronize, and enforce your data
+model in two formats: 
+
+- :doc:`Realm Schema </mongodb/document-schemas>`, which defines your data as MongoDB documents to enforce validation and synchronization in the cloud.
+
+- :term:`{+service-short+} data model`, which defines your data as native objects in your mobile application.
+
+Having these two forms of data models allows your data to be consistent
+and :doc:`synced</sync/sync-overview>` regardless of which clients
+write the data. 
+
+
+Approaches
+----------
+
+There are two alternative approaches to configuring both data models: 
+
+- :ref:`Create a Realm Object Model from a Realm Schema <create-rom-from-schema>`: If you have data in your Atlas cluster already, MongoDB generates a Realm Schema by sampling your data. MongoDB Realm can then translate that Realm Schema into a Realm Object Model to use in your mobile application. 
+
+- :ref:`Create a Realm Schema from a Realm Object Model <create-schema-from-rom>`: Alternatively, if you are developing mobile-first and do not already have data in your Atlas cluster, you can translate your Realm Object Model into a Realm Schema for use with Atlas. Regardless of the approach that you take, when you configure both your Atlas cluster and Mobile application to use the respective data model, changes to the data model between the server and client are auto-updated.  
+
+
+.. _create-rom-from-schema:
+
+Create a Realm Object Model from a Realm Schema
+-----------------------------------------------
+
+You can generate and edit a Realm Schema if you already have data in
+MongoDB Atlas. MongoDB Realm creates your Realm Schema as a result of a
+sample of your data already stored in your cluster. This schema can be
+edited before it is translated into a Realm Object Model in order to
+synchronize the two models and perform data validation on your mobile
+application
+
+.. admonition:: Link a MongoDB Atlas Cluster
+   :class: note
+   
+   Your Realm app must have at least one :doc:`linked Atlas cluster
+   </mongodb/link-a-cluster>` in order to define a Realm Data Model.
+
+.. include:: /includes/steps/auto-schema-generation.rst
+
+.. _create-schema-from-rom:
+
+Create a Realm Schema from a Realm Object Model
+-----------------------------------------------
+
+When you link a MongoDB Realm application to an Atlas cluster, updating
+your Realm Object Model will automatically update your Realm Schema if
+:guilabel:`Development Mode` is on in the MongoDB Realm UI.
+Turn off :guilabel:`Development Mode` to generate a Realm Schema
+based on your Realm Object Model for your Atlas cluster to use. 
+
+.. admonition:: Link a MongoDB Atlas Cluster
+   :class: note
+   
+   Your Realm app must have at least one :doc:`linked Atlas cluster
+   </mongodb/link-a-cluster>` in order to define a Realm Data Model.
+
+.. include:: /includes/steps/development-mode-realm-schema.rst
+
+
+Summary
+-------
+- MongoDB Realm uses two different data models: a Realm Object Model for mobile and a Realm Schema for Atlas. Changes to one data model match the other data model. 
+- If you already have data in Atlas, MongoDB Realm creates a Realm Schema by sampling that data. That Realm Schema can be translated into a Realm Object Model to be used in your Realm mobile application code. 
+- If you do not have data in Atlas or are developing with a mobile-first approach, you can turn on :guilabel:`Development Mode` to allow for data model changes from a Realm mobile client. When you finish developing your Realm Object Model, you can turn off :guilabel:`Development Mode`, and your Realm Schema will be auto-updated with your updated data model configuration. Atlas will begin using this updated data model configuration for data validation on your cluster immediately. 

@@ -1,0 +1,106 @@
+title: Configure ``Realm Sync``
+ref: configure-sync
+content: |
+
+  While working with your Realm Object Model in MongoDB Realm, you want your
+  Realm Schema to update with any changes that you make.
+  To do this, you must configure :doc:`sync </sync/sync-overview>` for
+  our application. In order to map fields from MongoDB Documents to Realm Objects
+  to use with your mobile application, you also need to define a :doc:`partition
+  key</sync/partitioning>`.
+
+  To configure sync, click :guilabel:`Sync` in the left-hand navigation.
+  Select the linked cluster that should store the synced data for your
+  application. Then define a :ref:`partition key <choose-a-partition-key>`.
+  Finally, :doc:`Define your sync rules </sync/rules>`.
+
+---
+title: Enable ``Development Mode``
+ref: enable-development-mode
+content: |
+
+  You can alter or create a Realm Object Model through your mobile
+  client SDK. Changes to your Realm Object Model will only be allowed
+  when :guilabel:`Development Mode` is on in the MongoDB Realm UI.
+  MongoDB Realm will reflect these changes to your Realm Object Model in
+  your Realm Schema used for Atlas.
+
+  To enable :guilabel:`Development
+  Mode`, navigate to the ``SDKs`` page, the "Development Mode is ON"
+  modal appears immediately, indicating that Realm Object Model
+  changes from your mobile client are now allowed.
+
+  .. figure:: /images/enable-schema-development-mode.png
+     :width: 750px
+     :lightbox:
+
+---
+title: Edit Your Realm Object Model
+ref: edit-realm-object-model
+content: |
+
+  As you continue to develop your application, you will need to modify
+  your data model with it to enforce different data validation rules
+  based on those changes. While :guilabel:`Development Mode` is on you
+  can edit your Realm Object Model in your client code. Data Validation
+  occurs when :guilabel:`Development Mode` is off, so MongoDB Realm does
+  not accept changes to your Realm Object Model while
+  :guilabel:`Development Mode` is not on.
+
+  .. example::
+
+     A group is developing a social media application. When the group
+     first developed their application, a user's birthday was a required
+     field of the User's data model. However, due to privacy concerns
+     over the amount of user data that is stored, management creates a
+     new requirement to make the user's birthday field an optional
+     field. Application developers turn on :guilabel:`Development Mode`
+     in the MongoDB Realm UI and then edit their user model within
+     their client code. 
+
+     .. code-block:: javascript
+        
+       const realmObjectModel = { 
+         name: 'User',
+         properties: {
+           name:     'string',
+           birthday:    {type: 'date', optional: true}, // developers set optional: true to adhere to the new requirement
+         }
+       };
+
+       Realm.open({schema: realmObjectModel})
+         .then(realm => {
+           // ... use the realm instance to read and modify data
+         })
+
+---
+title: Update Your Realm Schema with the Realm Object Model Changes
+ref: update-realm-schema
+content: |
+
+  While :guilabel:`Development Mode` is on, MongoDB Realm doesn't validate
+  writes against your data model, allowing you to freely update your Realm
+  Object Model. When you turn off :guilabel:`Development Mode`, MongoDB
+  Realm automatically updates your Realm Schema and starts to enforce data
+  validation for your Atlas cluster based on it. 
+
+  Click the "Turn Dev Mode Off" button on the top right-hand side of the
+  ``SDKs`` page to turn off :guilabel:`Development Mode`. Once you turn
+  off :guilabel:`Development Mode`, the "Development Mode is OFF" modal
+  will appear. The modal indicates that MongoDB Realm has stopped
+  accepting new data model changes from clients. Click the "View my Realm
+  Schema" button on the modal to view your updated Realm Schema.
+
+
+  .. note:: 
+
+    To make future data model updates from your mobile client code, you
+    can follow this procedure again.
+
+  .. figure:: /images/turn-off-dev-mode.png
+     :width: 750px
+     :lightbox:
+
+  .. figure:: /images/view-my-json-schema.png
+     :width: 461px
+     :lightbox:

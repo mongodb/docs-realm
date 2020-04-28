@@ -1,0 +1,189 @@
+.. _ios-client-migrations:
+
+==========
+Migrations
+==========
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+A **migration** transforms an existing {+realm+} and its objects from its
+current :ref:`{+backend-schema+} version <ios-schema-version>` to a newer one.
+Application data models typically change over time to accommodate new
+requirements and features. Migrations give you the flexibility to
+automatically update your existing application data whenever a client
+application upgrades to a newer version.
+
+Key Concepts
+------------
+
+.. _ios-local-migration:
+
+Local Migration
+~~~~~~~~~~~~~~~
+
+A **local migration** is a migration for a {+realm+} that does
+not automatically :doc:`{+sync-short+} </sync/sync-overview>` with
+another {+realm+}. Local migrations have access to the existing
+{+backend-schema+}, version, and objects and define logic that
+incrementally updates the {+realm+} to its new schema version.
+To perform a local migration you must specify a new schema
+version that is higher than the current version and provide
+a migration function when you open the out-of-date {+realm+}.
+
+{+service+} automatically migrates certain changes, such as new and deleted
+properties, but does not automatically set values for new properties
+unless the updated object schema specifies a default value. You can
+define additional logic in the migration that dynamically calculates a
+new property's value. Migrations do not allow you to directly rename a
+property. Instead, it treats a renamed property as a new property that
+you must set to the value of the old property before {+service+} automatically
+deletes it.
+
+.. example::
+   
+   A {+realm+} using schema version ``1`` has a ``Person`` object type:
+   
+   .. tabs-realm-languages::
+     
+     .. tab::
+         :tabid: swift
+ 
+         .. literalinclude:: /examples/Migrations/PersonClassV1/PersonClassV1.swift
+           :language: swift
+           :emphasize-lines: 2, 3
+
+     .. tab::
+         :tabid: objective-c
+ 
+         .. literalinclude:: /examples/Migrations/PersonClassV1/PersonClassV1.m
+           :language: objective-c
+           :emphasize-lines: 2, 3
+
+   
+   The developer decides that the ``Person`` class should use a combined
+   ``fullName`` field instead of the separate ``firstName`` and
+   ``lastName`` fields:
+   
+   .. tabs-realm-languages::
+     
+     .. tab::
+         :tabid: swift
+ 
+         .. literalinclude:: /examples/Migrations/PersonClassV2/PersonClassV2.swift
+           :language: swift
+           :emphasize-lines: 2
+     
+     .. tab::
+         :tabid: objective-c
+ 
+         .. literalinclude:: /examples/Migrations/PersonClassV2/PersonClassV2.m
+           :language: objective-c
+           :emphasize-lines: 2
+
+   
+   To migrate the {+realm+} to conform to the updated ``Person`` schema, the
+   developer sets the {+realm+}'s :ref:`schema version <ios-schema-version>` to
+   ``2`` and defines a migration function to set the value of
+   ``fullName`` based on the existing ``firstName`` and ``lastName``
+   properties:
+   
+   .. tabs-realm-languages::
+     
+     .. tab::
+         :tabid: swift
+ 
+         .. literalinclude:: /examples/Migrations/LocalMigration/LocalMigration.swift
+           :language: swift
+           :emphasize-lines: 3, 12
+
+     .. tab::
+         :tabid: objective-c
+ 
+         .. literalinclude:: /examples/Migrations/LocalMigration/LocalMigration.m
+           :language: objective-c
+           :emphasize-lines: 3, 12-14
+
+
+.. _ios-synced-migration:
+
+Synced Migration
+~~~~~~~~~~~~~~~~
+
+A **synced migration** is a migration for a {+realm+} that
+automatically :doc:`{+sync-short+}s </sync/sync-overview>` with
+another remote {+realm+}. {+client-database+} automatically handles all
+synced schema migrations and does not allow you to specify a
+migration function.
+
+Synced {+realms+} represent multiple end users and devices that will likely
+not all immediately update to the most recent version of an application.
+{+service+} ensures that synced schema changes are backwards compatible,
+which means that client applications that have not updated to the most
+recent version can still sync with clients that are using the most recent
+version.
+
+{+service+} handles synced migrations using the following framework:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 20 80
+
+   * - Change Type
+     - Description
+
+   * - **Schema Version**
+     - {+service+} ignores any :ref:`schema version <ios-schema-version>`
+       set by the client application.
+
+   * - **Migration Function**
+     - {+service+} throws an error if the {+realm+} configuration
+       includes a :ref:`local migration <ios-local-migration>` function.
+
+   * - **Additions**
+     - {+service+} automatically applies additive changes, such as a new
+       class or class property.
+
+   * - **Deletions**
+     - {+service+} does not delete removed fields from the database, but
+       ignores them in future read operations. {+service+} includes
+       deleted properties in new objects with a default value that
+       depends on whether or not the property was required:
+
+       - {+service+} sets the value of optional deleted properties to
+         ``null``.
+       
+       - {+service+} sets the value of required deleted properties to the
+         empty value of the property type (e.g. ``0`` for numeric
+         fields, ``""`` for string properties, etc.).
+
+   * - **Modifications**
+     - {+service+} prevents modifications to an existing property other
+       than delete operations. Modifications that synced {+realms+} do not
+       support include:
+       
+       - Changing a property’s type but keeping the same name.
+       - Changing an object type's :ref:`primary key <ios-primary-key>`.
+       - Changing a property from optional to required (or vice-versa).
+
+Summary
+-------
+
+- A **migration** transforms an existing {+realm+} and its objects from
+  its current schema version to a later one.
+
+- {+service+} allows you to specify migration functions for
+  **local migrations**, i.e. migrations where the {+realm+} is not
+  :doc:`synced </sync/sync-overview>` with {+backend+}.
+
+- {+service+} automatically handles **synced migration**, i.e. migrations
+  where the {+realm+} is synced. {+service+} does not allow migration
+  functions for such migrations.
