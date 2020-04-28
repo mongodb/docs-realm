@@ -113,12 +113,12 @@ the transaction immediately after the callback.
 Create an Object
 ----------------
 
-In general, instantiate :doc:`{+service-short+} objects
-</data-model/objects>` as you would any other object. In a
-transaction, you can add the object to the {+realm+} if the
-{+realm+}'s :ref:`schema <react-native-realm-schema>` includes the object
-type. When you add an instance to the {+realm+}, it becomes
-*managed* by that {+realm+}.
+In general, instantiate :ref:`{+service-short+} objects
+<react-native-realm-objects>` as you would any other object.
+In a transaction, you can add the object to the {+realm+} if
+the {+realm+}'s :ref:`schema <react-native-realm-schema>`
+includes the object type. When you add an instance to the
+{+realm+}, it becomes *managed* by that {+realm+}.
 
 With the Java and JavaScript SDKs, instead use the {+realm+}'s
 factory method in a transaction to instantiate your class.
