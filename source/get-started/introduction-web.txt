@@ -14,7 +14,7 @@ In addition to frontend applications, developers typically must build secure
 application servers that implement features like user authentication, data
 validation, and business logic. These servers always need an API so that they
 can communicate with browsers, so developers need to create HTTP routes that
-respond to incoming request. You can solve each of these problems in isolation
+respond to incoming requests. You can solve each of these problems in isolation
 with a wide variety of libraries and frameworks, but deciding which solution
 solves each problem with the right tradeoffs for your use case can be a daunting
 challenge.
@@ -131,15 +131,15 @@ for which they have permission.
 GraphQL for MongoDB
 ~~~~~~~~~~~~~~~~~~~
 
-:graphql:`GraphQL <>` is a standard, open-source API architecture that is often
-viewed as an alternative to REST or other HTTP APIs. It features a declarative
-query language that empowers developers to access exactly the data they need and
-to make network requests for data more efficient.
+:graphql:`GraphQL <>` is a standard, open-source API architecture that is an
+alternative to REST or other HTTP APIs. It features a declarative query language
+that empowers developers to access exactly the data they need and to make
+network requests for data more efficient.
 
 GraphQL has a couple of primary benefits for web developers:
 
 - **Minimize Bandwidth**: GraphQL queries specify the exact fields to return,
-  which allows you to avoid overfetching as you might from a static resource
+  which allows you to avoid over-fetching as you might from a static resource
   endpoint. You can specify the exact shape of the data your app needs and the
   GraphQL API returns exactly that data, no more and no less.
 
