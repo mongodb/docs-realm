@@ -2382,6 +2382,38 @@ components:
                 | If true, indicates that ``UPDATE`` change events should include the most current
                   :manual:`majority-committed </reference/read-concern-majority/>` version of the
                   modified document in the ``fullDocument`` field.
+            schedule:
+              type: string
+              description: |
+                | **Only Available for Scheduled Triggers**
+                | A :doc:`cron expression </triggers/cron-expressions>` that defines the trigger schedule.
+        event_processors:
+          type: object
+          description: |
+            | An object where each field name is an event processor ID and each
+              value is an object that configures its corresponding event
+              processor.
+
+              The following event processors are supported:
+
+              - ``AWS_EVENTBRIDGE``
+              
+              .. example
+                 
+                 The following object configures a trigger to :doc:`send events to AWS
+                 Eventbridge </triggers/eventbridge>`.
+
+                 .. code-block:: json
+                    
+                    "event_processors": {
+                      "AWS_EVENTBRIDGE": {
+                        "type": "AWS_EVENTBRIDGE",
+                        "config": {
+                          "account_id": "012345678901",
+                          "region": "us-east-1"
+                        }
+                      }
+                    }
     MetadataAttribute:
       type: object
       properties:
