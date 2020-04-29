@@ -1,22 +1,104 @@
-=======
-Android
-=======
+=========================
+MongoDB Realm Android SDK
+=========================
+
+The {+service+} Android SDK enables client applications on the Android
+platform to access data stored in local {+realms+} and interact with
+{+backend+} services like Functions, MongoDB Data Access, and
+authentication. The Android SDK supports both Java and Kotlin
+Android applications.
+
+.. note::
+
+   The Android SDK does not support Java or Kotlin applications
+   written for environments other than Android.
+
+Installation
+------------
+
+To learn how to add the {+service+} Android SDK library as a dependency
+to your Android application, see :ref:`Install Realm for Android
+<android-install>`.
+
+The Realm Data Model
+--------------------
+
+You can store a wide variety of data within {+realms+} stored on your
+device. With :term:`{+sync+}`, you can share updates to that data across
+client devices and {+atlas+}.
+
+For information about the structure of data you can store in {+realms+},
+see :ref:`Realms <android-realms>`, :ref:`Objects
+<android-realm-objects>`, and :ref:`Relationships
+<android-client-relationships>`.
+
+To learn about the results returned from {+realm+} queries, see
+:ref:`Collections <android-client-collections>`.
+
+Work with Realm Database
+------------------------
+
+Once you have defined a data model for your application, you
+need to be able to :ref:`write <android-realm-database-writes>` and
+:ref:`read <android-realm-database-reads>` pieces of data to and from
+your {+realm+}s.
+
+To learn how to query for data in local {+realms+}, see
+:ref:`Query Engine <android-client-query-engine>`.
+
+For advice on how to safely interact with {+client-database+} across
+threads in an application, see :ref:`Threading
+<android-client-threading>`.
+
+For information about how to react to changes in {+realm+} data, see
+:ref:`Notifications <android-client-notifications>`.
+
+Work with MongoDB Realm
+-----------------------
+
+The Android SDK also connects your {+service-short+} client application
+with your {+app+}'s backend services, including Functions, Services,
+Webhooks, {+sync+} and built-in third-party authentication.
+
+To learn how to connect to a {+backend+} app to call
+Functions, query data in an instance of {+atlas+}, and synchronize data
+in {+realms+}, see :doc:`Call a Function </functions/call-a-function>`.
+
+To learn how to handle schema updates in your client application, see
+:ref:`Migrations <android-client-migrations>`.
 
 .. toctree::
    :titlesonly:
-   :caption: Get Started
+   :caption: The Realm Data Model
+   :hidden:
 
-   Install Realm for Android </get-started/install-android>
-   Call a Function </functions/call-a-function>
+   Collections </android/collections>
+   Notifications </android/notifications>
    Realms </android/realms>
    Objects </android/objects>
    Relationships </android/relationships>
+
+.. toctree::
+   :titlesonly:
+   :caption: Work with Realm Database
+   :hidden:
+
+   Threading </android/threading>
    Reads </android/reads>
    Writes </android/writes>
    Query Engine </android/query-engine>
-   Collections </android/collections>
-   Notifications </android/notifications>
-   Threading </android/threading>
+
+.. toctree::
+   :titlesonly:
+   :caption: Work with MongoDB Realm
+   :hidden:
+
+   Call a Function </functions/call-a-function>
+
+.. toctree::
+   :titlesonly:
+   :caption: Reference
+   :hidden:
+
    Migrations </android/migrations>
    Auxiliary Files </android/auxiliary-files>
-   
