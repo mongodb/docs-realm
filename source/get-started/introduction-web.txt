@@ -83,14 +83,14 @@ To learn more about defining a schema and access rules for your data, see
 Event-Driven Serverless Functions
 ---------------------------------
 
-Some applications require that certain logic must run on the app server. Usually
+Many applications run certain privileged logic on the app server. Usually
 this logic deals with sensitive user data or coordinates data from multiple
 external services. Apps might also need to respond automatically in real time
 when something happens in the app or in an external service.
 
 MongoDB Realm allows you to define serverless JavaScript functions that you can
 call from client applications or automatically execute in response to trigger
-events, such as an update to a document in MongoDB or a scheduled cron job. You
+events, such as an update to a document in MongoDB or at a scheduled time. You
 can also write webhooks that execute a function in response to external
 applications and services.
 
@@ -102,7 +102,7 @@ To learn more about defining and using serverless functions, see :doc:`Functions
 Secure Client-Side Queries
 --------------------------
 
-Modern web applications rely on data, so developers need to be able to access
+Modern web applications rely on data. Developers must be able to access
 the data that they need quickly and efficiently in the proper shape. However,
 web browsers are insecure clients, so web applications typically store data on a
 remote server and use a client-side API to access the data in order to prevent
