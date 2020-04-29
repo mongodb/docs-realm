@@ -6,25 +6,29 @@ Introduction to MongoDB Realm for Web Developers
 
 Modern web applications are more powerful than ever before, and the data-driven
 approach popularized by frontend libraries like React and Angular has empowered
-developers to create web apps that rival native applications in terms of
-performance and user experience. However, as the prevalance and usage of web
-applications grow, so do the demands of maintaining and delivering the data that
-drives them.
+developers to create web apps that approach the look and feel of native
+applications. However, as the prevalence and usage of web applications grow, so
+do the demands of maintaining and delivering the data that drives them.
 
 In addition to frontend applications, developers typically must build secure
-application servers that:
+application servers that implement features like user authentication, data
+validation, and business logic. These servers always need an API so that they
+can communicate with browsers, so developers need to create HTTP routes that
+respond to incoming request. You can solve each of these problems in isolation
+with a wide variety of libraries and frameworks, but deciding which solution
+solves each problem with the right tradeoffs for your use case can be a daunting
+challenge.
 
-- :ref:`Authenticate and manage users <intro-web-users>`
-- :ref:`Validate and secure data <intro-web-schema>`
-- :ref:`Run custom logic and respond to requests <intro-web-functions>`
-- :ref:`Expose data to client applications <intro-web-graphql>`
+MongoDB Realm is a serverless application backend that streamlines these common
+challenges with configurable functions and services that integrate Realm's data
+access and security rules. This allows you to shift your focus from implementing
+boilerplate backend components to writing the code that makes your app unique.
 
-You can solve each of these problems in isolation with a wide variety of
-libraries and frameworks, but deciding which solution solves each problem with
-the right tradeoffs for your use case can be a daunting challenge. MongoDB Realm
-is a managed application backend that streamlines these common challenges and
-allows you to shift your focus from wiring up backend components to writing
-the code that makes your app great.
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
 
 .. _intro-web-users:
 
@@ -36,13 +40,15 @@ need to know the identity of each user in order to securely store their data and
 make it available across sessions and devices. Some apps authenticate users with
 traditional email/password combinations, and others may use API keys or external
 services like Facebook, Google, and Sign in with Apple. These methods can be
-complex and hard to correctly develop and integrate into your app.
+complex to implement and generally require developers to implement boilerplate
+server-side logic and cryptographic code for every application.
 
-MongoDB Realm provides built-in user management and authentication methods, and
-makes it easy to integrate third-party authentication providers like social
-media platforms and enterprise identity management systems. You can enable
-authentication providers with a simple server-side configuration and log in from
-any client application using the Realm SDK.
+MongoDB Realm provides built-in user management and authentication methods that
+encapsulate this complexity and make it easy to integrate third-party
+authentication providers like social media platforms and enterprise identity
+management systems. You can enable authentication providers with a simple
+server-side configuration and immediately log in from any client application
+using the Realm SDK.
 
 To learn more about authentication in MongoDB Realm, see :doc:`Users & Authentication </authentication>`.
 
@@ -51,15 +57,23 @@ To learn more about authentication in MongoDB Realm, see :doc:`Users & Authentic
 Schema Validation and Data Access Rules
 ---------------------------------------
 
-Modern applications require data to be available in consistent types and formats
-to ensure that all of the application's components can understand and work with
-it. It's also important to ensure that any given piece of data is only
-accessible or modifiable by an authorized user, such as an administrator or the
-user that the data describes.
+Modern applications require data to be available using consistent types and
+formats to guarantee that all of the application's components can read and
+manipulate it. It's also important to ensure that any given piece of data is
+only accessible or modifiable by an authorized user, such as an administrator or
+the user that the data describes.
 
-MongoDB Realm automatically validates data against a schema that you define
-using a superset of the JSON schema standard that supports the BSON types used
-by MongoDB.
+MongoDB Realm automatically validates data against a Realm schema that you
+define using the `JSON schema <https://json-schema.org/>`__ standard. A Realm
+schema serves as the source of truth definition of a data type in your
+application and Realm uses it to map data in a MongoDB Atlas collection to data
+in your web app.
+
+Realm secures data with role-based data access and manipulation rules that you
+configure for all data that your application uses. These dynamically determine
+each user's access to every document for every request, which means that a user
+can only ever insert, read, or modify data if both they and the document meet
+pre-defined conditions.
 
 To learn more about defining a schema and access rules for your data, see
 :ref:`collection rules <mongodb-rules>`.
@@ -133,7 +147,7 @@ queries, you can define custom resolvers backed by :ref:`functions
 
 To learn more about the Realm GraphQL API, see :doc:`GraphQL </graphql>`.
 
-Client-Side MongoDB Queries 
+Client-Side MongoDB Queries
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Traditionally developers need to execute database queries on the server and wrap
