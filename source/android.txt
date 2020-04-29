@@ -23,7 +23,11 @@ to your Android application, see :ref:`Install Realm for Android
 The Realm Data Model
 --------------------
 
-To learn about the different kinds of data you can store in {+realms+},
+You can store a wide variety of data within {+realms+} stored on your
+device. With :term:`{+sync+}`, you can share updates to that data across
+client devices and {+atlas+}.
+
+For information about the structure of data you can store in {+realms+},
 see :ref:`Realms <android-realms>`, :ref:`Objects
 <android-realm-objects>`, and :ref:`Relationships
 <android-client-relationships>`.
@@ -34,21 +38,23 @@ To learn about the results returned from {+realm+} queries, see
 Work with Realm Database
 ------------------------
 
-To learn how to read and write local {+realm+} data, see
-:ref:`Reads <android-realm-database-reads>` and :ref:`Writes
-<android-realm-database-writes>`.
+Once you have defined a data model for your application, you
+need to be able to :ref:`write <android-realm-database-writes>` and
+:ref:`read <android-realm-database-reads>` pieces of data to and from
+your {+realm+}s.
 
 To learn how to query for data in local {+realms+}, see
 :ref:`Query Engine <android-client-query-engine>`.
 
-To learn how to safely interact with {+client-database+} across threads
-in an application, see :ref:`Threading <android-client-threading>`.
+For advice on how to safely interact with {+client-database+} across
+threads in an application, see :ref:`Threading
+<android-client-threading>`.
 
-To learn how to react to changes in {+realm+} data, see
+For information about how to react to changes in {+realm+} data, see
 :ref:`Notifications <android-client-notifications>`.
 
-Work with the MongoDB Realm Backend
------------------------------------
+Work with MongoDB Realm
+-----------------------
 
 The Android SDK also connects your {+service-short+} client application
 with your {+app+}'s backend services, including Functions, Services,
@@ -84,7 +90,7 @@ To learn how to handle schema updates in your client application, see
 
 .. toctree::
    :titlesonly:
-   :caption: Work with the MongoDB Realm Backend
+   :caption: Work with MongoDB Realm
    :hidden:
 
    Call a Function </functions/call-a-function>
@@ -96,5 +102,3 @@ To learn how to handle schema updates in your client application, see
 
    Migrations </android/migrations>
    Auxiliary Files </android/auxiliary-files>
-
-   
