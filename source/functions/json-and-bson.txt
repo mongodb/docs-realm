@@ -389,6 +389,13 @@ The ``BSON.Binary`` type represents a binary-encoded data string.
       * - ``base64String``
         - string
         - A string of base64 encoded characters.
+          
+          .. admonition:: String Padding
+             :class: note
+             
+             The base64-encoded string must include either one or two equals
+             signs (``=``), referred to as "padding", at the end of the string.
+             ``BSON.Binary.fromBase64()`` does not support unpadded strings.
 
       * - ``subType``
         - integer
