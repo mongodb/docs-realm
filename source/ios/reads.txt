@@ -1,0 +1,249 @@
+.. _ios-realm-database-reads:
+
+=====
+Reads
+=====
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+You can, of course, easily read back the data that you have
+:ref:`stored <ios-realm-database-writes>` in :term:`{+client-database+}`.
+The standard data access pattern across {+service+}
+SDKs is to find, filter, and sort objects, in that order. To
+get the best performance from {+service+} as your app grows and
+your queries become more complex, design your app's data
+access patterns around a solid understanding of {+client-database+}
+:ref:`read characteristics <ios-realm-read-characteristics>`.
+
+.. _ios-read-from-realm:
+
+Read from Realm Database
+------------------------
+
+A read from a :term:`{+realm+}` generally consists of the following
+steps:
+
+- Get all :ref:`objects <ios-realm-objects>` of a certain type from the {+realm+}.
+- Optionally, :ref:`filter <ios-filter-results>` the results using the :ref:`query engine <ios-client-query-engine>`.
+- Optionally, :ref:`sort <ios-sort-results>` the results.
+
+All query, filter, and sort operations return a
+:ref:`results collection <ios-results-collections>`. The results
+collections are live, meaning they always contain the latest
+results of the associated query.
+
+.. admonition:: About the examples on this page
+   :class: note
+
+   The examples on this page use the data model of a project
+   management app that has two {+service-short+} object types: ``Project``
+   and ``Task``. A ``Project`` has zero or more ``Tasks``.
+
+   See the schema for these two classes, ``Project`` and
+   ``Task``, below:
+
+   .. tabs-realm-languages::
+
+      .. tab::
+          :tabid: swift
+
+          .. literalinclude:: /examples/Schemas/ProjectAndTask.swift
+            :language: swift
+
+      .. tab::
+          :tabid: objective-c
+
+          .. literalinclude:: /examples/Schemas/ProjectAndTask.m
+            :language: objective-c
+
+
+.. _ios-get-all-objects:
+
+Get All Objects
+~~~~~~~~~~~~~~~
+
+The first step of any read is to **get all objects** of a
+certain type in a {+realm+}. With this results collection, you
+can operate on all instances on a type or filter and sort to
+refine the results.
+
+.. example::
+
+   In order to access all instances of ``Project`` and ``Task``, use
+   the following syntax:
+
+   .. tabs-realm-languages::
+
+      .. tab::
+          :tabid: objective-c
+
+          .. literalinclude:: /examples/CRUD/Objects.m
+            :language: objective-c
+
+      .. tab::
+          :tabid: swift
+
+          .. literalinclude:: /examples/CRUD/Objects.swift
+            :language: swift
+
+
+.. _ios-filter-results:
+
+Filter Results
+~~~~~~~~~~~~~~
+
+A **filter** selects a subset of results based on the
+value(s) of one or more object properties. {+client-database+} provides a
+full-featured :ref:`query engine <ios-client-query-engine>` you
+can use to define filters. The most common use case is to
+find objects where a certain property matches a certain
+value. Additionally, you can compare strings, aggregate over
+collections of numbers, and use logical operators to build
+up complex queries.
+
+.. example::
+
+   In the following example, we use the query
+   engine's comparison operators to:
+
+   - Find high priority tasks by comparing the value of the ``priority`` property value with a threshold number, above which priority can be considered high.
+   - Find just-started or short-running tasks by seeing if the ``progressMinutes`` property falls within a certain range.
+   - Find unassigned tasks by finding tasks where the ``assignee`` property is equal to null.
+   - Find tasks assigned to specific teammates Ali or Jamie by seeing if the ``assignee`` property is in a list of names.
+
+   .. tabs-realm-languages::
+
+      .. tab::
+          :tabid: objective-c
+
+          .. literalinclude:: /examples/Query/Comparison.m
+            :language: objective-c
+
+      .. tab::
+          :tabid: swift
+
+          .. literalinclude:: /examples/Query/Comparison.swift
+            :language: swift
+
+
+.. _ios-sort-results:
+
+Sort Results
+~~~~~~~~~~~~
+
+A **sort** operation allows you to configure the order in
+which {+client-database+} returns queried objects. You can sort based on
+one or more properties of the objects in the results
+collection.
+
+{+client-database+} only guarantees a consistent order of results when the
+results are sorted.
+
+.. example::
+
+   The following code sorts the projects by name in reverse
+   alphabetical order (i.e. "descending" order).
+
+   .. tabs-realm-languages::
+
+      .. tab::
+          :tabid: objective-c
+
+          .. literalinclude:: /examples/CRUD/Sort.m
+            :language: objective-c
+
+      .. tab::
+          :tabid: swift
+
+          .. literalinclude:: /examples/CRUD/Sort.swift
+            :language: swift
+
+
+
+.. _ios-realm-read-characteristics:
+
+Read Characteristics
+--------------------
+
+When you design your app's data access patterns around the
+following three key characteristics of reads in {+client-database+},
+you can be confident you are reading data as
+efficiently as possible.
+
+.. _ios-results-are-not-copies:
+
+Results Are Not Copies
+~~~~~~~~~~~~~~~~~~~~~~
+
+Results to a query are not copies of your data: modifying
+the results of a query will modify the data on disk
+directly. This memory mapping also means that results are
+**live**: that is, they always reflect the current state on
+disk.
+
+See also: :ref:`Collections are Live <ios-live-collections>`.
+
+.. _ios-results-are-lazy:
+
+Results Are Lazy
+~~~~~~~~~~~~~~~~
+
+{+client-database+} defers execution of a query until you access the
+results. You can chain several filter and sort operations
+without requiring extra work to process the intermediate
+state.
+
+See also: :ref:`Results are Lazily Evaluated
+<ios-lazy-evaluated-results>`.
+
+.. _ios-references-retained:
+
+References Are Retained
+~~~~~~~~~~~~~~~~~~~~~~~
+
+One benefit of {+client-database+}'s object model is that
+{+client-database+} automatically retains all of an object's
+:ref:`relationships <ios-client-relationships>` as direct
+references, so you can traverse your graph of relationships
+directly through the results of a query.
+
+A **direct reference**, or pointer, allows you to access a
+related object's properties directly through the reference.
+
+Other databases typically copy objects from database storage
+into application memory when you need to work with them
+directly. Because application objects contain direct
+references, you are left with a choice: copy the object
+referred to by each direct reference out of the database in
+case it's needed, or just copy the foreign key for each
+object and query for the object with that key if it's
+accessed. If you choose to copy referenced objects into
+application memory, you can use up a lot of resources for
+objects that are never accessed, but if you choose to only
+copy the foreign key, referenced object lookups can cause
+your application to slow down.
+
+{+client-database+} bypasses all of this using :term:`zero-copy`
+:term:`live objects`. :term:`{+service-short+} object` accessors point directly into
+database storage using memory mapping, so there is no distinction
+between the objects in {+client-database+} and the results of your query in
+application memory. Because of this, you can traverse direct references
+across an entire {+realm+} from any query result.
+
+
+Summary
+-------
+
+- To read from {+client-database+}, first get all objects of a certain type from the {+realm+}, then filter using the query engine, then (optionally) sort the results.
+- When you read, the results are not copies. Instead, through memory mapping, results point directly to the version on disk.
+- Queries are lazily-evaluated.
+
