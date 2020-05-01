@@ -172,9 +172,30 @@ Glossary
 
    ACID
       An acronym that expands to "Atomicity, Consistency, Isolation, and
-      Durability". {+service+} is :ref:`ACID-compliant <acid-compliance>`. See
+      Durability". {+service+} is :term:`ACID-compliant <ACID compliance>`. See
       :wikipedia:`the Wikipedia entry for ACID </ACID>` for more
       information.
+
+   ACID compliance
+      - {+client-database+} establishes
+        :wikipedia:`atomicity <Atomicity_(database_systems)>` by
+        grouping operations in transactions and rolling back all
+        operations in a transaction if any of them fail.
+   
+      - {+client-database+} establishes :wikipedia:`consistency
+        <Consistency_(database_systems)>` and avoids data corruption by
+        validating changes against the schema. If the result of any
+        write operation is not valid, {+client-database+} cancels and
+        rolls back the entire transaction.
+   
+      - {+client-database+} establishes :wikipedia:`isolation
+        <Isolation_(database_systems)>` by allowing only one writer at a
+        time. This ensures thread safety between transactions.
+   
+      - {+client-database+} establishes :wikipedia:`durability
+        <Durability_(database_systems)>` by writing to disk immediately
+        when a transaction is committed. In the event of an app crash,
+        for example, the changes are not lost or corrupted.
 
    {+service-short+} webhook
       An HTTP endpoint that calls a function upon request.

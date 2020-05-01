@@ -1,21 +1,115 @@
-===============
-.NET Client SDK
-===============
+.. _dotnet-intro:
+
+======================
+MongoDB Realm .NET SDK
+======================
+
+The {+service+} .NET SDK enables client applications written in C# for
+the .NET, `UWP 
+<https://docs.microsoft.com/en-us/windows/uwp/get-started/>`__,
+and `Xamarin <https://dotnet.microsoft.com/apps/xamarin>`__
+platforms to access data stored in local {+realms+} and
+interact with {+backend+} services like Functions, MongoDB Data Access,
+and authentication.
+
+For more information about specific version support for .NET, UWP, and
+Xamarin, see our :ref:`compatibility chart <dotnet-compatibility>`.
+
+.. note::
+
+   When building
+   for platforms with Xamarin, you can use either native UI or
+   `Xamarin Forms
+   <https://docs.microsoft.com/en-us/xamarin/xamarin-forms/>`__.
+
+Installation
+------------
+
+To learn how to add the {+service+} .NET SDK library as a dependency
+to your application, see :ref:`Install Realm for .NET
+<dotnet-install>`.
+
+The Realm Data Model
+--------------------
+
+You can store a wide variety of data within {+realms+} stored on your
+device. With :term:`{+sync+}`, you can share updates to that data across
+client devices and {+atlas+}.
+
+For information about the structure of data you can store in {+realms+},
+see :ref:`Realms <dotnet-realms>`, :ref:`Objects
+<dotnet-realm-objects>`, and :ref:`Relationships
+<dotnet-client-relationships>`.
+
+To learn about the results returned from {+realm+} queries, see
+:ref:`Collections <android-client-collections>`.
+
+Work with Realm Database
+------------------------
+
+Once you have defined a data model for your application, you
+need to be able to :ref:`write <dotnet-realm-database-writes>` and
+:ref:`read <dotnet-realm-database-reads>` pieces of data to and from
+your {+realm+}s.
+
+To learn how to query for data in local {+realms+}, see
+:ref:`Query Engine <dotnet-client-query-engine>`.
+
+For advice on how to safely interact with {+client-database+} across
+threads in an application, see :ref:`Threading
+<dotnet-client-threading>`.
+
+For information about how to react to changes in {+realm+} data, see
+:ref:`Notifications <dotnet-client-notifications>`.
+
+Work with MongoDB Realm
+-----------------------
+
+The .NET SDK also connects your {+service-short+} client application
+with your {+app+}'s backend services, including Functions, Services,
+Webhooks, {+sync+}, and built-in third-party authentication.
+
+To learn how to connect to a {+backend+} app to call
+Functions, query data in an instance of {+atlas+}, and synchronize data
+in {+realms+}, see :doc:`Call a Function </functions/call-a-function>`.
+
+To learn how to handle schema updates in your client application, see
+:ref:`Migrations <android-client-migrations>`.
 
 .. toctree::
    :titlesonly:
-   :caption: Get Started
+   :caption: The Realm Data Model
+   :hidden:
 
-   Install Realm for C#/.NET and Xamarin </get-started/install-dotnet>
+   Collections </dotnet/collections>
+   Notifications </dotnet/notifications>
    Realms </dotnet/realms>
    Objects </dotnet/objects>
    Relationships </dotnet/relationships>
+
+.. toctree::
+   :titlesonly:
+   :caption: Work with Realm Database
+   :hidden:
+
+   Threading </dotnet/threading>
    Reads </dotnet/reads>
    Writes </dotnet/writes>
    Query Engine </dotnet/query-engine>
-   Collections </dotnet/collections>
-   Notifications </dotnet/notifications>
-   Threading </dotnet/threading>
+
+.. toctree::
+   :titlesonly:
+   :caption: Work with MongoDB Realm
+   :hidden:
+
+   Call a Function </functions/call-a-function>
+
+.. toctree::
+   :titlesonly:
+   :caption: Reference
+   :hidden:
+
    Migrations </dotnet/migrations>
    Auxiliary Files </dotnet/auxiliary-files>
+   Platform and Framework Compatibility </dotnet/compatibility>
    

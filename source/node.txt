@@ -1,19 +1,103 @@
-===========
-Node.js SDK
-===========
+.. _node-intro:
+
+=========================
+MongoDB Realm Node.js SDK
+=========================
+
+The {+service+} Node.js SDK enables server-side
+client applications to access data stored in local {+realms+}
+and interact with {+backend+} services like Functions, MongoDB Data
+Access, and authentication. The Node.js SDK supports both Javascript and
+Typescript applications.
+
+.. note::
+
+   The Node.js SDK does not support Javascript or Typescript applications
+   written for web browsers or React Native mobile apps. For those use
+   cases, you should consider the :ref:`Browser SDK <browser-intro>` and
+   the :ref:`React Native SDK <react-native-intro>`.
+
+Installation
+------------
+
+To learn how to add the {+service+} Node.js SDK library as a dependency
+to your application, see :ref:`Install Realm for Node.js
+<node-install>`.
+
+The Realm Data Model
+--------------------
+
+You can store a wide variety of data within {+realms+} stored on your
+client. With :term:`{+sync+}`, you can share updates to that data across
+clients and {+atlas+}.
+
+For information about the structure of data you can store in {+realms+},
+see :ref:`Realms <node-realms>`, :ref:`Objects
+<node-realm-objects>`, and :ref:`Relationships
+<node-client-relationships>`.
+
+To learn about the results returned from {+realm+} queries, see
+:ref:`Collections <node-client-collections>`.
+
+Work with Realm Database
+------------------------
+
+Once you have defined a data model for your application, you
+need to be able to :ref:`write <node-realm-database-writes>` and
+:ref:`read <node-realm-database-reads>` pieces of data to and from
+your {+realm+}s.
+
+To learn how to query for data in local {+realms+}, see
+:ref:`Query Engine <node-client-query-engine>`.
+
+For information about how to react to changes in {+realm+} data, see
+:ref:`Notifications <node-client-notifications>`.
+
+Work with MongoDB Realm
+-----------------------
+
+The Node.js SDK also connects your {+service-short+} client application
+with your {+app+}'s backend services, including Functions, Services,
+Webhooks, {+sync+}, and built-in third-party authentication.
+
+To learn how to connect to a {+backend+} app to call
+Functions, query data in an instance of {+atlas+}, and synchronize data
+in {+realms+}, see :doc:`Call a Function </functions/call-a-function>`.
+
+To learn how to handle schema updates in your client application, see
+:ref:`Migrations <node-client-migrations>`.
 
 .. toctree::
    :titlesonly:
-   :caption: Get Started
+   :caption: The Realm Data Model
+   :hidden:
 
-   Install Realm for Node.js </get-started/install-node>
+   Collections </node/collections>
+   Notifications </node/notifications>
    Realms </node/realms>
    Objects </node/objects>
    Relationships </node/relationships>
+
+.. toctree::
+   :titlesonly:
+   :caption: Work with Realm Database
+   :hidden:
+
    Reads </node/reads>
    Writes </node/writes>
    Query Engine </node/query-engine>
-   Collections </node/collections>
-   Notifications </node/notifications>   
-   Migrations </node/migrations>   
+
+.. toctree::
+   :titlesonly:
+   :caption: Work with MongoDB Realm
+   :hidden:
+
+   Call a Function </functions/call-a-function>
+
+.. toctree::
+   :titlesonly:
+   :caption: Reference
+   :hidden:
+
+   Migrations </node/migrations>
    Auxiliary Files </node/auxiliary-files>
