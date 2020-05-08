@@ -41,8 +41,9 @@ Query Options
 -------------
 
 {+service-short+} supports all query options in :ref:`system functions
-<function-system-user>`. {+service-short+} does not support certain options for
-CRUD operations run from :ref:`user functions <function-active-user>`.
+<function-system-user>` except ``distinct()``. {+service-short+} does
+not support certain options for CRUD operations run from
+:ref:`user functions <function-active-user>`.
 For a list of specific options that are available when you connect to
 MongoDB through {+service-short+}, see :ref:`Query Options
 <mongodb-crud-and-aggregation-apis-query-options>`.
@@ -54,13 +55,15 @@ Aggregation
 
 {+service-short+} supports all :manual:`aggregation pipeline
 stages </reference/operator/aggregation-pipeline/>` in
-:ref:`system functions <function-system-user>`. {+service-short+} does not support
-some aggregation pipeline stages when you :doc:`run
-an aggregation pipeline </mongodb/run-aggregation-pipelines>` in a
-:ref:`user function <function-active-user>`. For a list of
-pipeline stages that are available when you connect to MongoDB through
-{+service-short+}, see :ref:`Aggregation
-<mongodb-crud-and-aggregation-apis-aggregation>`.
+:ref:`system functions <function-system-user>` except for ``$currentOp``
+and ``$indexStats``.
+
+In :ref:`user functions <function-active-user>`, supported
+:doc:`aggregation pipeline stages </mongodb/run-aggregation-pipelines>` are
+reduced for security reasons.
+
+For a list of pipeline stages that are available and their allowed function
+context, see :ref:`Aggregation <mongodb-crud-and-aggregation-apis-aggregation>`.
 
 .. _mongodb-service-limitations-transactions:
 

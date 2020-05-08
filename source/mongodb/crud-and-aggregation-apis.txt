@@ -496,7 +496,8 @@ Aggregation
 stages </reference/operator/aggregation-pipeline/>` when you :doc:`run
 an aggregation pipeline </mongodb/run-aggregation-pipelines>` in the
 context of an :ref:`application user <user-accounts>`. All aggregation
-pipeline stages are available to the system user.
+pipeline stages are available to the system user except ``$indexStats``
+and ``$currentOp``.
 
 Aggregation Pipeline Stage Availability
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -516,7 +517,7 @@ Aggregation Pipeline Stage Availability
 
    * - :manual:`$currentOp </reference/operator/aggregation/currentOp/>`
      - No
-     - Yes
+     - No
 
    * - :manual:`$lookup </reference/operator/aggregation/lookup/>`
      - No
@@ -528,7 +529,7 @@ Aggregation Pipeline Stage Availability
 
    * - :manual:`$indexStats </reference/operator/aggregation/indexStats/>`
      - No
-     - Yes
+     - No
 
    * - :manual:`$facet </reference/operator/aggregation/facet/>`
      - No
