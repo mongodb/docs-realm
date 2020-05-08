@@ -25,7 +25,9 @@ content: |
      .. tab::
          :tabid: swift
 
-         Add the line ``pod 'RealmSwift'`` to your main and test
+         Set the iOS version to 12.0.
+         
+         Add the line ``pod 'RealmSwift', '=10.0.0-alpha.4'`` to your main and test
          targets.
 
          Add the line ``use_frameworks!`` as well if it is not
@@ -34,22 +36,21 @@ content: |
          When done, your Podfile should look something like this:
 
          .. code-block:: text
-            :emphasize-lines: 6, 9, 14
+            :emphasize-lines: 1, 5, 8, 13
 
-            # Uncomment the next line to define a global platform for your project
-            # platform :ios, '9.0'
+            platform :ios, '12.0'
 
             target 'MyRealmProject' do
             # Comment the next line if you don't want to use dynamic frameworks
             use_frameworks!
 
             # Pods for MyRealmProject
-            pod 'RealmSwift'
+            pod 'RealmSwift', '=10.0.0-alpha.4'
 
             target 'MyRealmProjectTests' do
                inherit! :search_paths
                # Pods for testing
-               pod 'RealmSwift'
+               pod 'RealmSwift', '=10.0.0-alpha.4'
             end
 
             end
