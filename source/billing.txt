@@ -1,0 +1,365 @@
+=======
+Billing
+=======
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+{+service+} applications are billed according to how much they're used on a
+monthly basis. There are four independently measured usage types that determine
+how much you pay each month:
+
+- :ref:`Realm Requests <billing-requests>`, which measures the number of
+  incoming queries, function executions, and sync updates.
+
+- :ref:`Realm Compute <billing-compute>`, which measures the runtime and memory
+  usage of all requests excluding sync and authentication.
+
+- :ref:`Realm Sync <billing-sync>`, which measures the total amount of time in
+  which a client application is actively syncing.
+
+- :ref:`Data Transfer <billing-data-transfer>`, which measures the amount of
+  data that {+service+} sends to external services and client applications.
+
+.. admonition:: Track Your Usage
+   :class: note
+   
+   You can track an application's usage for the current month from the
+   application dashboard in the {+ui+}.
+
+Monthly Free Tier
+~~~~~~~~~~~~~~~~~
+
+All {+service+} apps in an Atlas organization share a single monthly free tier.
+All usage below the free tier thresholds in a given month is not billed. Once
+the sum of all application usage in an organization exceeds a free tier usage
+threshold, {+service-short+} immediately begins to bill for any additional
+usage.
+
+{+service+} is free to use below the following monthly free tier thresholds:
+
+- 1,000,000 :ref:`requests <billing-requests>` **or** 500 hours of combined
+  :ref:`compute <billing-compute>` and :ref:`sync <billing-sync>` runtime
+  (whichever occurs first)
+
+- 10GB of :ref:`data transfer <billing-data-transfer>`
+
+Invoicing and Payment
+~~~~~~~~~~~~~~~~~~~~~
+
+{+service+} is billed as part of MongoDB Atlas. All payment methods that work
+with Atlas can be used to pay for {+service-short+}, including prepaid Atlas
+Credits. Any costs associated with a linked Atlas cluster, such as database
+operations and backup, are billed separately from {+service-short+}.
+
+See :ref:`MongoDB Atlas Billing <atlas-billing>` for more information.
+
+Usage Types
+-----------
+
+.. _billing-requests:
+
+Realm Requests
+~~~~~~~~~~~~~~
+
+{+service-short+} counts the number of requests that an application receives and
+handles. Requests are billed at a set rate for each request. There are three
+primary types of request:
+
+- **Function Executions**, such as when a user calls a function from a client
+  app or when an external service calls an incoming webhook. If an executing
+  function calls another function, {+service-short+} considers both executions
+  as part of the same request. Authentication provider functions do not count
+  towards your monthly usage.
+
+- **Trigger Executions**, such as when a database trigger matches a change event
+  or when a scheduled trigger is configured to fire.
+
+- **Sync Updates**, such as when a client application sends a sync changeset to
+  {+service+} or when {+service-short+} sends a sync changeset to a connected
+  sync client. Each sync changeset that {+service-short+} sends or receives to a
+  given client is considered a separate request.
+
+**Price:** $2.00 / 1,000,000 requests ($0.000002 / request)
+
+**Formula:** (Function Executions + Trigger Executions + Sync Updates) * $0.000002
+
+**Free Tier Threshold:** 1,000,000 requests **or** 500 hours of combined
+:ref:`compute <billing-compute>` and :ref:`sync <billing-sync>` runtime.
+
+.. admonition:: Estimate Your Usage
+   :class: admonition-example
+   
+   Consider answering the following questions to help estimate the number of
+   requests that your application will receive each month.
+   
+   **Triggers**
+   
+   - How many times does this trigger execute each month?
+   
+   **Functions/GraphQL**
+   
+   - How many requests do you receive each user session?
+   - How many monthly active users does your app have?
+   - How many sessions does an average user open each month?
+   
+   **Realm Sync Requests**
+   
+   - How many write operations do users issue each session?
+   - How many updates do users receive each session?
+   - How many devices or active users do you have?
+
+.. _billing-compute:
+
+Realm Compute
+~~~~~~~~~~~~~
+
+{+service-short+} counts the total amount of time and memory that each non-sync
+application request takes to process. Compute is billed at a set rate for each
+millisecond of runtime. For large requests, this rate is multiplied by a factor
+that reflects the amount of memory the request used.
+
+The memory multiplier begins at 1 (i.e. it does not affect your billing rate)
+and increases by 1 for every 32MB of memory that a given request uses.
+
+**Price:** $10.00 / 500 runtime hours (~$0.000000005 / ms)
+
+**Formula:** (# Requests) * (Runtime (ms)) * (Memory (MB) / 32MB) * $0.000000005 / ms
+
+**Free Tier Threshold:** 1,000,000 :ref:`requests <billing-requests>` **or** 500
+hours of combined compute and :ref:`sync <billing-sync>` runtime.
+
+.. admonition:: Estimate Your Usage
+   :class: admonition-example
+   
+   Consider answering the following questions to help estimate the amount of
+   compute time that your application will use each month.
+   
+   **Runtime**
+
+   - How many sessions does a user open each month?
+   - How many requests do you receive each session?
+   - How long does each request take?
+   - What does each request do?
+   - How many requests do you make to MongoDB Atlas or another service?
+   - Does a request handle heavy data processing? 
+   
+   **Memory Usage**
+   
+   - How much in-memory data does your application process for each request?
+   - How many MongoDB documents does a request affect?
+
+.. _billing-sync:
+
+Realm Sync
+~~~~~~~~~~
+
+{+service-short+} counts the total amount of time in which a client application
+user is actively syncing data. Sync is billed at a set rate for each millisecond
+of sync runtime per user.
+
+**Price:** $0.08 / 1,000,000 runtime minutes ($0.00000008 / ms)
+
+**Formula:** (# Active Users) * (Sync time (ms / user)) * ($0.00000008 / ms)
+
+**Free Tier Threshold:** 1,000,000 :ref:`requests <billing-requests>` **or** 500
+hours of combined :ref:`compute <billing-compute>` and sync runtime.
+
+.. admonition:: Estimate Your Usage
+   :class: admonition-example
+   
+   Consider answering the following questions to help estimate the amount of
+   sync time that your application will use each month.
+
+   **Sync Sessions**
+   
+   - How many monthly active users does your app have?
+   - How much time is an average user online each month?
+
+.. _billing-data-transfer:
+
+Data Transfer
+~~~~~~~~~~~~~
+
+{+service-short+} measures the total amount of data that your application sends
+out to client applications and external services. Data transfer is billed at a
+set rate for each gigabyte of data egress.
+
+**Price:** $0.12 per GB
+
+**Formula:** (Data sent to clients/services (GB)) * ($0.12 / GB)
+
+**Free Tier Threshold:** 10GB
+
+.. admonition:: MongoDB Atlas Data Transfer
+   :class: note
+   
+   {+service+} does not bill for data transfer to and from a linked MongoDB
+   Atlas cluster.
+
+.. admonition:: Estimate Your Usage
+   :class: admonition-example
+   
+   Consider answering the following questions to help estimate the amount of
+   data that your application will transfer each month.
+   
+   **Data Transfer**
+   
+   - How many updates/requests does an average user issues each month? 
+   - How much data is sent to users per update/request?
+   - How often is data sent to external services?
+   - How much data might be sent in each external service call?
+
+Examples
+--------
+
+Mobile Application
+~~~~~~~~~~~~~~~~~~
+
+Consider the following use case:
+
+    "I want to create a mobile app for workers in our stores using Realm Sync.
+    The application will contain data about our inventory, and be used to track
+    inventory quantity and sales. Our catalogue has about 1,000 updates a day
+    which need to get sent to all stores and each device in a store probably
+    processes about 500 sales a day (writing to the backend). All updates are
+    small, less than 4KB. We have 10,000 stores and each will have 3 devices
+    that are expected to be actively used ~50% of the time during business hours
+    (6am – 9pm daily)."
+
+The following calculations approximate the cost of running this application for
+one year:
+
+.. cssclass:: config-table
+.. list-table::
+   :header-rows: 1
+   :widths: 20 80
+   
+   * - Usage Type
+     - Calculation
+
+   * - :ref:`Realm Requests <billing-requests>`
+     - - (1,000 reads / day + 500 writes / day) * 30,000 devices = 45,000,000 requests / day
+       
+       - (45,000,000 requests / day) * ($0.000002 / request) = $90 / day
+       
+       - ($90 / day) * (365 days / year) = **$32,850 / year**
+
+   * - :ref:`Realm Sync <billing-sync>`
+     - - (30,000 devices) * (50% activity / device) * (15 hrs / day) = 225,000 active hrs / day
+       
+       - (225,000 hrs / day) * (60 mins / hr) * (365 days / year) = 4,927,500,000 mins / year
+       
+       - (4,927,500,000 mins / year) * ($0.00000008 / min) = **$394 / year**
+
+   * - :ref:`Data Transfer <billing-data-transfer>`
+     - - (1,000 reads / device day) * (30,000 devices) = 30,000,000 reads / day
+       
+       - (30,000,000 reads / day) * (0.000004 GB / read) = 120 GB / day
+       
+       - (120 GB / day) * (365 days / year) * ($0.12 / GB) = **$5,256 / year**
+
+   * - **TOTAL**
+     - $32,850 (requests) + $394 (sync) + $5,256 (data transfer) = **$38,500 / year**
+
+Web Application
+~~~~~~~~~~~~~~~
+
+Consider the following use case:
+
+    "I want to create a retail website using Realm’s GraphQL Service. On my site
+    the GraphQL API will fetch items from a users search, detailed information
+    on an item, and submit an order.  In an average session we expect a user to
+    do 5 searches, look at 20 items, and submit an order 25% of the time.  These
+    calls are all pretty small and we don’t expect any of them to be more than
+    4KB.  We expect about 5 million user sessions per month, but in November and
+    December we expect it to be 30 million sessions each."
+
+The following calculations approximate the cost of running this application for
+one year:
+
+.. cssclass:: config-table
+.. list-table::
+   :header-rows: 1
+   :widths: 20 80
+   
+   * - Usage Type
+     - Calculation
+
+   * - :ref:`Realm Requests <billing-requests>`
+     - - 5 Searches + 20 Items + .25 Purchases = 25.25 requests / session
+       
+       - (5,000,000 sessions * 10 + 30,000,000 sessions * 2) = 110,000,000 sessions / year
+       
+       - (25.25 requests / session) * (110,000,000 sessions / year) = 2,777,500,000 requests / year
+       
+       - (2,777,500,000 requests / yr) * ($0.000002 / request) = **$5,555 / year**
+
+   * - :ref:`Realm Compute <billing-compute>`
+     - - (2,777,500,000 requests / year) * (100 ms / request) * 1 = 277,750,000,000 ms / year
+         
+         - *100 ms is a conservative runtime estimate for lightweight functions*
+         - *4KB is well under 32MB, so the memory multiplier is 1*
+       
+       - (277,750,000,000 ms / year) * ($0.000000005 / ms) = **$1389 / year**
+
+   * - :ref:`Data Transfer <billing-data-transfer>`
+     - - (2,777,500,000 requests / year) * (0.000004 GB / request) = 11,110 GB / year
+       
+       - (11,110 GB / year) * ($0.12 / GB) = **$1,333 / year**
+
+   * - **TOTAL**
+     - $5,555 (requests) + $1,389 (compute) + $1,333 (data transfer) = **$8,277 / year**
+
+Backend Application
+~~~~~~~~~~~~~~~~~~~
+
+Consider the following use case:
+
+    "I want to create a Realm Trigger that responds when there is a new order in
+    our system. It will update Inventory, Log the sale, and send a receipt to
+    the customer. It will deal with a single record at a time so the data size
+    will be small (Let’s say ~4KB). We anticipate that there will be about 10
+    million sales each month."
+
+The following calculations approximate the cost of running this application for
+one year:
+
+.. cssclass:: config-table
+.. list-table::
+   :header-rows: 1
+   :widths: 20 80
+   
+   * - Usage Type
+     - Calculation
+
+   * - :ref:`Realm Requests <billing-requests>`
+     - - (10,000,000 requests / month) * (12 months / year) = 120,000,000 requests / year
+       
+       - (120,000,000 requests / year) * ($0.000002 / request) = **$240 / year**
+
+   * - :ref:`Realm Compute <billing-compute>`
+     - - (120,000,000 requests / year) * (300 ms / request) * 1 = 36,000,000,000 ms / year
+         
+         - *300 ms is a runtime estimate for the trigger function. To get a
+           better esimate, create a POC function and test how long it takes to
+           connect to external services, etc.*
+         - *4KB is well under 32MB, so the memory multiplier is 1*
+       
+       - (36,000,000,000 ms / year) * ($0.000000005 / ms) = **$180 / year**
+
+   * - :ref:`Data Transfer <billing-data-transfer>`
+     - - (120,000,000 requests / year) * (0.000004 GB / request) = 480 GB / year
+       
+       - (480 GB / year) * ($0.12 / GB) = **$58 / year**
+
+   * - **TOTAL**
+     - $240 (requests) + $180 (compute) + $58 (data transfer) = **$478 / year**
