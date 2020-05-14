@@ -26,12 +26,12 @@ content: |
          :tabid: swift
 
          Set the iOS version to 12.0.
+
+         Add the line ``use_frameworks!`` if it is not
+         already there.
          
          Add the line ``pod 'RealmSwift', '=10.0.0-alpha.4'`` to your main and test
          targets.
-
-         Add the line ``use_frameworks!`` as well if it is not
-         already there.
 
          When done, your Podfile should look something like this:
 
@@ -41,17 +41,12 @@ content: |
             platform :ios, '12.0'
 
             target 'MyRealmProject' do
-            # Comment the next line if you don't want to use dynamic frameworks
-            use_frameworks!
+              # Comment the next line if you don't want to use dynamic frameworks
+              use_frameworks!
 
-            # Pods for MyRealmProject
-            pod 'RealmSwift', '=10.0.0-alpha.4'
+              # Pods for MyRealmProject
+              pod 'RealmSwift', '=10.0.0-alpha.4'
 
-            target 'MyRealmProjectTests' do
-               inherit! :search_paths
-               # Pods for testing
-               pod 'RealmSwift', '=10.0.0-alpha.4'
-            end
 
             end
 
@@ -104,4 +99,3 @@ content: |
    file has all of the dependencies configured. From now on,
    open this file -- not the ``.xcodeproj`` file -- to work
    on your project.
-
