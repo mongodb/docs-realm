@@ -66,7 +66,11 @@ directly in code.
 
    class Task: Object {
        @objc dynamic var _id: ObjectId = ObjectId.generate()
+
+       // When configuring Sync, we selected `_partition` as the partition key.
+       // A partition key is only required if you are using Sync.
        @objc dynamic var _partition: String = ""
+
        @objc dynamic var name: String? = nil
        @objc dynamic var complete = false
 
@@ -84,7 +88,10 @@ directly in code.
 Authenticate a User
 -------------------
 
-If you have enabled :ref:`anonymous authentication <anonymous-authentication>`, you can log in anonymously to your app:
+Anonymous Authentication
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+When you have enabled :ref:`anonymous authentication <anonymous-authentication>` in the {+ui+}, users can immediately log into your app without providing any identifying information:
 
 .. code-block:: swift
 
@@ -102,9 +109,11 @@ If you have enabled :ref:`anonymous authentication <anonymous-authentication>`, 
         }
     }
 
+Email/Password Authentication
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-If you have enabled :ref:`email/password authentication
-<email-password-authentication>`, you can register a new user with an email and
+When you have enabled :ref:`email/password authentication
+<email-password-authentication>` in the {+ui+}, you can register a new user with an email and
 password:
 
 .. code-block:: swift
@@ -114,8 +123,7 @@ password:
      // Registering just registers. You can now log in.
    }
 
-If you have enabled :ref:`email/password authentication
-<email-password-authentication>`, you can log in with email and password:
+And you can log in with:
 
 .. code-block:: swift
 
