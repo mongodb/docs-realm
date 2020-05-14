@@ -2,7 +2,9 @@
 title: Create a New iOS Project
 ref: create-a-new-ios-project
 content: |
-  Open Xcode and create a new iOS Project. Use the "Single View App" template. Enter your project details and save.
+  Open Xcode and create a new iOS Project. Use the "Single View App" template.
+  Enter your project details, select "Storyboard" for user interface, deselect
+  "Include Unit Tests", and save.
 ---
 title: Confirm That Your App Runs
 ref: confirm-that-your-app-runs
@@ -29,7 +31,7 @@ content: |
 
   - Set the iOS version to 12.0.
   - Add the line ``use_frameworks!`` if it is not already there.
-  - Add the line ``pod 'RealmSwift', '=10.0.0-alpha.4'`` to your main and test targets.
+  - Add the line ``pod 'RealmSwift', '=10.0.0-alpha.4'`` to your main target.
 
   When done, your Podfile should look something like this:
 
@@ -45,12 +47,6 @@ content: |
           # Pods for TaskTracker
           pod 'RealmSwift', '=10.0.0-alpha.4'
 
-          target 'TaskTrackerTests' do
-            inherit! :search_paths
-            # Pods for testing
-            pod 'RealmSwift', '=10.0.0-alpha.4'
-          end
-
         end
 
   Save your changes, then run the following command from the terminal window to download the required packages and create an Xcode workspace that is configured:
@@ -59,9 +55,15 @@ content: |
 
      pod install --repo-update
 
-  Open the Xcode workspace file that CocoaPods just created to continue working on your project. For example, you can run ``open TaskTracker.xcworkspace`` from the command line.
-  Build and run the project again to verify that everything is configured correctly.
-
+  Open the Xcode workspace file that CocoaPods just created to continue working
+  on your project. For example, you can run ``open TaskTracker.xcworkspace``
+  from the command line.
+---
+title: Build and Run the Project So Far
+ref: build-and-run-the-project-so-far
+content: |
+  Build and run the project again to verify that everything is configured
+  correctly.
 ---
 title: Remove Unnecessary UI Files
 ref: remove-unnecessary-files
@@ -112,9 +114,9 @@ content: |
      }
 
      let app = RealmApp(Constants.REALM_APP_ID, configuration: AppConfiguration(baseURL: Constants.REALM_BASE_URL,
-        transport: nil,
-        localAppName: nil,
-        localAppVersion: nil))
+         transport: nil,
+         localAppName: nil,
+         localAppVersion: nil))
 
   Replace ``Realm app ID here`` with your {+app+} ID, which
   you can find in the {+ui+}. You can leave REALM_BASE_URL
@@ -626,7 +628,7 @@ content: |
   created earlier. In the completion handler, we dispatch to
   the main thread so that we can navigate back to the welcome screen.
 ---
-title: Implement the UITableViewDelegate and UITableViewDataSource protocols
+title: Implement the UITableViewDelegate and UITableViewDataSource Protocols
 ref: implement-delegate-protocols
 content: |
   In order to act as the table view delegate and data source
