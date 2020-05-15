@@ -31,7 +31,7 @@ Local Migration
 ~~~~~~~~~~~~~~~
 
 A **local migration** is a migration for a {+realm+} that does
-not automatically :doc:`{+sync-short+} </sync/sync-overview>` with
+not automatically :doc:`{+sync-short+} </sync>` with
 another {+realm+}. Local migrations have access to the existing
 {+backend-schema+}, version, and objects and define logic that
 incrementally updates the {+realm+} to its new schema version.
@@ -98,7 +98,7 @@ Synced Migration
 ~~~~~~~~~~~~~~~~
 
 A **synced migration** is a migration for a {+realm+} that
-automatically :doc:`{+sync-short+}s </sync/sync-overview>` with
+automatically :doc:`{+sync-short+}s </sync>` with
 another remote {+realm+}. {+client-database+} automatically handles all
 synced schema migrations and does not allow you to specify a
 migration function.
@@ -161,7 +161,7 @@ Summary
 
 - {+service+} allows you to specify migration functions for
   **local migrations**, i.e. migrations where the {+realm+} is not
-  :doc:`synced </sync/sync-overview>` with {+backend+}.
+  :doc:`synced </sync>` with {+backend+}.
 
 - {+service+} automatically handles **synced migration**, i.e. migrations
   where the {+realm+} is synced. {+service+} does not allow migration

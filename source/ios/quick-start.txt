@@ -19,7 +19,7 @@ This page contains information to quickly get {+client-database+}
 integrated into your app. Before you begin, ensure you have:
 
 - :ref:`Created a {+app+} <create-a-realm-app>`
-- :ref:`Enabled {+sync+} <sync>`
+- :ref:`Enabled {+sync+} <enable-sync>`
 - :ref:`Installed the iOS SDK <ios-install>`
 
 Import Realm
@@ -31,6 +31,8 @@ statement:
 .. code-block:: swift
 
    import RealmSwift
+
+.. _ios-quick-start-init-app:
 
 Initialize the App
 ------------------
@@ -54,7 +56,7 @@ access your {+app+} using your {+app+} ID. You can find your {+app+} ID in the
 Define Your Object Model
 ------------------------
 
-If have not enabled {+sync+} or you enabled {+sync-short+} with :term:`Developer
+If have not :ref:`enabled {+sync+} <enable-sync>` or you enabled {+sync-short+} with :term:`Developer
 Mode` in the {+ui+}, you can define your :ref:`object model <ios-realm-objects>`
 directly in code.
 
@@ -84,6 +86,8 @@ directly in code.
            self.name = name
        }
    }
+
+.. _ios-quick-start-authenticate:
 
 Authenticate a User
 -------------------
@@ -143,14 +147,16 @@ And you can log in with:
 Open a Realm
 ------------
 
-Once authenticated, you can open a synced :ref:`{+realm+} <ios-realms>`:
+Once you have :ref:`enabled {+sync+} <enable-sync>` and authenticated a user, you can open a synced :ref:`{+realm+} <ios-realms>`:
 
 .. code-block:: swift
 
+   let user = app.currentUser()s
    let partitionValue = "myPartition"
    realm = try! Realm(configuration: user.configuration(partitionValue: partitionValue))
 
-The :ref:`partition value <partitioning>` specifies which subset of your data to sync. This is typically a user ID, project ID, store ID, or some other category identifier in your app that has particular relevance to the current user.
+.. seealso:: :ref:`Sync Data <ios-sync-data>`
+
 
 Create, Read, Update, and Delete Objects
 ----------------------------------------
