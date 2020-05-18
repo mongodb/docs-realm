@@ -92,12 +92,14 @@ types of request:
   GraphQL query operation or calls a custom resolver.
 
 - **Webhook Requests**, such as when an external service sends a notification
-  event or interaction payload to an incoming webhook.
+  event or interaction payload to an incoming webhook URL.
 
-- **Sync Writes/Updates**, such as when a client application sends a sync
-  changeset to {+service+} or when {+service-short+} sends a sync changeset to a
-  connected sync client. Each sync changeset that {+service-short+} sends or
-  receives to a given client is considered a separate request.
+- **Sync Operations**, such as when a client application modifies a synced
+  {+realm+} or when {+service-short+} sends a sync changeset to a connected sync
+  client. Each sync changeset that {+service-short+} sends to or receives from a
+  given client is considered a separate request. Sync conflict resolutions are
+  considered a separate request from the write operations that caused the
+  conflict.
 
 **Price:** $2.00 / 1,000,000 requests ($0.000002 / request)
 
@@ -126,7 +128,7 @@ types of request:
    
    - How many write operations do users issue each session?
    - How many updates do users receive each session?
-   - How many devices or active users do you have?
+   - How many devices or active users does your app have?
 
 .. _billing-compute:
 
@@ -352,14 +354,14 @@ one month:
        - (93,848,000 ms) * ($0.000000005 / ms) = **$0.47**
 
    * - :ref:`Data Transfer <billing-data-transfer>`
-     - - (1,220,000 requests) * (0.000004 GB / request) = 504 GB
+     - - (1,220,000 requests) * (0.000002 GB / request) = 4.88 GB
        
-       - (504 GB) - (10 free tier GB) = 494 GB
+       - (4.88 GB) - (10 free tier GB) = 0GB
        
-       - (494 GB) * ($0.12 / GB) = **$59.28**
+       - (0GB) * ($0.12 / GB) = **FREE**
 
    * - **TOTAL**
-     - $0.44 (requests) + $0.47 (compute) + $59.28 (data transfer) = **$60.19 / month**
+     - $0.44 (requests) + $0.47 (compute) + $0 (data transfer) = **$0.91 / month**
 
 .. admonition:: Free Tier Usage
    :class: note
@@ -385,7 +387,7 @@ Backend Application
 A regional pizza chain uses MongoDB Realm to handle orders for all of its
 restaurants. The app has the following usage:
 
-- The chain has 20 stores and each store gets about 10,000 orders each month
+- The chain has 25 stores and each store gets about 12,000 orders each month
 
 - For each order, a database trigger sends the customer an email receipt.
   Another trigger sends text message updates to the customer when their order is
