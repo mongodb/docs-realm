@@ -83,7 +83,7 @@ authentication endpoints accept valid user credentials in the body of a
          .. code-block:: shell
             :emphasize-lines: 4
          
-            curl --location --request POST 'https://realm.mongodb.com/api/client/v2.0/app/myapp-abcde/auth/providers/oauth2-google/login' \
+            curl --location --request POST 'https://realm.mongodb.com/api/client/v2.0/app/myapp-abcde/auth/providers/api-key/login' \
               --header 'Content-Type: application/json' \
               --data-raw '{
                 "key": "hScMWZyOKnjQMbfDPMJ1qHgtdGT2raQXdVDDvlC2SzKEBKlHKV8FK9SPCSTnODPg"
