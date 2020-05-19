@@ -1,38 +1,14 @@
-title: Configure ``Realm Sync``
-ref: configure-sync
-content: |
-
-  While working with your Realm Object Model in MongoDB Realm, you want your
-  Realm Schema to update with any changes that you make. To do this, you must
-  enable :doc:`sync </sync>` for your application. In order to map fields from
-  MongoDB Documents to Realm Objects to use with your mobile application, you
-  also need to define a :doc:`partition key </sync/partitioning>`.
-
-  To enable sync, click :guilabel:`Sync` in the left-hand navigation. Select the
-  linked cluster that should store the synced data for your application. Then
-  define a :ref:`partition key <choose-a-partition-key>`. Finally, :doc:`Define
-  your sync rules </sync/rules>`.
-
----
-title: Enable ``Development Mode``
+title: Enable Sync with ``Development Mode``
 ref: enable-development-mode
 content: |
+  First, ensure you have :ref:`enabled sync <enable-sync>` with
+  :guilabel:`Development Mode` on.
 
-  You can alter or create a Realm Object Model through your mobile
-  client SDK. Changes to your Realm Object Model will only be allowed
-  when :guilabel:`Development Mode` is on in the MongoDB Realm UI.
-  MongoDB Realm will reflect these changes to your Realm Object Model in
-  your Realm Schema used for Atlas.
-
-  To enable :guilabel:`Development
-  Mode`, navigate to the ``SDKs`` page, the "Development Mode is ON"
-  modal appears immediately, indicating that Realm Object Model
-  changes from your mobile client are now allowed.
-
-  .. figure:: /images/enable-schema-development-mode.png
-     :width: 750px
-     :lightbox:
-
+  You can alter or define a Realm Object Model through your mobile client SDK.
+  Changes to your Realm Object Model are only allowed when
+  :guilabel:`Development Mode` is on in the MongoDB Realm UI. MongoDB Realm will
+  reflect these changes to your Realm Object Model in your Realm Schema used for
+  Atlas.
 ---
 title: Edit Your Realm Object Model
 ref: edit-realm-object-model

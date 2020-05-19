@@ -30,11 +30,12 @@ You can enable {+sync-short+} on any {+app+} you have :ref:`created <create-a-re
 
 .. note::
 
-   With {+sync+} enabled, {+backend-short+} creates a copy of all data from collections with 
-   a defined :ref:`JSON schema <mongodb-schemas>` in your :term:`Atlas cluster <linked cluster>`.
+   {+service-short+} syncs all data from collections with a defined
+   :ref:`{+backend-schema+} <mongodb-schemas>` in your :term:`Atlas cluster <linked
+   cluster>`. If you do not specify a field in your schema, Realm will not sync that
+   field to the clients.
 
 .. include:: /includes/steps/enable-sync-ui.rst
-
 
 Why Use {+sync+}?
 -------------------

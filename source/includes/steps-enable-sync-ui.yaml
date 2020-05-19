@@ -16,8 +16,8 @@ content: |
   Select the :guilabel:`Configuration` tab if you want {+backend-short+} to
   generate the client-side object model code for you based on your :ref:`schemas
   <mongodb-schemas>`. {+backend+} can :ref:`generate schemas for you
-  <generate-a-schema>` based on data already in your cluster, or you can define
-  them yourself.
+  <create-rom-from-schema>` based on data already in your cluster, or you can
+  define them yourself.
 
   Select the :guilabel:`Development Mode` tab if you would rather define and
   modify your object model in client-side code.
@@ -27,21 +27,10 @@ ref: configure-sync
 content: |
   Follow the instructions in the {+ui+} to configure sync for your cluster.
 
-  **1. Select a Cluster to Sync:** {+sync+} applies to the entire cluster.
-  Specify which cluster you want to sync in the dropdown.
-
-  **2. Define a Database Name (Development Mode Tab Only):** If you opted to use
-  Development Mode, {+service-short+} needs to know which database in your cluster
-  to use for new collections it creates for sync. Specify that database name in
-  the input field.
-
-  **3. Choose a Partition Key:** Specify which field to use to determine which
-  {+realm+} each object belongs to. See :ref:`Partition Atlas Data into Realms
-  <partioning>`.
-
-  **4. Define Permissions (Configuration Tab Only):** Select a template from the
-  dropdown or enter your read and write :ref:`sync rules <sync-rules>` in the
-  input boxes.
+  1. Select a Cluster to Sync: {+sync+} applies to the entire cluster. Specify which cluster you want to sync in the dropdown.
+  #. Define a Database Name (Development Mode Tab Only): If you opted to use Development Mode, {+service-short+} needs to know which database in your cluster to use for new collections it creates for {+sync-short+}. Specify that database name in the input field.
+  #. Choose a Partition Key: Specify which field to use to determine which {+realm+} each object belongs to. See :ref:`Partition Atlas Data into Realms <partitioning>`.
+  #. Define Permissions (Configuration Tab Only): Select a template from the dropdown or enter your read and write :ref:`sync rule <sync-rules>` in the input boxes.
 ---
 title: Save the Configuration and Enable Sync
 ref: save-configuration-and-enable-sync
