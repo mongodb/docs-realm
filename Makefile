@@ -3,7 +3,7 @@ USER=$(shell whoami)
 STAGING_URL="https://docs-mongodborg-staging.corp.mongodb.com"
 PRODUCTION_URL="https://docs.mongodb.com/realm"
 STAGING_BUCKET=docs-mongodb-org-staging
-PRODUCTION_BUCKET=docs-mongodb-org-prod
+PRODUCTION_BUCKET=docs-cloud-realm-prod
 
 # "PROJECT" currently exists to support having multiple projects
 # within one bucket.
