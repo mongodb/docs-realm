@@ -34,7 +34,7 @@ authenticated user's ``configuration`` method:
 If it is the first time opening that particular {+realm+}, especially if it is a read-only
 realm, use the ``Realm.asyncOpen()`` method instead.
 
-.. admonition:: Why Use ``asyncOpen``?
+.. admonition:: Why Use asyncOpen?
    :class: note
 
    The ``Realm()`` initializer is convenient, but upon first open of a given {+realm+}, it
@@ -71,7 +71,7 @@ Sync Data
 
 The syntax to :ref:`read <ios-realm-database-reads>`, :ref:`write
 <ios-realm-database-writes>`, and :ref:`watch for changes <ios-client-notifications>` on a
-synced {+realm+} is identical to when using non-synced {+realms+}. While you work with
+synced {+realm+} is identical to the syntax for non-synced {+realms+}. While you work with
 local data, a background thread efficiently integrates, uploads, and downloads changesets.
 
 .. admonition:: When Using Sync, Avoid Writes on the Main Thread
