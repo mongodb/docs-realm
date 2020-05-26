@@ -50,8 +50,6 @@ To learn about the types and operations that you can use with the {+service-shor
 GraphQL API, see :doc:`GraphQL Types & Resolvers
 </graphql/types-and-resolvers>`.
 
-.. include:: /graphql/note-temporary-graphql-limitations.rst
-
 Why GraphQL?
 ------------
 
@@ -62,6 +60,18 @@ circumvents the need for multiple costly round trips to the server.
 
 To learn more about GraphQL, check out the :graphql:`official GraphQL
 tutorial <learn>`.
+
+Limitations
+-----------
+
+- The GraphQL API can process a maximum of ten resolvers for a given query or
+  mutation. If an operation specifies more than ten resolvers, the entire
+  operation will fail with the error message ``"max number of queries
+  reached"``.
+
+- The GraphQL API is in a public beta and does not currently support GraphQL
+  subscriptions. We plan to include support for subscriptions and other GraphQL
+  features in future releases.
 
 GraphQL Operations
 ------------------
