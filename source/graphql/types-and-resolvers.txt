@@ -78,6 +78,23 @@ is specified.
      cast: [String!]
    }
 
+.. _graphql-field-mapping:
+
+Field Mapping
+~~~~~~~~~~~~~
+
+{+service-short+} attempts to map fields in your collection schema directly to
+fields in your GraphQL types. The `definition of valid names
+<https://spec.graphql.org/June2018/#sec-Names>`__ described in the GraphQL spec
+does not support all possible valid document field names, so {+service-short+}
+applies the following transformation rules to determine field names in generated
+GraphQL types:
+
+- strip unsupported characters
+- strip leading numbers
+- convert to camel case
+- omit fields that begin with a double underscore (e.g. ``__myField``)
+
 .. _graphql-bson-type-mapping:
 
 BSON Type Mapping
