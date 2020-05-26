@@ -1,0 +1,149 @@
+.. _tutorial-task-tracker-web:
+
+==================
+Task Tracker (Web)
+==================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+In this tutorial, you'll build a functional web application backed by
+{+service+}.
+
+The app uses :reactjs:`React <>` and 
+
+We've already created a 
+
+We'll introduce things step-by-step.
+
+The goal of this tutorial is to guide you through
+setting up and deploying your first Gatsby site using a starter template. As we
+walk through that process, we’ll introduce some more general web development
+topics, and go over the underlying structure of a Gatsby site.
+
+In this first phase of the tutorial, you will create a task
+tracker app that allows users to:
+
+- Register themselves with email and password.
+- Sign in to their account with their email and password and sign out later.
+- View, create, modify, and delete tasks.
+
+This tutorial should take around 30 minutes.
+
+.. note::
+   
+   Want to get started right away with the frontend source code? Check out the
+   :github:`MongoDB Realm Tutorial on GitHub
+   <mongodb-university/realm-tutorial>`, which includes ready-to-compile source
+   code, then follow the instructions in README.md to get started. Don't forget
+   to update the AppDelegate.swift file with your {+app+} ID, which you can find
+   in the {+ui+}.
+
+Prerequisites
+-------------
+
+- :nodejs:`Node.js <>`
+
+- A MongoDB Atlas account/project/cluster
+
+1. Backend
+----------
+
+Create a MongoDB Realm Application
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+- On your Atlas project, click :guilabel:`Realm` tab in the top navigation
+
+- Click :guilabel:`Create a New App`
+
+- Give your app a unique name. In this tutorial we use the name
+  ``task-tracker-tutorial``; however, you can choose any name that you want.
+
+  .. figure:: /images/task-tracker-web-name-your-application.png
+     :width: 750px
+
+- Select a cluster to link to your application
+
+  .. figure:: /images/task-tracker-web-link-your-database.png
+     :width: 750px
+
+- Click :guilabel:`Create Realm Application` 
+
+Define Your Data Model
+~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: json
+   
+
+
+Define Data Access Rules
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+Configure User Authentication
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+2. Frontend
+-----------
+
+- What this section is about
+- What we already did for you
+- What you'll do
+
+Clone the Client App Repository
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The web client is a standard React web application scaffolded with
+create-react-app_. We encourage you to explore the files in the app
+for a few minutes before you continue the tutorial. This will help you
+to familiarize yourself with what the app contains and where you'll be
+working.
+
+.. sidebar:: To-Do Client File Structure
+
+   .. include:: /includes/todo-web-client-base-file-structure.rst
+
+Stitch
+++++++
+
+The ``/src/stitch`` directory contains all of the code you'll use to
+connect the application to Stitch. Each file in this directory exports
+functions and objects that encapsulate the Stitch component it's named
+after. These files are only incomplete scaffolds. This tutorial walks
+through adding the missing code in these files to connect the app to
+Stitch.
+
+React Components
+++++++++++++++++
+
+The ``/src/components`` directory contains pre-built React components
+based on components from the reactstrap_ library and styled with
+Emotion_. The components import code from the files in ``/src/stitch``
+and use them to interact with Stitch. We've already completely
+implemented the React components so you won't need to add any code to
+the component files.
+
+.. cssclass:: clear-sidebar
+.. admonition:: React Components
+   :class: note
+
+   React is a `popular <stack-overflow-survey_>`_ modern web
+   application framework that uses a component model to maintain
+   application state and intelligently render pieces of the UI.
+   If you're not familiar with React or want to brush up on your
+   knowledge, check out the `official React website
+   <https://reactjs.org>`_ which has excellent documentation and
+   tutorials.
+
+Define GraphQL Operations
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Set Up the Client Application
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
