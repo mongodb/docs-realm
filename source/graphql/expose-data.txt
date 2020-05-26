@@ -200,16 +200,53 @@ There are three situations where you can set the ``title`` field:
 .. admonition:: Singular and Plural Types
    :class: note
 
-   Realm generates two GraphQL query types for each collection: a
-   singular query and a plural query . A **singular** query refers to a
-   specific document in the collection. A **plural** query refers to all
-   documents in the collection.
+   {+service-short+} generates two :ref:`GraphQL queries
+   <graphql-query-resolvers>` for each collection:
+   
+   - A **singular** query that finds a specific document in the collection. The
+     query uses the same name as the schema's ``title``. If the schema's
+     ``title`` is a plural noun, {+service-short+} attempts to use its singular
+     form as determined by the `Rails ActiveSupport inflection rules
+     <https://github.com/rails/rails/blob/master/activesupport/lib/active_support/inflections.rb>`__.
+   
+   - A **plural** query that finds a subset of all documents in the collection.
+     If possible, the query uses the plural form of the singular query name. If
+     {+service-short+} is unable to pluralize the name or if the pluralized name
+     is the same as the singular name, the plural query uses the same name as
+     the singular query with an additional ``"s"`` appended to the end.
 
-   Realm uses the schema's ``title`` as the name of the *singular*
-   query type and uses the schema's ``title`` with an ``"s"`` appended
-   to the end as the name of the *plural* query type. For example, if
-   the ``title`` is ``movie``, Realm generates the ``Movie`` (singular)
-   and ``Movies`` (plural) GraphQL query types.
+   .. example::
+      
+      The following schema is configured for the ``laboratory.mice``
+      collection:
+      
+      .. code-block:: json
+         
+         {
+           "title": "Mouse",
+           "bsonType": "object",
+           "properties": {
+             "_id": { "bsonType": "objectId" },
+             "name": { "bsonType": "string" },
+             "age": { "bsonType": "int" }
+           }
+         }
+      
+      {+service-short+} generates two queries, ``mouse`` (singular) and ``mice``
+      (plural), based on the schema:
+
+      .. code-block:: graphql
+         
+         query Mice {
+           mouse(query: { _id: "5ebe6819197003ddb1f74475" }) {
+             name
+             age
+           }
+           mice {
+             name
+             age
+           }
+         }
 
 Next Steps
 ----------
