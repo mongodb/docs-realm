@@ -193,7 +193,7 @@ content: |
        - Optional. A document that specifies a ``sort`` order for the
          query result set. Sort documents specify one or more fields to
          sort on. The value of each field indicates whether MongoDB
-         should sort it in ascending (``1``) or descending (``0``)
+         should sort it in ascending (``1``) or descending (``-1``)
          order. For more information, see :manual:`cursor.sort
          </reference/method/cursor.sort>`.
 
@@ -216,7 +216,7 @@ content: |
 
             .. code-block:: javascript
 
-               { age: 0, name: 1 }
+               { age: -1, name: 1 }
 
      * - :guilabel:`Limit`
 
@@ -307,7 +307,7 @@ content: |
        - Optional. Specifies the query sort order. Sort documents
          specify one or more fields to sort on where the value of each
          field indicates whether MongoDB should sort it in ascending
-         (``1``) or descending (``0``) order. The sort order determines
+         (``1``) or descending (``-1``) order. The sort order determines
          which document :method:`collection.findOne()` returns.
 
          .. example::
@@ -320,7 +320,7 @@ content: |
             .. code-block:: java
 
                Document sort = new Document()
-                .append("age", 0)
+                .append("age", -1)
                 .append("name", 1);
 
      * - :guilabel:`Projection`
@@ -451,7 +451,7 @@ content: |
        - Optional. Specifies the query sort order. Sort documents
          specify one or more fields to sort on where the value of each
          field indicates whether MongoDB should sort it in ascending
-         (``1``) or descending (``0``) order. The sort order determines
+         (``1``) or descending (``-1``) order. The sort order determines
          which document :method:`collection.findOneAndUpdate()` affects.
 
          .. example::
@@ -464,7 +464,7 @@ content: |
             .. code-block:: java
 
                Document sort = new Document()
-                .append("age", 0)
+                .append("age", -1)
                 .append("name", 1);
 
      * - :guilabel:`Projection`
@@ -605,7 +605,7 @@ content: |
        - Optional. Specifies the query sort order. Sort documents
          specify one or more fields to sort on where the value of each
          field indicates whether MongoDB should sort it in ascending
-         (``1``) or descending (``0``) order. The sort order determines
+         (``1``) or descending (``-1``) order. The sort order determines
          which document :method:`collection.findOneAndReplace()` affects.
 
          .. example::
@@ -618,7 +618,7 @@ content: |
             .. code-block:: java
 
                Document sort = new Document()
-                .append("age", 0)
+                .append("age", -1)
                 .append("name", 1);
 
      * - :guilabel:`Projection`
@@ -751,7 +751,7 @@ content: |
        - Optional. Specifies the query sort order. Sort documents
          specify one or more fields to sort on where the value of each
          field indicates whether MongoDB should sort it in ascending
-         (``1``) or descending (``0``) order. The sort order determines
+         (``1``) or descending (``-1``) order. The sort order determines
          which document :method:`collection.findOneAndDelete()` affects.
 
          .. example::
@@ -764,7 +764,7 @@ content: |
             .. code-block:: java
 
                Document sort = new Document()
-                .append("age", 0)
+                .append("age", -1)
                 .append("name", 1);
 
      * - :guilabel:`Projection`
@@ -1006,7 +1006,7 @@ content: |
        - Optional. A document that specifies a ``sort`` order for the
          query result set. Sort documents specify one or more fields to
          sort on. The value of each field indicates whether MongoDB
-         should sort it in ascending (``1``) or descending (``0``)
+         should sort it in ascending (``1``) or descending (``-1``)
          order. For more information, see :manual:`cursor.sort
          </reference/method/cursor.sort>`.
 
@@ -1029,7 +1029,7 @@ content: |
 
             .. code-block:: javascript
 
-               { age: 0, name: 1 }
+               { age: -1, name: 1 }
 
 ---
 ref: mongodb-action-params-count
@@ -1273,7 +1273,7 @@ content: |
        - Sorts documents in the result set according to the ``sort``
          filter. Sort documents specify one or more fields to sort on. The
          value of each field indicates whether MongoDB should sort it in
-         ascending (``1``) or descending (``0``) order. For more
+         ascending (``1``) or descending (``-1``) order. For more
          information, see :manual:`cursor.sort
          </reference/method/cursor.sort>`.
 
@@ -1291,7 +1291,7 @@ content: |
 
             .. code-block:: javascript
 
-               { age: 0, name: 1 }
+               { age: -1, name: 1 }
 
      * - ``cursor.limit(limit)``
        - Specifies the maximum number of documents to include in the
@@ -1509,7 +1509,7 @@ content: |
        - Sorts documents in the result set according to the ``sort``
          filter. Sort documents specify one or more fields to sort on. The
          value of each field indicates whether MongoDB should sort it in
-         ascending (``1``) or descending (``0``) order. For more
+         ascending (``1``) or descending (``-1``) order. For more
          information, see :manual:`cursor.sort
          </reference/method/cursor.sort>`.
 
@@ -1529,7 +1529,7 @@ content: |
 
             .. code-block:: javascript
 
-               { age: 0, name: 1 }
+               { age: -1, name: 1 }
 
      * - :guilabel:`First Document`
 
@@ -1752,7 +1752,7 @@ content: |
        - Optional. Specifies the query sort order. Sort documents
          specify one or more fields to sort on where the value of each
          field indicates whether MongoDB should sort it in ascending
-         (``1``) or descending (``0``) order. The sort order determines
+         (``1``) or descending (``-1``) order. The sort order determines
          which document :method:`collection.findOneAndUpdate()` affects.
 
          .. example::
@@ -1764,7 +1764,7 @@ content: |
 
             .. code-block:: javascript
 
-               { age: 0, name: 1 }
+               { age: -1, name: 1 }
 
      * - :guilabel:`Projection`
 
@@ -1889,7 +1889,7 @@ content: |
        - Optional. Specifies the query sort order. Sort documents
          specify one or more fields to sort on where the value of each
          field indicates whether MongoDB should sort it in ascending
-         (``1``) or descending (``0``) order. The sort order determines
+         (``1``) or descending (``-1``) order. The sort order determines
          which document :method:`collection.findOneAndReplace()`
          affects.
 
@@ -1902,7 +1902,7 @@ content: |
 
             .. code-block:: javascript
 
-               { age: 0, name: 1 }
+               { age: -1, name: 1 }
 
      * - :guilabel:`Projection`
 
@@ -2009,7 +2009,7 @@ content: |
        - Optional. Specifies the query sort order. Sort documents
          specify one or more fields to sort on where the value of each
          field indicates whether MongoDB should sort it in ascending
-         (``1``) or descending (``0``) order. The sort order determines
+         (``1``) or descending (``-1``) order. The sort order determines
          which document :method:`collection.findOneAndReplace()`
          affects.
 
@@ -2022,7 +2022,7 @@ content: |
 
             .. code-block:: javascript
 
-               { age: 0, name: 1 }
+               { age: -1, name: 1 }
 
      * - :guilabel:`Projection`
 
@@ -2178,7 +2178,7 @@ content: |
        - Optional. Specifies the query sort order. Sort documents
          specify one or more fields to sort on where the value of each
          field indicates whether MongoDB should sort it in ascending
-         (``1``) or descending (``0``) order. The sort order determines
+         (``1``) or descending (``-1``) order. The sort order determines
          which document :method:`collection.findOneAndUpdate()` affects.
 
          .. example::
@@ -2190,7 +2190,7 @@ content: |
 
             .. code-block:: swift
 
-               [ "age": 0, "name": 1 ]
+               [ "age": -1, "name": 1 ]
 
 
      * - :guilabel:`completionHandler`
@@ -2261,7 +2261,7 @@ content: |
        - Optional. Specifies the query sort order. Sort documents
          specify one or more fields to sort on where the value of each
          field indicates whether MongoDB should sort it in ascending
-         (``1``) or descending (``0``) order. The sort order determines
+         (``1``) or descending (``-1``) order. The sort order determines
          which document :method:`collection.findOneAndUpdate()` affects.
 
          .. example::
@@ -2273,7 +2273,7 @@ content: |
 
             .. code-block:: swift
 
-               [ "age": 0, "name": 1 ]
+               [ "age": -1, "name": 1 ]
 
      * - :guilabel:`Projection`
 
@@ -2405,7 +2405,7 @@ content: |
        - Optional. Specifies the query sort order. Sort documents
          specify one or more fields to sort on where the value of each
          field indicates whether MongoDB should sort it in ascending
-         (``1``) or descending (``0``) order. The sort order determines
+         (``1``) or descending (``-1``) order. The sort order determines
          which document :method:`collection.findOneAndDelete()`
          affects.
 
@@ -2418,7 +2418,7 @@ content: |
 
             .. code-block:: swift
 
-               [ age: 0, name: 1 ]
+               [ age: -1, name: 1 ]
 
      * - :guilabel:`Projection`
 
@@ -2535,7 +2535,7 @@ content: |
        - Optional. Specifies the query sort order. Sort documents
          specify one or more fields to sort on where the value of each
          field indicates whether MongoDB should sort it in ascending
-         (``1``) or descending (``0``) order. The sort order determines
+         (``1``) or descending (``-1``) order. The sort order determines
          which document :method:`collection.findOneAndUpdate()` affects.
 
          .. example::
@@ -2547,7 +2547,7 @@ content: |
 
             .. code-block:: swift
 
-               [ "age": 0, "name": 1 ]
+               [ "age": -1, "name": 1 ]
 
      * - :guilabel:`Projection`
 
