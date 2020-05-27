@@ -15,28 +15,16 @@ Task Tracker (Web)
 Overview
 --------
 
-In this tutorial, you'll build a functional web application backed by
-{+service+}.
+In this tutorial, you'll build a functional web application backed by the
+{+service+} GraphQL API. The app uses :reactjs:`React <>` to define UI
+components and :apollo-docs:`Apollo Client <react>` to run queries and mutations
+through the GraphQL API. We've already created most of the frontend application
+for you, so you don't need to know React to follow along.
 
-The app uses :reactjs:`React <>` and 
+The app is a task tracker that allows users to:
 
-We've already created a 
-
-We'll introduce things step-by-step.
-
-The goal of this tutorial is to guide you through
-setting up and deploying your first Gatsby site using a starter template. As we
-walk through that process, we’ll introduce some more general web development
-topics, and go over the underlying structure of a Gatsby site.
-
-In this first phase of the tutorial, you will create a task
-tracker app that allows users to:
-
-- Register themselves with email and password.
-- Sign in to their account with their email and password and sign out later.
-- View, create, modify, and delete tasks.
-
-This tutorial should take around 30 minutes.
+- Register and log in with an email/password account.
+- Create tasks, view existing tasks, and modify the status of tasks.
 
 .. note::
    
@@ -50,100 +38,344 @@ This tutorial should take around 30 minutes.
 Prerequisites
 -------------
 
-- :nodejs:`Node.js <>`
+Before you get started, you'll need the following:
 
-- A MongoDB Atlas account/project/cluster
+- A MongoDB Atlas account and cluster. For details on how to create an account
+  and set up a free ``M0`` cluster, see :atlas:`Get Started with Atlas
+  </getting-started>`.
 
-1. Backend
-----------
+- :nodejs:`Node.js <>` installed on your machine.
 
-Create a MongoDB Realm Application
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+- `git <https://git-scm.com/book/en/v2/Getting-Started-Installing-Git>`__
+  installed on your machine.
 
-- On your Atlas project, click :guilabel:`Realm` tab in the top navigation
+1. MongoDB Realm Backend
+------------------------
 
-- Click :guilabel:`Create a New App`
+A. Create a MongoDB Realm Application
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-- Give your app a unique name. In this tutorial we use the name
-  ``task-tracker-tutorial``; however, you can choose any name that you want.
+.. include:: /includes/steps/task-tracker-web-create-realm-app.rst
 
-  .. figure:: /images/task-tracker-web-name-your-application.png
-     :width: 750px
+B. Define Your Data Model
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
-- Select a cluster to link to your application
-
-  .. figure:: /images/task-tracker-web-link-your-database.png
-     :width: 750px
-
-- Click :guilabel:`Create Realm Application` 
-
-Define Your Data Model
-~~~~~~~~~~~~~~~~~~~~~~
+Tasks
++++++
 
 .. code-block:: json
    
+   {
+     "title": "task",
+     "required": [
+       "_id",
+       "description",
+       "status"
+     ],
+     "properties": {
+       "_id": { "bsonType": "objectId" },
+       "assignee": { "bsonType": "string" },
+       "description": { "bsonType": "string" },
+       "status": {
+         "bsonType": "string",
+         "enum": [
+           "Open",
+           "InProgress",
+           "Complete"
+         ]
+       }
+     }
+   }
 
+.. code-block:: json
+   
+   {
+     "projects": {
+       "ref": "#/stitch/mongodb-atlas/tracker/projects",
+       "foreign_key": "_id",
+       "is_list": true
+     }
+   }
 
-Define Data Access Rules
-~~~~~~~~~~~~~~~~~~~~~~~~
+Users
++++++
 
-Configure User Authentication
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. code-block:: json
 
-2. Frontend
------------
+   {
+     "title": "user",
+     "required": [
+       "_id",
+       "user_id",
+       "name"
+     ],
+     "properties": {
+       "_id": { "bsonType": "objectId" },
+       "user_id": { "bsonType": "string" },
+       "name": { "bsonType": "string" },
+       "image": { "bsonType": "string" }
+     }
+   }
+
+C. Define Data Access Rules
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+- Define a Realm Schema for each collection
+- This automatically generates GraphQL types
+
+.. tabs-realm-admin-interfaces::
+   
+   .. tab::
+      :tabid: ui
+      
+      .. cssclass:: bordered-figure
+      .. figure:: /images/task-tracker-web-roles-tasks.png
+      
+      .. cssclass:: bordered-figure
+      .. figure:: /images/task-tracker-web-roles-users.png
+   
+   .. tab::
+      :tabid: cli
+
+      .. code-block:: json
+      
+         {
+           "roles": [
+             {
+               "name": "isAssignee",
+               "apply_when": {
+                 "assignee": "%%user.id"
+               },
+               "insert": true,
+               "delete": true,
+               "write": true,
+               "fields": {},
+               "additional_fields": {}
+             },
+             {
+               "name": "default",
+               "apply_when": {},
+               "insert": false,
+               "delete": false,
+               "read": true,
+               "fields": {},
+               "additional_fields": {}
+             }
+           ]
+         }
+      
+      .. code-block:: json
+      
+         {
+           "roles": [
+             {
+               "name": "isUser",
+               "apply_when": { "user_id": "%%user.id" },
+               "insert": false,
+               "delete": false,
+               "read": true,
+               "fields": {},
+               "additional_fields": {}
+             }
+           ]
+         }
+
+D. Configure User Authentication
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. tabs-realm-admin-interfaces::
+   
+   .. tab::
+      :tabid: ui
+
+      .. include:: /includes/steps/task-tracker-web-auth.rst
+   
+   .. tab::
+      :tabid: cli
+      
+      To enable the email/password authentication provider, paste the following
+      into ``/auth_providers/local-userpass.json`` in your application
+      directory.
+
+      .. code-block:: json
+         
+         {
+             "name": "local-userpass",
+             "type": "local-userpass",
+             "config": {
+                 "autoConfirm": true,
+                 "resetFunctionName": "resetFunc",
+                 "runConfirmationFunction": false,
+                 "runResetFunction": true
+             },
+             "disabled": false
+         }
+      
+      You'll also need to define the password reset function. Create the
+      ``/functions/resetFunc`` directory and add the following configuration and
+      source code files to the directory:
+      
+      .. code-block:: json
+         :caption: ``/functions/resetFunc/config.json``
+
+         {
+             "name": "resetFunc",
+             "private": false,
+             "can_evaluate": {}
+         }
+      
+      .. code-block:: javascript
+         :caption: ``/functions/resetFunc/source.js``
+        
+         exports = ({ token, tokenId, username, password }) => {
+           // will not reset the password
+           return { status: 'fail' };
+         };
+
+E. Deploy Your App
+~~~~~~~~~~~~~~~~~~
+
+.. tabs-realm-admin-interfaces::
+   
+   .. tab::
+      :tabid: ui
+
+      - Click :guilabel:`Deploy` in the lefthand navigation
+      - Click the :guilabel:`Review & Deploy Changes` button for the current draft
+      - Review the diff to make sure that everything looks correct
+      - Click :guilabel:`Deploy` 
+   
+   .. tab::
+      :tabid: cli
+      
+      - Navigate to the app root
+      - Ensure that you're logged in to Realm CLI
+      - Import the app directory (make sure to use your App ID)
+        
+        .. code-block:: shell
+           
+           realm-cli import --app-id=task-tracker-abcde
+
+2. Client Application
+---------------------
 
 - What this section is about
 - What we already did for you
 - What you'll do
 
-Clone the Client App Repository
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+A. Clone the Client App Repository
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The web client is a standard React web application scaffolded with
-create-react-app_. We encourage you to explore the files in the app
-for a few minutes before you continue the tutorial. This will help you
-to familiarize yourself with what the app contains and where you'll be
-working.
+You can clone client application directly from GitHub:
 
-.. sidebar:: To-Do Client File Structure
+.. code-block:: shell
+   
+   git clone git@github.com:mongodb-university/realm-tutorial.git
 
-   .. include:: /includes/todo-web-client-base-file-structure.rst
+The ``realm-tutorial`` repo contains task tracker client applications for
+multiple platforms. The code for this tutorial is located in the ``web``
+directory.
 
-Stitch
-++++++
+In your terminal, run the following commands to navigate to the task tracker
+client application and install its dependencies:
 
-The ``/src/stitch`` directory contains all of the code you'll use to
-connect the application to Stitch. Each file in this directory exports
-functions and objects that encapsulate the Stitch component it's named
-after. These files are only incomplete scaffolds. This tutorial walks
-through adding the missing code in these files to connect the app to
-Stitch.
+.. code-block:: shell
+   
+   cd realm-tutorial/web
+   npm install
 
-React Components
-++++++++++++++++
+B. Explore the App Structure & Components
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The ``/src/components`` directory contains pre-built React components
-based on components from the reactstrap_ library and styled with
-Emotion_. The components import code from the files in ``/src/stitch``
-and use them to interact with Stitch. We've already completely
-implemented the React components so you won't need to add any code to
-the component files.
+The web client is a standard React web application written in
+:typescript:`TypeScript <>` and scaffolded with `create-react-app
+<https://facebook.github.io/create-react-app/>`__. We encourage you to explore
+the files in the app for a few minutes before you continue the tutorial. This
+will help you to familiarize yourself with what the app contains and where
+you'll be working.
 
-.. cssclass:: clear-sidebar
+.. include:: /includes/task-tracker-web-client-base-file-structure.rst
+
+Realm & Apollo
+++++++++++++++
+
+The ``/src/realm`` directory contains all of the modules that you'll use to
+connect the application to Realm. These files are only incomplete scaffolds -
+some are blank and others require you to make some modifications. This tutorial
+walks through adding the missing code in these files to connect the task tracker
+app to Realm.
+
+React Components & Hooks
+++++++++++++++++++++++++
+
+The ``/src/components`` and ``/src/hooks`` directories contain pre-built React
+components and hooks that handle local state management and UI rendering. The
+components import code from the files in ``/src/realm`` and use them to interact
+with Realm. We've already completely implemented these so you won't need to add
+any code to these files. We'll make sure to show you along the way how these
+components and hooks use the code that you write.
+
 .. admonition:: React Components
    :class: note
 
-   React is a `popular <stack-overflow-survey_>`_ modern web
-   application framework that uses a component model to maintain
-   application state and intelligently render pieces of the UI.
-   If you're not familiar with React or want to brush up on your
-   knowledge, check out the `official React website
-   <https://reactjs.org>`_ which has excellent documentation and
-   tutorials.
+   React is a `popular
+   <https://insights.stackoverflow.com/survey/2019#technology-_-most-loved-dreaded-and-wanted-web-frameworks>`__
+   modern web application framework that uses a component model to maintain
+   application state and intelligently render pieces of the UI. If you're not
+   familiar with React or want to brush up on your knowledge, check out the
+   `official React website <https://reactjs.org>`_ which has excellent
+   documentation and tutorials.
 
-Define GraphQL Operations
-~~~~~~~~~~~~~~~~~~~~~~~~~
+C. Connect to Your MongoDB Realm App
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Set Up the Client Application
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+``src/realm/RealmApp.tsx``
+
+.. code-block:: typescript
+
+   // Let new users register an account
+   const registerUser = async (email: string, password: string) => {
+     return await app.auth.emailPassword.registerUser(email, password);
+   }
+   
+   // Let registered users log in
+   const logIn = async (email: string, password: string) => {
+     const credentials = RealmWeb.Credentials.emailPassword(email, password);
+     const loggedInUser = await app.logIn(credentials);
+     setUser(loggedInUser);
+     return loggedInUser;
+   }
+   
+   // Let logged in users log out
+   const logOut = async () => {
+     await app.logOut();
+     setUser(app.currentUser);
+   }
+
+D. Connect Apollo to the GraphQL API
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+``src/realm/RealmApolloProvider.tsx``
+
+.. code-block:: typescript
+
+   function createApolloClient(realmAppId: string, user: RealmWeb.User): ApolloClient<NormalizedCacheObject> {
+     const graphql_url = `https://realm-dev.mongodb.com/api/client/v2.0/app/${realmAppId}/graphql`;
+     const httpLink = new HttpLink({ uri: graphql_url });
+     const authorizationHeaderLink = setContext(async (_, { headers }) => ({
+       headers: {
+         ...headers,
+         Authorization: `Bearer ${user.accessToken}`,
+       },
+     }));
+     
+     return new ApolloClient({
+       link: authorizationHeaderLink.concat(httpLink),
+       cache: new InMemoryCache(),
+     });
+   }
+
+E. Define the GraphQL Schema & Operations
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. include:: /includes/steps/task-tracker-web-graphql-codegen.rst

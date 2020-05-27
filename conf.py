@@ -128,6 +128,7 @@ extlinks = {
     'wikipedia': ('https://en.wikipedia.org/wiki/%s', ''),
     'aws-docs': ('https://docs.aws.amazon.com/%s', ''),
     'fcm': ('https://firebase.google.com/docs/%s', ''),
+    'typescript': ('https://www.typescriptlang.org/%s', ''),
 }
 
 intersphinx_mapping = {}

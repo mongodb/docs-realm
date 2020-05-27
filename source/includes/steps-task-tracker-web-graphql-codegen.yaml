@@ -1,0 +1,57 @@
+title: Define the GraphQL Schema
+ref: define-the-graph-ql-schema
+level: 4
+content: |
+  - Navigate to the :guilabel:`GraphQL` page in the Realm UI
+  - Click the :guilabel:`Schema` tab
+  - Click the :guilabel:`GraphQL Schema` button to download the schema
+  - Copy the downloaded schema into ``src/realm/``, overwriting the
+    ``schema.graphql`` that's already there.
+  - Alternatively, copy the schema from the UI and paste it directly into
+    ``schema.graphql``
+---
+title: Define GraphQL Operations
+ref: define-graphql-operations
+level: 4
+content: |
+  - Open ``operations.graphql``
+  - Paste in the following operations
+    
+    .. literalinclude:: /includes/task-tracker-web-operations.graphql
+       :language: graphql
+  - These define the CRUD operations that the app uses to work with task
+    documents.
+---
+title: Configure GraphQL Code Generator
+ref: configure-graphql-codegen
+level: 4
+content: |
+  - `graphql-codegen <https://graphql-code-generator.com/>`__
+  - Generates TypeScript types & React hooks for your schema and operations
+  
+  .. code-block:: yaml
+     :caption: codegen.yml
+     
+     schema: src/realm/schema.graphql
+     documents: src/**/operations.graphql
+     overwrite: true
+     generates:
+       src/types.ts:
+         plugins:
+           - typescript
+           - typescript-operations
+       src/graphql-operations.ts:
+         preset: import-types
+         presetConfig:
+           typesPath: ./types
+         plugins:
+           - typescript-react-apollo
+         config:
+           withHooks: true
+           withComponent: false
+           withHOC: false
+  
+  .. code-block:: shell
+     
+     yarn generate
+...

@@ -1,0 +1,55 @@
+query GetAllTasks {
+  tasks {
+    _id
+    description
+    status
+    assignee {
+      _id
+      name
+      image
+      user_id
+    }
+  }
+}
+
+mutation AddTask($task: TaskInsertInput!) {
+  task: insertOneTask(data: $task) {
+    _id
+    description
+    status
+    assignee {
+      _id
+      name
+      image
+      user_id
+    }
+  }
+}
+
+mutation UpdateTask($taskId: ObjectId!, $updates: TaskUpdateInput!) {
+  task: updateOneTask(query: { _id: $taskId }, set: $updates) {
+    _id
+    description
+    status
+    assignee {
+      _id
+      name
+      image
+      user_id
+    }
+  }
+}
+
+mutation DeleteTask($taskId: ObjectId!) {
+  deletedTask: deleteOneTask(query: { _id: $taskId }) {
+    _id
+    description
+    status
+    assignee {
+      _id
+      name
+      image
+      user_id
+    }
+  }
+}
