@@ -19,17 +19,22 @@ content: |
 title: Install the Realm Frameworks with CocoaPods
 ref: install-realm-frameworks
 content: |
-  :ref:`Install the Realm frameworks <ios-install>` with an iOS dependency manager. This tutorial uses `CocoaPods <https://guides.cocoapods.org/using/getting-started.html>`__.
+  :ref:`Install the Realm frameworks <ios-install>` with an iOS dependency
+  manager. This tutorial uses `CocoaPods
+  <https://guides.cocoapods.org/using/getting-started.html>`__.
 
-  Cocoapods uses a ``Podfile`` to track, load, and manage your project's external dependencies. To create the ``Podfile``, quit Xcode and open your Xcode project directory in a new terminal window. Run the following command:
+  Cocoapods uses a ``Podfile`` to track, load, and manage your project's
+  external dependencies. To create the ``Podfile``, quit Xcode and open your
+  Xcode project directory in a new terminal window. Run the following command:
 
   .. code-block:: sh
 
      pod init
   
-  This creates an initial ``Podfile``. To specify your dependencies, edit the ``Podfile`` in your editor of choice and make the following changes:
+  This creates an initial ``Podfile``. To specify your dependencies, edit the
+  ``Podfile`` in your editor of choice and make the following changes:
 
-  - Set the iOS version to 12.0.
+  - Set the iOS version to 13.0.
   - Add the line ``use_frameworks!`` if it is not already there.
   - Add the line ``pod 'RealmSwift', '=10.0.0-alpha.4'`` to your main target.
 
@@ -38,7 +43,7 @@ content: |
   .. code-block:: text
      :emphasize-lines: 1, 5, 8, 13
 
-        platform :ios, '12.0'
+        platform :ios, '13.0'
 
         target 'TaskTracker' do
           # Comment the next line if you don't want to use dynamic frameworks
@@ -49,7 +54,9 @@ content: |
 
         end
 
-  Save your changes, then run the following command from the terminal window to download the required packages and create an Xcode workspace that is configured:
+  Save your changes, then run the following command from the terminal window to
+  download the required packages and create an Xcode workspace that is
+  configured:
 
   .. code-block:: text
 
@@ -68,18 +75,19 @@ content: |
 title: Remove Unnecessary UI Files
 ref: remove-unnecessary-files
 content: |
-  We'll build the app's UI programmatically, so we don't need some of the files that come with the standard single page app template.
+  We'll build the app's UI programmatically, so we don't need some of the files
+  that come with the standard single page app template.
 
   .. note:
      A tutorial using SwiftUI is coming soon.
 
   1. Open the ``Info.plist`` for your target in the ``TaskTracker`` group in the file navigator.
   2. Find the ``Main storyboard file base name`` entry and remove it by pressing the ``-`` icon next to it in the property editor.
-  3. Find the ``Application Scene Manifest`` entry and remove it.
+  3. Find the ``Application Scene Manifest`` entry and expand it to reveal ``Scene Configuration > Application Session Role > Item 0 (Default Configuration)``. Remove the ``Storyboard Name`` entry by pressing the ``-`` icon next to it in the property editor.
   4. In the file navigator, find the ``Main.storyboard`` and ``LaunchScreen.storyboard`` files. Delete them by selecting each one and pressing the delete key on your keyboard.
 
 ---
-title: Open Your Realm App and Specify the Starting Screen in the AppDelegate Class
+title: Open Your Realm App and Specify the Starting Screen in the SceneDelegate Class
 ref: specify-the-starting-screen
 content: |
 
@@ -88,7 +96,7 @@ content: |
   from our client code.
 
   Let's declare the {+app+} instance as a global variable in
-  the app entrypoint file, AppDelegate.swift. 
+  the scene entrypoint file, SceneDelegate.swift. 
   
   In a production app, you might decide to move the
   initialization of the {+app+} instance elsewhere in your
@@ -98,8 +106,8 @@ content: |
   know about our {+backend+} app in a structure called
   ``Constants``.
   
-  Open AppDelegate.swift in Xcode and add the following code
-  near the top of the file:
+  Open SceneDelegate.swift in Xcode and add the following code near the top of
+  the file:
 
   .. code-block:: swift
 
@@ -107,7 +115,7 @@ content: |
 
      struct Constants {
          // Set this to your Realm App ID found in the Realm UI.
-         static let REALM_APP_ID = "Realm app ID here"
+         static let REALM_APP_ID = "<your Realm app ID>"
        
          // The base URL points to the server hosting MongoDB Realm.
          static let REALM_BASE_URL = "https://realm-dev.mongodb.com"
@@ -118,36 +126,34 @@ content: |
          localAppName: nil,
          localAppVersion: nil))
 
-  Replace ``Realm app ID here`` with your {+app+} ID, which
-  you can find in the {+ui+}. You can leave REALM_BASE_URL
-  as-is for now.
+  Replace ``<your Realm app ID>`` with your {+app+} ID, which you can find in
+  the {+ui+}. You can leave REALM_BASE_URL as-is for now.
 
   .. note::
 
-     Xcode may show errors next to the new import line or
-     other lines. This is normal and these will disappear as
-     we add more code and compile the app.
+     Xcode may show errors next to the new import line or other lines. This is
+     normal. These will disappear as we add more code and compile the app.
 
-  We also use the app delegate to navigate to our custom
-  login page that we will define soon. Within the
-  AppDelegate class, declare a ``UIWindow?`` member and
-  replace the ``func application(_ application:
-  UIApplication, didFinishLaunchingWithOptions
-  launchOptions: [UIApplication.LaunchOptionsKey: Any]?)``
-  method with the following code:
+  We also use the SceneDelegate to navigate to our custom login page that we
+  will define soon. Within the SceneDelegate class, declare a ``UIWindow?``
+  property and replace the ``func scene(_ scene: UIScene, willConnectTo session:
+  UISceneSession, options connectionOptions: UIScene.ConnectionOptions)``
+  method:
 
   .. code-block:: swift
 
      var window: UIWindow?
 
-     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-         // Override point for customization after application launch.
-
-         window = UIWindow(frame: UIScreen.main.bounds)
+     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
+         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
+         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
+         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
+  
+         guard let windowScene = (scene as? UIWindowScene) else { return }
+                
+         window = UIWindow(windowScene: windowScene)
          window?.makeKeyAndVisible()
          window?.rootViewController = UINavigationController(rootViewController: WelcomeViewController())
-
-         return true
      }
 
   This sets up the ``UINavigationController`` with a
@@ -455,7 +461,7 @@ content: |
      class Task: Object {
          @objc dynamic var _id: ObjectId = ObjectId.generate()
          @objc dynamic var _partition: ProjectId = ""
-         @objc dynamic var name: String? = nil
+         @objc dynamic var name = ""
          @objc dynamic var status = TaskStatus.Open.rawValue
 
          var statusEnum: TaskStatus {
@@ -742,7 +748,7 @@ content: |
      func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
          guard editingStyle == .delete else { return }
          
-         // User can swip to delete items.
+         // User can swipe to delete items.
          let task = tasks[indexPath.row]
          
          // All modifications to a realm must happen in a write block.
