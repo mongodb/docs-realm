@@ -6,14 +6,23 @@ Task Tracker (Web)
 
 .. default-domain:: mongodb
 
-.. contents:: On this page
+.. raw:: html
+   
+   <!-- Hacky fix for step title headings -->
+   <style>
+   .sequence-block > .section > h4 {
+      margin: 24px 0;
+   }
+   div.section h2+ul {
+     margin-left: 0;
+   }
+   </style>
+
+.. contents:: Tutorial Sections
    :local:
    :backlinks: none
-   :depth: 2
+   :depth: 1
    :class: singlecol
-
-Overview
---------
 
 In this tutorial, you'll build a functional web application backed by the
 {+service+} GraphQL API. The app uses :reactjs:`React <>` to define UI
@@ -24,19 +33,11 @@ for you, so you don't need to know React to follow along.
 The app is a task tracker that allows users to:
 
 - Register and log in with an email/password account.
-- Create tasks, view existing tasks, and modify the status of tasks.
+- Add, view, and delete tasks.
+- Switch tasks between Open, In Progress, and Complete statuses
 
-.. note::
-   
-   Want to get started right away with the frontend source code? Check out the
-   :github:`MongoDB Realm Tutorial on GitHub
-   <mongodb-university/realm-tutorial>`, which includes ready-to-compile source
-   code, then follow the instructions in README.md to get started. Don't forget
-   to update the AppDelegate.swift file with your {+app+} ID, which you can find
-   in the {+ui+}.
-
-Prerequisites
--------------
+0. Prerequisites
+----------------
 
 Before you get started, you'll need the following:
 
@@ -49,139 +50,62 @@ Before you get started, you'll need the following:
 - `git <https://git-scm.com/book/en/v2/Getting-Started-Installing-Git>`__
   installed on your machine.
 
-1. MongoDB Realm Backend
-------------------------
+Once you're set up with these prerequisites, you're ready to start the tutorial.
+
+1. Set Up the MongoDB Realm Backend
+-----------------------------------
+
+.. .. tabs-pillstrip:: realmAdminInterfaces
+
+.. contents:: In this section
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
 
 A. Create a MongoDB Realm Application
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To begin, you need to create a new MongoDB Realm app. A Realm app is a central,
+server-side configuration that functions as the backend for your application.
 
 .. include:: /includes/steps/task-tracker-web-create-realm-app.rst
 
 B. Define Your Data Model
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Tasks
-+++++
+In MongoDB Realm, all data conforms to schemas that you define. The types
+described by these schemas make up your app's data model and are a key part of
+data access and security. Realm uses your data model to generate GraphQL types
+and operations as well as to validate reads and writes.
 
-.. code-block:: json
-   
-   {
-     "title": "task",
-     "required": [
-       "_id",
-       "description",
-       "status"
-     ],
-     "properties": {
-       "_id": { "bsonType": "objectId" },
-       "assignee": { "bsonType": "string" },
-       "description": { "bsonType": "string" },
-       "status": {
-         "bsonType": "string",
-         "enum": [
-           "Open",
-           "InProgress",
-           "Complete"
-         ]
-       }
-     }
-   }
+.. include:: /includes/steps/task-tracker-web-data-model.rst
 
-.. code-block:: json
-   
-   {
-     "projects": {
-       "ref": "#/stitch/mongodb-atlas/tracker/projects",
-       "foreign_key": "_id",
-       "is_list": true
-     }
-   }
+C. Define Data Access Permissions
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Users
-+++++
+Once you've defined schemas for ``User`` and ``Task``, Realm automatically
+generates GraphQL types and resolvers that allow you to access data through the
+GraphQL API. By default, however, all GraphQL queries from a client application
+will fail.
 
-.. code-block:: json
+To allow users to read and write data, you must first define data access rules
+that determine whether a user has read or write permissions for a given
+document.
 
-   {
-     "title": "user",
-     "required": [
-       "_id",
-       "user_id",
-       "name"
-     ],
-     "properties": {
-       "_id": { "bsonType": "objectId" },
-       "user_id": { "bsonType": "string" },
-       "name": { "bsonType": "string" },
-       "image": { "bsonType": "string" }
-     }
-   }
+.. tab-bar:: tabs-realm-admin-interfaces
+   :tab-ids: ui, cli
 
-C. Define Data Access Rules
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-- Define a Realm Schema for each collection
-- This automatically generates GraphQL types
-
-.. tabs-realm-admin-interfaces::
-   
-   .. tab::
-      :tabid: ui
-      
-      .. cssclass:: bordered-figure
-      .. figure:: /images/task-tracker-web-roles-tasks.png
-      
-      .. cssclass:: bordered-figure
-      .. figure:: /images/task-tracker-web-roles-users.png
-   
-   .. tab::
-      :tabid: cli
-
-      .. code-block:: json
-      
-         {
-           "roles": [
-             {
-               "name": "isAssignee",
-               "apply_when": {
-                 "assignee": "%%user.id"
-               },
-               "insert": true,
-               "delete": true,
-               "write": true,
-               "fields": {},
-               "additional_fields": {}
-             },
-             {
-               "name": "default",
-               "apply_when": {},
-               "insert": false,
-               "delete": false,
-               "read": true,
-               "fields": {},
-               "additional_fields": {}
-             }
-           ]
-         }
-      
-      .. code-block:: json
-      
-         {
-           "roles": [
-             {
-               "name": "isUser",
-               "apply_when": { "user_id": "%%user.id" },
-               "insert": false,
-               "delete": false,
-               "read": true,
-               "fields": {},
-               "additional_fields": {}
-             }
-           ]
-         }
+.. include:: /includes/steps/task-tracker-web-rules.rst
 
 D. Configure User Authentication
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Every request sent to Realm must come from an authenticated user, so we need to
+have a way for users to create accounts and log in. For this app, we'll use
+email/password authentication. Authenticating users has the additional benefit
+of giving each user a persistent identity that we can associate with their tasks
+in order to easily find and secure them.
 
 .. tabs-realm-admin-interfaces::
    
@@ -232,18 +156,47 @@ D. Configure User Authentication
            return { status: 'fail' };
          };
 
-E. Deploy Your App
-~~~~~~~~~~~~~~~~~~
+E. Define an Authentication Trigger
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+We want each user to have a corresponding document in the ``users`` collection
+that contains their information. We could create these documents manually for
+every user, but that approach is prone to errors and adds complexity to your
+client applications. Instead, we can use a trigger to automatically add a
+document for each user when they register their acount.
 
 .. tabs-realm-admin-interfaces::
    
    .. tab::
       :tabid: ui
 
-      - Click :guilabel:`Deploy` in the lefthand navigation
-      - Click the :guilabel:`Review & Deploy Changes` button for the current draft
-      - Review the diff to make sure that everything looks correct
-      - Click :guilabel:`Deploy` 
+      .. include:: /includes/steps/task-tracker-web-trigger.rst
+   
+   .. tab::
+      :tabid: cli
+
+      todo
+
+F. Deploy Your App
+~~~~~~~~~~~~~~~~~~
+
+At this point your Realm App is fully configured and almost ready to accept
+requests from client applications. All that's left to do is to deploy the
+fully configured app.
+
+.. tabs-realm-admin-interfaces::
+   
+   .. tab::
+      :tabid: ui
+      
+      Click :guilabel:`Deploy` in the lefthand navigation and find the current
+      draft at the top of the deployment history table. Click the
+      :guilabel:`Review & Deploy Changes` button and review the diff to make
+      sure that everything looks correct. When you're ready to go live, click
+      :guilabel:`Deploy`.
+      
+      .. cssclass:: bordered-figure
+      .. figure:: /images/task-tracker-web-deploy-history.png
    
    .. tab::
       :tabid: cli
@@ -256,25 +209,25 @@ E. Deploy Your App
            
            realm-cli import --app-id=task-tracker-abcde
 
-2. Client Application
----------------------
+2. Set Up the Web Client
+------------------------
 
-- What this section is about
-- What we already did for you
-- What you'll do
+.. contents:: In this section
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
 
 A. Clone the Client App Repository
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-You can clone client application directly from GitHub:
+We've already put together a task tracker browser application that has most of
+the frontend code you'll need. You can clone client application repository
+directly from GitHub:
 
 .. code-block:: shell
    
    git clone git@github.com:mongodb-university/realm-tutorial.git
-
-The ``realm-tutorial`` repo contains task tracker client applications for
-multiple platforms. The code for this tutorial is located in the ``web``
-directory.
 
 In your terminal, run the following commands to navigate to the task tracker
 client application and install its dependencies:
@@ -283,6 +236,12 @@ client application and install its dependencies:
    
    cd realm-tutorial/web
    npm install
+
+.. note::
+
+   The ``realm-tutorial`` repo contains task tracker client applications for
+   multiple platforms. The project root for this tutorial is located in the
+   ``web`` subdirectory.
 
 B. Explore the App Structure & Components
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -293,6 +252,8 @@ The web client is a standard React web application written in
 the files in the app for a few minutes before you continue the tutorial. This
 will help you to familiarize yourself with what the app contains and where
 you'll be working.
+
+The project uses the following file structure:
 
 .. include:: /includes/task-tracker-web-client-base-file-structure.rst
 
@@ -319,7 +280,7 @@ components and hooks use the code that you write.
    :class: note
 
    React is a `popular
-   <https://insights.stackoverflow.com/survey/2019#technology-_-most-loved-dreaded-and-wanted-web-frameworks>`__
+   <https://insights.stackoverflow.com/survey/2020#technology-most-loved-dreaded-and-wanted-web-frameworks>`__
    modern web application framework that uses a component model to maintain
    application state and intelligently render pieces of the UI. If you're not
    familiar with React or want to brush up on your knowledge, check out the
@@ -329,53 +290,288 @@ components and hooks use the code that you write.
 C. Connect to Your MongoDB Realm App
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-``src/realm/RealmApp.tsx``
+The client app needs to connect to your Realm app so that users can register and
+log in. In ``src/realm/RealmApp.tsx``, we import the Realm Web SDK to connect to
+Realm and handle these actions. The file exports a React context provider that
+encapsulates this behavior and makes it available to other components in the
+app.
 
-.. code-block:: typescript
+Some of the functionality in ``RealmApp.tsx`` is not fully defined. You need to
+update the code to use the SDK to connect to your Realm app and handle user
+authentication.
 
-   // Let new users register an account
-   const registerUser = async (email: string, password: string) => {
-     return await app.auth.emailPassword.registerUser(email, password);
-   }
+.. include:: /includes/steps/task-tracker-web-realmapp.rst
+
+.. admonition:: How We Use It
+   :class: admonition-example
    
-   // Let registered users log in
-   const logIn = async (email: string, password: string) => {
-     const credentials = RealmWeb.Credentials.emailPassword(email, password);
-     const loggedInUser = await app.logIn(credentials);
-     setUser(loggedInUser);
-     return loggedInUser;
-   }
+   In ``/components/App.tsx``, we use the ``useRealmApp()`` hook to determine
+   when the main application is ready to render. We also check for an
+   authenticated user and always render exclusively the login screen unless a
+   user is logged in. This guarantees that only authenticated users can access
+   the rest of the app.
    
-   // Let logged in users log out
-   const logOut = async () => {
-     await app.logOut();
-     setUser(app.currentUser);
-   }
+   .. code-block:: typescript
+      :copyable: false
+      :emphasize-lines: 2, 3, 6
+      
+      function RequireAuthentication() {
+        const app = useRealmApp();
+        if (!app) {
+          return <div>Loading</div>;
+        }
+        return app.user ? (
+          <RealmApolloProvider>
+            <Board />
+          </RealmApolloProvider>
+        ) : (
+          <LoginScreen />
+        );
+      }
 
-D. Connect Apollo to the GraphQL API
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-``src/realm/RealmApolloProvider.tsx``
-
-.. code-block:: typescript
-
-   function createApolloClient(realmAppId: string, user: RealmWeb.User): ApolloClient<NormalizedCacheObject> {
-     const graphql_url = `https://realm-dev.mongodb.com/api/client/v2.0/app/${realmAppId}/graphql`;
-     const httpLink = new HttpLink({ uri: graphql_url });
-     const authorizationHeaderLink = setContext(async (_, { headers }) => ({
-       headers: {
-         ...headers,
-         Authorization: `Bearer ${user.accessToken}`,
-       },
-     }));
+   In ``/components/LoginScreen.tsx``, we use the wrapped authentication methods
+   that you defined to log user in and register new users.
      
-     return new ApolloClient({
-       link: authorizationHeaderLink.concat(httpLink),
-       cache: new InMemoryCache(),
-     });
-   }
+   .. code-block:: typescript
+      :copyable: false
+      :emphasize-lines: 4, 16
 
-E. Define the GraphQL Schema & Operations
+      const handleLogin = async () => {
+        setError((e) => ({ ...e, password: undefined }));
+        try {
+          return await app.logIn(email, password);
+        } catch (err) {
+          handleAuthenticationError(err);
+        }
+      };
+    
+      const handleRegistrationAndLogin = async () => {
+        const isValidEmailAddress = validator.isEmail(email);
+        setError((e) => ({ ...e, password: undefined }));
+        if (isValidEmailAddress) {
+          try {
+            // Register the user and, if successful, log them in
+            await app.registerUser(email, password);
+            return await handleLogin();
+          } catch (err) {
+            handleAuthenticationError(err);
+          }
+        } else {
+          setError((err) => ({ ...err, email: "Email is invalid." }));
+        }
+      };
+
+D. Define the GraphQL Schema & Operations
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. include:: /includes/steps/task-tracker-web-graphql-codegen.rst
+.. include:: /includes/steps/task-tracker-web-graphql.rst
+
+.. admonition:: How We Use It
+   :class: admonition-example
+   
+   We import the generated types defined in ``/src/types.ts`` in multiple
+   components throughout the app whenever that component needs to use data from
+   the GraphQL API. For example, in ``/src/components/TaskView.tsx`` we import
+   the generated ``Task`` type and use it to type the component's ``task`` prop.
+   
+   .. code-block:: typescript
+      :caption: ``/src/components/TaskView.tsx``
+      
+      import { Task } from "../types";
+      
+      interface TaskViewProps {
+        task: Task;
+      }
+      
+      export function TaskView({ task }: TaskViewProps) {
+        const { status, assignee, description } = task;
+        ...
+      }
+   
+   We use the custom Apollo hooks generated in ``/src/graphql-operations.ts``
+   call the GraphQL API as part of the task actions defined in ``useTasks()``.
+   
+   .. code-block:: typescript
+      :caption: ``/src/components/TaskView.tsx``
+      :emphasize-lines: 13-17, 20-22
+      
+      import { GetAllTasksQuery } from "./../types";
+      import {
+        useGetAllTasksQuery,
+        useAddTaskMutation,
+        useUpdateTaskMutation,
+        useDeleteTaskMutation,
+      } from "./../graphql-operations";
+
+      export function useTasks() {
+        const [tasks, setTasks] = React.useState<Task[]>([]);
+        
+        // Query for Tasks
+        const { loading } = useGetAllTasksQuery({ onCompleted: (data: GetAllTasksQuery) => {
+          if(data?.tasks) {
+            setTasks(data.tasks as Task[])
+          }
+        }});
+        
+        // Create Task Mutation Functions
+        const [addTaskMutation] = useAddTaskMutation();
+        const [updateTaskMutation] = useUpdateTaskMutation();
+        const [deleteTaskMutation] = useDeleteTaskMutation();
+
+        ...
+      }
+   
+   The custom query and mutation hooks are lightweight wrappers around Apollo's
+   ``useQuery()`` and ``useMutation()`` hooks. For example, you could define
+   ``useAddTaskMutation()`` yourself with the following code:
+   
+   .. code-block:: typescript
+      
+      import { Task, TaskInsertInput } from "../types";
+      import { useMutation } from "@apollo/react-hooks";
+      import gql from 'graphql-tag';
+      
+      type AddTaskMutation = { task: Task };
+      type AddTaskMutationVariables = { task: TaskInsertInput };
+      function useAddTaskMutation() {
+        return useMutation<AddTaskMutation, AddTaskMutationVariables>(gql`
+          mutation AddTask($task: TaskInsertInput!) {
+            task: insertOneTask(data: $task) {
+              _id
+              description
+              status
+              assignee {
+                _id
+                name
+                image
+                user_id
+              }
+            }
+          }
+        `);
+      }
+   
+   Later in the function, we use the functions returned from the mutation hooks
+   to execute the mutations.
+
+   .. code-block:: typescript
+      :caption: ``/src/components/TaskView.tsx``
+      :emphasize-lines: 5-11, 14
+      
+      export function useTasks() {
+        ...
+        
+        const addTask = async (task: Task) => {
+          const variables = {
+            task: {
+              status: task.status,
+              description: task.description,
+              assignee: task.assignee ? { link: task.assignee.user_id } : undefined,
+            },
+          };
+          const currentTasks = [...tasks];
+          try {
+            const result = await addTaskMutation({ variables });
+            const task = result.data?.task as Task;
+            setTasks([...tasks, task]);
+          } catch (err) {
+            setTasks(currentTasks);
+            throw new Error("Unable to add task");
+          }
+        };
+      }
+
+E. Connect Apollo to the GraphQL API
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+We've defined GraphQL CRUD operations and used the code generator to create
+custom query and mutation hooks. However, these hooks must be wrapped in an
+Apollo context provider that makes an ``ApollClient`` object available.
+
+In ``src/realm/RealmApolloProvider.tsx``, we export a React component that
+provides the ``ApolloClient`` object but the function that instantiates the
+client is incomplete. You need to update the file to create a client that can
+connect to your app's GraphQL API.
+
+.. include:: /includes/steps/task-tracker-web-apollo.rst
+
+3. Try It Out
+-------------
+
+The task tracker app is now fully configured so you can start it up to start
+tracking tasks.
+
+A. Start the App
+~~~~~~~~~~~~~~~~
+
+To start the app, navigate to the project root in your shell and then enter the
+following command:
+
+.. code-block:: shell
+   
+   npm run start
+
+If the app starts successfully, you should see output that resembles the
+following:
+
+.. code-block:: shell
+   
+   Compiled successfully!
+   
+   You can now view task-tracker in the browser.
+   
+     Local:            http://localhost:3000
+     On Your Network:  http://191.175.1.124:3000
+
+Open your browser to localhost:3000 to access the app.
+
+B. Register a New User
+~~~~~~~~~~~~~~~~~~~~~~
+
+You need to register a user account before you can log in and use the tracker.
+On the login screen, click :guilabel:`Register one now` and enter the email
+address and password that you want to log in with. This is just a sample app
+that does not send any validation emails, so feel free to use a fake email
+address and easy password.
+
+.. cssclass:: bordered-figure
+.. figure:: /images/task-tracker-web-register-user.png
+
+C. Add Some Tasks
+~~~~~~~~~~~~~~~~~
+
+Once you register, the app automatically logs you in. You can now add tasks and
+use the tracker. To add a task, click :guilabel:`Add Task` at the bottom of any
+of the lists, enter a description in the draft task that appears, then click
+:guilabel:`Add`.
+
+.. cssclass:: bordered-figure
+.. figure:: /images/task-tracker-web-add-task.png
+
+D. Move Tasks Around
+~~~~~~~~~~~~~~~~~~~~
+
+You can change the status of a task by dragging it between lists. You can also
+click on a task to open a detailed view with buttons that change the task's
+status and allow you to delete the task entirely.
+
+.. cssclass:: bordered-figure
+.. figure:: /images/task-tracker-web-move-task.png
+   :width: 750px
+
+E. Check Out the Logs
+~~~~~~~~~~~~~~~~~~~~~
+
+Whenever you add, update, or delete a task, the client app sends a GraphQL
+request to Realm. You can see a history of requests on the :guilabel:`Logs` page
+of the Realm UI. Each GraphQL log entry shows the operation, compute usage, and
+rule evaluation summary.
+
+.. cssclass:: bordered-figure
+.. figure:: /images/task-tracker-web-graphql-logs.png
+   :width: 750px
+
+4. What's Next?
+---------------
+
+todo

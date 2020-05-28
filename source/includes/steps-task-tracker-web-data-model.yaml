@@ -1,0 +1,127 @@
+title: Set Up the MongoDB Collections
+ref: set-up-the-mongo-db-collections
+level: 4
+content: |
+  You define the schemas for all data in your application as rules for
+  collections in a linked MongoDB Atlas cluster. To define rules for a
+  collection, you first need to make the collection available to your Realm app.
+  
+  For this app, we'll use two collections: ``users`` and ``tasks``.
+
+  Click :guilabel:`Rules` in the lefthand navigation to navigate to the rules
+  editor. In the left sidebar of the rules editor, find the name of your linked
+  cluster and click the plus button next to it. Realm will prompt you to add a
+  new collection. 
+  
+  For :guilabel:`Database Name`, enter ``tracker`` and for :guilabel:`Collection
+  Name`, enter ``tasks``. We'll define our own permissions in a bit, so don't
+  select any permissions template. Click :guilabel:`Add Collection` to finish
+  setting up the ``tracker.tasks`` collection.
+  
+  Once complete, repeat this process to set up the ``tracker.users`` collection
+  as well.
+
+  .. cssclass:: bordered-figure
+  .. figure:: /images/task-tracker-web-setup-collections.png
+---
+title: Define a Schema for User Documents
+ref: define-a-schema-for-user-documents
+level: 4
+content: |
+  We want to store some information for each user of the app in the
+  ``tracker.users`` collection, such as their name and avatar image. These
+  documents are separate from Realm's internal user objects, so we'll also store
+  each user's ID value in the ``user_id`` field of their document. This lets us
+  identify which document describes a given user later when we want to access
+  their information. To codify this, we'll use a schema that defines the shape
+  and contents of user documents.
+
+  In the rules editor, select the ``tracker.users`` collection and then click
+  the :guilabel:`Schema` tab. Paste in the following schema and then click
+  :guilabel:`Save`.
+
+  .. code-block:: json
+     
+     {
+       "title": "user",
+       "required": [
+         "_id",
+         "user_id",
+         "name"
+       ],
+       "properties": {
+         "_id": { "bsonType": "objectId" },
+         "user_id": { "bsonType": "string" },
+         "name": { "bsonType": "string" },
+         "image": { "bsonType": "string" }
+       }
+     }
+---
+title: Define a Schema for Task Documents
+ref: define-a-schema-for-task-documents
+level: 4
+content: |
+  The core function of a task tracker is to store data about a user's tasks. In
+  this app, we store the task data as documents in the ``tracker.tasks``
+  collection. Each task has a description and can have one of three statuses:
+  Open, In Progress, or Closed. Additionally, each task may specify a specific
+  user as its assignee. We'll use another schema to define the shape and
+  contents of documents in the ``tasks`` collection.
+
+  In the rules editor, select the ``tracker.tasks`` collection and then click
+  the :guilabel:`Schema` tab. Paste in the following schema and then click
+  :guilabel:`Save`.
+
+  .. code-block:: json
+     
+     {
+       "title": "task",
+       "required": [
+         "_id",
+         "description",
+         "status"
+       ],
+       "properties": {
+         "_id": { "bsonType": "objectId" },
+         "assignee": { "bsonType": "string" },
+         "description": { "bsonType": "string" },
+         "status": {
+           "bsonType": "string",
+           "enum": [
+             "Open",
+             "InProgress",
+             "Complete"
+           ]
+         }
+       }
+     }
+---
+title: Define a Relationship Between Tasks and Users
+ref: define-a-relationship-between-tasks-and-users
+level: 4
+content: |
+  The ``assignee`` field of each task contains the user id string of the user
+  that the task is assigned to. We can use this information to define a
+  relationship between documents in the ``tasks`` and ``users`` collections.
+  This will allow us to write GraphQL operations that can read and modify
+  related documents as if they were a single document.
+
+  To define the relationship, ensure you're editing rules for the
+  ``tracker.tasks`` collection and then click the :guilabel:`Relationships` tab.
+  Click :guilabel:`Add a Relationship` and define a relationship that points
+  from the ``assignee`` property to the ``user_id`` property in the
+  ``tracker.tasks`` collection.
+  
+  .. cssclass:: bordered-figure
+  .. figure:: /images/task-tracker-web-add-relationship.png
+  
+  .. .. code-block:: json
+  ..    
+  ..    {
+  ..      "projects": {
+  ..        "ref": "#/stitch/mongodb-atlas/tracker/projects",
+  ..        "foreign_key": "_id",
+  ..        "is_list": true
+  ..      }
+  ..    }
+...
