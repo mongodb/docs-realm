@@ -3,7 +3,14 @@ title: Create a HTTP Service
 ref: create-http-service
 content: |
 
-  To communicate with Github from a MongoDB Realm application, you must communicate over the HTTP protocol via an HTTP Service. This allows you to react to Github events, such as creating a new issue on your repo. To create an HTTP service, navigate to the :guilabel:`3rd Party Services` page and click the "Add a Service" in the MongoDB Realm UI. Configure your service options by clicking the option for an HTTP Service and specify your service name before clicking "Add Service" on the bottom right.
+  To communicate with Github from a MongoDB Realm application, you must
+  communicate over the HTTP protocol via an HTTP Service. This allows
+  you to react to Github events, such as creating a new issue on your
+  repo. To create an HTTP service, navigate to the :guilabel:`3rd Party
+  Services` page and click the "Add a Service" in the MongoDB Realm UI.
+  Configure your service options by clicking the option for an HTTP
+  Service and specify your service name before clicking "Add Service" on
+  the bottom right.
 
   .. figure:: /images/configure-your-http-service.png
      :alt: configure your http service in the MongoDB Realm UI
@@ -13,17 +20,26 @@ title: Create a Webhook for Your Service
 ref: create-webhook
 content: |
 
-  Creating a :wikipedia:`webhook <Webhook>` allows MongoDB Realm to execute a function when someone opens a new Github issue on your repository. To create a webhook for your newly created HTTP service, click your service name and click the "Add incoming webhook" button. 
+  Creating a :wikipedia:`webhook <Webhook>` allows MongoDB Realm to
+  execute a function when someone opens a new Github issue on your
+  repository. To create a webhook for your newly created HTTP service,
+  click your service name and click the "Add incoming webhook" button. 
 
   .. figure:: /images/add-incoming-webhook.png
      :alt: add incoming webhook
 
-  To configure your webhook settings, specify a name for your webhook. Copy the :guilabel:`Webhook URL`. Github utilizes this Webhook URL to execute the function logic for your HTTP Service. Click the "Save" button to save your webhook.
+  To configure your webhook settings, specify a name for your webhook.
+  Copy the :guilabel:`Webhook URL`. Github utilizes this Webhook URL to
+  execute the function logic for your HTTP Service. Click the "Save"
+  button to save your webhook.
 
     .. figure:: /images/configure-your-webhook.png
      :alt: configure your webhook
 
-  Finally, add some logic to your webhook function. In the function, add any ``console.log`` statement. This ``console.log`` will be printed to your application logs when someone opens a new issue on your repository. It should look something like the following.
+  Finally, add some logic to your webhook function. In the function, add
+  any ``console.log`` statement. This ``console.log`` will be printed to
+  your application logs when someone opens a new issue on your
+  repository. It should look something like the following.
 
   .. code-block:: javascript
     
@@ -37,7 +53,16 @@ title: Configure Github to Use the Webhook URL
 ref: configure-github
 content: |
 
-  To communicate between Github and Realm, configure Github with your Webhook URL, causing MongoDB Realm to execute the function logic upon the creation of a new issue on the Github Repository. On Github, navigate to the settings tab of your repository. Click the "add webhook" button. Paste your Webhook URL from MongoDB Realm into the input field that says "payload url". Set content type to "application/json". Click the option to "send me everything", allowing Github to send all events, including the new issue event, to your MongoDB Realm application. Finally, click the green "add webhook" button to finish adding your webhook.
+  To communicate between Github and Realm, configure Github with your
+  Webhook URL, causing MongoDB Realm to execute the function logic upon
+  the creation of a new issue on the Github Repository. On Github,
+  navigate to the settings tab of your repository. Click the "add
+  webhook" button. Paste your Webhook URL from MongoDB Realm into the
+  input field that says "payload url". Set content type to
+  "application/json". Click the option to "send me everything", allowing
+  Github to send all events, including the new issue event, to your
+  MongoDB Realm application. Finally, click the green "add webhook"
+  button to finish adding your webhook.
 
     .. figure:: /images/configure-github-webhook.png
      :alt: configure your webhook
@@ -46,7 +71,15 @@ title: Confirm That Your Webhook Worked
 ref: confirm-your-webhook
 content: |
 
-  Ensure that your Github Issue Tracker is functioning correctly so far by testing your webhook. To test if your webhook is working, open a new issue on your Github repository. You can use a different Github account if you want to simulate a real-life situation or use the account that you used to create your repository. Then check if your Realm app was prompted about the event, check your Realm application logs. Click the top-most result in the :guilabel:`Logs` Page to view the latest entry. It should be a log containing the text of your `console.log` statement, indicating that the webhook worked.
+  Ensure that your Github Issue Tracker is functioning correctly so far
+  by testing your webhook. To test if your webhook is working, open a
+  new issue on your Github repository. You can use a different Github
+  account if you want to simulate a real-life situation or use the
+  account that you used to create your repository. Then check if your
+  Realm app was prompted about the event, check your Realm application
+  logs. Click the top-most result in the :guilabel:`Logs` Page to view
+  the latest entry. It should be a log containing the text of your
+  `console.log` statement, indicating that the webhook worked.
 
     .. figure:: /images/check-application-logs.png
      :alt: check app logs
@@ -56,7 +89,11 @@ title: Update Your Function To Add a MongoDB Document
 ref: update-fn
 content: |
 
-  The Github Issue Tracker should insert a MongoDB Document into your Atlas collection. Inserting a document when someone creates a new issue opens your application to add new features, such as executing logic upon document insertion. Navigate to the "Function Editor" of your service.  Paste the following code into the function editor.
+  The Github Issue Tracker should insert a MongoDB Document into your
+  Atlas collection. Inserting a document when someone creates a new
+  issue opens your application to add new features, such as executing
+  logic upon document insertion. Navigate to the "Function Editor" of
+  your service.  Paste the following code into the function editor.
 
   .. code-block:: javascript
     
@@ -82,20 +119,36 @@ content: |
       }
     };
 
-  After pasting the code into your function editor, click the "Save" button. Click the "Review and Deploy Changes" option on the top of the screen.
+  After pasting the code into your function editor, click the "Save"
+  button. Click the "Review and Deploy Changes" option on the top of the
+  screen.
 
 ---
 title: Write a Comment When a Document Is Inserted
 ref: write-comment-on-doc-insert
 content: |
 
-  The Github Issue Tracker should write a helpful comment on newly opened Github Issues. You can do this by creating a Database Trigger that executes a function using the `Github Issues API <https://developer.github.com/v3/issues/>`_ to write a comment to the Github Issue. In order to use the Github API a token is required. Click "Settings" on the top right corner of your Github Profile (not your repository settings).
+  The Github Issue Tracker should write a helpful comment on newly
+  opened Github Issues. You can do this by creating a Database Trigger
+  that executes a function using the `Github Issues API
+  <https://developer.github.com/v3/issues/>`_ to write a comment to the
+  Github Issue. In order to use the Github API a token is required.
+  Click "Settings" on the top right corner of your Github Profile (not
+  your repository settings).
 
     .. figure:: /images/click-settings-on-github.png
      :width: 250px
      :alt: click settings on Github
 
-  Click the "Developer Settings" link on the bottom left. Then, click "Person access token". This page allows you to generate a new token. Click the "Generate new token" to generate a token that will allow you to use the Github API. Click the "admin:repo_hook" `OAuth scope <https://developer.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/>`_ to grant read and write access to repository hooks, including the opening of new issues. Finally, click "Generate Token" to finish configuring your Github token. Copy the 40 digit token that Github has generated.
+  Click the "Developer Settings" link on the bottom left. Then, click
+  "Person access token". This page allows you to generate a new token.
+  Click the "Generate new token" to generate a token that will allow you
+  to use the Github API. Click the "admin:repo_hook" `OAuth scope
+  <https://developer.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/>`_
+  to grant read and write access to repository hooks, including the
+  opening of new issues. Finally, click "Generate Token" to finish
+  configuring your Github token. Copy the 40 digit token that Github has
+  generated.
 
     .. figure:: /images/configure-access-token.png
      :alt: click settings on Github
@@ -105,13 +158,25 @@ title: Create a MongoDB Realm Value With the Github Token
 ref: create-realm-value
 content: |
 
-  You can define a MongoDB Realm :doc:`Secret </values-and-secrets/define-a-secret>` to store your Github token securely. You can link this secret to a :doc:`Value </values-and-secrets/define-a-value>` to be used within your Database Trigger Function. To begin, navigate to the :guilabel:`Values & Secrets` page and click the "Add a Secret" button. Specify a secret name and paste your 40 digit Github API Token into the "Secret Value" input and then click "Save". 
+  You can define a MongoDB Realm :doc:`Secret
+  </values-and-secrets/define-a-secret>` to store your Github token
+  securely. You can link this secret to a :doc:`Value
+  </values-and-secrets/define-a-value>` to be used within your Database
+  Trigger Function. To begin, navigate to the :guilabel:`Values &
+  Secrets` page and click the "Add a Secret" button. Specify a secret
+  name and paste your 40 digit Github API Token into the "Secret Value"
+  input and then click "Save". 
 
     .. figure:: /images/add-your-secret-token.png
      :width: 550px
      :alt: add your secret token
 
-  Next, click the "Values" tab and specify a value name (this value name will be used in our trigger function later). Set the "Value Type" as "Secret" and set the "Secret Name" as the secret you created in your previous step. Finally, click the save button. Saving your value will allow it to be accessible in any MongoDB Realm Function via the script ``context.values.get("<myValueName>")``.
+  Next, click the "Values" tab and specify a value name (this value name
+  will be used in our trigger function later). Set the "Value Type" as
+  "Secret" and set the "Secret Name" as the secret you created in your
+  previous step. Finally, click the save button. Saving your value will
+  allow it to be accessible in any MongoDB Realm Function via the script
+  ``context.values.get("<myValueName>")``.
 
    .. figure:: /images/create-a-value.png
      :width: 550px
@@ -122,19 +187,32 @@ title: Create a Database Trigger
 ref: create-db-trigger
 content: |
 
-  You can create a Database Trigger to enable your Issue Tracking app to respond to a new issue document by executing function logic. You can use function logic to perform actions, such as utilizing the Github API. To create your database trigger, navigate to the :guilabel:`Triggers` page and click the "Add a trigger button". Set your database and collection as the same database and collection that you insert documents related to Github issues into. Set the "operation type" to "Insert" for the trigger to fire upon document inserts in the collection.
+  You can create a Database Trigger to enable your Issue Tracking app to
+  respond to a new issue document by executing function logic. You can
+  use function logic to perform actions, such as utilizing the Github
+  API. To create your database trigger, navigate to the
+  :guilabel:`Triggers` page and click the "Add a trigger button". Set
+  your database and collection as the same database and collection that
+  you insert documents related to Github issues into. Set the "operation
+  type" to "Insert" for the trigger to fire upon document inserts in the
+  collection.
 
    .. figure:: /images/configure-db-trig.png
      :alt: configure the db trigger
 
-  Set the event type as "Function" and create a new function. This function will use the Github API to comment on the opened issue automatically.
+  Set the event type as "Function" and create a new function. This
+  function will use the Github API to comment on the opened issue
+  automatically.
 
 ---
 title: Automatically Comment on Github Issues
 ref: comment-on-github-issues
 content: |
 
-  You can add application logic to your Database trigger function to add a helpful comment on newly opened Github issues using the Github API. Paste the following code in your Database trigger function to post to Github when there is a new issue.
+  You can add application logic to your Database trigger function to add
+  a helpful comment on newly opened Github issues using the Github API.
+  Paste the following code in your Database trigger function to post to
+  Github when there is a new issue.
 
   .. code-block:: javascript
     
@@ -165,36 +243,47 @@ title: Confirm That Your DB Trigger Function Worked
 ref: comment-db-trigger-fn
 content: |
 
-  Testing that your Database Trigger Function worked is the next step in building your Task Tracker Application. Create a new issue on your Github repository. When there is a new issue, your webhook inserts a document into your collection, invoking the database trigger function. This database trigger function automatically comments on the Github issue with a helpful comment.
+  Testing that your Database Trigger Function worked is the next step in
+  building your Task Tracker Application. Create a new issue on your
+  Github repository. When there is a new issue, your webhook inserts a
+  document into your collection, invoking the database trigger function.
+  This database trigger function automatically comments on the Github
+  issue with a helpful comment.
 
 ---
 title: Create a Scheduled Trigger With Digest Info On The Github Issues
 ref: create-scheduled-trigger
 content: |
 
-  Create a scheduled to execute logic at a specific time. Your Github Task Tracker will utilize the scheduled trigger to log a weekly summary of the issues created. To create a scheduled trigger, navigate to the :guilabel:`Triggers` page and configure your trigger as a "Scheduled" trigger type. Then set the trigger to repeat once by the "Day of the Week" on "Sunday" to have the trigger fire every Sunday. You can choose an alternate day of the week, or switch the frequency of the scheduled trigger. Finally, set the event type as "Function" and paste the following code into your scheduled trigger function.
+  Create a scheduled to execute logic at a specific time. Your Github
+  Task Tracker will utilize the scheduled trigger to log a weekly
+  summary of the issues created. To create a scheduled trigger, navigate
+  to the :guilabel:`Triggers` page and configure your trigger as a
+  "Scheduled" trigger type. Then set the trigger to repeat once by the
+  "Day of the Week" on "Sunday" to have the trigger fire every Sunday.
+  You can choose an alternate day of the week, or switch the frequency
+  of the scheduled trigger. Finally, set the event type as "Function"
+  and paste the following code into your scheduled trigger function.
 
-   .. code-block:: javascript
-     
-      exports = async function() {
-
-        const collection = context.services.get("<clusterName>").db("<dbName>").collection("<collectionName>");
-        const query = {
-          timestamp: {
-          $gte: new Date(new Date() - 7 * 60 * 60 * 24 * 1000)
-          }
-        };
-        const projection = { "_id": 0, "title": 1 };
-
-        return collection.find(query, projection)
-          .toArray()
-          .then(items => {
-            
-            // set all the issue titles as a string
-            let issuesTitles = "";
-            items.forEach((item) => {
-              issuesTitles += `| ${item.title} |`
-            })
-            console.log(`Thanks for signing up for the weekly digest letter of our Github issues tracker app. This week you had ${items.length} issues submitted. The following  issues were created: ${issuesTitles}.`);
-          });
-      };
+  .. code-block:: javascript
+    
+     exports = async function() {
+       const collection = context.services.get("<clusterName>").db("<dbName>").collection("<collectionName>");
+       const query = {
+         timestamp: {
+         $gte: new Date(new Date() - 7 * 60 * 60 * 24 * 1000)
+         }
+       };
+       const projection = { "_id": 0, "title": 1 };
+       return collection.find(query, projection)
+         .toArray()
+         .then(items => {
+           
+           // set all the issue titles as a string
+           let issuesTitles = "";
+           items.forEach((item) => {
+             issuesTitles += `| ${item.title} |`
+           })
+           console.log(`Thanks for signing up for the weekly digest letter of our Github issues tracker app. This week you had ${items.length} issues submitted. The following  issues were created: ${issuesTitles}.`);
+         });
+     };
