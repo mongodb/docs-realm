@@ -51,4 +51,10 @@ content: |
          name: user.data.email,
        });
      };
+  
+  .. admonition:: MongoDB Automatically Adds Document IDs
+     :class: note
+     
+     MongoDB automatically adds a new ``ObjectID`` to the ``_id`` field of
+     documents on insert if the field didn't already exist.
 ...
