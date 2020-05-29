@@ -6,8 +6,9 @@ content: |
   collections in a linked MongoDB Atlas cluster. To define rules for a
   collection, you first need to make the collection available to your Realm app.
   
-  For this app, we'll use two collections: ``users`` and ``tasks``.
-
+  For this app, we'll use three collections: ``projects``, ``users``, and
+  ``tasks``.
+  
   Click :guilabel:`Rules` in the lefthand navigation to navigate to the rules
   editor. In the left sidebar of the rules editor, find the name of your linked
   cluster and click the plus button next to it. Realm will prompt you to add a
@@ -18,11 +19,58 @@ content: |
   select any permissions template. Click :guilabel:`Add Collection` to finish
   setting up the ``tracker.tasks`` collection.
   
-  Once complete, repeat this process to set up the ``tracker.users`` collection
-  as well.
+  Once complete, repeat this process to set up the ``tracker.users`` and
+  ``tracker.projects`` collections as well.
 
   .. cssclass:: bordered-figure
   .. figure:: /images/task-tracker-web-setup-collections.png
+---
+title: Define a Schema for Project Documents
+ref: define-a-schema-for-project-documents
+level: 4
+content: |
+  We want to group related tasks together into a single project. To do this, we
+  can store metadata for each project in the ``tracker.projects`` collection and
+  indicate the project that each task belongs to in the task document.
+  
+  In the rules editor, select the ``tracker.projects`` collection and then click
+  the :guilabel:`Schema` tab. Paste in the following schema and then click
+  :guilabel:`Save`.
+
+  .. code-block:: json
+     
+     {
+       "title": "Project",
+       "bsonType": "object",
+       "required": [
+         "_id",
+         "_partition",
+         "name"
+       ],
+       "properties": {
+         "_id": {
+           "bsonType": "objectId"
+         },
+         "_partition": {
+           "bsonType": "string"
+         },
+         "name": {
+           "bsonType": "string"
+         }
+       }
+     }
+  
+  .. admonition:: Sync Rules
+     :class: note
+     
+     In this project, we primarily use projects to handle security for mobile
+     applications using sync. Task and User documents include a project name as
+     their :ref:`partition key <partition-keys>` which allows us to sync tasks
+     for all of a user's projects.
+     
+     Data access permissions work differently for synced and non-synced
+     clusters, so you won't use these partition keys if you only connect through
+     the GraphQL API.
 ---
 title: Define a Schema for User Documents
 ref: define-a-schema-for-user-documents
@@ -50,10 +98,21 @@ content: |
          "name"
        ],
        "properties": {
-         "_id": { "bsonType": "objectId" },
-         "user_id": { "bsonType": "string" },
-         "name": { "bsonType": "string" },
-         "image": { "bsonType": "string" }
+         "_id": {
+           "bsonType": "objectId" 
+         },
+         "_partition": {
+           "bsonType": "string" 
+         },
+         "user_id": {
+           "bsonType": "string" 
+         },
+         "name": {
+           "bsonType": "string" 
+         },
+         "image": {
+           "bsonType": "string"
+         }
        }
      }
 ---
@@ -78,13 +137,23 @@ content: |
        "title": "task",
        "required": [
          "_id",
+         "_partition",
          "description",
          "status"
        ],
        "properties": {
-         "_id": { "bsonType": "objectId" },
-         "assignee": { "bsonType": "string" },
-         "description": { "bsonType": "string" },
+         "_id": {
+           "bsonType": "objectId"
+         },
+         "_partition": {
+           "bsonType": "string" 
+         },
+         "assignee": {
+           "bsonType": "string"
+         },
+         "description": {
+           "bsonType": "string"
+         },
          "status": {
            "bsonType": "string",
            "enum": [
@@ -114,14 +183,4 @@ content: |
   
   .. cssclass:: bordered-figure
   .. figure:: /images/task-tracker-web-add-relationship.png
-  
-  .. .. code-block:: json
-  ..    
-  ..    {
-  ..      "projects": {
-  ..        "ref": "#/stitch/mongodb-atlas/tracker/projects",
-  ..        "foreign_key": "_id",
-  ..        "is_list": true
-  ..      }
-  ..    }
 ...
