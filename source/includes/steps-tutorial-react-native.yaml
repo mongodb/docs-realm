@@ -1,17 +1,25 @@
 ---
-title: Create a New iOS Project
-ref: create-a-new-ios-project
+title: Install the React  Native CLI tool
+ref: install-cli-tool
 content: |
-  Open Xcode and create a new iOS Project. Use the "Single View App" template.
-  Enter your project details, select "Storyboard" for user interface, deselect
-  "Include Unit Tests", and save.
+  Before you begin creating your application, a react-native cli tool
+  should be installed. This tool will allow you to initialize a React
+  Native application and run your app using a preinstalled Android
+  Emulator or IOS Simulator.
+
+  Open your terminal and run the following command to install the cli
+  tool globally:
+
+  .. code-block:: text
+
+     npm install react-native -g
 ---
-title: Confirm That Your App Runs
-ref: confirm-that-your-app-runs
+title: Create a New React Native Project
+ref: create-a-new-rn-project
 content: |
-  Before adding new code, it's a good idea to make sure the
-  project is set up correctly and you can compile and run
-  the app. Test your app by selecting a simulator from the
-  build menu and pressing the Run button. Xcode should build
-  and launch your app successfully and present you with a
-  simulator with the empty app.
+  In order to begin developing your application, the cli tool will be
+  utilized. Open your terminal and run the following command:
+
+  .. code-block:: 
+
+     react-native init myTaskTrackerApplication

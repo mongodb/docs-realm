@@ -15,8 +15,9 @@ React Native Tutorial
 Overview
 --------
 
-In this first phase of the tutorial, you will create a task
-tracker app that allows users to:
+MongoDB Realm provides a Node SDK that allows you to create a Mobile
+Application with React Native. This tutorial illustrates the creation of
+a "Task Tracker" application that allows users to: 
 
 - Register themselves with email and password.
 - Sign in to their account with their email and password and sign out later.
@@ -24,6 +25,11 @@ tracker app that allows users to:
 
 This tutorial should take around 30 minutes.
 
+Outcome
+-------
+- You will learn how to model your data with :doc:`Realm Object Models </sync/configure-your-data-model>`
+- You will learn how to register and sign in users with MongoDB Realm :doc:`Email/Password Auth provider </authentication/email-password>`
+- You will learn how to :doc:`read </node/read>` and :doc:`write </node/writes>` data with Realm
 
 .. note::
    
@@ -41,9 +47,17 @@ Prerequisites
 Ensure you have the following 
 
 - `nodejs <https://nodejs.org/dist/latest-v10.x/>`_ version 10 or lower.
+- `Xcode <https://developer.apple.com/xcode/>`__ version 11.0 or higher, which requires macOS 10.14.4 or higher.
+- Have an Android Emulator available, such as `Android Studio <https://developer.android.com/studio>`_.
 
 
 Procedure
 ---------
 
 .. include:: /includes/steps/tutorial-react-native.rst
+
+
+Summary
+-------
+- MongoDB Realm Email/Password Authentication provider allows you to register and login users of your application
+- MongoDB Realm Object Models allow you to define your data model as native objects
