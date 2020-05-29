@@ -11,75 +11,41 @@ content: |
   ``isAssignee`` role applies to tasks where the user's id is listed in the
   document's ``asignee`` field and the ``default`` role applies to all other
   tasks.
-
-  .. tab-content:: tabs-realm-admin-interfaces
-     :tab-id: ui
-
-     In the rules editor, select the ``tracker.tasks`` collection and then click
-     the :guilabel:`Permissions` tab. Define two roles for the collection that
-     match the following specifications:
-     
-     .. list-table::
-        :header-rows: 1
-        :widths: 10 40 50
-        
-        * - Role Name
-          - Permissions
-          - Apply When
-        
-        * - ``isAssignee``
-          - - **Insert Documents:** true
-            - **Delete Documents:** true
-            - **Read All Fields:** true
-            - **Write All Fields:** true
-          - .. code-block:: json
-               
-               {
-                 "assignee": "%%user.id"
-               }
-        
-        * - ``default``
-          - - **Insert Documents:** false
-            - **Delete Documents:** false
-            - **Read All Fields:** true
-            - **Write All Fields:** false
-          - .. code-block:: json
-               
-               {}
-     
-     .. cssclass:: bordered-figure
-     .. figure:: /images/task-tracker-web-roles-tasks.png
   
-  .. tab-content:: tabs-realm-admin-interfaces
-     :tab-id: cli
-
-     .. code-block:: json
-        :caption: ``/services/mongodb-atlas/rules/tracker.tasks.json``
-
-        {
-          "roles": [
+  In the rules editor, select the ``tracker.tasks`` collection and then click
+  the :guilabel:`Permissions` tab. Define two roles for the collection that
+  match the following specifications:
+  
+  .. list-table::
+     :header-rows: 1
+     :widths: 10 40 50
+     
+     * - Role Name
+       - Permissions
+       - Apply When
+     
+     * - ``isAssignee``
+       - - **Insert Documents:** true
+         - **Delete Documents:** true
+         - **Read All Fields:** true
+         - **Write All Fields:** true
+       - .. code-block:: json
+            
             {
-              "name": "isAssignee",
-              "apply_when": {
-                "assignee": "%%user.id"
-              },
-              "insert": true,
-              "delete": true,
-              "write": true,
-              "fields": {},
-              "additional_fields": {}
-            },
-            {
-              "name": "default",
-              "apply_when": {},
-              "insert": false,
-              "delete": false,
-              "read": true,
-              "fields": {},
-              "additional_fields": {}
+              "assignee": "%%user.id"
             }
-          ]
-        }
+     
+     * - ``default``
+       - - **Insert Documents:** false
+         - **Delete Documents:** false
+         - **Read All Fields:** true
+         - **Write All Fields:** false
+       - .. code-block:: json
+            
+            {}
+  
+  .. cssclass:: bordered-figure
+  .. figure:: /images/task-tracker-web-roles-tasks.png
 ---
 title: Define Roles & Permissions for Users
 ref: define-roles-and-permissions-for-users
@@ -96,50 +62,27 @@ content: |
   To accomplish this, we'll define a single role for the ``users`` collection
   that applies to all requests.
 
-  .. tab-content:: tabs-realm-admin-interfaces
-     :tab-id: ui
-
-     In the rules editor, select the ``tracker.users`` collection and then click
-     the :guilabel:`Permissions` tab. Define a role for the collection that
-     matches the following specification:
-     
-     .. list-table::
-        :header-rows: 1
-        :widths: 10 40 50
-        
-        * - Role Name
-          - Permissions
-          - Apply When
-        
-        * - ``default``
-          - - **Insert Documents:** false
-            - **Delete Documents:** false
-            - **Read All Fields:** true
-            - **Write All Fields:** false
-          - .. code-block:: json
-               
-               {}
-     
-     .. cssclass:: bordered-figure
-     .. figure:: /images/task-tracker-web-roles-users.png
+  In the rules editor, select the ``tracker.users`` collection and then click
+  the :guilabel:`Permissions` tab. Define a role for the collection that matches
+  the following specification:
   
-  .. tab-content:: tabs-realm-admin-interfaces
-     :tab-id: cli
+  .. list-table::
+     :header-rows: 1
+     :widths: 10 40 50
      
-     .. code-block:: json
-        :caption: ``/services/mongodb-atlas/rules/tracker.tasks.json``
+     * - Role Name
+       - Permissions
+       - Apply When
      
-        {
-          "roles": [
-            {
-              "name": "default",
-              "apply_when": {},
-              "insert": false,
-              "delete": false,
-              "read": true,
-              "fields": {},
-              "additional_fields": {}
-            }
-          ]
-        }
+     * - ``default``
+       - - **Insert Documents:** false
+         - **Delete Documents:** false
+         - **Read All Fields:** true
+         - **Write All Fields:** false
+       - .. code-block:: json
+            
+            {}
+  
+  .. cssclass:: bordered-figure
+  .. figure:: /images/task-tracker-web-roles-users.png
 ...

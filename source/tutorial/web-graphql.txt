@@ -55,8 +55,6 @@ Once you're set up with these prerequisites, you're ready to start the tutorial.
 1. Set Up the MongoDB Realm Backend
 -----------------------------------
 
-.. .. tabs-pillstrip:: realmAdminInterfaces
-
 .. contents:: In this section
    :local:
    :backlinks: none
@@ -93,9 +91,6 @@ To allow users to read and write data, you must first define data access rules
 that determine whether a user has read or write permissions for a given
 document.
 
-.. tab-bar:: tabs-realm-admin-interfaces
-   :tab-ids: ui, cli
-
 .. include:: /includes/steps/task-tracker-web-rules.rst
 
 D. Configure User Authentication
@@ -107,54 +102,7 @@ email/password authentication. Authenticating users has the additional benefit
 of giving each user a persistent identity that we can associate with their tasks
 in order to easily find and secure them.
 
-.. tabs-realm-admin-interfaces::
-   
-   .. tab::
-      :tabid: ui
-
-      .. include:: /includes/steps/task-tracker-web-auth.rst
-   
-   .. tab::
-      :tabid: cli
-      
-      To enable the email/password authentication provider, paste the following
-      into ``/auth_providers/local-userpass.json`` in your application
-      directory.
-
-      .. code-block:: json
-         
-         {
-             "name": "local-userpass",
-             "type": "local-userpass",
-             "config": {
-                 "autoConfirm": true,
-                 "resetFunctionName": "resetFunc",
-                 "runConfirmationFunction": false,
-                 "runResetFunction": true
-             },
-             "disabled": false
-         }
-      
-      You'll also need to define the password reset function. Create the
-      ``/functions/resetFunc`` directory and add the following configuration and
-      source code files to the directory:
-      
-      .. code-block:: json
-         :caption: ``/functions/resetFunc/config.json``
-
-         {
-             "name": "resetFunc",
-             "private": false,
-             "can_evaluate": {}
-         }
-      
-      .. code-block:: javascript
-         :caption: ``/functions/resetFunc/source.js``
-        
-         exports = ({ token, tokenId, username, password }) => {
-           // will not reset the password
-           return { status: 'fail' };
-         };
+.. include:: /includes/steps/task-tracker-web-auth.rst
 
 E. Define an Authentication Trigger
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -165,17 +113,7 @@ every user, but that approach is prone to errors and adds complexity to your
 client applications. Instead, we can use a trigger to automatically add a
 document for each user when they register their acount.
 
-.. tabs-realm-admin-interfaces::
-   
-   .. tab::
-      :tabid: ui
-
-      .. include:: /includes/steps/task-tracker-web-trigger.rst
-   
-   .. tab::
-      :tabid: cli
-
-      todo
+.. include:: /includes/steps/task-tracker-web-trigger.rst
 
 F. Deploy Your App
 ~~~~~~~~~~~~~~~~~~
@@ -184,30 +122,13 @@ At this point your Realm App is fully configured and almost ready to accept
 requests from client applications. All that's left to do is to deploy the
 fully configured app.
 
-.. tabs-realm-admin-interfaces::
-   
-   .. tab::
-      :tabid: ui
-      
-      Click :guilabel:`Deploy` in the lefthand navigation and find the current
-      draft at the top of the deployment history table. Click the
-      :guilabel:`Review & Deploy Changes` button and review the diff to make
-      sure that everything looks correct. When you're ready to go live, click
-      :guilabel:`Deploy`.
-      
-      .. cssclass:: bordered-figure
-      .. figure:: /images/task-tracker-web-deploy-history.png
-   
-   .. tab::
-      :tabid: cli
-      
-      - Navigate to the app root
-      - Ensure that you're logged in to Realm CLI
-      - Import the app directory (make sure to use your App ID)
-        
-        .. code-block:: shell
-           
-           realm-cli import --app-id=task-tracker-abcde
+Click :guilabel:`Deploy` in the lefthand navigation and find the current draft
+at the top of the deployment history table. Click the :guilabel:`Review & Deploy
+Changes` button and review the diff to make sure that everything looks correct.
+When you're ready to go live, click :guilabel:`Deploy`.
+
+.. cssclass:: bordered-figure
+.. figure:: /images/task-tracker-web-deploy-history.png
 
 2. Set Up the Web Client
 ------------------------
