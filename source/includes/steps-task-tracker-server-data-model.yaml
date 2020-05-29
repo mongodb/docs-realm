@@ -1,6 +1,5 @@
 title: Set Up the MongoDB Collections
 ref: set-up-the-mongo-db-collections
-level: 4
 content: |
   You define the schemas for all data in your application as rules for
   collections in a linked MongoDB Atlas cluster. To define rules for a
@@ -27,7 +26,6 @@ content: |
 ---
 title: Define a Schema for Project Documents
 ref: define-a-schema-for-project-documents
-level: 4
 content: |
   We want to group related tasks together into a single project. To do this, we
   can store metadata for each project in the ``tracker.projects`` collection and
@@ -74,7 +72,6 @@ content: |
 ---
 title: Define a Schema for User Documents
 ref: define-a-schema-for-user-documents
-level: 4
 content: |
   We want to store some information for each user of the app in the
   ``tracker.users`` collection, such as their name and avatar image. These
@@ -118,7 +115,6 @@ content: |
 ---
 title: Define a Schema for Task Documents
 ref: define-a-schema-for-task-documents
-level: 4
 content: |
   The core function of a task tracker is to store data about a user's tasks. In
   this app, we store the task data as documents in the ``tracker.tasks``
@@ -167,7 +163,6 @@ content: |
 ---
 title: Define a Relationship Between Tasks and Users
 ref: define-a-relationship-between-tasks-and-users
-level: 4
 content: |
   The ``assignee`` field of each task contains the user id string of the user
   that the task is assigned to. We can use this information to define a

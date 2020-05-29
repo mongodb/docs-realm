@@ -36,14 +36,14 @@ The app is a task tracker that allows users to:
 - Add, view, and delete tasks.
 - Switch tasks between Open, In Progress, and Complete statuses
 
-0. Prerequisites
-----------------
+Prerequisites
+-------------
 
 Before you get started, you'll need the following:
 
-- A MongoDB Atlas account and cluster. For details on how to create an account
-  and set up a free ``M0`` cluster, see :atlas:`Get Started with Atlas
-  </getting-started>`.
+- A complete task tracker app in MongoDB Realm. If you haven't yet completed
+  :doc:`Create a Task Tracker App in MongoDB Realm </tutorial/realm-app>`, do
+  that before you continue.
 
 - :nodejs:`Node.js <>` installed on your machine.
 
@@ -52,95 +52,8 @@ Before you get started, you'll need the following:
 
 Once you're set up with these prerequisites, you're ready to start the tutorial.
 
-1. Set Up the MongoDB Realm Backend
------------------------------------
-
-.. contents:: In this section
-   :local:
-   :backlinks: none
-   :depth: 2
-   :class: singlecol
-
-A. Create a MongoDB Realm Application
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-To begin, you need to create a new MongoDB Realm app. A Realm app is a central,
-server-side configuration that functions as the backend for your application.
-
-.. include:: /includes/steps/task-tracker-web-create-realm-app.rst
-
-B. Define Your Data Model
-~~~~~~~~~~~~~~~~~~~~~~~~~
-
-In MongoDB Realm, all data conforms to schemas that you define. The types
-described by these schemas make up your app's data model and are a key part of
-data access and security. Realm uses your data model to generate GraphQL types
-and operations as well as to validate reads and writes.
-
-.. include:: /includes/steps/task-tracker-web-data-model.rst
-
-C. Define Data Access Permissions
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Once you've defined schemas for ``User`` and ``Task``, Realm automatically
-generates GraphQL types and resolvers that allow you to access data through the
-GraphQL API. By default, however, all GraphQL queries from a client application
-will fail.
-
-To allow users to read and write data, you must first define data access rules
-that determine whether a user has read or write permissions for a given
-document.
-
-.. include:: /includes/steps/task-tracker-web-rules.rst
-
-D. Configure User Authentication
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Every request sent to Realm must come from an authenticated user, so we need to
-have a way for users to create accounts and log in. For this app, we'll use
-email/password authentication. Authenticating users has the additional benefit
-of giving each user a persistent identity that we can associate with their tasks
-in order to easily find and secure them.
-
-.. include:: /includes/steps/task-tracker-web-auth.rst
-
-E. Define an Authentication Trigger
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-We want each user to have a corresponding document in the ``users`` collection
-that contains their information. We could create these documents manually for
-every user, but that approach is prone to errors and adds complexity to your
-client applications. Instead, we can use a trigger to automatically add a
-document for each user when they register their acount.
-
-.. include:: /includes/steps/task-tracker-web-trigger.rst
-
-F. Deploy Your App
-~~~~~~~~~~~~~~~~~~
-
-At this point your Realm App is fully configured and almost ready to accept
-requests from client applications. All that's left to do is to deploy the
-fully configured app.
-
-Click :guilabel:`Deploy` in the lefthand navigation and find the current draft
-at the top of the deployment history table. Click the :guilabel:`Review & Deploy
-Changes` button and review the diff to make sure that everything looks correct.
-When you're ready to go live, click :guilabel:`Deploy`.
-
-.. cssclass:: bordered-figure
-.. figure:: /images/task-tracker-web-deploy-history.png
-
-2. Set Up the Web Client
-------------------------
-
-.. contents:: In this section
-   :local:
-   :backlinks: none
-   :depth: 2
-   :class: singlecol
-
 A. Clone the Client App Repository
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------
 
 We've already put together a task tracker browser application that has most of
 the frontend code you'll need. You can clone client application repository
@@ -165,7 +78,7 @@ client application and install its dependencies:
    ``web`` subdirectory.
 
 B. Explore the App Structure & Components
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-----------------------------------------
 
 The web client is a standard React web application written in
 :typescript:`TypeScript <>` and scaffolded with `create-react-app
@@ -179,7 +92,7 @@ The project uses the following file structure:
 .. include:: /includes/task-tracker-web-client-base-file-structure.rst
 
 Realm & Apollo
-++++++++++++++
+~~~~~~~~~~~~~~
 
 The ``/src/realm`` directory contains all of the modules that you'll use to
 connect the application to Realm. These files are only incomplete scaffolds -
@@ -188,7 +101,7 @@ walks through adding the missing code in these files to connect the task tracker
 app to Realm.
 
 React Components & Hooks
-++++++++++++++++++++++++
+~~~~~~~~~~~~~~~~~~~~~~~~
 
 The ``/src/components`` and ``/src/hooks`` directories contain pre-built React
 components and hooks that handle local state management and UI rendering. The
@@ -209,7 +122,7 @@ components and hooks use the code that you write.
    documentation and tutorials.
 
 C. Connect to Your MongoDB Realm App
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+------------------------------------
 
 The client app needs to connect to your Realm app so that users can register and
 log in. In ``src/realm/RealmApp.tsx``, we import the Realm Web SDK to connect to
@@ -283,7 +196,7 @@ authentication.
       };
 
 D. Define the GraphQL Schema & Operations
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-----------------------------------------
 
 .. include:: /includes/steps/task-tracker-web-graphql.rst
 
@@ -403,7 +316,7 @@ D. Define the GraphQL Schema & Operations
       }
 
 E. Connect Apollo to the GraphQL API
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+------------------------------------
 
 We've defined GraphQL CRUD operations and used the code generator to create
 custom query and mutation hooks. However, these hooks must be wrapped in an
@@ -416,14 +329,14 @@ connect to your app's GraphQL API.
 
 .. include:: /includes/steps/task-tracker-web-apollo.rst
 
-3. Try It Out
--------------
+Try It Out
+----------
 
 The task tracker app is now fully configured so you can start it up to start
 tracking tasks.
 
-A. Start the App
-~~~~~~~~~~~~~~~~
+Start the App
+~~~~~~~~~~~~~
 
 To start the app, navigate to the project root in your shell and then enter the
 following command:
@@ -446,8 +359,8 @@ following:
 
 Open your browser to http://localhost:3000 to access the app.
 
-B. Register a New User
-~~~~~~~~~~~~~~~~~~~~~~
+Register a New User
+~~~~~~~~~~~~~~~~~~~
 
 You need to register a user account before you can log in and use the tracker.
 On the login screen, click :guilabel:`Register one now` and enter the email
@@ -458,8 +371,8 @@ address and/or simple password.
 .. cssclass:: bordered-figure
 .. figure:: /images/task-tracker-web-register-user.png
 
-C. Add Some Tasks
-~~~~~~~~~~~~~~~~~
+Add Some Tasks
+~~~~~~~~~~~~~~
 
 Once you register, the app automatically logs you in. You can now add tasks and
 use the tracker. To add a task, click :guilabel:`Add Task` at the bottom of any
@@ -469,8 +382,8 @@ of the lists, enter a name in the draft task that appears, then click
 .. cssclass:: bordered-figure
 .. figure:: /images/task-tracker-web-add-task.png
 
-D. Move Tasks Around
-~~~~~~~~~~~~~~~~~~~~
+Move Tasks Around
+~~~~~~~~~~~~~~~~~
 
 You can change the status of a task by dragging it between lists. You can also
 click on a task to open a detailed view with buttons that change the task's
@@ -480,8 +393,8 @@ status and allow you to delete the task entirely.
 .. figure:: /images/task-tracker-web-move-task.png
    :width: 750px
 
-E. Check Out the Logs
-~~~~~~~~~~~~~~~~~~~~~
+Check Out the Logs
+~~~~~~~~~~~~~~~~~~
 
 Whenever you add, update, or delete a task, the client app sends a GraphQL
 request to Realm. You can see a history of requests on the :guilabel:`Logs` page
@@ -492,8 +405,8 @@ rule evaluation summary.
 .. figure:: /images/task-tracker-web-graphql-logs.png
    :width: 750px
 
-4. What's Next?
----------------
+What's Next?
+------------
 
 You just built a functional task tracker web application built with MongoDB
 Realm. Great job!

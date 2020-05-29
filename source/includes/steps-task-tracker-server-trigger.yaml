@@ -1,6 +1,5 @@
 title: Create a New Trigger
 ref: create-a-new-trigger
-level: 4
 content: |
   To define a new trigger, click :guilabel:`Triggers` in the lefthand navigation
   and then click :guilabel:`Add a Trigger`.
@@ -10,7 +9,6 @@ content: |
 ---
 title: Define the Trigger Type
 ref: define-the-trigger-type
-level: 4
 content: |
   Set the :guilabel:`Trigger Type` to **Authentication** and give the trigger a
   descriptive name. We suggest ``onNewUser``, but you can use any name you like.
@@ -20,7 +18,6 @@ content: |
 ---
 title: Configure the Trigger Action
 ref: configure-the-trigger-action
-level: 4
 content: |
   We want the trigger to fire when users register a new account, so set the
   :guilabel:`Action Type` to **Create**. We're using email/password
@@ -32,7 +29,6 @@ content: |
 ---
 title: Define the Trigger Function
 ref: define-the-trigger-function
-level: 4
 content: |
   When a new user registers their account, we want to add a document to the
   ``tracker.users`` collection that describes the user. To do that, we'll use a
@@ -54,7 +50,7 @@ content: |
   
   .. admonition:: MongoDB Automatically Adds Document IDs
      :class: note
-     
+
      MongoDB automatically adds a new ``ObjectID`` to the ``_id`` field of
      documents on insert if the field didn't already exist.
 ...
