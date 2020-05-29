@@ -305,7 +305,7 @@ D. Define the GraphQL Schema & Operations
       }
       
       export function TaskView({ task }: TaskViewProps) {
-        const { status, assignee, description } = task;
+        const { status, assignee, name } = task;
         ...
       }
    
@@ -359,7 +359,7 @@ D. Define the GraphQL Schema & Operations
           mutation AddTask($task: TaskInsertInput!) {
             task: insertOneTask(data: $task) {
               _id
-              description
+              name
               status
               assignee {
                 _id
@@ -386,7 +386,7 @@ D. Define the GraphQL Schema & Operations
           const variables = {
             task: {
               status: task.status,
-              description: task.description,
+              name: task.name,
               assignee: task.assignee ? { link: task.assignee.user_id } : undefined,
             },
           };
@@ -463,7 +463,7 @@ C. Add Some Tasks
 
 Once you register, the app automatically logs you in. You can now add tasks and
 use the tracker. To add a task, click :guilabel:`Add Task` at the bottom of any
-of the lists, enter a description in the draft task that appears, then click
+of the lists, enter a name in the draft task that appears, then click
 :guilabel:`Add`.
 
 .. cssclass:: bordered-figure
