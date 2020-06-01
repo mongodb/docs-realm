@@ -56,9 +56,9 @@ access your {+app+} using your {+app+} ID. You can find your {+app+} ID in the
 Define Your Object Model
 ------------------------
 
-If have not :ref:`enabled {+sync+} <enable-sync>` or you enabled {+sync-short+} with :term:`Developer
-Mode` in the {+ui+}, you can define your :ref:`object model <ios-realm-objects>`
-directly in code.
+If have not :ref:`enabled {+sync+} <enable-sync>` or you enabled {+sync-short+} with
+:term:`Development Mode` in the {+ui+}, you can define your :ref:`object model
+<ios-realm-objects>` directly in code.
 
 .. note::
 
@@ -92,10 +92,9 @@ directly in code.
 Authenticate a User
 -------------------
 
-Anonymous Authentication
-~~~~~~~~~~~~~~~~~~~~~~~~
-
-When you have enabled :ref:`anonymous authentication <anonymous-authentication>` in the {+ui+}, users can immediately log into your app without providing any identifying information:
+When you have enabled :ref:`anonymous authentication <anonymous-authentication>` in the
+{+ui+}, users can immediately log into your app without providing any identifying
+information:
 
 .. code-block:: swift
 
@@ -113,45 +112,19 @@ When you have enabled :ref:`anonymous authentication <anonymous-authentication>`
         }
     }
 
-Email/Password Authentication
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+{+service-short+} provides many additional ways to authenticate, register, and link users.
 
-When you have enabled :ref:`email/password authentication
-<email-password-authentication>` in the {+ui+}, you can register a new user with an email and
-password:
-
-.. code-block:: swift
-
-   app.usernamePasswordProviderClient().registerEmail(username, password: password, completion: { (error) in
-     // Handle errors...
-     // Registering just registers. You can now log in.
-   }
-
-And you can log in with:
-
-.. code-block:: swift
-
-   let username = "skroob@example.com"
-   let password = "12345"
-   app.login(withCredential: AppCredentials(username: username, password: password)) { (user, error) in
-       DispatchQueue.main.sync {
-           guard error == nil else {
-               print("Login failed: \(error!)")
-               return
-           }
-           // Now logged in, do something with user
-        }
-   }
-
+.. seealso:: :ref:`Authenticate a User <ios-authenticate>`
 
 Open a Realm
 ------------
 
-Once you have :ref:`enabled {+sync+} <enable-sync>` and authenticated a user, you can open a synced :ref:`{+realm+} <ios-realms>`:
+Once you have :ref:`enabled {+sync+} <enable-sync>` and authenticated a user, you can open
+a synced :ref:`{+realm+} <ios-realms>`:
 
 .. code-block:: swift
 
-   let user = app.currentUser()s
+   let user = app.currentUser()
    let partitionValue = "myPartition"
    realm = try! Realm(configuration: user.configuration(partitionValue: partitionValue))
 
@@ -213,7 +186,8 @@ Finally, you can delete a task:
 Watch for Changes
 -----------------
 
-You can :ref:`watch a realm, collection, or object for changes <ios-client-notifications>` with the `observe` method.
+You can :ref:`watch a realm, collection, or object for changes <ios-client-notifications>`
+with the `observe` method.
 
 .. note::
 
