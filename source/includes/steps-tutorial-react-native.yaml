@@ -152,7 +152,7 @@ content: |
      // Access the Realm App.
      const app = getRealmApp();
 
-     // Create a new Context object that will be provided to descendents of the AuthProvider.
+     // Create a new Context object that will be provided to descendants of the AuthProvider.
      const AuthContext = React.createContext(null);
 
   The next code block defines the AuthProvider itself. Define the AuthProvider
@@ -175,7 +175,7 @@ content: |
   .. code-block:: js
 
      // The AuthProvider is responsible for user management and provides the
-     // AuthContext value to its descendents. Components under an AuthProvider can
+     // AuthContext value to its descendants. Components under an AuthProvider can
      // use the useAuth() hook to access the auth value.
      const AuthProvider = ({children}) => {
        const [user, setUser] = useState(null);
@@ -221,7 +221,7 @@ content: |
   .. note::
      
      Because we provided ``null`` as the initial value when we created the
-     AuthContext, if the component is **not** a descendent of an AuthProvider,
+     AuthContext, if the component is **not** a descendant of an AuthProvider,
      the context value is ``null``.
 
   We define the ``useAuth`` hook as follows, then export the AuthProvider and
@@ -447,11 +447,11 @@ content: |
      import {useAuth} from './AuthProvider';
      import {Task} from './schemas';
 
-     // Create the context that will be provided to descendents of TasksProvider via
+     // Create the context that will be provided to descendants of TasksProvider via
      // the useTasks hook.
      const TasksContext = React.createContext(null);
 
-  Now begin defining the TasksProvider component. The component accepts two
+  Now, begin defining the TasksProvider component. The component accepts two
   props: its children, of course, and a projectId to specify which subset of
   Tasks to work with.
   
@@ -489,11 +489,19 @@ content: |
   value, the {+realm+} contains all Tasks with that partition value. Otherwise,
   the request to open fails.
 
-  Upon success, we read all Tasks from the realm and attach a change listener to
-  the collection of Tasks. When the change listener fires -- due to a change to
-  the Tasks -- we react by updating the tasks list state variable with the
-  latest list of Tasks. This causes a re-render of all the child components, so
-  they are essentially notified of the change to the Tasks.
+  .. admonition:: Check the Logs Tab in the {+ui+}
+     :class: note
+
+     When working with {+sync+}, remember to check the :guilabel:`Logs` page in
+     the {+ui+}. That page usually contains additional information that can help
+     you troubleshoot any issues you may encounter.
+
+  Upon successfully opening the {+realm+}, we read all Tasks from the {+realm+}
+  and attach a change listener to the collection of Tasks. When the change
+  listener fires -- due to a change to the Tasks -- we react by updating the
+  tasks list state variable with the latest list of Tasks. This causes a
+  re-render of all the child components, so they are essentially notified of the
+  change to the Tasks.
 
   .. note::
 
@@ -510,11 +518,12 @@ content: |
   the next time the effect is run or when the TasksComponent unmounts. This
   simply closes the {+realm+} if it is open.
 
-  This is all perfectly good, but there's a race condition. If this cleanup
-  function runs before the request to asynchronously open the {+realm+}
-  completes, the {+realm+} open success handler might try to update invalid
-  state variables. Worse, since the cleanup function already ran, that
-  newly-opened {+realm+} won't get cleaned up, which is a resource leak!
+  Everything should work at this point, but there's a slight issue. If this
+  cleanup function runs before the request to asynchronously open the {+realm+}
+  completes, it creates a race condition where the {+realm+} open success
+  handler might try to update invalid state variables. Worse, since the cleanup
+  function already ran, that newly-opened {+realm+} won't get cleaned up, which
+  is a resource leak!
 
   We fix this with a simple ``canceled`` flag shared between the open success
   and cleanup callbacks. We set ``canceled`` to true in the cleanup callback. In
@@ -660,7 +669,7 @@ content: |
      :emphasize-lines: 6-12
 
        // Render the children within the TaskContext's provider. The value contains
-       // everything that should be made available to descendents that use the
+       // everything that should be made available to descendants that use the
        // useTasks hook.
        return (
          <TasksContext.Provider
@@ -676,14 +685,14 @@ content: |
        );
      };
 
-  Finally, define the ``useTasks`` hook that provides descendents of a
+  Finally, define the ``useTasks`` hook that provides descendants of a
   TasksProvider access to those Tasks and related actions, and export both the
   TasksProvider and the ``useTasks`` hook so we can use them elsewhere in the
   app:
 
   .. code-block:: js
 
-     // The useTasks hook can be used by any descendent of the TasksProvider. It
+     // The useTasks hook can be used by any descendant of the TasksProvider. It
      // provides the tasks of the TasksProvider's project and various functions to
      // create, update, and delete the tasks in that project.
      const useTasks = () => {
@@ -822,7 +831,7 @@ content: |
              bottomDivider
              checkmark={
                task.status === Task.STATUS_COMPLETE ? (
-                 <Text>&#10004;</Text>
+                 <Text>{'&#10004;' /* checkmark */}</Text>
                ) : task.status === Task.STATUS_IN_PROGRESS ? (
                  <Text>In Progress</Text>
                ) : null
@@ -953,8 +962,8 @@ content: |
      import {TasksProvider} from './TasksProvider';
      import {TasksView} from './TasksView';
 
-  Now update the AppBody component to use the TasksProviders and TasksView when
-  a user is logged in. We hardcode the projectId to "My Project" for now. In a
+  Update the AppBody component to use the TasksProviders and TasksView when a
+  user is logged in. We hardcode the projectId to "My Project" for now. In a
   future tutorial, we will implement Projects, which will allow us to enable
   more complex permissions and collaboration features.
 
@@ -996,9 +1005,12 @@ content: |
   Run your app and verify that you can log in and view, create, update, and
   delete Tasks.
 
-  Now run the app in another simulator and edit Tasks simultaneously to see
-  {+sync+} in action! When you make a change on one simulator, it should
-  automatically update on the other.
+  Run the app in another simulator and edit Tasks simultaneously to see {+sync+}
+  in action! When you make a change on one simulator, it should automatically
+  update on the other. For example, try adding a Task, changing its status, and
+  deleting a Task on one simulator. If everything is working correctly, the app
+  on the other simulator will automatically reflect the changes you make in real
+  time.
 
   Congratulations! You have completed the first {+realm+} React Native tutorial.
   How did it go? Please leave feedback using the feedback widget on the bottom
