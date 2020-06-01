@@ -1,0 +1,1323 @@
+---
+title: Create a New Android Studio Project
+ref: create-a-new-android-studio-project
+content: |
+  Open Android Studio and create a new Project. Use the "Empty Activity" template.
+  Enter your project details, name your project "Task Tracker", specify
+  a package name of "com.mongodb.tasktracker", select "Kotlin" as your language,
+  and save.
+---
+title: Confirm That Your App Runs
+ref: confirm-that-your-app-runs
+content: |
+  Before adding new code, it's a good idea to make sure the
+  project is set up correctly and you can compile and run
+  the app. Test your app by selecting an emulator from the
+  build menu and pressing the Run button. Android Studio should build
+  and launch your app successfully and present you with a
+  simulator running the empty app.
+---
+title: Install Realm as a Gradle plugin
+ref: install-realm-frameworks
+content: |
+  :ref:`Install the Realm plugin <android-install>` with the Gradle dependency
+  manager. The Maven and Ant build systems are not currently supported.
+
+  Gradle uses uses a file called ``build.gradle`` to track, load, and manage your project's
+  external dependencies. New Android Studio projects contain two ``build.gradle`` files
+  by default:
+
+    - a top-level project ``build.gradle`` file which defines build
+      configurations for all project modules
+
+    - a app module-level ``build.gradle`` file which allows you to
+      configure build settings for that module (your app) only.
+      
+  You can find the top-level ``build.gradle`` file at the root of your
+  project, and the application module-level file in the ``app``
+  directory of your project. See the location of these files
+  in the directory graphic below:
+
+  .. code-block::
+     :highlight-lines: 2, 4
+
+     .
+     ├── build.gradle       // project gradle file
+     ├── app
+     │   ├── build.gradle   // application gradle file
+     │   └── src
+     ├── gradle
+     │   └── wrapper
+     ├── gradle.properties
+     ├── gradlew
+     ├── gradlew.bat
+     ├── local.properties
+     ├── settings.gradle
+     └── Task Tracker.iml
+  
+  To add Realm as a gradle plugin, you'll have to:
+
+  - add the class path dependency to the project ``build.gradle`` file.
+  
+  - (BETA ONLY): add the jfrog artifactory maven repository to both the
+    ``buildscript`` and ``alllprojects`` configurations.
+
+  When done, your project ``build.gradle`` should look something like this:
+
+  .. code-block:: groovy
+     :emphasize-lines: 8-10, 15. 23-25
+
+      // Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+      buildscript {
+        ext.kotlin_version = '1.3.72'
+          repositories {
+              google()
+              jcenter()
+              maven {
+                  url 'http://oss.jfrog.org/artifactory/oss-snapshot-local'
+              }
+          }
+          dependencies {
+              classpath 'com.android.tools.build:gradle:3.6.3'
+              classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+              classpath "io.realm:realm-gradle-plugin:10.0.0-SNAPSHOT"
+          }
+       }
+
+       allprojects {
+          repositories {
+              google()
+              jcenter()
+              maven {
+                  url 'http://oss.jfrog.org/artifactory/oss-snapshot-local'
+              }
+          }
+       }
+
+       task clean(type: Delete) {
+          delete rootProject.buildDir
+       }
+
+  Now that you've added the Realm dependency itself, it's time to apply
+  the ``realm-android`` plugin in the app ``build.gradle`` file. Because
+  ``realm-android`` is dependent upon ``kotlin-kapt``, you may have to
+  apply the ``kotlin-kapt`` dependency as well.
+  
+  .. admonition::
+     Order matters for plugin ``apply`` statements in this file, so be
+     sure to put ``realm-android`` *after* the Kotlin plugins:
+
+  .. code-block:: groovy
+     :emphasize-lines: 4, 5
+
+     apply plugin: 'com.android.application'
+     apply plugin: 'kotlin-android'
+     apply plugin: 'kotlin-android-extensions'
+     apply plugin: 'kotlin-kapt'
+     apply plugin: 'realm-android'
+
+  Click "Sync" in the top right of the dropdown that appears in your Android
+  Studio code editor to download the Realm Android dependencies.
+
+  Then, enable Realm Sync dependencies by setting ``realm.syncEnabled``
+  to ``true`` in the app ``build.gradle`` file:
+
+  .. code-block:: groovy
+  
+     realm {
+      syncEnabled = true
+     }
+
+   Finally, you need to set up some constants to configure your app's
+   connection to {+service+}. in the ``android.buildTypes`` section,
+   define your Realm URL and App ID, which we'll use later in Kotlin
+   code to instantiate a connection:
+
+   .. code-block:: groovy
+   :emphasize-lines: 2-9
+
+      buildTypes {
+          def mongodbRealmUrl = "https://realm-dev.mongodb.com"
+          def appId = "<your app ID here>"  // Replace with proper Application ID
+          debug {
+              buildConfigField "String", "MONGODB_REALM_URL", "\"${mongodbRealmUrl}\""
+              buildConfigField "String", "MONGODB_REALM_APP_ID", "\"${appId}\""
+          }
+          release {
+              buildConfigField "String", "MONGODB_REALM_URL", "\"${mongodbRealmUrl}\""
+              buildConfigField "String", "MONGODB_REALM_APP_ID", "\"${appId}\""
+              minifyEnabled true
+              signingConfig signingConfigs.debug
+          }
+      }
+
+   Don't forget to fill in your app ID from MongoDB Realm!
+
+   When done, your app ``build.gradle`` file should look something like
+   this:
+
+  .. code-block:: groovy
+
+     apply plugin: 'com.android.application'
+     apply plugin: 'kotlin-android'
+     apply plugin: 'kotlin-android-extensions'
+     apply plugin: 'kotlin-kapt'
+     apply plugin: 'realm-android'
+
+     android {
+        compileSdkVersion 29
+        buildToolsVersion "29.0.2"
+
+        defaultConfig {
+            applicationId "com.mongodb.tasktracker"
+            minSdkVersion 21
+            targetSdkVersion 29
+            versionCode 1
+            versionName "1.0"
+
+            testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        }
+
+        buildTypes {
+            def mongodbRealmUrl = "https://realm-dev.mongodb.com"
+            def appId = "<your app ID here>"  // Replace with proper Application ID
+            debug {
+                buildConfigField "String", "MONGODB_REALM_URL", "\"${mongodbRealmUrl}\""
+                buildConfigField "String", "MONGODB_REALM_APP_ID", "\"${appId}\""
+            }
+            release {
+                buildConfigField "String", "MONGODB_REALM_URL", "\"${mongodbRealmUrl}\""
+                buildConfigField "String", "MONGODB_REALM_APP_ID", "\"${appId}\""
+                minifyEnabled true
+                signingConfig signingConfigs.debug
+            }
+        }
+
+     }
+
+     realm {
+        syncEnabled = true
+     }
+
+     dependencies {
+        implementation fileTree(dir: 'libs', include: ['*.jar'])
+        implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+        implementation 'androidx.appcompat:appcompat:1.1.0'
+        implementation 'com.google.android.material:material:1.1.0'
+        implementation 'androidx.core:core-ktx:1.2.0'
+        implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+        testImplementation 'junit:junit:4.12'
+        androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+        androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+     }
+
+---
+title: Build and Run the Project So Far
+ref: build-and-run-the-project-so-far
+content: |
+  Build and run the project again to verify that everything is configured
+  correctly.
+---
+title: Intialize Realm Globally
+ref: initialize-realm-globally
+content: |
+  Next, we need to initialize the connection to our {+app+}. Because
+  instances of ``RealmApp`` are expensive, we want to share one across
+  our entire application. You can create a global instance by creating a
+  class that extends the ``Application`` class. To do this:
+
+  1. Expand the ``app > java > com > mongodb`` folders in Android
+     Studio's project view.
+
+  2. Right click on the ``tasktracker`` folder in the folder hierarchy.
+
+  3. Select "New > Kotlin File/Class".
+
+  4. In the dialog box that appears, enter the name "TaskTracker" and
+     select "File".
+
+  Finally, replace the contents of the ``TaskTracker.kt`` file with the
+  following code:
+
+  .. code-block:: kotlin
+
+     package com.mongodb.tasktracker
+
+     import android.app.Application
+
+     import io.realm.Realm
+     import io.realm.RealmApp
+     import io.realm.RealmAppConfiguration
+     import io.realm.log.LogLevel
+     import io.realm.log.RealmLog
+
+     lateinit var taskApp: RealmApp
+
+     // global Kotlin extension that resolves to the short version
+     // of the name of the current class. Used for labelling logs.
+     inline fun <reified T> T.TAG(): String = T::class.java.simpleName
+
+     /*
+     * TaskTracker: Sets up the taskApp Realm App and enables Realm-specific logging in debug mode.
+     */
+     class TaskTracker : Application() {
+
+        override fun onCreate() {
+            super.onCreate()
+            Realm.init(this)
+            taskApp = RealmApp(RealmAppConfiguration.Builder(BuildConfig.MONGODB_REALM_APP_ID)
+                .baseUrl(BuildConfig.MONGODB_REALM_URL)
+                .appName(BuildConfig.VERSION_NAME)
+                .appVersion(BuildConfig.VERSION_CODE.toString())
+                .build())
+
+            // Enable more logging in debug mode
+            if (BuildConfig.DEBUG) {
+                RealmLog.setLevel(LogLevel.ALL)
+            }
+        }
+     }
+
+  In addition to instantiating the global ``RealmApp`` for the
+  application, this class also uses a Kotlin extension to provide a
+  logging tag that automatically resolves to the short name of any class
+  that uses the tag, so log output can be easily associated with logging
+  statements.
+
+  Finally, you'll have to let Android know that you've extended the
+  Application class with custom logic for the Task Tracker. To do this,
+  add the following line to the ``application`` tag of
+  ``AndroidManifest.xml``:
+
+  .. code-block:: xml
+
+     android:name="com.mongodb.tasktracker.TaskTracker"
+
+  Now your custom application-level logic should execute whenever your
+  app starts.
+---
+title: Rename MainActivity to TaskActivity
+ref: rename-mainactivity-to-taskactivity
+content: |
+  The name ``MainActivity`` isn't very descriptive of the purpose of
+  the initial activity launched by the TaskTracker app. Refactor
+  ``MainActivity`` to ``TaskActivity`` using the Refactor option in
+  Android Studio. This will also update the activity name in your app's
+  ``AndroidManifest``, so Android knows what activity to start when your
+  application launches. To rename this activity:
+
+  1. Find the ``MainActivity`` file in your app by expanding the
+     ``app > java > com > mongodb > tasktracker`` folders in Android
+     Studio's project view.
+
+  2. Right click on the ``MainActivity`` file in the folder hierarchy.
+
+  3. Select "Refactor > Rename".
+
+  4. In the dialog box that appears, replace the name "MainActivity"
+     with "TaskActivity".
+
+  5. Click the "Refactor" button.
+
+  If the ``MainActivity`` file disappears and a new file called
+  ``TaskActivity`` appears, the operation was successful.
+
+  You should also rename the layout corresponding to TaskActivity.
+  
+  1. Expand the ``app > res > layout`` folders in Android Studio's project
+     view.
+
+  2. Right click on ``activity_main.xml``.
+
+  3. Select "Refactor > Rename".
+
+  4. In the dialog box that appears, replace the name "activity_main.xml"
+     with "activity_task.xml".
+
+  5. Change the "Scope" dropdown to the "Project Files" option.
+
+  6. Click "Refactor".
+---
+title: Create the LoginActivity
+ref: create-the-login-activity
+content: |
+  Next, you'll need to create an activity that handles user login using
+  email and password credentials.
+
+  1. Find the ``tasktracker`` folder by expanding the
+     ``app > java > com > mongodb`` folders in Android Studio's project
+     view.
+  
+  2. Right click on the ``tasktracker`` folder.
+
+  3. Select "New" > "Activity" > "Empty Activity".
+
+  4. For "Activity Name", enter "LoginActivity". Make sure that
+     "Source Language" reads "Kotlin".
+
+  5. Click the "Finish" button.
+
+  You should see a new Kotlin file containing a class named "LoginActivity"
+  in the tasktracker folder of the project view.
+---
+title: Create the Layout for the Login Activity
+ref: layout-for-login-activity
+content: |
+  When a user starts the app, we want to present them with a
+  form into which they can enter their email address and
+  password. If they do not have an account, the user can
+  press a "create account" button to register an account. If the
+  account already exists, the user can press a "sign in"
+  button to sign in with that account.
+
+  First, you'll have to create a layout to describe the arrangement of
+  widgets and buttons presented to the viewer on the login page. To do
+  this, we'll edit ``activity_login.xml``, the layout file automatically
+  created by Android Studio for the Login Activity you created in the
+  previous step. You can find ``activity_login.xml`` by expanding the
+  ``app > res > layout`` folders in Android Studio's project view. By
+  default, Android Studio displays layout files in "Design" view, which
+  previews the XML as an arrangement of widgets for you. To actually
+  edit the XML, switch to "Code" view by clicking the button marked with
+  four horizontal lines on the upper right of the editor panel.
+  
+  Replace the contents of ``activity_login.xml`` with the
+  following layout:
+
+  .. code-block:: xml
+
+     <?xml version="1.0" encoding="utf-8"?>
+     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".LoginActivity">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingLeft="24dp"
+            android:paddingTop="56dp"
+            android:paddingRight="24dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="72dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="24dp"
+                android:contentDescription="@string/realm_logo"
+                android:text="@string/app_name" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp">
+
+                <EditText
+                    android:id="@+id/input_username"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/username"
+                    android:inputType="text" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp">
+
+                <EditText
+                    android:id="@+id/input_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/password"
+                    android:inputType="textPassword" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button_login"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="12dp"
+                android:padding="12dp"
+                android:text="@string/login" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button_create"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                android:padding="12dp"
+                android:text="@string/create_account" />
+        </LinearLayout>
+
+     </androidx.constraintlayout.widget.ConstraintLayout>
+
+  Android development best practices recommend that we refactor all
+  string text from our layout files into a special file called
+  ``strings.xml``. This way, all of your text is stored in one place, so
+  when you edit one string, you can keep other strings that user similar
+  text or styles consistent with each other. The layout code you just
+  added to ``activity_login.xml`` contains references to such strings,
+  which look like "@string/<variable name>". You can find ``strings.xml``
+  by expanding the ``app > res > values`` folders in Android Studio's
+  project view.
+  
+  To add the necessary variables to ``strings.xml``, replace the
+  contents of ``strings.xml`` with the following:
+
+  .. code-block:: xml
+
+     <resources>
+        <string name="app_name">Task Tracker</string>
+        <string name="username">Email</string>
+        <string name="password">Password</string>
+        <string name="create_account">Create account</string>
+        <string name="login">Login</string>
+     </resources>
+  
+  Once you've updated ``strings.xml``, Android Studio shouldn't show any
+  errors when you open ``activity_login.xml``.
+---
+title: Launch the Login Activity Whenever a User is Not Logged In
+ref: launch-the-login-activity
+content: |
+  The Task Tracker always requires a logged-in user to communicate with
+  your {+app+}. To ensure that there is always a logged-in user, you can
+  store the current app user as a member variable of ``TaskActivity``
+  and launch the ``LoginActivity`` whenever the current app user is
+  ``null``. To accomplish this, create a member variable of type
+  ``RealmUser`` and override the TaskActivity class ``onStart`` method
+  with custom logic that checks for a logged in user:
+
+  .. code-block:: kotlin
+
+     package com.mongodb.tasktracker
+
+     import android.content.Intent
+     import androidx.appcompat.app.AppCompatActivity
+     import android.os.Bundle
+     import io.realm.RealmUser
+     import io.realm.log.RealmLog
+
+     class TaskActivity : AppCompatActivity() {
+        private var user: RealmUser? = null
+
+        override fun onCreate(savedInstanceState: Bundle?) {
+            super.onCreate(savedInstanceState)
+            setContentView(R.layout.activity_main)
+        }
+        
+        override fun onStart() {
+            super.onStart()
+            try {
+                user = taskApp.currentUser()
+            } catch (e: IllegalStateException) {
+                RealmLog.warn(e)
+            }
+            if (user == null) {
+                // if no user is currently logged in, start the login activity so the user can authenticate
+                startActivity(Intent(this, LoginActivity::class.java))
+            }
+        }
+     }
+
+  With this code in place, upon running the app you should see the login
+  screen, with labelled "Email" and "Password" inputs as well as "Login"
+  and "Create Account" buttons. Unfortunately none of the buttons are
+  connected to any logic yet -- that'll come next!
+---
+title: Implement User Authentication in the Login Activity
+ref: implement-user-authentication
+content: |
+  Now that the application automatically prompts the user to log in, it's
+  time to implement the logic that actually creates accounts and logs
+  in users! To get started, create the following member variables in
+  ``LoginActivity``:
+
+  .. code-block:: kotlin
+
+     private lateinit var username: EditText
+     private lateinit var password: EditText
+     private lateinit var loginButton: Button
+     private lateinit var createUserButton: Button
+
+  Next, override the ``onBackPressed()`` function of ``LoginActivity``.
+  Because ``TaskActivity`` actually launched first, this prevents users
+  from launching ``TaskActivity`` without logging in by hitting
+  the back button:
+
+  .. code-block:: kotlin
+
+     override fun onBackPressed() {
+        // Disable going back to the MainActivity
+        moveTaskToBack(true)
+     }
+
+  Now it's time to create two utility methods to handle the two outcomes
+  of a user attempting to log into the app. The first,
+  ``onLoginSuccess()``, uses the ``finish()`` function to close the
+  ``LoginActivity`` when a user has managed to successfully authenticate:
+
+  .. code-block:: kotlin
+
+     private fun onLoginSuccess() {
+        // successful login ends this activity, bringing the user back to the task activity
+        finish()
+     }
+
+  The second, ``onLoginFailed()``, reacts to a user's unsuccessful
+  attempt to log in. This method logs an error and presents the error to
+  the user so they can figure out what went wrong:
+
+  .. code-block:: kotlin
+
+     private fun onLoginFailed(errorMsg: String) {
+        Log.v(TAG(), errorMsg)
+        Toast.makeText(baseContext, errorMsg, Toast.LENGTH_LONG).show()
+     }
+
+  You should also create another utility method to handle the most basic
+  validation of user credentials. In this case, ``validateCredentials``
+  just checks to see if the user has at least entered some data for both
+  the ``username`` and ``password`` fields:
+
+  .. code-block:: kotlin
+
+     private fun validateCredentials(): Boolean = when {
+        // zero-length usernames and passwords are not valid (or secure), so prevent users from creating accounts with those client-side.
+        username.text.toString().isEmpty() -> false
+        password.text.toString().isEmpty() -> false
+        else -> true
+     }
+
+  Now it's time to use these methods to handle the login logic! Begin
+  by connecting the member variables to the on-screen widgets in the
+  ``onCreate()`` method of the ``LoginActivity``. You should also define
+  click handlers for the "Login" and "Create User" buttons, for which
+  we'll define the ``login()`` method later:
+
+  .. code-block:: kotlin
+
+     public override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_login)
+        username = findViewById(R.id.input_username)
+        password = findViewById(R.id.input_password)
+        loginButton = findViewById(R.id.button_login)
+        createUserButton = findViewById(R.id.button_create)
+
+        loginButton.setOnClickListener { login(false) }
+        createUserButton.setOnClickListener { login(true) }
+     }
+
+  Finally, define the ``login()`` method. The logic begins by checking
+  the validity of the provided user credentials using the
+  ``validateCredentials()`` helper method. If the credentials aren't
+  valid, the method exits early. However, if the credentials are valid,
+  this method disables the "Create User" and "Login" buttons and, depending
+  on whether the user clicked "Create Account" or "Login", either
+  attempts to register a new user account or tries to log in using the
+  provided credentials. Both user registration and user login are called
+  asynchronously using the Realm App instantiated in the ``TaskTracker``
+  Application class. When either method returns, the buttons are enabled
+  again so that the user can try to log in or create an account with
+  different credentials. If the user successfully creates an account,
+  the same credentials are then used to log in for the first time.
+
+  .. code-block:: kotlin
+
+      // handle user authentication (login) and account creation
+    private fun login(createUser: Boolean) {
+        if (!validateCredentials()) {
+            onLoginFailed("Invalid username or password")
+            return
+        }
+
+        // while this operation completes, disable the buttons to login or create a new account
+        createUserButton.isEnabled = false
+        loginButton.isEnabled = false
+
+        val username = this.username.text.toString()
+        val password = this.password.text.toString()
+
+
+        if (createUser) {
+            // register a user using the Realm App we created in the TaskTracker class
+            taskApp.emailPasswordAuth.registerUserAsync(username, password) {
+                // re-enable the buttons after user registration completes
+                createUserButton.isEnabled = true
+                loginButton.isEnabled = true
+                if (!it.isSuccess) {
+                    onLoginFailed("Could not register user.")
+                    Log.v(TAG(), "Error: ${it.error}")
+                } else {
+                    Log.v(TAG(), "Successfully registered user.")
+                    // when the account has been created successfully, log in to the account
+                    login(false)
+                }
+            }
+        } else {
+            val creds = RealmCredentials.emailPassword(username, password)
+            taskApp.loginAsync(creds) {
+                // re-enable the buttons after
+                loginButton.isEnabled = true
+                createUserButton.isEnabled = true
+                if (!it.isSuccess) {
+                    RealmLog.error(it.error.toString())
+                    onLoginFailed(it.error.message ?: "An error occurred.")
+                } else {
+                    onLoginSuccess()
+                }
+            }
+        }
+    }
+
+    Now that the login logic has been defined, you should try running
+    your application. Enter a username and password, and hit the "Create
+    Account" button. The TaskActivity should launch, dispalying the text
+    "Hello World!"
+---
+title: Define Your {+frontend-schema+} 
+ref: define-your-frontend-schema
+content: |
+  Now that you have implemented authentication functionality,
+  you can define a model that our app can use. 
+  
+  1) Create a new, empty Package by right-clicking on the ``tasktracker``
+     folder in the Android project view.
+
+  2) Select ``New > Package`` and enter "model" to create a new
+     package ``com.mongodb.tasktracker.model``.
+     
+  3) Right click on the newly created ``model`` folder.
+
+  4) Select ``New > Kotlin File/Class`` and enter "Task" as the new
+     class name. Select "class" to create a file containing a barebones
+     definition of a ``Task`` class.
+  
+  Copy the following code into the new ``Task`` file:
+
+  .. code-block:: kotlin
+
+     package com.mongodb.tasktracker.model
+
+     import io.realm.RealmObject
+     import io.realm.annotations.PrimaryKey
+     import org.bson.types.ObjectId
+
+     open class Task(_name: String = "Task", project: String = "My Project") : RealmObject() {
+        @PrimaryKey var _id: ObjectId = ObjectId()
+        var _partition: String = project
+        var name: String = _name
+        var status: String = TaskStatus.OPEN.text
+
+     }
+
+  This Task class definition allows TaskTracker to work with task data
+  synchronized via {+client-database+}. By extending
+  ``RealmObject``, your application can persist, query for, and
+  synchronize objects of type ``Task`` using {+client-database+}.
+  
+  Every synced object needs a :term:`partition value`. Your {+app+}
+  should be configured to use a String called ``_partition`` as the
+  :term:`partition key`.
+
+  Our class provides default values for the ``name`` and ``_partition``
+  properties because {+client-database+} must be able to initialize new
+  instances of type ``Task``. In practice, however, users must provide
+  a name for new tasks.
+
+  Each task has a status represented by a String. The enum called
+  TaskStatus controls the possible values of ``status``. To create this
+  enum, follow these steps:
+
+  1) Right click on the ``model`` folder that contains ``Task``.
+
+  2) Select ``New > Kotlin File/Class`` and enter "TaskStatus" as the
+     new class name. Select "class" to create a file containing a
+     barebones definition of a ``TaskStatus`` class.
+
+  Copy the following code into the new ``TaskStatus`` file:
+
+  .. code-block:: kotlin
+
+     package com.mongodb.tasktracker.model
+
+
+     enum class TaskStatus(val text: String, val code: Int) {
+        OPEN("Open", 0),
+        IN_PROGRESS("In Progress", 1),
+        COMPLETE("Complete", 2)
+     }
+
+  Now that your data model has been defined, you're ready to display,
+  edit, and create tasks in the Task Tracker UI.
+---
+title: Implement the Task Adapter
+ref: implement-the-task-adapter
+content: |
+  To display and edit tasks via the Task Tracker UI, you'll need to use
+  a Recycler View. Android Recycler Views require an adapter: fortunately,
+  Realm provides a special Recycler View adapter for Realm so you can
+  easily connect your UI to your {+client-database+}.
+
+  To get started with the ``RealmRecyclerViewAdapter``, you'll need the
+  library containing Realm's Recycler View Adapter as well as the Android
+  library for Recycler Views. To add those libraries to your project, add
+  the following two lines to the ``dependencies`` section of your app
+  ``build.gradle``:
+
+  .. code-block:: groovy
+
+     implementation "io.realm:android-adapters:4.0.0"
+     implementation "androidx.recyclerview:recyclerview:1.1.0"
+
+  Remember to sync your gradle configuration after making these changes.
+  You can either hit the "sync" button in the banner that appears at the
+  top of the code editor or right click on your app ``build.gradle``
+  file in the Android Studio project view and select "Synchronize
+  'build.gradle (:app)'".
+
+  You'll also need to create a new layout file to describe the UI of
+  each object presented in the Recycler View.
+
+  1) Expand ``app > res > layout``.
+
+  2) Right click on the ``layout`` folder.
+
+  3) Select ``New > Layout Resource File``.
+
+  4) In the "name" input box, enter "task_view".
+
+  Replace the contents of the ``task_view`` layout with the following
+  code:
+
+  .. code-block:: xml
+
+     <?xml version="1.0" encoding="utf-8"?>
+     <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#ffffff"
+        android:orientation="horizontal"
+        android:layout_margin="1dp"
+        android:padding="8dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_alignParentStart="true"
+            android:padding="8dp">
+
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="1dp"
+                android:textColor="#000000"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="1dp"
+                android:textColor="#5d5d5d"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/menu"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:text="@string/more"
+            android:textSize="44sp"
+            android:textAppearance="?android:textAppearanceLarge"
+            android:paddingEnd="16dp"
+            tools:ignore="RelativeOverlap,RtlSymmetry" />
+
+     </RelativeLayout>
+
+  This layout refers to a string constant called "more". Add a line
+  defining the "more" constant to ``strings.xml`` (you can find
+  ``strings.xml`` in ``app > res > values``):
+
+  .. code-block:: xml
+
+     <string name="more">\u22EE</string>
+
+  Now that your project has defined a layout for items in a Recycler View,
+  it's time to extend the Realm Recycler View Adapter with custom logic
+  for the Task Tracker. To do this, create a new subclass of the adapter:
+
+  1) Right click on the ``model`` package containing the ``Task`` and
+     ``TaskStatus`` classes and select ``New > Kotlin File/Class``.
+
+  2) Enter "TaskAdapter" as the name of the new class.
+
+  3) Click "Class" to create the class.
+  
+  Now you can add the following code to define the ``TaskAdapter`` class:
+
+  .. code-block:: kotlin
+
+     package com.mongodb.tasktracker.model
+
+     import android.util.Log
+     import android.view.*
+     import android.widget.PopupMenu
+     import android.widget.TextView
+     import androidx.recyclerview.widget.RecyclerView
+     import com.mongodb.tasktracker.R
+     import com.mongodb.tasktracker.TAG
+     import io.realm.OrderedRealmCollection
+     import io.realm.Realm
+     import io.realm.RealmRecyclerViewAdapter
+     import io.realm.kotlin.where
+     import org.bson.types.ObjectId
+
+     /*
+     * TaskAdapter: extends the Realm-provided RealmRecyclerViewAdapter to provide data for a RecyclerView to display
+     * Realm objects on screen to a user.
+     */
+    internal class TaskAdapter(data: OrderedRealmCollection<Task>) : RealmRecyclerViewAdapter<Task, TaskAdapter.TaskViewHolder?>(data, true) {
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
+            val itemView: View = LayoutInflater.from(parent.context).inflate(R.layout.task_view, parent, false)
+            return TaskViewHolder(itemView)
+        }
+
+        override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
+            val obj: Task? = getItem(position)
+            holder.data = obj
+            holder.name.text = obj?.name
+            holder.status.text = obj?.status
+
+            // multiselect popup to control status
+            holder.itemView.setOnClickListener {
+                run {
+                    val popup = PopupMenu(holder.itemView.context, holder.menu)
+                    val menu = popup.menu
+
+                    // the menu should only contain statuses different from the current status
+                    if (holder.data?.status != TaskStatus.OPEN.text) {
+                        menu.add(0, TaskStatus.OPEN.code, Menu.NONE, TaskStatus.OPEN.text)
+                    }
+                    if (holder.data?.status != TaskStatus.IN_PROGRESS.text) {
+                        menu.add(0, TaskStatus.IN_PROGRESS.code, Menu.NONE, TaskStatus.IN_PROGRESS.text)
+                    }
+                    if (holder.data?.status != TaskStatus.COMPLETE.text) {
+                        menu.add(0, TaskStatus.COMPLETE.code, Menu.NONE, TaskStatus.COMPLETE.text)
+                    }
+
+                    // add a delete button to the menu, identified by the delete code
+                    val deleteCode = -1
+                    menu.add(0, deleteCode, Menu.NONE, "Delete Task")
+
+                    // handle clicks for each button based on the code the button passes the listener
+                    popup.setOnMenuItemClickListener { item: MenuItem? ->
+                        var status: String? = null
+                        when (item!!.itemId) {
+                            TaskStatus.OPEN.code -> {
+                                status = TaskStatus.OPEN.text
+                            }
+                            TaskStatus.IN_PROGRESS.code -> {
+                                status = TaskStatus.IN_PROGRESS.text
+                            }
+                            TaskStatus.COMPLETE.code -> {
+                                status = TaskStatus.COMPLETE.text
+                            }
+                            deleteCode -> {
+                                removeAt(holder.data?._id!!)
+                            }
+                        }
+
+                        // if the status variable has a new value, update the status of the task in realm
+                        if (status != null) {
+                            Log.v(TAG(), "Changing status of ${holder.data?.name} (${holder.data?._id}) to $status")
+                            changeStatus(status, holder.data?._id)
+                        }
+                        true
+                    }
+                    popup.show()
+                }}
+        }
+
+        private fun changeStatus(_status: String, _id: ObjectId?) {
+            // need to create a separate instance of realm to issue an update, since this event is
+            // handled by a background thread and realm instances cannot be shared across threads
+            val bgRealm = Realm.getDefaultInstance()
+            // execute Transaction (not async) because changeStatus should execute on a background thread
+            bgRealm!!.executeTransaction {
+                // using our thread-local new realm instance, query for and update the task status
+                val item = it.where<Task>().equalTo("_id", _id).findFirst()
+                item?.status = _status
+            }
+            // always close realms when you are done with them!
+            bgRealm.close()
+        }
+
+        private fun removeAt(id: ObjectId) {
+            // need to create a separate instance of realm to issue an update, since this event is
+            // handled by a background thread and realm instances cannot be shared across threads
+            val bgRealm = Realm.getDefaultInstance()
+            // execute Transaction (not async) because remoteAt should execute on a background thread
+            bgRealm!!.executeTransaction {
+                // using our thread-local new realm instance, query for and delete the task
+                val item = it.where<Task>().equalTo("_id", id).findFirst()
+                item?.deleteFromRealm()
+            }
+            // always close realms when you are done with them!
+            bgRealm.close()
+        }
+
+        internal inner class TaskViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+            var name: TextView = view.findViewById(R.id.name)
+            var status: TextView = view.findViewById(R.id.status)
+            var data: Task? = null
+            var menu: TextView = view.findViewById(R.id.menu)
+
+        }
+    }
+
+    This class contains a few methods that define how Task Tracker interacts
+    with {+backend+}.
+
+    - ``onCreateViewHolder()``: Creates views on demand for the Recycler
+      View. This uses the ``task_view`` layout you just created.
+
+    - ``onBindViewHolder()``: Displays data from a specific ``Task`` object
+      onto a layout provided by the Recycler View and created by
+      ``onCreateViewHolder()``. The vast majority of this method is taken
+      up by a click listener for the view that allows the user to change the
+      status or delete the task using a popup menu.
+
+    - ``changeStatus()``: Updates a Task in {+client-database+} to a new
+    ``status`` value. Because menu clicks are handled on a background
+    thread, this method has to create a new {+realm+} instance, query for
+    the Task it wants to update, and then update that Task in a transaction.
+
+    - ``removeAt()``: Deletes a Task from {+client-database+}. Just like
+    ``changeStatus()``, this method must create a new {+realm+} instance,
+    query for the Task it wants to delete, and then delete the Task in a
+    transaction.
+
+    TaskAdapter also contains an inner class called ``TaskViewHolder``,
+    used to store data unique to each item in the Recycler View.
+---
+title: Configure the Task Activity Layout
+ref: configure-the-task-activity-layout
+content: |
+  Expand the ``app > res > layout`` folders. Open ``activity_task.xml``
+  and replace the contents with the following code:
+
+  .. code-block:: xml
+   
+     <?xml version="1.0" encoding="utf-8"?>
+     <androidx.coordinatorlayout.widget.CoordinatorLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/activity_task"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/task_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@null" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/floating_action_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="16dp"
+            android:contentDescription="@string/new_task"
+            app:srcCompat="@mipmap/ic_plus"/>
+
+     </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+  To add the icon for the Floating Action Button:
+
+  1. Expand the ``app > res`` folders.
+
+  2. Right click the ``mipmap`` folder.
+
+  3. Select ``New > Image Asset``.
+
+  4. Change the "Asset Type" to "Clip Art".
+
+  5. Click the Android icon that displays.
+
+  6. In the "Select Icon" dialog box, search "add".
+
+  7. Select the icon labeled "add".
+
+  8. Click "OK".
+  
+  9. In the "Name" input, enter "ic_plus".
+
+  10. Click "Next".
+
+  11. Click "Finish".
+
+  ``TaskActivity`` also contains an options menu. To create the layout
+  for the options menu:
+  
+  1. Expand the ``app > res`` folders.
+  
+  2. Right click on the ``res`` folder.
+
+  3. Select ``New > Android Resource Directory``.
+
+  4. Use the "Resource type" dropdown to select the "menu" type.
+
+  5. Click "OK".
+
+  Once you've created the menu resource directory, right click the new
+  ``menu`` folder and select ``New > Menu Resource File``. Enter
+  "activity_task_menu" as the File name. Click "OK".
+
+  Replace the contents of ``activity_task_menu.xml`` with the following:
+
+  .. code-block:: xml
+
+     <menu xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        tools:context=".CounterActivity">
+        <item
+            android:id="@+id/action_logout"
+            android:orderInCategory="100"
+            android:title="@string/logout"
+            android:text="@string/logout"
+            app:showAsAction="always"/>
+     </menu>
+
+  These layouts uses string constants. To add them to this project,
+  expand the ``app > res > values`` folders and open ``strings.xml``.
+  Add the following lines:
+
+  .. code-block:: xml
+  
+     <string name="new_task">Create new task</string>
+     <string name="logout">Log Out</string>
+
+  Now that you've defined the widgets for the Task Activity, it's time
+  to wire those widgets up to programmatic logic.
+---
+title: Implement the Task Activity Logic
+ref: implement-the-task-activity-logic
+content: |
+  Replace the contents of ``TaskActivity`` with the following code:
+
+  .. code-block:: kotlin
+
+     package com.mongodb.tasktracker
+
+     import android.app.AlertDialog
+     import android.content.Intent
+     import android.os.Bundle
+     import android.util.Log
+     import android.view.Menu
+     import android.view.MenuItem
+     import android.widget.EditText
+     import androidx.appcompat.app.AppCompatActivity
+     import androidx.recyclerview.widget.DividerItemDecoration
+     import androidx.recyclerview.widget.LinearLayoutManager
+     import androidx.recyclerview.widget.RecyclerView
+     import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+     import io.realm.Realm
+     import io.realm.RealmUser
+     import io.realm.SyncConfiguration
+     import com.mongodb.tasktracker.model.TaskAdapter
+     import com.mongodb.tasktracker.model.Task
+     import io.realm.kotlin.where
+     import io.realm.log.RealmLog
+
+     /*
+     * TaskActivity: allows a user to view a collection of Tasks, edit the status of those tasks,
+     * create new tasks, and delete existing tasks from the collection. All tasks are stored in a realm
+     * and synced across devices using the partition "My Project", which is shared by all users.
+     */
+     class TaskActivity : AppCompatActivity() {
+        private lateinit var realm: Realm
+        private var user: RealmUser? = null
+        private lateinit var recyclerView: RecyclerView
+        private lateinit var adapter: TaskAdapter
+        private lateinit var fab: ExtendedFloatingActionButton
+
+        override fun onStart() {
+            super.onStart()
+            try {
+                user = taskApp.currentUser()
+            } catch (e: IllegalStateException) {
+                RealmLog.warn(e)
+            }
+            if (user == null) {
+                // if no user is currently logged in, start the login activity so the user can authenticate
+                startActivity(Intent(this, LoginActivity::class.java))
+            }
+            else {
+                // configure realm to use the current user and the partition corresponding to "My Project"
+                val config = SyncConfiguration.Builder(user!!, "My Project")
+                    .waitForInitialRemoteData()
+                    .build()
+
+                // save this configuration as the default for this entire app so other activities and threads can open their own realm instances
+                Realm.setDefaultConfiguration(config)
+
+                // Sync all realm changes via a new instance, and when that instance has been successfully created connect it to an on-screen list (a recycler view)
+                Realm.getInstanceAsync(config, object: Realm.Callback() {
+                    override fun onSuccess(realm: Realm) {
+                        // since this realm should live exactly as long as this activity, assign the realm to a member variable
+                        this@TaskActivity.realm = realm
+                        setUpRecyclerView(realm)
+                    }
+                })
+            }
+        }
+
+        override fun onStop() {
+            super.onStop()
+            user.run {
+                realm.close()
+            }
+        }
+
+        override fun onCreate(savedInstanceState: Bundle?) {
+            super.onCreate(savedInstanceState)
+            setContentView(R.layout.activity_task)
+
+            // default instance uses the configuration created in the login activity
+            realm = Realm.getDefaultInstance()
+            recyclerView = findViewById(R.id.task_list)
+            fab = findViewById(R.id.floating_action_button)
+
+            // create a dialog to enter a task name when the floating action button is clicked
+            fab.setOnClickListener {
+                val input = EditText(this)
+                val dialogBuilder = AlertDialog.Builder(this)
+                dialogBuilder.setMessage("Enter task name:")
+                    .setCancelable(true)
+                    .setPositiveButton("Create") { dialog, _ -> run {
+                        dialog.dismiss()
+                        val task = Task(input.text.toString())
+                        // all realm writes need to occur inside of a transaction
+                        realm.executeTransactionAsync { realm ->
+                            realm.insert(task)
+                        }
+                    }
+                    }
+                    .setNegativeButton("Cancel") { dialog, _ -> dialog.cancel()
+                    }
+
+                val dialog = dialogBuilder.create()
+                dialog.setView(input)
+                dialog.setTitle("Create New Task")
+                dialog.show()
+            }
+        }
+
+        override fun onDestroy() {
+            super.onDestroy()
+            recyclerView.adapter = null
+            // if a user hasn't logged out when we close the realm, still need to explicitly close
+            realm.close()
+        }
+
+        override fun onCreateOptionsMenu(menu: Menu): Boolean {
+            menuInflater.inflate(R.menu.activity_task_menu, menu)
+            return true
+        }
+
+        override fun onOptionsItemSelected(item: MenuItem): Boolean {
+            return when (item.itemId) {
+                R.id.action_logout -> {
+                    user?.logOutAsync {
+                        if (it.isSuccess) {
+                            // always close the realm when finished interacting to free up resources
+                            realm.close()
+                            user = null
+                            Log.v(TAG(), "user logged out")
+                            startActivity(Intent(this, LoginActivity::class.java))
+                        } else {
+                            RealmLog.error(it.error.toString())
+                            Log.e(TAG(), "log out failed! Error: ${it.error}")
+                        }
+                    }
+                    true
+                }
+                else -> {
+                    super.onOptionsItemSelected(item)
+                }
+            }
+        }
+
+        private fun setUpRecyclerView(realm: Realm) {
+            // a recyclerview requires an adapter, which feeds it items to display.
+            // Realm provides RealmRecyclerViewAdapter, which you can extend to customize for your application
+            // pass the adapter a collection of Tasks from the realm
+            // we sort this collection so that the displayed order of Tasks remains stable across updates
+            adapter = TaskAdapter(realm.where<Task>().sort("_id").findAll())
+            recyclerView.layoutManager = LinearLayoutManager(this)
+            recyclerView.adapter = adapter
+            recyclerView.setHasFixedSize(true)
+            recyclerView.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
+        }
+     }
+
+  This activity uses a few methods to implement the high level logic of
+  the task list display:
+
+  - ``onStart()``: If no user is logged in, starts the ``LoginActivity``.
+    Otherwise, instantiates a background {+realm+} stored in a member
+    variable that is used to synchronize the data displayed on the UI
+    with the {+backend+} backend.
+
+  - ``onStop()``: Ensures that the background {+realm+} created in
+    ``onStart()`` is closed when the activity ends.
+
+  - ``onCreate()``: Assigns a click handler to the Floating Action Button
+    that opens a dialog to collect user input to create new tasks.
+
+  - ``onOptionsItemSelected()``: Logs out the user when the logout button
+    is clicked.
+
+  - ``setUpRecyclerView()``: Instantiates a new TaskAdapter that provides
+    data for the Recycler View. This TaskAdapter uses a Live Realm
+    collection that provides an always up-to-date view of data in
+    {+client-database+}; provide a sort for the collection to ensure that
+    objects are always presented in a stable and consistent order.
+
+title: Test Your App
+ref: test-your-app
+content: |
+  Congratulations, you have completed the first phase of the
+  tutorial! You should now be able to:
+
+  - Compile and run your app.
+  - Register a new user with email/password authentication.
+  - Sign in as an existing user.
+  - View, create, update, and delete tasks.
+  - Sign out.
+
+  Grab a second device, run a second simulator, or edit data
+  in {+ui+} and see your app dynamically react to changes.
+
