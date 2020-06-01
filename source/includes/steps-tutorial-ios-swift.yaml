@@ -36,7 +36,7 @@ content: |
 
   - Set the iOS version to 13.0.
   - Add the line ``use_frameworks!`` if it is not already there.
-  - Add the line ``pod 'RealmSwift', '=10.0.0-alpha.4'`` to your main target.
+  - Add the line ``pod 'RealmSwift', '=10.0.0-alpha.6'`` to your main target.
 
   When done, your Podfile should look something like this:
 
@@ -50,7 +50,7 @@ content: |
           use_frameworks!
 
           # Pods for TaskTracker
-          pod 'RealmSwift', '=10.0.0-alpha.4'
+          pod 'RealmSwift', '=10.0.0-alpha.6'
 
         end
 
@@ -121,7 +121,7 @@ content: |
          static let REALM_BASE_URL = "https://realm-dev.mongodb.com"
      }
 
-     let app = RealmApp(Constants.REALM_APP_ID, configuration: AppConfiguration(baseURL: Constants.REALM_BASE_URL,
+     let app = RealmApp(id: Constants.REALM_APP_ID, configuration: AppConfiguration(baseURL: Constants.REALM_BASE_URL,
          transport: nil,
          localAppName: nil,
          localAppVersion: nil))
@@ -379,11 +379,9 @@ content: |
   Next, we handle errors. For now, let's just print them to
   the console and present them on our error label in the UI.
 
-  Finally, we set up our {+app+} to automatically verify
-  email/password accounts, so the user doesn't need to do
-  anything before they can use their account. So, we can go
-  ahead and sign in with the ``signIn()`` method we will
-  write now:
+  We set up our {+app+} to automatically verify email/password accounts, so the
+  user doesn't need to do anything before they can use their account. So, we can
+  go ahead and sign in with the ``signIn()`` method we will write now:
 
   .. code-block:: swift
 
@@ -406,7 +404,16 @@ content: |
                  }
  
                  print("Login succeeded!");
-                 self!.navigationController!.pushViewController(TasksViewController(), animated: true);
+
+                 // For the first phase of the tutorial, go directly to the Tasks page
+                 // for the hardcoded project ID "My Project".
+                 // This will use a common project and demonstrate sync.
+                 let partitionValue = "My Project"
+
+                 // Open a realm.
+                 let projectRealm = try! Realm(configuration: user.configuration(partitionValue: partitionValue))
+
+                 self!.navigationController!.pushViewController(TasksViewController(projectRealm: projectRealm), animated: true);
              }
          };
      }
@@ -424,9 +431,28 @@ content: |
   back to the main thread. Once on the main thread, we turn
   off the activity indicator and handle any errors.
 
-  Finally, if login succeeded, we can go ahead and proceed
-  to the next page. We push the next view controller to the
-  navigation controller.
+  If login succeeded, we can go ahead and open the {+realm+} to be used on the
+  next page. To do that, we decide on a :term:`partition value`. The partition
+  value determines which :term:`{+realm+}` we are reading and writing data in.
+
+  You may have noticed that we hardcoded the partition value to the phrase "My
+  Project". This makes it so that all tasks in the {+app+} -- even those created
+  on a second device by a different user -- belong to the same project. In a
+  future tutorial, we will allow the creation of different projects with
+  different access permissions.
+
+  After deciding the partition value, we open the {+realm+} with that partition
+  value and pass it to the next view controller. It's a good idea to pass the
+  {+realm+} rather than opening it in the next view controller itself, because
+  if the {+realm+} fails to open for some reason, you can handle the error
+  before loading the view.
+
+  .. admonition:: Check the Logs Tab in the {+ui+}
+     :class: note
+
+     On that note, when working with {+sync+}, remember to check the
+     :guilabel:`Logs` page in the {+ui+}. That page usually contains additional
+     information that can help you troubleshoot any issues you may encounter.
 
   At this point, you might want to comment out the line that
   mentions ``TasksViewController``, which we haven't defined
@@ -443,36 +469,23 @@ content: |
   selecting ``File > New > File...`` in Xcode and using the
   "Swift File" template.
   
-  For now, we just need a Task type to represent the tasks
-  in a project. Copy the following code into Models.swift:
+  We need to define the models of our schema. If you followed the backend setup
+  guide for this tutorial, you can view these models on the :guilabel:`SDKs`
+  page in the {+ui+} under the :guilabel:`Swift` tab.
+  
+  Copy the following code into Models.swift:
 
   .. code-block:: swift
 
+     import Foundation
      import RealmSwift
 
      typealias ProjectId = String
 
-     enum TaskStatus: String {
-         case Open
-         case InProgress
-         case Complete
-     }
-
-     class Task: Object {
-         @objc dynamic var _id: ObjectId = ObjectId.generate()
-         @objc dynamic var _partition: ProjectId = ""
+     class Project: Object {
+         @objc dynamic var _id = ObjectId.generate()
+         @objc dynamic var _partition = ""
          @objc dynamic var name = ""
-         @objc dynamic var status = TaskStatus.Open.rawValue
-
-         var statusEnum: TaskStatus {
-             get {
-                 return TaskStatus(rawValue: status)!
-             }
-             set {
-                 status = newValue.rawValue
-             }
-         }
-
          override static func primaryKey() -> String? {
              return "_id"
          }
@@ -484,9 +497,54 @@ content: |
          }
      }
 
-  This declares the class Task as a subclass of the
-  {+service-short+} Object class with the properties we
-  need.
+     class User: Object {
+         @objc dynamic var _id: ObjectId = ObjectId.generate()
+         @objc dynamic var _partition: String? = nil
+         @objc dynamic var image: String? = nil
+         @objc dynamic var name: String = ""
+         @objc dynamic var user_id: String = ""
+         override static func primaryKey() -> String? {
+             return "_id"
+         }
+     }
+
+     enum TaskStatus: String {
+       case Open
+       case InProgress
+       case Complete
+     }
+
+     class Task: Object {
+         @objc dynamic var _id: ObjectId = ObjectId.generate()
+         @objc dynamic var _partition: ProjectId = ""
+         @objc dynamic var assignee: User?
+         @objc dynamic var name = ""
+         @objc dynamic var status = TaskStatus.Open.rawValue
+
+         var statusEnum: TaskStatus {
+             get {
+                 return TaskStatus(rawValue: status) ?? .Open
+             }
+             set {
+                 status = newValue.rawValue
+             }
+         }
+
+         override static func primaryKey() -> String? {
+             return "_id"
+         }
+ 
+         convenience init(partition: String, name: String) {
+             self.init()
+             self._partition = partition
+             self.name = name
+         }
+     }
+
+  This declares the class Task as a subclass of the {+service-short+} Object
+  class with the properties we need. It also declares the other models we need
+  to interact with the backend schema we defined. We will use those other models
+  in a future tutorial.
   
   Every object we sync needs a :term:`partition value`. We
   configured our {+app+} to use a string called
@@ -529,17 +587,16 @@ content: |
 
   .. code-block:: swift
 
-     required init() {
-         // Ensure the user has logged in first.
-         guard let user = app.currentUser() else {
-             fatalError("Must be logged in to access this view")
+     required init(projectRealm: Realm) {
+         // Ensure the realm was opened with sync.
+         guard let syncConfiguration = projectRealm.configuration.syncConfiguration else {
+             fatalError("Sync configuration not found! Realm not opened with sync?");
          }
 
-         // Set the partition value used for opening the realm and creating tasks.
-         self.partitionValue = "My Project"
+         realm = projectRealm
 
-         // Open a realm.
-         realm = try! Realm(configuration: user.configuration(partitionValue: partitionValue))
+         // Partition value must be of string type.
+         partitionValue = syncConfiguration.partitionValue.stringValue!
 
          // Access all tasks in the realm.
          // Only tasks with the project ID as the partition key value will be in the realm.
@@ -548,38 +605,23 @@ content: |
          super.init(nibName: nil, bundle: nil)
      }
 
-    // Implement this overload of init to satisfy the UIViewController subclass requirement.
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+     // Implement this overload of init to satisfy the UIViewController subclass requirement.
+     required init?(coder aDecoder: NSCoder) {
+         fatalError("init(coder:) has not been implemented")
+     }
 
-  This code first checks that the user was logged in
-  successfully. Since we know we only come to this screen
-  from the WelcomeViewController after successful login,
-  this is really more of a check for programmer errors.
-
-  Next, we set a :term:`partition value`. The partition
-  value determines which :term:`{+realm+}` we are reading
-  and writing data in.
+  This code first checks that the passed-in {+realm+} was opened with sync.
+  Since we know we only come to this screen from the WelcomeViewController after
+  successful login and with a sync-enabled {+realm+}, this is really just to
+  protect against future programmer errors.
   
-  You may have noticed that we hardcoded the partition value
-  to the phrase "My Project". This makes it so that all
-  tasks in the {+app+} -- even those created on a second
-  device by a different user -- belong to the same project.
-  In a later phase of the tutorial, we will allow the
-  creation of different projects with different access
-  permissions.
-
-  After deciding the partition value, we open the {+realm+}
-  with that partition value and query for the
-  :ref:`collection <ios-client-collections>` of all tasks
-  within that {+realm+}. This collection is live: as we add,
-  remove, and update tasks -- even from another device --
-  this collection always contains the latest results of its
-  associated query.
-  
-  We'll get to reacting to these updates later. First, let's
-  continue setting up the TasksViewController.
+  We read the :term:`partition value` from the {+realm+}. We'll use that when
+  creating Tasks. Then we query for the :ref:`collection
+  <ios-client-collections>` of all tasks within that {+realm+}. This collection
+  is live: as we add, remove, and update tasks -- even from another device --
+  this collection always contains the latest results of its associated query.
+  We'll get to reacting to these updates later. First, let's continue setting up
+  the TasksViewController.
 ---
 title: Configure the Task List UI
 ref: configure-the-task-list-ui
@@ -906,4 +948,7 @@ content: |
 
   Grab a second device, run a second simulator, or edit data
   in {+ui+} and see your app dynamically react to changes.
+
+  How did it go? Please leave feedback using the feedback widget on the bottom
+  right of the page.
 
