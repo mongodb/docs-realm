@@ -1,0 +1,98 @@
+.. _tutorial-task-tracker-create-realm-app:
+
+==========================================
+Create a Task Tracker App in MongoDB Realm
+==========================================
+
+.. default-domain:: mongodb
+
+Prerequisites
+-------------
+
+Before you get started, you'll need a MongoDB Atlas account and cluster. For
+details on how to create an account and set up a free ``M0`` cluster, see
+:atlas:`Get Started with Atlas </getting-started>`.
+
+A. Create a MongoDB Realm Application
+-------------------------------------
+
+To begin, you need to create a new MongoDB Realm app. A Realm app is a central,
+server-side configuration that functions as the backend for your application.
+
+.. include:: /includes/steps/task-tracker-server-create-realm-app.rst
+
+B. Define Your Data Model
+-------------------------
+
+In MongoDB Realm, all data conforms to schemas that you define. The types
+described by these schemas make up your app's data model and are a key part of
+data access and security. Realm uses your data model to generate GraphQL types
+and operations as well as to validate reads and writes.
+
+.. include:: /includes/steps/task-tracker-server-data-model.rst
+
+C. Define Data Access Permissions
+---------------------------------
+
+Once you've defined schemas for ``User`` and ``Task``, Realm automatically
+generates GraphQL types and resolvers that allow you to access data through the
+GraphQL API. By default, however, all GraphQL queries from a client application
+will fail.
+
+To allow users to read and write data, you must first define data access rules
+that determine whether a user has read or write permissions for a given
+document.
+
+.. include:: /includes/steps/task-tracker-server-rules.rst
+
+D. Configure User Authentication
+--------------------------------
+
+Every request sent to Realm must come from an authenticated user, so we need to
+have a way for users to create accounts and log in. For this app, we'll use
+email/password authentication. Authenticating users has the additional benefit
+of giving each user a persistent identity that we can associate with their tasks
+in order to easily find and secure them.
+
+.. include:: /includes/steps/task-tracker-server-auth.rst
+
+E. Define an Authentication Trigger
+-----------------------------------
+
+We want each user to have a corresponding document in the ``users`` collection
+that contains their information. We could create these documents manually for
+every user, but that approach is prone to errors and adds complexity to your
+client applications. Instead, we can use a trigger to automatically add a
+document for each user when they register their acount.
+
+.. include:: /includes/steps/task-tracker-server-trigger.rst
+
+F. Deploy Your App
+------------------
+
+At this point your Realm App is fully configured and almost ready to accept
+requests from client applications. All that's left to do is to deploy the
+fully configured app.
+
+Click :guilabel:`Deploy` in the lefthand navigation and find the current draft
+at the top of the deployment history table. Click the :guilabel:`Review & Deploy
+Changes` button and review the diff to make sure that everything looks correct.
+When you're ready to go live, click :guilabel:`Deploy`.
+
+.. cssclass:: bordered-figure
+.. figure:: /images/task-tracker-web-deploy-history.png
+
+What's Next?
+------------
+
+You just built a functional task tracker application backend with MongoDB Realm.
+Great job!
+
+Now that you have a working Realm application, you can follow one of our client
+application tutorials to connect to your Realm app and manage tasks from a
+mobile or web application.
+  
+- :doc:`iOS (Swift) </tutorial/ios-swift>`
+- :doc:`Android (Kotlin) </tutorial/android-kotlin>`
+- :doc:`React Native (JavaScript) </tutorial/react-native>`
+- :doc:`Web/GraphQL (TypeScript) </tutorial/web-graphql>`

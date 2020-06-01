@@ -1,0 +1,455 @@
+.. _tutorial-task-tracker-web:
+
+==================
+Task Tracker (Web)
+==================
+
+.. default-domain:: mongodb
+
+.. raw:: html
+   
+   <!-- Hacky fix for step title headings -->
+   <style>
+   .sequence-block > .section > h4 {
+      margin: 24px 0;
+   }
+   div.section h2+ul {
+     margin-left: 0;
+   }
+   </style>
+
+.. contents:: Tutorial Sections
+   :local:
+   :backlinks: none
+   :depth: 1
+   :class: singlecol
+
+In this tutorial, you'll build a functional web application backed by the
+{+service+} GraphQL API. The app uses :reactjs:`React <>` to define UI
+components and :apollo-docs:`Apollo Client <react>` to run queries and mutations
+through the GraphQL API. We've already created most of the frontend application
+for you, so you don't need to know React to follow along.
+
+The app is a task tracker that allows users to:
+
+- Register and log in with an email/password account.
+- Add, view, and delete tasks.
+- Switch tasks between Open, In Progress, and Complete statuses
+
+Prerequisites
+-------------
+
+Before you get started, you'll need the following:
+
+- A complete task tracker app in MongoDB Realm. If you haven't yet completed
+  :doc:`Create a Task Tracker App in MongoDB Realm </tutorial/realm-app>`, do
+  that before you continue.
+
+- :nodejs:`Node.js <>` installed on your machine.
+
+- `git <https://git-scm.com/book/en/v2/Getting-Started-Installing-Git>`__
+  installed on your machine.
+
+Once you're set up with these prerequisites, you're ready to start the tutorial.
+
+A. Clone the Client App Repository
+----------------------------------
+
+We've already put together a task tracker browser application that has most of
+the frontend code you'll need. You can clone client application repository
+directly from GitHub:
+
+.. code-block:: shell
+   
+   git clone git@github.com:mongodb-university/realm-tutorial.git
+
+In your terminal, run the following commands to navigate to the task tracker
+client application and install its dependencies:
+
+.. code-block:: shell
+   
+   cd realm-tutorial/web
+   npm install
+
+.. note::
+
+   The ``realm-tutorial`` repo contains task tracker client applications for
+   multiple platforms. The project root for this tutorial is located in the
+   ``web`` subdirectory.
+
+B. Explore the App Structure & Components
+-----------------------------------------
+
+The web client is a standard React web application written in
+:typescript:`TypeScript <>` and scaffolded with `create-react-app
+<https://facebook.github.io/create-react-app/>`__. We encourage you to explore
+the files in the app for a few minutes before you continue the tutorial. This
+will help you to familiarize yourself with what the app contains and where
+you'll be working.
+
+The project uses the following file structure:
+
+.. include:: /includes/task-tracker-web-client-base-file-structure.rst
+
+Realm & Apollo
+~~~~~~~~~~~~~~
+
+The ``/src/realm`` directory contains all of the modules that you'll use to
+connect the application to Realm. These files are only incomplete scaffolds -
+some are blank and others require you to make some modifications. This tutorial
+walks through adding the missing code in these files to connect the task tracker
+app to Realm.
+
+React Components & Hooks
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+The ``/src/components`` and ``/src/hooks`` directories contain pre-built React
+components and hooks that handle local state management and UI rendering. The
+components import code from the files in ``/src/realm`` and use them to interact
+with Realm. We've already completely implemented these so you won't need to add
+any code to these files. We'll make sure to show you along the way how these
+components and hooks use the code that you write.
+
+.. admonition:: React Components
+   :class: note
+
+   React is a `popular
+   <https://insights.stackoverflow.com/survey/2020#technology-most-loved-dreaded-and-wanted-web-frameworks>`__
+   modern web application framework that uses a component model to maintain
+   application state and intelligently render pieces of the UI. If you're not
+   familiar with React or want to brush up on your knowledge, check out the
+   `official React website <https://reactjs.org>`_, which has excellent
+   documentation and tutorials.
+
+C. Connect to Your MongoDB Realm App
+------------------------------------
+
+The client app needs to connect to your Realm app so that users can register and
+log in. In ``src/realm/RealmApp.tsx``, we import the Realm Web SDK to connect to
+Realm and handle these actions. The file exports a React context provider that
+encapsulates this behavior and makes it available to other components in the
+app.
+
+Some of the functionality in ``RealmApp.tsx`` is not fully defined. You need to
+update the code to use the SDK to connect to your Realm app and handle user
+authentication.
+
+.. include:: /includes/steps/task-tracker-web-realmapp.rst
+
+.. admonition:: How We Use It
+   :class: admonition-example
+   
+   In ``/components/App.tsx``, we use the ``useRealmApp()`` hook to determine
+   when the main application is ready to render. We also check for an
+   authenticated user and always render exclusively the login screen unless a
+   user is logged in. This guarantees that only authenticated users can access
+   the rest of the app.
+   
+   .. code-block:: typescript
+      :copyable: false
+      :emphasize-lines: 2, 3, 6
+      
+      function RequireAuthentication() {
+        const app = useRealmApp();
+        if (!app) {
+          return <div>Loading</div>;
+        }
+        return app.user ? (
+          <RealmApolloProvider>
+            <Board />
+          </RealmApolloProvider>
+        ) : (
+          <LoginScreen />
+        );
+      }
+
+   In ``/components/LoginScreen.tsx``, we use the wrapped authentication methods
+   that you defined to log user in and register new users.
+     
+   .. code-block:: typescript
+      :copyable: false
+      :emphasize-lines: 4, 16
+
+      const handleLogin = async () => {
+        setError((e) => ({ ...e, password: undefined }));
+        try {
+          return await app.logIn(email, password);
+        } catch (err) {
+          handleAuthenticationError(err);
+        }
+      };
+    
+      const handleRegistrationAndLogin = async () => {
+        const isValidEmailAddress = validator.isEmail(email);
+        setError((e) => ({ ...e, password: undefined }));
+        if (isValidEmailAddress) {
+          try {
+            // Register the user and, if successful, log them in
+            await app.registerUser(email, password);
+            return await handleLogin();
+          } catch (err) {
+            handleAuthenticationError(err);
+          }
+        } else {
+          setError((err) => ({ ...err, email: "Email is invalid." }));
+        }
+      };
+
+D. Define the GraphQL Schema & Operations
+-----------------------------------------
+
+.. include:: /includes/steps/task-tracker-web-graphql.rst
+
+.. admonition:: How We Use It
+   :class: admonition-example
+   
+   We import the generated types defined in ``/src/types.ts`` in multiple
+   components throughout the app whenever that component needs to use data from
+   the GraphQL API. For example, in ``/src/components/TaskView.tsx`` we import
+   the generated ``Task`` type and use it to type the component's ``task`` prop.
+   
+   .. code-block:: typescript
+      :caption: ``/src/components/TaskView.tsx``
+      
+      import { Task } from "../types";
+      
+      interface TaskViewProps {
+        task: Task;
+      }
+      
+      export function TaskView({ task }: TaskViewProps) {
+        const { status, assignee, name } = task;
+        ...
+      }
+   
+   We use the custom Apollo hooks generated in ``/src/graphql-operations.ts``
+   call the GraphQL API as part of the task actions defined in ``useTasks()``.
+   
+   .. code-block:: typescript
+      :caption: ``/src/components/TaskView.tsx``
+      :emphasize-lines: 13-17, 20-22
+      
+      import { GetAllTasksQuery } from "./../types";
+      import {
+        useGetAllTasksQuery,
+        useAddTaskMutation,
+        useUpdateTaskMutation,
+        useDeleteTaskMutation,
+      } from "./../graphql-operations";
+
+      export function useTasks() {
+        const [tasks, setTasks] = React.useState<Task[]>([]);
+        
+        // Query for Tasks
+        const { loading } = useGetAllTasksQuery({ onCompleted: (data: GetAllTasksQuery) => {
+          if(data?.tasks) {
+            setTasks(data.tasks as Task[])
+          }
+        }});
+        
+        // Create Task Mutation Functions
+        const [addTaskMutation] = useAddTaskMutation();
+        const [updateTaskMutation] = useUpdateTaskMutation();
+        const [deleteTaskMutation] = useDeleteTaskMutation();
+
+        ...
+      }
+   
+   The custom query and mutation hooks are lightweight wrappers around Apollo's
+   ``useQuery()`` and ``useMutation()`` hooks. For example, you could define
+   ``useAddTaskMutation()`` yourself with the following code:
+   
+   .. code-block:: typescript
+      
+      import { Task, TaskInsertInput } from "../types";
+      import { useMutation } from "@apollo/react-hooks";
+      import gql from 'graphql-tag';
+      
+      type AddTaskMutation = { task: Task };
+      type AddTaskMutationVariables = { task: TaskInsertInput };
+      function useAddTaskMutation() {
+        return useMutation<AddTaskMutation, AddTaskMutationVariables>(gql`
+          mutation AddTask($task: TaskInsertInput!) {
+            task: insertOneTask(data: $task) {
+              _id
+              name
+              status
+              assignee {
+                _id
+                name
+                image
+                user_id
+              }
+            }
+          }
+        `);
+      }
+   
+   Later in the function, we use the functions returned from the mutation hooks
+   to execute the mutations.
+
+   .. code-block:: typescript
+      :caption: ``/src/components/TaskView.tsx``
+      :emphasize-lines: 5-11, 14
+      
+      export function useTasks() {
+        ...
+        
+        const addTask = async (task: Task) => {
+          const variables = {
+            task: {
+              status: task.status,
+              name: task.name,
+              assignee: task.assignee ? { link: task.assignee.user_id } : undefined,
+            },
+          };
+          const currentTasks = [...tasks];
+          try {
+            const result = await addTaskMutation({ variables });
+            const task = result.data?.task as Task;
+            setTasks([...tasks, task]);
+          } catch (err) {
+            setTasks(currentTasks);
+            throw new Error("Unable to add task");
+          }
+        };
+      }
+
+E. Connect Apollo to the GraphQL API
+------------------------------------
+
+We've defined GraphQL CRUD operations and used the code generator to create
+custom query and mutation hooks. However, these hooks must be wrapped in an
+Apollo context provider that makes an ``ApollClient`` object available.
+
+In ``src/realm/RealmApolloProvider.tsx``, we export a React component that
+provides the ``ApolloClient`` object but the function that instantiates the
+client is incomplete. You need to update the file to create a client that can
+connect to your app's GraphQL API.
+
+.. include:: /includes/steps/task-tracker-web-apollo.rst
+
+Try It Out
+----------
+
+The task tracker app is now fully configured so you can start it up to start
+tracking tasks.
+
+Start the App
+~~~~~~~~~~~~~
+
+To start the app, navigate to the project root in your shell and then enter the
+following command:
+
+.. code-block:: shell
+   
+   npm run start
+
+If the app starts successfully, you should see output that resembles the
+following:
+
+.. code-block:: shell
+   
+   Compiled successfully!
+   
+   You can now view task-tracker in the browser.
+   
+     Local:            http://localhost:3000
+     On Your Network:  http://191.175.1.124:3000
+
+Open your browser to http://localhost:3000 to access the app.
+
+Register a New User
+~~~~~~~~~~~~~~~~~~~
+
+You need to register a user account before you can log in and use the tracker.
+On the login screen, click :guilabel:`Register one now` and enter the email
+address and password that you want to log in with. This is just a sample app
+that does not send any validation emails, so feel free to use a fake email
+address and/or simple password.
+
+.. cssclass:: bordered-figure
+.. figure:: /images/task-tracker-web-register-user.png
+
+Add Some Tasks
+~~~~~~~~~~~~~~
+
+Once you register, the app automatically logs you in. You can now add tasks and
+use the tracker. To add a task, click :guilabel:`Add Task` at the bottom of any
+of the lists, enter a name in the draft task that appears, then click
+:guilabel:`Add`.
+
+.. cssclass:: bordered-figure
+.. figure:: /images/task-tracker-web-add-task.png
+
+Move Tasks Around
+~~~~~~~~~~~~~~~~~
+
+You can change the status of a task by dragging it between lists. You can also
+click on a task to open a detailed view with buttons that change the task's
+status and allow you to delete the task entirely.
+
+.. cssclass:: bordered-figure
+.. figure:: /images/task-tracker-web-move-task.png
+   :width: 750px
+
+Check Out the Logs
+~~~~~~~~~~~~~~~~~~
+
+Whenever you add, update, or delete a task, the client app sends a GraphQL
+request to Realm. You can see a history of requests on the :guilabel:`Logs` page
+of the Realm UI. Each GraphQL log entry shows the operation, compute usage, and
+rule evaluation summary.
+
+.. cssclass:: bordered-figure
+.. figure:: /images/task-tracker-web-graphql-logs.png
+   :width: 750px
+
+What's Next?
+------------
+
+You just built a functional task tracker web application built with MongoDB
+Realm. Great job!
+
+Now that you have some hands-on experience with MongoDB Realm, consider these
+options to keep practicing and learn more:
+
+- Extend the task tracker app with additional features. For example, you could:
+  
+  - allow users to change a task's assignee
+  - allow users to log in using another authentication provider
+  - support multiple projects that each have their own set of tasks
+
+- Follow another tutorial to build a mobile app for the task tracker. We have
+  task tracker tutorials for the following platforms:
+  
+  - :doc:`iOS (Swift) </tutorial/ios-swift>`
+  - :doc:`Android (Kotlin) </tutorial/android-kotlin>`
+  - :doc:`React Native (JavaScript) </tutorial/react-native>`
+
+- Dive deeper into the docs to learn more about MongoDB Realm. You'll find
+  information and guides on features like:
+  
+  - Serverless :doc:`functions </functions>` that handle backend logic and
+    connect your app to external services. You can call functions from a
+    client app, either directly or as a :doc:`custom GraphQL resolver
+    </graphql/custom-resolvers>`.
+  
+  - :doc:`Triggers </triggers>` and :ref:`incoming webhooks <service-webhooks>`,
+    which automatically call functions in response to events as they occur. You
+    can define :doc:`database triggers </triggers/database-triggers>` which
+    respond to changes in your data, :doc:`authentication triggers
+    </triggers/authentication-triggers>` which respond to user management and
+    authentication events, and :doc:`scheduled triggers
+    </triggers/scheduled-triggers>` which run on a fixed schedule.
+
+  - Built-in :doc:`authentication providers </authentication/providers>` and
+    and user management tools. You can allow users to log in through multiple
+    methods, like API keys and Google OAuth, and associate :doc:`custom data
+    </users/define-custom-user-data>` with every user.
+
+.. admonition:: Leave Feedback
+   :class: note
+   
+   How did it go? Please let us know if this tutorial was helpful or if you had
+   any issues by using the feedback widget on the bottom right of the page.
