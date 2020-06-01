@@ -120,13 +120,15 @@ extlinks = {
     'ios-sdk': ('https://docs.mongodb.com/stitch-sdks/swift/6/%s', ''),
     'js-sdk': ('https://docs.mongodb.com/stitch-sdks/js/4/%s', ''),
     'jwt-io': ('https://jwt.io/%s', ''),
-    'nodejs': ('https://nodejs.org/api/%s', ''),
+    'nodejs': ('https://nodejs.org/%s', ''),
     'npm': ('https://www.npmjs.com/%s', ''),
     'mdn': ('https://developer.mozilla.org/en-US/docs/%s', ''),
+    'reactjs': ('https://reactjs.org/%s', ''),
     'twilio': ('https://www.twilio.com/%s', ''),
     'wikipedia': ('https://en.wikipedia.org/wiki/%s', ''),
     'aws-docs': ('https://docs.aws.amazon.com/%s', ''),
     'fcm': ('https://firebase.google.com/docs/%s', ''),
+    'typescript': ('https://www.typescriptlang.org/%s', ''),
 }
 
 intersphinx_mapping = {}

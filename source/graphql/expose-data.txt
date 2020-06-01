@@ -65,99 +65,154 @@ foreign collection. The foreign collection can be any collection in the
 same :doc:`linked MongoDB Atlas cluster </mongodb/link-a-cluster>` as
 the local collection, including the local collection itself.
 
-Realm supports reference-based relationships where a value or array
-field in one document matches or contains the value of a field in a
-different document. Realm automatically looks up and resolves
-relationships in GraphQL queries.
+Relationships allow you to fluently reference and query related
+documents in GraphQL read and write operations. For example, you can
+query for a person and include the full document for each of their
+children from the same ``people`` collection:
+
+.. code-block:: graphql
+   
+   query {
+     person(query: { name: "Molly Weasley" }) {
+       _id
+       name
+       age
+       picture
+       children {
+         _id
+         name
+         age
+         picture
+       }
+     }
+   }
+
+
+Realm evaluates which foreign documents are related to a given local
+document based on a foreign key value. For each relationship, the local
+document contains either a single foreign key value or an array of
+foreign key values in a specific field. A document is related to any
+documents in the foreign collection where the value of the foreign key
+field matches a foreign key included in the local field.
 
 Relationship definitions have the following form:
 
 .. code-block:: json
-
+      
    {
-     "<Field Name>": {
+     "<Local Field Name>": {
        "ref": "#/realm/<Cluster>/<Database>/<Collection>",
-       "foreign_key": "<Foreign Collection Field Name>",
+       "foreign_key": "<Foreign Key Field Name>",
        "is_list": <Boolean>
      }
    }
 
-A relationship applies to a specific field and resolves to one or more
-documents in another collection. You specify the foreign collection with
-the ``ref`` field and the name of the field to look up in the foreign
-collection with the ``foreign_key`` field. The ``is_list`` boolean is
-``true`` only if the field that the relationship is defined on contains
-an array and indicates whether the relationship resolves to one or many
-documents.
+.. list-table::
+   :header-rows: 1
+   :widths: 20 20 60
+   
+   * - Field Name
+     - Type
+     - Description
+   
+   * - ``<Local Field Name>``
+     - String
+     - The name of a field defined in the local collection
+   
+   * - ``ref``
+     - String
+     - A path that specifies the foreign collection that contains the
+       related documents.
+   
+   * - ``foreign_key``
+     - String
+     - The field name that contains the reference value for each
+       document in the foreign collection. A document in the foreign
+       collection is related if its ``foreign_key`` value matches the
+       local field value.
+   
+   * - ``is_list``
+     - Boolean
+     
+     - Indicates whether the relationship is to a single document or
+       multiple documents. If ``true``, the local field contains an
+       array of values. Otherwise, the field contains a single value.
+       
+       A relationship is not valid if ``is_list`` is ``true`` but your
+       schema does not define the field as an array (or vice-versa).
 
 .. example::
-
-   An application has two collections:
-
-   - The ``movies`` collection contains documents that each describe a
-     movie.
-   - The ``comments`` collection contains documents that each describe a
-     user's comment on a specific movie.
-
-   The ``comments`` field of each document in the ``movies`` collection
-   is an array that contains the ``_id`` value of each document in the
-   ``comments`` collection that applies to the movie.
-
-   .. code-block:: json
-      :caption: Movie Collection Schema
-      :emphasize-lines: 5-8
-
-      {
-        "title": "Movie",
-        "properties": {
-          "title": { "bsonType": "string" },
-          "comments": {
-            "bsonType": "array",
-            "items": { "bsonType": "objectId" }
-          },
-          ...
+   
+   Consider an application that has two collections:
+   
+   - The ``accounts`` collection contains documents that each describe
+     a customer account.
+     
+     .. code-block:: json
+        :caption: Account Collection Schema
+        :emphasize-lines: 5
+        
+        {
+          "title": "Account",
+          "properties": {
+            "_id": { "bsonType": "objectId" },
+            "account_id": { "bsonType": "string" },
+            "products": {
+              "bsonType": "array",
+              "items": { "bsonType": "string" }
+            },
+            ...
+          }
         }
-      }
-
-   .. code-block:: json
-      :caption: Comment Collection Schema
-      :emphasize-lines: 4
-
-      {
-        "title": "Comment",
-        "properties": {
-          "_id": { "bsonType": "objectId" },
-          "name": { "bsonType": "string" },
-          "date": { "bsonType": "date" },
-          "text": { "bsonType": "string" }
+   
+   - The ``customers`` collection contains documents that each describe
+     a single customer that can have one or more accounts. Every
+     document in the ``customers`` collection has an ``accounts`` field
+     that contains an array of every ``account_id`` value from the
+     ``accounts`` collection that applies to the customer.
+     
+     .. code-block:: json
+        :caption: Customer Collection Schema
+        :emphasize-lines: 5-8
+        
+        {
+          "title": "Customer",
+          "properties": {
+            "username": { "bsonType": "string" },
+            "accounts": {
+              "bsonType": "array",
+              "items": { "bsonType": "string" }
+            },
+            ...
+          }
         }
-      }
-
-   To define the relationship, the app uses the following relationship
-   on the ``movies`` collection schema:
-
+   
+   The app defines this relationship on the ``customers`` collection. It
+   points from the array of account id values stored in the ``accounts``
+   field to the ``account_id`` field of each document in the
+   ``accounts`` collection.
+   
    .. code-block:: json
-
+      
       {
-        "comments": {
-          "ref": "#/realm/mongodb-atlas/sample_mflix/comments",
-          "foreign_key": "_id",
+        "accounts": {
+          "ref": "#/realm/mongodb-atlas/sample_analytics/accounts",
+          "foreign_key": "account_id",
           "is_list": true
         }
       }
-
-   Once the relationship is defined, Realm can fluidly include the
-   movie and its comments in the same GraphQL query.
-
+   
+   With this relationship defined, Stitch can fluidly return a customer
+   and all of their accounts in the same GraphQL query.
+   
    .. code-block:: text
-
-      query CommentsForMovie {
-        movie(query: { title: "The Matrix" }) {
-          title
-          comments {
-            name
-            date
-            text
+      
+      query CustomerAccounts {
+        customer(query: { username: "Elizabeth Ray" }) {
+          username
+          accounts {
+            account_id
+            products
           }
         }
       }
