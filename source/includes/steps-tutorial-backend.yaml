@@ -39,7 +39,7 @@ content: |
   Finally, add some logic to your webhook function. In the function, add
   any ``console.log`` statement. This ``console.log`` will be printed to
   your application logs when someone opens a new issue on your
-  repository. It should look something like the following.
+  repository. It should look something like the following.  
 
   .. code-block:: javascript
     
@@ -47,6 +47,12 @@ content: |
       console.log('- github event triggered -');
       return true;
     };
+
+  .. note::
+
+     After pasting the code into your function editor, click the "Save"
+     button. Click the "Review and Deploy Changes" option on the top of
+     the screen.
 
 ---
 title: Configure Github to Use the Webhook URL
@@ -84,6 +90,12 @@ content: |
     .. figure:: /images/check-application-logs.png
      :alt: check app logs
 
+  .. note::
+
+     If your console didn't log, make sure you have clicked the blue
+     "Review and Deploy" button at the top of the MongoDB Realm UI if it
+     is visible.
+
 ---
 title: Update Your Function To Add a MongoDB Document
 ref: update-fn
@@ -114,14 +126,16 @@ content: |
           timestamp: new Date()
         }
         // insert a document into your collection
-        const insertDoc = await context.services.get("<clusterName>").db("<dbName>").collection("<collectionName>").insertOne(issueDoc);
+        const insertDoc = await context.services.get("mongodb-atlas").db("tutorials").collection("myGithubIss").insertOne(issueDoc);
         console.log(JSON.stringify(insertDoc, null, 2));
       }
     };
 
-  After pasting the code into your function editor, click the "Save"
-  button. Click the "Review and Deploy Changes" option on the top of the
-  screen.
+  .. note::
+
+     After pasting the code into your function editor, click the "Save"
+     button. Click the "Review and Deploy Changes" option on the top of
+     the screen.
 
 ---
 title: Write a Comment When a Document Is Inserted
@@ -143,7 +157,7 @@ content: |
   Click the "Developer Settings" link on the bottom left. Then, click
   "Person access token". This page allows you to generate a new token.
   Click the "Generate new token" to generate a token that will allow you
-  to use the Github API. Click the "admin:repo_hook" `OAuth scope
+  to use the Github API. Click the "repo" and "admin:repo_hook" `OAuth scope
   <https://developer.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/>`_
   to grant read and write access to repository hooks, including the
   opening of new issues. Finally, click "Generate Token" to finish
@@ -176,7 +190,15 @@ content: |
   "Secret" and set the "Secret Name" as the secret you created in your
   previous step. Finally, click the save button. Saving your value will
   allow it to be accessible in any MongoDB Realm Function via the script
-  ``context.values.get("<myValueName>")``.
+  ``context.values.get("myGithubTokenVal")``.
+
+  .. note::
+
+     In the screenshot below, a value is created called
+     "myGithubTokenVal". If you have created your value with an
+     alternative name, access your value in a MongoDB Realm Function via
+     the script ``context.values.get("<value-name>")`` and replace
+     "<value-name>" with the name of your value.
 
    .. figure:: /images/create-a-value.png
      :width: 550px
@@ -217,11 +239,11 @@ content: |
   .. code-block:: javascript
     
      exports = function (changeEvent) { // the changeEvent refers to the document inserted
-       const githubToken = context.values.get("<githubTokenValue>"); // your Github access token
+       const githubToken = context.values.get("myGithubTokenVal"); // your Github access token
 
        const url = changeEvent.fullDocument.url; // the url of the issue
 
-       const http = context.services.get("<yourHTTPService>");
+       const http = context.services.get("redesigned-computing-machine"); // replace "redesigned-computing-machine" with the name of your HTTP Service from Step 1, if you chose a different name
 
        const githubURL = `${url}/comments?access_token=${githubToken}`;
 
@@ -229,13 +251,19 @@ content: |
          url: githubURL,
          body: {
            body:
-             "Hi this is the Github issue tracker bot for <username>, thank you for leaving an issue. We will respond to your issue shortly. For now, check out  stackoverflow  for helpful tips: https://stackoverflow.com/questions/tagged/mongodb",
+             "Hi this is the Github issue tracker bot for <github username>, thank you for leaving an issue. We will respond to your issue shortly. For now, check out  stackoverflow  for helpful tips: https://stackoverflow.com/questions/tagged/mongodb",
          },
          encodeBodyAsJSON: true,
          headers: {
            access_token: [githubToken],
          },
-       });
+       })
+      .then(response => {
+        // The response body is encoded as raw BSON.Binary. Parse it to JSON.
+        const ejson_body = EJSON.parse(response.body.text());
+        return ejson_body;
+      })
+      .catch(err => console.error(`An error has occurred with the DB Trigger: ${err}`));
      };
 
 ---
@@ -247,8 +275,22 @@ content: |
   building your Task Tracker Application. Create a new issue on your
   Github repository. When there is a new issue, your webhook inserts a
   document into your collection, invoking the database trigger function.
-  This database trigger function automatically comments on the Github
+  View the inserted document by navigating to the "Atlas" tab on the top
+  of your MongoDB Realm UI. Click the "collections" button for your
+  cluster. Once you have navigated to your collections view, click the
+  name of your collection in order to see your inserted document.
+
+   .. figure:: /images/backendtut-view-coll.png
+     :alt: view the collections for your cluster
+
+   .. figure:: /images/backendtut-view-docs.png
+     :alt: view the documents in your collection
+
+  The database trigger function automatically comments on the Github
   issue with a helpful comment.
+
+   .. figure:: /images/backendtut-githubcomment.png
+     :alt: view the github comment
 
 ---
 title: Create a Scheduled Trigger With Digest Info On The Github Issues
@@ -265,10 +307,17 @@ content: |
   of the scheduled trigger. Finally, set the event type as "Function"
   and paste the following code into your scheduled trigger function.
 
+  .. note::
+
+     In the code block below, a message is printed to the console. To
+     further expand on your MongoDB Realm application, you can remove
+     this message and hook MongoDB Realm to an automatic email service
+     such as SendGrid to print the message.
+
   .. code-block:: javascript
     
      exports = async function() {
-       const collection = context.services.get("<clusterName>").db("<dbName>").collection("<collectionName>");
+       const collection = context.services.get("mongodb-atlas").db("tutorials").collection("myGithubIss");
        const query = {
          timestamp: {
          $gte: new Date(new Date() - 7 * 60 * 60 * 24 * 1000)
