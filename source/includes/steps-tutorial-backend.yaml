@@ -34,7 +34,7 @@ content: |
   button to save your webhook.
 
     .. figure:: /images/configure-your-webhook.png
-     :alt: configure your webhook
+     :alt: MongoDB Realm - configure your webhook 
 
   Finally, add some logic to your webhook function. In the function, add
   any ``console.log`` statement. This ``console.log`` will be printed to
@@ -126,7 +126,7 @@ content: |
           timestamp: new Date()
         }
         // insert a document into your collection
-        const insertDoc = await context.services.get("mongodb-atlas").db("tracker").collection("myGithubIss").insertOne(issueDoc);
+        const insertDoc = await context.services.get("mongodb-atlas").db("tracker").collection("githubIssues").insertOne(issueDoc);
         console.log(JSON.stringify(insertDoc, null, 2));
       }
     };
@@ -318,7 +318,7 @@ content: |
   .. code-block:: javascript
     
      exports = async function() {
-       const collection = context.services.get("mongodb-atlas").db("tutorials").collection("myGithubIss");
+       const collection = context.services.get("mongodb-atlas").db("tutorials").collection("githubIssues");
        const query = {
          timestamp: {
          $gte: new Date(new Date() - 7 * 60 * 60 * 24 * 1000)
