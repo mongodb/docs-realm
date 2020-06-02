@@ -205,12 +205,12 @@ content: |
   "Secret" and set the "Secret Name" as the secret you created in your
   previous step. Finally, click the save button. Saving your value will
   allow it to be accessible in any MongoDB Realm Function via the script
-  ``context.values.get("myGitHubTokenVal")``.
+  ``context.values.get("myGithubTokenVal")``.
 
   .. note::
 
      In the screenshot below, a value is created called
-     "myGitHubTokenVal". If you have created your value with an
+     "myGithubTokenVal". If you have created your value with an
      alternative name, access your value in a MongoDB Realm Function via
      the script ``context.values.get("<value-name>")`` and replace
      "<value-name>" with the name of your value.
@@ -254,7 +254,7 @@ content: |
   .. code-block:: javascript
     
      exports = function (changeEvent) { // the changeEvent refers to the document inserted
-       const githubToken = context.values.get("myGitHubTokenVal"); // your GitHub access token
+       const githubToken = context.values.get("myGithubTokenVal"); // your GitHub access token
 
        const url = changeEvent.fullDocument.url; // the url of the issue
 
