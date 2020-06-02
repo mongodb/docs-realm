@@ -51,11 +51,11 @@ content: |
   manage your project's external dependencies. New Android Studio
   projects contain two ``build.gradle`` files by default:
 
-    - a top-level project ``build.gradle`` file which defines build
-      configurations for all project modules
+  - a top-level project ``build.gradle`` file which defines build
+    configurations for all project modules
 
-    - a module-level app ``build.gradle`` file which allows you to
-      configure build settings for that module (your app) only
+  - a module-level app ``build.gradle`` file which allows you to
+    configure build settings for that module (your app) only
       
   You can find the project ``build.gradle`` at the root of your
   project, and the app ``build.gradle`` in the ``app``
@@ -90,7 +90,7 @@ content: |
     ``build.gradle`` file
 
   To use the beta version of Realm, copy and paste the following code
-  into your project ``build.gradle`` file:
+  into your **project** ``build.gradle`` file:
 
   .. code-block:: groovy
      :emphasize-lines: 8-10, 15, 23-25
@@ -128,7 +128,7 @@ content: |
      }
 
   Now that you've added the Realm dependency itself, it's time to apply
-  the ``realm-android`` plugin in the app ``build.gradle`` file. Because
+  the ``realm-android`` plugin in the **app** ``build.gradle`` file. Because
   ``realm-android`` depends on ``kotlin-kapt``, you may have to
   apply the ``kotlin-kapt`` dependency as well.
   
@@ -147,7 +147,7 @@ content: |
      apply plugin: 'realm-android'
 
   Later in this tutorial, we'll use Android's Recycler View and the Realm
-  Adapter for Recycler Views. Add the dependencies for each to your app
+  Adapter for Recycler Views. Add the dependencies for each to your **app**
   ``build.gradle`` file:
 
   .. code-block:: groovy
@@ -156,7 +156,7 @@ content: |
      implementation "androidx.recyclerview:recyclerview:1.1.0"
 
   Then, enable Realm Sync dependencies by setting ``realm.syncEnabled``
-  to ``true`` in the app ``build.gradle`` file:
+  to ``true`` in the **app** ``build.gradle`` file:
 
   .. code-block:: groovy
   
@@ -189,7 +189,7 @@ content: |
 
    Replace ``<your app ID here>`` with your Realm app ID, which you can find in the {+ui+}.
 
-   When done, your app ``build.gradle`` file should look something like
+   When done, your **app** ``build.gradle`` file should look something like
    this:
 
   .. code-block:: groovy
@@ -1141,14 +1141,14 @@ content: |
     status or delete the task using a popup menu.
 
   - ``changeStatus()``: Updates a Task in {+client-database+} to a new
-  ``status`` value. Because menu clicks are handled on a background
-  thread, this method has to create a new {+realm+} instance, query for
-  the Task it wants to update, and then update that Task in a transaction.
+    ``status`` value. Because menu clicks are handled on a background
+    thread, this method has to create a new {+realm+} instance, query for
+    the Task it wants to update, and then update that Task in a transaction.
 
   - ``removeAt()``: Deletes a Task from {+client-database+}. Just like
-  ``changeStatus()``, this method must create a new {+realm+} instance,
-  query for the Task it wants to delete, and then delete the Task in a
-  transaction.
+    ``changeStatus()``, this method must create a new {+realm+} instance,
+    query for the Task it wants to delete, and then delete the Task in a
+    transaction.
 
   TaskAdapter also contains an inner class called ``TaskViewHolder``,
   used to store data unique to each item in the Recycler View.
@@ -1244,22 +1244,14 @@ content: |
             app:showAsAction="always"/>
      </menu>
 
-  These layouts uses string constants. To add them to this project,
-  expand the ``app > res > values`` folders and open ``strings.xml``.
-  Add the following lines:
-
-  .. code-block:: xml
-  
-     <string name="new_task">Create new task</string>
-     <string name="logout">Log Out</string>
-
   Now that you've defined the widgets for the Task Activity, it's time
   to wire those widgets up to programmatic logic.
 ---
 title: Implement the Task Activity Logic
 ref: implement-the-task-activity-logic
 content: |
-  Replace the contents of ``TaskActivity`` with the following code:
+  Replace the contents of ``TaskActivity`` with the following
+  code:
 
   .. code-block:: kotlin
 
@@ -1437,7 +1429,7 @@ content: |
     collection that provides an always up-to-date view of data in
     {+client-database+}; provide a sort for the collection to ensure that
     objects are always presented in a stable and consistent order.
-
+---
 title: Test Your App
 ref: test-your-app
 content: |
