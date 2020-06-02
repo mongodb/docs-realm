@@ -146,7 +146,7 @@ content: |
      apply plugin: 'kotlin-kapt'
      apply plugin: 'realm-android'
 
-  Later in this tutorial, we'll use Android's Recycler View and the Realm
+  Later in this tutorial, you'll use Android's Recycler View and the Realm
   Adapter for Recycler Views. Add the dependencies for each to your **app**
   ``build.gradle`` file:
 
@@ -166,7 +166,7 @@ content: |
 
   Finally, you need to set up some constants to configure your app's
   connection to {+service+}. In the ``android.buildTypes`` section,
-  define your Realm URL and App ID, which we'll use later in Kotlin
+  define your Realm URL and App ID, which you'll use later in Kotlin
   code to instantiate a connection:
 
   .. code-block:: groovy
@@ -262,8 +262,8 @@ content: |
 title: Intialize Realm Globally
 ref: initialize-realm-globally
 content: |
-  Next, we need to initialize the connection to our {+app+}. Because
-  instances of ``RealmApp`` are expensive, we want to share one across
+  Next, it's time to initialize the connection to the {+app+}. Because
+  instances of ``RealmApp`` are expensive, you'll want to share one across
   our entire application. You can create a global instance by creating a
   class that extends the ``Application`` class. To do this:
 
@@ -419,7 +419,7 @@ content: |
 title: Create the Layout for the Login Activity
 ref: layout-for-login-activity
 content: |
-  When a user starts the app, we want to present them with a
+  When a user starts the app, you'll want to present them with a
   form into which they can enter their email address and
   password. If they do not have an account, the user can
   press a "create account" button to register an account. If the
@@ -428,7 +428,7 @@ content: |
 
   First, you'll have to create a layout to describe the arrangement of
   widgets and buttons presented to the viewer on the login page. To do
-  this, we'll edit ``activity_login.xml``, the layout file automatically
+  this, you'll edit ``activity_login.xml``, the layout file automatically
   created by Android Studio for the Login Activity you created in the
   previous step. Open ``activity_login.xml`` by expanding the
   ``app > res > layout`` folders in Android Studio's project view. By
@@ -505,8 +505,8 @@ content: |
 
      </androidx.constraintlayout.widget.ConstraintLayout>
 
-  Android development best practices recommend that we refactor all
-  string text from our layout files into a special file called
+  Android development best practices recommend that developers refactor
+  all string text from our layout files into a special file called
   ``strings.xml``. This way, all of your text is stored in one place, so
   when you edit one string, you can keep other strings that user similar
   text or styles consistent with each other. The layout code you just
@@ -550,10 +550,10 @@ content: |
      package com.mongodb.tasktracker
 
      import android.content.Intent
+     import android.util.Log
      import androidx.appcompat.app.AppCompatActivity
      import android.os.Bundle
      import io.realm.RealmUser
-     import io.realm.log.RealmLog
 
      class TaskActivity : AppCompatActivity() {
         private var user: RealmUser? = null
@@ -568,7 +568,7 @@ content: |
             try {
                 user = taskApp.currentUser()
             } catch (e: IllegalStateException) {
-                RealmLog.warn(e)
+                Log.w(TAG(), e)
             }
             if (user == null) {
                 // if no user is currently logged in, start the login activity so the user can authenticate
@@ -628,7 +628,7 @@ content: |
   .. code-block:: kotlin
 
      private fun onLoginFailed(errorMsg: String) {
-        Log.v(TAG(), errorMsg)
+        Log.e(TAG(), errorMsg)
         Toast.makeText(baseContext, errorMsg, Toast.LENGTH_LONG).show()
      }
 
@@ -650,7 +650,7 @@ content: |
   by connecting the member variables to the on-screen widgets in the
   ``onCreate()`` method of the ``LoginActivity``. You should also define
   click handlers for the "Login" and "Create User" buttons, for which
-  we'll define the ``login()`` method later:
+  you'll define the ``login()`` method later:
 
   .. code-block:: kotlin
 
@@ -682,7 +682,7 @@ content: |
 
   .. code-block:: kotlin
 
-      // handle user authentication (login) and account creation
+    // handle user authentication (login) and account creation
     private fun login(createUser: Boolean) {
         if (!validateCredentials()) {
             onLoginFailed("Invalid username or password")
@@ -698,16 +698,16 @@ content: |
 
 
         if (createUser) {
-            // register a user using the Realm App we created in the TaskTracker class
+            // register a user using the Realm App created in the TaskTracker class
             taskApp.emailPasswordAuth.registerUserAsync(username, password) {
                 // re-enable the buttons after user registration completes
                 createUserButton.isEnabled = true
                 loginButton.isEnabled = true
                 if (!it.isSuccess) {
                     onLoginFailed("Could not register user.")
-                    Log.v(TAG(), "Error: ${it.error}")
+                    Log.e(TAG(), "Error: ${it.error}")
                 } else {
-                    Log.v(TAG(), "Successfully registered user.")
+                    Log.i(TAG(), "Successfully registered user.")
                     // when the account has been created successfully, log in to the account
                     login(false)
                 }
@@ -719,7 +719,6 @@ content: |
                 loginButton.isEnabled = true
                 createUserButton.isEnabled = true
                 if (!it.isSuccess) {
-                    RealmLog.error(it.error.toString())
                     onLoginFailed(it.error.message ?: "An error occurred.")
                 } else {
                     onLoginSuccess()
@@ -728,7 +727,7 @@ content: |
         }
     }
 
-  Now that the login logic has been defined, you should try running
+  Now that the login logic has been defined, try running
   your application. Enter a username and password and hit the "Create
   Account" button. The TaskActivity should launch, displaying the text
   "Hello World!"
@@ -776,7 +775,7 @@ content: |
         }
 
         private fun onLoginFailed(errorMsg: String) {
-            Log.v(TAG(), errorMsg)
+            Log.e(TAG(), errorMsg)
             Toast.makeText(baseContext, errorMsg, Toast.LENGTH_LONG).show()
         }
 
@@ -803,16 +802,16 @@ content: |
 
 
             if (createUser) {
-                // register a user using the Realm App we created in the TaskTracker class
+                // register a user using the Realm App created in the TaskTracker class
                 taskApp.emailPasswordAuth.registerUserAsync(username, password) {
                     // re-enable the buttons after user registration completes
                     createUserButton.isEnabled = true
                     loginButton.isEnabled = true
                     if (!it.isSuccess) {
                         onLoginFailed("Could not register user.")
-                        Log.v(TAG(), "Error: ${it.error}")
+                        Log.e(TAG(), "Error: ${it.error}")
                     } else {
-                        Log.v(TAG(), "Successfully registered user.")
+                        Log.i(TAG(), "Successfully registered user.")
                         // when the account has been created successfully, log in to the account
                         login(false)
                     }
@@ -922,7 +921,7 @@ title: Implement the Task Adapter
 ref: implement-the-task-adapter
 content: |
   To display and edit tasks via the Task Tracker UI, you'll need to use
-  a Recycler View. Android Recycler Views require an adapter: fortunately,
+  a Recycler View. Android Recycler Views require an adapter. Fortunately,
   Realm provides a special Recycler View adapter for Realm so you can
   easily connect your UI to your {+client-database+}.
 
@@ -1369,7 +1368,7 @@ content: |
         override fun onDestroy() {
             super.onDestroy()
             recyclerView.adapter = null
-            // if a user hasn't logged out when we close the realm, still need to explicitly close
+            // if a user hasn't logged out when the activity exits, still need to explicitly close the realm
             realm.close()
         }
 
@@ -1404,7 +1403,7 @@ content: |
             // a recyclerview requires an adapter, which feeds it items to display.
             // Realm provides RealmRecyclerViewAdapter, which you can extend to customize for your application
             // pass the adapter a collection of Tasks from the realm
-            // we sort this collection so that the displayed order of Tasks remains stable across updates
+            // sort this collection so that the displayed order of Tasks remains stable across updates
             adapter = TaskAdapter(realm.where<Task>().sort("_id").findAll())
             recyclerView.layoutManager = LinearLayoutManager(this)
             recyclerView.adapter = adapter
@@ -1450,3 +1449,7 @@ content: |
 
   Grab a second device, run a second virtual device, or edit data
   in {+ui+} and see your app dynamically react to changes.
+
+  Congratulations. You have completed the Realm Kotlin Android tutorial.
+
+  How did it go? Please leave feedback using the feedback widget on the bottom right of the page.
