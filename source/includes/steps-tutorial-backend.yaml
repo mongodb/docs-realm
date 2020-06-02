@@ -1,4 +1,19 @@
 ---
+title: Create a Repository
+ref: create-github-repository
+content: |
+
+  To begin your application, create a Github repository. Use this
+  repository to maintain your application's source code and for
+  developers to submit issues to track ideas, tasks, or bugs. To create
+  a repository, navigate to "https://github.com/new" and specify a
+  repository name. Set the repository to 'public' and click the option
+  to initialize it with a README file.
+
+  .. figure:: /images/create-repository.png
+     :alt: create a github repository
+
+---
 title: Create a HTTP Service
 ref: create-http-service
 content: |
@@ -318,7 +333,7 @@ content: |
   .. code-block:: javascript
     
      exports = async function() {
-       const collection = context.services.get("mongodb-atlas").db("tutorials").collection("githubIssues");
+       const collection = context.services.get("mongodb-atlas").db("tracker").collection("githubIssues");
        const query = {
          timestamp: {
          $gte: new Date(new Date() - 7 * 60 * 60 * 24 * 1000)
