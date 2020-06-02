@@ -2,10 +2,19 @@
 title: Create a New Android Studio Project
 ref: create-a-new-android-studio-project
 content: |
-  Open Android Studio and create a new Project. Use the "Empty Activity" template.
-  Enter your project details, name your project "Task Tracker", specify
-  a package name of "com.mongodb.tasktracker", select "Kotlin" as your language,
-  and save.
+  Open Android Studio and create a new Project. Use the "Empty Activity"
+  template and enter the following details:
+
+  - name your project "Task Tracker"
+
+  - specify a package name of "com.mongodb.tasktracker"
+
+  - select "Kotlin" as the project language
+
+  - choose a minimum SDK of ``API 21: Android 5.0 (Lollipop)``
+
+  Click "Finish" and Android Studio should generate an initial empty
+  project using these specifications.
 ---
 title: Confirm That Your App Runs
 ref: confirm-that-your-app-runs
@@ -15,7 +24,22 @@ content: |
   the app. Test your app by selecting an emulator from the
   build menu and pressing the Run button. Android Studio should build
   and launch your app successfully and present you with a
-  simulator running the empty app.
+  AVD (Android Virtual Device) running the empty app.
+
+  .. note::
+
+     If you are building a project in Android Studio for the first time,
+     you may have to `Create an AVD
+     <https://developer.android.com/studio/run/managing-avds#createavd>`__
+     to run your app.
+
+  .. note::
+    
+     Sometimes Android Studio can take some time before allowing you to
+     compile and run your application. If Android Studio doesn't present
+     you an AVD selector or run button, try adding a couple of empty
+     lines at the bottom of ``MainActivity.kt`` and saving the changes.
+     This should get Android Studio into a usable state.
 ---
 title: Install Realm as a Gradle plugin
 ref: install-realm-frameworks
@@ -23,18 +47,18 @@ content: |
   Install the Realm plugin with the Gradle dependency
   manager. The Maven and Ant build systems are not currently supported.
 
-  Gradle uses uses a file called ``build.gradle`` to track, load, and manage your project's
-  external dependencies. New Android Studio projects contain two ``build.gradle`` files
-  by default:
+  Gradle uses uses a file called ``build.gradle`` to track, load, and
+  manage your project's external dependencies. New Android Studio
+  projects contain two ``build.gradle`` files by default:
 
     - a top-level project ``build.gradle`` file which defines build
       configurations for all project modules
 
-    - a app module-level ``build.gradle`` file which allows you to
-      configure build settings for that module (your app) only.
+    - a module-level app ``build.gradle`` file which allows you to
+      configure build settings for that module (your app) only
       
-  You can find the top-level ``build.gradle`` file at the root of your
-  project, and the application module-level file in the ``app``
+  You can find the project ``build.gradle`` at the root of your
+  project, and the app ``build.gradle`` in the ``app``
   directory of your project. See the location of these files
   in the directory graphic below:
 
@@ -57,47 +81,51 @@ content: |
   
   To add Realm as a gradle plugin:
 
-  - add the class path dependency to the project ``build.gradle`` file.
+  - add the classpath ``io.realm:realm-gradle-plugin`` to the
+    ``buildscript.dependencies`` section of the *project*
+    ``build.gradle`` file
   
   - (BETA ONLY): add the jfrog artifactory maven repository to both the
-    ``buildscript`` and ``allprojects`` configurations.
+    ``buildscript`` and ``allprojects`` configurations of the *project*
+    ``build.gradle`` file
 
-  When done, your project ``build.gradle`` should look something like this:
+  To use the beta version of Realm, copy and paste the following code
+  into your project ``build.gradle`` file:
 
   .. code-block:: groovy
      :emphasize-lines: 8-10, 15, 23-25
 
-      // Top-level build file where you can add configuration options common to all sub-projects/modules.
+     // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
-      buildscript {
+     buildscript {
         ext.kotlin_version = '1.3.72'
-          repositories {
-              google()
-              jcenter()
-              maven {
-                  url 'http://oss.jfrog.org/artifactory/oss-snapshot-local'
-              }
-          }
-          dependencies {
-              classpath 'com.android.tools.build:gradle:3.6.3'
-              classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-              classpath "io.realm:realm-gradle-plugin:10.0.0-SNAPSHOT"
-          }
-       }
+        repositories {
+            google()
+            jcenter()
+            maven {
+                url 'http://oss.jfrog.org/artifactory/oss-snapshot-local'
+            }
+        }
+        dependencies {
+            classpath 'com.android.tools.build:gradle:3.6.3'
+            classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+            classpath "io.realm:realm-gradle-plugin:10.0.0-SNAPSHOT"
+        }
+     }
 
-       allprojects {
-          repositories {
-              google()
-              jcenter()
-              maven {
-                  url 'http://oss.jfrog.org/artifactory/oss-snapshot-local'
-              }
-          }
-       }
+     allprojects {
+        repositories {
+            google()
+            jcenter()
+            maven {
+                url 'http://oss.jfrog.org/artifactory/oss-snapshot-local'
+            }
+        }
+     }
 
-       task clean(type: Delete) {
-          delete rootProject.buildDir
-       }
+     task clean(type: Delete) {
+        delete rootProject.buildDir
+     }
 
   Now that you've added the Realm dependency itself, it's time to apply
   the ``realm-android`` plugin in the app ``build.gradle`` file. Because
@@ -105,6 +133,7 @@ content: |
   apply the ``kotlin-kapt`` dependency as well.
   
   .. note::
+     
      Order matters for plugin ``apply`` statements in this file, so be
      sure to put ``realm-android`` *after* the Kotlin plugins:
 
@@ -117,8 +146,14 @@ content: |
      apply plugin: 'kotlin-kapt'
      apply plugin: 'realm-android'
 
-  Click "Sync Now" in the top right of the dropdown that appears in your Android
-  Studio code editor to download the Realm Android dependencies.
+  Later in this tutorial, we'll use Android's Recycler View and the Realm
+  Adapter for Recycler Views. Add the dependencies for each to your app
+  ``build.gradle`` file:
+
+  .. code-block:: groovy
+
+     implementation "io.realm:android-adapters:4.0.0"
+     implementation "androidx.recyclerview:recyclerview:1.1.0"
 
   Then, enable Realm Sync dependencies by setting ``realm.syncEnabled``
   to ``true`` in the app ``build.gradle`` file:
@@ -129,28 +164,28 @@ content: |
       syncEnabled = true
      }
 
-   Finally, you need to set up some constants to configure your app's
-   connection to {+service+}. In the ``android.buildTypes`` section,
-   define your Realm URL and App ID, which we'll use later in Kotlin
-   code to instantiate a connection:
+  Finally, you need to set up some constants to configure your app's
+  connection to {+service+}. In the ``android.buildTypes`` section,
+  define your Realm URL and App ID, which we'll use later in Kotlin
+  code to instantiate a connection:
 
-   .. code-block:: groovy
-      :emphasize-lines: 2-9
+  .. code-block:: groovy
+     :emphasize-lines: 2-9
 
-      buildTypes {
-          def mongodbRealmUrl = "https://realm-dev.mongodb.com"
-          def appId = "<your app ID here>"  // Replace with proper Application ID
-          debug {
-              buildConfigField "String", "MONGODB_REALM_URL", "\"${mongodbRealmUrl}\""
-              buildConfigField "String", "MONGODB_REALM_APP_ID", "\"${appId}\""
-          }
-          release {
-              buildConfigField "String", "MONGODB_REALM_URL", "\"${mongodbRealmUrl}\""
-              buildConfigField "String", "MONGODB_REALM_APP_ID", "\"${appId}\""
-              minifyEnabled true
-              signingConfig signingConfigs.debug
-          }
-      }
+     buildTypes {
+        def mongodbRealmUrl = "https://realm-dev.mongodb.com"
+        def appId = "<your app ID here>"  // Replace with proper Application ID
+        debug {
+            buildConfigField "String", "MONGODB_REALM_URL", "\"${mongodbRealmUrl}\""
+            buildConfigField "String", "MONGODB_REALM_APP_ID", "\"${appId}\""
+        }
+        release {
+            buildConfigField "String", "MONGODB_REALM_URL", "\"${mongodbRealmUrl}\""
+            buildConfigField "String", "MONGODB_REALM_APP_ID", "\"${appId}\""
+            minifyEnabled true
+            signingConfig signingConfigs.debug
+        }
+     }
 
    Replace ``<your app ID here>`` with your Realm app ID, which you can find in the {+ui+}.
 
@@ -158,6 +193,7 @@ content: |
    this:
 
   .. code-block:: groovy
+     :emphasize-lines: 4-5, 21-34, 37-39, 45, 48-49
 
      apply plugin: 'com.android.application'
      apply plugin: 'kotlin-android'
@@ -193,7 +229,6 @@ content: |
                 signingConfig signingConfigs.debug
             }
         }
-
      }
 
      realm {
@@ -205,13 +240,18 @@ content: |
         implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
         implementation 'androidx.appcompat:appcompat:1.1.0'
         implementation 'com.google.android.material:material:1.1.0'
-        implementation 'androidx.core:core-ktx:1.2.0'
+        implementation 'androidx.core:core-ktx:1.3.0'
         implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+        implementation "io.realm:android-adapters:4.0.0"
+        implementation "androidx.recyclerview:recyclerview:1.1.0"
         testImplementation 'junit:junit:4.12'
         androidTestImplementation 'androidx.test.ext:junit:1.1.1'
         androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
      }
 
+  Click "Sync Now" in the top right of the dropdown that appears in your
+  Android Studio code editor to download the dependencies and make your
+  variables available for use in code.
 ---
 title: Build and Run the Project So Far
 ref: build-and-run-the-project-so-far
@@ -245,6 +285,7 @@ content: |
      package com.mongodb.tasktracker
 
      import android.app.Application
+     import android.util.Log
 
      import io.realm.Realm
      import io.realm.RealmApp
@@ -276,6 +317,8 @@ content: |
             if (BuildConfig.DEBUG) {
                 RealmLog.setLevel(LogLevel.ALL)
             }
+            
+            Log.v(TAG(), "Initialized the Realm App configuration for: ${taskApp.configuration.appId}")
         }
      }
 
@@ -288,14 +331,26 @@ content: |
   Finally, you'll have to let Android know that you've extended the
   Application class with custom logic for the Task Tracker. To do this,
   add the following line to the ``application`` tag of
-  ``AndroidManifest.xml``:
+  ``AndroidManifest.xml`` (found in ``app > manifests``):
 
   .. code-block:: xml
 
      android:name="com.mongodb.tasktracker.TaskTracker"
 
   Now your custom application-level logic should execute whenever your
-  app starts.
+  app starts, initializing your Realm App. If you use the log level
+  dropdown in the Android Studio Logcat viewer to change your log level
+  to "Verbose", you can search for the word "TaskTracker" to see the
+  output of the ``TAG()`` function call and confirmation that the App ID
+  you configured in the app ``build.gradle`` file was successfully used
+  to initialize a Realm App configuration.
+
+  .. note::
+
+     If the log line states that it "Initialized the Realm App
+     configuration for <your app ID here>", you've forgotten to set your
+     app ID in the app ``build.gradle``! Reopen it and enter your app ID,
+     found in the {+ui+}, on line 23.
 ---
 title: Rename MainActivity to TaskActivity
 ref: rename-mainactivity-to-taskactivity
@@ -316,7 +371,8 @@ content: |
   3. Select "Refactor > Rename".
 
   4. In the dialog box that appears, replace the name "MainActivity"
-     with "TaskActivity".
+     with "TaskActivity". Be sure to select a Scope of "Project Files"
+     if it is not already selected.
 
   5. Click the "Refactor" button.
 
@@ -333,9 +389,8 @@ content: |
   3. Select "Refactor > Rename".
 
   4. In the dialog box that appears, replace the name "activity_main.xml"
-     with "activity_task.xml".
-
-  5. Change the "Scope" dropdown to the "Project Files" option.
+     with "activity_task.xml". Be sure to select a Scope of "Project Files"
+     if it is not already selected.
 
   6. Click "Refactor".
 ---
@@ -368,7 +423,7 @@ content: |
   form into which they can enter their email address and
   password. If they do not have an account, the user can
   press a "create account" button to register an account. If the
-  account already exists, the user can press a "sign in"
+  account already exists, the user can press a "log in"
   button to sign in with that account.
 
   First, you'll have to create a layout to describe the arrangement of
@@ -401,14 +456,6 @@ content: |
             android:paddingLeft="24dp"
             android:paddingTop="12dp"
             android:paddingRight="24dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="72dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="24dp"
-                android:contentDescription="@string/realm_logo"
-                android:text="@string/app_name" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
@@ -479,6 +526,9 @@ content: |
         <string name="password">Password</string>
         <string name="create_account">Create account</string>
         <string name="login">Login</string>
+        <string name="more">\u22EE</string>
+        <string name="new_task">Create new task</string>
+        <string name="logout">Log Out</string>
      </resources>
   
   Once you've updated ``strings.xml``, Android Studio shouldn't show any
@@ -678,10 +728,113 @@ content: |
         }
     }
 
-    Now that the login logic has been defined, you should try running
-    your application. Enter a username and password and hit the "Create
-    Account" button. The TaskActivity should launch, dispalying the text
-    "Hello World!"
+  Now that the login logic has been defined, you should try running
+  your application. Enter a username and password and hit the "Create
+  Account" button. The TaskActivity should launch, displaying the text
+  "Hello World!"
+
+  At this point, your LoginActivity should look like this:
+
+  .. code-block:: kotlin
+
+     package com.mongodb.tasktracker
+
+     import androidx.appcompat.app.AppCompatActivity
+     import android.os.Bundle
+     import android.util.Log
+     import android.widget.Button
+     import android.widget.EditText
+     import android.widget.Toast
+     import io.realm.RealmCredentials
+
+     class LoginActivity : AppCompatActivity() {
+        private lateinit var username: EditText
+        private lateinit var password: EditText
+        private lateinit var loginButton: Button
+        private lateinit var createUserButton: Button
+
+        public override fun onCreate(savedInstanceState: Bundle?) {
+            super.onCreate(savedInstanceState)
+            setContentView(R.layout.activity_login)
+            username = findViewById(R.id.input_username)
+            password = findViewById(R.id.input_password)
+            loginButton = findViewById(R.id.button_login)
+            createUserButton = findViewById(R.id.button_create)
+
+            loginButton.setOnClickListener { login(false) }
+            createUserButton.setOnClickListener { login(true) }
+        }
+
+        override fun onBackPressed() {
+            // Disable going back to the MainActivity
+            moveTaskToBack(true)
+        }
+
+        private fun onLoginSuccess() {
+            // successful login ends this activity, bringing the user back to the task activity
+            finish()
+        }
+
+        private fun onLoginFailed(errorMsg: String) {
+            Log.v(TAG(), errorMsg)
+            Toast.makeText(baseContext, errorMsg, Toast.LENGTH_LONG).show()
+        }
+
+        private fun validateCredentials(): Boolean = when {
+            // zero-length usernames and passwords are not valid (or secure), so prevent users from creating accounts with those client-side.
+            username.text.toString().isEmpty() -> false
+            password.text.toString().isEmpty() -> false
+            else -> true
+        }
+
+        // handle user authentication (login) and account creation
+        private fun login(createUser: Boolean) {
+            if (!validateCredentials()) {
+                onLoginFailed("Invalid username or password")
+                return
+            }
+
+            // while this operation completes, disable the buttons to login or create a new account
+            createUserButton.isEnabled = false
+            loginButton.isEnabled = false
+
+            val username = this.username.text.toString()
+            val password = this.password.text.toString()
+
+
+            if (createUser) {
+                // register a user using the Realm App we created in the TaskTracker class
+                taskApp.emailPasswordAuth.registerUserAsync(username, password) {
+                    // re-enable the buttons after user registration completes
+                    createUserButton.isEnabled = true
+                    loginButton.isEnabled = true
+                    if (!it.isSuccess) {
+                        onLoginFailed("Could not register user.")
+                        Log.v(TAG(), "Error: ${it.error}")
+                    } else {
+                        Log.v(TAG(), "Successfully registered user.")
+                        // when the account has been created successfully, log in to the account
+                        login(false)
+                    }
+                }
+            } else {
+                val creds = RealmCredentials.emailPassword(username, password)
+                taskApp.loginAsync(creds) {
+                    // re-enable the buttons after
+                    loginButton.isEnabled = true
+                    createUserButton.isEnabled = true
+                    if (!it.isSuccess) {
+                        onLoginFailed(it.error.message ?: "An error occurred.")
+                    } else {
+                        onLoginSuccess()
+                    }
+                }
+            }
+        }
+     }
+
+  Next, it's time to define the data model that Task Tracker will store in
+  {+client-database+} and display on the UI.
 ---
 title: Define Your {+frontend-schema+} 
 ref: define-your-frontend-schema
@@ -769,22 +922,11 @@ content: |
 
   To get started with the ``RealmRecyclerViewAdapter``, you'll need the
   library containing Realm's Recycler View Adapter as well as the Android
-  library for Recycler Views. To add those libraries to your project, add
-  the following two lines to the ``dependencies`` section of your app
-  ``build.gradle``:
+  library for Recycler Views. Luckily, you already added the
+  ``io.realm:android-adapters`` and ``androidx.recyclerview:recyclerview``
+  dependencies back when you set up your app ``build.gradle``.
 
-  .. code-block:: groovy
-
-     implementation "io.realm:android-adapters:4.0.0"
-     implementation "androidx.recyclerview:recyclerview:1.1.0"
-
-  Remember to sync your gradle configuration after making these changes.
-  You can either hit the "sync" button in the banner that appears at the
-  top of the code editor or right click on your app ``build.gradle``
-  file in the Android Studio project view and select "Synchronize
-  'build.gradle (:app)'".
-
-  You'll also need to create a new layout file to describe the UI of
+  Next, create a new layout file to describe the UI of
   each object presented in the Recycler View.
 
   1) Expand ``app > res > layout``.
@@ -852,14 +994,6 @@ content: |
 
      </RelativeLayout>
 
-  This layout refers to a string constant called "more". Add a line
-  defining the "more" constant to ``strings.xml`` (you can find
-  ``strings.xml`` in ``app > res > values``):
-
-  .. code-block:: xml
-
-     <string name="more">\u22EE</string>
-
   Now that your project has defined a layout for items in a Recycler View,
   it's time to extend the Realm Recycler View Adapter with custom logic
   for the Task Tracker. To do this, create a new subclass of the adapter:
@@ -894,7 +1028,7 @@ content: |
      * TaskAdapter: extends the Realm-provided RealmRecyclerViewAdapter to provide data for a RecyclerView to display
      * Realm objects on screen to a user.
      */
-    internal class TaskAdapter(data: OrderedRealmCollection<Task>) : RealmRecyclerViewAdapter<Task, TaskAdapter.TaskViewHolder?>(data, true) {
+     internal class TaskAdapter(data: OrderedRealmCollection<Task>) : RealmRecyclerViewAdapter<Task, TaskAdapter.TaskViewHolder?>(data, true) {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
             val itemView: View = LayoutInflater.from(parent.context).inflate(R.layout.task_view, parent, false)
@@ -992,32 +1126,32 @@ content: |
             var menu: TextView = view.findViewById(R.id.menu)
 
         }
-    }
+     }
 
-    This class contains a few methods that define how Task Tracker interacts
-    with {+backend+}.
+  This class contains a few methods that define how Task Tracker interacts
+  with {+backend+}.
 
-    - ``onCreateViewHolder()``: Creates views on demand for the Recycler
-      View. This uses the ``task_view`` layout you just created.
+  - ``onCreateViewHolder()``: Creates views on demand for the Recycler
+    View. This uses the ``task_view`` layout you just created.
 
-    - ``onBindViewHolder()``: Displays data from a specific ``Task`` object
-      onto a layout provided by the Recycler View and created by
-      ``onCreateViewHolder()``. The vast majority of this method is taken
-      up by a click listener for the view that allows the user to change the
-      status or delete the task using a popup menu.
+  - ``onBindViewHolder()``: Displays data from a specific ``Task`` object
+    onto a layout provided by the Recycler View and created by
+    ``onCreateViewHolder()``. The vast majority of this method is taken
+    up by a click listener for the view that allows the user to change the
+    status or delete the task using a popup menu.
 
-    - ``changeStatus()``: Updates a Task in {+client-database+} to a new
-    ``status`` value. Because menu clicks are handled on a background
-    thread, this method has to create a new {+realm+} instance, query for
-    the Task it wants to update, and then update that Task in a transaction.
+  - ``changeStatus()``: Updates a Task in {+client-database+} to a new
+  ``status`` value. Because menu clicks are handled on a background
+  thread, this method has to create a new {+realm+} instance, query for
+  the Task it wants to update, and then update that Task in a transaction.
 
-    - ``removeAt()``: Deletes a Task from {+client-database+}. Just like
-    ``changeStatus()``, this method must create a new {+realm+} instance,
-    query for the Task it wants to delete, and then delete the Task in a
-    transaction.
+  - ``removeAt()``: Deletes a Task from {+client-database+}. Just like
+  ``changeStatus()``, this method must create a new {+realm+} instance,
+  query for the Task it wants to delete, and then delete the Task in a
+  transaction.
 
-    TaskAdapter also contains an inner class called ``TaskViewHolder``,
-    used to store data unique to each item in the Recycler View.
+  TaskAdapter also contains an inner class called ``TaskViewHolder``,
+  used to store data unique to each item in the Recycler View.
 ---
 title: Configure the Task Activity Layout
 ref: configure-the-task-activity-layout
@@ -1149,7 +1283,6 @@ content: |
      import com.mongodb.tasktracker.model.TaskAdapter
      import com.mongodb.tasktracker.model.Task
      import io.realm.kotlin.where
-     import io.realm.log.RealmLog
 
      /*
      * TaskActivity: allows a user to view a collection of Tasks, edit the status of those tasks,
@@ -1168,7 +1301,7 @@ content: |
             try {
                 user = taskApp.currentUser()
             } catch (e: IllegalStateException) {
-                RealmLog.warn(e)
+                Log.w(TAG(), e)
             }
             if (user == null) {
                 // if no user is currently logged in, start the login activity so the user can authenticate
@@ -1258,7 +1391,6 @@ content: |
                             Log.v(TAG(), "user logged out")
                             startActivity(Intent(this, LoginActivity::class.java))
                         } else {
-                            RealmLog.error(it.error.toString())
                             Log.e(TAG(), "log out failed! Error: ${it.error}")
                         }
                     }
@@ -1318,5 +1450,5 @@ content: |
   - View, create, update, and delete tasks.
   - Sign out.
 
-  Grab a second device, run a second simulator, or edit data
+  Grab a second device, run a second virtual device, or edit data
   in {+ui+} and see your app dynamically react to changes.
