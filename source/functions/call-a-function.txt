@@ -83,20 +83,6 @@ a Client SDK or over the :ref:`wire protocol <wire-protocol-usage-call-function>
    :hidden:
 
    .. tab::
-      :tabid: javascript
-
-      To execute a function from a JavaScript Client SDK, use the
-      :js-sdk:`callFunction() <interfaces/realmappclient.html#callfunction>`
-      method.
-
-      .. code-block:: javascript
-
-         const client = Realm.defaultAppClient;
-         client.callFunction("sum", [3, 4]).then(result => {
-               console.log(result) // Output: 7
-         });
-
-   .. tab::
       :tabid: android
 
       To execute a function from the Android Client SDK, use the
