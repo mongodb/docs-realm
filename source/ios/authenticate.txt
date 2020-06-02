@@ -1,0 +1,93 @@
+.. _ios-authenticate:
+
+===================
+Authenticate a User
+===================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+Before you can authenticate a user, ensure you have:
+
+- :ref:`Created a {+app+} <create-a-realm-app>`
+- Enabled one or more :ref:`authentication providers <authentication-providers>`
+- :ref:`Installed the iOS SDK <ios-install>`
+
+Register a User
+---------------
+
+When you have enabled :ref:`email/password authentication <email-password-authentication>`
+in the {+ui+}, you can register a new user with an email and password:
+
+.. code-block:: swift
+
+   app.usernamePasswordProviderClient().registerEmail(username, password: password, completion: { (error) in
+     // Handle errors...
+     // Registering just registers. You can now log in.
+   }
+
+
+Log In
+------
+
+Anonymous Authentication
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+When you have enabled :ref:`anonymous authentication <anonymous-authentication>` in the
+{+ui+}, users can immediately log into your app without providing any identifying
+information:
+
+.. code-block:: swift
+
+   app.login(withCredential: AppCredentials.anonymous()) { (user, error) in
+        // Remember to dispatch back to the main thread in completion handlers
+        // if you want to do anything on the UI.
+        DispatchQueue.main.sync {
+          guard error == nil else {
+            print("Login failed: \(error!)")
+            return
+          }
+
+          // Now logged in, do something with user
+
+        }
+    }
+
+Email/Password Authentication
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+When you have enabled :ref:`email/password authentication <email-password-authentication>`,
+you can log in:
+
+.. code-block:: swift
+
+   let username = "skroob@example.com"
+   let password = "12345"
+   app.login(withCredential: AppCredentials(username: username, password: password)) { (user, error) in
+       DispatchQueue.main.sync {
+           guard error == nil else {
+               print("Login failed: \(error!)")
+               return
+           }
+           // Now logged in, do something with user
+        }
+   }
+
+Log Out
+-------
+
+Once logged in, you can log out:
+
+.. code-block:: swift
+
+   app.logOut(completion: { (error) in
+       // Logged out or error occurred
+   })

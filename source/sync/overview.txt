@@ -1,8 +1,8 @@
 .. _sync-overview:
 
-===================================
-Sync Data Between Atlas and Clients
-===================================
+=============
+Sync Overview
+=============
 
 .. default-domain:: mongodb
 
@@ -15,11 +15,13 @@ Sync Data Between Atlas and Clients
 Overview
 --------
 
-{+sync+} enables you to share data between
-:term:`{+service-short+} clients <{+service-short+} client>` and a
-:term:`synced {+atlas+} cluster <synced cluster>`.
-{+sync+} handles data serialization,
-network recovery, and conflict resolution automatically.
+To sync data across devices, you can :ref:`enable {+sync+} <enable-sync>` for your
+{+app+}. {+sync+} automatically handles complex and tedious issues like data
+serialization, network recovery, and conflict resolution, so you can focus on the actual
+business logic of your app.
+
+To understand how best to use {+sync+}, it's important to understand the problem
+{+sync-short+} aims to address.
 
 .. _the-connectivity-problem:
 
@@ -175,6 +177,7 @@ To get the best performance from {+sync+}, design your
 {+app+} with use case profiles in mind. If you
 intend to have many concurrent writers, split projects
 across {+realms+}.
+
 
 Summary
 -------

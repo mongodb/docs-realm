@@ -72,31 +72,29 @@ Glossary
       :term:`synced {+atlas+} cluster <synced cluster>`.
    
    {+service-short+} object
-      An instance of a {+service-short+} type. An object that you can
-      store in a :term:`{+realm+}` and synchronized with a
-      :term:`synced {+atlas+} cluster <synced cluster>` using
-      :term:`{+sync+}`.
+      An instance of a :term:`{+service-short+} object type`. An object that you
+      can store in a :term:`{+realm+}` and :term:`sync <{+sync+}>` with a
+      :term:`synced {+atlas+} cluster <synced cluster>`.
 
-   {+service-short+} type
+   {+service-short+} object type
       A declaration of an object structure that can be stored and
       synchronized using :term:`{+service+}`. This includes primitive
       fields, embedded lists, and object relations. Collectively referred to
       as the :term:`{+service-short+} data model`. You can customize
       {+service-short+} types for your {+app+} in two different ways:
       by altering or creating {+frontend-schema+} definitions in the
-      {+service-short+} SDK with :term:`developer mode` enabled in your
+      {+service-short+} SDK with :term:`development mode` enabled in your
       {+app+} or by creating or editing a
       :ref:`JSON schema <mongodb-schemas>` assigned to a collection in
       the {+ui+} or {+cli-bin+}, which directly edits the {+app+}'s
       :term:`{+backend-schema+}`.
 
-   developer mode
-      A method of editing a :term:`{+app+}'s <{+app+}>`
-      :term:`data model <{+service-short+} data model>` that converts
-      :term:`{+frontend-schema+}` :term:`type <{+service-short+} type>`
-      declarations into :term:`{+backend-schema+}s <{+backend-schema+}>`
-      for {+atlas+} collections with :ref:`JSON schema <mongodb-schemas>`.
-      Enables sync before a {+backend-schema+} has been defined.
+   development mode
+      A toggle that, when enabled, disables :term:`{+backend-schema+}`
+      validation and automatically updates your {+backend-schema+} to match the
+      :term:`{+frontend-schema+}` used by synced client applications. As the
+      name suggests, this mode is insecure and should not be enabled for
+      production use.
 
    GraphQL
       Open-source data query and manipulation language for APIs. {+service+}
@@ -356,10 +354,10 @@ Glossary
       enforced in your {+app+}.
 
    {+frontend-schema+}
-      The structure that defines the fields of and relationships between
-      all :term:`{+service-short+} objects <{+service-short+} object>` that you can read or write
-      into a client-local :term:`{+realm+} instance`. Defined natively in
-      the code of your client application.
+      The structure that defines the fields of and relationships between all
+      :term:`{+service-short+} objects <{+service-short+} object>` that you can
+      read or write into a client-local :term:`{+realm+} instance`. Defined
+      natively in the code of your client application.
 
    {+service-short+} SDK
       A library used by :term:`{+service-short+} clients <{+service-short+} client>`

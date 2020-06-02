@@ -1,0 +1,58 @@
+title: Navigate to the Email/Password Authentication Configuration Screen
+ref: navigate-to-the-email-password-authentication-configuration-screen
+content: |
+  Click :guilabel:`Users` in the lefthand navigation and then select the
+  :guilabel:`Providers` tab. Find :guilabel:`Email/Password` in the list of
+  authentication providers and click its :guilabel:`Edit` button.
+  
+  .. cssclass:: bordered-figure
+  .. figure:: /images/task-tracker-web-auth-providers.png
+     :width: 750px
+---
+title: Enable the Provider
+ref: enable-the-provider
+content: |
+  Set the :guilabel:`Provider Enabled` toggle to on.
+  
+  .. cssclass:: bordered-figure
+  .. figure:: /images/task-tracker-web-auth-enable.png
+     :width: 750px
+---
+title: Configure User Confirmation
+ref: configure-user-confirmation
+content: |
+  For the :guilabel:`User Confirmation Method`, select :guilabel:`Automatically
+  confirm users`. As the name suggests, this method automatically confirms new
+  users when they register with a valid email and password.
+  
+  .. cssclass:: bordered-figure
+  .. figure:: /images/task-tracker-web-auth-confirm.png
+
+  .. admonition:: Exercise: Support Email Confirmation
+     :class: note
+
+     Once you've finished building the application, consider modifying the app
+     to require new users to confirm their accounts before they log in. To learn
+     how, check out the docs for :ref:`user confirmation
+     <email-password-authentication-confirmation>`.
+---
+title: Configure Password Resets
+ref: configure-password-resets
+content: |
+  For the :guilabel:`Password Reset Method`, select :guilabel:`Run a password
+  reset function`. This method enables an SDK method that calls a Realm Function
+  to handle the password reset. In this tutorial we won't worry about password
+  resets, so you can use the default password reset function, ``resetFunc``,
+  which denies all password reset requests.
+  
+  .. cssclass:: bordered-figure
+  .. figure:: /images/task-tracker-web-auth-reset.png
+     :width: 750px
+
+  .. admonition:: Exercise: Support Password Resets
+     :class: note
+
+     Once you've finished building the application, consider modifying the app
+     to allow users to reset their passwords. To learn how, check out the docs
+     for :ref:`password resets <email-password-authentication-password-resets>`.
+...
