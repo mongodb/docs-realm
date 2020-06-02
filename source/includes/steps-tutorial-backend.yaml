@@ -126,7 +126,7 @@ content: |
           timestamp: new Date()
         }
         // insert a document into your collection
-        const insertDoc = await context.services.get("mongodb-atlas").db("tutorials").collection("myGithubIss").insertOne(issueDoc);
+        const insertDoc = await context.services.get("mongodb-atlas").db("tracker").collection("myGithubIss").insertOne(issueDoc);
         console.log(JSON.stringify(insertDoc, null, 2));
       }
     };
