@@ -188,9 +188,8 @@ Update an Object
 ----------------
 
 Within a transaction, you can update a {+service-short+} object the same
-way you would update any other object in your language of
-choice: just assign a new value to the property or update
-the property.
+way you would update any other object: just assign a new value to the
+property or update the property.
 
 .. example::
 
@@ -253,12 +252,8 @@ objects in a collection at once.
 Delete an Object
 ----------------
 
-In general, to delete an object from a {+realm+}, pass the
-instance to the delete method of the {+realm+} within a
-transaction.
-
-With the Java SDK, call ``deleteFromRealm()`` on the
-instance itself.
+To delete an object from a {+realm+}, pass the instance to the delete
+method of the {+realm+} within a transaction.
 
 .. admonition:: Do not use objects after delete
    :class: important
@@ -293,12 +288,9 @@ instance itself.
 Delete a Collection
 ~~~~~~~~~~~~~~~~~~~
 
-In general, to delete a collection of objects from a {+realm+},
-pass the collection to the delete method of the {+realm+} within
-a transaction.
-
-With the Java SDK, call ``deleteFromRealm()`` on the
-collection itself.
+To delete a :ref:`collection of objects <ios-client-collections>` from a
+{+realm+}, pass the collection to the delete method of the {+realm+}
+within a transaction.
 
 .. example::
 
@@ -365,8 +357,8 @@ deleting the parent object.
 Delete All Instances of a Type
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-{+client-database+} supports deleting all instances of a :ref:`{+service-short+} type
-<ios-realm-objects>` from a {+realm+}.
+You can delete all instances of a :ref:`{+service-short+} type
+<ios-realm-objects>` from a {+realm+} as you would any collection.
 
 .. example::
 

@@ -3,7 +3,6 @@
 @property NSDate               *birthdate;
 @property RLMArray<Dog *><Dog> *dogs;
 @end
-RLM_ARRAY_TYPE(Person) // define RLMArray<Person>
 
 @implementation Person
 + (NSArray *)requiredProperties {

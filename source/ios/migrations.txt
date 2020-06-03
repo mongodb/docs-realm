@@ -15,12 +15,12 @@ Migrations
 Overview
 --------
 
-A **migration** transforms an existing {+realm+} and its objects from its
-current :ref:`{+backend-schema+} version <ios-schema-version>` to a newer one.
-Application data models typically change over time to accommodate new
-requirements and features. Migrations give you the flexibility to
-automatically update your existing application data whenever a client
-application upgrades to a newer version.
+A **migration** transforms an existing {+realm+} and its objects from
+its current {+backend-schema+} version to a newer one. Application data
+models typically change over time to accommodate new requirements and
+features. Migrations give you the flexibility to automatically update
+your existing application data whenever a client application upgrades to
+a newer version.
 
 Key Concepts
 ------------
@@ -90,11 +90,10 @@ deletes it.
            :emphasize-lines: 2
 
    
-   To migrate the {+realm+} to conform to the updated ``Person`` schema, the
-   developer sets the {+realm+}'s :ref:`schema version <ios-schema-version>` to
-   ``2`` and defines a migration function to set the value of
-   ``fullName`` based on the existing ``firstName`` and ``lastName``
-   properties:
+   To migrate the {+realm+} to conform to the updated ``Person`` schema,
+   the developer sets the {+realm+}'s schema version to ``2`` and
+   defines a migration function to set the value of ``fullName`` based
+   on the existing ``firstName`` and ``lastName`` properties:
    
    .. tabs-realm-languages::
      
@@ -141,8 +140,7 @@ version.
      - Description
 
    * - **Schema Version**
-     - {+service+} ignores any :ref:`schema version <ios-schema-version>`
-       set by the client application.
+     - {+service+} ignores any schema version passed to the {+realm+} configuration.
 
    * - **Migration Function**
      - {+service+} throws an error if the {+realm+} configuration
