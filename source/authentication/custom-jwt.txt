@@ -464,36 +464,11 @@ fields in the ``data`` object of the :doc:`user object </authentication>`.
         ]
       }
 
-.. _custom-jwt-authentication-usage:
-
-Usage
------
-
-.. _custom-jwt-authentication-usage-authenticate-a-user:
-
-Authenticate a User
-~~~~~~~~~~~~~~~~~~~
-
-.. tabs-realm-sdks::
-
-   tabs:
-     - id: javascript
-       content: |
-         TBD
-
-     - id: android
-       content: |
-         TBD
-
-     - id: ios
-       content: |
-         TBD
-
-.. _custom-jwt-authentication-usage-jwt:
+.. _custom-jwt-authentication-jwt:
 .. _json-web-tokens:
 
 JSON Web Tokens
-~~~~~~~~~~~~~~~
+---------------
 
 The external authentication system must return a `JSON web token
 <https://jwt.io/introduction/>`_ that uniquely identifies the
@@ -506,10 +481,10 @@ parts: a header, a payload and a signature and has the following form:
 
    <header>.<payload>.<signature>
 
-.. _custom-jwt-authentication-usage-jwt-header:
+.. _custom-jwt-authentication-jwt-header:
 
-Header
-++++++
+JWT Header
+~~~~~~~~~~
 
 The header portion of the JWT consists of a ``Base64UrlEncoded``
 document of the following form:
@@ -553,10 +528,10 @@ document of the following form:
      - Required. The type of the token. {+service-short+} expects a JSON web token
        so the value should be ``"JWT"``.
 
-.. _custom-jwt-authentication-usage-jwt-payload:
+.. _custom-jwt-authentication-jwt-payload:
 
-Payload
-+++++++
+JWT Payload
+~~~~~~~~~~~
 
 The payload portion of the JWT consists of a ``Base64UrlEncoded``
 document of the following form:
@@ -628,8 +603,8 @@ document of the following form:
 
 .. _custom-jwt-authentication-usage-jwt-signature:
 
-Signature
-+++++++++
+JWT Signature
+~~~~~~~~~~~~~
 
 The signature portion of the JWT is a hash of the encoded
 token header and payload. To form the signature,
@@ -663,4 +638,3 @@ Summary
 - You can pass custom :ref:`user data
   <custom-jwt-authentication-configuration-metadata-fields>` in your JWT
   that {+service-short+} refreshes whenever the user refreshes their token.
-
