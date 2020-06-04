@@ -93,7 +93,7 @@ content: |
   into your **project** ``build.gradle`` file:
 
   .. code-block:: groovy
-     :emphasize-lines: 8-10, 15, 23-25
+     :emphasize-lines: 8-10, 15, 29-31
 
      // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
@@ -111,6 +111,12 @@ content: |
             classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
             classpath "io.realm:realm-gradle-plugin:10.0.0-SNAPSHOT"
         }
+     }
+
+
+     // Don't cache SNAPSHOT (changing) dependencies.
+     configurations.all {
+        resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
      }
 
      allprojects {
@@ -288,12 +294,12 @@ content: |
      import android.util.Log
 
      import io.realm.Realm
-     import io.realm.RealmApp
-     import io.realm.RealmAppConfiguration
      import io.realm.log.LogLevel
      import io.realm.log.RealmLog
+     import io.realm.mongodb.App
+     import io.realm.mongodb.AppConfiguration
 
-     lateinit var taskApp: RealmApp
+     lateinit var taskApp: App
 
      // global Kotlin extension that resolves to the short version
      // of the name of the current class. Used for labelling logs.
@@ -307,7 +313,8 @@ content: |
         override fun onCreate() {
             super.onCreate()
             Realm.init(this)
-            taskApp = RealmApp(RealmAppConfiguration.Builder(BuildConfig.MONGODB_REALM_APP_ID)
+            taskApp = App(
+                AppConfiguration.Builder(BuildConfig.MONGODB_REALM_APP_ID)
                 .baseUrl(BuildConfig.MONGODB_REALM_URL)
                 .appName(BuildConfig.VERSION_NAME)
                 .appVersion(BuildConfig.VERSION_CODE.toString())
@@ -317,7 +324,7 @@ content: |
             if (BuildConfig.DEBUG) {
                 RealmLog.setLevel(LogLevel.ALL)
             }
-            
+
             Log.v(TAG(), "Initialized the Realm App configuration for: ${taskApp.configuration.appId}")
         }
      }
@@ -506,7 +513,7 @@ content: |
      </androidx.constraintlayout.widget.ConstraintLayout>
 
   Android development best practices recommend that developers refactor
-  all string text from our layout files into a special file called
+  all string text from layout files into a special file called
   ``strings.xml``. This way, all of your text is stored in one place, so
   when you edit one string, you can keep other strings that user similar
   text or styles consistent with each other. The layout code you just
@@ -553,10 +560,10 @@ content: |
      import android.util.Log
      import androidx.appcompat.app.AppCompatActivity
      import android.os.Bundle
-     import io.realm.RealmUser
+     import io.realm.mongodb.User
 
      class TaskActivity : AppCompatActivity() {
-        private var user: RealmUser? = null
+        private var user: User? = null
 
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
@@ -682,8 +689,8 @@ content: |
 
   .. code-block:: kotlin
 
-    // handle user authentication (login) and account creation
-    private fun login(createUser: Boolean) {
+     // handle user authentication (login) and account creation
+     private fun login(createUser: Boolean) {
         if (!validateCredentials()) {
             onLoginFailed("Invalid username or password")
             return
@@ -698,7 +705,7 @@ content: |
 
 
         if (createUser) {
-            // register a user using the Realm App created in the TaskTracker class
+            // register a user using the Realm App we created in the TaskTracker class
             taskApp.emailPasswordAuth.registerUserAsync(username, password) {
                 // re-enable the buttons after user registration completes
                 createUserButton.isEnabled = true
@@ -713,7 +720,7 @@ content: |
                 }
             }
         } else {
-            val creds = RealmCredentials.emailPassword(username, password)
+            val creds = Credentials.emailPassword(username, password)
             taskApp.loginAsync(creds) {
                 // re-enable the buttons after
                 loginButton.isEnabled = true
@@ -725,7 +732,7 @@ content: |
                 }
             }
         }
-    }
+     }
 
   Now that the login logic has been defined, try running
   your application. Enter a username and password and hit the "Create
@@ -744,7 +751,7 @@ content: |
      import android.widget.Button
      import android.widget.EditText
      import android.widget.Toast
-     import io.realm.RealmCredentials
+     import io.realm.mongodb.Credentials
 
      class LoginActivity : AppCompatActivity() {
         private lateinit var username: EditText
@@ -802,7 +809,7 @@ content: |
 
 
             if (createUser) {
-                // register a user using the Realm App created in the TaskTracker class
+                // register a user using the Realm App we created in the TaskTracker class
                 taskApp.emailPasswordAuth.registerUserAsync(username, password) {
                     // re-enable the buttons after user registration completes
                     createUserButton.isEnabled = true
@@ -817,7 +824,7 @@ content: |
                     }
                 }
             } else {
-                val creds = RealmCredentials.emailPassword(username, password)
+                val creds = Credentials.emailPassword(username, password)
                 taskApp.loginAsync(creds) {
                     // re-enable the buttons after
                     loginButton.isEnabled = true
@@ -873,7 +880,15 @@ content: |
         @Required
         private var status: String = TaskStatus.Open.name
         var statusEnum: TaskStatus
-            get() { return TaskStatus.valueOf(status) }
+            get() {
+                // because status is actually a String and another client could assign an invalid value,
+                // default the status to "Open" if the status is unreadable
+                return try {
+                    TaskStatus.valueOf(status)
+                } catch (e: IllegalArgumentException) {
+                    TaskStatus.Open
+                }
+            }
             set(value) { status = value.name }
      }
 
@@ -1275,11 +1290,11 @@ content: |
      import androidx.recyclerview.widget.RecyclerView
      import com.google.android.material.floatingactionbutton.FloatingActionButton
      import io.realm.Realm
-     import io.realm.RealmUser
-     import io.realm.SyncConfiguration
+     import io.realm.mongodb.User
+     import io.realm.kotlin.where
+     import io.realm.mongodb.sync.SyncConfiguration
      import com.mongodb.tasktracker.model.TaskAdapter
      import com.mongodb.tasktracker.model.Task
-     import io.realm.kotlin.where
 
      /*
      * TaskActivity: allows a user to view a collection of Tasks, edit the status of those tasks,
@@ -1288,7 +1303,7 @@ content: |
      */
      class TaskActivity : AppCompatActivity() {
         private lateinit var realm: Realm
-        private var user: RealmUser? = null
+        private var user: User? = null
         private lateinit var recyclerView: RecyclerView
         private lateinit var adapter: TaskAdapter
         private lateinit var fab: FloatingActionButton
