@@ -51,6 +51,12 @@ logs may include entries of the following types:
 - :doc:`Change Stream </logs/changestream>`, including any time a user
   opens or closes a stream of change events.
 
+- :doc:`Schema changes </logs/schema>`, including any events related to
+  changes to an application's schema.
+
+- :doc:`Sync events </logs/sync>`, including all events related to
+  data synchronization between client devices and MongoDB Atlas.
+
 Parts of a Log Entry
 ~~~~~~~~~~~~~~~~~~~~
 
@@ -152,6 +158,8 @@ Reference Documentation
    Function Logs </logs/function>
    Service Logs </logs/service>
    Trigger Logs </logs/trigger>
+   Schema Logs </logs/schema>
+   Sync Logs </logs/sync>
 
 .. list-table::
    :header-rows: 1
@@ -174,4 +182,12 @@ Reference Documentation
 
    * - :doc:`Trigger Logs </logs/trigger>`
      - This page describes the form and content of trigger logs as well
+       as the events that lead to their creation.
+
+   * - :doc:`Schema Logs </logs/schema>`
+     - This page describes the form and content of schema logs as well
+       as the events that lead to their creation.
+
+   * - :doc:`Sync Logs </logs/sync>`
+     - This page describes the form and content of sync logs as well
        as the events that lead to their creation.
