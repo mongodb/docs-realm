@@ -17,9 +17,13 @@ Overview
 
 .. _node-login:
 
-MongoDB Realm provides developers with an API to log application user's
-in and out using the same methods, regardless of the authentication
-provider the user was registered using.
+MongoDB Realm provides developers with an API to log application users
+in and out with any enabled authentication provider. Pass in a
+credentials object to specify the authentication provider info to the
+login methods. 
+
+
+The SDK provides the following methods for user authentication:
 
 .. list-table::
    :header-rows: 1
@@ -27,10 +31,10 @@ provider the user was registered using.
 
    * - Method 
      - Usage
-   * - ``<Realm.App instance>.logIn()``
-     - Pass your credentials directly to the method, ``logIn()``, which you call on the Realm App instance. For example, running the script: "app.logIn(Realm.Credentials.emailPassword('<email>', '<password>'))" would log in a user created with an email/password authentication provider.
-   * - ``<userInstance>.logOut()``
-     - The method ``logOut()`` is called on the user instance, and will log any user out, regardless of the authentication provider the user was registered using.
+   * - ``App.logIn()``
+     - Call ``App.logIn()`` to log a user in with a ``Realm.Credentials`` object for an enabled authentication provider. For example, running the script: "app.logIn(Realm.Credentials.emailPassword('<email>', '<password>'))" would log in a user created with an email/password authentication provider.
+   * - ``User.logOut()``
+     - Call ``User.logOut`()` to log a user out, regardless of the authentication provider the user was registered using.
 
 Log In
 ------
@@ -39,18 +43,11 @@ Log In
 
 Anonymous
 ~~~~~~~~~
-The Anonymous authentication provider allows users to log in to your
-application without providing credentials. To do this, create an
-anonymous credential by calling "Realm.Credentials.anonymous()" and then
-pass in that credential to "<Realm.App instance>.logIn()".
-
-
-.. admonition:: Anonymous Authentication
-   :class: note
-   
-   To learn more about the configuration and use-cases of anonymous
-   authentication read the :doc:`Anonymous Authentication
-   </authentication/anonymous>` doc.
+The :doc:`Anonymous </authentication/anonymous>` provider allows users
+to log in to your application with short-term accounts that have no
+associated information. To do this, create an anonymous credential by
+calling "Realm.Credentials.anonymous()" and then pass in that credential
+to "<Realm.App instance>.logIn()".
 
 .. tabs-realm-languages::
    
