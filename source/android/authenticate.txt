@@ -15,15 +15,81 @@ Authenticate a User
 Overview
 --------
 
+MongoDB Realm provides an API for authenticating users using any enabled
+authentication provider. Instantiate a ``Credentials`` object and pass
+it to either of the  ``login`` or ``loginAsync`` method to authenticate
+a user login and create a ``User`` object. Each authentication provider
+corresponds to a static helper method used to instantiate
+``Credentials`` objects using that authentication providers. See the
+table below for a mapping of authentication providers to helper methods:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
+
+   * - Authentication Provider
+     - Credentials Generation Method
+
+   * - :ref:`Anonymous <android-login-anonymous>`
+     - ``Credentials.anonymous()``
+
+   * - :ref:`Email/Password <android-login-email-password>`
+     - ``Credentials.emailPassword(String email, String password)``
+
+   * - :ref:`API Key <android-login-api-key>`
+     - ``Credentials.apiKey(String key)``
+
+   * - :ref:`Custom Function <android-login-custom-function>`
+     - ``Credentials.customFunction(String functionName, Object... arguments)``
+
+   * - :ref:`Custom JWT <android-login-custom-jwt>`
+     - ``Credentials.jwt(String jwtToken)``
+
+   * - :ref:`Google OAuth <android-login-google>`
+     - ``Credentials.google(String googleToken)``
+
+   * - :ref:`Facebook OAuth <android-login-facebook>`
+     - ``Credentials.facebook(String accessToken)``
+   
+   * - :ref:`Sign-in With Apple <android-login-apple>`
+     - ``Credentials.apple(String idToken)``
+
 .. _android-login:
 
 Log In
 ------
 
+You can authenticate users with either the ``app.login()`` or
+``app.loginAsync()`` methods. While the ``app.login()`` method blocks
+code execution in the calling thread until the supplied credentials have
+either succeeded or failed to authenticate a user, the
+``app.loginAsync()`` method allows execution to continue, handling
+success or failure with a callback function that is guaranteed to
+execute on the same thread that called ``app.loginAsync()``.
+
+If successful, the ``app.login()`` method returns a ``User`` object.
+In the event of a failure, the ``app.login()`` method throws an
+exception of type ``ObjectServerError``.
+
+Pass a callback to the ``app.loginAsync()`` method to handle success or
+failure. This callback should accept a single parameter of type
+``App.Result``. If successful, the ``isSuccess()`` method of the
+``App.Result`` object passed to the callback should return true. In the
+event of a failure, the ``isSuccess()`` method of the ``App.Result``
+object passed to the callback should return false, and you can view the
+error that caused the failure using the ``getError()`` method.
+
 .. _android-login-anonymous:
 
 Anonymous
 ~~~~~~~~~
+
+The :doc:`Anonymous </authentication/anonymous>` provider enables users
+to log in to your application with short-term accounts that store no
+persistent personal information. To log in with anonymous
+authentication, create an anonymous credential by calling
+``Credentials.anonymous()`` and then pass the generated credential to
+``app.login()`` or ``app.loginAsync()``.
 
 .. tabs-realm-languages::
    
@@ -31,6 +97,25 @@ Anonymous
       :tabid: kotlin
       
       .. code-block:: kotlin
+
+         Realm.init(this)
+         val app: App = App(AppConfiguration.Builder(appID)
+                .baseUrl(realmURL)
+                .appName(BuildConfig.VERSION_NAME)
+                .appVersion(BuildConfig.VERSION_CODE.toString())
+                .build())
+
+         val credentials: Credentials = Credentials.anonymous()
+         
+         val user: User? = null
+         app.loginAsync(credentials) {
+            if (it.isSuccess) {
+                Log.v(TAG, "Successfully authenticated anonymously.")
+                user = app.currentUser()
+            } else {
+                Log.e(TAG, it.error.toString())
+            }
+         }
    
    .. tab::
       :tabid: java
@@ -42,12 +127,38 @@ Anonymous
 Email/Password
 ~~~~~~~~~~~~~~
 
+The :doc:`Email/Password </authentication/email-password>` provider
+enables users to log in to your application with an email username and
+a password. To log in with email/password authentication, create an
+email/password credential by calling ``Credentials.emailPassword()``
+with the user's email and password. Then pass the generated credential
+to ``app.login()`` or ``app.loginAsync()``.
+
 .. tabs-realm-languages::
    
    .. tab::
       :tabid: kotlin
       
       .. code-block:: kotlin
+
+         Realm.init(this)
+         val app: App = App(AppConfiguration.Builder(appID)
+                .baseUrl(realmURL)
+                .appName(BuildConfig.VERSION_NAME)
+                .appVersion(BuildConfig.VERSION_CODE.toString())
+                .build())
+
+         val credentials: Credentials = Credentials.emailPassword("email", "password")
+         
+         val user: User? = null
+         app.loginAsync(credentials) {
+            if (it.isSuccess) {
+                Log.v(TAG, "Successfully authenticated anonymously.")
+                user = app.currentUser()
+            } else {
+                Log.e(TAG, it.error.toString())
+            }
+         }
    
    .. tab::
       :tabid: java
@@ -161,12 +272,32 @@ Sign-in with Apple
 Log Out
 -------
 
+You can log out any user, regardless of the authentication provider used
+to log in, using the ``logOut()`` or ``logOutAsync()`` methods. This:
+
+- deletes locally stored user credentials from the device
+
+- immediately halts any synchronization to and from the user's {+realm+}s
+
+- marks the user's {+realm+}s for deletion the next time the app restarts
+
+Because logging out halts synchronization, you should only log out after
+all local Realm updates have uploaded to the server.
+
 .. tabs-realm-languages::
    
    .. tab::
       :tabid: kotlin
       
       .. code-block:: kotlin
+
+         user?.logOutAsync {
+            if (it.isSuccess) {
+                Log.v(TAG, "Successfully logged out.")
+            } else {
+                Log.e(TAG, it.error.toString())
+            }
+         }
    
    .. tab::
       :tabid: java
