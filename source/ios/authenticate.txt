@@ -21,19 +21,6 @@ Before you can authenticate a user, ensure you have:
 - Enabled one or more :ref:`authentication providers <authentication-providers>`
 - :ref:`Installed the iOS SDK <ios-install>`
 
-Register a User
----------------
-
-When you have enabled :ref:`email/password authentication <email-password-authentication>`
-in the {+ui+}, you can register a new user with an email and password:
-
-.. code-block:: swift
-
-   app.usernamePasswordProviderClient().registerEmail(username, password: password, completion: { (error) in
-     // Handle errors...
-     // Registering just registers. You can now log in.
-   }
-
 Log In
 ------
 
