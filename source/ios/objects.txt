@@ -48,10 +48,10 @@ classes that derive from {+service-short+}'s ``Object`` class.
 
           .. literalinclude:: /examples/Schemas/DogSchema.swift
               :language: swift
-              
+
       .. tab::
           :tabid: objective-c
-          
+
           .. literalinclude:: /examples/Schemas/DogSchema.m
               :language: objective-c
 
@@ -90,7 +90,7 @@ updates.
 Object Model
 ~~~~~~~~~~~~
 
-An **object model** is a configuration object that defines the fields,
+An **object model** is a configuration object that defines the fields and
 relationships of a {+service-short+} object type. {+service-short+}
 Swift and Objective-C client applications define object models as
 classes derived from ``Object`` in Swift or ``RLMObject`` in
@@ -121,7 +121,7 @@ Objective-C.
 
    .. tab::
       :tabid: objective-c
-      
+
       You can use the following types to define your object model
       properties:
 
@@ -175,10 +175,10 @@ property:
       .. literalinclude:: /examples/Schemas/PersonSchema.swift
           :language: swift
           :emphasize-lines: 2, 5-7
-          
+
    .. tab::
       :tabid: objective-c
-      
+
       .. literalinclude:: /examples/Schemas/PersonSchema.m
           :language: objective-c
           :emphasize-lines: 2, 8-10
@@ -235,7 +235,7 @@ Summary
 -------
 
 - {+service-short+} objects are classes derived from ``Object`` in Swift
-  and ``RLMObject`` in Objective-C. 
+  and ``RLMObject`` in Objective-C.
 
 - {+service-short+} objects are **live**: they always reflect the latest version
   on disk and update automatically when the underlying object changes.
