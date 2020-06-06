@@ -1,0 +1,63 @@
+.. _android-call-a-function:
+
+===============
+Call a Function
+===============
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 3
+   :class: singlecol
+
+Overview
+--------
+
+You can call a :doc:`function </functions>` from a connected client
+application.
+
+Usage
+-----
+
+The examples in this section demonstrate calling a simple function named
+``sum`` that takes two arguments, adds them, and returns the result:
+
+.. code-block:: javascript
+
+   // sum: adds two numbers
+   exports = function(a, b) {
+     return a + b;
+   };
+
+Call from a Client Application
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To execute a function from the Android SDK, use the ``functions`` method
+of the app.
+
+.. code-block:: kotlin
+   :emphasize-lines: 9-17
+
+   Realm.init(this)
+   val appID = "<your app ID>"
+   val app: App = App(AppConfiguration.Builder(appID)
+                .build())
+
+   val anonymousCredentials: Credentials = Credentials.anonymous()
+   app.loginAsync(anonymousCredentials) {
+      if (it.isSuccess) {
+         val user: User? = app.currentUser()
+
+         val functionsManager: Functions = app.getFunctions(user)
+         val args: ArrayList<Int> = ArrayList<Int>()
+         args.add(1)
+         args.add(2)
+         functionsManager.callFunctionAsync("sum", args, Integer::class.java) {
+               result -> Log.v(TAG, "Sum value: ${result.get()}")
+         }
+      } else {
+            Log.e(TAG, it.error.toString())
+      }
+   }
