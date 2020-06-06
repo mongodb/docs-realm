@@ -25,7 +25,7 @@ Pass the {+app+} ID for your {+app+}, which you can find in the {+ui+}.
 
    val appID = "<your app ID>"
 
-   Realm.init(this)
+   Realm.init(this) // `this` is the Context, usually the Activity
    val app: App = App(AppConfiguration.Builder(appID).build())
 
 
