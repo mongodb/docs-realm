@@ -43,19 +43,22 @@ access your {+app+} using your {+app+} ID. You can find your {+app+} ID in the
 
 .. code-block:: kotlin
 
-   Realm.init(this)
+
+   val appID = "<your app ID>" // replace this with your App ID
+   Realm.init(this) // context, typically an Activity
    val app: App = App(AppConfiguration.Builder(appID)
-                      .baseUrl(realmURL)
-                      .appName(BuildConfig.VERSION_NAME)
-                      .appVersion(BuildConfig.VERSION_CODE.toString())
                       .build())
 
 Define Your Object Model
 ------------------------
 
-If have not :ref:`enabled {+sync+} <enable-sync>` or you enabled {+sync-short+} with
-:term:`Development Mode` in the {+ui+}, you can define your :ref:`object model
-<android-realm-objects>` directly in code.
+Your application's :ref:`object model <android-realm-objects>` controls
+the data that you can store within {+client-database+} and synchronize
+to and from {+backend+}.
+
+If have not :ref:`enabled {+sync+} <enable-sync>` or you enabled
+{+sync-short+} with :term:`Development Mode` in the {+ui+}, you can
+define your object model directly in code.
 
 .. note::
 
@@ -114,7 +117,11 @@ Open a Realm
 ------------
 
 Once you have :ref:`enabled {+sync+} <enable-sync>` and authenticated a user, you can open
-a synced :ref:`{+realm+} <android-realms>`:
+a synced :ref:`{+realm+} <android-realms>`. Use the ``SyncConfiguration``
+to control the specifics of how your application synchronizes data with
+{+backend+}, including the partition, which determines which data is
+synchronized, whether to wait for an initial batch of data to sync, and
+more.
 
 .. code-block:: kotlin
 
