@@ -118,10 +118,10 @@ ref: define-a-schema-for-task-documents
 content: |
   The core function of a task tracker is to store data about a user's tasks. In
   this app, we store the task data as documents in the ``tracker.tasks``
-  collection. Each task has a description and can have one of three statuses:
-  Open, In Progress, or Closed. Additionally, each task may specify a specific
-  user as its assignee. We'll use another schema to define the shape and
-  contents of documents in the ``tasks`` collection.
+  collection. Each task has a descriptive name and can have one of three
+  statuses: Open, In Progress, or Closed. Additionally, each task may specify a
+  specific user as its assignee. We'll use another schema to define the shape
+  and contents of documents in the ``tasks`` collection.
 
   In the rules editor, select the ``tracker.tasks`` collection and then click
   the :guilabel:`Schema` tab. Paste in the following schema and then click
@@ -134,7 +134,7 @@ content: |
        "required": [
          "_id",
          "_partition",
-         "description",
+         "name",
          "status"
        ],
        "properties": {
@@ -147,7 +147,7 @@ content: |
          "assignee": {
            "bsonType": "string"
          },
-         "description": {
+         "name": {
            "bsonType": "string"
          },
          "status": {
