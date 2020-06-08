@@ -55,14 +55,14 @@ following import statement:
       
       .. code-block:: javascript
          
-         import Realm from "realm-web";
+         import * as RealmWeb from "realm-web";
    
    .. tab::
       :tabid: typescript
       
       .. code-block:: typescript
          
-         import * as Realm from "realm-web";
+         import * as RealmWeb from "realm-web";
 
 .. _web-quickstart-init-app:
 
@@ -79,14 +79,14 @@ your {+app+} using your App ID. You can find your App ID in the {+ui+}.
       
       .. code-block:: javascript
          
-         const app = new Realm.App({ id: "<Your App ID>" });
+         const app = new RealmWeb.App({ id: "<Your App ID>" });
    
    .. tab::
       :tabid: typescript
       
       .. code-block:: typescript
          
-         const app: Realm.App = new Realm.App({ id: "<Your App ID>" });
+         const app: RealmWeb.App = new RealmWeb.App({ id: "<Your App ID>" });
 
 .. _web-quickstart-authenticate:
 
@@ -104,7 +104,7 @@ users can log into your app without providing any identifying information:
       .. code-block:: javascript
          
          // Create an anonymous credential
-         const credentials = Realm.Credentials.anonymous();
+         const credentials = RealmWeb.Credentials.anonymous();
          try {
            // Authenticate the user
            const user = await app.logIn(credentials);
@@ -121,10 +121,10 @@ users can log into your app without providing any identifying information:
       .. code-block:: typescript
 
          // Create an anonymous credential
-         const credentials = Realm.Credentials.anonymous();
+         const credentials = RealmWeb.Credentials.anonymous();
          try {
            // Authenticate the user
-           const user: Realm.User = await app.logIn(credentials);
+           const user: RealmWeb.User = await app.logIn(credentials);
            // `App.currentUser` updates to match the logged in user
            assert(user.id === app.currentUser.id)
            return user
