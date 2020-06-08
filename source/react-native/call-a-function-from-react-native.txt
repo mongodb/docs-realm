@@ -1,4 +1,4 @@
-.. _node-client-call-function:
+.. _react-native-client-call-function:
 
 ===============
 Call a Function
@@ -40,11 +40,11 @@ the :doc:`Define a Function </functions/define-a-function>` doc.
      return a + b;
    };
 
-Call the Function from a Node.js Application
---------------------------------------------
+Call the Function from a React Native Application
+-------------------------------------------------
 
 There are two alternate methods for executing a MongoDB Realm Function
-from the Node.js application.
+from a React Native application.
 
 .. list-table::
    :header-rows: 1
@@ -52,9 +52,9 @@ from the Node.js application.
 
    * - Method 
      - Usage
-   * - ``<userInstance>.functions.<functionName>()``
+   * - ``User.functions.<functionName>()``
      - Pass the parameters directly to the method, ``functions.<functionName>()``, which you call on the user instance. For example, running the script: "myUserInstance.functions.sum(2,3)" would return the result of 5. 
-   * - ``<userInstance>.callFunction()``
+   * - ``User.callFunction()``
      - The method ``callFunction()`` calls the MongoDB Realm Function on the user object with the first parameter being the Function name and the second parameter being an array of arguments that you pass to the Function.
 
 .. admonition:: Link a MongoDB Atlas Cluster
@@ -68,7 +68,7 @@ from the Node.js application.
 .. code-block:: javascript
   :emphasize-lines: 21, 22
 
-   const Realm = require("realm");
+   import Realm from "realm";
 
    const appId = "<appId>"; // Set Realm app ID here.
    const appConfig = {
@@ -77,7 +77,7 @@ from the Node.js application.
      timeout: 1000,
    };
 
-   async function run() {
+  export const callAFunction = async () => {
      let user;
      try {
        const app = new Realm.App(appConfig);
@@ -93,11 +93,10 @@ from the Node.js application.
        console.log(`Using the "functions.sum()" method: the sum of ${numA} + ${numB} = ${result}`);
        console.log(`Using the "callFunction()" method: the sum of ${numA} + ${numB} = ${resultOfCallFunction}`);
      
-     } finally {
-       user.logOut();
+     } catch (error) {
+         throw `Error logging in anonymously: ${JSON.stringify(error,null,2)}`;
      }
    }
-   run().catch(console.dir);
  
 
 When you run the code sample, your output should resemble the following:

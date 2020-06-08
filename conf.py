@@ -36,7 +36,7 @@ extensions = [
     'sphinx_openapi',
     'tabs',
     'tab-content',
-    'stitch-builders',
+    'realm-builders',
     'icon',
 ]
 
