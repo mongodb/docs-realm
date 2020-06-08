@@ -1,7 +1,7 @@
 query GetAllTasks {
   tasks {
     _id
-    description
+    name
     status
     assignee {
       _id
@@ -15,7 +15,7 @@ query GetAllTasks {
 mutation AddTask($task: TaskInsertInput!) {
   task: insertOneTask(data: $task) {
     _id
-    description
+    name
     status
     assignee {
       _id
@@ -29,7 +29,7 @@ mutation AddTask($task: TaskInsertInput!) {
 mutation UpdateTask($taskId: ObjectId!, $updates: TaskUpdateInput!) {
   task: updateOneTask(query: { _id: $taskId }, set: $updates) {
     _id
-    description
+    name
     status
     assignee {
       _id
@@ -43,7 +43,7 @@ mutation UpdateTask($taskId: ObjectId!, $updates: TaskUpdateInput!) {
 mutation DeleteTask($taskId: ObjectId!) {
   deletedTask: deleteOneTask(query: { _id: $taskId }) {
     _id
-    description
+    name
     status
     assignee {
       _id

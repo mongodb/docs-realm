@@ -10,7 +10,7 @@ content: |
      :caption: ``src/realm/RealmApolloProvider.tsx``
      
      function createApolloClient(realmAppId: string, user: RealmWeb.User): ApolloClient<NormalizedCacheObject> {
-       const graphql_url = `https://cloud.mongodb.com/api/client/v2.0/app/${realmAppId}/graphql`;
+       const graphql_url = `https://realm.mongodb.com/api/client/v2.0/app/${realmAppId}/graphql`;
        const httpLink = new HttpLink({ uri: graphql_url });
        
        return new ApolloClient({
@@ -37,7 +37,7 @@ content: |
      :emphasize-lines: 4-9, 12
      
      function createApolloClient(realmAppId: string, user: RealmWeb.User): ApolloClient<NormalizedCacheObject> {
-       const graphql_url = `https://cloud.mongodb.com/api/client/v2.0/app/${realmAppId}/graphql`;
+       const graphql_url = `https://realm.mongodb.com/api/client/v2.0/app/${realmAppId}/graphql`;
        const httpLink = new HttpLink({ uri: graphql_url });
        const authorizationHeaderLink = setContext(async (_, { headers }) => ({
          headers: {
