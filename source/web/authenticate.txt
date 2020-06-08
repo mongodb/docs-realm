@@ -15,29 +15,10 @@ Authenticate a User
 Overview
 --------
 
-MongoDB Realm provides developers with an API to log application users
-in and out with any enabled authentication provider. Pass in a
-credentials object to specify the authentication provider info to the
-login methods. 
-
-The SDK provides the following methods for user authentication:
-
-.. list-table::
-   :header-rows: 1
-   :widths: 10 90
-
-   * - Method 
-     - Usage
-   * - ``App.logIn()``
-   
-     - Call ``App.logIn()`` to log a user in with a ``Realm.Credentials`` object
-       for an enabled authentication provider. For example, running the script:
-       "app.logIn(Realm.Credentials.emailPassword('<email>', '<password>'))" would
-       log in a user created with an email/password authentication provider.
-   
-   * - ``User.logOut()``
-     - Call ``User.logOut`()` to log a user out, regardless of the
-       authentication provider the user was registered using.
+The Web SDK provides developers with a unified API to authenticate application
+users for any authentication provider. Users log in by providing authentication
+credentials for a given authentication provider and the SDK automatically
+manages authentication tokens and refreshes data for logged in users.
 
 .. _web-login:
 
