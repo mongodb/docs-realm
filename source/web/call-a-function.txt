@@ -42,15 +42,41 @@ In the Node SDK you call functions as a logged in user with the
 Call a Function
 ~~~~~~~~~~~~~~~
 
-.. code-block:: javascript
-   
-   const result = await user.functions.sum(numA, numB);
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: javascript
+      
+      .. code-block:: javascript
+         
+         const result = await user.functions.sum(2, 3);
+
+   .. tab::
+      :tabid: typescript
+
+      .. code-block:: typescript
+         
+         const result: number = await user.functions.sum(2, 3);
 
 Call a Function Programmatically
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. code-block:: javascript
-   
-   const functionName = "sum";
-   const args = [2, 3];
-   const result = await user.callFunction(functionName, args);
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: javascript
+      
+      .. code-block:: javascript
+         
+         const functionName = "sum";
+         const args = [2, 3];
+         const result = await user.callFunction(functionName, args);
+
+   .. tab::
+      :tabid: typescript
+
+      .. code-block:: typescript
+         
+         const functionName = "sum";
+         const args = [2, 3];
+         const result: number = await user.callFunction(functionName, args);
