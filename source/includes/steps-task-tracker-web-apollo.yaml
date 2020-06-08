@@ -10,7 +10,7 @@ content: |
      :caption: ``src/realm/RealmApolloProvider.tsx``
      
      function createApolloClient(realmAppId: string, user: RealmWeb.User): ApolloClient<NormalizedCacheObject> {
-       const graphql_url = `https://realm-dev.mongodb.com/api/client/v2.0/app/${realmAppId}/graphql`;
+       const graphql_url = `https://cloud.mongodb.com/api/client/v2.0/app/${realmAppId}/graphql`;
        const httpLink = new HttpLink({ uri: graphql_url });
        
        return new ApolloClient({
@@ -28,7 +28,7 @@ content: |
   GraphQL request must include an Authorization header that specifies a valid
   user access token. The current client does not include any Authorization
   headers, so all requests it makes will fail.
-  
+
   To fix this, update the ``createApolloClient()`` function to include the
   current user's access token in an Authorization header with every request:
 
@@ -37,7 +37,7 @@ content: |
      :emphasize-lines: 4-9, 12
      
      function createApolloClient(realmAppId: string, user: RealmWeb.User): ApolloClient<NormalizedCacheObject> {
-       const graphql_url = `https://realm-dev.mongodb.com/api/client/v2.0/app/${realmAppId}/graphql`;
+       const graphql_url = `https://cloud.mongodb.com/api/client/v2.0/app/${realmAppId}/graphql`;
        const httpLink = new HttpLink({ uri: graphql_url });
        const authorizationHeaderLink = setContext(async (_, { headers }) => ({
          headers: {
@@ -51,4 +51,3 @@ content: |
          cache: new InMemoryCache(),
        });
      }
-...

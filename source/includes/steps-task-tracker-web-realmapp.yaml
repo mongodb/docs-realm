@@ -12,9 +12,8 @@ content: |
      const REALM_APP_ID = "<Your App ID>"
      const app = new RealmWeb.App({
        id: REALM_APP_ID,
-       baseUrl: "https://realm-dev.mongodb.com",
      });
-  
+
   .. admonition:: Use Your App ID
      :class: note
      
@@ -42,7 +41,7 @@ content: |
   .. code-block:: typescript
      :caption: ``src/realm/RealmApp.tsx``
      :emphasize-lines: 3, 8-9, 15
-  
+
      // Let new users register an account
      const registerUser = async (email: string, password: string) => {
        return await app.auth.emailPassword.registerUser(email, password);
@@ -60,4 +59,3 @@ content: |
        await app.logOut();
        setUser(app.currentUser);
      }
-...
