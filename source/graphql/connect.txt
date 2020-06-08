@@ -26,12 +26,11 @@ Once you've connected your client application, you can begin to
 .. admonition:: Run It in CodeSandbox
    :class: note
 
-   You can see a working application in your browser in this
-   :codesandbox:`Realm GraphQL CodeSandbox
-   <s/mongodb-realm-graphql-apollo-react-5c8pc>` that we’ve
-   prepared. It uses the ``sample_mflix.movies`` collection that's
-   included in the MongoDB Atlas :atlas:`sample data sets
-   </sample-data>`.
+   You can see a working application in your browser in this :codesandbox:`Realm
+   GraphQL CodeSandbox
+   <s/mongodb-realm-graphql-reactapollo-847sh?file=/src/index.js>` that we’ve
+   prepared. It uses the ``sample_mflix.movies`` collection that's included in
+   the MongoDB Atlas :atlas:`sample data sets </sample-data>`.
 
    To set up your app:
 
@@ -93,53 +92,61 @@ Create a GraphQL Client
          // React
          import React from "react";
          import { render } from "react-dom";
-         import App from "./App";
          // Apollo
          import { ApolloClient, HttpLink, InMemoryCache } from "apollo-boost";
          import { setContext } from "apollo-link-context";
+         import { ApolloProvider } from "@apollo/react-hooks";
          // Realm
-         import { Realm, AnonymousCredential } from "mongodb-realm-browser-sdk";
-
-         // Instantiate a RealmClient
-         // TODO: Replace this with your Realm App ID
-         const APP_ID = "myapp-abcde";
-         const app = Realm.hasAppClient(APP_ID)
-           ? Realm.getAppClient(APP_ID)
-           : Realm.initializeAppClient(APP_ID);
-
-         // Get the logged in user's access token from the RealmAuth interface
-         export async function getAccessToken(credential) {
-           if(!app.auth.user) {
-             await app.auth.loginWithCredential(credential);
-           } else {
-             await app.auth.refreshAccessToken();
-           }
-           const { accessToken } = app.auth.activeUserAuthInfo;
-           return accessToken;
-         }
-
-         // Add an Authorization header with a valid user access token to all requests
-         // NOTE: You can use a credential for any enabled authentication provider
-         const credential = new AnonymousCredential();
+         import * as RealmWeb from "realm-web";
+         // Check out app.js for examples of how to run GraphQL operations
+         import App from "./app";
+         
+         export const APP_ID = "<Your App ID>";
+         
+         const app = new RealmWeb.App({
+           id: APP_ID,
+           baseUrl: "https://realm.mongodb.com"
+         });
+         
+         // Add an Authorization header with a valid user access token to all GraphQL requests
          const authorizationHeaderLink = setContext(async (_, { headers }) => {
-           const accessToken = await getAccessToken(credential);
+           if (app.currentUser) {
+             // Refreshing custom data also refreshes the access token
+             await app.currentUser.refreshCustomData();
+           } else {
+             // If no user is logged in, log in an anonymous user
+             await app.logIn(RealmWeb.Credentials.anonymous());
+           }
+           // Get a valid access token for the current user
+           const { accessToken } = app.currentUser;
+           console.log("currentUser", accessToken, app.currentUser);
+         
+           // Set the Authorization header, preserving any other headers
            return {
              headers: {
                ...headers,
-               Authorization: `Bearer ${accessToken}`,
-             },
+               Authorization: `Bearer ${accessToken}`
+             }
            };
          });
-
+         
          // Construct a new Apollo HttpLink that connects to your app's GraphQL endpoint
-         const graphql_url = `https://realm.mongodb.com/api/client/v2.0/app/${APP_ID}/graphql`;
+         const graphql_url = `https://realm.mongodb.com/api/client/v2.0/app/${APP_ID}/         graphql`;
          const httpLink = new HttpLink({ uri: graphql_url });
-
+         
          // Construct a new Apollo client with the links we just defined
          const client = new ApolloClient({
            link: authorizationHeaderLink.concat(httpLink),
-           cache: new InMemoryCache(),
+           cache: new InMemoryCache()
          });
+         
+         render(
+           // Wrap your app with an ApolloProvider
+           <ApolloProvider client={client}>
+             <App />
+           </ApolloProvider>,
+           document.getElementById("root")
+         );
 
 .. _graphql-add-client-to-app:
 
