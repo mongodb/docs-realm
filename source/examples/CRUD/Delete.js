@@ -3,5 +3,5 @@ realm.write(() => {
   realm.delete(dog);
 
   // Discard the reference.
-  dog = undefined;
+  dog = null;
 });
