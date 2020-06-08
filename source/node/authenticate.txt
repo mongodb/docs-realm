@@ -17,6 +17,25 @@ Overview
 
 .. _node-login:
 
+MongoDB Realm provides developers with an API to log application users
+in and out with any enabled authentication provider. Pass in a
+credentials object to specify the authentication provider info to the
+login methods. 
+
+
+The SDK provides the following methods for user authentication:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 10 90
+
+   * - Method 
+     - Usage
+   * - ``App.logIn()``
+     - Call ``App.logIn()`` to log a user in with a ``Realm.Credentials`` object for an enabled authentication provider. For example, running the script: "app.logIn(Realm.Credentials.emailPassword('<email>', '<password>'))" would log in a user created with an email/password authentication provider.
+   * - ``User.logOut()``
+     - Call ``User.logOut()`` to log a user out, regardless of the authentication provider the user was registered using.
+
 Log In
 ------
 
@@ -24,6 +43,11 @@ Log In
 
 Anonymous
 ~~~~~~~~~
+The :doc:`Anonymous </authentication/anonymous>` provider allows users
+to log in to your application with short-term accounts that have no
+associated information. To do this, create an anonymous credential by
+calling "Realm.Credentials.anonymous()" and then pass in that credential
+to "App.logIn()".
 
 .. tabs-realm-languages::
    
@@ -31,7 +55,30 @@ Anonymous
       :tabid: javascript
       
       .. code-block:: javascript
-   
+        :emphasize-lines: 14,15
+
+         const Realm = require("realm");
+         const appId = "<appId>"; // Set Realm app ID here.
+         const appConfig = {
+           id: appId,
+           url: "https://realm-dev.mongodb.com",
+           timeout: 1000,
+         };
+ 
+         async function run() {
+           let user;
+           try {
+             const app = new Realm.App(appConfig);
+ 
+             const credentials = Realm.Credentials.anonymous(); // create an anonymous credential
+             user = await app.logIn(credentials);
+             
+             console.log(`Logged in with the user: ${user.identity}`);
+           } finally {
+           }
+         }
+         run().catch(console.dir);
+
    .. tab::
       :tabid: typescript
       
@@ -42,12 +89,41 @@ Anonymous
 Email/Password
 ~~~~~~~~~~~~~~
 
+To log a registered and confirmed email/password user into your application, create a
+credential by passing the email and password of the registered user to
+the method "Realm.Credentials.emailPassword()" as parameters, and then
+calling "App.logIn()" with that credential.
+
 .. tabs-realm-languages::
    
    .. tab::
       :tabid: javascript
       
       .. code-block:: javascript
+        :emphasize-lines: 15,16
+
+         const Realm = require("realm");
+         const appId = "<appId>"; // Set Realm app ID here.
+         const appConfig = {
+           id: appId,
+           url: "https://realm-dev.mongodb.com",
+           timeout: 1000,
+         };
+ 
+         async function run() {
+           let user;
+           try {
+             const app = new Realm.App(appConfig);
+ 
+             // create a email/password credential using an email and password of a user that has already been  registered
+             const credentials = Realm.Credentials.emailPassword("ckestis@mailinator.com", "Bogano123!");
+             user = await app.logIn(credentials);
+ 
+             console.log(`Logged in with the user: ${user.identity}`);
+           } finally {
+           }
+         }
+        run().catch(console.dir);
    
    .. tab::
       :tabid: typescript
@@ -161,12 +237,16 @@ Sign-in with Apple
 Log Out
 -------
 
+To log any user out regardless of the authentication provider the user was registered using, call the method "logOut()" on the user instance.
+
 .. tabs-realm-languages::
    
    .. tab::
       :tabid: javascript
       
       .. code-block:: javascript
+
+         user.logOut();
    
    .. tab::
       :tabid: typescript
