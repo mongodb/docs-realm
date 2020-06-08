@@ -227,7 +227,7 @@ Once you have opened a {+realm+}, you can modify it and its
 
 
 To create a new Task run the method "realm.create()" inside the
-"realm.write()" callback. Pass the word "Task" as the first parameter to
+"realm.write()" callback. Pass the string "Task" as the first parameter to
 "realm.create()". Pass a task object as the second parameter. 
 
 .. tabs-realm-languages::
@@ -332,8 +332,8 @@ Watch for Changes
 -----------------
 
 You can :ref:`watch a realm, collection, or object for changes
-<react-native-client-notifications>` by adding a listener event with the
-"addListener()" method.
+<react-native-client-notifications>` by adding a listener event handler
+with the "addListener()" method.
 
 .. tabs-realm-languages::
 
