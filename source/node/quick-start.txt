@@ -36,11 +36,11 @@ the following line to import the SDK.
       .. code-block:: javascript
 
          const Realm = require("realm");
+.. ..
+..    .. tab::
+..       :tabid: typescript
 
-   .. tab::
-      :tabid: typescript
-
-      .. code-block:: typescript
+..       .. code-block:: typescript
 
          
 
@@ -61,14 +61,14 @@ in the {+ui+}.
          const appId = "<your-realm-app-id>"; // replace this with your App ID
          const appConfig = {
            id: appId,
-           url: "https://realm-dev.mongodb.com",
            timeout: 1000,
          };
 
-   .. tab::
-      :tabid: typescript
+.. ..
+..    .. tab::
+..       :tabid: typescript
 
-      .. code-block:: typescript
+..       .. code-block:: typescript
 
 
 Define Your Object Model
@@ -80,7 +80,7 @@ define your :ref:`object model <node-realm-objects>` directly in code.
 
 .. note::
 
-   If you have enabled {+sync-short+} but turned off Developer Mode, you can copy and paste the object model definitions that {+backend-short+} generated for you from the :guilabel:`SDKs` tab in the {+ui+}. You must re-enable Developer Mode if you want to make changes to the object model definition from client side code. See :ref:`Configure Your Data Model <configure-your-data-model>`.
+   If you have enabled {+sync-short+} but turned off Developer Mode, you can copy and paste the object model definitions that {+backend-short+} generated for you from the :guilabel:`SDKs` tab in the {+ui+}. You must re-enable Developer Mode if you want to make changes to the object model definition from client-side code. See :ref:`Configure Your Data Model <configure-your-data-model>`.
 
 .. tabs-realm-languages::
 
@@ -100,10 +100,11 @@ define your :ref:`object model <node-realm-objects>` directly in code.
            primaryKey: "_id",
          };
  
-   .. tab::
-      :tabid: typescript
+.. ..
+..    .. tab::
+..       :tabid: typescript
 
-      .. code-block:: typescript
+..       .. code-block:: typescript
 
 
 Authenticate a User
@@ -136,10 +137,11 @@ into your app without providing any identifying information:
          }
          run().catch(console.dir);
     
-   .. tab::
-      :tabid: typescript
+.. ..
+..    .. tab::
+..       :tabid: typescript
 
-      .. code-block:: typescript
+..       .. code-block:: typescript
 
 
 {+service-short+} provides many additional ways to authenticate, register, and link users.
@@ -182,10 +184,11 @@ user, you can open a synced :ref:`{+realm+} <node-realms>`:
          }
          run().catch(console.dir);
     
-   .. tab::
-      :tabid: typescript
+.. ..
+..    .. tab::
+..       :tabid: typescript
 
-      .. code-block:: typescript
+..       .. code-block:: typescript
 
 .. seealso:: :ref:`Sync Data <node-sync-data>`
 
@@ -198,8 +201,8 @@ Once you have opened a {+realm+}, you can modify it and its
 
 
 To create a new Task run the method "realm.create()" inside the
-"realm.write()" callback. Pass the word "Task" as the first parameter to
-"realm.create()". Pass a task object as the second parameter. 
+"realm.write()" callback. Pass the string "Task" as the first parameter to
+"realm.create()". Pass a Task object as the second parameter. 
 
 .. tabs-realm-languages::
 
@@ -215,10 +218,11 @@ To create a new Task run the method "realm.create()" inside the
            });
          });
     
-   .. tab::
-      :tabid: typescript
+.. ..
+..    .. tab::
+..       :tabid: typescript
 
-      .. code-block:: typescript
+..       .. code-block:: typescript
 
 
 You can retrieve a live :ref:`collection <node-client-collections>` of
@@ -234,13 +238,14 @@ all tasks in the {+realm+}:
          // Query realm for all instances of the "Task" type.
          const tasks = realm.objects("Task");
 
-   .. tab::
-      :tabid: typescript
+.. ..
+..    .. tab::
+..       :tabid: typescript
 
-      .. code-block:: typescript
+..       .. code-block:: typescript
 
 
-You can also filter that collection down using a :ref:`filter <node-client-query-engine>`:
+You can also filter that collection using a :ref:`filter <node-client-query-engine>`:
 
 .. tabs-realm-languages::
 
@@ -251,10 +256,11 @@ You can also filter that collection down using a :ref:`filter <node-client-query
 
          console.log(`Number of complete tasks: ${tasks.filtered("complete = true")}`);
 
-   .. tab::
-      :tabid: typescript
+.. ..
+..    .. tab::
+..       :tabid: typescript
 
-      .. code-block:: typescript
+..       .. code-block:: typescript
 
 
 To modify a task, simply update its properties in a write transaction block:
@@ -270,10 +276,11 @@ To modify a task, simply update its properties in a write transaction block:
            task.status = 'InProgress';
          });
 
-   .. tab::
-      :tabid: typescript
+.. ..
+..    .. tab::
+..       :tabid: typescript
 
-      .. code-block:: typescript
+..       .. code-block:: typescript
 
 Finally, you can delete a task:
 
@@ -292,16 +299,17 @@ Finally, you can delete a task:
            task = null;
          });
 
-   .. tab::
-      :tabid: typescript
+.. ..
+..    .. tab::
+..       :tabid: typescript
 
-      .. code-block:: typescript
+..       .. code-block:: typescript
 
 Watch for Changes
 -----------------
 
 You can :ref:`watch a realm, collection, or object for changes
-<node-client-notifications>` by adding a listener event with the
+<node-client-notifications>` by adding a listener event handler with the
 "addListener()" method.
 
 .. tabs-realm-languages::
@@ -337,19 +345,34 @@ You can :ref:`watch a realm, collection, or object for changes
  
          // Observe collection notifications.
          tasks.addListener(listener);
+
+.. ..
+..    .. tab::
+..       :tabid: typescript
+
+..       .. code-block:: typescript
+
  
+To stop watching for changes, run the "realm.removeAllListeners()"
+method. Alternatively, to remove a specific listener, call
+"removeListener()" on the object that is being watched and pass in the
+listener function:
+
+.. tabs-realm-languages::
+   .. tab::
+      :tabid: javascript
+
+      .. code-block:: javascript
          // Unregister all listeners
          realm.removeAllListeners();
  
-         // OR Unregister this listener
+         // Unregister a specific listener:
          tasks.removeListener(listener);
 
+.. .. tab::
+..    :tabid: typescript
 
-   .. tab::
-      :tabid: typescript
-
-      .. code-block:: typescript
-
+..    .. code-block:: typescript
 
 Log Out
 -------
@@ -365,10 +388,11 @@ Once logged in, you can log out:
 
          user.logOut();
 
-   .. tab::
-      :tabid: typescript
+.. ..
+..    .. tab::
+..       :tabid: typescript
 
-      .. code-block:: typescript
+..       .. code-block:: typescript
 
 
 Complete Example
@@ -388,7 +412,6 @@ Run the complete example, by replacing the appId with your {+realm+} app ID.
          const appId = "<your-realm-app-id>"; // replace this with your App ID
          const appConfig = {
            id: appId,
-           url: "https://realm-dev.mongodb.com",
            timeout: 1000,
          };
          const TaskModel = {
@@ -457,9 +480,7 @@ Run the complete example, by replacing the appId with your {+realm+} app ID.
              // Observe collection notifications.
              tasks.addListener(listener);
  
-             console.log(
-               `Number of complete tasks: ${tasks.filtered("complete = true")}`
-             );
+             console.log(`Number of complete tasks: ${tasks.filtered("complete = true")}`);
  
              realm.write(() => {
                task.status = "InProgress";
@@ -479,8 +500,8 @@ Run the complete example, by replacing the appId with your {+realm+} app ID.
          }
          run().catch(console.dir);
 
+.. ..
+..    .. tab::
+..       :tabid: typescript
 
-   .. tab::
-      :tabid: typescript
-
-      .. code-block:: typescript
+..       .. code-block:: typescript

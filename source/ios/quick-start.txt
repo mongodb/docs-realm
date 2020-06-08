@@ -152,11 +152,11 @@ You can retrieve a live :ref:`collection <ios-client-collections>` of all tasks 
    // All tasks in the realm
    let tasks = realm.objects(Task.self)
 
-You can also filter that collection down using a :ref:`filter <ios-client-query-engine>`:
+You can also filter that collection using a :ref:`filter <ios-client-query-engine>`:
 
 .. code-block:: swift
 
-   // You can also filter down a collection
+   // You can also filter a collection
    let tasksThatBeginWithA = tasks.filter("name beginsWith 'A'")
    let completeTasks = tasks.filter("complete = true")
 
