@@ -15,6 +15,10 @@ Create & Manage API Keys
 Overview
 --------
 
+The Web SDK includes a client object that allows you to manage API keys
+associated with the :doc:`API Key authentication provider
+</authentication/api-key>`.
+
 .. _web-api-key-create-user-key:
 
 Create a User API Key
@@ -26,11 +30,15 @@ Create a User API Key
       :tabid: javascript
 
       .. code-block:: javascript
+         
+         const key = await app.auth.apiKey.create("apiKeyName");
    
    .. tab::
       :tabid: typescript
 
       .. code-block:: typescript
+         
+         const key: Realm.AuthProviders.ApiKey = await app.auth.apiKey.create("apiKeyName");
 
 .. _web-api-key-look-up-user-key:
 
@@ -43,11 +51,24 @@ Look up a User API Key
       :tabid: javascript
 
       .. code-block:: javascript
+         
+         // List all of a user's keys
+         const keys = await app.auth.apiKey.list();
+         // Get a specific key by its ID
+         const keyId = "5eb5931548d79bc784adf46e";
+         const key = await app.auth.apiKey.get(keyId);
    
    .. tab::
       :tabid: typescript
 
       .. code-block:: typescript
+         
+         // List all of a user's keys
+         const keys: Realm.AuthProviders.ApiKey[] = await app.auth.apiKey.list();
+         
+         // Get a specific key by its ID
+         const keyId = "5eb5931548d79bc784adf46e";
+         const key: Realm.AuthProviders.ApiKey = await app.auth.apiKey.get(keyId);
 
 .. _web-api-key-enable-disable:
 
@@ -60,11 +81,27 @@ Enable or Disable an API Key
       :tabid: javascript
 
       .. code-block:: javascript
+         
+         const keyId = "5eb5931548d79bc784adf46e";
+         
+         // Enable the User API Key
+         await app.auth.apiKey.enable(keyId);
+         
+         // Disable the User API Key
+         await app.auth.apiKey.disable(keyId);
    
    .. tab::
       :tabid: typescript
 
       .. code-block:: typescript
+         
+         const keyId = "5eb5931548d79bc784adf46e";
+         
+         // Enable the User API Key
+         await app.auth.apiKey.enable(keyId);
+         
+         // Disable the User API Key
+         await app.auth.apiKey.disable(keyId);
 
 .. _web-api-key-delete:
 
@@ -77,8 +114,18 @@ Delete an API Key
       :tabid: javascript
 
       .. code-block:: javascript
+         
+         const keyId = "5eb5931548d79bc784adf46e";
+
+         // Delete the User API Key
+         await app.auth.apiKey.delete(keyId);
    
    .. tab::
       :tabid: typescript
 
       .. code-block:: typescript
+         
+         const keyId = "5eb5931548d79bc784adf46e";
+         
+         // Delete the User API Key
+         await app.auth.apiKey.delete(keyId);

@@ -38,7 +38,7 @@ List Collections
 A **list collection** represents a :ref:`to-many relationship
 <ios-to-many-relationship>` between two {+service-short+} types. Lists
 are mutable: within a write transaction, you can add and remove elements
-on a list. Lists are not associated with a query and are usually
+to and from a list. Lists are not associated with a query and are usually
 declared as a property of an :ref:`object model <ios-object-model>`.
 
 .. seealso:: :ref:`To-Many Relationships <ios-to-many-relationship>`
@@ -50,7 +50,7 @@ Results Collections
 
 A **results collection** represents the lazily-evaluated results of a
 query operation. Results are immutable: you cannot add or remove
-elements on the results collection. Results have an associated query
+elements to or from the results collection. Results have an associated query
 that determines their contents.
 
 .. seealso:: :ref:`Reads <ios-realm-database-reads>`
@@ -68,7 +68,7 @@ are usually **live**:
 
 There are two cases when a collection is **not** live:
 
-- The collection is unmanaged. For example, a List property of 
+- The collection is unmanaged. For example, a List property of
   a {+service-short+} object that has not been added to a {+realm+} yet
   or that has been copied from a {+realm+} is not live.
 - The collection is :ref:`frozen <ios-frozen-objects>`.
@@ -156,7 +156,7 @@ are determined by a query.
    you to add or remove Persons directly to the resulting
    collection. The contents of that collection only change
    when the query matches a different set of Persons.
-   Therefore, {+client-database+} gives you a **results** collection.
+   Therefore, use a **results** collection for this situation.
 
 .. _ios-collection-type-for-implicit-inverse-relationships:
 

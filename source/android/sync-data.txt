@@ -1,0 +1,97 @@
+.. _android-sync-data:
+
+=========
+Sync Data
+=========
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Prerequisites
+-------------
+
+Before you can access a synced {+realm+} from the client, you must:
+
+- :ref:`Enable sync <enable-sync>` in the {+ui+}.
+
+- :ref:`Initialize the app <android-quick-start-init-app>` and
+  :ref:`authenticate a user <android-quick-start-authenticate>` in
+  your client project.
+
+Open a Synced Realm
+-------------------
+
+To open a synced :term:`{+realm+}` for a given :term:`partition value`, initialize a
+``Realm`` with the ``Realm.getInstanceAsync()`` method.
+
+.. code-block:: swift
+   :emphasize-lines: 3
+
+   val user: User? = app.currentUser()
+   val partitionValue: String = "myPartition"
+   val config = SyncConfiguration.Builder(user!!, partitionValue)
+                .build()
+
+   var realm: Realm
+   // Sync all realm changes via a new instance, and when that instance has been successfully created connect it to an on-screen list (a recycler view)
+   Realm.getInstanceAsync(config, object: Realm.Callback() {
+      override fun onSuccess(_realm: Realm) {
+            // since this realm should live exactly as long as this activity, assign the realm to a member variable
+            realm = _realm
+      }
+   })
+
+The :ref:`partition value <partitioning>` specifies which subset of your data to sync.
+This is typically a user ID, project ID, store ID, or some other category identifier in
+your app that has particular relevance to the current user. 
+
+.. seealso:: :ref:`Partition Atlas Data into Realms <partitioning>`
+
+
+Sync Data
+---------
+
+The syntax to :ref:`read <android-realm-database-reads>`, :ref:`write
+<android-realm-database-writes>`, and
+:ref:`watch for changes <android-client-notifications>` on a
+synced {+realm+} is identical to the syntax for non-synced {+realms+}. While you work with
+local data, a background thread efficiently integrates, uploads, and downloads changesets.
+
+.. admonition:: When Using Sync, Avoid Writes on the Main Thread
+   :class: important
+
+   The fact that {+service-short+} performs sync integrations on a background thread means
+   that if you write to your {+realm+} on the main thread, there's a small chance your UI
+   could appear to hang as it waits for the background sync thread to finish a write
+   transaction. Therefore, it's a best practice :ref:`never to write on the main thread
+   when using {+sync+} <android-threading-three-rules>`.
+
+The following code reads a collection of ``Task`` objects, then writes a
+new ``Task`` to the {+realm+}:
+
+.. code-block:: kotlin
+
+   // Read all tasks in the realm. No special syntax required for synced realms.
+   val tasks : RealmResults<Task>? = realm.where<Task>().findAll()
+
+   // Write to the realm. No special syntax required for synced realms.
+   realm.executeTransaction {
+      realm.insert(Task())
+   }
+
+   // Don't forget to close your realm!
+   realm.close()
+
+.. seealso:: :ref:`Threading <android-client-threading>`
+
+Summary
+-------
+
+- Open a synced {+realm+} with the configuration object generated when you pass a :term:`partition value` to the user object's ``SyncConfiguration`` Builder.
+- Compared to using a non-synced {+realm+}, there is no special syntax for reading from, writing to, or watching objects on a synced {+realm+}.
+- You should avoid writing to a synced {+realm+} on the main thread.

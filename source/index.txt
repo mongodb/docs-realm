@@ -2,20 +2,24 @@
 MongoDB Realm
 =============
 
-Welcome to the **{+service+} Internal Beta** documentation set.
-This documentation is still under active development, and
-lacks many code examples. We also expect the table of
-contents order (left hand navigation) to change both in
-structure and in aesthetic quality.
+Welcome to the {+service+} documentation!
 
-If you find problems with the content, please file a `DOCSP
-ticket
-<https://jira.mongodb.org/secure/CreateIssueDetails!init.jspa?pid=14181&issuetype=4&components=Realm&labels=alpha-docs&priority=3>`__.
+.. admonition:: Feedback Appreciated
+   :class: note
 
-If you find a bug in {+service+}, please file a `REALMC ticket <https://jira.mongodb.org/secure/CreateIssueDetails!init.jspa?pid=14287&issuetype=1&priority=3>`__.
+   While using the documentation, please provide feedback with the
+   feedback form on the bottom right of the page.
 
-Additionally, you can ask questions and make suggestions on
-the internal beta Slack channel, ``#realm-sync-private-beta``.
+Introduction
+------------
+
+{+service+} is a serverless platform and mobile database. To see what
+{+service-short+} can do for you, please read the introduction for your
+use case:
+
+- :doc:`Introduction for Mobile Developers </get-started/introduction-mobile>`
+- :doc:`Introduction for Backend Developers  </get-started/introduction-backend>`
+- :doc:`Introduction for Web Developers </get-started/introduction-web>`
 
 .. toctree::
    :titlesonly:
@@ -26,18 +30,45 @@ the internal beta Slack channel, ``#realm-sync-private-beta``.
    Introduction for Backend Developers  </get-started/introduction-backend>
    Introduction for Web Developers </get-started/introduction-web>
 
+Get Started
+-----------
+
+Build a complete Task Tracker app with multiple clients in our
+:doc:`Create a Task Tracker App </tutorial>` tutorial.
+
+Ready to set up a serverless backend {+app+}? Jump into :doc:`Create a
+MongoDB Realm App </procedures/create-realm-app>` to get started.
+
+.. toctree::
+   :titlesonly:
+   :caption: Tutorial
+   :hidden:
+
+   Create a Task Tracker App </tutorial>
+
 .. toctree::
    :titlesonly:
    :caption: Get Started
    :hidden:
 
-   Create a Realm App </procedures/create-realm-app>
-   Tutorial: Create a Task Tracker App in MongoDB Realm </tutorial/realm-app>
-   Tutorial: Write an iOS Task Tracker with Swift </tutorial/ios-swift>
-   Tutorial: Write an Android Task Tracker with Kotlin </tutorial/android-kotlin>
-   Tutorial: Write a Github Issue Tracker with MongoDB Realm </tutorial/backend> 
-   Tutorial: Write a React Native Task Tracker with JavaScript </tutorial/react-native>
-   Tutorial: Write a Web Task Tracker with React </tutorial/web-graphql>
+   Create a MongoDB Realm App </procedures/create-realm-app>
+
+Cloud Features
+--------------
+
+Each feature of {+service+} has its own section in this documentation.
+Features include:
+
+- :doc:`Users & Authentication </authentication>`
+- :doc:`MongoDB Data Access </mongodb>`
+- :doc:`Sync </sync>`
+- :doc:`GraphQL API </graphql>`
+- :doc:`Functions </functions>`
+- :doc:`Triggers </triggers>`
+- :doc:`Services </services>`
+- :doc:`Static Hosting </hosting>`
+- :doc:`Values & Secrets </values-and-secrets>`
+- :doc:`Application Management </deploy>`
 
 .. toctree::
    :titlesonly:
@@ -139,6 +170,16 @@ the internal beta Slack channel, ``#realm-sync-private-beta``.
 
 .. toctree::
    :titlesonly:
+   :caption: Values & Secrets
+   :hidden:
+
+   Values & Secrets  </values-and-secrets>
+   Define a Value  </values-and-secrets/define-a-value>
+   Define a Secret  </values-and-secrets/define-a-secret>
+   Access a Value </values-and-secrets/access-a-value>
+
+.. toctree::
+   :titlesonly:
    :caption: Application Management
    :hidden:
 
@@ -153,15 +194,17 @@ the internal beta Slack channel, ``#realm-sync-private-beta``.
    MongoDB Cloud Users </admin/users-and-groups>
    Logs </logs>
 
-.. toctree::
-   :titlesonly:
-   :caption: Values & Secrets
-   :hidden:
+Clients
+-------
 
-   Values & Secrets  </values-and-secrets>
-   Define a Value  </values-and-secrets/define-a-value>
-   Define a Secret  </values-and-secrets/define-a-secret>
-   Access a Value </values-and-secrets/access-a-value>
+To integrate {+service+} into your front-end clients, visit the
+documentation for your platform, framework, and language of choice:
+
+- :doc:`Android SDK </android>` for Kotlin and Java
+- :doc:`iOS SDK </ios>` for Swift and Objective-C
+- :doc:`Node SDK </node>` for TypeScript and JavaScript
+- :doc:`React Native SDK </react-native>` for TypeScript and JavaScript
+- :doc:`Web SDK </web>` for TypeScript and JavaScript
 
 .. toctree::
    :titlesonly:
@@ -188,14 +231,6 @@ the internal beta Slack channel, ``#realm-sync-private-beta``.
 
 .. toctree::
    :titlesonly:
-   :caption: .NET SDK
-   :hidden:
-
-   .NET SDK </dotnet>
-   Install Realm for C# </dotnet/install>
-
-.. toctree::
-   :titlesonly:
    :caption: React Native SDK
    :hidden:
 
@@ -208,6 +243,25 @@ the internal beta Slack channel, ``#realm-sync-private-beta``.
    :hidden:
 
    Web SDK </web>
+   Web Quick Start </web/quickstart>
+
+Billing & Reference
+-------------------
+
+{+service+} has a free tier. All usage below the free tier thresholds in
+a given month is not billed, so you can get started with {+service+} at
+no cost. To see how billing works in {+service+}, see :doc:`Billing
+</billing>`.
+
+The reference section contains all additional detailed information:
+
+- :doc:`Glossary </get-started/glossary>`
+- :doc:`Function Context Reference </functions/context>`
+- :doc:`Realm Administration API </admin/api/v3>`
+- :doc:`Realm CLI Reference </deploy/realm-cli-reference>`
+- :doc:`CRON Expressions </triggers/cron-expressions>`
+- :doc:`Expression Variables </services/expression-variables>`
+- :doc:`JSON Expressions </services/json-expressions>`
 
 .. toctree::
    :titlesonly:
@@ -216,7 +270,7 @@ the internal beta Slack channel, ``#realm-sync-private-beta``.
 
    Glossary </get-started/glossary>
    Function Context Reference </functions/context>
-   Realm Administration API </admin/api/v3.txt>
+   Realm Administration API </admin/api/v3>
    Realm CLI Reference </deploy/realm-cli-reference>
    CRON Expressions </triggers/cron-expressions>
    Expression Variables </services/expression-variables>
