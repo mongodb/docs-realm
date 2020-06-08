@@ -160,6 +160,12 @@ content: |
          }
        }
      }
+
+  .. admonition:: Synced Mobile Apps
+     :class: important
+
+     If you are building a mobile application, set the ``bsonType`` of the
+     ``assignee`` field to ``objectId`` instead of ``string``.
 ---
 title: Define a Relationship Between Tasks and Users
 ref: define-a-relationship-between-tasks-and-users
@@ -175,6 +181,12 @@ content: |
   Click :guilabel:`Add a Relationship` and define a relationship that points
   from the ``assignee`` property to the ``user_id`` property in the
   ``tracker.tasks`` collection.
+
+  .. admonition:: Synced Mobile Apps
+     :class: important
+
+     If you are building a mobile application, define the relationship to point
+     to ``_id`` instead of ``user_id``.
   
   .. cssclass:: bordered-figure
   .. figure:: /images/task-tracker-web-add-relationship.png
