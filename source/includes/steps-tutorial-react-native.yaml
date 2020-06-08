@@ -21,7 +21,7 @@ content: |
 
   .. code-block:: sh
 
-     npm install realm@v10.0.0-alpha.9
+     npm install realm@v10.0.0-beta.4
 
   In this tutorial, we'll also use the `React Native Elements
   <https://react-native-elements.github.io/react-native-elements/>`__ library
@@ -97,7 +97,6 @@ content: |
          const appId = '<enter your Realm app ID here>'; // Set Realm app ID here.
          const appConfig = {
            id: appId,
-           url: 'https://realm.mongodb.com',
            timeout: 1000,
            app: {
              name: 'default',
@@ -399,7 +398,7 @@ content: |
        static schema = {
          name: 'Task',
          properties: {
-           _id: 'object id',
+           _id: 'objectId',
            _partition: 'string',
            name: 'string',
            status: 'string',
@@ -552,7 +551,7 @@ content: |
            schema: [Task.schema],
            sync: {
              user,
-             partitionValue: `"${projectId}"`,
+             partitionValue: projectId,
            },
          }; 
 
@@ -592,7 +591,7 @@ content: |
              // Set the tasks state variable and re-render.
              setTasks([...syncTasks]);
            })
-           .catch(error => console.warn('Failed to open realm:', error));
+           .catch((error) => console.warn('Failed to open realm:', error));
 
          // Return the cleanup function to be called when the component is unmounted.
          return () => {
