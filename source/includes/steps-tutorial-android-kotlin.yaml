@@ -93,7 +93,7 @@ content: |
   into your **project** ``build.gradle`` file:
 
   .. code-block:: groovy
-     :emphasize-lines: 8-10, 15, 29-31
+     :emphasize-lines: 8-10, 15, 23-25
 
      // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
@@ -107,16 +107,10 @@ content: |
             }
         }
         dependencies {
-            classpath 'com.android.tools.build:gradle:3.6.3'
+            classpath 'com.android.tools.build:gradle:4.0.0'
             classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-            classpath "io.realm:realm-gradle-plugin:10.0.0-SNAPSHOT"
+            classpath "io.realm:realm-gradle-plugin:10.0.0-BETA.2"
         }
-     }
-
-
-     // Don't cache SNAPSHOT (changing) dependencies.
-     configurations.all {
-        resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
      }
 
      allprojects {
@@ -132,6 +126,7 @@ content: |
      task clean(type: Delete) {
         delete rootProject.buildDir
      }
+
 
   Now that you've added the Realm dependency itself, it's time to apply
   the ``realm-android`` plugin in the **app** ``build.gradle`` file. Because
@@ -172,21 +167,18 @@ content: |
 
   Finally, you need to set up some constants to configure your app's
   connection to {+service+}. In the ``android.buildTypes`` section,
-  define your Realm URL and App ID, which you'll use later in Kotlin
+  define your App ID, which you'll use later in Kotlin
   code to instantiate a connection:
 
   .. code-block:: groovy
      :emphasize-lines: 2-9
 
      buildTypes {
-        def mongodbRealmUrl = "https://realm.mongodb.com"
         def appId = "<your app ID here>"  // Replace with proper Application ID
         debug {
-            buildConfigField "String", "MONGODB_REALM_URL", "\"${mongodbRealmUrl}\""
             buildConfigField "String", "MONGODB_REALM_APP_ID", "\"${appId}\""
         }
         release {
-            buildConfigField "String", "MONGODB_REALM_URL", "\"${mongodbRealmUrl}\""
             buildConfigField "String", "MONGODB_REALM_APP_ID", "\"${appId}\""
             minifyEnabled true
             signingConfig signingConfigs.debug
@@ -222,18 +214,20 @@ content: |
         }
 
         buildTypes {
-            def mongodbRealmUrl = "https://realm.mongodb.com"
             def appId = "<your app ID here>"  // Replace with proper Application ID
             debug {
-                buildConfigField "String", "MONGODB_REALM_URL", "\"${mongodbRealmUrl}\""
                 buildConfigField "String", "MONGODB_REALM_APP_ID", "\"${appId}\""
             }
             release {
-                buildConfigField "String", "MONGODB_REALM_URL", "\"${mongodbRealmUrl}\""
                 buildConfigField "String", "MONGODB_REALM_APP_ID", "\"${appId}\""
                 minifyEnabled true
                 signingConfig signingConfigs.debug
             }
+        }
+
+        compileOptions {
+            sourceCompatibility 1.8
+            targetCompatibility 1.8
         }
      }
 
@@ -315,9 +309,6 @@ content: |
             Realm.init(this)
             taskApp = App(
                 AppConfiguration.Builder(BuildConfig.MONGODB_REALM_APP_ID)
-                .baseUrl(BuildConfig.MONGODB_REALM_URL)
-                .appName(BuildConfig.VERSION_NAME)
-                .appVersion(BuildConfig.VERSION_CODE.toString())
                 .build())
 
             // Enable more logging in debug mode

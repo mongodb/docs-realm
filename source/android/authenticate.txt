@@ -100,10 +100,8 @@ authentication, create an anonymous credential by calling
       .. code-block:: kotlin
 
          Realm.init(this)
+         val appID = "<your app ID>"
          val app: App = App(AppConfiguration.Builder(appID)
-                .baseUrl(realmURL)
-                .appName(BuildConfig.VERSION_NAME)
-                .appVersion(BuildConfig.VERSION_CODE.toString())
                 .build())
 
          val credentials: Credentials = Credentials.anonymous()
@@ -143,10 +141,8 @@ to ``app.login()`` or ``app.loginAsync()``.
       .. code-block:: kotlin
 
          Realm.init(this)
+         val appID = "<your app ID>"
          val app: App = App(AppConfiguration.Builder(appID)
-                .baseUrl(realmURL)
-                .appName(BuildConfig.VERSION_NAME)
-                .appVersion(BuildConfig.VERSION_CODE.toString())
                 .build())
 
          val credentials: Credentials = Credentials.emailPassword("email", "password")
