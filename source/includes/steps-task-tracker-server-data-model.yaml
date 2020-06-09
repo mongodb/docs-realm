@@ -88,9 +88,10 @@ content: |
   .. code-block:: json
      
      {
-       "title": "user",
+       "title": "User",
        "required": [
          "_id",
+         "_partition",
          "user_id",
          "name"
        ],
@@ -127,10 +128,16 @@ content: |
   the :guilabel:`Schema` tab. Paste in the following schema and then click
   :guilabel:`Save`.
 
+  .. admonition:: Synced Mobile Apps
+     :class: important
+
+     If you are building a mobile application, set the ``bsonType`` of the
+     ``assignee`` field to ``objectId`` instead of ``string``.
+
   .. code-block:: json
      
      {
-       "title": "task",
+       "title": "Task",
        "required": [
          "_id",
          "_partition",
@@ -160,12 +167,6 @@ content: |
          }
        }
      }
-
-  .. admonition:: Synced Mobile Apps
-     :class: important
-
-     If you are building a mobile application, set the ``bsonType`` of the
-     ``assignee`` field to ``objectId`` instead of ``string``.
 ---
 title: Define a Relationship Between Tasks and Users
 ref: define-a-relationship-between-tasks-and-users
