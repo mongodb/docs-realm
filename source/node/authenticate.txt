@@ -139,7 +139,7 @@ user's email address and password and pass it to ``App.logIn()``:
              console.error("Failed to log in", err);
            }
          }
-         loginEmailPassword("joe.jasper@example.com", "passw0rd").then(user => {
+         loginEmailPassword("cal.kestis@example.com", "Bogano123!").then(user => {
            console.log("Successfully logged in!", user)
          })
 
@@ -161,7 +161,7 @@ user's email address and password and pass it to ``App.logIn()``:
              console.error("Failed to log in", err);
            }
          }
-         loginEmailPassword("joe.jasper@example.com", "passw0rd").then(user => {
+         loginEmailPassword("cal.kestis@example.com", "Bogano123!").then(user => {
            console.log("Successfully logged in!", user)
          })
 
@@ -184,8 +184,8 @@ API key and pass it to ``App.logIn()``:
       .. code-block:: javascript
          
          async function loginApiKey(apiKey) {
-           // Create an anonymous credential
-           const credentials = Realm.Credentials.apiKey(apiKey);
+           // Create an APIKey credential
+           const credentials = Realm.Credentials.userAPIKey(apiKey);
            try {
              // Authenticate the user
              const user = await app.logIn(credentials);
@@ -206,8 +206,8 @@ API key and pass it to ``App.logIn()``:
       .. code-block:: typescript
          
          async function loginApiKey(apiKey: string) {
-           // Create an anonymous credential
-           const credentials = Realm.Credentials.apiKey(apiKey);
+           // Create an APIKey credential
+           const credentials = Realm.Credentials.userAPIKey(apiKey);
            try {
              // Authenticate the user
              const user: Realm.User = await app.logIn(credentials);
