@@ -37,7 +37,7 @@ content: |
               
               // NOTE: Do not place your application dependencies here; they belong
               // in the individual module build.gradle files
-              classpath "io.realm:realm-gradle-plugin:10.0.0-BETA.2"
+              classpath "io.realm:realm-gradle-plugin:10.0.0-BETA.3"
           }
       }
 
@@ -97,6 +97,14 @@ content: |
                   proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
               }
           }
+          compileOptions {
+              sourceCompatibility 1.8
+              targetCompatibility 1.8
+          }
+      }
+
+      realm {
+          syncEnabled = true
       }
 
       dependencies {
