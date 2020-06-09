@@ -211,10 +211,10 @@ D. Define the GraphQL Schema & Operations
 .. admonition:: How We Use It
    :class: admonition-example
    
-   We import the generated types defined in ``/src/types.ts`` in multiple
-   components throughout the app whenever that component needs to use data from
-   the GraphQL API. For example, in ``/src/components/TaskView.tsx`` we import
-   the generated ``Task`` type and use it to type the component's ``task`` prop.
+   We import the generated types defined in ``/src/types.ts`` from multiple
+   components throughout the app that need to use data from the GraphQL API. For
+   example, in ``/src/components/TaskView.tsx`` we import the generated ``Task``
+   type and use it to type the component's ``task`` prop.
    
    .. code-block:: typescript
       :caption: ``/src/components/TaskView.tsx``
@@ -226,7 +226,8 @@ D. Define the GraphQL Schema & Operations
       }
       
       export function TaskView({ task }: TaskViewProps) {
-        const { status, assignee, name } = task;
+        const { assignee, name } = task;
+        const status = task.status as TaskStatus;
         ...
       }
    
