@@ -180,7 +180,7 @@ content: |
         }
         release {
             buildConfigField "String", "MONGODB_REALM_APP_ID", "\"${appId}\""
-            minifyEnabled true
+            minifyEnabled false
             signingConfig signingConfigs.debug
         }
      }
@@ -220,7 +220,7 @@ content: |
             }
             release {
                 buildConfigField "String", "MONGODB_REALM_APP_ID", "\"${appId}\""
-                minifyEnabled true
+                minifyEnabled false
                 signingConfig signingConfigs.debug
             }
         }
