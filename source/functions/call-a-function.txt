@@ -77,7 +77,7 @@ You can call a function from client applications that are connected with
 a Client SDK or over the :ref:`wire protocol <wire-protocol-usage-call-function>`.
 
 .. tab-bar:: tabs-realm-sdks
-   :tab-ids: javascript, android, ios
+   :tab-ids: javascript, android, ios, node, react-native
 
 .. tabs-realm-sdks::
    :hidden:
@@ -85,40 +85,29 @@ a Client SDK or over the :ref:`wire protocol <wire-protocol-usage-call-function>
    .. tab::
       :tabid: android
 
-      To execute a function from the Android Client SDK, use the
-      :android-sdk:`callFunction() <com/mongodb/realm/android/core/RealmAppClient.html#callFunction-java.lang.String-java.util.List-java.lang.Class->`
-      method.
-
-      .. code-block:: java
-
-         RealmAppClient client = Realm.getDefaultAppClient()
-         client.callFunction("sum", Arrays.asList(3, 4), BsonValue.class)
-               .addOnCompleteListener(new OnCompleteListener<BsonValue>() {
-                  @Override
-                  public void onComplete(@NonNull final Task<BsonValue> task) {
-                     if (task.isSuccessful()) {
-                     Log.d("realm", String.format("%s", task.getResult())); // Output: 7
-                     } else {
-                     Log.e("realm", "Error calling function:", task.getException());
-                     }
-                  }
-               });
+      To execute a function from the Android Client SDK, see the
+      :ref:`Android SDK guide for calling a function <android-call-a-function>`.
 
    .. tab::
       :tabid: ios
 
-      To execute a function from the iOS Client SDK, use the
-      :ios-sdk:`callFunction(withName:withArgs:_:) <Protocols/RealmAppClient.html#/s:10RealmCore0A9AppClientP12callFunctionySS8withName_Say10MongoSwift9BsonValue_pG0G4ArgsyAA0A6ResultOyqd__Gcts9DecodableRd__lF>`
-      method.
+      To execute a function from the iOS Client SDK, see the
+      :ref:`iOS SDK guide for calling a function <ios-call-a-function>`.
 
-      .. code-block:: swift
+   .. tab::
+      :tabid: javascript
 
-            let client = Realm.defaultAppClient!
-            client.callFunction(withName: "sum", withArgs: [3, 4]) { (result: RealmResult<String>) in
-               switch result {
-               case .success(let sum):
-                  print(sum)
-               case .failure(let error):
-                  print("Failed to calculate sum: \(String(describing: error))")
-               }
-            }
+      To execute a function from the Web Client SDK, see the
+      :ref:`Web SDK guide for calling a function <web-call-a-function>`.
+
+   .. tab::
+      :tabid: node
+      
+      To execute a function from the Node Client SDK, see the
+      :ref:`Node SDK guide for calling a function <node-call-a-function>`.
+
+   .. tab::
+      :tabid: react-native
+
+      To execute a function from the React Native Client SDK, see the
+      :ref:`React Native SDK guide for calling a function <react-native-call-a-function>`.
