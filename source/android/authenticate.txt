@@ -98,12 +98,12 @@ authentication, create an anonymous credential by calling
       :tabid: kotlin
       
       .. code-block:: kotlin
-
+         
          Realm.init(this)
          val appID = "<your app ID>"
          val app: App = App(AppConfiguration.Builder(appID)
                 .build())
-
+         
          val credentials: Credentials = Credentials.anonymous()
          
          val user: User? = null
@@ -115,11 +115,6 @@ authentication, create an anonymous credential by calling
                 Log.e(TAG, it.error.toString())
             }
          }
-   
-   .. tab::
-      :tabid: java
-      
-      .. code-block:: java
 
 .. _android-login-email-password:
 
@@ -156,113 +151,108 @@ to ``app.login()`` or ``app.loginAsync()``.
                 Log.e(TAG, it.error.toString())
             }
          }
+
+.. .. _android-login-api-key:
+
+.. API Key
+.. ~~~~~~~
+
+.. .. tabs-realm-languages::
    
-   .. tab::
-      :tabid: java
+..    .. tab::
+..       :tabid: kotlin
       
-      .. code-block:: java
-
-.. _android-login-api-key:
-
-API Key
-~~~~~~~
-
-.. tabs-realm-languages::
+..       .. code-block:: kotlin
    
-   .. tab::
-      :tabid: kotlin
+..    .. tab::
+..       :tabid: java
       
-      .. code-block:: kotlin
+..       .. code-block:: java
+
+.. .. _android-login-custom-function:
+
+.. Custom Function
+.. ~~~~~~~~~~~~~~~
+
+.. .. tabs-realm-languages::
    
-   .. tab::
-      :tabid: java
+..    .. tab::
+..       :tabid: kotlin
       
-      .. code-block:: java
-
-.. _android-login-custom-function:
-
-Custom Function
-~~~~~~~~~~~~~~~
-
-.. tabs-realm-languages::
+..       .. code-block:: kotlin
    
-   .. tab::
-      :tabid: kotlin
+..    .. tab::
+..       :tabid: java
       
-      .. code-block:: kotlin
+..       .. code-block:: java
+
+.. .. _android-login-custom-jwt:
+
+.. Custom JWT
+.. ~~~~~~~~~~
+
+.. .. tabs-realm-languages::
    
-   .. tab::
-      :tabid: java
+..    .. tab::
+..       :tabid: kotlin
       
-      .. code-block:: java
-
-.. _android-login-custom-jwt:
-
-Custom JWT
-~~~~~~~~~~
-
-.. tabs-realm-languages::
+..       .. code-block:: kotlin
    
-   .. tab::
-      :tabid: kotlin
+..    .. tab::
+..       :tabid: java
       
-      .. code-block:: kotlin
+..       .. code-block:: java
+
+.. .. _android-login-facebook:
+
+.. Facebook OAuth
+.. ~~~~~~~~~~~~~~
+
+.. .. tabs-realm-languages::
    
-   .. tab::
-      :tabid: java
+..    .. tab::
+..       :tabid: kotlin
       
-      .. code-block:: java
-
-.. _android-login-facebook:
-
-Facebook OAuth
-~~~~~~~~~~~~~~
-
-.. tabs-realm-languages::
+..       .. code-block:: kotlin
    
-   .. tab::
-      :tabid: kotlin
+..    .. tab::
+..       :tabid: java
       
-      .. code-block:: kotlin
+..       .. code-block:: java
+
+.. .. _android-login-google:
+
+.. Google OAuth
+.. ~~~~~~~~~~~~
+
+.. .. tabs-realm-languages::
    
-   .. tab::
-      :tabid: java
+..    .. tab::
+..       :tabid: kotlin
       
-      .. code-block:: java
-
-.. _android-login-google:
-
-Google OAuth
-~~~~~~~~~~~~
-
-.. tabs-realm-languages::
+..       .. code-block:: kotlin
    
-   .. tab::
-      :tabid: kotlin
+..    .. tab::
+..       :tabid: java
       
-      .. code-block:: kotlin
-   
-   .. tab::
-      :tabid: java
-      
-      .. code-block:: java
+..       .. code-block:: java
 
-.. _android-login-apple:
+.. .. _android-login-apple:
 
-Sign-in with Apple
-~~~~~~~~~~~~~~~~~~
+.. Sign-in with Apple
+.. ~~~~~~~~~~~~~~~~~~
 
-.. tabs-realm-languages::
+.. .. tabs-realm-languages::
    
-   .. tab::
-      :tabid: kotlin
+..    .. tab::
+..       :tabid: kotlin
       
-      .. code-block:: kotlin
+..       .. code-block:: kotlin
    
-   .. tab::
-      :tabid: java
+..    .. tab::
+..       :tabid: java
       
-      .. code-block:: java
+..       .. code-block:: java
 
 .. _android-logout:
 
@@ -296,8 +286,3 @@ all local Realm updates have uploaded to the server.
                 Log.e(TAG, it.error.toString())
             }
          }
-   
-   .. tab::
-      :tabid: java
-      
-      .. code-block:: java
