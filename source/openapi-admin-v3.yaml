@@ -2,7 +2,7 @@ openapi: "3.0.1"
 info:
   description: ""
   version: "3.0"
-  title: "{+service-short+} API"
+  title: "MongoDB Realm API"
 servers:
   - url: "https://realm.mongodb.com/api/admin/v3.0"
     description: "The root API resource and starting point for the {+service-short+} API."
@@ -1327,7 +1327,7 @@ paths:
     get:
       tags: ["secrets"]
       operationId: "adminGetAllSecrets"
-      summary: "List :doc:`Secrets </values-and-secrets/define-a-secret>` associated with a {+app+}."
+      summary: "List :doc:`Secrets </values-and-secrets/define-a-secret>` associated with a Realm app."
       responses:
         '200':
           description: "The Secrets were successfully listed."
@@ -1737,6 +1737,62 @@ paths:
       - $ref: "#/components/parameters/GroupId"
       - $ref: "#/components/parameters/AppId"
 
+  # Billing
+  /groups/{groupId}/measurements:
+    get:
+      tags: ["billing"]
+      operationId: "adminMeasurements"
+      summary: "List the requests, compute, sync, and data transfer usage in a given period for :doc:`billing </billing>` purposes."
+      parameters:
+        - $ref: "#/components/parameters/GroupId"
+        - name: start
+          in: query
+          description: The ISO 8601 date and time of the start of the query period. Default is 00:00:00 UTC on the first day of the current month.
+          schema: {type: string}
+          required: False
+        - name: end
+          in: query
+          description: The ISO 8601 date and time of the end of the query period. Default is 23:59:59 UTC on the the last day of the current month.
+          schema: {type: string}
+          required: False
+        - name: granularity
+          in: query
+          description: Specifies the granularity of the query period, either P31D (31 day) or PT1H (1 hour). Default is P31D.
+          schema:
+            type: string
+            enum: ["P31D", "PT1H"]
+          required: False
+      responses:
+        '200': {$ref: "#/components/responses/MeasurementsResponse200"}
+        '400': {$ref: "#/components/responses/ClientErrorResponse"}
+  /groups/{groupId}/apps/{appId}/measurements/:
+    get:
+      tags: ["billing"]
+      operationId: "adminAppMeasurements"
+      summary: "List the requests, compute, sync, data transfer, and memory usage of a specific app in a given period for :doc:`billing </billing>` purposes."
+      parameters:
+        - $ref: "#/components/parameters/GroupId"
+        - $ref: "#/components/parameters/AppId"
+        - name: start
+          in: query
+          description: The ISO 8601 date and time of the start of the query period. Default is 00:00:00 UTC on the first day of the current month.
+          schema: {type: string}
+          required: False
+        - name: end
+          in: query
+          description: The ISO 8601 date and time of the end of the query period. Default is 23:59:59 UTC on the the last day of the current month.
+          schema: {type: string}
+          required: False
+        - name: granularity
+          in: query
+          description: Specifies the granularity of the query period, either P31D (31 day) or PT1H (1 hour). Default is P31D.
+          schema:
+            type: string
+            enum: ["P31D", "PT1H"]
+          required: False
+      responses:
+        '200': {$ref: "#/components/responses/MeasurementsResponse200"}
+        '400': {$ref: "#/components/responses/ClientErrorResponse"}
 components:
   parameters:
     AssetResourcePath:
@@ -2485,13 +2541,72 @@ components:
       description: |
         The authorization token provided in the ``refresh_token`` field of
         the :ref:`post-/auth/providers/{provider}/login` API endpoint.
-
-
+  responses:
+    MeasurementsResponse200:
+      description: "The measurements were successfully returned."
+      content:
+        application/json:
+          schema:
+            properties:
+              start:
+                type: string
+                description: The ISO 8601 date and time of the start of the query period, which can be specified with the ``start`` query parameter.
+              end:
+                type: string
+                description: The ISO 8601 date and time of the end of the query period, which can be specified with the ``end`` query parameter.
+              granularity:
+                type: string
+                description: The granularity, which can be specified with the ``granularity`` query parameter.
+              group_id:
+                type: string
+                description: The |atlas| :atlas:`Group ID </tutorial/manage-projects/>`.
+              measurements:
+                type: array
+                description: |
+                  The array of measurements.
+                items:
+                  properties:
+                    name:
+                      type: string
+                      enum: [request_count, compute_time, data_out, sync_time, mem_usage]
+                      description: |
+                        The usage metric represented by each data point. See :doc:`billing </billing>`. 
+                    units:
+                      type: string
+                      enum: ['<empty string>', HOURS, GIGABYTES, GIGABYTE_SECONDS, MILLIS]
+                      description: |
+                        The unit of the ``value`` of each data point.
+                    data_points:
+                      type: array
+                      description: |
+                        The array of data points for this measurement. A finer ``granularity`` results in more data points.
+                      items:
+                        properties:
+                          timestamp:
+                            type: string
+                            description: |
+                              The ISO 8601 date and time of the data point.
+                          value:
+                            type: number
+                            description: |
+                              The value at the time in the ``unit`` of the measurement.
+    ClientErrorResponse:
+      description: "There is an error in the request."
+      content:
+        application/json:
+          schema:
+            properties:
+              error:
+                type: string
+                description: |
+                  A message describing the error.
 tags:
   - name: admin
-    description: "{+service-short+} Administrator APIs"
+    description: "Realm Administrator APIs"
   - name: apikeys
     description: "API Key APIs"
+  - name: billing
+    description: "Billing APIs"
   - name: secrets
     description: "Secrets APIs"
   - name: apps
