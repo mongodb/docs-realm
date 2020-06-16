@@ -13,7 +13,8 @@ Link a MongoDB Atlas Cluster
 Overview
 --------
 
-You can use {+service+} to work with any MongoDB Atlas cluster associated
+You can use {+service+} to work with any `{+atlas+}
+<https://www.mongodb.com/cloud/atlas?tck=docs_realm>`_ cluster associated
 with the same Atlas project as your {+app+}. To connect to a
 cluster through {+service-short+}, you must first link it to a new MongoDB service
 in your application.
@@ -22,6 +23,12 @@ You can create a MongoDB service and link a cluster to your {+app+}
 through the {+ui+} or with an :doc:`import/export
 </deploy/deploy-cli>` configuration directory.
 Select the tab below that corresponds to the method you want to use.
+
+.. admonition:: Version 4.4 Required
+   :class: note
+
+   In order to use {+sync+}, your Atlas cluster must use MongoDB version
+   4.4.
 
 Procedure
 ---------

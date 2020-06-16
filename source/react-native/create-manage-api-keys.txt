@@ -1,0 +1,131 @@
+.. _react-native-create-manage-api-keys:
+
+========================
+Create & Manage API Keys
+========================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+The React Native SDK includes a client object that allows you to manage API keys
+associated with the :doc:`API Key authentication provider
+</authentication/api-key>`.
+
+.. _react-native-api-key-create-user-key:
+
+Create a User API Key
+---------------------
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: javascript
+
+      .. code-block:: javascript
+         
+         const key = await app.auth.apiKey.create("apiKeyName");
+   
+   .. tab::
+      :tabid: typescript
+
+      .. code-block:: typescript
+         
+         const key: Realm.AuthProviders.ApiKey = await app.auth.apiKey.create("apiKeyName");
+
+.. _react-native-api-key-look-up-user-key:
+
+Look up a User API Key
+----------------------
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: javascript
+
+      .. code-block:: javascript
+         
+         // List all of a user's keys
+         const keys = await app.auth.apiKey.list();
+         // Get a specific key by its ID
+         const keyId = "5eb5931548d79bc784adf46e";
+         const key = await app.auth.apiKey.get(keyId);
+   
+   .. tab::
+      :tabid: typescript
+
+      .. code-block:: typescript
+         
+         // List all of a user's keys
+         const keys: Realm.AuthProviders.ApiKey[] = await app.auth.apiKey.list();
+         
+         // Get a specific key by its ID
+         const keyId = "5eb5931548d79bc784adf46e";
+         const key: Realm.AuthProviders.ApiKey = await app.auth.apiKey.get(keyId);
+
+.. _react-native-api-key-enable-disable:
+
+Enable or Disable an API Key
+----------------------------
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: javascript
+
+      .. code-block:: javascript
+         
+         const keyId = "5eb5931548d79bc784adf46e";
+         
+         // Enable the User API Key
+         await app.auth.apiKey.enable(keyId);
+         
+         // Disable the User API Key
+         await app.auth.apiKey.disable(keyId);
+   
+   .. tab::
+      :tabid: typescript
+
+      .. code-block:: typescript
+         
+         const keyId = "5eb5931548d79bc784adf46e";
+         
+         // Enable the User API Key
+         await app.auth.apiKey.enable(keyId);
+         
+         // Disable the User API Key
+         await app.auth.apiKey.disable(keyId);
+
+.. _react-native-api-key-delete:
+
+Delete an API Key
+-----------------
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: javascript
+
+      .. code-block:: javascript
+         
+         const keyId = "5eb5931548d79bc784adf46e";
+
+         // Delete the User API Key
+         await app.auth.apiKey.delete(keyId);
+   
+   .. tab::
+      :tabid: typescript
+
+      .. code-block:: typescript
+         
+         const keyId = "5eb5931548d79bc784adf46e";
+         
+         // Delete the User API Key
+         await app.auth.apiKey.delete(keyId);

@@ -42,7 +42,7 @@ Prerequisites
 Before you get started, you'll need the following:
 
 - A complete task tracker app in MongoDB Realm. If you haven't yet completed
-  :doc:`Create a Task Tracker App in MongoDB Realm </tutorial/realm-app>`, do
+  :doc:`Set Up the Task Tracker Tutorial Backend </tutorial/realm-app>`, do
   that before you continue.
 
 - :nodejs:`Node.js <>` installed on your machine.
@@ -70,6 +70,14 @@ client application and install its dependencies:
    
    cd realm-tutorial/web
    npm install
+
+The ``master`` branch is a finished version of the app as it should look after
+you complete this tutorial. To remove the Realm-specific source code that you'll
+define in this tutorial, check out the ``todo`` branch:
+
+.. code-block:: shell
+   
+   git checkout todo
 
 .. note::
 
@@ -203,10 +211,10 @@ D. Define the GraphQL Schema & Operations
 .. admonition:: How We Use It
    :class: admonition-example
    
-   We import the generated types defined in ``/src/types.ts`` in multiple
-   components throughout the app whenever that component needs to use data from
-   the GraphQL API. For example, in ``/src/components/TaskView.tsx`` we import
-   the generated ``Task`` type and use it to type the component's ``task`` prop.
+   We import the generated types defined in ``/src/types.ts`` from multiple
+   components throughout the app that need to use data from the GraphQL API. For
+   example, in ``/src/components/TaskView.tsx`` we import the generated ``Task``
+   type and use it to type the component's ``task`` prop.
    
    .. code-block:: typescript
       :caption: ``/src/components/TaskView.tsx``
@@ -218,7 +226,8 @@ D. Define the GraphQL Schema & Operations
       }
       
       export function TaskView({ task }: TaskViewProps) {
-        const { status, assignee, name } = task;
+        const { assignee, name } = task;
+        const status = task.status as TaskStatus;
         ...
       }
    

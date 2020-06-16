@@ -20,14 +20,14 @@ title: Configure Custom User Data
 ref: configure-custom-user-data
 content: |
   You must store the custom data for your application's users in a
-  single collection of a linked MongoDB Atlas cluster. Every document in
-  the collection should have a field that contains the user ID of the
-  {+service-short+} user that it describes.
-  
+  single collection of a linked `{+atlas+} <https://www.mongodb.com/cloud/atlas?tck=docs_realm>`_ 
+  cluster. Every document in the collection should have a field that
+  contains the user ID of the {+service-short+} user that it describes.
+
   To configure your application to read user data from this collection,
   specify a configuration document in the ``custom_user_data_config``
   field of ``realm.json``:
-  
+
   .. code-block:: json
      :caption: realm.json
 
@@ -41,7 +41,7 @@ content: |
          "user_id_field": "<User ID Field Name>"
        }
      }
-  
+
   .. list-table::
      :header-rows: 1
      :widths: 20 80
@@ -77,13 +77,13 @@ content: |
   Once you have configured the customer user data collection, you can
   make custom user data available to client applications by deploying
   your application.
-  
+
   To deploy a draft application with {+cli-bin+}:
 
   .. code-block:: shell
 
      realm-cli import
-  
+
   To deploy a draft application with automatic :doc:`GitHub deployment
   </deploy/deploy-automatically-with-github>`:
 
@@ -100,4 +100,3 @@ content: |
   document matches, {+service-short+} exposes the data in the document in the
   ``custom_data`` field of that user's :ref:`user object
   <user-objects>`.
-...

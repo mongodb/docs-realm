@@ -88,9 +88,10 @@ content: |
   .. code-block:: json
      
      {
-       "title": "user",
+       "title": "User",
        "required": [
          "_id",
+         "_partition",
          "user_id",
          "name"
        ],
@@ -118,23 +119,29 @@ ref: define-a-schema-for-task-documents
 content: |
   The core function of a task tracker is to store data about a user's tasks. In
   this app, we store the task data as documents in the ``tracker.tasks``
-  collection. Each task has a description and can have one of three statuses:
-  Open, In Progress, or Closed. Additionally, each task may specify a specific
-  user as its assignee. We'll use another schema to define the shape and
-  contents of documents in the ``tasks`` collection.
+  collection. Each task has a descriptive name and can have one of three
+  statuses: Open, In Progress, or Closed. Additionally, each task may specify a
+  specific user as its assignee. We'll use another schema to define the shape
+  and contents of documents in the ``tasks`` collection.
 
   In the rules editor, select the ``tracker.tasks`` collection and then click
   the :guilabel:`Schema` tab. Paste in the following schema and then click
   :guilabel:`Save`.
 
+  .. admonition:: Synced Mobile Apps
+     :class: important
+
+     If you are building a mobile application, set the ``bsonType`` of the
+     ``assignee`` field to ``objectId`` instead of ``string``.
+
   .. code-block:: json
      
      {
-       "title": "task",
+       "title": "Task",
        "required": [
          "_id",
          "_partition",
-         "description",
+         "name",
          "status"
        ],
        "properties": {
@@ -147,16 +154,11 @@ content: |
          "assignee": {
            "bsonType": "string"
          },
-         "description": {
+         "name": {
            "bsonType": "string"
          },
          "status": {
-           "bsonType": "string",
-           "enum": [
-             "Open",
-             "InProgress",
-             "Complete"
-           ]
+           "bsonType": "string"
          }
        }
      }
@@ -175,6 +177,12 @@ content: |
   Click :guilabel:`Add a Relationship` and define a relationship that points
   from the ``assignee`` property to the ``user_id`` property in the
   ``tracker.tasks`` collection.
+
+  .. admonition:: Synced Mobile Apps
+     :class: important
+
+     If you are building a mobile application, define the relationship to point
+     to ``_id`` instead of ``user_id``.
   
   .. cssclass:: bordered-figure
   .. figure:: /images/task-tracker-web-add-relationship.png

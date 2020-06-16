@@ -15,23 +15,28 @@ Realm Objects
 Overview
 --------
 
-{+service+} applications model data as objects composed of field-value pairs
-that each contain one or more primitive data types or other {+service-short+}
-objects. :term:`{+service-short+} objects <Realm object>` are essentially the same
-as regular objects in most programming languages, but they also include
-additional features like
+{+service+} applications model data as objects composed of field-value
+pairs that each contain one or more primitive data types or other
+{+service-short+} objects. :term:`{+service-short+} objects <Realm
+object>` are essentially the same as regular objects in most programming
+languages, but they also include additional features like
 :ref:`real-time updating data views <ios-live-object>` and reactive
 :ref:`change event handlers <ios-client-notifications>`.
 
-Every {+service-short+} object has an *object type* that refers to the object's
-class. Objects of the same type share an :ref:`object schema
-<ios-object-schema>` that defines the properties and relationships of those
-objects. In most languages you define object schemas using the native
-class implementation.
+Every {+service-short+} object has an *object type* that refers to the
+object's class. Objects of the same type share an :ref:`object model
+<ios-object-model>` that defines the properties and relationships of
+those objects. In Swift and Objective-C, you define object schemas as
+classes that derive from {+service-short+}'s ``Object`` class.
+
+.. note::
+
+   If you are using :term:`{+sync+}`, the :ref:`primary key <ios-primary-key>` of an
+   object *must* be an ``ObjectId`` called ``_id``.
 
 .. example::
 
-   The following code block shows an object schema that describes a Dog.
+   The following code block shows an object model that describes a Dog.
    Every Dog object must include a ``name`` and ``age`` and may
    optionally include the dog's ``breed`` and a reference to a Person
    object that represents the dog's ``owner``.
@@ -43,10 +48,10 @@ class implementation.
 
           .. literalinclude:: /examples/Schemas/DogSchema.swift
               :language: swift
-              
+
       .. tab::
           :tabid: objective-c
-          
+
           .. literalinclude:: /examples/Schemas/DogSchema.m
               :language: objective-c
 
@@ -59,140 +64,178 @@ Key Concepts
 Live Object
 ~~~~~~~~~~~
 
-Objects in {+service-short+} clients are **live objects** that
-update automatically to reflect data changes, including
-:doc:`synced </sync>` remote changes, and emit
-:ref:`notification events <ios-client-notifications>` that you
-can subscribe to whenever their underlying data changes. You
-can use live objects to work with object-oriented data
-natively without an :wikipedia:`ORM
+Objects in {+service-short+} clients are **live objects** that update
+automatically to reflect data changes, including :doc:`synced </sync>`
+remote changes, and emit :ref:`notification events
+<ios-client-notifications>` that you can subscribe to whenever their
+underlying data changes. You can use live objects to work with
+object-oriented data natively without an :wikipedia:`ORM
 <Object-relational_mapping>` tool.
 
 Live objects are direct proxies to the underlying stored data, which
 means that a live object doesn't directly contain data. Instead, a live
 object always references the most up-to-date data on disk and
 :wikipedia:`lazy loads <Lazy_loading>` property values when you access
-them from a :ref:`collection <ios-client-collections>`. This means that a
-{+realm+} can contain many objects but only pay the performance cost for
-data that the application is actually using.
+them from a :ref:`collection <ios-client-collections>`. This means that
+a {+realm+} can contain many objects, but you only pay the performance
+cost for data that the application is actually using.
 
 Valid write operations on a live object automatically persist to the
 {+realm+} and propagate to any other synced clients. You do not need to
-call an update method, modify the {+realm+}, or otherwise "push" updates.
+call an update method, modify the {+realm+}, or otherwise "push"
+updates.
 
-.. _ios-object-schema:
+.. _ios-object-model:
 
-Object Schema
-~~~~~~~~~~~~~
+Object Model
+~~~~~~~~~~~~
 
-An **object schema** is a configuration object that defines the fields,
-relationships of a {+service-short+} object type. {+service-short+} client applications
-define object schemas with the native class implementation in their
-respective language using the :term:`{+frontend-schema+}`.
+An **object model** is a configuration object that defines the fields and
+relationships of a {+service-short+} object type. {+service-short+}
+Swift and Objective-C client applications define object models as
+classes derived from ``Object`` in Swift or ``RLMObject`` in
+Objective-C.
 
-Object schemas specify constraints on object properties such as the data
-type of each property, whether or not a property is required, and the
-default value for optional properties. Schemas can also define
-:ref:`relationships <ios-client-relationships>` between object types in
-a {+realm+}.
+.. tabs-realm-languages::
 
-Every {+app+} has a :ref:`{+backend-schema+} <ios-realm-schema>`
-composed of a list of object schemas for each type of object that the
-{+realms+} in that application may contain.
+   .. tab::
+      :tabid: swift
 
-{+service+} guarantees that all objects in a {+realm+} conform to the
-schema for their object type and validates objects whenever they're
-created, modified, or deleted.
+      You can use the following types to define your object model
+      properties:
+
+      - Boolean ``Bool``
+      - Integral types ``Int``, ``Int8``, ``Int16``, ``Int32``, ``Int64``
+      - Floating-point types ``Float``, ``Double``
+      - ``String``
+      - ``Date``
+      - ``Data``
+      - ``ObjectId``
+      - User-defined ``Object``-derived types
+      - ``List``
+
+      Additionally, you can use the optional ``String?``, ``Date?`` and
+      ``Data?`` types. You *must* make user-defined Object properties
+      optional. You can use ``RealmOptional`` to represent integers,
+      doubles, and other types as optional.
+
+   .. tab::
+      :tabid: objective-c
+
+      You can use the following types to define your object model
+      properties:
+
+      - Boolean types ``BOOL``, ``bool``
+      - Integral types ``int``, ``NSInteger``, ``long``, ``long long``
+      - ``double``
+      - ``NSString``
+      - ``NSDate``
+      - ``NSData``
+      - ``RLMObjectId``
+      - User-defined ``RLMObject``-derived types
+      - ``RLMList``
+
+      Additionally, you can represent optional number types with
+      ``NSNumber`` tagged with ``RLMInt``, ``RLMFloat``, ``RLMDouble``,
+      or ``RLMBool``:
+
+      .. code-block:: objective-c
+
+         @property NSNumber<RLMInt> *age;
+
+      Avoid ``CGFloat`` properties, as the type is not platform independent.
 
 .. _ios-primary-key:
 
 Primary Key
 ~~~~~~~~~~~
 
-A **primary key** is a String or Integer property that uniquely
+A **primary key** is a String or ``ObjectId`` property that uniquely
 identifies an object. You may optionally define a primary key for an
-object type as part of the :ref:`object schema <ios-object-schema>`.
+object type as part of the :ref:`object model <ios-object-model>`.
 {+client-database+} automatically indexes primary key properties, which
 allows you to efficiently read and modify objects based on their primary
 key.
 
-If an object type has a primary key, then all objects of that type must
-include the private key property with a value that is unique among
+If an object type has a primary key, then all instances of that type
+must include the primary key property with a value that is unique among
 objects of the same type in a {+realm+}. You cannot change the primary
 key property for an object type after any object of that type is added
 to a {+realm+}.
 
-.. _ios-property-schema:
+Specify your primary key to {+service-short+} by overriding the
+``primaryKey`` method in your class and returning the name of the
+property:
 
-Property Schema
-~~~~~~~~~~~~~~~
+.. tabs-realm-languages::
 
-A **property schema** is a field-level configuration that defines and
-constrains a specific property in an object schema. Every object schema
-must include a property schema for each property in the object. At
-minimum, a property schema defines a property's data type and indicates
-whether or not the property is required.
+   .. tab::
+      :tabid: swift
 
-You can configure the following constraints for a given property:
+      .. literalinclude:: /examples/Schemas/PersonSchema.swift
+          :language: swift
+          :emphasize-lines: 2, 5-7
 
-.. list-table::
-   :header-rows: 1
-   :widths: 20 80
-   
-   * - Parameter
-     - Description
+   .. tab::
+      :tabid: objective-c
 
-   * - Type
-     - Every property in a {+service-short+} object has a strongly defined data
-       type. A property's type can be a primitive data type or an object
-       type defined in the same {+realm+}. The type also specifies whether
-       the property contains a single value or a list of values.
-       
-       {+client-database+} supports the following primitive data types:
+      .. literalinclude:: /examples/Schemas/PersonSchema.m
+          :language: objective-c
+          :emphasize-lines: 2, 8-10
 
-       - Boolean
-       - Integer
-       - Float
-       - Double
-       - String
-       - Date
-       - Data
-       
-       .. admonition:: Language-Specific Syntax
-          :class: important
-          
-          {+client-database+} supports language-specific data types for
-          each SDK by internally mapping them to one of the
-          core supported types. Check the client guide for
-          your platform to see the full list of supported
-          data types in your preferred language.
+.. _ios-optional-or-required-properties:
 
-   * - Optional
-     - Optional properties may contain a null value or be entirely
-       omitted from an object. By default, all properties are required
-       unless explicitly marked as optional.
+Optional or Required Properties
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-   * - Default
-     - If a client application creates a new object that does not have a
-       value for a defined property, the object uses the default value
-       instead.
-       
-       Objects that are missing a required field without a defined
-       default value will fail validation when you attempt to create
-       them and will not persist to the {+realm+}.
+.. tabs-realm-languages::
 
-   * - Indexed
-     - A property index significantly increases the speed of certain
-       read operations at the cost of additional overhead for write
-       operations. Indexes are particularly useful for equality
-       comparison, such as querying for an object based on the value of
-       a property.
+   .. tab::
+      :tabid: swift
+
+      Because Swift supports optional values, whether a property is
+      **optional** or **required** is built into the type of that
+      property. You can use ``RealmOptional`` to make optional integral
+      properties:
+
+      .. code-block:: swift
+
+         class Person: Object {
+             // Required string property
+             @objc dynamic var name: String = ""
+
+             // Optional string property
+             @objc dynamic var address: String? = nil
+
+             // Optional integral type property
+             let age = RealmOptional<Int>()
+         }
+
+   .. tab::
+      :tabid: objective-c
+
+      To declare a given property as required, implement the
+      ``requiredProperties`` method and return an array of required
+      property names.
+
+      .. code-block:: objective-c
+
+         @interface Person : RLMObject
+         @property NSString *name;
+         @property NSDate *birthday;
+         @end
+
+         @implementation Person
+         + (NSArray *)requiredProperties {
+             return @[@"name"];
+         }
+         @end
 
 Summary
 -------
 
-- {+realm+} objects are of a **type** defined as you would any other
-  class in the given programming language.
+- {+service-short+} objects are classes derived from ``Object`` in Swift
+  and ``RLMObject`` in Objective-C.
 
 - {+service-short+} objects are **live**: they always reflect the latest version
   on disk and update automatically when the underlying object changes.
@@ -200,6 +243,5 @@ Summary
 - A {+service-short+} object type may have a **primary key** property to uniquely
   identify each instance of the object type.
 
-- The {+service-short+} object's **schema** defines the properties of the object and
-  which properties are optional, which properties have a default value,
-  and which properties are indexed.
+- The {+service-short+} object model defines the properties of the object and
+  which properties are optional.

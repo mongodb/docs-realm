@@ -21,7 +21,7 @@ content: |
 
   .. code-block:: sh
 
-     npm install realm@v10.0.0-alpha.9
+     npm install realm@v10.0.0-beta.6
 
   In this tutorial, we'll also use the `React Native Elements
   <https://react-native-elements.github.io/react-native-elements/>`__ library
@@ -97,8 +97,7 @@ content: |
          const appId = '<enter your Realm app ID here>'; // Set Realm app ID here.
          const appConfig = {
            id: appId,
-           url: 'https://realm-dev.mongodb.com',
-           timeout: 1000,
+           timeout: 10000,
            app: {
              name: 'default',
              version: '0',
@@ -356,8 +355,11 @@ content: |
 
   .. note::
 
-     Functionality to register a new email/password user from the React Native
-     SDK is coming soon. For now, please create a new user in the {+ui+} on the
+     This tutorial does not implement user registration through the
+     Client SDK. If you're interested in learning more about user
+     registration with {+service+}, see the :doc:`Manage Email/Password
+     Users </react-native/manage-email-password-users>` doc. For this
+     tutorial, please create a new user in the {+ui+} on the
      :guilabel:`Users` page.
 
   If everything is working correctly, your app should look something like this:
@@ -399,7 +401,7 @@ content: |
        static schema = {
          name: 'Task',
          properties: {
-           _id: 'object id',
+           _id: 'objectId',
            _partition: 'string',
            name: 'string',
            status: 'string',
@@ -552,7 +554,7 @@ content: |
            schema: [Task.schema],
            sync: {
              user,
-             partitionValue: `"${projectId}"`,
+             partitionValue: projectId,
            },
          }; 
 
@@ -592,7 +594,7 @@ content: |
              // Set the tasks state variable and re-render.
              setTasks([...syncTasks]);
            })
-           .catch(error => console.warn('Failed to open realm:', error));
+           .catch((error) => console.warn('Failed to open realm:', error));
 
          // Return the cleanup function to be called when the component is unmounted.
          return () => {
@@ -833,7 +835,7 @@ content: |
              bottomDivider
              checkmark={
                task.status === Task.STATUS_COMPLETE ? (
-                 <Text>{'&#10004;' /* checkmark */}</Text>
+                 <Text>&#10004; {/* checkmark */}</Text>
                ) : task.status === Task.STATUS_IN_PROGRESS ? (
                  <Text>In Progress</Text>
                ) : null

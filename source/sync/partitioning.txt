@@ -31,7 +31,7 @@ individual clients, called :term:`{+realms+} <{+realm+}>`.
 
 .. figure:: /images/partitioning.svg
 
-   Partition shape data in an Atlas cluster using a ``color``
+   Partition shape data in an `{+atlas+} <https://www.mongodb.com/cloud/atlas?tck=docs_realm>`_ cluster using a ``color``
    partition key with partition values ``red``, ``blue``, and ``green``.
 
 .. _partition-keys:
@@ -226,7 +226,7 @@ Partition keys and values are subject to certain limitations:
      updates to the object.
 
 - Changing a partition value in a {+service-short+} object using the {+service-short+} SDK
-  will throw an error and trigger a :ref:`client reset <client-reset>`.
+  should be avoided as it might trigger a :ref:`client reset <client-reset>`.
 
 .. _partition-key-examples:
 

@@ -41,13 +41,12 @@ follow these three rules:
 
 Don't lock to read:
   {+client-database+}'s :ref:`Multiversion Concurrency Control (MVCC)
-  <ios-mvcc>` architecture eliminates the need to lock for read operations. The
-  values you read will never be corrupted or in a
-  partially-modified state. You can freely read from {+realms+}
-  on any thread without the need for locks or mutexes.
-  Unnecessarily locking would be a performance bottleneck
-  since each thread might need to wait its turn before
-  reading.
+  <ios-mvcc>` architecture eliminates the need to lock for read
+  operations. The values you read will never be corrupted or in a
+  partially-modified state. You can freely read from {+realms+} on any
+  thread without the need for locks or mutexes. Unnecessary locking
+  would be a performance bottleneck since each thread might need to wait
+  its turn before reading.
 
 Avoid writes on the UI thread if you write on a background thread:
   You can :ref:`write <ios-realm-database-writes>` to a
@@ -87,15 +86,18 @@ active versions of an object at any time. Thread-confinement
 ensures that all instances in that thread are of the same
 internal version.
 
-A :term:`{+realm+} instance` is designed to work with one version at a
-time, not several different versions. Consider what {+client-database+}
-would have to do to support this: it would need to store a
-potentially enormous graph to allow the {+realm+} instance to
-reconcile the different object versions internally. Faced
-with this, it seems more reasonable to impose the limitation
-that you cannot pass live instances across threads. This
-design choice keeps the implementation relatively simple,
-more space-efficient, and more performant as a result.
+.. admonition:: One Version at a Time
+   :class: note
+
+   A :term:`{+realm+} instance` is designed to work with one version at a
+   time, not several different versions. Consider what {+client-database+}
+   would have to do to support working with several different versions at
+   once: it would need to store a potentially enormous graph to allow the
+   {+realm+} instance to reconcile the different object versions
+   internally. Faced with this, it seems more reasonable to impose the
+   limitation that you cannot pass live instances across threads. This
+   design choice keeps the implementation relatively simple, more
+   space-efficient, and more performant as a result.
 
 When you need to communicate across threads, you have
 several options depending on your use case:
@@ -120,15 +122,35 @@ several options depending on your use case:
 Refreshing Realms
 ~~~~~~~~~~~~~~~~~
 
-When you open a {+realm+}, it reflects the most recent
-successful write commit and remains on that version until it
-is **refreshed**. This means that the {+realm+} will not see
-changes that happened on another thread until the next
-refresh. {+realms+} on the UI thread -- more precisely, on any
-:term:`event loop` thread -- automatically refresh themselves at the
-beginning of that thread's loop. However, you must manually
-refresh {+realm+} instances that do not exist on loop threads or
-that have auto-refresh disabled.
+When you open a {+realm+}, it reflects the most recent successful write
+commit and remains on that version until it is **refreshed**. This means
+that the {+realm+} will not see changes that happened on another thread
+until the next refresh. A {+realm+} on the UI thread -- more precisely,
+on any :term:`event loop` thread -- automatically refreshes itself at
+the beginning of that thread's loop. However, you must manually refresh
+{+realm+} instances that do not exist on loop threads or that have
+auto-refresh disabled.
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: swift
+
+      .. code-block:: swift
+
+         if (!realm.autorefresh) {
+            // Manually refresh
+            realm.refresh()
+         }
+
+   .. tab::
+      :tabid: objective-c
+
+      .. code-block:: objective-c
+
+         if (![realm autorefresh]) {
+             [realm refresh]
+         }
 
 .. _ios-frozen-objects:
 
@@ -150,6 +172,27 @@ need to be deeply copied when passed around to other
 threads. You can freely share a frozen object across threads
 without concern for thread issues.
 
+Frozen objects are not live and do not automatically update.
+They are effectively snapshots of the object state at the
+time of freezing.
+
+When you freeze a {+realm+}, its child objects also become
+frozen.
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: swift
+
+      .. literalinclude:: /examples/Threading/Freeze.swift
+         :language: swift
+
+   .. tab::
+      :tabid: objective-c
+
+      .. literalinclude:: /examples/Threading/Freeze.m
+         :language: objective-c
+
 When working with frozen objects, an attempt to do any of
 the following throws an exception:
 
@@ -157,19 +200,32 @@ the following throws an exception:
 - Modifying a frozen object.
 - Adding a change listener to a frozen {+realm+}, collection, or object.
 
-Once frozen, it is not possible to unfreeze an object. You
-can use ``isFrozen()`` to check if the object is frozen.
-This method is always thread-safe.
+Once frozen, it is not possible to unfreeze an object. You can use
+``isFrozen`` to check if the object is frozen. This is always
+thread-safe.
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: swift
+
+      .. code-block:: swift
+
+         if (realm.isFrozen) {
+             // ...
+         }
+
+   .. tab::
+      :tabid: objective-c
+
+      .. code-block:: objective-c
+
+         if ([realm isFrozen]) {
+             // ...
+         }
 
 To modify a frozen object, query for it on an unfrozen
 {+realm+}, then modify it.
-
-Frozen objects are not live and do not automatically update.
-They are effectively snapshots of the object state at the
-time of freezing.
-
-When you freeze a {+realm+}, its child objects also become
-frozen.
 
 Frozen objects remain valid as long as the live {+realm+} that
 spawned them stays open. Therefore, avoid closing the live
@@ -278,6 +334,7 @@ Summary
 
 - {+service+} enables simple and safe multithreaded code when you follow
   three rules:
+
   - don't lock to read
 
   - avoid writes on the UI thread if you write on background threads or

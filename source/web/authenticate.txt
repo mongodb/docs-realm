@@ -1,0 +1,313 @@
+.. _web-authenticate:
+
+===================
+Authenticate a User
+===================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+The Web SDK provides developers with a unified API to authenticate application
+users for any authentication provider. Users log in by providing authentication
+credentials for a given authentication provider and the SDK automatically
+manages authentication tokens and refreshes data for logged in users.
+
+.. _web-login:
+
+Log In
+------
+
+.. _web-login-anonymous:
+
+Anonymous
+~~~~~~~~~
+
+The :doc:`anonymous </authentication/anonymous>` authentication provider allows
+users to log in to your application with short-term accounts that have no
+associated information.
+
+To log in an anonymous user, create an ``AnonymousCredential`` and pass it to
+``App.logIn()``:
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: javascript
+      
+      .. code-block:: javascript
+         
+         async function loginAnonymous() {
+           // Create an anonymous credential
+           const credentials = Realm.Credentials.anonymous();
+           try {
+             // Authenticate the user
+             const user = await app.logIn(credentials);
+             // `App.currentUser` updates to match the logged in user
+             assert(user.id === app.currentUser.id)
+             return user
+           } catch(err) {
+             console.error("Failed to log in", err);
+           }
+         }
+         loginAnonymous().then(user => {
+           console.log("Successfully logged in!", user)
+         })
+   
+   .. tab::
+      :tabid: typescript
+      
+      .. code-block:: typescript
+
+         async function loginAnonymous() {
+           // Create an anonymous credential
+           const credentials = Realm.Credentials.anonymous();
+           try {
+             // Authenticate the user
+             const user: Realm.User = await app.logIn(credentials);
+             // `App.currentUser` updates to match the logged in user
+             assert(user.id === app.currentUser.id)
+             return user
+           } catch(err) {
+             console.error("Failed to log in", err);
+           }
+         }
+         loginAnonymous().then(user => {
+           console.log("Successfully logged in!", user)
+         })
+
+.. _web-login-email-password:
+
+Email/Password
+~~~~~~~~~~~~~~
+
+The :doc:`email/password </authentication/email-password>` authentication
+provider allows users to log in to your application with an email address and a
+password.
+
+To log in an email/password user, create an ``EmailPasswordCredential`` with the
+user's email address and password and pass it to ``App.logIn()``:
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: javascript
+      
+      .. code-block:: javascript
+         
+         async function loginEmailPassword(email, password) {
+           // Create an anonymous credential
+           const credentials = Realm.Credentials.emailPassword(email, password);
+           try {
+             // Authenticate the user
+             const user = await app.logIn(credentials);
+             // `App.currentUser` updates to match the logged in user
+             assert(user.id === app.currentUser.id)
+             return user
+           } catch(err) {
+             console.error("Failed to log in", err);
+           }
+         }
+         loginEmailPassword("joe.jasper@example.com", "passw0rd").then(user => {
+           console.log("Successfully logged in!", user)
+         })
+
+   .. tab::
+      :tabid: typescript
+      
+      .. code-block:: typescript
+         
+         async function loginEmailPassword(email: string, password: string) {
+           // Create an anonymous credential
+           const credentials = Realm.Credentials.emailPassword(email, password);
+           try {
+             // Authenticate the user
+             const user: Realm.User = await app.logIn(credentials);
+             // `App.currentUser ` updates to match the logged in user
+             assert(user.id === app.currentUser.id)
+             return user
+           } catch(err) {
+             console.error("Failed to log in", err);
+           }
+         }
+         loginEmailPassword("joe.jasper@example.com", "passw0rd").then(user => {
+           console.log("Successfully logged in!", user)
+         })
+
+.. _web-login-api-key:
+
+API Key
+~~~~~~~
+
+The :doc:`API key </authentication/api-key>` authentication provider allows
+server processes to access to access your app directly or on behalf of a user.
+
+To log in an API key user, create an ``ApiKeyCredential`` with a server or user
+API key and pass it to ``App.logIn()``:
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: javascript
+      
+      .. code-block:: javascript
+         
+         async function loginApiKey(apiKey) {
+           // Create an anonymous credential
+           const credentials = Realm.Credentials.apiKey(apiKey);
+           try {
+             // Authenticate the user
+             const user = await app.logIn(credentials);
+             // `App.currentUser` updates to match the logged in user
+             assert(user.id === app.currentUser.id)
+             return user
+           } catch(err) {
+             console.error("Failed to log in", err);
+           }
+         }
+         loginApiKey("To0SQOPC...ZOU0xUYvWw").then(user => {
+           console.log("Successfully logged in!", user)
+         })
+
+   .. tab::
+      :tabid: typescript
+      
+      .. code-block:: typescript
+         
+         async function loginApiKey(apiKey: string) {
+           // Create an anonymous credential
+           const credentials = Realm.Credentials.apiKey(apiKey);
+           try {
+             // Authenticate the user
+             const user: Realm.User = await app.logIn(credentials);
+             // `App.currentUser` updates to match the logged in user
+             assert(user.id === app.currentUser.id)
+             return user
+           } catch(err) {
+             console.error("Failed to log in", err);
+           }
+         }
+         loginApiKey("To0SQOPC...ZOU0xUYvWw").then(user => {
+           console.log("Successfully logged in!", user)
+         })
+
+.. .. _android-login-custom-function:
+
+.. Custom Function
+.. ~~~~~~~~~~~~~~~
+
+.. .. tabs-realm-languages::
+   
+..    .. tab::
+..       :tabid: javascript
+      
+..       .. code-block:: javascript
+   
+..    .. tab::
+..       :tabid: typescript
+      
+..       .. code-block:: typescript
+
+.. .. _android-login-custom-jwt:
+
+.. Custom JWT
+.. ~~~~~~~~~~
+
+.. .. tabs-realm-languages::
+   
+..    .. tab::
+..       :tabid: javascript
+      
+..       .. code-block:: javascript
+   
+..    .. tab::
+..       :tabid: typescript
+      
+..       .. code-block:: typescript
+
+.. .. _android-login-facebook:
+
+.. Facebook OAuth
+.. ~~~~~~~~~~~~~~
+
+.. .. tabs-realm-languages::
+   
+..    .. tab::
+..       :tabid: javascript
+      
+..       .. code-block:: javascript
+   
+..    .. tab::
+..       :tabid: typescript
+      
+..       .. code-block:: typescript
+
+.. .. _android-login-google:
+
+.. Google OAuth
+.. ~~~~~~~~~~~~
+
+.. .. tabs-realm-languages::
+   
+..    .. tab::
+..       :tabid: javascript
+      
+..       .. code-block:: javascript
+   
+..    .. tab::
+..       :tabid: typescript
+      
+..       .. code-block:: typescript
+
+.. .. _android-login-apple:
+
+.. Sign-in with Apple
+.. ~~~~~~~~~~~~~~~~~~
+
+.. .. tabs-realm-languages::
+   
+..    .. tab::
+..       :tabid: javascript
+      
+..       .. code-block:: javascript
+   
+..    .. tab::
+..       :tabid: typescript
+      
+..       .. code-block:: typescript
+
+.. _web-logout:
+
+Log Out
+-------
+
+To log any user out, call the ``User.logOut()`` on their user instance.
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: javascript
+      
+      .. code-block:: javascript
+         
+         // Log out the current user
+         await app.currentUser.logOut();
+         // Log out a specific user
+         await app.allUsers[2].logOut();
+   
+   .. tab::
+      :tabid: typescript
+      
+      .. code-block:: typescript
+         
+         // Log out the current user
+         await app.currentUser.logOut();
+         // Log out a specific user
+         await app.allUsers[2].logOut();

@@ -16,7 +16,7 @@ Overview
 --------
 
 A **{+realm+}** is a set of related objects that conform to a pre-defined
-schema and share user-level access permissions. {+realms+} may contain more
+schema and share user-level access permissions. Realms may contain more
 than one type of data as long as a schema exists for each type.
 
 A {+realm+} allows you to partition data according to who
@@ -112,7 +112,7 @@ in the {+realm+} configuration when you open a {+realm+}. If a client
 application does not specify a version number when it opens a {+realm+} then
 the {+realm+} defaults to version ``0``.
 
-.. admonition:: Increase Versions Monotonically
+.. admonition:: Increment Versions Monotonically
    :class: important
    
    :ref:`Migrations <react-native-client-migrations>` must update a {+realm+} to a

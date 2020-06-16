@@ -118,15 +118,14 @@ several options depending on your use case:
 Refreshing Realms
 ~~~~~~~~~~~~~~~~~
 
-When you open a {+realm+}, it reflects the most recent
-successful write commit and remains on that version until it
-is **refreshed**. This means that the {+realm+} will not see
-changes that happened on another thread until the next
-refresh. {+realms+} on the UI thread -- more precisely, on any
-:term:`event loop` thread -- automatically refresh themselves at the
-beginning of that thread's loop. However, you must manually
-refresh {+realm+} instances that do not exist on loop threads or
-that have auto-refresh disabled.
+When you open a {+realm+}, it reflects the most recent successful write
+commit and remains on that version until it is **refreshed**. This means
+that the {+realm+} will not see changes that happened on another thread
+until the next refresh. Realms on the UI thread -- more precisely, on
+any :term:`event loop` thread -- automatically refresh themselves at the
+beginning of that thread's loop. However, you must manually refresh
+{+realm+} instances that do not exist on loop threads or that have
+auto-refresh disabled.
 
 .. _dotnet-frozen-objects:
 

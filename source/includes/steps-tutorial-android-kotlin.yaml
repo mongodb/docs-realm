@@ -63,7 +63,7 @@ content: |
   in the directory graphic below:
 
   .. code-block:: text
-     :highlight-lines: 2, 4
+     :emphasize-lines: 2, 4
 
      .
      |-- build.gradle       // project gradle file
@@ -107,9 +107,9 @@ content: |
             }
         }
         dependencies {
-            classpath 'com.android.tools.build:gradle:3.6.3'
+            classpath 'com.android.tools.build:gradle:4.0.0'
             classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-            classpath "io.realm:realm-gradle-plugin:10.0.0-SNAPSHOT"
+            classpath "io.realm:realm-gradle-plugin:10.0.0-BETA.4"
         }
      }
 
@@ -126,6 +126,7 @@ content: |
      task clean(type: Delete) {
         delete rootProject.buildDir
      }
+
 
   Now that you've added the Realm dependency itself, it's time to apply
   the ``realm-android`` plugin in the **app** ``build.gradle`` file. Because
@@ -166,34 +167,31 @@ content: |
 
   Finally, you need to set up some constants to configure your app's
   connection to {+service+}. In the ``android.buildTypes`` section,
-  define your Realm URL and App ID, which you'll use later in Kotlin
+  define your App ID, which you'll use later in Kotlin
   code to instantiate a connection:
 
   .. code-block:: groovy
      :emphasize-lines: 2-9
 
      buildTypes {
-        def mongodbRealmUrl = "https://realm-dev.mongodb.com"
         def appId = "<your app ID here>"  // Replace with proper Application ID
         debug {
-            buildConfigField "String", "MONGODB_REALM_URL", "\"${mongodbRealmUrl}\""
             buildConfigField "String", "MONGODB_REALM_APP_ID", "\"${appId}\""
         }
         release {
-            buildConfigField "String", "MONGODB_REALM_URL", "\"${mongodbRealmUrl}\""
             buildConfigField "String", "MONGODB_REALM_APP_ID", "\"${appId}\""
-            minifyEnabled true
+            minifyEnabled false
             signingConfig signingConfigs.debug
         }
      }
 
-   Replace ``<your app ID here>`` with your Realm app ID, which you can find in the {+ui+}.
+  Replace ``<your app ID here>`` with your Realm app ID, which you can find in
+  the {+ui+}.
 
-   When done, your **app** ``build.gradle`` file should look something like
-   this:
+  When done, your **app** ``build.gradle`` file should look something like this:
 
   .. code-block:: groovy
-     :emphasize-lines: 4-5, 21-34, 37-39, 45, 48-49
+     :emphasize-lines: 4-5, 21-37, 39-41, 47, 50-51
 
      apply plugin: 'com.android.application'
      apply plugin: 'kotlin-android'
@@ -216,18 +214,20 @@ content: |
         }
 
         buildTypes {
-            def mongodbRealmUrl = "https://realm-dev.mongodb.com"
             def appId = "<your app ID here>"  // Replace with proper Application ID
             debug {
-                buildConfigField "String", "MONGODB_REALM_URL", "\"${mongodbRealmUrl}\""
                 buildConfigField "String", "MONGODB_REALM_APP_ID", "\"${appId}\""
             }
             release {
-                buildConfigField "String", "MONGODB_REALM_URL", "\"${mongodbRealmUrl}\""
                 buildConfigField "String", "MONGODB_REALM_APP_ID", "\"${appId}\""
-                minifyEnabled true
+                minifyEnabled false
                 signingConfig signingConfigs.debug
             }
+        }
+
+        compileOptions {
+            sourceCompatibility 1.8
+            targetCompatibility 1.8
         }
      }
 
@@ -288,12 +288,12 @@ content: |
      import android.util.Log
 
      import io.realm.Realm
-     import io.realm.RealmApp
-     import io.realm.RealmAppConfiguration
      import io.realm.log.LogLevel
      import io.realm.log.RealmLog
+     import io.realm.mongodb.App
+     import io.realm.mongodb.AppConfiguration
 
-     lateinit var taskApp: RealmApp
+     lateinit var taskApp: App
 
      // global Kotlin extension that resolves to the short version
      // of the name of the current class. Used for labelling logs.
@@ -307,17 +307,15 @@ content: |
         override fun onCreate() {
             super.onCreate()
             Realm.init(this)
-            taskApp = RealmApp(RealmAppConfiguration.Builder(BuildConfig.MONGODB_REALM_APP_ID)
-                .baseUrl(BuildConfig.MONGODB_REALM_URL)
-                .appName(BuildConfig.VERSION_NAME)
-                .appVersion(BuildConfig.VERSION_CODE.toString())
+            taskApp = App(
+                AppConfiguration.Builder(BuildConfig.MONGODB_REALM_APP_ID)
                 .build())
 
             // Enable more logging in debug mode
             if (BuildConfig.DEBUG) {
                 RealmLog.setLevel(LogLevel.ALL)
             }
-            
+
             Log.v(TAG(), "Initialized the Realm App configuration for: ${taskApp.configuration.appId}")
         }
      }
@@ -506,7 +504,7 @@ content: |
      </androidx.constraintlayout.widget.ConstraintLayout>
 
   Android development best practices recommend that developers refactor
-  all string text from our layout files into a special file called
+  all string text from layout files into a special file called
   ``strings.xml``. This way, all of your text is stored in one place, so
   when you edit one string, you can keep other strings that user similar
   text or styles consistent with each other. The layout code you just
@@ -553,10 +551,10 @@ content: |
      import android.util.Log
      import androidx.appcompat.app.AppCompatActivity
      import android.os.Bundle
-     import io.realm.RealmUser
+     import io.realm.mongodb.User
 
      class TaskActivity : AppCompatActivity() {
-        private var user: RealmUser? = null
+        private var user: User? = null
 
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
@@ -682,8 +680,8 @@ content: |
 
   .. code-block:: kotlin
 
-    // handle user authentication (login) and account creation
-    private fun login(createUser: Boolean) {
+     // handle user authentication (login) and account creation
+     private fun login(createUser: Boolean) {
         if (!validateCredentials()) {
             onLoginFailed("Invalid username or password")
             return
@@ -698,7 +696,7 @@ content: |
 
 
         if (createUser) {
-            // register a user using the Realm App created in the TaskTracker class
+            // register a user using the Realm App we created in the TaskTracker class
             taskApp.emailPasswordAuth.registerUserAsync(username, password) {
                 // re-enable the buttons after user registration completes
                 createUserButton.isEnabled = true
@@ -713,7 +711,7 @@ content: |
                 }
             }
         } else {
-            val creds = RealmCredentials.emailPassword(username, password)
+            val creds = Credentials.emailPassword(username, password)
             taskApp.loginAsync(creds) {
                 // re-enable the buttons after
                 loginButton.isEnabled = true
@@ -725,7 +723,7 @@ content: |
                 }
             }
         }
-    }
+     }
 
   Now that the login logic has been defined, try running
   your application. Enter a username and password and hit the "Create
@@ -744,7 +742,7 @@ content: |
      import android.widget.Button
      import android.widget.EditText
      import android.widget.Toast
-     import io.realm.RealmCredentials
+     import io.realm.mongodb.Credentials
 
      class LoginActivity : AppCompatActivity() {
         private lateinit var username: EditText
@@ -802,7 +800,7 @@ content: |
 
 
             if (createUser) {
-                // register a user using the Realm App created in the TaskTracker class
+                // register a user using the Realm App we created in the TaskTracker class
                 taskApp.emailPasswordAuth.registerUserAsync(username, password) {
                     // re-enable the buttons after user registration completes
                     createUserButton.isEnabled = true
@@ -817,7 +815,7 @@ content: |
                     }
                 }
             } else {
-                val creds = RealmCredentials.emailPassword(username, password)
+                val creds = Credentials.emailPassword(username, password)
                 taskApp.loginAsync(creds) {
                     // re-enable the buttons after
                     loginButton.isEnabled = true
@@ -873,7 +871,15 @@ content: |
         @Required
         private var status: String = TaskStatus.Open.name
         var statusEnum: TaskStatus
-            get() { return TaskStatus.valueOf(status) }
+            get() {
+                // because status is actually a String and another client could assign an invalid value,
+                // default the status to "Open" if the status is unreadable
+                return try {
+                    TaskStatus.valueOf(status)
+                } catch (e: IllegalArgumentException) {
+                    TaskStatus.Open
+                }
+            }
             set(value) { status = value.name }
      }
 
@@ -1275,11 +1281,11 @@ content: |
      import androidx.recyclerview.widget.RecyclerView
      import com.google.android.material.floatingactionbutton.FloatingActionButton
      import io.realm.Realm
-     import io.realm.RealmUser
-     import io.realm.SyncConfiguration
+     import io.realm.mongodb.User
+     import io.realm.kotlin.where
+     import io.realm.mongodb.sync.SyncConfiguration
      import com.mongodb.tasktracker.model.TaskAdapter
      import com.mongodb.tasktracker.model.Task
-     import io.realm.kotlin.where
 
      /*
      * TaskActivity: allows a user to view a collection of Tasks, edit the status of those tasks,
@@ -1288,7 +1294,7 @@ content: |
      */
      class TaskActivity : AppCompatActivity() {
         private lateinit var realm: Realm
-        private var user: RealmUser? = null
+        private var user: User? = null
         private lateinit var recyclerView: RecyclerView
         private lateinit var adapter: TaskAdapter
         private lateinit var fab: FloatingActionButton

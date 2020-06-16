@@ -43,15 +43,7 @@ access your {+app+} using your {+app+} ID. You can find your {+app+} ID in the
 
 .. code-block:: swift
 
-   let app = RealmApp(
-       "your-realm-app-id",
-       configuration: AppConfiguration(
-           baseURL: "https://realm-dev.mongodb.com",
-           transport: nil,
-           localAppName: nil,
-           localAppVersion: nil
-       )
-   )
+   let app = RealmApp(id: "your-realm-app-id")
 
 Define Your Object Model
 ------------------------
@@ -152,11 +144,11 @@ You can retrieve a live :ref:`collection <ios-client-collections>` of all tasks 
    // All tasks in the realm
    let tasks = realm.objects(Task.self)
 
-You can also filter that collection down using the a :ref:`filter <ios-client-query-engine>`:
+You can also filter that collection using a :ref:`filter <ios-client-query-engine>`:
 
 .. code-block:: swift
 
-   // You can also filter down a collection
+   // You can also filter a collection
    let tasksThatBeginWithA = tasks.filter("name beginsWith 'A'")
    let completeTasks = tasks.filter("complete = true")
 

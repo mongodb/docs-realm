@@ -17,7 +17,7 @@ content: |
 
    .. code-block:: text
     
-      classpath "io.realm:realm-gradle-plugin:6.0.1"
+      classpath "io.realm:realm-gradle-plugin:10.0.0-BETA.4"
 
    When done, your project-level ``build.gradle`` should look something like this:
 
@@ -34,10 +34,7 @@ content: |
           }
           dependencies {
               classpath 'com.android.tools.build:gradle:3.5.1'
-              
-              // NOTE: Do not place your application dependencies here; they belong
-              // in the individual module build.gradle files
-              classpath "io.realm:realm-gradle-plugin:6.0.1"
+              classpath "io.realm:realm-gradle-plugin:10.0.0-BETA.4"
           }
       }
 
@@ -85,18 +82,31 @@ content: |
           compileSdkVersion 28
           defaultConfig {
               applicationId "com.mongodb.exampleapplication"
-              minSdkVersion 15
+              minSdkVersion 16
               targetSdkVersion 28
               versionCode 1
               versionName "1.0"
               testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
           }
           buildTypes {
-              release {
+               def appId = "<your app ID here>"  // Replace with proper Application ID
+               debug {
+                  buildConfigField "String", "MONGODB_REALM_APP_ID", "\"${appId}\""
+               }
+               release {
+                  buildConfigField "String", "MONGODB_REALM_APP_ID", "\"${appId}\""
                   minifyEnabled false
-                  proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-              }
+                  signingConfig signingConfigs.debug
+               }
           }
+          compileOptions {
+              sourceCompatibility 1.8
+              targetCompatibility 1.8
+          }
+      }
+
+      realm {
+          syncEnabled = true
       }
 
       dependencies {

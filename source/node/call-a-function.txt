@@ -1,4 +1,4 @@
-.. _node-client-call-function:
+.. _node-call-a-function:
 
 ===============
 Call a Function
@@ -24,38 +24,17 @@ call MongoDB Realm Functions from the client SDK. The active user of a
 given MongoDB Realm Function execution is the authenticated user that
 called it. 
 
+Call a Function
+---------------
 
-Create a Function
------------------
+In the Node SDK you call functions as a logged in user with the
+``User.functions`` interface. There are two ways to call a function:
 
-The example in this section demonstrates calling a simple MongoDB Realm
-Function named ``sum`` that takes two arguments, adds them, and returns
-the result. To learn more about creating a MongoDB Realm Function, read
-the :doc:`Define a Function </functions/define-a-function>` doc. 
+- You can call a function as if was a method defined locally on the
+  ``User.functions`` interface.
 
-.. code-block:: javascript
-
-   // sum: adds two numbers
-   exports = function(a, b) {
-     return a + b;
-   };
-
-Call the Function from a Node.js Application
---------------------------------------------
-
-There are two alternate methods for executing a MongoDB Realm Function
-from the Node.js application.
-
-.. list-table::
-   :header-rows: 1
-   :widths: 10 90
-
-   * - Method 
-     - Usage
-   * - ``<userInstance>.functions.<functionName>()``
-     - Pass the parameters directly to the method, ``functions.<functionName>()``, which you call on the user instance. For example, running the script: "myUserInstance.functions.sum(2,3)" would return the result of 5. 
-   * - ``<userInstance>.callFunction()``
-     - The method ``callFunction()`` calls the MongoDB Realm Function on the user object with the first parameter being the Function name and the second parameter being an array of arguments that you pass to the Function.
+- You can call the ``User.functions.callFunction()`` method to call a function
+  by providing its stringified name and a list of arguments.
 
 .. admonition:: Link a MongoDB Atlas Cluster
    :class: note
@@ -73,8 +52,7 @@ from the Node.js application.
    const appId = "<appId>"; // Set Realm app ID here.
    const appConfig = {
      id: appId,
-     url: "https://realm-dev.mongodb.com",
-     timeout: 1000,
+     timeout: 10000,
    };
 
    async function run() {

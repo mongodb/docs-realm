@@ -30,18 +30,18 @@ content: |
   .. code-block:: sh
 
      pod init
-  
+
   This creates an initial ``Podfile``. To specify your dependencies, edit the
   ``Podfile`` in your editor of choice and make the following changes:
 
   - Set the iOS version to 13.0.
   - Add the line ``use_frameworks!`` if it is not already there.
-  - Add the line ``pod 'RealmSwift', '=10.0.0-alpha.6'`` to your main target.
+  - Add the line ``pod 'RealmSwift', '=10.0.0-beta.2'`` to your main target.
 
   When done, your Podfile should look something like this:
 
   .. code-block:: text
-     :emphasize-lines: 1, 5, 8, 13
+     :emphasize-lines: 1, 5, 8
 
         platform :ios, '13.0'
 
@@ -50,7 +50,7 @@ content: |
           use_frameworks!
 
           # Pods for TaskTracker
-          pod 'RealmSwift', '=10.0.0-alpha.6'
+          pod 'RealmSwift', '=10.0.0-beta.2'
 
         end
 
@@ -97,7 +97,7 @@ content: |
 
   Let's declare the {+app+} instance as a global variable in
   the scene entrypoint file, SceneDelegate.swift. 
-  
+
   In a production app, you might decide to move the
   initialization of the {+app+} instance elsewhere in your
   code or defer initialization until you have read some
@@ -105,29 +105,22 @@ content: |
   fine. We will hardcode everything the iOS app needs to
   know about our {+backend+} app in a structure called
   ``Constants``.
-  
+
   Open SceneDelegate.swift in Xcode and add the following code near the top of
   the file:
 
   .. code-block:: swift
 
      import RealmSwift
-
+     
      struct Constants {
          // Set this to your Realm App ID found in the Realm UI.
-         static let REALM_APP_ID = "<your Realm app ID>"
-       
-         // The base URL points to the server hosting MongoDB Realm.
-         static let REALM_BASE_URL = "https://realm-dev.mongodb.com"
+         static let REALM_APP_ID = "<your-realm-app-id>"
      }
+     let app = RealmApp(id: Constants.REALM_APP_ID)
 
-     let app = RealmApp(id: Constants.REALM_APP_ID, configuration: AppConfiguration(baseURL: Constants.REALM_BASE_URL,
-         transport: nil,
-         localAppName: nil,
-         localAppVersion: nil))
-
-  Replace ``<your Realm app ID>`` with your {+app+} ID, which you can find in
-  the {+ui+}. You can leave REALM_BASE_URL as-is for now.
+  Replace ``<your-realm-app-id>`` with your {+app+} ID, which you can find in
+  the {+ui+}.
 
   .. note::
 
@@ -148,7 +141,7 @@ content: |
          // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
          // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
          // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
-  
+
          guard let windowScene = (scene as? UIWindowScene) else { return }
                 
          window = UIWindow(windowScene: windowScene)
@@ -225,7 +218,7 @@ content: |
   loading indicator.
 
   .. note::
-  
+
      Excited for SwiftUI? So are we! A tutorial using
      {+service-short+} with SwiftUI is coming soon.
 
@@ -234,7 +227,7 @@ content: |
      override func viewDidLoad() {
          super.viewDidLoad();
          view.backgroundColor = .white
- 
+
          // Create a view that will automatically lay out the other controls.
          let container = UIStackView();
          container.translatesAutoresizingMaskIntoConstraints = false
@@ -242,11 +235,11 @@ content: |
          container.alignment = .fill
          container.spacing = 16.0;
          view.addSubview(container)
- 
+
          // Configure the activity indicator.
          activityIndicator.translatesAutoresizingMaskIntoConstraints = false
          view.addSubview(activityIndicator)
- 
+
          // Set the layout constraints of the container view and the activity indicator.
          let guide = view.safeAreaLayoutGuide
          NSLayoutConstraint.activate([
@@ -259,34 +252,34 @@ content: |
              activityIndicator.centerYAnchor.constraint(equalTo: guide.centerYAnchor),
              activityIndicator.centerXAnchor.constraint(equalTo: guide.centerXAnchor),
              ])
- 
+
          // Add some text at the top of the view to explain what to do.
          let infoLabel = UILabel()
          infoLabel.numberOfLines = 0
          infoLabel.text = "Please enter a username and password."
          container.addArrangedSubview(infoLabel)
- 
+
          // Configure the username and password text input fields.
          usernameField.placeholder = "Username"
          usernameField.borderStyle = .roundedRect
          usernameField.autocapitalizationType = .none
          usernameField.autocorrectionType = .no
          container.addArrangedSubview(usernameField)
- 
+
          passwordField.placeholder = "Password"
          passwordField.isSecureTextEntry = true
          passwordField.borderStyle = .roundedRect
          container.addArrangedSubview(passwordField)
- 
+
          // Configure the sign in and sign up buttons.
          signInButton.setTitle("Sign In", for: .normal);
          signInButton.addTarget(self, action: #selector(signIn), for: .touchUpInside)
          container.addArrangedSubview(signInButton)
- 
+
          signUpButton.setTitle("Sign Up", for: .normal);
          signUpButton.addTarget(self, action: #selector(signUp), for: .touchUpInside)
          container.addArrangedSubview(signUpButton)
- 
+
          // Error messages will be set on the errorLabel.
          errorLabel.numberOfLines = 0
          errorLabel.textColor = .red
@@ -296,7 +289,7 @@ content: |
   Since we added a loading indicator, let's make it easy to
   use. Add the following method that controls the app UI
   state, ensuring the app UI is always in one of two states:
-  
+
   - All inputs **disabled** and activity indicator **shown**, or
   - All inputs **enabled** and activity indicator **hidden**.
 
@@ -402,7 +395,7 @@ content: |
                      self!.errorLabel.text = "Login failed: \(error!.localizedDescription)"
                      return
                  }
- 
+
                  print("Login succeeded!");
 
                  // For the first phase of the tutorial, go directly to the Tasks page
@@ -459,20 +452,20 @@ content: |
   yet, and try out your new sign up and sign in
   functionality.
 ---
-title: Define Your {+frontend-schema+} 
+title: Define Your {+frontend-schema+}
 ref: define-your-frontend-schema
 content: |
   Now that we have implemented authentication functionality,
   let's define a model that our app can use. 
-  
+
   Create a new, empty Swift file called Models.swift by
   selecting ``File > New > File...`` in Xcode and using the
   "Swift File" template.
-  
+
   We need to define the models of our schema. If you followed the backend setup
   guide for this tutorial, you can view these models on the :guilabel:`SDKs`
   page in the {+ui+} under the :guilabel:`Swift` tab.
-  
+
   Copy the following code into Models.swift:
 
   .. code-block:: swift
@@ -499,7 +492,7 @@ content: |
 
      class User: Object {
          @objc dynamic var _id: ObjectId = ObjectId.generate()
-         @objc dynamic var _partition: String? = nil
+         @objc dynamic var _partition: String = ""
          @objc dynamic var image: String? = nil
          @objc dynamic var name: String = ""
          @objc dynamic var user_id: String = ""
@@ -533,7 +526,7 @@ content: |
          override static func primaryKey() -> String? {
              return "_id"
          }
- 
+
          convenience init(partition: String, name: String) {
              self.init()
              self._partition = partition
@@ -545,7 +538,7 @@ content: |
   class with the properties we need. It also declares the other models we need
   to interact with the backend schema we defined. We will use those other models
   in a future tutorial.
-  
+
   Every object we sync needs a :term:`partition value`. We
   configured our {+app+} to use a string called
   ``_partition`` as the :term:`partition key`. This is
@@ -614,7 +607,7 @@ content: |
   Since we know we only come to this screen from the WelcomeViewController after
   successful login and with a sync-enabled {+realm+}, this is really just to
   protect against future programmer errors.
-  
+
   We read the :term:`partition value` from the {+realm+}. We'll use that when
   creating Tasks. Then we query for the :ref:`collection
   <ios-client-collections>` of all tasks within that {+realm+}. This collection
@@ -741,7 +734,7 @@ content: |
   Let's define it now in the TasksViewController:
 
   .. code-block:: swift
-  
+
      @objc func addButtonDidClick() {
          let alertController = UIAlertController(title: "Add Task", message: "", preferredStyle: .alert)
 
@@ -784,9 +777,9 @@ content: |
 
   Users can delete tasks with a swipe. To handle swipes,
   implement the following method in TasksViewController:
-  
+
   .. code-block:: swift
-  
+
      func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
          guard editingStyle == .delete else { return }
          
@@ -860,7 +853,7 @@ content: |
   We dynamically assemble the list of actions depending on
   the current status. Ultimately, each action just modifies
   the task object directly.
-  
+
   The important thing to note is that every modification --
   whether adding, deleting, or modifying -- is always in a
   ``realm.write`` transaction block. {+service-short+} does
@@ -870,7 +863,7 @@ content: |
 title: React to Changes
 ref: react-to-changes
 content: |
-  
+
   So far, we have implemented functionality to create, read,
   update, and delete tasks in the app. To react to these
   changes and automatically update the UI to reflect new
@@ -916,7 +909,7 @@ content: |
 
   This observes the tasks in the {+realm+} for changes.
   Upon change, we update the table view accordingly.
-  
+
   Observation continues as long as the notification token is
   valid. That's why we stored a strong reference to the
   result of ``tasks.observe`` in a property. When finished
@@ -951,4 +944,3 @@ content: |
 
   How did it go? Please leave feedback using the feedback widget on the bottom
   right of the page.
-

@@ -1,23 +1,32 @@
 .. _tutorial-task-tracker-create-realm-app:
 
-==========================================
-Create a Task Tracker App in MongoDB Realm
-==========================================
+========================================
+Set Up the Task Tracker Tutorial Backend
+========================================
 
 .. default-domain:: mongodb
 
 Prerequisites
 -------------
 
-Before you get started, you'll need a MongoDB Atlas account and cluster. For
-details on how to create an account and set up a free ``M0`` cluster, see
-:atlas:`Get Started with Atlas </getting-started>`.
+Before you get started, you'll need a `{+atlas+}
+<https://www.mongodb.com/cloud/atlas?tck=docs_realm>`_ account and
+cluster. For details on how to create an account and set up a free
+``M0`` cluster, see :atlas:`Get Started with Atlas </getting-started>`.
 
-A. Create a MongoDB Realm Application
--------------------------------------
+.. admonition:: Version 4.4 Required
+   :class: note
 
-To begin, you need to create a new MongoDB Realm app. A Realm app is a central,
-server-side configuration that functions as the backend for your application.
+   In order to use {+sync+}, your Atlas cluster must use MongoDB version
+   4.4. When setting up your cluster, select :guilabel:`MongoDB 4.4 -
+   Beta` from the dropdown menu under :guilabel:`Additional Settings`.
+
+A. Create a MongoDB Realm App
+-----------------------------
+
+To begin, you need to create a new {+app+}. A {+app+} is a central,
+server-side configuration that functions as the backend for your
+application.
 
 .. include:: /includes/steps/task-tracker-server-create-realm-app.rst
 
@@ -31,8 +40,27 @@ and operations as well as to validate reads and writes.
 
 .. include:: /includes/steps/task-tracker-server-data-model.rst
 
-C. Define Data Access Permissions
+C. Configure User Authentication
+--------------------------------
+
+Every request sent to Realm must come from an authenticated user, so we need to
+have a way for users to create accounts and log in. For this app, we'll use
+email/password authentication. Authenticating users has the additional benefit
+of giving each user a persistent identity that we can associate with their tasks
+in order to easily find and secure them.
+
+.. include:: /includes/steps/task-tracker-server-auth.rst
+
+D. Define Data Access Permissions
 ---------------------------------
+
+.. admonition:: GraphQL Client Only
+   :class: important
+
+   If you plan to use this backend with one or more of the mobile client
+   tutorials (iOS, Android, or React Native), you can skip this section
+   because mobile apps use {+sync+}. {+sync+} has its own permissions
+   model, so the permissions set here will not apply.
 
 Once you've defined schemas for ``User`` and ``Task``, Realm automatically
 generates GraphQL types and resolvers that allow you to access data through the
@@ -45,18 +73,23 @@ document.
 
 .. include:: /includes/steps/task-tracker-server-rules.rst
 
-D. Configure User Authentication
---------------------------------
+E. Enable Sync
+--------------
 
-Every request sent to Realm must come from an authenticated user, so we need to
-have a way for users to create accounts and log in. For this app, we'll use
-email/password authentication. Authenticating users has the additional benefit
-of giving each user a persistent identity that we can associate with their tasks
-in order to easily find and secure them.
+.. admonition:: Mobile Clients Only
+   :class: important
 
-.. include:: /includes/steps/task-tracker-server-auth.rst
+   If you plan to use this backend exclusively with the web client using
+   GraphQL and **not** with one or more of the mobile client tutorials
+   (iOS, Android, or React Native), you can skip this section. The web
+   client uses GraphQL to work with data, not {+sync+}.
 
-E. Define an Authentication Trigger
+To allow the seamless transfer of data across devices, we enable
+{+sync+}.
+
+.. include:: /includes/steps/task-tracker-enable-sync.rst
+
+F. Define an Authentication Trigger
 -----------------------------------
 
 We want each user to have a corresponding document in the ``users`` collection
@@ -67,7 +100,7 @@ document for each user when they register their acount.
 
 .. include:: /includes/steps/task-tracker-server-trigger.rst
 
-F. Deploy Your App
+G. Deploy Your App
 ------------------
 
 At this point your Realm App is fully configured and almost ready to accept

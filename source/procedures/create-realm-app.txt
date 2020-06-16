@@ -14,12 +14,15 @@ Create a Realm App (Realm UI)
 
 Overview
 --------
-The following steps guide you through setting up a generic {+service+} application.
+
+The following steps guide you through setting up a generic {+app+}. The
+term :term:`"{+app+}" <{+app+}>` refers to the central {+service+}
+backend instance for your mobile or web application.
 
 Prerequisites
 -------------
 Before you begin, you will need a
-`{+atlas+} <https://cloud.mongodb.com/user/register?jmp=docs>`_ account.
+`{+atlas+} <https://cloud.mongodb.com/user/register?tck=docs_realm>`_ account.
 You can learn more about creating an |atlas| account in the
 :atlas:`Atlas Getting Started </getting-started>`
 documentation.
@@ -30,7 +33,7 @@ A. Log on to Atlas
 ~~~~~~~~~~~~~~~~~~
 
 To use {+service+}, you must be logged into `{+atlas-short+}
-<https://cloud.mongodb.com>`_.
+<https://cloud.mongodb.com?tck=docs_realm>`_.
 
 B. Create an Atlas Cluster
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -83,6 +86,12 @@ C. Add a Realm App
    :guilabel:`Link to Cluster` dropdown. {+service+} will automatically
    create a :ref:`MongoDB service <mongodb-service>` linked to this
    cluster.
+
+   .. admonition:: Version 4.4 Required
+      :class: note
+
+      In order to use {+sync+}, your Atlas cluster must use MongoDB version
+      4.4.
 
 #. Enter a name for the service that {+service+} will create in the
    :guilabel:`Realm Service Name` field.

@@ -1,0 +1,106 @@
+.. _react-native-call-a-function:
+
+===============
+Call a Function
+===============
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 3
+   :class: singlecol
+
+Overview
+--------
+
+:doc:`MongoDB Realm Functions </functions>` allow you to run serverless
+snippets of code. MongoDB Realm Functions are useful for abstracting
+away implementation details from client applications by doing things
+such as reusing code-snippets to process data or dynamically performing
+actions based on the current user, processing data, and more. You can
+call MongoDB Realm Functions from the client SDK. The active user of a
+given MongoDB Realm Function execution is the authenticated user that
+called it. 
+
+
+Create a Function
+-----------------
+
+The example in this section demonstrates calling a simple MongoDB Realm
+Function named ``sum`` that takes two arguments, adds them, and returns
+the result. To learn more about creating a MongoDB Realm Function, read
+the :doc:`Define a Function </functions/define-a-function>` doc. 
+
+.. code-block:: javascript
+
+   // sum: adds two numbers
+   exports = function(a, b) {
+     return a + b;
+   };
+
+Call the Function from a React Native Application
+-------------------------------------------------
+
+There are two alternate methods for executing a MongoDB Realm Function
+from a React Native application.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 10 90
+
+   * - Method 
+     - Usage
+   * - ``User.functions.<functionName>()``
+     - Pass the parameters directly to the method, ``functions.<functionName>()``, which you call on the user instance. For example, running the script: "myUserInstance.functions.sum(2,3)" would return the result of 5. 
+   * - ``User.callFunction()``
+     - The method ``callFunction()`` calls the MongoDB Realm Function on the user object with the first parameter being the Function name and the second parameter being an array of arguments that you pass to the Function.
+
+.. admonition:: Link a MongoDB Atlas Cluster
+   :class: note
+   
+   This example requires a MongoDB Realm Application with a :doc:`linked
+   Atlas cluster </mongodb/link-a-cluster>`. Replace the "<appId>" in the
+   code block with your app id, available in the lefthand corner of the
+   MongoDB Realm UI.
+
+.. code-block:: javascript
+  :emphasize-lines: 21, 22
+
+   import Realm from "realm";
+
+   const appId = "<appId>"; // Set Realm app ID here.
+   const appConfig = {
+     id: appId,
+     timeout: 10000,
+   };
+
+  export const callAFunction = async () => {
+     let user;
+     try {
+       const app = new Realm.App(appConfig);
+       const credentials = Realm.Credentials.anonymous();
+       user = await app.logIn(credentials);
+ 
+       const numA = 2;
+       const numB = 3;
+       const myArgs = [numA, numB];
+ 
+       const result = await user.functions.sum(numA, numB);
+       const resultOfCallFunction = await user.callFunction("sum", myArgs); // alternate syntax to call a MongoDB Realm Function
+       console.log(`Using the "functions.sum()" method: the sum of ${numA} + ${numB} = ${result}`);
+       console.log(`Using the "callFunction()" method: the sum of ${numA} + ${numB} = ${resultOfCallFunction}`);
+     
+     } catch (error) {
+         throw `Error logging in anonymously: ${JSON.stringify(error,null,2)}`;
+     }
+   }
+ 
+
+When you run the code sample, your output should resemble the following:
+
+.. code-block:: none
+
+   Using the "functions.sum()" method: the sum of 2 + 3 = 5
+   Using the "callFunction()" method: the sum of 2 + 3 = 5

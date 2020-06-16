@@ -6,6 +6,13 @@ content: |
   will translate this Realm Schema into a Realm Object Model to be
   configured and utilized in your mobile application.
 
+  .. admonition:: Primary Key _id Required
+     :class: important
+
+     To work with {+sync+}, your data model **must** have a primary key field
+     called ``_id``. ``_id`` can be of type ``string``, ``int``, or
+     ``objectId``.
+
   .. note:: 
 
     To learn how to define a Realm Schema for at least one collection in the :doc:`synced </sync>` cluster, see the :doc:`Enforce a Document Schema </mongodb/enforce-a-document-schema>` page.
@@ -62,8 +69,6 @@ content: |
   code for the SDK of your choice into your clipboard. Open your mobile
   application code in your IDE and paste the Realm Object Model code in.
 
-
-
   .. tabs-realm-languages::
 
     .. tab::
@@ -71,16 +76,25 @@ content: |
 
         .. code-block:: javascript
            
-          const realmObjectModel = { // your copied and pasted Realm Object Model
+          const UserSchema = { // your copied and pasted Realm Object Model
             name: 'User',
             properties: {
-              name:     'string',
+              _id: 'objectId',
+              _partition: 'string',
+              name: 'string',
               birthday: 'date'
-            }
+            },
+            primaryKey: '_id'
           };
           // Initialize a Realm with your Realm Object Model
-          Realm.open({schema: realmObjectModel})
+          Realm.open({schema: UserSchema, sync: { /* ... */ }})
             .then(realm => {
               // ... use the realm instance to read and modify data
             })
+
+  .. seealso:: :ref:`Sync Data on Android <android-sync-data>`
+  .. seealso:: :ref:`Sync Data on iOS <ios-sync-data>`
+  .. seealso:: :ref:`Sync Data on Node <node-sync-data>`
+  .. seealso:: :ref:`Sync Data on React Native <react-native-sync-data>`
+
 ...
