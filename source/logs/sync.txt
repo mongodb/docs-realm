@@ -15,8 +15,7 @@ Overview
 
 {+service+} creates sync logs whenever a user interacts with Sync. This
 includes writing data to {+backend+} from clients, reading changes from
-{+backend+} to clients, as well as any time a connection or session starts
-or ends.
+{+backend+} to clients, and starting or ending a connection.
 
 Connections
 ~~~~~~~~~~~
@@ -75,7 +74,8 @@ Fields
        - The primary key of the data that changed.
 
    * - SDK
-     - The SDK used to send the request. Potential values include any :doc:`{+service-short+} Client SDK </procedures/init-realmclient>`. For a browser, this is ``<browser> <SDK version>``.
+     - The SDK used to send the request. Potential values include any SDK.
+       For a browser, this is ``<browser> <SDK version>``.
 
        .. example::
 
