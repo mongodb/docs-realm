@@ -226,11 +226,23 @@ Partition keys and values are subject to certain limitations:
      updates to the object.
 
 - Changing a partition value in a {+service-short+} object using the {+service-short+} SDK
-  should be avoided as it will trigger a :ref:`client reset <client-reset>`.
+  should be avoided as it triggers a :ref:`client reset <client-reset>`.
 
-- Documents linked to each other using a relationship will produce
+- Documents linked to each other using a relationship produce
   "dangling links" with a null value if the documents do not
-  belong to the same partition.
+  belong to the same partition. If your application creates relations
+  that span multiple {+realms+}, you should be prepared to handle null
+  values for all such relations.
+
+  .. warning::
+     
+     Relational object fields that lack a corresponding object, known as
+     "dangling links," resolve to null values in the {+service-short+}
+     SDKs. Dangling links can occur if a relation spans multiple
+     {+realms+} These relations *are* valid in MongoDB Atlas, which
+     contains both objects in the relation, but not in any single client
+     {+realm+}. To prevent dangling links, make sure that each object in
+     a relation uses the same partition value.
 
 .. _partition-key-examples:
 
