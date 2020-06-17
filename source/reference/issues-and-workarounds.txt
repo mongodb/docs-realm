@@ -1,0 +1,40 @@
+.. _issues-and-workarounds:
+
+==========================
+Known Issues & Workarounds
+==========================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+This page contains workarounds for known issues you may encounter while
+developing with {+service+}.
+
+.. admonition:: Issue and Feature Tracking
+   :class: note
+
+   If you have suggestions for the product itself or wish to track
+   existing feature ideas, please check out the `official MongoDB
+   feedback site <https://feedback.mongodb.com/forums/923521-realm/>`_.
+
+Sync
+----
+
+Sync fails to enable shortly after cluster creation
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Enabling {+sync+} on a newly-created cluster may fail with an error
+message about parsing the URI. This happens because an SRV record hasn't
+propagated yet. While we work to provide more helpful diagnostics around
+this issue, there are two possible workarounds:
+
+- Wait five minutes, then enable {+sync+}.
+- Unlink and :ref:`re-link the cluster <link-a-cluster>`.
