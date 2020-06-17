@@ -68,7 +68,28 @@ content: |
      .. code-block:: javascript
         :emphasize-lines: 9, 12, 16, 20
         
-        TODO
+        exports = async function(loginPayload) {
+          // Get a handle for the app.users collection
+          const users = context.services
+            .get("mongodb-atlas")
+            .db("app")
+            .collection("users");
+          
+          // Parse out custom data from the FunctionCredential
+          const { username } = loginPayload;
+          
+          // Query for an existing user document with the specified username
+          const user = await users.findOne({ username });
+          
+          if (user) {
+            // If the user document exists, return its unique ID
+            return user._id.toString();
+          } else {
+            // If the user document does not exist, create it and then return its unique ID
+            const result = await users.insertOne({ username });
+            return result.insertedId.toString();
+          }
+        };
 ---
 title: Deploy the Updated Application
 ref: deploy-the-updated-application

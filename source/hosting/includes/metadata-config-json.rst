@@ -46,7 +46,8 @@
           * - ``name``
             - The name of the metadata attribute. This should be one of
               the :doc:`file metadata attributes
-              </hosting/file-metadata-attributes>` that Stitch supports.
+              </hosting/file-metadata-attributes>` that {+service-short+}
+              supports.
 
           * - ``value``
             - The value of the metadata attribute.
