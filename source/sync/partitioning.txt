@@ -225,8 +225,9 @@ Partition keys and values are subject to certain limitations:
      Changing a partition value in {+atlas-short+} will lose any un-synced client
      updates to the object.
 
-- Changing a partition value in a {+service-short+} object using the {+service-short+} SDK
-  should be avoided as it triggers a :ref:`client reset <client-reset>`.
+- Avoid changing a partition value in a {+service-short+} object using
+  the {+service-short+} SDK because it triggers a
+  :ref:`client reset <client-reset>`.
 
 - Documents linked to each other using a relationship produce
   "dangling links" with a null value if the documents do not
