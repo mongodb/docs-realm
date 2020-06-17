@@ -1763,7 +1763,54 @@ paths:
             enum: ["P31D", "PT1H"]
           required: False
       responses:
-        '200': {$ref: "#/components/responses/MeasurementsResponse200"}
+        '200':
+          description: "The measurements were successfully returned."
+          content:
+            application/json:
+              schema:
+                properties:
+                  start:
+                    type: string
+                    description: The RFC 3339 date and time of the start of the query period, which can be specified with the ``start`` query parameter.
+                  end:
+                    type: string
+                    description: The RFC 3339 date and time of the end of the query period, which can be specified with the ``end`` query parameter.
+                  granularity:
+                    type: string
+                    description: The granularity, which can be specified with the ``granularity`` query parameter.
+                  group_id:
+                    type: string
+                    description: The |atlas| :atlas:`Group ID </tutorial/manage-projects/>`.
+                  measurements:
+                    type: array
+                    description: |
+                      The array of measurements.
+                    items:
+                      properties:
+                        name:
+                          type: string
+                          enum: [request_count, compute_time, data_out, sync_time]
+                          description: |
+                            The usage metric represented by each data point. See :doc:`billing </billing>`. 
+                        units:
+                          type: string
+                          enum: ['<empty string>', HOURS, GIGABYTES]
+                          description: |
+                            The unit of the ``value`` of each data point.
+                        data_points:
+                          type: array
+                          description: |
+                            The array of data points for this measurement. A finer ``granularity`` results in more data points.
+                          items:
+                            properties:
+                              timestamp:
+                                type: string
+                                description: |
+                                  The ISO 8601 date and time of the data point.
+                              value:
+                                type: number
+                                description: |
+                                  The value at the time in the ``unit`` of the measurement.
         '400': {$ref: "#/components/responses/ClientErrorResponse"}
   /groups/{groupId}/apps/{appId}/measurements/:
     get:
@@ -1791,7 +1838,60 @@ paths:
             enum: ["P31D", "PT1H"]
           required: False
       responses:
-        '200': {$ref: "#/components/responses/MeasurementsResponse200"}
+        '200':
+          description: "The measurements were successfully returned."
+          content:
+            application/json:
+              schema:
+                properties:
+                  start:
+                    type: string
+                    description: The RFC 3339 date and time of the start of the query period, which can be specified with the ``start`` query parameter.
+                  end:
+                    type: string
+                    description: The RFC 3339 date and time of the end of the query period, which can be specified with the ``end`` query parameter.
+                  granularity:
+                    type: string
+                    description: The granularity, which can be specified with the ``granularity`` query parameter.
+                  group_id:
+                    type: string
+                    description: The |atlas| :atlas:`Group ID </tutorial/manage-projects/>`.
+                  appId:
+                    type: string
+                    description: The Realm app ID specified by the ``appId`` path parameter.
+                  appName:
+                    type: string
+                    description: The name of the Realm app specified by the ``appId`` path parameter.
+                  measurements:
+                    type: array
+                    description: |
+                      The array of measurements.
+                    items:
+                      properties:
+                        name:
+                          type: string
+                          enum: [request_count, compute_time, data_out, sync_time, mem_usage]
+                          description: |
+                            The usage metric represented by each data point. See :doc:`billing </billing>`. 
+                        units:
+                          type: string
+                          enum: ['<empty string>', HOURS, GIGABYTES, GIGABYTE_SECONDS]
+                          description: |
+                            The unit of the ``value`` of each data point.
+                        data_points:
+                          type: array
+                          description: |
+                            The array of data points for this measurement. A finer ``granularity`` results in more data points.
+                          items:
+                            properties:
+                              timestamp:
+                                type: string
+                                description: |
+                                  The ISO 8601 date and time of the data point.
+                              value:
+                                type: number
+                                description: |
+                                  The value at the time in the ``unit`` of the measurement.
         '400': {$ref: "#/components/responses/ClientErrorResponse"}
 components:
   parameters:
@@ -2542,54 +2642,6 @@ components:
         The authorization token provided in the ``refresh_token`` field of
         the :ref:`post-/auth/providers/{provider}/login` API endpoint.
   responses:
-    MeasurementsResponse200:
-      description: "The measurements were successfully returned."
-      content:
-        application/json:
-          schema:
-            properties:
-              start:
-                type: string
-                description: The ISO 8601 date and time of the start of the query period, which can be specified with the ``start`` query parameter.
-              end:
-                type: string
-                description: The ISO 8601 date and time of the end of the query period, which can be specified with the ``end`` query parameter.
-              granularity:
-                type: string
-                description: The granularity, which can be specified with the ``granularity`` query parameter.
-              group_id:
-                type: string
-                description: The |atlas| :atlas:`Group ID </tutorial/manage-projects/>`.
-              measurements:
-                type: array
-                description: |
-                  The array of measurements.
-                items:
-                  properties:
-                    name:
-                      type: string
-                      enum: [request_count, compute_time, data_out, sync_time, mem_usage]
-                      description: |
-                        The usage metric represented by each data point. See :doc:`billing </billing>`. 
-                    units:
-                      type: string
-                      enum: ['<empty string>', HOURS, GIGABYTES, GIGABYTE_SECONDS, MILLIS]
-                      description: |
-                        The unit of the ``value`` of each data point.
-                    data_points:
-                      type: array
-                      description: |
-                        The array of data points for this measurement. A finer ``granularity`` results in more data points.
-                      items:
-                        properties:
-                          timestamp:
-                            type: string
-                            description: |
-                              The ISO 8601 date and time of the data point.
-                          value:
-                            type: number
-                            description: |
-                              The value at the time in the ``unit`` of the measurement.
     ClientErrorResponse:
       description: "There is an error in the request."
       content:
