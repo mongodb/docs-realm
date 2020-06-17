@@ -240,7 +240,7 @@ Partition keys and values are subject to certain limitations:
      Relational object fields that lack a corresponding object, known as
      "dangling links," resolve to null values in the {+service-short+}
      SDKs. Dangling links can occur if a relation spans multiple
-     {+realms+} These relations *are* valid in MongoDB Atlas, which
+     {+realms+} These relations *are* valid in MongoDB Atlas which
      contains both objects in the relation, but not in any single client
      {+realm+}. To prevent dangling links, make sure that each object in
      a relation uses the same partition value.
