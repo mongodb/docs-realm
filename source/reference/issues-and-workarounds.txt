@@ -15,14 +15,15 @@ Known Issues & Workarounds
 Overview
 --------
 
-This page contains known issues and any possible workarounds.
+This page contains workarounds for known issues you may encounter while
+developing with {+service+}.
 
-Please note that you can provide feedback on the documentation with the
-feedback form on the bottom right of each page. 
+.. admonition:: Issue and Feature Tracking
+   :class: note
 
-If you have suggestions for the product itself or wish to track existing
-feature ideas, please check out the `MongoDB Feedback Engine for Realm
-<https://feedback.mongodb.com/forums/923521-realm/>`_.
+   If you have suggestions for the product itself or wish to track
+   existing feature ideas, please check out the `official MongoDB
+   feedback site <https://feedback.mongodb.com/forums/923521-realm/>`_.
 
 Sync
 ----
@@ -30,10 +31,10 @@ Sync
 Sync fails to enable shortly after cluster creation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-You may encounter strange behavior when enabling {+sync+} on a
-newly-created cluster. This happens because an SRV record hasn't
-propagated yet. While we work to resolve this issue, there are two
-possible workarounds:
+Enabling {+sync+} on a newly-created cluster may fail with an error
+message about parsing the URI. This happens because an SRV record hasn't
+propagated yet. While we work to provide more helpful diagnostics around
+this issue, there are two possible workarounds:
 
 - Wait five minutes, then enable {+sync+}.
 - Unlink and :ref:`re-link the cluster <link-a-cluster>`.
