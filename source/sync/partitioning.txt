@@ -195,8 +195,8 @@ Partition keys and values are subject to certain limitations:
      
   .. warning::
 
-     Disabling and re-enabling {+sync-short+} will trigger a
-     :ref:`client reset <client-reset>` on all clients.
+     Disabling and re-enabling {+sync-short+} will trigger a :term:`client reset
+     <Client Reset>` on all clients.
 
 - Once you have chosen a partition key and enabled {+sync-short+}, you
   cannot change the name of the field you selected as your partition
@@ -211,8 +211,8 @@ Partition keys and values are subject to certain limitations:
 
   .. warning::
 
-     Disabling and re-enabling {+sync+} will trigger a
-     :ref:`client reset <client-reset>` on all clients.
+     Disabling and re-enabling {+sync+} will trigger a :term:`client reset
+     <Client Reset>` on all clients.
 
 - If you change a partition value in {+atlas-short+}, {+backend+} interprets
   the change as a delete, then an insert. First, {+backend+} deletes
@@ -226,7 +226,7 @@ Partition keys and values are subject to certain limitations:
      updates to the object.
 
 - Changing a partition value in a {+service-short+} object using the {+service-short+} SDK
-  should be avoided as it might trigger a :ref:`client reset <client-reset>`.
+  should be avoided as it might trigger a :term:`client reset <Client Reset>`.
 
 .. _partition-key-examples:
 
