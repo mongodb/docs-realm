@@ -18,7 +18,7 @@ Overview
 {+service+} applications model data as objects composed of field-value pairs
 that each contain one or more primitive data types or other {+service-short+}
 objects. :term:`{+service-short+} objects <Realm object>` are essentially the same
-as regular objects in most programming languages, but they also include
+as regular objects, but they also include
 additional features like
 :ref:`real-time updating data views <android-live-object>` and reactive
 :ref:`change event handlers <android-client-notifications>`.
@@ -156,15 +156,7 @@ You can configure the following constraints for a given property:
        - String
        - Date
        - Data
-       
-       .. admonition:: Language-Specific Syntax
-          :class: important
-          
-          {+client-database+} supports language-specific data types for
-          each SDK by internally mapping them to one of the
-          core supported types. Check the client guide for
-          your platform to see the full list of supported
-          data types in your preferred language.
+       - ObjectId
 
    * - Optional
      - Optional properties may contain a null value or be entirely
@@ -191,7 +183,7 @@ Summary
 -------
 
 - {+service-short+} objects are of a **type** defined as you would any other
-  class in the given programming language.
+  class.
 
 - {+service-short+} objects are **live**: they always reflect the latest version
   on disk and update automatically when the underlying object changes.
