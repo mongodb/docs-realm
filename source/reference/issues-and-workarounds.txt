@@ -1,0 +1,40 @@
+.. _issues-and-workarounds:
+
+==========================
+Known Issues & Workarounds
+==========================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+This page contains known issues and any possible workarounds.
+
+Please note that you can provide feedback on the documentation with the
+feedback form on the bottom right of each page. 
+
+If you have suggestions for the product itself or wish to track existing
+feature ideas, please check out the `MongoDB Feedback Engine for Realm
+<https://feedback.mongodb.com/forums/923521-realm/>`_.
+
+Sync
+----
+
+Sync fails to enable shortly after cluster creation
+===================================================
+
+You may encounter strange behavior when enabling {+sync+} on a
+newly-created cluster. This happens because an SRV record hasn't
+propagated yet. While we work to resolve this issue, there are two
+possible workarounds:
+
+- Wait five minutes, then enable {+sync+}.
+- Unlink and :ref:`re-link the cluster <link-a-cluster>`.
+
