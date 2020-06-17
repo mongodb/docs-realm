@@ -226,7 +226,11 @@ Partition keys and values are subject to certain limitations:
      updates to the object.
 
 - Changing a partition value in a {+service-short+} object using the {+service-short+} SDK
-  should be avoided as it might trigger a :ref:`client reset <client-reset>`.
+  should be avoided as it will trigger a :ref:`client reset <client-reset>`.
+
+- Documents linked to each other using a relationship will produce
+  "dangling links" with a null value if the documents do not
+  belong to the same partition.
 
 .. _partition-key-examples:
 
