@@ -53,11 +53,25 @@ access your {+app+} using your {+app+} ID. You can find your {+app+} ID in the
 
 .. code-block:: kotlin
 
-
    val appID = "<your app ID>" // replace this with your App ID
    Realm.init(this) // context, typically an Activity
    val app: App = App(AppConfiguration.Builder(appID)
                       .build())
+
+.. admonition:: Android Studio Errors?
+   :class: note
+
+   If Android Studio does not recognize the ``Realm``, ``App``, or
+   ``AppConfiguration`` types, there could be a problem with the
+   your Gradle build configuration. To fix the issue, try:
+
+   - Cleaning your project with ``Build > Clean Project``
+
+   - Rebuilding your project based on your updated ``build.gradle`` file
+     with ``Build > Rebuild Project``
+
+   - Revisiting the :ref:`Install the Android SDK <android-install>`
+     guide to make sure that you installed the dependencies correctly.
 
 Define Your Object Model
 ------------------------
@@ -129,8 +143,8 @@ Open a Realm
 Once you have :ref:`enabled {+sync+} <enable-sync>` and authenticated a user, you can open
 a synced :ref:`{+realm+} <android-realms>`. Use the ``SyncConfiguration``
 to control the specifics of how your application synchronizes data with
-{+backend+}, including the partition, which determines which data is
-synchronized, whether to wait for an initial batch of data to sync, and
+{+backend+}, including the :ref:`partition <partitioning>`,
+ whether to wait for an initial batch of data to sync, and
 more.
 
 .. code-block:: kotlin
