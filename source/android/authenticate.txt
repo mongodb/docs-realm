@@ -85,7 +85,7 @@ error that caused the failure using the ``getError()`` method.
 Anonymous
 ~~~~~~~~~
 
-The :doc:`anonymous authenticatino provider </authentication/anonymous>`
+The :doc:`anonymous authentication provider </authentication/anonymous>`
 enables users to log in to your application with short-term accounts
 that store no persistent personal information. To log in with anonymous
 authentication, create an anonymous credential by calling
@@ -140,10 +140,10 @@ to ``app.login()`` or ``app.loginAsync()``.
          val app: App = App(AppConfiguration.Builder(appID)
                 .build())
 
-         val credentials: Credentials = Credentials.emailPassword("email", "password")
+         val emailPasswordCredentials: Credentials = Credentials.emailPassword("<email>", "<password>")
          
          val user: User? = null
-         app.loginAsync(credentials) {
+         app.loginAsync(emailPasswordCredentials) {
             if (it.isSuccess) {
                 Log.v(TAG, "Successfully authenticated anonymously.")
                 user = app.currentUser()
@@ -157,39 +157,47 @@ to ``app.login()`` or ``app.loginAsync()``.
 .. API Key
 .. ~~~~~~~
 
+.. The :doc:`API Key authentication provider </authentication/api-key>`
+.. enables users to log in to your application with an API Key generated
+.. automatically in the client SDK. To log in with API Key authentication, create an
+.. API Key credential by calling ``Credentials.apiKey()``
+.. with an API Key. Then pass the generated credential
+.. to ``app.login()`` or ``app.loginAsync()``.
+
 .. .. tabs-realm-languages::
    
 ..    .. tab::
 ..       :tabid: kotlin
       
 ..       .. code-block:: kotlin
-   
-..    .. tab::
-..       :tabid: java
-      
-..       .. code-block:: java
+
+..          Realm.init(this)
+..          val appID = "<your app ID>"
+..          val app: App = App(AppConfiguration.Builder(appID)
+..                     .build())
+
+..          val apiKeyCredentials: Credentials = Credentials.apiKey("<key>")
+
+..          app.loginAsync(apiKeyCredentials) {
+..             if (it.isSuccess) {
+..                   Log.v(TAG, "Successfully authenticated using an API Key.")
+..                   val user: User? = app.currentUser()
+..             } else {
+..                   Log.e(TAG, "Error logging in: ${it.error.toString()}")
+..             }
+..          }
 
 .. .. _android-login-custom-function:
 
 .. Custom Function
 .. ~~~~~~~~~~~~~~~
 
-.. .. tabs-realm-languages::
-   
-..    .. tab::
-..       :tabid: kotlin
-      
-..       .. code-block:: kotlin
-   
-..    .. tab::
-..       :tabid: java
-      
-..       .. code-block:: java
-
-.. .. _android-login-custom-jwt:
-
-.. Custom JWT
-.. ~~~~~~~~~~
+.. The :doc:`Custom Function authentication provider </authentication/custom-function>`
+.. enables users to log in to your application using a
+.. :ref:`Realm Function <function>` defined in your {+app+}. To log in with custom function authentication, create a
+.. custom function credential by calling ``Credentials.customFunction()``
+.. with the custom function name and arguments. Then pass the generated credential
+.. to ``app.login()`` or ``app.loginAsync()``.
 
 .. .. tabs-realm-languages::
    
@@ -197,62 +205,170 @@ to ``app.login()`` or ``app.loginAsync()``.
 ..       :tabid: kotlin
       
 ..       .. code-block:: kotlin
+
+..          Realm.init(this)
+..          val appID = "<your app ID>"
+..          val app: App = App(AppConfiguration.Builder(appID)
+..                     .build())
+
+..          val customFunctionCredentials: Credentials = Credentials.customFunction("<function name>", "<arg1>", "<arg2>")
+
+..          app.loginAsync(customFunctionCredentials) {
+..             if (it.isSuccess) {
+..                 Log.v(TAG, "Successfully authenticated using a custom function.")
+..                 val user: User? = app.currentUser()
+..             } else {
+..                 Log.e(TAG, "Error logging in: ${it.error.toString()}")
+..             }
+..          }
+
+.. _android-login-custom-jwt:
+
+Custom JWT
+~~~~~~~~~~
+
+The :doc:`Custom JWT authentication provider </authentication/custom-jwt>`
+enables users to log in to your application with a custom JSON Web Token.
+To log in with custom JWT authentication, create an
+email/password credential by calling ``Credentials.jwt()``
+with your custom JWT. Then pass the generated credential
+to ``app.login()`` or ``app.loginAsync()``.
+
+.. tabs-realm-languages::
    
-..    .. tab::
-..       :tabid: java
+   .. tab::
+      :tabid: kotlin
       
-..       .. code-block:: java
+      .. code-block:: kotlin
 
-.. .. _android-login-facebook:
+         Realm.init(this)
+         val appID = "<your app ID>"
+         val app: App = App(AppConfiguration.Builder(appID)
+                .build())
 
-.. Facebook OAuth
-.. ~~~~~~~~~~~~~~
+         // fetch JWT from custom provider
 
-.. .. tabs-realm-languages::
+         val customJWTCredentials: Credentials = Credentials.jwt("<token>")
+
+         app.loginAsync(customJWTCredentials) {
+            if (it.isSuccess) {
+                  Log.v(TAG, "Successfully authenticated using a custom JWT.")
+                  val user: User? = app.currentUser()
+            } else {
+                  Log.e(TAG, "Error logging in: ${it.error.toString()}")
+            }
+         }
+
+.. _android-login-facebook:
+
+Facebook OAuth
+~~~~~~~~~~~~~~
+
+The :doc:`Facebook OAuth authentication provider </authentication/facebook>`
+enables users to log in to your application with a custom token provided
+by Facebook. To log in with Facebook OAuth authentication, create a
+Facebook OAuth credential by calling ``Credentials.facebook()``
+with the token provided by Facebook. Then pass the generated credential
+to ``app.login()`` or ``app.loginAsync()``.
+
+.. tabs-realm-languages::
    
-..    .. tab::
-..       :tabid: kotlin
+   .. tab::
+      :tabid: kotlin
       
-..       .. code-block:: kotlin
+      .. code-block:: kotlin
+
+         Realm.init(this)
+         val appID = "<your app ID>"
+         val app: App = App(AppConfiguration.Builder(appID)
+                .build())
+
+         // fetch facebook token using Facebook SDK
+
+         val facebookCredentials: Credentials = Credentials.facebook("<token>")
+
+         app.loginAsync(facebookCredentials) {
+            if (it.isSuccess) {
+                  Log.v(TAG, "Successfully authenticated using Facebook OAuth.")
+                  val user: User? = app.currentUser()
+            } else {
+                  Log.e(TAG, "Error logging in: ${it.error.toString()}")
+            }
+         }
+
+.. _android-login-google:
+
+Google OAuth
+~~~~~~~~~~~~
+
+The :doc:`Google OAuth authentication provider </authentication/google>`
+enables users to log in to your application with a custom token provided
+by Google. To log in with Google OAuth authentication, create a
+Google OAuth credential by calling ``Credentials.google()``
+with the token provided by Google. Then pass the generated credential
+to ``app.login()`` or ``app.loginAsync()``.
+
+.. tabs-realm-languages::
    
-..    .. tab::
-..       :tabid: java
+   .. tab::
+      :tabid: kotlin
       
-..       .. code-block:: java
+      .. code-block:: kotlin
 
-.. .. _android-login-google:
+         Realm.init(this)
+         val appID = "<your app ID>"
+         val app: App = App(AppConfiguration.Builder(appID)
+                .build())
 
-.. Google OAuth
-.. ~~~~~~~~~~~~
+         // fetch google token using Google SDK
 
-.. .. tabs-realm-languages::
+         val googleCredentials: Credentials = Credentials.google("<token>")
+
+         app.loginAsync(googleCredentials) {
+            if (it.isSuccess) {
+                  Log.v(TAG, "Successfully authenticated using Google OAuth.")
+                  val user: User? = app.currentUser()
+            } else {
+                  Log.e(TAG, "Error logging in: ${it.error.toString()}")
+            }
+         }
+
+.. _android-login-apple:
+
+Sign-in with Apple
+~~~~~~~~~~~~~~~~~~
+
+The :doc:`Sign-in with Apple authentication provider </authentication/apple>`
+enables users to log in to your application with a custom token provided
+by Apple. To log in with Sign-in with Apple authentication, create a
+Sign-in with Apple credential by calling ``Credentials.apple()``
+with the token provided by Apple. Then pass the generated credential
+to ``app.login()`` or ``app.loginAsync()``.
+
+.. tabs-realm-languages::
    
-..    .. tab::
-..       :tabid: kotlin
+   .. tab::
+      :tabid: kotlin
       
-..       .. code-block:: kotlin
-   
-..    .. tab::
-..       :tabid: java
-      
-..       .. code-block:: java
+      .. code-block:: kotlin
 
-.. .. _android-login-apple:
+         Realm.init(this)
+         val appID = "<your app ID>"
+         val app: App = App(AppConfiguration.Builder(appID)
+                .build())
 
-.. Sign-in with Apple
-.. ~~~~~~~~~~~~~~~~~~
+         // fetch apple token using Apple SDK
 
-.. .. tabs-realm-languages::
-   
-..    .. tab::
-..       :tabid: kotlin
-      
-..       .. code-block:: kotlin
-   
-..    .. tab::
-..       :tabid: java
-      
-..       .. code-block:: java
+         val appleCredentials: Credentials = Credentials.apple("<token>")
+
+         app.loginAsync(appleCredentials) {
+            if (it.isSuccess) {
+                  Log.v(TAG, "Successfully authenticated using Sign-in with Apple.")
+                  val user: User? = app.currentUser()
+            } else {
+                  Log.e(TAG, "Error logging in: ${it.error.toString()}")
+            }
+         }
 
 .. _android-logout:
 
