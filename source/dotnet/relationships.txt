@@ -95,81 +95,35 @@ type.
 Inverse Relationship
 ~~~~~~~~~~~~~~~~~~~~
 
-An **inverse relationship** allows an object to keep track of other
-objects that contain it in a relationship. An object referred to by a
-to-one or to-many relationship does not automatically have a reference
-to the object that defines the relationship. For example, the to-many
-relationship "Person owns Dogs" does not automatically create the
-relationship "Dog is owned by Person". As a result you must explicitly
-define inverse relationships.
+An **inverse relationship** links an object back to any other objects that refer
+to it in a defined to-one or to-many relationship. Relationships are
+unidirectional, so you must explicitly define a property in the object's model
+as an inverse relationship.
 
-There are two ways to define an inverse relationship: explicit and
-implicit.
+For example, the to-many relationship "User owns Tasks" does not automatically
+create the inverse relationship "Task is owned by User". If you don't specify
+the inverse relationship in the object model, you would need to run a separate
+query to look up the user that owns a given task.
 
-.. list-table::
-   :header-rows: 1
-   :widths: 20 80
+{+client-database+} automatically updates implicit relationships whenever an
+object is added or removed in the specified relationship. You cannot manually
+set the value of an inverse relationship property.
 
-   * - Type
-     - Description
+.. example::
+   
+   An application could use the following object schemas to indicate that a User
+   may own multiple Tasks by including them in their ``tasks`` property and that
+   {+client-database+} should implicitly keep track of each tasks's owner in its
+   ``assignee`` property:
+   
+   .. tabs-realm-languages::
+    
+      .. tab::
+         :tabid: c-sharp
 
-   * - Explicit
-     - An *explicit* inverse relationship is a regular to-one or to-many
-       relationship that goes in the opposite direction of the
-       relationship that it inverts, from the subject of the original
-       relationship to the object that defines it.
-       
-       Explicit inverse relationships are regular object properties,
-       which means that they are independent of the relationships that
-       they invert. You must manually keep the two relationships in
-       sync in your application code.
-       
-       .. example::
-          
-          An application could use the following object schemas to
-          indicate that a Person may own multiple Dogs by including them
-          in their ``dogs`` property and that a dog has a specific owner
-          which the application must set manually in its ``owner``
-          property:
-          
-          .. tabs-realm-languages::
-            
-            .. tab::
-                :tabid: c-sharp
-
-                .. literalinclude:: /examples/Relationships/ExplicitInverse/ExplicitInverse.cs
-                  :language: csharp
-                  :emphasize-lines: 5, 13
-
-
-   * - Implicit
-     - An *implicit* inverse relationship is an object property that
-       dynamically links an object to other objects that define a
-       specific relationship with it. Implicit relationships link to a
-       specific to-one or to-many relationship property on an object
-       type.
-       
-       {+client-database+} automatically updates implicit relationships whenever an
-       object is included or removed in the specified relationship. You
-       cannot manually set the value of an inverse relationship
-       property.
-
-       .. example::
-          
-          An application could use the following object schemas to
-          indicate that a Person may own multiple Dogs by including them
-          in their ``dogs`` property and that {+client-database+} should implicitly
-          keep track of each dog's owner in its ``owner`` property:
-          
-          .. tabs-realm-languages::
-            
-            .. tab::
-                :tabid: c-sharp
-
-                .. literalinclude:: /examples/Relationships/ImplicitInverse/ImplicitInverse.cs
-                  :language: csharp
-                  :emphasize-lines: 5, 13-14
-
+         .. literalinclude:: /examples/Relationships/Inverse/Inverse.cs
+            :language: csharp
+            :emphasize-lines: 7, 19-20
 
 Summary
 -------
