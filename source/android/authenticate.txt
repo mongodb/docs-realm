@@ -566,29 +566,28 @@ all local Realm updates have uploaded to the server.
 
 .. tabs-realm-languages::
 
-      .. tab::
-         :tabid: java
+   .. tab::
+      :tabid: kotlin
 
-         .. code-block:: java
-            
-            user.logOutAsync( it -> {
-               if (it.isSuccess()) {
-                  Log.v(TAG, "Successfully logged out.");
-               } else {
-                  Log.e(TAG, it.getError().toString());
-               }
-            });
+      .. code-block:: kotlin
 
-
-      .. tab::
-         :tabid: kotlin
-
-         .. code-block:: kotlin
-
-            user?.logOutAsync {
-               if (it.isSuccess) {
-                     Log.v(TAG, "Successfully logged out.")
-               } else {
-                     Log.e(TAG, it.error.toString())
-               }
+         user?.logOutAsync {
+            if (it.isSuccess) {
+                  Log.v(TAG, "Successfully logged out.")
+            } else {
+                  Log.e(TAG, it.error.toString())
             }
+         }
+
+   .. tab::
+      :tabid: java
+
+      .. code-block:: java
+         
+         user.logOutAsync( it -> {
+            if (it.isSuccess()) {
+               Log.v(TAG, "Successfully logged out.");
+            } else {
+               Log.e(TAG, it.getError().toString());
+            }
+         });
