@@ -99,15 +99,15 @@ authentication, create an anonymous credential by calling
       
       .. code-block:: kotlin
          
-         Realm.init(this)
-         val appID = "<your app ID>"
+         Realm.init(this) // context, usually an Activity or Application
+         val appID = "<your app ID>" // replace this with your App ID
          val app: App = App(AppConfiguration.Builder(appID)
                 .build())
          
-         val credentials: Credentials = Credentials.anonymous()
+         val anonymousCredentials: Credentials = Credentials.anonymous()
          
          val user: User? = null
-         app.loginAsync(credentials) {
+         app.loginAsync(anonymousCredentials) {
             if (it.isSuccess) {
                 Log.v(TAG, "Successfully authenticated anonymously.")
                 user = app.currentUser()
@@ -115,6 +115,27 @@ authentication, create an anonymous credential by calling
                 Log.e(TAG, it.error.toString())
             }
          }
+
+   .. tab::
+      :tabid: java
+
+      .. code-block:: java
+
+         Realm.init(this); // context, usually an Activity or Application
+         String appID = "<your app ID>"; // replace this with your App ID
+         App app = new App(new AppConfiguration.Builder(appID)
+               .build());
+
+         Credentials anonymousCredentials = Credentials.anonymous();
+
+         app.loginAsync(anonymousCredentials, it -> {
+               if (it.isSuccess()) {
+                  Log.v(TAG, "Successfully authenticated anonymously.");
+                  user = app.currentUser();
+               } else {
+                  Log.e(TAG, it.getError().toString());
+               }
+         });
 
 .. _android-login-email-password:
 
@@ -135,8 +156,8 @@ to ``app.login()`` or ``app.loginAsync()``.
       
       .. code-block:: kotlin
 
-         Realm.init(this)
-         val appID = "<your app ID>"
+         Realm.init(this) // context, usually an Activity or Application
+         val appID = "<your app ID>" // replace this with your App ID
          val app: App = App(AppConfiguration.Builder(appID)
                 .build())
 
@@ -145,12 +166,33 @@ to ``app.login()`` or ``app.loginAsync()``.
          val user: User? = null
          app.loginAsync(emailPasswordCredentials) {
             if (it.isSuccess) {
-                Log.v(TAG, "Successfully authenticated anonymously.")
+                Log.v(TAG, "Successfully authenticated using an email and password.")
                 user = app.currentUser()
             } else {
                 Log.e(TAG, it.error.toString())
             }
          }
+
+   .. tab::
+      :tabid: java
+
+      .. code-block:: java
+
+         Realm.init(this); // context, usually an Activity or Application
+         String appID = "<your app ID>"; // replace this with your App ID
+         App app = new App(new AppConfiguration.Builder(appID)
+               .build());
+
+         Credentials emailPasswordCredentials = Credentials.emailPassword("<email>", "<password>");
+
+         app.loginAsync(emailPasswordCredentials, it -> {
+               if (it.isSuccess()) {
+                  Log.v(TAG, "Successfully authenticated using an email and password.");
+                  user = app.currentUser();
+               } else {
+                  Log.e(TAG, it.getError().toString());
+               }
+         });
 
 .. .. _android-login-api-key:
 
@@ -171,10 +213,10 @@ to ``app.login()`` or ``app.loginAsync()``.
       
 ..       .. code-block:: kotlin
 
-..          Realm.init(this)
-..          val appID = "<your app ID>"
+..          Realm.init(this) // context, usually an Activity or Application
+..          val appID = "<your app ID>" // replace this with your App ID
 ..          val app: App = App(AppConfiguration.Builder(appID)
-..                     .build())
+..                .build())
 
 ..          val apiKeyCredentials: Credentials = Credentials.apiKey("<key>")
 
@@ -186,6 +228,27 @@ to ``app.login()`` or ``app.loginAsync()``.
 ..                   Log.e(TAG, "Error logging in: ${it.error.toString()}")
 ..             }
 ..          }
+
+..    .. tab::
+..       :tabid: java
+
+..       .. code-block:: java
+
+..          Realm.init(this); // context, usually an Activity or Application
+..          String appID = "<your app ID>"; // replace this with your App ID
+..          App app = new App(new AppConfiguration.Builder(appID)
+..                .build());
+
+..          Credentials apiKeyCredentials = Credentials.apiKey("<key>");
+
+..          app.loginAsync(apiKeyCredentials, it -> {
+..                if (it.isSuccess()) {
+..                   Log.v(TAG, "Successfully authenticated using an API Key.");
+..                   user = app.currentUser();
+..                } else {
+..                   Log.e(TAG, it.getError().toString());
+..                }
+..          });
 
 .. .. _android-login-custom-function:
 
@@ -206,10 +269,10 @@ to ``app.login()`` or ``app.loginAsync()``.
       
 ..       .. code-block:: kotlin
 
-..          Realm.init(this)
-..          val appID = "<your app ID>"
+..          Realm.init(this) // context, usually an Activity or Application
+..          val appID = "<your app ID>" // replace this with your App ID
 ..          val app: App = App(AppConfiguration.Builder(appID)
-..                     .build())
+..                .build())
 
 ..          val customFunctionCredentials: Credentials = Credentials.customFunction("<function name>", "<arg1>", "<arg2>")
 
@@ -221,6 +284,27 @@ to ``app.login()`` or ``app.loginAsync()``.
 ..                 Log.e(TAG, "Error logging in: ${it.error.toString()}")
 ..             }
 ..          }
+
+..    .. tab::
+..       :tabid: java
+
+..       .. code-block:: java
+
+..          Realm.init(this); // context, usually an Activity or Application
+..          String appID = "<your app ID>"; // replace this with your App ID
+..          App app = new App(new AppConfiguration.Builder(appID)
+..                .build());
+
+..          Credentials customFunctionCredentials = Credentials.customFunction("<function name>", "<arg1>", "<arg2>");
+
+..          app.loginAsync(customFunctionCredentials, it -> {
+..                if (it.isSuccess()) {
+..                   Log.v(TAG, "Successfully authenticated using a custom function.");
+..                   user = app.currentUser();
+..                } else {
+..                   Log.e(TAG, it.getError().toString());
+..                }
+..          });
 
 .. _android-login-custom-jwt:
 
@@ -241,8 +325,8 @@ to ``app.login()`` or ``app.loginAsync()``.
       
       .. code-block:: kotlin
 
-         Realm.init(this)
-         val appID = "<your app ID>"
+         Realm.init(this) // context, usually an Activity or Application
+         val appID = "<your app ID>" // replace this with your App ID
          val app: App = App(AppConfiguration.Builder(appID)
                 .build())
 
@@ -258,6 +342,29 @@ to ``app.login()`` or ``app.loginAsync()``.
                   Log.e(TAG, "Error logging in: ${it.error.toString()}")
             }
          }
+
+   .. tab::
+      :tabid: java
+
+      .. code-block:: java
+
+         Realm.init(this); // context, usually an Activity or Application
+         String appID = "<your app ID>"; // replace this with your App ID
+         App app = new App(new AppConfiguration.Builder(appID)
+               .build());
+
+         // fetch JWT from custom provider
+
+         Credentials customJWTCredentials = Credentials.jwt("<token>");
+
+         app.loginAsync(customJWTCredentials, it -> {
+               if (it.isSuccess()) {
+                  Log.v(TAG, "Successfully authenticated using a custom JWT.");
+                  user = app.currentUser();
+               } else {
+                  Log.e(TAG, it.getError().toString());
+               }
+         });
 
 .. _android-login-facebook:
 
@@ -278,8 +385,8 @@ to ``app.login()`` or ``app.loginAsync()``.
       
       .. code-block:: kotlin
 
-         Realm.init(this)
-         val appID = "<your app ID>"
+         Realm.init(this) // context, usually an Activity or Application
+         val appID = "<your app ID>" // replace this with your App ID
          val app: App = App(AppConfiguration.Builder(appID)
                 .build())
 
@@ -295,6 +402,29 @@ to ``app.login()`` or ``app.loginAsync()``.
                   Log.e(TAG, "Error logging in: ${it.error.toString()}")
             }
          }
+
+   .. tab::
+      :tabid: java
+
+      .. code-block:: java
+
+         Realm.init(this); // context, usually an Activity or Application
+         String appID = "<your app ID>"; // replace this with your App ID
+         App app = new App(new AppConfiguration.Builder(appID)
+               .build());
+
+         // fetch facebook token using Facebook SDK
+
+         Credentials facebookCredentials = Credentials.facebook("<token>");
+
+         app.loginAsync(facebookCredentials, it -> {
+               if (it.isSuccess()) {
+                  Log.v(TAG, "Successfully authenticated using Facebook OAuth.");
+                  user = app.currentUser();
+               } else {
+                  Log.e(TAG, it.getError().toString());
+               }
+         });
 
 .. _android-login-google:
 
@@ -315,8 +445,8 @@ to ``app.login()`` or ``app.loginAsync()``.
       
       .. code-block:: kotlin
 
-         Realm.init(this)
-         val appID = "<your app ID>"
+         Realm.init(this) // context, usually an Activity or Application
+         val appID = "<your app ID>" // replace this with your App ID
          val app: App = App(AppConfiguration.Builder(appID)
                 .build())
 
@@ -332,6 +462,29 @@ to ``app.login()`` or ``app.loginAsync()``.
                   Log.e(TAG, "Error logging in: ${it.error.toString()}")
             }
          }
+
+   .. tab::
+      :tabid: java
+
+      .. code-block:: java
+
+         Realm.init(this); // context, usually an Activity or Application
+         String appID = "<your app ID>"; // replace this with your App ID
+         App app = new App(new AppConfiguration.Builder(appID)
+               .build());
+
+         // fetch google token using Google SDK
+
+         Credentials googleCredentials = Credentials.google("<token>");
+
+         app.loginAsync(googleCredentials, it -> {
+               if (it.isSuccess()) {
+                  Log.v(TAG, "Successfully authenticated using Google OAuth.");
+                  user = app.currentUser();
+               } else {
+                  Log.e(TAG, it.getError().toString());
+               }
+         });
 
 .. _android-login-apple:
 
@@ -352,8 +505,8 @@ to ``app.login()`` or ``app.loginAsync()``.
       
       .. code-block:: kotlin
 
-         Realm.init(this)
-         val appID = "<your app ID>"
+         Realm.init(this) // context, usually an Activity or Application
+         val appID = "<your app ID>" // replace this with your App ID
          val app: App = App(AppConfiguration.Builder(appID)
                 .build())
 
@@ -369,6 +522,29 @@ to ``app.login()`` or ``app.loginAsync()``.
                   Log.e(TAG, "Error logging in: ${it.error.toString()}")
             }
          }
+
+   .. tab::
+      :tabid: java
+
+      .. code-block:: java
+
+         Realm.init(this); // context, usually an Activity or Application
+         String appID = "<your app ID>"; // replace this with your App ID
+         App app = new App(new AppConfiguration.Builder(appID)
+               .build());
+
+         // fetch apple token using Apple SDK
+
+         Credentials appleCredentials = Credentials.apple("<token>");
+
+         app.loginAsync(customJWTCredentials, it -> {
+               if (it.isSuccess()) {
+                  Log.v(TAG, "Successfully authenticated using Sign-in with Apple.");
+                  user = app.currentUser();
+               } else {
+                  Log.e(TAG, it.getError().toString());
+               }
+         });
 
 .. _android-logout:
 
@@ -389,16 +565,30 @@ Because logging out halts synchronization, you should only log out after
 all local Realm updates have uploaded to the server.
 
 .. tabs-realm-languages::
-   
-   .. tab::
-      :tabid: kotlin
-      
-      .. code-block:: kotlin
 
-         user?.logOutAsync {
-            if (it.isSuccess) {
-                Log.v(TAG, "Successfully logged out.")
-            } else {
-                Log.e(TAG, it.error.toString())
+      .. tab::
+         :tabid: java
+
+         .. code-block:: java
+            
+            user.logOutAsync( it -> {
+               if (it.isSuccess()) {
+                  Log.v(TAG, "Successfully logged out.");
+               } else {
+                  Log.e(TAG, it.getError().toString());
+               }
+            });
+
+
+      .. tab::
+         :tabid: kotlin
+
+         .. code-block:: kotlin
+
+            user?.logOutAsync {
+               if (it.isSuccess) {
+                     Log.v(TAG, "Successfully logged out.")
+               } else {
+                     Log.e(TAG, it.error.toString())
+               }
             }
-         }

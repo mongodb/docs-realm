@@ -38,9 +38,21 @@ Import Realm
 Near the top of any Kotlin file that uses Realm, add the following import
 statement:
 
-.. code-block:: kotlin
+.. tabs-realm-languages::
 
-   import io.realm.Realm
+      .. tab::
+         :tabid: java
+      
+         .. code-block:: java
+
+            import io.realm.Realm;
+      
+      .. tab::
+         :tabid: kotlin
+
+         .. code-block:: kotlin
+      
+            import io.realm.Realm
 
 .. _android-quick-start-init-app:
 
@@ -51,12 +63,27 @@ To use {+backend+} features such as authentication and sync, you must
 access your {+app+} using your {+app+} ID. You can find your {+app+} ID in the
 {+ui+}.
 
-.. code-block:: kotlin
+.. tabs-realm-languages::
 
-   val appID = "<your app ID>" // replace this with your App ID
-   Realm.init(this) // context, typically an Activity
-   val app: App = App(AppConfiguration.Builder(appID)
-                      .build())
+      .. tab::
+         :tabid: java
+      
+         .. code-block:: java
+
+            Realm.init(this); // context, usually an Activity or Application
+            String appID = "<your app ID>"; // replace this with your App ID
+            App app = new App(new AppConfiguration.Builder(appID)
+                  .build());
+      
+      .. tab::
+         :tabid: kotlin
+
+         .. code-block:: kotlin
+      
+         Realm.init(this) // context, usually an Activity or Application
+         val appID = "<your app ID>" // replace this with your App ID
+         val app: App = App(AppConfiguration.Builder(appID)
+                .build())
 
 .. admonition:: Android Studio Errors?
    :class: note
@@ -93,22 +120,54 @@ define your object model directly in code.
    changes to the object model definition from client side code. See
    :ref:`Configure Your Data Model <configure-your-data-model>`.
 
-.. code-block:: kotlin
+.. tabs-realm-languages::
 
-   import io.realm.RealmObject
-   import io.realm.annotations.PrimaryKey
-   import io.realm.annotations.Required
-   import org.bson.types.ObjectId
+      .. tab::
+         :tabid: java
+      
+         .. code-block:: java
+
+            import io.realm.RealmObject;
+            import io.realm.annotations.PrimaryKey;
+            import io.realm.annotations.Required;
+            import org.bson.types.ObjectId;
+
+            public class Task extends RealmObject {
+               @PrimaryKey
+               ObjectId _id = new ObjectId();
+               String _partition = "My Project";
+               String name = "Task";
+
+               @Required
+               private String status = "Open";
+
+               public Task(String _name, String project) {
+                  this._partition = project;
+                  this.name = _name;
+               }
+
+               public Task() {}
+            }
+      
+      .. tab::
+         :tabid: kotlin
+
+         .. code-block:: kotlin
+      
+            import io.realm.RealmObject
+            import io.realm.annotations.PrimaryKey
+            import io.realm.annotations.Required
+            import org.bson.types.ObjectId
 
 
-   open class Task(_name: String = "Task", project: String = "My Project") : RealmObject() {
-      @PrimaryKey var _id: ObjectId = ObjectId()
-      var _partition: String = project
-      var name: String = _name
+            open class Task(_name: String = "Task", project: String = "My Project") : RealmObject() {
+               @PrimaryKey var _id: ObjectId = ObjectId()
+               var _partition: String = project
+               var name: String = _name
 
-      @Required
-      private var status: String = "Open"
-   }
+               @Required
+               private var status: String = "Open"
+            }
 
 .. _android-quick-start-authenticate:
 
@@ -119,19 +178,42 @@ When you have enabled :ref:`anonymous authentication <anonymous-authentication>`
 {+ui+}, users can immediately log into your app without providing any identifying
 information:
 
-.. code-block:: kotlin
+.. tabs-realm-languages::
 
-   val credentials: Credentials = Credentials.anonymous()
+      .. tab::
+         :tabid: java
+      
+         .. code-block:: java
 
-   val user: User? = null
-   app.loginAsync(credentials) {
-      if (it.isSuccess) {
-            Log.v(TAG, "Successfully authenticated anonymously.")
-            user = app.currentUser()
-      } else {
-            Log.e(TAG, it.error.toString())
-      }
-   }
+            Credentials credentials = Credentials.anonymous();
+
+            app.loginAsync(credentials, it -> {
+                  if (it.isSuccess()) {
+                     Log.v(TAG, "Successfully authenticated anonymously.");
+                     user = app.currentUser();
+                  } else {
+                     Log.e(TAG, it.getError().toString());
+                  }
+            });
+
+      .. tab::
+         :tabid: kotlin
+
+         .. code-block:: kotlin
+
+            val credentials: Credentials = Credentials.anonymous()
+
+            val user: User? = null
+            app.loginAsync(credentials) {
+               if (it.isSuccess) {
+                     Log.v(TAG, "Successfully authenticated anonymously.")
+                     user = app.currentUser()
+               } else {
+                     Log.e(TAG, it.error.toString())
+               }
+            }
+
+
 
 {+service-short+} provides many additional ways to authenticate, register, and link users.
 
@@ -147,22 +229,53 @@ to control the specifics of how your application synchronizes data with
 whether to wait for an initial batch of data to sync, and
 more.
 
-.. code-block:: kotlin
+.. tabs-realm-languages::
 
-   val user: User? = app.currentUser()
-   val partitionValue: String = "myPartition"
-   val config = SyncConfiguration.Builder(user!!, partitionValue)
-                .waitForInitialRemoteData()
-                .build()
+      .. tab::
+         :tabid: java
+      
+         .. code-block:: java
 
-   var realm: Realm
-   // Sync all realm changes via a new instance, and when that instance has been successfully created connect it to an on-screen list (a recycler view)
-   Realm.getInstanceAsync(config, object: Realm.Callback() {
-      override fun onSuccess(_realm: Realm) {
-            // since this realm should live exactly as long as this activity, assign the realm to a member variable
-            realm = _realm
-      }
-   })
+            // this code assumes the following static member variables:
+            // static User user;
+            // static Realm realm;
+
+            String partitionValue = "myPartition";
+            SyncConfiguration config = new SyncConfiguration.Builder(user, partitionValue)
+                     .waitForInitialRemoteData()
+                     .build();
+
+            // Sync all realm changes via a new instance, and when that instance has been successfully created connect it to an on-screen list (a recycler view)
+            Realm.getInstanceAsync(config, new Realm.Callback() {
+                  @Override
+                  @ParametersAreNonnullByDefault
+                  public void onSuccess(Realm _realm) {
+                     // since this realm should live exactly as long as this activity, assign the realm to a member variable
+                     realm = _realm;
+                     Log.v(TAG, "Successfully instantiated realm!");
+                  }
+            });
+
+      .. tab::
+         :tabid: kotlin
+
+         .. code-block:: kotlin
+
+            val user: User? = app.currentUser()
+            val partitionValue: String = "myPartition"
+            val config = SyncConfiguration.Builder(user!!, partitionValue)
+                        .waitForInitialRemoteData()
+                        .build()
+
+            var realm: Realm
+            // Sync all realm changes via a new instance, and when that instance has been successfully created connect it to an on-screen list (a recycler view)
+            Realm.getInstanceAsync(config, object: Realm.Callback() {
+               override fun onSuccess(_realm: Realm) {
+                  // since this realm should live exactly as long as this activity, assign the realm to a member variable
+                  realm = _realm
+                  Log.v(TAG, "Successfully instantiated realm!");
+               }
+            })
 
 .. seealso:: :ref:`Sync Data <android-sync-data>`
 
@@ -171,12 +284,31 @@ Log Out
 
 Once logged in, you can log out:
 
-.. code-block:: kotlin
+.. tabs-realm-languages::
 
-   user?.logOutAsync {
-      if (it.isSuccess) {
-            Log.v(TAG, "Successfully logged out.")
-      } else {
-            Log.e(TAG, it.error.toString())
-      }
-   }
+      .. tab::
+         :tabid: java
+
+         .. code-block:: java
+            
+            user.logOutAsync( it -> {
+               if (it.isSuccess()) {
+                  Log.v(TAG, "Successfully logged out.");
+               } else {
+                  Log.e(TAG, it.getError().toString());
+               }
+            });
+
+
+      .. tab::
+         :tabid: kotlin
+
+         .. code-block:: kotlin
+
+            user?.logOutAsync {
+               if (it.isSuccess) {
+                     Log.v(TAG, "Successfully logged out.")
+               } else {
+                     Log.e(TAG, it.error.toString())
+               }
+            }
