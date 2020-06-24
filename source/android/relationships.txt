@@ -111,14 +111,18 @@ Inverse Relationship
 ~~~~~~~~~~~~~~~~~~~~
 
 An **inverse relationship** links an object back to any other objects that refer
-to it in a defined to-one or to-many relationship. Relationships are
+to it in a defined to-one or to-many relationship. Relationship definitions are
 unidirectional, so you must explicitly define a property in the object's model
 as an inverse relationship.
 
-For example, the to-many relationship "User owns Tasks" does not automatically
-create the inverse relationship "Task is owned by User". If you don't specify
-the inverse relationship in the object model, you would need to run a separate
-query to look up the user that owns a given task.
+For example, the to-many relationship "User has many Tasks" does not
+automatically create the inverse relationship "Task belongs to User". If you
+don't specify the inverse relationship in the object model, you would need to
+run a separate query to look up the user that is assigned to a given task.
+
+To define an inverse relationship, define a ``LinkingObjects`` property in your
+object model. The ``LinkingObjects`` definition specifies the object type and
+property name of the relationship that it inverts.
 
 {+client-database+} automatically updates implicit relationships whenever an
 object is added or removed in the specified relationship. You cannot manually
@@ -127,9 +131,15 @@ set the value of an inverse relationship property.
 .. example::
    
    An application could use the following object schemas to indicate that a User
-   may own multiple Tasks by including them in their ``tasks`` property and that
-   {+client-database+} should implicitly keep track of each tasks's owner in its
-   ``assignee`` property:
+   may be assigned many Tasks and that each Task should automatically keep track
+   of which User it's assigned to.
+   
+   - The User object's ``tasks`` property is defined as a to-many relationship
+     with Task objects and contains all of a given user's assigned tasks.
+     
+   - The Task object's ``assignee`` property inverts the relationship and
+     automatically updates to refer back to any User object that contains the
+     Task in its ``tasks`` property.
    
    .. tabs-realm-languages::
     
@@ -150,11 +160,10 @@ set the value of an inverse relationship property.
 Summary
 -------
 
-- A **relationship** is when a {+service-short+} object property references
-  another {+service-short+} object.
+- A **relationship** is an object property that allows an object to
+  reference other objects of the same or another object type.
 
-- Relationships are direct references. You can access a related object
-  directly through the relationship property of another object.
+- Relationships are direct references. You can access related objects
+  directly through a relationship property without writing any type of join.
 
-- {+client-database+} supports to-one, to-many, explicit inverse and implicit
-  inverse relationships.
+- {+client-database+} supports to-one, to-many, and inverse relationships.
