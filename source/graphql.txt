@@ -1,8 +1,8 @@
 .. _graphql-api:
 
-==================
-GraphQL API (Beta)
-==================
+===========
+GraphQL API
+===========
 
 .. default-domain:: mongodb
 
@@ -20,13 +20,12 @@ Overview
 
    GraphQL requires MongoDB version 4.0 or greater.
 
-The {+service+} :graphql:`GraphQL <>` API (Beta Release) allows client
-applications to access data stored in a linked MongoDB cluster using any
-standard GraphQL client. {+service-short+} automatically creates GraphQL types for
-every linked collection that has a defined :doc:`document schema
-</mongodb/enforce-a-document-schema>` and evaluates :doc:`role-based
-permissions </mongodb/define-roles-and-permissions>` for all GraphQL
-requests.
+The {+service+} :graphql:`GraphQL <>` API allows client applications to access
+data stored in a linked MongoDB cluster using any standard GraphQL client.
+{+service-short+} automatically creates GraphQL types for every linked
+collection that has a defined :doc:`document schema
+</mongodb/enforce-a-document-schema>` and evaluates :doc:`role-based permissions
+</mongodb/define-roles-and-permissions>` for all GraphQL requests.
 
 .. admonition:: Create an Atlas Cluster for Free
    :class: note
@@ -68,10 +67,6 @@ Limitations
   mutation. If an operation specifies more than ten resolvers, the entire
   operation will fail with the error message ``"max number of queries
   reached"``.
-
-- The GraphQL API is in a public beta and does not currently support GraphQL
-  subscriptions. We plan to include support for subscriptions and other GraphQL
-  features in future releases.
 
 GraphQL Operations
 ------------------

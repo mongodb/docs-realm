@@ -110,103 +110,60 @@ type.
 Inverse Relationship
 ~~~~~~~~~~~~~~~~~~~~
 
-An **inverse relationship** allows an object to keep track of other
-objects that contain it in a relationship. An object referred to by a
-to-one or to-many relationship does not automatically have a reference
-to the object that defines the relationship. For example, the to-many
-relationship "Person owns Dogs" does not automatically create the
-relationship "Dog is owned by Person". As a result you must explicitly
-define inverse relationships.
+An **inverse relationship** links an object back to any other objects that refer
+to it in a defined to-one or to-many relationship. Relationship definitions are
+unidirectional, so you must explicitly define a property in the object's model
+as an inverse relationship.
 
-There are two ways to define an inverse relationship: explicit and
-implicit.
+For example, the to-many relationship "User has many Tasks" does not
+automatically create the inverse relationship "Task belongs to User". If you
+don't specify the inverse relationship in the object model, you would need to
+run a separate query to look up the user that is assigned to a given task.
 
-.. list-table::
-   :header-rows: 1
-   :widths: 20 80
+To define an inverse relationship, define a ``LinkingObjects`` property in your
+object model. The ``LinkingObjects`` definition specifies the object type and
+property name of the relationship that it inverts.
 
-   * - Type
-     - Description
+{+client-database+} automatically updates implicit relationships whenever an
+object is added or removed in the specified relationship. You cannot manually
+set the value of an inverse relationship property.
 
-   * - Explicit
-     - An *explicit* inverse relationship is a regular to-one or to-many
-       relationship that goes in the opposite direction of the
-       relationship that it inverts, from the subject of the original
-       relationship to the object that defines it.
-       
-       Explicit inverse relationships are regular object properties,
-       which means that they are independent of the relationships that
-       they invert. You must manually keep the two relationships in
-       sync in your application code.
-       
-       .. example::
-          
-          An application could use the following object schemas to
-          indicate that a Person may own multiple Dogs by including them
-          in their ``dogs`` property and that a dog has a specific owner
-          which the application must set manually in its ``owner``
-          property:
-          
-          .. tabs-realm-languages::
-            
-            .. tab::
-                :tabid: kotlin
-
-                .. literalinclude:: /examples/Relationships/ExplicitInverse/ExplicitInverse.kt
-                  :language: kotlin
-                  :emphasize-lines: 4, 11
+.. example::
+   
+   An application could use the following object schemas to indicate that a User
+   may be assigned many Tasks and that each Task should automatically keep track
+   of which User it's assigned to.
+   
+   - The User object's ``tasks`` property is defined as a to-many relationship
+     with Task objects and contains all of a given user's assigned tasks.
+     
+   - The Task object's ``assignee`` property inverts the relationship and
+     automatically updates to refer back to any User object that contains the
+     Task in its ``tasks`` property.
+   
+   .. tabs-realm-languages::
     
-            .. tab::
-                :tabid: java
-
-                .. literalinclude:: /examples/Relationships/ExplicitInverse/ExplicitInverse.java
-                  :language: java
-                  :emphasize-lines: 8, 20
-
-
-   * - Implicit
-     - An *implicit* inverse relationship is an object property that
-       dynamically links an object to other objects that define a
-       specific relationship with it. Implicit relationships link to a
-       specific to-one or to-many relationship property on an object
-       type.
-       
-       {+client-database+} automatically updates implicit relationships whenever an
-       object is included or removed in the specified relationship. You
-       cannot manually set the value of an inverse relationship
-       property.
-
-       .. example::
-          
-          An application could use the following object schemas to
-          indicate that a Person may own multiple Dogs by including them
-          in their ``dogs`` property and that {+client-database+} should implicitly
-          keep track of each dog's owner in its ``owner`` property:
-          
-          .. tabs-realm-languages::
-            
-            .. tab::
-                :tabid: kotlin
-
-                .. literalinclude:: /examples/Relationships/ImplicitInverse/ImplicitInverse.kt
-                  :language: kotlin
-                  :emphasize-lines: 4, 11
-
-            .. tab::
-                :tabid: java
-
-                .. literalinclude:: /examples/Relationships/ImplicitInverse/ImplicitInverse.java
-                  :language: java
-                  :emphasize-lines: 8, 20-21
+      .. tab::
+         :tabid: kotlin
+         
+         .. literalinclude:: /examples/Relationships/Inverse/Inverse.kt
+            :language: kotlin
+            :emphasize-lines: 5, 12
+      
+      .. tab::
+         :tabid: java
+         
+         .. literalinclude:: /examples/Relationships/Inverse/Inverse.java
+            :language: java
+            :emphasize-lines: 12, 26-27
 
 Summary
 -------
 
-- A **relationship** is when a {+service-short+} object property references
-  another {+service-short+} object.
+- A **relationship** is an object property that allows an object to
+  reference other objects of the same or another object type.
 
-- Relationships are direct references. You can access a related object
-  directly through the relationship property of another object.
+- Relationships are direct references. You can access related objects
+  directly through a relationship property without writing any type of join.
 
-- {+client-database+} supports to-one, to-many, explicit inverse and implicit
-  inverse relationships.
+- {+client-database+} supports to-one, to-many, and inverse relationships.

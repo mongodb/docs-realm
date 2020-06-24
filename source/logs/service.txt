@@ -84,12 +84,13 @@ Fields
      - The version of the platform that sent the request.
 
    * - SDK
-     - The SDK used to send the request. Potential values include any :doc:`{+service-short+} Client SDK </procedures/init-realmclient>`. For a browser, this is ``<browser> <SDK version>``.
+     - The SDK used to send the request. Potential values include any SDK.
+       For a browser, this is ``<browser> <SDK version>``.
 
        .. example::
 
           This request came from the {+service-short+} Web SDK version 4.0.0
-          running on Mozilla Firefox
+          running on Mozilla Firefox:
 
           .. code-block:: none
 
@@ -166,7 +167,8 @@ Fields
      - The IP Address that sent the request to {+backend+}. (e.g. ``52.21.89.200``)
 
    * - Compute Used
-     - The :ref:`computational load <realm-billing-compute>` of the operation measured in ``byte-ms``.
+     - The :ref:`computational load <billing-compute>` of the operation measured
+       in ``byte-ms``.
 
    * - Function Call Location
      - The data center in which the function was executed.

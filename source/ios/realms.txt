@@ -16,7 +16,7 @@ Overview
 --------
 
 A **{+realm+}** is a set of related objects that conform to a pre-defined
-schema and share user-level access permissions. {+realms+} may contain more
+schema and share user-level access permissions. Realms may contain more
 than one type of data as long as a schema exists for each type.
 
 A {+realm+} allows you to partition data according to who uses it and when they use it.
@@ -58,9 +58,10 @@ Realms are Partitions of Atlas Data
 
 When using {+sync+}, each {+realm+} corresponds to a subset of the data in your
 :term:`{+app+}'s <{+app+}>` :term:`synced {+atlas+} cluster <synced cluster>`. You can
-customize the partitioning of data using your application's :ref:`partition key
-<partitioning>`. Unique values of the partition key, known as :term:`partition values
-<partition value>`, correspond to individual {+realms+}.
+customize the :ref:`partitioning <partitioning>` of data using your application's
+:ref:`partition key <partition-keys>`. Unique values of the partition
+key, known as :term:`partition values <partition value>`, correspond to
+individual {+realms+}.
 
 You can customize permissions for these partitions of data using :ref:`{+service-short+}
 Rules <sync-rules>`.
