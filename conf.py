@@ -124,6 +124,7 @@ extlinks = {
     'npm': ('https://www.npmjs.com/%s', ''),
     'mdn': ('https://developer.mozilla.org/en-US/docs/%s', ''),
     'reactjs': ('https://reactjs.org/%s', ''),
+    'rubygems': ('https://rubygems.org/%s', ''),
     'twilio': ('https://www.twilio.com/%s', ''),
     'wikipedia': ('https://en.wikipedia.org/wiki/%s', ''),
     'aws-docs': ('https://docs.aws.amazon.com/%s', ''),
