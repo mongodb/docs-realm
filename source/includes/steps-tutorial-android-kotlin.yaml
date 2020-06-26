@@ -84,7 +84,6 @@ content: |
   - add the classpath ``io.realm:realm-gradle-plugin`` to the
     ``buildscript.dependencies`` section of the *project*
     ``build.gradle`` file
-  
   - (BETA ONLY): add the jfrog artifactory maven repository to both the
     ``buildscript`` and ``allprojects`` configurations of the *project*
     ``build.gradle`` file
@@ -130,7 +129,7 @@ content: |
   the ``realm-android`` plugin in the **app** ``build.gradle`` file. Because
   ``realm-android`` depends on ``kotlin-kapt``, you may have to
   apply the ``kotlin-kapt`` dependency as well.
-  
+
   .. note::
      
      Order matters for plugin ``apply`` statements in this file, so be
@@ -158,7 +157,7 @@ content: |
   to ``true`` in the **app** ``build.gradle`` file:
 
   .. code-block:: groovy
-  
+
      realm {
       syncEnabled = true
      }
@@ -185,6 +184,8 @@ content: |
 
   Replace ``<your app ID here>`` with your Realm app ID, which you can find in
   the {+ui+}.
+
+  .. include:: /includes/note-find-app-id.rst
 
   When done, your **app** ``build.gradle`` file should look something like this:
 
@@ -376,7 +377,7 @@ content: |
   ``TaskActivity`` appears, the operation was successful.
 
   You should also rename the layout corresponding to TaskActivity.
-  
+
   1. Expand the ``app > res > layout`` folders in Android Studio's project
      view.
 
@@ -399,7 +400,7 @@ content: |
   1. Find the ``tasktracker`` folder by expanding the
      ``app > java > com > mongodb`` folders in Android Studio's project
      view.
-  
+
   2. Right click on the ``tasktracker`` folder.
 
   3. Select "New" > "Activity" > "Empty Activity".
@@ -432,7 +433,7 @@ content: |
   previews the XML as an arrangement of widgets for you. To actually
   edit the XML, switch to "Code" view by clicking the button marked with
   four horizontal lines on the upper right of the editor panel.
-  
+
   Replace the contents of ``activity_login.xml`` with the
   following layout:
 
@@ -510,7 +511,7 @@ content: |
   which look like "@string/<variable name>". You can find ``strings.xml``
   by expanding the ``app > res > values`` folders in Android Studio's
   project view.
-  
+
   To add the necessary variables to ``strings.xml``, replace the
   contents of ``strings.xml`` with the following:
 
@@ -526,7 +527,7 @@ content: |
         <string name="new_task">Create new task</string>
         <string name="logout">Log Out</string>
      </resources>
-  
+
   Once you've updated ``strings.xml``, Android Studio shouldn't show any
   errors when you open ``activity_login.xml``.
 ---
@@ -831,12 +832,12 @@ content: |
   Next, it's time to define the data model that Task Tracker will store in
   {+client-database+} and display on the UI.
 ---
-title: Define Your {+frontend-schema+} 
+title: Define Your {+frontend-schema+}
 ref: define-your-frontend-schema
 content: |
   Now that you have implemented authentication functionality,
   you can define a model that our app can use. 
-  
+
   1) Create a new, empty Package by right-clicking on the ``tasktracker``
      folder in the Android project view.
 
@@ -848,7 +849,7 @@ content: |
   4) Select ``New > Kotlin File/Class`` and enter "Task" as the new
      class name. Select "class" to create a file containing a barebones
      definition of a ``Task`` class.
-  
+
   Copy the following code into the new ``Task`` file:
 
   .. code-block:: kotlin
@@ -885,7 +886,7 @@ content: |
   synchronized via {+client-database+}. By extending
   ``RealmObject``, your application can persist, query for, and
   synchronize objects of type ``Task`` using {+client-database+}.
-  
+
   Every synced object needs a :term:`partition value`. Your {+app+}
   should be configured to use a String called ``_partition`` as the
   :term:`partition key`.
@@ -1013,7 +1014,7 @@ content: |
   2) Enter "TaskAdapter" as the name of the new class.
 
   3) Click "Class" to create the class.
-  
+
   Now you can add the following code to define the ``TaskAdapter`` class:
 
   .. code-block:: kotlin
@@ -1213,7 +1214,7 @@ content: |
   7. Select the icon labeled "add".
 
   8. Click "OK".
-  
+
   9. In the "Name" input, enter "ic_plus".
 
   10. Click "Next".
@@ -1222,9 +1223,9 @@ content: |
 
   ``TaskActivity`` also contains an options menu. To create the layout
   for the options menu:
-  
+
   1. Expand the ``app > res`` folders.
-  
+
   2. Right click on the ``res`` folder.
 
   3. Select ``New > Android Resource Directory``.
