@@ -1,5 +1,5 @@
-title: Update the Project-Level ``build.gradle`` File
-ref: update-project-level-gradle
+title: Add the Realm Dependency to the Project-Level ``build.gradle`` File
+ref: add-realm-dependency-project-level-gradle
 content: |
 
    Create or open your project in Android Studio. Select the
@@ -13,18 +13,17 @@ content: |
    .. image:: /images/project-level-build-gradle.png
       :alt: Location of the project-level build.gradle file.
 
-   Paste the {+service-short+} classpath into the dependencies block:
+   Paste the {+service-short+} classpath into the
+   ``buildscript.dependencies`` block:
 
-   .. code-block:: text
+   .. code-block:: groovy
     
-      classpath "io.realm:realm-gradle-plugin:10.0.0-BETA.2"
+      classpath "io.realm:realm-gradle-plugin:10.0.0-BETA.5"
 
    When done, your project-level ``build.gradle`` should look something like this:
 
-   .. code-block:: text
-      :emphasize-lines: 14
-
-      // Top-level build file where you can add configuration options common to all sub-projects/modules.
+   .. code-block:: groovy
+      :emphasize-lines: 9
 
       buildscript {
           repositories {
@@ -33,8 +32,8 @@ content: |
               
           }
           dependencies {
-              classpath 'com.android.tools.build:gradle:3.5.1'
-              classpath "io.realm:realm-gradle-plugin:10.0.0-BETA.3"
+              classpath "com.android.tools.build:gradle:3.5.1"
+              classpath "io.realm:realm-gradle-plugin:10.0.0-BETA.5"
           }
       }
 
@@ -54,7 +53,7 @@ content: |
 
 ---
 title: Add Realm to the Application-Level ``build.gradle`` File
-ref: update-app-level-gradle
+ref: add-realm-to-app-level-gradle
 content: |
 
    Expand the ``app`` folder on the "Project" view in the
@@ -64,59 +63,113 @@ content: |
    .. image:: /images/application-level-build-gradle.png
       :alt: Location of the application-level build.gradle file.
 
-   Paste the realm-android plugin line near the top of the file:
+   If your application uses the Kotlin programming language, you need to
+   apply the ``kotlin-kapt`` plugin:
 
-   .. code-block:: text
+   .. code-block:: groovy
+
+      apply plugin: 'kotlin-kapt'
+
+   Apply the ``realm-android`` plugin near the top of your application
+   level ``build.gradle`` file:
+
+   .. code-block:: groovy
 
       apply plugin: 'realm-android'
 
-   When done, your application-level ``build.gradle`` file should look something like this:
+   .. admonition:: Application Order Matters
+      :class: note
 
-   .. code-block:: text
-      :emphasize-lines: 2
+      Application order matters for android plugins. Because the
+      ``realm-android`` plugin depends upon the ``kotlin-kapt``
+      plugin for applications written in Kotlin,
+      you must apply the ``realm-android`` plugin *after* the ``kotlin-kapt``
+      plugin if your application uses the Kotlin programming language.
 
-      apply plugin: 'com.android.application'
-      apply plugin: 'realm-android'
+   And enable sync:
 
-      android {
-          compileSdkVersion 28
-          defaultConfig {
-              applicationId "com.mongodb.exampleapplication"
-              minSdkVersion 16
-              targetSdkVersion 28
-              versionCode 1
-              versionName "1.0"
-              testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-          }
-          buildTypes {
-               def appId = "<your app ID here>"  // Replace with proper Application ID
-               debug {
-                  buildConfigField "String", "MONGODB_REALM_APP_ID", "\"${appId}\""
-               }
-               release {
-                  buildConfigField "String", "MONGODB_REALM_APP_ID", "\"${appId}\""
-                  minifyEnabled false
-                  signingConfig signingConfigs.debug
-               }
-          }
-          compileOptions {
-              sourceCompatibility 1.8
-              targetCompatibility 1.8
-          }
-      }
+   .. code-block:: groovy
 
       realm {
-          syncEnabled = true
+         syncEnabled = true
       }
 
-      dependencies {
-          implementation fileTree(dir: 'libs', include: ['*.jar'])
-          implementation 'androidx.appcompat:appcompat:1.0.2'
-          implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-          testImplementation 'junit:junit:4.12'
-          androidTestImplementation 'androidx.test.ext:junit:1.1.0'
-          androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
-      }
+   When done, your application-level ``build.gradle`` file should look
+   something like this:
+
+   .. tabs-realm-languages::
+
+      .. tab::
+         :tabid: java
+
+         .. code-block:: groovy
+            :emphasize-lines: 2, 19-21
+
+            apply plugin: 'com.android.application'
+            apply plugin: 'realm-android'
+
+            android {
+               compileSdkVersion 29
+               buildToolsVersion "29.0.2"
+
+               defaultConfig {
+                  applicationId "com.mongodb.realmsnippets"
+                  minSdkVersion 21
+                  targetSdkVersion 29
+               }
+               compileOptions {
+                  sourceCompatibility 1.8
+                  targetCompatibility 1.8
+               }
+            }
+
+            realm {
+               syncEnabled = true
+            }
+
+            dependencies {
+               implementation fileTree(dir: 'libs', include: ['*.jar'])
+               implementation 'androidx.appcompat:appcompat:1.1.0'
+            }
+      
+      .. tab::
+         :tabid: kotlin
+
+         .. code-block:: groovy
+            :emphasize-lines: 4, 5, 22-24
+
+            apply plugin: 'com.android.application'
+            apply plugin: 'kotlin-android'
+            apply plugin: 'kotlin-android-extensions'
+            apply plugin: 'kotlin-kapt'
+            apply plugin: 'realm-android'
+
+            android {
+               compileSdkVersion 29
+               buildToolsVersion "29.0.2"
+
+               defaultConfig {
+                  applicationId "com.mongodb.realmsnippets"
+                  minSdkVersion 21
+                  targetSdkVersion 29
+               }
+               compileOptions {
+                  sourceCompatibility 1.8
+                  targetCompatibility 1.8
+               }
+            }
+
+            realm {
+               syncEnabled = true
+            }
+
+            dependencies {
+               implementation fileTree(dir: 'libs', include: ['*.jar'])
+               implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+               implementation "androidx.appcompat:appcompat:1.1.0"
+               implementation "androidx.core:core-ktx:1.2.0"
+            }
+
 ---
 title: Sync Project with Gradle Files
 ref: sync-gradle-dependencies

@@ -24,17 +24,14 @@ a method on its respective service client.
    <configure/service-rules>` that enables an action before
    you can call it.
 
-Usage
------
-
 The examples in this section demonstrate calling the :doc:`post()
 </services/http-actions/http.post>` action from the
 HTTP Service. Each service action follows a similar pattern but has
 distinct parameters. For details on the parameters and usage of a
 specific action, refer to that action's reference page.
 
-Call from Another Function
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+Call from a Function
+--------------------
 
 To call a service action from a :doc:`function </functions>`:
 
@@ -53,155 +50,3 @@ To call a service action from a :doc:`function </functions>`:
        "body": { "msg": "Hello from a service action!" }
      })
      .then(() => "Successfully sent the post request!")
-
-Call from a Client Application
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. tab-bar:: tabs-realm-sdks
-   :tab-ids: javascript, android, ios
-
-You can call a service action from client applications that are
-connected with a Client SDK or over the :ref:`wire protocol
-<wire-protocol-usage-call-function>`.
-
-.. tabs-realm-sdks::
-
-   hidden: true
-   tabs:
-     - id: javascript
-       content: |
-         To call a service action from a JavaScript Client SDK:
-
-         1. Ensure that you have installed or included the SDK service
-            package for the service you wish to call an action on. You
-            can pull in the service package from a CDN or install it
-            with ``npm``.
-
-         2. Import the service client object and any necessary service
-            request objects.
-
-            .. note::
-
-               Request objects, such as the ``HTTPMethod`` object in
-               this example, are helpers that some services use to
-               construct requests in Client SDKs.
-
-         3. Instantiate a service client with the
-            :js-sdk:`getServiceClient()
-            <interfaces/realmappclient.html#getserviceclient>` method.
-
-         4. Create and call a request
-
-         .. code-block:: javascript
-
-            const {
-              HttpServiceClient,
-              HttpRequest,
-              HttpMethod
-            } = realm;
-
-            const app = Realm.defaultAppClient;
-            const http = app.getServiceClient(HttpServiceClient.factory, "http");
-
-            const request = new HttpRequest.Builder()
-              .withMethod(HttpMethod.POST)
-              .withUrl("https://www.example.com")
-              .withHeaders({ "Content-Type": ["application/json"] })
-              .withBody({ "msg": "Hello from a service action!" })
-              .build()
-
-            http.execute(request)
-              .then(console.log)
-              .catch(console.error)
-
-     - id: android
-       content: |
-         To call a service action from the Android Client SDK:
-
-         1. Ensure that you have installed the SDK service
-            package for the service you wish to call an action on.
-
-         2. Import the service client object and any necessary service
-            request objects.
-
-            .. note::
-
-               Request objects, such as the ``HTTPMethod`` object in
-               this example, are helpers that some services use to
-               construct requests in Client SDKs.
-
-         3. Instantiate a service client with the
-            :android-sdk:`getServiceClient()
-            <com/mongodb/realm/android/core/RealmAppClient.html#getServiceClient-com.mongodb.realm.android.core.services.internal.NamedServiceClientFactory-java.lang.String->`
-            method.
-
-         4. Create and call a request
-
-         .. code-block:: java
-
-            RealmAppClient client = Realm.getDefaultAppClient()
-            HttpServiceClient http = client.getServiceClient(HttpServiceClient.factory, "http");
-
-            HttpRequest request = new HttpRequest.Builder()
-              .withMethod(HttpMethod.POST)
-              .withUrl("https://www.example.com")
-              .withHeaders(new Document("Content-Type", Arrays.asList("application/json")))
-              .withBody(new Document("msg", "Hello from a service action!"))
-              .build()
-
-            http.execute(request).addOnCompleteListener(new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(@NonNull final Task<Void> task) {
-                    if (task.isSuccessful()) {
-                        Log.d("realm", "Successfully sent the POST request!");
-                    } else {
-                        Log.e("realm", "Error sending POST request:", task.getException());
-                    }
-                }
-              });
-
-     - id: ios
-       content: |
-         To call a service action from the iOS Client SDK:
-
-         1. Ensure that you have installed the SDK service
-            Pod for the service you wish to call an action on.
-
-         2. Import the service client object and any necessary service
-            request objects.
-
-            .. note::
-
-               Request objects, such as the ``HTTPMethod`` object in
-               this example, are helpers that some services use to
-               construct requests in Client SDKs.
-
-         3. Instantiate a service client with the
-            :ios-sdk:`serviceClient(fromFactory:withName:)
-            <Protocols/RealmAppClient.html>` method.
-
-         4. Create and call a request
-
-         .. code-block:: swift
-            :emphasize-lines: 2-5, 7-11, 13
-
-            let app = Realm.defaultAppClient!
-            let http = app.serviceClient(
-              fromFactory: httpServiceClientFactory,
-              withName: "http"
-            )
-
-            let request = HTTPRequest(
-              url: "https://www.example.com/diff.txt",
-              method: HTTPMethod.post,
-              body: ["msg", "This is in the body of a POST request!"]
-            )
-
-            http.execute(request) { result in
-              switch result {
-              case .success:
-                print("Successfully sent POST request!")
-              case .failure(let error):
-                print("Error sending POST request: \(error)")
-              }
-            }

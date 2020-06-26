@@ -31,10 +31,11 @@ content: |
 
   .. note::
 
-     If you are importing any new entities that require sensitive values
-     (e.g. auth tokens, client secrets, etc.), ensure that those values
-     are included in :ref:`secrets.json <secrets-json>` or the import
-     will fail.
+     If you are importing any new entities that require a :ref:`Secret
+     <app-secret>` (e.g. auth tokens, client secrets, etc.), you must create
+     those before you import the entities. You can create a secret with
+     :ref:`Realm CLI <realm-cli-secrets-add>` or through the :doc:`Realm UI
+     </values-and-secrets/define-a-secret>`.
 ---
 title: Authenticate a MongoDB Atlas User
 ref: authenticate-atlas-user

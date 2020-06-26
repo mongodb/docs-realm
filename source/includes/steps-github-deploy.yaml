@@ -1,48 +1,54 @@
-title: Link Your GitHub Account
-ref: link-your-github-account
+title: Install the MongoDB Realm GitHub App
+ref: install-the-mongo-db-realm-git-hub-app
 content: |
-  In order to automatically deploy based on a GitHub repository, {+service-short+}
-  requires that you link a GitHub account that has, at minimum, read
-  access to the repository.
+  In order to automatically deploy based on a GitHub repository,
+  {+service-short+} requires that you install a GitHub app that has, at minimum,
+  read access to the repository.
   
-  To link a GitHub account, click :guilabel:`Deploy` in the left-hand
-  navigation of the {+ui+} and then select the
-  :guilabel:`Configuration` tab. Expand the :guilabel:`Automatic
-  Deployment` section and then click :guilabel:`Grant GitHub Account
-  Access`. A new browser window will open to the GitHub application
-  installation flow.
+  To install the app, click :guilabel:`Deploy` in the left-hand navigation of
+  the {+ui+}. Select the :guilabel:`Configuration` tab and then click
+  :guilabel:`Install Realm on GitHub`. A new browser window will open to the
+  GitHub application installation flow.
+
+  .. admonition:: GitHub Authentication
+     :class: note
+
+     GitHub may require you to provide your GitHub account credentials before
+     you can install the app.
   
-  In the new window, provide your GitHub account credentials to log in.
+  Select the GitHub account or organization for which you want to install the
+  app:
+  
+  .. cssclass:: bordered-figure
+  .. figure:: /images/github-app-install-location.png
+     :alt: GitHub Application install location screen
+
+  Specify one or more repositories for which you want to grant {+backend+} read
+  access. You can either select specific repositories or grant access to all of
+  your repositories on GitHub. Select the repositories you want to use and then
+  click :guilabel:`Install`.
+  
+  .. cssclass:: bordered-figure
+  .. figure:: /images/github-app-install-permissions.png
+     :alt: GitHub Application permissions request screen
+  
+  After you install the application, click :guilabel:`Authorize` to finish
+  connecting Realm to GitHub. 
+  
+  .. admonition:: GitHub Permissions
+     :class: note
      
-  .. cssclass:: bordered-figure
-  .. figure:: /images/sign-in-to-github.png
-     :width: 400px
-  
-  After logging in, GitHub will prompt you to specify one or more
-  repositories for which you want to grant {+backend+} read access. You can
-  either select specific repositories or grant access to all of your
-  repositories on GitHub. Select the repositories you want to use and
-  then click :guilabel:`Install`.
-  
-  .. cssclass:: bordered-figure
-  .. figure:: /images/github-auth-page.png
-     :alt: GitHub Application authorization screen
-     :width: 400px
-  
-  After you install the application, the window will close and the
-  {+ui+} will update to show your linked account in the
-  :guilabel:`Configuration` tab of the :guilabel:`Deploy` page. You can
-  manage permissions for the {+service-short+} GitHub application from the
-  :github:`Installed GitHub Apps <settings/installations>` page in your
-  GitHub settings.
+     You can manage permissions for the {+service-short+} GitHub application from
+     the :github:`Installed GitHub Apps <settings/installations>` page in your
+     GitHub settings.
 ---
 title: Specify a GitHub Repository
 ref: specify-a-github-repository
 content: |
-  Once you have linked your GitHub account to your {+app+}, you can
-  specify a repository that {+service-short+} should automatically deploy. Click
-  the :guilabel:`Repository` drop-down, select the repo's name from the
-  list, and then click :guilabel:`Save`.
+  Once you have linked your GitHub account to your {+app+}, you can specify a
+  repository that {+service-short+} should automatically deploy. Specify the
+  :guilabel:`Repository`, :guilabel:`Branch`, and :guilabel:`Directory` that
+  contain the Realm app's configuration files and then click :guilabel:`Save`.
   
   .. cssclass:: bordered-figure
   .. figure:: /images/automatic-deploy-select-repo.png
@@ -108,7 +114,6 @@ content: |
   .. cssclass:: bordered-figure
   .. figure:: /images/enable-automatic-deployment.png
      :alt: Enable Automatic GitHub Deployment in the {+ui+}
-     :width: 750px
 ---
 title: Make Changes to Your Application
 ref: make-changes-to-your-application

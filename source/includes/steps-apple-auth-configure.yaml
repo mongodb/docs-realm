@@ -109,7 +109,7 @@ content: |
    
    - The :guilabel:`Key ID` of the key that you created and the ``.p8``
      file that contains the key.
-
+   
    - Your Apple Team ID. You can find this in the top right of the Apple
      Developer Portal.
      
@@ -117,9 +117,19 @@ content: |
      .. figure:: /images/apple-team-id.png
         :alt: An Apple team ID in the Apple Developer Portal
    
-   Once you've confirmed that you have all the required information,
-   create a new file called ``generate_client_secret.rb`` and copy the
-   following code block into the file.
+   Once you've confirmed that you have all the required information, you can use
+   a script to generate the JWT. You may define your own script or use the
+   script in this step.
+   
+   To generate the JWT, we'll use the :rubygems:`jwt <gems/jwt>` gem. To install
+   it, run the following:
+   
+   .. code-block:: shell
+      
+      gem install jwt
+   
+   Create a new file called ``generate_client_secret.rb`` and copy the following
+   code block into the file.
    
    .. code-block:: ruby
       
@@ -161,11 +171,11 @@ content: |
    ``key_file`` to match your application's information and then save
    the file. When you're ready to generate the JWT, run the script in
    your shell:
-
+   
    .. code-block:: shell
       
       ruby generate_client_secret.rb >> client_secret.txt
-
+   
    .. admonition:: Save the JWT
       :class: important
       

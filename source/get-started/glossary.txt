@@ -59,7 +59,10 @@ Glossary
       :term:`{+client-database+}`.
 
    {+app+}
-      An instance of the :term:`{+service+}` Backend-as-a-Service.
+      An instance of the :term:`{+service+}` Backend-as-a-Service that
+      you can control from the {+ui+} and interact with from SDKs. It is
+      the central, server-side configuration that functions as the
+      backend for your application. 
 
    {+client-database+}
       An :term:`ACID`-compliant offline-first object database for mobile
@@ -359,10 +362,6 @@ Glossary
       read or write into a client-local :term:`{+realm+} instance`. Defined
       natively in the code of your client application.
 
-   {+service-short+} SDK
-      A library used by :term:`{+service-short+} clients <{+service-short+} client>`
-      to connect to :term:`{+client-database+}` and :term:`{+backend+}`.
-
    {+service-short+} data model
       The collection of :term:`{+service-short+} object <{+service-short+} object>`
       definitions that describes all data synchronized
@@ -378,3 +377,16 @@ Glossary
       A unique identifier for your MongoDB Realm application. Sometimes
       called by the shorthand "App ID". The App ID is used to connect
       to your MongoDB Realm application via the client SDKs.
+
+   Client Reset
+      When using :doc:`{+sync+} </sync>`, a **client reset** is a serious error
+      recovery task that your client app must perform if the server is restored
+      to an older schema version than the version on the client.
+      
+      For more information on how to perform a client reset, see the client
+      guide for your SDK:
+      
+      - :ref:`Android <android-client-reset>`
+      - :ref:`iOS, macOS, tvOS, and watchOS <ios-client-reset>`
+      - :ref:`Node.js <node-client-reset>`
+      - :ref:`React Native <react-native-client-reset>`
