@@ -15,7 +15,7 @@ content: |
 title: Install Dependencies
 ref: install-dependencies
 content: |
-  
+
   Within the directory that ``react-native init`` generated for you, run the
   following command to install the {+realm+} module:
 
@@ -26,7 +26,7 @@ content: |
   In this tutorial, we'll also use the `React Native Elements
   <https://react-native-elements.github.io/react-native-elements/>`__ library
   for our UI. Install with the following command:
-  
+
   .. code-block:: sh
 
      npm i react-native-elements react-native-vector-icons
@@ -35,9 +35,9 @@ content: |
   the first line to set the minimum target iOS version:
 
   .. code-block:: text
-  
+
      platform :ios, '12.0'
-  
+
   In the ``ios/`` directory, complete the dependency installation with
   CocoaPods:
 
@@ -50,7 +50,7 @@ content: |
 title: Run the App
 ref: run-the-app
 content: |
-  
+
   Now that you have installed the dependencies, it's a good idea to run the app
   to make sure everything is working. Run the following command to build and
   launch the app:
@@ -66,7 +66,7 @@ content: |
 
   After a few minutes of building, a simulator window should appear showing the
   default React Native app screen. Now we're ready to start adding React components.
-  
+
   .. figure:: /images/tutorial-react-native-default-first-run.png
      :alt: The default React Native app running in a simulator.
      :width: 300px
@@ -120,9 +120,9 @@ content: |
   <https://reactjs.org/docs/context.html>`__ and `hooks
   <https://reactjs.org/docs/hooks-intro.html>`__ to pass {+realm+}
   data and authentication to the view components of the app.
-  
+
   .. note::
-  
+
      If you aren't familiar with these patterns, don't worry. We'll try to
      explain as we walk through the example. For more information, please take a
      moment to refer to the official React documentation on `Context
@@ -134,7 +134,7 @@ content: |
   containing all of the actions and data that has to do with authentication. Any
   child components under the Provider will have access to that context and will
   re-render whenever that Provider's state changes.
-  
+
   In ``AuthProvider.js``, begin by importing the relevant modules and the
   ``getRealmApp`` function we just defined:
 
@@ -145,7 +145,7 @@ content: |
      import {getRealmApp} from './getRealmApp';
 
   Next, declare some of the module-scoped variables we'll need to define our provider:
-  
+
   .. code-block:: js
 
      // Access the Realm App.
@@ -159,17 +159,19 @@ content: |
   <https://reactjs.org/docs/hooks-state.html>`__ to hold the user object. When
   this user state variable changes due to login or logout, the child components
   re-render, as if "notified" of the change.
-  
+
   Define the actions around authentication that child components can use to
   affect the authentication state. In this case, we define a ``logIn()``
   function that uses the email/password authentication provider to log in and a
   ``logOut()`` function to log out. Both functions update the user state
-  variable, which triggers a re-render of the child components.
+  variable, which triggers a re-render of the child components. We also define
+  a ``registerUser()`` method which creates a user, but does not log that user in
+  and thus does not trigger a rerender.
 
   Finally, render the Provider of the ``AuthContext`` defined above. By setting
   its ``value`` prop to an object containing all of our state and actions, we
-  make the ``user`` object and the ``logIn`` and ``logOut`` functions available
-  to child components.
+  make the ``user`` object and the ``logIn()``, ``logOut()`` and ``registerUser()`` 
+  functions available to child components. 
 
   .. code-block:: js
 
@@ -179,7 +181,7 @@ content: |
      const AuthProvider = ({children}) => {
        const [user, setUser] = useState(null);
 
-       // The log in function takes an email and password and uses the emailPassword
+       // The log in function takes an email and password and uses the Email/Password
        // authentication provider to log in.
        const logIn = async (email, password) => {
          console.log(`Logging in as ${email}...`);
@@ -200,11 +202,19 @@ content: |
          setUser(null);
        };
 
+       // The register function takes an email and password and uses the emailPassword
+       // authentication provider to register the user.
+       const registerUser = async (email, password) => {
+         console.log(`Registering as ${email}...`);
+         await app.auth.emailPassword.registerEmail(email, password);
+       };
+
        return (
          <AuthContext.Provider
            value={{
              logIn,
              logOut,
+             registerUser,
              user,
            }}>
            {children}
@@ -245,31 +255,48 @@ title: Define the LogInView
 ref: define-the-log-in-view
 content: |
 
-  We can use the actions of the AuthProvider in the login screen. Create the
-  file ``LogInView.js`` and paste the following code, which declares a simple UI
-  with email and password text inputs, a text box for error messages, and a
-  login button. Notice how we use the ``useAuth`` hook to access the actions to
-  be provided by the AuthProvider. When the user presses the login button, we
-  pass the email and password text input values to the ``logIn`` function from
-  the AuthProvider.
+  We can use the actions of the AuthProvider in the login screen. Create
+  the file ``LogInView.js`` and paste the following code that declares a UI
+  with email and password inputs, an error message text box, a blue
+  button that dynamically switches between "Login" or "Register,"
+  depending on the auth mode, and a white button that allows users to
+  toggle between the two modes.
+
+  When the user presses the "Haven't created an account yet? Register"
+  button, the auth mode switches to register. When the user presses the
+  "Register" button in blue, we call ``registerUser()`` from the Auth Provider
+  with the email and password text input values and we set the auth mode
+  to login. 
+
+  If a user has already registered, they can click the "Have an account
+  already? Login" button toggling to the login auth mode. When the user
+  presses the login button in blue, we pass the email and password text
+  input values to the ``logIn()`` function from the AuthProvider.
+
+  Notice how we use the ``useAuth`` hook to access the actions to be provided
+  by the AuthProvider. For instance, when the user presses the login
+  button, we pass the email and password text input values to the logIn
+  function from the AuthProvider.
 
   .. code-block:: js
-     :emphasize-lines: 11, 32
+     :emphasize-lines: 11, 33, 35
 
      import React, {useState} from 'react';
      import {Button, Text, Input} from 'react-native-elements';
      import {useAuth} from './AuthProvider';
 
      // This view has an input for email and password and logs in the user when the
-     // "log in" button is pressed.
+     // login button is pressed.
      export function LogInView() {
        const [email, setEmail] = useState('');
        const [password, setPassword] = useState('');
        const [error, setError] = useState();
-       const {logIn} = useAuth();
+       const {logIn, registerUser} = useAuth();
+       const [authMode, setAuthMode] = useState('Login');
+
        return (
          <>
-           <Text h3>Log In</Text>
+           <Text h3>{authMode}</Text>
            <Input
              autoCapitalize="none"
              placeholder="email"
@@ -282,22 +309,50 @@ content: |
            />
            <Button
              onPress={async () => {
-               console.log(
-                 `Log in button pressed with email ${email} and password ${password}`,
-               );
+               console.log(`${authMode} button pressed with email ${email}`);
                setError(null);
                try {
-                 await logIn(email, password);
+                 if (authMode === 'Login') {
+                   await logIn(email, password);
+                 } else {
+                   await registerUser(email, password);
+                   setAuthMode('Login');
+                 }
                } catch (e) {
-                 setError(`Login failed: ${e.message}`);
+                 setError(`Operation failed: ${e.message}`);
                }
              }}
-             title="Login"
+             title={authMode}
            />
            <Text>{error}</Text>
+           <ToggleAuthModeComponent setAuthMode={setAuthMode} authMode={authMode} />
          </>
        );
      }
+
+     const ToggleAuthModeComponent = ({authMode, setAuthMode}) => {
+       if (authMode === 'Login') {
+         return (
+           <Button
+             title="Haven't created an account yet? Register"
+             type="outline"
+             onPress={async () => {
+               setAuthMode('Register');
+             }}
+           />
+         );
+       } else {
+         return (
+           <Button
+             title="Have an account already? Login"
+             type="outline"
+             onPress={async () => {
+               setAuthMode('Login');
+             }}
+           />
+         );
+       }
+     };
 
 ---
 title: Update the App UI
@@ -351,16 +406,8 @@ content: |
 
      export default App;
 
-  It would be a good idea to run the app now and ensure you can log in and log out.
-
-  .. note::
-
-     This tutorial does not implement user registration through the
-     Client SDK. If you're interested in learning more about user
-     registration with {+service+}, see the :doc:`Manage Email/Password
-     Users </react-native/manage-email-password-users>` doc. For this
-     tutorial, please create a new user in the {+ui+} on the
-     :guilabel:`Users` page.
+  It would be a good idea to run the app now and ensure you can
+  register, log in and log out.
 
   If everything is working correctly, your app should look something like this:
 
@@ -456,7 +503,7 @@ content: |
   Now, begin defining the TasksProvider component. The component accepts two
   props: its children, of course, and a projectId to specify which subset of
   Tasks to work with.
-  
+
   Use the ``useAuth`` hook to get the logged-in user and declare the state
   variable that will contain the list of Tasks. We also use the `useRef hook
   <https://reactjs.org/docs/hooks-reference.html#useref>`__ to store a reference
@@ -849,7 +896,7 @@ content: |
 title: Implement the AddTaskView
 ref: implement-the-add-task-view
 content: |
-  
+
   To add a Task, the user can press a button and enter the new Task name into a
   prompt. Let's define this functionality in a new component called AddTaskView.
 
@@ -910,7 +957,7 @@ content: |
 
   We present the Task items in a list and expose the Add Task functionality a
   new component called TasksView.
-  
+
   Create the file ``TasksView.js`` and paste the following code in. We use the
   ``useTasks`` hook to access the list of tasks and create a TaskItem for each
   Task in that list. We also place the AddTaskView at the top of the view, next
