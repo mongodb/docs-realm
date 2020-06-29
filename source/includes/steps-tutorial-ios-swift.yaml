@@ -593,9 +593,9 @@ content: |
          // Partition value must be of string type.
          partitionValue = syncConfiguration.partitionValue.stringValue!
 
-         // Access all tasks in the realm.
+         // Access all tasks in the realm, sorted by _id so that the ordering is defined.
          // Only tasks with the project ID as the partition key value will be in the realm.
-         tasks = realm.objects(Task.self)
+         tasks = realm.objects(Task.self).sorted(byKeyPath: "_id")
 
          super.init(nibName: nil, bundle: nil)
      }
@@ -612,11 +612,14 @@ content: |
 
   We read the :term:`partition value` from the {+realm+}. We'll use that when
   creating Tasks. Then we query for the :ref:`collection
-  <ios-client-collections>` of all tasks within that {+realm+}. This collection
-  is live: as we add, remove, and update tasks -- even from another device --
-  this collection always contains the latest results of its associated query.
-  We'll get to reacting to these updates later. First, let's continue setting up
-  the TasksViewController.
+  <ios-client-collections>` of all tasks within that {+realm+}. We sort the
+  Tasks by their ``_id`` property so that they always appear in the same
+  relative order.
+
+  This collection is live: as we add, remove, and update tasks -- even from
+  another device -- this collection always contains the latest results of its
+  associated query. We'll get to reacting to these updates later. First, let's
+  continue setting up the TasksViewController.
 ---
 title: Configure the Task List UI
 ref: configure-the-task-list-ui
