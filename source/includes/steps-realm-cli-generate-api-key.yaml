@@ -1,0 +1,54 @@
+title: Navigate to MongoDB Cloud Access Manager
+ref: navigate-to-cloud-access-manager
+content: |
+  The :mms-docs:`MongoDB Cloud Access Manager <tutorial/manage-users>`
+  allows you to manage access to your project for users, teams, and API
+  Keys. Use the Project Access Manager by clicking the
+  :guilabel:`Project Access` tab on the :guilabel:`access manager
+  dropdown` on your screen's top left-hand side.
+
+  .. figure:: /images/click-access-manager.png
+     :alt: Click Access Manager
+     :lightbox:
+
+---
+title: Create an API Key
+ref: create-api-key
+content: |
+  Project Users can log in using the Realm CLI tool with a Project API
+  Key. Create a project API Key by clicking the grey :guilabel:`Create
+  API Key` button on the right-hand side of the Project Access Manager.
+  
+  .. figure:: /images/access-manager-create-api-key-button.png
+     :alt: Click Access Manager
+     :lightbox:
+
+  Clicking this button will navigate you to the "Create API Key" screen.
+  Set a description for your key and a project permission. The various
+  project permissions are described on the right hand side of the screen
+  and can be changed at a later time. Copy the public key to use later
+  in order to log in. Click :guilabel:`next` to continue configuring your
+  key details.
+
+  .. figure:: /images/configure-api-key.png
+     :alt: Click Access Manager
+     :lightbox:
+
+title: Configure Your API Whitelist
+ref: configure-your-api-whitelist
+content: |
+  Copy your Private Key to a safe location for later use. For security,
+  the Private Key will not be visible again after initialization.
+  Another security feature is API Whitelisting. Creating an API
+  Whitelist ensures that API calls originate from whitelisted IPs. 
+  
+  The IP Address of the user who will be using the API Key is required
+  to use the key. Click the :guilabel:`Add Whitelist Entry` button to
+  whitelist an IP address. Type in the IP Address or click the
+  :guilabel:`Use Current IP Address` buttton and click save.  Finally,
+  click the done button on your screen's lower right-hand to finish
+  setting up your API key.
+
+  .. figure:: /images/add-whitelist-entry.png
+     :alt: Click Access Manager
+     :lightbox:
