@@ -1,0 +1,147 @@
+.. _android-multi-user:
+
+========================
+Work with Multiple Users
+========================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+Multiple :ref:`users <user-accounts>` can log in to a :term:`{+service-short+}
+client` simultaneously. You can quickly switch between authenticated users
+without requiring them to log in again.
+
+.. important::
+
+   {+service-short+} clients run in the context of a single active user even if
+   multiple users are logged in simultaneously. 
+
+User Account States
+~~~~~~~~~~~~~~~~~~~
+
+When a user first logs in to a {+service-short+} client on a given device, the
+SDK saves the user's information and keeps track of the user's state on the
+device. The user's data remains on the device, even if they log out, unless you
+actively :ref:`remove the user <android-remove-user>`.
+
+The following states describe an on-device user at any given time:
+
+- **Authenticated:** any user that has logged in on the client device
+  and has not logged out or had its session revoked.
+  
+  - **Active**: a single authenticated user that is currently using the client
+    app. The SDK associates this user with outgoing requests and
+    {+backend-short+} evaluates data access permissions and runs functions in
+    this user's context. See :ref:`active user <active-user>` for more
+    information.
+   
+  - **Inactive**: all authenticated users that are not the current
+    active user. You can :ref:`switch the active user <android-switch-user>` to a
+    currently inactive user at any time.
+
+- **Logged Out:** any user that authenticated on the client device but
+  has since logged out or had its session revoked.
+
+The following diagram shows how users within a {+service-short+} client app
+transition between states when certain events occur:
+
+.. figure:: /images/multi-user.png
+
+.. _android-add-user:
+
+Add a New User to a Device
+--------------------------
+
+The {+service-short+} SDK automatically adds users to a device when they log in
+for the first time on that device. When a user logs in, they immediately become
+the application's :ref:`active user <active-user>`.
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: kotlin
+      
+      .. literalinclude:: /examples/MultiUser/AddUser/AddUser.kt
+         :language: kotlin
+   
+   .. tab::
+      :tabid: java
+      
+      .. literalinclude:: /examples/MultiUser/AddUser/AddUser.java
+         :language: java
+
+.. _android-list-users:
+
+List All On-Device Users
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can access a list of all :ref:`user accounts <user-accounts>` that are
+stored on the device. This list includes all users that have logged in to the
+client app on a given device regardless of whether they are currently
+authenticated.
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: kotlin
+      
+      .. literalinclude:: /examples/MultiUser/ListUsers/ListUsers.kt
+         :language: kotlin
+   
+   .. tab::
+      :tabid: java
+      
+      .. literalinclude:: /examples/MultiUser/ListUsers/ListUsers.java
+         :language: java
+
+.. _android-switch-user:
+
+Switch the Active User
+~~~~~~~~~~~~~~~~~~~~~~
+
+You can quickly switch an app's :ref:`active user <active-user>` to another
+logged in user at any time.
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: kotlin
+      
+      .. literalinclude:: /examples/MultiUser/SwitchUser/SwitchUser.kt
+         :language: kotlin
+   
+   .. tab::
+      :tabid: java
+      
+      .. literalinclude:: /examples/MultiUser/SwitchUser/SwitchUser.java
+         :language: java
+
+.. _android-remove-user:
+
+Remove a User from the Device
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can remove all information about a user from the device and automatically
+log the user out.
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: kotlin
+      
+      .. literalinclude:: /examples/MultiUser/LogoutUser/LogoutUser.kt
+         :language: kotlin
+   
+   .. tab::
+      :tabid: java
+      
+      .. literalinclude:: /examples/MultiUser/LogoutUser/LogoutUser.java
+         :language: java
