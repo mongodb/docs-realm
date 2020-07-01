@@ -5,6 +5,12 @@ content: |
   Open Xcode and create a new iOS Project. Use the "Single View App" template.
   Enter your project details, select "Storyboard" for user interface, deselect
   "Include Unit Tests", and save.
+
+  .. figure:: /images/swift-tutorial-create-project.png
+     :alt: Creating a project in Xcode
+     :width: 750px
+     :lightbox:
+
 ---
 title: Confirm That Your App Runs
 ref: confirm-that-your-app-runs
@@ -166,6 +172,11 @@ content: |
   indicator so that the user knows when the app is
   processing their requests and a text area where we can
   present any error messages to the user.
+
+  .. figure:: /images/swift-tutorial-welcome-view.png
+     :alt: The finished welcome view controller
+     :width: 300px
+     :lightbox:
 
   To create the view controller, select ``File > New >
   File...`` in Xcode. Select "Cocoa Touch Class" from the
@@ -567,6 +578,11 @@ content: |
   will allow users to view, create, modify, and delete
   tasks as well as log out.
 
+  .. figure:: /images/swift-tutorial-tasks-view.png
+     :alt: The finished tasks view controller
+     :width: 300px
+     :lightbox:
+
   To begin, declare some member variables at the top of the
   new class:
 
@@ -803,10 +819,15 @@ title: Modify Tasks
 ref: modify-tasks
 content: |
 
-  When the user selects a task in the list, we want to
-  present them with a list of actions. This is how they an
-  set the status of a task. We can expand functionality by
-  adding more actions later.
+  When the user selects a task in the list, we want to present them with a list
+  of actions. This is how they can set the status of a task. We can expand
+  functionality by adding more actions later. When finished, the task list will
+  look something like this:
+
+  .. figure:: /images/swift-tutorial-action-list.png
+     :alt: The finished action list
+     :width: 300px
+     :lightbox:
 
   Implement the ``didSelectRowAt`` method as follows:
 
