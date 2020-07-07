@@ -4,9 +4,12 @@ const app = new Realm.App({ id: "myapp-abcde" });
 const user = app.currentUser;
 await app.removeUser(user);
 
+
+
 // The user is no longer the active user
 if(app.currentUser) {
-  // The active user is now another logged in user, if there is one
+  // The active user is now the logged in user (if there still is one) that was
+  // most recently active
   assert(user.id !== app.currentUser.id)
 }
 
