@@ -63,7 +63,7 @@ Use the ``RemoteMongoClient`` to Query For Data in Your Collection
        const coll = mongo.db("exampleDB").collection("exampleCollection");
    
        item = await coll.findOne({});
-       console.log(item);
+       console.dir(item);
    
      } finally {
        user.logOut();
