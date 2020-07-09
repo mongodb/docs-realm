@@ -1184,6 +1184,19 @@ paths:
           description: The offset number of matching log entries to skip before including them in the response.
           required: False
           default: 0
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+          default: 100
+          description: |
+            The maximum number of log entries to include in the response. If the
+            query matches more than this many logs, it returns documents in
+            ascending order by date until the limit is reached.
+          required: false
+
       responses:
         '200':
           description: "Successfully retrieved."
