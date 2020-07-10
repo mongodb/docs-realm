@@ -33,16 +33,21 @@ Pass the {+app+} ID for your {+app+}, which you can find in the {+ui+}.
 Configuration
 -------------
 
-You can use the ``AppConfiguration`` Builder to control details of
-your ``App``:
+For more granular control of the details of your app connection,
+such as custom timeouts for connections, codecs used for MongoDB Data Access,
+and keys for local encryption, you can use the ``AppConfiguration``
+Builder to control details of your ``App``:
 
 .. code-block:: kotlin
 
    val appID = "<your app ID>" // replace this with your App ID
    Realm.init(this) // context, typically an Activity
    val app: App = App(AppConfiguration.Builder(appID)
-         .baseUrl("https://realm.mongodb.com")
          .appName("My App")
-         .appVersion("3.14.159")
          .requestTimeout(30, TimeUnit.SECONDS)
          .build())
+         
+.. note:: 
+    
+   For most use cases, you only need your application's App ID to connect
+   to {+service+}. The other settings demonstrated here are optional.
