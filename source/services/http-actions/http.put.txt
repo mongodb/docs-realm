@@ -54,88 +54,6 @@ Example
               })
             };
 
-     - id: javascript
-       content: |
-         .. code-block:: javascript
-            :emphasize-lines: 10, 13-17, 20
-
-            import { Realm } from 'mongodb-realm-browser-sdk';
-            import {
-              HttpServiceClient,
-              HttpRequest,
-              HttpMethod
-            } from 'mongodb-realm-browser-services-http';
-
-            // 1. Instantiate an HTTP Service Client
-            const app = Realm.defaultAppClient;
-            const http = app.getServiceClient(HttpServiceClient.factory, "myHttp");
-
-            // 2. Build a new HttpRequest
-            const request = new HttpRequest.Builder()
-              .withMethod(HttpMethod.PUT)
-              .withUrl("https://www.example.com/messages")
-              .withBody({ msg: "This is in the body of a PUT request!" })
-              .build();
-
-            // 3. Execute the built request
-            http.execute(request)
-              .then(console.log)
-              .catch(console.error)
-
-     - id: android
-       content: |
-         .. code-block:: java
-            :emphasize-lines: 3, 6-10, 13
-
-            // 1. Instantiate an HTTP Service Client
-            RealmAppClient client = Realm.getDefaultAppClient();
-            RealmServiceClient http = client.getServiceClient(HttpServiceClient.factory, "myHttp");
-
-            // 2. Build a new HttpRequest
-            HttpRequest request = new HttpRequest.Builder()
-              .withMethod(HttpMethod.PUT)
-              .withUrl("https://www.example.com/diff.txt")
-              .withBody(Document("msg", "This is in the body of a PUT request!"))
-              .build();
-
-            // 3. Execute the built request
-            http.execute(request)
-              .addOnCompleteListener(new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(@NonNull final Task<Void> task) {
-                  if (task.isSuccessful()) { Log.d("realm", "Successfully sent PUT request!"); } else { Log.e("realm", "Error sending PUT request:", task.getException()); }
-                }
-              });
-
-     - id: ios
-       content: |
-         .. code-block:: swift
-            :emphasize-lines: 3-6, 9-13, 16
-
-            // 1. Instantiate an HTTP Service Client
-            let app = Realm.defaultAppClient!
-            let http = app.serviceClient(
-              fromFactory: httpServiceClientFactory,
-              withName: "myHttp"
-            )
-
-            // 2. Build a new HTTPRequest
-            let request: HTTPRequest = HTTPRequestBuilder()
-              .with(method: HTTPMethod.put)
-              .with(url: "https://www.example.com/diff.txt")
-              .with(body: ["msg", "This is in the body of a PUT request!"])
-              .build()
-
-            // 3. Execute the built request
-            http.execute(request) { result in
-              switch result {
-              case .success:
-                print("Successfully sent PUT request!")
-              case .failure(let error):
-                print("Error sending PUT request: \(error)")
-              }
-            }
-
 Parameters
 ~~~~~~~~~~
 
@@ -160,27 +78,6 @@ Parameters
             }
 
          .. include:: /includes/extracts/http-action-params-put.rst
-
-     - id: javascript
-       content: |
-         You can configure HTTP PUT request parameters with the
-         following builder methods:
-
-         .. include:: /includes/extracts/http-action-builders-put.rst
-
-     - id: android
-       content: |
-         You can configure HTTP PUT request parameters with the
-         following builder methods:
-
-         .. include:: /includes/extracts/http-action-builders-put.rst
-
-     - id: ios
-       content: |
-         You can configure HTTP PUT request parameters with the
-         following builder methods:
-
-         .. include:: /includes/extracts/http-action-builders-put.rst
 
 .. _url-alternative-put:
 
