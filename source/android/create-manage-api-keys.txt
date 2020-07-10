@@ -15,10 +15,32 @@ Create & Manage API Keys
 Overview
 --------
 
+The API Key authentication provider allows users to log in using generated
+keys. There are two types of API keys in {+service+}: server keys and
+user keys.
+
+Server API Keys
+~~~~~~~~~~~~~~~
+
+Server API keys are generated centrally in the {+ui+} and are associated with automatically created {+backend+} users. Provide a server key to external applications and services to allow them to authenticate directly with {+service+}.
+
+User API Keys
+~~~~~~~~~~~~~
+
+User API keys are generated for specific application users by the client SDKs. You can allow devices or services to communicate with {+service+} on behalf of a user by associating a unique user key with each device.
+
+User keys are always associated with a user object created by another authentication provider. Each user can associate up to 20 user keys with their account.
+
 .. _android-api-key-create-user-key:
 
 Create a User API Key
 ---------------------
+
+To create a new user API key, call the ``createApiKey()`` or
+``createApiKeyAsync()`` methods of a logged in user's ``apiKeyAuth``
+instance. The API key will be associated with the logged in user and can
+be used to interact with {+service+} on their behalf. You cannot create API
+keys for anonymous users.
 
 .. tabs-realm-languages::
    
@@ -26,59 +48,199 @@ Create a User API Key
       :tabid: kotlin
       
       .. code-block:: kotlin
+
+         user.apiKeyAuth?.createApiKeyAsync("<name-of-the-api-key>") {
+            if (it.isSuccess) {
+               Log.v(TAG, "Successfully created the API Key: " + it.get().value)
+            } else {
+               Log.e(TAG, "Error creating API key: ", it.error)
+            }
+         }
    
    .. tab::
       :tabid: java
       
       .. code-block:: java
+
+         user.getApiKeyAuth().createApiKeyAsync("<name-of-the-api-key>", result -> {
+            if (result.isSuccess()) {
+               Log.v(TAG, "Successfully created API key: " + result.get().getValue());
+            } else {
+               Log.e(TAG, "Error creating API key: " + result.getError());
+            }
+         });
 
 .. _android-api-key-look-up-user-key:
 
 Look up a User API Key
 ----------------------
 
+To get a list of all keys associated with the logged in user, call the
+``fetchApiKeys()`` or ``fetchApiKeysAsync()`` methods of a logged in
+user's ``apiKeyAuth`` instance.
+
 .. tabs-realm-languages::
    
    .. tab::
       :tabid: kotlin
       
       .. code-block:: kotlin
+
+         user.apiKeyAuth?.fetchAllApiKeys() {
+            if (it.isSuccess) {
+               Log.v(TAG, "Successfully fetched API keys: " + Arrays.toString(it.get().toTypedArray()))
+            } else {
+               Log.e(TAG, "Error fetching API keys: " + it.error)
+            }
+         }
    
    .. tab::
       :tabid: java
       
       .. code-block:: java
+
+         user.getApiKeyAuth().fetchAllApiKeys(result -> {
+            if (result.isSuccess()) {
+               Log.v(TAG, "Successfully fetched API keys: " + Arrays.toString(it.get().toTypedArray()));
+            } else {
+               Log.e(TAG, "Error fetching API keys: " + result.getError());
+            }
+         });
+
+To look up a specific key for the logged in user, pass the key's id to
+the ``fetchApiKey`` or ``fetchApiKeyAsync`` methods.
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: kotlin
+      
+      .. code-block:: kotlin
+
+         user.apiKeyAuth?.fetchApiKeyAsync(<api-key-id>) {
+            if (it.isSuccess) {
+               Log.e(TAG, "Successfully fetched API key: " + it.get())
+            } else {
+               Log.e(TAG, "Error fetching API key: " + it.error)
+            }
+         }
+   
+   .. tab::
+      :tabid: java
+      
+      .. code-block:: java
+
+         user.getApiKeyAuth().fetchApiKeyAsync(api-key-id>, result -> {
+            if (result.isSuccess()) {
+               Log.v(TAG, "Successfully fetched API key: " + result.get().getValue());
+            } else {
+               Log.e(TAG, "Error fetching API key: " + result.getError());
+            }
+         });
 
 .. _android-api-key-enable-disable:
 
 Enable or Disable an API Key
 ----------------------------
 
+To disable a specific API key without deleting it, call the
+``disableApiKey()`` or ``disableApiKeyAsync()`` methods of a logged in
+user's ``apiKeyAuth`` instance.
+
 .. tabs-realm-languages::
    
    .. tab::
       :tabid: kotlin
       
       .. code-block:: kotlin
+
+         user.apiKeyAuth?.disableApiKeyAsync(<api-key-id>) {
+            if (it.isSuccess) {
+               Log.v(TAG, "Successfully disabled the API Key: " + it.get())
+            } else {
+               Log.e(TAG, "Error disabling API key: ", it.error)
+            }
+         }
    
    .. tab::
       :tabid: java
       
       .. code-block:: java
+
+         user.getApiKeyAuth().disableApiKeyAsync(<api-key-id>, result -> {
+            if (result.isSuccess()) {
+               Log.v(TAG, "Successfully disabled API key: " + result.get();
+            } else {
+               Log.e(TAG, "Error disabling API key: " + result.getError());
+            }
+         });
+
+
+To enable a specific API key that was previously disabled, call the
+``enableApiKey()`` or ``enableApiKeyAsync()`` methods of a logged in
+user's ``apiKeyAuth`` instance.
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: kotlin
+      
+      .. code-block:: kotlin
+
+         user.apiKeyAuth?.enableApiKeyAsync(<api-key-id>) {
+            if (it.isSuccess) {
+               Log.v(TAG, "Successfully enabled the API Key: " + it.get())
+            } else {
+               Log.e(TAG, "Error enabling API key: ", it.error)
+            }
+         }
+   
+   .. tab::
+      :tabid: java
+      
+      .. code-block:: java
+
+         ser.getApiKeyAuth().enableApiKeyAsync(<api-key-id>, result -> {
+            if (result.isSuccess()) {
+               Log.v(TAG, "Successfully enabled API key: " + result.get();
+            } else {
+               Log.e(TAG, "Error enabling API key: " + result.getError());
+            }
+         });
 
 .. _android-api-key-delete:
 
 Delete an API Key
 -----------------
 
+To permanently unauthorize a specific API key, call the
+``deleteApiKey()`` or ``deleteApiKeyAsync()`` methods of a logged in
+user's ``apiKeyAuth`` instance.
+
 .. tabs-realm-languages::
    
    .. tab::
       :tabid: kotlin
       
       .. code-block:: kotlin
+
+         user?.apiKeyAuth?.deleteApiKeyAsync(<api-key-id>) {
+            if (it.isSuccess) {
+               Log.v(TAG, "Successfully deleted the API Key: " + it.get())
+            } else {
+               Log.e(TAG, "Error deleting API key: ", it.error)
+            }
+         }
    
    .. tab::
       :tabid: java
       
       .. code-block:: java
+
+         /ser.getApiKeyAuth().disableApiKeyAsync(<api-key-id>, result -> {
+            if (result.isSuccess()) {
+               Log.v(TAG, "Successfully deleted API key: " + result.get();
+            } else {
+               Log.e(TAG, "Error deleting API key: " + result.getError());
+            }
+         });
