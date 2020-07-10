@@ -15,47 +15,19 @@ content: |
   .. code-block:: java
 
      // Base Realm Packages
-     import com.mongodb.realm.android.core.Realm;
-     import com.mongodb.realm.android.core.RealmAppClient;
+     import io.realm.Realm
+     import io.realm.mongodb.App
+     import io.realm.mongodb.AppConfiguration
      // Realm Authentication Packages
-     import com.mongodb.realm.android.core.auth.RealmUser;
-     import com.mongodb.realm.core.auth.providers.anonymous.AnonymousCredential;
+     import io.realm.mongodb.User
+     import io.realm.mongodb.Credentials;
 
      // MongoDB Service Packages
-     import com.mongodb.client.MongoClient;
-     import com.mongodb.client.MongoCollection;
+     import io.realm.mongodb.mongo.MongoClient
+     import io.realm.mongodb.mongo.MongoDatabase
+     import io.realm.mongodb.mongo.MongoCollection
      // Utility Packages
-     import com.mongodb.realm.core.internal.common.BsonUtils;
-
-
-  To :ref:`Sync <sync-overview>` documents between a remote and a local
-  MongoDB instance, you will also need to import the following packages:
-
-  .. code-block:: java
-
-     // Realm Sync Packages
-     import com.mongodb.realm.core.services.mongodb.remote.sync.ChangeEventListener;
-     import com.mongodb.realm.core.services.mongodb.remote.sync.DefaultSyncConflictResolvers;
-     import com.mongodb.realm.core.services.mongodb.remote.sync.ErrorListener;
-     import com.mongodb.realm.core.services.mongodb.remote.sync.internal.ChangeEvent;
-
-
-  .. important::
-
-     If you use Sync, be sure to add ``.sync()`` before every remote
-     database call in the examples below, as in the following:
-
-     .. code-block:: java
-
-        itemsCollections.sync().find()
-
-  To perform CRUD operations *only* on the local (on-device) database,
-  import the following packages:
-
-  .. code-block:: java
-
-     // MongoDB Mobile Local Database Packages
-     import com.mongodb.realm.android.services.mongodb.local.LocalMongoDbService;
+     import org.bson.Document
 
 ---
 title: Instantiate a MongoDB Collection Handle
@@ -65,15 +37,31 @@ content: |
   .. code-block:: java
      :caption: Top of Activity File
 
-     private RealmAppClient realmClient;
-     private RemoteMongoClient mongoClient;
-     private RemoteMongoCollection itemsCollection;
+     private App realmApp;
+     private MongoClient mongoClient;
+     private MongoCollection itemsCollection;
+     private User user;
 
   .. code-block:: java
      :caption: In ``Activity.onCreate()``
 
-     realmClient = Realm.getDefaultAppClient();
-     mongoClient = realmClient.getServiceClient(RemoteMongoClient.factory, "mongodb-atlas");
+     String appID = "<your app ID>"; // replace this with your App ID
+     Realm.init(this); // initialize Realm, required before interacting with SDK
+     App app = new App(new AppConfiguration.Builder(appID)
+                .build());
      
-     itemsCollection = mongoClient.getDatabase("store").getCollection("items");
-     purchasesCollection = mongoClient.getDatabase("store").getCollection("purchases");
+     // an authenticated user is required to access a MongoDB instance
+     Credentials credentials = Credentials.anonymous();
+     app.loginAsync(credentials, it -> {
+         if (it.isSuccess()) {
+             user = app.currentUser();
+             MongoClient mongoClient = user.getMongoClient("<atlas service name>");
+             if (mongoClient != null) {
+                itemsCollection = mongoClient.getDatabase("<database name>").getCollection("<collection name>");
+             } else {
+                Log.e(TAG, "Error connecting to the MongoDB instance.");
+             }
+         else {
+            Log.e(TAG, "Error logging into the Realm app. Is anonymous authentication enabled?");
+         }
+     });
