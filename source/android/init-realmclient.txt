@@ -43,7 +43,6 @@ Builder to control details of your ``App``:
    val appID = "<your app ID>" // replace this with your App ID
    Realm.init(this) // context, typically an Activity
    val app: App = App(AppConfiguration.Builder(appID)
-         .baseUrl("https://realm.mongodb.com")
          .appName("My App")
          .requestTimeout(30, TimeUnit.SECONDS)
          .build())
