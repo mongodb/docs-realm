@@ -25,167 +25,39 @@ command. This avoids the risk of other update operations changing the
 document between separate :doc:`find </mongodb/actions/collection.find>`
 and :doc:`delete </mongodb/actions/collection.deleteOne>` operations.
 
-.. _js-collection.findOneAndDelete: https://docs.mongodb.com/realm-sdks/js/4/interfaces/remotemongocollection.html#findOneAndDelete
-.. _java-collection.findOneAndDelete: https://docs.mongodb.com/realm-sdks/java/4/com/mongodb/realm/android/services/mongodb/remote/RemoteMongoCollection.html#findOneAndDelete(org.bson.conversions.Bson)
-
 Usage
 -----
 
 Example
 ~~~~~~~
 
-.. tabs-realm-sdks::
+To call the ``collection.findOneAndDelete()`` action from a
+:doc:`Function </functions>`, get a collection handle with
+:method:`database.collection()` then call the handle's
+``findOneAndUpdate()`` method.
 
-   tabs:
-     - id: functions
-       content: |
-         To call the ``collection.findOneAndDelete()`` action from a
-         :doc:`Function </functions>`, get a collection handle with
-         :method:`database.collection()` then call the handle's
-         ``findOneAndUpdate()`` method.
-
-         .. include:: /mongodb/crud-snippets/findOneAndDelete/functions.rst
-     - id: javascript
-       content: |
-         To call the ``collection.findOneAndDelete()`` action from a
-         JavaScript SDK, use the
-         `RemoteMongoCollection.findOneAndDelete()
-         <js-collection.findOneAndDelete_>`_ method.
-
-         .. include:: /mongodb/crud-snippets/findOneAndDelete/js.rst
-
-     - id: android
-       content: |
-         To call the ``collection.findOneAndDelete()`` action from the
-         Java/Android SDK, use the
-         `RemoteMongoCollection.findOneAndDelete()
-         <java-collection.findOneAndDelete_>`_ method.
-
-         .. include:: /mongodb/crud-snippets/findOneAndDelete/android.rst
-
-     - id: ios
-       content: |
-
-         .. include::mongodb/crud-snippets/findOneAndDelete/ios.rst
-
+.. include:: /mongodb/crud-snippets/findOneAndDelete/functions.rst
 
 Parameters
 ~~~~~~~~~~
 
-.. tabs-realm-sdks::
+The ``collection.findOneAndDelete()`` action has the following
+form:
 
-   tabs:
-     - id: functions
-       content: |
-         The ``collection.findOneAndDelete()`` action has the following
-         form:
+.. code-block:: javascript
 
-         .. code-block:: javascript
+   findOneAndDelete(query, options)
 
-            findOneAndDelete(query, options)
-
-         .. include:: /includes/extracts/mongodb-action-params-findOneAndDelete-function.rst
-
-     - id: javascript
-       content: |
-         The `findOneAndDelete() <js-collection.findOneAndDelete_>`_
-         method has the following form:
-
-         .. code-block:: javascript
-
-            findOneAndDelete(query, options)
-
-         .. include:: /includes/extracts/mongodb-action-params-findOneAndDelete-function.rst
-
-     - id: android
-       content: |
-         The `findOneAndDelete() <java-collection.findOneAndDelete_>`_
-         method has the following form:
-
-         .. code-block:: java
-
-           findOneAndDelete​(Bson filter, RemoteFindOneAndModifyOptions options, Class<ResultT> resultClass)
-
-         .. include:: /includes/extracts/mongodb-action-params-findOneAndDelete-android.rst
-
-     - id: ios
-       content: |
-
-         .. code-block:: swift
-
-            public func findOneAndDelete(filter: Document,
-                             options: RemoteFindOneAndModifyOptions? = nil,
-                             _ completionHandler: @escaping (RealmResult<CollectionType?>) -> Void)
-
-         .. include: /includes/extracts/mongodb-actions-params-findOneAndDelete-ios.rst
+.. include:: /includes/extracts/mongodb-action-params-findOneAndDelete-function.rst
 
 Return Value
 ~~~~~~~~~~~~
 
-.. tabs-realm-sdks::
+The ``collection.findOneAndDelete()`` action returns a :mdn:`Promise
+<Web/JavaScript/Reference/Global_Objects/Promise>` that resolves to a
+single document that the query deleted. If no documents match the
+specified query, the promise resolves to ``null``.
 
-   tabs:
-     - id: functions
-       content: |
+.. code-block:: javascript
 
-        The ``collection.findOneAndDelete()`` action returns a :mdn:`Promise
-         <Web/JavaScript/Reference/Global_Objects/Promise>` that resolves to a
-         single document that the query deleted. If no documents match the
-         specified query, the promise resolves to ``null``.
-
-         .. code-block:: javascript
-
-            Promise<document|null>
-
-     - id: javascript
-       content: |
-
-         The ``collection.findOneAndDelete()`` action returns a :mdn:`Promise
-         <Web/JavaScript/Reference/Global_Objects/Promise>` that resolves to a
-         single document that the query deleted. If no documents match the
-         specified query, the promise resolves to ``null``.
-
-         .. code-block:: javascript
-
-            Promise<document|null>
-
-
-     - id: android
-       content: |
-
-         The `findOneAndDelete() <java-collection.findOneAndDelete_>`_
-         function returns a
-         :android:`Task <com/google/android/play/core/tasks/Task>`
-         containing the deleted document, which can be accessed using
-         the ``task.getResult()`` method. The type of the result
-         contained within the
-         :android:`Task <com/google/android/play/core/tasks/Task>`
-         varies based on the configuration of the
-         :android-sdk:`RemoteMongoCollection
-         <com/mongodb/realm/android/services/mongodb/remote/RemoteMongoCollection.html>`
-         used for the operation and the value of the ``resultClass``
-         parameter.
-
-         - If ``resultClass`` is specified, the returned
-           :android:`Task <com/google/android/play/core/tasks/Task>`
-           contains an object of type ``ResultT``, which resolves to
-           type ``resultClass``.
-         - If a ``resultClass`` is not specified, the returned
-           :android:`Task <com/google/android/play/core/tasks/Task>`
-           contains an object of type ``DocumentT``, which
-           resolves to type ``Document`` unless otherwise specified when
-           the :android-sdk:`RemoteMongoCollection
-           <com/mongodb/realm/android/services/mongodb/remote/RemoteMongoCollection.html>`
-           was instantiated.
-         - If no document matches the provided query, the task will fail
-           and details can be accessed using ``task.getException()``.
-
-         .. code-block:: java
-
-            Task<ResultT result | DocumentT result>
-
-     - id: ios
-       content: |
-
-         The ``findOneAndDelete`` method will call the supplied
-         ``completionHandler`` with a ``RealmResult``.
+   Promise<document|null>

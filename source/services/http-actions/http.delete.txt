@@ -51,85 +51,6 @@ Example
                 })
             };
 
-     - id: javascript
-       content: |
-         .. code-block:: javascript
-            :emphasize-lines: 10, 13-16, 19
-
-            import { Realm } from 'mongodb-realm-browser-sdk';
-            import {
-              HttpServiceClient,
-              HttpRequest,
-              HttpMethod
-            } from 'mongodb-realm-browser-services-http';
-
-            // 1. Instantiate an HTTP Service Client
-            const app = Realm.defaultAppClient;
-            const http = app.getServiceClient(HttpServiceClient.factory, "myHttp");
-
-            // 2. Build a new HttpRequest
-            const request = new HttpRequest.Builder()
-              .withMethod(HttpMethod.DELETE)
-              .withUrl("https://www.example.com/user/8675309")
-              .build()
-
-            // 3. Execute the built request
-            http.execute(request)
-              .then(console.log)
-              .catch(console.error)
-
-     - id: android
-       content: |
-         .. code-block:: java
-            :emphasize-lines: 3, 6-9, 12
-
-            // 1. Instantiate an HTTP Service Client
-            RealmAppClient client = Realm.getDefaultAppClient();
-            RealmServiceClient http = client.getServiceClient(HttpServiceClient.factory, "myHttp");
-
-            // 2. Build a new HttpRequest
-            HttpRequest request = new HttpRequest.Builder()
-              .withMethod(HttpMethod.DELETE)
-              .withUrl("https://www.example.com/user/8675309")
-              .build();
-
-            // 3. Execute the built request
-            http.execute(request)
-              .addOnCompleteListener(new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(@NonNull final Task<Void> task) {
-                  if (task.isSuccessful()) { Log.d("realm", "Successfully sent DELETE request!"); } else { Log.e("realm", "Error sending DELETE request:", task.getException()); }
-                }
-              });
-
-     - id: ios
-       content: |
-         .. code-block:: swift
-            :emphasize-lines: 3-6, 9-12, 15
-
-            // 1. Instantiate an HTTP Service Client
-            let app = Realm.defaultAppClient!
-            let http = app.serviceClient(
-              fromFactory: httpServiceClientFactory,
-              withName: "myHttp"
-            )
-
-            // 2. Build a new HTTPRequest
-            let request: HTTPRequest = HTTPRequestBuilder()
-              .with(method: HTTPMethod.delete)
-              .with(url: "https://www.example.com/user/8675309")
-              .build()
-
-            // 3. Execute the built request
-            http.execute(request) { result in
-              switch result {
-              case .success:
-                print("Successfully sent DELETE request!")
-              case .failure(let error):
-                print("Error sending DELETE request: \(error)")
-              }
-            }
-
 Parameters
 ~~~~~~~~~~
 
@@ -149,27 +70,6 @@ Parameters
             }
 
          .. include:: /includes/extracts/http-action-params-delete.rst
-
-     - id: javascript
-       content: |
-         You can configure HTTP DELETE request parameters with the
-         following builder methods:
-
-         .. include:: /includes/extracts/http-action-builders-delete.rst
-
-     - id: android
-       content: |
-         You can configure HTTP DELETE request parameters with the
-         following builder methods:
-
-         .. include:: /includes/extracts/http-action-builders-delete.rst
-
-     - id: ios
-       content: |
-         You can configure HTTP DELETE request parameters with the
-         following builder methods:
-
-         .. include:: /includes/extracts/http-action-builders-delete.rst
 
 .. _url-alternative-delete:
 
