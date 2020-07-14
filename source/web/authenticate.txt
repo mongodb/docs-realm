@@ -30,12 +30,10 @@ Log In
 Anonymous
 ~~~~~~~~~
 
-The :doc:`anonymous </authentication/anonymous>` authentication provider allows
-users to log in to your application with short-term accounts that have no
-associated information.
+The :doc:`Anonymous </authentication/anonymous>` provider allows users to log in
+to your application with ephemeral accounts that have no associated information.
 
-To log in an anonymous user, create an ``AnonymousCredential`` and pass it to
-``App.logIn()``:
+To log in, create an anonymous credential and pass it to ``App.logIn()``:
 
 .. tabs-realm-languages::
    
@@ -94,8 +92,8 @@ The :doc:`email/password </authentication/email-password>` authentication
 provider allows users to log in to your application with an email address and a
 password.
 
-To log in an email/password user, create an ``EmailPasswordCredential`` with the
-user's email address and password and pass it to ``App.logIn()``:
+To log in, create an email/password credential with the user's email address and
+password and pass it to ``App.logIn()``:
 
 .. tabs-realm-languages::
    
@@ -134,7 +132,7 @@ user's email address and password and pass it to ``App.logIn()``:
            try {
              // Authenticate the user
              const user: Realm.User = await app.logIn(credentials);
-             // `App.currentUser ` updates to match the logged in user
+             // `App.currentUser` updates to match the logged in user
              assert(user.id === app.currentUser.id)
              return user
            } catch(err) {
@@ -269,12 +267,12 @@ with a payload object and pass it to ``App.logIn()``:
 Custom JWT
 ~~~~~~~~~~
 
-The :doc:`Custom Function </authentication/custom-function>` authentication
-provider allows you to handle user authentication by running a :doc:`function
-</functions>` that receives a payload of arbitrary information about a user.
+The :doc:`Custom JWT </authentication/custom-jwt>` authentication provider
+allows you to handle user authentication with any authentication system that
+returns a :ref:`JSON web token <json-web-tokens>`.
 
-To log in with the custom function provider, create a Custom Function credential
-with a payload object and pass it to ``App.logIn()``:
+To log in, create a Custom JWT credential with a JWT from the external system
+and pass it to ``App.logIn()``:
 
 .. tabs-realm-languages::
    
