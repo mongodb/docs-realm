@@ -38,6 +38,7 @@ content: |
   .. code-block:: typescript
      :caption: ``src/realm/RealmApp.tsx``
      :emphasize-lines: 3, 8-9, 15
+     
      // Let new users register an account
      const registerUser = async (email: string, password: string) => {
        return await app.auth.emailPassword.registerUser(email, password);
