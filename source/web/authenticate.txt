@@ -322,56 +322,422 @@ and pass it to ``App.logIn()``:
            console.log("Successfully logged in!", user);
          });
 
-.. .. _web-login-facebook:
-  
-.. Facebook OAuth
-.. ~~~~~~~~~~~~~~
-  
-.. .. tabs-realm-languages::
-   
-..    .. tab::
-..       :tabid: javascript
-      
-..       .. code-block:: javascript
-   
-..    .. tab::
-..       :tabid: typescript
-      
-..       .. code-block:: typescript
+.. _web-login-facebook:
 
-.. .. _web-login-google:
+Facebook OAuth
+~~~~~~~~~~~~~~
 
-.. Google OAuth
-.. ~~~~~~~~~~~~
+The :doc:`Facebook </authentication/facebook>` authentication provider allows
+you to authenticate users through a Facebook app using their existing Facebook
+account. You can use the :ref:`built-in authentication flow
+<web-facebook-builtin>` or :ref:`authenticate with the Facebook SDK
+<web-facebook-auth-token>`.
 
-.. .. tabs-realm-languages::
+.. admonition:: Enable the Facebook Auth Provider
+   :class: note
    
-..    .. tab::
-..       :tabid: javascript
-      
-..       .. code-block:: javascript
-   
-..    .. tab::
-..       :tabid: typescript
-      
-..       .. code-block:: typescript
+   To authenticate a Facebook user, you must configure the :doc:`Facebook
+   authentication provider </authentication/facebook>`.
 
-.. .. _web-login-apple:
+.. _web-facebook-builtin:
 
-.. Sign-in with Apple
-.. ~~~~~~~~~~~~~~~~~~
+Built-In OAuth 2.0 Flow
++++++++++++++++++++++++
 
-.. .. tabs-realm-languages::
+The Realm Web SDK includes methods to handle the OAuth 2.0 process and does not
+require you to install the Facebook SDK. The built in flow follows three main steps:
+
+1. You call ``app.logIn()`` with a Facebook credential. The credential must
+   specify a URL for your app that is also listed as a redirect URI in the
+   provider configuration.
+
+2. A new window opens to a Facebook authentication screen and the user
+   authenticates and authorizes your app in that window. Once complete, the new
+   window redirects to the URL specified in the credential.
+
+3. You call ``handleAuthRedirect()`` on the redirected page, which stores the
+   user's Realm access token and closes the window. Your original app window will
+   automatically detect the access token and finish logging the user in.
+
+.. tabs-realm-languages::
    
-..    .. tab::
-..       :tabid: javascript
+   .. tab::
+      :tabid: javascript
       
-..       .. code-block:: javascript
+      .. code-block:: javascript
+         
+         // The redirect URI should be on the same domain as this app and
+         // specified in the auth provider configuration.
+         const redirectUri = "https://app.example.com/handleOAuthLogin";
+         const credentials = Realm.Credentials.facebook(redirectUri);
+         
+         // Calling logIn() opens a Facebook authentication screen in a new window.
+         app.logIn(credentials).then(user => {
+           // The logIn() promise will not resolve until you call `handleAuthRedirect()`
+           // from the new window after the user has successfully authenticated.
+           console.log(`Logged in with id: ${user.id}`);
+         })
+         
+         // When the user is redirected back to your app, handle the redirect to
+         // save the user's access token and close the redirect window. This
+         // returns focus to the original application window and automatically
+         // logs the user in.
+         Realm.handleAuthRedirect();
+
+   .. tab::
+      :tabid: typescript
+      
+      .. code-block:: typescript
+         
+         // The redirect URI should be on the same domain as this app and
+         // specified in the auth provider configuration.
+         const redirectUri = "https://app.example.com/handleOAuthLogin";
+         const credentials = Realm.Credentials.facebook(redirectUri);
+         
+         // Calling logIn() opens a Facebook authentication screen in a new window.
+         app.logIn(credentials).then((user: Realm.User) => {
+           // The logIn() promise will not resolve until you call `handleAuthRedirect()`
+           // from the new window after the user has successfully authenticated.
+           console.log(`Logged in with id: ${user.id}`);
+         })
+         
+         // When the user is redirected back to your app, handle the redirect to
+         // save the user's access token and close the redirect window. This
+         // returns focus to the original application window and automatically
+         // logs the user in.
+         Realm.handleAuthRedirect();
+
+.. _web-facebook-auth-token:
+
+Authenticate with the Facebook SDK
+++++++++++++++++++++++++++++++++++
+
+You can use the :facebook:`official Facebook SDK <docs/facebook-login/web/>` to
+handle the user authentication and redirect flow. Once authenticated, the
+Facebook SDK returns an access token that you can use to finish logging the user
+in to your app.
+
+.. tabs-realm-languages::
    
-..    .. tab::
-..       :tabid: typescript
+   .. tab::
+      :tabid: javascript
       
-..       .. code-block:: typescript
+      .. code-block:: javascript
+         
+         // Get the access token from the Facebook SDK
+         const { accessToken } = FB.getAuthResponse();
+         // Define credentials with the access token from the Facebook SDK
+         const credentials = Realm.Credentials.facebook(accessToken);
+         // Log the user in to your app
+         app.logIn(credentials).then(user => {
+           console.log(`Logged in with id: ${user.id}`);
+         });
+
+   .. tab::
+      :tabid: typescript
+      
+      .. code-block:: typescript
+         
+         // Get the access token from the Facebook SDK
+         const { accessToken } = FB.getAuthResponse();
+         // Define credentials with the access token from the Facebook SDK
+         const credentials = Realm.Credentials.facebook(accessToken);
+         // Log the user in to your app
+         app.logIn(credentials).then((user: Realm.User) => {
+           console.log(`Logged in with id: ${user.id}`);
+         });
+
+.. _web-login-google:
+
+Google OAuth
+~~~~~~~~~~~~
+
+The :doc:`Google </authentication/google>` authentication provider allows you to
+authenticate users through a Google project using their existing Google account.
+You can use the :ref:`built-in authentication flow <web-google-builtin>` or
+:ref:`authenticate with the Google SDK <web-google-auth-token>`.
+
+.. admonition:: Enable the Google Auth Provider
+   :class: note
+   
+   To authenticate a Google user, you must configure the :doc:`Google
+   authentication provider </authentication/google>`.
+
+.. _web-google-builtin:
+
+Built-In OAuth 2.0 Flow
++++++++++++++++++++++++
+
+The Realm Web SDK includes methods to handle the OAuth 2.0 process and does not
+require you to install the Google SDK. The built in flow follows three main
+steps:
+
+1. You call ``app.logIn()`` with a Google credential. The credential must
+   specify a URL for your app that is also listed as a redirect URI in the
+   provider configuration.
+
+2. A new window opens to a Google authentication screen and the user
+   authenticates and authorizes your app in that window. Once complete, the new
+   window redirects to the URL specified in the credential.
+
+3. You call ``handleAuthRedirect()`` on the redirected page, which stores the
+   user's Realm access token and closes the window. Your original app window will
+   automatically detect the access token and finish logging the user in.
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: javascript
+      
+      .. code-block:: javascript
+         
+         // The redirect URI should be on the same domain as this app and
+         // specified in the auth provider configuration.
+         const redirectUri = "https://app.example.com/handleOAuthLogin";
+         const credentials = Realm.Credentials.google(redirectUri);
+         
+         // Calling logIn() opens a Google authentication screen in a new window.
+         app.logIn(credentials).then(user => {
+           // The logIn() promise will not resolve until you call `handleAuthRedirect()`
+           // from the new window after the user has successfully authenticated.
+           console.log(`Logged in with id: ${user.id}`);
+         })
+         
+         // When the user is redirected back to your app, handle the redirect to
+         // save the user's access token and close the redirect window. This
+         // returns focus to the original application window and automatically
+         // logs the user in.
+         Realm.handleAuthRedirect();
+
+   .. tab::
+      :tabid: typescript
+      
+      .. code-block:: typescript
+         
+         // The redirect URI must be on the same domain as this app and
+         // must be specified in the auth provider configuration.
+         const redirectUri = "https://app.example.com/handleOAuthLogin";
+         const credentials = Realm.Credentials.google(redirectUri);
+         
+         // Calling logIn() opens a Google authentication screen in a new window.
+         app.logIn(credentials).then((user: Realm.User) => {
+           // The logIn() promise will not resolve until you call `handleAuthRedirect()`
+           // from the new window after the user has successfully authenticated.
+           console.log(`Logged in with id: ${user.id}`);
+         })
+         
+         // When the user is redirected back to your app, handle the redirect to
+         // save the user's access token and close the redirect window. This
+         // returns focus to the original application window and automatically
+         // logs the user in.
+         Realm.handleAuthRedirect();
+
+.. _web-google-auth-token:
+
+Authenticate with the Google SDK
+++++++++++++++++++++++++++++++++
+
+You can use the :google:`official Google SDK <identity/sign-in/web/sign-in>` to
+handle the user authentication and redirect flow. Once authenticated, the Google
+SDK returns an authorization code that you can use to finish logging the user in
+to your app.
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: javascript
+      
+      .. code-block:: javascript
+         
+         // Get the access token from the Google SDK
+         function getGoogleAuthCode() {
+           return new Promise(() => {
+             gapi.auth2.authorize({
+               client_id: "<Google Client ID>",
+               // Scopes should match the metadata fields in the provider configuration
+               scope: "<scopes>",
+               response_type: "code",
+             }, ({ code, error }) => {
+               if(error) {
+                 reject(error)
+               }
+               resolve(code)
+             })
+           })
+         }
+         getGoogleAuthCode()
+           .then(code => {
+             // Define credentials with the authorization code from the Google SDK
+             const credentials = Realm.Credentials.google(code)
+             // Log the user in to your app
+             return app.logIn(credentials)
+           })
+           .then(user => {
+             console.log(`Logged in with id: ${user.id}`);
+           });
+
+   .. tab::
+      :tabid: typescript
+      
+      .. code-block:: typescript
+         
+         // Get the access token from the Google SDK
+         function getGoogleAuthCode(): Promise<string> {
+           return new Promise(() => {
+             gapi.auth2.authorize({
+               client_id: "<Google Client ID>",
+               // Scopes should match the metadata fields in the provider configuration
+               scope: "<scopes>",
+               response_type: "code",
+             }, ({ code, error }) => {
+               if(error) {
+                 reject(error)
+               }
+               resolve(code)
+             })
+           })
+         }
+         getGoogleAuthCode()
+           .then((code: string) => {
+             // Define credentials with the authorization code from the Google SDK
+             const credentials = Realm.Credentials.google(code)
+             // Log the user in to your app
+             return app.logIn(credentials)
+           })
+           .then((user: Realm.User) => {
+             console.log(`Logged in with id: ${user.id}`);
+           });
+
+.. _web-login-apple:
+
+Apple OAuth
+~~~~~~~~~~~
+
+The :doc:`Apple </authentication/apple>` authentication provider allows you to
+authenticate users through Sign-in With Apple. You can use the :ref:`built-in
+authentication flow <web-apple-builtin>` or :ref:`authenticate with the Apple
+SDK <web-apple-auth-token>`.
+
+.. admonition:: Enable the Apple Auth Provider
+   :class: note
+   
+   To authenticate an Apple user, you must configure the :doc:`Apple
+   authentication provider </authentication/apple>`.
+
+.. _web-apple-builtin:
+
+Built-In OAuth 2.0 Flow
++++++++++++++++++++++++
+
+The Realm Web SDK includes methods to handle the OAuth 2.0 process and does not
+require you to install the Apple JS SDK. The built in flow follows three main
+steps:
+
+1. You call ``app.logIn()`` with an Apple credential. The credential must
+   specify a URL for your app that is also listed as a redirect URI in the
+   provider configuration.
+
+2. A new window opens to an Apple authentication screen and the user
+   authenticates and authorizes your app in that window. Once complete, the new
+   window redirects to the URL specified in the credential.
+
+3. You call ``handleAuthRedirect()`` on the redirected page, which stores the
+   user's Realm access token and closes the window. Your original app window will
+   automatically detect the access token and finish logging the user in.
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: javascript
+      
+      .. code-block:: javascript
+         
+         // The redirect URI should be on the same domain as this app and
+         // specified in the auth provider configuration.
+         const redirectUri = "https://app.example.com/handleOAuthLogin";
+         const credentials = Realm.Credentials.apple(redirectUri);
+         
+         // Calling logIn() opens an Apple authentication screen in a new window.
+         app.logIn(credentials).then(user => {
+           // The logIn() promise will not resolve until you call `handleAuthRedirect()`
+           // from the new window after the user has successfully authenticated.
+           console.log(`Logged in with id: ${user.id}`);
+         })
+         
+         // When the user is redirected back to your app, handle the redirect to
+         // save the user's access token and close the redirect window. This
+         // returns focus to the original application window and automatically
+         // logs the user in.
+         Realm.handleAuthRedirect();
+
+   .. tab::
+      :tabid: typescript
+      
+      .. code-block:: typescript
+         
+         // The redirect URI must be on the same domain as this app and
+         // must be specified in the auth provider configuration.
+         const redirectUri = "https://app.example.com/handleOAuthLogin";
+         const credentials = Realm.Credentials.apple(redirectUri);
+         
+         // Calling logIn() opens an Apple authentication screen in a new window.
+         app.logIn(credentials).then((user: Realm.User) => {
+           // The logIn() promise will not resolve until you call `handleAuthRedirect()`
+           // from the new window after the user has successfully authenticated.
+           console.log(`Logged in with id: ${user.id}`);
+         })
+         
+         // When the user is redirected back to your app, handle the redirect to
+         // save the user's access token and close the redirect window. This
+         // returns focus to the original application window and automatically
+         // logs the user in.
+         Realm.handleAuthRedirect();
+
+.. _web-apple-auth-token:
+
+Authenticate with the Apple SDK
++++++++++++++++++++++++++++++++
+
+You can use the :apple:`official Sign in with Apple JS SDK
+<documentation/sign_in_with_apple/sign_in_with_apple_js>` to handle the user
+authentication and redirect flow. Once authenticated, the Apple JS SDK returns
+an ID token that you can use to finish logging the user in to your app.
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: javascript
+      
+      .. code-block:: javascript
+         
+         // Get the ID token from the Apple SDK
+         AppleID.auth.signIn()
+           .then(({ id_token }) => {
+             // Define credentials with the ID token from the Apple SDK
+             const credentials = Realm.Credentials.apple(id_token)
+             // Log the user in to your app
+             return app.logIn(credentials)
+           })
+           .then(user => {
+             console.log(`Logged in with id: ${user.id}`);
+           });
+
+   .. tab::
+      :tabid: typescript
+      
+      .. code-block:: typescript
+         
+         // Get the ID token from the Apple SDK
+         AppleID.auth.signIn()
+           .then(({ id_token: string }) => {
+             // Define credentials with the ID token from the Apple SDK
+             const credentials = Realm.Credentials.apple(id_token)
+             // Log the user in to your app
+             return app.logIn(credentials)
+           })
+           .then((user: Realm.User) => {
+             console.log(`Logged in with id: ${user.id}`);
+           });
 
 .. _web-logout:
 
