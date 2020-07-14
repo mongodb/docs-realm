@@ -85,12 +85,14 @@ Set Up Clients to Receive Push Notifications
 
          1. Add a dependency for :abbr:`FCM (Firebase Cloud Messaging)`.
 
-         #. Create an :android-sdk:`FcmServicePushClient
-            <com/mongodb/realm/android/services/fcm/FcmServicePushClient.html>`.
+         #. Create an instance of :java-sdk:`Push
+            <io/realm/mongodb/push/Push.html>`.
 
-         #. Use the FcmServicePushClient's :android-sdk:`register()
-            <com/mongodb/realm/android/services/fcm/FcmServicePushClient.html#register-->`
-            method to register the client for push notifications.
+         #. Use the :java-sdk:`push.registerDevice()
+            <io/realm/mongodb/push/Push.html#registerDevice-java.lang.String->`
+            or :java-sdk:`push.registerDeviceAsync()
+            <io/realm/mongodb/push/Push.html#registerDeviceAsync-java.lang.String-io.realm.mongodb.App.Callback->`
+            methods to register the client for push notifications.
 
          #. Use FirebaseMessaging's :fcm:`subscribeToTopic()
             <reference/android/com/google/firebase/messaging/FirebaseMessaging>`
