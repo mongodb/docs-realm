@@ -125,7 +125,7 @@ content: |
          .. tab-content:: tabs-realm-sdks
             :tab-id: ios
 
-            A :ios-sdk:`RemoteFindOptions
+            A :objc-sdk:`RemoteFindOptions
             <Structs/RemoteFindOptions.html>` object, which has the
             following properties:
 
@@ -205,7 +205,7 @@ content: |
          .. tab-content:: tabs-realm-sdks
             :tab-id: ios
 
-            See :ios-sdk:`RemoteFindOptions.sort() <Structs/RemoteFindOptions.html#/>`
+            See :objc-sdk:`RemoteFindOptions.sort() <Structs/RemoteFindOptions.html#/>`
 
          .. example::
 
@@ -289,20 +289,20 @@ content: |
 
      * - :guilabel:`Find Options`
 
-         | ``options: <RemoteFindOptions>``
+         | ``options: <FindOptions>``
 
-       - Optional: An instance of the `RemoteFindOptions <https://docs.mongodb.com/stitch-sdks/java/4/com/mongodb/stitch/core/services/mongodb/remote/RemoteFindOptions.html>`_.
+       - Optional: An instance of the :java-sdk:`FindOptions <io/realm/mongodb/mongo/options/FindOptions.html>`.
          class.
         
          .. code-block:: java
 
-            RemoteFindOptions options = new RemoteFindOptions()
+            FindOptions options = new FindOptions()
                 .sort(sort)
                 .projection(projection);
 
      * - :guilabel:`Sort`
 
-         | ``RemoteFindOneOptions.sort: <document>``
+         | ``FindOptions.sort: <document>``
 
        - Optional. Specifies the query sort order. Sort documents
          specify one or more fields to sort on where the value of each
@@ -325,7 +325,7 @@ content: |
 
      * - :guilabel:`Projection`
 
-         | ``RemoteFindOneOptions.projection: <document>``
+         | ``FindOptions.projection: <document>``
 
        - Optional. A document that specifies which fields MongoDB
          should return or withhold in the document returned by the
@@ -380,7 +380,7 @@ content: |
 
      * - :guilabel:`Limit`
 
-         | ``RemoteFindOptions.limit: <int>``
+         | ``FindOptions.limit: <int>``
 
        - Optional. The ``findOne`` method ignores this value completely.
 
@@ -430,15 +430,15 @@ content: |
 
      * - :guilabel:`Update Options`
 
-         | ``options: <RemoteFindOneAndModifyOptions>``
+         | ``options: <FindOneAndModifyOptions>``
 
-       - Optional: An instance of the `RemoteFindOneAndModifyOptions <https://docs.mongodb.com/stitch-sdks/java/4/com/mongodb/stitch/core/services/mongodb/remote/RemoteFindOneAndModifyOptions.html>`_.
+       - Optional: An instance of the :java-sdk:`FindOneAndModifyOptions <io/realm/mongodb/mongo/options/FindOneAndModifyOptions.html>`.
          class.
         
          .. code-block:: java
 
-            RemoteFindOneAndModifyOptions options =
-              new RemoteFindOneAndModifyOptions()
+            FindOneAndModifyOptions options =
+              new FindOneAndModifyOptions()
               .sort(<document>)
               .projection(<document>)
               .returnNewDocument(<bool>)
@@ -446,7 +446,7 @@ content: |
 
      * - :guilabel:`Sort`
 
-         | ``RemoteFindOneAndModifyOptions.sort: <document>``
+         | ``FindOneAndModifyOptions.sort: <document>``
 
        - Optional. Specifies the query sort order. Sort documents
          specify one or more fields to sort on where the value of each
@@ -469,7 +469,7 @@ content: |
 
      * - :guilabel:`Projection`
 
-         | ``RemoteFindOneAndModifyOptions.projection: <document>``
+         | ``FindOneAndModifyOptions.projection: <document>``
 
        - Optional. A document that specifies which fields MongoDB
          should return or withhold in the document returned by the
@@ -524,7 +524,7 @@ content: |
 
      * - :guilabel:`Upsert`
 
-         | ``RemoteFindAndModifyOptions.upsert: <boolean>``
+         | ``FindAndModifyOptions.upsert: <boolean>``
 
        - Optional. Default: ``false``. A boolean that, if ``true``,
          indicates that MongoDB should insert a new document that
@@ -533,7 +533,7 @@ content: |
 
      * - :guilabel:`Return New Document`
 
-         | ``RemoteFindAndModifyOptions.returnNewDocument: <boolean>``
+         | ``FindAndModifyOptions.returnNewDocument: <boolean>``
 
        - Optional. Default: ``false``. A boolean that, if ``true``,
          indicates that the action should return the document in its
@@ -584,15 +584,15 @@ content: |
 
      * - :guilabel:`Update Options`
 
-         | ``options: <RemoteFindOneAndModifyOptions>``
+         | ``options: <FindOneAndModifyOptions>``
 
-       - Optional: An instance of the `RemoteFindOneAndModifyOptions <https://docs.mongodb.com/stitch-sdks/java/4/com/mongodb/stitch/core/services/mongodb/remote/RemoteFindOneAndModifyOptions.html>`_.
+       - Optional: An instance of the :java-sdk:`FindOneAndModifyOptions <io/realm/mongodb/mongo/options/FindOneAndModifyOptions.html>`.
          class.
         
          .. code-block:: java
 
-            RemoteFindOneAndModifyOptions options =
-              new RemoteFindOneAndModifyOptions()
+            FindOneAndModifyOptions options =
+              new FindOneAndModifyOptions()
               .sort(<document>)
               .projection(<document>)
               .returnNewDocument(<bool>)
@@ -600,7 +600,7 @@ content: |
 
      * - :guilabel:`Sort`
 
-         | ``RemoteFindOneAndModifyOptions.sort: <document>``
+         | ``FindOneAndModifyOptions.sort: <document>``
 
        - Optional. Specifies the query sort order. Sort documents
          specify one or more fields to sort on where the value of each
@@ -623,7 +623,7 @@ content: |
 
      * - :guilabel:`Projection`
 
-         | ``RemoteFindOneAndModifyOptions.projection: <document>``
+         | ``FindOneAndModifyOptions.projection: <document>``
 
        - Optional. A document that specifies which fields MongoDB
          should return or withhold in the document returned by the
@@ -678,7 +678,7 @@ content: |
 
      * - :guilabel:`Upsert`
 
-         | ``RemoteFindAndModifyOptions.upsert: <boolean>``
+         | ``FindAndModifyOptions.upsert: <boolean>``
 
        - Optional. Default: ``false``. A boolean that, if ``true``,
          indicates that MongoDB should insert a new document that
@@ -687,7 +687,7 @@ content: |
 
      * - :guilabel:`Return New Document`
 
-         | ``RemoteFindAndModifyOptions.returnNewDocument: <boolean>``
+         | ``FindAndModifyOptions.returnNewDocument: <boolean>``
 
        - Optional. Default: ``false``. A boolean that, if ``true``,
          indicates that the action should return the document in its
@@ -730,23 +730,23 @@ content: |
 
      * - :guilabel:`Update Options`
 
-         | ``options: <RemoteFindOneAndModifyOptions>``
+         | ``options: <FindOneAndModifyOptions>``
 
-       - Optional: An instance of the `RemoteFindOneAndModifyOptions <https://docs.mongodb.com/stitch-sdks/java/4/com/mongodb/stitch/core/services/mongodb/remote/RemoteFindOneAndModifyOptions.html>`_.
+       - Optional: An instance of the :java-sdk:`FindOneAndModifyOptions <io/realm/mongodb/mongo/options/FindOneAndModifyOptions.html>`.
          class. The ``returnNewDocument`` and ``upsert`` options can be
-         configured for a ``RemoteFindOneAndModifyOptions`` object used
+         configured for a ``FindOneAndModifyOptions`` object used
          for a ``findOneAndDelete`` operation, but have no effect.
         
          .. code-block:: java
 
-            RemoteFindOneAndModifyOptions options =
-              new RemoteFindOneAndModifyOptions()
+            FindOneAndModifyOptions options =
+              new FindOneAndModifyOptions()
               .sort(<document>)
               .projection(<document>);
 
      * - :guilabel:`Sort`
 
-         | ``RemoteFindOneAndModifyOptions.sort: <document>``
+         | ``FindOneAndModifyOptions.sort: <document>``
 
        - Optional. Specifies the query sort order. Sort documents
          specify one or more fields to sort on where the value of each
@@ -769,7 +769,7 @@ content: |
 
      * - :guilabel:`Projection`
 
-         | ``RemoteFindOneAndModifyOptions.projection: <document>``
+         | ``FindOneAndModifyOptions.projection: <document>``
 
        - Optional. A document that specifies which fields MongoDB
          should return or withhold in the document returned by the
@@ -1018,7 +1018,7 @@ content: |
          .. tab-content:: tabs-realm-sdks
             :tab-id: ios
 
-            See :ios-sdk:`RemoteFindOptions.sort() <Structs/RemoteFindOptions.html#/>`
+            See :objc-sdk:`RemoteFindOptions.sort() <Structs/RemoteFindOptions.html#/>`
 
          .. example::
 
@@ -1361,11 +1361,11 @@ content: |
          .. tab-content:: tabs-realm-sdks
             :tab-id: ios
 
-            Return a :ios-sdk:`StitchResult <Enums/StitchResult.html>`
+            Return a :objc-sdk:`StitchResult <Enums/StitchResult.html>`
             enum to the completion handler that resolves to the first
             document from the query result set.
 
-            See :ios-sdk:`RemoteMongoReadOperation.first() <Classes/RemoteMongoReadOperation.html>`.
+            See :objc-sdk:`RemoteMongoReadOperation.first() <Classes/RemoteMongoReadOperation.html>`.
 
      * - :guilabel:`Array of Documents`
 
@@ -1389,11 +1389,11 @@ content: |
          .. tab-content:: tabs-realm-sdks
             :tab-id: ios
 
-            Return a :ios-sdk:`StitchResult <Enums/StitchResult.html>`
+            Return a :objc-sdk:`StitchResult <Enums/StitchResult.html>`
             enum to the completion handler that resolves to an array that
             contains all documents in the query result set.
 
-            See :ios-sdk:`RemoteMongoReadOperation.toArray() <Classes/RemoteMongoReadOperation.html>`.
+            See :objc-sdk:`RemoteMongoReadOperation.toArray() <Classes/RemoteMongoReadOperation.html>`.
 
      * - :guilabel:`Query Cursor`
 
@@ -1420,15 +1420,15 @@ content: |
          .. tab-content:: tabs-realm-sdks
             :tab-id: ios
 
-            Return a :ios-sdk:`StitchResult <Enums/StitchResult.html>`
+            Return a :objc-sdk:`StitchResult <Enums/StitchResult.html>`
             enum to the completion handler that resolves to a
             `RemoteMongoCursor <swift-RemoteMongoCursor_>`_ object. You
             can use this :term:`cursor` to iterate through each document
             in the query result set with the
-            :ios-sdk:`RemoteMongoCursor.next()
+            :objc-sdk:`RemoteMongoCursor.next()
             <Classes/RemoteMongoCursor.html>` method.
 
-            See :ios-sdk:`RemoteMongoReadOperation.iterator() <Classes/RemoteMongoReadOperation.html>`.
+            See :objc-sdk:`RemoteMongoReadOperation.iterator() <Classes/RemoteMongoReadOperation.html>`.
 
 ---
 ref: mongodb-action-remotefinditerable
@@ -1489,7 +1489,7 @@ content: |
                // Can exclude _id while including other fields
                { "_id": 0, "name": 1 }
 
-         See :android-sdk:`RemoteFindIterable.projection() <com/mongodb/stitch/android/services/mongodb/remote/RemoteFindIterable.html#projection-org.bson.conversions.Bson->`
+         See :java-sdk:`FindIterable.projection() <io/realm/mongodb/mongo/iterable/FindIterable.html#projection-Bson->`
 
      * - :guilabel:`Limit`
 
@@ -1500,7 +1500,7 @@ content: |
          documents than the specified ``limit``, the query will return
          documents in order up to the limit.
 
-         See :android-sdk:`RemoteFindIterable.limit() <com/mongodb/stitch/android/services/mongodb/remote/RemoteFindIterable.html#limit-int->`
+         See :java-sdk:`FindIterable.limit() <io/realm/mongodb/mongo/iterable/FindIterable.html#limit-int->`
 
      * - :guilabel:`Sort`
 
@@ -1513,7 +1513,7 @@ content: |
          information, see :manual:`cursor.sort
          </reference/method/cursor.sort>`.
 
-         See :android-sdk:`RemoteFindIterable.sort() <com/mongodb/stitch/android/services/mongodb/remote/RemoteFindIterable.html#sort-org.bson.conversions.Bson->`
+         See :java-sdk:`FindIterable.sort() <io/realm/mongodb/mongo/iterable/FindIterable.html#sort-Bson->`
 
          .. note::
 
@@ -1539,36 +1539,7 @@ content: |
          <com/google/android/play/core/tasks/Task>` that resolves to the
          first document from the query result set.
 
-         See :android-sdk:`RemoteMongoIterable.first() <com/mongodb/stitch/android/services/mongodb/remote/RemoteMongoIterable.html#first-->`
-
-     * - :guilabel:`Array of Documents`
-
-         | ``result.into(<target>)``
-
-       - Iterate all documents in the query result set into the
-         target object. Return a :android:`Task
-         <com/google/android/play/core/tasks/Task>` that resolves to the
-         populated target object.
-
-         See :android-sdk:`RemoteMongoIterable.into() <com/mongodb/stitch/android/services/mongodb/remote/RemoteMongoIterable.html#into-A->`
-
-     * - :guilabel:`For Each`
-
-         | ``result.forEach(<Block>)``
-
-       - Iterate over the result set and apply the given block to each
-         document. Does not return a value.
-
-         See :android-sdk:`RemoteMongoIterable.forEach() <com/mongodb/stitch/android/services/mongodb/remote/RemoteMongoIterable.html#forEach-com.mongodb.Block->`
-
-     * - :guilabel:`Map Document Type`
-
-         | ``result.map(<Function>)``
-
-       - Return a new iterator that maps each ``result`` document to a
-         new type specified by the provided function.
-
-         See :android-sdk:`RemoteMongoIterable.map() <com/mongodb/stitch/android/services/mongodb/remote/RemoteMongoIterable.html#map-com.mongodb.Function->`
+         See :java-sdk:`MongoIterable.first() <io/realm/mongodb/mongo/iterable/MongoIterable.html#first-->`
 
      * - :guilabel:`Query Cursor`
 
@@ -1576,14 +1547,14 @@ content: |
 
        - Return a :android:`Task
          <com/google/android/play/core/tasks/Task>` that resolves to a
-         `RemoteMongoCursor <java-RemoteMongoCursor_>`_ object. You can
+         :java-sdk:`MongoCursor <io/realm/mongodb/mongo/iterable/MongoCursor.html>` object. You can
          use this :term:`cursor` to iterate through each document in the
          query result set with the
-         :android-sdk:`RemoteMongoCursor.tryNext()
-         <com/mongodb/stitch/android/services/mongodb/remote/RemoteMongoCursor.html#tryNext-->`
+         :java-sdk:`MongoCursor.tryNext()
+         <io/realm/mongodb/mongo/iterable/MongoCursor.html#tryNext-->`
          method.
 
-         See :android-sdk:`RemoteMongoIterable.iterator() <com/mongodb/stitch/android/services/mongodb/remote/RemoteMongoIterable.html#iterator-->`
+         See :java-sdk:`MongoIterable.iterator() <io/realm/mongodb/mongo/iterable/MongoIterable.html#iterator-->`
 ---
 ref: mongodb-action-remoteaggregateiterable
 content: |
@@ -1603,36 +1574,7 @@ content: |
          <com/google/android/play/core/tasks/Task>` that resolves to the
          first document from the query result set.
 
-         See :android-sdk:`RemoteMongoIterable.first() <com/mongodb/stitch/android/services/mongodb/remote/RemoteMongoIterable.html#first-->`
-
-     * - :guilabel:`Array of Documents`
-
-         | ``result.into(<target>)``
-
-       - Iterate all documents in the query result set into the
-         target object. Return a :android:`Task
-         <com/google/android/play/core/tasks/Task>` that resolves to the
-         populated target object.
-
-         See :android-sdk:`RemoteMongoIterable.into() <com/mongodb/stitch/android/services/mongodb/remote/RemoteMongoIterable.html#into-A->`
-
-     * - :guilabel:`For Each`
-
-         | ``result.forEach(<Block>)``
-
-       - Iterate over the result set and apply the given block to each
-         document. Does not return a value.
-
-         See :android-sdk:`RemoteMongoIterable.forEach() <com/mongodb/stitch/android/services/mongodb/remote/RemoteMongoIterable.html#forEach-com.mongodb.Block->`
-
-     * - :guilabel:`Map Document Type`
-
-         | ``result.map(<Function>)``
-
-       - Return a new iterator that maps each ``result`` document to a
-         new type specified by the provided function.
-
-         See :android-sdk:`RemoteMongoIterable.map() <com/mongodb/stitch/android/services/mongodb/remote/RemoteMongoIterable.html#map-com.mongodb.Function->`
+         See :java-sdk:`MongoIterable.first() <io/realm/mongodb/mongo/iterable/MongoIterable.html#first-->`
 
      * - :guilabel:`Query Cursor`
 
@@ -1640,14 +1582,14 @@ content: |
 
        - Return a :android:`Task
          <com/google/android/play/core/tasks/Task>` that resolves to a
-         `RemoteMongoCursor <java-RemoteMongoCursor_>`_ object. You can
+         :java-sdk:`MongoCursor <io/realm/mongodb/mongo/iterable/MongoCursor.html>` object. You can
          use this :term:`cursor` to iterate through each document in the
          query result set with the
-         :android-sdk:`RemoteMongoCursor.tryNext()
-         <com/mongodb/stitch/android/services/mongodb/remote/RemoteMongoCursor.html#tryNext-->`
+         :java-sdk:`MongoCursor.tryNext()
+         <io/realm/mongodb/mongo/iterable/MongoCursor.html#tryNext-->`
          method.
 
-         See :android-sdk:`RemoteMongoIterable.iterator() <com/mongodb/stitch/android/services/mongodb/remote/RemoteMongoIterable.html#iterator-->`
+         See :java-sdk:`MongoIterable.iterator() <io/realm/mongodb/mongo/iterable/MongoIterable.html#iterator-->`
 ---
 ref: mongodb-action-aggregate-cursor
 content: |
