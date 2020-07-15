@@ -323,56 +323,358 @@ and pass it to ``App.logIn()``:
            console.log("Successfully logged in!", user);
          });
 
-.. .. _react-native-login-facebook:
+.. _react-native-login-facebook:
 
-.. Facebook OAuth
-.. ~~~~~~~~~~~~~~
+Facebook OAuth
+~~~~~~~~~~~~~~
 
-.. .. tabs-realm-languages::
+The :doc:`Facebook </authentication/facebook>` authentication provider allows
+you to authenticate users through a Facebook app using their existing Facebook
+account.
+
+.. admonition:: Enable the Facebook Auth Provider
+   :class: note
    
-..    .. tab::
-..       :tabid: javascript
-      
-..       .. code-block:: javascript
+   To authenticate a Facebook user, you must configure the :doc:`Facebook
+   authentication provider </authentication/facebook>`.
+
+You can use the :facebook:`official Facebook React Native SDK
+<docs/react-native/getting-started/>` to handle the user authentication and
+redirect flow from a client application. Once authenticated, the Facebook SDK
+returns an access token that you can use to finish logging the user in to your
+app.
+
+.. tabs-realm-languages::
    
-..    .. tab::
-..       :tabid: typescript
+   .. tab::
+      :tabid: javascript
       
-..       .. code-block:: typescript
+      .. code-block:: javascript
+         
+         import React from "react";
+         import { View } from "react-native";
+         import * as Realm from "realm";
+         import { LoginButton, AccessToken } from "react-native-fbsdk";
+         
+         const Login = ({ app }) => {
+           return (
+             <View>
+               <LoginButton
+                 onLoginFinished={async (error, result) => {
+                   if (error) {
+                     console.error(`Failed to log in: ${result.error}`);
+                   } else if (result.isCancelled) {
+                     console.log("Facebook login was cancelled");
+                   } else {
+                     const { accessToken } = await AccessToken.getCurrentAccessToken();
+                     const credential = Realm.Credentials.facebook(accessToken);
+                     const user = await app.logIn(credential);
+                     console.log(`Logged in with id: ${user.id}`);
+                   }
+                 }}
+               />
+             </View>
+           );
+         };
+         export default Login;
 
-.. .. _react-native-login-google:
+   .. tab::
+      :tabid: typescript
+      
+      .. code-block:: typescript
+         
+         import React from "react";
+         import { View } from "react-native";
+         import * as Realm from "realm";
+         import { LoginButton, AccessToken } from "react-native-fbsdk";
+         
+         const Login: React.FC<{ app: Realm.App }> = ({ app }) => {
+           return (
+             <View>
+               <LoginButton
+                 onLoginFinished={async (error, result) => {
+                   if (error) {
+                     console.error(`Failed to log in: ${result.error}`);
+                   } else if (result.isCancelled) {
+                     console.log("Facebook login was cancelled");
+                   } else {
+                     const { accessToken } = await AccessToken.getCurrentAccessToken();
+                     const credential = Realm.Credentials.facebook(accessToken);
+                     const user: Realm.User = await app.logIn(credential);
+                     console.log(`Logged in with id: ${user.id}`);
+                   }
+                 }}
+               />
+             </View>
+           );
+         };
+         export default Login;
 
-.. Google OAuth
-.. ~~~~~~~~~~~~
+.. _react-native-login-google:
 
-.. .. tabs-realm-languages::
+Google OAuth
+~~~~~~~~~~~~
+
+The :doc:`Google </authentication/google>` authentication provider allows you to
+authenticate users through a Google project using their existing Google account.
+
+.. admonition:: Enable the Google Auth Provider
+   :class: note
    
-..    .. tab::
-..       :tabid: javascript
-      
-..       .. code-block:: javascript
-   
-..    .. tab::
-..       :tabid: typescript
-      
-..       .. code-block:: typescript
+   To authenticate a Google user, you must configure the :doc:`Google
+   authentication provider </authentication/google>`.
 
-.. .. _react-native-login-apple:
+You can use a community-maintained package, such as :github:`React Native Google
+Sign In <react-native-community/google-signin>`, to render a sign-in button and
+handle the user authentication flow. Once authenticated, get the user's server
+authorization code to finish logging the user in to your app.
 
-.. Sign-in with Apple
-.. ~~~~~~~~~~~~~~~~~~
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: javascript
+      
+      .. code-block:: javascript
+         
+         import React from "react";
+         import { View } from "react-native";
+         import * as Realm from "realm";
+         import { GoogleSignin, GoogleSigninButton, statusCodes } from '@react-native-community/google-signin';
+         
+         // You must configure `webClientId` and `offlineAccess` to get the auth code
+         GoogleSignin.configure({
+           webClientId: '<Google Project Client ID>',
+           offlineAccess: true,
+         });
+         
+         // Handle the Google Sign In flow and return the auth code
+         async function getGoogleAuthCode() {
+           try {
+             await GoogleSignin.hasPlayServices();
+             const { serverAuthCode } = await GoogleSignin.signIn()
+             return serverAuthCode
+           } catch (error) {
+             switch(error.code) {
+               case statusCodes.SIGN_IN_CANCELLED: {
+                 // user cancelled the login flow
+               }
+               case statusCodes.IN_PROGRESS: {
+                 // operation (e.g. sign in) is in progress already
+               }
+               case statusCodes.PLAY_SERVICES_NOT_AVAILABLE: {
+                 // play services not available or outdated
+               }
+               default: {
+                 // some other error happened
+               }
+             }
+           }
+         }
+         
+         const Login = ({ app }) => {
+           return (
+             <View>
+               <GoogleSigninButton
+                 size={GoogleSigninButton.Size.Standard}
+                 color={GoogleSigninButton.Color.Auto}
+                 onPress={async () => {
+                   const serverAuthCode = await getGoogleAuthCode();
+                   const credential = Realm.Credentials.google(serverAuthCode);
+                   const user = await app.logIn(credential);
+                   console.log(`Logged in with id: ${user.id}`);
+                 }}
+               />
+             </View>
+           );
+         };
+         export default Login;
 
-.. .. tabs-realm-languages::
-   
-..    .. tab::
-..       :tabid: javascript
+   .. tab::
+      :tabid: typescript
       
-..       .. code-block:: javascript
+      .. code-block:: typescript
+         
+         import React from "react";
+         import { View } from "react-native";
+         import * as Realm from "realm";
+         import { GoogleSignin, GoogleSigninButton, statusCodes } from '@react-native-community/google-signin';
+         
+         // You must configure `webClientId` and `offlineAccess` to get the auth code
+         GoogleSignin.configure({
+           webClientId: '<Google Project Client ID>',
+           offlineAccess: true,
+         });
+         
+         // Handle the Google Sign In flow and return the auth code
+         async function getGoogleAuthCode(): Promise<string> {
+           try {
+             await GoogleSignin.hasPlayServices();
+             const { serverAuthCode } = await GoogleSignin.signIn()
+             return serverAuthCode
+           } catch (error) {
+             switch(error.code) {
+               case statusCodes.SIGN_IN_CANCELLED: {
+                 // user cancelled the login flow
+               }
+               case statusCodes.IN_PROGRESS: {
+                 // operation (e.g. sign in) is in progress already
+               }
+               case statusCodes.PLAY_SERVICES_NOT_AVAILABLE: {
+                 // play services not available or outdated
+               }
+               default: {
+                 // some other error happened
+               }
+             }
+           }
+         }
+         
+         const Login: React.FC<{ app: Realm.App }> = ({ app }) => {
+           return (
+             <View>
+               <GoogleSigninButton
+                 size={GoogleSigninButton.Size.Standard}
+                 color={GoogleSigninButton.Color.Auto}
+                 onPress={async () => {
+                   const serverAuthCode: string = await getGoogleAuthCode();
+                   const credential = Realm.Credentials.google(serverAuthCode);
+                   const user: Realm.User = await app.logIn(credential);
+                   console.log(`Logged in with id: ${user.id}`);
+                 }}
+               />
+             </View>
+           );
+         };
+         export default Login;
+
+.. _react-native-login-apple:
+
+Sign-in with Apple
+~~~~~~~~~~~~~~~~~~
+
+The :doc:`Apple </authentication/apple>` authentication provider allows you to
+authenticate users through Sign-in With Apple.
+
+.. admonition:: Enable the Apple Auth Provider
+   :class: note
    
-..    .. tab::
-..       :tabid: typescript
+   To authenticate an Apple user, you must configure the :doc:`Apple
+   authentication provider </authentication/apple>`.
+
+You can use a community-maintained package, such as :github:`React Native Apple
+Authentication <invertase/react-native-apple-authentication>`, to render a
+sign-in button and handle the user authentication flow. Once authenticated, get
+the user's ID token to finish logging the user in to your app.
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: javascript
       
-..       .. code-block:: typescript
+      .. code-block:: javascript
+         
+         import React from "react";
+         import { View } from "react-native";
+         import * as Realm from "realm";
+         import appleAuth, {
+           AppleButton,
+           AppleAuthRequestOperation,
+           AppleAuthRequestScope,
+           AppleAuthCredentialState,
+         } from '@invertase/react-native-apple-authentication';
+         
+         async function getAppleIdentityToken() {
+           // performs login request
+           const appleAuthRequestResponse = await appleAuth.performRequest({
+             requestedOperation: AppleAuthRequestOperation.LOGIN,
+             requestedScopes: [AppleAuthRequestScope.EMAIL, AppleAuthRequestScope.FULL_NAME],
+           });
+         
+           // get current authentication state for user
+           // /!\ This method must be tested on a real device. On the iOS simulator it always throws an error.
+           const credentialState = await appleAuth.getCredentialStateForUser(appleAuthRequestResponse.user);
+           
+           // use credentialState response to ensure the user is authenticated
+           if (credentialState === AppleAuthCredentialState.AUTHORIZED) {
+             return appleAuthRequestResponse.identityToken;
+           } else {
+             throw new Error("Failed to get Apple ID token.")
+           }
+         }
+         
+         const Login = ({ app }) => {
+           return (
+             <View>
+               <AppleButton
+                 buttonStyle={AppleButton.Style.WHITE}
+                 buttonType={AppleButton.Type.SIGN_IN}
+                 onPress={async () => {
+                   const identityToken = await getAppleIdentityToken();
+                   const credential = Realm.Credentials.apple(identityToken);
+                   const user = await app.logIn(credential);
+                   console.log(`Logged in with id: ${user.id}`);
+                 }}
+               />
+             </View>
+           );
+         };
+         export default Login;
+
+   .. tab::
+      :tabid: typescript
+      
+      .. code-block:: typescript
+         
+         import React from "react";
+         import { View } from "react-native";
+         import * as Realm from "realm";
+         import appleAuth, {
+           AppleButton,
+           AppleAuthRequestOperation,
+           AppleAuthRequestScope,
+           AppleAuthCredentialState,
+         } from '@invertase/react-native-apple-authentication';
+         
+         async function getAppleIdentityToken(): Promise<string> {
+           // performs login request
+           const appleAuthRequestResponse = await appleAuth.performRequest({
+             requestedOperation: AppleAuthRequestOperation.LOGIN,
+             requestedScopes: [AppleAuthRequestScope.EMAIL, AppleAuthRequestScope.FULL_NAME],
+           });
+         
+           // get current authentication state for user
+           // /!\ This method must be tested on a real device. On the iOS simulator it always throws an error.
+           const credentialState = await appleAuth.getCredentialStateForUser(appleAuthRequestResponse.user);
+           
+           // use credentialState response to ensure the user is authenticated
+           if (credentialState === AppleAuthCredentialState.AUTHORIZED) {
+             return appleAuthRequestResponse.identityToken;
+           } else {
+             throw new Error("Failed to get Apple ID token.")
+           }
+         }
+         
+         const Login = ({ app }) => {
+           return (
+             <View>
+               <AppleButton
+                 buttonStyle={AppleButton.Style.WHITE}
+                 buttonType={AppleButton.Type.SIGN_IN}
+                 onPress={async () => {
+                   const identityToken = await getAppleIdentityToken();
+                   const credential = Realm.Credentials.apple(identityToken);
+                   const user: Realm.User = await app.logIn(credential);
+                   console.log(`Logged in with id: ${user.id}`);
+                 }}
+               />
+             </View>
+           );
+         };
+         export default Login;
+
+
+
+
 
 .. _react-native-logout:
 
