@@ -1,8 +1,8 @@
 .. _android-create-manage-api-keys:
 
-========================
-Create & Manage API Keys
-========================
+=============================
+Create & Manage User API Keys
+=============================
 
 .. default-domain:: mongodb
 
@@ -15,28 +15,22 @@ Create & Manage API Keys
 Overview
 --------
 
-The API Key authentication provider allows users to log in using generated
-keys. There are two types of API keys in {+service+}: server API keys and
-user API keys.
-
-Server API Keys
-~~~~~~~~~~~~~~~
-
-Server API keys are generated in the {+ui+} and are associated
-with automatically created {+backend+} users. Provide a server API key
-to external applications and services to allow them to authenticate
-directly with {+service+}.
-
-User API Keys
-~~~~~~~~~~~~~
-
 User API keys are generated for specific application users by the client
 SDKs. You can allow devices or services to communicate with {+service+}
-on behalf of a user by associating a unique user API key with each device.
+on behalf of a user by associating a unique user API key with each
+device or service.
 
 User API keys are always associated with a user object created by another
 non-anonymous authentication provider. Each user can associate up to 20
 user keys with their account.
+
+.. note::
+
+   User API keys are not the same as **server API keys**, which allow a
+   user or service to directly authenticate with {+service+} using the
+   :ref:`API Key authentication provider <android-login-api-key>`. To learn
+   more about server API keys, see the :ref:`API Key Authentication
+   <api-key-authentication>` documentation.
 
 .. _android-api-key-create-user-key:
 
