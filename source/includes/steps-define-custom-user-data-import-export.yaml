@@ -26,10 +26,10 @@ content: |
 
   To configure your application to read user data from this collection,
   specify a configuration document in the ``custom_user_data_config``
-  field of ``realm.json``:
+  field of ``config.json``:
 
   .. code-block:: json
-     :caption: realm.json
+     :caption: config.json
 
      {
        ...,
@@ -89,7 +89,7 @@ content: |
 
   .. code-block:: shell
 
-     git add realm.json
+     git add config.json
      git commit -m "Configure and Enable Custom User Data"
      git push origin master
 

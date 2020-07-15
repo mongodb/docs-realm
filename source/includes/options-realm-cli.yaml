@@ -17,8 +17,8 @@ inherit:
   name: app-id
 post: |
   If not specified, {+cli-bin+} will attempt to use the value of
-  ``app_id`` defined in :ref:`realm.json <appschema-realm-config>`. If
-  ``realm.json`` does not have an ``app_id`` value, {+cli-bin+}
+  ``app_id`` defined in :ref:`config.json <appschema-realm-config>`. If
+  ``config.json`` does not have an ``app_id`` value, {+cli-bin+}
   prompts you to create a new application.
   
   .. admonition:: New Application App IDs
@@ -71,11 +71,11 @@ description: |
   | **Optional.**
 
   The path to the directory containing files you wish to import.
-  The directory must contain, at minimum, a valid :ref:`realm.json
+  The directory must contain, at minimum, a valid :ref:`config.json
   <appschema-realm-config>` file.
 
   If the ``path`` argument is omitted, {+cli-bin+} will search for a
-  ``realm.json`` file in the current application directory.
+  ``config.json`` file in the current application directory.
 ---
 program: realm-cli import
 name: strategy
@@ -131,7 +131,7 @@ description: |
   If enabled, {+cli-bin+} exports the application configuration
   without any fields that conflict with deployment via GitHub source
   control, including fields like ``name``, ``app_id``, ``location``,
-  and ``deployment_model`` in the ``realm.json`` file as well as the
+  and ``deployment_model`` in the ``config.json`` file as well as the
   ``config.clusterName`` field in the ``config.json`` of any Atlas
   clusters linked to the application.
 ---

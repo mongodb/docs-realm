@@ -1,7 +1,7 @@
 .. code-block:: none
 
    yourRealmApp/
-   ├── realm.json
+   ├── config.json
    ├── secrets.json
    ├── auth_providers/
    │   └── <provider name>.json

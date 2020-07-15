@@ -4,17 +4,17 @@
       :copyable: False
 
       yourRealmApp/
-      └── realm.json
+      └── config.json
 
 Application-level configuration information is defined in a single
-document named ``realm.json`` stored in your application's root
+document named ``config.json`` stored in your application's root
 directory.
 
 Configuration
 ~~~~~~~~~~~~~
 
 .. code-block:: javascript
-   :caption: ``realm.json``
+   :caption: ``config.json``
 
    {
      "app_id": "",
