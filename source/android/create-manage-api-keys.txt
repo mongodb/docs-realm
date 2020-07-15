@@ -16,20 +16,27 @@ Overview
 --------
 
 The API Key authentication provider allows users to log in using generated
-keys. There are two types of API keys in {+service+}: server keys and
-user keys.
+keys. There are two types of API keys in {+service+}: server API keys and
+user API keys.
 
 Server API Keys
 ~~~~~~~~~~~~~~~
 
-Server API keys are generated centrally in the {+ui+} and are associated with automatically created {+backend+} users. Provide a server key to external applications and services to allow them to authenticate directly with {+service+}.
+Server API keys are generated in the {+ui+} and are associated
+with automatically created {+backend+} users. Provide a server API key
+to external applications and services to allow them to authenticate
+directly with {+service+}.
 
 User API Keys
 ~~~~~~~~~~~~~
 
-User API keys are generated for specific application users by the client SDKs. You can allow devices or services to communicate with {+service+} on behalf of a user by associating a unique user key with each device.
+User API keys are generated for specific application users by the client
+SDKs. You can allow devices or services to communicate with {+service+}
+on behalf of a user by associating a unique user API key with each device.
 
-User keys are always associated with a user object created by another authentication provider. Each user can associate up to 20 user keys with their account.
+User API keys are always associated with a user object created by another
+non-anonymous authentication provider. Each user can associate up to 20
+user keys with their account.
 
 .. _android-api-key-create-user-key:
 
@@ -38,9 +45,9 @@ Create a User API Key
 
 To create a new user API key, call the ``createApiKey()`` or
 ``createApiKeyAsync()`` methods of a logged in user's ``apiKeyAuth``
-instance. The API key will be associated with the logged in user and can
-be used to interact with {+service+} on their behalf. You cannot create API
-keys for anonymous users.
+instance. The user API key will be associated with the logged in user
+and can be used to interact with {+service+} on their behalf. You cannot
+create user API keys for anonymous users.
 
 .. tabs-realm-languages::
    
@@ -75,9 +82,9 @@ keys for anonymous users.
 Look up a User API Key
 ----------------------
 
-To get a list of all keys associated with the logged in user, call the
-``fetchApiKeys()`` or ``fetchApiKeysAsync()`` methods of a logged in
-user's ``apiKeyAuth`` instance.
+To get a list of all user API keys associated with the logged in user,
+call the ``fetchApiKeys()`` or ``fetchApiKeysAsync()`` methods of a
+logged in user's ``apiKeyAuth`` instance.
 
 .. tabs-realm-languages::
    
@@ -107,8 +114,8 @@ user's ``apiKeyAuth`` instance.
             }
          });
 
-To look up a specific key for the logged in user, pass the key's id to
-the ``fetchApiKey`` or ``fetchApiKeyAsync`` methods.
+To look up a specific user API key for the logged in user, pass the
+key's id to the ``fetchApiKey`` or ``fetchApiKeyAsync`` methods.
 
 .. tabs-realm-languages::
    
@@ -132,7 +139,7 @@ the ``fetchApiKey`` or ``fetchApiKeyAsync`` methods.
 
          user.getApiKeyAuth().fetchApiKeyAsync(api-key-id>, result -> {
             if (result.isSuccess()) {
-               Log.v(TAG, "Successfully fetched API key: " + result.get().getValue());
+               Log.v(TAG, "Successfully fetched API key: " + result.get());
             } else {
                Log.e(TAG, "Error fetching API key: " + result.getError());
             }
@@ -140,12 +147,12 @@ the ``fetchApiKey`` or ``fetchApiKeyAsync`` methods.
 
 .. _android-api-key-enable-disable:
 
-Enable or Disable an API Key
-----------------------------
+Enable or Disable a User API Key
+--------------------------------
 
-To disable a specific API key without deleting it, call the
-``disableApiKey()`` or ``disableApiKeyAsync()`` methods of a logged in
-user's ``apiKeyAuth`` instance.
+To disable a specific user API key without deleting it, pass the
+key's id to the  ``disableApiKey()`` or ``disableApiKeyAsync()`` methods
+of a logged in user's ``apiKeyAuth`` instance.
 
 .. tabs-realm-languages::
    
@@ -156,7 +163,7 @@ user's ``apiKeyAuth`` instance.
 
          user.apiKeyAuth?.disableApiKeyAsync(<api-key-id>) {
             if (it.isSuccess) {
-               Log.v(TAG, "Successfully disabled the API Key: " + it.get())
+               Log.v(TAG, "Successfully disabled API Key: " + it.get())
             } else {
                Log.e(TAG, "Error disabling API key: ", it.error)
             }
@@ -176,9 +183,9 @@ user's ``apiKeyAuth`` instance.
          });
 
 
-To enable a specific API key that was previously disabled, call the
-``enableApiKey()`` or ``enableApiKeyAsync()`` methods of a logged in
-user's ``apiKeyAuth`` instance.
+To enable a specific user API key that was previously disabled, pass the
+key's id to the ``enableApiKey()`` or ``enableApiKeyAsync()`` methods of
+a logged in user's ``apiKeyAuth`` instance.
 
 .. tabs-realm-languages::
    
@@ -189,7 +196,7 @@ user's ``apiKeyAuth`` instance.
 
          user.apiKeyAuth?.enableApiKeyAsync(<api-key-id>) {
             if (it.isSuccess) {
-               Log.v(TAG, "Successfully enabled the API Key: " + it.get())
+               Log.v(TAG, "Successfully enabled API Key: " + it.get())
             } else {
                Log.e(TAG, "Error enabling API key: ", it.error)
             }
@@ -200,7 +207,7 @@ user's ``apiKeyAuth`` instance.
       
       .. code-block:: java
 
-         ser.getApiKeyAuth().enableApiKeyAsync(<api-key-id>, result -> {
+         user.getApiKeyAuth().enableApiKeyAsync(<api-key-id>, result -> {
             if (result.isSuccess()) {
                Log.v(TAG, "Successfully enabled API key: " + result.get();
             } else {
@@ -210,12 +217,12 @@ user's ``apiKeyAuth`` instance.
 
 .. _android-api-key-delete:
 
-Delete an API Key
------------------
+Delete a User API Key
+---------------------
 
-To permanently unauthorize a specific API key, call the
-``deleteApiKey()`` or ``deleteApiKeyAsync()`` methods of a logged in
-user's ``apiKeyAuth`` instance.
+To permanently remove a specific user API key, pass the
+key's id to the ``deleteApiKey()`` or ``deleteApiKeyAsync()`` methods of
+a logged in user's ``apiKeyAuth`` instance.
 
 .. tabs-realm-languages::
    
@@ -224,9 +231,9 @@ user's ``apiKeyAuth`` instance.
       
       .. code-block:: kotlin
 
-         user?.apiKeyAuth?.deleteApiKeyAsync(<api-key-id>) {
+         user.apiKeyAuth?.deleteApiKeyAsync(<api-key-id>) {
             if (it.isSuccess) {
-               Log.v(TAG, "Successfully deleted the API Key: " + it.get())
+               Log.v(TAG, "Successfully deleted API Key: " + it.get())
             } else {
                Log.e(TAG, "Error deleting API key: ", it.error)
             }
@@ -237,7 +244,7 @@ user's ``apiKeyAuth`` instance.
       
       .. code-block:: java
 
-         /ser.getApiKeyAuth().disableApiKeyAsync(<api-key-id>, result -> {
+         user.getApiKeyAuth().disableApiKeyAsync(<api-key-id>, result -> {
             if (result.isSuccess()) {
                Log.v(TAG, "Successfully deleted API key: " + result.get();
             } else {
