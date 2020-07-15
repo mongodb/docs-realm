@@ -20,187 +20,45 @@ Definition
 Return the number of documents in a collection or :manual:`view
 </core/views>` that match the specified query filter.
 
-.. _js-collection.count: https://docs.mongodb.com/stitch-sdks/js/4/interfaces/remotemongocollection.html#count
-.. _java-collection.count: https://docs.mongodb.com/stitch-sdks/java/4/com/mongodb/stitch/android/services/mongodb/remote/RemoteMongoCollection.html#count--
-.. _swift-collection.count: https://docs.mongodb.com/stitch-sdks/swift/5/Classes/RemoteMongoCollection.html#/
-
 Usage
 -----
 
 Example
 ~~~~~~~
 
-.. tabs-realm-sdks::
+To call the ``collection.count()`` action from a :doc:`Function
+</functions>`, get a collection handle with
+:method:`database.collection()` then call the handle's
+``count()`` method.
 
-   tabs:
-     - id: functions
-       content: |
-         To call the ``collection.count()`` action from a :doc:`Function
-         </functions>`, get a collection handle with
-         :method:`database.collection()` then call the handle's
-         ``count()`` method.
+.. code-block:: javascript
 
-         .. code-block:: javascript
-
-            collection.count({ status: "Complete" })
-              .then(numDocs => console.log(`${numDocs} documents match the specified query.`))
-              .catch(err => console.error("Failed to count documents: ", err))
-
-     - id: javascript
-       content: |
-         To call the ``collection.count()`` action from a JavaScript
-         SDK, use the `RemoteMongoCollection.count()
-         <js-collection.count_>`_ method.
-
-         .. code-block:: javascript
-
-            collection.count({ status: "Complete" })
-              .then(numDocs => console.log(`${numDocs} documents match the specified query.`))
-              .catch(err => console.error("Failed to count documents: ", err))
-
-     - id: android
-       content: |
-         To call the ``collection.count()`` action from the Java/Android
-         SDK, use the `RemoteMongoCollection.count()
-         <java-collection.count_>`_ method.
-
-         .. code-block:: java
-
-            collection.count(new Document("status", "Complete"))
-              .addOnCompleteListener(new OnCompleteListener <Long> () {
-                @Override
-                public void onComplete(@NonNull Task <Long> task) {
-                  if (task.isSuccessful()) {
-                    Long numDocs = task.getResult();
-                    Log.d("app", String.format(
-                      "%s documents match the specified query.",
-                      numDocs.toString()
-                    ));
-                  } else {
-                    Log.e("app", "Failed to count documents with exception: ", task.getException());
-                  }
-                }
-              });
-
-     - id: ios
-       content: |
-         To call the ``collection.count()`` action from the Swift/iOS
-         SDK, use the `RemoteMongoCollection.count()
-         <swift-collection.count_>`_ method.
-
-         .. code-block:: swift
-
-            collection.count(["status", "Complete"]) { result in
-              switch result {
-              case .success(let numDocs):
-                print("\(numDocs) documents match the specified query.")
-              case .failure(let error):
-                print("Failed to count documents: ", error)
-              }
-            }
+   collection.count({ status: "Complete" })
+     .then(numDocs => console.log(`${numDocs} documents match the specified query.`))
+     .catch(err => console.error("Failed to count documents: ", err))
 
 Parameters
 ~~~~~~~~~~
 
-.. tabs-realm-sdks::
+The ``collection.count()`` action has the following form:
 
-   tabs:
-     - id: functions
-       content: |
-         The ``collection.count()`` action has the following form:
+.. code-block:: javascript
 
+   count(query)
 
-         .. code-block:: javascript
-
-            count(query)
-
-         .. include:: /includes/extracts/mongodb-action-params-count.rst
-     - id: javascript
-       content: |
-         The `count() <js-collection.count_>`_ method has the following
-         form:
-
-         .. code-block:: javascript
-
-            count(query)
-
-         .. include:: /includes/extracts/mongodb-action-params-count.rst
-     - id: android
-       content: |
-         The `count() <java-collection.count_>`_ method has the
-         following form:
-
-         .. code-block:: java
-
-            count​(Bson query, RemoteCountOptions options)
-
-         .. include:: /includes/extracts/mongodb-action-params-count.rst
-     - id: ios
-       content: |
-         The `count() <swift-collection.count_>`_ method has the
-         following form:
-
-         .. code-block:: swift
-
-            count(query)
-
-         .. include:: /includes/extracts/mongodb-action-params-count.rst
+.. include:: /includes/extracts/mongodb-action-params-count.rst
 
 Return Value
 ~~~~~~~~~~~~
 
-.. tabs-realm-sdks::
+The ``collection.count()`` action returns a :mdn:`Promise
+<Web/JavaScript/Reference/Global_Objects/Promise>` that
+resolves to the integer number of documents in the collection
+that match the query filter.
 
-   tabs:
-     - id: functions
-       content: |
-         The ``collection.count()`` action returns a :mdn:`Promise
-         <Web/JavaScript/Reference/Global_Objects/Promise>` that
-         resolves to the integer number of documents in the collection
-         that match the query filter.
+.. code-block:: javascript
 
-         .. code-block:: javascript
-
-            Promise<numDocs: Number>
-
-     - id: javascript
-       content: |
-         The `RemoteMongoCollection.count() <js-collection.count_>`_
-         method returns a :mdn:`Promise
-         <Web/JavaScript/Reference/Global_Objects/Promise>` that
-         resolves to the integer number of documents in the collection
-         that match the query filter.
-
-         .. code-block:: javascript
-
-            Promise<numDocs: Number>
-
-     - id: android
-       content: |
-         The `RemoteMongoCollection.count() <java-collection.count_>`_
-         method returns a :android:`Task
-         <com/google/android/play/core/tasks/Task>` that resolves to the
-         integer number of documents in the collection that match the
-         query filter.
-
-         .. code-block:: java
-
-            Task<Long numDocs>
-
-     - id: ios
-       content: |
-         The `RemoteMongoCollection.count() <swift-collection.count_>`_
-         method returns a :ios-sdk:`StitchResult
-         <Enums/StitchResult.html>` enum that resolves to the integer
-         number of documents in the collection that match the query
-         filter.
-
-         .. code-block:: swift
-
-            enum StitchResult {
-              case success(numDocs: Int)
-              case failure(error: StitchError)
-            }
+   Promise<numDocs: Number>
 
 .. cssclass:: config-table
 .. list-table::
@@ -211,26 +69,8 @@ Return Value
      - Description
 
    * - :guilabel:`Count Result`
-
-       .. tab-content:: tabs-realm-sdks
-          :tab-id: functions
-
-          | ``numDocs: <integer>``
-
-       .. tab-content:: tabs-realm-sdks
-          :tab-id: javascript
-
-          | ``numDocs: <integer>``
-
-       .. tab-content:: tabs-realm-sdks
-          :tab-id: android
-
-          | ``numDocs: <Long>``
-
-       .. tab-content:: tabs-realm-sdks
-          :tab-id: ios
-
-          | ``numDocs: <Int>``
+       
+       | ``numDocs: <integer>``
 
      - The number of documents in the collection that match the provided
        query filter.

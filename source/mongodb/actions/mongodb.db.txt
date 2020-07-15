@@ -22,129 +22,32 @@ Return a database handle object that represents a database in a
 :method:`database.collection()` on the database handle to retrieve a
 collection handle.
 
-.. note::
-
-   The :method:`mongodb.db()` action is available on MongoDB service
-   clients. You can instantiate a service client with the
-   :method:`context.services.get(serviceName)` method in :doc:`functions
-   </functions>` or the ``getServiceClient()`` action in a client SDK.
-
-.. _js-mongodb.db: https://docs.mongodb.com/realm-sdks/js/4/modules/remotemongoclient.html#db
-.. _java-mongodb.db: https://docs.mongodb.com/realm-sdks/java/4/com/mongodb/realm/android/services/mongodb/remote/RemoteMongoClient.html#getDatabase-java.lang.String-
-.. _swift-mongodb.db: https://docs.mongodb.com/realm-sdks/swift/5/Classes/RemoteMongoClient.html#/s:26RealmRemoteMongoDBService0bC6ClientC2dbyAA0bC8DatabaseCSSF
-
 Usage
 -----
 
 Example
 ~~~~~~~
 
-.. tabs-realm-sdks::
+To call the ``mongodb.db()`` action from a :doc:`function
+</functions>`, instantiate a MongoDB service client from
+:doc:`context </functions/access-function-context>` then call
+the client's ``db()`` method.
 
-   tabs:
-     - id: functions
-       content: |
-         To call the ``mongodb.db()`` action from a :doc:`Function
-         </functions>`, instantiate a MongoDB service client from
-         :doc:`context </functions/access-function-context>` then call
-         the client's ``db()`` method.
+.. code-block:: javascript
+   :emphasize-lines: 2
 
-         .. code-block:: javascript
-            :emphasize-lines: 2
-
-            const mongodb = context.services.get("myMongoDBCluster");
-            const db = mongodb.db("myDB");
-
-     - id: javascript
-       content: |
-         To call the ``mongodb.db()`` action from a JavaScript SDK, use
-         the `RemoteMongoClient.db() <js-mongodb.db_>`_ method.
-
-         .. code-block:: javascript
-            :emphasize-lines: 5
-
-            const mongodb = Realm.defaultAppClient.getServiceClient(
-              RemoteMongoClient.factory,
-              "myMongoDBCluster"
-            );
-            const db = mongodb.db("myDB");
-     - id: android
-       content: |
-         To call the ``collection.db()`` action from the Java/Android
-         SDK, use the `RemoteMongoClient.getDatabase()
-         <java-mongodb.db_>`_ method.
-
-         .. code-block:: java
-            :emphasize-lines: 7
-
-            RemoteMongoClient mongodb = Realm
-              .getDefaultAppClient()
-              .getServiceClient(
-                RemoteMongoClient.factory,
-                "myMongoDBCluster"
-              );
-            RemoteMongoDatabase db = mongodb.getDatabase("myDB");
-     - id: ios
-       content: |
-         To call the ``mongodb.db()`` action from the Swift/iOS
-         SDK, use the `RemoteMongoClient.db()
-         <swift-mongodb.db_>`_ method.
-
-         .. code-block:: swift
-            :emphasize-lines: 5
-
-            mongodb: RemoteMongoClient = Realm.defaultAppClient.serviceClient(
-              fromFactory: RemoteMongoClient.factory,
-              withName: "myMongoDBCluster"
-            )
-            RemoteMongoDatabase db = mongodb.db("myDB")
+   const mongodb = context.services.get("myMongoDBCluster");
+   const db = mongodb.db("myDB");
 
 Parameters
 ~~~~~~~~~~
 
-.. tabs-realm-sdks::
+The ``db()`` action has the following form:
 
-   tabs:
-     - id: functions
-       content: |
-         The ``db()`` action is available on MongoDB service
-         clients returned from
-         :method:`context.services.get(serviceName)` as the ``db``
-         method, which has the following form:
+.. code-block:: javascript
 
-         The ``db()`` action has the following form:
+   db(name)
 
-
-         .. code-block:: javascript
-
-            db(name)
-
-     - id: javascript
-       content: |
-         The `db() <js-mongodb.db_>`_ method has the following
-         form:
-
-         .. code-block:: javascript
-
-            db(name)
-
-     - id: android
-       content: |
-         The `getDatabase() <java-mongodb.db_>`_ method has the following
-         form:
-
-         .. code-block:: java
-
-            getDatabase​(String name)
-
-     - id: ios
-       content: |
-         The `db() <swift-mongodb.db_>`_ method has the following
-         form:
-
-         .. code-block:: swift
-
-            db(name)
 
 .. cssclass:: config-table
 .. list-table::
@@ -155,7 +58,7 @@ Parameters
     - Description
 
   * - :guilabel:`Database Name`
-
+      
       | ``name: <string>``
 
     - The name of the database. The database must exist in the linked
@@ -164,34 +67,7 @@ Parameters
 Return Value
 ~~~~~~~~~~~~
 
-.. tabs-realm-sdks::
+The ``mongodb.db()`` action returns a database object that
+allows you to access collections in the specified database.
 
-   tabs:
-     - id: functions
-       content: |
-         The ``mongodb.db()`` action returns a database object that
-         allows you to access collections in the specified database.
-
-         See :method:`database.collection()`
-
-     - id: javascript
-       content: |
-         The `RemoteMongoClient.db() <js-mongodb.db_>`_ method returns a
-         :js-sdk:`RemoteMongoDatabase
-         <interfaces/remotemongodatabase.html>` object that allows you
-         to access collections in the specified database.
-
-     - id: android
-       content: |
-         The `RemoteMongoClient.getDatabase() <java-mongodb.db_>`_
-         method returns a :android-sdk:`RemoteMongoDatabase
-         <com/mongodb/realm/android/services/mongodb/remote/RemoteMongoDatabase.html>`
-         object that allows you to access collections in the specified
-         database.
-
-     - id: ios
-       content: |
-         The `RemoteMongoClient.db() <swift-mongodb.db_>`_ method
-         returns a :ios-sdk:`RemoteMongoDatabase
-         <Classes/RemoteMongoDatabase.html>` object that allows you to
-         access collections in the specified database.
+See :method:`database.collection()`

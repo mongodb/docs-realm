@@ -19,154 +19,40 @@ Definition
 
 Update one or more documents in a collection based on a query filter.
 
-.. _js-collection.updateMany: https://docs.mongodb.com/stitch-sdks/js/4/interfaces/remotemongocollection.html#updatemany
-.. _java-collection.updateMany: https://docs.mongodb.com/stitch-sdks/java/4/com/mongodb/stitch/android/services/mongodb/remote/RemoteMongoCollection.html#updateMany-org.bson.conversions.Bson-org.bson.conversions.Bson-
-.. _swift-collection.updateMany: https://docs.mongodb.com/stitch-sdks/swift/5/Classes/RemoteMongoCollection.html#/
-
 Usage
 -----
 
 Example
 ~~~~~~~
 
-.. tabs-realm-sdks::
+To call the ``collection.updateMany()`` action from a
+:doc:`Function </functions>`, get a collection handle with
+:method:`database.collection()` then call the handle's
+``updateMany()`` method.
 
-   tabs:
-     - id: functions
-       content: |
-         To call the ``collection.updateMany()`` action from a
-         :doc:`Function </functions>`, get a collection handle with
-         :method:`database.collection()` then call the handle's
-         ``updateMany()`` method.
-
-         .. include:: /mongodb/crud-snippets/updateMany/functions.rst
-     - id: javascript
-       content: |
-         To call the ``collection.updateMany()`` action from a
-         JavaScript SDK, use the `RemoteMongoCollection.updateMany()
-         <js-collection.updateMany_>`_ method.
-
-         .. include:: /mongodb/crud-snippets/updateMany/js.rst
-     - id: android
-       content: |
-         To call the ``collection.updateMany()`` action from the
-         Java/Android SDK, use the `RemoteMongoCollection.updateMany()
-         <java-collection.updateMany_>`_ method.
-
-         .. include:: /mongodb/crud-snippets/updateMany/android.rst
-     - id: ios
-       content: |
-         To call the ``collection.updateMany()`` action from the
-         Swift/iOS SDK, use the `RemoteMongoCollection.updateMany()
-         <swift-collection.updateMany_>`_ method.
-
-         .. include:: /mongodb/crud-snippets/updateMany/ios.rst
+.. include:: /mongodb/crud-snippets/updateMany/functions.rst
 
 Parameters
 ~~~~~~~~~~
 
-.. tabs-realm-sdks::
+The ``collection.updateMany()`` action has the following form:
 
-   tabs:
-     - id: functions
-       content: |
-         The ``collection.updateMany()`` action has the following form:
+.. code-block:: javascript
 
+   collection("myColl").updateMany(filter, update, options)
 
-         .. code-block:: javascript
-
-            collection("myColl").updateMany(filter, update, options)
-
-         .. include:: /includes/extracts/mongodb-action-params-updateMany.rst
-     - id: javascript
-       content: |
-         The `updateMany() <js-collection.updateMany_>`_ method has the
-         following form:
-
-         .. code-block:: javascript
-
-            updateMany(filter, update, options)
-
-         .. include:: /includes/extracts/mongodb-action-params-updateMany.rst
-     - id: android
-       content: |
-         The `updateMany() <java-collection.updateMany_>`_ method has
-         the following form:
-
-         .. code-block:: java
-
-            updateMany​(Bson filter, Bson update, RemoteUpdateOptions updateOptions)
-
-         .. include:: /includes/extracts/mongodb-action-params-updateMany.rst
-     - id: ios
-       content: |
-         The `updateMany() <swift-collection.updateMany_>`_ method has
-         the following form:
-
-         .. code-block:: swift
-
-            updateMany(filter, update, options)
-
-         .. include:: /includes/extracts/mongodb-action-params-updateMany.rst
+.. include:: /includes/extracts/mongodb-action-params-updateMany.rst
 
 Return Value
 ~~~~~~~~~~~~
 
-.. _js-RemoteUpdateResult: https://docs.mongodb.com/stitch-sdks/js/4/interfaces/remoteupdateresult.html
-.. _java-RemoteUpdateResult: https://docs.mongodb.com/stitch-sdks/java/4/com/mongodb/stitch/core/services/mongodb/remote/RemoteUpdateResult.html
-.. _swift-RemoteUpdateResult: https://docs.mongodb.com/stitch-sdks/swift/5/Structs/RemoteUpdateResult.html
+The ``collection.updateMany()`` action returns a :mdn:`Promise
+<Web/JavaScript/Reference/Global_Objects/Promise>` that
+resolves to a document that describes the update operation.
 
-.. tabs-realm-sdks::
+.. code-block:: javascript
 
-   tabs:
-     - id: functions
-       content: |
-         The ``collection.updateMany()`` action returns a :mdn:`Promise
-         <Web/JavaScript/Reference/Global_Objects/Promise>` that
-         resolves to a document that describes the update operation.
-
-         .. code-block:: javascript
-
-            Promise<result: document>
-
-     - id: javascript
-       content: |
-         The `RemoteMongoCollection.updateMany()
-         <js-collection.updateMany_>`_ method returns a :mdn:`Promise
-         <Web/JavaScript/Reference/Global_Objects/Promise>` that
-         resolves to a `RemoteUpdateResult <js-RemoteUpdateResult_>`_
-         object that describes the update operation.
-
-         .. code-block:: javascript
-
-            Promise<result: RemoteUpdateResult>
-
-     - id: android
-       content: |
-         The `RemoteMongoCollection.updateMany()
-         <java-collection.updateMany_>`_ method returns a :android:`Task
-         <com/google/android/play/core/tasks/Task>` that resolves to a
-         `RemoteUpdateResult <java-RemoteUpdateResult_>`_ object that
-         describes the update operation.
-
-         .. code-block:: java
-
-            Task<Document RemoteUpdateResult>
-
-     - id: ios
-       content: |
-         The `RemoteMongoCollection.updateMany()
-         <swift-collection.updateMany_>`_ method returns a
-         :ios-sdk:`StitchResult <Enums/StitchResult.html>` enum that
-         resolves to a `RemoteUpdateResult <swift-RemoteUpdateResult_>`_
-         object that describes the update operation.
-
-         .. code-block:: swift
-
-            enum StitchResult {
-              case success(result: RemoteUpdateResult)
-              case failure(error: StitchError)
-            }
+   Promise<result: document>
 
 .. cssclass:: config-table
 .. list-table::
@@ -177,77 +63,20 @@ Return Value
      - Description
 
    * - :guilabel:`Matched Count`
-
-       .. tab-content:: tabs-realm-sdks
-          :tab-id: functions
-
-          | ``result.matchedCount: <integer>``
-
-       .. tab-content:: tabs-realm-sdks
-          :tab-id: javascript
-
-          | ``result.matchedCount: <integer>``
-
-       .. tab-content:: tabs-realm-sdks
-          :tab-id: android
-
-          | ``result.matchedCount: <Long>``
-
-       .. tab-content:: tabs-realm-sdks
-          :tab-id: ios
-
-          | ``result.matchedCount: <Int>``
-
+       
+       | ``result.matchedCount: <integer>``
      - The number of documents in the collection that match the provided
        query filter.
 
    * - :guilabel:`Modified Count`
-
-       .. tab-content:: tabs-realm-sdks
-          :tab-id: functions
-
-          | ``result.modifiedCount: <integer>``
-
-       .. tab-content:: tabs-realm-sdks
-          :tab-id: javascript
-
-          | ``result.modifiedCount: <integer>``
-
-       .. tab-content:: tabs-realm-sdks
-          :tab-id: android
-
-          | ``result.modifiedCount: <Long>``
-
-       .. tab-content:: tabs-realm-sdks
-          :tab-id: ios
-
-          | ``result.modifiedCount: <Int>``
-
+       
+       | ``result.modifiedCount: <integer>``
      - The number of documents in the collection that were modified by
        the update operation.
 
    * - :guilabel:`Upserted ID`
-
-       .. tab-content:: tabs-realm-sdks
-          :tab-id: functions
-
-          | ``result.upsertedId: <ObjectID>``
-
-       .. tab-content:: tabs-realm-sdks
-          :tab-id: javascript
-
-          | ``result.upsertedId: <ObjectID>``
-
-       .. tab-content:: tabs-realm-sdks
-          :tab-id: android
-
-          | ``result.upsertedId: <ObjectID>``
-
-       .. tab-content:: tabs-realm-sdks
-          :tab-id: ios
-
-          | ``result.upsertedId: <ObjectID>``
-
+       
+       | ``result.upsertedId: <ObjectID>``
      - The ``_id`` value of the document inserted by an upsert
        operation. This value is only present when the ``upsert`` option
        is enabled and the update query does not match any documents.

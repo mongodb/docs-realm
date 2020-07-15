@@ -69,24 +69,25 @@ content: |
      
      git clone https://github.com/<organization>/<repo>.git
   
-  The repository needs to contain an :ref:`application directory
-  <app-directory>` with configuration files that define your
-  application. You can create the application directory manually or
-  :doc:`export the application directory </deploy/export-realm-app>`
-  using the ``--for-source-control`` option for an existing app.
+  The configured branch and directory must contain an :ref:`application
+  directory <app-directory>` with configuration files that define your
+  application. You can create the application directory manually or :doc:`export
+  the application directory </deploy/export-realm-app>` of an existing app (using the
+  ``--for-source-control`` option).
   
-  .. important::
+  .. admonition:: Export For Source Control
+     :class: important
 
-     {+app+}s deployed via GitHub *must not* specify
-     the ``name``, ``app_id``, ``location``, or ``deployment_model``
-     fields in the ``realm.json`` file. Applications deployed via
-     GitHub must also omit the ``config.clusterName`` field of the
-     ``config.json`` of any Atlas clusters connected to the application.
-     Application configurations exported with the
-     ``--for-source-control`` flag omit these fields automatically.
+     {+app+}s deployed via GitHub *must not* specify the ``name``, ``app_id``,
+     ``location``, or ``deployment_model`` fields in the ``realm.json`` file.
+     Applications deployed via GitHub must also omit the ``config.clusterName``
+     field of the ``config.json`` of any Atlas clusters connected to the
+     application.
+     
+     Application configurations exported with the ``--for-source-control`` flag
+     omit these fields automatically.
   
-  Add the application directory to the repository
-  and then commit the changes:
+  Add the application directory to the repository and then commit the changes:
 
   .. code-block:: shell
      
@@ -94,22 +95,21 @@ content: |
      git commit -m "Adds {+service-short+} Application Directory"
   
   Once you have committed the latest version of the application to the
-  repository, push it to the ``master`` branch of your repository on
-  GitHub:
+  repository, push it to your GitHub repository:
 
   .. code-block:: shell
      
-     git push origin master
+     git push origin <branch name>
 ---
 title: Enable Automatic Deployment
 ref: enable-automatic-deployment
 content: |
-  After you have specified a repository to deploy and initialized it
-  with the latest version of your app, you need to enable automatic
-  deployment to begin deploying it. On the :guilabel:`Configuration` tab
-  of the :guilabel:`Deploy` page, click :guilabel:`Enable Automatic
-  Deployment`. In the modal that appears, click :guilabel:`Enable
-  Automatic Deployment` to confirm your selection.
+  After you have specified a repository to deploy and initialized it with the
+  latest version of your app, you need to enable automatic deployment to begin
+  deploying it. On the :guilabel:`Configuration` tab of the :guilabel:`Deploy`
+  page, click :guilabel:`Enable Automatic Deployment`. In the modal that
+  appears, click :guilabel:`Enable Automatic Deployment` to confirm your
+  selection.
   
   .. cssclass:: bordered-figure
   .. figure:: /images/enable-automatic-deployment.png
@@ -118,39 +118,38 @@ content: |
 title: Make Changes to Your Application
 ref: make-changes-to-your-application
 content: |
-  A deployment contains one or more changes that you have
-  made to your application since the previous deployment.
-  Make any additions, modifications, or deletions to the
-  repository that you want to include in your deployment.
+  A deployment contains one or more changes that you have made to your
+  application since the previous deployment. Make any additions, modifications,
+  or deletions to the repository that you want to include in your deployment.
 
   Refer to the :doc:`Application Configuration Files
-  </deploy/application-configuration-files>` reference page and
-  individual component reference pages for details on the structure and
-  schema of your application directory.
+  </deploy/application-configuration-files>` reference page and individual
+  component reference pages for details on the structure and schema of your
+  application directory.
 ---
 title: Commit and Push Your Changes
 ref: commit-and-push-your-changes
 content: |
-  Once you have updated your application configuration, you
-  can deploy the updates as a new version of your {+app+}
-  by pushing them to the GitHub repo that you specified. If
-  Automatic GitHub Deployment is enabled, {+service-short+} immediately
-  deploys the latest commit from the ``master`` branch.
+  Once you have updated your application configuration, you can deploy the
+  updates as a new version of your {+app+} by pushing them to the GitHub repo
+  that you specified. If Automatic GitHub Deployment is enabled,
+  {+service-short+} immediately deploys the latest commit for the configured
+  branch and directory.
   
-  When you are ready to deploy, commit all of the files that
-  you want to include and then push them to GitHub:
+  When you are ready to deploy, commit all of the files that you want to include
+  and then push them to GitHub:
 
   .. code-block:: sh
   
      git add -A
      git commit -m "<commit message>"
-     git push origin master
+     git push origin <branch name>
   
-  Once you successfully push your changes to ``master`` in the GitHub
-  repo, {+service-short+} immediately deploys a new version of your application
-  that matches the state of the latest commit. Client applications will
-  automatically use the newest version, so make sure that you also
-  update your client code to use the new version if necessary.
+  Once you successfully push your changes to GitHub, {+service-short+}
+  immediately deploys a new version of your application that matches the state
+  of the latest commit. Client applications will automatically use the newest
+  version, so make sure that you also update your client code to use the new
+  version if necessary.
 
   .. admonition:: Deployment History
      :class: note

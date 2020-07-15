@@ -20,100 +20,30 @@ Definition
 Return a collection handle object that represents a collection in a
 :method:`database <mongodb.db()>`.
 
-.. _js-database.collection: https://docs.mongodb.com/realm-sdks/js/4/interfaces/remotemongodatabase.html#collection
-.. _java-database.collection: https://docs.mongodb.com/realm-sdks/java/4/com/mongodb/realm/android/services/mongodb/remote/RemoteMongoDatabase.html#getCollection-java.lang.String-
-.. _swift-database.collection: https://docs.mongodb.com/realm-sdks/swift/5/Classes/RemoteMongoDatabase.html#/
-
 Usage
 -----
 
 Example
 ~~~~~~~
 
-.. tabs-realm-sdks::
+To call the ``database.collection()`` action from a
+:doc:`function </functions>`, get a database handle with
+:method:`mongodb.db()` then call the handle's ``collection()``
+method.
 
-   tabs:
-     - id: functions
-       content: |
-         To call the ``database.collection()`` action from a
-         :doc:`Function </functions>`, get a database handle with
-         :method:`mongodb.db()` then call the handle's ``collection()``
-         method.
+.. code-block:: javascript
 
-         .. code-block:: javascript
-
-            const collection = mongodb.db("myDB").collection("myCollection");
-
-     - id: javascript
-       content: |
-         To call the ``database.collection()`` action from a JavaScript
-         SDK, use the `RemoteMongoDatabase.collection()
-         <js-database.collection_>`_ method.
-
-         .. code-block:: javascript
-
-            const collection = mongodb.db("myDB").collection("myCollection");
-
-     - id: android
-       content: |
-         To call the ``database.collection()`` action from the
-         Java/Android SDK, use the `RemoteMongoDatabase.collection()
-         <java-database.collection_>`_ method.
-
-         .. code-block:: java
-
-            RemoteMongoDatabase db = mongodb.getDatabase("myDB").getCollection("myCollection");
-     - id: ios
-       content: |
-         To call the ``database.collection()`` action from the Swift/iOS
-         SDK, use the `RemoteMongoDatabase.collection()
-         <swift-database.collection_>`_ method.
-
-         .. code-block:: swift
-
-            RemoteMongoDatabase db = mongodb.db("myDB").collection("myCollection")
+   const collection = mongodb.db("myDB").collection("myCollection");
 
 Parameters
 ~~~~~~~~~~
 
-.. tabs-realm-sdks::
-
-   tabs:
-     - id: functions
-       content: |
-         The ``database.collection()`` action has the following form:
+The ``database.collection()`` action has the following form:
 
 
-         .. code-block:: javascript
+.. code-block:: javascript
 
-            collection(name)
-
-     - id: javascript
-       content: |
-         The `collection() <js-database.collection_>`_ method has the
-         following form:
-
-         .. code-block:: javascript
-
-            collection(name)
-
-     - id: android
-       content: |
-         The `getCollection() <java-database.collection_>`_ method has the
-         following form:
-
-         .. code-block:: java
-
-            getCollection​(String collectionName, Class<DocumentT> documentClass)
-
-     - id: ios
-       content: |
-         The `collection() <swift-database.collection_>`_ method has the following
-         form:
-
-         .. code-block:: swift
-
-            collection(name)
+   collection(name)
 
 .. cssclass:: config-table
 .. list-table::
@@ -124,7 +54,7 @@ Parameters
     - Description
 
   * - :guilabel:`Collection Name`
-
+      
       | ``name: <string>``
 
     - The name of the collection. The collection must exist in the
@@ -133,34 +63,5 @@ Parameters
 Return Value
 ~~~~~~~~~~~~
 
-.. tabs-realm-sdks::
-
-   tabs:
-     - id: functions
-       content: |
-         The ``database.collection()`` action returns a collection
-         object that allows you to query the specified collection.
-
-     - id: javascript
-       content: |
-         The `RemoteMongoDatabase.collection()
-         <js-database.collection_>`_ method returns a
-         :js-sdk:`RemoteMongoCollection
-         <interfaces/remotemongocollection.html>` object that allows you
-         to query the specified collection.
-
-     - id: android
-       content: |
-         The `RemoteMongoDatabase.getCollection()
-         <java-database.collection_>`_ method returns a
-         :android-sdk:`RemoteMongoCollection
-         <com/mongodb/realm/android/services/mongodb/remote/RemoteMongoCollection.html>`
-         object that allows you to query the specified collection.
-
-     - id: ios
-       content: |
-         The `RemoteMongoDatabase.collection()
-         <swift-database.collection_>`_ method returns a
-         :ios-sdk:`RemoteMongoCollection
-         <Classes/RemoteMongoCollection.html>` object that allows you to
-         query the specified collection.
+The ``database.collection()`` action returns a collection
+object that allows you to query the specified collection.

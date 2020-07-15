@@ -19,154 +19,40 @@ Definition
 
 Remove one or more documents from the collection based on a query filter.
 
-.. _js-collection.deleteMany: https://docs.mongodb.com/stitch-sdks/js/4/interfaces/remotemongocollection.html#deletemany
-.. _java-collection.deleteMany: https://docs.mongodb.com/stitch-sdks/java/4/com/mongodb/stitch/android/services/mongodb/remote/RemoteMongoCollection.html#deleteMany-org.bson.conversions.Bson-org.bson.conversions.Bson-
-.. _swift-collection.deleteMany: https://docs.mongodb.com/stitch-sdks/swift/5/Classes/RemoteMongoCollection.html#/
-
 Usage
 -----
 
 Example
 ~~~~~~~
 
-.. tabs-realm-sdks::
+To call the ``collection.deleteMany()`` action from a :doc:`function
+</functions>`, get a collection handle with
+:method:`database.collection()` then call the handle's ``deleteMany()``
+method.
 
-   tabs:
-     - id: functions
-       content: |
-         To call the ``collection.deleteMany()`` action from a
-         :doc:`Function </functions>`, get a collection handle with
-         :method:`database.collection()` then call the handle's
-         ``deleteMany()`` method.
-
-         .. include:: /mongodb/crud-snippets/deleteMany/functions.rst
-     - id: javascript
-       content: |
-         To call the ``collection.deleteMany()`` action from a
-         JavaScript SDK, use the `RemoteMongoCollection.deleteMany()
-         <js-collection.deleteMany_>`_ method.
-
-         .. include:: /mongodb/crud-snippets/deleteMany/js.rst
-     - id: android
-       content: |
-         To call the ``collection.deleteMany()`` action from the
-         Java/Android SDK, use the `RemoteMongoCollection.deleteMany()
-         <java-collection.deleteMany_>`_ method.
-
-         .. include:: /mongodb/crud-snippets/deleteMany/android.rst
-     - id: ios
-       content: |
-         To call the ``collection.deleteMany()`` action from the
-         Swift/iOS SDK, use the `RemoteMongoCollection.deleteMany()
-         <swift-collection.deleteMany_>`_ method.
-
-         .. include:: /mongodb/crud-snippets/deleteMany/ios.rst
+.. include:: /mongodb/crud-snippets/deleteMany/functions.rst
 
 Parameters
 ~~~~~~~~~~
 
-.. tabs-realm-sdks::
+The ``collection.deleteMany()`` action has the following form:
 
-   tabs:
-     - id: functions
-       content: |
-         The ``collection.deleteMany()`` action has the following form:
+.. code-block:: javascript
 
+   deleteMany(query)
 
-         .. code-block:: javascript
-
-            deleteMany(query)
-
-         .. include:: /includes/extracts/mongodb-action-params-deleteMany.rst
-     - id: javascript
-       content: |
-         The `deleteMany() <js-collection.deleteMany_>`_ method has the
-         following form:
-
-         .. code-block:: javascript
-
-            deleteMany(query)
-
-         .. include:: /includes/extracts/mongodb-action-params-deleteMany.rst
-     - id: android
-       content: |
-         The `deleteMany() <java-collection.deleteMany_>`_ method has
-         the following form:
-
-         .. code-block:: java
-
-            deleteMany​(Bson query)
-
-         .. include:: /includes/extracts/mongodb-action-params-deleteMany.rst
-     - id: ios
-       content: |
-         The `deleteMany() <swift-collection.deleteMany_>`_ method has
-         the following form:
-
-         .. code-block:: swift
-
-            deleteMany(query)
-
-         .. include:: /includes/extracts/mongodb-action-params-deleteMany.rst
+.. include:: /includes/extracts/mongodb-action-params-deleteMany.rst
 
 Return Value
 ~~~~~~~~~~~~
 
-.. _js-RemoteDeleteResult: https://docs.mongodb.com/stitch-sdks/js/4/interfaces/remotedeleteresult.html
-.. _java-RemoteDeleteResult: https://docs.mongodb.com/stitch-sdks/java/4/com/mongodb/stitch/core/services/mongodb/remote/RemoteDeleteResult.html
-.. _swift-RemoteDeleteResult: https://docs.mongodb.com/stitch-sdks/swift/5/Structs/RemoteDeleteResult.html
+The ``collection.deleteMany()`` action returns a :mdn:`Promise
+<Web/JavaScript/Reference/Global_Objects/Promise>` that
+resolves to a document that describes the delete operation.
 
-.. tabs-realm-sdks::
+.. code-block:: javascript
 
-   tabs:
-     - id: functions
-       content: |
-         The ``collection.deleteMany()`` action returns a :mdn:`Promise
-         <Web/JavaScript/Reference/Global_Objects/Promise>` that
-         resolves to a document that describes the delete operation.
-
-         .. code-block:: javascript
-
-            Promise<result: document>
-
-     - id: javascript
-       content: |
-         The `RemoteMongoCollection.deleteMany() <js-collection.deleteMany_>`_
-         method returns a :mdn:`Promise
-         <Web/JavaScript/Reference/Global_Objects/Promise>` that
-         resolves to a `RemoteDeleteResult <js-RemoteDeleteResult_>`_
-         object that describes the delete operation.
-
-         .. code-block:: javascript
-
-            Promise<result: RemoteDeleteResult>
-
-     - id: android
-       content: |
-         The `RemoteMongoCollection.deleteMany()
-         <java-collection.deleteMany_>`_ method returns a :android:`Task
-         <com/google/android/play/core/tasks/Task>` that resolves to a
-         `RemoteDeleteResult <java-RemoteDeleteResult_>`_ object that
-         describes the delete operation.
-
-         .. code-block:: java
-
-            Task<RemoteDeleteResult result>
-
-     - id: ios
-       content: |
-         The `RemoteMongoCollection.deleteMany()
-         <swift-collection.deleteMany_>`_ method returns a
-         :ios-sdk:`StitchResult <Enums/StitchResult.html>` enum that
-         resolves to a `RemoteDeleteResult <swift-RemoteDeleteResult_>`_
-         object that describes the delete operation.
-
-         .. code-block:: swift
-
-            enum StitchResult {
-              case success(result: RemoteDeleteResult)
-              case failure(error: StitchError)
-            }
+   Promise<result: document>
 
 .. cssclass:: config-table
 .. list-table::
@@ -177,26 +63,8 @@ Return Value
      - Description
 
    * - :guilabel:`Matched Count`
-
-       .. tab-content:: tabs-realm-sdks
-          :tab-id: functions
-
-          | ``result.deletedCount: <integer>``
-
-       .. tab-content:: tabs-realm-sdks
-          :tab-id: javascript
-
-          | ``result.deletedCount: <integer>``
-
-       .. tab-content:: tabs-realm-sdks
-          :tab-id: android
-
-          | ``result.deletedCount: <Long>``
-
-       .. tab-content:: tabs-realm-sdks
-          :tab-id: ios
-
-          | ``result.deletedCount: <Int>``
+       
+       | ``result.deletedCount: <integer>``
 
      - The number of documents in the collection that were deleted by
        the delete operation.

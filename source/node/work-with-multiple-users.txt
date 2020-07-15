@@ -1,0 +1,154 @@
+.. _node-multi-user:
+
+========================
+Work with Multiple Users
+========================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+The Realm SDK allows multiple :ref:`users <user-accounts>` to be logged in to an
+app simultaneously on a given device. {+service-short+} client applications run
+in the context of a single active user even if multiple users are logged in
+simultaneously. You can quickly switch between authenticated users without
+requiring them to log in again.
+
+.. important::
+   
+   **Any logged in user may become the active user without re-authenticating.**
+   Depending on your app, this may be a security vulnerability. For example, a
+   user on a shared device may switch to a coworker's logged in account without
+   providing their credentials or requiring their explicit permission. If your
+   application requires stricter authentication, avoid switching between users
+   and prefer to explicitly log the active user out before authenticating
+   another user.
+
+User Account States
+~~~~~~~~~~~~~~~~~~~
+
+When a user first logs in through a {+service-short+} SDK on a given device or
+browser, the SDK saves the user's information and keeps track of the user's
+state on the device. The user's data remains on the device, even if they log
+out, unless you actively :ref:`remove the user <ios-remove-user>`.
+
+The following states describe an on-device user at any given time:
+
+- **Authenticated:** any user that has logged in on the device
+  and has not logged out or had its session revoked.
+  
+  - **Active**: a single authenticated user that is currently using the
+    app on a given device. The SDK associates this user with outgoing
+    requests and {+backend-short+} evaluates data access permissions and runs
+    functions in this user's context. See :ref:`active user <active-user>` for
+    more information.
+   
+  - **Inactive**: all authenticated users that are not the current
+    active user. You can :ref:`switch the active user <ios-switch-user>` to a
+    currently inactive user at any time.
+
+- **Logged Out:** any user that authenticated on the device but
+  has since logged out or had its session revoked.
+
+The following diagram shows how users within a {+service-short+} client app
+transition between states when certain events occur:
+
+.. figure:: /images/multi-user.png
+
+.. _node-add-user:
+
+Add a New User to a Device
+--------------------------
+
+The {+service-short+} SDK automatically adds users to a device when they log in
+for the first time on that device. When a user logs in, they immediately become
+the application's :ref:`active user <active-user>`.
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: javascript
+      
+      .. literalinclude:: /examples/MultiUser/AddUser/AddUser.js
+         :language: javascript
+   
+   .. tab::
+      :tabid: typescript
+      
+      .. literalinclude:: /examples/MultiUser/AddUser/AddUser.ts
+         :language: typescript
+
+.. _node-list-users:
+
+List All On-Device Users
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can access a list of all :ref:`user accounts <user-accounts>` that are
+stored on the device. This list includes all users that have logged in to the
+client app on a given device regardless of whether they are currently
+authenticated.
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: javascript
+      
+      .. literalinclude:: /examples/MultiUser/ListUsers/ListUsers.js
+         :language: javascript
+   
+   .. tab::
+      :tabid: typescript
+      
+      .. literalinclude:: /examples/MultiUser/ListUsers/ListUsers.ts
+         :language: typescript
+
+.. _node-switch-user:
+
+Switch the Active User
+~~~~~~~~~~~~~~~~~~~~~~
+
+You can quickly switch an app's :ref:`active user <active-user>` to another
+logged in user at any time.
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: javascript
+      
+      .. literalinclude:: /examples/MultiUser/SwitchUser/SwitchUser.js
+         :language: javascript
+   
+   .. tab::
+      :tabid: typescript
+      
+      .. literalinclude:: /examples/MultiUser/SwitchUser/SwitchUser.ts
+         :language: typescript
+
+.. _node-remove-user:
+
+Remove a User from the Device
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can remove all information about a user from the device and automatically
+log the user out.
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: javascript
+      
+      .. literalinclude:: /examples/MultiUser/LogoutUser/LogoutUser.js
+         :language: javascript
+   
+   .. tab::
+      :tabid: typescript
+      
+      .. literalinclude:: /examples/MultiUser/LogoutUser/LogoutUser.ts
+         :language: typescript

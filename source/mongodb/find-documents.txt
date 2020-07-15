@@ -35,20 +35,11 @@ Find a Single Document
 You can find a single document using the :method:`collection.findOne()`
 action.
 
-.. note::
+The following :ref:`function <functions>` snippet finds a single
+document from the ``items`` collection that has a ``quantity`` greater
+than or equal to ``25``:
 
-   The ``collection.findOne()`` action is currently only available in
-   :doc:`Functions </functions>`. You can emulate ``findOne`` behavior
-   in a Client SDK by calling :method:`collection.find()` with a ``limit`` of
-   1.
-
-The following snippet finds a single document from the ``items``
-collection that has a ``quantity`` greater than or equal to ``25``:
-
-.. tab-bar:: tabs-realm-sdks
-   :tab-ids: functions, javascript, android, ios
-
-.. include:: /mongodb/crud-snippets/findOne/all.rst
+.. include:: /mongodb/crud-snippets/findOne/functions.rst
 
 .. _mongodb-find-one-or-more-documents:
 
@@ -58,14 +49,11 @@ Find One or More Documents
 You can find multiple documents using the :method:`collection.find()`
 action.
 
-The following snippet finds all documents in the ``items`` collection
-that have at least one review and returns them sorted by ``name`` with
-the ``_id`` field omitted:
+The following :ref:`function <functions>` snippet finds all documents in
+the ``items`` collection that have at least one review and returns them
+sorted by ``name`` with the ``_id`` field omitted:
 
-.. tab-bar:: tabs-realm-sdks
-   :tab-ids: functions, javascript, android, ios
-
-.. include:: /mongodb/crud-snippets/findMany/all.rst
+.. include:: /mongodb/crud-snippets/findMany/functions.rst
 
 .. _mongodb-count-documents:
 
@@ -77,13 +65,10 @@ You can count documents in a collection using the
 specify which documents to count. If you don't specify a query, the
 action counts all documents in the collection.
 
-The following snippet counts the number of documents in the ``items``
-collection that have at least one review:
+The following :ref:`function <functions>` snippet counts the number of
+documents in the ``items`` collection that have at least one review:
 
-.. tab-bar:: tabs-realm-sdks
-   :tab-ids: functions, javascript, android, ios
-
-.. include:: /mongodb/crud-snippets/count/all.rst
+.. include:: /mongodb/crud-snippets/count/functions.rst
 
 .. _mongodb-query-patterns:
 
