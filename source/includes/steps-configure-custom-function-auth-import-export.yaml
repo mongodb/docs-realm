@@ -14,7 +14,7 @@ content: |
 
   .. code-block:: shell
 
-     TODO
+     realm-cli export --app-id=<App ID>
 ---
 title: Define the Authentication Function
 ref: define-the-authentication-function
@@ -110,14 +110,17 @@ content: |
 
   .. code-block:: shell
 
-     TODO
+     realm-cli import
   
   To deploy a draft application with automatic :doc:`GitHub deployment
   </deploy/deploy-automatically-with-github>`:
 
   .. code-block:: shell
-
-     TODO
+     
+     git add functions/<Authentication Function Name>
+     git add auth_providers/custom-function.json
+     git commit -m "Configure and Enable Custom Function Authentication"
+     git push
 
   Once the application successfully deploys, you will be able to create
   a user and log in with the Custom Function provider from a client

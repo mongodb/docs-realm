@@ -26,83 +26,21 @@ Usage
 Example
 ~~~~~~~
 
-.. tabs-realm-sdks::
+To call the ``collection.aggregate()`` action from a
+:doc:`Function </functions>`, get a collection handle with
+:method:`database.collection()` then call the handle's
+``aggregate()`` method.
 
-   tabs:
-     - id: functions
-       content: |
-         To call the ``collection.aggregate()`` action from a
-         :doc:`Function </functions>`, get a collection handle with
-         :method:`database.collection()` then call the handle's
-         ``aggregate()`` method.
-
-         .. include:: /mongodb/crud-snippets/aggregate/functions.rst
-     - id: javascript
-       content: |
-         To call the ``collection.aggregate()`` action from a JavaScript
-         SDK, use the `RemoteMongoCollection.aggregate()
-         <js-collection.aggregate_>`_ method.
-
-         .. include:: /mongodb/crud-snippets/aggregate/js.rst
-     - id: android
-       content: |
-         To call the ``collection.aggregate()`` action from the
-         Java/Android SDK, use the `RemoteMongoCollection.aggregate()
-         <java-collection.aggregate_>`_ method.
-
-         .. include:: /mongodb/crud-snippets/aggregate/android.rst
-     - id: ios
-       content: |
-         To call the ``collection.aggregate()`` action from the
-         Swift/iOS SDK, use the `RemoteMongoCollection.aggregate()
-         <swift-collection.aggregate_>`_ method.
-
-         .. include:: /mongodb/crud-snippets/aggregate/ios.rst
+.. include:: /mongodb/crud-snippets/aggregate/functions.rst
 
 Parameters
 ~~~~~~~~~~
 
-.. _js-collection.aggregate: https://docs.mongodb.com/stitch-sdks/js/4/interfaces/remotemongocollection.html#aggregate
-.. _java-collection.aggregate: https://docs.mongodb.com/stitch-sdks/java/4/com/mongodb/stitch/android/services/mongodb/remote/RemoteMongoCollection.html#aggregate-java.util.List-
-.. _swift-collection.aggregate: https://docs.mongodb.com/stitch-sdks/swift/5/Classes/RemoteMongoCollection.html#/
+The ``collection.aggregate()`` action has the following form:
 
-.. tabs-realm-sdks::
+.. code-block:: javascript
 
-   tabs:
-     - id: functions
-       content: |
-         The ``collection.aggregate()`` action has the following form:
-
-         .. code-block:: javascript
-
-            aggregate(pipeline)
-
-     - id: javascript
-       content: |
-         The `aggregate() <js-collection.aggregate_>`_ method has the
-         following form:
-
-         .. code-block:: javascript
-
-            aggregate(pipeline)
-
-     - id: android
-       content: |
-         The `aggregate() <java-collection.aggregate_>`_ method has the
-         following form:
-
-         .. code-block:: java
-
-            aggregate​(List<? extends Bson> pipeline, Class<ResultT> resultClass)
-
-     - id: ios
-       content: |
-         The `aggregate() <swift-collection.aggregate_>`_ method has the
-         following form:
-
-         .. code-block:: swift
-
-            aggregate(pipeline)
+   aggregate(pipeline)
 
 .. cssclass:: config-table
 .. list-table::
@@ -124,84 +62,15 @@ Parameters
 Return Value
 ~~~~~~~~~~~~
 
-.. _js-RemoteMongoReadOperation: https://docs.mongodb.com/stitch-sdks/js/4/classes/remotemongoreadoperation.html
-.. _js-RemoteMongoCursor: https://docs.mongodb.com/stitch-sdks/js/4/classes/remotemongocursor.html
-.. _java-RemoteAggregateIterable: https://docs.mongodb.com/stitch-sdks/java/4/com/mongodb/stitch/android/services/mongodb/remote/RemoteAggregateIterable.html
-.. _java-RemoteMongoCursor: https://docs.mongodb.com/stitch-sdks/java/4/com/mongodb/stitch/android/services/mongodb/remote/RemoteMongoCursor.html
-.. _swift-RemoteMongoReadOperation: https://docs.mongodb.com/stitch-sdks/swift/5/Classes/RemoteMongoReadOperation.html
-.. _swift-RemoteMongoCursor: https://docs.mongodb.com/stitch-sdks/swift/5/Classes/RemoteMongoCursor.html
+The ``collection.aggregate()`` action returns a cursor object
+that points to any documents output from the final stage of the
+aggregation pipeline. You can manipulate and access documents
+in the aggregation result set with the following methods:
 
-.. tabs-realm-sdks::
+.. include:: /includes/extracts/mongodb-action-aggregate-cursor.rst
 
-   tabs:
-     - id: functions
-       content: |
-         The ``collection.aggregate()`` action returns a cursor object
-         that points to any documents output from the final stage of the
-         aggregation pipeline. You can manipulate and access documents
-         in the aggregation result set with the following methods:
+.. note::
 
-         .. include:: /includes/extracts/mongodb-action-aggregate-cursor.rst
-
-         .. note::
-
-            You cannot return a cursor from a :doc:`Function
-            </functions>`. Instead, evaluate the cursor using
-            ``cursor.next()`` or ``cursor.toArray()`` and return the
-            result.
-
-     - id: javascript
-       content: |
-         The `RemoteMongoCollection.aggregate()
-         <js-collection.aggregate_>`_ method returns a
-         `RemoteMongoReadOperation <js-RemoteMongoReadOperation_>`_
-         object.
-
-         .. code-block:: javascript
-
-            result: RemoteMongoReadOperation
-
-         You can access documents in the aggregation result set by
-         calling one of the following methods on the
-         ``RemoteMongoReadOperation`` object:
-
-         .. include:: /includes/extracts/mongodb-action-remotemongoreadoperation.rst
-
-     - id: android
-       content: |
-         The `RemoteMongoCollection.aggregate()
-         <java-collection.aggregate_>`_ method returns a
-         `RemoteAggregateIterable <java-RemoteAggregateIterable_>`_
-         object.
-
-         .. code-block:: java
-
-            RemoteAggregateIterable result
-
-         You can access documents in the aggregation result set by
-         calling one of the following methods on the
-         ``RemoteAggregateIterable`` object:
-
-         .. include:: /includes/extracts/mongodb-action-remoteaggregateiterable.rst
-
-     - id: ios
-       content: |
-         The `RemoteMongoCollection.aggregate()
-         <swift-collection.aggregate_>`_ method returns a
-         :ios-sdk:`StitchResult <Enums/StitchResult.html>` enum to its
-         completion handler:
-
-         .. code-block:: swift
-
-            enum StitchResult {
-              case success(result: RemoteMongoReadOperation)
-              case failure(error: StitchError)
-            }
-
-         If the find operation was successful, the ``StitchResult``
-         resolves to a `RemoteMongoReadOperation
-         <swift-RemoteMongoReadOperation_>`_ object that allows you to
-         access documents in the aggregation result set by calling one
-         of the following methods:
-
-         .. include:: /includes/extracts/mongodb-action-remotemongoreadoperation.rst
+   You cannot return a cursor from a :doc:`Function </functions>`.
+   Instead, evaluate the cursor using ``cursor.next()`` or
+   ``cursor.toArray()`` and return the result.

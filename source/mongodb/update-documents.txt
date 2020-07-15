@@ -36,14 +36,11 @@ Update a Single Document
 You can update a single document using the
 :method:`collection.updateOne()` action.
 
-The following snippet updates the ``name`` of a single document in the
-``items`` collection from ``legos`` to ``blocks`` and adds a ``price``
-of ``20.99``:
+The following :ref:`function <functions>` snippet updates the ``name``
+of a single document in the ``items`` collection from ``legos`` to
+``blocks`` and adds a ``price`` of ``20.99``:
 
-.. tab-bar:: tabs-realm-sdks
-   :tab-ids: functions, javascript, android, ios
-
-.. include:: /mongodb/crud-snippets/updateOneSetField/all.rst
+.. include:: /mongodb/crud-snippets/updateOneSetField/functions.rst
 
 Update One or More Documents
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -51,13 +48,11 @@ Update One or More Documents
 You can update a single document using the
 :method:`collection.updateMany()` action.
 
-The following snippet updates all documents in the ``items`` collection
-by multiplying their ``quantity`` values by ``10``:
+The following :ref:`function <functions>` snippet updates all documents
+in the ``items`` collection by multiplying their ``quantity`` values by
+``10``:
 
-.. tab-bar:: tabs-realm-sdks
-   :tab-ids: functions, javascript, android, ios
-
-.. include:: /mongodb/crud-snippets/updateMany/all.rst
+.. include:: /mongodb/crud-snippets/updateMany/functions.rst
 
 Options
 -------
@@ -70,17 +65,14 @@ you can automatically insert a single new document into the collection
 that matches the update query by setting the ``upsert`` option to
 ``true``.
 
-The following snippet updates a document in the ``items`` collection
-that has a ``name`` of ``board game`` by incrementing its ``quantity``
-by ``5``. The ``upsert`` option is enabled, so if no document has a
-``name`` value of ``"board game"`` then MongoDB inserts a new document
-with the ``name`` field set to ``"board game"`` and the ``quantity``
-value set to ``5``:
+The following :ref:`function <functions>` snippet updates a document in
+the ``items`` collection that has a ``name`` of ``board game`` by
+incrementing its ``quantity`` by ``5``. The ``upsert`` option is
+enabled, so if no document has a ``name`` value of ``"board game"`` then
+MongoDB inserts a new document with the ``name`` field set to ``"board
+game"`` and the ``quantity`` value set to ``5``:
 
-.. tab-bar:: tabs-realm-sdks
-   :tab-ids: functions, javascript, android, ios
-
-.. include:: /mongodb/crud-snippets/updateOneUpsert/all.rst
+.. include:: /mongodb/crud-snippets/updateOneUpsert/functions.rst
 
 .. _mongodb-update-operators-fields:
 

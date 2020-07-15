@@ -26,211 +26,45 @@ the risk of other update operations changing the document between
 separate :doc:`find </mongodb/actions/collection.find>` and :doc:`update
 </mongodb/actions/collection.updateOne>` operations.
 
-.. _js-collection.findOneAndReplace: https://docs.mongodb.com/stitch-sdks/js/4/interfaces/remotemongocollection.html#findOneAndReplace
-.. _java-collection.findOneAndReplace: https://docs.mongodb.com/stitch-sdks/java/4/com/mongodb/stitch/android/services/mongodb/remote/RemoteMongoCollection.html#findOneAndReplace(org.bson.conversions.Bson,org.bson.conversions.Bson)
-
 Usage
 -----
 
 Example
 ~~~~~~~
 
-.. tabs-realm-sdks::
+To call the ``collection.findOneAndUpdate()`` action from a
+:doc:`Function </functions>`, get a collection handle with
+:method:`database.collection()` then call the handle's
+``findOneAndUpdate()`` method.
 
-   tabs:
-     - id: functions
-       content: |
-         To call the ``collection.findOneAndUpdate()`` action from a
-         :doc:`Function </functions>`, get a collection handle with
-         :method:`database.collection()` then call the handle's
-         ``findOneAndUpdate()`` method.
-
-         .. include:: /mongodb/crud-snippets/findOneAndReplace/functions.rst
-     - id: javascript
-       content: |
-         To call the ``collection.findOneAndReplace()`` action from a
-         JavaScript SDK, use the
-         `RemoteMongoCollection.findOneAndReplace()
-         <js-collection.findOneAndReplace_>`_ method.
-
-         .. include:: /mongodb/crud-snippets/findOneAndReplace/js.rst
-
-     - id: android
-       content: |
-         To call the ``collection.findOneAndReplace()`` action from the
-         Java/Android SDK, use the
-         `RemoteMongoCollection.findOneAndReplace()
-         <java-collection.findOneAndReplace_>`_ method.
-
-         .. include:: /mongodb/crud-snippets/findOneAndReplace/android.rst
-
-     - id: ios
-       content: |
-
-         .. include:: /mongodb/crud-snippets/findOneAndReplace/ios.rst
+.. include:: /mongodb/crud-snippets/findOneAndReplace/functions.rst
 
 Parameters
 ~~~~~~~~~~
 
-.. tabs-realm-sdks::
+The ``collection.findOneAndReplace()`` action has the following
+form:
 
-   tabs:
-     - id: functions
-       content: |
-         The ``collection.findOneAndReplace()`` action has the following
-         form:
+.. code-block:: javascript
 
-         .. code-block:: javascript
+   findOneAndReplace(query, replacement, options)
 
-            findOneAndReplace(query, replacement, options)
-
-         .. include:: /includes/extracts/mongodb-action-params-findOneAndReplace-function.rst
-
-     - id: javascript
-       content: |
-         The `findOneAndReplace() <js-collection.findOneAndReplace_>`_
-         method has the following form:
-
-         .. code-block:: javascript
-
-           findOneAndReplace(query, replacement, options)
-
-         .. include:: /includes/extracts/mongodb-action-params-findOneAndReplace-function.rst
-
-     - id: android
-       content: |
-         The `findOneAndReplace() <java-collection.findOneAndReplace_>`_
-         method has the following form:
-
-         .. code-block:: java
-
-           findOneAndReplace​(Bson filter, Bson replacement, RemoteFindOneAndModifyOptions options, Class<ResultT> resultClass)
-
-         .. include:: /includes/extracts/mongodb-action-params-findOneAndReplace-android.rst
-
-     - id: ios
-       content: |
-         .. code-block:: swift
-
-           public func findOneAndReplace(filter: Document,
-                              replacement: Document,
-                              options: RemoteFindOneAndModifyOptions? = nil,
-                              _ completionHandler: @escaping (StitchResult<CollectionType?>) -> Void)
-
-         .. include:: /includes/extracts/mongodb-action-params-findOneAndReplace-ios.rst
-
-
+.. include:: /includes/extracts/mongodb-action-params-findOneAndReplace-function.rst
 
 Return Value
 ~~~~~~~~~~~~
 
-.. tabs-realm-sdks::
+You can specify whether to return the pre-replacement or
+post-replacement version of the document by setting the value of
+``options.returnNewDocument``. By default, ``returnNewDocument`` is
+``false``, which indicates that the promise should resolve to the
+*pre-update* version of the document.
 
-   tabs:
-     - id: functions
-       content: |
+The ``collection.findOneAndReplace()`` action returns a :mdn:`Promise
+<Web/JavaScript/Reference/Global_Objects/Promise>` that resolves to a
+single document that the query overwrote. If no documents match the
+specified query, the promise resolves to ``null``.
 
-         .. note::
+.. code-block:: javascript
 
-            You can specify whether to return the pre-replacement or
-            post-replacement version of the document by setting the value of
-            ``options.returnNewDocument``. By default, ``returnNewDocument`` is
-            ``false``, which indicates that the promise should resolve to the
-            *pre-update* version of the document.
-
-
-         The ``collection.findOneAndReplace()`` action returns a :mdn:`Promise
-         <Web/JavaScript/Reference/Global_Objects/Promise>` that resolves to a
-         single document that the query overwrote. If no documents match the
-         specified query, the promise resolves to ``null``.
-
-         .. code-block:: javascript
-
-            Promise<document|null>
-
-     - id: javascript
-       content: |
-
-         .. note::
-
-            You can specify whether to return the pre-replacement or
-            post-replacement version of the document by setting the value of
-            ``options.returnNewDocument``. By default, ``returnNewDocument`` is
-            ``false``, which indicates that the promise should resolve to the
-            *pre-update* version of the document.
-
-
-         The ``collection.findOneAndReplace()`` action returns a :mdn:`Promise
-         <Web/JavaScript/Reference/Global_Objects/Promise>` that resolves to a
-         single document that the query overwrote. If no documents match the
-         specified query, the promise resolves to ``null``.
-
-         .. code-block:: javascript
-
-            Promise<document|null>
-
-
-     - id: android
-       content: |
-
-         .. note::
-
-            You can specify whether to return the pre-replacement or
-            post-replacement version of the document by setting the value
-            of ``RemoteFindAndModifyOptions.returnNewDocument``. By
-            default, ``returnNewDocument`` is ``false``, which indicates
-            that ``onComplete`` should be called with a :android:`Task
-            <com/google/android/play/core/tasks/Task>` containing the
-            *pre-update* version of the document. 
-
-         The `findOneAndReplace() <java-collection.findOneAndReplace_>`_
-         function returns a
-         :android:`Task <com/google/android/play/core/tasks/Task>`
-         containing the returned document, which can be accessed using
-         the ``task.getResult()`` method. The type of the result
-         contained within the
-         :android:`Task <com/google/android/play/core/tasks/Task>`
-         varies based on the configuration of the
-         :android-sdk:`RemoteMongoCollection
-         <com/mongodb/stitch/android/services/mongodb/remote/RemoteMongoCollection.html>`
-         used for the operation and the value of the ``resultClass``
-         parameter.
-
-         - If ``resultClass`` is specified, the returned
-           :android:`Task <com/google/android/play/core/tasks/Task>`
-           contains an object of type ``ResultT``, which resolves to
-           type ``resultClass``.
-         - If a ``resultClass`` is not specified, the returned
-           :android:`Task <com/google/android/play/core/tasks/Task>`
-           contains an object of type ``DocumentT``, which
-           resolves to type ``Document`` unless otherwise specified when
-           the :android-sdk:`RemoteMongoCollection
-           <com/mongodb/stitch/android/services/mongodb/remote/RemoteMongoCollection.html>`
-           was instantiated.
-         - If no document matches the provided query and the ``upsert``
-           option is ``false``, ``task.getResult()`` will return
-           ``null``.
-         - If the operation fails for any other reason, the task will fail
-           and details can be accessed using ``task.getException()``. If
-           no
-
-         .. code-block:: java
-
-            Task<ResultT result | DocumentT result | null>
-
-
-     - id: ios
-       content: |
-
-         .. note::
-
-            You can specify whether to return the pre-replacement or
-            post-replacement version of the document by setting the value of
-            ``RemoteFindAndModifyOptions.returnNewDocument``. By default,
-            ``returnNewDocument`` is ``false``, which indicates that
-            ``completionHandler`` should be called with a ``StitchResult``
-            containing the *pre-update* version of the document.
-
-
-         The ``findOneAndUpdate`` method will call the supplied
-         ``completionHandler`` with a ``StitchResult``.
+   Promise<document|null>

@@ -22,165 +22,41 @@ Return a single document from a collection or :manual:`view
 returns the first document according to the query's sort order or
 :term:`natural order`.
 
-.. _js-collection.findOne: https://docs.mongodb.com/stitch-sdks/js/4/interfaces/remotemongocollection.html#findOne
-.. _java-collection.findOne: https://docs.mongodb.com/stitch-sdks/java/4/com/mongodb/stitch/android/services/mongodb/remote/RemoteMongoCollection.html#findOne(org.bson.conversions.Bson)
-
 Usage
 -----
 
 Example
 ~~~~~~~
 
-.. tabs-realm-sdks::
+To call the ``collection.findOne()`` action from a
+:doc:`Function </functions>`, get a collection handle with
+:method:`database.collection()` then call the handle's
+``findOne()`` method.
 
-   tabs:
-     - id: functions
-       content: |
-         To call the ``collection.findOne()`` action from a
-         :doc:`Function </functions>`, get a collection handle with
-         :method:`database.collection()` then call the handle's
-         ``findOne()`` method.
-
-         .. include:: /mongodb/crud-snippets/findOne/functions.rst
-     - id: javascript
-       content: |
-         To call the ``collection.findOne()`` action from a JavaScript
-         SDK, use the `RemoteMongoCollection.findOne()
-         <js-collection.findOne_>`_ method.
-
-         .. include:: /mongodb/crud-snippets/findOne/js.rst
-     - id: android
-       content: |
-         To call the ``collection.findOne()`` action from the
-         Java/Android SDK, use the
-         `RemoteMongoCollection.findOne() <java-collection.findOne_>`_
-         method.
-
-         .. include:: /mongodb/crud-snippets/findOne/android.rst
-     - id: ios
-       content: |
-
-         .. include:: /mongodb/crud-snippets/findOne/ios.rst
+.. include:: /mongodb/crud-snippets/findOne/functions.rst
 
 Parameters
 ~~~~~~~~~~
 
 .. tabs-realm-sdks::
 
-   tabs:
-     - id: functions
-       content: |
-         The ``collection.findOne()`` action has the following form:
+The ``collection.findOne()`` action has the following form:
 
-         .. code-block:: javascript
+.. code-block:: javascript
 
-            findOne(query, projection)
+   findOne(query, projection)
 
-         .. include:: /includes/extracts/mongodb-action-params-findOne-function.rst
-
-     - id: javascript
-       content: |
-         The `findOne() <js-collection.findOne_>`_ method has the
-         following form:
-
-         .. code-block:: javascript
-
-            findOne(query, options)
-
-         .. include:: /includes/extracts/mongodb-action-params-findOne-sdk.rst
-
-     - id: android
-       content: |
-         The `findOne() <java-collection.findOne_>`_
-         method has the following form:
-
-         .. code-block:: java
-
-           findOne​(Bson filter, RemoteFindOptions options, Class<ResultT> resultClass)
-
-         .. include:: /includes/extracts/mongodb-action-params-findOne-android.rst
-
-     - id: ios
-       content: |
-
-         .. code-block:: swift
-
-            public func findOne(_ filter: Document = [:],
-                    options: RemoteFindOptions? = nil,
-                    _ completionHandler: @escaping (StitchResult<CollectionType?>) -> Void)
-
-         .. include:: /includes/extracts/mongodb-action-params-findOne-ios.rst
+.. include:: /includes/extracts/mongodb-action-params-findOne-function.rst
 
 Return Value
 ~~~~~~~~~~~~
 
-.. tabs-realm-sdks::
+The ``collection.findOne()`` action returns a :mdn:`Promise
+<Web/JavaScript/Reference/Global_Objects/Promise>` that resolves to the
+first document in the collection that matches the query filter. If no
+documents match the specified query, the promise resolves to
+``null``.
 
-   tabs:
-     - id: functions
-       content: |
+.. code-block:: javascript
 
-         The ``collection.findOne()`` action returns a :mdn:`Promise
-         <Web/JavaScript/Reference/Global_Objects/Promise>` that resolves to the
-         first document in the collection that matches the query filter. If no
-         documents match the specified query, the promise resolves to
-         ``null``.
-
-         .. code-block:: javascript
-
-            Promise<document|null>
-
-     - id: javascript
-       content: |
-
-         The ``collection.findOne()`` action returns a :mdn:`Promise
-         <Web/JavaScript/Reference/Global_Objects/Promise>` that resolves to the
-         first document in the collection that matches the query filter. If no
-         documents match the specified query, the promise resolves to
-         ``null``.
-
-         .. code-block:: javascript
-
-            Promise<document|null>
-
-
-     - id: android
-       content: |
-
-         The `findOne() <java-collection.findOne_>`_
-         function returns a
-         :android:`Task <com/google/android/play/core/tasks/Task>`
-         containing the matched document, which can be accessed using
-         the ``task.getResult()`` method. The type of the result
-         contained within the
-         :android:`Task <com/google/android/play/core/tasks/Task>`
-         varies based on the configuration of the
-         :android-sdk:`RemoteMongoCollection
-         <com/mongodb/realm/android/services/mongodb/remote/RemoteMongoCollection.html>`
-         used for the operation and the value of the ``resultClass``
-         parameter.
-
-         - If ``resultClass`` is specified, the returned
-           :android:`Task <com/google/android/play/core/tasks/Task>`
-           contains an object of type ``ResultT``, which resolves to
-           type ``resultClass``.
-         - If a ``resultClass`` is not specified, the returned
-           :android:`Task <com/google/android/play/core/tasks/Task>`
-           contains an object of type ``DocumentT``, which
-           resolves to type ``Document`` unless otherwise specified when
-           the :android-sdk:`RemoteMongoCollection
-           <com/mongodb/realm/android/services/mongodb/remote/RemoteMongoCollection.html>`
-           was instantiated.
-         - If no document matches the provided query, the task will fail
-           and details can be accessed using ``task.getException()``. If
-           no
-
-         .. code-block:: java
-
-            Task<ResultT result | DocumentT result>
-
-     - id: ios
-       content: |
-
-         The ``findOne`` method will call the supplied ``completionHandler`` with
-         a ``RealmResult``
+   Promise<document|null>

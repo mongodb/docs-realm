@@ -52,18 +52,15 @@ Aggregate Documents in a Collection
 You can execute an aggregation pipeline using the
 :method:`collection.aggregate()` action.
 
-The following snippet groups all documents in the ``purchases``
-collection by their ``customerId`` value and aggregates a count of the
-number of items each customer purchases as well as the total number of
-purchases that they made. After grouping the documents the pipeline adds
-a new field that calculates the average number of items each customer
-purchases at a time, ``averageNumItemsPurchased``, to each customer's
-document:
+The following :ref:`function <functions>` snippet groups all documents
+in the ``purchases`` collection by their ``customerId`` value and
+aggregates a count of the number of items each customer purchases as
+well as the total number of purchases that they made. After grouping the
+documents the pipeline adds a new field that calculates the average
+number of items each customer purchases at a time,
+``averageNumItemsPurchased``, to each customer's document:
 
-.. tab-bar:: tabs-realm-sdks
-   :tab-ids: functions, javascript, android, ios
-
-.. include:: /mongodb/crud-snippets/aggregate/all.rst
+.. include:: /mongodb/crud-snippets/aggregate/functions.rst
 
 .. _realm-aggregation-stages:
 

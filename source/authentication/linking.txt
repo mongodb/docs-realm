@@ -50,16 +50,19 @@ by calling {+service-short+}'s ``linkWithCredential()`` method on the
       To provide user account linking in your code, add your app's
       hosted domain to the list of :guilabel:`Allowed Request Origins`
       in :guilabel:`General Settings` and then use the
-      :android-sdk:`linkWithCredential() <com/mongodb/stitch/android/core/auth/StitchUser.html#linkWithCredential-com.mongodb.stitch.core.auth.StitchCredential->` method
-      of the :guilabel:`RealmUser` class.     
+      :java-sdk:`linkCredentials()
+      <io/realm/mongodb/User.html#linkCredentials-io.realm.mongodb.Credentials->`
+      or :java-sdk:`linkCredentialsAsync()
+      <io/realm/mongodb/User.html#linkCredentialsAsync-io.realm.mongodb.Credentials-io.realm.mongodb.App.Callback->`
+      methods of the :guilabel:`User` class.
 
    .. tab::
       :tabid: ios
 
       To provide user account linking in your code, add your app's
       hosted domain to the list of :guilabel:`Allowed Request Origins`
-      in :guilabel:`General Settings` and then use the :ios-sdk:`linkWithCredential() <Protocols/StitchUser.html#/s:10StitchCore0A4UserP4linky0aB3SDK0A10Credential_p04withF0_yAA0A6ResultOyAaB_pGctF>`
-      method of the :guilabel:`RealmUser` class. 
+      in :guilabel:`General Settings` and then use the :objc-sdk:`linkWithCredential() <Protocols/StitchUser.html#/s:10StitchCore0A4UserP4linky0aB3SDK0A10Credential_p04withF0_yAA0A6ResultOyAaB_pGctF>`
+      method of the :guilabel:`RealmUser` class.
 
 .. warning::
 

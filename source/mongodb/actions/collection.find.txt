@@ -21,172 +21,42 @@ Find all documents in a collection or :manual:`view </core/views>` that
 match the provided query predicates and return a handle object that
 allows you to access them.
 
-.. _js-collection.find: https://docs.mongodb.com/stitch-sdks/js/4/interfaces/remotemongocollection.html#find
-.. _java-collection.find: https://docs.mongodb.com/stitch-sdks/java/4/com/mongodb/stitch/android/services/mongodb/remote/RemoteMongoCollection.html#find--
-.. _swift-collection.find: https://docs.mongodb.com/stitch-sdks/swift/5/Classes/RemoteMongoCollection.html#/
-
 Usage
 -----
 
 Example
 ~~~~~~~
 
-.. tabs-realm-sdks::
+To call the ``collection.find()`` action from a :doc:`Function
+</functions>`, get a collection handle with
+:method:`database.collection()` then call the handle's
+``find()`` method.
 
-   tabs:
-     - id: functions
-       content: |
-         To call the ``collection.find()`` action from a :doc:`Function
-         </functions>`, get a collection handle with
-         :method:`database.collection()` then call the handle's
-         ``find()`` method.
-
-         .. include:: /mongodb/crud-snippets/findMany/functions.rst
-     - id: javascript
-       content: |
-         To call the ``collection.find()`` action from a JavaScript SDK,
-         use the `RemoteMongoCollection.find() <js-collection.find_>`_
-         method.
-
-         .. include:: /mongodb/crud-snippets/findMany/js.rst
-     - id: android
-       content: |
-         To call the ``collection.find()`` action from the Java/Android
-         SDK, use the `RemoteMongoCollection.find()
-         <java-collection.find_>`_ method.
-
-         .. include:: /mongodb/crud-snippets/findMany/android.rst
-     - id: ios
-       content: |
-         To call the ``collection.find()`` action from the Swift/iOS
-         SDK, use the `RemoteMongoCollection.find()
-         <swift-collection.find_>`_ method.
-
-         .. include:: /mongodb/crud-snippets/findMany/ios.rst
+.. include:: /mongodb/crud-snippets/findMany/functions.rst
 
 Parameters
 ~~~~~~~~~~
 
-.. tabs-realm-sdks::
+The ``collection.find()`` action has the following form:
 
-   tabs:
-     - id: functions
-       content: |
-         The ``collection.find()`` action has the following form:
+.. code-block:: javascript
 
-         .. code-block:: javascript
+   find(query, projection)
 
-            find(query, projection)
-
-         .. include:: /includes/extracts/mongodb-action-params-find-function.rst
-     - id: javascript
-       content: |
-         The `find() <js-collection.find_>`_ method has the following
-         form:
-
-         .. code-block:: javascript
-
-            find(query, options)
-
-         .. include:: /includes/extracts/mongodb-action-params-find-sdk.rst
-     - id: android
-       content: |
-         The `find() <java-collection.find_>`_ method has the following
-         form:
-
-         .. code-block:: java
-
-            find​(Bson filter, Class<ResultT> resultClass)
-
-         .. include:: /includes/extracts/mongodb-action-params-find-android.rst
-     - id: ios
-       content: |
-         The `find() <swift-collection.find_>`_ method has the following
-         form:
-
-         .. code-block:: swift
-
-            find(query, options)
-
-         .. include:: /includes/extracts/mongodb-action-params-find-sdk.rst
+.. include:: /includes/extracts/mongodb-action-params-find-function.rst
 
 Return Value
 ~~~~~~~~~~~~
 
-.. _js-RemoteMongoReadOperation: https://docs.mongodb.com/stitch-sdks/js/4/classes/remotemongoreadoperation.html
-.. _js-RemoteMongoCursor: https://docs.mongodb.com/stitch-sdks/js/4/classes/remotemongocursor.html
-.. _java-RemoteFindIterable: https://docs.mongodb.com/stitch-sdks/java/4/com/mongodb/stitch/android/services/mongodb/remote/RemoteFindIterable.html
-.. _java-RemoteMongoCursor: https://docs.mongodb.com/stitch-sdks/java/4/com/mongodb/stitch/android/services/mongodb/remote/RemoteMongoCursor.html
-.. _swift-RemoteMongoReadOperation: https://docs.mongodb.com/stitch-sdks/swift/5/Classes/RemoteMongoReadOperation.html
-.. _swift-RemoteMongoCursor: https://docs.mongodb.com/stitch-sdks/swift/5/Classes/RemoteMongoCursor.html
+The ``collection.find()`` action returns a cursor object that
+points to any documents that match the specified query filters.
+You can manipulate and access documents in the query result set
+with the following cursor methods:
 
-.. tabs-realm-sdks::
+.. include:: /includes/extracts/mongodb-action-find-cursor.rst
 
-   tabs:
-     - id: functions
-       content: |
-         The ``collection.find()`` action returns a cursor object that
-         points to any documents that match the specified query filters.
-         You can manipulate and access documents in the query result set
-         with the following cursor methods:
+.. note::
 
-         .. include:: /includes/extracts/mongodb-action-find-cursor.rst
-
-         .. note::
-
-            You cannot return a cursor from a :doc:`Function
-            </functions>`. Instead, evaluate the cursor using
-            ``cursor.next()`` or ``cursor.toArray()`` and return the
-            result.
-
-     - id: javascript
-       content: |
-         The `RemoteMongoCollection.find() <js-collection.find_>`_
-         method returns a `RemoteMongoReadOperation
-         <js-RemoteMongoReadOperation_>`_ object.
-
-         .. code-block:: javascript
-
-            result: RemoteMongoReadOperation
-
-         You can access documents in the query result set by calling one
-         of the following methods on the ``RemoteMongoReadOperation``
-         object:
-
-         .. include:: /includes/extracts/mongodb-action-remotemongoreadoperation.rst
-
-     - id: android
-       content: |
-         The `RemoteMongoCollection.find() <java-collection.find_>`_
-         method returns a `RemoteFindIterable
-         <java-RemoteFindIterable_>`_ object.
-
-         .. code-block:: java
-
-            RemoteFindIterable result
-
-         You can access documents in the query result set by calling one
-         of the following methods on the ``RemoteFindIterable`` object:
-
-         .. include:: /includes/extracts/mongodb-action-remotefinditerable.rst
-
-     - id: ios
-       content: |
-         The `RemoteMongoCollection.find() <swift-collection.find_>`_
-         method returns a :ios-sdk:`StitchResult
-         <Enums/StitchResult.html>` enum to its completion handler:
-
-         .. code-block:: swift
-
-            enum StitchResult {
-              case success(result: RemoteMongoReadOperation)
-              case failure(error: StitchError)
-            }
-
-         If the find operation was successful, the ``StitchResult``
-         resolves to a `RemoteMongoReadOperation
-         <swift-RemoteMongoReadOperation_>`_ object that allows you to
-         access documents in the query result set by calling one of the
-         following methods:
-
-         .. include:: /includes/extracts/mongodb-action-remotemongoreadoperation.rst
+   You cannot return a cursor from a :doc:`Function </functions>`.
+   Instead, evaluate the cursor using ``cursor.next()`` or
+   ``cursor.toArray()`` and return the result.

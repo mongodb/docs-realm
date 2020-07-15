@@ -20,156 +20,40 @@ Definition
 Insert a single document into a collection and return the ``_id`` of the
 inserted document.
 
-.. _js-collection.insertOne: https://docs.mongodb.com/stitch-sdks/js/4/interfaces/remotemongocollection.html#insertone
-.. _java-collection.insertOne: https://docs.mongodb.com/stitch-sdks/java/4/com/mongodb/stitch/android/services/mongodb/remote/RemoteMongoCollection.html#insertOne-org.bson.conversions.Bson-org.bson.conversions.Bson-
-.. _swift-collection.insertOne: https://docs.mongodb.com/stitch-sdks/swift/5/Classes/RemoteMongoCollection.html#/
-
 Usage
 -----
 
 Example
 ~~~~~~~
 
-.. tabs-realm-sdks::
+To call the ``collection.insertOne()`` action from a
+:doc:`Function </functions>`, get a collection handle with
+:method:`database.collection()` then call the handle's
+``insertOne()`` method.
 
-   tabs:
-     - id: functions
-       content: |
-         To call the ``collection.insertOne()`` action from a
-         :doc:`Function </functions>`, get a collection handle with
-         :method:`database.collection()` then call the handle's
-         ``insertOne()`` method.
-
-         .. include:: /mongodb/crud-snippets/insertOne/functions.rst
-     - id: javascript
-       content: |
-         To call the ``collection.insertOne()`` action from a JavaScript
-         SDK, use the `RemoteMongoCollection.insertOne()
-         <js-collection.insertOne_>`_ method.
-
-         .. include:: /mongodb/crud-snippets/insertOne/js.rst
-     - id: android
-       content: |
-         To call the ``collection.insertOne()`` action from the
-         Java/Android SDK, use the `RemoteMongoCollection.insertOne()
-         <java-collection.insertOne_>`_ method.
-
-         .. include:: /mongodb/crud-snippets/insertOne/android.rst
-     - id: ios
-       content: |
-         To call the ``collection.insertOne()`` action from the
-         Swift/iOS SDK, use the `RemoteMongoCollection.insertOne()
-         <swift-collection.insertOne_>`_ method.
-
-         .. include:: /mongodb/crud-snippets/insertOne/ios.rst
-
+.. include:: /mongodb/crud-snippets/insertOne/functions.rst
 
 Parameters
 ~~~~~~~~~~
 
-.. tabs-realm-sdks::
+The ``collection.insertOne()`` action has the following form:
 
-   tabs:
-     - id: functions
-       content: |
-         The ``collection.insertOne()`` action has the following form:
+.. code-block:: javascript
 
-         .. code-block:: javascript
+   insertOne(document)
 
-            insertOne(document)
-
-         .. include:: /includes/extracts/mongodb-action-params-insertOne.rst
-     - id: javascript
-       content: |
-         The `insertOne() <js-collection.insertOne_>`_ method has the
-         following form:
-
-         .. code-block:: javascript
-
-            insertOne(document)
-
-         .. include:: /includes/extracts/mongodb-action-params-insertOne.rst
-     - id: android
-       content: |
-         The `insertOne() <java-collection.insertOne_>`_ method has the
-         following form:
-
-         .. code-block:: java
-
-            insertOne​(DocumentT document)
-
-         .. include:: /includes/extracts/mongodb-action-params-insertOne.rst
-     - id: ios
-       content: |
-         The `insertOne() <swift-collection.insertOne_>`_ method has the
-         following form:
-
-         .. code-block:: swift
-
-            insertOne(document)
-
-         .. include:: /includes/extracts/mongodb-action-params-insertOne.rst
+.. include:: /includes/extracts/mongodb-action-params-insertOne.rst
 
 Return Value
 ~~~~~~~~~~~~
 
-.. _js-RemoteInsertOneResult: https://docs.mongodb.com/stitch-sdks/js/4/interfaces/remoteinsertoneresult.html
-.. _java-RemoteInsertOneResult: https://docs.mongodb.com/stitch-sdks/java/4/com/mongodb/stitch/core/services/mongodb/remote/RemoteInsertOneResult.html
-.. _swift-RemoteInsertOneResult: https://docs.mongodb.com/stitch-sdks/swift/5/Structs/RemoteInsertOneResult.html
+The ``collection.insertOne()`` action returns a :mdn:`Promise
+<Web/JavaScript/Reference/Global_Objects/Promise>` that
+resolves to a document that describes the insert operation.
 
-.. tabs-realm-sdks::
+.. code-block:: javascript
 
-   tabs:
-     - id: functions
-       content: |
-         The ``collection.insertOne()`` action returns a :mdn:`Promise
-         <Web/JavaScript/Reference/Global_Objects/Promise>` that
-         resolves to a document that describes the insert operation.
-
-         .. code-block:: javascript
-
-            Promise<result: document>
-
-     - id: javascript
-       content: |
-         The `RemoteMongoCollection.insertOne()
-         <js-collection.insertOne_>`_ method returns a :mdn:`Promise
-         <Web/JavaScript/Reference/Global_Objects/Promise>` that
-         resolves to a `RemoteInsertOneResult
-         <js-RemoteInsertOneResult_>`_ object that describes the insert
-         operation.
-
-         .. code-block:: javascript
-
-            Promise<result: RemoteInsertOneResult>
-
-     - id: android
-       content: |
-         The `RemoteMongoCollection.insertOne()
-         <java-collection.insertOne_>`_ method returns a :android:`Task
-         <com/google/android/play/core/tasks/Task>` that resolves to a
-         `RemoteInsertOneResult <java-RemoteInsertOneResult_>`_ object
-         that describes the insert operation.
-
-         .. code-block:: java
-
-            Task<RemoteInsertOneResult result>
-
-     - id: ios
-       content: |
-         The `RemoteMongoCollection.insertOne()
-         <swift-collection.insertOne_>`_ method returns a
-         :ios-sdk:`StitchResult <Enums/StitchResult.html>` enum that
-         resolves to a `RemoteInsertOneResult
-         <swift-RemoteInsertOneResult_>`_ object that describes the
-         insert operation.
-
-         .. code-block:: swift
-
-            enum StitchResult {
-              case success(result: RemoteInsertOneResult)
-              case failure(error: StitchError)
-            }
+   Promise<result: document>
 
 .. cssclass:: config-table
 .. list-table::
@@ -180,26 +64,7 @@ Return Value
      - Description
 
    * - :guilabel:`Inserted ID`
-
-       .. tab-content:: tabs-realm-sdks
-          :tab-id: functions
-
-          | ``result.insertedId: <ObjectID>``
-
-       .. tab-content:: tabs-realm-sdks
-          :tab-id: javascript
-
-          | ``result.insertedId: <ObjectID>``
-
-       .. tab-content:: tabs-realm-sdks
-          :tab-id: android
-
-          | ``result.insertedId: <ObjectID>``
-
-       .. tab-content:: tabs-realm-sdks
-          :tab-id: ios
-
-          | ``result.insertedId: <ObjectID>``
-
+       
+       | ``result.insertedId: <ObjectID>``
      - The ``_id`` value of the document that the insert operation added
        to the collection.

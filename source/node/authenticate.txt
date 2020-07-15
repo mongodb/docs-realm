@@ -48,18 +48,11 @@ Log In
 
 Anonymous
 ~~~~~~~~~
-The :doc:`Anonymous </authentication/anonymous>` provider allows users
-to log in to your application with short-term accounts that have no
-associated information. To do this, create an anonymous credential by
-calling "Realm.Credentials.anonymous()" and then pass in that credential
-to "App.logIn()".
 
-The :doc:`anonymous </authentication/anonymous>` authentication provider allows
-users to log in to your application with short-term accounts that have no
-associated information.
+The :doc:`Anonymous </authentication/anonymous>` provider allows users to log in
+to your application with ephemeral accounts that have no associated information.
 
-To log in an anonymous user, create an ``AnonymousCredential`` and pass it to
-``App.logIn()``:
+To log in, create an anonymous credential and pass it to ``App.logIn()``:
 
 .. tabs-realm-languages::
    
@@ -67,6 +60,7 @@ To log in an anonymous user, create an ``AnonymousCredential`` and pass it to
       :tabid: javascript
       
       .. code-block:: javascript
+         :emphasize-lines: 3, 6
          
          async function loginAnonymous() {
            // Create an anonymous credential
@@ -89,6 +83,7 @@ To log in an anonymous user, create an ``AnonymousCredential`` and pass it to
       :tabid: typescript
       
       .. code-block:: typescript
+         :emphasize-lines: 3, 6
 
          async function loginAnonymous() {
            // Create an anonymous credential
@@ -116,8 +111,8 @@ The :doc:`email/password </authentication/email-password>` authentication
 provider allows users to log in to your application with an email address and a
 password.
 
-To log in an email/password user, create an ``EmailPasswordCredential`` with the
-user's email address and password and pass it to ``App.logIn()``:
+To log in, create an email/password credential with the user's email address and
+password and pass it to ``App.logIn()``:
 
 .. tabs-realm-languages::
    
@@ -125,6 +120,7 @@ user's email address and password and pass it to ``App.logIn()``:
       :tabid: javascript
       
       .. code-block:: javascript
+         :emphasize-lines: 3, 6, 14
          
          async function loginEmailPassword(email, password) {
            // Create an anonymous credential
@@ -147,6 +143,7 @@ user's email address and password and pass it to ``App.logIn()``:
       :tabid: typescript
       
       .. code-block:: typescript
+         :emphasize-lines: 3, 6, 14
          
          async function loginEmailPassword(email: string, password: string) {
            // Create an anonymous credential
@@ -173,7 +170,7 @@ API Key
 The :doc:`API key </authentication/api-key>` authentication provider allows
 server processes to access to access your app directly or on behalf of a user.
 
-To log in an API key user, create an ``ApiKeyCredential`` with a server or user
+To log in with an API key, create an API Key credential with a server or user
 API key and pass it to ``App.logIn()``:
 
 .. tabs-realm-languages::
@@ -182,10 +179,11 @@ API key and pass it to ``App.logIn()``:
       :tabid: javascript
       
       .. code-block:: javascript
+         :emphasize-lines: 3, 6, 14
          
          async function loginApiKey(apiKey) {
-           // Create an APIKey credential
-           const credentials = Realm.Credentials.userAPIKey(apiKey);
+           // Create an API Key credential
+           const credentials = Realm.Credentials.apiKey(apiKey);
            try {
              // Authenticate the user
              const user = await app.logIn(credentials);
@@ -199,15 +197,16 @@ API key and pass it to ``App.logIn()``:
          loginApiKey("To0SQOPC...ZOU0xUYvWw").then(user => {
            console.log("Successfully logged in!", user)
          })
-
+   
    .. tab::
       :tabid: typescript
       
       .. code-block:: typescript
+         :emphasize-lines: 3, 6, 14
          
          async function loginApiKey(apiKey: string) {
-           // Create an APIKey credential
-           const credentials = Realm.Credentials.userAPIKey(apiKey);
+           // Create an API Key credential
+           const credentials = Realm.Credentials.apiKey(apiKey);
            try {
              // Authenticate the user
              const user: Realm.User = await app.logIn(credentials);
@@ -222,41 +221,127 @@ API key and pass it to ``App.logIn()``:
            console.log("Successfully logged in!", user)
          })
 
-.. .. _android-login-custom-function:
+.. _node-login-custom-function:
 
-.. Custom Function
-.. ~~~~~~~~~~~~~~~
+Custom Function
+~~~~~~~~~~~~~~~
 
-.. .. tabs-realm-languages::
+The :doc:`Custom Function </authentication/custom-function>` authentication
+provider allows you to handle user authentication by running a :doc:`function
+</functions>` that receives a payload of arbitrary information about a user.
+
+To log in with the custom function provider, create a Custom Function credential
+with a payload object and pass it to ``App.logIn()``:
+
+.. tabs-realm-languages::
    
-..    .. tab::
-..       :tabid: javascript
+   .. tab::
+      :tabid: javascript
       
-..       .. code-block:: javascript
+      .. code-block:: javascript
+         :emphasize-lines: 3, 6, 14
+         
+         async function loginCustomFunction(payload) {
+           // Create a Custom Function credential
+           const credentials = Realm.Credentials.function(payload);
+           try {
+             // Authenticate the user
+             const user = await app.logIn(credentials);
+             // `App.currentUser` updates to match the logged in user
+             assert(user.id === app.currentUser.id);
+             return user;
+           } catch (err) {
+             console.error("Failed to log in", err);
+           }
+         }
+         loginCustomFunction({ username: "mongolover" }).then((user) => {
+           console.log("Successfully logged in!", user);
+         });
+
+   .. tab::
+      :tabid: typescript
+      
+      .. code-block:: typescript
+         :emphasize-lines: 3, 6, 14
+         
+         async function loginCustomFunction(payload: Realm.Credentials.FunctionPayload) {
+           // Create a Custom Function credential
+           const credentials = Realm.Credentials.function(payload);
+           try {
+             // Authenticate the user
+             const user: Realm.User = await app.logIn(credentials);
+             // `App.currentUser` updates to match the logged in user
+             assert(user.id === app.currentUser.id);
+             return user;
+           } catch (err) {
+             console.error("Failed to log in", err);
+           }
+         }
+         loginCustomFunction({ username: "mongolover" }).then((user) => {
+           console.log("Successfully logged in!", user);
+         });
+
+.. _node-login-custom-jwt:
+
+Custom JWT
+~~~~~~~~~~
+
+The :doc:`Custom JWT </authentication/custom-jwt>` authentication provider
+allows you to handle user authentication with any authentication system that
+returns a :ref:`JSON web token <json-web-tokens>`.
+
+To log in, create a Custom JWT credential with a JWT from the external system
+and pass it to ``App.logIn()``:
+
+.. tabs-realm-languages::
    
-..    .. tab::
-..       :tabid: typescript
+   .. tab::
+      :tabid: javascript
       
-..       .. code-block:: typescript
+      .. code-block:: javascript
+         :emphasize-lines: 3, 6, 14
+         
+         async function loginCustomJwt(jwt) {
+           // Create a Custom JWT credential
+           const credentials = Realm.Credentials.jwt(jwt);
+           try {
+             // Authenticate the user
+             const user = await app.logIn(credentials);
+             // `App.currentUser` updates to match the logged in user
+             assert(user.id === app.currentUser.id);
+             return user;
+           } catch (err) {
+             console.error("Failed to log in", err);
+           }
+         }
+         loginCustomJwt("eyJ0eXAi...Q3NJmnU8oP3YkZ8").then((user) => {
+           console.log("Successfully logged in!", user);
+         });
 
-.. .. _android-login-custom-jwt:
-
-.. Custom JWT
-.. ~~~~~~~~~~
-
-.. .. tabs-realm-languages::
-   
-..    .. tab::
-..       :tabid: javascript
+   .. tab::
+      :tabid: typescript
       
-..       .. code-block:: javascript
-   
-..    .. tab::
-..       :tabid: typescript
-      
-..       .. code-block:: typescript
+      .. code-block:: typescript
+         :emphasize-lines: 3, 6, 14
+         
+         async function loginCustomJwt(jwt: Realm.Credentials.JWTPayload) {
+           // Create a Custom JWT credential
+           const credentials = Realm.Credentials.jwt(jwt);
+           try {
+             // Authenticate the user
+             const user: Realm.User = await app.logIn(credentials);
+             // `App.currentUser` updates to match the logged in user
+             assert(user.id === app.currentUser.id);
+             return user;
+           } catch (err) {
+             console.error("Failed to log in", err);
+           }
+         }
+         loginCustomJwt("eyJ0eXAi...Q3NJmnU8oP3YkZ8").then((user) => {
+           console.log("Successfully logged in!", user);
+         });
 
-.. .. _android-login-facebook:
+.. .. _node-login-facebook:
 
 .. Facebook OAuth
 .. ~~~~~~~~~~~~~~
@@ -273,7 +358,7 @@ API key and pass it to ``App.logIn()``:
       
 ..       .. code-block:: typescript
 
-.. .. _android-login-google:
+.. .. _node-login-google:
 
 .. Google OAuth
 .. ~~~~~~~~~~~~
@@ -290,7 +375,7 @@ API key and pass it to ``App.logIn()``:
       
 ..       .. code-block:: typescript
 
-.. .. _android-login-apple:
+.. .. _node-login-apple:
 
 .. Sign-in with Apple
 .. ~~~~~~~~~~~~~~~~~~

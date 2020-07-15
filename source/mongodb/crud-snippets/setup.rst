@@ -16,22 +16,5 @@ Snippet Setup
               const mongodb = context.services.get("mongodb-atlas");
               const itemsCollection = mongodb.db("store").collection("items");
               const purchasesCollection = mongodb.db("store").collection("purchases");
+              // ... paste snippet here ...
             }
-     - id: javascript
-       content: |
-         To use a code snippet in a JavaScript project, you must first
-         do the following:
-
-         .. include:: /includes/steps/crud-snippets-js.rst
-     - id: android
-       content: |
-         To use a code snippet in an Android project, you must first do
-         the following:
-
-         .. include:: /includes/steps/crud-snippets-android.rst
-     - id: ios
-       content: |
-         To use a code snippet in an iOS project, you must first do
-         the following:
-
-         .. include:: /includes/steps/crud-snippets-ios.rst

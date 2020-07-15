@@ -20,156 +20,40 @@ Definition
 Insert one or more documents into a collection and return a list of the
 ``_id`` values for each inserted document.
 
-.. _js-collection.insertMany: https://docs.mongodb.com/stitch-sdks/js/4/interfaces/remotemongocollection.html#insertmany
-.. _java-collection.insertMany: https://docs.mongodb.com/stitch-sdks/java/4/com/mongodb/stitch/android/services/mongodb/remote/RemoteMongoCollection.html#insertMany-org.bson.conversions.Bson-org.bson.conversions.Bson-
-.. _swift-collection.insertMany: https://docs.mongodb.com/stitch-sdks/swift/5/Classes/RemoteMongoCollection.html#/
-
 Usage
 -----
 
 Example
 ~~~~~~~
 
-.. tabs-realm-sdks::
+To call the ``collection.insertMany()`` action from a
+:doc:`Function </functions>`, get a collection handle with
+:method:`database.collection()` then call the handle's
+``insertMany()`` method.
 
-   tabs:
-     - id: functions
-       content: |
-         To call the ``collection.insertMany()`` action from a
-         :doc:`Function </functions>`, get a collection handle with
-         :method:`database.collection()` then call the handle's
-         ``insertMany()`` method.
-
-         .. include:: /mongodb/crud-snippets/insertMany/functions.rst
-     - id: javascript
-       content: |
-         To call the ``collection.insertMany()`` action from a
-         JavaScript SDK, use the `RemoteMongoCollection.insertMany()
-         <js-collection.insertMany_>`_ method.
-
-         .. include:: /mongodb/crud-snippets/insertMany/js.rst
-     - id: android
-       content: |
-         To call the ``collection.insertMany()`` action from the
-         Java/Android SDK, use the `RemoteMongoCollection.insertMany()
-         <java-collection.insertMany_>`_ method.
-
-         .. include:: /mongodb/crud-snippets/insertMany/android.rst
-     - id: ios
-       content: |
-         To call the ``collection.insertMany()`` action from the
-         Swift/iOS SDK, use the `RemoteMongoCollection.insertMany()
-         <swift-collection.insertMany_>`_ method.
-
-         .. include:: /mongodb/crud-snippets/insertMany/ios.rst
-
+.. include:: /mongodb/crud-snippets/insertMany/functions.rst
 
 Parameters
 ~~~~~~~~~~
 
-.. tabs-realm-sdks::
+The ``collection.insertMany()`` action has the following form:
 
-   tabs:
-     - id: functions
-       content: |
-         The ``collection.insertMany()`` action has the following form:
+.. code-block:: javascript
 
-         .. code-block:: javascript
+   insertMany(documents)
 
-            insertMany(documents)
-
-         .. include:: /includes/extracts/mongodb-action-params-insertMany.rst
-     - id: javascript
-       content: |
-         The `insertMany() <js-collection.insertMany_>`_ method has the
-         following form:
-
-         .. code-block:: javascript
-
-            insertMany(documents)
-
-         .. include:: /includes/extracts/mongodb-action-params-insertMany.rst
-     - id: android
-       content: |
-         The `insertMany() <java-collection.insertMany_>`_ method has
-         the following form:
-
-         .. code-block:: java
-
-            insertMany​(List<? extends DocumentT> documents)
-
-         .. include:: /includes/extracts/mongodb-action-params-insertMany.rst
-     - id: ios
-       content: |
-         The `insertMany() <swift-collection.insertMany_>`_ method has
-         the following form:
-
-         .. code-block:: swift
-
-            insertMany(documents)
-
-         .. include:: /includes/extracts/mongodb-action-params-insertMany.rst
+.. include:: /includes/extracts/mongodb-action-params-insertMany.rst
 
 Return Value
 ~~~~~~~~~~~~
 
-.. _js-RemoteInsertManyResult: https://docs.mongodb.com/stitch-sdks/js/4/classes/remoteinsertmanyresult.html
-.. _java-RemoteInsertManyResult: https://docs.mongodb.com/stitch-sdks/java/4/com/mongodb/stitch/core/services/mongodb/remote/RemoteInsertManyResult.html
-.. _swift-RemoteInsertManyResult: https://docs.mongodb.com/stitch-sdks/swift/5/Structs/RemoteInsertManyResult.html
+The ``collection.insertMany()`` action returns a :mdn:`Promise
+<Web/JavaScript/Reference/Global_Objects/Promise>` that
+resolves to a document that describes the insert operation.
 
-.. tabs-realm-sdks::
+.. code-block:: javascript
 
-   tabs:
-     - id: functions
-       content: |
-         The ``collection.insertMany()`` action returns a :mdn:`Promise
-         <Web/JavaScript/Reference/Global_Objects/Promise>` that
-         resolves to a document that describes the insert operation.
-
-         .. code-block:: javascript
-
-            Promise<result: document>
-
-     - id: javascript
-       content: |
-         The `RemoteMongoCollection.insertMany()
-         <js-collection.insertMany_>`_ method returns a :mdn:`Promise
-         <Web/JavaScript/Reference/Global_Objects/Promise>` that
-         resolves to a `RemoteInsertManyResult
-         <js-RemoteInsertManyResult_>`_ object that describes the insert
-         operation.
-
-         .. code-block:: javascript
-
-            Promise<result: RemoteInsertManyResult>
-
-     - id: android
-       content: |
-         The `RemoteMongoCollection.insertMany()
-         <java-collection.insertMany_>`_ method returns a :android:`Task
-         <com/google/android/play/core/tasks/Task>` that resolves to a
-         `RemoteInsertManyResult <java-RemoteInsertManyResult_>`_ object
-         that describes the insert operation.
-
-         .. code-block:: java
-
-            Task<RemoteInsertManyResult result>
-
-     - id: ios
-       content: |
-         The `RemoteMongoCollection.insertMany()
-         <swift-collection.insertMany_>`_ method returns a
-         :ios-sdk:`StitchResult <Enums/StitchResult.html>` enum that
-         resolves to a `RemoteInsertManyResult
-         <swift-RemoteInsertManyResult_>`_ object that describes the
-         insert operation.
-
-         .. code-block:: swift
-
-            enum StitchResult {
-              case success(result: RemoteInsertManyResult)
-              case failure(error: StitchError)
-            }
+   Promise<result: document>
 
 .. cssclass:: config-table
 .. list-table::
@@ -180,54 +64,8 @@ Return Value
      - Description
 
    * - :guilabel:`Inserted IDs`
-
-       .. tab-content:: tabs-realm-sdks
-          :tab-id: functions
-
-          | ``result.insertedIds: Array<ObjectID>``
-
-       .. tab-content:: tabs-realm-sdks
-          :tab-id: javascript
-
-          | ``result.insertedIds: Document<Number, ObjectID>``
-
-       .. tab-content:: tabs-realm-sdks
-          :tab-id: android
-
-          | ``result.insertedIds: Map<Long, ObjectID>``
-
-       .. tab-content:: tabs-realm-sdks
-          :tab-id: ios
-
-          | ``result.insertedIds: Document<Int64, ObjectID>``
-
-     - .. tab-content:: tabs-realm-sdks
-          :tab-id: functions
-
-          An array that contains the ``_id`` values for all documents
-          that the insert operation added to the collection in the order
-          that they were passed to the action.
-
-       .. tab-content:: tabs-realm-sdks
-          :tab-id: javascript
-
-          A document that contains the ``_id`` values for all documents
-          that the insert operation added to the collection. Each field
-          name is an integer that matches the index of the document
-          that the ``_id`` represents.
-
-       .. tab-content:: tabs-realm-sdks
-          :tab-id: android
-
-          A ``Map`` that contains the ``_id`` values for all documents
-          that the insert operation added to the collection. Each key is
-          an integer that matches the index of the document that the
-          ``_id`` represents.
-
-       .. tab-content:: tabs-realm-sdks
-          :tab-id: ios
-
-          A document that contains the ``_id`` values for all documents
-          that the insert operation added to the collection. Each field
-          name is an integer that matches the index of the document that
-          the ``_id`` represents.
+       
+       | ``result.insertedIds: Array<ObjectID>``
+     - An array that contains the ``_id`` values for all documents
+       that the insert operation added to the collection in the order
+       that they were passed to the action.
