@@ -16,10 +16,13 @@ Overview
 --------
 
 You can use the Web SDK to create and manage :ref:`user API keys
-<api-key-authentication-user-api-key>`, which represent an existing user of your
-application. User API keys are authenticated through the :doc:`API Key
-authentication provider </authentication/api-key>` but may only be created for
-users associated with a different, non-anonymous authentication provider.
+<api-key-authentication-user-api-key>` that allow services to log in and
+interact with your app on behalf of an existing user without requiring the user
+to re-authenticate.
+
+User API keys are managed as part of the :doc:`API Key authentication provider
+</authentication/api-key>` but may only be created for users associated with a
+different, non-anonymous authentication provider.
 
 User objects in the Web SDK include an ``ApiKeyAuth`` object that exposes
 methods to work with that user's API keys.
