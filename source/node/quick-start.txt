@@ -224,7 +224,7 @@ To create a new Task run the method "realm.create()" inside the
              _id: new mongodb.ObjectID(),
              name: "go grocery shopping",
              description: "buy milk, eggs, bread",
-             status: "open",
+             status: "Open",
            });
          });
 .. ..
@@ -263,7 +263,7 @@ You can also filter that collection using a :ref:`filter <node-client-query-engi
 
       .. code-block:: javascript
 
-         let filteredTasks = tasks.filtered("status = 'open');
+         let filteredTasks = tasks.filtered("status = 'Open');
          console.log(`filtered tasks: ${JSON.stringify(filteredTasks, null, 2)}\n`);
 
 .. ..
@@ -496,7 +496,7 @@ Run the complete example, by replacing the appId with your {+realm+} app ID.
                  _id: new mongodb.ObjectID(),
                  name: "go grocery shopping",
                  description: "buy milk, eggs, bread",
-                 status: "open",
+                 status: "Open",
                });
              });
  
@@ -505,7 +505,7 @@ Run the complete example, by replacing the appId with your {+realm+} app ID.
                  _id: new mongodb.ObjectID(),
                  name: "go exercise",
                  description: "jogging pushups",
-                 status: "open",
+                 status: "Open",
                });
              });
  
@@ -513,7 +513,7 @@ Run the complete example, by replacing the appId with your {+realm+} app ID.
              // // Observe collection notifications.
              // tasks.addListener(listener);
  
-             let task = tasks.filtered("status = 'open' LIMIT(1)")[0];
+             let task = tasks.filtered("status = 'Open' LIMIT(1)")[0];
  
              console.log(`filtered task: ${JSON.stringify(task, null, 2)}\n`);
  
@@ -555,7 +555,7 @@ By running the above code you should get a similar output to the following:
      "_id": "5f105f5f62c5de113f9d03d9",
      "name": "go grocery shopping",
      "description": "buy milk, eggs, bread",
-     "status": "open"
+     "status": "Open"
    }
 
    inserted task: "go exercise" 

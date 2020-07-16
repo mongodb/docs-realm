@@ -257,7 +257,7 @@ To create a new Task run the method "realm.create()" inside the
              _id: new mongodb.ObjectID(),
              name: "go grocery shopping",
              description: "buy milk, eggs, bread",
-             status: "open",
+             status: "Open",
            });
          });
 .. 
@@ -296,7 +296,7 @@ You can also filter that collection using a :ref:`filter <react-native-client-qu
 
       .. code-block:: javascript
 
-         let filteredTasks = tasks.filtered("status = 'open');
+         let filteredTasks = tasks.filtered("status = 'Open');
          console.log(`filtered tasks: ${JSON.stringify(filteredTasks, null, 2)}\n`);
 .. 
    .. tab::
