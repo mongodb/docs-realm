@@ -44,6 +44,7 @@ the following line to import the SDK.
 
 ..       .. code-block:: typescript
 
+
 .. _node-quick-start-init-app:
 
 Initialize the App
@@ -134,7 +135,7 @@ into your app without providing any identifying information:
              const credentials = Realm.Credentials.anonymous(); // create an anonymous credential
              user = await app.logIn(credentials);
              
-             console.log(`Logged in with the user: ${user.identity}`);
+             console.log(`Logged in with the user: ${user.id}`);
            } finally {
              // ...
            }
@@ -173,12 +174,12 @@ user, you can open a synced :ref:`{+realm+} <node-realms>`:
            let realm;
            try {
              // ...
-             console.log(`Logged in with the user: ${user.identity}`);
+             console.log(`Logged in with the user: ${user.id}`);
              const config = {
                schema: [TaskModel],
                sync: {
                  user: user, 
-                 partitionValue: '"myPartition"',
+                 partitionValue: "myPartition",
                },
              };
  
@@ -220,11 +221,12 @@ To create a new Task run the method "realm.create()" inside the
 
          realm.write(() => {
            realm.create("Task", {
-             name: "buy milk, eggs, and bread",
-             status: "Open",
+             _id: new mongodb.ObjectID(),
+             name: "go grocery shopping",
+             description: "buy milk, eggs, bread",
+             status: "open",
            });
          });
-    
 .. ..
 ..    .. tab::
 ..       :tabid: typescript
@@ -261,7 +263,8 @@ You can also filter that collection using a :ref:`filter <node-client-query-engi
 
       .. code-block:: javascript
 
-         console.log(`Number of complete tasks: ${tasks.filtered("complete = true")}`);
+         let filteredTasks = tasks.filtered("status = 'open');
+         console.log(`filtered tasks: ${JSON.stringify(filteredTasks, null, 2)}\n`);
 
 .. ..
 ..    .. tab::
@@ -421,6 +424,7 @@ Run the complete example, by replacing the appId with your {+realm+} app ID.
       .. code-block:: javascript
 
          const Realm = require("realm");
+         const mongodb = require("mongodb");
  
          const appId = "<your-realm-app-id>"; // replace this with your App ID
          const appConfig = {
@@ -431,44 +435,49 @@ Run the complete example, by replacing the appId with your {+realm+} app ID.
            name: "Task",
            primaryKey: "_id",
            properties: {
-             _id: "object id?",
+             _id: "objectId",
              name: "string",
              description: "string",
+             status: "string",
            },
          };
  
          // Define the collection notification listener
          function listener(tasks, changes) {
-           // Update UI in response to deleted objects
-           changes.deletions.forEach((index) => {
-             // Deleted objects cannot be accessed directly,
-             // but we can update a UI list, etc. knowing the index.
-           });
- 
            // Update UI in response to inserted objects
            changes.insertions.forEach((index) => {
-             let insertedTasks = tasks[index];
+             let insertedTask = tasks[index].name;
+             console.log(`inserted task: ${JSON.stringify(insertedTask, null, 2)} \n`);
              // ...
            });
  
            // Update UI in response to modified objects
            changes.modifications.forEach((index) => {
              let modifiedTask = tasks[index];
+             console.log(`modified task: ${JSON.stringify(modifiedTask, null, 2)} \n`);
              // ...
            });
-         }
  
+           // Update UI in response to deleted objects
+           changes.deletions.forEach((index) => {
+             // Deleted objects cannot be accessed directly,
+             // but we can update a UI list, etc. knowing the index.
+             console.log(`- deleted a task - \n`);
+           });
+         }
+
          async function run() {
            let user;
            let realm;
            let tasks;
            try {
              const app = new Realm.App(appConfig);
-
-             const credentials = Realm.Credentials.anonymous(); // create an anonymous credential
-
-             user = await app.logIn(credentials);
  
+             const credentials = Realm.Credentials.anonymous(); // create an anonymous credential
+             user = await app.logIn(credentials);
+
+             console.log(`\nLogged in with the user: ${user.id} \n`);
+
              const config = {
                schema: [TaskModel],
                sync: {
@@ -478,22 +487,35 @@ Run the complete example, by replacing the appId with your {+realm+} app ID.
              };
  
              realm = await Realm.open(config);
- 
-             console.log(`Logged in with the user: ${user.identity}`);
+  
+             tasks = realm.objects("Task");
+             tasks.addListener(listener);
  
              realm.write(() => {
                realm.create("Task", {
-                 name: "buy milk, eggs, and bread",
-                 status: "Open",
+                 _id: new mongodb.ObjectID(),
+                 name: "go grocery shopping",
+                 description: "buy milk, eggs, bread",
+                 status: "open",
                });
              });
  
-             tasks = realm.objects("Task");
+             realm.write(() => {
+               realm.create("Task", {
+                 _id: new mongodb.ObjectID(),
+                 name: "go exercise",
+                 description: "jogging pushups",
+                 status: "open",
+               });
+             });
  
-             // Observe collection notifications.
-             tasks.addListener(listener);
  
-             console.log(`Number of complete tasks: ${tasks.filtered("complete = true")}`);
+             // // Observe collection notifications.
+             // tasks.addListener(listener);
+ 
+             let task = tasks.filtered("status = 'open' LIMIT(1)")[0];
+ 
+             console.log(`filtered task: ${JSON.stringify(task, null, 2)}\n`);
  
              realm.write(() => {
                task.status = "InProgress";
@@ -501,8 +523,7 @@ Run the complete example, by replacing the appId with your {+realm+} app ID.
  
              realm.write(() => {
                // Delete the task from the realm.
-               realm.delete(task);
-               // Discard the reference.
+               const deletedTask = realm.delete(task);
                task = null;
              });
            } finally {
@@ -513,8 +534,37 @@ Run the complete example, by replacing the appId with your {+realm+} app ID.
          }
          run().catch(console.dir);
 
+
 .. ..
 ..    .. tab::
 ..       :tabid: typescript
 
 ..       .. code-block:: typescript
+
+Output
+------
+By running the above code you should get a similar output to the following:
+
+.. code-block:: text
+
+   Logged in with the user: 5f105f5f8ece370b01c8b8bf 
+
+   inserted task: "go grocery shopping" 
+
+   filtered task: {
+     "_id": "5f105f5f62c5de113f9d03d9",
+     "name": "go grocery shopping",
+     "description": "buy milk, eggs, bread",
+     "status": "open"
+   }
+
+   inserted task: "go exercise" 
+
+   modified task: {
+     "_id": "5f105f5f62c5de113f9d03d9",
+     "name": "go grocery shopping",
+     "description": "buy milk, eggs, bread",
+     "status": "InProgress"
+   } 
+
+   - deleted a task -

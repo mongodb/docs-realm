@@ -128,7 +128,7 @@ define your :ref:`object model <react-native-realm-objects>` directly in code.
            static schema = {
              name: 'Task',
              properties: {
-               _id: 'object id',
+               _id: 'objectId',
                _partition: 'string',
                name: 'string',
                status: 'string',
@@ -213,7 +213,7 @@ user, you can open a synced :ref:`{+realm+} <react-native-realms>`:
                schema: [TaskModel],
                sync: {
                  user: user, 
-                 partitionValue: '"myPartition"',
+                 partitionValue: "myPartition",
                },
              };
  
@@ -254,8 +254,10 @@ To create a new Task run the method "realm.create()" inside the
 
          realm.write(() => {
            realm.create("Task", {
-             name: "buy milk, eggs, and bread",
-             status: "Open",
+             _id: new mongodb.ObjectID(),
+             name: "go grocery shopping",
+             description: "buy milk, eggs, bread",
+             status: "open",
            });
          });
 .. 
@@ -294,7 +296,8 @@ You can also filter that collection using a :ref:`filter <react-native-client-qu
 
       .. code-block:: javascript
 
-         console.log(`Number of complete tasks: ${tasks.filtered("complete = true")}`);
+         let filteredTasks = tasks.filtered("status = 'open');
+         console.log(`filtered tasks: ${JSON.stringify(filteredTasks, null, 2)}\n`);
 .. 
    .. tab::
       :tabid: typescript
