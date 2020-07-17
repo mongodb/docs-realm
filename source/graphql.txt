@@ -12,6 +12,29 @@ GraphQL API
    :depth: 2
    :class: singlecol
 
+.. toctree::
+   :titlesonly:
+   :caption: Configure GraphQL
+   :hidden:
+   
+   Expose Data in a Collection </graphql/expose-data>
+   Define a Custom Query or Mutation </graphql/custom-resolvers>
+
+.. toctree::
+   :titlesonly:
+   :caption: Use GraphQL
+   :hidden:
+   
+   Authenticate GraphQL Requests </graphql/authenticate>
+   Run GraphQL Operations from a CLI </graphql/cli>
+
+.. toctree::
+   :titlesonly:
+   :caption: Reference
+   :hidden:
+   
+   GraphQL Types, Resolvers, and Operators </graphql/types-and-resolvers>
+
 Overview
 --------
 
@@ -92,7 +115,7 @@ For more information and examples, including a list of all automatically
 generated query types, see :ref:`Query Resolvers
 <graphql-query-resolvers>`.
 
-.. code-block:: text
+.. code-block:: graphql
 
    # Find a single movie by name
    query {
@@ -141,10 +164,7 @@ For more information and examples, including a list of all automatically
 generated mutation types, see :ref:`Mutation Resolvers
 <graphql-mutation-resolvers>`.
 
-For an example of how to run a mutation from a client application, see
-:ref:`Run a GraphQL Mutation <grapqhl-run-a-mutation>`.
-
-.. code-block:: text
+.. code-block:: graphql
 
    # Insert a new movie
    mutation {
