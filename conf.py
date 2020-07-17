@@ -109,7 +109,7 @@ extlinks = {
     # True External Links
     'android': ('https://developer.android.com/reference/%s', ''),
     'android-dev': ('https://developer.android.com/%s', ''),
-    'apollo-docs': ('https://www.apollographql.com/docs/%s', ''),
+    'apollo': ('https://www.apollographql.com/%s', ''),
     'apple': ('https://developer.apple.com/%s', ''),
     'aws-docs': ('https://docs.aws.amazon.com/%s', ''),
     'aws-go': ('https://docs.aws.amazon.com/sdk-for-go/api/service/%s', ''),
