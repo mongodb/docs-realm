@@ -487,6 +487,7 @@ Run the complete example, by replacing the appId with your {+realm+} app ID.
              realm = await Realm.open(config);
   
              tasks = realm.objects("Task");
+             // Observe collection notifications
              tasks.addListener(listener);
  
              realm.write(() => {
