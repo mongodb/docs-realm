@@ -441,9 +441,15 @@ Run the complete example, by replacing the appId with your {+realm+} app ID.
              status: "string",
            },
          };
- 
+        
          // Define the collection notification listener
          function listener(tasks, changes) {
+           // Update UI in response to deleted objects
+           changes.deletions.forEach((index) => {
+             // Deleted objects cannot be accessed directly,
+             // but we can update a UI list, etc. knowing the index.
+             console.log(`- deleted a task - \n`);
+           });
            // Update UI in response to inserted objects
            changes.insertions.forEach((index) => {
              let insertedTask = tasks[index].name;
@@ -457,15 +463,7 @@ Run the complete example, by replacing the appId with your {+realm+} app ID.
              console.log(`modified task: ${JSON.stringify(modifiedTask, null, 2)} \n`);
              // ...
            });
- 
-           // Update UI in response to deleted objects
-           changes.deletions.forEach((index) => {
-             // Deleted objects cannot be accessed directly,
-             // but we can update a UI list, etc. knowing the index.
-             console.log(`- deleted a task - \n`);
-           });
          }
-
          async function run() {
            let user;
            let realm;
