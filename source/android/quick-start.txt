@@ -243,10 +243,10 @@ information:
 
          app.loginAsync(credentials, it -> {
                if (it.isSuccess()) {
-                  Log.v(TAG, "Successfully authenticated anonymously.");
+                  Log.v("QUICKSTART", "Successfully authenticated anonymously.");
                   user = app.currentUser();
                } else {
-                  Log.e(TAG, it.getError().toString());
+                  Log.e("QUICKSTART", it.getError().toString());
                }
          });
 
@@ -260,10 +260,10 @@ information:
          val user: User? = null
          app.loginAsync(credentials) {
             if (it.isSuccess) {
-                  Log.v(TAG, "Successfully authenticated anonymously.")
+                  Log.v("QUICKSTART", "Successfully authenticated anonymously.")
                   user = app.currentUser()
             } else {
-                  Log.e(TAG, it.error.toString())
+                  Log.e("QUICKSTART", it.error.toString())
             }
          }
 
@@ -306,7 +306,7 @@ more.
                public void onSuccess(Realm _realm) {
                   // since this realm should live exactly as long as this activity, assign the realm to a member variable
                   realm = _realm;
-                  Log.v(TAG, "Successfully instantiated realm!");
+                  Log.v("QUICKSTART", "Successfully instantiated realm!");
                }
          });
 
@@ -327,7 +327,7 @@ more.
             override fun onSuccess(_realm: Realm) {
                // since this realm should live exactly as long as this activity, assign the realm to a member variable
                realm = _realm
-               Log.v(TAG, "Successfully instantiated realm!");
+               Log.v("QUICKSTART", "Successfully instantiated realm!");
             }
          })
 
@@ -347,9 +347,9 @@ Once logged in, you can log out:
          
          user.logOutAsync( it -> {
             if (it.isSuccess()) {
-               Log.v(TAG, "Successfully logged out.");
+               Log.v("QUICKSTART", "Successfully logged out.");
             } else {
-               Log.e(TAG, it.getError().toString());
+               Log.e("QUICKSTART", it.getError().toString());
             }
          });
 
@@ -361,8 +361,8 @@ Once logged in, you can log out:
 
          user?.logOutAsync {
             if (it.isSuccess) {
-                  Log.v(TAG, "Successfully logged out.")
+                  Log.v("QUICKSTART", "Successfully logged out.")
             } else {
-                  Log.e(TAG, it.error.toString())
+                  Log.e("QUICKSTART", it.error.toString())
             }
          }
