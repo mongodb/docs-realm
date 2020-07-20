@@ -13,15 +13,18 @@
               └── rules/
                   └── <rule name>.json
 
-Services, including both :doc:`MongoDB services </mongodb>` and
-:doc:`external services </services>`, are defined the ``/services``
-directory. Each service maps to its own sub-directory with the same
-name as the service.
+:doc:`3rd party services </services>` are defined in the ``/services``
+directory. Each service maps to its own sub-directory with the same name as the
+service.
 
-Each service directory contains a service configuration file
-(``config.json``), a sub-directory of service rule configurations
-(``/rules``), and a sub-directory of webhook configurations
-(``/incoming_webhooks``) if the service supports webhooks.
+Each service directory contains the following:
+
+- ``config.json``: a service configuration file
+
+- ``/rules``: a sub-directory of service rule configurations
+
+- ``/incoming_webhooks``: a sub-directory of webhook configurations (if the
+  service supports webhooks, i.e. HTTP, GitHub, or Twilio)
 
 .. _service-configuration-file:
 
@@ -68,7 +71,6 @@ Service Configuration
        
        Valid Options:
        
-       - ``"mongodb-atlas"``
        - ``"http"``
        - ``"aws"``
        - ``"twilio"``
@@ -81,7 +83,6 @@ Service Configuration
        options for the service. The exact configuration fields depend on
        the service ``type``.
        
-       - :doc:`MongoDB Atlas Service </mongodb>`
        - :ref:`HTTP Service Configuration <http-service-configuration>`
        - :ref:`AWS Service Configuration <aws-service-configuration>`
        - :ref:`Twilio Service Configuration <twilio-service-configuration>`
@@ -93,8 +94,8 @@ Service Configuration
        for the service and the value of each field is the name of a
        :ref:`Secret <app-secret>` that stores the configuration value.
 
-External Service Rules
-~~~~~~~~~~~~~~~~~~~~~~
+Service Rules
+~~~~~~~~~~~~~
 
 Rules for a specific external service are defined in the ``/<service
 name>/rules`` sub-directory.
@@ -138,75 +139,6 @@ Each rule maps to its own JSON file with the same name as the rule.
        | Document
      - A :doc:`rule expression </services/json-expressions>` that
        evaluates to ``true`` when the rule applies to a given request.
-
-MongoDB Collection Rules
-~~~~~~~~~~~~~~~~~~~~~~~~
-
-MongoDB collection rules have a different schema than other service
-rules. Each collection's rules are stored in a JSON file with the same
-name as the collection namespace.
-
-.. code-block:: json
-   :caption: ``<db.collection>.json``
-   
-   {
-     "id": "<Rule ID>",
-     "database": "<Database Name>",
-     "collection": "<Collection Name>",
-     "roles": [<Query Role>],
-     "schema": <Document Schema>,
-     "filters": [<Query Filter>],
-   }
-
-.. list-table::
-   :widths: 10 30
-   :header-rows: 1
-
-   * - Field
-     - Description
-
-   * - | ``id``
-       | String
-     - A string that uniquely identifies the trigger. {+service-short+}
-       automatically generates a unique ID for a trigger when you create
-       it.
-
-   * - | ``database``
-       | String
-     - The name of the database that holds the collection.
-
-   * - | ``collection``
-       | String
-     - The name of the collection.
-
-   * - | ``roles``
-       | Array<Document>
-     - An array of :ref:`Query Role configuration documents
-       <query-role-config>`, which have the following form:
-       
-       .. include:: /mongodb/tables/query-role-configuration.rst
-
-   * - | ``schema``
-       | Document
-     - A :ref:`Document Schema <document-schema-config>`. The root level
-       schema must be an :ref:`object schema <schema-type-objects>`,
-       which has the following form:
-
-       .. code-block:: json
-          
-          {
-            "bsonType": "object",
-            "properties": {
-              "<Field Name>": <Schema Document>
-            }
-          }
-
-   * - | ``filters``
-       | Array<Document>
-     - An array of :ref:`Query Filter configuration documents
-       <query-filter-config>`, which have the following form:
-
-       .. include:: /mongodb/tables/query-filter-params.rst
 
 Incoming Webhooks
 ~~~~~~~~~~~~~~~~~
