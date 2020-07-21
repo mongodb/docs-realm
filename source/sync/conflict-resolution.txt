@@ -15,29 +15,20 @@ Conflict Resolution
 Overview
 --------
 
-One of the defining features of mobile app development is the fact that
-you can never count on being online. :ref:`Loss of connectivity
-<the-connectivity-problem>`, slow networks, and choppy connections are
-facts of life. But people still expect their apps to work.
+Conflicts arise when two or more users make changes to the same piece of
+data independently. This can happen due to latency between device and
+server or loss of connectivity. In this event, {+service-short+} mergse
+the changes according to specific rules that ensure all sides always
+converge on the same result, even though their changes may have been
+made in a different order. This is called conflict resolution.
 
-This means that you may end up having two or more users
-making changes to the same piece of data independently, creating
-conflicts. Note that this can happen even with perfect connectivity, as
-there may be enough latency between device and server that they can
-create conflicting changes at the same time. 
-
-What {+service-short+} does in this case is merge the changes according
-to specific rules that ensure all sides always converge on the same
-result, even though their changes may have been made in a different
-order.
-
-This means that you no longer have the kind of perfect consistency that
-you could have in a traditional database, but what is termed
-:wikipedia:`strongly eventually consistent
+{+service-short+}'s conflict resolution system guarantees that all
+clients will eventually converge to identical states, which is called
+:wikipedia:`strong eventual consistency
 <Eventual_consistency#Strong_eventual_consistency>`. You have to be
 aware of the rules to ensure the consistent results you want, but the
-upside is that by following those rules you can have devices working
-entirely offline and still converging on meaningful results when they
+upside is that by following those rules you can have devices work
+entirely offline and still converge on meaningful results when they
 meet.
 
 .. _rules-of-conflict-resolution:
@@ -90,16 +81,8 @@ allowing you to get more precise control of the conflict resolution.
 Strings
 ~~~~~~~
 
-Strings are special in that you can see them both as scalar values and
-as lists of characters. This means that you can set the string to a new
-string (replacing the entire string) or you can edit the string. If
-multiple users are editing the same string, you want conflicts to be
-handled at the character level (similar to the experience you would have
-in something like Google Docs).
-
-.. note::
-
-   Sub-string edits are not supported.
+{+service-short+} treats strings as atomic values and does not merge
+conflicts on a per-character basis.
 
 .. _custom-conflict-resolution:
 
@@ -108,12 +91,12 @@ Custom Conflict Resolution
 
 Generally speaking, the conflict resolution of {+service-short+} should
 work for most purposes, and you should not need to customize it. That
-said, the standard way to do custom conflict resolution is to change a
+said, the typical way to do custom conflict resolution is to change a
 property type from string to list. Each side can then add its updates to
 the list and apply any conflict resolution rules it wants directly in
 the data model. You can use this technique to implement max, min, first
-write wins, last write wins and pretty much any kind of resolution you
-can think of.
+write wins, last write wins, or any other kind of resolution you can
+think of.
 
 Summary
 -------
