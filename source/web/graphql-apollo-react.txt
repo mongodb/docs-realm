@@ -25,7 +25,7 @@ and integrates into your app with idiomatic React components and hooks.
    
    Check out the :github:`MongoDB Realm GraphQL - Apollo (React)
    <mongodb-university/realm-graphql-apollo-react>` repository on GitHub to see
-   a fully set up React + Apollo application that's ready to connect to your own
+   a fully set-up React & Apollo application that's ready to connect to your own
    MongoDB Realm app. It uses the ``sample_mflix.movies`` collection that's
    included in the MongoDB Atlas :atlas:`sample data sets </sample-data>`.
    
@@ -121,10 +121,17 @@ Run a Mutation
 ~~~~~~~~~~~~~~
 
 The :apollo:`useMutation() <docs/react/api/react/hooks/#usemutation>` hook
-accepts a mutation definition and additional options, including ``variables``
-that Apollo passes to the mutation. It returns a callback function that executes
-the mutation, information on the mutation's execution status, and data returned
-from the most recent execution.
+accepts a mutation definition and an optional configuration object. The most
+common option you'll need to pass is a ``variables`` object that maps to
+:graphql:`GraphQL variables <learn/queries/#variables>` in the mutation
+definition.
+
+The hook returns several objects in an array:
+
+- a callback function that executes the mutation
+
+- an object that includes information on the mutation's execution status and
+  data returned from the most recent execution.
 
 .. code-block:: javascript
    
