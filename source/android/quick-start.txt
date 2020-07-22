@@ -416,37 +416,37 @@ Run the complete example, by replacing the appId with your {+realm+} app ID.
                Credentials credentials = Credentials.anonymous();
 
                app.loginAsync(credentials, it -> {
-                     if (it.isSuccess()) {
-                        Log.v("QUICKSTART", "Successfully authenticated anonymously");
+                  if (it.isSuccess()) {
+                     Log.v("QUICKSTART", "Successfully authenticated anonymously.");
 
-                        user = app.currentUser();
+                     user = app.currentUser();
 
-                        String partitionValue = "myPartition";
-                        SyncConfiguration config = new SyncConfiguration.Builder(user, partitionValue)
-                                 .waitForInitialRemoteData()
-                                 .build();
+                     String partitionValue = "myPartition";
+                     SyncConfiguration config = new SyncConfiguration.Builder(user, partitionValue)
+                              .waitForInitialRemoteData()
+                              .build();
 
-                        // Sync all realm changes via a new instance, and when that instance has been successfully created connect it to an on-screen list (a recycler view)
-                        Realm.getInstanceAsync(config, new Realm.Callback() {
-                           @Override
-                           @ParametersAreNonnullByDefault
-                           public void onSuccess(Realm _realm) {
-                                 // since this realm should live exactly as long as this activity, assign the realm to a member variable
-                                 realm = _realm;
-                                 Log.v("QUICKSTART", "Successfully instantiated realm!");
-                           }
-                        });
+                     // Sync all realm changes via a new instance, and when that instance has been successfully created connect it to an on-screen list (a recycler view)
+                     Realm.getInstanceAsync(config, new Realm.Callback() {
+                        @Override
+                        @ParametersAreNonnullByDefault
+                        public void onSuccess(Realm _realm) {
+                           // since this realm should live exactly as long as this activity, assign the realm to a member variable
+                           realm = _realm;
+                           Log.v("QUICKSTART", "Successfully instantiated realm!");
+                        }
+                     });
 
-                        user.logOutAsync( result -> {
-                           if (result.isSuccess()) {
-                                 Log.v("QUICKSTART", "Successfully logged out.");
-                           } else {
-                                 Log.e("QUICKSTART", result.getError().toString());
-                           }
-                        });
-                     } else {
-                        Log.e("QUICKSTART", it.getError().toString());
-                     }
+                     user.logOutAsync( result -> {
+                        if (result.isSuccess()) {
+                              Log.v("QUICKSTART", "Successfully logged out.");
+                        } else {
+                              Log.e("QUICKSTART", result.getError().toString());
+                        }
+                     });
+                  } else {
+                     Log.e("QUICKSTART", it.getError().toString());
+                  }
                });
             }
          }
@@ -462,16 +462,14 @@ Run the complete example, by replacing the appId with your {+realm+} app ID.
          import android.os.Bundle
          import androidx.appcompat.app.AppCompatActivity
          import android.util.Log
+
          import io.realm.Realm
          import io.realm.mongodb.App
          import io.realm.mongodb.AppConfiguration
-         import io.realm.RealmObject
-         import io.realm.annotations.PrimaryKey
-         import io.realm.annotations.Required
+
          import io.realm.mongodb.Credentials
          import io.realm.mongodb.User
          import io.realm.mongodb.sync.SyncConfiguration
-         import org.bson.types.ObjectId
 
 
          class MainActivity : AppCompatActivity() {
@@ -489,13 +487,13 @@ Run the complete example, by replacing the appId with your {+realm+} app ID.
                var user: User? = null
 
                app.loginAsync(credentials) {
-                     if (it.isSuccess) {
-                        Log.v("QUICKSTART", "Successfully authenticated anonymously.")
-                        user = app.currentUser()
-                     } else {
-                        Log.e("QUICKSTART", "an error occurred:")
-                        Log.e("QUICKSTART", it.error.toString())
-                     }
+                  if (it.isSuccess) {
+                     Log.v("QUICKSTART", "Successfully authenticated anonymously.")
+                     user = app.currentUser()
+                  } else {
+                     Log.e("QUICKSTART", "an error occurred:")
+                     Log.e("QUICKSTART", it.error.toString())
+                  }
                }
 
                user = app.currentUser()
@@ -510,19 +508,19 @@ Run the complete example, by replacing the appId with your {+realm+} app ID.
                var realm: Realm
                // Sync all realm changes via a new instance, and when that instance has been successfully created connect it to an on-screen list (a recycler view)
                Realm.getInstanceAsync(config, object: Realm.Callback() {
-                     override fun onSuccess(_realm: Realm) {
-                        // since this realm should live exactly as long as this activity, assign the realm to a member variable
-                        realm = _realm
-                        Log.v("QUICKSTART", "Successfully instantiated realm!");
-                     }
+                  override fun onSuccess(_realm: Realm) {
+                     // since this realm should live exactly as long as this activity, assign the realm to a member variable
+                     realm = _realm
+                     Log.v("QUICKSTART", "Successfully instantiated realm!");
+                  }
                })
 
                user?.logOutAsync {
-                     if (it.isSuccess) {
-                        Log.v("QUICKSTART", "Successfully logged out.")
-                     } else {
-                        Log.e("QUICKSTART", it.error.toString())
-                     }
+                  if (it.isSuccess) {
+                     Log.v("QUICKSTART", "Successfully logged out.")
+                  } else {
+                     Log.e("QUICKSTART", it.error.toString())
+                  }
                }
 
             }
@@ -544,7 +542,7 @@ Running the above code should output something like the following:
 
 .. code-block:: shell
 
-   Successfully authenticated anonymously
+   Successfully authenticated anonymously.
 
    Successfully instantiated realm!
 
