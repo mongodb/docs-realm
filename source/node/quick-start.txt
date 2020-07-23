@@ -135,7 +135,7 @@ into your app without providing any identifying information:
              const credentials = Realm.Credentials.anonymous(); // create an anonymous credential
              user = await app.logIn(credentials);
              
-             console.log(`Logged in with the user: ${user.id}`);
+             console.log(`Logged in with the user: ${user.identity}`);
            } finally {
              // ...
            }
@@ -174,7 +174,7 @@ user, you can open a synced :ref:`{+realm+} <node-realms>`:
            let realm;
            try {
              // ...
-             console.log(`Logged in with the user: ${user.id}`);
+             console.log(`Logged in with the user: ${user.identity}`);
              const config = {
                schema: [TaskModel],
                sync: {
@@ -474,7 +474,7 @@ Run the complete example, by replacing the appId with your {+realm+} app ID.
              const credentials = Realm.Credentials.anonymous(); // create an anonymous credential
              user = await app.logIn(credentials);
 
-             console.log(`\nLogged in with the user: ${user.id} \n`);
+             console.log(`\nLogged in with the user: ${user.identity} \n`);
 
              const config = {
                schema: [TaskModel],
