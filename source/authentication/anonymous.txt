@@ -60,35 +60,56 @@ Configuration
 
 .. tabs-realm-admin-interfaces::
 
-   tabs:
-     - id: ui
-       content: |
-         You can enable the Anonymous authentication provider from the
-         {+ui+} by selecting :guilabel:`Anonymous` from the
-         :guilabel:`Users > Providers` page.
 
-     - id: cli
-       content: |
-         You can enable the Anonymous authentication provider with
-         :doc:`realm-cli </deploy/realm-cli-reference>` by
-         importing an application directory that contains a
-         :ref:`configuration file <appschema-authentication-providers>`
-         for the provider.
+   .. tab::
+      :tabid: ui
 
-         The configuration file must be named ``anon-user.json`` and
-         stored in the ``/auth_providers`` directory. Configuration
-         files for the Anonymous authentication provider have the
-         following form:
+      You can enable the Anonymous authentication provider from the
+      {+ui+} in the :guilabel:`Users` options.
 
-         .. cssclass:: wide-container
-         .. code-block:: none
-            :caption: ``/auth_providers/anon-user.json``
+      1. Select :guilabel:`Users` in the left sidebar.
+            
+      #. Navigate to the the :guilabel:`Providers` tab of the
+         :guilabel:`Users` options page.
 
-            {
-              "name": "anon-user",
-              "type": "anon-user",
-              "disabled": <boolean>,
-            }
+      #. Select the "Allow users to log in anonymously" entry of the
+         :guilabel:`Provider` list.
+
+      #. Click the :guilabel:`Provider Enabled` toggle to move it
+         into the "On" state.
+
+      #. Click the :guilabel:`Save` button in the lower right of the
+         page to save your changes to the {+app+} configuration.
+
+      #. Click :guilabel:`Review & Deploy Changes` in the dropdown
+         that appears at the top of the page.
+
+      #. Review the changes to your app's configuration and click
+         :guilabel:`Deploy` in the lower right of the dialog to
+         make your changes available to application users.
+
+   .. tab::
+      :tabid: cli
+
+      You can enable the Anonymous authentication provider with
+      :doc:`realm-cli </deploy/realm-cli-reference>` by
+      importing an application directory that contains a
+      :ref:`configuration file <appschema-authentication-providers>`
+      for the provider.
+
+      The configuration file must be named ``anon-user.json`` and
+      stored in the ``/auth_providers`` directory. Configuration
+      files for the Anonymous authentication provider have the
+      following form:
+
+      .. code-block:: javascript
+         :caption: ``/auth_providers/anon-user.json``
+
+         {
+           "name": "anon-user",
+           "type": "anon-user",
+           "disabled": <boolean>,
+         }
 
 .. note::
 
