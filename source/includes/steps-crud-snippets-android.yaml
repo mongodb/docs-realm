@@ -5,6 +5,14 @@ content: |
   Follow the steps in the :doc:`Install Realm for Android </android/install>`
   guide.
 ---
+title: Link a MongoDB Atlas Service Cluster
+ref: link-mongodb-atlas-cluster
+level: 4
+content: |
+  Follow the steps in the :doc:`Link a MongoDB Cluster </mongodb/link-a-cluster>`
+  guide. Assign your service a meaningful name -- you'll need it to connect to
+  the cluster using the {+service-short+} SDK.
+---
 title: Import Realm Dependencies
 ref: import-realm-dependencies
 level: 4
@@ -12,56 +20,132 @@ content: |
   For CRUD operations on a remote MongoDB collection, you will use one
   or more of the following ``import`` statements:
 
-  .. code-block:: java
+  .. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: java
+      
+      .. code-block:: java
 
-     // Base Realm Packages
-     import io.realm.Realm
-     import io.realm.mongodb.App
-     import io.realm.mongodb.AppConfiguration
-     // Realm Authentication Packages
-     import io.realm.mongodb.User
-     import io.realm.mongodb.Credentials;
+         // Base Realm Packages
+         import io.realm.Realm;
+         import io.realm.mongodb.App;
+         import io.realm.mongodb.AppConfiguration;
+         // Realm Authentication Packages
+         import io.realm.mongodb.User;
+         import io.realm.mongodb.Credentials;
 
-     // MongoDB Service Packages
-     import io.realm.mongodb.mongo.MongoClient
-     import io.realm.mongodb.mongo.MongoDatabase
-     import io.realm.mongodb.mongo.MongoCollection
-     // Utility Packages
-     import org.bson.Document
+         // MongoDB Service Packages
+         import io.realm.mongodb.mongo.MongoClient;
+         import io.realm.mongodb.mongo.MongoDatabase;
+         import io.realm.mongodb.mongo.MongoCollection;
+         // Utility Packages
+         import org.bson.Document;
+
+   .. tab::
+      :tabid: kotlin
+
+      .. code-block:: kotlin
+
+         // Base Realm Packages
+         import io.realm.Realm
+         import io.realm.mongodb.App
+         import io.realm.mongodb.AppConfiguration
+         // Realm Authentication Packages
+         import io.realm.mongodb.User
+         import io.realm.mongodb.Credentials
+
+         // MongoDB Service Packages
+         import io.realm.mongodb.mongo.MongoClient
+         import io.realm.mongodb.mongo.MongoDatabase
+         import io.realm.mongodb.mongo.MongoCollection
+         // Utility Packages
+         import org.bson.Document
 
 ---
 title: Instantiate a MongoDB Collection Handle
 ref: instantiate-a-mongodb-collection-handle
 level: 4
 content: |
-  .. code-block:: java
-     :caption: Top of Activity File
 
-     private App realmApp;
-     private MongoClient mongoClient;
-     private MongoCollection itemsCollection;
-     private User user;
+  .. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: java
+      
+      .. code-block:: java
+         :caption: Top of Activity File
 
-  .. code-block:: java
-     :caption: In ``Activity.onCreate()``
+         private App realmApp;
+         private MongoClient mongoClient;
+         private MongoCollection<Document> mongoCollection;
+         private User user;
+         private String TAG = "EXAMPLE";
 
-     String appID = "<your app ID>"; // replace this with your App ID
-     Realm.init(this); // initialize Realm, required before interacting with SDK
-     App app = new App(new AppConfiguration.Builder(appID)
+      .. code-block:: java
+         :caption: In ``Activity.onCreate()``
+
+         String appID = "<your App ID>"; // replace this with your App ID
+         Realm.init(this); // initialize Realm, required before interacting with SDK
+         realmApp = new App(new AppConfiguration.Builder(appID)
                 .build());
-     
-     // an authenticated user is required to access a MongoDB instance
-     Credentials credentials = Credentials.anonymous();
-     app.loginAsync(credentials, it -> {
-         if (it.isSuccess()) {
-             user = app.currentUser();
-             MongoClient mongoClient = user.getMongoClient("<atlas service name>");
-             if (mongoClient != null) {
-                itemsCollection = mongoClient.getDatabase("<database name>").getCollection("<collection name>");
-             } else {
-                Log.e(TAG, "Error connecting to the MongoDB instance.");
-             }
-         else {
-            Log.e(TAG, "Error logging into the Realm app. Is anonymous authentication enabled?");
+
+         // an authenticated user is required to access a MongoDB instance
+         Credentials credentials = Credentials.anonymous();
+         realmApp.loginAsync(credentials, it -> {
+            if (it.isSuccess()) {
+               user = realmApp.currentUser();
+               assert user != null;
+               MongoClient mongoClient = user.getMongoClient("<atlas service name>");
+               if (mongoClient != null) {
+                  mongoCollection = mongoClient.getDatabase("<database name>").getCollection("<collection name>");
+                  Log.v(TAG, "Successfully connected to the MongoDB instance.");
+               } else {
+                  Log.e(TAG, "Error connecting to the MongoDB instance.");
+               }
+            else {
+               Log.e(TAG, "Error logging into the Realm app. Make sure that anonymous authentication is enabled.");
+            }
+          });
+
+   .. tab::
+      :tabid: kotlin
+
+      .. code-block:: kotlin
+         :caption: Top of Activity File
+
+         private lateinit var realmApp: App
+         private var mongoClient: MongoClient? = null
+         private lateinit var mongoCollection: MongoCollection<Document>
+         private lateinit var user: User
+         private var TAG: String = "EXAMPLE"
+
+      .. code-block:: kotlin
+         :caption: In ``Activity.onCreate()``
+
+         val appID : String = "<your App ID>" // replace this with your App ID
+         Realm.init(this) // initialize Realm, required before interacting with SDK
+         realmApp = App(
+            AppConfiguration.Builder(appID)
+            .build())
+
+         // an authenticated user is required to access a MongoDB instance
+         val credentials : Credentials = Credentials.anonymous()
+         realmApp.loginAsync(credentials) {
+            if (it.isSuccess) {
+                user = realmApp.currentUser()!!
+                mongoClient = user.getMongoClient("<atlas service name>")
+                if (mongoClient != null) {
+                    mongoCollection = mongoClient?.getDatabase("<database name>")
+                        .getCollection("<collection name>")
+                    Log.v(TAG, "Successfully connected to the MongoDB instance.")
+                } else {
+                    Log.e(TAG, "Error connecting to the MongoDB instance.")
+                }
+            }
+            else {
+                Log.e(TAG, "Error logging into the Realm app. Make sure that anonymous authentication is enabled.")
+            }
          }
-     });
+
+
