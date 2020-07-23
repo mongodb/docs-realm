@@ -1,7 +1,7 @@
 Initialize Realm
 ----------------
 
-Before you can use {+service-short+} in your {+app+}, you must
+Before you can use {+service-short+} in your app, you must
 initialize the {+service-short+} library. Your application should
 initialize {+service-short+} just once each time the application runs.
 
@@ -21,14 +21,14 @@ application runs.
    
       .. code-block:: java
 
-         Realm.init(this); // context, usually an Activity or Application
+         Realm.init(this); // `this` is a Context, typically an Application or Activity
    
    .. tab::
       :tabid: kotlin
 
       .. code-block:: kotlin
    
-         Realm.init(this) // context, usually an Activity or Application
+         Realm.init(this) // `this` is a Context, typically an Application or Activity
 
 .. admonition:: Register Your Application Subclass in the Android Manifest
    :class: note

@@ -31,7 +31,7 @@ Pass the {+app+} ID for your {+app+}, which you can find in the {+ui+}.
          .. code-block:: java
 
             String appID = "<your App ID>"; // replace this with your App ID
-            Realm.init(this); // context, typically an Application or Activity
+            Realm.init(this); // `this` is a Context, typically an Application or Activity
             App app = new App(new AppConfiguration.Builder(appID).build());
 
       .. tab::
@@ -40,7 +40,7 @@ Pass the {+app+} ID for your {+app+}, which you can find in the {+ui+}.
          .. code-block:: kotlin
 
             val appID : String = "<your App ID>" // replace this with your App ID
-            Realm.init(this) // context, typically an Application or Activity
+            Realm.init(this) // `this` is a Context, typically an Application or Activity
             val app: App = App(AppConfiguration.Builder(appID).build())
 
 .. important:: Initialize the App before Creating an Instance
@@ -67,7 +67,7 @@ Builder to control details of your ``App``:
          .. code-block:: java
 
             String appID = "<your App ID>"; // replace this with your App ID
-            Realm.init(this); // context, typically an Application or Activity
+            Realm.init(this); // `this` is a Context, typically an Application or Activity
             App app = new App(new AppConfiguration.Builder(appID)
                               .appName("My App")
                               .requestTimeout(30, TimeUnit.SECONDS)
@@ -79,7 +79,7 @@ Builder to control details of your ``App``:
          .. code-block:: kotlin
 
             val appID = "<your App ID>" // replace this with your App ID
-            Realm.init(this) // context, typically an Application or Activity
+            Realm.init(this) // `this` is a Context, typically an Application or Activity
             val app: App = App(AppConfiguration.Builder(appID)
                                .appName("My App")
                                .requestTimeout(30, TimeUnit.SECONDS)
