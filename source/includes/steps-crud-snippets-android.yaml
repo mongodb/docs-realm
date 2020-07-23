@@ -85,7 +85,7 @@ content: |
       .. code-block:: java
          :caption: In ``Activity.onCreate()``
 
-         String appID = "<your app ID>"; // replace this with your App ID
+         String appID = "<your App ID>"; // replace this with your App ID
          Realm.init(this); // initialize Realm, required before interacting with SDK
          realmApp = new App(new AppConfiguration.Builder(appID)
                 .build());
@@ -104,7 +104,7 @@ content: |
                   Log.e(TAG, "Error connecting to the MongoDB instance.");
                }
             else {
-               Log.e(TAG, "Error logging into the Realm app. Is anonymous authentication enabled?");
+               Log.e(TAG, "Error logging into the Realm app. Make sure that anonymous authentication is enabled.");
             }
           });
 
@@ -123,7 +123,7 @@ content: |
       .. code-block:: kotlin
          :caption: In ``Activity.onCreate()``
 
-         val appID : String = "<your app ID>" // replace this with your App ID
+         val appID : String = "<your App ID>" // replace this with your App ID
          Realm.init(this) // initialize Realm, required before interacting with SDK
          realmApp = App(
             AppConfiguration.Builder(appID)
@@ -144,7 +144,7 @@ content: |
                 }
             }
             else {
-                Log.e(TAG, "Error logging into the Realm app. Is anonymous authentication enabled?")
+                Log.e(TAG, "Error logging into the Realm app. Make sure that anonymous authentication is enabled.")
             }
          }
 

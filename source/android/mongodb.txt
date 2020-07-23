@@ -39,7 +39,9 @@ Create Documents
 These code snippets demonstrate how to insert one or more
 documents into a MongoDB collection from a mobile application. Insert
 operations take a document or documents to add to MongoDB as an argument
-and return a results object that describes the effect of the operation.
+and return a :android:`Task <com/google/android/play/core/tasks/Task>`
+that resolves to an object that contains the results
+of the execution of the operation.
 
 .. _android-mongodb-insertOne:
 
@@ -52,7 +54,7 @@ You can insert a single document using
 
 The following snippet inserts a single document describing a "lily of the
 valley" plant into a
-:ref:`collection of documents that describe plants for sale in a store
+:ref:`collection of documents that describe plants for sale in a group of stores
 <android-mongodb-example-dataset>`:
 
 .. tabs-realm-languages::
@@ -108,17 +110,23 @@ valley" plant into a
             }
          });
 
+Running this snippet produces output resembling the following:
+
+.. code-block:: text
+
+   V/EXAMPLE: successfully inserted a document with id: BsonObjectId{value=5f19...}
+
 .. _android-mongodb-insertMany:
 
-Insert One or More Documents
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Insert Multiple Documents
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 You can insert multiple documents at the same time using
 :java-sdk:`collection.insertMany()
 <io/realm/mongodb/mongo/MongoCollection.html#insertMany-java.util.List->`.
 
 The following snippet inserts three documents describing plants into a
-:ref:`collection of documents that describe plants for sale in a store
+:ref:`collection of documents that describe plants for sale in a group of stores
 <android-mongodb-example-dataset>`:
 
 .. tabs-realm-languages::
@@ -197,6 +205,12 @@ The following snippet inserts three documents describing plants into a
             }
          });
 
+Running this snippet produces output resembling the following:
+
+.. code-block:: text
+
+   V/EXAMPLE: successfully inserted 3 documents into the collection.
+
 .. _android-mongodb-read-documents:
 
 Read Documents
@@ -205,9 +219,11 @@ Read Documents
 These code snippets demonstrate how to read data stored in a MongoDB
 collection from a mobile application. Read operations use :manual:`query filters
 </core/document/#document-query-filter>` to specify which documents to
-return from the database. Read operations return either a single document
-(in the case of ``findOne()``) or an iterator that allows you to
-traverse the collection of matched documents.
+return from the database. Read operations return a
+:android:`Task <com/google/android/play/core/tasks/Task>` that resolves to
+either a single matched document (in the case of ``findOne()``), a ``long``
+numeric value (in the case of ``count()``) or an iterator that allows you to
+traverse the collection of matched documents (in the case of ``find()``).
 
 .. _android-mongodb-findOne:
 
@@ -218,9 +234,9 @@ You can find a single document using :java-sdk:`collection.findOne()
 <io/realm/mongodb/mongo/MongoCollection.html#findOne-->`.
 
 The following snippet finds a single document from the a
-:ref:`collection of documents that describe plants for sale in a store
-<android-mongodb-example-dataset>` where the plant's ``type`` field contains
-the string value "perennial":
+:ref:`collection of documents that describe plants for sale in a group of stores
+<android-mongodb-example-dataset>` where the plant document's ``type``
+field contains the string value "perennial":
 
 .. tabs-realm-languages::
    
@@ -265,16 +281,22 @@ the string value "perennial":
             }
          });
 
+Running this snippet produces output resembling the following:
+
+.. code-block:: text
+
+   V/EXAMPLE: successfully found a document: Document{{_id=5f18..., name=venus flytrap, sunlight=full, color=white, type=perennial, _partition=Store 42}}
+
 .. _android-mongodb-findMany:
 
-Find One or More Documents
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+Find Multiple Documents
+~~~~~~~~~~~~~~~~~~~~~~~
 
 You can find multiple documents using :java-sdk:`collection.find()
 <io/realm/mongodb/mongo/MongoCollection.html#find-->`.
 
 The following snippet finds all documents in a
-:ref:`collection of documents that describe plants for sale in a store
+:ref:`collection of documents that describe plants for sale in a group of stores
 <android-mongodb-example-dataset>` that contain a field named
 ``_partition`` with a value of "Store 42":
 
@@ -292,9 +314,9 @@ The following snippet finds all documents in a
          val mongoCollection : MongoCollection<Document>? = mongoDatabase?.getCollection("plants")
 
          val queryFilter : Document = Document("_partition", "Store 42")
-         val findTask : Task<MongoCursor<Document>>? = mongoCollection?.find(queryFilter)?.iterator()
+         val findIterable : FindIterable<Document>? = mongoCollection?.find(queryFilter)
 
-         findTask?.addOnCompleteListener {
+         findIterable?.iterator()?.addOnCompleteListener {
             if (it.isSuccessful) {
                Log.v("EXAMPLE", "successfully found all plants for Store 42:")
                it.result.forEach {
@@ -331,6 +353,16 @@ The following snippet finds all documents in a
             }
          });
 
+Running this snippet produces output resembling the following:
+
+.. code-block:: text
+
+   V/EXAMPLE: successfully found all plants for Store 42:
+   V/EXAMPLE: Document{{_id=5f18..., name=venus flytrap, sunlight=full, color=white, type=perennial, _partition=Store 42}}
+   V/EXAMPLE: Document{{_id=5f18..., name=sweet basil, sunlight=partial, color=green, type=annual, _partition=Store 42}}
+   V/EXAMPLE: Document{{_id=5f18..., name=thai basil, sunlight=partial, color=green, type=perennial, _partition=Store 42}}
+   V/EXAMPLE: Document{{_id=5f18..., name=helianthus, sunlight=full, color=yellow, type=annual, _partition=Store 42}}
+
 .. _android-mongodb-count:
 
 Count Documents in the Collection
@@ -344,7 +376,7 @@ determine which documents to count. If you don't specify a query, the
 action counts all documents in the collection.
 
 The following snippet counts the number of documents in a
-:ref:`collection of documents that describe plants for sale in a store
+:ref:`collection of documents that describe plants for sale in a group of stores
 <android-mongodb-example-dataset>`:
 
 .. tabs-realm-languages::
@@ -388,6 +420,13 @@ The following snippet counts the number of documents in a
             }
          });
 
+
+Running this snippet produces output resembling the following:
+
+.. code-block:: text
+
+   V/EXAMPLE: successfully counted, number of documents in the collection: 5
+
 .. _android-mongodb-update-documents:
 
 Update Documents
@@ -397,8 +436,9 @@ These code snippets demonstrate how to update data stored in a MongoDB
 collection from a mobile application. Update operations use query filters
 to specify which documents to update and :manual:`update operators
 </reference/operator/update>` to describe how to mutate documents that
-match the query. Update operations return a results object that describes
-the effect of the operation.
+match the query. Update operations return a :android:`Task
+<com/google/android/play/core/tasks/Task>` that resolves to an object
+that contains the results of the execution of the operation.
 
 .. _android-mongodb-updateOne:
 
@@ -410,10 +450,10 @@ You can update a single document using
 <io/realm/mongodb/mongo/MongoCollection.html#updateOne-Bson-Bson->`.
 
 The following snippet updates a single document in a
-:ref:`collection of documents that describe plants for sale in a store
+:ref:`collection of documents that describe plants for sale in a group of stores
 <android-mongodb-example-dataset>`. This operation queries for a document
 where the ``name`` field contains the value "petunia" and changes the value
-of the document's ``sunlight`` field to "partial":
+of the first matched document's ``sunlight`` field to "partial":
 
 .. tabs-realm-languages::
    
@@ -437,7 +477,7 @@ of the document's ``sunlight`` field to "partial":
                if (count == 1L) {
                   Log.v("EXAMPLE", "successfully updated a document.")
                } else {
-                  Log.v("EXAMPLE", "did not update a documents.")
+                  Log.v("EXAMPLE", "did not update a document.")
                }
             } else {
                Log.e("EXAMPLE", "failed to update a document with: ${it.exception}")
@@ -464,27 +504,33 @@ of the document's ``sunlight`` field to "partial":
                 if (count == 1) {
                     Log.v("EXAMPLE", "successfully updated a document.");
                 } else {
-                    Log.v("EXAMPLE", "Did not update a document.");
+                    Log.v("EXAMPLE", "did not update a document.");
                 }
             } else {
                 Log.e("EXAMPLE", "failed to update document with: ", task.getException());
             }
          });
 
+Running this snippet produces output resembling the following:
+
+.. code-block:: text
+
+   V/EXAMPLE: successfully updated a document.
+
 .. _android-mongodb-updateMany:
 
-Update One or More Documents
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Update Multiple Documents
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 You can update a single document using
 :java-sdk:`collection.updateMany()
 <io/realm/mongodb/mongo/MongoCollection.html#updateMany-Bson-Bson->`.
 
 The following snippet updates multiple documents in a
-:ref:`collection of documents that describe plants for sale in a store
+:ref:`collection of documents that describe plants for sale in a group of stores
 <android-mongodb-example-dataset>`. This operation queries for documents
 where the ``_partition`` field contains the value "Store 47" and changes
-the value of the ``_partition`` field of each document to "Store 51":
+the value of the ``_partition`` field of each matching document to "Store 51":
 
 .. tabs-realm-languages::
    
@@ -534,12 +580,18 @@ the value of the ``_partition`` field of each document to "Store 51":
                 if (count != 0) {
                     Log.v("EXAMPLE", "successfully updated " + count + " documents.");
                 } else {
-                    Log.v("EXAMPLE", "Did not update any documents.");
+                    Log.v("EXAMPLE", "did not update any documents.");
                 }
             } else {
                 Log.e("EXAMPLE", "failed to update documents with: ", task.getException());
             }
          });
+
+Running this snippet produces output resembling the following:
+
+.. code-block:: text
+
+   V/EXAMPLE: successfully updated 2 documents.
 
 .. _android-mongodb-upsert:
 
@@ -552,7 +604,7 @@ that matches the update query by setting the ``upsert`` option to
 ``true``.
 
 The following snippet updates a document in a
-:ref:`collection of documents that describe plants for sale in a store
+:ref:`collection of documents that describe plants for sale in a group of stores
 <android-mongodb-example-dataset>` or inserts a
 new document if no document matches the query filter. This operation
 queries for documents where:
@@ -560,12 +612,11 @@ queries for documents where:
 - the ``sunlight`` field has a value of "full"
 - the ``type`` field has a value of "perennial"
 - the ``color`` field has a value of "green"
-- the ``partition`` field has a value of "Store 47"
+- the ``_partition`` field has a value of "Store 47"
 
 Because this snippet sets the ``upsert`` option to ``true``, if no
-document matches the query, MongoDB creates a new document matching the
-literal values provided to the query and updates that new document with
-the changes provided in the update document:
+document matches the query, MongoDB creates a new document that includes
+both the query filter and specified updates:
 
 .. tabs-realm-languages::
    
@@ -628,6 +679,12 @@ the changes provided in the update document:
             }
          });
 
+Running this snippet produces output resembling the following:
+
+.. code-block:: text
+
+   V/EXAMPLE: successfully upserted a document with id: BsonObjectId{value=5f19...}
+
 .. _android-mongodb-delete-documents:
 
 Delete Documents
@@ -636,7 +693,9 @@ Delete Documents
 These code snippets demonstrate how to delete documents that
 are stored in a MongoDB collection from a mobile application.
 Delete operations use a query filter to specify which documents to delete
-and return a results object containing information about the operation.
+and return a :android:`Task <com/google/android/play/core/tasks/Task>`
+that resolves to an object that contains the results of the execution
+of the operation.
 
 .. _android-mongodb-deleteOne:
 
@@ -648,7 +707,7 @@ You can delete a single document from a collection using
 <io/realm/mongodb/mongo/MongoCollection.html#deleteOne-Bson->`.
 
 The following snippet deletes one document in a
-:ref:`collection of documents that describe plants for sale in a store
+:ref:`collection of documents that describe plants for sale in a group of stores
 <android-mongodb-example-dataset>`. This operation queries for a
 document where the ``color`` field has a value of "green" and deletes
 the first document that matches the query:
@@ -706,21 +765,27 @@ the first document that matches the query:
             }
          });
 
+Running this snippet produces output resembling the following:
+
+.. code-block:: text
+
+   V/EXAMPLE: successfully deleted a document.
+
 .. _android-mongodb-deleteMany:
 
-Delete One or More Documents
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Delete Multiple Documents
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 You can delete multiple items from a collection using
 :java-sdk:`collection.deleteMany()
 <io/realm/mongodb/mongo/MongoCollection.html#deleteMany-Bson->`.
 
 The following snippet deletes all documents in a
-:ref:`collection of documents that describe plants for sale in a store
+:ref:`collection of documents that describe plants for sale in a group of stores
 <android-mongodb-example-dataset>`
 that match the query filter that matches documents containing both
 a ``sunlight`` field value of "full" and a ``type`` field value of
-"perennial".
+"annual".
 
 .. tabs-realm-languages::
    
@@ -736,11 +801,11 @@ a ``sunlight`` field value of "full" and a ``type`` field value of
          val mongoCollection : MongoCollection<Document>? = mongoDatabase?.getCollection("plants")
 
          val queryFilter : Document = Document("sunlight", "full")
-                                         .append("type", "perennial")
+                                         .append("type", "annual")
          mongoCollection?.deleteMany(queryFilter)?.addOnCompleteListener {
             if (it.isSuccessful) {
                 val count : Long = it.result.deletedCount
-                if (count != 0) {
+                if (count != 0L) {
                     Log.v("EXAMPLE", "succcessfully deleted ${count} documents.")
                 } else {
                     Log.v("EXAMPLE", "did not delete any documents.")
@@ -762,7 +827,7 @@ a ``sunlight`` field value of "full" and a ``type`` field value of
          MongoCollection<Document> mongoCollection  = mongoDatabase.getCollection("plants");
 
          Document queryFilter = new Document("sunlight", "full")
-                .append("type", "perennial");
+                .append("type", "annual");
 
          mongoCollection.deleteMany(queryFilter).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
@@ -777,18 +842,28 @@ a ``sunlight`` field value of "full" and a ``type`` field value of
             }
          });
 
+Running this snippet produces output resembling the following:
+
+.. code-block:: text
+
+   V/EXAMPLE: succcessfully deleted 2 documents.
+
 .. _android-mongodb-aggregation-pipelines:
 
-Aggregation Pipelines
----------------------
+Aggregate Documents
+-------------------
 
 These code snippets demonstrate how to configure and run
-:manual:`aggregation pipelines </core/aggregation-pipeline>` against a
-collection. Aggregation operations run all documents in a collection
-through a series of data :ref:`aggregation stages
-<realm-aggregation-stages>` that allow you to filter and shape
-documents as well as collect summary data about groups of related
-documents.
+aggregation operations on a collection. Aggregation operations run all
+documents in a collection through a series of data :ref:`aggregation stages
+<realm-aggregation-stages>` called an
+:manual:`aggregation pipeline </core/aggregation-pipeline>` that allow
+you to filter and shape documents as well as collect summary data about
+groups of related documents.
+
+Aggregation operations accept a list of aggregation stages as input, and
+return a :android:`Task <com/google/android/play/core/tasks/Task>` that
+resolves to a collection of documents processed by the pipeline.
 
 .. _android-mongodb-aggregate:
 
@@ -862,221 +937,17 @@ number of each type:
             }
          });
 
+Running this snippet produces output resembling the following:
+
+.. code-block:: text
+
+   V/EXAMPLE: Plant type counts: 
+   V/EXAMPLE: Document{{_id=perennial, totalCount=2}}
+   V/EXAMPLE: Document{{_id=annual, totalCount=3}}
+
 .. _android-mongodb-aggregation-stages:
 
 Aggregation Stages
 ------------------
 
-Filter Documents
-~~~~~~~~~~~~~~~~
-
-You can use the :manual:`$match
-</reference/operator/aggregation/match/>` stage to filter incoming
-documents according to a standard :manual:`query filter
-</tutorial/query-documents>`.
-
-.. code-block:: javascript
-
-   {
-     "$match": {
-       "<Field Name>": <Query Expression>,
-       ...
-     }
-   }
-
-.. example::
-
-   The following ``$match`` stage filters incoming documents to include
-   only those where the ``graduation_year`` field has a value between
-   ``2019`` and ``2024``, inclusive.
-
-   .. code-block:: javascript
-
-      {
-        "$match": {
-          "graduation_year": {
-            "$gte": 2019,
-            "$lte": 2024
-          },
-        }
-      }
-
-Group Documents
-~~~~~~~~~~~~~~~
-
-You can use the :manual:`$group
-</reference/operator/aggregation/group/>` stage to aggregate summary
-data for groups of one or more documents. MongoDB groups documents based
-on the ``_id`` expression.
-
-.. note::
-
-   You can reference a specific document field by prefixing the field
-   name with a ``$``.
-
-.. code-block:: javascript
-
-   {
-     "$group": {
-       "_id": <Group By Expression>,
-       "<Field Name>": <Aggregation Expression>,
-       ...
-     }
-   }
-
-.. example::
-
-   The following ``$group`` stage groups documents by the value of their
-   ``customerId`` field and calculates the number of purchase documents
-   that each ``customerId`` appears in.
-
-
-   .. code-block:: javascript
-
-      {
-        "$group": {
-          "_id": "$customerId",
-          "numPurchases": { "$sum": 1 }
-        }
-      }
-
-Project Document Fields
-~~~~~~~~~~~~~~~~~~~~~~~
-
-You can use the :manual:`$project
-</reference/operator/aggregation/project/>` stage to include or omit
-specific fields from documents or to calculate new fields using
-:manual:`aggregation operators </reference/operator/aggregation>`.
-To include a field, set its value to ``1``. To omit a field, set its
-value to ``0``.
-
-.. note::
-
-   You cannot simultaneously omit and include fields other than ``_id``.
-   If you explicitly include a field other than ``_id``, any fields you
-   did not explicitly include are automatically omitted (and
-   vice-versa).
-
-.. code-block:: javascript
-
-   {
-     "$project": {
-       "<Field Name>": <0 | 1 | Expression>,
-       ...
-     }
-   }
-
-.. example::
-
-   The following ``$project`` stage omits the ``_id`` field, includes
-   the ``customerId`` field, and creates a new field named ``numItems``
-   where the value is the number of documents in the ``items`` array:
-
-   .. code-block:: javascript
-
-      {
-        "$project": {
-          "_id": 0,
-          "customerId": 1,
-          "numItems": { "$sum": { "$size": "$items" } }
-        }
-      }
-
-Add Fields to Documents
-~~~~~~~~~~~~~~~~~~~~~~~
-
-You can use the :manual:`$addFields
-</reference/operator/aggregation/addFields/>` stage to add new fields
-with calculated values using :manual:`aggregation operators
-</reference/operator/aggregation>`.
-
-.. note::
-
-   ``$addFields`` is similar to :manual:`$project
-   </reference/operator/aggregation/project/>` but does not allow you to
-   include or omit fields.
-
-.. example::
-
-The following ``$addFields`` stages creates a new field named
-``numItems`` where the value is the number of documents in the
-``items`` array:
-
-   .. code-block:: javascript
-
-      {
-        "$addFields": {
-          "numItems": { "$sum": { "$size": "$items" } }
-        }
-      }
-
-Unwind Array Values
-~~~~~~~~~~~~~~~~~~~
-
-You can use the :manual:`$unwind
-</reference/operator/aggregation/unwind/>` stage to aggregate
-individual elements of array fields. When you unwind an array field,
-MongoDB copies each document once for each element of the array field
-but replaces the array value with the array element in each copy.
-
-.. code-block:: javascript
-
-   {
-     $unwind: {
-       path: <Array Field Path>,
-       includeArrayIndex: <string>,
-       preserveNullAndEmptyArrays: <boolean>
-     }
-   }
-
-.. example::
-
-   The following ``$unwind`` stage creates a new document for each
-   element of the ``items`` array in each document. It also adds a field
-   called ``itemIndex`` to each new document that specifies the
-   element's position index in the original array:
-
-   .. code-block:: javascript
-
-      {
-        "$unwind": {
-          "path": "$items",
-          "includeArrayIndex": "itemIndex"
-         }
-      }
-
-Consider the following document from the ``purchases`` collection:
-
-.. code-block:: javascript
-
-      {
-        _id: 123,
-        customerId: 24601,
-        items: [
-          { name: "Baseball", quantity: 5 },
-          { name: "Baseball Mitt", quantity: 1 },
-          { name: "Baseball Bat", quantity: 1 },
-        ]
-      }
-
-If we apply the example ``$unwind`` stage to this document, the stage
-outputs the following three documents:
-
-.. code-block:: javascript
-
-      {
-        _id: 123,
-        customerId: 24601,
-        itemIndex: 0,
-        items: { name: "Baseball", quantity: 5 }
-      }, {
-        _id: 123,
-        customerId: 24601,
-        itemIndex: 1,
-        items: { name: "Baseball Mitt", quantity: 1 }
-      }, {
-        _id: 123,
-        customerId: 24601,
-        itemIndex: 2,
-        items: { name: "Baseball Bat", quantity: 1 }
-      }
+.. include:: /includes/aggregation-stages.rst
