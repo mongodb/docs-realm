@@ -36,8 +36,9 @@ Group Documents
 You can use the :manual:`$group
 </reference/operator/aggregation/group/>` stage to aggregate summary
 data for one or more documents. MongoDB groups documents based
-on the ``_id`` expression. You can reference a specific document field
-by prefixing the field name with a ``$``.
+on the expression defined in the ``_id`` field of the ``$group`` stage.
+You can reference a specific document field by prefixing the field name
+with a ``$``.
 
 .. code-block:: javascript
 
