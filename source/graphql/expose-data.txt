@@ -87,7 +87,6 @@ children from the same ``people`` collection:
      }
    }
 
-
 Realm evaluates which foreign documents are related to a given local
 document based on a foreign key value. For each relationship, the local
 document contains either a single foreign key value or an array of
@@ -95,17 +94,47 @@ foreign key values in a specific field. A document is related to any
 documents in the foreign collection where the value of the foreign key
 field matches a foreign key included in the local field.
 
-Relationship definitions have the following form:
-
-.. code-block:: json
+.. tabs-realm-admin-interfaces::
+   
+   .. tab::
+      :tabid: ui
       
-   {
-     "<Local Field Name>": {
-       "ref": "#/realm/<Cluster>/<Database>/<Collection>",
-       "foreign_key": "<Foreign Key Field Name>",
-       "is_list": <Boolean>
-     }
-   }
+      To define a relationship in the Realm UI, navigate to the :guilabel:`Rules` page
+      for the local collection, click the :guilabel:`Relationships` tab, and enter a
+      relationship definition.
+      
+      Relationship definitions have the following form:
+      
+      .. code-block:: json
+         
+         {
+           "<Local Field Name>": {
+             "ref": "#/realm/<Cluster>/<Database>/<Collection>",
+             "foreign_key": "<Foreign Key Field Name>",
+             "is_list": <Boolean>
+           }
+         }
+   
+   .. tab::
+      :tabid: cli
+      
+      To define a relationship for a local collection using Realm CLI or another
+      code deploy method, add a relationship definition to the ``relationships``
+      field of the collection's rules configuration file.
+      
+      .. code-block:: json
+         :caption: ``/services/mongodb-atlas/rules/<db>.<collection>.json``
+         
+         {
+           ...,
+           relationships: {
+             "<Local Field Name>": {
+               "ref": "#/realm/<Cluster>/<Database>/<Collection>",
+               "foreign_key": "<Foreign Key Field Name>",
+               "is_list": <Boolean>
+             }
+           }
+         }
 
 .. list-table::
    :header-rows: 1
@@ -306,9 +335,10 @@ There are three situations where you can set the ``title`` field:
 Next Steps
 ----------
 
-Once you have defined a schema for the collection, Realm automatically
-exposes the documents in the collection through the GraphQL API. You can
-now :doc:`connect from a client application
-</graphql/connect>` and :doc:`execute GraphQL
-operations </graphql/execute>` like queries and
-mutations.
+Once you have defined a schema for the collection, Realm automatically exposes
+the documents in the collection through the GraphQL API. You can now connect
+from a client application and execute queries and mutations.
+
+.. seealso::
+  - :doc:`Apollo Client (React) </web/graphql-apollo-react>`
+  - :doc:`Run GraphQL Operations from a CLI </graphql/cli>`

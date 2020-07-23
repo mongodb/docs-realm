@@ -243,10 +243,10 @@ information:
 
          app.loginAsync(credentials, it -> {
                if (it.isSuccess()) {
-                  Log.v(TAG, "Successfully authenticated anonymously.");
+                  Log.v("QUICKSTART", "Successfully authenticated anonymously.");
                   user = app.currentUser();
                } else {
-                  Log.e(TAG, it.getError().toString());
+                  Log.e("QUICKSTART", it.getError().toString());
                }
          });
 
@@ -260,10 +260,10 @@ information:
          val user: User? = null
          app.loginAsync(credentials) {
             if (it.isSuccess) {
-                  Log.v(TAG, "Successfully authenticated anonymously.")
+                  Log.v("QUICKSTART", "Successfully authenticated anonymously.")
                   user = app.currentUser()
             } else {
-                  Log.e(TAG, it.error.toString())
+                  Log.e("QUICKSTART", it.error.toString())
             }
          }
 
@@ -306,7 +306,7 @@ more.
                public void onSuccess(Realm _realm) {
                   // since this realm should live exactly as long as this activity, assign the realm to a member variable
                   realm = _realm;
-                  Log.v(TAG, "Successfully instantiated realm!");
+                  Log.v("QUICKSTART", "Successfully instantiated realm!");
                }
          });
 
@@ -327,7 +327,7 @@ more.
             override fun onSuccess(_realm: Realm) {
                // since this realm should live exactly as long as this activity, assign the realm to a member variable
                realm = _realm
-               Log.v(TAG, "Successfully instantiated realm!");
+               Log.v("QUICKSTART", "Successfully instantiated realm!");
             }
          })
 
@@ -347,9 +347,9 @@ Once logged in, you can log out:
          
          user.logOutAsync( it -> {
             if (it.isSuccess()) {
-               Log.v(TAG, "Successfully logged out.");
+               Log.v("QUICKSTART", "Successfully logged out.");
             } else {
-               Log.e(TAG, it.getError().toString());
+               Log.e("QUICKSTART", it.getError().toString());
             }
          });
 
@@ -361,8 +361,189 @@ Once logged in, you can log out:
 
          user?.logOutAsync {
             if (it.isSuccess) {
-                  Log.v(TAG, "Successfully logged out.")
+                  Log.v("QUICKSTART", "Successfully logged out.")
             } else {
-                  Log.e(TAG, it.error.toString())
+                  Log.e("QUICKSTART", it.error.toString())
             }
          }
+
+
+Complete Example
+----------------
+
+Run the complete example, by replacing the appId with your {+realm+} app ID.
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: java
+
+      .. note::
+
+         The following codeblock requires you to have a Task class. Copy
+         the code from the "Define Your Object Model" step to a
+         Task.java file in before using this snippet.
+
+      .. code-block:: java
+         
+         package com.mongodb.myapplicationjava;
+
+         import androidx.appcompat.app.AppCompatActivity;
+         import android.os.Bundle;
+         import android.util.Log;
+
+         import io.realm.Realm;
+         import io.realm.mongodb.App;
+         import io.realm.mongodb.AppConfiguration;
+
+         import io.realm.mongodb.Credentials;
+         import io.realm.mongodb.User;
+         import io.realm.mongodb.sync.SyncConfiguration;
+
+
+         public class MainActivity extends AppCompatActivity {
+            static User user;
+            static Realm realm;
+            @Override
+            protected void onCreate(Bundle savedInstanceState) {
+               super.onCreate(savedInstanceState);
+               Realm.init(this); // context, usually an Activity or Application
+               String appID = "<your app ID>"; // replace this with your App ID
+               App app = new App(new AppConfiguration.Builder(appID)
+                        .build());
+
+
+               Credentials credentials = Credentials.anonymous();
+
+               app.loginAsync(credentials, it -> {
+                  if (it.isSuccess()) {
+                     Log.v("QUICKSTART", "Successfully authenticated anonymously.");
+
+                     user = app.currentUser();
+
+                     String partitionValue = "myPartition";
+                     SyncConfiguration config = new SyncConfiguration.Builder(user, partitionValue)
+                              .waitForInitialRemoteData()
+                              .build();
+
+                     // Sync all realm changes via a new instance, and when that instance has been successfully created connect it to an on-screen list (a recycler view)
+                     Realm.getInstanceAsync(config, new Realm.Callback() {
+                        @Override
+                        @ParametersAreNonnullByDefault
+                        public void onSuccess(Realm _realm) {
+                           // since this realm should live exactly as long as this activity, assign the realm to a member variable
+                           realm = _realm;
+                           Log.v("QUICKSTART", "Successfully instantiated realm!");
+                        }
+                     });
+
+                     user.logOutAsync( result -> {
+                        if (result.isSuccess()) {
+                              Log.v("QUICKSTART", "Successfully logged out.");
+                        } else {
+                              Log.e("QUICKSTART", result.getError().toString());
+                        }
+                     });
+                  } else {
+                     Log.e("QUICKSTART", it.getError().toString());
+                  }
+               });
+            }
+         }
+
+
+   .. tab::
+      :tabid: kotlin
+
+      .. code-block:: kotlin
+
+         package com.mongodb.myapplication
+
+         import android.os.Bundle
+         import androidx.appcompat.app.AppCompatActivity
+         import android.util.Log
+
+         import io.realm.Realm
+         import io.realm.mongodb.App
+         import io.realm.mongodb.AppConfiguration
+
+         import io.realm.mongodb.Credentials
+         import io.realm.mongodb.User
+         import io.realm.mongodb.sync.SyncConfiguration
+
+
+         class MainActivity : AppCompatActivity() {
+
+            override fun onCreate(savedInstanceState: Bundle?) {
+               super.onCreate(savedInstanceState)
+
+               Realm.init(this) // context, usually an Activity or Application
+               val appID = "<your app ID>" // replace this with your App ID
+               val app: App = App(AppConfiguration.Builder(appID)
+                     .build())
+
+               val credentials: Credentials = Credentials.anonymous()
+
+               var user: User? = null
+
+               app.loginAsync(credentials) {
+                  if (it.isSuccess) {
+                     Log.v("QUICKSTART", "Successfully authenticated anonymously.")
+                     user = app.currentUser()
+                  } else {
+                     Log.e("QUICKSTART", "an error occurred:")
+                     Log.e("QUICKSTART", it.error.toString())
+                  }
+               }
+
+               user = app.currentUser()
+               val partitionValue: String = "myPartition"
+
+               val config = SyncConfiguration.Builder(user!!, partitionValue)
+                     .waitForInitialRemoteData()
+                     .build()
+
+
+
+               var realm: Realm
+               // Sync all realm changes via a new instance, and when that instance has been successfully created connect it to an on-screen list (a recycler view)
+               Realm.getInstanceAsync(config, object: Realm.Callback() {
+                  override fun onSuccess(_realm: Realm) {
+                     // since this realm should live exactly as long as this activity, assign the realm to a member variable
+                     realm = _realm
+                     Log.v("QUICKSTART", "Successfully instantiated realm!");
+                  }
+               })
+
+               user?.logOutAsync {
+                  if (it.isSuccess) {
+                     Log.v("QUICKSTART", "Successfully logged out.")
+                  } else {
+                     Log.e("QUICKSTART", it.error.toString())
+                  }
+               }
+
+            }
+         }
+
+         open class Task(_name: String = "Task", project: String = "My Project") : RealmObject() {
+            @PrimaryKey var _id: ObjectId = ObjectId()
+            var _partition: String = project
+            var name: String = _name
+
+            @Required
+            private var status: String = "Open"
+         }
+
+
+Output
+------
+Running the above code should output something like the following:
+
+.. code-block:: shell
+
+   Successfully authenticated anonymously.
+
+   Successfully instantiated realm!
+
+   Successfully logged out.

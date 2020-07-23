@@ -97,7 +97,7 @@ extlinks = {
     # MongoDB Docs Sites
     'manual': ('http://docs.mongodb.org/manual%s', ''),
     'atlas': ('https://docs.atlas.mongodb.com%s',''),
-    'fb-dev-docs': ('https://developers.facebook.com/docs/%s', ''),
+    'facebook': ('https://developers.facebook.com/%s', ''),
     'mms-docs': ('https://docs.cloud.mongodb.com%s', ''),
     'mms-home': ('https://cloud.mongodb.com%s', ''),
     'guides': ('https://docs.mongodb.com/guides%s', ''),
@@ -109,8 +109,8 @@ extlinks = {
     # True External Links
     'android': ('https://developer.android.com/reference/%s', ''),
     'android-dev': ('https://developer.android.com/%s', ''),
-    'apollo-docs': ('https://www.apollographql.com/docs/%s', ''),
-    'apple-dev': ('https://developer.apple.com/documentation/%s', ''),
+    'apollo': ('https://www.apollographql.com/%s', ''),
+    'apple': ('https://developer.apple.com/%s', ''),
     'aws-docs': ('https://docs.aws.amazon.com/%s', ''),
     'aws-go': ('https://docs.aws.amazon.com/sdk-for-go/api/service/%s', ''),
     'aws-iam': ('https://docs.aws.amazon.com/IAM/latest/%s', ''),
@@ -119,7 +119,7 @@ extlinks = {
     'gcp': ('https://cloud.google.com/%s', ''),
     'github': ('https://github.com/%s', ''),
     'github-dev': ('https://developer.github.com/%s', ''),
-    'google-dev': ('https://developers.google.com/%s', ''),
+    'google': ('https://developers.google.com/%s', ''),
     'graphql': ('https://graphql.org/%s', ''),
     'jwt-io': ('https://jwt.io/%s', ''),
     'nodejs': ('https://nodejs.org/%s', ''),

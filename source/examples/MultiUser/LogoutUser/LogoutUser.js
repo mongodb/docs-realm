@@ -1,10 +1,6 @@
-const app = new Realm.App({ id: "myapp-abcde" });
-
 // Remove the current user from the device
 const user = app.currentUser;
 await app.removeUser(user);
-
-
 
 // The user is no longer the active user
 if(app.currentUser) {
@@ -14,4 +10,4 @@ if(app.currentUser) {
 }
 
 // The user is no longer on the device
-assert(app.allUsers().find(({ id }) => id === user.id) === undefined);
+assert(app.allUsers.find(({ id }) => id === user.id) === undefined);

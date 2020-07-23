@@ -1,0 +1,106 @@
+.. _conflict-resolution:
+
+===================
+Conflict Resolution
+===================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+Conflicts arise when two or more users make changes to the same piece of
+data independently. This can happen due to latency between device and
+server or loss of connectivity. In this event, {+service-short+} mergse
+the changes according to specific rules that ensure all sides always
+converge on the same result, even though their changes may have been
+made in a different order. This is called conflict resolution.
+
+{+service-short+}'s conflict resolution system guarantees that all
+clients will eventually converge to identical states, which is called
+:wikipedia:`strong eventual consistency
+<Eventual_consistency#Strong_eventual_consistency>`. You have to be
+aware of the rules to ensure the consistent results you want, but the
+upside is that by following those rules you can have devices work
+entirely offline and still converge on meaningful results when they
+meet.
+
+.. _rules-of-conflict-resolution:
+
+Rules of Conflict Resolution
+----------------------------
+
+At a very high level, the rules are as follows:
+
+Deletes always win.
+  If one side deletes an object it will always stay deleted, even if the
+  other side has made changes to it later on.
+
+Last update wins.
+  If two sides update the same property, Realm will keep the value from
+  the most recent update.
+
+Inserts in lists are ordered by time.
+  If two items are inserted at the same position, the item that was
+  inserted first will end up before the other item. This means that if
+  both sides append items to the end of a list, will include both items
+  in order of insertion time.
+
+Primary keys designate object identity.
+  If two sides both create objects of the same class with identical
+  primary keys, they will be treated as instances of the same object.
+
+.. _conflict-resolution-special-considerations:
+
+Special Considerations
+----------------------
+
+Counters
+~~~~~~~~
+
+Using integers for counting is a special case. The way that most
+programming languages would implement an increment operation (like ``v
++= 1``) is to read the value, increment the result, and then store it
+back. This will obviously not work if you have multiple parties doing
+incrementing simultaneously (they may both read 10, increment it to 11,
+and when it merged you would get a result of 11 rather than the intended
+12).
+
+To support this common case, we offer a way to express the intent that
+you are incrementing (or decrementing) the value, giving enough hints to
+the merge that it can reach the correct result. You have the choice to
+update the entire value or edit it in a way that conveys more meaning,
+allowing you to get more precise control of the conflict resolution.
+
+Strings
+~~~~~~~
+
+{+service-short+} treats strings as atomic values and does not merge
+conflicts on a per-character basis.
+
+.. _custom-conflict-resolution:
+
+Custom Conflict Resolution
+--------------------------
+
+Generally speaking, the conflict resolution of {+service-short+} should
+work for most purposes, and you should not need to customize it. That
+said, the typical way to do custom conflict resolution is to change a
+property type from string to list. Each side can then add its updates to
+the list and apply any conflict resolution rules it wants directly in
+the data model. You can use this technique to implement max, min, first
+write wins, last write wins, or any other kind of resolution you can
+think of.
+
+Summary
+-------
+
+- {+service+} Sync implements a conflict resolution system to allow multiple offline writers to write simultaneously and still eventually converge on the same result.
+- The conflict resolution system follows four rules: deletes always win, the last update wins, inserts in lists are ordered by time, and primary keys designate object identity.
+- Counters and strings are special cases to be aware of in your client code.

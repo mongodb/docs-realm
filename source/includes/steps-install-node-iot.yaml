@@ -1,0 +1,52 @@
+title: Install a C++ Compiler
+ref: iot-install-c++-compiler
+content: |
+
+   The Realm IoT SDK is not distributed as a binary, so you must build
+   it from source. To do this, you'll need a working C++ compiler. To
+   install such a compiler on your IoT device, run the following command:
+
+   .. code-block:: bash
+
+      sudo apt install build-essential g++ libssl-dev
+
+---
+title: Create a Node.js Project
+ref: create-a-node-project
+content: |
+
+   Create your Node.js project by creating a new directory
+   for your project and running ``npm init`` in that
+   directory. In the example below, replace ``MyRealmApp``
+   with your desired project name. Answer all of the prompts
+   to fill out the details of your project.
+
+   .. code-block:: bash
+
+      mkdir MyRealmApp && cd MyRealmApp && npm init
+
+---
+title: Install Realm with NPM
+ref: install-realm-with-npm
+content: |
+
+   In your Node.js project directory, use the following command
+   to add {+service-short+} to your project:
+
+   .. code-block:: bash
+
+      npm install --save realm@10.0.0-beta.6
+
+---
+title: Enable TypeScript (optional)
+ref: enable-typescript
+content: |
+
+   TypeScript is a superset of JavaScript that adds static
+   type checking and other features intended to make
+   application-scale development more robust. If you'd like
+   to use TypeScript, follow the TypeScript team's official
+   `Node Starter guide
+   <https://github.com/Microsoft/TypeScript-Node-Starter#typescript--node>`__.
+   {+service-short+} supports TypeScript natively and integrates easily
+   into a TypeScript project.

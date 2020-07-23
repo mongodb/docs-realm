@@ -1,10 +1,5 @@
-const app = new Realm.App({ id: "myapp-abcde" });
-
-// Get all on-device users
-const users = Object.values(app.allUsers());
-
-// You can only switch to a logged-in users
-const authenticatedUsers = users.filter(user => user.isLoggedIn);
+// Get some logged-in users
+const authenticatedUsers = app.allUsers.filter(user => user.isLoggedIn);
 const user1 = authenticatedUsers[0];
 const user2 = authenticatedUsers[1];
 
