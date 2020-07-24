@@ -1,106 +1,132 @@
-title: Export Your Realm Application
-ref: export-your-application
+title: Update Your Local Application
+ref: update-your-local-application
 content: |
-  To define roles and permissions with :doc:`realm-cli
-  </deploy/realm-cli-reference>`, export an
-  :ref:`application directory <application-directory>` for
-  your application.
-
-  You can :doc:`export </deploy/export-realm-app>` your
-  application from the :guilabel:`Export` tab of the
-  :guilabel:`Settings` page in the {+ui+}, or by running the
-  following command from an authenticated instance of :doc:`realm-cli
-  </deploy/realm-cli-reference>`:
+  To update your app through the CLI, you need an :doc:`up-to-date application
+  directory <application-directory>`. To export the latest version of your app,
+  run the following command from your shell:
 
   .. code-block:: shell
-
-     realm-cli export --app-id=<App ID>
+     
+     realm-cli export --app-id=<Your App ID>
 ---
-title: Add a Rule Configuration File
-ref: add-a-rule-configuration-file
+title: Select a Cluster to Sync
+ref: select-a-cluster-to-sync
 content: |
-  The sync rules for a cluster are configured in the
-  :ref:`configuration file <service-configuration-file>` of
-  the cluster:
-
-  .. code-block:: shell
-
-     touch services/<cluster name>/config.json
-
-  The configuration file should have the following general form:
+  You can enable sync for a single linked cluster in your application. If you
+  have not yet linked the cluster to your application, follow the :ref:`Link a
+  MongoDB Atlas Cluster <link-a-cluster>` guide to link it before you continue.
+  
+  Determine which linked cluster you want to use and then open its configuration
+  file. Add the ``config.sync`` field with the following value:
 
   .. code-block:: json
+     
+     {
+       "config": {
+         "sync": {
+           "state": "enabled",
+           "partition": {
+             "key": "<Partition Key Field>",
+             "type": "<Partition Key Type>",
+             "permissions": {
+               "read": {},
+               "write": {}
+             }
+           }
+         },
+         ...
+       },
+       ...
+     }
+---
+title: Choose a Partition Key
+ref: choose-a-partition-key
+content: |
+  The sync :term:`partition key` is a field in every synced document that maps
+  each document to a client-side realm. Sync rules apply at the partition level,
+  so it's particularly important to consider your data model and access
+  patterns. For more information on partition keys and how to choose one, see
+  :ref:`Partition Atlas Data into Realms <partitioning>`.
+
+  Once you have decided which field to use, update ``config.sync.partition`` to
+  reflect the partition key field name in the ``key`` field and the partition
+  key type in the ``type`` field.
+
+  .. code-block:: json
+     :emphasize-lines: 6, 7
 
      {
-       "roles": [],
-       "filters": [],
-       "schema": {}
+       "config": {
+         "sync": {
+           "state": "enabled",
+           "partition": {
+             "key": "owner_id",
+             "type": "string",
+             "permissions": {
+               "read": {},
+               "write": {}
+             }
+           }
+         },
+         ...
+       },
+       ...
      }
-
 ---
-title: Add One or More Roles
-ref: add-one-or-more-roles
+title: Define Read & Write Permissions
+ref: define-read-write-permissions
 content: |
-  Add a document to the ``roles`` array for each role that you want to
-  configure. Role documents have the following form:
+  Realm allows you to define :ref:`JSON expressions <expressions>` that it
+  dynamically evaluates whenever a user opens a realm to determine if the user
+  has read or write permissions for data in the partition.
+  
+  Sync rule expressions have access to :json-expansion:`%%user`, which resolves
+  to the user that opened the realm, and :json-expansion:`%%partition`, which
+  resolves to the partition key value for the realm. You can also use operators,
+  including :json-operator:`%function`, to handle more complex cases.
 
-  .. code-block:: javascript
+  Once you've determined how to decide a user's read and write permissions for a
+  given partition, define the corresponding JSON expressions in the
+  ``read`` and ``write`` fields of ``config.sync.partition.permissions``.
+
+  .. code-block:: json
+     :emphasize-lines: 9-13, 14-16
 
      {
-       "name": "<Role Name>",
-       "apply_when": <JSON Expression>,
-       "read": <boolean>,
-       "write": <boolean>
+       "config": {
+         "sync": {
+           "state": "enabled",
+           "partition": {
+             "key": "owner_id",
+             "type": "string",
+             "permissions": {
+               "read": {
+                 "$or": [
+                   { "%%user.id": "%%partition" },
+                   { "%%user.custom_data.shared": "%%partition" }
+                 ]
+               },
+               "write": {
+                 "%%user.id": "%%partition"
+               }
+             }
+           }
+         },
+         ...
+       },
+       ...
      }
-
-  .. list-table::
-     :header-rows: 1
-     :widths: 15 40
-
-     * - Field
-       - Description
-
-     * - ``name``
-       - Required. The name of the role. Limited to 100 characters or
-         fewer.
-
-     * - ``apply_when``
-       - Required. A :doc:`JSON expression </services/json-expressions>` that
-         determines when this role applies to a given partition.
-
-     * - ``read``
-       - Optional. Default: ``false``. A boolean that, if ``true``,
-         indicates that the role has permission to sync and
-         read *all* objects in a partition.
-
-     * - ``write``
-       - Optional. Default: ``false``. A boolean that, if ``true``,
-         indicates that the role has permission to sync and
-         write to *all* objects in a partition.
-
 ---
-title: Import Your Application Directory
-ref: import-your-application-directory
+title: Deploy the Sync Configuration
+ref: deploy-the-sync-configuration
 content: |
-  Once you have added your role configurations to the
-  cluster sync configuration file, all that's left is to
-  import the rule.
-
-  Ensure that the rule configuration file is saved, then
-  navigate to the root of the exported application
-  directory. Log in to `{+atlas+} <https://www.mongodb.com/cloud/atlas?tck=docs_realm>`_
-  with {+cli-bin+}:
-
+  Now that you've defined the sync configuration, including read and write
+  permissions, you can deploy your changes to start syncing data and enforcing
+  sync rules.
+  
+  To deploy your changes, import your app configuration:
+  
   .. code-block:: shell
-
-     realm-cli login --api-key="<my api key>" --private-api-key="<my private api key>"
-
-  Once you're logged in, import the directory:
-
-  .. code-block:: shell
-
+     
      realm-cli import
-
-  Once the import completes, {+service-short+} will immediately begin
-  using the roles you defined for all incoming requests to
-  sync that partition.
+...
