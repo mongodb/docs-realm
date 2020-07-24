@@ -145,7 +145,7 @@ the cluster.
    * - | ``sync.database_name``
        | String
      - The name of the database in the synced cluster where Realm should store
-       synced objects
+       synced objects.
        
        When :term:`development mode` is enabled, Realm stores synced objects in
        this database. Each object type maps to its own collection in the
