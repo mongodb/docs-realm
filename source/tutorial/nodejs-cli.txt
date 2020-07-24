@@ -51,9 +51,8 @@ This tutorial should take around 30 minutes to complete.
    
    We host this tutorial application's :github:`complete and ready-to-compile
    source code <mongodb-university/realm-tutorial/tree/main/node-cli>` on
-   GitHub. Just follow the instructions in ``README.md`` to get started. Don't
-   forget to update the ``config.js`` file with your App ID, which you can
-   find in the {+ui+}.
+   GitHub. You will need to update the ``config.js`` file with your App ID, 
+   which you can find in the {+ui+}.
 
 Prerequisites
 -------------
@@ -76,6 +75,16 @@ directly from GitHub:
    
    git clone git@github.com:mongodb-university/realm-tutorial.git
 
+.. important::
+   
+   The ``main`` branch is a finished version of the app as it should look *after*
+   you complete this tutorial. To walk through this tutorial, please check 
+   out the ``todo`` branch:
+
+   .. code-block:: shell
+    
+      git checkout todo
+
 In your terminal, run the following commands to navigate to the task tracker
 client application and install its dependencies:
 
@@ -83,16 +92,6 @@ client application and install its dependencies:
    
    cd realm-tutorial/node-cli
    npm install
-
-.. important::
-   
-   The ``main`` branch is a finished version of the app as it should look after
-   you complete this tutorial. To walk through this tutorial, check out 
-   the ``todo`` branch:
-
-   .. code-block:: shell
-    
-      git checkout todo
 
 B. Explore the App Structure & Components
 -----------------------------------------
@@ -148,8 +147,13 @@ C. Connect to Your MongoDB Realm App
 ------------------------------------
 To get the app working with your backend, you first need to add your Realm App ID 
 to the ``config.js`` file. The ``config.js`` module exports a single property, 
-``realmAppId``, which is currently set to "TODO". Change this value to your 
-Realm App ID. 
+``realmAppId``, which is currently set to "TODO":
+
+.. code-block:: js
+
+   exports.realmAppId = "TODO";
+
+Change this value to your Realm App ID. 
 
 .. note::
 
@@ -157,7 +161,7 @@ Realm App ID.
    Your App Id </get-started/find-your-app-id>` doc.
 
 Once you have made that change, you now need to complete the code needed to 
-open a Realm. In ``index.js``, find the ``openRealm`` function. It will look 
+open a {+realm+}. In ``index.js``, find the ``openRealm`` function. It will look 
 like this:
 
 .. code-block:: js
@@ -170,15 +174,15 @@ like this:
             partitionValue: "myPartition",
          },
       };
-      // TODO: open a Realm with these configuration settings.
+      // TODO: open a realm with these configuration settings.
    }
 
-Replace the ``TODO`` line with a line of code that opens a Realm and assigns 
+Replace the ``TODO`` line with a line of code that opens a {+realm+} and assigns 
 it to the ``realm`` property:
 
 .. code-block:: js
 
-   realm = await Realm.open(config);
+   realm = Realm.open(config);
 
 At this point, your app is pointing to your backend and opens a connection 
 to it when you start the app. However, users cannot yet log in, so let's update 
@@ -192,7 +196,7 @@ an email address and password, and then, within a try-catch block, creates an
 credential and passes it to the Realm 
 :js-sdk:`logIn() <Realm.App.html#logIn>` method. 
 
-Find the the following comment:
+Find the following comment:
 
 .. code-block:: js
 
@@ -219,20 +223,19 @@ E. Implement the CRUD methods
 -----------------------------
 In the ``tasks.js`` file, there are a number of functions to handle typical  
 CRUD functionality: ``getTasks``, ``getTask``, ``createTask``, ``deleteTask``, 
-``editTask``, and ``changeStatus``, which is essentially a specific case of 
-``editTask``. Each of these functions (except ``getTasks``) prompts the user, 
-and then makes the appropriate call to Realm. Your task is to implement the 
-calls to Realm. The following list shows each function and provides 
-guidance on how to complete the task.
+``editTask``, and ``changeStatus``. Each of these functions (except ``getTasks``) 
+prompts the user for input and then makes the appropriate call to Realm. Your 
+job is to implement the calls to {+service-short+}. The following list provides 
+guidance on how to complete this task for each function:
 
 * ``getTasks``
 
-  To get all objects, call the :js-sdk:`obects() <Realm.html#objects>` method 
+  To get all objects, call the :js-sdk:`objects() <Realm.html#objects>` method 
   and pass in the name of the collection:
   
   .. code-block:: js
      
-     const tasks = await realm.objects("Task");
+     const tasks = realm.objects("Task");
 
 
 * ``getTask``
@@ -243,7 +246,7 @@ guidance on how to complete the task.
 
   .. code-block:: js
      
-     let result = await realm.objectForPrimaryKey(
+     let result = realm.objectForPrimaryKey(
        "Task",
        new bson.ObjectID(task.id)
      );
@@ -253,12 +256,8 @@ guidance on how to complete the task.
 
   Whenever we modify an object in realm, we must do so within a 
   :ref:`transaction <node-open-a-transaction>`. 
-  While you can do this by calling the 
-  :js-sdk:`beginTransaction() <Realm.html#beginTransaction>` and 
-  :js-sdk:`commitTransaction() <Realm.html#commitTransaction>`
-  methods, the
-  :js-sdk:`write() <Realm.html#write>` method takes care of 
-  transaction handling for us. Within the ``write`` function, we then call
+  The :js-sdk:`write() <Realm.html#write>` method takes care of 
+  transaction handling for us. So, within the ``write`` function, we call
   the :js-sdk:`create() <Realm.html#create>` function, passing in all of the 
   required properties:
 
@@ -273,12 +272,21 @@ guidance on how to complete the task.
         });
      });
 
+  .. note::
+    
+    The ``write`` function replaces the need to call the 
+    :js-sdk:`beginTransaction() <Realm.html#beginTransaction>`,  
+    :js-sdk:`commitTransaction() <Realm.html#commitTransaction>`, and 
+    :js-sdk:`cancelTransaction() <Realm.html#cancelTransaction>`
+    methods.
+
 
 * ``deleteTask``
     
-  As with creating an object, you delete an object within a transaction. Again, 
-  we'll use the ``write()`` function to handle the transaction for us, and within 
-  that, we'll call the :js-sdk:`delete() <Realm.html#delete>` function: 
+  Deleting objects must also take place within a transaction. As with modifying 
+  an object, we'll use the write() function to handle the transaction for us, 
+  and then call the the :js-sdk:`delete() <Realm.html#delete>` function within 
+  it:
 
   .. code-block:: js
 
@@ -319,8 +327,8 @@ Once you have completed the code, you should run the app and check functionality
 
    .. code-block:: sh
       
-      ``npm install``
-      ``node index.js``
+      npm install
+      node index.js
 
 #. Your terminal window will clear and you will see the initial menu prompting 
    you to log in or register as a new user:
@@ -333,6 +341,11 @@ Once you have completed the code, you should run the app and check functionality
    the main "menu" of choices. All of the options should now work for you except 
    the "watch" functionality, which we'll enable in the next section.
 
+.. admonition:: Reminder
+   
+   If something isn't working for you, you can check out the ``main`` branch of 
+   this repo to compare your code with our finished solution. 
+
 G. Implement the Collection Listener
 ------------------------------------
 A very handy feature in Realm is the ability to add a listener to a collection. 
@@ -343,14 +356,15 @@ occurs, display a notification in the console window. To do this:
 1. In your text editor, open the ``watch.js`` file. 
 
 #. Our internal ``listener`` function is a callback function that takes two 
-   parameters: the collection of tasks and a ``changes`` dictionary that is sent 
-   from Realm. The ``changes`` dictionary has the following keys:
+   parameters: the collection of tasks and a ``changes`` object that is sent 
+   from Realm. The ``changes`` object has the following properties:
 
-   * **deletions** -- returns the index of the deleted item before the deletion.
+   * ``changes.deletions`` returns the index of the deleted item *before* 
+     the deletion.
 
-   * **insertions** -- returns the index of the new object.
+   * ``changes.insertions`` returns the index of the new object.
 
-   * **modifications** -- returns the index of the modified object.
+   * ``changes.modifications`` returns the index of the modified object.
 
 #. In the ``watchForChanges`` function, you will get all of the objects in 
    the **Tasks** collection (just as we did in the ``getTasks`` function),  
@@ -359,7 +373,7 @@ occurs, display a notification in the console window. To do this:
 
 .. code-block:: js
    
-   const tasks = await realm.objects("Task");
+   const tasks = realm.objects("Task");
    tasks.addListener(listener);
 
 With this code update, you can now re-run the app and watch for changes. 
@@ -373,10 +387,10 @@ With this code update, you can now re-run the app and watch for changes.
 
 .. note::
    
-   If you do not want to open 2 terminal windows, you can modify the code in 
-   ``main.js``, within the ``case Choices.WatchForChanges`` handler. The 
+   If you want to continue to work in the same process and have the change 
+   notifications appear inline, you can modify the code 
+   in ``main.js``, within the ``case Choices.WatchForChanges`` handler. The 
    inline code comment explains the change you can make. 
-
 
 What's Next?
 ------------
