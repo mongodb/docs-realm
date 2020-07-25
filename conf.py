@@ -95,6 +95,7 @@ source_constants = {
 
 extlinks = {
     # MongoDB Docs Sites
+    'admin-api-endpoint': ('https://docs.mongodb.com/realm/admin/api/v3/#%s', ''), # This kinda sucks but there is no good way to ref these since they use hacky sphinx_openapi.
     'manual': ('http://docs.mongodb.org/manual%s', ''),
     'atlas': ('https://docs.atlas.mongodb.com%s',''),
     'facebook': ('https://developers.facebook.com/%s', ''),
