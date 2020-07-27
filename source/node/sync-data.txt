@@ -94,6 +94,22 @@ changes, then writes a new ``Task`` to the {+realm+}:
   realm.removeAllListeners();
   realm.close();
 
+Session Multiplexing
+--------------------
+
+Some {+service-short+} applications, such as event handlers, require the
+ability to open large numbers of {+realm+}s. Normally, each {+realm+}
+uses a single websocket connection to synchronize data. However, applications
+that open a large number of realms can consume a disproportionate amount
+of network resources to synchronize all of those {+realm+}s simultaneously.
+
+To reduce this network load, you can enable :js-sdk:`session multiplexing
+<Realm.Sync.html#.enableSessionMultiplexing>` in
+your application. Session multiplexing uses a single connection for
+all realms synchronized by your application. To enable session multiplexing,
+call the ``Realm.Sync.enableSessionMultiplexing()`` static method on startup
+before instantiating any {+realm+} connections.
+
 Summary
 -------
 

@@ -1,0 +1,121 @@
+title: Install Dependencies
+ref: install-dependencies
+content: |
+  As in any MongoDB Realm project, you'll need to install the :npm:`Realm Web
+  SDK <realm-web>` to authenticate users and requests.
+  
+  .. code-block:: shell
+     
+     npm install realm-web
+  
+  Apollo bundles the core components that you need to create a client in a
+  package called :npm:`@apollo/client <package/@apollo/client>`. It also
+  requires the :npm:`graphql <package/graphql>` package to parse GraphQL
+  queries.
+  
+  .. code-block:: shell
+     
+     npm install @apollo/client graphql
+---
+title: Create an Apollo GraphQL Client
+ref: create-an-apollo-graph-ql-client
+content: |
+  Create a new :apollo:`ApolloClient <docs/react/api/core/ApolloClient>` object
+  that points to your Realm app's GraphQL API endpoint. You generate the
+  endpoint URL based on your Realm App ID or find it on the GraphQL page of the
+  Realm UI.
+  
+  .. code-block:: javascript
+  
+     import * as Realm from "realm-web";
+     import { ApolloClient, HttpLink, InMemoryCache } from "@apollo/client";
+     
+     export const APP_ID = "<Your App ID>";
+     const graphql_url = `https://realm.mongodb.com/api/client/v2.0/app/${APP_ID}/graphql`;
+     
+     const client = new ApolloClient({
+       link: new HttpLink({ uri: graphql_url }),
+       cache: new InMemoryCache(),
+     });
+---
+title: Set Up User Authentication
+ref: set-up-user-authentication
+content: |
+  The ``ApolloClient`` is configured to send requests to your app. However, all
+  Realm GraphQL requests must include a valid user access token to authenticate
+  requests, so right now any operations sent from Apollo will fail.
+  
+  To authenticate requests, you need to add an :doc:`Authorization header
+  </graphql/authenticate>` with a valid Realm user access token to each GraphQL
+  request.
+  
+  You can authenticate a user and get their access token with the :ref:`Realm
+  Web SDK <web-intro>`. The Apollo ``HttpLink`` object allows you to add custom
+  headers to every request by defining a custom ``fetch`` function.
+  
+  .. code-block:: javascript
+     :emphasize-lines: 15, 21-25
+  
+     // Connect to your MongoDB Realm app
+     const app = new Realm.App(APP_ID);
+  
+     // Get a valid Realm user access token to authenticate requests
+     async function getValidAccessToken() {
+       if (!app.currentUser) {
+         // If no user is logged in, log in an anonymous user
+         await app.logIn(Realm.Credentials.anonymous());
+       } else {
+         // The logged in user's access token might be stale,  
+         // Refreshing custom data also refreshes the access token
+         await app.currentUser.refreshCustomData();
+       }
+       // Get a valid access token for the current user
+       return app.currentUser.accessToken;
+     }
+     
+     const client = new ApolloClient({
+       link: new HttpLink({
+         uri: graphql_url,
+         fetch: async (uri, options) => {
+           const accessToken = await getValidAccessToken();
+           options.headers.Authorization = `Bearer ${accessToken}`;
+           return fetch(uri, options);
+         },
+       }),
+       cache: new InMemoryCache()
+     });
+---
+title: Add the Apollo Client to Your App
+ref: add-the-apollo-client-to-your-app
+content: |
+  The Apollo ``client`` object is now configured to send authenticated GraphQL
+  requests to your MongoDB Realm app. All that's left to do is make it available
+  to the rest of your React application.
+  
+  The ``@apollo/client`` package exports an ``ApolloProvider`` component that
+  makes the ``client`` available to any Apollo hooks that you call from child
+  components. Wrap your app in an ``ApolloProvider`` and pass the ``client``
+  object to the provider.
+  
+  .. code-block:: javascript
+     :emphasize-lines: 5, 14-16
+     
+     import React from "react";
+     import { render } from "react-dom";
+     import App from "./App";
+     import {
+       ApolloProvider,
+       ApolloClient,
+       HttpLink,
+       InMemoryCache
+     } from "@apollo/client";
+     
+     // ... code to create the GraphQL client
+     
+     render(
+       <ApolloProvider client={client}>
+         <App />
+       </ApolloProvider>,
+       document.getElementById("root"),
+     );
+...

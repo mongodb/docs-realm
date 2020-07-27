@@ -1,0 +1,400 @@
+.. _nodejs-cli-tutorial:
+
+====================
+Node.js CLI Tutorial
+====================
+
+.. default-domain:: mongodb
+
+.. raw:: html
+   
+   <!-- Hacky fix for step title headings -->
+   <style>
+   .sequence-block > .section > h4 {
+      margin: 24px 0;
+   }
+   div.section h2+ul {
+     margin-left: 0;
+   }
+   </style>
+
+.. contents:: Tutorial Sections
+   :local:
+   :backlinks: none
+   :depth: 1
+   :class: singlecol
+
+Overview
+--------
+
+In this tutorial, you will use Node.js to create a task
+tracker command line interface (CLI) that allows users to:
+
+- Register themselves with email and password.
+- Sign in to their account with their email and password.
+- View, create, modify, and delete tasks.
+- Watch for changes to the Task collection and get notified in the terminal 
+  window when a change occurs.
+
+This tutorial should take around 30 minutes to complete.
+
+.. admonition:: Check Out the Quick Start
+   :class: note
+   
+   If you prefer to explore on your own rather than follow a guided tutorial,
+   check out the :ref:`Quick Start <node-client-quick-start>`. It
+   includes copyable code examples and the essential information that you need
+   to set up a MongoDB Realm application.
+
+.. admonition:: Download the Complete Source Code
+   :class: note
+   
+   We host this tutorial application's :github:`complete and ready-to-compile
+   source code <mongodb-university/realm-tutorial/tree/main/node-cli>` on
+   GitHub. You will need to update the ``config.js`` file with your App ID, 
+   which you can find in the {+ui+}.
+
+Prerequisites
+-------------
+
+Before you begin, ensure you have:
+
+- `Node.js <https://nodejs.org/en/download/>`_ installed.
+- :ref:`Set up the backend <tutorial-task-tracker-create-realm-app>`.
+
+Once you're set up with these prerequisites, you're ready to start the tutorial.
+
+A. Clone the Client App Repository
+----------------------------------
+
+We've already put together a task tracker CLI application that has most of
+the code you'll need. You can clone the client application repository
+directly from GitHub:
+
+.. code-block:: shell
+   
+   git clone git@github.com:mongodb-university/realm-tutorial.git
+
+.. important::
+   
+   The ``main`` branch is a finished version of the app as it should look *after*
+   you complete this tutorial. To walk through this tutorial, please check 
+   out the ``todo`` branch:
+
+   .. code-block:: shell
+    
+      git checkout todo
+
+In your terminal, run the following commands to navigate to the task tracker
+client application and install its dependencies:
+
+.. code-block:: shell
+   
+   cd realm-tutorial/node-cli
+   npm install
+
+B. Explore the App Structure & Components
+-----------------------------------------
+The ``realm-tutorial`` repo contains task tracker client applications for
+multiple platforms. The project root for this tutorial is located in the
+``node-cli`` subdirectory. Open a text editor to explore the directory and 
+files.
+
+This application has a flat project structure: all of the files are in the root 
+directory. In this tutorial, we'll be focusing on 4 files: ``config.js``, 
+``users.js``, ``tasks.js``, and ``watch.js``. The other files provide the 
+underlying structure for the CLI. The following table describes the role of 
+each file in this project:
+
+.. cssclass:: config-table
+.. list-table::
+   :header-rows: 1
+   :widths: 15 85
+   
+   * - File
+     - Purpose
+
+   * - config.js
+     - Provides a single location for configuration data. You will put your 
+       Realm app ID here.
+   
+   * - index.js
+     - The entry point for the app. Creates the Realm App that you app will use 
+       throughout its lifecycle and displays the initial logon screen.
+   
+   * - main.js
+     - Displays the main menu of choices.
+   
+   * - output.js
+     - Responsible for displaying text in the terminal window.
+   
+   * - tasks.js
+     - Handles all task-related communication between the CLI and Realm. The 
+       methods for listing, creating, editing, and deleting tasks live here.
+   
+   * - schemas.js
+     - Contains the schema definitions for the collections used in this project.
+
+   * - users.js
+     - Handles Realm user authentication, including logging in, registering a 
+       new user, and logging out.
+
+   * - watch.js
+     - Adds a listener to a Realm collection to notify the user when a change 
+       occurs.
+
+C. Connect to Your MongoDB Realm App
+------------------------------------
+To get the app working with your backend, you first need to add your Realm App ID 
+to the ``config.js`` file. The ``config.js`` module exports a single property, 
+``realmAppId``, which is currently set to "TODO":
+
+.. code-block:: js
+
+   exports.realmAppId = "TODO";
+
+Change this value to your Realm App ID. 
+
+.. note::
+
+   To learn how to find your MongoDB Realm ``appId``, read the :doc:`Find
+   Your App Id </get-started/find-your-app-id>` doc.
+
+Once you have made that change, you now need to complete the code needed to 
+open a {+realm+}. In ``index.js``, find the ``openRealm`` function. It will look 
+like this:
+
+.. code-block:: js
+
+   async function openRealm() {
+      const config = {
+         schema: [schemas.TaskSchema, schemas.UserSchema, schemas.ProjectSchema],
+         sync: {
+            user: users.getAuthedUser(),
+            partitionValue: "myPartition",
+         },
+      };
+      // TODO: open a realm with these configuration settings.
+   }
+
+Replace the ``TODO`` line with a line of code that opens a {+realm+} and assigns 
+it to the ``realm`` property:
+
+.. code-block:: js
+
+   realm = Realm.open(config);
+
+At this point, your app is pointing to your backend and opens a connection 
+to it when you start the app. However, users cannot yet log in, so let's update 
+that code next.
+
+D. Enable authentication
+------------------------
+In the ``users.js`` file, we have a ``logIn`` function that prompts the user for 
+an email address and password, and then, within a try-catch block, creates an 
+:js-sdk:`emailPassword <Realm.App.html#Realm.Credentials.html#.emailPassword>` 
+credential and passes it to the Realm 
+:js-sdk:`logIn() <Realm.App.html#logIn>` method. 
+
+Find the following comment:
+
+.. code-block:: js
+
+    // TODO: create new emailPassword credentials and call app.logIn(...)
+
+And add the following code to create a ``emailPassword`` credential:
+
+.. code-block:: js
+
+    const credentials = Realm.Credentials.emailPassword(
+      input.email,
+      input.password
+    );
+
+Immediately below this, add the following code to call the 
+``logIn()`` method:
+
+.. code-block:: js
+
+    const user = await app.logIn(credentials);
+
+
+E. Implement the CRUD methods
+-----------------------------
+In the ``tasks.js`` file, there are a number of functions to handle typical  
+CRUD functionality: ``getTasks``, ``getTask``, ``createTask``, ``deleteTask``, 
+``editTask``, and ``changeStatus``. Each of these functions (except ``getTasks``) 
+prompts the user for input and then makes the appropriate call to Realm. Your 
+job is to implement the calls to {+service-short+}. The following list provides 
+guidance on how to complete this task for each function:
+
+* ``getTasks``
+
+  To get all objects, call the :js-sdk:`objects() <Realm.html#objects>` method 
+  and pass in the name of the collection:
+  
+  .. code-block:: js
+     
+     const tasks = realm.objects("Task");
+
+
+* ``getTask``
+  
+  In the Tasks collection, a task's ``id`` field is the primary key, so 
+  we call the :js-sdk:`objectForPrimaryKey() <Realm.html#objectForPrimaryKey>`  
+  function to get a task by its Id.
+
+  .. code-block:: js
+     
+     let result = realm.objectForPrimaryKey(
+       "Task",
+       new bson.ObjectID(task.id)
+     );
+
+
+* ``createTask``
+
+  Whenever we modify an object in realm, we must do so within a 
+  :ref:`transaction <node-open-a-transaction>`. 
+  The :js-sdk:`write() <Realm.html#write>` method takes care of 
+  transaction handling for us. So, within the ``write`` function, we call
+  the :js-sdk:`create() <Realm.html#create>` function, passing in all of the 
+  required properties:
+
+  .. code-block:: js
+
+     realm.write(() => {
+        result = realm.create("Task", {
+          _id: new bson.ObjectID(),
+          _partition: "myPartition",
+          name: task.name,
+          status: task.status,
+        });
+     });
+
+  .. note::
+    
+    The ``write`` function replaces the need to call the 
+    :js-sdk:`beginTransaction() <Realm.html#beginTransaction>`,  
+    :js-sdk:`commitTransaction() <Realm.html#commitTransaction>`, and 
+    :js-sdk:`cancelTransaction() <Realm.html#cancelTransaction>`
+    methods.
+
+
+* ``deleteTask``
+    
+  Deleting objects must also take place within a transaction. As with modifying 
+  an object, we'll use the write() function to handle the transaction for us, 
+  and then call the the :js-sdk:`delete() <Realm.html#delete>` function within 
+  it:
+
+  .. code-block:: js
+
+     realm.write(() => {
+       realm.delete(task);
+       output.result("Task deleted.");
+     });
+
+
+* ``modifyTask``
+    
+  This function is called by both the ``editTask`` and ``changeStatus`` functions. 
+  Like the ``createTask`` and ``deleteTask`` methods, when you change an object, 
+  you do so within a transaction. Other than that, though, there is no specific 
+  call to a Realm API to change an object. Rather, you change the *local* object 
+  and Sync ensures the object is updated on the server.
+  
+  .. code-block:: js
+    
+      realm.write(() => {
+        task = realm.objectForPrimaryKey("Task", new bson.ObjectID(answers.id));
+        task[answers.key] = answers.value;
+      });
+
+  .. note::
+    
+     To learn more about Realm Sync, see :doc:`Sync Overview </sync/overview>`.
+
+
+F. Run and Test
+---------------
+Once you have completed the code, you should run the app and check functionality. 
+
+1. Open a terminal window and change to your app's directory.
+
+#. Run the following commands to install all of the dependencies and start the 
+   app:
+
+   .. code-block:: sh
+      
+      npm install
+      node index.js
+
+#. Your terminal window will clear and you will see the initial menu prompting 
+   you to log in or register as a new user:
+
+   .. image:: /images/node-cli-start-screen.png
+      :alt:  Initial menu
+    
+#. If you do not yet have a user account, enter an email and password, and the 
+   system will create a new account and log you in. At this point, you should see 
+   the main "menu" of choices. All of the options should now work for you except 
+   the "watch" functionality, which we'll enable in the next section.
+
+.. admonition:: Reminder
+   
+   If something isn't working for you, you can check out the ``main`` branch of 
+   this repo to compare your code with our finished solution. 
+
+G. Implement the Collection Listener
+------------------------------------
+A very handy feature in Realm is the ability to add a listener to a collection. 
+The listener notifies your app when a change occurs in the collection. For our 
+CLI, we want to listen for changes on the ``Tasks`` collection, and when one 
+occurs, display a notification in the console window. To do this:
+
+1. In your text editor, open the ``watch.js`` file. 
+
+#. Our internal ``listener`` function is a callback function that takes two 
+   parameters: the collection of tasks and a ``changes`` object that is sent 
+   from Realm. The ``changes`` object has the following properties:
+
+   * ``changes.deletions`` returns the index of the deleted item *before* 
+     the deletion.
+
+   * ``changes.insertions`` returns the index of the new object.
+
+   * ``changes.modifications`` returns the index of the modified object.
+
+#. In the ``watchForChanges`` function, you will get all of the objects in 
+   the **Tasks** collection (just as we did in the ``getTasks`` function),  
+   and then call the :js-sdk:`addListener() <Realm.Collection.html#addListener>` 
+   method. Under the ``TODO`` comment, add the following code:
+
+.. code-block:: js
+   
+   const tasks = realm.objects("Task");
+   tasks.addListener(listener);
+
+With this code update, you can now re-run the app and watch for changes. 
+
+1. In the main menu, choose "Watch for changes". You will see that the UI 
+   stays in a "waiting" state. 
+
+2. Open a second terminal window and run the app again. In this second window, 
+   try creating, modifying, and deleting tasks. Each time you perform an action, 
+   the first terminal window will update with a notification. 
+
+.. note::
+   
+   If you want to continue to work in the same process and have the change 
+   notifications appear inline, you can modify the code 
+   in ``main.js``, within the ``case Choices.WatchForChanges`` handler. The 
+   inline code comment explains the change you can make. 
+
+What's Next?
+------------
+
+- Read our :ref:`Node.js SDK <node-intro>` documentation.
+- Join the `MongoDB Developer Hub <https://developer.mongodb.com/community/forums/c/realm/9>`__.
+- Try the :ref:`{+service+} Backend tutorial <backend-tutorial>`.
