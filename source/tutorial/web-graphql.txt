@@ -24,6 +24,14 @@ Task Tracker (Web)
    :depth: 1
    :class: singlecol
 
+.. admonition:: Check Out the Quick Start
+   :class: note
+   
+   If you prefer to explore on your own rather than follow a guided tutorial,
+   check out the :ref:`Web Quick Start <web-quick-start>`. It includes copyable
+   code examples and the essential information that you need to set up a MongoDB
+   Realm application.
+
 In this tutorial, you'll build a functional web application backed by the
 {+service+} GraphQL API. The app uses :reactjs:`React <>` to define UI
 components and :apollo:`Apollo Client <doc/react>` to run queries and mutations
@@ -38,22 +46,14 @@ The app is a task tracker that allows users to:
 
 This tutorial should take around 30 minutes.
 
-.. admonition:: Check Out the Quick Start
-   :class: note
+.. admonition:: Realm Web SDK and Sync
+   :class: important
    
-   If you prefer to explore on your own rather than follow a guided tutorial,
-   check out the :ref:`Web Quick Start <web-quick-start>`. It includes copyable
-   code examples and the essential information that you need to set up a MongoDB
-   Realm application.
-
-.. admonition:: Download the Complete Source Code
-   :class: note
-   
-   We host this tutorial application's :github:`complete and ready-to-run
-   source code <mongodb-university/realm-tutorial/tree/main/web>` on GitHub.
-   Just follow the instructions in ``README.md`` to get started. Don't forget to
-   update the ``/src/realm/RealmApp.tsx`` file with your App ID, which you can
-   find in the {+ui+}.
+   The Realm Web SDK does not support :ref:`sync <sync-overview>`, so the app
+   you'll build in this tutorial won't update in real time when data changes.
+   However, data that you create from the web app will automatically sync to any
+   of the other :ref:`task tracker tutorial apps <tutorial>` that use Realm
+   Database.
 
 Prerequisites
 -------------
@@ -70,6 +70,17 @@ Before you get started, you'll need the following:
   installed on your machine.
 
 Once you're set up with these prerequisites, you're ready to start the tutorial.
+
+.. admonition:: Download the Complete Source Code
+   :class: note
+   
+   We host this tutorial application's :github:`complete and ready-to-run source
+   code <mongodb-university/realm-tutorial/tree/main/web>` on GitHub. You can
+   use it to check your work or download it to run the app locally.
+
+   To get started, follow the instructions in ``README.md``. Don't forget to
+   update the ``/src/realm/RealmApp.tsx`` file with your App ID, which you can
+   find in the {+ui+}.
 
 A. Clone the Client App Repository
 ----------------------------------
