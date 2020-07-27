@@ -48,12 +48,38 @@ returns all unique values of the field "status" for all documents within the
      })
      .catch(err => console.error(err))
 
+The following example performs the same ``distinct()`` call, this time within a 
+transaction. We are using the optional ``options`` parameter to pass in the 
+current transaction's session object:
+
+.. code-block:: javascript
+   :emphasize-lines: 2, 7
+   :linenos:
+
+   const client = context.services.get("mongodb-atlas");
+   const session = client.startSession();
+   session.startTransaction(); 
+
+   var taskCollection = client.db("tracker").collection("tasks");
+
+   taskCollection.distinct("status", {}, { session })
+     .then(results => {
+         console.log(JSON.stringify(results));
+         console.log(results.length);
+     })
+     .catch(err => console.error(err))
+
+   await session.commitTransaction();
+   session.endSession();
+
 Parameters
 ~~~~~~~~~~
 
 The ``collection.distinct()`` action has the following form:
 
-``distinct(key, query, session)``
+``distinct(key, query, options)``
+
+The function has the following parameters: 
 
 .. list-table::
    :header-rows: 1
@@ -61,13 +87,14 @@ The ``collection.distinct()`` action has the following form:
    * - Parameter
      - Description
    * - ``key``
-     - The name of the field in the document in which to find distinct values.
+     - Required. The name of the field in the document in which to find distinct values.
    * - ``query``
-     - A query for filtering the set of documents *before* the distinct filter 
+     - Required. A query for filtering the set of documents *before* the distinct filter 
        is applied.
-   * - ``session``
-     - An optional `ClientSession <https://mongodb.github.io/node-mongodb-native/3.6/api/ClientSession.html>`_
-       if calling within a transaction. 
+   * - ``options``
+     - Optional. If calling ``distinct()`` within a transaction, include the 
+       `ClientSession <https://mongodb.github.io/node-mongodb-native/3.6/api/ClientSession.html>`_
+       object here. 
 
 Return Value
 ~~~~~~~~~~~~
