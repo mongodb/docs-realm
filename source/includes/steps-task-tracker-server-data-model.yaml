@@ -42,7 +42,6 @@ content: |
        "bsonType": "object",
        "required": [
          "_id",
-         "_partition",
          "name"
        ],
        "properties": {
@@ -89,24 +88,17 @@ content: |
      
      {
        "title": "User",
+       "bsonType": "object",
        "required": [
          "_id",
-         "_partition",
-         "user_id",
          "name"
        ],
        "properties": {
          "_id": {
-           "bsonType": "objectId" 
-         },
-         "_partition": {
-           "bsonType": "string" 
-         },
-         "user_id": {
-           "bsonType": "string" 
+           "bsonType": "string"
          },
          "name": {
-           "bsonType": "string" 
+           "bsonType": "string"
          },
          "image": {
            "bsonType": "string"
@@ -123,24 +115,18 @@ content: |
   statuses: Open, In Progress, or Closed. Additionally, each task may specify a
   specific user as its assignee. We'll use another schema to define the shape
   and contents of documents in the ``tasks`` collection.
-
+  
   In the rules editor, select the ``tracker.tasks`` collection and then click
   the :guilabel:`Schema` tab. Paste in the following schema and then click
   :guilabel:`Save`.
-
-  .. admonition:: Synced Mobile Apps
-     :class: important
-
-     If you are building a mobile application, set the ``bsonType`` of the
-     ``assignee`` field to ``objectId`` instead of ``string``.
-
+  
   .. code-block:: json
      
      {
        "title": "Task",
+       "bsonType": "object",
        "required": [
          "_id",
-         "_partition",
          "name",
          "status"
        ],
@@ -178,11 +164,15 @@ content: |
   from the ``assignee`` property to the ``user_id`` property in the
   ``tracker.tasks`` collection.
 
-  .. admonition:: Synced Mobile Apps
-     :class: important
-
-     If you are building a mobile application, define the relationship to point
-     to ``_id`` instead of ``user_id``.
+  .. code-block:: json
+     
+     {
+       "assignee": {
+         "foreign_key": "_id",
+         "ref": "#/relationship/mongodb-atlas/tracker/users",
+         "is_list": false
+       }
+     }
   
   .. cssclass:: bordered-figure
   .. figure:: /images/task-tracker-web-add-relationship.png
