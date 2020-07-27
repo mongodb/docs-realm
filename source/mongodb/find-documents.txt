@@ -219,12 +219,12 @@ Server Manual.
 
    The following query matches documents where the first review in the
    ``reviews`` array was left by someone with the username
-   ``JoeSchmoe``:
+   ``JoeMango``:
 
    .. code-block:: javascript
 
       {
-        "reviews.0.username": "JoeSchmoe"
+        "reviews.0.username": "JoeMango"
       }
 
 .. _query-pattern-array-of-values:
@@ -258,7 +258,7 @@ For more information, see the :manual:`Query an Array
    .. code-block:: javascript
 
       {
-        "reviews": [{ username: "JoeSchmoe", comment: "This rocks!" }]
+        "reviews": [{ username: "JoeMango", comment: "This rocks!" }]
       }
 
 .. example::
@@ -271,7 +271,7 @@ For more information, see the :manual:`Query an Array
 
       {
         "reviews": {
-          "$all": [{ username: "JoeSchmoe", comment: "This rocks!" }]
+          "$all": [{ username: "JoeMango", comment: "This rocks!" }]
         }
       }
 
@@ -308,7 +308,7 @@ For more information, see the :manual:`Query an Array
 
       {
         "reviews": {
-          "username": "JoeSchmoe",
+          "username": "JoeMango",
           "comment": "This is a great product!"
         }
       }
@@ -325,7 +325,7 @@ For more information, see the :manual:`Query an Array
       {
         "reviews": {
           "$elemMatch": {
-            "username": "JoeSchmoe",
+            "username": "JoeMango",
             "comment": "This is a great product!"
           }
         }
