@@ -21,7 +21,7 @@ content: |
 
   .. code-block:: sh
 
-     npm install realm@v10.0.0-beta.6
+     npm install realm@v10.0.0-beta.9
 
   In this tutorial, we'll also use the `React Native Elements
   <https://react-native-elements.github.io/react-native-elements/>`__ library
@@ -208,7 +208,7 @@ content: |
        // authentication provider to register the user.
        const registerUser = async (email, password) => {
          console.log(`Registering as ${email}...`);
-         await app.auth.emailPassword.registerEmail(email, password);
+         await app.emailPasswordAuth.registerUser(email, password);
        };
 
        return (
@@ -423,7 +423,7 @@ ref: define-the-object-model-schemas
 content: |
 
   Now that we can log in with a user account, let's start working with data.
-  First, we must define the data model. Create a file called ``schemas.json``
+  First, we must define the data model. Create a file called ``schemas.js``
   and paste the following data model code in:
 
   .. code-block:: js
