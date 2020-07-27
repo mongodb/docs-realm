@@ -689,11 +689,6 @@ paths:
       - $ref: "#/components/parameters/AppId"
       - $ref: "#/components/parameters/ServiceId"
       - $ref: "#/components/parameters/IncomingWebhookId"
-
-
-
-
-
   /groups/{groupId}/apps/{appId}/sync/data:
     parameters:
       - $ref: "#/components/parameters/GroupId"
@@ -715,13 +710,6 @@ paths:
           schema:
             type: string
           description: The Service ID for the linked cluster.
-
-
-
-
-
-
-
   /groups/{groupId}/apps/{appId}/push/notifications:
     get:
       tags: ["notifications"]

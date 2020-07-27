@@ -1,9 +1,10 @@
 title: Select a Cluster to Sync
 ref: select-a-cluster-to-sync
 content: |
-  You can enable sync for a single linked cluster in your application. If you
-  have not yet linked the cluster to your application, follow the :ref:`Link a
-  MongoDB Atlas Cluster <link-a-cluster>` guide to link it before you continue.
+  You can enable sync for a single :term:`linked cluster` in your application.
+  If you have not yet linked the cluster to your application, follow the
+  :ref:`Link a MongoDB Atlas Cluster <link-a-cluster>` guide to link it before
+  you continue.
   
   You'll need the cluster's service configuration file to configure sync. You
   can find the configuration file by listing all services through the Admin API:
@@ -57,9 +58,9 @@ content: |
        -X GET \
        -h 'Authorization: Bearer <Valid Access Token>'
 
-  Once you have decided which field to use, set ``config.sync.partition`` to
-  reflect the partition key field name in the ``key`` field and the partition
-  key type in the ``type`` field.
+  Once you have decided which field to use, update ``config.sync.partition``
+  with the partition key field name in the ``key`` field and the partition key
+  type in the ``type`` field.
 
   .. code-block:: json
      :emphasize-lines: 6, 7
