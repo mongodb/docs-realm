@@ -417,7 +417,7 @@ content: |
                  let partitionValue = "My Project"
 
                  // Open a realm.
-                 let projectRealm = try! Realm(configuration: user.configuration(partitionValue: partitionValue))
+                 let projectRealm = try! Realm(configuration: user!.configuration(partitionValue: partitionValue))
 
                  self!.navigationController!.pushViewController(TasksViewController(projectRealm: projectRealm), animated: true);
              }
