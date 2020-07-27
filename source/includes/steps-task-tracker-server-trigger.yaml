@@ -33,6 +33,8 @@ content: |
   When a new user registers their account, we want to add a document to the
   ``tracker.users`` collection that describes the user. To do that, we'll use a
   function that can access the user's info and inserts a new document for them.
+  The ``_id`` of each user document should contain the user's ID value so that
+  we can map the document to the user.
   
   Create a new function named ``createNewUserDocument`` and paste in the
   following code:
@@ -43,15 +45,9 @@ content: |
        const cluster = context.services.get("mongodb-atlas");
        const users = cluster.db("tracker").collection("users");
        return await users.insertOne({
+         _id: user.id,
          _partition: "My Project",
-         user_id: user.id,
          name: user.data.email,
        });
      };
-  
-  .. admonition:: MongoDB Automatically Adds Document IDs
-     :class: note
-
-     MongoDB automatically adds a new ``ObjectID`` to the ``_id`` field of
-     documents on insert if the field didn't already exist.
 ...
