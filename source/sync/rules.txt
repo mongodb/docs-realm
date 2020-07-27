@@ -23,8 +23,9 @@ specify a given user's ability to view and modify data in a synced
 Whenever a user opens a synced realm from a client app, Realm evaluates your
 app's rules and determines if the user has read and write permissions for the
 partition. Users must have read permission to sync and read data in a realm and
-must have write permission to create, modify, or delete objects.
-
+must have write permission to create, modify, or delete objects. Write
+permission implies read permission, so if a user has write permission then they
+also have read permission.
 
 .. admonition:: Non-Sync Rules
    :class: important
@@ -44,7 +45,8 @@ don't accidentally leak sensitive information.
 
 - Sync rules apply dynamically based on the user. One user may have full read &
   write access to a partition while another user has only read permissions or is
-  unable to access the partition entirely.
+  unable to access the partition entirely. You control these permissions by
+  defining :ref:`JSON expressions <expressions>`.
 
 - Sync rules apply equally to all objects in a partition. If a user has read
   or write permission for a given partition then they can read or modify all
