@@ -146,9 +146,9 @@ with calculated values using :manual:`aggregation operators
 
 .. example::
 
-The following ``$addFields`` stage creates a new field named
-``storeNumber`` where the value is the output of two aggregate operators
-that transform the value of the ``_partition`` field.
+   The following ``$addFields`` stage creates a new field named
+   ``storeNumber`` where the value is the output of two aggregate operators
+   that transform the value of the ``_partition`` field.
 
    .. code-block:: javascript
 
