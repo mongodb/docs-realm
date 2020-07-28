@@ -1,0 +1,62 @@
+title: Set Up Your Project
+ref: set-up-your-project
+level: 4
+content: |
+  Follow the steps in the :doc:`Install Realm for Node </node/install>`
+  guide.
+---
+title: Link a MongoDB Atlas Service Cluster
+ref: link-mongodb-atlas-cluster
+level: 4
+content: |
+  Follow the steps in the :doc:`Link a MongoDB Cluster </mongodb/link-a-cluster>`
+  guide. Assign your service a meaningful name -- you'll need it to connect to
+  the cluster using the {+service-short+} SDK.
+---
+title: Import Realm Dependencies
+ref: import-realm-dependencies
+level: 4
+content: |
+  At the top of your source files where you want to use MongoDB Realm,
+  add the following line to import the SDK.
+
+  .. code-block:: javascript
+
+     const Realm = require("realm");
+
+---
+title: Instantiate a MongoDB Collection Handle
+ref: instantiate-a-mongodb-collection-handle
+level: 4
+content: |
+
+  .. code-block:: javascript
+     :emphasize-lines: 18
+
+     const appId = "<your App ID>"; // Set Realm app ID here.
+     const appConfig = {
+       id: appId,
+       timeout: 10000, // timeout in milliseconds
+     };
+
+     async function run() {
+       let user;
+       try {
+         const app = new Realm.App(appConfig);
+
+         // an authenticated user is required to access a MongoDB instance
+         user = await app.logIn(Realm.Credentials.anonymous());
+
+         const mongoClient = user.remoteMongoClient("<atlas service name>");
+         const mongoCollection = mongoClient
+           .db("<database name>")
+           .collection("<collection name");
+
+           // the rest of your code ...
+
+
+        } finally {
+          user.logOut();
+        }
+      }
+      run().catch(console.dir);

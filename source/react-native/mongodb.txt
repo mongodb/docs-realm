@@ -1,0 +1,432 @@
+.. _react-native-mongodb-data-access:
+
+===================
+MongoDB Data Access
+===================
+
+
+The following actions enable access to a linked MongoDB Atlas cluster
+from a React Native application using the {+service-short+} Node SDK.
+
+.. include:: /includes/mongodb-data-access-query-filter-indeterminate-order-note.rst
+
+
+.. _react-native-mongodb-set-up:
+
+Set Up Your Project
+-------------------
+
+.. include:: /includes/steps/crud-snippets-react-native.rst
+
+
+Example Data
+------------
+
+.. include:: /includes/mongodb-data-access-example-plant-documents.rst
+
+
+
+.. _react-native-mongodb-create-documents:
+
+Create Documents
+----------------
+
+These code snippets demonstrate how to insert one or more documents into
+a MongoDB collection from a React Native application. Insert operations take a
+document or documents to add to MongoDB as an argument and return a
+:mdn:`Promise <Web/JavaScript/Reference/Global_Objects/Promise>` that
+resolves to an object that contains the results of the execution of the
+operation.
+
+
+Insert a Single Document
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can insert a single document using :js-sdk:`collection.insertOne() <Realm.RemoteMongoDBCollection.html#insertOne>`.
+
+The following snippet inserts a single document describing a "lily of the
+valley" plant into a
+:ref:`collection of documents that describe plants for sale in a group of stores
+<react-native-mongodb-example-dataset>`:
+
+.. code-block:: javascript
+   
+   const plant = {
+     name: "lily of the valley",
+     sunlight: "full",
+     color: "white",
+     type: "perennial",
+     _partition: "Store 47",
+   };
+   const insertOneResult = await mongoCollection.insertOne(plant);
+   console.log(insertOneResult);
+
+Running this snippet produces output resembling the following:
+
+.. code-block:: shell
+
+   { insertedId: 5f1f43972b0979dc01cd786c }
+
+.. _react-native-mongodb-insertMany:
+
+Insert Multiple Documents
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can insert multiple documents at the same time using
+:js-sdk:`collection.insertOne() <Realm.RemoteMongoDBCollection.html#insertMany>`.
+
+The following snippet inserts three documents describing plants into a
+:ref:`collection of documents that describe plants for sale in a group of stores
+<react-native-mongodb-example-dataset>`:
+
+.. code-block:: javascript
+   
+   const plants = [
+     {
+       name: "rhubarb",
+       sunlight: "full",
+       color: "red",
+       type: "perennial",
+       _partition: "Store 47",
+     },
+     {
+       name: "wisteria lilac",
+       sunlight: "partial",
+       color: "purple",
+       type: "perennial",
+       _partition: "Store 42",
+     },
+     {
+       name: "daffodil",
+       sunlight: "full",
+       color: "yellow",
+       type: "perennial",
+       _partition: "Store 42",
+     },
+   ];
+   const insertManyResult = await mongoCollection.insertMany(plants);
+   console.log(insertManyResult);
+
+Running this snippet produces output resembling the following:
+
+.. code-block:: shell
+
+   {
+      insertedIds: [
+        5f1f4500e0ef86239b6d7ae6,
+        5f1f4500e0ef86239b6d7ae7,
+        5f1f4500e0ef86239b6d7ae8
+      ]
+   }
+
+Read Documents
+--------------
+
+These code snippets demonstrate how to read data stored in a MongoDB
+collection from a mobile application. Read operations use :manual:`query
+filters </core/document/#document-query-filter>` to specify which
+documents to return from the database. Read operations return a
+:mdn:`Promise <Web/JavaScript/Reference/Global_Objects/Promise>` that
+resolves to either a single matched document (in the case of
+``findOne()``), a numeric value (in the case of ``count()``) or an array
+of matched documents (in the case of ``find()``).
+
+.. _react-native-mongodb-findOne:
+
+Find a Single Document
+~~~~~~~~~~~~~~~~~~~~~~
+
+You can find a single document using :js-sdk:`collection.insertOne() <Realm.RemoteMongoDBCollection.html#findOne>`.
+
+The following snippet finds a single document from the a
+:ref:`collection of documents that describe plants for sale in a group of stores
+<react-native-mongodb-example-dataset>` where the plant document's ``type``
+field contains the string value "perennial":
+
+.. code-block:: javascript
+   
+   const queryFilter = { type: "perennial" };
+   const perennialResultDocument = await mongoCollection.findOne(queryFilter);
+   console.log(perennialResultDocument);
+
+Running this snippet produces output resembling the following:
+
+.. code-block:: shell
+
+   {
+     _id: 5f1f4266e0ef86239b6c416c,
+     name: 'venus flytrap',
+     sunlight: 'full',
+     color: 'white',
+     type: 'perennial',
+     _partition: 'Store 42'
+   }
+
+Find Multiple Documents
+~~~~~~~~~~~~~~~~~~~~~~~
+
+You can find multiple documents using :js-sdk:`collection.insertOne() <Realm.RemoteMongoDBCollection.html#findMany>`.
+
+The following snippet finds all documents in a
+:ref:`collection of documents that describe plants for sale in a group of stores
+<react-native-mongodb-example-dataset>` that contain a field named
+``_partition`` with a value of "Store 42":
+
+.. code-block:: javascript
+   
+   const findManyQueryFilter = { _partition: "Store 42" };
+   const allPlantsFromStore42Result = await mongoCollection.find(findManyQueryFilter);
+   console.log(allPlantsFromStore42Result);
+
+Running this snippet produces output resembling the following:
+
+.. code-block:: shell
+
+   [ { _id: 5f1f4266e0ef86239b6c416c, name: 'venus flytrap', sunlight: 'full', color: 'white', type: 'perennial', _partition: 'Store 42' }, { _id: 5f1f4266e0ef86239b6c416d, name: 'sweet basil', sunlight: 'partial', color: 'green', type: 'annual', _partition: 'Store 42' }, { _id: 5f1f4266e0ef86239b6c416e, name: 'thai basil', sunlight: 'partial', color: 'green', type: 'perennial', _partition: 'Store 42' }, { _id: 5f1f4266e0ef86239b6c416f, name: 'helianthus', sunlight: 'full', color: 'yellow', type: 'annual', _partition: 'Store 42' }, { _id: 5f1f4500e0ef86239b6d7ae7, name: 'wisteria lilac', sunlight: 'partial', color: 'purple', type: 'perennial', _partition: 'Store 42' }, { _id: 5f1f4500e0ef86239b6d7ae8, name: 'daffodil', sunlight: 'full', color: 'yellow', type: 'perennial', _partition: 'Store 42' } ]
+
+Count Documents in the Collection
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can count documents in a collection using
+:js-sdk:`collection.count() <Realm.RemoteMongoDBCollection.html#findOne>`.
+You can specify an optional query filter to
+determine which documents to count. If you don't specify a query, the
+action counts all documents in the collection.
+
+The following snippet counts the number of documents in a
+:ref:`collection of documents that describe plants for sale in a group of stores
+<react-native-mongodb-example-dataset>`:
+
+.. code-block:: javascript
+   
+   const countResult = await mongoCollection.count();
+   console.log(`successfully counted, number of documents in the collection: ${countResult}`);
+
+Running this snippet produces output resembling the following:
+
+.. code-block:: shell
+
+   successfully counted, number of documents in the collection: 5
+
+Update Documents
+----------------
+
+These code snippets demonstrate how to update data stored in a MongoDB
+collection from a mobile application. Update operations use query filters
+to specify which documents to update and :manual:`update operators
+</reference/operator/update>` to describe how to mutate documents that
+match the query. Update operations return a :mdn:`Promise <Web/JavaScript/Reference/Global_Objects/Promise>` that resolves to an object that contains the results of the execution of the operation.
+
+.. _react-native-mongodb-updateOne:
+
+Update a Single Document
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can update a single document using
+:js-sdk:`collection.updateOne() <Realm.RemoteMongoDBCollection.html#updateOne>`.
+
+The following snippet updates a single document in a
+:ref:`collection of documents that describe plants for sale in a group of stores
+<react-native-mongodb-example-dataset>`. This operation queries for a document
+where the ``name`` field contains the value "petunia" and changes the value
+of the first matched document's ``sunlight`` field to "partial":
+
+.. code-block:: javascript
+   
+   const queryFilter = { name: "petunia" };
+   const updateDocument = { sunlight: "partial" };
+   const updateResult = await mongoCollection.updateOne(queryFilter, updateDocument);
+   console.log(updateResult);
+
+Running this snippet produces output resembling the following:
+
+.. code-block:: shell
+
+   { matchedCount: 1, modifiedCount: 1 }
+
+Update Multiple Documents
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can update a single document using
+:js-sdk:`collection.updateMany() <Realm.RemoteMongoDBCollection.html#updateMany>`.
+
+The following snippet updates multiple documents in a
+:ref:`collection of documents that describe plants for sale in a group of stores
+<react-native-mongodb-example-dataset>`. This operation queries for documents
+where the ``_partition`` field contains the value "Store 47" and changes
+the value of the ``_partition`` field of each matching document to "Store 51":
+
+.. code-block:: javascript
+   
+   const queryFilter = { _partition: "Store 47" };
+   const updateDocument = { _partition: "Store 51" };
+   const updateResult = await mongoCollection.updateMany(queryFilter, updateDocument);
+   console.log(updateResult);
+
+Running this snippet produces output resembling the following:
+
+.. code-block:: shell
+
+   { matchedCount: 2, modifiedCount: 2 }
+
+Upsert Documents
+~~~~~~~~~~~~~~~~
+
+If an update operation does not match any document in the collection,
+you can automatically insert a single new document into the collection
+that matches the update query by setting the ``upsert`` option to
+``true``.
+
+The following snippet updates a document in a
+:ref:`collection of documents that describe plants for sale in a group of stores
+<react-native-mongodb-example-dataset>` or inserts a
+new document if no document matches the query filter. This operation
+queries for documents where:
+
+- the ``sunlight`` field has a value of "full"
+- the ``type`` field has a value of "perennial"
+- the ``color`` field has a value of "green"
+- the ``_partition`` field has a value of "Store 47"
+
+Because this snippet sets the ``upsert`` option to ``true``, if no
+document matches the query, MongoDB creates a new document that includes
+both the query filter and specified updates:
+
+.. code-block:: javascript
+   
+   const queryFilter = {
+     sunlight: "full",
+     type: "perennial",
+     color: "green",
+     _partition: "Store 47",
+   };
+   const updateDocument = {
+     name: "sweet basil",
+   };
+   const updateOptions = {
+     upsert: true,
+   };
+ 
+   const upsertResult = await mongoCollection.updateOne(
+     queryFilter,
+     updateDocument,
+     updateOptions
+   );
+   console.log(upsertResult);
+
+Running this snippet produces output resembling the following:
+
+.. code-block:: shell
+
+   { matchedCount: 0, modifiedCount: 0, upsertedId: 5f1f63055512f2cb67f460a3 }
+
+Delete Documents
+----------------
+
+These code snippets demonstrate how to delete documents that
+are stored in a MongoDB collection from a mobile application.
+Delete operations use a query filter to specify which documents to delete
+and return a :mdn:`Promise <Web/JavaScript/Reference/Global_Objects/Promise>`
+that resolves to an object that contains the results of the execution
+of the operation.
+
+.. _react-native-mongodb-deleteOne:
+
+Delete a Single Document
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can delete a single document from a collection using
+:js-sdk:`collection.deleteOne() <Realm.RemoteMongoDBCollection.html#deleteOne>`.
+
+The following snippet deletes one document in a
+:ref:`collection of documents that describe plants for sale in a group of stores
+<android-mongodb-example-dataset>`. This operation queries for a
+document where the ``color`` field has a value of "green" and deletes
+the first document that matches the query:
+
+.. code-block:: javascript
+   
+   const queryFilter = { color: "green" };
+   const deleteResult = await mongoCollection.deleteOne(queryFilter);
+   console.log(deleteResult);
+
+Running this snippet produces output resembling the following:
+
+.. code-block:: shell
+
+   { deletedCount: 1 }
+
+Delete Multiple Documents
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can delete multiple items from a collection using
+:js-sdk:`collection.deleteMany() <Realm.RemoteMongoDBCollection.html#deleteMany>`.
+
+The following snippet deletes all documents in a
+:ref:`collection of documents that describe plants for sale in a group of stores
+<android-mongodb-example-dataset>`
+that match the query filter that matches documents containing both
+a ``sunlight`` field value of "full" and a ``type`` field value of
+"annual".
+
+.. code-block:: javascript
+   
+   const queryFilter = {
+     sunlight: "full",
+     type: "annual",
+   };
+   const deleteManyResult = await mongoCollection.deleteMany(queryFilter);
+   console.log(deleteManyResult);
+
+Running this snippet produces output resembling the following:
+
+.. code-block:: shell
+
+   { deletedCount: 2 }
+
+.. _react-native-mongodb-aggregation-pipelines:
+
+Aggregate Documents
+-------------------
+
+These code snippets demonstrate how to configure and run
+aggregation operations on a collection. Aggregation operations run all
+documents in a collection through a series of data :ref:`aggregation stages
+<realm-aggregation-stages>` called an
+:manual:`aggregation pipeline </core/aggregation-pipeline>` that allow
+you to filter and shape documents as well as collect summary data about
+groups of related documents.
+
+Aggregation operations accept a list of aggregation stages as input, and
+return a :mdn:`Promise <Web/JavaScript/Reference/Global_Objects/Promise>` that
+resolves to a collection of documents processed by the pipeline.
+
+.. _react-native-mongodb-aggregate:
+
+Aggregate Documents in a Collection
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can execute an aggregation pipeline using
+:js-sdk:`collection.aggregate() <Realm.RemoteMongoDBCollection.html#aggregate>`.
+
+The following snippet groups all documents in the ``plants``
+collection by their ``type`` value and aggregates a count of the
+number of each type:
+
+.. code-block:: javascript
+   
+   const aggregationResult = await mongoCollection.aggregate([
+     { $group: { _id: "$type", total: { $sum: 1 } } },
+   ]);
+   console.log(aggregationResult);
+
+Running this snippet produces output resembling the following:
+
+.. code-block:: shell
+
+   [ { _id: 'perennial', total: 2 }, { _id: 'annual', total: 1 } ]
+
+Aggregation Stages
+------------------
+
+.. include:: /includes/aggregation-stages.rst
