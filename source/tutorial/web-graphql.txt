@@ -82,7 +82,38 @@ Once you're set up with these prerequisites, you're ready to start the tutorial.
    update the ``/src/realm/RealmApp.tsx`` file with your App ID, which you can
    find in the {+ui+}.
 
-A. Clone the Client App Repository
+A. Define Data Access Permissions
+---------------------------------
+
+.. admonition:: GraphQL Client Only
+   :class: important
+
+   These permissions only apply if you do not intend to connect any non-web
+   client apps. If you plan to or have already used the task tracker backend
+   from a non-web client, then you can skip this section.
+   
+   You define data access permissions differently for synced clusters and
+   non-synced clusters. This section describes non-sync rules.
+   
+   The Realm Web SDK and GraphQL API do not use sync, but will respect sync
+   rules instead of these rules if you've enabled sync for the cluster.
+
+The backend app is set up with an email/password authentication provider that we
+can use to let users sign up and log in and an automatically generated GraphQL
+API that we can use work with data.
+
+By default, however, all GraphQL queries from a client application will fail.
+
+To allow users to read and write data, you must first define data access rules
+that determine whether a given user has read or write permissions for a given
+document.
+
+You define non-sync data access rules for your GraphQL API on the
+:guilabel:`Rules` screen of the Realm UI.
+
+.. include:: /includes/steps/task-tracker-server-rules.rst
+
+B. Clone the Client App Repository
 ----------------------------------
 
 We've already put together a task tracker browser application that has most of
@@ -115,7 +146,7 @@ define in this tutorial, check out the ``todo`` branch:
    multiple platforms. The project root for this tutorial is located in the
    ``web`` subdirectory.
 
-B. Explore the App Structure & Components
+C. Explore the App Structure & Components
 -----------------------------------------
 
 The web client is a standard React web application written in
@@ -159,7 +190,7 @@ components and hooks use the code that you write.
    `official React website <https://reactjs.org>`_, which has excellent
    documentation and tutorials.
 
-C. Connect to Your MongoDB Realm App
+D. Connect to Your MongoDB Realm App
 ------------------------------------
 
 The client app needs to connect to your Realm app so that users can register and
@@ -233,7 +264,7 @@ authentication.
         }
       };
 
-D. Define the GraphQL Schema & Operations
+E. Define the GraphQL Schema & Operations
 -----------------------------------------
 
 .. include:: /includes/steps/task-tracker-web-graphql.rst
@@ -354,7 +385,7 @@ D. Define the GraphQL Schema & Operations
         };
       }
 
-E. Connect Apollo to the GraphQL API
+F. Connect Apollo to the GraphQL API
 ------------------------------------
 
 We've defined GraphQL CRUD operations and used the code generator to create
