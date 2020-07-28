@@ -38,7 +38,7 @@ returns all unique values of the field "status" for all documents within the
    :emphasize-lines: 4-8
    :linenos:
 
-   var taskCollection = context.services.get("mongodb-atlas")
+   const taskCollection = context.services.get("mongodb-atlas")
      .db("tracker").collection("tasks");
 
    taskCollection.distinct("status", {})
@@ -60,7 +60,7 @@ current transaction's session object:
    const session = client.startSession();
    session.startTransaction(); 
 
-   var taskCollection = client.db("tracker").collection("tasks");
+   const taskCollection = client.db("tracker").collection("tasks");
 
    taskCollection.distinct("status", {}, { session })
      .then(results => {
