@@ -51,23 +51,7 @@ in order to easily find and secure them.
 
 .. include:: /includes/steps/task-tracker-server-auth.rst
 
-D. Enable Sync
---------------
-
-.. admonition:: Mobile Clients Only
-   :class: important
-
-   If you plan to use this backend exclusively with the web client using
-   GraphQL and **not** with one or more of the mobile client tutorials
-   (iOS, Android, or React Native), you can skip this section. The web
-   client uses GraphQL to work with data, not {+sync+}.
-
-To allow the seamless transfer of data across devices, we enable
-{+sync+}.
-
-.. include:: /includes/steps/task-tracker-enable-sync.rst
-
-E. Define an Authentication Trigger
+D. Define an Authentication Trigger
 -----------------------------------
 
 We want each user to have a corresponding document in the ``users`` collection
@@ -78,7 +62,7 @@ document for each user when they register their account.
 
 .. include:: /includes/steps/task-tracker-server-trigger.rst
 
-F. Deploy Your App
+E. Deploy Your App
 ------------------
 
 At this point your Realm App is fully configured and almost ready to accept
