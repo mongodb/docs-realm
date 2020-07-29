@@ -10,7 +10,8 @@ content: |
      :caption: ``src/realm/RealmApp.tsx``
      
      const REALM_APP_ID = "<Your App ID>"
-     const app = new RealmWeb.App({ id: REALM_APP_ID });
+     const app = new Realm.App({ id: REALM_APP_ID });
+  
   .. admonition:: Use Your App ID
      :class: note
      
@@ -41,12 +42,12 @@ content: |
      
      // Let new users register an account
      const registerUser = async (email: string, password: string) => {
-       return await app.auth.emailPassword.registerUser(email, password);
+       return await app.emailPasswordAuth.registerUser(email, password);
      }
      
      // Let registered users log in
      const logIn = async (email: string, password: string) => {
-       const credentials = RealmWeb.Credentials.emailPassword(email, password);
+       const credentials = Realm.Credentials.emailPassword(email, password);
        await app.logIn(credentials);
        setUser(app.currentUser);
      }

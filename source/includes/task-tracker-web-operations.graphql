@@ -7,7 +7,6 @@ query GetAllTasks {
       _id
       name
       image
-      user_id
     }
   }
 }
@@ -21,7 +20,6 @@ mutation AddTask($task: TaskInsertInput!) {
       _id
       name
       image
-      user_id
     }
   }
 }
@@ -35,7 +33,6 @@ mutation UpdateTask($taskId: ObjectId!, $updates: TaskUpdateInput!) {
       _id
       name
       image
-      user_id
     }
   }
 }
@@ -49,17 +46,14 @@ mutation DeleteTask($taskId: ObjectId!) {
       _id
       name
       image
-      user_id
     }
   }
 }
 
 query GetUser($userId: String!) {
-  user(query: { user_id: $userId }) {
+  user(query: { _id: $userId }) {
     _id
-    _partition
     name
     image
-    user_id
   }
 }

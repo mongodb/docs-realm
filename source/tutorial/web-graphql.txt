@@ -332,7 +332,7 @@ E. Define the GraphQL Schema & Operations
    .. code-block:: typescript
       
       import { Task, TaskInsertInput } from "../types";
-      import { useMutation } from "@apollo/react-hooks";
+      import { useMutation } from "@apollo/client";
       import gql from 'graphql-tag';
       
       type AddTaskMutation = { task: Task };
@@ -348,7 +348,6 @@ E. Define the GraphQL Schema & Operations
                 _id
                 name
                 image
-                user_id
               }
             }
           }
@@ -360,19 +359,22 @@ E. Define the GraphQL Schema & Operations
 
    .. code-block:: typescript
       :caption: ``/src/components/TaskView.tsx``
-      :emphasize-lines: 5-11, 14
+      :emphasize-lines: 5-14, 17
       
       export function useTasks() {
         ...
         
         const addTask = async (task: Task) => {
-          const variables = {
+          const variables: AddTaskMutationVariables = {
             task: {
               status: task.status,
               name: task.name,
-              assignee: task.assignee ? { link: task.assignee.user_id } : undefined,
+              _partition: "My Project",
             },
           };
+          if(task.assignee) {
+            variables.task.assignee = { link: task.assignee._id }
+          }
           const currentTasks = [...tasks];
           try {
             const result = await addTaskMutation({ variables });
