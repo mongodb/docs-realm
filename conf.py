@@ -95,6 +95,7 @@ source_constants = {
 
 extlinks = {
     # MongoDB Docs Sites
+    'admin-api-endpoint': ('https://docs.mongodb.com/realm/admin/api/v3/#%s', ''), # sphinx_openapi doesn't support endpoint refs, so we have to use an extlink instead
     'manual': ('http://docs.mongodb.org/manual%s', ''),
     'atlas': ('https://docs.atlas.mongodb.com%s',''),
     'facebook': ('https://developers.facebook.com/%s', ''),
@@ -105,7 +106,7 @@ extlinks = {
     'kotlin-sdk': ('https://docs.mongodb.com/realm-sdks/android/10.0.0-beta.4/kotlin-extensions/%s', ''),
     'swift-sdk': ('https://docs.mongodb.com/realm-sdks/swift/10.0.0-beta.2/%s', ''),
     'objc-sdk': ('https://docs.mongodb.com/realm-sdks/objc/10.0.0-beta.2/%s', ''),
-    'js-sdk': ('https://docs.mongodb.com/realm-sdks/js/10.0.0-beta.8/%s', ''),
+    'js-sdk': ('https://docs.mongodb.com/realm-sdks/js/10.0.0-beta.9/%s', ''),
     # True External Links
     'android': ('https://developer.android.com/reference/%s', ''),
     'android-dev': ('https://developer.android.com/%s', ''),

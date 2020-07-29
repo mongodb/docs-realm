@@ -15,134 +15,81 @@ Define Sync Rules
 Overview
 --------
 
-In order to control who can :term:`sync <{+sync+}>`, read, and write data,
-:term:`{+service+}` allows you to configure **sync
-rules**. Sync rules enforce two essential data access
-principles:
+MongoDB Realm enforces data access rules for all requests to a :term:`synced
+cluster`. Sync rules are dynamic :ref:`JSON expressions <expressions>` that
+specify a given user's ability to view and modify data in a synced
+:ref:`partition <partitioning>`.
 
-- Users can only sync and read a :term:`{+realm+}` that they are allowed to see.
-- Users can only sync and make changes to a {+realm+} that they are allowed to write to.
+Whenever a user opens a synced realm from a client app, Realm evaluates your
+app's rules and determines if the user has read and write permissions for the
+partition. Users must have read permission to sync and read data in a realm and
+must have write permission to create, modify, or delete objects. Write
+permission implies read permission, so if a user has write permission then they
+also have read permission.
 
-Rules are bundled into :ref:`sync roles <sync-roles>`, which
-are then associated with a :ref:`user <user-objects>` to
-determine whether that user can sync, read, or write a given
-{+realm+}. You can edit roles in the MongoDB :term:`{+ui+}`
-or import them using the :term:`{+cli+}`.
-
-.. _rules-and-realms:
-
-Rules and Realms
-----------------
-
-Rules apply to entire :term:`{+realms+} <{+realm+}>`. That
-is, you can either sync an entire {+realm+} or none of it.
-This level of access control strikes a balance between
-suitability for most applications and scalability of
-{+sync+}.
-
-.. example::
-
-   Consider an app that manages a chain of stores. By using
-   the individual store ID as the :term:`partition key`, we
-   divide each store's data into its own {+realm+}. We can
-   grant the manager of each store write access only to the
-   store they manage. In other words, the manager gets
-   permission to modify any object within that {+realm+}.
-
-   However, with the store ID as partition key, we cannot
-   grant write access to only *part* of a store. If we
-   needed to grant access to specific sections of the store,
-   we would instead design the app to use section IDs as the
-   partition keys. How you intend to grant access should
-   inform how you :ref:`partition your data into {+realms+} <partitioning>`.
-
-.. _sync-roles:
-
-Users and Sync Roles
---------------------
-
-A :term:`sync role` is a set of {+realm+}-level permissions
-that {+backend+} evaluates when determining whether a user may
-sync a given {+realm+}. You select a property of the
-:ref:`user object <user-objects>` that {+backend+} uses to
-determine whether that user may sync the {+realm+}.
-
-There are two initial roles:
-
-- :guilabel:`Read-only`: the user may sync the {+realm+} and read the data.
-- :guilabel:`Read/Write`: the user may sync the {+realm+}, read the data, and modify the data.
-
-You may define custom roles with a rules :ref:`expression
-<expressions>`. In a sync rules expression, access the
-partition key value with the ``%%partition``
-:ref:`expression expansion <expansions>`.
-
-.. example::
-
-   Suppose the store management application uses
-   :ref:`custom JWT authentication
-   <custom-jwt-authentication>`. In order to control who can
-   read and write store data, we provide the :ref:`user
-   object <user-objects>` with two :ref:`custom properties
-   <custom-user-data>`:
+.. admonition:: Non-Sync Rules
+   :class: important
    
-   - ``Store_List``: an array of IDs of the stores that the user can read from.
-   - ``Managed_Stores``: an array of IDs of the stores that the user manages and can modify.
+   This page describes data access rules for synced clusters, which use a
+   different rules model than non-synced clusters. If your app does not use
+   sync, check out :ref:`MongoDB Collection Rules <mongodb-rules>` for more
+   information on rules for non-synced clusters.
 
-   By adding store IDs to these arrays on the user object,
-   we can:
-   
-   - Grant an employee read-only access to their own store.
-   - Grant a manager read/write access to their own store, and read-only access to other stores.
-   - Grant a regional manager read/write access to many stores.
+Sync Rule Behavior
+~~~~~~~~~~~~~~~~~~
 
-   The roles part of the cluster :ref:`configuration file
-   <service-configuration-file>` would look like this:
+Sync rules apply to specific partitions and are coupled to your app's data model
+by the :term:`partition key`. Consider the following behavior when designing
+your schemas to ensure that you have appropriate data access granularity and
+don't accidentally leak sensitive information.
 
-   .. code-block:: json
-      :emphasize-lines: 5-7, 14-16
+- Sync rules apply dynamically based on the user. One user may have full read &
+  write access to a partition while another user has only read permissions or is
+  unable to access the partition entirely. You control these permissions by
+  defining :ref:`JSON expressions <expressions>`.
 
-      {
-        "roles": [
-          {
-            "name": "Read-Write Role",
-            "apply_when": {
-              "StoreID" : "%%user.Managed_Stores"
-            },
-            "insert": true,
-            "delete": true,
-            "write": true
-          },
-          {
-            "name": "Read Only",
-            "apply_when": {
-              "StoreID": "%%user.Store_List"
-            },
-            "insert": false,
-            "delete": false,
-            "read": true
-          }
-        ],
-        ...
-      }
+- Sync rules apply equally to all objects in a partition. If a user has read
+  or write permission for a given partition then they can read or modify all
+  synced fields of any object in the partition.
+
+- Write permissions require read permissions, so a user with write access to a
+  partition also has read access regardless of the defined read permission
+  rules.
 
 Procedure
 ---------
 
+.. important::
+   
+   You must define at least one valid schema for a collection in the synced
+   cluster before you can define sync rules and enable sync.
+   
+   At minimum, the schema must define ``_id`` and the field that you intend to
+   use as your :term:`partition key`. A partition key field may be a ``string``,
+   ``integer``, or ``objectId``.
+   
+   For more details on how to define a schema, see :doc:`Enforce a Document
+   Schema </mongodb/enforce-a-document-schema>`.
+
 .. tabs-realm-admin-interfaces::
 
-   tabs:
-     - id: ui
-       content: |
-         .. include:: /includes/steps/define-sync-rules-ui.rst
-     - id: cli
-       content: |
-         .. include:: /includes/steps/define-sync-rules-cli.rst
+   .. tab::
+      :tabid: ui
+      
+      .. include:: /includes/steps/define-sync-rules-ui.rst
+     
+   .. tab::
+      :tabid: cli
+      
+      .. include:: /includes/steps/define-sync-rules-cli.rst
+     
+   .. tab::
+      :tabid: api
+      
+      .. include:: /includes/steps/define-sync-rules-api.rst
 
 Summary
 -------
 
-- **Sync rules** allow you to control who can read and write on which :term:`{+realm+}`.
-- **Roles** are collections of permissions that {+realm+} evaluates to determine whether a user may sync a {+realm+}.
+- **Sync rules** allow you to control who can read and write data in a given :term:`{+realm+}`.
 - You can define rules in the {+ui+} or by importing them with :term:`{+cli+}`.
-

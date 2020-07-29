@@ -1,0 +1,111 @@
+.. _mongodb-service-collection-distinct:
+
+=====================
+collection.distinct()
+=====================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Definition
+----------
+
+.. method:: collection.distinct()
+
+Return a list of distinct values for the given key within a collection or within 
+a find result set. 
+
+Usage
+-----
+
+Example
+~~~~~~~
+
+To call the ``collection.distinct()`` action from a :doc:`Function
+</functions>`, get a collection handle with
+:method:`database.collection()`, and then call the handle's
+``distinct()`` method, passing in the field from which you want to get distinct 
+values, and the query object for finding the documents. The following code 
+returns all unique values of the field "status" for all documents within the 
+"tasks" collection:
+
+.. code-block:: javascript
+   :emphasize-lines: 4-8
+   :linenos:
+
+   const taskCollection = context.services.get("mongodb-atlas")
+     .db("tracker").collection("tasks");
+
+   taskCollection.distinct("status", {})
+     .then(results => {
+         console.log(JSON.stringify(results));
+         console.log(results.length);
+     })
+     .catch(err => console.error(err))
+
+The following example performs the same ``distinct()`` call, this time within a 
+transaction. We are using the optional ``options`` parameter to pass in the 
+current transaction's session object:
+
+.. code-block:: javascript
+   :emphasize-lines: 2, 7
+   :linenos:
+
+   const client = context.services.get("mongodb-atlas");
+   const session = client.startSession();
+   session.startTransaction(); 
+
+   const taskCollection = client.db("tracker").collection("tasks");
+
+   taskCollection.distinct("status", {}, { session })
+     .then(results => {
+         console.log(JSON.stringify(results));
+         console.log(results.length);
+     })
+     .catch(err => console.error(err))
+
+   await session.commitTransaction();
+   session.endSession();
+
+Parameters
+~~~~~~~~~~
+
+The ``collection.distinct()`` action has the following form:
+
+``distinct(key, query, options)``
+
+The function has the following parameters: 
+
+.. list-table::
+   :header-rows: 1
+
+   * - Parameter
+     - Description
+   * - ``key``
+     - Required. The name of the field in the document in which to find distinct values.
+   * - ``query``
+     - Required. A query for filtering the set of documents *before* the distinct filter 
+       is applied.
+   * - ``options``
+     - Optional. If calling ``distinct()`` within a transaction, include the 
+       `ClientSession <https://mongodb.github.io/node-mongodb-native/3.6/api/ClientSession.html>`_
+       object here. 
+
+Return Value
+~~~~~~~~~~~~
+
+The ``collection.distinct()`` action returns a :mdn:`Promise
+<Web/JavaScript/Reference/Global_Objects/Promise>` that resolves to an array of 
+distinct values.
+
+.. note::
+   
+   To learn more, see `distinct() <https://mongodb.github.io/node-mongodb-native/3.6/api/Collection.html#distinct>`_ 
+   in the MongoDB Node.js driver docs. 
+
+

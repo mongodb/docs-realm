@@ -689,7 +689,27 @@ paths:
       - $ref: "#/components/parameters/AppId"
       - $ref: "#/components/parameters/ServiceId"
       - $ref: "#/components/parameters/IncomingWebhookId"
-
+  /groups/{groupId}/apps/{appId}/sync/data:
+    parameters:
+      - $ref: "#/components/parameters/GroupId"
+      - $ref: "#/components/parameters/AppId"
+    get:
+      tags: ["sync"]
+      operationId: "adminGetSync"
+      summary: "Get sync information for a specific linked MongoDB cluster."
+      responses:
+        '200':
+          description: "Successfully retrieved."
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/SyncDataResponse" }
+      parameters:
+        - in: query
+          name: service_id
+          required: true
+          schema:
+            type: string
+          description: The Service ID for the linked cluster.
   /groups/{groupId}/apps/{appId}/push/notifications:
     get:
       tags: ["notifications"]
@@ -2421,6 +2441,19 @@ components:
         last_authentication_date: {type: integer}
         disabled: {type: boolean}
         data: {type: object}
+    Partition:
+      properties:
+        key: { type: string }
+        type: { type: string }
+    SyncDataResponse:
+      properties:
+        service_id:
+          type: string
+          description: The Service ID for the currently synced cluster, if there is one.
+        partition_fields:
+          type: array
+          items: { $ref: "#/components/schemas/Partition" }
+          description: A list of valid partition keys based on the cluster's collection schemas.
     TriggerResponse:
       properties:
         _id:
@@ -2685,6 +2718,8 @@ tags:
     description: "Security APIs"
   - name: services
     description: "Services APIs"
+  - name: sync
+    description: "Sync APIs"
   - name: users
     description: "Users APIs"
   - name: values

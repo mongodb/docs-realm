@@ -1,67 +1,80 @@
-title: Navigate to the MongoDB Rules Screen
-ref: navigate-to-the-mongodb-rules-screen
-level: 4
+title: Navigate to the Sync Configuration Screen
+ref: navigate-to-the-sync-configuration-screen
 content: |
-  You can create and manage sync rules from the Sync panel
-  in the {+ui+}. To get to the Sync panel, click
-  :guilabel:`Sync` beneath :guilabel:`Data Access &
-  Security` in the left-hand navigation.
----
-title: Edit the Synced Cluster
-ref: edit-the-synced-cluster
-level: 4
-content: |
-  Sync rules are scoped a synced MongoDB cluster. Select
-  :guilabel:`Define Permissions` to edit permissions.
----
-title: Select a Sync Rule Template
-ref: select-a-sync-rule-template
-level: 4
-content: |
-  You can choose to apply a rule template to the cluster to
-  simplify the process of configuring role permissions. Each
-  template is a pre-configured set of roles and permissions
-  that represents a common use case and data access pattern.
----
-title: Create a New Role
-ref: create-a-new-role
-level: 4
-content: |
-  Depending on the rule template you selected, there will
-  already be one or more pre-configured roles on the synced
-  cluster. You can use these roles as they are, tweak them
-  to fit your use case, or add additional roles to cover
-  more cases.
+  To define sync rules and enable sync for your application, navigate to to the
+  :guilabel:`Sync` configuration screen through the left navigation.
 
-  To add an additional role, click :guilabel:`New Role`. Enter a
-  :guilabel:`Name` for the new role on the role configuration screen.
+  .. admonition:: Sync Rules Cannot Change
+     :class: note
+     
+     You define sync rules at the same time as you enable sync. Once sync is
+     enabled, you can't change your app's sync rules unless you terminate sync
+     and re-enable it with new rules.
 ---
-title: Define the Role's "Apply When" Condition
-ref: define-the-roles-apply-when-condition
-level: 4
+title: Select a Cluster to Sync
+ref: select-a-cluster-to-sync
 content: |
-  A role's :guilabel:`Apply When` condition determines
-  whether or not the role applies to a particular partition
-  for the user that issued a query.
+  You can enable sync for a single :term:`linked cluster` in your application.
+  Determine which cluster you want to use and then select it from the
+  :guilabel:`Select Cluster To Sync` dropdown menu.
 
-  Enter a :doc:`JSON Expression
-  </services/json-expressions>` in the role's
-  :guilabel:`Apply When` box. The expression should evaluate
-  to ``true`` when the role applies to a given document.
+  .. cssclass:: bordered-figure
+  .. figure:: /images/define-sync-rules-select-cluster.png
+     :width: 750px
+     :alt: The cluster selection dropown menu
 ---
-title: Add Additional Roles
-ref: add-additional-roles
-level: 4
+title: Choose a Partition Key
+ref: choose-a-partition-key
 content: |
-  Repeat the previous step for any additional roles that you
-  want to configure.
+  The sync :term:`partition key` is a field in every synced document that maps
+  each document to a client-side realm. Sync rules apply at the partition level,
+  so it's particularly important to consider your data model and access
+  patterns. For more information on partition keys and how to choose one, see
+  :ref:`Partition Atlas Data into Realms <partitioning>`.
+
+  Once you have decided which field to use, select it from the :guilabel:`Choose
+  A Partition Key` dropdown menu.
+
+  .. cssclass:: bordered-figure
+  .. figure:: /images/define-sync-rules-partition-key.png
+     :width: 750px
+     :alt: The partition key selection dropdown menu
+  
+  .. note::
+     
+     The partition key dropdown only lists fields defined in the cluster's
+     schemas that would be valid partition keys.
+     
+     If you don't see the field you want to use as the partition key listed, it
+     probably means that your schema is invalid or that the field is not a
+     ``string``, ``integer``, or ``objectId``. You can check for schema errors
+     on the :guilabel:`Data Models` tab of the :guilabel:`SDKs` screen.
 ---
-title: Save the Updated Sync Rules
-ref: save-the-updated-sync-rules
-level: 4
+title: Define Read & Write Permissions
+ref: define-read-write-permissions
 content: |
-  Once you have finished defining roles for the synced
-  cluster, click :guilabel:`Save`. {+service-short+} will immediately
-  begin using the roles you defined for all incoming sync
-  requests on the cluster.
+  The :guilabel:`Define Permissions` section allows you to define :ref:`JSON
+  expressions <expressions>` that Realm dynamically evaluates to determine a
+  user's read and write permissions for the data in a given partition.
+  
+  Sync rule expressions have access to :json-expansion:`%%user`, which resolves
+  to the user that opened the realm, and :json-expansion:`%%partition`, which
+  resolves to the partition key value for the realm. You can also use operators,
+  including :json-operator:`%function`, to handle more complex cases.
+
+  Once you've determined how to decide a user's read and write permissions for a
+  given partition, define the corresponding JSON expressions in the
+  :guilabel:`Read` and :guilabel:`Write` inputs.
+  
+  .. cssclass:: bordered-figure
+  .. figure:: /images/define-sync-rules-permissions.png
+     :width: 750px
+     :alt: The partition read and write expression inputs
+---
+title: Turn On Sync
+ref: turn-on-sync
+content: |
+  Now that you've configured rules for your synced cluster, all that's left to
+  do is turn on sync for client applications. Click :guilabel:`Enable Sync`,
+  take note of any recommendations that appear, and then confirm your choice.
 ...
