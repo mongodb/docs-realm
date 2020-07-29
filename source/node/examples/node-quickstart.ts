@@ -49,7 +49,7 @@ async function run() {
       status: "Open",
     });
 
-    const task2: Task = realm.create("Task", {
+    const task2 = realm.create("Task", {
       _id: new ObjectId(),
       name: "go exercise",
       status: "Open",
