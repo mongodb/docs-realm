@@ -9,12 +9,13 @@ content: |
   .. code-block:: typescript
      :caption: ``src/realm/RealmApolloProvider.tsx``
      
-     function createApolloClient(realmAppId: string, user: RealmWeb.User): ApolloClient<NormalizedCacheObject> {
+     function createApolloClient(realmAppId: string, user: Realm.User): ApolloClient<NormalizedCacheObject> {
        const graphql_url = `https://realm.mongodb.com/api/client/v2.0/app/${realmAppId}/graphql`;
-       const httpLink = new HttpLink({ uri: graphql_url });
        
        return new ApolloClient({
-         link: httpLink,
+         link: new HttpLink({
+           uri: graphql_url
+          }),
          cache: new InMemoryCache(),
        });
      }
@@ -34,21 +35,32 @@ content: |
 
   .. code-block:: typescript
      :caption: ``src/realm/RealmApolloProvider.tsx``
-     :emphasize-lines: 4-9, 12
+     :emphasize-lines: 17
      
-     function createApolloClient(realmAppId: string, user: RealmWeb.User): ApolloClient<NormalizedCacheObject> {
+     function createApolloClient(realmAppId: string, user: Realm.User): ApolloClient<NormalizedCacheObject> {
        const graphql_url = `https://realm.mongodb.com/api/client/v2.0/app/${realmAppId}/graphql`;
-       const httpLink = new HttpLink({ uri: graphql_url });
-       const authorizationHeaderLink = setContext(async (_, { headers }) => ({
-         headers: {
-           ...headers,
-           Authorization: `Bearer ${user.accessToken}`,
-         },
-       }));
        
        return new ApolloClient({
-         link: authorizationHeaderLink.concat(httpLink),
+         link: new HttpLink({
+           uri: graphql_url,
+           fetch: async (uri: RequestInfo, options: RequestInit) => {
+             if (!options.headers) {
+               options.headers = {} as Record<string, string>;
+             }
+             // Refreshing custom data also ensures a valid access token
+             await user.refreshCustomData();
+             const authenticatedOptions: RequestInit = {
+               ...options,
+               headers: {
+                 ...options.headers,
+                 Authorization: `Bearer ${user.accessToken}`
+               }
+             }
+             return fetch(uri, authenticatedOptions);
+           },
+          }),
          cache: new InMemoryCache(),
        });
+     }
      }
 ...

@@ -76,9 +76,12 @@ content: |
          plugins:
            - typescript-react-apollo
          config:
+           apolloReactCommonImportFrom: '@apollo/client'
+           apolloReactHooksImportFrom: '@apollo/client'
            withHooks: true
            withComponent: false
            withHOC: false
+
 ---
 title: Run GraphQL Code Generator
 ref: run-graphql-codegen
