@@ -1349,7 +1349,10 @@ paths:
       - $ref: "#/components/parameters/AppId"
       - $ref: "#/components/parameters/ApiKeyId"
 
-  /secrets:
+  /groups/{groupId}/apps/{appId}/secrets:
+    parameters:
+      - $ref: "#/components/parameters/GroupId"
+      - $ref: "#/components/parameters/AppId"
     get:
       tags: ["secrets"]
       operationId: "adminGetAllSecrets"
@@ -1388,7 +1391,11 @@ paths:
                     _id: {type: string}
                     name: {type: string}
 
-  /secrets/{secretId}:
+  /groups/{groupId}/apps/{appId}/secrets/{secretId}:
+    parameters:
+      - $ref: "#/components/parameters/GroupId"
+      - $ref: "#/components/parameters/AppId"
+      - $ref: "#/components/parameters/SecretId"
     put:
       tags: ["secrets"]
       operationId: "adminModifyASecret"
@@ -1416,8 +1423,13 @@ paths:
                     name: {type: string}
                     value: {type: string}
                   required: [_id, name, value]
-    parameters:
-      - $ref: "#/components/parameters/SecretId"
+    delete:
+      tags: ["secrets"]
+      operationId: "adminDeleteSecret"
+      summary: "Delete a :doc:`Secret </values-and-secrets/define-a-secret>` associated with a Realm app."
+      responses:
+        '204':
+          description: "The Secret was successfully deleted."
 
   /groups/{groupId}/apps/{appId}/functions:
     get:
