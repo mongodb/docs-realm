@@ -60,22 +60,21 @@ class MainActivity : AppCompatActivity() {
                 val otherTask: Task = tasks[0]!!
 
                 tasks.addChangeListener(OrderedRealmCollectionChangeListener<RealmResults<Task>> { collection, changeSet ->
-                    // if keeping parallel arrays in sync, handle deletions in reverse to avoid changing indices after removals
+                    // process deletions in reverse order if maintaining parallel data structures so indices don't change as you iterate
                     val deletions = changeSet.deletionRanges
                     for (i in deletions.indices.reversed()) {
                         val range = deletions[i]
-                        Log.v("QUICKSTART", "Deleted range: ${range.startIndex} to ${range.startIndex + range.length}")
+                        Log.v("QUICKSTART", "Deleted range: ${range.startIndex} to ${range.startIndex + range.length - 1}")
                     }
 
                     val insertions = changeSet.insertionRanges
                     for (range in insertions) {
-                        Log.v("QUICKSTART", "Inserted range: ${range.startIndex} to ${range.startIndex + range.length}")
+                        Log.v("QUICKSTART", "Inserted range: ${range.startIndex} to ${range.startIndex + range.length - 1}")
                     }
 
                     val modifications = changeSet.changeRanges
                     for (range in modifications) {
-
-                        Log.v("QUICKSTART", "Updated range: ${range.startIndex} to ${range.startIndex + range.length}")
+                        Log.v("QUICKSTART", "Updated range: ${range.startIndex} to ${range.startIndex + range.length - 1}")
                     }
                 })
 
