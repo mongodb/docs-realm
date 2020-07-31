@@ -1,0 +1,75 @@
+.. _ios-client-remote:
+
+=======================
+Remotely Access MongoDB
+=======================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+Query data stored in MongoDB directly from your client application code
+with the MongoDB query language by using MongoDB Realm's
+``MongoClient``. MongoDB Realm provides data access :ref:`rules
+<mongodb-rules>` for collections to securely retrieve results based on
+the logged-in user or the content of each document.
+
+Prerequisites
+-------------
+
+Before you can remotely access mongodb, you must:
+
+- Have a :term:`linked Atlas cluster <linked cluster>` 
+
+
+Use the ``MongoClient`` to Query For Data in Your Collection
+------------------------------------------------------------------
+
+.. note::
+
+   The following code snippet requires that the user is already
+   :ref:`authenticated <ios-authenticate>`.
+
+.. code-block:: swift
+   :emphasize-lines: 15
+   
+   // mongodb-atlas is the name of cluster service
+   let client = app.mongoClient("mongodb-atlas")
+   
+   // Select the database
+   let database = client.database(withName: "tracker")
+
+   // Select the collection
+   let collection = database.collection(withName: "Task")
+   
+   // Using the user's id to look up tasks
+   let user = app.currentUser()!
+   let identity = user.identity!
+
+   // Run the query
+   collection.find(filter: ["_partition": AnyBSON(identity)], { (results, error) in
+       // Note: this completion handler may be called on a background thread.
+       //       If you intend to operate on the UI, dispatch back to the main
+       //       thread with `DispatchQueue.main.sync {}`.
+
+       // Handle errors
+       guard error == nil else {
+           print("Call to MongoDB failed: \(error!.localizedDescription)")  
+           return
+       }
+       // Print each document.
+       print("Results:")
+       results!.forEach({(document) in
+           print("Document:")
+           document.forEach({ (key, value) in
+               print("  key: \(key), value: \(value)")
+           })
+       })
+   })
