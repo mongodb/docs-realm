@@ -137,7 +137,7 @@ Configuration
    * - | ``custom_user_data_config``
        | Document
      - A document that contains configuration options for
-       :doc:`custom user data </users/define-custom-user-data>`.
+       :doc:`custom user data </users/enable-custom-user-data>`.
        
        .. code-block:: json
           :copyable: False
