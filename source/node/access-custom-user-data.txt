@@ -22,12 +22,6 @@ timezone. You can write to the Custom User Data object via a
 :ref:`RemoteMongoClient <node-mongodb-data-access>`. 
 
 
-.. note::
-
-   To use custom user data, you must :doc:`Enable Custom User Data
-   </users/enable-custom-user-data>` first.
-
-
 The code examples in this page use the following :ref:`user object
 <user-objects>` on which the custom_data field has not yet been set.
 
@@ -40,7 +34,6 @@ The code examples in this page use the following :ref:`user object
        _id: '5f20d083a37057d55edbdd57',
        userID: '5f1f216e82df4a7979f9da93',
        description: 'a test document for user: test@test.com',
-       custom_data: { }
      },
      data: { email: 'test@test.com' },
      identities: [
@@ -55,6 +48,11 @@ Using standard CRUD operations through the :doc:`MongoDB Atlas service
 </mongodb>`, a user's custom data can be accessed. The following example
 updates the user's custom data to alter the user's ``favoriteColor`` to
 pink.
+
+.. note::
+
+   To use custom user data, you must :doc:`Enable Custom User Data
+   </users/enable-custom-user-data>` first.
 
 .. code-block:: javascript
    :emphasize-lines: 3, 16
