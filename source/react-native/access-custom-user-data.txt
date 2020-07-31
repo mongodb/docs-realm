@@ -61,7 +61,7 @@ pink.
 .. code-block:: javascript
    :emphasize-lines: 3, 16
 
-   // a user must be logged in to use a remoteMongoClient
+   // A user must be logged in to use a remoteMongoClient
    const user = await app.logIn(credentials);
    const mongo = user.remoteMongoClient("<atlas service name>");
    const collection = mongo.db("<database name>").collection("<collection name>");
@@ -72,7 +72,7 @@ pink.
 
    const updateDoc = {
      $set: {
-       favoriteColor: "pink", // set the logged in user's favorite color to pink
+       favoriteColor: "pink", // Set the logged in user's favorite color to pink
      },
    };
 
@@ -144,7 +144,7 @@ Complete Example
          "<password>"
        );
  
-       // a user must be logged in to use a remoteMongoClient
+       // A user must be logged in to use a remoteMongoClient
        const user = await app.logIn(credentials);
        console.log(user.id);
        const mongo = user.remoteMongoClient("<atlas service name>");
@@ -156,7 +156,7 @@ Complete Example
  
        const updateDoc = {
          $set: {
-           favoriteColor: "pink", // set the logged in user's favorite color to pink
+           favoriteColor: "pink", // Set the logged in user's favorite color to pink
          },
        };
  
