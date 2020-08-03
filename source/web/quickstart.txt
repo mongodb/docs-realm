@@ -51,6 +51,17 @@ Install the Web SDK
       .. code-block:: shell
          
          yarn add realm-web
+   
+   .. tab:: CDN
+      :tabid: CDN
+      
+      To load the Realm Web SDK from a content delivery network as a global
+      variable, add the following ``<script>`` tag to the ``<head>`` of your
+      HTML file:
+      
+      .. code-block:: html
+         
+         <script src="https://unpkg.com/realm-web@0.8.0/dist/bundle.iife.js"></script>
 
 .. _web-quickstart-import-realm:
 
@@ -67,14 +78,20 @@ following import statement:
       
       .. code-block:: javascript
          
-         import * as RealmWeb from "realm-web";
+         import * as Realm from "realm-web";
    
    .. tab::
       :tabid: typescript
       
       .. code-block:: typescript
          
-         import * as RealmWeb from "realm-web";
+         import * as Realm from "realm-web";
+
+.. note::
+   
+   If you loaded the SDK using a ``<script>`` tag then you don't need to import
+   the SDK to use it. Instead, you can access it using the global ``Realm``
+   variable.
 
 .. _web-quickstart-init-app:
 
@@ -91,14 +108,14 @@ your {+app+} using your App ID. You can find your App ID in the {+ui+}.
       
       .. code-block:: javascript
          
-         const app = new RealmWeb.App({ id: "<Your App ID>" });
+         const app = new Realm.App({ id: "<Your App ID>" });
    
    .. tab::
       :tabid: typescript
       
       .. code-block:: typescript
          
-         const app: RealmWeb.App = new RealmWeb.App({ id: "<Your App ID>" });
+         const app: Realm.App = new Realm.App({ id: "<Your App ID>" });
 
 .. _web-quickstart-authenticate:
 
@@ -116,7 +133,7 @@ users can log into your app without providing any identifying information:
       .. code-block:: javascript
          
          // Create an anonymous credential
-         const credentials = RealmWeb.Credentials.anonymous();
+         const credentials = Realm.Credentials.anonymous();
          try {
            // Authenticate the user
            const user = await app.logIn(credentials);
@@ -133,10 +150,10 @@ users can log into your app without providing any identifying information:
       .. code-block:: typescript
 
          // Create an anonymous credential
-         const credentials = RealmWeb.Credentials.anonymous();
+         const credentials = Realm.Credentials.anonymous();
          try {
            // Authenticate the user
-           const user: RealmWeb.User = await app.logIn(credentials);
+           const user: Realm.User = await app.logIn(credentials);
            // `App.currentUser` updates to match the logged in user
            assert(user.id === app.currentUser.id)
            return user
