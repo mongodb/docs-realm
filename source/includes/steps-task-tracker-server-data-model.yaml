@@ -75,7 +75,7 @@ content: |
   We want to store some information for each user of the app in the
   ``tracker.users`` collection, such as their name and avatar image. These
   documents are separate from Realm's internal user objects, so we'll also store
-  each user's ID value in the ``user_id`` field of their document. This lets us
+  each user's ID value in the ``_id`` field of their document. This lets us
   identify which document describes a given user later when we want to access
   their information. To codify this, we'll use a schema that defines the shape
   and contents of user documents.
@@ -161,8 +161,8 @@ content: |
   To define the relationship, ensure you're editing rules for the
   ``tracker.tasks`` collection and then click the :guilabel:`Relationships` tab.
   Click :guilabel:`Add a Relationship` and define a relationship that points
-  from the ``assignee`` property to the ``user_id`` property in the
-  ``tracker.tasks`` collection.
+  from the ``assignee`` property to the ``_id`` property in the
+  ``tracker.users`` collection.
 
   .. code-block:: json
      
