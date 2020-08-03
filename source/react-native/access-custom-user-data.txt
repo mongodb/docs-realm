@@ -1,0 +1,183 @@
+.. _react-native-access-custom-user-data:
+
+=======================
+Access Custom User Data
+=======================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+You can read arbitrary data about your application users, known as
+custom user data, directly within your React Native application. For example,
+you might store a user's preferred language, date of birth, or local
+timezone. You can write to the Custom User Data object via a
+:ref:`RemoteMongoClient <react-native-mongodb-data-access>`. 
+
+
+The code examples in this page use the following :ref:`user object
+<user-objects>` on which the custom_data field has not yet been set.
+
+.. code-block:: console
+
+   {
+     id: '5f1f216e82df4a7979f9da93',
+     type: 'normal',
+     custom_data: {
+       _id: '5f20d083a37057d55edbdd57',
+       userID: '5f1f216e82df4a7979f9da93',
+       description: 'a test document for user: test@test.com',
+     },
+     data: { email: 'test@test.com' },
+     identities: [
+       { id: '5f1f216e82df4a7979f9da90', provider_type: 'local-userpass' }
+     ]
+   }
+
+
+
+.. include:: /includes/use-custom-data-note.rst
+
+Write to Custom User Data with a RemoteMongoClient
+--------------------------------------------------
+
+.. include:: /includes/write-access-to-custom-data-note.rst
+
+Using standard CRUD operations through the :doc:`MongoDB Atlas service
+</mongodb>`, a user's custom data can be accessed. The following example
+updates the user's custom data to alter the user's ``favoriteColor`` to
+pink.
+
+.. note::
+
+   To use custom user data, you must :doc:`Enable Custom User Data
+   </users/enable-custom-user-data>` first.
+
+.. code-block:: javascript
+   :emphasize-lines: 3, 16
+
+   // A user must be logged in to use a remoteMongoClient
+   const user = await app.logIn(credentials);
+   const mongo = user.remoteMongoClient("<atlas service name>");
+   const collection = mongo.db("<database name>").collection("<collection name>");
+
+   const filter = {
+     userID: user.id, // Query for the user object of the logged in user
+   };
+
+   const updateDoc = {
+     $set: {
+       favoriteColor: "pink", // Set the logged in user's favorite color to pink
+     },
+   };
+
+   const result = await collection.updateOne(filter, updateDoc);
+   console.log(result);
+
+Output
+~~~~~~
+.. code-block:: console
+
+   { matchedCount: 1, modifiedCount: 1 }
+
+Read Custom User Data
+---------------------
+
+.. include:: /includes/custom-data-may-be-stale.rst
+
+If you have updated your custom user data within the last 30 minutes,
+use the :js-sdk:`refreshCustomData()
+<Realm.User.html#refreshCustomData>` method on the user object.
+
+.. code-block:: javascript
+
+   const customUserData = await user.refreshCustomData()
+   console.log(customUserData);
+
+If you have not recently updated your custom user data, use the user object's :js-sdk:`customData
+<Realm.User.html#customData>` field.
+
+.. note::
+
+   The ``customData`` field of the user object is read-only from a React
+   Native application.
+
+.. code-block:: javascript
+
+   const customUserData = user.customData
+   console.log(customUserData);
+
+
+Output
+~~~~~~
+
+.. code-block:: json
+
+   {
+     "_id":"5f233a3ac49aca916792de1d",
+     "description":"a test document for user test@test.com",
+     "userID":"5f1f298f757611faec901d0f",
+     "favoriteColor":"pink"
+   }
+
+Complete Example
+----------------
+
+.. code-block:: javascript
+
+   const Realm = require("realm");
+   const appId = "<your-realm-app-id>"; // Set Realm app ID here.
+   const appConfig = {
+     id: appId,
+     timeout: 1000,
+   };
+
+   async function run() {
+     let user;
+     try {
+       const app = new Realm.App(appConfig);
+ 
+       const credentials = Realm.Credentials.emailPassword(
+         "test@test.com",
+         "<password>"
+       );
+ 
+       // A user must be logged in to use a remoteMongoClient
+       const user = await app.logIn(credentials);
+       console.log(user.id);
+       const mongo = user.remoteMongoClient("<atlas service name>");
+       const collection = mongo.db("<database name>").collection("<collection name>");
+ 
+       const filter = {
+         userID: user.id, // Query for the user object of the logged in user
+       };
+ 
+       const updateDoc = {
+         $set: {
+           favoriteColor: "pink", // Set the logged in user's favorite color to pink
+         },
+       };
+ 
+       const result = await collection.updateOne(filter, updateDoc);
+       console.log(result);
+ 
+       const customUserData = await user.refreshCustomData();
+       console.log(customUserData);
+     } finally {
+       user.logOut();
+     }
+   }
+   run().catch(console.dir);
+
+
+Summary
+-------
+- You can use custom user data to store information about your application users. 
+- The custom user data field of the user object is read-only, and can only be modified to by performing CRUD operations through the Atlas service. 
