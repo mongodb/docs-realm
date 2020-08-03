@@ -182,7 +182,7 @@ like this:
          schema: [schemas.TaskSchema, schemas.UserSchema, schemas.ProjectSchema],
          sync: {
             user: users.getAuthedUser(),
-            partitionValue: "myPartition",
+            partitionValue: "My Project",
          },
       };
       // TODO: open a realm with these configuration settings.
@@ -279,7 +279,7 @@ guidance on how to complete this task for each function:
      realm.write(() => {
         result = realm.create("Task", {
           _id: new bson.ObjectID(),
-          _partition: "myPartition",
+          _partition: "My Project",
           name: task.name,
           status: task.status,
         });
