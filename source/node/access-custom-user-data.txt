@@ -41,6 +41,12 @@ The code examples in this page use the following :ref:`user object
      ]
    }
 
+.. note::
+
+   To use custom user data, you must :doc:`Enable Custom User Data
+   </users/enable-custom-user-data>` and configure your :doc:`rules
+   </mongodb/configure-advanced-rules/>` to give users access to the
+   custom data collection.
 
 Write to Custom User Data with a RemoteMongoClient
 --------------------------------------------------
@@ -48,11 +54,6 @@ Using standard CRUD operations through the :doc:`MongoDB Atlas service
 </mongodb>`, a user's custom data can be accessed. The following example
 updates the user's custom data to alter the user's ``favoriteColor`` to
 pink.
-
-.. note::
-
-   To use custom user data, you must :doc:`Enable Custom User Data
-   </users/enable-custom-user-data>` first.
 
 .. code-block:: javascript
    :emphasize-lines: 3, 16
