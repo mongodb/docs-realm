@@ -16,11 +16,10 @@ Overview
 --------
 
 You can query data stored in MongoDB directly from your client
-application code with the MongoDB query language by using MongoDB
-Realm's :js-sdk:`RemoteMongoDB <Realm-RemoteMongoDB.html>`. MongoDB
-Realm provides data access :ref:`rules <mongodb-rules>` for collections
-to securely retrieve results based on the logged-in user or the content
-of each document.
+application code using the :js-sdk:`RemoteMongoDB
+<Realm-RemoteMongoDB.html>` service. {+service-short+} provides data
+access :ref:`rules <mongodb-rules>` for collections to securely retrieve
+results based on the logged-in user or the content of each document.
 
 
 Prerequisites
@@ -34,8 +33,9 @@ Before you can remotely access MongoDB, you must:
 Example: Query For Data in Your Collection
 ------------------------------------------
 
-The following example is an HTML file. After setting your Realm app ID
-in the code, you can open the file in a browser and check the console.
+The following example is an HTML file. After setting your {+app+} ID
+in the code, you can open the file in a browser and check the console to
+see the output of the findOne() operation or any errors.
 
 .. note::
 
@@ -44,6 +44,6 @@ in the code, you can open the file in a browser and check the console.
    Realm App.
 
 .. literalinclude:: /web/includes/remote-mongodb-find.html
-   :emphasize-lines: 19
+   :emphasize-lines: 19-22
    
 
