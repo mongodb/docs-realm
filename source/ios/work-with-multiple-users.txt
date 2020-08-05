@@ -78,3 +78,52 @@ the application's :ref:`active user <active-user>`.
       
       .. literalinclude:: /examples/MultiUser/AddUser/AddUser.swift
          :language: swift
+
+.. _ios-list-users:
+
+List All On-Device Users
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can access a list of all :ref:`user accounts <user-accounts>` that are
+stored on the device. This list includes all users that have logged in to the
+app on a given device regardless of whether they are currently authenticated.
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: swift
+      
+      .. literalinclude:: /examples/MultiUser/ListUsers/ListUsers.swift
+         :language: swift
+
+.. _ios-switch-user:
+
+Switch the Active User
+~~~~~~~~~~~~~~~~~~~~~~
+
+You can quickly switch an app's :ref:`active user <active-user>` to another
+logged in user at any time.
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: swift
+      
+      .. literalinclude:: /examples/MultiUser/SwitchUser/SwitchUser.swift
+         :language: swift
+
+.. _ios-remove-user:
+
+Remove a User from the Device
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can remove all information about a user from the device and automatically
+log the user out.
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: swift
+      
+      .. literalinclude:: /examples/MultiUser/LogoutUser/LogoutUser.swift
+         :language: swift
