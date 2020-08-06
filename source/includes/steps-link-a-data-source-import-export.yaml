@@ -31,7 +31,7 @@ title: Add a MongoDB Service Configuration File
 ref: add-a-mongodb-service-configuration-file
 content: |
   Add a file named ``config.json`` to the new service directory. The
-  configuration file should have the following form:
+  configuration file to link an Atlas cluster should have the following form:
 
   .. code-block:: shell
 
@@ -44,6 +44,21 @@ content: |
        }
      }
 
+  The configuration file to link a Data Lake should have the following form:
+
+  .. code-block:: shell
+
+     {
+       "type": "mongodb-atlas",
+       "name": "<Service Name>",
+       "config": {
+         "dataLakeName": "<Data Lake>",
+         "wireProtocolEnabled": <boolean>
+       }
+     }
+
+  Exactly one of ``config.dataLakeName`` and ``config.clusterName`` is required.
+
   .. list-table::
     :header-rows: 1
     :widths: 10 30
@@ -55,8 +70,11 @@ content: |
       - Required. The name of the MongoDB service.
     * - | :guilabel:`Atlas Cluster`
         | *config.clusterName*
-      - Required. The name of the MongoDB Atlas cluster that you
+      - Required when linking an Atlas Cluster. The name of the MongoDB Atlas cluster that you
         want to link to your application.
+    * - | :guilabel:`Data Lake`
+        | *config.dataLakeName*
+      - Required when linking a Data Lake. The name of the Data Lake that you want to link to your application.
     * - | :guilabel:`MongoDB Connection String`
         | *config.wireProtocolEnabled*
       - Required. A boolean indicating whether {+service-short+} should allow

@@ -135,7 +135,7 @@ Glossary
 
    event loop
       A design pattern in which a central loop waits
-      for signals from a UI or data source before updating underlying
+      for signals from a UI or other source before updating underlying
       data structures. On iOS, known as a :apple:`run loop
       <documentation/foundation/runloop>`. On Android, known as a :android-dev:`Looper
       <reference/android/os/Looper>`. Also known as the **main loop** or
@@ -239,6 +239,13 @@ Glossary
       makes that linked cluster a :term:`synced cluster`. Access
       data in your synced cluster from a :term:`{+service-short+} client` using
       the {+atlas+} service in the {+service-short+} SDK.
+
+   data source
+      A :term:`{+atlas+}` cluster or `Data Lake
+      <https://www.mongodb.com/atlas/data-lake?tck=docs_realm>`_ that is
+      associated with your :term:`{+app+}`.
+
+      .. seealso:: :ref:`link-a-data-source`
 
    synced cluster
       A :term:`{+atlas+}` database cluster that is
