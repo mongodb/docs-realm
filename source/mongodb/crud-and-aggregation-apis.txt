@@ -417,9 +417,15 @@ Bulk Write Operations
 
 {+service+} supports :manual:`bulk write operations
 </core/bulk-write-operations>` in the form of
+:node-driver:`OrderBulkOperaton <OrderedBulkOperation.html>` and
+:node-driver:`UnorderedBulkOperation <UnorderedBulkOperation.html>`.
 
-Bulk Write Operation Availability
-+++++++++++++++++++++++++++++++++
+
+execute, find, insert
+
+
+Ordered Bulk Write Operation Availability
++++++++++++++++++++++++++++++++++++++++++
 
 .. cssclass:: config-table
 .. list-table::
@@ -430,29 +436,41 @@ Bulk Write Operation Availability
      - User Function
      - System Function
 
-   * - :manual:`insertOne </reference/method/db.collection.insertOne>`
-     - No
-     - No
+   * - :node-driver:`execute <OrderedBulkOperation.html#execute>`
+     - Yes
+     - Yes
 
-   * - :manual:`replaceOne </reference/method/db.collection.replaceOne>`
-     - No
-     - No
+   * - :node-driver:`find <OrderedBulkOperation.html#find>`
+     - Yes
+     - Yes
 
-   * - :manual:`updateOne </reference/method/db.collection.updateOne>`
-     - No
-     - No
+   * - :node-driver:`insert <OrderedBulkOperation.html#insert>`
+     - Yes
+     - Yes
 
-   * - :manual:`updateMany </reference/method/db.collection.updateMany>`
-     - No
-     - No
+Unordered Bulk Write Operation Availability
++++++++++++++++++++++++++++++++++++++++++++
 
-   * - :manual:`deleteMany </reference/method/db.collection.deleteMany>`
-     - No
-     - No
+.. cssclass:: config-table
+.. list-table::
+   :header-rows: 1
+   :widths: 25 10 10
 
-   * - :manual:`deleteOne </reference/method/db.collection.deleteOne>`
-     - No
-     - No
+   * - Operation
+     - User Function
+     - System Function
+
+   * - :node-driver:`execute <UnorderedBulkOperation.html#execute>`
+     - Yes
+     - Yes
+
+   * - :node-driver:`find <UnorderedBulkOperation.html#find>`
+     - Yes
+     - Yes
+
+   * - :node-driver:`insert <UnorderedBulkOperation.html#insert>`
+     - Yes
+     - Yes
 
 .. _mongodb-crud-and-aggregation-apis-query-options:
 
