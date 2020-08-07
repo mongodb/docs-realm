@@ -128,7 +128,7 @@ you can log in using the following code:
    :emphasize-lines: 1-3
 
    let apiKey = "<apiKey>"
-        
+
    app.login(withCredential: AppCredentials(userAPIKey: apiKey)) { (user, error) in
       DispatchQueue.main.sync {
           guard error == nil else {
