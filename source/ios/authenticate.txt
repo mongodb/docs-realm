@@ -127,7 +127,7 @@ you can log in using the following code:
 .. code-block:: swift
    :emphasize-lines: 1-3
 
-   let apiKey = "c8t0numjwVR9WyJS1k4YMxE7elRFDOKv7fCGi5NuJfXhonTUQB5iWYxnLotzAAlF"
+   let apiKey = "<apiKey>"
         
    app.login(withCredential: AppCredentials(userAPIKey: apiKey)) { (user, error) in
       DispatchQueue.main.sync {
@@ -150,7 +150,7 @@ you can log in using the following code:
 .. code-block:: swift
    :emphasize-lines: 1-7
 
-   let params: [AnyHashable: Any] = [
+   let params = [
       "username": "bob"
    ]
         
