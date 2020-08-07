@@ -194,117 +194,135 @@ to ``app.login()`` or ``app.loginAsync()``.
                }
          });
 
-.. .. _android-login-api-key:
+.. _android-login-api-key:
 
-.. API Key
-.. ~~~~~~~
+API Key
+~~~~~~~
 
-.. The :doc:`API Key authentication provider </authentication/api-key>`
-.. enables users to log in to your application with an API Key generated
-.. automatically in the client SDK. To log in with API Key authentication, create an
-.. API Key credential by calling ``Credentials.apiKey()``
-.. with an API Key. Then pass the generated credential
-.. to ``app.login()`` or ``app.loginAsync()``.
+The :doc:`API Key authentication provider </authentication/api-key>`
+enables users to log in to your application with an API Key generated
+automatically in the client SDK. To log in with API Key authentication, create an
+API Key credential by calling ``Credentials.apiKey()``
+with an API Key. Then pass the generated credential
+to ``app.login()`` or ``app.loginAsync()``.
 
-.. .. tabs-realm-languages::
+.. tabs-realm-languages::
    
-..    .. tab::
-..       :tabid: kotlin
-      
-..       .. code-block:: kotlin
-
-..          Realm.init(this) // context, usually an Activity or Application
-..          val appID = "<your app ID>" // replace this with your App ID
-..          val app: App = App(AppConfiguration.Builder(appID)
-..                .build())
-
-..          val apiKeyCredentials: Credentials = Credentials.apiKey("<key>")
-
-..          app.loginAsync(apiKeyCredentials) {
-..             if (it.isSuccess) {
-..                   Log.v(TAG, "Successfully authenticated using an API Key.")
-..                   val user: User? = app.currentUser()
-..             } else {
-..                   Log.e(TAG, "Error logging in: ${it.error.toString()}")
-..             }
-..          }
-
-..    .. tab::
-..       :tabid: java
-
-..       .. code-block:: java
-
-..          Realm.init(this); // context, usually an Activity or Application
-..          String appID = "<your app ID>"; // replace this with your App ID
-..          App app = new App(new AppConfiguration.Builder(appID)
-..                .build());
-
-..          Credentials apiKeyCredentials = Credentials.apiKey("<key>");
-
-..          app.loginAsync(apiKeyCredentials, it -> {
-..                if (it.isSuccess()) {
-..                   Log.v(TAG, "Successfully authenticated using an API Key.");
-..                   user = app.currentUser();
-..                } else {
-..                   Log.e(TAG, it.getError().toString());
-..                }
-..          });
-
-.. .. _android-login-custom-function:
-
-.. Custom Function
-.. ~~~~~~~~~~~~~~~
-
-.. The :doc:`Custom Function authentication provider </authentication/custom-function>`
-.. enables users to log in to your application using a
-.. :ref:`Realm Function <function>` defined in your {+app+}. To log in with custom function authentication, create a
-.. custom function credential by calling ``Credentials.customFunction()``
-.. with the custom function name and arguments. Then pass the generated credential
-.. to ``app.login()`` or ``app.loginAsync()``.
-
-.. .. tabs-realm-languages::
+   .. tab::
+      :tabid: kotlin
    
-..    .. tab::
-..       :tabid: kotlin
+      .. code-block:: kotlin
+         
+         Realm.init(this) // context, usually an Activity or Application
+         val appID = "<your app ID>" // replace this with your App ID
+         val app: App = App(AppConfiguration.Builder(appID)
+               .build())
+         
+         val apiKeyCredentials: Credentials = Credentials.apiKey("<key>")
+         
+         app.loginAsync(apiKeyCredentials) {
+            if (it.isSuccess) {
+                  Log.v(TAG, "Successfully authenticated using an API Key.")
+                  val user: User? = app.currentUser()
+            } else {
+                  Log.e(TAG, "Error logging in: ${it.error.toString()}")
+            }
+         }
+   .. tab::
+      :tabid: java
       
-..       .. code-block:: kotlin
+      .. code-block:: java
+         
+         Realm.init(this); // context, usually an Activity or Application
+         String appID = "<your app ID>"; // replace this with your App ID
+         App app = new App(new AppConfiguration.Builder(appID)
+               .build());
+         
+         Credentials apiKeyCredentials = Credentials.apiKey("<key>");
+         
+         app.loginAsync(apiKeyCredentials, it -> {
+               if (it.isSuccess()) {
+                  Log.v(TAG, "Successfully authenticated using an API Key.");
+                  user = app.currentUser();
+               } else {
+                  Log.e(TAG, it.getError().toString());
+               }
+         });
 
-..          Realm.init(this) // context, usually an Activity or Application
-..          val appID = "<your app ID>" // replace this with your App ID
-..          val app: App = App(AppConfiguration.Builder(appID)
-..                .build())
 
-..          val customFunctionCredentials: Credentials = Credentials.customFunction("<function name>", "<arg1>", "<arg2>")
+.. _android-login-custom-function:
 
-..          app.loginAsync(customFunctionCredentials) {
-..             if (it.isSuccess) {
-..                 Log.v(TAG, "Successfully authenticated using a custom function.")
-..                 val user: User? = app.currentUser()
-..             } else {
-..                 Log.e(TAG, "Error logging in: ${it.error.toString()}")
-..             }
-..          }
+Custom Function
+~~~~~~~~~~~~~~~
+The :doc:`Custom Function authentication provider </authentication/custom-function>`
+enables users to log in to your application using a
+:ref:`Realm Function <function>` defined in your {+app+}. To log in with custom 
+function authentication, create a credential by calling 
+``Credentials.customFunction()``. The :java-sdk:`customFunction()
+<io/realm/mongodb/Credentials.html#customFunction-Document->` method expects a 
+Document that contains the properties and values used by the Realm auth function. 
+For example, suppose the backend function expects the input parameter to include 
+a field named ``username``, like this:
 
-..    .. tab::
-..       :tabid: java
+.. code-block:: js
+   
+   exports = async function(loginPayload) {
+      const { username } = loginPayload;
+      ...
+   }
 
-..       .. code-block:: java
+The document you pass to ``Credentials.customFunction()`` might look like this:
 
-..          Realm.init(this); // context, usually an Activity or Application
-..          String appID = "<your app ID>"; // replace this with your App ID
-..          App app = new App(new AppConfiguration.Builder(appID)
-..                .build());
+.. code-block:: java
+   
+   Document("username", "bob")
 
-..          Credentials customFunctionCredentials = Credentials.customFunction("<function name>", "<arg1>", "<arg2>");
+You then pass the generated credential to ``app.login()`` or ``app.loginAsync()``.
 
-..          app.loginAsync(customFunctionCredentials, it -> {
-..                if (it.isSuccess()) {
-..                   Log.v(TAG, "Successfully authenticated using a custom function.");
-..                   user = app.currentUser();
-..                } else {
-..                   Log.e(TAG, it.getError().toString());
-..                }
-..          });
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: kotlin
+   
+      .. code-block:: kotlin
+         
+         Realm.init(this) // context, usually an Activity or Application
+         val appID = "<your app ID>" // replace this with your App ID
+         val app: App = App(AppConfiguration.Builder(appID).build())
+         
+         val customFunctionCredentials: 
+            Credentials = Credentials.customFunction(Document("username","bob"))
+         
+         app.loginAsync(customFunctionCredentials) {
+            if (it.isSuccess) {
+               Log.v(TAG, "Successfully authenticated using a custom function.")
+               val user: User? = app.currentUser()
+            } else {
+               Log.e(TAG, "Error logging in: ${it.error.toString()}")
+            }
+         }
+   
+   .. tab::
+      :tabid: java
+      
+      .. code-block:: java
+         
+         Realm.init(this); // context, usually an Activity or Application
+         String appID = "<your app ID>"; // replace this with your App ID
+         App app = new App(new AppConfiguration.Builder(appID).build());
+        
+         Credentials customFunctionCredentials = 
+            Credentials.customFunction(new Document("username", "bob"));
+         
+         app.loginAsync(customFunctionCredentials, it -> {
+            if (it.isSuccess()) {
+               Log.v(TAG, "Successfully authenticated using a custom function.");
+               user = app.currentUser();
+            } else {
+               Log.e(TAG, it.getError().toString());
+            }
+         });
+
 
 .. _android-login-custom-jwt:
 
@@ -327,11 +345,9 @@ to ``app.login()`` or ``app.loginAsync()``.
 
          Realm.init(this) // context, usually an Activity or Application
          val appID = "<your app ID>" // replace this with your App ID
-         val app: App = App(AppConfiguration.Builder(appID)
-                .build())
+         val app: App = App(AppConfiguration.Builder(appID).build())
 
          // fetch JWT from custom provider
-
          val customJWTCredentials: Credentials = Credentials.jwt("<token>")
 
          app.loginAsync(customJWTCredentials) {
@@ -354,7 +370,6 @@ to ``app.login()`` or ``app.loginAsync()``.
                .build());
 
          // fetch JWT from custom provider
-
          Credentials customJWTCredentials = Credentials.jwt("<token>");
 
          app.loginAsync(customJWTCredentials, it -> {
