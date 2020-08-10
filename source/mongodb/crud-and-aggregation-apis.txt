@@ -415,14 +415,19 @@ Bitwise Update Operator Availability
 Bulk Write Operations
 ~~~~~~~~~~~~~~~~~~~~~
 
-
-
-.. note::
-
-   {+service+} supports :manual:`bulk write operations </core/bulk-write-operations>` in the form of :node-driver:`OrderedBulkOperation <OrderedBulkOperation.html>` and :node-driver:`UnorderedBulkOperation <UnorderedBulkOperation.html>`.
+{+service+} supports :manual:`bulk write operations
+</core/bulk-write-operations>` using the same API as the MongoDB Node.js driver.
 
 Ordered Bulk Write Operation Availability
 +++++++++++++++++++++++++++++++++++++++++
+
+You define ordered bulk operations by calling
+:node-driver:`collection.initializeOrderedBulkOp()
+<Collection.html#initializeOrderedBulkOp>` and manipulating the
+:node-driver:`OrderedBulkOperation <OrderedBulkOperation.html>` object that it
+retuns.
+
+{+service-short+} supports the following ``OrderedBulkOperation`` methods:
 
 .. cssclass:: config-table
 .. list-table::
@@ -447,6 +452,14 @@ Ordered Bulk Write Operation Availability
 
 Unordered Bulk Write Operation Availability
 +++++++++++++++++++++++++++++++++++++++++++
+
+You define ordered bulk operations by calling
+:node-driver:`collection.initializeUnorderedBulkOp()
+<Collection.html#initializeUnorderedBulkOp>` and manipulating the
+:node-driver:`OrderedBulkOperation <UnorderedBulkOperation.html>` object that it
+retuns.
+
+{+service-short+} supports the following ``UnorderedBulkOperation`` methods:
 
 .. cssclass:: config-table
 .. list-table::
