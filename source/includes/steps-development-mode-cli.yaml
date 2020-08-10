@@ -1,0 +1,139 @@
+title: Update Your Local Application
+ref: update-your-local-application
+content: |
+  To configure development mode through the CLI, you need an :ref:`up-to-date
+  application directory <application-directory>`. To export the latest version
+  of your app, run the following command from your shell:
+
+  .. code-block:: shell
+     
+     realm-cli export --app-id=<Your App ID>
+---
+title: Select a Cluster to Sync
+ref: select-a-cluster-to-sync
+content: |
+  You can enable development mode sync for a single :term:`linked cluster` in
+  your application. If you have not yet linked the cluster to your application,
+  follow the :ref:`Link a MongoDB Atlas Cluster <link-a-cluster>` guide to link
+  it before you continue.
+  
+  Determine which cluster you want to use and then open its configuration file.
+  Add the ``config.sync`` field with the following value:
+
+  .. code-block:: json
+     
+     {
+       "config": {
+         "sync": {
+           "state": "enabled",
+           "database_name": "<Target Database Name>",
+           "partition": {
+             "key": "<Partition Key Field>",
+             "type": "<Partition Key Type>",
+             "permissions": {
+               "read": true,
+               "write": true
+             }
+           }
+         },
+         ...
+       },
+       ...
+     }
+---
+title: Choose a Target Database
+ref: choose-a-target-database
+content: |
+  While development mode is enabled, Realm maps every synced object type to its
+  own collection in the linked cluster. The collections use the pluralized name
+  of the object type and are located in a specific database.
+  
+  Determine which database in the linked cluster you want to contain the synced
+  data and then specify the database name in ``config.sync.database_name``:
+
+  .. code-block:: json
+     :emphasize-lines: 5
+     
+     {
+       "config": {
+         "sync": {
+           "state": "enabled",
+           "database_name": "myDevModeDatabase",
+           "partition": {
+             "key": "<Partition Key Field>",
+             "type": "<Partition Key Type>",
+             "permissions": {
+               "read": true,
+               "write": true
+             }
+           }
+         },
+         ...
+       },
+       ...
+     }
+---
+title: Choose a Partition Key
+ref: choose-a-partition-key
+content: |
+  The sync :term:`partition key` is a field in every synced document that maps
+  each document to a client-side realm. Sync rules apply at the partition level,
+  so it's particularly important to consider your data model and access
+  patterns. For more information on partition keys and how to choose one, see
+  :ref:`Partition Atlas Data into Realms <partitioning>`.
+  
+  Once you have decided which field to use, update ``config.sync.partition``
+  with the partition key field name in the ``key`` field and the partition key
+  type in the ``type`` field.
+
+  .. code-block:: json
+     :emphasize-lines: 7, 8
+
+     {
+       "config": {
+         "sync": {
+           "state": "enabled",
+           "database_name": "myDevModeDatabase",
+           "partition": {
+             "key": "_partition",
+             "type": "string",
+             "permissions": {
+               "read": true,
+               "write": true
+             }
+           }
+         },
+         ...
+       },
+       ...
+     }
+---
+title: Enable Development Mode
+ref: enable-development-mode
+content: |
+  You can turn development mode on and off by setting a boolean value for
+  ``sync.development_mode_enabled`` in your app's ``config.json`` file. To
+  enable dev mode, set the value to ``true``:
+  
+  .. code-block:: json
+     :caption: ``config.json``
+     
+     {
+       ...,
+       "sync": {
+         "development_mode_enabled": true
+       }
+     }
+---
+title: Deploy the Updated App Configuration
+ref: deploy-the-updated-app-configuration
+content: |
+  Now that you've configured development mode and specified that it's enabled,
+  you can deploy your changes to turn it on.
+  
+  To deploy your changes, import your app configuration:
+  
+  .. code-block:: shell
+     
+     realm-cli import
+...
