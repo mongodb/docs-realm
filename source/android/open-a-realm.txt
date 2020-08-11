@@ -58,6 +58,11 @@ is generally not recommended.
 
 .. note::
    
+   To enable sync in your Android project, you need to configure it in the 
+   application-level build.gradle file by adding the following entry:
+   
+   ``realm { syncEnabled = true }``
+   
    For more information on enabling sync in Android, see 
    :ref:`Install Realm for Android <android-install>`.
 
@@ -65,7 +70,7 @@ is generally not recommended.
 Open a Local (Non-Synced) Realm
 -------------------------------
 When opening a local (non-synced) {+realm+}, set the default settings and then 
-call :java-sdk:`getDefaultInstance()<io/realm/Realm.html#getDefaultInstance-->`:
+call :java-sdk:`getDefaultInstance() <io/realm/Realm.html#getDefaultInstance-->`:
 
 .. tabs-realm-languages::
    
@@ -93,7 +98,7 @@ call :java-sdk:`getDefaultInstance()<io/realm/Realm.html#getDefaultInstance-->`:
 Close a Realm
 -------------
 It is important to remember to call the ``close()`` method when done with a 
-{+realm+} instance. Failing to do so can lead to OutOfMemoryError as the native 
+{+realm+} instance. Failing to do so can lead to ``OutOfMemoryError`` as the native 
 resources cannot be freed.
 
 .. tabs-realm-languages::
