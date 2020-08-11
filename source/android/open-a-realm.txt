@@ -15,11 +15,11 @@ Open and Close a Realm
 Open a Synced Realm
 -------------------
 
-To open a synced realm, you call 
+To open a synced {+realm+}, call 
 :java-sdk:`getInstanceAsync()
 </io/realm/Realm.html#getInstanceAsync-io.realm.RealmConfiguration-io.realm.Realm.Callback->`, 
 passing in a a :java-sdk:`SyncConfiguration <io/realm/mongodb/sync/SyncConfiguration.html>` 
-object. For example, the following code demonstrates how to create a realm with 
+object. For example, the following code demonstrates how to create a {+realm+} with 
 specific sync settings created using a ``SyncConfiguration`` object:
 
 .. tabs-realm-languages::
@@ -31,8 +31,7 @@ specific sync settings created using a ``SyncConfiguration`` object:
 
          val user: User? = app.currentUser()
          val partitionValue: String = "myPartition"
-         val config = 
-         SyncConfiguration.Builder(user!!, partitionValue).build()
+         val config = SyncConfiguration.Builder(user!!, partitionValue).build()
 
          val realm: Realm = Realm.getInstance(config)
 
@@ -41,7 +40,6 @@ specific sync settings created using a ``SyncConfiguration`` object:
       
       .. code-block:: java
 
-         App app = new App("app-id");
          User user = app.currentUser();
          String partitionValue = "myPartition";
          SyncConfiguration config = 
@@ -50,18 +48,23 @@ specific sync settings created using a ``SyncConfiguration`` object:
          Realm realm = Realm.getInstance(config);
    
 
-In the example above, the code is showing how to open the realm *asynchronously* 
+The code above shows how to open the {+realm+} *asynchronously* 
 by using :java-sdk:`getInstanceAsync()
 </io/realm/Realm.html#getInstanceAsync-io.realm.RealmConfiguration-io.realm.Realm.Callback->`. 
-
-You can also open a realm synchronously by using :java-sdk:`getInstance()
+You can also open a {+realm+} synchronously by using :java-sdk:`getInstance()
 <io/realm/Realm.html#getInstance-io.realm.RealmConfiguration->`, but this may 
 lead to temporary data inconsistencies while the remote data is downloaded, and 
 is generally not recommended. 
 
+.. note::
+   
+   For more information on enabling sync in Android, see 
+   :ref:`Install Realm for Android <android-install>`.
+
+
 Open a Local (Non-Synced) Realm
 -------------------------------
-When opening a local (non-synced) realm, you set the default settings and then 
+When opening a local (non-synced) {+realm+}, set the default settings and then 
 call :java-sdk:`getDefaultInstance()<io/realm/Realm.html#getDefaultInstance-->`:
 
 .. tabs-realm-languages::
@@ -90,7 +93,7 @@ call :java-sdk:`getDefaultInstance()<io/realm/Realm.html#getDefaultInstance-->`:
 Close a Realm
 -------------
 It is important to remember to call the ``close()`` method when done with a 
-realm instance. Failing to do so can lead to OutOfMemoryError as the native 
+{+realm+} instance. Failing to do so can lead to OutOfMemoryError as the native 
 resources cannot be freed.
 
 .. tabs-realm-languages::
