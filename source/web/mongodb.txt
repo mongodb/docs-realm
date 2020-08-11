@@ -126,7 +126,7 @@ collection from a mobile application. Read operations use :manual:`query
 filters </core/document/#document-query-filter>` to specify which
 documents to return from the database. Read operations return a
 :mdn:`Promise <Web/JavaScript/Reference/Global_Objects/Promise>` that
-resolves to either a single matched document (in the case of
+resolves to one of the following: a single matched document (in the case of
 ``findOne()``), a numeric value (in the case of ``count()``) or an array
 of matched documents (in the case of ``find()``).
 
