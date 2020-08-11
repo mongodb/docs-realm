@@ -1,0 +1,63 @@
+.. _react-native-open-realm:
+
+======================
+Open and Close a Realm
+======================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Open a Synced Realm
+-------------------
+To open a synced {+realm+}, call :js-sdk:`Realm.open() <Realm.html#.open>`. 
+You pass in a :js-sdk:`Configuration() <Realm.html#~Configuration>`
+object, which must include the ``sync`` property defining a 
+:js-sdk:`SyncConfiguration <Realm.Sync.html#~SyncConfiguration>` object.
+
+For example, to open a synced {+realm+} as the authenticated user 
+"authedUser", using partition "myPartition" and with a configuration that 
+includes 3 schemas, your code might look similar to this:
+
+.. code-block:: javascript
+
+   const config = {
+      schema: [schemas.TaskSchema, schemas.UserSchema, schemas.ProjectSchema],
+      sync: {
+         user: authedUser,
+         partitionValue: myPartition,
+      }
+   };
+    
+   realm = await Realm.open(config);
+
+
+Open a Local (Non-Synced) Realm
+-------------------------------
+When opening a local (non-synced) {+realm+}, call :js-sdk:`Realm.open() <Realm.html#.open>`, 
+passing in a :js-sdk:`Configuration() <Realm.html#~Configuration>`
+object, which may include the ``path`` property defining the local file path to 
+use when storing the data. 
+
+.. code-block:: javascript
+
+   const config = {
+      schema: [schemas.TaskSchema, schemas.UserSchema, schemas.ProjectSchema],
+      path: "./myrealm/data"
+   };
+    
+   realm = await Realm.open(config);
+
+Close a Realm
+-------------
+It is important to remember to call the ``close()`` method when done with a 
+{+realm+} instance.
+
+.. code-block:: javascript
+
+   realm.close();
+
