@@ -120,17 +120,25 @@ information:
 Open a Realm
 ------------
 
-Once you have :ref:`enabled {+sync+} <enable-sync>` and authenticated a user, you can open
-a synced :ref:`{+realm+} <ios-realms>`:
+Once you have :ref:`enabled {+sync+} <enable-sync>` and authenticated a user, 
+you can open a :ref:`{+realm+} <ios-realms>` asynchronously by calling 
+:swift-sdk:`asyncOpen <beta.2/Structs/Realm.html#/s:10RealmSwift0A0V9asyncOpen13configuration13callbackQueue0F0AC05AsyncD4TaskVAC13ConfigurationV_So17OS_dispatch_queueCyACSg_s5Error_pSgtctFZ>`, 
+passing in either a custom 
+:swift-sdk:`Configuration <Structs/Realm/Configuration.html>` object, or a 
+:swift-sdk:`defaultConfiguration <Structs/Realm/Configuration.html#/s:10RealmSwift0A0V13ConfigurationV07defaultC0AEvpZ>` 
+object, depending on your application needs.
 
 .. code-block:: swift
 
-   let user = app.currentUser()
-   let partitionValue = "myPartition"
-   realm = try! Realm(configuration: user.configuration(partitionValue: partitionValue))
+   Realm.asyncOpen(configuration: config) { realm, error in
+      if let realm = realm {
+         // Realm successfully opened
+      } else if let error = error {
+         // Handle error that occurred while opening the Realm.
+      }
+   }
 
 .. seealso:: :ref:`Sync Data <ios-sync-data>`
-
 
 Create, Read, Update, and Delete Objects
 ----------------------------------------
