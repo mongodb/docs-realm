@@ -14,25 +14,23 @@ Open and Close a Realm
 
 Open a Synced Realm
 -------------------
-To open a synced realm, you call 
+To open a synced realm, call 
 :swift-sdk:`asyncOpen <Structs/Realm.html#/s:10RealmSwift0A0V9asyncOpen13configuration13callbackQueue0F0AC05AsyncD4TaskVAC13ConfigurationV_So17OS_dispatch_queueCyACSg_s5Error_pSgtctFZ>`, 
-passing in a custom 
-:swift-sdk:`Configuration <Structs/Realm/Configuration.html>` object that contains 
-a :swift-sdk:`SyncConfiguration <Structs/Realm/Configuration.html#/s:10RealmSwift0A0V13ConfigurationV04syncC0AA04SyncC0VSgvp>` 
-object. For example, the following code demonstrates how to create a realm with 
-specific sync settings created using a ``SyncConfiguration`` object:
+passing in the user's  
+:swift-sdk:`Configuration <Structs/Realm/Configuration.html>` object, which  
+includes the partition name. The following code demonstrates this:
 
 .. code-block:: swift
 
-   let syncConfig = SyncConfiguration(user: user, partitionValue: "my project")
-   let config = Realm.Configuration(syncConfiguration: syncConfig)
-        
-   Realm.asyncOpen(configuration: config) { realm, error in
-      if let realm = realm {
-         // Realm successfully opened
-      } else if let error = error {
-         // Handle error that occurred while opening the Realm.
+   let user = app.currentUser()
+   let partitionValue = "myPartition"
+   
+   Realm.asyncOpen(configuration: user!.configuration(partitionValue: partitionValue)) { realm, error in
+      guard let realm = realm else {
+         // handle error
+         return
       }
+      // Realm successfully opened
    }
 
 
@@ -44,7 +42,7 @@ is generally not recommended.
 
 .. code-block:: swift
 
-   let realm = try! Realm(configuration: config)
+   let realm = try! Realm(configuration: user!.configuration(partitionValue: partitionValue))
 
 Open a Local (Non-Synced) Realm
 -------------------------------
@@ -69,10 +67,6 @@ properties to open a *readonly* local realm with a specific file location:
 
 Close a Realm
 -------------
-It is important to remember to call the ``close()`` method when done with a 
-realm instance. Failing to do so can lead to OutOfMemoryError as the native 
-resources cannot be freed.
-
-.. code-block:: swift
-
-   realm.close()
+There is no need to manually close a realm in swift. When a realm goes out of 
+scope and is removed from memory due to `ARC <https://docs.swift.org/swift-book/LanguageGuide/AutomaticReferenceCounting.html>`__,
+the realm is closed.
