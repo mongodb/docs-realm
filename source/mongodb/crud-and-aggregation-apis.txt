@@ -415,11 +415,19 @@ Bitwise Update Operator Availability
 Bulk Write Operations
 ~~~~~~~~~~~~~~~~~~~~~
 
-{+service+} does not support any :manual:`bulk write operations
-</core/bulk-write-operations>`.
+{+service+} supports :manual:`bulk write operations
+</core/bulk-write-operations>` using the same API as the MongoDB Node.js driver.
 
-Bulk Write Operation Availability
-+++++++++++++++++++++++++++++++++
+Ordered Bulk Write Operation Availability
++++++++++++++++++++++++++++++++++++++++++
+
+You define ordered bulk operations by calling
+:node-driver:`collection.initializeOrderedBulkOp()
+<Collection.html#initializeOrderedBulkOp>` and manipulating the
+:node-driver:`OrderedBulkOperation <OrderedBulkOperation.html>` object that it
+retuns.
+
+{+service-short+} supports the following ``OrderedBulkOperation`` methods:
 
 .. cssclass:: config-table
 .. list-table::
@@ -430,29 +438,49 @@ Bulk Write Operation Availability
      - User Function
      - System Function
 
-   * - :manual:`insertOne </reference/method/db.collection.insertOne>`
-     - No
-     - No
+   * - :manual:`execute </reference/method/Bulk.execute>`.
+     - Yes
+     - Yes
 
-   * - :manual:`replaceOne </reference/method/db.collection.replaceOne>`
-     - No
-     - No
+   * - :manual:`find </reference/method/Bulk.find>`.
+     - Yes
+     - Yes
 
-   * - :manual:`updateOne </reference/method/db.collection.updateOne>`
-     - No
-     - No
+   * - :manual:`insert </reference/method/Bulk.insert>`.
+     - Yes
+     - Yes
 
-   * - :manual:`updateMany </reference/method/db.collection.updateMany>`
-     - No
-     - No
+Unordered Bulk Write Operation Availability
++++++++++++++++++++++++++++++++++++++++++++
 
-   * - :manual:`deleteMany </reference/method/db.collection.deleteMany>`
-     - No
-     - No
+You define ordered bulk operations by calling
+:node-driver:`collection.initializeUnorderedBulkOp()
+<Collection.html#initializeUnorderedBulkOp>` and manipulating the
+:node-driver:`OrderedBulkOperation <UnorderedBulkOperation.html>` object that it
+retuns.
 
-   * - :manual:`deleteOne </reference/method/db.collection.deleteOne>`
-     - No
-     - No
+{+service-short+} supports the following ``UnorderedBulkOperation`` methods:
+
+.. cssclass:: config-table
+.. list-table::
+   :header-rows: 1
+   :widths: 25 10 10
+
+   * - Operation
+     - User Function
+     - System Function
+
+   * - :manual:`execute </reference/method/Bulk.execute>`.
+     - Yes
+     - Yes
+
+   * - :manual:`find </reference/method/Bulk.find>`.
+     - Yes
+     - Yes
+
+   * - :manual:`insert </reference/method/Bulk.insert>`.
+     - Yes
+     - Yes
 
 .. _mongodb-crud-and-aggregation-apis-query-options:
 
@@ -520,7 +548,7 @@ Aggregation Pipeline Stage Availability
      - No
 
    * - :manual:`$lookup </reference/operator/aggregation/lookup/>`
-     - No
+     - Yes
      - Yes
 
    * - :manual:`$out </reference/operator/aggregation/out/>`

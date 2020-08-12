@@ -64,7 +64,16 @@ Before you begin, ensure you have:
 
 Once you're set up with these prerequisites, you're ready to start the tutorial.
 
-A. Clone the Client App Repository
+A. Define Data Access Permissions and Enable Sync
+-------------------------------------------------
+
+The backend app is set up with an email/password authentication provider that we
+can use to let users sign up and log in. Now, we need to define sync rules and
+enable sync so that sync clients can read and write objects.
+
+.. include:: /includes/steps/task-tracker-enable-sync.rst
+
+B. Clone the Client App Repository
 ----------------------------------
 
 We've already put together a task tracker CLI application that has most of
@@ -93,8 +102,9 @@ client application and install its dependencies:
    cd realm-tutorial/node-cli
    npm install
 
-B. Explore the App Structure & Components
+C. Explore the App Structure & Components
 -----------------------------------------
+
 The ``realm-tutorial`` repo contains task tracker client applications for
 multiple platforms. The project root for this tutorial is located in the
 ``node-cli`` subdirectory. Open a text editor to explore the directory and 
@@ -143,8 +153,9 @@ each file in this project:
      - Adds a listener to a Realm collection to notify the user when a change 
        occurs.
 
-C. Connect to Your MongoDB Realm App
+D. Connect to Your MongoDB Realm App
 ------------------------------------
+
 To get the app working with your backend, you first need to add your Realm App ID 
 to the ``config.js`` file. The ``config.js`` module exports a single property, 
 ``realmAppId``, which is currently set to "TODO":
@@ -171,7 +182,7 @@ like this:
          schema: [schemas.TaskSchema, schemas.UserSchema, schemas.ProjectSchema],
          sync: {
             user: users.getAuthedUser(),
-            partitionValue: "myPartition",
+            partitionValue: "My Project",
          },
       };
       // TODO: open a realm with these configuration settings.
@@ -188,8 +199,9 @@ At this point, your app is pointing to your backend and opens a connection
 to it when you start the app. However, users cannot yet log in, so let's update 
 that code next.
 
-D. Enable authentication
+E. Enable authentication
 ------------------------
+
 In the ``users.js`` file, we have a ``logIn`` function that prompts the user for 
 an email address and password, and then, within a try-catch block, creates an 
 :js-sdk:`emailPassword <Realm.App.html#Realm.Credentials.html#.emailPassword>` 
@@ -219,8 +231,9 @@ Immediately below this, add the following code to call the
     const user = await app.logIn(credentials);
 
 
-E. Implement the CRUD methods
+F. Implement the CRUD methods
 -----------------------------
+
 In the ``tasks.js`` file, there are a number of functions to handle typical  
 CRUD functionality: ``getTasks``, ``getTask``, ``createTask``, ``deleteTask``, 
 ``editTask``, and ``changeStatus``. Each of these functions (except ``getTasks``) 
@@ -266,7 +279,7 @@ guidance on how to complete this task for each function:
      realm.write(() => {
         result = realm.create("Task", {
           _id: new bson.ObjectID(),
-          _partition: "myPartition",
+          _partition: "My Project",
           name: task.name,
           status: task.status,
         });
@@ -316,8 +329,9 @@ guidance on how to complete this task for each function:
      To learn more about Realm Sync, see :doc:`Sync Overview </sync/overview>`.
 
 
-F. Run and Test
+G. Run and Test
 ---------------
+
 Once you have completed the code, you should run the app and check functionality. 
 
 1. Open a terminal window and change to your app's directory.
@@ -346,8 +360,9 @@ Once you have completed the code, you should run the app and check functionality
    If something isn't working for you, you can check out the ``main`` branch of 
    this repo to compare your code with our finished solution. 
 
-G. Implement the Collection Listener
+H. Implement the Collection Listener
 ------------------------------------
+
 A very handy feature in Realm is the ability to add a listener to a collection. 
 The listener notifies your app when a change occurs in the collection. For our 
 CLI, we want to listen for changes on the ``Tasks`` collection, and when one 

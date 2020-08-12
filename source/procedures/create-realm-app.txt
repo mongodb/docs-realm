@@ -72,34 +72,30 @@ To create an Atlas cluster to use with your {+app+}, following these steps:
 C. Add a Realm App
 ~~~~~~~~~~~~~~~~~~~
 
-1. In {+atlas-short+}, click :guilabel:`Realm Apps` in the left-hand
-   navigation.
+1. In {+atlas-short+}, select the :guilabel:`Realm` tab.
 
-#. Click the :guilabel:`Create New Application.`
+#. If you are creating your first {+app+} in this {+atlas-short+}
+   project, click the :guilabel:`Start a New Realm App` button in the
+   center of the screen. If you have already created at least one {+app+}
+   in this {+atlas-short+} project, click the
+   :guilabel:`Create a New App` button in the top right of the screen.
 
-#. In the :guilabel:`Create a new application` dialog, enter an
+#. In the :guilabel:`Name your Realm application` dialog, enter an
    :guilabel:`Application Name` for your {+app+}.
 
    .. include:: /includes/note-app-name-limitations.rst
 
 #. Select a cluster in your project in your project from the
-   :guilabel:`Link to Cluster` dropdown. {+service+} will automatically
+   :guilabel:`Link your Database` dropdown. {+service+} will automatically
    create a :ref:`MongoDB service <mongodb-service>` linked to this
-   cluster.
+   cluster with the name "mongodb-atlas".
 
-   .. admonition:: Version 4.4 Required
-      :class: note
-
-      In order to use {+sync+}, your Atlas cluster must use MongoDB version
-      4.4.
-
-#. Enter a name for the service that {+service+} will create in the
-   :guilabel:`Realm Service Name` field.
+   .. include:: /includes/mongodb-4.4-required-for-sync-admonition.rst
 
 #. Select a :ref:`deployment model <realm-deployment-models>` and
    :ref:`deployment region <realm-regions>` for your application.
 
-#. Click :guilabel:`Create`.
+#. Click :guilabel:`Create Realm Application`.
 
 .. cssclass:: bordered-figure
 .. figure:: /images/create-new-app-modal.png

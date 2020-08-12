@@ -24,6 +24,14 @@ Task Tracker (Web)
    :depth: 1
    :class: singlecol
 
+.. admonition:: Check Out the Quick Start
+   :class: note
+   
+   If you prefer to explore on your own rather than follow a guided tutorial,
+   check out the :ref:`Web Quick Start <web-quick-start>`. It includes copyable
+   code examples and the essential information that you need to set up a MongoDB
+   Realm application.
+
 In this tutorial, you'll build a functional web application backed by the
 {+service+} GraphQL API. The app uses :reactjs:`React <>` to define UI
 components and :apollo:`Apollo Client <doc/react>` to run queries and mutations
@@ -38,22 +46,14 @@ The app is a task tracker that allows users to:
 
 This tutorial should take around 30 minutes.
 
-.. admonition:: Check Out the Quick Start
-   :class: note
+.. admonition:: Realm Web SDK and Sync
+   :class: important
    
-   If you prefer to explore on your own rather than follow a guided tutorial,
-   check out the :ref:`Web Quick Start <web-quick-start>`. It includes copyable
-   code examples and the essential information that you need to set up a MongoDB
-   Realm application.
-
-.. admonition:: Download the Complete Source Code
-   :class: note
-   
-   We host this tutorial application's :github:`complete and ready-to-run
-   source code <mongodb-university/realm-tutorial/tree/main/web>` on GitHub.
-   Just follow the instructions in ``README.md`` to get started. Don't forget to
-   update the ``/src/realm/RealmApp.tsx`` file with your App ID, which you can
-   find in the {+ui+}.
+   The Realm Web SDK does not support :ref:`sync <sync-overview>`, so the app
+   you'll build in this tutorial won't update in real time when data changes.
+   However, data that you create from the web app will automatically sync to any
+   of the other :ref:`task tracker tutorial apps <tutorial>` that use Realm
+   Database.
 
 Prerequisites
 -------------
@@ -71,7 +71,49 @@ Before you get started, you'll need the following:
 
 Once you're set up with these prerequisites, you're ready to start the tutorial.
 
-A. Clone the Client App Repository
+.. admonition:: Download the Complete Source Code
+   :class: note
+   
+   We host this tutorial application's :github:`complete and ready-to-run source
+   code <mongodb-university/realm-tutorial/tree/main/web>` on GitHub. You can
+   use it to check your work or download it to run the app locally.
+
+   To get started, follow the instructions in ``README.md``. Don't forget to
+   update the ``/src/realm/RealmApp.tsx`` file with your App ID, which you can
+   find in the {+ui+}.
+
+A. Define Data Access Permissions
+---------------------------------
+
+.. admonition:: Non-Sync Permissions
+   :class: important
+   
+   The permissions in this step only apply if you do not enable sync for the
+   application. Sync permissions use a different rules system and override any
+   non-sync permissions when sync is enabled. If you plan to or have already
+   used the task tracker backend from one of the frontend apps that support
+   sync, then you can skip this section in favor of the sync permissions
+   described on the sync app's tutorial page.
+   
+   The Realm Web SDK and GraphQL API do not use sync, so if you only intend to
+   build a web client then use these rules.
+
+The backend app is set up with an email/password authentication provider that we
+can use to let users sign up and log in and an automatically generated GraphQL
+API that we can use work with data.
+
+By default, however, all GraphQL queries from a client application will fail.
+
+To allow users to read and write data, you must first define data access rules
+that determine whether a given user has read or write permissions for a given
+document.
+
+You define non-sync data access rules for your GraphQL API on the
+:guilabel:`Rules` screen of the Realm UI.
+
+.. include:: /includes/steps/task-tracker-server-rules.rst
+
+B. Clone the Client App Repository
 ----------------------------------
 
 We've already put together a task tracker browser application that has most of
@@ -104,7 +146,7 @@ define in this tutorial, check out the ``todo`` branch:
    multiple platforms. The project root for this tutorial is located in the
    ``web`` subdirectory.
 
-B. Explore the App Structure & Components
+C. Explore the App Structure & Components
 -----------------------------------------
 
 The web client is a standard React web application written in
@@ -148,7 +190,7 @@ components and hooks use the code that you write.
    `official React website <https://reactjs.org>`_, which has excellent
    documentation and tutorials.
 
-C. Connect to Your MongoDB Realm App
+D. Connect to Your MongoDB Realm App
 ------------------------------------
 
 The client app needs to connect to your Realm app so that users can register and
@@ -222,7 +264,7 @@ authentication.
         }
       };
 
-D. Define the GraphQL Schema & Operations
+E. Define the GraphQL Schema & Operations
 -----------------------------------------
 
 .. include:: /includes/steps/task-tracker-web-graphql.rst
@@ -290,7 +332,7 @@ D. Define the GraphQL Schema & Operations
    .. code-block:: typescript
       
       import { Task, TaskInsertInput } from "../types";
-      import { useMutation } from "@apollo/react-hooks";
+      import { useMutation } from "@apollo/client";
       import gql from 'graphql-tag';
       
       type AddTaskMutation = { task: Task };
@@ -306,7 +348,6 @@ D. Define the GraphQL Schema & Operations
                 _id
                 name
                 image
-                user_id
               }
             }
           }
@@ -318,19 +359,22 @@ D. Define the GraphQL Schema & Operations
 
    .. code-block:: typescript
       :caption: ``/src/components/TaskView.tsx``
-      :emphasize-lines: 5-11, 14
+      :emphasize-lines: 5-14, 17
       
       export function useTasks() {
         ...
         
         const addTask = async (task: Task) => {
-          const variables = {
+          const variables: AddTaskMutationVariables = {
             task: {
               status: task.status,
               name: task.name,
-              assignee: task.assignee ? { link: task.assignee.user_id } : undefined,
+              _partition: "My Project",
             },
           };
+          if(task.assignee) {
+            variables.task.assignee = { link: task.assignee._id }
+          }
           const currentTasks = [...tasks];
           try {
             const result = await addTaskMutation({ variables });
@@ -343,7 +387,7 @@ D. Define the GraphQL Schema & Operations
         };
       }
 
-E. Connect Apollo to the GraphQL API
+F. Connect Apollo to the GraphQL API
 ------------------------------------
 
 We've defined GraphQL CRUD operations and used the code generator to create
@@ -474,7 +518,7 @@ options to keep practicing and learn more:
   - Built-in :doc:`authentication providers </authentication/providers>` and
     and user management tools. You can allow users to log in through multiple
     methods, like API keys and Google OAuth, and associate :doc:`custom data
-    </users/define-custom-user-data>` with every user.
+    </users/enable-custom-user-data>` with every user.
 
 .. admonition:: Leave Feedback
    :class: note

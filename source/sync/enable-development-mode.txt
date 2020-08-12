@@ -1,0 +1,45 @@
+.. _enable-development-mode:
+
+=======================
+Enable Development Mode
+=======================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+Development mode allows you to define and update your app's schemas by syncing
+objects from a Realm SDK. While enabled, Realm does not enforce any data access
+rules and does not validate synced objects against existing schemas. Instead,
+Realm maps every synced object type to its own collection and automatically
+updates the collection schema to match the synced type.
+
+.. admonition:: Disable Development Mode for Production Apps
+   :class: important
+   
+   As the name suggests, development mode is an insecure development utility
+   that is not suitable for production use. Make sure that you turn off
+   development mode before you make your app accessible in a production
+   environment.
+
+Procedure
+---------
+
+.. tabs-realm-admin-interfaces::
+   
+   .. tab::
+      :tabid: ui
+      
+      .. include:: /includes/steps/development-mode-ui.rst
+   
+   .. tab::
+      :tabid: cli
+      
+      .. include:: /includes/steps/development-mode-cli.rst

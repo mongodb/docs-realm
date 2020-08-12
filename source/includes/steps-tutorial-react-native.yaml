@@ -446,19 +446,17 @@ content: |
        static STATUS_OPEN = 'Open';
        static STATUS_IN_PROGRESS = 'InProgress';
        static STATUS_COMPLETE = 'Complete';
-
        static schema = {
          name: 'Task',
          properties: {
            _id: 'objectId',
-           _partition: 'string',
+           _partition: 'string?',
            name: 'string',
            status: 'string',
          },
          primaryKey: '_id',
        };
      }
-
      export {Task};
 
   You don't need to use a class when working with {+service-short+} in

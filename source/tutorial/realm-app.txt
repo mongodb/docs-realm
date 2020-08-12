@@ -14,12 +14,7 @@ Before you get started, you'll need a `{+atlas+}
 cluster. For details on how to create an account and set up a free
 ``M0`` cluster, see :atlas:`Get Started with Atlas </getting-started>`.
 
-.. admonition:: Version 4.4 Required
-   :class: note
-
-   In order to use {+sync+}, your Atlas cluster must use MongoDB version
-   4.4. When setting up your cluster, select :guilabel:`MongoDB 4.4 -
-   Beta` from the dropdown menu under :guilabel:`Additional Settings`.
+.. include:: /includes/mongodb-4.4-required-for-sync-admonition.rst
 
 A. Create a MongoDB Realm App
 -----------------------------
@@ -51,45 +46,7 @@ in order to easily find and secure them.
 
 .. include:: /includes/steps/task-tracker-server-auth.rst
 
-D. Define Data Access Permissions
----------------------------------
-
-.. admonition:: GraphQL Client Only
-   :class: important
-
-   If you plan to use this backend with one or more of the mobile client
-   tutorials (iOS, Android, or React Native), you can skip this section
-   because mobile apps use {+sync+}. {+sync+} has its own permissions
-   model, so the permissions set here will not apply.
-
-Once you've defined schemas for ``User`` and ``Task``, Realm automatically
-generates GraphQL types and resolvers that allow you to access data through the
-GraphQL API. By default, however, all GraphQL queries from a client application
-will fail.
-
-To allow users to read and write data, you must first define data access rules
-that determine whether a user has read or write permissions for a given
-document.
-
-.. include:: /includes/steps/task-tracker-server-rules.rst
-
-E. Enable Sync
---------------
-
-.. admonition:: Mobile Clients Only
-   :class: important
-
-   If you plan to use this backend exclusively with the web client using
-   GraphQL and **not** with one or more of the mobile client tutorials
-   (iOS, Android, or React Native), you can skip this section. The web
-   client uses GraphQL to work with data, not {+sync+}.
-
-To allow the seamless transfer of data across devices, we enable
-{+sync+}.
-
-.. include:: /includes/steps/task-tracker-enable-sync.rst
-
-F. Define an Authentication Trigger
+D. Define an Authentication Trigger
 -----------------------------------
 
 We want each user to have a corresponding document in the ``users`` collection
@@ -100,7 +57,7 @@ document for each user when they register their account.
 
 .. include:: /includes/steps/task-tracker-server-trigger.rst
 
-G. Deploy Your App
+E. Deploy Your App
 ------------------
 
 At this point your Realm App is fully configured and almost ready to accept

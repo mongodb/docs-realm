@@ -1,0 +1,32 @@
+<script src="https://unpkg.com/realm-web@0.8.0/dist/bundle.iife.js"></script>
+<script>
+    const appId = "<appId>"; // Set Realm app ID here.
+  ​
+    const appConfig = {
+      id: appId,
+      timeout: 1000,
+    };
+  ​
+    async function run() {
+      let user;
+      try {
+        const app = new Realm.App(appConfig);
+  ​
+        const credentials = Realm.Credentials.anonymous(); // create an anonymous credential
+        user = await app.logIn(credentials);
+  ​
+        console.dir(user);
+        const mongo = app.services.mongodb("mongodb-atlas"); // mongodb-atlas is the name of the cluster service
+        const coll = mongo.db("db").collection("collection");
+  ​
+        item = await coll.findOne({name: "test"}); // find a document where `name` == "test"
+        console.dir(item);
+      } finally {
+        if (user) {
+          user.logOut();
+        }
+      }
+    }
+    run().catch(console.dir);
+</script>
+<p>Check the console</p>

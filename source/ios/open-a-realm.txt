@@ -1,0 +1,74 @@
+.. _ios-open-realm:
+
+======================
+Open and Close a Realm
+======================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Open a Synced Realm
+-------------------
+To open a synced {+realm+}, call 
+:swift-sdk:`asyncOpen <Structs/Realm.html#/s:10RealmSwift0A0V9asyncOpen13configuration13callbackQueue0F0AC05AsyncD4TaskVAC13ConfigurationV_So17OS_dispatch_queueCyACSg_s5Error_pSgtctFZ>`, 
+passing in the user's  
+:swift-sdk:`Configuration <Structs/Realm/Configuration.html>` object, which  
+includes the partition name. The following code demonstrates this:
+
+.. code-block:: swift
+
+   let user = app.currentUser()
+   let partitionValue = "myPartition"
+   
+   Realm.asyncOpen(configuration: user!.configuration(partitionValue: partitionValue)) { realm, error in
+      guard let realm = realm else {
+         // handle error
+         return
+      }
+      // Realm successfully opened
+   }
+
+
+In the above example, the code shows how to open the {+realm+} *asynchronously* by using 
+``asyncOpen``. You can also open a {+realm+} *synchronously* by using one of the 
+:swift-sdk:`Realm() <Structs/Realm.html>` initializers, but this may 
+lead to temporary data inconsistencies while the remote data is downloaded, and 
+is generally not recommended. 
+
+.. code-block:: swift
+
+   let realm = try! Realm(configuration: user!.configuration(partitionValue: partitionValue))
+
+Open a Local (Non-Synced) Realm
+-------------------------------
+When opening a local (non-synced) {+realm+}, you pass a custom 
+:swift-sdk:`Configuration <Structs/Realm/Configuration.html>` object that 
+must **not** contain a 
+:swift-sdk:`SyncConfiguration <Structs/Realm/Configuration.html#/s:10RealmSwift0A0V13ConfigurationV04syncC0AA04SyncC0VSgvp>` 
+object. The following example uses the
+:swift-sdk:`fileURL <Structs/Realm/Configuration.html#/s:10RealmSwift0A0V13ConfigurationV7fileURL10Foundation0E0VSgvp>`
+and
+:swift-sdk:`readOnly <Structs/Realm/Configuration.html#/s:10RealmSwift0A0V13ConfigurationV8readOnlySbvp>`
+properties to open a *readonly* local {+realm+} with a specific file location:
+
+.. code-block:: swift
+
+   let config = Realm.Configuration(
+      fileURL: Bundle.main.url(forResource: "MyBundledData", withExtension: "realm"),
+      readOnly: true)
+
+   // Open the Realm with the configuration
+   let realm = try! Realm(configuration: config)
+
+Close a Realm
+-------------
+There is no need to manually close a {+realm+} in Swift. When a {+realm+} goes out of 
+scope and is removed from memory due to 
+`ARC <https://docs.swift.org/swift-book/LanguageGuide/AutomaticReferenceCounting.html>`__,
+the {+realm+} is closed.
+
