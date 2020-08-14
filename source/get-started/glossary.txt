@@ -257,20 +257,40 @@ Glossary
 
    system function
       A :term:`{+service-short+} Function` that runs as the :term:`system user`.
-   
+
    system user
       A user that communicates directly with the :term:`linked cluster`
       and other services, bypassing collection :term:`{+service-short+} Rules` and
       :term:`Schema Validation`. This user bypasses most restrictions on
       the
       :ref:`CRUD & Aggregation APIs <mongodb-crud-and-aggregation-apis>`.
-   
+
    custom user data
       A mapped :term:`MongoDB document` that stores arbitrary
       information about a given {+service+} user. For example, you can store
       a user's preferred language, local timezone, or an ID for an
       external service.
-   
+
+   custom user data collection
+      The collection where {+service+} stores :term:`MongoDB documents
+      <MongoDB document>` corresponding to :term:`custom user data`.
+
+   custom user data database
+      The database that contains the :term:`custom user data collection`.
+
+   custom user data cluster
+      The :term:`linked MongoDB Atlas cluster <linked cluster>` that
+      that contains the :term:`custom user data database`.
+
+   user ID field
+      The field of :term:`MongoDB documents <MongoDB document>` in the
+      :term:`custom user data collection` whose value is a user ID that
+      maps custom user data documents to {+service+} users.
+
+   user ID
+      A unique BSON ObjectID that identifies a single user in a single
+      {+app+}.
+
    external dependencies
       One or more JavaScript modules from ``npm`` that you have uploaded
       to your :term:`{+app+}`. You can import and use external
