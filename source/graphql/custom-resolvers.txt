@@ -1,6 +1,6 @@
-=================================
-Define a Custom Query or Mutation
-=================================
+========================
+Define a Custom Resolver
+========================
 
 .. default-domain:: mongodb
 
@@ -13,62 +13,340 @@ Define a Custom Query or Mutation
 Overview
 --------
 
-You can define a custom query or mutation resolver to handle complex logic
-beyond the basic CRUD operations supported by :doc:`automatically generated
-queries and mutations <types-and-resolvers>`. Custom resolvers use a field name
-that you define, pass arguments from the query or mutation to a :doc:`function
-</functions>`, and return the result of the function back to the caller.
+You can define custom resolvers that extend the GraphQL API for your app's use
+cases. Custom resolvers allow you to define new root-level operations that are
+more complex or specific than the generated :ref:`query
+<graphql-query-resolvers>` and :ref:`mutation <graphql-mutation-resolvers>`
+resolvers. You can also add new computed fields to :ref:`generated document
+types <graphql-document-types>` that dynamically evaluate a result whenever an
+operation reads a document of the extended type.
 
 Procedure
 ---------
 
 .. include:: /includes/steps/custom-resolvers-ui.rst
 
-Example
--------
+Examples
+--------
 
-A custom query named ``verifyUserAge`` accepts a person's age and returns
-a boolean that is ``true`` if they're 18 years or older.
+Custom Query
+~~~~~~~~~~~~
+
+A custom resolver defines a root-level query operation that accepts a month and
+year as input parameters and returns a custom payload that includes aggregated
+sales data for that specific month:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 30 70
+
+   * - Option
+     - Description
+   
+   * - :guilabel:`Parent Type`
+     - ``Query``
+
+   * - :guilabel:`GraphQL Field Name`
+     - ``averageSaleForMonth``
+   
+   * - :guilabel:`Input Type`
+     - Custom Type: ``AverageSaleForMonthInput``
+       
+       .. code-block:: json
+          
+          {
+            "type": "object",
+            "title": "AverageSaleForMonthInput",
+            "required": ["month", "year"],
+            "properties": {
+              "month": {
+                "type": "string"
+              },
+              "year": {
+                "type": "string"
+              }
+            }
+          }
+
+   * - :guilabel:`Payload Type`
+     - Custom Type: ``AverageSaleForMonthPayload``
+       
+       .. code-block:: json
+          
+          {
+            "type": "object",
+            "title": "AverageSaleForMonthPayload",
+            "required": ["month", "year", "averageSale"],
+            "properties": {
+              "month": {
+                "type": "string"
+              },
+              "year": {
+                "type": "string"
+              },
+              "averageSale": {
+                "type": "decimal"
+              }
+            }
+          }
+
+   * - :guilabel:`Function`
+     - .. code-block:: javascript
+          
+          exports = async function averageSaleForMonth({ month, year }) {
+            const cluster = context.services.get("mongodb-atlas");
+            const sales = cluster.db("corp").collection("sales");
+          
+            const averageSalePayload = await sales
+              .aggregate([
+                { $match: { month: month, year: year } },
+                {
+                  $group: {
+                    _id: "$month",
+                    month: "$month",
+                    year: "$year",
+                    averageSale: { $avg: "$saleTotal" },
+                  },
+                },
+              ])
+              .next();
+            
+            return averageSalePayload;
+          };
+
+Realm generates schema definitions for the resolver's custom input and payload
+types and adds the resolver to its parent type, the root-level ``Query``:
 
 .. code-block:: graphql
    
-   query {
-     verifyUserAge(input: { age: 42 }) {
-       isOldEnough
-     }
+   input AverageSalesForMonthInput {
+     month: String!;
+     year: String!;
    }
-
-The query uses the following resolver function:
-
-.. code-block:: javascript
    
-   exports = function(input) {
-     return input.age >= 18;
+   type AverageSaleForMonthPayload {
+     month: String!;
+     year: String!;
+     averageSale: Float!;
+   }
+   
+   type Query {
+     averageSaleForMonth(input: AverageSaleForMonthInput): AverageSalesForMonthPayload
    }
 
-The custom query requires the caller to provide an ``age`` argument, so
-the resolver uses the following :guilabel:`Input Type`:
+To call this custom query, you could use the following operation and variables:
 
-.. code-block:: json
-          
-   {
-     "bsonType": "object",
-     "title": "VerifyUserAgeInput",
-     "required": ["age"],
-     "properties": {
-       "age": { "bsonType": "number" }
+.. code-block:: graphql
+   
+   query GetAverageSaleForMonth($averageSaleInput: AverageSaleForMonthInput!) {
+     averageSaleForMonth(input: $averageSaleInput) {
+       month
+       year
+       averageSale
      }
    }
 
-The query returns a single field, ``isOldEnough``, that contains a
-boolean, so the resolver uses the following :guilabel:`Payload Type`:
+.. code-block:: json
+   
+   {
+     "averageSaleInput": { month: "March", year: "2020" }
+   }
+
+Custom Mutation
+~~~~~~~~~~~~~~~
+
+A custom resolver defines a root-level mutation operation that adds a new note
+to a specific sale document, identified by its ``_id`` value:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 30 70
+
+   * - Option
+     - Description
+   
+   * - :guilabel:`Parent Type`
+     - ``Mutation``
+
+   * - :guilabel:`GraphQL Field Name`
+     - ``addNoteToSale``
+   
+   * - :guilabel:`Input Type`
+     - Custom Type: ``AddNoteToSaleInput``
+       
+       .. code-block:: json
+          
+          {
+            "type": "object",
+            "title": "AddNoteToSaleInput",
+            "required": ["sale_id", "note"],
+            "properties": {
+              "sale_id": {
+                "type": "objectId"
+              },
+              "note": {
+                "type": "string"
+              }
+            }
+          }
+
+   * - :guilabel:`Payload Type`
+     - Existing Type: ``Sale``
+       
+       .. code-block:: graphql
+          
+          type Sale {
+            _id: ObjectId
+            month: String
+            year: String
+            saleTotal: Float
+            notes: [String]
+          }
+   
+   * - :guilabel:`Function`
+     - .. code-block:: javascript
+          
+          exports = async function addNoteToSale({ sale_id, note }) {
+            const cluster = context.services.get("mongodb-atlas");
+            const sales = cluster.db("corp").collection("sales");
+            
+            const sale = await sales.findOneAndUpdate(
+              { _id: sale_id },
+              { $push: { notes: note } },
+              { returnNewDocument: true }
+            );
+            return sale;
+          }
+
+Realm generates schema definitions for the resolver's custom input type and adds
+the resolver to its parent type, the root-level ``Mutation``:
+
+.. code-block:: graphql
+   
+   
+   input AddNoteToSaleInput {
+     sale_id: ObjectId!;
+     note: String!;
+   }
+   
+   type Mutation {
+     addNoteToSale(input: AddNoteToSaleInput): Sale
+   }
+
+To call this custom query, you could use the following operation and variables:
+
+.. code-block:: graphql
+   
+   mutation AddNoteToSale($addNoteToSaleInput: AddNoteToSaleInput) {
+     addNoteToSale(input: $addNoteToSaleInput) {
+       month
+       year
+       averageSale
+     }
+   }
 
 .. code-block:: json
-     
+   
    {
-     "bsonType": "object",
-     "title": "VerifyUserAgePayload",
-     "properties": {
-       "isOldEnough": { "bsonType": "boolean" }
+     "addNoteToSaleInput": {
+       "sale_id": "5f3c2779796615b661fcdc25",
+       "note": "This was such a great sale!"
+     }
+   }
+
+Computed Properties
+~~~~~~~~~~~~~~~~~~~
+
+A custom resolver defines a computed property on the ``Task`` document type. The
+resolver does not accept any input and returns a custom payload that contains
+data about the task that the resolver fetches from an external API:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 30 70
+
+   * - Option
+     - Description
+   
+   * - :guilabel:`Parent Type`
+     - ``Task``
+
+   * - :guilabel:`GraphQL Field Name`
+     - ``supportReferences``
+   
+   * - :guilabel:`Input Type`
+     - None
+
+   * - :guilabel:`Payload Type`
+     - Custom Type: ``TaskSupportReferencesPayload``
+       
+       .. code-block:: json
+          
+          {
+            "type": "object",
+            "title": "TaskSupportReferencesPayload",
+            "required": ["references"],
+            "properties": {
+              "references": {
+                "type": "array",
+                "items": {
+                  "title": "SupportReference",
+                  "type": "object",
+                  "properties": {
+                    "name": { "type": "string" },
+                    "text": { "type": "string" }
+                  }
+                }
+              }
+            }
+          }
+
+   * - :guilabel:`Function`
+     - .. code-block:: javascript
+          
+          exports = async function taskSupportReferences(task) {
+            const cluster = context.services.get("mongodb-atlas");
+            const tasks = cluster.db("tracker").collection("tasks");
+            
+            // Return a list of objects from some external system
+            return await fetchSupportReferences({ task_id: task._id });
+          };
+
+Realm generates schema definitions for the resolver's custom input and payload
+types and adds the resolver to its parent type, ``Task``:
+
+.. code-block:: graphql
+   :emphasize-lines: 5
+   
+   type Task {
+     _id: ObjectId!
+     name: String!
+     status: String!
+     supportReferences: TaskSupportReferencesPayload
+   }
+   
+   type TaskSupportReferencesPayload {
+     references: [SupportReference]!
+   }
+   
+   type SupportReference {
+     name: String
+     text: String
+   }
+
+To use this custom computed property, you could run the following operation:
+
+.. code-block:: graphql
+   :emphasize-lines: 6-9
+   
+   query GetTasks {
+     tasks {
+       _id
+       name
+       status
+       supportReferences {
+         name
+         text
+       }
      }
    }

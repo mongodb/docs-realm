@@ -598,30 +598,6 @@ direction, either ``ASC`` or ``DESC``.
         title
       }
 
-.. _graphql-default-payload:
-
-Custom Resolver Default Payload
--------------------------------
-
-If a :doc:`custom query or mutation </graphql/custom-resolvers>` does
-not define a :guilabel:`Payload Type`, Realm returns a
-``DefaultPayload`` that has the following signature:
-
-.. code-block:: graphql
-   
-   type DefaultPayload {
-     status: String!
-   }
-
-The ``status`` field will always resolve to ``"complete"`` regardless of
-the resolver function's return value.
-
-.. code-block:: graphql
-   
-   {
-     status: "complete"
-   }
-
 .. _graphql-query-resolvers:
 
 Query Resolvers

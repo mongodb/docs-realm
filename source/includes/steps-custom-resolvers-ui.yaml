@@ -1,119 +1,359 @@
 title: Create a New Custom Resolver
 ref: create-a-new-custom-resolver
 content: |
-  In the {+ui+}, click :guilabel:`GraphQL` in the navigation sidebar
-  and then select the :guilabel:`Custom Resolvers` tab.
+  In the {+ui+}, click :guilabel:`GraphQL` in the navigation sidebar and then
+  select the :guilabel:`Custom Resolvers` tab.
   
-  Click the :guilabel:`Add a Custom Resolver` button to open the
-  configuration screen for a new custom resolver.
+  Click the :guilabel:`Add a Custom Resolver` button to open the configuration
+  screen for a new custom resolver.
   
   .. cssclass:: bordered-figure
   .. figure:: /images/graphql-add-a-custom-resolver.png
      :alt: The custom resolvers screen in the {+ui+}
      :width: 750px
 ---
-title: Define the Resolver Name and Type
-ref: define-the-resolver-name-and-type
+title: Define the Resolver Field Name
+ref: define-the-resolver-field-name
 content: |
-  On the configuration screen, enter a name and type for the custom
-  resolver.
-  
-  The :guilabel:`GraphQL Field Name` is the name of the field that calls
-  the custom resolver and the :guilabel:`Parent Type` determines if the
-  resolver is a query or a mutation.
+  Specify a descriptive name for the resolver in the :guilabel:`GraphQL Field
+  Name` input. Realm exposes the custom resolver in its parent type using this
+  name, so the name should describe what the resolver does in a way that is
+  useful to developers who work with the GraphQL API.
   
   .. cssclass:: bordered-figure
-  .. figure:: /images/graphql-custom-resolver-name-type.png
-     :alt: The name and type configuration inputs of a custom query
-     :width: 750px
+  .. figure:: /images/custom-resolver-graphql-field-name.png
+     :alt: The GraphQL Field Name input in the {+ui+}
 ---
-title: Define Input and Payload Types
-ref: define-input-and-payload-types
+title: Define the Parent Type
+ref: define-the-parent-type
 content: |
-  GraphQL is strongly typed, so if your custom query or mutation accepts
-  an argument or returns a value you must define a :doc:`JSON schema
-  </mongodb/document-schemas>` for the corresponding :guilabel:`Input
-  Type` or :guilabel:`Payload Type`. Input and payload type schemas must
-  be :ref:`objects <schema-type-objects>` that include a ``title``
-  field and at least one property.
-
-  The :guilabel:`Input Type` corresponds to the ``input`` parameter of
-  the custom query or mutation. If you don't specify an input type, the
-  custom resolver does not accept any arguments.
-
-  The :guilabel:`Payload Type` corresponds to the object returned by the
-  custom query or mutation. If you don't specify a payload type, the
-  custom resolver returns a :ref:`DefaultPayload
-  <graphql-default-payload>` that always resolves to the object
-  ``{status: "complete" }`` regardless of the resolver function's return
-  value.
+  Realm exposes every custom resolver as a field on a parent type. The parent
+  type can be a root-level :ref:`query <graphql-query-resolvers>`,
+  :ref:`mutation <graphql-mutation-resolvers>`, or a :ref:`generated document
+  type <graphql-document-types>`.
   
-  .. example::
+  In the :guilabel:`Parent Type` dropdown, select one of the following options:
   
-     {+service+} uses the input and payload type JSON schemas to define
-     GraphQL types for your resolver. For example, the following JSON
-     schema and GraphQL type are equivalent:
-     
-     .. list-table::
-        :stub-columns: 1
-        :widths: 20 80
+  .. list-table::
+     :header-rows: 1
+     :widths: 20 80
+  
+     * - Option
+       - Description
 
-        * - JSON Schema
-          - .. code-block:: json
+     * - :guilabel:`Query`
+       - The resolver is a root-level ``query`` operation:
+         
+         .. example::
+            
+            A custom resolver for a query named ``myCustomQuery`` has the
+            following generated schema:
+            
+            .. code-block:: graphql
                
-               {
-                 "bsonType": "object",
-                 "title": "FlightStatusPayload",
-                 "required": [
-                    "flightNumber",
-                    "originAirport",
-                    "destinationAirport",
-                    "scheduledDeparture",
-                    "scheduledArrival"
-                 ],
-                 "properties": {
-                   "flightNumber": { "bsonType": "string" },
-                   "originAirport": { "bsonType": "string" },
-                   "destinationAirport": { "bsonType": "string" },
-                   "scheduledDeparture": { "bsonType": "date" },
-                   "scheduledArrival": { "bsonType": "date" },
-                   "isDelayed": { "bsonType": "boolean" },
-                 }
+               type Query {
+                 myCustomQuery: DefaultPayload
+                 ...
                }
-        
-        * - GraphQL Type
-          - .. code-block:: graphql
+
+     * - :guilabel:`Mutation`
+       - The resolver is a root-level ``mutation`` operation:
+         
+         .. example::
+            
+            A custom resolver for a mutation named ``myCustomMutation`` has the
+            following generated schema:
+            
+            .. code-block:: graphql
                
-               type FlightStatusPayload {
-                 flightNumber: String!
-                 originAirport: String!
-                 destinationAirport: String!
-                 scheduledDeparture: DateTime!
-                 scheduledArrival: DateTime!
-                 isDelayed: Boolean
+               type Mutation {
+                 myCustomMutation: DefaultPayload
+                 ...
+               }
+
+     * - :guilabel:`Document Type`
+       - The resolver is a computed property on the specified document type.
+         Any query or mutation that returns the document type can also ask for
+         computed properties defined by custom resolvers on the type.
+         
+         .. example::
+            
+            A custom resolver that defines a computed property on the ``Task``
+            type named ``myCustomTaskProperty`` has the following generated
+            schema:
+
+            .. code-block:: graphql
+               
+               type Task {
+                 myCustomTaskProperty: DefaultPayload
+                 ...
+               }
+---
+title: Define the Input Type
+ref: define-the-input-type
+content: |
+  A custom resolver can accept input parameters from the incoming query or
+  mutation. You can use an existing :ref:`generated input type
+  <graphql-input-types>` or define a new custom input type specifically for the
+  resolver.
+  
+  If you specify an input type, Realm exposes the ``input`` parameter in the
+  custom resolver's generated GraphQL schema definition as an optional parameter
+  that accepts the specified input type. If you don't specify an input type, the
+  custom resolver does not accept any arguments.
+  
+  In the :guilabel:`Input Type` dropdown, select one of the following options:
+  
+  .. list-table::
+     :header-rows: 1
+     :widths: 20 80
+  
+     * - Option
+       - Description
+
+     * - :guilabel:`None`
+       - The resolver does not accept any input.
+         
+         .. cssclass:: bordered-figure
+         .. figure:: /images/custom-resolver-input-type-none.png
+            :alt: A custom resolver configuration that does not accept any input parameters.
+         
+         .. example::
+            
+            A custom resolver named ``myCustomQuery`` that does not accept an
+            input has the following generated schema:
+            
+            .. code-block:: graphql
+               
+               type Query {
+                 myCustomQuery: DefaultPayload
+                 ...
+               }
+
+     * - :guilabel:`Existing Type`
+       - The resolver uses an existing :ref:`input type <graphql-input-types>`
+         from the generated GraphQL schema.
+
+         In the second dropdown input, select either a single input object or an
+         array of multiple input objects of the same type.
+         
+         .. cssclass:: bordered-figure
+         .. figure:: /images/custom-resolver-input-type-existing.png
+            :alt: A custom resolver configuration that specifies an existing input type.
+         
+         .. example::
+            
+            A custom resolver named ``myCustomQuery`` that uses the
+            :guilabel:`Existing Type` option to specify an input type of
+            ``TaskInsertInput`` has the following generated schema:
+            
+            .. code-block:: graphql
+               
+               type Query {
+                 myCustomQuery(input: TaskInsertInput): DefaultPayload
+                 ...
+               }
+
+     * - :guilabel:`Custom Type`
+       - Realm generates a new input type specifically for the resolver based on
+         a :ref:`JSON schema <mongodb-schemas>` that you define. The schema
+         must be an ``object`` that contains at least one property and a
+         ``title`` field that defines a unique name for the generated input
+         type.
+         
+         .. cssclass:: bordered-figure
+         .. figure:: /images/custom-resolver-input-type-custom.png
+            :alt: A custom resolver configuration for a custom input type.
+         
+         .. example::
+            
+            A custom resolver named ``myCustomQuery`` that uses the
+            :guilabel:`Custom Type` option with an input type named
+            ``MyCustomQueryInput`` has the following generated schema:
+            
+            .. code-block:: graphql
+               
+               input MyCustomQueryInput {
+                 someArgument: String;
+               }
+               type Query {
+                 myCustomQuery(input: MyCustomQueryInput): DefaultPayload
+                 ...
+               }
+---
+title: Define the Payload Type
+ref: define-the-payload-type
+content: |
+  All GraphQL resolvers must return a payload that conforms to a specific type
+  in the schema. For a custom resolver, you can use an existing :ref:`generated
+  document type <graphql-document-types>`, define a new custom payload type
+  specifically for the resolver, or use a default payload. Realm includes the
+  specified payload type in the custom resolver's generated GraphQL schema
+  definition.
+  
+  In the :guilabel:`Payload Type` dropdown, select one of the following options:
+  
+  .. list-table::
+     :header-rows: 1
+     :widths: 20 80
+  
+     * - Option
+       - Description
+
+     * - :guilabel:`DefaultPayload`
+       - The resolver returns the automatically generated ``DefaultPayload``
+         type which has the following signature:
+         
+         .. code-block:: graphql
+            
+            type DefaultPayload {
+              status: String!
+            }
+            
+         The ``status`` field will always resolve to ``"complete"`` regardless
+         of the resolver function's return value.
+         
+         .. code-block:: graphql
+            
+            {
+              status: "complete"
+            }
+         
+         .. cssclass:: bordered-figure
+         .. figure:: /images/custom-resolver-payload-type-default.png
+            :alt: A custom resolver configuration that uses the default payload type.
+         
+         .. example::
+            
+            A custom resolver named ``myCustomQuery`` that uses the
+            :guilabel:`DefaultPayload` option has the following generated
+            schema:
+            
+            .. code-block:: graphql
+               
+               type Query {
+                 myCustomQuery: DefaultPayload
+                 ...
+               }
+
+     * - :guilabel:`Existing Type`
+       - The resolver returns an existing :ref:`document type
+         <graphql-document-types>` from the generated GraphQL schema.
+         
+         In the second dropdown input, select either a single document type or an
+         array of multiple documents of the same type.
+         
+         .. cssclass:: bordered-figure
+         .. figure:: /images/custom-resolver-payload-type-existing.png
+            :alt: A custom resolver configuration that specifies an existing document payload type.
+         
+         .. example::
+            
+            A custom resolver named ``myCustomQuery`` that uses the
+            :guilabel:`Existing Type` option to specify an input type of
+            ``TaskInsertInput`` has the following generated schema:
+            
+            A custom resolver named ``myCustomQuery`` that uses the
+            :guilabel:`Existing Type` option to specify a payload type of
+            ``[Task]`` has the following generated schema:
+            
+            .. code-block:: graphql
+               
+               type Query {
+                 myCustomQuery: [Task]
+                 ...
+               }
+
+     * - :guilabel:`Custom Type`
+       - Realm generates a new payload type specifically for the resolver based
+         on a :ref:`JSON schema <mongodb-schemas>` that you define. The schema
+         must be an ``object`` that contains at least one property and a
+         ``title`` field that defines a unique name for the generated input
+         type.
+         
+         .. cssclass:: bordered-figure
+         .. figure:: /images/custom-resolver-payload-type-custom.png
+            :alt: A custom resolver configuration that defines a new custom payload type.
+         
+         .. example::
+            
+            A custom resolver named ``myCustomQuery`` that uses the
+            :guilabel:`Custom Type` option with a payload type named
+            ``MyCustomQueryPayload`` has the following generated schema:
+            
+            .. code-block:: graphql
+               
+               input MyCustomQueryPayload {
+                 someValue: String;
+               }
+               type Query {
+                 myCustomQuery: MyCustomQueryPayload
+                 ...
                }
 ---
 title: Define the Resolver Function
 ref: define-the-resolver-function
 content: |
-  When a user calls a custom query or mutation, {+backend+} executes the
-  resolver function and returns the result, which must conform to the
-  :guilabel:`Payload Type` if you defined it. If you defined an
-  :guilabel:`Input Type`, {+backend+} passes the provided ``input`` argument
-  to the resolver function.
+  When a user calls a custom resolver {+backend-short+} executes the resolver
+  function and returns the result, which must conform to the resolver's
+  :guilabel:`Payload Type`.
   
-  To configure the resolver function, click the :guilabel:`Function`
-  dropdown and either select an existing function or create a new one.
+  Realm passes the function any input data from the operation, if applicable. If
+  the resolver is a computed property on a document type, {+backend-short+}
+  passes the function the specific document that the resolver was called on.
+  
+  A custom resolver function has one of two possible signatures, depending on
+  whether or not it accepts an input:
+  
+  .. tabs::
+     
+     .. tab:: Input
+        :tabid: yes-input-type
+
+        .. code-block:: javascript
+           
+           exports = function myCustomResolver(input, source) {
+             // The `input` parameter that contains any input data provided to the resolver.
+             // The type and shape of this object matches the resolver's input type.
+             const { someArgument } = input;
+             
+             // If the resolver is a computed property, `source` is the parent document.
+             // Otherwise `source` is undefined.
+             const { _id, name } = source;
+             
+             // The return value must conform to the resolver's configured payload type
+             return {
+               "someValue": "abc123",
+             };
+           }
+     
+     .. tab:: No Input
+        :tabid: no-input-type
+        
+        .. code-block:: javascript
+           
+           exports = function myCustomResolver(source) {
+             // If the resolver is a computed property, `source` is the parent document.
+             // Otherwise `source` is undefined.
+             const { _id, name } = parent;
+             
+             // The return value must conform to the resolver's configured payload type
+             return {
+               "someValue": "abc123",
+             };
+           }
+  
+  To define the resolver function, click the :guilabel:`Function` dropdown
+  and either select an existing function or create a new one.
   
   .. cssclass:: bordered-figure
-  .. figure:: /images/graphql-custom-resolver-function.png
-     :alt: The resolver function dropdown
-     :width: 750px
+  .. figure:: /images/custom-resolver-function.png
+     :alt: A custom resolver configured to use the `myCustomResolver` function
 ---
 title: Save and Deploy the Resolver
 ref: save-and-deploy-the-resolver
 content: |
   Once you have configured the resolver, click :guilabel:`Save` and then
-  :doc:`deploy </deploy>` your application. Once deployed, you can call
-  the custom resolver through the GraphQL API.
+  :doc:`deploy </deploy>` your application. Once deployed, you can call the
+  custom resolver through the GraphQL API.
 ...
