@@ -1,0 +1,227 @@
+.. _react-native-embedded-objects:
+
+================
+Embedded Objects
+================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+An embedded object is a special type of :ref:`Realm object <react-native-realm-objects>`
+that models complex data about a specific object. Embedded objects are similar
+to :ref:`relationships <react-native-client-relationships>`, but they provide additional
+constraints and map more naturally to the denormalized :manual:`MongoDB document
+model </core/data-modeling-introduction/>`.
+
+Realm enforces unique ownership constraints that treat each embedded object as
+nested data inside of a single, specific parent object. An embedded object
+inherits the lifecycle of its parent object and cannot exist as an independent
+Realm object. Realm automatically deletes embedded objects if their parent
+object is deleted or if they are overwritten by a new embedded object.
+
+Embedded Object Data Models
+---------------------------
+
+You can define embedded object types using either Realm object models or a
+server-side document schema. Embedded object types are reusable and composable.
+You can use the same embedded object type in multiple parent object types and
+you can embed objects inside of other embedded objects. You can even recursively
+reference an embedded object type as an optional property in its own definition.
+
+.. important::
+   
+   Embedded objects cannot have a primary key.
+
+Realm Object Models
+~~~~~~~~~~~~~~~~~~~
+
+To specify that a Realm object model define an embedded object, set ``embedded``
+to ``true``. You can reference an embedded object type from parent object types
+in the same way as you would define a relationship:
+
+.. code-block:: javascript
+   :emphasize-lines: 3, 18, 28
+
+   const AddressSchema = {
+     name: "Address",
+     embedded: true, // default: false
+     properties: {
+       street: "string?",
+       city: "string?",
+       country: "string?",
+       postalCode: "string?",
+     },
+   };
+   
+   const ContactSchema = {
+     name: "Contact",
+     primaryKey: "_id",
+     properties: {
+       _id: "objectId",
+       name: "string",
+       address: "Address", // Embed a single object
+     },
+   };
+   
+   const BusinessSchema = {
+     name: "Business",
+     primaryKey: "_id",
+     properties: {
+       _id: "objectId",
+       name: "string",
+       addresses: { type: "list", objectType: "Address" }, // Embed an array of objects
+     },
+   };
+
+JSON Schema
+~~~~~~~~~~~
+
+Unlike regular Realm objects, which map to their own MongoDB collection,
+embedded objects map to embedded documents in the parent type's :ref:`document
+schema <mongodb-document-schemas>`:
+
+.. code-block:: json
+   :emphasize-lines: 8-17
+
+   {
+     "title": "Contact",
+     "bsonType": "object",
+     "required": ["_id", "name", "address"],
+     "properties": {
+       "_id": "objectId",
+       "name": "string",
+       "address": {
+         "title": "Address",
+         "bsonType": "object",
+         "properties": {
+           "street": "string",
+           "city": "string",
+           "country": "string",
+           "postalCode": "string"
+         }
+       }
+     }
+   }
+
+.. code-block:: json
+   :emphasize-lines: 8-20
+
+   {
+     "title": "Business",
+     "bsonType": "object",
+     "required": ["_id", "name", "addresses"],
+     "properties": {
+       "_id": "objectId",
+       "name": "string",
+       "addresses": {
+         "bsonType": "array",
+         "items": {
+           "title": "Address",
+           "bsonType": "object",
+           "properties": {
+             "street": "string",
+             "city": "string",
+             "country": "string",
+             "postalCode": "string"
+           }
+         }
+       }
+     }
+   }
+
+Read and Write Embedded Objects
+-------------------------------
+
+Create an Embedded Object
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To create an embedded object, specify it as a nested object when you define the
+parent object:
+
+.. code-block:: javascript
+   :emphasize-lines: 5-8
+
+   realm.write(() => {
+     realm.create("Contact", {
+       _id: new BSON.ObjectId(),
+       name: "Freddy Krueger",
+       address: {
+         street: "Elm Street",
+         city: "Springwood",
+       },
+     });
+   });
+
+Update an Embedded Object Property
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To update a property in an embedded object, modify the property in a write
+transaction using dot-notation:
+
+.. code-block:: javascript
+   :emphasize-lines: 3, 6-7
+
+   realm.write(() => {
+     const contact = realm.objectForPrimaryKey("Contact", "5f0f302824ec9735fe19ecf8");
+     contact.address.city = "New York City";
+     
+     const business = realm.objectForPrimaryKey("Business", "5f345ceaafbcc6c8e91bf2c3");
+     business.addresses.push({ city: "New York City", street: "1 Wall Street" });
+     business.addresses[0].city = "Boston";
+   });
+
+Overwrite an Embedded Object
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To overwrite an embedded object, set the value of the embedded object property
+to a new object in a write transaction:
+
+.. code-block:: javascript
+   :emphasize-lines: 3, 7, 9-12
+
+   realm.write(() => {
+     const contact = realm.objectForPrimaryKey("Contact", "5f0f302824ec9735fe19ecf8");
+     contact.address = { city: "Chicago", street: "1800 N Clark Street" };
+     
+     const business = realm.objectForPrimaryKey("Business", "5f345ceaafbcc6c8e91bf2c3");
+     // Overwrite a specific object in the list
+     business.addresses[0] = { city: "Chicago", street: "2100 N Clark Street" };
+     // Overwrite the entire list
+     business.addresses = [
+       { city: "Chicago", street: "2100 N Clark Street" },
+       { city: "Indianapolis", street: "123 W Washington Street" },
+     ]
+   });
+
+Query a Collection on Embedded Object Properties
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Use dot-notation to filter or sort a :ref:`collection <react-native-client-collections>`
+of objects based on an embedded object property value:
+
+.. code-block:: javascript
+
+   const nycContacts = realm.objects("Contact")
+     .filtered("address.city = 'New York City'")
+     .sorted("address.street");
+
+Query an Embedded Object Type Directly
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Embedded object types are reusable across different parent object types and you
+may want to access a collection of all instances of an embedded object type
+regardless of their parent object type. In this case, you can access a
+collection of embedded objects of the same type as if they were regular Realm
+Objects:
+
+.. code-block:: javascript
+
+   const nycAddresses = realm.objects("Address").filtered("city = 'New York City'");
