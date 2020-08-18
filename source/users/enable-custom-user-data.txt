@@ -42,11 +42,56 @@ documents, such as storing the time of their most recent login in the
    :class: important
 
    Documents that contain user data must include the user's ID in a
-   specific field. If multiple documents specify the same user's ID,
-   {+service+} only exposes the data from the document that was inserted
-   first.
+   :term:`specific field <user ID field>`. If multiple documents specify
+   the same user's ID, {+service+} only exposes the data from the
+   document that was inserted first.
 
 .. include:: /includes/custom-data-may-be-stale.rst
+
+Configuration
+-------------
+
+{+service+} stores MongoDB documents that correspond to custom user data
+in a :term:`linked MongoDB Atlas cluster <linked cluster>`. When you
+configure custom user data for your application, you specify:
+
+- the :term:`custom user data cluster`
+
+- the :term:`custom user data database`
+
+- the :term:`custom user data collection` in which custom
+  user data documents are stored
+
+- the :term:`user ID field` used to map custom user data documents
+  to users (via :term:`user ID`)
+
+.. _custom-user-data-permissions:
+
+Configure Permissions for Custom User Data
+------------------------------------------
+
+Because custom user data belongs to a specific user, it could contain
+personal or private information depending on the needs of your
+application. If your application stores such information in custom user
+data, you should restrict access to custom user data appropriately.
+While the permissioning model of your custom user data depends on the
+needs of your application, consider using one of the following permission
+models to restrict read and write access to privileged users only: 
+
+- Make your custom user data readable and writable by only the user
+  whose ID matches the :term:`user ID field` of each custom user data
+  document. In this permissioning model, the user writes custom user
+  data using :ref:`MongoDB Data Access <mongodb-data-access>` or
+  :ref:`Sync <sync>`.
+
+- Make your custom user data readable and writable by only a
+  :term:`system user <system user>` in a :term:`system function`. Create
+  a system function that handles edits to custom user data for a user
+  using the ``user.id`` value provided by the :ref:`function context
+  <context-user>`. In this permissioning model, the user writes custom
+  user data using the :ref:`Functions API <functions>`.
+
+.. _enable-custom-user-data-procedure:
 
 Procedure
 ---------
@@ -66,18 +111,31 @@ Procedure
 
 Access Custom User Data from a Client Application
 -------------------------------------------------
-.. tabs-realm-languages::
+.. tabs-realm-sdks::
    
    .. tab::
-      :tabid: javascript
+      :tabid: node
       
       .. admonition:: Access Custom User Data
          :class: tip
 
          Learn how to :ref:`access Custom User Data from a Node
-         application<node-access-custom-user-data>`.
+         application <node-access-custom-user-data>`.
 
-         or
+   .. tab::
+      :tabid: react-native
+      
+      .. admonition:: Access Custom User Data
+         :class: tip
 
          Learn how to :ref:`access Custom User Data from a React Native
-         application<react-native-access-custom-user-data>`.
+         application <react-native-access-custom-user-data>`.
+
+   .. tab::
+      :tabid: android
+
+      .. admonition:: Access Custom User Data
+         :class: tip
+
+         Learn how to :ref:`access Custom User Data from an Android
+         application <android-access-custom-user-data>`.

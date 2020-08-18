@@ -1,4 +1,4 @@
 .. note::
 
-   To use custom user data, you must :doc:`Enable Custom User Data
-   </users/enable-custom-user-data>`.
+   To use custom user data, you must :ref:`Enable Custom User Data
+   <enable-custom-user-data-procedure>`.
