@@ -44,8 +44,9 @@ tab of the :guilabel:`Users` left sidebar entry of the {+ui+}.
 
 You can update custom user data using :ref:`MongoDB Data Access
 <android-mongodb-data-access>`, {+service-short+} :ref:`Sync
-<android-sync-data>`, `<https://docs.mongodb.com/compass>`__, or the
-:atlas:`MongoDB Atlas Data Explorer </data-explorer/>`.
+<android-sync-data>`, `MongoDB Compass
+<https://docs.mongodb.com/compass>`__, or the :atlas:`MongoDB Atlas Data
+Explorer </data-explorer/>`.
 
 .. _android-create-custom-user-data:
 
@@ -65,7 +66,7 @@ document containing the user ID of the currently logged in user and a
       :tabid: kotlin
       
       .. code-block:: kotlin
-         :emphasize-lines: 14-24
+         :emphasize-lines: 13-28
          
          Realm.init(this) // context, usually an Activity or Application
          val appID = "<your app ID>" // replace this with your App ID
@@ -78,17 +79,22 @@ document containing the user ID of the currently logged in user and a
          app.loginAsync(anonymousCredentials) {
             if (it.isSuccess) {
                 user = app.currentUser()
-                
-                val mongoClient : MongoClient = user.getMongoClient(<mongodb service name for custom user data cluster>)!!
-                val mongoDatabase : MongoDatabase = mongoClient.getDatabase(<custom user data database>)!!
-                val mongoCollection : MongoCollection<Document> = mongoDatabase.getCollection(<custom user data cluster>)!!
 
-                mongoCollection.insertOne(Document(<user ID field>, user.id).append("favoriteColor", "pink")).getAsync() {
-                    if (it.isSuccess) {
-                        Log.v("EXAMPLE", "Inserted custom user data document. _id of inserted document: ${it.get().insertedId}")
-                    } else {
-                        Log.e("EXAMPLE", "Unable to insert custom user data. Error: ${it.error}")
-                    }
+                val mongoClient : MongoClient =
+                    user.getMongoClient("<mongodb service name for custom user data cluster>")!!
+                val mongoDatabase : MongoDatabase =
+                    mongoClient.getDatabase("<custom user data database>")!!
+                val mongoCollection : MongoCollection<Document> =
+                    mongoDatabase.getCollection("<custom user data cluster>")!!
+
+                mongoCollection.insertOne(
+                    Document("<user ID field>", user.id).append("favoriteColor", "pink"))
+                    .getAsync() {
+                        if (it.isSuccess) {
+                            Log.v("EXAMPLE", "Inserted custom user data document. _id of inserted document: ${it.get().insertedId}")
+                        } else {
+                            Log.e("EXAMPLE", "Unable to insert custom user data. Error: ${it.error}")
+                        }
                 }
             } else {
                 Log.e("EXAMPLE", "Failed to log in anonymously: ${it.error}")
@@ -99,7 +105,7 @@ document containing the user ID of the currently logged in user and a
       :tabid: java
 
       .. code-block:: java
-         :emphasize-lines: 12-24
+         :emphasize-lines: 12-28
 
          Realm.init(this); // context, usually an Activity or Application
          String appID = "<your app ID>"; // replace this with your App ID
@@ -112,18 +118,22 @@ document containing the user ID of the currently logged in user and a
             if (it.isSuccess()) {
                 User user = app.currentUser();
 
-                MongoClient mongoClient = user.getMongoClient(<mongodb service name for custom user data cluster>);
-                MongoDatabase mongoDatabase = mongoClient.getDatabase(<custom user data database>);
-                MongoCollection<Document> mongoCollection = mongoDatabase.getCollection(<custom user data cluster>);
+                MongoClient mongoClient =
+                    user.getMongoClient("<mongodb service name for custom user data cluster>");
+                MongoDatabase mongoDatabase =
+                    mongoClient.getDatabase("<custom user data database>");
+                MongoCollection<Document> mongoCollection =
+                    mongoDatabase.getCollection("<custom user data cluster>");
 
-                mongoCollection.insertOne(new Document(<user ID field>, user.getId()).append("favoriteColor", "pink"))
-                        .getAsync(result -> {
-                    if (result.isSuccess()) {
-                        Log.v("EXAMPLE", "Inserted custom user data document. _id of inserted document: "
-                            + it.get().getId());
-                    } else {
-                        Log.e("EXAMPLE", "Unable to insert custom user data. Error: " + it.getError());
-                    }
+                mongoCollection.insertOne(
+                    new Document("<user ID field>", user.getId()).append("favoriteColor", "pink"))
+                    .getAsync(result -> {
+                        if (result.isSuccess()) {
+                            Log.v("EXAMPLE", "Inserted custom user data document. _id of inserted document: "
+                                + it.get().getId());
+                        } else {
+                            Log.e("EXAMPLE", "Unable to insert custom user data. Error: " + it.getError());
+                        }
                 });
             } else {
                 Log.e("EXAMPLE", "Failed to log in anonymously:" + it.getError().toString())
@@ -153,7 +163,7 @@ the currently logged in user in the custom user data collection:
       :tabid: kotlin
       
       .. code-block:: kotlin
-         :emphasize-lines: 14-28
+         :emphasize-lines: 13-32
          
          Realm.init(this) // context, usually an Activity or Application
          val appID = "<your app ID>" // replace this with your App ID
@@ -166,21 +176,26 @@ the currently logged in user in the custom user data collection:
          app.loginAsync(anonymousCredentials) {
             if (it.isSuccess) {
                 user = app.currentUser()
-                
-                val mongoClient : MongoClient = user.getMongoClient(<mongodb service name for custom user data cluster>)!!
-                val mongoDatabase : MongoDatabase = mongoClient.getDatabase(<custom user data database>)!!
-                val mongoCollection : MongoCollection<Document> = mongoDatabase.getCollection(<custom user data cluster>)!!
 
-                mongoCollection.updateOne(Document(<user ID field>, user.id), Document("favoriteColor", "cerulean")).getAsync() {
-                    if (it.isSuccess) {
-                        if (it.get().modifiedCount == 1L) {
-                            Log.v("EXAMPLE", "Updated custom user data document.")
+                val mongoClient : MongoClient =
+                    user.getMongoClient("<mongodb service name for custom user data cluster>")!!
+                val mongoDatabase : MongoDatabase =
+                    mongoClient.getDatabase("<custom user data database>")!!
+                val mongoCollection : MongoCollection<Document> =
+                    mongoDatabase.getCollection("<custom user data cluster>")!!
+
+                mongoCollection.updateOne(
+                    Document("<user ID field>", user.id), Document("favoriteColor", "cerulean"))
+                    .getAsync() {
+                        if (it.isSuccess) {
+                            if (it.get().modifiedCount == 1L) {
+                                Log.v("EXAMPLE", "Updated custom user data document.")
+                            } else {
+                                Log.v("EXAMPLE", "Could not find custom user data document to update.")
+                            }
                         } else {
-                            Log.v("EXAMPLE", "Could not find custom user data document to update.")
+                            Log.e("EXAMPLE", "Unable to update custom user data. Error: ${it.error}")
                         }
-                    } else {
-                        Log.e("EXAMPLE", "Unable to update custom user data. Error: ${it.error}")
-                    }
                 }
             } else {
                 Log.e("EXAMPLE", "Failed to log in anonymously: ${it.error}")
@@ -191,7 +206,7 @@ the currently logged in user in the custom user data collection:
       :tabid: java
 
       .. code-block:: java
-         :emphasize-lines: 12-27
+         :emphasize-lines: 12-31
 
          Realm.init(this); // context, usually an Activity or Application
          String appID = "<your app ID>"; // replace this with your App ID
@@ -204,21 +219,25 @@ the currently logged in user in the custom user data collection:
             if (it.isSuccess()) {
                 User user = app.currentUser();
 
-                MongoClient mongoClient = user.getMongoClient(<mongodb service name for custom user data cluster>);
-                MongoDatabase mongoDatabase = mongoClient.getDatabase(<custom user data database>);
-                MongoCollection<Document> mongoCollection = mongoDatabase.getCollection(<custom user data cluster>);
+                MongoClient mongoClient =
+                    user.getMongoClient("<mongodb service name for custom user data cluster>");
+                MongoDatabase mongoDatabase =
+                    mongoClient.getDatabase("<custom user data database>");
+                MongoCollection<Document> mongoCollection =
+                    mongoDatabase.getCollection("<custom user data cluster>");
 
-                mongoCollection.updateOne(new Document(<user ID field>, user.getId()), new Document("favoriteColor", "cerulean"))
-                        .getAsync(result -> {
-                    if (result.isSuccess()) {
-                        if (result.get().getModifiedCount() == 1L) {
-                            Log.v("EXAMPLE", "Updated custom user data document.");
+                mongoCollection.updateOne(
+                    new Document("<user ID field>", user.getId()), new Document("favoriteColor", "cerulean"))
+                    .getAsync(result -> {
+                        if (result.isSuccess()) {
+                            if (result.get().getModifiedCount() == 1L) {
+                                Log.v("EXAMPLE", "Updated custom user data document.");
+                            } else {
+                                Log.v("EXAMPLE", "Could not find custom user data document to update.");
+                            }
                         } else {
-                            Log.v("EXAMPLE", "Could not find custom user data document to update.");
+                            Log.e("EXAMPLE", "Unable to update custom user data. Error: " + result.getError().toString());
                         }
-                    } else {
-                        Log.e("EXAMPLE", "Unable to update custom user data. Error: " + result.getError().toString());
-                    }
                 });
             } else {
                 Log.e("EXAMPLE", "Failed to log in anonymously:" + it.getError().toString())
