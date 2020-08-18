@@ -38,6 +38,7 @@ extensions = [
     'tab-content',
     'realm-builders',
     'icon',
+    'guides'
 ]
 
 templates_path = ['.templates']
