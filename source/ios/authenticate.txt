@@ -16,12 +16,12 @@ Overview
 --------
 
 {+service+} provides an API for authenticating users using any enabled
-authentication provider. Instantiate a ``AppCredentials`` object and pass
+authentication provider. Instantiate a ``Credentials`` object and pass
 it to the  ``app.login()`` method to authenticate a user and create a ``User`` 
 object. Each authentication provider corresponds to a method used to
-instantiate ``AppCredentials`` objects using that authentication provider.
+instantiate ``Credentials`` objects using that authentication provider.
 See the table below to find the method that instantiates the
-``AppCredentials`` instance for your authentication provider:
+``Credentials`` instance for your authentication provider:
 
 .. list-table::
    :header-rows: 1
@@ -34,25 +34,25 @@ See the table below to find the method that instantiates the
      - ``Credentials.anonymous()``
 
    * - :ref:`Email/Password <ios-login-email-password>`
-     - ``Credentials.emailPassword(String email, String password)``
+     - ``Credentials(username: String, password: String)``
 
    * - :ref:`API Key <ios-login-api-key>`
-     - ``Credentials.apiKey(String key)``
+     - ``Credentials(userAPIKey: String)``
 
    * - :ref:`Custom Function <ios-login-custom-function>`
-     - ``Credentials.customFunction(String functionName, Object... arguments)``
+     - ``Credentials(functionPayload: [AnyHashable : Any], error: NSErrorPointer)``
 
    * - :ref:`Custom JWT <ios-login-custom-jwt>`
-     - ``Credentials.jwt(String jwtToken)``
+     - ``Credentials(jwt: String)``
 
    * - :ref:`Google OAuth <ios-login-google>`
-     - ``Credentials.google(String googleToken)``
+     - ``Credentials(googleToken: String)``
 
    * - :ref:`Facebook OAuth <ios-login-facebook>`
-     - ``Credentials.facebook(String accessToken)``
+     - ``Credentials(facebookToken: String)``
    
    * - :ref:`Sign-in With Apple <ios-login-apple>`
-     - ``Credentials.apple(String idToken)``
+     - ``Credentials(appleToken: String)``
 
 
 Before you can authenticate a user, ensure you have:
