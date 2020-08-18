@@ -29,7 +29,12 @@ authenticated user's ``configuration`` method:
 
 .. code-block:: swift
 
-   realm = try! Realm(configuration: user.configuration(partitionValue: partitionValue))
+   let app = App(id: "myRealmAppId")
+   // ... log in ...
+   let user = app.currentUser()!
+   let partitionValue = "myProject"
+   let realm = try! Realm(configuration: user.configuration(partitionValue: partitionValue))
+
 
 If it is the first time opening that particular {+realm+}, especially if it is a read-only
 realm, use the ``Realm.asyncOpen()`` method instead.
@@ -46,7 +51,9 @@ realm, use the ``Realm.asyncOpen()`` method instead.
 .. code-block:: swift
    :emphasize-lines: 3
 
-   let user = app.currentUser()
+   let app = App(id: "myRealmAppId")
+   // ...after log in...
+   let user = app.currentUser()!
    let partitionValue = "myPartition"
    Realm.asyncOpen(configuration: user.configuration(partitionValue: partitionValue),
        callback: { (maybeRealm, error) in

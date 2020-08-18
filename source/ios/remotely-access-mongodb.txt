@@ -43,14 +43,14 @@ Use the ``MongoClient`` to Query For Data in Your Collection
    :emphasize-lines: 15
    
    // mongodb-atlas is the name of cluster service
-   let client = app.mongoClient("mongodb-atlas")
-   
+   let client = app.currentUser()!.mongoClient("mongodb-atlas")
+
    // Select the database
-   let database = client.database(withName: "tracker")
+   let database = client.database(named: "tracker")
 
    // Select the collection
    let collection = database.collection(withName: "Task")
-   
+    
    // Using the user's id to look up tasks
    let user = app.currentUser()!
    let identity = user.identity!
