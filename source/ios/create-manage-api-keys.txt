@@ -26,7 +26,7 @@ Create a User API Key
       :tabid: swift
 
       .. code-block:: swift
-         :emphasize-lines: 5
+         :emphasize-lines: 6
 
          let app = App(id: "my-realm-app-id")
          // ... log in ...
@@ -47,11 +47,12 @@ Create a User API Key
       :tabid: objective-c
 
       .. code-block:: objective-c
-         :emphasize-lines: 5
+         :emphasize-lines: 6
 
          RLMApp *app = [RLMApp appWithId:@"myappid"];
-         // ...
-         RLMUserAPIKeyProviderClient *client = [app userAPIKeyProviderClient];
+         // ... log in ...
+         RLMUser *user = [app currentUser];
+         RLMAPIKeyAuth *client = [user apiKeyAuth];
 
          [client createApiKeyWithName:@"someKeyName" completion:^(RLMUserAPIKey *apiKey, NSError *error) {
             if (error != nil) {
@@ -98,11 +99,12 @@ Look up a User API Key
       :tabid: objective-c
 
       .. code-block:: objective-c
-         :emphasize-lines: 8, 17
+         :emphasize-lines: 9, 18
 
          RLMApp *app = [RLMApp appWithId:@"myappid"];
-         // ...
-         RLMUserAPIKeyProviderClient *client = [app userAPIKeyProviderClient];
+         // ... log in ...
+         RLMUser *user = [app currentUser];
+         RLMAPIKeyAuth *client = [user apiKeyAuth];
 
          // Fetch API key by a specific ObjectId
          NSError *error = nil;
@@ -159,11 +161,14 @@ Enable or Disable an API Key
       :tabid: objective-c
 
       .. code-block:: objective-c
-         :emphasize-lines: 5, 9
+         :emphasize-lines: 8, 12
 
          RLMApp *app = [RLMApp appWithId:@"myappid"];
-         // ...
-         RLMUserAPIKeyProviderClient *client = [app userAPIKeyProviderClient];
+         // ... log in ...
+         RLMUser *user = [app currentUser];
+         RLMAPIKeyAuth *client = [user apiKeyAuth];
+         
+         RLMUserAPIKey *apiKey = getExampleApiKey(); // Get an API key
 
          [client enableApiKey:[apiKey objectId] completion:^(NSError *error) {
             // Handle error if any. Otherwise, enable was successful.
@@ -172,7 +177,6 @@ Enable or Disable an API Key
          [client disableApiKey:[apiKey objectId] completion:^(NSError *error) {
             // Handle error if any. Otherwise, disable was successful.
          }];
-
 
 .. _ios-api-key-delete:
 
@@ -203,11 +207,14 @@ Delete an API Key
       :tabid: objective-c
 
       .. code-block:: objective-c
-         :emphasize-lines: 5
+         :emphasize-lines: 8
 
          RLMApp *app = [RLMApp appWithId:@"myappid"];
-         // ...
-         RLMUserAPIKeyProviderClient *client = [app userAPIKeyProviderClient];
+         // ... log in ...
+         RLMUser *user = [app currentUser];
+         RLMAPIKeyAuth *client = [user apiKeyAuth];
+         
+         RLMUserAPIKey *apiKey = getExampleApiKey(); // Get an API key
 
          [client deleteApiKey:[apiKey objectId] completion:^(NSError *error) {
             // Handle error if any. Otherwise, delete was successful.
