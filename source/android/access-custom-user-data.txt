@@ -23,46 +23,113 @@ User Data <custom-user-data>`.
 
 .. include:: /includes/use-custom-data-note.rst
 
+Write Custom User Data
+----------------------
+
+To create, update, or delete custom user data, you will need the following
+information from your custom user data configuration:
+
+- the :term:`custom user data cluster`
+
+- the :term:`custom user data database`
+
+- the :term:`custom user data collection` in which custom
+  user data documents are stored
+
+- the :term:`user ID field` used to map custom user data documents
+  to users (via :term:`user ID`)
+
+You can find this information in the the :guilabel:`Custom User Data`
+tab of the :guilabel:`Users` left sidebar entry of the {+ui+}.
+
+You can update custom user data using :ref:`MongoDB Data Access
+<android-mongodb-data-access>`, {+service-short+} :ref:`Sync
+<android-sync-data>`, `<https://docs.mongodb.com/compass>`__, or the
+:atlas:`MongoDB Atlas Data Explorer </data-explorer/>`.
+
 .. _android-create-custom-user-data:
 
 Create Custom User Data for a User
-----------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To create custom user data for a user, create a MongoDB document in the
-custom user data collection for a given user where the user ID field
-contains the user's ID:
+custom user data collection. The user ID field of the document should
+contain the the user's :term:`user ID`. The following example uses
+:term:`MongoDB Data Access <android-mongodb-data-access>` to insert a
+document containing the user ID of the currently logged in user and a
+``favoriteColor`` value into the custom user data collection:
 
-1. Follow the steps to :ref:`enable custom user data
-   <enable-custom-user-data-procedure>` in your application. Make a note
-   of the values of the following options as you enable custom user data:
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: kotlin
+      
+      .. code-block:: kotlin
+         :emphasize-lines: 14-24
+         
+         Realm.init(this) // context, usually an Activity or Application
+         val appID = "<your app ID>" // replace this with your App ID
+         val app: App = App(AppConfiguration.Builder(appID)
+                .build())
 
-   - the :term:`cluster <custom user data cluster>`,
+         val anonymousCredentials: Credentials = Credentials.anonymous()
 
-   - the :term:`database <custom user data database>`,
+         val user: User? = null
+         app.loginAsync(anonymousCredentials) {
+            if (it.isSuccess) {
+                user = app.currentUser()
+                
+                val mongoClient : MongoClient = user.getMongoClient(<mongodb service name for custom user data cluster>)!!
+                val mongoDatabase : MongoDatabase = mongoClient.getDatabase(<custom user data database>)!!
+                val mongoCollection : MongoCollection<Document> = mongoDatabase.getCollection(<custom user data cluster>)!!
 
-   - and the :term:`collection <custom user data collection>` in which custom
-     user data documents are stored.
+                mongoCollection.insertOne(Document(<user ID field>, user.id).append("favoriteColor", "pink")).getAsync() {
+                    if (it.isSuccess) {
+                        Log.v("EXAMPLE", "Inserted custom user data document. _id of inserted document: ${it.get().insertedId}")
+                    } else {
+                        Log.e("EXAMPLE", "Unable to insert custom user data. Error: ${it.error}")
+                    }
+                }
+            } else {
+                Log.e("EXAMPLE", "Failed to log in anonymously: ${it.error}")
+            }
+         }
 
-   As well as:
+   .. tab::
+      :tabid: java
 
-   - the :term:`field <user ID field>` used to map custom user data documents
-     to users (via :term:`user ID`).
-  
-   In your application, you will use these options to create, update,
-   and delete custom user data. Since custom user data is available via
-   the ``User`` object of your application, you can read the custom user
-   data for the currently logged in user without knowing these options.
+      .. code-block:: java
+         :emphasize-lines: 12-24
 
-#. In the previous step, you specified a cluster, database, and
-   collection to store your custom user data. Create a new
-   document in the specified collection of the specified database of
-   the specified cluster where the specified user ID field contains the
-   a {+service-short+} user's ``id`` value.
+         Realm.init(this); // context, usually an Activity or Application
+         String appID = "<your app ID>"; // replace this with your App ID
+         App app = new App(new AppConfiguration.Builder(appID)
+                .build());
 
-   .. note::
+         Credentials credentials = Credentials.anonymous();
 
-      You can access a user's ``id`` value through their ``User``
-      object once logged in.
+         app.loginAsync(credentials, it -> {
+            if (it.isSuccess()) {
+                User user = app.currentUser();
+
+                MongoClient mongoClient = user.getMongoClient(<mongodb service name for custom user data cluster>);
+                MongoDatabase mongoDatabase = mongoClient.getDatabase(<custom user data database>);
+                MongoCollection<Document> mongoCollection = mongoDatabase.getCollection(<custom user data cluster>);
+
+                mongoCollection.insertOne(new Document(<user ID field>, user.getId()).append("favoriteColor", "pink"))
+                        .getAsync(result -> {
+                    if (result.isSuccess()) {
+                        Log.v("EXAMPLE", "Inserted custom user data document. _id of inserted document: "
+                            + it.get().getId());
+                    } else {
+                        Log.e("EXAMPLE", "Unable to insert custom user data. Error: " + it.getError());
+                    }
+                });
+            } else {
+                Log.e("EXAMPLE", "Failed to log in anonymously:" + it.getError().toString())
+            }
+         }
+
 
 You can add any number of arbitrary fields and values to the custom user
 data document when you create it. The user ID field is the only
@@ -72,40 +139,95 @@ as custom user data.
 .. _android-update-custom-user-data:
 
 Update Custom User Data for a User
-----------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To update a user's custom user data, edit the MongoDB document that contains
-custom user data for that user:
+To update a user's custom user data, edit the MongoDB document whose
+user ID field contains the user ID of the user. The following example uses
+:term:`MongoDB Data Access <android-mongodb-data-access>` to update the
+``favoriteColor`` field of the the document containing the user ID of
+the currently logged in user in the custom user data collection:
 
-1. Visit the :guilabel:`Custom User Data` tab of the :guilabel:`Users`
-   left sidebar entry of the {+ui+} to determine the values of the
-   following options in your application:
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: kotlin
+      
+      .. code-block:: kotlin
+         :emphasize-lines: 14-28
+         
+         Realm.init(this) // context, usually an Activity or Application
+         val appID = "<your app ID>" // replace this with your App ID
+         val app: App = App(AppConfiguration.Builder(appID)
+                .build())
 
-   - the :term:`cluster <custom user data cluster>`,
+         val anonymousCredentials: Credentials = Credentials.anonymous()
 
-   - the :term:`database <custom user data database>`,
+         val user: User? = null
+         app.loginAsync(anonymousCredentials) {
+            if (it.isSuccess) {
+                user = app.currentUser()
+                
+                val mongoClient : MongoClient = user.getMongoClient(<mongodb service name for custom user data cluster>)!!
+                val mongoDatabase : MongoDatabase = mongoClient.getDatabase(<custom user data database>)!!
+                val mongoCollection : MongoCollection<Document> = mongoDatabase.getCollection(<custom user data cluster>)!!
 
-   - and the :term:`collection <custom user data collection>` in which custom
-     user data documents are stored.
+                mongoCollection.updateOne(Document(<user ID field>, user.id), Document("favoriteColor", "cerulean")).getAsync() {
+                    if (it.isSuccess) {
+                        if (it.get().modifiedCount == 1L) {
+                            Log.v("EXAMPLE", "Updated custom user data document.")
+                        } else {
+                            Log.v("EXAMPLE", "Could not find custom user data document to update.")
+                        }
+                    } else {
+                        Log.e("EXAMPLE", "Unable to update custom user data. Error: ${it.error}")
+                    }
+                }
+            } else {
+                Log.e("EXAMPLE", "Failed to log in anonymously: ${it.error}")
+            }
+         }
 
-   As well as:
+   .. tab::
+      :tabid: java
 
-   - the :term:`field <user ID field>` used to map custom user data documents
-     to users (via :term:`user ID`).
+      .. code-block:: java
+         :emphasize-lines: 12-27
 
-#. Determine the ``id`` of the user whose custom user data you'd like to
-   update using the ``User`` object of the user once logged in or via
-   the :guilabel:`Users` tab of the :guilabel:`Users` left sidebar entry
-   of the {+ui+}.
+         Realm.init(this); // context, usually an Activity or Application
+         String appID = "<your app ID>"; // replace this with your App ID
+         App app = new App(new AppConfiguration.Builder(appID)
+                .build());
 
-#. In the custom user data collection of the custom user data database
-   of the custom user data cluster, update the document where the value
-   of the user ID field matches the user's ``id`` value.
+         Credentials credentials = Credentials.anonymous();
 
-You can update custom user data using :ref:`MongoDB Data Access
-<android-mongodb-data-access>`, :ref:`Sync <android-sync-data>`,
-`<https://docs.mongodb.com/compass>`__, or the
-:atlas:`MongoDB Atlas Data Explorer </data-explorer/>`.
+         app.loginAsync(credentials, it -> {
+            if (it.isSuccess()) {
+                User user = app.currentUser();
+
+                MongoClient mongoClient = user.getMongoClient(<mongodb service name for custom user data cluster>);
+                MongoDatabase mongoDatabase = mongoClient.getDatabase(<custom user data database>);
+                MongoCollection<Document> mongoCollection = mongoDatabase.getCollection(<custom user data cluster>);
+
+                mongoCollection.updateOne(new Document(<user ID field>, user.getId()), new Document("favoriteColor", "cerulean"))
+                        .getAsync(result -> {
+                    if (result.isSuccess()) {
+                        if (result.get().getModifiedCount() == 1L) {
+                            Log.v("EXAMPLE", "Updated custom user data document.");
+                        } else {
+                            Log.v("EXAMPLE", "Could not find custom user data document to update.");
+                        }
+                    } else {
+                        Log.e("EXAMPLE", "Unable to update custom user data. Error: " + result.getError().toString());
+                    }
+                });
+            } else {
+                Log.e("EXAMPLE", "Failed to log in anonymously:" + it.getError().toString())
+            }
+         }
+
+You can determine the ``id`` of a user through either the ``User``
+object of the user once logged in or via the :guilabel:`Users` tab of
+the :guilabel:`Users` left sidebar entry of the {+ui+}.
 
 .. _android-read-custom-user-data:
 
