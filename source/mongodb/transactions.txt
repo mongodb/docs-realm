@@ -36,7 +36,9 @@ To perform a transaction:
 
 #. Execute the MongoDB queries that you would like to include in
    your transaction in the callback for this function, which needs to
-   either be ``async`` or return a ``Promise``.
+   either be ``async`` or return a ``Promise``. Be sure to pass the
+   ``session`` to each query to ensure that it is included in the
+   transaction.
 
 #. If the callback encounters an error, you should abort the transaction
    with ``session.abortTransaction()`` in a
