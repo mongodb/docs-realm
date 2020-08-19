@@ -39,7 +39,7 @@ To perform a transaction:
    either be ``async`` or return a ``Promise``.
 
 #. If the callback encounters an error, you should abort the transaction
-   with ``session.abortTransaction()``, which you can handle in a
+   with ``session.abortTransaction()`` in a
    ``Promise`` rejection handler with ``Promise.catch()`` or a
    ``try ... catch`` exception handler.
 
