@@ -26,31 +26,33 @@ Create a User API Key
       :tabid: swift
 
       .. code-block:: swift
-         :emphasize-lines: 5
+         :emphasize-lines: 6
 
-         let app = RealmApp(id: "my-realm-app-id")
-         // ...
-         let client = app.userAPIKeyProviderClient()
+         let app = App(id: "my-realm-app-id")
+         // ... log in ...
+         let user = app.currentUser()!
+         let client = user.apiKeyAuth()
          
-         client.createApiKey(withName: "someKeyName") { (maybeApiKey, error) in
-            guard error == nil else {
-                  fatalError("Failed to create key: \(error!)")
-            }
-            guard let apiKey = maybeApiKey else {
-                  fatalError("Failed to create key! Error unknown")
-            }
-            // Use apiKey
+         client.createApiKey(named: "someKeyName") { (maybeApiKey, error) in
+             guard error == nil else {
+                   fatalError("Failed to create key: \(error!)")
+             }
+             guard let apiKey = maybeApiKey else {
+                   fatalError("Failed to create key! Error unknown")
+             }
+             // Use apiKey
          }
 
    .. tab::
       :tabid: objective-c
 
       .. code-block:: objective-c
-         :emphasize-lines: 5
+         :emphasize-lines: 6
 
          RLMApp *app = [RLMApp appWithId:@"myappid"];
-         // ...
-         RLMUserAPIKeyProviderClient *client = [app userAPIKeyProviderClient];
+         // ... log in ...
+         RLMUser *user = [app currentUser];
+         RLMAPIKeyAuth *client = [user apiKeyAuth];
 
          [client createApiKeyWithName:@"someKeyName" completion:^(RLMUserAPIKey *apiKey, NSError *error) {
             if (error != nil) {
@@ -73,11 +75,11 @@ Look up a User API Key
       .. code-block:: swift
          :emphasize-lines: 7, 12
 
-         let app = RealmApp(id: "my-realm-app-id")
-         // ...
-
-         let client = app.userAPIKeyProviderClient()
-
+         let app = App(id: "my-realm-app-id")
+         // ... log in ...
+         let user = app.currentUser()!
+         let client = user.apiKeyAuth()
+         
          // Fetch a specific API key by ObjectId
          client.fetchApiKey(ObjectId("someObjectId")) { (maybeApiKey, error) in
                // ...
@@ -97,11 +99,12 @@ Look up a User API Key
       :tabid: objective-c
 
       .. code-block:: objective-c
-         :emphasize-lines: 8, 17
+         :emphasize-lines: 9, 18
 
          RLMApp *app = [RLMApp appWithId:@"myappid"];
-         // ...
-         RLMUserAPIKeyProviderClient *client = [app userAPIKeyProviderClient];
+         // ... log in ...
+         RLMUser *user = [app currentUser];
+         RLMAPIKeyAuth *client = [user apiKeyAuth];
 
          // Fetch API key by a specific ObjectId
          NSError *error = nil;
@@ -139,10 +142,10 @@ Enable or Disable an API Key
       .. code-block:: swift
          :emphasize-lines: 7, 12
       
-         let app = RealmApp(id: "my-realm-app-id")
-         // ...
-
-         let client = app.userAPIKeyProviderClient()
+         let app = App(id: "my-realm-app-id")
+         // ... log in ...
+         let user = app.currentUser()!
+         let client = user.apiKeyAuth()
 
          // Enable the API key
          client.enableApiKey(ObjectId("someObjectId")) { (error) in
@@ -158,11 +161,14 @@ Enable or Disable an API Key
       :tabid: objective-c
 
       .. code-block:: objective-c
-         :emphasize-lines: 5, 9
+         :emphasize-lines: 8, 12
 
          RLMApp *app = [RLMApp appWithId:@"myappid"];
-         // ...
-         RLMUserAPIKeyProviderClient *client = [app userAPIKeyProviderClient];
+         // ... log in ...
+         RLMUser *user = [app currentUser];
+         RLMAPIKeyAuth *client = [user apiKeyAuth];
+         
+         RLMUserAPIKey *apiKey = getExampleApiKey(); // Get an API key
 
          [client enableApiKey:[apiKey objectId] completion:^(NSError *error) {
             // Handle error if any. Otherwise, enable was successful.
@@ -171,7 +177,6 @@ Enable or Disable an API Key
          [client disableApiKey:[apiKey objectId] completion:^(NSError *error) {
             // Handle error if any. Otherwise, disable was successful.
          }];
-
 
 .. _ios-api-key-delete:
 
@@ -184,9 +189,13 @@ Delete an API Key
       :tabid: swift
 
       .. code-block:: swift
-         :emphasize-lines: 2
+         :emphasize-lines: 6
 
-         let client = app.userAPIKeyProviderClient()
+         let app = App(id: "my-realm-app-id")
+         // ... log in ...
+         let user = app.currentUser()!
+         let client = user.apiKeyAuth()
+         
          client.deleteApiKey(apiKey.objectId) { (error) in
              guard error == nil else {
                  fatalError("Failed to delete key: \(error!)")
@@ -198,11 +207,14 @@ Delete an API Key
       :tabid: objective-c
 
       .. code-block:: objective-c
-         :emphasize-lines: 5
+         :emphasize-lines: 8
 
          RLMApp *app = [RLMApp appWithId:@"myappid"];
-         // ...
-         RLMUserAPIKeyProviderClient *client = [app userAPIKeyProviderClient];
+         // ... log in ...
+         RLMUser *user = [app currentUser];
+         RLMAPIKeyAuth *client = [user apiKeyAuth];
+         
+         RLMUserAPIKey *apiKey = getExampleApiKey(); // Get an API key
 
          [client deleteApiKey:[apiKey objectId] completion:^(NSError *error) {
             // Handle error if any. Otherwise, delete was successful.

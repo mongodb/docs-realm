@@ -39,14 +39,16 @@ of the app.
 
 .. code-block:: swift
 
-   let app = RealmApp(id: "my-realm-app-id")
+   let app = App(id: "my-realm-app-id")
+   // ... log in ...
+   let user = app.currentUser()!
 
    // The dynamic member name `sum` is directly associated with the function
    // name. The first argument is the `BSONArray` of arguments to be provided
    // to the function. The trailing closure is the completion handler
    // to call when the function call is complete. This handler is executed on
    // a non-main global `DispatchQueue`.
-   app.functions.sum([1, 2]) { sum, error in
+   user.functions.sum([1, 2]) { sum, error in
        guard error == nil else {
            print("Function call failed: \(error!.localizedDescription)")
            return

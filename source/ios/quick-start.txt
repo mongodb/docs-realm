@@ -52,7 +52,7 @@ access your {+app+} using your {+app+} ID. You can find your {+app+} ID in the
 
 .. code-block:: swift
 
-   let app = RealmApp(id: "your-realm-app-id")
+   let app = App(id: "your-realm-app-id")
 
 Define Your Object Model
 ------------------------
@@ -99,19 +99,19 @@ information:
 
 .. code-block:: swift
 
-   app.login(withCredential: AppCredentials.anonymous()) { (user, error) in
-        // Remember to dispatch back to the main thread in completion handlers
-        // if you want to do anything on the UI.
-        DispatchQueue.main.sync {
-          guard error == nil else {
-            print("Login failed: \(error!)")
-            return
-          }
+   app.login(credentials: Credentials.anonymous()) { (user, error) in
+       // Remember to dispatch back to the main thread in completion handlers
+       // if you want to do anything on the UI.
+       DispatchQueue.main.sync {
+           guard error == nil else {
+               print("Login failed: \(error!)")
+               return
+           }
 
-          // Now logged in, do something with user
+           // Now logged in, do something with user
 
-        }
-    }
+       }
+   }
 
 {+service-short+} provides many additional ways to authenticate, register, and link users.
 
@@ -234,139 +234,18 @@ Once logged in, you can log out:
 
 .. code-block:: swift
 
-   app.logOut(completion: { (error) in
+   app.currentUser()?.logOut() { (error) in
        // Logged out or error occurred
-   })
-
-
-
+   }
 
 Complete Example
 ----------------
 
-Run the complete example by replacing the appId with your {+app+} ID.
+Run the complete example by replacing the app ID with your {+app+} ID
+and navigating to the ``ExampleViewController`` in an app.
 
-.. code-block:: swift
-
-   import UIKit
-   import RealmSwift
-   
-   let app = RealmApp(id: "<your-realm-app-id>") // replace this with your App ID
-   
-   class Task: Object {
-      @objc dynamic var _id: ObjectId = ObjectId.generate()
-      
-      // When configuring Sync, we selected `_partition` as the partition key.
-      // A partition key is only required if you are using Sync.
-      @objc dynamic var _partition: String = ""
-      
-      @objc dynamic var name: String? = nil
-      @objc dynamic var complete = false
-      
-      override static func primaryKey() -> String? {
-         return "_id"
-   }
-    
-      convenience init(partition: String, name: String) {
-         self.init()
-         self._partition = partition
-         self.name = name
-      }
-   }
-   
-   class WelcomeViewController: UIViewController {
-    
-      override func viewDidLoad() {
-        super.viewDidLoad();
-        signIn()
-   }
-    
-   @objc func signIn() {
-      print("Attempting to log in")
-      app.login(withCredential: AppCredentials.anonymous()) { (user, error) in
-         // Remember to dispatch back to the main thread in completion handlers
-         // if you want to do anything on the UI.
-         DispatchQueue.main.sync {
-            guard error == nil else {
-               print("Login failed: \(error!)")
-               return
-            }
-               
-            print("Login succeeded!");
-            // Now logged in, do something with user
-            let user = app.currentUser()
-            let partitionValue = "myPartition"
-               
-            Realm.asyncOpen(configuration: user!.configuration(partitionValue: partitionValue)) { realm, error in
-               guard let realm = realm else {
-                  print("Error opening the realm: \(error!)")
-                  return
-               }
-               
-               // All tasks in the realm
-               let tasks = realm.objects(Task.self)
-               
-               // Retain notificationToken as long as you want to observe
-               let notificationToken = tasks.observe { (changes) in
-                  switch changes {
-                     case .initial: break
-                        // Results are now populated and can be accessed without blocking the UI
-                     case .update(_, let deletions, let insertions, let modifications):
-                        // Query results have changed.
-                        print("Deleted indices: ", deletions)
-                        print("Inserted indices: ", insertions)
-                        print("Modified modifications: ", modifications)
-                     case .error(let error):
-                        // An error occurred while opening the Realm file on the background worker thread
-                        fatalError("\(error)")
-                  }
-               }
-               
-               let task = Task(partition: partitionValue, name: "New Task")
-               try! realm.write {
-                  realm.add(task)
-               }
-               let anotherTask = Task(partition: partitionValue, name: "Another new task")
-               try! realm.write {
-                  realm.add(anotherTask)
-               }
-               
-               // You can also filter a collection
-               let tasksThatBeginWithA = tasks.filter("name beginsWith 'A'")
-               print("A list of all tasks that begin with A: \(tasksThatBeginWithA)")
-               
-               let taskToUpdate = tasks[1]
-               
-               // All modifications to a realm must happen in a write block.
-               try! realm.write {
-                  taskToUpdate.complete = true
-               }
-               
-               let completeTasks = tasks.filter("complete = true")
-               print("A list of all tasks that are complete: \(tasksThatBeginWithA)")
-               print("A list of all tasks: \(tasks)")
-               
-               let taskToDelete = tasks[0]
-               // All modifications to a realm must happen in a write block.
-               try! realm.write {
-                  // Delete the Task.
-                  realm.delete(taskToDelete)
-               }
-               
-               print("A list of all tasks after deleting one: \(tasks)")
-               
-               app.logOut(completion: { (error) in
-                  // Logged out or error occurred
-               })
-               
-               // Invalidate notification tokens when done observing
-               notificationToken.invalidate()
-                  
-               } // DispatchQueue.main.sync
-            } // realm.asyncOpen
-         } // app.login
-      }
-   }
+.. literalinclude:: /examples/QuickStarts/CompleteExample.swift
+   :language: swift
 
 Output
 ~~~~~~
@@ -374,63 +253,43 @@ Running the above code should output something like the following:
 
 .. code-block:: shell
 
+   Attempting to log in
    Login succeeded!
-
+   ... Sync: Connection[1]: Session[1]: client_reset_config = false, Realm exists = true, async open = false, client reset = false
    Deleted indices:  []
    Inserted indices:  [0]
    Modified modifications:  []
-
-   ... Connected to endpoint '...' (from '...') ...
-
-   A list of all tasks: Results<Task> <0x7fab29e0b270> (
+   A list of all tasks that begin with A: Results<Task> <0x7fd15d60a960> (
       [0] Task {
-         _id = 5f1f11ac3fb4ee7c41c66baf;
+         _id = 5f3c29...;
          _partition = myPartition;
-         name = New Task;
-         complete = 0;
-      },
-      [1] Task {
-         _id = 5f1f11ac3fb4ee7c41c66bb0;
-         _partition = myPartition;
-         name = Another new task;
-         complete = 0;
+         name = App design;
+         owner = (null);
+         status = ;
       }
    )
-
-
-   A list of all tasks that begin with A: Results<Task> <0x7fab29c0b550> (
-      [0] Task {
-         _id = 5f1f11ac3fb4ee7c41c66bb0;
-         _partition = myPartition;
-         name = Another new task;
-         complete = 0;
-      }
-   )
-
-
    Deleted indices:  []
    Inserted indices:  [1]
    Modified modifications:  []
-
-   A list of all tasks that are complete: Results<Task> <0x7fc9a4517ed0> (
+   A list of all tasks in progress: Results<Task> <0x7fd15d60bd20> (
       [0] Task {
-         _id = 5f1f13d77dad9a066d62e55d;
+         _id = 5f3c29...;
          _partition = myPartition;
-         name = Another new task;
-         complete = 1;
+         name = Do laundry;
+         owner = (null);
+         status = InProgress;
       }
    )
-
    Deleted indices:  []
    Inserted indices:  []
    Modified modifications:  [0]
-
-   A list of all tasks after deleting one: Results<Task> <0x7fab29e0b270> (
+   A list of all tasks after deleting one: Results<Task> <0x7fd15d55cbc0> (
       [0] Task {
-         _id = 5f1f11ac3fb4ee7c41c66bb0;
+         _id = 5f3c29...;
          _partition = myPartition;
-         name = Another new task;
-         complete = 0;
+         name = App design;
+         owner = (null);
+         status = ;
       }
    )
    ... Sync: Connection[1]: Disconnected

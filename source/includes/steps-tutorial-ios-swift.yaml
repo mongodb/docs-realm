@@ -42,7 +42,7 @@ content: |
 
   - Set the iOS version to 13.0.
   - Add the line ``use_frameworks!`` if it is not already there.
-  - Add the line ``pod 'RealmSwift', '=10.0.0-beta.2'`` to your main target.
+  - Add the line ``pod 'RealmSwift', '=10.0.0-beta.3'`` to your main target.
 
   When done, your Podfile should look something like this:
 
@@ -56,7 +56,7 @@ content: |
           use_frameworks!
 
           # Pods for TaskTracker
-          pod 'RealmSwift', '=10.0.0-beta.2'
+          pod 'RealmSwift', '=10.0.0-beta.3'
 
         end
 
@@ -125,7 +125,7 @@ content: |
          // Set this to your Realm App ID found in the Realm UI.
          static let REALM_APP_ID = "<your-realm-app-id>"
      }
-     let app = RealmApp(id: Constants.REALM_APP_ID)
+     let app = App(id: Constants.REALM_APP_ID)
 
   Replace ``<your-realm-app-id>`` with your {+app+} ID, which you can find in
   the {+ui+}.
@@ -333,7 +333,7 @@ content: |
 
      @objc func signUp() {
          setLoading(true);
-         app.usernamePasswordProviderClient().registerEmail(username!, password: password!, completion: {[weak self](error) in
+         app.emailPasswordAuth().registerEmail(username!, password: password!, completion: {[weak self](error) in
              // Completion handlers are not necessarily called on the UI thread.
              // This call to DispatchQueue.main.sync ensures that any changes to the UI,
              // namely disabling the loading indicator and navigating to the next page,
@@ -359,15 +359,12 @@ content: |
   form and show the loading indicator, so that the user gets
   feedback that we are in fact processing their request.
 
-  Next, we access the ``usernamePasswordProviderClient`` of
-  the RealmApp we opened in the AppDelegate. Each
-  authentication provider has a provider client that gives
-  us access to the functionality of that specific provider.
-  In this case, we want to register the user's email with
-  the ``registerEmail()`` method. We pass the username and
-  password field values from our UI into this method as well
-  as a completion handler that {+service-short+} calls when
-  the action is completed. 
+  Next, we access the ``emailPasswordAuth`` of the App we opened in the
+  AppDelegate. Each authentication provider has a provider client that gives us
+  access to the functionality of that specific provider. In this case, we want
+  to register the user's email with the ``registerEmail()`` method. We pass the
+  username and password field values from our UI into this method as well as a
+  completion handler that {+service-short+} calls when the action completes. 
 
   The completion handler is not guaranteed to run on the
   main thread. In fact, it is likely to run on a background
@@ -395,7 +392,7 @@ content: |
          print("Log in as user: \(username!)");
          setLoading(true);
          
-         app.login(withCredential: AppCredentials(username: username!, password: password!)) { [weak self](user, error) in
+         app.login(credentials: Credentials(username: username!, password: password!)) { [weak self](user, error) in
              // Completion handlers are not necessarily called on the UI thread.
              // This call to DispatchQueue.main.sync ensures that any changes to the UI,
              // namely disabling the loading indicator and navigating to the next page,
@@ -674,7 +671,7 @@ content: |
          alertController.addAction(UIAlertAction(title: "Yes, Log Out", style: .destructive, handler: {
              alert -> Void in
              print("Logging out...");
-             app.logOut(completion: { (error) in
+             app.currentUser()?.logOut(completion: {(error) in
                  DispatchQueue.main.sync {
                      print("Logged out!");
                      self.navigationController?.setViewControllers([WelcomeViewController()], animated: true)
@@ -685,9 +682,9 @@ content: |
          self.present(alertController, animated: true, completion: nil)
      }
 
-  This simply calls the ``logOut`` method on the app we
-  created earlier. In the completion handler, we dispatch to
-  the main thread so that we can navigate back to the welcome screen.
+  This calls the ``logOut`` method on the current user of the app we
+  created earlier. In the completion handler, we dispatch to the main thread so
+  that we can navigate back to the welcome screen.
 ---
 title: Implement the UITableViewDelegate and UITableViewDataSource Protocols
 ref: implement-delegate-protocols
