@@ -26,15 +26,94 @@ Procedure
 
 .. include:: /includes/steps/custom-resolvers-ui.rst
 
-Examples
---------
+Custom Resolver Examples
+------------------------
 
-Custom Query
-~~~~~~~~~~~~
+.. contents:: Custom Resolver Examples
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
 
-A custom resolver defines a root-level query operation that accepts a month and
-year as input parameters and returns a custom payload that includes aggregated
-sales data for that specific month:
+Scenario & Schemas
+~~~~~~~~~~~~~~~~~~
+
+Consider a hypothetical dashboard that a sales team uses to show various
+statistics and other performance metrics for a given time period. The dashboard
+uses the custom resolvers in this section to handle some of its specific use
+cases.
+
+The resolvers all reference ``Sale`` documents, which have the following schema:
+
+.. tabs::
+   
+   .. tab:: GraphQL Schema
+      :tabid: graphql-schema
+      
+      .. code-block:: graphql
+         
+         type Sale {
+           _id: ObjectId!
+           customer_id: String!
+           year: String!
+           month: String!
+           saleTotal: Float!
+           notes: [String]
+         }
+   
+   .. tab:: JSON Schema
+      :tabid: json-schema
+
+      .. code-block:: json
+         
+         {
+           "title": "Sale",
+           "bsonType": "object",
+           "required": ["_id", "customer_id", "year", "month", "saleTotal"],
+           "properties": {
+             "_id": { "bsonType": "objectId" },
+             "customer_id": { "bsonType": "string" },
+             "year": { "bsonType": "string" },
+             "month": { "bsonType": "string" },
+             "saleTotal": { "bsonType": "decimal" },
+             "notes": {
+               "bsonType": "array",
+               "items": { "bsonType": "string" }
+             }
+           }
+         }
+
+Custom Query Resolver
+~~~~~~~~~~~~~~~~~~~~~
+
+The sales team's hypothetical dashboard uses a custom query resolver that
+returns aggregated sales data for a specific month.
+
+Realm generates schema definitions for the resolver's custom input and payload
+types and adds the resolver to its parent type, the root-level ``Query``:
+
+.. code-block:: graphql
+   
+   
+   type Query {
+     averageSaleForMonth(input: AverageSaleForMonthInput): AverageSaleForMonthPayload
+   }
+   
+   input AverageSalesForMonthInput {
+     month: String!;
+     year: String!;
+   }
+   
+   type AverageSaleForMonthPayload {
+     month: String!;
+     year: String!;
+     averageSale: Float!;
+   }
+
+Configuration
++++++++++++++
+
+The resolver uses the following configuration:
 
 .. list-table::
    :header-rows: 1
@@ -52,44 +131,75 @@ sales data for that specific month:
    * - :guilabel:`Input Type`
      - Custom Type: ``AverageSaleForMonthInput``
        
-       .. code-block:: json
+       .. tabs::
           
-          {
-            "type": "object",
-            "title": "AverageSaleForMonthInput",
-            "required": ["month", "year"],
-            "properties": {
-              "month": {
-                "type": "string"
-              },
-              "year": {
-                "type": "string"
-              }
-            }
-          }
+          .. tab:: JSON Schema
+             :tabid: json-schema
+             
+             .. code-block:: json
+                
+                {
+                  "bsonType": "object",
+                  "title": "AverageSaleForMonthInput",
+                  "required": ["month", "year"],
+                  "properties": {
+                    "month": {
+                      "bsonType": "string"
+                    },
+                    "year": {
+                      "bsonType": "string"
+                    }
+                  }
+                }
+          
+          .. tab:: GraphQL Schema
+             :tabid: graphql-schema
+             
+             .. code-block:: graphql
+                
+                input AverageSalesForMonthInput {
+                  month: String!;
+                  year: String!;
+                }
 
    * - :guilabel:`Payload Type`
-     - Custom Type: ``AverageSaleForMonthPayload``
+     - Custom Type: ``AverageSaleForMonthPayload`
        
-       .. code-block:: json
+       .. tabs::
           
-          {
-            "type": "object",
-            "title": "AverageSaleForMonthPayload",
-            "required": ["month", "year", "averageSale"],
-            "properties": {
-              "month": {
-                "type": "string"
-              },
-              "year": {
-                "type": "string"
-              },
-              "averageSale": {
-                "type": "decimal"
-              }
-            }
-          }
-
+          .. tab:: JSON Schema
+             :tabid: json-schema
+             
+             .. code-block:: json
+                
+                {
+                  "bsonType": "object",
+                  "title": "AverageSaleForMonthPayload",
+                  "required": ["month", "year", "averageSale"],
+                  "properties": {
+                    "month": {
+                      "bsonType": "string"
+                    },
+                    "year": {
+                      "bsonType": "string"
+                    },
+                    "averageSale": {
+                      "bsonType": "decimal"
+                    }
+                  }
+                }
+          
+          .. tab:: GraphQL Schema
+             :tabid: graphql-schema
+             
+             .. code-block:: graphql
+                
+                type AverageSaleForMonthPayload {
+                  month: String!;
+                  year: String!;
+                  averageSale: Float!;
+                }
+   
    * - :guilabel:`Function`
      - .. code-block:: javascript
           
@@ -114,25 +224,8 @@ sales data for that specific month:
             return averageSalePayload;
           };
 
-Realm generates schema definitions for the resolver's custom input and payload
-types and adds the resolver to its parent type, the root-level ``Query``:
-
-.. code-block:: graphql
-   
-   input AverageSalesForMonthInput {
-     month: String!;
-     year: String!;
-   }
-   
-   type AverageSaleForMonthPayload {
-     month: String!;
-     year: String!;
-     averageSale: Float!;
-   }
-   
-   type Query {
-     averageSaleForMonth(input: AverageSaleForMonthInput): AverageSalesForMonthPayload
-   }
+Example Usage
++++++++++++++
 
 To call this custom query, you could use the following operation and variables:
 
@@ -149,14 +242,35 @@ To call this custom query, you could use the following operation and variables:
 .. code-block:: json
    
    {
-     "averageSaleInput": { month: "March", year: "2020" }
+     "variables": {
+       "averageSaleInput": { month: "March", year: "2020" }
+     }
    }
 
 Custom Mutation
 ~~~~~~~~~~~~~~~
 
-A custom resolver defines a root-level mutation operation that adds a new note
-to a specific sale document, identified by its ``_id`` value:
+The sales team's hypothetical dashboard uses a custom mutation resolver that
+adds a string note to a specific ``Sale`` document, identified by its ``_id``.
+
+Realm generates schema definitions for the resolver's custom input type and adds
+the resolver to its parent type, the root-level ``Mutation``:
+
+.. code-block:: graphql
+   
+   type Mutation {
+     addNoteToSale(input: AddNoteToSaleInput): Sale
+   }
+   
+   input AddNoteToSaleInput {
+     sale_id: ObjectId!;
+     note: String!;
+   }
+
+Configuration
++++++++++++++
+
+The resolver uses the following configuration:
 
 .. list-table::
    :header-rows: 1
@@ -174,34 +288,78 @@ to a specific sale document, identified by its ``_id`` value:
    * - :guilabel:`Input Type`
      - Custom Type: ``AddNoteToSaleInput``
        
-       .. code-block:: json
+       .. tabs::
           
-          {
-            "type": "object",
-            "title": "AddNoteToSaleInput",
-            "required": ["sale_id", "note"],
-            "properties": {
-              "sale_id": {
-                "type": "objectId"
-              },
-              "note": {
-                "type": "string"
-              }
-            }
-          }
+          .. tab:: JSON Schema
+             :tabid: json-schema
+             
+             .. code-block:: json
+                
+                {
+                  "bsonType": "object",
+                  "title": "AddNoteToSaleInput",
+                  "required": ["sale_id", "note"],
+                  "properties": {
+                    "sale_id": {
+                      "bsonType": "objectId"
+                    },
+                    "note": {
+                      "bsonType": "string"
+                    }
+                  }
+                }
+          
+          .. tab:: GraphQL Schema
+             :tabid: graphql-schema
+             
+             .. code-block:: graphql
+                
+                input AddNoteToSaleInput {
+                  sale_id: ObjectId!;
+                  note: String!;
+                }
+             
 
    * - :guilabel:`Payload Type`
      - Existing Type: ``Sale``
        
-       .. code-block:: graphql
+       .. tabs::
           
-          type Sale {
-            _id: ObjectId
-            month: String
-            year: String
-            saleTotal: Float
-            notes: [String]
-          }
+          .. tab:: GraphQL Schema
+             :tabid: graphql-schema
+             
+             .. code-block:: graphql
+                
+                type Sale {
+                  _id: ObjectId!
+                  customer_id: String!
+                  year: String!
+                  month: String!
+                  saleTotal: Float!
+                  notes: [String]
+                }
+          
+          .. tab:: JSON Schema
+             :tabid: json-schema
+       
+             .. code-block:: json
+                
+                {
+                  "title": "Sale",
+                  "bsonType": "object",
+                  "required": ["_id", "customer_id", "year", "month", "saleTotal"],
+                  "properties": {
+                    "_id": { "bsonType": "objectId" },
+                    "customer_id": { "bsonType": "string" },
+                    "year": { "bsonType": "string" },
+                    "month": { "bsonType": "string" },
+                    "saleTotal": { "bsonType": "decimal" },
+                    "notes": {
+                      "bsonType": "array",
+                      "items": { "bsonType": "string" }
+                    }
+                  }
+                }
    
    * - :guilabel:`Function`
      - .. code-block:: javascript
@@ -218,20 +376,8 @@ to a specific sale document, identified by its ``_id`` value:
             return sale;
           }
 
-Realm generates schema definitions for the resolver's custom input type and adds
-the resolver to its parent type, the root-level ``Mutation``:
-
-.. code-block:: graphql
-   
-   
-   input AddNoteToSaleInput {
-     sale_id: ObjectId!;
-     note: String!;
-   }
-   
-   type Mutation {
-     addNoteToSale(input: AddNoteToSaleInput): Sale
-   }
+Example Usage
++++++++++++++
 
 To call this custom query, you could use the following operation and variables:
 
@@ -239,27 +385,59 @@ To call this custom query, you could use the following operation and variables:
    
    mutation AddNoteToSale($addNoteToSaleInput: AddNoteToSaleInput) {
      addNoteToSale(input: $addNoteToSaleInput) {
+       _id
+       customer_id
        month
        year
-       averageSale
+       saleTotal
+       notes
      }
    }
 
 .. code-block:: json
    
    {
-     "addNoteToSaleInput": {
-       "sale_id": "5f3c2779796615b661fcdc25",
-       "note": "This was such a great sale!"
+     "variables": {
+       "addNoteToSaleInput": {
+         "sale_id": "5f3c2779796615b661fcdc25",
+         "note": "This was such a great sale!"
+       }
      }
    }
 
 Computed Properties
 ~~~~~~~~~~~~~~~~~~~
 
-A custom resolver defines a computed property on the ``Task`` document type. The
-resolver does not accept any input and returns a custom payload that contains
-data about the task that the resolver fetches from an external API:
+The sales team's hypothetical dashboard uses a custom resolver that adds a new
+computed property to each ``Sale`` document. When an operation requests the
+computed field for a given ``Sale``, the resolver queries an external system and
+returns support cases filed by the associated customer.
+
+Realm generates schema definitions for the resolver's custom payload type and
+adds the resolver to its parent type, ``Sale``:
+
+.. code-block:: graphql
+   :emphasize-lines: 8
+   
+   type Sale {
+     _id: ObjectId!
+     customer_id: String!
+     year: String!
+     month: String!
+     saleTotal: Float!
+     notes: [String]
+     customerSupportCases: [CustomerSupportCase]
+   }
+   
+   type CustomerSupportCase {
+     caseId: String!
+     description: String!
+   }
+
+Configuration
++++++++++++++
+
+The resolver uses the following configuration:
 
 .. list-table::
    :header-rows: 1
@@ -269,84 +447,88 @@ data about the task that the resolver fetches from an external API:
      - Description
    
    * - :guilabel:`Parent Type`
-     - ``Task``
+     - ``Sale``
 
    * - :guilabel:`GraphQL Field Name`
-     - ``supportReferences``
+     - ``customerSupportCases``
    
    * - :guilabel:`Input Type`
      - None
 
    * - :guilabel:`Payload Type`
-     - Custom Type: ``TaskSupportReferencesPayload``
+     - Custom Type: ``[CustomerSupportCase]``
        
-       .. code-block:: json
+       .. tabs::
           
-          {
-            "type": "object",
-            "title": "TaskSupportReferencesPayload",
-            "required": ["references"],
-            "properties": {
-              "references": {
-                "type": "array",
-                "items": {
-                  "title": "SupportReference",
-                  "type": "object",
-                  "properties": {
-                    "name": { "type": "string" },
-                    "text": { "type": "string" }
+          .. tab:: JSON Schema
+             :tabid: json-schema
+             
+             .. code-block:: json
+                
+                {
+                  "bsonType": "array",
+                  "items": {
+                    "title": "CustomerSupportCase",
+                    "bsonType": "object",
+                    "required": ["caseId", "description"],
+                    "properties": {
+                      "caseId": { "bsonType": "string" },
+                      "description": { "bsonType": "string" }
+                    }
                   }
                 }
-              }
-            }
-          }
+          
+          .. tab:: GraphQL Schema
+             :tabid: graphql-schema
+             
+             .. code-block:: graphql
+                :emphasize-lines: 13
+                
+                type CustomerSupportCase {
+                  caseId: String!
+                  description: String!
+                }
+                
+                type Sale {
+                  _id: ObjectId!
+                  customer_id: String!
+                  year: String!
+                  month: String!
+                  saleTotal: Float!
+                  notes: [String]
+                  customerSupportCases: [CustomerSupportCase]
+                }
 
    * - :guilabel:`Function`
      - .. code-block:: javascript
           
-          exports = async function taskSupportReferences(task) {
-            const cluster = context.services.get("mongodb-atlas");
-            const tasks = cluster.db("tracker").collection("tasks");
-            
+          exports = async function customerSupportCases(sale) {
             // Return a list of objects from some external system
-            return await fetchSupportReferences({ task_id: task._id });
+            const cases = await fetchCustomerSupportCases({
+              customerId: sale.customer_id
+            });
+            return cases;
           };
 
-Realm generates schema definitions for the resolver's custom input and payload
-types and adds the resolver to its parent type, ``Task``:
-
-.. code-block:: graphql
-   :emphasize-lines: 5
-   
-   type Task {
-     _id: ObjectId!
-     name: String!
-     status: String!
-     supportReferences: TaskSupportReferencesPayload
-   }
-   
-   type TaskSupportReferencesPayload {
-     references: [SupportReference]!
-   }
-   
-   type SupportReference {
-     name: String
-     text: String
-   }
+Example Usage
++++++++++++++
 
 To use this custom computed property, you could run the following operation:
 
 .. code-block:: graphql
-   :emphasize-lines: 6-9
+   :emphasize-lines: 9-12
    
-   query GetTasks {
-     tasks {
+   query GetSalesWithSupportCases {
+     sales {
        _id
-       name
-       status
-       supportReferences {
-         name
-         text
+       customer_id
+       year
+       month
+       saleTotal
+       notes
+       customerSupportCases {
+         caseId
+         description
        }
      }
    }
