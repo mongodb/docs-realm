@@ -1,0 +1,62 @@
+.. _builtin-module-support:
+
+=======================
+Built-In Module Support
+=======================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+You can :ref:`use <import-external-dependencies>` the following built-in
+modules in your {+service-short+} :ref:`functions <functions>`:
+
+.. note::
+   
+   The supported modules are compatible with :nodejs:`Node API version
+   10.18.1 <docs/v10.18.1/api/>`. Avoid using APIs in these modules
+   introduced after or deprecated since Node 10.18.1.
+
+- :nodejs:`assert <docs/v10.18.1/api/assert.html>`
+- :nodejs:`buffer <docs/v10.18.1/api/buffer.html>`
+- :nodejs:`crypto <docs/v10.18.1/api/crypto.html>`
+- :nodejs:`events <docs/v10.18.1/api/events.html>`
+- :nodejs:`fs <docs/v10.18.1/api/fs.html>`
+- :nodejs:`http <docs/v10.18.1/api/http.html>`
+- :nodejs:`https <docs/v10.18.1/api/https.html>`
+- :nodejs:`net <docs/v10.18.1/api/net.html>`
+- :nodejs:`os <docs/v10.18.1/api/os.html>`
+- :nodejs:`path <docs/v10.18.1/api/path.html>`
+- :nodejs:`querystring <docs/v10.18.1/api/querystring.html>`
+- :nodejs:`stream <docs/v10.18.1/api/stream.html>`
+- :nodejs:`string_decoder <docs/v10.18.1/api/string_decoder.html>`
+- :nodejs:`timers <docs/v10.18.1/api/timers.html>`
+- :nodejs:`tls <docs/v10.18.1/api/tls.html>`
+- :nodejs:`tty <docs/v10.18.1/api/tty.html>`
+- :nodejs:`url <docs/v10.18.1/api/url.html>`
+- :nodejs:`util <docs/v10.18.1/api/util.html>`
+- :nodejs:`zlib <docs/v10.18.1/api/zlib.html>`
+
+Additionally, {+service-short+} supports the following ``process`` APIs:
+
+- :nodejs:`hrTime <docs/v10.18.1/api/process.html#process_process_hrtime_time>`
+- :nodejs:`nextTick <docs/latest-v10.x/api/process.html#process_process_nexttick_callback_args>`
+- :nodejs:`version <docs/latest-v10.x/api/process.html#process_process_version>`
+- :nodejs:`versions <docs/latest-v10.x/api/process.html#process_process_versions>`
+
+{+service-short+} functions **do not** support the following built-in
+modules:
+
+- ``child_process``
+- ``cluster``
+- ``dgram``
+- ``dns``
+- ``domain``
+- ``punycode``
+- ``readline``
+- ``v8``
+- ``vm``
