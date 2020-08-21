@@ -75,11 +75,11 @@ Constraints
   - New Math, Number, String, Array, and Object APIs (e.g. ``Array.prototype.includes``)
 
 - A function may open a maximum of 5 sockets using the :nodejs:`net
-  <api/net.html>` built-in module.
+  <docs/v10.18.1/api/net.html>` built-in module.
 
-- Realm does not support some built-in Node modules. For a full list of
-  unsupported modules, see :ref:`Built-In Module Support
-  <builtin-module-support>`.
+- {+service-short+} supports a subset of built-in Node modules. For a 
+  full list of supported and unsupported modules, see
+  :ref:`Built-In Module Support <builtin-module-support>`.
 
 Concepts
 --------
@@ -142,6 +142,7 @@ the following guides:
 
 - :doc:`Upload External Dependencies </functions/upload-external-dependencies>`
 - :doc:`Import External Dependencies </functions/import-external-dependencies>`
+- :doc:`Built-In Module Support </functions/built-in-module-support>`
 
 .. admonition:: Create Your Own Modules
    :class: note
@@ -198,3 +199,37 @@ Reference Documentation
 
    * - :doc:`Utility Packages </functions/utilities>`
      - Includes detailed information about global utility packages.
+
+   * - :doc:`JSON & BSON </functions/utilities>`
+     - Details built-in global modules for working with JavaScript and MongoDB data formats.
+
+   * - :doc:`Built-In Module Support </functions/built-in-module-support>`
+     - Details which standard Node modules and APIs are available in {+service-short+} functions.
+
+
+.. toctree::
+   :titlesonly:
+   :caption: Work with Realm Functions
+   :hidden:
+
+   Define a Function </functions/define-a-function>
+   Call a Function </functions/call-a-function>
+   Access Function Context </functions/access-function-context>
+
+.. toctree::
+   :titlesonly:
+   :caption: External Dependencies
+   :hidden:
+
+   Upload External Dependencies </functions/upload-external-dependencies>
+   Import External Dependencies </functions/import-external-dependencies>
+   Built-In Module Support </functions/built-in-module-support>
+
+.. toctree::
+   :titlesonly:
+   :caption: Reference
+   :hidden:
+
+   Function Context Reference </functions/context>
+   Utility Packages </functions/utilities>
+   JSON & BSON </functions/json-and-bson>
