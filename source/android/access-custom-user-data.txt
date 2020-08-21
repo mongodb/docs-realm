@@ -23,6 +23,89 @@ User Data <custom-user-data>`.
 
 .. include:: /includes/use-custom-data-note.rst
 
+.. _android-read-custom-user-data:
+
+Read Custom User Data
+---------------------
+
+You can read the custom user data of a currently logged in user
+through that user's ``User`` object. You cannot edit custom user data
+through a ``User`` object. To edit custom user data, see
+:ref:`Update Custom User Data <android-update-custom-user-data>`.
+To access the data, call the
+:java-sdk:`User.customData() <io/realm/mongodb/User.html#getCustomData-->`
+method on the ``User`` object of a logged in user:
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: kotlin
+      
+      .. code-block:: kotlin
+         :emphasize-lines: 13
+         
+         Realm.init(this) // context, usually an Activity or Application
+         val appID = "<your app ID>" // replace this with your App ID
+         val app: App = App(AppConfiguration.Builder(appID)
+                .build())
+
+         val anonymousCredentials: Credentials = Credentials.anonymous()
+
+         val user: User? = null
+         app.loginAsync(anonymousCredentials) {
+            if (it.isSuccess) {
+                Log.v(TAG, "Successfully authenticated anonymously.")
+                user = app.currentUser()
+                val customUserData : Document? = user?.customData
+            } else {
+                Log.e(TAG, it.error.toString())
+            }
+         }
+
+   .. tab::
+      :tabid: java
+
+      .. code-block:: java
+         :emphasize-lines: 12
+
+         Realm.init(this); // context, usually an Activity or Application
+         String appID = "<your app ID>"; // replace this with your App ID
+         App app = new App(new AppConfiguration.Builder(appID)
+               .build());
+
+         Credentials anonymousCredentials = Credentials.anonymous();
+
+         app.loginAsync(anonymousCredentials, it -> {
+            if (it.isSuccess()) {
+               Log.v(TAG, "Successfully authenticated anonymously.");
+               user = app.currentUser();
+               Document customUserData = user.getCustomData()
+            } else {
+               Log.e(TAG, it.getError().toString());
+            }
+         });
+
+.. admonition:: Custom Data May Be Stale
+   :class: warning
+   
+   {+backend+} does not dynamically update the value of
+   :java-sdk:`User.customData() <io/realm/mongodb/User.html#getCustomData-->`
+   immediately when underlying data changes. Instead, {+backend+}
+   fetches the most recent version of custom user data whenever a user
+   refreshes their :ref:`access token <user-sessions>`, which occurs
+   during most SDK operations that contact the {+backend+} back end.
+   {+service-short+} refreshes access tokens every 30 minutes, so custom
+   user data can be stale for no more than 30 minutes.
+
+.. note::
+
+   If you require the most recent version of custom user data, use the
+   :java-sdk:`User.refreshCustomData()
+   <io/realm/mongodb/User.html#refreshCustomData-->` method to request
+   the latest version of a user's custom data.
+
+.. _android-write-custom-user-data:
+
 Write Custom User Data
 ----------------------
 
@@ -41,12 +124,6 @@ information from your custom user data configuration:
 
 You can find this information in the the :guilabel:`Custom User Data`
 tab of the :guilabel:`Users` left sidebar entry of the {+ui+}.
-
-You can update custom user data using :ref:`MongoDB Data Access
-<android-mongodb-data-access>`, {+service-short+} :ref:`Sync
-<android-sync-data>`, `MongoDB Compass
-<https://docs.mongodb.com/compass>`__, or the :atlas:`MongoDB Atlas Data
-Explorer </data-explorer/>`.
 
 .. _android-create-custom-user-data:
 
@@ -151,11 +228,18 @@ as custom user data.
 Update Custom User Data for a User
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To update a user's custom user data, edit the MongoDB document whose
-user ID field contains the user ID of the user. The following example uses
-:term:`MongoDB Data Access <android-mongodb-data-access>` to update the
-``favoriteColor`` field of the the document containing the user ID of
-the currently logged in user in the custom user data collection:
+You can update custom user data using :ref:`MongoDB Data Access
+<android-mongodb-data-access>`, {+service-short+} :ref:`Sync
+<android-sync-data>`, `MongoDB Compass
+<https://docs.mongodb.com/compass>`__, or the :atlas:`MongoDB Atlas Data
+Explorer </data-explorer/>`.
+
+To update a user's custom user data with MongoDB Data Access, edit the
+MongoDB document whose user ID field contains the user ID of the user.
+The following example uses :term:`MongoDB Data Access
+<android-mongodb-data-access>` to update the ``favoriteColor`` field of
+the the document containing the user ID of the currently logged in user
+in the custom user data collection:
 
 .. tabs-realm-languages::
    
@@ -247,87 +331,6 @@ the currently logged in user in the custom user data collection:
 You can determine the ``id`` of a user through either the ``User``
 object of the user once logged in or via the :guilabel:`Users` tab of
 the :guilabel:`Users` left sidebar entry of the {+ui+}.
-
-.. _android-read-custom-user-data:
-
-Read Custom User Data
----------------------
-
-You can read the custom user data of a currently logged in user
-through that user's ``User`` object. You cannot edit custom user data
-through a ``User`` object. To edit custom user data, see
-:ref:`Update Custom User Data <android-update-custom-user-data>`.
-To access the data, call the
-:java-sdk:`User.customData() <io/realm/mongodb/User.html#getCustomData-->`
-method on the ``User`` object of a logged in user:
-
-.. tabs-realm-languages::
-   
-   .. tab::
-      :tabid: kotlin
-      
-      .. code-block:: kotlin
-         :emphasize-lines: 13
-         
-         Realm.init(this) // context, usually an Activity or Application
-         val appID = "<your app ID>" // replace this with your App ID
-         val app: App = App(AppConfiguration.Builder(appID)
-                .build())
-
-         val anonymousCredentials: Credentials = Credentials.anonymous()
-
-         val user: User? = null
-         app.loginAsync(anonymousCredentials) {
-            if (it.isSuccess) {
-                Log.v(TAG, "Successfully authenticated anonymously.")
-                user = app.currentUser()
-                val customUserData : Document? = user?.customData
-            } else {
-                Log.e(TAG, it.error.toString())
-            }
-         }
-
-   .. tab::
-      :tabid: java
-
-      .. code-block:: java
-         :emphasize-lines: 12
-
-         Realm.init(this); // context, usually an Activity or Application
-         String appID = "<your app ID>"; // replace this with your App ID
-         App app = new App(new AppConfiguration.Builder(appID)
-               .build());
-
-         Credentials anonymousCredentials = Credentials.anonymous();
-
-         app.loginAsync(anonymousCredentials, it -> {
-            if (it.isSuccess()) {
-               Log.v(TAG, "Successfully authenticated anonymously.");
-               user = app.currentUser();
-               Document customUserData = user.getCustomData()
-            } else {
-               Log.e(TAG, it.getError().toString());
-            }
-         });
-
-.. admonition:: Custom Data May Be Stale
-   :class: warning
-   
-   {+backend+} does not dynamically update the value of
-   :java-sdk:`User.customData() <io/realm/mongodb/User.html#getCustomData-->`
-   immediately when underlying data changes. Instead, {+backend+}
-   fetches the most recent version of custom user data whenever a user
-   refreshes their :ref:`access token <user-sessions>`, which occurs
-   during most SDK operations that contact the {+backend+} back end.
-   {+service-short+} refreshes access tokens every 30 minutes, so custom
-   user data can be stale for no more than 30 minutes.
-
-.. note::
-
-   If you require the most recent version of custom user data, use the
-   :java-sdk:`User.refreshCustomData()
-   <io/realm/mongodb/User.html#refreshCustomData-->` method to request
-   the latest version of a user's custom data.
 
 Summary
 -------

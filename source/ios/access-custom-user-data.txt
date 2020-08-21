@@ -1,0 +1,174 @@
+.. _ios-access-custom-user-data:
+
+=======================
+Access Custom User Data
+=======================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+You can read arbitrary data about your application users, known as
+custom user data, directly within your ios application. For example,
+you might store a user's preferred language, date of birth, or local
+timezone. To learn more about custom user data, see :ref:`Enable Custom
+User Data <custom-user-data>`.
+
+.. include:: /includes/use-custom-data-note.rst
+
+.. _ios-read-custom-user-data:
+
+Read Custom User Data
+---------------------
+
+You can read the custom user data of a currently logged in user through
+that user's ``User`` object. You cannot edit custom user data through a
+``User`` object. To edit custom user data, see :ref:`Update Custom User
+Data <ios-update-custom-user-data>`. To read the data, access the
+``customData`` property on the ``User`` object of a logged in user:
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: swift
+      
+      .. literalinclude:: /examples/CustomUserData/ReadCustomUserData.swift
+         :language: swift
+         :emphasize-lines: 13, 16
+
+   .. tab::
+      :tabid: objective-c
+
+      .. literalinclude:: /examples/CustomUserData/ReadCustomUserData.m
+         :language: objective-c
+         :emphasize-lines: 9, 12
+
+.. admonition:: Custom Data May Be Stale
+   :class: warning
+   
+   {+backend+} does not dynamically update the value of the client-side
+   user custom data document immediately when underlying data changes.
+   Instead, {+backend+} fetches the most recent version of custom user
+   data whenever a user refreshes their :ref:`access token
+   <user-sessions>`, which is used by most SDK operations that contact
+   the {+backend+} back end. {+service-short+} refreshes access tokens
+   every 30 minutes, so custom user data can be stale for no more than
+   30 minutes.
+
+.. note::
+
+   If you require the most recent version of custom user data, use the
+   :objc-sdk:`refreshCustomDataWithCompletion
+   <Classes/RLMUser.html#/c:objc(cs)RLMUser(im)refreshCustomDataWithCompletion:>`
+   method to request the latest version of a user's custom data.
+
+Write Custom User Data
+----------------------
+
+To create, update, or delete custom user data, you will need the following
+information from your app's custom user data configuration:
+
+- the :term:`custom user data cluster`
+
+- the :term:`custom user data database`
+
+- the :term:`custom user data collection` in which custom
+  user data documents are stored
+
+- the :term:`user ID field` used to map custom user data documents
+  to users (via :term:`user ID`)
+
+You can find the name of the custom user data cluster in the the
+:guilabel:`Custom User Data` tab of the :guilabel:`Users` left sidebar
+entry of the {+ui+}.
+
+.. _ios-create-custom-user-data:
+
+Create Custom User Data for a User
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To create custom user data for a user, create a MongoDB document in the
+custom user data collection. The user ID field of the document should
+contain the the user's :term:`user ID`. The following example uses
+:term:`MongoDB Data Access <ios-mongodb-data-access>` to insert a
+document containing the user ID of the currently logged in user and a
+``favoriteColor`` value into the custom user data collection:
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: swift
+      
+      .. literalinclude:: /examples/CustomUserData/CreateCustomUserData.swift
+         :language: swift
+         :emphasize-lines: 16-19
+
+   .. tab::
+      :tabid: objective-c
+
+      .. literalinclude:: /examples/CustomUserData/CreateCustomUserData.m
+         :language: objective-c
+         :emphasize-lines: 10-11
+
+
+You can add any number of arbitrary fields and values to the custom user
+data document when you create it. The user ID field is the only
+requirement for the document to become available on the ``User`` object
+as custom user data.
+
+.. _ios-update-custom-user-data:
+
+Update Custom User Data for a User
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can update custom user data using :ref:`MongoDB Data Access
+<ios-mongodb-data-access>`, {+service-short+} :ref:`Sync
+<ios-sync-data>`, `MongoDB Compass
+<https://docs.mongodb.com/compass>`__, or the :atlas:`MongoDB Atlas Data
+Explorer </data-explorer/>`.
+
+To update a user's custom user data with MongoDB Data Access, edit the
+MongoDB document whose user ID field contains the user ID of the user.
+The following example uses :term:`MongoDB Data Access
+<ios-mongodb-data-access>` to update the ``favoriteColor`` field of the
+the document containing the user ID of the currently logged in user in
+the custom user data collection:
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: swift
+      
+      .. literalinclude:: /examples/CustomUserData/UpdateCustomUserData.swift
+         :language: swift
+         :emphasize-lines: 14-17
+
+   .. tab::
+      :tabid: objective-c
+
+      .. literalinclude:: /examples/CustomUserData/UpdateCustomUserData.m
+         :language: objective-c
+         :emphasize-lines: 12-13
+
+You can determine the ``id`` of a user through either the ``User``
+object of the user once logged in or via the :guilabel:`Users` tab of
+the :guilabel:`Users` left sidebar entry of the {+ui+}.
+
+Summary
+-------
+
+- You can use custom user data to store arbitrary information about your application users.
+
+- {+service+} stores custom user data as a document in a MongoDB collection determined by your application configuration.
+
+- {+service+} associates custom user data with a user based on the value of the user ID field.
+
+- The custom user data field of the user object is read-only. You can modify custom user data using :ref:`MongoDB Data Access
+  <ios-mongodb-data-access>` or :ref:`Sync <ios-sync-data>`.
