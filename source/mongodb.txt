@@ -17,7 +17,7 @@ MongoDB Atlas Overview
    :caption: Configure a MongoDB Data Source
    :hidden:
 
-   Link a Cluster or Data Lake </mongodb/link-a-data-source>
+   Link a Data Source </mongodb/link-a-data-source>
    Enforce a Document Schema </mongodb/enforce-a-document-schema>
    Filter Incoming Queries </mongodb/filter-incoming-queries>
    Specify Read Preference for a MongoDB Cluster </mongodb/specify-cluster-read-preference>
@@ -55,10 +55,11 @@ Overview
 --------
 
 {+service+} provides a first-class service interface for `{+atlas+}
-<https://www.mongodb.com/cloud/atlas?tck=docs_realm>`_ that
-lets you securely query one or more {+atlas-short+} clusters. You can
-use standard MongoDB query language syntax to access your data directly
-in your client application code or from a :doc:`{+service-short+} Function </functions>`.
+<https://www.mongodb.com/cloud/atlas?tck=docs_realm>`_ that lets you
+securely query one or more {+atlas-short+} data sources. You can use
+standard MongoDB query language syntax to access your data directly in
+your client application code or from a :doc:`{+service-short+} Function
+</functions>`.
 
 The :ref:`MongoDB service <mongodb-service>` secures your data with a
 dynamic, role-based :guilabel:`Rules` engine that proxies and modifies
@@ -144,6 +145,8 @@ MongoDB Atlas cluster and apply to individual documents in
 the collection dynamically based on the :doc:`application
 user </authentication>` that issued a query.
 
+.. include:: /includes/data-lake-rules-note.rst
+
 The rules engine handles incoming queries with the following 4-step
 process:
 
@@ -207,7 +210,7 @@ Configuration Guides
    * - Guide
      - Description
 
-   * - :doc:`Link a MongoDB Atlas Cluster </mongodb/link-a-data-source>`
+   * - :doc:`Link a MongoDB Data Source </mongodb/link-a-data-source>`
      - Learn how to connect a MongoDB Atlas cluster or Data Lake to your application.
 
    * - :doc:`Define Roles and Permissions </mongodb/define-roles-and-permissions>`
