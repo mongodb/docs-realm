@@ -14,9 +14,9 @@ ref: select-a-cluster-to-sync
 content: |
   You can enable sync for a single :term:`linked cluster` in your application.
   If you have not yet linked the cluster to your application, follow the
-  :ref:`Link a MongoDB Atlas Cluster <link-a-cluster>` guide to link it before
+  :ref:`link-a-data-source` guide to link it before
   you continue.
-  
+
   Determine which cluster you want to use and then open its configuration file.
   Add the ``config.sync`` field with the following value:
 
@@ -80,7 +80,7 @@ content: |
   Realm allows you to define :ref:`JSON expressions <expressions>` that it
   dynamically evaluates whenever a user opens a realm to determine if the user
   has read or write permissions for data in the partition.
-  
+
   Sync rule expressions have access to :json-expansion:`%%user`, which resolves
   to the user that opened the realm, and :json-expansion:`%%partition`, which
   resolves to the partition key value for the realm. You can also use operators,
@@ -124,10 +124,9 @@ content: |
   Now that you've defined the sync configuration, including read and write
   permissions, you can deploy your changes to start syncing data and enforcing
   sync rules.
-  
+
   To deploy your changes, import your app configuration:
-  
+
   .. code-block:: shell
      
      realm-cli import
-...

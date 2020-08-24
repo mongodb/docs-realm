@@ -1,9 +1,8 @@
-.. _link-a-cluster:
 .. _link-a-data-source:
 
-=========================================
-Link a MongoDB Atlas Cluster or Data Lake
-=========================================
+==========================
+Link a MongoDB Data Source
+==========================
 
 .. default-domain:: mongodb
 
@@ -56,20 +55,26 @@ data.
 
 .. _data-lake-caveats:
 
-.. admonition:: Linked Data Lake Caveats
-   :class: important
+Linked Data Lake Considerations
+-------------------------------
 
-   For the most part, you can interact with a linked Data Lake just as
-   you would with a linked Atlas cluster. However, there are some
-   caveats to keep in mind when working with a Data Lake:
+For the most part, you can interact with a linked Data Lake just as
+you would with a linked Atlas cluster. However, there are some
+caveats to keep in mind when working with a Data Lake:
 
-   - Data Lakes do not support write operations.
-   - You cannot set a :ref:`Read Preference <read-preference>` for a linked Data Lake.
-   - You can only access a linked Data Lake from a :ref:`system function <system-functions>`.
-   - You cannot define :ref:`roles and permissions <define-roles-and-permissions>` for a linked Data Lake.
+- Data Lakes do not support write operations.
+- You can only access a linked Data Lake from a :ref:`system function <system-functions>`.
+- You cannot connect to the Data Lake via the wire protocol.
+- You cannot define :ref:`roles and permissions <define-roles-and-permissions>` for a linked Data Lake.
+- You cannot set a :ref:`Read Preference <read-preference>` for a linked Data Lake.
+
+.. _work-with-a-linked-data-source:
+
+Work With a Linked Data Source
+------------------------------
 
 The following pages demonstrate how to start working with your
-linked data source.
+linked data source from a :ref:`function <functions>`:
 
 .. see::
 
@@ -78,3 +83,13 @@ linked data source.
    - :doc:`Update Documents </mongodb/update-documents>`
    - :doc:`Delete Documents </mongodb/delete-documents>`
    - :doc:`Run Aggregation Pipelines </mongodb/run-aggregation-pipelines>`
+
+You can access your MongoDB data source remotely from a client. See the
+following sections of the Client Guides:
+
+.. see::
+
+   - :ref:`android-mongodb-data-access` (Android SDK)
+   - :ref:`ios-client-remote` (iOS SDK)
+   - :ref:`node-mongodb-data-access` (Node SDK)
+   - :ref:`react-native-mongodb-data-access` (React Native SDK)

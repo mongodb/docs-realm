@@ -19,13 +19,13 @@ title: Add a Rule Configuration File
 ref: add-a-rule-configuration-file
 content: |
   The ``rules`` subdirectory of the :doc:`linked cluster
-  </mongodb/link-a-cluster>`'s service directory configures the rules
-  for a MongoDB collection. The rules configuration file is a JSON file
-  with the same name as the collection namespace. For example, the file
-  ``/services/mongodb-atlas/rules/app.users.json`` defines the rules for
-  the collection ``app.users`` in the ``mongodb-atlas`` cluster. If you
-  have not configured rules for the collection, add a configuration file
-  for it to the ``rules`` directory:
+  </mongodb/link-a-data-source>`'s service directory configures the rules for a
+  MongoDB collection. The rules configuration file is a JSON file with the same
+  name as the collection namespace. For example, the file
+  ``/services/mongodb-atlas/rules/app.users.json`` defines the rules for the
+  collection ``app.users`` in the ``mongodb-atlas`` cluster. If you have not
+  configured rules for the collection, add a configuration file for it to the
+  ``rules`` directory:
 
   .. code-block:: shell
 
@@ -47,6 +47,10 @@ content: |
      :doc:`define roles and permissions
      </mongodb/define-roles-and-permissions>` and :doc:`enforce document
      schemas </mongodb/enforce-a-document-schema>`.
+   
+  .. note::
+     Data Lake data sources do not support rules.
+
 ---
 title: Add One or More Filters
 ref: add-one-or-more-filters

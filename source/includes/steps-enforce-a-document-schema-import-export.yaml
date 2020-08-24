@@ -20,13 +20,13 @@ title: Add a Rule Configuration File
 ref: add-a-rule-configuration-file
 content: |
   The ``rules`` subdirectory of the :doc:`linked cluster
-  </mongodb/link-a-cluster>`'s service directory configures the rules for
-  a MongoDB collection. The rules configuration file is a JSON file with
-  the same name as the collection namespace. For example, the file
-  ``/services/mongodb-atlas/rules/app.users.json`` defines the rules for
-  the collection ``app.users`` in the ``mongodb-atlas`` cluster. If you
-  have not configured rules for the collection, add a configuration file
-  for it to the ``rules`` directory:
+  </mongodb/link-a-data-source>`'s service directory configures the rules for a
+  MongoDB collection. The rules configuration file is a JSON file with the same
+  name as the collection namespace. For example, the file
+  ``/services/mongodb-atlas/rules/app.users.json`` defines the rules for the
+  collection ``app.users`` in the ``mongodb-atlas`` cluster. If you have not
+  configured rules for the collection, add a configuration file for it to the
+  ``rules`` directory:
 
   .. code-block:: shell
 
@@ -49,6 +49,8 @@ content: |
      :doc:`define roles and permissions
      </mongodb/define-roles-and-permissions>` and :doc:`create filters
      </mongodb/filter-incoming-queries>`.
+
+  .. include:: /includes/data-lake-rules-note.rst
 
 ---
 title: Add a Schema Document

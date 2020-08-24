@@ -49,7 +49,7 @@ content: |
   .. code-block:: shell
 
      {
-       "type": "mongodb-atlas",
+       "type": "datalake",
        "name": "<Service Name>",
        "config": {
          "dataLakeName": "<Data Lake>",
@@ -77,7 +77,8 @@ content: |
       - Required when linking a Data Lake. The name of the Data Lake that you want to link to your application.
     * - | :guilabel:`MongoDB Connection String`
         | *config.wireProtocolEnabled*
-      - Required. A boolean indicating whether {+service-short+} should allow
+      - Required when linking an Atlas Cluster. Not supported for Data Lakes.
+        A boolean indicating whether {+service-short+} should allow
         clients to :doc:`connect to this cluster with a connection
         string over the wire protocol
         </mongodb/connect-over-the-wire-protocol>`.

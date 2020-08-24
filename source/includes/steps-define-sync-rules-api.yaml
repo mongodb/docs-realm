@@ -3,21 +3,21 @@ ref: select-a-cluster-to-sync
 content: |
   You can enable sync for a single :term:`linked cluster` in your application.
   If you have not yet linked the cluster to your application, follow the
-  :ref:`Link a MongoDB Atlas Cluster <link-a-cluster>` guide to link it before
+  :ref:`link-a-data-source` guide to link it before
   you continue.
-  
+
   You'll need the cluster's service configuration file to configure sync. You
   can find the configuration file by listing all services through the Admin API:
-  
+
   .. code-block:: shell
      
      curl https://realm.mongodb.com/api/admin/v3.0/groups/{GROUP_ID}/apps/{APP_ID}/services \
        -X GET \
        -h 'Authorization: Bearer <Valid Access Token>'
-  
+
   Once you have the configuration, add the ``config.sync`` field with the
   following template configuration:
-  
+
   .. code-block:: json
      
      {
@@ -48,10 +48,10 @@ content: |
   so it's particularly important to consider your data model and access
   patterns. For more information on partition keys and how to choose one, see
   :ref:`Partition Atlas Data into Realms <partitioning>`.
-  
+
   You can get a list of all valid partition keys and their corresponding types
   through the Admin API:
-  
+
   .. code-block:: shell
      
      curl https://realm.mongodb.com/api/admin/v3.0/groups/{GROUP_ID}/apps/{APP_ID}/sync/data?service_id=<MongoDB Service ID> \
@@ -91,7 +91,7 @@ content: |
   Realm allows you to define :ref:`JSON expressions <expressions>` that it
   dynamically evaluates whenever a user opens a realm to determine if the user
   has read or write permissions for data in the partition.
-  
+
   Sync rule expressions have access to :json-expansion:`%%user`, which resolves
   to the user that opened the realm, and :json-expansion:`%%partition`, which
   resolves to the partition key value for the realm. You can also use operators,
@@ -135,16 +135,15 @@ content: |
   Now that you've defined the sync configuration, including read and write
   permissions, you can deploy your changes to start syncing data and enforcing
   sync rules.
-  
+
   To deploy your changes, send an Admin API request that updates the cluster
   configuration with your sync configuration:
-  
+
   .. code-block:: shell
      
      curl https://realm.mongodb.com/api/admin/v3.0/groups/{GROUP_ID}/apps/{APP_ID}/services/{MongoDB_Service_ID}/config \
        -X PATCH \
        -h 'Authorization: Bearer <Valid Access Token>' \
        -d '{"sync":{"state":"enabled","database_name":"","partition":{"key":"_partition","type":"string","permissions":{"read":{"$or":[{"%%user.id":"%%partition"},{"%%user.custom_data.shared":"%%partition"}]},"write": {"%%user.id": "%%partition"}}}}'
-  
+
   .. seealso:: :admin-api-endpoint:`Admin API: Update a Service Configuration <patch-/groups/{groupid}/apps/{appid}/services/{serviceid}/config>`
-...

@@ -19,8 +19,8 @@ title: Enable Wire Protocol for the Cluster
 ref: enable-wire-protocol-for-the-cluster
 content: |
   The ``config.json`` configuration file in the :doc:`linked cluster
-  </mongodb/link-a-cluster>`'s service directory configures wire
-  protocol connections.
+  </mongodb/link-a-data-source>`'s service directory configures wire protocol
+  connections.
 
   In the configuration file, set ``config.wireProtocolEnabled`` to ``true``:
 
@@ -29,6 +29,9 @@ content: |
      {
        "config": { "wireProtocolEnabled": true }
      }
+
+  .. include:: /includes/data-lake-wire-protocol-note.rst
+
 ---
 title: Import Your Application Directory
 ref: import-your-application-directory
