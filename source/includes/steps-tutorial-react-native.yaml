@@ -190,7 +190,7 @@ content: |
          const creds = Realm.Credentials.emailPassword(email, password);
          const newUser = await app.logIn(creds);
          setUser(newUser);
-         console.log(`Logged in as ${newUser.identity}`);
+         console.log(`Logged in as ${newUser.id}`);
        };
 
        // Log out the current user.
@@ -607,7 +607,7 @@ content: |
 
          console.log(
            `Attempting to open Realm ${projectId} for user ${
-             user.identity
+             user.id
            } with config: ${JSON.stringify(config)}...`,
          ); 
 
