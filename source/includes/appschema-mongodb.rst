@@ -26,8 +26,9 @@ the ``/rules`` sub-directory.
 
    MongoDB Service names are not necessarily the same as their linked
    data source's name in Atlas. You define the service name for a data
-   source when you link it to your application. The default MongoDB
-   service name is ``mongodb-atlas``.
+   source when you link it to your application. For linked clusters, the
+   default MongoDB service name is ``mongodb-atlas``. For linked Data
+   Lakes, the default service name is ``mongodb-datalake``.
 
 .. _mongodb-service-configuration-file:
 

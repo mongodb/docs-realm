@@ -24,7 +24,7 @@ The configuration file to link a Data Lake should have the following form:
    {
      "id": "<Service ID>",
      "name": "<Service Name>",
-     "type": "mongodb-atlas",
+     "type": "datalake",
      "config": {
         "dataLakeName": "<Data Lake>"
       }
@@ -50,11 +50,13 @@ required, depending on whether you are linking a Data Lake or a cluster.
        | String
      - The name of the service. The name may be at most 64 characters
        long and can only contain ASCII letters, numbers, underscores,
-       and hyphens. The default cluster name is ``mongodb-atlas``.
+       and hyphens. For clusters, the default name is ``mongodb-atlas``.
+       For Data Lakes, it is ``mongodb-datalake``.
    
    * - | ``type``
        | String
-     - This value is always ``"mongodb-atlas"`` for MongoDB Atlas services.
+     - For MongoDB Atlas clusters, this value is always ``"mongodb-atlas"``.
+       For Data Lakes, this value is ``"datalake"``.
    
    * - | ``config.clusterName``
        | String
