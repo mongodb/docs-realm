@@ -1,0 +1,95 @@
+.. _link-a-data-source:
+
+==========================
+Link a MongoDB Data Source
+==========================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+You can use {+service+} to work with a **data source** -- either a
+`{+atlas+} <https://www.mongodb.com/cloud/atlas?tck=docs_realm>`_
+cluster or `Data Lake
+<https://www.mongodb.com/atlas/data-lake?tck=docs_realm>`_ associated
+with the same Atlas project as your {+app+}. To connect to a data source
+through {+service-short+}, you must first link it to a new MongoDB
+service in your application.
+
+You can create a MongoDB service and link a data source to your {+app+}
+through the {+ui+} or with an :doc:`import/export </deploy/deploy-cli>`
+configuration directory. Select the tab below that corresponds to the
+method you want to use.
+
+.. admonition:: Version 4.4 Required for Sync
+   :class: note
+
+   In order to use {+sync+}, your Atlas cluster must use MongoDB version
+   4.4.
+
+Procedure
+---------
+
+.. tabs-realm-admin-interfaces::
+
+   tabs:
+     - id: ui
+       content: |
+         .. include:: /includes/steps/link-a-data-source-realm-ui.rst
+
+     - id: cli
+       content: |
+         .. include:: /includes/steps/link-a-data-source-import-export.rst
+
+{+service-short+} will immediately begin the process of linking to the
+data source, which could take up to five minutes. Once {+service-short+}
+is finished linking to the data source, you can start working with the
+data.
+
+.. _data-lake-caveats:
+
+Linked Data Lake Considerations
+-------------------------------
+
+For the most part, you can interact with a linked Data Lake just as
+you would with a linked Atlas cluster. However, there are some
+caveats to keep in mind when working with a Data Lake:
+
+- Data Lakes :datalake:`do not support write operations <supported-unsupported/mql-support>`.
+- You can only access a linked Data Lake from a :ref:`system function <system-functions>`.
+- You cannot connect to the Data Lake via the wire protocol.
+- You cannot define :ref:`roles and permissions <define-roles-and-permissions>` for a linked Data Lake.
+- You cannot set a :ref:`Read Preference <read-preference>` for a linked Data Lake.
+
+.. _work-with-a-linked-data-source:
+
+Work with a Linked Data Source
+------------------------------
+
+The following pages demonstrate how to start working with your
+linked data source from a :ref:`function <functions>`:
+
+.. see::
+
+   - :doc:`Insert Documents </mongodb/insert-documents>`
+   - :doc:`Find Documents </mongodb/find-documents>`
+   - :doc:`Update Documents </mongodb/update-documents>`
+   - :doc:`Delete Documents </mongodb/delete-documents>`
+   - :doc:`Run Aggregation Pipelines </mongodb/run-aggregation-pipelines>`
+
+You can access your MongoDB data source remotely from a client. See the
+following sections of the Client Guides:
+
+.. see::
+
+   - :ref:`android-mongodb-data-access` (Android SDK)
+   - :ref:`ios-client-remote` (iOS SDK)
+   - :ref:`node-mongodb-data-access` (Node SDK)
+   - :ref:`react-native-mongodb-data-access` (React Native SDK)

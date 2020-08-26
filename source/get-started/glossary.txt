@@ -29,8 +29,8 @@ Glossary
       See the MongoDB Manual's :manual:`definition of document
       </core/document/>`. For :term:`{+app+}s <{+app+}>` that use
       :term:`{+sync+}`, every MongoDB document in the {+app+}'s
-      :term:`linked Atlas cluster <linked cluster>` corresponds to
-      a synced :term:`{+service-short+} object` in a client :term:`{+realm+}`.
+      :term:`data source` corresponds to a synced
+      :term:`{+service-short+} object` in a client :term:`{+realm+}`.
 
    partition key
       A field within a :term:`MongoDB document` whose
@@ -135,7 +135,7 @@ Glossary
 
    event loop
       A design pattern in which a central loop waits
-      for signals from a UI or data source before updating underlying
+      for signals from a UI or other source before updating underlying
       data structures. On iOS, known as a :apple:`run loop
       <documentation/foundation/runloop>`. On Android, known as a :android-dev:`Looper
       <reference/android/os/Looper>`. Also known as the **main loop** or
@@ -240,6 +240,15 @@ Glossary
       data in your synced cluster from a :term:`{+service-short+} client` using
       the {+atlas+} service in the {+service-short+} SDK.
 
+      .. seealso:: :ref:`link-a-data-source`
+
+   data source
+      A :term:`{+atlas+}` cluster or `Data Lake
+      <https://www.mongodb.com/atlas/data-lake?tck=docs_realm>`_ that is
+      associated with your :term:`{+app+}`.
+
+      .. seealso:: :ref:`link-a-data-source`
+
    synced cluster
       A :term:`{+atlas+}` database cluster that is
       :term:`partitioned <partitioning>` into
@@ -259,12 +268,12 @@ Glossary
       A :term:`{+service-short+} Function` that runs as the :term:`system user`.
 
    system user
-      A user that communicates directly with the :term:`linked cluster`
-      and other services, bypassing collection :term:`{+service-short+} Rules` and
-      :term:`Schema Validation`. This user bypasses most restrictions on
-      the
-      :ref:`CRUD & Aggregation APIs <mongodb-crud-and-aggregation-apis>`.
-
+      A user that communicates directly with the :term:`data source` and
+      other services, bypassing collection :term:`{+service-short+}
+      Rules` and :term:`Schema Validation`. This user bypasses most
+      restrictions on the :ref:`CRUD & Aggregation APIs
+      <mongodb-crud-and-aggregation-apis>`.
+   
    custom user data
       A mapped :term:`MongoDB document` that stores arbitrary
       information about a given {+service+} user. For example, you can store
@@ -301,7 +310,7 @@ Glossary
       components of your :term:`{+app+}` from a :term:`{+service-short+} Function`.
       For example, you can call another Function, communicate
       with an external service using the HTTP module, or access data in a
-      :term:`linked cluster`.
+      :term:`data source`.
 
    {+service-short+} Value
       A named reference to a piece of static data defined in
@@ -324,7 +333,7 @@ Glossary
       :term:`{+app+} <{+app+}>`. For example, you
       can define :term:`Functions <{+service-short+} Function>`,
       create automated :term:`Triggers <{+service-short+} Trigger>`, view
-      :ref:`logs <logs>`, and link :term:`{+atlas+}` clusters.
+      :ref:`logs <logs>`, and link :term:`{+atlas+}` data sources.
 
    {+sync+}
       Shares data changes between a :term:`{+backend+}`
@@ -346,7 +355,7 @@ Glossary
       <{+app+}>`. For
       example, you can define :term:`Functions <{+service-short+} Function>`,
       create automated :term:`Triggers <{+service-short+} Trigger>`,
-      view :ref:`logs <logs>`, and link :term:`{+atlas+}` clusters.
+      view :ref:`logs <logs>`, and link :term:`{+atlas+}` data sources.
 
    {+service-short+} Administration API
       A :ref:`HTTP API <admin-api>` through which you can perform
@@ -372,9 +381,9 @@ Glossary
    {+backend-schema+}
       The structure that defines the fields of and relationships between
       all :term:`MongoDB documents <MongoDB document>` that you can read
-      or write into a :term:`{+app+}'s <{+app+}>`
-      :term:`linked {+atlas+} cluster <linked cluster>`. Defined and
-      enforced in your {+app+}.
+      or write into a :term:`{+app+}'s <{+app+}>` :term:`linked
+      {+atlas+} cluster <linked cluster>`. Defined and enforced in your
+      {+app+}.
 
    {+frontend-schema+}
       The structure that defines the fields of and relationships between all

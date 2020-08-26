@@ -4,7 +4,7 @@ content: |
   In order to automatically deploy based on a GitHub repository,
   {+service-short+} requires that you install a GitHub app that has, at minimum,
   read access to the repository.
-  
+
   To install the app, click :guilabel:`Deploy` in the left-hand navigation of
   the {+ui+}. Select the :guilabel:`Configuration` tab and then click
   :guilabel:`Install Realm on GitHub`. A new browser window will open to the
@@ -15,10 +15,10 @@ content: |
 
      GitHub may require you to provide your GitHub account credentials before
      you can install the app.
-  
+
   Select the GitHub account or organization for which you want to install the
   app:
-  
+
   .. cssclass:: bordered-figure
   .. figure:: /images/github-app-install-location.png
      :alt: GitHub Application install location screen
@@ -27,14 +27,14 @@ content: |
   access. You can either select specific repositories or grant access to all of
   your repositories on GitHub. Select the repositories you want to use and then
   click :guilabel:`Install`.
-  
+
   .. cssclass:: bordered-figure
   .. figure:: /images/github-app-install-permissions.png
      :alt: GitHub Application permissions request screen
-  
+
   After you install the application, click :guilabel:`Authorize` to finish
   connecting Realm to GitHub. 
-  
+
   .. admonition:: GitHub Permissions
      :class: note
      
@@ -49,12 +49,12 @@ content: |
   repository that {+service-short+} should automatically deploy. Specify the
   :guilabel:`Repository`, :guilabel:`Branch`, and :guilabel:`Directory` that
   contain the Realm app's configuration files and then click :guilabel:`Save`.
-  
+
   .. cssclass:: bordered-figure
   .. figure:: /images/automatic-deploy-select-repo.png
      :alt: GitHub repository selection
      :width: 750px
-  
+
   .. note::
 
      The list of repositories will only contain repos that you have
@@ -64,36 +64,36 @@ title: Initialize the Repository
 ref: initialize-the-repository
 content: |
   Clone a local copy of the Git repository that you specified:
-  
+
   .. code-block:: shell
      
      git clone https://github.com/<organization>/<repo>.git
-  
+
   The configured branch and directory must contain an :ref:`application
   directory <app-directory>` with configuration files that define your
   application. You can create the application directory manually or :doc:`export
   the application directory </deploy/export-realm-app>` of an existing app (using the
   ``--for-source-control`` option).
-  
+
   .. admonition:: Export For Source Control
      :class: important
 
      {+app+}s deployed via GitHub *must not* specify the ``name``, ``app_id``,
      ``location``, or ``deployment_model`` fields in the ``config.json`` file.
      Applications deployed via GitHub must also omit the ``config.clusterName``
-     field of the ``config.json`` of any Atlas clusters connected to the
-     application.
+     field of the ``config.json`` of any Atlas :ref:`data sources
+     <link-a-data-source>` connected to the application.
      
      Application configurations exported with the ``--for-source-control`` flag
      omit these fields automatically.
-  
+
   Add the application directory to the repository and then commit the changes:
 
   .. code-block:: shell
      
      git add -A
      git commit -m "Adds {+service-short+} Application Directory"
-  
+
   Once you have committed the latest version of the application to the
   repository, push it to your GitHub repository:
 
@@ -110,7 +110,7 @@ content: |
   page, click :guilabel:`Enable Automatic Deployment`. In the modal that
   appears, click :guilabel:`Enable Automatic Deployment` to confirm your
   selection.
-  
+
   .. cssclass:: bordered-figure
   .. figure:: /images/enable-automatic-deployment.png
      :alt: Enable Automatic GitHub Deployment in the {+ui+}
@@ -135,16 +135,16 @@ content: |
   that you specified. If Automatic GitHub Deployment is enabled,
   {+service-short+} immediately deploys the latest commit for the configured
   branch and directory.
-  
+
   When you are ready to deploy, commit all of the files that you want to include
   and then push them to GitHub:
 
   .. code-block:: sh
-  
+
      git add -A
      git commit -m "<commit message>"
      git push origin <branch name>
-  
+
   Once you successfully push your changes to GitHub, {+service-short+}
   immediately deploys a new version of your application that matches the state
   of the latest commit. Client applications will automatically use the newest
@@ -158,4 +158,3 @@ content: |
      application as well as a historical log of previous
      deployments in the :ref:`Deployment History
      <deployment-history>` table in the {+ui+}.
-...

@@ -1,0 +1,4 @@
+.. note::
+
+   :ref:`Data Lake <data-lake-caveats>` data sources do not support
+   rules.

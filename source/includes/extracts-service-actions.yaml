@@ -1,305 +1,303 @@
 ref: service-actions-mongodb
 content: |
 
-   .. list-table::
-      :header-rows: 1
-      :widths: 35 65
+  .. list-table::
+     :header-rows: 1
+     :widths: 35 65
 
-      * - Action
-        - Description
+     * - Action
+       - Description
 
-      * - :method:`mongodb.db()`
+     * - :method:`mongodb.db()`
 
-        - Return a database handle object that represents a database in a
-          :doc:`linked MongoDB Cluster </mongodb/link-a-cluster>`. Call
-          :method:`database.collection()` on the database handle to
-          retrieve a collection handle.
+       - Return a database handle object that represents a database in a
+         :doc:`linked MongoDB data source </mongodb/link-a-data-source>`. Call
+         :method:`database.collection()` on the database handle to retrieve a
+         collection handle.
 
-      * - :method:`database.collection()`
+     * - :method:`database.collection()`
 
-        - Return a collection handle object that represents a collection
-          in a :method:`database <mongodb.db()>`.
+       - Return a collection handle object that represents a collection
+         in a :method:`database <mongodb.db()>`.
 
-      * - :method:`collection.find()`
+     * - :method:`collection.find()`
 
-        - Find all documents in a collection or :manual:`view </core/views>` that
-          match the provided query predicates and return a
-          :term:`cursor` that points to them.
+       - Find all documents in a collection or :manual:`view </core/views>` that
+         match the provided query predicates and return a
+         :term:`cursor` that points to them.
 
-      * - :method:`collection.findOne()`
+     * - :method:`collection.findOne()`
 
-        - Return a single document from a collection or :manual:`view
-          </core/views>`. If multiple documents satisfy the query, this
-          method returns the first document according to the query's
-          sort order or :term:`natural order`.
+       - Return a single document from a collection or :manual:`view
+         </core/views>`. If multiple documents satisfy the query, this
+         method returns the first document according to the query's
+         sort order or :term:`natural order`.
 
-      * - :method:`collection.findOneAndUpdate()`
+     * - :method:`collection.findOneAndUpdate()`
 
-        - Update a single document in a collection or :manual:`view
-          </core/views>` based on a query filter and return the document
-          in either its pre-update or post-update form. Unlike
-          :method:`collection.updateOne()`, this action allows you to
-          atomically find, update, and return a document with the same
-          command.
+       - Update a single document in a collection or :manual:`view
+         </core/views>` based on a query filter and return the document
+         in either its pre-update or post-update form. Unlike
+         :method:`collection.updateOne()`, this action allows you to
+         atomically find, update, and return a document with the same
+         command.
 
-      * - :method:`collection.findOneAndReplace()`
+     * - :method:`collection.findOneAndReplace()`
 
-        - Overwrite a single document in a collection or :manual:`view
-          </core/views>` based on a query filter and return the document
-          in either its pre-replacement or post-replacement form. Unlike
-          :method:`collection.updateOne()`, this action allows you to
-          atomically find, replace, and return a document with the same
-          command.
+       - Overwrite a single document in a collection or :manual:`view
+         </core/views>` based on a query filter and return the document
+         in either its pre-replacement or post-replacement form. Unlike
+         :method:`collection.updateOne()`, this action allows you to
+         atomically find, replace, and return a document with the same
+         command.
 
-      * - :method:`collection.findOneAndDelete()`
+     * - :method:`collection.findOneAndDelete()`
 
-        - Remove a single document from a collection based on a query
-          filter and return a document with the same form as the
-          document immediately before it was deleted. Unlike
-          :method:`collection.deleteOne()`, this action allows you to
-          atomically find and delete a document with the same command.
+       - Remove a single document from a collection based on a query
+         filter and return a document with the same form as the
+         document immediately before it was deleted. Unlike
+         :method:`collection.deleteOne()`, this action allows you to
+         atomically find and delete a document with the same command.
 
-      * - :method:`collection.count()`
+     * - :method:`collection.count()`
 
-        - Return the number of documents in a collection or :manual:`view
-          </core/views>` that match the specified query filter.
+       - Return the number of documents in a collection or :manual:`view
+         </core/views>` that match the specified query filter.
 
-      * - :method:`collection.insertOne()`
+     * - :method:`collection.insertOne()`
 
-        - Insert a single document into a collection and return the ``_id`` of the
-          inserted document.
+       - Insert a single document into a collection and return the ``_id`` of the
+         inserted document.
 
-      * - :method:`collection.insertMany()`
+     * - :method:`collection.insertMany()`
 
-        - Insert one or more documents into a collection and return a list of the
-          ``_id`` values for each inserted document.
+       - Insert one or more documents into a collection and return a list of the
+         ``_id`` values for each inserted document.
 
-      * - :method:`collection.updateOne()`
+     * - :method:`collection.updateOne()`
 
-        - Update a single document in a collection based on a query filter.
+       - Update a single document in a collection based on a query filter.
 
-      * - :method:`collection.updateMany()`
+     * - :method:`collection.updateMany()`
 
-        - Update one or more documents in a collection based on a query filter.
+       - Update one or more documents in a collection based on a query filter.
 
-      * - :method:`collection.deleteOne()`
+     * - :method:`collection.deleteOne()`
 
-        - Remove a single document from the collection based on a query filter.
+       - Remove a single document from the collection based on a query filter.
 
-      * - :method:`collection.deleteMany()`
+     * - :method:`collection.deleteMany()`
 
-        - Remove one or more documents from the collection based on a query filter.
+       - Remove one or more documents from the collection based on a query filter.
 
-      * - :method:`collection.aggregate()`
+     * - :method:`collection.aggregate()`
 
-        - Execute an :manual:`aggregation </aggregation>` pipeline and return a
-          :term:`cursor` that points to the result.
+       - Execute an :manual:`aggregation </aggregation>` pipeline and return a
+         :term:`cursor` that points to the result.
 
-      * - :method:`collection.distinct()`
+     * - :method:`collection.distinct()`
 
-        - Return a list of distinct values for the given key within a collection.
+       - Return a list of distinct values for the given key within a collection.
 
 ---
 ref: service-actions-s3
 content: |
 
-   .. list-table::
-      :header-rows: 1
-      :widths: 3 10
+  .. list-table::
+     :header-rows: 1
+     :widths: 3 10
 
-      * - Action
-        - Description
+     * - Action
+       - Description
 
-      * - :method:`s3Service.put()`
+     * - :method:`s3Service.put()`
 
-        - Uploads a binary data to an S3 bucket.
+       - Uploads a binary data to an S3 bucket.
 
-      * - :method:`s3Service.signPolicy()`
+     * - :method:`s3Service.signPolicy()`
 
-        - Generates a document that contains the ``policy``,
-          ``signature``, and ``credential``, which you can use to
-          issue a POST request directly to S3.
+       - Generates a document that contains the ``policy``,
+         ``signature``, and ``credential``, which you can use to
+         issue a POST request directly to S3.
 ---
 ref: service-actions-s3-arguments
 content: |
 
-   .. list-table::
-      :header-rows: 1
-      :widths: 20 20 60
+  .. list-table::
+     :header-rows: 1
+     :widths: 20 20 60
 
-      * - Argument
-        - Type
-        - Description
+     * - Argument
+       - Type
+       - Description
 
-      * - ``bucket``
-        - string
-        - The S3 bucket name.
+     * - ``bucket``
+       - string
+       - The S3 bucket name.
 
-      * - ``key``
-        - string
-        - The unique identifier for the uploaded object.
+     * - ``key``
+       - string
+       - The unique identifier for the uploaded object.
 
-      * - ``acl``
-        - string
-        - Access control list. Valid values are:
+     * - ``acl``
+       - string
+       - Access control list. Valid values are:
 
-          - ``private``
-          - ``public-read``
-          - ``public-read-write``
-          - ``aws-exec-read``
-          - ``authenticated-read``
-          - ``bucket-owner-read``
-          - ``bucket-owner-full-control``
+         - ``private``
+         - ``public-read``
+         - ``public-read-write``
+         - ``aws-exec-read``
+         - ``authenticated-read``
+         - ``bucket-owner-read``
+         - ``bucket-owner-full-control``
 
-          See `Amazon's documentation
-          <http://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectPUTa
-          cl.html>`_ for more information.
+         See `Amazon's documentation
+         <http://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectPUTa
+         cl.html>`_ for more information.
 
-      * - ``contentType``
-        - string
-        - Data format, e.g. ``text/plain``
+     * - ``contentType``
+       - string
+       - Data format, e.g. ``text/plain``
 
-      * - ``body``
-        - string or binary
-        - The data to upload.
+     * - ``body``
+       - string or binary
+       - The data to upload.
 ---
 ref: service-actions-s3-sign-policy-arguments
 content: |
 
-   .. list-table::
-      :header-rows: 1
-      :widths: 20 20 60
+  .. list-table::
+     :header-rows: 1
+     :widths: 20 20 60
 
-      * - Argument
-        - Type
-        - Description
+     * - Argument
+       - Type
+       - Description
 
-      * - ``bucket``
-        - string
-        - The S3 bucket name.
+     * - ``bucket``
+       - string
+       - The S3 bucket name.
 
-      * - ``key``
-        - string
-        - The unique identifier for the uploaded object.
+     * - ``key``
+       - string
+       - The unique identifier for the uploaded object.
 
-      * - ``acl``
-        - string
-        - Access control list. Valid values are:
+     * - ``acl``
+       - string
+       - Access control list. Valid values are:
 
-          - ``private``
-          - ``public-read``
-          - ``public-read-write``
-          - ``aws-exec-read``
-          - ``authenticated-read``
-          - ``bucket-owner-read``
-          - ``bucket-owner-full-control``
+         - ``private``
+         - ``public-read``
+         - ``public-read-write``
+         - ``aws-exec-read``
+         - ``authenticated-read``
+         - ``bucket-owner-read``
+         - ``bucket-owner-full-control``
 
-          See `Amazon's documentation
-          <http://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectPUTa
-          cl.html>`_ for more information.
+         See `Amazon's documentation
+         <http://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectPUTa
+         cl.html>`_ for more information.
 
-      * - ``contentType``
-        - string
-        - Data format, e.g. ``text/plain``
+     * - ``contentType``
+       - string
+       - Data format, e.g. ``text/plain``
 
 ---
 ref: service-actions-ses
 content: |
 
-   .. list-table::
-      :header-rows: 1
+  .. list-table::
+     :header-rows: 1
 
-      * - Action
-        - Description
+     * - Action
+       - Description
 
-      * - :method:`sesService.send()`
+     * - :method:`sesService.send()`
 
-        - Sends an email message to a specified address.
+       - Sends an email message to a specified address.
 ---
 ref: service-actions-twilio
 content: |
 
-   .. list-table::
-      :header-rows: 1
+  .. list-table::
+     :header-rows: 1
 
-      * - Action
-        - Description
+     * - Action
+       - Description
 
-      * - :method:`twilio.send()`
+     * - :method:`twilio.send()`
 
-        - Sends a text message to a specified phone number.
+       - Sends a text message to a specified phone number.
 ---
 ref: service-actions-http
 content: |
 
-   .. list-table::
-      :header-rows: 1
-      :widths: 10 80
+  .. list-table::
+     :header-rows: 1
+     :widths: 10 80
 
-      * - Action
-        - Description
+     * - Action
+       - Description
 
-      * - :method:`http.get()`
+     * - :method:`http.get()`
 
-        - Send an :mdn:`HTTP GET <Web/HTTP/Methods/GET>` request.
+       - Send an :mdn:`HTTP GET <Web/HTTP/Methods/GET>` request.
 
-      * - :method:`http.post()`
+     * - :method:`http.post()`
 
-        - Send an :mdn:`HTTP POST <Web/HTTP/Methods/POST>` request.
+       - Send an :mdn:`HTTP POST <Web/HTTP/Methods/POST>` request.
 
-      * - :method:`http.put()`
+     * - :method:`http.put()`
 
-        - Send an :mdn:`HTTP PUT <Web/HTTP/Methods/PUT>` request.
+       - Send an :mdn:`HTTP PUT <Web/HTTP/Methods/PUT>` request.
 
-      * - :method:`http.patch()`
+     * - :method:`http.patch()`
 
-        - Send an :mdn:`HTTP PATCH <Web/HTTP/Methods/PATCH>` request.
+       - Send an :mdn:`HTTP PATCH <Web/HTTP/Methods/PATCH>` request.
 
-      * - :method:`http.delete()`
+     * - :method:`http.delete()`
 
-        - Send an :mdn:`HTTP DELETE <Web/HTTP/Methods/DELETE>` request.
+       - Send an :mdn:`HTTP DELETE <Web/HTTP/Methods/DELETE>` request.
 
-      * - :method:`http.head()`
+     * - :method:`http.head()`
 
-        - Send an :mdn:`HTTP HEAD <Web/HTTP/Methods/HEAD>` request.
+       - Send an :mdn:`HTTP HEAD <Web/HTTP/Methods/HEAD>` request.
 
 ---
 ref: service-actions-admonition-ses
 content: |
-   .. important::
+  .. important::
 
-      To perform an SES service action, you must have :ref:`rules
-      <service-rules>` set up for the action.
+     To perform an SES service action, you must have :ref:`rules
+     <service-rules>` set up for the action.
 ---
 ref: service-actions-admonition-s3
 content: |
-   .. important::
+  .. important::
 
-      To perform an S3 service action, you must have :ref:`rules
-      <service-rules>` set up for the action.
+     To perform an S3 service action, you must have :ref:`rules
+     <service-rules>` set up for the action.
 ---
 ref: service-actions-admonition-mongodb
 content: |
-   .. important::
+  .. important::
 
-      In order to use MongoDB actions, you must have :ref:`rules
-      <mongodb-rules>` set up for each namespace included in the
-      operation.
+     In order to use MongoDB actions, you must have :ref:`rules
+     <mongodb-rules>` set up for each namespace included in the
+     operation.
 ---
 ref: service-actions-admonition-http
 content: |
-   .. important::
+  .. important::
 
-      For an HTTP Service, you must have :ref:`rules <service-rules>`
-      set up for the action.
+     For an HTTP Service, you must have :ref:`rules <service-rules>`
+     set up for the action.
 ---
 ref: service-actions-http-response
 content: |
-   .. note::
+  .. note::
 
-      If present, the ``body`` is returned as a ``BSON.binary`` type. To
-      retrieve the response as a string, use the ``BSON.binary.text()``
-      method. If the text represents extended JSON, it can be decoded by with
-      ``EJSON.parse()``.
-
-...
+     If present, the ``body`` is returned as a ``BSON.binary`` type. To
+     retrieve the response as a string, use the ``BSON.binary.text()``
+     method. If the text represents extended JSON, it can be decoded by with
+     ``EJSON.parse()``.

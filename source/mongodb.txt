@@ -14,16 +14,16 @@ MongoDB Atlas Overview
 
 .. toctree::
    :titlesonly:
-   :caption: Configure a MongoDB Cluster
+   :caption: Configure a MongoDB Data Source
    :hidden:
 
-   Link a Cluster </mongodb/link-a-cluster>
+   Link a Data Source </mongodb/link-a-data-source>
    Enforce a Document Schema </mongodb/enforce-a-document-schema>
    Filter Incoming Queries </mongodb/filter-incoming-queries>
-   Enable Wire Protocol Connections </mongodb/enable-wire-protocol-connections>
    Specify Read Preference for a MongoDB Cluster </mongodb/specify-cluster-read-preference>
-   Configure Advanced Rules </mongodb/configure-advanced-rules>
    Define Roles And Permissions </mongodb/define-roles-and-permissions>
+   Configure Advanced Rules </mongodb/configure-advanced-rules>
+   Enable Wire Protocol Connections </mongodb/enable-wire-protocol-connections>
    Connect Over the Wire Protocol </mongodb/connect-over-the-wire-protocol>
 
 .. toctree::
@@ -55,10 +55,11 @@ Overview
 --------
 
 {+service+} provides a first-class service interface for `{+atlas+}
-<https://www.mongodb.com/cloud/atlas?tck=docs_realm>`_ that
-lets you securely query one or more {+atlas-short+} clusters. You can
-use standard MongoDB query language syntax to access your data directly
-in your client application code or from a :doc:`{+service-short+} Function </functions>`.
+<https://www.mongodb.com/cloud/atlas?tck=docs_realm>`_ that lets you
+securely query one or more {+atlas-short+} data sources. You can use
+standard MongoDB query language syntax to access your data directly in
+your client application code or from a :doc:`{+service-short+} Function
+</functions>`.
 
 The :ref:`MongoDB service <mongodb-service>` secures your data with a
 dynamic, role-based :guilabel:`Rules` engine that proxies and modifies
@@ -70,11 +71,11 @@ collection rules: :ref:`roles <mongodb-roles>`, :ref:`filters
 Get Started
 ~~~~~~~~~~~
 
-To get started with the MongoDB service, :doc:`link a cluster to your
-application </mongodb/link-a-cluster>` and :doc:`define roles and
-permissions </mongodb/define-roles-and-permissions>` for a collection.
-After you've created at least one role, you can start to work with data
-in the collection.
+To get started with the MongoDB service, :doc:`link a data source to
+your application </mongodb/link-a-data-source>` and :doc:`define roles
+and permissions </mongodb/define-roles-and-permissions>` for a
+collection. After you've created at least one role, you can start to
+work with data in the collection.
 
 Concepts
 --------
@@ -144,6 +145,8 @@ MongoDB Atlas cluster and apply to individual documents in
 the collection dynamically based on the :doc:`application
 user </authentication>` that issued a query.
 
+.. include:: /includes/data-lake-rules-note.rst
+
 The rules engine handles incoming queries with the following 4-step
 process:
 
@@ -207,8 +210,8 @@ Configuration Guides
    * - Guide
      - Description
 
-   * - :doc:`Link a MongoDB Atlas Cluster </mongodb/link-a-cluster>`
-     - Learn how to connect a MongoDB Atlas cluster to your application.
+   * - :doc:`Link a MongoDB Data Source </mongodb/link-a-data-source>`
+     - Learn how to connect a MongoDB Atlas cluster or Data Lake to your application.
 
    * - :doc:`Define Roles and Permissions </mongodb/define-roles-and-permissions>`
      - Learn how to set up role based data access controls on your
@@ -260,10 +263,6 @@ Usage Guides
    * - :doc:`Delete Documents </mongodb/delete-documents>`
      - Learn how to remove one or more documents from a MongoDB
        collection.
-
-   * - :doc:`Watch for Document Changes </mongodb/watch-documents>`
-     - Learn how to use the ``watch`` API to notify browser-based
-       applications when specific documents change.
 
    * - :doc:`Run Aggregation Pipelines </mongodb/run-aggregation-pipelines>`
      - Learn how to execute an :manual:`aggregation pipeline

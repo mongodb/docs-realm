@@ -20,10 +20,10 @@ post: |
   ``app_id`` defined in :ref:`config.json <appschema-realm-config>`. If
   ``config.json`` does not have an ``app_id`` value, {+cli-bin+}
   prompts you to create a new application.
-  
+
   .. admonition:: New Application App IDs
      :class: note
-  
+
      If you create a new application with {+cli-bin+}, {+service+}
      generates a new App ID and ignores any value that you specify for
      the ``--app-id`` flag.
@@ -133,7 +133,7 @@ description: |
   control, including fields like ``name``, ``app_id``, ``location``,
   and ``deployment_model`` in the ``config.json`` file as well as the
   ``config.clusterName`` field in the ``config.json`` of any Atlas
-  clusters linked to the application.
+  data sources linked to the application.
 ---
 program: realm-cli import
 name: project-id
@@ -324,4 +324,3 @@ directive: option
 optional: false
 description: |
   The new value of the Secret.
-...

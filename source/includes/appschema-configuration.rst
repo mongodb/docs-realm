@@ -166,8 +166,8 @@ Configuration
 
           * - | ``mongo_service_id``
               | String
-            - The service ID of the :doc:`linked MongoDB Atlas cluster
-              </mongodb/link-a-cluster>` that contains the custom user
+            - The service ID of the :doc:`linked MongoDB Atlas data source
+              </mongodb/link-a-data-source>` that contains the custom user
               data. You can find this value in the ``id`` field of the
               service configuration file.
 

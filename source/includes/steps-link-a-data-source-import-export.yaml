@@ -30,39 +30,9 @@ content: |
 title: Add a MongoDB Service Configuration File
 ref: add-a-mongodb-service-configuration-file
 content: |
-  Add a file named ``config.json`` to the new service directory. The
-  configuration file should have the following form:
+  Add a file named ``config.json`` to the new service directory.
 
-  .. code-block:: shell
-
-     {
-       "type": "mongodb-atlas",
-       "name": "<Service Name>",
-       "config": {
-         "clusterName": "<Atlas Cluster>",
-         "wireProtocolEnabled": <boolean>
-       }
-     }
-
-  .. list-table::
-    :header-rows: 1
-    :widths: 10 30
-    
-    * - Configuration Value
-      - Description
-    * - | :guilabel:`Service Name`
-        | *name*
-      - Required. The name of the MongoDB service.
-    * - | :guilabel:`Atlas Cluster`
-        | *config.clusterName*
-      - Required. The name of the MongoDB Atlas cluster that you
-        want to link to your application.
-    * - | :guilabel:`MongoDB Connection String`
-        | *config.wireProtocolEnabled*
-      - Required. A boolean indicating whether {+service-short+} should allow
-        clients to :doc:`connect to this cluster with a connection
-        string over the wire protocol
-        </mongodb/connect-over-the-wire-protocol>`.
+  .. include:: /includes/data-source-configuration.rst
 
 ---
 title: Import the Application Directory
