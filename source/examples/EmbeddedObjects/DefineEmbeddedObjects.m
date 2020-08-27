@@ -1,4 +1,3 @@
-
 // Define the embedded object
 @interface Address : RLMEmbeddedObject
 @property NSString *street;
@@ -31,10 +30,13 @@ RLM_ARRAY_TYPE(Address)
     return @[@"_id", @"name"];
 }
 
++ (NSDictionary *)defaultPropertyValues {
+    return @{@"_id": [RLMObjectId objectId]};
+}
+
 + (instancetype)contactWithName:(NSString *)name {
     Contact *instance = [[Contact alloc] init];
     if (instance) {
-        instance._id = [RLMObjectId objectId]; 
         instance.name = name; 
     }
     return instance; 

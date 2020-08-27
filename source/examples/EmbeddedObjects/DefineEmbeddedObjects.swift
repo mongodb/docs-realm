@@ -8,9 +8,12 @@ class Address: EmbeddedObject {
 
 // Define an object with one embedded object
 class Contact: Object {
-    @objc dynamic var _id = ObjectId()
+    @objc dynamic var _id = ObjectId.generate()
     @objc dynamic var name = ""
-    @objc dynamic var address = Address() // Embed a single object
+    
+    // Embed a single object.
+    // Embedded object properties must be marked optional. 
+    @objc dynamic var address: Address? = nil
     
     override static func primaryKey() -> String? {
         return "_id"
@@ -25,9 +28,9 @@ class Contact: Object {
 
 // Define an object with an array of embedded objects
 class Business: Object {
-    @objc dynamic var _id = ObjectId()
+    @objc dynamic var _id = ObjectId.generate()
     @objc dynamic var name = ""
-    @objc dynamic var addresses: [Address] = [] // Embed an array of objects
+    let addresses = List<Address>() // Embed an array of objects
     
     override static func primaryKey() -> String? {
         return "_id"
@@ -36,6 +39,6 @@ class Business: Object {
     convenience init(name: String, addresses: [Address]) {
         self.init()
         self.name = name
-        self.addresses = addresses
+        self.addresses.append(objectsIn: addresses)
     }
 }
