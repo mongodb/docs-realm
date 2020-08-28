@@ -1,0 +1,50 @@
+==========================
+Realm Application Security
+==========================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Developer Access
+----------------
+
+Every MongoDB Realm application is associated with a specific :atlas:`MongoDB
+Atlas organization and project </organizations-projects>`. Realm determines the
+developer access permissions for a given MongoDB Cloud user based on their
+assigned :atlas:`project roles </project-roles>` in the project that contains an
+app.
+
+The following table describes the access permissions associated with a given
+project role:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 40 60
+
+   * - Project Role
+     - Access Permissions
+
+   * - Project Owner
+     - Full read-write access for all {+app+}s associated with the project.
+
+   * - Project Read Only
+     - Read-only access for all {+app+}s associated with the project.
+
+.. note::
+   
+   For more information about adding users and teams to Atlas, see `Atlas Users
+   and Teams <https://docs.atlas.mongodb.com/tutorial/manage-users/>`__.
+
+Network Security
+----------------
+
+MongoDB Realm uses `TLS 1.2 <https://tools.ietf.org/html/rfc5246>`__ to secure
+all network requests to and from your application, including apps that connect
+from a Realm SDK as well as queries and operations on a linked `MongoDB Atlas
+data source <linked cluster>`. The TLS certificate is pre-defined and cannot be
+customized.
