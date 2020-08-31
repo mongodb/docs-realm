@@ -12,20 +12,30 @@ Built-In Module Support
    :depth: 2
    :class: singlecol
 
-You can :ref:`use <import-external-dependencies>` the following built-in
-modules in your {+service-short+} :ref:`functions <functions>`:
+Overview
+--------
+
+You can :ref:`import and use <import-external-dependencies>` many
+standard Node modules in your {+service+} :ref:`functions <functions>`.
 
 .. note::
    
-   The supported modules are compatible with :nodejs:`Node API version
-   10.18.1 <docs/v10.18.1/api/>`. Avoid using APIs in these modules
-   introduced after or deprecated since Node 10.18.1.
+   The supported modules and partially supported modules are compatible
+   with :nodejs:`Node API version 10.18.1 <docs/v10.18.1/api/>`. Avoid
+   using APIs in these modules introduced after or deprecated since Node
+   10.18.1.
+
+.. _fully-supported-modules:
+
+Fully Supported Modules
+-----------------------
+
+{+service+} fully supports the following built-in modules:
 
 - :nodejs:`assert <docs/v10.18.1/api/assert.html>`
 - :nodejs:`buffer <docs/v10.18.1/api/buffer.html>`
 - :nodejs:`crypto <docs/v10.18.1/api/crypto.html>`
 - :nodejs:`events <docs/v10.18.1/api/events.html>`
-- :nodejs:`fs <docs/v10.18.1/api/fs.html>`
 - :nodejs:`http <docs/v10.18.1/api/http.html>`
 - :nodejs:`https <docs/v10.18.1/api/https.html>`
 - :nodejs:`net <docs/v10.18.1/api/net.html>`
@@ -41,12 +51,53 @@ modules in your {+service-short+} :ref:`functions <functions>`:
 - :nodejs:`util <docs/v10.18.1/api/util.html>`
 - :nodejs:`zlib <docs/v10.18.1/api/zlib.html>`
 
-Additionally, {+service-short+} supports the following ``process`` APIs:
+.. _partially-supported-modules:
+
+Partially Supported Modules
+---------------------------
+
+{+service+} supports a subset of the functionality of the following modules.
+
+.. _partially-supported-module-dns:
+
+dns
+~~~
+
+{+service-short+} supports the :nodejs:`dns
+<docs/v10.18.1/api/dns.html>` module with the following **exceptions**:
+
+- {+service-short+} does **not** support the :nodejs:`dns Promises API <docs/v10.18.1/api/dns.html#dns_dns_promises_api>`
+- {+service-short+} does **not** support :nodejs:`resolver.cancel() <docs/v10.18.1/api/dns.html#dns_resolver_cancel>`
+
+.. _partially-supported-module-fs:
+
+fs
+~~~
+
+{+service-short+} supports the following ``fs`` APIs:
+
+- :nodejs:`accessSync <docs/v10.18.1/api/fs.html#fs_fs_accesssync_path_mode>`
+- :nodejs:`constants <docs/v10.18.1/api/fs.html#fs_fs_constants>`
+- :nodejs:`lstatSync <docs/v10.18.1/api/fs.html#fs_fs_lstatsync_path_options>`
+- :nodejs:`readFileSync <docs/v10.18.1/api/fs.html#fs_fs_readfilesync_path_options>`
+- :nodejs:`statSync <docs/v10.18.1/api/fs.html#fs_fs_statsync_path_options>`
+
+.. _partially-supported-module-process:
+
+process
+~~~~~~~
+
+{+service-short+} supports the following ``process`` APIs:
 
 - :nodejs:`hrTime <docs/v10.18.1/api/process.html#process_process_hrtime_time>`
-- :nodejs:`nextTick <docs/latest-v10.x/api/process.html#process_process_nexttick_callback_args>`
-- :nodejs:`version <docs/latest-v10.x/api/process.html#process_process_version>`
-- :nodejs:`versions <docs/latest-v10.x/api/process.html#process_process_versions>`
+- :nodejs:`nextTick <docs/v10.18.1/api/process.html#process_process_nexttick_callback_args>`
+- :nodejs:`version <docs/v10.18.1/api/process.html#process_process_version>`
+- :nodejs:`versions <docs/v10.18.1/api/process.html#process_process_versions>`
+
+.. _unsupported-modules:
+
+Unsupported Modules
+-------------------
 
 {+service-short+} functions **do not** support the following built-in
 modules:
@@ -54,7 +105,6 @@ modules:
 - ``child_process``
 - ``cluster``
 - ``dgram``
-- ``dns``
 - ``domain``
 - ``punycode``
 - ``readline``
