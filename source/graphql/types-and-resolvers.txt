@@ -56,6 +56,24 @@ collection, Realm generates the following:
         }
       }
 
+.. _graphql-scalar-types:
+
+Scalar Types
+------------
+
+Realm supports all of the standard :graphql:`GraphQL scalar types
+<learn/schema/#scalar-types>` and also generates the ``ObjectId`` scalar.
+
+The following scalar types are supported:
+
+- ``ObjectId``: An :manual:`ObjectId <reference/method/ObjectId>` value serialized as a string
+- ``Boolean``: ``true`` or ``false``
+- ``String``: A UTF‐8 character sequence
+- ``Int``: A signed 32‐bit integer
+- ``Long``: A signed 64‐bit integer
+- ``Float``: A signed double-precision floating-point value
+- ``DateTime``: An :ietf:`RFC 3339 </rfc3339>` UTC DateTime (e.g. "2020-09-01T15:38:14.918Z")
+
 .. _graphql-document-types:
 
 Document Types
