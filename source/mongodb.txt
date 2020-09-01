@@ -87,11 +87,14 @@ CRUD & Aggregation Operations
 
 {+service+} allows you to securely work with data in a {+atlas+} cluster
 directly from your client applications and :doc:`Functions </functions>`
-using standard, platform-idiomatic MongoDB query syntax.
+using standard, platform-idiomatic MongoDB query syntax. You can also
+access a linked `{+atlas+} Data Lake
+<https://www.mongodb.com/atlas/data-lake?tck=docs_realm>`_ from a
+:ref:`system function <system-functions>`.
 
 The following guides demonstrate how to use :doc:`MongoDB service
-actions </mongodb/actions>` to work with data in a linked
-cluster:
+actions </mongodb/actions>` to work with data in a :ref:`linked data
+source <link-a-data-source>`:
 
 - :doc:`Insert Documents </mongodb/insert-documents>`
 - :doc:`Find Documents </mongodb/find-documents>`
@@ -103,14 +106,15 @@ cluster:
 .. admonition:: Define Collection Rules
    :class: important
 
-   {+backend+} dynamically determines which documents and fields
-   in a collection each :doc:`application user </authentication>` can
-   read and write for all incoming query operations by
-   evaluating :ref:`collection rules <mongodb-rules>` that
-   you define.
+   When working with a linked {+atlas+} cluster outside of a
+   :ref:`system function <system-functions>`, {+backend+} dynamically
+   determines which documents and fields in a collection each
+   :doc:`application user </authentication>` can read and write for all
+   incoming query operations by evaluating :ref:`collection rules
+   <mongodb-rules>` that you define.
 
    **If you do not define rules for a collection, queries on
-   the collection will fail.**
+   the collection will fail.**   
 
 .. admonition:: Advanced MongoDB Queries
    :class: note

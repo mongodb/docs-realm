@@ -62,7 +62,7 @@ required, depending on whether you are linking a Data Lake or a cluster.
        | String
      - Required when linking a cluster. The name of the service's linked cluster in MongoDB Atlas.
    
-   * - | *config.dataLakeName*
+   * - | ``config.dataLakeName``
        | String   
      - Required when linking a Data Lake. The name of the Data Lake that you want to link to your application.
 

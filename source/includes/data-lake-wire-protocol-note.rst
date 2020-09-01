@@ -1,4 +1,4 @@
 .. note::
    
-   :ref:`Data Lake <data-lake-caveats>` data sources do not support
-   connections via the wire protocol.
+   Data Lake data sources :ref:`do not support connections via the wire
+   protocol <data-lake-caveats>`.
