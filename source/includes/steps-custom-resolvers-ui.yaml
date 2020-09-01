@@ -130,6 +130,30 @@ content: |
                  ...
                }
 
+     * - :guilabel:`Scalar`
+       - The resolver uses an existing :ref:`scalar type <graphql-scalar-types>`
+         from the generated GraphQL schema.
+         
+         In the second dropdown input, select either a single scalar or an array
+         of multiple scalars of the same type.
+         
+         .. cssclass:: bordered-figure
+         .. figure:: /images/custom-resolver-input-type-scalar.png
+            :alt: A custom resolver configuration that specifies an existing scalar type.
+         
+         .. example::
+            
+            A custom resolver named ``myCustomQuery`` that uses the
+            :guilabel:`Scalar Type` option to specify an input type of
+            ``DateTiem`` has the following generated schema:
+            
+            .. code-block:: graphql
+               
+               type Query {
+                 myCustomQuery(input: DateTime): DefaultPayload
+                 ...
+               }
+
      * - :guilabel:`Existing Type`
        - The resolver uses an existing :ref:`input type <graphql-input-types>`
          from the generated GraphQL schema.
@@ -233,6 +257,30 @@ content: |
                
                type Query {
                  myCustomQuery: DefaultPayload
+                 ...
+               }
+
+     * - :guilabel:`Scalar`
+       - The resolver uses an existing :ref:`scalar type <graphql-scalar-types>`
+         from the generated GraphQL schema.
+         
+         In the second dropdown input, select either a single scalar or an array
+         of multiple scalars of the same type.
+         
+         .. cssclass:: bordered-figure
+         .. figure:: /images/custom-resolver-payload-type-scalar.png
+            :alt: A custom resolver configuration that specifies an existing scalar type.
+         
+         .. example::
+            
+            A custom resolver named ``myCustomQuery`` that uses the
+            :guilabel:`Scalar Type` option to specify a payload type of
+            ``DateTime`` has the following generated schema:
+            
+            .. code-block:: graphql
+               
+               type Query {
+                 myCustomQuery: DateTime
                  ...
                }
 
