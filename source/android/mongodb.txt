@@ -37,9 +37,9 @@ Create Documents
 These code snippets demonstrate how to insert one or more
 documents into a MongoDB collection from a mobile application. Insert
 operations take a document or documents to add to MongoDB as an argument
-and return a :android:`Task <com/google/android/play/core/tasks/Task>`
-that resolves to an object that contains the results
-of the execution of the operation.
+and return a :java-sdk:`RealmResultTask
+<io/realm/mongodb/RealmResultTask.html>` that resolves to an object that
+contains the results of the execution of the operation.
 
 .. _android-mongodb-insertOne:
 
@@ -74,11 +74,11 @@ valley" plant into a
                                    .append("type", "perennial")
                                    .append("_partition", "Store 47")
 
-         mongoCollection?.insertOne(plant)?.addOnCompleteListener {
-            if (it.isSuccessful) {
-               Log.v("EXAMPLE", "successfully inserted a document with id: ${it.result.insertedId}")
+         mongoCollection?.insertOne(plant)?.getAsync() {
+            if (it.isSuccess) {
+               Log.v("EXAMPLE", "successfully inserted a document with id: ${it.get().insertedId}")
             } else {
-               Log.e("EXAMPLE", "failed to insert documents with: ${it.exception}")
+               Log.e("EXAMPLE", "failed to insert documents with: ${it.error}")
             }
          }
 
@@ -99,12 +99,12 @@ valley" plant into a
                 .append("type", "perennial")
                 .append("_partition", "Store 47");
 
-         mongoCollection.insertOne(plant).addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                BsonObjectId insertedId = task.getResult().getInsertedId().asObjectId();
+         mongoCollection.insertOne(plant).getAsync(task -> {
+            if (task.isSuccess()) {
+                BsonObjectId insertedId = task.get().getInsertedId().asObjectId();
                 Log.v("EXAMPLE", "successfully inserted a document with id " + insertedId);
             } else {
-                Log.e("EXAMPLE", "failed to insert document with: ", task.getException());
+                Log.e("EXAMPLE", "failed to insert document with: ", task.getError().toString());
             }
          });
 
@@ -157,11 +157,11 @@ The following snippet inserts three documents describing plants into a
                         .append("type", "perennial")
                         .append("_partition", "Store 42"))
 
-         mongoCollection?.insertMany(plants)?.addOnCompleteListener {
-            if (it.isSuccessful) {
-               Log.v("EXAMPLE", "successfully inserted ${it.result.insertedIds.size} documents into the collection.")
+         mongoCollection?.insertMany(plants)?.getAsync {
+            if (it.isSuccess) {
+               Log.v("EXAMPLE", "successfully inserted ${it.get().insertedIds.size} documents into the collection.")
             } else {
-               Log.e("EXAMPLE", "failed to insert documents with: ${it.exception}")
+               Log.e("EXAMPLE", "failed to insert documents with: ${it.error}")
             }
          }
 
@@ -194,12 +194,12 @@ The following snippet inserts three documents describing plants into a
                         .append("type", "perennial")
                         .append("_partition", "Store 42"));
 
-         mongoCollection.insertMany(plants).addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                int insertedCount = task.getResult().getInsertedIds().size();
+         mongoCollection.insertMany(plants).getAsync(task -> {
+            if (task.isSuccess()) {
+                int insertedCount = task.get().getInsertedIds().size();
                 Log.v("EXAMPLE", "successfully inserted " + insertedCount + " documents into the collection.");
             } else {
-                Log.e("EXAMPLE", "failed to insert documents with: ", task.getException());
+                Log.e("EXAMPLE", "failed to insert documents with: ", task.getError().toString);
             }
          });
 
@@ -250,11 +250,11 @@ field contains the string value "perennial":
          val mongoCollection : MongoCollection<Document>? = mongoDatabase?.getCollection("plants")
 
          val queryFilter : Document = Document("type", "perennial")
-         mongoCollection?.findOne(queryFilter)?.addOnCompleteListener {
-            if (it.isSuccessful) {
-               Log.v("EXAMPLE", "successfully found a document: ${it.result}")
+         mongoCollection?.findOne(queryFilter)?.getAsync {
+            if (it.isSuccess) {
+               Log.v("EXAMPLE", "successfully found a document: ${it.get()}")
             } else {
-               Log.e("EXAMPLE", "failed to find document with: ${it.exception}")
+               Log.e("EXAMPLE", "failed to find document with: ${it.error}")
             }
          }
 
@@ -270,12 +270,12 @@ field contains the string value "perennial":
          MongoCollection<Document> mongoCollection  = mongoDatabase.getCollection("plants");
 
          Document queryFilter  = new Document("type", "perennial");
-         mongoCollection.findOne(queryFilter).addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                Document result = task.getResult();
+         mongoCollection.findOne(queryFilter).getAsync(task -> {
+            if (task.isSuccess()) {
+                Document result = task.get();
                 Log.v("EXAMPLE", "successfully found a document: " + result);
             } else {
-                Log.e("EXAMPLE", "failed to find document with: ", task.getException());
+                Log.e("EXAMPLE", "failed to find document with: ", task.getError().toString());
             }
          });
 
@@ -314,14 +314,14 @@ The following snippet finds all documents in a
          val queryFilter : Document = Document("_partition", "Store 42")
          val findIterable : FindIterable<Document>? = mongoCollection?.find(queryFilter)
 
-         findIterable?.iterator()?.addOnCompleteListener {
-            if (it.isSuccessful) {
+         findIterable?.iterator()?.getAsync {
+            if (it.isSuccess) {
                Log.v("EXAMPLE", "successfully found all plants for Store 42:")
-               it.result.forEach {
+               it.get().forEach {
                   Log.v("EXAMPLE", it.toString())
                }
             } else {
-               Log.e("EXAMPLE", "failed to find documents with: ${it.exception}")
+               Log.e("EXAMPLE", "failed to find documents with: ${it.error}")
             }
          }
 
@@ -339,15 +339,15 @@ The following snippet finds all documents in a
          Document queryFilter  = new Document("_partition", "Store 42");
          Task<MongoCursor<Document>> findTask = mongoCollection.find(queryFilter).iterator();
 
-         findTask.addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                MongoCursor<Document> results = task.getResult();
+         findTask.getAsync(task -> {
+            if (task.isSuccess()) {
+                MongoCursor<Document> results = task.get();
                 Log.v("EXAMPLE", "successfully found all plants for Store 42:");
                 while (results.hasNext()) {
                     Log.v("EXAMPLE", results.next().toString());
                 }
             } else {
-                Log.e("EXAMPLE", "failed to find documents with: ", task.getException());
+                Log.e("EXAMPLE", "failed to find documents with: ", task.getError().toString());
             }
          });
 
@@ -390,11 +390,11 @@ The following snippet counts the number of documents in a
          val mongoDatabase : MongoDatabase? = mongoClient?.getDatabase("inventory")
          val mongoCollection : MongoCollection<Document>? = mongoDatabase?.getCollection("plants")
 
-         mongoCollection?.count()?.addOnCompleteListener {
-            if (it.isSuccessful) {
-               Log.v("EXAMPLE", "successfully counted, number of documents in the collection: ${it.result}")
+         mongoCollection?.count()?.getAsync {
+            if (it.isSuccess) {
+               Log.v("EXAMPLE", "successfully counted, number of documents in the collection: ${it.get()}")
             } else {
-               Log.e("EXAMPLE", "failed to count documents with: ${it.exception}")
+               Log.e("EXAMPLE", "failed to count documents with: ${it.error}")
             }
          }
 
@@ -409,12 +409,12 @@ The following snippet counts the number of documents in a
          MongoDatabase mongoDatabase = mongoClient.getDatabase("inventory");
          MongoCollection<Document> mongoCollection  = mongoDatabase.getCollection("plants");
 
-         mongoCollection.count().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                long count = task.getResult();
+         mongoCollection.count().getAsync(task -> {
+            if (task.isSuccess()) {
+                long count = task.get();
                 Log.v("EXAMPLE", "successfully counted, number of documents in the collection: " + count);
             } else {
-                Log.e("EXAMPLE", "failed to count documents with: ", task.getException());
+                Log.e("EXAMPLE", "failed to count documents with: ", task.getError().toString());
             }
          });
 
@@ -469,16 +469,16 @@ of the first matched document's ``sunlight`` field to "partial":
          val queryFilter : Document = Document("name", "petunia")
          val updateDocument : Document = Document("sunlight", "partial")
 
-         mongoCollection?.updateOne(queryFilter, updateDocument)?.addOnCompleteListener {
-            if (it.isSuccessful) {
-               val count : Long = it.result.modifiedCount
+         mongoCollection?.updateOne(queryFilter, updateDocument)?.getAsync {
+            if (it.isSuccess) {
+               val count : Long = it.get().modifiedCount
                if (count == 1L) {
                   Log.v("EXAMPLE", "successfully updated a document.")
                } else {
                   Log.v("EXAMPLE", "did not update a document.")
                }
             } else {
-               Log.e("EXAMPLE", "failed to update a document with: ${it.exception}")
+               Log.e("EXAMPLE", "failed to update a document with: ${it.error}")
             }
          }
 
@@ -496,16 +496,16 @@ of the first matched document's ``sunlight`` field to "partial":
          Document queryFilter = new Document("name", "petunia");
          Document updateDocument = new Document("sunlight", "partial");
 
-         mongoCollection.updateOne(queryFilter, updateDocument).addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                long count = task.getResult().getModifiedCount();
+         mongoCollection.updateOne(queryFilter, updateDocument).getAsync(task -> {
+            if (task.isSuccess()) {
+                long count = task.get().getModifiedCount();
                 if (count == 1) {
                     Log.v("EXAMPLE", "successfully updated a document.");
                 } else {
                     Log.v("EXAMPLE", "did not update a document.");
                 }
             } else {
-                Log.e("EXAMPLE", "failed to update document with: ", task.getException());
+                Log.e("EXAMPLE", "failed to update document with: ", task.getError().toString());
             }
          });
 
@@ -545,16 +545,16 @@ the value of the ``_partition`` field of each matching document to "Store 51":
 
          val queryFilter : Document = Document("_partition", "Store 47")
          val updateDocument : Document = Document("_partition", "Store 51")
-         mongoCollection?.updateMany(queryFilter, updateDocument)?.addOnCompleteListener {
-            if (it.isSuccessful) {
-               val count : Long = it.result.modifiedCount
+         mongoCollection?.updateMany(queryFilter, updateDocument)?.getAsync {
+            if (it.isSuccess) {
+               val count : Long = it.get().modifiedCount
                if (count == 1L) {
                   Log.v("EXAMPLE", "successfully updated ${count} documents.")
                } else {
                   Log.v("EXAMPLE", "did not update any documents.")
                }
             } else {
-               Log.e("EXAMPLE", "failed to update documents with: ${it.exception}")
+               Log.e("EXAMPLE", "failed to update documents with: ${it.error}")
             }
          }
 
@@ -572,16 +572,16 @@ the value of the ``_partition`` field of each matching document to "Store 51":
          Document queryFilter = new Document("_partition", "Store 47");
          Document updateDocument = new Document("_partition", "Store 51");
 
-         mongoCollection.updateMany(queryFilter, updateDocument).addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                long count = task.getResult().getModifiedCount();
+         mongoCollection.updateMany(queryFilter, updateDocument).getAsync(task -> {
+            if (task.isSuccess()) {
+                long count = task.get().getModifiedCount();
                 if (count != 0) {
                     Log.v("EXAMPLE", "successfully updated " + count + " documents.");
                 } else {
                     Log.v("EXAMPLE", "did not update any documents.");
                 }
             } else {
-                Log.e("EXAMPLE", "failed to update documents with: ", task.getException());
+                Log.e("EXAMPLE", "failed to update documents with: ", task.getError().toString());
             }
          });
 
@@ -635,15 +635,15 @@ both the query filter and specified updates:
                                          .append("_partition", "Store 47")
          val updateDocument : Document = Document("name", "sweet basil")
          val updateOptions : UpdateOptions = UpdateOptions().upsert(true)
-         mongoCollection?.updateOne(queryFilter, updateDocument, updateOptions)?.addOnCompleteListener {
-            if (it.isSuccessful) {
-               if (it.result.upsertedId != null) {
-                 Log.v("EXAMPLE", "successfully upserted a document with id: ${it.result.upsertedId}")
+         mongoCollection?.updateOne(queryFilter, updateDocument, updateOptions)?.getAsync {
+            if (it.isSuccess) {
+               if (it.get().upsertedId != null) {
+                 Log.v("EXAMPLE", "successfully upserted a document with id: ${it.get().upsertedId}")
                } else {
                  Log.v("EXAMPLE", "successfully updated a document.")
                }
             } else {
-               Log.e("EXAMPLE", "failed to update or insert document with: ${it.exception}")
+               Log.e("EXAMPLE", "failed to update or insert document with: ${it.error}")
             }
          }
 
@@ -665,15 +665,15 @@ both the query filter and specified updates:
          Document updateDocument = new Document("name", "sweet basil");
          UpdateOptions updateOptions = new UpdateOptions().upsert(true);
 
-         mongoCollection.updateOne(queryFilter, updateDocument, updateOptions).addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                if(task.getResult().getUpsertedId() != null) {
-                    Log.v("EXAMPLE", "successfully upserted a document with id " + task.getResult().getUpsertedId());
+         mongoCollection.updateOne(queryFilter, updateDocument, updateOptions).getAsync(task -> {
+            if (task.isSuccess()) {
+                if(task.get().getUpsertedId() != null) {
+                    Log.v("EXAMPLE", "successfully upserted a document with id " + task.get().getUpsertedId());
                 } else {
                     Log.v("EXAMPLE", "successfully updated a document.");
                 }
             } else {
-                Log.e("EXAMPLE", "failed to update or insert document with: ", task.getException());
+                Log.e("EXAMPLE", "failed to update or insert document with: ", task.getError().toString());
             }
          });
 
@@ -724,16 +724,16 @@ the first document that matches the query:
          val mongoCollection : MongoCollection<Document>? = mongoDatabase?.getCollection("plants")
 
          val queryFilter : Document = Document("color", "green")
-         mongoCollection?.deleteOne(queryFilter)?.addOnCompleteListener {
-            if (it.isSuccessful) {
-               val count : Long = it.result.deletedCount
+         mongoCollection?.deleteOne(queryFilter)?.getAsync {
+            if (it.isSuccess) {
+               val count : Long = it.get().deletedCount
                if (count == 1L) {
                   Log.v("EXAMPLE", "successfully deleted a document.")
                } else {
                   Log.v("EXAMPLE", "did not delete a document.")
                }
             } else {
-               Log.e("EXAMPLE", "failed to delete document with: ${it.exception}")
+               Log.e("EXAMPLE", "failed to delete document with: ${it.error}")
             }
          }
 
@@ -750,16 +750,16 @@ the first document that matches the query:
 
          Document queryFilter = new Document("color", "green");
 
-         mongoCollection.deleteOne(queryFilter).addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                long count = task.getResult().getDeletedCount();
+         mongoCollection.deleteOne(queryFilter).getAsync(task -> {
+            if (task.isSuccess()) {
+                long count = task.get().getDeletedCount();
                 if (count == 1) {
                     Log.v("EXAMPLE", "successfully deleted a document.");
                 } else {
                     Log.v("EXAMPLE", "did not delete a document.");
                 }
             } else {
-                Log.e("EXAMPLE", "failed to delete document with: ", task.getException());
+                Log.e("EXAMPLE", "failed to delete document with: ", task.getError().toString());
             }
          });
 
@@ -800,16 +800,16 @@ a ``sunlight`` field value of "full" and a ``type`` field value of
 
          val queryFilter : Document = Document("sunlight", "full")
                                          .append("type", "annual")
-         mongoCollection?.deleteMany(queryFilter)?.addOnCompleteListener {
-            if (it.isSuccessful) {
-                val count : Long = it.result.deletedCount
+         mongoCollection?.deleteMany(queryFilter)?.getAsync {
+            if (it.isSuccess) {
+                val count : Long = it.get().deletedCount
                 if (count != 0L) {
                     Log.v("EXAMPLE", "succcessfully deleted ${count} documents.")
                 } else {
                     Log.v("EXAMPLE", "did not delete any documents.")
                 }
             } else {
-               Log.e("EXAMPLE", "failed to delete documents with: ${it.exception}")
+               Log.e("EXAMPLE", "failed to delete documents with: ${it.error}")
             }
          }
 
@@ -827,16 +827,16 @@ a ``sunlight`` field value of "full" and a ``type`` field value of
          Document queryFilter = new Document("sunlight", "full")
                 .append("type", "annual");
 
-         mongoCollection.deleteMany(queryFilter).addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                long count = task.getResult().getDeletedCount();
+         mongoCollection.deleteMany(queryFilter).getAsync(task -> {
+            if (task.isSuccess()) {
+                long count = task.get().getDeletedCount();
                 if (count != 0) {
                     Log.v("EXAMPLE", "successfully deleted " + count + " documents.");
                 } else {
                     Log.v("EXAMPLE", "did not delete any documents.");
                 }
             } else {
-                Log.e("EXAMPLE", "failed to delete documents with: ", task.getException());
+                Log.e("EXAMPLE", "failed to delete documents with: ", task.getError().toString());
             }
          });
 
@@ -895,14 +895,14 @@ number of each type:
          val aggregationTask : Task<MongoCursor<Document>>? =
             mongoCollection?.aggregate(pipeline)?.iterator()
 
-         aggregationTask?.addOnCompleteListener {
-            if (it.isSuccessful) {
+         aggregationTask?.getAsync {
+            if (it.isSuccess) {
                Log.v("EXAMPLE", "Plant type counts: ")
                it.result.forEach {
                   Log.v("EXAMPLE", it.toString())
                }
             } else {
-               Log.e("EXAMPLE", "failed to aggregate documents with: ${it.exception}")
+               Log.e("EXAMPLE", "failed to aggregate documents with: ${it.error}")
             }
          }
 
@@ -923,15 +923,15 @@ number of each type:
 
          Task<MongoCursor<Document>> aggregationTask = mongoCollection.aggregate(pipeline).iterator();
 
-         aggregationTask.addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
+         aggregationTask.getAsync(task -> {
+            if (task.isSuccess()) {
                 MongoCursor<Document> results = task.getResult();
                 Log.d("EXAMPLE", "successfully aggregated the plants by type. Type summary:");
                 while (results.hasNext()) {
                     Log.v("EXAMPLE", results.next().toString());
                 }
             } else {
-                Log.e("EXAMPLE", "failed to aggregate documents with: ", task.getException());
+                Log.e("EXAMPLE", "failed to aggregate documents with: ", task.getError().toString());
             }
          });
 
