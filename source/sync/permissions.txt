@@ -199,7 +199,7 @@ cannot express solely in JSON expressions.
           }
      
      - This expression calls the ``canReadPartition`` function and
-       passes in the partition value and user object. The function looks up the
-       user's permissions for the partition from a MongoDB collection and then
-       returns a boolean that indicates if the user can read data in the
-       requested partition.
+       passes in the partition value as its first and only argument. The
+       function looks up the user's permissions for the partition from a MongoDB
+       collection and then returns a boolean that indicates if the user can read
+       data in the requested partition.
