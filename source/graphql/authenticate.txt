@@ -50,7 +50,7 @@ API Key
 -------
 
 To authenticate a GraphQL request as an :ref:`API Key <api-key-authentication>`
-user, include the user or server API key in the request's ``api-key`` header:
+user, include the user or server API key in the request's ``apiKey`` header:
 
 .. code-block:: javascript
    :emphasize-lines: 4
@@ -58,7 +58,7 @@ user, include the user or server API key in the request's ``api-key`` header:
    http.post({
      "url": "https://realm.mongodb.com/api/client/v2.0/app/<yourappid-abcde>/graphql",
      "headers": {
-       "api-key": "<User or Server API Key>"
+       "apiKey": "<User or Server API Key>"
      },
      "body": '{"query":"query AllMovies {\n  movies {\n    title\n    year\n  }\n}"}'
    })
@@ -67,7 +67,7 @@ user, include the user or server API key in the request's ``api-key`` header:
    :emphasize-lines: 2
 
    curl --location --request POST 'https://realm.mongodb.com/api/client/v2.0/app/<yourappid-abcde>/graphql' \
-      --header 'api-key: <User or Server API Key>' \
+      --header 'apiKey: <User or Server API Key>' \
       --header 'Content-Type: application/json' \
       --data-raw '{"query":"query AllMovies {\n  movies {\n    title\n    year\n  }\n}"}'
 
