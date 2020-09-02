@@ -1,8 +1,8 @@
-.. _sync-permission-strategies:
+.. _define-sync-permissions:
 
-==========================
-Sync Permission Strategies
-==========================
+=======================
+Define Sync Permissions
+=======================
 
 .. default-domain:: mongodb
 
@@ -21,8 +21,8 @@ determines the user's permissions for the underlying partition based on
 :ref:`Sync rules <sync-rules>` that you define.
 
 You can structure your read and write permission expressions as a set of
-:ref:`permission strategies <sync-permission-strategies>` that apply to the
-different :ref:`partition strategies <partition-strategies>` in your data model.
+permission strategies that apply to the different :ref:`partition strategies
+<partition-strategies>` in your data model.
 
 The following strategies outline common approaches that you might take to define
 sync read and write permissions for your app.
@@ -46,15 +46,15 @@ boolean value.
           
           true
      
-     - The read or write permission expression ``true`` means that all users
-       have the given access permissions for all partitions.
+     - The expression ``true`` means that all users have the given access
+       permissions for all partitions.
 
    * - .. code-block:: json
           
           false
      
-     - The read/write permission expression ``false`` means that no users
-       have the given access permissions for any partitions.
+     - The expression ``false`` means that no users have the given access
+       permissions for any partitions.
 
    * - .. code-block:: json
           
@@ -80,21 +80,21 @@ partitions by explicitly specifying their partition values.
      
           { "%%partition": "PUBLIC" }
      
-     - This read/write permission expression means that all users have the given
-       access permissions for data with a partition value of ``"Public"``.
+     - This expression means that all users have the given access permissions
+       for data with a partition value of ``"Public"``.
 
    * - .. code-block:: json
      
           {
-            "%%partition": 
+            "%%partition": [
               "PUBLIC (NA)",
               "PUBLIC (EMEA)",
               "PUBLIC (APAC)"
             ]
           }
      
-     - This read/write permission expression means that all users have the given
-       access permissions for data with any of the specified partition values.
+     - This expression means that all users have the given access permissions
+       for data with any of the specified partition values.
 
 Permissions for Specific Users
 ------------------------------
@@ -113,7 +113,7 @@ explicitly specifying their ID values.
           
           { "%%user.id": "5f4863e4d49bd2191ff1e623" }
      
-     - This read/write permission expression means that the user with id
+     - This expression means that the user with id
        ``"5f4863e4d49bd2191ff1e623"`` has the given access permissions for data
        in any partition.
 
@@ -127,9 +127,8 @@ explicitly specifying their ID values.
             ]
           }
      
-     - This read/write permission expression means that any user with one of the
-       specified user ID values has the given access permissions for data in any
-       partition.
+     - This expression means that any user with one of the specified user ID
+       values has the given access permissions for data in any partition.
 
 Permissions Based on User Data
 ------------------------------
@@ -149,7 +148,7 @@ authentication provider.
      
           { "%%user.custom_data.readPartitions" : "%%partition" }
      
-     - This permission expression means that a user has read access to a
+     - This expression means that a user has read access to a
        partition if the partition value is listed in the ``readPartitions``
        field of their custom user data.
 
@@ -157,7 +156,7 @@ authentication provider.
      
           { "%%user.data.writePartitions" : "%%partition" }
      
-     - This permission expression means that a user has write access to a
+     - This expression means that a user has write access to a
        partition if the partition value is listed in the
        ``data.writePartitions`` field of their user object.
 
@@ -182,21 +181,24 @@ cannot express solely in JSON expressions.
             "%%true": {
               "%function": {
                 "name": "canReadPartition",
-                "arguments": ["%%partition", "%%user"]
+                "arguments": ["%%partition"]
               }
             }
           }
        
        .. code-block:: javascript
           
-          exports = async function canReadPartition(partitionValue, user) {
+          // canReadPartition
+          exports = async (partition) => {
             const cluster = context.services.get("mongodb-atlas");
-            const permissions = cluster.db("myApp").collection("permissions");
-            const { canRead } = await permissions.findOne({ partitionValue });
-            return partitionPermissions.canRead.includes(user.id);
+            const permissions = cluster
+              .db("myApp")
+              .collection("permissions");
+            const { canRead } = await permissions.findOne({ partition });
+            return canRead.includes(context.user.id);
           }
      
-     - This permission expression calls the ``canReadPartition`` function and
+     - This expression calls the ``canReadPartition`` function and
        passes in the partition value and user object. The function looks up the
        user's permissions for the partition from a MongoDB collection and then
        returns a boolean that indicates if the user can read data in the
