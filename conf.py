@@ -104,7 +104,7 @@ extlinks = {
     'mms-docs': ('https://docs.cloud.mongodb.com%s', ''),
     'mms-home': ('https://cloud.mongodb.com%s', ''),
     'guides': ('https://docs.mongodb.com/guides%s', ''),
-    'java-sdk': ('https://docs.mongodb.com/realm-sdks/android/10.0.0-beta.6/javadoc/%s', ''),
+    'java-sdk': ('https://docs.mongodb.com/realm-sdks/java/10.0.0-BETA.6/%s', ''),
     'kotlin-sdk': ('https://docs.mongodb.com/realm-sdks/android/10.0.0-beta.6/kotlin-extensions/%s', ''),
     'swift-sdk': ('https://docs.mongodb.com/realm-sdks/swift/10.0.0-beta.3/%s', ''),
     'objc-sdk': ('https://docs.mongodb.com/realm-sdks/objc/10.0.0-beta.3/%s', ''),
