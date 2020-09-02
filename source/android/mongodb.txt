@@ -37,9 +37,9 @@ Create Documents
 These code snippets demonstrate how to insert one or more
 documents into a MongoDB collection from a mobile application. Insert
 operations take a document or documents to add to MongoDB as an argument
-and return a :android:`Task <com/google/android/play/core/tasks/Task>`
-that resolves to an object that contains the results
-of the execution of the operation.
+and return a :java-sdk:`RealmResultTask
+<io/realm/mongodb/RealmResultTask.html>` that resolves to an object that
+contains the results of the execution of the operation.
 
 .. _android-mongodb-insertOne:
 
@@ -101,7 +101,7 @@ valley" plant into a
 
          mongoCollection.insertOne(plant).getAsync(task -> {
             if (task.isSuccess()) {
-                BsonObjectId insertedId = task.get().getId().asObjectId();
+                BsonObjectId insertedId = task.get().getInsertedId().asObjectId();
                 Log.v("EXAMPLE", "successfully inserted a document with id " + insertedId);
             } else {
                 Log.e("EXAMPLE", "failed to insert document with: ", task.getError().toString());
@@ -196,7 +196,7 @@ The following snippet inserts three documents describing plants into a
 
          mongoCollection.insertMany(plants).getAsync(task -> {
             if (task.isSuccess()) {
-                int insertedCount = task.get().getIds().size();
+                int insertedCount = task.get().getInsertedIds().size();
                 Log.v("EXAMPLE", "successfully inserted " + insertedCount + " documents into the collection.");
             } else {
                 Log.e("EXAMPLE", "failed to insert documents with: ", task.getError().toString);
