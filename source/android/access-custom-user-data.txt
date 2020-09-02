@@ -207,9 +207,9 @@ document containing the user ID of the currently logged in user and a
                     .getAsync(result -> {
                         if (result.isSuccess()) {
                             Log.v("EXAMPLE", "Inserted custom user data document. _id of inserted document: "
-                                + it.get().getId());
+                                + result.get().getId());
                         } else {
-                            Log.e("EXAMPLE", "Unable to insert custom user data. Error: " + it.getError());
+                            Log.e("EXAMPLE", "Unable to insert custom user data. Error: " + result.getError());
                         }
                 });
             } else {
