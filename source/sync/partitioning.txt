@@ -79,6 +79,10 @@ choose partition keys:
 - Partition keys must have a value of one of the
   :ref:`supported types for partition keys
   <partition-limitations-types>`.
+  
+- If the partition key field is designated as optional, all documents that 
+  don't contain the partition key or have a null value for the partition key 
+  will be sent to the null partition by default. 
 
 For more information about how to choose
 a partition key for your application, see :ref:`Partition Strategies
