@@ -27,9 +27,10 @@ title: Choose a Partition Key
 ref: choose-a-partition-key
 content: |
   The sync :term:`partition key` is a field in every synced document that maps
-  each document to a client-side realm. If the partition key field is optional, 
-  then all documents that either don't contain the partition key or have a null 
-  value for the partition key will be sent to the null partition by default. 
+  each document to a client-side realm. Partition key fields should be made 
+  required through the {+Realm+} UI. If the partition key field is optional, 
+  then all documents that either exclude the partition key or have a null 
+  value for the partition key will be sent to the null partition. 
   Sync rules apply at the partition level, so it's particularly important to 
   consider your data model and access patterns. For more information on 
   partition keys and how to choose one, see
