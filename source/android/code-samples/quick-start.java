@@ -91,13 +91,7 @@ public class MainActivity extends AppCompatActivity {
                         innerYetAnotherTask.deleteFromRealm();
                 });
 
-                user.logOutAsync( result -> {
-                    if (result.isSuccess()) {
-                        Log.v("QUICKSTART", "Successfully logged out.");
-                    } else {
-                        Log.e("QUICKSTART", "Failed to log out. Error: " + result.getError().toString());
-                    }
-                });
+                realm.close();
             } else {
                 Log.e("QUICKSTART", it.getError().toString());
             }
