@@ -1,3 +1,4 @@
+// assumes that at least one contact already exists in this partition 
 Contact oldContact = realm.where(Contact.class).findFirst();
 
 realm.executeTransaction(transactionRealm -> {
