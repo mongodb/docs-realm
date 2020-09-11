@@ -80,10 +80,11 @@ choose partition keys:
   :ref:`supported types for partition keys
   <partition-limitations-types>`.
   
-- Partition key fields should be made required through the {+Realm+} UI. If 
-  the partition key field is designated as optional, all documents that 
-  exclude the partition key or have a null value for the partition key will be 
-  sent to the null partition. 
+- You can configure your app to treat partition keys as either optional or 
+  required. If the partition key field is designated as optional, all documents 
+  that exclude the partition key or have a null value for the partition key 
+  will be sent to the :term:`null partition`. If the partition key field is 
+  required, 
 
 For more information about how to choose
 a partition key for your application, see :ref:`Partition Strategies
