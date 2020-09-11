@@ -92,13 +92,7 @@ class MainActivity : AppCompatActivity() {
                     innerYetAnotherTask.deleteFromRealm()
                 }
 
-                user.logOutAsync {
-                    if (it.isSuccess) {
-                        Log.v("QUICKSTART", "Successfully logged out.")
-                    } else {
-                        Log.e("QUICKSTART", "Failed to log out. Error: ${it.error}")
-                    }
-                }
+                realm.close()
             } else {
                 Log.e("QUICKSTART", "Failed to log in. Error: ${it.error}")
             }
