@@ -1,6 +1,6 @@
 .. warning::
 
-   If a user logs out, you can no longer read or write data in any
+   When a user logs out, you can no longer read or write data in any
    synced {+realm+}s that the user opened. As a result, any operation
    that has not yet completed before the initiating user logs out cannot
    complete successfully and will likely result in an error. Any data in
