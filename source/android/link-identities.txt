@@ -1,0 +1,61 @@
+.. _android-link-user-identities:
+
+====================
+Link User Identities
+====================
+
+Overview
+--------
+
+{+service+} provides :ref:`multiple ways <authentication-providers>` for
+users to log into your application. Because each method of authentication
+corresponds to a unique user identity, {+service-short+} lets you merge
+multiple identities corresponding to a single user into one user
+identity.
+
+Example
+-------
+
+For instance, consider an application that enables users to authenticate
+via :ref:`anonymous authentication <anonymous-authentication>` so they
+may explore functionality without linking to an existing
+SSO provider or generating a new password. When that user decides to
+finally create a full account with an SSO provider or email/password
+authentication, you need some way of persisting the user's original
+anonymous identity with their new permanent identity.
+
+You can link identities using the ``linkCredentials()`` or
+``linkCredentialsAsync()`` methods of the ``User`` object of a logged in
+User.
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: kotlin
+      
+      .. code-block:: kotlin
+         
+         fun linkUserWithEmailPasswordUser(user: User, email: String, password: String) {
+            user.linkCredentialsAsync(Credentials.emailPassword(email, password)) {
+                if (it.isSuccess) {
+                    Log.v("EXAMPLE", "Successfully linked existing user identity with email/password user: ${it.get().email}")
+                } else {
+                    Log.e("EXAMPLE", "Failed to link user identities with: ${it.error}")
+                }
+            }
+         }
+
+   .. tab::
+      :tabid: java
+
+      .. code-block:: java
+
+         public void linkUserWithEmailPasswordUser(User user, String email, String password) {
+            user.linkCredentialsAsync(Credentials.emailPassword(email, password), it -> {
+                if (it.isSuccess()) {
+                    Log.v("EXAMPLE", "Successfully linked existing user identity with email/password user: " + it.get().getEmail());
+                } else {
+                    Log.e("EXAMPLE", "Failed to link user identities with: " + it.getError());
+                }
+            });
+         }
