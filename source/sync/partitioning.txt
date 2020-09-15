@@ -84,7 +84,9 @@ choose partition keys:
   required. If the partition key field is designated as optional, all documents 
   that exclude the partition key or have a null value for the partition key 
   will be sent to the :term:`null partition`. If the partition key field is 
-  required, 
+  required, {+sync+} will ignore any documents that lack a valid value for 
+  the partition key. We recommend a required partition key unless your 
+  application specifically requires access to unpartitioned documents. 
 
 For more information about how to choose
 a partition key for your application, see :ref:`Partition Strategies
