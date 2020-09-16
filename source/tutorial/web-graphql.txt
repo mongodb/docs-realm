@@ -292,11 +292,11 @@ E. Define the GraphQL Schema & Operations
         ...
       }
    
-   We use the custom Apollo hooks generated in ``/src/graphql-operations.ts``
+   We use the custom Apollo hooks generated in ``/src/graphql-operations.ts`` to
    call the GraphQL API as part of the task actions defined in ``useTasks()``.
    
    .. code-block:: typescript
-      :caption: ``/src/components/TaskView.tsx``
+      :caption: ``/src/hooks/useTasks.tsx``
       :emphasize-lines: 13-17, 20-22
       
       import { GetAllTasksQuery } from "./../types";
