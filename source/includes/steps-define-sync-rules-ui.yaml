@@ -35,12 +35,13 @@ content: |
   .. note::
     
     The partition key can either be required or optional. If the partition key 
-    field is optional, then all documents that either exclude the partition 
-    key or have a null value for the partition key will be sent to the 
+    field is optional, then all MongoDB documents that either exclude the 
+    partition key or have a null value for the partition key will be sent to the 
     :term:`null partition`. If the partition key field is required, {+sync+} 
-    will ignore any documents that lack a valid value for 
-    the partition key. We recommend a required partition key unless your 
-    application specifically needs access to unpartitioned documents. 
+    ignores any MongoDB documents that lack a valid value for the partition 
+    key. We recommend a required partition key unless you want to sync
+    pre-existing data with invalid or missing partition values from a
+    MongoDB collection.
 
   Once you have decided which field to use, select it from the :guilabel:`Choose
   A Partition Key` dropdown menu.

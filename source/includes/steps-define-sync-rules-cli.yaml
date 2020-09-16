@@ -48,6 +48,17 @@ content: |
   so it's particularly important to consider your data model and access
   patterns. For more information on partition keys and how to choose one, see
   :ref:`Partition Atlas Data into Realms <partitioning>`.
+  
+  .. note::
+    
+    The partition key can either be required or optional. If the partition key 
+    field is optional, then all MongoDB documents that either exclude the 
+    partition key or have a null value for the partition key will be sent to the 
+    :term:`null partition`. If the partition key field is required, {+sync+} 
+    ignores any MongoDB documents that lack a valid value for the partition 
+    key. We recommend a required partition key unless you want to sync
+    pre-existing data with invalid or missing partition values from a
+    MongoDB collection.
 
   Once you have decided which field to use, update ``config.sync.partition``
   with the partition key field name in the ``key`` field and the partition key
