@@ -101,8 +101,6 @@
        that evaluates to ``true`` if the role has permission to delete a
        document from the collection.
 
-
-
    * - | ``search``
        | Boolean or Document
        | *Default:* ``true``
