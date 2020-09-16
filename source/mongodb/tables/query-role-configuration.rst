@@ -7,6 +7,7 @@
       "delete": <Boolean|JSON Expression>,
       "read": <Boolean|JSON Expression>,
       "write": <Boolean|JSON Expression>,
+      "search": <Boolean|JSON Expression>,
       "fields": {
          "<Field Name>": {
             "read": <Boolean|JSON Expression>,
@@ -81,7 +82,7 @@
 
    * - | ``insert``
        | Boolean or Document
-       | *Default:* ``false``
+       | *Default:* ``true``
      - A boolean or :doc:`JSON Expression </services/json-expressions>`
        that evaluates to ``true`` if the role has permission to insert a
        new document into the collection.
@@ -95,10 +96,19 @@
 
    * - | ``delete``
        | Boolean or Document
-       | *Default:* ``false``
+       | *Default:* ``true``
      - A boolean or :doc:`JSON Expression </services/json-expressions>`
        that evaluates to ``true`` if the role has permission to delete a
        document from the collection.
+
+   * - | ``search``
+       | Boolean or Document
+       | *Default:* ``true``
+     - A boolean or :doc:`JSON Expression </services/json-expressions>`
+       that evaluates to ``true`` if the role has permission to search the
+       collection using :atlas:`Atlas Search </atlas-search/>`.
+       
+       .. include:: /includes/note-atlas-search-rules.rst
 
    * - | ``fields``
        | Document
