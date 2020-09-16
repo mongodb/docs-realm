@@ -94,6 +94,27 @@ process
 - :nodejs:`version <docs/v10.18.1/api/process.html#process_process_version>`
 - :nodejs:`versions <docs/v10.18.1/api/process.html#process_process_versions>`
 
+dgram
+~~~~~
+{+service-short+} supports the following ``dgram`` APIs:
+
+- :nodejs:`socket.addMembership <api/dgram.html#dgram_socket_addmembership_multicastaddress_multicastinterface>`
+- :nodejs:`socket.address <api/dgram.html#dgram_socket_address>`
+- :nodejs:`socket.bind <api/dgram.html#dgram_socket_bind_port_address_callback>`
+- :nodejs:`socket.close <api/dgram.html#dgram_socket_close_callback>`
+- :nodejs:`createSocket <api/dgram.html#dgram_dgram_createsocket_options_callback>`
+- :nodejs:`socket.dropMembership <api/dgram.html#dgram_socket_dropmembership_multicastaddress_multicastinterface>`
+- :nodejs:`socket.send <api/dgram.html#dgram_socket_send_msg_offset_length_port_address_callback>`
+- :nodejs:`socket.setBroadcast <api/dgram.html#dgram_socket_setbroadcast_flag>`
+- :nodejs:`socket.setMulticastLoopback <api/dgram.html#dgram_socket_setmulticastloopback_flag>`
+- :nodejs:`socket.setMulticastTTL <api/dgram.html#dgram_socket_setmulticastttl_ttl>`
+
+{+service-short+} does **not** support the following ``dgram`` APIs:
+
+- :nodejs:`socket.ref <api/dgram.html#dgram_socket_ref>`
+- :nodejs:`socket.setTTL <api/dgram.html#dgram_socket_setttl_ttl>`
+- :nodejs:`socket.unref <api/dgram.html#dgram_socket_unref>`
+
 .. _unsupported-modules:
 
 Unsupported Modules
@@ -104,7 +125,6 @@ modules:
 
 - ``child_process``
 - ``cluster``
-- ``dgram``
 - ``domain``
 - ``punycode``
 - ``readline``
