@@ -72,6 +72,7 @@ content: |
        "delete": <boolean>,
        "read": <boolean>,
        "write": <boolean>,
+       "search": <boolean>,
        "fields": {
          "<Field Name>": {
            "read": <boolean>,
@@ -101,7 +102,7 @@ content: |
          determines when this role applies to a given document.
 
      * - ``insert``
-       - Optional. Default: ``false``. A boolean that, if ``true``,
+       - Optional. Default: ``true``. A boolean that, if ``true``,
          indicates that the role has permission to insert a new
          document. This document-level permission does not override any
          field-level permissions configured in ``fields``, i.e. the role
@@ -109,9 +110,14 @@ content: |
          addition to insert permission.
 
      * - ``delete``
-       - Optional. Default: ``false``. A boolean that, if ``true``,
+       - Optional. Default: ``true``. A boolean that, if ``true``,
          indicates that the role has permission to delete a new
          document.
+
+     * - ``search``
+       - Optional. Default: ``true``. A boolean that, if ``true``,
+         indicates that the role has permission to access the document in a
+         :atlas:`$search </reference/atlas-search/query-syntax/>` aggregation.
 
      * - ``read``
        - Optional. Default: ``false``. A boolean that, if ``true``,
