@@ -170,16 +170,3 @@ of objects based on an embedded object property value:
    const nycContacts = realm.objects("Contact")
      .filtered("address.city = 'New York City'")
      .sorted("address.street");
-
-Query an Embedded Object Type Directly
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Embedded object types are reusable across different parent object types and you
-may want to access a collection of all instances of an embedded object type
-regardless of their parent object type. In this case, you can access a
-collection of embedded objects of the same type as if they were regular Realm
-Objects:
-
-.. code-block:: javascript
-
-   const nycAddresses = realm.objects("Address").filtered("city = 'New York City'");
