@@ -12,7 +12,7 @@ app.login(credentials: Credentials.anonymous()) { (user, error) in
     let database = client.database(named: "my_database")
     let collection = database.collection(withName: "users")
     collection.updateOneDocument(
-        filter: ["userId": AnyBSON(user.identity!)],
+        filter: ["userId": AnyBSON(user.id!)],
         update: ["favoriteColor": "cerulean"]
     ) { (updateResult, error) in
           guard error == nil else {

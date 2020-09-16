@@ -14,7 +14,7 @@ app.login(credentials: Credentials.anonymous()) { (user, error) in
 
     // Insert the custom user data object
     collection.insertOne([
-        "userId": AnyBSON(user.identity!),
+        "userId": AnyBSON(user.id!),
         "favoriteColor": "pink"
     ]) { (newObjectId, error) in
           guard error == nil else {

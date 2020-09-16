@@ -34,7 +34,7 @@ See the table below to find the method that instantiates the
      - ``Credentials.anonymous()``
 
    * - :ref:`Email/Password <ios-login-email-password>`
-     - ``Credentials(username: String, password: String)``
+     - ``Credentials(email: String, password: String)``
 
    * - :ref:`API Key <ios-login-api-key>`
      - ``Credentials(userAPIKey: String)``
@@ -103,9 +103,9 @@ you can log in using the following code:
 .. code-block:: swift
    :emphasize-lines: 1-4
 
-   let username = "skroob@example.com"
+   let email = "skroob@example.com"
    let password = "12345"
-   app.login(credentials: Credentials(username: username, password: password)) { (user, error) in
+   app.login(credentials: Credentials(email: email, password: password)) { (user, error) in
        DispatchQueue.main.sync {
            guard error == nil else {
                print("Login failed: \(error!)")
