@@ -75,7 +75,7 @@ class CompleteQuickStartTest: XCTestCase {
             guard let realm = realm else {
                 fatalError(error!.localizedDescription)
             }
-            // All dogs in the realm
+            // All tasks in the realm
             let tasks = realm.objects(QsTask.self)
 
             // Retain notificationToken as long as you want to observe
