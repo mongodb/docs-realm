@@ -53,7 +53,7 @@ Use the ``MongoClient`` to Query For Data in Your Collection
     
    // Using the user's id to look up tasks
    let user = app.currentUser()!
-   let identity = user.identity!
+   let identity = user.id!
 
    // Run the query
    collection.find(filter: ["_partition": AnyBSON(identity)], { (results, error) in

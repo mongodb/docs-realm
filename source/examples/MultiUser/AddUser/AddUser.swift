@@ -1,6 +1,6 @@
 let app = App(id: "myapp-abcde")
 
-let joeCredentials = Credentials(username: "joe@example.com", password: "passw0rd")
+let joeCredentials = Credentials(email: "joe@example.com", password: "passw0rd")
 app.login(credentials: joeCredentials) { (joe, error) in
   DispatchQueue.main.sync {
     guard error == nil else {
@@ -13,7 +13,7 @@ app.login(credentials: joeCredentials) { (joe, error) in
   }
 }
 
-let emmaCredentials = Credentials(username: "emma@example.com", password: "pa55word")
+let emmaCredentials = Credentials(email: "emma@example.com", password: "pa55word")
 app.login(credentials: emmaCredentials) { (emma, error) in
   DispatchQueue.main.sync {
     guard error == nil else {
