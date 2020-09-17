@@ -1,11 +1,3 @@
-//
-//  ExampleSwiftTestCase.swift
-//  RealmExampleTests
-//
-//  Created by Chris Bush on 2020-09-14.
-//  Copyright © 2020 MongoDB, Inc. All rights reserved.
-//
-
 import XCTest
 import RealmSwift
 

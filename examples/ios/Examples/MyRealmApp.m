@@ -1,11 +1,3 @@
-//
-//  MyRealmApp.m
-//  RealmExamples
-//
-//  Created by Chris Bush on 2020-09-15.
-//  Copyright © 2020 MongoDB, Inc. All rights reserved.
-//
-
 #import "MyRealmApp.h"
 
 @implementation MyRealmApp

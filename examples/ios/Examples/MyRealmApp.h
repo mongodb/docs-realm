@@ -1,11 +1,3 @@
-//
-//  getApp.h
-//  RealmExamples
-//
-//  Created by Chris Bush on 2020-09-15.
-//  Copyright © 2020 MongoDB, Inc. All rights reserved.
-//
-
 #ifndef RealmApp_h
 #define RealmApp_h
 

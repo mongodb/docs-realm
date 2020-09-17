@@ -93,6 +93,7 @@ then test that example by referring to it in the test function.
 >
 >- Keep it local to a function, struct, or class. Keep as much of the example
 >   code in the test function scope as possible.
+>- Use the `private` keyword in Swift to keep an object local to a file.
 >- Name the class or function something particularly file-specific, so it is
 >   unlikely to be used in another example. A little contrivance is not to bad.
 >   Say your class is for an example about inverse relationships, you might make

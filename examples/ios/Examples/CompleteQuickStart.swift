@@ -1,11 +1,3 @@
-//
-//  QuickStart.swift
-//  RealmExamples
-//
-//  Created by Chris Bush on 2020-09-15.
-//  Copyright © 2020 MongoDB, Inc. All rights reserved.
-//
-
 import XCTest
 import RealmSwift
 
@@ -14,6 +6,7 @@ private var g_expectation: XCTestExpectation?
 import UIKit
 import RealmSwift
 
+// QsTask is the Task model for this QuickStart
 class QsTask: Object {
     @objc dynamic var _id: ObjectId = ObjectId.generate()
     // When configuring Sync, we selected `_partition` as the partition key.
