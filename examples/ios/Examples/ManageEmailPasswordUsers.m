@@ -15,7 +15,7 @@
     RLMEmailPasswordAuth *client = [app emailPasswordAuth];
     NSString *email = @"skroob@example.com";
     NSString *password = @"password12345";
-    [client registerEmail:email password:password completion:^(NSError *error) {
+    [client registerUserWithEmail:email password:password completion:^(NSError *error) {
         if (error != nil) {
             NSLog(@"Failed to register: %@", [error localizedDescription]);
             

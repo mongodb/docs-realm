@@ -11,7 +11,7 @@ class ManageEmailPasswordUsers: XCTestCase {
         let client = app.emailPasswordAuth()
         let email = "skroob@example.com"
         let password = "password12345"
-        client.registerEmail(email, password: password) { (error) in
+        client.registerUser(email: email, password: password) { (error) in
             guard error == nil else {
                 print("Failed to register: \(error!.localizedDescription)")
                 // :hide-start:
