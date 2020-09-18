@@ -80,21 +80,21 @@ in a function body. Realm objects cannot be declared as subtypes of other
 objects. So, feel free to write your example in another part of the file, and
 then test that example by referring to it in the test function.
 
->⚠️ **Avoid Polluting the Global Scope**
+> ⚠️ **Avoid Polluting the Global Scope**
 >
->You may want to write an example where you define some class and then write a
->function that uses it. You want the example to be one contiguous block, and you
->don't want other examples using and diluting your class. That's perfectly fine.
->Just one slight problem: a class or function declared in the global scope of
->one file will collide with the same named class or function declared in the
->global scope of another file. In other words, there can be only one global
->`Dog`, `Task`, or `Car` class in this project. To avoid this, consider the
->following techniques:
+> You may want to write an example where you define some class and then write a
+> function that uses it. You want the example to be one contiguous block, and you
+> don't want other examples using and diluting your class. That's perfectly fine.
+> Just one slight problem: a class or function declared in the global scope of
+> one file will collide with the same named class or function declared in the
+> global scope of another file. In other words, there can be only one global
+> `Dog`, `Task`, or `Car` class in this project. To avoid this, consider the
+> following techniques:
 >
->- Keep it local to a function, struct, or class. Keep as much of the example
+> - Keep it local to a function, struct, or class. Keep as much of the example
 >   code in the test function scope as possible.
->- Use the `private` keyword in Swift to keep an object local to a file.
->- Name the class or function something particularly file-specific, so it is
+> - Use the `private` keyword in Swift to keep an object local to a file.
+> - Name the class or function something particularly file-specific, so it is
 >   unlikely to be used in another example. A little contrivance is not to bad.
 >   Say your class is for an example about inverse relationships, you might make
 >   a `DogWithInverseRelationship` class specifically for it.
@@ -106,10 +106,10 @@ state and cause the tests to be not exactly reproducible. Design your tests to
 either clean up after themselves or not care whether a backend call really
 succeeded, just that it completed.
 
->💡 For example, the "Register Email" example will always try to register the
->same user email address, but this will only succeed the first time for a given
->backend. No matter, just consider it a success if it reported the expected
->error message ("user already exists") and move on.
+> 💡 For example, the "Register Email" example will always try to register the
+> same user email address, but this will only succeed the first time for a given
+> backend. No matter, just consider it a success if it reported the expected
+> error message ("user already exists") and move on.
 
 ### Wait for Asynchronous Callbacks
 
@@ -122,8 +122,80 @@ https://developer.apple.com/documentation/xctest/asynchronous_tests_and_expectat
 
 ### Annotate for Bluehawk
 
-TODO
+Code examples are extracted using
+[Bluehawk](https://github.com/MongoCaleb/bluehawk). In the source files, you can annotate code like so:
+
+```swift
+// :code-block-start: [id]
+... some code for the code example ...
+
+// :hide-start:
+some code that should not be in the code example
+// :hide-end:
+
+... some more code for the code example ...
+// :code-block-end:
+```
+
+where _id_ is the name of the resulting code example when you run Bluehawk.
 
 ### Extract to Literalincludes
 
-TODO
+Since Bluehawk is currently in development, you cannot install it globally. For
+now, you can clone the [repo](https://github.com/MongoCaleb/bluehawk) and set an
+alias:
+
+```bash
+alias bluehawk="node /path/to/bluehawk/index.js"
+```
+
+Then, in this directory, run:
+
+```bash
+bluehawk -s Examples/ManageEmailPasswordUsers.swift -d ../../source/examples/generated
+```
+
+to output the example blocks to the `source/examples/generated/` directory. Run this on all of the files in `Examples/`.
+
+Bluehawk currently generates a lot of files, but we care about those in `/source/examples/generated/code/start/`:
+
+```
+ManageEmailPasswordUsers.codeblock.reset-password.swift
+ManageEmailPasswordUsers.codeblock.confirm-new-user-email.swift
+ManageEmailPasswordUsers.codeblock.register-email.swift
+```
+
+These files correspond to the `:code-block-start:` commands in `Examples/ManageEmailPasswordUsers.swift`.
+
+### Include in Docs Source
+
+Now you can update `source/ios/manage-email-password-users.txt` to use these code examples:
+
+```rst
+Register a New User Account
+---------------------------
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: swift
+
+      .. literalinclude:: /examples/generated/code/start/ManageEmailPasswordUsers.codeblock.register-email.swift
+         :language: swift
+
+   .. tab::
+      :tabid: objective-c
+
+      .. literalinclude:: /examples/generated/code/start/ManageEmailPasswordUsers.codeblock.register-email-objc.m
+         :language: objective-c
+
+...
+```
+
+Behold! You have pasted your unit tested code examples directly into the docs.
+Rejoice!
+
+## Questions
+
+Please direct questions or support requests to #docs-realm or
+@developer-education-team on Slack.
