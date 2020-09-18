@@ -6,10 +6,13 @@
     RLMUser *anonymousUser;
 }
 
+// Entry-point for example.
+- (void)runExample {
+    app = [RLMApp appWithId:YOUR_REALM_APP_ID];
+    [self logInAnonymously];
+}
 
 - (void)logInAnonymously {
-    app = [RLMApp appWithId:YOUR_REALM_APP_ID];
-
     [app loginWithCredential:[RLMCredentials anonymousCredentials] completion:^(RLMUser *user, NSError *error) {
         if (error != nil) {
             NSLog(@"Failed to log in: %@", [error localizedDescription]);

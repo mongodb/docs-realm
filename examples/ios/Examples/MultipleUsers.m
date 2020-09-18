@@ -20,7 +20,6 @@
     XCTestExpectation *expectation;
     // :hide-end:
 }
-
 // :hide-start:
 - (instancetype)initWithExpectation:(XCTestExpectation *)expectation {
     self = [super init];
@@ -31,9 +30,13 @@
 }
 // :hide-end:
 
-- (void)logInAnonymously {
+// Entry-point for example.
+- (void)runExample {
     app = [RLMApp appWithId:YOUR_REALM_APP_ID];
+    [self logInAnonymously];
+}
 
+- (void)logInAnonymously {
     [app loginWithCredential:[RLMCredentials anonymousCredentials] completion:^(RLMUser *user, NSError *error) {
         if (error != nil) {
             NSLog(@"Failed to log in: %@", [error localizedDescription]);
@@ -94,7 +97,7 @@
 
 - (void)testLinkIdentities {
     XCTestExpectation *expectation = [self expectationWithDescription:@"Link user completes"];
-    [[[LinkIdentitiesExample alloc] initWithExpectation:expectation] logInAnonymously];
+    [[[LinkIdentitiesExample alloc] initWithExpectation:expectation] runExample];
     [self waitForExpectations:@[expectation] timeout:10.0];
 }
 
