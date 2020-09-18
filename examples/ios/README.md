@@ -106,10 +106,21 @@ state and cause the tests to be not exactly reproducible. Design your tests to
 either clean up after themselves or not care whether a backend call really
 succeeded, just that it completed.
 
-> 💡 For example, the "Register Email" example will always try to register the
-> same user email address, but this will only succeed the first time for a given
-> backend. No matter, just consider it a success if it reported the expected
-> error message ("user already exists") and move on.
+> 💡 For example, the "Confirm Email" example will always try to confirm the
+> user email address with a fake token, but this will always fail. No matter,
+> just consider it a success if it reported the expected error message ("invalid
+> token data") and move on.
+
+The `TestSetup` class is the "primary class" for the test suite, which means
+Xcode will instantiate one before running any tests. This is where we call a
+function to delete any users and clear the host app of any data.
+
+### Shred the Anonymous User
+
+The iOS SDK recycles the same anonymous user until you remove them from the
+device. This can affect other test cases. If your test case signs in as an
+anonymous user, please remove the user from the device in your test's tearDown()
+method. See `MultipleUsers` for an example.
 
 ### Wait for Asynchronous Callbacks
 

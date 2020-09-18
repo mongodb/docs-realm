@@ -128,6 +128,6 @@ class CompleteQuickStartTest: XCTestCase {
             notificationToken.invalidate()
             expectation.fulfill()
         }
-        wait(for: [expectation], timeout: 25.0)
+        wait(for: [expectation], timeout: 10.0)
     }
 }

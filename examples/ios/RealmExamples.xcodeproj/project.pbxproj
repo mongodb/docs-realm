@@ -14,6 +14,9 @@
 		4803B32D251068F900CCAF97 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4803B32C251068F900CCAF97 /* Assets.xcassets */; };
 		4803B330251068F900CCAF97 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4803B32F251068F900CCAF97 /* Preview Assets.xcassets */; };
 		4803B333251068F900CCAF97 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4803B331251068F900CCAF97 /* LaunchScreen.storyboard */; };
+		48924B8A2514EAD900CC9567 /* MultipleUsers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48924B892514EAD900CC9567 /* MultipleUsers.swift */; };
+		48924B8C2514FEFC00CC9567 /* TestSetup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48924B8B2514FEFC00CC9567 /* TestSetup.swift */; };
+		48924BBB2515309F00CC9567 /* MultipleUsers.m in Sources */ = {isa = PBXBuildFile; fileRef = 48924BBA2515309F00CC9567 /* MultipleUsers.m */; };
 		4896EE55251051A600D1FABF /* ExampleSwiftTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4896EE54251051A600D1FABF /* ExampleSwiftTestCase.swift */; };
 		4896EE58251051C800D1FABF /* ExampleObjcTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 4896EE57251051C800D1FABF /* ExampleObjcTestCase.m */; };
 		48BF3416251076E4004139AF /* CompleteQuickStart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48BF3415251076E4004139AF /* CompleteQuickStart.swift */; };
@@ -46,6 +49,10 @@
 		4803B32F251068F900CCAF97 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		4803B332251068F900CCAF97 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4803B334251068F900CCAF97 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		48924B892514EAD900CC9567 /* MultipleUsers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipleUsers.swift; sourceTree = "<group>"; };
+		48924B8B2514FEFC00CC9567 /* TestSetup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestSetup.swift; sourceTree = "<group>"; };
+		48924B972515008100CC9567 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		48924BBA2515309F00CC9567 /* MultipleUsers.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MultipleUsers.m; sourceTree = "<group>"; };
 		4896EE4C2510514B00D1FABF /* RealmExamples.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RealmExamples.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4896EE54251051A600D1FABF /* ExampleSwiftTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleSwiftTestCase.swift; sourceTree = "<group>"; };
 		4896EE57251051C800D1FABF /* ExampleObjcTestCase.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ExampleObjcTestCase.m; sourceTree = "<group>"; };
@@ -116,7 +123,10 @@
 		4896EE4D2510514B00D1FABF /* Examples */ = {
 			isa = PBXGroup;
 			children = (
+				48924B8B2514FEFC00CC9567 /* TestSetup.swift */,
 				48BF341C25111194004139AF /* Task.swift */,
+				48924B892514EAD900CC9567 /* MultipleUsers.swift */,
+				48924BBA2515309F00CC9567 /* MultipleUsers.m */,
 				48BF34172511095C004139AF /* RealmApp.swift */,
 				48BF341E251129AD004139AF /* MyRealmApp.m */,
 				48BF342025112A7F004139AF /* MyRealmApp.h */,
@@ -125,6 +135,7 @@
 				48BF3415251076E4004139AF /* CompleteQuickStart.swift */,
 				48C072032511B5D5004B02BB /* ManageEmailPasswordUsers.swift */,
 				48C072052511B6DB004B02BB /* ManageEmailPasswordUsers.m */,
+				48924B972515008100CC9567 /* Info.plist */,
 			);
 			path = Examples;
 			sourceTree = "<group>";
@@ -339,9 +350,12 @@
 				48BF3416251076E4004139AF /* CompleteQuickStart.swift in Sources */,
 				4896EE58251051C800D1FABF /* ExampleObjcTestCase.m in Sources */,
 				4896EE55251051A600D1FABF /* ExampleSwiftTestCase.swift in Sources */,
+				48924BBB2515309F00CC9567 /* MultipleUsers.m in Sources */,
+				48924B8C2514FEFC00CC9567 /* TestSetup.swift in Sources */,
 				48C072062511B6DB004B02BB /* ManageEmailPasswordUsers.m in Sources */,
 				48BF34182511095C004139AF /* RealmApp.swift in Sources */,
 				48BF341D25111194004139AF /* Task.swift in Sources */,
+				48924B8A2514EAD900CC9567 /* MultipleUsers.swift in Sources */,
 				48BF341F251129AD004139AF /* MyRealmApp.m in Sources */,
 				48C072042511B5D5004B02BB /* ManageEmailPasswordUsers.swift in Sources */,
 			);
@@ -416,8 +430,8 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_EXPAND_BUILD_SETTINGS = NO;
-				INFOPLIST_FILE = "";
+				INFOPLIST_EXPAND_BUILD_SETTINGS = YES;
+				INFOPLIST_FILE = Examples/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -440,8 +454,8 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_EXPAND_BUILD_SETTINGS = NO;
-				INFOPLIST_FILE = "";
+				INFOPLIST_EXPAND_BUILD_SETTINGS = YES;
+				INFOPLIST_FILE = Examples/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -489,6 +503,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				CREATE_INFOPLIST_SECTION_IN_BINARY = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -506,6 +521,8 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = Examples/Info.plist;
+				INFOPLIST_PREPROCESS = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -549,6 +566,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				CREATE_INFOPLIST_SECTION_IN_BINARY = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -560,6 +578,8 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = Examples/Info.plist;
+				INFOPLIST_PREPROCESS = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
