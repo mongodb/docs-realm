@@ -1,0 +1,24 @@
+{
+    "id": "5f6020d3f7b81e0cae4cfb20",
+    "name": "mongodb-atlas",
+    "type": "mongodb-atlas",
+    "config": {
+        "clusterName": "Cluster0",
+        "readPreference": "primary",
+        "sync": {
+            "state": "enabled",
+            "database_name": "sync_examples",
+            "partition": {
+                "key": "_partition",
+                "type": "string",
+                "required": true,
+                "permissions": {
+                    "read": true,
+                    "write": true
+                }
+            }
+        },
+        "wireProtocolEnabled": false
+    },
+    "version": 1
+}
