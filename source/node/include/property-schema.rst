@@ -22,7 +22,7 @@ You can configure the following constraints for a given property:
        {+client-database+} supports the following primitive data types:
 
        - ``bool`` for boolean values
-       - ``int``, ``float``, and ``double``, which map to JavaScript ``number`` values
+       - ``int`` and ``double``, which map to JavaScript ``number`` values
        - ``string``
        - ``date``, which maps to :mdn:`Date <Web/JavaScript/Reference/Global_Objects/Date>`
        - ``data``, which maps to :mdn:`ArrayBuffer <Web/JavaScript/Reference/Global_Objects/ArrayBuffer>`
@@ -83,6 +83,6 @@ You can configure the following constraints for a given property:
           name: 'Book',
             properties: {
               name: { type: 'string', indexed: true },
-              price: 'float'
+              price: 'int'
             }
           };
