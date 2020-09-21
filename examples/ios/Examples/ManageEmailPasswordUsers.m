@@ -13,15 +13,13 @@
     // :code-block-start: register-email-objc
     RLMApp *app = [RLMApp appWithId:YOUR_REALM_APP_ID];
     RLMEmailPasswordAuth *client = [app emailPasswordAuth];
-    NSString *email = @"skroob@example.com";
+    NSString *email = @"skroob2@example.com";
     NSString *password = @"password12345";
     [client registerUserWithEmail:email password:password completion:^(NSError *error) {
         if (error != nil) {
             NSLog(@"Failed to register: %@", [error localizedDescription]);
-            
             // :hide-start:
-            XCTAssertEqualObjects([error localizedDescription], @"name already in use");
-            [expectation fulfill];
+            XCTAssert(false, @"Failed to register: %@", [error localizedDescription]);
             // :hide-end:
             return;
         }
