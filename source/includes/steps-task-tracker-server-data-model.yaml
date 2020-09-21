@@ -4,20 +4,20 @@ content: |
   You define the schemas for all data in your application as rules for
   collections in a linked MongoDB Atlas cluster. To define rules for a
   collection, you first need to make the collection available to your Realm app.
-  
+
   For this app, we'll use three collections: ``projects``, ``users``, and
   ``tasks``.
-  
+
   Click :guilabel:`Rules` in the lefthand navigation to navigate to the rules
   editor. In the left sidebar of the rules editor, find the name of your linked
   cluster and click the plus button next to it. Realm will prompt you to add a
   new collection. 
-  
+
   For :guilabel:`Database Name`, enter ``tracker`` and for :guilabel:`Collection
   Name`, enter ``tasks``. We'll define our own permissions in a bit, so don't
   select any permissions template. Click :guilabel:`Add Collection` to finish
   setting up the ``tracker.tasks`` collection.
-  
+
   Once complete, repeat this process to set up the ``tracker.users`` and
   ``tracker.projects`` collections as well.
 
@@ -30,7 +30,7 @@ content: |
   We want to group related tasks together into a single project. To do this, we
   can store metadata for each project in the ``tracker.projects`` collection and
   indicate the project that each task belongs to in the task document.
-  
+
   In the rules editor, select the ``tracker.projects`` collection and then click
   the :guilabel:`Schema` tab. Paste in the following schema and then click
   :guilabel:`Save`.
@@ -56,7 +56,7 @@ content: |
          }
        }
      }
-  
+
   .. admonition:: Sync Rules
      :class: note
      
@@ -102,6 +102,9 @@ content: |
          },
          "image": {
            "bsonType": "string"
+         },
+         "_partition": {
+           "bsonType": "string"
          }
        }
      }
@@ -115,11 +118,11 @@ content: |
   statuses: Open, In Progress, or Closed. Additionally, each task may specify a
   specific user as its assignee. We'll use another schema to define the shape
   and contents of documents in the ``tasks`` collection.
-  
+
   In the rules editor, select the ``tracker.tasks`` collection and then click
   the :guilabel:`Schema` tab. Paste in the following schema and then click
   :guilabel:`Save`.
-  
+
   .. code-block:: json
      
      {
@@ -173,7 +176,6 @@ content: |
          "is_list": false
        }
      }
-  
+
   .. cssclass:: bordered-figure
   .. figure:: /images/task-tracker-web-add-relationship.png
-...
