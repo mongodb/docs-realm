@@ -201,7 +201,7 @@ information:
 
          val credentials: Credentials = Credentials.anonymous()
 
-         val user: User? = null
+         var user: User? = null
          app.loginAsync(credentials) {
             if (it.isSuccess) {
                Log.v("QUICKSTART", "Successfully authenticated anonymously.")
