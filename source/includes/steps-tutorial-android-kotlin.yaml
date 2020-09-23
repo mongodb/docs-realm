@@ -84,7 +84,7 @@ content: |
   - add the classpath ``io.realm:realm-gradle-plugin`` to the
     ``buildscript.dependencies`` section of the *project*
     ``build.gradle`` file
-  - (BETA ONLY): add the jfrog artifactory maven repository to both the
+  - add the jfrog artifactory maven repository to both the
     ``buildscript`` and ``allprojects`` configurations of the *project*
     ``build.gradle`` file
 
@@ -106,7 +106,7 @@ content: |
         dependencies {
             classpath 'com.android.tools.build:gradle:4.0.0'
             classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-            classpath "io.realm:realm-gradle-plugin:10.0.0-BETA.6"
+            classpath "io.realm:realm-gradle-plugin:10.0.0-BETA.8"
         }
      }
 
@@ -696,7 +696,7 @@ content: |
 
         if (createUser) {
             // register a user using the Realm App we created in the TaskTracker class
-            taskApp.emailPasswordAuth.registerUserAsync(username, password) {
+            taskApp.emailPassword.registerUserAsync(username, password) {
                 // re-enable the buttons after user registration completes
                 createUserButton.isEnabled = true
                 loginButton.isEnabled = true
