@@ -1,0 +1,205 @@
+.. _define-sync-permissions:
+
+=======================
+Define Sync Permissions
+=======================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+Sync permissions determine a given user's read and write access to a specific
+partition. When a user opens a synced {+realm+} instance, {+service-short+} dynamically
+determines the user's permissions for the underlying partition based on
+:ref:`Sync rules <sync-rules>` that you define.
+
+You can structure your read and write permission expressions as a set of
+permission strategies that apply to the different :ref:`partition strategies
+<partition-strategies>` in your data model.
+
+The following strategies outline common approaches that you might take to define
+sync read and write permissions for your app.
+
+Global Permissions
+------------------
+
+You can define global permissions that apply to all users for all
+partitions. To define a global read or write permission, specify a boolean value
+or a :ref:`JSON expression <expressions>` that always evaluates to the same
+boolean value.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
+
+   * - Example
+     - Description
+
+   * - .. code-block:: json
+          
+          true
+     
+     - The expression ``true`` means that all users have the given access
+       permissions for all partitions.
+
+   * - .. code-block:: json
+          
+          false
+     
+     - The expression ``false`` means that no users have the given access
+       permissions for any partitions.
+
+   * - .. code-block:: json
+          
+          { "%%true": true }
+     
+     - This expression always evaluates to ``true``, so it's effectively the
+       same as directly specifying ``true``.
+
+Permissions for Specific Partitions
+-----------------------------------
+
+You can define permissions that apply to a specific partition or a groups of
+partitions by explicitly specifying their partition values.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
+
+   * - Example
+     - Description
+
+   * - .. code-block:: json
+     
+          { "%%partition": "PUBLIC" }
+     
+     - This expression means that all users have the given access permissions
+       for data with a partition value of ``"Public"``.
+
+   * - .. code-block:: json
+     
+          {
+            "%%partition": [
+              "PUBLIC (NA)",
+              "PUBLIC (EMEA)",
+              "PUBLIC (APAC)"
+            ]
+          }
+     
+     - This expression means that all users have the given access permissions
+       for data with any of the specified partition values.
+
+Permissions for Specific Users
+------------------------------
+
+You can define permissions that apply to a specific user or a group of users by
+explicitly specifying their ID values.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
+
+   * - Example
+     - Description
+
+   * - .. code-block:: json
+          
+          { "%%user.id": "5f4863e4d49bd2191ff1e623" }
+     
+     - This expression means that the user with id
+       ``"5f4863e4d49bd2191ff1e623"`` has the given access permissions for data
+       in any partition.
+
+   * - .. code-block:: json
+          
+          { 
+            "%%user.id": [
+               "5f4863e4d49bd2191ff1e623",
+               "5f48640dd49bd2191ff1e624",
+               "5f486417d49bd2191ff1e625"
+            ]
+          }
+     
+     - This expression means that any user with one of the specified user ID
+       values has the given access permissions for data in any partition.
+
+Permissions Based on User Data
+------------------------------
+
+You can define permissions that apply to users based on specific data defined in
+their :ref:`custom user data <custom-user-data>` document, metadata fields, or
+other data from an authentication provider.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
+
+   * - Example
+     - Description
+
+   * - .. code-block:: json
+     
+          { "%%user.custom_data.readPartitions" : "%%partition" }
+     
+     - This expression means that a user has read access to a
+       partition if the partition value is listed in the ``readPartitions``
+       field of their custom user data.
+
+   * - .. code-block:: json
+     
+          { "%%user.data.writePartitions" : "%%partition" }
+     
+     - This expression means that a user has write access to a
+       partition if the partition value is listed in the
+       ``data.writePartitions`` field of their user object.
+
+Function Rules
+--------------
+
+You can define complex dynamic permissions by evaluating a :ref:`function
+<functions>` that returns a boolean value. This is useful for permission schemes
+that require you to access external systems or other custom logic that you
+cannot express solely in JSON expressions.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
+
+   * - Example
+     - Description
+   
+   * - .. code-block:: json
+          
+          {
+            "%%true": {
+              "%function": {
+                "name": "canReadPartition",
+                "arguments": ["%%partition"]
+              }
+            }
+          }
+       
+       .. code-block:: javascript
+          
+          // canReadPartition
+          exports = async (partition) => {
+            const cluster = context.services.get("mongodb-atlas");
+            const permissions = cluster
+              .db("myApp")
+              .collection("permissions");
+            const { canRead } = await permissions.findOne({ partition });
+            return canRead.includes(context.user.id);
+          }
+     
+     - This expression calls the ``canReadPartition`` function and
+       passes in the partition value as its first and only argument. The
+       function looks up the user's permissions for the partition from a MongoDB
+       collection and then returns a boolean that indicates if the user can read
+       data in the requested partition.

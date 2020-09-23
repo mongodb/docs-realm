@@ -1,0 +1,56 @@
+============
+Transactions
+============
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+For situations that require atomicity of reads and writes to multiple
+documents (in one or more collections), MongoDB supports
+:manual:`multi-document transactions </core/transactions/>`.
+The code snippets on this page demonstrate how to execute
+multiple MongoDB queries in a single transaction that will undo
+changes in the event of an error.
+
+.. include:: /mongodb/crud-snippets/setup.rst
+
+Example
+-------
+
+To perform a transaction:
+
+1. Obtain and start a client session with ``client.startSession()``.
+
+#. (Optional) Define a read and write settings object for the
+   transaction. Pass this object to the method called in the next step.
+
+#. Use the ``session.withTransaction()`` method to start a transaction.
+
+#. Execute the MongoDB queries that you would like to include in
+   your transaction in the callback for this function, which needs to
+   either be ``async`` or return a ``Promise``. Be sure to pass the
+   ``session`` to each query to ensure that it is included in the
+   transaction.
+
+#. If the callback encounters an error, you should abort the transaction
+   with ``session.abortTransaction()`` in a
+   ``Promise`` rejection handler with ``Promise.catch()`` or a
+   ``try ... catch`` exception handler.
+
+#. When the transaction is complete, call ``session.endSession()`` to
+   end the session and free resources.
+
+The following example creates two users, "henry" and "michelle", and
+a uses a transaction to move "browniePoints" between those users
+atomically:
+
+.. literalinclude:: /mongodb/crud-snippets/transactions/transactions.js
+   :language: javascript

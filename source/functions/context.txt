@@ -83,8 +83,8 @@ service as methods.
           :doc:`service was created </services/configure/services>`.
 
           You can find the name of the Service associated with a
-          particular external service or linked cluster in the {+ui+}
-          or in an exported application directory:
+          particular external service or linked data source in the
+          {+ui+} or in an exported application directory:
 
           .. list-table::
              :widths: 30 70
@@ -93,7 +93,7 @@ service as methods.
                - Refer to the :guilabel:`Service Name` column of the
                  table on the :guilabel:`Services` page or the
                  :guilabel:`Realm Service Name` column of the table on
-                 the :guilabel:`Clusters` page.
+                 the :guilabel:`Linked Data Sources` page.
              
              * - **Application Directory**
                - Refer to the ``name`` field of the service's
@@ -103,8 +103,9 @@ service as methods.
              :class: note
              
              The default name for the :doc:`MongoDB Service </mongodb>`
-             associated with a {+app+}'s initial linked
-             cluster is ``mongodb-atlas``.
+             associated with a {+app+}'s linked cluster is
+             ``mongodb-atlas``. For a linked Data Lake, the default name
+             is ``mongodb-datalake``.
 
 .. _context-functions:
 

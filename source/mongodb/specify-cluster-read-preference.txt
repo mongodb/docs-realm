@@ -22,6 +22,8 @@ routes database read requests to. You can also specify a :manual:`tag
 set </core/read-preference/#replica-set-read-preference-tag-sets>` to
 target specific members of the replica set.
 
+You cannot set the read preference on a :ref:`linked Data Lake <data-lake-caveats>`.
+
 By default, {+service-short+} uses a read preference of ``primary``, which routes
 all read requests through the :manual:`primary node
 </core/replica-set-primary>` of a replica set.

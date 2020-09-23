@@ -672,16 +672,15 @@ the user's ID token to finish logging the user in to your app.
          };
          export default Login;
 
-
-
-
-
 .. _react-native-logout:
 
 Log Out
 -------
 
-To log any user out, call the ``User.logOut()`` on their user instance.
+You can log out any user, regardless of the authentication provider used
+to log in, using the ``User.logOut()`` method:
+
+.. include:: /includes/log-out-queries-in-progress.rst
 
 .. tabs-realm-languages::
    

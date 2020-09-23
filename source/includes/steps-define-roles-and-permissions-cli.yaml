@@ -20,9 +20,9 @@ title: Add a Rule Configuration File
 ref: add-a-rule-configuration-file
 content: |
   The rules for a MongoDB collection are configured in the ``rules``
-  subdirectory of the :doc:`linked cluster </mongodb/link-a-cluster>`'s
-  service directory. The rules configuration file is a JSON file with
-  the same name as the collection namespace.
+  subdirectory of the :doc:`linked cluster </mongodb/link-a-data-source>`'s
+  service directory. The rules configuration file is a JSON file with the same
+  name as the collection namespace.
 
   For example, the rules for the collection ``app.users`` in the
   ``mongodb-atlas`` cluster are defined in the file
@@ -72,6 +72,7 @@ content: |
        "delete": <boolean>,
        "read": <boolean>,
        "write": <boolean>,
+       "search": <boolean>,
        "fields": {
          "<Field Name>": {
            "read": <boolean>,
@@ -101,7 +102,7 @@ content: |
          determines when this role applies to a given document.
 
      * - ``insert``
-       - Optional. Default: ``false``. A boolean that, if ``true``,
+       - Optional. Default: ``true``. A boolean that, if ``true``,
          indicates that the role has permission to insert a new
          document. This document-level permission does not override any
          field-level permissions configured in ``fields``, i.e. the role
@@ -109,9 +110,14 @@ content: |
          addition to insert permission.
 
      * - ``delete``
-       - Optional. Default: ``false``. A boolean that, if ``true``,
+       - Optional. Default: ``true``. A boolean that, if ``true``,
          indicates that the role has permission to delete a new
          document.
+
+     * - ``search``
+       - Optional. Default: ``true``. A boolean that, if ``true``,
+         indicates that the role has permission to access the document in a
+         :atlas:`$search </reference/atlas-search/query-syntax/>` aggregation.
 
      * - ``read``
        - Optional. Default: ``false``. A boolean that, if ``true``,

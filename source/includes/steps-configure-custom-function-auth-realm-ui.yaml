@@ -28,21 +28,39 @@ content: |
 title: Define the Authentication Function
 ref: define-the-authentication-function
 content: |
-  The authentication function must return a string ID value that
-  uniquely identifies the user. Realm uses this value to lookup an
-  existing Realm user and automatically creates a new user if it does
-  not match an existing user. If the function does not return a string,
-  Realm throws an error and does not create or authenticate a user.
+  The authentication function must return a string ID value or an object 
+  containing a string ID value that uniquely identifies the user. {+service+} uses 
+  this value to look up an existing {+service-short+} user and automatically 
+  creates a new user if it does not match an existing user. If the function does 
+  not return a valid return value, {+backend+} throws an error and does not 
+  create or authenticate a user.
   
+  Valid return values options include: 
+    
+  .. example:: 
+  
+    A string ID value that uniquely identifies the user
+    
+    .. code-block:: shell
+    
+      return "5f650356a8631da45dd4784c"
+    
+    An object that contains a string ID value that uniquely identifies the user
+    
+    .. code-block:: shell
+
+      return { "id": "5f650356a8631da45dd4784c" }
+      return { "id": "5f650356a8631da45dd4784c", "name": "James Bond" }
+
   .. admonition:: Realm Generates New User ID Values
      :class: important
-     
+
      The ID value that you return from the authentication function is
      **not** the internal Realm user id (i.e. the value that
      :json-expansion:`%%user` and :ref:`context.user <context-user>`
      resolve to). Realm automatically generates a unique id for Custom
      Function users when it creates them.
-  
+
   To define a new authentication function, click the
   :guilabel:`Function` dropdown and select :guilabel:`New Function`.
 
@@ -51,36 +69,42 @@ content: |
      :alt: The function selection dropdown in the Realm UI.
      :width: 750px
      :lightbox:
-  
+
   .. example::
-     
+
      An application implements a Custom Function authentication provider
      that stores user data in the ``app.users`` MongoDB collection. The
      app lets users log in by specifying their ``username`` but does not
      require a password or any other type of authentication.
-     
-     The appication's authentication function queries the ``users``
+
+     The application's authentication function queries the ``app.users``
      collection for an existing user with the specified username. If the
      user already exists, the function returns their stored ``id`` value. If
      the user does not exist, the function stores a new user document in
      the collection and returns that document's ``id`` value.
-     
+
+     .. note::
+       {+service-short+} does not automatically create an ``app.users``
+       collection for your application. You can use your custom function with
+       an external authentication system and/or data that you store in a
+       MongoDB collection to identify and authenticate users.
+
      .. code-block:: javascript
         :emphasize-lines: 9, 12, 16, 20
-        
+
         exports = async function(loginPayload) {
           // Get a handle for the app.users collection
           const users = context.services
             .get("mongodb-atlas")
             .db("app")
             .collection("users");
-          
+
           // Parse out custom data from the FunctionCredential
           const { username } = loginPayload;
-          
+
           // Query for an existing user document with the specified username
           const user = await users.findOne({ username });
-          
+
           if (user) {
             // If the user document exists, return its unique ID
             return user._id.toString();
@@ -98,12 +122,12 @@ content: |
   make Custom Function authentication available to client applications
   by deploying your application. To deploy a draft application from the
   Realm UI:
-  
+
   1. Click :guilabel:`Deploy` in the left-hand navigation
-  
+
   2. Find the draft in the deployment history table and then click
      :guilabel:`Review & Deploy Changes`.
-  
+
   3. Review the diff of changes and then click :guilabel:`Deploy`.
 
   Once the application successfully deploys, you will be able to create

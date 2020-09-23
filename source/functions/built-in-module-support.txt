@@ -1,0 +1,132 @@
+.. _builtin-module-support:
+
+=======================
+Built-In Module Support
+=======================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+You can :ref:`import and use <import-external-dependencies>` many
+standard Node modules in your {+service+} :ref:`functions <functions>`.
+
+.. note::
+   
+   The supported modules and partially supported modules are compatible
+   with :nodejs:`Node API version 10.18.1 <docs/v10.18.1/api/>`. Avoid
+   using APIs in these modules introduced after or deprecated since Node
+   10.18.1.
+
+.. _fully-supported-modules:
+
+Fully Supported Modules
+-----------------------
+
+{+service+} fully supports the following built-in modules:
+
+- :nodejs:`assert <docs/v10.18.1/api/assert.html>`
+- :nodejs:`buffer <docs/v10.18.1/api/buffer.html>`
+- :nodejs:`crypto <docs/v10.18.1/api/crypto.html>`
+- :nodejs:`events <docs/v10.18.1/api/events.html>`
+- :nodejs:`http <docs/v10.18.1/api/http.html>`
+- :nodejs:`https <docs/v10.18.1/api/https.html>`
+- :nodejs:`net <docs/v10.18.1/api/net.html>`
+- :nodejs:`os <docs/v10.18.1/api/os.html>`
+- :nodejs:`path <docs/v10.18.1/api/path.html>`
+- :nodejs:`querystring <docs/v10.18.1/api/querystring.html>`
+- :nodejs:`stream <docs/v10.18.1/api/stream.html>`
+- :nodejs:`string_decoder <docs/v10.18.1/api/string_decoder.html>`
+- :nodejs:`timers <docs/v10.18.1/api/timers.html>`
+- :nodejs:`tls <docs/v10.18.1/api/tls.html>`
+- :nodejs:`tty <docs/v10.18.1/api/tty.html>`
+- :nodejs:`url <docs/v10.18.1/api/url.html>`
+- :nodejs:`util <docs/v10.18.1/api/util.html>`
+- :nodejs:`zlib <docs/v10.18.1/api/zlib.html>`
+
+.. _partially-supported-modules:
+
+Partially Supported Modules
+---------------------------
+
+{+service+} supports a subset of the functionality of the following modules.
+
+.. _partially-supported-module-dns:
+
+dns
+~~~
+
+{+service-short+} supports the :nodejs:`dns
+<docs/v10.18.1/api/dns.html>` module with the following **exceptions**:
+
+- {+service-short+} does **not** support the :nodejs:`dns Promises API <docs/v10.18.1/api/dns.html#dns_dns_promises_api>`
+- {+service-short+} does **not** support :nodejs:`resolver.cancel() <docs/v10.18.1/api/dns.html#dns_resolver_cancel>`
+
+.. _partially-supported-module-fs:
+
+fs
+~~~
+
+{+service-short+} supports the following ``fs`` APIs:
+
+- :nodejs:`accessSync <docs/v10.18.1/api/fs.html#fs_fs_accesssync_path_mode>`
+- :nodejs:`constants <docs/v10.18.1/api/fs.html#fs_fs_constants>`
+- :nodejs:`lstatSync <docs/v10.18.1/api/fs.html#fs_fs_lstatsync_path_options>`
+- :nodejs:`readFileSync <docs/v10.18.1/api/fs.html#fs_fs_readfilesync_path_options>`
+- :nodejs:`statSync <docs/v10.18.1/api/fs.html#fs_fs_statsync_path_options>`
+
+.. _partially-supported-module-process:
+
+process
+~~~~~~~
+
+{+service-short+} supports the following ``process`` APIs:
+
+- :nodejs:`hrTime <docs/v10.18.1/api/process.html#process_process_hrtime_time>`
+- :nodejs:`nextTick <docs/v10.18.1/api/process.html#process_process_nexttick_callback_args>`
+- :nodejs:`version <docs/v10.18.1/api/process.html#process_process_version>`
+- :nodejs:`versions <docs/v10.18.1/api/process.html#process_process_versions>`
+
+dgram
+~~~~~
+{+service-short+} supports the following ``dgram`` APIs:
+
+- :nodejs:`socket.addMembership <api/dgram.html#dgram_socket_addmembership_multicastaddress_multicastinterface>`
+- :nodejs:`socket.address <api/dgram.html#dgram_socket_address>`
+- :nodejs:`socket.bind <api/dgram.html#dgram_socket_bind_port_address_callback>`
+- :nodejs:`socket.close <api/dgram.html#dgram_socket_close_callback>`
+- :nodejs:`createSocket <api/dgram.html#dgram_dgram_createsocket_options_callback>`
+- :nodejs:`socket.dropMembership <api/dgram.html#dgram_socket_dropmembership_multicastaddress_multicastinterface>`
+- :nodejs:`socket.send <api/dgram.html#dgram_socket_send_msg_offset_length_port_address_callback>`
+- :nodejs:`socket.setBroadcast <api/dgram.html#dgram_socket_setbroadcast_flag>`
+- :nodejs:`socket.setMulticastLoopback <api/dgram.html#dgram_socket_setmulticastloopback_flag>`
+- :nodejs:`socket.setMulticastTTL <api/dgram.html#dgram_socket_setmulticastttl_ttl>`
+
+{+service-short+} does **not** support the following ``dgram`` APIs:
+
+- :nodejs:`socket.ref <api/dgram.html#dgram_socket_ref>`
+- :nodejs:`socket.setTTL <api/dgram.html#dgram_socket_setttl_ttl>`
+- :nodejs:`socket.unref <api/dgram.html#dgram_socket_unref>`
+
+.. _unsupported-modules:
+
+Unsupported Modules
+-------------------
+
+{+service-short+} functions **do not** support the following built-in
+modules:
+
+- ``child_process``
+- ``cluster``
+- ``domain``
+- ``punycode``
+- ``readline``
+- ``v8``
+- ``vm``

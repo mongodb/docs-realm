@@ -78,7 +78,7 @@ content: |
      |-- local.properties
      |-- settings.gradle
      |-- Task Tracker.iml
-  
+
   To add Realm as a gradle plugin:
 
   - add the classpath ``io.realm:realm-gradle-plugin`` to the
@@ -106,7 +106,7 @@ content: |
         dependencies {
             classpath 'com.android.tools.build:gradle:4.0.0'
             classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-            classpath "io.realm:realm-gradle-plugin:10.0.0-BETA.5"
+            classpath "io.realm:realm-gradle-plugin:10.0.0-BETA.6"
         }
      }
 
@@ -864,7 +864,7 @@ content: |
 
      open class Task(_name: String = "Task", project: String = "My Project") : RealmObject() {
         @PrimaryKey var _id: ObjectId = ObjectId()
-        var _partition: String = project
+        var _partition: String? = project
         var name: String = _name
 
         @Required

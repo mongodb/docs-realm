@@ -10,84 +10,32 @@
               └── rules/
                   └── <rule name>.json
 
-Every :doc:`MongoDB Atlas cluster </mongodb>` linked to your app is configured
-as a service in the the ``/services`` directory. Each cluster maps to its own
-sub-directory with the same name as the service.
+Every :doc:`MongoDB Atlas data source </mongodb/link-a-data-source>`
+linked to your app is configured as a service in the ``/services``
+directory. Each data source maps to its own sub-directory with the same
+name as the service.
 
-The primary service configuration for a MongoDB Atlas cluster is
-``config.json``, which defines connection parameters and sync rules. If the
-cluster is not :doc:`synced </sync>`, then you can define collection-level rules
-in the ``/rules`` sub-directory.
+The primary service configuration for a MongoDB Atlas data source is
+``config.json``, which defines connection parameters and sync rules.
+
+If the data source is not a :doc:`synced cluster </sync>` or :ref:`Data
+Lake <data-lake-caveats>`, then you can define collection-level rules in
+the ``/rules`` sub-directory.
 
 .. important::
-   
-   MongoDB Service names are not necessarily the same as their linked cluster's
-   name in Atlas. You define the service name for a cluster when you link it to
-   your application. The default MongoDB service name is ``mongodb-atlas``.
+
+   MongoDB Service names are not necessarily the same as their linked
+   data source's name in Atlas. You define the service name for a data
+   source when you link it to your application. For linked clusters, the
+   default MongoDB service name is ``mongodb-atlas``. For linked Data
+   Lakes, the default service name is ``mongodb-datalake``.
 
 .. _mongodb-service-configuration-file:
 
 Service Configuration
 ~~~~~~~~~~~~~~~~~~~~~
 
-.. code-block:: json
-   :caption: ``config.json``
-
-   {
-     "id": "<Service ID>",
-     "name": "<Service Name>",
-     "type": "mongodb-atlas",
-     "config": {
-       "clusterName": "<Atlas Cluster Name>",
-       "readPreference": "<Client Read Preference>",
-       "readPreference": "<Read Preference>",
-       "wireProtocolEnabled": <Boolean>,
-       "sync": <Sync Configuration>
-     }
-   }
-
-.. list-table::
-   :header-rows: 1
-   :widths: 10 30
-
-   * - Field
-     - Description
-   
-   * - | ``id``
-       | String
-     - A string that uniquely identifies the service. {+service-short+}
-       automatically generates a unique ID for a MongoDB service when you create
-       it.
-   
-   * - | ``name``
-       | String
-     - The name of the service. The name may be at most 64 characters
-       long and can only contain ASCII letters, numbers, underscores,
-       and hyphens. The default cluster name is ``mongodb-atlas``.
-   
-   * - | ``type``
-       | String
-     - This value is always ``"mongodb-atlas"`` for MongoDB Atlas services.
-   
-   * - | ``config.clusterName``
-       | String
-     - The name of the service's linked cluster in MongoDB Atlas.
-   
-   * - | ``config.readPreference``
-       | String
-     - The :ref:`read preference <read-preference>` mode for queries sent
-       through the service.
-       
-       .. include:: /mongodb/tables/read-preference-modes.rst
-   
-   * - | ``config.sync``
-       | Document
-     - A configuration document that determines if a cluster is :doc:`synced
-       </sync>` and, if it is, defines the rules for sync operations on the
-       cluster.
-
-       For detailed information on sync configuration documents, see
-       :ref:`Synced Cluster Configuration <mongodb-service-sync-rules>`.
+.. include:: /includes/data-source-configuration.rst
 
 .. _mongodb-service-sync-rules:
 
@@ -177,6 +125,8 @@ For non-synced clusters, you can define collection-level rules that Realm
 evaluates dynamically for each request. Each collection's rules are stored in
 the ``/rules`` sub-directory in a JSON file with the same name as the collection
 namespace.
+
+.. include:: /includes/data-lake-rules-note.rst
 
 .. code-block:: json
    :caption: ``<database.collection>.json``

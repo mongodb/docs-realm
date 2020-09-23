@@ -27,10 +27,21 @@ title: Choose a Partition Key
 ref: choose-a-partition-key
 content: |
   The sync :term:`partition key` is a field in every synced document that maps
-  each document to a client-side realm. Sync rules apply at the partition level,
-  so it's particularly important to consider your data model and access
+  each document to a client-side realm. Sync rules apply at the partition 
+  level, so it's particularly important to consider your data model and access 
   patterns. For more information on partition keys and how to choose one, see
   :ref:`Partition Atlas Data into Realms <partitioning>`.
+  
+  .. note::
+    
+    The partition key can either be required or optional. If the partition key 
+    field is optional, then all MongoDB documents that either exclude the 
+    partition key or have a null value for the partition key will be sent to the 
+    :term:`null partition`. If the partition key field is required, {+sync+} 
+    ignores any MongoDB documents that lack a valid value for the partition 
+    key. We recommend a required partition key unless you want to sync
+    pre-existing data with invalid or missing partition values from a
+    MongoDB collection.
 
   Once you have decided which field to use, select it from the :guilabel:`Choose
   A Partition Key` dropdown menu.
@@ -60,7 +71,8 @@ content: |
   Sync rule expressions have access to :json-expansion:`%%user`, which resolves
   to the user that opened the realm, and :json-expansion:`%%partition`, which
   resolves to the partition key value for the realm. You can also use operators,
-  including :json-operator:`%function`, to handle more complex cases.
+  including :json-operator:`%function`, to handle more complex cases. For
+  examples, see :ref:`Define Sync Permissions <define-sync-permissions>`.
 
   Once you've determined how to decide a user's read and write permissions for a
   given partition, define the corresponding JSON expressions in the

@@ -23,7 +23,7 @@ Pass the {+app+} ID for your {+app+}, which you can find in the {+ui+}.
 
 .. code-block:: swift
 
-   let app = RealmApp(id: "my-realm-app-id")
+   let app = App(id: "my-realm-app-id")
 
 
 .. _ios-app-client-configuration:
@@ -43,4 +43,4 @@ You can pass a configuration object to ``RealmApp``:
        defaultRequestTimeoutMS:30000
    );
 
-   let app = RealmApp(id: "my-realm-app-id", configuration: configuration)
+   let app = App(id: "my-realm-app-id", configuration: configuration)

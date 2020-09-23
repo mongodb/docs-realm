@@ -454,88 +454,12 @@ Google OAuth
 
 The :doc:`Google </authentication/google>` authentication provider allows you to
 authenticate users through a Google project using their existing Google account.
-You can use the :ref:`built-in authentication flow <web-google-builtin>` or
-:ref:`authenticate with the Google SDK <web-google-auth-token>`.
 
 .. admonition:: Enable the Google Auth Provider
    :class: note
    
    To authenticate a Google user, you must configure the :doc:`Google
    authentication provider </authentication/google>`.
-
-.. _web-google-builtin:
-
-Built-In OAuth 2.0 Flow
-+++++++++++++++++++++++
-
-The Realm Web SDK includes methods to handle the OAuth 2.0 process and does not
-require you to install the Google SDK. The built in flow follows three main
-steps:
-
-1. You call ``app.logIn()`` with a Google credential. The credential must
-   specify a URL for your app that is also listed as a redirect URI in the
-   provider configuration.
-
-2. A new window opens to a Google authentication screen and the user
-   authenticates and authorizes your app in that window. Once complete, the new
-   window redirects to the URL specified in the credential.
-
-3. You call ``handleAuthRedirect()`` on the redirected page, which stores the
-   user's Realm access token and closes the window. Your original app window will
-   automatically detect the access token and finish logging the user in.
-
-.. tabs-realm-languages::
-   
-   .. tab::
-      :tabid: javascript
-      
-      .. code-block:: javascript
-         
-         // The redirect URI should be on the same domain as this app and
-         // specified in the auth provider configuration.
-         const redirectUri = "https://app.example.com/handleOAuthLogin";
-         const credentials = Realm.Credentials.google(redirectUri);
-         
-         // Calling logIn() opens a Google authentication screen in a new window.
-         app.logIn(credentials).then(user => {
-           // The logIn() promise will not resolve until you call `handleAuthRedirect()`
-           // from the new window after the user has successfully authenticated.
-           console.log(`Logged in with id: ${user.id}`);
-         })
-         
-         // When the user is redirected back to your app, handle the redirect to
-         // save the user's access token and close the redirect window. This
-         // returns focus to the original application window and automatically
-         // logs the user in.
-         Realm.handleAuthRedirect();
-
-   .. tab::
-      :tabid: typescript
-      
-      .. code-block:: typescript
-         
-         // The redirect URI must be on the same domain as this app and
-         // must be specified in the auth provider configuration.
-         const redirectUri = "https://app.example.com/handleOAuthLogin";
-         const credentials = Realm.Credentials.google(redirectUri);
-         
-         // Calling logIn() opens a Google authentication screen in a new window.
-         app.logIn(credentials).then((user: Realm.User) => {
-           // The logIn() promise will not resolve until you call `handleAuthRedirect()`
-           // from the new window after the user has successfully authenticated.
-           console.log(`Logged in with id: ${user.id}`);
-         })
-         
-         // When the user is redirected back to your app, handle the redirect to
-         // save the user's access token and close the redirect window. This
-         // returns focus to the original application window and automatically
-         // logs the user in.
-         Realm.handleAuthRedirect();
-
-.. _web-google-auth-token:
-
-Authenticate with the Google SDK
-++++++++++++++++++++++++++++++++
 
 You can use the :google:`official Google SDK <identity/sign-in/web/sign-in>` to
 handle the user authentication and redirect flow. Once authenticated, the Google
@@ -607,6 +531,12 @@ to your app.
            .then((user: Realm.User) => {
              console.log(`Logged in with id: ${user.id}`);
            });
+
+.. admonition:: (Deprecated) Built-In OAuth 2.0 Flow
+   :class: important
+   
+   The Realm Web SDK no longer includes built-in methods to handle the OAuth 2.0
+   process. Instead, use the official Google SDK as described above.
 
 .. _web-login-apple:
 

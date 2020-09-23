@@ -1,0 +1,54 @@
+title: Navigate to the Data Source Management Screen
+ref: navigate-to-the-cluster-management-screen
+content: |
+  In the {+ui+}, click :guilabel:`Linked Data Sources` under :guilabel:`Data Access &
+  Security` in the left-hand navigation.
+---
+title: Link a New Data Source
+ref: link-a-new-cluster
+content: |
+  Click :guilabel:`Link a Data Source` and provide the following
+  configuration information on the :guilabel:`Data Source Configuration` screen:
+
+  .. list-table::
+    :header-rows: 1
+    :widths: 10 30
+    
+    * - Field
+      - Description
+    * - :guilabel:`Data Source`
+      - A MongoDB Atlas cluster or Data Lake associated with the same project as
+        your {+app+}.
+    * - :guilabel:`Realm Service Name`
+      - A name for the {+service-short+} service that connects to the data source.
+        You will use this name when referring to the data source in other
+        parts of your application, such as when you instantiate a
+        MongoDB service client. 
+
+        .. example::
+
+           Consider a MongoDB cluster data source with the :guilabel:`Realm
+           Service Name` ``myAtlasCluster``. To create a service client in a
+           :doc:`function </functions>` you would use the following code:
+
+           .. code-block:: javascript
+          
+              const myAtlasCluster = context.services.get("myAtlasCluster");
+
+    * - | :guilabel:`MongoDB Connection String`
+        | *config.wireProtocolEnabled*
+      - Required for Atlas clusters. Not enabled for Data Lakes.
+        A boolean indicating whether {+service-short+} should allow
+        clients to :doc:`connect to this cluster with a connection string over
+        the wire protocol </mongodb/connect-over-the-wire-protocol>`.
+
+    * - :guilabel:`Read Preference`
+      - Required for Atlas clusters. Not available for Data Lakes. Specifies the
+        :ref:`read preference <read-preference>` of the cluster. The default
+        read preference (primary) should be sufficient for most use cases.
+---
+title: Save the Linked Data Source
+ref: save-the-linked-cluster
+content: |
+  Once you've selected and configured a MongoDB cluster or Data Lake, click
+  :guilabel:`Save`.

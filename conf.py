@@ -38,6 +38,7 @@ extensions = [
     'tab-content',
     'realm-builders',
     'icon',
+    'guides'
 ]
 
 templates_path = ['.templates']
@@ -98,14 +99,15 @@ extlinks = {
     'admin-api-endpoint': ('https://docs.mongodb.com/realm/admin/api/v3/#%s', ''), # sphinx_openapi doesn't support endpoint refs, so we have to use an extlink instead
     'manual': ('http://docs.mongodb.org/manual%s', ''),
     'atlas': ('https://docs.atlas.mongodb.com%s',''),
+    'datalake': ('https://docs.mongodb.com/datalake/%s',''),
     'facebook': ('https://developers.facebook.com/%s', ''),
     'mms-docs': ('https://docs.cloud.mongodb.com%s', ''),
     'mms-home': ('https://cloud.mongodb.com%s', ''),
     'guides': ('https://docs.mongodb.com/guides%s', ''),
-    'java-sdk': ('https://docs.mongodb.com/realm-sdks/android/10.0.0-beta.4/javadoc/%s', ''),
-    'kotlin-sdk': ('https://docs.mongodb.com/realm-sdks/android/10.0.0-beta.4/kotlin-extensions/%s', ''),
-    'swift-sdk': ('https://docs.mongodb.com/realm-sdks/swift/10.0.0-beta.2/%s', ''),
-    'objc-sdk': ('https://docs.mongodb.com/realm-sdks/objc/10.0.0-beta.2/%s', ''),
+    'java-sdk': ('https://docs.mongodb.com/realm-sdks/java/10.0.0-BETA.6/%s', ''),
+    'kotlin-sdk': ('https://docs.mongodb.com/realm-sdks/kotlin/10.0.0-BETA.6/%s', ''),
+    'swift-sdk': ('https://docs.mongodb.com/realm-sdks/swift/10.0.0-beta.5/%s', ''),
+    'objc-sdk': ('https://docs.mongodb.com/realm-sdks/objc/10.0.0-beta.5/%s', ''),
     'js-sdk': ('https://docs.mongodb.com/realm-sdks/js/10.0.0-beta.9/%s', ''),
     # True External Links
     'android': ('https://developer.android.com/reference/%s', ''),
@@ -133,7 +135,8 @@ extlinks = {
     'aws-docs': ('https://docs.aws.amazon.com/%s', ''),
     'fcm': ('https://firebase.google.com/docs/%s', ''),
     'typescript': ('https://www.typescriptlang.org/%s', ''),
-    'node-driver': ('https://mongodb.github.io/node-mongodb-native/3.6/api/%s', '')
+    'node-driver': ('https://mongodb.github.io/node-mongodb-native/3.6/api/%s', ''),
+    'ietf': ('https://tools.ietf.org/html/%s', ''),
 }
 
 intersphinx_mapping = {}

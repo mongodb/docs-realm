@@ -13,133 +13,130 @@ Authenticate GraphQL Requests
 Overview
 --------
 
-{+service+} enforces :ref:`collection rules <mongodb-rules>` for all
-GraphQL operations. This means that all GraphQL requests must be made by a
-logged in :doc:`user </authentication>` of your :term:`{+app+}`.
+The GraphQL API operates over HTTP, which means that you can access your
+:ref:`exposed data <graphql-expose-data>` using any HTTP or GraphQL client.
+Realm enforces rules for all GraphQL operations, so any GraphQL HTTP request
+must include an application user's login credentials or a valid access token.
 
-The GraphQL API uses {+realm+} client access tokens to authorize requests.
-This guide demonstrates how to :ref:`get a valid access token
-<get-client-api-access-token>` for a user and how to :ref:`refresh the
-access token <refresh-client-api-access-token>` after it expires.
+.. _graphql-authorization-token-header:
 
-.. example::
+Authorization Header
+--------------------
 
-   The following request demonstrates how to include an access token for
-   a user with each request. Replace ``<Access Token>`` with the
-   ``access_token`` value that you want to use.
+To authenticate a GraphQL request as an arbitrary logged in user from any
+provider, include a valid :ref:`user access token
+<authenticate-http-client-requests>` as a bearer token in the request's
+``Authorization`` header:
 
-   .. code-block:: shell
-      :emphasize-lines: 2
+.. code-block:: javascript
+   :emphasize-lines: 4
    
-      curl --location --request POST 'https://realm.mongodb.com/api/client/v2.0/app/<yourappid-abcde>/graphql' \
-        --header 'Authorization: Bearer <Access Token>' \
-        --header 'Content-Type: application/json' \
-        --data-raw '{"query":"query AllMovies {\n  movies {\n    title\n    year\n  }\n}"}'
+   http.post({
+     "url": "https://realm.mongodb.com/api/client/v2.0/app/<yourappid-abcde>/graphql",
+     "headers": {
+       "Authorization": "Bearer <Access Token>"
+     },
+     "body": '{"query":"query AllMovies {\n  movies {\n    title\n    year\n  }\n}"}'
+   })
 
-.. _get-client-api-access-token:
+.. code-block:: shell
+   :emphasize-lines: 2
 
-Get a Client API Access Token
------------------------------
+   curl --location --request POST 'https://realm.mongodb.com/api/client/v2.0/app/<yourappid-abcde>/graphql' \
+      --header 'Authorization: Bearer <Access Token>' \
+      --header 'Content-Type: application/json' \
+      --data-raw '{"query":"query AllMovies {\n  movies {\n    title\n    year\n  }\n}"}'
 
-To get an access token, you need to authenticate with the {+realm+} Client
-HTTP API using the user's login credentials. The Client API
-authentication endpoints accept valid user credentials in the body of a
-``POST`` request and use the following URL form:
+.. _graphql-authorization-credential-headers:
 
-.. code-block:: text
+Credential Headers
+------------------
+
+.. important::
    
-   https://realm.mongodb.com/api/client/v2.0/app/<yourappid-abcde>/auth/providers/<provider type>/login
-
-.. example::
-
-   The following request authenticates a {+realm+} user with the client
-   API. The request body specifies the user's login credentials.
+   Credential headers are useful for infrequent or test requests. However, we
+   **strongly encourage** you to authenticate GraphQL requests using
+   an :ref:`Authorization Header <graphql-authorization-token-header>` from a
+   client that uses a {+service-short+} SDK.
    
-   .. tabs-realm-auth-providers::
+   GraphQL requests from a web browser must use an Authorization header to
+   avoid :wikipedia:`CORS errors <Cross-origin_resource_sharing>`.
 
-      .. tab::
-         :tabid: anon-user
+Email/Password
+~~~~~~~~~~~~~~
 
-         .. code-block:: shell
-         
-            curl --location --request POST 'https://realm.mongodb.com/api/client/v2.0/app/myapp-abcde/auth/providers/anon-user/login'
+To authenticate a GraphQL request as an :ref:`email/password
+<email-password-authentication>` user, include the user's credentials in the
+request's ``email`` and ``password`` headers:
 
-      .. tab::
-         :tabid: local-userpass
-
-         .. code-block:: shell
-            :emphasize-lines: 4-5
-         
-            curl --location --request POST 'https://realm.mongodb.com/api/client/v2.0/app/myapp-abcde/auth/providers/local-userpass/login' \
-              --header 'Content-Type: application/json' \
-              --data-raw '{
-                "username": "test@example.com",
-                "password": "password"
-              }'
-
-      .. tab::
-         :tabid: api-key
-
-         .. code-block:: shell
-            :emphasize-lines: 4
-         
-            curl --location --request POST 'https://realm.mongodb.com/api/client/v2.0/app/myapp-abcde/auth/providers/api-key/login' \
-              --header 'Content-Type: application/json' \
-              --data-raw '{
-                "key": "hScMWZyOKnjQMbfDPMJ1qHgtdGT2raQXdVDDvlC2SzKEBKlHKV8FK9SPCSTnODPg"
-              }'
-
-      .. tab::
-         :tabid: custom-token
-
-         .. code-block:: shell
-            :emphasize-lines: 4
-         
-            curl --location --request POST 'https://realm.mongodb.com/api/client/v2.0/app/myapp-abcde/auth/providers/custom-token/login' \
-              --header 'Content-Type: application/json' \
-              --data-raw '{
-              	 "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJ0ZXN0ZGV2LWJwcWVsIiwiZXhwIjoxNTE2MjM5MDIyLCJzdWIiOiIyNDYwMSIsInVzZXJfZGF0YSI6eyJuYW1lIjoiSmVhbiBWYWxqZWFuIiwiYWxpYXNlcyI6WyJNb25zaWV1ciBNYWRlbGVpbmUiLCJVbHRpbWUgRmF1Y2hlbGV2ZW50IiwiVXJiYWluIEZhYnJlIl19fQ.mVWr4yFf8nD1EhuhrJbgKfY7BEpMab38RflXzUxuaEI"
-              }'
-
-   The authentication request is successful, so the response body
-   includes ``access_token`` and ``refresh_token`` values for the user.
-   Each of these values is a JSON web token string that identifies the
-   authenticated user and authorizes requests on their behalf.
-
-   .. code-block:: json
-      
-      {
-        "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1Nzg5NjY1MTYsImlhdCI6MTU3ODk2NDcxNiwiaXNzIjoiNWUxZDE2ZWM4YWM5M2QzMGFjNDg0ZTk0Iiwic3RpdGNoX2RldklkIjoiMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwIiwic3RpdGNoX2RvbWFpbklkIjoiNWRkODFiYmU3NTFhYzk2ZDM3NmI1Mjg1Iiwic3ViIjoiNWUxM2E0MWUxYjM4ZDM1ODQzMGVkMWYzIiwidHlwIjoiYWNjZXNzIn0.WnWJM01meRDZRVIPr7tXqHcXSgrz0refMrpx7bMVgeQ",
-        "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1ODQxNDg3MTYsImlhdCI6MTU3ODk2NDcxNiwic3RpdGNoX2RhdGEiOm51bGwsInN0aXRjaF9kZXZJZCI6IjAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMCIsInN0aXRjaF9kb21haW5JZCI6IjVkZDgxYmJlNzUxYWM5NmQzNzZiNTI4NSIsInN0aXRjaF9pZCI6IjVlMWQxNmVjOGFjOTNkMzBhYzQ4NGU5NCIsInN0aXRjaF9pZGVudCI6eyJpZCI6IjVlMTNhNDFlMWIzOGQzNTg0MzBlZDFmMiIsInByb3ZpZGVyX3R5cGUiOiJsb2NhbC11c2VycGFzcyIsInByb3ZpZGVyX2lkIjoiNWUxM2E0MDUxYjM4ZDM1ODQzMGVkMWI3In0sInN1YiI6IjVlMTNhNDFlMWIzOGQzNTg0MzBlZDFmMyIsInR5cCI6InJlZnJlc2gifQ.fqr19MaUykKqi8C8csJUUzNe9jQOucPbtcc0soWgc5k"
-      }
-
-.. _refresh-client-api-access-token:
-
-Refresh a Client API Access Token
----------------------------------
+.. code-block:: javascript
+   :emphasize-lines: 4-5
    
-Access tokens expire 30 minutes after {+service+} grants them. When an access
-token expires, you can either request another access token using the
-user's credentials or use the refresh token to request a new access
-token with including the user's credentials.
+   http.post({
+     "url": "https://realm.mongodb.com/api/client/v2.0/app/<yourappid-abcde>/graphql",
+     "headers": {
+       "email": "<User's Email Address>",
+       "password": "<User's Password>",
+     },
+     "body": '{"query":"query AllMovies {\n  movies {\n    title\n    year\n  }\n}"}'
+   })
 
-The Client API session refresh endpoint accepts a ``POST`` request that
-includes the refresh token in the ``Authorization`` header and uses the
-following URL:
+.. code-block:: shell
+   :emphasize-lines: 2-3
 
-.. code-block:: text
+   curl --location --request POST 'https://realm.mongodb.com/api/client/v2.0/app/<yourappid-abcde>/graphql' \
+      --header 'email: <User's Email Address>' \
+      --header 'password: <User's Password>' \
+      --header 'Content-Type: application/json' \
+      --data-raw '{"query":"query AllMovies {\n  movies {\n    title\n    year\n  }\n}"}'
+
+API Key
+~~~~~~~
+
+To authenticate a GraphQL request as an :ref:`API Key <api-key-authentication>`
+user, include the user or server API key in the request's ``apiKey`` header:
+
+.. code-block:: javascript
+   :emphasize-lines: 4
    
-   https://realm.mongodb.com/api/client/v2.0/auth/session
+   http.post({
+     "url": "https://realm.mongodb.com/api/client/v2.0/app/<yourappid-abcde>/graphql",
+     "headers": {
+       "apiKey": "<User or Server API Key>"
+     },
+     "body": '{"query":"query AllMovies {\n  movies {\n    title\n    year\n  }\n}"}'
+   })
 
-.. example::
+.. code-block:: shell
+   :emphasize-lines: 2
 
-   The following request demonstrates how to use a refresh token to get a
-   new, valid access token. Replace ``<Refresh Token>`` with the
-   ``refresh_token`` value for the access token that you want to refresh.
+   curl --location --request POST 'https://realm.mongodb.com/api/client/v2.0/app/<yourappid-abcde>/graphql' \
+      --header 'apiKey: <User or Server API Key>' \
+      --header 'Content-Type: application/json' \
+      --data-raw '{"query":"query AllMovies {\n  movies {\n    title\n    year\n  }\n}"}'
+
+Custom JWT
+~~~~~~~~~~
+
+To authenticate a GraphQL request as a :ref:`custom JWT
+<custom-jwt-authentication>` user, include the JWT string in the request's
+``jwtTokenString`` header:
+
+.. code-block:: javascript
+   :emphasize-lines: 4
    
-   .. code-block:: shell
-      :emphasize-lines: 3
-   
-      curl --location --request POST 'https://realm.mongodb.com/api/client/v2.0/auth/session' \
-        --header 'Content-Type: application/json' \
-        --header 'Authorization: Bearer <Refresh Token>'
+   http.post({
+     "url": "https://realm.mongodb.com/api/client/v2.0/app/<yourappid-abcde>/graphql",
+     "headers": {
+       "jwtTokenString": "<User's JWT Token>"
+     },
+     "body": '{"query":"query AllMovies {\n  movies {\n    title\n    year\n  }\n}"}'
+   })
+
+.. code-block:: shell
+   :emphasize-lines: 2
+
+   curl --location --request POST 'https://realm.mongodb.com/api/client/v2.0/app/<yourappid-abcde>/graphql' \
+      --header 'jwtTokenString: <User's JWT Token>' \
+      --header 'Content-Type: application/json' \
+      --data-raw '{"query":"query AllMovies {\n  movies {\n    title\n    year\n  }\n}"}'

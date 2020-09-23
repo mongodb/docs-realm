@@ -13,15 +13,15 @@ Connect Over the Wire Protocol
 Overview
 --------
 
-{+service+} natively implements a :doc:`subset </mongodb/actions/>`
-of the MongoDB wire protocol, which allows you to connect to a {+app+}
-through one of its :doc:`linked MongoDB clusters </mongodb/link-a-cluster>`
-using standard MongoDB drivers and tools. Clients use a specialized
-:ref:`{+service+} connection string <connection-strings>` to connect and send
-requests. {+service+} supports most client features over the wire protocol,
-including :ref:`role-based data access rules <mongodb-rules>`,
-:doc:`functions </functions>`, and :ref:`service actions
-<service-actions>`.
+{+service+} natively implements a :doc:`subset </mongodb/actions/>` of
+the MongoDB wire protocol, which allows you to connect to a {+app+}
+through one of its :doc:`linked MongoDB clusters
+</mongodb/link-a-data-source>` using standard MongoDB drivers and tools.
+Clients use a specialized :ref:`{+service+} connection string
+<connection-strings>` to connect and send requests. {+service+} supports
+most client features over the wire protocol, including :ref:`role-based
+data access rules <mongodb-rules>`, :doc:`functions </functions>`, and
+:ref:`service actions <service-actions>`.
 
 Prerequisites
 ~~~~~~~~~~~~~
@@ -30,6 +30,8 @@ You must :doc:`enable wire protocol connections
 </mongodb/enable-wire-protocol-connections>` for one or more linked
 clusters in your application before you can connect over the wire
 protocol.
+
+.. include:: /includes/data-lake-wire-protocol-note.rst
 
 Compatible Clients
 ~~~~~~~~~~~~~~~~~~

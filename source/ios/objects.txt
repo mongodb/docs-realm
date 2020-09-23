@@ -32,7 +32,7 @@ classes that derive from {+service-short+}'s ``Object`` class.
 .. note::
 
    If you are using :term:`{+sync+}`, the :ref:`primary key <ios-primary-key>` of an
-   object *must* be an ``ObjectId`` called ``_id``.
+   object *must* be an ``ObjectId``, ``String``, or ``Int`` called ``_id``.
 
 .. example::
 
@@ -106,7 +106,7 @@ Objective-C.
 
       - Boolean ``Bool``
       - Integral types ``Int``, ``Int8``, ``Int16``, ``Int32``, ``Int64``
-      - Floating-point types ``Float``, ``Double``
+      - ``Double``
       - ``String``
       - ``Date``
       - ``Data``
@@ -136,14 +136,12 @@ Objective-C.
       - ``RLMList``
 
       Additionally, you can represent optional number types with
-      ``NSNumber`` tagged with ``RLMInt``, ``RLMFloat``, ``RLMDouble``,
+      ``NSNumber`` tagged with ``RLMInt``, ``RLMDouble``,
       or ``RLMBool``:
 
       .. code-block:: objective-c
 
          @property NSNumber<RLMInt> *age;
-
-      Avoid ``CGFloat`` properties, as the type is not platform independent.
 
 .. _ios-primary-key:
 

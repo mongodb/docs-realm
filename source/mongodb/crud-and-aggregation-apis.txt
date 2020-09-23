@@ -547,19 +547,11 @@ Aggregation Pipeline Stage Availability
      - No
      - No
 
-   * - :manual:`$lookup </reference/operator/aggregation/lookup/>`
-     - Yes
-     - Yes
-
-   * - :manual:`$out </reference/operator/aggregation/out/>`
-     - No
-     - Yes
-
-   * - :manual:`$indexStats </reference/operator/aggregation/indexStats/>`
-     - No
-     - No
-
    * - :manual:`$facet </reference/operator/aggregation/facet/>`
+     - No
+     - Yes
+
+   * - :manual:`$geoNear </reference/operator/aggregation/geoNear/>`
      - No
      - Yes
 
@@ -567,12 +559,34 @@ Aggregation Pipeline Stage Availability
      - No
      - Yes
 
+   * - :manual:`$indexStats </reference/operator/aggregation/indexStats/>`
+     - No
+     - No
+
+   * - :manual:`$lookup </reference/operator/aggregation/lookup/>`
+     - Yes
+     - Yes
+
+   * - :manual:`$merge </reference/operator/aggregation/merge/>`
+     - No
+     - Yes
+
+   * - :manual:`$out </reference/operator/aggregation/out/>`
+     - No
+     - Yes
+
+   * - :atlas:`$search </reference/atlas-search/query-syntax/>`
+       
+       .. include:: /includes/note-atlas-search-rules.rst
+     - Yes
+     - Yes
+
    * - :manual:`$text </reference/operator/aggregation/text/>`
      - No
      - Yes
 
-   * - :manual:`$geoNear </reference/operator/aggregation/geoNear/>`
-     - No
+   * - :manual:`$unionWith </reference/operator/aggregation/unionWith/>`
+     - Yes
      - Yes
 
 .. _mongodb-crud-and-aggregation-apis-database-commands:

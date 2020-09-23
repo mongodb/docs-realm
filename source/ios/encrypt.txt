@@ -1,0 +1,76 @@
+.. _ios-encrypt-a-realm:
+
+===============
+Encrypt a Realm
+===============
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+You can the encrypt the {+realm+} database file on disk with AES-256 +
+SHA-2 by supplying a 64-byte encryption key when :ref:`opening a
+{+realm+} <ios-open-a-realm>`.
+
+Realm transparently encrypts and decrypts data with standard
+:wikipedia:`AES-256 encryption <Advanced_Encryption_Standard>` using the
+first 256 bits of the given 512-bit encryption key. {+service-short+}
+uses the other 256 bits of the 512-bit encryption key to validate
+integrity using a :wikipedia:`hash-based message authentication code
+(HMAC) <HMAC>`.
+
+Considerations
+--------------
+
+Storing & Reusing Keys
+~~~~~~~~~~~~~~~~~~~~~~
+
+You must pass the same encryption key when opening the {+realm+} again.
+Apps should store the encryption key in the Keychain so that other apps
+cannot read the key.
+
+Performance Impact
+~~~~~~~~~~~~~~~~~~
+
+Typically, reads and writes on encrypted {+realm+}s can be up to 10%
+slower than unencrypted {+realm+}s.
+
+Encryption and Realm Sync
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can encrypt a :ref:`synced realm <ios-sync-data>`. {+service+} only
+encrypts the data on the device and stores the data unencrypted in your
+{+atlas+} :term:`data source`.
+
+Example
+-------
+
+The following code demonstrates how to generate an encryption key and
+open an encrypted {+realm+}:
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: swift
+
+      .. literalinclude:: /examples/Encrypt/encrypt.swift
+         :language: swift
+
+   .. tab::
+      :tabid: objective-c
+
+      .. literalinclude:: /examples/Encrypt/encrypt.m
+         :language: objective-c
+
+The following Swift example demonstrates how to store and retrieve a
+generated key from the Keychain:
+
+.. literalinclude:: /examples/Encrypt/StoreInKeychain.swift
+   :language: swift

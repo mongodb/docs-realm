@@ -57,10 +57,11 @@ usage.
 Invoicing and Payment
 ~~~~~~~~~~~~~~~~~~~~~
 
-{+service+} is billed as part of MongoDB Atlas. All payment methods that work
-with Atlas can be used to pay for {+service-short+}, including prepaid Atlas
-Credits. Any costs associated with a linked Atlas cluster, such as database
-operations and backup, are billed separately from {+service-short+}.
+{+service+} is billed as part of MongoDB Atlas. All payment methods that
+work with Atlas can be used to pay for {+service-short+}, including
+prepaid Atlas Credits. Any costs associated with a linked Atlas data
+source, such as database operations and backup, are billed separately
+from {+service-short+}.
 
 See :ref:`MongoDB Atlas Billing <atlas-billing>` for more information.
 
@@ -178,8 +179,9 @@ Realm Sync
 ~~~~~~~~~~
 
 {+service-short+} counts the total amount of time in which a client application
-user is actively syncing data. Sync is billed at a set rate for each millisecond
-of sync runtime per user.
+user has an active connection to the sync server even if they are not 
+transferring data at the time. Sync is billed at a set rate for each 
+millisecond of sync runtime per user.
 
 **Price:** $0.08 / 1,000,000 runtime minutes ($0.00000008 / ms)
 
@@ -218,8 +220,8 @@ set rate for each gigabyte of data egress.
 .. admonition:: MongoDB Atlas Data Transfer
    :class: note
    
-   {+service+} does not bill for data transfer to and from a linked MongoDB
-   Atlas cluster.
+   {+service+} does not bill for data transfer to and from a linked
+   MongoDB Atlas data source.
 
 .. admonition:: Estimate Your Usage
    :class: admonition-example

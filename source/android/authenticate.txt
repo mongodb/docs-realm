@@ -568,16 +568,18 @@ Log Out
 
 You can log out any user, regardless of the authentication provider used
 to log in, using the ``user.logOut()`` or ``user.logOutAsync()``
-methods. This:
+methods. Both methods:
 
-- deletes locally stored user credentials from the device
+- delete locally stored user credentials from the device
 
-- immediately halts any synchronization to and from the user's {+realm+}s
+- immediately halt any synchronization to and from the user's {+realm+}s
 
-- marks the user's {+realm+}s for deletion the next time the app restarts
+- mark the user's {+realm+}s for deletion the next time the app restarts
 
 Because logging out halts synchronization, you should only log out after
 all local Realm updates have uploaded to the server.
+
+.. include:: /includes/log-out-queries-in-progress.rst
 
 .. tabs-realm-languages::
 
