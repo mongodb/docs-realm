@@ -2,111 +2,111 @@ title: Create a React Native Project
 ref: create-react-native-project
 content: |
 
-   Create your React Native project with the following
-   command:
+  Create your React Native project with the following
+  command:
 
-   .. code-block:: bash
+  .. code-block:: bash
 
-      react-native init MyRealmApp
+     react-native init MyRealmApp
 
-   Change to the project directory that the previous command
-   just created:
+  Change to the project directory that the previous command
+  just created:
 
-   .. code-block:: bash
+  .. code-block:: bash
 
-      cd MyRealmApp
+     cd MyRealmApp
 
 ---
 title: Install Realm Using NPM
 ref: install-realm-using-npm
 content: |
 
-   In your React Native project directory, add Realm to your
-   project with the following command:
+  In your React Native project directory, add Realm to your
+  project with the following command:
 
-   .. code-block:: bash
+  .. code-block:: bash
 
-      npm install --save realm@10.0.0-beta.6
+     npm install realm@beta
 
 ---
 title: Link the Realm Native Module
 ref: link-realm-native-module
 content: |
 
-   In your React Native project directory, link the Realm
-   native module to your project with the following command:
-    
-   .. code-block:: bash
+  In your React Native project directory, link the Realm
+  native module to your project with the following command:
+   
+  .. code-block:: bash
 
-      react-native link realm
+     react-native link realm
 
 ---
 title: Confirm the Link Step (Android)
 ref: confirm-link-success
 content: |
 
-   For Android development, confirm that the link step
-   correctly added the Realm module to the Gradle
-   configuration files. In some versions, React Native has
-   been known to fail to link Realm properly. If this
-   happens, you can link Realm manually by adding any
-   missing lines below to the corresponding files.
+  For Android development, confirm that the link step
+  correctly added the Realm module to the Gradle
+  configuration files. In some versions, React Native has
+  been known to fail to link Realm properly. If this
+  happens, you can link Realm manually by adding any
+  missing lines below to the corresponding files.
 
-   First, ensure the ``android/settings.gradle`` file
-   includes Realm and specifies Realm's project directory:
-   
-   .. code-block:: text
-      :emphasize-lines: 2-3
-      
-      rootProject.name = 'MyRealmApp'
-      include ':realm'
-      project(':realm').projectDir = new File(rootProject.projectDir, '../node_modules/realm/android')
-      apply from: file("../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesSettingsGradle(settings)
-      include ':app'
+  First, ensure the ``android/settings.gradle`` file
+  includes Realm and specifies Realm's project directory:
 
-   Second, ensure the ``android/app/build.gradle`` file's
-   ``dependencies`` section declares Realm as a dependency:
-   
-   .. code-block:: text
-      :emphasize-lines: 2
+  .. code-block:: text
+     :emphasize-lines: 2-3
+     
+     rootProject.name = 'MyRealmApp'
+     include ':realm'
+     project(':realm').projectDir = new File(rootProject.projectDir, '../node_modules/realm/android')
+     apply from: file("../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesSettingsGradle(settings)
+     include ':app'
 
-      dependencies {
-          implementation project(':realm')
-          implementation fileTree(dir: "libs", include: ["*.jar"])
-          implementation "com.facebook.react:react-native:+"  // From node_modules
-          // ...
-      }
+  Second, ensure the ``android/app/build.gradle`` file's
+  ``dependencies`` section declares Realm as a dependency:
 
-   Finally, ensure the ``MainApplication.java`` file imports
-   the ``RealmReactPackage`` and instantiates it in its
-   packages list.
+  .. code-block:: text
+     :emphasize-lines: 2
 
-   .. code-block:: java
-      :emphasize-lines: 1, 8
+     dependencies {
+         implementation project(':realm')
+         implementation fileTree(dir: "libs", include: ["*.jar"])
+         implementation "com.facebook.react:react-native:+"  // From node_modules
+         // ...
+     }
 
-      import io.realm.react.RealmReactPackage; // Add this import.
+  Finally, ensure the ``MainApplication.java`` file imports
+  the ``RealmReactPackage`` and instantiates it in its
+  packages list.
 
-      public class MainApplication extends Application implements ReactApplication {
-          @Override
-          protected List<ReactPackage> getPackages() {
-              return Arrays.<ReactPackage>asList(
-                  new MainReactPackage(),
-                  new RealmReactPackage() // Add this line.
-              );
-          }
-          // ...
-      }
+  .. code-block:: java
+     :emphasize-lines: 1, 8
+
+     import io.realm.react.RealmReactPackage; // Add this import.
+
+     public class MainApplication extends Application implements ReactApplication {
+         @Override
+         protected List<ReactPackage> getPackages() {
+             return Arrays.<ReactPackage>asList(
+                 new MainReactPackage(),
+                 new RealmReactPackage() // Add this line.
+             );
+         }
+         // ...
+     }
 
 ---
 title: Enable TypeScript (optional)
 ref: enable-typescript
 content: |
 
-   .. include:: /get-started/react-native-enable-typescript.rst
+  .. include:: /get-started/react-native-enable-typescript.rst
 
 ---
 title: Run the App
 ref: run-the-app
 content: |
 
-   .. include:: /get-started/react-native-run-the-app.rst
+  .. include:: /get-started/react-native-run-the-app.rst
