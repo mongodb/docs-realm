@@ -19,7 +19,7 @@ You can read arbitrary data about your application users, known as
 custom user data, directly within your React Native application. For example,
 you might store a user's preferred language, date of birth, or local
 timezone. You can write to the Custom User Data object via a
-:ref:`RemoteMongoClient <react-native-mongodb-data-access>`. 
+:ref:`mongoClient <react-native-mongodb-data-access>`. 
 
 
 The code examples in this page use the following :ref:`user object
@@ -45,7 +45,7 @@ The code examples in this page use the following :ref:`user object
 
 .. include:: /includes/use-custom-data-note.rst
 
-Write to Custom User Data with a RemoteMongoClient
+Write to Custom User Data with a MongoClient
 --------------------------------------------------
 
 .. include:: /includes/write-access-to-custom-data-note.rst
@@ -63,9 +63,9 @@ pink.
 .. code-block:: javascript
    :emphasize-lines: 3, 16
 
-   // A user must be logged in to use a remoteMongoClient
+   // A user must be logged in to use a mongoClient
    const user = await app.logIn(credentials);
-   const mongo = user.remoteMongoClient("<atlas service name>");
+   const mongo = user.mongoClient("<atlas service name>");
    const collection = mongo.db("<database name>").collection("<collection name>");
 
    const filter = {
@@ -149,10 +149,10 @@ Complete Example
          "<password>"
        );
  
-       // A user must be logged in to use a remoteMongoClient
+       // A user must be logged in to use a mongoClient
        const user = await app.logIn(credentials);
        console.log(user.id);
-       const mongo = user.remoteMongoClient("<atlas service name>");
+       const mongo = user.mongoClient("<atlas service name>");
        const collection = mongo.db("<database name>").collection("<collection name>");
  
        const filter = {

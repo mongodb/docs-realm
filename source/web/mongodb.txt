@@ -41,7 +41,7 @@ operation.
 Insert a Single Document
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-You can insert a single document using :js-sdk:`collection.insertOne() <Realm.RemoteMongoDBCollection.html#insertOne>`.
+You can insert a single document using :js-sdk:`collection.insertOne() <Realm.MongoDBCollection.html#insertOne>`.
 
 The following snippet inserts a single document describing a "lily of the
 valley" plant into a
@@ -72,7 +72,7 @@ Insert Multiple Documents
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
 You can insert multiple documents at the same time using
-:js-sdk:`collection.insertOne() <Realm.RemoteMongoDBCollection.html#insertMany>`.
+:js-sdk:`collection.insertOne() <Realm.MongoDBCollection.html#insertMany>`.
 
 The following snippet inserts three documents describing plants into a
 :ref:`collection of documents that describe plants for sale in a group of stores
@@ -135,7 +135,7 @@ of matched documents (in the case of ``find()``).
 Find a Single Document
 ~~~~~~~~~~~~~~~~~~~~~~
 
-You can find a single document using :js-sdk:`collection.insertOne() <Realm.RemoteMongoDBCollection.html#findOne>`.
+You can find a single document using :js-sdk:`collection.findOne() <Realm.MongoDBCollection.html#findOne>`.
 
 The following snippet finds a single document from the
 :ref:`collection of documents that describe plants for sale in a group of stores
@@ -164,7 +164,7 @@ Running this snippet produces output resembling the following:
 Find Multiple Documents
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-You can find multiple documents using :js-sdk:`collection.insertOne() <Realm.RemoteMongoDBCollection.html#findMany>`.
+You can find multiple documents using :js-sdk:`collection.find() <Realm.MongoDBCollection.html#find>`.
 
 The following snippet finds all documents in a
 :ref:`collection of documents that describe plants for sale in a group of stores
@@ -187,7 +187,7 @@ Count Documents in the Collection
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 You can count documents in a collection using
-:js-sdk:`collection.count() <Realm.RemoteMongoDBCollection.html#count>`.
+:js-sdk:`collection.count() <Realm.MongoDBCollection.html#count>`.
 You can specify an optional query filter to
 determine which documents to count. If you don't specify a query, the
 action counts all documents in the collection.
@@ -222,7 +222,7 @@ Update a Single Document
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
 You can update a single document using
-:js-sdk:`collection.updateOne() <Realm.RemoteMongoDBCollection.html#updateOne>`.
+:js-sdk:`collection.updateOne() <Realm.MongoDBCollection.html#updateOne>`.
 
 The following snippet updates a single document in a
 :ref:`collection of documents that describe plants for sale in a group of stores
@@ -247,7 +247,7 @@ Update Multiple Documents
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
 You can update a single document using
-:js-sdk:`collection.updateMany() <Realm.RemoteMongoDBCollection.html#updateMany>`.
+:js-sdk:`collection.updateMany() <Realm.MongoDBCollection.html#updateMany>`.
 
 The following snippet updates multiple documents in a
 :ref:`collection of documents that describe plants for sale in a group of stores
@@ -335,7 +335,7 @@ Delete a Single Document
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
 You can delete a single document from a collection using
-:js-sdk:`collection.deleteOne() <Realm.RemoteMongoDBCollection.html#deleteOne>`.
+:js-sdk:`collection.deleteOne() <Realm.MongoDBCollection.html#deleteOne>`.
 
 The following snippet deletes one document from a
 :ref:`collection of documents that describe plants for sale in a group of stores
@@ -359,7 +359,7 @@ Delete Multiple Documents
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
 You can delete multiple items from a collection using
-:js-sdk:`collection.deleteMany() <Realm.RemoteMongoDBCollection.html#deleteMany>`.
+:js-sdk:`collection.deleteMany() <Realm.MongoDBCollection.html#deleteMany>`.
 
 The following snippet deletes all documents in a
 :ref:`collection of documents that describe plants for sale in a group of stores
@@ -406,7 +406,7 @@ Aggregate Documents in a Collection
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 You can execute an aggregation pipeline using
-:js-sdk:`collection.aggregate() <Realm.RemoteMongoDBCollection.html#aggregate>`.
+:js-sdk:`collection.aggregate() <Realm.MongoDBCollection.html#aggregate>`.
 
 The following snippet groups all documents in the ``plants``
 collection by their ``type`` value and aggregates a count of the
