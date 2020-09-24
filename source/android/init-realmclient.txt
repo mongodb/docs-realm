@@ -43,11 +43,18 @@ Pass the {+app+} ID for your {+app+}, which you can find in the {+ui+}.
             Realm.init(this) // `this` is a Context, typically an Application or Activity
             val app: App = App(AppConfiguration.Builder(appID).build())
 
-.. important:: Initialize the App before Creating an Instance
+.. admonition:: Initialize the App before Creating an Instance
+   :class: important
 
    You must initialize your {+service-short+} app connection with
    ``Realm.init()`` before creating any instance of an ``App``.
 
+.. note::
+
+   You can create multiple ``App`` instances to connect to multiple
+   {+app+}s or to the same {+app+} with different configurations. All
+   ``App`` instances that share the same App ID use the same underlying
+   connection.
 
 .. _android-app-client-configuration:
 

@@ -38,7 +38,7 @@ User.
          fun linkUserWithEmailPasswordUser(user: User, email: String, password: String) {
             user.linkCredentialsAsync(Credentials.emailPassword(email, password)) {
                 if (it.isSuccess) {
-                    Log.v("EXAMPLE", "Successfully linked existing user identity with email/password user: ${it.get().email}")
+                    Log.v("EXAMPLE", "Successfully linked existing user identity with email/password user: ${it.get().id}")
                 } else {
                     Log.e("EXAMPLE", "Failed to link user identities with: ${it.error}")
                 }
@@ -53,7 +53,7 @@ User.
          public void linkUserWithEmailPasswordUser(User user, String email, String password) {
             user.linkCredentialsAsync(Credentials.emailPassword(email, password), it -> {
                 if (it.isSuccess()) {
-                    Log.v("EXAMPLE", "Successfully linked existing user identity with email/password user: " + it.get().getEmail());
+                    Log.v("EXAMPLE", "Successfully linked existing user identity with email/password user: " + it.get().getId());
                 } else {
                     Log.e("EXAMPLE", "Failed to link user identities with: " + it.getError());
                 }
