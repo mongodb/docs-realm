@@ -6,10 +6,10 @@ import io.realm.annotations.Required
 import org.bson.types.ObjectId
 
 
-open class Task(_name: String = "Task", project: String = "My Project") : RealmObject() {
+open class Task(_name: String = "Task") : RealmObject() {
     @PrimaryKey var _id: ObjectId = ObjectId()
-    var _partition: String = project
     var name: String = _name
+    var owner: String? = null
 
     @Required
     private var status: String = TaskStatus.Open.name

@@ -4,6 +4,8 @@ const index = require("./index");
 const config = require("./config");
 const main = require("./main");
 const output = require("./output");
+const projects = require("./projects");
+const { ProjectSchema } = require("./schemas");
 
 const REALM_APP_ID = config.realmAppId;
 const appConfig = {
@@ -99,7 +101,9 @@ function getAuthedUser() {
   return app.currentUser;
 }
 
+
 exports.getAuthedUser = getAuthedUser;
 exports.logIn = logIn;
 exports.logOut = logOut;
 exports.registerUser = registerUser;
+

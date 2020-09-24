@@ -3,16 +3,18 @@ const Realm = require("realm");
 const bson = require("bson");
 const index = require("./index");
 const output = require("./output");
+const users = require("./users");
 
-exports.getTasks = async () => {
-  const realm = await index.getRealm();
+
+exports.getTasks = async (partition) => {
+  const realm = await index.getRealm(partition);
   const tasks = realm.objects("Task");
   output.header("MY TASKS:");
   output.result(JSON.stringify(tasks, null, 2));
 };
 
-exports.getTask = async () => {
-  const realm = await index.getRealm();
+exports.getTask = async (partition) => {
+  const realm = await index.getRealm(partition);
   try {
     const task = await inquirer.prompt([
       {
@@ -27,12 +29,12 @@ exports.getTask = async () => {
       output.result(JSON.stringify(result, null, 2));
     }
   } catch (err) {
-    output.error(err);
+    output.error(JSON.stringify(err));
   }
 };
 
-exports.createTask = async () => {
-  const realm = await index.getRealm();
+exports.createTask = async (partition) => {
+  const realm = await index.getRealm(partition);
   try {
     output.header("*** CREATE NEW TASK ***");
     const task = await inquirer.prompt([
@@ -55,21 +57,21 @@ exports.createTask = async () => {
     realm.write(() => {
       result = realm.create("Task", {
         _id: new bson.ObjectID(),
-        _partition: "My Project",
+        _partition: partition,
         name: task.name,
-        status: task.status,
+        status: task.status.replace(/\s/g, ''), // Removes space from "In Progress",
       });
     });
 
     output.header("New task created");
     output.result(JSON.stringify(result, null, 2));
   } catch (err) {
-    output.error(err);
+    output.error(JSON.stringify(err));
   }
 };
 
-exports.deleteTask = async () => {
-  const realm = await index.getRealm();
+exports.deleteTask = async (partition) => {
+  const realm = await index.getRealm(`${partition}`);
   output.header("DELETE A TASK");
   const answers = await inquirer.prompt([
     {
@@ -94,7 +96,7 @@ exports.deleteTask = async () => {
   }
 };
 
-exports.editTask = async () => {
+exports.editTask = async (partition) => {
   output.header("CHANGE A TASK");
   let answers = await inquirer.prompt([
     {
@@ -114,13 +116,13 @@ exports.editTask = async () => {
     },
   ]);
 
-  let changeResult = await modifyTask(answers);
+  let changeResult = await modifyTask(answers, partition);
   output.result("Task updated.");
   output.result(changeResult);
   return;
 };
 
-exports.changeStatus = async () => {
+exports.changeStatus = async (partition) => {
   output.header("Update Task Status");
   const answers = await inquirer.prompt([
     {
@@ -137,14 +139,14 @@ exports.changeStatus = async () => {
   ]);
 
   answers.key = "status";
-  let changeResult = await modifyTask(answers);
+  let changeResult = await modifyTask(answers, partition);
   output.result("Task updated.");
   output.result(changeResult);
   return;
 };
 
-async function modifyTask(answers) {
-  const realm = await index.getRealm();
+async function modifyTask(answers, partition) {
+  const realm = await index.getRealm(`${partition}`);
   let task;
   try {
     realm.write(() => {
