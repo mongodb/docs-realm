@@ -108,7 +108,7 @@ extlinks = {
     'kotlin-sdk': ('https://docs.mongodb.com/realm-sdks/kotlin/10.0.0-BETA.8/%s', ''),
     'swift-sdk': ('https://docs.mongodb.com/realm-sdks/swift/10.0.0-beta.5/%s', ''),
     'objc-sdk': ('https://docs.mongodb.com/realm-sdks/objc/10.0.0-beta.5/%s', ''),
-    'js-sdk': ('https://docs.mongodb.com/realm-sdks/js/%s', ''),
+    'js-sdk': ('https://docs.mongodb.com/realm-sdks/js/latest/%s', ''),
     # True External Links
     'android': ('https://developer.android.com/reference/%s', ''),
     'android-dev': ('https://developer.android.com/%s', ''),
