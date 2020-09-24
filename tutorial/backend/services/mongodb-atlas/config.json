@@ -1,5 +1,4 @@
 {
-    "id": "5f235c7d2e90756be74240e4",
     "name": "mongodb-atlas",
     "type": "mongodb-atlas",
     "config": {
@@ -16,26 +15,25 @@
                     "read": {
                         "%%true": {
                             "%function": {
-                                "name": "canReadPartition",
                                 "arguments": [
                                     "%%partition"
-                                ]
+                                ],
+                                "name": "canReadPartition"
                             }
                         }
                     },
                     "write": {
                         "%%true": {
                             "%function": {
-                                "name": "canWritePartition",
                                 "arguments": [
                                     "%%partition"
-                                ]
+                                ],
+                                "name": "canWritePartition"
                             }
                         }
                     }
                 }
-            },
-            "last_disabled": 1597777393
+            }
         },
         "wireProtocolEnabled": false
     },
