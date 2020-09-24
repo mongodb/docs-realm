@@ -22,41 +22,39 @@ import com.mongodb.tasktracker.model.Task
 /*
 * TaskActivity: allows a user to view a collection of Tasks, edit the status of those tasks,
 * create new tasks, and delete existing tasks from the collection. All tasks are stored in a realm
-* and synced across devices using the partition "My Project", which is shared by all users.
+* and synced across devices using the partition "project=<user id>".
 */
 class TaskActivity : AppCompatActivity() {
-    private lateinit var realm: Realm
+    private lateinit var projectRealm: Realm
     private var user: User? = null
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: TaskAdapter
     private lateinit var fab: FloatingActionButton
+    private lateinit var partition: String
 
     override fun onStart() {
         super.onStart()
-        try {
-            user = taskApp.currentUser()
-        } catch (e: IllegalStateException) {
-            Log.w(TAG(), e)
-        }
+        user = taskApp.currentUser()
         if (user == null) {
             // if no user is currently logged in, start the login activity so the user can authenticate
             startActivity(Intent(this, LoginActivity::class.java))
         }
         else {
-            // configure realm to use the current user and the partition corresponding to "My Project"
-            val config = SyncConfiguration.Builder(user!!, "My Project")
-                .waitForInitialRemoteData()
-                .build()
+            // get the partition value and name of the project we are currently viewing
+            partition = intent.extras?.getString(PARTITION_EXTRA_KEY)!!
+            val projectName = intent.extras?.getString(PROJECT_NAME_EXTRA_KEY)
 
-            // save this configuration as the default for this entire app so other activities and threads can open their own realm instances
-            Realm.setDefaultConfiguration(config)
+            // display the name of the project in the action bar via the title member variable of the Activity
+            title = projectName
+            val config = SyncConfiguration.Builder(user!!, partition)
+                .build()
 
             // Sync all realm changes via a new instance, and when that instance has been successfully created connect it to an on-screen list (a recycler view)
             Realm.getInstanceAsync(config, object: Realm.Callback() {
                 override fun onSuccess(realm: Realm) {
                     // since this realm should live exactly as long as this activity, assign the realm to a member variable
-                    this@TaskActivity.realm = realm
-                    setUpRecyclerView(realm)
+                    this@TaskActivity.projectRealm = realm
+                    setUpRecyclerView(realm, user, partition)
                 }
             })
         }
@@ -65,16 +63,13 @@ class TaskActivity : AppCompatActivity() {
     override fun onStop() {
         super.onStop()
         user.run {
-            realm.close()
+            projectRealm.close()
         }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_task)
-
-        // default instance uses the configuration created in the login activity
-        realm = Realm.getDefaultInstance()
         recyclerView = findViewById(R.id.task_list)
         fab = findViewById(R.id.floating_action_button)
 
@@ -88,7 +83,7 @@ class TaskActivity : AppCompatActivity() {
                     dialog.dismiss()
                     val task = Task(input.text.toString())
                     // all realm writes need to occur inside of a transaction
-                    realm.executeTransactionAsync { realm ->
+                    projectRealm.executeTransactionAsync { realm ->
                         realm.insert(task)
                     }
                 }
@@ -107,42 +102,15 @@ class TaskActivity : AppCompatActivity() {
         super.onDestroy()
         recyclerView.adapter = null
         // if a user hasn't logged out when the activity exits, still need to explicitly close the realm
-        realm.close()
+        projectRealm.close()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.activity_task_menu, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.action_logout -> {
-                user?.logOutAsync {
-                    if (it.isSuccess) {
-                        // always close the realm when finished interacting to free up resources
-                        realm.close()
-                        user = null
-                        Log.v(TAG(), "user logged out")
-                        startActivity(Intent(this, LoginActivity::class.java))
-                    } else {
-                        Log.e(TAG(), "log out failed! Error: ${it.error}")
-                    }
-                }
-                true
-            }
-            else -> {
-                super.onOptionsItemSelected(item)
-            }
-        }
-    }
-
-    private fun setUpRecyclerView(realm: Realm) {
+    private fun setUpRecyclerView(realm: Realm, user: User?, partition: String) {
         // a recyclerview requires an adapter, which feeds it items to display.
         // Realm provides RealmRecyclerViewAdapter, which you can extend to customize for your application
         // pass the adapter a collection of Tasks from the realm
         // sort this collection so that the displayed order of Tasks remains stable across updates
-        adapter = TaskAdapter(realm.where<Task>().sort("_id").findAll())
+        adapter = TaskAdapter(realm.where<Task>().sort("_id").findAll(), user!!, partition)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter
         recyclerView.setHasFixedSize(true)

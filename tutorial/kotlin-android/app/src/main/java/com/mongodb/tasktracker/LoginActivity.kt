@@ -7,7 +7,10 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import io.realm.mongodb.Credentials
-
+/*
+* LoginActivity: launched whenever a user isn't already logged in. Allows a user to enter email
+* and password credentials to log in to an existing account or create a new account.
+*/
 class LoginActivity : AppCompatActivity() {
     private lateinit var username: EditText
     private lateinit var password: EditText
@@ -65,7 +68,7 @@ class LoginActivity : AppCompatActivity() {
 
         if (createUser) {
             // register a user using the Realm App we created in the TaskTracker class
-            taskApp.emailPasswordAuth.registerUserAsync(username, password) {
+            taskApp.emailPassword.registerUserAsync(username, password) {
                 // re-enable the buttons after user registration completes
                 createUserButton.isEnabled = true
                 loginButton.isEnabled = true
