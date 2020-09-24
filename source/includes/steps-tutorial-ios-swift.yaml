@@ -42,7 +42,7 @@ content: |
 
   - Set the iOS version to 13.0.
   - Add the line ``use_frameworks!`` if it is not already there.
-  - Add the line ``pod 'RealmSwift', '=10.0.0-beta.3'`` to your main target.
+  - Add the line ``pod 'RealmSwift', '=10.0.0-beta.5'`` to your main target.
 
   When done, your Podfile should look something like this:
 
@@ -56,7 +56,7 @@ content: |
           use_frameworks!
 
           # Pods for TaskTracker
-          pod 'RealmSwift', '=10.0.0-beta.3'
+          pod 'RealmSwift', '=10.0.0-beta.5'
 
         end
 
@@ -151,7 +151,7 @@ content: |
          // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
 
          guard let windowScene = (scene as? UIWindowScene) else { return }
-                
+            
          window = UIWindow(windowScene: windowScene)
          window?.makeKeyAndVisible()
          window?.rootViewController = UINavigationController(rootViewController: WelcomeViewController())
@@ -203,16 +203,16 @@ content: |
   .. code-block:: swift
 
      class WelcomeViewController: UIViewController {
-         let usernameField = UITextField()
+         let emailField = UITextField()
          let passwordField = UITextField()
          let signInButton = UIButton(type: .roundedRect)
          let signUpButton = UIButton(type: .roundedRect)
          let errorLabel = UILabel()
          let activityIndicator = UIActivityIndicatorView(style: .medium)
 
-         var username: String? {
+         var email: String? {
              get {
-                 return usernameField.text
+                 return emailField.text
              }
          }
 
@@ -223,12 +223,10 @@ content: |
          }
          // ...
 
-  Next, add a ``viewDidLoad`` method to the view controller.
-  This is where we will set up the login UI
-  programmatically. This just arranges and configures the
-  inputs for username and password, sign in and sign up
-  buttons, an area for a status or error message and a
-  loading indicator.
+  Next, add a ``viewDidLoad`` method to the view controller. This is where we
+  will set up the login UI programmatically. This arranges and configures
+  the inputs for email and password, sign in and sign up buttons, an area for a
+  status or error message and a loading indicator.
 
   .. note::
 
@@ -269,15 +267,15 @@ content: |
          // Add some text at the top of the view to explain what to do.
          let infoLabel = UILabel()
          infoLabel.numberOfLines = 0
-         infoLabel.text = "Please enter a username and password."
+         infoLabel.text = "Please enter an email and password."
          container.addArrangedSubview(infoLabel)
 
-         // Configure the username and password text input fields.
-         usernameField.placeholder = "Username"
-         usernameField.borderStyle = .roundedRect
-         usernameField.autocapitalizationType = .none
-         usernameField.autocorrectionType = .no
-         container.addArrangedSubview(usernameField)
+         // Configure the email and password text input fields.
+         emailField.placeholder = "Email"
+         emailField.borderStyle = .roundedRect
+         emailField.autocapitalizationType = .none
+         emailField.autocorrectionType = .no
+         container.addArrangedSubview(emailField)
 
          passwordField.placeholder = "Password"
          passwordField.isSecureTextEntry = true
@@ -297,7 +295,7 @@ content: |
          errorLabel.numberOfLines = 0
          errorLabel.textColor = .red
          container.addArrangedSubview(errorLabel)
-     }    
+     }
 
   Since we added a loading indicator, let's make it easy to
   use. Add the following method that controls the app UI
@@ -316,7 +314,7 @@ content: |
          } else {
              activityIndicator.stopAnimating();
          }
-         usernameField.isEnabled = !loading
+         emailField.isEnabled = !loading
          passwordField.isEnabled = !loading
          signInButton.isEnabled = !loading
          signUpButton.isEnabled = !loading
@@ -333,7 +331,7 @@ content: |
 
      @objc func signUp() {
          setLoading(true);
-         app.emailPasswordAuth().registerEmail(username!, password: password!, completion: {[weak self](error) in
+         app.emailPasswordAuth().registerUser(email: email!, password: password!) {[weak self](error) in
              // Completion handlers are not necessarily called on the UI thread.
              // This call to DispatchQueue.main.sync ensures that any changes to the UI,
              // namely disabling the loading indicator and navigating to the next page,
@@ -347,12 +345,11 @@ content: |
                  }
                  print("Signup successful!")
                  
-                 // Registering just registers. Now we need to sign in,
-                 // but we can reuse the existing username and password. 
+                 // Registering just registers. Now we need to sign in, but we can reuse the existing email and password. 
                  self!.errorLabel.text = "Signup successful! Signing in..."
                  self!.signIn()
              }
-         })
+         }
      }
 
   First, we use our loading indicator method to disable the
@@ -362,8 +359,8 @@ content: |
   Next, we access the ``emailPasswordAuth`` of the App we opened in the
   AppDelegate. Each authentication provider has a provider client that gives us
   access to the functionality of that specific provider. In this case, we want
-  to register the user's email with the ``registerEmail()`` method. We pass the
-  username and password field values from our UI into this method as well as a
+  to register the user's email with the ``registerUser()`` method. We pass the
+  email and password field values from our UI into this method as well as a
   completion handler that {+service-short+} calls when the action completes. 
 
   The completion handler is not guaranteed to run on the
@@ -389,10 +386,10 @@ content: |
   .. code-block:: swift
 
      @objc func signIn() {
-         print("Log in as user: \(username!)");
+         print("Log in as user: \(email!)");
          setLoading(true);
-         
-         app.login(credentials: Credentials(username: username!, password: password!)) { [weak self](user, error) in
+
+         app.login(credentials: Credentials(email: email!, password: password!)) { [weak self](user, error) in
              // Completion handlers are not necessarily called on the UI thread.
              // This call to DispatchQueue.main.sync ensures that any changes to the UI,
              // namely disabling the loading indicator and navigating to the next page,
@@ -408,15 +405,17 @@ content: |
 
                  print("Login succeeded!");
 
-                 // For the first phase of the tutorial, go directly to the Tasks page
-                 // for the hardcoded project ID "My Project".
+                 // Go directly to the Tasks page for the hardcoded project ID "My Project".
                  // This will use a common project and demonstrate sync.
                  let partitionValue = "My Project"
 
                  // Open a realm.
-                 let projectRealm = try! Realm(configuration: user!.configuration(partitionValue: partitionValue))
-
-                 self!.navigationController!.pushViewController(TasksViewController(projectRealm: projectRealm), animated: true);
+                 Realm.asyncOpen(configuration: user!.configuration(partitionValue: partitionValue)) { [weak self](realm, error) in
+                     guard let realm = realm else {
+                         fatalError("Failed to open realm: \(error!.localizedDescription)")
+                     }
+                     self!.navigationController!.pushViewController(TasksViewController(projectRealm: realm), animated: true);
+                 }
              }
          };
      }
@@ -492,7 +491,7 @@ content: |
          override static func primaryKey() -> String? {
              return "_id"
          }
-         
+        
          convenience init(partition: String, name: String) {
              self.init()
              self._partition = partition
@@ -511,9 +510,9 @@ content: |
      }
 
      enum TaskStatus: String {
-     case Open
-     case InProgress
-     case Complete
+       case Open
+       case InProgress
+       case Complete
      }
 
      class Task: Object {
@@ -613,7 +612,7 @@ content: |
          realm = projectRealm
 
          // Partition value must be of string type.
-         partitionValue = syncConfiguration.partitionValue.stringValue!
+         partitionValue = syncConfiguration.partitionValue!.stringValue!
 
          // Access all tasks in the realm, sorted by _id so that the ordering is defined.
          // Only tasks with the project ID as the partition key value will be in the realm.
@@ -681,15 +680,15 @@ content: |
          alertController.addAction(UIAlertAction(title: "Yes, Log Out", style: .destructive, handler: {
              alert -> Void in
              print("Logging out...");
-             app.currentUser()?.logOut(completion: {(error) in
+             app.currentUser()?.logOut { (error) in
                  DispatchQueue.main.sync {
                      print("Logged out!");
                      self.navigationController?.setViewControllers([WelcomeViewController()], animated: true)
                  }
-             })
+             }
          }))
          alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-         self.present(alertController, animated: true, completion: nil)
+         self.present(alertController, animated: true)
      }
 
   This calls the ``logOut`` method on the current user of the app we
@@ -784,7 +783,7 @@ content: |
          })
 
          // Show the dialog.
-         self.present(alertController, animated: true, completion: nil)
+         self.present(alertController, animated: true)
      }
 
   When the user clicks the "add" button, we present a dialog
@@ -879,7 +878,7 @@ content: |
          }
 
          // Show the actions list.
-         self.present(actionSheet, animated: true, completion: nil)
+         self.present(actionSheet, animated: true)
      }
 
   We dynamically assemble the list of actions depending on

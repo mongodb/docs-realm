@@ -303,9 +303,11 @@ Metadata Fields
 
 :guilabel:`Metadata Fields` are additional data that describe each user.
 {+service-short+} determines the value of each metadata field from the value of
-some field included in the JWT from the external authentication system.
-{+service-short+} refreshes a user's metadata whenever they log in and exposes the
-fields in the ``data`` object of the :doc:`user object </authentication>`.
+some field included in the JWT from the external authentication system. 
+If you set the ``name`` field of a user, then {+service-short+} will use that 
+field as the user's display name. {+service-short+} refreshes a user's metadata 
+whenever they log in and exposes the fields in the ``data`` object of the 
+:doc:`user object </authentication>`.
 
 .. tabs-realm-admin-interfaces::
 
