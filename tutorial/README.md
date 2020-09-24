@@ -2,6 +2,7 @@
 
 The Task Tracker is a collaborative project management tool.
 
+**NOTE:** These projects are internal source code for the task tracker applications used in the Realm tutorial for each platform/language. We use these to generate clean, ready-to-run repositories that users who follow the tutorial can access. For details on how to generate user-facing repositories from these projects, see Bluehawk **(SECTION COMING SOON!)**.
 ## App Description
 
 The mobile apps (Swift/iOS, Kotlin/Android, and React Native) implement the Task Tracker using MongoDB Realm Sync.
