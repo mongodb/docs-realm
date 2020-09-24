@@ -950,11 +950,13 @@ Watch for Changes in a Collection
 
 You can open a stream of changes made to a collection by calling
 :java-sdk:`collection.watch()
-<io/realm/mongodb/mongo/MongoCollection.html#watch->` or
+<io/realm/mongodb/mongo/MongoCollection.html#watch-->` or
 :java-sdk:`collection.watchAsync()
-<io/realm/mongodb/mongo/MongoCollection.html#watchAsync->`. You can watch for
-changes to specific documents in a collection by providing a list of the
-object ids of the objects you would like to monitor.
+<io/realm/mongodb/mongo/MongoCollection.html#watchAsync-->`. You can
+watch for changes to specific documents in a collection by passing the
+object ids of the objects you would like to monitor as a
+`variable number of arguments
+<https://kotlinlang.org/docs/reference/functions.html#variable-number-of-arguments-varargs>`__.
 
 The following snippet watches for changes to any documents in the
 ``plants`` collection:
@@ -990,6 +992,7 @@ The following snippet watches for changes to any documents in the
                     .append("color", "green")
                     .append("type", "perennial")
                     .append("_partition", "Store 47")
+
          mongoCollection?.insertOne(plant)?.getAsync() {
             if (it.isSuccess) {
                 Log.v("EXAMPLE", "successfully inserted a document with id: ${it.get().insertedId}")
@@ -1051,16 +1054,21 @@ Running this snippet produces output resembling the following:
 Watch for Changes in a Collection with a Filter
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-You can open a stream of changes made to a collection by calling
-:java-sdk:`collection.watchWithFilter()
-<io/realm/mongodb/mongo/MongoCollection.html#watchWithFilter->` or
+You can open a stream of changes made to documents in a collection that
+fulfill certain criteria by calling :java-sdk:`collection.watchWithFilter()
+<io/realm/mongodb/mongo/MongoCollection.html#watchWithFilter-BsonDocument->` or
 :java-sdk:`collection.watchWithFilterAsync()
-<io/realm/mongodb/mongo/MongoCollection.html#watchWithFilterAsync->`. You can watch for
-changes to specific documents in a collection by providing the 
+<io/realm/mongodb/mongo/MongoCollection.html#watchWithFilterAsync-Document->`.
+Both methods accept a `Document` or `BsonDocument` parameter that is
+used as the query of a :manual:`$match operator
+</reference/operator/aggregation/match/>` to process each
+:ref:`database event <database-events>` that occurs while watching the
+collection.
 
-
-The following snippet watches for changes to any documents in the
-``plants`` collection:
+The following snippet watches for changes to documents in the
+``plants`` collection, but only triggers the provided callback for
+events corresponding to documents belonging to the partition named
+"Store 42":
 
 .. tabs-realm-languages::
    
