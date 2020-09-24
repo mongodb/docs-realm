@@ -59,7 +59,9 @@
        data collection </users/enable-custom-user-data>` that
        specifies the user's ID. You can use the customer user data
        collection to store arbitrary data about your application's
-       users. {+service-short+} automatically fetches a new copy of the data
+       users. If you set the ``name`` field, {+service-short+} populates the 
+       ``username`` metadata field with the return value of ``name``. 
+       {+service-short+} automatically fetches a new copy of the data
        whenever a user refreshes their access token, such as when they
        log in. The underlying data is a regular MongoDB document, so you
        can use standard CRUD operations through the :doc:`MongoDB Atlas

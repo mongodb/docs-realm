@@ -19,12 +19,30 @@ content: |
 title: Define the Authentication Function
 ref: define-the-authentication-function
 content: |
-  The authentication function must return a string ID value that
-  uniquely identifies the user. {+service+} uses this value to lookup an
-  existing {+service-short+} user and automatically creates a new user if it does
-  not match an existing user. If the function does not return a string,
-  {+backend+} throws an error and does not create or authenticate a user.
+  The authentication function must return a string ID value or an object 
+  containing a string ID value that uniquely identifies the user. {+service+} uses 
+  this value to look up an existing {+service-short+} user and automatically 
+  creates a new user if it does not match an existing user. If the function does 
+  not return a valid return value, {+backend+} throws an error and does not 
+  create or authenticate a user.
   
+  Valid return values options include: 
+  
+  .. example:: 
+  
+    A string ID value that uniquely identifies the user
+    
+    .. code-block:: shell
+    
+      return "5f650356a8631da45dd4784c"
+    
+    An object that contains a string ID value that uniquely identifies the user
+    
+    .. code-block:: shell
+
+      return { "id": "5f650356a8631da45dd4784c" }
+      return { "id": "5f650356a8631da45dd4784c", "name": "James Bond" }
+      
   .. admonition:: Realm Generates New User ID Values
      :class: important
      
