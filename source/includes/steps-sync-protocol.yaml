@@ -1,0 +1,68 @@
+title: Realm SDK Initiates a Sync Session
+ref: realm-sdk-initiates-a-sync-session
+content: |
+  To begin a sync session, a Realm SDK sends a :sync-client-message:`BIND`
+  request to a MongoDB Realm application server. The request identifies a
+  specific local Realm file to sync and includes a WebSocket connection key that
+  the server will use to open a bidirectional connection to the SDK.
+
+  If the SDK is attempting to sync a particular Realm file for the first time,
+  it does not yet possess a server-generated client identifier for the file. In
+  this case, the :sync-client-message:`BIND` request also indicates that the
+  Realm server should allocate one.
+---
+title: Realm Allocates a New Client File Identifier
+ref: realm-allocates-a-new-client-file-identifier
+content: |
+  If a :sync-client-message:`BIND` request indicates that the SDK needs a client
+  file identifier, the Realm server generates a unique value for the specified
+  Realm file and sends it to the SDK in an :sync-server-message:`IDENT` message.
+  When the SDK receives the :sync-client-message:`IDENT`, it stores the new
+  client identifier persistently in the local Realm file.
+
+  An SDK only needs to request a client file identifier the first time it syncs
+  each Realm file. For subsequent sync sessions, the SDK can use the persisted
+  identifier.
+---
+title: Realm SDK Sends a Client Identifier
+ref: realm-sdk-sends-a-client-identifier
+content: |
+  Once an SDK has initiated a sync session with a :sync-client-message:`BIND`
+  request, it must identify the local Realm file that it wants to sync. To do
+  this, the SDK sends the application server an :sync-client-message:`IDENT`
+  message that contains the client file identifier. If the identifier is valid,
+  then the server establishes the session and begins to send and receieve sync
+  changesets to and from the SDK.
+---
+title: Realm SDK Uploads & Downloads Sync Changesets
+ref: realm-sdk-uploads-downloads-sync-changesets
+content: |
+  Once a sync session is established, the SDK can send and recieve
+  :sync-client-message:`UPLOAD` and :sync-client-message:`DOWNLOAD` messages to
+  and from the Realm server.
+
+  The SDK sends an :sync-client-message:`UPLOAD` message for every changeset it
+  applies except for those that were specified in a
+  :sync-client-message:`DOWNLOAD` message. When the server receives an
+  :sync-client-message:`UPLOAD` message, it applies operational transforms to
+  resolve any conflicts with other changesets and then applies the transformed
+  changeset to the server version of the realm. This persists the changeset to
+  the synced Atlas cluster and triggers the Realm server to send
+  :sync-client-message:`DOWNLOAD` messages to any other clients that are syncing
+  the same partition.
+
+  The server groups one or more transformed changesets that originated from
+  other clients into a :sync-client-message:`DOWNLOAD` message that it sends to
+  a synced SDK. The :sync-client-message:`DOWNLOAD` message specifies the
+  changesets in chronological order from oldest to most recent according to the
+  server's history and the SDK applies the changesets in the same order.
+---
+title: Realm SDK Terminates the Sync Session
+ref: realm-sdk-terminates-the-sync-session
+content: |
+  Once a sync session is established, Realm servers will continue to accept
+  :sync-client-message:`UPLOAD` messages and send
+  :sync-client-message:`DOWNLOAD` messages until the SDK terminates the session.
+  To terminate a sync session, an SDK sends an :sync-client-message:`UNBIND`
+  request to the Realm server.
+...

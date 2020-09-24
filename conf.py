@@ -119,6 +119,7 @@ extlinks = {
     'aws-reference': ('https://docs.aws.amazon.com/general/latest/%s', ''),
     'codesandbox': ('https://codesandbox.io/%s', ''),
     'gcp': ('https://cloud.google.com%s', ''),
+    'git-scm': ('https://git-scm.com/%s', ''),
     'github': ('https://github.com/%s', ''),
     'github-dev': ('https://developer.github.com/%s', ''),
     'google': ('https://developers.google.com/%s', ''),
