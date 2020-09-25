@@ -1,1 +1,0 @@
-const user = await app.logIn(credentials);
