@@ -9,11 +9,13 @@
 import UIKit
 import RealmSwift
 
-struct Constants {
-    // Set this to your Realm App ID found in the Realm UI.
-    static let REALM_APP_ID = "tasktracker-huhcb"
-}
-let app = App(id: Constants.REALM_APP_ID)
+// :code-block-start: initialize-app
+// :hide-start:
+let app = App(id: "tasktracker-qczfq")
+// :hide-end:
+// // TODO: initialize the app with your Realm app ID 
+// let app = App(id: "<your-realm-app-ID-here>")
+// :code-block-end:
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 

@@ -10,8 +10,8 @@ import Foundation
 import RealmSwift
 
 // :code-block-start: user-model
-// :hide-start:
 class User: Object {
+    // :hide-start:
     @objc dynamic var _id: String = ""
     @objc dynamic var _partition: String = ""
     @objc dynamic var name: String = ""
@@ -19,15 +19,15 @@ class User: Object {
     override static func primaryKey() -> String? {
         return "_id"
     }
+    // :replace-with:
+    // // TODO: Add User model (see SDKs panel in Realm UI)
+    // :hide-end:
 }
-// :replace-with:
-// // TODO: Add User model (see SDKs panel in Realm UI)
-// :hide-end: 
 // :code-block-end:
 
 // :code-block-start: project-model
-// :hide-start:
 class Project: EmbeddedObject {
+    // :hide-start:
     @objc dynamic var name: String? = nil
     @objc dynamic var partition: String? = nil
     convenience init(partition: String, name: String) {
@@ -35,10 +35,10 @@ class Project: EmbeddedObject {
         self.partition = partition
         self.name = name
     }
+    // :replace-with:
+    // // TODO: Add Project model (see SDKs panel in Realm UI)
+    // :hide-end: 
 }
-// :replace-with:
-// // TODO: Add Project model (see SDKs panel in Realm UI)
-// :hide-end: 
 // :code-block-end:
 
 enum TaskStatus: String {
@@ -48,8 +48,8 @@ enum TaskStatus: String {
 }
 
 // :code-block-start: task-model
-// :hide-start:
 class Task: Object {
+    // :hide-start:
     @objc dynamic var _id: ObjectId = ObjectId.generate()
     @objc dynamic var _partition: String = ""
     @objc dynamic var name: String = ""
@@ -73,10 +73,10 @@ class Task: Object {
         self._partition = partition
         self.name = name
     }
+    // :replace-with:
+    // // TODO: Add Task model
+    // :hide-end: 
 }
-// :replace-with:
-// // TODO: Add Task model
-// :hide-end: 
 // :code-block-end:
 
 struct Member {

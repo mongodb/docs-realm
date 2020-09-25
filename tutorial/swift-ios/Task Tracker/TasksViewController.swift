@@ -242,7 +242,9 @@ class TasksViewController: UIViewController, UITableViewDelegate, UITableViewDat
         // :hide-start:
         return partitionValue == "project=\(app.currentUser()!.id!)"
         // :replace-with:
-        // return false // TODO
+        // // TODO: Check if the partition value matches the user's project's partition value,
+        // // which should look like "project=\(app.currentUser()!.id!)"
+        // return false
         // :hide-end:
     }
     // :code-block-end:

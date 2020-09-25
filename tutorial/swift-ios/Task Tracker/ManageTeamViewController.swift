@@ -73,10 +73,12 @@ class ManageTeamViewController: UIViewController, UITableViewDelegate, UITableVi
         removeTeamMember(email: members[indexPath.row].name)
     }
     
+    // :code-block-start: fetch-team-members
     // Calls a Realm function to fetch the team members and adds them to the list
     func fetchTeamMembers() {
         // Start loading indicator
         activityIndicator.startAnimating()
+        // :hide-start:
         app.currentUser()!.functions.getMyTeamMembers([]) { [weak self](result, error) in
             DispatchQueue.main.sync {
                 guard self != nil else {
@@ -102,70 +104,47 @@ class ManageTeamViewController: UIViewController, UITableViewDelegate, UITableVi
                 self!.tableView.reloadData()
             }
         }
+        // :replace-with:
+        // // TODO: use the app's current user's functions object to call the getMyTeamMembers function
+        // // on the backend. Create Member objects to represent the result in the completion handler
+        // // and reload the table data to refresh the view.
+        // :hide-end:
     }
+    // :code-block-end:
     
+    // :code-block-start: add-team-member
     func addTeamMember(email: String) {
         print("Adding member: \(email)")
         activityIndicator.startAnimating()
-        app.currentUser()!.functions.addTeamMember([AnyBSON(email)!], { [weak self] (result, realmError) in
-            // There are two kinds of errors:
-            // - The Realm function call itself failed (for example, due to network error)
-            // - The Realm function call succeeded, but our business logic within the function returned an error,
-            //   (for example, email not found).
-            var errorMessage: String? = nil
-            
-            if (realmError != nil) {
-                // Error from Realm (failed function call, network error...)
-                errorMessage = realmError!.localizedDescription
-            } else if let resultDocument = result?.documentValue {
-                // Check for user error. The addTeamMember function we defined returns an object 
-                // with the `error` field set if there was a user error.
-                errorMessage = resultDocument["error"]??.stringValue
-            } else {
-                // The function call did not fail but the result was not a document.
-                // This is unexpected.
-                errorMessage = "Unexpected result returned from server"
-            }
-            
-            // Log the success or failure to console.
-            if (errorMessage == nil) {
-                print("Successfully added user \(email)")
-            } else {
-                print("Failed to add user \(email): \(errorMessage!)")
-            }
-            
-            // Now deal with the UI.
-            DispatchQueue.main.sync {
-                guard self != nil else {
-                    return
-                }
-
-                // Always be sure to stop the activity indicator
-                self!.activityIndicator.stopAnimating()
-                
-                // Present error message if any
-                guard errorMessage == nil else {
-                    let alertController = UIAlertController(
-                        title: "Error",
-                        message: "\(errorMessage!)",
-                        preferredStyle: .alert
-                    );
-                    
-                    alertController.addAction(UIAlertAction(title: "OK", style: .cancel))
-                    self!.present(alertController, animated: true)
-                    return
-                }
-                
-                // Otherwise, fetch new team members list
-                self?.fetchTeamMembers()
-            }
-        })
+        // :hide-start:
+        app.currentUser()!.functions.addTeamMember([AnyBSON(email)!], self.onTeamMemberOperationComplete)
+        // :replace-with:
+        // // TODO: use the app's current user's functions object to call the addTeamMember function
+        // // on the backend with the given email converted to AnyBSON. Use `self.onTeamMemberOperationComplete`
+        // // as the completion handler.
+        // :hide-end:
     }
+    // :code-block-end:
     
+    // :code-block-start: remove-team-member
     func removeTeamMember(email: String) {
         print("Removing member: \(email)")
         activityIndicator.startAnimating()
-        app.currentUser()!.functions.removeTeamMember([AnyBSON(email)!], { [weak self] (result, realmError) in
+        // :hide-start:
+        app.currentUser()!.functions.removeTeamMember([AnyBSON(email)!], self.onTeamMemberOperationComplete)
+        // :replace-with:
+        // // TODO: use the app's current user's functions object to call the removeTeamMember function
+        // // on the backend with the given email converted to AnyBSON. Use `self.onTeamMemberOperationComplete`
+        // // as the completion handler.
+        // :hide-end:
+    }
+    // :code-block-end:
+
+    private func onTeamMemberOperationComplete(result: AnyBSON?, realmError: Error?) {
+        DispatchQueue.main.sync {
+            // Always be sure to stop the activity indicator
+            activityIndicator.stopAnimating()
+
             // There are two kinds of errors:
             // - The Realm function call itself failed (for example, due to network error)
             // - The Realm function call succeeded, but our business logic within the function returned an error,
@@ -184,39 +163,24 @@ class ManageTeamViewController: UIViewController, UITableViewDelegate, UITableVi
                 // This is unexpected.
                 errorMessage = "Unexpected result returned from server"
             }
-            
-            // Log the success or failure to console.
-            if (errorMessage == nil) {
-                print("Successfully removed user \(email)")
-            } else {
-                print("Failed to remove user \(email): \(errorMessage!)")
-            }
-            
-            // Now deal with the UI.
-            DispatchQueue.main.sync {
-                guard self != nil else {
-                    return
-                }
 
-                // Always be sure to stop the activity indicator
-                self!.activityIndicator.stopAnimating()
+            // Present error message if any
+            guard errorMessage == nil else {
+                print("Team operation failed: \(errorMessage!)")
+                let alertController = UIAlertController(
+                    title: "Error",
+                    message: errorMessage!,
+                    preferredStyle: .alert
+                );
                 
-                // Present error message if any
-                guard errorMessage == nil else {
-                    let alertController = UIAlertController(
-                        title: "Error",
-                        message: "\(errorMessage!)",
-                        preferredStyle: .alert
-                    );
-                    
-                    alertController.addAction(UIAlertAction(title: "OK", style: .cancel))
-                    self!.present(alertController, animated: true)
-                    return
-                }
-                
-                // Otherwise, fetch new team members list
-                self?.fetchTeamMembers()
+                alertController.addAction(UIAlertAction(title: "OK", style: .cancel))
+                present(alertController, animated: true)
+                return
             }
-        })
+            
+            // Otherwise, fetch new team members list
+            print("Team operation successful")
+            fetchTeamMembers()
+        }
     }
 }
