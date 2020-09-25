@@ -5,21 +5,14 @@ const index = require("./index");
 const output = require("./output");
 const users = require("./users");
 
-// :code-block-start: getTasks
 exports.getTasks = async (partition) => {
   const realm = await index.getRealm(partition);
-  // :hide-start:
-  const tasks = realm.objects("Task");
-  // :replace-with:
-  // // TODO: Call the objects() method and pass in the name of the collection.
-  //
-  // :hide-end:
+   // TODO: Call the objects() method and pass in the name of the collection.
+  
   output.header("MY TASKS:");
   output.result(JSON.stringify(tasks, null, 2));
 };
-// :code-block-end: 
 
-// :code-block-start: getTask
 exports.getTask = async (partition) => {
   const realm = await index.getRealm(partition);
   try {
@@ -30,11 +23,6 @@ exports.getTask = async (partition) => {
         message: "What is the task ID (_id)?",
       },
     ]);
-    // :hide-start:
-    let result = realm.objectForPrimaryKey("Task", new bson.ObjectID(task.id));
-    // // TODO: Call the objectForPrimaryKey() method to get a task by its ID. 
-    //
-    // :hide-end:
     if (result !== undefined) {
       output.header("Here is the task you requested:");
       output.result(JSON.stringify(result, null, 2));
@@ -43,9 +31,7 @@ exports.getTask = async (partition) => {
     output.error(JSON.stringify(err));
   }
 };
-// :code-block-end:
 
-// :code-block-start: createTask
 exports.createTask = async (partition) => {
   const realm = await index.getRealm(partition);
   try {
@@ -68,17 +54,8 @@ exports.createTask = async (partition) => {
     ]);
     let result;
     realm.write(() => {
-      // :hide-start: 
-      result = realm.create("Task", {
-        _id: new bson.ObjectID(),
-        _partition: partition,
-        name: task.name,
-        status: task.status.replace(/\s/g, ''), // Removes space from "In Progress",
-      });
-      // :replace-with: 
-      // // TODO: Call the create() Realm function and pass in all of the required properties.
-      //
-      // :hide-end:
+       // TODO: Call the create() Realm function and pass in all of the required properties.
+      
     });
 
     output.header("New task created");
@@ -87,9 +64,7 @@ exports.createTask = async (partition) => {
     output.error(JSON.stringify(err));
   }
 };
-// :code-block-end:
 
-// :code-block-start: deleteTask
 exports.deleteTask = async (partition) => {
   const realm = await index.getRealm(partition);
   output.header("DELETE A TASK");
@@ -107,25 +82,16 @@ exports.deleteTask = async (partition) => {
   ]);
 
   if (answers.confirm) {
-    // :hide-start: 
-    let task = realm.objectForPrimaryKey("Task", new bson.ObjectID(answers.id));
-    // :replace-with: 
-    // // TODO: Call the objectForPrimaryKey() method to get a task by its ID and assign it to task.
-    // let task;
-    // :hide-end:
+     // TODO: Call the objectForPrimaryKey() method to get a task by its ID and assign it to task.
+     let task;
     realm.write(() => {
-      // :hide-start:
-      realm.delete(task);
-      // :replace-with:
-      // // TODO: Call the delete() function.
-      //
-      // :hide-end:
+       // TODO: Call the delete() function.
+      
       output.result("Task deleted.");
     });
     return;
   }
 };
-// :code-block-end:
 
 exports.editTask = async (partition) => {
   output.header("CHANGE A TASK");
@@ -176,24 +142,17 @@ exports.changeStatus = async (partition) => {
   return;
 };
 
-// :code-block-start: modifyTask
 async function modifyTask(answers, partition) {
   const realm = await index.getRealm(partition);
   let task;
   try {
     realm.write(() => {
-      // :hide-start:
-      task = realm.objectForPrimaryKey("Task", new bson.ObjectID(answers.id));
-      task[answers.key] = answers.value;
-      // :replace-with:
-      // // TODO: Call the objectForPrimaryKey() method to get the task by ID and
-      // // change the task object's status. 
-      //
-      // :hide-end:
+       // TODO: Call the objectForPrimaryKey() method to get the task by ID and
+       // change the task object's status. 
+      
     });
     return JSON.stringify(task, null, 2);
   } catch (err) {
     return output.error(err);
   }
 }
-// :code-block-end:

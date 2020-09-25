@@ -32,9 +32,10 @@ tracker command line interface (CLI) that allows users to:
 
 - Register themselves with email and password.
 - Sign in to their account with their email and password.
-- View, create, modify, and delete tasks.
-- Watch for changes to the Task collection and get notified in the terminal 
-  window when a change occurs.
+- View a list of projects they are a member of.
+- View, create, modify, and delete tasks in projects.
+- View a list of team members in each project.
+- Add and remove team members to a project.
 
 This tutorial should take around 30 minutes to complete.
 
@@ -149,7 +150,7 @@ each file in this project:
      - Handles Realm user authentication, including logging in, registering a 
        new user, and logging out.
 
-   * - watch.js
+   * - manageTeam.js
      - Adds a listener to a Realm collection to notify the user when a change 
        occurs.
 

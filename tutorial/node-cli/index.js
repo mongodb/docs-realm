@@ -12,6 +12,8 @@ const output = require("./output");
 Realm.Sync.setLogLevel("error");
 
 const realms = {};
+
+// :code-block-start: openRealm
 async function openRealm(partitionKey) {
   const config = {
     schema: [schemas.TaskSchema, schemas.UserSchema, schemas.ProjectSchema],
@@ -20,8 +22,13 @@ async function openRealm(partitionKey) {
       partitionValue: partitionKey,
     },
   };
+  // :hide-start:
   return Realm.open(config);
+  // :replace-with:
+  // // TODO: open a realm with these configuration settings.
+  // :hide-end:
 }
+// :code-block-end:
 
 output.intro();
 

@@ -13,9 +13,7 @@ const appConfig = {
   timeout: 10000,
 };
 
-// :code-block-start: newRealmApp
 const app = new Realm.App(appConfig);
-// :code-block-end:
 
 async function logIn() {
   const input = await inquirer.prompt([
@@ -33,26 +31,11 @@ async function logIn() {
   ]);
 
   try {
-    // :code-block-start: userCredentials
-    // :hide-start:
-    const credentials = Realm.Credentials.emailPassword(
-      input.email,
-      input.password
-    );
-    // :replace-with:
-    // // TODO: create new emailPassword credentials
-    //
-    // :hide-end:
-    // :code-block-end:
+     // TODO: create new emailPassword credentials
+    
 
-    // :code-block-start: userLogin
-    // :hide-start:
-    const user = await app.logIn(credentials);
-    // :replace-with: 
-    // // TODO: call the app.logIn() method
+     // TODO: call the app.logIn() method
 
-    // :hide-end: 
-    // :code-block-end:
     if (user) {
       output.result("You have successfully logged in as " + app.currentUser.id);
       return main.mainMenu();
