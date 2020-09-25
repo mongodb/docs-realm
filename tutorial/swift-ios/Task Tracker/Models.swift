@@ -48,8 +48,8 @@ enum TaskStatus: String {
 }
 
 // :code-block-start: task-model
+// :hide-start:
 class Task: Object {
-    // :hide-start:
     @objc dynamic var _id: ObjectId = ObjectId.generate()
     @objc dynamic var _partition: String = ""
     @objc dynamic var name: String = ""
@@ -73,10 +73,14 @@ class Task: Object {
         self._partition = partition
         self.name = name
     }
-    // :replace-with:
-    // // TODO: Add Task model
-    // :hide-end: 
 }
+// :replace-with:
+// // TODO: Realm-ify Task model
+// class Task {
+//    var name: String = ""
+//    var statusEnum: TaskStatus = .Open
+// }
+// :hide-end: 
 // :code-block-end:
 
 struct Member {

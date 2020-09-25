@@ -11,12 +11,19 @@ import RealmSwift
 
 class TasksViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
+    // :code-block-start:
+    let tableView = UITableView()
     let partitionValue: String
     let realm: Realm
-    let tasks: Results<Task>
-    let tableView = UITableView()
     var notificationToken: NotificationToken?
-
+    // :hide-start:
+    let tasks: Results<Task>
+    // :replace-with:
+    // // TODO: Use Realm Results collection for `tasks`
+    // let tasks: [Task] = []
+    // :hide-end:
+    // :code-block-end:
+    
     // :code-block-start: init
     required init(realm: Realm, title: String) {
 
@@ -135,18 +142,24 @@ class TasksViewController: UIViewController, UITableViewDelegate, UITableViewDat
         return cell
     }
 
+    // :code-block-start: delete-task
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         guard editingStyle == .delete else { return }
 
         // User can swipe to delete items.
         let task = tasks[indexPath.row]
         
+        // :hide-start:
         // All modifications to a realm must happen in a write block.
         try! realm.write {
             // Delete the Task.
             realm.delete(task)
         }
+        // :replace-with:
+        // // TODO: delete the task from the realm in a write block.
+        // :hide-end:
     }
+    // :code-block-end:
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 

@@ -65,9 +65,18 @@ class ProjectsViewController: UIViewController, UITableViewDelegate, UITableView
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Log Out", style: .plain, target: self, action: #selector(logOutButtonDidClick))
     }
 
+    // :code-block-start: number-of-rows-in-section
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        // :hide-start:
         // You always have at least one project (your own)
         return userData?.memberOf.count ?? 1
+        // :replace-with:
+        // // TODO: Each project should have its own row. Check the userData memberOf
+        // // field for how many projects the user is a member of. However, the userData
+        // // may not have loaded in yet. If that's the case, the user always has their
+        // // own project, so you should always return at least 1.
+        // return 0
+        // :hide-end:
     }
 
     // :code-block-start: cell-for-row-at

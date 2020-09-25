@@ -12,9 +12,10 @@ import RealmSwift
 // :code-block-start: initialize-app
 // :hide-start:
 let app = App(id: "tasktracker-qczfq")
-// :hide-end:
+// :replace-with:
 // // TODO: initialize the app with your Realm app ID 
 // let app = App(id: "<your-realm-app-ID-here>")
+// :hide-end:
 // :code-block-end:
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
