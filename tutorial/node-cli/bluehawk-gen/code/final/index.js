@@ -13,7 +13,6 @@ Realm.Sync.setLogLevel("error");
 
 const realms = {};
 
-// :code-block-start: openRealm
 async function openRealm(partitionKey) {
   const config = {
     schema: [schemas.TaskSchema, schemas.UserSchema, schemas.ProjectSchema],
@@ -22,13 +21,8 @@ async function openRealm(partitionKey) {
       partitionValue: partitionKey,
     },
   };
-  // :hide-start:
   return Realm.open(config);
-  // :replace-with:
-  // // TODO: open a realm with these configuration settings.
-  // :hide-end:
 }
-// :code-block-end:
 
 output.intro();
 
@@ -58,19 +52,12 @@ run().catch((err) => {
   output.error(err.message);
 });
 
-// :code-block-start: getRealm
 async function getRealm(partitionKey) {
   if (realms[partitionKey] == undefined) {
-    // :hide-start:
     realms[partitionKey] = openRealm(partitionKey);
-    // :replace-with:
-    // // TODO: Call the openRealm() function with the partition key parameter.
-    //
-    // :hide-end:
   }
   return realms[partitionKey];
 }
-// :code-block-end:
 
 async function closeRealm(partitionKey) {
   if (realms[partitionKey] != undefined) {
