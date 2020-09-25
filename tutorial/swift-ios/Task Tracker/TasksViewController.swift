@@ -27,7 +27,7 @@ class TasksViewController: UIViewController, UITableViewDelegate, UITableViewDat
         self.realm = realm
 
         // Partition value must be of string type.
-        partitionValue = syncConfiguration.partitionValue.stringValue!
+        partitionValue = syncConfiguration.partitionValue!.stringValue!
 
         // Access all tasks in the realm, sorted by _id so that the ordering is defined.
         // Only tasks with the project ID as the partition key value will be in the realm.
@@ -203,28 +203,12 @@ class TasksViewController: UIViewController, UITableViewDelegate, UITableViewDat
         self.present(alertController, animated: true, completion: nil)
     }
 
-    @objc func logOutButtonDidClick() {
-        let alertController = UIAlertController(title: "Log Out", message: "", preferredStyle: .alert);
-        alertController.addAction(UIAlertAction(title: "Yes, Log Out", style: .destructive, handler: {
-            alert -> Void in
-            print("Logging out...");
-            app.logOut(completion: { (error) in
-                DispatchQueue.main.sync {
-                    print("Logged out!");
-                    self.navigationController?.setViewControllers([WelcomeViewController()], animated: true)
-                }
-            })
-        }))
-        alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-        self.present(alertController, animated: true, completion: nil)
-    }
-    
     @objc func manageTeamButtonDidClick() {
         present(UINavigationController(rootViewController: ManageTeamViewController()), animated: true)
     }
     
     // Returns true if these are the user's own tasks.
     func isOwnTasks() -> Bool {
-        return partitionValue == "project=\(app.currentUser()!.identity!)"
+        return partitionValue == "project=\(app.currentUser()!.id!)"
     }
 }

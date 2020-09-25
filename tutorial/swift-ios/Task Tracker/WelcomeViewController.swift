@@ -112,7 +112,7 @@ class WelcomeViewController: UIViewController {
 
     @objc func signUp() {
         setLoading(true);
-        app.usernamePasswordProviderClient().registerEmail(username!, password: password!, completion: { [weak self](error) in
+        app.emailPasswordAuth().registerUser(email: username!, password: password!, completion: { [weak self](error) in
             // Completion handlers are not necessarily called on the UI thread.
             // This call to DispatchQueue.main.sync ensures that any changes to the UI,
             // namely disabling the loading indicator and navigating to the next page,
@@ -137,7 +137,7 @@ class WelcomeViewController: UIViewController {
         print("Log in as user: \(username!)");
         setLoading(true);
 
-        app.login(withCredential: AppCredentials(username: username!, password: password!)) { [weak self](maybeUser, error) in
+        app.login(credentials: Credentials(email: username!, password: password!)) { [weak self](maybeUser, error) in
             // Completion handlers are not necessarily called on the UI thread.
             // This call to DispatchQueue.main.sync ensures that any changes to the UI,
             // namely disabling the loading indicator and navigating to the next page,
@@ -160,7 +160,7 @@ class WelcomeViewController: UIViewController {
                 self!.setLoading(true);
 
                 // Configure the synced realm.
-                var configuration = user.configuration(partitionValue: "user=\(user.identity!)")
+                let configuration = user.configuration(partitionValue: "user=\(user.id!)")
                 // Only allow User objects in this partition.
                 // configuration.objectTypes = [User.self, Project.self] // doesn't work?
                 // Open the realm asynchronously so that it downloads the remote copy before

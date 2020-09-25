@@ -77,7 +77,7 @@ class ManageTeamViewController: UIViewController, UITableViewDelegate, UITableVi
     func fetchTeamMembers() {
         // Start loading indicator
         activityIndicator.startAnimating()
-        app.functions.getMyTeamMembers([]) { [weak self](result, error) in
+        app.currentUser()!.functions.getMyTeamMembers([]) { [weak self](result, error) in
             DispatchQueue.main.sync {
                 guard self != nil else {
                     // This can happen if the view is dismissed 
@@ -107,7 +107,7 @@ class ManageTeamViewController: UIViewController, UITableViewDelegate, UITableVi
     func addTeamMember(email: String) {
         print("Adding member: \(email)")
         activityIndicator.startAnimating()
-        app.functions.addTeamMember([AnyBSON(email)!], { [weak self] (result, realmError) in
+        app.currentUser()!.functions.addTeamMember([AnyBSON(email)!], { [weak self] (result, realmError) in
             // There are two kinds of errors:
             // - The Realm function call itself failed (for example, due to network error)
             // - The Realm function call succeeded, but our business logic within the function returned an error,
@@ -165,7 +165,7 @@ class ManageTeamViewController: UIViewController, UITableViewDelegate, UITableVi
     func removeTeamMember(email: String) {
         print("Removing member: \(email)")
         activityIndicator.startAnimating()
-        app.functions.removeTeamMember([AnyBSON(email)!], { [weak self] (result, realmError) in
+        app.currentUser()!.functions.removeTeamMember([AnyBSON(email)!], { [weak self] (result, realmError) in
             // There are two kinds of errors:
             // - The Realm function call itself failed (for example, due to network error)
             // - The Realm function call succeeded, but our business logic within the function returned an error,

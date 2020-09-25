@@ -13,7 +13,7 @@ struct Constants {
     // Set this to your Realm App ID found in the Realm UI.
     static let REALM_APP_ID = "tasktracker-huhcb"
 }
-let app = RealmApp(id: Constants.REALM_APP_ID)
+let app = App(id: Constants.REALM_APP_ID)
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 

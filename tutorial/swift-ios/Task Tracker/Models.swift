@@ -1,5 +1,5 @@
 //
-//  Project.swift
+//  Models.swift
 //  Task Tracker
 //
 //  Created by MongoDB on 2020-05-07.
@@ -9,6 +9,8 @@
 import Foundation
 import RealmSwift
 
+// :code-block-start: user-model
+// :hide-start:
 class User: Object {
     @objc dynamic var _id: String = ""
     @objc dynamic var _partition: String = ""
@@ -18,7 +20,13 @@ class User: Object {
         return "_id"
     }
 }
+// :replace-with:
+// // TODO: Add User model (see SDKs panel in Realm UI)
+// :hide-end: 
+// :code-block-end:
 
+// :code-block-start: project-model
+// :hide-start:
 class Project: EmbeddedObject {
     @objc dynamic var name: String? = nil
     @objc dynamic var partition: String? = nil
@@ -28,6 +36,10 @@ class Project: EmbeddedObject {
         self.name = name
     }
 }
+// :replace-with:
+// // TODO: Add Project model (see SDKs panel in Realm UI)
+// :hide-end: 
+// :code-block-end:
 
 enum TaskStatus: String {
   case Open
@@ -35,6 +47,8 @@ enum TaskStatus: String {
   case Complete
 }
 
+// :code-block-start: task-model
+// :hide-start:
 class Task: Object {
     @objc dynamic var _id: ObjectId = ObjectId.generate()
     @objc dynamic var _partition: String = ""
@@ -60,6 +74,10 @@ class Task: Object {
         self.name = name
     }
 }
+// :replace-with:
+// // TODO: Add Task model
+// :hide-end: 
+// :code-block-end:
 
 struct Member {
     let id: String
