@@ -20,6 +20,8 @@ class ProjectsViewController: UIViewController, UITableViewDelegate, UITableView
 
         super.init(nibName: nil, bundle: nil)
 
+        // :code-block-start: user-in-realm-notification
+        // :hide-start:
         // There should only be one user in my realm - that is myself
         let usersInRealm = userRealm.objects(User.self)
 
@@ -28,16 +30,26 @@ class ProjectsViewController: UIViewController, UITableViewDelegate, UITableView
             guard let tableView = self?.tableView else { return }
             tableView.reloadData()
         }
+        // :replace-with:
+        // // TODO: Observe user realm for user objects
+        // :hide-end:
+        // :code-block-end:
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
+    // :code-block-start: invalidate-token
     deinit {
+        // :hide-start:
         // Always invalidate any notification tokens when you are done with them.
         notificationToken?.invalidate()
+        // :replace-with:
+        // // TODO: invalidate notificationToken
+        // :hide-end:
     }
+    // :code-block-end:
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -58,53 +70,73 @@ class ProjectsViewController: UIViewController, UITableViewDelegate, UITableView
         return userData?.memberOf.count ?? 1
     }
 
+    // :code-block-start: cell-for-row-at
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell") ?? UITableViewCell(style: .default, reuseIdentifier: "Cell")
         cell.selectionStyle = .none
 
+        // :hide-start:
         // User data may not have loaded yet. You always have your own project.
-        let project = userData?.memberOf[indexPath.row] ?? Project(partition: "project=\(app.currentUser()!.id!)", name: "My Project")
-
-        cell.textLabel?.text = project.name!
+        let projectName = userData?.memberOf[indexPath.row].name ?? "My Project"
+        cell.textLabel?.text = projectName
+        // :replace-with:
+        // // TODO: Get project name using userData's memberOf field and indexPath.row.
+        // // The userData may not have loaded yet. Regardless, you always have your own project.
+        // let projectName = "TODO"
+        // cell.textLabel?.text = projectName 
+        // :hide-end:
+        
         return cell
     }
+    // :code-block-end:
 
+    // :code-block-start: did-select-row-at
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let user = app.currentUser() else {
-            print("Error: logged out?")
-            return;
+        // :hide-start:
+        let user = app.currentUser()!
+        let project = userData?.memberOf[indexPath.row] ?? Project(partition: "project=\(user.id!)", name: "My Project")
+
+        Realm.asyncOpen(configuration: user.configuration(partitionValue: project.partition!)) { [weak self] (realm, error) in
+            guard error == nil else {
+                fatalError("Failed to open realm: \(error!)")
+            }
+
+            self?.navigationController?.pushViewController(
+                TasksViewController(realm: realm!, title: "\(project.name!)'s Tasks"),
+                animated: true
+            );
         }
-
-        let project = userData?.memberOf[indexPath.row]
-
-        Realm.asyncOpen(
-            configuration: user.configuration(partitionValue: project!.partition!),
-            callback: { [weak self] (realm, error) in
-                guard error == nil else {
-                    fatalError("Failed to open realm: \(error!)")
-                }
-                let projectName = project?.name ?? "Unknown"
-                
-                // For the second phase of the tutorial, go to the Projects management page.
-                // This is where you can manage permissions and collaborators.
-                self?.navigationController?.pushViewController(TasksViewController(realm: realm!, title: "\(projectName)'s Tasks"), animated: true);
-
-            })
+        // :replace-with:
+        // // TODO: open the realm for the selected project and navigate to the TasksViewController.
+        // // The project information is contained in the userData's memberOf field.
+        // // The userData may not have loaded yet. Regardless, the current user always has their own project.
+        // // A user's project partition value is "project=\(user.id!)". Use the user.configuration() with
+        // // the project's partition value to open the realm for that project.
+        // :hide-end: 
     }
+    // :code-block-end:
 
+    // :code-block-start: log-out-button-did-click
     @objc func logOutButtonDidClick() {
         let alertController = UIAlertController(title: "Log Out", message: "", preferredStyle: .alert);
         alertController.addAction(UIAlertAction(title: "Yes, Log Out", style: .destructive, handler: {
             alert -> Void in
             print("Logging out...");
+            // :hide-start:
             app.currentUser()?.logOut() { (error) in
                 DispatchQueue.main.sync {
                     print("Logged out!");
-                    self.navigationController?.setViewControllers([WelcomeViewController()], animated: true)
+                    self.navigationController?.popViewController(animated: true)
                 }
             }
+            // :replace-with:
+            // // TODO: log out the app's currentUser, then, on the main thread, pop this
+            // // view controller from the navigation controller to navigate back to
+            // // the WelcomeViewController.
+            // :hide-end:
         }))
         alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         self.present(alertController, animated: true, completion: nil)
     }
+    // :code-block-end:
 }
