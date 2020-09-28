@@ -112,7 +112,7 @@ exports.deleteTask = async (partition) => {
     let task = realm.objectForPrimaryKey("Task", new bson.ObjectID(answers.id));
     // :replace-with: 
     // //TODO: Call the objectForPrimaryKey() method to get a task by its ID and assign it to task.
-
+    //let task;
     // :hide-end:
     realm.write(() => {
       // :hide-start:
@@ -189,7 +189,6 @@ async function modifyTask(answers, partition) {
       // :replace-with:
       // //TODO: Call the objectForPrimaryKey() method to get the task by ID and
       // //change the task object's status. 
-      //
       // :hide-end:
     });
     return JSON.stringify(task, null, 2);
