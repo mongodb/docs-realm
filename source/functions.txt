@@ -67,12 +67,9 @@ Constraints
 
 - Function memory usage is limited to 256MB.
 
-- Functions currently do not support the following ES6+ features:
-
-  - New Global Object Types (i.e. ``WeakMap``, ``Set``, ``WeakSet``,
-    ``Symbol``, ``Proxy``)
-
-  - New Math, Number, String, Array, and Object APIs (e.g. ``Array.prototype.includes``)
+- Functions support most commonly used ES6+ features, but some features that are
+  uncommon or unsuited to serverless workloads are not supported (e.g.
+  ``WeakSet``, ``Proxy``, ``Array.prototype.flat()``).
 
 - A function may open a maximum of 5 sockets using the :nodejs:`net
   <docs/v10.18.1/api/net.html>` built-in module.
@@ -81,7 +78,9 @@ Constraints
   full list of supported and unsupported modules, see
   :ref:`Built-In Module Support <builtin-module-support>`.
 
-- There is an 18 MB limit for incoming webhook and function requests. For functions called from an SDK, this limit applies to the total size of all arguments you pass to the function.
+- There is an 18 MB limit for incoming webhook and function requests. For
+  functions called from an SDK, this limit applies to the total size of all
+  arguments you pass to the function.
 
 Concepts
 --------
