@@ -43,14 +43,9 @@ Changesets are the base unit of the sync protocol. Synced {+realm+} clients send
 changesets to the {+service-short+} server whenever they perfrom a write
 operation and the server sends each client changesets for operations executed by
 other clients. The {+service-short+} sync server accepts changesets from any
-connected sync client at any time and uses an operational transformation
-algorithm to serialize changes and resolve conflicting changesets.
-
-.. important::
-   
-   Within a single session, a client may upload a given changeset only once
-   and the client version of any uploaded changeset must be greater than all
-   previously uploaded changesets.
+connected sync client (including changes in a synced MongoDB cluster) at any
+time and uses an operational transformation algorithm to serialize changes and
+resolve conflicting changesets.
 
 .. _operational-transformation:
 
@@ -101,7 +96,7 @@ Sync Session Process
 
 To initiate, execute, and terminate a {+service-short+} Database sync session, a
 {+service-short+} SDK and application server send and receive a set of
-protocol-specific HTTP requests.
+protocol-specific requests.
 
 The SDK establishes a sync session by sending :sync-client-message:`BIND` and
 :sync-client-message:`IDENT` requests to the server. Once the session is
@@ -115,15 +110,17 @@ established, the SDK and server send synced changesets for a given
    
    Realm SDK                      Realm App Server
        |                                  |
-       |  --------- 1. BIND ----------->  |
+       |  <---- 1. HTTP Handshake ----->  |
        |                                  |
-       |  <-------- 2. IDENT* ----------  |
+       |  --------- 2. BIND ----------->  |
        |                                  |
-       |  --------- 3. IDENT ---------->  |
+       |  <-------- 3. IDENT* ----------  |
        |                                  |
-       |  <---- 4. UPLOAD/DOWNLOAD ---->  |
+       |  --------- 4. IDENT ---------->  |
        |                                  |
-       |  --------- 5. UNBIND --------->  |
+       |  <---- 5. UPLOAD/DOWNLOAD ---->  |
+       |                                  |
+       |  --------- 6. UNBIND --------->  |
 
 .. include:: /includes/steps/sync-protocol.rst
 
