@@ -18,8 +18,8 @@ async function getProjects() {
   // :replace-with:
   // // TODO: Call the objectForPrimaryKey() method to get the current user and assign
   // // the memberOf property of the user to projects. 
-  // const user;
-  // const projects;
+  //const user;
+  //const projects;
   // :hide-end:
   return projects;
 };

@@ -11,8 +11,8 @@ exports.getTasks = async (partition) => {
   // :hide-start:
   const tasks = realm.objects("Task");
   // :replace-with:
-  // // TODO: Call the objects() method and pass in the name of the collection.
-  //
+  // //TODO: Call the objects() method and pass in the name of the collection.
+
   // :hide-end:
   output.header("MY TASKS:");
   output.result(JSON.stringify(tasks, null, 2));
@@ -32,8 +32,9 @@ exports.getTask = async (partition) => {
     ]);
     // :hide-start:
     let result = realm.objectForPrimaryKey("Task", new bson.ObjectID(task.id));
-    // // TODO: Call the objectForPrimaryKey() method to get a task by its ID. 
-    //
+    // :replace-with:
+    // //TODO: Call the objectForPrimaryKey() method to get a task by its ID. 
+
     // :hide-end:
     if (result !== undefined) {
       output.header("Here is the task you requested:");
@@ -76,8 +77,8 @@ exports.createTask = async (partition) => {
         status: task.status.replace(/\s/g, ''), // Removes space from "In Progress",
       });
       // :replace-with: 
-      // // TODO: Call the create() Realm function and pass in all of the required properties.
-      //
+      // //TODO: Call the create() Realm function and pass in all of the required properties.
+
       // :hide-end:
     });
 
@@ -110,15 +111,15 @@ exports.deleteTask = async (partition) => {
     // :hide-start: 
     let task = realm.objectForPrimaryKey("Task", new bson.ObjectID(answers.id));
     // :replace-with: 
-    // // TODO: Call the objectForPrimaryKey() method to get a task by its ID and assign it to task.
-    // let task;
+    // //TODO: Call the objectForPrimaryKey() method to get a task by its ID and assign it to task.
+
     // :hide-end:
     realm.write(() => {
       // :hide-start:
       realm.delete(task);
       // :replace-with:
-      // // TODO: Call the delete() function.
-      //
+      // //TODO: Call the delete() function.
+
       // :hide-end:
       output.result("Task deleted.");
     });
@@ -186,8 +187,8 @@ async function modifyTask(answers, partition) {
       task = realm.objectForPrimaryKey("Task", new bson.ObjectID(answers.id));
       task[answers.key] = answers.value;
       // :replace-with:
-      // // TODO: Call the objectForPrimaryKey() method to get the task by ID and
-      // // change the task object's status. 
+      // //TODO: Call the objectForPrimaryKey() method to get the task by ID and
+      // //change the task object's status. 
       //
       // :hide-end:
     });

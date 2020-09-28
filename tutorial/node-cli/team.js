@@ -10,7 +10,7 @@ exports.getTeamMembers = async () => {
     // :hide-start:
     const teamMembers = await currentUser.functions.getMyTeamMembers();
     // :replace-with:
-    // // TODO: call the getMyTeamMembers() Realm function
+    // //TODO: call the getMyTeamMembers() Realm function
 
     // :hide-end:
     output.result(JSON.stringify(teamMembers, null, 2));
@@ -36,7 +36,7 @@ exports.addTeamMember = async () => {
     // :hide-start:
     await currentUser.functions.addTeamMember(email);
     // :replace-with:
-    // // TODO: call the addTeamMember() Realm function
+    // //TODO: call the addTeamMember() Realm function
 
     // :hide-end:
     output.result("The user was added to your team.");
@@ -64,7 +64,7 @@ exports.removeTeamMember = async () => {
     // :hide-start:
     let result = await currentUser.functions.removeTeamMember(selectedTeamMember);
     // :replace-with:
-    // // TODO: call the removeTeamMember() Realm function
+    // //TODO: call the removeTeamMember() Realm function
 
     // :hide-end:
     output.result("The user was removed from your team.");

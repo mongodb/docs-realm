@@ -25,7 +25,7 @@ async function openRealm(partitionKey) {
   // :hide-start:
   return Realm.open(config);
   // :replace-with:
-  // // TODO: open a realm with these configuration settings.
+  // //TODO: open a realm with these configuration settings.
   // :hide-end:
 }
 // :code-block-end:
@@ -64,8 +64,8 @@ async function getRealm(partitionKey) {
     // :hide-start:
     realms[partitionKey] = openRealm(partitionKey);
     // :replace-with:
-    // // TODO: Call the openRealm() function with the partition key parameter.
-    //
+    // //TODO: Call the openRealm() function with the partition key parameter.
+
     // :hide-end:
   }
   return realms[partitionKey];
