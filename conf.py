@@ -136,7 +136,7 @@ extlinks = {
     'fcm': ('https://firebase.google.com/docs/%s', ''),
     'typescript': ('https://www.typescriptlang.org/%s', ''),
     'node-driver': ('https://mongodb.github.io/node-mongodb-native/3.6/api/%s', ''),
-    'ietf': ('https://tools.ietf.org/html/%s', ''),
+    'rfc': ('https://tools.ietf.org/html/%s', ''),
 }
 
 intersphinx_mapping = {}
