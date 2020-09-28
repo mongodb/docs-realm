@@ -98,8 +98,9 @@ To initiate, execute, and terminate a {+service-short+} Database sync session, a
 {+service-short+} SDK and application server send and receive a set of
 protocol-specific requests.
 
-The SDK establishes a sync session by sending :sync-client-message:`BIND` and
-:sync-client-message:`IDENT` requests to the server. Once the session is
+The SDK negotiates a WebSocket connection over HTTP and then establishes a sync
+session by sending :sync-client-message:`BIND` and :sync-client-message:`IDENT`
+requests to the server over the WebSocket connections. Once the session is
 established, the SDK and server send synced changesets for a given
 {+service-short+} file to eachother via :sync-client-message:`UPLOAD` and
 :sync-client-message:`DOWNLOAD` messages. To end the session, the SDK sends an
