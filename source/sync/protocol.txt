@@ -240,12 +240,12 @@ server can send to a sync client:
    
    * - .. sync-server-message:: TRANSACT
      - Indicates whether or not the server successfully processed a changeset
-       specified in a TRANSACT from the client.
+       specified in a :sync-client-message:`TRANSACT` from the client.
    
    * - .. sync-server-message:: MARK
      - Indicates that the server has sent the client the latest
        :ref:`changeset <changeset>` that was in the server history when the
-       server received a MARK from the client.
+       server received a :sync-client-message:`MARK` from the client.
    
    * - .. sync-server-message:: STATE
      - Contains one or more segments of encoded data that the client can
