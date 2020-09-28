@@ -2,130 +2,59 @@
 
 The Task Tracker is a collaborative project management tool.
 
-**NOTE:** These projects are internal source code for the task tracker applications used in the Realm tutorial for each platform/language. We use these to generate clean, ready-to-run repositories that users who follow the tutorial can access. For details on how to generate user-facing repositories from these projects, see Bluehawk **(SECTION COMING SOON!)**.
 ## App Description
 
-The mobile apps (Swift/iOS, Kotlin/Android, and React Native) implement the Task Tracker using MongoDB Realm Sync.
+The mobile apps (Swift/iOS, Kotlin/Android, and React Native) and the Node CLI
+implement the Task Tracker using MongoDB Realm Sync.
 
 The web app implements the Task Tracker using the GraphQL integration.
 
 ## Get Started
 
-First, create a Realm app in the Realm UI and link a cluster.
+### 1. Install `mongodb-realm-cli`
 
-## Enable authentication
+You can import the ready-made MongoDB Realm backend using the
+`mongodb-realm-cli`, which you can install with npm:
 
-Under "Users" on the Realm UI, go to the Providers tab and enable the email/password provider.
-
-- Select "automatically confirm users"
-- Select "run a password reset function"
-- Click "create new" for the reset function and use the default that is created. This reset function always denies password reset requests, but you can change that later.
-
-## Collections
-
-Under "Rules" on the Realm UI, add the following collections:
-- tasks
-- projects
-- users
-
-## Schemas
-
-Define the schemas for each collection as follows. Please note: we may change these in future versions of the tutorial.
-
-### Tasks
-
-```json
-{
-  "title": "Task",
-  "bsonType": "object",
-  "required": [
-    "_id",
-    "_partition",
-    "name",
-    "status"
-  ],
-  "properties": {
-    "_id": {
-      "bsonType": "objectId"
-    },
-    "_partition": {
-      "bsonType": "string"
-    },
-    "name": {
-      "bsonType": "string"
-    },
-    "status": {
-      "bsonType": "string",
-      "enum": [
-        "Open",
-        "InProgress",
-        "Complete"
-      ]
-    }
-  }
-}
+```bash
+npm install -g mongodb-realm-cli
 ```
 
-### Projects
+### 2. Create an Atlas cluster with MongoDB 4.4+
 
-```json
-{
-  "title": "Project",
-  "bsonType": "object",
-  "required": [
-    "_id",
-    "_partition",
-    "name"
-  ],
-  "properties": {
-    "_id": {
-      "bsonType": "objectId"
-    },
-    "_partition": {
-      "bsonType": "string"
-    },
-    "name": {
-      "bsonType": "string"
-    }
-  }
-}
+To have a backend for your Task Tracker app, you will need a MongoDB Atlas
+cluster with MongoDB 4.4 or higher. To create an Atlas account, project, and cluster, visit the [Atlas
+UI](https://cloud.mongodb.com/?tck=docs_realm).
+
+> ⚠️ Sync requires MongoDB 4.4 or above. Be sure to select at least MongoDB
+> version 4.4 when building your cluster!
+
+### 3. Create an API Key and authenticate the CLI
+
+To authenticate with the `realm-cli`, you must create an API key with **Project
+Owner** permissions for your project in the **Project Access Manager** view.
+Click the **Access Manager** at the top of the Atlas view to find it. Please
+follow the [instructions on the MongoDB documentation
+site](https://docs.mongodb.com/realm/deploy/realm-cli-reference/#authenticate-a-cli-user)
+for more information.
+
+Once created, pass the API keys to `realm-cli login` to log in:
+
+```bash
+realm-cli login --api-key=[public API key] --private-api-key=[private API key]
 ```
 
-### Users
+### 4. Import the Realm backend app
 
-```json
-{
-  "title": "User",
-  "required": [
-    "_id",
-    "user_id",
-    "name"
-  ],
-  "properties": {
-    "_id": {
-      "bsonType": "objectId"
-    },
-    "user_id": {
-      "bsonType": "string"
-    },
-    "name": {
-      "bsonType": "string"
-    },
-    "image": {
-      "bsonType": "string"
-    },
-    "_partition": {
-      "bsonType": "string"
-    }
-  }
-}
+If logged in successfully, you can now import the app:
+
+```bash
+realm-cli import --app-name tasktracker --path ./backend/
 ```
 
-## Enable Sync
+Follow the prompts and wait for the app to deploy.
 
-On the Sync tab, enable Sync.
-
-- Set the partition key to `_partition` (string)
+Congratulations! You now have a working MongoDB Realm backend with Sync enabled.
 
 ## Troubleshooting
 

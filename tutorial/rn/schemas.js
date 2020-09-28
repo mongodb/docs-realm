@@ -1,4 +1,4 @@
-import {ObjectId} from 'bson';
+import { ObjectId } from "bson";
 
 class Task {
   /**
@@ -19,19 +19,19 @@ class Task {
     this.status = status;
   }
 
-  static STATUS_OPEN = 'Open';
-  static STATUS_IN_PROGRESS = 'InProgress';
-  static STATUS_COMPLETE = 'Complete';
+  static STATUS_OPEN = "Open";
+  static STATUS_IN_PROGRESS = "InProgress";
+  static STATUS_COMPLETE = "Complete";
   static schema = {
-    name: 'Task',
+    name: "Task",
     properties: {
-      _id: 'objectId',
-      _partition: 'string?',
-      name: 'string',
-      status: 'string',
+      _id: "objectId",
+      _partition: "string?",
+      name: "string",
+      status: "string",
     },
-    primaryKey: '_id',
+    primaryKey: "_id",
   };
 }
 
-export {Task};
+export { Task };

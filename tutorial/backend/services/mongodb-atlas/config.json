@@ -1,0 +1,41 @@
+{
+    "name": "mongodb-atlas",
+    "type": "mongodb-atlas",
+    "config": {
+        "clusterName": "Cluster0",
+        "readPreference": "primary",
+        "sync": {
+            "state": "enabled",
+            "database_name": "tracker",
+            "partition": {
+                "key": "_partition",
+                "type": "string",
+                "required": true,
+                "permissions": {
+                    "read": {
+                        "%%true": {
+                            "%function": {
+                                "arguments": [
+                                    "%%partition"
+                                ],
+                                "name": "canReadPartition"
+                            }
+                        }
+                    },
+                    "write": {
+                        "%%true": {
+                            "%function": {
+                                "arguments": [
+                                    "%%partition"
+                                ],
+                                "name": "canWritePartition"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "wireProtocolEnabled": false
+    },
+    "version": 1
+}

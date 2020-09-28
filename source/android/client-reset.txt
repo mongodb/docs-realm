@@ -1,4 +1,5 @@
 .. _android-client-resets:
+.. _android-client-reset:
 
 =============
 Client Resets
@@ -15,26 +16,41 @@ Client Resets
 Overview
 --------
 
-When a {+realm+} becomes too far out of sync with the data stored in
-MongoDB Atlas, the client must perform a **client reset**. A client
-reset erases all local data and syncs down a new copy of the data stored
-in MongoDB Atlas. Performing a client reset loses all local changes made
-since the client last successfully synced. Your app might require
-a client reset if a large number of changes has occurred in a {+realm+}
-since the last time your client synced successfully. Realms with many
-active writers can cause client resets, as well as clients that do not
-sync for long periods of time (weeks or months).
+When using :doc:`{+sync+} </sync>`, a **client
+reset** is a serious error recovery task that your client
+app must perform in the following situation:
+
+- The given synced {+realm+} on the server was restored from a backup.
+  For example, due to a {+service-short+} server crash.
+
+- The client app made changes to that {+realm+} since the backup was made,
+  but did not sync those changes back to the server before the server
+  was restored.
+
+In other words, the client app must carry out a client reset
+on a given synced {+realm+} if the server is restored to a
+version older than the version on the client.
+
+A client reset erases all local data and downloads a new copy of the
+data stored in MongoDB Atlas. Performing a client reset loses all local
+changes made since the client last successfully synced.
 
 Example
 -------
 
-By default, the SDK performs client resets automatically. However, for
-certain use cases, you might want to customize client reset behavior.
-For instance, you might want to make a backup copy of local data so that
-you can manually recover changes. To override the default client reset
-behavior, create an instance of a ``SyncSession.ClientResetHandler`` that
-overrides the default ``onClientReset()`` behavior. Pass this object to
-your ``AppConfiguration.Builder`` using the ``defaultClientResetHandler()``
+By default, the SDK performs client resets automatically on startup when
+instructed to do so by the server. When a client
+reset occurs, the SDK creates a backup of local data. By default,
+the SDK makes no effort to recover lost local changes from this backup.
+If you override the client reset handler, you can access this backup
+copy through the ``RealmConfiguration`` stored in the
+``ClientResetRequiredError`` to manually transfer data from the
+backup copy to the newly created {+realm+}.
+
+To override the default client reset behavior, create an instance of a
+``SyncSession.ClientResetHandler`` that overrides the default
+``onClientReset()`` behavior. Pass this object to your
+``AppConfiguration.Builder`` using the ``defaultClientResetHandler()``
 builder method:
 
 .. tabs-realm-languages::
