@@ -1,3 +1,15 @@
+title: Realm SDK Connects to the App Server
+ref: realm-sdk-connects-to-the-app-server
+content: |
+  The sync protocol is primarily handled over a WebSocket connection between the
+  SDK and the server. To establish a connection, the SDK sends a handshake HTTP
+  request that specifies a protocol version and a WebSocket key. The request
+  must include a valid access token for an authenticated Realm application user.
+  
+  The server sends an :mdn`HTTP 101 Switching Protocols <Web/HTTP/Status/101>`
+  response that specifies a WebSocket connection for the SDK. The rest of the
+  sync protocol occurs over this connection.
+---
 title: Realm SDK Initiates a Sync Session
 ref: realm-sdk-initiates-a-sync-session
 content: |
