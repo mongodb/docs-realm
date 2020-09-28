@@ -54,7 +54,7 @@ internal class ProjectAdapter(data: RealmList<Project>, var user: User) : RealmR
         holder.itemView.setOnClickListener {
             run {
                 // when a user clicks on a project, bring them to the task view for that project
-                var intent : Intent = Intent(parent.context, TaskActivity::class.java)
+                val intent : Intent = Intent(parent.context, TaskActivity::class.java)
                 intent.putExtra(PARTITION_EXTRA_KEY, obj?.partition)
                 intent.putExtra(PROJECT_NAME_EXTRA_KEY, obj?.name)
                 parent.context.startActivity(intent)

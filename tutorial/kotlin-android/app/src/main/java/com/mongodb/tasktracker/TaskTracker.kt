@@ -24,10 +24,16 @@ class TaskTracker : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        // :code-block-start: initialize-realm-and-create-app
+        // :hide-start:
         Realm.init(this)
         taskApp = App(
             AppConfiguration.Builder(BuildConfig.MONGODB_REALM_APP_ID)
             .build())
+        // :replace-with:
+        //// TODO: Initialize the Realm SDK and create the App object we will use to communicate with the Realm backend.
+        // :hide-end:
+        // :code-block-end:
 
         // Enable more logging in debug mode
         if (BuildConfig.DEBUG) {

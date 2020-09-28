@@ -46,6 +46,9 @@ class TaskActivity : AppCompatActivity() {
 
             // display the name of the project in the action bar via the title member variable of the Activity
             title = projectName
+
+            // :code-block-start: set-up-project-realm
+            // :hide-start:
             val config = SyncConfiguration.Builder(user!!, partition)
                 .build()
 
@@ -57,15 +60,26 @@ class TaskActivity : AppCompatActivity() {
                     setUpRecyclerView(realm, user, partition)
                 }
             })
+            // :replace-with:
+            //// TODO: initialize a connection to a realm containing all of the Tasks in this project
+            // :hide-end:
+            // :code-block-end:
         }
     }
 
+    // :code-block-start: on-stop-close-realm
+    // :hide-start:
     override fun onStop() {
         super.onStop()
         user.run {
             projectRealm.close()
         }
     }
+    // :replace-with:
+    //// TODO: always ensure that the project realm closes when the activity ends via the onStop lifecycle method
+    // :hide-end:
+    // :code-block-end:
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -81,11 +95,17 @@ class TaskActivity : AppCompatActivity() {
                 .setCancelable(true)
                 .setPositiveButton("Create") { dialog, _ -> run {
                     dialog.dismiss()
+                    // :code-block-start: add-new-task-to-project
+                    // :hide-start:
                     val task = Task(input.text.toString())
                     // all realm writes need to occur inside of a transaction
                     projectRealm.executeTransactionAsync { realm ->
                         realm.insert(task)
                     }
+                    // :replace-with:
+                    //// TODO: Add a new task to the project by inserting into the realm when the user clicks "create" for a new task.
+                    // :hide-end:
+                    // :code-block-end:
                 }
                 }
                 .setNegativeButton("Cancel") { dialog, _ -> dialog.cancel()
@@ -98,19 +118,32 @@ class TaskActivity : AppCompatActivity() {
         }
     }
 
+    // :code-block-start: on-destroy-close-realm
+    // :hide-start:
     override fun onDestroy() {
         super.onDestroy()
         recyclerView.adapter = null
         // if a user hasn't logged out when the activity exits, still need to explicitly close the realm
         projectRealm.close()
     }
+    // :replace-with:
+    //// TODO: always ensure that the project realm closes when the activity ends via the onDestroy lifecycle method
+    // :hide-end:
+    // :code-block-end:
+
 
     private fun setUpRecyclerView(realm: Realm, user: User?, partition: String) {
         // a recyclerview requires an adapter, which feeds it items to display.
         // Realm provides RealmRecyclerViewAdapter, which you can extend to customize for your application
         // pass the adapter a collection of Tasks from the realm
         // sort this collection so that the displayed order of Tasks remains stable across updates
+        // :code-block-start:
+        // :hide-start:
         adapter = TaskAdapter(realm.where<Task>().sort("_id").findAll(), user!!, partition)
+        // :replace-with:
+        //// TODO: Query the realm for Task objects, sorted by a stable order that remains consistent between runs.
+        // :hide-end:
+        // :code-block-end:
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter
         recyclerView.setHasFixedSize(true)
