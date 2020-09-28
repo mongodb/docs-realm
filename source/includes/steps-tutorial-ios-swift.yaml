@@ -1,977 +1,293 @@
 ---
-title: Create a New iOS Project
-ref: create-a-new-ios-project
+title: Clone the Client App Repository
+ref: clone-the-client-app-repository
 content: |
-  Open Xcode and create a new iOS Project. Use the "Single View App" template.
-  Enter your project details, select "Storyboard" for user interface, deselect
-  "Include Unit Tests", and save.
+  We've already put together a task tracker iOS application that has most of the
+  code you'll need. You can clone the client application repository directly
+  from GitHub:
 
-  .. figure:: /images/swift-tutorial-create-project.png
-     :alt: Creating a project in Xcode
-     :width: 750px
-     :lightbox:
+  .. code-block:: shell
 
----
-title: Confirm That Your App Runs
-ref: confirm-that-your-app-runs
-content: |
-  Before adding new code, it's a good idea to make sure the
-  project is set up correctly and you can compile and run
-  the app. Test your app by selecting a simulator from the
-  build menu and pressing the Run button. Xcode should build
-  and launch your app successfully and present you with a
-  simulator with the empty app.
----
-title: Install the Realm Frameworks with CocoaPods
-ref: install-realm-frameworks
-content: |
-  :ref:`Install the Realm frameworks <ios-install>` with an iOS dependency
-  manager. This tutorial uses `CocoaPods
-  <https://guides.cocoapods.org/using/getting-started.html>`__.
+     git clone git@github.com:mongodb-university/realm-tutorial-ios-swift.git
 
-  Cocoapods uses a ``Podfile`` to track, load, and manage your project's
-  external dependencies. To create the ``Podfile``, quit Xcode and open your
-  Xcode project directory in a new terminal window. Run the following command:
+  .. important::
+   
+     The realm-tutorial-ios-swift repository contains two branches: ``final``
+     and ``start``. The ``final`` branch is a finished version of the app as it
+     should look *after* you complete this tutorial. To walk through this
+     tutorial, please check out the ``start`` branch:
 
-  .. code-block:: sh
+     .. code-block:: shell
+    
+        git checkout start
 
-     pod init
+  In your terminal, run the following commands to navigate to the task tracker
+  client application and install its dependencies with `CocoaPods
+  <https://guides.cocoapods.org/using/getting-started.html>`__:
 
-  This creates an initial ``Podfile``. To specify your dependencies, edit the
-  ``Podfile`` in your editor of choice and make the following changes:
-
-  - Set the iOS version to 13.0.
-  - Add the line ``use_frameworks!`` if it is not already there.
-  - Add the line ``pod 'RealmSwift', '=10.0.0-beta.5'`` to your main target.
-
-  When done, your Podfile should look something like this:
-
-  .. code-block:: text
-     :emphasize-lines: 1, 5, 8
-
-        platform :ios, '13.0'
-
-        target 'TaskTracker' do
-          # Comment the next line if you don't want to use dynamic frameworks
-          use_frameworks!
-
-          # Pods for TaskTracker
-          pod 'RealmSwift', '=10.0.0-beta.5'
-
-        end
-
-  Save your changes, then run the following command from the terminal window to
-  download the required packages and create an Xcode workspace that is
-  configured:
-
-  .. code-block:: text
-
+  .. code-block:: shell
+     
+     cd realm-tutorial-ios-swift
      pod install --repo-update
 
-  Open the Xcode workspace file that CocoaPods just created to continue working
-  on your project. For example, you can run ``open TaskTracker.xcworkspace``
-  from the command line.
----
-title: Build and Run the Project So Far
-ref: build-and-run-the-project-so-far
-content: |
-  Build and run the project again to verify that everything is configured
-  correctly.
----
-title: Remove Unnecessary UI Files
-ref: remove-unnecessary-files
-content: |
-  We'll build the app's UI programmatically, so we don't need some of the files
-  that come with the standard single page app template.
+  Once the installation is complete, use Xcode to open the xcworkspace generated
+  by CocoaPods, which has all of the dependencies configured. You can do this
+  from the command line:
 
-  .. note:
-     A tutorial using SwiftUI is coming soon.
+  .. code-block:: shell
 
-  1. Open the ``Info.plist`` for your target in the ``TaskTracker`` group in the file navigator.
-  2. Find the ``Main storyboard file base name`` entry and remove it by pressing the ``-`` icon next to it in the property editor.
-  3. Find the ``Application Scene Manifest`` entry and expand it to reveal ``Scene Configuration > Application Session Role > Item 0 (Default Configuration)``. Remove the ``Storyboard Name`` entry by pressing the ``-`` icon next to it in the property editor.
-  4. In the file navigator, find the ``Main.storyboard`` and ``LaunchScreen.storyboard`` files. Delete them by selecting each one and pressing the delete key on your keyboard.
+     open "Task Tracker.xcworkspace"
 
 ---
-title: Open Your Realm App and Specify the Starting Screen in the SceneDelegate Class
-ref: specify-the-starting-screen
+title: Explore the App Structure
+ref: explore-the-app-structure
 content: |
 
-  In order to use {+backend+} functionality such as user
-  authentication and sync, we need to access the {+app+}
-  from our client code.
+  In the Xcode Project Navigator, you can see the source files of the task
+  tracker application in the ``Task Tracker`` folder. The relevant files are as follows:
 
-  Let's declare the {+app+} instance as a global variable in
-  the scene entrypoint file, SceneDelegate.swift. 
-
-  In a production app, you might decide to move the
-  initialization of the {+app+} instance elsewhere in your
-  code or defer initialization until you have read some
-  configuration from a file. For now, a global variable is
-  fine. We will hardcode everything the iOS app needs to
-  know about our {+backend+} app in a structure called
-  ``Constants``.
-
-  .. include:: /includes/note-find-app-id.rst
-
-  Open SceneDelegate.swift in Xcode and add the following code near the top of
-  the file:
-
-  .. code-block:: swift
-
-     import RealmSwift
+  .. cssclass:: config-table
+  .. list-table::
+     :header-rows: 1
+     :widths: 15 85
      
-     struct Constants {
-         // Set this to your Realm App ID found in the Realm UI.
-         static let REALM_APP_ID = "<your-realm-app-id>"
-     }
-     let app = App(id: Constants.REALM_APP_ID)
+     * - File
+       - Purpose
 
-  Replace ``<your-realm-app-id>`` with your {+app+} ID, which you can find in
-  the {+ui+}.
+     * - Models.swift
+       - Defines the Realm object models used by this app.
 
-  .. note::
+     * - SceneDelegate.swift
+       - Declares the global Realm app instance used by other parts of the app.
+     
+     * - WelcomeViewController.swift
+       - Implements the login and user registration functionality.
+      
+     * - ProjectsViewController.swift
+       - The list of projects that the logged-in user is a member of.
+     
+     * - TasksViewController.swift
+       - The list of tasks for a given project.
+     
+     * - ManageTeamController.swift
+       - The list of team members for a project and the associated team
+         management controls.
 
-     Xcode may show errors next to the new import line or other lines. This is
-     normal. These will disappear as we add more code and compile the app.
-
-  We also use the SceneDelegate to navigate to our custom login page that we
-  will define soon. Within the SceneDelegate class, declare a ``UIWindow?``
-  property and replace the ``func scene(_ scene: UIScene, willConnectTo session:
-  UISceneSession, options connectionOptions: UIScene.ConnectionOptions)``
-  method:
-
-  .. code-block:: swift
-
-     var window: UIWindow?
-
-     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
-         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
-         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
-
-         guard let windowScene = (scene as? UIWindowScene) else { return }
-            
-         window = UIWindow(windowScene: windowScene)
-         window?.makeKeyAndVisible()
-         window?.rootViewController = UINavigationController(rootViewController: WelcomeViewController())
-     }
-
-  This sets up the ``UINavigationController`` with a
-  ``WelcomeViewController`` that we will define next.
 ---
-title: Implement User Authentication on the Welcome page
-ref: implement-user-authentication
+title: Connect to Your MongoDB Realm App
+ref: connect-to-your-mongodb-realm-app
 content: |
-  When a user starts the app, we want to present them with a
-  form into which they can enter their email address and
-  password. If they do not have an account, the user can
-  press a "sign up" button to register an account. If the
-  account already exists, the user can press a "sign in"
-  button to sign in with that account. We will add a loading
-  indicator so that the user knows when the app is
-  processing their requests and a text area where we can
-  present any error messages to the user.
+  To get the app working with your backend, you first need to add your Realm App
+  ID to the ``SceneDelegate.swift`` file. The ``SceneDelegate.swift`` file declares a
+  global Realm App instance:
 
-  .. figure:: /images/swift-tutorial-welcome-view.png
-     :alt: The finished welcome view controller
-     :width: 300px
-     :lightbox:
+  .. literalinclude:: FIXME FIXME FIXME
+     :language: swift
 
-  To create the view controller, select ``File > New >
-  File...`` in Xcode. Select "Cocoa Touch Class" from the
-  file type selector panel. Press next then enter
-  "WelcomeViewController" for the class name and
-  set the subclass name to UIViewController. Press next again,
-  navigate to your Xcode project directory in the file browser, and
-  save the file.
+  Change the value of ``id`` to your Realm app ID, which you can :ref:`find in
+  the Realm UI <find-your-app-id>`.
 
-  With the WelcomeViewController file open, the first thing
-  to add at the top of the file is the import statement for
-  RealmSwift, so that our view controller can use
-  {+service-short+}:
-
-  .. code-block:: swift
-
-     import RealmSwift
-
-  To build out the UI programmatically, we need to declare
-  some members to hold our UI elements. Add these members in
-  the new class right after the opening brace of the class
-  definition:
-
-  .. code-block:: swift
-
-     class WelcomeViewController: UIViewController {
-         let emailField = UITextField()
-         let passwordField = UITextField()
-         let signInButton = UIButton(type: .roundedRect)
-         let signUpButton = UIButton(type: .roundedRect)
-         let errorLabel = UILabel()
-         let activityIndicator = UIActivityIndicatorView(style: .medium)
-
-         var email: String? {
-             get {
-                 return emailField.text
-             }
-         }
-
-         var password: String? {
-             get {
-                 return passwordField.text
-             }
-         }
-         // ...
-
-  Next, add a ``viewDidLoad`` method to the view controller. This is where we
-  will set up the login UI programmatically. This arranges and configures
-  the inputs for email and password, sign in and sign up buttons, an area for a
-  status or error message and a loading indicator.
-
-  .. note::
-
-     Excited for SwiftUI? So are we! A tutorial using
-     {+service-short+} with SwiftUI is coming soon.
-
-  .. code-block:: swift
-
-     override func viewDidLoad() {
-         super.viewDidLoad();
-         view.backgroundColor = .white
-
-         // Create a view that will automatically lay out the other controls.
-         let container = UIStackView();
-         container.translatesAutoresizingMaskIntoConstraints = false
-         container.axis = .vertical
-         container.alignment = .fill
-         container.spacing = 16.0;
-         view.addSubview(container)
-
-         // Configure the activity indicator.
-         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
-         view.addSubview(activityIndicator)
-
-         // Set the layout constraints of the container view and the activity indicator.
-         let guide = view.safeAreaLayoutGuide
-         NSLayoutConstraint.activate([
-             // This pins the container view to the top and stretches it to fill the parent
-             // view horizontally.
-             container.leadingAnchor.constraint(equalTo: guide.leadingAnchor, constant: 16),
-             container.trailingAnchor.constraint(equalTo: guide.trailingAnchor, constant: -16),
-             container.topAnchor.constraint(equalTo: guide.topAnchor, constant: 16),
-             // The activity indicator is centered over the rest of the view.
-             activityIndicator.centerYAnchor.constraint(equalTo: guide.centerYAnchor),
-             activityIndicator.centerXAnchor.constraint(equalTo: guide.centerXAnchor),
-             ])
-
-         // Add some text at the top of the view to explain what to do.
-         let infoLabel = UILabel()
-         infoLabel.numberOfLines = 0
-         infoLabel.text = "Please enter an email and password."
-         container.addArrangedSubview(infoLabel)
-
-         // Configure the email and password text input fields.
-         emailField.placeholder = "Email"
-         emailField.borderStyle = .roundedRect
-         emailField.autocapitalizationType = .none
-         emailField.autocorrectionType = .no
-         container.addArrangedSubview(emailField)
-
-         passwordField.placeholder = "Password"
-         passwordField.isSecureTextEntry = true
-         passwordField.borderStyle = .roundedRect
-         container.addArrangedSubview(passwordField)
-
-         // Configure the sign in and sign up buttons.
-         signInButton.setTitle("Sign In", for: .normal);
-         signInButton.addTarget(self, action: #selector(signIn), for: .touchUpInside)
-         container.addArrangedSubview(signInButton)
-
-         signUpButton.setTitle("Sign Up", for: .normal);
-         signUpButton.addTarget(self, action: #selector(signUp), for: .touchUpInside)
-         container.addArrangedSubview(signUpButton)
-
-         // Error messages will be set on the errorLabel.
-         errorLabel.numberOfLines = 0
-         errorLabel.textColor = .red
-         container.addArrangedSubview(errorLabel)
-     }
-
-  Since we added a loading indicator, let's make it easy to
-  use. Add the following method that controls the app UI
-  state, ensuring the app UI is always in one of two states:
-
-  - All inputs **disabled** and activity indicator **shown**, or
-  - All inputs **enabled** and activity indicator **hidden**.
-
-  .. code-block:: swift
-
-     // Turn on or off the activity indicator.
-     func setLoading(_ loading: Bool) {
-         if loading {
-             activityIndicator.startAnimating();
-             errorLabel.text = "";
-         } else {
-             activityIndicator.stopAnimating();
-         }
-         emailField.isEnabled = !loading
-         passwordField.isEnabled = !loading
-         signInButton.isEnabled = !loading
-         signUpButton.isEnabled = !loading
-     }
-
-  Finally, we need to implement the actual business logic of
-  signing in to {+backend-short+}. When we set up the UI, we
-  wired the "sign up" button to a ``signUp`` method and the
-  "sign in" button to the ``signIn`` method, but we haven't
-  defined those methods yet. Let's define them now, starting
-  with ``signUp``:
-
-  .. code-block:: swift
-
-     @objc func signUp() {
-         setLoading(true);
-         app.emailPasswordAuth().registerUser(email: email!, password: password!) {[weak self](error) in
-             // Completion handlers are not necessarily called on the UI thread.
-             // This call to DispatchQueue.main.sync ensures that any changes to the UI,
-             // namely disabling the loading indicator and navigating to the next page,
-             // are handled on the UI thread:
-             DispatchQueue.main.sync {
-                 self!.setLoading(false);
-                 guard error == nil else {
-                     print("Signup failed: \(error!)")
-                     self!.errorLabel.text = "Signup failed: \(error!.localizedDescription)"
-                     return
-                 }
-                 print("Signup successful!")
-                 
-                 // Registering just registers. Now we need to sign in, but we can reuse the existing email and password. 
-                 self!.errorLabel.text = "Signup successful! Signing in..."
-                 self!.signIn()
-             }
-         }
-     }
-
-  First, we use our loading indicator method to disable the
-  form and show the loading indicator, so that the user gets
-  feedback that we are in fact processing their request.
-
-  Next, we access the ``emailPasswordAuth`` of the App we opened in the
-  AppDelegate. Each authentication provider has a provider client that gives us
-  access to the functionality of that specific provider. In this case, we want
-  to register the user's email with the ``registerUser()`` method. We pass the
-  email and password field values from our UI into this method as well as a
-  completion handler that {+service-short+} calls when the action completes. 
-
-  The completion handler is not guaranteed to run on the
-  main thread. In fact, it is likely to run on a background
-  thread. Since we want to update the UI here, and iOS
-  strictly forbids you from updating the UI on anything but
-  the main thread, we must be sure we are in fact running
-  our code on the main thread. That's why, in the completion
-  handler, the first thing we do is dispatch back to the
-  main thread.
-
-  Now that we're on the main thread, it's equally important
-  to turn the activity indicator back off before anything
-  else, so that our app's UI is never in a bad state.
-
-  Next, we handle errors. For now, let's just print them to
-  the console and present them on our error label in the UI.
-
-  We set up our {+app+} to automatically verify email/password accounts, so the
-  user doesn't need to do anything before they can use their account. So, we can
-  go ahead and sign in with the ``signIn()`` method we will write now:
-
-  .. code-block:: swift
-
-     @objc func signIn() {
-         print("Log in as user: \(email!)");
-         setLoading(true);
-
-         app.login(credentials: Credentials(email: email!, password: password!)) { [weak self](user, error) in
-             // Completion handlers are not necessarily called on the UI thread.
-             // This call to DispatchQueue.main.sync ensures that any changes to the UI,
-             // namely disabling the loading indicator and navigating to the next page,
-             // are handled on the UI thread:
-             DispatchQueue.main.sync {
-                 self!.setLoading(false);
-                 guard error == nil else {
-                     // Auth error: user already exists? Try logging in as that user.
-                     print("Login failed: \(error!)");
-                     self!.errorLabel.text = "Login failed: \(error!.localizedDescription)"
-                     return
-                 }
-
-                 print("Login succeeded!");
-
-                 // Go directly to the Tasks page for the hardcoded project ID "My Project".
-                 // This will use a common project and demonstrate sync.
-                 let partitionValue = "My Project"
-
-                 // Open a realm.
-                 Realm.asyncOpen(configuration: user!.configuration(partitionValue: partitionValue)) { [weak self](realm, error) in
-                     guard let realm = realm else {
-                         fatalError("Failed to open realm: \(error!.localizedDescription)")
-                     }
-                     self!.navigationController!.pushViewController(TasksViewController(projectRealm: realm), animated: true);
-                 }
-             }
-         };
-     }
-
-  Again, the first thing we do is turn on the activity
-  indicator to let the user know we are processing their
-  request.
-
-  We use the app's ``login()`` method, which takes
-  credentials that correspond to the email/password
-  authentication provider. As in the ``signUp()`` method, we
-  pass the text values from our UI into the credentials.
-
-  Once again, in the completion handler we must dispatch
-  back to the main thread. Once on the main thread, we turn
-  off the activity indicator and handle any errors.
-
-  If login succeeded, we can go ahead and open the {+realm+} to be used on the
-  next page. To do that, we decide on a :term:`partition value`. The partition
-  value determines which :term:`{+realm+}` we are reading and writing data in.
-
-  You may have noticed that we hardcoded the partition value to the phrase "My
-  Project". This makes it so that all tasks in the {+app+} -- even those created
-  on a second device by a different user -- belong to the same project. In a
-  future tutorial, we will allow the creation of different projects with
-  different access permissions.
-
-  After deciding the partition value, we open the {+realm+} with that partition
-  value and pass it to the next view controller. It's a good idea to pass the
-  {+realm+} rather than opening it in the next view controller itself, because
-  if the {+realm+} fails to open for some reason, you can handle the error
-  before loading the view.
-
-  .. admonition:: Check the Logs Tab in the {+ui+}
-     :class: note
-
-     On that note, when working with {+sync+}, remember to check the
-     :guilabel:`Logs` page in the {+ui+}. That page usually contains additional
-     information that can help you troubleshoot any issues you may encounter.
-
-  At this point, you might want to comment out the line that
-  mentions ``TasksViewController``, which we haven't defined
-  yet, and try out your new sign up and sign in
-  functionality.
 ---
-title: Define Your {+frontend-schema+}
-ref: define-your-frontend-schema
+title: Define the Object Models
+ref: define-the-object-models
 content: |
-  Now that we have implemented authentication functionality,
-  let's define a model that our app can use. 
+  Navigate to the Models.swift file to implement the Realm Object Models used in
+  this app. First, implement the User model, which contains information about
+  the user's membership in different projects:
 
-  Create a new, empty Swift file called Models.swift by
-  selecting ``File > New > File...`` in Xcode and using the
-  "Swift File" template.
+  .. literalinclude:: FIXME FIXME FIXME
 
-  We need to define the models of our schema. If you followed the backend setup
-  guide for this tutorial, you can view these models on the :guilabel:`SDKs`
-  page in the {+ui+} under the :guilabel:`Swift` tab.
+  Next, implement the Project embedded object that represents a Project that a
+  User is a member of:
 
-  Copy the following code into Models.swift:
+  .. literalinclude:: FIXME FIXME FIXME
 
-  .. code-block:: swift
+  Finally, let's turn the Task class into a Realm object model:
 
-     import Foundation
-     import RealmSwift
+  .. literalinclude:: FIXME FIXME FIXME
 
-     typealias ProjectId = String
+---
+title: Enable Authentication
+ref: enable-authentication
+content: |
+  Navigate to the WelcomeViewController.swift file, which is where we implement
+  all login and user registration logic. This controller is set up with a text
+  field for email and password, sign in and sign up buttons, and an activity
+  indicator to show when the app is handling an authentication request.
 
-     class Project: Object {
-         @objc dynamic var _id: ObjectId = ObjectId.generate()
-         @objc dynamic var _partition: String? = nil
-         @objc dynamic var name: String = ""
-         override static func primaryKey() -> String? {
-             return "_id"
-         }
-        
-         convenience init(partition: String, name: String) {
-             self.init()
-             self._partition = partition
-             self.name = name
-         }
-     }
+  First, let's implement the ``signUp()`` method to register a new user:
 
-     class User: Object {
-         @objc dynamic var _id: String = ""
-         @objc dynamic var _partition: String? = nil
-         @objc dynamic var image: String? = nil
-         @objc dynamic var name: String = ""
-         override static func primaryKey() -> String? {
-             return "_id"
-         }
-     }
+  .. literalinclude:: FIXME FIXME FIXME
 
-     enum TaskStatus: String {
-       case Open
-       case InProgress
-       case Complete
-     }
+  Now, implement the ``signIn()`` method to log in with an existing user. Once
+  logged in successfully, open the user realm and navigate to the
+  ProjectsViewController:
 
-     class Task: Object {
-         @objc dynamic var _id: ObjectId = ObjectId.generate()
-         @objc dynamic var _partition: ProjectId? = nil
-         @objc dynamic var assignee: User?
-         @objc dynamic var name = ""
-         @objc dynamic var status = TaskStatus.Open.rawValue
+  .. literalinclude:: FIXME FIXME FIXME
 
-         var statusEnum: TaskStatus {
-             get {
-                 return TaskStatus(rawValue: status) ?? .Open
-             }
-             set {
-                 status = newValue.rawValue
-             }
-         }
+---
+title: Implement the Projects List
+ref: implement-the-projects-list
+content: |
+  The WelcomeViewController has opened the user realm for us and passed it in to
+  this controller. This is a good practice, as it allows the realm to fully
+  download before transitioning to the next screen. If the realm failed to open
+  for some reason, the error could be handled on the original screen and not
+  have to undo a transition.
 
-         override static func primaryKey() -> String? {
-             return "_id"
-         }
-        
-         convenience init(partition: String, name: String) {
-             self.init()
-             self._partition = partition
-             self.name = name
-         }
-     }
+  We have designed our app so that the user realm will only ever contain at most
+  one object: that is, the user custom data object. Because an authentication
+  trigger creates this user object, the realm may not contain the object
+  immediately after creating an account. So, we should watch the realm itself
+  for changes:
 
-  This declares the class Task as a subclass of the {+service-short+} Object
-  class with the properties we need. It also declares the other models we need
-  to interact with the backend schema we defined. We will use those other models
-  in a future tutorial.
+  .. literalinclude:: FIXME FIXME FIXME
 
-  Every object we sync needs a :term:`partition value`. We
-  configured our {+app+} to use a string called
-  ``_partition`` as the :term:`partition key`. This is
-  flexible, but it might be difficult for anyone reading our
-  code to know that the Task's partition value should be a
-  specific project ID. To give future developers (and
-  ourselves) a hint as we build on the app, we use an alias
-  for ``String`` called ``ProjectId`` as the partition value
-  type.
+  Let's provide a way for a user to log out and get back to the
+  WelcomeViewController. The ``viewDidLoad()`` method hooks up the Log Out
+  button at the top of the view to the ``logOutButtonDidClick()`` method. We can
+  implement ``logOutButtonDidClick()`` as follows:
 
-  To represent the task status, we use an enum. To represent
-  this in {+backend+}, we need to convert the enum to a
-  string. So, we make the synced property (notice: ``@objc
-  dynamic var``) ``status`` of string type and add a
-  non-synced property (notice it is not marked ``@objc
-  dynamic var``) called ``statusEnum`` of enum type. The
-  ``statusEnum`` property controls the ``status`` variable.
+  .. literalinclude:: FIXME FIXME FIXME
+
+  Since the ProjectsViewController implements the UITableViewDelegate protocol
+  for its own list, let's implement these methods. First, implement the
+  ``tableView(_:numberOfRowsInSection:)`` method to return the number of
+  available projects to the current user. Since the user always has access to
+  their own project, we always return at least 1 even though the user object may
+  not be available yet:
+
+  .. literalinclude:: FIXME FIXME FIXME
+
+  Next, implement the ``tableView(_:cellForRowAt:)`` to fill out the project
+  information for each cell. Again, if the user object has not loaded yet, we
+  still know the user's own project is always in the list:
+
+  .. literalinclude:: FIXME FIXME FIXME
+
+  Finally, implement the ``tableView(_:didSelectRowAt:)`` method to handle what
+  happens when the user clicks a project in the list. As we opened the user
+  realm in the WelcomeViewController before navigating to the
+  ProjectsViewController, we'll open the project realm before navigating to the
+  TasksViewController:
+
+  .. literalinclude:: FIXME FIXME FIXME
+
 ---
 title: Implement the Tasks List
 ref: implement-the-tasks-list
 content: |
-  Create a new Cocoa Touch class called based on
-  UIViewController called TasksViewController. This screen
-  will allow users to view, create, modify, and delete
-  tasks as well as log out.
+  Navigate to the TasksViewController.swift file, where we'll implement the list
+  of Tasks in a Project. The TasksViewController class holds an array of Task
+  objects. We already converted the Task class to a Realm object model. In order
+  to hold a live collection of Realm objects contained in a realm, we need to
+  use ``RealmResults`` instead of a standard Swift array. Let's convert that
+  property now:
 
-  .. figure:: /images/swift-tutorial-tasks-view.png
-     :alt: The finished tasks view controller
-     :width: 300px
-     :lightbox:
+  .. literalinclude:: FIXME FIXME FIXME
 
+  We can initialize the ``tasks`` property with a query on the project realm
+  passed in from the ProjectsViewController. Once we have the live tasks
+  collection, we can observe that for changes:
 
-  With the TasksViewController file open, the first thing
-  to add at the top of the file is the import statement for
-  RealmSwift, so that our view controller can use
-  {+service-short+}:
+  .. literalinclude:: FIXME FIXME FIXME
 
-  .. code-block:: swift
+  Calls to ``observe`` Realm objects return a notificationToken. Always retain
+  the notificationToken as long as you want the observation to complete. When
+  done observing -- for example, because the user navigated away from this view
+  -- be sure to invalidate the token. The ``deinit`` method is a good place to
+  do so:
 
-     import RealmSwift
+  .. literalinclude:: FIXME FIXME FIXME
 
-  Next, declare some member variables at the top of the
-  new class:
+  The TasksViewController already populates the UI using the Tasks in the list.
+  Check out the ``tableView(_:numberOfRowsInSection:)`` and
+  ``tableView(_:cellForRowAt:)`` methods to see how the Realm object model
+  version of the Task class and the RealmResults object are drop-in replacements
+  for the regular class and array respectively. No changes are required in these
+  methods.
 
-  .. code-block:: swift
-     
-     class TasksViewController: UIViewController {
-         let partitionValue: String
-         let realm: Realm
-         let tasks: Results<Task>
-         let tableView = UITableView()
+  The TasksViewController also wires up the Add button at the top of the view to
+  the ``addButtonDidClick()`` method. We can implement the Task creation in this
+  method:
 
-  Initialize these values with a new ``init()`` method declared next:
+  .. literalinclude:: FIXME FIXME FIXME
 
-  .. code-block:: swift
+  When the user selects a Task in the list, we present them with an action sheet
+  to allow them to update the Task's status. Complete the
+  ``tableView(_:didSelectRowAt:)`` method implementation as follows:
 
-     required init(projectRealm: Realm) {
-         // Ensure the realm was opened with sync.
-         guard let syncConfiguration = projectRealm.configuration.syncConfiguration else {
-             fatalError("Sync configuration not found! Realm not opened with sync?");
-         }
+  .. literalinclude:: FIXME FIXME FIXME
 
-         realm = projectRealm
+  To handle swipes to delete a Task, we implement the
+  ``tableView(_:commit:forRowAt:)`` method:
 
-         // Partition value must be of string type.
-         partitionValue = syncConfiguration.partitionValue!.stringValue!
+  .. literalinclude:: FIXME FIXME FIXME
 
-         // Access all tasks in the realm, sorted by _id so that the ordering is defined.
-         // Only tasks with the project ID as the partition key value will be in the realm.
-         tasks = realm.objects(Task.self).sorted(byKeyPath: "_id")
+  Finally, a user can manage the team of their own project. When setting up the
+  UI, the TasksViewController uses the ``isOwnTasks()`` method to decide whether
+  to add the "Manage Team" action to the action bar. We can implement that as
+  follows:
 
-         super.init(nibName: nil, bundle: nil)
-     }
+  .. literalinclude:: FIXME FIXME FIXME
 
-     // Implement this overload of init to satisfy the UIViewController subclass requirement.
-     required init?(coder aDecoder: NSCoder) {
-         fatalError("init(coder:) has not been implemented")
-     }
-
-  This code first checks that the passed-in {+realm+} was opened with sync.
-  Since we know we only come to this screen from the WelcomeViewController after
-  successful login and with a sync-enabled {+realm+}, this is really just to
-  protect against future programmer errors.
-
-  We read the :term:`partition value` from the {+realm+}. We'll use that when
-  creating Tasks. Then we query for the :ref:`collection
-  <ios-client-collections>` of all tasks within that {+realm+}. We sort the
-  Tasks by their ``_id`` property so that they always appear in the same
-  relative order.
-
-  This collection is live: as we add, remove, and update tasks -- even from
-  another device -- this collection always contains the latest results of its
-  associated query. We'll get to reacting to these updates later. First, let's
-  continue setting up the TasksViewController.
 ---
-title: Configure the Task List UI
-ref: configure-the-task-list-ui
+title: Implement the Manage Team View
+ref: implement-the-manage-team-view
 content: |
-  Now set up the UI in the ``viewDidLoad`` method. Add a
-  "log out" button on the top left, a title, a table view to
-  display the tasks, and an "add" button on the top right
-  that create tasks:
+  A user can add and remove team members to their own Project using the Manage
+  Team view. Since the client side cannot handle access management, we need to
+  call out to our Realm functions we defined earlier.
 
-  .. code-block:: swift
+  Navigate to the ManageTeamViewController.swift file, which defines the view
+  that pops up when a user clicks the "Manage Team" action on the
+  TasksViewController. The ManageTeamViewController uses its
+  ``fetchTeamMembers()`` to get the list of team members. Add the call to the
+  ``getMyTeamMembers`` function that returns a list of team members and refresh
+  the list upon successful return:
+
+  .. literalinclude:: FIXME FIXME FIXME
+
+  The ManageTeamViewController wires up the add button and swipe to delete
+  functionality to the ``addTeamMember()`` and ``removeTeamMember()`` methods,
+  respectively.
+
+  The ``addTeamMember()`` method calls the ``addTeamMember`` Realm function and
+  can use the ``onTeamMemberOperationComplete()`` method as a completion
+  handler:
+
+  .. literalinclude:: FIXME FIXME FIXME
+
+  The ``removeTeamMember()`` method calls the ``removeTeamMember`` Realm function and
+  also uses the ``onTeamMemberOperationComplete()`` method as a completion
+  handler:
+
+  .. literalinclude:: FIXME FIXME FIXME
+
+  The ``onTeamMemberOperationComplete()`` method presents any errors to the user
+  and refreshes the member list.
+---
+title: Run and Test
+ref: run-and-test
+content: |
+  Once you have completed the code, you can run the app and check functionality.
+
+  Click the :guilabel:`Run` button in Xcode. If the app builds successfully,
+  here are some things you can try in the app:
+
+  - Create a user with email first@example.com
+  - Explore the app, then log out or launch a second instance of the app on another device or simulator
+  - Create another user with email second@example.com
+  - Navigate to second@example.com's project
+  - Add, update, and remove some tasks
+  - Click "Manage Team"
+  - Add first@example.com to your team
+  - Log out and log in as first@example.com
+  - See two projects in the projects list
+  - Navigate to second@example.com's project
+  - Collaborate by adding, updating, and removing some new tasks
+
+  .. admonition:: Reminder
    
-     override func viewDidLoad() {
-         // Configure the view.
-         super.viewDidLoad()
-
-         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Log Out", style: .plain, target: self, action: #selector(logOutButtonDidClick))
-
-         title = "My Project"
-         tableView.dataSource = self
-         tableView.delegate = self
-         view.addSubview(tableView)
-         tableView.frame = self.view.frame
-         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonDidClick))
-     }
----
-title: Implement the Log Out Functionality
-ref: implement-the-log-out-functionality
-content: |
-  When we created the "log out" button, we wired it to a
-  ``logOutButtonDidClick`` method that we hadn't defined
-  yet. Let's define it now in the TasksViewController:
-
-  .. code-block:: swift
-
-     @objc func logOutButtonDidClick() {
-         let alertController = UIAlertController(title: "Log Out", message: "", preferredStyle: .alert);
-         alertController.addAction(UIAlertAction(title: "Yes, Log Out", style: .destructive, handler: {
-             alert -> Void in
-             print("Logging out...");
-             app.currentUser()?.logOut { (error) in
-                 DispatchQueue.main.sync {
-                     print("Logged out!");
-                     self.navigationController?.setViewControllers([WelcomeViewController()], animated: true)
-                 }
-             }
-         }))
-         alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-         self.present(alertController, animated: true)
-     }
-
-  This calls the ``logOut`` method on the current user of the app we
-  created earlier. In the completion handler, we dispatch to the main thread so
-  that we can navigate back to the welcome screen.
----
-title: Implement the UITableViewDelegate and UITableViewDataSource Protocols
-ref: implement-delegate-protocols
-content: |
-  In order to act as the table view delegate and data source
-  for the table view, we need to subscribe to the
-  UITableViewDelegate and UITableViewDataSource protocols.
-  Add these to the TasksViewController class definition near
-  the top of the file. When done, the opening line of your
-  class definition should look like this:
-
-  .. code-block:: swift
-
-     class TasksViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-
-  Now we can implement the ``numberOfRowsInSection`` method for that protocol:
-
-  .. code-block:: swift
-
-     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-         return tasks.count
-     }
-
-  ...and the ``cellForRowAt`` method, which defines what
-  information a given cell contains:
-
-  .. code-block:: swift
-     
-     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-         // This defines how the Tasks in the list look.
-         // We want the task name on the left and some indication of its status on the right.
-         let task = tasks[indexPath.row]
-         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell") ?? UITableViewCell(style: .default, reuseIdentifier: "Cell")
-         cell.selectionStyle = .none
-         cell.textLabel?.text = task.name
-         switch (task.statusEnum) {
-         case .Open:
-             cell.accessoryView = nil
-             cell.accessoryType = UITableViewCell.AccessoryType.none
-         case .InProgress:
-             let label = UILabel.init(frame: CGRect(x: 0, y: 0, width: 100, height: 20))
-             label.text = "In Progress"
-             cell.accessoryView = label
-         case .Complete:
-             cell.accessoryView = nil
-             cell.accessoryType = UITableViewCell.AccessoryType.checkmark
-         }
-         return cell
-     }
-
-  In this case, we define each task cell to have its task
-  name on the left and a representation of its current
-  status on the right:
-
-  - No icon for the "Open" status.
-  - A checkmark for the "Completed" status.
-  - The text "In Progress" for the "In Progress" status.
----
-title: Allow the User to Add Tasks
-ref: add-tasks
-content: |
-  When we created the "add" button, we wired it to an
-  ``addButtonDidClick`` method that we hadn't defined yet.
-  Let's define it now in the TasksViewController:
-
-  .. code-block:: swift
-
-     @objc func addButtonDidClick() {
-         let alertController = UIAlertController(title: "Add Task", message: "", preferredStyle: .alert)
-
-         // When the user clicks the add button, present them with a dialog to enter the task name.
-         alertController.addAction(UIAlertAction(title: "Save", style: .default, handler: { alert -> Void in
-             let textField = alertController.textFields![0] as UITextField
-
-             // Create a new Task with the text that the user entered.
-             let task = Task(partition: self.partitionValue, name: textField.text ?? "New Task")
-
-             // Any writes to the Realm must occur in a write block.
-             try! self.realm.write {
-                 // Add the Task to the Realm. That's it!
-                 self.realm.add(task)
-             }
-         }))
-         alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-         alertController.addTextField(configurationHandler: { (textField: UITextField!) -> Void in
-             textField.placeholder = "New Task Name"
-         })
-
-         // Show the dialog.
-         self.present(alertController, animated: true)
-     }
-
-  When the user clicks the "add" button, we present a dialog
-  prompting the user for a new task name. After they enter
-  the name and press "Save", we construct a new task object
-  with that name.
-
-  We must set the partition value of the new task to the
-  partition value that we used to open the {+realm+}.
-
-  Then, we open a write transaction and add the new task to
-  the realm.
----
-title: Delete Tasks
-ref: delete-tasks
-content: |
-
-  Users can delete tasks with a swipe. To handle swipes,
-  implement the following method in TasksViewController:
-
-  .. code-block:: swift
-
-     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-         guard editingStyle == .delete else { return }
-         
-         // User can swipe to delete items.
-         let task = tasks[indexPath.row]
-         
-         // All modifications to a realm must happen in a write block.
-         try! realm.write {
-             // Delete the Task.
-             realm.delete(task)
-         }
-     }
-
----
-title: Modify Tasks
-ref: modify-tasks
-content: |
-
-  When the user selects a task in the list, we want to present them with a list
-  of actions. This is how they can set the status of a task. We can expand
-  functionality by adding more actions later. When finished, the task list will
-  look something like this:
-
-  .. figure:: /images/swift-tutorial-action-list.png
-     :alt: The finished action list
-     :width: 300px
-     :lightbox:
-
-  Implement the ``didSelectRowAt`` method as follows:
-
-  .. code-block:: swift
-
-     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-         // User selected a task in the table. We will present a list of actions that the user can perform on this task.
-         let task = tasks[indexPath.row] 
-
-         // Create the AlertController and add its actions.
-         let actionSheet: UIAlertController = UIAlertController(title: task.name, message: "Select an action", preferredStyle: .actionSheet)
-
-         actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel) { _ in
-                 print("Cancel")
-             })
-
-         // If the task is not in the Open state, we can set it to open. Otherwise, that action will not be available.
-         // We do this for the other two states -- InProgress and Complete.
-         if (task.statusEnum != .Open) {
-             actionSheet.addAction(UIAlertAction(title: "Open", style: .default) { _ in
-                     // Any modifications to managed objects must occur in a write block.
-                     // When we modify the Task's state, that change is automatically reflected in the realm.
-                     try! self.realm.write {
-                         task.statusEnum = .Open
-                     }
-                 })
-         }
-
-         if (task.statusEnum != .InProgress) {
-             actionSheet.addAction(UIAlertAction(title: "Start Progress", style: .default) { _ in
-                     try! self.realm.write {
-                         task.statusEnum = .InProgress
-                     }
-                 })
-         }
-
-         if (task.statusEnum != .Complete) {
-             actionSheet.addAction(UIAlertAction(title: "Complete", style: .default) { _ in
-                     try! self.realm.write {
-                         task.statusEnum = .Complete
-                     }
-                 })
-         }
-
-         // Show the actions list.
-         self.present(actionSheet, animated: true)
-     }
-
-  We dynamically assemble the list of actions depending on
-  the current status. Ultimately, each action just modifies
-  the task object directly.
-
-  The important thing to note is that every modification --
-  whether adding, deleting, or modifying -- is always in a
-  ``realm.write`` transaction block. {+service-short+} does
-  not allow any writes outside of a transaction.
-
----
-title: React to Changes
-ref: react-to-changes
-content: |
-
-  So far, we have implemented functionality to create, read,
-  update, and delete tasks in the app. To react to these
-  changes and automatically update the UI to reflect new
-  state, let's use {+service-short+}'s :ref:`notification
-  system <ios-client-notifications>`.
-
-  Add a new property to the TasksViewController class:
-
-  .. code-block:: swift
-
-     var notificationToken: NotificationToken?
-
-  In the ``init()`` method implemented earlier, add the
-  following code:
-
-  .. code-block:: swift
-
-     // Observe the tasks for changes.
-     notificationToken = tasks.observe { [weak self] (changes) in
-         guard let tableView = self?.tableView else { return }
-         switch changes {
-         case .initial:
-             // Results are now populated and can be accessed without blocking the UI
-             tableView.reloadData()
-         case .update(_, let deletions, let insertions, let modifications):
-             // Query results have changed, so apply them to the UITableView.
-             tableView.beginUpdates()
-             // It's important to be sure to always update a table in this order:
-             // deletions, insertions, then updates. Otherwise, you could be unintentionally
-             // updating at the wrong index!
-             tableView.deleteRows(at: deletions.map({ IndexPath(row: $0, section: 0) }),
-                 with: .automatic)
-             tableView.insertRows(at: insertions.map({ IndexPath(row: $0, section: 0) }),
-                 with: .automatic)
-             tableView.reloadRows(at: modifications.map({ IndexPath(row: $0, section: 0) }),
-                 with: .automatic)
-             tableView.endUpdates()
-         case .error(let error):
-             // An error occurred while opening the Realm file on the background worker thread
-             fatalError("\(error)")
-         }
-     }
-
-  This observes the tasks in the {+realm+} for changes.
-  Upon change, we update the table view accordingly.
-
-  Observation continues as long as the notification token is
-  valid. That's why we stored a strong reference to the
-  result of ``tasks.observe`` in a property. When finished
-  observing -- for example, because the user navigated to
-  another screen -- you should deallocate this notification
-  handler. The ``deinit`` method is a convenient place to
-  call the ``invalidate`` method on the token. Add the
-  following code to the TasksViewController class:
-
-  .. code-block:: swift
-
-     deinit {
-         // Always invalidate any notification tokens when you are done with them.
-         notificationToken?.invalidate()
-     }
-
----
-title: Test Your App
-ref: test-your-app
-content: |
-  Congratulations, you have completed the first phase of the
-  tutorial! You should now be able to:
-
-  - Compile and run your app.
-  - Register a new user with email/password authentication.
-  - Sign in as an existing user.
-  - View, create, update, and delete tasks.
-  - Sign out.
-
-  Grab a second device, run a second simulator, or edit data
-  in {+ui+} and see your app dynamically react to changes.
-
-  How did it go? Please leave feedback using the feedback widget on the bottom
-  right of the page.
+     If something isn't working for you, you can check out the ``final`` branch of 
+     this repo to compare your code with our finished solution.
