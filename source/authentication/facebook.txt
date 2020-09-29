@@ -83,24 +83,16 @@ options:
    * - Field
      - Description
 
-   * - :guilabel:`Client ID`
-
-       .. tab-content:: tabs-realm-admin-interfaces
-          :tab-id: cli
-
-          | *config.clientId*
+   * - | :guilabel:`Client ID`
+       | *config.clientId*
 
      - Required. The :guilabel:`App ID` of the Facebook app.
 
        See :ref:`auth-facebook-app-setup` for information about setting
        up your Facebook app and finding the :guilabel:`App ID`.
 
-   * - :guilabel:`Client Secret`
-
-       .. tab-content:: tabs-realm-admin-interfaces
-          :tab-id: cli
-
-          | *secret_config.clientSecret*
+   * - | :guilabel:`Client Secret`
+       | *secret_config.clientSecret*
 
 
      - Required. The name of a :ref:`Secret <app-secret>` that stores
@@ -109,12 +101,8 @@ options:
        See :ref:`auth-facebook-app-setup` for information about setting
        up your Facebook app and finding the :guilabel:`App Secret`.
 
-   * - :guilabel:`Metadata Fields`
-
-       .. tab-content:: tabs-realm-admin-interfaces
-          :tab-id: cli
-
-          | *metadata_fields*
+   * - | :guilabel:`Metadata Fields`
+       | *metadata_fields*
 
      - Optional. A list of fields describing the authenticated user that
        your application will request from the :facebook:`Facebook Graph API
@@ -126,26 +114,18 @@ options:
        required field. If a metadata field is required and
        exists for a particular user, it will be included in
        their user object.
+       
+       To require a metadata field from an import/export
+       configuration file, add an entry for the field to
+       the ``metadata_fields`` array. Each entry should
+       be a document of the following form:
+       
+       .. code-block:: javascript
+          
+          { name: "<metadata field name>", required: "<boolean>" }
 
-
-       .. tab-content:: tabs-realm-admin-interfaces
-          :tab-id: cli
-
-          To require a metadata field from an import/export
-          configuration file, add an entry for the field to
-          the ``metadata_fields`` array. Each entry should
-          be a document of the following form:
-
-          .. code-block:: javascript
-
-             { name: "<metadata field name>", required: "<boolean>" }
-
-   * - :guilabel:`Redirect URIs`
-
-       .. tab-content:: tabs-realm-admin-interfaces
-          :tab-id: cli
-
-          | *redirect_uris*
+   * - | :guilabel:`Redirect URIs`
+       | *redirect_uris*
 
      - Required for web applications.
        A list of allowed redirect :abbr:`URIs (Uniform Resource
@@ -160,12 +140,8 @@ options:
        list, including the protocol and any trailing
        slashes.
 
-   * - :guilabel:`Domain Restrictions`
-
-       .. tab-content:: tabs-realm-admin-interfaces
-          :tab-id: cli
-
-          | *domain_restrictions*
+   * - | :guilabel:`Domain Restrictions`
+       | *domain_restrictions*
 
      - Optional. A list of approved :wikipedia:`domains <Domain_name>`
        for user accounts.

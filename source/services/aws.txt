@@ -26,26 +26,29 @@ Configuration Parameters
 You will need to provide values for the following parameters when you
 :doc:`create an AWS service interface </services/configure/services>`:
 
-.. tab-bar:: tabs-realm-admin-interfaces
-   :tab-ids: ui, cli
 
-.. tab-content:: tabs-realm-admin-interfaces
-   :tab-id: cli
-
-   .. code-block:: json
-      :caption: ``<Service Name>/config.json``
-
-      {
-        "name": "<Service Name>",
-        "type": "aws",
-        "config": {
-          "accessKeyId": <Access Key ID>,
-          "region": "us-east-1"
-        },
-        "secret_config": {
-          "secretAccessKey": "<Secret Name>"
-        }
-      }
+.. tabs-realm-admin-interfaces::
+   
+   .. tab::
+      :tabid: ui
+      
+   .. tab::
+      :tabid: cli
+      
+      .. code-block:: json
+         :caption: ``<Service Name>/config.json``
+      
+         {
+           "name": "<Service Name>",
+           "type": "aws",
+           "config": {
+             "accessKeyId": <Access Key ID>,
+             "region": "us-east-1"
+           },
+           "secret_config": {
+             "secretAccessKey": "<Secret Name>"
+           }
+         }
 
 .. cssclass:: auth-table
 .. list-table::
@@ -55,32 +58,20 @@ You will need to provide values for the following parameters when you
    * - Parameter
      - Description
 
-   * - :guilabel:`Service Name`
-
-       .. tab-content:: tabs-realm-admin-interfaces
-          :tab-id: cli
-
-          | *config.name*
+   * - | :guilabel:`Service Name`
+       | *config.name*
 
      - A unique name for the service.
 
-   * - :guilabel:`Access Key ID`
-
-       .. tab-content:: tabs-realm-admin-interfaces
-          :tab-id: cli
-
-          | *config.accessKeyId*
+   * - | :guilabel:`Access Key ID`
+       | *config.accessKeyId*
 
      - The access key ID for an AWS IAM user. The user should have
        programmatic access and appropriate permissions for all AWS
        services that you plan to interact with.
 
-   * - :guilabel:`Secret Access Key`
-
-       .. tab-content:: tabs-realm-admin-interfaces
-          :tab-id: cli
-
-          | *secret_config.secretAccessKey*
+   * - | :guilabel:`Secret Access Key`
+       | *secret_config.secretAccessKey*
 
      - The name of a :ref:`Secret <app-secret>` that stores a secret
        access key for the IAM user whose ID is specified in
