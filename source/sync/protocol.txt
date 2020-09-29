@@ -32,7 +32,7 @@ by which a client, like a {+service-short+} SDK, can connect to a
 Key Concepts
 ------------
 
-.. _changeset:
+.. _changesets:
 
 Changeset
 ~~~~~~~~~
@@ -40,14 +40,16 @@ Changeset
 A **changeset** is a list of instructions that describe granular modifications
 made to a known object state or version by one or more write operations.
 Changesets are the base unit of the sync protocol. Synced {+realm+} clients send
-changesets to the {+service-short+} server whenever they perfrom a write
-operation and the server sends each client changesets for operations executed by
-other clients. The {+service-short+} sync server accepts changesets from any
-connected sync client (including changes in a synced MongoDB cluster) at any
-time and uses an operational transformation algorithm to serialize changes and
-resolve conflicting changesets.
+changesets to the {+service-short+} server whenever they perform a write
+operation. The server sends each connected client the changesets for write
+operations executed by other clients.
 
-.. _operational-transformation:
+The {+service-short+} sync server accepts changesets from any connected sync
+client (including changes in a synced MongoDB cluster) at any time and uses an
+operational transformation algorithm to serialize changes into a linear order
+and resolve conflicting changesets before sending them to connected clients.
+
+.. _operational-transformations:
 
 Operational Transformation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -68,7 +70,7 @@ changed object.
 
 .. tip::
    
-   An operational transformation on {+service-short+} changesets is analagous to
+   An operational transformation on {+service-short+} changesets is analogous to
    a :git-scm:`rebase operation <docs/git-rebase>` in Git.
 
 .. _client-file-identifier:
@@ -79,7 +81,7 @@ Client File Identifier
 A **client file identifier** is a value that uniquely identifies a synced client
 {+service-short+} file and its corresponding server file. The server generates a
 client file identifier whenever an SDK requests one during its initial sync of a
-{+service-short+} file. Each identifier is a  64-bit, non-zero, positive signed
+{+service-short+} file. Each identifier is a 64-bit, non-zero, positive signed
 integer strictly less than 2^63.
 
 .. note::
@@ -102,7 +104,7 @@ The SDK negotiates a WebSocket connection over HTTP and then establishes a sync
 session by sending :sync-client-message:`BIND` and :sync-client-message:`IDENT`
 requests to the server over the WebSocket connections. Once the session is
 established, the SDK and server send synced changesets for a given
-{+service-short+} file to eachother via :sync-client-message:`UPLOAD` and
+{+service-short+} file to each other via :sync-client-message:`UPLOAD` and
 :sync-client-message:`DOWNLOAD` messages. To end the session, the SDK sends an
 :sync-client-message:`UNBIND` request.
 
@@ -115,7 +117,7 @@ established, the SDK and server send synced changesets for a given
        |                                  |
        |  --------- 2. BIND ----------->  |
        |                                  |
-       |  <-------- 3. IDENT* ----------  |
+       |  <-- 3. IDENT (first time) ----  |
        |                                  |
        |  --------- 4. IDENT ---------->  |
        |                                  |
@@ -156,17 +158,24 @@ The following table describes the request types that a sync client can send to a
    
    * - .. sync-client-message:: IDENT
      - Provides the :ref:`client file identifier <client-file-identifier>` that
-       indicates which {+service-short+} file will be synced and specifies the
-       client {+realm+}'s current version.
+       indicates the following:
+       
+       - the {+service-short+} file to sync
+       - the client {+realm+}'s current version
+       - the client {+realm+}'s most recently synced server version
+       
+       This request is related to but distinct from the
+       :sync-server-message:`IDENT` message sent by the server when a client
+       requests a client file identifier.
    
    * - .. sync-client-message:: UPLOAD
-     - Specifies one or more :ref:`changesets <changeset>` for operations that
-       occured on the client. The changesets are listed by client version in
+     - Specifies one or more :ref:`changesets <changesets>` for operations that
+       occurred on the client. The changesets are listed by client version in
        increasing order.
    
    * - .. sync-client-message:: TRANSACT
-     - Specifies a :ref:`changeset <changeset>` that describes a serialized
-       transaction that occured on the client. The client may not upload any
+     - Specifies a :ref:`changeset <changesets>` that describes a serialized
+       transaction that occurred on the client. The client may not upload any
        other changesets until the server confirms or rejects the transaction.
    
    * - .. sync-client-message:: UNBIND
@@ -177,7 +186,7 @@ The following table describes the request types that a sync client can send to a
    
    * - .. sync-client-message:: MARK
      - Requests that the server notify the client when it has synced the latest
-       :ref:`changeset <changeset>` in the server history (at the time of the
+       :ref:`changeset <changesets>` in the server history (at the time of the
        request).
    
    * - .. sync-client-message:: REFRESH
@@ -192,7 +201,7 @@ The following table describes the request types that a sync client can send to a
    * - .. sync-client-message:: CLIENT_VERSION_REQUEST
      - Requests that the server send the client version of the latest changeset
        that was sent by the client and processed by the server. This is most
-       commonly used to execute a client reset.
+       commonly used when an SDK executes a :term:`client reset`.
    
    * - .. sync-client-message:: PING
      - Indicates that the client is still connected and that the server should
@@ -225,14 +234,14 @@ server can send to a sync client:
        requested the identifier.
    
    * - .. sync-server-message:: DOWNLOAD
-     - Specifies one or more :ref:`changesets <changeset>` (up to 16MB total)
-       for operations that occured on other clients. The changesets are listed
+     - Specifies one or more :ref:`changesets <changesets>` (up to 16MB total)
+       for operations that occurred on other clients. The changesets are listed
        by server version in increasing order.
        
        The changesets in a DOWNLOAD may not be the exact changesets uploaded by
        other clients. Instead, they may be equivalent changesets output by
        {+service-short+}'s :ref:`operational transformation
-       <operational-transformation>` algorithm.
+       <operational-transformations>` algorithm.
    
    * - .. sync-server-message:: UNBOUND
      - Specifies that the server ended a sync session in response to an
@@ -244,7 +253,7 @@ server can send to a sync client:
    
    * - .. sync-server-message:: MARK
      - Indicates that the server has sent the client the latest
-       :ref:`changeset <changeset>` that was in the server history when the
+       :ref:`changeset <changesets>` that was in the server history when the
        server received a :sync-client-message:`MARK` from the client.
    
    * - .. sync-server-message:: STATE
@@ -262,4 +271,7 @@ server can send to a sync client:
        caused by the connected client.
    
    * - .. sync-server-message:: PONG
-     - Acknowledges a :sync-client-message:`PING`.
+     - Acknowledges a :sync-client-message:`PING`. If a client does not receive
+       a PONG acknowledgement, it indicates that the client cannot currently
+       communicate with the server over the network and that the server may not
+       have received the corresponding :sync-client-message:`PING`.
