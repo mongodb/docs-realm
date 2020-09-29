@@ -21,6 +21,8 @@ export function TaskItem({ task }) {
   // move the task into that status. Rather than creating a generic method to
   // avoid repetition, we split each status to separate each case in the code
   // below for demonstration purposes.
+  // :code-block-start: define-task-status-actions
+  // :hide-start:
   if (task.status !== "" && task.status !== Task.STATUS_OPEN) {
     actions.push({
       title: "Mark Open",
@@ -45,6 +47,10 @@ export function TaskItem({ task }) {
       },
     });
   }
+  // :replace-with:
+  //// TODO
+  // :hide-end:
+  // :code-block-end:
 
   return (
     <>

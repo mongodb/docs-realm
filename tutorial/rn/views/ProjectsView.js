@@ -3,7 +3,7 @@ import { View } from "react-native";
 import { useAuth } from "../providers/AuthProvider";
 import { ListItem } from "react-native-elements";
 
-export function ProjectsView({ navigation, route }) {
+export function ProjectsView({ navigation }) {
   const { projectData } = useAuth();
 
   // the onClickProject navigates to the Task List with the project name
