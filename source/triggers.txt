@@ -68,9 +68,6 @@ Trigger.
 Examples
 --------
 
-.. tab-bar:: tabs-realm-admin-interfaces
-   :tab-ids: ui, cli
-
 Database Trigger
 ~~~~~~~~~~~~~~~~
 
@@ -102,37 +99,37 @@ changes to the ``shippingLocation`` field and, if it was updated, sends
 a text message to the customer with the new location of the order.
 
 .. tabs-realm-admin-interfaces::
-
-   hidden: true
-   tabs:
-     - id: ui
-       content: |
-         .. cssclass:: bordered-figure
-         .. figure:: /images/db-trigger-example-config-1.png
+   
+   .. tab::
+      :tabid: ui
+      
+      .. cssclass:: bordered-figure
+      .. figure:: /images/db-trigger-example-config-1.png
+      
+      .. cssclass:: bordered-figure
+      .. figure:: /images/db-trigger-example-config-2.png
+      
+   .. tab::
+      :tabid: cli
+      
+      .. code-block:: json
+         :caption: Trigger Configuration
          
-         .. cssclass:: bordered-figure
-         .. figure:: /images/db-trigger-example-config-2.png
-         
-     - id: cli
-       content: |
-         .. code-block:: json
-            :caption: Trigger Configuration
-
-            {
-              "type": "DATABASE",
-              "name": "shippingLocationUpdater",
-              "function_name": "textShippingUpdate",
-              "config": {
-                "service_name": "mongodb-atlas",
-                "database": "store",
-                "collection": "orders",
-                "operation_types": ["UPDATE"],
-                "unordered": false,
-                "full_document": true,
-                "match": {}
-              },
-              "disabled": false
-            }
+         {
+           "type": "DATABASE",
+           "name": "shippingLocationUpdater",
+           "function_name": "textShippingUpdate",
+           "config": {
+             "service_name": "mongodb-atlas",
+             "database": "store",
+             "collection": "orders",
+             "operation_types": ["UPDATE"],
+             "unordered": false,
+             "full_document": true,
+             "match": {}
+           },
+           "disabled": false
+         }
 
 .. code-block:: javascript
    :caption: ``textShippingUpdate``
@@ -182,29 +179,29 @@ describing the user and their activity and inserts it into the
 ``store.customers`` collection.
 
 .. tabs-realm-admin-interfaces::
-
-   hidden: true
-   tabs:
-     - id: ui
-       content: |
-         .. cssclass:: bordered-figure
-         .. figure:: /images/auth-trigger-example-config.png
-
-     - id: cli
-       content: |
-         .. code-block:: json
-            :caption: Trigger Configuration
-
-            {
-              "type": "AUTHENTICATION",
-              "name": "newUserHandler",
-              "function_name": "createNewUserDocument",
-              "config": {
-                "providers": ["local-userpass"],
-                "operation_type": "CREATE"
-              },
-              "disabled": false
-            }
+   
+   .. tab::
+      :tabid: ui
+      
+      .. cssclass:: bordered-figure
+      .. figure:: /images/auth-trigger-example-config.png
+      
+   .. tab::
+      :tabid: cli
+      
+      .. code-block:: json
+         :caption: Trigger Configuration
+         
+         {
+           "type": "AUTHENTICATION",
+           "name": "newUserHandler",
+           "function_name": "createNewUserDocument",
+           "config": {
+             "providers": ["local-userpass"],
+             "operation_type": "CREATE"
+           },
+           "disabled": false
+         }
 
 .. code-block:: javascript
    :caption: ``createNewUserDocument``
@@ -249,28 +246,28 @@ query on the ``store.orders`` collection to generate the report. The
 ``store.reports`` collection.
 
 .. tabs-realm-admin-interfaces::
-
-   hidden: true
-   tabs:
-     - id: ui
-       content: |
-         .. cssclass:: bordered-figure
-         .. figure:: /images/scheduled-trigger-example-config.png
-
-     - id: cli
-       content: |
-         .. code-block:: json
-            :caption: Trigger Configuration
-
-            {
-              "type": "SCHEDULED",
-              "name": "reportDailyOrders",
-              "function_name": "generateDailyReport",
-              "config": {
-                "schedule": "0 7 * * *"
-              },
-              "disabled": false
-            }
+   
+   .. tab::
+      :tabid: ui
+      
+      .. cssclass:: bordered-figure
+      .. figure:: /images/scheduled-trigger-example-config.png
+      
+   .. tab::
+      :tabid: cli
+      
+      .. code-block:: json
+         :caption: Trigger Configuration
+         
+         {
+           "type": "SCHEDULED",
+           "name": "reportDailyOrders",
+           "function_name": "generateDailyReport",
+           "config": {
+             "schedule": "0 7 * * *"
+           },
+           "disabled": false
+         }
 
 .. code-block:: javascript
    :caption: ``generateDailyReport``

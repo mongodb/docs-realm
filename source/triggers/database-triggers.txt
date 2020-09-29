@@ -173,83 +173,51 @@ Database Trigger Configuration
    * - Field
      - Description
 
-   * - :guilabel:`Trigger Type`
-
-       .. tab-content:: tabs-realm-admin-interfaces
-          :tab-id: cli
-
-          | *type*
+   * - | :guilabel:`Trigger Type`
+       | *type*
 
      - Required. The type of the Trigger. Set this value to ``DATABASE`` for database Triggers
 
-   * - :guilabel:`Trigger Name`
-
-       .. tab-content:: tabs-realm-admin-interfaces
-          :tab-id: cli
-
-          | *name*
+   * - | :guilabel:`Trigger Name`
+       | *name*
 
      - Required. The name of the Trigger.
 
-   * - :guilabel:`Linked Function`
-
-       .. tab-content:: tabs-realm-admin-interfaces
-          :tab-id: cli
-
-          | *function_name*
+   * - | :guilabel:`Linked Function`
+       | *function_name*
 
      - Required. The name of the {+service-short+} Function that the Trigger
        executes whenever it fires. The Trigger passes the
        :ref:`database event object <database-events>` that
        caused it to fire as the only argument to this Function.
 
-   * - :guilabel:`Cluster`
-
-       .. tab-content:: tabs-realm-admin-interfaces
-          :tab-id: cli
-
-          | *config.service_name*
+   * - | :guilabel:`Cluster`
+       | *config.service_name*
 
      - Required. The name of the MongoDB Service that the Trigger is
        associated with.
 
-   * - :guilabel:`Database Name`
-
-       .. tab-content:: tabs-realm-admin-interfaces
-          :tab-id: cli
-
-          | *config.database*
+   * - | :guilabel:`Database Name`
+       | *config.database*
 
      - Required. The MongoDB database that contains the watched
        collection.
 
-   * - :guilabel:`Collection Name`
-
-       .. tab-content:: tabs-realm-admin-interfaces
-          :tab-id: cli
-
-          | *config.collection*
+   * - | :guilabel:`Collection Name`
+       | *config.collection*
 
      - Required. The name of the collection that the Trigger watches for
        change events.
 
-   * - :guilabel:`Operation Types`
-
-       .. tab-content:: tabs-realm-admin-interfaces
-          :tab-id: cli
-
-          | *config.operation_types*
+   * - | :guilabel:`Operation Types`
+       | *config.operation_types*
 
      - Required. A list of one or more :ref:`database operation
        types <database-event-operation-types>` that cause the Trigger to
        fire. Format each operation type as a fully capitalized string, e.g., ``"INSERT"``.
 
-   * - :guilabel:`Full Document`
-
-       .. tab-content:: tabs-realm-admin-interfaces
-          :tab-id: cli
-
-          | *config.full_document*
+   * - | :guilabel:`Full Document`
+       | *config.full_document*
 
      - Required. If true, indicates that ``UPDATE`` change events should
        include the most current :manual:`majority-committed
@@ -272,42 +240,39 @@ Database Trigger Configuration
           will generate ``REPLACE`` change events rather than ``UPDATE``
           events.
 
-   * - :guilabel:`Event Ordering`
+   * - | :guilabel:`Event Ordering`
+       | *config.unordered*
 
-       .. tab-content:: tabs-realm-admin-interfaces
-          :tab-id: cli
+     - 
+       .. tabs-realm-admin-interfaces::
+          :hidden: true
 
-          | *config.unordered*
-
-     - .. tab-content:: tabs-realm-admin-interfaces
-          :tab-id: cli
-
-       .. tab-content:: tabs-realm-admin-interfaces
-          :tab-id: ui
-
-          Default: Enabled.
-
-          Indicates whether event ordering is enabled for this Trigger.
-
-       .. tab-content:: tabs-realm-admin-interfaces
-          :tab-id: cli
-
-          Optional. Default: ``false``.
-
-          If ``true``, indicates that event ordering is disabled for
-          this trigger.
-
+          .. tab::
+             :tabid: ui
+             
+             Default: Enabled.
+             
+             Indicates whether event ordering is enabled for this Trigger.
+             
+          .. tab::
+             :tabid: cli
+             
+             Optional. Default: ``false``.
+             
+             If ``true``, indicates that event ordering is disabled for
+             this trigger.
+       
        If event ordering is enabled, multiple executions of this Trigger
        will occur sequentially based on the timestamps of the change
        events. If event ordering is disabled, multiple executions of
        this Trigger will occur independently.
-
+       
        .. tip::
-
+          
           Consider disabling event ordering if your trigger fires on a
           collection that receives short bursts of events (e.g.
           inserting data as part of a daily batch job).
-
+          
           Ordered Triggers wait to execute a Function for a particular
           event until the Functions of previous events have finished
           executing. As a consequence, ordered Triggers are effectively
@@ -321,12 +286,8 @@ Database Trigger Configuration
           but does not guarantee that multiple executions of a Trigger
           Function occur in event order.
 
-   * - :guilabel:`Match Expression`
-
-       .. tab-content:: tabs-realm-admin-interfaces
-          :tab-id: cli
-
-          | *config.match*
+   * - | :guilabel:`Match Expression`
+       | *config.match*
 
      - Optional.
        A :manual:`$match </reference/operator/aggregation/match>`
@@ -362,12 +323,8 @@ Database Trigger Configuration
                }
              }
 
-   * - :guilabel:`Project Expression`
-
-       .. tab-content:: tabs-realm-admin-interfaces
-          :tab-id: cli
-
-          | *config.project*
+   * - | :guilabel:`Project Expression`
+       | *config.project*
 
      - Optional.
        A :manual:`$project </reference/operator/aggregation/project>` expression

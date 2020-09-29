@@ -120,36 +120,20 @@ Scheduled Trigger Configuration
    * - Field
      - Description
 
-   * - :guilabel:`Trigger Type`
-
-       .. tab-content:: tabs-realm-admin-interfaces
-          :tab-id: cli
-
-          | ``type: <string>``
+   * - | :guilabel:`Trigger Type`
+       | ``type: <string>``
 
      - Required. The type of the Trigger.
+       
+       For scheduled Triggers, this value should be set to ``SCHEDULED``.
 
-       .. tab-content:: tabs-realm-admin-interfaces
-          :tab-id: cli
-
-          For scheduled Triggers, this value should be set to
-          ``SCHEDULED``.
-
-   * - :guilabel:`Trigger Name`
-
-       .. tab-content:: tabs-realm-admin-interfaces
-          :tab-id: cli
-
-          | ``name: <string>``
+   * - | :guilabel:`Trigger Name`
+       | ``name: <string>``
 
      - Required. The name of the Trigger.
 
-   * - :guilabel:`Linked Function`
-
-       .. tab-content:: tabs-realm-admin-interfaces
-          :tab-id: cli
-
-          | ``function_name: <string>``
+   * - | :guilabel:`Linked Function`
+       | ``function_name: <string>``
 
      - Required. The name of the {+service-short+} Function that the Trigger
        executes whenever it fires.
@@ -159,12 +143,8 @@ Scheduled Trigger Configuration
           A scheduled Trigger does not pass any arguments to its linked
           Function.
 
-   * - :guilabel:`Schedule`
-
-       .. tab-content:: tabs-realm-admin-interfaces
-          :tab-id: cli
-
-          | ``config.schedule: <string>``
+   * - | :guilabel:`Schedule`
+       | ``config.schedule: <string>``
 
      - Required. The :doc:`CRON expression </triggers/cron-expressions>`
        that {+backend+} uses to determine when to fire the Trigger.
