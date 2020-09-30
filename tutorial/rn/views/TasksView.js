@@ -18,7 +18,9 @@ export function TasksView({ navigation, route }) {
   const { tasks, createTask } = useTasks();
   useEffect(() => {
     navigation.setOptions({
-      headerRight: () => <AddTask createTask={createTask} />,
+      headerRight: function Header() {
+        return <AddTask createTask={createTask} />;
+      },
       title: `${name}'s Tasks`,
     });
   }, []);

@@ -14,17 +14,9 @@ import { Logout } from "./components/Logout";
 
 const Stack = createStackNavigator();
 
-const App: () => React$Node = () => {
+const App = () => {
   return (
     <AuthProvider>
-      <AppBody />
-    </AuthProvider>
-  );
-};
-
-const AppBody = () => {
-  return (
-    <>
       <NavigationContainer>
         <Stack.Navigator>
           <Stack.Screen
@@ -38,7 +30,9 @@ const AppBody = () => {
             title="ProjectsView"
             headerBackTitle="log out"
             options={{
-              headerLeft: () => <Logout />,
+              headerLeft: function Header() {
+                return <Logout />;
+              },
             }}
           />
           <Stack.Screen name="Task List">
@@ -54,7 +48,7 @@ const AppBody = () => {
           </Stack.Screen>
         </Stack.Navigator>
       </NavigationContainer>
-    </>
+    </AuthProvider>
   );
 };
 

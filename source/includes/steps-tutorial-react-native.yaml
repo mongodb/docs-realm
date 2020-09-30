@@ -1,1068 +1,293 @@
 ---
-title: Create a New React Native Project
-ref: create-a-new-rn-project
+title: Clone the Client App Repository
+ref: clone-the-client-app-repository
 content: |
-  You can :github:`use npx </react-native-community/cli#using-npx-recommended>`
-  to create your React Native app. Open your terminal and run the following
-  commands:
+  We've already put together a task tracker React Native application that has
+  most of the code you'll need. You can clone the client application repository
+  directly from GitHub:
 
-  .. code-block:: sh
+  .. code-block:: shell
 
-     npx react-native init tasktracker
-     cd tasktracker
+     git clone git@github.com:mongodb-university/realm-tutorial-react-native.git
+
+  .. important::
+   
+     The realm-tutorial-react-native repository contains two branches: ``final``
+     and ``start``. The ``final`` branch is a finished version of the app as it
+     should look *after* you complete this tutorial. To walk through this
+     tutorial, please check out the ``start`` branch:
+
+     .. code-block:: shell
+    
+        git checkout start
 
 ---
-title: Install Dependencies
-ref: install-dependencies
+title: Install Dependencies and Launch the App
+ref: install-dependencies-and-launch-the-app
 content: |
+  In your terminal, run the following commands to navigate to the task tracker
+  client application and install its dependencies:
 
-  Within the directory that ``react-native init`` generated for you, run the
-  following command to install the {+realm+} module:
+  .. code-block:: shell
+     
+     cd realm-tutorial-react-native
+     npm install
 
-  .. code-block:: sh
+  If you wish to run the app on iOS, you need to install additional dependencies
+  with `CocoaPods <https://guides.cocoapods.org/using/getting-started.html>`__:
 
-     npm install realm@beta
-
-  In this tutorial, we'll also use the `React Native Elements
-  <https://react-native-elements.github.io/react-native-elements/>`__ library
-  for our UI. Install with the following command:
-
-  .. code-block:: sh
-
-     npm i react-native-elements react-native-vector-icons
-
-  If you are planning to build for iOS, edit the ``ios/Podfile`` file and change
-  the first line to set the minimum target iOS version:
-
-  .. code-block:: text
-
-     platform :ios, '12.0'
-
-  In the ``ios/`` directory, complete the dependency installation with
-  CocoaPods:
-
-  .. code-block:: sh
-
+  .. code-block:: shell
+     
      cd ios
-     pod install
+     pod install --repo-update
      cd ..
----
-title: Run the App
-ref: run-the-app
-content: |
 
-  Now that you have installed the dependencies, it's a good idea to run the app
-  to make sure everything is working. Run the following command to build and
-  launch the app:
+  Once the dependency installations are complete, you can run the app using one
+  of the following commands, depending on whether you want to run on Android or
+  iOS:
 
-  .. code-block:: sh
+  .. code-block:: shell
 
      npx react-native run-ios
-
-  .. note::  
-    
-     We're using iOS here, but you can use ``run-android`` to build for Android
-     and run on an Android simulator, if you'd prefer.
-
-  After a few minutes of building, a simulator window should appear showing the
-  default React Native app screen. Now we're ready to start adding React components.
-
-  .. figure:: /images/tutorial-react-native-default-first-run.png
-     :alt: The default React Native app running in a simulator.
-     :width: 300px
-     :lightbox:
+     # OR
+     npx react-native run-android
 ---
-title: Initialize the Realm App Client
-ref: initialize-the-realm-app
+title: Explore the App Structure
+ref: explore-the-app-structure
 content: |
+  Open the realm-tutorial-react-native directory in the text editor of your
+  choice and explore the code in project. Be sure to check out the following
+  files:
 
-  In client code, you interact with your {+app+} through an app object. We need
-  to access this object from anywhere in the project code, so let's make it
-  globally accessible.
-
-  Create a file in your project directory called ``getRealmApp.js`` and paste
-  the following code. Be sure to change ``<enter your Realm app ID here>`` to
-  your {+app+} ID, which you can find in the {+ui+}.
-
-  .. include:: /includes/note-find-app-id.rst
-
-  .. code-block:: js
-     :emphasize-lines: 8
-
-     import Realm from 'realm';
-
-     let app;
-
-     // Returns the shared instance of the Realm app.
-     export function getRealmApp() {
-       if (app === undefined) {
-         const appId = '<enter your Realm app ID here>'; // Set Realm app ID here.
-         const appConfig = {
-           id: appId,
-           timeout: 10000,
-           app: {
-             name: 'default',
-             version: '0',
-           },
-         };
-         app = new Realm.App(appConfig);
-       }
-       return app;
-     }
-
-  First, we import the {+service-short+} module that we installed earlier. Then,
-  we expose a function that initializes the app the first time it is called,
-  making it easy to access the app instance from anywhere in the code.
----
-title: Define the AuthProvider
-ref: define-the-auth-provider
-content: |
-
-  In this tutorial, we'll use React `Context
-  <https://reactjs.org/docs/context.html>`__ and `hooks
-  <https://reactjs.org/docs/hooks-intro.html>`__ to pass {+realm+}
-  data and authentication to the view components of the app.
-
-  .. note::
-
-     If you aren't familiar with these patterns, don't worry. We'll try to
-     explain as we walk through the example. For more information, please take a
-     moment to refer to the official React documentation on `Context
-     <https://reactjs.org/docs/context.html>`__ and `hooks
-     <https://reactjs.org/docs/hooks-intro.html>`__.
-
-  Create a new file in your project directory called ``AuthProvider.js``. Here
-  we define a React component that will act as the Provider of a shared context
-  containing all of the actions and data that has to do with authentication. Any
-  child components under the Provider will have access to that context and will
-  re-render whenever that Provider's state changes.
-
-  In ``AuthProvider.js``, begin by importing the relevant modules and the
-  ``getRealmApp`` function we just defined:
-
-  .. code-block:: js
-
-     import React, {useContext, useState} from 'react';
-     import Realm from 'realm';
-     import {getRealmApp} from './getRealmApp';
-
-  Next, declare some of the module-scoped variables we'll need to define our provider:
-
-  .. code-block:: js
-
-     // Access the Realm App.
-     const app = getRealmApp();
-
-     // Create a new Context object that will be provided to descendants of the AuthProvider.
-     const AuthContext = React.createContext(null);
-
-  The next code block defines the AuthProvider itself. Define the AuthProvider
-  as a component that accepts child components in its props. Use the `state hook
-  <https://reactjs.org/docs/hooks-state.html>`__ to hold the user object. When
-  this user state variable changes due to login or logout, the child components
-  re-render, as if "notified" of the change.
-
-  Define the actions around authentication that child components can use to
-  affect the authentication state. In this case, we define a ``logIn()``
-  function that uses the email/password authentication provider to log in and a
-  ``logOut()`` function to log out. Both functions update the user state
-  variable, which triggers a re-render of the child components. We also define
-  a ``registerUser()`` method which creates a user, but does not log that user in
-  and thus does not trigger a rerender.
-
-  Finally, render the Provider of the ``AuthContext`` defined above. By setting
-  its ``value`` prop to an object containing all of our state and actions, we
-  make the ``user`` object and the ``logIn()``, ``logOut()`` and ``registerUser()`` 
-  functions available to child components. 
-
-  .. code-block:: js
-
-     // The AuthProvider is responsible for user management and provides the
-     // AuthContext value to its descendants. Components under an AuthProvider can
-     // use the useAuth() hook to access the auth value.
-     const AuthProvider = ({children}) => {
-       const [user, setUser] = useState(null);
-
-       // The log in function takes an email and password and uses the Email/Password
-       // authentication provider to log in.
-       const logIn = async (email, password) => {
-         console.log(`Logging in as ${email}...`);
-         const creds = Realm.Credentials.emailPassword(email, password);
-         const newUser = await app.logIn(creds);
-         setUser(newUser);
-         console.log(`Logged in as ${newUser.id}`);
-       };
-
-       // Log out the current user.
-       const logOut = () => {
-         if (user == null) {
-           console.warn("Not logged in -- can't log out!");
-           return;
-         }
-         console.log('Logging out...');
-         user.logOut();
-         setUser(null);
-       };
-
-       // The register function takes an email and password and uses the emailPassword
-       // authentication provider to register the user.
-       const registerUser = async (email, password) => {
-         console.log(`Registering as ${email}...`);
-         await app.emailPasswordAuth.registerUser(email, password);
-       };
-
-       return (
-         <AuthContext.Provider
-           value={{
-             logIn,
-             logOut,
-             registerUser,
-             user,
-           }}>
-           {children}
-         </AuthContext.Provider>
-       );
-     };
-
-  One way to expose the above context value -- that is, our user and
-  authentication actions -- to the descendant components is with a hook. Any
-  descendant component can use this hook to access the enclosing AuthProvider's
-  value.
-
-  .. note::
+  .. cssclass:: config-table
+  .. list-table::
+     :header-rows: 1
+     :widths: 15 85
      
-     Because we provided ``null`` as the initial value when we created the
-     AuthContext, if the component is **not** a descendant of an AuthProvider,
-     the context value is ``null``.
+     * - File
+       - Purpose
 
-  We define the ``useAuth`` hook as follows, then export the AuthProvider and
-  ``useAuth`` hook so we can use them elsewhere in the app:
+     * - getRealmApp.js
+       - Provides access to the Realm app instance.
 
-  .. code-block:: js
+     * - App.js
+       - Defines which screens are in the app and sets up the navigation system.
 
-     // The useAuth hook can be used by components under an AuthProvider to access
-     // the auth context value.
-     const useAuth = () => {
-       const auth = useContext(AuthContext);
-       if (auth == null) {
-         throw new Error('useAuth() called outside of a AuthProvider?');
-       }
-       return auth;
-     };
+     * - schemas.js
+       - Defines the Realm object models used in this app.
 
-     export {AuthProvider, useAuth};
+     * - providers/AuthProvider.js
+       - Defines the AuthProvider, which handles user login, log out, and
+         Project membership information for the current user.
 
----
-title: Define the LogInView
-ref: define-the-log-in-view
-content: |
+     * - providers/TasksProvider.js
+       - Defines the TasksProvider, which handles fetching, adding, updating,
+         and deleting Tasks within a Project.
 
-  We can use the actions of the AuthProvider in the login screen. Create
-  the file ``LogInView.js`` and paste the following code that declares a UI
-  with email and password inputs, an error message text box, a blue
-  button that dynamically switches between "Login" or "Register,"
-  depending on the auth mode, and a white button that allows users to
-  toggle between the two modes.
+     * - components/ActionSheet.js
+       - A component that presents the user with a list of actions.
 
-  When the user presses the "Haven't created an account yet? Register"
-  button, the auth mode switches to register. When the user presses the
-  "Register" button in blue, we call ``registerUser()`` from the Auth Provider
-  with the email and password text input values and we set the auth mode
-  to login. 
+     * - components/AddTask.js
+       - A button that, when pressed, prompts the user to enter new Task
+         information and creates it with the given createTask function.
 
-  If a user has already registered, they can click the "Have an account
-  already? Login" button toggling to the login auth mode. When the user
-  presses the login button in blue, we pass the email and password text
-  input values to the ``logIn()`` function from the AuthProvider.
+     * - components/Logout.js
+       - A button that handles user log out.
 
-  Notice how we use the ``useAuth`` hook to access the actions to be provided
-  by the AuthProvider. For instance, when the user presses the login
-  button, we pass the email and password text input values to the logIn
-  function from the AuthProvider.
+     * - components/ManageTeam.js
+       - A list of team members on the current user's Project that provides
+         controls for adding and removing team members.
 
-  .. code-block:: js
-     :emphasize-lines: 11, 33, 35
+     * - components/TaskItem.js
+       - A list item that represents a Task in a list. When pressed, it presents
+         an ActionSheet with actions corresponding to deleting the Task or
+         updating the Task's status.
 
-     import React, {useState} from 'react';
-     import {Button, Text, Input} from 'react-native-elements';
-     import {useAuth} from './AuthProvider';
+     * - views/ProjectsView.js
+       - The screen that presents a list of Projects that the current user is a
+         team member of.
 
-     // This view has an input for email and password and logs in the user when the
-     // login button is pressed.
-     export function LogInView() {
-       const [email, setEmail] = useState('');
-       const [password, setPassword] = useState('');
-       const [error, setError] = useState();
-       const {logIn, registerUser} = useAuth();
-       const [authMode, setAuthMode] = useState('Login');
+     * - views/TasksView.js
+       - The screen showing the Tasks for a given Project. If this is the
+         logged-in user's own project, the TasksView includes a button open a
+         ManageTeam view.
 
-       return (
-         <>
-           <Text h3>{authMode}</Text>
-           <Input
-             autoCapitalize="none"
-             placeholder="email"
-             onChangeText={setEmail}
-           />
-           <Input
-             secureTextEntry={true}
-             placeholder="password"
-             onChangeText={setPassword}
-           />
-           <Button
-             onPress={async () => {
-               console.log(`${authMode} button pressed with email ${email}`);
-               setError(null);
-               try {
-                 if (authMode === 'Login') {
-                   await logIn(email, password);
-                 } else {
-                   await registerUser(email, password);
-                   setAuthMode('Login');
-                 }
-               } catch (e) {
-                 setError(`Operation failed: ${e.message}`);
-               }
-             }}
-             title={authMode}
-           />
-           <Text>{error}</Text>
-           <ToggleAuthModeComponent setAuthMode={setAuthMode} authMode={authMode} />
-         </>
-       );
-     }
-
-     const ToggleAuthModeComponent = ({authMode, setAuthMode}) => {
-       if (authMode === 'Login') {
-         return (
-           <Button
-             title="Haven't created an account yet? Register"
-             type="outline"
-             onPress={async () => {
-               setAuthMode('Register');
-             }}
-           />
-         );
-       } else {
-         return (
-           <Button
-             title="Have an account already? Login"
-             type="outline"
-             onPress={async () => {
-               setAuthMode('Login');
-             }}
-           />
-         );
-       }
-     };
+     * - views/WelcomeView.js
+       - The screen that allows a user to log in or register a user.
 
 ---
-title: Update the App UI
-ref: update-the-app-ui
+title: Connect to Your MongoDB Realm App
+ref: connect-to-your-mongodb-realm-app
 content: |
+  To get the app working with your backend, you first need to instantiate the
+  Realm app. The Realm app is the interface to the MongoDB Realm backend.
+  Navigate to the getRealmApp.js file and complete the ``getRealmApp()``
+  function implementation:
 
-  Now that we have defined the AuthProvider and a view that uses it, let's tie
-  the two together. Open the ``App.js`` file, which ``react-native init``
-  generated for you, and replace its entire contents with the following code
-  block. Note how we can use the ``useAuth`` hook within the AppBody component
-  to access the user and actions of its parent AuthProvider.
+  .. literalinclude:: FIXME
+     :language: javascript
 
-  .. code-block:: js
-     :emphasize-lines: 10, 12, 20
+  Be sure to enter your own Realm app ID, which you can :ref:`find in the Realm
+  UI <find-your-app-id>`.
 
-     import React from 'react';
-     import {SafeAreaView, View, StatusBar} from 'react-native';
-     import {Button} from 'react-native-elements';
-     import {useAuth} from './AuthProvider';
-     import {LogInView} from './LogInView';
-     import {AuthProvider} from './AuthProvider';
-
-     const App = () => {
-       return (
-         <AuthProvider>
-           <AppBody />
-         </AuthProvider>
-       );
-     };
-
-     // The AppBody is the main view within the App. If a user is not logged in, it
-     // renders the login view. Otherwise, it renders the tasks view. It must be
-     // within an AuthProvider.
-     function AppBody() {
-       const {user, logOut} = useAuth();
-       return (
-         <>
-           <StatusBar barStyle="dark-content" />
-           <SafeAreaView>
-             <View>
-               {user == null ? (
-                 <LogInView />
-               ) : (
-                 <Button onPress={logOut} title="Log Out" />
-               )}
-             </View>
-           </SafeAreaView>
-         </>
-       );
-     }
-
-     export default App;
-
-  It would be a good idea to run the app now and ensure you can
-  register, log in and log out.
-
-  If everything is working correctly, your app should look something like this:
-
-  .. figure:: /images/tutorial-react-native-login-page.png
-     :alt: The React Native app's login page.
-     :width: 300px
-     :lightbox:
 ---
-title: Define the Object Model Schemas
-ref: define-the-object-model-schemas
+title: Implement the AuthProvider
+ref: implement-the-auth-provider
 content: |
+  Navigate to providers/AuthProvider.js. In this file, and in the
+  providers/TasksProvider.js file that we will complete a bit later, we use
+  React :reactjs:`Context <docs/context.html>` and :reactjs:`hooks
+  <docs/hooks-overview.html>` to implement a data provider pattern. Don't worry
+  if you aren't too familiar with these constructs yet. The basic idea is as
+  follows:
 
-  Now that we can log in with a user account, let's start working with data.
-  First, we must define the data model. Create a file called ``schemas.js``
-  and paste the following data model code in:
+  - The Provider component handles fetching and modifying data.
+  - Any descendant of the Provider component can use a hook function to access 
+    the provider's data as well as its commands for modifying the data.
 
-  .. code-block:: js
+  The AuthProvider is responsible for logging in, registering a user, logging
+  out, and retrieving the list of projects that a user is a member of from the
+  custom user data object.
 
-     import {ObjectId} from 'bson';
+  First, let's implement the login functionality that a descendant component can
+  pass an email and password to in order to log in:
 
-     class Task {
-       constructor({
-         name,
-         partition,
-         status = Task.STATUS_OPEN,
-         id = new ObjectId(),
-       }) {
-         this._partition = partition;
-         this._id = id;
-         this.name = name;
-         this.status = status;
-       }
+  .. literalinclude:: FIXME FIXME FIXME
 
-       static STATUS_OPEN = 'Open';
-       static STATUS_IN_PROGRESS = 'InProgress';
-       static STATUS_COMPLETE = 'Complete';
-       static schema = {
-         name: 'Task',
-         properties: {
-           _id: 'objectId',
-           _partition: 'string?',
-           name: 'string',
-           status: 'string',
-         },
-         primaryKey: '_id',
-       };
-     }
-     export {Task};
+  Next, implement the user registration functionality by using the
+  email/password provider of the Realm app:
 
-  You don't need to use a class when working with {+service-short+} in
-  JavaScript, but we find it convenient. The Task class has a constructor to
-  take care of setting defaults, such as the initial Task status and the ``_id``
-  ObjectId property. It exposes some constants for possible status values and
-  the schema that we will provide to the {+realm+}.
+  .. literalinclude:: FIXME FIXME FIXME
 
-  We'll open the {+realm+} and use this model in another provider component
-  we'll define next, the TasksProvider.
+  Next, implement the log out functionality:
+
+  .. literalinclude:: FIXME FIXME FIXME
+
+  Finally, the AuthProvider must access the user custom data object for the
+  logged-in user in order to provide the list of Projects that the user is a
+  member of. We have set up our app so that the custom user data object exists
+  in a specific realm, where at most one user object exists.
+
+  Open the realm for that user with the partition key value following the
+  pattern ``user=<USER_ID>``.
+
+  There may be a delay between when a user first registers and when the
+  authentication trigger creates the user custom data object. Therefore, the
+  realm may be empty when first opened. Add an observer to the collection of
+  users in that realm in order to watch for the user object first appearing as
+  well as any changes to the its Project memberships. When a user object is
+  available, read its memberOf field to populate the available Project data for
+  any descendant of the provider:
+
+  .. literalinclude:: FIXME FIXME FIXME
+
+  Finally, the Realm SDK requires you to close any realm you open when you are
+  finished with it. You can return a cleanup function from the effect, which
+  will close the realm any time the user changes or the component is unmounted:
+
+  .. literalinclude:: FIXME FIXME FIXME
+
+  Check out the App.js, view/WelcomeView.js, and view/ProjectView.js files to
+  see how they use the AuthProvider's signIn, signUp, and signOut functions and
+  user data via the ``useAuth()`` hook function. The ProjectView also uses the
+  Project data to populate the list of Projects available to the logged-in user.
+  You should now be able to run the app, sign in, view your Projects, and sign
+  out. Next, we need to implement the Task management functionality.
+---
+title: Define the Task Schema
+ref: define-the-task-schema
+content: |
+  In order to work with Task objects in the Realm Database, we need to define
+  their schema. Navigate to the schemas.js file to complete the Task class's
+  schema definition:
+
+  .. literalinclude:: FIXME FIXME FIXME
 
 ---
 title: Implement the TasksProvider
 ref: implement-the-tasks-provider
 content: |
+  The TasksProvider component, like the AuthProvider, manages the data that its
+  descendants can use. As the name implies, the TasksProvider provides the Task
+  objects for a given Project. The Project partition is passed in as a prop.
 
-  In order to provide the data and actions related to fetching, creating,
-  updating, and deleting Tasks to descendant components, we'll use the same
-  Context, Provider and Hook pattern we used for the AuthProvider.
+  The first thing to implement is the opening of the realm for the given
+  Project. Whereas the user realm used the partition key value pattern of
+  ``user=<USER_ID>``, Projects use the partition key value pattern of
+  ``project=<USER_ID>``. For the sake of this tutorial's simplicity, each user
+  always has exactly one Project, specified by the partition key value
+  containing their own user ID.
 
-  In the AuthProvider component, we'll open a {+realm+}, fetch all Tasks in it,
-  and watch that collection of Tasks for changes. We'll also define the
-  following actions:
+  In the effect block, open the realm. Once opened, attach an observer that will
+  update the Tasks list when any changes come in:
 
-  - Create a Task
-  - Update a Task's status
-  - Delete a Task
+  .. literalinclude:: FIXME FIXME FIXME
 
-  Create a new file called ``TasksProvider.js``. To begin, import everything we
-  will need -- including the ``useAuth`` hook and ``Task`` class we defined
-  earlier -- and create a Context object our TasksProvider can use:
+  Again, Realm requires you to close any realm you open once you are done with
+  it. We can do that by returning a cleanup function from the effect:
 
-  .. code-block:: js
+  .. literalinclude:: FIXME FIXME FIXME
 
-     import React, {useContext, useState, useEffect, useRef} from 'react';
-     import Realm from 'realm';
-     import {useAuth} from './AuthProvider';
-     import {Task} from './schemas';
+  A user can create, update, and delete Tasks in a Project that they are a
+  member of. Implement the Task creation functionality like so:
 
-     // Create the context that will be provided to descendants of TasksProvider via
-     // the useTasks hook.
-     const TasksContext = React.createContext(null);
+  .. literalinclude:: FIXME FIXME FIXME
 
-  Now, begin defining the TasksProvider component. The component accepts two
-  props: its children, of course, and a projectId to specify which subset of
-  Tasks to work with.
+  We limit updates to changing the status of the Task. In a write block, you can
+  assign to the Task object's members to have it persisted to the database:
 
-  Use the ``useAuth`` hook to get the logged-in user and declare the state
-  variable that will contain the list of Tasks. We also use the `useRef hook
-  <https://reactjs.org/docs/hooks-reference.html#useref>`__ to store a reference
-  to our opened {+realm+}. We use ``useRef`` rather than ``useState`` for this
-  because we don't care to re-render when the realm itself changes.
+  .. literalinclude:: FIXME FIXME FIXME
 
-  .. code-block:: js
+  Finally, implement the Task deletion functionality:
 
-     const TasksProvider = ({children, projectId}) => {
-       // Get the user from the AuthProvider context.
-       const {user} = useAuth();
+  .. literalinclude:: FIXME FIXME FIXME
 
-       // The tasks list will contain the tasks in the realm when opened.
-       const [tasks, setTasks] = useState([]);
-
-       // This realm does not need to be a state variable, because we don't re-render
-       // on changing the realm.
-       const realmRef = useRef(null);
-
-  Next, still within the definition of TasksProvider, we use the `useEffect hook
-  <https://reactjs.org/docs/hooks-reference.html#useeffect>`__ to implement our
-  logic for opening the {+realm+} and reading the Tasks. This effect callback
-  runs whenever the user or projectId prop changes, including when the component
-  first mounts.
-
-  Within the callback, we define the configuration we'll use to open the
-  {+realm+}. Notice we pass the user object from the authentication provider and
-  use the projectId as the partition value in the ``sync`` field of the
-  configuration. When opening a synced {+realm+} for a given partition value,
-  {+service+} checks whether the user has permissions to read and/or write for
-  that partition value. If the user is allowed to read with that partition
-  value, the {+realm+} contains all Tasks with that partition value. Otherwise,
-  the request to open fails.
-
-  .. admonition:: Check the Logs Tab in the {+ui+}
-     :class: note
-
-     When working with {+sync+}, remember to check the :guilabel:`Logs` page in
-     the {+ui+}. That page usually contains additional information that can help
-     you troubleshoot any issues you may encounter.
-
-  Upon successfully opening the {+realm+}, we read all Tasks from the {+realm+}
-  and attach a change listener to the collection of Tasks. When the change
-  listener fires -- due to a change to the Tasks -- we react by updating the
-  tasks list state variable with the latest list of Tasks. This causes a
-  re-render of all the child components, so they are essentially notified of the
-  change to the Tasks.
-
-  .. note::
-
-     Replacing the entire list of Tasks whenever there is any change is great
-     for an introduction to {+service+} or when you only have a small number of
-     objects. But you may want to be more selective and nuanced with your
-     updates when scaling your app to deal with larger sets of objects. That's
-     out of scope for this tutorial.
-
-  If the call to ``Realm.open()`` fails, we pass any errors to
-  ``console.warn``.
-
-  To finish off the effect callback, we return a cleanup function to be called
-  the next time the effect is run or when the TasksComponent unmounts. This
-  simply closes the {+realm+} if it is open.
-
-  Everything should work at this point, but there's a slight issue. If this
-  cleanup function runs before the request to asynchronously open the {+realm+}
-  completes, it creates a race condition where the {+realm+} open success
-  handler might try to update invalid state variables. Worse, since the cleanup
-  function already ran, that newly-opened {+realm+} won't get cleaned up, which
-  is a resource leak!
-
-  We fix this with a simple ``canceled`` flag shared between the open success
-  and cleanup callbacks. We set ``canceled`` to true in the cleanup callback. In
-  the open success callback, we check that same flag. If it was set, we close
-  the newly-opened {+realm+} and leave the function.
-
-  .. code-block:: js
-     :emphasize-lines: 19-20
-
-       // The effect hook replaces lifecycle methods such as componentDidMount. In
-       // this effect hook, we open the realm that contains the tasks and fetch a
-       // collection of tasks.
-       useEffect(() => {
-         // Check that the user is logged in. You must authenticate to open a synced
-         // realm.
-         if (user == null) {
-           console.warn('TasksView must be authenticated!');
-           return;
-         }
-
-         // Define the configuration for the realm to use the Task schema. Base the
-         // sync configuration on the user settings and use the project ID as the
-         // partition value. This will open a realm that contains all objects where
-         // object._partition == projectId.
-         const config = {
-           schema: [Task.schema],
-           sync: {
-             user,
-             partitionValue: projectId,
-           },
-         }; 
-
-         console.log(
-           `Attempting to open Realm ${projectId} for user ${
-             user.id
-           } with config: ${JSON.stringify(config)}...`,
-         ); 
-
-         // Set this flag to true if the cleanup handler runs before the realm open
-         // success handler, e.g. because the component unmounted.
-         let canceled = false;
-
-         // Now open the realm asynchronously with the given configuration.
-         Realm.open(config)
-           .then((openedRealm) => {
-             // If this request has been canceled, we should close the realm.
-             if (canceled) {
-               openedRealm.close();
-               return;
-             }
-
-             // Update the realmRef so we can use this opened realm for writing.
-             realmRef.current = openedRealm;
-
-             // Read the collection of all Tasks in the realm. Again, thanks to our
-             // configuration above, the realm only contains tasks where
-             // task._partition == projectId.
-             const syncTasks = openedRealm.objects('Task');
-
-             // Watch for changes to the tasks collection.
-             openedRealm.addListener('change', () => {
-               // On change, update the tasks state variable and re-render.
-               setTasks([...syncTasks]);
-             });
-
-             // Set the tasks state variable and re-render.
-             setTasks([...syncTasks]);
-           })
-           .catch((error) => console.warn('Failed to open realm:', error));
-
-         // Return the cleanup function to be called when the component is unmounted.
-         return () => {
-           // Update the canceled flag shared between both this callback and the
-           // realm open success callback above in case this runs first.
-           canceled = true;
-
-           // If there is an open realm, we must close it.
-           const realm = realmRef.current;
-           if (realm != null) {
-             realm.removeAllListeners();
-             realm.close();
-             realmRef.current = null;
-           }
-         };
-       }, [user, projectId]); // Declare dependencies list in the second parameter to useEffect().
-
-  Continuing in the TasksProvider function definition, let's define the create,
-  update, and delete actions. Each function opens a write transaction on the
-  {+realm+} in order to modify its data. Again, we use the Task class we defined
+  Check out the views/TasksView.js and components/TaskItem.js files to see how
+  they use the provider's task data and functionality via the ``useTasks()``
+  hook function.
+---
+title: Implement Team Management
+ref: implement-team-management
+content: |
+  A user can add other users to their team, which allows them to view, edit, and
+  delete Tasks on the user's Project. The ManageTeam component implements this
+  functionality by calling a few Realm functions on the backend that we defined
   earlier.
 
-  .. code-block:: js
-     :emphasize-lines: 7-13, 31-33, 39-41
+  Navigate to components/ManageTeam.js. First, we need to fetch the list of
+  current team members:
 
-       // Define our create, update, and delete functions that users of the
-       // useTasks() hook can call.
-       const createTask = (newTaskName) => {
-         const realm = realmRef.current;
+  .. literalinclude:: FIXME FIXME FIXME
 
-         // Open a write transaction.
-         realm.write(() => {
-           // Create a new task in the same partition -- that is, in the same project.
-           realm.create(
-             'Task',
-             new Task({name: newTaskName || 'New Task', partition: projectId}),
-           );
-         });
-       };
+  Next, call the addTeamMember function on the backend to implement add team
+  member functionality:
 
-       // Define the function for updating a task's status.
-       const setTaskStatus = (task, status) => {
-         // One advantage of centralizing the realm functionality in this provider is
-         // that we can check to make sure a valid status was passed in here.
-         if (
-           ![
-             Task.STATUS_OPEN,
-             Task.STATUS_IN_PROGRESS,
-             Task.STATUS_COMPLETE,
-           ].includes(status)
-         ) {
-           throw new Error(`Invalid Status ${status}`);
-         }
-         const realm = realmRef.current;
+  .. literalinclude:: FIXME FIXME FIXME
 
-         realm.write(() => {
-           task.status = status;
-         });
-       };
+  Finally, call the removeTeamMember function on the backend to implement remove
+  team member functionality:
 
-       // Define the function for deleting a task.
-       const deleteTask = (task) => {
-         const realm = realmRef.current;
-         realm.write(() => {
-           realm.delete(task);
-         });
-       };
+  .. literalinclude:: FIXME FIXME FIXME
 
-  At the end of the definition for TasksProvider, we provide the actions we just
-  defined and the list of Tasks as the value of the TasksContext, similarly to
-  how we provided the data and actions in the AuthProvider:
-
-  .. code-block:: js
-     :emphasize-lines: 6-12
-
-       // Render the children within the TaskContext's provider. The value contains
-       // everything that should be made available to descendants that use the
-       // useTasks hook.
-       return (
-         <TasksContext.Provider
-           value={{
-             createTask,
-             deleteTask,
-             setTaskStatus,
-             tasks,
-             projectId,
-           }}>
-           {children}
-         </TasksContext.Provider>
-       );
-     };
-
-  Finally, define the ``useTasks`` hook that provides descendants of a
-  TasksProvider access to those Tasks and related actions, and export both the
-  TasksProvider and the ``useTasks`` hook so we can use them elsewhere in the
-  app:
-
-  .. code-block:: js
-
-     // The useTasks hook can be used by any descendant of the TasksProvider. It
-     // provides the tasks of the TasksProvider's project and various functions to
-     // create, update, and delete the tasks in that project.
-     const useTasks = () => {
-       const value = useContext(TasksContext);
-       if (value == null) {
-         throw new Error('useTasks() called outside of a TasksProvider?');
-       }
-       return value;
-     };
-
-     export {TasksProvider, useTasks};
-
----
-title: Implement the TaskItem
-ref: implement-the-tasks-item
+title: Run and Test
+ref: run-and-test
 content: |
+  Congratulations! Now that you have completed the code, you can run the app and
+  check functionality. Here are some things you can try in the app:
 
-  We just need to a UI to display the Tasks and allow the user to use the
-  actions we defined in the TasksProvider.
+  - Create a user with email first@example.com
+  - Explore the app, then log out or launch a second instance of the app on another device or simulator
+  - Create another user with email second@example.com
+  - Navigate to second@example.com's project
+  - Add, update, and remove some tasks
+  - Click "Manage Team"
+  - Add first@example.com to your team
+  - Log out and log in as first@example.com
+  - See two projects in the projects list
+  - Navigate to second@example.com's project
+  - Collaborate by adding, updating, and removing some new tasks
 
-  To represent Tasks in a list, let's define the TaskItem component. When
-  rendered as a descendant of the TasksProvider we just defined, it can use the
-  ``useTasks`` hook to access the Task-related actions. We'll present buttons to
-  execute these actions in a generic helper component called ActionSheet. Once
-  again, we'll base some of these views on the React Native Elements toolkit. In
-  the finished app, it will look something like this:
-
-  .. figure:: /images/tutorial-react-native-task-actions.png
-     :alt: TaskItems rendered with the ActionSheet overlay
-     :width: 300px
-     :lightbox:
-
-  Create a new file called ``TaskItem.js`` and paste the following code. Notice
-  everywhere that we use the actions from the TasksProvider:
-
-  .. code-block:: js
-     :emphasize-lines: 42, 64, 72, 80 
-
-     import React, {useState} from 'react';
-     import {Text, ListItem, Overlay} from 'react-native-elements';
-     import {Task} from './schemas';
-     import {useTasks} from './TasksProvider';
-
-     // Action sheet contains a list of actions. Each action should have a `title`
-     // string and `action` function property. A "Cancel" action is automatically
-     // added to the end of your list of actions. You must also provide the
-     // closeOverlay function that this component will call to request that the
-     // action sheet be closed.
-     function ActionSheet({actions, visible, closeOverlay}) {
-       const cancelAction = {
-         title: 'Cancel',
-         action: closeOverlay,
-       };
-       return (
-         <Overlay
-           overlayStyle={{width: '90%'}}
-           isVisible={visible}
-           onBackdropPress={closeOverlay}>
-           <>
-             {[...actions, cancelAction].map(({title, action}) => (
-               <ListItem
-                 key={title}
-                 title={title}
-                 onPress={() => {
-                   closeOverlay();
-                   action();
-                 }}
-               />
-             ))}
-           </>
-         </Overlay>
-       );
-     }
-
-     // The TaskItem represents a Task in a list. When you click an item in the list,
-     // an action sheet appears. The action sheet contains a list of actions the user
-     // can perform on the task, namely deleting and changing its status.
-     export function TaskItem({task}) {
-       // Pull the task actions from the TasksProvider.
-       const {deleteTask, setTaskStatus} = useTasks();
-
-       // The action sheet appears when the user presses an item in the list.
-       const [actionSheetVisible, setActionSheetVisible] = useState(false);
-
-       // Specify the list of available actions in the action list when the user
-       // presses an item in the list.
-       const actions = [
-         {
-           title: 'Delete',
-           action: () => {
-             deleteTask(task);
-           },
-         },
-       ];
-
-       // For each possible status other than the current status, make an action to
-       // move the task into that status. Rather than creating a generic method to
-       // avoid repetition, we split each status to separate each case in the code
-       // below for demonstration purposes.
-       if (task.status !== Task.STATUS_OPEN) {
-         actions.push({
-           title: 'Mark Open',
-           action: () => {
-             setTaskStatus(task, Task.STATUS_OPEN);
-           },
-         });
-       }
-       if (task.status !== Task.STATUS_IN_PROGRESS) {
-         actions.push({
-           title: 'Mark In Progress',
-           action: () => {
-             setTaskStatus(task, Task.STATUS_IN_PROGRESS);
-           },
-         });
-       }
-       if (task.status !== Task.STATUS_COMPLETE) {
-         actions.push({
-           title: 'Mark Complete',
-           action: () => {
-             setTaskStatus(task, Task.STATUS_COMPLETE);
-           },
-         });
-       }
-
-       return (
-         <>
-           <ActionSheet
-             visible={actionSheetVisible}
-             closeOverlay={() => setActionSheetVisible(false)}
-             actions={actions}
-           />
-           <ListItem
-             key={task.id}
-             onPress={() => {
-               setActionSheetVisible(true);
-             }}
-             title={task.name}
-             bottomDivider
-             checkmark={
-               task.status === Task.STATUS_COMPLETE ? (
-                 <Text>&#10004; {/* checkmark */}</Text>
-               ) : task.status === Task.STATUS_IN_PROGRESS ? (
-                 <Text>In Progress</Text>
-               ) : null
-             }
-           />
-         </>
-       );
-     }
-
----
-title: Implement the AddTaskView
-ref: implement-the-add-task-view
-content: |
-
-  To add a Task, the user can press a button and enter the new Task name into a
-  prompt. Let's define this functionality in a new component called AddTaskView.
-
-  Create a new file called ``AddTaskView.js`` and paste the following code in.
-  Notice where we use the createTask action from the TasksProvider we defined earlier:
-
-  .. code-block:: js
-     :emphasize-lines: 12, 29
-
-     import React, {useState} from 'react';
-     import {Overlay, Input, Button} from 'react-native-elements';
-     import {useTasks} from './TasksProvider';
-
-     // The AddTaskView is a button for adding tasks. When the button is pressed, an
-     // overlay shows up to request user input for the new task name. When the
-     // "Create" button on the overlay is pressed, the overlay closes and the new
-     // task is created in the realm.
-     export function AddTaskView() {
-       const [overlayVisible, setOverlayVisible] = useState(false);
-       const [newTaskName, setNewTaskName] = useState('');
-       const {createTask} = useTasks();
-       return (
-         <>
-           <Overlay
-             isVisible={overlayVisible}
-             overlayStyle={{width: '90%'}}
-             onBackdropPress={() => setOverlayVisible(false)}>
-             <>
-               <Input
-                 placeholder="New Task Name"
-                 onChangeText={(text) => setNewTaskName(text)}
-                 autoFocus={true}
-               />
-               <Button
-                 title="Create"
-                 onPress={() => {
-                   setOverlayVisible(false);
-                   createTask(newTaskName);
-                 }}
-               />
-             </>
-           </Overlay>
-           <Button
-             type="outline"
-             title="Add Task"
-             onPress={() => {
-               setOverlayVisible(true);
-             }}
-           />
-         </>
-       );
-     }
-
----
-title: Implement the TasksView
-ref: implement-the-tasks-view
-content: |
-
-  We present the Task items in a list and expose the Add Task functionality a
-  new component called TasksView.
-
-  Create the file ``TasksView.js`` and paste the following code in. We use the
-  ``useTasks`` hook to access the list of tasks and create a TaskItem for each
-  Task in that list. We also place the AddTaskView at the top of the view, next
-  to a logout button.
-
-  .. code-block:: js
-     :emphasize-lines: 16, 22, 27
-
-     import React from 'react';
-     import {View, ScrollView} from 'react-native';
-     import {Text, Button} from 'react-native-elements';
-     import {useAuth} from './AuthProvider';
-     import {useTasks} from './TasksProvider';
-     import {TaskItem} from './TaskItem';
-     import {AddTaskView} from './AddTaskView';
-
-     // The Tasks View displays the list of tasks of the parent TasksProvider.
-     // It has a button to log out and a button to add a new task.
-     export function TasksView() {
-       // Get the logOut function from the useAuth hook.
-       const {logOut} = useAuth();
-
-       // Get the list of tasks and the projectId from the useTasks hook.
-       const {tasks, projectId} = useTasks();
-
-       return (
-         <>
-           <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-             <Button type="outline" title="Log Out" onPress={logOut} />
-             <AddTaskView />
-           </View>
-           <Text h2>{projectId}</Text>
-           <ScrollView>
-             {tasks.map(task => (
-               <TaskItem key={`${task._id}`} task={task} />
-             ))}
-           </ScrollView>
-         </>
-       );
-     }
-
----
-title: Tie It All Together
-ref: tie-it-all-together
-content: |
-
-  At last, we can tie the authentication and tasks together. Open ``App.js``
-  again and import the new components by adding the following lines near the top
-  of the file:
-
-  .. code-block:: js
-
-     import {TasksProvider} from './TasksProvider';
-     import {TasksView} from './TasksView';
-
-  Update the AppBody component to use the TasksProviders and TasksView when a
-  user is logged in. We hardcode the projectId to "My Project" for now. In a
-  future tutorial, we will implement Projects, which will allow us to enable
-  more complex permissions and collaboration features.
-
-  .. code-block:: js
-     :emphasize-lines: 11-13
-
-     function AppBody() {
-       const {user} = useAuth();
-       return (
-         <>
-           <StatusBar barStyle="dark-content" />
-           <SafeAreaView>
-             <View>
-               {user == null ? (
-                 <LogInView />
-               ) : (
-                 <TasksProvider projectId="My Project">
-                   <TasksView />
-                 </TasksProvider>
-               )}
-             </View>
-           </SafeAreaView>
-         </>
-       );
-     }
-
-  Here's how this should look:
-
-  .. figure:: /images/tutorial-react-native-app-body.png
-     :alt: The app body rendered in the app
-     :width: 300px
-     :lightbox:
-
----
-title: Run the App
-ref: run-the-app-2
-content: |
-
-  Run your app and verify that you can log in and view, create, update, and
-  delete Tasks.
-
-  Run the app in another simulator and edit Tasks simultaneously to see {+sync+}
-  in action! When you make a change on one simulator, it should automatically
-  update on the other. For example, try adding a Task, changing its status, and
-  deleting a Task on one simulator. If everything is working correctly, the app
-  on the other simulator will automatically reflect the changes you make in real
-  time.
-
-  Congratulations! You have completed the first {+realm+} React Native tutorial.
-  How did it go? Please leave feedback using the feedback widget on the bottom
-  right of the page.
+  .. admonition:: Reminder
+   
+     If something isn't working for you, you can check out the ``final`` branch of 
+     this repo to compare your code with our finished solution.
