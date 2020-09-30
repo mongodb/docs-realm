@@ -1,4 +1,3 @@
-.. cssclass:: config-table
 .. list-table::
    :header-rows: 1
    :widths: 1 4
