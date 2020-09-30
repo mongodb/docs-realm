@@ -14,20 +14,6 @@ Query Roles
    :depth: 2
    :class: singlecol
 
-.. raw:: html
-
-   <style>
-   table.docutils.role-template-table .button-row {
-       background-image: url(https://media.mongodb.org/code-block-bg.png);
-       border-left: 5px solid #494747;
-   }
-   table.docutils.role-template-table div.highlight pre {
-       background-image: url(https://media.mongodb.org/code-block-bg.png);
-       border-left: 5px solid #494747;
-       padding: 2px 12px 24px 12px;
-   }
-   </style>
-
 Overview
 --------
 
@@ -210,7 +196,6 @@ The Role Can Read All Fields but Cannot Write
 To allow a role to read any field, set the document-level ``read`` field
 to ``true``.
 
-.. cssclass:: role-template-table
 .. list-table::
 
    * - .. cssclass:: bordered-figure
@@ -236,7 +221,6 @@ To allow a role to read or write any field, set the document-level
 ``write`` field to ``true``. Document-level writes require read
 permission, so the role will be able to read all fields.
 
-.. cssclass:: role-template-table
 .. list-table::
 
    * - .. cssclass:: bordered-figure
@@ -263,7 +247,6 @@ field to ``true``. To specify a field that the role can write to, set
 the ``write`` field to ``true`` in the field's configuration document,
 which is embedded in the ``fields`` document.
 
-.. cssclass:: role-template-table
 .. list-table::
 
    * - .. cssclass:: bordered-figure
@@ -296,7 +279,6 @@ permission, so the role will be able to read all fields.
 To prevent the role from inserting new documents, set the document-level
 ``insert`` field to ``false``.
 
-.. cssclass:: role-template-table
 .. list-table::
 
    * - .. cssclass:: bordered-figure
@@ -328,7 +310,6 @@ the corresponding field-level ``write`` fields to ``false`` in the
 ``fields`` document and set the ``additional_fields.write`` field to
 ``true``.
 
-.. cssclass:: role-template-table
 .. list-table::
 
    * - .. cssclass:: bordered-figure
