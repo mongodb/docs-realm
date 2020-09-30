@@ -1,0 +1,116 @@
+title: Add the Sign in with Apple Capability
+ref: add-the-sign-in-with-apple-capability
+content: |
+   You must grant your client application permission to use Sign in with
+   Apple by defining a `capability
+   <https://developer.apple.com/documentation/xcode/adding_capabilities_to_your_app>`_.
+
+   In XCode, select your application and then click :guilabel:`Signing &
+   Capabilities`. Click :guilabel:`+ Capability` and add the
+   :guilabel:`Sign in with Apple` capability.
+      
+   .. figure:: /images/apple-auth-capability.png
+      :alt: The Sign in with Apple capability in XCode
+---
+title: Import the Authentication Services Package
+ref: import-the-authentication-services-package
+content: |
+  You can now import the `AuthenticationServices
+  <https://developer.apple.com/documentation/authenticationservices>`_
+  package in your login view controller.
+
+  .. code-block:: swift
+     
+     import AuthenticationServices
+---
+title: Add the Sign in with Apple Button
+ref: add-the-sign-in-with-apple-button
+content: |
+   Apple provides a standard, pre-styled button that you can use to
+   initiate the Sign in with Apple flow. In your login view controller,
+   instantiate a Sign in with Apple button and add it to the view.
+   
+   For additional information on how to use the Sign in with Apple
+   button, see the `Sign in with Apple Human Interface Guidelines
+   <https://developer.apple.com/design/human-interface-guidelines/sign-in-with-apple/overview/>`_.
+
+   .. code-block:: swift
+      
+      func setUpProviderLoginView() {
+        let button = ASAuthorizationAppleIDButton()
+        button.addTarget(self,
+          action: #selector(handleAppleIDAuthButtonPress),
+          for: .touchUpInside
+        )
+        self.loginProviderStackView.addArrangedSubview(button)
+      }
+---
+title: Define the Authorization Request Handler
+ref: define-the-authorization-request-handler
+content: |
+   When a user presses the Sign in with Apple button, your app needs to
+   construct and send an authorization request. This request triggers
+   the Sign in with Apple flow for the user.
+   
+   In your login view controller, add the following handler function:
+   
+   .. code-block:: swift
+      
+      @objc func handleAppleIDAuthButtonPress() {
+        let request = ASAuthorizationAppleIDProvider().createRequest()
+        request.requestedScopes = [.fullName, .email]
+   
+        let controller = ASAuthorizationController(authorizationRequests: [request])
+        controller.delegate = self
+        controller.presentationContextProvider = self
+        controller.performRequests()
+      }
+   
+   .. admonition:: Only Request Necessary Scopes
+      :class: note
+
+      You can request the user's full name and valid email address as
+      part of your app's authorization. This data is sensitive so only
+      request these scopes if your application requires them. If you
+      don't need a particular scope, do not include it in
+      ``requestedScopes``.
+---
+title: Authenticate with Realm
+ref: authenticate-with-realm
+content: |
+   Once a user completes the Sign in with Apple flow, Apple returns a
+   credential object that contains an `identityToken
+   <https://developer.apple.com/documentation/authenticationservices/asauthorizationappleidcredential/3153035-identitytoken>`_
+   that identifies the user. Access the ``identityToken`` in the
+   ``authenticationController`` protocol and use it to construct an
+   ``AppleCredential``. You can then log in to Realm using the
+   credential.
+
+   .. code-block:: swift
+      
+      func authorizationController(
+        controller _: ASAuthorizationController,
+        didCompleteWithAuthorization authorization: ASAuthorization
+      ) {
+        if let credential = authorization.credential as? ASAuthorizationAppleIDCredential {
+          let stitchCredential = AppleCredential.init(identityToken: credential.identityToken)
+          Stitch.defaultAppClient!.auth.login(withCredential: stitchCredential) { result in
+            switch result {
+            case .success:
+              // Successfully authenticated with Stitch
+              self.delegate?.authenticationViewControllerDidLogin()
+            case .failure(let error):
+              // Failed to authenticate with Stitch
+              print("Could not authenticate. error: \(error)")
+            }
+          }
+        }
+      }
+   
+      func authorizationController(
+        controller _: ASAuthorizationController,
+        didCompleteWithError error: Error
+      ) {
+        // The user cancelled the request or an error occurred
+      }
+...
