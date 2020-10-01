@@ -81,7 +81,7 @@ We've already put together a task tracker CLI application that has most of
 the code you'll need. You can clone the client application repository
 directly from GitHub:
 
-.. code-block:: shell
+.. code-block:: console
    
    git clone git@github.com:mongodb-university/realm-tutorial.git
 
@@ -91,14 +91,14 @@ directly from GitHub:
    you complete this tutorial. To walk through this tutorial, please check 
    out the ``todo`` branch:
 
-   .. code-block:: shell
+   .. code-block:: console
     
       git checkout todo
 
 In your terminal, run the following commands to navigate to the task tracker
 client application and install its dependencies:
 
-.. code-block:: shell
+.. code-block:: console
    
    cd realm-tutorial/node-cli
    npm install
@@ -167,6 +167,7 @@ to the ``config.js`` file. The ``config.js`` module exports a single property,
 ``realmAppId``, which is currently set to "TODO":
 
 .. literalinclude:: /tutorial/generated/code/final/config.codeblock.realmAppID.js
+   :language: javascript
 
 Change this value to your Realm App ID. 
 
@@ -346,7 +347,7 @@ Once you have completed the code, you should run the app and check functionality
 #. Run the following commands to install all of the dependencies and start the 
    app:
 
-   .. code-block:: sh
+   .. code-block:: console
       
       npm install
       node index.js
