@@ -17,33 +17,33 @@ namespace UnitTests
         [SetUp]
         public async System.Threading.Tasks.Task Setup()
         {
-             const string appId = "tuts-tijya";
-             Realms.Sync.app = Realms.Sync.App.Create(appId);
+            const string appId = "tuts-tijya";
+            app = Realms.Sync.App.Create(appId);
+            user = app.LogInAsync(Credentials.EmailPassword("foo@foo.com", "foobar")).Result;
+            config = new SyncConfiguration("My Project", user);
+            Realm realm = await Realm.GetInstanceAsync(config);
+            Task testTask = new Task()
+            {
+                Name = "Do this thing",
+                Status = TaskStatus.Open.ToString()
+            };
 
-            er = app.LogInAsync(Credentials.EmailPassword("foo@foo.com", "foobar")).Result;
-            nfig = new SyncConfiguration("My Project", user);
-            alm realm = await Realm.GetInstanceAsync(config);
-            sk testTask = new Task()
-            
-              Name = "Do this thing",
-              Status = TaskStatus.Open.ToString()
-            
-
-            alm.Write(() =>
-            
-              realm.Add(testTask);
-            ;
-            stTaskId = testTask.Id;
-            turn;
+            realm.Write(() =>
+            {
+                realm.Add(testTask);
+            });
+            testTaskId = testTask.Id;
+            return;
         }
 
-        [Tes
-        publ async System.Threading.Tasks.Task GetsSyncedTasks()
+        [Test]
+        public async System.Threading.Tasks.Task GetsSyncedTasks()
         {
             Realms.Sync.User user = app.LogInAsync(Credentials.Anonymous()).Result;
             config = new SyncConfiguration("My Project", user);
             Realm realm = await Realm.GetInstanceAsync(config);
             var tasks = realm.All<Task>().ToList();
+            Assert.AreEqual(1, tasks.Count);
             tasks = realm.All<Task>().Where(t=>t.Status == "Open").ToList();
             Assert.AreEqual(1, tasks.Count);
             return;

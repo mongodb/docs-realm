@@ -19,9 +19,32 @@ namespace UnitTests
         {
             const string appId = "tuts-tijya";
             app = Realms.Sync.App.Create(appId);
+            user = app.LogInAsync(Credentials.EmailPassword("foo@foo.com", "foobar")).Result;
+            config = new SyncConfiguration("My Project", user);
+            Realm realm = await Realm.GetInstanceAsync(config);
+            Task testTask = new Task()
+            {
+                Name = "Do this thing",
+                Status = TaskStatus.Open.ToString()
+            };
+
+            realm.Write(() =>
+            {
+                realm.Add(testTask);
+            });
+            testTaskId = testTask.Id;
+            return;
+        }
+
+        [Test]
+        public async System.Threading.Tasks.Task GetsSyncedTasks()
+        {
+            Realms.Sync.User user = app.LogInAsync(Credentials.Anonymous()).Result;
             config = new SyncConfiguration("My Project", user);
             Realm realm = await Realm.GetInstanceAsync(config);
             var tasks = realm.All<Task>().ToList();
+            Assert.AreEqual(1, tasks.Count);
+            tasks = realm.All<Task>().Where(t=>t.Status == "Open").ToList();
             Assert.AreEqual(1, tasks.Count);
             return;
         }

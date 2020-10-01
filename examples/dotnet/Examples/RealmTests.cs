@@ -13,19 +13,13 @@ namespace UnitTests
         ObjectId testTaskId;
         Realms.Sync.User user;
         SyncConfiguration config;
+        const string myRealmAppId = "tuts-tijya";
 
         [SetUp]
         public async System.Threading.Tasks.Task Setup()
         {
             // :code-block-start: initialize-realm
-            // :hide-start:
-            const string appId = "tuts-tijya";
-            app = Realms.Sync.App.Create(appId);
-            // :hide-end:
-            // :replace-with:
-            // const string appId = "tuts-tijya";
-            // Realms.Sync.app = Realms.Sync.App.Create(appId);
-
+            app = Realms.Sync.App.Create(myRealmAppId);
             // :code-block-end:
             user = app.LogInAsync(Credentials.EmailPassword("foo@foo.com", "foobar")).Result;
             config = new SyncConfiguration("My Project", user);
@@ -50,10 +44,7 @@ namespace UnitTests
         public async System.Threading.Tasks.Task GetsSyncedTasks()
         {
             // :code-block-start: anon-login
-            // :hide-start:
-            /* :replace-with:
             Realms.Sync.User user = app.LogInAsync(Credentials.Anonymous()).Result;
-            :hide-end:*/
             // :code-block-end:
             // :code-block-start: config
             config = new SyncConfiguration("My Project", user);
@@ -62,11 +53,9 @@ namespace UnitTests
             // :code-block-start: read-all
             var tasks = realm.All<Task>().ToList();
             // :code-block-end:
+            Assert.AreEqual(1, tasks.Count);
             // :code-block-start: read-some
-            // :hide-start:
-            /*:replace-with:
             tasks = realm.All<Task>().Where(t=>t.Status == "Open").ToList();
-            :hide-end:*/
             // :code-block-end:
             Assert.AreEqual(1, tasks.Count);
             return;
