@@ -35,8 +35,7 @@ authenticated user's ``configuration`` method:
 If it is the first time opening that particular {+realm+}, especially if it is a read-only
 realm, use the ``Realm.asyncOpen()`` method instead:
 
-.. admonition:: Why Use asyncOpen?
-   :class: note
+.. note:: Why Use asyncOpen?
 
    The ``Realm()`` initializer is convenient, but upon first open of a given {+realm+}, it
    writes the schema to disk. The {+service-short+} server interprets this initial local
@@ -63,8 +62,7 @@ synced {+realm+} is identical to the syntax for non-synced {+realms+}. While you
 work with local data, a background thread efficiently integrates, uploads, and 
 downloads changesets.
 
-.. admonition:: When Using Sync, Avoid Writes on the Main Thread
-   :class: important
+.. important:: When Using Sync, Avoid Writes on the Main Thread
 
    The fact that {+service-short+} performs sync integrations on a background thread means
    that if you write to your {+realm+} on the main thread, there's a small chance your UI
