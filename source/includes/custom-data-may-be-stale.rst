@@ -1,5 +1,4 @@
-.. admonition:: Custom Data May Be Stale
-   :class: warning
+.. warning:: Custom Data May Be Stale
    
    {+backend+} does not dynamically update a user's custom data if the
    underlying document changes. Instead, {+backend+} fetches a new copy
