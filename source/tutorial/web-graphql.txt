@@ -41,8 +41,10 @@ for you, so you don't need to know React to follow along.
 The app is a task tracker that allows users to:
 
 - Register and log in with an email/password account.
-- Add, view, and delete tasks.
+- View a list of their projects. 
+- Add, view, and delete tasks for projects they are a member of.
 - Switch tasks between Open, In Progress, and Complete statuses
+- Add, view, and remove team members from projects.
 
 This tutorial should take around 30 minutes.
 
@@ -132,25 +134,20 @@ client application and install its dependencies:
    cd realm-tutorial/web
    npm install
 
-The ``main`` branch is a finished version of the app as it should look after
-you complete this tutorial. To remove the Realm-specific source code that you'll
-define in this tutorial, check out the ``todo`` branch:
+The realm-tutorial-react-native repository contains two branches: ``final``
+and ``start``. The ``final`` branch is a finished version of the app as it
+should look *after* you complete this tutorial. To walk through this
+tutorial, please check out the ``start`` branch:
 
 .. code-block:: shell
    
-   git checkout todo
-
-.. note::
-
-   The ``realm-tutorial`` repo contains task tracker client applications for
-   multiple platforms. The project root for this tutorial is located in the
-   ``web`` subdirectory.
+   git checkout 
 
 C. Explore the App Structure & Components
 -----------------------------------------
 
 The web client is a standard React web application written in
-:typescript:`TypeScript <>` and scaffolded with `create-react-app
+:JavaScript:`JavaScript <>` and scaffolded with `create-react-app
 <https://facebook.github.io/create-react-app/>`__. We encourage you to explore
 the files in the app for a few minutes before you continue the tutorial. This
 will help you to familiarize yourself with what the app contains and where
@@ -194,12 +191,12 @@ D. Connect to Your MongoDB Realm App
 ------------------------------------
 
 The client app needs to connect to your Realm app so that users can register and
-log in. In ``src/realm/RealmApp.tsx``, we import the Realm Web SDK to connect to
+log in. In ``src/RealmApp.js``, we import the Realm Web SDK to connect to
 Realm and handle these actions. The file exports a React context provider that
 encapsulates this behavior and makes it available to other components in the
 app.
 
-Some of the functionality in ``RealmApp.tsx`` is not fully defined. You need to
+Some of the functionality in ``RealmApp.js`` is not fully defined. You need to
 update the code to use the SDK to connect to your Realm app and handle user
 authentication.
 
@@ -208,198 +205,122 @@ authentication.
 .. admonition:: How We Use It
    :class: admonition-example
    
-   In ``/components/App.tsx``, we use the ``useRealmApp()`` hook to determine
+   In ``src/App.js``, we use the ``useRealmApp()`` hook to determine
    when the main application is ready to render. We also check for an
    authenticated user and always render exclusively the login screen unless a
    user is logged in. This guarantees that only authenticated users can access
    the rest of the app.
    
-   .. code-block:: typescript
-      :copyable: false
-      :emphasize-lines: 2, 3, 6
-      
-      function RequireAuthentication() {
-        const app = useRealmApp();
-        if (!app) {
-          return <div>Loading</div>;
-        }
-        return app.user ? (
-          <RealmApolloProvider>
-            <Board />
-          </RealmApolloProvider>
-        ) : (
-          <LoginScreen />
-        );
-      }
-
-   In ``/components/LoginScreen.tsx``, we use the wrapped authentication methods
+   .. literalinclude:: final/App.codeblock.requireLoggedInUser.js
+     :caption: ``src/App.js``
+   
+   In ``/components/LoginScreen.js``, we use the wrapped authentication methods
    that you defined to log user in and register new users.
-     
-   .. code-block:: typescript
-      :copyable: false
-      :emphasize-lines: 4, 16
 
-      const handleLogin = async () => {
-        setError((e) => ({ ...e, password: undefined }));
-        try {
-          return await app.logIn(email, password);
-        } catch (err) {
-          handleAuthenticationError(err);
-        }
-      };
-    
-      const handleRegistrationAndLogin = async () => {
-        const isValidEmailAddress = validator.isEmail(email);
-        setError((e) => ({ ...e, password: undefined }));
-        if (isValidEmailAddress) {
-          try {
-            // Register the user and, if successful, log them in
-            await app.registerUser(email, password);
-            return await handleLogin();
-          } catch (err) {
-            handleAuthenticationError(err);
-          }
-        } else {
-          setError((err) => ({ ...err, email: "Email is invalid." }));
-        }
-      };
+   Find the the ``handleLogin`` function and add the following code to process a 
+   ``emailPassword`` credential by calling the ``logIn()`` method. 
+     
+   .. literalinclude:: LoginScreen.codeblock.handleLogin.js
+      :emphasize-lines: 5
+   
+   Next, find the ``handleRegistrationAndLogin`` function and add the following code 
+   to create a ``emailPassword`` credential.
+
+   .. literalinclude:: LoginScreen.codeblock.handleRegistrationAndLogin.js
+      :emphasize-lines: 6
+
 
 E. Define the GraphQL Schema & Operations
 -----------------------------------------
 
-.. include:: /includes/steps/task-tracker-web-graphql.rst
+A GraphQL schema defines all of the types, enums, and scalars that a GraphQL
+API supports. Realm automatically generates a GraphQL schema for you, and you
+can use it to generate useful TypeScript types for your data.
 
-.. admonition:: How We Use It
-   :class: admonition-example
-   
-   We import the generated types defined in ``/src/types.ts`` from multiple
-   components throughout the app that need to use data from the GraphQL API. For
-   example, in ``/src/components/TaskView.tsx`` we import the generated ``Task``
-   type and use it to type the component's ``task`` prop.
-   
-   .. code-block:: typescript
-      :caption: ``/src/components/TaskView.tsx``
-      
-      import { Task } from "../types";
-      
-      interface TaskViewProps {
-        task: Task;
-      }
-      
-      export function TaskView({ task }: TaskViewProps) {
-        const { assignee, name } = task;
-        const status = task.status as TaskStatus;
-        ...
-      }
-   
-   We use the custom Apollo hooks generated in ``/src/graphql-operations.ts`` to
-   call the GraphQL API as part of the task actions defined in ``useTasks()``.
-   
-   .. code-block:: typescript
-      :caption: ``/src/hooks/useTasks.tsx``
-      :emphasize-lines: 13-17, 20-22
-      
-      import { GetAllTasksQuery } from "./../types";
-      import {
-        useGetAllTasksQuery,
-        useAddTaskMutation,
-        useUpdateTaskMutation,
-        useDeleteTaskMutation,
-      } from "./../graphql-operations";
+In addition to generating types from a schema file, you can also generate
+functions and GraphQL objects for operations such as queries and mutations.
+You can split operations across multiple files, but in this tutorial we'll
+define all of the CRUD operations that the app uses to work with tasks and
+user documents in a single file.
 
-      export function useTasks() {
-        const [tasks, setTasks] = React.useState<Task[]>([]);
-        
-        // Query for Tasks
-        const { loading } = useGetAllTasksQuery({ onCompleted: (data: GetAllTasksQuery) => {
-          if(data?.tasks) {
-            setTasks(data.tasks as Task[])
-          }
-        }});
-        
-        // Create Task Mutation Functions
-        const [addTaskMutation] = useAddTaskMutation();
-        const [updateTaskMutation] = useUpdateTaskMutation();
-        const [deleteTaskMutation] = useDeleteTaskMutation();
+Navigate to the ``src/graphql/useTaskMutations.js`` file and define the 
+following mutations:
 
-        ...
-      }
-   
-   The custom query and mutation hooks are lightweight wrappers around Apollo's
-   ``useQuery()`` and ``useMutation()`` hooks. For example, you could define
-   ``useAddTaskMutation()`` yourself with the following code:
-   
-   .. code-block:: typescript
-      
-      import { Task, TaskInsertInput } from "../types";
-      import { useMutation } from "@apollo/client";
-      import gql from 'graphql-tag';
-      
-      type AddTaskMutation = { task: Task };
-      type AddTaskMutationVariables = { task: TaskInsertInput };
-      function useAddTaskMutation() {
-        return useMutation<AddTaskMutation, AddTaskMutationVariables>(gql`
-          mutation AddTask($task: TaskInsertInput!) {
-            task: insertOneTask(data: $task) {
-              _id
-              name
-              status
-              assignee {
-                _id
-                name
-                image
-              }
-            }
-          }
-        `);
-      }
-   
-   Later in the function, we use the functions returned from the mutation hooks
-   to execute the mutations.
+* ``AddTaskMutation``
 
-   .. code-block:: typescript
-      :caption: ``/src/components/TaskView.tsx``
-      :emphasize-lines: 5-14, 17
-      
-      export function useTasks() {
-        ...
-        
-        const addTask = async (task: Task) => {
-          const variables: AddTaskMutationVariables = {
-            task: {
-              status: task.status,
-              name: task.name,
-              _partition: "My Project",
-            },
-          };
-          if(task.assignee) {
-            variables.task.assignee = { link: task.assignee._id }
-          }
-          const currentTasks = [...tasks];
-          try {
-            const result = await addTaskMutation({ variables });
-            const task = result.data?.task as Task;
-            setTasks([...tasks, task]);
-          } catch (err) {
-            setTasks(currentTasks);
-            throw new Error("Unable to add task");
-          }
-        };
-      }
+  .. literalinclude:: useTaskMutations.codeblock.addTaskMutation.js
+
+* ``UpdateTaskMutation``
+
+  .. literalinclude:: useTaskMutations.codeblock.updateTaskMutation.js
+
+* ``DeleteTaskMutation``
+
+  .. literalinclude:: useTaskMutations.codeblock.deleteTaskMutation.js
+
+The custom query and mutation hooks are lightweight wrappers around Apollo's
+``useQuery()`` and ``useMutation()`` hooks. Once you have completed defining 
+the task mutations, you will need to implement functions that execute those 
+mutations. In the same ``src/graphql/useTaskMutations.js``file, find the 
+following functions and call the appropriate mutations: 
+
+* ``useAddTask``
+
+  .. literalinclude:: useTaskMutations.codeblock.useAddTask.js
+     :emphasize-lines: 18-26
+
+* ``useUpdateTask``
+
+  .. literalinclude:: useTaskMutations.codeblock.useUpdateTask.js
+     :emphasize-lines: 3-8
+
+* ``useDeleteTask``
+
+  .. literalinclude:: useTaskMutations.codeblock.useAddTask.js
+     :emphasize-lines: 3-8
 
 F. Connect Apollo to the GraphQL API
 ------------------------------------
 
-We've defined GraphQL CRUD operations and used the code generator to create
-custom query and mutation hooks. However, these hooks must be wrapped in an
-Apollo context provider that makes an ``ApolloClient`` object available.
+We've defined GraphQL CRUD operations and created custom query and mutation hooks
+for tasks. However, these hooks must be wrapped in an Apollo context provider 
+that makes an ``ApolloClient`` object available.
 
-In ``src/realm/RealmApolloProvider.tsx``, we export a React component that
+In ``src/graphql/RealmApolloProvider.js``, we export a React component that
 provides the ``ApolloClient`` object but the function that instantiates the
 client is incomplete. You need to update the file to create a client that can
 connect to your app's GraphQL API.
 
 .. include:: /includes/steps/task-tracker-web-apollo.rst
+
+G. Implement the Projects List
+------------------------------
+
+As defined by our data model, ``projects`` are an embedded object of the ``users`` object.
+Therefore, if we want to retrieve a list of projects, we'll have to access the :ref:`user custom 
+data object </users/enable-custom-user-data>`. 
+
+In the file ``/graphql/useProjects.js``, we need to implement the retrieval of the 
+current user's projects. We'll need to add the following code:
+
+.. literalinclude:: useProjects.codeblock.useProjects.js
+   :emphasize-lines: 6
+
+H. Use Realm functions
+----------------------
+
+In the ``EditPermissionsModal.js`` file, there are functions that rely on :ref:`{+service-short+} 
+functions </functions>`. {+service-short+} functions allow you to execute server-side 
+logic for your client applications.
+
+First, you need to import the functions for client-side usage. Next, you will need to 
+implement the function ``updateTeamMembers()`` so that it calls the ``getMyTeamMembers``
+function and updates the ``team`` variable with the current team members. Then you need to 
+implement the ``addTeamMember()`` and  ``removeTeamMember()`` functions so that it adds/removes
+the user as a team member when provided with their email.
+
+.. literalinclude:: EditPermissionsModal.codeblock.useTeamMembers.js
+   :emphasize-lines: 5, 6-9, 19-31
 
 Try It Out
 ----------
@@ -431,51 +352,20 @@ following:
 
 Open your browser to http://localhost:3000 to access the app.
 
-Register a New User
-~~~~~~~~~~~~~~~~~~~
+ If the app builds successfully, here are some things you can try in the app:
 
-You need to register a user account before you can log in and use the tracker.
-On the login screen, click :guilabel:`Register one now` and enter the email
-address and password that you want to log in with. This is just a sample app
-that does not send any validation emails, so feel free to use a fake email
-address and/or simple password.
+  - Create a user with email *first@example.com*
+  - Explore the app, then log out or launch a second instance of the app on another device or simulator	  - Explore the app, then log out or launch a second instance of the app on another device or simulator
+  - Create another user with email second@example.com	  - Create another user with email *second@example.com*
+  - Navigate to second@example.com's project	  - Navigate to *second@example.com*'s project
+  - Add, update, and remove some tasks	  - Add, update, and remove some tasks
+  - Click "Manage Team"	  - Click "Manage Team"
+  - Add first@example.com to your team	  - Add *first@example.com* to your team
+  - Log out and log in as first@example.com	  - Log out and log in as *first@example.com*
+  - See two projects in the projects list	  - See two projects in the projects list
+  - Navigate to second@example.com's project	  - Navigate to *second@example.com*'s project
+  - Collaborate by adding, updating, and removing some new tasks	  - Collaborate by adding, updating, and removing some new tasks
 
-.. cssclass:: bordered-figure
-.. figure:: /images/task-tracker-web-register-user.png
-
-Add Some Tasks
-~~~~~~~~~~~~~~
-
-Once you register, the app automatically logs you in. You can now add tasks and
-use the tracker. To add a task, click :guilabel:`Add Task` at the bottom of any
-of the lists, enter a name in the draft task that appears, then click
-:guilabel:`Add`.
-
-.. cssclass:: bordered-figure
-.. figure:: /images/task-tracker-web-add-task.png
-
-Move Tasks Around
-~~~~~~~~~~~~~~~~~
-
-You can change the status of a task by dragging it between lists. You can also
-click on a task to open a detailed view with buttons that change the task's
-status and allow you to delete the task entirely.
-
-.. cssclass:: bordered-figure
-.. figure:: /images/task-tracker-web-move-task.png
-   :width: 750px
-
-Check Out the Logs
-~~~~~~~~~~~~~~~~~~
-
-Whenever you add, update, or delete a task, the client app sends a GraphQL
-request to Realm. You can see a history of requests on the :guilabel:`Logs` page
-of the Realm UI. Each GraphQL log entry shows the operation, compute usage, and
-rule evaluation summary.
-
-.. cssclass:: bordered-figure
-.. figure:: /images/task-tracker-web-graphql-logs.png
-   :width: 750px
 
 What's Next?
 ------------
@@ -488,9 +378,7 @@ options to keep practicing and learn more:
 
 - Extend the task tracker app with additional features. For example, you could:
   
-  - allow users to change a task's assignee
   - allow users to log in using another authentication provider
-  - support multiple projects that each have their own set of tasks
 
 - Follow another tutorial to build a mobile app for the task tracker. We have
   task tracker tutorials for the following platforms:
