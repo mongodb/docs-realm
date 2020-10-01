@@ -1,5 +1,4 @@
-.. admonition:: 404 Errors in Single-Page Apps
-   :class: note
+.. note:: 404 Errors in Single-Page Apps
    
    When :doc:`single-page application hosting
    </hosting/host-a-single-page-application>` is enabled, Realm always
