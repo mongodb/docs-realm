@@ -152,16 +152,16 @@ content: |
   First, let's implement the login functionality that a descendant component can
   pass an email and password to in order to log in:
 
-  .. literalinclude:: FIXME FIXME FIXME
+  .. literalinclude:: /tutorial/generated/code/final/FIXME
 
   Next, implement the user registration functionality by using the
   email/password provider of the Realm app:
 
-  .. literalinclude:: FIXME FIXME FIXME
+  .. literalinclude:: /tutorial/generated/code/final/FIXME
 
   Next, implement the log out functionality:
 
-  .. literalinclude:: FIXME FIXME FIXME
+  .. literalinclude:: /tutorial/generated/code/final/FIXME
 
   Finally, the AuthProvider must access the user custom data object for the
   logged-in user in order to provide the list of Projects that the user is a
@@ -179,13 +179,13 @@ content: |
   available, read its memberOf field to populate the available Project data for
   any descendant of the provider:
 
-  .. literalinclude:: FIXME FIXME FIXME
+  .. literalinclude:: /tutorial/generated/code/final/FIXME
 
   Finally, the Realm SDK requires you to close any realm you open when you are
   finished with it. You can return a cleanup function from the effect, which
   will close the realm any time the user changes or the component is unmounted:
 
-  .. literalinclude:: FIXME FIXME FIXME
+  .. literalinclude:: /tutorial/generated/code/final/FIXME
 
   Check out the App.js, view/WelcomeView.js, and view/ProjectView.js files to
   see how they use the AuthProvider's signIn, signUp, and signOut functions and
@@ -201,7 +201,7 @@ content: |
   their schema. Navigate to the schemas.js file to complete the Task class's
   schema definition:
 
-  .. literalinclude:: FIXME FIXME FIXME
+  .. literalinclude:: /tutorial/generated/code/final/FIXME
 
 ---
 title: Implement the TasksProvider
@@ -221,26 +221,26 @@ content: |
   In the effect block, open the realm. Once opened, attach an observer that will
   update the Tasks list when any changes come in:
 
-  .. literalinclude:: FIXME FIXME FIXME
+  .. literalinclude:: /tutorial/generated/code/final/FIXME
 
   Again, Realm requires you to close any realm you open once you are done with
   it. We can do that by returning a cleanup function from the effect:
 
-  .. literalinclude:: FIXME FIXME FIXME
+  .. literalinclude:: /tutorial/generated/code/final/FIXME
 
   A user can create, update, and delete Tasks in a Project that they are a
   member of. Implement the Task creation functionality like so:
 
-  .. literalinclude:: FIXME FIXME FIXME
+  .. literalinclude:: /tutorial/generated/code/final/FIXME
 
   We limit updates to changing the status of the Task. In a write block, you can
   assign to the Task object's members to have it persisted to the database:
 
-  .. literalinclude:: FIXME FIXME FIXME
+  .. literalinclude:: /tutorial/generated/code/final/FIXME
 
   Finally, implement the Task deletion functionality:
 
-  .. literalinclude:: FIXME FIXME FIXME
+  .. literalinclude:: /tutorial/generated/code/final/FIXME
 
   Check out the views/TasksView.js and components/TaskItem.js files to see how
   they use the provider's task data and functionality via the ``useTasks()``
@@ -257,17 +257,17 @@ content: |
   Navigate to components/ManageTeam.js. First, we need to fetch the list of
   current team members:
 
-  .. literalinclude:: FIXME FIXME FIXME
+  .. literalinclude:: /tutorial/generated/code/final/FIXME
 
   Next, call the addTeamMember function on the backend to implement add team
   member functionality:
 
-  .. literalinclude:: FIXME FIXME FIXME
+  .. literalinclude:: /tutorial/generated/code/final/FIXME
 
   Finally, call the removeTeamMember function on the backend to implement remove
   team member functionality:
 
-  .. literalinclude:: FIXME FIXME FIXME
+  .. literalinclude:: /tutorial/generated/code/final/FIXME
 
 title: Run and Test
 ref: run-and-test
