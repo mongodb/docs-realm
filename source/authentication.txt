@@ -62,8 +62,7 @@ accepts JSON web tokens signed by the external system and
 the :doc:`Custom Function </authentication/custom-function>`
 provider allows you to define custom logic in a :term:`{+service-short+} Function`.
 
-.. admonition:: User Authentication is Required
-   :class: important
+.. important:: User Authentication is Required
    
    Every application must have at least one authentication provider
    configured and enabled before any client application can successfully
@@ -86,8 +85,7 @@ allows you to associate each user with :doc:`custom data
 </users/enable-custom-user-data>` stored in a collection
 of your :term:`linked {+atlas+} data source <data source>`.
 
-.. admonition:: Link Multiple Identities to One User Account
-   :class: note
+.. note:: Link Multiple Identities to One User Account
 
    When a user authenticates with a provider for the first
    time, {+backend+} creates a new account and associates the
@@ -155,8 +153,7 @@ to circumvent rules and queries that need :doc:`unrestricted
 access </mongodb/service-limitations>` to MongoDB
 CRUD and aggregation operations.
 
-.. admonition:: Security Warning
-   :class: important
+.. important:: Security Warning
 
    Rules do not apply to the system user, which means that
    Functions and webhooks that run as the :term:`system user`

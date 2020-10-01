@@ -93,9 +93,8 @@ indices:
 - The indices of the objects that were inserted.
 - The indices of the objects that were modified.
 
-.. admonition:: Order Matters
-   :class: important
-
+.. important:: Order Matters
+   
    In collection notification handlers, always apply changes
    in the following order: deletions, insertions, then
    modifications. Handling insertions before deletions may

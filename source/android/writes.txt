@@ -28,9 +28,8 @@ words, a transaction is *all or nothing*: either all of the
 operations in the transaction succeed or none of the
 operations in the transaction take effect.
 
-.. admonition:: Remember
-   :class: note
-
+.. note::
+   
    All writes must happen in a transaction.
 
 A {+realm+} allows only one open transaction at a time. {+client-database+}
@@ -73,8 +72,7 @@ the code in the callback throws an exception when {+client-database+} runs
 it, {+client-database+} cancels the transaction. Otherwise, {+client-database+} commits
 the transaction immediately after the callback.
 
-.. admonition:: Concurrency Concerns
-   :class: important
+.. important:: Concurrency Concerns
 
    Since transactions block each other, it is best to avoid
    opening transactions on both the UI thread and a
@@ -260,8 +258,7 @@ transaction.
 With the Java SDK, call ``deleteFromRealm()`` on the
 instance itself.
 
-.. admonition:: Do not use objects after delete
-   :class: important
+.. important:: Do not use objects after delete
 
    {+client-database+} throws an error if you try to use an object after
    it has been deleted.

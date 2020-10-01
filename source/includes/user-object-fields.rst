@@ -45,8 +45,7 @@
        depend on which :doc:`authentication providers </authentication>`
        the user has authenticated with.
 
-       .. admonition:: System Functions Have No User Data
-          :class: note
+       .. note:: System Functions Have No User Data
           
           In :ref:`system functions <system-functions>`, the ``user.data``
           object is empty. Use :method:`context.runningAsSystem()` to test if
@@ -67,8 +66,7 @@
        can use standard CRUD operations through the :doc:`MongoDB Atlas
        service </mongodb>` to define and modify the user's custom data.
        
-       .. admonition:: Avoid Storing Large Custom User Data
-          :class: note
+       .. note:: Avoid Storing Large Custom User Data
           
           Custom user data is limited to ``16MB``, the maximum size of a
           MongoDB document. To avoid hitting this limit, consider

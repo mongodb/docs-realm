@@ -35,7 +35,7 @@ regardless of where that change originated. When a user adds
 a new item to a list, you may want to update the UI, show a
 notification, or log a message. When someone updates that
 item, you may want to change its visual state or fire off a
-network request. Finally, when someone deletes an item, you
+network request. Finally, when someone deletes the item, you
 probably want to remove it from the UI. Realm's notification
 system allows you to watch for and react to changes in your
 data, independent of the writes that caused the changes.
@@ -103,9 +103,8 @@ indices:
 - The indices of the objects that were inserted.
 - The indices of the objects that were modified.
 
-.. admonition:: Order Matters
-   :class: important
-
+.. important:: Order Matters
+   
    In collection notification handlers, always apply changes
    in the following order: deletions, insertions, then
    modifications. Handling insertions before deletions may

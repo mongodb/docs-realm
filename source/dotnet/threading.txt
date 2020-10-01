@@ -175,8 +175,7 @@ spawned them stays open. Therefore, avoid closing the live
 {+realm+} until all threads are done with the frozen objects.
 You can close frozen {+realm+} before the live {+realm+} is closed.
 
-.. admonition:: On caching frozen objects
-   :class: important
+.. important:: On caching frozen objects
 
    Caching too many frozen objects can have a negative
    impact on the {+realm+} file size. "Too many" depends on your
@@ -243,8 +242,7 @@ relevant part of the tree. Likewise, the {+realm+}'s root
 pointer will point to the original version until the new
 version is guaranteed to be valid.
 
-.. admonition:: Diagram
-   :class: note
+.. note:: Diagram
 
    The following diagram illustrates the commit process:
 

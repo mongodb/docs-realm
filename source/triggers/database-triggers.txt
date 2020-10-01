@@ -26,9 +26,8 @@ to listen for changes to documents in a collection and pass
 :ref:`database events <database-events>` to their associated Trigger
 function.
 
-.. admonition:: Change Stream Limitations
-   :class: important
-
+.. important:: Change Stream Limitations
+   
    {+backend+} opens a single change stream for each collection with at least
    one enabled Trigger and limits the total number of open change
    streams on each linked cluster across all {+app+}s based on the
@@ -295,8 +294,7 @@ Database Trigger Configuration
        match expression and only executes if the expression evaluates to
        ``true`` for a given change event.
           
-       .. admonition:: Use Dot-Notation for Embedded Fields
-          :class: note
+       .. note:: Use Dot-Notation for Embedded Fields
           
           MongoDB performs a full equality match for embedded
           documents in a match expression. If you want to match a

@@ -28,9 +28,8 @@ application runs.
       .. literalinclude:: /examples/generated/android/code/start/MainActivity.codeblock.initialize-realm.kt
          :language: kotlin
 
-.. admonition:: Register Your Application Subclass in the Android Manifest
-   :class: note
-
+.. note:: Register Your Application Subclass in the Android Manifest
+   
    If you create your own ``Application`` subclass, you must add it to your
    application's ``AndroidManifest.xml`` to execute your custom
    application code. Set the ``android.name`` property of your manifest's

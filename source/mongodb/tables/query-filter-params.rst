@@ -49,8 +49,7 @@
        additional field projections to merge into incoming queries that
        the filter applies to.
 
-       .. admonition:: Projection Conflicts
-          :class: important
+       .. important:: Projection Conflicts
           
           MongoDB projections can be either inclusive or exclusive, i.e.
           they can either return only specified fields or withhold
