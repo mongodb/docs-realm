@@ -30,9 +30,8 @@ application runs.
    
          Realm.init(this) // `this` is a Context, typically an Application or Activity
 
-.. admonition:: Register Your Application Subclass in the Android Manifest
-   :class: note
-
+.. note:: Register Your Application Subclass in the Android Manifest
+   
    If you create your own ``Application`` subclass, you must add it to your
    application's ``AndroidManifest.xml`` to execute your custom
    application code. Setting the ``android.name`` property of your
