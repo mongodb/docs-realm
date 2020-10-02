@@ -7,7 +7,7 @@ content: |
 
   .. code-block:: shell
 
-     npx create-react-app myapplication
+     npx create-react-app my_electron_react_application
 
 ---
 title: Install CRACO to Alter Your Webpack Configuration
@@ -79,14 +79,14 @@ ref: create-your-electron-main-process
 content: |
   The electron ``main process`` file can be thought of as the entry
   point into your application. This file is responsible for loading your
-  React App's ``index.html`` file into the BrowserWindow created by
+  React App's ``index.html`` file into the ``BrowserWindow`` created by
   electron.
 
   .. note::
      Each electron application can only have one ``main process``. The
      main process can create web pages, and each web page runs in it's
      own process, known as the ``renderer process``. To learn more about
-     this, read the official `Electron Application
+     this read the official `Electron Application
      Architecture <https://www.electronjs.org/docs/tutorial/application-architecture>`_
      doc.
 

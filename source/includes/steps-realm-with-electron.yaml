@@ -1,25 +1,115 @@
-title: Export Your Realm Application
-ref: export-your-application
+title: Setup Your Application Files
+ref: setup-application-files
 content: |
-  {+service+} automatically attempts to resume any suspended triggers included 
-  in an imported :ref:`application directory <application-directory>`. 
-  To begin restarting a suspended trigger,
-  :doc:`export </deploy/export-realm-app>` a copy of your
-  application from the :guilabel:`Export` tab of the
-  :guilabel:`Settings` page in the {+ui+}, or by running the
-  following command from an authenticated instance of :doc:`realm-cli
-  </deploy/realm-cli-reference>`:
+  To begin developing your application, create an application directory:
 
   .. code-block:: shell
 
-     realm-cli export --app-id=<App ID>.
+     mkdir myElectronApplication
+     
+  Create an ``index.html`` and ``main.js`` file in the root directory of
+  your application. The code in the main.js file is the electron main
+  process file which can be thought of as the entry point into your
+  application. The main.js file is responsible for loading your
+  index.html file into the BrowserWindow created by electron.
+
+  .. note::
+
+     Each electron application can only have one ``main process``. The
+     main process can create web pages, and each web page runs in it's
+     own process, known as the ``renderer process``. To learn more about
+     this read the official `Electron Application
+     Architecture <https://www.electronjs.org/docs/tutorial/application-architecture>`_
+     doc.
+---
+title: Setup a ``package.json``
+ref: setup-packagejson
+content: |
+  Initialize a package.json to begin installing packages and using them
+  in your project. Run the following command in your terminal:
+
+  .. code-block:: shell
+
+     npm init -y
+---
+title: Install Your Project Dependencies
+ref: install-dependencies
+content: |
+  In order to begin developing your Electron Application that uses
+  Realm, install the necessary dependencies. Install electron as a dev
+  dependency by running the following command:
+
+  .. code-block:: shell
+
+     npm install electron --save-dev
+
+  Install realm by running the following command:
+
+  .. code-block:: shell
+
+     npm install realm@beta
 
 ---
-title: Verify that the Trigger Configuration File Exists
-ref: verify-that-the-trigger-configuration-file-exists
+title: Create a Script to Run Your Application
+ref: create-script-to-run-app
 content: |
-  If you exported a new copy of your application, it should already
-  include an up-to-date configuration file for the suspended trigger.
-  You can confirm that the configuration file exists by looking in the
-  ``/triggers`` directory for a :ref:`trigger configuration file
-  <appschema-triggers>` with the same name as the trigger.
+  Add a script to your ``package.json`` file to run your application.
+
+  .. code-block:: json
+
+     "scripts": {
+      "start": "electron ."
+     }
+
+  Running the command ``npm start`` will now start your electron app.
+---
+title: Create a Browser Window Using Your Main Process
+ref: create-browser-window
+content: |
+  In order to display html to the users, your application needs a
+  browser window. Create a `browser window
+  <https://www.electronjs.org/docs/api/browser-window>`_ using the
+  electron API. Copy the following code into your ``main.js`` file:
+
+  .. code-block:: javascript
+   :emphasize-lines: 2, 8
+   :linenos:
+
+     const electron = require("electron");
+     const Realm = require("realm");
+     
+     const { app, BrowserWindow } = electron;
+     
+     function createWindow() {
+       // Create the browser window.
+       const win = new BrowserWindow({
+         width: 800,
+         height: 600,
+         webPreferences: {
+           nodeIntegration: true,
+         },
+       });
+     
+       // and load the index.html of the app.
+       win.loadFile("index.html");
+     }
+     
+     app.whenReady().then(createWindow);
+
+  Notice, the ``require("realm")`` in line 2. This line make realm
+  accessible in this main process file.
+
+title: Run Your Application
+ref: run-electron-app
+content: |
+  In order to run your application, enter the following into your terminal
+
+  .. code-block:: shell
+
+     npm start
+
+  You should see the following:
+
+  .. cssclass:: bordered-figure
+  .. figure:: /images/electron-app.png
+    :alt: Electron Desktop App
