@@ -81,7 +81,7 @@ content: |
   ID to the SceneDelegate.swift file. The SceneDelegate.swift file declares a
   global Realm App instance:
 
-  .. literalinclude:: FIXME FIXME FIXME
+  .. literalinclude:: /tutorial/generated/code/final/SceneDelegate.codeblock.initialize-app.swift
      :language: swift
 
   Change the value of ``id`` to your Realm app ID, which you can :ref:`find in
@@ -95,16 +95,19 @@ content: |
   this app. First, implement the User model, which contains information about
   the user's membership in different projects:
 
-  .. literalinclude:: FIXME FIXME FIXME
+  .. literalinclude:: /tutorial/generated/code/final/Models.codeblock.user-model.swift
+     :language: swift
 
   Next, implement the Project embedded object that represents a Project that a
   User is a member of:
 
-  .. literalinclude:: FIXME FIXME FIXME
+  .. literalinclude:: /tutorial/generated/code/final/Models.codeblock.project-model.swift
+     :language: swift
 
   Finally, let's turn the Task class into a Realm object model:
 
-  .. literalinclude:: FIXME FIXME FIXME
+  .. literalinclude:: /tutorial/generated/code/final/Models.codeblock.task-model.swift
+     :language: swift
 
 ---
 title: Enable Authentication
@@ -117,23 +120,26 @@ content: |
 
   First, let's implement the ``signUp()`` method to register a new user:
 
-  .. literalinclude:: FIXME FIXME FIXME
+  .. literalinclude:: /tutorial/generated/code/final/WelcomeViewController.codeblock.sign-up.swift
+     :language: swift
 
   Now, implement the ``signIn()`` method to log in with an existing user. Once
   logged in successfully, open the user realm and navigate to the
   ProjectsViewController:
 
-  .. literalinclude:: FIXME FIXME FIXME
+  .. literalinclude:: /tutorial/generated/code/final/WelcomeViewController.codeblock.sign-in.swift
+     :language: swift
 
 ---
 title: Implement the Projects List
 ref: implement-the-projects-list
 content: |
-  The WelcomeViewController has opened the user realm for us and passed it in to
-  this controller. This is a good practice, as it allows the realm to fully
-  download before transitioning to the next screen. If the realm failed to open
-  for some reason, the error could be handled on the original screen and not
-  have to undo a transition.
+  Open the ProjectsViewController.swift file, which is where we present the user
+  with a list of projects they are a member of. The WelcomeViewController has
+  opened the user realm for us and passed it in to this controller. This is a
+  good practice, as it allows the realm to fully download before transitioning
+  to the next screen. If the realm failed to open for some reason, the error
+  could be handled on the original screen and not have to undo a transition.
 
   We have designed our app so that the user realm will only ever contain at most
   one object: that is, the user custom data object. Because an authentication
@@ -141,14 +147,16 @@ content: |
   immediately after creating an account. So, we should watch the realm itself
   for changes:
 
-  .. literalinclude:: FIXME FIXME FIXME
+  .. literalinclude:: /tutorial/generated/code/final/ProjectsViewController.codeblock.user-in-realm-notification.swift
+     :language: swift
 
   Let's provide a way for a user to log out and get back to the
   WelcomeViewController. The ``viewDidLoad()`` method hooks up the Log Out
   button at the top of the view to the ``logOutButtonDidClick()`` method. We can
   implement ``logOutButtonDidClick()`` as follows:
 
-  .. literalinclude:: FIXME FIXME FIXME
+  .. literalinclude:: /tutorial/generated/code/final/ProjectsViewController.codeblock.log-out-button-did-click.swift
+     :language: swift
 
   Since the ProjectsViewController implements the UITableViewDelegate protocol
   for its own list, let's implement these methods. First, implement the
@@ -157,13 +165,15 @@ content: |
   their own project, we always return at least 1 even though the user object may
   not be available yet:
 
-  .. literalinclude:: FIXME FIXME FIXME
+  .. literalinclude:: /tutorial/generated/code/final/ProjectsViewController.codeblock.number-of-rows-in-section.swift
+     :language: swift
 
   Next, implement the ``tableView(_:cellForRowAt:)`` to fill out the project
   information for each cell. Again, if the user object has not loaded yet, we
   still know the user's own project is always in the list:
 
-  .. literalinclude:: FIXME FIXME FIXME
+  .. literalinclude:: /tutorial/generated/code/final/ProjectsViewController.codeblock.cell-for-row-at.swift
+     :language: swift
 
   Finally, implement the ``tableView(_:didSelectRowAt:)`` method to handle what
   happens when the user clicks a project in the list. As we opened the user
@@ -171,7 +181,8 @@ content: |
   ProjectsViewController, we'll open the project realm before navigating to the
   TasksViewController:
 
-  .. literalinclude:: FIXME FIXME FIXME
+  .. literalinclude:: /tutorial/generated/code/final/ProjectsViewController.codeblock.did-select-row-at.swift
+     :language: swift
 
 ---
 title: Implement the Tasks List
@@ -184,13 +195,15 @@ content: |
   use ``RealmResults`` instead of a standard Swift array. Let's convert that
   property now:
 
-  .. literalinclude:: FIXME FIXME FIXME
+  .. literalinclude:: /tutorial/generated/code/final/TasksViewController.codeblock..swift
+     :language: swift
 
   We can initialize the ``tasks`` property with a query on the project realm
   passed in from the ProjectsViewController. Once we have the live tasks
   collection, we can observe that for changes:
 
-  .. literalinclude:: FIXME FIXME FIXME
+  .. literalinclude:: /tutorial/generated/code/final/TasksViewController.codeblock.init.swift
+     :language: swift
 
   Calls to ``observe`` Realm objects return a notificationToken. Always retain
   the notificationToken as long as you want the observation to complete. When
@@ -198,7 +211,8 @@ content: |
   -- be sure to invalidate the token. The ``deinit`` method is a good place to
   do so:
 
-  .. literalinclude:: FIXME FIXME FIXME
+  .. literalinclude:: /tutorial/generated/code/final/TasksViewController.codeblock.deinit.swift
+     :language: swift
 
   The TasksViewController already populates the UI using the Tasks in the list.
   Check out the ``tableView(_:numberOfRowsInSection:)`` and
@@ -211,25 +225,29 @@ content: |
   the ``addButtonDidClick()`` method. We can implement the Task creation in this
   method:
 
-  .. literalinclude:: FIXME FIXME FIXME
+  .. literalinclude:: /tutorial/generated/code/final/TasksViewController.codeblock.add-button-did-click.swift
+     :language: swift
 
   When the user selects a Task in the list, we present them with an action sheet
   to allow them to update the Task's status. Complete the
   ``tableView(_:didSelectRowAt:)`` method implementation as follows:
 
-  .. literalinclude:: FIXME FIXME FIXME
+  .. literalinclude:: /tutorial/generated/code/final/TasksViewController.codeblock.populate-action-sheet.swift
+     :language: swift
 
   To handle swipes to delete a Task, we implement the
   ``tableView(_:commit:forRowAt:)`` method:
 
-  .. literalinclude:: FIXME FIXME FIXME
+  .. literalinclude:: /tutorial/generated/code/final/TasksViewController.codeblock.delete-task.swift
+     :language: swift
 
   Finally, a user can manage the team of their own project. When setting up the
   UI, the TasksViewController uses the ``isOwnTasks()`` method to decide whether
   to add the "Manage Team" action to the action bar. We can implement that as
   follows:
 
-  .. literalinclude:: FIXME FIXME FIXME
+  .. literalinclude:: /tutorial/generated/code/final/TasksViewController.codeblock.is-own-tasks.swift
+     :language: swift
 
 ---
 title: Implement the Manage Team View
@@ -246,7 +264,8 @@ content: |
   ``getMyTeamMembers`` function that returns a list of team members and refresh
   the list upon successful return:
 
-  .. literalinclude:: FIXME FIXME FIXME
+  .. literalinclude:: /tutorial/generated/code/final/ManageTeamViewController.codeblock.fetch-team-members.swift
+     :language: swift
 
   The ManageTeamViewController wires up the add button and swipe to delete
   functionality to the ``addTeamMember()`` and ``removeTeamMember()`` methods,
@@ -256,13 +275,15 @@ content: |
   can use the ``onTeamMemberOperationComplete()`` method as a completion
   handler:
 
-  .. literalinclude:: FIXME FIXME FIXME
+  .. literalinclude:: /tutorial/generated/code/final/ManageTeamViewController.codeblock.add-team-member.swift
+     :language: swift
 
   The ``removeTeamMember()`` method calls the ``removeTeamMember`` Realm function and
   also uses the ``onTeamMemberOperationComplete()`` method as a completion
   handler:
 
-  .. literalinclude:: FIXME FIXME FIXME
+  .. literalinclude:: /tutorial/generated/code/final/ManageTeamViewController.codeblock.remove-team-member.swift
+     :language: swift
 
   The ``onTeamMemberOperationComplete()`` method presents any errors to the user
   and refreshes the member list.
@@ -275,16 +296,16 @@ content: |
   Click the :guilabel:`Run` button in Xcode. If the app builds successfully,
   here are some things you can try in the app:
 
-  - Create a user with email first@example.com
+  - Create a user with email *first@example.com*
   - Explore the app, then log out or launch a second instance of the app on another device or simulator
   - Create another user with email second@example.com
-  - Navigate to second@example.com's project
+  - Navigate to *second@example.com*'s project
   - Add, update, and remove some tasks
   - Click "Manage Team"
-  - Add first@example.com to your team
-  - Log out and log in as first@example.com
+  - Add *first@example.com* to your team
+  - Log out and log in as *first@example.com*
   - See two projects in the projects list
-  - Navigate to second@example.com's project
+  - Navigate to *second@example.com*'s project
   - Collaborate by adding, updating, and removing some new tasks
 
   .. admonition:: Reminder
