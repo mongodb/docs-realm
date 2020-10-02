@@ -10,7 +10,7 @@ class TestSetup: NSObject {
         do {
             try FileManager.default.removeItem(at: url)
         } catch {
-            
+            // ignored
         }
     }
 
@@ -28,16 +28,17 @@ class TestSetup: NSObject {
             }
             return expectation
         }
-        XCTWaiter().wait(for: removeUserExpectations, timeout: 10)
+        let waiter = XCTWaiter()
+        waiter.wait(for: removeUserExpectations, timeout: 10)
+        assert(waiter.fulfilledExpectations == removeUserExpectations)
     }
 
     override init() {
         super.init()
 
         deleteAppData()
-    
+        
         let app = App(id: YOUR_REALM_APP_ID)
-        removeAllUsersFromDevice()
         
         let expectation = XCTestExpectation(description: "Call to delete all users completes")
         app.login(credentials: Credentials.anonymous) { (user, error) in
@@ -62,5 +63,10 @@ class TestSetup: NSObject {
         let waiter = XCTWaiter()
         waiter.wait(for: [expectation], timeout: 10)
         assert(waiter.fulfilledExpectations == [expectation])
+        
+        // Ensure all users are completely removed and app.currentUser is nil.
+        // Some tests depend on checking app.currentUser.
+        removeAllUsersFromDevice()
+        assert(app.currentUser == nil)
     }
 }

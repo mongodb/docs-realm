@@ -1,30 +1,7 @@
 import XCTest
 import RealmSwift
 
-class AccessMongoDB: XCTestCase {
-    
-    override func setUp() {
-        let expectation = XCTestExpectation(description: "logs in")
-        app.login(credentials: Credentials.anonymous) { (user, error) in
-            guard error == nil else {
-                fatalError("Login failed: \(error!.localizedDescription)")
-            }
-            expectation.fulfill()
-        }
-        wait(for: [expectation], timeout: 10)
-    }
-
-    override func tearDown() {
-        let expectation = XCTestExpectation(description: "logs out")
-        app.currentUser!.logOut { (error) in
-            guard error == nil else {
-                fatalError("Failed to log out: \(error!.localizedDescription)")
-            }
-            expectation.fulfill()
-        }
-        wait(for: [expectation], timeout: 10)
-    }
-
+class AccessMongoDB: AnonymouslyLoggedInTestCase {
     func testRemoteMongoDB() {
         let expectation = XCTestExpectation(description: "it completes")
         
