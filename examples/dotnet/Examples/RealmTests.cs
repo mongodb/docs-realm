@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using dotnet;
 using MongoDB.Bson;
@@ -84,8 +86,79 @@ namespace UnitTests
             return;
         }
 
+        [Test]
+        public async System.Threading.Tasks.Task LogsOnManyWays()
+        {
+            // :code-block-start: logon_anon
+            Realms.Sync.User anonUser = await app.LogInAsync(Credentials.Anonymous());
+            // :code-block-end:
+            Assert.AreEqual(UserState.LoggedIn, anonUser.State);
+            await anonUser.LogOutAsync();
+            // :code-block-start: logon_EP
+            Realms.Sync.User emailUser = await app.LogInAsync(Credentials.EmailPassword("caleb@mongodb.com", "shhhItsASektrit!"));
+            // :code-block-end:
+            Assert.AreEqual(UserState.LoggedIn, emailUser.State);
+            await emailUser.LogOutAsync();
+            // :code-block-start: logon_API
+            Realms.Sync.User apiUser = await app.LogInAsync(Credentials.ApiKey("eRECwv1e6gkLEse99XokWOgegzoguEkwmvYvXk08zAucG4kXmZu7TTgV832SwFCv"));
+            // :code-block-end:
+            Assert.AreEqual(UserState.LoggedIn, apiUser.State);
+            await apiUser.LogOutAsync();
+            // :code-block-start: logon_Function
+            var functionParameters = new Dictionary<string, string>()
+            {
+                { "username", "caleb" },
+                { "password", "shhhItsASektrit!" },
+                { "someOtherProperty", "cheesecake" }
+            };
+            Realms.Sync.User functionUser =
+                await app.LogInAsync(Credentials.Function(functionParameters));
+            // :code-block-end:
+            Assert.AreEqual(UserState.LoggedIn, functionUser.State);
+            await functionUser.LogOutAsync();
+            // :code-block-start: logon_JWT
+            Realms.Sync.User jwtUser =
+                await app.LogInAsync(Credentials.JWT("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkNhbGViIiwiaWF0IjoxNjAxNjc4ODcyLCJleHAiOjI1MTYyMzkwMjIsImF1ZCI6InR1dHMtdGlqeWEifQ.LHbeSI2FDWrlUVOBxe-rasuFiW-etv2Gu5e3eAa6Y6k"));
+            // :code-block-end:
+            Assert.AreEqual(UserState.LoggedIn, jwtUser.State);
+            await jwtUser.LogOutAsync();
+            try
+            {
+                // :code-block-start: logon_fb
+                Realms.Sync.User fbUser =
+                    await app.LogInAsync(Credentials.Facebook("<facebook_token>"));
+                // :code-block-end:
+            }
+            catch (Exception e)
+            {
+                Assert.AreEqual("http error code considered fatal: Client Error: 401", e.Message);
+            }
+            try
+            {
+                // :code-block-start: logon_google
+                Realms.Sync.User googleUser =
+                    await app.LogInAsync(Credentials.Google("<google_token>"));
+                // :code-block-end:
+            }
+            catch (Exception e)
+            {
+                Assert.AreEqual("http error code considered fatal: Client Error: 401", e.Message);
+            }
+            try
+            {
+                // :code-block-start: logon_apple
+                Realms.Sync.User appleUser =
+                    await app.LogInAsync(Credentials.Apple("<apple_token>"));
+                // :code-block-end:
+            }
+        
+            catch (Exception e)
+            {
+                Assert.AreEqual("http error code considered fatal: Client Error: 401", e.Message);
+            }
+}
 
-     [TearDown]
+        [TearDown]
         public async System.Threading.Tasks.Task TearDown()
         {
             config = new SyncConfiguration("My Project", user);
