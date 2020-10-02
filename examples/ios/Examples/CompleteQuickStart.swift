@@ -58,6 +58,7 @@ class CompleteQuickStartTest: XCTestCase {
     
     func testRunExample() {
         let expectation = XCTestExpectation(description: "Run complete quick start")
+        // :code-block-start: quick-start
         // Now logged in, do something with user
         let user = app.currentUser
         let partitionValue = "myPartition"
@@ -126,8 +127,11 @@ class CompleteQuickStartTest: XCTestCase {
 
             // Invalidate notification tokens when done observing
             notificationToken.invalidate()
+            // :hide-start:
             expectation.fulfill()
+            // :hide-end:
         }
+        // :code-block-end
         wait(for: [expectation], timeout: 10.0)
     }
 }
