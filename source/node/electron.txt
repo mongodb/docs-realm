@@ -38,5 +38,129 @@ Setup Realm with Electron using Create React App
 Working Realm Using Renderer and Main Processes
 -----------------------------------------------
 
+Electron applications have one main process. The main process can create
+multiple BrowserWindows. Each BrowserWindow will spawn its own process.
+This presents the following unique development challenges when developing
+applications using Electron and Realm:
 
+- 2 different processes cannot access a synced realm. Due to this, the recommended course of action is to open a non-synced realm on renderer processes, and open a synced realm on the main process. 
+- Since a non-synced realm is opened on the renderer process, the main process must be notified when a write transaction happens during the renderer process. 
+
+
+Consider the following code in the ``main process``:
+
+.. code-block:: javascript
+   :emphasize-lines: 38, 42, 45
+   :linenos:
+
+   const { app, BrowserWindow, ipcMain } = require("electron");
+   const Realm = require("realm");
+
+   function createWindow() {
+     const mainWindow = new BrowserWindow({
+       webPreferences: {
+         nodeIntegration: true,
+       },
+     });
+
+     mainWindow.loadFile("index.html");
+   }
+
+   app.whenReady().then(() => {
+     const realmApp = new Realm.App({ appId: "<Your App ID>"}); // Replace <Your App ID> with your application id
+     let credentials = Realm.Credentials.anonymous();
+     // log in anonymously
+     let user = await realmApp.logIn(credentials);
+
+     const PersonSchema = {
+       name: 'Person',
+       properties: {
+         _id: 'objectId',
+         name: 'string'
+       },
+       primaryKey: '_id',
+     };
+
+     const config = {
+       schema: [PersonSchema],
+       path: "myrealm.realm",
+       sync: {
+         user: user,
+         partitionValue: "My Partition"
+       }
+     };
+     // open a synced realm
+     const realm = await Realm.open(config)
+
+     // when receiving an "asynchronous-message" from the renderer process,
+     // upload all local changes to the synced realm
+     ipcMain.on("asynchronous-message", (event, arg) => {
+       if (arg === "sync") {
+         console.log("Syncing all local changes");
+         realm.syncSession.uploadAllLocalChanges();
+       }
+     });
+
+     createWindow();
+   });
+
+Notice that on line 38 a synced realm is opened in this main proces. on
+line 42, the `ipcMain <https://www.electronjs.org/docs/api/ipc-main>`_
+Electron API is used to listen for an "asynchronous-message" event. When
+that occurs, and the argument "sync" is passed in, all local changes
+will be uploaded to the synced realm. 
+
+Consider the adjacent ``renderer process`` code:
+
+.. code-block:: javascript
+   :emphasize-lines: 27, 40
+   :linenos:
+
+   const { ipcRenderer } = require("electron");
+   const Realm = require("realm");
+   const ObjectId = require("bson").ObjectId;   
+
+   async function run() {
+     const realmApp = new Realm.App({ id: "<Your App ID>" }); // Replace <Your App ID> with your application id
+     let credentials = Realm.Credentials.anonymous();
+     // log in anonymously
+     let user = await realmApp.logIn(credentials); 
+
+     var PersonSchema = {
+       name: "Person",
+       properties: {
+         _id: "objectId",
+         name: "string",
+       },
+       primaryKey: "_id",
+     };  
+
+     const config = {
+       path: "myrealm.realm",
+       schema: [PersonSchema],
+       sync: true,
+     };  
+
+     // open a non synced realm
+     const realm = new Realm(config);  
+
+     const personList = realm.objects("Person");   
+
+     // create a new "Person"
+     realm.write(() => {
+       john = realm.create("Person", {
+         _id: new ObjectId(),
+         name: "John Smith",
+       });
+     }); 
+
+     // Sending a request for sync to main
+     ipcRenderer.send("asynchronous-message", "sync");
+   }  
+
+   run();   
+
+
+On line 27, a non-synced realm is opened in this rendere r process. All
+write transactions on this local realm, will not be synced by default. In order to sync these writes, the `ipcRenderer <https://www.electronjs.org/docs/api/ipc-renderer>` Electron API is used to emit an "asynchronous-message" with the arguement "sync" on line 40. This tells our ``main process`` to upload all local changes to the synced realm. 
 
