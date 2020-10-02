@@ -137,7 +137,7 @@ class TaskActivity : AppCompatActivity() {
         // Realm provides RealmRecyclerViewAdapter, which you can extend to customize for your application
         // pass the adapter a collection of Tasks from the realm
         // sort this collection so that the displayed order of Tasks remains stable across updates
-        // :code-block-start:
+        // :code-block-start: fetch-tasks-for-project-sorted-by-id
         // :hide-start:
         adapter = TaskAdapter(realm.where<Task>().sort("_id").findAll(), user!!, partition)
         // :replace-with:

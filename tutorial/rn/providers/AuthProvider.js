@@ -1,6 +1,5 @@
 import React, { useContext, useState, useEffect, useRef } from "react";
 import Realm from "realm";
-import { Alert } from "react-native";
 import { getRealmApp } from "../getRealmApp";
 
 // Access the Realm App.
@@ -14,48 +13,53 @@ const AuthContext = React.createContext(null);
 // AuthContext value to its descendants. Components under an AuthProvider can
 // use the useAuth() hook to access the auth value.
 const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState();
-  const [projectData, setProjectData] = useState([]);
+  const [user, setUser] = useState(app.currentUser);
   const realmRef = useRef(null);
+  const [projectData, setProjectData] = useState([]);
 
   useEffect(() => {
     if (!user) {
       return;
     }
 
-    const openRealm = async () => {
-      const config = {
-        sync: {
-          user,
-          partitionValue: `user=${user.id}`,
-        },
-      };
-      // open a realm with the logged in user's partition value in order
-      // to get the projects that the logged in users is a member of
+    // The current user always has their own project, so we don't need
+    // to wait for the user object to load before displaying that project.
+    const myProject = { name: "My Project", partition: `project=${user.id}` };
+    setProjectData([myProject]);
 
-      const userRealm = await Realm.open(config);
+    // :code-block-start: open-user-realm
+    const config = {
+      sync: {
+        user,
+        partitionValue: `user=${user.id}`,
+      },
+    };
+
+    // Open a realm with the logged in user's partition value in order
+    // to get the projects that the logged in user is a member of
+    Realm.open(config).then((userRealm) => {
       realmRef.current = userRealm;
       const users = userRealm.objects("User");
 
-      if (users[0]) {
-        const users = userRealm.objects("User");
-        const { memberOf } = users[0];
-
-        setProjectData([...memberOf]);
-      } else {
-        setProjectData([
-          { name: "My Project", partition: `project=${user.id}` },
-        ]);
-      }
-
       users.addListener(() => {
-        let memberOf = users[0].memberOf;
-        setProjectData([...memberOf]);
+        // The user custom data object may not have been loaded on
+        // the server side yet when a user is first registered.
+        if (users.length === 0) {
+          setProjectData([myProject]);
+        } else {
+          const { memberOf } = users[0];
+          setProjectData([...memberOf]);
+        }
       });
-    };
+    });
+    // :replace-with:
+    //// TODO: Open the user realm, which contains at most one user custom data object
+    //// for the logged-in user.
+    // :hide-end:
+    // :code-block-end:
 
-    openRealm();
-
+    // :code-block-start: user-realm-cleanup
+    // :hide-start:
     return () => {
       // cleanup function
       const userRealm = realmRef.current;
@@ -65,52 +69,55 @@ const AuthProvider = ({ children }) => {
         setProjectData([]); // set project data to an empty array (this prevents the array from staying in state on logout)
       }
     };
+    // :replace-with:
+    //// TODO: Return a cleanup function that closes the user realm.
+    // :hide-end:
   }, [user]);
 
+  // :code-block-start: sign-in
   // The signIn function takes an email and password and uses the
   // emailPassword authentication provider to log in.
   const signIn = async (email, password) => {
-    try {
-      const creds = Realm.Credentials.emailPassword(email, password);
-      const newUser = await app.logIn(creds);
-      setUser(newUser);
-    } catch (err) {
-      Alert.alert(
-        "An error occured while signing in",
-        JSON.stringify(err, null, 2)
-      );
-      console.warn(
-        `An error occured while signing in ${JSON.stringify(err, null, 2)}`
-      );
-    }
+    // :hide-start:
+    const creds = Realm.Credentials.emailPassword(email, password);
+    const newUser = await app.logIn(creds);
+    setUser(newUser);
+    // :replace-with:
+    //// TODO: Pass the email and password to Realm's email password provider to log in.
+    //// Use the setUser() function to set the logged-in user.
+    // :hide-end:
   };
+  // :code-block-end:
 
+  // :code-block-start: sign-up
   // The signUp function takes an email and password and uses the
   // emailPassword authentication provider to register the user.
   const signUp = async (email, password) => {
-    try {
-      await app.emailPasswordAuth.registerUser(email, password);
-    } catch (err) {
-      Alert.alert(
-        "An error occured while signing up",
-        JSON.stringify(err, null, 2)
-      );
-      console.warn(
-        `An error occured while signing up: ${JSON.stringify(err, null, 2)}`
-      );
-    }
+    // :hide-start:
+    await app.emailPasswordAuth.registerUser(email, password);
+    // :replace-with:
+    //// TODO: Pass the email and password to Realm's email password provider to register the user.
+    //// Registering only registers and does not log in.
+    // :hide-end:
   };
+  // :code-block-end:
 
-  // The signUp function calls the logOut function on the currently
+  // :code-block-start: sign-out
+  // The signOut function calls the logOut function on the currently
   // logged in user
   const signOut = () => {
     if (user == null) {
       console.warn("Not logged in, can't log out!");
       return;
     }
+    // :hide-start:
     user.logOut();
     setUser(null);
+    // :replace-with:
+    //// TODO: Log out the current user and use the setUser() function to set the current user to null.
+    // :hide-end:
   };
+  // :code-block-end:
 
   return (
     <AuthContext.Provider
