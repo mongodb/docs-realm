@@ -31,7 +31,7 @@ class CompleteQuickStartTest: XCTestCase {
 
     override func setUp() {
         let expectation = XCTestExpectation(description: "Log in successfully")
-        app.login(credentials: Credentials.anonymous()) { (user, error) in
+        app.login(credentials: Credentials.anonymous) { (user, error) in
             // Remember to dispatch back to the main thread in completion handlers
             // if you want to do anything on the UI.
             DispatchQueue.main.async {
@@ -59,7 +59,7 @@ class CompleteQuickStartTest: XCTestCase {
     func testRunExample() {
         let expectation = XCTestExpectation(description: "Run complete quick start")
         // Now logged in, do something with user
-        let user = app.currentUser()
+        let user = app.currentUser
         let partitionValue = "myPartition"
 
         var configuration = user!.configuration(partitionValue: partitionValue)
@@ -120,7 +120,7 @@ class CompleteQuickStartTest: XCTestCase {
 
             print("A list of all tasks after deleting one: \(tasks)")
 
-            app.currentUser()?.logOut() { (error) in
+            app.currentUser?.logOut() { (error) in
                 // Logged out or error occurred
             }
 

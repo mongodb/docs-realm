@@ -16,14 +16,14 @@ class TestSetup: NSObject {
 
     func removeAllUsersFromDevice() {
         print("Removing all users...")
-        let removeUserExpectations = app.allUsers().map { _, user -> XCTestExpectation in
-            let expectation = XCTestExpectation(description: "Remove user \(user.id!)")
-            print("Removing users \(user.id!)")
+        let removeUserExpectations = app.allUsers.map { _, user -> XCTestExpectation in
+            let expectation = XCTestExpectation(description: "Remove user \(user.id)")
+            print("Removing users \(user.id)")
             user.remove { (error) in
                 guard error == nil else {
-                    fatalError("Failed to remove user \(user.id!): \(error!.localizedDescription)")
+                    fatalError("Failed to remove user \(user.id): \(error!.localizedDescription)")
                 }
-                print("User \(user.id!) removed.")
+                print("User \(user.id) removed.")
                 expectation.fulfill()
             }
             return expectation
@@ -40,7 +40,7 @@ class TestSetup: NSObject {
         removeAllUsersFromDevice()
         
         let expectation = XCTestExpectation(description: "Call to delete all users completes")
-        app.login(credentials: Credentials.anonymous()) { (user, error) in
+        app.login(credentials: Credentials.anonymous) { (user, error) in
             guard error == nil else {
                 fatalError(error!.localizedDescription)
             }

@@ -5,7 +5,7 @@ class MultipleUsers: XCTestCase {
 
     override func tearDown() {
         let expectation = XCTestExpectation(description: "Remove anonymous user from device")
-        app.currentUser()?.remove { (error) in
+        app.currentUser?.remove { (error) in
             expectation.fulfill()
         }
         wait(for: [expectation], timeout: 3)
@@ -18,7 +18,7 @@ class MultipleUsers: XCTestCase {
         let app = App(id: YOUR_REALM_APP_ID)
         
         func logInAnonymously() {
-            app.login(credentials: Credentials.anonymous()) { (user, error) in
+            app.login(credentials: Credentials.anonymous) { (user, error) in
                 guard error == nil else {
                     print("Failed to log in: \(error!.localizedDescription)")
                     // :hide-start:
@@ -35,7 +35,7 @@ class MultipleUsers: XCTestCase {
         func registerNewAccount(anonymousUser: User) {
             let email = "link@example.com"
             let password = "ganondorf"
-            app.emailPasswordAuth().registerUser(email: email, password: password) { (error) in
+            app.emailPasswordAuth.registerUser(email: email, password: password) { (error) in
                     guard error == nil else {
                         print("Failed to register new account: \(error!.localizedDescription)")
                         // :hide-start:
@@ -46,13 +46,13 @@ class MultipleUsers: XCTestCase {
 
                     // Successfully created account, now link it
                     // with the existing anon user
-                    link(user: anonymousUser, with: Credentials(email: email, password: password))     
+                    link(user: anonymousUser, with: Credentials.emailPassword(email: email, password: password))     
             }
         
         }
         
-        func link(user: User, with: Credentials) {
-            user.linkUser(with: with) { (user, error) in
+        func link(user: User, with credentials: Credentials) {
+            user.linkUser(credentials: credentials) { (user, error) in
                 guard error == nil else {
                     print("Failed to link user: \(error!.localizedDescription)")
                     // :hide-start:
