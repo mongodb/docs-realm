@@ -358,10 +358,19 @@ Once you have completed the code, you should run the app and check functionality
    .. image:: /images/node-cli-start-screen.png
       :alt:  Initial menu
     
-#. If you do not yet have a user account, enter an email and password, and the 
-   system will create a new account and log you in. At this point, you should see 
-   the main "menu" of choices. All of the options should now work for you except 
-   the "watch" functionality, which we'll enable in the next section.
+If the app builds successfully, here are some things you can try in the app:
+
+- Create a user with email *first@example.com*
+- Explore the app, then log out.
+- Start up the app again and register as another user with email *second@example.com*	 
+- Select *second@example.com*'s project
+- Add, update, and remove some tasks	 
+- Select the "Manage Team" menu option
+- Add *first@example.com* to your team
+- Log out and log in as *first@example.com*
+- See two projects in the projects list
+- Navigate to *second@example.com*'s project
+- Collaborate by adding, updating, and removing some new tasks
 
 .. admonition:: Reminder
    
@@ -371,7 +380,44 @@ Once you have completed the code, you should run the app and check functionality
 What's Next?
 ------------
 
-- Read our :ref:`Node.js SDK <node-intro>` documentation.
-- Try the :ref:`{+service+} Backend tutorial <backend-tutorial>`.
-- Find developer-oriented blog posts and integration tutorials on the `MongoDB Developer Hub <https://developer.mongodb.com>`__.
-- Join the `MongoDB Community forum <https://developer.mongodb.com/community/forums/c/realm/9>`__ to learn from other MongoDB developers and technical experts.
+You just built a functional task tracker web application built with MongoDB Realm. Great job!
+
+Now that you have some hands-on experience with MongoDB Realm, consider these
+options to keep practicing and learn more:
+
+- Extend the task tracker app with additional features. For example, you could:
+
+  - allow users to log in using another authentication provider
+
+- Follow another tutorial to build a mobile app for the task tracker. We have
+  task tracker tutorials for the following platforms:
+
+  - :doc:`iOS (Swift) </tutorial/ios-swift>`
+  - :doc:`Android (Kotlin) </tutorial/android-kotlin>`
+  - :doc:`React Native (JavaScript) </tutorial/react-native>`
+  - :doc:`Web with React and GraphQL (Javascript) </tutorial/web-graphql>`
+
+- Dive deeper into the docs to learn more about MongoDB Realm. You'll find
+  information and guides on features like:
+
+  - Serverless :doc:`functions </functions>` that handle backend logic and
+    connect your app to external services. You can call functions from a
+    client app, either directly or as a :doc:`custom GraphQL resolver
+    </graphql/custom-resolvers>`.
+  - :doc:`Triggers </triggers>` and :ref:`incoming webhooks <service-webhooks>`,
+    which automatically call functions in response to events as they occur. You
+    can define :doc:`database triggers </triggers/database-triggers>` which
+    respond to changes in your data, :doc:`authentication triggers
+    </triggers/authentication-triggers>` which respond to user management and
+    authentication events, and :doc:`scheduled triggers
+    </triggers/scheduled-triggers>` which run on a fixed schedule.
+  - Built-in :doc:`authentication providers </authentication/providers>` and
+    and user management tools. You can allow users to log in through multiple
+    methods, like API keys and Google OAuth, and associate :doc:`custom data
+    </users/enable-custom-user-data>` with every user.
+
+.. admonition:: Leave Feedback
+   :class: note
+   
+   How did it go? Please let us know if this tutorial was helpful or if you had
+   any issues by using the feedback widget on the bottom right of the page.
