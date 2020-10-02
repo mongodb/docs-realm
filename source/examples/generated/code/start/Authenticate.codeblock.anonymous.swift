@@ -1,4 +1,4 @@
-let anonymousCredentials = Credentials.anonymous()
+let anonymousCredentials = Credentials.anonymous
 app.login(credentials: anonymousCredentials) { (user, error) in
   DispatchQueue.main.sync {
       guard error == nil else {

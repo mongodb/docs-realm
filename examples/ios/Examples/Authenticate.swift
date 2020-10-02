@@ -105,7 +105,7 @@ class Authenticate: XCTestCase {
         let expectation = XCTestExpectation(description: "login completes")
 
         // :code-block-start: function
-        let params = ["username": AnyBSON("bob")]
+        let params: Document = ["username": "bob"]
 
         app.login(credentials: Credentials.function(payload: params)) { (user, error) in
            DispatchQueue.main.sync {
