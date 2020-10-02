@@ -26,51 +26,51 @@ Create an Authentication Trigger
 --------------------------------
 
 .. tabs-realm-admin-interfaces::
+   
+   .. tab::
+      :tabid: ui
+      
+      To create an authentication trigger in the {+ui+}:
+      
+      1. Click :guilabel:`Triggers` under :guilabel:`MongoDB
+         Cluster` in the left-hand navigation.
+      
+      2. Select the :guilabel:`Authentication Triggers` tab.
+      
+      3. Click :guilabel:`Add Authentication Trigger` in the top
+         right to open the trigger configuration page.
+      
+      4. Enter :ref:`configuration values <auth-trigger-configuration>`
+         for the trigger and click :guilabel:`Save` at the bottom of
+         the page.
+      
+      .. figure:: /images/auth-trigger-example-config.png
+         :width: 750px
+         :lightbox:
+      
+   .. tab::
+      :tabid: cli
 
-   tabs:
-     - id: ui
-       content: |
-         To create an authentication trigger in the {+ui+}:
-
-         1. Click :guilabel:`Triggers` under :guilabel:`MongoDB
-            Cluster` in the left-hand navigation.
-
-         2. Select the :guilabel:`Authentication Triggers` tab.
-
-         3. Click :guilabel:`Add Authentication Trigger` in the top
-            right to open the trigger configuration page.
-
-         4. Enter :ref:`configuration values <auth-trigger-configuration>`
-            for the trigger and click :guilabel:`Save` at the bottom of
-            the page.
-
-         .. figure:: /images/auth-trigger-example-config.png
-            :width: 750px
-            :lightbox:
-
-     - id: cli
-       content: |
-         To create an authentication Trigger with :doc:`{+cli+}
-         </deploy/realm-cli-reference>`:
-
-         1. Add an authentication Trigger :ref:`configuration file
-            <auth-trigger-configuration>` to the ``triggers``
-            subdirectory of a local application directory.
-
-            .. note::
-
-               {+backend+} does not enforce specific filenames for {+service-short+} Trigger
-               configuration files. However, once imported, {+backend+} will
-               rename each configuration file to match the name of the
-               Trigger it defines, e.g. ``mytrigger.json``.
-
-         2. :doc:`Import </deploy/deploy-cli>` the
-            application directory into your application.
-
-            .. code-block:: shell
-
-               realm-cli import
-
+      To create an authentication Trigger with :doc:`{+cli+}
+      </deploy/realm-cli-reference>`:
+      
+      1. Add an authentication Trigger :ref:`configuration file
+         <auth-trigger-configuration>` to the ``triggers``
+         subdirectory of a local application directory.
+      
+         .. note::
+            
+            {+backend+} does not enforce specific filenames for {+service-short+} Trigger
+            configuration files. However, once imported, {+backend+} will
+            rename each configuration file to match the name of the
+            Trigger it defines, e.g. ``mytrigger.json``.
+      
+      2. :doc:`Import </deploy/deploy-cli>` the
+         application directory into your application.
+      
+         .. code-block:: shell
+            
+            realm-cli import
 
 Reference
 ---------
@@ -116,55 +116,35 @@ Authentication Trigger Configuration
    * - Field
      - Description
 
-   * - :guilabel:`Trigger Type`
-
-       .. tab-content:: tabs-realm-admin-interfaces
-          :tab-id: cli
-
-          | *type*
+   * - | :guilabel:`Trigger Type`
+       | *type*
 
      - Required. The type of the trigger. For authentication Triggers,
        this value should be set to ``AUTHENTICATION``.
 
-   * - :guilabel:`Trigger Name`
-
-       .. tab-content:: tabs-realm-admin-interfaces
-          :tab-id: cli
-
-          | *name*
+   * - | :guilabel:`Trigger Name`
+       | *name*
 
      - Required. The name of the trigger.
 
-   * - :guilabel:`Linked Function`
-
-       .. tab-content:: tabs-realm-admin-interfaces
-          :tab-id: cli
-
-          | *function_name*
+   * - | :guilabel:`Linked Function`
+       | *function_name*
 
      - Required. The name of the {+service-short+} Function that the Trigger
        executes whenever it fires. The Trigger passes the
        :ref:`authentication event object <authentication-events>` that
        caused it to fire as the only argument to this function.
 
-   * - :guilabel:`Operation Type`
-
-       .. tab-content:: tabs-realm-admin-interfaces
-          :tab-id: cli
-
-          | *config.operation_type*
+   * - | :guilabel:`Operation Type`
+       | *config.operation_type*
 
      - Required. The :ref:`authentication operation
        type <authentication-event-operation-types>` that causes the
        trigger to fire. The operation type must be formatted as a
        fully-capitalized string, e.g. ``"LOGIN"``.
 
-   * - :guilabel:`Providers`
-
-       .. tab-content:: tabs-realm-admin-interfaces
-          :tab-id: cli
-
-          | *config.providers*
+   * - | :guilabel:`Providers`
+       | *config.providers*
 
      - Required. A list of one or more :doc:`authentication provider
        </authentication/providers>` types. The Trigger will

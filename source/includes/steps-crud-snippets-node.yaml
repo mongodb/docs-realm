@@ -47,7 +47,7 @@ content: |
          // an authenticated user is required to access a MongoDB instance
          user = await app.logIn(Realm.Credentials.anonymous());
 
-         const mongoClient = user.remoteMongoClient("<atlas service name>");
+         const mongoClient = user.mongoClient("<atlas service name>");
          const mongoCollection = mongoClient
            .db("<database name>")
            .collection("<collection name");

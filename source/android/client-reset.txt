@@ -1,0 +1,86 @@
+.. _android-client-resets:
+.. _android-client-reset:
+
+=============
+Client Resets
+=============
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+When using :doc:`{+sync+} </sync>`, a **client
+reset** is a serious error recovery task that your client
+app must perform in the following situation:
+
+- The given synced {+realm+} on the server was restored from a backup.
+  For example, due to a {+service-short+} server crash.
+
+- The client app made changes to that {+realm+} since the backup was made,
+  but did not sync those changes back to the server before the server
+  was restored.
+
+In other words, the client app must carry out a client reset
+on a given synced {+realm+} if the server is restored to a
+version older than the version on the client.
+
+A client reset erases all local data and downloads a new copy of the
+data stored in MongoDB Atlas. Performing a client reset loses all local
+changes made since the client last successfully synced.
+
+Example
+-------
+
+By default, the SDK performs client resets automatically on startup when
+instructed to do so by the server. When a client
+reset occurs, the SDK creates a backup of local data. By default,
+the SDK makes no effort to recover lost local changes from this backup.
+If you override the client reset handler, you can access this backup
+copy through the ``RealmConfiguration`` stored in the
+``ClientResetRequiredError`` to manually transfer data from the
+backup copy to the newly created {+realm+}.
+
+To override the default client reset behavior, create an instance of a
+``SyncSession.ClientResetHandler`` that overrides the default
+``onClientReset()`` behavior. Pass this object to your
+``AppConfiguration.Builder`` using the ``defaultClientResetHandler()``
+builder method:
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: kotlin
+
+      .. code-block:: kotlin
+
+         val handler = SyncSession.ClientResetHandler { session, error -> 
+            Log.e("EXAMPLE", Client Reset required for: ${session.configuration.serverUrl} for error: ${error}")
+         }
+         val app: App = App(AppConfiguration.Builder("your App ID")
+            .defaultClientResetHandler(handler)
+            .build())
+
+   .. tab::
+      :tabid: java
+
+      .. code-block:: java
+
+        SyncSession.ClientResetHandler handler = new SyncSession.ClientResetHandler() {
+            @Override
+            public void onClientReset(SyncSession session, ClientResetRequiredError error) {
+                Log.e("EXAMPLE", "Client Reset required for: " +
+                    session.getConfiguration().getServerUrl() + " for error: " +
+                    error.toString());
+            }
+        }
+
+        val app = App(AppConfiguration.Builder("your App ID")
+            .defaultClientResetHandler(handler)
+            .build());

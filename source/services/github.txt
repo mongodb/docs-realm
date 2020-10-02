@@ -27,20 +27,22 @@ Configuration Parameters
 You will need to provide values for the following parameters when you
 :doc:`create a GitHub service interface </services/configure/services>`:
 
-.. tab-bar:: tabs-realm-admin-interfaces
-   :tab-ids: ui, cli
-
-.. tab-content:: tabs-realm-admin-interfaces
-   :tab-id: cli
-
-   .. code-block:: json
-      :caption: ``<Service Name>/config.json``
-
-      {
-        "name": "<Service Name>",
-        "type": "github",
-        "config": {}
-      }
+.. tabs-realm-admin-interfaces::
+   
+   .. tab::
+      :tabid: ui
+      
+   .. tab::
+      :tabid: cli
+      
+      .. code-block:: json
+         :caption: ``<Service Name>/config.json``
+         
+         {
+           "name": "<Service Name>",
+           "type": "github",
+           "config": {}
+         }
 
 .. cssclass:: auth-table
 .. list-table::
@@ -50,12 +52,8 @@ You will need to provide values for the following parameters when you
    * - Parameter
      - Description
 
-   * - :guilabel:`Service Name`
-
-       .. tab-content:: tabs-realm-admin-interfaces
-          :tab-id: cli
-
-          | *config.name*
+   * - | :guilabel:`Service Name`
+       | *config.name*
 
      - The name of this GitHub service interface. This must be unique
        from all other service interfaces in your application.
@@ -118,63 +116,48 @@ Configuration
    * - Configuration Value
      - Description
 
-   * - :guilabel:`Webhook Name`
-
-       .. tab-content:: tabs-realm-admin-interfaces
-          :tab-id: cli
-
-          | *name*
+   * - | :guilabel:`Webhook Name`
+       | *name*
 
      - Required. The name of the webhook. Each incoming webhook in a
        GitHub service interface must have a unique name.
 
-   * - :guilabel:`Respond With Result`
-
-       .. tab-content:: tabs-realm-admin-interfaces
-          :tab-id: cli
-
-          | *respond_result*
+   * - | :guilabel:`Respond With Result`
+       | *respond_result*
 
      - Required. If ``true``, {+service-short+} sends the return value of the
        webhook function to GitHub in the response body.
 
-   * - :guilabel:`Run Webhook As`
-
-       .. tab-content:: tabs-realm-admin-interfaces
-          :tab-id: cli
-
-          | *run_as_user_id*
-          | *run_as_user_id_script_source*
+   * - | :guilabel:`Run Webhook As`
+       | *run_as_user_id*
+       | *run_as_user_id_script_source*
 
      - Optional. The id of the :doc:`{+service-short+} user </authentication>` that
        executes the webhook function when the webhook is called.
 
-       .. tab-content:: tabs-realm-admin-interfaces
-          :tab-id: ui
+       .. tabs-realm-admin-interfaces::
+          :hidden: true
+          
+          .. tab::
+             :tabid: ui
+             
+             .. include:: /includes/run-webhook-as-options.rst
+          
+          .. tab::
+             :tabid: cli
 
-          .. include:: /includes/run-webhook-as-options.rst
+             You can specify the user id directly in ``run_as_user_id`` or
+             provide a stringified :doc:`{+service-short+} Function
+             </functions>` that accepts the webhook payload and returns the user
+             id in ``run_as_user_id_script_source``. If you do not specify a
+             specific user id or a function that resolves to a user id,
+             {+service-short+} executes the webhook function as the :ref:`system
+             user <system-user>` that has full access to MongoDB CRUD and
+             Aggregation APIs and is not affected by any rules, roles, or
+             permissions.
 
-       .. tab-content:: tabs-realm-admin-interfaces
-          :tab-id: cli
-
-          You can specify the user id directly in
-          ``run_as_user_id`` or provide a stringified
-          :doc:`{+service-short+} Function </functions>` that accepts
-          the webhook payload and returns the user id in
-          ``run_as_user_id_script_source``. If you do not
-          specify a specific user id or a function that
-          resolves to a user id, {+service-short+} executes the webhook
-          function as the :ref:`system user <system-user>`,
-          which has full access to MongoDB CRUD and
-          Aggregation APIs and is not affected by any rules,
-          roles, or permissions.
-
-   * - :guilabel:`Request Validation`
-
-       .. tab-content:: tabs-realm-admin-interfaces
-          :tab-id: cli
-
-          | *config.secret*
+   * - | :guilabel:`Request Validation`
+       | *config.secret*
 
      - The :guilabel:`GitHub Secret` string that GitHub includes with
        incoming requests to prove that the requests are valid. You must

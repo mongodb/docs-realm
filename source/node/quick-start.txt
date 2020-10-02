@@ -161,7 +161,7 @@ without providing any identifying information:
            const user = await app.logIn(credentials);
            console.log(`Logged in with the user id: ${user.id}`);
          };
-         run().catch(err => {
+         handleLogin().catch(err => {
            console.error("Failed to log in:", err)
          });
     
@@ -182,7 +182,7 @@ without providing any identifying information:
            const user: Realm.User = await app.logIn(credentials);
            console.log(`Logged in with the user id: ${user.id}`);
          };
-         run().catch(err => {
+         handleLogin().catch(err => {
            console.error("Failed to log in:", err)
          });
 

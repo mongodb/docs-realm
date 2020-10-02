@@ -104,7 +104,7 @@ valley" plant into a
                 BsonObjectId insertedId = task.get().getInsertedId().asObjectId();
                 Log.v("EXAMPLE", "successfully inserted a document with id " + insertedId);
             } else {
-                Log.e("EXAMPLE", "failed to insert document with: ", task.getError().toString());
+                Log.e("EXAMPLE", "failed to insert document with: ", task.getError());
             }
          });
 
@@ -199,7 +199,7 @@ The following snippet inserts three documents describing plants into a
                 int insertedCount = task.get().getInsertedIds().size();
                 Log.v("EXAMPLE", "successfully inserted " + insertedCount + " documents into the collection.");
             } else {
-                Log.e("EXAMPLE", "failed to insert documents with: ", task.getError().toString);
+                Log.e("EXAMPLE", "failed to insert documents with: ", task.getError());
             }
          });
 
@@ -218,7 +218,7 @@ These code snippets demonstrate how to read data stored in a MongoDB
 collection from a mobile application. Read operations use :manual:`query filters
 </core/document/#document-query-filter>` to specify which documents to
 return from the database. Read operations return a
-:android:`Task <com/google/android/play/core/tasks/Task>` that resolves to
+:android:`Task <reference/com/google/android/play/core/tasks/Task>` that resolves to
 either a single matched document (in the case of ``findOne()``), a ``long``
 numeric value (in the case of ``count()``) or an iterator that allows you to
 traverse the collection of matched documents (in the case of ``find()``).
@@ -275,7 +275,7 @@ field contains the string value "perennial":
                 Document result = task.get();
                 Log.v("EXAMPLE", "successfully found a document: " + result);
             } else {
-                Log.e("EXAMPLE", "failed to find document with: ", task.getError().toString());
+                Log.e("EXAMPLE", "failed to find document with: ", task.getError());
             }
          });
 
@@ -347,7 +347,7 @@ The following snippet finds all documents in a
                     Log.v("EXAMPLE", results.next().toString());
                 }
             } else {
-                Log.e("EXAMPLE", "failed to find documents with: ", task.getError().toString());
+                Log.e("EXAMPLE", "failed to find documents with: ", task.getError());
             }
          });
 
@@ -414,7 +414,7 @@ The following snippet counts the number of documents in a
                 long count = task.get();
                 Log.v("EXAMPLE", "successfully counted, number of documents in the collection: " + count);
             } else {
-                Log.e("EXAMPLE", "failed to count documents with: ", task.getError().toString());
+                Log.e("EXAMPLE", "failed to count documents with: ", task.getError());
             }
          });
 
@@ -435,7 +435,7 @@ collection from a mobile application. Update operations use query filters
 to specify which documents to update and :manual:`update operators
 </reference/operator/update>` to describe how to mutate documents that
 match the query. Update operations return a :android:`Task
-<com/google/android/play/core/tasks/Task>` that resolves to an object
+<reference/com/google/android/play/core/tasks/Task>` that resolves to an object
 that contains the results of the execution of the operation.
 
 .. _android-mongodb-updateOne:
@@ -505,7 +505,7 @@ of the first matched document's ``sunlight`` field to "partial":
                     Log.v("EXAMPLE", "did not update a document.");
                 }
             } else {
-                Log.e("EXAMPLE", "failed to update document with: ", task.getError().toString());
+                Log.e("EXAMPLE", "failed to update document with: ", task.getError());
             }
          });
 
@@ -581,7 +581,7 @@ the value of the ``_partition`` field of each matching document to "Store 51":
                     Log.v("EXAMPLE", "did not update any documents.");
                 }
             } else {
-                Log.e("EXAMPLE", "failed to update documents with: ", task.getError().toString());
+                Log.e("EXAMPLE", "failed to update documents with: ", task.getError());
             }
          });
 
@@ -673,7 +673,7 @@ both the query filter and specified updates:
                     Log.v("EXAMPLE", "successfully updated a document.");
                 }
             } else {
-                Log.e("EXAMPLE", "failed to update or insert document with: ", task.getError().toString());
+                Log.e("EXAMPLE", "failed to update or insert document with: ", task.getError());
             }
          });
 
@@ -691,7 +691,7 @@ Delete Documents
 These code snippets demonstrate how to delete documents that
 are stored in a MongoDB collection from a mobile application.
 Delete operations use a query filter to specify which documents to delete
-and return a :android:`Task <com/google/android/play/core/tasks/Task>`
+and return a :android:`Task <reference/com/google/android/play/core/tasks/Task>`
 that resolves to an object that contains the results of the execution
 of the operation.
 
@@ -759,7 +759,7 @@ the first document that matches the query:
                     Log.v("EXAMPLE", "did not delete a document.");
                 }
             } else {
-                Log.e("EXAMPLE", "failed to delete document with: ", task.getError().toString());
+                Log.e("EXAMPLE", "failed to delete document with: ", task.getError());
             }
          });
 
@@ -836,7 +836,7 @@ a ``sunlight`` field value of "full" and a ``type`` field value of
                     Log.v("EXAMPLE", "did not delete any documents.");
                 }
             } else {
-                Log.e("EXAMPLE", "failed to delete documents with: ", task.getError().toString());
+                Log.e("EXAMPLE", "failed to delete documents with: ", task.getError());
             }
          });
 
@@ -860,7 +860,7 @@ you to filter and shape documents as well as collect summary data about
 groups of related documents.
 
 Aggregation operations accept a list of aggregation stages as input, and
-return a :android:`Task <com/google/android/play/core/tasks/Task>` that
+return a :android:`Task <reference/com/google/android/play/core/tasks/Task>` that
 resolves to a collection of documents processed by the pipeline.
 
 .. _android-mongodb-aggregate:
@@ -931,7 +931,7 @@ number of each type:
                     Log.v("EXAMPLE", results.next().toString());
                 }
             } else {
-                Log.e("EXAMPLE", "failed to aggregate documents with: ", task.getError().toString());
+                Log.e("EXAMPLE", "failed to aggregate documents with: ", task.getError());
             }
          });
 
@@ -942,6 +942,240 @@ Running this snippet produces output resembling the following:
    V/EXAMPLE: Plant type counts: 
    V/EXAMPLE: Document{{_id=perennial, totalCount=2}}
    V/EXAMPLE: Document{{_id=annual, totalCount=3}}
+
+.. _android-mongodb-watch:
+
+Watch for Changes
+-----------------
+
+These code snippets demonstrate how to configure and run
+:manual:`watch </reference/method/db.collection.watch/>` operations on a
+collection.
+
+Watch for Changes in a Collection
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can open a stream of changes made to a collection by calling
+:java-sdk:`collection.watch()
+<io/realm/mongodb/mongo/MongoCollection.html#watch-->` or
+:java-sdk:`collection.watchAsync()
+<io/realm/mongodb/mongo/MongoCollection.html#watchAsync-->`. You can
+watch for changes to specific documents in a collection by passing the
+object ids of the objects you would like to monitor as a
+`variable number of arguments
+<https://kotlinlang.org/docs/reference/functions.html#variable-number-of-arguments-varargs>`__.
+
+The following snippet watches for changes to any documents in the
+``plants`` collection:
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: kotlin
+
+      .. code-block:: kotlin
+
+         val user: User? = app.currentUser()
+
+         val mongoClient : MongoClient? = user?.getMongoClient("<mongodb-atlas-service-name>")
+         val mongoDatabase : MongoDatabase? = mongoClient?.getDatabase("<database>")
+         val mongoCollection : MongoCollection<Document>? = mongoDatabase?.getCollection("<collection>")
+
+         val watcher : RealmEventStreamAsyncTask<Document>? = mongoCollection?.watchAsync()
+
+         watcher?.get {
+            if (it.isSuccess) {
+                Log.v(
+                    "EXAMPLE",
+                    "Event type: ${it.get().operationType}, full document: ${it.get().fullDocument}"
+                )
+            } else {
+                Log.e("EXAMPLE", "failed to subscribe to changes in the collection with: ${it.error}")
+            }
+         }
+
+         val plant : Document = Document("name", "triffid")
+                    .append("sunlight", "low")
+                    .append("color", "green")
+                    .append("type", "perennial")
+                    .append("_partition", "Store 47")
+
+         mongoCollection?.insertOne(plant)?.getAsync() {
+            if (it.isSuccess) {
+                Log.v("EXAMPLE", "successfully inserted a document with id: ${it.get().insertedId}")
+            } else {
+                Log.e("EXAMPLE", "failed to insert documents with: ${it.error}")
+            }
+         }
+
+   .. tab::
+      :tabid: java
+
+      .. code-block:: java
+
+         User user = app.currentUser();
+
+         MongoClient mongoClient = user.getMongoClient("<mongodb-atlas-service-name>");
+         MongoDatabase mongoDatabase = mongoClient.getDatabase("inventory");
+         MongoCollection<Document> mongoCollection  = mongoDatabase.getCollection("plants");
+
+         RealmEventStreamAsyncTask<Document> watcher = mongoCollection.watchAsync();
+
+         watcher.get(result -> {
+            if (result.isSuccess()) {
+                Log.v(
+                        "EXAMPLE",
+                        "Event type: " + result.get().getOperationType() + " full document: " + result.get().getFullDocument()
+                );
+            } else {
+                Log.e("EXAMPLE", "failed to subscribe to changes in the collection with : ", result.getError());
+            }
+         });
+
+         Document plant = new Document("name", "triffid")
+                .append("sunlight", "low")
+                .append("color", "green")
+                .append("type", "perennial")
+                .append("_partition", "Store 47");
+
+         mongoCollection.insertOne(plant).getAsync(task -> {
+            if (task.isSuccess()) {
+                BsonObjectId insertedId = task.get().getInsertedId().asObjectId();
+                Log.v("EXAMPLE", "successfully inserted a document with id " + insertedId);
+            } else {
+                Log.e("EXAMPLE", "failed to insert document with: ", task.getError());
+            }
+         });
+
+
+
+Running this snippet produces output resembling the following:
+
+.. code-block:: text
+
+   V/EXAMPLE: successfully inserted a document with id BsonObjectId{value=5f6bb...}
+   V/EXAMPLE: Event type: INSERT full document: Document{{_id=5f6bb..., name=triffid, sunlight=low, color=green, type=perennial, _partition=Store 47}}
+
+.. _android-mongodb-watch-with-filter:
+
+Watch for Changes in a Collection with a Filter
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can open a stream of changes made to documents in a collection that
+fulfill certain criteria by calling :java-sdk:`collection.watchWithFilter()
+<io/realm/mongodb/mongo/MongoCollection.html#watchWithFilter-BsonDocument->` or
+:java-sdk:`collection.watchWithFilterAsync()
+<io/realm/mongodb/mongo/MongoCollection.html#watchWithFilterAsync-Document->`.
+Both methods accept a `Document` or `BsonDocument` parameter that is
+used as the query of a :manual:`$match operator
+</reference/operator/aggregation/match/>` to process each
+:ref:`database event <database-events>` that occurs while watching the
+collection.
+
+The following snippet watches for changes to documents in the
+``plants`` collection, but only triggers the provided callback for
+events corresponding to documents belonging to the partition named
+"Store 42":
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: kotlin
+
+      .. code-block:: kotlin
+
+         val user: User? = app.currentUser()
+
+         val mongoClient : MongoClient? = user?.getMongoClient("<mongodb-atlas-service-name>")
+         val mongoDatabase : MongoDatabase? = mongoClient?.getDatabase("<database>")
+         val mongoCollection : MongoCollection<Document>? = mongoDatabase?.getCollection("<collection>")
+
+         val watcher : RealmEventStreamAsyncTask<Document>? = mongoCollection?
+                    .watchWithFilterAsync(Document("fullDocument._partition", "Store 42"))
+
+         watcher?.get {
+            if (it.isSuccess) {
+                Log.v(
+                    "EXAMPLE",
+                    "Event type: ${it.get().operationType}, full document: ${it.get().fullDocument}"
+                )
+            } else {
+                Log.e("EXAMPLE", "failed to subscribe to filtered changes in the collection with: ${it.error}")
+            }
+         }
+
+         val plants : List<Document> = Arrays.asList(
+                    Document("name", "triffid")
+                        .append("sunlight", "low")
+                        .append("color", "green")
+                        .append("type", "perennial")
+                        .append("_partition", "Store 47"),
+                    Document("name", "venomous tentacula")
+                        .append("sunlight", "low")
+                        .append("color", "brown")
+                        .append("type", "annual")
+                        .append("_partition", "Store 42"))
+
+          mongoCollection?.insertMany(plants)?.getAsync {
+              if (it.isSuccess) {
+                  Log.v("EXAMPLE", "successfully inserted ${it.get().insertedIds.size} documents into the collection.")
+              } else {
+                  Log.e("EXAMPLE", "failed to insert documents with: ${it.error}")
+              }
+          }
+
+   .. tab::
+      :tabid: java
+
+      .. code-block:: java
+
+         User user = app.currentUser();
+
+         MongoClient mongoClient = user.getMongoClient("<mongodb-atlas-service-name>");
+         MongoDatabase mongoDatabase = mongoClient.getDatabase("inventory");
+         MongoCollection<Document> mongoCollection  = mongoDatabase.getCollection("plants");
+
+         RealmEventStreamAsyncTask<Document> watcher = mongoCollection
+            .watchWithFilterAsync(new Document("fullDocument._partition", "Store 42"));
+
+         watcher.get(result -> {
+            if (result.isSuccess()) {
+                Log.v(
+                        "EXAMPLE",
+                        "Event type: " + result.get().getOperationType() + " full document: " + result.get().getFullDocument()
+                );
+            } else {
+                Log.e("EXAMPLE", "failed to subscribe to filtered changes in the collection with : ", result.getError());
+            }
+         });
+
+         List<Document> plants  = Arrays.asList(
+                new Document("name", "triffid")
+                        .append("sunlight", "low")
+                        .append("color", "green")
+                        .append("type", "perennial")
+                        .append("_partition", "Store 47"),
+                new Document("name", "venomous tentacula")
+                        .append("sunlight", "low")
+                        .append("color", "brown")
+                        .append("type", "annual")
+                        .append("_partition", "Store 42"));
+
+         mongoCollection.insertMany(plants).getAsync(task -> {
+            if (task.isSuccess()) {
+                int insertedCount = task.get().getInsertedIds().size();
+                Log.v("EXAMPLE", "successfully inserted " + insertedCount + " documents into the collection.");
+            } else {
+                Log.e("EXAMPLE", "failed to insert documents with: ", task.getError());
+            }
+         });
+
+Running this snippet produces output resembling the following:
+
+.. code-block:: text
+
+   V/EXAMPLE: successfully inserted 2 documents into the collection
+   V/EXAMPLE: Event type: INSERT full document: Document{{_id=5f6bb..., name=venomous tentacula, sunlight=low, color=brown, type=annual, _partition=Store 42}}
 
 .. _android-mongodb-aggregation-stages:
 
