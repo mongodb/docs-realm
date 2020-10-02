@@ -1,11 +1,3 @@
-//
-//  Authenticate.swift
-//  RealmExamples
-//
-//  Created by Chris Bush on 2020-10-01.
-//  Copyright © 2020 MongoDB, Inc. All rights reserved.
-//
-
 import XCTest
 import RealmSwift
 
