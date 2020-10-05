@@ -121,7 +121,7 @@ ref: connect-to-your-mongodb-realm-app
 content: |
   To get the app working with your backend, you first need to instantiate the
   Realm app. The Realm app is the interface to the MongoDB Realm backend.
-  Navigate to the getRealmApp.js file and complete the ``getRealmApp()``
+  Navigate to the ``getRealmApp.js`` file and complete the ``getRealmApp()``
   function implementation:
 
   .. literalinclude:: /tutorial/generated/code/final/getRealmApp.codeblock.get-realm-app.js
@@ -134,8 +134,8 @@ content: |
 title: Implement the AuthProvider
 ref: implement-the-auth-provider
 content: |
-  Navigate to providers/AuthProvider.js. In this file, and in the
-  providers/TasksProvider.js file that we will complete a bit later, we use
+  Navigate to ``providers/AuthProvider.js``. In this file, and in the
+  ``providers/TasksProvider.js`` file that we will complete a bit later, we use
   React :reactjs:`Context <docs/context.html>` and :reactjs:`hooks
   <docs/hooks-overview.html>` to implement a data provider pattern. Don't worry
   if you aren't too familiar with these constructs yet. The basic idea is as
@@ -179,7 +179,7 @@ content: |
   realm may be empty when first opened. Add an observer to the collection of
   users in that realm in order to watch for the user object first appearing as
   well as any changes to the its Project memberships. When a user object is
-  available, read its memberOf field to populate the available Project data for
+  available, read its ``memberOf`` field to populate the available Project data for
   any descendant of the provider:
 
   .. literalinclude:: /tutorial/generated/code/final/AuthProvider.codeblock.open-user-realm.js
@@ -192,7 +192,7 @@ content: |
   .. literalinclude:: /tutorial/generated/code/final/AuthProvider.codeblock.user-realm-cleanup.js
      :language: javascript
 
-  Check out the App.js, view/WelcomeView.js, and view/ProjectView.js files to
+  Check out the ``App.js``, ``view/WelcomeView.js``, and ``view/ProjectView.js`` files to
   see how they use the AuthProvider's signIn, signUp, and signOut functions and
   user data via the ``useAuth()`` hook function. The ProjectView also uses the
   Project data to populate the list of Projects available to the logged-in user.
@@ -203,7 +203,7 @@ title: Define the Task Schema
 ref: define-the-task-schema
 content: |
   In order to work with Task objects in the Realm Database, we need to define
-  their schema. Navigate to the schemas.js file to complete the Task class's
+  their schema. Navigate to the ``schemas.js`` file to complete the Task class's
   schema definition:
 
   .. literalinclude:: /tutorial/generated/code/final/schemas.codeblock.react-native-task-schema.js
@@ -253,7 +253,7 @@ content: |
   .. literalinclude:: /tutorial/generated/code/final/TasksProvider.codeblock.delete-task.js
      :language: javascript
 
-  Check out the views/TasksView.js and components/TaskItem.js files to see how
+  Check out the ``views/TasksView.js`` and ``components/TaskItem.js`` files to see how
   they use the provider's task data and functionality via the ``useTasks()``
   hook function.
 ---
@@ -261,23 +261,23 @@ title: Implement Team Management
 ref: implement-team-management
 content: |
   A user can add other users to their team, which allows them to view, edit, and
-  delete Tasks on the user's Project. The ManageTeam component implements this
+  delete Tasks on the user's Project. The ``ManageTeam`` component implements this
   functionality by calling a few Realm functions on the backend that we defined
   earlier.
 
-  Navigate to components/ManageTeam.js. First, we need to fetch the list of
+  Navigate to ``components/ManageTeam.js``. First, we need to fetch the list of
   current team members:
 
   .. literalinclude:: /tutorial/generated/code/final/ManageTeam.codeblock.get-team.js
      :language: javascript
 
-  Next, call the addTeamMember function on the backend to implement add team
+  Next, call the ``addTeamMember`` function on the backend to implement add team
   member functionality:
 
   .. literalinclude:: /tutorial/generated/code/final/ManageTeam.codeblock.add-team-member.js
      :language: javascript
 
-  Finally, call the removeTeamMember function on the backend to implement remove
+  Finally, call the ``removeTeamMember`` function on the backend to implement remove
   team member functionality:
 
   .. literalinclude:: /tutorial/generated/code/final/ManageTeam.codeblock.remove-team-member.js
