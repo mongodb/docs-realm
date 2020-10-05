@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using dotnet;
@@ -19,15 +20,20 @@ namespace UnitTests
         const string myRealmAppId = "tuts-tijya";
 
         [SetUp]
-        public async System.Threading.Tasks.Task Setup()
+        public async Task Setup()
         {
             // :code-block-start: initialize-realm
             app = App.Create(myRealmAppId);
             // :code-block-end:
             user = app.LogInAsync(Credentials.EmailPassword("foo@foo.com", "foobar")).Result;
+            // :code-block-start: open-synced-realm
             config = new SyncConfiguration("My Project", user);
             Realm realm = await Realm.GetInstanceAsync(config);
-            // :code-block-stat: create
+            // :code-block-end:
+            // :code-block-start: open-synced-realm-sync
+            Realm synchronousRealm = Realm.GetInstance(config);
+            // :code-block-end:
+            // :code-block-start: create
             RealmTask testTask = new RealmTask()
             {
                 Name = "Do this thing",
@@ -41,6 +47,24 @@ namespace UnitTests
             // :code-block-end:
             testTaskId = testTask.Id;
             return;
+        }
+
+        [Test]
+        public void OpensLocalRealm()
+        {
+            var pathToDb = Directory.GetCurrentDirectory() + "/myDB/";
+            if (!File.Exists(pathToDb)){
+                Directory.CreateDirectory(pathToDb);
+            }
+            // :code-block-start: local-realm
+            var config = new RealmConfiguration(pathToDb)
+            {
+                IsReadOnly = true,
+            };
+            var localRealm = Realm.GetInstance(config);
+            // :code-block-end:
+            Assert.IsNotNull(localRealm);
+            Directory.Delete(pathToDb, true);
         }
 
         [Test]

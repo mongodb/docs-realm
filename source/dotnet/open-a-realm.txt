@@ -1,0 +1,51 @@
+.. _dotnet-open-realm:
+
+======================
+Open and Close a Realm
+======================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Open a Synced Realm
+-------------------
+To open a synced {+realm+}, call the ``GetInstanceAsync()`` method, 
+passing in a ``SyncConfiguration`` object that includes the partition name and 
+the user. The following code demonstrates this:
+
+.. literalinclude:: /examples/generated/code/start/Examples.codeblock.open-synced-realm.cs
+   :language: csharp
+
+In the above example, the code shows how to open the {+realm+} *asynchronously* 
+by calling ``GetInstanceAsync``. You can also open a {+realm+} *synchronously* 
+by calling ``GetInstance``, but this may lead to temporary data inconsistencies 
+while the remote data is downloaded, and is generally not recommended. 
+
+.. literalinclude:: /examples/generated/code/start/Examples.codeblock.open-synced-realm-sync.cs
+   :language: csharp
+
+Open a Local (Non-Synced) Realm
+-------------------------------
+When opening a local (non-synced) {+realm+}, you pass a ``RealmConfiguration`` 
+object to either ``GetInstanceAsync`` or ``GetInstance``. The following example 
+creates a ``RealmConfiguration`` object with a local file path, sets the 
+``IsReadOnly`` property to ``true``, and then opens a local {+realm+}  with that 
+configuration information:
+
+.. literalinclude:: /examples/generated/code/start/Examples.codeblock.local-realm.cs
+   :language: csharp
+
+.. note::
+
+   If you specify a local path, that path must already exist on the device.
+
+Close a Realm
+-------------
+There is no need to manually close a {+realm+} with the .NET SDK. When a {+realm+} 
+goes out of scope and is removed from memory, the {+realm+} is closed.
+

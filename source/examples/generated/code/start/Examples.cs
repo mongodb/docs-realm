@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using dotnet;
@@ -19,13 +20,13 @@ namespace UnitTests
         const string myRealmAppId = "tuts-tijya";
 
         [SetUp]
-        public async System.Threading.Tasks.Task Setup()
+        public async Task Setup()
         {
             app = App.Create(myRealmAppId);
             user = app.LogInAsync(Credentials.EmailPassword("foo@foo.com", "foobar")).Result;
             config = new SyncConfiguration("My Project", user);
             Realm realm = await Realm.GetInstanceAsync(config);
-            // :code-block-stat: create
+            Realm synchronousRealm = Realm.GetInstance(config);
             RealmTask testTask = new RealmTask()
             {
                 Name = "Do this thing",
@@ -38,6 +39,22 @@ namespace UnitTests
             });
             testTaskId = testTask.Id;
             return;
+        }
+
+        [Test]
+        public void OpensLocalRealm()
+        {
+            var pathToDb = Directory.GetCurrentDirectory() + "/myDB/";
+            if (!File.Exists(pathToDb)){
+                Directory.CreateDirectory(pathToDb);
+            }
+            var config = new RealmConfiguration(pathToDb)
+            {
+                IsReadOnly = true,
+            };
+            var localRealm = Realm.GetInstance(config);
+            Assert.IsNotNull(localRealm);
+            Directory.Delete(pathToDb, true);
         }
 
         [Test]
