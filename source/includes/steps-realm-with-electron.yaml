@@ -71,34 +71,14 @@ content: |
   <https://www.electronjs.org/docs/api/browser-window>`_ using the
   electron API. Copy the following code into your ``main.js`` file:
 
-  .. code-block:: javascript
-   :emphasize-lines: 2, 8
-   :linenos:
-
-     const electron = require("electron");
-     const Realm = require("realm");
-     
-     const { app, BrowserWindow } = electron;
-     
-     function createWindow() {
-       // Create the browser window.
-       const win = new BrowserWindow({
-         width: 800,
-         height: 600,
-         webPreferences: {
-           nodeIntegration: true,
-         },
-       });
-     
-       // and load the index.html of the app.
-       win.loadFile("index.html");
-     }
-     
-     app.whenReady().then(createWindow);
+  .. literalinclude:: /examples/QuickStarts/electron/quickstart-setup-main.js
+    :language: javascript
+    :emphasize-lines: 2, 8
+    :linenos:
 
   Notice, the ``require("realm")`` in line 2. This line make realm
   accessible in this main process file.
-
+---
 title: Run Your Application
 ref: run-electron-app
 content: |

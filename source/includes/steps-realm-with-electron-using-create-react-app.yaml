@@ -31,22 +31,7 @@ content: |
   config file called ``craco.config.js`` at the root of your
   application. Add the following to this file:
 
-  .. code-block:: javascript
-
-     const nodeExternals = require("webpack-node-externals");
-
-     module.exports = {
-       webpack: {
-         configure: {
-           target: "electron-renderer",
-           externals: [
-             nodeExternals({
-              allowlist: [/webpack(\/.*)?/, "electron-devtools-installer"],
-             }),
-           ],
-         },
-       },
-     };
+  .. literalinclude:: /examples/QuickStarts/electron/quickstart-setup-react-cracoconfig.js
 
   Note that the `target <https://webpack.js.org/configuration/target/>`_
   is set to "electron-renderer" to compile your application for browser
@@ -93,32 +78,7 @@ content: |
   Add the following code to a new file called ``electron.js`` in the
   ``public`` directory:
 
-  .. code-block:: javascript
-
-     const electron = require("electron");
-     const path = require("path");
-
-     const app = electron.app;
-     const BrowserWindow = electron.BrowserWindow;
-
-     let mainWindow;
-
-     function createWindow() {
-       // Create the browser window.
-       mainWindow = new BrowserWindow({
-         width: 800,
-         height: 600,
-         webPreferences: { nodeIntegration: true },
-       });
-       // and load the index.html of the app.
-       console.log(__dirname);
-       mainWindow.loadFile(path.join(__dirname, "../build/index.html"));
-     }
-
-     // This method will be called when Electron has finished
-     // initialization and is ready to create browser windows.
-     // Some APIs can only be used after this event occurs.
-     app.on("ready", createWindow);
+  .. literalinclude:: /examples/QuickStarts/electron/quickstart-setup-react-electron.js
 
 ---
 title: Run Your Application
