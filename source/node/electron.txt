@@ -161,6 +161,11 @@ Consider the adjacent ``renderer process`` code:
    run();   
 
 
-On line 27, a non-synced realm is opened in this rendere r process. All
-write transactions on this local realm, will not be synced by default. In order to sync these writes, the `ipcRenderer <https://www.electronjs.org/docs/api/ipc-renderer>` Electron API is used to emit an "asynchronous-message" with the arguement "sync" on line 40. This tells our ``main process`` to upload all local changes to the synced realm. 
+On line 27, a non-synced realm is opened in this renderer process. All
+write transactions on this local realm, will not be synced by default.
+In order to sync these writes, the `ipcRenderer
+<https://www.electronjs.org/docs/api/ipc-renderer>`_ Electron API is
+used to emit an "asynchronous-message" with the arguement "sync" on line
+40. This tells our ``main process`` to upload all local changes to the
+synced realm. 
 
