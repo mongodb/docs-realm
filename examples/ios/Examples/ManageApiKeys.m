@@ -11,7 +11,7 @@
 - (void)setUp {
     XCTestExpectation *expectation = [self expectationWithDescription:@"registers and logs in"];
 
-    RLMApp *app = [RLMApp appWithId:YOUR_REALM_APP_ID];
+    RLMApp *app = [RLMApp appWithId:YOUR_REALM_APP_ID]; // Replace YOUR_REALM_APP_ID with your Realm app ID
     RLMEmailPasswordAuth *client = [app emailPasswordAuth];
     NSString *email = @"manage-api-keys-objc@example.com";
     NSString *password = @"123456";

@@ -6,7 +6,7 @@ class AccessMongoDB: AnonymouslyLoggedInTestCase {
         let expectation = XCTestExpectation(description: "it completes")
         
         // :code-block-start: remote-mongodb
-        // mongodb-atlas is the name of cluster service
+        // mongodb-atlas is the cluster service name
         let client = app.currentUser!.mongoClient("mongodb-atlas")
 
         // Select the database
@@ -34,7 +34,7 @@ class AccessMongoDB: AnonymouslyLoggedInTestCase {
                 // :hide-end:  
                 return
             }
-            // Print each document.
+            // Print each document
             print("Results:")
             results!.forEach({(document) in
                 print("Document:")

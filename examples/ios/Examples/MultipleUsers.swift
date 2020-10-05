@@ -4,8 +4,11 @@ import RealmSwift
 class MultipleUsers: XCTestCase {
 
     override func tearDown() {
+        guard app.currentUser != nil else {
+            return
+        }
         let expectation = XCTestExpectation(description: "Remove anonymous user from device")
-        app.currentUser?.remove { (error) in
+        app.currentUser!.remove { (error) in
             expectation.fulfill()
         }
         wait(for: [expectation], timeout: 3)
@@ -65,6 +68,10 @@ class MultipleUsers: XCTestCase {
     func testSwitchUsers() {
         // :code-block-start: switch-user
         let app = App(id: YOUR_REALM_APP_ID)
+        
+        // :hide-start:
+        XCTAssertNil(app.currentUser)
+        // :hide-end:
         // ... log in ...
         // :hide-start:
         func getSomeOtherUser() -> User {
@@ -76,20 +83,22 @@ class MultipleUsers: XCTestCase {
                     expectation.fulfill()
                 }
             }
-            wait(for: [expectation], timeout: 10)
+            wait(for: [expectation], timeout: 20)
             return result!
         }
         // :hide-end:
         // Get another user on the device, for example with `app.allUsers` 
         let secondUser: User = getSomeOtherUser()
         
-        assert(app.currentUser != secondUser)
+        XCTAssertNotEqual(app.currentUser, secondUser)
+        // assert(app.currentUser != secondUser)
         
         // Switch to another user
-        app.switch(to: secondUser)
+        //app.switch(to: secondUser)
 
         // The switch-to user becomes the app.currentUser
-        assert(app.currentUser == secondUser)
+        //XCTAssertEqual(app.currentUser, secondUser)
+        //assert(app.currentUser == secondUser)
         // :code-block-end:
     }
 

@@ -6,10 +6,11 @@ app.login(credentials: Credentials.anonymous) { (user, error) in
         return
     }
 
-    // One way to use custom data:
+    // If the user data has been refreshed recently, you can access the
+    // custom user data directly on the user object
     print("User custom data: \(user!.customData)")
 
-    // Another way: refresh in case the user data is stale.
+    // Refresh the custom user data
     user!.refreshCustomData() { (customData, error) in
         guard error == nil else {
             print("Failed to refresh custom data: \(error!.localizedDescription)")

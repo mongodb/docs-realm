@@ -131,7 +131,7 @@ class CompleteQuickStartTest: XCTestCase {
             expectation.fulfill()
             // :hide-end:
         }
-        // :code-block-end
+        // :code-block-end:
         wait(for: [expectation], timeout: 10.0)
     }
 }

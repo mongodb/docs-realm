@@ -42,7 +42,7 @@ class ManageApiKeys: XCTestCase {
 
         // ... log in ...
 
-        // User must not be anonymous user.
+        // User must not be an anonymous user.
         let user = app.currentUser!
         let client = user.apiKeysAuth
 

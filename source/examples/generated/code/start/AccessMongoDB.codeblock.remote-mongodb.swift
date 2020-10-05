@@ -1,4 +1,4 @@
-// mongodb-atlas is the name of cluster service
+// mongodb-atlas is the cluster service name
 let client = app.currentUser!.mongoClient("mongodb-atlas")
 
 // Select the database
@@ -22,7 +22,7 @@ collection.find(filter: ["_partition": AnyBSON(identity)], { (results, error) in
         print("Call to MongoDB failed: \(error!.localizedDescription)")
         return
     }
-    // Print each document.
+    // Print each document
     print("Results:")
     results!.forEach({(document) in
         print("Document:")
