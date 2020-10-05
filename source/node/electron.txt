@@ -62,7 +62,7 @@ Working Realm Using Renderer and Main Processes
 
 Electron applications have one main process. The main process can create
 multiple BrowserWindows. Each BrowserWindow will spawn its own process.
-This presents the following unique development challenges when developing
+This presents the following unique challenges when developing
 applications using Electron and Realm:
 
 - 2 different processes cannot access a synced realm. Due to this, the recommended course of action is to open a non-synced realm on renderer processes, and open a synced realm on the main process. 
