@@ -18,7 +18,18 @@ Overview
 --------
 
 This page contains information to quickly get {+client-database+}
-integrated into your Electron application. Before you begin, ensure you have:
+integrated into your Electron application. This page contains
+information to get {+service+} integrated into your Electron application
+quickly. To learn how to set up an Electron application with Realm
+without using any additional frameworks, see the :ref:`Electron set up
+<electron-setup>` instructions. If you have already created an
+application using `Create React App
+<https://reactjs.org/docs/create-a-new-react-app.html>`_ or if you are
+interested in integrating a React App with Realm using Electron, check
+out the :ref:`Electron with React set up <react-electron-setup>`
+instructions.
+
+Before you begin, ensure you have:
 
 - :ref:`Created a {+app+} <create-a-realm-app>`
 - :ref:`Enabled {+sync+} <enable-sync>`
@@ -27,14 +38,22 @@ integrated into your Electron application. Before you begin, ensure you have:
 Set up
 ------
 
+.. _electron-setup:
+
 Set up Realm with Electron
 ~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To set up an Electron application using {+service+} use the following instructions:
 
 .. include:: /includes/steps/realm-with-electron.rst
 
 
-Setup Realm with Electron using Create React App
+.. _react-electron-setup:
+
+Set up Realm with Electron using Create React App
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To set up a React application with {+service+} using Electron use the following instructions:
 
 .. include:: /includes/steps/realm-with-electron-using-create-react-app.rst
 
@@ -77,3 +96,11 @@ In order to sync these writes, the `ipcRenderer
 used to emit an "asynchronous-message" with the arguement "sync" on line
 40. This tells our ``main process`` to upload all local changes to the
 synced realm. 
+
+Summary
+-------
+
+- You can create an Electron Application using {+service+} by installing `Electron <https://www.npmjs.com/package/electron>`_ and the `MongoDB Realm JS SDK <https://www.npmjs.com/package/realm>`_.
+- You can create React Application with Realm using Electron by utilizing `craco <https://www.npmjs.com/package/@craco/craco>`_, Electron, and Realm.
+- Since 2 different processes cannot access a synced realm, open a non-synced realm on the renderer processes and a synced realm on the main process.
+- Notify the main process that a write transaction has occurred on the renderer process by utilizing the `ipcMain <https://www.electronjs.org/docs/api/ipc-main>`_ and the `ipcRenderer <https://www.electronjs.org/docs/api/ipc-renderer>`_ APIs.
