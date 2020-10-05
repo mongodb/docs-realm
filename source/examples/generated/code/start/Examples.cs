@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using dotnet;
 using MongoDB.Bson;
@@ -9,22 +8,23 @@ using Realms.Sync;
 
 namespace UnitTests
 {
-    public class RealmTests
+    public class Examples
     {
-        Realms.Sync.App app;
+        App app;
         ObjectId testTaskId;
-        Realms.Sync.User user;
+        User user;
         SyncConfiguration config;
         const string myRealmAppId = "tuts-tijya";
 
         [SetUp]
         public async System.Threading.Tasks.Task Setup()
         {
-            app = Realms.Sync.App.Create(myRealmAppId);
+            app = App.Create(myRealmAppId);
             user = app.LogInAsync(Credentials.EmailPassword("foo@foo.com", "foobar")).Result;
             config = new SyncConfiguration("My Project", user);
             Realm realm = await Realm.GetInstanceAsync(config);
-            Task testTask = new Task()
+            // :code-block-stat: create
+            RealmTask testTask = new RealmTask()
             {
                 Name = "Do this thing",
                 Status = TaskStatus.Open.ToString()
@@ -41,12 +41,12 @@ namespace UnitTests
         [Test]
         public async System.Threading.Tasks.Task GetsSyncedTasks()
         {
-            Realms.Sync.User user = app.LogInAsync(Credentials.Anonymous()).Result;
+            User user = app.LogInAsync(Credentials.Anonymous()).Result;
             config = new SyncConfiguration("My Project", user);
             Realm realm = await Realm.GetInstanceAsync(config);
-            var tasks = realm.All<Task>().ToList();
+            var tasks = realm.All<RealmTask>().ToList();
             Assert.AreEqual(1, tasks.Count);
-            tasks = realm.All<Task>().Where(t=>t.Status == "Open").ToList();
+            tasks = realm.All<RealmTask>().Where(t => t.Status == "Open").ToList();
             Assert.AreEqual(1, tasks.Count);
             return;
         }
@@ -56,7 +56,7 @@ namespace UnitTests
         {
             config = new SyncConfiguration("My Project", user);
             Realm realm = await Realm.GetInstanceAsync(config);
-            Task t = realm.All<Task>()
+            RealmTask t = realm.All<RealmTask>()
                 .Where(t => t.Id == testTaskId)
                 .FirstOrDefault();
 
@@ -65,7 +65,7 @@ namespace UnitTests
                 t.Status = TaskStatus.InProgress.ToString();
             });
 
-            var allTasks = realm.All<Task>().ToList();
+            var allTasks = realm.All<RealmTask>().ToList();
             Assert.AreEqual(1, allTasks.Count);
             Assert.AreEqual(TaskStatus.InProgress.ToString(), allTasks.First().Status);
 
@@ -75,58 +75,60 @@ namespace UnitTests
         [Test]
         public async System.Threading.Tasks.Task LogsOnManyWays()
         {
-            Realms.Sync.User anonUser = await app.LogInAsync(Credentials.Anonymous());
+            User anonUser = await app.LogInAsync(Credentials.Anonymous());
             Assert.AreEqual(UserState.LoggedIn, anonUser.State);
             await anonUser.LogOutAsync();
-            Realms.Sync.User emailUser = await app.LogInAsync(Credentials.EmailPassword("caleb@mongodb.com", "shhhItsASektrit!"));
+            User emailUser = await app.LogInAsync(Credentials.EmailPassword("caleb@mongodb.com", "shhhItsASektrit!"));
             Assert.AreEqual(UserState.LoggedIn, emailUser.State);
             await emailUser.LogOutAsync();
-            Realms.Sync.User apiUser = await app.LogInAsync(Credentials.ApiKey("eRECwv1e6gkLEse99XokWOgegzoguEkwmvYvXk08zAucG4kXmZu7TTgV832SwFCv"));
+            User apiUser = await app.LogInAsync(Credentials.ApiKey("eRECwv1e6gkLEse99XokWOgegzoguEkwmvYvXk08zAucG4kXmZu7TTgV832SwFCv"));
             Assert.AreEqual(UserState.LoggedIn, apiUser.State);
             await apiUser.LogOutAsync();
-            var functionParameters = new Dictionary<string, string>()
+            var functionParameters = new
             {
-                { "username", "caleb" },
-                { "password", "shhhItsASektrit!" },
-                { "someOtherProperty", "cheesecake" }
+                username=  "caleb",
+                password = "shhhItsASektrit!",
+                IQ = 42,
+                isCool = true
             };
-            Realms.Sync.User functionUser =
+
+            User functionUser =
                 await app.LogInAsync(Credentials.Function(functionParameters));
             Assert.AreEqual(UserState.LoggedIn, functionUser.State);
             await functionUser.LogOutAsync();
-            Realms.Sync.User jwtUser =
-                await app.LogInAsync(Credentials.JWT("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkNhbGViIiwiaWF0IjoxNjAxNjc4ODcyLCJleHAiOjI1MTYyMzkwMjIsImF1ZCI6InR1dHMtdGlqeWEifQ.LHbeSI2FDWrlUVOBxe-rasuFiW-etv2Gu5e3eAa6Y6k"));
+            User jwtUser =
+                await app.LogInAsync(Credentials.JWT("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.---.---"));
             Assert.AreEqual(UserState.LoggedIn, jwtUser.State);
             await jwtUser.LogOutAsync();
             try
             {
-                Realms.Sync.User fbUser =
+                User fbUser =
                     await app.LogInAsync(Credentials.Facebook("<facebook_token>"));
             }
             catch (Exception e)
             {
-                Assert.AreEqual("http error code considered fatal: Client Error: 401", e.Message);
+                Assert.AreEqual("InvalidSession: authentication via 'oauth2-facebook' is unsupported", e.Message);
             }
             try
             {
-                Realms.Sync.User googleUser =
-                    await app.LogInAsync(Credentials.Google("<google_token>"));
+                User googleUser =
+                    await app.LogInAsync(Credentials.Google("<google_auth_code>"));
             }
             catch (Exception e)
             {
-                Assert.AreEqual("http error code considered fatal: Client Error: 401", e.Message);
+                Assert.AreEqual("InvalidSession: authentication via 'oauth2-google' is unsupported", e.Message);
             }
             try
             {
-                Realms.Sync.User appleUser =
+                User appleUser =
                     await app.LogInAsync(Credentials.Apple("<apple_token>"));
             }
-        
+
             catch (Exception e)
             {
-                Assert.AreEqual("http error code considered fatal: Client Error: 401", e.Message);
+                Assert.AreEqual("InvalidSession: authentication via 'oauth2-apple' is unsupported", e.Message);
             }
-}
+        }
 
         [TearDown]
         public async System.Threading.Tasks.Task TearDown()
@@ -135,10 +137,10 @@ namespace UnitTests
             Realm realm = await Realm.GetInstanceAsync(config);
             realm.Write(() =>
             {
-                realm.RemoveAll<Task>();
+                realm.RemoveAll<RealmTask>();
             });
             await user.LogOutAsync();
             return;
-        } 
+        }
     }
 }

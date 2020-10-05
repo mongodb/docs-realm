@@ -1,1 +1,0 @@
-app = Realms.Sync.App.Create(myRealmAppId);

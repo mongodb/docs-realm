@@ -1,1 +1,0 @@
-Realms.Sync.User anonUser = await app.LogInAsync(Credentials.Anonymous());
