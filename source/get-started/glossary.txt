@@ -137,7 +137,7 @@ Glossary
       A design pattern in which a central loop waits
       for signals from a UI or other source before updating underlying
       data structures. On iOS, known as a :apple:`run loop
-      <documentation/foundation/runloop>`. On Android, known as a :android-dev:`Looper
+      <documentation/foundation/runloop>`. On Android, known as a :android:`Looper
       <reference/android/os/Looper>`. Also known as the **main loop** or
       **main event loop** on some platforms.
 
@@ -349,6 +349,9 @@ Glossary
       changes and resolves conflicts between those changes consistently
       across all synced instances of a :term:`{+realm+}`.
 
+      For more detailed information on the requests and process used by sync
+      clients and servers, see :ref:`Realm Sync Protocol <sync-protocol>`.
+
    {+cli+}
       A command line interface named {+cli-bin+} from which you
       can manage any :term:`{+app+}
@@ -408,7 +411,7 @@ Glossary
       called by the shorthand "App ID". The App ID is used to connect
       to your MongoDB Realm application via the client SDKs.
 
-   Client Reset
+   client reset
       When using :doc:`{+sync+} </sync>`, a **client reset** is a serious error
       recovery task that your client app must perform if the server is restored
       to an older schema version than the version on the client.

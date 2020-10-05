@@ -46,20 +46,23 @@ Configuration Parameters
 You will need to provide values for the following parameters when you
 :doc:`create an HTTP service interface </services/configure/services>`:
 
-.. tab-bar:: tabs-realm-admin-interfaces
-   :tab-ids: ui, cli
 
-.. tab-content:: tabs-realm-admin-interfaces
-   :tab-id: cli
-
-   .. code-block:: json
-      :caption: ``<Service Name>/config.json``
-
-      {
-        "name": "<Service Name>",
-        "type": "http",
-        "config": {}
-      }
+.. tabs-realm-admin-interfaces::
+   
+   .. tab::
+      :tabid: ui
+      
+   .. tab::
+      :tabid: cli
+      
+      .. code-block:: json
+         :caption: ``<Service Name>/config.json``
+         
+         {
+           "name": "<Service Name>",
+           "type": "http",
+           "config": {}
+         }
 
 .. cssclass:: auth-table
 .. list-table::
@@ -67,13 +70,9 @@ You will need to provide values for the following parameters when you
 
    * - Parameter
      - Description
-
-   * - :guilabel:`Service Name`
-
-       .. tab-content:: tabs-realm-admin-interfaces
-          :tab-id: cli
-
-          | *config.name*
+   
+   * - | :guilabel:`Service Name`
+       | *config.name*
 
      - The name of this HTTP service interface. This must be unique from
        all other service interfaces in your application.
@@ -142,12 +141,8 @@ Configuration
    * - Configuration Value
      - Description
 
-   * - :guilabel:`Webhook Name`
-
-       .. tab-content:: tabs-realm-admin-interfaces
-          :tab-id: cli
-
-          | *name*
+   * - | :guilabel:`Webhook Name`
+       | *name*
 
      - Required. The name of the webhook.
 
@@ -156,54 +151,43 @@ Configuration
           Each incoming webhook in an HTTP service interface must
           have a unique name.
 
-   * - :guilabel:`Respond With Result`
-
-       .. tab-content:: tabs-realm-admin-interfaces
-          :tab-id: cli
-
-          | *respond_result*
+   * - | :guilabel:`Respond With Result`
+       | *respond_result*
 
      - Required. If ``true``, {+backend+} sends a response to the client that
        called the webhook. The response body will be the return value
        of the webhook function.
 
-   * - :guilabel:`Run Webhook As`
-
-       .. tab-content:: tabs-realm-admin-interfaces
-          :tab-id: cli
-
-          | *run_as_user_id*
-          | *run_as_user_id_script_source*
+   * - | :guilabel:`Run Webhook As`
+       | *run_as_user_id*
+       | *run_as_user_id_script_source*
 
      - Optional. The id of the :doc:`{+service-short+} user </authentication>` that
        executes the webhook function when the webhook is called.
 
-       .. tab-content:: tabs-realm-admin-interfaces
-          :tab-id: ui
+       .. tabs-realm-admin-interfaces::
+          :hidden: true
+          
+          .. tab::
+             :tabid: ui
+             
+             .. include:: /includes/run-webhook-as-options.rst
+          
+          .. tab::
+             :tabid: cli
 
-          .. include:: /includes/run-webhook-as-options.rst
+             You can specify the user id directly in ``run_as_user_id`` or
+             provide a stringified :doc:`{+service-short+} Function
+             </functions>` that accepts the webhook payload and returns the user
+             id in ``run_as_user_id_script_source``. If you do not specify a
+             specific user id or a function that resolves to a user id,
+             {+service-short+} executes the webhook function as the :ref:`system
+             user <system-user>` that has full access to MongoDB CRUD and
+             Aggregation APIs and is not affected by any rules, roles, or
+             permissions.
 
-       .. tab-content:: tabs-realm-admin-interfaces
-          :tab-id: cli
-
-          You can specify the user id directly in
-          ``run_as_user_id`` or provide a stringified
-          :doc:`{+service-short+} Function </functions>` that accepts
-          the webhook payload and returns the user id in
-          ``run_as_user_id_script_source``. If you do not
-          specify a specific user id or a function that
-          resolves to a user id, {+service-short+} executes the webhook
-          function as the :ref:`system user <system-user>`,
-          which has full access to MongoDB CRUD and
-          Aggregation APIs and is not affected by any rules,
-          roles, or permissions.
-
-   * - :guilabel:`HTTP Method`
-
-       .. tab-content:: tabs-realm-admin-interfaces
-          :tab-id: cli
-
-          | *options.httpMethod*
+   * - | :guilabel:`HTTP Method`
+       | *options.httpMethod*
 
      - The :mdn:`HTTP method <Web/HTTP/Methods>` that incoming webhook
        requests should use. You can configure a webhook to accept any
@@ -218,38 +202,33 @@ Configuration
        - ``HEAD``
        - ``ANY``
 
-   * - :guilabel:`Request Validation`
-
-       .. tab-content:: tabs-realm-admin-interfaces
-          :tab-id: cli
-
-          | *options.validationMethod*
+   * - | :guilabel:`Request Validation`
+       | *options.validationMethod*
 
      - The :ref:`request validation <webhook-request-validation>` method
        incoming requests should use. The following validation types are
        supported:
+       
+       .. tabs-realm-admin-interfaces::
+          :hidden: true
+          
+          .. tab::
+             :tabid: ui
+             
+             - :ref:`Verify Payload Signature <webhook-verify-payload-signature>`
+             - :ref:`Require Secret as Query Param <webhook-secret-query-parameter>`
+             - No validation.
+          
+          .. tab::
+             :tabid: cli
+             
+             - ``VERIFY_PAYLOAD``: :ref:`Verify Payload Signature <webhook-verify-payload-signature>`
+             - ``SECRET_AS_QUERY_PARAM``: :ref:`Require Secret as Query Param <webhook-secret-query-parameter>`
+             - ``NO_VALIDATION``: No validation.
 
-       .. tab-content:: tabs-realm-admin-interfaces
-          :tab-id: ui
 
-          - :ref:`Verify Payload Signature <webhook-verify-payload-signature>`
-          - :ref:`Require Secret as Query Param <webhook-secret-query-parameter>`
-          - No validation.
-
-       .. tab-content:: tabs-realm-admin-interfaces
-          :tab-id: cli
-
-          - ``VERIFY_PAYLOAD``: :ref:`Verify Payload Signature <webhook-verify-payload-signature>`
-          - ``SECRET_AS_QUERY_PARAM``: :ref:`Require Secret as Query Param <webhook-secret-query-parameter>`
-          - ``NO_VALIDATION``: No validation.
-
-
-   * - :guilabel:`Secret`
-
-       .. tab-content:: tabs-realm-admin-interfaces
-          :tab-id: cli
-
-          | *options.secret*
+   * - | :guilabel:`Secret`
+       | *options.secret*
 
      - If :guilabel:`Request Validation` is enabled, this is the
        validation secret.

@@ -1,0 +1,277 @@
+.. _sync-protocol:
+
+===================
+Realm Sync Protocol
+===================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+{+service+} uses a protocol to correctly and efficiently sync data changes in
+real time across multiple clients that each maintain their own local
+{+service-short+} files. The protocol defines a set of pre-defined :ref:`request
+types <sync-request-types>` as well as a :ref:`process <sync-session-process>`
+by which a client, like a {+service-short+} SDK, can connect to a
+{+service-short+} application server and sync data.
+
+.. note::
+   
+   The {+service-short+} SDKs internally implement and manage the sync protocol,
+   so for most applications you don't need to understand the sync protocol to
+   use {+service-short+}. This page covers the protocol at a high level and is
+   not an implementation spec.
+
+Key Concepts
+------------
+
+.. _changesets:
+
+Changeset
+~~~~~~~~~
+
+A **changeset** is a list of instructions that describe granular modifications
+made to a known object state or version by one or more write operations.
+Changesets are the base unit of the sync protocol. Synced {+realm+} clients send
+changesets to the {+service-short+} server whenever they perform a write
+operation. The server sends each connected client the changesets for write
+operations executed by other clients.
+
+The {+service-short+} sync server accepts changesets from any connected sync
+client (including changes in a synced MongoDB cluster) at any time and uses an
+operational transformation algorithm to serialize changes into a linear order
+and resolve conflicting changesets before sending them to connected clients.
+
+.. _operational-transformations:
+
+Operational Transformation
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+An **operational transformation** is a function that, given two changesets,
+produces a third changeset that represents logically applying one of the given
+changesets after the other. {+service-short+} uses operational transformation to
+resolve conflicts between changesets from different sync clients that apply to
+the same base state.
+
+{+service-short+} is an offline-first local database even when sync is enabled,
+which means that any device may perform offline writes and upload the
+corresponding changesets later when network connectivity is re-established. The
+operational transformation algorithm is designed to gracefully handle changesets
+that arrive "out of order" with respect to the logical server clock such that
+every synced {+service-short+} file converges to the same version of each
+changed object.
+
+.. tip::
+   
+   An operational transformation on {+service-short+} changesets is analogous to
+   a :git-scm:`rebase operation <docs/git-rebase>` in Git.
+
+.. _client-file-identifier:
+
+Client File Identifier
+~~~~~~~~~~~~~~~~~~~~~~
+
+A **client file identifier** is a value that uniquely identifies a synced client
+{+service-short+} file and its corresponding server file. The server generates a
+client file identifier whenever an SDK requests one during its initial sync of a
+{+service-short+} file. Each identifier is a 64-bit, non-zero, positive signed
+integer strictly less than 2^63.
+
+.. note::
+   
+   The server guarantees that all identifiers generated on behalf of a
+   particular server file are unique with respect to each other. The server is
+   free to generate identical identifiers for two client files if they are
+   associated with different server files.
+
+.. _sync-session-process:
+
+Sync Session Process
+--------------------
+
+To initiate, execute, and terminate a {+service-short+} Database sync session, a
+{+service-short+} SDK and application server send and receive a set of
+protocol-specific requests.
+
+The SDK negotiates a WebSocket connection over HTTP and then establishes a sync
+session by sending :sync-client-message:`BIND` and :sync-client-message:`IDENT`
+requests to the server over the WebSocket connections. Once the session is
+established, the SDK and server send synced changesets for a given
+{+service-short+} file to each other via :sync-client-message:`UPLOAD` and
+:sync-client-message:`DOWNLOAD` messages. To end the session, the SDK sends an
+:sync-client-message:`UNBIND` request.
+
+.. code-block:: text
+   :copyable: false
+   
+   Realm SDK                      Realm App Server
+       |                                  |
+       |  <---- 1. HTTP Handshake ----->  |
+       |                                  |
+       |  --------- 2. BIND ----------->  |
+       |                                  |
+       |  <-- 3. IDENT (first time) ----  |
+       |                                  |
+       |  --------- 4. IDENT ---------->  |
+       |                                  |
+       |  <---- 5. UPLOAD/DOWNLOAD ---->  |
+       |                                  |
+       |  --------- 6. UNBIND --------->  |
+
+.. include:: /includes/steps/sync-protocol.rst
+
+.. _sync-request-types:
+
+Request Types
+-------------
+
+.. _sync-request-types-client-to-server:
+
+Client -> Server Messages
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The following table describes the request types that a sync client can send to a
+{+service-short+} server:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 30 70
+   
+   * - Request
+     - Description
+   
+   * - .. sync-client-message:: BIND
+     - Starts a new sync session on the server and provides a signed
+       authorization token for the current application user. If the client does
+       not yet possess a :ref:`client file identifier <client-file-identifier>`
+       for the {+service-short+} file it wants to sync, this also indicates that
+       the server should generate one and send it back to the client.
+       
+       A client must send a BIND before it can send any other requests.
+   
+   * - .. sync-client-message:: IDENT
+     - Provides the :ref:`client file identifier <client-file-identifier>` that
+       indicates the following:
+       
+       - the {+service-short+} file to sync
+       - the client {+realm+}'s current version
+       - the client {+realm+}'s most recently synced server version
+       
+       This request is related to but distinct from the
+       :sync-server-message:`IDENT` message sent by the server when a client
+       requests a client file identifier.
+   
+   * - .. sync-client-message:: UPLOAD
+     - Specifies one or more :ref:`changesets <changesets>` for operations that
+       occurred on the client. The changesets are listed by client version in
+       increasing order.
+   
+   * - .. sync-client-message:: TRANSACT
+     - Specifies a :ref:`changeset <changesets>` that describes a serialized
+       transaction that occurred on the client. The client may not upload any
+       other changesets until the server confirms or rejects the transaction.
+   
+   * - .. sync-client-message:: UNBIND
+     - Ends a running sync session.
+       
+       A client may not send any other requests for an
+       :sync-client-message:`UNBOUND` session.
+   
+   * - .. sync-client-message:: MARK
+     - Requests that the server notify the client when it has synced the latest
+       :ref:`changeset <changesets>` in the server history (at the time of the
+       request).
+   
+   * - .. sync-client-message:: REFRESH
+     - Re-authorizes a current sync session with a new user token.
+   
+   * - .. sync-client-message:: STATE_REQUEST
+     - Requests that the server send one or more :sync-server-message:`STATE`
+       messages, which the client uses to download the current server version of
+       the {+service-short+} file. Clients issue state requests when they
+       asynchronously open a synced {+realm+}.
+   
+   * - .. sync-client-message:: CLIENT_VERSION_REQUEST
+     - Requests that the server send the client version of the latest changeset
+       that was sent by the client and processed by the server. This is most
+       commonly used when an SDK executes a :term:`client reset`.
+   
+   * - .. sync-client-message:: PING
+     - Indicates that the client is still connected and that the server should
+       maintain the sync session. A client must send at least one PING to the
+       server every 10 minutes. The server acknowledges to each PING with a
+       :sync-server-message:`PONG`.
+       
+       If the server has not received a PING from a client in more than 10
+       minutes, it considers the client to be disconnected and may automatically
+       end the session.
+
+.. _sync-request-types-server-to-client:
+
+Server -> Client Messages
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The following table describes the request types that the {+service-short+}
+server can send to a sync client:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 30 70
+   
+   * - Request
+     - Description
+   
+   * - .. sync-server-message:: IDENT
+     - Provides a :ref:`client file identifier <client-file-identifier>` that
+       the server generated in response to a :sync-client-message:`BIND` that
+       requested the identifier.
+   
+   * - .. sync-server-message:: DOWNLOAD
+     - Specifies one or more :ref:`changesets <changesets>` (up to 16MB total)
+       for operations that occurred on other clients. The changesets are listed
+       by server version in increasing order.
+       
+       The changesets in a DOWNLOAD may not be the exact changesets uploaded by
+       other clients. Instead, they may be equivalent changesets output by
+       {+service-short+}'s :ref:`operational transformation
+       <operational-transformations>` algorithm.
+   
+   * - .. sync-server-message:: UNBOUND
+     - Specifies that the server ended a sync session in response to an
+       :sync-client-message:`UNBIND`.
+   
+   * - .. sync-server-message:: TRANSACT
+     - Indicates whether or not the server successfully processed a changeset
+       specified in a :sync-client-message:`TRANSACT` from the client.
+   
+   * - .. sync-server-message:: MARK
+     - Indicates that the server has sent the client the latest
+       :ref:`changeset <changesets>` that was in the server history when the
+       server received a :sync-client-message:`MARK` from the client.
+   
+   * - .. sync-server-message:: STATE
+     - Contains one or more segments of encoded data that the client can
+       concatenate to construct the latest server version of the {+realm+}. Sent
+       in response to a :sync-client-message:`STATE_REQUEST`.
+   
+   * - .. sync-server-message:: CLIENT_VERSION
+     - Specifies the client version of the latest changeset that was sent by the
+       client and processed by the server. Sent in response to a
+       :sync-client-message:`CLIENT_VERSION_REQUEST`.
+   
+   * - .. sync-server-message:: ERROR
+     - Indicates that the server encountered an issue that appears to have been
+       caused by the connected client.
+   
+   * - .. sync-server-message:: PONG
+     - Acknowledges a :sync-client-message:`PING`. If a client does not receive
+       a PONG acknowledgement, it indicates that the client cannot currently
+       communicate with the server over the network and that the server may not
+       have received the corresponding :sync-client-message:`PING`.

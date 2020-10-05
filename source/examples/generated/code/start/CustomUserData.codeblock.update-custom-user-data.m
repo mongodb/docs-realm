@@ -1,4 +1,4 @@
-RLMApp *app = [RLMApp appWithId:@"<YourAppId>"]; // replace this with your App ID
+RLMApp *app = [RLMApp appWithId:YOUR_REALM_APP_ID];
 [app loginWithCredential:[RLMCredentials anonymousCredentials] completion:^(RLMUser *user, NSError *error) {
     if (error != nil) {
         NSLog(@"Failed to log in: %@", error);
@@ -9,7 +9,7 @@ RLMApp *app = [RLMApp appWithId:@"<YourAppId>"]; // replace this with your App I
     RLMMongoCollection *collection = [database collectionWithName:@"users"];
 
     // Update the user's custom data document
-    [collection updateOneDocumentWhere:@{@"userId": [user identity]}
+    [collection updateOneDocumentWhere:@{@"userId": [user identifier]}
         updateDocument: @{@"favoriteColor": @"cerulean"}
         completion:^(RLMUpdateResult *updateResult, NSError *error) { 
             if (error != nil) {

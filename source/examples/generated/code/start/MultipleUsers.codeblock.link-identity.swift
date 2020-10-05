@@ -1,7 +1,7 @@
 let app = App(id: YOUR_REALM_APP_ID)
 
 func logInAnonymously() {
-    app.login(credentials: Credentials.anonymous()) { (user, error) in
+    app.login(credentials: Credentials.anonymous) { (user, error) in
         guard error == nil else {
             print("Failed to log in: \(error!.localizedDescription)")
             return
@@ -15,28 +15,27 @@ func logInAnonymously() {
 func registerNewAccount(anonymousUser: User) {
     let email = "link@example.com"
     let password = "ganondorf"
-    app.emailPasswordAuth().registerUser(email: email, password: password) { (error) in
-            guard error == nil else {
-                print("Failed to register new account: \(error!.localizedDescription)")
-                return
-            }
+    app.emailPasswordAuth.registerUser(email: email, password: password) { (error) in
+        guard error == nil else {
+            print("Failed to register new account: \(error!.localizedDescription)")
+            return
+        }
 
-            // Successfully created account, now link it
-            // with the existing anon user
-            link(user: anonymousUser, with: Credentials(email: email, password: password))     
+        // Successfully created account, now link it
+        // with the existing anon user
+        link(user: anonymousUser, with: Credentials.emailPassword(email: email, password: password))
     }
-
 }
 
-func link(user: User, with: Credentials) {
-    user.linkUser(with: with) { (user, error) in
+func link(user: User, with credentials: Credentials) {
+    user.linkUser(credentials: credentials) { (user, error) in
         guard error == nil else {
             print("Failed to link user: \(error!.localizedDescription)")
             return
         }
-        
+
         print("Successfully linked user: \(user!)")
-        
+
     }
 }
 

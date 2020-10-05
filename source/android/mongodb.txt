@@ -218,7 +218,7 @@ These code snippets demonstrate how to read data stored in a MongoDB
 collection from a mobile application. Read operations use :manual:`query filters
 </core/document/#document-query-filter>` to specify which documents to
 return from the database. Read operations return a
-:android:`Task <com/google/android/play/core/tasks/Task>` that resolves to
+:android:`Task <reference/com/google/android/play/core/tasks/Task>` that resolves to
 either a single matched document (in the case of ``findOne()``), a ``long``
 numeric value (in the case of ``count()``) or an iterator that allows you to
 traverse the collection of matched documents (in the case of ``find()``).
@@ -435,7 +435,7 @@ collection from a mobile application. Update operations use query filters
 to specify which documents to update and :manual:`update operators
 </reference/operator/update>` to describe how to mutate documents that
 match the query. Update operations return a :android:`Task
-<com/google/android/play/core/tasks/Task>` that resolves to an object
+<reference/com/google/android/play/core/tasks/Task>` that resolves to an object
 that contains the results of the execution of the operation.
 
 .. _android-mongodb-updateOne:
@@ -691,7 +691,7 @@ Delete Documents
 These code snippets demonstrate how to delete documents that
 are stored in a MongoDB collection from a mobile application.
 Delete operations use a query filter to specify which documents to delete
-and return a :android:`Task <com/google/android/play/core/tasks/Task>`
+and return a :android:`Task <reference/com/google/android/play/core/tasks/Task>`
 that resolves to an object that contains the results of the execution
 of the operation.
 
@@ -860,7 +860,7 @@ you to filter and shape documents as well as collect summary data about
 groups of related documents.
 
 Aggregation operations accept a list of aggregation stages as input, and
-return a :android:`Task <com/google/android/play/core/tasks/Task>` that
+return a :android:`Task <reference/com/google/android/play/core/tasks/Task>` that
 resolves to a collection of documents processed by the pipeline.
 
 .. _android-mongodb-aggregate:

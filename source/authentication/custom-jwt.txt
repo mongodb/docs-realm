@@ -184,12 +184,8 @@ JWTs.
    * - Field
      - Description
 
-   * - :guilabel:`Signing Algorithm`
-
-       .. tab-content:: tabs-realm-admin-interfaces
-          :tab-id: cli
-
-          | *config.signingAlgorithm*
+   * - | :guilabel:`Signing Algorithm`
+       | *config.signingAlgorithm*
 
      - The cryptographic method that the external system uses to sign
        the JWT. Custom authentication supports JWTs signed using any of
@@ -197,33 +193,23 @@ JWTs.
 
        - ``HS256``
        - ``RS256``
+       
+       .. cssclass:: bordered-figure
+       .. figure:: /images/custom-jwt-signing-algorithm.png
+          :alt: The Signing Algorithm configuration dropdown
 
-       .. tab-content:: tabs-realm-admin-interfaces
-          :tab-id: ui
-
-          .. cssclass:: bordered-figure
-          .. figure:: /images/custom-jwt-signing-algorithm.png
-             :alt: The Signing Algorithm configuration dropdown
-
-   * - :guilabel:`Signing Key`
-
-       .. tab-content:: tabs-realm-admin-interfaces
-          :tab-id: cli
-
-          | *secret_config.signingKeys*
+   * - | :guilabel:`Signing Key`
+       | *secret_config.signingKeys*
 
      - A list of the names of up to three :ref:`Secrets <app-secret>`
        that each contain a signing key used by the external
        authentication system to sign :abbr:`JWTs (JSON Web Tokens)`.
        Each signing key Secret must be a string with length between 32
        and 512 characters.
-
-       .. tab-content:: tabs-realm-admin-interfaces
-          :tab-id: ui
-
-          .. cssclass:: bordered-figure
-          .. figure:: /images/custom-jwt-signing-key.png
-             :alt: The Signing Keys configuration inputs
+       
+       .. cssclass:: bordered-figure
+       .. figure:: /images/custom-jwt-signing-key.png
+          :alt: The Signing Keys configuration inputs
 
        .. warning::
 
@@ -266,35 +252,24 @@ signing algorithm and keys.
    * - Field
      - Description
 
-   * - :guilabel:`Use JWK URI`
-
-       .. tab-content:: tabs-realm-admin-interfaces
-          :tab-id: cli
-
-          | *config.useJWKURI*
+   * - | :guilabel:`Use JWK URI`
+       | *config.useJWKURI*
 
      - If ``true``, configures {+service-short+} to use a signing algorithm and
        signing keys defined in a :abbr:`JWK (JSON Web Key)` or
        :abbr:`JWKS (JSON Web Key Set)`. The JWKS must be accessible at a
        URL that you specify.
 
-   * - :guilabel:`JWK URI`
-
-       .. tab-content:: tabs-realm-admin-interfaces
-          :tab-id: cli
-
-          | *config.jwkURI*
+   * - | :guilabel:`JWK URI`
+       | *config.jwkURI*
 
      - A URL that hosts a JWK or JWKS that describes the signing method
        and signing keys the JWTs should use. The JWKS may specify up to
        three signing keys and must use the ``RS256`` algorithm.
-
-       .. tab-content:: tabs-realm-admin-interfaces
-          :tab-id: ui
-
-          .. cssclass:: bordered-figure
-          .. figure:: /images/custom-jwt-jwk-uri.png
-             :alt: The JWK URI input
+       
+       .. cssclass:: bordered-figure
+       .. figure:: /images/custom-jwt-jwk-uri.png
+          :alt: The JWK URI input
 
 .. _custom-jwt-authentication-configuration-metadata-fields:
 
@@ -345,56 +320,47 @@ whenever they log in and exposes the fields in the ``data`` object of the
    * - Field
      - Description
 
-   * - :guilabel:`Required`
-
-       .. tab-content:: tabs-realm-admin-interfaces
-          :tab-id: cli
-
-          | *required*
+   * - | :guilabel:`Required`
+       | *required*
 
      - If ``true`` , the metadata field is required for all
        users associated with the provider, i.e. the :ref:`JWT
        <json-web-tokens>` returned by the external system must have a
        value assigned to the field designated by :guilabel:`Path`.
 
-   * - :guilabel:`Path`
-
-       .. tab-content:: tabs-realm-admin-interfaces
-          :tab-id: cli
-
-          | *name*
+   * - | :guilabel:`Path`
+       | *name*
 
      - The name of a field in the :ref:`JWT <json-web-tokens>` that
        contains the value for the metadata field. To specify a field in
        an embedded object, use :manual:`dot notation
        </core/document/#dot-notation>`.
 
-   * - :guilabel:`Field Name`
-
-       .. tab-content:: tabs-realm-admin-interfaces
-          :tab-id: cli
-
-          | *field_name*
+   * - | :guilabel:`Field Name`
+       | *field_name*
 
      - Optional. A name for the field in the user object's ``data``
        document that exposes the metadata field value. If not specified,
        this defaults to the same name as the JWT field that contains the
        value. The metadata field name may contain a maximum of 64
        characters.
+       
+       .. tabs-realm-admin-interfaces::
+          :hidden: true
+          
+          .. tab::
+             :tabid: ui
 
-       .. tab-content:: tabs-realm-admin-interfaces
-          :tab-id: ui
+             For example, if you specify a ``name`` of
+             ``location.primary.city``, the default value for
+             ``field_name`` is ``city``.
+          
+          .. tab::
+             :tabid: cli
 
-          For example, if you specify a ``name`` of
-          ``location.primary.city``, the default value for
-          ``field_name`` is ``city``.
-
-       .. tab-content:: tabs-realm-admin-interfaces
-          :tab-id: cli
-
-          For example, if you specify a :guilabel:`Path` of
-          ``location.primary.city``, the default value for
-          :guilabel:`Field Name` is ``city``.
+             For example, if you specify a :guilabel:`Path` of
+             ``location.primary.city``, the default value for
+             :guilabel:`Field Name` is ``city``.
 
 .. example::
 

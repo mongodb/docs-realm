@@ -99,19 +99,18 @@ extlinks = {
     'admin-api-endpoint': ('https://docs.mongodb.com/realm/admin/api/v3/#%s', ''), # sphinx_openapi doesn't support endpoint refs, so we have to use an extlink instead
     'manual': ('http://docs.mongodb.org/manual%s', ''),
     'atlas': ('https://docs.atlas.mongodb.com%s',''),
-    'datalake': ('https://docs.mongodb.com/datalake/%s',''),
+    'adl': ('https://docs.mongodb.com/datalake%s',''),
     'facebook': ('https://developers.facebook.com/%s', ''),
     'mms-docs': ('https://docs.cloud.mongodb.com%s', ''),
     'mms-home': ('https://cloud.mongodb.com%s', ''),
     'guides': ('https://docs.mongodb.com/guides%s', ''),
     'java-sdk': ('https://docs.mongodb.com/realm-sdks/java/10.0.0-BETA.8/%s', ''),
     'kotlin-sdk': ('https://docs.mongodb.com/realm-sdks/kotlin/10.0.0-BETA.8/%s', ''),
-    'swift-sdk': ('https://docs.mongodb.com/realm-sdks/swift/10.0.0-beta.5/%s', ''),
-    'objc-sdk': ('https://docs.mongodb.com/realm-sdks/objc/10.0.0-beta.5/%s', ''),
+    'swift-sdk': ('https://docs.mongodb.com/realm-sdks/swift/10.0.0-rc.1/%s', ''),
+    'objc-sdk': ('https://docs.mongodb.com/realm-sdks/objc/10.0.0-rc.1/%s', ''),
     'js-sdk': ('https://docs.mongodb.com/realm-sdks/js/latest/%s', ''),
     # True External Links
-    'android': ('https://developer.android.com/reference/%s', ''),
-    'android-dev': ('https://developer.android.com/%s', ''),
+    'android': ('https://developer.android.com/%s', ''),
     'apollo': ('https://www.apollographql.com/%s', ''),
     'apple': ('https://developer.apple.com/%s', ''),
     'aws-docs': ('https://docs.aws.amazon.com/%s', ''),
@@ -119,7 +118,8 @@ extlinks = {
     'aws-iam': ('https://docs.aws.amazon.com/IAM/latest/%s', ''),
     'aws-reference': ('https://docs.aws.amazon.com/general/latest/%s', ''),
     'codesandbox': ('https://codesandbox.io/%s', ''),
-    'gcp': ('https://cloud.google.com/%s', ''),
+    'gcp': ('https://cloud.google.com%s', ''),
+    'git-scm': ('https://git-scm.com/%s', ''),
     'github': ('https://github.com/%s', ''),
     'github-dev': ('https://developer.github.com/%s', ''),
     'google': ('https://developers.google.com/%s', ''),
@@ -136,7 +136,7 @@ extlinks = {
     'fcm': ('https://firebase.google.com/docs/%s', ''),
     'typescript': ('https://www.typescriptlang.org/%s', ''),
     'node-driver': ('https://mongodb.github.io/node-mongodb-native/3.6/api/%s', ''),
-    'ietf': ('https://tools.ietf.org/html/%s', ''),
+    'rfc': ('https://tools.ietf.org/html/%s', ''),
 }
 
 intersphinx_mapping = {}

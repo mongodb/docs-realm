@@ -1,5 +1,5 @@
 let app = App(id: YOUR_REALM_APP_ID)
-let client = app.emailPasswordAuth()
+let client = app.emailPasswordAuth
 let email = "skroob@example.com"
 let password = "password12345"
 client.registerUser(email: email, password: password) { (error) in
