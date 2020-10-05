@@ -1,19 +1,17 @@
-let appId = "<YourAppId>" // replace this with your App ID
+let appId = YOUR_REALM_APP_ID // replace this with your App ID
 let app = App(id: appId)
-app.login(credentials: Credentials.anonymous()) { (user, error) in
+app.login(credentials: Credentials.anonymous) { (user, error) in
     guard error == nil else {
         print("Failed to log in: \(error!.localizedDescription)")
         return
     }
-    guard let user = user else {
-        fatalError("User is nil without error")
-    }
 
-    // One way to use custom data:
-    print("User custom data: \(user.customData)")
+    // If the user data has been refreshed recently, you can access the
+    // custom user data directly on the user object
+    print("User custom data: \(user!.customData)")
 
-    // Another way: refresh in case the user data is stale.
-    user.refreshCustomData() { (customData, error) in
+    // Refresh the custom user data
+    user!.refreshCustomData() { (customData, error) in
         guard error == nil else {
             print("Failed to refresh custom data: \(error!.localizedDescription)")
             return
@@ -26,6 +24,6 @@ app.login(credentials: Credentials.anonymous()) { (user, error) in
             return
         }
         // favoriteColor was set on the custom data.
-        print("Favorite color: \(customData["favoriteColor"]!)")
+        print("Favorite color: \(customData["favoriteColor"] ?? "not set")")
     }
 }

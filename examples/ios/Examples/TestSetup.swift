@@ -10,37 +10,38 @@ class TestSetup: NSObject {
         do {
             try FileManager.default.removeItem(at: url)
         } catch {
-            
+            // ignored
         }
     }
 
     func removeAllUsersFromDevice() {
         print("Removing all users...")
-        let removeUserExpectations = app.allUsers().map { _, user -> XCTestExpectation in
-            let expectation = XCTestExpectation(description: "Remove user \(user.id!)")
-            print("Removing users \(user.id!)")
+        let removeUserExpectations = app.allUsers.map { _, user -> XCTestExpectation in
+            let expectation = XCTestExpectation(description: "Remove user \(user.id)")
+            print("Removing users \(user.id)")
             user.remove { (error) in
                 guard error == nil else {
-                    fatalError("Failed to remove user \(user.id!): \(error!.localizedDescription)")
+                    fatalError("Failed to remove user \(user.id): \(error!.localizedDescription)")
                 }
-                print("User \(user.id!) removed.")
+                print("User \(user.id) removed.")
                 expectation.fulfill()
             }
             return expectation
         }
-        XCTWaiter().wait(for: removeUserExpectations, timeout: 10)
+        let waiter = XCTWaiter()
+        waiter.wait(for: removeUserExpectations, timeout: 10)
+        assert(waiter.fulfilledExpectations == removeUserExpectations)
     }
 
     override init() {
         super.init()
 
         deleteAppData()
-    
+        
         let app = App(id: YOUR_REALM_APP_ID)
-        removeAllUsersFromDevice()
         
         let expectation = XCTestExpectation(description: "Call to delete all users completes")
-        app.login(credentials: Credentials.anonymous()) { (user, error) in
+        app.login(credentials: Credentials.anonymous) { (user, error) in
             guard error == nil else {
                 fatalError(error!.localizedDescription)
             }
@@ -62,5 +63,10 @@ class TestSetup: NSObject {
         let waiter = XCTWaiter()
         waiter.wait(for: [expectation], timeout: 10)
         assert(waiter.fulfilledExpectations == [expectation])
+        
+        // Ensure all users are completely removed and app.currentUser is nil.
+        // Some tests depend on checking app.currentUser.
+        removeAllUsersFromDevice()
+        assert(app.currentUser == nil)
     }
 }

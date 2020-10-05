@@ -1,10 +1,6 @@
-let params = [
-   "username": "bob"
-]
-      
-var e: NSError?
-  
-app.login(credentials: Credentials(functionPayload: params, error: &e)) { (user, error) in
+let params: Document = ["username": "bob"]
+
+app.login(credentials: Credentials.function(payload: params)) { (user, error) in
    DispatchQueue.main.sync {
        guard error == nil else {
            print("Login failed: \(error!)")

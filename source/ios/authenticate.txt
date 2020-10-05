@@ -20,47 +20,12 @@ authentication provider. Instantiate a ``Credentials`` object and pass
 it to the  ``app.login()`` method to authenticate a user and create a ``User`` 
 object. Each authentication provider corresponds to a method used to
 instantiate ``Credentials`` objects using that authentication provider.
-See the table below to find the method that instantiates the
-``Credentials`` instance for your authentication provider:
-
-.. list-table::
-   :header-rows: 1
-   :widths: 50 50
-
-   * - Authentication Provider
-     - Credentials Generation Method
-
-   * - :ref:`Anonymous <ios-login-anonymous>`
-     - ``Credentials.anonymous()``
-
-   * - :ref:`Email/Password <ios-login-email-password>`
-     - ``Credentials(email: String, password: String)``
-
-   * - :ref:`API Key <ios-login-api-key>`
-     - ``Credentials(userAPIKey: String)``
-
-   * - :ref:`Custom Function <ios-login-custom-function>`
-     - ``Credentials(functionPayload: [AnyHashable : Any], error: NSErrorPointer)``
-
-   * - :ref:`Custom JWT <ios-login-custom-jwt>`
-     - ``Credentials(jwt: String)``
-
-   * - :ref:`Google OAuth <ios-login-google>`
-     - ``Credentials(googleAuthCode: String)``
-
-   * - :ref:`Facebook OAuth <ios-login-facebook>`
-     - ``Credentials(facebookToken: String)``
-   
-   * - :ref:`Sign-in With Apple <ios-login-apple>`
-     - ``Credentials(appleToken: String)``
-
 
 Before you can authenticate a user, ensure you have:
 
 - :ref:`Created a {+app+} <create-a-realm-app>`
 - Enabled one or more :ref:`authentication providers <authentication-providers>`
 - :ref:`Installed the iOS SDK <ios-install>`
-
 
 Log In
 ------
