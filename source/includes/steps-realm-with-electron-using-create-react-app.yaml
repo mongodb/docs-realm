@@ -16,8 +16,10 @@ content: |
   To allow your application to work properly with Electron, you have to
   alter your webpack configuration. By default, applications created via
   create-react-app use a webpack file that is preconfigured and hidden
-  to the end user. Using CRACO you can override these default
-  configurated values. Install CRACO with the following command:
+  to the end user. The Create React App default webpack configuration is
+  not compatible with {+service+} and must be overridden. Using `CRACO
+  <https://www.npmjs.com/package/@craco/craco>`_ you can override these
+  default configurated values. Install CRACO with the following command:
 
   .. code-block:: shell
 
@@ -50,9 +52,7 @@ content: |
 title: Install Electron
 ref: install-electron
 content: |
-  Install Electron as a devDependency in order to run your application
-  from a chromium desktop window using Electron. Run the following
-  command:
+  To add Electron to your project, run the following command:
 
   .. code-block:: shell
 

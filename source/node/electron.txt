@@ -76,10 +76,10 @@ Consider the following code in the ``main process``:
   :emphasize-lines: 39, 42, 45
   :linenos:
 
-Notice that on line 38 a synced realm is opened in this main process. On
+Notice that on line 38 the main process opens a synced realm. On
 line 42, the `ipcMain <https://www.electronjs.org/docs/api/ipc-main>`_
-Electron API is used to listen for an "asynchronous-message" event. When
-that occurs, and the argument "sync" is passed in, all local changes
+Electron API listens for an "asynchronous-message" event. When an
+asynchronous message occurs with the "sync" argument all local changes
 will be uploaded to the synced realm. 
 
 Consider the adjacent ``renderer process`` code:
@@ -89,13 +89,13 @@ Consider the adjacent ``renderer process`` code:
   :emphasize-lines: 28, 40
   :linenos:
 
-On line 27, a non-synced realm is opened in this renderer process. All
-write transactions on this local realm, will not be synced by default.
-In order to sync these writes, the `ipcRenderer
-<https://www.electronjs.org/docs/api/ipc-renderer>`_ Electron API is
-used to emit an "asynchronous-message" with the arguement "sync" on line
-40. This tells our ``main process`` to upload all local changes to the
-synced realm. 
+On line 27, the renderer process opens a non-synced realm. All write
+transactions on this local realm, will not be synced by default. In
+order to sync these writes, the `ipcRenderer
+<https://www.electronjs.org/docs/api/ipc-renderer>`_ Electron API emits
+an "asynchronous-message" with the arguement "sync" on line 40. This
+tells the ``main process`` to upload all local changes to the synced
+realm. 
 
 Summary
 -------
