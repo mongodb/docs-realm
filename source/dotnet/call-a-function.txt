@@ -1,0 +1,43 @@
+.. _dotnet-call-a-function:
+
+===============
+Call a Function
+===============
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 3
+   :class: singlecol
+
+Overview
+--------
+
+You can call a :doc:`function </functions>` from a connected client
+application.
+
+Usage
+-----
+
+The examples in this section demonstrate calling a simple function named
+``sum`` that takes two arguments, adds them, and returns the result:
+
+.. code-block:: javascript
+
+   // sum: adds two numbers
+   exports = function(a, b) {
+     return a + b;
+   };
+
+Call from a Client Application
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To execute a function from the .NET Client SDK, use the ``user.Functions.CallAsync()`` 
+method, passing in the name of the function as the first parameter and the arguments
+as the remaining parameters:
+
+.. literalinclude:: /examples/generated/code/start/Examples.codeblock.callfunc.cs
+   :language: csharp
+

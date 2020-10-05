@@ -4,5 +4,5 @@ RealmTask t = realm.All<RealmTask>()
 
 realm.Write(() =>
 {
-    t.Status = TaskStatus.InProgress.ToString();
+    t.Status = dotnet.TaskStatus.InProgress.ToString();
 });

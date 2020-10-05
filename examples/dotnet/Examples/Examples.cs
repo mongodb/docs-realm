@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using dotnet;
 using MongoDB.Bson;
 using NUnit.Framework;
@@ -29,7 +31,7 @@ namespace UnitTests
             RealmTask testTask = new RealmTask()
             {
                 Name = "Do this thing",
-                Status = TaskStatus.Open.ToString()
+                Status = dotnet.TaskStatus.Open.ToString()
             };
 
             realm.Write(() =>
@@ -42,7 +44,7 @@ namespace UnitTests
         }
 
         [Test]
-        public async System.Threading.Tasks.Task GetsSyncedTasks()
+        public async Task GetsSyncedTasks()
         {
             // :code-block-start: anon-login
             User user = app.LogInAsync(Credentials.Anonymous()).Result;
@@ -63,7 +65,7 @@ namespace UnitTests
         }
 
         [Test]
-        public async System.Threading.Tasks.Task ModifiesATask()
+        public async Task ModifiesATask()
         {
             config = new SyncConfiguration("My Project", user);
             Realm realm = await Realm.GetInstanceAsync(config);
@@ -74,19 +76,19 @@ namespace UnitTests
 
             realm.Write(() =>
             {
-                t.Status = TaskStatus.InProgress.ToString();
+                t.Status = dotnet.TaskStatus.InProgress.ToString();
             });
 
             // :code-block-end:
             var allTasks = realm.All<RealmTask>().ToList();
             Assert.AreEqual(1, allTasks.Count);
-            Assert.AreEqual(TaskStatus.InProgress.ToString(), allTasks.First().Status);
+            Assert.AreEqual(dotnet.TaskStatus.InProgress.ToString(), allTasks.First().Status);
 
             return;
         }
 
         [Test]
-        public async System.Threading.Tasks.Task LogsOnManyWays()
+        public async Task LogsOnManyWays()
         {
             // :code-block-start: logon_anon
             User anonUser = await app.LogInAsync(Credentials.Anonymous());
@@ -159,8 +161,21 @@ namespace UnitTests
             }
         }
 
+        [Test]
+        public async Task CallsAFunction()
+        {
+            // :code-block-start: callfunc
+            var result = await
+                user.Functions.CallAsync("sum", 2, 40);
+
+            // result.ToInt32() == 42
+            // :code-block-end:
+            Assert.AreEqual(42, result.ToInt32());
+            return;
+        }
+
         [TearDown]
-        public async System.Threading.Tasks.Task TearDown()
+        public async Task TearDown()
         {
             config = new SyncConfiguration("My Project", user);
             Realm realm = await Realm.GetInstanceAsync(config);
