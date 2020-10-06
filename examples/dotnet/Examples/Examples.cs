@@ -52,10 +52,19 @@ namespace UnitTests
         [Test]
         public void OpensLocalRealm()
         {
-            var pathToDb = Directory.GetCurrentDirectory();
-            if (!File.Exists(pathToDb)){
+            var pathToDb = Directory.GetCurrentDirectory() + "/db";
+            if (!File.Exists(pathToDb))
+            {
                 Directory.CreateDirectory(pathToDb);
             }
+            var tempConfig = new RealmConfiguration(pathToDb + "/my.realm")
+            {
+                IsReadOnly = false,
+            };
+            var tempRealm = Realm.GetInstance(tempConfig);
+
+            tempRealm.Dispose();
+
             // :code-block-start: local-realm
             var config = new RealmConfiguration(pathToDb + "/my.realm")
             {
@@ -64,6 +73,7 @@ namespace UnitTests
             var localRealm = Realm.GetInstance(config);
             // :code-block-end:
             Assert.IsNotNull(localRealm);
+
             Directory.Delete(pathToDb, true);
         }
 
@@ -197,8 +207,6 @@ namespace UnitTests
             // :code-block-start: callfunc
             var result = await
                 user.Functions.CallAsync("sum", 2, 40);
-
-            // result.ToInt32() == 42
             // :code-block-end:
             Assert.AreEqual(42, result.ToInt32());
             return;
