@@ -169,8 +169,9 @@ authentication.
    user is logged in. This guarantees that only authenticated users can access
    the rest of the app.
    
-   .. literalinclude:: final/App.codeblock.requireLoggedInUser.js
-     :caption: ``src/App.js``
+   .. literalinclude:: /tutorial/generated/code/final/App.codeblock.requireLoggedInUser.js
+      :caption: ``src/App.js``
+      :language: javascript
    
    In ``/components/LoginScreen.js``, we use the wrapped authentication methods
    that you defined to log user in and register new users.
@@ -178,13 +179,14 @@ authentication.
    Find the the ``handleLogin`` function and add the following code to process a 
    ``emailPassword`` credential by calling the ``logIn()`` method. 
      
-   .. literalinclude:: LoginScreen.codeblock.handleLogin.js
+   .. literalinclude:: /tutorial/generated/code/final/LoginScreen.codeblock.handleLogin.js
       :emphasize-lines: 5
+      :language: javascript
    
    Next, find the ``handleRegistrationAndLogin`` function and add the following code 
    to create a ``emailPassword`` credential.
 
-   .. literalinclude:: LoginScreen.codeblock.handleRegistrationAndLogin.js
+   .. literalinclude:: /tutorial/generated/code/final/LoginScreen.codeblock.handleRegistrationAndLogin.js
       :emphasize-lines: 6
 
 
@@ -206,15 +208,18 @@ following mutations:
 
 * ``AddTaskMutation``
 
-  .. literalinclude:: useTaskMutations.codeblock.addTaskMutation.js
+  .. literalinclude:: /tutorial/generated/code/final/useTaskMutations.codeblock.addTaskMutation.js
+     :language: javascript
 
 * ``UpdateTaskMutation``
 
-  .. literalinclude:: useTaskMutations.codeblock.updateTaskMutation.js
+  .. literalinclude:: /tutorial/generated/code/final/useTaskMutations.codeblock.updateTaskMutation.js
+     :language: javascript
 
 * ``DeleteTaskMutation``
 
-  .. literalinclude:: useTaskMutations.codeblock.deleteTaskMutation.js
+  .. literalinclude:: /tutorial/generated/code/final/useTaskMutations.codeblock.deleteTaskMutation.js
+     :language: javascript
 
 The custom query and mutation hooks are lightweight wrappers around Apollo's
 ``useQuery()`` and ``useMutation()`` hooks. Once you have completed defining 
@@ -224,18 +229,21 @@ following functions and call the appropriate mutations:
 
 * ``useAddTask``
 
-  .. literalinclude:: useTaskMutations.codeblock.useAddTask.js
+  .. literalinclude:: /tutorial/generated/code/final/useTaskMutations.codeblock.useAddTask.js
      :emphasize-lines: 18-26
+     :language: javascript
 
 * ``useUpdateTask``
 
-  .. literalinclude:: useTaskMutations.codeblock.useUpdateTask.js
+  .. literalinclude:: /tutorial/generated/code/final/useTaskMutations.codeblock.useUpdateTask.js
      :emphasize-lines: 3-8
+     :language: javascript
 
 * ``useDeleteTask``
 
-  .. literalinclude:: useTaskMutations.codeblock.useAddTask.js
+  .. literalinclude:: /tutorial/generated/code/final/useTaskMutations.codeblock.useAddTask.js
      :emphasize-lines: 3-8
+     :language: javascript
 
 E. Connect Apollo to the GraphQL API
 ------------------------------------
@@ -261,8 +269,9 @@ data object </users/enable-custom-user-data>`.
 In the file ``/graphql/useProjects.js``, we need to implement the retrieval of the 
 current user's projects. We'll need to add the following code:
 
-.. literalinclude:: useProjects.codeblock.useProjects.js
+.. literalinclude:: /tutorial/generated/code/final/useProjects.codeblock.useProjects.js
    :emphasize-lines: 6
+   :language: javascript
 
 G. Use Realm functions
 ----------------------
@@ -277,8 +286,9 @@ function and updates the ``team`` variable with the current team members. Then y
 implement the ``addTeamMember()`` and  ``removeTeamMember()`` functions so that it adds/removes
 the user as a team member when provided with their email.
 
-.. literalinclude:: EditPermissionsModal.codeblock.useTeamMembers.js
+.. literalinclude:: /tutorial/generated/code/final/EditPermissionsModal.codeblock.useTeamMembers.js
    :emphasize-lines: 5, 6-9, 19-31
+   :language: javascript
 
 Try It Out
 ----------
