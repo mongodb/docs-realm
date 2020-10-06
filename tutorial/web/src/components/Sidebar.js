@@ -11,12 +11,9 @@ export default function Sidebar({
   setCurrentProject,
   setIsEditingPermissions,
 }) {
-  // :code-block-start: sidebarSetUp
   const projects = useProjects();
   const app = useRealmApp();
-  // :code-block-end:
 
-  // :code-block-start: sidebarContainer
   return (
     <SidebarContainer>
       <Card>
@@ -24,10 +21,7 @@ export default function Sidebar({
         <SectionList>
           {projects.map((project) => (
             <SectionListItem
-              // :hide-start:
               key={project.partition}
-              // :replace-with: 
-              // // TODO: Set the key to the project partition.
               onClick={() => setCurrentProject(project)}
               isSelected={project.partition === currentProject?.partition}
             >
@@ -48,7 +42,6 @@ export default function Sidebar({
     </SidebarContainer>
   );
 }
-// :code-block-end:
 
 const SidebarContainer = styled.div`
   display: flex;
