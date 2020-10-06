@@ -90,7 +90,7 @@ On line 28, the renderer process opens a non-synced realm. All write
 transactions on this local Realm, will not be synced by default. In
 order to sync these writes, the `ipcRenderer
 <https://www.electronjs.org/docs/api/ipc-renderer>`_ Electron API emits
-an "asynchronous-message" with the argument "sync" on line 40. This
+an "asynchronous-message" with the argument "sync" on line 42. This
 tells the ``main process`` to upload all local changes to the synced
 realm. 
 
