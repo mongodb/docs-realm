@@ -44,11 +44,11 @@ namespace UnitTests
         [Test]
         public void OpensLocalRealm()
         {
-            var pathToDb = Directory.GetCurrentDirectory() + "/myDB/";
+            var pathToDb = Directory.GetCurrentDirectory();
             if (!File.Exists(pathToDb)){
                 Directory.CreateDirectory(pathToDb);
             }
-            var config = new RealmConfiguration(pathToDb)
+            var config = new RealmConfiguration(pathToDb + "/my.realm")
             {
                 IsReadOnly = true,
             };

@@ -52,19 +52,19 @@ namespace UnitTests
         [Test]
         public void OpensLocalRealm()
         {
-            var pathToDb = Directory.GetCurrentDirectory() + "/myDB/";
+            var pathToDb = Directory.GetCurrentDirectory();
             if (!File.Exists(pathToDb)){
                 Directory.CreateDirectory(pathToDb);
             }
             // :code-block-start: local-realm
-            var config = new RealmConfiguration(pathToDb)
+            var config = new RealmConfiguration(pathToDb + "/my.realm")
             {
-                IsReadOnly = true,
+                IsReadOnly = false,
             };
             var localRealm = Realm.GetInstance(config);
             // :code-block-end:
             Assert.IsNotNull(localRealm);
-            Directory.Delete(pathToDb, true);
+            //Directory.Delete(pathToDb, true);
         }
 
         [Test]
