@@ -59,12 +59,12 @@ namespace UnitTests
             // :code-block-start: local-realm
             var config = new RealmConfiguration(pathToDb + "/my.realm")
             {
-                IsReadOnly = false,
+                IsReadOnly = true,
             };
             var localRealm = Realm.GetInstance(config);
             // :code-block-end:
             Assert.IsNotNull(localRealm);
-            //Directory.Delete(pathToDb, true);
+            Directory.Delete(pathToDb, true);
         }
 
         [Test]
