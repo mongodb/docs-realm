@@ -73,49 +73,7 @@ Before you get started, you'll need the following:
 
 Once you're set up with these prerequisites, you're ready to start the tutorial.
 
-.. admonition:: Download the Complete Source Code
-   :class: note
-   
-   We host this tutorial application's :github:`complete and ready-to-run source
-   code <mongodb-university/realm-tutorial/tree/main/web>` on GitHub. You can
-   use it to check your work or download it to run the app locally.
-
-   To get started, follow the instructions in ``README.md``. Don't forget to
-   update the ``/src/realm/RealmApp.tsx`` file with your App ID, which you can
-   find in the {+ui+}.
-
-A. Define Data Access Permissions
----------------------------------
-
-.. admonition:: Non-Sync Permissions
-   :class: important
-   
-   The permissions in this step only apply if you do not enable sync for the
-   application. Sync permissions use a different rules system and override any
-   non-sync permissions when sync is enabled. If you plan to or have already
-   used the task tracker backend from one of the frontend apps that support
-   sync, then you can skip this section in favor of the sync permissions
-   described on the sync app's tutorial page.
-   
-   The Realm Web SDK and GraphQL API do not use sync, so if you only intend to
-   build a web client then use these rules.
-
-The backend app is set up with an email/password authentication provider that we
-can use to let users sign up and log in and an automatically generated GraphQL
-API that we can use work with data.
-
-By default, however, all GraphQL queries from a client application will fail.
-
-To allow users to read and write data, you must first define data access rules
-that determine whether a given user has read or write permissions for a given
-document.
-
-You define non-sync data access rules for your GraphQL API on the
-:guilabel:`Rules` screen of the Realm UI.
-
-.. include:: /includes/steps/task-tracker-server-rules.rst
-
-B. Clone the Client App Repository
+A. Clone the Client App Repository
 ----------------------------------
 
 We've already put together a task tracker browser application that has most of
@@ -143,7 +101,7 @@ tutorial, please check out the ``start`` branch:
    
    git checkout 
 
-C. Explore the App Structure & Components
+B. Explore the App Structure & Components
 -----------------------------------------
 
 The web client is a standard React web application written in
@@ -187,7 +145,7 @@ components and hooks use the code that you write.
    `official React website <https://reactjs.org>`_, which has excellent
    documentation and tutorials.
 
-D. Connect to Your MongoDB Realm App
+C. Connect to Your MongoDB Realm App
 ------------------------------------
 
 The client app needs to connect to your Realm app so that users can register and
@@ -230,7 +188,7 @@ authentication.
       :emphasize-lines: 6
 
 
-E. Define the GraphQL Schema & Operations
+D. Define the GraphQL Schema & Operations
 -----------------------------------------
 
 A GraphQL schema defines all of the types, enums, and scalars that a GraphQL
@@ -279,7 +237,7 @@ following functions and call the appropriate mutations:
   .. literalinclude:: useTaskMutations.codeblock.useAddTask.js
      :emphasize-lines: 3-8
 
-F. Connect Apollo to the GraphQL API
+E. Connect Apollo to the GraphQL API
 ------------------------------------
 
 We've defined GraphQL CRUD operations and created custom query and mutation hooks
@@ -293,7 +251,7 @@ connect to your app's GraphQL API.
 
 .. include:: /includes/steps/task-tracker-web-apollo.rst
 
-G. Implement the Projects List
+F. Implement the Projects List
 ------------------------------
 
 As defined by our data model, ``projects`` are an embedded object of the ``users`` object.
@@ -306,7 +264,7 @@ current user's projects. We'll need to add the following code:
 .. literalinclude:: useProjects.codeblock.useProjects.js
    :emphasize-lines: 6
 
-H. Use Realm functions
+G. Use Realm functions
 ----------------------
 
 In the ``EditPermissionsModal.js`` file, there are functions that rely on :ref:`{+service-short+} 

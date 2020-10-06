@@ -47,14 +47,6 @@ This tutorial should take around 30 minutes to complete.
    includes copyable code examples and the essential information that you need
    to set up a MongoDB Realm application.
 
-.. admonition:: Download the Complete Source Code
-   :class: note
-   
-   We host this tutorial application's :github:`complete and ready-to-compile
-   source code <mongodb-university/realm-tutorial/tree/main/node-cli>` on
-   GitHub. You will need to update the ``config.js`` file with your App ID, 
-   which you can find in the {+ui+}.
-
 Prerequisites
 -------------
 
@@ -65,16 +57,7 @@ Before you begin, ensure you have:
 
 Once you're set up with these prerequisites, you're ready to start the tutorial.
 
-A. Define Data Access Permissions and Enable Sync
--------------------------------------------------
-
-The backend app is set up with an email/password authentication provider that we
-can use to let users sign up and log in. Now, we need to define sync rules and
-enable sync so that sync clients can read and write objects.
-
-.. include:: /includes/steps/task-tracker-enable-sync.rst
-
-B. Clone the Client App Repository
+A. Clone the Client App Repository
 ----------------------------------
 
 We've already put together a task tracker CLI application that has most of
@@ -101,7 +84,7 @@ In your terminal, run the following command to install its dependencies:
    
    npm install
 
-C. Explore the App Structure & Components
+B. Explore the App Structure & Components
 -----------------------------------------
 
 This application has a flat project structure: all of the files are in the root 
@@ -152,7 +135,7 @@ following table describes the role of important files in this project:
    * - projects.js
      - Handles project retrieval and listing. 
 
-D. Connect to Your MongoDB Realm App
+C. Connect to Your MongoDB Realm App
 ------------------------------------
 
 To get the app working with your backend, you first need to add your Realm App ID 
@@ -188,7 +171,7 @@ At this point, your app is pointing to your backend and opens a connection
 to it when you start the app. However, users cannot log in yet, so let's update 
 that code next.
 
-E. Enable authentication
+D. Enable authentication
 ------------------------
 
 In the ``users.js`` file, we have a ``logIn`` function that prompts the user for 
@@ -203,7 +186,7 @@ Find the the ``logIn`` function and add the following code to create a
 .. literalinclude:: /tutorial/generated/code/final/users.codeblock.userLogin.js
    :emphasize-lines: 17, 18, 19, 22
 
-F. Implement the CRUD methods
+E. Implement the CRUD methods
 -----------------------------
 
 In the ``tasks.js`` and ``projects.js`` files, there are a number of functions to handle typical  
@@ -294,7 +277,7 @@ In ``projects.js``:
    .. literalinclude:: /tutorial/generated/code/final/projects.codeblock.getProjects.js
       :emphasize-lines: 4, 5
 
-G. Use Realm Functions
+F. Use Realm Functions
 ----------------------
 
 In the ``team.js`` file, there are functions that rely on :ref:`{+service-short+} 
