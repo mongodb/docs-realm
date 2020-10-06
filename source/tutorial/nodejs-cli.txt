@@ -158,14 +158,14 @@ line with a line of code that opens a {+realm+} and assigns it to the ``realm``
 property. It will look like this:
 
 .. literalinclude:: /tutorial/generated/code/final/index.codeblock.openRealm.js
-   :emphasize-lines: 9
+   :language: javascript
 
 Now that you have implemented the ``openRealm`` function, you will now need to 
 complete the code that retrieves the {+realm+}. In ``index.js``, find the 
 ``getRealm`` function. It will look like this: 
 
 .. literalinclude:: /tutorial/generated/code/final/index.codeblock.getRealm.js
-   :emphasize-lines: 3
+   :language: javascript
 
 At this point, your app is pointing to your backend and opens a connection 
 to it when you start the app. However, users cannot log in yet, so let's update 
@@ -184,7 +184,7 @@ Find the the ``logIn`` function and add the following code to create a
 ``emailPassword`` credential and call the ``logIn()`` method. 
 
 .. literalinclude:: /tutorial/generated/code/final/users.codeblock.userLogin.js
-   :emphasize-lines: 17, 18, 19, 22
+   :language: javascript
 
 E. Implement the CRUD methods
 -----------------------------
@@ -204,7 +204,7 @@ In ``tasks.js``:
   and pass in the name of the collection:
   
    .. literalinclude:: /tutorial/generated/code/final/tasks.codeblock.getTasks.js
-      :emphasize-lines: 3
+      :language: javascript
 
 
 * ``getTask``
@@ -214,7 +214,7 @@ In ``tasks.js``:
   function to get a task by its Id.
 
    .. literalinclude:: /tutorial/generated/code/final/tasks.codeblock.getTask.js
-      :emphasize-lines: 11
+      :language: javascript
 
 
 * ``createTask``
@@ -227,8 +227,7 @@ In ``tasks.js``:
   required properties:
 
    .. literalinclude:: /tutorial/generated/code/final/tasks.codeblock.createTask.js
-      :emphasize-lines: 23, 24, 25, 26, 27, 28
-   
+      :language: javascript
 
   .. note::
     
@@ -247,7 +246,7 @@ In ``tasks.js``:
   to delete and then the :js-sdk:`delete() <Realm.html#delete>` function on that task:
 
    .. literalinclude:: /tutorial/generated/code/final/tasks.codeblock.deleteTask.js
-      :emphasize-lines: 18, 20
+      :language: javascript
 
 
 * ``modifyTask``
@@ -259,7 +258,7 @@ In ``tasks.js``:
   and Sync ensures the object is updated on the server.
   
    .. literalinclude:: /tutorial/generated/code/final/tasks.codeblock.modifyTask.js
-      :emphasize-lines: 6, 7
+      :language: javascript
 
 
   .. note::
@@ -275,7 +274,7 @@ In ``projects.js``:
    method to get the current user and then access the current user's ``memberOf`` property.
 
    .. literalinclude:: /tutorial/generated/code/final/projects.codeblock.getProjects.js
-      :emphasize-lines: 4, 5
+      :language: javascript
 
 F. Use Realm Functions
 ----------------------
@@ -291,7 +290,7 @@ implement the calls to {+service-short+}.
   using the ``User.functions`` method. 
 
    .. literalinclude:: /tutorial/generated/code/final/team.codeblock.getTeamMembers.js
-      :emphasize-lines: 4
+      :language: javascript
 
 * ``addTeamMember``
 
@@ -300,7 +299,7 @@ implement the calls to {+service-short+}.
    parameter. 
 
    .. literalinclude:: /tutorial/generated/code/final/team.codeblock.addTeamMember.js
-      :emphasize-lines: 12
+      :language: javascript
 
 * ``removeTeamMember`` 
 
@@ -309,8 +308,7 @@ implement the calls to {+service-short+}.
    {+service-short+} function and pass it the ``email`` parameter.
 
    .. literalinclude:: /tutorial/generated/code/final/team.codeblock.removeTeamMember.js
-      :emphasize-lines: 15
-
+      :language: javascript
 
 
 H. Run and Test

@@ -180,14 +180,12 @@ authentication.
    ``emailPassword`` credential by calling the ``logIn()`` method. 
      
    .. literalinclude:: /tutorial/generated/code/final/LoginScreen.codeblock.handleLogin.js
-      :emphasize-lines: 5
       :language: javascript
    
    Next, find the ``handleRegistrationAndLogin`` function and add the following code 
    to create a ``emailPassword`` credential.
 
    .. literalinclude:: /tutorial/generated/code/final/LoginScreen.codeblock.handleRegistrationAndLogin.js
-      :emphasize-lines: 6
 
 
 D. Define the GraphQL Schema & Operations
@@ -230,19 +228,16 @@ following functions and call the appropriate mutations:
 * ``useAddTask``
 
   .. literalinclude:: /tutorial/generated/code/final/useTaskMutations.codeblock.useAddTask.js
-     :emphasize-lines: 18-26
      :language: javascript
 
 * ``useUpdateTask``
 
   .. literalinclude:: /tutorial/generated/code/final/useTaskMutations.codeblock.useUpdateTask.js
-     :emphasize-lines: 3-8
      :language: javascript
 
 * ``useDeleteTask``
 
   .. literalinclude:: /tutorial/generated/code/final/useTaskMutations.codeblock.useAddTask.js
-     :emphasize-lines: 3-8
      :language: javascript
 
 E. Connect Apollo to the GraphQL API
@@ -270,7 +265,6 @@ In the file ``/graphql/useProjects.js``, we need to implement the retrieval of t
 current user's projects. We'll need to add the following code:
 
 .. literalinclude:: /tutorial/generated/code/final/useProjects.codeblock.useProjects.js
-   :emphasize-lines: 6
    :language: javascript
 
 G. Use Realm functions
@@ -287,7 +281,6 @@ implement the ``addTeamMember()`` and  ``removeTeamMember()`` functions so that 
 the user as a team member when provided with their email.
 
 .. literalinclude:: /tutorial/generated/code/final/EditPermissionsModal.codeblock.useTeamMembers.js
-   :emphasize-lines: 5, 6-9, 19-31
    :language: javascript
 
 Try It Out
