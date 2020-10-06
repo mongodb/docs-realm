@@ -11,15 +11,25 @@ import TextInput from "@leafygreen-ui/text-input";
 import { uiColors } from "@leafygreen-ui/palette";
 import { useRealmApp } from "../RealmApp";
 
+// :code-block-start: useTeamMembers
 function useTeamMembers() {
   const [teamMembers, setTeamMembers] = React.useState(null);
   const [newUserEmailError, setNewUserEmailError] = React.useState(null);
   const app = useRealmApp();
+  // :hide-start: 
   const { addTeamMember, removeTeamMember, getMyTeamMembers } = app.functions;
+  // :replace-with:
+  // // TODO: Import the Realm functions: addTeamMember, removeTeamMember, and getMyTeamMembers
+  // :hide-end:
+  // :hide-start:
   const updateTeamMembers = async () => {
     const team = await getMyTeamMembers();
     setTeamMembers(team);
   };
+  // :replace-with:
+  // // TODO: Implement the function updateTeamMembers so that it calls getMyTeamMembers and updates
+  // // the team variable with the current team members.
+  // :hide-end:
   /* eslint-disable react-hooks/exhaustive-deps */
   React.useEffect(() => {
     // display team members on load
@@ -29,6 +39,7 @@ function useTeamMembers() {
   return {
     teamMembers,
     errorMessage: newUserEmailError,
+    // :hide-start:
     addTeamMember: async (email) => {
       const { error } = await addTeamMember(email);
       if (error) {
@@ -38,12 +49,21 @@ function useTeamMembers() {
         updateTeamMembers();
       }
     },
+    // :replace-with:
+    // // TODO: Call the addTeamMember() function and return updateTeamMembers if 
+    // // addTeamMember() was successful. 
+    // :hide-end:
+    // :hide-start:
     removeTeamMember: async (email) => {
       await removeTeamMember(email);
       updateTeamMembers();
     },
+    // :replace-with:
+    // // TODO: Call the removeTeamMember()
+    // :hide-end:
   };
 }
+// :code-block-end: 
 
 export default function EditPermissionsModal({
   isEditingPermissions,

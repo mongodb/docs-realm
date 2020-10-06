@@ -12,6 +12,8 @@ Sync Data
    :depth: 2
    :class: singlecol
 
+.. include:: /includes/sync-beta-note.rst
+
 Prerequisites
 -------------
 
@@ -31,7 +33,7 @@ authenticated user's ``configuration`` method:
 
    let app = App(id: "myRealmAppId")
    // ... log in ...
-   let user = app.currentUser()!
+   let user = app.currentUser!
    let partitionValue = "myProject"
    let realm = try! Realm(configuration: user.configuration(partitionValue: partitionValue))
 
@@ -53,7 +55,7 @@ realm, use the ``Realm.asyncOpen()`` method instead.
 
    let app = App(id: "myRealmAppId")
    // ...after log in...
-   let user = app.currentUser()!
+   let user = app.currentUser!
    let partitionValue = "myPartition"
    Realm.asyncOpen(configuration: user.configuration(partitionValue: partitionValue),
        callback: { (maybeRealm, error) in

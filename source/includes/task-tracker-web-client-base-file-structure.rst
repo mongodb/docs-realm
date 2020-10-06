@@ -2,22 +2,22 @@
     :copyable: False
     
     src/
-    ├── index.tsx
-    ├── realm/
-    │   ├── RealmApp.tsx
-    │   ├── RealmApolloProvider.tsx
-    │   ├── schema.graphql
-    │   └── operations.graphql
+    ├── index.js
+    ├── App.js
+    ├── RealmApp.js
+    ├── TaskApp.js
     ├── components/
-    │   ├── App.tsx
-    │   ├── Board.tsx
-    │   ├── LoginScreen.tsx
-    │   ├── Navbar.tsx
-    │   ├── TaskCard.tsx
-    │   ├── TaskDetail.tsx
-    │   ├── TaskLists.tsx
-    │   └── TaskView.tsx
-    └── hooks/
-       ├── useDraftTask.tsx
-       ├── useTaskLists.tsx
-       └── useTasks.tsx
+    │   ├── EditPermissionsModal.js
+    │   ├── Loading.js
+    │   ├── LoginScreen.js
+    │   ├── ProjectScreen.js
+    │   ├── SideBar.js
+    │   ├── StatusChange.js
+    │   ├── TaskContent.js
+    │   ├── TaskDetailModal.js
+    │   └── useChangeTaskStatusButton.js
+    └── graphql/
+       ├── RealmApolloProvider.js
+       ├── useProjects.js
+       ├── useTaskMutations.js
+       └── useTasks.js

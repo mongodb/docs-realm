@@ -9,11 +9,11 @@ content: |
 
   .. code-block:: console
 
-     $ git clone git@github.com:mongodb-university/realm-tutorial-kotlin-android.git
+     git clone git@github.com:mongodb-university/realm-tutorial-android-kotlin.git
 
   .. important::
    
-     The realm-tutorial-kotlin-android repository contains two branches:
+     The realm-tutorial-android-kotlin repository contains two branches:
      ``final`` and ``start``. The ``final`` branch is a finished version
      of the app as it should look *after* you complete this tutorial.
      To walk through this tutorial, please check out the ``start``
@@ -21,7 +21,7 @@ content: |
 
      .. code-block:: console
     
-        $ git checkout start
+        git checkout start
 
 ---
 title: Open the Project in Android Studio
@@ -38,9 +38,9 @@ content: |
 
   3. In the file navigator opened by Android Studio, navigate to the
      directory where, in the previous step, you cloned the
-     ``realm-tutorial-kotlin-android`` repository.
+     ``realm-tutorial-android-kotlin`` repository.
 
-  4. Select the ``realm-tutorial-kotlin-android`` folder.
+  4. Select the ``realm-tutorial-android-kotlin`` folder.
 
   5. Click "Open".
 
@@ -150,7 +150,7 @@ ref: connect-to-your-mongodb-realm-app
 content: |
 
   Tasktracker uses the Gradle dependency management system to manage the
-  Realm Android SDK.The Maven and Ant build systems are not currently
+  Realm Android SDK. The Maven and Ant build systems are not currently
   supported.
 
   Android Studio projects contain two ``build.gradle`` files by default:
@@ -216,7 +216,7 @@ content: |
   fields for email and password entry, as well as buttons to either
   register a user account or login to an existing account. We need to
   implement the logic to handle user login and user account creation.
-  
+
   You'll find this logic in the ``login()`` method, where a boolean
   value called ``createuser`` controls where the method submits user
   credentials to create a new account or to login to an existing
@@ -224,14 +224,16 @@ content: |
 
   First, let's implement the logic that registers a new user:
 
-  .. literalinclude:: FIXME FIXME FIXME
+  .. literalinclude:: /tutorial/generated/code/final/LoginActivity.codeblock.create-user.kt
+     :language: kotlin
 
   Now, implement the logic to log in with an existing user. Once
   logged in successfully, call the ``onLoginSuccess()`` method, which
   closes the ``LoginActivity`` and resumes the calling activity
   (typically ``ProjectActivity``):
 
-  .. literalinclude:: FIXME FIXME FIXME
+  .. literalinclude:: /tutorial/generated/code/final/LoginActivity.codeblock.login-user.kt
+     :language: kotlin
 
   Don't forget to call the ``onLoginFailed()`` method in the event of a
   login or account creation failure with a message describing the error.
@@ -252,7 +254,8 @@ content: |
   the user's {+realm+} in the ``else`` block of the ``onStart()`` method
   of ``ProjectActivity``:
 
-  .. literalinclude:: FIXME FIXME FIXME
+  .. literalinclude:: /tutorial/generated/code/final/ProjectActivity.codeblock.set-up-user-realm.kt
+     :language: kotlin
 
   Next, we need to query the {+realm+} to get a copy of the ``User``
   object containing the user's list of projects. Because each user
@@ -263,7 +266,8 @@ content: |
   object when the user creates an account. Add the code that queries for
   the user object:
 
-  .. literalinclude:: FIXME FIXME FIXME
+  .. literalinclude:: /tutorial/generated/code/final/ProjectActivity.codeblock.user-init-change-listener.kt
+     :language: kotlin
 
   Because it can take a few seconds for the trigger to create this
   object after a login, we should handle the case where the user object
@@ -272,14 +276,19 @@ content: |
   watch the {+realm+} for changes and only set up the project's Recycler
   View once the trigger runs:
 
-  .. literalinclude:: FIXME FIXME FIXME
+  .. literalinclude:: /tutorial/generated/code/final/ProjectActivity.codeblock.fetch-synced-user-safely.kt
+     :language: kotlin
 
   Finally, we need to guarantee that ``ProjectActivity`` always closes
   the user {+realm+} when the app closes or the user logs out. To
   accomplish this, add logic that calls the ``realm.close()`` method
   when ``ProjectActivity`` finishes or stops:
 
-  .. literalinclude:: FIXME FIXME FIXME
+  .. literalinclude:: /tutorial/generated/code/final/ProjectActivity.codeblock.on-destroy-close-realm.kt
+     :language: kotlin
+
+  .. literalinclude:: /tutorial/generated/code/final/ProjectActivity.codeblock.on-stop-close-realm.kt
+     :language: kotlin
 
 ---
 title: Implement the Tasks List
@@ -294,7 +303,8 @@ content: |
   the user who owns the project). We'll begin by initializing a
   connection to this {+realm+} when the activity starts:
 
-  .. literalinclude:: FIXME FIXME FIXME
+  .. literalinclude:: /tutorial/generated/code/final/TaskActivity.codeblock.set-up-project-realm.kt
+     :language: kotlin
 
   Next, we'll query the realm for the list of tasks belonging to this
   project. Fortunately the query isn't too complicated: since every task
@@ -307,21 +317,27 @@ content: |
   list of tasks, pass the ``RealmResult`` to the ``TaskAdapter`` and set
   that adapter as the ``RecyclerView's`` adapter:
 
-  .. literalinclude:: FIXME FIXME FIXME
+  .. literalinclude:: /tutorial/generated/code/final/TaskActivity.codeblock.fetch-tasks-for-project-sorted-by-id.kt
+     :language: kotlin
 
-  ``TaskActivity`` needs allow users to create a new task in the
-  project. To handle this, write logic in the floating action button's
-  ``setPositiveButton()`` callback that creates a new task based on the
-  user's input in ``inputText`` and adds that task to the {+realm+}:
+  ``TaskActivity`` needs to allow users to create a new task in the project. To
+  handle this, write logic in the floating action button's
+  ``setPositiveButton()`` callback that creates a new task based on the user's
+  input in ``inputText`` and adds that task to the {+realm+}:
 
-  .. literalinclude:: FIXME FIXME FIXME
+  .. literalinclude:: /tutorial/generated/code/final/TaskActivity.codeblock.add-new-task-to-project.kt
+     :language: kotlin
 
   Finally, we need to guarantee that ``TaskActivity`` always closes
   the user {+realm+} when the app closes or the user logs out. To
   accomplish this, add logic that calls the ``realm.close()`` method
   when ``TaskActivity`` finishes or stops:
 
-  .. literalinclude:: FIXME FIXME FIXME
+  .. literalinclude:: /tutorial/generated/code/final/TaskActivity.codeblock.on-destroy-close-realm.kt
+     :language: kotlin
+
+  .. literalinclude:: /tutorial/generated/code/final/TaskActivity.codeblock.on-stop-close-realm.kt
+     :language: kotlin
 
 ---
 title: Add Logic to Update and Delete Tasks to the TaskAdapter
@@ -347,13 +363,15 @@ content: |
 
   Don't forget to read and write from the {+realm+} within a transaction!
 
-  .. literalinclude:: FIXME FIXME FIXME
+  .. literalinclude:: /tutorial/generated/code/final/TaskAdapter.codeblock.change-task-status.kt
+     :language: kotlin
 
   The logic that deletes a task is similar to the logic that updates a
   task, but it removes the task from the {+realm+} instead of updating
   any properties:
 
-  .. literalinclude:: FIXME FIXME FIXME
+  .. literalinclude:: /tutorial/generated/code/final/TaskAdapter.codeblock.delete-task.kt
+     :language: kotlin
 
 ---
 title: Implement the Manage Team View
@@ -380,7 +398,8 @@ content: |
   access {+service-short+} Functions through the function manager
   found in your project-global {+service-short+} app:
 
-  .. literalinclude:: FIXME FIXME FIXME
+  .. literalinclude:: /tutorial/generated/code/final/MemberActivity.codeblock.get-team-members.kt
+     :language: kotlin
 
   Similar to ``TaskActivity``, we'll use the floating action button in
   ``MemberActivity`` to add users to the project. To handle this, write
@@ -396,7 +415,8 @@ content: |
   backend when the ``addTeamMember()`` {+service-short+} Function
   successfully adds a team member:
 
-  .. literalinclude:: FIXME FIXME FIXME
+  .. literalinclude:: /tutorial/generated/code/final/MemberActivity.codeblock.add-new-member-to-project.kt
+     :language: kotlin
 
 ---
 title: Handle Team Member Removals in MemberAdapter
@@ -416,7 +436,8 @@ content: |
   position in the dataset and the UI should automatically stop
   displaying the removed team member:
 
-  .. literalinclude:: FIXME FIXME FIXME
+  .. literalinclude:: /tutorial/generated/code/final/MemberAdapter.codeblock.remove-user-from-project.kt
+     :language: kotlin
 
 ---
 title: Run and Test

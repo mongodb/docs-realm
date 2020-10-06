@@ -8,7 +8,7 @@ class ManageEmailPasswordUsers: XCTestCase {
         
         // :code-block-start: register-email
         let app = App(id: YOUR_REALM_APP_ID)
-        let client = app.emailPasswordAuth()
+        let client = app.emailPasswordAuth
         let email = "skroob@example.com"
         let password = "password12345"
         client.registerUser(email: email, password: password) { (error) in
@@ -34,7 +34,7 @@ class ManageEmailPasswordUsers: XCTestCase {
         let expectation = XCTestExpectation(description: "Confirmation continues")
         // :code-block-start: confirm-new-user-email 
         let app = App(id: YOUR_REALM_APP_ID)
-        let client = app.emailPasswordAuth()
+        let client = app.emailPasswordAuth
 
         // Token and tokenId are query parameters in the confirmation
         // link sent in the confirmation email.
@@ -60,7 +60,7 @@ class ManageEmailPasswordUsers: XCTestCase {
         var expectation = XCTestExpectation()
         // :code-block-start: reset-password
         let app = App(id: YOUR_REALM_APP_ID)
-        let client = app.emailPasswordAuth()
+        let client = app.emailPasswordAuth
 
         let email = "forgot.my.password@example.com"
         // If Realm app password reset mode is "Send a password reset email",

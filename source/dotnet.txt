@@ -12,15 +12,31 @@ platforms to access data stored in local {+realms+} and
 interact with {+backend+} services like Functions, MongoDB Data Access,
 and authentication.
 
-For more information about specific version support for .NET, UWP, and
-Xamarin, see our :ref:`compatibility chart <dotnet-compatibility>`.
+.. _dotnet_supported-platforms:
 
-.. note::
+Supported Platforms
+-------------------
+Realm supports the following platforms for developing Realm apps for iOS and 
+Android devices:
 
-   When building
-   for platforms with Xamarin, you can use either native UI or
-   `Xamarin Forms
-   <https://docs.microsoft.com/en-us/xamarin/xamarin-forms/>`__.
+- Xamarin.iOS for iOS 9 or later, using native UI or Xamarin Forms 
+- Xamarin.Android for API level 16 or later, using native UI or Xamarin Forms 
+- Xamarin.Mac for macOS 10.11 or later, using nativeUI or Xamarin Forms 
+- .NET Framework 4.6.1 or later for Windows 8.1 or later 
+- Universal Windows Platform applications using .NET Standard 2.0 or later (Fall Creators Update) 
+- .NET Core 2.0 or later on the following:
+
+  - Ubuntu 16.04 or later
+  - Debian 8 or later
+  - RHEL 7.1 or later
+  - macOS 10.11 or later
+  - Windows 8.1 or later
+
+You can use the following development environments to build Realm apps with 
+the .NET SDK:
+
+- Visual Studio 2015 Update 2 or higher for Windows
+- Visual Studio for Mac 7.0 or higher
 
 Installation
 ------------
@@ -29,38 +45,36 @@ To learn how to add the {+service+} .NET SDK library as a dependency
 to your application, see :ref:`Install Realm for .NET
 <dotnet-install>`.
 
-The Realm Data Model
---------------------
+Realm Data Models
+-----------------
 
 You can store a wide variety of data within {+realms+} stored on your
-device. With :term:`{+sync+}`, you can share updates to that data across
-client devices and {+atlas+}.
+device, and if you enable :term:`{+sync+}`, updates to that data are available 
+across multiple client devices. Data models are classes defined in your 
+code and in {+realm+} schemas.
 
 For information about the structure of data you can store in {+realms+},
 see :ref:`Realms <dotnet-realms>`, :ref:`Objects
 <dotnet-realm-objects>`, and :ref:`Relationships
 <dotnet-client-relationships>`.
 
-To learn about the results returned from {+realm+} queries, see
-:ref:`Collections <android-client-collections>`.
+Work with a Realm Database
+--------------------------
 
-Work with Realm Database
-------------------------
-
-Once you have defined a data model for your application, you
-need to be able to :ref:`write <dotnet-realm-database-writes>` and
-:ref:`read <dotnet-realm-database-reads>` pieces of data to and from
+Once you have defined the data model(s) for your application, you
+can :ref:`write <dotnet-realm-database-writes>` and
+:ref:`read <dotnet-realm-database-reads>` data to and from
 your {+realm+}s.
 
 To learn how to query for data in local {+realms+}, see
 :ref:`Query Engine <dotnet-client-query-engine>`.
 
-For advice on how to safely interact with {+client-database+} across
-threads in an application, see :ref:`Threading
-<dotnet-client-threading>`.
+To learn about the results returned from {+realm+} queries, see
+:ref:`Collections <dotnet-client-collections>`.
 
-For information about how to react to changes in {+realm+} data, see
-:ref:`Notifications <dotnet-client-notifications>`.
+Mobile application development can be complicated by threading. To learn 
+how to work with {+backend-short+} across threads in your application, 
+see :ref:`Threading <dotnet-client-threading>`.
 
 Work with MongoDB Realm
 -----------------------

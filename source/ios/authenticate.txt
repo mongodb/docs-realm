@@ -20,47 +20,12 @@ authentication provider. Instantiate a ``Credentials`` object and pass
 it to the  ``app.login()`` method to authenticate a user and create a ``User`` 
 object. Each authentication provider corresponds to a method used to
 instantiate ``Credentials`` objects using that authentication provider.
-See the table below to find the method that instantiates the
-``Credentials`` instance for your authentication provider:
-
-.. list-table::
-   :header-rows: 1
-   :widths: 50 50
-
-   * - Authentication Provider
-     - Credentials Generation Method
-
-   * - :ref:`Anonymous <ios-login-anonymous>`
-     - ``Credentials.anonymous()``
-
-   * - :ref:`Email/Password <ios-login-email-password>`
-     - ``Credentials(email: String, password: String)``
-
-   * - :ref:`API Key <ios-login-api-key>`
-     - ``Credentials(userAPIKey: String)``
-
-   * - :ref:`Custom Function <ios-login-custom-function>`
-     - ``Credentials(functionPayload: [AnyHashable : Any], error: NSErrorPointer)``
-
-   * - :ref:`Custom JWT <ios-login-custom-jwt>`
-     - ``Credentials(jwt: String)``
-
-   * - :ref:`Google OAuth <ios-login-google>`
-     - ``Credentials(googleToken: String)``
-
-   * - :ref:`Facebook OAuth <ios-login-facebook>`
-     - ``Credentials(facebookToken: String)``
-   
-   * - :ref:`Sign-in With Apple <ios-login-apple>`
-     - ``Credentials(appleToken: String)``
-
 
 Before you can authenticate a user, ensure you have:
 
 - :ref:`Created a {+app+} <create-a-realm-app>`
 - Enabled one or more :ref:`authentication providers <authentication-providers>`
 - :ref:`Installed the iOS SDK <ios-install>`
-
 
 Log In
 ------
@@ -74,23 +39,8 @@ If you have enabled :ref:`Anonymous authentication <anonymous-authentication>` i
 {+ui+}, users can immediately log into your app without providing any identifying
 information. The following code shows how to do this:
 
-.. code-block:: swift
-   :emphasize-lines: 1
-
-   app.login(credentials: Credentials.anonymous()) { (user, error) in
-        // Remember to dispatch back to the main thread in completion handlers
-        // if you want to do anything on the UI.
-        DispatchQueue.main.sync {
-          guard error == nil else {
-            print("Login failed: \(error!)")
-            return
-          }
-
-          // Now logged in, do something with user
-
-        }
-   }
-
+.. literalinclude:: /examples/generated/code/start/Authenticate.codeblock.anonymous.swift
+   :language: swift
 
 .. _ios-login-email-password:
 
@@ -100,20 +50,8 @@ Email/Password Authentication
 If you have enabled :ref:`Email/Password authentication <email-password-authentication>`,
 you can log in using the following code:
 
-.. code-block:: swift
-   :emphasize-lines: 1-4
-
-   let email = "skroob@example.com"
-   let password = "12345"
-   app.login(credentials: Credentials(email: email, password: password)) { (user, error) in
-       DispatchQueue.main.sync {
-           guard error == nil else {
-               print("Login failed: \(error!)")
-               return
-           }
-           // Now logged in, do something with user
-        }
-   }
+.. literalinclude:: /examples/generated/code/start/Authenticate.codeblock.email-password.swift
+   :language: swift
 
 .. _ios-login-api-key:
 
@@ -122,20 +60,8 @@ API Key
 If you have enabled :ref:`API Key authentication <api-key-authentication>`,
 you can log in using the following code:
 
-
-.. code-block:: swift
-   :emphasize-lines: 1
-
-   app.login(credentials: Credentials(userAPIKey: apiKey)) { (user, error) in
-      DispatchQueue.main.sync {
-          guard error == nil else {
-              print("Login failed: \(error!)")
-              return
-          }
-          // Now logged in, do something with user
-      }
-   }
-   
+.. literalinclude:: /examples/generated/code/start/Authenticate.codeblock.api-key.swift
+   :language: swift
 
 .. _ios-login-custom-function:
 
@@ -145,24 +71,8 @@ If you have enabled the
 :doc:`Custom Function authentication provider </authentication/custom-function>`,
 you can log in using the following code:
 
-.. code-block:: swift
-   :emphasize-lines: 1-7
-    
-   let params = [
-      "username": "bob"
-   ]
-         
-   var e: NSError?
-     
-   app.login(credentials: Credentials(functionPayload: params, error: &e)) { (user, error) in
-      DispatchQueue.main.sync {
-          guard error == nil else {
-              print("Login failed: \(error!)")
-              return
-          }
-          // Now logged in, do something with user
-      }
-   }
+.. literalinclude:: /examples/generated/code/start/Authenticate.codeblock.function.swift
+   :language: swift
 
 .. _ios-login-custom-jwt:
 
@@ -171,18 +81,8 @@ Custom JWT
 If you have enabled the :doc:`Custom JWT authentication provider </authentication/custom-jwt>`,
 you can log in using the following code:
 
-.. code-block:: swift
-   :emphasize-lines: 1
-
-   app.login(credentials: Credentials(jwt: "<token>")) { (user, error) in
-       DispatchQueue.main.sync {
-           guard error == nil else {
-               print("Login failed: \(error!)")
-               return
-           }
-           // Now logged in, do something with user
-       }
-   }
+.. literalinclude:: /examples/generated/code/start/Authenticate.codeblock.jwt.swift
+   :language: swift
 
 .. _ios-login-facebook:
 
@@ -192,19 +92,8 @@ Facebook Authentication
 If you have enabled :ref:`Facebook authentication <facebook-authentication>`,
 you can log in using the following code:
 
-.. code-block:: swift
-   :emphasize-lines: 2
-
-   // Fetch Facebook token via the Facebook SDK
-   app.login(credentials: Credentials(facebookToken: "<token>")) { (user, error) in
-       DispatchQueue.main.sync {
-           guard error == nil else {
-               print("Login failed: \(error!)")
-               return
-           }
-           // Now logged in, do something with user
-       }
-   }
+.. literalinclude:: /examples/generated/code/start/Authenticate.codeblock.facebook.swift
+   :language: swift
 
 .. _ios-login-google:
 
@@ -214,20 +103,8 @@ Google Authentication
 If you have enabled :ref:`Google authentication <google-authentication>`,
 you can log in using the following code:
 
-.. code-block:: swift
-   :emphasize-lines: 3
-
-   // Fetch Google token via the Google SDK
-   
-   app.login(credentials: Credentials(googleToken: "<token>")) { (user, error) in
-      DispatchQueue.main.sync {
-          guard error == nil else {
-              print("Login failed: \(error!)")
-              return
-          }
-          // Now logged in, do something with user
-      }
-   }
+.. literalinclude:: /examples/generated/code/start/Authenticate.codeblock.google.swift
+   :language: swift
 
 .. _ios-login-apple:
 
@@ -236,20 +113,8 @@ Sign-in with Apple
 If you have enabled :ref:`Sign-in with Apple authentication <apple-id-authentication>`,
 you can log in using the following code:
 
-.. code-block:: swift
-   :emphasize-lines: 3
-
-   // Fetch Apple token via the Apple DSK
-   
-   app.login(credentials: Credentials(appleToken: "<token>")) { (user, error) in
-      DispatchQueue.main.sync {
-          guard error == nil else {
-              print("Login failed: \(error!)")
-              return
-          }
-          // Now logged in, do something with user
-      }
-   }
+.. literalinclude:: /examples/generated/code/start/Authenticate.codeblock.apple.swift
+   :language: swift
 
 .. _ios-logout:
 
@@ -260,8 +125,5 @@ Once logged in, you can log out:
 
 .. include:: /includes/log-out-queries-in-progress.rst
 
-.. code-block:: swift
-
-   app.currentUser()?.logOut(completion: { (error) in
-       // Logged out or error occurred
-   })
+.. literalinclude:: /examples/generated/code/start/Authenticate.codeblock.logout.swift
+   :language: swift
