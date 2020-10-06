@@ -1,2 +1,2 @@
 User googleUser =
-    await app.LogInAsync(Credentials.Google("<google_auth_code>"));
+    await app.LogInAsync(Credentials.Google(googleAuthCode));

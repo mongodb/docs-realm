@@ -1,2 +1,2 @@
 User jwtUser =
-    await app.LogInAsync(Credentials.JWT("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.---.---"));
+    await app.LogInAsync(Credentials.JWT(jwt_token));

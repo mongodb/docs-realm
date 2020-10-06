@@ -3,7 +3,7 @@ var functionParameters = new
     username=  "caleb",
     password = "shhhItsASektrit!",
     IQ = 42,
-    isCool = true
+    isCool = false
 };
 
 User functionUser =

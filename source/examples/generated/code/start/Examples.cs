@@ -23,8 +23,8 @@ namespace UnitTests
             user = app.LogInAsync(Credentials.EmailPassword("foo@foo.com", "foobar")).Result;
             config = new SyncConfiguration("My Project", user);
             Realm realm = await Realm.GetInstanceAsync(config);
-            // :code-block-stat: create
-            RealmTask testTask = new RealmTask()
+            Realm synchronousRealm = Realm.GetInstance(config);
+            RealmTask testTask = new RealmTask
             {
                 Name = "Do this thing",
                 Status = TaskStatus.Open.ToString()
@@ -44,10 +44,10 @@ namespace UnitTests
             User user = app.LogInAsync(Credentials.Anonymous()).Result;
             config = new SyncConfiguration("My Project", user);
             Realm realm = await Realm.GetInstanceAsync(config);
-            var tasks = realm.All<RealmTask>().ToList();
-            Assert.AreEqual(1, tasks.Count);
-            tasks = realm.All<RealmTask>().Where(t => t.Status == "Open").ToList();
-            Assert.AreEqual(1, tasks.Count);
+            var tasks = realm.All<RealmTask>();
+            Assert.AreEqual(1, tasks.Count());
+            tasks = realm.All<RealmTask>().Where(t => t.Status == "Open");
+            Assert.AreEqual(1, tasks.Count());
             return;
         }
 
@@ -78,10 +78,12 @@ namespace UnitTests
             User anonUser = await app.LogInAsync(Credentials.Anonymous());
             Assert.AreEqual(UserState.LoggedIn, anonUser.State);
             await anonUser.LogOutAsync();
-            User emailUser = await app.LogInAsync(Credentials.EmailPassword("caleb@mongodb.com", "shhhItsASektrit!"));
+            User emailUser = await app.LogInAsync(
+                Credentials.EmailPassword("caleb@mongodb.com", "shhhItsASektrit!"));
             Assert.AreEqual(UserState.LoggedIn, emailUser.State);
             await emailUser.LogOutAsync();
-            User apiUser = await app.LogInAsync(Credentials.ApiKey("eRECwv1e6gkLEse99XokWOgegzoguEkwmvYvXk08zAucG4kXmZu7TTgV832SwFCv"));
+            var apiKey = "eRECwv1e6gkLEse99XokWOgegzoguEkwmvYvXk08zAucG4kXmZu7TTgV832SwFCv";
+            User apiUser = await app.LogInAsync(Credentials.ApiKey(apiKey));
             Assert.AreEqual(UserState.LoggedIn, apiUser.State);
             await apiUser.LogOutAsync();
             var functionParameters = new
@@ -89,21 +91,23 @@ namespace UnitTests
                 username=  "caleb",
                 password = "shhhItsASektrit!",
                 IQ = 42,
-                isCool = true
+                isCool = false
             };
 
             User functionUser =
                 await app.LogInAsync(Credentials.Function(functionParameters));
             Assert.AreEqual(UserState.LoggedIn, functionUser.State);
             await functionUser.LogOutAsync();
+            var jwt_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkNhbGViIiwiaWF0IjoxNjAxNjc4ODcyLCJleHAiOjI1MTYyMzkwMjIsImF1ZCI6InR1dHMtdGlqeWEifQ.LHbeSI2FDWrlUVOBxe-rasuFiW-etv2Gu5e3eAa6Y6k";
             User jwtUser =
-                await app.LogInAsync(Credentials.JWT("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.---.---"));
+                await app.LogInAsync(Credentials.JWT(jwt_token));
             Assert.AreEqual(UserState.LoggedIn, jwtUser.State);
             await jwtUser.LogOutAsync();
             try
             {
+                var facebookToken = "";
                 User fbUser =
-                    await app.LogInAsync(Credentials.Facebook("<facebook_token>"));
+                    await app.LogInAsync(Credentials.Facebook(facebookToken));
             }
             catch (Exception e)
             {
@@ -111,8 +115,9 @@ namespace UnitTests
             }
             try
             {
+                var googleAuthCode = "";
                 User googleUser =
-                    await app.LogInAsync(Credentials.Google("<google_auth_code>"));
+                    await app.LogInAsync(Credentials.Google(googleAuthCode));
             }
             catch (Exception e)
             {
@@ -120,8 +125,9 @@ namespace UnitTests
             }
             try
             {
+                var appleToken = "";
                 User appleUser =
-                    await app.LogInAsync(Credentials.Apple("<apple_token>"));
+                    await app.LogInAsync(Credentials.Apple(appleToken));
             }
 
             catch (Exception e)
