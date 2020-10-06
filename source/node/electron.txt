@@ -63,7 +63,7 @@ multiple BrowserWindows. Each BrowserWindow spawns its own process.
 This presents the following unique challenges when developing
 applications using Electron and Realm:
 
-- Two different processes cannot access a synced realm. Due to this, the recommended course of action is to open a non-synced realm on renderer processes and open a synced realm on the main process.
+- Two different processes cannot access a synced realm. Due to this, the recommended course of action is to only open non-synced realms on renderer processes and only one synced realm on the main process.
 - Since you're opening a non-synced a realm on the renderer process, you must notify the main process when the renderer performs a write transaction. The main process can then upload the local non-synced changes to the sync session.
 
 Consider the following code in the ``main process``:
