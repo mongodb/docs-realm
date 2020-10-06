@@ -7,7 +7,7 @@ content: |
   component with the following code to create an ``ApolloClient`` object that 
   connects to your app:
 
-  .. literalinclude:: RealmApolloProvider.codeblock.realmApolloProvider.js
+  .. literalinclude:: /tutorial/generated/code/final/RealmApolloProvider.codeblock.realmApolloProvider.js
      :caption: ``src/graphql/RealmApolloProvider.js``
      :emphasize-lines: 2-6
 ---
@@ -20,12 +20,10 @@ content: |
   GraphQL request must include an Authorization header that specifies a valid
   user access token. The current client does not include any Authorization
   headers, so all requests it makes will fail.
-  
+
   To fix this, update the ``createRealmApolloClient()`` function to include the
   current user's access token in an Authorization header with every request:
 
-  .. literalinclude:: RealmApolloProvider.codeblock.createRealmApolloClient.js
+  .. literalinclude:: /tutorial/generated/code/final/RealmApolloProvider.codeblock.createRealmApolloClient.js
      :caption: ``src/graphql/RealmApolloProvider.js``
      :emphasize-lines: 4, 13
-     
-...
