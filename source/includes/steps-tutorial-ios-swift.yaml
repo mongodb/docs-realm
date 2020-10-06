@@ -93,7 +93,9 @@ ref: define-the-object-models
 content: |
   Navigate to the Models.swift file to implement the Realm Object Models used in
   this app. First, implement the User model, which contains information about
-  the user's membership in different projects:
+  the user's membership in different projects. Notice that the Realm object
+  models derive from ``Object`` from the ``RealmSwift`` library, which allows
+  Realm to store them in the Realm Database:
 
   .. literalinclude:: /tutorial/generated/code/final/Models.codeblock.user-model.swift
      :language: swift
