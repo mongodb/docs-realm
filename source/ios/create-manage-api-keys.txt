@@ -25,42 +25,14 @@ Create a User API Key
    .. tab::
       :tabid: swift
 
-      .. code-block:: swift
-         :emphasize-lines: 6
-
-         let app = App(id: "my-realm-app-id")
-         // ... log in ...
-         let user = app.currentUser()!
-         let client = user.apiKeyAuth()
-         
-         client.createApiKey(named: "someKeyName") { (maybeApiKey, error) in
-             guard error == nil else {
-                   fatalError("Failed to create key: \(error!)")
-             }
-             guard let apiKey = maybeApiKey else {
-                   fatalError("Failed to create key! Error unknown")
-             }
-             // Use apiKey
-         }
+      .. literalinclude:: /examples/generated/code/start/ManageApiKeys.codeblock.create-api-key.swift
+         :language: swift
 
    .. tab::
       :tabid: objective-c
 
-      .. code-block:: objective-c
-         :emphasize-lines: 6
-
-         RLMApp *app = [RLMApp appWithId:@"myappid"];
-         // ... log in ...
-         RLMUser *user = [app currentUser];
-         RLMAPIKeyAuth *client = [user apiKeyAuth];
-
-         [client createApiKeyWithName:@"someKeyName" completion:^(RLMUserAPIKey *apiKey, NSError *error) {
-            if (error != nil) {
-               // ... handle Error ...
-            } else {
-               // ... use apiKey ...
-            }
-         }];
+      .. literalinclude:: /examples/generated/code/start/ManageApiKeys.codeblock.create-api-key.m
+         :language: objective-c
 
 .. _ios-api-key-look-up-user-key:
 
@@ -72,62 +44,14 @@ Look up a User API Key
    .. tab::
       :tabid: swift
 
-      .. code-block:: swift
-         :emphasize-lines: 7, 12
-
-         let app = App(id: "my-realm-app-id")
-         // ... log in ...
-         let user = app.currentUser()!
-         let client = user.apiKeyAuth()
-         
-         // Fetch a specific API key by ObjectId
-         client.fetchApiKey(ObjectId("someObjectId")) { (maybeApiKey, error) in
-               // ...
-         }
-         
-         // Fetch all API keys
-         client.fetchApiKeys { (keys, error) in
-               guard error == nil else {
-                  fatalError("Failed to fetch keys: \(error!)")
-               }
-               for key in keys! {
-                  // use key
-               }
-         }
+      .. literalinclude:: /examples/generated/code/start/ManageApiKeys.codeblock.look-up-api-key.swift
+         :language: swift
 
    .. tab::
       :tabid: objective-c
 
-      .. code-block:: objective-c
-         :emphasize-lines: 9, 18
-
-         RLMApp *app = [RLMApp appWithId:@"myappid"];
-         // ... log in ...
-         RLMUser *user = [app currentUser];
-         RLMAPIKeyAuth *client = [user apiKeyAuth];
-
-         // Fetch API key by a specific ObjectId
-         NSError *error = nil;
-         RLMObjectId *objectId = [[RLMObjectId alloc] initWithString:@"someObjectId" error:&error];
-         [client fetchApiKey:objectId completion:^(RLMUserAPIKey *apiKey, NSError *error) {
-            if (error != nil) {
-               // ... handle error ...
-            } else {
-               // ... use apiKey ...
-            }
-         }];
-
-         // Fetch all API keys
-         [client fetchApiKeysWithCompletion:^(NSArray<RLMUserAPIKey *> *keys, NSError *error) {
-            if (error != nil) {
-               // ... handle error ...
-            } else {
-               for (RLMUserAPIKey *key in keys) {
-                     // ... use key ...
-               }
-            }
-         }];
-
+      .. literalinclude:: /examples/generated/code/start/ManageApiKeys.codeblock.look-up-api-key.m
+         :language: objective-c
 
 .. _ios-api-key-enable-disable:
 
@@ -139,44 +63,14 @@ Enable or Disable an API Key
    .. tab::
       :tabid: swift
 
-      .. code-block:: swift
-         :emphasize-lines: 7, 12
-      
-         let app = App(id: "my-realm-app-id")
-         // ... log in ...
-         let user = app.currentUser()!
-         let client = user.apiKeyAuth()
-
-         // Enable the API key
-         client.enableApiKey(ObjectId("someObjectId")) { (error) in
-             // ...
-         }
-      
-         // Disable the API key
-         client.disableApiKey(apiKey.objectId) { (error) in
-             // ...
-         }
+      .. literalinclude:: /examples/generated/code/start/ManageApiKeys.codeblock.enable-disable-api-key.swift
+         :language: swift
    
    .. tab::
       :tabid: objective-c
 
-      .. code-block:: objective-c
-         :emphasize-lines: 8, 12
-
-         RLMApp *app = [RLMApp appWithId:@"myappid"];
-         // ... log in ...
-         RLMUser *user = [app currentUser];
-         RLMAPIKeyAuth *client = [user apiKeyAuth];
-         
-         RLMUserAPIKey *apiKey = getExampleApiKey(); // Get an API key
-
-         [client enableApiKey:[apiKey objectId] completion:^(NSError *error) {
-            // Handle error if any. Otherwise, enable was successful.
-         }];
-
-         [client disableApiKey:[apiKey objectId] completion:^(NSError *error) {
-            // Handle error if any. Otherwise, disable was successful.
-         }];
+      .. literalinclude:: /examples/generated/code/start/ManageApiKeys.codeblock.enable-disable-api-key.m
+         :language: objective-c
 
 .. _ios-api-key-delete:
 
@@ -188,34 +82,12 @@ Delete an API Key
    .. tab::
       :tabid: swift
 
-      .. code-block:: swift
-         :emphasize-lines: 6
-
-         let app = App(id: "my-realm-app-id")
-         // ... log in ...
-         let user = app.currentUser()!
-         let client = user.apiKeyAuth()
-         
-         client.deleteApiKey(apiKey.objectId) { (error) in
-             guard error == nil else {
-                 fatalError("Failed to delete key: \(error!)")
-             }
-             // Key deleted
-         }
+      .. literalinclude:: /examples/generated/code/start/ManageApiKeys.codeblock.delete-api-key.swift
+         :language: swift
 
    .. tab::
       :tabid: objective-c
 
-      .. code-block:: objective-c
-         :emphasize-lines: 8
+      .. literalinclude:: /examples/generated/code/start/ManageApiKeys.codeblock.delete-api-key.m
+         :language: objective-c
 
-         RLMApp *app = [RLMApp appWithId:@"myappid"];
-         // ... log in ...
-         RLMUser *user = [app currentUser];
-         RLMAPIKeyAuth *client = [user apiKeyAuth];
-         
-         RLMUserAPIKey *apiKey = getExampleApiKey(); // Get an API key
-
-         [client deleteApiKey:[apiKey objectId] completion:^(NSError *error) {
-            // Handle error if any. Otherwise, delete was successful.
-         }];

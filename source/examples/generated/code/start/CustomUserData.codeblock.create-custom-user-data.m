@@ -1,4 +1,4 @@
-RLMApp *app = [RLMApp appWithId:@"<YourAppId>"]; // replace this with your App ID
+RLMApp *app = [RLMApp appWithId:YOUR_REALM_APP_ID];
 [app loginWithCredential:[RLMCredentials anonymousCredentials] completion:^(RLMUser *user, NSError *error) {
     if (error != nil) {
         NSLog(@"Failed to log in: %@", error);
@@ -8,7 +8,7 @@ RLMApp *app = [RLMApp appWithId:@"<YourAppId>"]; // replace this with your App I
     RLMMongoDatabase *database = [client databaseWithName:@"my_database"];
     RLMMongoCollection *collection = [database collectionWithName:@"users"];
     [collection insertOneDocument:
-        @{@"userId": [user identity], @"favoriteColor": @"pink"}
+        @{@"userId": [user identifier], @"favoriteColor": @"pink"}
         completion:^(RLMObjectId *newObjectId, NSError *error) {
             if (error != nil) {
                 NSLog(@"Failed to insert: %@", error);

@@ -1,5 +1,5 @@
 // Fetch Facebook token via the Facebook SDK
-let credentials = Credentials(facebookToken: "<token>")
+let credentials = Credentials.facebook(accessToken: "<token>")
 app.login(credentials: credentials) { (user, error) in
    DispatchQueue.main.sync {
        guard error == nil else {

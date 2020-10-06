@@ -1,5 +1,5 @@
 let app = App(id: YOUR_REALM_APP_ID)
-let client = app.emailPasswordAuth()
+let client = app.emailPasswordAuth
 
 let email = "forgot.my.password@example.com"
 // If Realm app password reset mode is "Send a password reset email",

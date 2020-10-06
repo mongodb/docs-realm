@@ -1,5 +1,5 @@
 let app = App(id: YOUR_REALM_APP_ID)
-let client = app.emailPasswordAuth()
+let client = app.emailPasswordAuth
 
 // Token and tokenId are query parameters in the confirmation
 // link sent in the confirmation email.
