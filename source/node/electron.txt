@@ -17,14 +17,12 @@ Quick Start With Electron
 Overview
 --------
 
-This page contains information to quickly get {+client-database+}
-integrated into your Electron application. This page contains
-information to get {+service+} integrated into your Electron application
-quickly. To learn how to set up an Electron application with Realm
-without using any additional frameworks, see the :ref:`Electron set up
-<electron-setup>` instructions. If you have already created an
-application using `Create React App
-<https://reactjs.org/docs/create-a-new-react-app.html>`_ or if you are
+This page contains information to get {+service+} integrated into your
+Electron application quickly. To learn how to set up an Electron
+application with Realm without using any additional frameworks, see the
+:ref:`Electron set up <electron-setup>` instructions. If you have
+already created an application using `Create React App
+<https://reactjs.org/docs/create-a-new-react-app.html>`_ or are
 interested in integrating a React App with Realm using Electron, check
 out the :ref:`Electron with React set up <react-electron-setup>`
 instructions.
@@ -65,9 +63,8 @@ multiple BrowserWindows. Each BrowserWindow spawns its own process.
 This presents the following unique challenges when developing
 applications using Electron and Realm:
 
-- 2 different processes cannot access a synced realm. Due to this, the recommended course of action is to open a non-synced realm on renderer processes, and open a synced realm on the main process. 
-- Since a non-synced realm is opened on the renderer process, the main process must be notified when a write transaction happens during the renderer process. 
-
+- Two different processes cannot access a synced realm. Due to this, the recommended course of action is to open a non-synced realm on renderer processes and open a synced realm on the main process.
+- Since you're opening a non-synced a realm on the renderer process, you must notify the main process when the renderer performs a write transaction. The main process can then upload the local non-synced changes to the sync session.
 
 Consider the following code in the ``main process``:
 
@@ -76,11 +73,11 @@ Consider the following code in the ``main process``:
   :emphasize-lines: 39, 42, 45
   :linenos:
 
-Notice that on line 38 the main process opens a synced realm. On
-line 42, the `ipcMain <https://www.electronjs.org/docs/api/ipc-main>`_
+Notice that on line 38, the main process opens a synced realm. On line
+42, the `ipcMain <https://www.electronjs.org/docs/api/ipc-main>`_
 Electron API listens for an "asynchronous-message" event. When an
-asynchronous message occurs with the "sync" argument all local changes
-will be uploaded to the synced realm. 
+asynchronous message occurs with the “sync” argument, the main process
+uploads all local changes.
 
 Consider the adjacent ``renderer process`` code:
 
@@ -90,10 +87,10 @@ Consider the adjacent ``renderer process`` code:
   :linenos:
 
 On line 27, the renderer process opens a non-synced realm. All write
-transactions on this local realm, will not be synced by default. In
+transactions on this local Realm, will not be synced by default. In
 order to sync these writes, the `ipcRenderer
 <https://www.electronjs.org/docs/api/ipc-renderer>`_ Electron API emits
-an "asynchronous-message" with the arguement "sync" on line 40. This
+an "asynchronous-message" with the argument "sync" on line 40. This
 tells the ``main process`` to upload all local changes to the synced
 realm. 
 
