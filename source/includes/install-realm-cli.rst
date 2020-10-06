@@ -24,3 +24,4 @@
        name: Manual Install
        content: |
          .. include:: /includes/steps/cli-install.rst
+         
