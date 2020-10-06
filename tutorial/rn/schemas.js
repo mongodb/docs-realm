@@ -37,6 +37,7 @@ class Task {
   // :replace-with:
   //// TODO: implement schema
   // :hide-end:
+  // :code-block-end:
 }
 
 export { Task };
