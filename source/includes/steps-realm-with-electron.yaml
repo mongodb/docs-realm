@@ -1,0 +1,95 @@
+title: Set up Your Application Files
+ref: setup-application-files
+content: |
+  To begin developing your application, create an application directory:
+
+  .. code-block:: shell
+
+     mkdir myElectronApplication
+     
+  Create an index.html and main.js file in the root directory of
+  your application. The code in the main.js file is the Electron main
+  process file, which can be thought of as the entry point into your
+  application. The main.js file is responsible for loading your
+  index.html file into the BrowserWindow created by Electron.
+
+  .. note::
+
+     Each Electron application can only have one **main process**. The
+     main process creates web pages. Each web page runs in its
+     own process, known as a ``renderer process``. To learn more about
+     this, read the official `Electron Application
+     Architecture <https://www.electronjs.org/docs/tutorial/application-architecture>`_
+     doc.
+---
+title: Set up a ``package.json``
+ref: setup-packagejson
+content: |
+  Initialize a package.json to begin installing packages and using them
+  in your project. Run the following command in your terminal:
+
+  .. code-block:: shell
+
+     npm init -y
+---
+title: Install Your Project Dependencies
+ref: install-dependencies
+content: |
+  In order to begin developing your Electron Application that uses
+  Realm, install the necessary dependencies. Install electron as a dev
+  dependency by running the following command:
+
+  .. code-block:: shell
+
+     npm install electron --save-dev
+
+  Install Realm by running the following command:
+
+  .. code-block:: shell
+
+     npm install realm@beta
+
+---
+title: Create a Script to Run Your Application
+ref: create-script-to-run-app
+content: |
+  Add a script to your ``package.json`` file to run your application.
+
+  .. code-block:: json
+
+     "scripts": {
+      "start": "electron ."
+     }
+
+  Running the command ``npm start`` will now start your Electron app.
+---
+title: Create a Browser Window Using Your Main Process
+ref: create-browser-window
+content: |
+  In order to display HTML to the users, your application needs a
+  browser window. Create a `browser window
+  <https://www.electronjs.org/docs/api/browser-window>`_ using the
+  Electron API. Copy the following code into your ``main.js`` file:
+
+  .. literalinclude:: /examples/QuickStarts/electron/quickstart-setup-main.js
+    :language: javascript
+    :emphasize-lines: 2, 8
+    :linenos:
+
+  Notice the ``require("realm")`` on line 2. This line makes Realm
+  accessible in this main process file.
+---
+title: Run Your Application
+ref: run-electron-app
+content: |
+  In order to run your application, enter the following into your terminal:
+
+  .. code-block:: shell
+
+     npm start
+
+  You should see the following:
+
+  .. cssclass:: bordered-figure
+  .. figure:: /images/electron-app.png
+    :alt: Electron Desktop App
