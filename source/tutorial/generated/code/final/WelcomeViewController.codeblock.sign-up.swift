@@ -1,6 +1,6 @@
 @objc func signUp() {
     setLoading(true);
-    app.emailPasswordAuth().registerUser(email: email!, password: password!, completion: { [weak self](error) in
+    app.emailPasswordAuth.registerUser(email: email!, password: password!, completion: { [weak self](error) in
         // Completion handlers are not necessarily called on the UI thread.
         // This call to DispatchQueue.main.sync ensures that any changes to the UI,
         // namely disabling the loading indicator and navigating to the next page,

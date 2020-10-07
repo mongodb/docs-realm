@@ -253,7 +253,7 @@ class TasksViewController: UIViewController, UITableViewDelegate, UITableViewDat
     // Returns true if these are the user's own tasks.
     func isOwnTasks() -> Bool {
         // :hide-start:
-        return partitionValue == "project=\(app.currentUser()!.id!)"
+        return partitionValue == "project=\(app.currentUser!.id)"
         // :replace-with:
         // // TODO: Check if the partition value matches the user's project's partition value,
         // // which should look like "project=\(app.currentUser()!.id!)"

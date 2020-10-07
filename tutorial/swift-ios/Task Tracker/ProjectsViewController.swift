@@ -72,7 +72,7 @@ class ProjectsViewController: UIViewController, UITableViewDelegate, UITableView
             alert -> Void in
             print("Logging out...");
             // :hide-start:
-            app.currentUser()?.logOut() { (error) in
+            app.currentUser?.logOut() { (error) in
                 DispatchQueue.main.sync {
                     print("Logged out!");
                     self.navigationController?.popViewController(animated: true)
@@ -127,8 +127,8 @@ class ProjectsViewController: UIViewController, UITableViewDelegate, UITableView
     // :code-block-start: did-select-row-at
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // :hide-start:
-        let user = app.currentUser()!
-        let project = userData?.memberOf[indexPath.row] ?? Project(partition: "project=\(user.id!)", name: "My Project")
+        let user = app.currentUser!
+        let project = userData?.memberOf[indexPath.row] ?? Project(partition: "project=\(user.id)", name: "My Project")
 
         Realm.asyncOpen(configuration: user.configuration(partitionValue: project.partition!)) { [weak self] (realm, error) in
             guard error == nil else {

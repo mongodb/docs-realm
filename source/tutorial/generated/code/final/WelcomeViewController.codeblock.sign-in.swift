@@ -2,7 +2,7 @@
     print("Log in as user: \(email!)");
     setLoading(true);
 
-    app.login(credentials: Credentials(email: email!, password: password!)) { [weak self](maybeUser, error) in
+    app.login(credentials: Credentials.emailPassword(email: email!, password: password!)) { [weak self](maybeUser, error) in
         // Completion handlers are not necessarily called on the UI thread.
         // This call to DispatchQueue.main.sync ensures that any changes to the UI,
         // namely disabling the loading indicator and navigating to the next page,
@@ -25,7 +25,7 @@
             self!.setLoading(true);
 
             // Get a configuration to open the synced realm.
-            var configuration = user.configuration(partitionValue: "user=\(user.id!)")
+            var configuration = user.configuration(partitionValue: "user=\(user.id)")
             // Only allow User objects in this partition.
             configuration.objectTypes = [User.self, Project.self]
             // Open the realm asynchronously so that it downloads the remote copy before
