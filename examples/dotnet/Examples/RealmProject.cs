@@ -3,7 +3,7 @@ using Realms;
 
 namespace dotnet
 {
-    public class Project : RealmObject
+    public class RealmProject : RealmObject
     {
         [PrimaryKey]
         [MapTo("_id")]

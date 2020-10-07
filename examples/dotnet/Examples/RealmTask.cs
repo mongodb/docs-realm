@@ -3,7 +3,7 @@ using MongoDB.Bson;
 using Realms;
 namespace dotnet
 {
-    public class Task : RealmObject
+    public class RealmTask : RealmObject
     {
         [PrimaryKey]
         [MapTo("_id")]
@@ -13,7 +13,7 @@ namespace dotnet
         public string Partition { get; set; }
 
         [MapTo("assignee")]
-        public User Assignee { get; set; }
+        public RealmUser Assignee { get; set; }
 
         [MapTo("name")]
         [Required]
@@ -23,7 +23,7 @@ namespace dotnet
         [Required]
         public string Status { get; set; }
 
-        public Task()
+        public RealmTask()
         {
             this.Id = ObjectId.GenerateNewId();
         }

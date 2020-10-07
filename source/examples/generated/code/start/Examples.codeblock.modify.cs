@@ -1,4 +1,4 @@
-Task t = realm.All<Task>()
+RealmTask t = realm.All<RealmTask>()
     .Where(t => t.Id == testTaskId)
     .FirstOrDefault();
 

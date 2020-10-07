@@ -1,0 +1,1 @@
+tasks = realm.All<RealmTask>().Where(t => t.Status == "Open");
