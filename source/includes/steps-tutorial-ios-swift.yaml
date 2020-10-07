@@ -120,14 +120,16 @@ content: |
   field for email and password, sign in and sign up buttons, and an activity
   indicator to show when the app is handling an authentication request.
 
-  First, let's implement the ``signUp()`` method to register a new user:
+  First, let's implement the ``signUp()`` method to register a new user, which
+  uses the email/password authentication provider of the Realm app to register a
+  new user:
 
   .. literalinclude:: /tutorial/generated/code/final/WelcomeViewController.codeblock.sign-up.swift
      :language: swift
 
-  Now, implement the ``signIn()`` method to log in with an existing user. Once
-  logged in successfully, open the user realm and navigate to the
-  ProjectsViewController:
+  Now, implement the ``signIn()`` method to log in with an existing user using
+  email/password credentials. Once logged in successfully, open the user realm
+  and navigate to the ProjectsViewController:
 
   .. literalinclude:: /tutorial/generated/code/final/WelcomeViewController.codeblock.sign-in.swift
      :language: swift
@@ -150,6 +152,15 @@ content: |
   for changes:
 
   .. literalinclude:: /tutorial/generated/code/final/ProjectsViewController.codeblock.user-in-realm-notification.swift
+     :language: swift
+
+  Whenever we observe a realm, collection, or object, we receive a notification
+  token that we must retain as long as we want to keep observing that object.
+  Once we are done observing, for example because the user navigated to another
+  screen, we should invalidate that token. One convenient place to do so is in
+  the deinit method of the view controller:
+
+  .. literalinclude:: /tutorial/generated/code/final/ProjectsViewController.codeblock.invalidate-token.swift
      :language: swift
 
   Let's provide a way for a user to log out and get back to the

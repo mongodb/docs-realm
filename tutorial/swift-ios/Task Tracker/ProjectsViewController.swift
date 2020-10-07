@@ -65,6 +65,30 @@ class ProjectsViewController: UIViewController, UITableViewDelegate, UITableView
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Log Out", style: .plain, target: self, action: #selector(logOutButtonDidClick))
     }
 
+    // :code-block-start: log-out-button-did-click
+    @objc func logOutButtonDidClick() {
+        let alertController = UIAlertController(title: "Log Out", message: "", preferredStyle: .alert);
+        alertController.addAction(UIAlertAction(title: "Yes, Log Out", style: .destructive, handler: {
+            alert -> Void in
+            print("Logging out...");
+            // :hide-start:
+            app.currentUser()?.logOut() { (error) in
+                DispatchQueue.main.sync {
+                    print("Logged out!");
+                    self.navigationController?.popViewController(animated: true)
+                }
+            }
+            // :replace-with:
+            // // TODO: log out the app's currentUser, then, on the main thread, pop this
+            // // view controller from the navigation controller to navigate back to
+            // // the WelcomeViewController.
+            // :hide-end:
+        }))
+        alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        self.present(alertController, animated: true, completion: nil)
+    }
+    // :code-block-end:
+
     // :code-block-start: number-of-rows-in-section
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // :hide-start:
@@ -78,6 +102,7 @@ class ProjectsViewController: UIViewController, UITableViewDelegate, UITableView
         // return 0
         // :hide-end:
     }
+    // :code-block-end:
 
     // :code-block-start: cell-for-row-at
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -125,27 +150,4 @@ class ProjectsViewController: UIViewController, UITableViewDelegate, UITableView
     }
     // :code-block-end:
 
-    // :code-block-start: log-out-button-did-click
-    @objc func logOutButtonDidClick() {
-        let alertController = UIAlertController(title: "Log Out", message: "", preferredStyle: .alert);
-        alertController.addAction(UIAlertAction(title: "Yes, Log Out", style: .destructive, handler: {
-            alert -> Void in
-            print("Logging out...");
-            // :hide-start:
-            app.currentUser()?.logOut() { (error) in
-                DispatchQueue.main.sync {
-                    print("Logged out!");
-                    self.navigationController?.popViewController(animated: true)
-                }
-            }
-            // :replace-with:
-            // // TODO: log out the app's currentUser, then, on the main thread, pop this
-            // // view controller from the navigation controller to navigate back to
-            // // the WelcomeViewController.
-            // :hide-end:
-        }))
-        alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-        self.present(alertController, animated: true, completion: nil)
-    }
-    // :code-block-end:
 }
