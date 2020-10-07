@@ -23,11 +23,17 @@ the user. The following code demonstrates this:
 
 In the above example, the code shows how to open the {+realm+} *asynchronously* 
 by calling ``GetInstanceAsync``. You can also open a {+realm+} *synchronously* 
-by calling ``GetInstance``, but this may lead to temporary data inconsistencies 
-while the remote data is downloaded, and is generally not recommended. 
+by calling ``GetInstance``, which is necessary if the device is offline. 
 
 .. literalinclude:: /examples/generated/code/start/Examples.codeblock.open-synced-realm-sync.cs
    :language: csharp
+
+.. note::
+
+   The first time a user logs on to your realm app, you should open the realm 
+   *asynchronously* to sync data from the server to the device. After that initial 
+   connection, you can open a realm *synchronously* to ensure the app works in 
+   an offline state. 
 
 Open a Local (Non-Synced) Realm
 -------------------------------
@@ -40,12 +46,18 @@ configuration information:
 .. literalinclude:: /examples/generated/code/start/Examples.codeblock.local-realm.cs
    :language: csharp
 
-.. note::
+Scoping the Realm
+-----------------
+The Realm instance implements ``IDisposable``, and you should dispose of a realm 
+object immediately after use. The simplest way to do this is by declaring and 
+instantiating the realm object in a ``using`` statement:
 
-   If you specify a local path, that path must already exist on the device.
+.. literalinclude:: /examples/generated/code/start/Examples.codeblock.scope.cs
+   :language: csharp
 
-Close a Realm
--------------
-There is no need to manually close a {+realm+} with the .NET SDK. When a {+realm+} 
-goes out of scope and is removed from memory, the {+realm+} is closed.
+If you require a realm object to be shared outside of a single method, be sure 
+to manage its state by calling ``Dispose()``:
+
+.. literalinclude:: /examples/generated/code/start/Examples.codeblock.dispose.cs
+   :language: csharp
 

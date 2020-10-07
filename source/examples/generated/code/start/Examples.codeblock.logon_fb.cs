@@ -1,2 +1,2 @@
-User fbUser =
+var user =
     await app.LogInAsync(Credentials.Facebook(facebookToken));

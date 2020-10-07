@@ -1,1 +1,1 @@
-User user = app.LogInAsync(Credentials.Anonymous()).Result;
+var user = app.LogInAsync(Credentials.Anonymous()).Result;

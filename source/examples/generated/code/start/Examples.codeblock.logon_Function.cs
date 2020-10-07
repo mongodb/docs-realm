@@ -1,10 +1,10 @@
 var functionParameters = new
 {
-    username=  "caleb",
+    username = "caleb",
     password = "shhhItsASektrit!",
     IQ = 42,
     isCool = false
 };
 
-User functionUser =
+var user =
     await app.LogInAsync(Credentials.Function(functionParameters));

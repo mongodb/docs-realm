@@ -41,3 +41,7 @@ as the remaining parameters:
 .. literalinclude:: /examples/generated/code/start/Examples.codeblock.callfunc.cs
    :language: csharp
 
+.. note::
+   The ``CallAsync()`` method returns a raw ``BsonValue``, which must be cast to the 
+   expected type, unless you use one of the generic overloads. In the example above,
+   we know that the function returns an ``int`` so we are using that overload.
