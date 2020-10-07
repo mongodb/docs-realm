@@ -142,25 +142,38 @@ class TasksViewController: UIViewController, UITableViewDelegate, UITableViewDat
         return cell
     }
 
-    // :code-block-start: delete-task
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        guard editingStyle == .delete else { return }
+    @objc func addButtonDidClick() {
+        let alertController = UIAlertController(title: "Add Task", message: "", preferredStyle: .alert)
 
-        // User can swipe to delete items.
-        let task = tasks[indexPath.row]
-        
-        // :hide-start:
-        // All modifications to a realm must happen in a write block.
-        try! realm.write {
-            // Delete the Task.
-            realm.delete(task)
-        }
-        // :replace-with:
-        // // TODO: delete the task from the realm in a write block.
-        // :hide-end:
+        // When the user clicks the add button, present them with a dialog to enter the task name.
+        alertController.addAction(UIAlertAction(title: "Save", style: .default, handler: {
+            alert -> Void in
+            let textField = alertController.textFields![0] as UITextField
+
+            // :code-block-start: add-button-did-click
+            // :hide-start:
+            // Create a new Task with the text that the user entered.
+            let task = Task(partition: self.partitionValue, name: textField.text ?? "New Task")
+
+            // Any writes to the Realm must occur in a write block.
+            try! self.realm.write {
+                // Add the Task to the Realm. That's it!
+                self.realm.add(task)
+            }
+            // :replace-with:
+            // // TODO: Create a Task instance and add it to the realm in a write block.
+            // :hide-end:
+            // :code-block-end:
+        }))
+        alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        alertController.addTextField(configurationHandler: { (textField: UITextField!) -> Void in
+            textField.placeholder = "New Task Name"
+        })
+
+        // Show the dialog.
+        self.present(alertController, animated: true, completion: nil)
     }
-    // :code-block-end:
-    
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
         // User selected a task in the table. We will present a list of actions that the user can perform on this task.
@@ -211,39 +224,25 @@ class TasksViewController: UIViewController, UITableViewDelegate, UITableViewDat
         // Show the actions list.
         self.present(actionSheet, animated: true, completion: nil)
     }
+    
+    // :code-block-start: delete-task
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        guard editingStyle == .delete else { return }
 
-
-    @objc func addButtonDidClick() {
-        let alertController = UIAlertController(title: "Add Task", message: "", preferredStyle: .alert)
-
-        // When the user clicks the add button, present them with a dialog to enter the task name.
-        alertController.addAction(UIAlertAction(title: "Save", style: .default, handler: {
-            alert -> Void in
-            let textField = alertController.textFields![0] as UITextField
-
-            // :code-block-start: add-button-did-click
-            // :hide-start:
-            // Create a new Task with the text that the user entered.
-            let task = Task(partition: self.partitionValue, name: textField.text ?? "New Task")
-
-            // Any writes to the Realm must occur in a write block.
-            try! self.realm.write {
-                // Add the Task to the Realm. That's it!
-                self.realm.add(task)
-            }
-            // :replace-with:
-            // // TODO: Create a Task instance and add it to the realm in a write block.
-            // :hide-end:
-            // :code-block-end:
-        }))
-        alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel))
-        alertController.addTextField(configurationHandler: { (textField: UITextField!) -> Void in
-            textField.placeholder = "New Task Name"
-        })
-
-        // Show the dialog.
-        self.present(alertController, animated: true, completion: nil)
+        // User can swipe to delete items.
+        let task = tasks[indexPath.row]
+        
+        // :hide-start:
+        // All modifications to a realm must happen in a write block.
+        try! realm.write {
+            // Delete the Task.
+            realm.delete(task)
+        }
+        // :replace-with:
+        // // TODO: delete the task from the realm in a write block.
+        // :hide-end:
     }
+    // :code-block-end:
 
     @objc func manageTeamButtonDidClick() {
         present(UINavigationController(rootViewController: ManageTeamViewController()), animated: true)
