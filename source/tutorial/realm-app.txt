@@ -1,76 +1,509 @@
 .. _tutorial-task-tracker-create-realm-app:
 
 ========================================
-Set Up the Task Tracker Tutorial Backend
+Set up the Task Tracker Tutorial Backend
 ========================================
 
 .. default-domain:: mongodb
 
-Prerequisites
--------------
+Overview
+--------
 
-Before you get started, you'll need a `{+atlas+}
-<https://www.mongodb.com/cloud/atlas?tck=docs_realm>`_ account and
-cluster. For details on how to create an account and set up a free
-``M0`` cluster, see :atlas:`Get Started with Atlas </getting-started>`.
+Before we can implement any client SDK functionality for the Task
+Tracker, we need to create a backend {+app+} to serve SDK requests
+like authentication and {+sync+}. To make this easier and faster, we've
+already prepared a backend {+app+} configuration for you, complete
+with functions, triggers, a schema, and the {+sync+} configuration
+you'll need to connect with one of our front-end tutorial apps.
+
+To use our pre-made backend, you'll have to:
+
+A. Create an Atlas account, if you don't already have one. *(3 minutes)*
+#. Create a free Atlas cluster running MongoDB 4.4. *(5 minutes)*
+#. Install the Realm CLI. *(5 minutes)*
+#. Add a programmatic API key to your Atlas project and use it to log
+   into the Realm CLI. *(5 minutes)*
+#. Use the Realm CLI to create a new Task Tracker backend {+app+} with
+   our pre-made Task Tracker backend. *(5 minutes)*
+
+Once we've finished these steps, we can start writing code to implement
+a frontend using Swift, Kotlin, or JavaScript.
+
+.. _tutorial-task-tracker-create-an-atlas-account:
+
+A. Create an Atlas Account
+--------------------------
+
+*Time estimate: 3 minutes*
+
+To begin, you'll need a MongoDB Atlas account. If you've already got
+an existing MongoDB Atlas Account, you can
+:ref:`proceed to the next step
+<tutorial-task-tracker-create-a-free-atlas-cluster>`. If you don't have
+an Atlas account, follow the steps below to create one:
+
+1. Navigate to the `MongoDB Atlas login page
+<https://account.mongodb.com/account/register>`__.
+
+#. Click :guilabel:`Login`.
+
+#. Either enter a new set of user credentials or click the
+   :guilabel:`Sign Up with Google` button.
+
+#. Click :guilabel:`Sign Up` to create your account.
+
+#. Follow the prompts to create an organization and project in your
+   Atlas account. You can use the default suggested names or enter
+   your own.
+
+   .. image:: /images/atlas-create-project-and-organization.png
+      :alt: The Atlas UI after creating an organization and project.
+      :width: 600px
+
+When you finish creating your organization and project, you should end
+up on a screen that prompts you to create an Atlas cluster:
+
+.. image:: /images/atlas-create-cluster.png
+   :alt: The Atlas UI after creating an organization and project.
+   :width: 600px
+
+.. see::
+
+   For additional details on how to create an account,
+   see :atlas:`Create an Atlas Account </tutorial/create-atlas-account/>`.
+
+.. _tutorial-task-tracker-create-a-free-atlas-cluster:
+
+B. Create a Free Atlas Cluster
+------------------------------
+
+*Time estimate: 5 minutes*
 
 .. include:: /includes/mongodb-4.4-required-for-sync-admonition.rst
 
-A. Create a MongoDB Realm App
------------------------------
+Next, you'll need an {+atlas+} cluster running MongoDB 4.4 or higher.
+If you've already created a free cluster in your Atlas project running a
+version of MongoDB other than 4.4, you can
+:atlas:`create a new project in Atlas
+</tutorial/manage-projects/#procedure>`
+and then create a new cluster running MongoDB 4.4 in that project using
+the instructions below. If you haven't created any clusters yet, follow
+the instructions below to create your first free cluster:
 
-To begin, you need to create a new {+app+}. A {+app+} is a central,
-server-side configuration that functions as the backend for your
-application.
+1. Log into your {+atlas+} account at `cloud.mongodb.com
+   <https://cloud.mongodb.com>`__.
 
-.. include:: /includes/steps/task-tracker-server-create-realm-app.rst
+#. Once you're logged into your account, Atlas should prompt you to
+   create your first cluster. In the :guilabel:`Shared Clusters`
+   category, click :guilabel:`Create a Cluster`. Alternatively, you can
+   click :guilabel:`Build a Cluster` from the project view in your Atlas
+   account.
 
-B. Define Your Data Model
--------------------------
+   .. image:: /images/atlas-create-cluster.png
+      :alt: Creating a cluster with the Atlas UI.
+      :width: 600px
 
-In MongoDB Realm, all data conforms to schemas that you define. The types
-described by these schemas make up your app's data model and are a key part of
-data access and security. Realm uses your data model to generate GraphQL types
-and operations as well as to validate reads and writes.
+#. Under :guilabel:`Cloud Provider & Region`, select :guilabel:`AWS`
+   and :guilabel:`N. Virginia` *(us-east-1)*.
 
-.. include:: /includes/steps/task-tracker-server-data-model.rst
+#. Under :guilabel:`Additional Settings`, select :guilabel:`MongoDB 4.4`
+   from the :guilabel:`Select a Version` dropdown.
 
-C. Configure User Authentication
---------------------------------
+#. Under :guilabel:`Cluster Name`, enter the name ``Cluster0`` for your
+   new cluster.
 
-Every request sent to Realm must come from an authenticated user, so we need to
-have a way for users to create accounts and log in. For this app, we'll use
-email/password authentication. Authenticating users has the additional benefit
-of giving each user a persistent identity that we can associate with their tasks
-in order to easily find and secure them.
+#. Click the :guilabel:`Create Cluster` button at the bottom of the page.
 
-.. include:: /includes/steps/task-tracker-server-auth.rst
+After creating your cluster, Atlas should launch the project view for
+your Atlas account. In this view, you'll see Atlas's progress as it
+initializes your new cluster:
 
-D. Define an Authentication Trigger
------------------------------------
+.. image:: /images/atlas-creating-cluster.png
+   :alt: The Atlas UI after creating an organization and project.
+   :width: 600px
 
-We want each user to have a corresponding document in the ``users`` collection
-that contains their information. We could create these documents manually for
-every user, but that approach is prone to errors and adds complexity to your
-client applications. Instead, we can use a trigger to automatically add a
-document for each user when they register their account.
+.. see::
 
-.. include:: /includes/steps/task-tracker-server-trigger.rst
+   For additional details on how to create a MongoDB Atlas cluster,
+   see :atlas:`Deploy a Free Tier Cluster
+   </tutorial/deploy-free-tier-cluster/>`.
 
-E. Deploy Your App
-------------------
+.. _tutorial-task-tracker-install-realm-cli:
 
-At this point your Realm App is fully configured and almost ready to accept
-requests from client applications. All that's left to do is to deploy the
-fully configured app.
+C. Install the Realm CLI
+------------------------
 
-Click :guilabel:`Deploy` in the lefthand navigation and find the current draft
-at the top of the deployment history table. Click the :guilabel:`Review & Deploy
-Changes` button and review the diff to make sure that everything looks correct.
-When you're ready to go live, click :guilabel:`Deploy`.
+*Time estimate: 5 minutes*
 
-.. cssclass:: bordered-figure
-.. figure:: /images/task-tracker-web-deploy-history.png
+Now that you've created a cluster to use as the data source for your
+{+app+}, we need some way to create the app itself. In most cases you'd
+use the Realm UI, which you can access through the Atlas UI. However,
+for the purposes of this tutorial, we're going to use the :ref:`Realm
+Command Line Interface <realm-cli>`, also known as ``realm-cli``.
+
+We're using the Realm CLI because ``realm-cli`` allows you to manage
+your {+app+}s programmatically using JSON configuration files instead of
+the {+service-short+} UI. This lets you get started with a pre-prepared
+app configuration faster. Follow the instructions below to install
+the Realm CLI in your development environment using either a package
+manager or the ``realm-cli`` binary:
+
+.. include:: /includes/install-realm-cli.rst
+
+After installing the ``realm-cli``, you can run the
+following command to confirm that your installation was successful:
+
+.. code-block:: console
+
+   realm-cli --version
+
+If you see output containing a version number such as ``1.1.0``, your
+``realm-cli`` installation was successful.
+
+.. see::
+
+   For additional details on how to install ``realm-cli``, see
+   :ref:`the Realm CLI installation guide <install-realm-cli>`.
+
+.. _tutorial-task-tracker-add-api-key:
+
+D. Add an API Key to Your Atlas Project & Log into the Realm CLI
+----------------------------------------------------------------
+
+*Time estimate: 5 minutes*
+
+Now that you've got ``realm-cli`` installed to your development
+environment, you'll need a way to authenticate using ``realm-cli``.
+For security reasons, ``realm-cli`` only allows login using a
+programmatic API key, so we'll begin by creating a programmatic API Key
+that you can use to administrate your new Atlas project:
+
+1. Click :guilabel:`Access Manager` at the top of the Atlas UI. Select
+   the :guilabel:`Project Access` option from the dropdown.
+
+#. Navigate to the :guilabel:`API Keys` tab.
+
+#. Click the :guilabel:`Create API Key` button.
+
+#. In the :guilabel:`Description` text box, enter
+   "API Key for the MongoDB Realm CLI".
+
+   .. image:: /images/atlas-create-api-key.png
+      :alt: Creating an API Key in the Atlas UI.
+      :width: 600px
+
+#. In the :guilabel:`Project Permissions` dropdown, select
+   "Project Owner" and deselect "Project Read Only".
+
+   .. image:: /images/atlas-api-key-permissions.png
+      :alt: Grant your API Key "Project Owner" permissions.
+      :width: 600px
+
+#. Copy your Public API Key and save it somewhere.
+
+#. Click :guilabel:`Next`.
+
+#. Copy your Private API Key and save it somewhere; after leaving this
+   page, you will no longer be able to view it via the Realm UI.
+
+#. Click the :guilabel:`Add Whitelist Entry` button.
+
+#. Click :guilabel:`Use Current IP Address`.
+
+#. Click :guilabel:`Save`.
+
+#. When you have safely recorded your private API key, click
+   :guilabel:`Done` to navigate back to the Project Access Manager page.
+
+#. Use the following command in your terminal to authenticate with the
+   Realm CLI:
+
+   .. code-block:: console
+
+      realm-cli login --api-key <public API key> --private-api-key <private API key>
+
+If ``realm-cli`` produces output like the following, you have
+successfully authenticated:
+
+.. code-block:: console
+
+   you have successfully logged in as <public API key>
+
+.. see::
+
+   For additional details about how to create a programmatic API key
+   in {+atlas+}, see the
+   :atlas:`documentation for configuring API access
+   </configure-api-access/#programmatic-api-keys>`.
+
+.. see::
+
+   For additional details about authenticating using a programmatic API
+   key with ``realm-cli``, see the :ref:`Realm CLI authentication guide
+   <realm-cli-login>`.
+
+.. _tutorial-task-tracker-create-backend:
+
+E. Use the Realm CLI to Create a New Task Tracker Backend Realm App
+-------------------------------------------------------------------
+
+*Time estimate: 5 minutes*
+
+Now that you've got an Atlas account, an Atlas cluster running MongoDB
+4.4, and an authenticated ``realm-cli`` session, you're ready to fetch
+the Task Tracker backend configuration. Begin by downloading the
+``realm-tutorial-backend`` github repository using the ``git`` command
+line tool:
+
+1. Run the following command to download the pre-made Task Tracker
+   backend configuration:
+
+   .. code-block:: console
+
+      git clone git@github.com:mongodb-university/realm-tutorial-backend.git
+
+   You should see output like the following:
+
+   .. code-block:: console
+
+      Cloning into 'realm-tutorial-backend'...
+      remote: Enumerating objects: 39, done.
+      remote: Counting objects: 100% (39/39), done.
+      remote: Compressing objects: 100% (31/31), done.
+      remote: Total 39 (delta 3), reused 39 (delta 3), pack-reused 0
+      Receiving objects: 100% (39/39), 7.25 KiB | 1.81 MiB/s, done.
+      Resolving deltas: 100% (3/3), done.
+
+   The directory where you ran the above ``git clone`` command should now
+   contain another directory called ``realm-tutorial-backend``. We'll use
+   the contents of that directory to create your very own Task Tracker
+   {+app+} backend with the Realm CLI.
+
+#. Navigate to the ``tasktracker`` directory in the
+   ``realm-tutorial-backend`` project:
+
+   .. code-block:: console
+
+      cd realm-tutorial-backend/tasktracker/
+
+#. Run the ``import`` command of ``realm-cli`` to create your
+   app.
+
+   .. code-block:: console
+
+      realm-cli import
+
+#. ``realm-cli`` may take a few seconds to query your Atlas project, but
+   you should soon see the following output:
+
+   .. code-block:: console
+
+      this app does not exist yet: would you like to create a new app? [y/n]:
+
+   Press "y", then press ENTER to confirm your intention to create a new app.
+
+#. ``realm-cli`` will prompt you for the following details:
+
+   .. code-block:: console
+
+      App name [tasktracker]:
+      Available Projects:
+      Project 0 - <project ID>
+      Atlas Project Name or ID [Project 0]:
+      Location [US-VA]:
+      Deployment Model [GLOBAL]:
+
+   Press ENTER at each prompt to use the default value for your app
+   configuration.
+
+If you see output containing the App ID for your new {+app+}, your
+import command successfully created a new app:
+
+.. code-block:: console
+
+   Successfully imported 'tasktracker-...'
+
+.. important::
+
+   Note down this Realm app ID ("tasktracker-..."). You'll use this Realm app ID to
+   connect to your {+app+} in the client SDK tutorials.
+
+You can also confirm that your app was created successfully by
+navigating to the :guilabel:`Realm` tab in the Atlas UI. You should
+see a {+app+} named ``tasktracker``:
+
+.. image:: /images/realm-app-tasktracker.png
+   :alt: A newly created TaskTracker backend in the Atlas UI.
+   :width: 600px
+
+.. _tutorial-task-tracker-verify-configuration:
+
+F. Verify that the Task Tracker Backend is Properly Configured
+--------------------------------------------------------------
+
+*Time estimate: 5 minutes*
+
+Now that you've successfully created your application, it's time to
+explore the provided configuration. You can access your app by
+navigating to the :guilabel:`Realm` tab in the Atlas UI. Click on the
+card representing the ``tasktracker`` app to launch the Realm UI for
+managing the Task Tracker backend.
+
+.. image:: /images/tasktracker-realm-ui.png
+   :alt: The Realm UI displays a newly created TaskTracker backend.
+   :width: 600px
+
+Now that we can view the configuration of our app in the Realm UI, we
+can take a look at all of the configuration uploaded from the JSON in
+``realm-tutorial-backend``. If you'd rather jump straight into a client
+SDK guides, you can find the links in the
+:ref:`What's Next? section <client-sdk-guides>` below.
+
+Schema
+~~~~~~
+
+.. image:: /images/tasktracker-schema.png
+   :alt: The Realm UI displays the schema for Task data.
+   :width: 600px
+
+The :guilabel:`Schema` section of the Realm UI displays information
+about the structure of the data stored in our linked Atlas cluster.
+In this section, you should see a cluster called ``mongodb-atlas``
+that contains two collections: Task and User. You can navigate to the
+Schema tab to view the JSON Schema that defines the structure of the
+data in each collection.
+
+While MongoDB's document model allows us to store data in a wide variety
+of shapes and sizes, Realm Database and {+sync+} require data to follow
+a set schema. Data that follows this schema synchronizes between the
+MongoDB Atlas linked data source and devices connected to your {+app+}
+via a client SDK. This schema should match the models defined in client
+applications, with minor exceptions.
+
+.. see::
+
+   To learn more about schemas in {+service+}, see the
+   :ref:`documentation on Realm Schemas <mongodb-schemas>`.
+
+Authentication
+~~~~~~~~~~~~~~
+
+.. image:: /images/tasktracker-email-password.png
+   :alt: The Realm UI displays the details of Email/Password authentication in Task Tracker.
+   :width: 600px
+
+In the :guilabel:`Authentication Providers` tab of the
+:guilabel:`Authentication` section, you'll find information about
+the different ways that users can log into the Task Tracker app. In the
+provided Task Tracker configuration, users can only log in via
+"Email/Password" authentication, which lets users define an email
+username and a secret password known only to them to access their
+account in your {+app+}.
+
+If you click on the :guilabel:`Email/Password` entry in the list of
+authentication providers, you can view the details of Task Tracker's
+Email/Password authentication configuration. There are a few important
+fields here:
+
+- User Confirmation Method: we've selected "automatically confirm users"
+  so that users can log in immediately after creating an account. In a
+  production application, you might prefer to "send a confirmation
+  email" so that users can confirm ownership of their email accounts.
+
+- Password Reset Method: we've selected "run a password reset function",
+  but ``resetFunc`` doesn't actually implement any logic: it always
+  fails. For a production application, you'd want to implement a
+  function that actually resets the user's password if they forget it.
+
+.. see::
+
+   To learn more about authentication in {+service+}, see the
+   :ref:`documentation on Authentication <authentication>`.
+
+Sync
+~~~~
+
+In the :guilabel:`Sync` section, you'll find information about {+sync+},
+which synchronizes data between client devices and your MongoDB Atlas
+cluster. To enable sync, we've define a **partition key**, which
+:ref:`sorts the data in Atlas into multiple {+realm+}s <partitioning>`.
+We've chosen an easy-to-understand name for our partition key:
+``_partition``. Task Tracker also defines **permissions** for {+sync+},
+which determine what partitions each user can access. Click the
+:guilabel:`Define Permissions` dropdown to view the permission
+definitions, which call the ``canReadPartition`` and
+``canWritePartition`` functions to determine whether a user can read or
+write a particular {+realm+}.
+
+.. see::
+
+   To learn more about {+sync+}, see :ref:`sync`.
+
+Custom User Data & Permissions
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+In {+service+}, each user can have an associated :ref:`custom data object
+<custom-user-data>`. We designed this app to use data stored in the user's
+custom data to determine permissions -- that is, whether that user can read or
+write a given realm or set of data, such as a project. While {+service-short+}
+allows clients to read and write data depending on how you configure your app
+permissions, we configured this app so that only :ref:`system functions
+<system-functions>` running on the backend can modify a user's custom data
+object. This prevents clients from arbitrarily granting themselves permissions.
+
+.. see::
+
+   To learn more about custom user data, see :ref:`custom-user-data`.
+
+Functions
+~~~~~~~~~
+
+The :guilabel:`Functions` section contains the Task Tracker app's
+executable backend logic. This includes functions that:
+
+- add a team member to a user's project
+
+- determine whether or not a user can read a particular partition
+
+- determine whether or not a user can write to a particular partition
+
+- create a new user document in the synced Atlas cluster
+
+- fetch the members of a user's project
+
+- remove a team member from a user's project
+
+- reset a user's password (unimplemented)
+
+Click on any of the functions to view the JavaScript function
+definition. You can even run the function with test input.
+
+.. see::
+
+   To learn more about functions in {+service+}, see the
+   :ref:`documentation on functions <functions>`.
+
+Triggers
+~~~~~~~~
+
+In the :guilabel:`Triggers` section, you'll find information about
+**triggers**, certain criteria that, when met, execute logic in the
+Task Tracker backend via a function. In Task Tracker, you'll find one
+trigger: ``onNewUser``. Click on the trigger to see details about the
+type of trigger and the function that that trigger activates.
+``onNewUser`` has just one purpose: when a new user creates an account
+(hence the "Create" action type and the "Authentication" trigger type),
+``onNewUser`` calls the ``createNewUserDocument`` function which
+initializes the custom user data for that user. This provides the first
+data needed to create that user's personal project, and allows them to
+start adding to-do tasks or even other users as project members.
+
+.. see::
+
+   To learn more about triggers in {+service+}, see the
+   :ref:`documentation on triggers <triggers>`.
+
+.. _client-sdk-guides:
 
 What's Next?
 ------------
@@ -81,8 +514,9 @@ Great job!
 Now that you have a working Realm application, you can follow one of our client
 application tutorials to connect to your Realm app and manage tasks from a
 mobile or web application.
-  
+
 - :doc:`iOS (Swift) </tutorial/ios-swift>`
 - :doc:`Android (Kotlin) </tutorial/android-kotlin>`
 - :doc:`React Native (JavaScript) </tutorial/react-native>`
 - :doc:`Web/GraphQL (TypeScript) </tutorial/web-graphql>`
+- :doc:`Node </tutorial/nodejs-cli>`

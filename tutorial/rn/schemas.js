@@ -22,6 +22,8 @@ class Task {
   static STATUS_OPEN = "Open";
   static STATUS_IN_PROGRESS = "InProgress";
   static STATUS_COMPLETE = "Complete";
+  // :code-block-start: react-native-task-schema
+  // :hide-start:
   static schema = {
     name: "Task",
     properties: {
@@ -32,6 +34,10 @@ class Task {
     },
     primaryKey: "_id",
   };
+  // :replace-with:
+  //// TODO: implement schema
+  // :hide-end:
+  // :code-block-end:
 }
 
 export { Task };

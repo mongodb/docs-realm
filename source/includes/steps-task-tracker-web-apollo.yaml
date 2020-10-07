@@ -2,65 +2,28 @@ title: Instantiate an ApolloClient
 ref: instantiate-an-apolloclient
 level: 4
 content: |
-  The ``RealmApolloProvider`` component calls ``createApolloClient()`` to
-  instantiate the client. Update the function with the following code to create
-  an ``ApolloClient`` object that connects to your app:
+  The ``RealmApolloProvider`` component should call 
+  ``createRealmApolloClient()`` to instantiate the client. Update the 
+  component with the following code to create an ``ApolloClient`` object that 
+  connects to your app:
 
-  .. code-block:: typescript
-     :caption: ``src/realm/RealmApolloProvider.tsx``
-     
-     function createApolloClient(realmAppId: string, user: Realm.User): ApolloClient<NormalizedCacheObject> {
-       const graphql_url = `https://realm.mongodb.com/api/client/v2.0/app/${realmAppId}/graphql`;
-       
-       return new ApolloClient({
-         link: new HttpLink({
-           uri: graphql_url
-          }),
-         cache: new InMemoryCache(),
-       });
-     }
+  .. literalinclude:: /tutorial/generated/code/final/RealmApolloProvider.codeblock.realmApolloProvider.js
+     :caption: ``src/graphql/RealmApolloProvider.js``
+     :language: javascript
 ---
 title: Authenticate GraphQL Requests
 ref: authenticate-graph-ql-requests
 level: 4
 content: |
-  The ``createApolloClient()`` function now instantiates a client object, but
+  The ``createRealmApolloClient()`` function now instantiates a client object, but
   you won't be able to run any GraphQL queries or mutations just yet. Every
   GraphQL request must include an Authorization header that specifies a valid
   user access token. The current client does not include any Authorization
   headers, so all requests it makes will fail.
-  
-  To fix this, update the ``createApolloClient()`` function to include the
+
+  To fix this, update the ``createRealmApolloClient()`` function to include the
   current user's access token in an Authorization header with every request:
 
-  .. code-block:: typescript
-     :caption: ``src/realm/RealmApolloProvider.tsx``
-     :emphasize-lines: 17
-     
-     function createApolloClient(realmAppId: string, user: Realm.User): ApolloClient<NormalizedCacheObject> {
-       const graphql_url = `https://realm.mongodb.com/api/client/v2.0/app/${realmAppId}/graphql`;
-       
-       return new ApolloClient({
-         link: new HttpLink({
-           uri: graphql_url,
-           fetch: async (uri: RequestInfo, options: RequestInit) => {
-             if (!options.headers) {
-               options.headers = {} as Record<string, string>;
-             }
-             // Refreshing custom data also ensures a valid access token
-             await user.refreshCustomData();
-             const authenticatedOptions: RequestInit = {
-               ...options,
-               headers: {
-                 ...options.headers,
-                 Authorization: `Bearer ${user.accessToken}`
-               }
-             }
-             return fetch(uri, authenticatedOptions);
-           },
-          }),
-         cache: new InMemoryCache(),
-       });
-     }
-     }
-...
+  .. literalinclude:: /tutorial/generated/code/final/RealmApolloProvider.codeblock.createRealmApolloClient.js
+     :caption: ``src/graphql/RealmApolloProvider.js``
+     :language: javascript

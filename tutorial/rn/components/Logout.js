@@ -3,7 +3,7 @@ import { Button, Alert } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useAuth } from "../providers/AuthProvider";
 
-export function Logout({}) {
+export function Logout() {
   const navigation = useNavigation();
   const { signOut } = useAuth();
 
@@ -17,7 +17,7 @@ export function Logout({}) {
             style: "destructive",
             onPress: () => {
               signOut();
-              navigation.navigate("Welcome View");
+              navigation.popToTop();
             },
           },
           { text: "Cancel", style: "cancel" },

@@ -13,6 +13,7 @@ export default function Sidebar({
 }) {
   const projects = useProjects();
   const app = useRealmApp();
+
   return (
     <SidebarContainer>
       <Card>

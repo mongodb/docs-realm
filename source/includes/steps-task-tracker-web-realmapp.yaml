@@ -3,19 +3,16 @@ ref: create-a-realm-app-client
 level: 4
 content: |
   The app client is the primary interface to your Realm app from the SDK. In
-  ``src/realm/RealmApp.tsx``, add the following code immediately below the
-  imports at the top of the file to create the app client:
+  ``src/App.js``, replace ``"TODO"`` with your Realm App ID:
 
-  .. code-block:: typescript
-     :caption: ``src/realm/RealmApp.tsx``
-     
-     const REALM_APP_ID = "<Your App ID>"
-     const app = new Realm.App({ id: REALM_APP_ID });
-  
+  .. literalinclude:: /tutorial/generated/code/final/App.codeblock.appID.js
+     :caption: ``src/App.js``
+     :language: javascript
+
   .. admonition:: Use Your App ID
      :class: note
      
-     Make sure to replace ``<Your App ID>`` with your app's unique
+     Make sure to replace ``"TODO"`` with your app's unique
      :guilabel:`App ID`. You can find your :guilabel:`App ID` by clicking the
      copy button next to the name of your app in the lefthand navigation of the
      Realm UI.
@@ -29,31 +26,13 @@ level: 4
 content: |
   The app client provides methods that allow you to authenticate and register
   users through the email/password authentication provider. In
-  ``src/realm/RealmApp.tsx``, the ``RealmApp`` component wraps these functions
+  ``src/RealmApp.js``, the ``RealmAppProvider`` component wraps these functions
   and keeps the app client in sync with local React state.
 
   These wrapping functions already have the state update calls but don't
   currently use the app client you created. You need to update the functions to
   actually call the SDK authentication and registration methods.
 
-  .. code-block:: typescript
-     :caption: ``src/realm/RealmApp.tsx``
-     :emphasize-lines: 3, 8-9, 15
-     
-     // Let new users register an account
-     const registerUser = async (email: string, password: string) => {
-       return await app.emailPasswordAuth.registerUser(email, password);
-     }
-     
-     // Let registered users log in
-     const logIn = async (email: string, password: string) => {
-       const credentials = Realm.Credentials.emailPassword(email, password);
-       await app.logIn(credentials);
-       setUser(app.currentUser);
-     }
-     
-     // Let logged in users log out
-     const logOut = async () => {
-       await app.logOut();
-       setUser(app.currentUser);
-     }
+  .. literalinclude:: /tutorial/generated/code/final/RealmApp.codeblock.realmAppProvider.js
+     :caption: ``src/RealmApp.js``
+     :language: javascript

@@ -13,25 +13,38 @@ Create a Task Tracker App
    :class: singlecol
 
 In this tutorial, you will build a collaborative task tracker app with
-{+service+}. After :doc:`setting up the backend for the tutorial
-</tutorial/realm-app>` in {+service+}, you can build clients for:
+{+service+}. With the app client, users can:
+
+- Register themselves with email and password.
+- Sign in to their account with their email and password and sign out later.
+- View a list of projects they are a member of.
+- View, create, modify, and delete tasks in projects.
+- View a list of team members in their project.
+- Add and remove team members to their project.
+
+To get started, first:
+
+- :doc:`Set up the backend for the tutorial </tutorial/realm-app>`
+
+Next, complete any of the following clients to work with your new backend:
 
 - :doc:`iOS with Swift </tutorial/ios-swift>`
 - :doc:`Android with Kotlin </tutorial/android-kotlin>`
 - :doc:`React Native (iOS and Android) with JavaScript </tutorial/react-native>`
-- :doc:`The browser with GraphQL, TypeScript, and React </tutorial/web-graphql>`
+- :doc:`The browser with GraphQL, JavaScript, and React </tutorial/web-graphql>`
 - :doc:`A Node.js Command Line Interface (CLI) </tutorial/nodejs-cli>`
 
-Additionally, you can create a headless :doc:`backend app
-</tutorial/backend>` that uses webhooks, functions, and triggers to
-integrate with GitHub and MongoDB.
+Additionally, you can create a headless backend app that uses webhooks,
+functions, and triggers to integrate with GitHub and MongoDB:
+
+- :doc:`Write a GitHub Issue Tracker with MongoDB Realm </tutorial/backend>` 
 
 .. toctree::
    :titlesonly:
    :caption: 1: Setup
    :hidden:
 
-   Set Up the Backend </tutorial/realm-app>
+   Set up the Backend </tutorial/realm-app>
 
 .. toctree::
    :titlesonly:
@@ -41,7 +54,13 @@ integrate with GitHub and MongoDB.
    iOS with Swift </tutorial/ios-swift>
    Android with Kotlin </tutorial/android-kotlin>
    React Native with JavaScript </tutorial/react-native>
-   Web app with React, TypeScript, and GraphQL </tutorial/web-graphql>
-   Serverless with GitHub Integration </tutorial/backend>
+   Web app with React, JavaScript, and GraphQL </tutorial/web-graphql>
    A Node.js Command Line Interface (CLI) </tutorial/nodejs-cli>
+
+.. toctree::
+   :titlesonly:
+   :caption: Additional Tutorial
+   :hidden:
+
+   GitHub Issue Tracker with MongoDB Realm </tutorial/backend>
 

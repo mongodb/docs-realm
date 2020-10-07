@@ -35,7 +35,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun onLoginSuccess() {
-        // successful login ends this activity, bringing the user back to the task activity
+        // successful login ends this activity, bringing the user back to the project activity
         finish()
     }
 
@@ -68,8 +68,10 @@ class LoginActivity : AppCompatActivity() {
 
         if (createUser) {
             // register a user using the Realm App we created in the TaskTracker class
+            // :code-block-start: create-user
+            // :hide-start:
             taskApp.emailPassword.registerUserAsync(username, password) {
-                // re-enable the buttons after user registration completes
+                // re-enable the buttons after user registration returns a result
                 createUserButton.isEnabled = true
                 loginButton.isEnabled = true
                 if (!it.isSuccess) {
@@ -81,10 +83,16 @@ class LoginActivity : AppCompatActivity() {
                     login(false)
                 }
             }
+            // :replace-with:
+            //// TODO: Register a new user with the supplied username and password when the "Create" button is pressed.
+            // :hide-end:
+            // :code-block-end:
         } else {
+            // :code-block-start: login-user
+            // :hide-start:
             val creds = Credentials.emailPassword(username, password)
             taskApp.loginAsync(creds) {
-                // re-enable the buttons after
+                // re-enable the buttons after user login returns a result
                 loginButton.isEnabled = true
                 createUserButton.isEnabled = true
                 if (!it.isSuccess) {
@@ -93,6 +101,10 @@ class LoginActivity : AppCompatActivity() {
                     onLoginSuccess()
                 }
             }
+            // :replace-with:
+            //// TODO: Log in with the supplied username and password when the "Log in" button is pressed.
+            // :hide-end:
+            // :code-block-end:
         }
     }
 }
