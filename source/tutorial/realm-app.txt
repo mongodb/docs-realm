@@ -27,7 +27,7 @@ A. Create an Atlas account, if you don't already have one. *(3 minutes)*
    our pre-made Task Tracker backend. *(5 minutes)*
 
 Once we've finished these steps, we can start writing code to implement
-a frontend using iOS, Android, or JavaScript.
+a frontend using Swift, Kotlin, or JavaScript.
 
 .. _tutorial-task-tracker-create-an-atlas-account:
 
@@ -321,10 +321,12 @@ import command successfully created a new app:
 
 .. code-block:: console
 
-   Successfully imported 'tasktracker-mrksq'
+   Successfully imported 'tasktracker-...'
 
-You'll use this App ID to connect to your {+app+} in the client SDK
-tutorials.
+.. important::
+
+   Note down this Realm app ID ("tasktracker-..."). You'll use this Realm app ID to
+   connect to your {+app+} in the client SDK tutorials.
 
 You can also confirm that your app was created successfully by
 navigating to the :guilabel:`Realm` tab in the Atlas UI. You should
@@ -435,8 +437,23 @@ write a particular {+realm+}.
 
 .. see::
 
-   To learn more about {+sync+} , see the
-   :ref:`documentation on Sync <sync>`.
+   To learn more about {+sync+}, see :ref:`sync`.
+
+Custom User Data & Permissions
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+In {+service+}, each user can have an associated :ref:`custom data object
+<custom-user-data>`. We designed this app to use data stored in the user's
+custom data to determine permissions -- that is, whether that user can read or
+write a given realm or set of data, such as a project. While {+service-short+}
+allows clients to read and write data depending on how you configure your app
+permissions, we configured this app so that only :ref:`system functions
+<system-functions>` running on the backend can modify a user's custom data
+object. This prevents clients from arbitrarily granting themselves permissions.
+
+.. see::
+
+   To learn more about custom user data, see :ref:`custom-user-data`.
 
 Functions
 ~~~~~~~~~
