@@ -1,8 +1,8 @@
-var t = realm.All<RealmTask>()
+RealmTask t = realm.All<RealmTask>()
     .Where(t => t.Id == testTaskId)
     .FirstOrDefault();
 
 realm.Write(() =>
 {
-    t.Status = dotnet.TaskStatus.InProgress.ToString();
+    t.Status = TaskStatus.InProgress.ToString();
 });
