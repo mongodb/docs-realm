@@ -22,9 +22,8 @@ function useTeamMembers() {
   // // TODO: Import the Realm functions: addTeamMember, removeTeamMember, and getMyTeamMembers
   // :hide-end:
   // :hide-start:
-  const updateTeamMembers = async () => {
-    const team = await getMyTeamMembers();
-    setTeamMembers(team);
+  const updateTeamMembers = () => {
+    getMyTeamMembers().then(setTeamMembers);
   };
   // :replace-with:
   // // TODO: Implement the function updateTeamMembers so that it calls getMyTeamMembers and updates

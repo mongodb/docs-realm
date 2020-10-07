@@ -3,9 +3,8 @@ function useTeamMembers() {
   const [newUserEmailError, setNewUserEmailError] = React.useState(null);
   const app = useRealmApp();
   const { addTeamMember, removeTeamMember, getMyTeamMembers } = app.functions;
-  const updateTeamMembers = async () => {
-    const team = await getMyTeamMembers();
-    setTeamMembers(team);
+  const updateTeamMembers = () => {
+    getMyTeamMembers().then(setTeamMembers);
   };
   // display team members on load
   React.useEffect(updateTeamMembers, []);
