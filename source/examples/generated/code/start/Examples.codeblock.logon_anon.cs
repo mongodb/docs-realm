@@ -1,0 +1,1 @@
+User anonUser = await app.LogInAsync(Credentials.Anonymous());
