@@ -16,7 +16,7 @@ function useTeamMembers() {
   const [teamMembers, setTeamMembers] = React.useState(null);
   const [newUserEmailError, setNewUserEmailError] = React.useState(null);
   const app = useRealmApp();
-  // :hide-start: 
+  // :hide-start:
   const { addTeamMember, removeTeamMember, getMyTeamMembers } = app.functions;
   // :replace-with:
   // // TODO: Import the Realm functions: addTeamMember, removeTeamMember, and getMyTeamMembers
@@ -30,12 +30,8 @@ function useTeamMembers() {
   // // TODO: Implement the function updateTeamMembers so that it calls getMyTeamMembers and updates
   // // the team variable with the current team members.
   // :hide-end:
-  /* eslint-disable react-hooks/exhaustive-deps */
-  React.useEffect(() => {
-    // display team members on load
-    updateTeamMembers();
-  }, []);
-  /* eslint-enable react-hooks/exhaustive-deps */
+  // display team members on load
+  React.useEffect(updateTeamMembers, []);
   return {
     teamMembers,
     errorMessage: newUserEmailError,
@@ -50,8 +46,8 @@ function useTeamMembers() {
       }
     },
     // :replace-with:
-    // // TODO: Call the addTeamMember() function and return updateTeamMembers if 
-    // // addTeamMember() was successful. 
+    // // TODO: Call the addTeamMember() function and return updateTeamMembers if
+    // // addTeamMember() was successful.
     // :hide-end:
     // :hide-start:
     removeTeamMember: async (email) => {
@@ -63,7 +59,7 @@ function useTeamMembers() {
     // :hide-end:
   };
 }
-// :code-block-end: 
+// :code-block-end:
 
 export default function EditPermissionsModal({
   isEditingPermissions,

@@ -7,12 +7,8 @@ function useTeamMembers() {
     const team = await getMyTeamMembers();
     setTeamMembers(team);
   };
-  /* eslint-disable react-hooks/exhaustive-deps */
-  React.useEffect(() => {
-    // display team members on load
-    updateTeamMembers();
-  }, []);
-  /* eslint-enable react-hooks/exhaustive-deps */
+  // display team members on load
+  React.useEffect(updateTeamMembers, []);
   return {
     teamMembers,
     errorMessage: newUserEmailError,
