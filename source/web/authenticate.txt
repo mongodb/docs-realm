@@ -532,11 +532,23 @@ to your app.
              console.log(`Logged in with id: ${user.id}`);
            });
 
-.. admonition:: (Deprecated) Built-In OAuth 2.0 Flow
+.. admonition:: Built-In OAuth 2.0 Redirect Limitations for Google
    :class: important
    
-   The Realm Web SDK no longer includes built-in methods to handle the OAuth 2.0
-   process. Instead, use the official Google SDK as described above.
+   The Realm Web SDK includes a built-in process to handle OAuth 2.0 redirect
+   flows. The process opens a new window where the user authorizes your app and
+   then redirects to URL that you provide, which allows you to get an access
+   token and finish logging the user in.
+   
+   Due to changes in OAuth application verification requirements, the built-in
+   process faces limitations when authenticating :ref:`Google
+   <google-authentication>` users. If you use the Google login redirect flow
+   using Realm's redirect flow, a maximum of 100 Google users may authenticate
+   while the app is in development/testing/staging and all users will see an
+   unverified application notification before they authenticate.
+   
+   To avoid these limitations, we advise that you use the official Google SDK to
+   get a user access token as described above.
 
 .. _web-login-apple:
 
