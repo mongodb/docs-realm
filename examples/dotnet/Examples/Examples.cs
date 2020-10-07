@@ -90,11 +90,11 @@ namespace UnitTests
             // :code-block-start: read-all
             var tasks = realm.All<RealmTask>();
             // :code-block-end:
-            Assert.AreEqual(1, tasks.Count());
+            Assert.AreEqual(1, tasks.Count(),"Get All");
             // :code-block-start: read-some
             tasks = realm.All<RealmTask>().Where(t => t.Status == "Open");
             // :code-block-end:
-            Assert.AreEqual(1, tasks.Count());
+            Assert.AreEqual(1, tasks.Count(), "Get Some");
             return;
         }
 
@@ -124,49 +124,59 @@ namespace UnitTests
         [Test]
         public async Task LogsOnManyWays()
         {
-            // :code-block-start: logon_anon
-            User anonUser = await app.LogInAsync(Credentials.Anonymous());
-            // :code-block-end:
-            Assert.AreEqual(UserState.LoggedIn, anonUser.State);
-            await anonUser.LogOutAsync();
-            // :code-block-start: logon_EP
-            User emailUser = await app.LogInAsync(
-                Credentials.EmailPassword("caleb@mongodb.com", "shhhItsASektrit!"));
-            // :code-block-end:
-            Assert.AreEqual(UserState.LoggedIn, emailUser.State);
-            await emailUser.LogOutAsync();
-            var apiKey = "eRECwv1e6gkLEse99XokWOgegzoguEkwmvYvXk08zAucG4kXmZu7TTgV832SwFCv";
-            // :code-block-start: logon_API
-            User apiUser = await app.LogInAsync(Credentials.ApiKey(apiKey));
-            // :code-block-end:
-            Assert.AreEqual(UserState.LoggedIn, apiUser.State);
-            await apiUser.LogOutAsync();
-            // :code-block-start: logon_Function
-            var functionParameters = new
             {
-                username=  "caleb",
-                password = "shhhItsASektrit!",
-                IQ = 42,
-                isCool = false
-            };
+                // :code-block-start: logon_anon
+                User user = await app.LogInAsync(Credentials.Anonymous());
+                // :code-block-end:
+                Assert.AreEqual(UserState.LoggedIn, user.State);
+                await user.LogOutAsync();
+            }
+            {
+                // :code-block-start: logon_EP
+                User user = await app.LogInAsync(
+                    Credentials.EmailPassword("caleb@mongodb.com", "shhhItsASektrit!"));
+                // :code-block-end:
+                Assert.AreEqual(UserState.LoggedIn, user.State);
+                await user.LogOutAsync();
+            }
+            {
+                var apiKey = "eRECwv1e6gkLEse99XokWOgegzoguEkwmvYvXk08zAucG4kXmZu7TTgV832SwFCv";
+                // :code-block-start: logon_API
+                User user = await app.LogInAsync(Credentials.ApiKey(apiKey));
+                // :code-block-end:
+                Assert.AreEqual(UserState.LoggedIn, user.State);
+                await user.LogOutAsync();
+            }
+            {
+                // :code-block-start: logon_Function
+                var functionParameters = new
+                {
+                    username = "caleb",
+                    password = "shhhItsASektrit!",
+                    IQ = 42,
+                    isCool = false
+                };
 
-            User functionUser =
-                await app.LogInAsync(Credentials.Function(functionParameters));
-            // :code-block-end:
-            Assert.AreEqual(UserState.LoggedIn, functionUser.State);
-            await functionUser.LogOutAsync();
-            var jwt_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkNhbGViIiwiaWF0IjoxNjAxNjc4ODcyLCJleHAiOjI1MTYyMzkwMjIsImF1ZCI6InR1dHMtdGlqeWEifQ.LHbeSI2FDWrlUVOBxe-rasuFiW-etv2Gu5e3eAa6Y6k";
-            // :code-block-start: logon_JWT
-            User jwtUser =
-                await app.LogInAsync(Credentials.JWT(jwt_token));
-            // :code-block-end:
-            Assert.AreEqual(UserState.LoggedIn, jwtUser.State);
-            await jwtUser.LogOutAsync();
+                User user =
+                    await app.LogInAsync(Credentials.Function(functionParameters));
+                // :code-block-end:
+                Assert.AreEqual(UserState.LoggedIn, user.State);
+                await user.LogOutAsync();
+            }
+            {
+                var jwt_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkNhbGViIiwiaWF0IjoxNjAxNjc4ODcyLCJleHAiOjI1MTYyMzkwMjIsImF1ZCI6InR1dHMtdGlqeWEifQ.LHbeSI2FDWrlUVOBxe-rasuFiW-etv2Gu5e3eAa6Y6k";
+                // :code-block-start: logon_JWT
+                User user =
+                    await app.LogInAsync(Credentials.JWT(jwt_token));
+                // :code-block-end:
+                Assert.AreEqual(UserState.LoggedIn, user.State);
+                await user.LogOutAsync();
+            }
             try
             {
                 var facebookToken = "";
                 // :code-block-start: logon_fb
-                User fbUser =
+                User user =
                     await app.LogInAsync(Credentials.Facebook(facebookToken));
                 // :code-block-end:
             }
@@ -178,7 +188,7 @@ namespace UnitTests
             {
                 var googleAuthCode = "";
                 // :code-block-start: logon_google
-                User googleUser =
+                User user =
                     await app.LogInAsync(Credentials.Google(googleAuthCode));
                 // :code-block-end:
             }
@@ -190,7 +200,7 @@ namespace UnitTests
             {
                 var appleToken = "";
                 // :code-block-start: logon_apple
-                User appleUser =
+                User user =
                     await app.LogInAsync(Credentials.Apple(appleToken));
                 // :code-block-end:
             }
