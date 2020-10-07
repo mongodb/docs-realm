@@ -68,8 +68,8 @@ Constraints
 - Function memory usage is limited to 256MB.
 
 - Functions support most commonly used ES6+ features, but some features that are
-  uncommon or unsuited to serverless workloads are not supported (e.g.
-  ``WeakSet``, ``Proxy``, ``Array.prototype.flat()``).
+  uncommon or unsuited to serverless workloads are not supported. For more
+  information, see :ref:`JavaScript Feature Compatibility <js-feature-compat>`.
 
 - A function may open a maximum of 5 sockets using the :nodejs:`net
   <docs/v10.18.1/api/net.html>` built-in module.
@@ -207,6 +207,9 @@ Reference Documentation
    * - :doc:`Built-In Module Support </functions/built-in-module-support>`
      - Details which standard Node modules and APIs are available in {+service-short+} functions.
 
+   * - :doc:`JavaScript Feature Compatibility </functions/js-feature-compatibility>`
+     - Details the JavaScript syntax and built-ins that are available in {+service-short+} functions.
+
 
 .. toctree::
    :titlesonly:
@@ -234,3 +237,4 @@ Reference Documentation
    Function Context Reference </functions/context>
    Utility Packages </functions/utilities>
    JSON & BSON </functions/json-and-bson>
+   JavaScript Feature Compatibility </functions/js-feature-compatibility>
