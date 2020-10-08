@@ -1,1 +1,1 @@
-User apiUser = await app.LogInAsync(Credentials.ApiKey(apiKey));
+var user = await app.LogInAsync(Credentials.ApiKey(apiKey));

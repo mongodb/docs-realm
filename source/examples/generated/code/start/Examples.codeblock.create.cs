@@ -1,4 +1,4 @@
-RealmTask testTask = new RealmTask
+var testTask = new RealmTask
 {
     Name = "Do this thing",
     Status = TaskStatus.Open.ToString()

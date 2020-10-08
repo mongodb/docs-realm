@@ -1,0 +1,71 @@
+.. _dotnet-open-realm:
+
+======================
+Open and Close a Realm
+======================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Open a Synced Realm
+-------------------
+To open a synced {+realm+}, call the ``GetInstanceAsync()`` method, 
+passing in a ``SyncConfiguration`` object that includes the partition name and 
+the user. The following code demonstrates this:
+
+.. literalinclude:: /examples/generated/code/start/Examples.codeblock.open-synced-realm.cs
+   :language: csharp
+
+In the above example, the code shows how to open the {+realm+} *asynchronously* 
+by calling ``GetInstanceAsync``. You can also open a {+realm+} *synchronously* 
+by calling ``GetInstance``, which is necessary if the device is offline. 
+
+.. literalinclude:: /examples/generated/code/start/Examples.codeblock.open-synced-realm-sync.cs
+   :language: csharp
+
+.. note::
+
+   The first time a user logs on to your realm app, you should open the realm 
+   *asynchronously* to sync data from the server to the device. After that initial 
+   connection, you can open a realm *synchronously* to ensure the app works in 
+   an offline state. 
+
+Open a Local (Non-Synced) Realm
+-------------------------------
+When opening a local (non-synced) {+realm+}, pass a ``RealmConfiguration`` 
+object to either ``GetInstanceAsync`` or ``GetInstance``. The following example 
+creates a ``RealmConfiguration`` object with a local file path, sets the 
+``IsReadOnly`` property to ``true``, and then opens a local {+realm+}  with that 
+configuration information:
+
+.. literalinclude:: /examples/generated/code/start/Examples.codeblock.local-realm.cs
+   :language: csharp
+
+Scoping the Realm
+-----------------
+The Realm instance implements ``IDisposable`` to ensure native resources are 
+freed up. You should dispose of a realm object immediately after use, especially 
+on background threads. The simplest way to do this is by declaring the realm 
+object with a ``using`` statement, or wrapping the code that interacts with a 
+{+realm+} in a ``using (...)`` statement:
+
+.. literalinclude:: /examples/generated/code/start/Examples.codeblock.scope.cs
+   :language: csharp
+
+If you require a realm object to be shared outside of a single method, be sure 
+to manage its state by calling ``Dispose()``:
+
+.. literalinclude:: /examples/generated/code/start/Examples.codeblock.dispose.cs
+   :language: csharp
+
+.. note::
+   
+   As a general rule, you should dispose of the realm only on background threads,  
+   because disposing of a {+realm+} invalidates all objects associated with that 
+   instance. If you are data binding the {+realm+} objects on the main thread, 
+   for example, you should not call ``Dispose()``. 

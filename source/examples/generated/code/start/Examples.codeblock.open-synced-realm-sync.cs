@@ -1,1 +1,1 @@
-Realm synchronousRealm = Realm.GetInstance(config);
+var synchronousRealm = Realm.GetInstance(config);

@@ -1,10 +1,13 @@
 using System;
+using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using dotnet;
 using MongoDB.Bson;
 using NUnit.Framework;
 using Realms;
 using Realms.Sync;
+using TaskStatus = dotnet.TaskStatus;
 
 namespace UnitTests
 {
@@ -17,20 +20,21 @@ namespace UnitTests
         const string myRealmAppId = "tuts-tijya";
 
         [SetUp]
-        public async System.Threading.Tasks.Task Setup()
+        public async Task Setup()
         {
             // :code-block-start: initialize-realm
             app = App.Create(myRealmAppId);
             // :code-block-end:
             user = app.LogInAsync(Credentials.EmailPassword("foo@foo.com", "foobar")).Result;
+            // :code-block-start: open-synced-realm
             config = new SyncConfiguration("My Project", user);
-            Realm realm = await Realm.GetInstanceAsync(config);
+            var realm = await Realm.GetInstanceAsync(config);
             // :code-block-end:
             // :code-block-start: open-synced-realm-sync
-            Realm synchronousRealm = Realm.GetInstance(config);
+            var synchronousRealm = Realm.GetInstance(config);
             // :code-block-end:
             // :code-block-start: create
-            RealmTask testTask = new RealmTask
+            var testTask = new RealmTask
             {
                 Name = "Do this thing",
                 Status = TaskStatus.Open.ToString()
@@ -46,33 +50,73 @@ namespace UnitTests
         }
 
         [Test]
-        public async System.Threading.Tasks.Task GetsSyncedTasks()
+        public void OpensLocalRealm()
+        {
+            var pathToDb = Directory.GetCurrentDirectory() + "/db";
+            if (!File.Exists(pathToDb))
+            {
+                Directory.CreateDirectory(pathToDb);
+            }
+            var tempConfig = new RealmConfiguration(pathToDb + "/my.realm")
+            {
+                IsReadOnly = false,
+            };
+            var realm = Realm.GetInstance(tempConfig);
+
+            // :code-block-start: dispose
+            realm.Dispose();
+            // :code-block-end:
+
+            // :code-block-start: local-realm
+            var config = new RealmConfiguration(pathToDb + "/my.realm")
+            {
+                IsReadOnly = true,
+            };
+            var localRealm = Realm.GetInstance(config);
+            // :code-block-end:
+            Assert.IsNotNull(localRealm);
+
+            Directory.Delete(pathToDb, true);
+        }
+
+        [Test]
+        public async Task GetsSyncedTasks()
         {
             // :code-block-start: anon-login
-            User user = app.LogInAsync(Credentials.Anonymous()).Result;
+            var user = app.LogInAsync(Credentials.Anonymous()).Result;
             // :code-block-end:
             // :code-block-start: config
             config = new SyncConfiguration("My Project", user);
-            Realm realm = await Realm.GetInstanceAsync(config);
+            var realm = await Realm.GetInstanceAsync(config);
             // :code-block-end:
             // :code-block-start: read-all
             var tasks = realm.All<RealmTask>();
             // :code-block-end:
-            Assert.AreEqual(1, tasks.Count());
+            Assert.AreEqual(1, tasks.Count(),"Get All");
             // :code-block-start: read-some
             tasks = realm.All<RealmTask>().Where(t => t.Status == "Open");
             // :code-block-end:
-            Assert.AreEqual(1, tasks.Count());
+            Assert.AreEqual(1, tasks.Count(), "Get Some");
             return;
         }
 
         [Test]
-        public async System.Threading.Tasks.Task ModifiesATask()
+        public async Task ScopesARealm()
+        {
+            // :code-block-start: scope
+            config = new SyncConfiguration("My Project", user);
+            using var realm = await Realm.GetInstanceAsync(config);
+            var allTasks = realm.All<RealmTask>();
+            // :code-block-end:
+        }
+
+        [Test]
+        public async Task ModifiesATask()
         {
             config = new SyncConfiguration("My Project", user);
-            Realm realm = await Realm.GetInstanceAsync(config);
+            var realm = await Realm.GetInstanceAsync(config);
             // :code-block-start: modify
-            RealmTask t = realm.All<RealmTask>()
+            var t = realm.All<RealmTask>()
                 .Where(t => t.Id == testTaskId)
                 .FirstOrDefault();
 
@@ -90,51 +134,61 @@ namespace UnitTests
         }
 
         [Test]
-        public async System.Threading.Tasks.Task LogsOnManyWays()
+        public async Task LogsOnManyWays()
         {
-            // :code-block-start: logon_anon
-            User anonUser = await app.LogInAsync(Credentials.Anonymous());
-            // :code-block-end:
-            Assert.AreEqual(UserState.LoggedIn, anonUser.State);
-            await anonUser.LogOutAsync();
-            // :code-block-start: logon_EP
-            User emailUser = await app.LogInAsync(
-                Credentials.EmailPassword("caleb@mongodb.com", "shhhItsASektrit!"));
-            // :code-block-end:
-            Assert.AreEqual(UserState.LoggedIn, emailUser.State);
-            await emailUser.LogOutAsync();
-            var apiKey = "eRECwv1e6gkLEse99XokWOgegzoguEkwmvYvXk08zAucG4kXmZu7TTgV832SwFCv";
-            // :code-block-start: logon_API
-            User apiUser = await app.LogInAsync(Credentials.ApiKey(apiKey));
-            // :code-block-end:
-            Assert.AreEqual(UserState.LoggedIn, apiUser.State);
-            await apiUser.LogOutAsync();
-            // :code-block-start: logon_Function
-            var functionParameters = new
             {
-                username=  "caleb",
-                password = "shhhItsASektrit!",
-                IQ = 42,
-                isCool = false
-            };
+                // :code-block-start: logon_anon
+                var user = await app.LogInAsync(Credentials.Anonymous());
+                // :code-block-end:
+                Assert.AreEqual(UserState.LoggedIn, user.State);
+                await user.LogOutAsync();
+            }
+            {
+                // :code-block-start: logon_EP
+                var user = await app.LogInAsync(
+                    Credentials.EmailPassword("caleb@mongodb.com", "shhhItsASektrit!"));
+                // :code-block-end:
+                Assert.AreEqual(UserState.LoggedIn, user.State);
+                await user.LogOutAsync();
+            }
+            {
+                var apiKey = "eRECwv1e6gkLEse99XokWOgegzoguEkwmvYvXk08zAucG4kXmZu7TTgV832SwFCv";
+                // :code-block-start: logon_API
+                var user = await app.LogInAsync(Credentials.ApiKey(apiKey));
+                // :code-block-end:
+                Assert.AreEqual(UserState.LoggedIn, user.State);
+                await user.LogOutAsync();
+            }
+            {
+                // :code-block-start: logon_Function
+                var functionParameters = new
+                {
+                    username = "caleb",
+                    password = "shhhItsASektrit!",
+                    IQ = 42,
+                    isCool = false
+                };
 
-            User functionUser =
-                await app.LogInAsync(Credentials.Function(functionParameters));
-            // :code-block-end:
-            Assert.AreEqual(UserState.LoggedIn, functionUser.State);
-            await functionUser.LogOutAsync();
-            var jwt_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkNhbGViIiwiaWF0IjoxNjAxNjc4ODcyLCJleHAiOjI1MTYyMzkwMjIsImF1ZCI6InR1dHMtdGlqeWEifQ.LHbeSI2FDWrlUVOBxe-rasuFiW-etv2Gu5e3eAa6Y6k";
-            // :code-block-start: logon_JWT
-            User jwtUser =
-                await app.LogInAsync(Credentials.JWT(jwt_token));
-            // :code-block-end:
-            Assert.AreEqual(UserState.LoggedIn, jwtUser.State);
-            await jwtUser.LogOutAsync();
+                var user =
+                    await app.LogInAsync(Credentials.Function(functionParameters));
+                // :code-block-end:
+                Assert.AreEqual(UserState.LoggedIn, user.State);
+                await user.LogOutAsync();
+            }
+            {
+                var jwt_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkNhbGViIiwiaWF0IjoxNjAxNjc4ODcyLCJleHAiOjI1MTYyMzkwMjIsImF1ZCI6InR1dHMtdGlqeWEifQ.LHbeSI2FDWrlUVOBxe-rasuFiW-etv2Gu5e3eAa6Y6k";
+                // :code-block-start: logon_JWT
+                var user =
+                    await app.LogInAsync(Credentials.JWT(jwt_token));
+                // :code-block-end:
+                Assert.AreEqual(UserState.LoggedIn, user.State);
+                await user.LogOutAsync();
+            }
             try
             {
                 var facebookToken = "";
                 // :code-block-start: logon_fb
-                User fbUser =
+                var user =
                     await app.LogInAsync(Credentials.Facebook(facebookToken));
                 // :code-block-end:
             }
@@ -146,7 +200,7 @@ namespace UnitTests
             {
                 var googleAuthCode = "";
                 // :code-block-start: logon_google
-                User googleUser =
+                var user =
                     await app.LogInAsync(Credentials.Google(googleAuthCode));
                 // :code-block-end:
             }
@@ -158,7 +212,7 @@ namespace UnitTests
             {
                 var appleToken = "";
                 // :code-block-start: logon_apple
-                User appleUser =
+                var user =
                     await app.LogInAsync(Credentials.Apple(appleToken));
                 // :code-block-end:
             }
@@ -169,21 +223,65 @@ namespace UnitTests
             }
         }
 
-        [TearDown]
-        public async System.Threading.Tasks.Task TearDown()
+        [Test]
+        public async Task CallsAFunction()
         {
-            config = new SyncConfiguration("My Project", user);
-            Realm realm = await Realm.GetInstanceAsync(config);
-            // :code-block-start: delete
-            realm.Write(() =>
-            {
-                realm.RemoveAll<RealmTask>();
-            });
+            // :code-block-start: callfunc
+            var bsonValue = await
+                user.Functions.CallAsync("sum", 2, 40);
+
+            // The result must now be cast to Int32:
+            var sum = bsonValue.ToInt32();
+
+            // Or use the generic overloads to avoid casting the BsonValue:
+            sum = await
+               user.Functions.CallAsync<int>("sum", 2, 40);
             // :code-block-end:
-            // :code-block-start: logout
-            await user.LogOutAsync();
+            Assert.AreEqual(42, sum);
+            // :code-block-start: callfuncWithPOCO
+            var task = await user.Functions.CallAsync<MyClass>
+                ("getTask", "5f7f7638024a99f41a3c8de4");
+
+            var name = task.Name;
             // :code-block-end:
             return;
+
+            //{ "_id":{ "$oid":"5f0f69dc4eeabfd3366be2be"},"_partition":"myPartition","name":"do this NOW","status":"Closed"}
+        }
+
+        [TearDown]
+        public async Task TearDown()
+        {
+            config = new SyncConfiguration("My Project", user);
+            using (var realm = await Realm.GetInstanceAsync(config))
+            {
+                // :code-block-start: delete
+                realm.Write(() =>
+                {
+                    realm.RemoveAll<RealmTask>();
+                });
+                // :code-block-end:
+                // :code-block-start: logout
+                await user.LogOutAsync();
+                // :code-block-end:
+            }
+            return;
+        }
+    }
+
+    public class MyClass : RealmObject
+    {
+        [PrimaryKey]
+        [MapTo("_id")]
+        public ObjectId Id { get; set; }
+
+        [MapTo("name")]
+        [Required]
+        public string Name { get; set; }
+       
+        public MyClass()
+        {
+            this.Id = ObjectId.GenerateNewId();
         }
     }
 }
