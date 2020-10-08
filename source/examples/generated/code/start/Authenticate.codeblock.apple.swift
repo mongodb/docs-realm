@@ -1,4 +1,4 @@
-// Fetch Apple token via the Apple SDK
+// Fetch IDToken via the Apple SDK
 let credentials = Credentials.apple(idToken: "<token>")
 app.login(credentials: credentials) { (user, error) in
    DispatchQueue.main.sync {
