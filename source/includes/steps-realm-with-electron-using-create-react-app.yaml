@@ -9,6 +9,33 @@ content: |
 
      npx create-react-app my_electron_react_application
 
+  Your application file structure should look something like the
+  following. Some files are abstracted from this representation, such
+  as CSS, service worker and test files. 
+
+  .. code-block:: text
+     :emphasize-lines: 7, 8
+
+     .
+     |-- package.json 
+     |-- yarn.lock
+     |-- public
+     |   |-- index.html
+     |-- src
+     |   |-- App.js // renderer process
+     |-- |-- index.js // renderer process
+
+  Any JS Files within the ``src`` directory executes on a ``renderer process``.
+
+  .. note::
+
+   Each Electron application can only have one **main process**. The
+   main process creates web pages. Each web page runs in its
+   own process, known as a ``renderer process``. To learn more about
+   this, read the official `Electron Application
+   Architecture <https://www.electronjs.org/docs/tutorial/application-architecture>`_
+   doc.
+
 ---
 title: Install CRACO to Alter Your Webpack Configuration
 ref: install-craco
@@ -80,6 +107,23 @@ content: |
 
   .. literalinclude:: /examples/QuickStarts/electron/quickstart-setup-react-electron.js
 
+  Your application file structure should now look something like the following. Some files are abstracted from this representation such as CSS, service worker, and test files. 
+
+  .. code-block:: text
+     :emphasize-lines: 7, 9, 10
+
+     .
+     |-- package.json 
+     |-- yarn.lock
+     |-- craco.config.js
+     |-- public
+     |   |-- index.html
+     |   |-- electron.js // main process
+     |-- src
+     |   |-- App.js // renderer process
+     |-- |-- index.js // renderer process
+
+  All JS Files within the ``src`` directory executes on the ``renderer`` process. The electron.js and any files required by it execute on the ``main process``.
 ---
 title: Run Your Application
 ref: run-your-app
