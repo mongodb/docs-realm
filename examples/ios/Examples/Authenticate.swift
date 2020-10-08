@@ -6,7 +6,7 @@ class Authenticate: XCTestCase {
         let expectation = XCTestExpectation(description: "login completes")
 
         // :code-block-start: google
-        // Fetch Google token via the Google SDK
+        // Fetch authentication code via the Google SDK
         let credentials = Credentials.google(serverAuthCode: "<token>")
         app.login(credentials: credentials) { (user, error) in
            DispatchQueue.main.sync {
@@ -29,7 +29,7 @@ class Authenticate: XCTestCase {
         let expectation = XCTestExpectation(description: "login completes")
 
         // :code-block-start: apple
-        // Fetch Apple token via the Apple SDK
+        // Fetch IDToken via the Apple SDK
         let credentials = Credentials.apple(idToken: "<token>")
         app.login(credentials: credentials) { (user, error) in
            DispatchQueue.main.sync {
@@ -52,7 +52,7 @@ class Authenticate: XCTestCase {
         let expectation = XCTestExpectation(description: "login completes")
 
         // :code-block-start: facebook
-        // Fetch Facebook token via the Facebook SDK
+        // Fetch access token via the Facebook SDK
         let credentials = Credentials.facebook(accessToken: "<token>")
         app.login(credentials: credentials) { (user, error) in
            DispatchQueue.main.sync {
