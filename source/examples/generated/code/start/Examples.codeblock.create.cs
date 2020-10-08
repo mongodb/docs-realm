@@ -1,7 +1,7 @@
 var testTask = new RealmTask
 {
     Name = "Do this thing",
-    Status = dotnet.TaskStatus.Open.ToString()
+    Status = TaskStatus.Open.ToString()
 };
 
 realm.Write(() =>

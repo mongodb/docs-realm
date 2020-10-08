@@ -1,6 +1,7 @@
 ﻿// :code-block-start:task-object-model
 using MongoDB.Bson;
 using Realms;
+
 namespace dotnet
 {
     public class RealmTask : RealmObject

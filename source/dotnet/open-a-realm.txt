@@ -48,9 +48,11 @@ configuration information:
 
 Scoping the Realm
 -----------------
-The Realm instance implements ``IDisposable``, and you should dispose of a realm 
-object immediately after use. The simplest way to do this is by declaring and 
-instantiating the realm object in a ``using`` statement:
+The Realm instance implements ``IDisposable`` to ensure native resources are 
+freed up. You should dispose of a realm object immediately after use, especially 
+on background threads. The simplest way to do this is by declaring the realm 
+object with a ``using`` statement, or wrapping the code that interacts with a 
+{+realm+} in a ``using (...)`` statement:
 
 .. literalinclude:: /examples/generated/code/start/Examples.codeblock.scope.cs
    :language: csharp
@@ -61,3 +63,9 @@ to manage its state by calling ``Dispose()``:
 .. literalinclude:: /examples/generated/code/start/Examples.codeblock.dispose.cs
    :language: csharp
 
+.. note::
+   
+   As a general rule, you should dispose of the realm only on background threads,  
+   because disposing of a {+realm+} invalidates all objects associated with that 
+   instance. If you are data binding the {+realm+} objects on the main thread, 
+   for example, you should not call ``Dispose()``. 

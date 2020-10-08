@@ -7,6 +7,7 @@ using MongoDB.Bson;
 using NUnit.Framework;
 using Realms;
 using Realms.Sync;
+using TaskStatus = dotnet.TaskStatus;
 
 namespace UnitTests
 {
@@ -29,7 +30,7 @@ namespace UnitTests
             var testTask = new RealmTask
             {
                 Name = "Do this thing",
-                Status = dotnet.TaskStatus.Open.ToString()
+                Status = TaskStatus.Open.ToString()
             };
 
             realm.Write(() =>
@@ -78,15 +79,13 @@ namespace UnitTests
             Assert.AreEqual(1, tasks.Count(), "Get Some");
             return;
         }
-       
+
         [Test]
         public async Task ScopesARealm()
         {
             config = new SyncConfiguration("My Project", user);
-            using (var realm = await Realm.GetInstanceAsync(config))
-            {
-                var allTasks = realm.All<RealmTask>();
-            }
+            using var realm = await Realm.GetInstanceAsync(config);
+            var allTasks = realm.All<RealmTask>();
         }
 
         [Test]
@@ -100,12 +99,12 @@ namespace UnitTests
 
             realm.Write(() =>
             {
-                t.Status = dotnet.TaskStatus.InProgress.ToString();
+                t.Status = TaskStatus.InProgress.ToString();
             });
 
             var allTasks = realm.All<RealmTask>().ToList();
             Assert.AreEqual(1, allTasks.Count);
-            Assert.AreEqual(dotnet.TaskStatus.InProgress.ToString(), allTasks.First().Status);
+            Assert.AreEqual(TaskStatus.InProgress.ToString(), allTasks.First().Status);
 
             return;
         }
@@ -197,7 +196,13 @@ namespace UnitTests
             sum = await
                user.Functions.CallAsync<int>("sum", 2, 40);
             Assert.AreEqual(42, sum);
+            var task = await user.Functions.CallAsync<MyClass>
+                ("getTask", "5f7f7638024a99f41a3c8de4");
+
+            var name = task.Name;
             return;
+
+            //{ "_id":{ "$oid":"5f0f69dc4eeabfd3366be2be"},"_partition":"myPartition","name":"do this NOW","status":"Closed"}
         }
 
         [TearDown]
@@ -213,6 +218,22 @@ namespace UnitTests
                 await user.LogOutAsync();
             }
             return;
+        }
+    }
+
+    public class MyClass : RealmObject
+    {
+        [PrimaryKey]
+        [MapTo("_id")]
+        public ObjectId Id { get; set; }
+
+        [MapTo("name")]
+        [Required]
+        public string Name { get; set; }
+       
+        public MyClass()
+        {
+            this.Id = ObjectId.GenerateNewId();
         }
     }
 }
