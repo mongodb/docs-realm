@@ -257,9 +257,14 @@ connect to your app's GraphQL API.
 F. Implement the Projects List
 ------------------------------
 
-As defined by our data model, ``projects`` are an :term:`embedded object`of the ``users`` object.
+As defined by our data model, ``projects`` are an :term:`embedded object` of the ``users`` object.
 Therefore, if we want to retrieve a list of projects, we'll have to access the :ref:`user custom 
 data object </users/enable-custom-user-data>`. 
+
+.. note::
+
+   To learn more about how {+service-short+} Object models are used in Node.js applications, 
+   see :doc:`Realm Objects </node/objects>` in our Node.js client guide. 
 
 In the file ``/graphql/useProjects.js``, we need to implement the retrieval of the 
 current user's projects. We'll need to add the following code:
