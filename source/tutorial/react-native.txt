@@ -20,7 +20,10 @@ React Native. This tutorial illustrates the creation of a "Task Tracker" React N
 application that allows users to: 
 
 - Sign in to their account with their email and password and sign out later.
-- View, create, modify, and delete tasks.
+- View a list of projects they are a member of.
+- View, create, modify, and delete tasks in projects.
+- View a list of team members in their project.
+- Add and remove team members to their project.
 
 This tutorial should take around 30 minutes.
 
@@ -48,26 +51,8 @@ Ensure that you have the following:
 
 - :ref:`Set up the backend <tutorial-task-tracker-create-realm-app>`.
 
-Define Data Access Permissions and Enable Sync
-----------------------------------------------
-
-The backend app is set up with an email/password authentication provider that we
-can use to let users sign up and log in. Now, we need to define sync rules and
-enable sync so that sync clients can read and write objects.
-
-.. include:: /includes/steps/task-tracker-enable-sync.rst
-
-Set Up the Mobile App
+Set up the Mobile App
 ---------------------
-
-.. admonition:: Download the Complete Source Code
-   :class: note
-   
-   We host this tutorial application's :github:`complete and ready-to-compile
-   source code <mongodb-university/realm-tutorial/tree/main/rn>` on GitHub.
-   Just follow the instructions in ``README.md`` to get started. Don't forget to
-   update the ``getRealmApp.js`` file with your App ID, which you can find in
-   the {+ui+}.
 
 .. include:: /includes/steps/tutorial-react-native.rst
 
@@ -78,3 +63,5 @@ What's Next?
 - Try the :ref:`{+service+} Backend tutorial <backend-tutorial>`.
 - Find developer-oriented blog posts and integration tutorials on the `MongoDB Developer Hub <https://developer.mongodb.com>`__.
 - Join the `MongoDB Community forum <https://developer.mongodb.com/community/forums/c/realm/9>`__ to learn from other MongoDB developers and technical experts.
+
+.. include:: /includes/tutorial-request-for-feedback-note.rst

@@ -1,0 +1,1185 @@
+.. _dotnet-mongodb-data-access:
+
+===================
+MongoDB Data Access
+===================
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+The following actions enable access to a linked MongoDB Atlas cluster
+from a .NET application using the {+service-short+} .NET SDK.
+
+.. include:: /includes/mongodb-data-access-query-filter-indeterminate-order-note.rst
+
+.. _dotnet-mongodb-set-up:
+
+Set Up Your Project
+-------------------
+
+.. include:: /includes/steps/crud-snippets-android.rst
+
+.. _dotnet-mongodb-example-dataset:
+
+Example Data
+------------
+
+.. include:: /includes/mongodb-data-access-example-plant-documents.rst
+
+.. _dotnet-mongodb-create-documents:
+
+Create Documents
+----------------
+
+These code snippets demonstrate how to insert one or more
+documents into a MongoDB collection from a mobile application. Insert
+operations take a document or documents to add to MongoDB as an argument
+and return a :java-sdk:`RealmResultTask
+<io/realm/mongodb/RealmResultTask.html>` that resolves to an object that
+contains the results of the execution of the operation.
+
+.. _dotnet-mongodb-insertOne:
+
+Insert a Single Document
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can insert a single document using
+:java-sdk:`collection.insertOne()
+<io/realm/mongodb/mongo/MongoCollection.html#insertOne-DocumentT->`.
+
+The following snippet inserts a single document describing a "lily of the
+valley" plant into a
+:ref:`collection of documents that describe plants for sale in a group of stores
+<android-mongodb-example-dataset>`:
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: kotlin
+      
+      .. code-block:: kotlin
+         
+         val user: User? = app.currentUser()
+
+         val mongoClient : MongoClient? = user?.getMongoClient("<mongodb-atlas-service-name>")
+         val mongoDatabase : MongoDatabase? = mongoClient?.getDatabase("inventory")
+         val mongoCollection : MongoCollection<Document>? = mongoDatabase?.getCollection("plants")
+
+         val plant : Document = Document("name", "lily of the valley")
+                                   .append("sunlight", "full")
+                                   .append("color", "white")
+                                   .append("type", "perennial")
+                                   .append("_partition", "Store 47")
+
+         mongoCollection?.insertOne(plant)?.getAsync() {
+            if (it.isSuccess) {
+               Log.v("EXAMPLE", "successfully inserted a document with id: ${it.get().insertedId}")
+            } else {
+               Log.e("EXAMPLE", "failed to insert documents with: ${it.error}")
+            }
+         }
+
+   .. tab::
+      :tabid: java
+
+      .. code-block:: java
+
+         User user = app.currentUser();
+
+         MongoClient mongoClient = user.getMongoClient("<mongodb-atlas-service-name>");
+         MongoDatabase mongoDatabase = mongoClient.getDatabase("inventory");
+         MongoCollection<Document> mongoCollection  = mongoDatabase.getCollection("plants");
+
+         Document plant = new Document("name", "lily of the valley")
+                .append("sunlight", "full")
+                .append("color", "white")
+                .append("type", "perennial")
+                .append("_partition", "Store 47");
+
+         mongoCollection.insertOne(plant).getAsync(task -> {
+            if (task.isSuccess()) {
+                BsonObjectId insertedId = task.get().getInsertedId().asObjectId();
+                Log.v("EXAMPLE", "successfully inserted a document with id " + insertedId);
+            } else {
+                Log.e("EXAMPLE", "failed to insert document with: ", task.getError());
+            }
+         });
+
+Running this snippet produces output resembling the following:
+
+.. code-block:: text
+
+   V/EXAMPLE: successfully inserted a document with id: BsonObjectId{value=5f19...}
+
+.. _dotnet-mongodb-insertMany:
+
+Insert Multiple Documents
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can insert multiple documents at the same time using
+:java-sdk:`collection.insertMany()
+<io/realm/mongodb/mongo/MongoCollection.html#insertMany-java.util.List->`.
+
+The following snippet inserts three documents describing plants into a
+:ref:`collection of documents that describe plants for sale in a group of stores
+<android-mongodb-example-dataset>`:
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: kotlin
+
+      .. code-block:: kotlin
+
+         val user: User? = app.currentUser()
+
+         val mongoClient : MongoClient? = user?.getMongoClient("<mongodb-atlas-service-name>")
+         val mongoDatabase : MongoDatabase? = mongoClient?.getDatabase("inventory")
+         val mongoCollection : MongoCollection<Document>? = mongoDatabase?.getCollection("plants")
+
+         val plants : List<Document> = Arrays.asList(
+                    Document("name", "rhubarb")
+                        .append("sunlight", "full")
+                        .append("color", "red")
+                        .append("type", "perennial")
+                        .append("_partition", "Store 47"),
+                    Document("name", "wisteria lilac")
+                        .append("sunlight", "partial")
+                        .append("color", "purple")
+                        .append("type", "perennial")
+                        .append("_partition", "Store 42"),
+                    Document("name", "daffodil")
+                        .append("sunlight", "full")
+                        .append("color", "yellow")
+                        .append("type", "perennial")
+                        .append("_partition", "Store 42"))
+
+         mongoCollection?.insertMany(plants)?.getAsync {
+            if (it.isSuccess) {
+               Log.v("EXAMPLE", "successfully inserted ${it.get().insertedIds.size} documents into the collection.")
+            } else {
+               Log.e("EXAMPLE", "failed to insert documents with: ${it.error}")
+            }
+         }
+
+
+   .. tab::
+      :tabid: java
+
+      .. code-block:: java
+
+         User user = app.currentUser();
+
+         MongoClient mongoClient = user.getMongoClient("<mongodb-atlas-service-name>");
+         MongoDatabase mongoDatabase = mongoClient.getDatabase("inventory");
+         MongoCollection<Document> mongoCollection  = mongoDatabase.getCollection("plants");
+
+         List<Document> plants  = Arrays.asList(
+                new Document("name", "rhubarb")
+                        .append("sunlight", "full")
+                        .append("color", "red")
+                        .append("type", "perennial")
+                        .append("_partition", "Store 47"),
+                new Document("name", "wisteria lilac")
+                        .append("sunlight", "partial")
+                        .append("color", "purple")
+                        .append("type", "perennial")
+                        .append("_partition", "Store 42"),
+                new Document("name", "daffodil")
+                        .append("sunlight", "full")
+                        .append("color", "yellow")
+                        .append("type", "perennial")
+                        .append("_partition", "Store 42"));
+
+         mongoCollection.insertMany(plants).getAsync(task -> {
+            if (task.isSuccess()) {
+                int insertedCount = task.get().getInsertedIds().size();
+                Log.v("EXAMPLE", "successfully inserted " + insertedCount + " documents into the collection.");
+            } else {
+                Log.e("EXAMPLE", "failed to insert documents with: ", task.getError());
+            }
+         });
+
+Running this snippet produces output resembling the following:
+
+.. code-block:: text
+
+   V/EXAMPLE: successfully inserted 3 documents into the collection.
+
+.. _dotnet-mongodb-read-documents:
+
+Read Documents
+--------------
+
+These code snippets demonstrate how to read data stored in a MongoDB
+collection from a mobile application. Read operations use :manual:`query filters
+</core/document/#document-query-filter>` to specify which documents to
+return from the database. Read operations return a
+:android:`Task <reference/com/google/android/play/core/tasks/Task>` that resolves to
+either a single matched document (in the case of ``findOne()``), a ``long``
+numeric value (in the case of ``count()``) or an iterator that allows you to
+traverse the collection of matched documents (in the case of ``find()``).
+
+.. _dotnet-mongodb-findOne:
+
+Find a Single Document
+~~~~~~~~~~~~~~~~~~~~~~
+
+You can find a single document using :java-sdk:`collection.findOne()
+<io/realm/mongodb/mongo/MongoCollection.html#findOne-->`.
+
+The following snippet finds a single document from the a
+:ref:`collection of documents that describe plants for sale in a group of stores
+<android-mongodb-example-dataset>` where the plant document's ``type``
+field contains the string value "perennial":
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: kotlin
+
+      .. code-block:: kotlin
+
+         val user: User? = app.currentUser()
+
+         val mongoClient : MongoClient? = user?.getMongoClient("<mongodb-atlas-service-name>")
+         val mongoDatabase : MongoDatabase? = mongoClient?.getDatabase("inventory")
+         val mongoCollection : MongoCollection<Document>? = mongoDatabase?.getCollection("plants")
+
+         val queryFilter : Document = Document("type", "perennial")
+         mongoCollection?.findOne(queryFilter)?.getAsync {
+            if (it.isSuccess) {
+               Log.v("EXAMPLE", "successfully found a document: ${it.get()}")
+            } else {
+               Log.e("EXAMPLE", "failed to find document with: ${it.error}")
+            }
+         }
+
+   .. tab::
+      :tabid: java
+
+      .. code-block:: java
+
+         User user = app.currentUser();
+
+         MongoClient mongoClient = user.getMongoClient("<mongodb-atlas-service-name>");
+         MongoDatabase mongoDatabase = mongoClient.getDatabase("inventory");
+         MongoCollection<Document> mongoCollection  = mongoDatabase.getCollection("plants");
+
+         Document queryFilter  = new Document("type", "perennial");
+         mongoCollection.findOne(queryFilter).getAsync(task -> {
+            if (task.isSuccess()) {
+                Document result = task.get();
+                Log.v("EXAMPLE", "successfully found a document: " + result);
+            } else {
+                Log.e("EXAMPLE", "failed to find document with: ", task.getError());
+            }
+         });
+
+Running this snippet produces output resembling the following:
+
+.. code-block:: text
+
+   V/EXAMPLE: successfully found a document: Document{{_id=5f18..., name=venus flytrap, sunlight=full, color=white, type=perennial, _partition=Store 42}}
+
+.. _dotnet-mongodb-findMany:
+
+Find Multiple Documents
+~~~~~~~~~~~~~~~~~~~~~~~
+
+You can find multiple documents using :java-sdk:`collection.find()
+<io/realm/mongodb/mongo/MongoCollection.html#find-->`.
+
+The following snippet finds all documents in a
+:ref:`collection of documents that describe plants for sale in a group of stores
+<android-mongodb-example-dataset>` that contain a field named
+``_partition`` with a value of "Store 42":
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: kotlin
+
+      .. code-block:: kotlin
+
+         val user: User? = app.currentUser()
+
+         val mongoClient : MongoClient? = user?.getMongoClient("<mongodb-atlas-service-name>")
+         val mongoDatabase : MongoDatabase? = mongoClient?.getDatabase("inventory")
+         val mongoCollection : MongoCollection<Document>? = mongoDatabase?.getCollection("plants")
+
+         val queryFilter : Document = Document("_partition", "Store 42")
+         val findIterable : FindIterable<Document>? = mongoCollection?.find(queryFilter)
+
+         findIterable?.iterator()?.getAsync {
+            if (it.isSuccess) {
+               Log.v("EXAMPLE", "successfully found all plants for Store 42:")
+               it.get().forEach {
+                  Log.v("EXAMPLE", it.toString())
+               }
+            } else {
+               Log.e("EXAMPLE", "failed to find documents with: ${it.error}")
+            }
+         }
+
+   .. tab::
+      :tabid: java
+
+      .. code-block:: java
+
+         User user = app.currentUser();
+
+         MongoClient mongoClient = user.getMongoClient("<mongodb-atlas-service-name>");
+         MongoDatabase mongoDatabase = mongoClient.getDatabase("inventory");
+         MongoCollection<Document> mongoCollection  = mongoDatabase.getCollection("plants");
+
+         Document queryFilter  = new Document("_partition", "Store 42");
+         Task<MongoCursor<Document>> findTask = mongoCollection.find(queryFilter).iterator();
+
+         findTask.getAsync(task -> {
+            if (task.isSuccess()) {
+                MongoCursor<Document> results = task.get();
+                Log.v("EXAMPLE", "successfully found all plants for Store 42:");
+                while (results.hasNext()) {
+                    Log.v("EXAMPLE", results.next().toString());
+                }
+            } else {
+                Log.e("EXAMPLE", "failed to find documents with: ", task.getError());
+            }
+         });
+
+Running this snippet produces output resembling the following:
+
+.. code-block:: text
+
+   V/EXAMPLE: successfully found all plants for Store 42:
+   V/EXAMPLE: Document{{_id=5f18..., name=venus flytrap, sunlight=full, color=white, type=perennial, _partition=Store 42}}
+   V/EXAMPLE: Document{{_id=5f18..., name=sweet basil, sunlight=partial, color=green, type=annual, _partition=Store 42}}
+   V/EXAMPLE: Document{{_id=5f18..., name=thai basil, sunlight=partial, color=green, type=perennial, _partition=Store 42}}
+   V/EXAMPLE: Document{{_id=5f18..., name=helianthus, sunlight=full, color=yellow, type=annual, _partition=Store 42}}
+
+.. _dotnet-mongodb-count:
+
+Count Documents in the Collection
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can count documents in a collection using
+:java-sdk:`collection.count()
+<io/realm/mongodb/mongo/MongoCollection.html#count-->`.
+You can specify an optional query filter to
+determine which documents to count. If you don't specify a query, the
+action counts all documents in the collection.
+
+The following snippet counts the number of documents in a
+:ref:`collection of documents that describe plants for sale in a group of stores
+<android-mongodb-example-dataset>`:
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: kotlin
+
+      .. code-block:: kotlin
+
+         val user: User? = app.currentUser()
+
+         val mongoClient : MongoClient? = user?.getMongoClient("<mongodb-atlas-service-name>")
+         val mongoDatabase : MongoDatabase? = mongoClient?.getDatabase("inventory")
+         val mongoCollection : MongoCollection<Document>? = mongoDatabase?.getCollection("plants")
+
+         mongoCollection?.count()?.getAsync {
+            if (it.isSuccess) {
+               Log.v("EXAMPLE", "successfully counted, number of documents in the collection: ${it.get()}")
+            } else {
+               Log.e("EXAMPLE", "failed to count documents with: ${it.error}")
+            }
+         }
+
+   .. tab::
+      :tabid: java
+
+      .. code-block:: java
+
+         User user = app.currentUser();
+
+         MongoClient mongoClient = user.getMongoClient("<mongodb-atlas-service-name>");
+         MongoDatabase mongoDatabase = mongoClient.getDatabase("inventory");
+         MongoCollection<Document> mongoCollection  = mongoDatabase.getCollection("plants");
+
+         mongoCollection.count().getAsync(task -> {
+            if (task.isSuccess()) {
+                long count = task.get();
+                Log.v("EXAMPLE", "successfully counted, number of documents in the collection: " + count);
+            } else {
+                Log.e("EXAMPLE", "failed to count documents with: ", task.getError());
+            }
+         });
+
+
+Running this snippet produces output resembling the following:
+
+.. code-block:: text
+
+   V/EXAMPLE: successfully counted, number of documents in the collection: 5
+
+.. _dotnet-mongodb-update-documents:
+
+Update Documents
+----------------
+
+These code snippets demonstrate how to update data stored in a MongoDB
+collection from a mobile application. Update operations use query filters
+to specify which documents to update and :manual:`update operators
+</reference/operator/update>` to describe how to mutate documents that
+match the query. Update operations return a :android:`Task
+<reference/com/google/android/play/core/tasks/Task>` that resolves to an object
+that contains the results of the execution of the operation.
+
+.. _dotnet-mongodb-updateOne:
+
+Update a Single Document
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can update a single document using
+:java-sdk:`collection.updateOne()
+<io/realm/mongodb/mongo/MongoCollection.html#updateOne-Bson-Bson->`.
+
+The following snippet updates a single document in a
+:ref:`collection of documents that describe plants for sale in a group of stores
+<android-mongodb-example-dataset>`. This operation queries for a document
+where the ``name`` field contains the value "petunia" and changes the value
+of the first matched document's ``sunlight`` field to "partial":
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: kotlin
+
+      .. code-block:: kotlin
+
+         val user: User? = app.currentUser()
+
+         val mongoClient : MongoClient? = user?.getMongoClient("<mongodb-atlas-service-name>")
+         val mongoDatabase : MongoDatabase? = mongoClient?.getDatabase("inventory")
+         val mongoCollection : MongoCollection<Document>? = mongoDatabase?.getCollection("plants")
+
+         val queryFilter : Document = Document("name", "petunia")
+         val updateDocument : Document = Document("sunlight", "partial")
+
+         mongoCollection?.updateOne(queryFilter, updateDocument)?.getAsync {
+            if (it.isSuccess) {
+               val count : Long = it.get().modifiedCount
+               if (count == 1L) {
+                  Log.v("EXAMPLE", "successfully updated a document.")
+               } else {
+                  Log.v("EXAMPLE", "did not update a document.")
+               }
+            } else {
+               Log.e("EXAMPLE", "failed to update a document with: ${it.error}")
+            }
+         }
+
+   .. tab::
+      :tabid: java
+
+      .. code-block:: java
+
+         User user = app.currentUser();
+
+         MongoClient mongoClient = user.getMongoClient("<mongodb-atlas-service-name>");
+         MongoDatabase mongoDatabase = mongoClient.getDatabase("inventory");
+         MongoCollection<Document> mongoCollection  = mongoDatabase.getCollection("plants");
+
+         Document queryFilter = new Document("name", "petunia");
+         Document updateDocument = new Document("sunlight", "partial");
+
+         mongoCollection.updateOne(queryFilter, updateDocument).getAsync(task -> {
+            if (task.isSuccess()) {
+                long count = task.get().getModifiedCount();
+                if (count == 1) {
+                    Log.v("EXAMPLE", "successfully updated a document.");
+                } else {
+                    Log.v("EXAMPLE", "did not update a document.");
+                }
+            } else {
+                Log.e("EXAMPLE", "failed to update document with: ", task.getError());
+            }
+         });
+
+Running this snippet produces output resembling the following:
+
+.. code-block:: text
+
+   V/EXAMPLE: successfully updated a document.
+
+.. _dotnet-mongodb-updateMany:
+
+Update Multiple Documents
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can update a single document using
+:java-sdk:`collection.updateMany()
+<io/realm/mongodb/mongo/MongoCollection.html#updateMany-Bson-Bson->`.
+
+The following snippet updates multiple documents in a
+:ref:`collection of documents that describe plants for sale in a group of stores
+<android-mongodb-example-dataset>`. This operation queries for documents
+where the ``_partition`` field contains the value "Store 47" and changes
+the value of the ``_partition`` field of each matching document to "Store 51":
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: kotlin
+
+      .. code-block:: kotlin
+
+         val user: User? = app.currentUser()
+
+         val mongoClient : MongoClient? = user?.getMongoClient("<mongodb-atlas-service-name>")
+         val mongoDatabase : MongoDatabase? = mongoClient?.getDatabase("inventory")
+         val mongoCollection : MongoCollection<Document>? = mongoDatabase?.getCollection("plants")
+
+         val queryFilter : Document = Document("_partition", "Store 47")
+         val updateDocument : Document = Document("_partition", "Store 51")
+         mongoCollection?.updateMany(queryFilter, updateDocument)?.getAsync {
+            if (it.isSuccess) {
+               val count : Long = it.get().modifiedCount
+               if (count == 1L) {
+                  Log.v("EXAMPLE", "successfully updated ${count} documents.")
+               } else {
+                  Log.v("EXAMPLE", "did not update any documents.")
+               }
+            } else {
+               Log.e("EXAMPLE", "failed to update documents with: ${it.error}")
+            }
+         }
+
+   .. tab::
+      :tabid: java
+
+      .. code-block:: java
+
+         User user = app.currentUser();
+
+         MongoClient mongoClient = user.getMongoClient("<mongodb-atlas-service-name>");
+         MongoDatabase mongoDatabase = mongoClient.getDatabase("inventory");
+         MongoCollection<Document> mongoCollection  = mongoDatabase.getCollection("plants");
+
+         Document queryFilter = new Document("_partition", "Store 47");
+         Document updateDocument = new Document("_partition", "Store 51");
+
+         mongoCollection.updateMany(queryFilter, updateDocument).getAsync(task -> {
+            if (task.isSuccess()) {
+                long count = task.get().getModifiedCount();
+                if (count != 0) {
+                    Log.v("EXAMPLE", "successfully updated " + count + " documents.");
+                } else {
+                    Log.v("EXAMPLE", "did not update any documents.");
+                }
+            } else {
+                Log.e("EXAMPLE", "failed to update documents with: ", task.getError());
+            }
+         });
+
+Running this snippet produces output resembling the following:
+
+.. code-block:: text
+
+   V/EXAMPLE: successfully updated 2 documents.
+
+.. _dotnet-mongodb-upsert:
+
+Upsert Documents
+~~~~~~~~~~~~~~~~
+
+If an update operation does not match any document in the collection,
+you can automatically insert a single new document into the collection
+that matches the update query by setting the ``upsert`` option to
+``true``.
+
+The following snippet updates a document in a
+:ref:`collection of documents that describe plants for sale in a group of stores
+<android-mongodb-example-dataset>` or inserts a
+new document if no document matches the query filter. This operation
+queries for documents where:
+
+- the ``sunlight`` field has a value of "full"
+- the ``type`` field has a value of "perennial"
+- the ``color`` field has a value of "green"
+- the ``_partition`` field has a value of "Store 47"
+
+Because this snippet sets the ``upsert`` option to ``true``, if no
+document matches the query, MongoDB creates a new document that includes
+both the query filter and specified updates:
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: kotlin
+
+      .. code-block:: kotlin
+
+         val user: User? = app.currentUser()
+
+         val mongoClient : MongoClient? = user?.getMongoClient("<mongodb-atlas-service-name>")
+         val mongoDatabase : MongoDatabase? = mongoClient?.getDatabase("inventory")
+         val mongoCollection : MongoCollection<Document>? = mongoDatabase?.getCollection("plants")
+
+         val queryFilter : Document = Document("sunlight", "full")
+                                         .append("type", "perennial")
+                                         .append("color", "green")
+                                         .append("_partition", "Store 47")
+         val updateDocument : Document = Document("name", "sweet basil")
+         val updateOptions : UpdateOptions = UpdateOptions().upsert(true)
+         mongoCollection?.updateOne(queryFilter, updateDocument, updateOptions)?.getAsync {
+            if (it.isSuccess) {
+               if (it.get().upsertedId != null) {
+                 Log.v("EXAMPLE", "successfully upserted a document with id: ${it.get().upsertedId}")
+               } else {
+                 Log.v("EXAMPLE", "successfully updated a document.")
+               }
+            } else {
+               Log.e("EXAMPLE", "failed to update or insert document with: ${it.error}")
+            }
+         }
+
+   .. tab::
+      :tabid: java
+
+      .. code-block:: java
+
+         User user = app.currentUser();
+
+         MongoClient mongoClient = user.getMongoClient("<mongodb-atlas-service-name>");
+         MongoDatabase mongoDatabase = mongoClient.getDatabase("inventory");
+         MongoCollection<Document> mongoCollection  = mongoDatabase.getCollection("plants");
+
+         Document queryFilter = new Document("sunlight", "full")
+                .append("type", "perennial")
+                .append("color", "green")
+                .append("_partition", "Store 47");
+         Document updateDocument = new Document("name", "sweet basil");
+         UpdateOptions updateOptions = new UpdateOptions().upsert(true);
+
+         mongoCollection.updateOne(queryFilter, updateDocument, updateOptions).getAsync(task -> {
+            if (task.isSuccess()) {
+                if(task.get().getUpsertedId() != null) {
+                    Log.v("EXAMPLE", "successfully upserted a document with id " + task.get().getUpsertedId());
+                } else {
+                    Log.v("EXAMPLE", "successfully updated a document.");
+                }
+            } else {
+                Log.e("EXAMPLE", "failed to update or insert document with: ", task.getError());
+            }
+         });
+
+Running this snippet produces output resembling the following:
+
+.. code-block:: text
+
+   V/EXAMPLE: successfully upserted a document with id: BsonObjectId{value=5f19...}
+
+.. _dotnet-mongodb-delete-documents:
+
+Delete Documents
+----------------
+
+These code snippets demonstrate how to delete documents that
+are stored in a MongoDB collection from a mobile application.
+Delete operations use a query filter to specify which documents to delete
+and return a :android:`Task <reference/com/google/android/play/core/tasks/Task>`
+that resolves to an object that contains the results of the execution
+of the operation.
+
+.. _dotnet-mongodb-deleteOne:
+
+Delete a Single Document
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can delete a single document from a collection using
+:java-sdk:`collection.deleteOne()
+<io/realm/mongodb/mongo/MongoCollection.html#deleteOne-Bson->`.
+
+The following snippet deletes one document in a
+:ref:`collection of documents that describe plants for sale in a group of stores
+<android-mongodb-example-dataset>`. This operation queries for a
+document where the ``color`` field has a value of "green" and deletes
+the first document that matches the query:
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: kotlin
+
+      .. code-block:: kotlin
+
+         val user: User? = app.currentUser()
+
+         val mongoClient : MongoClient? = user?.getMongoClient("<mongodb-atlas-service-name>")
+         val mongoDatabase : MongoDatabase? = mongoClient?.getDatabase("inventory")
+         val mongoCollection : MongoCollection<Document>? = mongoDatabase?.getCollection("plants")
+
+         val queryFilter : Document = Document("color", "green")
+         mongoCollection?.deleteOne(queryFilter)?.getAsync {
+            if (it.isSuccess) {
+               val count : Long = it.get().deletedCount
+               if (count == 1L) {
+                  Log.v("EXAMPLE", "successfully deleted a document.")
+               } else {
+                  Log.v("EXAMPLE", "did not delete a document.")
+               }
+            } else {
+               Log.e("EXAMPLE", "failed to delete document with: ${it.error}")
+            }
+         }
+
+   .. tab::
+      :tabid: java
+
+      .. code-block:: java
+
+         User user = app.currentUser();
+
+         MongoClient mongoClient = user.getMongoClient("<mongodb-atlas-service-name>");
+         MongoDatabase mongoDatabase = mongoClient.getDatabase("inventory");
+         MongoCollection<Document> mongoCollection  = mongoDatabase.getCollection("plants");
+
+         Document queryFilter = new Document("color", "green");
+
+         mongoCollection.deleteOne(queryFilter).getAsync(task -> {
+            if (task.isSuccess()) {
+                long count = task.get().getDeletedCount();
+                if (count == 1) {
+                    Log.v("EXAMPLE", "successfully deleted a document.");
+                } else {
+                    Log.v("EXAMPLE", "did not delete a document.");
+                }
+            } else {
+                Log.e("EXAMPLE", "failed to delete document with: ", task.getError());
+            }
+         });
+
+Running this snippet produces output resembling the following:
+
+.. code-block:: text
+
+   V/EXAMPLE: successfully deleted a document.
+
+.. _dotnet-mongodb-deleteMany:
+
+Delete Multiple Documents
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can delete multiple items from a collection using
+:java-sdk:`collection.deleteMany()
+<io/realm/mongodb/mongo/MongoCollection.html#deleteMany-Bson->`.
+
+The following snippet deletes all documents in a
+:ref:`collection of documents that describe plants for sale in a group of stores
+<android-mongodb-example-dataset>`
+that match the query filter that matches documents containing both
+a ``sunlight`` field value of "full" and a ``type`` field value of
+"annual".
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: kotlin
+
+      .. code-block:: kotlin
+
+         val user: User? = app.currentUser()
+
+         val mongoClient : MongoClient? = user?.getMongoClient("<mongodb-atlas-service-name>")
+         val mongoDatabase : MongoDatabase? = mongoClient?.getDatabase("inventory")
+         val mongoCollection : MongoCollection<Document>? = mongoDatabase?.getCollection("plants")
+
+         val queryFilter : Document = Document("sunlight", "full")
+                                         .append("type", "annual")
+         mongoCollection?.deleteMany(queryFilter)?.getAsync {
+            if (it.isSuccess) {
+                val count : Long = it.get().deletedCount
+                if (count != 0L) {
+                    Log.v("EXAMPLE", "succcessfully deleted ${count} documents.")
+                } else {
+                    Log.v("EXAMPLE", "did not delete any documents.")
+                }
+            } else {
+               Log.e("EXAMPLE", "failed to delete documents with: ${it.error}")
+            }
+         }
+
+   .. tab::
+      :tabid: java
+
+      .. code-block:: java
+
+         User user = app.currentUser();
+
+         MongoClient mongoClient = user.getMongoClient("<mongodb-atlas-service-name>");
+         MongoDatabase mongoDatabase = mongoClient.getDatabase("inventory");
+         MongoCollection<Document> mongoCollection  = mongoDatabase.getCollection("plants");
+
+         Document queryFilter = new Document("sunlight", "full")
+                .append("type", "annual");
+
+         mongoCollection.deleteMany(queryFilter).getAsync(task -> {
+            if (task.isSuccess()) {
+                long count = task.get().getDeletedCount();
+                if (count != 0) {
+                    Log.v("EXAMPLE", "successfully deleted " + count + " documents.");
+                } else {
+                    Log.v("EXAMPLE", "did not delete any documents.");
+                }
+            } else {
+                Log.e("EXAMPLE", "failed to delete documents with: ", task.getError());
+            }
+         });
+
+Running this snippet produces output resembling the following:
+
+.. code-block:: text
+
+   V/EXAMPLE: succcessfully deleted 2 documents.
+
+.. _dotnet-mongodb-aggregation-pipelines:
+
+Aggregate Documents
+-------------------
+
+These code snippets demonstrate how to configure and run
+aggregation operations on a collection. Aggregation operations run all
+documents in a collection through a series of data :ref:`aggregation stages
+<realm-aggregation-stages>` called an
+:manual:`aggregation pipeline </core/aggregation-pipeline>` that allow
+you to filter and shape documents as well as collect summary data about
+groups of related documents.
+
+Aggregation operations accept a list of aggregation stages as input, and
+return a :android:`Task <reference/com/google/android/play/core/tasks/Task>` that
+resolves to a collection of documents processed by the pipeline.
+
+.. _dotnet-mongodb-aggregate:
+
+Aggregate Documents in a Collection
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can execute an aggregation pipeline using
+:java-sdk:`collection.aggregate()
+<io/realm/mongodb/mongo/MongoCollection.html#aggregate-java.util.List->`.
+
+The following snippet groups all documents in the ``plants``
+collection by their ``type`` value and aggregates a count of the
+number of each type:
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: kotlin
+
+      .. code-block:: kotlin
+
+         val user: User? = app.currentUser()
+
+         val mongoClient : MongoClient? = user?.getMongoClient("<mongodb-atlas-service-name>")
+         val mongoDatabase : MongoDatabase? = mongoClient?.getDatabase("<database>")
+         val mongoCollection : MongoCollection<Document>? = mongoDatabase?.getCollection("<collection>")
+
+         val pipeline : List<Document> = Arrays.asList(
+                  Document("\$group", Document("_id", "\$type")
+                     .append("totalCount", Document("\$sum", 1))))
+         val aggregationTask : Task<MongoCursor<Document>>? =
+            mongoCollection?.aggregate(pipeline)?.iterator()
+
+         aggregationTask?.getAsync {
+            if (it.isSuccess) {
+               Log.v("EXAMPLE", "Plant type counts: ")
+               it.result.forEach {
+                  Log.v("EXAMPLE", it.toString())
+               }
+            } else {
+               Log.e("EXAMPLE", "failed to aggregate documents with: ${it.error}")
+            }
+         }
+
+   .. tab::
+      :tabid: java
+
+      .. code-block:: java
+
+         User user = app.currentUser();
+
+         MongoClient mongoClient = user.getMongoClient("<mongodb-atlas-service-name>");
+         MongoDatabase mongoDatabase = mongoClient.getDatabase("inventory");
+         MongoCollection<Document> mongoCollection  = mongoDatabase.getCollection("plants");
+
+         List<Document> pipeline = Arrays.asList(
+                new Document("$group", new Document("_id", "$type")
+                        .append("totalCount", new Document("$sum", 1))));
+
+         Task<MongoCursor<Document>> aggregationTask = mongoCollection.aggregate(pipeline).iterator();
+
+         aggregationTask.getAsync(task -> {
+            if (task.isSuccess()) {
+                MongoCursor<Document> results = task.getResult();
+                Log.d("EXAMPLE", "successfully aggregated the plants by type. Type summary:");
+                while (results.hasNext()) {
+                    Log.v("EXAMPLE", results.next().toString());
+                }
+            } else {
+                Log.e("EXAMPLE", "failed to aggregate documents with: ", task.getError());
+            }
+         });
+
+Running this snippet produces output resembling the following:
+
+.. code-block:: text
+
+   V/EXAMPLE: Plant type counts: 
+   V/EXAMPLE: Document{{_id=perennial, totalCount=2}}
+   V/EXAMPLE: Document{{_id=annual, totalCount=3}}
+
+.. _dotnet-mongodb-watch:
+
+Watch for Changes
+-----------------
+
+These code snippets demonstrate how to configure and run
+:manual:`watch </reference/method/db.collection.watch/>` operations on a
+collection.
+
+Watch for Changes in a Collection
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can open a stream of changes made to a collection by calling
+:java-sdk:`collection.watch()
+<io/realm/mongodb/mongo/MongoCollection.html#watch-->` or
+:java-sdk:`collection.watchAsync()
+<io/realm/mongodb/mongo/MongoCollection.html#watchAsync-->`. You can
+watch for changes to specific documents in a collection by passing the
+object ids of the objects you would like to monitor as a
+`variable number of arguments
+<https://kotlinlang.org/docs/reference/functions.html#variable-number-of-arguments-varargs>`__.
+
+The following snippet watches for changes to any documents in the
+``plants`` collection:
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: kotlin
+
+      .. code-block:: kotlin
+
+         val user: User? = app.currentUser()
+
+         val mongoClient : MongoClient? = user?.getMongoClient("<mongodb-atlas-service-name>")
+         val mongoDatabase : MongoDatabase? = mongoClient?.getDatabase("<database>")
+         val mongoCollection : MongoCollection<Document>? = mongoDatabase?.getCollection("<collection>")
+
+         val watcher : RealmEventStreamAsyncTask<Document>? = mongoCollection?.watchAsync()
+
+         watcher?.get {
+            if (it.isSuccess) {
+                Log.v(
+                    "EXAMPLE",
+                    "Event type: ${it.get().operationType}, full document: ${it.get().fullDocument}"
+                )
+            } else {
+                Log.e("EXAMPLE", "failed to subscribe to changes in the collection with: ${it.error}")
+            }
+         }
+
+         val plant : Document = Document("name", "triffid")
+                    .append("sunlight", "low")
+                    .append("color", "green")
+                    .append("type", "perennial")
+                    .append("_partition", "Store 47")
+
+         mongoCollection?.insertOne(plant)?.getAsync() {
+            if (it.isSuccess) {
+                Log.v("EXAMPLE", "successfully inserted a document with id: ${it.get().insertedId}")
+            } else {
+                Log.e("EXAMPLE", "failed to insert documents with: ${it.error}")
+            }
+         }
+
+   .. tab::
+      :tabid: java
+
+      .. code-block:: java
+
+         User user = app.currentUser();
+
+         MongoClient mongoClient = user.getMongoClient("<mongodb-atlas-service-name>");
+         MongoDatabase mongoDatabase = mongoClient.getDatabase("inventory");
+         MongoCollection<Document> mongoCollection  = mongoDatabase.getCollection("plants");
+
+         RealmEventStreamAsyncTask<Document> watcher = mongoCollection.watchAsync();
+
+         watcher.get(result -> {
+            if (result.isSuccess()) {
+                Log.v(
+                        "EXAMPLE",
+                        "Event type: " + result.get().getOperationType() + " full document: " + result.get().getFullDocument()
+                );
+            } else {
+                Log.e("EXAMPLE", "failed to subscribe to changes in the collection with : ", result.getError());
+            }
+         });
+
+         Document plant = new Document("name", "triffid")
+                .append("sunlight", "low")
+                .append("color", "green")
+                .append("type", "perennial")
+                .append("_partition", "Store 47");
+
+         mongoCollection.insertOne(plant).getAsync(task -> {
+            if (task.isSuccess()) {
+                BsonObjectId insertedId = task.get().getInsertedId().asObjectId();
+                Log.v("EXAMPLE", "successfully inserted a document with id " + insertedId);
+            } else {
+                Log.e("EXAMPLE", "failed to insert document with: ", task.getError());
+            }
+         });
+
+
+
+Running this snippet produces output resembling the following:
+
+.. code-block:: text
+
+   V/EXAMPLE: successfully inserted a document with id BsonObjectId{value=5f6bb...}
+   V/EXAMPLE: Event type: INSERT full document: Document{{_id=5f6bb..., name=triffid, sunlight=low, color=green, type=perennial, _partition=Store 47}}
+
+.. _dotnet-mongodb-watch-with-filter:
+
+Watch for Changes in a Collection with a Filter
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can open a stream of changes made to documents in a collection that
+fulfill certain criteria by calling :java-sdk:`collection.watchWithFilter()
+<io/realm/mongodb/mongo/MongoCollection.html#watchWithFilter-BsonDocument->` or
+:java-sdk:`collection.watchWithFilterAsync()
+<io/realm/mongodb/mongo/MongoCollection.html#watchWithFilterAsync-Document->`.
+Both methods accept a `Document` or `BsonDocument` parameter that is
+used as the query of a :manual:`$match operator
+</reference/operator/aggregation/match/>` to process each
+:ref:`database event <database-events>` that occurs while watching the
+collection.
+
+The following snippet watches for changes to documents in the
+``plants`` collection, but only triggers the provided callback for
+events corresponding to documents belonging to the partition named
+"Store 42":
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: kotlin
+
+      .. code-block:: kotlin
+
+         val user: User? = app.currentUser()
+
+         val mongoClient : MongoClient? = user?.getMongoClient("<mongodb-atlas-service-name>")
+         val mongoDatabase : MongoDatabase? = mongoClient?.getDatabase("<database>")
+         val mongoCollection : MongoCollection<Document>? = mongoDatabase?.getCollection("<collection>")
+
+         val watcher : RealmEventStreamAsyncTask<Document>? = mongoCollection?
+                    .watchWithFilterAsync(Document("fullDocument._partition", "Store 42"))
+
+         watcher?.get {
+            if (it.isSuccess) {
+                Log.v(
+                    "EXAMPLE",
+                    "Event type: ${it.get().operationType}, full document: ${it.get().fullDocument}"
+                )
+            } else {
+                Log.e("EXAMPLE", "failed to subscribe to filtered changes in the collection with: ${it.error}")
+            }
+         }
+
+         val plants : List<Document> = Arrays.asList(
+                    Document("name", "triffid")
+                        .append("sunlight", "low")
+                        .append("color", "green")
+                        .append("type", "perennial")
+                        .append("_partition", "Store 47"),
+                    Document("name", "venomous tentacula")
+                        .append("sunlight", "low")
+                        .append("color", "brown")
+                        .append("type", "annual")
+                        .append("_partition", "Store 42"))
+
+          mongoCollection?.insertMany(plants)?.getAsync {
+              if (it.isSuccess) {
+                  Log.v("EXAMPLE", "successfully inserted ${it.get().insertedIds.size} documents into the collection.")
+              } else {
+                  Log.e("EXAMPLE", "failed to insert documents with: ${it.error}")
+              }
+          }
+
+   .. tab::
+      :tabid: java
+
+      .. code-block:: java
+
+         User user = app.currentUser();
+
+         MongoClient mongoClient = user.getMongoClient("<mongodb-atlas-service-name>");
+         MongoDatabase mongoDatabase = mongoClient.getDatabase("inventory");
+         MongoCollection<Document> mongoCollection  = mongoDatabase.getCollection("plants");
+
+         RealmEventStreamAsyncTask<Document> watcher = mongoCollection
+            .watchWithFilterAsync(new Document("fullDocument._partition", "Store 42"));
+
+         watcher.get(result -> {
+            if (result.isSuccess()) {
+                Log.v(
+                        "EXAMPLE",
+                        "Event type: " + result.get().getOperationType() + " full document: " + result.get().getFullDocument()
+                );
+            } else {
+                Log.e("EXAMPLE", "failed to subscribe to filtered changes in the collection with : ", result.getError());
+            }
+         });
+
+         List<Document> plants  = Arrays.asList(
+                new Document("name", "triffid")
+                        .append("sunlight", "low")
+                        .append("color", "green")
+                        .append("type", "perennial")
+                        .append("_partition", "Store 47"),
+                new Document("name", "venomous tentacula")
+                        .append("sunlight", "low")
+                        .append("color", "brown")
+                        .append("type", "annual")
+                        .append("_partition", "Store 42"));
+
+         mongoCollection.insertMany(plants).getAsync(task -> {
+            if (task.isSuccess()) {
+                int insertedCount = task.get().getInsertedIds().size();
+                Log.v("EXAMPLE", "successfully inserted " + insertedCount + " documents into the collection.");
+            } else {
+                Log.e("EXAMPLE", "failed to insert documents with: ", task.getError());
+            }
+         });
+
+Running this snippet produces output resembling the following:
+
+.. code-block:: text
+
+   V/EXAMPLE: successfully inserted 2 documents into the collection
+   V/EXAMPLE: Event type: INSERT full document: Document{{_id=5f6bb..., name=venomous tentacula, sunlight=low, color=brown, type=annual, _partition=Store 42}}
+
+.. _dotnet-mongodb-aggregation-stages:
+
+Aggregation Stages
+------------------
+
+.. include:: /includes/aggregation-stages.rst

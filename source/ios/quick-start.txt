@@ -129,7 +129,7 @@ includes the partition name. The following code demonstrates this:
 
 .. code-block:: swift
 
-   let user = app.currentUser()
+   let user = app.currentUser
    let partitionValue = "myPartition"
    
    Realm.asyncOpen(configuration: user!.configuration(partitionValue: partitionValue)) { realm, error in
@@ -234,7 +234,7 @@ Once logged in, you can log out:
 
 .. code-block:: swift
 
-   app.currentUser()?.logOut() { (error) in
+   app.currentUser?.logOut { (error) in
        // Logged out or error occurred
    }
 
@@ -244,52 +244,13 @@ Complete Example
 Run the complete example by replacing the app ID with your {+app+} ID
 and navigating to the ``ExampleViewController`` in an app.
 
-.. literalinclude:: /examples/QuickStarts/CompleteExample.swift
+.. literalinclude:: /examples/generated/code/start/CompleteQuickStart.codeblock.quick-start.swift
    :language: swift
 
 Output
 ~~~~~~
 Running the above code should output something like the following:
 
-.. code-block:: shell
+.. literalinclude:: /examples/QuickStarts/CompleteSwiftOutput
 
-   Attempting to log in
-   Login succeeded!
-   ... Sync: Connection[1]: Session[1]: client_reset_config = false, Realm exists = true, async open = false, client reset = false
-   Deleted indices:  []
-   Inserted indices:  [0]
-   Modified modifications:  []
-   A list of all tasks that begin with A: Results<Task> <0x7fd15d60a960> (
-      [0] Task {
-         _id = 5f3c29...;
-         _partition = myPartition;
-         name = App design;
-         owner = (null);
-         status = ;
-      }
-   )
-   Deleted indices:  []
-   Inserted indices:  [1]
-   Modified modifications:  []
-   A list of all tasks in progress: Results<Task> <0x7fd15d60bd20> (
-      [0] Task {
-         _id = 5f3c29...;
-         _partition = myPartition;
-         name = Do laundry;
-         owner = (null);
-         status = InProgress;
-      }
-   )
-   Deleted indices:  []
-   Inserted indices:  []
-   Modified modifications:  [0]
-   A list of all tasks after deleting one: Results<Task> <0x7fd15d55cbc0> (
-      [0] Task {
-         _id = 5f3c29...;
-         _partition = myPartition;
-         name = App design;
-         owner = (null);
-         status = ;
-      }
-   )
-   ... Sync: Connection[1]: Disconnected
+

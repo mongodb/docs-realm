@@ -22,7 +22,7 @@ includes the partition name. The following code demonstrates this:
 
 .. code-block:: swift
 
-   let user = app.currentUser()
+   let user = app.currentUser
    let partitionValue = "myPartition"
    
    Realm.asyncOpen(configuration: user!.configuration(partitionValue: partitionValue)) { realm, error in

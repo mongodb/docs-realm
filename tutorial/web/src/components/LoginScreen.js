@@ -29,23 +29,34 @@ export default function LoginScreen() {
   }, [mode]);
 
   const [isLoggingIn, setIsLoggingIn] = React.useState(false);
+  // :code-block-start: handleLogin
   const handleLogin = async () => {
     setIsLoggingIn(true);
     setError((e) => ({ ...e, password: null }));
     try {
+      // :hide-start:
       await app.logIn(Realm.Credentials.emailPassword(email, password));
+      // :replace-with:
+      // // TODO: Call the logIn() method and pass it the emailPassword credentials.
+      // :hide-end:
     } catch (err) {
       handleAuthenticationError(err, setError);
     }
   };
+  // :code-block-end:
 
+  // :code-block-start: handleRegistrationAndLogin
   const handleRegistrationAndLogin = async () => {
     const isValidEmailAddress = validator.isEmail(email);
     setError((e) => ({ ...e, password: null }));
     if (isValidEmailAddress) {
       try {
         // Register the user and, if successful, log them in
+        // :hide-start:
         await app.emailPasswordAuth.registerUser(email, password);
+        // :replace-with:
+        // // TODO: Create new emailPassword credentials by calling the registerUser() method.
+        // :hide-end:
         return await handleLogin();
       } catch (err) {
         handleAuthenticationError(err, setError);
@@ -54,6 +65,7 @@ export default function LoginScreen() {
       setError((err) => ({ ...err, email: "Email is invalid." }));
     }
   };
+  // :code-block-end:
 
   return (
     <Container>

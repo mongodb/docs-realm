@@ -1,0 +1,103 @@
+.. _node-electron-client-quick-start:
+
+=========================
+Quick Start With Electron
+=========================
+
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+
+Overview
+--------
+
+This page contains information to get {+service+} integrated into your
+Electron application quickly. To learn how to set up an Electron
+application with Realm without using any additional frameworks, see the
+:ref:`Electron set up <electron-setup>` instructions. If you have
+already created an application using `Create React App
+<https://reactjs.org/docs/create-a-new-react-app.html>`_ or are
+interested in integrating a React App with Realm using Electron, check
+out the :ref:`Electron with React set up <react-electron-setup>`
+instructions.
+
+Before you begin, ensure you have:
+
+- :ref:`Created a {+app+} <create-a-realm-app>`
+- :ref:`Enabled {+sync+} <enable-sync>`
+
+
+Set up
+------
+
+.. _electron-setup:
+
+Set up Realm with Electron
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To set up an Electron application using {+service+} use the following instructions:
+
+.. include:: /includes/steps/realm-with-electron.rst
+
+
+.. _react-electron-setup:
+
+Set up Realm with Electron using Create React App
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To set up a React application with {+service+} using Electron use the following instructions:
+
+.. include:: /includes/steps/realm-with-electron-using-create-react-app.rst
+
+Working with Realm Using Renderer and Main Processes
+----------------------------------------------------
+
+Electron applications have one main process. The main process can create
+multiple BrowserWindows. Each BrowserWindow spawns its own process.
+This presents the following unique challenges when developing
+applications using Electron and Realm:
+
+- Two different processes cannot access a synced realm. Due to this, the recommended course of action is to only open non-synced realms on renderer processes and only one synced realm on the main process.
+- Since you're opening a non-synced a realm on the renderer process, you must notify the main process when the renderer performs a write transaction. The main process can then upload the local non-synced changes to the sync session.
+
+Consider the following code in the ``main process``:
+
+.. literalinclude:: /examples/QuickStarts/electron/quickstart-main.js
+  :language: javascript
+  :emphasize-lines: 39, 42, 45, 50
+  :linenos:
+
+Notice that on line 39, the main process opens a synced realm. On line
+45, the `ipcMain <https://www.electronjs.org/docs/api/ipc-main>`_
+Electron API listens for an "asynchronous-message" event. When an
+asynchronous message occurs with the “sync” argument, the main process
+uploads all local changes.
+
+Consider the ``renderer process`` code:
+
+.. literalinclude:: /examples/QuickStarts/electron/quickstart-renderer.js
+  :language: javascript
+  :emphasize-lines: 28, 40
+  :linenos:
+
+On line 28, the renderer process opens a non-synced realm. All write
+transactions on this local realm will not be synced by default. In
+order to sync these writes, the `ipcRenderer
+<https://www.electronjs.org/docs/api/ipc-renderer>`_ Electron API emits
+an "asynchronous-message" with the argument "sync" on line 42. This
+tells the ``main process`` to upload all local changes to the synced
+realm. 
+
+Summary
+-------
+
+- You can create an Electron Application using {+service+} by installing `Electron <https://www.npmjs.com/package/electron>`_ and the `MongoDB Realm JS SDK <https://www.npmjs.com/package/realm>`_.
+- You can create a React application that uses Realm and Electron with `craco <https://www.npmjs.com/package/@craco/craco>`_.
+- Since 2 different processes cannot access a synced realm, open a non-synced realm on the renderer processes and a synced realm on the main process.
+- Notify the main process that a write transaction has occurred on the renderer process with the `ipcMain <https://www.electronjs.org/docs/api/ipc-main>`_ and the `ipcRenderer <https://www.electronjs.org/docs/api/ipc-renderer>`_ APIs.

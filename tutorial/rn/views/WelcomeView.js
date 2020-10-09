@@ -1,45 +1,50 @@
-import React, { useState } from "react";
-import { View, Text, TextInput, Button } from "react-native";
+import React, { useEffect, useState } from "react";
+import { View, Text, TextInput, Button, Alert } from "react-native";
 import { useAuth } from "../providers/AuthProvider";
 import styles from "../stylesheet";
 
 export function WelcomeView({ navigation }) {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { signUp, signIn } = useAuth();
+  const { user, signUp, signIn } = useAuth();
 
-  // the onPressSignIn method calls AuthProvider.signIn with the
-  // username/password in state and then navigates to the Projects
-  // screen once the user is signed in
-  const onPressSignIn = async () => {
-    try {
-      await signIn(username, password);
+  useEffect(() => {
+    // If there is a user logged in, go to the Projects page.
+    if (user != null) {
       navigation.navigate("Projects");
-    } catch (err) {
-      throw `an error occurred while signing in ${err}`;
+    }
+  }, [user]);
+
+  // The onPressSignIn method calls AuthProvider.signIn with the
+  // email/password in state.
+  const onPressSignIn = async () => {
+    console.log("Press sign in");
+    try {
+      await signIn(email, password);
+    } catch (error) {
+      Alert.alert(`Failed to sign in: ${error.message}`);
     }
   };
 
-  // the onPressSignUp method calls AuthProvider.signUp with the
-  // username/password in state and then calls onPressSignIn once a user
-  // is registered
+  // The onPressSignUp method calls AuthProvider.signUp with the
+  // email/password in state and then signs in.
   const onPressSignUp = async () => {
-    await signUp(username, password);
-    // 1 second timeout to allow for realm to receive the user object,
-    // so the next screen can retrieve it via
-    // userRealm.objects("User");
-    setTimeout(() => {
-      onPressSignIn();
-    }, 1000);
+    try {
+      await signUp(email, password);
+      signIn(email, password);
+    } catch (error) {
+      Alert.alert(`Failed to sign up: ${error.message}`);
+    }
   };
+
   return (
     <View>
       <Text>Signup or Signin:</Text>
       <View style={styles.inputContainer}>
         <TextInput
-          onChangeText={(text) => setUsername(text)}
-          value={username}
-          placeholder="username"
+          onChangeText={setEmail}
+          value={email}
+          placeholder="email"
           style={styles.inputStyle}
           autoCapitalize="none"
         />

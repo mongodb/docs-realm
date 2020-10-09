@@ -15,115 +15,148 @@ Authenticate a User
 Overview
 --------
 
-.. _dotnet-login:
+{+service+} provides an API for authenticating users using any enabled
+authentication provider. Instantiate a ``Credentials`` object and pass
+it to the  ``app.LogInAsync()`` method to authenticate and obtain a ``User`` 
+instance. The ``Credentials`` class exposes factory methods that correspond to 
+each of the authentication providers:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
+
+   * - Authentication Provider
+     - Credentials Generation Method
+
+   * - :ref:`Anonymous <dotnet-login-anonymous>`
+     - ``Credentials.Anonymous()``
+
+   * - :ref:`Email/Password <dotnet-login-email-password>`
+     - ``Credentials.EmailPassword(email, password)``
+
+   * - :ref:`API Key <dotnet-login-api-key>`
+     - ``Credentials.ApiKey(userAPIKey)``
+
+   * - :ref:`Custom Function <dotnet-login-custom-function>`
+     - ``Credentials.Function(functionPayload)``
+
+   * - :ref:`Custom JWT <dotnet-login-custom-jwt>`
+     - ``Credentials.JWT(jwt)``
+
+   * - :ref:`Google OAuth <dotnet-login-google>`
+     - ``Credentials.Google(googleAuthCode)``
+
+   * - :ref:`Facebook OAuth <dotnet-login-facebook>`
+     - ``Credentials.Facebook(facebookToken)``
+   
+   * - :ref:`Sign-in With Apple <dotnet-login-apple>`
+     - ``Credentials.Apple(appleToken)``
+
+
+Before you can authenticate a user, ensure you have:
+
+- :ref:`Created a {+app+} <create-a-realm-app>`
+- Enabled one or more :ref:`authentication providers <authentication-providers>`
+- :ref:`Installed the .NET SDK <dotnet-install>`
+
 
 Log In
 ------
 
 .. _dotnet-login-anonymous:
 
-Anonymous
-~~~~~~~~~
+Anonymous Authentication
+~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. tabs-realm-languages::
-   
-   .. tab::
-      :tabid: c-sharp
-      
-      .. code-block:: csharp
+If you have enabled :ref:`Anonymous authentication <anonymous-authentication>` in the
+{+ui+}, users can immediately log into your app without providing any identifying
+information. The following code shows how to do this:
+
+.. literalinclude:: /examples/generated/code/start/Examples.codeblock.logon_anon.cs
+   :language: csharp
 
 .. _dotnet-login-email-password:
 
-Email/Password
-~~~~~~~~~~~~~~
+Email/Password Authentication
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. tabs-realm-languages::
-   
-   .. tab::
-      :tabid: c-sharp
-      
-      .. code-block:: csharp
+If you have enabled :ref:`Email/Password authentication <email-password-authentication>`,
+you can log in using the following code:
+
+.. literalinclude:: /examples/generated/code/start/Examples.codeblock.logon_EP.cs
+   :language: csharp
 
 .. _dotnet-login-api-key:
 
-API Key
-~~~~~~~
+API Key Authentication
+~~~~~~~~~~~~~~~~~~~~~~
+If you have enabled :ref:`API Key authentication <api-key-authentication>`,
+you can log in using the following code:
 
-.. tabs-realm-languages::
-   
-   .. tab::
-      :tabid: c-sharp
-      
-      .. code-block:: csharp
+.. literalinclude:: /examples/generated/code/start/Examples.codeblock.logon_API.cs
+   :language: csharp
 
 .. _dotnet-login-custom-function:
 
-Custom Function
-~~~~~~~~~~~~~~~
+Custom Function Authentication
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+If you have enabled the 
+:doc:`Custom Function authentication provider </authentication/custom-function>`,
+you can log in using the following code:
 
-.. tabs-realm-languages::
-   
-   .. tab::
-      :tabid: c-sharp
-      
-      .. code-block:: csharp
+.. literalinclude:: /examples/generated/code/start/Examples.codeblock.logon_Function.cs
+   :language: csharp
 
 .. _dotnet-login-custom-jwt:
 
-Custom JWT
-~~~~~~~~~~
+Custom JWT Authentication
+~~~~~~~~~~~~~~~~~~~~~~~~~
+If you have enabled the :doc:`Custom JWT authentication provider </authentication/custom-jwt>`,
+you can log in using the following code:
 
-.. tabs-realm-languages::
-   
-   .. tab::
-      :tabid: c-sharp
-      
-      .. code-block:: csharp
+.. literalinclude:: /examples/generated/code/start/Examples.codeblock.logon_JWT.cs
+   :language: csharp
 
 .. _dotnet-login-facebook:
 
-Facebook OAuth
-~~~~~~~~~~~~~~
+Facebook Authentication
+~~~~~~~~~~~~~~~~~~~~~~~
 
-.. tabs-realm-languages::
-   
-   .. tab::
-      :tabid: c-sharp
-      
-      .. code-block:: csharp
+If you have enabled :ref:`Facebook authentication <facebook-authentication>`,
+you can log in using the following code:
+
+.. literalinclude:: /examples/generated/code/start/Examples.codeblock.logon_fb.cs
+   :language: csharp
 
 .. _dotnet-login-google:
 
-Google OAuth
-~~~~~~~~~~~~
+Google Authentication
+~~~~~~~~~~~~~~~~~~~~~
 
-.. tabs-realm-languages::
-   
-   .. tab::
-      :tabid: c-sharp
-      
-      .. code-block:: csharp
+If you have enabled :ref:`Google authentication <google-authentication>`,
+you can log in using the following code:
+
+.. literalinclude:: /examples/generated/code/start/Examples.codeblock.logon_google.cs
+   :language: csharp
 
 .. _dotnet-login-apple:
 
 Sign-in with Apple
 ~~~~~~~~~~~~~~~~~~
+If you have enabled :ref:`Sign-in with Apple authentication <apple-id-authentication>`,
+you can log in using the following code:
 
-.. tabs-realm-languages::
-   
-   .. tab::
-      :tabid: c-sharp
-      
-      .. code-block:: csharp
+.. literalinclude:: /examples/generated/code/start/Examples.codeblock.logon_apple.cs
+   :language: csharp
 
 .. _dotnet-logout:
 
 Log Out
 -------
 
-.. tabs-realm-languages::
-   
-   .. tab::
-      :tabid: c-sharp
-      
-      .. code-block:: csharp
+Once logged in, you can log out by calling the ``LogOutAsync()`` method:
+
+.. literalinclude:: /examples/generated/code/start/Examples.codeblock.logout.cs
+   :language: csharp
+
+.. include:: /includes/log-out-queries-in-progress.rst
