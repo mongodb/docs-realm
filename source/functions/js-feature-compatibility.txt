@@ -1,0 +1,153 @@
+.. _js-feature-compat:
+
+================================
+JavaScript Feature Compatibility
+================================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+{+service+} :doc:`functions </functions>` fully support JavaScript ES5 syntax as
+well as most modern JavaScript features included in EcmaScript 2015 (ES6) and
+more recent releases. This page outlines Realm's support for a non-exhaustive
+list of features released in or since EcmaScript 2015.
+
+Syntax
+------
+
+.. list-table::
+   :header-rows: 1
+   :widths: 80 20
+   
+   * - Feature
+     - Supported
+   
+   * - :mdn:`arrow function expressions <Web/JavaScript/Reference/Functions/Arrow_functions>`
+     - Yes
+   
+   * - :mdn:`classes <Web/JavaScript/Reference/Classes>`
+     - Yes
+   
+   * - :mdn:`super <Web/JavaScript/Reference/Operators/super>`
+     - Yes
+   
+   * - :mdn:`generators <Web/JavaScript/Reference/Statements/function*>`
+     - Yes
+   
+   * - :mdn:`default function parameters <Web/JavaScript/Reference/Functions/Default_parameters>`
+     - Yes
+   
+   * - :mdn:`rest parameters <Web/JavaScript/Reference/Functions/rest_parameters>`
+     - Yes
+   
+   * - :mdn:`spread iterables <Web/JavaScript/Reference/Operators/Spread_syntax>`
+     - Yes
+   
+   * - :mdn:`object literal extensions <Web/JavaScript/Reference/Operators/Object_initializer#New_notations_in_ECMAScript_2015>`
+     - Yes
+   
+   * - :mdn:`for...of loops <Web/JavaScript/Reference/Statements/for...of>`
+     - Yes
+   
+   * - :mdn:`for await...of loops <Web/JavaScript/Reference/Statements/for-await...of>`
+     - Yes
+   
+   * - :mdn:`octal and binary literals <Web/JavaScript/Reference/Lexical_grammar#Binary>`
+     - Yes
+   
+   * - :mdn:`template literals <Web/JavaScript/Reference/Template_literals>`
+     - Yes
+   
+   * - :mdn:`destructuring assignment <Web/JavaScript/Reference/Operators/Destructuring_assignment>`
+     - Yes
+   
+   * - :mdn:`new.target <Web/JavaScript/Reference/Operators/new.target>`
+     - Yes
+   
+   * - :mdn:`RegExp -y and -u flags <Web/JavaScript/Guide/Regular_Expressions#Advanced_searching_with_flags_2>`
+     - No
+   
+   * - :mdn:`Exponentiation (**) <Web/JavaScript/Reference/Operators/Exponentiation>`
+     - Yes
+
+Built-In Objects
+----------------
+
+.. list-table::
+   :header-rows: 1
+   :widths: 80 20
+   
+   * - Feature
+     - Supported
+   
+   * - :mdn:`TypedArray <Web/JavaScript/Reference/Global_Objects/TypedArray>`
+     - Yes
+   
+   * - :mdn:`Map <Web/JavaScript/Reference/Global_Objects/Map>`
+     - Yes
+   
+   * - :mdn:`Set <Web/JavaScript/Reference/Global_Objects/Set>`
+     - Yes
+   
+   * - :mdn:`WeakMap <Web/JavaScript/Reference/Global_Objects/WeakMap>`
+     - Yes
+   
+   * - :mdn:`WeakSet <Web/JavaScript/Reference/Global_Objects/WeakSet>`
+     - No
+   
+   * - :mdn:`Proxy <Web/JavaScript/Reference/Global_Objects/Proxy>`
+     - No
+   
+   * - :mdn:`Reflect <Web/JavaScript/Reference/Global_Objects/Reflect>`
+     - No
+   
+   * - :mdn:`Promise <Web/JavaScript/Reference/Global_Objects/Promise>`
+     - Yes
+   
+   * - :mdn:`Symbol <Web/JavaScript/Reference/Global_Objects/Symbol>`
+     - Yes
+
+Built-In Object Methods & Properties
+------------------------------------
+
+.. list-table::
+   :header-rows: 1
+   :widths: 80 20
+   
+   * - Feature
+     - Supported
+   
+   * - :mdn:`Object static methods <Web/JavaScript/Reference/Global_Objects/Object#Static_methods>`
+     - Yes
+   
+   * - :mdn:`String static methods <Web/JavaScript/Reference/Global_Objects/String#Static_methods>`
+     - Yes
+   
+   * - :mdn:`String.prototype methods <Web/JavaScript/Reference/Global_Objects/String#Instance_methods>`
+     - Yes
+   
+   * - :mdn:`RegExp.prototype properties <Web/JavaScript/Reference/Global_Objects/RegExp#Instance_properties>`
+     - No
+   
+   * - :mdn:`Function.name <Web/JavaScript/Reference/Global_Objects/Function/name>`
+     - Yes
+   
+   * - :mdn:`Array static methods <Web/JavaScript/Reference/Global_Objects/Array#Static_methods>`
+     - Yes
+   
+   * - :mdn:`Array.prototype methods <Web/JavaScript/Reference/Global_Objects/Array#Instance_methods>`
+     - Yes
+   
+   * - :mdn:`Number static methods <Web/JavaScript/Reference/Global_Objects/Number#Static_methods>`
+     - No
+   
+   * - :mdn:`Math methods <Web/JavaScript/Reference/Global_Objects/Math#Static_methods>`
+     - No
