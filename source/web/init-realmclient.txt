@@ -71,30 +71,6 @@ of ``Realm.App``.
 .. note:: 
     
    ``id`` is a required field of the application configuration object. To see the full list of fields for the configuration object that ``Realm.App`` accepts as a parameter, view the :js-sdk:`App Configuration Type Definitions <Realm.App.html#~AppConfiguration>`.
-   
-
-.. _web-app-retrieve-client:
-
-Retrieve an Instance of the App Client
---------------------------------------
-
-To retrieve an instance of the App Client from anywhere in your application, call :js-sdk:`Realm.App.getApp() <Realm.App.html#getApp>` and pass in your ``App ID``. 
-
-.. tabs-realm-languages::
-
-      .. tab::
-         :tabid: typescript
-
-         .. code-block:: typescript
-
-            const app: Realm.App =  Realm.getApp("<Your App ID>"); // replace this with your App ID
-
-      .. tab::
-         :tabid: javascript
-
-         .. code-block:: javascript
-
-            const app = Realm.getApp("<Your App ID>"); // replace this with your App ID
 
 
   
