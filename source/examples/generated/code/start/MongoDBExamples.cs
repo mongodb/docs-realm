@@ -22,17 +22,15 @@ namespace UnitTests
         MongoClient.Collection<Plant> plantsCollection;
 
         [SetUp]
-        public void Setup()
+        public async Task Setup()
         {
             app = App.Create(myRealmAppId);
             user = app.LogInAsync(Credentials.EmailPassword("foo@foo.com", "foobar")).Result;
             config = new SyncConfiguration("My Project", user);
 
-            // :code-block-start: mongo-setup
             mongoClient = user.GetMongoClient("mongodb-atlas");
             dbPlantInventory = mongoClient.GetDatabase("inventory");
             plantsCollection = dbPlantInventory.GetCollection<Plant>("plants");
-            // :code-block-end:
 
             return;
         }
@@ -40,7 +38,6 @@ namespace UnitTests
         [Test]
         public async Task InsertsOne()
         {
-            // :code-block-start: mongo-insert-one
             var plant = new Plant
             {
                 Name = "Venus Flytrap",
@@ -52,14 +49,12 @@ namespace UnitTests
 
             var insertResult = await plantsCollection.InsertOneAsync(plant);
             var newId = insertResult.InsertedId;
-            // :code-block-end:
             Assert.IsNotNull(plant.Id);
             Assert.AreEqual(newId, plant.Id);
         }
         [Test]
         public async Task InsertsMany()
         {
-            // :code-block-start: mongo-insert-many
             var sweetBasil = new Plant
             {
                 Name = "Sweet Basil",
@@ -103,7 +98,6 @@ namespace UnitTests
 
             var insertResult = await plantsCollection.InsertManyAsync(listofPlants);
             var newIds = insertResult.InsertedIds;
-            // :code-block-end:
 
             Assert.AreEqual(newIds[0], sweetBasil.Id);
             Assert.AreEqual(newIds[1], thaiBasil.Id);
@@ -114,19 +108,13 @@ namespace UnitTests
         [Test]
         public async Task ReadsDocuments()
         {
-            // :code-block-start: mongo-find-one
-            var petunia = await plantsCollection.FindOneAsync(
+            var petunia = await plantsCollection.FindOneAsync<Plant>(
                 new BsonDocument("name", "petunia"), null);
-            // :code-block-end:
             Assert.AreEqual(petunia.Partition, "Store 47");
-            // :code-block-start: mongo-find-many
-            var allPerennials = await plantsCollection.FindAsync(
+            var allPerennials = await plantsCollection.FindAsync<Plant>(
                 new BsonDocument("type", PlantType.perennial), null);
-            // :code-block-end:
             Assert.AreEqual(2, allPerennials.Count());
-            // :code-block-start: mongo-count
             var allPlants = await plantsCollection.CountAsync();
-            // :code-block-end:
             Assert.AreEqual(5, allPlants);
         }
 
@@ -134,25 +122,20 @@ namespace UnitTests
         public async Task UpdatesDocuments()
         {
             {
-                // :code-block-start: mongo-update-one
                 var updateResult = await plantsCollection.UpdateOneAsync(
                     new BsonDocument("name", "petunia"),
                     new BsonDocument("sunlight", Sunlight.partial));
-                // :code-block-end:
                 Assert.AreEqual(1, updateResult.MatchedCount);
                 Assert.AreEqual(1, updateResult.ModifiedCount);
             }
             {
-                // :code-block-start: mongo-update-many
                 var updateResult = await plantsCollection.UpdateManyAsync(
                  new BsonDocument("_partition", "store 47"),
                     new BsonDocument("_partition", "area 51"));
-                // :code-block-end:
                 Assert.AreEqual(1, updateResult.MatchedCount);
                 Assert.AreEqual(1, updateResult.ModifiedCount);
             }
             {
-                // :code-block-start: mongo-upsert
                 var filter = new BsonDocument("name", "Pothos")
                     .Add("type", PlantType.perennial)
                     .Add("sunlight", Sunlight.full);
@@ -171,7 +154,6 @@ namespace UnitTests
                    "_partition": "Store 42"
                 }
                 */
-                // :code-block-end:
 
                 var plant = await plantsCollection.FindOneAsync(filter, null);
                 Assert.AreEqual("store 42", plant.Partition);
@@ -191,19 +173,15 @@ namespace UnitTests
             config = new SyncConfiguration("My Project", user);
             using var realm = await Realm.GetInstanceAsync(config);
             {
-                // :code-block-start: mongo-delete-one
                 var filter = new BsonDocument("name", "Thai Basil");
-                //var deleteResult = await plantsCollection.DeleteOneAsync(filter);
-                // :code-block-end:
+                var deleteResult = await plantsCollection.DeleteOneAsync(filter);
             }
             {
-                // :code-block-start: mongo-delete-many
                 var filter = new BsonDocument("type", PlantType.annual);
-                //var deleteResult = await plantsCollection.DeleteManyAsync(filter);
-                // :code-block-end:
+                var deleteResult = await plantsCollection.DeleteManyAsync(filter);
             }
-            //await plantsCollection.DeleteManyAsync();
-            //Assert.AreEqual(0, plantsCollection.CountAsync());
+            await plantsCollection.DeleteManyAsync();
+            Assert.AreEqual(0, plantsCollection.CountAsync());
 
             await user.LogOutAsync();
 
