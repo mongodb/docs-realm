@@ -26,7 +26,9 @@ namespace Examples
         public string Partition { get; set; }
 
         public Plant()
-        { }
+        {
+            this.Id = ObjectId.GenerateNewId();
+        }
     }
     public enum Sunlight
     {

@@ -21,7 +21,7 @@ namespace UnitTests
         MongoClient.Database dbPlantInventory;
         MongoClient.Collection<Plant> plantsCollection;
 
-        [SetUp]
+        [OneTimeSetUp]
         public void Setup()
         {
             app = App.Create(myRealmAppId);
@@ -116,12 +116,12 @@ namespace UnitTests
         {
             // :code-block-start: mongo-find-one
             var petunia = await plantsCollection.FindOneAsync(
-                new BsonDocument("name", "petunia"), null);
+                new BsonDocument("Name", "Petunia"), null);
             // :code-block-end:
-            Assert.AreEqual(petunia.Partition, "Store 47");
+            Assert.AreEqual("Store 47", petunia.Partition);
             // :code-block-start: mongo-find-many
             var allPerennials = await plantsCollection.FindAsync(
-                new BsonDocument("type", PlantType.perennial), null);
+                new BsonDocument("Type", PlantType.perennial), null);
             // :code-block-end:
             Assert.AreEqual(2, allPerennials.Count());
             // :code-block-start: mongo-count
@@ -136,30 +136,34 @@ namespace UnitTests
             {
                 // :code-block-start: mongo-update-one
                 var updateResult = await plantsCollection.UpdateOneAsync(
-                    new BsonDocument("name", "petunia"),
-                    new BsonDocument("sunlight", Sunlight.partial));
+                    new BsonDocument("Name", "Petunia"),
+                    new BsonDocument("Sunlight", Sunlight.partial));
                 // :code-block-end:
                 Assert.AreEqual(1, updateResult.MatchedCount);
                 Assert.AreEqual(1, updateResult.ModifiedCount);
             }
             {
                 // :code-block-start: mongo-update-many
+                var foo = plantsCollection.FindAsync(
+                 new BsonDocument("Partition", "Store 47")).Result;
+
+
                 var updateResult = await plantsCollection.UpdateManyAsync(
-                 new BsonDocument("_partition", "store 47"),
-                    new BsonDocument("_partition", "area 51"));
+                    new BsonDocument("$set", new BsonDocument("Partition", "Area 51")),
+                    new BsonDocument("Partition", "Store 47"));
                 // :code-block-end:
                 Assert.AreEqual(1, updateResult.MatchedCount);
                 Assert.AreEqual(1, updateResult.ModifiedCount);
             }
             {
                 // :code-block-start: mongo-upsert
-                var filter = new BsonDocument("name", "Pothos")
-                    .Add("type", PlantType.perennial)
-                    .Add("sunlight", Sunlight.full);
+                var filter = new BsonDocument("Name", "Pothos")
+                    .Add("Type", PlantType.perennial)
+                    .Add("Sunlight", Sunlight.full);
 
                 var updateResult = await plantsCollection.UpdateOneAsync(
+                    new BsonDocument("$set", new BsonDocument("Partition", "Store 42")),
                     filter,
-                    new BsonDocument("_partition", "store 42"),
                     upsert: true);
 
                 /* The upsert will create the following object:
@@ -174,7 +178,7 @@ namespace UnitTests
                 // :code-block-end:
 
                 var plant = await plantsCollection.FindOneAsync(filter, null);
-                Assert.AreEqual("store 42", plant.Partition);
+                Assert.AreEqual("Store 42", plant.Partition);
                 Assert.AreEqual(plant.Id, updateResult.UpsertedId);
             }
         }
@@ -184,26 +188,24 @@ namespace UnitTests
         {
 
         }
-
-        [TearDown]
+        [OneTimeTearDown]
         public async Task TearDown()
         {
             config = new SyncConfiguration("My Project", user);
             using var realm = await Realm.GetInstanceAsync(config);
             {
                 // :code-block-start: mongo-delete-one
-                var filter = new BsonDocument("name", "Thai Basil");
-                //var deleteResult = await plantsCollection.DeleteOneAsync(filter);
+                var filter = new BsonDocument("Name", "Thai Basil");
+                var deleteResult = await plantsCollection.DeleteOneAsync(filter);
                 // :code-block-end:
             }
             {
                 // :code-block-start: mongo-delete-many
-                var filter = new BsonDocument("type", PlantType.annual);
-                //var deleteResult = await plantsCollection.DeleteManyAsync(filter);
+                var filter = new BsonDocument("Type", PlantType.annual);
+                var deleteResult = await plantsCollection.DeleteManyAsync(filter);
                 // :code-block-end:
             }
-            //await plantsCollection.DeleteManyAsync();
-            //Assert.AreEqual(0, plantsCollection.CountAsync());
+             await plantsCollection.DeleteManyAsync();
 
             await user.LogOutAsync();
 
