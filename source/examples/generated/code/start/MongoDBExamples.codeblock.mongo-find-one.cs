@@ -1,2 +1,2 @@
 var petunia = await plantsCollection.FindOneAsync(
-    new BsonDocument("Name", "Petunia"), null);
+    new BsonDocument("name", "Petunia"), null);

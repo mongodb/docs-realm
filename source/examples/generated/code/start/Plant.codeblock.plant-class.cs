@@ -1,41 +1,46 @@
 public class Plant
 {
     [PrimaryKey]
-    [MapTo("_id")]
+    [BsonElement("_id")]
     public ObjectId Id { get; set; }
 
-    [MapTo("name")]
+    [BsonElement("name")]
     public string Name { get; set; }
 
-    [MapTo("sunlight")]
+    [BsonElement("sunlight")]
+    [BsonRepresentation(BsonType.String)]
     public Sunlight Sunlight { get; set; }
 
-    [MapTo("color")]
+    [BsonElement("color")]
+    [BsonRepresentation(BsonType.String)]
     public PlantColor Color { get; set; }
 
-    [MapTo("type")]
+    [BsonElement("type")]
+    [BsonRepresentation(BsonType.String)]
     public PlantType Type { get; set; }
 
-    [MapTo("_partition")]
+    [BsonElement("_partition")]
     public string Partition { get; set; }
 
     public Plant()
-    { }
+    {
+        this.Id = ObjectId.GenerateNewId();
+    }
 }
 public enum Sunlight
 {
-    full,
-    partial
+    Full,
+    Partial
 }
 public enum PlantColor
 {
-    white,
-    green,
-    yellow,
-    purple
+    White,
+    Green,
+    Yellow,
+    Purple
 }
 public enum PlantType
 {
-    perennial,
-    annual
+    Perennial,
+    Annual
 }

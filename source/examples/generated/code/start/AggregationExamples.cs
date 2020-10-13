@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Examples;
@@ -32,7 +33,7 @@ namespace UnitTests
         {
             app = App.Create(myRealmAppId);
             user = app.LogInAsync(Credentials.EmailPassword("foo@foo.com", "foobar")).Result;
-            config = new SyncConfiguration("My Project", user);
+            config = new SyncConfiguration("myPartition", user);
             mongoClient = user.GetMongoClient("mongodb-atlas");
             dbPlantInventory = mongoClient.GetDatabase("inventory");
             plantsCollection = dbPlantInventory.GetCollection<Plant>("plants");
@@ -97,38 +98,77 @@ namespace UnitTests
         [Test]
         public async Task GroupsAndCounts()
         {
-            var pipeline = new object[] {
+            var groupStage =
                 new BsonDocument("$group",
-                new BsonDocument
+                    new BsonDocument
                     {
-                        { "_id", "$Type" },
-                        { "count",
-                new BsonDocument("$sum", 1) }
-                    }),
-                new BsonDocument("$sort",
-                new BsonDocument("_id", 1))
-            };
+                        { "_id", "$type" },
+                        { "count", new BsonDocument("$sum", 1) }
+                    });
+            
+            var sortStage = new BsonDocument("$sort",
+                new BsonDocument("_id", 1));
 
-            var aggResult = await plantsCollection.AggregateAsync(pipeline);
+            var aggResult = await plantsCollection.AggregateAsync(groupStage, sortStage);
+            foreach (var item in aggResult)
+            {
+                var id = item["_id"];
+                var count = item["count"];
+                Console.WriteLine($"Id: {id}, Count: {count}");
+            }
 
-            Assert.AreEqual("_id=0", aggResult[0].GetElement("_id").ToString());
-            Assert.AreEqual("count=2", aggResult[0].GetElement("count").ToString());
-            Assert.AreEqual("_id=1", aggResult[1].GetElement("_id").ToString());
-            Assert.AreEqual("count=3", aggResult[1].GetElement("count").ToString());
+            Assert.AreEqual(0, aggResult[0]["_id"].AsInt32);
+            Assert.AreEqual(1, aggResult[1]["_id"].AsInt32);
+            Assert.AreEqual(2, aggResult[0]["count"].AsInt32);
+            Assert.AreEqual(3, aggResult[1]["count"].AsInt32);
 
+            var groupStep = BsonDocument.Parse(@"
+              {
+                '$group': {
+                  '_id': '$type', 
+                  'count': {
+                    '$sum': 1
+                  }
+                }
+              }
+            ");
+
+            var sortStep = BsonDocument.Parse("{$sort: { _id: 1}}");
+            
+            aggResult = await plantsCollection.AggregateAsync(groupStep, sortStep);
+            foreach (var item in aggResult)
+            {
+                var id = item["_id"];
+                var count = item["count"];
+                Console.WriteLine($"Id: {id}, Count: {count}");
+            }
+            Assert.AreEqual(0, aggResult[0]["_id"].AsInt32);
+            Assert.AreEqual(1, aggResult[1]["_id"].AsInt32);
+            Assert.AreEqual(2, aggResult[0]["count"].AsInt32);
+            Assert.AreEqual(3, aggResult[1]["count"].AsInt32);
         }
 
         [Test]
         public async Task Filters()
         {
-            var pipeline = new object[] {
-                new BsonDocument("$match",
-                    new BsonDocument("Type",
-                        new BsonDocument("$eq", PlantType.perennial)))
-            };
+            var matchStage = new BsonDocument("$match",
+                    new BsonDocument("type",
+                        new BsonDocument("$eq",
+                            PlantType.perennial)));
 
-            var aggResult = await plantsCollection.AggregateAsync<Plant>(pipeline);
+            // Alternate approach using BsonDocument.Parse(...)
+            matchStage = BsonDocument.Parse(@"{
+              $match: {
+                type: { $eq: " + (int)PlantType.perennial + @" }
+              }}");
 
+            var sortStage = BsonDocument.Parse("{$sort: { _id: 1}}");
+
+            var aggResult = await plantsCollection.AggregateAsync<Plant>(matchStage, sortStage);
+            foreach (var plant in aggResult)
+            {
+                Console.WriteLine($"Plant Name: {plant.Name}, Color: {plant.Color}");
+            }
             Assert.AreEqual(2, aggResult.Length);
             Assert.AreEqual(venus.Id, aggResult[0].Id);
             Assert.AreEqual(venus.Name, aggResult[0].Name);
@@ -139,69 +179,42 @@ namespace UnitTests
         [Test]
         public async Task Projects()
         {
-            var pipeline = new object[] {
-                new BsonDocument("$project",
-                new BsonDocument
-                {
-                    { "Partition", 1 },
-                    { "Type", 1 },
-                    { "Name", 1 },
-                    { "StoreNumber",
-                        new BsonDocument("$arrayElemAt",
-                        new BsonArray {
-                            new BsonDocument("$split",
-                            new BsonArray
-                                {
-                                    "$Partition",
-                                    " "
-                                }), 1 }) }
-                }),
-                new BsonDocument("$project", new BsonDocument("Id", 0))
-            };
-
-            var aggResult = await plantsCollection.AggregateAsync(pipeline);
-
-            Assert.AreEqual(5, aggResult.Length);
-            Assert.Throws<KeyNotFoundException>(() => aggResult[0].GetElement("Id"));
-            Assert.AreEqual("StoreNumber=42", aggResult[0].GetElement("StoreNumber").ToString());
-        }
-
-        [Test]
-        public async Task UnwindsAfterALongDay()
-        {
-            var pipeline = new object[] {
-                new BsonDocument("$project",
+            var projectStage = new BsonDocument("$project",
                 new BsonDocument
                 {
                     { "_id", 0 },
-                    { "Partition", 1 },
-                    { "Type", 1 },
-                    { "Name", 1 },
-                    { "StoreNumber",
+                    { "_partition", 1 },
+                    { "type", 1 },
+                    { "name", 1 },
+                    { "storeNumber",
                         new BsonDocument("$arrayElemAt",
                         new BsonArray {
                             new BsonDocument("$split",
                             new BsonArray
                                 {
-                                    "$Partition",
+                                    "$_partition",
                                     " "
                                 }), 1 }) }
-                })
-            };
+                });
 
-            var aggResult = await plantsCollection.AggregateAsync(pipeline);
+            var sortStage = BsonDocument.Parse("{$sort: { storeNumber: 1}}");
+
+            var aggResult = await plantsCollection.AggregateAsync(projectStage, sortStage);
+            foreach (var item in aggResult)
+            {
+                Console.WriteLine($"{item["name"]} is in store #{item["storeNumber"]}.");
+            }
 
             Assert.AreEqual(5, aggResult.Length);
-            Assert.Throws<KeyNotFoundException>(() => aggResult[0].GetElement("Id"));
-            Assert.AreEqual("StoreNumber=42", aggResult[0].GetElement("StoreNumber").ToString());
+            Assert.Throws<KeyNotFoundException>(() => aggResult[0].GetElement("_id"));
+            Assert.AreEqual("storeNumber=42", aggResult[0].GetElement("storeNumber").ToString());
         }
+
         [OneTimeTearDown]
         public async Task TearDown()
         {
-            config = new SyncConfiguration("My Project", user);
+            config = new SyncConfiguration("myPartition", user);
             await plantsCollection.DeleteManyAsync();
-            await user.LogOutAsync();
-
             return;
         }
     }

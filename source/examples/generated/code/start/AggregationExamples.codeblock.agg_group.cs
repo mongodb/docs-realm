@@ -1,18 +1,18 @@
-var pipeline = new object[] {
+var groupStage =
     new BsonDocument("$group",
-    new BsonDocument
+        new BsonDocument
         {
-            { "_id", "$Type" },
-            { "count",
-    new BsonDocument("$sum", 1) }
-        }),
-    new BsonDocument("$sort",
-    new BsonDocument("_id", 1))
-};
+            { "_id", "$type" },
+            { "count", new BsonDocument("$sum", 1) }
+        });
 
-var aggResult = await plantsCollection.AggregateAsync(pipeline);
+var sortStage = new BsonDocument("$sort",
+    new BsonDocument("_id", 1));
 
-Assert.AreEqual("_id=0", aggResult[0].GetElement("_id").ToString());
-Assert.AreEqual("count=2", aggResult[0].GetElement("count").ToString());
-Assert.AreEqual("_id=1", aggResult[1].GetElement("_id").ToString());
-Assert.AreEqual("count=3", aggResult[1].GetElement("count").ToString());
+var aggResult = await plantsCollection.AggregateAsync(groupStage, sortStage);
+foreach (var item in aggResult)
+{
+    var id = item["_id"];
+    var count = item["count"];
+    Console.WriteLine($"Id: {id}, Count: {count}");
+}

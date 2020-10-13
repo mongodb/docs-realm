@@ -1,13 +1,12 @@
 using System;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
-using dotnet;
 using MongoDB.Bson;
 using NUnit.Framework;
 using Realms;
 using Realms.Sync;
 using TaskStatus = dotnet.TaskStatus;
+using Task = dotnet.Task;
 
 namespace UnitTests
 {
@@ -15,19 +14,19 @@ namespace UnitTests
     {
         App app;
         ObjectId testTaskId;
-        User user;
+        Realms.Sync.User user;
         SyncConfiguration config;
         const string myRealmAppId = "tuts-tijya";
 
         [OneTimeSetUp]
-        public async Task Setup()
+        public async System.Threading.Tasks.Task Setup()
         {
             app = App.Create(myRealmAppId);
             user = app.LogInAsync(Credentials.EmailPassword("foo@foo.com", "foobar")).Result;
-            config = new SyncConfiguration("My Project", user);
+            config = new SyncConfiguration("myPartition", user);
             var realm = await Realm.GetInstanceAsync(config);
             var synchronousRealm = Realm.GetInstance(config);
-            var testTask = new RealmTask
+            var testTask = new Task
             {
                 Name = "Do this thing",
                 Status = TaskStatus.Open.ToString()
@@ -37,7 +36,7 @@ namespace UnitTests
             {
                 realm.Add(testTask);
             });
-            testTaskId = testTask.Id;
+            testTaskId = testTask._id;
             return;
         }
 
@@ -74,33 +73,33 @@ namespace UnitTests
         }
 
         [Test]
-        public async Task GetsSyncedTasks()
+        public async System.Threading.Tasks.Task GetsSyncedTasks()
         {
             var user = app.LogInAsync(Credentials.Anonymous()).Result;
-            config = new SyncConfiguration("My Project", user);
+            config = new SyncConfiguration("myPartition", user);
             var realm = await Realm.GetInstanceAsync(config);
-            var tasks = realm.All<RealmTask>();
+            var tasks = realm.All<Task>();
             Assert.AreEqual(1, tasks.Count(),"Get All");
-            tasks = realm.All<RealmTask>().Where(t => t.Status == "Open");
+            tasks = realm.All<Task>().Where(t => t.Status == "Open");
             Assert.AreEqual(1, tasks.Count(), "Get Some");
             return;
         }
 
         [Test]
-        public async Task ScopesARealm()
+        public async System.Threading.Tasks.Task ScopesARealm()
         {
-            config = new SyncConfiguration("My Project", user);
+            config = new SyncConfiguration("myPartition", user);
             using var realm = await Realm.GetInstanceAsync(config);
-            var allTasks = realm.All<RealmTask>();
+            var allTasks = realm.All<Task>();
         }
 
         [Test]
-        public async Task ModifiesATask()
+        public async System.Threading.Tasks.Task ModifiesATask()
         {
-            config = new SyncConfiguration("My Project", user);
+            config = new SyncConfiguration("myPartition", user);
             var realm = await Realm.GetInstanceAsync(config);
-            var t = realm.All<RealmTask>()
-                .Where(t => t.Id == testTaskId)
+            var t = realm.All<Task>()
+                .Where(t => t._id == testTaskId)
                 .FirstOrDefault();
 
             realm.Write(() =>
@@ -108,7 +107,7 @@ namespace UnitTests
                 t.Status = TaskStatus.InProgress.ToString();
             });
 
-            var allTasks = realm.All<RealmTask>().ToList();
+            var allTasks = realm.All<Task>().ToList();
             Assert.AreEqual(1, allTasks.Count);
             Assert.AreEqual(TaskStatus.InProgress.ToString(), allTasks.First().Status);
 
@@ -116,7 +115,7 @@ namespace UnitTests
         }
 
         [Test]
-        public async Task LogsOnManyWays()
+        public async System.Threading.Tasks.Task LogsOnManyWays()
         {
             {
                 var user = await app.LogInAsync(Credentials.Anonymous());
@@ -190,7 +189,7 @@ namespace UnitTests
         }
 
         [Test]
-        public async Task CallsAFunction()
+        public async System.Threading.Tasks.Task CallsAFunction()
         {
             var bsonValue = await
                 user.Functions.CallAsync("sum", 2, 40);
@@ -212,16 +211,18 @@ namespace UnitTests
         }
 
         [OneTimeTearDown]
-        public async Task TearDown()
+        public async System.Threading.Tasks.Task TearDown()
         {
-            config = new SyncConfiguration("My Project", user);
+            config = new SyncConfiguration("myPartition", user);
             using (var realm = await Realm.GetInstanceAsync(config))
             {
                 realm.Write(() =>
                 {
-                    realm.RemoveAll<RealmTask>();
+                    realm.RemoveAll<Task>();
                 });
-                //await user.LogOutAsync();
+
+                var realmUser = await app.LogInAsync(Credentials.Anonymous());
+                await realmUser.LogOutAsync();
             }
             return;
         }

@@ -1,2 +1,2 @@
-var filter = new BsonDocument("Type", PlantType.annual);
-//var deleteResult = await plantsCollection.DeleteManyAsync(filter);
+var filter = new BsonDocument("type", PlantType.Annual);
+var deleteResult = await plantsCollection.DeleteManyAsync(filter);

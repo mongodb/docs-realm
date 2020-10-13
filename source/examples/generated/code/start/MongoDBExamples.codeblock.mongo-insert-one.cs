@@ -1,9 +1,9 @@
 var plant = new Plant
 {
     Name = "Venus Flytrap",
-    Sunlight = Sunlight.full,
-    Color = PlantColor.white,
-    Type = PlantType.perennial,
+    Sunlight = Sunlight.Full,
+    Color = PlantColor.White,
+    Type = PlantType.Perennial,
     Partition = "Store 42"
 };
 

@@ -22,69 +22,69 @@ namespace UnitTests
         MongoClient.Collection<Plant> plantsCollection;
 
         [OneTimeSetUp]
-        public void Setup()
+        public async Task Setup()
         {
             app = App.Create(myRealmAppId);
-            user = app.LogInAsync(Credentials.EmailPassword("foo@foo.com", "foobar")).Result;
-            config = new SyncConfiguration("My Project", user);
+            user = await app.LogInAsync(Credentials.EmailPassword("foo@foo.com", "foobar"));
+            config = new SyncConfiguration("myPartition", user);
 
             mongoClient = user.GetMongoClient("mongodb-atlas");
             dbPlantInventory = mongoClient.GetDatabase("inventory");
             plantsCollection = dbPlantInventory.GetCollection<Plant>("plants");
 
+            await InsertsOne();
+            await InsertsMany();
             return;
         }
 
-        [Test]
         public async Task InsertsOne()
         {
             var plant = new Plant
             {
                 Name = "Venus Flytrap",
-                Sunlight = Sunlight.full,
-                Color = PlantColor.white,
-                Type = PlantType.perennial,
+                Sunlight = Sunlight.Full,
+                Color = PlantColor.White,
+                Type = PlantType.Perennial,
                 Partition = "Store 42"
             };
 
             var insertResult = await plantsCollection.InsertOneAsync(plant);
             var newId = insertResult.InsertedId;
-            Assert.IsNotNull(plant.Id);
-            Assert.AreEqual(newId, plant.Id);
+            
         }
-        [Test]
+       
         public async Task InsertsMany()
         {
             var sweetBasil = new Plant
             {
                 Name = "Sweet Basil",
-                Sunlight = Sunlight.partial,
-                Color = PlantColor.green,
-                Type = PlantType.annual,
+                Sunlight = Sunlight.Partial,
+                Color = PlantColor.Green,
+                Type = PlantType.Annual,
                 Partition = "Store 42"
             };
             var thaiBasil = new Plant
             {
                 Name = "Thai Basil",
-                Sunlight = Sunlight.partial,
-                Color = PlantColor.green,
-                Type = PlantType.perennial,
+                Sunlight = Sunlight.Partial,
+                Color = PlantColor.Green,
+                Type = PlantType.Perennial,
                 Partition = "Store 42"
             };
             var helianthus = new Plant
             {
                 Name = "Helianthus",
-                Sunlight = Sunlight.full,
-                Color = PlantColor.yellow,
-                Type = PlantType.annual,
+                Sunlight = Sunlight.Full,
+                Color = PlantColor.Yellow,
+                Type = PlantType.Annual,
                 Partition = "Store 42"
             };
             var petunia = new Plant
             {
                 Name = "Petunia",
-                Sunlight = Sunlight.full,
-                Color = PlantColor.purple,
-                Type = PlantType.annual,
+                Sunlight = Sunlight.Full,
+                Color = PlantColor.Purple,
+                Type = PlantType.Annual,
                 Partition = "Store 47"
             };
 
@@ -98,21 +98,16 @@ namespace UnitTests
 
             var insertResult = await plantsCollection.InsertManyAsync(listofPlants);
             var newIds = insertResult.InsertedIds;
-
-            Assert.AreEqual(newIds[0], sweetBasil.Id);
-            Assert.AreEqual(newIds[1], thaiBasil.Id);
-            Assert.AreEqual(newIds[2], helianthus.Id);
-            Assert.AreEqual(newIds[3], petunia.Id);
         }
 
         [Test]
         public async Task ReadsDocuments()
         {
             var petunia = await plantsCollection.FindOneAsync(
-                new BsonDocument("Name", "Petunia"), null);
+                new BsonDocument("name", "Petunia"), null);
             Assert.AreEqual("Store 47", petunia.Partition);
             var allPerennials = await plantsCollection.FindAsync(
-                new BsonDocument("Type", PlantType.perennial), null);
+                new BsonDocument("type", PlantType.Perennial.ToString()), null);
             Assert.AreEqual(2, allPerennials.Count());
             var allPlants = await plantsCollection.CountAsync();
             Assert.AreEqual(5, allPlants);
@@ -123,26 +118,26 @@ namespace UnitTests
         {
             {
                 var updateResult = await plantsCollection.UpdateOneAsync(
-                    new BsonDocument("Sunlight", Sunlight.partial),
-                    new BsonDocument("Name", "Petunia"));
+                    new BsonDocument("sunlight", Sunlight.Partial.ToString()),
+                    new BsonDocument("name", "Petunia"));
                 Assert.AreEqual(1, updateResult.MatchedCount);
                 Assert.AreEqual(1, updateResult.ModifiedCount);
             }
             {
                 var updateResult = await plantsCollection.UpdateManyAsync(
-                    new BsonDocument("Partition", "Store 47"),
-                    new BsonDocument("$set", new BsonDocument("Partition", "Area 51")));
+                    new BsonDocument("_partition", "Store 47"),
+                    new BsonDocument("$set", new BsonDocument("_partition", "Area 51")));
                 Assert.AreEqual(1, updateResult.MatchedCount);
                 Assert.AreEqual(1, updateResult.ModifiedCount);
             }
             {
-                var filter = new BsonDocument("Name", "Pothos")
-                    .Add("Type", PlantType.perennial)
-                    .Add("Sunlight", Sunlight.full);
+                var filter = new BsonDocument("name", "Pothos")
+                    .Add("type", PlantType.Perennial)
+                    .Add("sunlight", Sunlight.Full);
 
                 var updateResult = await plantsCollection.UpdateOneAsync(
                     filter,
-                    new BsonDocument("$set", new BsonDocument("Partition", "Store 42")),
+                    new BsonDocument("$set", new BsonDocument("_partition", "Store 42")),
                     upsert: true);
 
                 /* The upsert will create the following object:
@@ -164,20 +159,17 @@ namespace UnitTests
         [OneTimeTearDown]
         public async Task TearDown()
         {
-            config = new SyncConfiguration("My Project", user);
+            config = new SyncConfiguration("myPartition", user);
             using var realm = await Realm.GetInstanceAsync(config);
             {
-                var filter = new BsonDocument("Name", "Thai Basil");
-               // var deleteResult = await plantsCollection.DeleteOneAsync(filter);
+                var filter = new BsonDocument("name", "Thai Basil");
+                var deleteResult = await plantsCollection.DeleteOneAsync(filter);
             }
             {
-                var filter = new BsonDocument("Type", PlantType.annual);
-                //var deleteResult = await plantsCollection.DeleteManyAsync(filter);
+                var filter = new BsonDocument("type", PlantType.Annual);
+                var deleteResult = await plantsCollection.DeleteManyAsync(filter);
             }
-           // await plantsCollection.DeleteManyAsync();
-
-           // await user.LogOutAsync();
-
+            await plantsCollection.DeleteManyAsync();
             return;
         }
     }

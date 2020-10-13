@@ -1,2 +1,2 @@
- var filter = new BsonDocument("Name", "Thai Basil");
-// var deleteResult = await plantsCollection.DeleteOneAsync(filter);
+var filter = new BsonDocument("name", "Thai Basil");
+var deleteResult = await plantsCollection.DeleteOneAsync(filter);

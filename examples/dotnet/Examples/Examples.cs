@@ -1,13 +1,12 @@
 using System;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
-using dotnet;
 using MongoDB.Bson;
 using NUnit.Framework;
 using Realms;
 using Realms.Sync;
 using TaskStatus = dotnet.TaskStatus;
+using Task = dotnet.Task;
 
 namespace UnitTests
 {
@@ -15,26 +14,26 @@ namespace UnitTests
     {
         App app;
         ObjectId testTaskId;
-        User user;
+        Realms.Sync.User user;
         SyncConfiguration config;
         const string myRealmAppId = "tuts-tijya";
 
         [OneTimeSetUp]
-        public async Task Setup()
+        public async System.Threading.Tasks.Task Setup()
         {
             // :code-block-start: initialize-realm
             app = App.Create(myRealmAppId);
             // :code-block-end:
             user = app.LogInAsync(Credentials.EmailPassword("foo@foo.com", "foobar")).Result;
             // :code-block-start: open-synced-realm
-            config = new SyncConfiguration("My Project", user);
+            config = new SyncConfiguration("myPartition", user);
             var realm = await Realm.GetInstanceAsync(config);
             // :code-block-end:
             // :code-block-start: open-synced-realm-sync
             var synchronousRealm = Realm.GetInstance(config);
             // :code-block-end:
             // :code-block-start: create
-            var testTask = new RealmTask
+            var testTask = new Task
             {
                 Name = "Do this thing",
                 Status = TaskStatus.Open.ToString()
@@ -45,7 +44,7 @@ namespace UnitTests
                 realm.Add(testTask);
             });
             // :code-block-end:
-            testTaskId = testTask.Id;
+            testTaskId = testTask._id;
             return;
         }
 
@@ -86,44 +85,44 @@ namespace UnitTests
         }
 
         [Test]
-        public async Task GetsSyncedTasks()
+        public async System.Threading.Tasks.Task GetsSyncedTasks()
         {
             // :code-block-start: anon-login
             var user = app.LogInAsync(Credentials.Anonymous()).Result;
             // :code-block-end:
             // :code-block-start: config
-            config = new SyncConfiguration("My Project", user);
+            config = new SyncConfiguration("myPartition", user);
             var realm = await Realm.GetInstanceAsync(config);
             // :code-block-end:
             // :code-block-start: read-all
-            var tasks = realm.All<RealmTask>();
+            var tasks = realm.All<Task>();
             // :code-block-end:
             Assert.AreEqual(1, tasks.Count(),"Get All");
             // :code-block-start: read-some
-            tasks = realm.All<RealmTask>().Where(t => t.Status == "Open");
+            tasks = realm.All<Task>().Where(t => t.Status == "Open");
             // :code-block-end:
             Assert.AreEqual(1, tasks.Count(), "Get Some");
             return;
         }
 
         [Test]
-        public async Task ScopesARealm()
+        public async System.Threading.Tasks.Task ScopesARealm()
         {
             // :code-block-start: scope
-            config = new SyncConfiguration("My Project", user);
+            config = new SyncConfiguration("myPartition", user);
             using var realm = await Realm.GetInstanceAsync(config);
-            var allTasks = realm.All<RealmTask>();
+            var allTasks = realm.All<Task>();
             // :code-block-end:
         }
 
         [Test]
-        public async Task ModifiesATask()
+        public async System.Threading.Tasks.Task ModifiesATask()
         {
-            config = new SyncConfiguration("My Project", user);
+            config = new SyncConfiguration("myPartition", user);
             var realm = await Realm.GetInstanceAsync(config);
             // :code-block-start: modify
-            var t = realm.All<RealmTask>()
-                .Where(t => t.Id == testTaskId)
+            var t = realm.All<Task>()
+                .Where(t => t._id == testTaskId)
                 .FirstOrDefault();
 
             realm.Write(() =>
@@ -132,7 +131,7 @@ namespace UnitTests
             });
 
             // :code-block-end:
-            var allTasks = realm.All<RealmTask>().ToList();
+            var allTasks = realm.All<Task>().ToList();
             Assert.AreEqual(1, allTasks.Count);
             Assert.AreEqual(TaskStatus.InProgress.ToString(), allTasks.First().Status);
 
@@ -140,7 +139,7 @@ namespace UnitTests
         }
 
         [Test]
-        public async Task LogsOnManyWays()
+        public async System.Threading.Tasks.Task LogsOnManyWays()
         {
             {
                 // :code-block-start: logon_anon
@@ -230,7 +229,7 @@ namespace UnitTests
         }
 
         [Test]
-        public async Task CallsAFunction()
+        public async System.Threading.Tasks.Task CallsAFunction()
         {
             // :code-block-start: callfunc
             var bsonValue = await
@@ -256,19 +255,21 @@ namespace UnitTests
         }
 
         [OneTimeTearDown]
-        public async Task TearDown()
+        public async System.Threading.Tasks.Task TearDown()
         {
-            config = new SyncConfiguration("My Project", user);
+            config = new SyncConfiguration("myPartition", user);
             using (var realm = await Realm.GetInstanceAsync(config))
             {
                 // :code-block-start: delete
                 realm.Write(() =>
                 {
-                    realm.RemoveAll<RealmTask>();
+                    realm.RemoveAll<Task>();
                 });
                 // :code-block-end:
+
+                var realmUser = await app.LogInAsync(Credentials.Anonymous());
                 // :code-block-start: logout
-                //await user.LogOutAsync();
+                await realmUser.LogOutAsync();
                 // :code-block-end:
             }
             return;

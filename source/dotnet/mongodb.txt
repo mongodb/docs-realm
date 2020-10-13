@@ -150,7 +150,7 @@ Update Documents
 To update an existing document in the MongoDB datastore, you create a 
 ``BsonDocument`` filter that defines the properties you want to search on, and 
 then create a second ``BsonDocument`` that defines the properties you want to 
-change. If you are updating only one document, you pass both ``BsonDocument``s to 
+change. If you are updating only one document, you pass both objects to 
 :dotnet-sdk:`UpdateOneAsync() <reference/Realms.Sync.MongoClient.Collection-1.html#Realms_Sync_MongoClient_Collection_1_UpdateOneAsync_System_Object_System_Object_System_Boolean_>`.
 If you want to bulk update multiple documents, you call
 :dotnet-sdk:`UpdateManyAsync() <reference/Realms.Sync.MongoClient.Collection-1.html#Realms_Sync_MongoClient_Collection_1_UpdateManyAsync_System_Object_System_Object_System_Boolean_>`.
@@ -182,14 +182,14 @@ Upsert Documents
 Both :dotnet-sdk:`UpdateOneAsync() <reference/Realms.Sync.MongoClient.Collection-1.html#Realms_Sync_MongoClient_Collection_1_UpdateOneAsync_System_Object_System_Object_System_Boolean_>` 
 and 
 :dotnet-sdk:`UpdateManyAsync() <reference/Realms.Sync.MongoClient.Collection-1.html#Realms_Sync_MongoClient_Collection_1_UpdateManyAsync_System_Object_System_Object_System_Boolean_>`
-have an option Boolean property that specifies whether the update should be an 
+have an optional Boolean property that specifies whether the update should be an 
 upsert (that is, if the document doesn't exist, it should be created). By default,
 no upsert is performed. 
 
-The following example looks for a plant whose "name" property is 
-"Pothos", "type" property is "perennial", and "sunlight" property is "full". 
-If a plant matches these criteria, the method updates the plant's "_partition" 
-value to "store 42". If no plant exists in the collection with that name, the 
+The following example looks for a plant whose ``name`` property is 
+"Pothos", ``type`` property is "perennial", and ``sunlight`` property is "full". 
+If a plant matches these criteria, the method updates the plant's ``_partition`` 
+value to "Store 42". If no plant exists in the collection with that name, the 
 method will create a new plant with all of the defined properties, including the 
 update.  
 
@@ -244,13 +244,44 @@ Aggregation operations accept an array of aggregation stages as input, and
 return a `Task <https://docs.microsoft.com/en-us/dotnet/api/system.threading.tasks.task-1?view=netcore-3.1>`_ that
 resolves to a collection of documents processed by the pipeline.
 
+.. note::
+
+   {+compass+} provides a utility for building aggregation pipelines and exporting 
+   them to C# and other languages. For more information, see 
+   `Aggregation Pipeline Builder <https://docs.mongodb.com/compass/master/aggregation-pipeline-builder>`_.
+
+Group Documents in a Collection
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The .NET SDK supports aggregation on a collection 
+with the 
+:dotnet-sdk:`AggregateAsync() <reference/Realms.Sync.MongoClient.Collection-1.html#Realms_Sync_MongoClient_Collection_1_AggregateAsync_System_Object___>`
+method and its generic overload.
+
+The following example groups all documents in the plants collection by 
+their ``type`` value, aggregates a count of 
+the number of each type, and then sorts them in ascending order:
+
+.. literalinclude:: /examples/generated/code/start/AggregationExamples.codeblock.agg_group.cs
+   :language: csharp
+
+The example above builds the pipeline with a series of nested BsonDocuments, which 
+can get complicated to write and debug. If 
+you are already familiar with the `Mongo Query Language <https://docs.mongodb.com/manual/crud/>`_,
+you can pass queries as a string the 
+`BsonDocument_Parse() <https://mongodb.github.io/mongo-csharp-driver/2.11/apidocs/html/M_MongoDB_Bson_BsonDocument_Parse.htm>`_ 
+method. The following example performs the same aggregation as the preceding example:
+
+.. literalinclude:: /examples/generated/code/start/AggregationExamples.codeblock.agg_group_alt.cs
+   :language: csharp
+
 Filter Documents
 ~~~~~~~~~~~~~~~~
 You can use the :manual:`$match </reference/operator/aggregation/match/>` stage 
 to filter documents according to a standard :manual:`query filter
 </tutorial/query-documents>`.
 
-The following unit test example shows how to filter documents when using Aggregation.
+The following example shows how to filter documents when using Aggregation.
 Since we know that this aggregation pipeline returns a collection of ``Plant`` 
 objects, we use the generic override of the 
 :dotnet-sdk:`AggregateAsync() <reference/Realms.Sync.MongoClient.Collection-1.html#Realms_Sync_MongoClient_Collection_1_AggregateAsync_System_Object___>`
@@ -259,24 +290,8 @@ method:
 .. literalinclude:: /examples/generated/code/start/AggregationExamples.codeblock.agg_filter.cs
    :language: csharp
 
-
-Group Documents in a Collection
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-The .NET driver supports aggregation on a collection 
-with the 
-:dotnet-sdk:`AggregateAsync() <reference/Realms.Sync.MongoClient.Collection-1.html#Realms_Sync_MongoClient_Collection_1_AggregateAsync_System_Object___>`
-method and its generic overload.
-
-The following unit test example groups all documents in the "plants" collection by 
-their "Type" value, sorts them in ascending order, and aggregates a count of 
-the number of each type:
-
-.. literalinclude:: /examples/generated/code/start/AggregationExamples.codeblock.agg_group.cs
-   :language: csharp
-
-Project
-~~~~~~~
+Project Data
+~~~~~~~~~~~~
 You can use the :manual:`$project
 </reference/operator/aggregation/project/>` stage to include or omit
 specific fields from documents or to calculate new fields using
@@ -302,13 +317,13 @@ vice versa.
    special case of exclusion of the ``_id`` field allows both exclusion
    and inclusion in one ``$project`` stage.
 
-The following unit test example shows how to use project when using Aggregation. 
+The following example shows how to use project when using Aggregation. 
 In this example, we are:
 
-1. Including the "Partition", "Type", and "Name" properties
-2. Creating a new property called "StoreNumber", which is built by splitting the 
-   Partition value on the whitespace and returning only the second part
-3. Excluding the "Id" property.
+1. Excluding the "Id" property,
+2. Including the "Partition", "Type", and "Name" properties,
+3. Creating a new property called "storeNumber", which is built by splitting the 
+   _partition value on the whitespace and returning only the second part.
 
 .. literalinclude:: /examples/generated/code/start/AggregationExamples.codeblock.agg_project.cs
    :language: csharp

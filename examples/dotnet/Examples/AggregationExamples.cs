@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Examples;
@@ -32,7 +33,7 @@ namespace UnitTests
         {
             app = App.Create(myRealmAppId);
             user = app.LogInAsync(Credentials.EmailPassword("foo@foo.com", "foobar")).Result;
-            config = new SyncConfiguration("My Project", user);
+            config = new SyncConfiguration("myPartition", user);
             mongoClient = user.GetMongoClient("mongodb-atlas");
             dbPlantInventory = mongoClient.GetDatabase("inventory");
             plantsCollection = dbPlantInventory.GetCollection<Plant>("plants");
@@ -40,41 +41,41 @@ namespace UnitTests
             venus = new Plant
             {
                 Name = "Venus Flytrap",
-                Sunlight = Sunlight.full,
-                Color = PlantColor.white,
-                Type = PlantType.perennial,
+                Sunlight = Sunlight.Full,
+                Color = PlantColor.White,
+                Type = PlantType.Perennial,
                 Partition = "Store 42"
             };
             sweetBasil = new Plant
             {
                 Name = "Sweet Basil",
-                Sunlight = Sunlight.partial,
-                Color = PlantColor.green,
-                Type = PlantType.annual,
+                Sunlight = Sunlight.Partial,
+                Color = PlantColor.Green,
+                Type = PlantType.Annual,
                 Partition = "Store 42"
             };
             thaiBasil = new Plant
             {
                 Name = "Thai Basil",
-                Sunlight = Sunlight.partial,
-                Color = PlantColor.green,
-                Type = PlantType.perennial,
+                Sunlight = Sunlight.Partial,
+                Color = PlantColor.Green,
+                Type = PlantType.Perennial,
                 Partition = "Store 42"
             };
             helianthus = new Plant
             {
                 Name = "Helianthus",
-                Sunlight = Sunlight.full,
-                Color = PlantColor.yellow,
-                Type = PlantType.annual,
+                Sunlight = Sunlight.Full,
+                Color = PlantColor.Yellow,
+                Type = PlantType.Annual,
                 Partition = "Store 42"
             };
             petunia = new Plant
             {
                 Name = "Petunia",
-                Sunlight = Sunlight.full,
-                Color = PlantColor.purple,
-                Type = PlantType.annual,
+                Sunlight = Sunlight.Full,
+                Color = PlantColor.Purple,
+                Type = PlantType.Annual,
                 Partition = "Store 47"
             };
 
@@ -98,118 +99,130 @@ namespace UnitTests
         public async Task GroupsAndCounts()
         {
             // :code-block-start: agg_group
-            var pipeline = new object[] {
+            var groupStage =
                 new BsonDocument("$group",
-                new BsonDocument
+                    new BsonDocument
                     {
-                        { "_id", "$Type" },
-                        { "count",
-                new BsonDocument("$sum", 1) }
-                    }),
-                new BsonDocument("$sort",
-                new BsonDocument("_id", 1))
-            };
+                        { "_id", "$type" },
+                        { "count", new BsonDocument("$sum", 1) }
+                    });
+            
+            var sortStage = new BsonDocument("$sort",
+                new BsonDocument("_id", 1));
 
-            var aggResult = await plantsCollection.AggregateAsync(pipeline);
-
-            Assert.AreEqual("_id=0", aggResult[0].GetElement("_id").ToString());
-            Assert.AreEqual("count=2", aggResult[0].GetElement("count").ToString());
-            Assert.AreEqual("_id=1", aggResult[1].GetElement("_id").ToString());
-            Assert.AreEqual("count=3", aggResult[1].GetElement("count").ToString());
+            var aggResult = await plantsCollection.AggregateAsync(groupStage, sortStage);
+            foreach (var item in aggResult)
+            {
+                var id = item["_id"];
+                var count = item["count"];
+                Console.WriteLine($"Plant type: {id}; count: {count}");
+            }
 
             // :code-block-end:
+            Assert.AreEqual(PlantType.Annual.ToString(), aggResult[0]["_id"].AsString);
+            Assert.AreEqual(PlantType.Perennial.ToString(), aggResult[1]["_id"].AsString);
+            Assert.AreEqual(3, aggResult[0]["count"].AsInt32);
+            Assert.AreEqual(2, aggResult[1]["count"].AsInt32);
+
+            // :code-block-start: agg_group_alt
+            var groupStep = BsonDocument.Parse(@"
+              {
+                '$group': {
+                  '_id': '$type', 
+                  'count': {
+                    '$sum': 1
+                  }
+                }
+              }
+            ");
+
+            var sortStep = BsonDocument.Parse("{$sort: { _id: 1}}");
+            
+            aggResult = await plantsCollection.AggregateAsync(groupStep, sortStep);
+            foreach (var item in aggResult)
+            {
+                var id = item["_id"];
+                var count = item["count"];
+                Console.WriteLine($"Id: {id}, Count: {count}");
+            }
+            // :code-block-end:
+            Assert.AreEqual(PlantType.Annual.ToString(), aggResult[0]["_id"].AsString);
+            Assert.AreEqual(PlantType.Perennial.ToString(), aggResult[1]["_id"].AsString);
+            Assert.AreEqual(3, aggResult[0]["count"].AsInt32);
+            Assert.AreEqual(2, aggResult[1]["count"].AsInt32);
         }
 
         [Test]
         public async Task Filters()
         {
             // :code-block-start: agg_filter
-            var pipeline = new object[] {
-                new BsonDocument("$match",
-                    new BsonDocument("Type",
-                        new BsonDocument("$eq", PlantType.perennial)))
-            };
+            var matchStage = new BsonDocument("$match",
+                    new BsonDocument("type",
+                        new BsonDocument("$eq",
+                            PlantType.Perennial)));
 
-            var aggResult = await plantsCollection.AggregateAsync<Plant>(pipeline);
+            // Alternate approach using BsonDocument.Parse(...)
+            matchStage = BsonDocument.Parse(@"{
+              $match: {
+                type: { $eq: " + (int)PlantType.Perennial + @" }
+              }}");
 
+            var sortStage = BsonDocument.Parse("{$sort: { _id: 1}}");
+
+            var aggResult = await plantsCollection.AggregateAsync<Plant>(matchStage, sortStage);
+            foreach (var plant in aggResult)
+            {
+                Console.WriteLine($"Plant Name: {plant.Name}, Color: {plant.Color}");
+            }
+            // :code-block-end:
             Assert.AreEqual(2, aggResult.Length);
             Assert.AreEqual(venus.Id, aggResult[0].Id);
             Assert.AreEqual(venus.Name, aggResult[0].Name);
             Assert.AreEqual(thaiBasil.Id, aggResult[1].Id);
             Assert.AreEqual(thaiBasil.Partition, aggResult[1].Partition);
-            // :code-block-end:
         }
 
         [Test]
         public async Task Projects()
         {
             // :code-block-start: agg_project
-            var pipeline = new object[] {
-                new BsonDocument("$project",
-                new BsonDocument
-                {
-                    { "Partition", 1 },
-                    { "Type", 1 },
-                    { "Name", 1 },
-                    { "StoreNumber",
-                        new BsonDocument("$arrayElemAt",
-                        new BsonArray {
-                            new BsonDocument("$split",
-                            new BsonArray
-                                {
-                                    "$Partition",
-                                    " "
-                                }), 1 }) }
-                }),
-                new BsonDocument("$project", new BsonDocument("Id", 0))
-            };
-
-            var aggResult = await plantsCollection.AggregateAsync(pipeline);
-
-            Assert.AreEqual(5, aggResult.Length);
-            Assert.Throws<KeyNotFoundException>(() => aggResult[0].GetElement("Id"));
-            Assert.AreEqual("StoreNumber=42", aggResult[0].GetElement("StoreNumber").ToString());
-            // :code-block-end:
-        }
-
-        [Test]
-        public async Task UnwindsAfterALongDay()
-        {
-            // :code-block-start: agg_project
-            var pipeline = new object[] {
-                new BsonDocument("$project",
+            var projectStage = new BsonDocument("$project",
                 new BsonDocument
                 {
                     { "_id", 0 },
-                    { "Partition", 1 },
-                    { "Type", 1 },
-                    { "Name", 1 },
-                    { "StoreNumber",
+                    { "_partition", 1 },
+                    { "type", 1 },
+                    { "name", 1 },
+                    { "storeNumber",
                         new BsonDocument("$arrayElemAt",
                         new BsonArray {
                             new BsonDocument("$split",
                             new BsonArray
                                 {
-                                    "$Partition",
+                                    "$_partition",
                                     " "
                                 }), 1 }) }
-                })
-            };
+                });
 
-            var aggResult = await plantsCollection.AggregateAsync(pipeline);
+            var sortStage = BsonDocument.Parse("{$sort: { storeNumber: 1}}");
+
+            var aggResult = await plantsCollection.AggregateAsync(projectStage, sortStage);
+            foreach (var item in aggResult)
+            {
+                Console.WriteLine($"{item["name"]} is in store #{item["storeNumber"]}.");
+            }
+            // :code-block-end:
 
             Assert.AreEqual(5, aggResult.Length);
-            Assert.Throws<KeyNotFoundException>(() => aggResult[0].GetElement("Id"));
-            Assert.AreEqual("StoreNumber=42", aggResult[0].GetElement("StoreNumber").ToString());
-            // :code-block-end:
+            Assert.Throws<KeyNotFoundException>(() => aggResult[0].GetElement("_id"));
+            Assert.AreEqual("storeNumber=42", aggResult[0].GetElement("storeNumber").ToString());
         }
+
         [OneTimeTearDown]
         public async Task TearDown()
         {
-            config = new SyncConfiguration("My Project", user);
+            config = new SyncConfiguration("myPartition", user);
             await plantsCollection.DeleteManyAsync();
-            await user.LogOutAsync();
-
             return;
         }
     }
