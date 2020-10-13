@@ -232,17 +232,84 @@ The following example deletes all documents that have a "type" property value of
 
 Aggregate Documents
 -------------------
+`Aggregation <https://docs.mongodb.com/manual/aggregation/>`_ enables complex 
+querying of your data in MongoDB. Aggregation operations run all
+documents in a collection through a series of data :ref:`aggregation stages
+<realm-aggregation-stages>` called an
+:manual:`aggregation pipeline </core/aggregation-pipeline>` that allow
+you to filter and shape documents as well as collect summary data about
+groups of related documents.
+
+Aggregation operations accept an array of aggregation stages as input, and
+return a `Task <https://docs.microsoft.com/en-us/dotnet/api/system.threading.tasks.task-1?view=netcore-3.1>`_ that
+resolves to a collection of documents processed by the pipeline.
+
+Filter Documents
+~~~~~~~~~~~~~~~~
+You can use the :manual:`$match </reference/operator/aggregation/match/>` stage 
+to filter documents according to a standard :manual:`query filter
+</tutorial/query-documents>`.
+
+The following unit test example shows how to filter documents when using Aggregation.
+Since we know that this aggregation pipeline returns a collection of ``Plant`` 
+objects, we use the generic override of the 
+:dotnet-sdk:`AggregateAsync() <reference/Realms.Sync.MongoClient.Collection-1.html#Realms_Sync_MongoClient_Collection_1_AggregateAsync_System_Object___>`
+method:
+
+.. literalinclude:: /examples/generated/code/start/AggregationExamples.codeblock.agg_filter.cs
+   :language: csharp
 
 
-.. _dotnet-mongodb-aggregate:
+Group Documents in a Collection
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Aggregate Documents in a Collection
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The .NET driver supports aggregation on a collection 
+with the 
+:dotnet-sdk:`AggregateAsync() <reference/Realms.Sync.MongoClient.Collection-1.html#Realms_Sync_MongoClient_Collection_1_AggregateAsync_System_Object___>`
+method and its generic overload.
 
+The following unit test example groups all documents in the "plants" collection by 
+their "Type" value, sorts them in ascending order, and aggregates a count of 
+the number of each type:
 
-.. _dotnet-mongodb-aggregation-stages:
+.. literalinclude:: /examples/generated/code/start/AggregationExamples.codeblock.agg_group.cs
+   :language: csharp
 
-Aggregation Stages
-------------------
+Project
+~~~~~~~
+You can use the :manual:`$project
+</reference/operator/aggregation/project/>` stage to include or omit
+specific fields from documents or to calculate new fields using
+:manual:`aggregation operators </reference/operator/aggregation>`.
+Projections work in two ways:
 
-.. include:: /includes/aggregation-stages.rst
+- Explicitly include fields with a value of 1. This has the side-effect
+  of implicitly excluding all unspecified fields.
+
+- Implicitly exclude fields with a value of 0. This has the side-effect
+  of implicitly including all unspecified fields.
+
+These two methods of projection are mutually exclusive: if you
+explicitly include fields, you cannot explicitly exclude fields, and
+vice versa.
+
+.. note::
+
+   The ``_id`` field is a special case: it is always included in every
+   query unless explicitly specified otherwise. For this reason, you
+   *can* exclude the ``_id`` field with a ``0`` value while simultaneously
+   including other fields, like ``_partition``, with a ``1``. Only the
+   special case of exclusion of the ``_id`` field allows both exclusion
+   and inclusion in one ``$project`` stage.
+
+The following unit test example shows how to use project when using Aggregation. 
+In this example, we are:
+
+1. Including the "Partition", "Type", and "Name" properties
+2. Creating a new property called "StoreNumber", which is built by splitting the 
+   Partition value on the whitespace and returning only the second part
+3. Excluding the "Id" property.
+
+.. literalinclude:: /examples/generated/code/start/AggregationExamples.codeblock.agg_project.cs
+   :language: csharp
+

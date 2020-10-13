@@ -1,10 +1,10 @@
-var filter = new BsonDocument("name", "Pothos")
-    .Add("type", PlantType.perennial)
-    .Add("sunlight", Sunlight.full);
+var filter = new BsonDocument("Name", "Pothos")
+    .Add("Type", PlantType.perennial)
+    .Add("Sunlight", Sunlight.full);
 
 var updateResult = await plantsCollection.UpdateOneAsync(
+    new BsonDocument("$set", new BsonDocument("Partition", "Store 42")),
     filter,
-    new BsonDocument("_partition", "store 42"),
     upsert: true);
 
 /* The upsert will create the following object:
