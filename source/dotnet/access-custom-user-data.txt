@@ -14,50 +14,13 @@ Access Custom User Data
 
 Overview
 --------
-
-You can read arbitrary data, known as custom user data,  about your application 
+You can store arbitrary data, known as custom user data, about your  
 users directly within your .NET application. For example,
 you might store a user's preferred language, date of birth, or local
 timezone. To learn more about custom user data, see :ref:`Enable Custom
 User Data <custom-user-data>`.
 
 .. include:: /includes/use-custom-data-note.rst
-
-.. _dotnet-read-custom-user-data:
-
-Read Custom User Data
----------------------
-
-You can **read** the custom user data of a currently logged-in user
-through the ``User`` object.
-
-.. note::
-    
-   You cannot edit custom user data through the ``User`` object. To edit custom 
-   user data, see :ref:`Update Custom User Data <dotnet-update-custom-user-data>`.
-
-The customer user data is stored in the 
-:dotnet-sdk:`CustomData <reference/Realms.Sync.User.html#Realms_Sync_User_CustomData>`
-property on the ``User`` object of a logged in user:
-
-.. literalinclude:: /examples/generated/code/start/CustomUserData.codeblock.read.cs
-   :language: csharp
-
-.. admonition:: Custom Data May Be Stale
-   :class: warning
-   
-   {+backend+} does not dynamically update the value of
-   :dotnet-sdk:`CustomData <reference/Realms.Sync.User.html#Realms_Sync_User_CustomData>`
-   immediately when underlying data changes. Instead, {+backend+}
-   fetches the most recent version of custom user data whenever a user
-   refreshes their :ref:`access token <user-sessions>` or when you explicitly 
-   call :dotnet-sdk:`CustomData <reference/Realms.Sync.User.html#Realms_Sync_User_RefreshCustomDataAsync>`,
-   which ensures your app has the latest customer user data.
-
-.. _dotnet-write-custom-user-data:
-
-Write Custom User Data
-----------------------
 
 To create, update, or delete custom user data, you will need the following
 information from your custom user data configuration:
@@ -77,9 +40,8 @@ tab of the :guilabel:`Users` left sidebar entry of the {+ui+}.
 
 .. _dotnet-create-custom-user-data:
 
-Create Custom User Data for a User
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
+Create Custom User Data
+-----------------------
 To create custom user data for a user, create a MongoDB document in the
 custom user data collection. The user ID field of the document should
 contain the the user's :term:`user ID`. The following example uses
@@ -87,38 +49,54 @@ contain the the user's :term:`user ID`. The following example uses
 document containing the user ID of the currently logged in user and a
 ``favoriteColor`` value into the custom user data collection:
 
-.. literalinclude:: /examples/generated/code/start/CustomUserData.codeblock.create.cs
+.. literalinclude:: /examples/generated/code/start/CustomUserDataExamples.codeblock.create.cs
    :language: csharp
 
 You can add any number of arbitrary fields and values to the custom user
 data document when you create it. The user ID field is the only
-requirement for the document to become available on the ``User`` object
-as custom user data.
+required fields. You may find it helpful to create a C# class (POCO) that 
+represents the custom user data. UYou can then serialize/deserialize this class 
+when writing, reading, and updating properties. The example above uses the 
+following class to map the properties:
+
+.. literalinclude:: /examples/generated/code/start/CustomUserDataExamples.codeblock.cud.cs
+   :language: csharp
+
+.. _dotnet-read-custom-user-data:
+
+Read Custom User Data
+---------------------
+The custom user data is stored in the 
+:dotnet-sdk:`CustomData <reference/Realms.Sync.User.html#Realms_Sync_User_CustomData>`
+property on the ``User`` object of a logged in user:
+
+.. literalinclude:: /examples/generated/code/start/CustomUserDataExamples.codeblock.read.cs
+   :language: csharp
+
+.. admonition:: Custom Data May Be Stale
+   :class: warning
+   
+   {+backend+} does not dynamically update the value of
+   :dotnet-sdk:`CustomData <reference/Realms.Sync.User.html#Realms_Sync_User_CustomData>`
+   immediately when underlying data changes. Instead, {+backend+}
+   fetches the most recent version of custom user data whenever a user
+   refreshes their :ref:`access token <user-sessions>` or when you explicitly 
+   call the 
+   :dotnet-sdk:`RefreshCustomDataAsync() <reference/Realms.Sync.User.html#Realms_Sync_User_RefreshCustomDataAsync>` 
+   method, which ensures your app has the latest customer user data.
+
 
 .. _dotnet-update-custom-user-data:
 
-Update Custom User Data for a User
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Update Custom User Data
+-----------------------
+Updating custom user data uses the same code as writing. The following example 
+finds and updates the data by using the 
+:dotnet-sdk:`UpdateOneAsync() <reference/Realms.Sync.MongoClient.Collection-1.html#Realms_Sync_MongoClient_Collection_1_UpdateOneAsync_System_Object_System_Object_System_Boolean_>` 
+method, and then refreshes the data to ensure the latest changes are available:
 
-You can update custom user data using :ref:`MongoDB Data Access
-<dotnet-mongodb-data-access>`, {+service-short+} :ref:`Sync
-<dotnet-sync-data>`, `MongoDB Compass
-<https://docs.mongodb.com/compass>`__, or the :atlas:`MongoDB Atlas Data
-Explorer </data-explorer/>`.
-
-To update a user's custom user data with MongoDB Data Access, edit the
-MongoDB document whose user ID field contains the user ID of the user.
-The following example uses :term:`MongoDB Data Access
-<dotnet-mongodb-data-access>` to update the ``favoriteColor`` field of
-the the document containing the user ID of the currently logged in user
-in the custom user data collection:
-
-.. literalinclude:: /examples/generated/code/start/CustomUserData.codeblock.update.cs
+.. literalinclude:: /examples/generated/code/start/CustomUserDataExamples.codeblock.update.cs
    :language: csharp
-
-You can determine the ``id`` of a user through either the ``User``
-object of the user once logged in or via the :guilabel:`Users` tab of
-the :guilabel:`Users` left sidebar entry of the {+ui+}.
 
 Summary
 -------
