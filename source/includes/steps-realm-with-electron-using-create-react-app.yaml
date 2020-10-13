@@ -89,10 +89,9 @@ content: |
 title: Create Your Electron Main Process File
 ref: create-your-electron-main-process
 content: |
-  The Electron ``main process`` file can be thought of as the entry
-  point into your application. This file is responsible for loading your
-  React App's ``index.html`` file into the ``BrowserWindow`` created by
-  Electron.
+  The Electron ``main process`` file is the entry point of your
+  application. This file is responsible for loading your React App's
+  ``index.html`` file into the ``BrowserWindow`` created by Electron.
 
   .. note::
      Each electron application can only have one **main process**. The
@@ -102,30 +101,47 @@ content: |
      Architecture <https://www.electronjs.org/docs/tutorial/application-architecture>`_
      document.
 
-  Add the following code to a new file called ``electron.js`` in the
-  ``public`` directory:
+  Add the following code to a new file called ``main.js`` in the root of
+  your application:
 
-  .. literalinclude:: /examples/QuickStarts/electron/quickstart-setup-react-electron.js
+  .. literalinclude:: /examples/QuickStarts/electron/quickstart-setup-react-main.js
+
+---
+title: Create a Electron Renderer Process File
+ref: create-a-electron-renderer-process
+content: |
+  Although each file in your ``src`` directory runs on the renderer
+  process, an additional file called ``rendererer.js`` can be created in
+  order to simplify your application architecture. Add the following
+  code to your ``src/renderer.js`` file:
+
+  .. literalinclude:: /examples/QuickStarts/electron/quickstart-setup-react-renderer.js
+
+
+  Import your ``src/renderer.js`` file by adding the following import statement to the top of your ``src/App.js`` file:
+
+  .. literalinclude:: /examples/QuickStarts/electron/quickstart-setup-react-app.js
 
   Your application file structure should now look something like the
   following. This representation omits some files, such as CSS,
   service worker, and test files. 
 
   .. code-block:: text
-     :emphasize-lines: 7, 9, 10
+     :emphasize-lines: 5, 9, 10, 11
 
      .
      |-- package.json 
      |-- package-lock.lock
      |-- craco.config.js
+     |-- main.js // runs on the main process
      |-- public
      |   |-- index.html
-     |   |-- electron.js // runs on the main process
      |-- src
      |   |-- App.js // runs on the renderer process
      |-- |-- index.js // runs on the renderer process
+     |-- |-- renderer.js // runs on the renderer process
 
-  All JS Files within the ``src`` directory executes on the ``renderer`` process. The electron.js and any files required by it execute on the ``main process``.
+  All JS Files within the ``src`` directory executes on the ``renderer`` process. The main.js file and any files imported by it execute on the ``main process``.
 ---
 title: Run Your Application
 ref: run-your-app
@@ -137,17 +153,15 @@ content: |
      "main": "public/electron.js",
      "homepage": "./",
 
-  Finally, add the following scripts to your ``package.json`` file:
+  Finally, add the following script to your ``package.json`` file:
 
   .. code-block:: shell
 
      "scripts": {
-       "build": "craco build",
-       "start": "electron ."
+       "start": "craco build && electron ."
      },
 
-  In your terminal, run ``npm run build`` in one tab and ``npm run
-  start`` in another tab. You should see the following:
+  In your terminal, run ``npm start``. You should see the following:
 
   .. cssclass:: bordered-figure
   .. figure:: /images/electron-cra.png
@@ -167,14 +181,14 @@ content: |
   main process. 
 
   Use realm in the renderer process by adding the following to the top
-  of the ``src/App.js`` file (you will also need to import it in whichever
+  of the ``src/renderer.js`` file (you will also need to import it in whichever
   file you write code using Realm in):
 
   .. code-block:: shell
 
      import Realm from "realm";
 
-  Use Realm in the main process by adding the following to the top of the ``public/electron.js`` file:
+  Use Realm in the main process by adding the following to the top of the ``main.js`` file:
 
   .. code-block:: shell
 
