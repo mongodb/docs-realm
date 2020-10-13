@@ -1,0 +1,133 @@
+.. _dotnet-access-custom-user-data:
+
+=======================
+Access Custom User Data
+=======================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+You can read arbitrary data, known as custom user data,  about your application 
+users directly within your .NET application. For example,
+you might store a user's preferred language, date of birth, or local
+timezone. To learn more about custom user data, see :ref:`Enable Custom
+User Data <custom-user-data>`.
+
+.. include:: /includes/use-custom-data-note.rst
+
+.. _dotnet-read-custom-user-data:
+
+Read Custom User Data
+---------------------
+
+You can **read** the custom user data of a currently logged-in user
+through the ``User`` object.
+
+.. note::
+    
+   You cannot edit custom user data through the ``User`` object. To edit custom 
+   user data, see :ref:`Update Custom User Data <dotnet-update-custom-user-data>`.
+
+The customer user data is stored in the 
+:dotnet-sdk:`CustomData <reference/Realms.Sync.User.html#Realms_Sync_User_CustomData>`
+property on the ``User`` object of a logged in user:
+
+.. literalinclude:: /examples/generated/code/start/CustomUserData.codeblock.read.cs
+   :language: csharp
+
+.. admonition:: Custom Data May Be Stale
+   :class: warning
+   
+   {+backend+} does not dynamically update the value of
+   :dotnet-sdk:`CustomData <reference/Realms.Sync.User.html#Realms_Sync_User_CustomData>`
+   immediately when underlying data changes. Instead, {+backend+}
+   fetches the most recent version of custom user data whenever a user
+   refreshes their :ref:`access token <user-sessions>` or when you explicitly 
+   call :dotnet-sdk:`CustomData <reference/Realms.Sync.User.html#Realms_Sync_User_RefreshCustomDataAsync>`,
+   which ensures your app has the latest customer user data.
+
+.. _dotnet-write-custom-user-data:
+
+Write Custom User Data
+----------------------
+
+To create, update, or delete custom user data, you will need the following
+information from your custom user data configuration:
+
+- The :term:`custom user data cluster`
+
+- The :term:`custom user data database`
+
+- The :term:`custom user data collection` in which custom
+  user data documents are stored
+
+- The :term:`user ID field` used to map custom user data documents
+  to users (via :term:`user ID`)
+
+You can find this information in the the :guilabel:`Custom User Data`
+tab of the :guilabel:`Users` left sidebar entry of the {+ui+}.
+
+.. _dotnet-create-custom-user-data:
+
+Create Custom User Data for a User
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To create custom user data for a user, create a MongoDB document in the
+custom user data collection. The user ID field of the document should
+contain the the user's :term:`user ID`. The following example uses
+:term:`MongoDB Data Access <dotnet-mongodb-data-access>` to insert a
+document containing the user ID of the currently logged in user and a
+``favoriteColor`` value into the custom user data collection:
+
+.. literalinclude:: /examples/generated/code/start/CustomUserData.codeblock.create.cs
+   :language: csharp
+
+You can add any number of arbitrary fields and values to the custom user
+data document when you create it. The user ID field is the only
+requirement for the document to become available on the ``User`` object
+as custom user data.
+
+.. _dotnet-update-custom-user-data:
+
+Update Custom User Data for a User
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can update custom user data using :ref:`MongoDB Data Access
+<dotnet-mongodb-data-access>`, {+service-short+} :ref:`Sync
+<dotnet-sync-data>`, `MongoDB Compass
+<https://docs.mongodb.com/compass>`__, or the :atlas:`MongoDB Atlas Data
+Explorer </data-explorer/>`.
+
+To update a user's custom user data with MongoDB Data Access, edit the
+MongoDB document whose user ID field contains the user ID of the user.
+The following example uses :term:`MongoDB Data Access
+<dotnet-mongodb-data-access>` to update the ``favoriteColor`` field of
+the the document containing the user ID of the currently logged in user
+in the custom user data collection:
+
+.. literalinclude:: /examples/generated/code/start/CustomUserData.codeblock.update.cs
+   :language: csharp
+
+You can determine the ``id`` of a user through either the ``User``
+object of the user once logged in or via the :guilabel:`Users` tab of
+the :guilabel:`Users` left sidebar entry of the {+ui+}.
+
+Summary
+-------
+
+- You can use custom user data to store arbitrary information about your application users.
+
+- {+service+} stores custom user data as a document in a MongoDB collection determined by your application configuration.
+
+- {+service+} associates custom user data with a user based on the value of the user ID field.
+
+- The custom user data field of the user object is read-only. You can modify custom user data using :ref:`MongoDB Data Access
+  <dotnet-mongodb-data-access>` or :ref:`Sync <dotnet-sync-data>`.
