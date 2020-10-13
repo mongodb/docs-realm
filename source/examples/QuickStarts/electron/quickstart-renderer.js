@@ -28,7 +28,7 @@ async function run() {
 
   // create a new "Person"
   realm.write(() => {
-    john = realm.create("Person", {
+    realm.create("Person", {
       _id: new ObjectId(),
       name: "John Smith",
     });
