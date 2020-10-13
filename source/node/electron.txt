@@ -84,29 +84,31 @@ Consider the following code in the ``main process``:
 
 .. literalinclude:: /examples/QuickStarts/electron/quickstart-main.js
   :language: javascript
-  :emphasize-lines: 38, 41, 45, 47
+  :emphasize-lines: 38, 41, 45, 47, 58
   :linenos:
 
 Notice that on line 39, the main process opens a synced realm. On line
 45, the `ipcMain <https://www.electronjs.org/docs/api/ipc-main>`_
 Electron API listens for an "asynchronous-message" event. When an
 asynchronous message occurs with the “sync” argument, the main process
-uploads all local changes.
+uploads all local changes. On line 58, a reply is sent to the renderer
+process that tells it the name of the person object created.
 
 Consider the ``renderer process`` code:
 
 .. literalinclude:: /examples/QuickStarts/electron/quickstart-renderer.js
   :language: javascript
-  :emphasize-lines: 27, 37
+  :emphasize-lines: 27, 37, 40
   :linenos:
 
 On line 28, the renderer process opens a non-synced realm. All write
-transactions on this local realm will not be synced by default. In
-order to sync these writes, the `ipcRenderer
+transactions on this local realm will not be synced by default. In order
+to sync these writes, the `ipcRenderer
 <https://www.electronjs.org/docs/api/ipc-renderer>`_ Electron API emits
 an "asynchronous-message" with the argument "sync" on line 42. This
 tells the ``main process`` to upload all local changes to the synced
-realm. 
+realm. On line 40, the ``ipcRenderer`` listens or a reply from the
+``main process`` and console logs that reply.
 
 Summary
 -------
