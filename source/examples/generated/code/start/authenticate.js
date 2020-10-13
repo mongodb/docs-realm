@@ -10,7 +10,6 @@ describe("user authentication", () => {
   });
   
   test("anonymous login", async () => {
-    console.log("realmServerApiKey", process.env.realmServerApiKey)
     // Create an anonymous credential
     const credentials = Realm.Credentials.anonymous();
     try {
@@ -37,6 +36,9 @@ describe("user authentication", () => {
   test("server api key login", async () => {
     // Get the API key from the local environment
     const apiKey = process.env.realmServerApiKey;
+    if(!apiKey) {
+      throw new Error("Could not find a Realm Server API Key.");
+    }
     // Create an api key credential
     const credentials = Realm.Credentials.serverApiKey(apiKey);
     try {
@@ -99,7 +101,6 @@ describe("user authentication", () => {
       const emailPasswordUser = await app.logIn(emailPasswordCredentials);
       const functionUser = await app.logIn(functionCredentials);
       expect(functionUser.id).toBe(app.currentUser.id);
-      console.log("functionUser.isLoggedIn", functionUser.isLoggedIn)
       
       // Log out the current user
       await app.currentUser.logOut();

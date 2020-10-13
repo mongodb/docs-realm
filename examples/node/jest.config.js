@@ -3,10 +3,30 @@
 
 module.exports = {
   testEnvironment: "node",
-  testMatch: [
-    "<rootDir>/Examples/**/*.js",
-  ],
-  setupFilesAfterEnv: [
-    '<rootDir>/testSetup.js',
-  ],
+  projects: [
+    {
+      displayName: "JavaScript",
+      moduleFileExtensions: ['js'],
+      testMatch: [
+        "<rootDir>/Examples/**/*.js",
+      ],
+      setupFilesAfterEnv: [
+        '<rootDir>/testSetup.js',
+      ],
+    },
+    {
+      displayName: "TypeScript",
+      moduleFileExtensions: ['ts', 'js'],
+      preset: 'ts-jest/presets/js-with-ts',
+      setupFilesAfterEnv: [
+        '<rootDir>/testSetup.js',
+      ],
+      testMatch: [
+        "<rootDir>/Examples/**/*.ts",
+      ],
+      "transform": {
+        "^.+\\.ts$": "ts-jest"
+      },
+    },
+  ]
 };
