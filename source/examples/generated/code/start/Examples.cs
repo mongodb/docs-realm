@@ -19,7 +19,7 @@ namespace UnitTests
         SyncConfiguration config;
         const string myRealmAppId = "tuts-tijya";
 
-        [SetUp]
+        [OneTimeSetUp]
         public async Task Setup()
         {
             app = App.Create(myRealmAppId);
@@ -63,8 +63,14 @@ namespace UnitTests
             };
             var localRealm = Realm.GetInstance(config);
             Assert.IsNotNull(localRealm);
+            localRealm.Dispose();
+            try
+            {
+                Directory.Delete(pathToDb, true);
+            } catch (Exception e)
+            {
 
-            Directory.Delete(pathToDb, true);
+            }
         }
 
         [Test]
@@ -205,7 +211,7 @@ namespace UnitTests
             //{ "_id":{ "$oid":"5f0f69dc4eeabfd3366be2be"},"_partition":"myPartition","name":"do this NOW","status":"Closed"}
         }
 
-        [TearDown]
+        [OneTimeTearDown]
         public async Task TearDown()
         {
             config = new SyncConfiguration("My Project", user);
@@ -215,7 +221,7 @@ namespace UnitTests
                 {
                     realm.RemoveAll<RealmTask>();
                 });
-                await user.LogOutAsync();
+                //await user.LogOutAsync();
             }
             return;
         }

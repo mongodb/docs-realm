@@ -1,1 +1,1 @@
-await user.LogOutAsync();
+//await user.LogOutAsync();

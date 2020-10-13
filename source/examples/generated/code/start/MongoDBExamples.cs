@@ -123,19 +123,15 @@ namespace UnitTests
         {
             {
                 var updateResult = await plantsCollection.UpdateOneAsync(
-                    new BsonDocument("Name", "Petunia"),
-                    new BsonDocument("Sunlight", Sunlight.partial));
+                    new BsonDocument("Sunlight", Sunlight.partial),
+                    new BsonDocument("Name", "Petunia"));
                 Assert.AreEqual(1, updateResult.MatchedCount);
                 Assert.AreEqual(1, updateResult.ModifiedCount);
             }
             {
-                var foo = plantsCollection.FindAsync(
-                 new BsonDocument("Partition", "Store 47")).Result;
-
-
                 var updateResult = await plantsCollection.UpdateManyAsync(
-                    new BsonDocument("$set", new BsonDocument("Partition", "Area 51")),
-                    new BsonDocument("Partition", "Store 47"));
+                    new BsonDocument("Partition", "Store 47"),
+                    new BsonDocument("$set", new BsonDocument("Partition", "Area 51")));
                 Assert.AreEqual(1, updateResult.MatchedCount);
                 Assert.AreEqual(1, updateResult.ModifiedCount);
             }
@@ -145,8 +141,8 @@ namespace UnitTests
                     .Add("Sunlight", Sunlight.full);
 
                 var updateResult = await plantsCollection.UpdateOneAsync(
-                    new BsonDocument("$set", new BsonDocument("Partition", "Store 42")),
                     filter,
+                    new BsonDocument("$set", new BsonDocument("Partition", "Store 42")),
                     upsert: true);
 
                 /* The upsert will create the following object:
@@ -165,11 +161,6 @@ namespace UnitTests
             }
         }
 
-        [Test]
-        public async Task AggregatesLikeAMadman()
-        {
-
-        }
         [OneTimeTearDown]
         public async Task TearDown()
         {
@@ -177,15 +168,15 @@ namespace UnitTests
             using var realm = await Realm.GetInstanceAsync(config);
             {
                 var filter = new BsonDocument("Name", "Thai Basil");
-                var deleteResult = await plantsCollection.DeleteOneAsync(filter);
+               // var deleteResult = await plantsCollection.DeleteOneAsync(filter);
             }
             {
                 var filter = new BsonDocument("Type", PlantType.annual);
-                var deleteResult = await plantsCollection.DeleteManyAsync(filter);
+                //var deleteResult = await plantsCollection.DeleteManyAsync(filter);
             }
-             await plantsCollection.DeleteManyAsync();
+           // await plantsCollection.DeleteManyAsync();
 
-            await user.LogOutAsync();
+           // await user.LogOutAsync();
 
             return;
         }

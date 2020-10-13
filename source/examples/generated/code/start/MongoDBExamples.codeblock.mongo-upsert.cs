@@ -3,8 +3,8 @@ var filter = new BsonDocument("Name", "Pothos")
     .Add("Sunlight", Sunlight.full);
 
 var updateResult = await plantsCollection.UpdateOneAsync(
-    new BsonDocument("$set", new BsonDocument("Partition", "Store 42")),
     filter,
+    new BsonDocument("$set", new BsonDocument("Partition", "Store 42")),
     upsert: true);
 
 /* The upsert will create the following object:

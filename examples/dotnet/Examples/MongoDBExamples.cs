@@ -136,8 +136,8 @@ namespace UnitTests
             {
                 // :code-block-start: mongo-update-one
                 var updateResult = await plantsCollection.UpdateOneAsync(
-                    new BsonDocument("Name", "Petunia"),
-                    new BsonDocument("Sunlight", Sunlight.partial));
+                    new BsonDocument("Sunlight", Sunlight.partial),
+                    new BsonDocument("Name", "Petunia"));
                 // :code-block-end:
                 Assert.AreEqual(1, updateResult.MatchedCount);
                 Assert.AreEqual(1, updateResult.ModifiedCount);
@@ -145,8 +145,8 @@ namespace UnitTests
             {
                 // :code-block-start: mongo-update-many
                 var updateResult = await plantsCollection.UpdateManyAsync(
-                    new BsonDocument("$set", new BsonDocument("Partition", "Area 51")),
-                    new BsonDocument("Partition", "Store 47"));
+                    new BsonDocument("Partition", "Store 47"),
+                    new BsonDocument("$set", new BsonDocument("Partition", "Area 51")));
                 // :code-block-end:
                 Assert.AreEqual(1, updateResult.MatchedCount);
                 Assert.AreEqual(1, updateResult.ModifiedCount);
@@ -158,8 +158,8 @@ namespace UnitTests
                     .Add("Sunlight", Sunlight.full);
 
                 var updateResult = await plantsCollection.UpdateOneAsync(
-                    new BsonDocument("$set", new BsonDocument("Partition", "Store 42")),
                     filter,
+                    new BsonDocument("$set", new BsonDocument("Partition", "Store 42")),
                     upsert: true);
 
                 /* The upsert will create the following object:
