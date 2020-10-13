@@ -111,6 +111,26 @@ tells the ``main process`` to upload all local changes to the synced
 realm. On line 40, the ``ipcRenderer`` listens or a reply from the
 ``main process`` and console logs that reply.
 
+Output
+~~~~~~
+Run ``npm start`` to start your application. You should see the
+following output in your terminal:
+
+.. code-block:: shell
+
+   main process: Syncing all local changes
+   main process: Created person object: 	 {
+     "_id": "5f8535d8693c6be10db53cfb",
+     "name": "John Smith"
+   }
+
+If you open the ``devtools`` in your electron application, you should
+see the following console output:
+
+.. code-block:: shell
+
+   renderer process: created person object with the name John Smith
+
 Summary
 -------
 
