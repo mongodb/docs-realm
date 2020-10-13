@@ -3,7 +3,7 @@ const Realm = require("realm");
 const ObjectId = require("bson").ObjectId;
 
 async function run() {
-  const realmApp = new Realm.App({ id: "tutsbrawl-qfxxj" }); // Replace <Your App ID> with your application id
+  const realmApp = new Realm.App({ id: "<Your App ID>" }); // Replace <Your App ID> with your application id
   let credentials = Realm.Credentials.anonymous();
   // log in anonymously
   await realmApp.logIn(credentials);
