@@ -127,10 +127,10 @@ namespace UnitTests
             // :code-block-start: agg_group_alt
             var groupStep = BsonDocument.Parse(@"
               {
-                '$group': {
-                  '_id': '$type', 
-                  'count': {
-                    '$sum': 1
+                $group: {
+                  _id: '$type', 
+                  count: {
+                    $sum: 1
                   }
                 }
               }
@@ -164,7 +164,7 @@ namespace UnitTests
             // Alternate approach using BsonDocument.Parse(...)
             matchStage = BsonDocument.Parse(@"{
               $match: {
-                type: { $eq: " + (int)PlantType.Perennial + @" }
+                type: { $eq: '" + PlantType.Perennial + @"' }
               }}");
 
             var sortStage = BsonDocument.Parse("{$sort: { _id: 1}}");
@@ -195,9 +195,9 @@ namespace UnitTests
                     { "name", 1 },
                     { "storeNumber",
                         new BsonDocument("$arrayElemAt",
-                        new BsonArray {
-                            new BsonDocument("$split",
-                            new BsonArray
+                            new BsonArray {
+                                new BsonDocument("$split",
+                                new BsonArray
                                 {
                                     "$_partition",
                                     " "
@@ -212,7 +212,22 @@ namespace UnitTests
                 Console.WriteLine($"{item["name"]} is in store #{item["storeNumber"]}.");
             }
             // :code-block-end:
-
+            // :code-block-start: agg_project_alt
+            projectStage = BsonDocument.Parse(@"
+                {
+                  _id:0,
+                  _partition: 1,
+                  type: 1,
+                  name: 1,
+                  storeNumber: {
+                    $arrayElemAt: [
+                      { $split:[
+                        '$_partition', ' '
+                        ]
+                      }, 1 ]
+                  }
+                }");
+            // :code-block-end:
             Assert.AreEqual(5, aggResult.Length);
             Assert.Throws<KeyNotFoundException>(() => aggResult[0].GetElement("_id"));
             Assert.AreEqual("storeNumber=42", aggResult[0].GetElement("storeNumber").ToString());

@@ -1,6 +1,5 @@
 ﻿// :code-block-start:task-object-model
 using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
 using Realms;
 
 namespace dotnet
@@ -8,20 +7,20 @@ namespace dotnet
     public class Task : RealmObject
     {
         [PrimaryKey]
-        [BsonElement("_id")]
+        [MapTo("_id")]
         public ObjectId _id { get; set; }
 
-        [BsonElement("_partition")]
+        [MapTo("_partition")]
         public string Partition { get; set; }
 
-        [BsonElement("assignee")]
+        [MapTo("assignee")]
         public User Assignee { get; set; }
 
-        [BsonElement("name")]
+        [MapTo("name")]
         [Required]
         public string Name { get; set; }
 
-        [BsonElement("status")]
+        [MapTo("status")]
         [Required]
         public string Status { get; set; }
 

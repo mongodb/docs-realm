@@ -7,9 +7,9 @@ var projectStage = new BsonDocument("$project",
         { "name", 1 },
         { "storeNumber",
             new BsonDocument("$arrayElemAt",
-            new BsonArray {
-                new BsonDocument("$split",
-                new BsonArray
+                new BsonArray {
+                    new BsonDocument("$split",
+                    new BsonArray
                     {
                         "$_partition",
                         " "

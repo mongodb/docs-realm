@@ -41,41 +41,41 @@ namespace UnitTests
             venus = new Plant
             {
                 Name = "Venus Flytrap",
-                Sunlight = Sunlight.full,
-                Color = PlantColor.white,
-                Type = PlantType.perennial,
+                Sunlight = Sunlight.Full,
+                Color = PlantColor.White,
+                Type = PlantType.Perennial,
                 Partition = "Store 42"
             };
             sweetBasil = new Plant
             {
                 Name = "Sweet Basil",
-                Sunlight = Sunlight.partial,
-                Color = PlantColor.green,
-                Type = PlantType.annual,
+                Sunlight = Sunlight.Partial,
+                Color = PlantColor.Green,
+                Type = PlantType.Annual,
                 Partition = "Store 42"
             };
             thaiBasil = new Plant
             {
                 Name = "Thai Basil",
-                Sunlight = Sunlight.partial,
-                Color = PlantColor.green,
-                Type = PlantType.perennial,
+                Sunlight = Sunlight.Partial,
+                Color = PlantColor.Green,
+                Type = PlantType.Perennial,
                 Partition = "Store 42"
             };
             helianthus = new Plant
             {
                 Name = "Helianthus",
-                Sunlight = Sunlight.full,
-                Color = PlantColor.yellow,
-                Type = PlantType.annual,
+                Sunlight = Sunlight.Full,
+                Color = PlantColor.Yellow,
+                Type = PlantType.Annual,
                 Partition = "Store 42"
             };
             petunia = new Plant
             {
                 Name = "Petunia",
-                Sunlight = Sunlight.full,
-                Color = PlantColor.purple,
-                Type = PlantType.annual,
+                Sunlight = Sunlight.Full,
+                Color = PlantColor.Purple,
+                Type = PlantType.Annual,
                 Partition = "Store 47"
             };
 
@@ -114,20 +114,20 @@ namespace UnitTests
             {
                 var id = item["_id"];
                 var count = item["count"];
-                Console.WriteLine($"Id: {id}, Count: {count}");
+                Console.WriteLine($"Plant type: {id}; count: {count}");
             }
 
-            Assert.AreEqual(0, aggResult[0]["_id"].AsInt32);
-            Assert.AreEqual(1, aggResult[1]["_id"].AsInt32);
-            Assert.AreEqual(2, aggResult[0]["count"].AsInt32);
-            Assert.AreEqual(3, aggResult[1]["count"].AsInt32);
+            Assert.AreEqual(PlantType.Annual.ToString(), aggResult[0]["_id"].AsString);
+            Assert.AreEqual(PlantType.Perennial.ToString(), aggResult[1]["_id"].AsString);
+            Assert.AreEqual(3, aggResult[0]["count"].AsInt32);
+            Assert.AreEqual(2, aggResult[1]["count"].AsInt32);
 
             var groupStep = BsonDocument.Parse(@"
               {
-                '$group': {
-                  '_id': '$type', 
-                  'count': {
-                    '$sum': 1
+                $group: {
+                  _id: '$type', 
+                  count: {
+                    $sum: 1
                   }
                 }
               }
@@ -142,10 +142,10 @@ namespace UnitTests
                 var count = item["count"];
                 Console.WriteLine($"Id: {id}, Count: {count}");
             }
-            Assert.AreEqual(0, aggResult[0]["_id"].AsInt32);
-            Assert.AreEqual(1, aggResult[1]["_id"].AsInt32);
-            Assert.AreEqual(2, aggResult[0]["count"].AsInt32);
-            Assert.AreEqual(3, aggResult[1]["count"].AsInt32);
+            Assert.AreEqual(PlantType.Annual.ToString(), aggResult[0]["_id"].AsString);
+            Assert.AreEqual(PlantType.Perennial.ToString(), aggResult[1]["_id"].AsString);
+            Assert.AreEqual(3, aggResult[0]["count"].AsInt32);
+            Assert.AreEqual(2, aggResult[1]["count"].AsInt32);
         }
 
         [Test]
@@ -154,12 +154,12 @@ namespace UnitTests
             var matchStage = new BsonDocument("$match",
                     new BsonDocument("type",
                         new BsonDocument("$eq",
-                            PlantType.perennial)));
+                            PlantType.Perennial)));
 
             // Alternate approach using BsonDocument.Parse(...)
             matchStage = BsonDocument.Parse(@"{
               $match: {
-                type: { $eq: " + (int)PlantType.perennial + @" }
+                type: { $eq: '" + PlantType.Perennial + @"' }
               }}");
 
             var sortStage = BsonDocument.Parse("{$sort: { _id: 1}}");
@@ -188,9 +188,9 @@ namespace UnitTests
                     { "name", 1 },
                     { "storeNumber",
                         new BsonDocument("$arrayElemAt",
-                        new BsonArray {
-                            new BsonDocument("$split",
-                            new BsonArray
+                            new BsonArray {
+                                new BsonDocument("$split",
+                                new BsonArray
                                 {
                                     "$_partition",
                                     " "
@@ -204,7 +204,20 @@ namespace UnitTests
             {
                 Console.WriteLine($"{item["name"]} is in store #{item["storeNumber"]}.");
             }
-
+            projectStage = BsonDocument.Parse(@"
+                {
+                  _id:0,
+                  _partition: 1,
+                  type: 1,
+                  name: 1,
+                  storeNumber: {
+                    $arrayElemAt: [
+                      { $split:[
+                        '$_partition', ' '
+                        ]
+                      }, 1 ]
+                  }
+                }");
             Assert.AreEqual(5, aggResult.Length);
             Assert.Throws<KeyNotFoundException>(() => aggResult[0].GetElement("_id"));
             Assert.AreEqual("storeNumber=42", aggResult[0].GetElement("storeNumber").ToString());

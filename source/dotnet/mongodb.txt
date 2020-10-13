@@ -133,6 +133,11 @@ The following example shows how to find all plants where the "type" property is
 .. literalinclude:: /examples/generated/code/start/MongoDBExamples.codeblock.mongo-find-many.cs
    :language: csharp
 
+.. important::
+  
+   We are using the third parameter of ``FindAsync()``, which specifies the 
+   sort order. If you are querying for more than one document, you should include 
+   the sort order to ensure consistent results.
 
 .. _dotnet-mongodb-count:
 
@@ -328,3 +333,8 @@ In this example, we are:
 .. literalinclude:: /examples/generated/code/start/AggregationExamples.codeblock.agg_project.cs
    :language: csharp
 
+The following shows how you can also build the ``projectStage`` by using the 
+``BsonDocument.Parse()`` method:
+
+.. literalinclude:: /examples/generated/code/start/AggregationExamples.codeblock.agg_project_alt.cs
+   :language: csharp
