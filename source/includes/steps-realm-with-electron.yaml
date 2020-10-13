@@ -7,11 +7,34 @@ content: |
 
      mkdir myElectronApplication
      
-  Create an index.html and main.js file in the root directory of
-  your application. The code in the main.js file is the Electron main
-  process file, which can be thought of as the entry point into your
+  Create an index.html and main.js file in the root directory of your
+  application. The code in the main.js file is the Electron main process
+  file, which can be thought of as the entry point into your
   application. The main.js file is responsible for loading your
-  index.html file into the BrowserWindow created by Electron.
+  index.html file into the BrowserWindow created by Electron. Any script
+  files that you require in this HTML file will execute on the renderer
+  process. Add the following to your ``index.html`` file:
+
+  .. code-block:: html
+
+     <!DOCTYPE html>
+     <html>
+       <head>
+         <meta charset="UTF-8" />
+         <title>Hello World!</title>
+       </head>
+       <body>
+         <h1>Hello World!</h1>
+         <script src="renderer.js"></script>
+       </body>
+     </html>
+
+  Create a ``renderer.js`` file in the root directory of your
+  application. Add the following code to this file:
+
+  .. code-block:: javascript
+
+     const Realm = require("realm"); 
 
   .. note::
 
@@ -78,6 +101,23 @@ content: |
 
   Notice the ``require("realm")`` on line 2. This line makes Realm
   accessible in this main process file.
+
+  Your application file structure should now look something like the following:
+
+  .. code-block:: text
+     :emphasize-lines: 5, 6
+
+     .
+     |-- package.json 
+     |-- package-lock.lock
+     |-- index.html
+     |-- main.js // main process
+     |-- renderer.js // renderer process
+
+  The main.js executes on the ``main`` process. The ``renderer.js`` and
+  any other files required by it or by the ``index.html`` file execute
+  on the ``renderer process``.
+
 ---
 title: Run Your Application
 ref: run-electron-app
