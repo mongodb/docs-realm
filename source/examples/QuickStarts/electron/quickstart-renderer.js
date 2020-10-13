@@ -3,10 +3,10 @@ const Realm = require("realm");
 const ObjectId = require("bson").ObjectId;
 
 async function run() {
-  const realmApp = new Realm.App({ id: "<Your App ID>" }); // Replace <Your App ID> with your application id
+  const realmApp = new Realm.App({ id: "tutsbrawl-qfxxj" }); // Replace <Your App ID> with your application id
   let credentials = Realm.Credentials.anonymous();
   // log in anonymously
-  let user = await realmApp.logIn(credentials);
+  await realmApp.logIn(credentials);
 
   var PersonSchema = {
     name: "Person",
@@ -24,10 +24,7 @@ async function run() {
   };
 
   // open a non synced realm
-
   const realm = new Realm(config);
-
-  const personList = realm.objects("Person");
 
   // create a new "Person"
   realm.write(() => {
@@ -37,9 +34,12 @@ async function run() {
     });
   });
 
-  // Sending a request for sync to main
-
   ipcRenderer.send("asynchronous-message", "sync");
+
+  // receive a reply with the created person's name from the main process
+  ipcRenderer.on("asynchronous-reply", (event, arg) => {
+    console.log(`renderer process:`, arg); // prints "pong"
+  });
 }
 
 run();

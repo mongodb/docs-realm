@@ -35,17 +35,30 @@ app.whenReady().then(async () => {
     },
   };
   // open a synced realm
-
   const realm = await Realm.open(config);
+
+  // Get all Persons in the realm
+  const persons = realm.objects("Person");
 
   // when receiving an "asynchronous-message" from the renderer process,
   // upload all local changes to the synced realm
-
   ipcMain.on("asynchronous-message", (event, arg) => {
     if (arg === "sync") {
-      console.log("Syncing all local changes");
-
       realm.syncSession.uploadAllLocalChanges();
+      console.log("main process: Syncing all local changes");
+      console.log(
+        `main process: Created person object: \t ${JSON.stringify(
+          persons[0],
+          null,
+          2
+        )}`
+      );
+
+      // send a reply to the renderer process with the created person's name
+      event.reply(
+        "asynchronous-reply",
+        `created person object with the name ${persons[0].name}`
+      );
     }
   });
 
