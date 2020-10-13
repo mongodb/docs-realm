@@ -74,6 +74,14 @@ applications using Electron and Realm:
 
 Consider the following code in the ``main process``:
 
+.. note::
+
+   If you have set up your application using Create React App, make sure
+   to pass in the ``index.html`` file in your ``build`` folder to the
+   `window.loadFile()
+   <https://www.electronjs.org/docs/api/browser-window#winloadfilefilepath-options>`_
+   method on line 11.
+
 .. literalinclude:: /examples/QuickStarts/electron/quickstart-main.js
   :language: javascript
   :emphasize-lines: 38, 41, 45, 47
