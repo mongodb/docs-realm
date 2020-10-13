@@ -43,10 +43,6 @@ describe("user authentication", () => {
     // :code-block-end:
   });
   
-  const isString = (str: any): str is string => {
-    return str.toString()
-  }
-
   test("server api key login", async () => {
     // :code-block-start: server-api-key-login
     // Get the API key from the local environment
@@ -140,6 +136,7 @@ describe("user authentication", () => {
       // Log out a specific user by ID
       if(app.currentUser) {
         // :hide-start:
+        // The app.allUsers TS type is currently incorrect, ignore the error until a fix is in
         // @ts-ignore
         // :hide-end:
         await app.allUsers[app.currentUser.id].logOut();
