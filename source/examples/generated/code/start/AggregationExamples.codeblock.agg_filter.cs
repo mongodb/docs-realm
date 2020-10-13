@@ -1,12 +1,12 @@
 var matchStage = new BsonDocument("$match",
         new BsonDocument("type",
             new BsonDocument("$eq",
-                PlantType.perennial)));
+                PlantType.Perennial)));
 
 // Alternate approach using BsonDocument.Parse(...)
 matchStage = BsonDocument.Parse(@"{
   $match: {
-    type: { $eq: " + (int)PlantType.perennial + @" }
+    type: { $eq: '" + PlantType.Perennial + @"' }
   }}");
 
 var sortStage = BsonDocument.Parse("{$sort: { _id: 1}}");

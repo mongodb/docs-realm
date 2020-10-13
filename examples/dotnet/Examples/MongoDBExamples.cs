@@ -111,12 +111,14 @@ namespace UnitTests
         {
             // :code-block-start: mongo-find-one
             var petunia = await plantsCollection.FindOneAsync(
-                new BsonDocument("name", "Petunia"), null);
+               new { name = "Petunia" },
+               null);
             // :code-block-end:
             Assert.AreEqual("Store 47", petunia.Partition);
             // :code-block-start: mongo-find-many
             var allPerennials = await plantsCollection.FindAsync(
-                new BsonDocument("type", PlantType.Perennial.ToString()), null);
+                new {type = PlantType.Perennial.ToString() },
+                new { name = 1 });
             // :code-block-end:
             Assert.AreEqual(2, allPerennials.Count());
             // :code-block-start: mongo-count
@@ -132,23 +134,27 @@ namespace UnitTests
                 // :code-block-start: mongo-update-one
                 var updateResult = await plantsCollection.UpdateOneAsync(
                     new BsonDocument("sunlight", Sunlight.Partial.ToString()),
-                    new BsonDocument("name", "Petunia"));
+                    new { name = "Petunia" });
                 // :code-block-end:
                 Assert.AreEqual(1, updateResult.MatchedCount);
                 Assert.AreEqual(1, updateResult.ModifiedCount);
             }
             {
                 // :code-block-start: mongo-update-many
+                var filter = new { _partition = "Store 47" };
+                var updateDoc = new BsonDocument("$set",
+                    new BsonDocument("_partition", "Area 51"));
+
                 var updateResult = await plantsCollection.UpdateManyAsync(
-                    new BsonDocument("_partition", "Store 47"),
-                    new BsonDocument("$set", new BsonDocument("_partition", "Area 51")));
+                    filter, updateDoc);
                 // :code-block-end:
                 Assert.AreEqual(1, updateResult.MatchedCount);
                 Assert.AreEqual(1, updateResult.ModifiedCount);
             }
             {
                 // :code-block-start: mongo-upsert
-                var filter = new BsonDocument("name", "Pothos")
+                var filter = new BsonDocument()
+                    .Add("name", "Pothos")
                     .Add("type", PlantType.Perennial)
                     .Add("sunlight", Sunlight.Full);
 
@@ -168,7 +174,7 @@ namespace UnitTests
                 */
                 // :code-block-end:
 
-                var plant = await plantsCollection.FindOneAsync(filter, null);
+                var plant = await plantsCollection.FindOneAsync(filter);
                 Assert.AreEqual("Store 42", plant.Partition);
                 Assert.AreEqual(plant.Id, updateResult.UpsertedId);
             }

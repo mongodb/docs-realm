@@ -14,5 +14,5 @@ foreach (var item in aggResult)
 {
     var id = item["_id"];
     var count = item["count"];
-    Console.WriteLine($"Id: {id}, Count: {count}");
+    Console.WriteLine($"Plant type: {id}; count: {count}");
 }

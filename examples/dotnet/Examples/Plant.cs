@@ -7,9 +7,8 @@ namespace Examples
     // :code-block-start: plant-class
     public class Plant
     {
-        [PrimaryKey]
         [BsonElement("_id")]
-        public ObjectId Id { get; set; }
+        public ObjectId Id { get; set; } = ObjectId.GenerateNewId();
 
         [BsonElement("name")]
         public string Name { get; set; }
@@ -28,11 +27,6 @@ namespace Examples
 
         [BsonElement("_partition")]
         public string Partition { get; set; }
-
-        public Plant()
-        {
-            this.Id = ObjectId.GenerateNewId();
-        }
     }
     public enum Sunlight
     {
