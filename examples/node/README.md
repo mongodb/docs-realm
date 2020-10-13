@@ -131,6 +131,15 @@ This processes each test file and outputs generated example code blocks to the
 `source/examples/generated/` directory. These files map directly from the `:code-block-start:`
 comments in each file.
 
+For example, the annotated code block above generates the following includable code example:
+
+```js
+async function myExample() {
+  // Lines not in a hide block (including this comment!) will remain in the generated code.
+  return await doSomethingFancy();
+}
+```
+
 Bluehawk currently generates a lot of files, but this project only uses those in
 `/source/examples/generated/code/start/`.
 
@@ -140,31 +149,13 @@ The generated code is now available within any `.txt` or `.rst` file via the `..
 directive.
 
 ```restructuredtext
-Anonymous
-~~~~~~~~~
-
-The :doc:`Anonymous </authentication/anonymous>` provider allows users to log in
-to your application with ephemeral accounts that have no associated information.
-
-To log in, create an anonymous credential and pass it to ``App.logIn()``:
-
-.. tabs-realm-languages::
-   
-   .. tab::
-      :tabid: javascript
-      
-      .. literalinclude:: /examples/generated/code/start/authenticate.codeblock.anonymous-login.js
-         :language: javascript
-   
-   .. tab::
-      :tabid: typescript
-      
-      .. literalinclude:: /examples/generated/code/start/authenticate.codeblock.anonymous-login.ts
-         :language: typescript
+.. literalinclude:: /examples/generated/code/start/authenticate.codeblock.my-example.js
+   :language: javascript
 ```
 
-Behold! You have pasted your unit tested code examples directly into the docs.
-Rejoice!
+## Rejoice!
+
+If all went according to plan, you have now included your unit tested code examples in the docs. Huzzah!
 
 ## Questions
 
