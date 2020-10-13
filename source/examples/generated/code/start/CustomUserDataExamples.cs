@@ -84,8 +84,7 @@ namespace UnitTests
 
     public class CustomUserData
     {
-        [Required]
-        public string _id { get; set; }
+        public string _id { get; private set; }
 
         public string FavoriteColor { get; set; }
 
