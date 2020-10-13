@@ -39,8 +39,7 @@ The following diagram shows the key items in the project directory:
 
 | Path               | Description                                                                             |
 | ------------------ | --------------------------------------------------------------------------------------- |
-| `Examples/js`      | Examples, test cases, and supporting source files for JavaScript. Add `.ts` files here. |
-| `Examples/ts`      | Examples, test cases, and supporting source files for TypeScript. Add `.js` files here. |
+| `Examples/`        | Examples, test cases, and supporting source files. Add `.js` & `.ts` files here.        |
 | `babel.config.js`  | Configuration for [Babel](https://babeljs.io/) transpilation.                           |
 | `jest.config.js`   | Configuration for the [Jest](https://jestjs.io/) testing framework.                     |
 | `tsconfig.json`    | Configuration for the TypeScript compiler.                                              |
