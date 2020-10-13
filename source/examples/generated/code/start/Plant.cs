@@ -4,7 +4,6 @@ using Realms;
 
 namespace Examples
 {
-    // :code-block-start: plant-class
     public class Plant
     {
         [PrimaryKey]
@@ -51,5 +50,4 @@ namespace Examples
         Perennial,
         Annual
     }
-    // :code-block-end:
 }

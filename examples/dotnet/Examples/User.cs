@@ -1,19 +1,23 @@
 ﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 using Realms;
 
 namespace dotnet
 {
-    public class RealmUser : RealmObject
+    public class User : RealmObject
     {
         [PrimaryKey]
-        [MapTo("_id")]
+        [BsonElement("_id")]
         [Required]
-        public string Id { get; set; }
-        [MapTo("_partition")]
+        public string _id { get; set; }
+
+        [BsonElement("_partition")]
         public string Partition { get; set; }
-        [MapTo("image")]
+
+        [BsonElement("image")]
         public string Image { get; set; }
-        [MapTo("name")]
+
+        [BsonElement("name")]
         [Required]
         public string Name { get; set; }
     }

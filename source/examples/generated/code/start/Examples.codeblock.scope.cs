@@ -1,3 +1,3 @@
-config = new SyncConfiguration("My Project", user);
+config = new SyncConfiguration("myPartition", user);
 using var realm = await Realm.GetInstanceAsync(config);
-var allTasks = realm.All<RealmTask>();
+var allTasks = realm.All<Task>();

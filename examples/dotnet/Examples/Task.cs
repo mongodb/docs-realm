@@ -1,32 +1,33 @@
 ﻿// :code-block-start:task-object-model
 using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 using Realms;
 
 namespace dotnet
 {
-    public class RealmTask : RealmObject
+    public class Task : RealmObject
     {
         [PrimaryKey]
-        [MapTo("_id")]
-        public ObjectId Id { get; set; }
+        [BsonElement("_id")]
+        public ObjectId _id { get; set; }
 
-        [MapTo("_partition")]
+        [BsonElement("_partition")]
         public string Partition { get; set; }
 
-        [MapTo("assignee")]
-        public RealmUser Assignee { get; set; }
+        [BsonElement("assignee")]
+        public User Assignee { get; set; }
 
-        [MapTo("name")]
+        [BsonElement("name")]
         [Required]
         public string Name { get; set; }
 
-        [MapTo("status")]
+        [BsonElement("status")]
         [Required]
         public string Status { get; set; }
 
-        public RealmTask()
+        public Task()
         {
-            this.Id = ObjectId.GenerateNewId();
+            this._id = ObjectId.GenerateNewId();
         }
     }
 
