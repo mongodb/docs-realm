@@ -38,7 +38,7 @@ async function run() {
 
   // receive a reply with the created person's name from the main process
   ipcRenderer.on("asynchronous-reply", (event, arg) => {
-    console.log(`renderer process:`, arg); // prints "pong"
+    console.log(`renderer process:`, arg);
   });
 }
 
