@@ -10,7 +10,7 @@ content: |
      npx create-react-app my_electron_react_application
 
   Your application file structure should look something like the
-  following. This representation abstracts some files, such as CSS,
+  following. This representation omits some files, such as CSS,
   service worker, and test files. 
 
   .. code-block:: text
@@ -22,8 +22,8 @@ content: |
      |-- public
      |   |-- index.html
      |-- src
-     |   |-- App.js // renderer process
-     |-- |-- index.js // renderer process
+     |   |-- App.js // runs on the renderer process
+     |-- |-- index.js // runs on the renderer process
 
   Any JS Files within the ``src`` directory executes on a ``renderer process``.
 
@@ -34,7 +34,7 @@ content: |
    own process, known as a ``renderer process``. To learn more about
    this, read the official `Electron Application
    Architecture <https://www.electronjs.org/docs/tutorial/application-architecture>`_
-   doc.
+   document.
 
 ---
 title: Install CRACO to Alter Your Webpack Configuration
@@ -100,7 +100,7 @@ content: |
      own process, known as a **renderer process**. To learn more about
      this, read the official `Electron Application
      Architecture <https://www.electronjs.org/docs/tutorial/application-architecture>`_
-     doc.
+     document.
 
   Add the following code to a new file called ``electron.js`` in the
   ``public`` directory:
@@ -108,7 +108,7 @@ content: |
   .. literalinclude:: /examples/QuickStarts/electron/quickstart-setup-react-electron.js
 
   Your application file structure should now look something like the
-  following. This representation abstracts some files, such as CSS,
+  following. This representation omits some files, such as CSS,
   service worker, and test files. 
 
   .. code-block:: text
@@ -120,10 +120,10 @@ content: |
      |-- craco.config.js
      |-- public
      |   |-- index.html
-     |   |-- electron.js // main process
+     |   |-- electron.js // runs on the main process
      |-- src
-     |   |-- App.js // renderer process
-     |-- |-- index.js // renderer process
+     |   |-- App.js // runs on the renderer process
+     |-- |-- index.js // runs on the renderer process
 
   All JS Files within the ``src`` directory executes on the ``renderer`` process. The electron.js and any files required by it execute on the ``main process``.
 ---

@@ -9,11 +9,11 @@ content: |
      
   Create an index.html and main.js file in the root directory of your
   application. The code in the main.js file is the Electron main process
-  file, which can be thought of as the entry point into your
-  application. The main.js file is responsible for loading your
-  index.html file into the BrowserWindow created by Electron. Any script
-  files that you require in this HTML file will execute on the renderer
-  process. Add the following to your ``index.html`` file:
+  file, which is the entry point into your application. The main.js file
+  is responsible for loading your index.html file into the BrowserWindow
+  created by Electron. Any script files that you require in this HTML
+  file will execute on the renderer process. Add the following to your
+  ``index.html`` file:
 
   .. code-block:: html
 
@@ -43,7 +43,7 @@ content: |
      own process, known as a ``renderer process``. To learn more about
      this, read the official `Electron Application
      Architecture <https://www.electronjs.org/docs/tutorial/application-architecture>`_
-     doc.
+     document.
 ---
 title: Set up a ``package.json``
 ref: setup-packagejson
@@ -111,8 +111,8 @@ content: |
      |-- package.json 
      |-- package-lock.lock
      |-- index.html
-     |-- main.js // main process
-     |-- renderer.js // renderer process
+     |-- main.js // runs on the main process
+     |-- renderer.js // runs on the renderer process
 
   The main.js executes on the ``main`` process. The ``renderer.js`` and
   any other files required by it or by the ``index.html`` file execute
