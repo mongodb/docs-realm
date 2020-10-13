@@ -3,12 +3,11 @@ import Realm from "realm";
 const app = new Realm.App({ id: "example-testers-kvjdy" });
 
 describe("user authentication", () => {
-  
   afterEach(async () => {
     await app.currentUser?.logOut();
     jest.runAllTimers();
   });
-  
+
   test("anonymous login", async () => {
     // :code-block-start: anonymous-login
     // Create an anonymous credential
@@ -20,16 +19,19 @@ describe("user authentication", () => {
       // :hide-end:
       console.log("Successfully logged in!", user.id);
       return user;
-    } catch(err) {
+    } catch (err) {
       console.error("Failed to log in", err.message);
     }
     // :code-block-end:
   });
-  
+
   test("email/password login", async () => {
     // :code-block-start: email-password-login
     // Create an email/password credential
-    const credentials = Realm.Credentials.emailPassword("joe.jasper@example.com", "passw0rd");
+    const credentials = Realm.Credentials.emailPassword(
+      "joe.jasper@example.com",
+      "passw0rd"
+    );
     try {
       const user = await app.logIn(credentials);
       // :hide-start:
@@ -37,17 +39,17 @@ describe("user authentication", () => {
       // :hide-end:
       console.log("Successfully logged in!", user.id);
       return user;
-    } catch(err) {
+    } catch (err) {
       console.error("Failed to log in", err.message);
     }
     // :code-block-end:
   });
-  
+
   test("server api key login", async () => {
     // :code-block-start: server-api-key-login
     // Get the API key from the local environment
     const apiKey = process.env.realmServerApiKey;
-    if(!apiKey) {
+    if (!apiKey) {
       throw new Error("Could not find a Realm Server API Key.");
     }
     // Create an api key credential
@@ -59,12 +61,12 @@ describe("user authentication", () => {
       // :hide-end:
       console.log("Successfully logged in!", user.id);
       return user;
-    } catch(err) {
+    } catch (err) {
       console.error("Failed to log in", err.message);
     }
     // :code-block-end:
   });
-  
+
   test("custom function login", async () => {
     // :code-block-start: custom-function-login
     // Create a custom function credential
@@ -76,12 +78,11 @@ describe("user authentication", () => {
       // :hide-end:
       console.log("Successfully logged in!", user.id);
       return user;
-    } catch(err) {
+    } catch (err) {
       console.error("Failed to log in", err.message);
     }
     // :code-block-end:
   });
-  
 
   test("custom jwt login", async () => {
     const authenticateWithExternalSystem = () => {
@@ -100,11 +101,11 @@ describe("user authentication", () => {
       //   secret: "E7DE0D13D66BF64EC9A9A74A3D600E840D39B4C12832D380E48ECE02070865AB"
       // }
       //
-      return "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJleGFtcGxlLXRlc3RlcnMta3ZqZHkiLCJzdWIiOiJleGFtcGxlLXVzZXIiLCJuYW1lIjoiSm9lIEphc3BlciIsImV4cCI6MTkxODA2MjM5OH0.3wR1cJN4zlbbDh7IaYyDX0fasNEW3grJCdv_7lQFnPI"
-    }
+      return "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJleGFtcGxlLXRlc3RlcnMta3ZqZHkiLCJzdWIiOiJleGFtcGxlLXVzZXIiLCJuYW1lIjoiSm9lIEphc3BlciIsImV4cCI6MTkxODA2MjM5OH0.3wR1cJN4zlbbDh7IaYyDX0fasNEW3grJCdv_7lQFnPI";
+    };
     // :code-block-start: custom-jwt-login
     // Create a custom jwt credential
-    const jwt = await authenticateWithExternalSystem();  
+    const jwt = await authenticateWithExternalSystem();
     const credentials = Realm.Credentials.jwt(jwt);
     try {
       const user = await app.logIn(credentials);
@@ -113,20 +114,25 @@ describe("user authentication", () => {
       // :hide-end:
       console.log("Successfully logged in!", user.id);
       return user;
-    } catch(err) {
+    } catch (err) {
       console.error("Failed to log in", err.message);
     }
     // :code-block-end:
   });
-  
+
   test("logout", async () => {
-    const emailPasswordCredentials = Realm.Credentials.emailPassword("joe.jasper@example.com", "passw0rd");
-    const functionCredentials = Realm.Credentials.function({ username: "mongolover" });
+    const emailPasswordCredentials = Realm.Credentials.emailPassword(
+      "joe.jasper@example.com",
+      "passw0rd"
+    );
+    const functionCredentials = Realm.Credentials.function({
+      username: "mongolover",
+    });
     try {
       const emailPasswordUser = await app.logIn(emailPasswordCredentials);
       const functionUser = await app.logIn(functionCredentials);
       expect(functionUser.id).toBe(app.currentUser.id);
-      
+
       // :code-block-start: logout
       // Log out the current user
       await app.currentUser.logOut();
@@ -136,9 +142,8 @@ describe("user authentication", () => {
       // Log out a specific user by ID
       await app.allUsers[app.currentUser.id].logOut();
       // :code-block-end:
-    } catch(err) {
+    } catch (err) {
       console.error(err.message);
     }
   });
-  
-})
+});
