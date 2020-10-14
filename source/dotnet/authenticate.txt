@@ -14,10 +14,13 @@ Authenticate a User
 
 Overview
 --------
-
 {+service+} provides an API for authenticating users using any enabled
-authentication provider. Instantiate a ``Credentials`` object and pass
-it to the  ``app.LogInAsync()`` method to authenticate and obtain a ``User`` 
+authentication provider. Instantiate a 
+:dotnet-sdk:`Credentials <reference/Realms.Sync.Credentials.html>` 
+object and pass
+it to the  
+:dotnet-sdk:`LogInAsync() <reference/Realms.Sync.App.html#Realms_Sync_App_LogInAsync_Realms_Sync_Credentials_>` 
+method to authenticate and obtain a :dotnet-sdk:`User <reference/Realms.Sync.User.html>`
 instance. The ``Credentials`` class exposes factory methods that correspond to 
 each of the authentication providers:
 
