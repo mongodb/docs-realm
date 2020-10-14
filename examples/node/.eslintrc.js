@@ -6,16 +6,33 @@ module.exports = {
   },
   extends: [
     "eslint:recommended",
-    // "plugin:prettier/recommended",
-    "plugin:@typescript-eslint/recommended",
+    "plugin:prettier/recommended",
   ],
-  parser: "@typescript-eslint/parser",
   parserOptions: {
     ecmaVersion: 2021,
     sourceType: "module",
   },
-  plugins: ["@typescript-eslint", "jest", "prettier"],
+  plugins: ["jest", "prettier"],
   rules: {
-    "@typescript-eslint/ban-ts-comment": "warn",
+    "no-unused-vars": "warn"
   },
+  overrides: [
+    {
+      "files": ["Examples/**/*.js"],
+      "env": {
+        "mocha": true,
+      }
+    },
+    {
+      "files": ["Examples/**/*.ts"],
+      "parser": "@typescript-eslint/parser",
+      "plugins": [
+        "@typescript-eslint"
+      ],
+      rules: {
+        "@typescript-eslint/ban-ts-comment": "warn",
+      },
+      "extends": ["eslint:recommended", "plugin:prettier/recommended", "plugin:@typescript-eslint/recommended"]
+    }
+  ]
 };
