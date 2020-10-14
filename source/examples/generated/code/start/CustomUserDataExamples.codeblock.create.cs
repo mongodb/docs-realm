@@ -1,6 +1,5 @@
 app = App.Create(myRealmAppId);
-user = await app.LogInAsync(Credentials.EmailPassword("foo@foo.com", "foobar"));
-var config = new SyncConfiguration("ufda", user);
+user = await app.LogInAsync(Credentials.Anonymous());
 
 mongoClient = user.GetMongoClient("mongodb-atlas");
 dbTracker = mongoClient.GetDatabase("tracker");
