@@ -23,19 +23,12 @@ Pass the {+app+} ID for your {+app+}, which you can
 .. literalinclude:: /examples/generated/code/start/WorkWithRealm.codeblock.initialize-realm.cs
    :language: csharp
 
-.. note::
-
-   You can create multiple ``App`` instances to connect to multiple
-   {+app+}s or to the same {+app+} with different configurations. All
-   ``App`` instances that share the same App ID use the same underlying
-   connection.
-
 .. _dotnet-app-client-configuration:
 
 Configuration
 -------------
 For granular control of your app connection, such as custom timeouts for connections
-and keys for local encryption, you can pass an 
+and the log level, you can pass an 
 :dotnet-sdk:`AppConfiguration <reference/Realms.Sync.AppConfiguration.html>` 
 object to the 
 :dotnet-sdk:`App.Create() <reference/Realms.Sync.App.html#Realms_Sync_App_Create_Realms_Sync_AppConfiguration_>` 

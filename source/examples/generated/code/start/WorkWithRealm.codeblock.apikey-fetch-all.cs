@@ -1,5 +1,4 @@
-var apiKeyClient = user.ApiKeys;
-var allKeys = await apiKeyClient.FetchAllAsync();
+var allKeys = await user.ApiKeys.FetchAllAsync();
 foreach (var key in allKeys)
 {
     Console.WriteLine($"I fetched the key named {key.Name}. " +

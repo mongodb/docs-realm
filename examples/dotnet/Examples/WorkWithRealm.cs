@@ -54,7 +54,7 @@ namespace UnitTests
             //:code-block-end:
             // :code-block-start: reset-user-3
             await app.EmailPasswordAuth.CallResetPasswordFunctionAsync(
-                userEmail, myNewPassword);
+                userEmail, myNewPassword, new { token = "<token>", tokenId = "<token-=id>" });
             //:code-block-end:
 
         }
@@ -64,24 +64,21 @@ namespace UnitTests
         {
             {
                 //:code-block-start:apikey-create
-                var apiKeyClient = user.ApiKeys;
-                var newKey = await apiKeyClient.CreateAsync("someKeyName");
+                var newKey = await user.ApiKeys.CreateAsync("someKeyName");
                 Console.WriteLine($"I created a key named {newKey.Name}. " +
                     $"Is it enabled? {newKey.IsEnabled}");
                 //:code-block-end:
             }
             {
                 //:code-block-start:apikey-fetch
-                var apiKeyClient = user.ApiKeys;
-                var key = await apiKeyClient.FetchAsync(ObjectId.Parse("00112233445566778899aabb"));
+                var key = await user.ApiKeys.FetchAsync(ObjectId.Parse("00112233445566778899aabb"));
                 Console.WriteLine($"I fetched the key named {key.Name}. " +
                     $"Is it enabled? {key.IsEnabled}");
                 //:code-block-end:
             }
             {
                 //:code-block-start:apikey-fetch-all
-                var apiKeyClient = user.ApiKeys;
-                var allKeys = await apiKeyClient.FetchAllAsync();
+                var allKeys = await user.ApiKeys.FetchAllAsync();
                 foreach (var key in allKeys)
                 {
                     Console.WriteLine($"I fetched the key named {key.Name}. " +
@@ -91,25 +88,22 @@ namespace UnitTests
             }
             {
                 //:code-block-start:apikey-enable-disable
-                var apiKeyClient = user.ApiKeys;
-                var key = await apiKeyClient.FetchAsync(ObjectId.Parse("00112233445566778899aabb"));
+                var key = await user.ApiKeys.FetchAsync(ObjectId.Parse("00112233445566778899aabb"));
                 if (!key.IsEnabled)
                 {
                     // enable the key
-                    await apiKeyClient.EnableAsync(key.Id);
+                    await user.ApiKeys.EnableAsync(key.Id);
                 }
                 else
                 {
                     // disable the key
-                    await apiKeyClient.DisableAsync(key.Id);
+                    await user.ApiKeys.DisableAsync(key.Id);
                 }
                 //:code-block-end:
             }
             {
                 //:code-block-start:apikey-delete
-                var apiKeyClient = user.ApiKeys;
-                var key = await apiKeyClient.FetchAsync(ObjectId.Parse("00112233445566778899aabb"));
-                await apiKeyClient.DeleteAsync(key.Id);
+                await user.ApiKeys.DeleteAsync(ObjectId.Parse("00112233445566778899aabb"));
                 //:code-block-end:
             }
         }
@@ -144,22 +138,15 @@ namespace UnitTests
                 //:code-block-end:
                 //:code-block-start:multi-switch
                 app.SwitchUser(aimee);
-                if (app.CurrentUser.Id == aimee.Id)
-                {
-                    Console.WriteLine($"Aimee is now the current user.");
-                }
-                //:code-block-end:
                 Assert.IsTrue(aimee.Id == app.CurrentUser.Id, "aimee is current user");
+                //:code-block-end:
 
                 //:code-block-start:multi-remove
                 await app.RemoveUserAsync(elvis);
                 var noMoreElvis = app.AllUsers.FirstOrDefault(u => u.Id == elvis.Id);
-                if (noMoreElvis == null)
-                {
-                    Console.WriteLine($"Elvis has left the application.");
-                }
-                //:code-block-end:
                 Assert.IsNull(noMoreElvis);
+                Console.WriteLine("Elvis has left the application.");
+                //:code-block-end:
             }
 
             return;

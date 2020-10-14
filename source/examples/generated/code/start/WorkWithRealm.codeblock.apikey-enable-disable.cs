@@ -1,12 +1,11 @@
-var apiKeyClient = user.ApiKeys;
-var key = await apiKeyClient.FetchAsync(ObjectId.Parse("00112233445566778899aabb"));
+var key = await user.ApiKeys.FetchAsync(ObjectId.Parse("00112233445566778899aabb"));
 if (!key.IsEnabled)
 {
     // enable the key
-    await apiKeyClient.EnableAsync(key.Id);
+    await user.ApiKeys.EnableAsync(key.Id);
 }
 else
 {
     // disable the key
-    await apiKeyClient.DisableAsync(key.Id);
+    await user.ApiKeys.DisableAsync(key.Id);
 }

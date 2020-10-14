@@ -39,7 +39,7 @@ namespace UnitTests
             ait app.EmailPasswordAuth.ResetPasswordAsync(
               myNewPassword, "<token>", "<token-id>");
             ait app.EmailPasswordAuth.CallResetPasswordFunctionAsync(
-              userEmail, myNewPassword);
+              userEmail, myNewPassword, new { token = "<token>", tokenId = "<token-=id>" });
 
         }
 
@@ -47,20 +47,17 @@ namespace UnitTests
         publ async System.Threading.Tasks.Task APIKeys()
         {
             
-              var apiKeyClient = user.ApiKeys;
-              var newKey = await apiKeyClient.CreateAsync("someKeyName");
+              var newKey = await user.ApiKeys.CreateAsync("someKeyName");
               Console.WriteLine($"I created a key named {newKey.Name}. " +
                   $"Is it enabled? {newKey.IsEnabled}");
             
             
-              var apiKeyClient = user.ApiKeys;
-              var key = await apiKeyClient.FetchAsync(ObjectId.Parse("00112233445566778899aabb"));
+              var key = await user.ApiKeys.FetchAsync(ObjectId.Parse("00112233445566778899aabb"));
               Console.WriteLine($"I fetched the key named {key.Name}. " +
                   $"Is it enabled? {key.IsEnabled}");
             
             
-              var apiKeyClient = user.ApiKeys;
-              var allKeys = await apiKeyClient.FetchAllAsync();
+              var allKeys = await user.ApiKeys.FetchAllAsync();
               foreach (var key in allKeys)
               {
                   Console.WriteLine($"I fetched the key named {key.Name}. " +
@@ -68,23 +65,20 @@ namespace UnitTests
               }
             
             
-              var apiKeyClient = user.ApiKeys;
-              var key = await apiKeyClient.FetchAsync(ObjectId.Parse("00112233445566778899aabb"));
+              var key = await user.ApiKeys.FetchAsync(ObjectId.Parse("00112233445566778899aabb"));
               if (!key.IsEnabled)
               {
                   // enable the key
-                  await apiKeyClient.EnableAsync(key.Id);
+                  await user.ApiKeys.EnableAsync(key.Id);
               }
               else
               {
                   // disable the key
-                  await apiKeyClient.DisableAsync(key.Id);
+                  await user.ApiKeys.DisableAsync(key.Id);
               }
             
             
-              var apiKeyClient = user.ApiKeys;
-              var key = await apiKeyClient.FetchAsync(ObjectId.Parse("00112233445566778899aabb"));
-              await apiKeyClient.DeleteAsync(key.Id);
+              await user.ApiKeys.DeleteAsync(ObjectId.Parse("00112233445566778899aabb"));
             
         }
         [Tes
@@ -113,19 +107,12 @@ namespace UnitTests
               }
               Assert.AreEqual(2, app.AllUsers.Count());
               app.SwitchUser(aimee);
-              if (app.CurrentUser.Id == aimee.Id)
-              {
-                  Console.WriteLine($"Aimee is now the current user.");
-              }
               Assert.IsTrue(aimee.Id == app.CurrentUser.Id, "aimee is current user");
 
               await app.RemoveUserAsync(elvis);
               var noMoreElvis = app.AllUsers.FirstOrDefault(u => u.Id == elvis.Id);
-              if (noMoreElvis == null)
-              {
-                  Console.WriteLine($"Elvis has left the application.");
-              }
               Assert.IsNull(noMoreElvis);
+              Console.WriteLine("Elvis has left the application.");
             
 
             turn;
