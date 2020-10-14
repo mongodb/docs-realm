@@ -1,14 +1,14 @@
-﻿
+
 # Setting up your Environment
 
 1. Install Visual Studio 2019 Community Edition.
 
-2. Go to https://ci.realm.io/blue/organizations/jenkins/realm%2Frealm-dotnet/detail/PR-2011/43/artifacts/
-   and download Realm.10.0.0-alpha.43.nupkg and Realm.Fody.10.0.0-alpha.43.nupkg.
+2. Go to https://ci.realm.io/blue/organizations/jenkins/realm%2Frealm-dotnet/detail/PR-2011/48/artifacts/
+   and download Realm.10.0.0-alpha.....nupkg and Realm.Fody.10.0.0-alpha.....nupkg.
 
 3. Clone the ``mongodb/docs-realm`` repo.
 
-4. Navigtate to ``/examples/dotnet/`` and open ``dotnet.sln`` in Visual Studio.
+4. Navigate to ``/examples/dotnet/`` and open ``dotnet.sln`` in Visual Studio.
 
    **NOTE:** You might need to update XCode -- the Xamarin code requires a specific version of the
    SDks. Visual Studio will tell you if this is the case.
@@ -16,9 +16,9 @@
 5. In Visual Studio, expand ``dotnet``, expand ``Examples``, and then right-click
    on Dependencies.
 
-   a. Click "Manqage Nuget Packages".
+   a. Click "Manage Nuget Packages".
 
-   b. In the upper left corner is a drop-down that probably says "All Sources".
+   b. In the upper left corner is a drop-down that probably says "All Sources" or "nuget.org".
       In that dropdown, select "Configure Sources".
 
    c. Click the Add button (lower right).
@@ -31,19 +31,13 @@
 
    f. Back in the Manage Nuget Packages dialog, select your new source in the
       dropdown, and your should see your two packages. Select botyh, and confirm in the right
-      pane that you are installing version 10.0.0-alpha.43.
+      pane that you are installing version 10.0.0-alpha.xyz where xyz is the latest version you downloaded.
 
    g. Click Add Packages.
 
-At this point, you should be ready to test things. There are currently 2 UnitTest files:
+At this point, you can run tests with one of the following:
 
-- Examples.cs has the Realm unit tests
-
-- MongoDbExamples.cs has the unit tests specific to the MongoDB driver stuff.
-
-As of this writing, all tests in Examples.cs are passing, while all tests in
-MongoDbExamples are failing. I'm working on the latter right now.
-
-
-
-
+- Run the "Examples - Unit Tests" target
+- Run > Run Unit Tests
+- Open a Unit Test file and press Cmd-T to run tests in that file
+- Open the Unit Test explorer on the right-hand side of the IDE.
