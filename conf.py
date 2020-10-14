@@ -91,7 +91,8 @@ source_constants = {
     'cli-bin' : '``realm-cli``', # binary -- DO NOT USE IN LINKS! Will break them.
     'cli' : 'Realm CLI',
     'ui' : 'Realm UI',
-    'app' : 'Realm app'
+    'app' : 'Realm app',
+    'leftnav' : 'left navigation menu',
 }
 
 extlinks = {
