@@ -65,15 +65,15 @@ namespace UnitTests
             {
                 //:code-block-start:apikey-create
                 var newKey = await user.ApiKeys.CreateAsync("someKeyName");
-                Console.WriteLine("I created a key named {newKey.Name}. " +
-                    "Is it enabled? {newKey.IsEnabled}");
+                Console.WriteLine($"I created a key named {newKey.Name}. " +
+                    $"Is it enabled? {newKey.IsEnabled}");
                 //:code-block-end:
             }
             {
                 //:code-block-start:apikey-fetch
                 var key = await user.ApiKeys.FetchAsync(ObjectId.Parse("00112233445566778899aabb"));
-                Console.WriteLine("I fetched the key named {key.Name}. " +
-                    "Is it enabled? {key.IsEnabled}");
+                Console.WriteLine($"I fetched the key named {key.Name}. " +
+                    $"Is it enabled? {key.IsEnabled}");
                 //:code-block-end:
             }
             {
@@ -81,8 +81,8 @@ namespace UnitTests
                 var allKeys = await user.ApiKeys.FetchAllAsync();
                 foreach (var key in allKeys)
                 {
-                    Console.WriteLine("I fetched the key named {key.Name}. " +
-                       "Is it enabled? {key.IsEnabled}");
+                    Console.WriteLine($"I fetched the key named {key.Name}. " +
+                        $"Is it enabled? {key.IsEnabled}");
                 }
                 //:code-block-end:
             }
