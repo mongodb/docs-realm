@@ -1,4 +1,4 @@
-.. _react-native-encrypt-a-realm:
+.. _dotnet-encrypt-a-realm:
 
 ===============
 Encrypt a Realm
@@ -17,7 +17,7 @@ Overview
 
 You can encrypt the {+realm+} database file on disk with AES-256 +
 SHA-2 by supplying a 64-byte encryption key when :ref:`opening a
-{+realm+} <react-native-open-a-realm>`.
+{+realm+} <dotnet-open-a-realm>`.
 
 Realm transparently encrypts and decrypts data with standard
 :wikipedia:`AES-256 encryption <Advanced_Encryption_Standard>` using the
@@ -32,21 +32,26 @@ Considerations
 Storing & Reusing Keys
 ~~~~~~~~~~~~~~~~~~~~~~
 
-You must pass the same encryption key when opening the encrypted
-{+realm+} again. Apps should store the encryption key securely.
+You must pass the same encryption key when opening the encrypted {+realm+}
+again. Apps should securely store the encryption key, typically in the target
+platform's secure key/value pair storage. You can use :xamarin:`Xamarin Secure
+Storage <essentials/secure-storage>` to simplify the access to underlying
+storage. Ultimately, it is the developer's responsibility to ensure that
+attackers cannot easily extract the key.
 
 Performance Impact
 ~~~~~~~~~~~~~~~~~~
 
 Typically, reads and writes on encrypted {+realm+}s can be up to 10%
-slower than unencrypted {+realm+}s.
+slower than on unencrypted {+realm+}s.
 
 Encryption and Realm Sync
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-You can encrypt a :ref:`synced realm <react-native-sync-data>`. {+service+} only
+You can encrypt a :ref:`synced realm <dotnet-sync-data>`. {+service+} only
 encrypts the data on the device and stores the data unencrypted in your
-{+atlas+} :term:`data source`.
+{+atlas+} :term:`data source`. The transfer between client server is fully
+encrypted.
 
 Example
 -------
@@ -54,11 +59,5 @@ Example
 The following code demonstrates how to generate an encryption key and
 open an encrypted {+realm+}:
 
-.. tabs-realm-languages::
-   
-   .. tab::
-      :tabid: javascript
-
-      .. literalinclude:: /examples/Encrypt/encrypt.js
-         :language: javascript
-
+.. literalinclude:: /examples/generated/code/start/EncryptionExamples.codeblock.encrypt_a_realm.cs
+   :language: csharp

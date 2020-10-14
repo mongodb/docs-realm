@@ -139,6 +139,8 @@ extlinks = {
     'typescript': ('https://www.typescriptlang.org/%s', ''),
     'node-driver': ('https://mongodb.github.io/node-mongodb-native/3.6/api/%s', ''),
     'rfc': ('https://tools.ietf.org/html/%s', ''),
+    'xamarin': ('https://docs.microsoft.com/en-us/xamarin/%s', ''),
+    
 }
 
 intersphinx_mapping = {}
