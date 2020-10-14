@@ -4,17 +4,17 @@ using Realms;
 
 namespace dotnet
 {
-    public class RealmTask : RealmObject
+    public class Task : RealmObject
     {
         [PrimaryKey]
         [MapTo("_id")]
-        public ObjectId Id { get; set; }
+        public ObjectId _id { get; set; }
 
         [MapTo("_partition")]
         public string Partition { get; set; }
 
         [MapTo("assignee")]
-        public RealmUser Assignee { get; set; }
+        public User Assignee { get; set; }
 
         [MapTo("name")]
         [Required]
@@ -24,9 +24,9 @@ namespace dotnet
         [Required]
         public string Status { get; set; }
 
-        public RealmTask()
+        public Task()
         {
-            this.Id = ObjectId.GenerateNewId();
+            this._id = ObjectId.GenerateNewId();
         }
     }
 
