@@ -30,7 +30,7 @@
       created. Make sure both are selected and then click ``OK``.
 
    f. Back in the Manage Nuget Packages dialog, select your new source in the
-      dropdown, and your should see your two packages. Select botyh, and confirm in the right
+      dropdown, and you should see your two packages. Select both, and confirm in the right
       pane that you are installing version 10.0.0-alpha.xyz where xyz is the latest version you downloaded.
 
    g. Click Add Packages.

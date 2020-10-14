@@ -1,4 +1,4 @@
-.. _android-encrypt-a-realm:
+.. _dotnet-encrypt-a-realm:
 
 ===============
 Encrypt a Realm
@@ -33,9 +33,11 @@ Storing & Reusing Keys
 ~~~~~~~~~~~~~~~~~~~~~~
 
 You must pass the same encryption key when opening the encrypted {+realm+}
-again. Apps should store the encryption key in the :xamarin:`Xamarin Secure
-Storage <essentials/secure-storage>` or your platform's secure key/value pair
-storage.
+again. Apps should securely store the encryption key, typically in the target
+platform's secure key/value pair storage. You can use :xamarin:`Xamarin Secure
+Storage <essentials/secure-storage>` to simplify the access to underlying
+storage. Ultimately, it is the developer's responsibility to ensure that
+attackers cannot easily extract the key.
 
 Performance Impact
 ~~~~~~~~~~~~~~~~~~
@@ -48,7 +50,8 @@ Encryption and Realm Sync
 
 You can encrypt a :ref:`synced realm <dotnet-sync-data>`. {+service+} only
 encrypts the data on the device and stores the data unencrypted in your
-{+atlas+} :term:`data source`.
+{+atlas+} :term:`data source`. The transfer between client server is fully
+encrypted.
 
 Example
 -------
