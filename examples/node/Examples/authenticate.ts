@@ -2,6 +2,39 @@ import Realm from "realm";
 
 const app = new Realm.App({ id: "example-testers-kvjdy" });
 
+// Set the app up with test users
+beforeAll(async () => {
+  // Create the example email/password & API key users
+  const anon = await app.logIn(Realm.Credentials.anonymous());
+  const {
+    key: realmServerApiKey,
+  } = await app.currentUser?.functions.createTestUsers();
+  await anon.logOut();
+
+  // Add the API key to process.env so that we can reference it in other tests as if it was defined in a .env file
+  process.env = {
+    ...process.env,
+    realmServerApiKey,
+  };
+
+  jest.runAllTimers();
+});
+
+// Delete the test users to restore the app to its default state
+afterAll(async () => {
+  // Delete test users on the server
+  const anon = await app.logIn(Realm.Credentials.anonymous());
+  await anon.functions.deleteTestUsers();
+  await anon.logOut();
+
+  // Delete all users locally
+  for (const user of Object.values(app.allUsers)) {
+    await app.removeUser(user);
+  }
+
+  jest.runAllTimers();
+});
+
 describe("user authentication", () => {
   afterEach(async () => {
     await app.currentUser?.logOut();
