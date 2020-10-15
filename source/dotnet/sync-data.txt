@@ -53,10 +53,10 @@ efficiently integrates, uploads, and downloads changesets.
    transaction. Therefore, it's a best practice :ref:`never to write on the main thread
    when using {+sync+} <dotnet-threading-three-rules>`.
 
-The following code reads a collection of ``Task`` objects, then writes a
-new ``Task`` to the {+realm+}:
+The following code creates a new ``Task`` object and writes it to the {+realm+}:
 
-.. TODO
+.. literalinclude:: /examples/generated/code/start/Examples.codeblock.create.cs
+   :language: csharp
 
 .. seealso:: :ref:`Threading <dotnet-client-threading>`
 
