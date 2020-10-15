@@ -72,6 +72,7 @@ const AuthProvider = ({ children }) => {
     // :replace-with:
     //// TODO: Return a cleanup function that closes the user realm.
     // :hide-end:
+    // :code-block-end:
   }, [user]);
 
   // :code-block-start: sign-in
