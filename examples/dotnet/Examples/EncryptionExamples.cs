@@ -28,6 +28,8 @@ namespace UnitTests
             // Open or create a realm with the encryption key.
             var realm = Realm.GetInstance(config);
             // :code-block-end:
+            realm.Dispose();
+            Realm.DeleteRealm(config);
         }
     }
 }
