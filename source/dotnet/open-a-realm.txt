@@ -14,16 +14,21 @@ Open and Close a Realm
 
 Open a Synced Realm
 -------------------
-To open a synced {+realm+}, call the ``GetInstanceAsync()`` method, 
-passing in a ``SyncConfiguration`` object that includes the partition name and 
+To open a synced {+realm+}, call the 
+:dotnet-sdk:`GetInstanceAsync() <reference/Realms.Realm.html#Realms_Realm_GetInstanceAsync_Realms_RealmConfigurationBase_System_Threading_CancellationToken_>` 
+method, passing in a 
+:dotnet-sdk:`SyncConfiguration <reference/Realms.Sync.SyncConfiguration.html>` 
+object that includes the partition name and 
 the user. The following code demonstrates this:
 
 .. literalinclude:: /examples/generated/code/start/Examples.codeblock.open-synced-realm.cs
    :language: csharp
 
 In the above example, the code shows how to open the {+realm+} *asynchronously* 
-by calling ``GetInstanceAsync``. You can also open a {+realm+} *synchronously* 
-by calling ``GetInstance``, which is necessary if the device is offline. 
+by calling ``GetInstanceAsync()``. You can also open a {+realm+} *synchronously* 
+by calling the 
+:dotnet-sdk:`GetInstance() <reference/Realms.Realm.html#Realms_Realm_GetInstance_System_String_>` 
+method, which is necessary if the device is offline. 
 
 .. literalinclude:: /examples/generated/code/start/Examples.codeblock.open-synced-realm-sync.cs
    :language: csharp
@@ -37,8 +42,9 @@ by calling ``GetInstance``, which is necessary if the device is offline.
 
 Open a Local (Non-Synced) Realm
 -------------------------------
-When opening a local (non-synced) {+realm+}, pass a ``RealmConfiguration`` 
-object to either ``GetInstanceAsync`` or ``GetInstance``. The following example 
+When opening a local (non-synced) {+realm+}, pass a 
+:dotnet-sdk:`RealmConfiguration <reference/Realms.RealmConfiguration.html#Realms_RealmConfiguration__ctor_System_String_>` 
+object to either ``GetInstanceAsync()`` or ``GetInstance()``. The following example 
 creates a ``RealmConfiguration`` object with a local file path, sets the 
 ``IsReadOnly`` property to ``true``, and then opens a local {+realm+}  with that 
 configuration information:
@@ -58,7 +64,8 @@ object with a ``using`` statement, or wrapping the code that interacts with a
    :language: csharp
 
 If you require a realm object to be shared outside of a single method, be sure 
-to manage its state by calling ``Dispose()``:
+to manage its state by calling the
+:dotnet-sdk:`Dispose() <reference/Realms.Realm.html#Realms_Realm_Dispose>` method:
 
 .. literalinclude:: /examples/generated/code/start/Examples.codeblock.dispose.cs
    :language: csharp

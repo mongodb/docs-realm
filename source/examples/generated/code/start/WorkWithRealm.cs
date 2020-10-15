@@ -23,7 +23,11 @@ namespace UnitTests
         {
             string userEmail = "";
 
+<<<<<<< HEAD
             var myRealmAppId = "<your_app_id>";
+=======
+            string myRealmAppId = "<your_app_id>";
+>>>>>>> 657250e9f1732adbe0df302056d95d26fcf24312
             var app = App.Create(myRealmAppId);
             r appConfig = new AppConfiguration(myRealmAppId)
             
@@ -39,9 +43,13 @@ namespace UnitTests
             ait app.EmailPasswordAuth.ResetPasswordAsync(
               myNewPassword, "<token>", "<token-id>");
             ait app.EmailPasswordAuth.CallResetPasswordFunctionAsync(
+<<<<<<< HEAD
               userEmail, myNewPassword,
               "<security-question-1-answer>",
               "<security-question-2-answer>");
+=======
+              userEmail, myNewPassword, new { token = "<token>", tokenId = "<token-=id>" });
+>>>>>>> 657250e9f1732adbe0df302056d95d26fcf24312
 
         }
 
@@ -50,19 +58,31 @@ namespace UnitTests
         {
             
               var newKey = await user.ApiKeys.CreateAsync("someKeyName");
+<<<<<<< HEAD
               Console.WriteLine($"I created a key named {newKey.Name}. " +
+=======
+              Console.WriteLine($"I created a key named {newKey.Name}. " +
+>>>>>>> 657250e9f1732adbe0df302056d95d26fcf24312
                   $"Is it enabled? {newKey.IsEnabled}");
             
             
               var key = await user.ApiKeys.FetchAsync(ObjectId.Parse("00112233445566778899aabb"));
+<<<<<<< HEAD
               Console.WriteLine($"I fetched the key named {key.Name}. " +
+=======
+              Console.WriteLine($"I fetched the key named {key.Name}. " +
+>>>>>>> 657250e9f1732adbe0df302056d95d26fcf24312
                   $"Is it enabled? {key.IsEnabled}");
             
             
               var allKeys = await user.ApiKeys.FetchAllAsync();
               foreach (var key in allKeys)
               {
+<<<<<<< HEAD
                   Console.WriteLine($"I fetched the key named {key.Name}. " +
+=======
+                  Console.WriteLine($"I fetched the key named {key.Name}. " +
+>>>>>>> 657250e9f1732adbe0df302056d95d26fcf24312
                       $"Is it enabled? {key.IsEnabled}");
               }
             

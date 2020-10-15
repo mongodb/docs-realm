@@ -26,7 +26,11 @@ namespace UnitTests
             // :code-block-start: initialize-realm
             // :hide-start:
             /*:replace-with:
+<<<<<<< HEAD
             var myRealmAppId = "<your_app_id>";
+=======
+            string myRealmAppId = "<your_app_id>";
+>>>>>>> 657250e9f1732adbe0df302056d95d26fcf24312
             var app = App.Create(myRealmAppId);
             :code-block-end:*/
             // :code-block-start: appConfig
@@ -54,9 +58,13 @@ namespace UnitTests
             //:code-block-end:
             // :code-block-start: reset-user-3
             await app.EmailPasswordAuth.CallResetPasswordFunctionAsync(
+<<<<<<< HEAD
                 userEmail, myNewPassword,
                 "<security-question-1-answer>",
                 "<security-question-2-answer>");
+=======
+                userEmail, myNewPassword, new { token = "<token>", tokenId = "<token-=id>" });
+>>>>>>> 657250e9f1732adbe0df302056d95d26fcf24312
             //:code-block-end:
 
         }
@@ -67,14 +75,22 @@ namespace UnitTests
             {
                 //:code-block-start:apikey-create
                 var newKey = await user.ApiKeys.CreateAsync("someKeyName");
+<<<<<<< HEAD
                 Console.WriteLine($"I created a key named {newKey.Name}. " +
+=======
+                Console.WriteLine($"I created a key named {newKey.Name}. " +
+>>>>>>> 657250e9f1732adbe0df302056d95d26fcf24312
                     $"Is it enabled? {newKey.IsEnabled}");
                 //:code-block-end:
             }
             {
                 //:code-block-start:apikey-fetch
                 var key = await user.ApiKeys.FetchAsync(ObjectId.Parse("00112233445566778899aabb"));
+<<<<<<< HEAD
                 Console.WriteLine($"I fetched the key named {key.Name}. " +
+=======
+                Console.WriteLine($"I fetched the key named {key.Name}. " +
+>>>>>>> 657250e9f1732adbe0df302056d95d26fcf24312
                     $"Is it enabled? {key.IsEnabled}");
                 //:code-block-end:
             }
@@ -83,7 +99,11 @@ namespace UnitTests
                 var allKeys = await user.ApiKeys.FetchAllAsync();
                 foreach (var key in allKeys)
                 {
+<<<<<<< HEAD
                     Console.WriteLine($"I fetched the key named {key.Name}. " +
+=======
+                    Console.WriteLine($"I fetched the key named {key.Name}. " +
+>>>>>>> 657250e9f1732adbe0df302056d95d26fcf24312
                         $"Is it enabled? {key.IsEnabled}");
                 }
                 //:code-block-end:
