@@ -51,7 +51,7 @@ namespace UnitTests
             await user.RefreshCustomDataAsync();
 
             // Tip: define a class that represents the custom data:
-            var cud = BsonSerializer.Deserialize<CustomUserData>(user.CustomData);
+            var cud = user.GetCustomData<CustomUserData>();
 
             Console.WriteLine($"User is cool: {cud.IsCool}");
             Console.WriteLine($"User's favorite color is {cud.FavoriteColor}");
@@ -69,7 +69,7 @@ namespace UnitTests
                 new BsonDocument("$set", new BsonDocument("IsCool", false)));
 
             await user.RefreshCustomDataAsync();
-            var cud = BsonSerializer.Deserialize<CustomUserData>(user.CustomData);
+            var cud = user.GetCustomData<CustomUserData>();
 
             Console.WriteLine($"User is cool: {cud.IsCool}");
             Console.WriteLine($"User's favorite color is {cud.FavoriteColor}");

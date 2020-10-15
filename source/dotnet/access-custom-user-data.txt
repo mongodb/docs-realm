@@ -64,9 +64,9 @@ following class to map the properties:
 
 Read Custom User Data
 ---------------------
-The custom user data is stored in the 
-:dotnet-sdk:`CustomData <reference/Realms.Sync.User.html#Realms_Sync_User_CustomData>`
-property on the ``User`` object of a logged in user:
+You retrieve custom user data by calling the 
+:dotnet-sdk:`GetCustomData() <reference/Realms.Sync.User.html#Realms_Sync_User_GetCustomData>`
+method on the ``User`` object of a logged in user:
 
 .. literalinclude:: /examples/generated/code/start/CustomUserDataExamples.codeblock.read.cs
    :language: csharp
@@ -74,10 +74,9 @@ property on the ``User`` object of a logged in user:
 .. admonition:: Custom Data May Be Stale
    :class: warning
    
-   {+backend+} does not dynamically update the value of
-   :dotnet-sdk:`CustomData <reference/Realms.Sync.User.html#Realms_Sync_User_CustomData>`
-   immediately when underlying data changes. Instead, {+backend+}
-   fetches the most recent version of custom user data whenever a user
+   {+backend+} does not dynamically update the value of the 
+   ``CustomData``  immediately when underlying data changes. Instead, {+backend+} 
+   fetches the most recent version of custom user data whenever a user 
    refreshes their :ref:`access token <user-sessions>` or when you explicitly 
    call the 
    :dotnet-sdk:`RefreshCustomDataAsync() <reference/Realms.Sync.User.html#Realms_Sync_User_RefreshCustomDataAsync>` 

@@ -7,7 +7,6 @@ using NUnit.Framework;
 using Realms;
 using Realms.Sync;
 
-
 namespace UnitTests
 {
     public class MongoDBExamples
