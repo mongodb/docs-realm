@@ -78,7 +78,7 @@ namespace UnitTests
             try
             {
                 Directory.Delete(pathToDb, true);
-            } catch (Exception e)
+            } catch (Exception)
             {
 
             }

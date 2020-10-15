@@ -1,2 +1,4 @@
 await app.EmailPasswordAuth.CallResetPasswordFunctionAsync(
-    userEmail, myNewPassword, new { token = "<token>", tokenId = "<token-=id>" });
+    userEmail, myNewPassword,
+    "<security-question-1-answer>",
+    "<security-question-2-answer>");

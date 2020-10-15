@@ -26,7 +26,7 @@ namespace UnitTests
             // :code-block-start: initialize-realm
             // :hide-start:
             /*:replace-with:
-            string myRealmAppId = "<your_app_id>";
+            var myRealmAppId = "<your_app_id>";
             var app = App.Create(myRealmAppId);
             :code-block-end:*/
             // :code-block-start: appConfig
@@ -54,7 +54,9 @@ namespace UnitTests
             //:code-block-end:
             // :code-block-start: reset-user-3
             await app.EmailPasswordAuth.CallResetPasswordFunctionAsync(
-                userEmail, myNewPassword, new { token = "<token>", tokenId = "<token-=id>" });
+                userEmail, myNewPassword,
+                "<security-question-1-answer>",
+                "<security-question-2-answer>");
             //:code-block-end:
 
         }

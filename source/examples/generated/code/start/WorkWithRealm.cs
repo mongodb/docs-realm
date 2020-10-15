@@ -23,7 +23,7 @@ namespace UnitTests
         {
             string userEmail = "";
 
-            string myRealmAppId = "<your_app_id>";
+            var myRealmAppId = "<your_app_id>";
             var app = App.Create(myRealmAppId);
             r appConfig = new AppConfiguration(myRealmAppId)
             
@@ -39,7 +39,9 @@ namespace UnitTests
             ait app.EmailPasswordAuth.ResetPasswordAsync(
               myNewPassword, "<token>", "<token-id>");
             ait app.EmailPasswordAuth.CallResetPasswordFunctionAsync(
-              userEmail, myNewPassword, new { token = "<token>", tokenId = "<token-=id>" });
+              userEmail, myNewPassword,
+              "<security-question-1-answer>",
+              "<security-question-2-answer>");
 
         }
 
