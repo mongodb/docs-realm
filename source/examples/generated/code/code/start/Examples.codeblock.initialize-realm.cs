@@ -1,1 +1,0 @@
-app = App.Create(myRealmAppId);
