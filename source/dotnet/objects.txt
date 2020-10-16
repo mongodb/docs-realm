@@ -143,6 +143,7 @@ You can configure the following constraints for a given property:
        - Integer
        - Float
        - Double
+       - Decimal (see :ref:`Using Decimal Values <dotnet-decimal128>` below)
        - String
        - Date
        - Data
@@ -168,6 +169,21 @@ You can configure the following constraints for a given property:
        operations. Indexes are particularly useful for equality
        comparison, such as querying for an object based on the value of
        a property.
+
+.. _dotnet-decimal128
+
+Using Decimal Values
+--------------------
+Realm supports 128-bit decimal values with the ``Decimal128`` Bson type. When 
+defining a decimal type, you can use the ``Decimal128`` Bson type or the .NET 
+``decimal`` type, even though it is only a 96-bit decimal. The SDK automatically 
+converts between the two, although you risk losing precision or range. The 
+following example shows how to use both the ``Decimal128`` Bson type and the .NET 
+``decimal`` type:
+
+.. literalinclude:: /examples/generated/code/start/DecimalFun.codeblock.decimal128.cs
+   :language: csharp
+
 
 Summary
 -------
