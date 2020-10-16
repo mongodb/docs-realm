@@ -1,6 +1,6 @@
 .. code-block:: javascript
 
-   const query = { "name": "legos" };
+   const query = { "name": "lego" };
    const update = {
      "$set": {
        "name": "blocks",

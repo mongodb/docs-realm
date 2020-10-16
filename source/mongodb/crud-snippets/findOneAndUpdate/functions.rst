@@ -1,8 +1,8 @@
 .. code-block:: javascript
    :emphasize-lines: 14
 
-   // Find the document that describes "legos"
-   const query = { "name": "legos" };
+   // Find the document that describes "lego"
+   const query = { "name": "lego" };
    // Set some fields in that document
    const update = {
      "$set": {
