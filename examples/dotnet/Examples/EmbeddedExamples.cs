@@ -27,19 +27,119 @@ namespace Examples
             var realm = Realm.GetInstance(config);
 
             // :code-block-start:create
+            Address address = new Address() // Create an Address
+            {
+                Street = "123 Fake St.",
+                City = "Springfield",
+                Country = "USA",
+                PostalCode = "90710"
+            };
 
+            Contact contact = new Contact() // Create a Contact
+            {
+                Name = "Nick Riviera",
+                Address = address // Embed the Address Object
+            };
 
+            realm.Write(() =>
+            {
+                realm.Add(contact);
+            });
+            //:code-block-end:
 
+            var contacts = realm.All<Contact>();
+            // Test that the Contact document has been created
+            Assert.AreEqual(contacts.Count(), 1);
 
+            // Test that the first (and only) Contact document has an embedded Address with a Street of "123 Fake St."
+            Assert.AreEqual(contacts.FirstOrDefault().Address.Street, "123 Fake St.");
         }
+
         [Test]
         public async Task UpdateEmbeddedObject()
         {
             var realm = await Realm.GetInstanceAsync(config);
 
+            // :code-block-start:update
+            var resultContact = realm.All<Contact>() // Find the First Contact (Sorted By Name)
+                .OrderBy(c => c.Name)
+                .FirstOrDefault();
+
+            // Update the Result Contact's Embedded Address Object's Properties
+            realm.Write(() =>
+            {
+                resultContact.Address.Street = "Hollywood Upstairs Medical College";
+                resultContact.Address.City = "Los Angeles";
+                resultContact.Address.PostalCode = "90210";
+            });
+            //:code-block-end:
+
+            // Test that the Contact embedded Address's Street has been updated
+            Assert.AreEqual(resultContact.Address.Street, "Hollywood Upstairs Medical College");
+
+        }
+
+        [Test]
+        public async Task OverwriteEmbeddedObject()
+        {
+            var realm = await Realm.GetInstanceAsync(config);
+
+            // :code-block-start:overwrite
+            Contact oldContact = realm.All<Contact>() // Find the first contact
+                .OrderBy(c => c.Name)
+                .FirstOrDefault();
+
+            
+            Address newAddress = new Address() // Create an Address
+            {
+                Street = "100 Main Street",
+                City = "Los Angeles",
+                Country = "USA",
+                PostalCode = "90210"
+            };
+
+            realm.Write(() =>
+            {
+                oldContact.Address = newAddress;
+            });
+            //:code-block-end:
+
+            // Test that the Contact field's Embedded Address has been overwritten with the new Address by checking the Address Street
+            Assert.AreEqual(oldContact.Address.Street, "100 Main Street");
+        }
+
+        [Test]
+        public async Task QueryEmbeddedObject()
+        {
+            var realm = await Realm.GetInstanceAsync(config);
+            // :code-block-start:query          
+            var losAngelesContacts = realm.All<Contact>().Filter("Address.City == 'Los Angeles'"); // Find All Contacts with an Address of "Los Angeles"
+
+            foreach (Contact losAngelesContact in losAngelesContacts)
+            {
+                Console.WriteLine("Los Angeles Contact:");
+                Console.WriteLine(losAngelesContact.Name);
+                Console.WriteLine(losAngelesContact.Address.Street);
+            }
+            //:code-block-end:
+
+            // Test that the query worked and that the Contacts returned actually are from 'Los Angeles'
+            Assert.AreEqual(losAngelesContacts.FirstOrDefault().Address.City, "Los Angeles");
+        }
 
 
-            Assert.AreEqual(1, 1);
+        [OneTimeTearDown]
+        public async Task TearDown()
+        {
+            using (var realm = await Realm.GetInstanceAsync(config))
+            {
+                realm.Write(() =>
+                {
+                    realm.RemoveAll<Contact>();
+                    realm.RemoveAll<Business>();
+                });
+            }
+            return;
         }
     }
 }
