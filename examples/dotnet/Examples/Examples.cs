@@ -151,7 +151,7 @@ namespace UnitTests
             {
                 // :code-block-start: logon_EP
                 var user = await app.LogInAsync(
-                    Credentials.EmailPassword("caleb@mongodb.com", "shhhItsASektrit!"));
+                    Credentials.EmailPassword("caleb@example.com", "shhhItsASektrit!"));
                 // :code-block-end:
                 Assert.AreEqual(UserState.LoggedIn, user.State);
                 await user.LogOutAsync();
@@ -252,6 +252,24 @@ namespace UnitTests
             return;
 
             //{ "_id":{ "$oid":"5f0f69dc4eeabfd3366be2be"},"_partition":"myPartition","name":"do this NOW","status":"Closed"}
+        }
+
+        [Test]
+        public async System.Threading.Tasks.Task LinksAUser()
+        {
+            // :code-block-start: link
+            // 1) A user logs on anonymously:
+            var anonUser = await app.LogInAsync(Credentials.Anonymous());
+            // 2) They create some data, and then decide they want to save
+            //    it, which requires creating an Email/Password account.
+            // 3) We prompt the user to log in, and then use that new
+            //    EmailPassword credential to link the existing anonymous
+            //    account:
+            var officialUser = await anonUser.LinkCredentialsAsync(
+                Credentials.EmailPassword("caleb@example.com","shhhItsASektrit!"));
+            // :code-block-end:
+            
+            return;
         }
 
         
