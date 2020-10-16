@@ -33,7 +33,8 @@ namespace UnitTests
                 if (err.Exception is ClientResetException clientResetEx)
                 {
                     var session = (Session)sender;
-                    Console.WriteLine($"Client Reset requested for {session.Path} due to {clientResetEx.Message}");
+                    Console.WriteLine("Client Reset requested for " +
+                        session.Path +"due to "+ clientResetEx.Message);
 
                     // Prompt user to perform client reset immediately. If they don't do it,
                     // they won't receive any data from the server until they restart the app
@@ -58,7 +59,8 @@ namespace UnitTests
                     }
                 }
             };
-            TestingExtensions.SimulateError(realm.GetSession(), ErrorCode.DivergingHistories, "diverging histories!", false);
+            TestingExtensions.SimulateError(realm.GetSession(),
+                ErrorCode.DivergingHistories, "diverging histories!", false);
         }
     }
 }
