@@ -9,7 +9,7 @@ namespace dotnet
         [PrimaryKey]
         [MapTo("_id")]
         [Required]
-        public ObjectId _id { get; set; } = ObjectId.GenerateNewId();
+        public string _id { get; set; }
 
         [MapTo("_partition")]
         public string Partition { get; set; }

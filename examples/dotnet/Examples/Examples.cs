@@ -256,53 +256,6 @@ namespace UnitTests
             //{ "_id":{ "$oid":"5f0f69dc4eeabfd3366be2be"},"_partition":"myPartition","name":"do this NOW","status":"Closed"}
         }
 
-       [Test]
-        public async System.Threading.Tasks.Task CreateEmbeddedObj()
-        {
-            // OPEN A REALM
-            app = App.Create(myRealmAppId);
-            user = app.LogInAsync(Credentials.EmailPassword("foo@foo.com", "foobar")).Result;
-            config = new SyncConfiguration("myPartition", user);
-            var realm = await Realm.GetInstanceAsync(config);
-
-
-            // :code-block-start: embeddedobject
-
-            // create a User (a user is an assignee)
-            var myUser = new User {
-                Name = "Test User 001"
-            };
-
-            realm.Write(() =>
-            {
-                realm.Add(myUser);
-            });
-
-            // create a Task that has an embedded Assignee 
-
-            var taskItem = new Task
-            {
-                Name = "Go Jogging",
-                Assignee = myUser
-
-            };
-
-            realm.Write(() =>
-            {
-                realm.Add(taskItem);
-            });
-
-            // :code-block-end:
-
-            var id = taskItem._id;
-
-            var allTasks = realm.All<Task>().Where(t => t._id == taskItem._id).ToList();
-
-            Assert.IsNotNull(allTasks);
-            Assert.AreEqual(allTasks.Count, 1);
-
-        }
-
         [OneTimeTearDown]
         public async System.Threading.Tasks.Task TearDown()
         {
