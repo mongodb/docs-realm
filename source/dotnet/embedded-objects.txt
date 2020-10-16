@@ -65,10 +65,7 @@ would define a relationship.
 Consider the following code example where a Task Class is created containing an
 ``Assignee`` field that is an embedded object of a User Class: 
 
-.. literalinclude:: /examples/generated/code/start/Task.codeblock.task-object-model.cs
-   :language: csharp
-
-.. literalinclude:: /examples/generated/code/start/User.cs
+.. literalinclude:: /examples/generated/code/start/EmbeddedExamples.codeblock.embedded-classes.cs
    :language: csharp
 
 JSON Schema
@@ -86,5 +83,25 @@ Create an Embedded Object
 To create an embedded object, assign an instance of the embedded object
 to a parent object's property:
 
-.. literalinclude:: /examples/generated/code/code/start/Examples.codeblock.embeddedobject.cs
+.. literalinclude:: /examples/generated/code/start/EmbeddedExamples.codeblock.create.cs
+   :language: csharp
+
+Update an Embedded Object Property
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To update a property in an embedded object, modify the property in a
+write transaction:
+
+
+.. literalinclude:: /examples/generated/code/start/EmbeddedExamples.codeblock.update.cs
+   :language: csharp
+
+Query a Collection on Embedded Object Properties
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Use dot notation to filter or sort a :ref:`collection
+<dotnet-client-collections>` of objects based on an embedded object
+property value:
+
+.. literalinclude:: /examples/generated/code/start/EmbeddedExamples.codeblock.find.cs
    :language: csharp
