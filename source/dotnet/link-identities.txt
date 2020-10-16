@@ -7,11 +7,12 @@ Link User Identities
 Overview
 --------
 
-{+service+} provides :ref:`multiple ways <authentication-providers>` for
-users to log into your application. Because each method of authentication
-corresponds to a unique user identity, {+service-short+} lets you merge
-multiple identities corresponding to a single user into one user
-identity.
+{+service+} provides :ref:`multiple ways <authentication-providers>`. Each 
+authentication provider maintains its own unique list of user identities that 
+enable users to log into your application. To allow users to be able to log into 
+your application in multiple ways, you can associate identities from multiple 
+providers together, allowing your users to seamlessly transition from an anonymous 
+login to a newly-created account, for example.
 
 Example
 -------
@@ -21,14 +22,23 @@ via :ref:`anonymous authentication <anonymous-authentication>` so they
 may explore functionality without linking to an existing
 SSO provider or generating a new password. When that user decides to
 finally create a full account with an SSO provider or email/password
-authentication, you need some way of persisting the user's original
+authentication, you need some way of associating the user's original
 anonymous identity with their new permanent identity.
 
 You can link identities using the 
 :dotnet-sdk:`LinkCredentialsAsync() <reference/Realms.Sync.User.html#Realms_Sync_User_LinkCredentialsAsync_Realms_Sync_Credentials_>` 
 method on the :dotnet-sdk:`User <reference/Realms.Sync.User.html>` object of a 
-logged in user.
+logged in user. The following code demonstrates this:
 
 .. literalinclude:: /examples/generated/code/start/Examples.codeblock.link.cs
+   :language: csharp
+
+In the example above, we must first register the new :doc:`email/password
+</authentication/email-password>` user before linking. If you are using any of 
+the other :doc:`Auth Providers </authentication>`, 
+this step is unnecessary. The following example uses 
+:ref:`Google authentication <google-authentication>` instead of EmailPassword:
+
+.. literalinclude:: /examples/generated/code/start/Examples.codeblock.link2.cs
    :language: csharp
 
