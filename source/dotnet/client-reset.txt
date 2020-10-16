@@ -17,16 +17,11 @@ Overview
 --------
 
 When using :doc:`{+sync+} </sync>`, a **client reset** is a possible issue that 
-your client app should handle. While not common, it can be caused by the following 
-situation:
-
-1. Sync was terminated on the server. For example, a destructive 
-  schema change might cause Sync to stop.
-
-#. The user made changes on the client while Sync was stopped.
-
-In this case, the client app must perform a client reset
-on a given synced {+realm+}.
+your client app should handle. While not common, it can be caused when Sync was 
+terminated on the server. For example, a destructive schema change might cause 
+Sync to stop. Meanwhile, the user made changes on the client while Sync was 
+stopped. When Sync is restarted, the client app must perform a client reset
+on the given synced {+realm+}.
 
 .. warning::
 
