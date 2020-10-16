@@ -1,4 +1,3 @@
-﻿// :code-block-start:user-object-model
 using Realms;
 using MongoDB.Bson;
 
@@ -22,4 +21,3 @@ namespace dotnet
         public string Name { get; set; }
     }
 }
-// :code-block-end:
