@@ -59,21 +59,8 @@ the embedded object class from RealmObject and set the ``embedded`` property of 
 embedded object type from parent object types in the same way as you
 would define a relationship:
 
-
-.. tabs-realm-languages::
-   
-   .. tab::
-      :tabid: kotlin
-
-      .. literalinclude:: /examples/EmbeddedObjects/DefineEmbeddedObjects.kt
-        :language: kotlin
-
-   .. tab::
-      :tabid: java
-
-      .. literalinclude:: /examples/EmbeddedObjects/DefineEmbeddedObjects.java
-         :language: java
-
+.. literalinclude:: /examples/generated/code/start/EmbeddedExamples.codeblock.embedded-classes.cs
+   :language: csharp
 
 JSON Schema
 ~~~~~~~~~~~
@@ -89,19 +76,9 @@ Create an Embedded Object
 To create an embedded object, assign an instance of the embedded object
 to a parent object's property:
 
-.. tabs-realm-languages::
-   
-   .. tab::
-      :tabid: kotlin
+.. literalinclude:: /examples/generated/code/start/EmbeddedExamples.codeblock.create.cs
+   :language: csharp
 
-      .. literalinclude:: /examples/EmbeddedObjects/CreateEmbeddedObject.kt
-         :language: kotlin
-
-   .. tab::
-      :tabid: java
-
-      .. literalinclude:: /examples/EmbeddedObjects/CreateEmbeddedObject.java
-         :language: java
 
 Update an Embedded Object Property
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -109,19 +86,9 @@ Update an Embedded Object Property
 To update a property in an embedded object, modify the property in a
 write transaction:
 
-.. tabs-realm-languages::
-   
-   .. tab::
-      :tabid: kotlin
+.. literalinclude:: /examples/generated/code/start/EmbeddedExamples.codeblock.update.cs
+   :language: csharp
 
-      .. literalinclude:: /examples/EmbeddedObjects/UpdateEmbeddedObject.kt
-         :language: kotlin
-
-   .. tab::
-      :tabid: java
-
-      .. literalinclude:: /examples/EmbeddedObjects/UpdateEmbeddedObject.java
-         :language: java
 
 Overwrite an Embedded Object
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -129,19 +96,8 @@ Overwrite an Embedded Object
 To overwrite an embedded object, reassign the embedded object property
 of a party to a new instance in a write transaction:
 
-.. tabs-realm-languages::
-   
-   .. tab::
-      :tabid: kotlin
-
-      .. literalinclude:: /examples/EmbeddedObjects/ReplaceEmbeddedObject.kt
-         :language: kotlin
-
-   .. tab::
-      :tabid: java
-
-      .. literalinclude:: /examples/EmbeddedObjects/ReplaceEmbeddedObject.java
-         :language: java
+.. literalinclude:: /examples/generated/code/start/EmbeddedExamples.codeblock.overwrite.cs
+   :language: csharp
 
 Query a Collection on Embedded Object Properties
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -152,16 +108,5 @@ property value:
 
 .. include:: /includes/directly-query-embedded-objects-note.rst
 
-.. tabs-realm-languages::
-   
-   .. tab::
-      :tabid: kotlin
-
-      .. literalinclude:: /examples/EmbeddedObjects/QueryEmbeddedObjects.kt
-         :language: kotlin
-
-   .. tab::
-      :tabid: java
-
-      .. literalinclude:: /examples/EmbeddedObjects/QueryEmbeddedObjects.java
-         :language: java
+.. literalinclude:: /examples/generated/code/start/EmbeddedExamples.codeblock.query.cs
+   :language: csharp
