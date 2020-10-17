@@ -150,7 +150,6 @@ namespace Examples
             public string Country { get; set; }
             public string PostalCode { get; set; }
 
-            public Address() { }
         }
         public class Contact : RealmObject
         {
@@ -162,8 +161,6 @@ namespace Examples
             public string Name { get; set; }
 
             public Address Address { get; set; } // embed a single address 
-
-            public Contact() { }
 
         }
         public class Business : RealmObject

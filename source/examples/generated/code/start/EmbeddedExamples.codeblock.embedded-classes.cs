@@ -5,7 +5,6 @@ public class Address : EmbeddedObject
     public string Country { get; set; }
     public string PostalCode { get; set; }
 
-    public Address() { }
 }
 public class Contact : RealmObject
 {
@@ -17,8 +16,6 @@ public class Contact : RealmObject
     public string Name { get; set; }
 
     public Address Address { get; set; } // embed a single address 
-
-    public Contact() { }
 
 }
 public class Business : RealmObject
