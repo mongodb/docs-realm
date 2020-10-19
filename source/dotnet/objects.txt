@@ -32,12 +32,18 @@ class implementation.
 .. example::
 
    The following code block shows an object schema that describes a Dog.
-   Every Dog object must include a ``name`` and ``age`` and may
-   optionally include the dog's ``breed`` and a reference to a Person
-   object that represents the dog's ``owner``.
+   Every Dog object must include a ``name`` and may
+   optionally include the dog's ``age``, ``breed`` and a list of people that 
+   represents the dog's ``owners``. 
 
-   .. literalinclude:: /examples/Schemas/DogSchema.cs
+   .. literalinclude:: /examples/generated/code/start/Examples.codeblock.dog_class.cs
       :language: csharp
+
+
+.. note::
+   
+   To define a collection of objects within an object, use the ``IList<T>`` with 
+   only a getter. 
 
 
 Key Concepts
@@ -74,22 +80,20 @@ call an update method, modify the {+realm+}, or otherwise "push" updates.
 Object Schema
 ~~~~~~~~~~~~~
 
-An **object schema** is a configuration object that defines the fields,
-relationships of a {+service-short+} object type. {+service-short+} client applications
-define object schemas with the native class implementation in their
+An **object schema** is a configuration object that defines the fields and 
+relationships of a {+service-short+} object type. {+service-short+} client 
+applications define object schemas with the native class implementation in their 
 respective language using the :term:`{+frontend-schema+}`.
 
 Object schemas specify constraints on object properties such as the data
-type of each property, whether or not a property is required, and the
-default value for optional properties. Schemas can also define
-:ref:`relationships <dotnet-client-relationships>` between object types in
-a {+realm+}.
+type of each property and whether or not a property is required. Schemas can 
+also define :ref:`relationships <dotnet-client-relationships>` between object 
+types in a {+realm+}.
 
 Every {+app+} has a :ref:`{+backend-schema+} <dotnet-realm-schema>`
 composed of a list of object schemas for each type of object that the
-{+realms+} in that application may contain.
-
-{+service+} guarantees that all objects in a {+realm+} conform to the
+{+realms+} in that application may contain. {+service+} guarantees that all 
+objects in a {+realm+} conform to the
 schema for their object type and validates objects whenever they're
 created, modified, or deleted.
 
@@ -98,18 +102,22 @@ created, modified, or deleted.
 Primary Key
 ~~~~~~~~~~~
 
-A **primary key** is a string or integer property that uniquely
+A **primary key** is a property that uniquely
 identifies an object. You may optionally define a primary key for an
 object type as part of the :ref:`object schema <dotnet-object-schema>`.
 {+client-database+} automatically indexes primary key properties, which
 allows you to efficiently read and modify objects based on their primary
-key.
+key. 
 
 If an object type has a primary key, then all objects of that type must
 include the primary key property with a value that is unique among
-objects of the same type in a {+realm+}. You cannot change the primary
-key property for an object type after any object of that type is added
-to a {+realm+}.
+objects of the same type in a {+realm+}. 
+
+.. note::
+
+   Primary keys can be of type, ``string``, ``integer``, or ``ObjectId``; however, 
+   you cannot change the primary key property for an object type after any object 
+   of that type is added to a {+realm+}.
 
 .. _dotnet-property-schema:
 
@@ -137,38 +145,32 @@ You can configure the following constraints for a given property:
        type defined in the same {+realm+}. The type also specifies whether
        the property contains a single value or a list of values.
        
-       {+client-database+} supports the following primitive data types:
+       {+client-database+} supports the following data types:
 
-       - Boolean
-       - Integer
-       - Float
-       - Double
-       - Decimal (see :ref:`Using Decimal Values <dotnet-decimal128>` below)
-       - String
-       - Date
-       - Data
+       - bool
+       - byte/short/int/long
+       - float
+       - double
+       - decimal (see :ref:`Using Decimal Values <dotnet-decimal128>` below)
+       - string
+       - DateTimeOffset
+       - byte[]
        - ObjectId
+       - IList<T>
 
    * - Optional
      - Optional properties may contain a null value or be entirely
-       omitted from an object. By default, all properties are required
-       unless explicitly marked as optional.
-
-   * - Default
-     - If a client application creates a new object that does not have a
-       value for a defined property, the object uses the default value
-       instead.
-       
-       Objects that are missing a required field without a defined
-       default value will fail validation when you attempt to create
-       them and will not persist to the {+realm+}.
+       omitted. You mark properties as required by using the 
+       :dotnet-sdk:`[Required] <reference/Realms.RequiredAttribute.html>` attribute. 
 
    * - Indexed
      - A property index significantly increases the speed of certain
        read operations at the cost of additional overhead for write
        operations. Indexes are particularly useful for equality
        comparison, such as querying for an object based on the value of
-       a property.
+       a property. You identify the field(s) on which you want to index by using the 
+       :dotnet-sdk:`[Indexed] <reference/reference/Realms.IndexedAttribute.html>` 
+       attribute. 
 
 .. _dotnet-decimal128:
 
