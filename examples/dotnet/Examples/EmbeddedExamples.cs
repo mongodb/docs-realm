@@ -128,19 +128,19 @@ namespace Examples
         }
 
 
-        [OneTimeTearDown]
-        public async Task TearDown()
-        {
-            using (var realm = await Realm.GetInstanceAsync(config))
-            {
-                realm.Write(() =>
-                {
-                    realm.RemoveAll<Contact>();
-                    realm.RemoveAll<Business>();
-                });
-            }
-            return;
-        }
+        //[OneTimeTearDown]
+        //public async Task TearDown()
+        //{
+        //    using (var realm = await Realm.GetInstanceAsync(config))
+        //    {
+        //        realm.Write(() =>
+        //        {
+        //            realm.RemoveAll<Contact>();
+        //            realm.RemoveAll<Business>();
+        //        });
+        //    }
+        //    return;
+        //}
 
         // :code-block-start:embedded-classes
         public class Address : EmbeddedObject
