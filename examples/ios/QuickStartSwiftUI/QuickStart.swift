@@ -233,6 +233,7 @@ struct ItemsView: View {
 /// Represents an Item in a list.
 struct ItemRow: View {
     @ObservedObject var item: Item
+
     var body: some View {
         // If the item has been invalidated, display an empty view.
         // it will be cleaned up on next render.
@@ -290,8 +291,7 @@ struct ItemDetailsView: View {
 /// Represents the login screen. We will just have a button to log in anonymously.
 struct LoginView: View {
     @EnvironmentObject var state: AppState
-
-    @State var disableLoginButton = false
+    // Display an error if it occurs
     @State var error: Error?
 
     var body: some View {
@@ -300,13 +300,11 @@ struct LoginView: View {
                 Text("Error: \(error.localizedDescription)")
             }
             Button("Log in anonymously") {
-                self.disableLoginButton = true
                 state.shouldIndicateActivity = true
                 app.login(credentials: .anonymous).receive(on: DispatchQueue.main).sink(receiveCompletion: {
                     switch ($0) {
                     case .finished:
-                        self.disableLoginButton = false
-                        state.shouldIndicateActivity.toggle()
+                        state.shouldIndicateActivity = false
                         break
                     case .failure(let error):
                         self.error = error
