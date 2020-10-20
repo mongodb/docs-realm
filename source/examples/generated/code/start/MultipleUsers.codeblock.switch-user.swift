@@ -1,7 +1,7 @@
 let app = App(id: YOUR_REALM_APP_ID)
 
 // ... log in ...
-// Get another user on the device, for example with `app.allUsers` 
+// Get another user on the device, for example with `app.allUsers`
 let secondUser: User = getSomeOtherUser()
 
 XCTAssertNotEqual(app.currentUser, secondUser)

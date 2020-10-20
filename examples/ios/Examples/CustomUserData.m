@@ -23,7 +23,7 @@
         RLMMongoCollection *collection = [database collectionWithName:@"users"];
         [collection insertOneDocument:
             @{@"userId": [user identifier], @"favoriteColor": @"pink"}
-            completion:^(RLMObjectId *newObjectId, NSError *error) {
+            completion:^(id<RLMBSON> newObjectId, NSError *error) {
                 if (error != nil) {
                     NSLog(@"Failed to insert: %@", error);
                     // :hide-start:
