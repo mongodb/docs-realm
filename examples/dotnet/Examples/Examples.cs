@@ -355,7 +355,7 @@ namespace UnitTests
     }
     /*  To add items to the IList<T>:
      
-        var dog = newDog();
+        var dog = new Dog();
         dog.Owners.Add("Caleb");
         
      */
