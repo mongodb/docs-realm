@@ -117,7 +117,7 @@ objects of the same type in a {+realm+}.
 
 .. note::
 
-   Primary keys can be of type ``char``,``short``, ``int``, ``long``, ``string``, 
+   Primary keys can be of type ``char``, ``short``, ``int``, ``long``, ``string``, 
    or ``MongoDB.Bson.ObjectId``.  
    Once you assign a property as a primary key, you cannot change it after an 
    object of that type is added to a {+realm+}.
@@ -168,10 +168,10 @@ You can configure the following constraints for a given property:
        types like ``string`` and ``byte[]`` required, you mark the 
        properties with the 
        :dotnet-sdk:`[Required] <reference/Realms.RequiredAttribute.html>` attribute. 
-       While a persisted ``IList<T>`` property can never be null, 
-       you can use the ``[Required]`` attribute on ``IList<string>`` 
-       and ``IList<byte[]>`` to ensure that the list itself does not contain 
-       any ``null`` values.
+       While a persisted ``IList<T>`` property can never be null, a ``IList<string>`` 
+       or ``IList<byte[]>`` may contain ``null`` values. If you want to ensure that 
+       these lists do not contain any null values, use the ``[Required]`` 
+       attribute on the list.
 
    * - Indexed
      - A property index significantly increases the speed of certain
