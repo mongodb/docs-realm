@@ -276,13 +276,12 @@ namespace UnitTests
         [Required]
         public string Name { get; set; }
 
-
-       
         public MyClass()
         {
             this.Id = ObjectId.GenerateNewId();
         }
     }
+
     public class Dog : RealmObject
     {
         [Required]
@@ -292,11 +291,17 @@ namespace UnitTests
         public string Breed { get; set; }
         public IList<Person> Owners { get; }
 
-        public Dog() { }
-
-        public Dog (IList<Person> owners)
+        public Dog()
         {
-            this.Owners = owners;
+            this.Owners = new List<Person>();
+        }
+
+        public Dog(Person owner)
+        {
+            this.Owners = new List<Person>
+            {
+                owner
+            };
         }
     }
 

@@ -42,7 +42,7 @@ class implementation.
 
 .. note::
    
-   To define a collection of objects within an object, use the ``IList<T>`` with 
+   To define a collection of objects within an object, use an ``IList<T>`` with 
    only a getter. 
 
 
@@ -103,7 +103,8 @@ Primary Key
 ~~~~~~~~~~~
 
 A **primary key** is a property that uniquely
-identifies an object. You may optionally define a primary key for an
+identifies an object. You may define a primary key on a **single 
+property** for an 
 object type as part of the :ref:`object schema <dotnet-object-schema>`.
 {+client-database+} automatically indexes primary key properties, which
 allows you to efficiently read and modify objects based on their primary
@@ -115,9 +116,10 @@ objects of the same type in a {+realm+}.
 
 .. note::
 
-   Primary keys can be of type, ``string``, ``integer``, or ``ObjectId``; however, 
-   you cannot change the primary key property for an object type after any object 
-   of that type is added to a {+realm+}.
+   Primary keys can be of type ``short``, ``long``, ``char``, ``string``, or 
+   ``MongoDB.Bson.ObjectId``.  
+   Once you assign a property as a primary key, you cannot change it after an 
+   object of that type is added to a {+realm+}.
 
 .. _dotnet-property-schema:
 
@@ -158,10 +160,15 @@ You can configure the following constraints for a given property:
        - ObjectId
        - IList<T>
 
-   * - Optional
-     - Optional properties may contain a null value or be entirely
-       omitted. You mark properties as required by using the 
+   * - Required Properties
+     - Non-nullable properties are always required, unless you specifically 
+       declare them with the optional type (``int?``, for example). To make nullable 
+       types like ``object``, ``string`` and ``byte[]`` required, you mark the 
+       properties with the 
        :dotnet-sdk:`[Required] <reference/Realms.RequiredAttribute.html>` attribute. 
+       Similarly, if you have an ``IList<T>``, which is always required because 
+       it isn't nullable, you can use the ``[Required]`` attribute to ensure the 
+       list is never empty.
 
    * - Indexed
      - A property index significantly increases the speed of certain
