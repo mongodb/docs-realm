@@ -12,7 +12,7 @@ import io.realm.mongodb.AppConfiguration;
 /*
  * TaskTracker: Sets up the taskApp Realm App and enables Realm-specific logging in debug mode.
  */
-class CustomActivityJava extends Application {
+class CustomApplicationJava extends Application {
 
     App taskApp;
 
