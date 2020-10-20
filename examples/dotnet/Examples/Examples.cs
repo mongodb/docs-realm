@@ -7,6 +7,7 @@ using Realms;
 using Realms.Sync;
 using TaskStatus = dotnet.TaskStatus;
 using Task = dotnet.Task;
+using System.Collections.Generic;
 
 namespace UnitTests
 {
@@ -45,6 +46,14 @@ namespace UnitTests
             });
             // :code-block-end:
             testTaskId = testTask._id;
+
+            var schemas = config.ObjectClasses;
+            foreach (var schema in schemas)
+            {
+                Console.WriteLine(schema.FullName);
+            }
+
+
             return;
         }
 
@@ -285,6 +294,7 @@ namespace UnitTests
             return;
         }
 
+
         
         [OneTimeTearDown]
         public async System.Threading.Tasks.Task TearDown()
@@ -317,10 +327,36 @@ namespace UnitTests
         [MapTo("name")]
         [Required]
         public string Name { get; set; }
-       
+
         public MyClass()
         {
             this.Id = ObjectId.GenerateNewId();
         }
     }
+
+    // :code-block-start: dog_class
+    public class Dog : RealmObject
+    {
+        [Required]
+        public string Name { get; set; }
+
+        public int Age { get; set; }
+        public string Breed { get; set; }
+        public IList<Person> Owners { get; }
+    }
+
+    public class Person : RealmObject
+    {
+        [Required]
+        public string Name { get; set; }
+        //etc...
+    }
+    /*  To add items to the IList<T>:
+     
+        var dog = new Dog();
+        var caleb = new Person { Name = "Caleb" };
+        dog.Owners.Add(caleb);
+        
+     */
+    // :code-block-end:
 }

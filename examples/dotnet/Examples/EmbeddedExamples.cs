@@ -145,6 +145,12 @@ namespace Examples
         // :code-block-start:embedded-classes
         public class Address : EmbeddedObject
         {
+            [MapTo("_id")]
+            public ObjectId Id { get; set; } = ObjectId.GenerateNewId();
+
+            [MapTo("_partition")]
+            public string Partition { get; set; }
+
             public string Street { get; set; }
             public string City { get; set; }
             public string Country { get; set; }
@@ -158,8 +164,13 @@ namespace Examples
             [MapTo("_id")]
             public ObjectId Id { get; set; } = ObjectId.GenerateNewId();
 
+            [MapTo("_partition")]
+            public string Partition { get; set; }
+
+            [MapTo("name")]
             public string Name { get; set; }
 
+            [MapTo("address")]
             public Address Address { get; set; } // embed a single address 
 
         }
@@ -169,8 +180,11 @@ namespace Examples
             [MapTo("_id")]
             public ObjectId Id { get; set; } = ObjectId.GenerateNewId();
 
+            [MapTo("name")]
             public string Name { get; set; }
-            public IList<Address> addresses { get; }
+
+            [MapTo("addresses")]
+            public IList<Address> Addresses { get; }
         }
         //:code-block-end:
     }
