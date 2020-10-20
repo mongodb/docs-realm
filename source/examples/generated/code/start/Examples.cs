@@ -290,8 +290,6 @@ namespace UnitTests
         public int Age { get; set; }
         public string Breed { get; set; }
         public IList<Person> Owners { get; }
-
-        public Dog() { }
     }
 
     public class Person : RealmObject
@@ -303,7 +301,8 @@ namespace UnitTests
     /*  To add items to the IList<T>:
      
         var dog = new Dog();
-        dog.Owners.Add("Caleb");
+        var caleb = new Person { Name = "Caleb" };
+        dog.Owners.Add(caleb);
         
      */
 }

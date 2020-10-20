@@ -43,7 +43,8 @@ class implementation.
 .. note::
    
    To define a collection of objects within an object, use an ``IList<T>`` with 
-   only a getter. 
+   only a getter. You do not need to initialize it in the constructor, as {+realm+} 
+   will generate a collection instance the first time the property is accessed. 
 
 
 Key Concepts
@@ -116,8 +117,8 @@ objects of the same type in a {+realm+}.
 
 .. note::
 
-   Primary keys can be of type ``short``, ``long``, ``char``, ``string``, or 
-   ``MongoDB.Bson.ObjectId``.  
+   Primary keys can be of type ``char``,``short``, ``int``, ``long``, ``string``, 
+   or ``MongoDB.Bson.ObjectId``.  
    Once you assign a property as a primary key, you cannot change it after an 
    object of that type is added to a {+realm+}.
 
@@ -150,10 +151,11 @@ You can configure the following constraints for a given property:
        {+client-database+} supports the following data types:
 
        - bool
-       - byte/short/int/long
+       - short/int/long
        - float
        - double
        - decimal (see :ref:`Using Decimal Values <dotnet-decimal128>` below)
+       - char
        - string
        - DateTimeOffset
        - byte[]
@@ -163,12 +165,13 @@ You can configure the following constraints for a given property:
    * - Required Properties
      - Non-nullable properties are always required, unless you specifically 
        declare them with the optional type (``int?``, for example). To make nullable 
-       types like ``object``, ``string`` and ``byte[]`` required, you mark the 
+       types like ``string`` and ``byte[]`` required, you mark the 
        properties with the 
        :dotnet-sdk:`[Required] <reference/Realms.RequiredAttribute.html>` attribute. 
-       Similarly, if you have an ``IList<T>``, which is always required because 
-       it isn't nullable, you can use the ``[Required]`` attribute to ensure the 
-       list is never empty.
+       While a persisted ``IList<T>`` property can never be null, 
+       you can use the ``[Required]`` attribute on ``IList<string>`` 
+       and ``IList<byte[]>`` to ensure that the list itself does not contain 
+       any ``null`` values.
 
    * - Indexed
      - A property index significantly increases the speed of certain
