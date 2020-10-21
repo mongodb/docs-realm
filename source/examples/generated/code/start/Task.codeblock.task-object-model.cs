@@ -1,5 +1,4 @@
 using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
 using Realms;
 
 namespace dotnet
@@ -7,27 +6,22 @@ namespace dotnet
     public class Task : RealmObject
     {
         [PrimaryKey]
-        [BsonElement("_id")]
-        public ObjectId _id { get; set; }
+        [MapTo("_id")]
+        public ObjectId Id { get; set; } = ObjectId.GenerateNewId();
 
-        [BsonElement("_partition")]
+        [MapTo("_partition")]
         public string Partition { get; set; }
 
-        [BsonElement("assignee")]
+        [MapTo("assignee")]
         public User Assignee { get; set; }
 
-        [BsonElement("name")]
+        [MapTo("name")]
         [Required]
         public string Name { get; set; }
 
-        [BsonElement("status")]
+        [MapTo("status")]
         [Required]
         public string Status { get; set; }
-
-        public Task()
-        {
-            this._id = ObjectId.GenerateNewId();
-        }
     }
 
     public enum TaskStatus
