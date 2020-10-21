@@ -6,7 +6,7 @@ This repository contains documentation regarding components of
 MongoDB Realm .
 
 This documentation builds on the work of the `MongoDB
-Manual <http://docs.mongodb.org/manual/>`. You can download and build
+Manual <http://docs.mongodb.org/manual/>`_. You can download and build
 this documentation locally if you already have `Sphinx
 <http://sphinx.pocoo.org/>`_ installed, with the following command: ::
 
