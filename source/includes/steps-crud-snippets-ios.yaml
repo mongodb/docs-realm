@@ -5,24 +5,24 @@ content: |
    Follow the steps in the :doc:`Install Realm for iOS, macOS, tvOS, and watchOS
    </ios/install>` guide.
 ---
-title: Import Realm Dependencies
+title: Import Realm Dependencies in scope
 ref: import-realm-dependencies
 level: 4
 content: |
   .. code-block:: swift
-     :caption: In scope (e.g. ``UIViewController``)
+     :caption: UIViewController
 
      import RealmCore
      import RealmCoreRemoteMongoDBService
      import RealmRemoteMongoDBService
 
 ---
-title: Initialize the MongoDB Realm iOS SDK
+title: Initialize the MongoDB Realm iOS SDK in Application Startup
 ref: initialize-the-mongodb-realm-ios-sdk
 level: 4
 content: |
   .. code-block:: swift
-     :caption: Application Startup (e.g. ``AppDelegate.didFinishLaunchingWithOptions()``)
+     :caption: AppDelegate.didFinishLaunchingWithOptions()
 
      do {
          let _ = try Realm.initializeDefaultAppClient(
@@ -32,12 +32,12 @@ content: |
          print("Failed to initialize MongoDB Realm iOS SDK: \(error)")
      }
 ---
-title: Instantiate a MongoDB Collection Handle
+title: Instantiate a MongoDB Collection Handle in scope
 ref: instantiate-a-mongodb-collection-handle
 level: 4
 content: |
   .. code-block:: swift
-     :caption: In scope (e.g. ``UIViewController``)
+     :caption: UIViewController
 
      // Variables in scope:
      private lazy var realmClient = Realm.defaultAppClient!

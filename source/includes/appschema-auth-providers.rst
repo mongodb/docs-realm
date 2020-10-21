@@ -19,7 +19,7 @@ Configuration
 ~~~~~~~~~~~~~
 
 .. code-block:: json
-   :caption: ``<provider name>.json``
+   :caption: <provider name>.json
    
    {
      "id": "<Provider ID>",

@@ -17,7 +17,7 @@ Configuration
 ~~~~~~~~~~~~~
 
 .. code-block:: json
-   :caption: ``<trigger name>.json``
+   :caption: <trigger name>.json
    
    {
      "id": "<Trigger ID>",
