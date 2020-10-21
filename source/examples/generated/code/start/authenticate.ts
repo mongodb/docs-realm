@@ -1,20 +1,19 @@
 import Realm from "realm";
 
-const app = new Realm.App({ id: "example-testers-kvjdy" });
+const app = Realm.App.getApp("example-testers-kvjdy");
 
 // Set the app up with test users
 beforeAll(async () => {
   // Create the example email/password & API key users
   const anon = await app.logIn(Realm.Credentials.anonymous());
-  const {
-    key: realmServerApiKey,
-  } = await app.currentUser?.functions.createTestUsers();
+  await anon.functions.deleteTestUsers();
+  const { key } = await anon.functions.createTestUsers();
   await anon.logOut();
 
   // Add the API key to process.env so that we can reference it in other tests as if it was defined in a .env file
   process.env = {
     ...process.env,
-    realmServerApiKey,
+    realmServerApiKey: key,
   };
 
   jest.runAllTimers();

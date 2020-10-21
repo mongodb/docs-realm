@@ -21,7 +21,7 @@ const PLANTS = [
   { _id: ObjectId("5f87976b7b800b285345a8b8"), name: "petunia", sunlight: "full", color: "purple", type: "annual", _partition: "Store 47" }
 ];
 
-const app = new Realm.App({ id: "example-testers-kvjdy" });
+const app = Realm.App.getApp("example-testers-kvjdy");
 
 async function getPlantsCollection() {
   if (!app.currentUser) {
@@ -41,6 +41,7 @@ async function getPlantsCollection() {
 }
 
 beforeAll(async () => {
+  // app = new Realm.App({ id: "example-testers-kvjdy" });
   const anon = await app.logIn(Realm.Credentials.anonymous());
   const plants = await getPlantsCollection();
   await plants.deleteMany({});
@@ -54,9 +55,6 @@ beforeEach(async () => {
 afterEach(async () => {
   await app.currentUser?.logOut();
 });
-// afterAll(async () => {
-//   await app.currentUser?.logOut();
-// });
 
 describe("Create Documents", () => {
   test("Insert a Single Document", async () => {
@@ -393,5 +391,62 @@ describe("Aggregation Stages", () => {
         { "_id": "perennial", "colors": "yellow" },
       ]
     )
+  });
+});
+
+describe("Watch for Changes", () => {
+  test("Watch for Changes in a Collection", async () => {
+    const plants = await getPlantsCollection();
+    r await (const change of plants.watch()) {
+    const { operationType } = change;
+    switch (operationType) {
+      case "insert": {
+        const {
+          documentKey,
+          fullDocument,
+        } = change as Realm.Services.MongoDB.InsertEvent<Plant>;
+        console.log(`new document with _id: ${documentKey}`, fullDocument);
+        break;
+      }
+      case "update": {
+        const {
+          documentKey,
+          fullDocument,
+        } = change as Realm.Services.MongoDB.UpdateEvent<Plant>;
+        console.log(`updated document: ${documentKey}`, fullDocument);
+        break;
+      }
+      case "replace": {
+        const {
+          documentKey,
+          fullDocument,
+        } = change as Realm.Services.MongoDB.ReplaceEvent<Plant>;
+        console.log(`replaced document: ${documentKey}`, fullDocument);
+        break;
+      }
+      case "delete": {
+        const { documentKey } = change as Realm.Services.MongoDB.DeleteEvent<
+          Plant
+        >;
+        console.log(`deleted document: ${documentKey}`);
+        break;
+      }
+    }
+    
+  });
+
+  test("Watch for Changes in a Collection with a Filter", async () => {
+    const plants = await getPlantsCollection();
+    r await (const change of plants.watch({
+    operationType: "insert",
+    "fullDocument.type": "perennial",
+    ) {
+    // The change event will always represent a newly inserted perennial
+    const {
+      documentKey,
+      fullDocument,
+    } = change as Realm.Services.MongoDB.InsertEvent<Plant>;
+    console.log(`new document: ${documentKey}`, fullDocument);
+    
   });
 });

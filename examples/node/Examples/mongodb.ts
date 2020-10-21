@@ -25,7 +25,7 @@ const PLANTS = [
   // :code-block-end:
 ];
 
-const app = new Realm.App({ id: "example-testers-kvjdy" });
+const app = Realm.App.getApp("example-testers-kvjdy");
 
 async function getPlantsCollection() {
   if (!app.currentUser) {
@@ -49,6 +49,7 @@ async function getPlantsCollection() {
 }
 
 beforeAll(async () => {
+  // app = new Realm.App({ id: "example-testers-kvjdy" });
   const anon = await app.logIn(Realm.Credentials.anonymous());
   const plants = await getPlantsCollection();
   await plants.deleteMany({});
@@ -62,9 +63,6 @@ beforeEach(async () => {
 afterEach(async () => {
   await app.currentUser?.logOut();
 });
-// afterAll(async () => {
-//   await app.currentUser?.logOut();
-// });
 
 describe("Create Documents", () => {
   test("Insert a Single Document", async () => {
@@ -477,5 +475,101 @@ describe("Aggregation Stages", () => {
       ]
       // :code-block-end:
     )
+  });
+});
+
+describe("Watch for Changes", () => {
+  test("Watch for Changes in a Collection", async () => {
+    const plants = await getPlantsCollection();
+    // :code-block-start: watch-a-collection
+    // :hide-start:
+    try {
+      const watching = plants.watch();
+      const next = watching.next();
+      jest.runOnlyPendingTimers();
+      await next;
+    } catch (err) {
+      expect(err).toEqual({
+        type: "aborted",
+        message: "The user aborted a request.",
+      });
+    }
+    expect.assertions(1);
+    return;
+    // :replace-with:
+    for await (const change of plants.watch()) {
+      const { operationType } = change;
+      switch (operationType) {
+        case "insert": {
+          const {
+            documentKey,
+            fullDocument,
+          } = change as Realm.Services.MongoDB.InsertEvent<Plant>;
+          console.log(`new document with _id: ${documentKey}`, fullDocument);
+          break;
+        }
+        case "update": {
+          const {
+            documentKey,
+            fullDocument,
+          } = change as Realm.Services.MongoDB.UpdateEvent<Plant>;
+          console.log(`updated document: ${documentKey}`, fullDocument);
+          break;
+        }
+        case "replace": {
+          const {
+            documentKey,
+            fullDocument,
+          } = change as Realm.Services.MongoDB.ReplaceEvent<Plant>;
+          console.log(`replaced document: ${documentKey}`, fullDocument);
+          break;
+        }
+        case "delete": {
+          const { documentKey } = change as Realm.Services.MongoDB.DeleteEvent<
+            Plant
+          >;
+          console.log(`deleted document: ${documentKey}`);
+          break;
+        }
+      }
+    }
+    // :hide-end:
+    // :code-block-end:
+  });
+
+  test("Watch for Changes in a Collection with a Filter", async () => {
+    const plants = await getPlantsCollection();
+    // :code-block-start: watch-a-collection-with-filter
+    // :hide-start:
+    try {
+      const watching = plants.watch({
+        operationType: "insert",
+        "fullDocument.type": "perennial",
+      });
+      const next = watching.next();
+      jest.runOnlyPendingTimers();
+      await next;
+    } catch (err) {
+      expect(err).toEqual({
+        type: "aborted",
+        message: "The user aborted a request.",
+      });
+    }
+    expect.assertions(1);
+    return;
+    // :replace-with:
+    for await (const change of plants.watch({
+      operationType: "insert",
+      "fullDocument.type": "perennial",
+    })) {
+      // The change event will always represent a newly inserted perennial
+      const {
+        documentKey,
+        fullDocument,
+      } = change as Realm.Services.MongoDB.InsertEvent<Plant>;
+      console.log(`new document: ${documentKey}`, fullDocument);
+    }
+    // :hide-end:
+    // :code-block-end:
   });
 });
