@@ -17,5 +17,6 @@ client.fetchAPIKeys { (keys, error) in
     }
     for key in keys! {
         // use key
+        print(key.name)
     }
 }

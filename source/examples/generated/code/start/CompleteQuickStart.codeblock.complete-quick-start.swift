@@ -1,11 +1,3 @@
-import XCTest
-import RealmSwift
-
-private var g_expectation: XCTestExpectation?
-
-import UIKit
-
-// :code-block-start: complete-quick-start
 import RealmSwift
 
 // QsTask is the Task model for this QuickStart
@@ -128,18 +120,6 @@ func onLogin() {
 
             // Invalidate notification tokens when done observing
             notificationToken.invalidate()
-            // :hide-start:
-            g_expectation!.fulfill()
-            // :hide-end:
         }
-    }
-}
-// :code-block-end:
-
-class QuickStartTest: XCTestCase {
-    func testRunExample() {
-        g_expectation = XCTestExpectation(description: "Run complete quick start")
-        runExample()
-        wait(for: [g_expectation!], timeout: 20.0)
     }
 }
