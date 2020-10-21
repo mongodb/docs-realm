@@ -13,11 +13,13 @@ class ManageApiKeys: XCTestCase {
             guard error == nil || error!.localizedDescription == "name already in use" else {
                 fatalError("User registration failed: \(error!.localizedDescription)")
             }
-            app.login(credentials: Credentials.emailPassword(email: email, password: password)) { (user, error) in
-                guard error == nil else {
-                    fatalError("Login failed: \(error!.localizedDescription)")
+            app.login(credentials: Credentials.emailPassword(email: email, password: password)) { (result) in
+                switch result {
+                case .failure(let error):
+                    fatalError("Login failed: \(error.localizedDescription)")
+                case .success(_):
+                    expectation.fulfill()
                 }
-                expectation.fulfill()
             }
         }
 
@@ -89,6 +91,7 @@ class ManageApiKeys: XCTestCase {
             }
             for key in keys! {
                 // use key
+                print(key.name)
             }
             // :hide-start:
             fetchAllExpectation.fulfill()
