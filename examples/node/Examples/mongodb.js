@@ -16,7 +16,7 @@ const PLANTS = [
   // :code-block-end:
 ];
 
-const app = new Realm.App({ id: "example-testers-kvjdy" });
+let app;
 
 async function getPlantsCollection() {
   // :code-block-start: plants-collection-handle
@@ -27,6 +27,7 @@ async function getPlantsCollection() {
 }
 
 beforeAll(async () => {
+  app = new Realm.App({ id: "example-testers-kvjdy" });
   await app.logIn(Realm.Credentials.anonymous());
   const plants = await getPlantsCollection();
   await plants.deleteMany({});
@@ -267,6 +268,7 @@ describe("Delete Documents", () => {
     );
   });
 });
+
 describe("Aggregate Documents", () => {
   test("Aggregate Documents in a Collection", async () => {
     const plants = await getPlantsCollection();
@@ -398,7 +400,7 @@ describe("Aggregation Stages", () => {
         { "_id": ObjectId("5f87a0dffc9013565c233613"), "_partition": "Store 42", "color": "yellow", "name": "daffodil", "storeNumber": "42", "sunlight": "full", "type": "perennial" },
         { "_id": ObjectId("5f1f63055512f2cb67f460a3"), "_partition": "Store 47", "color": "green", "name": "sweet basil", "storeNumber": "47", "sunlight": "full", "type": "perennial" }
       ]
-      // :code-block-end
+      // :code-block-end:
     )
   });
   test("Unwind Array Values", async () => {
@@ -423,5 +425,91 @@ describe("Aggregation Stages", () => {
       ]
       // :code-block-end:
     )
+  });
+});
+
+describe("Watch for Changes", () => {
+  test("Watch for Changes in a Collection", async () => {
+    const plants = await getPlantsCollection();
+    // :code-block-start: watch-a-collection
+    // :hide-start:
+    try {
+      const watching = plants.watch();
+      const next = watching.next();
+      jest.runOnlyPendingTimers();
+      await next;
+    } catch (err) {
+      expect(err).toEqual({
+        type: "aborted",
+        message: "The user aborted a request.",
+      });
+    }
+    expect.assertions(1);
+    return;
+    /* eslint-disable no-unreachable */
+    // :replace-with:
+    for await (const change of plants.watch()) {
+      const { operationType } = change;
+      switch (operationType) {
+        case "insert": {
+          const { documentKey, fullDocument } = change;
+          console.log(`new document: ${documentKey}`, fullDocument);
+          break;
+        }
+        case "update": {
+          const { documentKey, fullDocument } = change;
+          console.log(`updated document: ${documentKey}`, fullDocument);
+          break;
+        }
+        case "replace": {
+          const { documentKey, fullDocument } = change;
+          console.log(`replaced document: ${documentKey}`, fullDocument);
+          break;
+        }
+        case "delete": {
+          const { documentKey } = change;
+          console.log(`deleted document: ${documentKey}`);
+          break;
+        }
+      }
+      // :hide-end:
+      // :code-block-end:
+      /* eslint-enable no-unreachable */
+    }
+  });
+
+  test("Watch for Changes in a Collection with a Filter", async () => {
+    const plants = await getPlantsCollection();
+    // :code-block-start: watch-a-collection-with-filter
+    // :hide-start:
+    try {
+      const watching = plants.watch({
+        operationType: "insert",
+        "fullDocument.type": "perennial",
+      });
+      const next = watching.next();
+      jest.runOnlyPendingTimers();
+      await next;
+    } catch (err) {
+      expect(err).toEqual({
+        type: "aborted",
+        message: "The user aborted a request.",
+      });
+    }
+    expect.assertions(1);
+    return;
+    /* eslint-disable no-unreachable */
+    // :replace-with:
+    for await (const change of plants.watch({
+      operationType: "insert",
+      "fullDocument.type": "perennial",
+    })) {
+      // The change event will always represent a newly inserted perennial
+      const { documentKey, fullDocument } = change;
+      console.log(`new document: ${documentKey}`, fullDocument);
+    }
+    // :hide-end:
+    // :code-block-end:
+    /* eslint-enable no-unreachable */
   });
 });
