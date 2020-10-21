@@ -132,7 +132,7 @@ a text message to the customer with the new location of the order.
          }
 
 .. code-block:: javascript
-   :caption: ``textShippingUpdate``
+   :caption: textShippingUpdate
 
    exports = async function (changeEvent) {
      // Destructure out fields from the change stream event object
@@ -204,7 +204,7 @@ describing the user and their activity and inserts it into the
          }
 
 .. code-block:: javascript
-   :caption: ``createNewUserDocument``
+   :caption: createNewUserDocument
 
    exports = async function(authEvent) {
      const mongodb = context.services.get("mongodb-atlas");
@@ -270,7 +270,7 @@ query on the ``store.orders`` collection to generate the report. The
          }
 
 .. code-block:: javascript
-   :caption: ``generateDailyReport``
+   :caption: generateDailyReport
 
    exports = function() {
      // Instantiate MongoDB collection handles

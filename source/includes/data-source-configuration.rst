@@ -2,7 +2,7 @@ The configuration file to link an Atlas cluster should have the
 following form:
 
 .. code-block:: json
-   :caption: ``config.json``
+   :caption: config.json
 
    {
      "id": "<Service ID>",
@@ -19,7 +19,7 @@ following form:
 The configuration file to link a Data Lake should have the following form:
 
 .. code-block:: json
-   :caption: ``config.json``
+   :caption: config.json
 
    {
      "id": "<Service ID>",

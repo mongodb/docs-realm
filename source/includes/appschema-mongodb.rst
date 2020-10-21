@@ -47,7 +47,7 @@ The ``config.sync`` field of ``config.json`` determines if a cluster is
 the cluster.
 
 .. code-block:: json
-   :caption: ``config.json``
+   :caption: config.json
 
    {
      ...,
@@ -129,7 +129,7 @@ namespace.
 .. include:: /includes/data-lake-rules-note.rst
 
 .. code-block:: json
-   :caption: ``<database.collection>.json``
+   :caption: <database.collection>.json
    
    {
      "id": "<Rule ID>",

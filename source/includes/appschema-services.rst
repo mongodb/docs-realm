@@ -32,7 +32,7 @@ Service Configuration
 ~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: json
-   :caption: ``config.json``
+   :caption: config.json
 
    {
      "id": "<Service ID>",
@@ -103,7 +103,7 @@ name>/rules`` sub-directory.
 Each rule maps to its own JSON file with the same name as the rule.
 
 .. code-block:: json
-   :caption: ``<rule name>.json``
+   :caption: <rule name>.json
 
    {
      "id": "<Rule ID>",
@@ -153,7 +153,7 @@ Configuration
 +++++++++++++
 
 .. code-block:: json
-   :caption: ``config.json``
+   :caption: config.json
    
    {
      "id": "<Function ID>",
@@ -275,7 +275,7 @@ Source Code
 +++++++++++
 
 .. code-block:: javascript
-   :caption: ``source.js``
+   :caption: source.js
    
    exports = function() {
      // webhook function code
