@@ -160,48 +160,15 @@ API key and pass it to ``App.logIn()``:
    .. tab::
       :tabid: javascript
       
-      .. code-block:: javascript
-         :emphasize-lines: 3, 6, 14
-         
-         async function loginApiKey(apiKey) {
-           // Create an API Key credential
-           const credentials = Realm.Credentials.apiKey(apiKey);
-           try {
-             // Authenticate the user
-             const user = await app.logIn(credentials);
-             // `App.currentUser` updates to match the logged in user
-             assert(user.id === app.currentUser.id)
-             return user
-           } catch(err) {
-             console.error("Failed to log in", err);
-           }
-         }
-         loginApiKey("To0SQOPC...ZOU0xUYvWw").then(user => {
-           console.log("Successfully logged in!", user)
-         })
+      .. literalinclude:: /examples/generated/code/start/authenticate.codeblock.server-api-key-login.js
+         :language: javascript
    
    .. tab::
       :tabid: typescript
       
-      .. code-block:: typescript
-         :emphasize-lines: 3, 6, 14
-         
-         async function loginApiKey(apiKey: string) {
-           // Create an API Key credential
-           const credentials = Realm.Credentials.apiKey(apiKey);
-           try {
-             // Authenticate the user
-             const user: Realm.User = await app.logIn(credentials);
-             // `App.currentUser` updates to match the logged in user
-             assert(user.id === app.currentUser.id)
-             return user
-           } catch(err) {
-             console.error("Failed to log in", err);
-           }
-         }
-         loginApiKey("To0SQOPC...ZOU0xUYvWw").then(user => {
-           console.log("Successfully logged in!", user)
-         })
+      .. literalinclude:: /examples/generated/code/start/authenticate.codeblock.server-api-key-login.ts
+         :language: typescript
+
 
 .. _react-native-login-custom-function:
 
