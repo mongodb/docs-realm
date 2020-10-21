@@ -14,7 +14,7 @@ Configuration
 ~~~~~~~~~~~~~
 
 .. code-block:: javascript
-   :caption: ``config.json``
+   :caption: config.json
 
    {
      "app_id": "",
