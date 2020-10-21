@@ -15,7 +15,7 @@ Configuration
 ~~~~~~~~~~~~~
 
 .. code-block:: json
-   :caption: ``<value name>.json``
+   :caption: <value name>.json
 
    {
      "id": "<Value ID>",

@@ -1,0 +1,53 @@
+title: Set Up Your Project
+ref: set-up-your-project
+level: 4
+content: |
+   Follow the steps in the :doc:`Install Realm for iOS, macOS, tvOS, and watchOS
+   </ios/install>` guide.
+---
+title: Import Realm Dependencies in scope
+ref: import-realm-dependencies
+level: 4
+content: |
+  .. code-block:: swift
+     :caption: UIViewController
+
+     import RealmCore
+     import RealmCoreRemoteMongoDBService
+     import RealmRemoteMongoDBService
+
+---
+title: Initialize the MongoDB Realm iOS SDK in Application Startup
+ref: initialize-the-mongodb-realm-ios-sdk
+level: 4
+content: |
+  .. code-block:: swift
+     :caption: AppDelegate.didFinishLaunchingWithOptions()
+
+     do {
+         let _ = try Realm.initializeDefaultAppClient(
+             withClientAppID: "YOUR-APP-ID"
+         )
+     } catch {
+         print("Failed to initialize MongoDB Realm iOS SDK: \(error)")
+     }
+---
+title: Instantiate a MongoDB Collection Handle in scope
+ref: instantiate-a-mongodb-collection-handle
+level: 4
+content: |
+  .. code-block:: swift
+     :caption: UIViewController
+
+     // Variables in scope:
+     private lazy var realmClient = Realm.defaultAppClient!
+     private var mongoClient: RemoteMongoClient?
+     private var itemsCollection: RemoteMongoCollection<Document>?
+
+     // Set the realm variables declared above in viewDidLoad()
+     mongoClient = realmClient.serviceClient(
+         fromFactory: remoteMongoClientFactory,
+         withName: "mongodb-atlas"
+     )
+     itemsCollection = mongoClient?.db("store").collection("items")
+     purchasesCollection = mongoClient?.db("store").collection("purchases")

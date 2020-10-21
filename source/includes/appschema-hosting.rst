@@ -24,7 +24,7 @@ Metadata Configuration
 ~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: json
-   :caption: ``metadata.json``
+   :caption: metadata.json
 
    [
      {

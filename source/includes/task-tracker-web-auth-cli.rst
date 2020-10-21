@@ -21,7 +21,7 @@ You'll also need to define the password reset function. Create the
 source code files to the directory:
 
 .. code-block:: json
-   :caption: ``/functions/resetFunc/config.json``
+   :caption: /functions/resetFunc/config.json
 
    {
        "name": "resetFunc",
@@ -30,7 +30,7 @@ source code files to the directory:
    }
 
 .. code-block:: javascript
-   :caption: ``/functions/resetFunc/source.js``
+   :caption: /functions/resetFunc/source.js
   
    exports = ({ token, tokenId, username, password }) => {
      // will not reset the password
