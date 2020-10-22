@@ -127,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
 
             Realm backgroundThreadRealm = Realm.getInstance(config);
 
-            Task task = new Task("New Task", partitionValue);
+            Task task = new Task("New Task");
             backgroundThreadRealm.executeTransaction (transactionRealm -> {
                 transactionRealm.insert(task);
             });
