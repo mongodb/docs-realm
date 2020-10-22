@@ -100,32 +100,29 @@ as an inverse relationship.
 
 For example, the to-many relationship "User has many Tasks" does not
 automatically create the inverse relationship "Task belongs to User". If you
-don't specify the inverse relationship in the object model, you would need to
+don't specify the inverse relationship in the object model, you need to
 run a separate query to look up the user that is assigned to a given task.
 
-To define an inverse relationship, define a ``LinkingObjects`` property in your
-object model. The ``LinkingObjects`` definition specifies the object type and
-property name of the relationship that it inverts.
+To define the inverse relationship, define a getter-only ``IQueryable<T>`` property 
+in your object model, where ``T`` is the source type of the relationship, and  
+then annotate this property with a 
+:dotnet-dsk:`[Backlink(sourceProperty)] <reference/Realms.BacklinkAttribute.html>` 
+attribute, where "sourceProperty" is the name of the property on the other 
+side of the relationship. The following example shows how to do this with the 
+"User has many Tasks" scenario:
 
-{+client-database+} automatically updates implicit relationships whenever an
-object is added or removed in the specified relationship. You cannot manually
-set the value of an inverse relationship property.
-
-.. example::
-   
-   An application could use the following object schemas to indicate that a User
-   may be assigned many Tasks and that each Task should automatically keep track
-   of which User it's assigned to.
-   
-   - The User object's ``tasks`` property is defined as a to-many relationship
-     with Task objects and contains all of a given user's assigned tasks.
-     
-   - The Task object's ``assignee`` property inverts the relationship and
-     automatically updates to refer back to any User object that contains the
-     Task in its ``tasks`` property.
-   
    .. literalinclude:: /examples/generated/code/start/Relationships.codeblock.inverse.cs
       :language: csharp
+
+
+In this example, note that:
+
+- The User object's ``Tasks`` property is defined as a to-many relationship
+  (i.e., it is of type ``IList<Task>``).
+
+- The Task object's ``Assignee`` property inverts the relationship and
+  refers to any User object that contains this specific Task in its 
+  ``Tasks`` property.
 
 Summary
 -------

@@ -12,7 +12,7 @@ namespace Examples
         public class Person : RealmObject
         {
             public string Name { get; set; }
-            public DateTime Birthdate { get; set; }
+            public DateTimeOffset Birthdate { get; set; }
             public Dog Dog { get; set; }
         }
 
@@ -44,7 +44,7 @@ namespace Examples
         public class Person : RealmObject
         {
             public string Name { get; set; }
-            public DateTime Birthdate { get; set; }
+            public DateTimeOffset Birthdate { get; set; }
             public IList<Dog> Dogs { get; }
         }
 
@@ -66,9 +66,6 @@ namespace Examples
             [MapTo("_id")]
             public ObjectId Id { get; set; } = ObjectId.GenerateNewId();
 
-            [MapTo("_partition")]
-            public string Partition { get; set; }
-
             public string Name { get; set; }
 
             public IList<Task> Tasks { get; }
@@ -79,9 +76,6 @@ namespace Examples
             [PrimaryKey]
             [MapTo("_id")]
             public ObjectId Id { get; set; } = ObjectId.GenerateNewId();
-
-            [MapTo("_partition")]
-            public string Partition { get; set; }
 
             public string Text { get; set; }
 
