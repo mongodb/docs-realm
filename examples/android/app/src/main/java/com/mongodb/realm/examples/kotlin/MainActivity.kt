@@ -84,9 +84,9 @@ class MainActivity : AppCompatActivity() {
     fun addChangeListenerToRealm(realm : Realm) {
         // :code-block-start: watch-for-changes
         // all tasks in the realm
-        val tasks : RealmResults<Task> = realm.where<Task>().findAllAsync()
+        val tasks : RealmResults<TaskKT> = realm.where<TaskKT>().findAllAsync()
 
-        tasks.addChangeListener(OrderedRealmCollectionChangeListener<RealmResults<Task>> { collection, changeSet ->
+        tasks.addChangeListener(OrderedRealmCollectionChangeListener<RealmResults<TaskKT>> { collection, changeSet ->
             // process deletions in reverse order if maintaining parallel data structures so indices don't change as you iterate
             val deletions = changeSet.deletionRanges
             for (i in deletions.indices.reversed()) {
@@ -135,7 +135,7 @@ class MainActivity : AppCompatActivity() {
             // :code-block-end:
 
             // :code-block-start: create-object
-            val task : Task = Task("New Task", partitionValue)
+            val task : TaskKT = TaskKT("New Task", partitionValue)
             backgroundThreadRealm.executeTransaction { transactionRealm ->
                 transactionRealm.insert(task)
             }
@@ -143,31 +143,31 @@ class MainActivity : AppCompatActivity() {
 
             // :code-block-start: read-object
             // all tasks in the realm
-            val tasks : RealmResults<Task> = backgroundThreadRealm.where<Task>().findAll()
+            val tasks : RealmResults<TaskKT> = backgroundThreadRealm.where<TaskKT>().findAll()
             // :code-block-end:
 
             // :code-block-start: filter-collection
             // you can also filter a collection
-            val tasksThatBeginWithN : List<Task> = tasks.where().beginsWith("name", "N").findAll()
-            val openTasks : List<Task> = tasks.where().equalTo("status", TaskStatus.Open.name).findAll()
+            val tasksThatBeginWithN : List<TaskKT> = tasks.where().beginsWith("name", "N").findAll()
+            val openTasks : List<TaskKT> = tasks.where().equalTo("status", TaskStatus.Open.name).findAll()
             // :code-block-end:
 
             // :code-block-start: update-object
-            val otherTask: Task = tasks[0]!!
+            val otherTask: TaskKT = tasks[0]!!
 
             // all modifications to a realm must happen inside of a write block
             backgroundThreadRealm.executeTransaction { transactionRealm ->
-                val innerOtherTask : Task = transactionRealm.where<Task>().equalTo("_id", otherTask._id).findFirst()!!
+                val innerOtherTask : TaskKT = transactionRealm.where<TaskKT>().equalTo("_id", otherTask._id).findFirst()!!
                 innerOtherTask.status = TaskStatus.Complete.name
             }
             // :code-block-end:
 
             // :code-block-start: delete-object
-            val yetAnotherTask: Task = tasks.get(0)!!
+            val yetAnotherTask: TaskKT = tasks.get(0)!!
             val yetAnotherTaskId: ObjectId = yetAnotherTask._id
             // all modifications to a realm must happen inside of a write block
             backgroundThreadRealm.executeTransaction { transactionRealm ->
-                val innerYetAnotherTask : Task = transactionRealm.where<Task>().equalTo("_id", yetAnotherTaskId).findFirst()!!
+                val innerYetAnotherTask : TaskKT = transactionRealm.where<TaskKT>().equalTo("_id", yetAnotherTaskId).findFirst()!!
                 innerYetAnotherTask.deleteFromRealm()
             }
             // :code-block-end:
@@ -188,7 +188,7 @@ enum class TaskStatus(val displayName: String) {
     Complete("Complete"),
 }
 
-open class Task(_name: String = "Task", project: String = "My Project") : RealmObject() {
+open class TaskKT(_name: String = "Task", project: String = "My Project") : RealmObject() {
     @PrimaryKey
     var _id: ObjectId = ObjectId()
     var name: String = _name

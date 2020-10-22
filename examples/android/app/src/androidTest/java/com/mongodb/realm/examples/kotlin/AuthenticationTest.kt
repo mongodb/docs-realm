@@ -299,27 +299,26 @@ class AuthenticationTest : RealmTest() {
                 if (it.isSuccess) {
                     Log.v("AUTH", "Successfully authenticated anonymously.")
                     user = app.currentUser()
+                    // :code-block-start: log-out
+                    user?.logOutAsync {
+                        // :hide-start:
+                        Assert.assertEquals(true, it.isSuccess)
+                        // :hide-end:
+                        if (it.isSuccess) {
+                            Log.v("AUTH", "Successfully logged out.")
+                        } else {
+                            Log.e("AUTH", it.error.toString())
+                        }
+                        // :hide-start:
+                        expectation.fulfill()
+                        // :hide-end:
+                    }
+                    // :code-block-end:
                 } else {
                     Log.e("AUTH", it.error.toString())
                 }
 
             }
-
-            // :code-block-start: log-out
-            user?.logOutAsync {
-                // :hide-start:
-                Assert.assertEquals(true, it.isSuccess)
-                // :hide-end:
-                if (it.isSuccess) {
-                    Log.v("AUTH", "Successfully logged out.")
-                } else {
-                    Log.e("AUTH", it.error.toString())
-                }
-                // :hide-start:
-                expectation.fulfill()
-                // :hide-end:
-            }
-            // :code-block-end:
         }
         expectation.await()
     }

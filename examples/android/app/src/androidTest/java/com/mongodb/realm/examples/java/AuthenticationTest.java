@@ -299,24 +299,24 @@ public class AuthenticationTest extends RealmTest {
                 if (it.isSuccess()) {
                     Log.v("AUTH", "Successfully authenticated anonymously.");
                     user.set(app.currentUser());
+                    // :code-block-start: log-out
+                    user.get().logOutAsync( result -> {
+                        // :hide-start:
+                        Assert.assertEquals(true, result.isSuccess());
+                        // :hide-end:
+                        if (result.isSuccess()) {
+                            Log.v("AUTH", "Successfully logged out.");
+                        } else {
+                            Log.e("AUTH", result.getError().toString());
+                        }
+                        // :hide-start:
+                        expectation.fulfill();
+                        // :hide-end:
+                    });
+                    // :code-block-end:
                 } else {
                     Log.e("AUTH", it.getError().toString());
                 }
-                // :code-block-start: log-out
-                user.get().logOutAsync( result -> {
-                    // :hide-start:
-                    Assert.assertEquals(true, result.isSuccess());
-                    // :hide-end:
-                    if (result.isSuccess()) {
-                        Log.v("AUTH", "Successfully logged out.");
-                    } else {
-                        Log.e("AUTH", result.getError().toString());
-                    }
-                    // :hide-start:
-                    expectation.fulfill();
-                    // :hide-end:
-                });
-                // :code-block-end:
             });
 
         });
