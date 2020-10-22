@@ -50,7 +50,8 @@ namespace UnitTests
             // :code-block-start: read
             await user.RefreshCustomDataAsync();
 
-            // Tip: define a class that represents the custom data:
+            // Tip: define a class that represents the custom data
+            // and use the gerneic overload of GetCustomData<>()
             var cud = user.GetCustomData<CustomUserData>();
 
             Console.WriteLine($"User is cool: {cud.IsCool}");

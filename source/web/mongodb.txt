@@ -383,6 +383,68 @@ Running this snippet produces output resembling the following:
 
    { deletedCount: 2 }
 
+.. _web-mongodb-watch:
+
+Watch for Changes
+-----------------
+
+You can call :js-sdk:`collection.watch() <Realm.MongoDBCollection.html#watch>`
+to automatically react whenever a document in the collection is added, modified,
+or deleted. Each notification specifies a document that changed, how it changed,
+and the full document after the operation that caused the event.
+
+.. note::
+
+   ``collection.watch()`` returns an :mdn:`async generator
+   <Web/JavaScript/Reference/Statements/for-await...of#Iterating_over_async_generators>`
+   that allows you to asynchronously pull :manual:`change events
+   </reference/change-events/>` for operations as they occur.
+
+.. _web-mongodb-watch-a-collection:
+
+Watch for Changes in a Collection
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To watch for all changes in a collection, call :js-sdk:`collection.watch()
+<Realm.MongoDBCollection.html#watch>` without any arguments:
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: javascript
+      
+      .. literalinclude:: /examples/generated/code/start/mongodb.codeblock.watch-a-collection.js
+         :language: javascript
+
+   .. tab::
+      :tabid: typescript
+      
+      .. literalinclude:: /examples/generated/code/start/mongodb.codeblock.watch-a-collection.ts
+         :language: typescript
+
+.. _web-mongodb-watch-a-collection-with-filter:
+
+Watch for Changes in a Collection with a Filter
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To watch for specific changes in a collection, call :js-sdk:`collection.watch()
+<Realm.MongoDBCollection.html#watch>` with a query filter that specifies
+specific change event values to watch:
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: javascript
+      
+      .. literalinclude:: /examples/generated/code/start/mongodb.codeblock.watch-a-collection-with-filter.js
+         :language: javascript
+
+   .. tab::
+      :tabid: typescript
+      
+      .. literalinclude:: /examples/generated/code/start/mongodb.codeblock.watch-a-collection-with-filter.ts
+         :language: typescript
+
 .. _web-mongodb-aggregation-pipelines:
 
 Aggregate Documents

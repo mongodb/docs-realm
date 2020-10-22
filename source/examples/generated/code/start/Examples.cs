@@ -7,6 +7,7 @@ using Realms;
 using Realms.Sync;
 using TaskStatus = dotnet.TaskStatus;
 using Task = dotnet.Task;
+using System.Collections.Generic;
 
 namespace UnitTests
 {
@@ -37,6 +38,14 @@ namespace UnitTests
                 realm.Add(testTask);
             });
             testTaskId = testTask._id;
+
+            var schemas = config.ObjectClasses;
+            foreach (var schema in schemas)
+            {
+                Console.WriteLine(schema.FullName);
+            }
+
+
             return;
         }
 
@@ -124,7 +133,7 @@ namespace UnitTests
             }
             {
                 var user = await app.LogInAsync(
-                    Credentials.EmailPassword("caleb@mongodb.com", "shhhItsASektrit!"));
+                    Credentials.EmailPassword("caleb@example.com", "shhhItsASektrit!"));
                 Assert.AreEqual(UserState.LoggedIn, user.State);
                 await user.LogOutAsync();
             }
@@ -210,6 +219,35 @@ namespace UnitTests
             //{ "_id":{ "$oid":"5f0f69dc4eeabfd3366be2be"},"_partition":"myPartition","name":"do this NOW","status":"Closed"}
         }
 
+        [Test]
+        public async System.Threading.Tasks.Task LinksAUser()
+        {
+            {
+                // 1) A user logs on anonymously:
+                var anonUser = await app.LogInAsync(Credentials.Anonymous());
+                // 2) They create some data, and then decide they want to save
+                //    it, which requires creating an Email/Password account.
+                // 3) We prompt the user to log in, and then use that info to
+                //    register the new EmailPassword user, and then generate an
+                //    EmailPassword credential to link the existing anonymous
+                //    account:
+                var email = "caleb@example.com";
+                var password = "shhhItsASektrit!";
+                await app.EmailPasswordAuth.RegisterUserAsync(
+                    email, password);
+                var officialUser = await anonUser.LinkCredentialsAsync(
+                   Credentials.EmailPassword(email, password));
+            }
+            {
+                var anonUser = await app.LogInAsync(Credentials.Anonymous());
+                var officialUser = await anonUser.LinkCredentialsAsync(
+                   Credentials.Google("<google-token>"));
+            }
+            return;
+        }
+
+
+        
         [OneTimeTearDown]
         public async System.Threading.Tasks.Task TearDown()
         {
@@ -237,10 +275,34 @@ namespace UnitTests
         [MapTo("name")]
         [Required]
         public string Name { get; set; }
-       
+
         public MyClass()
         {
             this.Id = ObjectId.GenerateNewId();
         }
     }
+
+    public class Dog : RealmObject
+    {
+        [Required]
+        public string Name { get; set; }
+
+        public int Age { get; set; }
+        public string Breed { get; set; }
+        public IList<Person> Owners { get; }
+    }
+
+    public class Person : RealmObject
+    {
+        [Required]
+        public string Name { get; set; }
+        //etc...
+    }
+    /*  To add items to the IList<T>:
+     
+        var dog = new Dog();
+        var caleb = new Person { Name = "Caleb" };
+        dog.Owners.Add(caleb);
+        
+     */
 }
