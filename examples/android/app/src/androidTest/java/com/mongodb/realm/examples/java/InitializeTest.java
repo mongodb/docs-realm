@@ -1,7 +1,9 @@
-package com.mongodb.realm.examples;
+package com.mongodb.realm.examples.java;
 
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+
+import com.mongodb.realm.examples.RealmTest;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,17 +22,16 @@ import static com.mongodb.realm.examples.RealmTestKt.YOUR_APP_ID;
  * See [testing documentation](http://d.android.com/tools/testing).
  */
 @RunWith(AndroidJUnit4.class)
-public class InitializeTestJava extends RealmTest {
-    @Test
-    public void testInitializeJava() throws Exception {
-    }
+public class InitializeTest extends RealmTest {
 
-    public void accessTheAppClient() {
+    @Test
+    public void testAccessAppClient() {
         String appID = YOUR_APP_ID; // replace this with your App ID
         App app = new App(new AppConfiguration.Builder(appID).build());
     }
 
-    public void configuration() {
+    @Test
+    public void testAdvancedAccessAppClient() {
         String appID = YOUR_APP_ID; // replace this with your App ID
         App app = new App(new AppConfiguration.Builder(appID)
                 .appName("My App")

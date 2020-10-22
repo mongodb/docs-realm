@@ -5,15 +5,16 @@ import androidx.test.core.app.ActivityScenario
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import io.realm.Realm
 import org.junit.Before
+import org.junit.Test
 import org.junit.runner.RunWith
 import java.util.concurrent.atomic.AtomicBoolean
 
 @RunWith(AndroidJUnit4::class)
-open class RealmTest {
+open abstract class RealmTest {
     @JvmField
-    public var scenario: ActivityScenario<BasicActivity>? = null
+    var scenario: ActivityScenario<BasicActivity>? = null
     @JvmField
-    public var activity: Activity? = null
+    var activity: Activity? = null
 
     @Before
     fun setUp() {
@@ -22,10 +23,9 @@ open class RealmTest {
         scenario!!.onActivity { activity ->
             Realm.init(activity)
             this.activity = activity
-            // ok you go now
             expectation.fulfill()
         }
-        // wait
+        // ensure that setup has initialized realm before exiting
         expectation.await()
     }
 }

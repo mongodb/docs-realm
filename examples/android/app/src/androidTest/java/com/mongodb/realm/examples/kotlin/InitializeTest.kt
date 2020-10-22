@@ -1,15 +1,10 @@
-package com.mongodb.realm.examples
+package com.mongodb.realm.examples.kotlin
 
-import android.util.Log
-import androidx.lifecycle.Lifecycle
-import androidx.test.core.app.ActivityScenario
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import io.realm.Realm
+import com.mongodb.realm.examples.RealmTest
+import com.mongodb.realm.examples.YOUR_APP_ID
 import io.realm.mongodb.App
 import io.realm.mongodb.AppConfiguration
-import io.realm.mongodb.Credentials
-import io.realm.mongodb.User
-import org.junit.Assert
 
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -21,7 +16,7 @@ import java.util.concurrent.TimeUnit
  * See [testing documentation](http://d.android.com/tools/testing).
  */
 @RunWith(AndroidJUnit4::class)
-class InitializeTestKotlin : RealmTest() {
+class InitializeTest : RealmTest() {
 
     @Test
     fun testAccessAppClient() {
