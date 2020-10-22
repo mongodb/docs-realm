@@ -2,7 +2,9 @@ package com.mongodb.realm.examples.model;
 
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
+import io.realm.annotations.RealmClass;
 import io.realm.annotations.Required;
+
 import org.bson.types.ObjectId;
 
 public class Task extends RealmObject {
@@ -53,3 +55,4 @@ public class Task extends RealmObject {
 
     public Task() {}
 }
+
