@@ -14,7 +14,6 @@ import org.bson.types.ObjectId;
 public class Task extends RealmObject {
     @PrimaryKey
     private ObjectId _id = new ObjectId();
-    private String _partition = "My Project";
     private String name = "Task";
 
     @Required
@@ -36,14 +35,6 @@ public class Task extends RealmObject {
         this._id = _id;
     }
 
-    public String get_partition() {
-        return _partition;
-    }
-
-    public void set_partition(String _partition) {
-        this._partition = _partition;
-    }
-
     public String getName() {
         return name;
     }
@@ -52,8 +43,7 @@ public class Task extends RealmObject {
         this.name = name;
     }
 
-    public Task(String _name, String project) {
-        this._partition = project;
+    public Task(String _name) {
         this.name = _name;
     }
 

@@ -158,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
             // :code-block-end:
 
             // :code-block-start: create-object
-            Task task = new Task("New Task", partitionValue);
+            Task task = new Task("New Task");
             backgroundThreadRealm.executeTransaction (transactionRealm -> {
                 transactionRealm.insert(task);
             });
