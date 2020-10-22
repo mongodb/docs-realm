@@ -1,3 +1,4 @@
+
 // For a detailed explanation regarding each configuration property, visit:
 // https://jestjs.io/docs/en/configuration.html
 
@@ -28,5 +29,16 @@ module.exports = {
         "^.+\\.ts$": "ts-jest"
       },
     },
+    {
+      displayName: "Web-JS",
+      testEnvironment: "jsdom",
+      moduleFileExtensions: ['js'],
+      testMatch: [
+        "<rootDir>/Web-Examples/**/*.js",
+      ],
+      setupFilesAfterEnv: [
+        '<rootDir>/testSetup.js',
+      ],
+    }
   ]
 };
