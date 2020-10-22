@@ -4,9 +4,6 @@ public class User : RealmObject
     [MapTo("_id")]
     public ObjectId Id { get; set; } = ObjectId.GenerateNewId();
 
-    [MapTo("_partition")]
-    public string Partition { get; set; }
-
     public string Name { get; set; }
 
     public IList<Task> Tasks { get; }
@@ -17,9 +14,6 @@ public class Task : RealmObject
     [PrimaryKey]
     [MapTo("_id")]
     public ObjectId Id { get; set; } = ObjectId.GenerateNewId();
-
-    [MapTo("_partition")]
-    public string Partition { get; set; }
 
     public string Text { get; set; }
 

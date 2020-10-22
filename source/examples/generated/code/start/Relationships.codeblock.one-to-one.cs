@@ -1,7 +1,7 @@
 public class Person : RealmObject
 {
     public string Name { get; set; }
-    public DateTime Birthdate { get; set; }
+    public DateTimeOffset Birthdate { get; set; }
     public Dog Dog { get; set; }
 }
 
