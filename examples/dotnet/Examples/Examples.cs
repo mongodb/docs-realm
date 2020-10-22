@@ -131,8 +131,7 @@ namespace UnitTests
             var realm = await Realm.GetInstanceAsync(config);
             // :code-block-start: modify
             var t = realm.All<Task>()
-                .Where(t => t.Id == testTaskId)
-                .FirstOrDefault();
+                .FirstOrDefault(t => t.Id == testTaskId);
 
             realm.Write(() =>
             {
@@ -310,9 +309,9 @@ namespace UnitTests
                 });
                 // :code-block-end:
                 realm.RemoveAll<Task>();
-                var realmUser = await app.LogInAsync(Credentials.Anonymous());
+                var user = await app.LogInAsync(Credentials.Anonymous());
                 // :code-block-start: logout
-                await realmUser.LogOutAsync();
+                await user.LogOutAsync();
                 // :code-block-end:
             }
             return;

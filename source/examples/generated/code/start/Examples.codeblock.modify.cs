@@ -1,6 +1,5 @@
 var t = realm.All<Task>()
-    .Where(t => t.Id == testTaskId)
-    .FirstOrDefault();
+    .FirstOrDefault(t => t.Id == testTaskId);
 
 realm.Write(() =>
 {

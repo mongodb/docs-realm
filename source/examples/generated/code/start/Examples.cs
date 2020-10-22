@@ -108,8 +108,7 @@ namespace UnitTests
             config = new SyncConfiguration("myPartition", user);
             var realm = await Realm.GetInstanceAsync(config);
             var t = realm.All<Task>()
-                .Where(t => t.Id == testTaskId)
-                .FirstOrDefault();
+                .FirstOrDefault(t => t.Id == testTaskId);
 
             realm.Write(() =>
             {
@@ -260,8 +259,8 @@ namespace UnitTests
                     realm.Remove(myTask);
                 });
                 realm.RemoveAll<Task>();
-                var realmUser = await app.LogInAsync(Credentials.Anonymous());
-                await realmUser.LogOutAsync();
+                var user = await app.LogInAsync(Credentials.Anonymous());
+                await user.LogOutAsync();
             }
             return;
         }

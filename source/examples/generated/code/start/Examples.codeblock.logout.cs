@@ -1,1 +1,1 @@
-await realmUser.LogOutAsync();
+await user.LogOutAsync();
