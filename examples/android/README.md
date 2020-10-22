@@ -29,6 +29,11 @@ by Android Studio, after waiting a few moments (OK, actually like 30 seconds to 
 should be able to run the "All Tests" target on a selected AVD using the green play button in the
 toolbar.
 
+You can also run the "All Tests" target by right clicking on the `app/src/androidTest/java` directory
+in Android Studio and selecting "Run 'All Tests'".
+
+You can run test files individual by right clicking on them and selecting "Run '...Test'".
+
 ### Understand the Project Structure
 
 The following diagram shows the key items in the project directory:
