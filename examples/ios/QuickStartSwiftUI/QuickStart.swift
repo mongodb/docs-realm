@@ -22,6 +22,7 @@ let randomNouns = [
     "cork", "mouse pad"
 ]
 
+// MARK: Item
 /// An individual item. Part of a `Group`.
 final class Item: Object, ObjectKeyIdentifiable {    
     /// The unique ID of the Item.
@@ -39,6 +40,7 @@ final class Item: Object, ObjectKeyIdentifiable {
     }
 }
 
+// MARK: Group
 /// Represents a collection of items.
 final class Group: Object, ObjectKeyIdentifiable {
     /// The unique ID of the Group.
@@ -59,121 +61,96 @@ final class Group: Object, ObjectKeyIdentifiable {
 /// The Realm app.
 let app = App(id: YOUR_REALM_APP_ID_HERE)
 
-/// Wraps Realm authentication to manage authentication for our app in a SwiftUI/Combine-y way. 
-class Auth: ObservableObject {
-    @Published var user: User? = app.currentUser
-    @Published var error: Error? = nil
-    @Published var isLoggingInOrOut = false
+/// State object for managing App flow.
+/// As applications grow, this object may have to be broken out further.
+class AppState: ObservableObject {
+    /// The app's realm. Asynchronously set on login and unset on logout.
+    var realm: Realm?
+    /// Publisher that monitors log in state.
+    @Published var loginPublisher = PassthroughSubject<User, Error>()
+    /// Publisher that monitors log out state.
+    @Published var logoutPublisher = PassthroughSubject<Void, Error>()
+    /// Whether or not the app is active in the background.
+    @Published var shouldIndicateActivity = false
+    /// Cancellables to be retained for any Future.
+    @Published var cancellables = Set<AnyCancellable>()
 
-    var isLoggedIn: Bool {
-        user?.isLoggedIn ?? false
-    }
-
-    /// Logs in anonymously.
-    func logIn() {
-        user = nil
-        error = nil
-        self.isLoggingInOrOut = true
-        app.login(credentials: Credentials.anonymous) { (user, error) in
-            DispatchQueue.main.async {
-                self.isLoggingInOrOut = false
-                guard error == nil else {
-                    print("Failed to log in: \(error!)")
-                    self.error = error!
-                    return
-                }
-                print("Logged in as user: \(user!.id)")
-                self.user = user
+    init() {
+        // if we have a current user, check if a Realm already exists
+        // for the given configuration. if not, asynchronously open
+        // one. else, assign the existing one
+        if let user = app.currentUser {
+            let configuration = user.configuration(partitionValue: user.id)
+            if Realm.fileExists(for: configuration) {
+                self.realm = try! Realm(configuration: configuration)
+            } else {
+                shouldIndicateActivity = true
+                openRealm(user: user)
             }
         }
-    }
 
-    /// Logs out the current user, if any.
-    func logOut() {
-        self.isLoggingInOrOut = true
-        user?.logOut() { (error) in
-            DispatchQueue.main.async {
-                self.isLoggingInOrOut = false
-                guard error == nil else {
-                    self.error = error
-                    self.user = app.currentUser
-                    return
-                }
-                self.error = nil
-                self.user = nil
+        // monitor log in state and open a realm on login
+        loginPublisher.receive(on: DispatchQueue.main).sink(
+            receiveCompletion: { _ in },
+            receiveValue: { user in
+                self.shouldIndicateActivity = true
+                self.openRealm(user: user)
             }
-        }
+        ).store(in: &cancellables)
+
+        // monitor log out state and unset the realm on log out
+        logoutPublisher.receive(on: DispatchQueue.main).sink(
+            receiveCompletion: { _ in },
+            receiveValue: { user in
+                self.realm = nil
+            }
+        ).store(in: &cancellables)
     }
-}
 
-/// Opens a realm when a user is logged in and retrieves the first group in the 
-/// realm or creates one if no group exists. 
-final class GroupOwner: ObservableObject {
-    @Published var error: Error?
-    @Published var group: Group?
-
-    private(set) var auth: Auth
-
-    private var cancellables = Set<AnyCancellable>()
-
-    init(auth: Auth) {
-        self.auth = auth
-        
-        // Use Combine to watch for changes to the authentication state, i.e.
-        // when someone logs in or out.
-        auth.$user.sink { (user) in
-            if (user == nil) {
-                print("User removed.")
-                self.error = nil
-                self.group = nil
+    /// Open a Realm for a given User.
+    private func openRealm(user: User) {
+        Realm.asyncOpen(configuration: user.configuration(partitionValue: user.id)) { result in
+            guard case let .success(realm) = result else {
                 return
             }
-            
-            // When someone logs in, open the realm.
-            // If you are using Realm Sync, you can use the user's configuration object
-            // with a partition key value to open the realm and tie into the Sync backend.
-            let USE_REALM_SYNC = false // Change to true if you have configured your MongoDB Realm app for Sync
-            let configuration = USE_REALM_SYNC ? user!.configuration(partitionValue: user!.id) : Realm.Configuration()
-            print("Opening realm")
-            Realm.asyncOpen(configuration: configuration, callbackQueue: DispatchQueue.main) { (realm, error) in
-                print("Realm opened")
-                guard error == nil else {
-                    self.error = error
-                    // Observers of the error shall be notified
-                    return
+
+            // if no Group has been created for this app, create one
+            if realm.objects(Group.self).count == 0 {
+                try! realm.write {
+                     realm.add(Group())
                 }
-                self.error = nil
-                guard let realm = realm else {
-                    // This should never happen. Please report a bug.
-                    fatalError("realm and error both nil?!")
-                }
-                // Fetch the first group in the realm. If there is none, create one.
-                print("Loading group...")
-                var group = realm.objects(Group.self).first
-                if (group == nil) {
-                    print("No group found. Creating initial group...")
-                    group = try! realm.write {
-                        realm.create(Group.self)
-                    }
-                }
-                self.group = group
-                print("Group loaded: \(group!)")
-                // Observers of the group shall be notified
             }
-        }.store(in: &cancellables)
+            self.realm = realm
+            self.shouldIndicateActivity = false
+        }
     }
 }
 
-// --- VIEWS ---
+// MARK: - Views
 
+/// Simple activity indicator to telegraph that the app is active in the background.
+struct ActivityIndicator: UIViewRepresentable {
+    func makeUIView(context: Context) -> some UIView {
+        return UIActivityIndicatorView(style: .large)
+    }
+
+    func updateUIView(_ uiView: UIViewType, context: Context) {
+        (uiView as! UIActivityIndicatorView).startAnimating()
+    }
+}
+
+// MARK: ItemsView
 /// The screen containing a list of items in a group. Implements functionality for adding, rearranging, 
 /// and deleting items in the group. 
 struct ItemsView: View {
+    @EnvironmentObject var state: AppState
     /// The items in this group.
     @ObservedObject var items: RealmSwift.List<Item>
-    
-    /// The auth object that manages authentication state with Realm.
-    @ObservedObject var auth: Auth
+
+    init(realm: Realm) {
+        assert(realm.objects(Group.self).count > 0)
+        items = realm.objects(Group.self).first!.items
+    }
 
     var body: some View {
         NavigationView {
@@ -185,8 +162,8 @@ struct ItemsView: View {
                     // deleting object from the list).
                     ForEach(items.freeze()) { frozenItem in
                         // "Thaw" the item before passing it in, as ItemRow
-                        // may want to edit it, and cannot do so on a frozen object. 
-                        ItemRow(item: self.items.realm!.resolve(ThreadSafeReference(to: frozenItem))!)
+                        // may want to edit it, and cannot do so on a frozen object.
+                        ItemRow(item: items.realm!.resolve(ThreadSafeReference(to: frozenItem))!)
                     }.onDelete(perform: delete)
                         .onMove(perform: move)
                 }.listStyle(GroupedListStyle())
@@ -194,15 +171,23 @@ struct ItemsView: View {
                     .navigationBarBackButtonHidden(true)
                     .navigationBarItems(
                         // Log out button on the left
-                        leading: Button("Log Out", action: auth.logOut).disabled(auth.isLoggingInOrOut),
+                        leading: Button("Log Out") {
+                            state.shouldIndicateActivity = true
+                            app.currentUser?.logOut().receive(on: DispatchQueue.main).sink(receiveCompletion: { (_) in
+                                state.shouldIndicateActivity = false
+                                state.realm = nil
+                            }, receiveValue: { _ in
+
+                            }).store(in: &state.cancellables)
+                        }.disabled(state.shouldIndicateActivity),
                         // Edit button on the right to enable rearranging items
-                        trailing: EditButton().disabled(auth.isLoggingInOrOut))
+                        trailing: EditButton().disabled(state.shouldIndicateActivity))
 
                 // Action bar at bottom contains Add button.
                 HStack {
                     Spacer()
                     Button(action: addItem) { Image(systemName: "plus") }
-                        .disabled(auth.isLoggingInOrOut)
+                        .disabled(state.shouldIndicateActivity)
                 }.padding()
             }
         }
@@ -244,17 +229,27 @@ struct ItemsView: View {
     }
 }
 
+// MARK: ItemRow
 /// Represents an Item in a list.
 struct ItemRow: View {
     @ObservedObject var item: Item
+
     var body: some View {
-        // You can click an item in the list to navigate to an edit details screen. 
-        NavigationLink(destination: ItemDetailsView(item)) {
-            Text(item.name)
+        // If the item has been invalidated, display an empty view.
+        // it will be cleaned up on next render.
+        // else, display the details view
+        if item.isInvalidated {
+            EmptyView()
+        } else {
+            // You can click an item in the list to navigate to an edit details screen.
+            NavigationLink(destination: ItemDetailsView(item)) {
+                Text(item.name)
+            }
         }
     }
 }
 
+// MARK: ItemDetailsView
 /// Represents a screen where you can edit the item's name. 
 struct ItemDetailsView: View {
     @ObservedObject var item: Item
@@ -276,7 +271,7 @@ struct ItemDetailsView: View {
     var body: some View {
         // Write the new name to the newItemName state variable.
         // On commit, call our commit() function. 
-        TextField(item.name, text: $newItemName) { self.commit() }
+        TextField(item.name, text: $newItemName, onCommit:  { self.commit() })
             .navigationBarTitle(item.name)
             .padding()
     }
@@ -295,30 +290,62 @@ struct ItemDetailsView: View {
 
 /// Represents the login screen. We will just have a button to log in anonymously.
 struct LoginView: View {
-    @ObservedObject var auth: Auth
+    @EnvironmentObject var state: AppState
+    // Display an error if it occurs
+    @State var error: Error?
+
     var body: some View {
-        Button("Log in anonymously", action: auth.logIn).disabled(auth.isLoggingInOrOut)
+        VStack {
+            if let error = error {
+                Text("Error: \(error.localizedDescription)")
+            }
+            Button("Log in anonymously") {
+                state.shouldIndicateActivity = true
+                app.login(credentials: .anonymous).receive(on: DispatchQueue.main).sink(receiveCompletion: {
+                    switch ($0) {
+                    case .finished:
+                        state.shouldIndicateActivity = false
+                        break
+                    case .failure(let error):
+                        self.error = error
+                    }
+                }, receiveValue: {
+                    self.error = nil
+                    state.loginPublisher.send($0)
+                }).store(in: &state.cancellables)
+            }.disabled(state.shouldIndicateActivity)
+        }
     }
 }
 
+// MARK: ContentView
 /// The main screen that determines whether to present the LoginView or the ItemsView for the one group in the realm.
-struct ContentView: View {
-    @ObservedObject var auth: Auth
-    @ObservedObject var groupOwner: GroupOwner
+@main
+struct ContentView: SwiftUI.App {
+    /// The state of this application.
+    @ObservedObject var state = AppState()
 
-    init() {
-        let auth = Auth()
-        self.groupOwner = GroupOwner(auth: auth)
-        self.auth = auth
+    var view: some View {
+        ZStack {
+            // If a realm is open for a logged in user, show the ItemsView
+            // else show the LoginView
+            if let realm = state.realm {
+                ItemsView(realm: realm)
+            } else {
+                LoginView()
+            }
+            // If the app is doing work in the background,
+            // overlay an ActivityIndicator
+            if state.shouldIndicateActivity {
+                ActivityIndicator()
+            }
+        }
     }
 
-    var body: some View {
-        // When `auth` or `groupOwner` change, this will be reevaluated.
-        if !auth.isLoggedIn || groupOwner.group == nil {
-            // Not logged in or realm not ready -- show login screen
-            return AnyView(LoginView(auth: auth))
+    var body: some Scene {
+        WindowGroup {
+            // Pass the state object around as an EnvironmentObject
+            view.environmentObject(state)
         }
-        // Logged in and realm ready -- show items view for the group
-        return AnyView(ItemsView(items: groupOwner.group!.items, auth: auth))
     }
 }
