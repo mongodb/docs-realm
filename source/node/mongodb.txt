@@ -4,12 +4,18 @@
 MongoDB Data Access
 ===================
 
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
 
 The following actions enable access to a linked MongoDB Atlas cluster
 from a Node application using the {+service-short+} Node SDK.
 
 .. include:: /includes/mongodb-data-access-query-filter-indeterminate-order-note.rst
-
 
 .. _node-mongodb-set-up:
 
@@ -18,13 +24,41 @@ Set Up Your Project
 
 .. include:: /includes/steps/crud-snippets-node.rst
 
+.. _node-mongodb-example-dataset:
 
 Example Data
 ------------
 
 .. include:: /includes/mongodb-data-access-example-plant-documents.rst
 
+Documents in the ``plants`` collection use the following schema:
 
+.. tabs::
+   
+   .. tab:: JSON Schema
+      :tabid: json-schema
+      
+      .. code-block:: json
+         
+         {
+           "title": "Plant",
+           "bsonType": "object",
+           "required": ["_id", "_partition", "name"],
+           "properties": {
+             "_id": { "bsonType": "objectId" },
+             "_partition": { "bsonType": "string" },
+             "name": { "bsonType": "string" },
+             "sunlight": { "bsonType": "string" },
+             "color": { "bsonType": "string" },
+             "type": { "bsonType": "string" }
+           }
+         }
+   
+   .. tab:: TypeScript
+      :tabid: typescript
+      
+      .. literalinclude:: /examples/generated/code/start/mongodb.codeblock.plant-document-type.ts
+         :language: typescript
 
 .. _node-mongodb-create-documents:
 
@@ -42,30 +76,44 @@ operation.
 Insert a Single Document
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-You can insert a single document using :js-sdk:`collection.insertOne() <Realm.MongoDBCollection.html#insertOne>`.
+You can insert a single document by calling :js-sdk:`collection.insertOne()
+<Realm.MongoDBCollection.html#insertOne>`.
 
 The following snippet inserts a single document describing a "lily of the
 valley" plant into a
 :ref:`collection of documents that describe plants for sale in a group of stores
 <node-mongodb-example-dataset>`:
 
-.. code-block:: javascript
+.. tabs-realm-languages::
    
-   const plant = {
-     name: "lily of the valley",
-     sunlight: "full",
-     color: "white",
-     type: "perennial",
-     _partition: "Store 47",
-   };
-   const insertOneResult = await mongoCollection.insertOne(plant);
-   console.log(insertOneResult);
+   .. tab::
+      :tabid: javascript
+      
+      .. literalinclude:: /examples/generated/code/start/mongodb.codeblock.insert-a-single-document.js
+         :language: javascript
+
+   .. tab::
+      :tabid: typescript
+      
+      .. literalinclude:: /examples/generated/code/start/mongodb.codeblock.insert-a-single-document.ts
+         :language: typescript
 
 Running this snippet produces output resembling the following:
 
-.. code-block:: shell
+.. tabs-realm-languages::
+   :hidden: true
+   
+   .. tab::
+      :tabid: javascript
+      
+      .. literalinclude:: /examples/generated/code/start/mongodb.codeblock.insert-a-single-document-result.js
+         :language: javascript
 
-   { insertedId: 5f1f43972b0979dc01cd786c }
+   .. tab::
+      :tabid: typescript
+      
+      .. literalinclude:: /examples/generated/code/start/mongodb.codeblock.insert-a-single-document-result.ts
+         :language: typescript
 
 .. _node-mongodb-insertMany:
 
@@ -79,45 +127,36 @@ The following snippet inserts three documents describing plants into a
 :ref:`collection of documents that describe plants for sale in a group of stores
 <node-mongodb-example-dataset>`:
 
-.. code-block:: javascript
+.. tabs-realm-languages::
    
-   const plants = [
-     {
-       name: "rhubarb",
-       sunlight: "full",
-       color: "red",
-       type: "perennial",
-       _partition: "Store 47",
-     },
-     {
-       name: "wisteria lilac",
-       sunlight: "partial",
-       color: "purple",
-       type: "perennial",
-       _partition: "Store 42",
-     },
-     {
-       name: "daffodil",
-       sunlight: "full",
-       color: "yellow",
-       type: "perennial",
-       _partition: "Store 42",
-     },
-   ];
-   const insertManyResult = await mongoCollection.insertMany(plants);
-   console.log(insertManyResult);
+   .. tab::
+      :tabid: javascript
+      
+      .. literalinclude:: /examples/generated/code/start/mongodb.codeblock.insert-multiple-documents.js
+         :language: javascript
+
+   .. tab::
+      :tabid: typescript
+      
+      .. literalinclude:: /examples/generated/code/start/mongodb.codeblock.insert-multiple-documents.ts
+         :language: typescript
 
 Running this snippet produces output resembling the following:
 
-.. code-block:: shell
+.. tabs-realm-languages::
+   :hidden: true
+   
+   .. tab::
+      :tabid: javascript
+      
+      .. literalinclude:: /examples/generated/code/start/mongodb.codeblock.insert-multiple-documents-result.js
+         :language: javascript
 
-   {
-      insertedIds: [
-        5f1f4500e0ef86239b6d7ae6,
-        5f1f4500e0ef86239b6d7ae7,
-        5f1f4500e0ef86239b6d7ae8
-      ]
-   }
+   .. tab::
+      :tabid: typescript
+      
+      .. literalinclude:: /examples/generated/code/start/mongodb.codeblock.insert-multiple-documents-result.ts
+         :language: typescript
 
 Read Documents
 --------------
@@ -138,51 +177,85 @@ Find a Single Document
 
 You can find a single document using :js-sdk:`collection.findOne() <Realm.MongoDBCollection.html#findOne>`.
 
-The following snippet finds a single document from the
+The following snippet finds the document that describes venus flytraps in the
 :ref:`collection of documents that describe plants for sale in a group of stores
-<node-mongodb-example-dataset>` where the plant document's ``type``
-field contains the string value "perennial":
+<node-mongodb-example-dataset>`:
 
-.. code-block:: javascript
+.. tabs-realm-languages::
    
-   const queryFilter = { type: "perennial" };
-   const perennialResultDocument = await mongoCollection.findOne(queryFilter);
-   console.log(perennialResultDocument);
+   .. tab::
+      :tabid: javascript
+      
+      .. literalinclude:: /examples/generated/code/start/mongodb.codeblock.find-a-single-document.js
+         :language: javascript
+
+   .. tab::
+      :tabid: typescript
+      
+      .. literalinclude:: /examples/generated/code/start/mongodb.codeblock.find-a-single-document.ts
+         :language: typescript
 
 Running this snippet produces output resembling the following:
 
-.. code-block:: shell
+.. tabs-realm-languages::
+   :hidden: true
+   
+   .. tab::
+      :tabid: javascript
+      
+      .. literalinclude:: /examples/generated/code/start/mongodb.codeblock.find-a-single-document-result.js
+         :language: javascript
 
-   {
-     _id: 5f1f4266e0ef86239b6c416c,
-     name: 'venus flytrap',
-     sunlight: 'full',
-     color: 'white',
-     type: 'perennial',
-     _partition: 'Store 42'
-   }
+   .. tab::
+      :tabid: typescript
+      
+      .. literalinclude:: /examples/generated/code/start/mongodb.codeblock.find-a-single-document-result.ts
+         :language: typescript
 
 Find Multiple Documents
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 You can find multiple documents using :js-sdk:`collection.find() <Realm.MongoDBCollection.html#find>`.
 
+The following snippet finds all documents that describe perennial plants in the
+:ref:`collection of documents that describe plants for sale in a group of stores
+<node-mongodb-example-dataset>`:
+
 The following snippet finds all documents in a
 :ref:`collection of documents that describe plants for sale in a group of stores
 <android-mongodb-example-dataset>` that contain a field named
 ``_partition`` with a value of "Store 42":
 
-.. code-block:: javascript
+.. tabs-realm-languages::
    
-   const findManyQueryFilter = { _partition: "Store 42" };
-   const allPlantsFromStore42Result = await mongoCollection.find(findManyQueryFilter);
-   console.log(allPlantsFromStore42Result);
+   .. tab::
+      :tabid: javascript
+      
+      .. literalinclude:: /examples/generated/code/start/mongodb.codeblock.find-multiple-documents.js
+         :language: javascript
+
+   .. tab::
+      :tabid: typescript
+      
+      .. literalinclude:: /examples/generated/code/start/mongodb.codeblock.find-multiple-documents.ts
+         :language: typescript
 
 Running this snippet produces output resembling the following:
 
-.. code-block:: shell
+.. tabs-realm-languages::
+   :hidden: true
+   
+   .. tab::
+      :tabid: javascript
+      
+      .. literalinclude:: /examples/generated/code/start/mongodb.codeblock.find-multiple-documents-result.js
+         :language: javascript
 
-   [ { _id: 5f1f4266e0ef86239b6c416c, name: 'venus flytrap', sunlight: 'full', color: 'white', type: 'perennial', _partition: 'Store 42' }, { _id: 5f1f4266e0ef86239b6c416d, name: 'sweet basil', sunlight: 'partial', color: 'green', type: 'annual', _partition: 'Store 42' }, { _id: 5f1f4266e0ef86239b6c416e, name: 'thai basil', sunlight: 'partial', color: 'green', type: 'perennial', _partition: 'Store 42' }, { _id: 5f1f4266e0ef86239b6c416f, name: 'helianthus', sunlight: 'full', color: 'yellow', type: 'annual', _partition: 'Store 42' }, { _id: 5f1f4500e0ef86239b6d7ae7, name: 'wisteria lilac', sunlight: 'partial', color: 'purple', type: 'perennial', _partition: 'Store 42' }, { _id: 5f1f4500e0ef86239b6d7ae8, name: 'daffodil', sunlight: 'full', color: 'yellow', type: 'perennial', _partition: 'Store 42' } ]
+   .. tab::
+      :tabid: typescript
+      
+      .. literalinclude:: /examples/generated/code/start/mongodb.codeblock.find-multiple-documents-result.ts
+         :language: typescript
 
 Count Documents in the Collection
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -197,16 +270,36 @@ The following snippet counts the number of documents in a
 :ref:`collection of documents that describe plants for sale in a group of stores
 <node-mongodb-example-dataset>`:
 
-.. code-block:: javascript
+.. tabs-realm-languages::
    
-   const countResult = await mongoCollection.count();
-   console.log(`successfully counted, number of documents in the collection: ${countResult}`);
+   .. tab::
+      :tabid: javascript
+      
+      .. literalinclude:: /examples/generated/code/start/mongodb.codeblock.count-documents-in-the-collection.js
+         :language: javascript
+
+   .. tab::
+      :tabid: typescript
+      
+      .. literalinclude:: /examples/generated/code/start/mongodb.codeblock.count-documents-in-the-collection.ts
+         :language: typescript
 
 Running this snippet produces output resembling the following:
 
-.. code-block:: shell
+.. tabs-realm-languages::
+   :hidden: true
+   
+   .. tab::
+      :tabid: javascript
+      
+      .. literalinclude:: /examples/generated/code/start/mongodb.codeblock.count-documents-in-the-collection-result.js
+         :language: javascript
 
-   successfully counted, number of documents in the collection: 5
+   .. tab::
+      :tabid: typescript
+      
+      .. literalinclude:: /examples/generated/code/start/mongodb.codeblock.count-documents-in-the-collection-result.ts
+         :language: typescript
 
 Update Documents
 ----------------
@@ -231,18 +324,36 @@ The following snippet updates a single document in a
 where the ``name`` field contains the value "petunia" and changes the value
 of the first matched document's ``sunlight`` field to "partial":
 
-.. code-block:: javascript
+.. tabs-realm-languages::
    
-   const queryFilter = { name: "petunia" };
-   const updateDocument = { sunlight: "partial" };
-   const updateResult = await mongoCollection.updateOne(queryFilter, updateDocument);
-   console.log(updateResult);
+   .. tab::
+      :tabid: javascript
+      
+      .. literalinclude:: /examples/generated/code/start/mongodb.codeblock.update-a-single-document.js
+         :language: javascript
+
+   .. tab::
+      :tabid: typescript
+      
+      .. literalinclude:: /examples/generated/code/start/mongodb.codeblock.update-a-single-document.ts
+         :language: typescript
 
 Running this snippet produces output resembling the following:
 
-.. code-block:: shell
+.. tabs-realm-languages::
+   :hidden: true
+   
+   .. tab::
+      :tabid: javascript
+      
+      .. literalinclude:: /examples/generated/code/start/mongodb.codeblock.update-a-single-document-result.js
+         :language: javascript
 
-   { matchedCount: 1, modifiedCount: 1 }
+   .. tab::
+      :tabid: typescript
+      
+      .. literalinclude:: /examples/generated/code/start/mongodb.codeblock.update-a-single-document-result.ts
+         :language: typescript
 
 Update Multiple Documents
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -256,18 +367,36 @@ The following snippet updates multiple documents in a
 where the ``_partition`` field contains the value "Store 47" and changes
 the value of the ``_partition`` field of each matching document to "Store 51":
 
-.. code-block:: javascript
+.. tabs-realm-languages::
    
-   const queryFilter = { _partition: "Store 47" };
-   const updateDocument = { _partition: "Store 51" };
-   const updateResult = await mongoCollection.updateMany(queryFilter, updateDocument);
-   console.log(updateResult);
+   .. tab::
+      :tabid: javascript
+      
+      .. literalinclude:: /examples/generated/code/start/mongodb.codeblock.update-multiple-documents.js
+         :language: javascript
+
+   .. tab::
+      :tabid: typescript
+      
+      .. literalinclude:: /examples/generated/code/start/mongodb.codeblock.update-multiple-documents.ts
+         :language: typescript
 
 Running this snippet produces output resembling the following:
 
-.. code-block:: shell
+.. tabs-realm-languages::
+   :hidden: true
+   
+   .. tab::
+      :tabid: javascript
+      
+      .. literalinclude:: /examples/generated/code/start/mongodb.codeblock.update-multiple-documents-result.js
+         :language: javascript
 
-   { matchedCount: 2, modifiedCount: 2 }
+   .. tab::
+      :tabid: typescript
+      
+      .. literalinclude:: /examples/generated/code/start/mongodb.codeblock.update-multiple-documents-result.ts
+         :language: typescript
 
 Upsert Documents
 ~~~~~~~~~~~~~~~~
@@ -292,33 +421,36 @@ Because this snippet sets the ``upsert`` option to ``true``, if no
 document matches the query, MongoDB creates a new document that includes
 both the query filter and specified updates:
 
-.. code-block:: javascript
+.. tabs-realm-languages::
    
-   const queryFilter = {
-     sunlight: "full",
-     type: "perennial",
-     color: "green",
-     _partition: "Store 47",
-   };
-   const updateDocument = {
-     name: "sweet basil",
-   };
-   const updateOptions = {
-     upsert: true,
-   };
- 
-   const upsertResult = await mongoCollection.updateOne(
-     queryFilter,
-     updateDocument,
-     updateOptions
-   );
-   console.log(upsertResult);
+   .. tab::
+      :tabid: javascript
+      
+      .. literalinclude:: /examples/generated/code/start/mongodb.codeblock.upsert-documents.js
+         :language: javascript
+
+   .. tab::
+      :tabid: typescript
+      
+      .. literalinclude:: /examples/generated/code/start/mongodb.codeblock.upsert-documents.ts
+         :language: typescript
 
 Running this snippet produces output resembling the following:
 
-.. code-block:: shell
+.. tabs-realm-languages::
+   :hidden: true
+   
+   .. tab::
+      :tabid: javascript
+      
+      .. literalinclude:: /examples/generated/code/start/mongodb.codeblock.upsert-documents-result.js
+         :language: javascript
 
-   { matchedCount: 0, modifiedCount: 0, upsertedId: 5f1f63055512f2cb67f460a3 }
+   .. tab::
+      :tabid: typescript
+      
+      .. literalinclude:: /examples/generated/code/start/mongodb.codeblock.upsert-documents-result.ts
+         :language: typescript
 
 Delete Documents
 ----------------
@@ -344,17 +476,36 @@ The following snippet deletes one document in a
 document where the ``color`` field has a value of "green" and deletes
 the first document that matches the query:
 
-.. code-block:: javascript
+.. tabs-realm-languages::
    
-   const queryFilter = { color: "green" };
-   const deleteResult = await mongoCollection.deleteOne(queryFilter);
-   console.log(deleteResult);
+   .. tab::
+      :tabid: javascript
+      
+      .. literalinclude:: /examples/generated/code/start/mongodb.codeblock.delete-a-single-document.js
+         :language: javascript
+
+   .. tab::
+      :tabid: typescript
+      
+      .. literalinclude:: /examples/generated/code/start/mongodb.codeblock.delete-a-single-document.ts
+         :language: typescript
 
 Running this snippet produces output resembling the following:
 
-.. code-block:: shell
+.. tabs-realm-languages::
+   :hidden: true
+   
+   .. tab::
+      :tabid: javascript
+      
+      .. literalinclude:: /examples/generated/code/start/mongodb.codeblock.delete-a-single-document-result.js
+         :language: javascript
 
-   { deletedCount: 1 }
+   .. tab::
+      :tabid: typescript
+      
+      .. literalinclude:: /examples/generated/code/start/mongodb.codeblock.delete-a-single-document-result.ts
+         :language: typescript
 
 Delete Multiple Documents
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -362,27 +513,103 @@ Delete Multiple Documents
 You can delete multiple items from a collection using
 :js-sdk:`collection.deleteMany() <Realm.MongoDBCollection.html#deleteMany>`.
 
-The following snippet deletes all documents in a
-:ref:`collection of documents that describe plants for sale in a group of stores
-<node-mongodb-example-dataset>`
-that match the query filter that matches documents containing both
-a ``sunlight`` field value of "full" and a ``type`` field value of
-"annual".
+The following snippet deletes all documents for plants that are in "Store 51" in
+a :ref:`collection of documents that describe plants for sale in a group of
+stores <node-mongodb-example-dataset>`:
 
-.. code-block:: javascript
+.. tabs-realm-languages::
    
-   const queryFilter = {
-     sunlight: "full",
-     type: "annual",
-   };
-   const deleteManyResult = await mongoCollection.deleteMany(queryFilter);
-   console.log(deleteManyResult);
+   .. tab::
+      :tabid: javascript
+      
+      .. literalinclude:: /examples/generated/code/start/mongodb.codeblock.delete-multiple-documents.js
+         :language: javascript
+
+   .. tab::
+      :tabid: typescript
+      
+      .. literalinclude:: /examples/generated/code/start/mongodb.codeblock.delete-multiple-documents.ts
+         :language: typescript
 
 Running this snippet produces output resembling the following:
 
-.. code-block:: shell
+.. tabs-realm-languages::
+   :hidden: true
+   
+   .. tab::
+      :tabid: javascript
+      
+      .. literalinclude:: /examples/generated/code/start/mongodb.codeblock.delete-multiple-documents-result.js
+         :language: javascript
 
-   { deletedCount: 2 }
+   .. tab::
+      :tabid: typescript
+      
+      .. literalinclude:: /examples/generated/code/start/mongodb.codeblock.delete-multiple-documents-result.ts
+         :language: typescript
+
+.. _node-mongodb-watch:
+
+Watch for Changes
+-----------------
+
+You can call :js-sdk:`collection.watch() <Realm.MongoDBCollection.html#watch>`
+to automatically react whenever a document in the collection is added, modified,
+or deleted. Each notification specifies a document that changed, how it changed,
+and the full document after the operation that caused the event.
+
+.. note::
+
+   ``collection.watch()`` returns an :mdn:`async generator
+   <Web/JavaScript/Reference/Statements/for-await...of#Iterating_over_async_generators>`
+   that allows you to asynchronously pull :manual:`change events
+   </reference/change-events/>` for operations as they occur.
+
+.. _node-mongodb-watch-a-collection:
+
+Watch for Changes in a Collection
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To watch for all changes in a collection, call :js-sdk:`collection.watch()
+<Realm.MongoDBCollection.html#watch>` without any arguments:
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: javascript
+      
+      .. literalinclude:: /examples/generated/code/start/mongodb.codeblock.watch-a-collection.js
+         :language: javascript
+
+   .. tab::
+      :tabid: typescript
+      
+      .. literalinclude:: /examples/generated/code/start/mongodb.codeblock.watch-a-collection.ts
+         :language: typescript
+
+
+.. _node-mongodb-watch-a-collection-with-filter:
+
+Watch for Changes in a Collection with a Filter
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To watch for specific changes in a collection, call :js-sdk:`collection.watch()
+<Realm.MongoDBCollection.html#watch>` with a query filter that specifies
+specific change event values to watch:
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: javascript
+      
+      .. literalinclude:: /examples/generated/code/start/mongodb.codeblock.watch-a-collection-with-filter.js
+         :language: javascript
+
+   .. tab::
+      :tabid: typescript
+      
+      .. literalinclude:: /examples/generated/code/start/mongodb.codeblock.watch-a-collection-with-filter.ts
+         :language: typescript
 
 .. _node-mongodb-aggregation-pipelines:
 
@@ -413,18 +640,36 @@ The following snippet groups all documents in the ``plants``
 collection by their ``type`` value and aggregates a count of the
 number of each type:
 
-.. code-block:: javascript
+.. tabs-realm-languages::
    
-   const aggregationResult = await mongoCollection.aggregate([
-     { $group: { _id: "$type", total: { $sum: 1 } } },
-   ]);
-   console.log(aggregationResult);
+   .. tab::
+      :tabid: javascript
+      
+      .. literalinclude:: /examples/generated/code/start/mongodb.codeblock.aggregate-documents-in-a-collection.js
+         :language: javascript
+
+   .. tab::
+      :tabid: typescript
+      
+      .. literalinclude:: /examples/generated/code/start/mongodb.codeblock.aggregate-documents-in-a-collection.ts
+         :language: typescript
 
 Running this snippet produces output resembling the following:
 
-.. code-block:: shell
+.. tabs-realm-languages::
+   :hidden: true
+   
+   .. tab::
+      :tabid: javascript
+      
+      .. literalinclude:: /examples/generated/code/start/mongodb.codeblock.aggregate-documents-in-a-collection-result.js
+         :language: javascript
 
-   [ { _id: 'perennial', total: 2 }, { _id: 'annual', total: 1 } ]
+   .. tab::
+      :tabid: typescript
+      
+      .. literalinclude:: /examples/generated/code/start/mongodb.codeblock.aggregate-documents-in-a-collection-result.ts
+         :language: typescript
 
 Aggregation Stages
 ------------------
