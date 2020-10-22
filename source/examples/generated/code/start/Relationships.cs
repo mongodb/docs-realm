@@ -1,0 +1,85 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using MongoDB.Bson;
+using Realms;
+
+namespace Examples
+{
+    public class OneToOneRelationship
+    {
+        public class Person : RealmObject
+        {
+            public string Name { get; set; }
+            public DateTime Birthdate { get; set; }
+            public Dog Dog { get; set; }
+        }
+
+        public class Dog : RealmObject
+        {
+            public string Name { get; set; }
+            public int Age { get; set; }
+            public string Breed { get; set; }
+        }
+    }
+
+    public class OneToManyRelationship
+    {
+        public OneToManyRelationship()
+        {
+            // To add items to the IList<T>:
+            var person = new Person();
+            person.Dogs.Add(new Dog
+            {
+                Name = "Caleb",
+                Age = 7,
+                Breed = "mutt"
+            });
+        }
+        public class Person : RealmObject
+        {
+            public string Name { get; set; }
+            public DateTime Birthdate { get; set; }
+            public IList<Dog> Dogs { get; }
+        }
+
+        public class Dog : RealmObject
+        {
+            public string Name { get; set; }
+            public int Age { get; set; }
+            public string Breed { get; set; }
+        }
+    }
+
+    public class InverseRelationship
+    {
+        public class User : RealmObject
+        {
+            [PrimaryKey]
+            [MapTo("_id")]
+            public ObjectId Id { get; set; } = ObjectId.GenerateNewId();
+
+            [MapTo("_partition")]
+            public string Partition { get; set; }
+
+            public string Name { get; set; }
+
+            public IList<Task> Tasks { get; }
+        }
+
+        public class Task : RealmObject
+        {
+            [PrimaryKey]
+            [MapTo("_id")]
+            public ObjectId Id { get; set; } = ObjectId.GenerateNewId();
+
+            [MapTo("_partition")]
+            public string Partition { get; set; }
+
+            public string Text { get; set; }
+
+            [Backlink(nameof(User.Tasks))]
+            public IQueryable<User> Assignee { get; }
+        }
+    }
+}
