@@ -1,0 +1,186 @@
+.. _ios-swiftui-combine-quick-start:
+
+====================================
+Quick Start with SwiftUI and Combine
+====================================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+This page contains instructions to quickly get {+client-database+} integrated
+into your SwiftUI and Combine app. 
+
+Prerequisites
+-------------
+
+Before you begin, ensure you have:
+
+- :ref:`Installed the iOS SDK <ios-install>` with a minimum iOS target of 14.0.
+- :ref:`Created a {+app+} <create-a-realm-app>` and :ref:`enabled anonymous authentication <anonymous-authentication-configuration>`.
+- :ref:`Enabled {+sync+} <enable-sync>` (optional).
+
+.. note::
+
+   The code example presented below requires a minimum iOS target of 14.0, which
+   requires Xcode 12 or later. You may be able to use iOS 13.x by adapting the
+   code to remove iOS 14.0 features such as the `SwiftUI.App` class.
+
+The Code
+--------
+
+Paste the following into your main file, such as `QuickStart.swift`. Modify
+``YOUR_REALM_APP_ID_HERE`` to be your :ref:`{+app+} ID <find-your-app-id>`, then
+run the app.
+
+.. literalinclude:: /examples/generated/code/start/QuickStart.codeblock.complete-swiftui-combine-quick-start.swift
+   :language: swift
+
+The Explanation
+---------------
+
+App Flow
+~~~~~~~~
+
+After you launch the app, you see a login screen. You could implement
+:ref:`email/password authentication <ios-manage-email-password-users>` or
+:ref:`another authentication provider <authentication-providers>` here. For
+simplicity's sake, this uses :ref:`Anonymous authentication
+<anonymous-authentication>`.
+
+When you press the "log in" button, the app navigates to the ItemsView, where
+you see a list of **items** in a single **group**. You could always add a group
+management screen later, but for now, there is only ever one group in the app.
+
+On the items screen, you can log out, edit the list, and add items. Press the
+"add" button on the bottom right of the screen to add randomly generated items.
+Click the "edit" button on the top right to modify the list order, which the app
+persists in the {+realm+}. You can also swipe to delete items.
+
+When you have items in the list, you can click one of the items to go to the
+ItemDetailsView. This is where you can modify the item name. Click the text
+field in the center of the screen and type a new name. When you press Return,
+the item name should update across the app.
+
+.. note::
+
+   If you have :ref:`enabled Sync <enable-sync>` and updated the
+   ``USE_REALM_SYNC`` flag in the code accordingly, you can see the changes you
+   make sync to the backend and across devices.
+
+It's a simple and contrived app, but it demonstrates a few key points about
+using Realm with SwiftUI and Combine that we'll discuss in the following
+sections.
+
+Models
+~~~~~~
+
+A common {+service-short+} data modeling use case is to have "things" and
+"containers of things". This app defines two related Realm object models: Item
+and Group. Items have randomly generated names, which the user can edit. The
+group contains items. You could extend the group to have a name and an
+association with a specific user. This app presents a view of items in a group.
+
+State Objects
+~~~~~~~~~~~~~
+
+Any {+service+} app must have a {+app+} instance to interface with the Sync and
+authentication services. Set ``YOUR_REALM_APP_ID_HERE`` to your :ref:`{+app+} ID
+<find-your-app-id>` to interface with your {+app+}.
+
+It's a good idea to keep app State separate from Views as much as possible. A
+View should only be aware of what it needs to be aware of. We define the
+AppState class to centralize the state of the app. As the app grows in
+complexity, we might consider breaking functionality into smaller classes that
+become members of the AppState class. For now, this class reports authentication
+events and holds the list of items.
+
+When the app starts with an existing logged-in user from a previous session, or
+when someone logs in, the AppState responds by opening a {+realm+}. When opening
+a synced {+realm+} for the first time, it's a good idea to use ``asyncOpen()``
+in order to download the {+realm+} completely from the backend before opening
+it.
+
+Once the {+realm+} opens, the AppState retrieves the group in the {+realm+} or
+creates one if one does not exist already. The AppState stores the list of items
+in the group. On logout, the AppState clears its reference to the items. Any
+views observing this state object will refresh themselves in response.
+
+Views
+~~~~~
+
+The ContentView is the main entrypoint of the app. It owns and observes an
+instance of the AppState. If the AppState instance has a reference to some
+items, we present the ItemsView. Otherwise, we must not be logged in yet and
+ready, so we present the LoginView. When the AppState changes, this View renders
+again.
+
+The LoginView uses the {+app+} instance to log in anonymously. On success, it
+forwards the event to the AppState's loginPublisher.
+
+Likewise, the LogoutButton uses the {+app+} instance to log out and forward the
+event to the AppState's logoutPublisher.
+
+The ItemsView receives the list of items from the ContentView and observes it.
+It's essential to :ref:`freeze <ios-frozen-objects>` a list when iterating over
+it. Otherwise, unexpected behavior will occur when modifying the list,
+especially when deleting objects.
+
+Before passing each item to the ItemRow and ItemDetailsView views, we "thaw" the
+frozen object by fetching it again from the {+realm+}. This is only necessary
+because the ItemDetailsView may edit the item, and you cannot modify a frozen
+item. The top of the iteration is a convenient place to thaw the item, because
+we have access to the {+realm+} via the items list there. However, we must be
+careful to treat the item as frozen until we intend to modify it.
+
+Note that the ItemRow and ItemDetailsView views do not observe their items.
+That is, they do not declare the item as ``@ObservedObject var item: Item``
+but rather ``var item: Item``. Otherwise, these views would suddenly find
+themselves observing an invalid object when an item gets deleted, which could
+cause the app to crash.
+
+.. important::
+
+   Always treat the items in a list as "frozen" in SwiftUI views. When an item
+   gets deleted, the view observing the list of items (ItemsView) will notice
+   and re-render its list of ItemRows, so you do not need to and should not
+   observe individual items in a list.
+
+Finally, the ItemDetailsView allows users to edit the name of an item with a
+TextField. We use a ``@State`` variable to hold the value entered by a user.
+It's important not to use the item's ``name`` property directly here. 
+
+.. important:: 
+
+   You may only update a {+database+} object's properties in a transaction. If
+   we used the object's properties directly here, any edits to the TextField
+   would automatically apply to the item's name outside of a transaction.
+
+When presenting an editable Realm object property in SwiftUI, there are two
+options available:
+
+- Use another variable to hold the value until ready to commit it in a write transaction. This is the approach demonstrated in this quick start app.
+- You could also create a custom :apple:`Binding <documentation/swiftui/binding>` that handles writes in a transaction.
+
+We use the first approach here because we want to wait until the user actually
+commits the edit in the TextField before writing to the {+realm+}.
+
+Summary
+-------
+
+- Only provide views with the state they need. Avoid "wrapping" Realm where possible; use the SDK directly.
+- Always :ref:`freeze <ios-frozen-object>` a list when iterating over it. Do not observe iterated list items, or unexpected behavior will occur when modifying the list.
+- Avoid using Realm object properties directly where they can be edited by the UI. Instead, store the new value in another variable until you're ready to commit the change in a transaction, or wrap the property in a custom binding that opens a transaction on write.
+
+Feedback
+--------
+
+Did you find this quick start guide helpful? Please let us know with the
+feedback form on the bottom right of the page!

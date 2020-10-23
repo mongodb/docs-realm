@@ -1,6 +1,3 @@
-let YOUR_REALM_APP_ID_HERE = "example-testers-kvjdy"
-
-// :code-block-start: complete-swiftui-combine-quick-start
 import Foundation
 import RealmSwift
 import Combine
@@ -132,86 +129,6 @@ class AppState: ObservableObject {
 
 
 
-// MARK: Main View
-/// The main screen that determines whether to present the LoginView or the ItemsView for the one group in the realm.
-@main
-struct ContentView: SwiftUI.App {
-    /// The state of this application.
-    @ObservedObject var state = AppState()
-
-    var view: some View {
-        ZStack {
-            // If a realm is open for a logged in user, show the ItemsView
-            // else show the LoginView
-            if let items = state.items {
-                ItemsView(items: items,
-                    leadingBarButton: AnyView(LogoutButton().environmentObject(state)))
-                    .disabled(state.shouldIndicateActivity)
-            } else {
-                LoginView()
-            }
-            // If the app is doing work in the background,
-            // overlay an ActivityIndicator
-            if state.shouldIndicateActivity {
-                ActivityIndicator()
-            }
-        }
-    }
-
-    var body: some Scene {
-        WindowGroup {
-            // Pass the state object around as an EnvironmentObject
-            view.environmentObject(state)
-        }
-    }
-}
-
-
-// MARK: Authentication Views
-/// Represents the login screen. We will just have a button to log in anonymously.
-struct LoginView: View {
-    @EnvironmentObject var state: AppState
-    // Display an error if it occurs
-    @State var error: Error?
-
-    var body: some View {
-        VStack {
-            if let error = error {
-                Text("Error: \(error.localizedDescription)")
-            }
-            Button("Log in anonymously") {
-                state.shouldIndicateActivity = true
-                app.login(credentials: .anonymous).receive(on: DispatchQueue.main).sink(receiveCompletion: {
-                    state.shouldIndicateActivity = false
-                    switch ($0) {
-                    case .finished:
-                        break
-                    case .failure(let error):
-                        self.error = error
-                    }
-                }, receiveValue: {
-                    self.error = nil
-                    state.loginPublisher.send($0)
-                }).store(in: &state.cancellables)
-            }.disabled(state.shouldIndicateActivity)
-        }
-    }
-}
-
-/// A button that handles logout requests.
-struct LogoutButton: View {
-    @EnvironmentObject var state: AppState
-    var body: some View {
-        Button("Log Out") {
-            state.shouldIndicateActivity = true
-            app.currentUser?.logOut().receive(on: DispatchQueue.main).sink(receiveCompletion: { _ in }, receiveValue: {
-                state.shouldIndicateActivity = false
-                state.logoutPublisher.send($0)
-            }).store(in: &state.cancellables)
-        }.disabled(state.shouldIndicateActivity)
-    }
-}
-
 // MARK: Item Views
 /// The screen containing a list of items in a group. Implements functionality for adding, rearranging,
 /// and deleting items in the group.
@@ -338,6 +255,51 @@ struct ItemDetailsView: View {
     }
 }
 
+// MARK: Authentication Views
+/// Represents the login screen. We will just have a button to log in anonymously.
+struct LoginView: View {
+    @EnvironmentObject var state: AppState
+    // Display an error if it occurs
+    @State var error: Error?
+
+    var body: some View {
+        VStack {
+            if let error = error {
+                Text("Error: \(error.localizedDescription)")
+            }
+            Button("Log in anonymously") {
+                state.shouldIndicateActivity = true
+                app.login(credentials: .anonymous).receive(on: DispatchQueue.main).sink(receiveCompletion: {
+                    state.shouldIndicateActivity = false
+                    switch ($0) {
+                    case .finished:
+                        break
+                    case .failure(let error):
+                        self.error = error
+                    }
+                }, receiveValue: {
+                        self.error = nil
+                        state.loginPublisher.send($0)
+                    }).store(in: &state.cancellables)
+            }.disabled(state.shouldIndicateActivity)
+        }
+    }
+}
+
+/// A button that handles logout requests.
+struct LogoutButton: View {
+    @EnvironmentObject var state: AppState
+    var body: some View {
+        Button("Log Out") {
+            state.shouldIndicateActivity = true
+            app.currentUser?.logOut().receive(on: DispatchQueue.main).sink(receiveCompletion: { _ in }, receiveValue: {
+                state.shouldIndicateActivity = false
+                state.logoutPublisher.send($0)
+            }).store(in: &state.cancellables)
+        }.disabled(state.shouldIndicateActivity)
+    }
+}
+
 // MARK: General View
 /// Simple activity indicator to telegraph that the app is active in the background.
 struct ActivityIndicator: UIViewRepresentable {
@@ -350,5 +312,36 @@ struct ActivityIndicator: UIViewRepresentable {
     }
 }
 
-// :code-block-end: complete-swiftui-combine-quick-start
+// MARK: Main View
+/// The main screen that determines whether to present the LoginView or the ItemsView for the one group in the realm.
+@main
+struct ContentView: SwiftUI.App {
+    /// The state of this application.
+    @ObservedObject var state = AppState()
 
+    var view: some View {
+        ZStack {
+            // If a realm is open for a logged in user, show the ItemsView
+            // else show the LoginView
+            if let items = state.items {
+                ItemsView(items: items,
+                    leadingBarButton: AnyView(LogoutButton().environmentObject(state)))
+                    .disabled(state.shouldIndicateActivity)
+            } else {
+                LoginView()
+            }
+            // If the app is doing work in the background,
+            // overlay an ActivityIndicator
+            if state.shouldIndicateActivity {
+                ActivityIndicator()
+            }
+        }
+    }
+
+    var body: some Scene {
+        WindowGroup {
+            // Pass the state object around as an EnvironmentObject
+            view.environmentObject(state)
+        }
+    }
+}
