@@ -1,8 +1,8 @@
 .. code-block:: javascript
    :emphasize-lines: 12
 
-   // Find the document that describes "legos"
-   const query = { "name": "legos" };
+   // Find the document that describes "lego"
+   const query = { "name": "lego" };
    // Replace it with a new document
    const replacement = {
        "name": "blocks",
