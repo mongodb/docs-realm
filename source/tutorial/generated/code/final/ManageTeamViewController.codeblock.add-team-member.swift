@@ -3,5 +3,5 @@ func addTeamMember(email: String) {
     activityIndicator.startAnimating()
     let user = app.currentUser!
     
-    user.functions.addTeamMember([AnyBSON(email)!], self.onTeamMemberOperationComplete)
+    user.functions.addTeamMember([AnyBSON(email)], self.onTeamMemberOperationComplete)
 }

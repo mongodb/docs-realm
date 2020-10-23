@@ -13,7 +13,7 @@ func logInAnonymously() {
 }
 
 func registerNewAccount(anonymousUser: User) {
-    let email = "link@example.com"
+    let email = "swift-link@example.com"
     let password = "ganondorf"
     app.emailPasswordAuth.registerUser(email: email, password: password) { (error) in
         guard error == nil else {
