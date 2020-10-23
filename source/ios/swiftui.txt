@@ -116,17 +116,26 @@ views observing this state object will refresh themselves in response.
 Views
 ~~~~~
 
+The Main View: Switching Views Depending on the App State
+`````````````````````````````````````````````````````````
+
 The ContentView is the main entrypoint of the app. It owns and observes an
 instance of the AppState. If the AppState instance has a reference to some
 items, we present the ItemsView. Otherwise, we must not be logged in yet and
 ready, so we present the LoginView. When the AppState changes, this View renders
 again.
 
+Handling Authentication
+```````````````````````
+
 The LoginView uses the {+app+} instance to log in anonymously. On success, it
 forwards the event to the AppState's loginPublisher.
 
 Likewise, the LogoutButton uses the {+app+} instance to log out and forward the
 event to the AppState's logoutPublisher.
+
+Presenting Lists of Realm Objects
+`````````````````````````````````
 
 The ItemsView receives the list of items from the ContentView and observes it.
 It's essential to :ref:`freeze <ios-frozen-objects>` a list when iterating over
@@ -153,9 +162,13 @@ cause the app to crash.
    and re-render its list of ItemRows, so you do not need to and should not
    observe individual items in a list.
 
-Finally, the ItemDetailsView allows users to edit the name of an item with a
-TextField. We use a ``@State`` variable to hold the value entered by a user.
-It's important not to use the item's ``name`` property directly here. 
+
+Modifying Properties of Presented Realm Objects
+```````````````````````````````````````````````
+
+The ItemDetailsView allows users to edit the name of an item with a TextField.
+We use a ``@State`` variable to hold the value entered by a user. It's important
+not to use the item's ``name`` property directly here. 
 
 .. important:: 
 
