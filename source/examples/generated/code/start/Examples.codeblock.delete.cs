@@ -1,4 +1,4 @@
 realm.Write(() =>
 {
-    realm.RemoveAll<Task>();
+    realm.Remove(myTask);
 });

@@ -45,7 +45,7 @@ namespace UnitTests
                 realm.Add(testTask);
             });
             // :code-block-end:
-            testTaskId = testTask._id;
+            testTaskId = testTask.Id;
 
             var schemas = config.ObjectClasses;
             foreach (var schema in schemas)
@@ -97,7 +97,7 @@ namespace UnitTests
         public async System.Threading.Tasks.Task GetsSyncedTasks()
         {
             // :code-block-start: anon-login
-            var user = app.LogInAsync(Credentials.Anonymous()).Result;
+            var user = await app.LogInAsync(Credentials.Anonymous());
             // :code-block-end:
             // :code-block-start: config
             config = new SyncConfiguration("myPartition", user);
@@ -131,8 +131,7 @@ namespace UnitTests
             var realm = await Realm.GetInstanceAsync(config);
             // :code-block-start: modify
             var t = realm.All<Task>()
-                .Where(t => t._id == testTaskId)
-                .FirstOrDefault();
+                .FirstOrDefault(t => t.Id == testTaskId);
 
             realm.Write(() =>
             {
@@ -302,16 +301,17 @@ namespace UnitTests
             config = new SyncConfiguration("myPartition", user);
             using (var realm = await Realm.GetInstanceAsync(config))
             {
+                var myTask = new Task();
                 // :code-block-start: delete
                 realm.Write(() =>
                 {
-                    realm.RemoveAll<Task>();
+                    realm.Remove(myTask);
                 });
                 // :code-block-end:
-
-                var realmUser = await app.LogInAsync(Credentials.Anonymous());
+                realm.RemoveAll<Task>();
+                var user = await app.LogInAsync(Credentials.Anonymous());
                 // :code-block-start: logout
-                await realmUser.LogOutAsync();
+                await user.LogOutAsync();
                 // :code-block-end:
             }
             return;

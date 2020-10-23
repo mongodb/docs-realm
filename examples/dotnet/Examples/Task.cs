@@ -8,7 +8,7 @@ namespace dotnet
     {
         [PrimaryKey]
         [MapTo("_id")]
-        public ObjectId _id { get; set; }
+        public ObjectId Id { get; set; } = ObjectId.GenerateNewId();
 
         [MapTo("_partition")]
         public string Partition { get; set; }
@@ -23,11 +23,6 @@ namespace dotnet
         [MapTo("status")]
         [Required]
         public string Status { get; set; }
-
-        public Task()
-        {
-            this._id = ObjectId.GenerateNewId();
-        }
     }
 
     public enum TaskStatus
