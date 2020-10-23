@@ -14,11 +14,10 @@ describe("user authentication", () => {
             const credentials = Realm.Credentials.anonymous();
             try {
               // Authenticate the user
-              const user = await app.logIn(credentials);
+              const user = await app.logIn(credentials); 
               // :hide-start:
-              expect(user.id).toBe(app.currentUser.id);
+              expect(user.id).toBe(app.currentUser.id); // `App.currentUser` updates to match the logged in user
               // :hide-end:
-              // `App.currentUser` updates to match the logged in user
               return user;
             } catch(err) {
               console.error("Failed to log in", err);
