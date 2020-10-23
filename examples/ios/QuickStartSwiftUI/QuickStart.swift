@@ -75,56 +75,48 @@ class AppState: ObservableObject {
     @Published var items: RealmSwift.List<Item>?
 
     init() {
-        // If we have a current user, check if a Realm already exists
-        // for the given configuration.
-        if let user = app.currentUser {
-            openRealm(user: user)
-        }
-
-        // monitor log in state and open a realm on login
-        loginPublisher.receive(on: DispatchQueue.main).sink(
-            receiveCompletion: { _ in },
-            receiveValue: { user in
-                self.openRealm(user: user)
+        // Monitor login state and open a realm on login
+        loginPublisher
+            .receive(on: DispatchQueue.main) // Ensure we update UI elements (shouldIndicateActivity) on the main thread
+            .flatMap { user -> RealmPublishers.AsyncOpenPublisher in
+                // If using Realm Sync, use the user configuration object with a partition value.
+                let USE_REALM_SYNC = false
+                let configuration = USE_REALM_SYNC ? user.configuration(partitionValue: user.id) : Realm.Configuration()
+                self.shouldIndicateActivity = true
+                // Logged in, now open the realm and watch for completion.
+                return Realm.asyncOpen(configuration: configuration)
             }
-        ).store(in: &cancellables);
+            .receive(on: DispatchQueue.main) // Ensure we update UI elements (shouldIndicateActivity) on the main thread
+            .sink(receiveCompletion: { result in
+                self.shouldIndicateActivity = false
+                // Check for failure.
+                if case let .failure(error) = result {
+                    print("Failed to log in and open realm: \(error.localizedDescription)")
+                }
+            }, receiveValue: { realm in
+                self.shouldIndicateActivity = false
+                // The realm has successfully opened.
+                // If no group has been created for this app, create one.
+                if realm.objects(Group.self).count == 0 {
+                    try! realm.write {
+                        realm.add(Group())
+                    }
+                }
+                assert(realm.objects(Group.self).count > 0)
+                self.items = realm.objects(Group.self).first!.items
+            })
+            .store(in: &self.cancellables)
 
-        // monitor log out state and unset the realm on log out
+        // Monitor logout state and unset the items list on logout.
         logoutPublisher.receive(on: DispatchQueue.main).sink(receiveCompletion: { _ in }, receiveValue: { _ in
                 self.items = nil
             }).store(in: &cancellables)
-    }
-
-    /// Open a Realm for a given User.
-    private func openRealm(user: User) {
-        // If using Realm Sync, use the user configuration object with a partition value.
-        let USE_REALM_SYNC = false
-        let configuration = USE_REALM_SYNC ? user.configuration(partitionValue: user.id) : Realm.Configuration()
-        if Realm.fileExists(for: configuration) {
-            let realm = try! Realm(configuration: configuration)
-            onRealmOpened(realm)
-        } else {
-            shouldIndicateActivity = true
-            Realm.asyncOpen(configuration: configuration) { result in
-                self.shouldIndicateActivity = false
-                guard case let .success(realm) = result else {
-                    return
-                }
-                self.onRealmOpened(realm)
-            }
+        
+        // If we have a current user, check if a Realm already exists
+        // for the given configuration.
+        if let user = app.currentUser {
+            loginPublisher.send(user)
         }
-    }
-
-    /// Called internally when the realm is opened.
-    private func onRealmOpened(_ realm: Realm) {
-        // if no Group has been created for this app, create one
-        if realm.objects(Group.self).count == 0 {
-            try! realm.write {
-                realm.add(Group())
-            }
-        }
-        assert(realm.objects(Group.self).count > 0)
-        items = realm.objects(Group.self).first!.items
     }
 }
 
@@ -218,7 +210,7 @@ struct LogoutButton: View {
 struct ItemsView: View {
     /// The items in this group.
     @ObservedObject var items: RealmSwift.List<Item>
-    
+
     /// The button to be displayed on the top left.
     var leadingBarButton: AnyView?
 
