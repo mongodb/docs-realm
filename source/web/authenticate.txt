@@ -35,54 +35,24 @@ to your application with ephemeral accounts that have no associated information.
 
 To log in, create an anonymous credential and pass it to ``App.logIn()``:
 
+Foobar
+      
 .. tabs-realm-languages::
-   
-   .. tab::
+
+  .. tab::
       :tabid: javascript
-      
-      .. code-block:: javascript
-         :emphasize-lines: 3, 6
-         
-         async function loginAnonymous() {
-           // Create an anonymous credential
-           const credentials = Realm.Credentials.anonymous();
-           try {
-             // Authenticate the user
-             const user = await app.logIn(credentials);
-             // `App.currentUser` updates to match the logged in user
-             assert(user.id === app.currentUser.id)
-             return user
-           } catch(err) {
-             console.error("Failed to log in", err);
-           }
-         }
-         loginAnonymous().then(user => {
-           console.log("Successfully logged in!", user)
-         })
-   
-   .. tab::
+
+      .. literalinclude:: /examples/generated/code/start/authenticate.codeblock.anonymous-login-web.js
+        :language: kotlin
+        :emphasize-lines: 3,6 
+
+  .. tab::
       :tabid: typescript
-      
-      .. code-block:: typescript
-         :emphasize-lines: 3, 6
 
-         async function loginAnonymous() {
-           // Create an anonymous credential
-           const credentials = Realm.Credentials.anonymous();
-           try {
-             // Authenticate the user
-             const user: Realm.User = await app.logIn(credentials);
-             // `App.currentUser` updates to match the logged in user
-             assert(user.id === app.currentUser.id)
-             return user
-           } catch(err) {
-             console.error("Failed to log in", err);
-           }
-         }
-         loginAnonymous().then(user => {
-           console.log("Successfully logged in!", user)
-         })
-
+      .. literalinclude:: /examples/generated/code/start/authenticate.codeblock.anonymous-login-web.ts
+        :language: kotlin
+        :emphasize-lines: 3,6 
+   
 .. _web-login-email-password:
 
 Email/Password

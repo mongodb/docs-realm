@@ -39,6 +39,18 @@ module.exports = {
       setupFilesAfterEnv: [
         '<rootDir>/testSetup.js',
       ],
+    },
+    {
+      displayName: "Web-TS",
+      testEnvironment: "jsdom",
+      preset: 'ts-jest/presets/js-with-ts',
+      moduleFileExtensions: ['ts','js'],
+      testMatch: [
+        "<rootDir>/Web-Examples/**/*.ts",
+      ],
+      setupFilesAfterEnv: [
+        '<rootDir>/testSetup.js',
+      ],
     }
   ]
 };
