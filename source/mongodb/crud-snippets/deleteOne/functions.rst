@@ -1,6 +1,6 @@
 .. code-block:: javascript
 
-   const query = { "name": "legos" };
+   const query = { "name": "lego" };
 
    itemsCollection.deleteOne(query)
      .then(result => console.log(`Deleted ${result.deletedCount} item.`))
