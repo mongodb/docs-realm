@@ -22,7 +22,6 @@ public class AuthenticationTest extends RealmTest {
     public void testAnonymous() {
         Expectation expectation = new Expectation();
         activity.runOnUiThread(() -> {
-            // :code-block-start: anonymous
             String appID = YOUR_APP_ID; // replace this with your App ID
             App app = new App(new AppConfiguration.Builder(appID)
                     .build());
@@ -31,20 +30,13 @@ public class AuthenticationTest extends RealmTest {
 
             AtomicReference<User> user = new AtomicReference<User>();
             app.loginAsync(anonymousCredentials, it -> {
-                // :hide-start:
-                Assert.assertEquals(true, it.isSuccess());
-                // :hide-end:
                 if (it.isSuccess()) {
                     Log.v("AUTH", "Successfully authenticated anonymously.");
                     user.set(app.currentUser());
                 } else {
                     Log.e("AUTH", it.getError().toString());
                 }
-                // :hide-start:
-                expectation.fulfill();
-                // :hide-end:
             });
-            // :code-block-end:
         });
         expectation.await();
     }
@@ -53,7 +45,6 @@ public class AuthenticationTest extends RealmTest {
     public void testEmailPassword() {
         Expectation expectation = new Expectation();
         activity.runOnUiThread(() -> {
-            // :code-block-start: email-password
             String appID = YOUR_APP_ID; // replace this with your App ID
             App app = new App(new AppConfiguration.Builder(appID)
                     .build());
@@ -62,20 +53,13 @@ public class AuthenticationTest extends RealmTest {
 
             AtomicReference<User> user = new AtomicReference<User>();
             app.loginAsync(emailPasswordCredentials, it -> {
-                // :hide-start:
-                Assert.assertEquals(false, it.isSuccess());
-                // :hide-end:
                 if (it.isSuccess()) {
                     Log.v("AUTH", "Successfully authenticated using an email and password.");
                     user.set(app.currentUser());
                 } else {
                     Log.e("AUTH", it.getError().toString());
                 }
-                // :hide-start:
-                expectation.fulfill();
-                // :hide-end:
             });
-            // :code-block-end:
         });
         expectation.await();
     }
@@ -84,7 +68,6 @@ public class AuthenticationTest extends RealmTest {
     public void testAPIKey() {
         Expectation expectation = new Expectation();
         activity.runOnUiThread(() -> {
-            // :code-block-start: api-key
             String appID = YOUR_APP_ID; // replace this with your App ID
             App app = new App(new AppConfiguration.Builder(appID)
                     .build());
@@ -93,20 +76,13 @@ public class AuthenticationTest extends RealmTest {
 
             AtomicReference<User> user = new AtomicReference<User>();
             app.loginAsync(apiKeyCredentials, it -> {
-                // :hide-start:
-                Assert.assertEquals(false, it.isSuccess());
-                // :hide-end:
                 if (it.isSuccess()) {
                     Log.v("AUTH", "Successfully authenticated using an API Key.");
                     user.set(app.currentUser());
                 } else {
                     Log.e("AUTH", it.getError().toString());
                 }
-                // :hide-start:
-                expectation.fulfill();
-                // :hide-end:
             });
-            // :code-block-end:
         });
         expectation.await();
     }
@@ -115,7 +91,6 @@ public class AuthenticationTest extends RealmTest {
     public void testCustomFunction() {
         Expectation expectation = new Expectation();
         activity.runOnUiThread(() -> {
-            // :code-block-start: custom-function
             String appID = YOUR_APP_ID; // replace this with your App ID
             App app = new App(new AppConfiguration.Builder(appID).build());
 
@@ -124,20 +99,13 @@ public class AuthenticationTest extends RealmTest {
 
             AtomicReference<User> user = new AtomicReference<User>();
             app.loginAsync(customFunctionCredentials, it -> {
-                // :hide-start:
-                Assert.assertEquals(true, it.isSuccess());
-                // :hide-end:
                 if (it.isSuccess()) {
                     Log.v("AUTH", "Successfully authenticated using a custom function.");
                     user.set(app.currentUser());
                 } else {
                     Log.e("AUTH", it.getError().toString());
                 }
-                // :hide-start:
-                expectation.fulfill();
-                // :hide-end:
             });
-            // :code-block-end:
         });
         expectation.await();
     }
@@ -146,7 +114,6 @@ public class AuthenticationTest extends RealmTest {
     public void testCustomJWT() {
         Expectation expectation = new Expectation();
         activity.runOnUiThread(() -> {
-            // :code-block-start: custom-jwt
             String appID = YOUR_APP_ID; // replace this with your App ID
             App app = new App(new AppConfiguration.Builder(appID)
                     .build());
@@ -156,20 +123,13 @@ public class AuthenticationTest extends RealmTest {
 
             AtomicReference<User> user = new AtomicReference<User>();
             app.loginAsync(customJWTCredentials, it -> {
-                // :hide-start:
-                Assert.assertEquals(false, it.isSuccess());
-                // :hide-end:
                 if (it.isSuccess()) {
                     Log.v("AUTH", "Successfully authenticated using a custom JWT.");
                     user.set(app.currentUser());
                 } else {
                     Log.e("AUTH", it.getError().toString());
                 }
-                // :hide-start:
-                expectation.fulfill();
-                // :hide-end:
             });
-            // :code-block-end:
         });
         expectation.await();
     }
@@ -178,7 +138,6 @@ public class AuthenticationTest extends RealmTest {
     public void testFacebookOAuth() {
         Expectation expectation = new Expectation();
         activity.runOnUiThread(() -> {
-            // :code-block-start: facebook
             String appID = YOUR_APP_ID; // replace this with your App ID
             App app = new App(new AppConfiguration.Builder(appID)
                     .build());
@@ -189,20 +148,13 @@ public class AuthenticationTest extends RealmTest {
 
             AtomicReference<User> user = new AtomicReference<User>();
             app.loginAsync(facebookCredentials, it -> {
-                // :hide-start:
-                Assert.assertEquals(false, it.isSuccess());
-                // :hide-end:
                 if (it.isSuccess()) {
                     Log.v("AUTH", "Successfully authenticated using Facebook OAuth.");
                     user.set(app.currentUser());
                 } else {
                     Log.e("AUTH", it.getError().toString());
                 }
-                // :hide-start:
-                expectation.fulfill();
-                // :hide-end:
             });
-            // :code-block-end:
         });
         expectation.await();
     }
@@ -211,7 +163,6 @@ public class AuthenticationTest extends RealmTest {
     public void testGoogleOAuth() {
         Expectation expectation = new Expectation();
         activity.runOnUiThread(() -> {
-            // :code-block-start: google
             String appID = YOUR_APP_ID; // replace this with your App ID
             App app = new App(new AppConfiguration.Builder(appID)
                     .build());
@@ -222,20 +173,13 @@ public class AuthenticationTest extends RealmTest {
 
             AtomicReference<User> user = new AtomicReference<User>();
             app.loginAsync(googleCredentials, it -> {
-                // :hide-start:
-                Assert.assertEquals(false, it.isSuccess());
-                // :hide-end:
                 if (it.isSuccess()) {
                     Log.v("AUTH", "Successfully authenticated using Google OAuth.");
                     user.set(app.currentUser());
                 } else {
                     Log.e("AUTH", it.getError().toString());
                 }
-                // :hide-start:
-                expectation.fulfill();
-                // :hide-end:
             });
-            // :code-block-end:
         });
         expectation.await();
     }
@@ -244,7 +188,6 @@ public class AuthenticationTest extends RealmTest {
     public void testSignInWithApple() {
         Expectation expectation = new Expectation();
         activity.runOnUiThread(() -> {
-            // :code-block-start: apple
             String appID = YOUR_APP_ID; // replace this with your App ID
             App app = new App(new AppConfiguration.Builder(appID)
                     .build());
@@ -255,20 +198,13 @@ public class AuthenticationTest extends RealmTest {
 
             AtomicReference<User> user = new AtomicReference<User>();
             app.loginAsync(appleCredentials, it -> {
-                // :hide-start:
-                Assert.assertEquals(false, it.isSuccess());
-                // :hide-end:
                 if (it.isSuccess()) {
                     Log.v("AUTH", "Successfully authenticated using Sign-in with Apple.");
                     user.set(app.currentUser());
                 } else {
                     Log.e("AUTH", it.getError().toString());
                 }
-                // :hide-start:
-                expectation.fulfill();
-                // :hide-end:
             });
-            // :code-block-end:
         });
         expectation.await();
     }
@@ -289,21 +225,13 @@ public class AuthenticationTest extends RealmTest {
                 if (it.isSuccess()) {
                     Log.v("AUTH", "Successfully authenticated anonymously.");
                     user.set(app.currentUser());
-                    // :code-block-start: log-out
                     user.get().logOutAsync( result -> {
-                        // :hide-start:
-                        Assert.assertEquals(true, result.isSuccess());
-                        // :hide-end:
                         if (result.isSuccess()) {
                             Log.v("AUTH", "Successfully logged out.");
                         } else {
                             Log.e("AUTH", result.getError().toString());
                         }
-                        // :hide-start:
-                        expectation.fulfill();
-                        // :hide-end:
                     });
-                    // :code-block-end:
                 } else {
                     Log.e("AUTH", it.getError().toString());
                 }

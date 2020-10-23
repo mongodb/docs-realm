@@ -21,21 +21,17 @@
       .. tab::
          :tabid: java
 
-         .. code-block:: java
+         .. literalinclude:: /examples/generated/android/code/start/OpenARealmTest.codeblock.allow-reads-writes-ui-thread.java
+            :language: java
             :emphasize-lines: 2,3
-
-            SyncConfiguration config = new SyncConfiguration.Builder(user, partitionValue)
-                .allowQueriesOnUiThread(true)
-                .allowWritesOnUiThread(true)
-                .build();
 
       .. tab::
          :tabid: kotlin
 
-         .. code-block:: kotlin
+         .. literalinclude:: /examples/generated/android/code/start/OpenARealmTest.codeblock.allow-reads-writes-ui-thread.kt
+            :language: kotlin
             :emphasize-lines: 2,3
 
-            val config = SyncConfiguration.Builder(user, partitionValue)
-                .allowQueriesOnUiThread(true)
-                .allowWritesOnUiThread(true)
-                .build()
+
+
+

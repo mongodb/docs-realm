@@ -65,12 +65,10 @@ Enter the name of your test case class (for consistency, it should end with "Tes
 
 In your new test file:
 
-- add the `@RunWith(AndroidJUnit4.class)` annotation before the class definition
-
 - make your new test class a subclass of `RealmTest` to be able to actually run Realm SDK methods
   (you will almost certainly need this)
 
-  Now all you have to do is add a `public void` method with the `@Test` annotation
+Now all you have to do is add a method with a void return type and the `@Test` annotation
 to create a new test!
 
 ### Add an Example
@@ -78,15 +76,11 @@ to create a new test!
 Find the relevant test case file for the section or category you wish to write
 an example for.
 
-Add a test method to it, which can be named anything starting with `test...`. For example,
+Add a test method to it with the `@Test` annotation above the method. For example,
 if the example shows how to open a realm, call the test function `testOpenRealm`.
 
 Next, add the example code. If the example doesn't fit in the test function body
 itself, you may want to put the code outside of the test case class entirely.
-For instance, an example may declare a class or something that can't be declared
-in a function body. Realm objects cannot be declared as subtypes of other
-objects. So, feel free to write your example in another part of the file or even in the
-`model` directory of the example application code itself.
 
 If your example uses synchronized realms or network calls like authentication, functions, etc.,
 you'll need to run the example on the UI thread of `RealmTest`'s encapsulated sample activity. Use
@@ -148,24 +142,20 @@ where _example_ is the name of the resulting code example when you run Bluehawk.
 ### Extract to Literalincludes
 
 Since Bluehawk is currently in development, you cannot install it globally. For
-now, you can clone the [repo](https://github.com/MongoCaleb/bluehawk) and set an
-alias:
-
-```bash
-alias bluehawk="node /path/to/bluehawk/index.js"
-```
+now, you can clone the [repo](https://github.com/MongoCaleb/bluehawk) and follow the
+instructions in Bluehawk's README to use the `bluehawk` command.
 
 Then, in this directory, run:
 
 ```bash
-bluehawk -s app/src/androidTest/java/com/mongodb/realm/examples/java/AuthenticationTest.java -d ../../source/includes/android-example-snippets
+bluehawk -s app/src/androidTest/java/com/mongodb/realm/examples/java/AuthenticationTest.java -d ../../source/examples/generated/android
 ```
 
-to output the example blocks to the `source/includes/android-example-snippets/` directory. Run this on all of the files in `Examples/`.
+to output the example blocks to the `source/examples/generated/android/` directory. Run this on all of the files in the `androidTest` and `main` directories.
 
 NOTE: Depending on your configuration, Bluehawk does not always play nicely with relative paths. If all else fails, use a full path.
 
-Bluehawk currently generates a lot of files, but we care about those in `/source/includes/android-example-snippets/generated/code/start/`:
+Bluehawk currently generates a lot of files, but we care about those in `/source/examples/generated/android/generated/code/start/`:
 
 ```
 AuthenticationTest.codeblock.anonymous.java
@@ -178,7 +168,7 @@ These files correspond to the `:code-block-start:` commands in `AuthenticationTe
 
 ### Include in Docs Source
 
-Now you can update `source/ios/manage-email-password-users.txt` to use these code examples:
+Now you can update `source/android/authentication.txt` to use these code examples:
 
 ```rst
 Register a New User Account
