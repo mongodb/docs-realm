@@ -6,5 +6,6 @@ target 'Task Tracker' do
   use_frameworks!
 
   # Pods for Task Tracker
-  pod 'RealmSwift', '=10.0.0-rc.1'
+  pod 'RealmSwift', '=10.1.0'
 end
+

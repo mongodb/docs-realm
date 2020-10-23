@@ -121,7 +121,7 @@ class ManageTeamViewController: UIViewController, UITableViewDelegate, UITableVi
         // :hide-start:
         let user = app.currentUser!
         
-        user.functions.addTeamMember([AnyBSON(email)!], self.onTeamMemberOperationComplete)
+        user.functions.addTeamMember([AnyBSON(email)], self.onTeamMemberOperationComplete)
         // :replace-with:
         // // TODO: use the app's current user's functions object to call the addTeamMember function
         // // on the backend with the given email converted to AnyBSON. Use `self.onTeamMemberOperationComplete`
@@ -137,7 +137,7 @@ class ManageTeamViewController: UIViewController, UITableViewDelegate, UITableVi
         // :hide-start:
         let user = app.currentUser!
         
-        user.functions.removeTeamMember([AnyBSON(email)!], self.onTeamMemberOperationComplete)
+        user.functions.removeTeamMember([AnyBSON(email)], self.onTeamMemberOperationComplete)
         // :replace-with:
         // // TODO: use the app's current user's functions object to call the removeTeamMember function
         // // on the backend with the given email converted to AnyBSON. Use `self.onTeamMemberOperationComplete`

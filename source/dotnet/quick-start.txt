@@ -31,7 +31,7 @@ Import Realm
 ------------
 In the shared code project of your solution, go to `Manage NuGet Packages`. In 
 the NuGet Package Manager, switch to the Browse tab and then search for `Realm`. 
-Select The Realm driver and then click `Add Package`. 
+Select the Realm package and then click `Add Package`. 
 
 At the top of each C# file that uses Realm, add the following using
 statement:
@@ -74,7 +74,7 @@ define your object model directly in code.
 
 The following code shows how to define an object model for a ``RealmTask`` object. In 
 this example, we have marked the ``Id`` field as the Primary Key, marked the 
-``Name`` and ``Status`` properties as "required", and are using the ``BsonElement`` 
+``Name`` and ``Status`` properties as "required", and are using the ``MapTo`` 
 attribute so we can use .NET-friendly casing on our property names.
 
 .. literalinclude:: /examples/generated/code/start/Task.codeblock.task-object-model.cs
@@ -98,14 +98,14 @@ how to do this by calling ``LogOutAsync()``:
 .. literalinclude:: /examples/generated/code/start/Examples.codeblock.logout.cs
    :language: csharp
 
-.. seealso:: :ref:`Authenticate a User <android-authenticate>`
+.. seealso:: :ref:`Authenticate a User <dotnet-authenticate>`
 
 
 Open a Realm
 ------------
 
 Once you have :ref:`enabled {+sync+} <enable-sync>` and authenticated a user, 
-you can open a synced :ref:`{+realm+} <android-realms>`. Use the ``SyncConfiguration``
+you can open a synced :ref:`{+realm+} <dotnet-realms>`. Use the ``SyncConfiguration``
 to control the specifics of how your application synchronizes data with
 {+backend+}, which might include the :ref:`partition <partitioning>` name,
 whether to wait for an initial batch of data to sync, and more.

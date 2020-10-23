@@ -152,15 +152,8 @@ where _id_ is the name of the resulting code example when you run Bluehawk.
 
 ### Extract to Literalincludes
 
-Since Bluehawk is currently in development, you cannot install it globally. For
-now, you can clone the [repo](https://github.com/MongoCaleb/bluehawk) and set an
-alias:
-
-```bash
-alias bluehawk="node /path/to/bluehawk/index.js"
-```
-
-Then, in this directory, run:
+This project uses [Bluehawk](https://github.com/mongodb-university/Bluehawk).
+To extract the code examples, run:
 
 ```bash
 bluehawk -s Examples/ManageEmailPasswordUsers.swift -d ../../source/examples/generated

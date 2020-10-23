@@ -3,5 +3,5 @@ func removeTeamMember(email: String) {
     activityIndicator.startAnimating()
     let user = app.currentUser!
     
-    user.functions.removeTeamMember([AnyBSON(email)!], self.onTeamMemberOperationComplete)
+    user.functions.removeTeamMember([AnyBSON(email)], self.onTeamMemberOperationComplete)
 }
