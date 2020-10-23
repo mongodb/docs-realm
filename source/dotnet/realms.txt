@@ -76,11 +76,17 @@ each define an object type that a {+app+} may persist. All objects in a {+realm+
 conform to the {+backend-schema+}.
 
 Client applications provide a {+frontend-schema+} when they open a {+realm+}. If a
-{+realm+} already contains data, then {+client-database+} validates each existing object
-to ensure that an object schema was provided for its type and that it meets all of the
-constraints specified in the schema. To determine the schema in .NET applications,
-{+service-short+} automatically checks at runtime for any class that inherits from
-``Object`` and adds it to the schema.
+{+realm+} already contains data, then it already has a schema, and when it is opened, 
+{+client-database+} validates the schema on the client against the existing schema.
+
+To define the schema, you can specify the 
+:dotnet-sdk:`ObjectClasses <reference/Realms.RealmConfigurationBase.html#Realms_RealmConfigurationBase_ObjectClasses>` 
+property on the 
+:dotnet-sdk:`RealmConfiguration <reference/Realms.RealmConfiguration.html>`. If 
+you omit this property, then all classes that inherit from 
+:dotnet-sdk:`RealmObject <reference/Realms.RealmObject.html>` or 
+:dotnet-sdk:`EmbeddedObject <reference/Realms.EmbeddedObject.html>` are added 
+to the schema automatically.
 
 .. seealso:: :ref:`Objects <dotnet-realm-objects>`
 
