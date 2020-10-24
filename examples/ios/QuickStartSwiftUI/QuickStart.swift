@@ -10,7 +10,7 @@ import SwiftUI
 
 // Set this to true if you have set up a MongoDB Realm app
 // with Realm Sync and anonymous authentication.
-let USE_REALM_SYNC = true
+let USE_REALM_SYNC = false
 
 /// The Realm app. Change YOUR_REALM_APP_ID_HERE to your Realm app ID.
 let app = USE_REALM_SYNC ? App(id: YOUR_REALM_APP_ID_HERE) : nil
@@ -38,7 +38,10 @@ final class Item: Object, ObjectKeyIdentifiable {
     @objc dynamic var _id = ObjectId.generate()
 
     /// The name of the Item, By default, a random name is generated.
-    @objc dynamic var name: String = "\(randomAdjectives.randomElement()!) \(randomNouns.randomElement()!)"
+    @objc dynamic var name = "\(randomAdjectives.randomElement()!) \(randomNouns.randomElement()!)"
+
+    /// A flag indicating whether the user "favorited" the item.
+    @objc dynamic var isFavorite = false
 
     /// The backlink to the `Group` this item is a part of.
     let group = LinkingObjects(fromType: Group.self, property: "items")
@@ -344,6 +347,10 @@ struct ItemRow: View {
         // You can click an item in the list to navigate to an edit details screen.
         NavigationLink(destination: ItemDetailsView(item)) {
             Text(item.name)
+            if item.isFavorite {
+                // If the user "favorited" the item, display a heart icon
+                Image(systemName: "heart.fill")
+            }
         }
     }
 }
@@ -367,11 +374,14 @@ struct ItemDetailsView: View {
     }
 
     var body: some View {
-        // Write the new name to the newItemName state variable.
-        // On commit, call our commit() function.
-        TextField(item.name, text: $newItemName, onCommit: { self.commit() })
-            .navigationBarTitle(item.name)
-            .padding()
+        VStack(alignment: .leading) {
+            Text("Enter a new name:")
+            // Write the new name to the newItemName state variable.
+            // On commit, call our commit() function.
+            TextField(item.name, text: $newItemName, onCommit: { self.commit() })
+                .navigationBarTitle(item.name)
+                .navigationBarItems(trailing: FavoriteToggle(item: item))
+        }.padding()
     }
 
     /// Writes the given name to the realm in a transaction.
@@ -382,6 +392,36 @@ struct ItemDetailsView: View {
         }
         try! realm.write {
             item.name = newItemName
+        }
+    }
+}
+
+/// A control for toggling an item's isFavorite property. Demonstrates using a custom binding
+/// to modify a Realm object in a transaction.
+struct FavoriteToggle: View {
+    var item: Item
+    var body: some View {
+        // ⚠️ We cannot use the item property directly, as sets will not
+        // automatically run in a transaction. Here we provide a custom
+        // binding to handle the update in a transaction.
+        Toggle(isOn: Binding(get: {
+            // Return the value as normal.
+            item.isFavorite
+        }, set: { (value) in
+            // If the item is associated with a realm,
+            // open a transaction on it in order to do
+            // the write.
+            guard let realm = item.realm else {
+                item.isFavorite = value
+                return
+            }
+            try! realm.write {
+                item.isFavorite = value
+            }
+        })) {
+            // 💡 It might have been nice to use a Button instead
+            // of a Toggle, but that wouldn't demonstrate custom bindings.
+            Image(systemName: item.isFavorite ? "heart.fill" : "heart")
         }
     }
 }

@@ -69,9 +69,10 @@ order, which the app persists in the {+realm+}. You can also swipe to delete
 items.
 
 When you have items in the list, you can click one of the items to go to the
-ItemDetailsView. This is where you can modify the item name. Click the text
-field in the center of the screen and type a new name. When you press Return,
-the item name should update across the app.
+ItemDetailsView. This is where you can modify the item name or mark it as
+favorite. Click the text field in the center of the screen and type a new name.
+When you press Return, the item name should update across the app. You can also
+toggle its favorite status by pressing the toggle in the top right.
 
 .. note::
 
@@ -86,9 +87,15 @@ Models
 
 A common {+service-short+} data modeling use case is to have "things" and
 "containers of things". This app defines two related Realm object models: Item
-and Group. Items have randomly generated names, which the user can edit. The
-group contains items. You could extend the group to have a name and an
-association with a specific user. This app presents a view of items in a group.
+and Group.
+
+An item has two properties:
+
+- A randomly generated name, which the user can edit.
+- An ``isFavorited`` boolean property, which indicates whether the user "favorited" the item.
+
+A group contains items. You could extend the group to have a name and an
+association with a specific user, but that is out of scope of this quick start.
 
 State Objects
 ~~~~~~~~~~~~~
@@ -145,8 +152,8 @@ Presenting Lists of Realm Objects
 
 The ItemsView receives the list of items from the ContentView and observes it.
 It's essential to :ref:`freeze <ios-frozen-objects>` a list when iterating over
-it. Otherwise, unexpected behavior will occur when modifying the list,
-especially when deleting objects.
+it in a SwiftUI view. Otherwise, unexpected behavior will occur when modifying
+the list, especially when deleting objects.
 
 Before passing each item to the ItemRow and ItemDetailsView views, we "thaw" the
 frozen object by fetching it again from the {+realm+}. This is only necessary
@@ -173,23 +180,31 @@ Modifying Properties of Presented Realm Objects
 ```````````````````````````````````````````````
 
 The ItemDetailsView allows users to edit the name of an item with a TextField.
-We use a ``@State`` variable to hold the value entered by a user. It's important
-not to use the item's ``name`` property directly here. 
+We use a ``@State`` variable to hold the new name value entered by a user. It's
+important not to use the item's ``name`` property directly here, because that
+would result in an attempt to modify a Realm object outside of a transaction.
 
 .. important:: 
 
    You may only update a {+database+} object's properties in a transaction. If
    we used the object's properties directly here, any edits to the TextField
-   would automatically apply to the item's name outside of a transaction.
+   would automatically apply to the item's name outside of a transaction,
+   resulting in a fatal exception.
 
-When presenting an editable Realm object property in SwiftUI, there are two
-options available:
+There are two approaches to binding an editable Realm object property to a
+SwiftUI control:
 
-- Use another variable to hold the value until ready to commit it in a write transaction. This is the approach demonstrated in this quick start app.
-- You could also create a custom :apple:`Binding <documentation/swiftui/binding>` that handles writes in a transaction.
+- Use another variable to hold the value until ready to commit it in a write transaction.
+- You could also create a custom :apple:`binding <documentation/swiftui/binding>` that handles writes in a transaction.
 
-We use the first approach here because we want to wait until the user actually
-commits the edit in the TextField before writing to the {+realm+}.
+We use the first approach to handle the update to the name because we want to
+wait until the user actually commits the edit in the TextField before writing to
+the {+realm+}.
+
+Meanwhile, the user can also update the isFavorite property on the item using
+the FavoriteToggle view. In this case, we want to write the update immediately
+rather than waiting for the user to commit their edit in a TextField, so we
+create a custom binding that handles writes in transactions.
 
 Summary
 -------
