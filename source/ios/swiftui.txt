@@ -92,7 +92,7 @@ and Group.
 An item has two properties:
 
 - A randomly generated name, which the user can edit.
-- An ``isFavorited`` boolean property, which indicates whether the user "favorited" the item.
+- An ``isFavorite`` boolean property, which indicates whether the user "favorited" the item.
 
 A group contains items. You could extend the group to have a name and an
 association with a specific user, but that is out of scope of this quick start.
@@ -152,8 +152,21 @@ Presenting Lists of Realm Objects
 
 The ItemsView receives the list of items from the ContentView and observes it.
 It's essential to :ref:`freeze <ios-frozen-objects>` a list when iterating over
-it in a SwiftUI view. Otherwise, unexpected behavior will occur when modifying
-the list, especially when deleting objects.
+it in a SwiftUI view, even if you do not modify the list while iterating.
+Otherwise, unexpected behavior will occur when modifying the list, especially
+when deleting objects.
+
+.. note::
+
+   To understand why freezing a list is necessary, consider that SwiftUI caches
+   several copies of a list depending on the state of the view. When you delete
+   from a list, the view still shows a cached copy of that list for a moment.
+   However, Realm lists are "live", so the cached Realm list actually reflects
+   the latest state. SwiftUI expects a cached list to reflect the previous state
+   and assumes the number of elements in the list has not changed. Consequently,
+   the view would try to display a list element that no longer exists. Freezing
+   the list removes its "live" property, allowing the list copy to behave in
+   line with SwiftUI's expectation.
 
 Before passing each item to the ItemRow and ItemDetailsView views, we "thaw" the
 frozen object by fetching it again from the {+realm+}. This is only necessary
