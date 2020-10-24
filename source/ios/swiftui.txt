@@ -24,7 +24,7 @@ Prerequisites
 Before you begin, ensure you have:
 
 - :ref:`Installed the iOS SDK <ios-install>` with a minimum iOS target of 14.0.
-- :ref:`Created a {+app+} <create-a-realm-app>` and :ref:`enabled anonymous authentication <anonymous-authentication-configuration>`.
+- :ref:`Created a {+app+} <create-a-realm-app>` and :ref:`enabled anonymous authentication <anonymous-authentication-configuration> (optional).
 - :ref:`Enabled {+sync+} <enable-sync>` (optional).
 
 .. note::
@@ -36,9 +36,10 @@ Before you begin, ensure you have:
 The Code
 --------
 
-Paste the following into your main file, such as `QuickStart.swift`. Modify
-``YOUR_REALM_APP_ID_HERE`` to be your :ref:`{+app+} ID <find-your-app-id>`, then
-run the app.
+Paste the following into your main file, such as `QuickStart.swift`. If you are
+using {+sync+}, find the ``USE_REALM_SYNC`` flag at the top of the file and set
+it to true. Update ``YOUR_REALM_APP_ID_HERE`` to your :ref:`{+app+} ID
+<find-your-app-id>`. Run the app.
 
 .. literalinclude:: /examples/generated/code/start/QuickStart.codeblock.complete-swiftui-combine-quick-start.swift
    :language: swift
@@ -49,20 +50,23 @@ The Explanation
 App Flow
 ~~~~~~~~
 
-After you launch the app, you see a login screen. You could implement
-:ref:`email/password authentication <ios-manage-email-password-users>` or
-:ref:`another authentication provider <authentication-providers>` here. For
-simplicity's sake, this uses :ref:`Anonymous authentication
-<anonymous-authentication>`.
+If you opted in to using :ref:`{+sync+} <enable-sync>`, the first screen is the
+LoginView. Otherwise, you start at the ItemsView.
+
+On the LoginView, you could implement :ref:`email/password authentication
+<ios-manage-email-password-users>` or :ref:`another authentication provider
+<authentication-providers>` here. For simplicity's sake, this uses
+:ref:`Anonymous authentication <anonymous-authentication>`.
 
 When you press the "log in" button, the app navigates to the ItemsView, where
 you see a list of **items** in a single **group**. You could always add a group
 management screen later, but for now, there is only ever one group in the app.
 
-On the items screen, you can log out, edit the list, and add items. Press the
-"add" button on the bottom right of the screen to add randomly generated items.
-Click the "edit" button on the top right to modify the list order, which the app
-persists in the {+realm+}. You can also swipe to delete items.
+On the ItemsView, you can log out (if using {+sync+}), edit the list, and add
+items. Press the "add" button on the bottom right of the screen to add randomly
+generated items. Click the "edit" button on the top right to modify the list
+order, which the app persists in the {+realm+}. You can also swipe to delete
+items.
 
 When you have items in the list, you can click one of the items to go to the
 ItemDetailsView. This is where you can modify the item name. Click the text
@@ -71,13 +75,11 @@ the item name should update across the app.
 
 .. note::
 
-   If you have :ref:`enabled Sync <enable-sync>` and updated the
-   ``USE_REALM_SYNC`` flag in the code accordingly, you can see the changes you
-   make sync to the backend and across devices.
+   If you are using {+sync+}, you can see the changes you make sync to the
+   backend and across devices.
 
-It's a simple and contrived app, but it demonstrates a few key points about
-using Realm with SwiftUI and Combine that we'll discuss in the following
-sections.
+It's a small app, but it demonstrates a few key points about using Realm with
+SwiftUI and Combine that we'll discuss in the following sections.
 
 Models
 ~~~~~~
@@ -91,10 +93,6 @@ association with a specific user. This app presents a view of items in a group.
 State Objects
 ~~~~~~~~~~~~~
 
-Any {+service+} app must have a {+app+} instance to interface with the Sync and
-authentication services. Set ``YOUR_REALM_APP_ID_HERE`` to your :ref:`{+app+} ID
-<find-your-app-id>` to interface with your {+app+}.
-
 It's a good idea to keep app State separate from Views as much as possible. A
 View should only be aware of what it needs to be aware of. We define the
 AppState class to centralize the state of the app. As the app grows in
@@ -102,16 +100,24 @@ complexity, we might consider breaking functionality into smaller classes that
 become members of the AppState class. For now, this class reports authentication
 events and holds the list of items.
 
-When the app starts with an existing logged-in user from a previous session, or
-when someone logs in, the AppState responds by opening a {+realm+}. When opening
-a synced {+realm+} for the first time, it's a good idea to use ``asyncOpen()``
-in order to download the {+realm+} completely from the backend before opening
-it.
+The AppState opens a {+realm+} in any of the following situations:
+
+- A user logs in.
+- The user from a previous session is still logged in.
+- We are not using {+sync+} and authentication at all.
+
+When opening a synced {+realm+} for the first time, it's a good idea to use
+``asyncOpen()`` in order to download the {+realm+} completely from the backend
+before opening it. When using the local-only {+realm+}, we can use the Realm
+constructor directly.
 
 Once the {+realm+} opens, the AppState retrieves the group in the {+realm+} or
 creates one if one does not exist already. The AppState stores the list of items
-in the group. On logout, the AppState clears its reference to the items. Any
-views observing this state object will refresh themselves in response.
+in the group. Any views observing this state object will refresh themselves in
+response.
+
+On logout, the AppState clears its reference to the items. Again, any views
+observing this state object will refresh themselves in response.
 
 Views
 ~~~~~
@@ -125,8 +131,8 @@ items, we present the ItemsView. Otherwise, we must not be logged in yet and
 ready, so we present the LoginView. When the AppState changes, this View renders
 again.
 
-Handling Authentication
-```````````````````````
+Handling Authentication ({+sync+})
+````````````````````````````````````
 
 The LoginView uses the {+app+} instance to log in anonymously. On success, it
 forwards the event to the AppState's loginPublisher.
@@ -188,6 +194,7 @@ commits the edit in the TextField before writing to the {+realm+}.
 Summary
 -------
 
+- The quick start demonstrates both local-only and {+sync+} use cases.
 - Only provide views with the state they need. Avoid "wrapping" Realm where possible; use the SDK directly.
 - Always :ref:`freeze <ios-frozen-object>` a list when iterating over it. Do not observe iterated list items, or unexpected behavior will occur when modifying the list.
 - Avoid using Realm object properties directly where they can be edited by the UI. Instead, store the new value in another variable until you're ready to commit the change in a transaction, or wrap the property in a custom binding that opens a transaction on write.

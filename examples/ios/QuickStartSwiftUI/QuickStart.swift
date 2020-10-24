@@ -6,6 +6,15 @@ import RealmSwift
 import Combine
 import SwiftUI
 
+// MARK: MongoDB Realm (Optional)
+
+// Set this to true if you have set up a MongoDB Realm app
+// with Realm Sync and anonymous authentication.
+let USE_REALM_SYNC = true
+
+/// The Realm app. Change YOUR_REALM_APP_ID_HERE to your Realm app ID.
+let app = USE_REALM_SYNC ? App(id: YOUR_REALM_APP_ID_HERE) : nil
+
 // MARK: Models
 
 /// Random adjectives for more interesting demo item names
@@ -57,44 +66,34 @@ final class Group: Object, ObjectKeyIdentifiable {
 
 // MARK: State Objects
 
-/// The Realm app.
-let app = App(id: YOUR_REALM_APP_ID_HERE)
-
 /// State object for managing App flow.
 /// As applications grow, this object may have to be broken out further.
 class AppState: ObservableObject {
     /// Publisher that monitors log in state.
-    @Published var loginPublisher = PassthroughSubject<User, Error>()
+    var loginPublisher = PassthroughSubject<User, Error>()
     /// Publisher that monitors log out state.
-    @Published var logoutPublisher = PassthroughSubject<Void, Error>()
+    var logoutPublisher = PassthroughSubject<Void, Error>()
+    /// Cancellables to be retained for any Future.
+    var cancellables = Set<AnyCancellable>()
     /// Whether or not the app is active in the background.
     @Published var shouldIndicateActivity = false
-    /// Cancellables to be retained for any Future.
-    @Published var cancellables = Set<AnyCancellable>()
     /// The list of items in the first group in the realm that will be displayed to the user.
     @Published var items: RealmSwift.List<Item>?
 
     init() {
-        // Monitor login state and open a realm on login
-        loginPublisher
-            .receive(on: DispatchQueue.main) // Ensure we update UI elements (shouldIndicateActivity) on the main thread
-            .flatMap { user -> RealmPublishers.AsyncOpenPublisher in
-                // If using Realm Sync, use the user configuration object with a partition value.
-                let USE_REALM_SYNC = false
-                let configuration = USE_REALM_SYNC ? user.configuration(partitionValue: user.id) : Realm.Configuration()
-                self.shouldIndicateActivity = true
-                // Logged in, now open the realm and watch for completion.
-                return Realm.asyncOpen(configuration: configuration)
-            }
-            .receive(on: DispatchQueue.main) // Ensure we update UI elements (shouldIndicateActivity) on the main thread
+        // Create a private subject for the opened realm, so that:
+        // - if we are not using Realm Sync, we can open the realm immediately.
+        // - if we are using Realm Sync, we can open the realm later after login.
+        let realmPublisher = PassthroughSubject<Realm, Error>()
+        // Specify what to do when the realm opens, regardless of whether
+        // we're authenticated and using Realm Sync or not.
+        realmPublisher
             .sink(receiveCompletion: { result in
-                self.shouldIndicateActivity = false
                 // Check for failure.
                 if case let .failure(error) = result {
                     print("Failed to log in and open realm: \(error.localizedDescription)")
                 }
             }, receiveValue: { realm in
-                self.shouldIndicateActivity = false
                 // The realm has successfully opened.
                 // If no group has been created for this app, create one.
                 if realm.objects(Group.self).count == 0 {
@@ -105,6 +104,50 @@ class AppState: ObservableObject {
                 assert(realm.objects(Group.self).count > 0)
                 self.items = realm.objects(Group.self).first!.items
             })
+            .store(in: &cancellables)
+        
+        // If the Realm app is nil, we are in the local-only use case
+        // and do not need to log in or configure the realm for Sync.
+        guard let app = app else {
+            // MARK: Local-Only Use Case
+            print("Not using Realm Sync - opening realm")
+            // Directly open the default local-only realm.
+            realmPublisher.send(try! Realm())
+            return
+        }
+
+        // MARK: Realm Sync Use Case
+
+        // Monitor login state and open a realm on login.
+        loginPublisher
+            .receive(on: DispatchQueue.main) // Ensure we update UI elements on the main thread.
+            .flatMap { user -> RealmPublishers.AsyncOpenPublisher in
+                // Logged in, now open the realm.
+
+                // We want to chain the login to the opening of the realm.
+                // flatMap() takes a result and returns a different Publisher.
+                // In this case, flatMap() takes the user result from the login
+                // and returns the realm asyncOpen's result publisher for further
+                // processing.
+
+                // We use "SharedPartition" as the partition value so that all users of this app
+                // can see the same data. If we used the user.id, we could store data per user.
+                // However, with anonymous authentication, that user.id changes upon logout and login,
+                // so we will not see the same data or be able to sync across devices.
+                let configuration = user.configuration(partitionValue: "SharedPartition")
+                
+                // Loading may take a moment, so indicate activity.
+                self.shouldIndicateActivity = true
+
+                // Open the realm and return its publisher to continue the chain.
+                return Realm.asyncOpen(configuration: configuration)
+            }
+            .receive(on: DispatchQueue.main) // Ensure we update UI elements on the main thread.
+            .map { // For each realm result, whether successful or not, always stop indicating activity.
+                self.shouldIndicateActivity = false // Stop indicating activity.
+                return $0 // Forward the result as-is to the next stage.
+            }
+            .subscribe(realmPublisher) // Forward the opened realm to the handler we set up earlier.
             .store(in: &self.cancellables)
 
         // Monitor logout state and unset the items list on logout.
@@ -112,8 +155,8 @@ class AppState: ObservableObject {
                 self.items = nil
             }).store(in: &cancellables)
         
-        // If we have a current user, check if a Realm already exists
-        // for the given configuration.
+        // If we already have a current user from a previous app
+        // session, announce it to the world.
         if let user = app.currentUser {
             loginPublisher.send(user)
         }
@@ -136,8 +179,11 @@ struct ContentView: SwiftUI.App {
             // If a realm is open for a logged in user, show the ItemsView
             // else show the LoginView
             if let items = state.items {
+                // If using Realm Sync and authentication, provide a logout button
+                // in the top left of the ItemsView.
+                let leadingBarButton = app != nil ? AnyView(LogoutButton().environmentObject(state)) : nil
                 ItemsView(items: items,
-                    leadingBarButton: AnyView(LogoutButton().environmentObject(state)))
+                          leadingBarButton: leadingBarButton)
                     .disabled(state.shouldIndicateActivity)
             } else {
                 LoginView()
@@ -172,6 +218,10 @@ struct LoginView: View {
                 Text("Error: \(error.localizedDescription)")
             }
             Button("Log in anonymously") {
+                guard let app = app else {
+                    print("Not using Realm Sync - not logging in")
+                    return
+                }
                 state.shouldIndicateActivity = true
                 app.login(credentials: .anonymous).receive(on: DispatchQueue.main).sink(receiveCompletion: {
                     state.shouldIndicateActivity = false
@@ -195,6 +245,10 @@ struct LogoutButton: View {
     @EnvironmentObject var state: AppState
     var body: some View {
         Button("Log Out") {
+            guard let app = app else {
+                print("Not using Realm Sync - not logging out")
+                return
+            }
             state.shouldIndicateActivity = true
             app.currentUser?.logOut().receive(on: DispatchQueue.main).sink(receiveCompletion: { _ in }, receiveValue: {
                 state.shouldIndicateActivity = false
