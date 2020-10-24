@@ -273,12 +273,14 @@ struct ItemsView: View {
             VStack {
                 // The list shows the items in the realm.
                 List {
-                    // ⚠️ ALWAYS freeze a Realm list while iterating in ForEach().
-                    // Otherwise, unexpected behavior will occur (especially when
-                    // deleting object from the list).
+                    // ⚠️ ALWAYS freeze a Realm list while iterating in a SwiftUI
+                    // View's ForEach(). Otherwise, unexpected behavior will occur,
+                    // especially when deleting object from the list.
                     ForEach(items.freeze()) { frozenItem in
                         // "Thaw" the item before passing it in, as ItemRow
                         // may want to edit it, and cannot do so on a frozen object.
+                        // This is a convenient place to thaw because we have access
+                        // to the unfrozen realm via the items list.
                         ItemRow(item: items.realm!.resolve(ThreadSafeReference(to: frozenItem))!)
                     }.onDelete(perform: delete)
                         .onMove(perform: move)
