@@ -164,7 +164,7 @@ document containing the user ID of the currently logged in user and a
                 val mongoDatabase : MongoDatabase =
                     mongoClient.getDatabase("<custom user data database>")!!
                 val mongoCollection : MongoCollection<Document> =
-                    mongoDatabase.getCollection("<custom user data cluster>")!!
+                    mongoDatabase.getCollection("<custom user data collection>")!!
 
                 mongoCollection.insertOne(
                     Document("<user ID field>", user.id).append("favoriteColor", "pink"))
@@ -202,7 +202,7 @@ document containing the user ID of the currently logged in user and a
                 MongoDatabase mongoDatabase =
                     mongoClient.getDatabase("<custom user data database>");
                 MongoCollection<Document> mongoCollection =
-                    mongoDatabase.getCollection("<custom user data cluster>");
+                    mongoDatabase.getCollection("<custom user data collection>");
 
                 mongoCollection.insertOne(
                     new Document("<user ID field>", user.getId()).append("favoriteColor", "pink"))
@@ -268,7 +268,7 @@ in the custom user data collection:
                 val mongoDatabase : MongoDatabase =
                     mongoClient.getDatabase("<custom user data database>")!!
                 val mongoCollection : MongoCollection<Document> =
-                    mongoDatabase.getCollection("<custom user data cluster>")!!
+                    mongoDatabase.getCollection("<custom user data collection>")!!
 
                 mongoCollection.updateOne(
                     Document("<user ID field>", user.id), Document("favoriteColor", "cerulean"))
@@ -310,7 +310,7 @@ in the custom user data collection:
                 MongoDatabase mongoDatabase =
                     mongoClient.getDatabase("<custom user data database>");
                 MongoCollection<Document> mongoCollection =
-                    mongoDatabase.getCollection("<custom user data cluster>");
+                    mongoDatabase.getCollection("<custom user data collection>");
 
                 mongoCollection.updateOne(
                     new Document("<user ID field>", user.getId()), new Document("favoriteColor", "cerulean"))
