@@ -192,7 +192,7 @@ Modifying Properties of Presented Realm Objects
 
 The ItemDetailsView allows users to edit the name of an item with a TextField.
 We use a ``@State`` variable to hold the new name value entered by a user. It's
-important not to use the item's ``name`` property directly here, because that
+important to avoid directly updating the item's ``name`` property here, because that
 would result in an attempt to modify a Realm object outside of a transaction.
 
 .. important:: 
