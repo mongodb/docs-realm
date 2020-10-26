@@ -57,7 +57,7 @@ public class OpenARealmTest extends RealmTest {
                     Log.e("EXAMPLE", it.getError().toString());
                 }
             });
-            //expectation.await();//TODO: FIGURE OUT WHY THIS IS BROKEN
         });
+        expectation.await();
     }
 }
