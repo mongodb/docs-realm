@@ -68,7 +68,7 @@ order, which the app persists in the {+realm+}. You can also swipe to delete
 items.
 
 When you have items in the list, you can click one of the items to navigate to the
-ItemDetailsView. This is where you can modify the item name or mark it as
+ItemDetailsView. This is where you can modify the item name or mark it as a
 favorite. Click the text field in the center of the screen and type a new name.
 When you press Return, the item name should update across the app. You can also
 toggle its favorite status by pressing the toggle in the top right.
@@ -100,7 +100,7 @@ State Objects
 ~~~~~~~~~~~~~
 
 It's a good idea to keep app State separate from Views as much as possible. A
-View should only be aware of what it needs to be aware of. We define the
+View should only be aware of what it needs. We define the
 AppState class to centralize the state of the app. As the app grows in
 complexity, we might consider breaking functionality into smaller classes that
 become members of the AppState class. For now, this class reports authentication
@@ -150,7 +150,7 @@ Presenting Lists of Realm Objects
 `````````````````````````````````
 
 The ItemsView receives the list of items from the ContentView and observes it.
-It's essential to :ref:`freeze <ios-frozen-objects>` a list when iterating over
+You must :ref:`freeze <ios-frozen-objects>` a list when iterating over
 it in a SwiftUI view, even if you do not modify the list while iterating.
 Otherwise, unexpected behavior will occur when modifying the list, especially
 when deleting objects.
@@ -163,7 +163,7 @@ when deleting objects.
    However, Realm lists are "live", so the cached Realm list actually reflects
    the latest state. SwiftUI expects a cached list to reflect the previous state
    and assumes the number of elements in the list has not changed. Consequently,
-   the view would try to display a list element that no longer exists. Freezing
+   the view tries to display a list element that no longer exists. Freezing
    the list removes its "live" property, allowing the list copy to behave in
    line with SwiftUI's expectation.
 
