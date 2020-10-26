@@ -2,16 +2,11 @@ package com.mongodb.realm.examples
 
 import android.app.Activity
 import androidx.test.core.app.ActivityScenario
-import androidx.test.ext.junit.runners.AndroidJUnit4
 import io.realm.Realm
-import io.realm.mongodb.App
-import io.realm.mongodb.AppConfiguration
-import io.realm.mongodb.User
-import org.junit.After
+import kotlinx.coroutines.*
+import org.junit.Assert
 import org.junit.Before
-import org.junit.Test
-import org.junit.runner.RunWith
-import java.util.concurrent.TimeUnit
+import java.time.LocalDateTime
 import java.util.concurrent.atomic.AtomicBoolean
 
 abstract class RealmTest {
@@ -28,49 +23,44 @@ abstract class RealmTest {
             Realm.init(activity)
             this.activity = activity
             expectation.fulfill()
-            val appID = YOUR_APP_ID // replace this with your App ID
-            val app: App = App(
-                AppConfiguration.Builder(appID)
-                    .appName("My App")
-                    .requestTimeout(30, TimeUnit.SECONDS)
-                    .build())
-            val user: User? = app.currentUser()
-            user?.logOutAsync {
-
-            }
         }
         // ensure that setup has initialized realm before exiting
         expectation.await()
-    }
-
-    @After
-    fun tearDown() {
-        scenario!!.onActivity { activity ->
-            val appID = YOUR_APP_ID // replace this with your App ID
-            val app: App = App(
-                AppConfiguration.Builder(appID)
-                .appName("My App")
-                .requestTimeout(30, TimeUnit.SECONDS)
-                .build())
-            val user: User? = app.currentUser()
-            user?.logOutAsync {
-
-            }
-        }
     }
 }
 
 const val YOUR_APP_ID = "example-testers-kvjdy"
 const val PARTITION = "Example"
 
+/**
+ * Provides the ability to block until a background task completes.
+ */
 class Expectation {
-    private var _done = AtomicBoolean(false)
+    private val _done = AtomicBoolean(false)
 
+    /**
+     * Fulfills the expectation, allowing the corresponding await() call to return.
+     */
     fun fulfill() {
+        Assert.assertFalse("Multiple calls to expectation.fulfill() unexpected", _done.get())
         _done.set(true)
     }
 
-    fun await() {
-        while (!_done.get());
+    /**
+     * Awaits a call to "fulfill()" on another thread until the given timeout elapses.
+     */
+    fun await(timeoutMillis: Long) {
+        val startTimeMillis = System.currentTimeMillis()
+        while (!_done.get()) {
+            if (System.currentTimeMillis() - startTimeMillis > timeoutMillis) {
+                Assert.fail("Timeout elapsed without a call to fulfill()")
+                return
+            }
+        }
     }
+
+    /**
+     * Awaits a call to "fulfill()" on another thread with a default timeout of 10 seconds.
+     */
+    fun await() = await(10000)
 }
