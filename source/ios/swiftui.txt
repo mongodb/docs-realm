@@ -58,18 +58,20 @@ In the LoginView, you can implement :ref:`email/password authentication
 <authentication-providers>`. For simplicity, the example uses
 :ref:`Anonymous authentication <anonymous-authentication>`.
 
-When you press the "log in" button, the app navigates to the ItemsView, where
-you see a list of **items** in a single **group**. The app demonstrates a single group, but you can add more in the group management screen.
+When you press the :guilabel:`Log in` button, the app navigates to the
+ItemsView, where you see a list of **items** in a single **group**. The app
+demonstrates a single group, but you can add more in the group management
+screen.
 
 On the ItemsView, you can log out (if using {+sync+}), edit the list, and add
-items. Press the "add" button on the bottom right of the screen to add randomly
-generated items. Click the "edit" button on the top right to modify the list
-order, which the app persists in the {+realm+}. You can also swipe to delete
-items.
+items. Press the :guilabel:`Add` button on the bottom right of the screen to add
+randomly generated items. Press the :guilabel:`Edit` button on the top right to
+modify the list order, which the app persists in the {+realm+}. You can also
+swipe to delete items.
 
-When you have items in the list, you can click one of the items to navigate to the
-ItemDetailsView. This is where you can modify the item name or mark it as a
-favorite. Click the text field in the center of the screen and type a new name.
+When you have items in the list, you can press one of the items to navigate to
+the ItemDetailsView. This is where you can modify the item name or mark it as a
+favorite. Press the text field in the center of the screen and type a new name.
 When you press Return, the item name should update across the app. You can also
 toggle its favorite status by pressing the toggle in the top right.
 
@@ -85,10 +87,10 @@ Models
 ~~~~~~
 
 A common {+service-short+} data modeling use case is to have "things" and
-"containers of things". This app defines two related Realm object models: Item
-and Group.
+"containers of things". This app defines two related Realm object models: item
+and group.
 
-An item has two properties:
+An item has two user-facing properties:
 
 - A randomly generated name, which the user can edit.
 - An ``isFavorite`` boolean property, which indicates whether the user "favorited" the item.
@@ -99,18 +101,20 @@ association with a specific user, but that is out of scope of this quick start.
 State Objects
 ~~~~~~~~~~~~~
 
-It's a good idea to keep app State separate from Views as much as possible. A
-View should only be aware of what it needs. We define the
-AppState class to centralize the state of the app. As the app grows in
-complexity, we might consider breaking functionality into smaller classes that
-become members of the AppState class. For now, this class reports authentication
-events and holds the list of items.
+We recommend keeping app state separate from Views as much as possible. A View
+should only be aware of what it needs. We define the AppState class to
+centralize the state of the app. As the app grows in complexity, we might
+consider breaking functionality into smaller classes that become members of the
+AppState class. For now, this class reports authentication events and holds the
+list of items.
 
-The AppState opens a {+realm+} in any of the following situations:
+When the app launches, the AppState opens a {+realm+} if either of the following
+conditions are true:
 
-- A user logs in.
-- The user from a previous session is still logged in.
+- A user from a previous session still logged in.
 - We are not using {+sync+} and authentication at all.
+
+Otherwise, the AppState opens a {+realm+} when a user logs in.
 
 When opening a synced {+realm+} for the first time, it's a good idea to use
 ``asyncOpen()`` in order to download the {+realm+} completely from the backend
@@ -122,20 +126,24 @@ creates one if one does not exist already. The AppState stores the list of items
 in the group. Any views observing this state object refresh themselves in
 response.
 
-On logout, the AppState clears its reference to the items. Again, any views
-observing this state object will refresh themselves in response.
+On logout, the AppState clears its reference to the items, and any views
+observing this state object refresh themselves in response.
 
 Views
 ~~~~~
 
-The Main View: Switching Views Depending on the App State
-`````````````````````````````````````````````````````````
+Switching Views Depending on the App State
+``````````````````````````````````````````
 
 The ContentView is the main entrypoint of the app. It owns and observes an
-instance of the AppState. If the AppState instance has a reference to some
-items, we present the ItemsView. Otherwise, we must not be logged in yet and
-ready, so we present the LoginView. When the AppState changes, this View renders
-again.
+instance of the AppState. It uses the AppState to determine which view to
+present:
+
+- If the AppState instance has a reference to the items of a group, we present the ItemsView.
+- If the AppState instance does not have reference to the items of a group, we must be waiting for login and for the {+realm+} to open, so we present the LoginView.
+
+When the AppState changes, this view renders again and has the opportunity to
+present a different view based on the new state.
 
 Handling Authentication ({+sync+})
 ````````````````````````````````````
@@ -160,19 +168,18 @@ when deleting objects.
    To understand why freezing a list is necessary, consider that SwiftUI caches
    several copies of a list depending on the state of the view. When you delete
    from a list, the view still shows a cached copy of that list for a moment.
-   However, Realm lists are "live", so the cached Realm list actually reflects
-   the latest state. SwiftUI expects a cached list to reflect the previous state
-   and assumes the number of elements in the list has not changed. Consequently,
-   the view tries to display a list element that no longer exists. Freezing
-   the list removes its "live" property, allowing the list copy to behave in
-   line with SwiftUI's expectation.
+   However, :ref:`Realm lists are "live" <ios-live-collections>`, so the cached
+   copy actually reflects the latest state of the Realm list. SwiftUI expects a
+   cached list to reflect the previous state and assumes the number of elements
+   in the list has not changed. Consequently, the view tries to display a list
+   element that no longer exists. Freezing the list removes its "live" property,
+   allowing the list copy to behave in line with SwiftUI's expectation.
 
 Before passing each item to the ItemRow and ItemDetailsView views, we "thaw" the
 frozen object by fetching it again from the {+realm+}. This is only necessary
 because the ItemDetailsView may edit the item, and you cannot modify a frozen
-item. The top of the iteration is a convenient place to thaw the item, because
-we have access to the {+realm+} via the items list there. However, we must be
-careful to treat the item as frozen until we intend to modify it.
+item. However, we must be careful to treat the item as frozen until we intend to
+modify it.
 
 Note that the ItemRow and ItemDetailsView views do not observe their items.
 That is, they do not declare the item as ``@ObservedObject var item: Item``
