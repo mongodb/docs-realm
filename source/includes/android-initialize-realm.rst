@@ -19,26 +19,23 @@ application runs.
    .. tab::
       :tabid: java
    
-      .. code-block:: java
-
-         Realm.init(this); // `this` is a Context, typically an Application or Activity
+      .. literalinclude:: /examples/generated/android/code/start/MainActivity.codeblock.initialize-realm.java
+         :language: java
    
    .. tab::
       :tabid: kotlin
 
-      .. code-block:: kotlin
-   
-         Realm.init(this) // `this` is a Context, typically an Application or Activity
+      .. literalinclude:: /examples/generated/android/code/start/MainActivity.codeblock.initialize-realm.kt
+         :language: kotlin
 
 .. admonition:: Register Your Application Subclass in the Android Manifest
    :class: note
 
    If you create your own ``Application`` subclass, you must add it to your
    application's ``AndroidManifest.xml`` to execute your custom
-   application code. Setting the ``android.name`` property of your
-   manifest's application definition instantiates your ``Application``
-   subclass before any other class when the process for your application
-   is created.
+   application code. Set the ``android.name`` property of your manifest's
+   application definition to ensure that Android instantiates your ``Application``
+   subclass before any other class when a user launches your application.
    
    .. code-block:: xml
       :emphasize-lines: 6

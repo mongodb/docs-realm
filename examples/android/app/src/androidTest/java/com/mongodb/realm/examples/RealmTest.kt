@@ -1,0 +1,66 @@
+package com.mongodb.realm.examples
+
+import android.app.Activity
+import androidx.test.core.app.ActivityScenario
+import io.realm.Realm
+import kotlinx.coroutines.*
+import org.junit.Assert
+import org.junit.Before
+import java.time.LocalDateTime
+import java.util.concurrent.atomic.AtomicBoolean
+
+abstract class RealmTest {
+    @JvmField
+    var scenario: ActivityScenario<BasicActivity>? = null
+    @JvmField
+    var activity: Activity? = null
+
+    @Before
+    fun setUp() {
+        val expectation = Expectation()
+        scenario = ActivityScenario.launch(BasicActivity::class.java)
+        scenario!!.onActivity { activity ->
+            Realm.init(activity)
+            this.activity = activity
+            expectation.fulfill()
+        }
+        // ensure that setup has initialized realm before exiting
+        expectation.await()
+    }
+}
+
+const val YOUR_APP_ID = "example-testers-kvjdy"
+const val PARTITION = "Example"
+
+/**
+ * Provides the ability to block until a background task completes.
+ */
+class Expectation {
+    private val _done = AtomicBoolean(false)
+
+    /**
+     * Fulfills the expectation, allowing the corresponding await() call to return.
+     */
+    fun fulfill() {
+        Assert.assertFalse("Multiple calls to expectation.fulfill() unexpected", _done.get())
+        _done.set(true)
+    }
+
+    /**
+     * Awaits a call to "fulfill()" on another thread until the given timeout elapses.
+     */
+    fun await(timeoutMillis: Long) {
+        val startTimeMillis = System.currentTimeMillis()
+        while (!_done.get()) {
+            if (System.currentTimeMillis() - startTimeMillis > timeoutMillis) {
+                Assert.fail("Timeout elapsed without a call to fulfill()")
+                return
+            }
+        }
+    }
+
+    /**
+     * Awaits a call to "fulfill()" on another thread with a default timeout of 10 seconds.
+     */
+    fun await() = await(10000)
+}

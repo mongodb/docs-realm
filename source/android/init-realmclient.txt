@@ -26,23 +26,17 @@ Pass the {+app+} ID for your {+app+}, which you can :ref:`find in the Realm UI
   
 .. tabs-realm-languages::
 
-      .. tab::
-         :tabid: java
+   .. tab::
+      :tabid: java
 
-         .. code-block:: java
+      .. literalinclude:: /examples/generated/android/code/start/InitializeTest.codeblock.access-app-client.java
+         :language: java
+   
+   .. tab::
+      :tabid: kotlin
 
-            String appID = "<your App ID>"; // replace this with your App ID
-            Realm.init(this); // `this` is a Context, typically an Application or Activity
-            App app = new App(new AppConfiguration.Builder(appID).build());
-
-      .. tab::
-         :tabid: kotlin
-
-         .. code-block:: kotlin
-
-            val appID : String = "<your App ID>" // replace this with your App ID
-            Realm.init(this) // `this` is a Context, typically an Application or Activity
-            val app: App = App(AppConfiguration.Builder(appID).build())
+      .. literalinclude:: /examples/generated/android/code/start/InitializeTest.codeblock.access-app-client.kt
+         :language: kotlin
 
 .. admonition:: Initialize the App before Creating an Instance
    :class: important
@@ -69,31 +63,19 @@ Builder to control details of your ``App``:
 
 .. tabs-realm-languages::
 
-      .. tab::
-         :tabid: java
+   .. tab::
+      :tabid: java
 
-         .. code-block:: java
+      .. literalinclude:: /examples/generated/android/code/start/InitializeTest.codeblock.advanced-access-app-client.java
+         :language: java
+   
+   .. tab::
+      :tabid: kotlin
 
-            String appID = "<your App ID>"; // replace this with your App ID
-            Realm.init(this); // `this` is a Context, typically an Application or Activity
-            App app = new App(new AppConfiguration.Builder(appID)
-                              .appName("My App")
-                              .requestTimeout(30, TimeUnit.SECONDS)
-                              .build());
-
-      .. tab::
-         :tabid: kotlin
-
-         .. code-block:: kotlin
-
-            val appID = "<your App ID>" // replace this with your App ID
-            Realm.init(this) // `this` is a Context, typically an Application or Activity
-            val app: App = App(AppConfiguration.Builder(appID)
-                               .appName("My App")
-                               .requestTimeout(30, TimeUnit.SECONDS)
-                               .build())
+      .. literalinclude:: /examples/generated/android/code/start/InitializeTest.codeblock.advanced-access-app-client.kt
+         :language: kotlin
 
 .. note:: 
-    
+
    For most use cases, you only need your application's App ID to connect
    to {+service+}. The other settings demonstrated here are optional.
