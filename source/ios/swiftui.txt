@@ -176,9 +176,8 @@ careful to treat the item as frozen until we intend to modify it.
 
 Note that the ItemRow and ItemDetailsView views do not observe their items.
 That is, they do not declare the item as ``@ObservedObject var item: Item``
-but rather ``var item: Item``. Otherwise, these views would suddenly find
-themselves observing an invalid object when an item gets deleted, which could
-cause the app to crash.
+but rather ``var item: Item``. Otherwise, if these views observed an invalid
+object caused by deleting an item, the app could crash.
 
 .. important::
 
