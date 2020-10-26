@@ -206,7 +206,7 @@ There are two approaches to binding an editable Realm object property to a
 SwiftUI control:
 
 - Use another variable to hold the value until ready to commit it in a write transaction.
-- You could also create a custom :apple:`binding <documentation/swiftui/binding>` that handles writes in a transaction.
+- Create a custom :apple:`binding <documentation/swiftui/binding>` that handles writes in a transaction.
 
 We use the first approach to handle the update to the name because we want to
 wait until the user actually commits the edit in the TextField before writing to
