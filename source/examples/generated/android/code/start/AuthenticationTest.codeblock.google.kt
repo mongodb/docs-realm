@@ -1,17 +1,20 @@
-val appID = YOUR_APP_ID // replace this with your App ID
-val app: App = App(AppConfiguration.Builder(appID)
-    .build())
-
-// fetch authentication code using Google SDK
-
-val googleCredentials: Credentials = Credentials.google("<token>")
-
-var user: User? = null
-app.loginAsync(googleCredentials) {
-    if (it.isSuccess) {
-        Log.v("AUTH", "Successfully authenticated using Google OAuth.")
-        user = app.currentUser()
-    } else {
-        Log.e("AUTH", "Error logging in: ${it.error.toString()}")
+private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
+    try {
+        val account: GoogleSignInAccount = completedTask.getResult(ApiException.class);
+        // Signed in successfully, forward credentials to MongoDB Realm.
+        val authorizationCode: String = account.getServerAuthCode();
+        val googleCredentials: Credentials = Credentials.google(authorizationCode);
+        app.loginAsync(googleCredentials) {
+            if (it.isSuccess) {
+                Log.v(TAG, "Successfully logged in to MongoDB Realm using Google OAuth.")
+            } else {
+                Log.e(TAG, "Error logging in: ${it.error.toString()}")
+            }
+        }
+    } catch (ApiException e) {
+        // The ApiException status code indicates the detailed failure reason.
+        // Please refer to the GoogleSignInStatusCodes class reference for more information.
+        Log.w(TAG, "signInResult:failed code=" + e.getStatusCode());
+        updateUI(null);
     }
 }

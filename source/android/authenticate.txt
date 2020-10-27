@@ -234,12 +234,19 @@ to ``app.login()`` or ``app.loginAsync()``.
 Facebook OAuth
 ~~~~~~~~~~~~~~
 
-The :doc:`Facebook OAuth authentication provider </authentication/facebook>`
-enables users to log in to your application with a custom token provided
-by Facebook. To log in with Facebook OAuth authentication, create a
-Facebook OAuth credential by calling ``Credentials.facebook()``
-with the token provided by Facebook. Then pass the generated credential
-to ``app.login()`` or ``app.loginAsync()``.
+.. important::
+   
+   To log a user in with their existing Facebook account, you must configure and
+   enable the :ref:`Facebook authentication provider <facebook-authentication>`
+   for your application.
+
+Follow the official :facebook:`Facebook Login for Android Quickstart
+<docs/facebook-login/android>` to set up the authentication flow for your
+application. In the login completion handler, get the logged in user's access
+token from the Facebook :facebook:`LoginResult
+<docs/reference/android/current/class/LoginResult>`. Use the access token to
+create a {+service-short+} Facebook credential and then log the user into your
+{+service-short+} app.
 
 .. tabs-realm-languages::
    
@@ -248,24 +255,33 @@ to ``app.login()`` or ``app.loginAsync()``.
 
       .. literalinclude:: /examples/generated/android/code/start/AuthenticationTest.codeblock.facebook.java
          :language: java
+         :emphasize-lines: 7, 8
    
    .. tab::
       :tabid: kotlin
 
       .. literalinclude:: /examples/generated/android/code/start/AuthenticationTest.codeblock.facebook.kt
          :language: kotlin
+         :emphasize-lines: 7, 8
 
 .. _android-login-google:
 
 Google OAuth
 ~~~~~~~~~~~~
 
-The :doc:`Google OAuth authentication provider </authentication/google>`
-enables users to log in to your application with a custom token provided
-by Google. To log in with Google OAuth authentication, create a
-Google OAuth credential by calling ``Credentials.google()``
-with the token provided by Google. Then pass the generated credential
-to ``app.login()`` or ``app.loginAsync()``.
+.. important::
+   
+   To log a user in with their existing Google account, you must configure and
+   enable the :ref:`Google authentication provider <google-authentication>` for
+   your application.
+
+Follow the official :google:`Google Sign-In for Android Integration Guide
+<identity/sign-in/android/start-integrating>` to set up the authentication flow
+for your application. In the sign-in completion handler, get the logged in
+user's authorization code from the :google:`GoogleSignInAccount
+<android/reference/com/google/android/gms/auth/api/signin/GoogleSignInAccount>`
+object. Use the access token to create a {+service-short+} Google credential and
+then log the user into your {+service-short+} app.
 
 .. tabs-realm-languages::
    
@@ -274,12 +290,14 @@ to ``app.login()`` or ``app.loginAsync()``.
 
       .. literalinclude:: /examples/generated/android/code/start/AuthenticationTest.codeblock.google.java
          :language: java
+         :emphasize-lines: 6, 7
    
    .. tab::
       :tabid: kotlin
 
       .. literalinclude:: /examples/generated/android/code/start/AuthenticationTest.codeblock.google.kt
          :language: kotlin
+         :emphasize-lines: 6, 7
 
 .. _android-login-apple:
 
