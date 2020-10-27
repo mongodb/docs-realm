@@ -1,12 +1,24 @@
-// Fetch access token via the Facebook SDK
-let credentials = Credentials.facebook(accessToken: "<token>")
-app.login(credentials: credentials) { (result) in
-    switch result {
-    case .failure(let error):
-        print("Login failed: \(error.localizedDescription)")
-    case .success(let user):
-        print("Successfully logged in as user \(user)")
-        // Now logged in, do something with user
-        // Remember to dispatch to main if you are doing anything on the UI thread
+let loginManager = LoginManager()
+loginManager.logIn(permissions: [ .email ]) { loginResult in
+    switch loginResult {
+    case .success(let grantedPermissions, let declinedPermissions, let accessToken):
+        let credentials = Credentials.facebook(accessToken: accessToken.tokenString)
+        app.login(credentials: credentials) { result in
+            DispatchQueue.main.async {
+                switch result {
+                case .failure(let error):
+                    print("Failed to log in to MongoDB Realm: \(error)")
+                case .success(let user):
+                    print("Successfully logged in to MongoDB Realm using Facebook OAuth.")
+                    // Now logged in, do something with user
+                    // Remember to dispatch to main if you are doing anything on the UI thread
+                }
+            }
+        }
+    case .failed(let error):
+        print("Facebook login failed: \(error)")
+    case .cancelled:
+        print("The user cancelled the login flow.")
+    
     }
 }

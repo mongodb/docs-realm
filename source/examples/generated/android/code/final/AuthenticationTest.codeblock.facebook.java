@@ -1,19 +1,28 @@
-String appID = YOUR_APP_ID; // replace this with your App ID
-App app = new App(new AppConfiguration.Builder(appID)
-        .build());
-
-// fetch facebook token using Facebook SDK
-
-Credentials facebookCredentials = Credentials.facebook("<token>");
-
-AtomicReference<User> user = new AtomicReference<User>();
-app.loginAsync(facebookCredentials, it -> {
-    Assert.assertEquals(false, it.isSuccess());
-    if (it.isSuccess()) {
-        Log.v("AUTH", "Successfully authenticated using Facebook OAuth.");
-        user.set(app.currentUser());
-    } else {
-        Log.e("AUTH", it.getError().toString());
+LoginManager.getInstance().registerCallback(callbackManager,
+    new FacebookCallback<LoginResult>() {
+        @Override
+        public void onSuccess(LoginResult loginResult) {
+            // Signed in successfully, forward credentials to MongoDB Realm.
+            val accessToken = loginResult.getAccessToken();
+            val facebookCredentials: Credentials = Credentials.facebook(accessToken);
+            app.loginAsync(facebookCredentials, it -> {
+                if (it.isSuccess) {
+                    Log.v(TAG, "Successfully logged in to MongoDB Realm using Facebook OAuth.")
+                } else {
+                    Log.e(TAG, "Error logging in to MongoDB Realm: ${it.error.toString()}")
+                }
+                expectation.fulfill();
+            })
+        }
+        
+        @Override
+        public void onCancel() {
+            // App code
+        }
+        
+        @Override
+        public void onError(FacebookException exception) {
+            // App code
+        }
     }
-    expectation.fulfill();
-});
+);

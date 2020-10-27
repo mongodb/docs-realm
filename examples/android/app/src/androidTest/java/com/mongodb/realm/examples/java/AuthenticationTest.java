@@ -178,30 +178,40 @@ public class AuthenticationTest extends RealmTest {
     public void testFacebookOAuth() {
         Expectation expectation = new Expectation();
         activity.runOnUiThread(() -> {
-            // :code-block-start: facebook
-            String appID = YOUR_APP_ID; // replace this with your App ID
+            String appID = YOUR_APP_ID;
             App app = new App(new AppConfiguration.Builder(appID)
-                    .build());
-
-            // fetch facebook token using Facebook SDK
-
-            Credentials facebookCredentials = Credentials.facebook("<token>");
-
-            AtomicReference<User> user = new AtomicReference<User>();
-            app.loginAsync(facebookCredentials, it -> {
-                // :hide-start:
-                Assert.assertEquals(false, it.isSuccess());
-                // :hide-end:
-                if (it.isSuccess()) {
-                    Log.v("AUTH", "Successfully authenticated using Facebook OAuth.");
-                    user.set(app.currentUser());
-                } else {
-                    Log.e("AUTH", it.getError().toString());
+            .build());
+            // :code-block-start: facebook
+            LoginManager.getInstance().registerCallback(callbackManager,
+                new FacebookCallback<LoginResult>() {
+                    @Override
+                    public void onSuccess(LoginResult loginResult) {
+                        // Signed in successfully, forward credentials to MongoDB Realm.
+                        val accessToken = loginResult.getAccessToken();
+                        val facebookCredentials: Credentials = Credentials.facebook(accessToken);
+                        app.loginAsync(facebookCredentials, it -> {
+                            if (it.isSuccess) {
+                                Log.v(TAG, "Successfully logged in to MongoDB Realm using Facebook OAuth.")
+                            } else {
+                                Log.e(TAG, "Error logging in to MongoDB Realm: ${it.error.toString()}")
+                            }
+                            // :hide-start:
+                            expectation.fulfill();
+                            // :hide-end:
+                        })
+                    }
+                    
+                    @Override
+                    public void onCancel() {
+                        // App code
+                    }
+                    
+                    @Override
+                    public void onError(FacebookException exception) {
+                        // App code
+                    }
                 }
-                // :hide-start:
-                expectation.fulfill();
-                // :hide-end:
-            });
+            );
             // :code-block-end:
         });
         expectation.await();
@@ -211,30 +221,36 @@ public class AuthenticationTest extends RealmTest {
     public void testGoogleOAuth() {
         Expectation expectation = new Expectation();
         activity.runOnUiThread(() -> {
-            // :code-block-start: google
             String appID = YOUR_APP_ID; // replace this with your App ID
             App app = new App(new AppConfiguration.Builder(appID)
                     .build());
-
-            // fetch google token using Google SDK
-
-            Credentials googleCredentials = Credentials.google("<token>");
-
-            AtomicReference<User> user = new AtomicReference<User>();
-            app.loginAsync(googleCredentials, it -> {
-                // :hide-start:
-                Assert.assertEquals(false, it.isSuccess());
-                // :hide-end:
-                if (it.isSuccess()) {
-                    Log.v("AUTH", "Successfully authenticated using Google OAuth.");
-                    user.set(app.currentUser());
-                } else {
-                    Log.e("AUTH", it.getError().toString());
+            // :code-block-start: google
+            private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
+                try {
+                    GoogleSignInAccount account = completedTask.getResult(ApiException.class);
+                    // Signed in successfully, forward credentials to MongoDB Realm.
+                    String authorizationCode = account.getServerAuthCode();
+                    Credentials googleCredentials = Credentials.google(authorizationCode);
+                    app.loginAsync(googleCredentials, it -> {
+                        // :hide-start:
+                        Assert.assertEquals(false, it.isSuccess());
+                        // :hide-end:
+                        if (it.isSuccess()) {
+                            Log.v(TAG, "Successfully logged in to MongoDB Realm using Google OAuth.")
+                        } else {
+                            Log.e(TAG, "Error logging in: ${it.error.toString()}")
+                        }
+                        // :hide-start:
+                        expectation.fulfill();
+                        // :hide-end:
+                    })
+                } catch (ApiException e) {
+                    // The ApiException status code indicates the detailed failure reason.
+                    // Please refer to the GoogleSignInStatusCodes class reference for more information.
+                    Log.w(TAG, "signInResult:failed code=" + e.getStatusCode());
+                    updateUI(null);
                 }
-                // :hide-start:
-                expectation.fulfill();
-                // :hide-end:
-            });
+            }
             // :code-block-end:
         });
         expectation.await();

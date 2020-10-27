@@ -16,7 +16,7 @@
 		4803B333251068F900CCAF97 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4803B331251068F900CCAF97 /* LaunchScreen.storyboard */; };
 		487F77C3253F94C000BDC8CE /* OpenCloseRealm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487F77C2253F94C000BDC8CE /* OpenCloseRealm.swift */; };
 		487F77CD253F9A4900BDC8CE /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487F77CC253F9A4900BDC8CE /* Models.swift */; };
-   		4891800F2534E33500D53F19 /* QuickStart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4891800E2534E33500D53F19 /* QuickStart.swift */; };
+		4891800F2534E33500D53F19 /* QuickStart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4891800E2534E33500D53F19 /* QuickStart.swift */; };
 		489180112534E33600D53F19 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 489180102534E33600D53F19 /* Assets.xcassets */; };
 		489180142534E33600D53F19 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 489180132534E33600D53F19 /* Preview Assets.xcassets */; };
 		489180172534E33600D53F19 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 489180152534E33600D53F19 /* LaunchScreen.storyboard */; };
@@ -64,14 +64,14 @@
 		4803B32F251068F900CCAF97 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		4803B332251068F900CCAF97 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4803B334251068F900CCAF97 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		487F77C2253F94C000BDC8CE /* OpenCloseRealm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenCloseRealm.swift; sourceTree = "<group>"; };
+		487F77CC253F9A4900BDC8CE /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		489180082534E33500D53F19 /* QuickStartSwiftUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QuickStartSwiftUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4891800E2534E33500D53F19 /* QuickStart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickStart.swift; sourceTree = "<group>"; };
 		489180102534E33600D53F19 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		489180132534E33600D53F19 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		489180162534E33600D53F19 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		489180182534E33600D53F19 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-        487F77C2253F94C000BDC8CE /* OpenCloseRealm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenCloseRealm.swift; sourceTree = "<group>"; };
-		487F77CC253F9A4900BDC8CE /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		48924B892514EAD900CC9567 /* MultipleUsers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipleUsers.swift; sourceTree = "<group>"; };
 		48924B8B2514FEFC00CC9567 /* TestSetup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestSetup.swift; sourceTree = "<group>"; };
 		48924B972515008100CC9567 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -316,6 +316,7 @@
 				4896EE492510514B00D1FABF /* Frameworks */,
 				4896EE4A2510514B00D1FABF /* Resources */,
 				E34A521F266F065CB381D3FD /* [CP] Embed Pods Frameworks */,
+				1E322FC96E1B76AB5E5B3A0A /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -401,6 +402,23 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		1E322FC96E1B76AB5E5B3A0A /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-RealmExamples/Pods-RealmExamples-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-RealmExamples/Pods-RealmExamples-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-RealmExamples/Pods-RealmExamples-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		6E68AC34E3081E50597B4A9E /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
