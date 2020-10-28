@@ -222,7 +222,7 @@ following mutations:
 The custom query and mutation hooks are lightweight wrappers around Apollo's
 ``useQuery()`` and ``useMutation()`` hooks. Once you have completed defining 
 the task mutations, you will need to implement functions that execute those 
-mutations. In the same ``src/graphql/useTaskMutations.js``file, find the 
+mutations. In the same ``src/graphql/useTaskMutations.js`` file, find the 
 following functions and call the appropriate mutations: 
 
 * ``useAddTask``
@@ -258,7 +258,7 @@ F. Implement the Projects List
 ------------------------------
 
 As defined by our data model, ``projects`` are an :term:`embedded object` of the ``users`` object.
-Therefore, if we want to retrieve a list of projects, we'll have to access the :ref:`user custom 
+Therefore, if we want to retrieve a list of projects, we'll have to access the :doc:`user custom 
 data object </users/enable-custom-user-data>`. 
 
 .. note::
@@ -276,7 +276,7 @@ G. Use Realm functions
 ----------------------
 
 In the ``EditPermissionsModal.js`` file, there are functions that rely on :ref:`{+service-short+} 
-functions </functions>`. {+service-short+} functions allow you to execute server-side 
+functions <functions>`. {+service-short+} functions allow you to execute server-side 
 logic for your client applications.
 
 First, you need to import the functions for client-side usage. Next, you will need to 
@@ -372,7 +372,7 @@ options to keep practicing and learn more:
 
   - Built-in :doc:`authentication providers </authentication/providers>` and
     and user management tools. You can allow users to log in through multiple
-    methods, like API keys and Google OAuth, and associate :doc:`custom data
-    </users/enable-custom-user-data>` with every user.
+    methods, like API keys and Google OAuth, and associate :ref:`custom data
+    <custom-user-data>` with every user.
 
 .. include:: /includes/tutorial-request-for-feedback-note.rst

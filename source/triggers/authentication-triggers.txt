@@ -216,9 +216,9 @@ Authentication event objects have the following form:
        .. note::
 
           Generally, only one authentication provider emits each event.
-          When a user :doc:`linked </authentication/linking>` to
-          multiple providers becomes deleted, the ``DELETE`` event for
-          that user will include all linked providers. 
+          When a you delete a user linked to
+          multiple providers, the ``DELETE`` event for
+          that user includes all linked providers. 
    * - ``user``
      - The :doc:`user object </authentication>` of the user that interacted with
        the authentication provider.

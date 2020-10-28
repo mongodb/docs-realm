@@ -116,13 +116,6 @@ paths:
       tags: ['admin']
       operationId: "getBuildInfo"
       summary: "Get information about the underlying Atlas mongod."
-      requestBody:
-        description: "An empty object."
-        required: true
-        content:
-          application/json:
-            schema:
-              properties: {}
       responses:
         '200':
           description: "The build information was successfully retrieved."
@@ -1809,10 +1802,10 @@ paths:
                 properties:
                   start:
                     type: string
-                    description: The RFC 3339 date and time of the start of the query period, which can be specified with the ``start`` query parameter.
+                    description: The :rfc:`RFC 3339 <3339>` date and time of the start of the query period, which can be specified with the ``start`` query parameter.
                   end:
                     type: string
-                    description: The RFC 3339 date and time of the end of the query period, which can be specified with the ``end`` query parameter.
+                    description: The :rfc:`RFC 3339 <3339>` date and time of the end of the query period, which can be specified with the ``end`` query parameter.
                   granularity:
                     type: string
                     description: The granularity, which can be specified with the ``granularity`` query parameter.

@@ -28,9 +28,7 @@ You can use a single provider if you want all users to
 authenticate in the same way, or you can enable multiple
 providers for more flexibility. You can also link a user
 account from one provider to a user account from another
-provider by using the client SDKs. For more information on
-linking, see :doc:`Link User Accounts
-</authentication/linking>`.
+provider by using the client SDKs.
 
 An example of an app that would benefit from multiple
 authentication providers is a blog or news service. The
@@ -58,8 +56,9 @@ available in {+service-short+}:
        | ``anon-user``
      - Mechanism for authenticating without credentials. This allows
        users to create and interact with data without creating an
-       identity. You can later :doc:`link </authentication/linking>` the data
-       from the Anonymous session with a new identity.
+       identity. You can later link the data
+       from the Anonymous session with a new identity; see your client
+       SDK documentation for details.
 
    * - | :doc:`Email/Password </authentication/email-password>`
        | ``local-userpass``
@@ -172,7 +171,7 @@ Summary
 - {+service+} supports various **authentication providers** to allow
   users to log in to your app.
 
-- You can :doc:`link </authentication/linking>` a specific user across
+- You can link a specific user across
   multiple providers.
 
 - Each authentication provider has different metadata about a user's
