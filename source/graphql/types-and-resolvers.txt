@@ -83,7 +83,7 @@ documents in a collection based on the collection schema. The type uses the name
 set in the ``title`` field of the schema or the collection name if no ``title``
 is specified.
 
-.. code-block:: text
+.. code-block:: graphql
    
    type Movie {
      _id: ObjectId
@@ -186,7 +186,7 @@ automatically generates based on each field's type.
      The query returns the title of all movies released in the year 2000 that
      are rated R.
      
-     .. code-block:: text
+     .. code-block:: graphql
         
         movies(query: { rated: "R", year: 2000 }) {
           title
@@ -205,7 +205,7 @@ automatically generates based on each field's type.
      The query returns the title of all movies released after the year 2000 that
      are rated either G or PG-13.
      
-     .. code-block:: text
+     .. code-block:: graphql
         
         movies(query: { rated_in: ["G", "PG-13"], year_gt: 2000 }) {
           title
@@ -253,7 +253,7 @@ Comparison operator fields have the following form:
           
           This query finds all movies that were released after the year 2000:
           
-          .. code-block:: text
+          .. code-block:: graphql
           
              movies(query: { year_gt: 2000 }) {
                title
@@ -274,7 +274,7 @@ Comparison operator fields have the following form:
           
           This query finds all movies that were released in or after the year 2000:
           
-          .. code-block:: text
+          .. code-block:: graphql
           
              movies(query: { year_gte: 2000 }) {
                title
@@ -294,7 +294,7 @@ Comparison operator fields have the following form:
           
           This query finds all movies that were released before the year 2000:
           
-          .. code-block:: text
+          .. code-block:: graphql
           
              movies(query: { year_lt: 2000 }) {
                title
@@ -315,7 +315,7 @@ Comparison operator fields have the following form:
           
           This query finds all movies that were released in or before the year 2000:
           
-          .. code-block:: text
+          .. code-block:: graphql
           
              movies(query: { year_lte: 2000 }) {
                title
@@ -336,7 +336,7 @@ Comparison operator fields have the following form:
           
           This query finds all movies that were released in any year other than 2000:
           
-          .. code-block:: text
+          .. code-block:: graphql
           
              movies(query: { year_ne: 2000 }) {
                title
@@ -361,7 +361,7 @@ Comparison operator fields have the following form:
           This query finds all movies that feature either or both of Emma Stone
           and Ryan Gosling:
           
-          .. code-block:: text
+          .. code-block:: graphql
           
              movies(query: { cast_in: ["Emma Stone", "Ryan Gosling"] }) {
                title
@@ -386,7 +386,7 @@ Comparison operator fields have the following form:
           
           This query finds all movies that are not rated either G or PG-13:
           
-          .. code-block:: text
+          .. code-block:: graphql
           
              movies(query: { rated_nin: ["G", "PG-13"] }) {
                title
@@ -427,7 +427,7 @@ Logical operator fields have the following form:
           This query finds all movies that are rated PG-13 *and* have a runtime
           of less than 120 minutes:
           
-          .. code-block:: text
+          .. code-block:: graphql
           
              query {
                movies(query: { AND: [{ rated: "PG-13" }, { runtime_lt: 120 }] }) {
@@ -444,7 +444,7 @@ Logical operator fields have the following form:
           
           This query finds all movies that are rated either G or PG-13:
           
-          .. code-block:: text
+          .. code-block:: graphql
           
              query {
                movies(query: { OR: [{ rated: "G" }, { rated: "PG-13" }] }) {
@@ -489,7 +489,7 @@ Element operator fields have the following form:
           This query finds all movies that do not have a value defined for the
           ``year`` field:
           
-          .. code-block:: text
+          .. code-block:: graphql
           
              query {
                movies(query: { year_exists: false }) {
@@ -516,7 +516,7 @@ fields.
    
    The mutation inserts a new movie named "My Fake Film".
    
-   .. code-block:: text
+   .. code-block:: graphql
       
       insertOneMovie(input: {
         title: "My Fake Film",
@@ -541,7 +541,7 @@ GraphQL document type.
    The following mutation includes an ``UpdateInput`` that sets the ``title``
    field to "My Super Real Film".
    
-   .. code-block:: text
+   .. code-block:: graphql
       
       updateOneMovie(
         query: { title: "My Fake Film" }
@@ -558,7 +558,7 @@ field in the mutated document. You can reference documents that already exist in
 the related collection with the ``link`` field and insert new documents into the
 related collection with the ``create`` field.
 
-.. code-block:: text
+.. code-block:: graphql
    
    type RelationInput {
      link: [ObjectId]
@@ -575,7 +575,7 @@ related collection with the ``create`` field.
    The mutation sets the relationship to point to one newly created document and
    two existing documents in the ``reviews`` collection.
    
-   .. code-block:: text
+   .. code-block:: graphql
       
       updateOneMovie(
         query: { title: "My Fake Film" }
@@ -609,7 +609,7 @@ direction, either ``ASC`` or ``DESC``.
    The following query returns movies sorted by the year they were released with
    the most recent movies listed first.
    
-   .. code-block:: text
+   .. code-block:: graphql
       
       movies(sortBy: YEAR_DESC) {
         title
@@ -656,7 +656,7 @@ queried type and accepts the following parameters:
        If you do not specify a ``query`` parameter then the query
        operation matches all documents.
 
-.. code-block:: text
+.. code-block:: graphql
    
    query {
      movie(query: { title: "The Matrix" }) {
@@ -721,7 +721,7 @@ accepts the following parameters:
        operation does not guarantee the order of documents in the result
        set.
 
-.. code-block:: text
+.. code-block:: graphql
    
    query {
      movies(
@@ -771,7 +771,7 @@ accepts the following parameters:
        converts GraphQL types in the ``InsertInput`` object into their
        respective BSON type.
 
-.. code-block:: text
+.. code-block:: graphql
    
    mutation {
      insertOneMovie(data: {
@@ -812,7 +812,7 @@ accepts the following parameters:
        GraphQL types in the ``InsertInput`` object into their respective
        BSON type as defined in the collection schema.
 
-.. code-block:: text
+.. code-block:: graphql
    
    mutation {
      insertManyMovies(data: [
@@ -872,7 +872,7 @@ accepts the following parameters:
        unchanged. Realm automatically converts GraphQL types in the
        ``UpdateInput`` object into their respective BSON type.
 
-.. code-block:: text
+.. code-block:: graphql
    
    mutation {
      updateOneMovie(
@@ -923,7 +923,7 @@ modified and accepts the following parameters:
        unchanged. Realm automatically converts GraphQL types in the
        ``UpdateInput`` object into their respective BSON type.
 
-.. code-block:: text
+.. code-block:: graphql
    
    mutation {
      updateManyMovies(
@@ -975,7 +975,7 @@ parameters:
        for that field. Realm automatically converts GraphQL types in
        the ``InsertInput`` object into their respective BSON type.
 
-.. code-block:: text
+.. code-block:: graphql
    
    mutation {
      upsertOneMovie(
@@ -1030,7 +1030,7 @@ accepts the following parameters:
        converts GraphQL types in the ``InsertInput`` object into their
        respective BSON type.
 
-.. code-block:: text
+.. code-block:: graphql
    
    mutation {
      replaceOneMovie(
@@ -1077,7 +1077,7 @@ accepts the following parameters:
        the first document in the result set, which is likely but not
        guaranteed to be the most recently inserted document.
 
-.. code-block:: text
+.. code-block:: graphql
    
    mutation {
      deleteOneMovie(query: { title: "The Room" }) {
@@ -1119,7 +1119,7 @@ accepts the following parameters:
        If you do not specify a ``query`` argument then the mutation
        deletes all documents in the collection.
 
-.. code-block:: text
+.. code-block:: graphql
    
    mutation {
      deleteManyMovies(query: { director: "Tommy Wiseau" }) {
