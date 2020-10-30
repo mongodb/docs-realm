@@ -47,7 +47,7 @@ content: |
             A custom resolver for a query named ``myCustomQuery`` has the
             following generated schema:
             
-            .. code-block:: text
+            .. code-block:: graphql
                
                type Query {
                  myCustomQuery: DefaultPayload
@@ -62,7 +62,7 @@ content: |
             A custom resolver for a mutation named ``myCustomMutation`` has the
             following generated schema:
             
-            .. code-block:: text
+            .. code-block:: graphql
                
                type Mutation {
                  myCustomMutation: DefaultPayload
@@ -80,7 +80,7 @@ content: |
             type named ``myCustomTaskProperty`` has the following generated
             schema:
 
-            .. code-block:: text
+            .. code-block:: graphql
                
                type Task {
                  myCustomTaskProperty: DefaultPayload
@@ -120,7 +120,7 @@ content: |
             A custom resolver named ``myCustomQuery`` that does not accept an
             input has the following generated schema:
             
-            .. code-block:: text
+            .. code-block:: graphql
                
                type Query {
                  myCustomQuery: DefaultPayload
@@ -143,7 +143,7 @@ content: |
             :guilabel:`Scalar Type` option to specify an input type of
             ``DateTiem`` has the following generated schema:
             
-            .. code-block:: text
+            .. code-block:: graphql
                
                type Query {
                  myCustomQuery(input: DateTime): DefaultPayload
@@ -166,7 +166,7 @@ content: |
             :guilabel:`Existing Type` option to specify an input type of
             ``TaskInsertInput`` has the following generated schema:
             
-            .. code-block:: text
+            .. code-block:: graphql
                
                type Query {
                  myCustomQuery(input: TaskInsertInput): DefaultPayload
@@ -189,7 +189,7 @@ content: |
             :guilabel:`Custom Type` option with an input type named
             ``MyCustomQueryInput`` has the following generated schema:
             
-            .. code-block:: text
+            .. code-block:: graphql
                
                input MyCustomQueryInput {
                  someArgument: String;
@@ -222,7 +222,7 @@ content: |
        - The resolver returns the automatically generated ``DefaultPayload``
          type which has the following signature:
          
-         .. code-block:: text
+         .. code-block:: graphql
             
             type DefaultPayload {
               status: String!
@@ -231,7 +231,7 @@ content: |
          The ``status`` field will always resolve to ``"complete"`` regardless
          of the resolver function's return value.
          
-         .. code-block:: text
+         .. code-block:: graphql
             
             {
               status: "complete"
@@ -246,7 +246,7 @@ content: |
             :guilabel:`DefaultPayload` option has the following generated
             schema:
             
-            .. code-block:: text
+            .. code-block:: graphql
                
                type Query {
                  myCustomQuery: DefaultPayload
@@ -269,7 +269,7 @@ content: |
             :guilabel:`Scalar Type` option to specify a payload type of
             ``DateTime`` has the following generated schema:
             
-            .. code-block:: text
+            .. code-block:: graphql
                
                type Query {
                  myCustomQuery: DateTime
@@ -296,7 +296,7 @@ content: |
             :guilabel:`Existing Type` option to specify a payload type of
             ``[Task]`` has the following generated schema:
             
-            .. code-block:: text
+            .. code-block:: graphql
                
                type Query {
                  myCustomQuery: [Task]
@@ -319,7 +319,7 @@ content: |
             :guilabel:`Custom Type` option with a payload type named
             ``MyCustomQueryPayload`` has the following generated schema:
             
-            .. code-block:: text
+            .. code-block:: graphql
                
                input MyCustomQueryPayload {
                  someValue: String;
