@@ -50,7 +50,7 @@ The resolvers all reference ``Sale`` documents, which have the following schema:
    .. tab:: GraphQL Schema
       :tabid: graphql-schema
       
-      .. code-block:: text
+      .. code-block:: graphql
          
          type Sale {
            _id: ObjectId!
@@ -92,8 +92,7 @@ returns aggregated sales data for a specific month.
 Realm generates schema definitions for the resolver's custom input and payload
 types and adds the resolver to its parent type, the root-level ``Query``:
 
-.. code-block:: text
-   
+.. code-block:: graphql
    
    type Query {
      averageSaleForMonth(input: AverageSaleForMonthInput): AverageSaleForMonthPayload
@@ -155,7 +154,7 @@ The resolver uses the following configuration:
           .. tab:: GraphQL Schema
              :tabid: graphql-schema
              
-             .. code-block:: text
+             .. code-block:: graphql
                 
                 input AverageSalesForMonthInput {
                   month: String!;
@@ -229,7 +228,7 @@ Example Usage
 
 To call this custom query, you could use the following operation and variables:
 
-.. code-block:: text
+.. code-block:: graphql
    
    query GetAverageSaleForMonth($averageSaleInput: AverageSaleForMonthInput!) {
      averageSaleForMonth(input: $averageSaleInput) {
@@ -256,7 +255,7 @@ adds a string note to a specific ``Sale`` document, identified by its ``_id``.
 Realm generates schema definitions for the resolver's custom input type and adds
 the resolver to its parent type, the root-level ``Mutation``:
 
-.. code-block:: text
+.. code-block:: graphql
    
    type Mutation {
      addNoteToSale(input: AddNoteToSaleInput): Sale
@@ -312,7 +311,7 @@ The resolver uses the following configuration:
           .. tab:: GraphQL Schema
              :tabid: graphql-schema
              
-             .. code-block:: text
+             .. code-block:: graphql
                 
                 input AddNoteToSaleInput {
                   sale_id: ObjectId!;
@@ -328,7 +327,7 @@ The resolver uses the following configuration:
           .. tab:: GraphQL Schema
              :tabid: graphql-schema
              
-             .. code-block:: text
+             .. code-block:: graphql
                 
                 type Sale {
                   _id: ObjectId!
@@ -381,7 +380,7 @@ Example Usage
 
 To call this custom query, you could use the following operation and variables:
 
-.. code-block:: text
+.. code-block:: graphql
    
    mutation AddNoteToSale($addNoteToSaleInput: AddNoteToSaleInput) {
      addNoteToSale(input: $addNoteToSaleInput) {
@@ -416,7 +415,7 @@ returns support cases filed by the associated customer.
 Realm generates schema definitions for the resolver's custom payload type and
 adds the resolver to its parent type, ``Sale``:
 
-.. code-block:: text
+.. code-block:: graphql
    :emphasize-lines: 8
    
    type Sale {
@@ -481,7 +480,7 @@ The resolver uses the following configuration:
           .. tab:: GraphQL Schema
              :tabid: graphql-schema
              
-             .. code-block:: text
+             .. code-block:: graphql
                 :emphasize-lines: 13
                 
                 type CustomerSupportCase {
@@ -515,7 +514,7 @@ Example Usage
 
 To use this custom computed property, you could run the following operation:
 
-.. code-block:: text
+.. code-block:: graphql
    :emphasize-lines: 9-12
    
    query GetSalesWithSupportCases {
