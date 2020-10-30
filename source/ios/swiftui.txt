@@ -213,7 +213,7 @@ would result in an attempt to modify a Realm object outside of a transaction.
 
 .. important:: 
 
-   You may only update a {+database+} object's properties in a transaction. If
+   You may only update a Realm object's properties in a transaction. If
    we used the object's properties directly here, any edits to the TextField
    would automatically apply to the item's name outside of a transaction,
    resulting in a fatal exception.
@@ -238,7 +238,7 @@ Summary
 
 - The quick start demonstrates both local-only and {+sync+} use cases.
 - Only provide views with the state they need. Avoid "wrapping" Realm where possible; use the SDK directly.
-- Always :ref:`freeze <ios-frozen-object>` a list when iterating over it. Do not observe iterated list items, or unexpected behavior will occur when modifying the list.
+- Always :ref:`freeze <ios-frozen-objects>` a list when iterating over it. Do not observe iterated list items, or unexpected behavior will occur when modifying the list.
 - Avoid using Realm object properties directly where they can be edited by the UI. Instead, store the new value in another variable until you're ready to commit the change in a transaction, or wrap the property in a custom binding that opens a transaction on write.
 
 Feedback

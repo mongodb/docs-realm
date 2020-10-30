@@ -1,0 +1,66 @@
+==========================
+Watch for Document Changes
+==========================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+{+service+} allows you to watch a collection and receive client-side
+:ref:`database events <database-events>` whenever documents in the
+collection are inserted or modified. This enables you to develop real-time
+and collaborative applications without the overhead and complexity of
+alternatives such as long polling.
+
+{+service-short+} uses MongoDB :ref:`change streams <changeStreams>` on watched
+collections to listen for changes and broadcast them to any client
+applications that are watching documents in the collection at the time
+of the event. {+service-short+} supports watching any change on a collection
+and watching changes that match a certain filter.
+
+.. admonition:: Change Stream Limitations
+   :class: important
+
+   {+service-short+} opens a single MongoDB :ref:`change stream <changeStreams>`
+   for each watched collection and limits the total number of open
+   change streams on each linked cluster across all {+service-short+} apps based on
+   the cluster's size. See :ref:`change stream limitations
+   <mongodb-service-limitations-change-streams>` for more information.
+
+Examples
+--------
+
+For code examples of watching collections, refer to the client SDKs:
+
+.. tabs-realm-sdks::
+
+   .. tab::
+      :tabid: android
+
+      To watch for changes to a collection from the Android Client SDK, see the
+      :ref:`Android SDK documentation for change streams <android-mongodb-watch>`.
+
+   .. tab::
+      :tabid: web
+
+      To watch for changes to a collection from the Web Client SDK, see the
+      :ref:`Web SDK documentation for change streams <web-mongodb-watch>`.
+
+   .. tab::
+      :tabid: node
+      
+      To watch for changes to a collection from the Node Client SDK, see the
+      :ref:`Node SDK documentation for change streams <node-mongodb-watch>`.
+
+   .. tab::
+      :tabid: react-native
+
+      To watch for changes to a collection from the React Native Client SDK, see the
+      :ref:`React Native SDK documentation for change streams <react-native-mongodb-watch>`.

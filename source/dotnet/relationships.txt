@@ -106,7 +106,7 @@ run a separate query to look up the user that is assigned to a given task.
 To define the inverse relationship, define a getter-only ``IQueryable<T>`` property 
 in your object model, where ``T`` is the source type of the relationship, and  
 then annotate this property with a 
-:dotnet-dsk:`[Backlink(sourceProperty)] <reference/Realms.BacklinkAttribute.html>` 
+:dotnet-sdk:`[Backlink(sourceProperty)] <reference/Realms.BacklinkAttribute.html>` 
 attribute, where "sourceProperty" is the name of the property on the other 
 side of the relationship. The following example shows how to do this with the 
 "User has many Tasks" scenario:

@@ -15,11 +15,9 @@ Realm Administration API
 {+service+} provides an API for programmatically performing administrative
 tasks outside of the {+ui+}. This includes tasks such as
 modifying authentication providers, creating rules, and defining
-functions. The admin API is *not* for {+service-short+} client
-applications: tasks like authenticating users, calling functions, and
-interacting with services should be done using the
-:doc:`client SDK </procedures/init-realmclient>` for production client
-uses.
+functions. Client applications should not use the admin API. Instead,
+use one of the Client SDKs for tasks like authenticating users,
+calling functions, and interacting with services.
 
 .. _realm-api-authentication:
 

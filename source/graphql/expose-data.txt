@@ -73,7 +73,7 @@ documents in GraphQL read and write operations. For example, you can
 query for a person and include the full document for each of their
 children from the same ``people`` collection:
 
-.. code-block:: graphql
+.. code-block:: text
    
    query {
      person(query: { name: "Molly Weasley" }) {
@@ -322,7 +322,7 @@ There are three situations where you can set the ``title`` field:
       {+service-short+} generates two queries, ``mouse`` (singular) and ``mice``
       (plural), based on the schema:
 
-      .. code-block:: graphql
+      .. code-block:: text
          
          query Mice {
            mouse(query: { _id: "5ebe6819197003ddb1f74475" }) {
