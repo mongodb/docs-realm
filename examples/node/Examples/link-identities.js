@@ -3,7 +3,6 @@ const randomEmail = require('random-email');
 
 let app;
 let anonUser;
-let emailPasswordUser;
 const email = randomEmail();
 const password = "Pa55w0rd";
 
