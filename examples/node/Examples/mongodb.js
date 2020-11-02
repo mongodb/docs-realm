@@ -1,4 +1,3 @@
-import Realm from "realm";
 import BSON from "bson";
 
 // const alphabetized = (fieldName, arr) =>

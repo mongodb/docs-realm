@@ -28,5 +28,28 @@ module.exports = {
         "^.+\\.ts$": "ts-jest"
       },
     },
+    {
+      displayName: "Web-JavaScript",
+      testEnvironment: "jsdom",
+      moduleFileExtensions: ['js'],
+      testMatch: [
+        "<rootDir>/Examples/**/*.js",
+      ],
+      setupFilesAfterEnv: [
+        '<rootDir>/testSetupWeb.js',
+      ],
+    },
+    {
+      displayName: "Web-TypeScript",
+      testEnvironment: "jsdom",
+      moduleFileExtensions: ['ts', 'js'],
+      preset: 'ts-jest/presets/js-with-ts',
+      testMatch: [
+        "<rootDir>/Examples/**/*.js",
+      ],
+      setupFilesAfterEnv: [
+        '<rootDir>/testSetupWeb.js',
+      ],
+    },
   ]
 };

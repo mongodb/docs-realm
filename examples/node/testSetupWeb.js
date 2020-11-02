@@ -1,4 +1,5 @@
-import Realm from "realm";
+import * as Realm from "realm-web";
+
 
 jest.useFakeTimers();
 global.console = {

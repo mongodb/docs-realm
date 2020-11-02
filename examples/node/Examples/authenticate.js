@@ -1,5 +1,3 @@
-import Realm from "realm";
-
 let app;
 
 // Set the app up with test users
