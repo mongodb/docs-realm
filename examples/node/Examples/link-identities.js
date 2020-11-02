@@ -66,7 +66,8 @@ describe("Linking Identities Tests", () => {
         }
 
         async function run(){
-            const linkedAccount = await linkAccounts(anonUser,email, password).catch((err) => console.log(`An error occurred while linking accounts: ${JSON.stringify(err, 2, null)}`));
+            const linkedAccount = await linkAccounts(anonUser,email, password)
+              .catch((err) => console.log(`An error occurred while linking accounts: ${JSON.stringify(err, 2, null)}`));
             // :hide-start:
             const emailPasswordUser = await app.logIn(credentials).catch((err) => console.log(`An error occurred while logging in anonymously; ${JSON.stringify(err, 2, null)}`));
             
