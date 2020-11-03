@@ -44,9 +44,8 @@ The syntax to :ref:`read <dotnet-realm-database-reads>` and :ref:`write
 for non-synced {+realms+}. While you work with local data, a background thread 
 efficiently integrates, uploads, and downloads changesets.
 
-.. admonition:: When Using Sync, Avoid Writes on the Main Thread
-   :class: important
-
+.. important:: When Using Sync, Avoid Writes on the Main Thread
+   
    The fact that {+service-short+} performs sync integrations on a background thread means
    that if you write to your {+realm+} on the main thread, there's a small chance your UI
    could appear to hang as it waits for the background sync thread to finish a write

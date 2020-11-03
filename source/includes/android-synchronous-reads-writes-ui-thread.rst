@@ -1,6 +1,5 @@
-.. admonition:: Synchronous Reads and Writes on the UI Thread
-   :class: important
-
+.. important:: Synchronous Reads and Writes on the UI Thread
+   
    By default, you can only read or write to a {+realm+} in your
    application's UI thread using asynchronous transactions. That is,
    you can only use ``Realm`` methods whose name ends with the word
@@ -31,7 +30,3 @@
          .. literalinclude:: /examples/generated/android/code/start/OpenARealmTest.codeblock.allow-reads-writes-ui-thread.kt
             :language: kotlin
             :emphasize-lines: 2,3
-
-
-
-

@@ -25,9 +25,8 @@ applications that are watching documents in the collection at the time
 of the event. {+service-short+} supports watching any change on a collection
 and watching changes that match a certain filter.
 
-.. admonition:: Change Stream Limitations
-   :class: important
-
+.. important:: Change Stream Limitations
+   
    {+service-short+} opens a single MongoDB :ref:`change stream <changeStreams>`
    for each watched collection and limits the total number of open
    change streams on each linked cluster across all {+service-short+} apps based on
