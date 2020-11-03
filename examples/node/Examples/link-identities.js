@@ -3,7 +3,7 @@ const randomEmail = require('random-email');
 
 let app;
 let anonUser;
-const email = randomEmail();
+const email = randomEmail({ domain: "example.com" });
 const password = "Pa55w0rd";
 
 const credentials = Realm.Credentials.emailPassword(
