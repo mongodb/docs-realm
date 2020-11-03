@@ -868,7 +868,6 @@ content: |
   .. cssclass:: config-table
   .. list-table::
      :header-rows: 1
-     :widths: 2 3
 
      * - Parameter
        - Description
@@ -886,8 +885,8 @@ content: |
        - Optional. An object that specifies the optional settings. Valid options
          are:
 
-        .. cssclass:: config-table
-        .. list-table::
+         .. cssclass:: config-table
+         .. list-table::
             :header-rows: 1
 
             * - Option
@@ -899,33 +898,25 @@ content: |
             * - ordered
               - foo
 
-            * - ordered
-              - foo
-
-            * - ordered
-              - foo
-
-            * - ordered
-              - foo
-      
      * - :guilabel:`callback`
 
          | ``callback: <function>``
 
-     - Optional. The function to call when the ``bulkWrite`` operation completes. 
-       If not specified, ``bulkWrite`` returns a ``BulkWriteOpResultObject``, 
-       which has the following properties:
+       - Optional. The function to call when the ``bulkWrite`` operation completes. 
+         If not specified, ``bulkWrite`` returns a ``BulkWriteOpResultObject``, 
+         which has the following properties:
 
-       .. cssclass:: config-table
-       .. list-table::
-          :header-rows: 1
-          :widths: 2 3
+         .. cssclass:: config-table
+         .. list-table::
+            :header-rows: 1
 
-          * - Parameter
-            - Type
-            - Description
+            * - Parameter
+              - Type
+              - Description
 
-          * - insertedCount
-            - number
-            - Number of documents inserted.
+            * - insertedCount
+              - number
+              - Number of documents inserted.
+
 ...
+
