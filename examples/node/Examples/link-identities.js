@@ -25,7 +25,7 @@ beforeAll(async () => {
     }
     // application user tries out the app by logging in anonymously
     anonUser = await loginAnonymously().catch((err) => console.log(`An error occurred while logging in anonymously: ${JSON.stringify(err, 2, null)}`));
-    // after using the app for awhile the user decides to register:
+    // after using the app for a while the user decides to register:
     await registerNewAccount(email,password);
 });
 
@@ -83,4 +83,3 @@ describe("Linking Identities Tests", () => {
         */
     })
 });
-
