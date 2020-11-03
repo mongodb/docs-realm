@@ -890,33 +890,16 @@ content: |
             :header-rows: 1
 
             * - Option
-              - Description
-
-            * - ordered
-              - foo
-
-            * - ordered
-              - foo
-
-     * - :guilabel:`callback`
-
-         | ``callback: <function>``
-
-       - Optional. The function to call when the ``bulkWrite`` operation completes. 
-         If not specified, ``bulkWrite`` returns a ``BulkWriteOpResultObject``, 
-         which has the following properties:
-
-         .. cssclass:: config-table
-         .. list-table::
-            :header-rows: 1
-
-            * - Parameter
               - Type
               - Description
+  
+            * - ordered
+              - boolean (default = true)
+              - Execute write operation in ordered or unordered fashion
 
-            * - insertedCount
-              - number
-              - Number of documents inserted.
+            * - session
+              - client session
+              - optional session to use for this operation
 
 ...
 

@@ -40,31 +40,11 @@ The ``collection.bulkWrite()`` action has the following form:
 
 .. code-block:: javascript
 
-   bulkWrite(operations, options, callback)
+   bulkWrite(operations, options)
 
 .. include:: /includes/extracts/mongodb-action-params-bulkWrite.rst
 
 Return Value
 ~~~~~~~~~~~~
-
-The ``collection.insertOne()`` action returns a :mdn:`Promise
-<Web/JavaScript/Reference/Global_Objects/Promise>` that
-resolves to a document that describes the insert operation.
-
-.. code-block:: javascript
-
-   Promise<result: document>
-
-.. cssclass:: config-table
-.. list-table::
-   :header-rows: 1
-   :widths: 45 55
-
-   * - Value
-     - Description
-
-   * - :guilabel:`Inserted ID`
-       
-       | ``result.insertedId: <ObjectID>``
-     - The ``_id`` value of the document that the insert operation added
-       to the collection.
+The ``collection.bulkWrite()`` function 
+returns a :mdn:`Promise <Web/JavaScript/Reference/Global_Objects/Promise>`.

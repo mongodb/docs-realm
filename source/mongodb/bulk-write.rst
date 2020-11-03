@@ -14,8 +14,7 @@ Overview
 --------
 
 The code snippets on this page demonstrate how to perform a bulkWrite 
-operation with the :method:`bulkWrite()` 
-method.
+operation with the :method:`bulkWrite()` function.
 
 .. include:: /includes/data-lake-no-writes-note.rst
 
@@ -23,27 +22,7 @@ method.
 
 .. include:: /mongodb/crud-snippets/setup.rst
 
-Methods
+Examples
 -------
 
-Insert a Single Document
-~~~~~~~~~~~~~~~~~~~~~~~~
-
-You can insert a single document using the
-:method:`collection.insertOne()` action.
-
-The following :ref:`function <functions>` snippet inserts a single item
-document into the ``items`` collection:
-
-.. include:: /mongodb/crud-snippets/insertOne/functions.rst
-
-Insert One or More Documents
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-You can insert multiple documents at the same time using the
-:method:`collection.insertMany()` action.
-
-The following :ref:`function <functions>` snippet inserts multiple item
-documents into the ``items`` collection:
-
-.. include:: /mongodb/crud-snippets/insertMany/functions.rst
+.. include:: /mongodb/crud-snippets/bulkWrite/functions.rst
