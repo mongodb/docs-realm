@@ -171,9 +171,9 @@ link users.
 Call a Function
 ---------------
 
-To call a :doc:`function </functions>`, use the ``App.functions`` interface to
-call your serverless functions as if they were a regular JavaScript function
-defined on the object.
+To call a :doc:`function </functions>`, use the ``Realm.User.functions`` interface to
+:ref:`call your serverless functions <web-call-a-function>` as if they were a
+regular JavaScript function defined on the object.
 
 .. tabs-realm-languages::
    
@@ -182,7 +182,7 @@ defined on the object.
       
       .. code-block:: javascript
          
-         const summed = await app.functions.sum(2,3);
+         const summed = await user.functions.sum(2,3);
          assert(summed === 5);
    
    .. tab::
@@ -190,7 +190,7 @@ defined on the object.
       
       .. code-block:: typescript
          
-         const summed: number = await app.functions.sum(2,3);
+         const summed: number = await user.functions.sum(2,3);
          assert(summed === 5);
 
 .. _web-use-graphql:
