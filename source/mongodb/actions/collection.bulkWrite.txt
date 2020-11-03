@@ -18,7 +18,7 @@ Definition
 .. method:: collection.bulkWrite()
 
 Bulk insert/update/delete multiple documents in a collection within a single 
-API call and return a ``BulkWriteOpResultObject``.
+API call.
 
 Usage
 -----
@@ -26,10 +26,10 @@ Usage
 Example
 ~~~~~~~
 
-To call the ``collection.insertOne()`` action from a
+To call the ``collection.bulkWrite()`` action from a
 :doc:`Function </functions>`, get a collection handle with
 :method:`database.collection()` then call the handle's
-``insertOne()`` method.
+``bulkWrite()`` function.
 
 .. include:: /mongodb/crud-snippets/bulkWrite/functions.rst
 
@@ -46,5 +46,6 @@ The ``collection.bulkWrite()`` action has the following form:
 
 Return Value
 ~~~~~~~~~~~~
-The ``collection.bulkWrite()`` function 
-returns a :mdn:`Promise <Web/JavaScript/Reference/Global_Objects/Promise>`.
+The ``collection.bulkWrite()`` function returns a 
+:mdn:`Promise <Web/JavaScript/Reference/Global_Objects/Promise>`.
+
