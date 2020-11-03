@@ -876,7 +876,24 @@ content: |
 
          | ``array: <operation>``
 
-       - An array of bulkWrite operations to perform.
+       - An array of bulkWrite operations to perform. Examples of supported 
+         operations include the following:
+
+          .. code-block:: javascript
+
+             { insertOne: { document: { a: 1 } } }
+
+             { updateOne: { filter: {a:2}, update: {$set: {a:2}}, upsert:true } }
+
+             { updateMany: { filter: {a:2}, update: {$set: {a:2}}, upsert:true } }
+
+             { updateMany: { filter: {}, update: {$set: {"a.$[i].x": 5}}, arrayFilters: [{ "i.x": 5 }]} }
+
+             { deleteOne: { filter: {c:1} } }
+
+             { deleteMany: { filter: {c:1} } }
+
+             { replaceOne: { filter: {c:3}, replacement: {c:4}, upsert:true}}
 
      * - :guilabel:`options`
 
