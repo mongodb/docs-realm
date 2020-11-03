@@ -189,8 +189,8 @@ In ``tasks.js``:
   To get all objects, call the :js-sdk:`objects() <Realm.html#objects>` method 
   and pass in the name of the collection:
   
-   .. literalinclude:: /tutorial/generated/code/final/tasks.codeblock.getTasks.js
-      :language: javascript
+  .. literalinclude:: /tutorial/generated/code/final/tasks.codeblock.getTasks.js
+     :language: javascript
 
 
 * ``getTask``
@@ -199,8 +199,8 @@ In ``tasks.js``:
   we call the :js-sdk:`objectForPrimaryKey() <Realm.html#objectForPrimaryKey>`  
   function to get a task by its Id.
 
-   .. literalinclude:: /tutorial/generated/code/final/tasks.codeblock.getTask.js
-      :language: javascript
+  .. literalinclude:: /tutorial/generated/code/final/tasks.codeblock.getTask.js
+     :language: javascript
 
 
 * ``createTask``
@@ -212,8 +212,8 @@ In ``tasks.js``:
   the :js-sdk:`create() <Realm.html#create>` function, passing in all of the 
   required properties:
 
-   .. literalinclude:: /tutorial/generated/code/final/tasks.codeblock.createTask.js
-      :language: javascript
+  .. literalinclude:: /tutorial/generated/code/final/tasks.codeblock.createTask.js
+     :language: javascript
 
   .. note::
     
@@ -231,8 +231,8 @@ In ``tasks.js``:
   We'll first call the ``objectForPrimaryKey`` method to get the specific we want
   to delete and then the :js-sdk:`delete() <Realm.html#delete>` function on that task:
 
-   .. literalinclude:: /tutorial/generated/code/final/tasks.codeblock.deleteTask.js
-      :language: javascript
+  .. literalinclude:: /tutorial/generated/code/final/tasks.codeblock.deleteTask.js
+     :language: javascript
 
 
 * ``modifyTask``
@@ -243,8 +243,8 @@ In ``tasks.js``:
   call to a Realm API to change an object. Rather, you change the *local* object 
   and Sync ensures the object is updated on the server.
   
-   .. literalinclude:: /tutorial/generated/code/final/tasks.codeblock.modifyTask.js
-      :language: javascript
+  .. literalinclude:: /tutorial/generated/code/final/tasks.codeblock.modifyTask.js
+     :language: javascript
 
 
   .. note::
@@ -254,18 +254,18 @@ In ``tasks.js``:
 In ``projects.js``: 
 
 * ``getProjects``
+  
+  As defined by our data model, ``projects`` are an embedded object of the ``users`` object. 
+  To get all projects the user is a part of, we'll have to use the ``objectForPrimaryKey``
+  method to get the current user and then access the current user's ``memberOf`` property.
 
-   As defined by our data model, ``projects`` are an embedded object of the ``users`` object. 
-   To get all projects the user is a part of, we'll have to use the ``objectForPrimaryKey``
-   method to get the current user and then access the current user's ``memberOf`` property.
+  .. literalinclude:: /tutorial/generated/code/final/projects.codeblock.getProjects.js
+     :language: javascript
 
-   .. literalinclude:: /tutorial/generated/code/final/projects.codeblock.getProjects.js
-      :language: javascript
-
-   .. note::
-
-      To learn more about how {+service-short+} Object models are used in Node.js applications, 
-      see :doc:`Realm Objects </node/objects>` in our Node.js client guide. 
+  .. note::
+     
+     To learn more about how {+service-short+} Object models are used in Node.js applications, 
+     see :doc:`Realm Objects </node/objects>` in our Node.js client guide. 
 
 F. Use Realm Functions
 ----------------------
@@ -280,26 +280,26 @@ implement the calls to {+service-short+}.
   To get all team members, call the ``getMyTeamMembers`` {+service-short+} function
   using the ``User.functions`` method. 
 
-   .. literalinclude:: /tutorial/generated/code/final/team.codeblock.getTeamMembers.js
-      :language: javascript
+  .. literalinclude:: /tutorial/generated/code/final/team.codeblock.getTeamMembers.js
+     :language: javascript
 
 * ``addTeamMember``
 
-   This function prompts the user for the email of the new team member. You will need 
-   to call the ``addTeamMember`` {+service-short+} function and pass it the ``email`` 
-   parameter. 
+  This function prompts the user for the email of the new team member. You will need 
+  to call the ``addTeamMember`` {+service-short+} function and pass it the ``email`` 
+  parameter. 
 
-   .. literalinclude:: /tutorial/generated/code/final/team.codeblock.addTeamMember.js
-      :language: javascript
+  .. literalinclude:: /tutorial/generated/code/final/team.codeblock.addTeamMember.js
+     :language: javascript
 
 * ``removeTeamMember`` 
 
-   This functions prompts the user for the email of the team member they would like to 
-   remove from their project. You will need to call the ``removeTeamMember`` 
-   {+service-short+} function and pass it the ``email`` parameter.
-
-   .. literalinclude:: /tutorial/generated/code/final/team.codeblock.removeTeamMember.js
-      :language: javascript
+  This functions prompts the user for the email of the team member they would like to 
+  remove from their project. You will need to call the ``removeTeamMember`` 
+  {+service-short+} function and pass it the ``email`` parameter.
+  
+  .. literalinclude:: /tutorial/generated/code/final/team.codeblock.removeTeamMember.js
+     :language: javascript
 
 
 H. Run and Test
