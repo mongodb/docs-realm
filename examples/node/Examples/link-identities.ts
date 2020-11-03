@@ -8,7 +8,6 @@ let anonUser: any;
 const email = randomEmail({ domain: "example.com" });
 const password = "Pa55w0rd";
 
-console.log(Realm.Credentials.emailPassword);
 const credentials = Realm.Credentials.emailPassword(email, password);
 
 beforeAll(async () => {
@@ -17,7 +16,6 @@ beforeAll(async () => {
   async function loginAnonymously() {
     const anonymousCredentials = Realm.Credentials.anonymous();
     anonUser = await app.logIn(anonymousCredentials);
-    console.log(`Logged in with the user id: ${anonUser.id}`);
     return anonUser;
   }
   async function registerNewAccount(email: string, password: string) {
@@ -61,7 +59,6 @@ afterAll(async () => {
 */
 describe("Linking Identities Tests", () => {
   test("links anon identity with email/pass identity", async () => {
-    expect.assertions(1);
     // :code-block-start: link-identities
     async function linkAccounts(
       user: Realm.User,
@@ -72,34 +69,15 @@ describe("Linking Identities Tests", () => {
         email,
         password
       );
-      return user.linkCredentials(emailPasswordUserCredentials);
-    }
-
-    async function run() {
-      const linkedAccount = await linkAccounts(
-        anonUser,
-        email,
-        password
-      ).catch((err) =>
-        console.log(`An error occurred while linking accounts: ${err}`)
+      const linkedAccount = await user.linkCredentials(
+        emailPasswordUserCredentials
       );
-      // :hide-start:
-      const emailPasswordUser = await app
-        .logIn(credentials)
-        .catch((err) =>
-          console.log(`An error occurred while logging in anonymously; ${err}`)
-        );
-
-      expect(linkedAccount).toStrictEqual(emailPasswordUser); // test if the linked account is the same user as the emailPass user
-      // :hide-end:
+      return linkedAccount;
     }
-    // :hide-start:
-    await run();
-    /*
-        // :replace-with:
-        run();
-        // :hide-end:
-        // :code-block-end:
-        */
+    // :code-block-end:
+
+    expect(linkAccounts(anonUser, email, password)).resolves.toStrictEqual(
+      await app.logIn(credentials)
+    );
   });
 });

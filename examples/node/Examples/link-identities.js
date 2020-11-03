@@ -14,7 +14,6 @@ beforeAll(async () => {
   async function loginAnonymously() {
     const anonymousCredentials = Realm.Credentials.anonymous();
     anonUser = await app.logIn(anonymousCredentials);
-    console.log(`Logged in with the user id: ${anonUser.id}`);
     return anonUser;
   }
   async function registerNewAccount(email, password) {
@@ -67,56 +66,22 @@ afterAll(async () => {
     4. Deletes the temporary anonymous account
 */
 describe("Linking Identities Tests", () => {
-  afterEach(async () => {});
-
   test("links anon identity with email/pass identity", async () => {
-    expect.assertions(1);
     // :code-block-start: link-identities
     async function linkAccounts(user, email, password) {
       const emailPasswordUserCredentials = Realm.Credentials.emailPassword(
         email,
         password
       );
-      return user.linkCredentials(emailPasswordUserCredentials);
-    }
-
-    async function run() {
-      const linkedAccount = await linkAccounts(
-        anonUser,
-        email,
-        password
-      ).catch((err) =>
-        console.log(
-          `An error occurred while linking accounts: ${JSON.stringify(
-            err,
-            2,
-            null
-          )}`
-        )
+      const linkedAccount = await user.linkCredentials(
+        emailPasswordUserCredentials
       );
-      // :hide-start:
-      const emailPasswordUser = await app
-        .logIn(credentials)
-        .catch((err) =>
-          console.log(
-            `An error occurred while logging in anonymously; ${JSON.stringify(
-              err,
-              2,
-              null
-            )}`
-          )
-        );
-
-      expect(linkedAccount).toStrictEqual(emailPasswordUser); // test if the linked account is the same user as the emailPass user
-      // :hide-end:
+      return linkedAccount;
     }
-    // :hide-start:
-    await run();
-    /*
-        // :replace-with:
-        run();
-        // :hide-end:
-        // :code-block-end:
-    */
+    // :code-block-end:
+
+    expect(linkAccounts(anonUser, email, password)).resolves.toStrictEqual(
+      await app.logIn(credentials)
+    );
   });
 });
