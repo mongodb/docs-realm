@@ -862,4 +862,96 @@ content: |
                // Valid
                // Can exclude _id while including other fields
                { "_id": 0, "name": 1 }
+
+---
+ref: mongodb-action-params-bulkWrite
+content: |
+  .. cssclass:: config-table
+  .. list-table::
+     :header-rows: 1
+     :widths: 2 3
+
+     * - Parameter
+       - Description
+
+     * - :guilabel:`operations`
+
+         | ``array: <operation>``
+
+       - An array of bulkWrite operations to perform.
+
+     * - :guilabel:`options`
+
+         | ``options: <object>``
+
+       - Optional. An object that specifies the optional settings. Valid options
+         are:
+
+        .. cssclass:: config-table
+        .. list-table::
+            :header-rows: 1
+
+            * - Option
+              - Description
+
+            * - ordered
+              - foo
+
+            * - ordered
+              - foo
+
+            * - ordered
+              - foo
+
+            * - ordered
+              - foo
+
+            * - ordered
+              - foo
+      
+     * - :guilabel:`callback`
+
+         | ``callback: <function>``
+
+     - Optional. The function to call when the ``bulkWrite`` operation completes. 
+       If not specified, ``bulkWrite`` returns a ``BulkWriteOpResultObject``, 
+       which has the following properties:
+
+       .. cssclass:: config-table
+       .. list-table::
+          :header-rows: 1
+          :widths: 2 3
+
+          * - Parameter
+            - Type
+            - Description
+
+          * - insertedCount
+            - number
+            - Number of documents inserted.
+
+
+
+matchedCount	number	
+Number of documents matched for update.
+
+modifiedCount	number	
+Number of documents modified.
+
+deletedCount	number	
+Number of documents deleted.
+
+upsertedCount	number	
+Number of documents upserted.
+
+insertedIds	object	
+Inserted document generated Id's, hash key is the index of the originating operation
+
+upsertedIds	object	
+Upserted document generated Id's, hash key is the index of the originating operation
+
+result	object	
+The command result object.
+
+
 ...
