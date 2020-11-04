@@ -34,15 +34,12 @@ of the ``User`` object of a logged-in User.
             :emphasize-lines: 6
 
             async function linkAccounts(user: Realm.User, email: string, password: string) {
-                const emailPasswordUserCredentials = Realm.Credentials.emailPassword(
-                  email,
-                  password
-                );
-                await user.linkCredentials(
-                  emailPasswordUserCredentials
-                );
+              const emailPasswordUserCredentials = Realm.Credentials.emailPassword(
+                email,
+                password
+              );
+              await user.linkCredentials(emailPasswordUserCredentials);
             }
-
       .. tab::
          :tabid: javascript
 
@@ -50,11 +47,9 @@ of the ``User`` object of a logged-in User.
             :emphasize-lines: 6
 
             async function linkAccounts(user, email, password) {
-                const emailPasswordUserCredentials = Realm.Credentials.emailPassword(
-                  email,
-                  password
-                );
-                await user.linkCredentials(
-                  emailPasswordUserCredentials
-                );
+              const emailPasswordUserCredentials = Realm.Credentials.emailPassword(
+                email,
+                password
+              );
+              await user.linkCredentials(emailPasswordUserCredentials);
             }
