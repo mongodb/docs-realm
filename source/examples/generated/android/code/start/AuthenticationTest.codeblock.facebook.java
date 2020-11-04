@@ -7,9 +7,9 @@ LoginManager.getInstance().registerCallback(callbackManager,
             val facebookCredentials: Credentials = Credentials.facebook(accessToken);
             app.loginAsync(facebookCredentials, it -> {
                 if (it.isSuccess) {
-                    Log.v(TAG, "Successfully logged in to MongoDB Realm using Facebook OAuth.")
+                    Log.v("AUTH", "Successfully logged in to MongoDB Realm using Facebook OAuth.")
                 } else {
-                    Log.e(TAG, "Error logging in to MongoDB Realm: ${it.error.toString()}")
+                    Log.e("AUTH", "Failed to log in to MongoDB Realm", it.getError())
                 }
             })
         }

@@ -140,7 +140,7 @@ public class AuthenticationTest extends RealmTest {
         activity.runOnUiThread(() -> {
             String appID = YOUR_APP_ID;
             App app = new App(new AppConfiguration.Builder(appID)
-            .build());
+                    .build());
             LoginManager.getInstance().registerCallback(callbackManager,
                 new FacebookCallback<LoginResult>() {
                     @Override
@@ -150,9 +150,9 @@ public class AuthenticationTest extends RealmTest {
                         val facebookCredentials: Credentials = Credentials.facebook(accessToken);
                         app.loginAsync(facebookCredentials, it -> {
                             if (it.isSuccess) {
-                                Log.v(TAG, "Successfully logged in to MongoDB Realm using Facebook OAuth.")
+                                Log.v("AUTH", "Successfully logged in to MongoDB Realm using Facebook OAuth.")
                             } else {
-                                Log.e(TAG, "Error logging in to MongoDB Realm: ${it.error.toString()}")
+                                Log.e("AUTH", "Failed to log in to MongoDB Realm", it.getError())
                             }
                         })
                     }
@@ -187,9 +187,9 @@ public class AuthenticationTest extends RealmTest {
                     Credentials googleCredentials = Credentials.google(authorizationCode);
                     app.loginAsync(googleCredentials, it -> {
                         if (it.isSuccess()) {
-                            Log.v(TAG, "Successfully logged in to MongoDB Realm using Google OAuth.")
+                            Log.v("AUTH", "Successfully logged in to MongoDB Realm using Google OAuth.")
                         } else {
-                            Log.e(TAG, "Error logging in: ${it.error.toString()}")
+                            Log.e("AUTH", "Failed to log in to MongoDB Realm", it.getError())
                         }
                     })
                 } catch (ApiException e) {

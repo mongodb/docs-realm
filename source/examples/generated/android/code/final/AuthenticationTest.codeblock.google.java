@@ -7,9 +7,9 @@ private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
         app.loginAsync(googleCredentials, it -> {
             Assert.assertEquals(false, it.isSuccess());
             if (it.isSuccess()) {
-                Log.v(TAG, "Successfully logged in to MongoDB Realm using Google OAuth.")
+                Log.v("AUTH", "Successfully logged in to MongoDB Realm using Google OAuth.")
             } else {
-                Log.e(TAG, "Error logging in: ${it.error.toString()}")
+                Log.e("AUTH", "Failed to log in to MongoDB Realm", it.getError())
             }
             expectation.fulfill();
         })
