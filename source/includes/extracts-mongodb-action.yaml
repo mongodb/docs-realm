@@ -868,34 +868,31 @@ content: |
   .. cssclass:: config-table
   .. list-table::
      :header-rows: 1
+     :widths: 30, 70
 
      * - Parameter
        - Description
 
      * - :guilabel:`operations`
 
-         | ``array: <operation>``
-
-       - An array of bulkWrite operations to perform. Examples of supported 
+       - An **array** of bulkWrite operations to perform. Examples of supported 
          operations include the following:
 
-          .. code-block:: javascript
+         .. code-block:: javascript
 
-             { insertOne: { document: { a: 1 } } }
+            { insertOne: { document: { a: 1 } } }
 
-             { updateOne: { filter: {a:2}, update: {$set: {a:2}}, upsert:true } }
+            { updateOne: { filter: {a:2}, update: {$set: {a:2}}, upsert:true } }
 
-             { updateMany: { filter: {a:2}, update: {$set: {a:2}}, upsert:true } }
+            { updateMany: { filter: {a:2}, update: {$set: {a:2}}, upsert:true } }
 
-             { deleteOne: { filter: {c:1} } }
+            { deleteOne: { filter: {c:1} } }
 
-             { deleteMany: { filter: {c:1} } }
+            { deleteMany: { filter: {c:1} } }
 
-             { replaceOne: { filter: {c:3}, replacement: {c:4}, upsert:true}}
+            { replaceOne: { filter: {c:3}, replacement: {c:4}, upsert:true}}
 
      * - :guilabel:`options`
-
-         | ``options: <object>``
 
        - Optional. An object that specifies the optional settings. Valid options
          are:
@@ -903,6 +900,7 @@ content: |
          .. cssclass:: config-table
          .. list-table::
             :header-rows: 1
+            :widths: 30, 10, 60
 
             * - Option
               - Type
