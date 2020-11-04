@@ -22,8 +22,7 @@ password. When that user decides to create a full account with an SSO
 provider or email/password authentication, you need some way of persisting the
 user's original anonymous identity with their new permanent identity.
 
-You can link identities using the :js-sdk:`linkCredentials()
-<Realm.User.html#linkCredentials>` method  
+You can link identities using the ``linkCredentials()`` method  
 of the ``User`` object of a logged-in User.
 
 .. tabs-realm-languages::
@@ -39,7 +38,7 @@ of the ``User`` object of a logged-in User.
                   email,
                   password
                 );
-                 await user.linkCredentials(
+                await user.linkCredentials(
                   emailPasswordUserCredentials
                 );
             }
