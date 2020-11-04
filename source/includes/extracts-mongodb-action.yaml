@@ -862,4 +862,70 @@ content: |
                // Valid
                // Can exclude _id while including other fields
                { "_id": 0, "name": 1 }
+---
+ref: mongodb-action-params-bulkWrite
+content: |
+  .. cssclass:: config-table
+  .. list-table::
+     :header-rows: 1
+     :widths: 30, 70
+
+     * - Parameter
+       - Description
+
+     * - :guilabel:`operations`
+
+       - An **array** of bulkWrite operations to perform. Examples of supported 
+         operations include the following:
+
+         .. code-block:: javascript
+
+            { insertOne: { document: { a: 1 } } }
+
+            { updateOne: { filter: {a:2}, update: {$set: {a:2}}, upsert:true } }
+
+            { updateMany: { filter: {a:2}, update: {$set: {a:2}}, upsert:true } }
+
+            { deleteOne: { filter: {c:1} } }
+
+            { deleteMany: { filter: {c:1} } }
+
+            { replaceOne: { filter: {c:3}, replacement: {c:4}, upsert:true}}
+
+     * - :guilabel:`options`
+
+       - Optional. An object that specifies the optional settings. Valid options
+         are:
+
+         .. cssclass:: config-table
+         .. list-table::
+            :header-rows: 1
+            :widths: 30, 10, 60
+
+            * - Option
+              - Type
+              - Description
+  
+            * - ordered
+              - boolean (default = true)
+              - Execute write operation in ordered or unordered fashion. By 
+                default, Atlas executes bulk write operations one at a time in 
+                the specified order (i.e. serially). During an ordered bulk write, 
+                if an error occurs during the processing of an operation, Atlas 
+                returns without processing the remaining operations in the list. 
+                In contrast, when ordered is **false**, MongoDB continues to 
+                process remaining write operations in the list. Unordered 
+                operations are theoretically faster since MongoDB can execute 
+                them in parallel, but should only be used if the writes do not 
+                depend on order.
+            
+            * - bypassDocumentValidation
+              - boolean (default = false)
+              - Allow the driver to bypass schema validation
+            
+            * - session
+              - client session
+              - optional session to use for this operation
+
 ...
+

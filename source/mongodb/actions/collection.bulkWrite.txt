@@ -1,0 +1,63 @@
+.. _mongodb-service-collection-bulk-write:
+
+======================
+collection.bulkWrite()
+======================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Definition
+----------
+
+.. method:: collection.bulkWrite()
+
+Bulk insert/update/delete multiple documents in a *single* collection with one 
+call. Within the ``bulkWrite()`` function, you can specify one or more of 
+the following write operations:
+
+- insertOne
+- updateOne
+- updateMany
+- deleteOne
+- deleteMany
+- replaceOne
+
+.. note::
+
+   The ``bulkWrite()`` function operates on a single collection. 
+
+Usage
+-----
+
+Example
+~~~~~~~
+
+To call the ``collection.bulkWrite()`` action from a
+:doc:`Function </functions>`, get a collection handle with
+:method:`database.collection()` then call the handle's
+``bulkWrite()`` function.
+
+.. include:: /mongodb/crud-snippets/bulkWrite/functions.rst
+
+Parameters
+~~~~~~~~~~
+
+The ``collection.bulkWrite()`` action has the following form:
+
+.. code-block:: javascript
+
+   bulkWrite(operations, options)
+
+.. include:: /includes/extracts/mongodb-action-params-bulkWrite.rst
+
+Return Value
+~~~~~~~~~~~~
+The ``collection.bulkWrite()`` function returns a 
+:mdn:`Promise <Web/JavaScript/Reference/Global_Objects/Promise>`.
+
