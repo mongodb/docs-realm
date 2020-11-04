@@ -137,7 +137,7 @@ You can configure the following constraints for a given property:
 .. list-table::
    :header-rows: 1
    :widths: 20 80
-   
+
    * - Parameter
      - Description
 
@@ -146,12 +146,13 @@ You can configure the following constraints for a given property:
        type. A property's type can be a primitive data type or an object
        type defined in the same {+realm+}. The type also specifies whether
        the property contains a single value or a list of values.
-       
+
        {+client-database+} supports the following primitive data types:
 
        - Boolean
        - Integer
        - Double
+       - Decimal128
        - String
        - Date
        - Data
@@ -166,7 +167,7 @@ You can configure the following constraints for a given property:
      - If a client application creates a new object that does not have a
        value for a defined property, the object uses the default value
        instead.
-       
+
        Objects that are missing a required field without a defined
        default value will fail validation when you attempt to create
        them and will not persist to the {+realm+}.
