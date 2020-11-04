@@ -1,0 +1,43 @@
+.. _node-link-user-identities:
+
+====================
+Link User Identities
+====================
+
+Overview
+--------
+
+{+service+} provides :ref:`multiple ways <authentication-providers>` for users
+to log into your application. Because each method of authentication corresponds
+to a unique user identity, {+service-short+} lets you merge multiple identities
+corresponding to a single user into one user identity.
+
+Example
+-------
+
+Consider an application that enables users to authenticate via
+:ref:`anonymous authentication <anonymous-authentication>` so they may explore
+functionality without linking to an existing SSO provider or generating a new
+password. When that user decides to create a full account with an SSO
+provider or email/password authentication, you need some way of persisting the
+user's original anonymous identity with their new permanent identity.
+
+You can link identities using the :js-sdk:`linkCredentials()
+<Realm.User.html#linkCredentials>` method  
+of the ``User`` object of a logged-in User.
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: javascript
+
+      .. literalinclude:: /examples/generated/code/start/link-identities.codeblock.link-identities.js
+         :language: javascript
+         :emphasize-lines: 6
+
+   .. tab::
+      :tabid: typescript
+
+      .. literalinclude:: /examples/generated/code/start/link-identities.codeblock.link-identities.ts
+         :language: typescript
+         :emphasize-lines: 10
