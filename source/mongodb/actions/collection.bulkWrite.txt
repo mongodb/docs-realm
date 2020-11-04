@@ -17,8 +17,20 @@ Definition
 
 .. method:: collection.bulkWrite()
 
-Bulk insert/update/delete multiple documents in a collection within a single 
-API call.
+Bulk insert/update/delete multiple documents in a *single* collection with one 
+call. Within the ``bulkWrite()`` function, you can specify one or more of 
+the following write operations:
+
+- insertOne
+- updateOne
+- updateMany
+- deleteOne
+- deleteMany
+- replaceOne
+
+.. note::
+
+   The ``bulkWrite()`` function operates on a single collection. 
 
 Usage
 -----
