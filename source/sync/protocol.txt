@@ -105,7 +105,7 @@ session by sending :sync-client-message:`BIND` and :sync-client-message:`IDENT`
 requests to the server over the WebSocket connections. Once the session is
 established, the SDK and server send synced changesets for a given
 {+service-short+} file to each other via :sync-client-message:`UPLOAD` and
-:sync-client-message:`DOWNLOAD` messages. To end the session, the SDK sends an
+:sync-server-message:`DOWNLOAD` messages. To end the session, the SDK sends an
 :sync-client-message:`UNBIND` request.
 
 .. code-block:: text
@@ -182,7 +182,7 @@ The following table describes the request types that a sync client can send to a
      - Ends a running sync session.
        
        A client may not send any other requests for an
-       :sync-client-message:`UNBOUND` session.
+       :sync-server-message:`UNBOUND` session.
    
    * - .. sync-client-message:: MARK
      - Requests that the server notify the client when it has synced the latest

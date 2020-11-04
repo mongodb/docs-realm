@@ -57,20 +57,20 @@ title: Realm SDK Uploads & Downloads Sync Changesets
 ref: realm-sdk-uploads-downloads-sync-changesets
 content: |
   Once a sync session is established, the SDK and server can freely send and
-  receive :sync-client-message:`UPLOAD` and :sync-client-message:`DOWNLOAD`
+  receive :sync-client-message:`UPLOAD` and :sync-server-message:`DOWNLOAD`
   messages to sync changes whenever they occur.
 
   The SDK sends an :sync-client-message:`UPLOAD` message for every changeset it
-  applies except for those that it received in a :sync-client-message:`DOWNLOAD`
+  applies except for those that it received in a :sync-server-message:`DOWNLOAD`
   message from the server.
   
   When the server receives an :sync-client-message:`UPLOAD` message, it applies
   :ref:`operational transformations <operational-transformations>` to resolve
   any conflicts with other changesets and then applies the transformed changeset
   to the server version of the realm. This triggers the server to send
-  :sync-client-message:`DOWNLOAD` messages to other connected clients, including
+  :sync-server-message:`DOWNLOAD` messages to other connected clients, including
   the synced Atlas cluster which mirrors the server realm. A
-  :sync-client-message:`DOWNLOAD` message groups one or more transformed
+  :sync-server-message:`DOWNLOAD` message groups one or more transformed
   changesets in chronological order from oldest to most recent according to the
   server's history. The SDK applies the changesets in the same order.
 ---
@@ -79,7 +79,7 @@ ref: realm-sdk-terminates-the-sync-session
 content: |
   Once a sync session is established, Realm servers will continue to accept
   :sync-client-message:`UPLOAD` messages and send
-  :sync-client-message:`DOWNLOAD` messages until the SDK terminates the session.
+  :sync-server-message:`DOWNLOAD` messages until the SDK terminates the session.
   To terminate a sync session, an SDK sends an :sync-client-message:`UNBIND`
   request to the Realm server.
 ...
