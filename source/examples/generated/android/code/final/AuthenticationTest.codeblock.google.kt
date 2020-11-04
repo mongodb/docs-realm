@@ -9,7 +9,7 @@ private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
             if (it.isSuccess) {
                 Log.v(TAG, "Successfully logged in to MongoDB Realm using Google OAuth.")
             } else {
-                Log.e(TAG, "Error logging in: ${it.error.toString()}")
+                Log.e(TAG, "Failed to log in to MongoDB Realm", it.error)
             }
             expectation.fulfill();
         }

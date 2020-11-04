@@ -10,7 +10,7 @@ LoginManager.getInstance().registerCallback(callbackManager,
                 if (it.isSuccess) {
                     Log.v(TAG, "Successfully logged in to MongoDB Realm using Facebook OAuth.")
                 } else {
-                    Log.e(TAG, "Error logging in to MongoDB Realm: ${it.error.toString()}")
+                    Log.e(TAG, "Failed to log in to MongoDB Realm", it.error)
                 }
                 expectation.fulfill();
             }

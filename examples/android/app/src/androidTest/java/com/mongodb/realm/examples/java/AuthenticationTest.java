@@ -180,7 +180,7 @@ public class AuthenticationTest extends RealmTest {
         activity.runOnUiThread(() -> {
             String appID = YOUR_APP_ID;
             App app = new App(new AppConfiguration.Builder(appID)
-            .build());
+                    .build());
             // :code-block-start: facebook
             LoginManager.getInstance().registerCallback(callbackManager,
                 new FacebookCallback<LoginResult>() {
@@ -191,9 +191,9 @@ public class AuthenticationTest extends RealmTest {
                         val facebookCredentials: Credentials = Credentials.facebook(accessToken);
                         app.loginAsync(facebookCredentials, it -> {
                             if (it.isSuccess) {
-                                Log.v(TAG, "Successfully logged in to MongoDB Realm using Facebook OAuth.")
+                                Log.v("AUTH", "Successfully logged in to MongoDB Realm using Facebook OAuth.")
                             } else {
-                                Log.e(TAG, "Error logging in to MongoDB Realm: ${it.error.toString()}")
+                                Log.e("AUTH", "Failed to log in to MongoDB Realm", it.getError())
                             }
                             // :hide-start:
                             expectation.fulfill();
@@ -236,9 +236,9 @@ public class AuthenticationTest extends RealmTest {
                         Assert.assertEquals(false, it.isSuccess());
                         // :hide-end:
                         if (it.isSuccess()) {
-                            Log.v(TAG, "Successfully logged in to MongoDB Realm using Google OAuth.")
+                            Log.v("AUTH", "Successfully logged in to MongoDB Realm using Google OAuth.")
                         } else {
-                            Log.e(TAG, "Error logging in: ${it.error.toString()}")
+                            Log.e("AUTH", "Failed to log in to MongoDB Realm", it.getError())
                         }
                         // :hide-start:
                         expectation.fulfill();
