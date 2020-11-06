@@ -801,7 +801,7 @@ paths:
     get:
       tags: ["users"]
       operationId: "adminListUsers"
-      summary: "List :ref:`users <users>`."
+      summary: "List :ref:`users <user-accounts>`."
       responses:
         '200':
           description: "Successfully listed."
@@ -813,7 +813,7 @@ paths:
     post:
       tags: ["users"]
       operationId: "adminCreateUser"
-      summary: "Create a :ref:`user <users>`."
+      summary: "Create a :ref:`user <user-accounts>`."
       requestBody:
         required: true
         description: The user to create
@@ -838,7 +838,7 @@ paths:
     get:
       tags: ["users"]
       operationId: "adminGetUser"
-      summary: "Retrieve a :ref:`user <users>`."
+      summary: "Retrieve a :ref:`user <user-accounts>`."
       responses:
         '200':
           description: "Successfully retrieved."
@@ -849,7 +849,7 @@ paths:
     delete:
       tags: ["users"]
       operationId: "adminDeleteUser"
-      summary: "Delete a :ref:`user <users>`."
+      summary: "Delete a :ref:`user <user-accounts>`."
       responses:
         '204':
           description: "Successfully deleted."
@@ -879,7 +879,7 @@ paths:
     put:
       tags: ["users"]
       operationId: "adminUserLogout"
-      summary: "Revoke all of a :ref:`user <users>`'s sessions."
+      summary: "Revoke all of a :ref:`user <user-accounts>`'s sessions."
       responses:
         '204':
           description: "Successfully revoked."
@@ -892,7 +892,7 @@ paths:
     put:
       tags: ["users"]
       operationId: "adminEnableUser"
-      summary: "Enable a :ref:`user <users>`."
+      summary: "Enable a :ref:`user <user-accounts>`."
       responses:
         '204':
           description: "Successfully enabled."
@@ -905,7 +905,7 @@ paths:
     put:
       tags: ["users"]
       operationId: "adminDisableUser"
-      summary: "Disable a :ref:`user <users>`."
+      summary: "Disable a :ref:`user <user-accounts>`."
       responses:
         '204':
           description: "Successfully disabled."
@@ -918,7 +918,7 @@ paths:
     delete:
       tags: ["users"]
       operationId: "adminDeletePendingUser"
-      summary: "Delete a pending :ref:`user <users>`."
+      summary: "Delete a pending :ref:`user <user-accounts>`."
       responses:
         '204':
           description: "Successfully deleted."
@@ -944,7 +944,7 @@ paths:
     post:
       tags: ["email"]
       operationId: "adminConfirmPendingUser"
-      summary: "Confirm a pending :ref:`user <users>`."
+      summary: "Confirm a pending :ref:`user <user-accounts>`."
       responses:
         '204':
           description: "Successfully confirmed."
@@ -957,7 +957,7 @@ paths:
     post:
       tags: ["email"]
       operationId: "adminRerunPendingUserConfirmation"
-      summary: "Re-runs a pending :ref:`user's <users>` :ref:`confirmation workflow <email-password-authentication-confirmation>`."
+      summary: "Re-runs a pending :ref:`user's <user-accounts>` :ref:`confirmation workflow <email-password-authentication-confirmation>`."
       responses:
         '202':
           description: "Successfully re-ran confirmation workflow."
