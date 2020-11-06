@@ -26,8 +26,7 @@ You can filter and sort any collection using {+client-database+}'s
 :ref:`query engine <dotnet-client-query-engine>`. Collections are
 :ref:`live <dotnet-live-object>`, so they always reflect the
 current state of the :term:`{+realm+} instance` on the current
-thread. You can also listen for changes in the collection by subscribing
-to :ref:`collection notifications <dotnet-collection-notifications>`.
+thread.
 
 {+client-database+} has two kinds of collections: **lists** and **results**.
 
@@ -69,9 +68,8 @@ There are three cases when a collection is **not** live:
 - The collection is unmanaged, e.g. a List property of a {+service-short+} object that has not been added to a {+realm+} yet or that has been copied from a {+realm+}.
 - The collection is :ref:`frozen <dotnet-frozen-objects>`.
 
-Combined with :ref:`collection notifications
-<dotnet-collection-notifications>`, live collections enable clean,
-reactive code. For example, suppose your view displays the
+Live collections enable clean, reactive code. For example,
+suppose your view displays the
 results of a query. You can keep a reference to the results
 collection in your view class, then read the results
 collection as needed without having to refresh it or
