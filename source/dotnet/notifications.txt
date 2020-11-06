@@ -12,6 +12,22 @@ Notifications
    :depth: 2
    :class: singlecol
 
+.. note::
+
+   Notifications only work when your {+realm+} regularly refreshes.
+   In the Main or UI thread of your application, {+realm+} refreshes
+   happen automatically using a `Looper
+   <https://developer.xamarin.com/api/type/Android.OS.Looper/>`.
+   In background threads, you need to handle this
+   yourself by either calling :dotnet-sdk:`Realm.Refresh()
+   <reference/Realms.Realm.html#Realms_Realm_Refresh>` or installing a
+   `SynchronizationContext
+   <https://msdn.microsoft.com/en-us/library/system.threading.synchronizationcontext(v=vs.110).aspx>`__
+   on the thread before opening the {+realm+}. The third-party library
+   `Nito.AsyncEx.Context <https://www.nuget.org/packages/Nito.AsyncEx.Context/1.1.0>`__
+   provides an even easier method of regularly refreshing background
+   thread {+realm+}s.
+
 Overview
 --------
 
