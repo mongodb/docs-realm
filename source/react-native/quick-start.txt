@@ -210,7 +210,7 @@ user, you can open a synced :ref:`{+realm+} <react-native-realms>`:
              // ...
              console.log(`Logged in with the user: ${user.identity}`);
              const config = {
-               schema: [TaskModel],
+               schema: [Task.schema],
                sync: {
                  user: user, 
                  partitionValue: "myPartition",
@@ -254,9 +254,8 @@ To create a new Task run the method "realm.create()" inside the
 
          realm.write(() => {
            realm.create("Task", {
-             _id: new mongodb.ObjectID(),
+             _id: new ObjectId(),
              name: "go grocery shopping",
-             description: "buy milk, eggs, bread",
              status: "Open",
            });
          });
