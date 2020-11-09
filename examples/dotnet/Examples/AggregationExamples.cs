@@ -33,7 +33,7 @@ namespace UnitTests
         {
             app = App.Create(myRealmAppId);
             user = app.LogInAsync(Credentials.EmailPassword("foo@foo.com", "foobar")).Result;
-            config = new SyncConfiguration("myPartition", user);
+            config = new SyncConfiguration("myPart", user);
             mongoClient = user.GetMongoClient("mongodb-atlas");
             dbPlantInventory = mongoClient.GetDatabase("inventory");
             plantsCollection = dbPlantInventory.GetCollection<Plant>("plants");
@@ -236,7 +236,6 @@ namespace UnitTests
         [OneTimeTearDown]
         public async Task TearDown()
         {
-            config = new SyncConfiguration("myPartition", user);
             await plantsCollection.DeleteManyAsync();
             return;
         }

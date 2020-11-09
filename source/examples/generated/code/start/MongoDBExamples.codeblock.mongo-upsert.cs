@@ -1,4 +1,5 @@
-var filter = new BsonDocument("name", "Pothos")
+var filter = new BsonDocument()
+    .Add("name", "Pothos")
     .Add("type", PlantType.Perennial)
     .Add("sunlight", Sunlight.Full);
 

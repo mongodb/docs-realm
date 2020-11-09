@@ -8,16 +8,25 @@ namespace Examples
 {
     public class OneToOneRelationship
     {
+        [MapTo("PersonTwo")]
         // :code-block-start: one-to-one
         public class Person : RealmObject
         {
+            [PrimaryKey]
+            [MapTo("_id")]
+            public ObjectId Id { get; set; }
             public string Name { get; set; }
             public DateTimeOffset Birthdate { get; set; }
             public Dog Dog { get; set; }
         }
-
+        //:hide-start:
+        [MapTo("DogTwo")]
+        //:hide-end:
         public class Dog : RealmObject
         {
+            [PrimaryKey]
+            [MapTo("_id")]
+            public ObjectId Id { get; set; }
             public string Name { get; set; }
             public int Age { get; set; }
             public string Breed { get; set; }
@@ -40,16 +49,25 @@ namespace Examples
             });
             // :code-block-end:
         }
+        [MapTo("PersonThree")]
         // :code-block-start: one-to-many
         public class Person : RealmObject
         {
+            [PrimaryKey]
+            [MapTo("_id")]
+            public ObjectId Id { get; set; }
             public string Name { get; set; }
             public DateTimeOffset Birthdate { get; set; }
             public IList<Dog> Dogs { get; }
         }
-
+        //:hide-start:
+        [MapTo("DogThree")]
+        //:hide-end:
         public class Dog : RealmObject
         {
+            [PrimaryKey]
+            [MapTo("_id")]
+            public ObjectId Id { get; set; }
             public string Name { get; set; }
             public int Age { get; set; }
             public string Breed { get; set; }
@@ -59,6 +77,7 @@ namespace Examples
 
     public class InverseRelationship
     {
+        [MapTo("UserTwo")]
         // :code-block-start: inverse
         public class User : RealmObject
         {
@@ -70,7 +89,9 @@ namespace Examples
 
             public IList<Task> Tasks { get; }
         }
-
+        //:hide-start:
+        [MapTo("AnudderTask")]
+        //:hide-end:
         public class Task : RealmObject
         {
             [PrimaryKey]

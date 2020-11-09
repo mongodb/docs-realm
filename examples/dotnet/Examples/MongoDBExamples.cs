@@ -25,7 +25,7 @@ namespace UnitTests
         {
             app = App.Create(myRealmAppId);
             user = await app.LogInAsync(Credentials.EmailPassword("foo@foo.com", "foobar"));
-            config = new SyncConfiguration("myPartition", user);
+            config = new SyncConfiguration("myPart", user);
 
             // :code-block-start: mongo-setup
             mongoClient = user.GetMongoClient("mongodb-atlas");
@@ -182,7 +182,7 @@ namespace UnitTests
         [OneTimeTearDown]
         public async Task TearDown()
         {
-            config = new SyncConfiguration("myPartition", user);
+            config = new SyncConfiguration("myPart", user);
             using var realm = await Realm.GetInstanceAsync(config);
             {
                 // :code-block-start: mongo-delete-one

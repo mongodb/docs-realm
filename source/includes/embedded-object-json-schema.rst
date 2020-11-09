@@ -8,7 +8,7 @@ embedded objects map to embedded documents in the parent type's
    {
      "title": "Contact",
      "bsonType": "object",
-     "required": ["_id", "name", "address"],
+     "required": ["_id"],
      "properties": {
        "_id": "objectId",
        "name": "string",

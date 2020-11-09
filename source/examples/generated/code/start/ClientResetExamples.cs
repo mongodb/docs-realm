@@ -25,7 +25,7 @@ namespace UnitTests
 
             user = app.LogInAsync(Credentials.EmailPassword("foo@foo.com", "foobar")).Result;
  
-            config = new SyncConfiguration("myPartition", user);
+            config = new SyncConfiguration("myPart", user);
             var realm = await Realm.GetInstanceAsync(config);
 
             Session.Error += (sender, err) =>

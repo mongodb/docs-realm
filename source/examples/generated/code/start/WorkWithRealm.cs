@@ -18,10 +18,23 @@ namespace UnitTests
         SyncConfiguration config;
         string myRealmAppId = "tuts-tijya";
 
-        [Test]
+        [OneTimeSetUp]
+        public async System.Threading.Tasks.Task Setup()
+        {
+            var appConfig = new AppConfiguration(myRealmAppId)
+            {
+                LogLevel = LogLevel.Debug,
+                DefaultRequestTimeout = TimeSpan.FromMilliseconds(1500)
+            };
+
+            app = App.Create(appConfig);
+            user = await app.LogInAsync(Credentials.EmailPassword("foo@foo.com", "foobar"));
+            return;
+        }
+
         public async System.Threading.Tasks.Task LotsaStuff()
         {
-            string userEmail = "";
+            string userEmail = "bob@bob.com";
 
             var myRealmAppId = "<your_app_id>";
             var app = App.Create(myRealmAppId);
@@ -43,9 +56,9 @@ namespace UnitTests
               "<security-question-1-answer>",
               "<security-question-2-answer>");
 
+            er = await app.LogInAsync(Credentials.EmailPassword("foo@foo.com", "foobar"));
         }
 
-        [Tes
         publ async System.Threading.Tasks.Task APIKeys()
         {
             
