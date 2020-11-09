@@ -9,7 +9,7 @@ class OpenCloseRealm: AnonymouslyLoggedInTestCase {
         let app = App(id: YOUR_REALM_APP_ID)
         // Log in...
         let user = app.currentUser
-        let partitionValue = "myPartition"
+        let partitionValue = "some partition value"
         Realm.asyncOpen(configuration: user!.configuration(partitionValue: partitionValue)) { result in
             switch result {
             case .failure(let error):
