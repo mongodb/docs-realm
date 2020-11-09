@@ -8,7 +8,6 @@ public class User : RealmObject
 
     public IList<Task> Tasks { get; }
 }
-
 public class Task : RealmObject
 {
     [PrimaryKey]

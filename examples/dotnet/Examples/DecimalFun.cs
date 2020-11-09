@@ -34,7 +34,7 @@ namespace Examples
             // :hide-start:
             var app = App.Create("tuts-tijya");
             var user = app.LogInAsync(Credentials.EmailPassword("foo@foo.com", "foobar")).Result;
-            var config = new SyncConfiguration("myPartition", user);
+            var config = new SyncConfiguration("myPart", user);
             var realm = Realm.GetInstanceAsync().Result;
             // :hide-end:
             var myInstance = new MyClassWithDecimals();

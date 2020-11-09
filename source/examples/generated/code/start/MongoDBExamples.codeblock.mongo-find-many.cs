@@ -1,2 +1,3 @@
 var allPerennials = await plantsCollection.FindAsync(
-    new BsonDocument("type", PlantType.Perennial.ToString()), null);
+    new {type = PlantType.Perennial.ToString() },
+    new { name = 1 });

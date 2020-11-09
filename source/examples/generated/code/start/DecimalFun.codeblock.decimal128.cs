@@ -1,5 +1,7 @@
-public class MyClassWithDecimals : RealmObject
-{
+public class MyClassWithDecimals { 
+    [PrimaryKey]
+    public ObjectId _id { get; } = ObjectId.GenerateNewId();
+
     // Standard (96-bit) decimal value type
     public decimal VeryPreciseNumber { get; set; }
 
@@ -24,13 +26,5 @@ public class MyClassWithDecimals : RealmObject
             myInstance.EvenMorePreciseNumber = new Decimal128(9.99999);
         });
 
-        // To query decimal values:
-        var largerThanFive = realm.All<MyClassWithDecimals>()
-                                  .Where(o => o.VeryPreciseNumber > 5)
-                                  .OrderBy(o => o.EvenMorePreciseNumber);
-
-        var smallerThanZero = realm.All<MyClassWithDecimals>()
-                                   .Where(o => o.EvenMorePreciseNumber < 0)
-                                   .OrderByDescending(o => o.VeryPreciseNumber);
     }
 }

@@ -8,15 +8,21 @@ namespace Examples
 {
     public class OneToOneRelationship
     {
+        [MapTo("PersonTwo")]
         public class Person : RealmObject
         {
+            [PrimaryKey]
+            [MapTo("_id")]
+            public ObjectId Id { get; set; }
             public string Name { get; set; }
             public DateTimeOffset Birthdate { get; set; }
             public Dog Dog { get; set; }
         }
-
         public class Dog : RealmObject
         {
+            [PrimaryKey]
+            [MapTo("_id")]
+            public ObjectId Id { get; set; }
             public string Name { get; set; }
             public int Age { get; set; }
             public string Breed { get; set; }
@@ -36,15 +42,21 @@ namespace Examples
                 Breed = "mutt"
             });
         }
+        [MapTo("PersonThree")]
         public class Person : RealmObject
         {
+            [PrimaryKey]
+            [MapTo("_id")]
+            public ObjectId Id { get; set; }
             public string Name { get; set; }
             public DateTimeOffset Birthdate { get; set; }
             public IList<Dog> Dogs { get; }
         }
-
         public class Dog : RealmObject
         {
+            [PrimaryKey]
+            [MapTo("_id")]
+            public ObjectId Id { get; set; }
             public string Name { get; set; }
             public int Age { get; set; }
             public string Breed { get; set; }
@@ -53,6 +65,7 @@ namespace Examples
 
     public class InverseRelationship
     {
+        [MapTo("UserTwo")]
         public class User : RealmObject
         {
             [PrimaryKey]
@@ -63,7 +76,6 @@ namespace Examples
 
             public IList<Task> Tasks { get; }
         }
-
         public class Task : RealmObject
         {
             [PrimaryKey]

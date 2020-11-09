@@ -27,7 +27,7 @@ namespace UnitTests
             // :code-block-end:
             user = app.LogInAsync(Credentials.EmailPassword("foo@foo.com", "foobar")).Result;
             // :code-block-start: open-synced-realm
-            config = new SyncConfiguration("myPartition", user);
+            config = new SyncConfiguration("myPart", user);
             var realm = await Realm.GetInstanceAsync(config);
             // :code-block-end:
             // :code-block-start: open-synced-realm-sync
@@ -47,11 +47,11 @@ namespace UnitTests
             // :code-block-end:
             testTaskId = testTask.Id;
 
-            var schemas = config.ObjectClasses;
+           /* var schemas = config.ObjectClasses;
             foreach (var schema in schemas)
             {
                 Console.WriteLine(schema.FullName);
-            }
+            }*/
 
 
             return;
@@ -100,7 +100,7 @@ namespace UnitTests
             var user = await app.LogInAsync(Credentials.Anonymous());
             // :code-block-end:
             // :code-block-start: config
-            config = new SyncConfiguration("myPartition", user);
+            config = new SyncConfiguration("myPart", user);
             var realm = await Realm.GetInstanceAsync(config);
             // :code-block-end:
             // :code-block-start: read-all
@@ -118,16 +118,17 @@ namespace UnitTests
         public async System.Threading.Tasks.Task ScopesARealm()
         {
             // :code-block-start: scope
-            config = new SyncConfiguration("myPartition", user);
-            using var realm = await Realm.GetInstanceAsync(config);
-            var allTasks = realm.All<Task>();
+            config = new SyncConfiguration("myPart", user);
+            using (var realm = await Realm.GetInstanceAsync(config)) { 
+                var allTasks = realm.All<Task>();
+            }
             // :code-block-end:
         }
 
         [Test]
         public async System.Threading.Tasks.Task ModifiesATask()
         {
-            config = new SyncConfiguration("myPartition", user);
+            config = new SyncConfiguration("myPart", user);
             var realm = await Realm.GetInstanceAsync(config);
             // :code-block-start: modify
             var t = realm.All<Task>()
@@ -239,27 +240,30 @@ namespace UnitTests
         [Test]
         public async System.Threading.Tasks.Task CallsAFunction()
         {
-            // :code-block-start: callfunc
-            var bsonValue = await
-                user.Functions.CallAsync("sum", 2, 40);
+            try
+            {
+                // :code-block-start: callfunc
+                var bsonValue = await
+                    user.Functions.CallAsync("sum", 2, 40);
 
-            // The result must now be cast to Int32:
-            var sum = bsonValue.ToInt32();
+                // The result must now be cast to Int32:
+                var sum = bsonValue.ToInt32();
 
-            // Or use the generic overloads to avoid casting the BsonValue:
-            sum = await
-               user.Functions.CallAsync<int>("sum", 2, 40);
-            // :code-block-end:
-            Assert.AreEqual(42, sum);
-            // :code-block-start: callfuncWithPOCO
-            var task = await user.Functions.CallAsync<MyClass>
-                ("getTask", "5f7f7638024a99f41a3c8de4");
+                // Or use the generic overloads to avoid casting the BsonValue:
+                sum = await
+                   user.Functions.CallAsync<int>("sum", 2, 40);
+                // :code-block-end:
+                Assert.AreEqual(42, sum);
+                // :code-block-start: callfuncWithPOCO
+                var task = await user.Functions.CallAsync<MyClass>
+                    ("getTask", "5f7f7638024a99f41a3c8de4");
 
-            var name = task.Name;
-            // :code-block-end:
-            return;
-
-            //{ "_id":{ "$oid":"5f0f69dc4eeabfd3366be2be"},"_partition":"myPartition","name":"do this NOW","status":"Closed"}
+                var name = task.Name;
+                // :code-block-end:
+                return;
+            }
+            catch (Exception e) { }
+            //{ "_id":{ "$oid":"5f0f69dc4eeabfd3366be2be"},"_partition":"myPart","name":"do this NOW","status":"Closed"}
         }
 
         [Test]
@@ -298,7 +302,7 @@ namespace UnitTests
         [OneTimeTearDown]
         public async System.Threading.Tasks.Task TearDown()
         {
-            config = new SyncConfiguration("myPartition", user);
+            config = new SyncConfiguration("myPart", user);
             using (var realm = await Realm.GetInstanceAsync(config))
             {
                 var myTask = new Task();
@@ -334,9 +338,14 @@ namespace UnitTests
         }
     }
 
+    [MapTo("DogOne")]
     // :code-block-start: dog_class
     public class Dog : RealmObject
     {
+        [PrimaryKey]
+        [MapTo("_id")]
+        public ObjectId Id { get; set; }
+
         [Required]
         public string Name { get; set; }
 
@@ -345,18 +354,26 @@ namespace UnitTests
         public IList<Person> Owners { get; }
     }
 
+    //:hide-start:
+    [MapTo("PersonOne")]
+    //:hide-end:
     public class Person : RealmObject
     {
+        [PrimaryKey]
+        [MapTo("_id")]
+        public ObjectId Id { get; set; }
+
         [Required]
         public string Name { get; set; }
         //etc...
-    }
-    /*  To add items to the IList<T>:
-     
+
+        /* To add items to the IList<T>:
+
         var dog = new Dog();
         var caleb = new Person { Name = "Caleb" };
         dog.Owners.Add(caleb);
-        
-     */
+
+        */
+    }
     // :code-block-end:
 }

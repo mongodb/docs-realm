@@ -1,9 +1,9 @@
-Contact oldContact = realm.All<Contact>() // Find the first contact
-    .OrderBy(c => c.Name)
-    .FirstOrDefault();
+var oldContact = realm.All<Contact>() // Find the first contact
+.OrderBy(c => c.Name)
+.FirstOrDefault();
 
 
-Address newAddress = new Address() // Create an Address
+var newAddress = new Address() // Create an Address
 {
     Street = "100 Main Street",
     City = "Los Angeles",
