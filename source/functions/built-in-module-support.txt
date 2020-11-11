@@ -48,7 +48,6 @@ Fully Supported Modules
 - :nodejs:`tls <docs/v10.18.1/api/tls.html>`
 - :nodejs:`tty <docs/v10.18.1/api/tty.html>`
 - :nodejs:`url <docs/v10.18.1/api/url.html>`
-- :nodejs:`util <docs/v10.18.1/api/util.html>`
 - :nodejs:`zlib <docs/v10.18.1/api/zlib.html>`
 
 .. _partially-supported-modules:
@@ -59,6 +58,16 @@ Partially Supported Modules
 {+service+} supports a subset of the functionality of the following modules.
 
 .. _partially-supported-module-dns:
+
+
+
+
+util
+~~~~
+{+service-short+} supports the :nodejs:`util <docs/v10.18.1/api/util.html>` module with the following **exceptions**:
+
+- {+service-short+} does **not** support :nodejs:`util.TextEncoder <docs/v10.18.1/api/util.html#util_class_util_textencoder>` 
+- {+service-short+} does **not** support :nodejs:`util.TextDecoder <docs/v10.18.1/api/util.html#util_class_util_textdecoder>` 
 
 dns
 ~~~
