@@ -1,17 +1,7 @@
-// Define the dog class.
-public class Dog : RealmObject
+var theKing = realm.All<Person>()
+    .FirstOrDefault(p => p.Name == "Elvis Presley");
+
+theKing.PropertyChanged += (s, e) =>
 {
-    [MapTo("name")]
-    public string Name { get; set; }
-
-    // etc..
-}
-
-// ... elsewhere:
-
-    // Observe object notifications.
-    dog.PropertyChanged += (sender, eventArgs) =>
-    {
-        Debug.WriteLine($"New value set for '{eventArgs.PropertyName}'");
-    };
-}
+    Debug.WriteLine($"New value set for The King: {eventArgs.PropertyName}");
+};
