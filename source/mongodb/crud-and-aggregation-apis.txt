@@ -521,15 +521,23 @@ Query Option Availability
 Aggregation
 -----------
 
+Aggregation Methods
+~~~~~~~~~~~~~~~~~~~
+
+{+service+} supports aggregation on the both the database and collection level
+using the following commands:
+
+- :manual:`db.aggregate() </reference/method/db.aggregate>`
+- :manual:`db.collection.aggregate() </reference/method/db.collection.aggregate>`
+
 Aggregation Pipeline Stage Availability
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-{+service+} does not support the following :manual:`aggregation pipeline
-stages </reference/operator/aggregation-pipeline/>` when you :doc:`run
-an aggregation pipeline </mongodb/run-aggregation-pipelines>` in the
-context of an :ref:`application user <user-accounts>`. All aggregation
-pipeline stages are available to the system user except ``$indexStats``
-and ``$currentOp``.
+{+service+} does not support the following :manual:`aggregation pipeline stages
+</reference/operator/aggregation-pipeline/>` when you :doc:`run an aggregation
+pipeline </mongodb/run-aggregation-pipelines>` in the context of an
+:ref:`application user <user-accounts>`. All aggregation pipeline stages are
+available to the system user except for ``$indexStats``.
 
 .. cssclass:: config-table
 .. list-table::
@@ -546,7 +554,7 @@ and ``$currentOp``.
 
    * - :manual:`$currentOp </reference/operator/aggregation/currentOp/>`
      - No
-     - No
+     - Yes
 
    * - :manual:`$facet </reference/operator/aggregation/facet/>`
      - No
@@ -590,6 +598,13 @@ and ``$currentOp``.
      - Yes
      - Yes
 
+.. note::
+   
+   By default, ``$merge`` and ``$out`` route the entire aggregation operation to
+   the cluster's primary node. If you want to force these stages to respect your
+   configured cluster read preference, set the ``enforceReadPref`` option to
+   ``true``.
+
 Aggregation Pipeline Operator Availability
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -628,6 +643,10 @@ The following :manual:`database commands </reference/command>` are
 partially supported over the wire protocol. Unsupported options for each
 command are listed below.
 
+.. note::
+   
+   {+service-short+} apps cannot run commands on the ``admin`` database.
+
 Database Command Availability
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -638,6 +657,7 @@ Database Command Availability
 
    * - Command
      - Unsupported Options
+     - Realm-Specific Options
 
    * - :manual:`find </reference/command/find>`
      - .. hlist::
@@ -660,11 +680,12 @@ Database Command Availability
           - ``noCursorTimeout``
           - ``allowPartialResults``
           - ``collation``
+     - 
 
    * - :manual:`aggregate </reference/command/aggregate>`
      - .. hlist::
           :columns: 2
-
+          
           - ``explain``
           - ``allowDiskUse``
           - ``maxTimeMS``
@@ -674,6 +695,10 @@ Database Command Availability
           - ``hint``
           - ``comment``
           - ``writeConcern``
+     - .. hlist::
+          :columns: 2
+          
+          - ``enforceReadPref``
 
    * - :manual:`count </reference/command/count>`
      - .. hlist::
@@ -683,6 +708,7 @@ Database Command Availability
           - ``skip``
           - ``hint``
           - ``readConcern``
+     - 
 
    * - :manual:`insert </reference/command/insert>`
      - .. hlist::
@@ -690,6 +716,7 @@ Database Command Availability
 
           - ``writeConcern``
           - ``bypassDocumentValidation``
+     - 
 
    * - :manual:`update </reference/command/update>`
      - .. hlist::
@@ -698,9 +725,11 @@ Database Command Availability
           - ``bypassDocumentValidation``
           - ``collation``
           - ``arrayFilters``
+     - 
 
    * - :manual:`delete </reference/command/delete>`
      - .. hlist::
           :columns: 1
 
           - ``collation``
+     - 
