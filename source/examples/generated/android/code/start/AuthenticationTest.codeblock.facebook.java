@@ -1,27 +1,31 @@
+FacebookSdk.setApplicationId("YOUR FACEBOOK SDK APP ID");
+FacebookSdk.sdkInitialize(activity);
+CallbackManager callbackManager = CallbackManager.Factory.create();
 LoginManager.getInstance().registerCallback(callbackManager,
     new FacebookCallback<LoginResult>() {
         @Override
         public void onSuccess(LoginResult loginResult) {
             // Signed in successfully, forward credentials to MongoDB Realm.
-            val accessToken = loginResult.getAccessToken();
-            val facebookCredentials: Credentials = Credentials.facebook(accessToken);
+            AccessToken accessToken = loginResult.getAccessToken();
+            Credentials facebookCredentials = Credentials.facebook(accessToken.getToken());
             app.loginAsync(facebookCredentials, it -> {
-                if (it.isSuccess) {
-                    Log.v("AUTH", "Successfully logged in to MongoDB Realm using Facebook OAuth.")
+                if (it.isSuccess()) {
+                    Log.v("AUTH", "Successfully logged in to MongoDB Realm using Facebook OAuth.");
                 } else {
-                    Log.e("AUTH", "Failed to log in to MongoDB Realm", it.getError())
+                    Log.e("AUTH", "Failed to log in to MongoDB Realm", it.getError());
                 }
-            })
+            });
         }
         
         @Override
         public void onCancel() {
-            // App code
+            Log.v("AUTH", "Facebook authentication cancelled.");
         }
         
         @Override
         public void onError(FacebookException exception) {
-            // App code
+            Log.e("AUTH", "Failed to authenticate using Facebook: " + exception.getMessage());
         }
     }
 );
+LoginManager.getInstance().logIn(activity, null);

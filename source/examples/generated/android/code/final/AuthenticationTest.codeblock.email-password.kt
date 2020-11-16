@@ -4,7 +4,10 @@ val app: App = App(
         .build()
 )
 
-val emailPasswordCredentials: Credentials = Credentials.emailPassword("<email>", "<password>")
+val emailPasswordCredentials: Credentials = Credentials.emailPassword(
+    "<email>",
+    "<password>"
+)
 
 var user: User? = null
 app.loginAsync(emailPasswordCredentials) {

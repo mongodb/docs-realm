@@ -2,6 +2,15 @@ package com.mongodb.realm.examples.java;
 
 import android.util.Log;
 
+import androidx.test.core.app.ActivityScenario;
+
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
 import com.mongodb.realm.examples.Expectation;
 import com.mongodb.realm.examples.RealmTest;
 
@@ -136,71 +145,47 @@ public class AuthenticationTest extends RealmTest {
 
     @Test
     public void testFacebookOAuth() {
-        Expectation expectation = new Expectation();
         activity.runOnUiThread(() -> {
             String appID = YOUR_APP_ID;
             App app = new App(new AppConfiguration.Builder(appID)
                     .build());
+             FacebookSdk.setApplicationId("YOUR FACEBOOK SDK APP ID");
+            FacebookSdk.sdkInitialize(activity);
+            CallbackManager callbackManager = CallbackManager.Factory.create();
             LoginManager.getInstance().registerCallback(callbackManager,
                 new FacebookCallback<LoginResult>() {
                     @Override
                     public void onSuccess(LoginResult loginResult) {
                         // Signed in successfully, forward credentials to MongoDB Realm.
-                        val accessToken = loginResult.getAccessToken();
-                        val facebookCredentials: Credentials = Credentials.facebook(accessToken);
+                        AccessToken accessToken = loginResult.getAccessToken();
+                        Credentials facebookCredentials = Credentials.facebook(accessToken.getToken());
                         app.loginAsync(facebookCredentials, it -> {
-                            if (it.isSuccess) {
-                                Log.v("AUTH", "Successfully logged in to MongoDB Realm using Facebook OAuth.")
+                            if (it.isSuccess()) {
+                                Log.v("AUTH", "Successfully logged in to MongoDB Realm using Facebook OAuth.");
                             } else {
-                                Log.e("AUTH", "Failed to log in to MongoDB Realm", it.getError())
+                                Log.e("AUTH", "Failed to log in to MongoDB Realm", it.getError());
                             }
-                        })
+                        });
                     }
                     
                     @Override
                     public void onCancel() {
-                        // App code
+                        Log.v("AUTH", "Facebook authentication cancelled.");
                     }
                     
                     @Override
                     public void onError(FacebookException exception) {
-                        // App code
+                        Log.e("AUTH", "Failed to authenticate using Facebook: " + exception.getMessage());
                     }
                 }
             );
+            LoginManager.getInstance().logIn(activity, null);
         });
-        expectation.await();
     }
 
     @Test
     public void testGoogleOAuth() {
-        Expectation expectation = new Expectation();
-        activity.runOnUiThread(() -> {
-            String appID = YOUR_APP_ID; // replace this with your App ID
-            App app = new App(new AppConfiguration.Builder(appID)
-                    .build());
-            private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
-                try {
-                    GoogleSignInAccount account = completedTask.getResult(ApiException.class);
-                    // Signed in successfully, forward credentials to MongoDB Realm.
-                    String authorizationCode = account.getServerAuthCode();
-                    Credentials googleCredentials = Credentials.google(authorizationCode);
-                    app.loginAsync(googleCredentials, it -> {
-                        if (it.isSuccess()) {
-                            Log.v("AUTH", "Successfully logged in to MongoDB Realm using Google OAuth.")
-                        } else {
-                            Log.e("AUTH", "Failed to log in to MongoDB Realm", it.getError())
-                        }
-                    })
-                } catch (ApiException e) {
-                    // The ApiException status code indicates the detailed failure reason.
-                    // Please refer to the GoogleSignInStatusCodes class reference for more information.
-                    Log.w(TAG, "signInResult:failed code=" + e.getStatusCode());
-                    updateUI(null);
-                }
-            }
-        });
-        expectation.await();
+        ActivityScenario.launch(AuthActivity.class);
     }
 
     @Test

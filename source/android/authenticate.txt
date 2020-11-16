@@ -257,14 +257,14 @@ create a {+service-short+} Facebook credential and then log the user into your
 
       .. literalinclude:: /examples/generated/android/code/start/AuthenticationTest.codeblock.facebook.java
          :language: java
-         :emphasize-lines: 7, 8
+         :emphasize-lines: 10-17
    
    .. tab::
       :tabid: kotlin
 
       .. literalinclude:: /examples/generated/android/code/start/AuthenticationTest.codeblock.facebook.kt
          :language: kotlin
-         :emphasize-lines: 7, 8
+         :emphasize-lines: 10-21
 
 .. _android-login-google:
 
@@ -282,24 +282,24 @@ Follow the official :google:`Google Sign-In for Android Integration Guide
 for your application. In the sign-in completion handler, get the logged in
 user's authorization code from the :google:`GoogleSignInAccount
 <android/reference/com/google/android/gms/auth/api/signin/GoogleSignInAccount>`
-object. Use the access token to create a {+service-short+} Google credential and
-then log the user into your {+service-short+} app.
+object. Use the authorization code to create a {+service-short+} Google
+credential and then log the user into your {+service-short+} app.
 
 .. tabs-realm-languages::
    
    .. tab::
       :tabid: java
 
-      .. literalinclude:: /examples/generated/android/code/start/AuthenticationTest.codeblock.google.java
+      .. literalinclude:: /examples/generated/android/code/start/AuthActivity.codeblock.google.java
          :language: java
-         :emphasize-lines: 6, 7
+         :emphasize-lines: 26-33
    
    .. tab::
       :tabid: kotlin
 
-      .. literalinclude:: /examples/generated/android/code/start/AuthenticationTest.codeblock.google.kt
+      .. literalinclude:: /examples/generated/android/code/start/AuthActivity.codeblock.google.kt
          :language: kotlin
-         :emphasize-lines: 6, 7
+         :emphasize-lines: 26-36
 
 .. _android-login-apple:
 

@@ -1,6 +1,13 @@
 package com.mongodb.realm.examples.kotlin
 
 import android.util.Log
+import androidx.test.core.app.ActivityScenario
+import com.facebook.CallbackManager
+import com.facebook.FacebookCallback
+import com.facebook.FacebookException
+import com.facebook.FacebookSdk
+import com.facebook.login.LoginManager
+import com.facebook.login.LoginResult
 import com.mongodb.realm.examples.Expectation
 import com.mongodb.realm.examples.RealmTest
 import com.mongodb.realm.examples.YOUR_APP_ID
@@ -9,8 +16,8 @@ import io.realm.mongodb.AppConfiguration
 import io.realm.mongodb.Credentials
 import io.realm.mongodb.User
 import org.junit.Assert
-
 import org.junit.Test
+
 
 class AuthenticationTest : RealmTest() {
     @Test fun testAnonymous() {
@@ -48,7 +55,10 @@ class AuthenticationTest : RealmTest() {
                     .build()
             )
 
-            val emailPasswordCredentials: Credentials = Credentials.emailPassword("<email>", "<password>")
+            val emailPasswordCredentials: Credentials = Credentials.emailPassword(
+                "<email>",
+                "<password>"
+            )
 
             var user: User? = null
             app.loginAsync(emailPasswordCredentials) {
@@ -101,7 +111,7 @@ class AuthenticationTest : RealmTest() {
             )
 
             val customFunctionCredentials:
-                    Credentials = Credentials.customFunction(org.bson.Document("username","bob"))
+                    Credentials = Credentials.customFunction(org.bson.Document("username", "bob"))
 
             var user: User? = null
             app.loginAsync(customFunctionCredentials) {
@@ -147,84 +157,60 @@ class AuthenticationTest : RealmTest() {
     }
 
     @Test fun testFacebookOAuth() {
-        var expectation : Expectation = Expectation()
         activity?.runOnUiThread {
             val appID = YOUR_APP_ID
             val app: App = App(
                 AppConfiguration.Builder(appID)
                     .build()
             )
-            LoginManager.getInstance().registerCallback(callbackManager,
-                FacebookCallback<LoginResult>() {
-                    @Override
-                    public void onSuccess(LoginResult loginResult) {
+            FacebookSdk.setApplicationId("960466841104579")
+            FacebookSdk.sdkInitialize(activity)
+            val callbackManager = CallbackManager.Factory.create()
+            LoginManager.getInstance().registerCallback(
+                callbackManager,
+                object : FacebookCallback<LoginResult> {
+                    override fun onSuccess(loginResult: LoginResult) {
                         // Signed in successfully, forward credentials to MongoDB Realm.
-                        val accessToken = loginResult.getAccessToken();
-                        val facebookCredentials: Credentials = Credentials.facebook(accessToken);
+                        val accessToken = loginResult.accessToken
+                        val facebookCredentials: Credentials =
+                            Credentials.facebook(accessToken.token)
                         app.loginAsync(facebookCredentials) {
                             Assert.assertEquals(false, it.isSuccess)
                             if (it.isSuccess) {
-                                Log.v(TAG, "Successfully logged in to MongoDB Realm using Facebook OAuth.")
+                                Log.v(
+                                    "AUTH",
+                                    "Successfully logged in to MongoDB Realm using Facebook OAuth."
+                                )
                             } else {
-                                Log.e(TAG, "Failed to log in to MongoDB Realm", it.error)
+                                Log.e("AUTH", "Failed to log in to MongoDB Realm", it.error)
                             }
-                            expectation.fulfill();
                         }
                     }
-                    
-                    @Override
-                    public void onCancel() {
-                          // App code
+
+                    override fun onCancel() {
+                        Log.v("AUTH", "Cancelled Facebook login")
                     }
-                    
-                    @Override
-                    public void onError(FacebookException exception) {
-                          // App code   
+
+                    override fun onError(exception: FacebookException) {
+                        Log.e("AUTH", "Failed to authenticate with Facebook: ${exception.message}")
                     }
-                }
-            );
+                })
         }
-        expectation.await()
+        LoginManager.getInstance().logIn(activity, null)
     }
 
     @Test fun testGoogleOAuth() {
-        var expectation : Expectation = Expectation()
-        activity?.runOnUiThread {
-            val appID = YOUR_APP_ID
-            val app: App = App(AppConfiguration.Builder(appID)
-                .build())
-            private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
-                try {
-                    val account: GoogleSignInAccount = completedTask.getResult(ApiException.class);
-                    // Signed in successfully, forward credentials to MongoDB Realm.
-                    val authorizationCode: String = account.getServerAuthCode();
-                    val googleCredentials: Credentials = Credentials.google(authorizationCode);
-                    app.loginAsync(googleCredentials) {
-                        Assert.assertEquals(false, it.isSuccess);
-                        if (it.isSuccess) {
-                            Log.v(TAG, "Successfully logged in to MongoDB Realm using Google OAuth.")
-                        } else {
-                            Log.e(TAG, "Failed to log in to MongoDB Realm", it.error)
-                        }
-                        expectation.fulfill();
-                    }
-                } catch (ApiException e) {
-                    // The ApiException status code indicates the detailed failure reason.
-                    // Please refer to the GoogleSignInStatusCodes class reference for more information.
-                    Log.w(TAG, "signInResult:failed code=" + e.getStatusCode());
-                    updateUI(null);
-                }
-            }
-        }
-        expectation.await()
+        ActivityScenario.launch(AuthActivity::class.java)
     }
 
     @Test fun testSignInWithApple() {
         var expectation : Expectation = Expectation()
         activity?.runOnUiThread {
             val appID = YOUR_APP_ID // replace this with your App ID
-            val app: App = App(AppConfiguration.Builder(appID)
-                .build())
+            val app: App = App(
+                AppConfiguration.Builder(appID)
+                    .build()
+            )
 
             // fetch IDToken using Apple SDK
 
