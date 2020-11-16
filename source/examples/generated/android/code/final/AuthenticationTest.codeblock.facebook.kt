@@ -6,7 +6,7 @@ LoginManager.getInstance().registerCallback(
     object : FacebookCallback<LoginResult> {
         override fun onSuccess(loginResult: LoginResult) {
             // Signed in successfully, forward credentials to MongoDB Realm.
-            val accessToken = loginResult.getAccessToken()
+            val accessToken = loginResult.accessToken
             val facebookCredentials: Credentials =
                 Credentials.facebook(accessToken.token)
             app.loginAsync(facebookCredentials) {

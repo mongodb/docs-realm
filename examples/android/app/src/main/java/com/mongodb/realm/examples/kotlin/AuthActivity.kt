@@ -41,7 +41,6 @@ class AuthActivity : AppCompatActivity() {
             .requestEmail()
             .build()
         val googleSignInClient = GoogleSignIn.getClient(this, gso)
-        val account = GoogleSignIn.getLastSignedInAccount(this)
         val signInIntent: Intent = googleSignInClient.signInIntent
         startActivityForResult(signInIntent, RC_SIGN_IN) // RC_SIGN_IN lets onActivityResult identify the result of THIS call
     }

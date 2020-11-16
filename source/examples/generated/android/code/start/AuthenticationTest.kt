@@ -153,7 +153,7 @@ class AuthenticationTest : RealmTest() {
                 AppConfiguration.Builder(appID)
                     .build()
             )
-             FacebookSdk.setApplicationId("YOUR GOOGLE SDK APP ID")
+             FacebookSdk.setApplicationId("YOUR FACEBOOK SDK APP ID")
             FacebookSdk.sdkInitialize(activity)
             val callbackManager = CallbackManager.Factory.create()
             LoginManager.getInstance().registerCallback(
@@ -161,7 +161,7 @@ class AuthenticationTest : RealmTest() {
                 object : FacebookCallback<LoginResult> {
                     override fun onSuccess(loginResult: LoginResult) {
                         // Signed in successfully, forward credentials to MongoDB Realm.
-                        val accessToken = loginResult.getAccessToken()
+                        val accessToken = loginResult.accessToken
                         val facebookCredentials: Credentials =
                             Credentials.facebook(accessToken.token)
                         app.loginAsync(facebookCredentials) {

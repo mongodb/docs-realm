@@ -149,7 +149,7 @@ public class AuthenticationTest extends RealmTest {
             String appID = YOUR_APP_ID;
             App app = new App(new AppConfiguration.Builder(appID)
                     .build());
-             FacebookSdk.setApplicationId("YOUR GOOGLE SDK APP ID");
+             FacebookSdk.setApplicationId("YOUR FACEBOOK SDK APP ID");
             FacebookSdk.sdkInitialize(activity);
             CallbackManager callbackManager = CallbackManager.Factory.create();
             LoginManager.getInstance().registerCallback(callbackManager,
