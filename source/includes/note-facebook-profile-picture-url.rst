@@ -1,4 +1,5 @@
-.. important:: Do Not Store Facebook Profile Picture URLs
+.. admonition:: Do Not Store Facebook Profile Picture URLs
+   :class: important
    
    Facebook profile picture URLs include the user's access token to grant
    permission to the image. To ensure security, do not store a URL that includes

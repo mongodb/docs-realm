@@ -15,13 +15,15 @@ lateinit var taskApp: App
 // of the name of the current class. Used for labelling logs.
 inline fun <reified T> T.TAG(): String = T::class.java.simpleName
 
+const val YOUR_APP_ID = "example-testers-kvjdy"
+
 class CustomApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
         Realm.init(this)
         taskApp = App(
-            AppConfiguration.Builder("app ID") //BuildConfig.MONGODB_REALM_APP_ID)
+            AppConfiguration.Builder(YOUR_APP_ID)
                 .build())
 
         // Enable more logging in debug mode

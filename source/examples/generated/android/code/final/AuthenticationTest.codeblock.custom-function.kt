@@ -5,7 +5,7 @@ val app: App = App(
 )
 
 val customFunctionCredentials:
-        Credentials = Credentials.customFunction(org.bson.Document("username","bob"))
+        Credentials = Credentials.customFunction(org.bson.Document("username", "bob"))
 
 var user: User? = null
 app.loginAsync(customFunctionCredentials) {
