@@ -1,4 +1,4 @@
-name: .NET Core
+name: .NET Core CI Realm Example App
 
 on:
   push:
@@ -16,7 +16,9 @@ jobs:
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 3.1.301
+        dotnet-version: 4.8
+    - name: Install Realm
+      run: cd examples/dotnet && dotnet add Examples package Realm
     - name: Install dependencies
       run: cd examples/dotnet && dotnet restore
     - name: Build
