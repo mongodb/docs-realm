@@ -38,7 +38,7 @@ this:
 
 In the above example, the code shows how to open the {+realm+} *asynchronously*
 by calling ``realm.open()``. You can also open a realm synchronously by passing
-a ``Configuration object`` to a new instance of the :js-sdk:`Realm
+a ``Configuration`` object to a new instance of the :js-sdk:`Realm
 <Realm.html>` object, which is necessary if the device is offline.
 
 .. code-block:: javascript
@@ -54,11 +54,12 @@ a ``Configuration object`` to a new instance of the :js-sdk:`Realm
 
 Open a Local (Non-Synced) Realm
 -------------------------------
-When opening a local (non-synced) {+realm+}, you can pass a
-:js-sdk:`Configuration() <Realm.html#~Configuration>` object, which may include
-the path property defining the local file path to use when storing the data, to
-either :js-sdk:`Realm.open() <Realm.html#.open>` or :js-sdk:`new Realm()
-<Realm.html>`. 
+To open a local (non-synced) {+realm+}, pass a :js-sdk:`Configuration()
+<Realm.html#~Configuration>` object to either :js-sdk:`Realm.open()
+<Realm.html#.open>` or :js-sdk:`new Realm() <Realm.html>`. The following example
+creates a ``Configuration`` object with a path property that defines the local
+file path to store data. 
+
 
 .. code-block:: javascript
 
