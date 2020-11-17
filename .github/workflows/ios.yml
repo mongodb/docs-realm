@@ -12,6 +12,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+      - name: Force XCode 12.2
+        run: sudo xcode-select -switch /Applications/Xcode_12.2.app
       - name: Dependencies
         run: |
           cd examples/ios
