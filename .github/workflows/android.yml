@@ -15,8 +15,6 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 1.8
-    - name: Install NDK
-      run: echo "y" | sudo sdkmanager --install "ndk;21.0.6113669" --sdk_root=${ANDROID_SDK_ROOT}
     - name: run tests
       uses: reactivecircus/android-emulator-runner@v2
       with:
