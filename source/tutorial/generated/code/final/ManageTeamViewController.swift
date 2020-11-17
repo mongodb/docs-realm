@@ -73,12 +73,10 @@ class ManageTeamViewController: UIViewController, UITableViewDelegate, UITableVi
         removeTeamMember(email: members[indexPath.row].name)
     }
     
-    // :code-block-start: fetch-team-members
     // Calls a Realm function to fetch the team members and adds them to the list
     func fetchTeamMembers() {
         // Start loading indicator
         activityIndicator.startAnimating()
-        // :hide-start:
         let user = app.currentUser!
         
         user.functions.getMyTeamMembers([]) { [weak self](result, error) in
@@ -106,45 +104,23 @@ class ManageTeamViewController: UIViewController, UITableViewDelegate, UITableVi
                 self!.tableView.reloadData()
             }
         }
-        // :replace-with:
-        // // TODO: use the app's current user's functions object to call the getMyTeamMembers function
-        // // on the backend. Create Member objects to represent the result in the completion handler
-        // // and reload the table data to refresh the view.
-        // :hide-end:
     }
-    // :code-block-end:
     
-    // :code-block-start: add-team-member
     func addTeamMember(email: String) {
         print("Adding member: \(email)")
         activityIndicator.startAnimating()
-        // :hide-start:
         let user = app.currentUser!
         
         user.functions.addTeamMember([AnyBSON(email)], self.onTeamMemberOperationComplete)
-        // :replace-with:
-        // // TODO: use the app's current user's functions object to call the addTeamMember function
-        // // on the backend with the given email converted to AnyBSON. Use `self.onTeamMemberOperationComplete`
-        // // as the completion handler.
-        // :hide-end:
     }
-    // :code-block-end:
     
-    // :code-block-start: remove-team-member
     func removeTeamMember(email: String) {
         print("Removing member: \(email)")
         activityIndicator.startAnimating()
-        // :hide-start:
         let user = app.currentUser!
         
         user.functions.removeTeamMember([AnyBSON(email)], self.onTeamMemberOperationComplete)
-        // :replace-with:
-        // // TODO: use the app's current user's functions object to call the removeTeamMember function
-        // // on the backend with the given email converted to AnyBSON. Use `self.onTeamMemberOperationComplete`
-        // // as the completion handler.
-        // :hide-end:
     }
-    // :code-block-end:
 
     private func onTeamMemberOperationComplete(result: AnyBSON?, realmError: Error?) {
         DispatchQueue.main.async { [self] in
