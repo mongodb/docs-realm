@@ -7,7 +7,7 @@ namespace UnitTests
 {
     public class EncryptionExamples
     {
-        [Test]
+        //[Test]
         public void EncryptRealm()
         {
             // :code-block-start: encrypt_a_realm

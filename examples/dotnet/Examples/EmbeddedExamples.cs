@@ -119,6 +119,7 @@ namespace UnitTests
             }
         }
 
+
         [Test]
         public async Task QueryEmbeddedObject()
         {
@@ -146,7 +147,7 @@ namespace UnitTests
                 // :code-block-start:query
                 // Find All Contacts with an Address of "Los Angeles"
                 var losAngelesContacts = realm.All<Contact>()
-                    .Filter("address.city == 'Los Angeles'");
+                    .Filter("address.City == 'Los Angeles'");
 
                 foreach (var contact in losAngelesContacts)
                 {
@@ -156,8 +157,8 @@ namespace UnitTests
                 }
                 //:code-block-end:
 
-                /* Test that the query worked and that the Contacts returned 
-                 * actually are from 'Los Angeles'. */
+                // Test that the query worked and that the Contacts returned 
+                // actually are from 'Los Angeles'. 
                 Assert.AreEqual(losAngelesContacts.FirstOrDefault()
                     .Address.City, "Los Angeles");
             }
@@ -187,16 +188,16 @@ namespace UnitTests
             [MapTo("_partition")]
             public string Partition { get; set; }
 
-            [MapTo("street")]
+            //[MapTo("street")]
             public string Street { get; set; }
 
-            [MapTo("city")]
+            //[MapTo("city")]
             public string City { get; set; }
 
-            [MapTo("country")]
+            //[MapTo("country")]
             public string Country { get; set; }
 
-            [MapTo("postalCode")]
+            //[MapTo("postalCode")]
             public string PostalCode { get; set; }
 
         }
