@@ -1,0 +1,79 @@
+=====================================
+Migrate Your App from Stitch to Realm
+=====================================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+If you have an existing app built with the Stitch SDKs, you should migrate your 
+app to use the new Realm SDKs. While much of the logic and flow of information 
+is similar, there are a few important changes in the way your app connects to 
+the {+realm+} backend.
+
+What's Changed?
+---------------
+This section provides an overview of the main changes. Below, you will find 
+language-specific guidance for migrating your app.
+
+Services
+~~~~~~~~
+The {+realm+} SDKs do not provide hooks for calling Services (like the Twilio and 
+AWS). We recommend using the AWS and/or Twilio ``npm`` packages within {+realm+} 
+functions to connect to these services moving forward. For more information, 
+see :doc:`<functions/upload-external-dependencies/>`
+
+Functions
+~~~~~~~~~
+Your app can still call server-side functions, but they are now called from the 
+``Realm.User`` object instead of the ``App`` object. 
+
+Authentication
+~~~~~~~~~~~~~~
+Authentication methods are now called via Realm Credentials, and user logout now 
+occurs on the ``Realm.User`` object rather than the ``App`` object.
+
+
+Updating Your Existing Application
+----------------------------------
+The changes in the {+realm+} SDKs are best described by how they have been 
+implemented in each language. Select the tab for the language you are using to 
+see specific details about migrating your existing Stitch app to the Realm SDKs.
+
+.. note:: 
+
+   If you are developing apps in  C# or ObjectiveC, there is no migration guidance, 
+   since we did not provide Stitch SDKs for those languages. To get started with 
+   these languages, refer to the SDK documentation sections above.
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: java
+
+      oh hai
+
+   .. tab::
+      :tabid: kotlin
+
+      kotlin rox
+
+   .. tab::
+      :tabid: node
+
+      Do we also need a tab for "web"?
+
+   .. tab::
+      :tabid: swift
+
+      bar
+
+
+
+
