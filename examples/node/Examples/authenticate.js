@@ -1,39 +1,6 @@
 import Realm from "realm";
 
-let app;
-
-// Set the app up with test users
-beforeAll(async () => {
-  app = new Realm.App({ id: "example-testers-kvjdy" });
-  // Create the example email/password & API key users
-  const anon = await app.logIn(Realm.Credentials.anonymous());
-  await anon.functions.deleteTestUsers();
-  const { key } = await anon.functions.createTestUsers();
-  await anon.logOut();
-
-  // Add the API key to process.env so that we can reference it in other tests as if it was defined in a .env file
-  process.env = {
-    ...process.env,
-    realmServerApiKey: key,
-  };
-
-  jest.runAllTimers();
-});
-
-// Delete the test users to restore the app to its default state
-afterAll(async () => {
-  // Delete test users on the server
-  const anon = await app.logIn(Realm.Credentials.anonymous());
-  await anon.functions.deleteTestUsers();
-  await anon.logOut();
-
-  // Delete all users locally
-  for (const user of Object.values(app.allUsers)) {
-    await app.removeUser(user);
-  }
-
-  jest.runAllTimers();
-});
+const app = new Realm.App({ id: "example-testers-kvjdy" });
 
 describe("user authentication", () => {
   afterEach(async () => {
@@ -59,10 +26,17 @@ describe("user authentication", () => {
   });
 
   test("email/password login", async () => {
+    const randomInt = Math.floor(Math.random() * Math.floor(200000));
+    const username = "joe.jasper"+randomInt.toString()+"@example.com";
+    await app.emailPasswordAuth.registerUser(username, "passw0rd")
     // :code-block-start: email-password-login
     // Create an email/password credential
     const credentials = Realm.Credentials.emailPassword(
-      "joe.jasper@example.com",
+      // :hide-start:
+      username,
+      // :replace-with:
+      // "joe.jasper@example.com",
+      // :hide-end:
       "passw0rd"
     );
     try {
@@ -78,8 +52,9 @@ describe("user authentication", () => {
     // :code-block-end:
   });
 
-/*
+
   test("server api key login", async () => {
+    process.env.realmServerApiKey = "lolthisisntreallyakey";
     // :code-block-start: server-api-key-login
     // Get the API key from the local environment
     const apiKey = process.env.realmServerApiKey;
@@ -90,9 +65,6 @@ describe("user authentication", () => {
     const credentials = Realm.Credentials.serverApiKey(apiKey);
     try {
       const user = await app.logIn(credentials);
-      // :hide-start:
-      expect(user.id).toBe(app.currentUser.id);
-      // :hide-end:
       console.log("Successfully logged in!", user.id);
       return user;
     } catch (err) {
@@ -100,7 +72,6 @@ describe("user authentication", () => {
     }
     // :code-block-end:
   });
-*/
 
   test("custom function login", async () => {
     // :code-block-start: custom-function-login

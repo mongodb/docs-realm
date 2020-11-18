@@ -49,7 +49,6 @@ async function getPlantsCollection() {
 }
 
 beforeAll(async () => {
-  // app = new Realm.App({ id: "example-testers-kvjdy" });
   const anon = await app.logIn(Realm.Credentials.anonymous());
   const plants = await getPlantsCollection();
   await plants.deleteMany({});
