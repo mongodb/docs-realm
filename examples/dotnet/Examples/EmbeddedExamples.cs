@@ -147,7 +147,7 @@ namespace UnitTests
                 // :code-block-start:query
                 // Find All Contacts with an Address of "Los Angeles"
                 var losAngelesContacts = realm.All<Contact>()
-                    .Filter("address.City == 'Los Angeles'");
+                    .Filter("address.city == 'Los Angeles'");
 
                 foreach (var contact in losAngelesContacts)
                 {
@@ -188,16 +188,16 @@ namespace UnitTests
             [MapTo("_partition")]
             public string Partition { get; set; }
 
-            //[MapTo("street")]
+            [MapTo("street")]
             public string Street { get; set; }
 
-            //[MapTo("city")]
+            [MapTo("city")]
             public string City { get; set; }
 
-            //[MapTo("country")]
+            [MapTo("country")]
             public string Country { get; set; }
 
-            //[MapTo("postalCode")]
+            [MapTo("postalCode")]
             public string PostalCode { get; set; }
 
         }
