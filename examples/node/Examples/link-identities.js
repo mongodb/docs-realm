@@ -80,7 +80,10 @@ describe("Linking Identities Tests", () => {
     }
     // :code-block-end:
 
-    expect(linkAccounts(anonUser, email, password)).resolves.toStrictEqual(
+    const anonUser = await app.logIn(Realm.Credentials.anonymous());
+    anonUser.logOut()
+    const freshAnonUser = await app.logIn(Realm.Credentials.anonymous());
+    expect(linkAccounts(freshAnonUser, email, password)).resolves.toStrictEqual(
       await app.logIn(credentials)
     );
   });

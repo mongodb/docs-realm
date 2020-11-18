@@ -34,10 +34,6 @@ beforeAll(async () => {
   await plants.insertMany(PLANTS);
 });
 
-afterAll(async () => {
-  await app.currentUser?.logOut();
-});
-
 describe("Create Documents", () => {
   test("Insert a Single Document", async () => {
     const plants = await getPlantsCollection();
