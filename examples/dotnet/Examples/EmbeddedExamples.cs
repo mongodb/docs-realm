@@ -119,6 +119,7 @@ namespace UnitTests
             }
         }
 
+
         [Test]
         public async Task QueryEmbeddedObject()
         {
@@ -156,8 +157,8 @@ namespace UnitTests
                 }
                 //:code-block-end:
 
-                /* Test that the query worked and that the Contacts returned 
-                 * actually are from 'Los Angeles'. */
+                // Test that the query worked and that the Contacts returned 
+                // actually are from 'Los Angeles'. 
                 Assert.AreEqual(losAngelesContacts.FirstOrDefault()
                     .Address.City, "Los Angeles");
             }

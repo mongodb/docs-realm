@@ -41,3 +41,62 @@ At this point, you can run tests with one of the following:
 - Run > Run Unit Tests
 - Open a Unit Test file and press Cmd-T to run tests in that file
 - Open the Unit Test explorer on the right-hand side of the IDE.
+
+# Testing with the `dotnet` CLI
+
+You can also run these tests using the dotnet CLI, available via `brew`.
+To install the dotnet CLI:
+
+```
+   brew install dotnet
+```
+
+When that's finished installing, you should be able to manage dependencies
+with Nuget, build the project, and run the tests.
+
+## Download Dependencies via Nuget
+
+```
+   dotnet restore
+```
+
+## Build the Project
+
+```
+   dotnet build --configuration Release --no-restore
+```
+
+You can remove the `--no-restore` parameter to ensure that
+dependencies are updated to their most recent versions each time you
+build the application.
+
+## Run the Tests
+
+```
+   dotnet test --no-restore --verbosity normal
+```
+
+Expect a few warnings when you run the tests, mostly about fields and
+variables that are declared but never used -- these cases are important
+for certain code samples, so there isn't much we can do about those
+warnings. The dotnet CLI should show you any errors or warnings that
+occur during all tests and their respective SetUp/TearDown methods, as
+well as a nifty summary of how many tests passed:
+
+```
+Test Run Successful.
+Total tests: 18
+     Passed: 18
+ Total time: 14.0003 Seconds
+     2>Done Building Project "/Users/nathan.contino/Documents/docs-realm/examples/dotnet/Examples/Examples.csproj" (VSTest target(s)).
+     1>Done Building Project "/Users/nathan.contino/Documents/docs-realm/examples/dotnet/dotnet.sln" (VSTest target(s)).
+```
+
+
+# The Testing Backend
+
+You can find the backend MongoDB Realm App used for these tests in the
+CHT organization of Atlas in a project called Realmtest [here](https://realm.mongodb.com/groups/5ed68f962ffddd4c32690cfd/apps/5f5fe0a7991e260dd9941711).
+If you need permissions for tasks like editing schemas or enabling/disabling
+Sync, you can request permissions from the current project owners,
+Caleb Thompson and Nathan Contino.

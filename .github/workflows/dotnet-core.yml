@@ -1,0 +1,25 @@
+name: .NET Core CI Realm Example App
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: macos-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.403
+    - name: Install dependencies
+      run: cd examples/dotnet && dotnet restore
+    - name: Build
+      run: cd examples/dotnet && dotnet build --configuration Release --no-restore
+    - name: Test
+      run: cd examples/dotnet && dotnet test --no-restore --verbosity normal
