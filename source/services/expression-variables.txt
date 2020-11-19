@@ -320,6 +320,53 @@ Operators represent runtime operations that Realm executes when it
 evaluates an expression. Operator variables begin with one percent sign
 (``%``).
 
+EJSON Conversion
+~~~~~~~~~~~~~~~~
+
+The following operators allow you to convert values between BSON/EJSON and JSON
+representations:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 10 40
+
+   * - Operator
+     - Description
+
+   * - .. json-operator:: %stringToOid
+
+     - Converts a 12-byte or 24-byte string to an EJSON ``objectId`` object.
+
+       .. example::
+
+          .. code-block:: json
+             
+             {
+               "_id": {
+                 "%stringToOid": "%%user.id"
+               }
+             }
+
+   * - .. json-operator:: %oidToString
+
+     - Converts an EJSON ``objectId`` object to a string.
+
+       .. example::
+
+          .. code-block:: json
+             
+             {
+               "string_id": {
+                 "%oidToString": "%%root._id"
+               }
+             }
+
+.. important:: No Inner Operations
+   
+   :json-operator:`%stringToOid` and :json-operator:`%oidToString` do not
+   evaluate JSON operators. You must provide either a literal string/EJSON
+   object or an expansion that evaluates to one.
+
 Application Components
 ~~~~~~~~~~~~~~~~~~~~~~
 
