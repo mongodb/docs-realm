@@ -10,7 +10,15 @@ class OpenCloseRealm: AnonymouslyLoggedInTestCase {
         // Log in...
         let user = app.currentUser
         let partitionValue = "some partition value"
-        Realm.asyncOpen(configuration: user!.configuration(partitionValue: partitionValue)) { result in
+        
+        var configuration = user!.configuration(partitionValue: partitionValue)
+        
+        // The following is only required if you want to specify exactly which
+        // types to include in the realm. By default, Realm automatically finds
+        // all subclasses of Object and EmbeddedObject to add to the realm.
+        configuration.objectTypes = [Task.self]
+        
+        Realm.asyncOpen(configuration: configuration) { result in
             switch result {
             case .failure(let error):
                 print("Failed to open realm: \(error.localizedDescription)")
@@ -26,7 +34,7 @@ class OpenCloseRealm: AnonymouslyLoggedInTestCase {
         // :code-block-end:
 
         // :code-block-start: open-synced-realm-synchronously
-        let realm = try! Realm(configuration: user!.configuration(partitionValue: partitionValue))
+        let realm = try! Realm(configuration: configuration)
         print("Opened realm: \(realm)")
         // :code-block-end:
 
