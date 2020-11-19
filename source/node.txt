@@ -4,6 +4,17 @@
 MongoDB Realm Node.js SDK
 =========================
 
+.. toctree::
+   :titlesonly:
+   :hidden:
+   
+   Install Realm for Node.js </node/install>
+   Quick Start </node/quick-start>
+   The Realm Data Model </node/data-model>
+   Realm Database </node/database>
+   MongoDB Realm </node/mongodb-realm>
+   Reference </node/reference>
+
 The {+service+} Node.js SDK enables server-side
 client applications to access data stored in local {+realms+}
 and interact with {+backend+} services like Functions, MongoDB Data
@@ -46,8 +57,8 @@ see :ref:`Realms <node-realms>`, :ref:`Objects
 To learn about the results returned from {+realm+} queries, see
 :ref:`Collections <node-client-collections>`.
 
-Work with Realm Database
-------------------------
+Realm Database
+--------------
 
 Once you have defined a data model for your application, you
 need to be able to :ref:`write <node-realm-database-writes>` and
@@ -63,8 +74,8 @@ For information about how to react to changes in {+realm+} data, see
 For additional security, you can also :ref:`encrypt a {+realm+}
 <node-encrypt-a-realm>`.
 
-Work with MongoDB Realm
------------------------
+MongoDB Realm
+-------------
 
 The Node.js SDK also connects your {+service-short+} client application
 with your {+app+}'s backend services, including Functions, Services,
@@ -82,59 +93,3 @@ To learn how to handle schema updates in your client application, see
 
 To learn how to query for data in MongoDB with the Node.js SDK, see
 :ref:`MongoDB Data Access <node-mongodb-data-access>`.  
-
-.. toctree::
-   :titlesonly:
-   :caption: Get Started
-   :hidden:
-
-   Install Realm for Node.js </node/install>
-   Quick Start </node/quick-start>
-
-.. toctree::
-   :titlesonly:
-   :caption: The Realm Data Model
-   :hidden:
-
-   Collections </node/collections>
-   Notifications </node/notifications>
-   Realms </node/realms>
-   Objects </node/objects>
-   Embedded Objects </node/embedded-objects>
-   Relationships </node/relationships>
-
-.. toctree::
-   :titlesonly:
-   :caption: Work with Realm Database
-   :hidden:
-
-   Open and Close a Realm </node/open-a-realm>
-   Reads </node/reads>
-   Writes </node/writes>
-   Query Engine </node/query-engine>
-   Encrypt a Realm </node/encrypt>
-
-.. toctree::
-   :titlesonly:
-   :caption: Work with MongoDB Realm
-   :hidden:
-
-   Initialize the App Client </node/init-realmclient>
-   Authenticate a User </node/authenticate>
-   Manage Email/Password Users </node/manage-email-password-users>
-   Create & Manage User API Keys </node/create-manage-api-keys>
-   Work with Multiple Users </node/work-with-multiple-users>
-   Call a Function <node/call-a-function>
-   Sync Data <node/sync-data>
-   MongoDB Data Access <node/mongodb>
-   Access Custom User Data <node/access-custom-user-data>
-   Link User Identities </node/link-identities>
-
-.. toctree::
-   :titlesonly:
-   :caption: Reference
-   :hidden:
-
-   Migrations </node/migrations>
-   Auxiliary Files </node/auxiliary-files>
-   SDK Reference Manual <https://docs.mongodb.com/realm-sdks/js/>

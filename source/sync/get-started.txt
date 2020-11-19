@@ -1,0 +1,43 @@
+=====================
+Get Started with Sync
+=====================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+.. include:: /includes/sync-beta-note.rst
+
+Overview
+--------
+
+{+sync+} enables you to share data across devices, between :term:`{+service-short+}
+clients <{+service-short+} client>` and a :term:`synced {+atlas+} cluster <synced
+cluster>`.
+
+.. _enable-sync:
+
+Enable Sync
+-----------
+
+You can enable {+sync-short+} on any {+app+} you have :ref:`created <create-a-realm-app>`.
+
+.. include:: /includes/mongodb-4.4-required-for-sync-admonition.rst
+
+.. note::
+
+   {+service-short+} syncs all data from collections with a defined
+   :ref:`{+backend-schema+} <mongodb-schemas>` in your :term:`Atlas cluster <linked
+   cluster>`. If you do not specify a field in your schema, Realm will not sync that
+   field to the clients.
+
+.. include:: /includes/steps/enable-sync-ui.rst
+
+Summary
+-------
+
+- You can enable {+sync+} on your :term:`linked cluster` for any {+app+} you have created.
