@@ -16,6 +16,7 @@ namespace ConsoleTests
         {
             AsyncContext.Run(async () => await MainAsync(args));
         }
+
         private static async Task MainAsync(string[] args)
         {
             AsyncContext.Run(async () =>
