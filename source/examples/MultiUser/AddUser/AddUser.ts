@@ -1,8 +1,8 @@
-const app: Realm.App = new Realm.App({ id: "myapp-abcde" });
+const app = new Realm.App({ id: "myapp-abcde" });
 
 // Log in as Joe
 const joeCredentials = Realm.Credentials.emailPassword("joe@example.com", "passw0rd")
-const joe: Realm.User = await app.logIn(joeCredentials);
+const joe = await app.logIn(joeCredentials);
 // The active user is now Joe
 assert(joe.id === app.currentUser.id);
 
