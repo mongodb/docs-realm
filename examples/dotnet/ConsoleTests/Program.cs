@@ -33,6 +33,9 @@ namespace ConsoleTests
                     Console.WriteLine(foo.Bar);
                 }
             });
+            //:hide-start:
+            await Task.Delay(10);
+            //:hide-end:
         }
         //:code-block-end:
     }
