@@ -295,7 +295,7 @@ To create a new object, start a new transaction by calling
       .. code-block:: typescript
 
          realm.write(() => {
-           const newTask = realm.create("Task", {
+           const newTask = realm.create<Task>("Task", {
              _id: new BSON.ObjectID(),
              name: "go grocery shopping",
              status: "Open",

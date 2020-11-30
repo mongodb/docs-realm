@@ -43,13 +43,13 @@ async function run() {
   // Add a couple of Tasks in a single, atomic transaction
   // Realm automatically sets the _partition property based on the partitionValue used to open the realm
   realm.write(() => {
-    const task1 = realm.create("Task", {
+    const task1 = realm.create<Task>("Task", {
       _id: new ObjectId(),
       name: "go grocery shopping",
       status: "Open",
     });
 
-    const task2 = realm.create("Task", {
+    const task2 = realm.create<Task>("Task", {
       _id: new ObjectId(),
       name: "go exercise",
       status: "Open",
