@@ -1,7 +1,7 @@
 type InsertManyResult = Realm.Services.MongoDB.InsertManyResult<
   BSON.ObjectId
 >;
-const result: InsertManyResult = await plants.insertMany([
+const result = await plants.insertMany([
   {
     name: "rhubarb",
     sunlight: "full",
