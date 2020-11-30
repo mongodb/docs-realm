@@ -1,0 +1,30 @@
+.. _dotnet-async-console:
+
+==========================
+Use Realm in a Console App
+==========================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 3
+   :class: singlecol
+
+Overview
+--------
+
+We recommend calling {+realm+} methods asynchronously. However, .NET console apps 
+do not support background threads. So if you are building a .NET 
+console app with the async {+realm+} API, you must include a library that 
+provides support for asynchronous tasks. 
+
+Usage
+-----
+In the following example, we have built an example console app that uses the 
+`Nito.AsyncEx <https://github.com/StephenCleary/AsyncEx>`_ package to provide 
+an ``AsyncContext``, under which we run our {+realm+} code. 
+
+.. literalinclude:: /examples/generated/code/start/Program.codeblock.async-console
+   :language: csharp
