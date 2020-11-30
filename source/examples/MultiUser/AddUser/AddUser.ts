@@ -8,6 +8,6 @@ assert(joe.id === app.currentUser.id);
 
 // Log in as Emma
 const emmaCredentials = Realm.Credentials.emailPassword("emma@example.com", "pa55word")
-const emma: Realm.User = await app.logIn(emmaCredentials);
+const emma = await app.logIn(emmaCredentials);
 // The active user is now Emma, but Joe is still logged in
 assert(emma.id === app.currentUser.id);
