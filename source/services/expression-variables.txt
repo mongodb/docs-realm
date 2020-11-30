@@ -38,7 +38,6 @@ General Logic
 You can use the following expansions in any :doc:`JSON expression
 </services/json-expressions>` to represent boolean values.
 
-.. cssclass:: auth-table
 .. list-table::
    :header-rows: 1
    :widths: 10 10 30
@@ -68,7 +67,6 @@ You can use the following expansions in any :doc:`JSON expression
 </services/json-expressions>` to represent components of your
 application.
 
-.. cssclass:: auth-table
 .. list-table::
    :header-rows: 1
    :widths: 10 10 30
@@ -114,7 +112,6 @@ allows you to access their information. You can use this
 expansion to create expressions that evaluate based on the
 user that initiated a request or action.
 
-.. cssclass:: auth-table
 .. list-table::
    :header-rows: 1
    :widths: 15 10 30
@@ -211,7 +208,6 @@ You can use the following expansions in :ref:`MongoDB Rules
 <mongodb-rules>` and :ref:`Document Schema <mongodb-schemas>` validation
 expressions:
 
-.. cssclass:: auth-table
 .. list-table::
    :header-rows: 1
    :widths: 10 10 30
@@ -263,7 +259,6 @@ Service Expansions
 You can use the following expansions in :ref:`external service rules
 <service-rules>`:
 
-.. cssclass:: auth-table
 .. list-table::
    :header-rows: 1
    :widths: 10 10 30
@@ -298,7 +293,6 @@ Sync Expansions
 You can use the following expansions in :ref:`sync rules
 <sync-rules>`:
 
-.. cssclass:: auth-table
 .. list-table::
    :header-rows: 1
    :widths: 10 10 30
@@ -320,6 +314,53 @@ Operators represent runtime operations that Realm executes when it
 evaluates an expression. Operator variables begin with one percent sign
 (``%``).
 
+EJSON Conversion
+~~~~~~~~~~~~~~~~
+
+The following operators allow you to convert values between BSON/EJSON and JSON
+representations:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 10 40
+
+   * - Operator
+     - Description
+
+   * - .. json-operator:: %stringToOid
+
+     - Converts a 12-byte or 24-byte string to an EJSON ``objectId`` object.
+
+       .. example::
+
+          .. code-block:: json
+             
+             {
+               "_id": {
+                 "%stringToOid": "%%user.id"
+               }
+             }
+
+   * - .. json-operator:: %oidToString
+
+     - Converts an EJSON ``objectId`` object to a string.
+
+       .. example::
+
+          .. code-block:: json
+             
+             {
+               "string_id": {
+                 "%oidToString": "%%root._id"
+               }
+             }
+
+.. important:: No Inner Operations
+   
+   :json-operator:`%stringToOid` and :json-operator:`%oidToString` do not
+   evaluate JSON operators. You must provide either a literal string/EJSON
+   object or an expansion that evaluates to one.
+
 Application Components
 ~~~~~~~~~~~~~~~~~~~~~~
 
@@ -327,7 +368,6 @@ The following operators allow you access other components of your Realm
 application and are available in all :doc:`JSON expressions
 </services/json-expressions>`:
 
-.. cssclass:: auth-table
 .. list-table::
    :header-rows: 1
    :widths: 10 40
@@ -359,7 +399,6 @@ The following operators allow you to determine if a value exists in a
 given context and are available in all :doc:`JSON expressions
 </services/json-expressions>`:
 
-.. cssclass:: auth-table
 .. list-table::
    :header-rows: 1
    :widths: 10 40
@@ -426,7 +465,6 @@ The following operators allow you to compare values, including
 :ref:`expanded <expansions>` values, and are available in all :doc:`JSON
 expressions </services/json-expressions>`:
 
-.. cssclass:: auth-table
 .. list-table::
    :header-rows: 1
    :widths: 10 40

@@ -1,2 +1,2 @@
-let realm = try! Realm(configuration: user!.configuration(partitionValue: partitionValue))
+let realm = try! Realm(configuration: configuration)
 print("Opened realm: \(realm)")

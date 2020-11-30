@@ -52,8 +52,9 @@ The :ref:`partition value <partitioning>` specifies which subset of your data to
 This is typically a user ID, project ID, store ID, or some other category identifier in
 your app that has particular relevance to the current user. 
 
-.. seealso:: :ref:`Partition Atlas Data into Realms <partitioning>`
+.. seealso::
 
+   :ref:`Partition Atlas Data into Realms <partitioning>`
 
 Sync Data
 ---------
@@ -64,8 +65,7 @@ The syntax to :ref:`read <android-realm-database-reads>`, :ref:`write
 synced {+realm+} is identical to the syntax for non-synced {+realms+}. While you work with
 local data, a background thread efficiently integrates, uploads, and downloads changesets.
 
-.. admonition:: When Using Sync, Avoid Writes on the Main Thread
-   :class: important
+.. important:: When Using Sync, Avoid Writes on the Main Thread
 
    The fact that {+service-short+} performs sync integrations on a background thread means
    that if you write to your {+realm+} on the main thread, there's a small chance your UI
@@ -89,7 +89,9 @@ new ``Task`` to the {+realm+}:
    // Don't forget to close your realm!
    realm.close()
 
-.. seealso:: :ref:`Threading <android-client-threading>`
+.. seealso::
+
+   :ref:`Threading <android-client-threading>`
 
 Summary
 -------

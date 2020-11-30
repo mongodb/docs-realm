@@ -84,11 +84,10 @@ Change Streams
 --------------
 
 {+service-short+} limits the total number of change streams open against a given
-cluster across all {+app+}s based on the cluster's size.
-It also limits the number of client applications that can concurrently
-listen for changes using :doc:`Watch </mongodb/watch-documents>` and :ref:`Mobile
-Sync <sync-overview>`. The following table lists the limitations for
-each cluster size:
+cluster across all {+app+}s based on the cluster's size. It also limits the
+number of client applications that can concurrently listen for changes using
+:doc:`Watch </mongodb/watch-documents>` and :ref:`Mobile Sync <sync>`. The
+following table lists the limitations for each cluster size:
 
 .. list-table::
    :header-rows: 1
@@ -125,12 +124,10 @@ each cluster size:
 .. note::
 
    {+service-short+} opens a single change stream on each collection that is
-   associated with a :doc:`Database Trigger </triggers>`,
-   :ref:`Collection Sync <sync-overview>`, or :doc:`Watch operation
-   </mongodb/watch-documents>`.
+   associated with a :doc:`Database Trigger </triggers>`, :ref:`Collection Sync
+   <sync>`, or :doc:`Watch operation </mongodb/watch-documents>`.
 
-.. admonition:: Usage Recommendation
-   :class: important
+.. important:: Usage Recommendation
 
    To minimize the number of concurrent listening clients and open
    change streams:

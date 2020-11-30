@@ -52,91 +52,82 @@ particular development workflow.
      - Details
 
    * - {+ui+}
-     - .. admonition:: Use This Method If
-          :class: reference-block
+     - **Use This Method If:**
+       
+       - You want to use a browser-based GUI to develop and manage
+         your {+app+}.
 
-          - You want to use a browser-based GUI to develop and manage
-            your {+app+}.
+       **Deployment Pattern**
 
-       .. admonition:: Deployment Pattern
-          :class: reference-block
-
-          *For a detailed walkthrough, see* :doc:`Deploy from the {+ui+}
-          </deploy/deploy-ui>`
-
-          1. Make changes in the UI that are saved in a draft state
-             and not visible to client apps.
-
-          2. Review all draft changes and then deploy them together
-             through the {+ui+}.
+       *For a detailed walkthrough, see* :doc:`Deploy from the {+ui+}
+       </deploy/deploy-ui>`
+       
+       1. Make changes in the UI that are saved in a draft state
+          and not visible to client apps.
+       
+       2. Review all draft changes and then deploy them together
+          through the {+ui+}.
 
    * - Automatic GitHub Deployment
-     - .. admonition:: Use This Method If
-          :class: reference-block
-
-          - You want to use a code-first approach to app development.
-          - You want to use Git to version control your app.
-          - You want to automatically deploy changes when you push to
-            :github:`GitHub <>`.
-
-       .. admonition:: Deployment Pattern
-          :class: reference-block
-
-          *For a detailed walkthrough, see* :doc:`Deploy Automatically
-          with GitHub </deploy/deploy-automatically-with-github>`
-
-          1. Host your exported application repository on GitHub.
-
-          2. Add, remove, or modify configuration files in a local clone
-             of the repository to specify your updated application.
-
-          3. When you've made all the changes that you want to, commit
-             them and push the changes to GitHub.
+     - **Use This Method If:**
+       
+       - You want to use a code-first approach to app development.
+       - You want to use Git to version control your app.
+       - You want to automatically deploy changes when you push to
+         :github:`GitHub <>`.
+      
+       **Deployment Pattern**
+      
+       *For a detailed walkthrough, see* :doc:`Deploy Automatically
+       with GitHub </deploy/deploy-automatically-with-github>`
+       
+       1. Host your exported application repository on GitHub.
+       
+       2. Add, remove, or modify configuration files in a local clone
+          of the repository to specify your updated application.
+       
+       3. When you've made all the changes that you want to, commit
+          them and push the changes to GitHub.
 
    * - {+cli-bin+}
-     - .. admonition:: Use This Method If
-          :class: reference-block
+     - **Use This Method If:**
+       
+       - You want to use a code-first approach to app development.
+       - You want to use a command line interface to manage and deploy your {+app+}.
+       
+       **Deployment Pattern**
 
-          - You want to use a code-first approach to app development.
-          - You want to use a command line interface to manage and
-            deploy your {+app+}.
-
-       .. admonition:: Deployment Pattern
-          :class: reference-block
-
-          *For a detailed walkthrough, see* :doc:`Deploy Changes with
-          {+cli+} </deploy/deploy-cli>`
-
-          1. Export a copy of your application to a directory of
-             configuration files and download it to your computer.
-
-          2. Add, remove, or modify configuration files in the directory
-             to specify your updated application.
-
-          3. When you've made all the changes that you want to,
-             manually deploy them by importing the updated application
-             directory.
+       *For a detailed walkthrough, see* :doc:`Deploy Changes with
+       {+cli+} </deploy/deploy-cli>`
+       
+       1. Export a copy of your application to a directory of
+          configuration files and download it to your computer.
+       
+       2. Add, remove, or modify configuration files in the directory
+          to specify your updated application.
+       
+       3. When you've made all the changes that you want to,
+          manually deploy them by importing the updated application
+          directory.
 
    * - {+service-short+} Admin API
-     - .. admonition:: Use This Method If
-          :class: reference-block
+     - **Use This Method If:**
 
-          - You want to use a code-first approach to app development.
-          - You want to use an HTTP API to manage and deploy your {+app+}.
+       - You want to use a code-first approach to app development.
+       - You want to use an HTTP API to manage and deploy your {+app+}.
+       
+       **Deployment Pattern**
 
-       .. admonition:: Deployment Pattern
-          :class: reference-block
-
-          *For a detailed walkthrough, see* :ref:`Draft and Deploy a
-          Group of Changes <admin-api-draft-deploy>`
-
-          1. Create a new draft deployment through the API.
-
-          2. Add, remove, or modify components of your application by
-             calling relevant HTTP endpoints.
-
-          3. When you've made all the changes that you want to,
-             deploy the draft through the API.
+       *For a detailed walkthrough, see* :ref:`Draft and Deploy a
+       Group of Changes <admin-api-draft-deploy>`
+       
+       1. Create a new draft deployment through the API.
+       
+       2. Add, remove, or modify components of your application by
+          calling relevant HTTP endpoints.
+       
+       3. When you've made all the changes that you want to,
+          deploy the draft through the API.
 
 .. _app-components:
 
@@ -200,8 +191,6 @@ represents draft changes made since the previous deployment. You can use
 the :guilabel:`Action`  buttons on this row to manually deploy all draft
 changes.
 
-
-.. cssclass:: bordered-figure
 .. figure:: /images/deployment-history-table.png
    :alt: The table of application deployment history logs in the {+ui+}
 

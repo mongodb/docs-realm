@@ -60,7 +60,7 @@ func onLogin() {
     var configuration = user.configuration(partitionValue: partitionValue)
     configuration.objectTypes = [QsTask.self]
     // Open the realm asynchronously to ensure backend data is downloaded first.
-    Realm.asyncOpen(configuration: user.configuration(partitionValue: partitionValue)) { (result) in
+    Realm.asyncOpen(configuration: configuration) { (result) in
         switch result {
         case .failure(let error):
             print("Failed to open realm: \(error.localizedDescription)")

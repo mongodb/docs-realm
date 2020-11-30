@@ -6,6 +6,19 @@ Authentication Providers
 
 .. default-domain:: mongodb
 
+.. toctree::
+   :titlesonly:
+   :hidden:
+   
+   Anonymous Authentication </authentication/anonymous>
+   Email/Password Authentication </authentication/email-password>
+   Custom JWT Authentication </authentication/custom-jwt>
+   Custom Function Authentication </authentication/custom-function>
+   API Key Authentication </authentication/api-key>
+   Facebook Authentication </authentication/facebook>
+   Google Authentication </authentication/google>
+   Apple ID Authentication  </authentication/apple>
+
 {+service+} provides several authentication providers that you can
 integrate into a client application to allow users to log in
 to your {+app+}.
@@ -121,7 +134,6 @@ object:
      - Email/Password users are always associated with the following
        metadata fields:
    
-       .. cssclass:: config-table
        .. list-table::
           :header-rows: 1
           :widths: 10 20
@@ -136,7 +148,6 @@ object:
      - API Key users are always associated with the following metadata
        fields:
    
-       .. cssclass:: config-table
        .. list-table::
           :header-rows: 1
           :widths: 10 20

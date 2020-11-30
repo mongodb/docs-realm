@@ -73,7 +73,7 @@ class ProjectsViewController: UIViewController, UITableViewDelegate, UITableView
             print("Logging out...");
             // :hide-start:
             app.currentUser?.logOut() { (error) in
-                DispatchQueue.main.sync {
+                DispatchQueue.main.async {
                     print("Logged out!");
                     self.navigationController?.popViewController(animated: true)
                 }

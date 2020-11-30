@@ -5,7 +5,7 @@ func fetchTeamMembers() {
     let user = app.currentUser!
     
     user.functions.getMyTeamMembers([]) { [weak self](result, error) in
-        DispatchQueue.main.sync {
+        DispatchQueue.main.async {
             guard self != nil else {
                 // This can happen if the view is dismissed 
                 // before the operation completes

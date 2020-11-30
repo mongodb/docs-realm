@@ -20,7 +20,7 @@ Configuration
 ~~~~~~~~~~~~~
 
 .. code-block:: json
-   :caption: ``config.json``
+   :caption: config.json
    
    {
      "id": "<Function ID>",
@@ -90,7 +90,7 @@ Source Code
 ~~~~~~~~~~~
 
 .. code-block:: javascript
-   :caption: ``source.js``
+   :caption: source.js
 
    exports = function() {
      // function code

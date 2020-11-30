@@ -12,9 +12,8 @@ content: |
        --header 'Authorization: Bearer <access_token>' \
        'https://realm.mongodb.com/api/admin/v3.0/groups/{groupId}/apps/{appId}/drafts'
 
-  .. admonition:: One Draft Per User
-     :class: important
-
+  .. important:: One Draft Per User
+     
      Each user can only create a single draft at a time, either through
      the UI or the Admin API. If you already have an existing draft, you
      can discard the changes associated with it by sending a ``DELETE``
