@@ -1,17 +1,15 @@
-.. sidebar:: File Structure
-
-   .. code-block:: none
-      :copyable: False
-
-      yourRealmApp/
-      └── triggers/
-          └── <trigger name>.json
-
 :doc:`Triggers </triggers>` are defined in your application's
 ``/triggers`` directory.
 
 Each trigger is defined in its own JSON file with the same name as the
 trigger.
+
+.. code-block:: none
+   :copyable: False
+   
+   yourRealmApp/
+   └── triggers/
+       └── <trigger name>.json
 
 Configuration
 ~~~~~~~~~~~~~
