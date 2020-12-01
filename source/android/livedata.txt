@@ -86,22 +86,27 @@ block of your project level ``build.gradle`` file:
 
 .. literalinclude:: /tutorial/generated/code/final/build.codeblock.realm-dependency.gradle
    :language: gradle
+   :emphasize-lines: 9
 
 You'll also have to add the Android LiveData Dependency to the
 ``dependencies`` block of your app level ``build.gradle`` file:
 
 .. literalinclude:: /tutorial/generated/code/final/build.codeblock.livedata-dependency.gradle
    :language: gradle
+   :emphasize-lines: 10
 
-Next, configure the Realm Android SDK to enable {+sync+}:
+Next, configure the Realm Android SDK to enable {+sync+} by creating the
+following top-level block in your app level ``build.gradle`` file:
 
 .. literalinclude:: /tutorial/generated/code/final/build.codeblock.sync-enable.gradle
    :language: gradle
 
-Then, enable DataBinding:
+Then, enable DataBinding by creating the following block in the
+``android`` block of your app level ``build.gradle`` file:
 
 .. literalinclude:: /tutorial/generated/code/final/build.codeblock.databinding-enable.gradle
    :language: gradle
+   :emphasize-lines: 15-17
 
 Finally, click the "Sync" button or select ``Build > Rebuild Project``
 in the application menu to reconfigure your Gradle configuration with
@@ -149,7 +154,8 @@ have to handle a few events:
    Even though this example project doesn't use LiveData to display
    RealmResults, we've also provided an example implementation that follows
    these same principles to encapsulate a collection of data contained in a
-   ``RealmResults`` object, called `LiveRealmResults <LINK TO LIVEREALMRESULTS>`__
+   ``RealmResults`` object, called `LiveRealmResults
+   <https://github.com/mongodb-university/realm-android-livedata/blob/final/app/src/main/java/com/mongodb/realm/livedataquickstart/model/LiveRealmResults.kt>`__.
 
 Instantiating LiveData in the ViewModel
 ---------------------------------------
@@ -184,9 +190,10 @@ Connecting the ViewModel to the UI
 
 To display the data stored in the ``CounterModel`` on the application UI,
 we'll need to access the ``CounterModel`` singleton using the
-`viewModels() <VIEWMODELS ANDROID DOC>`__ method when the application creates
-``CounterFragment``. Once we've instantiated the model, we can use the
-`Android Data Binding <DATA BINDING DOC>`__ library to display the model's
+:android:`viewModels() <topic/libraries/architecture/viewmodel#kotlin>`
+method when the application creates ``CounterFragment``. Once we've
+instantiated the model, we can use the :android:`Android Data Binding
+<topic/libraries/data-binding>` library to display the model's
 data in UI elements.
 
 To access the ``CounterModel`` singleton when the application creates
@@ -211,7 +218,7 @@ Running the Application
 -----------------------
 
 Now you should be able to run the sample application. You should see an
-interface like this:
+interface that looks something like this:
 
   .. image:: /images/android-livedata-quickstart-app.png
      :alt: The LiveData QuickStart Counter app.
@@ -227,7 +234,7 @@ in the model singleton and the encapsulated LiveData instance.
 Summary
 -------
 
-- Use the the LiveRealmObject and LiveRealmResults classes as a template for encapsulating live Realm data in Android LiveData.
+- Use the the ``LiveRealmObject`` and ``LiveRealmResults`` classes as a template for encapsulating live Realm data in Android LiveData.
 - Use a ViewModel to separate underlying data from the UI elements that display that data.
 - DataBinding lets you declare relationships between model data and UI elements without explicitly setting values in an Activity or Fragment.
 
