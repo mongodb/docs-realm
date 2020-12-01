@@ -86,7 +86,7 @@ block of your project level ``build.gradle`` file:
 
 .. literalinclude:: /tutorial/generated/code/final/build.codeblock.realm-dependency.gradle
    :language: gradle
-   :emphasize-lines: 9
+   :emphasize-lines: 10
 
 You'll also have to add the Android LiveData Dependency to the
 ``dependencies`` block of your app level ``build.gradle`` file:
@@ -184,6 +184,11 @@ The following code snippet implements this behavior:
 
 .. literalinclude:: /tutorial/generated/code/final/CounterModel.codeblock.constructor.kt
    :language: kotlin
+
+.. important:: Fill in Your App ID to connect to your Realm App with the Android SDK
+
+   To connect to your backend instance of {+sync+}, replace the
+   App ID placeholder with your {+app+}'s App ID.
 
 Connecting the ViewModel to the UI
 ----------------------------------
