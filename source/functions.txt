@@ -50,8 +50,23 @@ Realm functions that take specific arguments depending on the service.
 Behavior
 ~~~~~~~~
 
-- Realm automatically encodes values returned from functions as
+- Realm automatically serializes values returned from functions as
   :manual:`Extended JSON </reference/mongodb-extended-json>`.
+  
+  .. tip:: Return JSON instead of EJSON
+     
+     If you return a JavaScript object from a function, it may include EJSON
+     value documents instead of raw JSON values. This is useful to preserve type
+     information but may not be what your application expects.
+     
+     Instead, to return an object as JSON, call ``JSON.stringify()`` on the
+     object and return the stringified result.
+     
+     .. code-block:: javascript
+        
+        const plants = context.services.get("mongodb-atlas").db("example").collection("plants");
+        const plant = await plants.findOne();
+        return JSON.stringify(plant);
 
 - Functions do not continue to execute after they return. You cannot use
   functions with asynchronous callbacks or event listeners. If you need
