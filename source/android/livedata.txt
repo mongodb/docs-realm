@@ -131,15 +131,6 @@ have to handle a few events:
   .. literalinclude:: /tutorial/generated/code/final/LiveRealmObject.codeblock.oninactive.kt
      :language: kotlin
 
-- When you instantiate a ``LiveRealmObject``, the constructor checks to
-  that the underlying Realm object is currently managed by an
-  active ``Realm`` instance. If the object is valid, we use the
-  ``setValue()`` method of the ``LiveData`` parent class to pass the
-  Realm object's value to the UI.
-
-  .. literalinclude:: /tutorial/generated/code/final/LiveRealmObject.codeblock.constructor.kt
-     :language: kotlin
-
 - When a change occurs, the ``listener`` member uses the ``setValue()``
   method of the ``LiveData`` parent class to pass the Realm object's
   value to the UI unless the object was deleted, in which case the
@@ -189,6 +180,16 @@ The following code snippet implements this behavior:
 
    To connect to your backend instance of {+sync+}, replace the
    App ID placeholder with your {+app+}'s App ID.
+
+.. note:: Reads and Writes on the UI Thread
+
+   Reads and writes are expensive, frequently involving context switches
+   and disk I/O operations. As a result, reads and writes are disabled
+   by default on the UI thread. While you can use the
+   ``allowWritesOnUiThread()`` and ``allowQueriesOnUiThread()`` config
+   builder methods to enable writes and reads, respectively, on the UI
+   thread, you should almost always defer reads and writes to a
+   background thread using asynchronous patterns.
 
 Connecting the ViewModel to the UI
 ----------------------------------
@@ -248,4 +249,4 @@ Feedback
 --------
 
 Did you find this quick start guide helpful? Please let us know with the
-feedback form on the bottom right of the page!
+feedback form on the right side of the page!
