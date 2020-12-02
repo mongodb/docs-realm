@@ -50,7 +50,7 @@ Realm functions that take specific arguments depending on the service.
 Behavior
 ~~~~~~~~
 
-- Realm automatically serializes values returned from functions as
+- Realm automatically serializes values returned from functions to
   :manual:`Extended JSON </reference/mongodb-extended-json>`.
   
   .. tip:: Return JSON instead of EJSON
@@ -60,12 +60,15 @@ Behavior
      information but may not be what your application expects.
      
      Instead, to return an object as JSON, call ``JSON.stringify()`` on the
-     object and return the stringified result.
+     object and then return the stringified result, as in the following example:
      
      .. code-block:: javascript
+        :emphasize-lines: 5
         
         const plants = context.services.get("mongodb-atlas").db("example").collection("plants");
         const plant = await plants.findOne();
+        // Return e.g. { "_id": "5f87976b7b800b285345a8b6", ... }
+        // instead of { "_id": { "$oid": "5f87976b7b800b285345a8b6" } }
         return JSON.stringify(plant);
 
 - Functions do not continue to execute after they return. You cannot use
