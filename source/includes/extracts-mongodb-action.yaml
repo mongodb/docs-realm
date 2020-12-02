@@ -403,6 +403,15 @@ content: |
             You cannot call this method after retrieving one or more
             documents using ``cursor.next()`` or ``cursor.toArray()``.
 
+     * - ``cursor.skip(amount)``
+       - Specifies the number of matching documents to skip before
+         including matches in the query result set.
+
+         .. note::
+
+            You cannot call this method after retrieving one or more
+            documents using ``cursor.next()`` or ``cursor.toArray()``.
+
      * - ``cursor.next()``
        - Iterates the cursor and returns a :mdn:`Promise
          <Web/JavaScript/Reference/Global_Objects/Promise>` that
@@ -914,4 +923,3 @@ content: |
               - optional session to use for this operation
 
 ...
-
