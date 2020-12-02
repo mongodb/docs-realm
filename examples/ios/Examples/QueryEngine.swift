@@ -26,11 +26,11 @@ class QueryEngine: XCTestCase {
     
     func testPredicates() {
         // :code-block-start: predicates
-        let predicate = NSPredicate(format: "progressMinutes > %@ AND name == %@", 1, "Ali")
+        let predicate = NSPredicate(format: "progressMinutes > 1 AND name == %@", "Ali")
         // :code-block-end:
         
         // :code-block-start: substitutions
-        NSPredicate(format: "%K > %@ AND %K == %@", "progressMinutes", 1, "name", "Ali")
+        NSPredicate(format: "%K > %@ AND %K == %@", "progressMinutes", NSNumber(1), "name", "Ali")
         // :code-block-end:
     }
 

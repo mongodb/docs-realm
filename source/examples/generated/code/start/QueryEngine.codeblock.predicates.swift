@@ -1,1 +1,1 @@
-let predicate = NSPredicate(format: "progressMinutes > %@ AND name == %@", 1, "Ali")
+let predicate = NSPredicate(format: "progressMinutes > 1 AND name == %@", "Ali")

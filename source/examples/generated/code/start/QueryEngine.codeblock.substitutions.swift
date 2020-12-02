@@ -1,1 +1,1 @@
-NSPredicate(format: "%K > %@ AND %K == %@", "progressMinutes", 1, "name", "Ali")
+NSPredicate(format: "%K > %@ AND %K == %@", "progressMinutes", NSNumber(1), "name", "Ali")
