@@ -1,5 +1,5 @@
 NSLog(@"High priority tasks: %lu",
-  [[tasks objectsWhere:@"priority > 5"] count]);
+  [[tasks objectsWithPredicate:[NSPredicate predicateWithFormat:@"priority > %@", @5]] count]);
 
 NSLog(@"Short running tasks: %lu",
   [[tasks objectsWhere:@"progressMinutes between {1, 15}"] count]);

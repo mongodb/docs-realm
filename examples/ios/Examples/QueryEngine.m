@@ -25,11 +25,13 @@ RLM_ARRAY_TYPE(QueryEngineExamplesObjc_Task)
 @end
 // :code-block-end:
 
-@interface QueryEngine : XCTestCase
+// Be sure to differentiate test cases between Swift/Obj-C, or else
+// the test explorer will get confused.
+@interface QueryEngineObjc : XCTestCase
 
 @end
 
-@implementation QueryEngine
+@implementation QueryEngineObjc
 
 - (void)tearDown {
     RLMRealm *realm = [RLMRealm defaultRealm];
@@ -61,7 +63,7 @@ RLM_ARRAY_TYPE(QueryEngineExamplesObjc_Task)
     
     // :code-block-start: comparison-operators
     NSLog(@"High priority tasks: %lu",
-      [[tasks objectsWhere:@"priority > 5"] count]);
+      [[tasks objectsWithPredicate:[NSPredicate predicateWithFormat:@"priority > %@", @5]] count]);
 
     NSLog(@"Short running tasks: %lu",
       [[tasks objectsWhere:@"progressMinutes between {1, 15}"] count]);
@@ -101,6 +103,15 @@ RLM_ARRAY_TYPE(QueryEngineExamplesObjc_Task)
 
     NSLog(@"Projects with any top priority tasks: %lu",
       [[projects objectsWhere:@"ANY tasks.priority == 10"] count]);
+    // :code-block-end:
+    
+    // :code-block-start: subquery
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:
+                              @"SUBQUERY(tasks, $task, $task.isComplete == %@ AND $task.assignee == %@).@count > 0",
+                              @NO,
+                              @"Alex"];
+    NSLog(@"Projects with incomplete tasks assigned to Alex: %lu",
+      [[projects objectsWithPredicate:predicate] count]);
     // :code-block-end:
 }
 

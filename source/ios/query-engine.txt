@@ -92,6 +92,43 @@ You can use the following substitutions in your predicate format strings:
       .. literalinclude:: /examples/generated/code/start/QueryEngine.codeblock.substitutions.m
          :language: objective-c
 
+Subqueries
+~~~~~~~~~~
+
+You can iterate through a collection property with another query using the
+``SUBQUERY()`` predicate function. ``SUBQUERY()`` has the following signature:
+
+.. code-block:: objective-c
+
+   SUBQUERY(<collection>, <variableName>, <predicate>)
+
+- ``collection``: the name of the list property to iterate through
+- ``variableName``: a variable name of the current element to use in the subquery
+- ``predicate``: a string that contains the subquery predicate. You can use the
+  variable name specified by ``variableName`` to refer to the currently-iterated
+  element.
+
+.. example::
+
+    Running the following filter on a projects collect returns projects with
+    tasks that have not been completed by a user named Alex.
+
+   .. tabs-realm-languages::
+
+      .. tab::
+         :tabid: swift
+
+         .. literalinclude:: /examples/generated/code/start/QueryEngine.codeblock.subquery.swift
+             :language: swift
+
+      .. tab::
+         :tabid: objective-c
+
+         .. literalinclude:: /examples/generated/code/start/QueryEngine.codeblock.subquery.m
+             :language: objective-c
+
+
+
 Operators
 ---------
 

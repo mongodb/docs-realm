@@ -29,8 +29,8 @@ class TestSetup: NSObject {
             return expectation
         }
         let waiter = XCTWaiter()
-        //waiter.wait(for: removeUserExpectations, timeout: 10)
-        //assert(waiter.fulfilledExpectations == removeUserExpectations)
+        waiter.wait(for: removeUserExpectations, timeout: 10)
+        assert(waiter.fulfilledExpectations == removeUserExpectations)
     }
 
     override init() {
@@ -62,8 +62,8 @@ class TestSetup: NSObject {
         }
     
         let waiter = XCTWaiter()
-        //waiter.wait(for: [expectation], timeout: 10)
-        //assert(waiter.fulfilledExpectations == [expectation])
+        waiter.wait(for: [expectation], timeout: 10)
+        assert(waiter.fulfilledExpectations == [expectation])
         
         // Ensure all users are completely removed and app.currentUser is nil.
         // Some tests depend on checking app.currentUser.

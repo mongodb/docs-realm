@@ -26,11 +26,11 @@ class QueryEngine: XCTestCase {
     
     func testPredicates() {
         // :code-block-start: predicates
-        let predicate = NSPredicate(format: "progressMinutes > %@ AND name == %@", [1, "Ali"])
+        let predicate = NSPredicate(format: "progressMinutes > %@ AND name == %@", 1, "Ali")
         // :code-block-end:
         
         // :code-block-start: substitutions
-        NSPredicate(format: "%K > %@ AND %K == %@", ["progressMinutes", 1, "name", "Ali"])
+        NSPredicate(format: "%K > %@ AND %K == %@", "progressMinutes", 1, "name", "Ali")
         // :code-block-end:
     }
 
@@ -41,6 +41,9 @@ class QueryEngine: XCTestCase {
             // Add tasks and projects here.
             let project = QueryEngineExamples_Project()
             project.name = "New Project"
+            let task = QueryEngineExamples_Task()
+            task.assignee = "Alex"
+            project.tasks.append(task)
             realm.add(project)
             // ...
         }
@@ -74,6 +77,14 @@ class QueryEngine: XCTestCase {
         // :code-block-start: set-operators
         print("Projects with no complete tasks: \(projects.filter("NONE tasks.isComplete == true").count)");
         print("Projects with any top priority tasks: \(projects.filter("ANY tasks.priority == 10").count)");
+        // :code-block-end:
+        
+        print("chbus projects: \(projects)")
+        
+        // :code-block-start: subquery
+        let predicate = NSPredicate(
+            format: "SUBQUERY(tasks, $task, $task.isComplete == false AND $task.assignee == %@).@count > 0", "Alex")
+        print("Projects with incomplete tasks assigned to Alex: \(projects.filter(predicate).count)")
         // :code-block-end:
     }
 }
