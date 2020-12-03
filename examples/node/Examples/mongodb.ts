@@ -43,7 +43,7 @@ async function getPlantsCollection() {
   );
   const plants = mongodb
     .db("example")
-    .collection("plants");
+    .collection<Plant>("plants");
   // :code-block-end:
   return plants;
 }
