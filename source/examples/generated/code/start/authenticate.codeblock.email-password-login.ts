@@ -1,6 +1,6 @@
 // Create an email/password credential
 const credentials = Realm.Credentials.emailPassword(
-  // "joe.jasper@example.com",
+   "joe.jasper@example.com",
   "passw0rd"
 );
 try {
