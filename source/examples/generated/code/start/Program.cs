@@ -11,7 +11,6 @@ namespace ConsoleTests
     {
         const string myRealmAppId = "tuts-tijya";
 
-        //:code-block-start: async-console
         public static void Main(string[] args)
         {
             AsyncContext.Run(async () => await MainAsync(args));
@@ -30,11 +29,7 @@ namespace ConsoleTests
                 await Task.Delay(10); // Simulates some background work
                 Console.WriteLine(foo.Bar);
             }
-            //:hide-start:
-            await Task.Delay(10);
-            //:hide-end:
         }
-        //:code-block-end:
     }
 
     class Foo : RealmObject
