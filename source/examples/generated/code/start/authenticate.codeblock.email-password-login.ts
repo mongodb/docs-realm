@@ -4,7 +4,7 @@ const credentials = Realm.Credentials.emailPassword(
   "passw0rd"
 );
 try {
-  const user: Realm.User = await app.logIn(credentials);
+  const user = await app.logIn(credentials);
   console.log("Successfully logged in!", user.id);
   return user;
 } catch (err) {

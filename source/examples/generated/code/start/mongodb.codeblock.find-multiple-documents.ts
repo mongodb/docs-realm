@@ -1,2 +1,2 @@
-const perennials: Plant[] = await plants.find({ type: "perennial" });
+const perennials = await plants.find({ type: "perennial" });
 console.log(perennials);

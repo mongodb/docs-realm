@@ -1,5 +1,5 @@
 // Remove the current user from the device
-const user: Realm.User = app.currentUser;
+const user = app.currentUser;
 await app.removeUser(user);
 
 // The user is no longer the active user

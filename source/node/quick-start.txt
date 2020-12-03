@@ -177,9 +177,9 @@ without providing any identifying information:
            // Anonymous credentials don't have any identifying information, but other
            // authentication providers accept additional data, like a user's email and
            // password.
-           const credentials: Realm.Credentials = Realm.Credentials.anonymous();
+           const credentials = Realm.Credentials.anonymous();
            // You can log in with any set of credentials using `app.logIn()`
-           const user: Realm.User = await app.logIn(credentials);
+           const user = await app.logIn(credentials);
            console.log(`Logged in with the user id: ${user.id}`);
          };
          handleLogin().catch(err => {
@@ -242,7 +242,7 @@ you can open a synced :ref:`{+realm+} <node-realms>` by calling
            // creates the realm on the device (if it didn't exist already) and
            // syncs pending remote changes as well as any unsynced changes made
            // to the realm on the device.
-           const realm: Realm = await Realm.open({
+           const realm = await Realm.open({
              schema: [TaskModel],
              sync: {
                user: app.currentUser?,
@@ -297,7 +297,7 @@ To create a new object, start a new transaction by calling
       .. code-block:: typescript
 
          realm.write(() => {
-           const newTask: Task = realm.create("Task", {
+           const newTask = realm.create<Task>("Task", {
              _id: new BSON.ObjectID(),
              name: "go grocery shopping",
              status: "Open",
@@ -326,7 +326,7 @@ contains all objects of a given type in the {+realm+}:
       .. code-block:: typescript
 
          // Query realm for all instances of the "Task" type.
-         const tasks: Realm.Collection<Task> = realm.objects<Task>("Task");
+         const tasks = realm.objects<Task>("Task");
 
 Filter & Query Collections
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -351,8 +351,8 @@ You can filter the objects in a collection by providing a :ref:`query filter
 
       .. code-block:: typescript
          
-         const tasks: Realm.Collection<Task> = realm.objects<Task>("Task");
-         const openTasks: Realm.Collection<Task> = tasks.filtered("status = 'Open'");
+         const tasks = realm.objects<Task>("Task");
+         const openTasks = tasks.filtered("status = 'Open'");
          console.log(`${openTasks.length} tasks are Open (Total tasks: ${tasks.length})`);
 
 Modify an Object
@@ -379,8 +379,8 @@ To modify an object, update its properties in a :js-sdk:`Realm.write()
 
       .. code-block:: typescript
 
-         const tasks: Realm.Collection<Task> = realm.objects<Task>("Task");
-         const someTask: Task = tasks.filtered("status = 'Open' LIMIT(1)")[0];
+         const tasks = realm.objects<Task>("Task");
+         const someTask = tasks.filtered("status = 'Open' LIMIT(1)")[0];
          realm.write(() => {
            someTask.status = 'InProgress';
          });
@@ -412,8 +412,8 @@ a :js-sdk:`Realm.write() <Realm.html#write>` transaction block:
 
       .. code-block:: typescript
 
-         const tasks: Realm.Collection<Task> = realm.objects<Task>("Task");
-         let someTask: Task | null = tasks.filtered("status = 'Open' LIMIT(1)")[0];
+         const tasks = realm.objects<Task>("Task");
+         let someTask = tasks.filtered("status = 'Open' LIMIT(1)")[0];
          realm.write(() => {
            // Delete the task from the realm.
            realm.delete(someTask);
@@ -484,7 +484,7 @@ methods.
          const tasks = realm.objects("Task");
          
          // Define the collection notification listener
-         const listener: Realm.CollectionChangeCallback<Task> = (
+         const listener = (
            tasks: Realm.Collection<Task>,
            changes: Realm.ObjectChanges
          ) => {
