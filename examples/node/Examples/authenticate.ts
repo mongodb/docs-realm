@@ -34,9 +34,9 @@ describe("user authentication", () => {
     const credentials = Realm.Credentials.emailPassword(
       // :hide-start:
       username,
-      // :replace-with:
-      // "joe.jasper@example.com",
-      // :hide-end:
+      // :replace-with: /*
+      "joe.jasper@example.com",
+      // :hide-end: */
       "passw0rd"
     );
     try {
