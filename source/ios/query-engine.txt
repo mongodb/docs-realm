@@ -198,7 +198,7 @@ values.
    * - ``between``
      - Evaluates to ``true`` if the left-hand numerical or date expression is between or equal to the right-hand range. For dates, this evaluates to ``true`` if the left-hand date is within the right-hand date range.
 
-   * - | ``==``
+   * - | ``==``, ``=``
      - Evaluates to ``true`` if the left-hand expression is equal to the right-hand expression.
 
    * - | ``>``
@@ -342,9 +342,11 @@ Regex-like wildcards allow more flexibility in search.
        For example, the wildcard string "d?g" matches "dog",
        "dig", and "dug", but not "ding", "dg", or "a dog".
 
-   * - | ``==``
+   * - | ``==``, ``=``
      - Evaluates to ``true`` if the left-hand string is lexicographically equal to the right-hand string.
 
+   * - | ``!=``, ``<>``
+     - Evaluates to ``true`` if the left-hand string is not lexicographically equal to the right-hand string.
 
 .. example::
 
@@ -441,13 +443,13 @@ the object.
    * - Operator
      - Description
 
-   * - ``All``
+   * - ``ALL``
      - Returns objects where the predicate evaluates to ``true`` for all objects in the collection.
 
-   * - ``Any``
+   * - ``ANY``, ``SOME``
      - Returns objects where the predicate evaluates to ``true`` for any objects in the collection.
 
-   * - ``None``
+   * - ``NONE``
      - Returns objects where the predicate evaluates to false for all objects in the collection.
 
 
