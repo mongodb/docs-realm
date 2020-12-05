@@ -1,3 +1,3 @@
 class Cat: RealmObject {
-    var rivals: RealmList<Dog> = RealmList()
+    var rivals: RealmList<Dog> = RealmList<Dog>()
 }
