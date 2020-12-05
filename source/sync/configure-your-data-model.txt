@@ -32,7 +32,67 @@ model in two formats:
 
 Having these two forms of data models allows your data to be consistent
 and :doc:`synced</sync>` regardless of which clients
-write the data. 
+write the data.
+
+.. _property-schema:
+
+Property Schema
+~~~~~~~~~~~~~~~
+
+A **property schema** is a field-level configuration that defines and
+constrains a specific property in an object schema. Every object schema
+must include a property schema for each property in the object. At
+minimum, a property schema defines a property's data type and indicates
+whether or not the property is required.
+
+You can configure the following constraints for a given property:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 20 80
+
+   * - Parameter
+     - Description
+
+   * - Type
+     - Every property in a {+service-short+} object has a strongly defined data
+       type. A property's type can be a primitive data type or an object
+       type defined in the same {+realm+}. The type also specifies whether
+       the property contains a single value or a list of values.
+
+       {+client-database+} supports the following property types:
+
+       - boolean
+       - integer
+       - double
+       - string
+       - date
+       - data
+       - decimal128
+       - objectId
+       - array
+       - object
+
+   * - Optional
+     - Optional properties may contain a null value or be entirely
+       omitted from an object. By default, all properties are required
+       unless explicitly marked as optional.
+
+   * - Default
+     - If a client application creates a new object that does not have a
+       value for a defined property, the object uses the default value
+       instead.
+
+       Objects that are missing a required field without a defined
+       default value will fail validation when you attempt to create
+       them and will not persist to the {+realm+}.
+
+   * - Indexed
+     - A property index significantly increases the speed of certain
+       read operations at the cost of additional overhead for write
+       operations. Indexes are particularly useful for equality
+       comparison, such as querying for an object based on the value of
+       a property.
 
 
 Approaches

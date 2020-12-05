@@ -1,4 +1,5 @@
 public class Dog extends RealmObject {
+    @PrimaryKey
     public String name;
 
     public int age;

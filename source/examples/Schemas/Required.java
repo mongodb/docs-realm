@@ -5,6 +5,7 @@ public class Dog extends RealmObject {
 
     public String breed;
 
+    @Required
     public Person owner;
 
     public Dog(String name, int age, String breed, Person owner) {

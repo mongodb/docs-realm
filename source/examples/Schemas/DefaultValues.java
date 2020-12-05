@@ -14,7 +14,11 @@ public class Dog extends RealmObject {
             this.name = "";
         }
         this.age = age;
-        this.breed = breed;
+        if (breed != null) {
+            this.breed = breed;
+        } else {
+            this.breed = "potato"
+        }
         this.owner = owner;
     }
 }

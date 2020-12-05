@@ -1,3 +1,4 @@
+@RealmClass(name="Cat")
 class Dog: RealmObject {
     var name: String = ""
     var age: int = 0
