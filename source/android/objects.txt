@@ -110,18 +110,17 @@ Field Types
 
 {+client-database+} supports the following field data types:
 
-- Boolean or boolean
-- Integer or int
-- Short or short
-- Long or long
-- Byte or byte[]
-- Double or double
-- Float or float
-- String
-- Date
-- Data
-- Decimal128 from ``org.bson.types``
-- ObjectId from ``org.bson.types``
+- ``Boolean`` or ``boolean``
+- ``Integer`` or ``int``
+- ``Short`` or ``short``
+- ``Long or ``long``
+- ``Byte`` or ``byte[]``
+- ``Double`` or ``double``
+- ``Float`` or ``float``
+- ``String``
+- ``Date``
+- ``Decimal128`` from ``org.bson.types``
+- ``ObjectId`` from ``org.bson.types``
 
 The ``Byte``, ``Short``, ``Integer``, and ``Long`` types and their
 lowercase primitive alternatives are all stored as ``Long`` values
@@ -137,8 +136,8 @@ In addition to the field data types, you can define relationships,
 collections, and embedded objects in your object schema using the
 following types:
 
-- RealmObject
-- RealmList <? extends RealmObject>
+- ``RealmObject``
+- ``RealmList <? extends RealmObject>``
 
 Use annotations to indicate whether a given field represents a foreign
 key relationship or an embedded object relationship. For more
