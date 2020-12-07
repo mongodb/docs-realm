@@ -1,4 +1,5 @@
 public class Dog extends RealmObject {
+    @RealmField("moniker")
     public String name;
 
     public int age;

@@ -7,7 +7,10 @@ public class Dog extends RealmObject {
 
     public Person owner;
 
-    public Dog(String name, int age, String breed, Person owner) {
+    @Ignore
+    public String misbehavior;
+
+    public Dog(String name, int age, String breed, Person owner, String misbehavior) {
         if (name != null) {
             this.name = name;
         } else {
@@ -16,5 +19,6 @@ public class Dog extends RealmObject {
         this.age = age;
         this.breed = breed;
         this.owner = owner;
+        this.misbehavior = misbehavior;
     }
 }

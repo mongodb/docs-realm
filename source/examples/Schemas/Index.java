@@ -3,6 +3,7 @@ public class Dog extends RealmObject {
 
     public int age;
 
+    @Index
     public String breed;
 
     public Person owner;

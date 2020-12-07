@@ -1,3 +1,4 @@
+@RealmClass(embedded=true)
 public class Dog extends RealmObject {
     public String name;
 

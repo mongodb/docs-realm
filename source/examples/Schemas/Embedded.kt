@@ -1,3 +1,4 @@
+@RealmClass(embedded=true)
 open class Dog: RealmObject() {
     var name: String = ""
     var age: Int = 0

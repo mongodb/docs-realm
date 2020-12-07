@@ -1,3 +1,4 @@
+@RealmClass(name="Cat")
 public class Dog extends RealmObject {
     public String name;
 
