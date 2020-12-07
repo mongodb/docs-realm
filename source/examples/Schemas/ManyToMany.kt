@@ -1,3 +1,3 @@
-class Cat: RealmObject {
+open class Cat: RealmObject() {
     var rivals: RealmList<Dog> = RealmList<Dog>()
 }
