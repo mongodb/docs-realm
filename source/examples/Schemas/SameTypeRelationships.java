@@ -5,7 +5,7 @@ public class Cat extends RealmObject {
         if (friends != null) {
             this.friends = friends;
         } else {
-            this.friends = new RealmList();
+            this.friends = new RealmList<Cat>();
         }
     }
 }

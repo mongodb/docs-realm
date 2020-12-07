@@ -90,7 +90,7 @@ define object schemas with the native class implementation in their
 respective language using the :term:`{+frontend-schema+}`.
 
 Object schemas specify constraints on object fields such as the data
-type of each field, whether or not a field is required, and the
+type of each field, whether a field is required, and the
 default value for optional fields. Schemas can also define
 :ref:`relationships <android-client-relationships>` between object types in
 a {+realm+}.
@@ -110,23 +110,29 @@ Field Types
 
 {+client-database+} supports the following field data types:
 
-- Boolean or boolean
-- Integer or int
-- Short or short
-- Long or long
-- Byte or byte[]
-- Double or double
-- Float or float
-- String
-- Date
-- Data
-- Decimal128 from ``org.bson.types``
-- ObjectId from ``org.bson.types``
+- ``Boolean`` or ``boolean``
+- ``Integer`` or ``int``
+- ``Short`` or ``short``
+- ``Long`` or ``long``
+- ``Byte`` or ``byte[]``
+- ``Double`` or ``double``
+- ``Float`` or ``float``
+- ``String``
+- ``Date``
+- ``Decimal128`` from ``org.bson.types``
+- ``ObjectId`` from ``org.bson.types``
+- Any ``RealmObject`` subclass
+- ``RealmList``
 
 The ``Byte``, ``Short``, ``Integer``, and ``Long`` types and their
 lowercase primitive alternatives are all stored as ``Long`` values
 within {+client-database+}. Similarly, {+client-database+} stores objects
 of the ``Float`` and ``float`` types as type ``Double``.
+
+``final`` and ``volatile`` fields are not supported, though you can
+include fields with those modifiers if you :ref:`ignore
+<android-ignore-field>` those fields. If you choose to provide custom
+constructors, you must declare a public constructor with no arguments.
 
 .. _android-relationships:
 
@@ -137,12 +143,16 @@ In addition to the field data types, you can define relationships,
 collections, and embedded objects in your object schema using the
 following types:
 
-- RealmObject
-- RealmList <? extends RealmObject>
+- ``RealmObject``
+- ``RealmList <? extends RealmObject>``
 
 Use annotations to indicate whether a given field represents a foreign
 key relationship or an embedded object relationship. For more
 information, see :ref:`Relationship Annotations <android-relationships>`.
+
+.. seealso::
+
+   :ref:`Relationships <android-client-relationships>`
 
 .. _android-annotations:
 
@@ -170,7 +180,7 @@ Non-primitive types can contain a value of ``null`` as a primary key
 value, but only for one object of a particular type, since each primary
 key value must be unique. Attempting to insert an object with an existing
 primary key into a {+realm+} will result in a
-:java-sdk:`RealmPrimaryKeyConstraintException <io/realm/exceptions/RealmPrimaryKeyConstraintException.html`.
+:java-sdk:`RealmPrimaryKeyConstraintException <io/realm/exceptions/RealmPrimaryKeyConstraintException.html>`.
 
 {+client-database+} automatically :ref:`indexes <android-index-field>`
 primary key fields, which allows you to efficiently read and modify
@@ -254,20 +264,30 @@ nullable, and cannot be made required.
 Optional Fields
 ~~~~~~~~~~~~~~~
 
-Nullable fields are optional by default in {+client-database+}, unless
-otherwise specified with the :ref:`@Required <android-required-field>`
-annotation. The following types are nullable:
-
 .. tabs-realm-languages::
 
    .. tab::
       :tabid: kotlin
 
+      In Kotlin, fields are considered nullable only if a field is
+      marked nullable with the Kotlin `? operator
+      <https://kotlinlang.org/docs/reference/null-safety.html>`__ except
+      for the following types:
+
       - ``String``
       - ``Date``
+      - ``ObjectId``
+      - ``Decimal128``
+
+      You can require any type that ends with the Kotlin ``?``
+      operator, such as ``Int?``.
 
    .. tab::
       :tabid: java
+
+      Nullable fields are optional by default in {+client-database+}, unless
+      otherwise specified with the :ref:`@Required <android-required-field>`
+      annotation. The following types are nullable:
 
       - ``String``
       - ``Date``
@@ -373,6 +393,10 @@ Relationships
 
 {+client-database+} supports several kinds of object relationships.
 
+.. seealso::
+
+   :ref:`Relationships <android-client-relationships>`
+
 .. _android-field-relationships-many-to-one:
 
 Many-to-One
@@ -427,11 +451,11 @@ using a field of type ``RealmList<?>`` where ``T`` is a
       .. literalinclude:: /examples/Schemas/ManyToMany.java
          :language: java
 
-``RealmList``s are containers of ``RealmObject``s, but otherwise behave
+``RealmList`` s are containers of ``RealmObject`` s, but otherwise behave
 like a regular collection. You can use the same object in multiple
-``RealmList``s.
+``RealmList`` s.
 
-You can even use many-to-many ``RealmList``s to declare relationships
+You can even use many-to-many ``RealmList`` s to declare relationships
 between objects of the same type:
 
 .. tabs-realm-languages::
@@ -487,6 +511,10 @@ Then, any time you reference that class from another class,
 {+client-database+} will embed the referenced class within the enclosing
 class.
 
+.. seealso::
+
+   :ref:`Embedded Objects <android-embedded-objects>`
+
 .. _android-field-relationships-inverse:
 
 Inverse Relationships
@@ -511,7 +539,7 @@ with the :java-sdk:`@LinkingObjects <>` annotation:
       .. literalinclude:: /examples/Schemas/Inverse.java
          :language: java
 
-Fields annotated with ``@LinkingObjects must be:
+Fields annotated with ``@LinkingObjects`` must be:
 
 - marked ``final``
 - of type ``RealmResults<T>`` where ``T`` is the type at the opposite
@@ -526,7 +554,7 @@ Like any other ``RealmResults`` set, you can
 .. _android-field-relationships-lists:
 
 Lists
-=====
+~~~~~
 
 Realm objects can contain lists of non-{+service-short+}-object data
 types. You can model these collections with the type ``RealmList<T>``,
@@ -548,7 +576,7 @@ where ``T`` can be the following types:
    .. tab::
       :tabid: kotlin
 
-      .. literalinclude:: /examples/Schemas/List.kt
+      .. literalinclude:: /examples/Schemas/Lists.kt
          :language: kotlin
 
    .. tab::
@@ -558,7 +586,7 @@ where ``T`` can be the following types:
       null values. If null values shouldn't be allowed, use the
       :ref:`@Required <android-required-field>` annotation.
 
-      .. literalinclude:: /examples/Schemas/List.java
+      .. literalinclude:: /examples/Schemas/Lists.java
          :language: java
 
 .. _android-ignore-field:
@@ -632,7 +660,7 @@ names.
 
 You can define a
 :java-sdk:`naming policy <io/realm/annotations/RealmNamingPolicy.html>`
-at the :ref:`module level <realm-modules>`,
+at the :ref:`module level <android-realm-modules>`,
 which will affect all classes included in the module:
 
 .. tabs-realm-languages::
@@ -703,11 +731,11 @@ annotation to rename a class:
 Omit Classes from your Realm Schema
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-You cannot explicitly omit classes from your schema. However, you can
-explicitly *include* a subset of classes in a module. {+client-database+}
-will ignore classes that are not included in the module. To omit a class
-from your schema, create a :ref:`module <realm-modules>` that includes
-all of the classes that you would like to include in your schema:
+By default, your application's {+service-short+} Schema includes all
+classes that extend ``RealmObject``. If you only want to include a
+subset of classes that extend ``RealmObject`` in your {+service-short+}
+Schema, you can include that subset of classes in a module and open
+your {+realm+} using that module:
 
 .. tabs-realm-languages::
 
@@ -721,37 +749,6 @@ all of the classes that you would like to include in your schema:
       :tabid: java
 
       .. literalinclude:: /examples/Schemas/Modules.java
-         :language: java
-
-.. _realm-modules::
-
-Realm Modules
--------------
-
-{+service-short+} modules are collections of {+service-short+} object
-models. You can selectively include invidual modules when opening a
-{+realm+}.
-
-.. note::
-   
-   Libraries that include {+client-database+} must expose and use their
-   schema through a module. Doing so prevents the library from
-   generating the default ``RealmModule``, which would conflict with
-   the default ``RealmModule`` used by any app that includes the library.
-   Apps using the library access library classes through the module:
-
-.. tabs-realm-languages::
-
-   .. tab::
-      :tabid: kotlin
-
-      .. literalinclude:: /examples/Schemas/Libraries.kt
-         :language: kotlin
-
-   .. tab::
-      :tabid: java
-
-      .. literalinclude:: /examples/Schemas/Libraries.java
          :language: java
 
 Summary

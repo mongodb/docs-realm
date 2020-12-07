@@ -4,5 +4,5 @@
     fieldNamingPolicy = RealmNamingPolicy.LOWER_CASE_WITH_UNDERSCORES
 )
 class MyModule {
-  // ...
+    // ...
 }
