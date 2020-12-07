@@ -65,7 +65,7 @@ see specific details about migrating your existing Stitch app to the Realm SDKs.
 
       - Async SDK requests no longer use the built-in Android `Task <https://developers.google.com/android/reference/com/google/android/gms/tasks/Task.html?is-external=true>`__ class to return success status and values via ``onComplete()``; instead, Async requests now use a :java-sdk:`io.realm.mongodb.App.Callback <io/realm/mongodb/App.Callback.html>` to return success status and values via ``onResult()``.
 
-      - Application users previously accessed via `com.mongodb.stitch.android.core.auth.StitchUser <http://stitch-sdks.s3-website-us-east-1.amazonaws.com/stitch-sdks/java/4/com/mongodb/stitch/android/core/auth/StitchUser.html>` are now accessed through :java-sdk:`io.realm.mongodb.User <io/realm/mongodb/User.html>`.
+      - Application users previously accessed via `com.mongodb.stitch.android.core.auth.StitchUser <http://stitch-sdks.s3-website-us-east-1.amazonaws.com/stitch-sdks/java/4/com/mongodb/stitch/android/core/auth/StitchUser.html>`__ are now accessed through :java-sdk:`io.realm.mongodb.User <io/realm/mongodb/User.html>`.
 
       - Login API has changed from `stitchAppClient.getAuth().loginWithCredential() <http://stitch-sdks.s3-website-us-east-1.amazonaws.com/stitch-sdks/java/4/com/mongodb/stitch/android/core/auth/StitchAuth.html#loginWithCredential(com.mongodb.stitch.core.auth.StitchCredential)>`__ to :java-sdk:`app.loginAsync() <io/realm/mongodb/App.html#login-io.realm.mongodb.Credentials->` or the synchronous equivalent :java-sdk:`app.login() <io/realm/mongodb/App.html#login-io.realm.mongodb.Credentials->`.
 
