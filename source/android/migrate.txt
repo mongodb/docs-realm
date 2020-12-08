@@ -66,5 +66,8 @@ Changes
    * - Instead of calling functions using the app client directly, like `stitchAppClient.callFunction() <http://stitch-sdks.s3-website-us-east-1.amazonaws.com/stitch-sdks/java/4/com/mongodb/stitch/android/core/StitchAppClient.html#callFunction(java.lang.String,java.util.List)>`__, you can only call functions through a :java-sdk:`Functions Manager <io/realm/mongodb/functions/Functions.html>`, which you can access through the your backend realm app connection: :java-sdk:`app.getFunctions(user).callFunctionAsync() <io/realm/mongodb/functions/Functions.html#callFunctionAsync-java.lang.String-java.util.List--io.realm.mongodb.App.Callback->`.
      - Call functions using a Functions Manager instead of an app client.
 
-   * - The MongoDB Data Access API has changed packages from ``com.mongodb.client.MongoClient/MongoDatabase/MongoCollection`` to ``io.realm.mongodb.mongo.MongoClient/MongoDatabase/MongoCollection``
-     - The BSON package, which contains MongoDB query filters and the ``Document`` data type for reading/writing to MongoDB Atlas and  has moved from ``com.mongodb.stitch.core.internal.common`` to ``org.bson``.
+   * - The MongoDB Data Access API, which contains objects like :java-sdk:`MongoClient <io/realm/mongodb/mongo/MongoClient.html>`, :java-sdk:`MongoDatabase <io/realm/mongodb/mongo/MongoDatabase.html>`, and :java-sdk:`MongoCollection <io/realm/mongodb/mongo/MongoCollection.html>` has changed packages from ``com.mongodb.client`` to ``io.realm.mongodb.mongo``
+     - Refactor all imports of the MongoDB Data Access API to use ``io.realm.mongodb.mongo``.
+
+   * - The BSON package, which contains MongoDB query filters and the ``Document`` data type for reading/writing to MongoDB Atlas has moved from ``com.mongodb.stitch.core.internal.common`` to ``org.bson``.
+     - Refactor all imports of the BSON package to use ``io.realm.mongodb.mongo``.
