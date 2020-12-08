@@ -60,12 +60,11 @@ Changes
    * - The login API has changed from `stitchAppClient.getAuth().loginWithCredential() <http://stitch-sdks.s3-website-us-east-1.amazonaws.com/stitch-sdks/java/4/com/mongodb/stitch/android/core/auth/StitchAuth.html#loginWithCredential(com.mongodb.stitch.core.auth.StitchCredential)>`__ to :java-sdk:`app.loginAsync() <io/realm/mongodb/App.html#login-io.realm.mongodb.Credentials->` or the synchronous equivalent :java-sdk:`app.login() <io/realm/mongodb/App.html#login-io.realm.mongodb.Credentials->`.
      - Rewrite all authentication logic to use the new login API.
 
-   * - To logout a user in the Stitch SDK, you used to use `stitchAppClient.getAuth().logout() <http://stitch-sdks.s3-website-us-east-1.amazonaws.com/stitch-sdks/java/4/com/mongodb/stitch/android/core/auth/StitchAuth.html#logout()>`. To logout a user in the Realm SDK, call the :java-sdk:`logOut() <io/realm/mongodb/User.html#logOut-->` method of that user's ``User`` object.
+   * - The Stitch SDK used `stitchAppClient.getAuth().logout() <http://stitch-sdks.s3-website-us-east-1.amazonaws.com/stitch-sdks/java/4/com/mongodb/stitch/android/core/auth/StitchAuth.html#logout()>`__ to handle user logout. To logout a user in the Realm SDK, call the :java-sdk:`logOut() <io/realm/mongodb/User.html#logOut-->` method of that user's ``User`` object.
      - Rewrite all logout logic to use the user's ``User`` object instead of the ``StitchAppClient``.
 
    * - Instead of calling functions using the app client directly, like `stitchAppClient.callFunction() <http://stitch-sdks.s3-website-us-east-1.amazonaws.com/stitch-sdks/java/4/com/mongodb/stitch/android/core/StitchAppClient.html#callFunction(java.lang.String,java.util.List)>`__, you can only call functions through a :java-sdk:`Functions Manager <io/realm/mongodb/functions/Functions.html>`, which you can access through the your backend realm app connection: :java-sdk:`app.getFunctions(user).callFunctionAsync() <io/realm/mongodb/functions/Functions.html#callFunctionAsync-java.lang.String-java.util.List--io.realm.mongodb.App.Callback->`.
      - Call functions using a Functions Manager instead of an app client.
 
    * - The MongoDB Data Access API has changed packages from ``com.mongodb.client.MongoClient/MongoDatabase/MongoCollection`` to ``io.realm.mongodb.mongo.MongoClient/MongoDatabase/MongoCollection``
-
      - The BSON package, which contains MongoDB query filters and the ``Document`` data type for reading/writing to MongoDB Atlas and  has moved from ``com.mongodb.stitch.core.internal.common`` to ``org.bson``.
