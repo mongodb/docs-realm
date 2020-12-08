@@ -43,14 +43,17 @@ class OpenCloseRealm: AnonymouslyLoggedInTestCase {
 
     func testOpenLocalRealm() {
         // :code-block-start: open-local-realm
-        let config = Realm.Configuration(
-            fileURL: Bundle.main.url(forResource: "myBundledData", withExtension: "realm"),
-            inMemoryIdentifier: "myRealm")
-
-        // Open the Realm with the configuration
+        // Open the default realm
+        let defaultRealm = try! Realm()
+        
+        // Open the realm with a specific file URL, for example a username
+        let username = "GordonCole"
+        var config = Realm.Configuration.defaultConfiguration;
+        config.fileURL!.deleteLastPathComponent()
+        config.fileURL!.appendPathComponent(username)
+        config.fileURL!.appendPathExtension("realm")
         let realm = try! Realm(configuration: config)
         print("Opened realm: \(realm)")
         // :code-block-end:
     }
-
 }

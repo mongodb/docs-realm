@@ -20,8 +20,19 @@ passing in the user's
 :swift-sdk:`Configuration <Structs/Realm/Configuration.html>` object, which  
 includes the partition name. The following code demonstrates this:
 
-.. literalinclude:: /examples/generated/code/start/OpenCloseRealm.codeblock.open-synced-realm.swift
-   :language: swift
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: swift
+
+      .. literalinclude:: /examples/generated/code/start/OpenCloseRealm.codeblock.open-synced-realm.swift
+         :language: swift
+
+   .. tab::
+      :tabid: objective-c
+
+      .. literalinclude:: /examples/generated/code/start/OpenCloseRealm.codeblock.open-synced-realm.m
+         :language: objective-c
 
 In the above example, the code shows how to open the {+realm+} *asynchronously* by using 
 ``asyncOpen``. You can also open a {+realm+} *synchronously* by using one of the 
@@ -29,8 +40,20 @@ In the above example, the code shows how to open the {+realm+} *asynchronously* 
 lead to temporary data inconsistencies while the remote data is downloaded, and 
 is generally not recommended. 
 
-.. literalinclude:: /examples/generated/code/start/OpenCloseRealm.codeblock.open-synced-realm-synchronously.swift
-   :language: swift
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: swift
+
+      .. literalinclude:: /examples/generated/code/start/OpenCloseRealm.codeblock.open-synced-realm-synchronously.swift
+         :language: swift
+
+   .. tab::
+      :tabid: objective-c
+
+      .. literalinclude:: /examples/generated/code/start/OpenCloseRealm.codeblock.open-synced-realm-synchronously.m
+         :language: objective-c
+
 
 Open a Local (Non-Synced) Realm
 -------------------------------
@@ -44,13 +67,23 @@ and
 :swift-sdk:`readOnly <Structs/Realm/Configuration.html#/s:10RealmSwift0A0V13ConfigurationV8readOnlySbvp>`
 properties to open a *readonly* local {+realm+} with a specific file location:
 
-.. literalinclude:: /examples/generated/code/start/OpenCloseRealm.codeblock.open-local-realm.swift
-   :language: swift
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: swift
+
+      .. literalinclude:: /examples/generated/code/start/OpenCloseRealm.codeblock.open-local-realm.swift
+         :language: swift
+
+   .. tab::
+      :tabid: objective-c
+
+      .. literalinclude:: /examples/generated/code/start/OpenCloseRealm.codeblock.open-local-realm.m
+         :language: objective-c
 
 Close a Realm
 -------------
-There is no need to manually close a {+realm+} in Swift. When a {+realm+} goes out of 
+There is no need to manually close a {+realm+} in Swift or Objective-C. When a {+realm+} goes out of 
 scope and is removed from memory due to 
 `ARC <https://docs.swift.org/swift-book/LanguageGuide/AutomaticReferenceCounting.html>`__,
 the {+realm+} is closed.
-
