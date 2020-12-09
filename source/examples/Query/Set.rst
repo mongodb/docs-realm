@@ -22,7 +22,7 @@
       :tabid: objective-c
 
       .. literalinclude:: /examples/Query/Set.m
-         :language: objective-c
+         :language: objectivec
 
    .. tab::
       :tabid: swift

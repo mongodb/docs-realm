@@ -39,5 +39,5 @@
       :tabid: objective-c
 
       .. literalinclude:: /examples/Migrations/LocalMigration/LocalMigration.m
-         :language: objective-c
+         :language: objectivec
          :emphasize-lines: 3, 12-14

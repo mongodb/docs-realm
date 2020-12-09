@@ -34,4 +34,4 @@
       :tabid: objective-c
 
       .. literalinclude:: /examples/Schemas/ProjectAndTask.m
-         :language: objective-c
+         :language: objectivec
