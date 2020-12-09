@@ -34,8 +34,8 @@ The examples in this section demonstrate calling a simple function named
 Call from a Client Application
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To execute a function from the Android SDK, use the ``functions`` method
-of the app.
+To execute a function from the Android SDK, use the ``getFunctions()``
+method of the app (``functions`` in Kotlin).
 
 
 .. tabs-realm-languages::
@@ -43,60 +43,13 @@ of the app.
    .. tab::
       :tabid: java
 
-      .. code-block:: java
-         :emphasize-lines: 11-19
-
-         Realm.init(this);
-         String appID = "<your App ID>"; // replace this with your App ID
-         Realm.init(this); // context, typically an Application or Activity
-         App app = new App(new AppConfiguration.Builder(appID).build());
-
-         Credentials credentials = Credentials.anonymous();
-         app.loginAsync(credentials, it -> {
-            if (it.isSuccess()) {
-               user = app.currentUser();
-               assert user != null;
-               Functions functionsManager = app.getFunctions(user);
-               List<Integer> args = Arrays.asList(1, 2);
-               functionsManager.callFunctionAsync("sum", args, Integer.class, result -> {
-                  if (result.isSuccess()) {
-                     Log.v(TAG, "Sum value: " + result.get());
-                  } else {
-                     Log.e("EXAMPLE", "failed to call sum function with: " + result.getError());
-                  }
-               });
-            } else {
-               Log.e("EXAMPLE", "Error logging into the Realm app. Make sure that anonymous authentication is enabled. Error: " + it.getError());
-            }
-         });
-
+      .. literalinclude:: /examples/generated/android/code/start/FunctionTest.codeblock.call-a-function.java
+         :language: java
+         :emphasize-lines: 10-18
+   
    .. tab::
       :tabid: kotlin
 
-      .. code-block:: kotlin
-         :emphasize-lines: 10-20
-
-         Realm.init(this)
-         val appID = "<your App ID>" // replace this with your App ID
-         val app: App = App(AppConfiguration.Builder(appID).build())
-
-         val anonymousCredentials: Credentials = Credentials.anonymous()
-         app.loginAsync(anonymousCredentials) {
-            if (it.isSuccess) {
-               val user: User? = app.currentUser()
-
-               val functionsManager: Functions = app.getFunctions(user)
-               val args: List<Int> = listOf(1, 2)
-               functionsManager.callFunctionAsync("sum", args, Integer::class.java) { result ->
-                  run {
-                     if (result.isSuccess) {
-                         Log.v(TAG, "Sum value: ${result.get()}")
-                     } else {
-                         Log.e("EXAMPLE", "failed to call sum function with: " + result.error)
-                     }
-                  }
-               }
-            } else {
-               Log.e("EXAMPLE", "Error logging into the Realm app. Make sure that anonymous authentication is enabled. Error: " + it.error)
-            }
-         }
+      .. literalinclude:: /examples/generated/android/code/start/FunctionTest.codeblock.call-a-function.kt
+         :language: kotlin
+         :emphasize-lines: 9-19
