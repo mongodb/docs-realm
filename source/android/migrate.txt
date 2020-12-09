@@ -1,8 +1,8 @@
 .. _android-migrating-from-stitch-to-realm:
 
-=====================================
-Stitch SDK to the Realm SDK Migration
-=====================================
+============================
+Upgrade from Stitch to Realm
+============================
 
 .. default-domain:: mongodb
 
@@ -14,17 +14,19 @@ Stitch SDK to the Realm SDK Migration
 
 Overview
 --------
-If you have an existing app built with the Stitch SDKs, you should migrate your 
-app to use the new Realm SDKs. While much of the logic and flow of information 
+If you have an existing app built with the Stitch SDK, you should migrate your 
+app to use the new Realm SDK. While much of the logic and flow of information 
 hasn't changed, there are a few important changes in the way your app connects to 
 the {+realm+} backend.
 
 New Features
 ------------
 
-- Android applications written in Kotlin are now supported by the Realm Android SDK.
+- The Realm Android SDK supports Android applications written in Kotlin.
 
-- The Realm Android SDK now includes {+client-database+}, which includes local object storage and the ability to synchronize document changes across devices over the internet.
+- The Realm Android SDK now includes {+client-database+}, which includes
+  local object storage and the ability to synchronize document changes
+  across devices over the internet.
 
 Deprecated Features
 -------------------
@@ -43,7 +45,7 @@ Changes
    :widths: 50 50
 
    * - What's Changed?
-     - Migration
+     - Solution
    
    * - The backend app connections previously accessed via `StitchAppClient <http://stitch-sdks.s3-website-us-east-1.amazonaws.com/stitch-sdks/java/4/com/mongodb/stitch/android/core/StitchAppClient.html>`__ are now accessed through :java-sdk:`App <io/realm/mongodb/App.html>`.
      - Migrate all occurrences of ``StitchAppClient`` to ``App``.
@@ -51,7 +53,7 @@ Changes
    * - Application users previously accessed via `StitchUser <http://stitch-sdks.s3-website-us-east-1.amazonaws.com/stitch-sdks/java/4/com/mongodb/stitch/android/core/auth/StitchUser.html>`__ are now accessed through :java-sdk:`User <io/realm/mongodb/User.html>`.
      - Migrate all occurrences of ``StitchUser`` to ``User``.
 
-   * - In the StitchSDK, network requests like `callFunction() <http://stitch-sdks.s3-website-us-east-1.amazonaws.com/stitch-sdks/java/4/com/mongodb/stitch/android/core/StitchAppClient.html#callFunction(java.lang.String,java.util.List)>`__ were asynchronous by default. In the Realm Android SDK, you can choose synchronous or asynchronous requests with the "Async" suffix, e.g. :java-sdk:`callFunction() <io/realm/mongodb/functions/Functions.html#callFunction-java.lang.String-java.util.List-->` and :java-sdk:`callFunctionAsync() <io/realm/mongodb/functions/Functions.html#callFunctionAsync-java.lang.String-java.util.List--io.realm.mongodb.App.Callback->`.
+   * - In the Stitch SDK, network requests like `callFunction() <http://stitch-sdks.s3-website-us-east-1.amazonaws.com/stitch-sdks/java/4/com/mongodb/stitch/android/core/StitchAppClient.html#callFunction(java.lang.String,java.util.List)>`__ were asynchronous by default. In the Realm Android SDK, you can choose synchronous or asynchronous requests with the "Async" suffix, e.g. :java-sdk:`callFunction() <io/realm/mongodb/functions/Functions.html#callFunction-java.lang.String-java.util.List-->` and :java-sdk:`callFunctionAsync() <io/realm/mongodb/functions/Functions.html#callFunctionAsync-java.lang.String-java.util.List--io.realm.mongodb.App.Callback->`.
      - Migrate all asynchronous Stitch SDK requests to their asynchronous Realm SDK equivalents.
 
    * - Async SDK requests no longer use the built-in Android `Task <https://developers.google.com/android/reference/com/google/android/gms/tasks/Task.html?is-external=true>`__ class to return success status and values via ``onComplete()``; instead, Async requests now use a :java-sdk:`App.Callback <io/realm/mongodb/App.Callback.html>` to return success status and values via ``onResult()``.
