@@ -1,8 +1,8 @@
-.. _android-migrating-from-stitch-to-realm:
+.. _android-migrate-from-stitch-to-realm:
 
-============================
-Upgrade from Stitch to Realm
-============================
+======================================
+Upgrade from Stitch to Realm (Android)
+======================================
 
 .. default-domain:: mongodb
 
@@ -53,7 +53,7 @@ Changes
      - Migrate all occurrences of ``StitchUser`` to ``User``.
 
    * - In the Stitch SDK, network requests like `callFunction() <http://stitch-sdks.s3-website-us-east-1.amazonaws.com/stitch-sdks/java/4/com/mongodb/stitch/android/core/StitchAppClient.html#callFunction(java.lang.String,java.util.List)>`__ were asynchronous by default. In the {+service-short+} Android SDK, you can choose synchronous or asynchronous requests with the "Async" suffix, e.g. :java-sdk:`callFunction() <io/realm/mongodb/functions/Functions.html#callFunction-java.lang.String-java.util.List-->` and :java-sdk:`callFunctionAsync() <io/realm/mongodb/functions/Functions.html#callFunctionAsync-java.lang.String-java.util.List--io.realm.mongodb.App.Callback->`.
-     - Migrate all asynchronous Stitch SDK requests to their :ref:`asynchronous {+service-short+} SDK equivalents <android-async-calls>`.
+     - Migrate all asynchronous Stitch SDK requests to their :ref:`asynchronous {+service-short+} SDK equivalents <android-async-api>`.
 
    * - Async SDK requests no longer use the built-in Android `Task <https://developers.google.com/android/reference/com/google/android/gms/tasks/Task.html?is-external=true>`__ class to return success status and values via ``onComplete()``; instead, Async requests now use a :java-sdk:`App.Callback <io/realm/mongodb/App.Callback.html>` to return success status and values via ``onResult()``.
      - Rewrite all asynchronous Stitch SDK requests to use ``App.Callback`` and ``onResult()``.
