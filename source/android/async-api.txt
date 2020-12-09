@@ -16,15 +16,14 @@ Overview
 --------
 
 The {+service-short+} Android SDK lets you access network and disk
-resources in two ways: **synchronously** or **asynchronously**. While
+resources in two ways: **synchronously** and **asynchronously**. While
 synchronous, or "sync", requests block execution until the request returns
 success or failure, asynchronous, or "async", requests assign a
-callback handler and proceed execution to the next line of code. When
-the request returns, the SDK runs the callback handler to process results.
-In the callback handler, you can check if the request executed
-successfully and either access the returned results of the request if
-the request was successfull or access the returned error message and code
-if the request was unsuccessful.
+callback and proceed execution to the next line of code. When
+the request returns, the callback runs to process results.
+In the callback, you can check if the request executed
+successfully and either access the returned results or the returned
+error.
 
 Example
 -------
@@ -36,7 +35,7 @@ use subclasses of
 :java-sdk:`App.Callback <io/realm/mongodb/App.Callback.html>` to handle
 callbacks. Results are passed into the :java-sdk:`onResult()
 <io/realm/mongodb/App.Callback.html#onResult-io.realm.mongodb.App.Result->` method
-of an ``App.Callback`` subclass via objects of type :java-sdk:`App.Result<T>
+of an ``App.Callback`` subclass via objects of type :java-sdk:`App.Result
 <io/realm/mongodb/App.Result.html>`. The following example shows how to
 add a callback to an async request and handle success or failure of that
 request. In this example, we actually use **two** callbacks: one to handle the
