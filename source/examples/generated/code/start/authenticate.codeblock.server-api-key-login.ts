@@ -6,7 +6,7 @@ if (!apiKey) {
 // Create an api key credential
 const credentials = Realm.Credentials.serverApiKey(apiKey);
 try {
-  const user: Realm.User = await app.logIn(credentials);
+  const user = await app.logIn(credentials);
   console.log("Successfully logged in!", user.id);
   return user;
 } catch (err) {

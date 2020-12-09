@@ -38,12 +38,12 @@ async function getPlantsCollection() {
   > = Realm.Services.MongoDB.MongoDBCollection<T>;
   // :code-block-end:
   // :code-block-start: plants-collection-handle
-  const mongodb: Realm.Services.MongoDB = app.currentUser.mongoClient(
+  const mongodb = app.currentUser.mongoClient(
     "mongodb-atlas"
   );
-  const plants: MongoDBCollection<Plant> = mongodb
+  const plants = mongodb
     .db("example")
-    .collection("plants");
+    .collection<Plant>("plants");
   // :code-block-end:
   return plants;
 }
@@ -70,7 +70,7 @@ describe("Create Documents", () => {
     type InsertOneResult = Realm.Services.MongoDB.InsertOneResult<
       BSON.ObjectId
     >;
-    const result: InsertOneResult = await plants.insertOne({
+    const result = await plants.insertOne({
       // :hide-start:
       _id: new BSON.ObjectId("5f879f83fc9013565c23360e"),
       // :hide-end:
@@ -96,7 +96,7 @@ describe("Create Documents", () => {
     type InsertManyResult = Realm.Services.MongoDB.InsertManyResult<
       BSON.ObjectId
     >;
-    const result: InsertManyResult = await plants.insertMany([
+    const result = await plants.insertMany([
       {
         // :hide-start:
         _id: new BSON.ObjectId("5f87a0defc9013565c233611"),
@@ -150,7 +150,7 @@ describe("Read Documents", () => {
   test("Find a Single Document", async () => {
     const plants = await getPlantsCollection();
     // :code-block-start: find-a-single-document
-    const venusFlytrap: Plant | null = await plants.findOne({
+    const venusFlytrap = await plants.findOne({
       name: "venus flytrap",
     });
     console.log(venusFlytrap);
@@ -173,7 +173,7 @@ describe("Read Documents", () => {
   test("Find Multiple Documents", async () => {
     const plants = await getPlantsCollection();
     // :code-block-start: find-multiple-documents
-    const perennials: Plant[] = await plants.find({ type: "perennial" });
+    const perennials = await plants.find({ type: "perennial" });
     console.log(perennials);
     // :code-block-end:
 
@@ -195,7 +195,7 @@ describe("Read Documents", () => {
   test("Count Documents in the Collection", async () => {
     const plants = await getPlantsCollection();
     // :code-block-start: count-documents-in-the-collection
-    const numPlants: number = await plants.count();
+    const numPlants = await plants.count();
     console.log(`There are ${numPlants} plants in the collection`);
     // :code-block-end:
 
@@ -212,7 +212,7 @@ describe("Update Documents", () => {
     const plants = await getPlantsCollection();
     // :code-block-start: update-a-single-document
     type UpdateResult = Realm.Services.MongoDB.UpdateResult<BSON.ObjectId>;
-    const result: UpdateResult = await plants.updateOne(
+    const result = await plants.updateOne(
       { name: "petunia" },
       { $set: { sunlight: "partial" } }
     );
@@ -230,7 +230,7 @@ describe("Update Documents", () => {
     const plants = await getPlantsCollection();
     // :code-block-start: update-multiple-documents
     type UpdateResult = Realm.Services.MongoDB.UpdateResult<BSON.ObjectId>;
-    const result: UpdateResult = await plants.updateMany(
+    const result = await plants.updateMany(
       { _partition: "Store 47" },
       { $set: { _partition: "Store 51" } }
     );
@@ -247,7 +247,7 @@ describe("Update Documents", () => {
     const plants = await getPlantsCollection();
     // :code-block-start: upsert-documents
     type UpdateResult = Realm.Services.MongoDB.UpdateResult<BSON.ObjectId>;
-    const result: UpdateResult = await plants.updateOne(
+    const result = await plants.updateOne(
       {
         // :hide-start:
         _id: new BSON.ObjectId("5f1f63055512f2cb67f460a3"),
@@ -279,7 +279,7 @@ describe("Delete Documents", () => {
   test("Delete a Single Document", async () => {
     const plants = await getPlantsCollection();
     // :code-block-start: delete-a-single-document
-    const result: Realm.Services.MongoDB.DeleteResult = await plants.deleteOne({
+    const result = await plants.deleteOne({
       color: "green",
     });
     console.log(result);
@@ -294,7 +294,7 @@ describe("Delete Documents", () => {
   test("Delete Multiple Documents", async () => {
     const plants = await getPlantsCollection();
     // :code-block-start: delete-multiple-documents
-    const result: Realm.Services.MongoDB.DeleteResult = await plants.deleteMany(
+    const result = await plants.deleteMany(
       {
         _partition: "Store 51",
       }
@@ -318,7 +318,7 @@ describe("Aggregate Documents", () => {
       _id: "annual" | "perennial";
       total: number;
     };
-    const result: GroupedByType[] = await plants.aggregate([
+    const result = await plants.aggregate([
       {
         $group: {
           _id: "$type",
@@ -344,12 +344,12 @@ describe("Aggregation Stages", () => {
   test("Filter Documents", async () => {
     const plants = await getPlantsCollection();
     // :code-block-start: filter-documents
-    const perennials: Plant[] = await plants.aggregate([
+    const perennials = await plants.aggregate([
       { $match: { type: { $eq: "perennial" } } },
     ]);
     console.log(perennials);
     // :code-block-end:
-    perennials.forEach((plant) => {
+    perennials.forEach((plant: Plant) => {
       expect(plant.type).toEqual("perennial");
     });
     // prettier-ignore
@@ -373,7 +373,7 @@ describe("Aggregation Stages", () => {
       _id: "annual" | "perennial";
       numItems: number;
     };
-    const result: GroupedByType[] = await plants.aggregate([
+    const result = await plants.aggregate([
       {
         $group: {
           _id: "$type",

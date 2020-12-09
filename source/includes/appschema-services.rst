@@ -1,18 +1,3 @@
-.. sidebar:: File Structure
-
-   .. code-block:: none
-      :copyable: False
-
-      yourRealmApp/
-      └── services/
-          └── <services name>/
-              ├── config.json
-              ├── incoming_webhooks/
-              │   ├── config.json
-              │   └── source.js
-              └── rules/
-                  └── <rule name>.json
-
 :doc:`3rd party services </services>` are defined in the ``/services``
 directory. Each service maps to its own sub-directory with the same name as the
 service.
@@ -25,6 +10,19 @@ Each service directory contains the following:
 
 - ``/incoming_webhooks``: a sub-directory of webhook configurations (if the
   service supports webhooks, i.e. HTTP, GitHub, or Twilio)
+
+.. code-block:: none
+   :copyable: False
+   
+   yourRealmApp/
+   └── services/
+       └── <services name>/
+           ├── config.json
+           ├── incoming_webhooks/
+           │   ├── config.json
+           │   └── source.js
+           └── rules/
+               └── <rule name>.json
 
 .. _service-configuration-file:
 

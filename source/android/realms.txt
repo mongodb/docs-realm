@@ -185,6 +185,37 @@ individual {+realms+}.
 You can customize permissions for these partitions of data using
 :ref:`{+service-short+} Rules <sync-rules>`.
 
+.. _android-realm-modules:
+
+Realm Modules
+-------------
+
+{+service-short+} modules are collections of {+service-short+} object
+models. You can selectively include invidual modules when opening a
+{+realm+}.
+
+.. note::
+   
+   Libraries that include {+client-database+} must expose and use their
+   schema through a module. Doing so prevents the library from
+   generating the default ``RealmModule``, which would conflict with
+   the default ``RealmModule`` used by any app that includes the library.
+   Apps using the library access library classes through the module:
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/Schemas/Libraries.kt
+         :language: kotlin
+
+   .. tab::
+      :tabid: java
+
+      .. literalinclude:: /examples/Schemas/Libraries.java
+         :language: java
+
 Summary
 -------
 

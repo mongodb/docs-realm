@@ -1,6 +1,6 @@
-const mongodb: Realm.Services.MongoDB = app.currentUser.mongoClient(
+const mongodb = app.currentUser.mongoClient(
   "mongodb-atlas"
 );
-const plants: MongoDBCollection<Plant> = mongodb
+const plants = mongodb
   .db("example")
   .collection("plants");

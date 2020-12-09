@@ -13,9 +13,7 @@ namespace UnitTests
     public class WorkWithRealm
     {
         App app;
-        ObjectId testTaskId;
         Realms.Sync.User user;
-        SyncConfiguration config;
         string myRealmAppId = "tuts-tijya";
 
         [OneTimeSetUp]

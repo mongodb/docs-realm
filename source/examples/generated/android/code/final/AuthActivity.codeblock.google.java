@@ -23,7 +23,7 @@ private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
     try {
         GoogleSignInAccount account = completedTask.getResult(ApiException.class);
         String authorizationCode = account.getServerAuthCode();
-        Credentials googleCredentials = Credentials.google(authorizationCode);
+        Credentials googleCredentials = Credentials.google(authorizationCode, GoogleAuthType.AUTH_CODE);
         app.loginAsync(googleCredentials, it -> {
             if (it.isSuccess()) {
                 Log.v("AUTH", "Successfully logged in to MongoDB Realm using Google OAuth.");
