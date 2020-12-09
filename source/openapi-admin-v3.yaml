@@ -802,6 +802,10 @@ paths:
       tags: ["users"]
       operationId: "adminListUsers"
       summary: "List :ref:`users <user-accounts>`."
+      parameters:
+        - $ref: "#/components/parameters/UsersAfter"
+        - $ref: "#/components/parameters/UsersSort"
+        - $ref: "#/components/parameters/UsersDesc"
       responses:
         '200':
           description: "Successfully listed."
@@ -1957,6 +1961,33 @@ components:
       required: true
       schema:
         type: "string"
+    UsersAfter:
+      name: "after"
+      required: false
+      description: |
+        The ``id`` of the last user returned by a previous paginated request.
+      in: "query"
+      schema:
+        type: "string"
+    UsersSort:
+      name: "sort"
+      required: false
+      description: |
+        The field name to sort to sort results by. The only valid value is the
+        default: ``_id``.
+      in: "query"
+      schema:
+        type: "string"
+    UsersDesc:
+      name: "desc"
+      required: false
+      default: false
+      description: |
+        If ``true``, returns sorted results in descending order. Otherwise,
+        results return in ascending order.
+      in: "query"
+      schema:
+        type: "boolean"
     FunctionId:
       name: "functionId"
       description: "Function ID"

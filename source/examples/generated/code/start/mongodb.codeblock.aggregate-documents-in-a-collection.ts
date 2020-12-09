@@ -2,7 +2,7 @@ type GroupedByType = {
   _id: "annual" | "perennial";
   total: number;
 };
-const result: GroupedByType[] = await plants.aggregate([
+const result = await plants.aggregate([
   {
     $group: {
       _id: "$type",

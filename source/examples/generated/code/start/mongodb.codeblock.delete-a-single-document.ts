@@ -1,4 +1,4 @@
-const result: Realm.Services.MongoDB.DeleteResult = await plants.deleteOne({
+const result = await plants.deleteOne({
   color: "green",
 });
 console.log(result);

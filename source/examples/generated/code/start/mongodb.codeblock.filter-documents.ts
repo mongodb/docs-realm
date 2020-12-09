@@ -1,4 +1,4 @@
-const perennials: Plant[] = await plants.aggregate([
+const perennials = await plants.aggregate([
   { $match: { type: { $eq: "perennial" } } },
 ]);
 console.log(perennials);

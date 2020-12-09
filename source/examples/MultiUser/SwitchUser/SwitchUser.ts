@@ -1,7 +1,7 @@
 // Get some logged-in users
-const authenticatedUsers: Realm.User[] = app.allUsers.filter(user => user.isLoggedIn);
-const user1: Realm.User = authenticatedUsers[0];
-const user2: Realm.User = authenticatedUsers[1];
+const authenticatedUsers = app.allUsers.filter(user => user.isLoggedIn);
+const user1 = authenticatedUsers[0];
+const user2 = authenticatedUsers[1];
 
 // Switch to user1
 app.switchUser(user1);

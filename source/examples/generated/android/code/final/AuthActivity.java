@@ -16,6 +16,7 @@ import com.google.android.gms.tasks.Task;
 import io.realm.mongodb.App;
 import io.realm.mongodb.AppConfiguration;
 import io.realm.mongodb.Credentials;
+import io.realm.mongodb.auth.GoogleAuthType
 
 import static com.mongodb.realm.examples.CustomApplicationKt.YOUR_APP_ID;
 
@@ -57,7 +58,7 @@ public class AuthActivity extends AppCompatActivity {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
             String authorizationCode = account.getServerAuthCode();
-            Credentials googleCredentials = Credentials.google(authorizationCode);
+            Credentials googleCredentials = Credentials.google(authorizationCode, GoogleAuthType.AUTH_CODE);
             app.loginAsync(googleCredentials, it -> {
                 if (it.isSuccess()) {
                     Log.v("AUTH", "Successfully logged in to MongoDB Realm using Google OAuth.");

@@ -22,18 +22,120 @@ which device or browser they connect from. Data modeling ensures the
 accuracy of application data by performing type and format checks on
 fields. 
 
-
 MongoDB Realm allows you to define, synchronize, and enforce your data
 model in two formats: 
 
-- :doc:`Realm Schema </mongodb/document-schemas>`, which defines your data as MongoDB documents to enforce validation and synchronization in the cloud.
+- :doc:`Realm Schema </mongodb/document-schemas>`, which defines your
+  data as MongoDB documents to enforce validation and synchronization
+  in the cloud.
 
 - :term:`{+service-short+} data model`, which defines your data as native objects in your mobile application.
 
 Having these two forms of data models allows your data to be consistent
 and :doc:`synced</sync>` regardless of which clients
-write the data. 
+write the data.
 
+.. _object-schema:
+
+Object Schema
+-------------
+
+An **object schema** defines the properties and relationships of a
+{+service-short+} object. Object schemas are defined using JSON schema
+in the :guilabel:`Schema` sidebar entry of the {+ui+}:
+
+.. code-block:: json
+
+   {
+     "title": "Dog",
+     "bsonType": "object",
+     "required": [
+       "_id",
+       "_partition",
+       "name"
+     ],
+     "properties": {
+       "_id": {
+         "bsonType": "objectId"
+       },
+       "_partition": {
+         "bsonType": "string"
+       },
+       "name": {
+         "bsonType": "string"
+       },
+       "age": {
+         "bsonType": "int"
+       }
+       "breed": {
+         "bsonType": "string"
+       }
+     }
+   }
+
+.. _property-schema:
+
+Property Schema
+~~~~~~~~~~~~~~~
+
+A **property schema** is a field-level configuration that defines and
+constrains a specific property in an object schema. Every object schema
+must include a property schema for each property in the object. At
+minimum, a property schema defines a property's data type and indicates
+whether the property is required.
+
+You can configure the following constraints for a given property:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 20 80
+
+   * - Parameter
+     - Type
+     - Description
+
+   * - Type
+     - String
+     - Every property in a {+service-short+} object has a strongly defined data
+       type. A property's type can be a primitive data type or an object
+       type defined in the same {+realm+}. The type also specifies whether
+       the property contains a single value or a list of values.
+
+       {+client-database+} supports the following property types:
+
+       - boolean
+       - integer
+       - double
+       - string
+       - date
+       - decimal128
+       - objectId
+       - array
+       - object
+
+   * - Optional
+     - Boolean
+     - Optional properties may contain a null value or be entirely
+       omitted from an object. By default, all properties are required
+       unless explicitly marked as optional.
+
+   * - Default
+     - Boolean
+     - If a client application creates a new object that does not have a
+       value for a defined property, the object uses the default value
+       instead.
+
+       When you attempt to create an object that is missing a value
+       for a required field, it fails validation and does not persist
+       to the {+realm+}.
+
+   * - Indexed
+     - Boolean
+     - A property index significantly increases the speed of certain
+       read operations at the cost of additional overhead for write
+       operations. Indexes are particularly useful for equality
+       comparison, such as querying for an object based on the value of
+       a property. However, indexes consume additional storage.
 
 Approaches
 ----------

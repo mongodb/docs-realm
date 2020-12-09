@@ -262,7 +262,7 @@ namespace UnitTests
                 // :code-block-end:
                 return;
             }
-            catch (Exception e) { }
+            catch (Exception) { }
             //{ "_id":{ "$oid":"5f0f69dc4eeabfd3366be2be"},"_partition":"myPart","name":"do this NOW","status":"Closed"}
         }
 
