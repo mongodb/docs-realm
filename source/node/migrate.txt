@@ -49,7 +49,7 @@ Changes
 
      - Migrate all occurrences of ``StitchAppClient`` to ``Realm.App``.
 
-   * - Application users previously accessed via `StitchUser <http://stitch-sdks.s3-website-us-east-1.amazonaws.com/stitch-sdks/js-server/4/interfaces/stitchuser.html>`__ are now accessed through :js-sdk:`Realm.User <Realm.User.html>`.
+   * - `StitchUser <http://stitch-sdks.s3-website-us-east-1.amazonaws.com/stitch-sdks/js-server/4/interfaces/stitchuser.html>`__ was previously the interface to access application users, but now it is :js-sdk:`Realm.User <Realm.User.html>`.
      - Migrate all occurrences of ``StitchUser`` to ``Realm.User``.
 
    * - The login API has changed from `stitchAppClient.auth.loginWithCredential() <http://stitch-sdks.s3-website-us-east-1.amazonaws.com/stitch-sdks/js-server/4/interfaces/stitchauth.html#loginwithcredential>`__ to :js-sdk:`Realm.App.logIn() <Realm.App.html#logIn>`
