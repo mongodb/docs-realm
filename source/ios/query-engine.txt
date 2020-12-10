@@ -24,6 +24,111 @@ For an introduction to NSPredicate in general, See Apple’s
 <https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/Predicates/AdditionalChapters/Introduction.html>`__.
 
 
+Predicates
+----------
+
+You can build a filter with NSPredicate:
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: swift
+
+      .. literalinclude:: /examples/generated/code/start/QueryEngine.codeblock.predicates.swift
+         :language: swift
+
+   .. tab::
+      :tabid: objective-c
+
+      .. literalinclude:: /examples/generated/code/start/QueryEngine.codeblock.predicates.m
+         :language: objective-c
+
+Expressions
+~~~~~~~~~~~
+
+Filters consist of **expressions** in an NSPredicate. An expression consists of
+one of the following:
+
+- The name of a property of the object currently being evaluated.
+- An operator and up to two argument expression(s).
+- A literal string, number, or date.
+
+Dot Notation
+~~~~~~~~~~~~
+
+When referring to an object property, you can use **dot notation** to refer
+to child properties of that object. You can even refer to the properties of
+:ref:`embedded objects <ios-embedded-objects>` and :ref:`relationships
+<ios-client-relationships>` with dot notation.
+
+For example, consider a query on an object with a ``workplace`` property that
+refers to a Workplace object. The Workplace object has an embedded object
+property, ``address``. You can chain dot notations to refer to the zipcode
+property of that address: 
+
+.. code-block:: objective-c
+
+   workplace.address.zipcode == 10012
+
+Substitutions
+~~~~~~~~~~~~~
+
+You can use the following substitutions in your predicate format strings:
+
+- ``%@`` to specify values
+- ``%K`` to specify `keypaths <https://docs.swift.org/swift-book/ReferenceManual/Expressions.html#grammar_key-path-expression>`_
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: swift
+
+      .. literalinclude:: /examples/generated/code/start/QueryEngine.codeblock.substitutions.swift
+         :language: swift
+
+   .. tab::
+      :tabid: objective-c
+
+      .. literalinclude:: /examples/generated/code/start/QueryEngine.codeblock.substitutions.m
+         :language: objective-c
+
+Subqueries
+~~~~~~~~~~
+
+You can iterate through a collection property with another query using the
+``SUBQUERY()`` predicate function. ``SUBQUERY()`` has the following signature:
+
+.. code-block:: objective-c
+
+   SUBQUERY(<collection>, <variableName>, <predicate>)
+
+- ``collection``: the name of the list property to iterate through
+- ``variableName``: a variable name of the current element to use in the subquery
+- ``predicate``: a string that contains the subquery predicate. You can use the
+  variable name specified by ``variableName`` to refer to the currently-iterated
+  element.
+
+.. example::
+
+    Running the following filter on a projects collect returns projects with
+    tasks that have not been completed by a user named Alex.
+
+   .. tabs-realm-languages::
+
+      .. tab::
+         :tabid: swift
+
+         .. literalinclude:: /examples/generated/code/start/QueryEngine.codeblock.subquery.swift
+             :language: swift
+
+      .. tab::
+         :tabid: objective-c
+
+         .. literalinclude:: /examples/generated/code/start/QueryEngine.codeblock.subquery.m
+             :language: objective-c
+
+
+
 Operators
 ---------
 
@@ -33,12 +138,6 @@ work by **evaluating** an operator expression for every
 :term:`object <Realm object>` in the collection being
 filtered. If the expression resolves to ``true``, Realm
 Database includes the object in the results collection.
-
-An **expression** consists of one of the following:
-
-- The name of a property of the object currently being evaluated.
-- An operator and up to two argument expression(s).
-- A literal string, number, or date.
 
 .. note:: About the examples on this page
    
@@ -56,17 +155,32 @@ An **expression** consists of one of the following:
    .. tabs-realm-languages::
 
       .. tab::
-          :tabid: swift
+         :tabid: swift
 
-          .. literalinclude:: /examples/Schemas/ProjectAndTask.swift
+         .. literalinclude:: /examples/generated/code/start/QueryEngine.codeblock.models.swift
+             :language: swift
+
+      .. tab::
+         :tabid: objective-c
+
+         .. literalinclude:: /examples/generated/code/start/QueryEngine.codeblock.models.m
+             :language: objective-c
+
+   You can set up the {+realm+} for these examples with the following code:
+
+   .. tabs-realm-languages::
+
+      .. tab::
+         :tabid: swift
+
+         .. literalinclude:: /examples/generated/code/start/QueryEngine.codeblock.setup.swift
             :language: swift
 
       .. tab::
-          :tabid: objective-c
+         :tabid: objective-c
 
-          .. literalinclude:: /examples/Schemas/ProjectAndTask.m
-            :language: objective-c
-
+         .. literalinclude:: /examples/generated/code/start/QueryEngine.codeblock.setup.m
+             :language: objective-c
 
 Comparison Operators
 ~~~~~~~~~~~~~~~~~~~~
@@ -84,7 +198,7 @@ values.
    * - ``between``
      - Evaluates to ``true`` if the left-hand numerical or date expression is between or equal to the right-hand range. For dates, this evaluates to ``true`` if the left-hand date is within the right-hand date range.
 
-   * - | ``==``
+   * - | ``==``, ``=``
      - Evaluates to ``true`` if the left-hand expression is equal to the right-hand expression.
 
    * - | ``>``
@@ -94,7 +208,7 @@ values.
      - Evaluates to ``true`` if the left-hand numerical or date expression is greater than or equal to the right-hand numerical or date expression. For dates, this evaluates to ``true`` if the left-hand date is later than or the same as the right-hand date.
 
    * - ``in``
-     - Evaluates to ``true`` if the left-hand expression is in the right-hand list.
+     - Evaluates to ``true`` if the left-hand expression is in the right-hand list or string.
 
    * - | ``<``
      - Evaluates to ``true`` if the left-hand numerical or date expression is less than the right-hand numerical or date expression. For dates, this evaluates to ``true`` if the left-hand date is earlier than the right-hand date.
@@ -102,7 +216,7 @@ values.
    * - | ``<=``
      - Evaluates to ``true`` if the left-hand numeric expression is less than or equal to the right-hand numeric expression. For dates, this evaluates to ``true`` if the left-hand date is earlier than or the same as the right-hand date.
 
-   * - | ``!=``
+   * - | ``!=``, ``<>``
      - Evaluates to ``true`` if the left-hand expression is not equal to the right-hand expression.
 
 .. example::
@@ -120,14 +234,14 @@ values.
       .. tab::
           :tabid: objective-c
 
-          .. literalinclude:: /examples/Query/Comparison.m
-            :language: objective-c
+          .. literalinclude:: /examples/generated/code/start/QueryEngine.codeblock.comparison-operators.m
+             :language: objective-c
 
       .. tab::
           :tabid: swift
 
-          .. literalinclude:: /examples/Query/Comparison.swift
-            :language: swift
+          .. literalinclude:: /examples/generated/code/start/QueryEngine.codeblock.comparison-operators.swift
+             :language: swift
 
 
 Logical Operators
@@ -166,14 +280,14 @@ You can make compound predicates using logical operators.
       .. tab::
           :tabid: objective-c
 
-          .. literalinclude:: /examples/Query/Logical.m
-            :language: objective-c
+          .. literalinclude:: /examples/generated/code/start/QueryEngine.codeblock.logical-operators.m
+             :language: objective-c
 
       .. tab::
           :tabid: swift
 
-          .. literalinclude:: /examples/Query/Logical.swift
-            :language: swift
+          .. literalinclude:: /examples/generated/code/start/QueryEngine.codeblock.logical-operators.swift
+             :language: swift
 
 
 String Operators
@@ -181,6 +295,23 @@ String Operators
 
 You can compare string values using these string operators.
 Regex-like wildcards allow more flexibility in search.
+
+.. note::
+
+   You can use the following modifiers with the string operators:
+
+   - ``[c]`` for case insensitivity.
+
+     .. code-block:: objective-c
+
+        [NSPredicate predicateWithFormat: @"name CONTAINS[c] 'f'"]
+
+   - ``[d]`` for diacritic insensitivity: Realm treats special characters as the base character (e.g. ``é`` -> ``e``).
+
+     .. code-block:: objective-c
+
+        [NSPredicate predicateWithFormat: @"name CONTAINS[d] 'e'"]
+
 
 .. list-table::
    :header-rows: 1
@@ -192,7 +323,7 @@ Regex-like wildcards allow more flexibility in search.
    * - | ``beginsWith``
      - Evaluates to ``true`` if the left-hand string expression begins with the right-hand string expression. This is similar to ``contains``, but only matches if the left-hand string expression is found at the beginning of the right-hand string expression.
 
-   * - ``contains``
+   * - | ``contains``, ``in``
      - Evaluates to ``true`` if the left-hand string expression is found anywhere in the right-hand string expression.
 
    * - | ``endsWith``
@@ -211,9 +342,11 @@ Regex-like wildcards allow more flexibility in search.
        For example, the wildcard string "d?g" matches "dog",
        "dig", and "dug", but not "ding", "dg", or "a dog".
 
-   * - | ``==``
+   * - | ``==``, ``=``
      - Evaluates to ``true`` if the left-hand string is lexicographically equal to the right-hand string.
 
+   * - | ``!=``, ``<>``
+     - Evaluates to ``true`` if the left-hand string is not lexicographically equal to the right-hand string.
 
 .. example::
 
@@ -226,14 +359,14 @@ Regex-like wildcards allow more flexibility in search.
       .. tab::
           :tabid: objective-c
 
-          .. literalinclude:: /examples/Query/String.m
-            :language: objective-c
+          .. literalinclude:: /examples/generated/code/start/QueryEngine.codeblock.string-operators.m
+             :language: objective-c
 
       .. tab::
           :tabid: swift
 
-          .. literalinclude:: /examples/Query/String.swift
-            :language: swift
+          .. literalinclude:: /examples/generated/code/start/QueryEngine.codeblock.string-operators.swift
+             :language: swift
 
 
 Aggregate Operators
@@ -284,14 +417,14 @@ to a single value.
       .. tab::
           :tabid: objective-c
 
-          .. literalinclude:: /examples/Query/Accumulator.m
-            :language: objective-c
+          .. literalinclude:: /examples/generated/code/start/QueryEngine.codeblock.aggregate-operators.m
+             :language: objective-c
 
       .. tab::
           :tabid: swift
 
-          .. literalinclude:: /examples/Query/Accumulator.swift
-            :language: swift
+          .. literalinclude:: /examples/generated/code/start/QueryEngine.codeblock.aggregate-operators.swift
+             :language: swift
 
 
 Set Operators
@@ -310,13 +443,13 @@ the object.
    * - Operator
      - Description
 
-   * - ``All``
+   * - ``ALL``
      - Returns objects where the predicate evaluates to ``true`` for all objects in the collection.
 
-   * - ``Any``
+   * - ``ANY``, ``SOME``
      - Returns objects where the predicate evaluates to ``true`` for any objects in the collection.
 
-   * - ``None``
+   * - ``NONE``
      - Returns objects where the predicate evaluates to false for all objects in the collection.
 
 
@@ -332,17 +465,18 @@ the object.
       .. tab::
           :tabid: objective-c
 
-          .. literalinclude:: /examples/Query/Set.m
-            :language: objective-c
+          .. literalinclude:: /examples/generated/code/start/QueryEngine.codeblock.set-operators.m
+             :language: objective-c
 
       .. tab::
           :tabid: swift
 
-          .. literalinclude:: /examples/Query/Set.swift
-            :language: swift
+          .. literalinclude:: /examples/generated/code/start/QueryEngine.codeblock.set-operators.swift
+             :language: swift
 
 
 Summary
 -------
 
+- Realm accepts predicates based on NSPredicate to filter results.
 - There are several categories of **operators** available to filter results: comparison, logical, string, aggregate, and set operators.

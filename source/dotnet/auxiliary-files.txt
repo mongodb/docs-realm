@@ -57,31 +57,3 @@ auxiliary files. You may delete auxiliary files when the {+realm+} is
 closed. Deleting any of a {+realm+}'s files while the {+realm+} is
 open might corrupt the {+realm+} or disrupt :doc:`Sync
 </sync>`.
-
-Client Reset Scenario
-~~~~~~~~~~~~~~~~~~~~~
-
-When using :doc:`{+sync+} </sync>`, a **client
-reset** is a serious error recovery task that your client
-app must perform in the following situation:
-
-- The given synced {+realm+} on the server was restored from a backup.
-  For example, due to a {+service-short+} server crash.
-
-- The client app made changes to that {+realm+} since the backup was made,
-  but did not sync those changes back to the server before the server
-  was restored.
-
-In other words, the client app must carry out a client reset
-on a given synced {+realm+} if the server is restored to a
-version older than the version on the client.
-
-To perform a client reset, follow these steps:
-
-1. Create a backup of the local {+realm+} file.
-
-#. Delete the local {+realm+} file.
-
-#. The next time the app connects to the server and opens that {+realm+},
-   the app downloads a fresh copy of the {+realm+} file. The local changes
-   made since the backup on the server are not reflected in the new file.

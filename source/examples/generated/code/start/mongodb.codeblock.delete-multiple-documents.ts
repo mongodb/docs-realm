@@ -1,4 +1,4 @@
-const result: Realm.Services.MongoDB.DeleteResult = await plants.deleteMany(
+const result = await plants.deleteMany(
   {
     _partition: "Store 51",
   }

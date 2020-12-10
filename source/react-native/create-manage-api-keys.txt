@@ -53,8 +53,8 @@ user's API keys.
 
       .. code-block:: typescript
          
-         const user: Realm.User = app.currentUser;
-         const key: Realm.Auth.ApiKey = await user.apiKeys.create("apiKeyName");
+         const user = app.currentUser;
+         const key = await user.apiKeys.create("apiKeyName");
 
 .. _react-native-api-key-look-up-user-key:
 
@@ -83,11 +83,11 @@ To get an array that lists all of a user's API keys, call
 
       .. code-block:: typescript
          
-         const user: Realm.User = app.currentUser;
+         const user = app.currentUser;
          // List all of a user's keys
-         const keys: Realm.Auth.ApiKey[] = await user.apiKeys.fetchAll();
+         const keys = await user.apiKeys.fetchAll();
          // Get a specific key by its ID
-         const key: Realm.Auth.ApiKey = await user.apiKeys.fetch("5eb5931548d79bc784adf46e");
+         const key = await user.apiKeys.fetch("5eb5931548d79bc784adf46e");
 
 .. _react-native-api-key-enable-disable:
 
@@ -121,9 +121,9 @@ cannot be used to log in on behalf of the user.
       .. code-block:: typescript
          
          // Get the ID of a User API Key
-         const user: Realm.User = app.currentUser;
-         const apiKeys: Realm.Auth.ApiKey[] = await user.apiKeys.fetchAll();
-         const keyId: string = apiKeys[0]["_id"];
+         const user = app.currentUser;
+         const apiKeys = await user.apiKeys.fetchAll();
+         const keyId = apiKeys[0]["_id"];
          
          // Enable the User API Key
          await user.apiKey.enable(keyId);
@@ -160,9 +160,9 @@ of the user.
       .. code-block:: typescript
          
          // Get the ID of a User API Key
-         const user: Realm.User = app.currentUser;
-         const apiKeys: Realm.Auth.ApiKey[] = await user.apiKeys.fetchAll();
-         const keyId: string = apiKeys[0]["_id"];
+         const user = app.currentUser;
+         const apiKeys = await user.apiKeys.fetchAll();
+         const keyId = apiKeys[0]["_id"];
          
          // Delete the User API Key
          await user.apiKey.delete(keyId);

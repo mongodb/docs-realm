@@ -21,7 +21,8 @@ need to handle a **client reset**. While not common, it can be caused when Sync 
 terminated on the server. For example, a developer deploys a change that includes 
 a destructive schema change. To fix this, they must stop Sync, modify the schema, 
 and then re-enable Sync. This process causes the server to send a client reset 
-message to the clients. 
+message to the clients.
+
 By default, the SDK handles client reset messages automatically, but only on app 
 startup. Until then, users will not receive any data from the server, and any 
 changes they make will be lost during the reset. Therefore, you should handle 

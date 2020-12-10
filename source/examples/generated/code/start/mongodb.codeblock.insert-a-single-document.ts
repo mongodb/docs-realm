@@ -1,7 +1,7 @@
 type InsertOneResult = Realm.Services.MongoDB.InsertOneResult<
   BSON.ObjectId
 >;
-const result: InsertOneResult = await plants.insertOne({
+const result = await plants.insertOne({
   name: "lily of the valley",
   sunlight: "full",
   color: "white",

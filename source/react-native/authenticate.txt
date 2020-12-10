@@ -72,7 +72,7 @@ To log in, create an anonymous credential and pass it to ``App.logIn()``:
            const credentials = Realm.Credentials.anonymous();
            try {
              // Authenticate the user
-             const user: Realm.User = await app.logIn(credentials);
+             const user = await app.logIn(credentials);
              // `App.currentUser` updates to match the logged in user
              assert(user.id === app.currentUser.id)
              return user
@@ -132,7 +132,7 @@ password and pass it to ``App.logIn()``:
            const credentials = Realm.Credentials.emailPassword(email, password);
            try {
              // Authenticate the user
-             const user: Realm.User = await app.logIn(credentials);
+             const user = await app.logIn(credentials);
              // `App.currentUser ` updates to match the logged in user
              assert(user.id === app.currentUser.id)
              return user
@@ -218,7 +218,7 @@ with a payload object and pass it to ``App.logIn()``:
            const credentials = Realm.Credentials.function(payload);
            try {
              // Authenticate the user
-             const user: Realm.User = await app.logIn(credentials);
+             const user = await app.logIn(credentials);
              // `App.currentUser` updates to match the logged in user
              assert(user.id === app.currentUser.id);
              return user;
@@ -278,7 +278,7 @@ and pass it to ``App.logIn()``:
            const credentials = Realm.Credentials.jwt(jwt);
            try {
              // Authenticate the user
-             const user: Realm.User = await app.logIn(credentials);
+             const user = await app.logIn(credentials);
              // `App.currentUser` updates to match the logged in user
              assert(user.id === app.currentUser.id);
              return user;
@@ -353,7 +353,7 @@ app.
          import Realm from "realm";
          import { LoginButton, AccessToken } from "react-native-fbsdk";
          
-         const Login: React.FC<{ app: Realm.App }> = ({ app }) => {
+         const Login = ({ app }) => {
            return (
              <View>
                <LoginButton
@@ -365,7 +365,7 @@ app.
                    } else {
                      const { accessToken } = await AccessToken.getCurrentAccessToken();
                      const credential = Realm.Credentials.facebook(accessToken);
-                     const user: Realm.User = await app.logIn(credential);
+                     const user = await app.logIn(credential);
                      console.log(`Logged in with id: ${user.id}`);
                    }
                  }}
@@ -493,16 +493,16 @@ authorization code to finish logging the user in to your app.
            }
          }
          
-         const Login: React.FC<{ app: Realm.App }> = ({ app }) => {
+         const Login = ({ app }) => {
            return (
              <View>
                <GoogleSigninButton
                  size={GoogleSigninButton.Size.Standard}
                  color={GoogleSigninButton.Color.Auto}
                  onPress={async () => {
-                   const serverAuthCode: string = await getGoogleAuthCode();
+                   const serverAuthCode = await getGoogleAuthCode();
                    const credential = Realm.Credentials.google(serverAuthCode);
-                   const user: Realm.User = await app.logIn(credential);
+                   const user = await app.logIn(credential);
                    console.log(`Logged in with id: ${user.id}`);
                  }}
                />
@@ -626,7 +626,7 @@ the user's ID token to finish logging the user in to your app.
                  onPress={async () => {
                    const identityToken = await getAppleIdentityToken();
                    const credential = Realm.Credentials.apple(identityToken);
-                   const user: Realm.User = await app.logIn(credential);
+                   const user = await app.logIn(credential);
                    console.log(`Logged in with id: ${user.id}`);
                  }}
                />
