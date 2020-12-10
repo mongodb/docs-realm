@@ -1,3 +1,15 @@
+.. sidebar:: File Structure
+
+   .. code-block:: none
+      :copyable: False
+
+      yourRealmApp/
+      └── services/
+          └── <MongoDB Service Name>/
+              ├── config.json
+              └── rules/
+                  └── <rule name>.json
+
 Every :doc:`MongoDB Atlas data source </mongodb/link-a-data-source>`
 linked to your app is configured as a service in the ``/services``
 directory. Each data source maps to its own sub-directory with the same
@@ -9,16 +21,6 @@ The primary service configuration for a MongoDB Atlas data source is
 If the data source is not a :doc:`synced cluster </sync>` or :ref:`Data
 Lake <data-lake-caveats>`, then you can define collection-level rules in
 the ``/rules`` sub-directory.
-
-.. code-block:: none
-   :copyable: False
-
-   yourRealmApp/
-   └── services/
-       └── <MongoDB Service Name>/
-           ├── config.json
-           └── rules/
-               └── <rule name>.json
 
 .. important::
 

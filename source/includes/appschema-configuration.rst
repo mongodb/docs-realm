@@ -1,12 +1,14 @@
+.. sidebar:: File Structure
+
+   .. code-block:: none
+      :copyable: False
+
+      yourRealmApp/
+      └── config.json
+
 Application-level configuration information is defined in a single
 document named ``config.json`` stored in your application's root
 directory.
-
-.. code-block:: none
-   :copyable: False
-
-   yourRealmApp/
-   └── config.json
 
 Configuration
 ~~~~~~~~~~~~~

@@ -1,6 +1,6 @@
-open class Dog: RealmObject() {
+class Dog: RealmObject {
     var name: String = ""
-    var age: Int = 0
+    var age: int = 0
     var breed: String? = null
-    var owner: Person? = null
+    var owner: Person?
 }
