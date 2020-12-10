@@ -13,7 +13,7 @@ describe("user authentication", () => {
     // Create an anonymous credential
     const credentials = Realm.Credentials.anonymous();
     try {
-      const user: Realm.User = await app.logIn(credentials);
+      const user = await app.logIn(credentials);
       // :hide-start:
       expect(user.id).toBe(app.currentUser?.id);
       // :hide-end:
@@ -27,20 +27,20 @@ describe("user authentication", () => {
 
   test("email/password login", async () => {
     const randomInt = Math.floor(Math.random() * Math.floor(200000));
-    const username = "joe.jasper"+randomInt.toString()+"@example.com";
+    const username = "joe.jasper" + randomInt.toString() + "@example.com";
     await app.emailPasswordAuth.registerUser(username, "passw0rd")
     // :code-block-start: email-password-login
     // Create an email/password credential
     const credentials = Realm.Credentials.emailPassword(
       // :hide-start:
       username,
-      // :replace-with:
-      // "joe.jasper@example.com",
-      // :hide-end:
+      // :replace-with: /*
+      "joe.jasper@example.com",
+      // :hide-end: */
       "passw0rd"
     );
     try {
-      const user: Realm.User = await app.logIn(credentials);
+      const user = await app.logIn(credentials);
       // :hide-start:
       expect(user.id).toBe(app.currentUser?.id);
       // :hide-end:
@@ -63,7 +63,7 @@ describe("user authentication", () => {
     // Create an api key credential
     const credentials = Realm.Credentials.serverApiKey(apiKey);
     try {
-      const user: Realm.User = await app.logIn(credentials);
+      const user = await app.logIn(credentials);
       console.log("Successfully logged in!", user.id);
       return user;
     } catch (err) {
@@ -78,7 +78,7 @@ describe("user authentication", () => {
     // Create a custom function credential
     const credentials = Realm.Credentials.function({ username: "mongolover" });
     try {
-      const user: Realm.User = await app.logIn(credentials);
+      const user = await app.logIn(credentials);
       // :hide-start:
       expect(user.id).toBe(app.currentUser?.id);
       // :hide-end:
@@ -111,10 +111,10 @@ describe("user authentication", () => {
     };
     // :code-block-start: custom-jwt-login
     // Create a custom jwt credential
-    const jwt: string = await authenticateWithExternalSystem();
+    const jwt = await authenticateWithExternalSystem();
     const credentials = Realm.Credentials.jwt(jwt);
     try {
-      const user: Realm.User = await app.logIn(credentials);
+      const user = await app.logIn(credentials);
       // :hide-start:
       expect(user.id).toBe(app.currentUser?.id);
       // :hide-end:
@@ -135,10 +135,10 @@ describe("user authentication", () => {
       username: "mongolover",
     });
     try {
-      const emailPasswordUser: Realm.User = await app.logIn(
+      const emailPasswordUser = await app.logIn(
         emailPasswordCredentials
       );
-      const functionUser: Realm.User = await app.logIn(functionCredentials);
+      const functionUser = await app.logIn(functionCredentials);
       expect(functionUser.id).toBe(app.currentUser?.id);
 
       // :code-block-start: logout

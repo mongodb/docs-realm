@@ -1,15 +1,13 @@
-.. sidebar:: File Structure
-
-   .. code-block:: none
-      :copyable: False
-
-      yourRealmApp/
-      └── values/
-          └── <value name>.json
-
 Values are defined in your application's ``/values`` directory.
 
 Each value is defined in its own JSON file named after the value.
+
+.. code-block:: text
+   :copyable: False
+
+   yourRealmApp/
+   └── values/
+       └── <value name>.json
 
 Configuration
 ~~~~~~~~~~~~~

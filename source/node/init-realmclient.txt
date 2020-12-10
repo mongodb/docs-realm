@@ -56,7 +56,7 @@ of ``Realm.App``.
             const config = {
               id,
             };
-            const app: Realm.App = new Realm.App(config);
+            const app = new Realm.App(config);
 
       .. tab::
          :tabid: javascript
@@ -86,7 +86,7 @@ To retrieve an instance of the App Client from anywhere in your application, cal
 
          .. code-block:: typescript
 
-            const app: Realm.App =  Realm.App.getApp("<Your App ID>"); // replace this with your App ID
+            const app = Realm.App.getApp("<Your App ID>"); // replace this with your App ID
 
       .. tab::
          :tabid: javascript

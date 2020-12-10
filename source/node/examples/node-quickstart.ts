@@ -26,7 +26,7 @@ async function run() {
   await app.logIn(credentials);
   console.log(`Logged in anonymously with user id: ${app.currentUser?.id}`);
 
-  const realm: Realm = await Realm.open({
+  const realm = await Realm.open({
     schema: [TaskSchema],
     sync: {
       user: app.currentUser as Realm.User,
@@ -35,7 +35,7 @@ async function run() {
   });
 
   // Get all Tasks in the realm
-  const tasks: Realm.Collection<Task> = realm.objects<Task>("Task");
+  const tasks = realm.objects<Task>("Task");
 
   // Add a listener that fires whenever one or more Tasks are inserted, modified, or deleted.
   tasks.addListener(taskListener);
@@ -43,13 +43,13 @@ async function run() {
   // Add a couple of Tasks in a single, atomic transaction
   // Realm automatically sets the _partition property based on the partitionValue used to open the realm
   realm.write(() => {
-    const task1: Task = realm.create("Task", {
+    const task1 = realm.create<Task>("Task", {
       _id: new ObjectId(),
       name: "go grocery shopping",
       status: "Open",
     });
 
-    const task2 = realm.create("Task", {
+    const task2 = realm.create<Task>("Task", {
       _id: new ObjectId(),
       name: "go exercise",
       status: "Open",
@@ -81,7 +81,7 @@ run().catch((err) => {
 });
 
 // Define the collection notification listener
-const taskListener: Realm.CollectionChangeCallback<Task> = (
+const taskListener = (
   tasks: Realm.Collection<Task>,
   changes: Realm.ObjectChanges
 ) => {

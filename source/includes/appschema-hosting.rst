@@ -1,14 +1,3 @@
-.. sidebar:: File Structure
-
-   .. code-block:: none
-      :copyable: False
-
-      yourRealmApp/
-      └── hosting/
-          ├── metadata.json
-          └── files/
-              └── <files to host>
-
 Files that you want to :doc:`host on Realm </hosting>` should be
 included in your application's ``/hosting`` directory. Each file will be
 uploaded with the metadata defined in ``metadata.json``.
@@ -17,6 +6,15 @@ You can :doc:`configure the metadata </hosting/configure-file-metadata>`
 for each hosted file in ``metadata.json``. This metadata configuration
 file is an array of documents that each correspond to a single hosted
 file's metadata attributes.
+
+.. code-block:: none
+   :copyable: False
+
+   yourRealmApp/
+   └── hosting/
+       ├── metadata.json
+       └── files/
+           └── <files to host>
 
 .. _hosting-metadata-json:
 
