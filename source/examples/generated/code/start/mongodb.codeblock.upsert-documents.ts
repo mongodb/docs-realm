@@ -1,5 +1,5 @@
 type UpdateResult = Realm.Services.MongoDB.UpdateResult<BSON.ObjectId>;
-const result = await plants.updateOne(
+const result: UpdateResult = await plants.updateOne(
   {
     sunlight: "full",
     type: "perennial",

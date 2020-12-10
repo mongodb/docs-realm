@@ -17,6 +17,27 @@ app to use the new Realm SDKs. While much of the logic and flow of information
 hasn't changed, there are a few important changes in the way your app connects to 
 the {+realm+} backend.
 
+What's Changed?
+---------------
+This section provides an overview of the main changes. Below, you will find 
+language-specific guidance for migrating your app.
+
+- **Services**
+   The {+realm+} SDKs do not provide hooks for calling Services (like the 
+   :doc:`Twilio <services/twilio>` and :doc:`AWS <services/aws>` services). We 
+   recommend using the AWS and/or Twilio ``npm`` packages within {+realm+} 
+   functions to connect to these services moving forward. For more information, 
+   see :doc:`Upload External Dependencies </functions/upload-external-dependencies>`.
+
+- **Functions**
+   Your app can still call server-side functions, but they are now called from the 
+   ``Realm.User`` object instead of the ``App`` object. 
+
+- **Authentication**
+   Authentication methods are now called via Realm Credentials, and user logout now 
+   occurs on the ``Realm.User`` object rather than the ``App`` object.
+
+
 Updating Your Existing Application
 ----------------------------------
 The changes in the {+realm+} SDKs are best described by how they have been 
@@ -29,27 +50,26 @@ see specific details about migrating your existing Stitch app to the Realm SDKs.
    since we did not provide Stitch SDKs for those languages. To get started with 
    these languages, refer to the SDK documentation sections above.
 
-.. tabs-realm-sdks::
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: java
+
+      oh hai
 
    .. tab::
-      :tabid: android
+      :tabid: kotlin
 
-      To learn more about the differences between the Stitch Android SDK
-      and the Realm Android SDK, see the Android SDK documentation on
-      :ref:`Upgrade from Stitch to Realm (Android)
-      <android-migrate-from-stitch-to-realm>`.
+      kotlin rox
 
    .. tab::
-      :tabid: ios
+      :tabid: javascript
 
-      Schwifty
-
-   .. tab::
-      :tabid: web
-
-      Do we also need a tab for node?
+      Do we also need a tab for "web"?
 
    .. tab::
-      :tabid: node
+      :tabid: swift
 
-      Do we also need a tab for web?
+      Schwifty 
+

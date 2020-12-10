@@ -23,7 +23,7 @@ fun handleSignInResult(completedTask: Task<GoogleSignInAccount>) {
     try {
         val account: GoogleSignInAccount? = completedTask.result
         val authorizationCode: String? = account?.serverAuthCode
-        val googleCredentials: Credentials = Credentials.google(authorizationCode, GoogleAuthType.AUTH_CODE)
+        val googleCredentials: Credentials = Credentials.google(authorizationCode)
         app.loginAsync(googleCredentials) {
             if (it.isSuccess) {
                 Log.v(

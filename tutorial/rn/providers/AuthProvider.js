@@ -28,7 +28,6 @@ const AuthProvider = ({ children }) => {
     setProjectData([myProject]);
 
     // :code-block-start: open-user-realm
-    // :hide-start:
     const config = {
       sync: {
         user,

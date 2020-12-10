@@ -14,7 +14,6 @@ import com.mongodb.realm.examples.YOUR_APP_ID
 import io.realm.mongodb.App
 import io.realm.mongodb.AppConfiguration
 import io.realm.mongodb.Credentials
-import io.realm.mongodb.auth.GoogleAuthType
 
 
 class AuthActivity : AppCompatActivity() {
@@ -56,7 +55,7 @@ class AuthActivity : AppCompatActivity() {
         try {
             val account: GoogleSignInAccount? = completedTask.result
             val authorizationCode: String? = account?.serverAuthCode
-            val googleCredentials: Credentials = Credentials.google(authorizationCode, GoogleAuthType.AUTH_CODE)
+            val googleCredentials: Credentials = Credentials.google(authorizationCode)
             app.loginAsync(googleCredentials) {
                 if (it.isSuccess) {
                     Log.v(

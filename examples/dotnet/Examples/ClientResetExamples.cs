@@ -12,6 +12,7 @@ namespace UnitTests
     public class ClientResetExamples
     {
         App app;
+        ObjectId testTaskId;
         Realms.Sync.User user;
         SyncConfiguration config;
         const string myRealmAppId = "tuts-tijya";
