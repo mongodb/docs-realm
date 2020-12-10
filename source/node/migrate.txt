@@ -14,15 +14,13 @@ Upgrade from Stitch to Realm
 
 Overview
 --------
-If you have an existing app built with the Stitch SDK, you should migrate your 
-app to use the new Realm SDK. While much of the logic and flow of information 
-hasn't changed, there are a few important changes in the way your app connects to 
-the {+realm+} backend.
+If you have an existing app built with the Stitch SDK, you should migrate your
+app to use the new Realm SDK.  While much of the application logic and flow of
+information hasn't changed, there are a few changes to how it connects to the
+{+backend+} backend.
 
 New Features
 ------------
-
-- The Realm Node SDK supports Node applications.
 
 - The Realm Node SDK now includes {+client-database+}, which includes
   local object storage and the ability to synchronize document changes
@@ -47,29 +45,25 @@ Changes
    * - What's Changed?
      - Solution
    
-   * - The backend app connections previously accessed via `StitchAppClient <http://stitch-sdks.s3-website-us-east-1.amazonaws.com/stitch-sdks/java/4/com/mongodb/stitch/node/core/StitchAppClient.html>`__ are now accessed through :java-sdk:`App <io/realm/mongodb/App.html>`.
-     - Migrate all occurrences of ``StitchAppClient`` to ``App``.
+   * - The backend app connections previously accessed via `StitchAppClient <http://stitch-sdks.s3-website-us-east-1.amazonaws.com/stitch-sdks/js-server/4/interfaces/stitchappclient.html>`__ are now accessed through :js-sdk:`Realm.App <Realm.App.html>`. Use the ``Realm.App`` class to access authentication functionality such as logging in and getting the current user. The ``Realm.App`` is not an interface to access {+backend+} functions.
 
-   * - Application users previously accessed via `StitchUser <http://stitch-sdks.s3-website-us-east-1.amazonaws.com/stitch-sdks/java/4/com/mongodb/stitch/node/core/auth/StitchUser.html>`__ are now accessed through :java-sdk:`User <io/realm/mongodb/User.html>`.
-     - Migrate all occurrences of ``StitchUser`` to ``User``.
+     - Migrate all occurrences of ``StitchAppClient`` to ``Realm.App``.
 
-   * - In the Stitch SDK, network requests like `callFunction() <http://stitch-sdks.s3-website-us-east-1.amazonaws.com/stitch-sdks/java/4/com/mongodb/stitch/node/core/StitchAppClient.html#callFunction(java.lang.String,java.util.List)>`__ were asynchronous by default. In the Realm Node SDK, you can choose synchronous or asynchronous requests with the "Async" suffix, e.g. :java-sdk:`callFunction() <io/realm/mongodb/functions/Functions.html#callFunction-java.lang.String-java.util.List-->` and :java-sdk:`callFunctionAsync() <io/realm/mongodb/functions/Functions.html#callFunctionAsync-java.lang.String-java.util.List--io.realm.mongodb.App.Callback->`.
-     - Migrate all asynchronous Stitch SDK requests to their asynchronous Realm SDK equivalents.
+   * - Application users previously accessed via `StitchUser <http://stitch-sdks.s3-website-us-east-1.amazonaws.com/stitch-sdks/js-server/4/interfaces/stitchuser.html>`__ are now accessed through :js-sdk:`Realm.User <Realm.User.html>`.
+     - Migrate all occurrences of ``StitchUser`` to ``Realm.User``.
 
-   * - Async SDK requests no longer use the built-in Node `Task <https://developers.google.com/node/reference/com/google/node/gms/tasks/Task.html?is-external=true>`__ class to return success status and values via ``onComplete()``; instead, Async requests now use a :java-sdk:`App.Callback <io/realm/mongodb/App.Callback.html>` to return success status and values via ``onResult()``.
-     - Rewrite all asynchronous Stitch SDK requests to use ``App.Callback`` and ``onResult()``.
-
-   * - The login API has changed from `stitchAppClient.getAuth().loginWithCredential() <http://stitch-sdks.s3-website-us-east-1.amazonaws.com/stitch-sdks/java/4/com/mongodb/stitch/node/core/auth/StitchAuth.html#loginWithCredential(com.mongodb.stitch.core.auth.StitchCredential)>`__ to :java-sdk:`app.loginAsync() <io/realm/mongodb/App.html#login-io.realm.mongodb.Credentials->` or the synchronous equivalent :java-sdk:`app.login() <io/realm/mongodb/App.html#login-io.realm.mongodb.Credentials->`.
+   * - The login API has changed from `stitchAppClient.auth.loginWithCredential() http://stitch-sdks.s3-website-us-east-1.amazonaws.com/stitch-sdks/js-server/4/interfaces/stitchauth.html#loginwithcredential>`__ to :js-sdk:`Realm.App.logIn() <Realm.App.html#logIn>`
      - Rewrite all authentication logic to use the :ref:`new login API <node-authenticate>`.
 
-   * - The Stitch SDK used `stitchAppClient.getAuth().logout() <http://stitch-sdks.s3-website-us-east-1.amazonaws.com/stitch-sdks/java/4/com/mongodb/stitch/node/core/auth/StitchAuth.html#logout()>`__ to handle user logout. To logout a user in the Realm SDK, call the :java-sdk:`logOut() <io/realm/mongodb/User.html#logOut-->` method of that user's ``User`` object.
-     - Rewrite all logout logic to use the user's ``User`` object instead of the ``StitchAppClient``.
+   * - The API to log users out has changed from `stitchAppClient.auth.logout() <http://stitch-sdks.s3-website-us-east-1.amazonaws.com/stitch-sdks/js-server/4/interfaces/stitchauth.html#logout>`__ to :js-sdk:`Realm.User.logOut() <Realm.User.html#logOut>`.
+     - Rewrite the application logic to log out using the ``Realm.User`` object's ``logOut()`` method.
 
-   * - Instead of calling functions using the app client directly, like `stitchAppClient.callFunction() <http://stitch-sdks.s3-website-us-east-1.amazonaws.com/stitch-sdks/java/4/com/mongodb/stitch/node/core/StitchAppClient.html#callFunction(java.lang.String,java.util.List)>`__, you can only call functions through a :java-sdk:`Functions Manager <io/realm/mongodb/functions/Functions.html>`, which you can access through your backend realm app connection: :java-sdk:`app.getFunctions(user).callFunctionAsync() <io/realm/mongodb/functions/Functions.html#callFunctionAsync-java.lang.String-java.util.List--io.realm.mongodb.App.Callback->`.
-     - Call functions :ref:`using a Functions Manager <node-call-a-function>` instead of an app client.
+   * - In the Stitch SDK, authentication credentials were previously imported directly from the "mongodb-stitch-server-sdk". The Realm SDK has a class, :js-sdk:`Realm.Credentials <Realm.Credentials.html>` for creating credentials. ``Realm.Credentials`` contains methods to create credentials for each authentication provider.
+     - Replace imports of authentication credentials with method calls for each respective authentication provider through the ``Realm.Credentials`` class.
 
-   * - The MongoDB Data Access API, which contains objects like :java-sdk:`MongoClient <io/realm/mongodb/mongo/MongoClient.html>`, :java-sdk:`MongoDatabase <io/realm/mongodb/mongo/MongoDatabase.html>`, and :java-sdk:`MongoCollection <io/realm/mongodb/mongo/MongoCollection.html>` has changed packages from ``com.mongodb.client`` to ``io.realm.mongodb.mongo``.
-     - Refactor all imports of the :ref:`MongoDB Data Access API <node-mongodb-data-access>` to use ``io.realm.mongodb.mongo``.
+   * - Instead of calling {+backend+} functions using the app client directly via the asynchronous method `stitchAppClient.callFunction() <http://stitch-sdks.s3-website-us-east-1.amazonaws.com/stitch-sdks/js/4/interfaces/stitchappclient.html#callfunction>`__, you must call server {+backend+} functions by using the :js-sdk:`callFunction() <Realm.User.html#callFunction>` synchronous method of a logged in ``Realm.User``. 
+     - Call functions ``Realm.User.callFunction()`` instead of an app client. Keep in mind that ``Realm.User.callFunction()`` is a synchronous method.
 
-   * - The BSON package, which contains MongoDB query filters and the ``Document`` data type for reading/writing to MongoDB Atlas has moved from ``com.mongodb.stitch.core.internal.common`` to ``org.bson``.
-     - Refactor all imports of the BSON package to use ``io.realm.mongodb.mongo``.
+   * - The MongoDB Data Access API, which contains objects like :js-sdk:`MongoDatabase <Realm-MongoDBDatabase.html>`, and :js-sdk:`MongoCollection <Realm.MongoDBCollection>` was previously accessed 
+   by passing the `RemoteMongoClient.Factory <http://stitch-sdks.s3-website-us-east-1.amazonaws.com/stitch-sdks/js-server/4/modules/remotemongoclient.html#factory>`__ to the `StitchAppClient.getServiceClient() <http://stitch-sdks.s3-website-us-east-1.amazonaws.com/stitch-sdks/js-server/4/interfaces/stitchappclient.html#getserviceclient>`__.  It is now accessed via the user object via :js-sdk:`Realm.User.mongoClient <Realm.User.html#mongoClient`.
+     - Replace all ``mongoClient`` instatiations with ``Realm.User.mongoClient``.
