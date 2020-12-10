@@ -36,30 +36,15 @@
         // Use realm
     }];
     // :code-block-end:
-    [self waitForExpectationsWithTimeout:10 handler:^(NSError *error) {
-        NSLog(@"Expectation failed: %@", error);
-    }];
-}
 
-- (void)testOpenSyncedRealmSync {
-    XCTestExpectation *expectation = [self expectationWithDescription:@"it completes"];
     // :code-block-start: open-synced-realm-synchronously
-    RLMApp *app = [RLMApp appWithId:YOUR_REALM_APP_ID];
-    // Log in...
-    RLMUser *user = [app currentUser];
-    NSString *partitionValue = @"some partition value";
-    
-    RLMRealmConfiguration *configuration = [user configurationWithPartitionValue:partitionValue];
-    
     NSError *error = nil;
     RLMRealm *realm = [RLMRealm realmWithConfiguration:configuration
                                                  error:&error];
     
     if (error != nil) {
         NSLog(@"Failed to open realm: %@", [error localizedDescription]);
-        // :hide-start:
-        [expectation fulfill];
-        // :hide-end:
+        // handle error
     } else {
         NSLog(@"Opened realm: %@", realm);
         // Use realm
