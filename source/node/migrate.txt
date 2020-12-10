@@ -62,7 +62,7 @@ Changes
      - Replace imports of authentication credentials with method calls for each respective authentication provider through the ``Realm.Credentials`` class.
 
    * - Instead of calling {+backend+} functions using the app client directly via the method `stitchAppClient.callFunction() <http://stitch-sdks.s3-website-us-east-1.amazonaws.com/stitch-sdks/js/4/interfaces/stitchappclient.html#callfunction>`__, you must call server {+backend+} functions by using the :js-sdk:`callFunction() <Realm.User.html#callFunction>` method of a logged in ``Realm.User``. 
-     - Call functions ``Realm.User.callFunction()`` instead of an app client.
+     - Call {+backend+} functions using ``Realm.User.callFunction()`` instead of an app client.
 
    * - The MongoDB Data Access API, which contains objects like :js-sdk:`MongoDatabase <Realm-MongoDBDatabase.html>`, and :js-sdk:`MongoCollection <Realm.MongoDBCollection>` was previously accessed by passing the `RemoteMongoClient.Factory <http://stitch-sdks.s3-website-us-east-1.amazonaws.com/stitch-sdks/js-server/4/modules/remotemongoclient.html#factory>`__ to the `StitchAppClient.getServiceClient() <http://stitch-sdks.s3-website-us-east-1.amazonaws.com/stitch-sdks/js-server/4/interfaces/stitchappclient.html#getserviceclient>`__.  It is now accessed via the user object via :js-sdk:`Realm.User.mongoClient <Realm.User.html#mongoClient>`.
      - Replace all ``mongoClient`` instatiations with ``Realm.User.mongoClient``.
