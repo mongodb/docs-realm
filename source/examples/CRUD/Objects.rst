@@ -28,7 +28,7 @@
       :tabid: objective-c
 
       .. literalinclude:: /examples/CRUD/Objects.m
-         :language: objective-c
+         :language: objectivec
 
    .. tab::
       :tabid: swift

@@ -39,5 +39,5 @@
       :tabid: objective-c
 
       .. literalinclude:: /examples/Relationships/ToOne/ToOne.m
-         :language: objective-c
+         :language: objectivec
          :emphasize-lines: 4
