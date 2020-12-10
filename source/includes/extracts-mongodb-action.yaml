@@ -404,11 +404,13 @@ content: |
             documents using ``cursor.next()`` or ``cursor.toArray()``.
 
      * - ``cursor.skip(amount)``
-       - Specifies the number of matching documents to skip before
-         including matches in the query result set.
-
+       - Specifies a number of matching documents to omit from the query result
+         set. MongoDB omits documents from the result set in sort order until it
+         has skipped the specified number. If the query also specifies a limit,
+         skipped documents do not count towards the limit threshold.
+         
          .. note::
-
+            
             You cannot call this method after retrieving one or more
             documents using ``cursor.next()`` or ``cursor.toArray()``.
 
@@ -471,6 +473,16 @@ content: |
 
                collection.aggregate(pipeline).toArray()
                  .then(docs => console.log("all documents", docs))
+
+     * - ``cursor.skip(amount)``
+       - Specifies a number of matching documents to omit from the aggregation
+         result set. MongoDB omits documents from the result set in sort order
+         until it has skipped the specified number.
+         
+         .. note::
+            
+            You cannot call this method after retrieving one or more
+            documents using ``cursor.next()`` or ``cursor.toArray()``.
 ---
 ref: mongodb-action-params-findOneAndUpdate
 content: |
