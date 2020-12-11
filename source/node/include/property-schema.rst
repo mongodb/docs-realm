@@ -28,6 +28,25 @@ You can configure the following constraints for a given property:
        - ``date``, which maps to :mdn:`Date <Web/JavaScript/Reference/Global_Objects/Date>`
        - ``data``, which maps to :mdn:`ArrayBuffer <Web/JavaScript/Reference/Global_Objects/ArrayBuffer>`
        - ``objectId``, which maps to :manual:`ObjectId </reference/method/ObjectId/>`
+       
+       To specify that a field contains a list of a primitive value tpye, append
+       ``[]`` to the type name.
+
+       .. example::
+          
+          The following schema defines a ``Student`` object type with a
+          string name and a list of integer grades:
+
+          .. code-block:: javascript
+
+             const studentSchema = {
+               name: 'Student',
+               properties: {
+                 name: "string",
+                 grades: "int[]"
+               }
+             }
+
 
    * - Optional
      - Optional properties may contain a null value or be entirely
