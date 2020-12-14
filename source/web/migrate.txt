@@ -33,11 +33,12 @@ information hasn't changed, there are a few changes to how the SDK connects to t
 Deprecated Features
 -------------------
 
-- The  {+service-short+} SDKs do not provide hooks for calling Services (like the 
-  :doc:`Twilio <services/twilio>` and :doc:`AWS <services/aws>` services). We 
-  recommend using the AWS and/or Twilio ``npm`` packages within {+realm+} 
-  functions to connect to these services moving forward. For more information, 
-  see :doc:`Upload External Dependencies </functions/upload-external-dependencies>`.
+- The  {+service-short+} SDKs do not provide an interface for calling Services
+(like the :doc:`Twilio <services/twilio>` and :doc:`AWS <services/aws>`
+services).  If you were using these in your Stitch app, convert them to Realm
+functions in your Realm application using the AWS and/or Twilio npm packages.
+For more information, see :doc:`Upload External Dependencies
+</functions/upload-external-dependencies>`.
 
 Changes
 -------
@@ -49,7 +50,7 @@ Changes
    * - What's Changed?
      - Solution
    
-   * - The backend app connections previously accessed via `StitchAppClient <http://stitch-sdks.s3-website-us-east-1.amazonaws.com/stitch-sdks/js/4/interfaces/stitchappclient.html>`__ are now available through :js-sdk:`Realm.App <Realm.App.html>`. Use the ``Realm.App`` class to access authentication functionality such as logging in and getting the current user. The ``Realm.App`` is not an interface to access {+backend+} functions.
+   * - The backend app connections previously accessed via `StitchAppClient <http://stitch-sdks.s3-website-us-east-1.amazonaws.com/stitch-sdks/js/4/interfaces/stitchappclient.html>`__ are now available through :js-sdk:`Realm.App <Realm.App.html>`. Use the ``Realm.App`` class to access authentication functionality such as logging in and getting the current user. 
 
      - Migrate all occurrences of ``StitchAppClient`` to ``Realm.App``.
 
