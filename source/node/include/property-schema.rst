@@ -29,7 +29,7 @@ You can configure the following constraints for a given property:
        - ``data``, which maps to :mdn:`ArrayBuffer <Web/JavaScript/Reference/Global_Objects/ArrayBuffer>`
        - ``objectId``, which maps to :manual:`ObjectId </reference/method/ObjectId/>`
        
-       To specify that a field contains a list of a primitive value tpye, append
+       To specify that a field contains a list of a primitive value type, append
        ``[]`` to the type name.
 
        .. example::
