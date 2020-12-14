@@ -29,10 +29,12 @@ class. Objects of the same type share an :ref:`object schema
 objects. In most languages you define object schemas using the native
 class implementation.
 
-.. example::
+.. _dotnet-example:
 
 Example
 --------
+
+.. example::
 
    The following code block shows an object schema that describes a Dog.
    Every Dog object must include a ``Name`` and may
@@ -218,6 +220,7 @@ implicitly required. Fields with the ``RealmObject`` type are always
 nullable, and cannot be made required.
 
 // TODO:
+
 .. warning:: .NET Types and Nullability
    In Kotlin, types are non-nullable by default unless you explicitly
    add a ``?`` suffix to the type. You can only annotate nullable types
