@@ -31,6 +31,9 @@ class implementation.
 
 .. example::
 
+Example
+--------
+
    The following code block shows an object schema that describes a Dog.
    Every Dog object must include a ``Name`` and may
    optionally include the dog's ``Age``, ``Breed`` and a list of people that 
@@ -190,6 +193,8 @@ The following is an example of how to designate a primary key in an object schem
      .. literalinclude:: /examples/Schemas/PrimaryKey.cs
          :language: csharp
 
+.. _dotnet-required-field:
+
 Required Fields
 ~~~~~~~~~~~~~~~
 TODO: .NET AND NULLABLE TYPES
@@ -212,8 +217,8 @@ Primitive types such as ``int`` and the ``RealmList`` type are
 implicitly required. Fields with the ``RealmObject`` type are always
 nullable, and cannot be made required.
 
-.. warning:: .NET Types and Nullability
 // TODO:
+.. warning:: .NET Types and Nullability
    In Kotlin, types are non-nullable by default unless you explicitly
    add a ``?`` suffix to the type. You can only annotate nullable types
    like ``String`` and ``Date`` -- using the ``@Required`` annotation on
@@ -315,10 +320,11 @@ You can index fields with the following types:
 - ``Boolean`` or ``bool``
 - ``Date``
 
-To index a field, use the :dotnet-sdk:`@Index <io/realm/annotations/Index.html>`
+//TODO: FIX LINK
+To index a field, use the :dotnet-sdk:`[Indexed] <reference/Realms.IndexedAttribute.html>`
 annotation:
 
-   .. literalinclude:: /examples/Schemas/Index.cs
+   .. literalinclude:: /examples/Schemas/Indexed.cs
          :language: csharp
 
 
@@ -342,6 +348,7 @@ To set up a many-to-one or one-to-one relationship, create a field
 with whose type is a {+service-short+} object in your application:
 
 //TODO: CHANGE TO .NET
+
 .. tabs-realm-languages::
 
    .. tab::
@@ -526,7 +533,7 @@ where ``T`` can be the following types:
       .. literalinclude:: /examples/Schemas/Lists.java
          :language: java
 
-.. _android-ignore-field:
+.. _dotnet-ignore-field:
 
 Ignore a Field
 ~~~~~~~~~~~~~~
@@ -534,8 +541,8 @@ Ignore a Field
 If you don't want to save a field in your model to a {+realm+}, you can
 ignore a field.
 
-Ignore a field from a {+service-short+} object model with the
-:java-sdk:`@Ignore <io/realm/annotations/Ignore.html>` annotation:
+Ignore a field from a {+service-short+} object model with the //TODO: FIX LINK
+:dotnet-sdk:`[Ignored <reference/Realms.IgnoredAttribute.html>` annotation:
 
    .. literalinclude:: /examples/Schemas/Ignored.cs
          :language: csharp
@@ -543,7 +550,7 @@ Ignore a field from a {+service-short+} object model with the
 .. note:: Ignoring ``static`` and ``transient`` Fields
 
    Fields marked ``static`` or ``transient`` are always ignored, and do
-   not need the ``@Ignore`` annotation.
+   not need the ``[Ignored]`` annotation.
 
 .. _dotnet-rename-field:
 
