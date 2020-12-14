@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 public class Image : RealmObject
 {
     // Other properties...
@@ -12,4 +13,13 @@ public class Person : RealmObject
     public string Name { get; set; }
     public RealmList<String> Dogs { get; set; } 
 >>>>>>> 5763d8d... DOCSP-13320 added all code examples
+=======
+public class Image : RealmObject
+{
+    // Other properties...
+
+    public IList<string> Tags { get; }
+
+    public IList<double?> Ratings { get; }
+>>>>>>> a44415f... DOCSP-13320 added embedded and list
 }

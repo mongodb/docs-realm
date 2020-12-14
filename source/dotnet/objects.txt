@@ -199,7 +199,6 @@ The following is an example of how to designate a primary key in an object schem
 
 Required Fields
 ~~~~~~~~~~~~~~~
-TODO: .NET AND NULLABLE TYPES
 
 You can make a field required to disallow ``null`` values in a field.
 You can make any of the following types required:
@@ -216,13 +215,13 @@ You can make any of the following types required:
 - ``Date``
 - ``RealmList``
 
-Primitive types such as ``int`` and the ``RealmList`` type are
-implicitly required. Fields with the ``RealmObject`` type are always
+Fields with the ``RealmObject`` type are always
 nullable, and cannot be made required.
 
 TODO:
 
 .. warning:: .NET Types and Nullability
+
    In .NET, value types are non-nullable by default unless you explicitly
    add a ``?`` suffix to the type, and cannot be annotated with ``[Required]``. 
    Reference types like ``String`` and ``Date`` 
@@ -235,7 +234,6 @@ TODO:
 
 Optional Fields
 ~~~~~~~~~~~~~~~
-TODO: check this against .NET documentation
 
 You can make a field required to disallow ``null`` values in a field.
 You can make any of the following types required:
@@ -359,6 +357,195 @@ Relationships
 .. _dotnet-field-relationships-many-to-one:
 
 To-One
+===========
+
+To set up a many-to-one or one-to-one relationship, create a field
+with whose type is a {+service-short+} object in your application:
+
+
+   .. literalinclude:: /examples/Schemas/ManyToOne.cs
+      :language: csharp
+
+Each ``Cat`` references zero or one ``Dog`` instances. Nothing prevents
+multiple ``Cat`` instances from referencing the same ``Dog`` as a rival;
+the distinction between a many-to-one and a one-to-one relationship is
+up to your application.
+
+Setting a relationship field to null removes the connection between
+objects, but {+client-database+} does not delete the referenced object
+unless that object is :ref:`embedded <dotnet-field-relationships-embedded>`.
+
+.. _dotnet-field-relationships-many-to-many:
+
+To-Many
+============
+
+You can create a relationship between one object and any number of objects
+using a field of type ``RealmList<?>`` where ``T`` is a
+{+service-short+} object in your application:
+
+   .. literalinclude:: /examples/Schemas/ManyToMany.cs
+      :language: csharp
+
+``RealmList`` s are containers of ``RealmObject`` s, but otherwise behave
+like a regular collection. You can use the same object in multiple
+``RealmList`` s.
+
+You can even use many-to-many ``RealmList`` s to declare relationships
+between objects of the same type:
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/Schemas/SameTypeRelationships.kt
+         :language: kotlin
+
+   .. tab::
+      :tabid: java
+
+      .. literalinclude:: /examples/Schemas/SameTypeRelationships.java
+         :language: java
+
+.. _dotnet-field-relationships-embedded:
+
+Embedded
+========
+
+{+client-database+} provides the ability to nest objects within other
+objects. This has several advantages:
+
+- If using {+sync+}, objects will translate into MongoDB documents that
+  follow a :manual:`denormalized data model <manual/core/data-modeling-introduction/>`.
+
+- When you delete an object that contains another object, the delete
+  operation removes both objects from the {+realm+}, so unused objects
+  don't accumulate in your {+realm+} file, taking up valuable space on
+  user's mobile devices.
+
+To embed an object, extend 
+:dotnet-sdk:`EmbeddedObject <reference/Realms.EmbeddedObject.html`
+for the class that you'd like to nest within another class:
+
+   .. literalinclude:: /examples/Schemas/Embedded.cs
+      :language: csharp
+
+
+Then, any time you reference that class from another class,
+{+client-database+} will embed the referenced class within the enclosing
+class.
+
+.. seealso::
+
+   :ref:`Embedded Objects <dotnet-embedded-objects>`
+
+.. _dotnet-field-relationships-inverse:
+
+Inverse Relationships
+=====================
+
+By default, {+client-database+} relationships are unidirectional. You
+can follow a link from one class to a referenced class, but not in the
+opposite direction. You can provide a link in the opposite direction
+with the :dotnet-sdk:`[Backlink] <reference/Realms.BacklinkAttribute.html>` annotation:
+
+   .. literalinclude:: /examples/Schemas/Inverse.cs
+      :language: csharp
+
+Since relationships are many-to-one or many-to-many, following inverse
+relationships can result in zero, one, or many objects.
+
+Like any other ``RealmResults`` set, you can
+:ref:`query <dotnet-client-query-engine>` an inverse relationship.
+
+.. _dotnet-field-relationships-lists:
+
+Lists
+=====
+Realm objects can contain lists of non-{+service-short+}-object data
+types. You can model these collections with the standard .NET interface
+`IList<T> https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ilist-1?view=net-5.0`,
+where ``T`` can be the following types:
+
+- ``String``
+- ``Integer``
+- ``Boolean``
+- ``Float``
+- ``Double``
+- ``Short``
+- ``Long``
+- ``Byte``
+- ``byte[]``
+- ``Date``
+
+Unlike lists of {+service-short+} objects, these lists can contain
+null values. If null values shouldn't be allowed, use the
+:ref:`[Required] <dotnet-required-field>` annotation.
+
+   .. literalinclude:: /examples/Schemas/Lists.cs
+      :language: csharp
+
+.. _dotnet-ignore-field:
+
+Ignore a Field
+~~~~~~~~~~~~~~
+
+If you don't want to save a field in your model to a {+realm+}, you can
+ignore a field.
+
+Ignore a field from a {+service-short+} object model with the
+:dotnet-sdk:`[Ignored] <reference/Realms.IgnoredAttribute.html>` annotation:
+
+   .. literalinclude:: /examples/Schemas/Ignored.cs
+         :language: csharp
+
+.. _dotnet-rename-field:
+
+Rename a Field
+~~~~~~~~~~~~~~
+
+By default, {+client-database+} uses the name defined in the model class
+to represent fields internally. In some cases you might want to change
+this behavior:
+
+- To make it easier to work across platforms, since naming conventions differ.
+- To change a field name in .NET without forcing a migration.
+
+Choosing an internal name that differs from the name used in model classes
+has the following implications:
+
+- Migrations must use the internal name when creating classes and fields.
+- Schema errors reported will use the internal name.
+
+Use the :dotnet-sdk:`[MapTo] <reference/Realms.MapToAttribute.html>`
+annotation to rename a field:
+
+   .. literalinclude:: /examples/Schemas/RenameField.cs
+         :language: csharp
+
+
+.. _dotnet-rename-object:
+
+Rename a Class
+~~~~~~~~~~~~~~
+
+By default, {+client-database+} uses the name defined in the model class
+to represent classes internally. In some cases you might want to change
+this behavior:
+
+- To support multiple model classes with the same simple name in different packages.
+- To make it easier to work across platforms, since naming conventions differ.
+- To use a class name that is longer than the 57 character limit enforced by {+client-database+}.
+- To change a class name in C# without forcing a migration.
+
+Use the :dotnet-sdk:`[MapTo] <reference/Realms.MapToAttribute.html>`
+annotation to rename a class:
+
+
+   .. literalinclude:: /examples/Schemas/RenameClass.cs
+       :language: csharp
+
 
 .. _dotnet-decimal128:
 
