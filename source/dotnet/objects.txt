@@ -223,10 +223,11 @@ nullable, and cannot be made required.
 TODO:
 
 .. warning:: .NET Types and Nullability
-   In Kotlin, types are non-nullable by default unless you explicitly
-   add a ``?`` suffix to the type. You can only annotate nullable types
-   like ``String`` and ``Date`` -- using the ``@Required`` annotation on
-   non-nullable types will fail compilation.
+   In .NET, value types are non-nullable by default unless you explicitly
+   add a ``?`` suffix to the type, and cannot be annotated with ``[Required]``. 
+   Reference types like ``String`` and ``Date`` 
+   are nullable by default, and can be annotated  without 
+   failing compilation.
 
    .. literalinclude:: /examples/Schemas/Required.cs
          :language: csharp
