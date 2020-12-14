@@ -214,10 +214,8 @@ You can make any of the following types required:
 - ``Double``
 - ``Date``
 
-Fields with the ``RealmObject`` type are always
-nullable, and cannot be made required.
-
-TODO:
+   .. literalinclude:: /examples/Schemas/Required.cs
+         :language: csharp
 
 .. warning:: .NET Types and Nullability
 
@@ -225,10 +223,8 @@ TODO:
    add a ``?`` suffix to the type, and cannot be annotated with ``[Required]``. 
    Reference types like ``String`` and ``Date`` 
    are nullable by default, and can be annotated  without 
-   failing compilation.
-
-   .. literalinclude:: /examples/Schemas/Required.cs
-         :language: csharp
+   failing compilation. Fields with the ``RealmObject`` type are always
+   nullable, and cannot be made required.
 
 
 Optional Fields
@@ -444,7 +440,7 @@ Lists
 =====
 Realm objects can contain lists of non-{+service-short+}-object data
 types. You can model these collections with the standard .NET interface
-`IList<T> https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ilist-1?view=net-5.0`,
+`IList<T> <https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ilist-1?view=net-5.0>`__,
 where ``T`` can be the following types:
 
 - ``String``
