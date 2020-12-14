@@ -36,6 +36,9 @@ Example
 
 .. example::
 
+Example
+--------
+
    The following code block shows an object schema that describes a Dog.
    Every Dog object must include a ``Name`` and may
    optionally include the dog's ``Age``, ``Breed`` and a list of people that 
@@ -214,8 +217,8 @@ Primitive types such as ``int`` and the ``RealmList`` type are
 implicitly required. Fields with the ``RealmObject`` type are always
 nullable, and cannot be made required.
 
-.. warning:: .NET Types and Nullability
 // TODO:
+.. warning:: .NET Types and Nullability
    In Kotlin, types are non-nullable by default unless you explicitly
    add a ``?`` suffix to the type. You can only annotate nullable types
    like ``String`` and ``Date`` -- using the ``@Required`` annotation on
