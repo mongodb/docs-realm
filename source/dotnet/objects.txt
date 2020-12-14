@@ -119,7 +119,6 @@ Field Types
 - ``Decimal128`` from ``org.bson.types``
 - ``ObjectId`` from ``org.bson.types``
 - Any ``RealmObject`` subclass
-- ``RealmList``
 
 The ``Byte``, ``Short``, ``Integer``, and ``Long`` types and their
 lowercase primitive alternatives are all stored as ``Long`` values
@@ -138,10 +137,7 @@ Relationships
 
 In addition to the field data types, you can define relationships,
 collections, and embedded objects in your object schema using the
-following types:
-
-- ``RealmObject``
-- ``RealmList : RealmObject``
+``RealmObject`` type.
 
 Use annotations to indicate whether a given field represents a foreign
 key relationship or an embedded object relationship. For more
@@ -212,7 +208,6 @@ You can make any of the following types required:
 - ``Float``
 - ``Double``
 - ``Date``
-- ``RealmList``
 
 Fields with the ``RealmObject`` type are always
 nullable, and cannot be made required.
@@ -350,32 +345,12 @@ To-Many
 ============
 
 You can create a relationship between one object and any number of objects
-using a field of type ``RealmList<?>`` where ``T`` is a
+using a field of type ``IList<T>`` where ``T`` is a
 {+service-short+} object in your application:
 
    .. literalinclude:: /examples/Schemas/ManyToMany.cs
       :language: csharp
 
-``RealmList`` s are containers of ``RealmObject`` s, but otherwise behave
-like a regular collection. You can use the same object in multiple
-``RealmList`` s.
-
-You can even use many-to-many ``RealmList`` s to declare relationships
-between objects of the same type:
-
-.. tabs-realm-languages::
-
-   .. tab::
-      :tabid: kotlin
-
-      .. literalinclude:: /examples/Schemas/SameTypeRelationships.kt
-         :language: kotlin
-
-   .. tab::
-      :tabid: java
-
-      .. literalinclude:: /examples/Schemas/SameTypeRelationships.java
-         :language: java
 
 .. _dotnet-field-relationships-embedded:
 
