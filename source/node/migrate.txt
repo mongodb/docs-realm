@@ -58,7 +58,7 @@ Changes
    * - The API to log users out has changed from `stitchAppClient.auth.logout() <http://stitch-sdks.s3-website-us-east-1.amazonaws.com/stitch-sdks/js-server/4/interfaces/stitchauth.html#logout>`__ to :js-sdk:`Realm.User.logOut() <Realm.User.html#logOut>`.
      - Rewrite the application logic to log out using the ``Realm.User`` object's ``logOut()`` method.
 
-   * - The Stitch SDK required developers to import authentication credentials from the "mongodb-stitch-server-sdk". The Realm SDK has a class, :js-sdk:`Realm.Credentials <Realm.Credentials.html>` for creating credentials. ``Realm.Credentials`` contains methods to create credentials for each authentication provider.
+   * - The Stitch SDK required developers to import authentication credentials from the "mongodb-stitch-server-sdk". The Realm SDK has a class, :js-sdk:`Realm.Credentials <Realm.Credentials.html>` that creates credentials for each authentication provider.
      - Replace imports of authentication credentials with method calls for each respective authentication provider through the ``Realm.Credentials`` class.
 
    * - Instead of calling {+backend+} functions using the app client directly via the method `stitchAppClient.callFunction() <http://stitch-sdks.s3-website-us-east-1.amazonaws.com/stitch-sdks/js/4/interfaces/stitchappclient.html#callfunction>`__, you must call server {+backend+} functions using the :js-sdk:`callFunction() <Realm.User.html#callFunction>` method of a logged-in ``Realm.User``. 
