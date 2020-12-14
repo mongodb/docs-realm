@@ -157,7 +157,6 @@ information, see :ref:`Relationship Annotations <dotnet-relationships>`.
 Annotations
 ------------
 
-
 .. _dotnet-primary-key:
 
 Primary Key
@@ -200,6 +199,7 @@ The following is an example of how to designate a primary key in an object schem
 Required Fields
 ~~~~~~~~~~~~~~~
 TODO: .NET AND NULLABLE TYPES
+
 You can make a field required to disallow ``null`` values in a field.
 You can make any of the following types required:
 
@@ -219,7 +219,7 @@ Primitive types such as ``int`` and the ``RealmList`` type are
 implicitly required. Fields with the ``RealmObject`` type are always
 nullable, and cannot be made required.
 
-// TODO:
+TODO:
 
 .. warning:: .NET Types and Nullability
    In Kotlin, types are non-nullable by default unless you explicitly
@@ -267,7 +267,7 @@ In .NET, fields are considered nullable only if a field is
       - ``Double``
 
 Primitive types like ``int`` and the ``RealmList`` type are non-nullable
-by default and cannot be made nullable, even using the ``@Required``
+by default and cannot be made nullable, even using the ``[Required]``
 annotation.
 
 .. _dotnet-default-field-values:
@@ -323,7 +323,6 @@ You can index fields with the following types:
 - ``Boolean`` or ``bool``
 - ``Date``
 
-//TODO: FIX LINK
 To index a field, use the :dotnet-sdk:`[Indexed] <reference/Realms.IndexedAttribute.html>`
 annotation:
 
@@ -350,7 +349,7 @@ Many-to-One
 To set up a many-to-one or one-to-one relationship, create a field
 with whose type is a {+service-short+} object in your application:
 
-//TODO: CHANGE TO .NET
+TODO: CHANGE TO .NET
 
 .. tabs-realm-languages::
 
@@ -573,68 +572,18 @@ has the following implications:
 - Migrations must use the internal name when creating classes and fields.
 - Schema errors reported will use the internal name.
 
-Use the :dotnet-sdk:`@RealmField <io/realm/annotations/RealmField.html>`
+Use the :dotnet-sdk:`[MapTo] <reference/Realms.MapToAttribute.html>`
 annotation to rename a field:
 
-.. tabs-realm-languages::
+   .. literalinclude:: /examples/Schemas/RenameField.cs
+         :language: csharp
 
-   .. tab::
-      :tabid: kotlin
-
-      .. literalinclude:: /examples/Schemas/RenameField.kt
-         :language: kotlin
-
-   .. tab::
-      :tabid: java
-
-      .. literalinclude:: /examples/Schemas/RenameField.java
-         :language: java
-
-Alternatively, you can also assign a naming policy at the module or
-class levels to change the way that {+client-database+} interprets field
-names.
-
-You can define a
-:java-sdk:`naming policy <io/realm/annotations/RealmNamingPolicy.html>`
-at the :ref:`module level <android-realm-modules>`,
-which will affect all classes included in the module:
-
-.. tabs-realm-languages::
-
-   .. tab::
-      :tabid: kotlin
-
-      .. literalinclude:: /examples/Schemas/ModuleFieldNamingPolicy.kt
-         :language: kotlin
-
-   .. tab::
-      :tabid: java
-
-      .. literalinclude:: /examples/Schemas/ModuleFieldNamingPolicy.java
-         :language: java
-
-You can also define a
-:java-sdk:`naming policy <io/realm/annotations/RealmNamingPolicy.html>`
-at the class level, which overrides module level settings:
-
-.. tabs-realm-languages::
-
-   .. tab::
-      :tabid: kotlin
-
-      .. literalinclude:: /examples/Schemas/ClassFieldNamingPolicy.kt
-         :language: kotlin
-
-   .. tab::
-      :tabid: java
-
-      .. literalinclude:: /examples/Schemas/ClassFieldNamingPolicy.java
-         :language: java
 
 .. _dotnet-rename-object:
 
 Rename a Class
 ~~~~~~~~~~~~~~
+TODO: Figure out if this is the same as rename field
 
 By default, {+client-database+} uses the name defined in the model class
 to represent classes internally. In some cases you might want to change
@@ -645,47 +594,12 @@ this behavior:
 - To use a class name that is longer than the 57 character limit enforced by {+client-database+}.
 - To change a class name in Kotlin without forcing a migration.
 
-Use the :java-sdk:`@RealmClass <io/realm/annotations/RealmClass.html>`
+Use the :dotnet-sdk:`[MapTo] <reference/Realms.MapToAttribute.html>`
 annotation to rename a class:
 
-.. tabs-realm-languages::
 
-   .. tab::
-      :tabid: kotlin
-
-      .. literalinclude:: /examples/Schemas/RenameClass.kt
-         :language: kotlin
-
-   .. tab::
-      :tabid: java
-
-      .. literalinclude:: /examples/Schemas/RenameClass.java
-         :language: java
-
-.. _dotnet-omit-classes-from-schema:
-
-Omit Classes from your Realm Schema
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-By default, your application's {+service-short+} Schema includes all
-classes that extend ``RealmObject``. If you only want to include a
-subset of classes that extend ``RealmObject`` in your {+service-short+}
-Schema, you can include that subset of classes in a module and open
-your {+realm+} using that module:
-
-.. tabs-realm-languages::
-
-   .. tab::
-      :tabid: kotlin
-
-      .. literalinclude:: /examples/Schemas/Modules.kt
-         :language: kotlin
-
-   .. tab::
-      :tabid: java
-
-      .. literalinclude:: /examples/Schemas/Modules.java
-         :language: java
+   .. literalinclude:: /examples/Schemas/RenameClass.cs
+       :language: csharp
 
 
 .. _dotnet-decimal128:
