@@ -1,12 +1,20 @@
-// To-One relationship
-public class Ship : RealmObject
+class Dog : RealmObject
 {
-    public Captain Captain { get; set; }
+    // One to many relationship with Person.Dogs
+    public Person Owner { get; set; }
 }
 
-// To-Many relationship
-public class Captain : RealmObject
+class Person : RealmObject
 {
-    [Backlink(nameof(Ship.Captain))]
-    public IQueryable<Ship> Ships { get; }
+    [Backlink(nameof(Dog.Owner))]
+    public IQueryable<Dog> Dogs { get; }
+
+    // Many to many relationship with Hobby.PeopleWithThatHobby
+    public IList<Hobby> Hobbies { get; }
+}
+
+class Hobby : RealmObject
+{
+    [Backlink(nameof(Person.Hobbies))]
+    public IQueryable<Person> PeopleWithThatHobby { get; }
 }
