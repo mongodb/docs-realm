@@ -141,7 +141,7 @@ collections, and embedded objects in your object schema using the
 following types:
 
 - ``RealmObject``
-- ``RealmList <? extends RealmObject>``
+- ``RealmList : RealmObject>``
 
 Use annotations to indicate whether a given field represents a foreign
 key relationship or an embedded object relationship. For more
@@ -222,10 +222,11 @@ nullable, and cannot be made required.
 TODO:
 
 .. warning:: .NET Types and Nullability
-   In Kotlin, types are non-nullable by default unless you explicitly
-   add a ``?`` suffix to the type. You can only annotate nullable types
-   like ``String`` and ``Date`` -- using the ``@Required`` annotation on
-   non-nullable types will fail compilation.
+   In .NET, value types are non-nullable by default unless you explicitly
+   add a ``?`` suffix to the type, and cannot be annotated with ``[Required]``. 
+   Reference types like ``String`` and ``Date`` 
+   are nullable by default, and can be annotated  without 
+   failing compilation.
 
    .. literalinclude:: /examples/Schemas/Required.cs
          :language: csharp
@@ -244,28 +245,14 @@ for the following types:
       - ``ObjectId``
       - ``Decimal128``
 
-      You can require any type that ends with the C# ``?``
-      operator, such as ``Int?``.
+You can require any type that ends with the C# ``?``
+operator, such as ``Int?``.
 
-   .. tab::
-      :tabid: java
-
-      Nullable fields are optional by default in {+client-database+}, unless
-      otherwise specified with the :ref:`[Required] <dotnet-required-field>`
-      annotation. The following types are nullable:
-
-      - ``String``
-      - ``Date``
-      - ``ObjectId``
-      - ``Integer``
-      - ``Long``
-      - ``Short``
-      - ``Byte`` or ``byte[]``
-      - ``Boolean``
-      - ``Float``
-      - ``Double``
-
-Primitive types like ``int`` and the ``RealmList`` type are non-nullable
+Any value type in C# can be made nullable with the ``?``, although by
+default they are non-nullable without it. 
+Nullable fields are optional by default in {+client-database+}, unless
+otherwise specified with the :ref:`[Required] <dotnet-required-field>`
+annotation. The ``RealmList`` type is non-nullable
 by default and cannot be made nullable, even using the ``[Required]``
 annotation.
 
@@ -342,7 +329,7 @@ Relationships
 
 .. _dotnet-field-relationships-many-to-one:
 
-Many-to-One
+To-One
 ===========
 
 To set up a many-to-one or one-to-one relationship, create a field
@@ -350,19 +337,9 @@ with whose type is a {+service-short+} object in your application:
 
 TODO: CHANGE TO .NET
 
-.. tabs-realm-languages::
 
-   .. tab::
-      :tabid: kotlin
-
-      .. literalinclude:: /examples/Schemas/ManyToOne.kt
-         :language: kotlin
-
-   .. tab::
-      :tabid: java
-
-      .. literalinclude:: /examples/Schemas/ManyToOne.java
-         :language: java
+   .. literalinclude:: /examples/Schemas/ManyToOne.cs
+      :language: csharp
 
 Each ``Cat`` references zero or one ``Dog`` instances. Nothing prevents
 multiple ``Cat`` instances from referencing the same ``Dog`` as a rival;
@@ -375,26 +352,15 @@ unless that object is :ref:`embedded <dotnet-field-relationships-embedded>`.
 
 .. _dotnet-field-relationships-many-to-many:
 
-Many-to-Many
+To-Many
 ============
 
 You can create a relationship between one object and any number of objects
 using a field of type ``RealmList<?>`` where ``T`` is a
 {+service-short+} object in your application:
 
-.. tabs-realm-languages::
-
-   .. tab::
-      :tabid: kotlin
-
-      .. literalinclude:: /examples/Schemas/ManyToMany.kt
-         :language: kotlin
-
-   .. tab::
-      :tabid: java
-
-      .. literalinclude:: /examples/Schemas/ManyToMany.java
-         :language: java
+   .. literalinclude:: /examples/Schemas/ManyToMany.cs
+      :language: csharp
 
 ``RealmList`` s are containers of ``RealmObject`` s, but otherwise behave
 like a regular collection. You can use the same object in multiple
@@ -468,27 +434,10 @@ Inverse Relationships
 By default, {+client-database+} relationships are unidirectional. You
 can follow a link from one class to a referenced class, but not in the
 opposite direction. You can provide a link in the opposite direction
-with the :java-sdk:`@LinkingObjects <>` annotation:
+with the :dotnet-sdk:`[Backlink] <reference/Realms.BacklinkAttribute.html>` annotation:
 
-.. tabs-realm-languages::
-
-   .. tab::
-      :tabid: kotlin
-
-      .. literalinclude:: /examples/Schemas/Inverse.kt
-         :language: kotlin
-
-   .. tab::
-      :tabid: java
-
-      .. literalinclude:: /examples/Schemas/Inverse.java
-         :language: java
-
-Fields annotated with ``@LinkingObjects`` must be:
-
-- marked ``final``
-- of type ``RealmResults<T>`` where ``T`` is the type at the opposite
-  end of the relationship
+   .. literalinclude:: /examples/Schemas/Inverse.cs
+      :language: csharp
 
 Since relationships are many-to-one or many-to-many, following inverse
 relationships can result in zero, one, or many objects.
@@ -516,23 +465,12 @@ where ``T`` can be the following types:
 - ``byte[]``
 - ``Date``
 
-.. tabs-realm-languages::
+Unlike lists of {+service-short+} objects, these lists can contain
+null values. If null values shouldn't be allowed, use the
+:ref:`[Required] <dotnet-required-field>` annotation.
 
-   .. tab::
-      :tabid: kotlin
-
-      .. literalinclude:: /examples/Schemas/Lists.kt
-         :language: kotlin
-
-   .. tab::
-      :tabid: java
-
-      Unlike lists of {+service-short+} objects, these lists can contain
-      null values. If null values shouldn't be allowed, use the
-      :ref:`@Required <android-required-field>` annotation.
-
-      .. literalinclude:: /examples/Schemas/Lists.java
-         :language: java
+   .. literalinclude:: /examples/Schemas/Lists.cs
+      :language: csharp
 
 .. _dotnet-ignore-field:
 
@@ -547,11 +485,6 @@ Ignore a field from a {+service-short+} object model with the
 
    .. literalinclude:: /examples/Schemas/Ignored.cs
          :language: csharp
-
-.. note:: Ignoring ``static`` and ``transient`` Fields
-
-   Fields marked ``static`` or ``transient`` are always ignored, and do
-   not need the ``[Ignored]`` annotation.
 
 .. _dotnet-rename-field:
 
@@ -582,7 +515,6 @@ annotation to rename a field:
 
 Rename a Class
 ~~~~~~~~~~~~~~
-TODO: Figure out if this is the same as rename field
 
 By default, {+client-database+} uses the name defined in the model class
 to represent classes internally. In some cases you might want to change
