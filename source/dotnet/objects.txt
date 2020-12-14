@@ -213,7 +213,6 @@ You can make any of the following types required:
 - ``Float``
 - ``Double``
 - ``Date``
-- ``RealmList``
 
 Fields with the ``RealmObject`` type are always
 nullable, and cannot be made required.
@@ -381,32 +380,12 @@ To-Many
 ============
 
 You can create a relationship between one object and any number of objects
-using a field of type ``RealmList<?>`` where ``T`` is a
+using a field of type ``IList<T>`` where ``T`` is a
 {+service-short+} object in your application:
 
    .. literalinclude:: /examples/Schemas/ManyToMany.cs
       :language: csharp
 
-``RealmList`` s are containers of ``RealmObject`` s, but otherwise behave
-like a regular collection. You can use the same object in multiple
-``RealmList`` s.
-
-You can even use many-to-many ``RealmList`` s to declare relationships
-between objects of the same type:
-
-.. tabs-realm-languages::
-
-   .. tab::
-      :tabid: kotlin
-
-      .. literalinclude:: /examples/Schemas/SameTypeRelationships.kt
-         :language: kotlin
-
-   .. tab::
-      :tabid: java
-
-      .. literalinclude:: /examples/Schemas/SameTypeRelationships.java
-         :language: java
 
 .. _dotnet-field-relationships-embedded:
 
