@@ -141,7 +141,7 @@ collections, and embedded objects in your object schema using the
 following types:
 
 - ``RealmObject``
-- ``RealmList : RealmObject>``
+- ``RealmList : RealmObject``
 
 Use annotations to indicate whether a given field represents a foreign
 key relationship or an embedded object relationship. For more
@@ -198,7 +198,6 @@ The following is an example of how to designate a primary key in an object schem
 
 Required Fields
 ~~~~~~~~~~~~~~~
-TODO: .NET AND NULLABLE TYPES
 
 You can make a field required to disallow ``null`` values in a field.
 You can make any of the following types required:
@@ -215,13 +214,13 @@ You can make any of the following types required:
 - ``Date``
 - ``RealmList``
 
-Primitive types such as ``int`` and the ``RealmList`` type are
-implicitly required. Fields with the ``RealmObject`` type are always
+Fields with the ``RealmObject`` type are always
 nullable, and cannot be made required.
 
 TODO:
 
 .. warning:: .NET Types and Nullability
+
    In .NET, value types are non-nullable by default unless you explicitly
    add a ``?`` suffix to the type, and cannot be annotated with ``[Required]``. 
    Reference types like ``String`` and ``Date`` 
@@ -234,7 +233,6 @@ TODO:
 
 Optional Fields
 ~~~~~~~~~~~~~~~
-TODO: check this against .NET documentation
 
 In .NET, fields are considered nullable only if a field is marked nullable with the 
 C# `? operator <https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/nullable-value-types>`__ except
@@ -252,9 +250,7 @@ Any value type in C# can be made nullable with the ``?``, although by
 default they are non-nullable without it. 
 Nullable fields are optional by default in {+client-database+}, unless
 otherwise specified with the :ref:`[Required] <dotnet-required-field>`
-annotation. The ``RealmList`` type is non-nullable
-by default and cannot be made nullable, even using the ``[Required]``
-annotation.
+annotation. 
 
 .. _dotnet-default-field-values:
 
@@ -335,8 +331,6 @@ To-One
 To set up a many-to-one or one-to-one relationship, create a field
 with whose type is a {+service-short+} object in your application:
 
-TODO: CHANGE TO .NET
-
 
    .. literalinclude:: /examples/Schemas/ManyToOne.cs
       :language: csharp
@@ -399,24 +393,13 @@ objects. This has several advantages:
   don't accumulate in your {+realm+} file, taking up valuable space on
   user's mobile devices.
 
-To embed an object, set the ``embedded`` property of the
-:java-sdk:`@RealmClass <io/realm/annotations/RealmClass.html#embedded-->`
-annotation to ``true`` on the class that you'd like to nest within
-another class:
+To embed an object, extend 
+:dotnet-sdk:`EmbeddedObject <reference/Realms.EmbeddedObject.html`
+for the class that you'd like to nest within another class:
 
-.. tabs-realm-languages::
+   .. literalinclude:: /examples/Schemas/Embedded.cs
+      :language: csharp
 
-   .. tab::
-      :tabid: kotlin
-
-      .. literalinclude:: /examples/Schemas/Embedded.kt
-         :language: kotlin
-
-   .. tab::
-      :tabid: java
-
-      .. literalinclude:: /examples/Schemas/Embedded.java
-         :language: java
 
 Then, any time you reference that class from another class,
 {+client-database+} will embed the referenced class within the enclosing
@@ -449,9 +432,9 @@ Like any other ``RealmResults`` set, you can
 
 Lists
 =====
-
 Realm objects can contain lists of non-{+service-short+}-object data
-types. You can model these collections with the type ``RealmList<T>``,
+types. You can model these collections with the standard .NET interface
+`IList<T> https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ilist-1?view=net-5.0`,
 where ``T`` can be the following types:
 
 - ``String``
@@ -523,7 +506,7 @@ this behavior:
 - To support multiple model classes with the same simple name in different packages.
 - To make it easier to work across platforms, since naming conventions differ.
 - To use a class name that is longer than the 57 character limit enforced by {+client-database+}.
-- To change a class name in Kotlin without forcing a migration.
+- To change a class name in C# without forcing a migration.
 
 Use the :dotnet-sdk:`[MapTo] <reference/Realms.MapToAttribute.html>`
 annotation to rename a class:
