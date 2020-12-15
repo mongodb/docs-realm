@@ -486,6 +486,18 @@ annotation to rename a class:
    .. literalinclude:: /examples/Schemas/RenameClass.cs
        :language: csharp
 
+.. _dotnet-provide-subset-classes-schema:
+
+Provide a Subset of Classes to your Realm Schema
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+By default, your application's {+service-short+} Schema includes all
+classes that extend ``RealmObject``. If you only want to include a
+subset of classes that extend ``RealmObject`` in your {+service-short+}
+Schema, you can update your configuration to include the specific classes you want:
+
+     .. literalinclude:: /examples/Schemas/SubsetClasses.cs
+        :language: csharp
 
 .. _dotnet-decimal128:
 
