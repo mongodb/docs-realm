@@ -183,8 +183,8 @@ objects of the same type in a {+realm+}.
 
    Primary keys can be of type ``char``, ``short``, ``int``, ``long``, ``string``, 
    or ``MongoDB.Bson.ObjectId``.  
-   Once you assign a property as a primary key, you cannot change it after an 
-   object of that type is added to a {+realm+}.
+   Once you assign a property as a primary key, you cannot change it after adding an 
+   object of that type to a {+realm+}.
 
 The following is an example of how to designate a primary key in an object schema:
      .. literalinclude:: /examples/Schemas/PrimaryKey.cs
@@ -215,17 +215,17 @@ You can make any of the following types required:
 .. warning:: .NET Types and Nullability
 
    In .NET, value types are non-nullable by default unless you explicitly
-   add a ``?`` suffix to the type, and cannot be annotated with ``[Required]``. 
+   add a ``?`` suffix to the type, and cannot have the ``[Required]`` annotation. 
    Reference types like ``String`` and ``Date`` 
-   are nullable by default, and can be annotated  without 
+   are nullable by default, and can have the annotation without 
    failing compilation. Fields with the ``RealmObject`` type are always
-   nullable, and cannot be made required.
+   nullable and cannot be required.
 
 
 Optional Fields
 ~~~~~~~~~~~~~~~
 
-In .NET, fields are considered nullable only if a field is marked nullable with the 
+In .NET, fields are nullable only if marked with with the 
 C# `? operator <https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/nullable-value-types>`__ except
 for the following types:
 
