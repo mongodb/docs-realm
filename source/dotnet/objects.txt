@@ -332,7 +332,7 @@ with whose type is a ``RealmObject`` in your application:
       :language: csharp
 
 Each ``Dog`` references zero or one ``Person`` instances. Nothing prevents
-multiple ``Dog`` instances from referencing the same ``Person`` as a rival;
+multiple ``Dog`` instances from referencing the same ``Person`` as an owner;
 the distinction between a many-to-one and a one-to-one relationship is
 up to your application.
 
@@ -362,7 +362,7 @@ Embedded
 objects. This has several advantages:
 
 - If using {+sync+}, objects will translate into MongoDB documents that
-  follow a :manual:`denormalized data model <manual/core/data-model-design/>`.
+  follow a :manual:`denormalized data model </core/data-model-design/>`.
 
 - When you delete an object that contains another object, the delete
   operation removes both objects from the {+realm+}, so unused objects
