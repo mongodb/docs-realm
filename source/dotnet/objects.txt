@@ -36,11 +36,6 @@ Example
 
 .. example::
 
-Example
---------
-
-.. example::
-
    The following code block shows an object schema that describes a Dog.
    Every Dog object must include a ``Name`` and may
    optionally include the dog's ``Age``, ``Breed`` and a list of people that 
@@ -192,6 +187,7 @@ objects of the same type in a {+realm+}.
    object of that type to a {+realm+}.
 
 The following is an example of how to designate a primary key in an object schema:
+
      .. literalinclude:: /examples/Schemas/PrimaryKey.cs
          :language: csharp
 
@@ -244,6 +240,7 @@ operator, such as ``Int?``.
 
 Any value type in C# can be made nullable with the ``?``, although by
 default they are non-nullable without it. 
+
 Nullable fields are optional by default in {+client-database+}, unless
 otherwise specified with the :ref:`[Required] <dotnet-required-field>`
 annotation. 
@@ -253,9 +250,8 @@ annotation.
 Default Field Values
 ~~~~~~~~~~~~~~~~~~~~
 
-To assign a default value to a field, use the built-in language features
-to assign default values. In .NET, you can assign a default value in
-the field declaration. 
+You can use the built-in language features to assign a default value to a field. 
+In .NET, you can assign a default value in the field declaration. 
 
    .. literalinclude:: /examples/Schemas/DefaultValues.cs
          :language: csharp
@@ -355,8 +351,8 @@ using a field of type ``IList<T>`` where ``T`` is a
 
 .. _dotnet-field-relationships-embedded:
 
-Embedded
-========
+Embedded Objects
+================
 
 {+client-database+} provides the ability to nest objects within other
 objects. This has several advantages:
@@ -437,7 +433,7 @@ Ignore a Field
 ~~~~~~~~~~~~~~
 
 If you don't want to save a field in your model to a {+realm+}, you can
-ignore a field.
+ignore that field.
 
 Ignore a field from a {+service-short+} object model with the
 :dotnet-sdk:`[Ignored] <reference/Realms.IgnoredAttribute.html>` annotation:
