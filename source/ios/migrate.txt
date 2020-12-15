@@ -52,7 +52,7 @@ Changes
      - Rewrite the application logic to log out using the ``User`` object's ``logOut()`` method.
 
    * - The Stitch SDK defined credentials through functions named after the credential type, i.e., ``AnonymousCredential()`` for an `anonymous credential <http://stitch-sdks.s3-website-us-east-1.amazonaws.com/stitch-sdks/swift/6/Structs/AnonymousCredential.html>`__. The Realm SDK has a class, :swift-sdk:`Credentials <Typealiases.html#/s:10RealmSwift11Credentialsa>`, with methods or enums for each credential type, i.e., ``Credentials.emailPassword()``.
-     - Use the ``Credentials`` class to create authentication credentials.
+     - Use the Realm SDK's ``Credentials`` class to create authentication credentials.
  
    * - The API to call a {+service-short+} function has changed from `stitchAppClient.callFunction() <http://stitch-sdks.s3-website-us-east-1.amazonaws.com/stitch-sdks/swift/6/Protocols/StitchAppClient.html#/s:10StitchCore0A9AppClientP12callFunction8withName0G4Args_ySS_Say10MongoSwift9BSONValue_pGyAA0A6ResultOyqd__GctSeRd__lF>`__ to :swift-sdk:`app.currentUser?.functions.<MyFunction>() <User.html#/s:So7RLMUserC10RealmSwiftE9functionsAC9FunctionsVvp>`.
      - Replace {+service-short+} function calls with the new API method, ``app.currentUser?.functions.<MyFunction>()`` 
