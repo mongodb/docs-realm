@@ -220,36 +220,6 @@ You can make any of the following types required:
 .. warning:: .NET Types and Nullability
 
    In .NET, value types are non-nullable by default unless you explicitly
-   add a ``?`` suffix to the type, and cannot be annotated with ``[Required]``. 
-   Reference types like ``String`` and ``Date`` 
-   are nullable by default, and can be annotated  without 
-   failing compilation. Fields with the ``RealmObject`` type are always
-   nullable, and cannot be made required.
-
-
-Optional Fields
-~~~~~~~~~~~~~~~
-
-You can make a field required to disallow ``null`` values in a field.
-You can make any of the following types required:
-
-- ``String``
-- ``ObjectId``
-- ``Integer``
-- ``Long``
-- ``Short``
-- ``Byte`` or ``byte[]``
-- ``Boolean``
-- ``Float``
-- ``Double``
-- ``Date``
-
-   .. literalinclude:: /examples/Schemas/Required.cs
-         :language: csharp
-
-.. warning:: .NET Types and Nullability
-
-   In .NET, value types are non-nullable by default unless you explicitly
    add a ``?`` suffix to the type, and cannot have the ``[Required]`` annotation. 
    Reference types like ``String`` and ``Date`` 
    are nullable by default, and can have the annotation without 
