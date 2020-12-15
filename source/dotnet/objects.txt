@@ -118,7 +118,9 @@ Field Types
 - ``Date``
 - ``Decimal128`` from ``org.bson.types``
 - ``ObjectId`` from ``org.bson.types``
-- Any ``RealmObject`` subclass
+- A ``RealmObject`` subclass (see :ref:`Relationship Annotations <dotnet-field-relationships>`)
+- An ``EmbeddedObject`` class (see :ref:`Embedded Object Annotations <dotnet-field-relationships-embedded>`)
+- ``IList<T>`` where T is any of the previous data types
 
 The ``Byte``, ``Short``, ``Integer``, and ``Long`` types and their
 lowercase primitive alternatives are all stored as ``Long`` values
@@ -130,22 +132,33 @@ include fields with those modifiers if you :ref:`ignore
 <dotnet-ignore-field>` those fields. If you choose to provide custom
 constructors, you must declare a public constructor with no arguments.
 
-.. _dotnet-relationships:
+.. _dotnet-field-lists:
 
-Relationships
-~~~~~~~~~~~~~
+Lists
+~~~~~
 
-In addition to the field data types, you can define relationships,
-collections, and embedded objects in your object schema using the
-``RealmObject`` type.
+Realm objects can contain lists of non-{+service-short+}-object data
+types. You can model these collections with the standard .NET interface
+`IList<T> <https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ilist-1?view=net-5.0>`__,
+where ``T`` can be the following types:
 
-Use annotations to indicate whether a given field represents a foreign
-key relationship or an embedded object relationship. For more
-information, see :ref:`Relationship Annotations <dotnet-relationships>`.
+- ``String``
+- ``Integer``
+- ``Boolean``
+- ``Float``
+- ``Double``
+- ``Short``
+- ``Long``
+- ``Byte``
+- ``byte[]``
+- ``Date``
 
-.. seealso::
+Unlike lists of {+service-short+} objects, these lists can contain
+null values. If null values shouldn't be allowed, use the
+:ref:`[Required] <dotnet-required-field>` annotation.
 
-   :ref:`Relationships <dotnet-client-relationships>`
+.. literalinclude:: /examples/Schemas/Lists.cs
+  :language: csharp
 
 
 .. _dotnet-annotations:
@@ -180,16 +193,17 @@ include the primary key property with a value that is unique among
 objects of the same type in a {+realm+}. 
 
 .. note::
-
-   Primary keys can be of type ``char``, ``short``, ``int``, ``long``, ``string``, 
-   or ``MongoDB.Bson.ObjectId``.  
-   Once you assign a property as a primary key, you cannot change it after adding an 
+   
+   Primary keys can be of type ``char``, ``short``, ``int``, ``long``, ``string``,
+   or ``MongoDB.Bson.ObjectId``.
+   Once you assign a property as a primary key, you cannot change it after adding an
    object of that type to a {+realm+}.
+   
+   The following example demonstrates how to designate a primary key in an object schema:
+   
+   .. literalinclude:: /examples/Schemas/PrimaryKey.cs
+      :language: csharp
 
-The following is an example of how to designate a primary key in an object schema:
-
-     .. literalinclude:: /examples/Schemas/PrimaryKey.cs
-         :language: csharp
 
 .. _dotnet-required-field:
 
@@ -210,8 +224,11 @@ You can make any of the following types required:
 - ``Double``
 - ``Date``
 
+.. example::
+   
    .. literalinclude:: /examples/Schemas/Required.cs
-         :language: csharp
+      :language: csharp
+
 
 .. warning:: .NET Types and Nullability
 
@@ -230,10 +247,10 @@ In .NET, fields are nullable only if marked with with the
 C# `? operator <https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/nullable-value-types>`__ except
 for the following types:
 
-      - ``String``
-      - ``Date``
-      - ``ObjectId``
-      - ``Decimal128``
+- ``String``
+- ``Date``
+- ``ObjectId``
+- ``Decimal128``
 
 You can require any type that ends with the C# ``?``
 operator, such as ``Int?``.
@@ -253,8 +270,8 @@ Default Field Values
 You can use the built-in language features to assign a default value to a field. 
 In .NET, you can assign a default value in the field declaration. 
 
-   .. literalinclude:: /examples/Schemas/DefaultValues.cs
-         :language: csharp
+.. literalinclude:: /examples/Schemas/DefaultValues.cs
+  :language: csharp
 
 .. note:: Default Values and Nullability
 
@@ -300,8 +317,8 @@ You can index fields with the following types:
 To index a field, use the :dotnet-sdk:`[Indexed] <reference/Realms.IndexedAttribute.html>`
 annotation:
 
-   .. literalinclude:: /examples/Schemas/Indexed.cs
-         :language: csharp
+.. literalinclude:: /examples/Schemas/Indexed.cs
+  :language: csharp
 
 
 .. _dotnet-field-relationships:
@@ -324,8 +341,8 @@ To set up a many-to-one or one-to-one relationship, create a field
 with whose type is a ``RealmObject`` in your application:
 
 
-   .. literalinclude:: /examples/Schemas/ManyToOne.cs
-      :language: csharp
+.. literalinclude:: /examples/Schemas/ManyToOne.cs
+  :language: csharp
 
 Each ``Dog`` references zero or one ``Person`` instances. Nothing prevents
 multiple ``Dog`` instances from referencing the same ``Person`` as an owner;
@@ -345,8 +362,8 @@ You can create a relationship between one object and any number of objects
 using a field of type ``IList<T>`` where ``T`` is a
 {+service-short+} object in your application:
 
-   .. literalinclude:: /examples/Schemas/ManyToMany.cs
-      :language: csharp
+.. literalinclude:: /examples/Schemas/ManyToMany.cs
+  :language: csharp
 
 
 .. _dotnet-field-relationships-embedded:
@@ -369,8 +386,8 @@ To embed an object, extend
 :dotnet-sdk:`EmbeddedObject <reference/Realms.EmbeddedObject.html>`
 for the class that you'd like to nest within another class:
 
-   .. literalinclude:: /examples/Schemas/Embedded.cs
-      :language: csharp
+.. literalinclude:: /examples/Schemas/Embedded.cs
+  :language: csharp
 
 
 Then, any time you reference that class from another class,
@@ -391,8 +408,8 @@ can follow a link from one class to a referenced class, but not in the
 opposite direction. You can provide a link in the opposite direction
 with the :dotnet-sdk:`[Backlink] <reference/Realms.BacklinkAttribute.html>` annotation:
 
-   .. literalinclude:: /examples/Schemas/Inverse.cs
-      :language: csharp
+.. literalinclude:: /examples/Schemas/Inverse.cs
+  :language: csharp
 
 Since relationships are many-to-one or many-to-many, following inverse
 relationships can result in zero, one, or many objects.
@@ -400,32 +417,6 @@ relationships can result in zero, one, or many objects.
 Like any other ``RealmResults`` set, you can
 :ref:`query <dotnet-client-query-engine>` an inverse relationship.
 
-.. _dotnet-field-relationships-lists:
-
-Lists
-=====
-Realm objects can contain lists of non-{+service-short+}-object data
-types. You can model these collections with the standard .NET interface
-`IList<T> <https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ilist-1?view=net-5.0>`__,
-where ``T`` can be the following types:
-
-- ``String``
-- ``Integer``
-- ``Boolean``
-- ``Float``
-- ``Double``
-- ``Short``
-- ``Long``
-- ``Byte``
-- ``byte[]``
-- ``Date``
-
-Unlike lists of {+service-short+} objects, these lists can contain
-null values. If null values shouldn't be allowed, use the
-:ref:`[Required] <dotnet-required-field>` annotation.
-
-   .. literalinclude:: /examples/Schemas/Lists.cs
-      :language: csharp
 
 .. _dotnet-ignore-field:
 
@@ -438,8 +429,8 @@ ignore that field.
 Ignore a field from a {+service-short+} object model with the
 :dotnet-sdk:`[Ignored] <reference/Realms.IgnoredAttribute.html>` annotation:
 
-   .. literalinclude:: /examples/Schemas/Ignored.cs
-         :language: csharp
+.. literalinclude:: /examples/Schemas/Ignored.cs
+  :language: csharp
 
 .. _dotnet-rename-field:
 
@@ -462,8 +453,8 @@ has the following implications:
 Use the :dotnet-sdk:`[MapTo] <reference/Realms.MapToAttribute.html>`
 annotation to rename a field:
 
-   .. literalinclude:: /examples/Schemas/RenameField.cs
-         :language: csharp
+.. literalinclude:: /examples/Schemas/RenameField.cs
+  :language: csharp
 
 
 .. _dotnet-rename-object:
@@ -483,9 +474,8 @@ this behavior:
 Use the :dotnet-sdk:`[MapTo] <reference/Realms.MapToAttribute.html>`
 annotation to rename a class:
 
-
-   .. literalinclude:: /examples/Schemas/RenameClass.cs
-       :language: csharp
+.. literalinclude:: /examples/Schemas/RenameClass.cs
+  :language: csharp
 
 .. _dotnet-provide-subset-classes-schema:
 
@@ -497,8 +487,8 @@ classes that extend ``RealmObject``. If you only want to include a
 subset of classes that extend ``RealmObject`` in your {+service-short+}
 Schema, you can update your configuration to include the specific classes you want:
 
-     .. literalinclude:: /examples/Schemas/SubsetClasses.cs
-        :language: csharp
+.. literalinclude:: /examples/Schemas/SubsetClasses.cs
+  :language: csharp
 
 .. _dotnet-decimal128:
 
@@ -512,7 +502,7 @@ following example shows how to use both the ``Decimal128`` Bson type and the .NE
 ``decimal`` type:
 
 .. literalinclude:: /examples/generated/code/start/DecimalFun.codeblock.decimal128.cs
-   :language: csharp
+  :language: csharp
 
 
 Summary
