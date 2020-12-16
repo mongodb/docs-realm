@@ -140,7 +140,7 @@ Lists
 Realm objects can contain lists of non-{+service-short+}-object data
 types. You can model these collections with the standard .NET interface
 `IList<T> <https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ilist-1?view=net-5.0>`__,
-where ``T`` can any primitive data type. This excludes ``RealmObject`` and ``List``.
+where ``T`` can be any data type (excluding lists).
 
 Unlike lists of {+service-short+} objects, these lists can contain
 null values. If null values shouldn't be allowed, use the
