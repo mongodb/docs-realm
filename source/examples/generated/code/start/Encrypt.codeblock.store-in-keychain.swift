@@ -23,7 +23,7 @@ func getKey() -> Data {
     // No pre-existing key from this application, so generate a new one
     // Generate a random encryption key
     var key = Data(count: 64)
-    _ = key.withUnsafeMutableBytes({ (pointer: UnsafeMutableRawBufferPointer) in
+    key.withUnsafeMutableBytes({ (pointer: UnsafeMutableRawBufferPointer) in
         let result = SecRandomCopyBytes(kSecRandomDefault, 64, pointer.baseAddress!)
         assert(result == 0, "Failed to get random bytes")
     })
@@ -44,16 +44,13 @@ func getKey() -> Data {
 
 // ...
 // Use the getKey() function to get the stored encryption key or create a new one
-let config = Realm.Configuration(encryptionKey: getKey())
+var config = Realm.Configuration(encryptionKey: getKey())
 
 do {
     // Open the realm with the configuration
     let realm = try Realm(configuration: config)
     
     // Use the realm as normal
-    let dogs = realm.objects(Dog.self).filter("name contains 'Fido'");
-
-    // ...
 
 } catch let error as NSError {
     // If the encryption key is wrong, `error` will say that it's an invalid database
