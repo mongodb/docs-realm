@@ -160,48 +160,76 @@ set the value of an inverse relationship property.
 Query a Relationship
 --------------------
 
-Consider the following relationship between X and Y:
-
 .. tabs-realm-languages::
 
    .. tab::
       :tabid: kotlin
 
-      .. literalinclude:: /examples/Schemas/ManyToOne.kt
+      Consider the following relationship between classes `Person` and `Dog`:
+
+      .. literalinclude:: /examples/generated/android/code/start/Person.kt
+         :language: kotlin
+
+      .. literalinclude:: /examples/generated/android/code/start/Dog.kt
+         :language: kotlin
+
+      To query this relationship, EXPLANATION:
+
+      .. literalinclude:: /examples/generated/android/code/start/RealmQueryTest.codeblock.query-a-relationship.kt
          :language: kotlin
 
    .. tab::
       :tabid: java
 
-      .. literalinclude:: /examples/Schemas/ManyToOne.java
+      Consider the following relationship between classes `Human` and `Cat`:
+
+      .. literalinclude:: /examples/generated/android/code/start/Human.java
          :language: java
 
-To query this relationship, EXPLANATION:
+      .. literalinclude:: /examples/generated/android/code/start/Cat.java
+         :language: java
 
-CODEBLOCK HERE
+      To query this relationship, EXPLANATION:
+
+      .. literalinclude:: /examples/generated/android/code/start/RealmQueryTest.codeblock.query-a-relationship.java
+         :language: java
 
 Query an Inverse Relationship
 -----------------------------
 
-Consider the following inverse relationship between Y and X:
-
 .. tabs-realm-languages::
 
    .. tab::
       :tabid: kotlin
 
-      .. literalinclude:: /examples/Schemas/Inverse.kt
+      Consider the following relationship between classes `Dog` and `Person`:
+
+      .. literalinclude:: /examples/generated/android/code/start/Dog.kt
+         :language: kotlin
+
+      .. literalinclude:: /examples/generated/android/code/start/Person.kt
+         :language: kotlin
+
+      To query this relationship, EXPLANATION:
+
+      .. literalinclude:: /examples/generated/android/code/start/RealmQueryTest.codeblock.query-an-inverse-relationship.kt
          :language: kotlin
 
    .. tab::
       :tabid: java
 
-      .. literalinclude:: /examples/Schemas/Inverse.java
+      Consider the following relationship between classes `Cat` and `Human`:
+
+      .. literalinclude:: /examples/generated/android/code/start/Cat.java
          :language: java
 
-To query this inverse relationship, EXPLANATION:
+      .. literalinclude:: /examples/generated/android/code/start/Human.java
+         :language: java
 
-CODEBLOCK HERE
+      To query this relationship, EXPLANATION:
+
+      .. literalinclude:: /examples/generated/android/code/start/RealmQueryTest.codeblock.query-an-inverse-relationship.java
+         :language: java
 
 
 Summary

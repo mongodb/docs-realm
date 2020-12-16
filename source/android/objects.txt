@@ -754,9 +754,23 @@ your {+realm+} using that module:
 Find an Object by Primary Key
 -----------------------------
 
-To find an object with a specific primary key value, 
+To find an object with a specific primary key value, open a {+realm+}
+and query the primary key field for the desired primary key value
+using the :java-sdk:`RealmQuery.equalTo() <TODO>` method:
 
-CODEBLOCK
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/generated/android/code/start/RealmQueryTest.codeblock.find-object-by-primary-key.kt
+         :language: kotlin
+
+   .. tab::
+      :tabid: java
+
+      .. literalinclude:: /examples/generated/android/code/start/RealmQueryTest.codeblock.find-object-by-primary-key.java
+         :language: java
 
 Summary
 -------

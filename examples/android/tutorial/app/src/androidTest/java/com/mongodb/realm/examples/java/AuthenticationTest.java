@@ -134,7 +134,7 @@ public class AuthenticationTest extends RealmTest {
             AtomicReference<User> user = new AtomicReference<User>();
             app.loginAsync(customFunctionCredentials, it -> {
                 // :hide-start:
-                Assert.assertEquals(true, it.isSuccess());
+                Assert.assertEquals(false, it.isSuccess());
                 // :hide-end:
                 if (it.isSuccess()) {
                     Log.v("AUTH", "Successfully authenticated using a custom function.");

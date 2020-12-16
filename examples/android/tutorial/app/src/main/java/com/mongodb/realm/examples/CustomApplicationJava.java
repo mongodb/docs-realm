@@ -21,7 +21,7 @@ class CustomApplicationJava extends Application {
         super.onCreate();
         Realm.init(this);
         taskApp = new App(
-            new AppConfiguration.Builder("app ID") //BuildConfig.MONGODB_REALM_APP_ID)
+            new AppConfiguration.Builder("android-example-testers-rztwe")
             .build());
 
         // Enable more logging in debug mode
@@ -29,6 +29,6 @@ class CustomApplicationJava extends Application {
             RealmLog.setLevel(LogLevel.ALL);
         }
 
-        Log.v("EXAMPLE", "Initialized the Realm App configuration for: APP_ID");
+        Log.v("EXAMPLE", "Initialized the Realm App configuration.");
     }
 }

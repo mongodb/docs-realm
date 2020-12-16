@@ -15,7 +15,7 @@ lateinit var taskApp: App
 // of the name of the current class. Used for labelling logs.
 inline fun <reified T> T.TAG(): String = T::class.java.simpleName
 
-const val YOUR_APP_ID = "example-testers-kvjdy"
+const val YOUR_APP_ID = "android-example-testers-rztwe"
 
 class CustomApplication : Application() {
 
@@ -31,6 +31,6 @@ class CustomApplication : Application() {
             RealmLog.setLevel(LogLevel.ALL)
         }
 
-        Log.v(TAG(), "Initialized the Realm App configuration for: ${taskApp.configuration.appId}")
+        Log.v(TAG(), "Initialized the Realm App configuration.")
     }
 }
