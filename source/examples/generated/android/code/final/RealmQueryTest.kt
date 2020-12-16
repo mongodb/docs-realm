@@ -159,9 +159,9 @@ class RealmQueryTest : RealmTest() {
                             }
 
                             realm.executeTransaction { transactionRealm ->
-                                val dog = transactionRealm.where<Dog>().contains("owner.name", "dwayne").findFirst()
+                                val dog = transactionRealm.where<Dog>().equalTo("owner.name", "dwayne").findFirst()
                                 val owner = dog?.owner?.first()
-                                Log.v("EXAMPLE", "Queried for cats with rival dogs named 'henry'. Found $dog, owned by $owner")
+                                Log.v("EXAMPLE", "Queried for dogs with owners named 'dwayne'. Found $dog, owned by $owner")
                                 Assert.assertEquals(dog?.name, "henry")
                                 Assert.assertEquals(owner?.name, "dwayne")
                             }
