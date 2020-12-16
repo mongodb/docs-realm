@@ -22,7 +22,7 @@ information hasn't changed, there are a few changes to how the SDK connects to t
 New Features
 ------------
 
-- The {+service-short+} iOS SDK supports iOS applications written in Objective C.
+- The {+service-short+} iOS SDK supports iOS applications written in Objective-C.
 
 - The {+service-short+} iOS SDK now includes {+client-database+}, which includes
   local object storage and :ref:`{+sync+} <ios-sync-data>`.
@@ -54,7 +54,7 @@ Changes
    * - The Stitch SDK defined credentials through functions named after the credential type, i.e., ``AnonymousCredential()`` for an `anonymous credential <http://stitch-sdks.s3-website-us-east-1.amazonaws.com/stitch-sdks/swift/6/Structs/AnonymousCredential.html>`__. The Realm SDK has a class, :swift-sdk:`Credentials <Typealiases.html#/s:10RealmSwift11Credentialsa>`, with methods or enums for each credential type, i.e., ``Credentials.emailPassword()``.
      - Use the Realm SDK's ``Credentials`` class to create authentication credentials.
  
-   * - The API to call a {+service-short+} function has changed from `stitchAppClient.callFunction() <http://stitch-sdks.s3-website-us-east-1.amazonaws.com/stitch-sdks/swift/6/Protocols/StitchAppClient.html#/s:10StitchCore0A9AppClientP12callFunction8withName0G4Args_ySS_Say10MongoSwift9BSONValue_pGyAA0A6ResultOyqd__GctSeRd__lF>`__ to :swift-sdk:`app.currentUser?.functions.{myFunction}() <Extensions/User.html#/s:So7RLMUserC10RealmSwiftE9functionsAC9FunctionsVvp>`.
+   * - The API to call a {+service-short+} function has changed from `stitchAppClient.callFunction() <http://stitch-sdks.s3-website-us-east-1.amazonaws.com/stitch-sdks/swift/6/Protocols/StitchAppClient.html#/s:10StitchCore0A9AppClientP12callFunction8withName0G4Args_ySS_Say10MongoSwift9BSONValue_pGyAA0A6ResultOyqd__GctSeRd__lF>`__ to :swift-sdk:`app.currentUser?.functions.{myFunction}() <Extensions/User.html#/s:So7RLMUserC10RealmSwiftE9functionsAC9FunctionsVvp>`, where ``{myFunction}`` is the name of the function.
      - Replace {+service-short+} function calls with the new API method, ``app.currentUser?.functions.{myFunction}()`` 
 
    * - The interface to the MongoDB Data Access API, containing objects like :swift-sdk:`MongoDatabase <Typealiases.html#/s:10RealmSwift13MongoDatabasea>`, and :swift-sdk:`MongoCollection <Extensions/MongoCollection.html>`, has changed. Through Stitch, passing the `remoteMongoClientFactory <http://stitch-sdks.s3-website-us-east-1.amazonaws.com/stitch-sdks/swift/6/Remote%20MongoDB%20Service.html#/s:26StitchRemoteMongoDBService06remoteC13ClientFactory0A4Core023AnyNamedThrowingServicefG0VyAA0bcF0CGvp>`__ and the string "mongodb-atlas" to `StitchAppClient.serviceClient() <http://stitch-sdks.s3-website-us-east-1.amazonaws.com/stitch-sdks/swift/6/Protocols/StitchAppClient.html#/s:10StitchCore0A9AppClientP07serviceD015withServiceNameAA0agD0_pSS_tF>`__ creates a remote Mongodb client. The Realm Swift SDK creates a remote MongoDB client through the :swift-sdk:`mongoClient <Typealiases.html#/s:10RealmSwift11MongoClienta>` method on the logged-in user object.
