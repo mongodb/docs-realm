@@ -120,7 +120,7 @@ Field Types
 - ``ObjectId`` from ``org.bson.types``
 - A ``RealmObject`` subclass (see :ref:`Relationship Annotations <dotnet-field-relationships>`)
 - An ``EmbeddedObject`` class (see :ref:`Embedded Object Annotations <dotnet-field-relationships-embedded>`)
-- ``IList<T>`` where T is any of the previous data types
+- ``IList<T>`` where T is any of the previous data types (see :ref:`Lists <dotnet-field-lists>`)
 
 The ``Byte``, ``Short``, ``Integer``, and ``Long`` types and their
 lowercase primitive alternatives are all stored as ``Long`` values
@@ -140,18 +140,7 @@ Lists
 Realm objects can contain lists of non-{+service-short+}-object data
 types. You can model these collections with the standard .NET interface
 `IList<T> <https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ilist-1?view=net-5.0>`__,
-where ``T`` can be the following types:
-
-- ``String``
-- ``Integer``
-- ``Boolean``
-- ``Float``
-- ``Double``
-- ``Short``
-- ``Long``
-- ``Byte``
-- ``byte[]``
-- ``Date``
+where ``T`` can any primitive data type. This excludes ``RealmObject`` and ``List``.
 
 Unlike lists of {+service-short+} objects, these lists can contain
 null values. If null values shouldn't be allowed, use the
@@ -160,6 +149,38 @@ null values. If null values shouldn't be allowed, use the
 .. literalinclude:: /examples/Schemas/Lists.cs
   :language: csharp
 
+
+.. _dotnet-field-embedded:
+
+Embedded Objects
+~~~~~~~~~~~~~~~~
+
+{+client-database+} provides the ability to nest objects within other
+objects. This has several advantages:
+
+- If using {+sync+}, objects will translate into MongoDB documents that
+  follow a :manual:`denormalized data model </core/data-model-design/>`.
+
+- When you delete an object that contains another object, the delete
+  operation removes both objects from the {+realm+}, so unused objects
+  don't accumulate in your {+realm+} file, taking up valuable space on
+  user's mobile devices.
+
+To embed an object, extend 
+:dotnet-sdk:`EmbeddedObject <reference/Realms.EmbeddedObject.html>`
+for the class that you'd like to nest within another class:
+
+.. literalinclude:: /examples/Schemas/Embedded.cs
+  :language: csharp
+
+
+Then, any time you reference that class from another class,
+{+client-database+} will embed the referenced class within the enclosing
+class.
+
+.. seealso::
+
+   :ref:`Embedded Objects <dotnet-embedded-objects>`
 
 .. _dotnet-annotations:
 
@@ -194,8 +215,6 @@ objects of the same type in a {+realm+}.
 
 .. note::
    
-   Primary keys can be of type ``char``, ``short``, ``int``, ``long``, ``string``,
-   or ``MongoDB.Bson.ObjectId``.
    Once you assign a property as a primary key, you cannot change it after adding an
    object of that type to a {+realm+}.
    
@@ -205,45 +224,13 @@ objects of the same type in a {+realm+}.
       :language: csharp
 
 
-.. _dotnet-required-field:
+.. _dotnet-required-optional-field:
 
-Required Fields
-~~~~~~~~~~~~~~~
+Required and Optional Fields
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-You can make a field required to disallow ``null`` values in a field.
-You can make any of the following types required:
-
-- ``String``
-- ``ObjectId``
-- ``Integer``
-- ``Long``
-- ``Short``
-- ``Byte`` or ``byte[]``
-- ``Boolean``
-- ``Float``
-- ``Double``
-- ``Date``
-
-.. example::
-   
-   .. literalinclude:: /examples/Schemas/Required.cs
-      :language: csharp
-
-
-.. warning:: .NET Types and Nullability
-
-   In .NET, value types are non-nullable by default unless you explicitly
-   add a ``?`` suffix to the type, and cannot have the ``[Required]`` annotation. 
-   Reference types like ``String`` and ``Date`` 
-   are nullable by default, and can have the annotation without 
-   failing compilation. Fields with the ``RealmObject`` type are always
-   nullable and cannot be required.
-
-
-Optional Fields
-~~~~~~~~~~~~~~~
-
-In .NET, fields are nullable only if marked with with the 
+If a field is normally nullable, you can make it required to disallow ``null`` values
+using the ``[Required]`` annotation. In .NET, fields are nullable only if marked with with the 
 C# `? operator <https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/nullable-value-types>`__ except
 for the following types:
 
@@ -252,15 +239,20 @@ for the following types:
 - ``ObjectId``
 - ``Decimal128``
 
-You can require any type that ends with the C# ``?``
-operator, such as ``Int?``.
-
 Any value type in C# can be made nullable with the ``?``, although by
 default they are non-nullable without it. 
+Fields with the ``RealmObject`` type are always
+nullable and cannot be required.
+
+You can use the ``[Required]`` annotation as seen in the following example:
+
+ .. literalinclude:: /examples/Schemas/Required.cs
+      :language: csharp
 
 Nullable fields are optional by default in {+client-database+}, unless
 otherwise specified with the :ref:`[Required] <dotnet-required-field>`
 annotation. 
+
 
 .. _dotnet-default-field-values:
 
@@ -298,7 +290,7 @@ of a specific field ordered by the value of the field. The ordering of
 the index entries supports efficient equality matches and range-based
 query operations.
 
-Adding an index to a field makes writing slightly slower, but makes
+Adding an index to a field makes write operations slightly slower, but makes
 certain queries faster. Indexes require space in your {+realm+} file, so
 adding an index to a field will increase disk space consumed by your
 {+realm+} file.
@@ -335,7 +327,7 @@ Relationships
 .. _dotnet-field-relationships-many-to-one:
 
 To-One
-===========
+======
 
 To set up a many-to-one or one-to-one relationship, create a field
 with whose type is a ``RealmObject`` in your application:
@@ -356,7 +348,7 @@ unless that object is :ref:`embedded <dotnet-field-relationships-embedded>`.
 .. _dotnet-field-relationships-many-to-many:
 
 To-Many
-============
+=======
 
 You can create a relationship between one object and any number of objects
 using a field of type ``IList<T>`` where ``T`` is a
@@ -365,38 +357,6 @@ using a field of type ``IList<T>`` where ``T`` is a
 .. literalinclude:: /examples/Schemas/ManyToMany.cs
   :language: csharp
 
-
-.. _dotnet-field-relationships-embedded:
-
-Embedded Objects
-================
-
-{+client-database+} provides the ability to nest objects within other
-objects. This has several advantages:
-
-- If using {+sync+}, objects will translate into MongoDB documents that
-  follow a :manual:`denormalized data model </core/data-model-design/>`.
-
-- When you delete an object that contains another object, the delete
-  operation removes both objects from the {+realm+}, so unused objects
-  don't accumulate in your {+realm+} file, taking up valuable space on
-  user's mobile devices.
-
-To embed an object, extend 
-:dotnet-sdk:`EmbeddedObject <reference/Realms.EmbeddedObject.html>`
-for the class that you'd like to nest within another class:
-
-.. literalinclude:: /examples/Schemas/Embedded.cs
-  :language: csharp
-
-
-Then, any time you reference that class from another class,
-{+client-database+} will embed the referenced class within the enclosing
-class.
-
-.. seealso::
-
-   :ref:`Embedded Objects <dotnet-embedded-objects>`
 
 .. _dotnet-field-relationships-inverse:
 
