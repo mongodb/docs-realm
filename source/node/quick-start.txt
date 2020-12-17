@@ -214,7 +214,7 @@ you can open a synced :ref:`{+realm+} <node-realms>` by calling
            // syncs pending remote changes as well as any unsynced changes made
            // to the realm on the device.
            const realm = await Realm.open({
-             schema: [TaskModel],
+             schema: [TaskSchema],
              sync: {
                user: app.currentUser,
                partitionValue: "myPartition",
@@ -243,7 +243,7 @@ you can open a synced :ref:`{+realm+} <node-realms>` by calling
            // syncs pending remote changes as well as any unsynced changes made
            // to the realm on the device.
            const realm = await Realm.open({
-             schema: [TaskModel],
+             schema: [TaskSchema],
              sync: {
                user: app.currentUser?,
                partitionValue: "myPartition",
