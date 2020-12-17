@@ -92,7 +92,7 @@ fun deleteAllUsers(activity: Activity) {
     expectation.await(10000)
 }
 
-const val YOUR_APP_ID = "example-testers-kvjdy"
+const val YOUR_APP_ID = "android-example-testers-rztwe"
 const val PARTITION = "Example"
 
 /**

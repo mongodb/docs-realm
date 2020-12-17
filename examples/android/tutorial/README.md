@@ -3,6 +3,9 @@
 The Realm Examples project contains Java and Kotlin code examples for the Realm SDK
 and their unit tests.
 
+This project uses the realm app *android-example-testers-rztwe*, in the org *Bushicorp*. You can
+view the realm app [here](https://realm.mongodb.com/groups/5f60207f14dfb25d23101102/apps/5fd8f1267b48d7cff86b1766/dashboard).
+
 ## Get Started
 
 ### Install Android Studio
@@ -148,7 +151,7 @@ instructions in Bluehawk's README to use the `bluehawk` command.
 Then, in this directory, run:
 
 ```bash
-bluehawk -s app/src/androidTest/java/com/mongodb/realm/examples/java/AuthenticationTest.java -d ../../source/examples/generated/android
+bluehawk -s app/src/androidTest/java/com/mongodb/realm/examples/java/AuthenticationTest.java -d ../../../source/examples/generated/android
 ```
 
 to output the example blocks to the `source/examples/generated/android/` directory. Run this on all of the files in the `androidTest` and `main` directories.
