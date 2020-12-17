@@ -165,10 +165,12 @@ Query a Relationship
    .. tab::
       :tabid: kotlin
 
-      Consider the following relationship between classes ``Person`` and ``Dog``:
+      Consider the following relationship between classes ``Person`` and
+      ``Dog``. This arrangement allows each person to own a single dog:
 
       .. literalinclude:: /examples/generated/android/code/start/Person.kt
          :language: kotlin
+         :emphasize-lines: 10
 
       .. literalinclude:: /examples/generated/android/code/start/Dog.kt
          :language: kotlin
@@ -184,10 +186,12 @@ Query a Relationship
    .. tab::
       :tabid: java
 
-      Consider the following relationship between classes ``Human`` and ``Cat``:
+      Consider the following relationship between classes ``Human`` and
+      ``Cat``. This arrangement allows each human to own a single cat:
 
       .. literalinclude:: /examples/generated/android/code/start/Human.java
          :language: java
+         :emphasize-lines: 12
 
       .. literalinclude:: /examples/generated/android/code/start/Cat.java
          :language: java
@@ -208,10 +212,15 @@ Query an Inverse Relationship
    .. tab::
       :tabid: kotlin
 
-      Consider the following relationship between classes ``Dog`` and ``Person``:
+      Consider the following relationship between classes ``Dog`` and
+      ``Person``. In this example, all dogs link to their owner (or
+      multiple owners, if multiple person objects refer to the same dog).
+      Realm calculates the owners of each dog for you based on the field
+      name you provide to the ``@LinkingObjects`` annotation:
 
       .. literalinclude:: /examples/generated/android/code/start/Dog.kt
          :language: kotlin
+         :emphasize-lines: 12-13
 
       .. literalinclude:: /examples/generated/android/code/start/Person.kt
          :language: kotlin
@@ -227,10 +236,15 @@ Query an Inverse Relationship
    .. tab::
       :tabid: java
 
-      Consider the following relationship between classes ``Cat`` and ``Human``:
+      Consider the following relationship between classes ``Cat`` and
+      ``Human``. In this example, all cats link to their human (or
+      multiple humans, if multiple human objects refer to the same cat).
+      Realm calculates the owners of each cat for you based on the field
+      name you provide to the ``@LinkingObjects`` annotation:
 
       .. literalinclude:: /examples/generated/android/code/start/Cat.java
          :language: java
+         :emphasize-lines: 14-15
 
       .. literalinclude:: /examples/generated/android/code/start/Human.java
          :language: java
