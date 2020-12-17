@@ -84,7 +84,7 @@ Object Schema
 -------------
 
 An **object schema** is a configuration object that defines the properties and 
-relationships of a {+service-short+} object type. {+service-short+} client 
+relationships of a {+service-short+} object. {+service-short+} client 
 applications define object schemas with the native class implementation in their 
 respective language using the :term:`{+frontend-schema+}`.
 
@@ -142,7 +142,7 @@ where ``T`` can be any data type (excluding lists).
 
 Unlike lists of {+service-short+} objects, these lists can contain
 null values. If null values shouldn't be allowed, use the
-:ref:`[Required] <dotnet-required-property>` attribute.
+:ref:`[Required] <dotnet-required-optional-property>` attribute.
 
 .. literalinclude:: /examples/Schemas/Lists.cs
   :language: csharp
@@ -259,7 +259,7 @@ In C#, you can assign a default value in the property declaration.
    While default values ensure that a newly created object cannot contain
    a value of ``null`` (unless you specify a default value of ``null``),
    they do not impact the nullability of a property. To make a property
-   non-nullable, see :ref:`Required Properties <dotnet-required-property>`.
+   non-nullable, see :ref:`Required Properties <dotnet-required-optional-property>`.
 
 .. dotnet-index-property:
 
@@ -333,7 +333,7 @@ up to your application.
 
 Setting a relationship property to null removes the connection between
 objects, but {+client-database+} does not delete the referenced object
-unless that object is :ref:`embedded <dotnet-property-relationships-embedded>`.
+unless that object is :ref:`embedded <dotnet-property-embedded>`.
 
 .. _dotnet-property-relationships-many-to-many:
 
