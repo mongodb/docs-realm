@@ -34,4 +34,4 @@
       :tabid: objective-c
 
       .. literalinclude:: /examples/Schemas/DogSchema.m
-         :language: objective-c
+         :language: objectivec

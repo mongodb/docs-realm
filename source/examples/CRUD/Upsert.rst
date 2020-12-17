@@ -32,7 +32,7 @@
       :tabid: objective-c
 
       .. literalinclude:: /examples/CRUD/Upsert.m
-         :language: objective-c
+         :language: objectivec
          :emphasize-lines: 5, 10
 
    .. tab::

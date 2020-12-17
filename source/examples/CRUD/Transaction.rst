@@ -22,7 +22,7 @@
       :tabid: objective-c
 
       .. literalinclude:: /examples/CRUD/Transaction.m
-         :language: objective-c
+         :language: objectivec
 
    .. tab::
       :tabid: swift
