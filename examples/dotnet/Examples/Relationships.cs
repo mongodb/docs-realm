@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using MongoDB.Bson;
 using Realms;
+using Realms.Sync;
+using NUnit.Framework;
 
 namespace Examples
 {
@@ -83,7 +85,7 @@ namespace Examples
         {
             [PrimaryKey]
             [MapTo("_id")]
-            public ObjectId Id { get; set; } = ObjectId.GenerateNewId();
+            public string Id { get; set; } = ObjectId.GenerateNewId().ToString();
 
             public string Name { get; set; }
 
@@ -96,7 +98,7 @@ namespace Examples
         {
             [PrimaryKey]
             [MapTo("_id")]
-            public ObjectId Id { get; set; } = ObjectId.GenerateNewId();
+            public string Id { get; set; } = ObjectId.GenerateNewId().ToString();
 
             public string Text { get; set; }
 
@@ -104,5 +106,42 @@ namespace Examples
             public IQueryable<User> Assignee { get; }
         }
         // :code-block-end:
+
+        [Test]
+        public async System.Threading.Tasks.Task InverseQuery()
+        {
+            var realm = await Realm.GetInstanceAsync();
+            realm.Write(() =>
+            {
+                realm.RemoveAll<Task>();
+                realm.RemoveAll<User>();
+            });
+
+            var task = new Task() { Text = "oh hai" };
+            realm.Write(() =>
+            {
+                realm.Add(task);
+            });
+
+            User user = new User() { Name = "Katie"};
+            user.Tasks.Add(task);
+
+            realm.Write(() =>
+            {
+                realm.Add(user);
+            });
+
+            // :code-block-start: inverse-query
+            var katie = realm.All<User>().Where(u => u.Name == "Katie").FirstOrDefault();
+            var tasks = realm.All<Task>().Filter($"Assignee._id == '{katie.Id}'").ToList();
+            // :code-block-end:
+            Assert.AreEqual(1, tasks.Count());
+
+         
+
+            return;
+        }
+
     }
+
 }

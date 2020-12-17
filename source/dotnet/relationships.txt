@@ -123,6 +123,13 @@ In this example, note that:
   refers to any User object that contains this specific Task in its 
   ``Tasks`` property.
 
+To query an inverse relationship, you cannot use Linq. Instead, pass a string 
+predicate. The following example shows one way to do this:
+
+.. literalinclude:: /examples/generated/code/start/Relationships.codeblock.inverse-query.cs
+   :language: csharp
+
+
 Summary
 -------
 
