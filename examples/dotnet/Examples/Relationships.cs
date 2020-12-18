@@ -89,7 +89,8 @@ namespace Examples
 
             public string Name { get; set; }
 
-            public IList<Task> Tasks { get; }
+            [Backlink(nameof(Task.Assignee))]
+            public IQueryable<Task> Tasks { get; }
         }
         //:hide-start:
         [MapTo("AnudderTask")]
@@ -102,8 +103,7 @@ namespace Examples
 
             public string Text { get; set; }
 
-            [Backlink(nameof(User.Tasks))]
-            public IQueryable<User> Assignee { get; }
+            public User Assignee { get; set; }
         }
         // :code-block-end:
 
@@ -117,27 +117,26 @@ namespace Examples
                 realm.RemoveAll<User>();
             });
 
-            var task = new Task() { Text = "oh hai" };
-            realm.Write(() =>
-            {
-                realm.Add(task);
-            });
-
-            User user = new User() { Name = "Katie"};
-            user.Tasks.Add(task);
-
+            User user = new User() { Name = "Katie" };
+          
             realm.Write(() =>
             {
                 realm.Add(user);
             });
 
+            var task1 = new Task() { Text = "oh hai", Assignee = user };
+            var task2 = new Task() { Text = "ok bai", Assignee = user };
+            realm.Write(() =>
+            {
+                realm.Add(task1);
+                realm.Add(task2);
+            });
+
             // :code-block-start: inverse-query
             var katie = realm.All<User>().Where(u => u.Name == "Katie").FirstOrDefault();
-            var tasks = realm.All<Task>().Filter($"Assignee._id == '{katie.Id}'").ToList();
+            var katiesTasks = realm.All<Task>().Filter($"Assignee._id == '{katie.Id}'");
             // :code-block-end:
-            Assert.AreEqual(1, tasks.Count());
-
-         
+            Assert.AreEqual(2, katiesTasks.Count());
 
             return;
         }
