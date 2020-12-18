@@ -8,12 +8,12 @@ content: |
      mkdir myElectronApplication
      
   Create an index.html and main.js file in the root directory of your
-  application. The code in the main.js file is the Electron main process
-  file, which is the entry point into your application. The main.js file
-  is responsible for loading your index.html file into the BrowserWindow
-  created by Electron. Any script files that you require in this HTML
-  file will execute on the renderer process. Add the following to your
-  ``index.html`` file:
+  application. The code in the main.js file is the Electron main process file,
+  which is the entry point into your application. The main.js file is
+  responsible for loading your index.html file into the `BrowserWindow
+  <https://www.electronjs.org/docs/api/browser-window>`__ created by Electron.
+  Any script files that you require in this HTML file will execute on the
+  renderer process. Add the following to your ``index.html`` file:
 
   .. code-block:: html
 
@@ -45,6 +45,33 @@ content: |
      Architecture <https://www.electronjs.org/docs/tutorial/application-architecture>`_
      document.
 ---
+title: Create the Main Script File
+ref: create-your-main-js-script-file
+content: |
+  The ``main.js`` file is the entry point of your application. Create an
+  Electron BrowserWindow in it and load your ``index.html`` file to display your
+  HTML to users: 
+
+  .. code-block:: javascript
+
+     const { app, BrowserWindow } = require('electron')
+ 
+     function createWindow () {
+       const win = new BrowserWindow({
+         width: 800,
+         height: 600,
+         webPreferences: {
+           nodeIntegration: true
+         }
+       })
+ 
+       win.loadFile('index.html')
+     }
+ 
+     app.whenReady().then(createWindow)
+
+
+---
 title: Set up a ``package.json``
 ref: setup-packagejson
 content: |
@@ -70,7 +97,7 @@ content: |
 
   .. code-block:: shell
 
-     npm install realm@beta
+     npm install realm
 
 ---
 title: Create a Script to Run Your Application
