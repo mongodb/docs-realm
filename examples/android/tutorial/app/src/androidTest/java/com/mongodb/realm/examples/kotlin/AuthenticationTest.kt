@@ -135,7 +135,7 @@ class AuthenticationTest : RealmTest() {
             var user: User? = null
             app.loginAsync(customFunctionCredentials) {
                 // :hide-start:
-                Assert.assertEquals(true, it.isSuccess)
+                Assert.assertEquals(false, it.isSuccess)
                 // :hide-end:
                 if (it.isSuccess) {
                     Log.v("AUTH", "Successfully authenticated using a custom function.")

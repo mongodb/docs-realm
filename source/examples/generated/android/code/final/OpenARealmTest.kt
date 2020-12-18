@@ -15,7 +15,7 @@ import org.junit.Test
 class OpenARealmTest : RealmTest() {
     @Test
     fun testAllowReadsWritesOnUIThread() {
-        var expectation : Expectation = Expectation()
+        val expectation : Expectation = Expectation()
         activity?.runOnUiThread {
             val appID = YOUR_APP_ID // replace this with your App ID
             val app: App = App(
@@ -46,7 +46,7 @@ class OpenARealmTest : RealmTest() {
                     Log.e("EXAMPLE", it.error.toString())
                 }
             }
-            //expectation.await()//TODO: FIGURE OUT WHY THIS IS BROKEN
         }
+        expectation.await()
     }
 }

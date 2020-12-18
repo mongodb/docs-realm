@@ -32,7 +32,7 @@
       :tabid: objective-c
 
       .. literalinclude:: /examples/CRUD/Delete.m
-         :language: objective-c
+         :language: objectivec
          :emphasize-lines: 3
 
    .. tab::

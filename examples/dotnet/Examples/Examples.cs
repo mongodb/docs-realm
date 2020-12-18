@@ -215,7 +215,7 @@ namespace UnitTests
                 var googleAuthCode = "";
                 // :code-block-start: logon_google
                 var user =
-                    await app.LogInAsync(Credentials.Google(googleAuthCode));
+                    await app.LogInAsync(Credentials.Google(googleAuthCode, GoogleCredentialType.AuthCode));
                 // :code-block-end:
             }
             catch (Exception e)
@@ -291,7 +291,7 @@ namespace UnitTests
                 // :code-block-start: link2
                 var anonUser = await app.LogInAsync(Credentials.Anonymous());
                 var officialUser = await anonUser.LinkCredentialsAsync(
-                   Credentials.Google("<google-token>"));
+                   Credentials.Google("<google-token>", GoogleCredentialType.AuthCode));
                 // :code-block-end:
             }
             return;

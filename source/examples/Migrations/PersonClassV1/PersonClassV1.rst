@@ -39,5 +39,5 @@
       :tabid: objective-c
 
       .. literalinclude:: /examples/Migrations/PersonClassV1/PersonClassV1.m
-         :language: objective-c
+         :language: objectivec
          :emphasize-lines: 2, 3

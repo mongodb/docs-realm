@@ -27,6 +27,4 @@ class AnonymouslyLoggedInTestCase: XCTestCase {
         }
         wait(for: [expectation], timeout: 10)
     }
-
-
 }
