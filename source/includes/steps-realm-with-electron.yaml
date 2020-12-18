@@ -65,8 +65,7 @@ content: |
          }
        })
 
-       // to prevent the Sync Connection from ending prematurely
-       // start reading from stdin so we don't exit
+       // to prevent the Sync Connection from ending prematurely, start reading from stdin so we don't exit
        process.stdin.resume(); 
  
        win.loadFile('index.html')
