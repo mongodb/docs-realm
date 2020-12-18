@@ -104,5 +104,36 @@ namespace Examples
             public IQueryable<User> Assignee { get; }
         }
         // :code-block-end:
+
+        [Test]
+        public async System.Threading.Tasks.Task OneToOneQuery()
+        {
+            var realm = await Realm.GetInstanceAsync();
+            realm.Write(() =>
+            {
+                realm.RemoveAll<Dog>();
+                realm.RemoveAll<Person>();
+            });
+
+            var dog = new Dog() { Name = "Fido" };
+            realm.Write(() =>
+            {
+                realm.Add(task);
+            });
+
+            Person person = new Person() { Name = "Katie"; Dog = dog};
+
+            realm.Write(() =>
+            {
+                realm.Add(user);
+            });
+
+            // :code-block-start: one-to-one-query
+            var fido = realm.Find<Dog>().Where(d => d.Person.Name == "Katie");
+            // :code-block-end:
+            Assert.AreEqual(fido, dog);
+
+            return;
+        }
     }
 }
