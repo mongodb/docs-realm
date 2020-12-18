@@ -41,13 +41,10 @@ Before you begin, ensure you have:
    officially supported Electron versions, check out the `Electron
    Releases <https://www.electronjs.org/releases/>`_ document.
 
-Set up
-------
-
 .. _electron-setup:
 
-Set up Realm with Electron
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+Set up
+------
 
 To set up an Electron application using {+service+} use the following instructions:
 
@@ -55,4 +52,37 @@ To set up an Electron application using {+service+} use the following instructio
 
 
 Open a Realm
-~~~~~~~~~~~~
+------------
+
+To open a Realm, have a user authenticated, define your schema, and have
+:ref:`sync enabled {+sync+} <enable-sync>`. Call :js-sdk:`Realm.open() <Realm.html#.open>` in your renderer process:
+
+.. code-block:: javascript
+   :emphasize-lines: 7
+
+   const app = new Realm.App({ id: "<Your App ID>" }); // create a new instance of the Realm.App
+   async function run() {
+
+     // login with an anonymous credential
+     await app.logIn(new Realm.Credentials.anonymous());
+
+     const realm = await Realm.open({
+       schema: [MySchema], // You must have a 'MySchema' variable defined
+       sync: {
+         user: app.currentUser,
+         partitionValue: "myPartition",
+       },
+     });
+     
+     // The myPartition realm is now synced to the device. You can
+     // access it through the `realm` object returned by `Realm.open()`
+   }
+   run().catch(err => {
+     console.error("Failed to open realm:", err)
+   });
+
+.. seealso::
+
+   :ref:`Sync Data <node-sync-data>`
+   :ref:`Define Your Schem <node-realm-objects>`
+   :ref:`Authenticate a User <node-authenticate>`
