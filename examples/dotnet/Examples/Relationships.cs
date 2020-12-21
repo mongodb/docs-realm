@@ -124,8 +124,8 @@ namespace Examples
                 realm.Add(user);
             });
 
-            var task1 = new Task() { Text = "oh hai", Assignee = user };
-            var task2 = new Task() { Text = "ok bai", Assignee = user };
+            var task1 = new Task() { Text = "Defribillate the master oscillator", Assignee = user };
+            var task2 = new Task() { Text = "Subvert the paradigm", Assignee = user };
             realm.Write(() =>
             {
                 realm.Add(task1);
@@ -133,11 +133,16 @@ namespace Examples
             });
 
             // :code-block-start: inverse-query
-            var katie = realm.All<User>().Where(u => u.Name == "Katie").FirstOrDefault();
-            var katiesTasks = realm.All<Task>().Filter($"Assignee._id == '{katie.Id}'");
-            // :code-block-end:
-            Assert.AreEqual(2, katiesTasks.Count());
+            var oscillatorAssignees = realm.All<User>()
+                .Filter("Tasks.Text CONTAINS 'oscillator'").ToList();
 
+            foreach (User u in oscillatorAssignees)
+            {
+                Console.WriteLine(u.Name);
+            }
+            // :code-block-end:
+            Assert.AreEqual(1, oscillatorAssignees.Count());
+            Assert.AreEqual("Katie", oscillatorAssignees[0].Name);
             return;
         }
 

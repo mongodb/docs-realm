@@ -1,2 +1,7 @@
-var katie = realm.All<User>().Where(u => u.Name == "Katie").FirstOrDefault();
-var katiesTasks = realm.All<Task>().Filter($"Assignee._id == '{katie.Id}'");
+var oscillatorAssignees = realm.All<User>()
+    .Filter("Tasks.Text CONTAINS 'oscillator'").ToList();
+
+foreach (User u in oscillatorAssignees)
+{
+    Console.WriteLine(u.Name);
+}
