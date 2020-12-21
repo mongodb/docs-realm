@@ -4,7 +4,6 @@ using System.Linq;
 using MongoDB.Bson;
 using NUnit.Framework;
 using Realms;
-using static Examples.OneToOneRelationship;
 
 namespace Examples
 {
