@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using MongoDB.Bson;
+using NUnit.Framework;
 using Realms;
+using static Examples.OneToOneRelationship;
 
 namespace Examples
 {
@@ -32,6 +34,33 @@ namespace Examples
             public string Breed { get; set; }
         }
         // :code-block-end:
+
+
+        [Test]
+        public async System.Threading.Tasks.Task OneToOneQuery()
+        {
+            var realm = await Realm.GetInstanceAsync();
+            realm.Write(() =>
+            {
+                realm.RemoveAll<Dog>();
+                realm.RemoveAll<Person>();
+            });
+
+            var dog = new Dog() { Id = ObjectId.GenerateNewId(), Name = "Fido" };
+            var person = new Person() { Name = "Katie", Dog = dog };
+
+            realm.Write(() =>
+            {
+                realm.Add(person);
+            });
+
+            // :code-block-start: one-to-one-query
+            var fidosPerson = realm.All<Person>().Where(p => p.Dog == dog);
+            // :code-block-end:
+            Assert.AreEqual(fidosPerson.First(), person);
+
+            return;
+        }
     }
 
     public class OneToManyRelationship
@@ -104,36 +133,5 @@ namespace Examples
             public IQueryable<User> Assignee { get; }
         }
         // :code-block-end:
-
-        [Test]
-        public async System.Threading.Tasks.Task OneToOneQuery()
-        {
-            var realm = await Realm.GetInstanceAsync();
-            realm.Write(() =>
-            {
-                realm.RemoveAll<Dog>();
-                realm.RemoveAll<Person>();
-            });
-
-            var dog = new Dog() { Name = "Fido" };
-            realm.Write(() =>
-            {
-                realm.Add(task);
-            });
-
-            Person person = new Person() { Name = "Katie"; Dog = dog};
-
-            realm.Write(() =>
-            {
-                realm.Add(user);
-            });
-
-            // :code-block-start: one-to-one-query
-            var fido = realm.Find<Dog>().Where(d => d.Person.Name == "Katie");
-            // :code-block-end:
-            Assert.AreEqual(fido, dog);
-
-            return;
-        }
     }
 }
