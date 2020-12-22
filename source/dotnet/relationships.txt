@@ -98,8 +98,8 @@ to it in a defined to-one or to-many relationship. Relationship definitions are
 unidirectional, so you must explicitly define a property in the object's model
 as an inverse relationship.
 
-For example, the to-many relationship "User has many Tasks" does not
-automatically create the inverse relationship "Task belongs to User". If you
+For example, the to-many relationship "a User has many Tasks" does not
+automatically create the inverse relationship "a Task belongs to one User". If you
 don't specify the inverse relationship in the object model, you need to
 run a separate query to look up the user that is assigned to a given task.
 
@@ -116,12 +116,22 @@ side of the relationship. The following example shows how to do this with the
 
 In this example, note that:
 
-- The User object's ``Tasks`` property is defined as a to-many relationship
-  (i.e., it is of type ``IList<Task>``).
+- The Task object's ``Assignee`` property is a User object.
 
-- The Task object's ``Assignee`` property inverts the relationship and
-  refers to any User object that contains this specific Task in its 
-  ``Tasks`` property.
+- The User object's ``Tasks`` property inverts the relationship and 
+  refers to all Task objects that contain this specific User in their 
+  ``Assignee`` property. 
+
+This, then, allows us to query the Task collection to get all Tasks assigned to 
+a specific User.
+
+To query the inverse relationship, you cannot use Linq. Instead, pass a string 
+predicate. The following example shows how you could find all Users who have Tasks 
+that contain the word "oscillator":
+
+.. literalinclude:: /examples/generated/code/start/Relationships.codeblock.inverse-query.cs
+   :language: csharp
+
 
 Summary
 -------
