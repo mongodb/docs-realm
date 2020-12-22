@@ -1,1 +1,0 @@
-var youngDogs = realm.All<Dog>().Where(d => d.Age == 1);
