@@ -34,7 +34,6 @@ namespace Examples
         }
         // :code-block-end:
 
-
         [Test]
         public async System.Threading.Tasks.Task OneToOneQuery()
         {
