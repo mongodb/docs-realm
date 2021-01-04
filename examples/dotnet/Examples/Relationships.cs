@@ -53,10 +53,9 @@ namespace Examples
             });
 
             // :code-block-start: one-to-one-query
-            // Not sure if this accurately shows a one-to-one query
-            var fidosPerson = realm.All<Person>().Where(p => p.Dog == dog);
+            var fidosPerson = realm.All<Person>().Where(p => p.Dog == dog).FirstOrDefault();
             // :code-block-end:
-            Assert.AreEqual(fidosPerson.First(), person);
+            Assert.AreEqual(fidosPerson, person);
 
             return;
         }
@@ -128,7 +127,6 @@ namespace Examples
             });
 
             // :code-block-start: one-to-many-query
-            // Not sure if this accurately shows a one-to-many query
             var youngDogs = realm.All<Dog>().Where(d => d.Age == 1);
             // :code-block-end:
             var younglist = new List<Dog>();
