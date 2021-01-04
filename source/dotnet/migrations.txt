@@ -61,7 +61,7 @@ deletes it.
            :language: csharp
            :emphasize-lines: 3
 
-   First, the developer decides to add a "lastName" property:
+   First, the developer decides to add a "LastName" property:
 
    .. tabs-realm-languages::
      
@@ -74,8 +74,8 @@ deletes it.
 
 
    The developer decides that the ``Person`` class should use a combined
-   ``fullName`` field instead of the separate ``firstName`` and
-   ``lastName`` fields:
+   ``FullName`` field instead of the separate ``FirstName`` and
+   ``LastName`` fields:
    
    .. tabs-realm-languages::
      
@@ -102,7 +102,7 @@ deletes it.
    To migrate the {+realm+} to conform to the updated ``Person`` schema, the
    developer sets the {+realm+}'s :ref:`schema version <dotnet-schema-version>` to
    ``4`` and defines a migration function to set the value of
-   ``fullName`` based on the existing ``firstName`` and ``lastName``
+   ``FullName`` based on the existing ``FirstName`` and ``LastName``
    properties and the value of ``Birthday`` based on ``Age``:
    
    .. literalinclude:: /examples/Migrations/LocalMigration/LocalMigration.cs
