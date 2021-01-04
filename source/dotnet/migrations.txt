@@ -75,7 +75,7 @@ deletes it.
 
    The developer decides that the ``Person`` class should use a combined
    ``fullName`` field instead of the separate ``firstName`` and
-   ``lastName`` fields, deleting one property and renaming the other:
+   ``lastName`` fields:
    
    .. tabs-realm-languages::
      
@@ -86,11 +86,24 @@ deletes it.
            :language: csharp
            :emphasize-lines: 3
    
+   Lastly, the developer decides to modify the ``Age`` property by renaming it to
+   ``Birthday`` and changing the type to ``DateTimeOffset``:
+
+   .. tabs-realm-languages::
+     
+     .. tab::
+         :tabid: c-sharp
+ 
+         .. literalinclude:: /examples/Migrations/PersonClassV4/PersonClassV4.cs
+           :language: csharp
+           :emphasize-lines: 3
+
+
    To migrate the {+realm+} to conform to the updated ``Person`` schema, the
    developer sets the {+realm+}'s :ref:`schema version <dotnet-schema-version>` to
-   ``3`` and defines a migration function to set the value of
+   ``4`` and defines a migration function to set the value of
    ``fullName`` based on the existing ``firstName`` and ``lastName``
-   properties:
+   properties and the value of ``Birthday`` based on ``Age``:
    
    .. literalinclude:: /examples/Migrations/LocalMigration/LocalMigration.cs
       :language: csharp
