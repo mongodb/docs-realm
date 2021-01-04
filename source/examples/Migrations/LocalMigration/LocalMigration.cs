@@ -1,6 +1,6 @@
 var config = new RealmConfiguration
 {
-    SchemaVersion = 2,
+    SchemaVersion = 3,
     MigrationCallback = (migration, oldSchemaVersion) =>
     {
         var oldPeople = migration.OldRealm.All("Person");
