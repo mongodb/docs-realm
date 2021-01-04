@@ -12,7 +12,7 @@ var config = new RealmConfiguration
             var oldPerson = oldPeople.ElementAt(i);
             var newPerson = newPeople.ElementAt(i);
             
-            // Changes from version 1 to 2 (adding property) will occur automatically when Realm detects the change
+            // Changes from version 1 to 2 (adding LastName) will occur automatically when Realm detects the change
 
             // Migrate Person from version 2 to 3: replace FirstName and LastName with FullName
             if (oldSchemaVersion < 3)
