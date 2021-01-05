@@ -1,7 +1,6 @@
 import XCTest
 import RealmSwift
 
-// :code-block-start: models
 class CrudExample_Dog: Object {
     @objc dynamic var age = 0
     @objc dynamic var name = ""
@@ -17,7 +16,6 @@ class CrudExample_Person: Object {
         return "id"
     }
 }
-// :code-block-end:
 
 class Crud: XCTestCase {
     override func tearDown() {
@@ -28,7 +26,6 @@ class Crud: XCTestCase {
     }
     
     func testBatchUpdateAndCascadingDelete() {
-        // :code-block-start: batch-update
         let realm = try! Realm()
         try! realm.write {
             // Create a person to take care of some dogs.
@@ -38,38 +35,25 @@ class Crud: XCTestCase {
             let dog = CrudExample_Dog(value: ["name": "Rex", "age": 1])
             realm.add(dog)
 
-            // :hide-start:
-            XCTAssert(person.dogs.count == 0)
-            // :hide-end:
             // Find dogs younger than 2.
             let puppies = realm.objects(CrudExample_Dog.self).filter("age < 2")
             
             // Give all puppies to Ali.
             puppies.setValue(person, forKey: "owner")
             
-            // :hide-start:
-            XCTAssert(person.dogs.count == 1)
-            // :hide-end:
         }
-        // :code-block-end:
 
-        // :code-block-start: cascading-delete
         let person = realm.object(ofType: CrudExample_Person.self, forPrimaryKey: 1)!
-        // :hide-start:
-        XCTAssert(person.dogs.count == 1)
-        // :hide-end:
         try! realm.write {
             // Delete the related collection
             realm.delete(person.dogs);
             realm.delete(person);
         }
-        // :code-block-end:
         XCTAssert(realm.objects(CrudExample_Dog.self).count == 0)
         XCTAssert(realm.objects(CrudExample_Person.self).count == 0)
     }
 
     func testCreateAndDelete() {
-        // :code-block-start: create
         // Instantiate the class. For convenience, you can initialize
         // objects from dictionaries with appropriate keys and values.
         let dog = CrudExample_Dog(value: ["name": "Max", "age": 5])
@@ -80,29 +64,23 @@ class Crud: XCTestCase {
             // Add the instance to the realm.
             realm.add(dog)
         }
-        // :code-block-end:
 
-        // :code-block-start: delete
         try! realm.write {
             // Delete the instance from the realm.
             realm.delete(dog);
         }
-        // :code-block-end:
     }
     
     func testDeleteAll() {
-        // :code-block-start: delete-all
         let realm = try! Realm()
 
         try! realm.write {
             // Delete all objects from the realm.
             realm.deleteAll();
         }
-        // :code-block-end:
     }
 
     func testDeleteAllOfClass() {
-        // :code-block-start: delete-all-of-class
         let realm = try! Realm()
 
         try! realm.write {
@@ -110,11 +88,9 @@ class Crud: XCTestCase {
             let allDogs = realm.objects(CrudExample_Dog.self)
             realm.delete(allDogs);
         }
-        // :code-block-end:
     }
     
     func testDeleteCollection() {
-        // :code-block-start: delete-collection
         let realm = try! Realm()
         try! realm.write {
             // Find dogs younger than 2 years old.
@@ -123,19 +99,15 @@ class Crud: XCTestCase {
             // Delete the objects in the collection from the realm.
             realm.delete(puppies);
         }
-        // :code-block-end:
     }
     
     func testObjects() {
-        // :code-block-start: objects
         let realm = try! Realm()
         // Access all dogs in the realm
         let dogs = realm.objects(CrudExample_Dog.self);
-        // :code-block-end:
     }
     
     func testSort() {
-        // :code-block-start: sort
         let realm = try! Realm()
         // Access all dogs in the realm
         let dogs = realm.objects(CrudExample_Dog.self);
@@ -145,11 +117,9 @@ class Crud: XCTestCase {
         // You can also sort on the members of linked objects. In this example,
         // we sort the dogs by dog's owner's name.
         let ownersByName = dogs.sorted(byKeyPath: "owner.name")
-        // :code-block-end:
     }
     
     func testFilter() {
-        // :code-block-start: filter
         let realm = try! Realm()
         // Access all dogs in the realm
         let dogs = realm.objects(CrudExample_Dog.self);
@@ -162,14 +132,12 @@ class Crud: XCTestCase {
         
         // Filter by owner's name
         let ownedByKeith = dogs.filter("owner.name == 'Keith'")
-        // :code-block-end:
         print(puppies.count)
         print(availableDogs.count)
         print(ownedByKeith.count)
     }
     
     func testTransaction() {
-        // :code-block-start: transaction
         // Open the default realm.
         let realm = try! Realm()
 
@@ -187,11 +155,9 @@ class Crud: XCTestCase {
             // Failed to write to realm.
             // ... Handle error ...
         }
-        // :code-block-end:
     }
     
     func testTransactionCounterexample() {
-        // :code-block-start: transaction-counterexample
         let realm = try! Realm()
         // BAD EXAMPLE -- avoid this!
 
@@ -200,7 +166,6 @@ class Crud: XCTestCase {
         // If an exception is thrown before the commit,
         // this transaction stays open!
         try! realm.commitWrite();
-        // :code-block-end:
     }
     
     func testUpdate() {
@@ -208,7 +173,6 @@ class Crud: XCTestCase {
         try! setupRealm.write {
             setupRealm.add(CrudExample_Dog())
         }
-        // :code-block-start: update
         let realm = try! Realm()
 
         // Get a dog to update
@@ -221,11 +185,9 @@ class Crud: XCTestCase {
             dog.name = "Wolfie";
             dog.age += 1;
         }
-        // :code-block-end:
     }
     
     func testUpsert() {
-        // :code-block-start: upsert
         let realm = try! Realm()
         try! realm.write {
             let person1 = CrudExample_Person(value: ["id": 1234, "name": "Jones"])
@@ -243,6 +205,5 @@ class Crud: XCTestCase {
             //   primary key already exists.
             realm.add(person2, update: .modified)
         }
-        // :code-block-end:
     }
 }

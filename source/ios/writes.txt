@@ -48,6 +48,13 @@ When you are done with your transaction, {+client-database+} either
   the transaction causes an error, all changes are discarded
   (or "rolled back").
 
+.. note::
+
+   The examples on this page use the following schemas:
+
+   .. literalinclude:: /examples/generated/code/start/Crud.codeblock.models.swift
+      :language: swift
+
 .. _ios-acid-compliance:
 
 Realm is ACID Compliant
@@ -102,9 +109,8 @@ the transaction immediately after the callback.
       .. tab::
          :tabid: swift
 
-         .. literalinclude:: /examples/CRUD/BatchUpdate.swift
+         .. literalinclude:: /examples/generated/code/start/Crud.codeblock.transaction.swift
             :language: swift
-            :emphasize-lines: 10
 
 
 .. _ios-create-an-object:
@@ -118,10 +124,6 @@ transaction, you can add the object to the {+realm+} if the
 {+realm+}'s :ref:`schema <ios-realm-schema>` includes the object
 type. When you add an instance to the {+realm+}, it becomes
 *managed* by that {+realm+}.
-
-With the Java and JavaScript SDKs, instead use the {+realm+}'s
-factory method in a transaction to instantiate your class.
-This automatically inserts the instance into the {+realm+}.
 
 .. example::
 
@@ -139,9 +141,8 @@ This automatically inserts the instance into the {+realm+}.
       .. tab::
          :tabid: swift
 
-         .. literalinclude:: /examples/CRUD/Create.swift
+         .. literalinclude:: /examples/generated/code/start/Crud.codeblock.create.swift
             :language: swift
-            :emphasize-lines: 8
 
 
 .. _ios-upsert:
@@ -160,8 +161,7 @@ adding any new entries.
 .. example::
 
    This code demonstrates how to upsert an object with
-   {+realm+}. We create a new user named "Drew" and then update
-   their name to "Andy" via upsert:
+   {+realm+}:
 
    .. tabs-realm-languages::
 
@@ -175,9 +175,8 @@ adding any new entries.
       .. tab::
          :tabid: swift
 
-         .. literalinclude:: /examples/CRUD/Upsert.swift
+         .. literalinclude:: /examples/generated/code/start/Crud.codeblock.upsert.swift
             :language: swift
-            :emphasize-lines: 5, 15
 
 
 .. _ios-update:
@@ -206,10 +205,8 @@ property or update the property.
       .. tab::
          :tabid: swift
 
-         .. literalinclude:: /examples/CRUD/Update.swift
+         .. literalinclude:: /examples/generated/code/start/Crud.codeblock.update.swift
             :language: swift
-            :emphasize-lines: 8-9
-
 
 .. _ios-batch-update:
 
@@ -240,10 +237,8 @@ objects in a collection at once.
       .. tab::
          :tabid: swift
 
-         .. literalinclude:: /examples/CRUD/BatchUpdate.swift
+         .. literalinclude:: /examples/generated/code/start/Crud.codeblock.batch-update.swift
             :language: swift
-            :emphasize-lines: 10
-
 
 .. _ios-delete:
 
@@ -275,9 +270,8 @@ method of the {+realm+} within a transaction.
       .. tab::
          :tabid: swift
 
-         .. literalinclude:: /examples/CRUD/Delete.swift
+         .. literalinclude:: /examples/generated/code/start/Crud.codeblock.delete.swift
             :language: swift
-            :emphasize-lines: 3
 
 
 .. _ios-delete-collection:
@@ -306,9 +300,8 @@ within a transaction.
       .. tab::
          :tabid: swift
 
-         .. literalinclude:: /examples/CRUD/DeleteCollection.swift
+         .. literalinclude:: /examples/generated/code/start/Crud.codeblock.delete-collection.swift
             :language: swift
-            :emphasize-lines: 6
 
 
 .. _ios-cascading-delete:
@@ -345,9 +338,8 @@ deleting the parent object.
       .. tab::
          :tabid: swift
 
-         .. literalinclude:: /examples/CRUD/CascadingDelete.swift
+         .. literalinclude:: /examples/generated/code/start/Crud.codeblock.cascading-delete.swift
             :language: swift
-
 
 .. _ios-delete-all-of-object:
 
@@ -374,10 +366,8 @@ You can delete all instances of a :ref:`{+service-short+} type
       .. tab::
          :tabid: swift
 
-         .. literalinclude:: /examples/CRUD/DeleteAllOfClass.swift
+         .. literalinclude:: /examples/generated/code/start/Crud.codeblock.delete-all-of-class.swift
             :language: swift
-            :emphasize-lines: 3-4
-
 
 .. _ios-delete-all:
 
@@ -405,10 +395,8 @@ quickly clearing out your {+realm+} while prototyping.
       .. tab::
          :tabid: swift
 
-         .. literalinclude:: /examples/CRUD/DeleteAll.swift
+         .. literalinclude:: /examples/generated/code/start/Crud.codeblock.delete-all.swift
             :language: swift
-            :emphasize-lines: 3
-
 
 Summary
 -------
