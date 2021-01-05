@@ -8,12 +8,12 @@ content: |
      mkdir myElectronApplication
      
   Create an index.html and main.js file in the root directory of your
-  application. The code in the main.js file is the Electron main process file,
-  which is the entry point into your application. The main.js file is
-  responsible for loading your index.html file into the `BrowserWindow
-  <https://www.electronjs.org/docs/api/browser-window>`__ created by Electron.
-  Any script files that you require in this HTML file will execute on the
-  renderer process. Add the following to your ``index.html`` file:
+  application. The main.js file is the entry point into your application and
+  executes on the main process. It is responsible for loading your index.html
+  file into the Electron's `BrowserWindow API
+  <https://www.electronjs.org/docs/api/browser-window>`__. Any script files that
+  you require in this HTML file will execute on the renderer process. Add the
+  following to your ``index.html`` file:
 
   .. code-block:: html
 
@@ -89,7 +89,7 @@ title: Install Your Project Dependencies
 ref: install-dependencies
 content: |
   In order to begin developing your Electron Application that uses
-  Realm, install the necessary dependencies. Install electron as a dev
+  Realm, install the necessary dependencies. Install Electron as a dev
   dependency by running the following command:
 
   .. code-block:: shell
