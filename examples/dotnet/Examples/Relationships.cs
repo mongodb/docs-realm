@@ -53,11 +53,9 @@ namespace Examples
             });
 
             // :code-block-start: one-to-one-query
-            var fidosPerson = realm.All<Person>().Where(p => p.Dog == dog).FirstOrDefault();
+            var fidosPerson = realm.All<Person>().FirstOrDefault(p => p.Dog == dog);
             // :code-block-end:
             Assert.AreEqual(fidosPerson, person);
-
-            return;
         }
     }
 
@@ -133,8 +131,6 @@ namespace Examples
             younglist.Add(dog1);
             younglist.Add(dog2);
             Assert.AreEqual(youngDogs, younglist);
-
-            return;
         }
     }
 

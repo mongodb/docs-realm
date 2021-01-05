@@ -1,1 +1,1 @@
-var fidosPerson = realm.All<Person>().Where(p => p.Dog == dog).FirstOrDefault();
+var fidosPerson = realm.All<Person>().FirstOrDefault(p => p.Dog == dog);
