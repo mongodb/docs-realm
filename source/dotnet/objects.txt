@@ -108,16 +108,16 @@ Property Types
 {+client-database+} supports the following property data types and their nullable counterparts:
 
 - ``bool``
-- ``int``
-- ``short``
-- ``long``
-- ``byte[]``
 - ``byte``
-- ``char``
-- ``decimal``
-- ``double``
+- ``short``
+- ``int``
+- ``long``
 - ``float``
+- ``double``
+- ``decimal``
+- ``char``
 - ``string``
+- ``byte[]``
 - ``DateTimeOffset``
 - ``Decimal128`` from ``MongoDB.Bson``
 - ``ObjectId`` from ``MongoDB.Bson``
@@ -125,7 +125,7 @@ Property Types
 - An ``EmbeddedObject`` subclass (see :ref:`Embedded Objects <dotnet-property-embedded>`)
 - ``IList<T>`` where T is any of the previous data types (see :ref:`Lists <dotnet-property-lists>`)
 
-The ``byte[]``, ``short``, ``integer``, and ``long`` types  are all stored as ``long`` values
+The ``byte``, ``char``, ``short``, ``int``, and ``long`` types  are all stored as 64 bit integer values
 within {+client-database+}. 
 
 If you choose to provide custom constructors, you must declare a public constructor with no arguments.
@@ -135,17 +135,14 @@ If you choose to provide custom constructors, you must declare a public construc
 Lists
 ~~~~~
 
-Realm objects can contain lists of various different data
-types. You can model these collections with the standard .NET interface
+Realm objects can contain lists of all supported data types. 
+You can model these collections with the standard .NET interface
 `IList<T> <https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ilist-1?view=net-5.0>`__,
 where ``T`` can be any data type (excluding lists).
 
-Unlike lists of {+service-short+} objects, these lists can contain
-null values. If null values shouldn't be allowed, use the
-:ref:`[Required] <dotnet-required-optional-property>` attribute.
-
-.. literalinclude:: /examples/Schemas/Lists.cs
-  :language: csharp
+These lists can contain null values. 
+If null values should not be allowed, do not use nullable types
+in the list declaration (i.e., use ``IList<double>`` instead of ``IList<double?>``).
 
 
 .. _dotnet-property-embedded:
@@ -193,13 +190,13 @@ Primary Key
 A **primary key** is a property that uniquely identifies an object. You can
 create a primary key with any of the following types (or their nullable counterparts):
 
-- ``string``
 - ``ObjectId``
+- ``string``
+- ``char``
+- ``byte``
+- ``short``
 - ``int``
 - ``long``
-- ``short``
-- ``byte``
-- ``char``
 
 You may define a primary key on a **single 
 property** for an 
@@ -227,15 +224,12 @@ objects of the same type in a {+realm+}.
 Required and Optional Properties
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-If a property is normally nullable, you can make it required to disallow ``null`` values
-using the ``[Required]`` attribute. In .NET, properties are nullable only if marked with 
-`?  <https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/nullable-value-types>`__ except
-for ``string`` and ``byte[]``.
-
-Any value type in C# can be made nullable with ``?``, although by
-default they are non-nullable without it. 
-Properties with the ``RealmObject`` type are always
-nullable and cannot be made required.
+In C#, value types are implicitly non-nullable, but can be made optional by appending 
+`?  <https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/nullable-value-types>`.
+Reference types, such as ``string`` and ``byte[]``, are implicitly nullable and can be
+made required by annotating them with the ``[Required]`` attribute. Properties of types
+that inherit from ``RealmObject`` or ``EmbeddedObject`` are special and can always be
+null. Applying ``[Required]`` on such a property will result in a compilation error.
 
 You can use the ``[Required]`` attribute as seen in the following example:
 
@@ -286,15 +280,15 @@ adding an index to a property will increase disk space consumed by your
 
 You can index properties with the following types:
 
-- ``string``
-- ``ObjectId``
+- ``bool``
+- ``byte``
+- ``short``
 - ``int``
 - ``long``
-- ``short``
-- ``byte``
-- ``bool``
-- ``char``
 - ``DateTimeOffset``
+- ``char``
+- ``string``
+- ``ObjectId``
 
 To index a property, use the :dotnet-sdk:`[Indexed] <reference/Realms.IndexedAttribute.html>`
 attribute:
@@ -417,7 +411,7 @@ By default, {+client-database+} uses the name defined in the model class
 to represent classes internally. In some cases you might want to change
 this behavior:
 
-- To support multiple model classes with the same simple name in different packages.
+- To support multiple model classes with the same simple name in different namespaces.
 - To make it easier to work across platforms, since naming conventions differ.
 - To use a class name that is longer than the 57 character limit enforced by {+client-database+}.
 - To change a class name in .NET without forcing a migration.
