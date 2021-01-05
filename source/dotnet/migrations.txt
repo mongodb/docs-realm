@@ -50,6 +50,11 @@ deletes it.
 
 .. example::
    
+   Note: assume that each schema change in this example occurs after the developer has used each version for some
+   amount of time. New schema version numbers only apply once you open the Realm 
+   with an updated schema and explicitly specify the new version number, so in order to get to 
+   version 4, you would first need to open the app with versions 2 and 3.
+
    A {+realm+} using schema version ``1`` has a ``Person`` object type:
    
    .. tabs-realm-languages::
