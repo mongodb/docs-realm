@@ -5,7 +5,12 @@ class Threading: XCTestCase {
     func testFreeze() {
         // :code-block-start: freeze
         let realm = try! Realm()
-        
+
+        // :hide-start:
+        try! realm.write {
+            realm.add(Task())
+        }
+        // :hide-end:
         // Get an immutable copy of the realm that can be passed across threads
         let frozenRealm = realm.freeze()
 

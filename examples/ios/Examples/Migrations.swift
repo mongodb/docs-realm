@@ -21,10 +21,18 @@ class MigrationExample_Person: Object {
 // :code-block-end:
 
 class Migrations: XCTestCase {
+    override func tearDown() {
+        Realm.Configuration.defaultConfiguration = Realm.Configuration()
+    }
+
     func testLocalMigration() {
         // :code-block-start: local-migration
         // In application(_:didFinishLaunchingWithOptions:)
         let config = Realm.Configuration(
+            // :hide-start:
+            // Prevent schema version from affecting other unit tests
+            inMemoryIdentifier: "LocalMigrationExample",
+            // :hide-start:
             schemaVersion: 2, // Set the new schema version.
             migrationBlock: { migration, oldSchemaVersion in
                 if (oldSchemaVersion < 2) {

@@ -148,6 +148,26 @@ class Crud: XCTestCase {
         // :code-block-end:
     }
     
+    func testFilter() {
+        // :code-block-start: filter
+        let realm = try! Realm()
+        // Access all dogs in the realm
+        let dogs = realm.objects(CrudExample_Dog.self);
+
+        // Filter by age
+        let puppies = dogs.filter("age < 2")
+        
+        // Filter by owner
+        let availableDogs = dogs.filter("owner == nil")
+        
+        // Filter by owner's name
+        let ownedByKeith = dogs.filter("owner.name == 'Keith'")
+        // :code-block-end:
+        print(puppies.count)
+        print(availableDogs.count)
+        print(ownedByKeith.count)
+    }
+    
     func testTransaction() {
         // :code-block-start: transaction
         // Open the default realm.
