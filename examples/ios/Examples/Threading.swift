@@ -1,7 +1,7 @@
 import XCTest
 import RealmSwift
 
-class Threading: XCTest {
+class Threading: XCTestCase {
     func testFreeze() {
         // :code-block-start: freeze
         let realm = try! Realm()
