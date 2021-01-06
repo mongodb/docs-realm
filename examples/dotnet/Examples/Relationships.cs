@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using MongoDB.Bson;
+using NUnit.Framework;
 using Realms;
 using Realms.Sync;
 using NUnit.Framework;
@@ -34,6 +35,30 @@ namespace Examples
             public string Breed { get; set; }
         }
         // :code-block-end:
+
+        [Test]
+        public async System.Threading.Tasks.Task OneToOneQuery()
+        {
+            var realm = await Realm.GetInstanceAsync();
+            realm.Write(() =>
+            {
+                realm.RemoveAll<Dog>();
+                realm.RemoveAll<Person>();
+            });
+
+            var dog = new Dog() { Id = ObjectId.GenerateNewId(), Name = "Fido" };
+            var person = new Person() { Name = "Katie", Dog = dog };
+
+            realm.Write(() =>
+            {
+                realm.Add(person);
+            });
+
+            // :code-block-start: one-to-one-query
+            var fidosPerson = realm.All<Person>().FirstOrDefault(p => p.Dog == dog);
+            // :code-block-end:
+            Assert.AreEqual(fidosPerson, person);
+        }
     }
 
     public class OneToManyRelationship
@@ -75,6 +100,40 @@ namespace Examples
             public string Breed { get; set; }
         }
         // :code-block-end:
+
+        [Test]
+        public async System.Threading.Tasks.Task OneToManyQuery()
+        {
+            var realm = await Realm.GetInstanceAsync();
+            realm.Write(() =>
+            {
+                realm.RemoveAll<Dog>();
+                realm.RemoveAll<Person>();
+            });
+
+            var dog1 = new Dog() { Id = ObjectId.GenerateNewId(), Name = "Fido", Age = 1 };
+            var dog2 = new Dog() { Id = ObjectId.GenerateNewId(), Name = "Spot", Age = 1 };
+            var dog3 = new Dog() { Id = ObjectId.GenerateNewId(), Name = "Lucky", Age = 2 };
+
+            var person = new Person() { Name = "Katie" };
+
+            realm.Write(() =>
+            {
+                person.Dogs.Add(dog1);
+                person.Dogs.Add(dog2);
+                person.Dogs.Add(dog3);
+
+                realm.Add(person);
+            });
+
+            // :code-block-start: one-to-many-query
+            var youngDogs = realm.All<Dog>().Where(d => d.Age == 1);
+            // :code-block-end:
+            var younglist = new List<Dog>();
+            younglist.Add(dog1);
+            younglist.Add(dog2);
+            Assert.AreEqual(youngDogs, younglist);
+        }
     }
 
     public class InverseRelationship
