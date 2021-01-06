@@ -15,15 +15,21 @@ var config = new RealmConfiguration
             // Changes from version 1 to 2 (adding LastName) will occur automatically when Realm detects the change
 
             // Migrate Person from version 2 to 3: replace FirstName and LastName with FullName
-            if (oldSchemaVersion < 3)
+            // LastName doesn't exist in version 1
+            if (oldSchemaVersion < 2)
             {
-                newPerson.FullName = oldPerson.FirstName + " " + oldPerson.LastName;
+                newPerson.FullName = oldPerson.FirstName;
+            }
+            else if (oldSchemaVersion < 3)
+            {
+                newPerson.FullName = $"{oldPerson.FirstName} {oldPerson.LastName}";
             }
 
             // Migrate Person from version 3 to 4: replace Age with Birthday
             if (oldSchemaVersion < 4)
             {
-                newPerson.Birthday = DateTimeOffset.Now.AddYears(-(int)oldPerson.Age);
+                var birthYear = DateTimeOffset.UtcNow.Year - oldPerson.Age;
+                newPerson.Birthday = new DataTimeOffset(birthYear, 1, 1, 0, 0, 0, TimeSpan.Zero);
             }
         }
     }
