@@ -2,11 +2,14 @@
 #import <Realm/Realm.h>
 #import "MyRealmApp.h"
 
-@interface ExampleObjcTestCase : XCTestCase
+// Be sure to differentiate test cases between Swift/Obj-C, or else
+// the test explorer will get confused. i.e. Append "Objc" to the
+// test case class name for Obj-C (compare with "ExampleTestCase" in Swift)
+@interface ExampleTestCaseObjc : XCTestCase
 
 @end
 
-@implementation ExampleObjcTestCase
+@implementation ExampleTestCaseObjc
 
 - (void)setUp {
     // Put setup code here. This method is called before the invocation of each test method in the class.

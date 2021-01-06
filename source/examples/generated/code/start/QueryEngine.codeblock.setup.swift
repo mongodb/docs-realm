@@ -5,6 +5,7 @@ try! realm.write {
     project.name = "New Project"
     let task = QueryEngineExamples_Task()
     task.assignee = "Alex"
+    task.priority = 5
     project.tasks.append(task)
     realm.add(project)
     // ...

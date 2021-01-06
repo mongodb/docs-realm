@@ -43,6 +43,7 @@ class QueryEngine: XCTestCase {
             project.name = "New Project"
             let task = QueryEngineExamples_Task()
             task.assignee = "Alex"
+            task.priority = 5
             project.tasks.append(task)
             realm.add(project)
             // ...
@@ -71,7 +72,10 @@ class QueryEngine: XCTestCase {
         // :code-block-end:
 
         // :code-block-start: aggregate-operators
-        print("Projects with average tasks priority above 5: \(projects.filter("tasks.@avg.priority > 5").count)");
+        print("Projects with average task priority above 5: \(projects.filter("tasks.@avg.priority > 5").count)");
+        print("Projects where all tasks are lower priority: \(projects.filter("tasks.@max.priority < 5").count)");
+        print("Projects where all tasks are high priority: \(projects.filter("tasks.@min.priority > 5").count)");
+        print("Projects with more than 5 tasks: \(projects.filter("tasks.@count > 5").count)");
         print("Long running projects: \(projects.filter("tasks.@sum.progressMinutes > 100").count)");
         // :code-block-end:
         
@@ -79,8 +83,6 @@ class QueryEngine: XCTestCase {
         print("Projects with no complete tasks: \(projects.filter("NONE tasks.isComplete == true").count)");
         print("Projects with any top priority tasks: \(projects.filter("ANY tasks.priority == 10").count)");
         // :code-block-end:
-        
-        print("chbus projects: \(projects)")
         
         // :code-block-start: subquery
         let predicate = NSPredicate(
