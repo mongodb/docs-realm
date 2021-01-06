@@ -1,10 +1,12 @@
+RLMRealm *realm = [RLMRealm defaultRealm];
+
 // Instantiate the class.
-Dog *dog = [[Dog alloc] init];
+CrudExampleObjc_Dog *dog = [[CrudExampleObjc_Dog alloc] init];
 dog.name = @"Max";
 dog.age = 5;
 
 // Open a thread-safe transaction.
 [realm transactionWithBlock:^() {
     // Add the instance to the realm.
-    [realm addObject:dog]; 
+    [realm addObject:dog];
 }];
