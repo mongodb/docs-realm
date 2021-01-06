@@ -67,8 +67,18 @@ your ``renderer.js`` file:
      // login with an anonymous credential
      await app.logIn(new Realm.Credentials.anonymous());
 
+     const DogSchema = {
+         name: "Dog",
+         properties: {
+           _id: 'objectId',
+           name: "string",
+           age: "int",
+         },
+         primaryKey: '_id'
+     };
+
      const realm = await Realm.open({
-       schema: [MySchema], // You must have a 'MySchema' variable defined
+       schema: [DogSchema],
        sync: {
          user: app.currentUser,
          partitionValue: "myPartition",
