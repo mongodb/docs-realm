@@ -32,7 +32,7 @@ class Migrations: XCTestCase {
             // :hide-start:
             // Prevent schema version from affecting other unit tests
             inMemoryIdentifier: "LocalMigrationExample",
-            // :hide-start:
+            // :hide-end:
             schemaVersion: 2, // Set the new schema version.
             migrationBlock: { migration, oldSchemaVersion in
                 if (oldSchemaVersion < 2) {
