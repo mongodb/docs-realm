@@ -115,7 +115,7 @@ Field Types
 - ``Double`` or ``double``
 - ``Float`` or ``float``
 - ``String``
-- ``Date``
+- ``DateTimeOffset``
 - ``Decimal128`` from ``org.bson.types``
 - ``ObjectId`` from ``org.bson.types``
 - ``IList<T>`` where T is any of the previous data types (see :ref:`Lists <dotnet-field-lists>`)
@@ -235,7 +235,7 @@ C# `? operator <https://docs.microsoft.com/en-us/dotnet/csharp/language-referenc
 for the following types:
 
 - ``String``
-- ``Date``
+- ``DateTimeOffset``
 - ``ObjectId``
 - ``Decimal128``
 
@@ -304,7 +304,7 @@ You can index fields with the following types:
 - ``Short`` or ``short``
 - ``Byte`` or ``byte[]``
 - ``Boolean`` or ``bool``
-- ``Date``
+- ``DateTimeOffset``
 
 To index a field, use the :dotnet-sdk:`[Indexed] <reference/Realms.IndexedAttribute.html>`
 annotation:
