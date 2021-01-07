@@ -339,8 +339,8 @@ account. You can use the :ref:`built-in authentication flow
 
 .. _web-facebook-builtin:
 
-Built-In OAuth 2.0 Flow
-+++++++++++++++++++++++
+Use the Built-In Facebook OAuth 2.0 Flow
+++++++++++++++++++++++++++++++++++++++++
 
 The Realm Web SDK includes methods to handle the OAuth 2.0 process and does not
 require you to install the Facebook SDK. The built in flow follows three main steps:
@@ -447,8 +447,8 @@ in to your app.
 
 .. _web-login-google:
 
-Google OAuth
-~~~~~~~~~~~~
+Google Authentication
+~~~~~~~~~~~~~~~~~~~~~
 
 The :doc:`Google </authentication/google>` authentication provider allows you to
 authenticate users through a Google project using their existing Google account.
@@ -458,10 +458,26 @@ authenticate users through a Google project using their existing Google account.
    To authenticate a Google user, you must configure the :doc:`Google
    authentication provider </authentication/google>`.
 
-You can use the :google:`official Google SDK <identity/sign-in/web/sign-in>` to
-handle the user authentication and redirect flow. Once authenticated, the Google
-SDK returns an authorization code that you can use to finish logging the user in
-to your app.
+Logging a Google user in to your Realm app is a two step process:
+
+1. First, you authenticate the user with Google. You can use a library like
+   :google:`Google One Tap
+   <identity/one-tap/web/guides/get-google-api-clientid>` for a streamlined
+   experience.
+
+2. Second, you log the user in to your Realm app with an authentication token
+   returned by Google upon successful user authentication.
+
+.. _web-google-onetap:
+
+Authenticate with Google One Tap
+++++++++++++++++++++++++++++++++
+
+.. note:: Requires OpenID Connect
+   
+   Google OneTap only supports user authentication through OpenID Connect. To
+   log Google users in to your web app, you must :ref:`enable OpenID Connect
+   <openIdConnect>` in the authentication provider configuration.
 
 .. tabs-realm-languages::
    
@@ -470,80 +486,117 @@ to your app.
       
       .. code-block:: javascript
          
-         // Get the access token from the Google SDK
-         function getGoogleAuthCode() {
-           return new Promise(() => {
-             gapi.auth2.authorize({
-               client_id: "<Google Client ID>",
-               // Scopes should match the metadata fields in the provider configuration
-               scope: "<scopes>",
-               response_type: "code",
-             }, ({ code, error }) => {
-               if(error) {
-                 reject(error)
-               }
-               resolve(code)
-             })
-           })
-         }
-         getGoogleAuthCode()
-           .then(code => {
-             // Define credentials with the authorization code from the Google SDK
-             const credentials = Realm.Credentials.google(code)
-             // Log the user in to your app
-             return app.logIn(credentials)
-           })
-           .then(user => {
-             console.log(`Logged in with id: ${user.id}`);
-           });
+         import * as Realm from "realm-web";
+         import googleOneTap from 'google-one-tap';
+         
+         const app = new Realm.App("<Your Realm App ID>");
+         const client_id = "<Your Google Client ID>";
+         
+         // Open the Google One Tap menu
+         googleOneTap({ client_id }, async (response) => {
+           // Upon successful Google authentication, log in to Realm with the user's credential
+           const credentials = Realm.Credentials.google(response.credential)
+           const user = await app.logIn(credentials);
+           console.log(`Logged in with id: ${user.id}`);
+         });
 
    .. tab::
       :tabid: typescript
       
       .. code-block:: typescript
          
-         // Get the access token from the Google SDK
-         function getGoogleAuthCode(): Promise<string> {
-           return new Promise(() => {
-             gapi.auth2.authorize({
-               client_id: "<Google Client ID>",
-               // Scopes should match the metadata fields in the provider configuration
-               scope: "<scopes>",
-               response_type: "code",
-             }, ({ code, error }) => {
-               if(error) {
-                 reject(error)
-               }
-               resolve(code)
-             })
-           })
-         }
-         getGoogleAuthCode()
-           .then((code: string) => {
-             // Define credentials with the authorization code from the Google SDK
-             const credentials = Realm.Credentials.google(code)
-             // Log the user in to your app
-             return app.logIn(credentials)
-           })
-           .then((user: Realm.User) => {
-             console.log(`Logged in with id: ${user.id}`);
-           });
+         import * as Realm from "realm-web";
+         import googleOneTap from 'google-one-tap';
+         
+         const app = new Realm.App("<Your Realm App ID>");
+         const client_id = "<Your Google Client ID>";
+         
+         // Open the Google One Tap menu
+         googleOneTap({ client_id }, async (response: { credential: string }) => {
+           // Upon successful Google authentication, log in to Realm with the user's credential
+           const credentials = Realm.Credentials.google(response.credential)
+           const user = await app.logIn(credentials);
+           console.log(`Logged in with id: ${user.id}`);
+         });
+
+.. _web-google-builtin:
+
+Use the Built-In Google OAuth 2.0 Flow
+++++++++++++++++++++++++++++++++++++++
+
+The Realm Web SDK includes methods to handle the OAuth 2.0 process and does not
+require you to install a Google SDK. The built in flow follows three main steps:
+
+1. You call ``app.logIn()`` with a Google credential. The credential must
+   specify a URL for your app that is also listed as a redirect URI in the
+   provider configuration.
+
+2. A new window opens to a Google authentication screen and the user
+   authenticates and authorizes your app in that window. Once complete, the new
+   window redirects to the URL specified in the credential.
+
+3. You call ``handleAuthRedirect()`` on the redirected page, which stores the
+   user's Realm access token and closes the window. Your original app window will
+   automatically detect the access token and finish logging the user in.
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: javascript
+      
+      .. code-block:: javascript
+         
+         // The redirect URI should be on the same domain as this app and
+         // specified in the auth provider configuration.
+         const redirectUri = "https://app.example.com/handleOAuthLogin";
+         const credentials = Realm.Credentials.google(redirectUri);
+         
+         // Calling logIn() opens a Google authentication screen in a new window.
+         app.logIn(credentials).then(user => {
+           // The logIn() promise will not resolve until you call `handleAuthRedirect()`
+           // from the new window after the user has successfully authenticated.
+           console.log(`Logged in with id: ${user.id}`);
+         })
+         
+         // When the user is redirected back to your app, handle the redirect to
+         // save the user's access token and close the redirect window. This
+         // returns focus to the original application window and automatically
+         // logs the user in.
+         Realm.handleAuthRedirect();
+
+   .. tab::
+      :tabid: typescript
+      
+      .. code-block:: typescript
+         
+         // The redirect URI should be on the same domain as this app and
+         // specified in the auth provider configuration.
+         const redirectUri = "https://app.example.com/handleOAuthLogin";
+         const credentials = Realm.Credentials.google(redirectUri);
+         
+         // Calling logIn() opens a Google authentication screen in a new window.
+         app.logIn(credentials).then((user: Realm.User) => {
+           // The logIn() promise will not resolve until you call `handleAuthRedirect()`
+           // from the new window after the user has successfully authenticated.
+           console.log(`Logged in with id: ${user.id}`);
+         })
+         
+         // When the user is redirected back to your app, handle the redirect to
+         // save the user's access token and close the redirect window. This
+         // returns focus to the original application window and automatically
+         // logs the user in.
+         Realm.handleAuthRedirect();
 
 .. important:: Built-In OAuth 2.0 Redirect Limitations for Google
    
-   The Realm Web SDK includes a built-in process to handle OAuth 2.0 redirect
-   flows. The process opens a new window where the user authorizes your app and
-   then redirects to URL that you provide, which allows you to get an access
-   token and finish logging the user in.
-   
    Due to changes in OAuth application verification requirements, the built-in
-   process faces limitations when authenticating :ref:`Google
+   OAuth 2.0 process faces limitations when authenticating :ref:`Google
    <google-authentication>` users. If you use the Google login redirect flow
    using Realm's redirect flow, a maximum of 100 Google users may authenticate
    while the app is in development/testing/staging and all users will see an
    unverified application notification before they authenticate.
    
-   To avoid these limitations, we advise that you use the official Google SDK to
+   To avoid these limitations, we advise that you use an official Google SDK to
    get a user access token as described above.
 
 .. _web-login-apple:
@@ -563,8 +616,8 @@ SDK <web-apple-auth-token>`.
 
 .. _web-apple-builtin:
 
-Built-In OAuth 2.0 Flow
-+++++++++++++++++++++++
+Use the Built-In Apple OAuth 2.0 Flow
++++++++++++++++++++++++++++++++++++++
 
 The Realm Web SDK includes methods to handle the OAuth 2.0 process and does not
 require you to install the Apple JS SDK. The built in flow follows three main

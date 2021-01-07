@@ -1,3 +1,4 @@
+
 .. _google-authentication:
 
 =====================
@@ -23,6 +24,7 @@ provides {+service+} with an `OAuth 2.0 access token
 {+service-short+} uses the token to identify the user and access approved data from
 Google APIs on their behalf.
 
+.. _openIdConnect:
 .. _auth-google-configuration:
 
 Configuration
@@ -57,7 +59,8 @@ Configuration
            "type": "oauth2-google",
            "disabled": <boolean>,
            "config": {
-             "clientId": <string>
+             "clientId": <string>,
+             "openId": <boolean>
            },
            "secret_config": {
              "clientSecret": <string>
@@ -152,6 +155,21 @@ options:
           If you've specified any domain restrictions, you must also
           require the email address field in the :guilabel:`Metadata
           Fields` setting.
+
+   * - | :guilabel:`OpenID Connect`
+       | *config.openId*
+
+     - Optional. Default ``False``.
+     
+       If ``true``, the provider uses :google:`OpenID Connect
+       <identity/protocols/oauth2/openid-connect>` to authenticate users.
+       
+       .. important:: OpenID Connect Does Not Support Metadata Fields
+          
+          Google supports OpenID as part of their OAuth 2.0 implementation but does
+          not provide access to restricted scopes for OpenID authentication. This
+          means that Realm cannot access metadata fields for users authenticated
+          with OpenID Connect.
 
 .. _auth-gcp-project-setup:
 
