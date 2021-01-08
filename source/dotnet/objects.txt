@@ -140,9 +140,12 @@ You can model these collections with the standard .NET interface
 `IList<T> <https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ilist-1?view=net-5.0>`__,
 where ``T`` can be any data type (excluding lists).
 
-These lists can contain null values. 
-If null values should not be allowed, do not use nullable types
-in the list declaration (i.e., use ``IList<double>`` instead of ``IList<double?>``).
+Lists of objects cannot contain null values - i.e. deleting an object from the database
+will also remove it from any lists where it existed. Lists of primitive types can contain null
+values. If null values should not be allowed, do not use nullable types
+in the list declaration (i.e., use ``IList<double>`` instead of ``IList<double?>``) or
+add the :ref:```[Required]``<dotnet-required-optional-property>` attribute if the list contains reference types, such as ``string``
+or ``byte[]``.
 
 
 .. _dotnet-property-embedded:
@@ -225,7 +228,7 @@ Required and Optional Properties
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 In C#, value types are implicitly non-nullable, but can be made optional by appending 
-`?  <https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/nullable-value-types>`.
+`?  <https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/nullable-value-types>`__.
 Reference types, such as ``string`` and ``byte[]``, are implicitly nullable and can be
 made required by annotating them with the ``[Required]`` attribute. Properties of types
 that inherit from ``RealmObject`` or ``EmbeddedObject`` are special and can always be
