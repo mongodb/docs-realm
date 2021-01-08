@@ -246,8 +246,8 @@ nullable and cannot be required.
 
 You can use the ``[Required]`` annotation as seen in the following example:
 
- .. literalinclude:: /examples/Schemas/Required.cs
-      :language: csharp
+.. literalinclude:: /examples/Schemas/Required.cs
+   :language: csharp
 
 Nullable fields are optional by default in {+client-database+}, unless
 otherwise specified with the :ref:`[Required] <dotnet-required-field>`
@@ -263,7 +263,7 @@ You can use the built-in language features to assign a default value to a field.
 In .NET, you can assign a default value in the field declaration. 
 
 .. literalinclude:: /examples/Schemas/DefaultValues.cs
-  :language: csharp
+   :language: csharp
 
 .. note:: Default Values and Nullability
 
@@ -310,7 +310,7 @@ To index a field, use the :dotnet-sdk:`[Indexed] <reference/Realms.IndexedAttrib
 annotation:
 
 .. literalinclude:: /examples/Schemas/Indexed.cs
-  :language: csharp
+   :language: csharp
 
 
 .. _dotnet-field-relationships:
@@ -334,7 +334,7 @@ with whose type is a ``RealmObject`` in your application:
 
 
 .. literalinclude:: /examples/Schemas/ManyToOne.cs
-  :language: csharp
+   :language: csharp
 
 Each ``Dog`` references zero or one ``Person`` instances. Nothing prevents
 multiple ``Dog`` instances from referencing the same ``Person`` as an owner;
@@ -355,7 +355,7 @@ using a field of type ``IList<T>`` where ``T`` is a
 {+service-short+} object in your application:
 
 .. literalinclude:: /examples/Schemas/ManyToMany.cs
-  :language: csharp
+   :language: csharp
 
 
 .. _dotnet-field-relationships-inverse:
@@ -390,7 +390,7 @@ Ignore a field from a {+service-short+} object model with the
 :dotnet-sdk:`[Ignored] <reference/Realms.IgnoredAttribute.html>` annotation:
 
 .. literalinclude:: /examples/Schemas/Ignored.cs
-  :language: csharp
+   :language: csharp
 
 .. _dotnet-rename-field:
 
@@ -414,7 +414,7 @@ Use the :dotnet-sdk:`[MapTo] <reference/Realms.MapToAttribute.html>`
 annotation to rename a field:
 
 .. literalinclude:: /examples/Schemas/RenameField.cs
-  :language: csharp
+   :language: csharp
 
 
 .. _dotnet-rename-object:
@@ -435,7 +435,7 @@ Use the :dotnet-sdk:`[MapTo] <reference/Realms.MapToAttribute.html>`
 annotation to rename a class:
 
 .. literalinclude:: /examples/Schemas/RenameClass.cs
-  :language: csharp
+   :language: csharp
 
 .. _dotnet-provide-subset-classes-schema:
 
@@ -448,7 +448,7 @@ subset of classes that extend ``RealmObject`` in your {+service-short+}
 Schema, you can update your configuration to include the specific classes you want:
 
 .. literalinclude:: /examples/Schemas/SubsetClasses.cs
-  :language: csharp
+   :language: csharp
 
 .. _dotnet-decimal128:
 
@@ -462,7 +462,7 @@ following example shows how to use both the ``Decimal128`` Bson type and the .NE
 ``decimal`` type:
 
 .. literalinclude:: /examples/generated/code/start/DecimalFun.codeblock.decimal128.cs
-  :language: csharp
+   :language: csharp
 
 
 Summary
