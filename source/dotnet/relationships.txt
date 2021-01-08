@@ -57,6 +57,13 @@ specifying a property where the type is the related {+service-short+} object typ
    .. literalinclude:: /examples/generated/code/start/Relationships.codeblock.one-to-one.cs
       :language: csharp
 
+To query a direct relationship, you can use LINQ syntax.
+See the following example for how to query a one-to-one relationship:
+
+.. literalinclude:: /examples/generated/code/start/Relationships.codeblock.one-to-one-query.cs
+   :language: csharp
+
+
 .. _dotnet-to-many-relationship:
 
 To-Many Relationship
@@ -87,6 +94,10 @@ type.
    .. literalinclude:: /examples/generated/code/start/Relationships.codeblock.one-to-many-use.cs
       :language: csharp
 
+See the following example for how to query a one-to-many relationship:
+
+.. literalinclude:: /examples/generated/code/start/Relationships.codeblock.one-to-many-query.cs
+   :language: csharp
 
 .. _dotnet-inverse-relationship:
 
@@ -132,6 +143,8 @@ that contain the word "oscillator":
 .. literalinclude:: /examples/generated/code/start/Relationships.codeblock.inverse-query.cs
    :language: csharp
 
+
+(Inverse queries handled in Caleb's PR)
 
 Summary
 -------

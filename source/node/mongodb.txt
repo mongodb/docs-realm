@@ -72,6 +72,7 @@ document or documents to add to MongoDB as an argument and return a
 resolves to an object that contains the results of the execution of the
 operation.
 
+.. _node-mongodb-insertOne:
 
 Insert a Single Document
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -158,6 +159,8 @@ Running this snippet produces output resembling the following:
       .. literalinclude:: /examples/generated/code/start/mongodb.codeblock.insert-multiple-documents-result.ts
          :language: typescript
 
+.. _node-mongodb-read-documents:
+
 Read Documents
 --------------
 
@@ -212,6 +215,8 @@ Running this snippet produces output resembling the following:
       .. literalinclude:: /examples/generated/code/start/mongodb.codeblock.find-a-single-document-result.ts
          :language: typescript
 
+.. _node-mongodb-findMany:
+
 Find Multiple Documents
 ~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -257,6 +262,8 @@ Running this snippet produces output resembling the following:
       .. literalinclude:: /examples/generated/code/start/mongodb.codeblock.find-multiple-documents-result.ts
          :language: typescript
 
+.. _node-mongodb-count:
+
 Count Documents in the Collection
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -301,14 +308,18 @@ Running this snippet produces output resembling the following:
       .. literalinclude:: /examples/generated/code/start/mongodb.codeblock.count-documents-in-the-collection-result.ts
          :language: typescript
 
+.. _node-mongodb-update-documents:
+
 Update Documents
 ----------------
 
 These code snippets demonstrate how to update data stored in a MongoDB
-collection from a mobile application. Update operations use query filters
-to specify which documents to update and :manual:`update operators
-</reference/operator/update>` to describe how to mutate documents that
-match the query. Update operations return a :mdn:`Promise <Web/JavaScript/Reference/Global_Objects/Promise>` that resolves to an object that contains the results of the execution of the operation.
+collection from a mobile application. Update operations use query filters to
+specify which documents to update and :manual:`update operators
+</reference/operator/update>` to describe how to mutate documents that match the
+query. Update operations return a :mdn:`Promise
+<Web/JavaScript/Reference/Global_Objects/Promise>` that resolves to an object
+that contains the results of the execution of the operation.
 
 .. _node-mongodb-updateOne:
 
@@ -355,6 +366,8 @@ Running this snippet produces output resembling the following:
       .. literalinclude:: /examples/generated/code/start/mongodb.codeblock.update-a-single-document-result.ts
          :language: typescript
 
+.. _node-mongodb-updateMany:
+
 Update Multiple Documents
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -397,6 +410,8 @@ Running this snippet produces output resembling the following:
       
       .. literalinclude:: /examples/generated/code/start/mongodb.codeblock.update-multiple-documents-result.ts
          :language: typescript
+
+.. _node-mongodb-upsert:
 
 Upsert Documents
 ~~~~~~~~~~~~~~~~
@@ -452,6 +467,8 @@ Running this snippet produces output resembling the following:
       .. literalinclude:: /examples/generated/code/start/mongodb.codeblock.upsert-documents-result.ts
          :language: typescript
 
+.. _node-mongodb-delete-documents:
+
 Delete Documents
 ----------------
 
@@ -506,6 +523,8 @@ Running this snippet produces output resembling the following:
       
       .. literalinclude:: /examples/generated/code/start/mongodb.codeblock.delete-a-single-document-result.ts
          :language: typescript
+
+.. _node-mongodb-deleteMany:
 
 Delete Multiple Documents
 ~~~~~~~~~~~~~~~~~~~~~~~~~

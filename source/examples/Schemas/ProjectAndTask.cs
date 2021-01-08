@@ -1,5 +1,7 @@
 public class Task : RealmObject
 {
+    [PrimaryKey]
+    public int Id {get; set; }
     public string Name { get; set; }
     public string Assignee { get; set; }
     public bool IsComplete { get; set; }

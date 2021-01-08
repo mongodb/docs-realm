@@ -62,7 +62,7 @@ A. Clone the Client App Repository
 ----------------------------------
 
 We've already put together a task tracker browser application that has most of
-the frontend code you'll need. You can clone client application repository
+the frontend code you'll need. You can clone the client application repository
 directly from GitHub:
 
 .. code-block:: shell
@@ -77,10 +77,10 @@ client application and install its dependencies:
    cd realm-tutorial-web
    npm install
 
-The realm-tutorial-react-native repository contains two branches: ``final``
-and ``start``. The ``final`` branch is a finished version of the app as it
-should look *after* you complete this tutorial. To walk through this
-tutorial, please check out the ``start`` branch:
+The :github:`realm-tutorial-web <mongodb-university/realm-tutorial-web>`
+repository contains two branches: ``final`` and ``start``. The ``final`` branch
+is a finished version of the app as it should look *after* you complete this
+tutorial. To walk through this tutorial, please check out the ``start`` branch:
 
 .. code-block:: shell
    
@@ -100,24 +100,24 @@ The project uses the following file structure:
 
 .. include:: /includes/task-tracker-web-client-base-file-structure.rst
 
-Realm & Apollo
-~~~~~~~~~~~~~~
+Apollo Client & GraphQL Operations
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The ``/src/realm`` directory contains all of the modules that you'll use to
-connect the application to Realm. These files are only incomplete scaffolds -
-some are blank and others require you to make some modifications. This tutorial
-walks through adding the missing code in these files to connect the task tracker
-app to Realm.
+The ``/src/graphql`` directory contains all of the modules that you'll use to
+configure the Apollo GraphQL client and connect to your Realm app's GraphQL API.
+These files are only incomplete scaffolds - some are blank and others require
+you to make some modifications. This tutorial walks through adding the missing
+code in these files to connect the task tracker app to Realm.
 
 React Components & Hooks
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-The ``/src/components`` and ``/src/hooks`` directories contain pre-built React
-components and hooks that handle local state management and UI rendering. The
-components import code from the files in ``/src/realm`` and use them to interact
-with Realm. We've already completely implemented these so you won't need to add
-any code to these files. We'll make sure to show you along the way how these
-components and hooks use the code that you write.
+The ``/src/components`` directory contains pre-built React components and hooks
+that handle local state management and UI rendering. The components import code
+from the files in ``/src/graphql`` and use them to interact with Realm. We've
+already completely implemented the UI portions, so you won't need to add any
+React-specific code to these files. We'll make sure to show you along the way
+how to modify the components and hooks to use the Realm GraphQL API.
 
 .. note:: React Components
 
@@ -174,18 +174,21 @@ to create a ``emailPassword`` credential.
 D. Define the GraphQL Schema & Operations
 -----------------------------------------
 
-A GraphQL schema defines all of the types, enums, and scalars that a GraphQL
-API supports. Realm automatically generates a GraphQL schema for you, and you
-can use it to generate useful TypeScript types for your data.
+A GraphQL schema defines all of the types, enums, and scalars that a GraphQL API
+supports. Realm automatically generates a GraphQL schema for you that includes
+definitions for your :doc:`schema types </mongodb/enforce-a-document-schema>` as
+well as a set of CRUD query and mutation resolvers for each type.
 
-In addition to generating types from a schema file, you can also generate
-functions and GraphQL objects for operations such as queries and mutations.
-You can split operations across multiple files, but in this tutorial we'll
-define all of the CRUD operations that the app uses to work with tasks and
-user documents in a single file.
+.. tip:: Generated TypeScript Types
+   
+   You can use `graphql-codegen <https://graphql-code-generator.com/>`__ to
+   generate TypeScript types based on your app's GraphQL schema.
 
-Navigate to the ``src/graphql/useTaskMutations.js`` file and define the 
-following mutations:
+Open ``src/graphql/useTaskMutations.js`` and find the ``TODO`` mutation
+definitions. These are all of the mutations that the app uses to create and
+modify ``User`` and ``Task`` documents.
+
+Fill in the code with the following mutation definitions:
 
 * ``AddTaskMutation``
 
@@ -202,11 +205,13 @@ following mutations:
   .. literalinclude:: /tutorial/generated/code/final/useTaskMutations.codeblock.deleteTaskMutation.js
      :language: javascript
 
-The custom query and mutation hooks are lightweight wrappers around Apollo's
-``useQuery()`` and ``useMutation()`` hooks. Once you have completed defining 
-the task mutations, you will need to implement functions that execute those 
-mutations. In the same ``src/graphql/useTaskMutations.js`` file, find the 
-following functions and call the appropriate mutations: 
+Now that you've defined the mutations, you need to call them in their respective
+hooks. The mutation hooks are lightweight wrappers around Apollo's
+:apollo:`useMutation() <docs/react/data/mutations/#usemutation-api>` hook that
+allow you to pass dynamic variables to the queries.
+
+In ``src/graphql/useTaskMutations.js`` file, find the following functions below
+your mutation definitions and update them to execute their respective mutations: 
 
 * ``useAddTask``
 
@@ -226,8 +231,8 @@ following functions and call the appropriate mutations:
 E. Connect Apollo to the GraphQL API
 ------------------------------------
 
-We've defined GraphQL CRUD operations and created custom query and mutation hooks
-for tasks. However, these hooks must be wrapped in an Apollo context provider 
+You've defined GraphQL CRUD operations and created custom query mutation hooks
+for tasks. However, these hooks must be wrapped in an Apollo context provider
 that makes an ``ApolloClient`` object available.
 
 In ``src/graphql/RealmApolloProvider.js``, we export a React component that
@@ -240,17 +245,13 @@ connect to your app's GraphQL API.
 F. Implement the Projects List
 ------------------------------
 
-As defined by our data model, ``projects`` are an :term:`embedded object` of the ``users`` object.
-Therefore, if we want to retrieve a list of projects, we'll have to access the :doc:`user custom 
-data object </users/enable-custom-user-data>`. 
+As defined by our data model, a ``Project`` is an :term:`embedded object` inside
+of a ``User`` document. This means that we can use :doc:`custom user data
+</users/enable-custom-user-data>` to access a given user's list of projects
+directly from their ``Realm.User`` object.
 
-.. note::
-
-   To learn more about how {+service-short+} Object models are used in Node.js applications, 
-   see :doc:`Realm Objects </node/objects>` in our Node.js client guide. 
-
-In the file ``/graphql/useProjects.js``, we need to implement the retrieval of the 
-current user's projects. We'll need to add the following code:
+In the file ``/graphql/useProjects.js``, add the following code to retrieve the
+current user's projects:
 
 .. literalinclude:: /tutorial/generated/code/final/useProjects.codeblock.useProjects.js
    :language: javascript
@@ -258,15 +259,24 @@ current user's projects. We'll need to add the following code:
 G. Use Realm functions
 ----------------------
 
-In the ``EditPermissionsModal.js`` file, there are functions that rely on :ref:`{+service-short+} 
-functions <functions>`. {+service-short+} functions allow you to execute server-side 
-logic for your client applications.
+The file ``src/components/EditPermissionsModal.js`` defines a hook named
+``useTeamMembers()`` that returns a list of the current user's team members. It
+should also return functions that add and remove team members, but you'll need
+to define them. The :ref:`task tracker backend application
+<tutorial-task-tracker-create-realm-app>` already defines server-side
+:ref:`{+service-short+} functions <functions>` that handle the logic, so you
+just need to call them.
 
-First, you need to import the functions for client-side usage. Next, you will need to 
-implement the function ``updateTeamMembers()`` so that it calls the ``getMyTeamMembers``
-function and updates the ``team`` variable with the current team members. Then you need to 
-implement the ``addTeamMember()`` and  ``removeTeamMember()`` functions so that it adds/removes
-the user as a team member when provided with their email.
+.. tip::
+   
+   You can call your app's {+service-short+} functions by name as asynchronous
+   methods on the ``User.functions`` object. All function calls return a
+   ``Promise``. For example, to call a function named ``myFunction`` as the
+   current user, you would write ``await app.currentUser.functions.myFunction()``.
+
+Update the ``useTeamMembers()`` hook's return object to include
+``addTeamMember()`` and ``removeTeamMember()`` helper functions that accept an
+email address and pass it their respective server-side functions:
 
 .. literalinclude:: /tutorial/generated/code/final/EditPermissionsModal.codeblock.useTeamMembers.js
    :language: javascript
