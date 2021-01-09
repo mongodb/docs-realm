@@ -31,7 +31,7 @@ class Crud: XCTestCase {
         // :code-block-start: batch-update
         let realm = try! Realm()
         try! realm.write {
-            // Create a person to take care of some dogs.
+            // Create a person to take care of some dogs.
             let person = CrudExample_Person(value: ["id": 1, "name": "Ali"])
             realm.add(person)
 
