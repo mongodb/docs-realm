@@ -4,8 +4,6 @@ using System.Linq;
 using MongoDB.Bson;
 using NUnit.Framework;
 using Realms;
-using Realms.Sync;
-using NUnit.Framework;
 
 namespace Examples
 {
@@ -144,12 +142,11 @@ namespace Examples
         {
             [PrimaryKey]
             [MapTo("_id")]
-            public string Id { get; set; } = ObjectId.GenerateNewId().ToString();
+            public ObjectId Id { get; set; } = ObjectId.GenerateNewId();
 
             public string Name { get; set; }
 
-            [Backlink(nameof(Task.Assignee))]
-            public IQueryable<Task> Tasks { get; }
+            public IList<Task> Tasks { get; }
         }
         //:hide-start:
         [MapTo("AnudderTask")]
@@ -158,53 +155,13 @@ namespace Examples
         {
             [PrimaryKey]
             [MapTo("_id")]
-            public string Id { get; set; } = ObjectId.GenerateNewId().ToString();
+            public ObjectId Id { get; set; } = ObjectId.GenerateNewId();
 
             public string Text { get; set; }
 
-            public User Assignee { get; set; }
+            [Backlink(nameof(User.Tasks))]
+            public IQueryable<User> Assignee { get; }
         }
         // :code-block-end:
-
-        [Test]
-        public async System.Threading.Tasks.Task InverseQuery()
-        {
-            var realm = await Realm.GetInstanceAsync();
-            realm.Write(() =>
-            {
-                realm.RemoveAll<Task>();
-                realm.RemoveAll<User>();
-            });
-
-            User user = new User() { Name = "Katie" };
-          
-            realm.Write(() =>
-            {
-                realm.Add(user);
-            });
-
-            var task1 = new Task() { Text = "Defribillate the master oscillator", Assignee = user };
-            var task2 = new Task() { Text = "Subvert the paradigm", Assignee = user };
-            realm.Write(() =>
-            {
-                realm.Add(task1);
-                realm.Add(task2);
-            });
-
-            // :code-block-start: inverse-query
-            var oscillatorAssignees = realm.All<User>()
-                .Filter("Tasks.Text CONTAINS 'oscillator'").ToList();
-
-            foreach (User u in oscillatorAssignees)
-            {
-                Console.WriteLine(u.Name);
-            }
-            // :code-block-end:
-            Assert.AreEqual(1, oscillatorAssignees.Count());
-            Assert.AreEqual("Katie", oscillatorAssignees[0].Name);
-            return;
-        }
-
     }
-
 }

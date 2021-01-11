@@ -2,20 +2,20 @@ public class User : RealmObject
 {
     [PrimaryKey]
     [MapTo("_id")]
-    public string Id { get; set; } = ObjectId.GenerateNewId().ToString();
+    public ObjectId Id { get; set; } = ObjectId.GenerateNewId();
 
     public string Name { get; set; }
 
-    [Backlink(nameof(Task.Assignee))]
-    public IQueryable<Task> Tasks { get; }
+    public IList<Task> Tasks { get; }
 }
 public class Task : RealmObject
 {
     [PrimaryKey]
     [MapTo("_id")]
-    public string Id { get; set; } = ObjectId.GenerateNewId().ToString();
+    public ObjectId Id { get; set; } = ObjectId.GenerateNewId();
 
     public string Text { get; set; }
 
-    public User Assignee { get; set; }
+    [Backlink(nameof(User.Tasks))]
+    public IQueryable<User> Assignee { get; }
 }
