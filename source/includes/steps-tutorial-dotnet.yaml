@@ -224,14 +224,14 @@ content: |
   each user has exactly one project they own, and it is specified by the partition 
   key value containing their own user ID:
 
-  .. literalinclude:: /tutorial/generated/code/final/foo
+  .. literalinclude:: /tutorial/generated/code/final/TaskPage.codeblock.task-realm-config.cs
      :language: csharp
 
   In the ``SetUpTaskList()`` method, find all of the tasks. We find all tasks because 
   we configured our taskRealm to use the partition specific to the user, removing 
   the need to filter by "owner":
 
-  .. literalinclude:: /tutorial/generated/code/final/foo
+  .. literalinclude:: /tutorial/generated/code/final/TaskPage.codeblock.setup-tasks.cs
      :language: csharp
 
   At the bottom of the Task page, we have added a button for creating a new Task. 
@@ -252,7 +252,7 @@ content: |
   where the updated information is wrapped in a temporary transaction using the 
   ``taskRealm.Write()`` method:
 
-  .. literalinclude:: /tutorial/generated/code/final/foo
+  .. literalinclude:: /tutorial/generated/code/final/TaskPage.codeblock.new-task.cs
      :language: csharp
 
 ---
@@ -267,7 +267,7 @@ content: |
   Find the ``AddMemberPage.xaml.cs`` file. First, we need to fetch the list of
   current team members. We do this in the ``OnStart()`` method:
 
-  .. literalinclude:: /tutorial/generated/code/final/foo
+  .. literalinclude:: /tutorial/generated/code/final/AddMemberPage.codeblock.call-function-1.cs
      :language: csharp
 
   The UI provides two buttons for team management: an ``Add Member`` button at 
@@ -279,9 +279,8 @@ content: |
   we call the ``addTeamMember`` function on the backend to add the specified team
   member:
 
-  .. literalinclude:: /tutorial/generated/code/final/foo
+  .. literalinclude:: /tutorial/generated/code/final/AddMemberPage.codeblock.call-function-2.cs
      :language: csharp
-
 
   Finally, in the ``Delete_Button_Clicked`` handler, we use the button's 
   ``CommandParameter`` to retrieve the team member's email, display a 
