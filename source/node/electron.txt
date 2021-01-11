@@ -54,9 +54,9 @@ To set up an Electron application using {+service+} use the following instructio
 Open a Realm
 ------------
 
-Have a user authenticated, define your schema, and have :ref:`sync enabled
-{+sync+} <enable-sync>` then call :js-sdk:`Realm.open() <Realm.html#.open>` in
-your ``renderer.js`` file:
+Authenticate a user, define a schema, and :ref:`sync enabled {+sync+}
+<enable-sync>` then call :js-sdk:`Realm.open() <Realm.html#.open>` in your
+renderer.js file:
 
 .. code-block:: javascript
    :emphasize-lines: 17
@@ -70,7 +70,7 @@ your ``renderer.js`` file:
      const DogSchema = {
          name: "Dog",
          properties: {
-           _id: 'objectId',
+           _id: 'int',
            name: "string",
            age: "int",
          },
