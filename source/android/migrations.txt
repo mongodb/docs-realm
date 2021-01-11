@@ -68,14 +68,12 @@ deletes it.
  
          .. literalinclude:: /examples/Migrations/PersonClassV1/PersonClassV1.kt
            :language: kotlin
-           :emphasize-lines: 2, 3
  
      .. tab::
          :tabid: java
  
          .. literalinclude:: /examples/Migrations/PersonClassV1/PersonClassV1.java
            :language: java
-           :emphasize-lines: 3, 5
 
    First, the developer decides to add a "lastName" property:
 
@@ -86,14 +84,14 @@ deletes it.
  
          .. literalinclude:: /examples/Migrations/PersonClassV2/PersonClassV2.kt
            :language: kotlin
-           :emphasize-lines: 2
+           :emphasize-lines: 3
  
      .. tab::
          :tabid: java
  
          .. literalinclude:: /examples/Migrations/PersonClassV2/PersonClassV2.java
            :language: java
-           :emphasize-lines: 3
+           :emphasize-lines: 5
 
    Next, the developer decides that the ``Person`` class should use a combined
    ``fullName`` property instead of the separate ``firstName`` and
@@ -104,14 +102,14 @@ deletes it.
      .. tab::
          :tabid: kotlin
  
-         .. literalinclude:: /examples/Migrations/PersonClassV2/PersonClassV3.kt
+         .. literalinclude:: /examples/Migrations/PersonClassV3/PersonClassV3.kt
            :language: kotlin
            :emphasize-lines: 2
  
      .. tab::
          :tabid: java
  
-         .. literalinclude:: /examples/Migrations/PersonClassV2/PersonClassV3.java
+         .. literalinclude:: /examples/Migrations/PersonClassV3/PersonClassV3.java
            :language: java
            :emphasize-lines: 3
 
@@ -123,16 +121,16 @@ deletes it.
      .. tab::
          :tabid: kotlin
  
-         .. literalinclude:: /examples/Migrations/PersonClassV2/PersonClassV4.kt
+         .. literalinclude:: /examples/Migrations/PersonClassV4/PersonClassV4.kt
            :language: kotlin
-           :emphasize-lines: 2
+           :emphasize-lines: 3
  
      .. tab::
          :tabid: java
  
-         .. literalinclude:: /examples/Migrations/PersonClassV2/PersonClassV4.java
+         .. literalinclude:: /examples/Migrations/PersonClassV4/PersonClassV4.java
            :language: java
-           :emphasize-lines: 3
+           :emphasize-lines: 5
    
    To migrate the {+realm+} to conform to the updated
    ``Person`` schema, the developer sets the {+realm+}'s
@@ -149,14 +147,12 @@ deletes it.
  
          .. literalinclude:: /examples/Migrations/LocalMigration/LocalMigration.kt
            :language: kotlin
-           :emphasize-lines: 15, 29
 
      .. tab::
          :tabid: java
  
          .. literalinclude:: /examples/Migrations/LocalMigration/LocalMigration.java
            :language: java
-           :emphasize-lines: 15, 29
 
 .. _android-synced-migration:
 
