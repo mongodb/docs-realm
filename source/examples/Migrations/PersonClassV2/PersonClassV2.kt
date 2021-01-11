@@ -1,4 +1,5 @@
 class Person: RealmObject {
-    var fullName: String = ""
+    var firstName: String = ""
+    var lastName: String = ""
     var age: int = 0
 }

@@ -49,6 +49,15 @@ you must set to the value of the old property before {+service+} automatically
 deletes it.
 
 .. example::
+
+   .. note::
+
+      Note: assume that each schema change in this example occurs after
+      the developer has used each version for some amount of time. New
+      schema version numbers only apply once you open the {+realm+} 
+      with an updated schema and explicitly specify the new version
+      number, so in order to get to version 4, you would first need to
+      open the app with versions 2 and 3.
    
    A {+realm+} using schema version ``1`` has a ``Person`` object type:
    
@@ -68,11 +77,8 @@ deletes it.
            :language: java
            :emphasize-lines: 3, 5
 
-   
-   The developer decides that the ``Person`` class should use a combined
-   ``fullName`` field instead of the separate ``firstName`` and
-   ``lastName`` fields:
-   
+   First, the developer decides to add a "lastName" property:
+
    .. tabs-realm-languages::
      
      .. tab::
@@ -88,13 +94,53 @@ deletes it.
          .. literalinclude:: /examples/Migrations/PersonClassV2/PersonClassV2.java
            :language: java
            :emphasize-lines: 3
+
+   Next, the developer decides that the ``Person`` class should use a combined
+   ``fullName`` property instead of the separate ``firstName`` and
+   ``lastName`` property:
+   
+   .. tabs-realm-languages::
+     
+     .. tab::
+         :tabid: kotlin
+ 
+         .. literalinclude:: /examples/Migrations/PersonClassV2/PersonClassV3.kt
+           :language: kotlin
+           :emphasize-lines: 2
+ 
+     .. tab::
+         :tabid: java
+ 
+         .. literalinclude:: /examples/Migrations/PersonClassV2/PersonClassV3.java
+           :language: java
+           :emphasize-lines: 3
+
+   Lastly, the developer decides to modify the ``age`` property by
+   renaming it to ``birthday`` and changing the type to ``Datetime``:
+   
+   .. tabs-realm-languages::
+     
+     .. tab::
+         :tabid: kotlin
+ 
+         .. literalinclude:: /examples/Migrations/PersonClassV2/PersonClassV4.kt
+           :language: kotlin
+           :emphasize-lines: 2
+ 
+     .. tab::
+         :tabid: java
+ 
+         .. literalinclude:: /examples/Migrations/PersonClassV2/PersonClassV4.java
+           :language: java
+           :emphasize-lines: 3
    
    To migrate the {+realm+} to conform to the updated
    ``Person`` schema, the developer sets the {+realm+}'s
-   :ref:`schema version <android-schema-version>` to ``2``
+   :ref:`schema version <android-schema-version>` to ``4``
    and defines a migration function to set the value of
    ``fullName`` based on the existing ``firstName`` and
-   ``lastName`` properties:
+   ``lastName`` properties and the value of ``birthday`` based on
+   ``age``:
    
    .. tabs-realm-languages::
      
