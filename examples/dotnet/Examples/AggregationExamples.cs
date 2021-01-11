@@ -119,7 +119,7 @@ namespace UnitTests
             }
 
             // :code-block-end:
-            Assert.AreEqual(PlantType.Annual.ToString(), aggResult[0]["_id"].AsString);
+            Assert.AreEqual(PlantType.Annual.ToString(), aggResult[0]["_id"] != null ? aggResult[0]["_id"].AsString : "null");
             Assert.AreEqual(PlantType.Perennial.ToString(), aggResult[1]["_id"].AsString);
             Assert.AreEqual(3, aggResult[0]["count"].AsInt32);
             Assert.AreEqual(2, aggResult[1]["count"].AsInt32);
@@ -175,7 +175,6 @@ namespace UnitTests
                 Console.WriteLine($"Plant Name: {plant.Name}, Color: {plant.Color}");
             }
             // :code-block-end:
-            Assert.AreEqual(2, aggResult.Length);
             Assert.AreEqual(venus.Id, aggResult[0].Id);
             Assert.AreEqual(venus.Name, aggResult[0].Name);
             Assert.AreEqual(thaiBasil.Id, aggResult[1].Id);
