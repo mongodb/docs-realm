@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="realm_tutorial_dotnet.TaskPage">
+    <ContentPage.Content>
+        <StackLayout>
+            <Frame BackgroundColor="#2196F3" Padding="5" CornerRadius="0">
+                <Label Text="My Tasks" HorizontalTextAlignment="Center" TextColor="White" FontSize="18"/>
+            </Frame>
+            <ScrollView>
+               <ListView x:Name="listTasks" ItemsSource="{Binding MyTasks}" >
+                   <ListView.ItemTemplate>
+                      <DataTemplate>
+                          <ViewCell Tapped="TextCell_Tapped" ClassId="{Binding Id}">
+                          <Grid>
+                            <Label Text="{Binding Name}" TextColor="Black" Grid.Column="0"></Label>
+                            <Label Text="{Binding Status}" TextColor="Black" Grid.Column="1"></Label> 
+                          </Grid>
+                              </ViewCell>
+                      </DataTemplate>
+                    </ListView.ItemTemplate>
+                  </ListView>
+            </ScrollView>
+            <Button Text="New Task" AbsoluteLayout.LayoutFlags="PositionProportional"  
+            AbsoluteLayout.LayoutBounds=".95,.95,80,80" 
+            Clicked="Button_Clicked" />
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

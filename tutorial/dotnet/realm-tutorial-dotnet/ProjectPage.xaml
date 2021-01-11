@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="realm_tutorial_dotnet.ProjectPage">
+    <StackLayout>
+        <Frame BackgroundColor="#2196F3" Padding="5" CornerRadius="0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0" Text="My Projects" HorizontalOptions="Start" TextColor="White" FontSize="20" FlexLayout.AlignSelf="Start"/>
+            <Button Grid.Column="1" Text="Manage My Team" HorizontalOptions="End" Clicked="Add_User_Button_Clicked"/>
+            <Button Grid.Column="2" Text="Logout" HorizontalOptions="End" Clicked="Logout_Button_Clicked"/>
+        </Grid>
+        </Frame>
+       <ScrollView>
+           <ListView x:Name="listProjects" ItemsSource="{Binding MyProjects}" >
+               <ListView.ItemTemplate>
+                  <DataTemplate>
+                    <TextCell Tapped="TextCell_Tapped" Text="{Binding Name}" />
+                  </DataTemplate>
+                </ListView.ItemTemplate>
+              </ListView>
+       </ScrollView>
+    </StackLayout>
+</ContentPage>
