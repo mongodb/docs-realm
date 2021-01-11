@@ -89,6 +89,23 @@ content: |
   .. code-block:: shell
 
      npm init -y
+
+  Your application file structure should resemble the following:
+
+  .. code-block:: text
+     :emphasize-lines: 5, 6
+
+     .
+     |-- package.json 
+     |-- package-lock.lock
+     |-- index.html
+     |-- main.js // runs on the main process
+     |-- renderer.js // runs on the renderer process
+
+  The file ``main.js`` executes on the ``main`` process. The file
+  ``renderer.js`` and any other files required by it, or by ``index.html``,
+  executes on the ``renderer`` process.
+
 ---
 title: Install Your Project Dependencies
 ref: install-dependencies
@@ -111,37 +128,7 @@ content: |
      "scripts": {
       "start": "electron ."
      }
-
----
-title: Create a Browser Window Using Your Main Process
-ref: create-browser-window
-content: |
-  In order to display HTML to users, your application needs a
-  browser window. Create a `browser window
-  <https://www.electronjs.org/docs/api/browser-window>`_ using the
-  Electron API. Copy the following code into your ``main.js`` file:
-
-  .. literalinclude:: /examples/QuickStarts/electron/quickstart-setup-main.js
-    :language: javascript
-    :emphasize-lines: 2, 8
-    :linenos:
-
-  Your application file structure should resemble the following:
-
-  .. code-block:: text
-     :emphasize-lines: 5, 6
-
-     .
-     |-- package.json 
-     |-- package-lock.lock
-     |-- index.html
-     |-- main.js // runs on the main process
-     |-- renderer.js // runs on the renderer process
-
-  The file ``main.js`` executes on the ``main`` process. The file
-  ``renderer.js`` and any other files required by it, or by ``index.html``,
-  executes on the ``renderer`` process.
-
+     
 ---
 title: Run Your Application
 ref: run-electron-app
