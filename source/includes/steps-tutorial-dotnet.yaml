@@ -97,7 +97,7 @@ content: |
   Navigate to the ``App.xaml.cs`` file and complete the ``OnStart()``
   method:
 
-  .. literalinclude:: /tutorial/generated/code/final/foo
+  .. literalinclude:: /tutorial/generated/code/final/App.codeblock.open-realm.cs
      :language: csharp
 
   Be sure to enter your own Realm app ID, which you can :ref:`find in the Realm
@@ -130,14 +130,14 @@ content: |
   :dotnet-sdk:`Realms.Sync.User <reference/Realms.Sync.User.html`, and we can 
   return to the default screen, which is defined in ``Projects.xaml``.
 
-  .. literalinclude:: /tutorial/generated/code/final/foo.js
+  .. literalinclude:: /tutorial/generated/code/final/LoginPage.codeblock.login-async.cs
      :language: csharp
 
   Next, implement the user registration functionality in the ``RegisterUser()`` 
   method by calling the ``RegisterUserAsync()`` method. On success, you then call 
   ``DoLogin()`` to log on the new user: 
 
-  .. literalinclude:: /tutorial/generated/code/final/foo.js
+  .. literalinclude:: /tutorial/generated/code/final/LoginPage.codeblock.register-user.cs
      :language: javascript
 
 ---
@@ -195,13 +195,13 @@ content: |
   and passing that to the ``Realm.GetInstanceAsync()`` method. When building the 
   SyncConfiguration object, we set the partition string to ``user=<USER_ID>``:
   
-  .. literalinclude:: /tutorial/generated/code/final/foo
+  .. literalinclude:: /tutorial/generated/code/final/ProjectPage.codeblock.user-realm-config.cs
      :language: csharp
 
   We then find the user from the User realm that matches the authenticated user's
   Id:
 
-  .. literalinclude:: /tutorial/generated/code/final/foo
+  .. literalinclude:: /tutorial/generated/code/final/ProjectPage.codeblock.find-user.cs
      :language: csharp
 
   Once you have the user, call ``SetUpProjectList()``. In that method, you populate 
@@ -212,7 +212,6 @@ content: |
   When the app user touches one of the Projects in the list, we pass 
   control to the ``TaskPage.xaml.cs`` class and display the list of Tasks within 
   the selected Project. 
-
 
 ---
 title: Implement the Task Page
