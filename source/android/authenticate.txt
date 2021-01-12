@@ -46,13 +46,13 @@ See the table below to find the method that instantiates the
    * - :ref:`Custom JWT <android-login-custom-jwt>`
      - ``Credentials.jwt(String jwtToken)``
 
-   * - :ref:`Google OAuth <android-login-google>`
+   * - :ref:`Google Authentication <android-login-google>`
      - ``Credentials.google(String googleToken)``
 
-   * - :ref:`Facebook OAuth <android-login-facebook>`
+   * - :ref:`Facebook Authentication <android-login-facebook>`
      - ``Credentials.facebook(String accessToken)``
    
-   * - :ref:`Sign-in With Apple <android-login-apple>`
+   * - :ref:`Apple Authentication <android-login-apple>`
      - ``Credentials.apple(String idToken)``
 
 .. _android-login:
@@ -231,8 +231,8 @@ to ``app.login()`` or ``app.loginAsync()``.
 
 .. _android-login-facebook:
 
-Facebook OAuth
-~~~~~~~~~~~~~~
+Facebook Authentication
+~~~~~~~~~~~~~~~~~~~~~~~
 
 The :doc:`Facebook </authentication/facebook>` authentication provider allows
 you to authenticate users through a Facebook app using their existing Facebook
@@ -268,8 +268,8 @@ create a {+service-short+} Facebook credential and then log the user into your
 
 .. _android-login-google:
 
-Google OAuth
-~~~~~~~~~~~~
+Google Authentication
+~~~~~~~~~~~~~~~~~~~~~
 
 .. important::
    
@@ -303,8 +303,8 @@ credential and then log the user into your {+service-short+} app.
 
 .. _android-login-apple:
 
-Sign-in with Apple
-~~~~~~~~~~~~~~~~~~
+Apple Authentication
+~~~~~~~~~~~~~~~~~~~~
 
 The :doc:`Sign-in with Apple authentication provider </authentication/apple>`
 enables users to log in to your application with a custom token provided
