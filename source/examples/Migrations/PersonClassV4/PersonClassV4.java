@@ -1,4 +1,4 @@
-public class Person extends RealmObject { // Realm schema version 4
+public class Person extends RealmObject { // Realm schema version 3
     @Required
     public String fullName;
     @Required

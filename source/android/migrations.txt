@@ -39,14 +39,10 @@ To perform a local migration you must specify a new schema
 version that is higher than the current version and provide
 a migration function when you open the out-of-date {+realm+}.
 
-{+service+} automatically migrates certain changes, such as new and deleted
-properties, but does not automatically set values for new properties
-unless the updated object schema specifies a default value. You can
-define additional logic in the migration that dynamically calculates a
-new property's value. Migrations do not allow you to directly rename a
-property. Instead, it treats a renamed property as a new property that
-you must set to the value of the old property before {+service+} automatically
-deletes it.
+Because Android does not offer automatic migrations, you will need to
+define new and deleted properties when they are added or removed from
+your schema. The editable schema exposed via a ``DynamicRealm`` provides
+convenience functions for renaming fields.
 
 .. example::
 
@@ -56,10 +52,10 @@ deletes it.
       the developer has used each version for some amount of time. New
       schema version numbers only apply once you open the {+realm+} 
       with an updated schema and explicitly specify the new version
-      number, so in order to get to version 4, you would first need to
-      open the app with versions 2 and 3.
+      number, so in order to get to version 3, you would first need to
+      open the app with versions 1 and 2.
    
-   A {+realm+} using schema version ``1`` has a ``Person`` object type:
+   A {+realm+} using schema version ``0`` has a ``Person`` object type:
    
    .. tabs-realm-languages::
      
@@ -134,7 +130,7 @@ deletes it.
    
    To migrate the {+realm+} to conform to the updated
    ``Person`` schema, the developer sets the {+realm+}'s
-   :ref:`schema version <android-schema-version>` to ``4``
+   :ref:`schema version <android-schema-version>` to ``3``
    and defines a migration function to set the value of
    ``fullName`` based on the existing ``firstName`` and
    ``lastName`` properties and the value of ``birthday`` based on
