@@ -1,10 +1,10 @@
 name: .NET Core CI Realm Example App
 
 on:
-  push:
-    branches: [ master ]
   pull_request:
     branches: [ master ]
+    paths:
+      - 'examples/dotnet/**'
 
 jobs:
   build:
