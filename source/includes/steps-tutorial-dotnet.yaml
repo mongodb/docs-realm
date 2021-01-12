@@ -12,7 +12,7 @@ content: |
 
   .. important::
    
-     The realm-tutorial-dotnet repository contains two branches: ``final``
+     The ``realm-tutorial-dotnet`` repository contains two branches: ``final``
      and ``start``. The ``final`` branch is a finished version of the app as it
      should look *after* you complete this tutorial. To walk through this
      tutorial, please check out the ``start`` branch:
@@ -39,24 +39,24 @@ content: |
      * - Project
        - Purpose
 
-     * - realm-tutorial-dotnet
+     * - ``realm-tutorial-dotnet``
        - Provides shared resources, including the 4 ``Navigation Elements`` (the 
          individual "screens" of the app) and the App.xaml file, which provides 
          initialization code. 
 
-         This project also contains the data models that are used in this tutorial 
-         in the ``Models`` folder. To learn more about how {+service-short+} object 
-         models are used in .NET applications, see :doc:`Realm Objects </dotnet/objects>` 
-         in our .NET client guide. 
+         This project also includes a ``Models`` folder, which contains the data 
+         models that Realm uses to serialize and deserialize data. To learn more 
+         about how {+service-short+} object models are used in .NET applications, 
+         see :doc:`Realm Objects </dotnet/objects>` in our .NET client guide. 
 
-     * - realm-tutorial-dotnet.Android
+     * - ``realm-tutorial-dotnet.Android``
        - Contains Android-specific resources, such as the Toolbar formatting. 
 
-     * - realm-tutorial-dotnet.iOS
+     * - ``realm-tutorial-dotnet.iOS``
        - Contains iOS-specific resources. 
 
   You will perform all of the steps in this tutorial within the shared 
-  realm-tutorial-dotnet project. Specifically, you will be working in the following
+  ``realm-tutorial-dotnet`` project. Specifically, you will be working in the following
   files:
 
   .. cssclass:: config-table
@@ -123,11 +123,11 @@ content: |
 
   The ``LoginPage.xaml`` file provides a UI for the user to enter an email address, 
   password, and then click either the **Log In** or **Create New Account** button. 
-  You will implement the functionality of each button's' ``Clicked`` event.
+  You will implement the functionality of each button's ``Clicked`` event.
 
   In the ``DoLogin()`` method, call ``LogInAsync``, passing the credentials 
   that the user entered. If that call succeeds, we have a valid 
-  :dotnet-sdk:`Realms.Sync.User <reference/Realms.Sync.User.html`, and we can 
+  :dotnet-sdk:`Realms.Sync.User <reference/Realms.Sync.User.html>`, and we can 
   return to the default screen, which is defined in ``Projects.xaml``.
 
   .. literalinclude:: /tutorial/generated/code/final/LoginPage.codeblock.login-async.cs
@@ -228,7 +228,7 @@ content: |
      :language: csharp
 
   In the ``SetUpTaskList()`` method, find all of the tasks. We find all tasks because 
-  we configured our taskRealm to use the partition specific to the user, removing 
+  we configured our ``taskRealm`` to use the partition specific to the user, removing 
   the need to filter by "owner":
 
   .. literalinclude:: /tutorial/generated/code/final/TaskPage.codeblock.setup-tasks.cs
@@ -237,7 +237,7 @@ content: |
   At the bottom of the Task page, we have added a button for creating a new Task. 
   In the ``Button_Clicked`` handler, we display a modal dialog to get the name 
   of the new task and then create a new Task, setting the Task's status to 
-  ``TaskStatus.Open``. We then add the Task to the taskRealm.
+  ``TaskStatus.Open``. We then add the Task to the ``taskRealm``.
 
   .. note::
 
@@ -271,7 +271,7 @@ content: |
      :language: csharp
 
   The UI provides two buttons for team management: an ``Add Member`` button at 
-  the bottom of the screen, and -- next to each team member in the list -- a 
+  the bottom of the screen, and, next to each team member in the list, a 
   ``Delete`` button to remove that specific member.
 
   Find the ``Add_Button_Clicked`` handler. We display a modal dialog prompting 
