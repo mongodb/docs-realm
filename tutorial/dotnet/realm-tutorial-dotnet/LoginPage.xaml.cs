@@ -9,6 +9,7 @@ namespace realm_tutorial_dotnet
     {
         private string email;
         private string password;
+        private User user;
 
         public LoginPage()
         {
@@ -31,6 +32,7 @@ namespace realm_tutorial_dotnet
                 var user = await App.realmApp.LogInAsync(Credentials.EmailPassword(email, password));
                 // :replace-with:
                 //// TODO: pass the email and password properties to LogInAsync
+                //// user = await ...
                 // :hide-end:
                 // :code-block-end:
                 if (user != null)

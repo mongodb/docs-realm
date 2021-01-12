@@ -48,6 +48,7 @@ namespace realm_tutorial_dotnet
                     userRealm = await Realm.GetInstanceAsync(syncConfig);
                     // :replace-with:
                     //// TODO: instatiate the userRealm by calling GetInstanceAsync
+                    //// userRealm = await ...
                     // :hide-end:
                     // :code-block-end:
                     // :code-block-start:find-user
@@ -56,7 +57,7 @@ namespace realm_tutorial_dotnet
                         App.realmApp.CurrentUser.Id).FirstOrDefault();
                     // :replace-with:
                     //// TODO: find the user in the userRealm
-                    //// try userRealm.All<User>(). and use ToList() and Where()
+                    //// start with userRealm.All<User>(). and use ToList() and Where()
                     // :hide-end:
                     // :code-block-end:
                     if (user != null) SetUpProjectList();

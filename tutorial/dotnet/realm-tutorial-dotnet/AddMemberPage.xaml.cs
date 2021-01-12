@@ -7,7 +7,7 @@ namespace realm_tutorial_dotnet
 {
     public partial class AddMemberPage : ContentPage
     {
-        
+        private List<Member> teamMembers;
         private ObservableCollection<Member> _members = new ObservableCollection<Member>();
 
         public ObservableCollection<Member> Members
@@ -32,9 +32,10 @@ namespace realm_tutorial_dotnet
             {
                 // :code-block-start:call-function-1
                 // :hide-start:
-                var teamMembers  = await App.realmApp.CurrentUser.Functions.CallAsync<List<Member>>("getMyTeamMembers");
+                teamMembers = await App.realmApp.CurrentUser.Functions.CallAsync<List<Member>>("getMyTeamMembers");
                 // :replace-with:
                 //// TODO: Call the "getMyTeamMembers" to get all team members
+                //// teamMembers = await ...
                 // :hide-end:
                 // :code-block-end:
                 foreach (var member in teamMembers)
@@ -60,6 +61,7 @@ namespace realm_tutorial_dotnet
                 // :replace-with:
                 //// TODO: Pass email.ToString() to the "removeTeamMember"
                 //// function.
+                //// var result = await ...
                 // :hide-end:
                 // :code-block-end:
                 await DisplayAlert("Remove User", result.ToString(), "OK");

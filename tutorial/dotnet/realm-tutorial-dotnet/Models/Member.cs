@@ -13,7 +13,6 @@ namespace realm_tutorial_dotnet
 
         [BsonElement("name")]
         [MapTo("name")]
-        [BsonRepresentation(BsonType.String)]
-        public string name { get; set; }
+        public string Name { get; set; }
     }
 }
