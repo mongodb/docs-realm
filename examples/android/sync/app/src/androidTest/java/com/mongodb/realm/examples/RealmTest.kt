@@ -122,8 +122,7 @@ class Expectation {
         }
     }
 
-    /**
-     * Awaits a call to "fulfill()" on another thread with a default timeout of 10 seconds.
-     */
-    fun await() = await(10000)
+    fun await() {
+        await(15000L)
+    }
 }

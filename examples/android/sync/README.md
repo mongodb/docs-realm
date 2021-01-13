@@ -1,16 +1,15 @@
 # Realm Examples
 
-The Realm Examples project contains Java and Kotlin code examples for the Realm SDK
-and their unit tests.
+The Realm Examples project contains Java and Kotlin code examples and unit tests for the Realm SDK.
 
-This project uses the realm app *android-example-testers-rztwe*, in the org *Bushicorp*. You can
-view the realm app [here](https://realm.mongodb.com/groups/5f60207f14dfb25d23101102/apps/5fd8f1267b48d7cff86b1766/dashboard).
+This project uses Realm Sync with the Realm app *android-example-testers-rztwe*, in the org *Bushicorp*. You can
+view the Realm app [here](https://realm.mongodb.com/groups/5f60207f14dfb25d23101102/apps/5fd8f1267b48d7cff86b1766/dashboard).
 
 ## Get Started
 
 ### Install Android Studio
 
-Before you can run this project, you'll need a working installation of Android Studio.
+Before you can run this project, you need to install and set up Android Studio.
 You can download Android Studio [here](https://developer.android.com/studio).
 
 ### Create an Android Virtual Device (AVD)
@@ -19,16 +18,16 @@ Because the Realm Android SDK doesn't support any Realm functionality in unit te
 mocking the entire Realm API with Powermock/Mockito, this test suite actually relies on
 **instrumented tests**. Thanks to some workarounds and brilliance on the part of Chris Bush,
 many of these tests *appear* like unit tests, with Asserts and tested logic... but like any Android
-instrumented tests, these tests run in activities on an AVD. You'll need such a
-device to run the tests.
+instrumented tests, these tests run in activities on an Android Virtual Device (AVD). You need a
+virtual device to run the tests.
 
 To create an AVD in Android Studio, follow the instructions [here](https://developer.android.com/studio/run/managing-avds#createavd).
 
 ### Open the Project
 
-Open Android Studio and select `File > Open` from the application menu. Select the "android"
+Open Android Studio and select `File > Open` from the application menu. Select the `android`
 directory containing this README file. Because the project contains the `.idea` directory created
-by Android Studio, after waiting a few moments (OK, actually like 30 seconds to a minute) you
+by Android Studio, after waiting a short time (30 seconds to a minute) you
 should be able to run the "All Tests" target on a selected AVD using the green play button in the
 toolbar.
 
@@ -68,8 +67,7 @@ Enter the name of your test case class (for consistency, it should end with "Tes
 
 In your new test file:
 
-- make your new test class a subclass of `RealmTest` to be able to actually run Realm SDK methods
-  (you will almost certainly need this)
+- make your new test class a subclass of `RealmTest` so you can run Realm SDK methods
 
 Now all you have to do is add a method with a void return type and the `@Test` annotation
 to create a new test!
@@ -111,8 +109,8 @@ succeeded, just that it completed.
 ### Wait for Asynchronous Callbacks
 
 These examples are likely to use asynchronous methods, so you will need to use
-our custom `Expectation` class to wait for the completion of calls. You can find the
-(very brief) definition of `Expectation` in `RealmTest.kt`, but usage is pretty simple:
+our custom `Expectation` class to wait for the completion of calls. You can read the
+source code of `Expectation` in `RealmTest.kt`. See the following steps on how to use `Expectation`:
 
 1. Create an Expectation with `new Expectation()` in Java or `Expectation()` in Kotlin.
 
@@ -140,7 +138,7 @@ some code that should not be in the code example
 // :code-block-end:
 ```
 
-where _example_ is the name of the resulting code example when you run Bluehawk.
+where _example_ specified by the `code-block-start` tag is the name of the resulting code example when you run Bluehawk.
 
 ### Extract to Literalincludes
 
@@ -148,13 +146,13 @@ Since Bluehawk is currently in development, you cannot install it globally. For
 now, you can clone the [repo](https://github.com/MongoCaleb/bluehawk) and follow the
 instructions in Bluehawk's README to use the `bluehawk` command.
 
-Then, in this directory, run:
+Then, in this directory, run the following snippet to output the example blocks to the `source/examples/generated/android/` directory:
 
 ```bash
 bluehawk -s app/src/androidTest/java/com/mongodb/realm/examples/java/AuthenticationTest.java -d ../../../source/examples/generated/android
 ```
 
-to output the example blocks to the `source/examples/generated/android/` directory. Run this on all of the files in the `androidTest` and `main` directories.
+Run this on all of the files in the `androidTest` and `main` directories.
 
 NOTE: Depending on your configuration, Bluehawk does not always play nicely with relative paths. If all else fails, use a full path.
 
