@@ -39,10 +39,12 @@ To perform a local migration you must specify a new schema
 version that is higher than the current version and provide
 a migration function when you open the out-of-date {+realm+}.
 
-Because Android does not offer automatic migrations, you will need to
+In Android, you can update underlying data to reflect schema changes
+using manual migrations. During such a manual migration, you can
 define new and deleted properties when they are added or removed from
 your schema. The editable schema exposed via a ``DynamicRealm`` provides
-convenience functions for renaming fields.
+convenience functions for renaming fields. This gives you full control
+over the behavior of your data during complex schema migrations.
 
 .. example::
 

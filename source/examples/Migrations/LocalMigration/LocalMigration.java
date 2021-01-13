@@ -16,7 +16,7 @@ public class Migration implements RealmMigration {
 
      // Changes from version 1 to 2: combine firstName/lastName into fullName
      if (version == 1L) {
-        schema.get("Person")!!
+        schema.get("Person")
             .addField("fullName", String.class, FieldAttribute.REQUIRED)
             .transform( DynamicRealmObject obj -> {
                 String name = "${obj.getString("firstName")} ${obj.getString("lastName")}";
@@ -29,7 +29,7 @@ public class Migration implements RealmMigration {
 
      // Changes from version 2 to 3: replace age with birthday
      if (version == 2L) {
-        schema.get("Person")!!
+        schema.get("Person")
             .addField("birthday", Date::class.java, FieldAttribute.REQUIRED)
             .transform(DynamicRealmObject obj -> {
                 Int birthYear = Date().year - obj.getInt("age");
