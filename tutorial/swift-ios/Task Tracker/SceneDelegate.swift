@@ -10,12 +10,15 @@ import UIKit
 import RealmSwift
 
 // :code-block-start: initialize-app
-// :hide-start:
+// :remove-start:
 let app = App(id: "tasktracker-qczfq")
-// :replace-with:
+// :remove-end:
+// :state-uncomment-start: final
+// let app = App(id: "<your-realm-app-ID-here>")
+// :state-uncomment-end: :state-uncomment-start: start
 // // TODO: initialize the app with your Realm app ID 
 // let app = App(id: "<your-realm-app-ID-here>")
-// :hide-end:
+// :state-uncomment-end:
 // :code-block-end:
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
