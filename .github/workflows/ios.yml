@@ -3,10 +3,12 @@ name: iOS CI Realm Example App
 on:
   pull_request:
     branches: [ master ]
+    paths:
+      - 'examples/ios/**'
 
 jobs:
   build:
-    name: Build and Test default scheme using any available iPhone simulator
+    name: Run iOS Example App Tests
     runs-on: macos-latest
 
     steps:

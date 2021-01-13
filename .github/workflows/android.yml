@@ -3,10 +3,12 @@ name: Android CI Realm Example App
 on:
   pull_request:
     branches: [ master ]
+    paths:
+      - 'examples/android/**'
 
 jobs:
   build:
-
+    name: Run Android Example App Tests
     runs-on: macos-latest
 
     steps:
@@ -21,4 +23,4 @@ jobs:
         api-level: 29
         ndk: 21.0.6113669
         cmake: 3.10.2.4988404
-        script: cd examples/android/tutorial && ./gradlew connectedAndroidTest
+        script: cd examples/android/sync && ./gradlew connectedAndroidTest
