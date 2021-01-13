@@ -7,7 +7,7 @@ on:
       - 'examples/android/**'
 
 jobs:
-  build:
+  build_sync:
     name: Run Android Example App Tests (Sync)
     runs-on: macos-latest
 
@@ -25,7 +25,7 @@ jobs:
         cmake: 3.10.2.4988404
         script: cd examples/android/sync && ./gradlew connectedAndroidTest
 
-  build:
+  build_local:
     name: Run Android Example App Tests (Local)
     runs-on: macos-latest
 
