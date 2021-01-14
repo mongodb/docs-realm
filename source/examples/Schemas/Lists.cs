@@ -4,5 +4,6 @@ public class Image : RealmObject
 
     public IList<string> Tags { get; }
 
+    [Required]
     public IList<double?> Ratings { get; }
 }

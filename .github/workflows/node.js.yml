@@ -1,12 +1,14 @@
-name: Node.js CI
+name: Node.js CI Realm Example App
 
 on:
   pull_request:
     branches: [ master ]
+    paths:
+      - 'examples/node/**'
 
 jobs:
   build:
-
+    name: Run Node Example App Tests
     runs-on: ubuntu-latest
 
     strategy:

@@ -127,24 +127,23 @@ namespace Examples
             });
 
             // :code-block-start: one-to-many-query
-            var youngDogs = realm.All<Dog>().Where(d => d.Age == 1);
+            var youngDogs = realm.All<Dog>().Where(d => d.Age == 1).OrderBy(dog => dog.Name).ToList();
             // :code-block-end:
             var younglist = new List<Dog>();
             younglist.Add(dog1);
             younglist.Add(dog2);
-            Assert.AreEqual(youngDogs, younglist);
+            Assert.AreEqual(youngDogs[0].Name, younglist[0].Name);
         }
     }
 
     public class InverseRelationship
     {
-        [MapTo("UserTwo")]
         // :code-block-start: inverse
-        public class User : RealmObject
+        public class UserTwo : RealmObject
         {
             [PrimaryKey]
             [MapTo("_id")]
-            public string Id { get; set; } = ObjectId.GenerateNewId().ToString();
+            public ObjectId Id { get; set; } = ObjectId.GenerateNewId();
 
             public string Name { get; set; }
 
@@ -158,11 +157,11 @@ namespace Examples
         {
             [PrimaryKey]
             [MapTo("_id")]
-            public string Id { get; set; } = ObjectId.GenerateNewId().ToString();
+            public ObjectId Id { get; set; } = ObjectId.GenerateNewId();
 
             public string Text { get; set; }
 
-            public User Assignee { get; set; }
+            public UserTwo Assignee { get; set; }
         }
         // :code-block-end:
 
@@ -173,10 +172,10 @@ namespace Examples
             realm.Write(() =>
             {
                 realm.RemoveAll<Task>();
-                realm.RemoveAll<User>();
+                realm.RemoveAll<UserTwo>();
             });
 
-            User user = new User() { Name = "Katie" };
+            UserTwo user = new UserTwo() { Name = "Katie" };
           
             realm.Write(() =>
             {
@@ -192,10 +191,10 @@ namespace Examples
             });
 
             // :code-block-start: inverse-query
-            var oscillatorAssignees = realm.All<User>()
+            var oscillatorAssignees = realm.All<UserTwo>()
                 .Filter("Tasks.Text CONTAINS 'oscillator'").ToList();
 
-            foreach (User u in oscillatorAssignees)
+            foreach (UserTwo u in oscillatorAssignees)
             {
                 Console.WriteLine(u.Name);
             }
