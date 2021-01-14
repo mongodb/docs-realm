@@ -43,3 +43,50 @@ Set up
 To set up an Electron application using {+service+} use the following instructions:
 
 .. include:: /includes/steps/realm-with-electron-using-create-react-app.rst
+
+Open a Realm
+------------
+
+Authenticate a user, define a schema, and :ref:`sync enabled {+sync+}
+<enable-sync>`, then call :js-sdk:`Realm.open() <Realm.html#.open>` in a file
+that you have imported Realm into:
+
+.. code-block:: javascript
+   :emphasize-lines: 17
+
+   const app = new Realm.App({ id: "<Your App ID>" }); // create a new instance of the Realm.App
+   async function run() {
+
+     // login with an anonymous credential
+     await app.logIn(new Realm.Credentials.anonymous());
+
+     const DogSchema = {
+         name: "Dog",
+         properties: {
+           _id: 'int',
+           name: "string",
+           age: "int",
+         },
+         primaryKey: '_id'
+     };
+
+     const realm = await Realm.open({
+       schema: [DogSchema],
+       sync: {
+         user: app.currentUser,
+         partitionValue: "myPartition",
+       },
+     });
+     
+     // The myPartition realm is now synced to the device. You can
+     // access it through the `realm` object returned by `Realm.open()`
+   }
+   run().catch(err => {
+     console.error("Failed to open realm:", err)
+   });
+
+.. seealso::
+
+   - :ref:`Sync Data <node-sync-data>`
+   - :ref:`Define Your Schema <node-realm-objects>`
+   - :ref:`Authenticate a User <node-authenticate>`
