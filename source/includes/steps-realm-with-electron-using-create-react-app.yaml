@@ -62,14 +62,13 @@ content: |
 
   .. literalinclude:: /examples/QuickStarts/electron/quickstart-setup-react-cracoconfig.js
 
-  The `target <https://webpack.js.org/configuration/target/>`_
-  is set to "electron-renderer" to compile your application for browser
-  environments for Electron built-in modules. ``nodeExternals`` is also
-  specified to prevent all node_modules from being bundled. The
-  ``allowList`` key in the object passed  in to ``nodeExternals``
-  specifies a list of modules to include in the bundle. Here, webpack
-  and the electron-devtools are included in the bundle. In order to make
-  use of webpack-node-externals, run the following command:
+  The `target <https://webpack.js.org/configuration/target/>`_ is set to
+  "electron-renderer" to compile your application for browser environments for
+  Electron built-in modules. ``nodeExternals`` is also specified to prevent all
+  node_modules from being bundled. The ``allowList`` key in the object passed
+  in to ``nodeExternals`` specifies a list of modules to include in the bundle,
+  in this case electron's dev tools and webpack. In order to make use of
+  webpack-node-externals, run the following command:
 
   .. code-block:: shell
 
