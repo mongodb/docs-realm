@@ -169,7 +169,7 @@ To embed an object, extend
 for the class that you'd like to nest within another class:
 
 .. literalinclude:: /examples/Schemas/Embedded.cs
-  :language: csharp
+   :language: csharp
 
 
 Then, any time you reference that class from another class,
@@ -236,8 +236,8 @@ null. Applying ``[Required]`` on such a property will result in a compilation er
 
 You can use the ``[Required]`` attribute as seen in the following example:
 
- .. literalinclude:: /examples/Schemas/Required.cs
-      :language: csharp
+.. literalinclude:: /examples/Schemas/Required.cs
+   :language: csharp
 
 
 .. _dotnet-default-property-values:
@@ -249,7 +249,7 @@ You can use the built-in language features to assign a default value to a proper
 In C#, you can assign a default value in the property declaration. 
 
 .. literalinclude:: /examples/Schemas/DefaultValues.cs
-  :language: csharp
+   :language: csharp
 
 .. note:: Default Values and Nullability
 
@@ -297,7 +297,7 @@ To index a property, use the :dotnet-sdk:`[Indexed] <reference/Realms.IndexedAtt
 attribute:
 
 .. literalinclude:: /examples/Schemas/Indexed.cs
-  :language: csharp
+   :language: csharp
 
 
 .. _dotnet-property-relationships:
@@ -321,7 +321,7 @@ whose type inherits ``RealmObject`` or ``EmbeddedObject``:
 
 
 .. literalinclude:: /examples/Schemas/ManyToOne.cs
-  :language: csharp
+   :language: csharp
 
 Each ``Dog`` references zero or one ``Person`` instances. Nothing prevents
 multiple ``Dog`` instances from referencing the same ``Person`` as an owner;
@@ -342,7 +342,7 @@ using a property of type ``IList<T>``\ in your application, where ``T`` is a sub
 ``RealmObject`` or ``EmbeddedObject``:
 
 .. literalinclude:: /examples/Schemas/ManyToMany.cs
-  :language: csharp
+   :language: csharp
 
 
 .. _dotnet-property-relationships-inverse:
@@ -356,7 +356,7 @@ opposite direction. You can provide a link in the opposite direction
 with the :dotnet-sdk:`[Backlink] <reference/Realms.BacklinkAttribute.html>` attribute:
 
 .. literalinclude:: /examples/Schemas/Inverse.cs
-  :language: csharp
+   :language: csharp
 
 Since relationships are many-to-one or many-to-many, following inverse
 relationships can result in zero, one, or many objects.
@@ -378,7 +378,7 @@ Ignore a property from a {+service-short+} object model with the
 :dotnet-sdk:`[Ignored] <reference/Realms.IgnoredAttribute.html>` attribute:
 
 .. literalinclude:: /examples/Schemas/Ignored.cs
-  :language: csharp
+   :language: csharp
 
 .. _dotnet-rename-property:
 
@@ -402,7 +402,7 @@ Use the :dotnet-sdk:`[MapTo] <reference/Realms.MapToAttribute.html>`
 attribute to rename a property:
 
 .. literalinclude:: /examples/Schemas/RenameProperty.cs
-  :language: csharp
+   :language: csharp
 
 
 .. _dotnet-rename-object:
@@ -423,7 +423,7 @@ Use the :dotnet-sdk:`[MapTo] <reference/Realms.MapToAttribute.html>`
 attribute to rename a class:
 
 .. literalinclude:: /examples/Schemas/RenameClass.cs
-  :language: csharp
+   :language: csharp
 
 .. _dotnet-provide-subset-classes-schema:
 
@@ -436,7 +436,7 @@ a subset of these classes in your {+service-short+}
 Schema, you can update your configuration to include the specific classes you want:
 
 .. literalinclude:: /examples/Schemas/SubsetClasses.cs
-  :language: csharp
+   :language: csharp
 
 .. _dotnet-decimal128:
 
@@ -450,7 +450,7 @@ following example shows how to use both the ``Decimal128`` Bson type and the .NE
 ``decimal`` type:
 
 .. literalinclude:: /examples/generated/code/start/DecimalFun.codeblock.decimal128.cs
-  :language: csharp
+   :language: csharp
 
 
 Summary
