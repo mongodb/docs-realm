@@ -48,103 +48,66 @@ create user API keys for anonymous users.
 .. tabs-realm-languages::
    
    .. tab::
-      :tabid: kotlin
-      
-      .. code-block:: kotlin
+       :tabid: kotlin
 
-         user.apiKeyAuth?.createApiKeyAsync("<name-of-the-api-key>") {
-            if (it.isSuccess) {
-               Log.v(TAG, "Successfully created the API Key: " + it.get().value)
-            } else {
-               Log.e(TAG, "Error creating API key: ", it.error)
-            }
-         }
-   
+       .. literalinclude:: /examples/generated/android/code/start/UserAPIKeysTest.codeblock.create-a-user-api-key.kt
+         :language: kotlin
+
    .. tab::
-      :tabid: java
-      
-      .. code-block:: java
+       :tabid: java
 
-         user.getApiKeyAuth().createApiKeyAsync("<name-of-the-api-key>", result -> {
-            if (result.isSuccess()) {
-               Log.v(TAG, "Successfully created API key: " + result.get().getValue());
-            } else {
-               Log.e(TAG, "Error creating API key: " + result.getError());
-            }
-         });
+       .. literalinclude:: /examples/generated/android/code/start/UserAPIKeysTest.codeblock.create-a-user-api-key.java
+         :language: java
 
 .. _android-api-key-look-up-user-key:
 
-Look up a User API Key
-----------------------
+Look up a User's API Keys
+-------------------------
 
 To get a list of all user API keys associated with the logged in user,
 call the ``fetchApiKeys()`` or ``fetchApiKeysAsync()`` methods of a
 logged in user's ``apiKeyAuth`` instance.
 
+.. include:: /includes/note-store-user-api-key-value.rst
+
 .. tabs-realm-languages::
    
    .. tab::
-      :tabid: kotlin
-      
-      .. code-block:: kotlin
+       :tabid: kotlin
 
-         user.apiKeyAuth?.fetchAllApiKeys() {
-            if (it.isSuccess) {
-               Log.v(TAG, "Successfully fetched API keys: " + Arrays.toString(it.get().toTypedArray()))
-            } else {
-               Log.e(TAG, "Error fetching API keys: " + it.error)
-            }
-         }
-   
+       .. literalinclude:: /examples/generated/android/code/start/UserAPIKeysTest.codeblock.look-up-a-users-api-keys.kt
+         :language: kotlin
+
    .. tab::
-      :tabid: java
-      
-      .. code-block:: java
+       :tabid: java
 
-         user.getApiKeyAuth().fetchAllApiKeys(result -> {
-            if (result.isSuccess()) {
-               Log.v(TAG, "Successfully fetched API keys: " + Arrays.toString(it.get().toTypedArray()));
-            } else {
-               Log.e(TAG, "Error fetching API keys: " + result.getError());
-            }
-         });
+       .. literalinclude:: /examples/generated/android/code/start/UserAPIKeysTest.codeblock.look-up-a-users-api-keys.java
+         :language: java
 
 To look up a specific user API key for the logged in user, pass the
 key's id to the ``fetchApiKey`` or ``fetchApiKeyAsync`` methods.
 
+.. include:: /includes/note-store-user-api-key-value.rst
+
 .. tabs-realm-languages::
    
    .. tab::
-      :tabid: kotlin
-      
-      .. code-block:: kotlin
+       :tabid: kotlin
 
-         user.apiKeyAuth?.fetchApiKeyAsync(<api-key-id>) {
-            if (it.isSuccess) {
-               Log.e(TAG, "Successfully fetched API key: " + it.get())
-            } else {
-               Log.e(TAG, "Error fetching API key: " + it.error)
-            }
-         }
-   
+       .. literalinclude:: /examples/generated/android/code/start/UserAPIKeysTest.codeblock.look-up-a-specific-user-api-key.kt
+         :language: kotlin
+
    .. tab::
-      :tabid: java
-      
-      .. code-block:: java
+       :tabid: java
 
-         user.getApiKeyAuth().fetchApiKeyAsync(api-key-id>, result -> {
-            if (result.isSuccess()) {
-               Log.v(TAG, "Successfully fetched API key: " + result.get());
-            } else {
-               Log.e(TAG, "Error fetching API key: " + result.getError());
-            }
-         });
+       .. literalinclude:: /examples/generated/android/code/start/UserAPIKeysTest.codeblock.look-up-a-specific-user-api-key.java
+         :language: java
 
 .. _android-api-key-enable-disable:
+.. _android-api-key-disable:
 
-Enable or Disable a User API Key
---------------------------------
+Disable a User API Key
+----------------------
 
 To disable a specific user API key without deleting it, pass the
 key's id to the  ``disableApiKey()`` or ``disableApiKeyAsync()`` methods
@@ -153,31 +116,21 @@ of a logged in user's ``apiKeyAuth`` instance.
 .. tabs-realm-languages::
    
    .. tab::
-      :tabid: kotlin
-      
-      .. code-block:: kotlin
+       :tabid: kotlin
 
-         user.apiKeyAuth?.disableApiKeyAsync(<api-key-id>) {
-            if (it.isSuccess) {
-               Log.v(TAG, "Successfully disabled API Key: " + it.get())
-            } else {
-               Log.e(TAG, "Error disabling API key: ", it.error)
-            }
-         }
-   
+       .. literalinclude:: /examples/generated/android/code/start/UserAPIKeysTest.codeblock.disable-user-api-key.kt
+         :language: kotlin
+
    .. tab::
-      :tabid: java
-      
-      .. code-block:: java
+       :tabid: java
 
-         user.getApiKeyAuth().disableApiKeyAsync(<api-key-id>, result -> {
-            if (result.isSuccess()) {
-               Log.v(TAG, "Successfully disabled API key: " + result.get();
-            } else {
-               Log.e(TAG, "Error disabling API key: " + result.getError());
-            }
-         });
+       .. literalinclude:: /examples/generated/android/code/start/UserAPIKeysTest.codeblock.disable-user-api-key.java
+         :language: java
 
+.. _android-api-key-enable:
+
+Enable a User API Key
+---------------------
 
 To enable a specific user API key that was previously disabled, pass the
 key's id to the ``enableApiKey()`` or ``enableApiKeyAsync()`` methods of
@@ -186,30 +139,16 @@ a logged in user's ``apiKeyAuth`` instance.
 .. tabs-realm-languages::
    
    .. tab::
-      :tabid: kotlin
-      
-      .. code-block:: kotlin
+       :tabid: kotlin
 
-         user.apiKeyAuth?.enableApiKeyAsync(<api-key-id>) {
-            if (it.isSuccess) {
-               Log.v(TAG, "Successfully enabled API Key: " + it.get())
-            } else {
-               Log.e(TAG, "Error enabling API key: ", it.error)
-            }
-         }
-   
+       .. literalinclude:: /examples/generated/android/code/start/UserAPIKeysTest.codeblock.enable-user-api-key.kt
+         :language: kotlin
+
    .. tab::
-      :tabid: java
-      
-      .. code-block:: java
+       :tabid: java
 
-         user.getApiKeyAuth().enableApiKeyAsync(<api-key-id>, result -> {
-            if (result.isSuccess()) {
-               Log.v(TAG, "Successfully enabled API key: " + result.get();
-            } else {
-               Log.e(TAG, "Error enabling API key: " + result.getError());
-            }
-         });
+       .. literalinclude:: /examples/generated/android/code/start/UserAPIKeysTest.codeblock.enable-user-api-key.java
+         :language: java
 
 .. _android-api-key-delete:
 
@@ -223,27 +162,13 @@ a logged in user's ``apiKeyAuth`` instance.
 .. tabs-realm-languages::
    
    .. tab::
-      :tabid: kotlin
-      
-      .. code-block:: kotlin
+       :tabid: kotlin
 
-         user.apiKeyAuth?.deleteApiKeyAsync(<api-key-id>) {
-            if (it.isSuccess) {
-               Log.v(TAG, "Successfully deleted API Key: " + it.get())
-            } else {
-               Log.e(TAG, "Error deleting API key: ", it.error)
-            }
-         }
-   
+       .. literalinclude:: /examples/generated/android/code/start/UserAPIKeysTest.codeblock.delete-user-api-key.kt
+         :language: kotlin
+
    .. tab::
-      :tabid: java
-      
-      .. code-block:: java
+       :tabid: java
 
-         user.getApiKeyAuth().disableApiKeyAsync(<api-key-id>, result -> {
-            if (result.isSuccess()) {
-               Log.v(TAG, "Successfully deleted API key: " + result.get();
-            } else {
-               Log.e(TAG, "Error deleting API key: " + result.getError());
-            }
-         });
+       .. literalinclude:: /examples/generated/android/code/start/UserAPIKeysTest.codeblock.delete-user-api-key.java
+         :language: java
