@@ -22,35 +22,112 @@ Read Operations
 Find a Specific Object by Primary Key
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. _node-query-all-objects-of-a-given-type:
+If you know the :ref:`primary key <node-primary-key>` for a given object, you
+can look it up directly with :js-sdk:`Realm.objectForPrimaryKey()
+<Realm.html#objectForPrimaryKey>`.
 
-Query All Objects of a Given Type
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: javascript
+      
+      .. code-block:: javascript
+         
+         const task = Realm.objectForPrimaryKey("Task", "600115c589ff8d461af84727");
 
-.. _node-filter-queries-based-on-object-properties:
+.. _node-query-an-object-type:
+.. _node-get-all-objects:
 
-Filter Queries Based on Object Properties
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Query an Object Type
+~~~~~~~~~~~~~~~~~~~~
+
+Query operations return a :js-sdk:`Realm.Results <Realm.Results.html>`
+collection that contains all objects that match the query. A basic query matches
+all objects of a given type in a {+realm+}, but you can also apply a
+:ref:`filter <node-filter-queries>` to find specific objects.
+
+To query for objects of a given type in a {+realm+}, pass the type name to
+:js-sdk:`Realm.objects <Realm.html#objects>`.
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: javascript
+      
+      .. literalinclude:: /examples/CRUD/Objects.js
+         :language: javascript
+
+.. _node-filter-queries:
+.. _node-filter-results:
+
+Filter Queries
+~~~~~~~~~~~~~~
+
+A **filter** selects a subset of results based on the value(s) of one or more
+object properties. {+client-database+} provides a full-featured :ref:`query
+engine <node-client-query-engine>` that you can use to define filters.
+
+To filter a query, call :js-sdk:`Collection.filtered()
+<Collection.html#filtered>` on the results collection.
+
+.. example::
+
+   In the following example, we use the :ref:`query engine
+   <node-client-query-engine>`'s comparison operators to:
+
+   - Find high priority tasks by comparing the value of the ``priority`` property value with a threshold number, above which priority can be considered high.
+   - Find just-started or short-running tasks by seeing if the ``progressMinutes`` property falls within a certain range.
+   - Find unassigned tasks by finding tasks where the ``assignee`` property is equal to null.
+   - Find tasks assigned to specific teammates Ali or Jamie by seeing if the ``assignee`` property is in a list of names.
+
+   .. tabs-realm-languages::
+
+      .. tab::
+         :tabid: javascript
+
+          .. literalinclude:: /examples/Query/Comparison.js
+             :language: javascript
+
+.. tip:: Filter on Related and Embedded Object Properties
+   
+   To filter a query based on a property of an :ref:`embedded object
+   <node-embedded-objects>` or a :ref:`related object
+   <node-client-relationships>`, use dot-notation as if it were in a regular,
+   nested object.
 
 .. _node-sort-query-results:
+.. _node-sort-results:
 
 Sort Query Results
 ~~~~~~~~~~~~~~~~~~
 
-.. _node-query-a-relationship:
+A **sort** operation allows you to configure the order in which
+{+client-database+} returns queried objects. You can sort based on one or more
+properties of the objects in the results collection. {+client-database+} only
+guarantees a consistent order of results when the results are sorted.
 
-Query a Relationship
-~~~~~~~~~~~~~~~~~~~~
+To sort a query, call :js-sdk:`Collection.sorted() <Collection.html#sorted>` on
+the results collection.
 
-.. _node-query-an-inverse-relationship:
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: javascript
+      
+      .. literalinclude:: /examples/CRUD/Sort.js
+            :language: javascript
 
-Query an Inverse Relationship
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. tip:: Sort on Related and Embedded Object Properties
+   
+   To sort a query based on a property of an :ref:`embedded object
+   <node-embedded-objects>` or a :ref:`related object
+   <node-client-relationships>`, use dot-notation as if it were in a regular,
+   nested object.
 
-.. _node-aggregate-data:
+.. .. _node-aggregate-data:
 
-Aggregate Data
-~~~~~~~~~~~~~~
+.. Aggregate Data
+.. ~~~~~~~~~~~~~~
 
 .. _node-write-operations:
 
@@ -62,27 +139,170 @@ Write Operations
 Create a New Object
 ~~~~~~~~~~~~~~~~~~~
 
-.. _node-modify-an-object:
+To add an object to a {+realm+}, instantiate it as you would any other object
+and then pass it to :js-sdk:`Realm.create() <Realm.html#create>` inside of a
+write transaction. If the {+realm+}'s :ref:`schema <node-realm-schema>` includes
+the object type and the object conforms to the schema, then {+service-short+}
+stores the object, which is now *managed* by the {+realm+}.
 
-Modify an Object
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: javascript
+      
+      .. literalinclude:: /examples/CRUD/Create.js
+         :language: javascript
+         :emphasize-lines: 7
+
+.. _node-update-an-object:
+
+Update an Object
 ~~~~~~~~~~~~~~~~
 
+You can add, modify, or delete properties of a {+service-short+} object inside
+of a write transaction in the same way that you would update any other
+JavaScript object.
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: javascript
+      
+      .. literalinclude:: /examples/CRUD/Update.js
+         :language: javascript
+         :emphasize-lines: 8-9
+
+.. tip:: Update Related and Embedded Objects
+   
+   To update a property of an :ref:`embedded object <node-embedded-objects>` or
+   a :ref:`related object <node-client-relationships>`, modify the property with
+   :mdn:`dot-notation or bracket-notation
+   <Web/JavaScript/Reference/Operators/Property_accessors>` as if it were in a
+   regular, nested object.
+
+.. _node-upsert-an-object:
+
+Upsert an Object
+~~~~~~~~~~~~~~~~
+
+To upsert an object, call :js-sdk:`Realm.create() <Realm.html#create>` with the
+update mode set to ``modified``. The operation either inserts a new object with
+the given primary key or updates an existing object that already has that
+primary key.
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: javascript
+      
+      .. literalinclude:: /examples/CRUD/Upsert.js
+         :language: javascript
+         :emphasize-lines: 4, 11
+
+.. _node-update-a-collection:
+.. _node-bulk-update:
+
+Bulk Update a Collection
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+To apply an update to a collection of objects, iterate through the collection
+and apply the update in the iterator callback:
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: javascript
+      
+      .. literalinclude:: /examples/CRUD/BatchUpdate.js
+         :language: javascript
+         :emphasize-lines: 9-12
+
+.. note:: Inverse Relationships
+
+   Thanks to an :ref:`inverse relationship <node-inverse-relationship>` from
+   ``Dog.owner`` to ``Person.dogs``, {+client-database+} automatically updates
+   Ali's list of dogs whenever we set her as a puppy's owner.
+
 .. _node-delete-an-object:
+.. _node-delete:
 
 Delete an Object
 ~~~~~~~~~~~~~~~~
 
+To delete an object from a {+realm+}, pass the object to :js-sdk:`Realm.delete()
+<Realm.html#delete>` inside of a write transaction.
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: javascript
+      
+      .. literalinclude:: /examples/CRUD/Delete.js
+         :language: javascript
+         :emphasize-lines: 3
+
+.. important:: Do not use objects after delete
+   
+   {+client-database+} throws an error if you try to use an object after it has
+   been deleted.
+
 .. _node-delete-multiple-objects:
+.. _node-delete-collection:
 
 Delete Multiple Objects
 ~~~~~~~~~~~~~~~~~~~~~~~
 
+To delete a collection of objects from a {+realm+}, pass the collection to
+:js-sdk:`Realm.delete() <Realm.html#delete>` inside of a write transaction.
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: javascript
+      
+      .. literalinclude:: /examples/CRUD/DeleteCollection.js
+         :language: javascript
+         :emphasize-lines: 6
+
 .. _node-delete-all-object-of-a-specific-type:
 
-Delete All Object of a Specific Type
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Delete All Objects of a Specific Type
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To delete all objects of a given object type from a {+realm+}, pass the type
+name to :js-sdk:`Realm.deleteModel() <Realm.html#deleteModel>` inside of a write
+transaction.
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: javascript
+      
+      .. literalinclude:: /examples/CRUD/DeleteAllOfClass.js
+         :language: javascript
+         :emphasize-lines: 3
 
 .. _node-delete-all-objects-in-a-realm:
 
 Delete All Objects in a Realm
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To delete **all** objects from the {+realm+}, call :js-sdk:`Realm.deleteAll()
+<Realm.html#deleteAll>` inside of a write transaction. This clears the {+realm+}
+of all object instances but does not affect the {+realm+}'s schema.
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: javascript
+      
+      .. literalinclude:: /examples/CRUD/DeleteAll.js
+         :language: javascript
+         :emphasize-lines: 3
+
+.. tip:: Delete All In Development
+   
+   :js-sdk:`Realm.deleteAll() <Realm.html#deleteAll>` is a useful method to
+   quickly clear out your {+realm+} in the course of development. For example,
+   rather than writing a migration to update objects to a new schema, it may be
+   faster to delete and then re-generate the objects with the app itself.
