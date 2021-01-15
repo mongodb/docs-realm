@@ -27,8 +27,8 @@ ref: explore-the-app-structure
 content: |
   Double-click the ``realm-tutorial-dotnet.sln`` file to open the solution in 
   Visual Studio. Once open, take a few minutes to explore how the solution is 
-  organized. This is a standard multi-platform solution -- one of the templates 
-  provided in Visual Studio -- that has been modified for our specific use. The 
+  organized. This is a standard multi-platform solution, based on a template 
+  provided by Visual Studio, that has been modified for our specific use. The 
   solution has 3 projects:
 
   .. cssclass:: config-table
@@ -68,7 +68,7 @@ content: |
        - Purpose
 
      * - AddMemberPage.xaml.cs
-       - The screen that enables adding and removing members of a project.
+       - Provides the UI for adding and removing members of a project.
 
      * - App.xaml.cs
        - Initializes the app, creates a public static Realm app, and defines 
@@ -123,7 +123,7 @@ content: |
 
   The ``LoginPage.xaml`` file provides a UI for the user to enter an email address, 
   password, and then click either the **Log In** or **Create New Account** button. 
-  You will implement the functionality of each button's ``Clicked`` event.
+  You will implement the functionality of each buttons' ``Clicked`` event.
 
   In the ``DoLogin()`` method, call ``LogInAsync``, passing the credentials 
   that the user entered. If that call succeeds, we have a valid 
@@ -176,7 +176,7 @@ content: |
   User's ``MemberOf`` property.
 
   The ``ProjectPage.xaml.cs`` file is the default screen for this app. In the 
-  ``OnStart()`` method, we check to see if we have an authenticated user 
+  ``OnAppearing()`` method, we check to see if we have an authenticated user 
   already. If not, we redirect to the Login page. If we do, or when control is 
   returned from the Login page, we can then instantiate a
   :dotnet-sdk:`SyncConfiguration <reference/Realms.Sync.SyncConfiguration.html>` 
@@ -188,7 +188,7 @@ content: |
   property called ``MemberOf``, and we iterate through this list to display the 
   Projects in the UI. 
 
-  To implement this functionality, find the ``OnStart()`` method in 
+  To implement this functionality, find the ``OnAppearing()`` method in 
   ``ProjectPage.xaml.cs``. You see the conditional checking to see if we already 
   have an authenticated user. In the ``else`` block (we have an authenticated user),
   instantiate the ``userRealm`` object by creating a ``SyncConfiguration`` object 
@@ -217,7 +217,7 @@ content: |
 title: Implement the Task Page
 ref: implement-task-page
 content: |
-  Open the ``TaskPage.xaml.cs`` file. In the ``OnStart()`` method, we will create 
+  Open the ``TaskPage.xaml.cs`` file. In the ``OnAppearing()`` method, we will create 
   another realm, this time for the Task collection. In the user realm we used a 
   partition key value of ``user=<USER_ID>``; the project realm uses a partition 
   key value of ``project=<USER_ID>``. For the sake of simplicity in this tutorial, 
@@ -234,10 +234,13 @@ content: |
   .. literalinclude:: /tutorial/generated/code/final/TaskPage.codeblock.setup-tasks.cs
      :language: csharp
 
-  At the bottom of the Task page, we have added a button for creating a new Task. 
+  At the bottom of the Task view, we have added a button for creating a new Task. 
   In the ``Button_Clicked`` handler, we display a modal dialog to get the name 
   of the new task and then create a new Task, setting the Task's status to 
-  ``TaskStatus.Open``. We then add the Task to the ``taskRealm``.
+  ``TaskStatus.Open``. We then add the Task to the ``taskRealm``:
+
+  .. literalinclude:: /tutorial/generated/code/final/TaskPage.codeblock.new-task.cs
+     :language: csharp
 
   .. note::
 
@@ -250,10 +253,8 @@ content: |
   including changing its state. Within our UI, when a user taps on a task in the 
   list, the TaskEdit page displays. The logic here is similar to creating a Task, 
   where the updated information is wrapped in a temporary transaction using the 
-  ``taskRealm.Write()`` method:
-
-  .. literalinclude:: /tutorial/generated/code/final/TaskPage.codeblock.new-task.cs
-     :language: csharp
+  ``taskRealm.Write()`` method. To view this code, find the ``Save_Button_Clicked`` 
+  event handler in the ``EditTaskPage.xaml.cs`` file.
 
 ---
 title: Implement Team Management
@@ -265,7 +266,7 @@ content: |
   in the backend tutorial.
 
   Find the ``AddMemberPage.xaml.cs`` file. First, we need to fetch the list of
-  current team members. We do this in the ``OnStart()`` method:
+  current team members. We do this in the ``OnAppearing()`` method:
 
   .. literalinclude:: /tutorial/generated/code/final/AddMemberPage.codeblock.call-function-1.cs
      :language: csharp
