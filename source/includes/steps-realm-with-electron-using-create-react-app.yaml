@@ -9,8 +9,9 @@ content: |
 
      npx create-react-app my_electron_react_application
 
-   Your application should include the following files. Some additional files in
-   your project, such as CSS, service worker, and test files aren't included below.
+  Your application should include the following files. Some additional files in
+  your project, such as CSS, service worker, and test files aren't included
+  below.
 
   .. code-block:: text
      :emphasize-lines: 7, 8
@@ -66,7 +67,7 @@ content: |
   Electron built-in modules. ``nodeExternals`` is also specified to prevent all
   node_modules from being bundled. The ``allowList`` key in the object passed
   in to ``nodeExternals`` specifies a list of modules to include in the bundle,
-  in this case Electron's dev tools and webpack. In order to make use of
+  in this case electron's dev tools and webpack. In order to make use of
   webpack-node-externals, run the following command:
 
   .. code-block:: shell
@@ -87,7 +88,7 @@ content: |
 title: Create Your Electron Main Process File
 ref: create-your-electron-main-process
 content: |
-  The Electron **main process** file can be thought of as the entry
+  The Electron ``main process`` file can be thought of as the entry
   point into your application. This file is responsible for loading your
   React App's ``index.html`` file into the ``BrowserWindow`` created by
   Electron.
