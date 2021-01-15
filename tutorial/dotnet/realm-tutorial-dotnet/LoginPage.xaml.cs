@@ -25,12 +25,12 @@ namespace RealmDotnetTutorial
             try
             {
                 // :code-block-start:login-async
-                // :hide-start:
+                // :state-start: final
                 var user = await App.realmApp.LogInAsync(Credentials.EmailPassword(email, password));
-                // :replace-with:
+                // :state-end: :state-uncomment-start: start
                 //// TODO: pass the email and password properties to LogInAsync
                 //// user = await ...
-                // :hide-end:
+                // :state-uncomment-end:
                 // :code-block-end:
                 if (user != null)
                 {
@@ -54,11 +54,11 @@ namespace RealmDotnetTutorial
             try
             {
                 // :code-block-start:register-user
-                // :hide-start:
+                // :state-start: final
                 await App.realmApp.EmailPasswordAuth.RegisterUserAsync(email, password);
-                // :replace-with:
+                // :state-end: :state-uncomment-start: start
                 //// TODO: pass the email and password properties to RegisterUserAsync
-                // :hide-end:
+                // :state-uncomment-end:
                 // :code-block-end:
                 await DoLogin();
             }

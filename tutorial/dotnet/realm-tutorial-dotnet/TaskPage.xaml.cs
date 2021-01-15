@@ -35,11 +35,11 @@ namespace RealmDotnetTutorial
                     $"project={App.realmApp.CurrentUser.Id }",
                     App.realmApp.CurrentUser);
                 // :code-block-start:task-realm-config
-                // :hide-start:
+                // :state-start: final
                 taskRealm = await Realm.GetInstanceAsync(syncConfig);
-                // :replace-with:
+                // :state-end: :state-uncomment-start: start
                 //// TODO: instatiate the taskRealm by calling GetInstanceAsync
-                // :hide-end:
+                // :state-uncomment-end:
                 // :code-block-end:
                 SetUpTaskList();
             }
@@ -49,26 +49,24 @@ namespace RealmDotnetTutorial
             }
             base.OnAppearing();
         }
-       
+
         private void SetUpTaskList()
         {
             WaitingLayout.IsVisible = true;
             // :code-block-start:setup-tasks
-            // :hide-start:
+            // :state-start: final
             _tasks = new ObservableCollection<Task>(taskRealm.All<Task>().ToList());
-            // :replace-with:
+            // :state-end: :state-uncomment-start: start
             //// TODO: populate the _tasks collection with all tasks in the taskRealm.
-            // :hide-end:
+            // :state-uncomment-end:
             // :code-block-end:
             listTasks.ItemsSource = MyTasks;
             WaitingLayout.IsVisible = false;
         }
 
-        async void TextCell_Tapped(object sender, EventArgs e)
+        async void TextCell_Tapped(object sender, ItemTappedEventArgs e)
         {
-            var taskId = ((ViewCell)sender).ClassId;
-            var task = taskRealm.All<Task>().Where(t => t.Id == taskId).FirstOrDefault();
-
+            var task = e.Item as Task;
             var editTaskPage = new EditTaskPage(taskRealm, task);
             editTaskPage.OperationCompeleted += EditTaskPage_OperationCompeleted;
             await Navigation.PushAsync(editTaskPage);
@@ -89,13 +87,14 @@ namespace RealmDotnetTutorial
                 return;
             }
 
-            if (taskRealm == null) { 
+            if (taskRealm == null)
+            {
                 var syncConfig = new SyncConfiguration($"project={App.realmApp.CurrentUser.Id }", App.realmApp.CurrentUser);
                 taskRealm = await Realm.GetInstanceAsync(syncConfig);
             }
 
             // :code-block-start:new-task
-            // :hide-start:
+            // :state-start: final
             var newTask = new Task()
             {
                 Name = result,
@@ -106,11 +105,11 @@ namespace RealmDotnetTutorial
             {
                 taskRealm.Add(newTask);
             });
-            // :replace-with:
+            // :state-end: :state-uncomment-start: start
             //// TODO: create a new Task, setting the name to "result" and
             //// the status to "Open" (using the TaskStatus enum).
             //// Then add the task to the taskRealm within a transaction.
-            // :hide-end:
+            // :state-uncomment-end:
             // :code-block-end:
 
             MyTasks.Add(newTask);

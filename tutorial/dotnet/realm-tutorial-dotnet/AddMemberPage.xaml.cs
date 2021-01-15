@@ -30,12 +30,12 @@ namespace RealmDotnetTutorial
             try
             {
                 // :code-block-start:call-function-1
-                // :hide-start:
+                // :state-start: final
                 teamMembers = await App.realmApp.CurrentUser.Functions.CallAsync<List<Member>>("getMyTeamMembers");
-                // :replace-with:
+                // :state-end: :state-uncomment-start: start
                 //// TODO: Call the "getMyTeamMembers" to get all team members
                 //// teamMembers = await ...
-                // :hide-end:
+                // :state-uncomment-end:
                 // :code-block-end:
                 foreach (var member in teamMembers)
                 {
@@ -55,13 +55,13 @@ namespace RealmDotnetTutorial
             try
             {
                 // :code-block-start:call-function-3
-                // :hide-start:
+                // :state-start: final
                 var result = await App.realmApp.CurrentUser.Functions.CallAsync("removeTeamMember", email.ToString());
-                // :replace-with:
+                // :state-end: :state-uncomment-start: start
                 //// TODO: Pass email.ToString() to the "removeTeamMember"
                 //// function.
                 //// var result = await ...
-                // :hide-end:
+                // :state-uncomment-end:
                 // :code-block-end:
                 await DisplayAlert("Remove User", result.ToString(), "OK");
                 listMembers.ItemsSource = Members;
@@ -80,12 +80,12 @@ namespace RealmDotnetTutorial
                 try
                 {
                     // :code-block-start:call-function-2
-                    // :hide-start:
+                    // :state-start: final
                     var functionResult = await App.realmApp.CurrentUser.Functions.CallAsync<FunctionResult>("addTeamMember", result);
-                    // :replace-with:
+                    // :state-end: :state-uncomment-start: start
                     //// TODO: Pass the result object to the "addTeamMember" 
                     //// function.
-                    // :hide-end:
+                    // :state-uncomment-end:
                     // :code-block-end:
                 }
                 catch (Exception ex)

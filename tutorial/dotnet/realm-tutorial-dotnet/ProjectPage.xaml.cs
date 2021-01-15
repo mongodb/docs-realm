@@ -52,21 +52,21 @@ namespace RealmDotnetTutorial
                     $"user={ App.realmApp.CurrentUser.Id }",
                     App.realmApp.CurrentUser);
                 // :code-block-start:user-realm-config
-                // :hide-start:
+                // :state-start: final
                 userRealm = await Realm.GetInstanceAsync(syncConfig);
-                // :replace-with:
+                // :state-end: :state-uncomment-start: start
                 //// TODO: instatiate the userRealm by calling GetInstanceAsync
                 //// userRealm = await ...
-                // :hide-end:
+                // :state-uncomment-end:
                 // :code-block-end:
                 // :code-block-start:find-user
-                // :hide-start:
+                // :state-start: final
                 user = userRealm.All<User>().ToList().Where(u => u.Id ==
                     App.realmApp.CurrentUser.Id).FirstOrDefault();
-                // :replace-with:
+                // :state-end: :state-uncomment-start: start
                 //// TODO: find the user in the userRealm
                 //// start with userRealm.All<User>(). and use ToList() and Where()
-                // :hide-end:
+                // :state-uncomment-end:
                 // :code-block-end:
                 if (user != null) SetUpProjectList();
             }

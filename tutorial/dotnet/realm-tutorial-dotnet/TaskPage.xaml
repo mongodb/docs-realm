@@ -18,10 +18,10 @@
                     <Label Text="My Tasks" HorizontalTextAlignment="Center" TextColor="White" FontSize="18"/>
                 </Frame>
                 <ScrollView>
-                    <ListView x:Name="listTasks" >
+                    <ListView x:Name="listTasks" ItemTapped="TextCell_Tapped">
                         <ListView.ItemTemplate>
                             <DataTemplate>
-                                <ViewCell Tapped="TextCell_Tapped" ClassId="{Binding Id}">
+                                <ViewCell>
                                     <Grid>
                                         <Label Text="{Binding Name}" TextColor="Black" Grid.Column="0"></Label>
                                         <Label Text="{Binding Status}" TextColor="Black" Grid.Column="1"></Label>

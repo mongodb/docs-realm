@@ -18,11 +18,11 @@ namespace RealmDotnetTutorial
         protected override void OnStart()
         {
             // :code-block-start:open-realm
-            // :hide-start:
+            // :state-start: final
             realmApp = Realms.Sync.App.Create(appId);
-            //:replace-with:
+            //:state-end: :state-uncomment-start: start
             //// TODO: call Realms.Sync.App.Create()
-            // :hide-end:
+            // :state-uncomment-end:
             // :code-block-end:
             if (App.realmApp.CurrentUser == null)
             {
