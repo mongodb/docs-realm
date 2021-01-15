@@ -12,7 +12,6 @@ namespace RealmDotnetTutorial
 {
     public partial class ProjectPage : ContentPage
     {
-        ActivityIndicator activityIndicator;
         private User user;
         private Realm userRealm;
         private ObservableCollection<Project> _projects = new ObservableCollection<Project>();
@@ -40,7 +39,7 @@ namespace RealmDotnetTutorial
             }
             else
             {
-                await LoadProjects();  
+                await LoadProjects();
             }
             base.OnAppearing();
         }
@@ -96,7 +95,7 @@ namespace RealmDotnetTutorial
                 MyProjects.Add(new Project("No projects found!"));
             }
 
-;            WaitingLayout.IsVisible = false;
+; WaitingLayout.IsVisible = false;
         }
 
         void TextCell_Tapped(object sender, EventArgs e)
@@ -121,7 +120,8 @@ namespace RealmDotnetTutorial
                     var loginPage = new LoginPage();
                     await Navigation.PushAsync(loginPage);
                 }
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 await DisplayAlert("Error", ex.Message, "Logout Failed");
             }

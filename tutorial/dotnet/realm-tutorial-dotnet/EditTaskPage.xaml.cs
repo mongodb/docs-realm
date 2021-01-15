@@ -63,11 +63,6 @@ namespace RealmDotnetTutorial
 
         }
 
-        private void HandleFailure()
-        {
-            //throw new NotImplementedException();
-        }
-
         async void Cancel_Button_Clicked(object sender, EventArgs e)
         {
             OperationCompeleted(this, EventArgs.Empty);

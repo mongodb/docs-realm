@@ -9,7 +9,6 @@ namespace RealmDotnetTutorial
     {
         private string email;
         private string password;
-        private User user;
 
         public LoginPage()
         {
@@ -20,8 +19,6 @@ namespace RealmDotnetTutorial
         {
             await DoLogin();
         }
-
-        public event EventHandler<EventArgs> OperationCompeleted;
 
         private async AsyncTask DoLogin()
         {
@@ -64,7 +61,8 @@ namespace RealmDotnetTutorial
                 // :hide-end:
                 // :code-block-end:
                 await DoLogin();
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 await DisplayAlert("Registration Failed", ex.Message, "OK");
             }
