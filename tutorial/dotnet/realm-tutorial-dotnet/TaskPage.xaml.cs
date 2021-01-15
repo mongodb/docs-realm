@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using RealmDotnetTutorial.Models;
 using Realms;
 using Realms.Sync;
 using Xamarin.Forms;
 
-namespace realm_tutorial_dotnet
+namespace RealmDotnetTutorial
 {
     public partial class TaskPage : ContentPage
     {
@@ -23,11 +24,11 @@ namespace realm_tutorial_dotnet
         public TaskPage()
         {
             InitializeComponent();
-            OnStart();
         }
 
-        private async void OnStart()
+        protected override async void OnAppearing()
         {
+            WaitingLayout.IsVisible = true;
             try
             {
                 var syncConfig = new SyncConfiguration(
@@ -46,10 +47,12 @@ namespace realm_tutorial_dotnet
             {
                 await DisplayAlert("Error Fetching Tasks", ex.Message, "OK");
             }
+            base.OnAppearing();
         }
-
+       
         private void SetUpTaskList()
         {
+            WaitingLayout.IsVisible = true;
             // :code-block-start:setup-tasks
             // :hide-start:
             _tasks = new ObservableCollection<Task>(taskRealm.All<Task>().ToList());
@@ -58,6 +61,7 @@ namespace realm_tutorial_dotnet
             // :hide-end:
             // :code-block-end:
             listTasks.ItemsSource = MyTasks;
+            WaitingLayout.IsVisible = false;
         }
 
         async void TextCell_Tapped(object sender, EventArgs e)
@@ -73,7 +77,7 @@ namespace realm_tutorial_dotnet
         private void EditTaskPage_OperationCompeleted(object sender, EventArgs e)
         {
             (sender as EditTaskPage).OperationCompeleted -= EditTaskPage_OperationCompeleted;
-            OnStart();
+            SetUpTaskList();
         }
 
         async void Button_Clicked(object sender, EventArgs e)
@@ -110,7 +114,6 @@ namespace realm_tutorial_dotnet
             // :code-block-end:
 
             MyTasks.Add(newTask);
-            taskRealm.Dispose();
         }
     }
 }

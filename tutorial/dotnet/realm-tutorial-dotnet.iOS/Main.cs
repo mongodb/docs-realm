@@ -5,7 +5,7 @@ using System.Linq;
 using Foundation;
 using UIKit;
 
-namespace realm_tutorial_dotnet.iOS
+namespace RealmDotnetTutorial.iOS
 {
     public class Application
     {

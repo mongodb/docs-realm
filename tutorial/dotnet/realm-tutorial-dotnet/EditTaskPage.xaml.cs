@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Threading.Tasks;
+using RealmDotnetTutorial.Models;
 using Realms;
-using Realms.Sync;
 using Xamarin.Forms;
 
-namespace realm_tutorial_dotnet
+namespace RealmDotnetTutorial
 {
     public partial class EditTaskPage : ContentPage
     {
@@ -39,7 +38,7 @@ namespace realm_tutorial_dotnet
             }
         }
 
-        public event EventHandler<EventArgs> OperationCompeleted;
+        public event EventHandler<EventArgs> OperationCompeleted = delegate { };
 
         void Name_Entry_Completed(object sender, EventArgs e)
         {
@@ -71,7 +70,7 @@ namespace realm_tutorial_dotnet
 
         async void Cancel_Button_Clicked(object sender, EventArgs e)
         {
-            OperationCompeleted?.Invoke(this, EventArgs.Empty);
+            OperationCompeleted(this, EventArgs.Empty);
             await Navigation.PopAsync();
             return;
         }
@@ -83,7 +82,7 @@ namespace realm_tutorial_dotnet
                 TaskToEdit.Name = newName;
                 TaskToEdit.Status = newStatus;
             });
-            OperationCompeleted?.Invoke(this, EventArgs.Empty);
+            OperationCompeleted(this, EventArgs.Empty);
             await Navigation.PopAsync();
 
             realm.Dispose();

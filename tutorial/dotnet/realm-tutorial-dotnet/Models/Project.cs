@@ -1,7 +1,7 @@
 ﻿using System;
 using Realms;
 
-namespace realm_tutorial_dotnet
+namespace RealmDotnetTutorial.Models
 {
     public class Project : EmbeddedObject
     {

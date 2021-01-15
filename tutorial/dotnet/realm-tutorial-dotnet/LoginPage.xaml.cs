@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Threading.Tasks;
+using AsyncTask = System.Threading.Tasks.Task;
 using Realms.Sync;
 using Xamarin.Forms;
 
-namespace realm_tutorial_dotnet
+namespace RealmDotnetTutorial
 {
     public partial class LoginPage : ContentPage
     {
@@ -16,14 +16,14 @@ namespace realm_tutorial_dotnet
             InitializeComponent();
         }
 
-        void Login_Button_Clicked(object sender, EventArgs e)
+        async void Login_Button_Clicked(object sender, EventArgs e)
         {
-            DoLogin();
+            await DoLogin();
         }
 
         public event EventHandler<EventArgs> OperationCompeleted;
 
-        private async void DoLogin()
+        private async AsyncTask DoLogin()
         {
             try
             {
@@ -37,25 +37,22 @@ namespace realm_tutorial_dotnet
                 // :code-block-end:
                 if (user != null)
                 {
-                    OperationCompeleted?.Invoke(this, EventArgs.Empty);
-                    await Navigation.PopAsync();
-                    return;
+                    var projectPage = new ProjectPage();
+                    await Navigation.PushAsync(projectPage);
                 }
-                else
-                {
-                    HandleFailure();
-                }
-            }catch (Exception ex)
+                else throw new Exception();
+            }
+            catch (Exception ex)
             {
                 await DisplayAlert("Login Failed", ex.Message, "OK");
             }
         }
-        void Register_Button_CLicked(object sender, EventArgs e)
+        async void Register_Button_CLicked(object sender, EventArgs e)
         {
-            RegisterUser();
+            await RegisterUser();
         }
 
-        private async void RegisterUser()
+        private async AsyncTask RegisterUser()
         {
             try
             {
@@ -66,7 +63,7 @@ namespace realm_tutorial_dotnet
                 //// TODO: pass the email and password properties to RegisterUserAsync
                 // :hide-end:
                 // :code-block-end:
-                DoLogin();
+                await DoLogin();
             } catch (Exception ex)
             {
                 await DisplayAlert("Registration Failed", ex.Message, "OK");
@@ -83,9 +80,5 @@ namespace realm_tutorial_dotnet
             password = ((Entry)sender).Text;
         }
 
-        private void HandleFailure()
-        {
-            //throw new NotImplementedException();
-        }
     }
 }

@@ -15,7 +15,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
-namespace realm_tutorial_dotnet.UWP
+namespace RealmDotnetTutorial.UWP
 {
     /// <summary>
     /// Provides application-specific behavior to supplement the default Application class.

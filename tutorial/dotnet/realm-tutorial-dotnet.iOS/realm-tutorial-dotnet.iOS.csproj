@@ -113,6 +113,8 @@
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon20.png">
       <Visible>false</Visible>
     </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\edit_btn.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\edit_btn.imageset\edit_btn.png" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -137,8 +139,11 @@
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
     <ProjectReference Include="..\realm-tutorial-dotnet\realm-tutorial-dotnet.csproj">
-      <Project>{E3E67B8F-4DCF-4B2E-9C86-06CBB528711A}</Project>
+      <Project>{591F0966-56AF-40FF-B50E-746104588E70}</Project>
       <Name>realm-tutorial-dotnet</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Assets.xcassets\edit_btn.imageset\" />
   </ItemGroup>
 </Project>

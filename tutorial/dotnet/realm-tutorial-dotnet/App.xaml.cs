@@ -3,11 +3,11 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Realms.Sync;
 
-namespace realm_tutorial_dotnet
+namespace RealmDotnetTutorial
 {
     public partial class App : Application
     {
-        private const string appId = "<my_realm_app_id>";
+        private const string appId = "tasktracker-iafbl";
         public static Realms.Sync.App realmApp;
 
         public App()
@@ -24,7 +24,14 @@ namespace realm_tutorial_dotnet
             //// TODO: call Realms.Sync.App.Create()
             // :hide-end:
             // :code-block-end:
-            MainPage = new NavigationPage(new ProjectPage());
+            if (App.realmApp.CurrentUser == null)
+            {
+                MainPage = new NavigationPage(new LoginPage());
+            }
+            else
+            {
+                MainPage = new NavigationPage(new ProjectPage());
+            }
         }
 
         protected override void OnSleep()

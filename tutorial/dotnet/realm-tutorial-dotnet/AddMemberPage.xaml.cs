@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using RealmDotnetTutorial.Models;
 using Xamarin.Forms;
 
-namespace realm_tutorial_dotnet
+namespace RealmDotnetTutorial
 {
     public partial class AddMemberPage : ContentPage
     {
@@ -18,15 +19,13 @@ namespace realm_tutorial_dotnet
             }
         }
 
-        public event EventHandler<EventArgs> OperationCompeleted;
+        public event EventHandler<EventArgs> OperationCompeleted = delegate { };
 
         public AddMemberPage()
         {
             InitializeComponent();
-            OnStart();
         }
-
-        private async void OnStart()
+        protected override async void OnAppearing()
         {
             try
             {
@@ -46,7 +45,7 @@ namespace realm_tutorial_dotnet
             }
             catch (Exception ex)
             {
-                await DisplayAlert("Error", ex.Message, "Drat");
+                await DisplayAlert("Error", ex.Message, "OK");
             }
         }
 
@@ -69,8 +68,8 @@ namespace realm_tutorial_dotnet
             }
             catch (Exception ex)
             {
-                await DisplayAlert("Error", ex.Message, "Drat");
-            } 
+                await DisplayAlert("Error", ex.Message, "OK");
+            }
         }
 
         async void Add_Button_Clicked(object sender, EventArgs e)
@@ -91,29 +90,25 @@ namespace realm_tutorial_dotnet
                 }
                 catch (Exception ex)
                 {
-                    await DisplayAlert("Error", ex.Message, "Drat");
+                    await DisplayAlert("Error", ex.Message, "OK");
                     return;
                 }
-                OnStart();
             }
             Complete();
         }
 
-      
-
         async void Complete()
         {
-            OperationCompeleted?.Invoke(this, EventArgs.Empty);
+            OperationCompeleted(this, EventArgs.Empty);
             await Navigation.PopAsync();
-            return;
         }
     }
 
     class FunctionResult
     {
-        public string error { get; set; }
-        public int matchedCount { get; set; }
-        public int modifiedCount { get; set; }
+        public string Error { get; set; }
+        public int MatchedCount { get; set; }
+        public int ModifiedCount { get; set; }
 
     }
 }
