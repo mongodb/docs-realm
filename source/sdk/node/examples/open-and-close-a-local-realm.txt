@@ -4,22 +4,54 @@
 Open & Close a Local Realm
 ==========================
 
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
 .. _node-open-a-local-realm:
 
 Open a Local Realm
 ------------------
+
+To open a local (non-synced) {+realm+}, pass a :js-sdk:`Configuration()
+<Realm.html#~Configuration>` object to either :js-sdk:`Realm.open()
+<Realm.html#.open>` or :js-sdk:`new Realm() <Realm.html>`. The following example
+creates a ``Configuration`` object with a path property that defines the local
+file path to store data. 
+
+.. code-block:: javascript
+   
+   const realm = await Realm.open({
+      path: "myRealm",
+      schema: [
+         schemas.TaskSchema,
+         schemas.UserSchema,
+         schemas.ProjectSchema
+      ],
+   });
 
 .. _node-close-a-realm:
 
 Close a Realm
 -------------
 
-.. _node-local-realm-configuration:
+It is important to remember to call the ``close()`` method when done with a
+{+realm+} instance to avoid memory leaks.
 
-Local Realm Configuration
--------------------------
+.. code-block:: javascript
 
-.. _node-provide-a-subset-of-classes-to-a-realm:
+   realm.close();
 
-Provide a Subset of Classes to a Realm
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. .. _node-local-realm-configuration:
+
+.. Local Realm Configuration
+.. -------------------------
+
+.. .. _node-provide-a-subset-of-classes-to-a-realm:
+
+.. Provide a Subset of Classes to a Realm
+.. ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
