@@ -31,6 +31,7 @@ class ManageEmailPasswordTest : RealmTest() {
                     Log.e("EXAMPLE","Failed to register user: ${it.error}")
                 }
             }
+            // :code-block-end:
         }
         expectation.await()
     }
@@ -60,6 +61,7 @@ class ManageEmailPasswordTest : RealmTest() {
                     // :hide-end:
                 }
             }
+            // :code-block-end:
         }
         expectation.await()
     }
