@@ -12,22 +12,151 @@ React to Changes
    :depth: 2
    :class: singlecol
 
-.. _register-a-realm-change-listener:
+.. _node-register-a-realm-change-listener:
 
 Register a Realm Change Listener
 --------------------------------
 
-.. _register-a-collection-change-listener:
+You can register a notification handler on an entire Realm.
+Realm Database calls the notification handler whenever any write
+transaction involving that Realm is committed. The
+handler receives no information about the change.
+
+This is useful when you want to know that there has been a
+change but do not care to know specifically what changed.
+For example, proof of concept apps often use this
+notification type and simply refresh the entire UI when
+anything changes. As the app becomes more sophisticated and
+performance-sensitive, the app developers shift to more
+granular notifications.
+
+.. example::
+
+  Suppose you are writing a real-time collaborative app. To
+  give the sense that your app is buzzing with collaborative
+  activity, you want to have an indicator that lights up when
+  any change is made. In that case, a realm notification
+  handler would be a great way to drive the code that controls
+  the indicator.
+
+  .. tabs-realm-languages::
+
+    .. tab::
+        :tabid: javascript
+
+        .. literalinclude:: /examples/Notifications/RealmNotification.js
+          :language: javascript
+          :emphasize-lines: 6
+
+.. _node-register-a-collection-change-listener:
 
 Register a Collection Change Listener
 -------------------------------------
 
-.. _register-an-object-change-listener:
+You can register a notification handler on a specific
+collection within a Realm. The handler receives a
+description of changes since the last notification.
+Specifically, this description consists of three lists of
+indices:
+
+- The indices of the objects that were deleted.
+- The indices of the objects that were inserted.
+- The indices of the objects that were modified.
+
+.. important:: Order Matters
+   
+   In collection notification handlers, always apply changes
+   in the following order: deletions, insertions, then
+   modifications. Handling insertions before deletions may
+   result in unexpected behavior.
+
+Realm Database emits an initial notification after retrieving the
+collection. After that, Realm Database delivers collection
+notifications asynchronously whenever a write transaction
+adds, changes, or removes objects in the collection.
+
+Unlike Realm notifications, collection notifications contain
+detailed information about the change. This enables
+sophisticated and selective reactions to changes. Collection
+notifications provide all the information needed to manage a
+list or other view that represents the collection in the UI.
+
+.. example::
+
+  The following code shows how to observe a collection for
+  changes in order to update the UI.
+
+  .. tabs-realm-languages::
+
+    .. tab::
+        :tabid: javascript
+
+        .. literalinclude:: /examples/Notifications/CollectionNotification.js
+          :language: javascript
+          :emphasize-lines: 26
+
+.. _node-register-an-object-change-listener:
 
 Register an Object Change Listener
 ----------------------------------
 
-.. _unregister-a-change-listener:
+You can register a notification handler on a specific object
+within a Realm. Realm Database notifies your handler:
+
+- When the object is deleted.
+- When any of the object's properties change.
+
+The handler receives information about what fields changed
+and whether the object was deleted.
+
+.. example::
+
+  The following code shows how to open a default realm, create
+  a new instance of a class, and observe that instance for
+  changes.
+
+  .. tabs-realm-languages::
+
+    .. tab::
+        :tabid: javascript
+
+        .. literalinclude:: /examples/Notifications/ObjectNotification.js
+          :language: javascript
+          :emphasize-lines: 13
+
+.. _node-unregister-a-change-listener:
 
 Unregister a Change Listener
 ----------------------------
+
+To remove all registered realm, object, and collection listeners associated with
+a realm, call :js-sdk:`Realm.removeAllListeners()
+<Realm.html#removeAllListeners>`. 
+
+To remove a specific listener, call :js-sdk:`Object.removeListener()
+<Realm.Object.html#removeListener>` on the object that is being watched with the
+listener function as the argument.
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: javascript
+
+      .. code-block:: javascript
+         
+         // Unregister all listeners
+         realm.removeAllListeners();
+         
+         // Unregister a specific listener:
+         tasks.removeListener(listener);
+
+   .. tab::
+      :tabid: typescript
+      
+      .. code-block:: typescript
+         
+         // Unregister all listeners
+         realm.removeAllListeners();
+         
+         // Unregister a specific listener:
+         tasks.removeListener(listener);
