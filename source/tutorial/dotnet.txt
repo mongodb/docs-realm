@@ -1,0 +1,82 @@
+.. _dotnet-tutorial:
+
+=======================
+.NET (Xamarin) Tutorial
+=======================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+MongoDB Realm provides a .NET SDK that allows you to create a multi-platform 
+mobile application with Xamarin and C#. This tutorial illustrates the creation 
+of a "Task Tracker" application that allows users to: 
+
+- Register their email as a new user account.
+- Sign in to their account with their email and password (and sign out later).
+- View a list of projects they are a member of.
+- View, create, modify, and delete tasks in projects.
+- View a list of team members in their project.
+- Add and remove team members to their project.
+
+This tutorial should take around 30 minutes.
+
+.. note:: Check Out the Quick Start
+   
+   If you prefer to explore on your own rather than follow a guided tutorial,
+   check out the :ref:`.NET Quick Start <dotnet-client-quick-start>`. It includes 
+   copyable code examples and the essential information that you need to set up 
+   a MongoDB Realm application.
+
+Prerequisites
+-------------
+
+1. Ensure that you have the following software installed by selecting the tab for 
+   your development environment:
+
+    .. tabs::
+
+        .. tab:: MacOS
+            :tabid: vs-mac
+
+            - `Visual Studio for Mac <https://visualstudio.microsoft.com/downloads/>`__ 2019.
+            - `Xcode <https://developer.apple.com/xcode/>`_ 10.0 or newer. Note that 
+                Xcode 10 requires macOS High Sierra (10.13) or newer.
+            - `iOS 12 SDK <https://developer.apple.com/ios/>`_.
+            - `Android 6.0 / API level 23 <https://developer.android.com/studio>`_.
+
+        .. tab:: Windows
+            :tabid: vs-win
+
+            - Windows 7 or newer. Windows 10 recommended. 
+            - `Visual Studio <https://visualstudio.microsoft.com/downloads/>`_ 2017 
+                (Visual Studio 2019 is recommended)
+            - `Android 6.0 / API level 23 <https://developer.android.com/studio>`_.
+            - To build iOS projects on Windows, you will also need a Mac computer, 
+                network-accessible from the Windows computer, that 
+                conforms to the minimum requirements for running Xamarin on macOS.
+
+2. Also, ensure that you have completed the tutorial to 
+   :ref:`Set up the backend <tutorial-task-tracker-create-realm-app>`.
+
+Set up the Mobile App
+---------------------
+
+.. include:: /includes/steps/tutorial-dotnet.rst
+
+What's Next?
+------------
+
+- Read our :ref:`.NET SDK <dotnet-intro>` documentation.
+- Work through the :ref:`{+service+} Backend tutorial <backend-tutorial>`.
+- Find developer-oriented blog posts and integration tutorials on the `MongoDB Developer Hub <https://developer.mongodb.com>`__.
+- Join the `MongoDB Community forum <https://developer.mongodb.com/community/forums/c/realm/9>`__ to learn from other MongoDB developers and technical experts.
+
+.. include:: /includes/tutorial-request-for-feedback-note.rst
