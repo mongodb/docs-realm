@@ -16,3 +16,55 @@ Call a Function
 
 Call a Function by Name
 -----------------------
+
+To call a function, you can either pass its name and arguments to
+``User.callFunction()`` or call the function as if it were a method on the
+:js-sdk:`User.functions <Realm.User.html#functions>` property.
+
+.. note:: Link a MongoDB Atlas Data Source
+   
+   This example requires a MongoDB Realm Application with a :doc:`linked
+   Atlas data source </mongodb/link-a-data-source>`. Replace the
+   "<appId>" in the code block with your app id, available in the
+   lefthand corner of the MongoDB Realm UI.
+
+.. code-block:: javascript
+  :emphasize-lines: 21, 22
+
+   const Realm = require("realm");
+
+   const appId = "<appId>"; // Set Realm app ID here.
+   const appConfig = {
+     id: appId,
+     timeout: 10000,
+   };
+
+   async function run() {
+     let user;
+     try {
+       const app = new Realm.App(appConfig);
+       const credentials = Realm.Credentials.anonymous();
+       user = await app.logIn(credentials);
+ 
+       const numA = 2;
+       const numB = 3;
+       const myArgs = [numA, numB];
+ 
+       const result = await user.functions.sum(numA, numB);
+       const resultOfCallFunction = await user.callFunction("sum", myArgs); // alternate syntax to call a MongoDB Realm Function
+       console.log(`Using the "functions.sum()" method: the sum of ${numA} + ${numB} = ${result}`);
+       console.log(`Using the "callFunction()" method: the sum of ${numA} + ${numB} = ${resultOfCallFunction}`);
+     
+     } finally {
+       user.logOut();
+     }
+   }
+   run().catch(console.dir);
+ 
+
+When you run the code sample, your output should resemble the following:
+
+.. code-block:: none
+
+   Using the "functions.sum()" method: the sum of 2 + 3 = 5
+   Using the "callFunction()" method: the sum of 2 + 3 = 5
