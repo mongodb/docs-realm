@@ -7,7 +7,7 @@ namespace RealmDotnetTutorial
 {
     public partial class App : Application
     {
-        private const string appId = "tasktracker-iafbl";
+        private const string appId = "<my_realm_app_id>";
         public static Realms.Sync.App realmApp;
 
         public App()
