@@ -9,7 +9,7 @@
 // :code-block-start: models
 // CrudExampleObjc_Person.h
 @interface CrudExampleObjc_Person : RLMObject
-@property NSNumber<RLMInt> *_id;
+@property int _id;
 @property NSString *name;
 @property (readonly) RLMLinkingObjects *dogs;
 @end
