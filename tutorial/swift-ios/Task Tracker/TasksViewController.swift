@@ -11,17 +11,17 @@ import RealmSwift
 
 class TasksViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
-    // :code-block-start: members
+    // :code-block-start:
     let tableView = UITableView()
     let partitionValue: String
     let realm: Realm
     var notificationToken: NotificationToken?
-    // :state-start: final
+    // :hide-start:
     let tasks: Results<Task>
-    // :state-end: :state-uncomment-start: start
+    // :replace-with:
     // // TODO: Use Realm Results collection for `tasks`
     // let tasks: [Task] = []
-    // :state-uncomment-end:
+    // :hide-end:
     // :code-block-end:
     
     // :code-block-start: init
@@ -37,18 +37,18 @@ class TasksViewController: UIViewController, UITableViewDelegate, UITableViewDat
         // Partition value must be of string type.
         partitionValue = syncConfiguration.partitionValue!.stringValue!
 
-        // :state-start: final
+        // :hide-start:
         // Access all tasks in the realm, sorted by _id so that the ordering is defined.
         tasks = realm.objects(Task.self).sorted(byKeyPath: "_id")
-        // :state-end: :state-uncomment-start: start
+        // :replace-with:
         // // TODO: initialize `tasks` with the collection of Tasks in the realm, sorted by _id.
-        // :state-uncomment-end:
+        // :hide-end:
 
         super.init(nibName: nil, bundle: nil)
 
         self.title = title
 
-        // :state-start: final
+        // :hide-start:
         // Observe the tasks for changes. Hang on to the returned notification token.
         notificationToken = tasks.observe { [weak self] (changes) in
             guard let tableView = self?.tableView else { return }
@@ -74,10 +74,10 @@ class TasksViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 fatalError("\(error)")
             }
         }
-        // :state-end: :state-uncomment-start: start
+        // :replace-with:
         // // TODO: Observe the tasks for changes. Hang on to the returned notification token.
         // // When changes are received, update the tableView.
-        // :state-uncomment-end:
+        // :hide-end:
     }
     // :code-block-end:
 
@@ -87,12 +87,12 @@ class TasksViewController: UIViewController, UITableViewDelegate, UITableViewDat
 
     // :code-block-start: deinit
     deinit {
-        // :state-start: final
+        // :hide-start:
         // Always invalidate any notification tokens when you are done with them.
         notificationToken?.invalidate()
-        // :state-end: :state-uncomment-start: start
+        // :replace-with:
         // // TODO: invalidate notificationToken
-        // :state-uncomment-end:
+        // :hide-end:
     }
     // :code-block-end:
 
@@ -151,7 +151,7 @@ class TasksViewController: UIViewController, UITableViewDelegate, UITableViewDat
             let textField = alertController.textFields![0] as UITextField
 
             // :code-block-start: add-button-did-click
-            // :state-start: final
+            // :hide-start:
             // Create a new Task with the text that the user entered.
             let task = Task(partition: self.partitionValue, name: textField.text ?? "New Task")
 
@@ -160,9 +160,9 @@ class TasksViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 // Add the Task to the Realm. That's it!
                 self.realm.add(task)
             }
-            // :state-end: :state-uncomment-start: start
+            // :replace-with:
             // // TODO: Create a Task instance and add it to the realm in a write block.
-            // :state-uncomment-end:
+            // :hide-end:
             // :code-block-end:
         }))
         alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel))
@@ -183,7 +183,7 @@ class TasksViewController: UIViewController, UITableViewDelegate, UITableViewDat
         let actionSheet: UIAlertController = UIAlertController(title: task.name, message: "Select an action", preferredStyle: .actionSheet)
  
         // :code-block-start: populate-action-sheet
-        // :state-start: final
+        // :hide-start:
         // If the task is not in the Open state, we can set it to open. Otherwise, that action will not be available.
         // We do this for the other two states -- InProgress and Complete.
         if (task.statusEnum != .Open) {
@@ -211,10 +211,10 @@ class TasksViewController: UIViewController, UITableViewDelegate, UITableViewDat
                     }
                 })
         }
-        // :state-end: :state-uncomment-start: start
+        // :replace-with:
         // // TODO: Populate the action sheet with task status update functions
         // // for every state the task is not currently in.
-        // :state-uncomment-end:
+        // :hide-end:
         // :code-block-end:
         
         actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel) { _ in
@@ -232,15 +232,15 @@ class TasksViewController: UIViewController, UITableViewDelegate, UITableViewDat
         // User can swipe to delete items.
         let task = tasks[indexPath.row]
         
-        // :state-start: final
+        // :hide-start:
         // All modifications to a realm must happen in a write block.
         try! realm.write {
             // Delete the Task.
             realm.delete(task)
         }
-        // :state-end: :state-uncomment-start: start
+        // :replace-with:
         // // TODO: delete the task from the realm in a write block.
-        // :state-uncomment-end:
+        // :hide-end:
     }
     // :code-block-end:
 
@@ -251,13 +251,13 @@ class TasksViewController: UIViewController, UITableViewDelegate, UITableViewDat
     // :code-block-start: is-own-tasks
     // Returns true if these are the user's own tasks.
     func isOwnTasks() -> Bool {
-        // :state-start: final
+        // :hide-start:
         return partitionValue == "project=\(app.currentUser!.id)"
-        // :state-end: :state-uncomment-start: start
+        // :replace-with:
         // // TODO: Check if the partition value matches the user's project's partition value,
         // // which should look like "project=\(app.currentUser()!.id!)"
         // return false
-        // :state-uncomment-end:
+        // :hide-end:
     }
     // :code-block-end:
 }

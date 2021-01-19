@@ -78,7 +78,7 @@ class ManageTeamViewController: UIViewController, UITableViewDelegate, UITableVi
     func fetchTeamMembers() {
         // Start loading indicator
         activityIndicator.startAnimating()
-        // :state-start: final
+        // :hide-start:
         let user = app.currentUser!
         
         user.functions.getMyTeamMembers([]) { [weak self](result, error) in
@@ -106,11 +106,11 @@ class ManageTeamViewController: UIViewController, UITableViewDelegate, UITableVi
                 self!.tableView.reloadData()
             }
         }
-        // :state-end: :state-uncomment-start: start
+        // :replace-with:
         // // TODO: use the app's current user's functions object to call the getMyTeamMembers function
         // // on the backend. Create Member objects to represent the result in the completion handler
         // // and reload the table data to refresh the view.
-        // :state-uncomment-end:
+        // :hide-end:
     }
     // :code-block-end:
     
@@ -118,15 +118,15 @@ class ManageTeamViewController: UIViewController, UITableViewDelegate, UITableVi
     func addTeamMember(email: String) {
         print("Adding member: \(email)")
         activityIndicator.startAnimating()
-        // :state-start: final
+        // :hide-start:
         let user = app.currentUser!
         
         user.functions.addTeamMember([AnyBSON(email)], self.onTeamMemberOperationComplete)
-        // :state-end: :state-uncomment-start: start
+        // :replace-with:
         // // TODO: use the app's current user's functions object to call the addTeamMember function
         // // on the backend with the given email converted to AnyBSON. Use `self.onTeamMemberOperationComplete`
         // // as the completion handler.
-        // :state-uncomment-end:
+        // :hide-end:
     }
     // :code-block-end:
     
@@ -134,15 +134,15 @@ class ManageTeamViewController: UIViewController, UITableViewDelegate, UITableVi
     func removeTeamMember(email: String) {
         print("Removing member: \(email)")
         activityIndicator.startAnimating()
-        // :state-start: final
+        // :hide-start:
         let user = app.currentUser!
         
         user.functions.removeTeamMember([AnyBSON(email)], self.onTeamMemberOperationComplete)
-        // :state-end: :state-uncomment-start: start
+        // :replace-with:
         // // TODO: use the app's current user's functions object to call the removeTeamMember function
         // // on the backend with the given email converted to AnyBSON. Use `self.onTeamMemberOperationComplete`
         // // as the completion handler.
-        // :state-uncomment-end:
+        // :hide-end:
     }
     // :code-block-end:
 
