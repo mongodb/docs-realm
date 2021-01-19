@@ -14,46 +14,304 @@ Authenticate Users
 
 
 .. _node-anonymous-login:
+.. _node-login-anonymous:
 
 Log In an Anonymous User
 ------------------------
 
+The :doc:`Anonymous </authentication/anonymous>` provider allows users to log in
+to your application with ephemeral accounts that have no associated information.
+
+To log in, create an anonymous credential and pass it to ``App.logIn()``:
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: javascript
+      
+      .. literalinclude:: /examples/generated/code/start/authenticate.codeblock.anonymous-login.js
+         :language: javascript
+   
+   .. tab::
+      :tabid: typescript
+      
+      .. literalinclude:: /examples/generated/code/start/authenticate.codeblock.anonymous-login.ts
+         :language: typescript
+
 .. _node-email-password-login:
+.. _node-login-email-password:
 
 Log In an Email/Password User
 -----------------------------
 
+The :doc:`email/password </authentication/email-password>` authentication
+provider allows users to log in to your application with an email address and a
+password.
+
+To log in, create an email/password credential with the user's email address and
+password and pass it to ``App.logIn()``:
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: javascript
+      
+      .. literalinclude:: /examples/generated/code/start/authenticate.codeblock.email-password-login.js
+         :language: javascript
+
+   .. tab::
+      :tabid: typescript
+      
+      .. literalinclude:: /examples/generated/code/start/authenticate.codeblock.email-password-login.ts
+         :language: typescript
+
 .. _node-api-key-login:
+.. _node-login-api-key:
 
 Log In an API Key User
 ----------------------
 
+The :doc:`API key </authentication/api-key>` authentication provider allows
+server processes to access to access your app directly or on behalf of a user.
+
+To log in with an API key, create an API Key credential with a server or user
+API key and pass it to ``App.logIn()``:
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: javascript
+      
+      .. literalinclude:: /examples/generated/code/start/authenticate.codeblock.server-api-key-login.js
+         :language: javascript
+   
+   .. tab::
+      :tabid: typescript
+      
+      .. literalinclude:: /examples/generated/code/start/authenticate.codeblock.server-api-key-login.ts
+         :language: typescript
+
 .. _node-custom-jwt-login:
+.. _node-login-custom-jwt:
 
 Log In a Custom JWT User
 ------------------------
 
+The :doc:`Custom JWT </authentication/custom-jwt>` authentication provider
+allows you to handle user authentication with any authentication system that
+returns a :ref:`JSON web token <json-web-tokens>`.
+
+To log in, create a Custom JWT credential with a JWT from the external system
+and pass it to ``App.logIn()``:
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: javascript
+      
+      .. literalinclude:: /examples/generated/code/start/authenticate.codeblock.custom-jwt-login.js
+         :language: javascript
+
+   .. tab::
+      :tabid: typescript
+      
+      .. literalinclude:: /examples/generated/code/start/authenticate.codeblock.custom-jwt-login.ts
+         :language: typescript
+
 .. _node-custom-function-login:
+.. _node-login-custom-function:
 
 Log In a Custom Function User
 -----------------------------
 
+The :doc:`Custom Function </authentication/custom-function>` authentication
+provider allows you to handle user authentication by running a :doc:`function
+</functions>` that receives a payload of arbitrary information about a user.
+
+To log in with the custom function provider, create a Custom Function credential
+with a payload object and pass it to ``App.logIn()``:
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: javascript
+      
+      .. literalinclude:: /examples/generated/code/start/authenticate.codeblock.custom-function-login.js
+         :language: javascript
+
+   .. tab::
+      :tabid: typescript
+      
+      .. literalinclude:: /examples/generated/code/start/authenticate.codeblock.custom-function-login.ts
+         :language: typescript
+
 .. _node-facebook-login:
+.. _node-login-facebook:
 
 Log In a Facebook User
 ----------------------
 
+The :doc:`Facebook </authentication/facebook>` authentication provider allows
+you to authenticate users through a Facebook app using their existing Facebook
+account.
+
+.. include:: /includes/note-enable-facebook-auth.rst
+
+.. include:: /includes/note-facebook-profile-picture-url.rst
+
+You can use the :facebook:`official Facebook SDK <docs/facebook-login/overview>`
+to handle the user authentication and redirect flow from a client application.
+Once authenticated, the Facebook SDK returns an access token that you can send
+to your Node.js app and use to finish logging the user in to your app.
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: javascript
+      
+      .. code-block:: javascript
+         
+         // Get the access token from a client application using the Facebook SDK
+         const accessToken = getFacebookAccessToken();
+
+         // Log the user in to your app
+         const credentials = Realm.Credentials.facebook(accessToken);
+         app.logIn(credentials).then(user => {
+           console.log(`Logged in with id: ${user.id}`);
+         });
+
+   .. tab::
+      :tabid: typescript
+      
+      .. code-block:: typescript
+         
+         // Get the access token from a client application using the Facebook SDK
+         const accessToken = getFacebookAccessToken();
+
+         // Log the user in to your app
+         const credentials = Realm.Credentials.facebook(accessToken);
+         app.logIn(credentials).then((user: Realm.User) => {
+           console.log(`Logged in with id: ${user.id}`);
+         });
+
 .. _node-google-login:
+.. _node-login-google:
 
 Log In a Google User
 --------------------
 
+The :doc:`Google </authentication/google>` authentication provider allows you to
+authenticate users through a Google project using their existing Google account.
+
+.. note:: Enable the Google Auth Provider
+   
+   To authenticate a Google user, you must configure the :doc:`Google
+   authentication provider </authentication/google>`.
+
+You can use the :google:`official Google SDK <identity>` to handle the user
+authentication and redirect flow from a client application. Once authenticated,
+the Google SDK returns an access token that you can send to your Node.js app and
+use to finish logging the user in to your app.
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: javascript
+      
+      .. code-block:: javascript
+         
+         // Get the access token from a client application using the Google SDK
+         const accessToken = getGoogleAccessToken();
+
+         // Log the user in to your app
+         const credentials = Realm.Credentials.google(accessToken);
+         app.logIn(credentials).then(user => {
+           console.log(`Logged in with id: ${user.id}`);
+         });
+
+   .. tab::
+      :tabid: typescript
+      
+      .. code-block:: typescript
+         
+         // Get the access token from a client application using the Google SDK
+         const accessToken = getGoogleAccessToken();
+
+         // Log the user in to your app
+         const credentials = Realm.Credentials.google(accessToken);
+         app.logIn(credentials).then((user: Realm.User) => {
+           console.log(`Logged in with id: ${user.id}`);
+         });
+
 .. _node-apple-login:
+.. _node-login-apple:
 
 Log In an Apple User
 --------------------
+
+The :doc:`Apple </authentication/apple>` authentication provider allows you to
+authenticate users through Sign-in With Apple.
+
+.. note:: Enable the Apple Auth Provider
+   
+   To authenticate an Apple user, you must configure the :doc:`Apple
+   authentication provider </authentication/apple>`.
+
+You can use the :apple:`official Sign in with Apple JS SDK
+<documentation/sign_in_with_apple/sign_in_with_apple_js>` to handle the user
+authentication and redirect flow from a client application. Once authenticated,
+the Apple JS SDK returns an ID token that you can send to your Node.js app and
+use to finish logging the user in to your app.
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: javascript
+      
+      .. code-block:: javascript
+         
+         // Get the access token from a client application using the Apple JS SDK
+         const idToken = getAppleIdToken();
+
+         // Log the user in to your app
+         const credentials = Realm.Credentials.apple(idToken);
+         app.logIn(credentials).then(user => {
+           console.log(`Logged in with id: ${user.id}`);
+         });
+
+   .. tab::
+      :tabid: typescript
+      
+      .. code-block:: typescript
+         
+         // Get the access token from a client application using the Apple JS SDK
+         const idToken: string = getAppleIdToken();
+
+         // Log the user in to your app
+         const credentials = Realm.Credentials.apple(idToken);
+         app.logIn(credentials).then((user: Realm.User) => {
+           console.log(`Logged in with id: ${user.id}`);
+         });
 
 .. _node-logout:
 
 Log a User Out
 --------------
+
+To log any user out, call the ``User.logOut()`` on their user instance.
+
+.. include:: /includes/log-out-queries-in-progress.rst
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: javascript
+      
+      .. literalinclude:: /examples/generated/code/start/authenticate.codeblock.logout.js
+         :language: javascript
+   
+   .. tab::
+      :tabid: typescript
+      
+      .. literalinclude:: /examples/generated/code/start/authenticate.codeblock.logout.ts
+         :language: typescript
