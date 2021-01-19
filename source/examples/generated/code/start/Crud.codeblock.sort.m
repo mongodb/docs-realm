@@ -1,6 +1,6 @@
 RLMRealm *realm = [RLMRealm defaultRealm];
 
-RLMResults *dogs = [CrudExampleObjc_Dog allObjectsInRealm:realm];
+RLMResults *dogs = [Dog allObjectsInRealm:realm];
 
 // Sort dogs by name
 RLMResults *dogsSorted = [dogs sortedResultsUsingKeyPath:@"name" ascending:NO];

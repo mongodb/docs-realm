@@ -1,7 +1,7 @@
 RLMRealm *realm = [RLMRealm defaultRealm];
 
 // Access all dogs in the realm
-RLMResults *dogs = [CrudExampleObjc_Dog allObjectsInRealm:realm];
+RLMResults *dogs = [Dog allObjectsInRealm:realm];
 
 // Filter by age
 RLMResults *puppies = [dogs objectsWhere:@"age < 2"];

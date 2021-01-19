@@ -1,12 +1,12 @@
-class ToOneRelationship_Person: Object {
+class Person: Object {
     @objc dynamic var name: String = ""
     @objc dynamic var birthdate: Date = Date(timeIntervalSince1970: 1)
     
     // A person can have one dog
-    @objc dynamic var dog: ToOneRelationship_Dog? = nil
+    @objc dynamic var dog: Dog? = nil
 }
 
-class ToOneRelationship_Dog: Object {
+class Dog: Object {
     @objc dynamic var name: String = ""
     @objc dynamic var age: Int = 0
     @objc dynamic var breed: String? = nil

@@ -1,6 +1,6 @@
 let realm = try! Realm()
 // Access all dogs in the realm
-let dogs = realm.objects(CrudExample_Dog.self);
+let dogs = realm.objects(Dog.self);
 
 let dogsSorted = dogs.sorted(byKeyPath: "name", ascending: false)
 

@@ -1,12 +1,12 @@
 // Define the dog class.
-class NotificationExample_Dog: Object {
+class Dog: Object {
     @objc dynamic var name = ""
 }
 
 var objectNotificationToken: NotificationToken?
 
 func objectNotificationExample() {
-    let dog = NotificationExample_Dog()
+    let dog = Dog()
     dog.name = "Max"
 
     // Open the default realm.

@@ -1,7 +1,7 @@
 let realm = try! Realm()
 
 // Get a dog to update
-let dog = realm.objects(CrudExample_Dog.self).first!
+let dog = realm.objects(Dog.self).first!
 
 // Open a thread-safe transaction
 try! realm.write {

@@ -4,7 +4,7 @@ class CollectionNotificationExampleViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         let realm = try! Realm()
-        let results = realm.objects(NotificationExample_Dog.self)
+        let results = realm.objects(Dog.self)
 
         // Observe collection notifications. Keep a strong
         // reference to the notification token or the

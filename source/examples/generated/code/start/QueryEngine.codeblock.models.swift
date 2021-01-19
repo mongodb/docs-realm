@@ -1,4 +1,4 @@
-class QueryEngineExamples_Task: Object {
+class Task: Object {
     @objc dynamic var name = ""
     @objc dynamic var isComplete = false
     @objc dynamic var assignee: String? = nil
@@ -6,7 +6,7 @@ class QueryEngineExamples_Task: Object {
     @objc dynamic var progressMinutes = 0;
 }
 
-class QueryEngineExamples_Project: Object {
+class Project: Object {
     @objc dynamic var name = ""
-    let tasks = List<QueryEngineExamples_Task>();
+    let tasks = List<Task>();
 }

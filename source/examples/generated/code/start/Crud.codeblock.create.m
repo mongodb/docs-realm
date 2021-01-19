@@ -1,7 +1,7 @@
 RLMRealm *realm = [RLMRealm defaultRealm];
 
 // Instantiate the class.
-CrudExampleObjc_Dog *dog = [[CrudExampleObjc_Dog alloc] init];
+Dog *dog = [[Dog alloc] init];
 dog.name = @"Max";
 dog.age = 5;
 
