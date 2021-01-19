@@ -4,5 +4,5 @@ try! realm.write {
     let puppies = realm.objects(Dog.self).filter("age < 2")
 
     // Delete the objects in the collection from the realm.
-    realm.delete(puppies);
+    realm.delete(puppies)
 }

@@ -1,5 +1,5 @@
 class CollectionNotificationExampleViewController: UITableViewController {
-    var notificationToken: NotificationToken? = nil
+    var notificationToken: NotificationToken?
 
     override func viewDidLoad() {
         super.viewDidLoad()

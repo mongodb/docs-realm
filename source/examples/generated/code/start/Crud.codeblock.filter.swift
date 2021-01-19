@@ -1,6 +1,6 @@
 let realm = try! Realm()
 // Access all dogs in the realm
-let dogs = realm.objects(Dog.self);
+let dogs = realm.objects(Dog.self)
 
 // Filter by age
 let puppies = dogs.filter("age < 2")

@@ -15,7 +15,7 @@ try! realm.write {
     newAddress.city = "Los Angeles"
     newAddress.country = "USA"
     newAddress.postalCode = "90210"
-    
+
     // Overwrite the embedded object
     contact.address = newAddress
     print("Updated contact: \(contact)")

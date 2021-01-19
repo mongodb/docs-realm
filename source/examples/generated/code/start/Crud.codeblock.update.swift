@@ -7,6 +7,6 @@ let dog = realm.objects(Dog.self).first!
 try! realm.write {
     // Update some properties on the instance.
     // These changes are saved to the realm
-    dog.name = "Wolfie";
-    dog.age += 1;
+    dog.name = "Wolfie"
+    dog.age += 1
 }

@@ -8,7 +8,7 @@ class DogOwner: Object {
 
     // To-many relationship - a dog owner can have many dogs
     let dogs = List<Dog>()
-    
+
     // Inverse relationship - an owner can be a member of many clubs
     let clubs = LinkingObjects(fromType: DogClub.self, property: "members")
 

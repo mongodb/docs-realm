@@ -9,8 +9,8 @@ try! realm.write {
 
     // Find dogs younger than 2.
     let puppies = realm.objects(Dog.self).filter("age < 2")
-    
+
     // Give all puppies to Ali.
     puppies.setValue(person, forKey: "owner")
-    
+
 }

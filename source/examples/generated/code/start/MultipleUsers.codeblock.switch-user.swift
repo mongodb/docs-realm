@@ -8,8 +8,8 @@ XCTAssertNotEqual(app.currentUser, secondUser)
 // assert(app.currentUser != secondUser)
 
 // Switch to another user
-//app.switch(to: secondUser)
+// app.switch(to: secondUser)
 
 // The switch-to user becomes the app.currentUser
-//XCTAssertEqual(app.currentUser, secondUser)
-//assert(app.currentUser == secondUser)
+// XCTAssertEqual(app.currentUser, secondUser)
+// assert(app.currentUser == secondUser)

@@ -3,7 +3,7 @@ let defaultRealm = try! Realm()
 
 // Open the realm with a specific file URL, for example a username
 let username = "GordonCole"
-var config = Realm.Configuration.defaultConfiguration;
+var config = Realm.Configuration.defaultConfiguration
 config.fileURL!.deleteLastPathComponent()
 config.fileURL!.appendPathComponent(username)
 config.fileURL!.appendPathExtension("realm")

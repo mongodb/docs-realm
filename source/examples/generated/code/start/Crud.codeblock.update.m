@@ -1,6 +1,6 @@
 RLMRealm *realm = [RLMRealm defaultRealm];
 // Open a thread-safe transaction.
-[realm transactionWithBlock:^() {
+[realm transactionWithBlock:^{
     // Get a dog to update.
     Dog *dog = [[Dog allObjectsInRealm: realm] firstObject];
 

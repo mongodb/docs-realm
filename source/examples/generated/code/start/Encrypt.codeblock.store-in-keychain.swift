@@ -17,6 +17,7 @@ func getKey() -> Data {
     var dataTypeRef: AnyObject?
     var status = withUnsafeMutablePointer(to: &dataTypeRef) { SecItemCopyMatching(query as CFDictionary, UnsafeMutablePointer($0)) }
     if status == errSecSuccess {
+        // swiftlint:disable:next force_cast
         return dataTypeRef as! Data
     }
 
@@ -49,7 +50,7 @@ var config = Realm.Configuration(encryptionKey: getKey())
 do {
     // Open the realm with the configuration
     let realm = try Realm(configuration: config)
-    
+
     // Use the realm as normal
 
 } catch let error as NSError {

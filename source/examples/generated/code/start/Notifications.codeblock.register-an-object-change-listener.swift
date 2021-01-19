@@ -20,7 +20,7 @@ func objectNotificationExample() {
         switch change {
         case .change(let object, let properties):
             for property in properties {
-                print("Property '\(property.name)' of object \(object) changed to '\(property.newValue!)'");
+                print("Property '\(property.name)' of object \(object) changed to '\(property.newValue!)'")
             }
         case .error(let error):
             print("An error occurred: \(error)")
