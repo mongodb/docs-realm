@@ -1,24 +1,54 @@
-title: Add the Sign in with Apple Capability
+title: Shutdown All Running Emulators
 ref: add-the-sign-in-with-apple-capability
 content: |
-   You must grant your client application permission to use Sign in with
-   Apple by defining a `capability
-   <https://developer.apple.com/documentation/xcode/adding_capabilities_to_your_app>`_.
-
-   In XCode, select your application and then click :guilabel:`Signing &
-   Capabilities`. Click :guilabel:`+ Capability` and add the
-   :guilabel:`Sign in with Apple` capability.
-      
-   .. figure:: /images/apple-auth-capability.png
-      :alt: The Sign in with Apple capability in XCode
+   Before upgrading your Cluster end any client application's Sync Connection.
+   To do this shutdown all emulators, simulators, and terminals that are running
+   your {+realm+} application. 
 ---
-title: Import the Authentication Services Package
-ref: import-the-authentication-services-package
+title: Terminate Realm Sync
+ref: terminate-realm-sync
 content: |
-  You can now import the `AuthenticationServices
-  <https://developer.apple.com/documentation/authenticationservices>`_
-  package in your login view controller.
+  Terminate Realm Sync in your {+realm+} Application to stop syncing data across
+  devices. In the :guilabel:`Sync` tab click the red :guilabel:`Terminate Sync`
+  button. In the modal that pops up, check that you want to terminate sync by
+  clicking the :guilabel:`I want to terminate Sync` checkbox and then click the
+  :guilabel:`Terminate Sync` button on the modal.
 
-  .. code-block:: swift
-     
-     import AuthenticationServices
+  .. figure:: /images/terminate-sync.png
+     :alt: The modal that confirms turning off Realm Sync in the UI
+     :width: 461px
+     :lightbox:
+---
+title: Terminate Realm Sync
+ref: terminate-realm-sync
+content: |
+  Terminate Realm Sync in your {+realm+} Application to stop syncing data across
+  devices. In the :guilabel:`Sync` tab click the red :guilabel:`Terminate Sync`
+  button. In the modal that pops up, check that you want to terminate sync by
+  clicking the :guilabel:`I want to terminate Sync` checkbox and then click the
+  :guilabel:`Terminate Sync` button on the modal.
+
+  .. figure:: /images/terminate-sync.png
+     :alt: The modal that confirms turning off Realm Sync in the UI
+     :width: 461px
+     :lightbox:
+---
+title: Upgrade Your Cluster
+ref: upgrade-your-cluster
+content: |
+  Click the green :guilabel:`Upgrade` button under the :guilabel:`This is a
+  Shared Tier Cluster` heading of the :guilabel:`Atlas` tab.  
+
+  .. figure:: /images/upgrade-cluster-start.png
+     :alt: The button to upgrade your cluster tier
+     :width: 461px
+     :lightbox:
+  
+  Configure your upgraded cluster settings in the following screen and then
+  click :guilabel:`Review Changes`. To learn more about pricing of the various
+  Atlas Cluster tiers, see the :doc:`billing </billing>` page. 
+
+  .. figure:: /images/upgrade-cluster-settings.png
+     :alt: The configuration settings to upgrade your cluster tier
+     :width: 461px
+     :lightbox:
