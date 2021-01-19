@@ -231,7 +231,7 @@
 - (void)testUpsert {
     // :code-block-start: upsert
     RLMRealm *realm = [RLMRealm defaultRealm];
-    [realm transactionWithBlock:^() {
+    [realm transactionWithBlock:^{
         CrudExampleObjc_Person *jones = [[CrudExampleObjc_Person alloc] initWithValue:@{@"ID": @1234, @"name": @"Jones"}];
         // Add a new person to the realm. Since nobody with ID 1234
         // has been added yet, this adds the instance to the realm.
