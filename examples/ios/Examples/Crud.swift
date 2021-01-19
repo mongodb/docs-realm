@@ -65,8 +65,8 @@ class Crud: XCTestCase {
         // :hide-end:
         try! realm.write {
             // Delete the related collection
-            realm.delete(person.dogs);
-            realm.delete(person);
+            realm.delete(person.dogs)
+            realm.delete(person)
         }
         // :code-block-end:
         XCTAssert(realm.objects(CrudExample_Dog.self).count == 0)
@@ -200,11 +200,11 @@ class Crud: XCTestCase {
         let realm = try! Realm()
         // BAD EXAMPLE -- avoid this!
 
-        realm.beginWrite();
+        realm.beginWrite()
         // ... Make changes ...
         // If an exception is thrown before the commit,
         // this transaction stays open!
-        try! realm.commitWrite();
+        try! realm.commitWrite()
         // :code-block-end:
     }
     
