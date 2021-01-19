@@ -35,14 +35,14 @@ class Migrations: XCTestCase {
             // :hide-end:
             schemaVersion: 2, // Set the new schema version.
             migrationBlock: { migration, oldSchemaVersion in
-                if (oldSchemaVersion < 2) {
+                if oldSchemaVersion < 2 {
                     // The enumerateObjects(ofType:_:) method iterates over
                     // every Person object stored in the Realm file
                     migration.enumerateObjects(ofType: MigrationExample_Person.className()) { oldObject, newObject in
                         // combine name fields into a single field
-                        let firstName = oldObject!["firstName"] as! String
-                        let lastName = oldObject!["lastName"] as! String
-                        newObject!["fullName"] = "\(firstName) \(lastName)"
+                        let firstName = oldObject!["firstName"] as? String
+                        let lastName = oldObject!["lastName"] as? String
+                        newObject!["fullName"] = "\(firstName!) \(lastName!)"
                     }
                 }
             }

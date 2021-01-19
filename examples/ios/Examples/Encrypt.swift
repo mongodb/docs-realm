@@ -11,7 +11,7 @@ class Encrypt: XCTestCase {
 
         // Configure for an encrypted realm
         var config = Realm.Configuration(encryptionKey: key)
-        
+
         // :hide-start:
         // This is not required for the example, but is required for the test.
         // Omit from the example.
@@ -49,6 +49,7 @@ class Encrypt: XCTestCase {
             var dataTypeRef: AnyObject?
             var status = withUnsafeMutablePointer(to: &dataTypeRef) { SecItemCopyMatching(query as CFDictionary, UnsafeMutablePointer($0)) }
             if status == errSecSuccess {
+                // swiftlint:disable:next force_cast
                 return dataTypeRef as! Data
             }
 
@@ -77,7 +78,7 @@ class Encrypt: XCTestCase {
         // ...
         // Use the getKey() function to get the stored encryption key or create a new one
         var config = Realm.Configuration(encryptionKey: getKey())
-        
+
         // :hide-start:
         // This is not required for the example, but is required for the test.
         // Omit from the example.
@@ -86,7 +87,7 @@ class Encrypt: XCTestCase {
         do {
             // Open the realm with the configuration
             let realm = try Realm(configuration: config)
-            
+
             // Use the realm as normal
 
         } catch let error as NSError {

@@ -31,7 +31,7 @@ func objectNotificationExample() {
         switch change {
         case .change(let object, let properties):
             for property in properties {
-                print("Property '\(property.name)' of object \(object) changed to '\(property.newValue!)'");
+                print("Property '\(property.name)' of object \(object) changed to '\(property.newValue!)'")
             }
         case .error(let error):
             print("An error occurred: \(error)")
@@ -48,7 +48,7 @@ func objectNotificationExample() {
 
 // :code-block-start: register-a-collection-change-listener
 class CollectionNotificationExampleViewController: UITableViewController {
-    var notificationToken: NotificationToken? = nil
+    var notificationToken: NotificationToken?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -109,7 +109,7 @@ class Notifications: XCTestCase {
         token.invalidate()
         // :code-block-end:
     }
-    
+
     func testRealmNotification() {
         class VC {
             func updateUI() {}
@@ -117,7 +117,7 @@ class Notifications: XCTestCase {
         let viewController = VC()
         // :code-block-start: register-a-realm-change-listener
         let realm = try! Realm()
-        
+
         // Observe realm notifications. Keep a strong reference to the notification token
         // or the observation will stop.
         let token = realm.observe { notification, realm in

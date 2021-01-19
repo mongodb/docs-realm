@@ -10,9 +10,9 @@ class OpenCloseRealm: AnonymouslyLoggedInTestCase {
         // Log in...
         let user = app.currentUser
         let partitionValue = "some partition value"
-        
+
         var configuration = user!.configuration(partitionValue: partitionValue)
-        
+
         // :hide-start:
         // The following is only required if you want to specify exactly which
         // types to include in the realm. By default, Realm automatically finds
@@ -46,10 +46,10 @@ class OpenCloseRealm: AnonymouslyLoggedInTestCase {
         // :code-block-start: open-local-realm
         // Open the default realm
         let defaultRealm = try! Realm()
-        
+
         // Open the realm with a specific file URL, for example a username
         let username = "GordonCole"
-        var config = Realm.Configuration.defaultConfiguration;
+        var config = Realm.Configuration.defaultConfiguration
         config.fileURL!.deleteLastPathComponent()
         config.fileURL!.appendPathComponent(username)
         config.fileURL!.appendPathExtension("realm")

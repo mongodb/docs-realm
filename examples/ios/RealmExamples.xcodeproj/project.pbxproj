@@ -359,6 +359,7 @@
 			buildConfigurationList = 4896EE512510514B00D1FABF /* Build configuration list for PBXNativeTarget "RealmExamples" */;
 			buildPhases = (
 				6E68AC34E3081E50597B4A9E /* [CP] Check Pods Manifest.lock */,
+				48FA32DE25B7979C00715468 /* Swiftlint */,
 				4896EE482510514B00D1FABF /* Sources */,
 				4896EE492510514B00D1FABF /* Frameworks */,
 				4896EE4A2510514B00D1FABF /* Resources */,
@@ -465,6 +466,24 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-RealmExamples/Pods-RealmExamples-resources.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		48FA32DE25B7979C00715468 /* Swiftlint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = Swiftlint;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/SwiftLint/swiftlint\" autocorrect && \"${PODS_ROOT}/SwiftLint/swiftlint\"\n";
 		};
 		6E68AC34E3081E50597B4A9E /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;

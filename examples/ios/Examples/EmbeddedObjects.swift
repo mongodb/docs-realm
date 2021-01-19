@@ -4,21 +4,21 @@ import RealmSwift
 // :code-block-start: models
 // Define an embedded object
 class Address: EmbeddedObject {
-    @objc dynamic var street: String? = nil
-    @objc dynamic var city: String? = nil
-    @objc dynamic var country: String? = nil
-    @objc dynamic var postalCode: String? = nil
+    @objc dynamic var street: String?
+    @objc dynamic var city: String?
+    @objc dynamic var country: String?
+    @objc dynamic var postalCode: String?
 }
 
 // Define an object with one embedded object
 class Contact: Object {
     @objc dynamic var _id = ObjectId.generate()
     @objc dynamic var name = ""
-    
+
     // Embed a single object.
     // Embedded object properties must be marked optional.
-    @objc dynamic var address: Address? = nil
- 
+    @objc dynamic var address: Address?
+
     override static func primaryKey() -> String? {
         return "_id"
     }
@@ -81,14 +81,14 @@ class EmbeddedObjects: XCTestCase {
         }
         // :code-block-end:
     }
-    
+
     func testUpdateEmbeddedObjectProperty() {
         // :code-block-start:  update-an-embedded-object-property
         // Open the default realm
         let realm = try! Realm()
 
         let idOfContactToUpdate = ObjectId("5f47f4811060b1aa6cc71272")
-        
+
         // Find the contact to update by ID
         guard let contact = realm.object(ofType: Contact.self, forPrimaryKey: idOfContactToUpdate) else {
             print("Contact \(idOfContactToUpdate) not found")
@@ -107,14 +107,14 @@ class EmbeddedObjects: XCTestCase {
         }
         // :code-block-end:
     }
-    
+
     func testOverwriteEmbeddedObject() {
         // :code-block-start: overwrite-an-embedded-object
         // Open the default realm
         let realm = try! Realm()
 
         let idOfContactToUpdate = ObjectId("5f47f4811060b1aa6cc71272")
-        
+
         // Find the contact to update by ID
         guard let contact = realm.object(ofType: Contact.self, forPrimaryKey: idOfContactToUpdate) else {
             print("Contact \(idOfContactToUpdate) not found")
@@ -130,19 +130,19 @@ class EmbeddedObjects: XCTestCase {
             newAddress.city = "Los Angeles"
             newAddress.country = "USA"
             newAddress.postalCode = "90210"
-            
+
             // Overwrite the embedded object
             contact.address = newAddress
             print("Updated contact: \(contact)")
         }
         // :code-block-end:
     }
-     
+
     func testQueryEmbeddedObject() {
         // :code-block-start: query-an-embedded-object
         // Open the default realm
         let realm = try! Realm()
-        
+
         // Get all contacts in Los Angeles, sorted by street address
         let losAngelesContacts = realm.objects(Contact.self)
             .filter("address.city = %@", "Los Angeles")
