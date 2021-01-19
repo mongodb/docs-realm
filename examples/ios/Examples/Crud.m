@@ -215,7 +215,7 @@
     // :code-block-start: update
     RLMRealm *realm = [RLMRealm defaultRealm];
     // Open a thread-safe transaction.
-    [realm transactionWithBlock:^() {
+    [realm transactionWithBlock:^{
         // Get a dog to update.
         CrudExampleObjc_Dog *dog = [[CrudExampleObjc_Dog allObjectsInRealm: realm] firstObject];
 
