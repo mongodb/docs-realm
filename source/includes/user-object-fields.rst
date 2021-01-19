@@ -56,7 +56,7 @@
      
      - A document from your application's :doc:`custom user
        data collection </users/enable-custom-user-data>` that
-       specifies the user's ID. You can use the customer user data
+       specifies the user's ID. You can use the custom user data
        collection to store arbitrary data about your application's
        users. If you set the ``name`` field, {+service-short+} populates the 
        ``username`` metadata field with the return value of ``name``. 
