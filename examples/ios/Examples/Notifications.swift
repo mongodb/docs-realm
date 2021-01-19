@@ -1,3 +1,8 @@
+// :replace-start: {
+//   "terms": {
+//     "NotificationExample_": ""
+//   }
+// }
 import RealmSwift
 import XCTest
 
@@ -127,3 +132,4 @@ class Notifications: XCTestCase {
         // :code-block-end:
     }
 }
+// :replace-end:

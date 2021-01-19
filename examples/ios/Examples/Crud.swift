@@ -1,3 +1,8 @@
+// :replace-start: {
+//   "terms": {
+//     "CrudExample_": ""
+//   }
+// }
 import XCTest
 import RealmSwift
 
@@ -246,3 +251,5 @@ class Crud: XCTestCase {
         // :code-block-end:
     }
 }
+
+// :replace-end:

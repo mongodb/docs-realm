@@ -1,3 +1,8 @@
+// :replace-start: {
+//   "terms": {
+//     "QueryEngineExamples_": ""
+//   }
+// }
 import XCTest
 import RealmSwift
 
@@ -91,3 +96,5 @@ class QueryEngine: XCTestCase {
         // :code-block-end:
     }
 }
+
+// :replace-end:

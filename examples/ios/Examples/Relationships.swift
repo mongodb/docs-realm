@@ -1,3 +1,10 @@
+// :replace-start: {
+//   "terms": {
+//     "InverseRelationshipExample_": "",
+//     "ToManyExample_": "",
+//     "ToOneRelationship_": ""
+//   }
+// }
 import RealmSwift
 
 // :code-block-start: inverse-relationship
@@ -62,3 +69,5 @@ class ToOneRelationship_Dog: Object {
     // No backlink to person -- one-directional relationship
 }
 // :code-block-end:
+
+// :replace-end:

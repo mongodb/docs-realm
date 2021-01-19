@@ -1,3 +1,8 @@
+// :replace-start: {
+//   "terms": {
+//     "CrudExampleObjc_": ""
+//   }
+// }
 #import <XCTest/XCTest.h>
 #import <Realm/Realm.h>
 
@@ -241,3 +246,5 @@
 }
 
 @end
+
+// :replace-end:
