@@ -1,0 +1,24 @@
+title: Add the Sign in with Apple Capability
+ref: add-the-sign-in-with-apple-capability
+content: |
+   You must grant your client application permission to use Sign in with
+   Apple by defining a `capability
+   <https://developer.apple.com/documentation/xcode/adding_capabilities_to_your_app>`_.
+
+   In XCode, select your application and then click :guilabel:`Signing &
+   Capabilities`. Click :guilabel:`+ Capability` and add the
+   :guilabel:`Sign in with Apple` capability.
+      
+   .. figure:: /images/apple-auth-capability.png
+      :alt: The Sign in with Apple capability in XCode
+---
+title: Import the Authentication Services Package
+ref: import-the-authentication-services-package
+content: |
+  You can now import the `AuthenticationServices
+  <https://developer.apple.com/documentation/authenticationservices>`_
+  package in your login view controller.
+
+  .. code-block:: swift
+     
+     import AuthenticationServices
