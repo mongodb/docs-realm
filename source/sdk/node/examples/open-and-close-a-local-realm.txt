@@ -25,13 +25,13 @@ file path to store data.
 
 .. code-block:: javascript
    
+   // Import RealmObject schemas and/or class models that you define
+   import { TaskSchema, UserSchema, ProjectSchema } from "./object-types.js"
+   
+   // Open a local realm file with a particular path & schema
    const realm = await Realm.open({
       path: "myRealm",
-      schema: [
-         schemas.TaskSchema,
-         schemas.UserSchema,
-         schemas.ProjectSchema
-      ],
+      schema: [TaskSchema, UserSchema, ProjectSchema],
    });
 
 .. _node-close-a-realm:
