@@ -3,10 +3,7 @@ ref: add-the-sign-in-with-apple-capability
 content: |
    Before upgrading your Cluster end any client application's Sync Connection.
    To do this shutdown all emulators, simulators, and terminals that are running
-   your {+realm+} application. If you are running an iOS application, make sure
-   to `clean out your iOS simulator
-   <https://stackoverflow.com/questions/22075805/how-can-i-completely-clean-out-the-ios-simulator/22301054>`_
-   before shutting it down.
+   your {+realm+} application. 
 ---
 title: Terminate Realm Sync
 ref: terminate-realm-sync
@@ -17,10 +14,15 @@ content: |
   clicking the :guilabel:`I want to terminate Sync` checkbox and then click the
   :guilabel:`Terminate Sync` button on the modal.
 
+  .. warning:: 
+   
+   Terminating Realm Sync may lead to data loss.
+
   .. figure:: /images/terminate-sync.png
      :alt: The modal that confirms turning off Realm Sync in the UI
      :width: 461px
      :lightbox:
+
 ---
 title: Upgrade Your Cluster
 ref: upgrade-shared-cluster
@@ -42,10 +44,16 @@ content: |
      :width: 461px
      :lightbox:
 
-  Review your upgraded cluster changes, and click the green:guilabel:`Apply
-  Changes` button.
+  Review your upgraded cluster changes, and click the green:guilabel:`Apply Changes` button.
 
   .. figure:: /images/review-upgraded-cluster-changes.png
+     :alt: The configuration settings review screen to upgrade your cluster tier
+     :width: 461px
+     :lightbox:
+
+  A blue header will appear indicating the progress of the cluster migration operation.
+
+  .. figure:: /images/cluster-migration-progress-header.png
      :alt: The configuration settings review screen to upgrade your cluster tier
      :width: 461px
      :lightbox:
