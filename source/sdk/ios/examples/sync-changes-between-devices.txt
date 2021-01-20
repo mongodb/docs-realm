@@ -17,10 +17,61 @@ Sync Changes Between Devices
 Open a Synced Realm
 -------------------
 
+o open a synced {+realm+}, call 
+:swift-sdk:`asyncOpen <Structs/Realm.html#/s:10RealmSwift0A0V9asyncOpen13configuration13callbackQueue0F0AC05AsyncD4TaskVAC13ConfigurationV_So17OS_dispatch_queueCyACSg_s5Error_pSgtctFZ>`, 
+passing in the user's  
+:swift-sdk:`Configuration <Structs/Realm/Configuration.html>` object,
+which  
+includes the partition name. The following code demonstrates this:
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: swift
+
+      .. literalinclude:: /examples/generated/code/start/OpenCloseRealm.codeblock.open-synced-realm.swift
+         :language: swift
+
+   .. tab::
+      :tabid: objective-c
+
+      .. literalinclude:: /examples/generated/code/start/OpenCloseRealm.codeblock.open-synced-realm.m
+         :language: objectivec
+
+In the above example, the code shows how to open the realm {+realm+}
+*asynchronously* by using ``asyncOpen()``. You can also open a realm
+synchronously by using one of the :swift-sdk:`Realm()
+<Structs/Realm.html>` initializers. This works if the device is offline,
+but may lead to temporary data inconsistencies while the remote data is
+downloaded.
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: swift
+
+      .. literalinclude:: /examples/generated/code/start/OpenCloseRealm.codeblock.open-synced-realm-synchronously.swift
+         :language: swift
+
+   .. tab::
+      :tabid: objective-c
+
+      .. literalinclude:: /examples/generated/code/start/OpenCloseRealm.codeblock.open-synced-realm-synchronously.m
+         :language: objectivec
+
+
 .. _ios-sync-changes-in-the-background:
 
 Sync Changes in the Background
 ------------------------------
+
+If you want your app to update data in the background (while the app is minimized), 
+iOS requires you to implement `Background App Refresh  
+<https://developer.apple.com/documentation/uikit/app_and_environment/scenes/preparing_your_ui_to_run_in_the_background/updating_your_app_with_background_app_refresh>`_.
+Enabling Background App Refresh minimizes the time it takes for the user
+to see the most recent data; without Background App Refresh, {+realm+}
+updates the data when the user launches the app, potentially resulting
+in a noticeable lag.
 
 .. _ios-pause-or-resume-a-sync-session:
 
