@@ -1,3 +1,8 @@
+// :replace-start: {
+//   "terms": {
+//     "QueryEngineExamplesObjc_": ""
+//   }
+// }
 #import <XCTest/XCTest.h>
 #import <Realm/Realm.h>
 
@@ -130,3 +135,4 @@ RLM_ARRAY_TYPE(QueryEngineExamplesObjc_Task)
 
 @end
 
+// :replace-end:

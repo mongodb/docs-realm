@@ -1,0 +1,1 @@
+await App.realmApp.EmailPasswordAuth.RegisterUserAsync(email, password);

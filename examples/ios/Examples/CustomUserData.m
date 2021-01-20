@@ -2,11 +2,11 @@
 #import <Realm/Realm.h>
 #import "MyRealmApp.h"
 
-@interface CustomUserData : XCTestCase
+@interface CustomUserDataObjc : XCTestCase
 
 @end
 
-@implementation CustomUserData
+@implementation CustomUserDataObjc
 
 - (void)testCreateCustomUserData {
     XCTestExpectation *expectation = [self expectationWithDescription:@"it completes"];

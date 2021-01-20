@@ -1,7 +1,7 @@
 import XCTest
 import RealmSwift
 
-private var g_expectation: XCTestExpectation?
+private var gExpectation: XCTestExpectation?
 
 import UIKit
 
@@ -15,7 +15,7 @@ class QsTask: Object {
     // A partition key is only required if you are using Sync.
     @objc dynamic var _partition: String = ""
     @objc dynamic var name: String = ""
-    @objc dynamic var owner: String? = nil
+    @objc dynamic var owner: String?
     @objc dynamic var status: String = ""
     override static func primaryKey() -> String? {
         return "_id"
@@ -23,8 +23,8 @@ class QsTask: Object {
 
     convenience init(partition: String, name: String) {
         self.init()
-        self._partition = partition;
-        self.name = name;
+        self._partition = partition
+        self.name = name
     }
 }
 
@@ -52,7 +52,7 @@ func runExample() {
 func onLogin() {
     // Now logged in, do something with user
     let user = app.currentUser!
-    
+
     // The partition determines which subset of data to access.
     let partitionValue = "some partition value"
 
@@ -84,12 +84,12 @@ func onLogin() {
                     fatalError("\(error)")
                 }
             }
-            
+
             // Delete all from the realm
             try! realm.write {
                 realm.deleteAll()
             }
-            
+
             // Add some tasks
             let task = QsTask(partition: partitionValue, name: "Do laundry")
             try! realm.write {
@@ -122,14 +122,14 @@ func onLogin() {
 
             print("A list of all tasks after deleting one: \(tasks)")
 
-            app.currentUser?.logOut() { (error) in
+            app.currentUser?.logOut { (error) in
                 // Logged out or error occurred
             }
 
             // Invalidate notification tokens when done observing
             notificationToken.invalidate()
             // :hide-start:
-            g_expectation!.fulfill()
+            gExpectation!.fulfill()
             // :hide-end:
         }
     }
@@ -138,8 +138,8 @@ func onLogin() {
 
 class QuickStartTest: XCTestCase {
     func testRunExample() {
-        g_expectation = XCTestExpectation(description: "Run complete quick start")
+        gExpectation = XCTestExpectation(description: "Run complete quick start")
         runExample()
-        wait(for: [g_expectation!], timeout: 20.0)
+        wait(for: [gExpectation!], timeout: 20.0)
     }
 }

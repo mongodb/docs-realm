@@ -1,0 +1,1 @@
+var result = await App.realmApp.CurrentUser.Functions.CallAsync("removeTeamMember", email.ToString());

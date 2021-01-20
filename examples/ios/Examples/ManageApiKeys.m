@@ -22,7 +22,6 @@
                 [expectation fulfill];
             }];
     }];
-    // :code-block-end:
     [self waitForExpectations:@[expectation] timeout:10.0];
 }
 

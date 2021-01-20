@@ -4,7 +4,7 @@ import RealmSwift
 class AccessMongoDB: AnonymouslyLoggedInTestCase {
     func testRemoteMongoDB() {
         let expectation = XCTestExpectation(description: "it completes")
-        
+
         // :code-block-start: remote-mongodb
         // mongodb-atlas is the cluster service name
         let client = app.currentUser!.mongoClient("mongodb-atlas")
@@ -14,7 +14,7 @@ class AccessMongoDB: AnonymouslyLoggedInTestCase {
 
         // Select the collection
         let collection = database.collection(withName: "Task")
-         
+
         // Using the user's id to look up tasks
         let user = app.currentUser!
         let identity = user.id

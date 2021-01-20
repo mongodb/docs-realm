@@ -10,7 +10,7 @@ class AnonymouslyLoggedInTestCase: XCTestCase {
             switch result {
             case .failure(let error):
                 fatalError("Login failed: \(error.localizedDescription)")
-            case .success(_):
+            case .success:
                 expectation.fulfill()
             }
         }

@@ -74,9 +74,8 @@ granular notifications.
     .. tab::
         :tabid: swift
 
-        .. literalinclude:: /examples/Notifications/RealmNotification.swift
+        .. literalinclude:: /examples/generated/code/start/Notifications.codeblock.register-a-realm-change-listener.swift
           :language: swift
-          :emphasize-lines: 3
 
     .. tab::
         :tabid: objective-c
@@ -128,9 +127,8 @@ list or other view that represents the collection in the UI.
     .. tab::
         :tabid: swift
 
-        .. literalinclude:: /examples/Notifications/CollectionNotification.swift
+        .. literalinclude:: /examples/generated/code/start/Notifications.codeblock.register-a-collection-change-listener.swift
           :language: swift
-          :emphasize-lines: 12
           
     .. tab::
         :tabid: objective-c
@@ -165,9 +163,8 @@ and whether the object was deleted.
     .. tab::
         :tabid: swift
 
-        .. literalinclude:: /examples/Notifications/ObjectNotification.swift
+        .. literalinclude:: /examples/generated/code/start/Notifications.codeblock.register-a-collection-change-listener.swift
           :language: swift
-          :emphasize-lines: 19
 
     .. tab::
         :tabid: objective-c
@@ -175,6 +172,18 @@ and whether the object was deleted.
         .. literalinclude:: /examples/Notifications/ObjectNotification.m
           :language: objectivec
           :emphasize-lines: 24
+
+.. _ios-silent-writes:
+
+Silent Writes
+-------------
+
+You can write to a {+realm+} *without* sending a notification to a specific
+observer by passing the observer's notification token in an array to
+``realm.write()``:
+
+.. literalinclude:: /examples/generated/code/start/Notifications.codeblock.silent-write.swift
+   :language: swift
 
 
 Summary

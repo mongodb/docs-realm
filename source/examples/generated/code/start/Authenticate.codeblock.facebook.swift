@@ -19,6 +19,6 @@ loginManager.logIn(permissions: [ .email ]) { loginResult in
         print("Facebook login failed: \(error)")
     case .cancelled:
         print("The user cancelled the login flow.")
-    
+
     }
 }

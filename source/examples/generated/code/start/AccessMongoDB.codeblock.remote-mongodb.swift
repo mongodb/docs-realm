@@ -6,7 +6,7 @@ let database = client.database(named: "tracker")
 
 // Select the collection
 let collection = database.collection(withName: "Task")
- 
+
 // Using the user's id to look up tasks
 let user = app.currentUser!
 let identity = user.id
