@@ -1,8 +1,8 @@
-.. _node-electron-client-quick-start:
+.. _node-electron-cra-client-quick-start:
 
-=========================
-Quick Start with Electron
-=========================
+=====================================
+Quick Start with Electron using React
+=====================================
 
 
 .. default-domain:: mongodb
@@ -18,22 +18,16 @@ Overview
 --------
 
 
-This page contains information to integrate {+service+} into your
-Electron application quickly. To learn how to set up an Electron
-application with Realm without using any additional frameworks, see the
-:ref:`Electron set up <electron-setup>` instructions. If you have
-already created an application using `Create React App
-<https://reactjs.org/docs/create-a-new-react-app.html>`_ or are
-interested in integrating a React App with Realm using Electron, check
-out the :ref:`Electron with React set up <react-electron-setup>`
-instructions.
+This page contains information to get {+service+} integrated into your
+Electron application quickly by developing an application using `Create React App
+<https://reactjs.org/docs/create-a-new-react-app.html>`_.
 
 Before you begin, ensure you have:
 
 - :ref:`Created a {+app+} <create-a-realm-app>`
 - :ref:`Enabled {+sync+} <enable-sync>`
 
-.. admonition:: Version Requirement
+.. note:: Version Requirement
    :class: note
 
    {+service+} works with any of the officially supported Electron
@@ -46,15 +40,16 @@ Before you begin, ensure you have:
 Setup
 ------
 
-.. include:: /includes/steps/realm-with-electron.rst
+To set up an Electron application using {+service+} use the following instructions:
 
+.. include:: /includes/steps/realm-with-electron-using-create-react-app.rst
 
 Open a Realm
 ------------
 
 Authenticate a user, define a schema, and :ref:`sync enabled {+sync+}
-<enable-sync>`, then call :js-sdk:`Realm.open() <Realm.html#.open>` in your
-renderer.js file:
+<enable-sync>`, then call :js-sdk:`Realm.open() <Realm.html#.open>` in a file
+that you have imported Realm into:
 
 .. code-block:: javascript
    :emphasize-lines: 17
