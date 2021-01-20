@@ -29,9 +29,11 @@ integrated into your .NET app. Before you begin, ensure you have:
 
 Import Realm
 ------------
-In the shared code project of your solution, go to `Manage NuGet Packages`. In 
-the NuGet Package Manager, switch to the Browse tab and then search for `Realm`. 
-Select The Realm driver and then click `Add Package`. 
+
+In the shared code project of your solution, go to :guilabel:`Manage NuGet
+Packages`. In the NuGet Package Manager, switch to the Browse tab and then
+search for **Realm**. Select the Realm package and then click :guilabel:`Add
+Package`. 
 
 At the top of each C# file that uses Realm, add the following using
 statement:
@@ -49,7 +51,7 @@ access your {+app+} using your {+app+} ID. You can find your {+app+} ID in the
 {+ui+}. With that, you can initialize the {+realm+} app, as shown in the following 
 code:
 
-.. literalinclude:: /examples/generated/code/final/RealmTests.codeblock.initialize-realm.cs
+.. literalinclude:: /examples/generated/code/start/Examples.codeblock.initialize-realm.cs
    :language: csharp
 
 Define Your Object Model
@@ -60,7 +62,7 @@ the data that you can store within {+client-database+} and synchronize
 to and from {+backend+}.
 
 If have not :ref:`enabled {+sync+} <enable-sync>` or you enabled
-{+sync-short+} with :term:`Development Mode` in the {+ui+}, you can
+{+sync-short+} with :term:`development mode` in the {+ui+}, you can
 define your object model directly in code.
 
 .. note::
@@ -72,13 +74,15 @@ define your object model directly in code.
    changes to the object model definition from client side code. See
    :ref:`Configure Your Data Model <configure-your-data-model>`.
 
-The following code shows how to define an object model for a ``Task`` object. In 
-this example, we have marked the ``_id`` field as the Primary Key, marked the 
-``Name`` and ``Status`` properties as "required", and are using the ``MapTo`` attribute 
-so we can use .NET-friendly casing on our property names.
+The following code shows how to define an object model for a ``RealmTask`` object. In 
+this example, we have marked the ``Id`` field as the Primary Key, marked the 
+``Name`` and ``Status`` properties as "required", and are using the ``MapTo`` 
+attribute so we can use .NET-friendly casing on our property names.
 
-.. literalinclude:: /examples/generated/code/final/Task.cs
+.. literalinclude:: /examples/generated/code/start/Task.codeblock.task-object-model.cs
    :language: csharp
+
+.. _dotnet-quick-start-authenticate:
 
 Authenticate a User
 -------------------
@@ -87,32 +91,34 @@ After you have enabled :ref:`anonymous authentication <anonymous-authentication>
 {+ui+}, users can immediately log into your app without providing any identifying
 information:
 
-.. literalinclude:: /examples/generated/code/final/RealmTests.codeblock.anon-login.cs
+.. literalinclude:: /examples/generated/code/start/Examples.codeblock.anon-login.cs
    :language: csharp
 
 You should also provide a way for the user to log out. The following code shows 
 how to do this by calling ``LogOutAsync()``:
 
-.. literalinclude:: /examples/generated/code/final/RealmTests.codeblock.logout.cs
+.. literalinclude:: /examples/generated/code/start/Examples.codeblock.logout.cs
    :language: csharp
 
-.. seealso:: :ref:`Authenticate a User <android-authenticate>`
-
+.. seealso::
+   
+   :ref:`Authenticate a User <android-authenticate>`
 
 Open a Realm
 ------------
 
 Once you have :ref:`enabled {+sync+} <enable-sync>` and authenticated a user, 
-you can open a synced :ref:`{+realm+} <android-realms>`. Use the ``SyncConfiguration``
+you can open a synced :ref:`{+realm+} <dotnet-realms>`. Use the ``SyncConfiguration``
 to control the specifics of how your application synchronizes data with
 {+backend+}, which might include the :ref:`partition <partitioning>` name,
 whether to wait for an initial batch of data to sync, and more.
 
-.. literalinclude:: /examples/generated/code/final/RealmTests.codeblock.config.cs
+.. literalinclude:: /examples/generated/code/start/Examples.codeblock.config.cs
    :language: csharp
 
-.. seealso:: :ref:`Sync Data <dotnet-sync-data>`
+.. seealso::
 
+   :ref:`Sync Data <dotnet-sync-data>`
 
 Create, Read, Update, and Delete Objects
 ----------------------------------------
@@ -125,29 +131,28 @@ Once you have opened a {+realm+}, you can modify the
 The following code shows how to create a new ``Task``. You instantiate the 
 ``Task`` class and then add the new Task to the {+realm+} in a write block:
 
-.. literalinclude:: /examples/generated/code/final/RealmTests.codeblock.create.cs
+.. literalinclude:: /examples/generated/code/start/Examples.codeblock.create.cs
    :language: csharp
 
 The following code demonstrates how to retrieve a live 
 :ref:`collection <dotnet-client-collections>` of all ``Task`` objects in the 
 {+realm+}:
 
-.. literalinclude:: /examples/generated/code/final/RealmTests.codeblock.read-all.cs
+.. literalinclude:: /examples/generated/code/start/Examples.codeblock.read-all.cs
    :language: csharp
 
 You can also filter that collection using Linq. This example returns all Tasks 
 that have a status of  "Open":
 
-.. literalinclude:: /examples/generated/code/final/RealmTests.codeblock.read-some.cs
+.. literalinclude:: /examples/generated/code/start/Examples.codeblock.read-some.cs
    :language: csharp
 
 To modify a task, you update its properties in a write transaction block:
 
-.. literalinclude:: /examples/generated/code/final/RealmTests.codeblock.modify.cs
+.. literalinclude:: /examples/generated/code/start/Examples.codeblock.modify.cs
    :language: csharp
 
 Finally, you can delete a task by calling the ``Remove()`` method:
 
-.. literalinclude:: /examples/generated/code/final/RealmTests.codeblock.delete.cs
+.. literalinclude:: /examples/generated/code/start/Examples.codeblock.delete.cs
    :language: csharp
-

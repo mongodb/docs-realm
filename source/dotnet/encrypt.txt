@@ -1,0 +1,63 @@
+.. _dotnet-encrypt-a-realm:
+
+===============
+Encrypt a Realm
+===============
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+You can encrypt the {+realm+} database file on disk with AES-256 +
+SHA-2 by supplying a 64-byte encryption key when :ref:`opening a
+{+realm+} <dotnet-open-a-realm>`.
+
+Realm transparently encrypts and decrypts data with standard
+:wikipedia:`AES-256 encryption <Advanced_Encryption_Standard>` using the
+first 256 bits of the given 512-bit encryption key. {+service-short+}
+uses the other 256 bits of the 512-bit encryption key to validate
+integrity using a :wikipedia:`hash-based message authentication code
+(HMAC) <HMAC>`.
+
+Considerations
+--------------
+
+Storing & Reusing Keys
+~~~~~~~~~~~~~~~~~~~~~~
+
+You must pass the same encryption key when opening the encrypted {+realm+}
+again. Apps should securely store the encryption key, typically in the target
+platform's secure key/value pair storage. You can use :xamarin:`Xamarin Secure
+Storage <essentials/secure-storage>` to simplify the access to underlying
+storage. Ultimately, it is the developer's responsibility to ensure that
+attackers cannot easily extract the key.
+
+Performance Impact
+~~~~~~~~~~~~~~~~~~
+
+Typically, reads and writes on encrypted {+realm+}s can be up to 10%
+slower than on unencrypted {+realm+}s.
+
+Encryption and Realm Sync
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can encrypt a :ref:`synced realm <dotnet-sync-data>`. {+service+} only
+encrypts the data on the device and stores the data unencrypted in your
+{+atlas+} :term:`data source`. The transfer between client server is fully
+encrypted.
+
+Example
+-------
+
+The following code demonstrates how to generate an encryption key and
+open an encrypted {+realm+}:
+
+.. literalinclude:: /examples/generated/code/start/EncryptionExamples.codeblock.encrypt_a_realm.cs
+   :language: csharp

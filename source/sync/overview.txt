@@ -123,8 +123,7 @@ same state across the server and all clients. As such, {+sync+}
 is :wikipedia:`strongly eventually consistent
 <Eventual_consistency#Strong_eventual_consistency>`.
 
-.. admonition:: Realm Sync's Internal Conflict
-   :class: note
+.. note:: Realm Sync's Internal Conflict
 
    From {+service+}'s perspective, changesets may
    arrive any time that connectivity allows. There is no
@@ -141,8 +140,9 @@ sophisticated techniques like :wikipedia:`operational
 transform <Operational_transformation>` to handle, for
 example, insertions into lists.
 
-.. seealso:: :ref:`Conflict Resolution <conflict-resolution>`
+.. seealso::
 
+   :ref:`Conflict Resolution <conflict-resolution>`
 .. _scalability:
 
 Use Case Profiles and Scalability

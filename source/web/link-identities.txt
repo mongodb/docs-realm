@@ -1,0 +1,54 @@
+.. _web-link-user-identities:
+
+====================
+Link User Identities
+====================
+
+Overview
+--------
+
+{+service+} provides :ref:`multiple ways <authentication-providers>` for users
+to log into your application. Because each method of authentication corresponds
+to a unique user identity, {+service-short+} lets you merge multiple identities
+belonging to a single user into one user identity.
+
+Example
+-------
+
+Consider an application that enables users to authenticate via
+:ref:`anonymous authentication <anonymous-authentication>`. When that user decides to create a full account with an SSO
+provider or email/password authentication, you need some way of persisting the
+user's original anonymous identity with their new permanent identity.
+
+You can link identities using the ``linkCredentials()`` method  
+of the ``User`` object of a logged-in User.
+
+.. tabs-realm-languages::
+
+      .. tab::
+         :tabid: typescript
+
+         .. code-block:: typescript
+            :emphasize-lines: 6
+
+            async function linkAccounts(user: Realm.User, email: string, password: string) {
+              const emailPasswordUserCredentials = Realm.Credentials.emailPassword(
+                email,
+                password
+              );
+              await user.linkCredentials(emailPasswordUserCredentials);
+            }
+            
+      .. tab::
+         :tabid: javascript
+
+         .. code-block:: javascript
+            :emphasize-lines: 6
+
+            async function linkAccounts(user, email, password) {
+              const emailPasswordUserCredentials = Realm.Credentials.emailPassword(
+                email,
+                password
+              );
+              await user.linkCredentials(emailPasswordUserCredentials);
+            }

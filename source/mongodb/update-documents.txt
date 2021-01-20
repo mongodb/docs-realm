@@ -39,7 +39,7 @@ You can update a single document using the
 :method:`collection.updateOne()` action.
 
 The following :ref:`function <functions>` snippet updates the ``name``
-of a single document in the ``items`` collection from ``legos`` to
+of a single document in the ``items`` collection from ``lego`` to
 ``blocks`` and adds a ``price`` of ``20.99``:
 
 .. include:: /mongodb/crud-snippets/updateOneSetField/functions.rst
@@ -172,3 +172,87 @@ condition from an array field.
 .. code-block:: javascript
 
    { "$pull": { "<Array Field Name>": <Value | Expression>, ... } }
+
+Update All Elements in an Array
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can use the :manual:`$[] (All Positional Update)
+</reference/operator/update/positional-all>` operator to update all elements in
+an array field:
+
+.. example::
+   
+   Consider a ``students`` collection that describes individual students in a
+   class. The documents each include a ``grades`` field that contains an array
+   of numbers:
+   
+   .. code-block:: json
+      
+      { "_id" : 1, "grades" : [ 85, 82, 80 ] }
+      { "_id" : 2, "grades" : [ 88, 90, 92 ] }
+      { "_id" : 3, "grades" : [ 85, 100, 90 ] }
+   
+   The following update operation adds 10 to all values in the ``grades`` array
+   of every student:
+   
+   .. code-block:: javascript
+      :emphasize-lines: 3
+      
+      await students.updateMany(
+         {},
+         { $inc: { "grades.$[]": 10 } },
+      )
+   
+   After the update, every grade value has increased by 10:
+   
+   .. code-block:: json
+      
+      { "_id" : 1, "grades" : [ 15, 92, 90 ] }
+      { "_id" : 2, "grades" : [ 18, 100, 102 ] }
+      { "_id" : 3, "grades" : [ 15, 110, 100 ] }
+
+Update Specific Elements in an Array
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can use the :manual:`$[element] (Filtered Positional Update)
+</reference/operator/update/positional-filtered>` operator to update specific
+elements in an array field based on an array filter:
+
+.. example::
+   
+   Consider a ``students`` collection that describes individual students in a
+   class. The documents each include a ``grades`` field that contains an array
+   of numbers, some of which are greater than 100:
+   
+   .. code-block:: json
+      
+      { "_id" : 1, "grades" : [ 15, 92, 90 ] }
+      { "_id" : 2, "grades" : [ 18, 100, 102 ] }
+      { "_id" : 3, "grades" : [ 15, 110, 100 ] }
+   
+   The following update operation sets all grade values greater than 100 to
+   exactly 100:
+   
+   .. code-block:: javascript
+      :emphasize-lines: 5, 9
+      
+      await students.updateMany(
+         { },
+         {
+           $set: {
+             "grades.$[grade]" : 100
+           }
+         },
+         {
+           arrayFilters: [{ "grade": { $gt: 100 } }]
+         }
+      )
+   
+   After the update, all grade values greater than 100 are set to exactly 100
+   and all other grades are unaffected:
+   
+   .. code-block:: json
+      
+      { "_id" : 1, "grades" : [ 15, 92, 90 ] }
+      { "_id" : 2, "grades" : [ 18, 100, 100 ] }
+      { "_id" : 3, "grades" : [ 15, 100, 100 ] }

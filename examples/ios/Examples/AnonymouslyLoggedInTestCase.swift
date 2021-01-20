@@ -6,11 +6,13 @@ import RealmSwift
 class AnonymouslyLoggedInTestCase: XCTestCase {
     override func setUp() {
         let expectation = XCTestExpectation(description: "logs in")
-        app.login(credentials: Credentials.anonymous) { (user, error) in
-            guard error == nil else {
-                fatalError("Login failed: \(error!.localizedDescription)")
+        app.login(credentials: Credentials.anonymous) { (result) in
+            switch result {
+            case .failure(let error):
+                fatalError("Login failed: \(error.localizedDescription)")
+            case .success(_):
+                expectation.fulfill()
             }
-            expectation.fulfill()
         }
         wait(for: [expectation], timeout: 10)
     }
@@ -25,6 +27,4 @@ class AnonymouslyLoggedInTestCase: XCTestCase {
         }
         wait(for: [expectation], timeout: 10)
     }
-
-
 }

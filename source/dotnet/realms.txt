@@ -19,15 +19,12 @@ A **{+realm+}** is a set of related objects that conform to a pre-defined
 schema and share user-level access permissions. Realms may contain more
 than one type of data as long as a schema exists for each type.
 
-A {+realm+} allows you to partition data according to who
-uses it and when they use it. Every {+realm+} stores data in
-a separate :term:`{+realm+} file` that contains a binary
-encoding of each object in the {+realm+}. You can
-automatically :doc:`synchronize {+realm+} across multiple
-devices </sync>` and set up :ref:`reactive
-event handlers <dotnet-realm-notifications>` that call a
-function any time an object in a {+realm+} is created,
-modified, or deleted.
+A {+realm+} allows you to partition data according to who uses it and when they use it.
+Every {+realm+} stores data in a separate :term:`{+realm+} file` that contains a binary
+encoding of each object in the {+realm+}. You can automatically :doc:`synchronize
+a {+realm+} across multiple devices </sync>` and set up :ref:`reactive event handlers
+<dotnet-client-notifications>` that call a function any time an object in a {+realm+} is
+created, modified, or deleted.
 
 Comparison with Other Databases
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -37,9 +34,9 @@ databases but has distinct differences from both. To underscore these
 differences, it's helpful to highlight what a {+realm+} **is not**:
 
 A {+realm+} is not a single, application-wide database.
-    Unlike other applications, which store all of their data in a single
-    database, {+app+}s often split data across multiple {+realms+} to
-    organize data more efficiently and to enforce access controls.
+    Unlike other applications, which store all of their data in a single database,
+    {+app+}s often split data across multiple {+realms+} to organize data more efficiently
+    and to enforce access controls.
 
 A {+realm+} is not a table.
     Tables typically only store one kind of information, such as street
@@ -54,48 +51,44 @@ A {+realm+} is not a collection of schemaless documents.
 Key Concepts
 ------------
 
+.. _dotnet-realm-path:
+
+Realms are Partitions of Atlas Data
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+When using {+sync+}, each {+realm+} corresponds to a subset of the data in your
+:term:`{+app+}'s <{+app+}>` :term:`synced {+atlas+} cluster <synced cluster>`. You can
+customize the :ref:`partitioning <partitioning>` of data using your application's
+:ref:`partition key <partition-keys>`. Unique values of the partition
+key, known as :term:`partition values <partition value>`, correspond to
+individual {+realms+}.
+
+You can customize permissions for these partitions of data using :ref:`{+service-short+}
+Rules <sync-rules>`.
+
 .. _dotnet-realm-schema:
 
 Realm Schema
 ~~~~~~~~~~~~
 
-A **{+backend-schema+}** is a list of valid :ref:`object schemas
-<dotnet-realm-objects>` that each define an object type that a {+app+}
-may persist. All objects in a {+realm+} must conform to the {+backend-schema+}.
+A **{+backend-schema+}** is a list of valid :ref:`object schemas <dotnet-realm-objects>` that
+each define an object type that a {+app+} may persist. All objects in a {+realm+} must
+conform to the {+backend-schema+}.
 
-Client applications provide a {+frontend-schema+} when they open a
-{+realm+}. If a {+realm+} already contains data, then {+client-database+}
-validates each existing object to ensure that an object schema was
-provided for its type and that it meets all of the constraints specified
-in the schema.
+Client applications provide a {+frontend-schema+} when they open a {+realm+}. If a
+{+realm+} already contains data, then it already has a schema, and when it is opened, 
+{+client-database+} validates the schema on the client against the existing schema.
 
-.. example::
-   
-   A {+realm+} that contains basic data about books in libraries might use a
-   schema like the following:
-   
-   .. code-block:: json
-      
-      [
-        {
-          "type": "Library",
-          "properties": {
-            "address": "string",
-            "books": "Book[]"
-          }
-        },
-        {
-          "type": "Book",
-          "primaryKey": "isbn",
-          "properties": {
-            "isbn": "string",
-            "title": "string",
-            "author": "string",
-            "numberOwned": { "type": "int?", "default": 0 },
-            "numberLoaned": { "type": "int?", "default": 0 }
-          }
-        }
-      ]
+To define the schema, you can specify the 
+:dotnet-sdk:`ObjectClasses <reference/Realms.RealmConfigurationBase.html#Realms_RealmConfigurationBase_ObjectClasses>` 
+property on the 
+:dotnet-sdk:`RealmConfiguration <reference/Realms.RealmConfiguration.html>`. If 
+you omit this property, then all classes that inherit from 
+:dotnet-sdk:`RealmObject <reference/Realms.RealmObject.html>` or 
+:dotnet-sdk:`EmbeddedObject <reference/Realms.EmbeddedObject.html>` are added 
+to the schema automatically.
+
+.. seealso:: :ref:`Objects <dotnet-realm-objects>`
 
 .. _dotnet-schema-version:
 
@@ -112,79 +105,14 @@ in the {+realm+} configuration when you open a {+realm+}. If a client
 application does not specify a version number when it opens a {+realm+} then
 the {+realm+} defaults to version ``0``.
 
-.. admonition:: Increment Versions Monotonically
-   :class: important
+.. important:: Increment Versions Monotonically
    
-   :ref:`Migrations <dotnet-client-migrations>` must update
-   a {+realm+} to a higher schema version.
-   {+client-database+} will throw an error if a client
-   application opens a {+realm+} with a schema version that
-   is lower than the {+realm+}'s current version or if the
-   specified schema version is the same as the {+realm+}'s
-   current version but includes different :ref:`object
-   schemas <dotnet-object-schema>`.
-
-.. _dotnet-realm-permissions:
-
-Realm Permissions
-~~~~~~~~~~~~~~~~~
-
-A **permission** is a boolean flag that indicates that a user is
-authorized to access, modify, or manage a {+realm+}. Permissions are defined
-individually for each {+realm+} and either apply to a specific user or
-configure the default permission for all users that don't have
-permissions specified on the {+realm+}.
-
-All {+realms+} are private by default, which means that the owner has full
-permissions and no other user has any permissions unless explicitly
-granted by the owner or a user with manage permissions on the {+realm+}.
-
-{+service+} supports the following permissions:
-
-.. list-table::
-   :header-rows: 1
-   :widths: 20 80
-
-   * - Permission
-     - Description
-
-   * - ``mayRead``
-     - If ``true``, the user has read access to all objects in the
-       {+realm+}.
-       
-       Read access does not imply write access, so a user may not
-       be able to modify a {+realm+} that they can read.
-
-   * - ``mayWrite``
-     - If ``true``, the user has read and write access to all objects in
-       the {+realm+}.
-       
-       Write access requires read access, so the ``mayWrite``
-       permission also sets ``mayRead`` to ``true`` for the user.
-
-   * - ``mayManage``
-     - If ``true``, the user has read and write access to all objects in
-       the {+realm+} and can set permissions on the {+realm+} for other users.
-       
-       Manage access requires write access, so the ``mayManage``
-       permission also sets ``mayWrite`` and ``mayRead`` to ``true`` for
-       the user.
-
-.. _dotnet-realm-path:
-
-Realms are Partitions of Atlas Data
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Each {+realm+} corresponds to a subset of the data in your
-:term:`{+app+}'s <{+app+}>`
-:term:`synced {+atlas+} cluster <synced cluster>`. You can customize the
-:ref:`partitioning <partitioning>` of data using your application's
-:ref:`partition key <partition-keys>`. Unique values of the partition
-key, known as :term:`partition values <partition value>`, correspond to
-individual {+realms+}.
-
-You can customize permissions for these partitions of data using
-:ref:`{+service-short+} Rules <sync-rules>`.
+   :ref:`Migrations <dotnet-client-migrations>` must update a {+realm+} to a
+   higher schema version. {+client-database+} will throw an error if a client
+   application opens a {+realm+} with a schema version that is lower than
+   the {+realm+}'s current version or if the specified schema version is the
+   same as the {+realm+}'s current version but includes different
+   :ref:`object schemas <dotnet-object-schema>`.
 
 Summary
 -------
@@ -193,10 +121,8 @@ Summary
   schema. It is not a single, application-wide database. There can and
   usually will be more than one {+realm+} per application.
 
-- A :term:`{+backend-schema+}` is a versioned specification of the
-  object types used in a {+app+}.
-
-- {+service-short+} Rules define who can read or write
-  the {+realm+} and apply to the {+realm+} as a whole.
-
 - A :term:`partition value` is a {+realm+}'s unique identifier.
+
+- {+service-short+} Rules define who can read or write the {+realm+} and apply to the {+realm+} as a whole.
+
+- A :term:`{+backend-schema+}` is a specification of the object types used in a {+app+}.

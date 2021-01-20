@@ -1,0 +1,33 @@
+title: Navigate to the Realm Sync Panel
+ref: navigate-to-the-realm-sync-panel
+content: |
+  You can enable {+sync+} rules from the Sync panel in the {+ui+}. To get to the
+  Sync panel, click :guilabel:`Sync` beneath :guilabel:`Data Access & Security`
+  in the left-hand navigation.
+---
+title: Configure Sync
+ref: configure-sync
+content: |
+  Follow the instructions in the {+ui+} to configure sync for your cluster.
+
+  1. **Select a Cluster to Sync:** {+sync+} applies to the entire cluster. Specify which cluster you want to sync in the dropdown.
+  #. **Choose a Partition Key:** Enter ``_partition`` for the partition key. The partition key specifies which {+realm+} each object belongs to.
+  #. **Define Permissions:** Select "No template" and leave the default, empty :guilabel:`Read` and :guilabel:`Write` rules.
+     In a future tutorial, we will explore more complex permissions patterns.
+
+  .. figure:: /images/configure-sync.png
+     :alt: The {+sync+} configuration for the tutorial in the {+ui+}
+     :lightbox:
+---
+title: Save the Configuration and Enable Sync
+ref: save-configuration-and-enable-sync
+content: |
+  Click :guilabel:`Enable Sync` to enable sync.
+---
+title: Deploy Changes
+ref: deploy-changes
+content: |
+  Click :guilabel:`Deploy` in the lefthand navigation and find the current draft
+  at the top of the deployment history table. Click the :guilabel:`Review & Deploy
+  Changes` button and review the diff to make sure that everything looks correct.
+  When you're ready to go live, click :guilabel:`Deploy`.

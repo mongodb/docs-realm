@@ -1,3 +1,5 @@
+.. _aws-service:
+
 ===========
 AWS Service
 ===========
@@ -36,7 +38,7 @@ You will need to provide values for the following parameters when you
       :tabid: cli
       
       .. code-block:: json
-         :caption: ``<Service Name>/config.json``
+         :caption: <Service Name>/config.json
       
          {
            "name": "<Service Name>",
@@ -50,7 +52,6 @@ You will need to provide values for the following parameters when you
            }
          }
 
-.. cssclass:: auth-table
 .. list-table::
    :header-rows: 1
    :widths: 10 15
@@ -294,8 +295,7 @@ _________________
 
 Refer to the :aws-go:`S3 API Reference <s3>` for implementation details.
 
-.. admonition:: Object Size Limitation
-   :class: important
+.. important:: Object Size Limitation
 
    Realm supports a maximum file size of 4 Megabytes when working with
    AWS S3 objects.
@@ -371,120 +371,6 @@ SES Service
    };
 
 Refer to the :aws-go:`SES API Reference <ses>` for implementation details.
-
-Calling an AWS Service from the SDKs
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-The following example shows how to configure and call an AWS service (S3
-in this case) using the ``AwsServiceClient`` factory in each SDK.
-
-.. tabs-realm-sdks::
-
-   tabs:
-     - id: javascript
-       content: |
-         .. code-block:: javascript
-
-            // MyAwsService is the name of the aws service you created in
-            // the Realm UI, and it is configured with a rule
-            // that allows the PutObject action on the s3 API
-            const aws = realmClient.getServiceClient(AwsServiceClient.factory, "MyAwsService");
-
-            // These are the arguments specifically for the s3 service PutObject function
-            const args = {
-               ACL: "public-read",
-               Bucket: "this-should-be-a-valid-s3-bucket",
-               ContentType: "plain/text",
-               Key: "some_key",
-               Body: "This is the body of the message I am saving to S3",
-               // or Body could be a BSON object
-            };
-
-            const request = new AwsRequest.Builder()
-               .withService("s3")
-               .withAction("PutObject")
-               .withRegion("us-east-1") // this is optional
-               .withArgs(args); // depending on the service and action, this may be optional as well
-
-            aws.execute(request.build())
-               .then(result => {
-                  // the shape of the result will depend on the AWS function being called
-               }).catch(err => {
-                  // handle failure
-               });
-
-     - id: android
-       content: |
-         .. code-block:: java
-
-            // MyAwsService is the name of the aws service you created in
-            // the Realm UI, and it is configured with a rule
-            // that allows the PutObject action on the s3 API
-            final AwsServiceClient aws = realmClient.getServiceClient(AwsServiceClient.factory, "MyAwsService");
-
-            // These are the arguments specifically for s3 service PutObject function
-            final Document args = new Document()
-               .append("Bucket", "this-should-be-a-valid-s3-bucket")
-               .append("Key", "some_key")
-               .append("ACL", "public-read")
-               .append("ContentType", "plain/text")
-               .append("Body", "This is the body of the message I am saving to S3");
-               //or .append("Body", new BsonBinary(myByteArray));
-
-            AwsRequest.Builder request = new AwsRequest.Builder()
-               .withService("s3")
-               .withAction("PutObject")
-               // .withRegion("us-east-1") // this is optional
-               .withArguments(args);
-
-            // depending on the service and action, this may be optional as well
-            aws.execute(request.build(), Document.class)
-               .addOnCompleteListener(new OnCompleteListener<Document>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Document> task) {
-                        if (task.isSuccessful()) {
-                            final Document result = task.getResult();
-                            // the shape of the result will depend on the AWS function being called
-                        } else {
-                            // handle failure
-                        }
-                    }
-                });
-
-     - id: ios
-       content: |
-         .. code-block:: swift
-
-            // MyAwsService is the name of the aws service you created in
-            // the Realm UI, and it is configured with a rule
-            // that allows the PutObject action on the s3 API
-            let aws = client.serviceClient(fromFactory: awsServiceClientFactory, withName: "MyAwsService")
-
-            // These are the arguments specifically for s3 service PutObject function
-            let args: Document = [
-               "Bucket": "this-should-be-a-valid-s3-bucket",
-               "Key": "some_key",
-               "ACL": "public-read",
-               "ContentType": "plain/text",
-               "Body": "This is the body of the message I am saving to S3",
-               // or "Body": Binary.init(...)
-            ]
-
-            let request = try AWSRequestBuilder()
-               .with(service: "s3")
-               .with(action: "PutObject")
-               // .with(region: "us-east-1") // this is optional
-               .with(arguments: args) // depending on the service and action, this may be optional as well
-
-            aws.execute(request.build()) { (result: RealmResult<Document>) in
-               switch result {
-               case .success(let awsResult):
-                  // the shape of the result will depend on the AWS function being called
-               case .failure:
-                  // handle failure
-               }
-            }
-
 
 Supported AWS Services
 ----------------------

@@ -15,13 +15,14 @@ Open and Close a Realm
 Open a Synced Realm
 -------------------
 To open a synced {+realm+}, call :js-sdk:`Realm.open() <Realm.html#.open>`. 
-You pass in a :js-sdk:`Configuration() <Realm.html#~Configuration>`
+Pass in a :js-sdk:`Configuration() <Realm.html#~Configuration>`
 object, which must include the ``sync`` property defining a 
-:js-sdk:`SyncConfiguration <Realm.Sync.html#~SyncConfiguration>` object.
+:js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>` object.
 
 For example, to open a synced {+realm+} as the authenticated user 
 "authedUser", using partition "myPartition" and with a configuration that 
-includes 3 schemas, your code might look similar to this:
+includes 3 :ref:`schemas <react-native-object-schema>`, your code might look similar to 
+this:
 
 .. code-block:: javascript
 
@@ -33,15 +34,32 @@ includes 3 schemas, your code might look similar to this:
       }
    };
     
-   realm = await Realm.open(config);
+   const realm = await Realm.open(config);
 
+In the above example, the code shows how to open the {+realm+} *asynchronously*
+by calling ``realm.open()``. You can also open a realm synchronously by passing
+a ``Configuration`` object to a new instance of the :js-sdk:`Realm
+<Realm.html>` object, which is necessary if the device is offline.
+
+.. code-block:: javascript
+
+   const realm = new Realm(config);
+
+.. note::
+
+   The first time a user logs on to your realm app, you should open the realm 
+   *asynchronously* to sync data from the server to the device. After that initial 
+   connection, you can open a realm *synchronously* to ensure the app works in 
+   an offline state. 
 
 Open a Local (Non-Synced) Realm
 -------------------------------
-When opening a local (non-synced) {+realm+}, call :js-sdk:`Realm.open() <Realm.html#.open>`, 
-passing in a :js-sdk:`Configuration() <Realm.html#~Configuration>`
-object, which may include the ``path`` property defining the local file path to 
-use when storing the data. 
+To open a local (non-synced) {+realm+}, pass a :js-sdk:`Configuration()
+<Realm.html#~Configuration>` object to either :js-sdk:`Realm.open()
+<Realm.html#.open>` or :js-sdk:`new Realm() <Realm.html>`. The following example
+creates a ``Configuration`` object with a path property that defines the local
+file path to store data. 
+
 
 .. code-block:: javascript
 
@@ -50,14 +68,13 @@ use when storing the data.
       path: "./myrealm/data"
    };
     
-   realm = await Realm.open(config);
+   const realm = await Realm.open(config);
 
 Close a Realm
 -------------
 It is important to remember to call the ``close()`` method when done with a 
-{+realm+} instance.
+{+realm+} instance to avoid memory leaks.
 
 .. code-block:: javascript
 
    realm.close();
-

@@ -1,2 +1,2 @@
-config = new SyncConfiguration("My Project", user);
+config = new SyncConfiguration("myPart", user);
 var realm = await Realm.GetInstanceAsync(config);

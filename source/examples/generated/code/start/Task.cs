@@ -1,12 +1,13 @@
 using MongoDB.Bson;
 using Realms;
+
 namespace dotnet
 {
     public class Task : RealmObject
     {
         [PrimaryKey]
         [MapTo("_id")]
-        public ObjectId Id { get; set; }
+        public ObjectId Id { get; set; } = ObjectId.GenerateNewId();
 
         [MapTo("_partition")]
         public string Partition { get; set; }
@@ -21,11 +22,6 @@ namespace dotnet
         [MapTo("status")]
         [Required]
         public string Status { get; set; }
-
-        public Task()
-        {
-            this.Id = ObjectId.GenerateNewId();
-        }
     }
 
     public enum TaskStatus

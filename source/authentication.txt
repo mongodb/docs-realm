@@ -62,8 +62,7 @@ accepts JSON web tokens signed by the external system and
 the :doc:`Custom Function </authentication/custom-function>`
 provider allows you to define custom logic in a :term:`{+service-short+} Function`.
 
-.. admonition:: User Authentication is Required
-   :class: important
+.. important:: User Authentication is Required
    
    Every application must have at least one authentication provider
    configured and enabled before any client application can successfully
@@ -86,8 +85,7 @@ allows you to associate each user with :doc:`custom data
 </users/enable-custom-user-data>` stored in a collection
 of your :term:`linked {+atlas+} data source <data source>`.
 
-.. admonition:: Link Multiple Identities to One User Account
-   :class: note
+.. note:: Link Multiple Identities to One User Account
 
    When a user authenticates with a provider for the first
    time, {+backend+} creates a new account and associates the
@@ -96,8 +94,7 @@ of your :term:`linked {+atlas+} data source <data source>`.
    account instead of creating a new one. This allows users
    to log in to the same account with multiple
    authentication providers. For more information, see
-   :doc:`Link a New Identity to a User
-   </authentication/linking>`.
+   the documentation on linking identities for your client SDK.
 
 
 .. _authentication-provider-identities:
@@ -156,8 +153,7 @@ to circumvent rules and queries that need :doc:`unrestricted
 access </mongodb/service-limitations>` to MongoDB
 CRUD and aggregation operations.
 
-.. admonition:: Security Warning
-   :class: important
+.. important:: Security Warning
 
    Rules do not apply to the system user, which means that
    Functions and webhooks that run as the :term:`system user`
@@ -228,7 +224,7 @@ You can invalidate a refresh token by calling the
    that access token expires).
 
 The user list under the :guilabel:`Users` tab, on the
-:guilabel:`Users` page of the {+service-short+} admin console, provides
+:guilabel:`App Users` page of the {+service-short+} admin console, provides
 a way to revoke all sessions for a specific user. This will
 invalidate all access tokens and refresh tokens for that user. See the
 :ref:`Revoking User Sessions <revoke-user-sessions>` page for the specific
@@ -263,19 +259,4 @@ Summary
    Find and View a User </users/find-and-view>
    Enable Custom User Data </users/enable-custom-user-data>
    Delete or Prevent Users From Accessing a Realm Application </users/delete-or-revoke>
-
-.. toctree::
-   :titlesonly:
-   :caption: Authentication Providers
-   :maxdepth: 2
-   :hidden:
-
    Authentication Providers </authentication/providers>
-   Anonymous Authentication </authentication/anonymous>
-   Email/Password Authentication </authentication/email-password>
-   Custom JWT Authentication </authentication/custom-jwt>
-   Custom Function Authentication </authentication/custom-function>
-   API Key Authentication </authentication/api-key>
-   Facebook Authentication </authentication/facebook>
-   Google Authentication </authentication/google>
-   Apple ID Authentication  </authentication/apple>

@@ -38,8 +38,9 @@ content: |
        ...
      }
 
-  .. seealso:: :admin-api-endpoint:`Admin API: List All Services <get-/groups/{groupid}/apps/{appid}/services>`
----
+  .. seealso::
+
+     :admin-api-endpoint:`Admin API: List All Services <get-/groups/{groupid}/apps/{appid}/services>`---
 title: Choose a Partition Key
 ref: choose-a-partition-key
 content: |
@@ -94,8 +95,9 @@ content: |
        ...
      }
 
-  .. seealso:: :admin-api-endpoint:`Admin API: List Valid Partition Keys <get-/groups/{groupid}/apps/{appid}/sync/data>`
----
+  .. seealso::
+
+     :admin-api-endpoint:`Admin API: List Valid Partition Keys <get-/groups/{groupid}/apps/{appid}/sync/data>`---
 title: Define Read & Write Permissions
 ref: define-read-write-permissions
 content: |
@@ -158,4 +160,6 @@ content: |
        -h 'Authorization: Bearer <Valid Access Token>' \
        -d '{"sync":{"state":"enabled","database_name":"","partition":{"key":"_partition","type":"string","permissions":{"read":{"$or":[{"%%user.id":"%%partition"},{"%%user.custom_data.shared":"%%partition"}]},"write": {"%%user.id": "%%partition"}}}}'
 
-  .. seealso:: :admin-api-endpoint:`Admin API: Update a Service Configuration <patch-/groups/{groupid}/apps/{appid}/services/{serviceid}/config>`
+  .. seealso::
+
+     :admin-api-endpoint:`Admin API: Update a Service Configuration <patch-/groups/{groupid}/apps/{appid}/services/{serviceid}/config>`

@@ -6,8 +6,8 @@ content: |
   triggers. {+service+} marks suspended triggers with a :guilabel:`Status` of
   :guilabel:`Suspended`.
 
-  .. cssclass:: bordered-figure
   .. figure:: /images/suspended-db-trigger.png
+     :alt: A database trigger that is marked Suspended in the UI
 ---
 title: Restart the Trigger
 ref: restart-the-trigger
@@ -18,8 +18,7 @@ content: |
   open a new change stream. Indicate whether or not to use a resume
   token and then click :guilabel:`Resume Database Trigger`.
 
-  .. admonition:: Resume Tokens
-     :class: note
+  .. note:: Resume Tokens
      
      If you use a :manual:`resume token
      </changeStreams/#resume-a-change-stream>`, {+service-short+}
@@ -32,5 +31,5 @@ content: |
      fire for any events that occurred while it was
      suspended.
 
-  .. cssclass:: bordered-figure
   .. figure:: /images/resume-database-trigger-modal.png
+     :alt: The resume database trigger modal in the UI

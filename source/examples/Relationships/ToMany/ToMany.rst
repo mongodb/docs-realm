@@ -39,5 +39,5 @@
       :tabid: objective-c
 
       .. literalinclude:: /examples/Relationships/ToMany/ToMany.m
-         :language: objective-c
+         :language: objectivec
          :emphasize-lines: 4

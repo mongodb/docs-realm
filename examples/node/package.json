@@ -1,0 +1,38 @@
+{
+  "name": "node",
+  "version": "1.0.0",
+  "description": "Source for generated js/typescript code samples in the Realm Node.js client guide",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "test:js": "jest --selectProjects JavaScript",
+    "test:ts": "jest --selectProjects TypeScript",
+    "lint": "eslint Examples/*",
+    "prettier": "prettier --write Examples/*"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@babel/core": "^7.11.6",
+    "@babel/preset-env": "^7.11.5",
+    "@types/bson": "^4.0.2",
+    "@types/jest": "^26.0.14",
+    "babel-jest": "^26.5.2",
+    "bson": "^4.1.0",
+    "eslint-config-prettier": "^6.12.0",
+    "eslint-plugin-jest": "^24.1.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "jest": "^26.5.3",
+    "prettier": "^2.1.2",
+    "random-email": "^1.0.3",
+    "realm": "^10.0.1",
+    "ts-jest": "^26.4.1",
+    "typescript": "^4.0.3"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.4.1",
+    "@typescript-eslint/parser": "^4.4.1",
+    "eslint": "^7.11.0",
+    "eslint-plugin-import": "^2.22.1"
+  }
+}

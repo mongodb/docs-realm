@@ -9,7 +9,7 @@ You can configure the following constraints for a given property:
 .. list-table::
    :header-rows: 1
    :widths: 20 80
-   
+
    * - Parameter
      - Description
 
@@ -18,15 +18,35 @@ You can configure the following constraints for a given property:
        type. A property's type can be a primitive data type or an object
        type defined in the same {+realm+}. The type also specifies whether
        the property contains a single value or a list of values.
-       
+
        {+client-database+} supports the following primitive data types:
 
        - ``bool`` for boolean values
        - ``int`` and ``double``, which map to JavaScript ``number`` values
+       - ``Decimal128`` for high precision numbers
        - ``string``
        - ``date``, which maps to :mdn:`Date <Web/JavaScript/Reference/Global_Objects/Date>`
        - ``data``, which maps to :mdn:`ArrayBuffer <Web/JavaScript/Reference/Global_Objects/ArrayBuffer>`
        - ``objectId``, which maps to :manual:`ObjectId </reference/method/ObjectId/>`
+       
+       To specify that a field contains a list of a primitive value type, append
+       ``[]`` to the type name.
+
+       .. example::
+          
+          The following schema defines a ``Student`` object type with a
+          string name and a list of integer grades:
+
+          .. code-block:: javascript
+
+             const studentSchema = {
+               name: 'Student',
+               properties: {
+                 name: "string",
+                 grades: "int[]"
+               }
+             }
+
 
    * - Optional
      - Optional properties may contain a null value or be entirely
@@ -35,7 +55,7 @@ You can configure the following constraints for a given property:
        optional, append a question mark (``?``) to its name.
 
        .. example::
-      
+
           The following schema defines an optional string property, ``breed``:
 
           .. literalinclude:: /examples/Schemas/DogSchema.js
@@ -54,7 +74,7 @@ You can configure the following constraints for a given property:
 
        .. code-block:: javascript
           :emphasize-lines: 6
-          
+
           const CarSchema = {
             name: 'Car',
             properties: {

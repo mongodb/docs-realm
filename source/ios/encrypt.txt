@@ -15,9 +15,9 @@ Encrypt a Realm
 Overview
 --------
 
-You can the encrypt the {+realm+} database file on disk with AES-256 +
+You can encrypt the {+realm+} database file on disk with AES-256 +
 SHA-2 by supplying a 64-byte encryption key when :ref:`opening a
-{+realm+} <ios-open-a-realm>`.
+{+realm+} <ios-open-realm>`.
 
 Realm transparently encrypts and decrypts data with standard
 :wikipedia:`AES-256 encryption <Advanced_Encryption_Standard>` using the
@@ -67,7 +67,7 @@ open an encrypted {+realm+}:
       :tabid: objective-c
 
       .. literalinclude:: /examples/Encrypt/encrypt.m
-         :language: objective-c
+         :language: objectivec
 
 The following Swift example demonstrates how to store and retrieve a
 generated key from the Keychain:

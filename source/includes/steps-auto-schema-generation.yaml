@@ -1,21 +1,21 @@
 title: Define a Realm Schema
 ref: define-realm-schema
 content: |
-
   To get started, ensure you have a Realm Schema defined. MongoDB Realm
   will translate this Realm Schema into a Realm Object Model to be
   configured and utilized in your mobile application.
-
-  .. admonition:: Primary Key _id Required
-     :class: important
-
+  
+  .. important:: Primary Key _id Required
+     
      To work with {+sync+}, your data model **must** have a primary key field
      called ``_id``. ``_id`` can be of type ``string``, ``int``, or
      ``objectId``.
-
+  
   .. note:: 
-
-    To learn how to define a Realm Schema for at least one collection in the :doc:`synced </sync>` cluster, see the :doc:`Enforce a Document Schema </mongodb/enforce-a-document-schema>` page.
+     
+     To learn how to define a Realm Schema for at least one collection in the
+     :doc:`synced </sync>` cluster, see the :doc:`Enforce a Document Schema
+     </mongodb/enforce-a-document-schema>` page.
 
 ---
 title: View the Realm Object Model
@@ -26,11 +26,11 @@ content: |
   client application. To view your Realm Object Model, navigate to the
   :guilabel:`SDKs` page, where you can view your Realm Schema as a
   generated Realm Object Model in your language of choice.
-
-    .. figure:: /images/translate-jsonschema-into-realm-data-model.png
+  
+  .. figure:: /images/translate-jsonschema-into-realm-data-model.png
+     :alt: The generated Realm Object Models and associated warnings in the UI
      :width: 750px
      :lightbox:
-
 ---
 title: View and Fix Schema Errors
 ref: view-schema-errors
@@ -40,25 +40,19 @@ content: |
   Realm Schema. You can view a list of the errors in your Realm Schema that
   prevented Realm from generating the Realm Object Model on the :guilabel:`SDKs`
   page of the Realm UI.
-
+  
   Common errors include mismatched types, and differences in the way
   relationships are represented in the two respective models. For each
   error or warning, modify your Realm Schema to fix the specified issue.
-
-  .. note::
-    
-    To learn more about the technical differences between the two data
-    models read the :doc:`Realm Object Model Restrictions
-    </realm-database-restrictions>` page. 
-
+  
   .. figure:: /images/schema-translation-errors-warnings.png
+     :alt: A detailed list in the UI of warnings and errors that occurred during model
      :width: 750px
      :lightbox:
 ---
 title: Open a Realm with the Realm Object Model
 ref: open-realm-with-data-model
 content: |
-
   You can immediately use the generated Realm Object Model in your
   client application. In order to begin enforcing data validation with
   your data model, you can open a Realm with the Realm Object Model.
@@ -68,12 +62,12 @@ content: |
   your mobile application code. This will copy the Realm Object Model
   code for the SDK of your choice into your clipboard. Open your mobile
   application code in your IDE and paste the Realm Object Model code in.
-
+  
   .. tabs-realm-languages::
-
+    
     .. tab::
         :tabid: javascript
-
+        
         .. code-block:: javascript
            
           const UserSchema = { // your copied and pasted Realm Object Model
@@ -92,9 +86,11 @@ content: |
               // ... use the realm instance to read and modify data
             })
 
-  .. seealso:: :ref:`Sync Data on Android <android-sync-data>`
-  .. seealso:: :ref:`Sync Data on iOS <ios-sync-data>`
-  .. seealso:: :ref:`Sync Data on Node <node-sync-data>`
-  .. seealso:: :ref:`Sync Data on React Native <react-native-sync-data>`
+  .. seealso::
+
+     - :ref:`Sync Data on Android <android-sync-data>`
+     - :ref:`Sync Data on iOS <ios-sync-data>`
+     - :ref:`Sync Data on Node <node-sync-data>`
+     - :ref:`Sync Data on React Native <react-native-sync-data>`
 
 ...

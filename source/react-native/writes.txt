@@ -28,8 +28,7 @@ words, a transaction is *all or nothing*: either all of the
 operations in the transaction succeed or none of the
 operations in the transaction take effect.
 
-.. admonition:: Remember
-   :class: note
+.. note::
 
    All writes must happen in a transaction.
 
@@ -73,8 +72,7 @@ the code in the callback throws an exception when {+client-database+} runs
 it, {+client-database+} cancels the transaction. Otherwise, {+client-database+} commits
 the transaction immediately after the callback.
 
-.. admonition:: Concurrency Concerns
-   :class: important
+.. important:: Concurrency Concerns
 
    Since transactions block each other, it is best to avoid
    opening transactions on both the UI thread and a
@@ -205,8 +203,7 @@ transaction.
 With the Java SDK, call ``deleteFromRealm()`` on the
 instance itself.
 
-.. admonition:: Do not use objects after delete
-   :class: important
+.. important:: Do not use objects after delete
 
    {+client-database+} throws an error if you try to use an object after
    it has been deleted.
@@ -241,30 +238,31 @@ collection itself.
       :language: javascript
       :emphasize-lines: 6
 
-.. _react-native-cascading-delete:
+.. _react-native-chaining-delete:
 
-Cascading Delete
-~~~~~~~~~~~~~~~~
+Manually Delete An Object with a Relationship
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Sometimes, you have :ref:`dependent objects
-<react-native-client-relationships>` that you want to delete when
-you delete the parent object. We call this a **cascading
-delete**. {+client-database+} will not delete the dependent objects for
-you. If you do not delete the objects yourself, they will
-remain orphaned in your {+realm+}. Whether or not this is a
-problem depends on your application's needs.
+When you delete a non-embedded object with a :ref:`relationship
+<react-native-client-relationships>` to a child object, Realm does not
+automatically delete the child object.
 
-Currently, the best way to delete dependent objects is to
-iterate through the dependencies and delete them before
-deleting the parent object.
+
+.. note:: Automatically Deleting Embedded Objects
+   
+   If you would like to automatically delete an object, you must make the object
+   an :ref:`Embedded Object <react-native-embedded-objects>`. When you delete a Realm
+   object, Realm automatically deletes any embedded objects referenced by that
+   object.
+
 
 .. example::
 
-   The following code demonstrates how to perform a
-   cascading delete by first deleting all of Ali's dogs,
-   then deleting Ali:
+   In the following example, Ali is a ``Person`` who is the ``owner`` of many
+   dogs. The code block demonstrates how to delete an object that is related to
+   another object by first deleting all of Ali’s dogs, then deleting Ali:
 
-   .. literalinclude:: /examples/CRUD/CascadingDelete.js
+   .. literalinclude:: /examples/CRUD/delete-an-object-with-a-relationship.js
       :language: javascript
 
 

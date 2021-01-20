@@ -26,9 +26,8 @@ to listen for changes to documents in a collection and pass
 :ref:`database events <database-events>` to their associated Trigger
 function.
 
-.. admonition:: Change Stream Limitations
-   :class: important
-
+.. important:: Change Stream Limitations
+   
    {+backend+} opens a single change stream for each collection with at least
    one enabled Trigger and limits the total number of open change
    streams on each linked cluster across all {+app+}s based on the
@@ -53,7 +52,7 @@ Create a Database Trigger
          To create a database Trigger in the {+ui+}:
 
          1. Click :guilabel:`Triggers` under :guilabel:`MongoDB
-            Cluster` in the left-hand navigation.
+            Cluster` in the {+leftnav+}.
 
          2. Select the :guilabel:`Database Triggers` tab.
 
@@ -63,14 +62,14 @@ Create a Database Trigger
          4. Enter :ref:`configuration values <database-trigger-configuration>`
             for the Trigger and click :guilabel:`Save` at the bottom of
             the page.
-
-         .. cssclass:: bordered-figure
+         
          .. figure:: /images/db-trigger-example-config-1.png
+            :alt: Example UI that configures the trigger, including its type and name
             :width: 750px
             :lightbox:
          
-         .. cssclass:: bordered-figure
          .. figure:: /images/db-trigger-example-config-2.png
+            :alt: Example UI that configures the trigger function
             :width: 750px
             :lightbox:
 
@@ -140,9 +139,8 @@ Database Trigger Configuration
          Configuration files for database Triggers have the
          following form:
 
-         .. cssclass:: wide-container
          .. code-block:: none
-            :caption: ``/triggers/<trigger name>.json``
+            :caption: /triggers/<trigger name>.json
 
             {
                "type": <string>,
@@ -165,7 +163,6 @@ Database Trigger Configuration
        content: |
          Database Triggers have the following configuration parameters:
 
-.. cssclass:: auth-table
 .. list-table::
    :header-rows: 1
    :widths: 15 30
@@ -297,8 +294,7 @@ Database Trigger Configuration
        match expression and only executes if the expression evaluates to
        ``true`` for a given change event.
           
-       .. admonition:: Use Dot-Notation for Embedded Fields
-          :class: note
+       .. note:: Use Dot-Notation for Embedded Fields
           
           MongoDB performs a full equality match for embedded
           documents in a match expression. If you want to match a

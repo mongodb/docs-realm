@@ -223,8 +223,7 @@ more information, refer to the `BSON specification
 you to create BSON objects and convert them to and from various data
 types and encodings.
 
-.. admonition:: MongoDB Documents are BSON
-   :class: note
+.. note:: MongoDB Documents are BSON
 
    MongoDB stores all documents in BSON format, so you'll use the
    ``BSON`` package most commonly when you run :ref:`CRUD & Aggregation
@@ -390,8 +389,7 @@ The ``BSON.Binary`` type represents a binary-encoded data string.
         - string
         - A string of base64 encoded characters.
           
-          .. admonition:: String Padding
-             :class: note
+          .. note:: String Padding
              
              The base64-encoded string must include either one or two equals
              signs (``=``), referred to as "padding", at the end of the string.
@@ -570,8 +568,7 @@ BSON.Double
 The ``BSON.Double`` type represents a 64-bit (8-byte) floating point
 number.
 
-.. admonition:: Use Decimal128 for Money
-   :class: important
+.. important:: Use Decimal128 for Money
 
    ``BSON.Double`` is subject to floating point rounding errors, so it
    is not recommended for use cases where decimal values must round

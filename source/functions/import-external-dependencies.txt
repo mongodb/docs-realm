@@ -20,15 +20,13 @@ You can import npm modules into a {+service-short+} Function and use the importe
 allows your {+app+} to depend upon external libraries for
 code reuse.
 
-.. admonition:: Pre-requisites for Import
-   :class: note
+.. note:: Pre-requisites for Import
 
    You must :doc:`upload dependencies to
    {+service-short+}</functions/upload-external-dependencies>` before you can
    import them.
 
-.. admonition:: Node.js Built-In Module Support
-   :class: note
+.. note:: Node.js Built-In Module Support
 
    {+service-short+} currently supports a subset of Node.js built-in modules. See :ref:`function
    constraints <function-constraints>` for details on the support of various modules.
@@ -45,8 +43,7 @@ module import, you should import dependencies in the style of a
 consult the `Node.js documentation for the require keyword
 <https://nodejs.org/api/modules.html#modules_require_id>`_.
 
-.. admonition:: Where Do I Import Modules?
-   :class: important
+.. important:: Where Do I Import Modules?
 
    Node.js projects commonly place ``require`` statements in the
    global scope of each file, but {+service-short+} does not support this pattern.

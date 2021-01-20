@@ -28,8 +28,7 @@ words, a transaction is *all or nothing*: either all of the
 operations in the transaction succeed or none of the
 operations in the transaction take effect.
 
-.. admonition:: Remember
-   :class: note
+.. note:: Remember
 
    All writes must happen in a transaction.
 
@@ -73,8 +72,7 @@ the code in the callback throws an exception when {+client-database+} runs
 it, {+client-database+} cancels the transaction. Otherwise, {+client-database+} commits
 the transaction immediately after the callback.
 
-.. admonition:: Concurrency Concerns
-   :class: important
+.. important:: Concurrency Concerns
 
    Since transactions block each other, it is best to avoid
    opening transactions on both the UI thread and a
@@ -98,7 +96,7 @@ the transaction immediately after the callback.
          :tabid: objective-c
 
          .. literalinclude:: /examples/CRUD/BatchUpdate.m
-            :language: objective-c
+            :language: objectivec
             :emphasize-lines: 10
 
       .. tab::
@@ -135,7 +133,7 @@ This automatically inserts the instance into the {+realm+}.
          :tabid: objective-c
 
          .. literalinclude:: /examples/CRUD/Create.m
-            :language: objective-c
+            :language: objectivec
             :emphasize-lines: 9
 
       .. tab::
@@ -171,7 +169,7 @@ adding any new entries.
          :tabid: objective-c
 
          .. literalinclude:: /examples/CRUD/Upsert.m
-            :language: objective-c
+            :language: objectivec
             :emphasize-lines: 5, 10
 
       .. tab::
@@ -202,7 +200,7 @@ property or update the property.
          :tabid: objective-c
 
          .. literalinclude:: /examples/CRUD/Update.m
-            :language: objective-c
+            :language: objectivec
             :emphasize-lines: 8-9
 
       .. tab::
@@ -236,7 +234,7 @@ objects in a collection at once.
          :tabid: objective-c
 
          .. literalinclude:: /examples/CRUD/BatchUpdate.m
-            :language: objective-c
+            :language: objectivec
             :emphasize-lines: 10
 
       .. tab::
@@ -255,8 +253,7 @@ Delete an Object
 To delete an object from a {+realm+}, pass the instance to the delete
 method of the {+realm+} within a transaction.
 
-.. admonition:: Do not use objects after delete
-   :class: important
+.. important:: Do not use objects after delete
 
    {+client-database+} throws an error if you try to use an object after
    it has been deleted.
@@ -272,7 +269,7 @@ method of the {+realm+} within a transaction.
          :tabid: objective-c
 
          .. literalinclude:: /examples/CRUD/Delete.m
-            :language: objective-c
+            :language: objectivec
             :emphasize-lines: 3
 
       .. tab::
@@ -303,7 +300,7 @@ within a transaction.
          :tabid: objective-c
 
          .. literalinclude:: /examples/CRUD/DeleteCollection.m
-            :language: objective-c
+            :language: objectivec
             :emphasize-lines: 6
 
       .. tab::
@@ -343,7 +340,7 @@ deleting the parent object.
          :tabid: objective-c
 
          .. literalinclude:: /examples/CRUD/CascadingDelete.m
-            :language: objective-c
+            :language: objectivec
 
       .. tab::
          :tabid: swift
@@ -371,7 +368,7 @@ You can delete all instances of a :ref:`{+service-short+} type
          :tabid: objective-c
 
          .. literalinclude:: /examples/CRUD/DeleteAllOfClass.m
-            :language: objective-c
+            :language: objectivec
             :emphasize-lines: 3-4
 
       .. tab::
@@ -402,7 +399,7 @@ quickly clearing out your {+realm+} while prototyping.
          :tabid: objective-c
 
          .. literalinclude:: /examples/CRUD/DeleteAll.m
-            :language: objective-c
+            :language: objectivec
             :emphasize-lines: 3
 
       .. tab::

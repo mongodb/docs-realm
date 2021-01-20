@@ -32,7 +32,7 @@
       :tabid: objective-c
 
       .. literalinclude:: /examples/CRUD/Update.m
-         :language: objective-c
+         :language: objectivec
          :emphasize-lines: 8-9
 
    .. tab::

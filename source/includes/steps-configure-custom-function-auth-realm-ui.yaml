@@ -2,11 +2,10 @@ title: Navigate to the Custom Function Provider Settings Page
 ref: navigate-to-the-custom-function-provider-settings-page
 content: |
   You can set up and enable the Custom Function authentication provider
-  in the Realm UI. To get to the settings page, click :guilabel:`Users`
-  in the left-hand navigation, select the :guilabel:`Providers` tab, and
+  in the Realm UI. To get to the settings page, click :guilabel:`App Users`
+  in the {+leftnav+}, select the :guilabel:`Providers` tab, and
   then click :guilabel:`Custom Function Authentication`.
 
-  .. cssclass:: bordered-figure
   .. figure:: /images/auth-provider-list-custom-function-realm-ui.png
      :alt: The list of authentication providers in the Realm UI with the Custom Function provider highlighted.
      :width: 750px
@@ -19,7 +18,6 @@ content: |
   Custom Function provider. To do so, set the :guilabel:`Provider
   Enabled` toggle to :guilabel:`On`.
 
-  .. cssclass:: bordered-figure
   .. figure:: /images/provider-enabled-toggle.png
      :alt: The toggle button to enable the provider from the Realm UI.
      :width: 750px
@@ -52,9 +50,8 @@ content: |
       return { "id": "5f650356a8631da45dd4784c" }
       return { "id": "5f650356a8631da45dd4784c", "name": "James Bond" }
 
-  .. admonition:: Realm Generates New User ID Values
-     :class: important
-
+  .. important:: Realm Generates New User ID Values
+     
      The ID value that you return from the authentication function is
      **not** the internal Realm user id (i.e. the value that
      :json-expansion:`%%user` and :ref:`context.user <context-user>`
@@ -64,7 +61,6 @@ content: |
   To define a new authentication function, click the
   :guilabel:`Function` dropdown and select :guilabel:`New Function`.
 
-  .. cssclass:: bordered-figure
   .. figure:: /images/custom-function-dropdown.png
      :alt: The function selection dropdown in the Realm UI.
      :width: 750px
@@ -123,7 +119,7 @@ content: |
   by deploying your application. To deploy a draft application from the
   Realm UI:
 
-  1. Click :guilabel:`Deploy` in the left-hand navigation
+  1. Click :guilabel:`Deploy` in the {+leftnav+}
 
   2. Find the draft in the deployment history table and then click
      :guilabel:`Review & Deploy Changes`.

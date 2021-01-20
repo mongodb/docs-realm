@@ -1,4 +1,5 @@
 .. _mongodb-service:
+.. _mongodb-data-access:
 
 ======================
 MongoDB Atlas Overview
@@ -14,20 +15,6 @@ MongoDB Atlas Overview
 
 .. toctree::
    :titlesonly:
-   :caption: Configure a MongoDB Data Source
-   :hidden:
-
-   Link a Data Source </mongodb/link-a-data-source>
-   Enforce a Document Schema </mongodb/enforce-a-document-schema>
-   Filter Incoming Queries </mongodb/filter-incoming-queries>
-   Specify Read Preference for a MongoDB Cluster </mongodb/specify-cluster-read-preference>
-   Define Roles And Permissions </mongodb/define-roles-and-permissions>
-   Configure Advanced Rules </mongodb/configure-advanced-rules>
-   Enable Wire Protocol Connections </mongodb/enable-wire-protocol-connections>
-   Connect Over the Wire Protocol </mongodb/connect-over-the-wire-protocol>
-
-.. toctree::
-   :titlesonly:
    :caption: CRUD Operations
    :hidden:
 
@@ -37,19 +24,25 @@ MongoDB Atlas Overview
    Delete Documents </mongodb/delete-documents>
    Run Aggregation Pipelines </mongodb/run-aggregation-pipelines>
    Transactions </mongodb/transactions>
+   Bulk Writes </mongodb/bulk-write>
+
+.. toctree::
+   :titlesonly:
+   :hidden:
+
+   Atlas Clusters & Data Lakes </mongodb/data-sources>
+   Rules & Schemas </mongodb/rules>
 
 .. toctree::
    :titlesonly:
    :caption: Reference
    :hidden:
    
-   Query Roles </mongodb/query-roles>
-   Document Schemas </mongodb/document-schemas>
-   Query Filters </mongodb/query-filters>
+   MongoDB Actions </mongodb/actions>
    Service Limitations </mongodb/service-limitations>
    Connection Strings </mongodb/connection-strings>
+   Watch for Changes </mongodb/watch-documents>
    CRUD & Aggregation APIs </mongodb/crud-and-aggregation-apis>
-   MongoDB Actions </mongodb/actions>
 
 Overview
 --------
@@ -102,9 +95,9 @@ source <link-a-data-source>`:
 - :doc:`Delete Documents </mongodb/delete-documents>`
 - :doc:`Watch for Document Changes </mongodb/watch-documents>`
 - :doc:`Run Aggregation Pipelines </mongodb/run-aggregation-pipelines>`
+- :doc:`Bulk Writes </mongodb/bulk-write>`
 
-.. admonition:: Define Collection Rules
-   :class: important
+.. important:: Define Collection Rules
 
    When working with a linked {+atlas+} cluster outside of a
    :ref:`system function <system-functions>`, {+backend+} dynamically
@@ -116,8 +109,7 @@ source <link-a-data-source>`:
    **If you do not define rules for a collection, queries on
    the collection will fail.**   
 
-.. admonition:: Advanced MongoDB Queries
-   :class: note
+.. note:: Advanced MongoDB Queries
 
    {+service+} does not support all MongoDB CRUD and Aggregation
    operations when you query MongoDB as a specific
@@ -188,7 +180,7 @@ collection, ensure that you :manual:`$unset
 </reference/operator/update/unset>` this field prior to
 making changes.
 
-For example, if you are using the :program:`mongo` shell to
+For example, if you are using the :manual:`mongo <mongo>` shell to
 update documents in the products collection, your command
 might resemble the following code:
 
@@ -272,6 +264,10 @@ Usage Guides
      - Learn how to execute an :manual:`aggregation pipeline
        </core/aggregation-pipeline>` on a collection to calculate
        summary statistics and manipulate documents.
+
+   * - :doc:`Bulk Writes </mongodb/bulk-write>`
+     - Learn how to execute an :manual:`bulkWrite
+       </core/bulk-write-operations>` operation on a collection.
 
    * - :doc:`Connect Over the Wire Protocol </mongodb/connect-over-the-wire-protocol>`
      - Learn how to connect to MongoDB through {+service+} using standard

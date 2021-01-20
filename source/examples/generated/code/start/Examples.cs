@@ -1,13 +1,13 @@
 using System;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
-using dotnet;
 using MongoDB.Bson;
 using NUnit.Framework;
 using Realms;
 using Realms.Sync;
 using TaskStatus = dotnet.TaskStatus;
+using Task = dotnet.Task;
+using System.Collections.Generic;
 
 namespace UnitTests
 {
@@ -15,19 +15,19 @@ namespace UnitTests
     {
         App app;
         ObjectId testTaskId;
-        User user;
+        Realms.Sync.User user;
         SyncConfiguration config;
         const string myRealmAppId = "tuts-tijya";
 
-        [SetUp]
-        public async Task Setup()
+        [OneTimeSetUp]
+        public async System.Threading.Tasks.Task Setup()
         {
             app = App.Create(myRealmAppId);
             user = app.LogInAsync(Credentials.EmailPassword("foo@foo.com", "foobar")).Result;
-            config = new SyncConfiguration("My Project", user);
+            config = new SyncConfiguration("myPart", user);
             var realm = await Realm.GetInstanceAsync(config);
             var synchronousRealm = Realm.GetInstance(config);
-            var testTask = new RealmTask
+            var testTask = new Task
             {
                 Name = "Do this thing",
                 Status = TaskStatus.Open.ToString()
@@ -38,6 +38,14 @@ namespace UnitTests
                 realm.Add(testTask);
             });
             testTaskId = testTask.Id;
+
+           /* var schemas = config.ObjectClasses;
+            foreach (var schema in schemas)
+            {
+                Console.WriteLine(schema.FullName);
+            }*/
+
+
             return;
         }
 
@@ -63,46 +71,52 @@ namespace UnitTests
             };
             var localRealm = Realm.GetInstance(config);
             Assert.IsNotNull(localRealm);
+            localRealm.Dispose();
+            try
+            {
+                Directory.Delete(pathToDb, true);
+            } catch (Exception)
+            {
 
-            Directory.Delete(pathToDb, true);
+            }
         }
 
         [Test]
-        public async Task GetsSyncedTasks()
+        public async System.Threading.Tasks.Task GetsSyncedTasks()
         {
-            var user = app.LogInAsync(Credentials.Anonymous()).Result;
-            config = new SyncConfiguration("My Project", user);
+            var user = await app.LogInAsync(Credentials.Anonymous());
+            config = new SyncConfiguration("myPart", user);
             var realm = await Realm.GetInstanceAsync(config);
-            var tasks = realm.All<RealmTask>();
+            var tasks = realm.All<Task>();
             Assert.AreEqual(1, tasks.Count(),"Get All");
-            tasks = realm.All<RealmTask>().Where(t => t.Status == "Open");
+            tasks = realm.All<Task>().Where(t => t.Status == "Open");
             Assert.AreEqual(1, tasks.Count(), "Get Some");
             return;
         }
 
         [Test]
-        public async Task ScopesARealm()
+        public async System.Threading.Tasks.Task ScopesARealm()
         {
-            config = new SyncConfiguration("My Project", user);
-            using var realm = await Realm.GetInstanceAsync(config);
-            var allTasks = realm.All<RealmTask>();
+            config = new SyncConfiguration("myPart", user);
+            using (var realm = await Realm.GetInstanceAsync(config)) { 
+                var allTasks = realm.All<Task>();
+            }
         }
 
         [Test]
-        public async Task ModifiesATask()
+        public async System.Threading.Tasks.Task ModifiesATask()
         {
-            config = new SyncConfiguration("My Project", user);
+            config = new SyncConfiguration("myPart", user);
             var realm = await Realm.GetInstanceAsync(config);
-            var t = realm.All<RealmTask>()
-                .Where(t => t.Id == testTaskId)
-                .FirstOrDefault();
+            var t = realm.All<Task>()
+                .FirstOrDefault(t => t.Id == testTaskId);
 
             realm.Write(() =>
             {
                 t.Status = TaskStatus.InProgress.ToString();
             });
 
-            var allTasks = realm.All<RealmTask>().ToList();
+            var allTasks = realm.All<Task>().ToList();
             Assert.AreEqual(1, allTasks.Count);
             Assert.AreEqual(TaskStatus.InProgress.ToString(), allTasks.First().Status);
 
@@ -110,7 +124,7 @@ namespace UnitTests
         }
 
         [Test]
-        public async Task LogsOnManyWays()
+        public async System.Threading.Tasks.Task LogsOnManyWays()
         {
             {
                 var user = await app.LogInAsync(Credentials.Anonymous());
@@ -119,7 +133,7 @@ namespace UnitTests
             }
             {
                 var user = await app.LogInAsync(
-                    Credentials.EmailPassword("caleb@mongodb.com", "shhhItsASektrit!"));
+                    Credentials.EmailPassword("caleb@example.com", "shhhItsASektrit!"));
                 Assert.AreEqual(UserState.LoggedIn, user.State);
                 await user.LogOutAsync();
             }
@@ -184,37 +198,72 @@ namespace UnitTests
         }
 
         [Test]
-        public async Task CallsAFunction()
+        public async System.Threading.Tasks.Task CallsAFunction()
         {
-            var bsonValue = await
-                user.Functions.CallAsync("sum", 2, 40);
+            try
+            {
+                var bsonValue = await
+                    user.Functions.CallAsync("sum", 2, 40);
 
-            // The result must now be cast to Int32:
-            var sum = bsonValue.ToInt32();
+                // The result must now be cast to Int32:
+                var sum = bsonValue.ToInt32();
 
-            // Or use the generic overloads to avoid casting the BsonValue:
-            sum = await
-               user.Functions.CallAsync<int>("sum", 2, 40);
-            Assert.AreEqual(42, sum);
-            var task = await user.Functions.CallAsync<MyClass>
-                ("getTask", "5f7f7638024a99f41a3c8de4");
+                // Or use the generic overloads to avoid casting the BsonValue:
+                sum = await
+                   user.Functions.CallAsync<int>("sum", 2, 40);
+                Assert.AreEqual(42, sum);
+                var task = await user.Functions.CallAsync<MyClass>
+                    ("getTask", "5f7f7638024a99f41a3c8de4");
 
-            var name = task.Name;
-            return;
-
-            //{ "_id":{ "$oid":"5f0f69dc4eeabfd3366be2be"},"_partition":"myPartition","name":"do this NOW","status":"Closed"}
+                var name = task.Name;
+                return;
+            }
+            catch (Exception e) { }
+            //{ "_id":{ "$oid":"5f0f69dc4eeabfd3366be2be"},"_partition":"myPart","name":"do this NOW","status":"Closed"}
         }
 
-        [TearDown]
-        public async Task TearDown()
+        [Test]
+        public async System.Threading.Tasks.Task LinksAUser()
         {
-            config = new SyncConfiguration("My Project", user);
+            {
+                // 1) A user logs on anonymously:
+                var anonUser = await app.LogInAsync(Credentials.Anonymous());
+                // 2) They create some data, and then decide they want to save
+                //    it, which requires creating an Email/Password account.
+                // 3) We prompt the user to log in, and then use that info to
+                //    register the new EmailPassword user, and then generate an
+                //    EmailPassword credential to link the existing anonymous
+                //    account:
+                var email = "caleb@example.com";
+                var password = "shhhItsASektrit!";
+                await app.EmailPasswordAuth.RegisterUserAsync(
+                    email, password);
+                var officialUser = await anonUser.LinkCredentialsAsync(
+                   Credentials.EmailPassword(email, password));
+            }
+            {
+                var anonUser = await app.LogInAsync(Credentials.Anonymous());
+                var officialUser = await anonUser.LinkCredentialsAsync(
+                   Credentials.Google("<google-token>"));
+            }
+            return;
+        }
+
+
+        
+        [OneTimeTearDown]
+        public async System.Threading.Tasks.Task TearDown()
+        {
+            config = new SyncConfiguration("myPart", user);
             using (var realm = await Realm.GetInstanceAsync(config))
             {
+                var myTask = new Task();
                 realm.Write(() =>
                 {
-                    realm.RemoveAll<RealmTask>();
+                    realm.Remove(myTask);
                 });
+                realm.RemoveAll<Task>();
+                var user = await app.LogInAsync(Credentials.Anonymous());
                 await user.LogOutAsync();
             }
             return;
@@ -230,10 +279,44 @@ namespace UnitTests
         [MapTo("name")]
         [Required]
         public string Name { get; set; }
-       
+
         public MyClass()
         {
             this.Id = ObjectId.GenerateNewId();
         }
+    }
+
+    [MapTo("DogOne")]
+    public class Dog : RealmObject
+    {
+        [PrimaryKey]
+        [MapTo("_id")]
+        public ObjectId Id { get; set; }
+
+        [Required]
+        public string Name { get; set; }
+
+        public int Age { get; set; }
+        public string Breed { get; set; }
+        public IList<Person> Owners { get; }
+    }
+
+    public class Person : RealmObject
+    {
+        [PrimaryKey]
+        [MapTo("_id")]
+        public ObjectId Id { get; set; }
+
+        [Required]
+        public string Name { get; set; }
+        //etc...
+
+        /* To add items to the IList<T>:
+
+        var dog = new Dog();
+        var caleb = new Person { Name = "Caleb" };
+        dog.Owners.Add(caleb);
+
+        */
     }
 }

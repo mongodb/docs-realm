@@ -31,8 +31,7 @@ how much you pay each month:
 - :ref:`Data Transfer <billing-data-transfer>`, which measures the amount of
   data that {+service+} sends to external services and client applications.
 
-.. admonition:: Track Your Usage
-   :class: note
+.. note:: Track Your Usage
    
    You can track an application's usage for the current month from the
    application dashboard in the {+ui+}.
@@ -96,8 +95,8 @@ types of request:
   event or interaction payload to an incoming webhook URL.
 
 - **Sync Operations**, such as when a sync client uploads a :ref:`changeset
-  <changeset>`, when {+service-short+} :ref:`resolves a conflict
-  <operational-transformation>` in an uploaded changeset, or when
+  <changesets>`, when {+service-short+} :ref:`resolves a conflict
+  <operational-transformations>` in an uploaded changeset, or when
   {+service-short+} sends changesets to a connected sync client.
   
   For more information on sync operations, see :ref:`Realm Sync Protocol
@@ -111,8 +110,7 @@ types of request:
 hours of :ref:`compute <billing-compute>` **or** 10,000 hours of :ref:`sync
 <billing-sync>` runtime (whichever occurs first)
 
-.. admonition:: Estimate Your Usage
-   :class: admonition-example
+.. example:: Estimate Your Usage
    
    Consider answering the following questions to help estimate the number of
    requests that your application will receive each month.
@@ -154,8 +152,7 @@ and increases by 1 for every 32MB of memory that a given request uses.
 hours of :ref:`compute <billing-compute>` **or** 10,000 hours of :ref:`sync
 <billing-sync>` runtime (whichever occurs first)
 
-.. admonition:: Estimate Your Usage
-   :class: admonition-example
+.. example:: Estimate Your Usage
    
    Consider answering the following questions to help estimate the amount of
    compute time that your application will use each month.
@@ -192,8 +189,7 @@ millisecond of sync runtime per user.
 hours of :ref:`compute <billing-compute>` **or** 10,000 hours of :ref:`sync
 <billing-sync>` runtime (whichever occurs first)
 
-.. admonition:: Estimate Your Usage
-   :class: admonition-example
+.. example:: Estimate Your Usage
    
    Consider answering the following questions to help estimate the amount of
    sync time that your application will use each month.
@@ -218,14 +214,12 @@ set rate for each gigabyte of data egress.
 
 **Free Tier Threshold:** 10GB
 
-.. admonition:: MongoDB Atlas Data Transfer
-   :class: note
+.. note:: MongoDB Atlas Data Transfer
    
    {+service+} does not bill for data transfer to and from a linked
    MongoDB Atlas data source.
 
-.. admonition:: Estimate Your Usage
-   :class: admonition-example
+.. example:: Estimate Your Usage
    
    Consider answering the following questions to help estimate the amount of
    data that your application will transfer each month.
@@ -258,7 +252,6 @@ messages between users in the same group. The app has the following usage:
 The following calculations approximate the cost of running this application for
 one month:
 
-.. cssclass:: config-table
 .. list-table::
    :header-rows: 1
    :widths: 15 85
@@ -294,8 +287,7 @@ one month:
    * - **TOTAL**
      - $55.60 (requests) + $0.33 (sync) + $3.98 (data transfer) = **$59.91 / month**
 
-.. admonition:: Free Tier Usage
-   :class: note
+.. note:: Free Tier Usage
    
    The way that free tier usage affects your bill depends on your consumption
    each month. For this example, we assume that all requests and activity are
@@ -330,7 +322,6 @@ submit orders. The app has the following usage:
 The following calculations approximate the cost of running this application for
 one month:
 
-.. cssclass:: config-table
 .. list-table::
    :header-rows: 1
    :widths: 15 85
@@ -369,8 +360,7 @@ one month:
    * - **TOTAL**
      - $0.44 (requests) + $0.47 (compute) + $0 (data transfer) = **$0.91 / month**
 
-.. admonition:: Free Tier Usage
-   :class: note
+.. note:: Free Tier Usage
 
    The way that free tier usage affects your bill depends on your consumption
    each month. For this example, we assume that all requests and activity are
@@ -406,7 +396,6 @@ restaurants. The app has the following usage:
 
 - Orders vary in size but are no larger than 4KB
 
-.. cssclass:: config-table
 .. list-table::
    :header-rows: 1
    :widths: 15 85
@@ -447,8 +436,7 @@ restaurants. The app has the following usage:
    * - **TOTAL**
      - $0.48 (requests) + $0.34 (compute) + $0 (data transfer) = **$0.82 / month**
 
-.. admonition:: Free Tier Usage
-   :class: note
+.. note:: Free Tier Usage
 
    The way that free tier usage affects your bill depends on your consumption
    each month. For this example, we assume that all requests and activity are

@@ -36,14 +36,43 @@ Installation
 General Options
 ---------------
 
-
 The following options are available for all {+cli-bin+} commands:
 
-.. include:: /includes/option/option-realm-cli-config-path.rst
+.. option:: --config-path <File System Path>
+   
+   | **Optional.**
+   
+   If included with ``realm-cli login``, stores information about the
+   authenticated session in a file at the specified path. Session information
+   includes your MongoDB Cloud username, :atlas:`MongoDB Atlas programmatic API
+   Key </configure-api-access/#programmatic-api-keys>`, and a session refresh
+   token.
+   
+   If included with any other command, authenticates the request with the
+   session saved at the specified path (if it exists) instead of the current CLI
+   authentication state.
+   
+   .. warning::
+   
+      Since the session configuration file contains your MongoDB Atlas
+      programmatic API private key, you should avoid sharing this file
+      unintentionally.
 
-.. include:: /includes/option/option-realm-cli-disable-color.rst
+.. option:: --disable-color
+   
+   | **Optional.**
+   
+   If specified, suppress all text color in {+cli-bin+} output.
+   
+   By default, some output such as errors and import diffs are colorized. Use
+   this flag if you wish to prevent this behavior.
 
-.. include:: /includes/option/option-realm-cli-yes.rst
+.. option:: --yes
+
+   | **Optional.**
+   
+   If specified, automatically respond affirmatively to any yes/no prompts from
+   {+cli-bin+}.
 
 Authentication
 --------------
@@ -64,9 +93,23 @@ with a :atlas:`MongoDB Atlas programmatic API Key
 
    realm-cli login --api-key="<my api key>" --private-api-key="<my private api key>"
 
-.. include:: /includes/option/option-realm-cli-login-api-key.rst
-.. include:: /includes/option/option-realm-cli-login-private-api-key.rst
-.. include:: /includes/option/option-realm-cli-login-username.rst
+.. option:: --api-key <api key>
+   
+   A valid public MongoDB Atlas :atlas:`programmatic API key
+   </configure-api-access/#programmatic-api-keys>` for the MongoDB Cloud account
+   you wish to log in with.
+
+.. option:: --private-api-key <private api key>
+   
+   A valid private MongoDB Atlas :atlas:`programmatic API key
+   </configure-api-access/#programmatic-api-keys>` for the MongoDB Cloud account
+   you wish to log in with.
+
+.. option:: --username <MongoDB Cloud username>
+   
+   (Deprecated) The username of the MongoDB Cloud account you wish to log in
+   with using :atlas:`personal API keys
+   </configure-api-access/#personal-api-keys-deprecated>`.
 
 .. _realm-cli-logout:
 
@@ -136,12 +179,72 @@ that doesn't exist, {+cli-bin+} can :doc:`create the application
      --include-hosting \
      --include-dependencies
 
-.. include:: /includes/option/option-realm-cli-import-app-id.rst
-.. include:: /includes/option/option-realm-cli-import-path.rst
-.. include:: /includes/option/option-realm-cli-import-strategy.rst
-.. include:: /includes/option/option-realm-cli-import-project-id.rst
-.. include:: /includes/option/option-realm-cli-import-include-hosting.rst
-.. include:: /includes/option/option-realm-cli-import-include-dependencies.rst
+.. option:: --app-id <MongoDB Realm Application ID>
+   
+   | **Optional.**
+   
+   The Application ID of your {+app+}.
+   
+   If not specified, {+cli-bin+} will attempt to use the value of
+   ``app_id`` defined in :ref:`config.json <appschema-realm-config>`. If
+   ``config.json`` does not have an ``app_id`` value, {+cli-bin+}
+   prompts you to create a new application.
+   
+   .. note:: New Application App IDs
+      
+      If you create a new application with {+cli-bin+}, {+service+}
+      generates a new App ID and ignores any value that you specify for
+      the ``--app-id`` flag.
+
+.. option:: --path <path>
+   
+   | **Optional.**
+   
+   The path to the directory containing files you wish to import.
+   The directory must contain, at minimum, a valid :ref:`config.json
+   <appschema-realm-config>` file.
+   
+   If the ``path`` argument is omitted, {+cli-bin+} will search for a
+   ``config.json`` file in the current application directory.
+
+.. option:: --strategy ['merge|replace|replace-by-name']
+   
+   | **Optional.**
+   | **Default:** Merge
+   
+   The :ref:`import strategy <realm-import-strategies>` that
+   {+cli-bin+} should use when reconciling imported entities.
+
+.. option:: --project-id <MongoDB Cloud Project ID>
+   
+   | **Optional.**
+   
+   The :guilabel:`Project ID` of the :ref:`Atlas project <projects>` on
+   which you want to host a newly created {+app+}. If
+   specified, {+cli-bin+} will not prompt you to select a project when
+   creating a new app.
+   
+   .. note::
+   
+      {+cli-bin+} ignores the value of ``--project-id``
+      unless you are :doc:`importing a new application
+      </deploy/create-with-cli>`.
+
+.. option:: --include-hosting
+   
+   | **Optional.**
+   
+   If specified, uploads and deploys any static assets in the
+   ``/hosting/files`` directory of your {+app+}.
+
+.. option:: --include-dependencies
+   
+   | **Optional.**
+   
+   If specified, uploads and deploys any external dependencies included
+   in a ``node_modules`` archive in the ``/functions`` directory of your
+   {+app+}.
+
 
 .. _realm-cli-export:
 
@@ -162,14 +265,52 @@ a local application directory.
      --include-hosting \
      --as-template
 
-.. include:: /includes/option/option-realm-cli-export-app-id.rst
-.. include:: /includes/option/option-realm-cli-export-output.rst
-.. include:: /includes/option/option-realm-cli-export-include-hosting.rst
-.. include:: /includes/option/option-realm-cli-export-for-source-control.rst
+.. option:: --app-id <MongoDB Realm Application ID>
+   
+   | **Optional.**
+   
+   The Application ID of your {+app+}.
 
-.. _realm-cli-export-as-template:
+.. option:: --output <path>
+   
+   | **Optional.**
+   
+   The path of the directory where {+service-short+} will export your application.
+   
+   If specified, {+cli-bin+} creates a directory at the given path and exports
+   the application configuration into the new directory. If a file or directory
+   already exists at the specified path, the export will fail.
+   
+   .. note::
+   
+      If the ``output`` argument is omitted, {+cli-bin+} will export the
+      application configuration to a new directory within the current working
+      directory.
 
-.. include:: /includes/option/option-realm-cli-export-as-template.rst
+.. option:: --include-hosting
+
+   | **Optional.**
+   
+   If specified, exports all hosted static assets in the ``hosting/files``
+   directory of your {+app+}.
+
+.. option:: --for-source-control
+
+   | **Optional.**
+   
+   If enabled, {+cli-bin+} exports the application configuration without any
+   fields that conflict with deployment via GitHub source control, including
+   fields like ``name``, ``app_id``, ``location``, and ``deployment_model`` in
+   the ``config.json`` file as well as the ``config.clusterName`` field in the
+   ``config.json`` of any Atlas data sources linked to the application.
+
+.. option:: --as-template
+   
+   | **Optional.**
+   
+   If enabled, {+cli-bin+} exports the application configuration without any
+   service ID values, including the App ID. This simplifies the creation of new
+   applications from an exported configuration.
 
 .. _realm-cli-diff:
 
@@ -179,8 +320,8 @@ Diff Pending Application Changes
 .. program:: realm-cli diff
 .. binary:: realm-cli diff
 
-Use ``realm-cli diff`` to return a diff of the configuration files
-between the deployed application and your local application directory.
+Use ``realm-cli diff`` to return a diff of the configuration files between the
+deployed application and your local application directory.
 
 .. code-block:: shell
 
@@ -218,7 +359,13 @@ The diff resembles the following:
            * /auth/confirmEmail.html
            * /auth/resetPassword.html
 
-.. include:: /includes/option/option-realm-cli-diff-include-hosting.rst
+.. option:: --include-hosting
+
+   | **Optional.**
+   
+   If specified, the diff includes a list of files in the
+   ``hosting/files`` directory of your {+app+} that are
+   different from your app's deployed files.
 
 Secrets
 -------
@@ -258,11 +405,17 @@ Use ``realm-cli secrets add`` to create a new :ref:`Secret
 <app-secret>` with the specified name and value.
 
 .. code-block:: shell
-
+   
    realm-cli secrets add --name=mySecret --value=SuperSecretValue!
 
-.. include:: /includes/option/option-realm-cli-secrets-add-name.rst
-.. include:: /includes/option/option-realm-cli-secrets-add-value.rst
+.. option:: --name <Secret Name>
+   
+   A unique name for the new Secret. If an existing Secret already has the
+   specified name then this operation will fail.
+
+.. option:: --value <Secret Value>
+   
+   The value of the new Secret.
 
 .. _realm-cli-secrets-update:
 
@@ -285,13 +438,21 @@ Use ``realm-cli secrets update`` to change the value of an existing
    realm-cli secrets update --secret-id=5ba9c5c2e707c02b38031412 --value=NewSecretValue
    realm-cli secrets update --id=5ba9c5c2e707c02b38031412 --value=NewSecretValue
 
-.. include:: /includes/option/option-realm-cli-secrets-update-secret-name.rst
-.. include:: /includes/option/option-realm-cli-secrets-update-name.rst
+.. option:: --secret-name <Secret Name>
 
-.. include:: /includes/option/option-realm-cli-secrets-update-secret-id.rst
-.. include:: /includes/option/option-realm-cli-secrets-update-id.rst
+.. option:: --name <Secret Name>
 
-.. include:: /includes/option/option-realm-cli-secrets-update-value.rst
+   The name of the Secret to update.
+
+.. option:: --secret-id <Secret ID>
+
+.. option:: --id <Secret ID>
+
+   The ID value of the Secret to update.
+
+.. option:: --value <Secret Value>
+
+   The new value of the Secret.
 
 .. _realm-cli-secrets-remove:
 
@@ -314,11 +475,17 @@ Use ``realm-cli secrets remove`` to delete an existing :ref:`Secret
    realm-cli secrets remove --secret-id=5ba9c5c2e707c02b38031412
    realm-cli secrets remove --id=5ba9c5c2e707c02b38031412
 
-.. include:: /includes/option/option-realm-cli-secrets-remove-secret-name.rst
-.. include:: /includes/option/option-realm-cli-secrets-remove-name.rst
+.. option:: --secret-name <Secret Name>
 
-.. include:: /includes/option/option-realm-cli-secrets-remove-secret-id.rst
-.. include:: /includes/option/option-realm-cli-secrets-remove-id.rst
+.. option:: --name <Secret Name>
+
+   The name of the Secret to remove from your {+app+}.
+
+.. option:: --secret-id <Secret ID>
+
+.. option:: --id <Secret ID>
+
+   The ID value of the Secret to remove from your {+app+}.
 
 .. _realm-import-strategies:
 

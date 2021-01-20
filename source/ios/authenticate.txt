@@ -89,27 +89,63 @@ you can log in using the following code:
 Facebook Authentication
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-If you have enabled :ref:`Facebook authentication <facebook-authentication>`,
-you can log in using the following code:
+The :doc:`Facebook </authentication/facebook>` authentication provider allows
+you to authenticate users through a Facebook app using their existing Facebook
+account.
+
+.. include:: /includes/note-enable-facebook-auth.rst
+
+.. include:: /includes/note-facebook-profile-picture-url.rst
+
+Follow the official :facebook:`Facebook Login for iOS Quickstart
+<docs/facebook-login/ios?sdk=cocoapods>` to set up the authentication flow for
+your application. In the login completion handler, create a {+service-short+}
+Facebook credential with the logged in user's :facebook:`access token string
+<docs/facebook-login/access-tokens>` and log the user into your
+{+service-short+} app.
 
 .. literalinclude:: /examples/generated/code/start/Authenticate.codeblock.facebook.swift
    :language: swift
+   :emphasize-lines: 5, 6
 
 .. _ios-login-google:
 
 Google Authentication
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~
 
-If you have enabled :ref:`Google authentication <google-authentication>`,
-you can log in using the following code:
+.. important::
+   
+   To log a user in with their existing Google account, you must configure and
+   enable the :ref:`Google authentication provider <google-authentication>` for
+   your application.
+
+Follow the official :google:`Google Sign-In for iOS Integration Guide
+<identity/sign-in/ios/start-integrating>` to set up the authentication flow for
+your application. In the sign-in completion handler, create a {+service-short+}
+Google credential and log the user into your {+service-short+} app.
+
+The value that you pass to the credential depends on whether or not you have
+:ref:`enabled OpenID Connect <openIdConnect>` for the provider:
+
+- If OpenID Connect is enabled, pass the ``id_token``
+  :google:`included in the Google OAuth response
+  <identity/sign-in/ios/backend-auth>` to :swift-sdk:`Credentials.googleId(token:)
+  <Enums/Credentials.html#/s:10RealmSwift11CredentialsO8googleIdyACSS_tcACmF>`.
+
+- If OpenID Connect is not enabled, pass the user's :google:`server auth code
+  <identity/sign-in/ios/reference/Classes/GIDGoogleUser#serverauthcode>` to
+  :swift-sdk:`Credentials.google(serverAuthCode:)
+  <Enums/Credentials.html#/s:10RealmSwift11CredentialsO6googleyACSS_tcACmF>`.
 
 .. literalinclude:: /examples/generated/code/start/Authenticate.codeblock.google.swift
    :language: swift
+   :emphasize-lines: 11, 12
 
 .. _ios-login-apple:
 
-Sign-in with Apple
-~~~~~~~~~~~~~~~~~~
+Apple Authentication
+~~~~~~~~~~~~~~~~~~~~
+
 If you have enabled :ref:`Sign-in with Apple authentication <apple-id-authentication>`,
 you can log in using the following code:
 

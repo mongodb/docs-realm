@@ -13,14 +13,16 @@ Triggers
    :class: singlecol
 
 .. toctree::
-   :caption: Trigger Types
    :titlesonly:
-   :includehidden:
+   :caption: Triggers
    :hidden:
 
-   Authentication Triggers </triggers/authentication-triggers>
    Database Triggers </triggers/database-triggers>
+   Authentication Triggers </triggers/authentication-triggers>
    Scheduled Triggers </triggers/scheduled-triggers>
+   Trigger Snippets </triggers/trigger-snippets>
+   Send Trigger Events to AWS EventBridge </triggers/eventbridge>
+   CRON Expressions </triggers/cron-expressions>
 
 Introduction
 ------------
@@ -103,11 +105,11 @@ a text message to the customer with the new location of the order.
    .. tab::
       :tabid: ui
       
-      .. cssclass:: bordered-figure
       .. figure:: /images/db-trigger-example-config-1.png
+         :alt: Example UI that configures the trigger, including its type and name
       
-      .. cssclass:: bordered-figure
       .. figure:: /images/db-trigger-example-config-2.png
+         :alt: Example UI that configures the trigger function
       
    .. tab::
       :tabid: cli
@@ -132,7 +134,7 @@ a text message to the customer with the new location of the order.
          }
 
 .. code-block:: javascript
-   :caption: ``textShippingUpdate``
+   :caption: textShippingUpdate
 
    exports = async function (changeEvent) {
      // Destructure out fields from the change stream event object
@@ -183,8 +185,8 @@ describing the user and their activity and inserts it into the
    .. tab::
       :tabid: ui
       
-      .. cssclass:: bordered-figure
       .. figure:: /images/auth-trigger-example-config.png
+         :alt: Example UI that configures the trigger
       
    .. tab::
       :tabid: cli
@@ -204,7 +206,7 @@ describing the user and their activity and inserts it into the
          }
 
 .. code-block:: javascript
-   :caption: ``createNewUserDocument``
+   :caption: createNewUserDocument
 
    exports = async function(authEvent) {
      const mongodb = context.services.get("mongodb-atlas");
@@ -250,8 +252,8 @@ query on the ``store.orders`` collection to generate the report. The
    .. tab::
       :tabid: ui
       
-      .. cssclass:: bordered-figure
       .. figure:: /images/scheduled-trigger-example-config.png
+         :alt: Example UI that configures the trigger
       
    .. tab::
       :tabid: cli
@@ -270,7 +272,7 @@ query on the ``store.orders`` collection to generate the report. The
          }
 
 .. code-block:: javascript
-   :caption: ``generateDailyReport``
+   :caption: generateDailyReport
 
    exports = function() {
      // Instantiate MongoDB collection handles

@@ -29,13 +29,21 @@ meets the following prerequisites:
 
 - `Xcode <https://developer.apple.com/xcode/>`__ version 10.0 or higher.
 - Target of iOS 8.0 or higher, macOS 10.9 or higher, tvOS 9.0 or higher, or watchOS 2.0 or higher.
-- If you are installing with `CocoaPods <https://guides.cocoapods.org/using/getting-started.html>`__, you need CocoaPods 1.6.0 or later.
+- If you are installing with `CocoaPods <https://guides.cocoapods.org/using/getting-started.html>`__, you need CocoaPods 1.10.0 or later.
 
 Installation
 ------------
 
-Follow these steps to add the {+service+} Apple platform SDK to
-your project.
+Follow the procedure for either ``SwiftPM`` or ``CocoaPods`` below to add the
+{+service+} Apple platform SDK to your project.
+
+SwiftPM
+=======
+
+.. include:: /includes/steps/install-swiftpm.rst
+
+CocoaPods
+=========
 
 .. include:: /includes/steps/install-cocoapods.rst
 
@@ -50,13 +58,11 @@ to use {+service+}:
    .. tab::
       :tabid: objective-c
 
-      .. code-block:: objective-c
-
-         #import <Realm/Realm.h>
+      .. literalinclude:: /examples/generated/code/start/MyRealmApp.codeblock.import-realm.m
+         :language: objectivec
 
    .. tab::
       :tabid: swift
 
-      .. code-block:: swift
-
-         import RealmSwift
+      .. literalinclude:: /examples/generated/code/start/RealmApp.codeblock.import-realm.swift
+         :language: swift

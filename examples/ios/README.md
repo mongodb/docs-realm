@@ -9,6 +9,8 @@ and their unit tests.
 
 This project uses CocoaPods to manage dependencies. To get started, run:
 
+>⚠️ Minimum required CocoaPods version is 1.10.
+
 ```bash
 pod install --repo-update
 ```
@@ -36,12 +38,15 @@ The following diagram shows the key items in the project directory:
 | -------------------------- | ---------------------------------------------------------------------------------- |
 | Examples/                  | Examples, test cases, and supporting source files. Add code here.                  |
 | HostApp/                   | Source for the app that the tests run against. Do not modify.                      |
+| QuickStartSwiftUI/         | Source for the SwiftUI and Combine quick start example app.                        |
 | Podfile                    | The dependency spec for CocoaPods.                                                 |
 | RealmExamples.xcodeproj/   | Xcode project file.                                                                |
 | RealmExamples.xcworkspace/ | Dependency-aware Xcode workspace. Use this instead of .xcproj after `pod install`. |
 | README.md                  | This file.                                                                         |
 
 In short, `Examples/` should contain both Swift and Objective-C example and test code.
+
+`QuickStartSwiftUI/` contains the source for the SwiftUI and Combine quick start.
 
 ## Develop
 
@@ -129,6 +134,14 @@ These examples are likely to use asynchronous methods, so you will need to use
 
 https://developer.apple.com/documentation/xctest/asynchronous_tests_and_expectations/testing_asynchronous_operations_with_expectations
 
+### Realm + SwiftUI + Combine Quick Start
+
+The `QuickStartSwiftUI` directory -- `QuickStartSwiftUI/QuickStart.swift` in
+particular -- contains the code for the SwiftUI and Combine quick start. To run,
+open the workspace in Xcode and select the "QuickStartSwiftUI" target.
+
+>⚠️ Note: you will need an iOS 14.0+ simulator or device to run this target.
+
 ## Code to Docs Pipeline
 
 ### Annotate for Bluehawk
@@ -152,15 +165,8 @@ where _id_ is the name of the resulting code example when you run Bluehawk.
 
 ### Extract to Literalincludes
 
-Since Bluehawk is currently in development, you cannot install it globally. For
-now, you can clone the [repo](https://github.com/MongoCaleb/bluehawk) and set an
-alias:
-
-```bash
-alias bluehawk="node /path/to/bluehawk/index.js"
-```
-
-Then, in this directory, run:
+This project uses [Bluehawk](https://github.com/mongodb-university/Bluehawk).
+To extract the code examples, run:
 
 ```bash
 bluehawk -s Examples/ManageEmailPasswordUsers.swift -d ../../source/examples/generated

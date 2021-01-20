@@ -20,10 +20,6 @@ class Functions: AnonymouslyLoggedInTestCase {
         user.functions.sum([1, 2]) { sum, error in
             guard error == nil else {
                 print("Function call failed: \(error!.localizedDescription)")
-                // :hide-start:
-                XCTAssertEqual(error!.localizedDescription, "function not found: 'sum'")
-                expectation.fulfill()
-                // :hide-end:
                 return
             }
             guard case let .double(value) = sum else {
@@ -32,6 +28,9 @@ class Functions: AnonymouslyLoggedInTestCase {
             }
             print("Called function 'sum' and got result: \(value)")
             assert(value == 3)
+            // :hide-start:
+            expectation.fulfill()
+            // :hide-end:
         }
         // :code-block-end:
         wait(for: [expectation], timeout: 10)

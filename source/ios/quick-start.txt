@@ -22,8 +22,7 @@ integrated into your app. Before you begin, ensure you have:
 - :ref:`Enabled {+sync+} <enable-sync>`
 - :ref:`Installed the iOS SDK <ios-install>`
 
-.. admonition:: Check Out the Tutorial
-   :class: note
+.. note:: Check Out the Tutorial
    
    This page contains only the essential information that you need to set up a
    MongoDB Realm application. If you prefer to follow a guided tutorial that
@@ -52,13 +51,13 @@ access your {+app+} using your {+app+} ID. You can find your {+app+} ID in the
 
 .. code-block:: swift
 
-   let app = App(id: "your-realm-app-id")
+   let app = App(id: YOUR_REALM_APP_ID) // Replace YOUR_REALM_APP_ID with your Realm app ID 
 
 Define Your Object Model
 ------------------------
 
 If have not :ref:`enabled {+sync+} <enable-sync>` or you enabled {+sync-short+} with
-:term:`Development Mode` in the {+ui+}, you can define your :ref:`object model
+:term:`development mode` in the {+ui+}, you can define your :ref:`object model
 <ios-realm-objects>` directly in code.
 
 .. note::
@@ -67,24 +66,23 @@ If have not :ref:`enabled {+sync+} <enable-sync>` or you enabled {+sync-short+} 
 
 .. code-block:: swift
 
-   class Task: Object {
+   // QsTask is the Task model for this QuickStart
+   class QsTask: Object {
        @objc dynamic var _id: ObjectId = ObjectId.generate()
-
        // When configuring Sync, we selected `_partition` as the partition key.
        // A partition key is only required if you are using Sync.
        @objc dynamic var _partition: String = ""
-
-       @objc dynamic var name: String? = nil
-       @objc dynamic var complete = false
-
+       @objc dynamic var name: String = ""
+       @objc dynamic var owner: String? = nil
+       @objc dynamic var status: String = ""
        override static func primaryKey() -> String? {
            return "_id"
        }
 
        convenience init(partition: String, name: String) {
            self.init()
-           self._partition = partition
-           self.name = name
+           self._partition = partition;
+           self.name = name;
        }
    }
 
@@ -99,23 +97,27 @@ information:
 
 .. code-block:: swift
 
-   app.login(credentials: Credentials.anonymous()) { (user, error) in
+   // Log in anonymously.
+   app.login(credentials: Credentials.anonymous) { (result) in
        // Remember to dispatch back to the main thread in completion handlers
        // if you want to do anything on the UI.
-       DispatchQueue.main.sync {
-           guard error == nil else {
-               print("Login failed: \(error!)")
-               return
+       DispatchQueue.main.async {
+           switch result {
+           case .failure(let error):
+               print("Login failed: \(error)")
+           case .success(let user):
+               print("Login as \(user) succeeded!")
+               // Continue below
+               onLogin()
            }
-
-           // Now logged in, do something with user
-
        }
    }
 
 {+service-short+} provides many additional ways to authenticate, register, and link users.
 
-.. seealso:: :ref:`Authenticate a User <ios-authenticate>`
+.. seealso::
+
+   :ref:`Authenticate a User <ios-authenticate>`
 
 Open a Realm
 ------------
@@ -129,19 +131,28 @@ includes the partition name. The following code demonstrates this:
 
 .. code-block:: swift
 
-   let user = app.currentUser
+   let user = app.currentUser!
+  
+   // The partition determines which subset of data to access.
    let partitionValue = "myPartition"
-   
-   Realm.asyncOpen(configuration: user!.configuration(partitionValue: partitionValue)) { realm, error in
-      guard let realm = realm else {
-         // handle error
-         return
-      }
-      // Realm successfully opened
+
+   // Get a sync configuration from the user object.
+   var configuration = user.configuration(partitionValue: partitionValue)
+   configuration.objectTypes = [QsTask.self]
+   // Open the realm asynchronously to ensure backend data is downloaded first.
+   Realm.asyncOpen(configuration: user.configuration(partitionValue: partitionValue)) { (result) in
+       switch result {
+       case .failure(let error):
+           print("Failed to open realm: \(error.localizedDescription)")
+           // Handle error...
+       case .success(let realm):
+           // realm successfully opened
+       }
    }
 
+.. seealso::
 
-.. seealso:: :ref:`Sync Data <ios-sync-data>`
+   :ref:`Sync Data <ios-sync-data>`
 
 Create, Read, Update, and Delete Objects
 ----------------------------------------
@@ -152,54 +163,51 @@ To create a new Task, instantiate the Task class and add it to the {+realm+} in 
 
 .. code-block:: swift
 
-   let task = Task(partition: partitionValue, name: "New Task")
-   try! self.realm.write {
-       self.realm.add(task)
+   let task = QsTask(partition: partitionValue, name: "Do laundry")
+   try! realm.write {
+       realm.add(task)
    }
 
 You can retrieve a live :ref:`collection <ios-client-collections>` of all tasks in the {+realm+}:
 
 .. code-block:: swift
 
-   // All tasks in the realm
-   let tasks = realm.objects(Task.self)
+   // Get all tasks in the realm
+   let tasks = realm.objects(QsTask.self)
 
 You can also filter that collection using a :ref:`filter <ios-client-query-engine>`:
 
 .. code-block:: swift
 
-   // You can also filter a collection
-   let tasksThatBeginWithA = tasks.filter("name beginsWith 'A'")
-   let completeTasks = tasks.filter("complete = true")
+   let tasksInProgress = tasks.filter("status = %@", "InProgress")
+   print("A list of all tasks in progress: \(tasksInProgress)")
 
-To modify a task, simply update its properties in a write transaction block:
+To modify a task, update its properties in a write transaction block:
 
 .. code-block:: swift
 
-   let task = tasks[someIndex]
-  
+   let taskToUpdate = tasks[0]
    // All modifications to a realm must happen in a write block.
    try! realm.write {
-       task.complete = true
+       taskToUpdate.status = "InProgress"
    }
 
 Finally, you can delete a task:
 
 .. code-block:: swift
 
-   let task = tasks[someIndex]
-  
+   let taskToDelete = tasks[0]
    // All modifications to a realm must happen in a write block.
    try! realm.write {
-       // Delete the Task.
-       realm.delete(task)
+       // Delete the QsTask.
+       realm.delete(taskToDelete)
    }
 
 Watch for Changes
 -----------------
 
 You can :ref:`watch a realm, collection, or object for changes <ios-client-notifications>`
-with the `observe` method.
+with the ``observe`` method.
 
 .. note::
 
@@ -208,19 +216,19 @@ with the `observe` method.
 .. code-block:: swift
 
    // Retain notificationToken as long as you want to observe
-   notificationToken = tasks.observe { (changes) in
-        switch changes {
-        case .initial:
-            // Results are now populated and can be accessed without blocking the UI
-        case .update(_, let deletions, let insertions, let modifications):
-            // Query results have changed.
-            print("Deleted indices: ", deletions)
-            print("Inserted indices: ", insertions)
-            print("Modified modifications: ", modifications)
-        case .error(let error):
-            // An error occurred while opening the Realm file on the background worker thread
-            fatalError("\(error)")
-        }
+   let notificationToken = tasks.observe { (changes) in
+       switch changes {
+       case .initial: break
+           // Results are now populated and can be accessed without blocking the UI
+       case .update(_, let deletions, let insertions, let modifications):
+           // Query results have changed.
+           print("Deleted indices: ", deletions)
+           print("Inserted indices: ", insertions)
+           print("Modified modifications: ", modifications)
+       case .error(let error):
+           // An error occurred while opening the Realm file on the background worker thread
+           fatalError("\(error)")
+       }
    }
 
    // Later, when done observing
@@ -234,17 +242,17 @@ Once logged in, you can log out:
 
 .. code-block:: swift
 
-   app.currentUser?.logOut { (error) in
+   app.currentUser?.logOut() { (error) in
        // Logged out or error occurred
    }
 
 Complete Example
 ----------------
 
-Run the complete example by replacing the app ID with your {+app+} ID
-and navigating to the ``ExampleViewController`` in an app.
+Run the complete example by replacing the app ID with your {+app+} ID and
+calling ``runExample()``.
 
-.. literalinclude:: /examples/generated/code/start/CompleteQuickStart.codeblock.quick-start.swift
+.. literalinclude:: /examples/generated/code/start/CompleteQuickStart.codeblock.complete-quick-start.swift
    :language: swift
 
 Output
@@ -252,5 +260,3 @@ Output
 Running the above code should output something like the following:
 
 .. literalinclude:: /examples/QuickStarts/CompleteSwiftOutput
-
-

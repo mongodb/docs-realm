@@ -4,12 +4,11 @@ content: |
   To create new function with :doc:`realm-cli
   </deploy/realm-cli-reference>`, you need a previously created
   :ref:`application configuration <application-directory>`.
-
-  You can :doc:`export your application </deploy/export-realm-app>`
-  configuration from the :guilabel:`Export` tab of the
-  :guilabel:`Settings` page in the {+ui+}, or by running the
-  following command from an authenticated instance of :doc:`realm-cli
-  </deploy/realm-cli-reference>`:
+  
+  You can :doc:`export </deploy/export-realm-app>` your application from the
+  :guilabel:`Import/Export App` tab of the :guilabel:`Deploy` page in the
+  {+ui+}, or by running the following command from an authenticated instance of
+  :doc:`realm-cli </deploy/realm-cli-reference>`:
 
   .. code-block:: shell
 
@@ -75,10 +74,10 @@ content: |
          when the client application called the function. If the
          function was called from another function then it inherits the
          execution user from that function.
-
+     
          To configure a webhook to use application authentication, set
          the value of ``run_as_authed_user`` to ``true``:
-
+     
          .. code-block:: json
             
             {
@@ -164,7 +163,7 @@ content: |
      
      The following expression only authorizes incoming requests if the
      sender's IP address is not included in the list of addresses.
-
+     
      .. code-block:: json
         
         {
@@ -215,7 +214,7 @@ content: |
   #. Navigate to the root of the exported application directory.
 
   #. Log in to MongoDB `{+atlas+} <https://www.mongodb.com/cloud/atlas?tck=docs_realm>`_ 
-  with {+cli-bin+}:
+     with {+cli-bin+}:
 
      .. code-block:: shell
 

@@ -9,8 +9,8 @@ content: |
   </deploy/export-realm-app>` your application, update the
   cluster configuration, and then import the updated directory.
   To export your application, click the :guilabel:`Export App` button on
-  the :guilabel:`Export` tab of the :guilabel:`Settings` page in the
-  {+backend+} or run the following command from an authenticated instance
+  the :guilabel:`Import/Export App` tab of the :guilabel:`Deploy` page in the
+  {+ui+} or run the following command from an authenticated instance
   of :doc:`realm-cli </deploy/realm-cli-reference>`:
 
   .. code-block:: shell
@@ -70,9 +70,8 @@ content: |
         }
      }
 
-  .. admonition:: Atlas Cluster Tag Sets
-     :class: note
-
+  .. note:: Atlas Cluster Tag Sets
+     
      Atlas clusters are configured with pre-defined tag sets for each
      member node depending on the member's type. For detailed information
      on which tags are defined nodes in an Atlas cluster, see :atlas:`Atlas

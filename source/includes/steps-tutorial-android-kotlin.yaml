@@ -248,6 +248,11 @@ content: |
   projects in the ``User`` object. Tasktracker stores each ``User``
   object in a special :ref:`{+realm+} <partitioning>` with a value of
   the following format: ``user=<user-id>``.
+  
+  .. note::
+
+    To learn more about how {+service-short+} Object models are used in Android applications, 
+    see :doc:`Realm Objects </android/objects>` in our Android client guide. 
 
   To access the user's list of projects, we need to open a connection to
   that {+realm+} and access the ``User`` object. To get started, open
@@ -262,7 +267,7 @@ content: |
   should only ever be able to access their own user object, this realm
   only contains one object: the custom data belonging to the currently
   logged in user. An :ref:`authentication trigger
-  <authentication-trigger>` automatically creates and initializes this
+  <authentication-triggers>` automatically creates and initializes this
   object when the user creates an account. Add the code that queries for
   the user object:
 
@@ -466,7 +471,7 @@ content: |
   - Navigate to *second@example.com*'s project
   - Collaborate by adding, updating, and removing some new tasks
 
-  .. admonition:: Reminder
+  .. tip::
    
      If something isn't working for you, you can check out the ``final`` branch of 
      this repo to compare your code with our finished solution.

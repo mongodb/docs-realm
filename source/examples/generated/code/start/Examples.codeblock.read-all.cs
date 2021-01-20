@@ -1,1 +1,1 @@
-var tasks = realm.All<RealmTask>();
+var tasks = realm.All<Task>();

@@ -43,7 +43,7 @@ Glossary
       :term:`{+realm+}` assignment.
 
    {+realm+}
-      A collection of :term:`{+service-short+} objects <{+service-short+} Object>` sharing the same
+      A collection of :term:`{+service-short+} objects <{+service-short+} object>` sharing the same
       :term:`partition key` value. Client instances subscribe to
       individual {+realms+} which passively synchronize changes as network
       availability allows.
@@ -118,7 +118,7 @@ Glossary
       and values.
 
    live objects
-      Instances of :term:`{+service-short+} objects <{+service-short+} Object>` that always
+      Instances of :term:`{+service-short+} objects <{+service-short+} object>` that always
       reflect the state of the underlying object in the
       :term:`{+realm+} version` of the enclosing
       :term:`{+realm+} instance <{+realm+} instance>`. Implemented using
@@ -153,7 +153,7 @@ Glossary
       refresh the {+realm+} instance on the event loop thread between
       iterations of the event loop.
 
-   {+service-short+} version
+   {+realm+} version
       A snapshot of data in a local :term:`{+realm+}` at a given moment.
       Each :term:`{+realm+} instance` references a {+realm+} version. The
       :term:`{+service-short+} SDK` cannot free resources for a {+realm+} version
@@ -240,15 +240,17 @@ Glossary
       data in your synced cluster from a :term:`{+service-short+} client` using
       the {+atlas+} service in the {+service-short+} SDK.
 
-      .. seealso:: :ref:`link-a-data-source`
+      .. seealso::
 
+         :ref:`link-a-data-source`
    data source
       A :term:`{+atlas+}` cluster or `Data Lake
       <https://www.mongodb.com/atlas/data-lake?tck=docs_realm>`_ that is
       associated with your :term:`{+app+}`.
 
-      .. seealso:: :ref:`link-a-data-source`
+      .. seealso::
 
+         :ref:`link-a-data-source`
    synced cluster
       A :term:`{+atlas+}` database cluster that is
       :term:`partitioned <partitioning>` into
@@ -425,7 +427,7 @@ Glossary
       - :ref:`React Native <react-native-client-reset>`
 
    embedded object
-      An embedded object is a special type of :term:`<{+service-short+} object>`
+      An embedded object is a special type of :term:`{+service-short+} object`
       that models complex data about a specific object. Embedded objects are
       similar to :term:`relationships <relationship>`, but they provide
       additional constraints and map more naturally to the denormalized

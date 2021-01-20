@@ -22,8 +22,7 @@ integrated into your app. Before you begin, ensure you have:
 - :ref:`Enabled {+sync+} <enable-sync>`
 - :ref:`Installed the Android SDK <android-install>`
 
-.. admonition:: Check Out the Tutorial
-   :class: note
+.. note:: Check Out the Tutorial
    
    This page contains only the essential information that you need to set up a
    MongoDB Realm application. If you prefer to follow a guided tutorial that
@@ -32,31 +31,9 @@ integrated into your app. Before you begin, ensure you have:
    app that connects to the :ref:`Task Tracker backend
    <tutorial-task-tracker-create-realm-app>`.
 
-Import Realm
-------------
-
-Near the top of any Kotlin file that uses Realm, add the following import
-statement:
-
-.. tabs-realm-languages::
-
-   .. tab::
-      :tabid: java
-   
-      .. code-block:: java
-
-         import io.realm.Realm;
-   
-   .. tab::
-      :tabid: kotlin
-
-      .. code-block:: kotlin
-   
-         import io.realm.Realm
+.. include:: /includes/android-initialize-realm.rst
 
 .. _android-quick-start-init-app:
-
-.. include:: /includes/android-initialize-realm.rst
 
 Initialize the App
 ------------------
@@ -69,100 +46,73 @@ access your {+app+} using your {+app+} ID. You can find your {+app+} ID in the
 
    .. tab::
       :tabid: java
-   
-      .. code-block:: java
 
-         String appID = "<your app ID>"; // replace this with your App ID
-         App app = new App(new AppConfiguration.Builder(appID)
-               .build());
-   
-   .. tab::
-      :tabid: kotlin
-
-      .. code-block:: kotlin
-   
-         val appID = "<your app ID>" // replace this with your App ID
-         val app: App = App(AppConfiguration.Builder(appID)
-               .build())
-
-.. admonition:: Android Studio Errors?
-   :class: note
-
-   If Android Studio does not recognize the ``Realm``, ``App``, or
-   ``AppConfiguration`` types, there could be a problem with the
-   your Gradle build configuration. To fix the issue, try:
-
-   - Cleaning your project with ``Build > Clean Project``
-
-   - Rebuilding your project based on your updated ``build.gradle`` file
-     with ``Build > Rebuild Project``
-
-   - Revisiting the :ref:`Install the Android SDK <android-install>`
-     guide to make sure that you installed the dependencies correctly.
-
-Define Your Object Model
-------------------------
-
-Your application's :ref:`object model <android-realm-objects>` controls
-the data that you can store within {+client-database+} and synchronize
-to and from {+backend+}.
-
-If have not :ref:`enabled {+sync+} <enable-sync>` or you enabled
-{+sync-short+} with :term:`Development Mode` in the {+ui+}, you can
-define your object model directly in code.
-
-.. note::
-
-   If you have enabled {+sync-short+} but turned off Developer Mode,
-   you can copy and paste the object model definitions that
-   {+backend-short+} generated for you from the :guilabel:`SDKs` tab
-   in the {+ui+}. You must re-enable Developer Mode if you want to make
-   changes to the object model definition from client side code. See
-   :ref:`Configure Your Data Model <configure-your-data-model>`.
-
-.. tabs-realm-languages::
-
-   .. tab::
-      :tabid: java
-   
-      .. literalinclude:: /android/code-samples/task.java
+      .. literalinclude:: /examples/generated/android/code/start/MainActivity.codeblock.initialize-the-app.java
          :language: java
    
    .. tab::
       :tabid: kotlin
 
-      .. code-block:: kotlin
+      .. literalinclude:: /examples/generated/android/code/start/MainActivity.codeblock.initialize-the-app.kt
+         :language: kotlin
 
-         import io.realm.RealmObject
-         import io.realm.annotations.PrimaryKey
-         import io.realm.annotations.Required
-         import org.bson.types.ObjectId
+.. note:: Android Studio Errors?
 
-         enum class TaskStatus(val displayName: String) {
-            Open("Open"),
-            InProgress("In Progress"),
-            Complete("Complete"),
-         }
+   If Android Studio does not recognize the ``Realm``, ``App``, or
+   ``AppConfiguration`` types, there could be a problem with the
+   your Gradle build configuration. To fix the issue:
 
-         open class Task(_name: String = "Task", project: String = "My Project") : RealmObject() {
-            @PrimaryKey var _id: ObjectId = ObjectId()
-            var _partition: String = project
-            var name: String = _name
+   - Clean your project with ``Build > Clean Project``
 
-            @Required
-            var status: String = TaskStatus.Open.name
-            var statusEnum: TaskStatus
-               get() {
-                  // because status is actually a String and another client could assign an invalid value,
-                  // default the status to "Open" if the status is unreadable
-                  return try {
-                     TaskStatus.valueOf(status)
-                  } catch (e: IllegalArgumentException) {
-                     TaskStatus.Open
-                  }
-               }
-               set(value) { status = value.name }
-         }
+   - Rebuild your project based on your updated ``build.gradle`` file
+     with ``Build > Rebuild Project``
+
+   - Revisit the :ref:`Install the Android SDK <android-install>`
+     guide to make sure that you installed the dependencies correctly.
+
+Define Your Object Model
+------------------------
+
+Your application's **data model** defines the structure of data
+stored within {+client-database+} and synchronized to and from
+{+backend+}. You can define your application's data model in two ways:
+
+- Via JSON :ref:`document schemas <mongodb-schemas>` in {+backend+} with
+  :ref:`Realm Schema <create-rom-from-schema>`.
+
+- Via Kotlin or Java classes in your application code with
+  :ref:`Realm Object Models <create-schema-from-rom>`.
+
+This quick start uses the latter approach, which defines your schema
+using classes in your mobile application code. To define your {+app+}'s
+object model in this way, you need to :ref:`enable Developer Mode
+<enable-development-mode>`.
+
+Once you've enabled Developer Mode, add the following class
+definitions to your application code:
+
+.. seealso::
+
+   See :ref:`Configure Your Data Model <configure-your-data-model>` for
+   more information on Realm Schema, object models, and Developer
+   Mode.
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: java
+
+      .. literalinclude:: /examples/generated/android/code/start/Task.codeblock.define-object-model.java
+         :language: java
+
+      .. literalinclude:: /examples/generated/android/code/start/TaskStatus.java
+         :language: java
+   
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/generated/android/code/start/MainActivity.codeblock.define-object-model.kt
+         :language: kotlin
 
 .. _android-quick-start-authenticate:
 
@@ -177,273 +127,165 @@ information:
 
    .. tab::
       :tabid: java
+
+      .. literalinclude:: /examples/generated/android/code/start/MainActivity.codeblock.authenticate-a-user.java
+         :language: java
    
-      .. code-block:: java
-
-         Credentials credentials = Credentials.anonymous();
-
-         app.loginAsync(credentials, it -> {
-               if (it.isSuccess()) {
-                  Log.v("QUICKSTART", "Successfully authenticated anonymously.");
-                  user = app.currentUser();
-
-                  // interact with MongoDB Realm via user object here
-
-               } else {
-                  Log.e("QUICKSTART", "Failed to log in. Error: " + it.getError().toString());
-               }
-         });
-
    .. tab::
       :tabid: kotlin
 
-      .. code-block:: kotlin
-
-         val credentials: Credentials = Credentials.anonymous()
-
-         var user: User? = null
-         app.loginAsync(credentials) {
-            if (it.isSuccess) {
-               Log.v("QUICKSTART", "Successfully authenticated anonymously.")
-               user = app.currentUser()
-
-               // interact with MongoDB Realm via user object here
-
-            } else {
-               Log.e("QUICKSTART", "Failed to log in. Error: ${it.error}")
-            }
-         }
+      .. literalinclude:: /examples/generated/android/code/start/MainActivity.codeblock.authenticate-a-user.kt
+         :language: kotlin
 
 {+service-short+} provides many additional ways to authenticate, register, and link users.
 
-.. seealso:: :ref:`Authenticate a User <android-authenticate>`
+.. seealso::
+
+   :ref:`Authenticate a User <android-authenticate>`
 
 Open a Realm
 ------------
 
-Once you have :ref:`enabled {+sync+} <enable-sync>` and authenticated a user, you can open
-a synced :ref:`{+realm+} <android-realms>`. Use the ``SyncConfiguration``
-to control the specifics of how your application synchronizes data with
-{+backend+}, including the :ref:`partition <partitioning>`,
-whether to wait for an initial batch of data to sync, and
-more.
+Once you have :ref:`enabled {+sync+} <enable-sync>` and authenticated a
+user, you can open a synced :ref:`{+realm+} <android-realms>`. Use the
+``SyncConfiguration`` to control the specifics of how your application
+synchronizes data with {+backend+}, including the :ref:`partition
+<partitioning>`, how long to wait before a request times out, whether
+to allow synchronous reads or writes to a {+realm+} on the UI thread,
+and more.
 
 .. tabs-realm-languages::
 
    .. tab::
       :tabid: java
+
+      .. literalinclude:: /examples/generated/android/code/start/MainActivity.codeblock.open-a-realm.java
+         :language: java
    
-      .. code-block:: java
-
-         User user = app.currentUser();
-         String partitionValue = "myPartition";
-         SyncConfiguration config = new SyncConfiguration.Builder(user, partitionValue)
-                                          .build();
-
-         Realm realm = Realm.getInstance(config);
-
    .. tab::
       :tabid: kotlin
 
-      .. code-block:: kotlin
+      .. literalinclude:: /examples/generated/android/code/start/MainActivity.codeblock.open-a-realm.kt
+         :language: kotlin
 
-         val user: User? = app.currentUser()
-         val partitionValue: String = "myPartition"
-         val config = SyncConfiguration.Builder(user!!, partitionValue)
-                        .build()
+.. seealso::
 
-         val realm: Realm = Realm.getInstance(config)
-
-.. seealso:: :ref:`Sync Data <android-sync-data>`
-
+   :ref:`Sync Data <android-sync-data>`
 
 Create, Read, Update, and Delete Objects
 ----------------------------------------
 
-Once you have opened a {+realm+}, you can modify it and its
-:ref:`objects <android-realm-objects>` in a
+Once you have opened a {+realm+}, you can modify the
+:ref:`objects <android-realm-objects>` within that {+realm+} in a
 :ref:`write transaction <android-realm-database-writes>` block.
 
-To create a new Task, instantiate the Task class and add it to the {+realm+} in a write block:
+.. include:: /includes/android-synchronous-reads-writes-ui-thread.rst
+
+To create a new ``Task``, instantiate an instance of the
+``Task`` class and add it to the {+realm+} in a write block:
 
 .. tabs-realm-languages::
 
    .. tab::
       :tabid: java
 
-      .. code-block:: java
-
-         Task task = new Task("New Task", partitionValue);
-         realm.executeTransaction( transactionRealm -> {
-            transactionRealm.insert(task);
-         });
-
-   .. tab::
-      :tabid: kotlin
-
-      .. code-block:: kotlin
-
-         val task : Task = Task("New Task", partitionValue)
-         realm.executeTransaction { transactionRealm ->
-            transactionRealm.insert(task)
-         }
-
-You can retrieve a live :ref:`collection <android-client-collections>` of all tasks in the {+realm+}:
-
-.. tabs-realm-languages::
-
-   .. tab::
-      :tabid: java
+      .. literalinclude:: /examples/generated/android/code/start/MainActivity.codeblock.create-object.java
+         :language: java
    
-      .. code-block:: java
-
-         // all tasks in the realm
-         RealmResults<Task> tasks = realm.where(Task.class).findAll();
-
    .. tab::
       :tabid: kotlin
 
-      .. code-block:: kotlin
+      .. literalinclude:: /examples/generated/android/code/start/MainActivity.codeblock.create-object.kt
+         :language: kotlin
 
-         // all tasks in the realm
-         val tasks : RealmResults<Task> = realm.where<Task>().findAll()
-
-You can also filter that collection using a :ref:`filter <android-client-query-engine>`:
+You can retrieve a live :ref:`collection <android-client-collections>`
+of all items in the {+realm+}:
 
 .. tabs-realm-languages::
 
    .. tab::
       :tabid: java
+
+      .. literalinclude:: /examples/generated/android/code/start/MainActivity.codeblock.read-object.java
+         :language: java
    
-      .. code-block:: java
-
-         // you can also filter a collection
-         List<Task> tasksThatBeginWithN = tasks.where().beginsWith("name", "N").findAll();
-         List<Task> openTasks = tasks.where().equalTo("status", TaskStatus.Open.name()).findAll();
-
    .. tab::
       :tabid: kotlin
 
-      .. code-block:: kotlin
+      .. literalinclude:: /examples/generated/android/code/start/MainActivity.codeblock.read-object.kt
+         :language: kotlin
 
-         // you can also filter a collection
-         val tasksThatBeginWithN : List<Task> = tasks.where().beginsWith("name", "N").findAll()
-         val openTasks : List<Task> = tasks.where().equalTo("status", TaskStatus.Open.name).findAll()
-
-To modify a task, simply update its properties in a write transaction block:
+You can also filter that collection using a :ref:`filter
+<android-client-query-engine>`:
 
 .. tabs-realm-languages::
 
    .. tab::
       :tabid: java
+
+      .. literalinclude:: /examples/generated/android/code/start/MainActivity.codeblock.filter-collection.java
+         :language: java
    
-      .. code-block:: java
-
-         // all modifications to a realm must happen inside of a write block
-         realm.executeTransaction (transactionRealm -> {
-            Task innerOtherTask = transactionRealm.where(Task.class).equalTo("_id", otherTask.get_id()).findFirst();
-            innerOtherTask.setStatus(TaskStatus.Complete);
-         });
-
    .. tab::
       :tabid: kotlin
 
-      .. code-block:: kotlin
+      .. literalinclude:: /examples/generated/android/code/start/MainActivity.codeblock.filter-collection.kt
+         :language: kotlin
 
-         // all modifications to a realm must happen inside of a write block
-         realm.executeTransaction { transactionRealm ->
-            val innerOtherTask : Task = transactionRealm.where<Task>().equalTo("_id", otherTask._id).findFirst()!!
-            innerOtherTask.status = TaskStatus.Complete.name
-         }
-
-Finally, you can delete a task:
+To modify a task, update its properties in a write transaction block:
 
 .. tabs-realm-languages::
 
    .. tab::
       :tabid: java
+
+      .. literalinclude:: /examples/generated/android/code/start/MainActivity.codeblock.update-object.java
+         :language: java
    
-      .. code-block:: java
-
-         Task yetAnotherTask = tasks.get(0);
-         ObjectId yetAnotherTaskId = yetAnotherTask.get_id();
-         // all modifications to a realm must happen inside of a write block
-         realm.executeTransactionAsync(transactionRealm -> {
-            Task innerYetAnotherTask = transactionRealm.where(Task.class).equalTo("_id", yetAnotherTaskId).findFirst();
-            innerYetAnotherTask.deleteFromRealm();
-         });
-
-
    .. tab::
       :tabid: kotlin
 
-      .. code-block:: kotlin
+      .. literalinclude:: /examples/generated/android/code/start/MainActivity.codeblock.update-object.kt
+         :language: kotlin
 
-         val yetAnotherTask: Task = tasks.get(0)!!
-         val yetAnotherTaskId: ObjectId = yetAnotherTask._id
-         // all modifications to a realm must happen inside of a write block
-         realm.executeTransactionAsync { transactionRealm ->
-            val innerYetAnotherTask : Task = transactionRealm.where<Task>().equalTo("_id", yetAnotherTaskId).findFirst()!!
-            innerYetAnotherTask.deleteFromRealm()
-         }
+Finally, you can delete a task by calling the ``deleteFromRealm()``
+method in a write transaction block:
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: java
+
+      .. literalinclude:: /examples/generated/android/code/start/MainActivity.codeblock.delete-object.java
+         :language: java
+   
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/generated/android/code/start/MainActivity.codeblock.delete-object.kt
+         :language: kotlin
 
 Watch for Changes
 -----------------
 
-You can :ref:`watch a realm, collection, or object for changes <android-client-notifications>`
-with the `addChangeListener()` method.
+You can :ref:`watch a realm, collection, or object for changes
+<android-client-notifications>` by attaching a custom
+``OrderedRealmCollectionChangeListener`` with the ``addChangeListener()``
+method:
 
 .. tabs-realm-languages::
 
    .. tab::
       :tabid: java
 
-      .. code-block:: java
-
-         tasks.addChangeListener(new OrderedRealmCollectionChangeListener<RealmResults<Task>>() {
-            @Override
-            public void onChange(RealmResults<Task> collection, OrderedCollectionChangeSet changeSet) {
-               OrderedCollectionChangeSet.Range[] deletions = changeSet.getDeletionRanges();
-               for (OrderedCollectionChangeSet.Range range : deletions) {
-                  Log.v("QUICKSTART", "Deleted range: " + range.startIndex + " to " + (range.startIndex + range.length));
-               }
-               OrderedCollectionChangeSet.Range[] insertions = changeSet.getInsertionRanges();
-               for (OrderedCollectionChangeSet.Range range : insertions) {
-                  Log.v("QUICKSTART", "Inserted range: " + range.startIndex + " to " + (range.startIndex + range.length));
-               }
-
-               OrderedCollectionChangeSet.Range[] modifications = changeSet.getChangeRanges();
-               for (OrderedCollectionChangeSet.Range range : modifications) {
-                  Log.v("QUICKSTART", "Updated range: " + range.startIndex + " to " + (range.startIndex + range.length));
-               }
-            }
-         });
-
-
+      .. literalinclude:: /examples/generated/android/code/start/MainActivity.codeblock.watch-for-changes.java
+         :language: java
+   
    .. tab::
       :tabid: kotlin
 
-      .. code-block:: kotlin
-
-         tasks.addChangeListener(OrderedRealmCollectionChangeListener<RealmResults<Task>> { collection, changeSet ->
-            val deletions = changeSet.deletionRanges
-            // if keeping parallel arrays in sync, handle deletions in reverse to avoid changing indices after removals
-            for (i in deletions.indices.reversed()) {
-               val range = deletions[i]
-               Log.v("QUICKSTART", "Deleted range: ${range.startIndex} to ${range.startIndex + range.length}")
-            }
-
-            val insertions = changeSet.insertionRanges
-            for (range in insertions) {
-               Log.v("QUICKSTART", "Inserted range: ${range.startIndex} to ${range.startIndex + range.length}")
-            }
-
-            val modifications = changeSet.changeRanges
-            for (range in modifications) {
-               Log.v("QUICKSTART", "Updated range: ${range.startIndex} to ${range.startIndex + range.length}")
-            }
-         })
-
+      .. literalinclude:: /examples/generated/android/code/start/MainActivity.codeblock.watch-for-changes.kt
+         :language: kotlin
 
 Log Out
 -------
@@ -455,59 +297,58 @@ Once logged in, you can log out:
    .. tab::
       :tabid: java
 
-      .. code-block:: java
-         
-         user.logOutAsync( result -> {
-            if (result.isSuccess()) {
-               Log.v("QUICKSTART", "Successfully logged out.");
-            } else {
-               Log.e("QUICKSTART", "Failed to log out. Error: " + result.getError().toString());
-            }
-         });
-
-
+      .. literalinclude:: /examples/generated/android/code/start/MainActivity.codeblock.log-out.java
+         :language: java
+   
    .. tab::
       :tabid: kotlin
 
-      .. code-block:: kotlin
-
-         user.logOutAsync {
-            if (it.isSuccess) {
-               Log.v("QUICKSTART", "Successfully logged out.")
-            } else {
-               Log.e("QUICKSTART", "Failed to log out. Error: ${it.error}")
-            }
-         }
+      .. literalinclude:: /examples/generated/android/code/start/MainActivity.codeblock.log-out.kt
+         :language: kotlin
 
 
 Complete Example
 ----------------
 
-Run the complete example, by replacing the appId with your {+realm+} app ID.
+Run the complete example by replacing the appId with your {+realm+} app ID.
+If you're running this project in a fresh Android Studio project, you can
+copy and paste this file into your application's ``MainActivity`` -- just
+remember to:
+
+- change the package declaration so it matches your project
+
+- replace the App ID placeholder with your {+app+}'s App ID
+
+- update the ``import`` statements for ``Task`` and ``TaskStatus`` if
+  you're using java
 
 .. tabs-realm-languages::
 
    .. tab::
       :tabid: java
 
-      .. literalinclude:: /android/code-samples/task.java
+      .. literalinclude:: /examples/generated/android/code/start/Task.codeblock.define-object-model.java
          :caption: Task.java
          :language: java
 
-      .. literalinclude:: /android/code-samples/quick-start.java
+      .. literalinclude:: /examples/generated/android/code/start/TaskStatus.java
+         :caption: TaskStatus.java
+         :language: java
+
+      .. literalinclude:: /examples/generated/android/code/start/MainActivity.java
          :caption: MainActivity.java
          :language: java
 
    .. tab::
       :tabid: kotlin
 
-      .. literalinclude:: /android/code-samples/quick-start.kt
+      .. literalinclude:: /examples/generated/android/code/start/MainActivity.kt
          :caption: MainActivity.kt
          :language: kotlin
 
 Output
 ------
-Running the above code should output something like the following:
+Running the above code should produce output resembling the following:
 
 .. code-block:: shell
 

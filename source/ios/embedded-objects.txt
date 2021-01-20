@@ -29,9 +29,8 @@ exist as an independent Realm object. Realm automatically deletes
 embedded objects if their parent object is deleted or when overwritten
 by a new embedded object instance.
 
-.. admonition:: Realm Uses Cascading Deletes for Embedded Objects
-   :class: note
-
+.. note:: Realm Uses Cascading Deletes for Embedded Objects
+   
    When you delete a Realm object, Realm automatically deletes any
    embedded objects referenced by that object. Any objects that your
    application must persist after the deletion of their parent object
@@ -73,7 +72,7 @@ would define a relationship:
       :tabid: objective-c
 
       .. literalinclude:: /examples/EmbeddedObjects/DefineEmbeddedObjects.m
-         :language: objective-c
+         :language: objectivec
 
 
 JSON Schema
@@ -102,7 +101,7 @@ to a parent object's property:
       :tabid: objective-c
 
       .. literalinclude:: /examples/EmbeddedObjects/CreateEmbeddedObject.m
-         :language: objective-c
+         :language: objectivec
 
 Update an Embedded Object Property
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -122,7 +121,7 @@ write transaction:
       :tabid: objective-c
 
       .. literalinclude:: /examples/EmbeddedObjects/UpdateEmbeddedObject.m
-         :language: objective-c
+         :language: objectivec
 
 Overwrite an Embedded Object
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -142,7 +141,7 @@ of a party to a new instance in a write transaction:
       :tabid: objective-c
 
       .. literalinclude:: /examples/EmbeddedObjects/ReplaceEmbeddedObject.m
-         :language: objective-c
+         :language: objectivec
 
 Query a Collection on Embedded Object Properties
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -165,4 +164,4 @@ property value:
       :tabid: objective-c
 
       .. literalinclude:: /examples/EmbeddedObjects/QueryEmbeddedObjects.m
-         :language: objective-c
+         :language: objectivec

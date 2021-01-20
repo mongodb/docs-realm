@@ -45,7 +45,7 @@ Configuration
 
       You can enable the JWT authentication provider from the {+ui+}
       by selecting :guilabel:`Custom JWT Authentication` from the
-      :guilabel:`Users > Providers` page.
+      :guilabel:`Authentication` page.
 
       You can configure the following properties for the provider:
 
@@ -65,9 +65,8 @@ Configuration
       stored in the ``/auth_providers`` directory. Configuration files
       for the Custom authentication provider have the following form:
 
-      .. cssclass:: wide-container
       .. code-block:: none
-         :caption: ``/auth_providers/custom-token.json``
+         :caption: /auth_providers/custom-token.json
 
          {
            "name": "custom-token",
@@ -116,7 +115,6 @@ value, then you can configure the provider to use that value instead.
       To override the default audience, specify a new value in the
       :guilabel:`Audience` input:
 
-      .. cssclass:: bordered-figure
       .. figure:: /images/custom-jwt-audience.png
          :alt: The Custom JWT audience configuration input
 
@@ -176,7 +174,6 @@ JWTs.
            ]
          }
 
-.. cssclass:: auth-table
 .. list-table::
    :header-rows: 1
    :widths: 15 30
@@ -194,7 +191,6 @@ JWTs.
        - ``HS256``
        - ``RS256``
        
-       .. cssclass:: bordered-figure
        .. figure:: /images/custom-jwt-signing-algorithm.png
           :alt: The Signing Algorithm configuration dropdown
 
@@ -207,7 +203,6 @@ JWTs.
        Each signing key Secret must be a string with length between 32
        and 512 characters.
        
-       .. cssclass:: bordered-figure
        .. figure:: /images/custom-jwt-signing-key.png
           :alt: The Signing Keys configuration inputs
 
@@ -244,7 +239,6 @@ signing algorithm and keys.
            "jwkURI": "<JWK or JWKS URL>"
          }
 
-.. cssclass:: auth-table
 .. list-table::
    :header-rows: 1
    :widths: 15 30
@@ -267,7 +261,6 @@ signing algorithm and keys.
        and signing keys the JWTs should use. The JWKS may specify up to
        three signing keys and must use the ``RS256`` algorithm.
        
-       .. cssclass:: bordered-figure
        .. figure:: /images/custom-jwt-jwk-uri.png
           :alt: The JWK URI input
 
@@ -292,8 +285,7 @@ whenever they log in and exposes the fields in the ``data`` object of the
       To define a metadata field, click :guilabel:`Add Field` and
       specify the mapping between the metadata field in the JWT and its
       corresponding field name in the user object.
-
-      .. cssclass:: bordered-figure
+      
       .. figure:: /images/custom-auth-metadata-fields.png
          :alt: The metadata fields configuration table
 
@@ -440,8 +432,8 @@ JSON Web Tokens
 
 The external authentication system must return a `JSON web token
 <https://jwt.io/introduction/>`_ that uniquely identifies the
-authenticated user. JSON web tokens are an industry standard (`RFC 7519
-<https://tools.ietf.org/html/rfc7519>`_) for securely representing
+authenticated user. JSON web tokens are an industry standard
+(see :rfc:`RFC 7519 <7519>`) for securely representing
 claims between two parties. A JWT is a string that consists of three
 parts: a header, a payload and a signature and has the following form:
 
@@ -588,6 +580,52 @@ algorithm specified in the ``"alg"`` field of the header.
      base64UrlEncode(header) + "." + base64UrlEncode(payload),
      signingKey
    )
+
+.. _custom-jwt-authentication-examples:
+
+Examples
+--------
+
+For code examples that demonstrate how to register and log in using
+Custom JWT authentication, see the documentation for the Realm SDKs:
+
+.. tabs-realm-sdks::
+
+   .. tab::
+      :tabid: android
+
+      To register or log in a Custom JWT user from the Android Client SDK, see the
+      :ref:`Android SDK guide to Custom JWT authentication <android-login-custom-jwt>`.
+
+   .. tab::
+      :tabid: ios
+
+      To register or log in a Custom JWT user from the iOS Client SDK, see the
+      :ref:`iOS SDK guide to Custom JWT authentication <ios-login-custom-jwt>`.
+
+   .. tab::
+      :tabid: web
+
+      To register or log in a Custom JWT user from the Web Client SDK, see the
+      :ref:`Web SDK guide to Custom JWT authentication <web-login-custom-jwt>`.
+
+   .. tab::
+      :tabid: node
+      
+      To register or log in a Custom JWT user from the Node Client SDK, see the
+      :ref:`Node SDK guide to Custom JWT authentication <node-login-custom-jwt>`.
+
+   .. tab::
+      :tabid: react-native
+
+      To register or log in a Custom JWT user from the React Native Client SDK, see the
+      :ref:`React Native SDK guide to Custom JWT authentication <react-native-login-custom-jwt>`.
+
+   .. tab::
+      :tabid: dotnet
+
+      To register or log in a Custom JWT user from the .NET Client SDK, see the
+      :ref:`.NET SDK guide to Custom JWT authentication <dotnet-login-custom-jwt>`.
 
 .. _custom-jwt-authentication-summary:
 

@@ -5,13 +5,12 @@ content: |
   {+service-short+} requires that you install a GitHub app that has, at minimum,
   read access to the repository.
 
-  To install the app, click :guilabel:`Deploy` in the left-hand navigation of
-  the {+ui+}. Select the :guilabel:`Configuration` tab and then click
-  :guilabel:`Install Realm on GitHub`. A new browser window will open to the
-  GitHub application installation flow.
+  To install the app, click :guilabel:`Deploy` in the {+leftnav+} of the {+ui+}.
+  Select the :guilabel:`Configuration` tab and then click :guilabel:`Install
+  Realm on GitHub`. A new browser window will open to the GitHub application
+  installation flow.
 
-  .. admonition:: GitHub Authentication
-     :class: note
+  .. note:: GitHub Authentication
 
      GitHub may require you to provide your GitHub account credentials before
      you can install the app.
@@ -19,7 +18,6 @@ content: |
   Select the GitHub account or organization for which you want to install the
   app:
 
-  .. cssclass:: bordered-figure
   .. figure:: /images/github-app-install-location.png
      :alt: GitHub Application install location screen
 
@@ -28,15 +26,13 @@ content: |
   your repositories on GitHub. Select the repositories you want to use and then
   click :guilabel:`Install`.
 
-  .. cssclass:: bordered-figure
   .. figure:: /images/github-app-install-permissions.png
      :alt: GitHub Application permissions request screen
 
   After you install the application, click :guilabel:`Authorize` to finish
   connecting Realm to GitHub. 
 
-  .. admonition:: GitHub Permissions
-     :class: note
+  .. note:: GitHub Permissions
      
      You can manage permissions for the {+service-short+} GitHub application from
      the :github:`Installed GitHub Apps <settings/installations>` page in your
@@ -50,7 +46,6 @@ content: |
   :guilabel:`Repository`, :guilabel:`Branch`, and :guilabel:`Directory` that
   contain the Realm app's configuration files and then click :guilabel:`Save`.
 
-  .. cssclass:: bordered-figure
   .. figure:: /images/automatic-deploy-select-repo.png
      :alt: GitHub repository selection
      :width: 750px
@@ -75,8 +70,7 @@ content: |
   the application directory </deploy/export-realm-app>` of an existing app (using the
   ``--for-source-control`` option).
 
-  .. admonition:: Export For Source Control
-     :class: important
+  .. important:: Export For Source Control
 
      {+app+}s deployed via GitHub *must not* specify the ``name``, ``app_id``,
      ``location``, or ``deployment_model`` fields in the ``config.json`` file.
@@ -110,8 +104,7 @@ content: |
   page, click :guilabel:`Enable Automatic Deployment`. In the modal that
   appears, click :guilabel:`Enable Automatic Deployment` to confirm your
   selection.
-
-  .. cssclass:: bordered-figure
+  
   .. figure:: /images/enable-automatic-deployment.png
      :alt: Enable Automatic GitHub Deployment in the {+ui+}
 ---
@@ -151,8 +144,7 @@ content: |
   version, so make sure that you also update your client code to use the new
   version if necessary.
 
-  .. admonition:: Deployment History
-     :class: note
+  .. note:: Deployment History
 
      You can see the currently deployed version of your
      application as well as a historical log of previous

@@ -2,8 +2,10 @@
 func fetchTeamMembers() {
     // Start loading indicator
     activityIndicator.startAnimating()
-    app.currentUser!.functions.getMyTeamMembers([]) { [weak self](result, error) in
-        DispatchQueue.main.sync {
+    let user = app.currentUser!
+    
+    user.functions.getMyTeamMembers([]) { [weak self](result, error) in
+        DispatchQueue.main.async {
             guard self != nil else {
                 // This can happen if the view is dismissed 
                 // before the operation completes

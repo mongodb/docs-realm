@@ -4,9 +4,9 @@ level: 4
 content: |
   You can configure the read preference for a linked cluster from the cluster's
   configuration screen in the {+ui+}. To get to the configuration screen, click
-  :guilabel:`Linked Data Sources` beneath :guilabel:`Data Access & Security` in the
-  left-hand navigation and then select the cluster for which you want to
-  configure read preference.
+  :guilabel:`Linked Data Sources` beneath :guilabel:`Manage` in the left-hand
+  navigation and then select the cluster for which you want to configure read
+  preference.
 ---
 title: Specify a Cluster Read Preference
 ref: specify-a-cluster-read-preference
@@ -14,8 +14,6 @@ level: 4
 content: |
   On the cluster configuration screen, select a mode from the
   :guilabel:`Read Preference` dropdown.
-
-  .. cssclass:: bordered-figure
 
   .. figure:: /images/cluster-read-preference-selector.png
      :alt: The read preference dropdown menu
@@ -36,9 +34,8 @@ content: |
   </core/replica-set-members>` must include all of the specified read
   preference tags in its node configuration.
 
-  .. admonition:: Atlas Cluster Tag Sets
-     :class: note
-
+  .. note:: Atlas Cluster Tag Sets
+     
      `{+atlas+} <https://www.mongodb.com/cloud/atlas?tck=docs_realm>`_ clusters
      are configured with pre-defined tag sets for each
      member node depending on the member's type. For detailed information
@@ -48,8 +45,6 @@ content: |
   To specify a read preference tag, click :guilabel:`Add Tag` and then
   enter the tag's :guilabel:`Key` and :guilabel:`Value` in the new row
   of the :guilabel:`Read Preference Tags` table.
-
-  .. cssclass:: bordered-figure
 
   .. figure:: /images/cluster-read-preference-tags-table.png
      :alt: The read preference tags table

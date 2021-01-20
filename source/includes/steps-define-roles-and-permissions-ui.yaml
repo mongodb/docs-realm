@@ -4,8 +4,8 @@ level: 4
 content: |
   You can create and manage roles and permissions from the MongoDB rules
   screen in the {+ui+}. To get to the rules screen, click
-  :guilabel:`Rules` beneath :guilabel:`Data Access & Security` in the
-  left-hand navigation.
+  :guilabel:`Rules` beneath :guilabel:`Data Access` in the
+  {+leftnav+}.
 ---
 title: Add a MongoDB Collection Namespace
 ref: add-a-mongodb-collection-namespace
@@ -19,7 +19,6 @@ content: |
   in the rules sidebar and click its :guilabel:`context menu
   (...)`. Select :guilabel:`Add Database/Collection`.
 
-  .. cssclass:: bordered-figure
   .. figure:: /images/add-database-collection.png
      :alt: Add a Database/Collection button on the collection rules screen.
 ---
@@ -30,7 +29,6 @@ content: |
   Enter the :guilabel:`Database Name` and :guilabel:`Collection Name` of
   the MongoDB collection that you want to use.
 
-  .. cssclass:: bordered-figure
   .. figure:: /images/collection-namespace-config-values.png
      :alt: Collection namespace inputs.
 ---
@@ -48,7 +46,6 @@ content: |
   Once you have selected and configured a template, click :guilabel:`Add
   Collection`.
 
-  .. cssclass:: bordered-figure
   .. figure:: /images/collection-rule-templates.png
      :alt: A list of available collection rule templates.
 
@@ -62,7 +59,6 @@ content: |
      If you select that template, you will need to specify the name of the
      field that contains the user id.
 
-     .. cssclass:: bordered-figure
      .. figure:: /images/rule-template-additional-fields.png
         :alt: Additional fields for a collection rule template.
 ---
@@ -90,7 +86,6 @@ content: |
   role's :guilabel:`Apply When` box. The expression should evaluate to
   ``true`` when the role applies to a given document.
 
-  .. cssclass:: bordered-figure
   .. figure:: /images/mongodb-role-apply-when.png
      :alt: A MongoDB Role's Apply When Expression
 ---
@@ -106,7 +101,6 @@ content: |
   Once you have defined the role's document-level permissions, click
   :guilabel:`Done Editing`.
 
-  .. cssclass:: bordered-figure
   .. figure:: /images/mongodb-role-document-level-permissions.png
      :alt: A MongoDB Role's Document-Level Permissions
 ---
@@ -130,8 +124,7 @@ content: |
          :guilabel:`Write` boxes to indicate whether the role can read
          or write to the field.
 
-       - .. cssclass:: bordered-figure
-         .. figure:: /images/mongodb-permissions-all-fields.png
+       - .. figure:: /images/mongodb-permissions-all-fields.png
             :alt: A role with permission to read and write to specific fields
             :width: 300px
 
@@ -143,8 +136,7 @@ content: |
          :guilabel:`Write` boxes to indicate whether the role can read
          or write to the field.
 
-       - .. cssclass:: bordered-figure
-         .. figure:: /images/mongodb-permissions-specific-fields.png
+       - .. figure:: /images/mongodb-permissions-specific-fields.png
             :alt: A role with permission to read and write to specific fields
             :width: 300px
 
@@ -155,8 +147,7 @@ content: |
          write privileges for any fields that aren't specifically
          configured.
 
-       - .. cssclass:: bordered-figure
-         .. figure:: /images/mongodb-permissions-additional-fields.png
+       - .. figure:: /images/mongodb-permissions-additional-fields.png
             :alt: A role with permission to read any unspecified fields
             :width: 300px
 ---

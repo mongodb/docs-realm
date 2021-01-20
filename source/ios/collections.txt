@@ -41,8 +41,9 @@ are mutable: within a write transaction, you can add and remove elements
 to and from a list. Lists are not associated with a query and are usually
 declared as a property of an :ref:`object model <ios-object-model>`.
 
-.. seealso:: :ref:`To-Many Relationships <ios-to-many-relationship>`
+.. seealso::
 
+   :ref:`To-Many Relationships <ios-to-many-relationship>`
 .. _ios-results-collections:
 
 Results Collections
@@ -53,8 +54,9 @@ query operation. Results are immutable: you cannot add or remove
 elements to or from the results collection. Results have an associated query
 that determines their contents.
 
-.. seealso:: :ref:`Reads <ios-realm-database-reads>`
+.. seealso::
 
+   :ref:`Reads <ios-realm-database-reads>`
 .. _ios-live-collections:
 
 Collections are Live
@@ -81,8 +83,7 @@ collection in your view class, then read the results
 collection as needed without having to refresh it or
 validate that it is up-to-date.
 
-.. admonition:: Indexes may change
-   :class: important
+.. important:: Indexes may change
 
    Since results update themselves automatically, do not
    store the positional index of an object in the collection
@@ -160,8 +161,7 @@ are determined by a query.
 
 .. _ios-collection-type-for-implicit-inverse-relationships:
 
-.. admonition:: Inverse one-to-many relationship property exception
-   :class: note
+.. note:: Inverse one-to-many relationship property exception
 
    Since {+client-database+} automatically determines the contents of
    :ref:`implicit inverse relationship

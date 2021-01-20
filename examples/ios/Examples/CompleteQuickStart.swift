@@ -4,6 +4,8 @@ import RealmSwift
 private var g_expectation: XCTestExpectation?
 
 import UIKit
+
+// :code-block-start: complete-quick-start
 import RealmSwift
 
 // QsTask is the Task model for this QuickStart
@@ -26,50 +28,45 @@ class QsTask: Object {
     }
 }
 
-
-class CompleteQuickStartTest: XCTestCase {
-
-    override func setUp() {
-        let expectation = XCTestExpectation(description: "Log in successfully")
-        app.login(credentials: Credentials.anonymous) { (user, error) in
-            // Remember to dispatch back to the main thread in completion handlers
-            // if you want to do anything on the UI.
-            DispatchQueue.main.async {
-                guard error == nil else {
-                    print("Login failed: \(error!)")
-                    return
-                }
-
-                print("Login succeeded!");
-
-                expectation.fulfill()
+// Entrypoint. Call this to run the example.
+func runExample() {
+    // Instantiate the app
+    let app = App(id: YOUR_REALM_APP_ID) // Replace YOUR_REALM_APP_ID with your Realm app ID 
+    // Log in anonymously.
+    app.login(credentials: Credentials.anonymous) { (result) in
+        // Remember to dispatch back to the main thread in completion handlers
+        // if you want to do anything on the UI.
+        DispatchQueue.main.async {
+            switch result {
+            case .failure(let error):
+                print("Login failed: \(error)")
+            case .success(let user):
+                print("Login as \(user) succeeded!")
+                // Continue below
+                onLogin()
             }
         }
-        wait(for: [expectation], timeout: 25.0)
     }
+}
 
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
-
-    func testCompleteQuickStart() {
-        
-    }
+func onLogin() {
+    // Now logged in, do something with user
+    let user = app.currentUser!
     
-    func testRunExample() {
-        let expectation = XCTestExpectation(description: "Run complete quick start")
-        // :code-block-start: quick-start
-        // Now logged in, do something with user
-        let user = app.currentUser
-        let partitionValue = "myPartition"
+    // The partition determines which subset of data to access.
+    let partitionValue = "some partition value"
 
-        var configuration = user!.configuration(partitionValue: partitionValue)
-        configuration.objectTypes = [QsTask.self]
-        Realm.asyncOpen(configuration: user!.configuration(partitionValue: partitionValue)) { (realm, error) in
-            guard let realm = realm else {
-                fatalError(error!.localizedDescription)
-            }
-            // All tasks in the realm
+    // Get a sync configuration from the user object.
+    var configuration = user.configuration(partitionValue: partitionValue)
+    configuration.objectTypes = [QsTask.self]
+    // Open the realm asynchronously to ensure backend data is downloaded first.
+    Realm.asyncOpen(configuration: configuration) { (result) in
+        switch result {
+        case .failure(let error):
+            print("Failed to open realm: \(error.localizedDescription)")
+            // Handle error...
+        case .success(let realm):
+            // Get all tasks in the realm
             let tasks = realm.objects(QsTask.self)
 
             // Retain notificationToken as long as you want to observe
@@ -87,24 +84,28 @@ class CompleteQuickStartTest: XCTestCase {
                     fatalError("\(error)")
                 }
             }
-
-            let task = QsTask(partition: partitionValue, name: "Do laundry")
+            
+            // Delete all from the realm
             try! realm.write {
                 realm.deleteAll()
+            }
+            
+            // Add some tasks
+            let task = QsTask(partition: partitionValue, name: "Do laundry")
+            try! realm.write {
                 realm.add(task)
             }
-            let anotherQsTask = QsTask(partition: partitionValue, name: "App design")
+            let anotherTask = QsTask(partition: partitionValue, name: "App design")
             try! realm.write {
-                realm.add(anotherQsTask)
+                realm.add(anotherTask)
             }
 
             // You can also filter a collection
             let tasksThatBeginWithA = tasks.filter("name beginsWith 'A'")
             print("A list of all tasks that begin with A: \(tasksThatBeginWithA)")
 
-            let taskToUpdate = tasks[0]
-
             // All modifications to a realm must happen in a write block.
+            let taskToUpdate = tasks[0]
             try! realm.write {
                 taskToUpdate.status = "InProgress"
             }
@@ -112,8 +113,8 @@ class CompleteQuickStartTest: XCTestCase {
             let tasksInProgress = tasks.filter("status = %@", "InProgress")
             print("A list of all tasks in progress: \(tasksInProgress)")
 
-            let taskToDelete = tasks[0]
             // All modifications to a realm must happen in a write block.
+            let taskToDelete = tasks[0]
             try! realm.write {
                 // Delete the QsTask.
                 realm.delete(taskToDelete)
@@ -128,10 +129,17 @@ class CompleteQuickStartTest: XCTestCase {
             // Invalidate notification tokens when done observing
             notificationToken.invalidate()
             // :hide-start:
-            expectation.fulfill()
+            g_expectation!.fulfill()
             // :hide-end:
         }
-        // :code-block-end:
-        wait(for: [expectation], timeout: 10.0)
+    }
+}
+// :code-block-end:
+
+class QuickStartTest: XCTestCase {
+    func testRunExample() {
+        g_expectation = XCTestExpectation(description: "Run complete quick start")
+        runExample()
+        wait(for: [g_expectation!], timeout: 20.0)
     }
 }

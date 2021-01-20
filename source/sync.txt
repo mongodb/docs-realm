@@ -1,10 +1,25 @@
 .. _sync:
+.. _sync-overview:
 
-=====================
-Get Started with Sync
-=====================
+===================
+Realm Sync Overview
+===================
 
 .. default-domain:: mongodb
+
+.. toctree::
+   :titlesonly:
+   :hidden:
+   
+   Get Started with Sync </sync/get-started>
+   Configure Your Data Model </sync/configure-your-data-model>
+   Partition Atlas Data into Realms </sync/partitioning>   
+   Define Sync Rules  </sync/rules>
+   Enable Development Mode  </sync/enable-development-mode>
+   
+   Conflict Resolution </sync/conflict-resolution>
+   Sync Permissions </sync/permissions>
+   Realm Sync Protocol </sync/protocol>
 
 .. contents:: On this page
    :local:
@@ -17,46 +32,183 @@ Get Started with Sync
 Overview
 --------
 
-{+sync+} enables you to share data across devices, between :term:`{+service-short+}
-clients <{+service-short+} client>` and a :term:`synced {+atlas+} cluster <synced
-cluster>`.
+To sync data across devices, you can :ref:`enable {+sync+} <enable-sync>` for your
+{+app+}. {+sync+} automatically handles complex and tedious issues like data
+serialization, network recovery, and conflict resolution, so you can focus on the actual
+business logic of your app.
 
-.. _enable-sync:
-
-Enable Sync
------------
-
-You can enable {+sync-short+} on any {+app+} you have :ref:`created <create-a-realm-app>`.
+To understand how best to use {+sync+}, it's important to understand the problem
+{+sync-short+} aims to address.
 
 .. include:: /includes/mongodb-4.4-required-for-sync-admonition.rst
 
-.. note::
+.. _the-connectivity-problem:
 
-   {+service-short+} syncs all data from collections with a defined
-   :ref:`{+backend-schema+} <mongodb-schemas>` in your :term:`Atlas cluster <linked
-   cluster>`. If you do not specify a field in your schema, Realm will not sync that
-   field to the clients.
+The Connectivity Problem
+------------------------
 
-.. include:: /includes/steps/enable-sync-ui.rst
+:term:`{+client-database+}` is a local, mobile database in
+which your app can store data. Eventually, most apps
+need to share that data with the outside world.
+Consider a few examples:
+
+- A team collaborates in real-time on a shared
+  document across the Internet.
+
+- A front-line worker fills out a report while
+  working somewhere with low or no network connectivity.
+
+- An IoT device uploads its sensor data to the cloud.
+
+Traditionally, developers use an HTTP client in a mobile app to
+manually communicate with a REST API over the Internet. This means that
+every mobile app needs to solve the following problems for every
+client platform:
+
+- serialization
+
+- a consistent schema of objects
+
+- gracefully handling network failures and slowdowns
+
+- resolving conflicts between changes to the same data on different
+  clients
+
+{+sync+} handles network access and conflict resolution in a
+background thread of your application, so your application logic stays
+the same regardless of network conditions. The :term:`{+service-short+} data model`
+makes it easy to manage a consistent schema of objects in your database
+and across all client platforms.
+
+.. _offline-first:
+
+Think Offline-first
+-------------------
+
+{+sync+} is built on the assumption that connectivity will
+drop. We call this mentality **offline-first**. After you
+make changes to the local {+realm+} on the client device, the {+service-short+}
+SDK automatically sends the changes to the server as soon
+as possible. Likewise, the {+service-short+} SDK automatically receives
+changes from the server and integrates those changes into
+the local {+realm+}. In effect, you continue to work with the
+local {+realm+} without moment-to-moment concern for network
+connectivity or lack thereof.
+
+The offline-first design leads to some of the main benefits
+of {+service+}:
+
+Seamless User Experience:
+  Users interact with local data with zero latency
+  regardless of their moment-to-moment connectivity.
+
+Live Objects Across Devices:
+  {+service+}'s :term:`live objects` concept extends across
+  devices: updates on one device sync to the corresponding
+  objects on other devices. :term:`Notifications` based on
+  these updates make it easy to update the application UI to
+  react to local and remote changes.
+
+It's Automatic:
+  {+sync+} is built into the {+service-short+} SDK. You do not need to write
+  your own synchronization protocol and deal with connectivity
+  issues when synchronizing data. The :term:`sync protocol` is
+  the same across platforms. {+service+} handles passing the
+  objects across the network automatically, so there is no
+  need to map from one platform's database to another or
+  serialize and deserialize objects in order to send and
+  receive them over the network.
+
+Despite these advantages, offline-first design introduces one
+problem: if client devices can remain offline while changes
+are made locally and remotely, they must share those changes
+when those client devices come back online.
+To make matters more complicated, every client device must
+arrive at the same state when all changes have been synced.
+This is why {+sync+} includes **automatic conflict resolution**.
+
+.. _conflict-resolution-overview:
+
+Resolving Conflicts
+-------------------
+
+{+service+}'s :term:`sync conflict resolution engine <sync protocol>` is
+deterministic. Changes received out-of-order eventually converge on the
+same state across the server and all clients. As such, {+sync+}
+is :wikipedia:`strongly eventually consistent
+<Eventual_consistency#Strong_eventual_consistency>`.
+
+.. note:: Realm Sync's Internal Conflict
+
+   From {+service+}'s perspective, changesets may
+   arrive any time that connectivity allows. There is no
+   guarantee that an earlier-timestamped changeset from one
+   client actually arrives before a later-timestamped
+   changeset from another client. As a result, the server
+   has to be able to process events out-of-order. {+service+}
+   keeps a per-{+realm+} transaction history to deal with the
+   out-of-order nature of messages.
+
+In simple terms, {+sync+}'s conflict resolution comes down
+to **last write wins**. {+sync+} also uses more
+sophisticated techniques like :wikipedia:`operational
+transform <Operational_transformation>` to handle, for
+example, insertions into lists.
+
+.. seealso::
+
+   :ref:`Conflict Resolution <conflict-resolution>`
+.. _scalability:
+
+Use Case Profiles and Scalability
+---------------------------------
+
+In practice, reliable conflict resolution is complex and
+CPU-intensive. Too many writers writing on the same realm
+concurrently can impact performance, leading to scalability
+concerns.
+
+To use {+sync+} effectively, it is important to understand
+the different use case profiles and their scalability
+implications. You can categorize {+sync+} use cases in
+terms of **number of writers, number of readers**:
+
+Multiple writer, multiple reader:
+  The real-time collaboration app use case.
+  Generally speaking, {+service+} can handle up to 30
+  concurrent writers per {+realm+}. As such, each 'project' on
+  which users can collaborate works best in its own {+realm+}.
+
+Single writer, multiple reader:
+  A single writer, such as a publisher
+  application on the backend, inserts data into a global
+  {+realm+} that all frontend clients can read from but not
+  write to. This can scale past tens of thousands of
+  concurrent users.
+
+Single writer, single reader:
+  Each user has their own private {+realm+} to
+  store, e.g., user account information, preferences, or the
+  individual user's shopping cart. As long as only the user
+  or a backend application interacts with the {+realm+} data,
+  the performance is ideal and scales linearly with number
+  of users.
+
+To get the best performance from {+sync+}, design your
+{+app+} with use case profiles in mind. If you
+intend to have many concurrent writers, split projects
+across {+realms+}.
+
 
 Summary
 -------
 
-- You can enable {+sync+} on your :term:`linked cluster` for any {+app+} you have created.
+- {+sync+} enables offline-first app development by handling network
+  loss and recovery automatically.
 
-.. toctree::
-   :titlesonly:
-   :caption: Configuration
-   :hidden:
+- {+sync+} has a built-in conflict resolution engine that guarantees
+  strong eventual consistency.
 
-   Partition Atlas Data into Realms </sync/partitioning>   
-   Configure Your Data Model </sync/configure-your-data-model>
-   Define Sync Rules  </sync/rules>
-   Enable Development Mode  </sync/enable-development-mode>
-
-.. toctree::
-   :titlesonly:
-   :caption: Reference
-
-   Sync Permissions </sync/permissions>
-   Realm Sync Protocol </sync/protocol>
+- To get the best performance with {+sync+}, it is essential to
+  understand the different use case profiles and their implications
+  on scalability.

@@ -66,15 +66,13 @@
        overridden. To define specific field-level rules with a default
        fallback, use ``additional_fields`` instead.
        
-       .. admonition:: Implicit Read Permission
-          :class: important
+       .. important:: Implicit Read Permission
 
           Any time a role has ``write`` permission for a particular
           scope it also has ``read`` permission even if that is not
           explicitly defined.
        
-       .. admonition:: MongoDB Expansions
-          :class: note
+       .. note:: MongoDB Expansions
           
           You can use MongoDB expansions, like :json-expansion:`%%root`
           and :json-expansion:`%%prevRoot`, in ``write`` JSON
@@ -128,7 +126,7 @@
             ...
           }
 
-       .. admonition:: Permission Priority
+       .. note:: Permission Priority
           
           Document-level ``read`` or ``write`` permissions override all
           field-level permissions of the same type. If permissions are

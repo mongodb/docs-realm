@@ -82,7 +82,7 @@ granular notifications.
         :tabid: objective-c
 
         .. literalinclude:: /examples/Notifications/RealmNotification.m
-          :language: objective-c
+          :language: objectivec
           :emphasize-lines: 3
 
 
@@ -100,9 +100,8 @@ description consists of three lists of indices:
 - The indices of the objects that were inserted.
 - The indices of the objects that were modified.
 
-.. admonition:: Order Matters
-   :class: important
-
+.. important:: Order Matters
+   
    In collection notification handlers, always apply changes
    in the following order: deletions, insertions, then
    modifications. Handling insertions before deletions may
@@ -137,7 +136,7 @@ list or other view that represents the collection in the UI.
         :tabid: objective-c
 
         .. literalinclude:: /examples/Notifications/CollectionNotification.m
-          :language: objective-c
+          :language: objectivec
           :emphasize-lines: 7
 
 
@@ -174,7 +173,7 @@ and whether the object was deleted.
         :tabid: objective-c
 
         .. literalinclude:: /examples/Notifications/ObjectNotification.m
-          :language: objective-c
+          :language: objectivec
           :emphasize-lines: 24
 
 

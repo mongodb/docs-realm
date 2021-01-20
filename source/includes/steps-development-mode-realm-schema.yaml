@@ -20,9 +20,8 @@ content: |
   not accept changes to your Realm Object Model while
   :guilabel:`Development Mode` is not on.
 
-  .. admonition:: Primary Key _id Required
-     :class: important
-
+  .. important:: Primary Key _id Required
+     
      To work with {+sync+}, your data model **must** have a primary key field
      called ``_id``. ``_id`` can be of type ``string``, ``int``, or
      ``objectId``.
@@ -56,10 +55,13 @@ content: |
            // ... use the realm instance to read and modify data
          })
 
-  .. seealso:: :ref:`Sync Data on Android <android-sync-data>`
-  .. seealso:: :ref:`Sync Data on iOS <ios-sync-data>`
-  .. seealso:: :ref:`Sync Data on Node <node-sync-data>`
-  .. seealso:: :ref:`Sync Data on React Native <react-native-sync-data>`
+  .. seealso::
+
+     - :ref:`Sync Data on Android <android-sync-data>`
+     - :ref:`Sync Data on iOS <ios-sync-data>`
+     - :ref:`Sync Data on Node <node-sync-data>`
+     - :ref:`Sync Data on React Native <react-native-sync-data>`
+
 ---
 title: Update Your Realm Schema with the Realm Object Model Changes
 ref: update-realm-schema
@@ -84,9 +86,11 @@ content: |
     can follow this procedure again.
 
   .. figure:: /images/turn-off-dev-mode.png
+     :alt: The banner in the UI that shows development mode is enabled
      :width: 750px
      :lightbox:
 
   .. figure:: /images/view-my-json-schema.png
+     :alt: The modal that confirms turning off development mode in the UI
      :width: 461px
      :lightbox:

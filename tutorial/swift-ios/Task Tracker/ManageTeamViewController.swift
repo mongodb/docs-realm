@@ -79,8 +79,10 @@ class ManageTeamViewController: UIViewController, UITableViewDelegate, UITableVi
         // Start loading indicator
         activityIndicator.startAnimating()
         // :hide-start:
-        app.currentUser!.functions.getMyTeamMembers([]) { [weak self](result, error) in
-            DispatchQueue.main.sync {
+        let user = app.currentUser!
+        
+        user.functions.getMyTeamMembers([]) { [weak self](result, error) in
+            DispatchQueue.main.async {
                 guard self != nil else {
                     // This can happen if the view is dismissed 
                     // before the operation completes
@@ -117,7 +119,9 @@ class ManageTeamViewController: UIViewController, UITableViewDelegate, UITableVi
         print("Adding member: \(email)")
         activityIndicator.startAnimating()
         // :hide-start:
-        app.currentUser!.functions.addTeamMember([AnyBSON(email)!], self.onTeamMemberOperationComplete)
+        let user = app.currentUser!
+        
+        user.functions.addTeamMember([AnyBSON(email)], self.onTeamMemberOperationComplete)
         // :replace-with:
         // // TODO: use the app's current user's functions object to call the addTeamMember function
         // // on the backend with the given email converted to AnyBSON. Use `self.onTeamMemberOperationComplete`
@@ -131,7 +135,9 @@ class ManageTeamViewController: UIViewController, UITableViewDelegate, UITableVi
         print("Removing member: \(email)")
         activityIndicator.startAnimating()
         // :hide-start:
-        app.currentUser!.functions.removeTeamMember([AnyBSON(email)!], self.onTeamMemberOperationComplete)
+        let user = app.currentUser!
+        
+        user.functions.removeTeamMember([AnyBSON(email)], self.onTeamMemberOperationComplete)
         // :replace-with:
         // // TODO: use the app's current user's functions object to call the removeTeamMember function
         // // on the backend with the given email converted to AnyBSON. Use `self.onTeamMemberOperationComplete`
@@ -141,7 +147,7 @@ class ManageTeamViewController: UIViewController, UITableViewDelegate, UITableVi
     // :code-block-end:
 
     private func onTeamMemberOperationComplete(result: AnyBSON?, realmError: Error?) {
-        DispatchQueue.main.sync {
+        DispatchQueue.main.async { [self] in
             // Always be sure to stop the activity indicator
             activityIndicator.stopAnimating()
 

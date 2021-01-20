@@ -53,7 +53,7 @@ classes that derive from {+service-short+}'s ``Object`` class.
           :tabid: objective-c
 
           .. literalinclude:: /examples/Schemas/DogSchema.m
-              :language: objective-c
+              :language: objectivec
 
 
 Key Concepts
@@ -106,6 +106,7 @@ Objective-C.
 
       - Boolean ``Bool``
       - Integral types ``Int``, ``Int8``, ``Int16``, ``Int32``, ``Int64``
+      - ``Decimal128``
       - ``Double``
       - ``String``
       - ``Date``
@@ -127,6 +128,7 @@ Objective-C.
 
       - Boolean types ``BOOL``, ``bool``
       - Integral types ``int``, ``NSInteger``, ``long``, ``long long``
+      - ``RLMDecimal128``
       - ``double``
       - ``NSString``
       - ``NSDate``
@@ -178,7 +180,7 @@ property:
       :tabid: objective-c
 
       .. literalinclude:: /examples/Schemas/PersonSchema.m
-          :language: objective-c
+          :language: objectivec
           :emphasize-lines: 2, 8-10
 
 .. _ios-optional-or-required-properties:
@@ -196,18 +198,8 @@ Optional or Required Properties
       property. You can use ``RealmOptional`` to make optional integral
       properties:
 
-      .. code-block:: swift
-
-         class Person: Object {
-             // Required string property
-             @objc dynamic var name: String = ""
-
-             // Optional string property
-             @objc dynamic var address: String? = nil
-
-             // Optional integral type property
-             let age = RealmOptional<Int>()
-         }
+      .. literalinclude:: /examples/generated/code/start/Models.codeblock.person-model.swift
+         :language: swift
 
    .. tab::
       :tabid: objective-c

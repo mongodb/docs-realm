@@ -58,7 +58,9 @@ The :ref:`partition value <partitioning>` specifies which subset of your data to
 This is typically a user ID, project ID, store ID, or some other category identifier in
 your app that has particular relevance to the current user. 
 
-.. seealso:: :ref:`Partition Atlas Data into Realms <partitioning>`
+.. seealso::
+
+   :ref:`Partition Atlas Data into Realms <partitioning>`
 
 Sync Data
 ---------
@@ -106,10 +108,10 @@ that open a large number of realms can consume a disproportionate amount
 of network resources to synchronize all of those {+realm+}s simultaneously.
 
 To reduce this network load, you can enable :js-sdk:`session multiplexing
-<Realm.Sync.html#.enableSessionMultiplexing>` in
+<Realm.App.Sync.html#.enableSessionMultiplexing>` in
 your application. Session multiplexing uses a single connection for
 all realms synchronized by your application. To enable session multiplexing,
-call the ``Realm.Sync.enableSessionMultiplexing()`` static method on startup
+call the ``Realm.App.Sync.enableSessionMultiplexing()`` static method on startup
 before instantiating any {+realm+} connections.
 
 Summary

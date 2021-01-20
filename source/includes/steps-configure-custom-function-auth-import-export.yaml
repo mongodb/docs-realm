@@ -6,11 +6,10 @@ content: |
   provider, you need the latest version of the :ref:`application
   directory <application-directory>` for your application.
 
-  You can :doc:`export </deploy/export-realm-app>` your application
-  from the :guilabel:`Export` tab of the :guilabel:`Settings` page in
-  the {+ui+}, or by running the following command from an
-  authenticated instance of :doc:`realm-cli
-  </deploy/realm-cli-reference>`:
+  You can :doc:`export </deploy/export-realm-app>` your application from the
+  :guilabel:`Import/Export App` tab of the :guilabel:`Deploy` page in the
+  {+ui+}, or by running the following command from an authenticated instance of
+  :doc:`realm-cli </deploy/realm-cli-reference>`:
 
   .. code-block:: shell
 
@@ -43,8 +42,7 @@ content: |
       return { "id": "5f650356a8631da45dd4784c" }
       return { "id": "5f650356a8631da45dd4784c", "name": "James Bond" }
       
-  .. admonition:: Realm Generates New User ID Values
-     :class: important
+  .. important:: Realm Generates New User ID Values
      
      The ID value that you return from the authentication function is
      **not** the internal {+service-short+} user id (i.e. the value that
@@ -105,7 +103,7 @@ content: |
   authentication function:
 
   .. code-block:: json
-     :caption: ``/auth_providers/custom-function.json``
+     :caption: /auth_providers/custom-function.json
      :emphasize-lines: 5
 
      {

@@ -1,3 +1,4 @@
-config = new SyncConfiguration("My Project", user);
-using var realm = await Realm.GetInstanceAsync(config);
-var allTasks = realm.All<RealmTask>();
+config = new SyncConfiguration("myPart", user);
+using (var realm = await Realm.GetInstanceAsync(config)) { 
+    var allTasks = realm.All<Task>();
+}

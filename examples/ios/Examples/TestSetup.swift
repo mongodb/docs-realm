@@ -41,21 +41,22 @@ class TestSetup: NSObject {
         let app = App(id: YOUR_REALM_APP_ID)
         
         let expectation = XCTestExpectation(description: "Call to delete all users completes")
-        app.login(credentials: Credentials.anonymous) { (user, error) in
-            guard error == nil else {
-                fatalError(error!.localizedDescription)
-            }
-            
-            user!.functions.deleteAllUsers([]) { (result, error) in
-                guard error == nil else {
-                    fatalError(error!.localizedDescription)
-                }
-                print("Delete all users result: \(result!)")
-                // Must remove anonymous user from device, as it is
-                // in invalid state by backend call
-                user!.remove { (error) in
-                    // ignore error https://jira.mongodb.org/browse/RCOCOA-866
-                    expectation.fulfill()
+        app.login(credentials: Credentials.anonymous) { (result) in
+            switch result {
+            case .failure(let error):
+                fatalError(error.localizedDescription)
+            case .success(let user):
+                user.functions.deleteAllUsers([]) { (result, error) in
+                    guard error == nil else {
+                        fatalError(error!.localizedDescription)
+                    }
+                    print("Delete all users result: \(result!)")
+                    // Must remove anonymous user from device, as it is
+                    // in invalid state by backend call
+                    user.remove { (error) in
+                        // ignore error https://jira.mongodb.org/browse/RCOCOA-866
+                        expectation.fulfill()
+                    }
                 }
             }
         }

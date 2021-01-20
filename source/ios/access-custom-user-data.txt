@@ -46,10 +46,9 @@ Data <ios-update-custom-user-data>`. To read the data, access the
       :tabid: objective-c
 
       .. literalinclude:: /examples/generated/code/start/CustomUserData.codeblock.read-custom-user-data.m
-         :language: objective-c
+         :language: objectivec
 
-.. admonition:: Custom Data May Be Stale
-   :class: warning
+.. warning:: Custom Data May Be Stale
    
    {+backend+} does not dynamically update the value of the client-side
    user custom data document immediately when underlying data changes.
@@ -83,9 +82,10 @@ information from your app's custom user data configuration:
 - the :term:`user ID field` used to map custom user data documents
   to users (via :term:`user ID`)
 
-You can find the name of the custom user data cluster in the the
-:guilabel:`Custom User Data` tab of the :guilabel:`Users` left sidebar
-entry of the {+ui+}.
+.. tip::
+   
+   You can find this information in the {+ui+} on the :guilabel:`App Users` page
+   under the :guilabel:`Custom User Data` tab.
 
 .. _ios-create-custom-user-data:
 
@@ -95,7 +95,7 @@ Create Custom User Data for a User
 To create custom user data for a user, create a MongoDB document in the
 custom user data collection. The user ID field of the document should
 contain the the user's :term:`user ID`. The following example uses
-:term:`MongoDB Data Access <ios-mongodb-data-access>` to insert a
+:ref:`MongoDB Data Access <ios-mongodb-data-access>` to insert a
 document containing the user ID of the currently logged in user and a
 ``favoriteColor`` value into the custom user data collection:
 
@@ -111,7 +111,7 @@ document containing the user ID of the currently logged in user and a
       :tabid: objective-c
 
       .. literalinclude:: /examples/generated/code/start/CustomUserData.codeblock.create-custom-user-data.m
-         :language: objective-c
+         :language: objectivec
 
 
 You can add any number of arbitrary fields and values to the custom user
@@ -132,7 +132,7 @@ Explorer </data-explorer/>`.
 
 To update a user's custom user data with MongoDB Data Access, edit the
 MongoDB document whose user ID field contains the user ID of the user.
-The following example uses :term:`MongoDB Data Access
+The following example uses :ref:`MongoDB Data Access
 <ios-mongodb-data-access>` to update the ``favoriteColor`` field of the
 the document containing the user ID of the currently logged in user in
 the custom user data collection:
@@ -149,12 +149,13 @@ the custom user data collection:
       :tabid: objective-c
 
       .. literalinclude:: /examples/generated/code/start/CustomUserData.codeblock.update-custom-user-data.m
-         :language: objective-c
+         :language: objectivec
          :emphasize-lines: 12-13
 
-You can determine the ``id`` of a user through either the ``User``
-object of the user once logged in or via the :guilabel:`Users` tab of
-the :guilabel:`Users` left sidebar entry of the {+ui+}.
+.. tip::
+   
+   To determine a user's ID, access the ``User.id`` property or find the user in the {+ui+}
+   on the :guilabel:`App Users` page under the :guilabel:`Users` tab.
 
 Summary
 -------

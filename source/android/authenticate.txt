@@ -46,13 +46,13 @@ See the table below to find the method that instantiates the
    * - :ref:`Custom JWT <android-login-custom-jwt>`
      - ``Credentials.jwt(String jwtToken)``
 
-   * - :ref:`Google OAuth <android-login-google>`
+   * - :ref:`Google Authentication <android-login-google>`
      - ``Credentials.google(String googleToken)``
 
-   * - :ref:`Facebook OAuth <android-login-facebook>`
+   * - :ref:`Facebook Authentication <android-login-facebook>`
      - ``Credentials.facebook(String accessToken)``
    
-   * - :ref:`Sign-in With Apple <android-login-apple>`
+   * - :ref:`Apple Authentication <android-login-apple>`
      - ``Credentials.apple(String idToken)``
 
 .. _android-login:
@@ -95,47 +95,16 @@ authentication, create an anonymous credential by calling
 .. tabs-realm-languages::
    
    .. tab::
-      :tabid: kotlin
-      
-      .. code-block:: kotlin
-         
-         Realm.init(this) // context, usually an Activity or Application
-         val appID = "<your app ID>" // replace this with your App ID
-         val app: App = App(AppConfiguration.Builder(appID)
-                .build())
-         
-         val anonymousCredentials: Credentials = Credentials.anonymous()
-         
-         val user: User? = null
-         app.loginAsync(anonymousCredentials) {
-            if (it.isSuccess) {
-                Log.v(TAG, "Successfully authenticated anonymously.")
-                user = app.currentUser()
-            } else {
-                Log.e(TAG, it.error.toString())
-            }
-         }
-
-   .. tab::
       :tabid: java
 
-      .. code-block:: java
+      .. literalinclude:: /examples/generated/android/code/start/AuthenticationTest.codeblock.anonymous.java
+         :language: java
+   
+   .. tab::
+      :tabid: kotlin
 
-         Realm.init(this); // context, usually an Activity or Application
-         String appID = "<your app ID>"; // replace this with your App ID
-         App app = new App(new AppConfiguration.Builder(appID)
-               .build());
-
-         Credentials anonymousCredentials = Credentials.anonymous();
-
-         app.loginAsync(anonymousCredentials, it -> {
-               if (it.isSuccess()) {
-                  Log.v(TAG, "Successfully authenticated anonymously.");
-                  user = app.currentUser();
-               } else {
-                  Log.e(TAG, it.getError().toString());
-               }
-         });
+      .. literalinclude:: /examples/generated/android/code/start/AuthenticationTest.codeblock.anonymous.kt
+         :language: kotlin
 
 .. _android-login-email-password:
 
@@ -152,47 +121,16 @@ to ``app.login()`` or ``app.loginAsync()``.
 .. tabs-realm-languages::
    
    .. tab::
-      :tabid: kotlin
-      
-      .. code-block:: kotlin
-
-         Realm.init(this) // context, usually an Activity or Application
-         val appID = "<your app ID>" // replace this with your App ID
-         val app: App = App(AppConfiguration.Builder(appID)
-                .build())
-
-         val emailPasswordCredentials: Credentials = Credentials.emailPassword("<email>", "<password>")
-         
-         val user: User? = null
-         app.loginAsync(emailPasswordCredentials) {
-            if (it.isSuccess) {
-                Log.v(TAG, "Successfully authenticated using an email and password.")
-                user = app.currentUser()
-            } else {
-                Log.e(TAG, it.error.toString())
-            }
-         }
-
-   .. tab::
       :tabid: java
 
-      .. code-block:: java
+      .. literalinclude:: /examples/generated/android/code/start/AuthenticationTest.codeblock.email-password.java
+         :language: java
+   
+   .. tab::
+      :tabid: kotlin
 
-         Realm.init(this); // context, usually an Activity or Application
-         String appID = "<your app ID>"; // replace this with your App ID
-         App app = new App(new AppConfiguration.Builder(appID)
-               .build());
-
-         Credentials emailPasswordCredentials = Credentials.emailPassword("<email>", "<password>");
-
-         app.loginAsync(emailPasswordCredentials, it -> {
-               if (it.isSuccess()) {
-                  Log.v(TAG, "Successfully authenticated using an email and password.");
-                  user = app.currentUser();
-               } else {
-                  Log.e(TAG, it.getError().toString());
-               }
-         });
+      .. literalinclude:: /examples/generated/android/code/start/AuthenticationTest.codeblock.email-password.kt
+         :language: kotlin
 
 .. _android-login-api-key:
 
@@ -209,54 +147,25 @@ to ``app.login()`` or ``app.loginAsync()``.
 .. tabs-realm-languages::
    
    .. tab::
-      :tabid: kotlin
-   
-      .. code-block:: kotlin
-         
-         Realm.init(this) // context, usually an Activity or Application
-         val appID = "<your app ID>" // replace this with your App ID
-         val app: App = App(AppConfiguration.Builder(appID)
-               .build())
-         
-         val apiKeyCredentials: Credentials = Credentials.apiKey("<key>")
-         
-         app.loginAsync(apiKeyCredentials) {
-            if (it.isSuccess) {
-                  Log.v(TAG, "Successfully authenticated using an API Key.")
-                  val user: User? = app.currentUser()
-            } else {
-                  Log.e(TAG, "Error logging in: ${it.error.toString()}")
-            }
-         }
-   .. tab::
       :tabid: java
-      
-      .. code-block:: java
-         
-         Realm.init(this); // context, usually an Activity or Application
-         String appID = "<your app ID>"; // replace this with your App ID
-         App app = new App(new AppConfiguration.Builder(appID)
-               .build());
-         
-         Credentials apiKeyCredentials = Credentials.apiKey("<key>");
-         
-         app.loginAsync(apiKeyCredentials, it -> {
-               if (it.isSuccess()) {
-                  Log.v(TAG, "Successfully authenticated using an API Key.");
-                  user = app.currentUser();
-               } else {
-                  Log.e(TAG, it.getError().toString());
-               }
-         });
+
+      .. literalinclude:: /examples/generated/android/code/start/AuthenticationTest.codeblock.api-key.java
+         :language: java
+   
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/generated/android/code/start/AuthenticationTest.codeblock.api-key.kt
+         :language: kotlin
 
 
 .. _android-login-custom-function:
 
 Custom Function
 ~~~~~~~~~~~~~~~
-The :doc:`Custom Function authentication provider </authentication/custom-function>`
+The :ref:`Custom Function authentication provider <custom-function-authentication>`
 enables users to log in to your application using a
-:ref:`Realm Function <function>` defined in your {+app+}. To log in with custom 
+:ref:`Realm Function <functions>` defined in your {+app+}. To log in with custom 
 function authentication, create a credential by calling 
 ``Credentials.customFunction()``. The :java-sdk:`customFunction()
 <io/realm/mongodb/Credentials.html#customFunction-Document->` method expects a 
@@ -282,46 +191,16 @@ You then pass the generated credential to ``app.login()`` or ``app.loginAsync()`
 .. tabs-realm-languages::
    
    .. tab::
-      :tabid: kotlin
-   
-      .. code-block:: kotlin
-         
-         Realm.init(this) // context, usually an Activity or Application
-         val appID = "<your app ID>" // replace this with your App ID
-         val app: App = App(AppConfiguration.Builder(appID).build())
-         
-         val customFunctionCredentials: 
-            Credentials = Credentials.customFunction(Document("username","bob"))
-         
-         app.loginAsync(customFunctionCredentials) {
-            if (it.isSuccess) {
-               Log.v(TAG, "Successfully authenticated using a custom function.")
-               val user: User? = app.currentUser()
-            } else {
-               Log.e(TAG, "Error logging in: ${it.error.toString()}")
-            }
-         }
+      :tabid: java
+
+      .. literalinclude:: /examples/generated/android/code/start/AuthenticationTest.codeblock.custom-function.java
+         :language: java
    
    .. tab::
-      :tabid: java
-      
-      .. code-block:: java
-         
-         Realm.init(this); // context, usually an Activity or Application
-         String appID = "<your app ID>"; // replace this with your App ID
-         App app = new App(new AppConfiguration.Builder(appID).build());
-        
-         Credentials customFunctionCredentials = 
-            Credentials.customFunction(new Document("username", "bob"));
-         
-         app.loginAsync(customFunctionCredentials, it -> {
-            if (it.isSuccess()) {
-               Log.v(TAG, "Successfully authenticated using a custom function.");
-               user = app.currentUser();
-            } else {
-               Log.e(TAG, it.getError().toString());
-            }
-         });
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/generated/android/code/start/AuthenticationTest.codeblock.custom-function.kt
+         :language: kotlin
 
 
 .. _android-login-custom-jwt:
@@ -339,172 +218,93 @@ to ``app.login()`` or ``app.loginAsync()``.
 .. tabs-realm-languages::
    
    .. tab::
-      :tabid: kotlin
-      
-      .. code-block:: kotlin
-
-         Realm.init(this) // context, usually an Activity or Application
-         val appID = "<your app ID>" // replace this with your App ID
-         val app: App = App(AppConfiguration.Builder(appID).build())
-
-         // fetch JWT from custom provider
-         val customJWTCredentials: Credentials = Credentials.jwt("<token>")
-
-         app.loginAsync(customJWTCredentials) {
-            if (it.isSuccess) {
-                  Log.v(TAG, "Successfully authenticated using a custom JWT.")
-                  val user: User? = app.currentUser()
-            } else {
-                  Log.e(TAG, "Error logging in: ${it.error.toString()}")
-            }
-         }
-
-   .. tab::
       :tabid: java
 
-      .. code-block:: java
+      .. literalinclude:: /examples/generated/android/code/start/AuthenticationTest.codeblock.custom-jwt.java
+         :language: java
+   
+   .. tab::
+      :tabid: kotlin
 
-         Realm.init(this); // context, usually an Activity or Application
-         String appID = "<your app ID>"; // replace this with your App ID
-         App app = new App(new AppConfiguration.Builder(appID)
-               .build());
-
-         // fetch JWT from custom provider
-         Credentials customJWTCredentials = Credentials.jwt("<token>");
-
-         app.loginAsync(customJWTCredentials, it -> {
-               if (it.isSuccess()) {
-                  Log.v(TAG, "Successfully authenticated using a custom JWT.");
-                  user = app.currentUser();
-               } else {
-                  Log.e(TAG, it.getError().toString());
-               }
-         });
+      .. literalinclude:: /examples/generated/android/code/start/AuthenticationTest.codeblock.custom-jwt.kt
+         :language: kotlin
 
 .. _android-login-facebook:
 
-Facebook OAuth
-~~~~~~~~~~~~~~
+Facebook Authentication
+~~~~~~~~~~~~~~~~~~~~~~~
 
-The :doc:`Facebook OAuth authentication provider </authentication/facebook>`
-enables users to log in to your application with a custom token provided
-by Facebook. To log in with Facebook OAuth authentication, create a
-Facebook OAuth credential by calling ``Credentials.facebook()``
-with the token provided by Facebook. Then pass the generated credential
-to ``app.login()`` or ``app.loginAsync()``.
+The :doc:`Facebook </authentication/facebook>` authentication provider allows
+you to authenticate users through a Facebook app using their existing Facebook
+account.
+
+.. include:: /includes/note-enable-facebook-auth.rst
+
+.. include:: /includes/note-facebook-profile-picture-url.rst
+
+Follow the official :facebook:`Facebook Login for Android Quickstart
+<docs/facebook-login/android>` to set up the authentication flow for your
+application. In the login completion handler, get the logged in user's access
+token from the Facebook :facebook:`LoginResult
+<docs/reference/android/current/class/LoginResult>`. Use the access token to
+create a {+service-short+} Facebook credential and then log the user into your
+{+service-short+} app.
 
 .. tabs-realm-languages::
    
    .. tab::
-      :tabid: kotlin
-      
-      .. code-block:: kotlin
-
-         Realm.init(this) // context, usually an Activity or Application
-         val appID = "<your app ID>" // replace this with your App ID
-         val app: App = App(AppConfiguration.Builder(appID)
-                .build())
-
-         // fetch access token using Facebook SDK
-
-         val facebookCredentials: Credentials = Credentials.facebook("<token>")
-
-         app.loginAsync(facebookCredentials) {
-            if (it.isSuccess) {
-                  Log.v(TAG, "Successfully authenticated using Facebook OAuth.")
-                  val user: User? = app.currentUser()
-            } else {
-                  Log.e(TAG, "Error logging in: ${it.error.toString()}")
-            }
-         }
-
-   .. tab::
       :tabid: java
 
-      .. code-block:: java
+      .. literalinclude:: /examples/generated/android/code/start/AuthenticationTest.codeblock.facebook.java
+         :language: java
+         :emphasize-lines: 10-17
+   
+   .. tab::
+      :tabid: kotlin
 
-         Realm.init(this); // context, usually an Activity or Application
-         String appID = "<your app ID>"; // replace this with your App ID
-         App app = new App(new AppConfiguration.Builder(appID)
-               .build());
-
-         // fetch facebook token using Facebook SDK
-
-         Credentials facebookCredentials = Credentials.facebook("<token>");
-
-         app.loginAsync(facebookCredentials, it -> {
-               if (it.isSuccess()) {
-                  Log.v(TAG, "Successfully authenticated using Facebook OAuth.");
-                  user = app.currentUser();
-               } else {
-                  Log.e(TAG, it.getError().toString());
-               }
-         });
+      .. literalinclude:: /examples/generated/android/code/start/AuthenticationTest.codeblock.facebook.kt
+         :language: kotlin
+         :emphasize-lines: 10-21
 
 .. _android-login-google:
 
-Google OAuth
-~~~~~~~~~~~~
+Google Authentication
+~~~~~~~~~~~~~~~~~~~~~
 
-The :doc:`Google OAuth authentication provider </authentication/google>`
-enables users to log in to your application with a custom token provided
-by Google. To log in with Google OAuth authentication, create a
-Google OAuth credential by calling ``Credentials.google()``
-with the token provided by Google. Then pass the generated credential
-to ``app.login()`` or ``app.loginAsync()``.
+.. important::
+   
+   To log a user in with their existing Google account, you must configure and
+   enable the :ref:`Google authentication provider <google-authentication>` for
+   your application.
+
+Follow the official :google:`Google Sign-In for Android Integration Guide
+<identity/sign-in/android/start-integrating>` to set up the authentication flow
+for your application. In the sign-in completion handler, get the logged in
+user's authorization code from the :google:`GoogleSignInAccount
+<android/reference/com/google/android/gms/auth/api/signin/GoogleSignInAccount>`
+object. Use the authorization code to create a {+service-short+} Google
+credential and then log the user into your {+service-short+} app.
 
 .. tabs-realm-languages::
    
    .. tab::
-      :tabid: kotlin
-      
-      .. code-block:: kotlin
-
-         Realm.init(this) // context, usually an Activity or Application
-         val appID = "<your app ID>" // replace this with your App ID
-         val app: App = App(AppConfiguration.Builder(appID)
-                .build())
-
-         // fetch authentication code using Google SDK
-
-         val googleCredentials: Credentials = Credentials.google("<token>")
-
-         app.loginAsync(googleCredentials) {
-            if (it.isSuccess) {
-                  Log.v(TAG, "Successfully authenticated using Google OAuth.")
-                  val user: User? = app.currentUser()
-            } else {
-                  Log.e(TAG, "Error logging in: ${it.error.toString()}")
-            }
-         }
-
-   .. tab::
       :tabid: java
 
-      .. code-block:: java
+      .. literalinclude:: /examples/generated/android/code/start/AuthActivity.codeblock.google.java
+         :language: java
+         :emphasize-lines: 26-33
+   
+   .. tab::
+      :tabid: kotlin
 
-         Realm.init(this); // context, usually an Activity or Application
-         String appID = "<your app ID>"; // replace this with your App ID
-         App app = new App(new AppConfiguration.Builder(appID)
-               .build());
-
-         // fetch google token using Google SDK
-
-         Credentials googleCredentials = Credentials.google("<token>");
-
-         app.loginAsync(googleCredentials, it -> {
-               if (it.isSuccess()) {
-                  Log.v(TAG, "Successfully authenticated using Google OAuth.");
-                  user = app.currentUser();
-               } else {
-                  Log.e(TAG, it.getError().toString());
-               }
-         });
+      .. literalinclude:: /examples/generated/android/code/start/AuthActivity.codeblock.google.kt
+         :language: kotlin
+         :emphasize-lines: 26-36
 
 .. _android-login-apple:
 
-Sign-in with Apple
-~~~~~~~~~~~~~~~~~~
+Apple Authentication
+~~~~~~~~~~~~~~~~~~~~
 
 The :doc:`Sign-in with Apple authentication provider </authentication/apple>`
 enables users to log in to your application with a custom token provided
@@ -516,50 +316,16 @@ to ``app.login()`` or ``app.loginAsync()``.
 .. tabs-realm-languages::
    
    .. tab::
-      :tabid: kotlin
-      
-      .. code-block:: kotlin
-
-         Realm.init(this) // context, usually an Activity or Application
-         val appID = "<your app ID>" // replace this with your App ID
-         val app: App = App(AppConfiguration.Builder(appID)
-                .build())
-
-         // fetch IDToken using Apple SDK
-
-         val appleCredentials: Credentials = Credentials.apple("<token>")
-
-         app.loginAsync(appleCredentials) {
-            if (it.isSuccess) {
-                  Log.v(TAG, "Successfully authenticated using Sign-in with Apple.")
-                  val user: User? = app.currentUser()
-            } else {
-                  Log.e(TAG, "Error logging in: ${it.error.toString()}")
-            }
-         }
-
-   .. tab::
       :tabid: java
 
-      .. code-block:: java
+      .. literalinclude:: /examples/generated/android/code/start/AuthenticationTest.codeblock.apple.java
+         :language: java
+   
+   .. tab::
+      :tabid: kotlin
 
-         Realm.init(this); // context, usually an Activity or Application
-         String appID = "<your app ID>"; // replace this with your App ID
-         App app = new App(new AppConfiguration.Builder(appID)
-               .build());
-
-         // fetch apple token using Apple SDK
-
-         Credentials appleCredentials = Credentials.apple("<token>");
-
-         app.loginAsync(customJWTCredentials, it -> {
-               if (it.isSuccess()) {
-                  Log.v(TAG, "Successfully authenticated using Sign-in with Apple.");
-                  user = app.currentUser();
-               } else {
-                  Log.e(TAG, it.getError().toString());
-               }
-         });
+      .. literalinclude:: /examples/generated/android/code/start/AuthenticationTest.codeblock.apple.kt
+         :language: kotlin
 
 .. _android-logout:
 
@@ -579,32 +345,16 @@ methods. Both methods:
 Because logging out halts synchronization, you should only log out after
 all local Realm updates have uploaded to the server.
 
-.. include:: /includes/log-out-queries-in-progress.rst
-
 .. tabs-realm-languages::
-
-   .. tab::
-      :tabid: kotlin
-
-      .. code-block:: kotlin
-
-         user?.logOutAsync {
-            if (it.isSuccess) {
-                  Log.v(TAG, "Successfully logged out.")
-            } else {
-                  Log.e(TAG, it.error.toString())
-            }
-         }
-
+   
    .. tab::
       :tabid: java
 
-      .. code-block:: java
-         
-         user.logOutAsync( it -> {
-            if (it.isSuccess()) {
-               Log.v(TAG, "Successfully logged out.");
-            } else {
-               Log.e(TAG, it.getError().toString());
-            }
-         });
+      .. literalinclude:: /examples/generated/android/code/start/AuthenticationTest.codeblock.log-out.java
+         :language: java
+   
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/generated/android/code/start/AuthenticationTest.codeblock.log-out.kt
+         :language: kotlin

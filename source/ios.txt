@@ -4,6 +4,18 @@
 MongoDB Realm iOS SDK
 =====================
 
+.. toctree::
+   :titlesonly:
+   :caption: Get Started
+
+   Install Realm for iOS, macOS, tvOS, and watchOS </ios/install>
+   Quick Start </ios/quick-start>
+   Quick Start with SwiftUI and Combine </ios/swiftui>
+   The Realm Data Model </ios/data-model>
+   Realm Database </ios/database>
+   MongoDB Realm </ios/mongodb-realm>
+   Reference </ios/reference>
+
 The {+service+} iOS SDK enables client applications on the iOS, macOS, tvOS, and watchOS
 platforms to access data stored in local {+realms+} and interact with {+backend+} services
 like :ref:`Functions <functions>`, MongoDB Data Access, and
@@ -18,25 +30,15 @@ Objective-C applications.
 Get Started
 -----------
 
-To learn how to install the {+service+} iOS SDK library as a dependency to your
-application, see :ref:`Install Realm for iOS, macOS, tvOS, and watchOS <ios-install>`.
-
-To get started quickly with some Swift or Objective-C code, see the :ref:`Quick Start
-<ios-client-quick-start>`.
-
-.. toctree::
-   :titlesonly:
-   :caption: Get Started
-
-   Install Realm for iOS, macOS, tvOS, and watchOS </ios/install>
-   Quick Start </ios/quick-start>
-
+To learn how to add the {+service+} iOS SDK library as a dependency to your iOS
+application, see :ref:`Install Realm for iOS <ios-install>`.
 
 The Realm Data Model
 --------------------
 
-You can store a wide variety of data within {+realms+} stored on your device. With
-{+sync+}, you can share updates to that data across client devices and {+atlas+}.
+You can store a wide variety of data within {+realms+} stored on your
+device. With :term:`{+sync+}`, you can share updates to that data across
+client devices and {+atlas+}.
 
 For information about the structure of data you can store in {+realms+},
 see :ref:`Realms <ios-realms>`, :ref:`Objects
@@ -49,60 +51,36 @@ To learn about the results returned from {+realm+} queries, see
 To gracefully update the schema to a new version at runtime, see :ref:`Migrations
 <ios-client-migrations>`.
 
-.. toctree::
-   :titlesonly:
-   :caption: The Realm Data Model
-
-   Realms </ios/realms>
-   Open and Close a Realm </ios/open-a-realm>
-   Objects </ios/objects>
-   Embedded Objects </ios/embedded-objects>
-   Relationships </ios/relationships>
-   Collections </ios/collections>
-   Migrations </ios/migrations>
-
-
-Work with Realm Database
-------------------------
+Realm Database
+--------------
 
 Once you have defined a data model for your application, you
 need to be able to :ref:`write <ios-realm-database-writes>` and
 :ref:`read <ios-realm-database-reads>` pieces of data to and from
 your {+realm+}s.
 
-To learn how to refine and sort the results of queries, see :ref:`Query Engine
-<ios-client-query-engine>`.
+To learn how to query for data in local {+realms+}, see
+:ref:`Query Engine <ios-client-query-engine>`.
 
 For information about how to react to changes in {+realm+} data, see
 :ref:`Notifications <ios-client-notifications>`.
 
-For advice on how to safely interact with {+client-database+} across threads in an
-application, see :ref:`Threading <ios-client-threading>`.
+For advice on how to safely interact with {+client-database+} across
+threads in an application, see :ref:`Threading
+<ios-client-threading>`.
 
 For additional security, you can also :ref:`encrypt a {+realm+}
 <ios-encrypt-a-realm>`.
 
-.. toctree::
-   :titlesonly:
-   :caption: Work with Realm Database
-
-   Writes </ios/writes>
-   Reads </ios/reads>
-   Query Engine </ios/query-engine>
-   Notifications </ios/notifications>
-   Threading </ios/threading>
-   Encrypt a Realm </ios/encrypt>
-
-
-Work with MongoDB Realm
------------------------
+MongoDB Realm
+-------------
 
 The iOS SDK also connects your {+service-short+} client application
 with your {+app+}'s backend services, including Functions, Services,
 Webhooks, {+sync+}, and built-in third-party authentication.
 
 To get connected to your {+backend+} app, see
-:ref:`Initialize the Realm App <ios-init-appclient>`.
+:ref:`Initialize the Realm App Client <ios-init-appclient>`.
 
 You can also :ref:`access custom user data <ios-access-custom-user-data>`.
 
@@ -111,34 +89,10 @@ Functions, query data in an instance of {+atlas+}, and synchronize data
 in {+realms+}, see :ref:`Call a Function <ios-call-a-function>`.
 
 To learn how to query for data in MongoDB remotely, see :ref:`Remotely
-Access MongoDB <ios-client-remote>`.
-
-.. toctree::
-   :titlesonly:
-   :caption: Work with MongoDB Realm
-
-   Initialize the Realm App Client </ios/init-realmclient>
-   Authenticate a User </ios/authenticate>
-   Manage Email/Password Users </ios/manage-email-password-users>
-   Access Custom User Data </ios/access-custom-user-data>
-   Create & Manage API Keys </ios/create-manage-api-keys>
-   Work with Multiple Users </ios/work-with-multiple-users>
-   Link User Identities </ios/link-identities>
-   Sync Data </ios/sync-data>
-   Remotely Access MongoDB </ios/remotely-access-mongodb>
-   Call a Function </ios/call-a-function>
-
+Access MongoDB <ios-mongodb-data-access>`.
 
 Reference
 ---------
 
 {+service+} uses additional support files, detailed in :ref:`Auxiliary Files
 <ios-client-auxiliary-files>`.
-
-.. toctree::
-   :titlesonly:
-   :caption: Reference
-
-   Auxiliary Files </ios/auxiliary-files>
-   Objective-C SDK Reference Manual <https://docs.mongodb.com/realm-sdks/objc/10.0.0-rc.1>
-   Swift SDK Reference Manual <https://docs.mongodb.com/realm-sdks/swift/10.0.0-rc.1>

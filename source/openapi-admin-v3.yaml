@@ -116,13 +116,6 @@ paths:
       tags: ['admin']
       operationId: "getBuildInfo"
       summary: "Get information about the underlying Atlas mongod."
-      requestBody:
-        description: "An empty object."
-        required: true
-        content:
-          application/json:
-            schema:
-              properties: {}
       responses:
         '200':
           description: "The build information was successfully retrieved."
@@ -808,7 +801,11 @@ paths:
     get:
       tags: ["users"]
       operationId: "adminListUsers"
-      summary: "List :ref:`users <users>`."
+      summary: "List :ref:`users <user-accounts>`."
+      parameters:
+        - $ref: "#/components/parameters/UsersAfter"
+        - $ref: "#/components/parameters/UsersSort"
+        - $ref: "#/components/parameters/UsersDesc"
       responses:
         '200':
           description: "Successfully listed."
@@ -820,7 +817,7 @@ paths:
     post:
       tags: ["users"]
       operationId: "adminCreateUser"
-      summary: "Create a :ref:`user <users>`."
+      summary: "Create a :ref:`user <user-accounts>`."
       requestBody:
         required: true
         description: The user to create
@@ -845,7 +842,7 @@ paths:
     get:
       tags: ["users"]
       operationId: "adminGetUser"
-      summary: "Retrieve a :ref:`user <users>`."
+      summary: "Retrieve a :ref:`user <user-accounts>`."
       responses:
         '200':
           description: "Successfully retrieved."
@@ -856,7 +853,7 @@ paths:
     delete:
       tags: ["users"]
       operationId: "adminDeleteUser"
-      summary: "Delete a :ref:`user <users>`."
+      summary: "Delete a :ref:`user <user-accounts>`."
       responses:
         '204':
           description: "Successfully deleted."
@@ -886,7 +883,7 @@ paths:
     put:
       tags: ["users"]
       operationId: "adminUserLogout"
-      summary: "Revoke all of a :ref:`user <users>`'s sessions."
+      summary: "Revoke all of a :ref:`user <user-accounts>`'s sessions."
       responses:
         '204':
           description: "Successfully revoked."
@@ -899,7 +896,7 @@ paths:
     put:
       tags: ["users"]
       operationId: "adminEnableUser"
-      summary: "Enable a :ref:`user <users>`."
+      summary: "Enable a :ref:`user <user-accounts>`."
       responses:
         '204':
           description: "Successfully enabled."
@@ -912,7 +909,7 @@ paths:
     put:
       tags: ["users"]
       operationId: "adminDisableUser"
-      summary: "Disable a :ref:`user <users>`."
+      summary: "Disable a :ref:`user <user-accounts>`."
       responses:
         '204':
           description: "Successfully disabled."
@@ -925,7 +922,7 @@ paths:
     delete:
       tags: ["users"]
       operationId: "adminDeletePendingUser"
-      summary: "Delete a pending :ref:`user <users>`."
+      summary: "Delete a pending :ref:`user <user-accounts>`."
       responses:
         '204':
           description: "Successfully deleted."
@@ -951,7 +948,7 @@ paths:
     post:
       tags: ["email"]
       operationId: "adminConfirmPendingUser"
-      summary: "Confirm a pending :ref:`user <users>`."
+      summary: "Confirm a pending :ref:`user <user-accounts>`."
       responses:
         '204':
           description: "Successfully confirmed."
@@ -964,7 +961,7 @@ paths:
     post:
       tags: ["email"]
       operationId: "adminRerunPendingUserConfirmation"
-      summary: "Re-runs a pending :ref:`user's <users>` :ref:`confirmation workflow <email-password-authentication-confirmation>`."
+      summary: "Re-runs a pending :ref:`user's <user-accounts>` :ref:`confirmation workflow <email-password-authentication-confirmation>`."
       responses:
         '202':
           description: "Successfully re-ran confirmation workflow."
@@ -1809,10 +1806,10 @@ paths:
                 properties:
                   start:
                     type: string
-                    description: The RFC 3339 date and time of the start of the query period, which can be specified with the ``start`` query parameter.
+                    description: The :rfc:`RFC 3339 <3339>` date and time of the start of the query period, which can be specified with the ``start`` query parameter.
                   end:
                     type: string
-                    description: The RFC 3339 date and time of the end of the query period, which can be specified with the ``end`` query parameter.
+                    description: The :rfc:`RFC 3339 <3339>` date and time of the end of the query period, which can be specified with the ``end`` query parameter.
                   granularity:
                     type: string
                     description: The granularity, which can be specified with the ``granularity`` query parameter.
@@ -1964,6 +1961,33 @@ components:
       required: true
       schema:
         type: "string"
+    UsersAfter:
+      name: "after"
+      required: false
+      description: |
+        The ``id`` of the last user returned by a previous paginated request.
+      in: "query"
+      schema:
+        type: "string"
+    UsersSort:
+      name: "sort"
+      required: false
+      description: |
+        The field name to sort to sort results by. The only valid value is the
+        default: ``_id``.
+      in: "query"
+      schema:
+        type: "string"
+    UsersDesc:
+      name: "desc"
+      required: false
+      default: false
+      description: |
+        If ``true``, returns sorted results in descending order. Otherwise,
+        results return in ascending order.
+      in: "query"
+      schema:
+        type: "boolean"
     FunctionId:
       name: "functionId"
       description: "Function ID"

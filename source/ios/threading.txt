@@ -86,8 +86,7 @@ active versions of an object at any time. Thread-confinement
 ensures that all instances in that thread are of the same
 internal version.
 
-.. admonition:: One Version at a Time
-   :class: note
+.. note:: One Version at a Time
 
    A :term:`{+realm+} instance` is designed to work with one version at a
    time, not several different versions. Consider what {+client-database+}
@@ -191,7 +190,7 @@ frozen.
       :tabid: objective-c
 
       .. literalinclude:: /examples/Threading/Freeze.m
-         :language: objective-c
+         :language: objectivec
 
 When working with frozen objects, an attempt to do any of
 the following throws an exception:
@@ -232,8 +231,7 @@ spawned them stays open. Therefore, avoid closing the live
 {+realm+} until all threads are done with the frozen objects.
 You can close frozen {+realm+} before the live {+realm+} is closed.
 
-.. admonition:: On caching frozen objects
-   :class: important
+.. important:: On caching frozen objects
 
    Caching too many frozen objects can have a negative
    impact on the {+realm+} file size. "Too many" depends on your
@@ -300,8 +298,7 @@ relevant part of the tree. Likewise, the {+realm+}'s root
 pointer will point to the original version until the new
 version is guaranteed to be valid.
 
-.. admonition:: Diagram
-   :class: note
+.. note:: Diagram
 
    The following diagram illustrates the commit process:
 

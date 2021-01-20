@@ -17,46 +17,43 @@ title: Import Realm Dependencies
 ref: import-realm-dependencies
 level: 4
 content: |
-  At the top of your source files where you want to use MongoDB Realm,
-  add the following line to import the SDK.
-
-  .. code-block:: javascript
-
-     const Realm = require("realm");
+  At the top of your source files where you want to use MongoDB Realm, add the
+  following line to import the SDK.
+  
+  .. tabs::
+     
+     .. tab:: ES Modules
+        :tabid: esm
+        
+        .. code-block:: javascript
+           
+           import Realm from "realm";
+     
+     .. tab:: CommonJS
+        :tabid: cjs
+        
+        .. code-block:: javascript
+        
+           const Realm = require("realm");
 
 ---
 title: Instantiate a MongoDB Collection Handle
 ref: instantiate-a-mongodb-collection-handle
 level: 4
 content: |
-
-  .. code-block:: javascript
-     :emphasize-lines: 18
-
-     const appId = "<your App ID>"; // Set Realm app ID here.
-     const appConfig = {
-       id: appId,
-       timeout: 10000, // timeout in milliseconds
-     };
-
-     async function run() {
-       let user;
-       try {
-         const app = new Realm.App(appConfig);
-
-         // an authenticated user is required to access a MongoDB instance
-         user = await app.logIn(Realm.Credentials.anonymous());
-
-         const mongoClient = user.mongoClient("<atlas service name>");
-         const mongoCollection = mongoClient
-           .db("<database name>")
-           .collection("<collection name");
-
-           // the rest of your code ...
-
-
-        } finally {
-          user.logOut();
-        }
-      }
-      run().catch(console.dir);
+  To access a collection, create MongoDB service handle for the user that you
+  wish to access the collection with:
+  
+  .. tabs-realm-languages::
+     
+     .. tab::
+        :tabid: javascript
+        
+        .. literalinclude:: /examples/generated/code/start/mongodb.codeblock.plants-collection-handle.js
+           :language: javascript
+     
+     .. tab::
+        :tabid: typescript
+        
+        .. literalinclude:: /examples/generated/code/start/mongodb.codeblock.plants-collection-handle.ts
+           :language: typescript

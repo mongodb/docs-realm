@@ -37,7 +37,7 @@ User Account States
 When a user first logs in through a {+service-short+} SDK on a given device or
 browser, the SDK saves the user's information and keeps track of the user's
 state on the device. The user's data remains on the device, even if they log
-out, unless you actively :ref:`remove the user <ios-remove-user>`.
+out, unless you actively :ref:`remove the user <dotnet-remove-user>`.
 
 The following states describe an on-device user at any given time:
 
@@ -51,85 +51,55 @@ The following states describe an on-device user at any given time:
     more information.
    
   - **Inactive**: all authenticated users that are not the current
-    active user. You can :ref:`switch the active user <ios-switch-user>` to a
+    active user. You can :ref:`switch the active user <dotnet-switch-user>` to a
     currently inactive user at any time.
 
 - **Logged Out:** any user that authenticated on the device but
-  has since logged out or had its session revoked.
+  has since logged out or had their session revoked.
 
 The following diagram shows how users within a {+service-short+} client app
 transition between states when certain events occur:
 
 .. figure:: /images/multi-user.png
+   :alt: A diagram the outlines the different states a user can be in: logged out, logged in and active, & logged in and inactive.
 
 .. _dotnet-add-user:
 
 Add a New User to a Device
 --------------------------
-
 The {+service-short+} SDK automatically adds users to a device when they log in
 for the first time on that device. When a user logs in, they immediately become
 the application's :ref:`active user <active-user>`.
 
-.. tabs-realm-languages::
-   
-   .. tab::
-      :tabid: javascript
-      
-      .. literalinclude:: /examples/MultiUser/AddUser/AddUser.js
-         :language: javascript
-   
-   .. tab::
-      :tabid: typescript
-      
-      .. literalinclude:: /examples/MultiUser/AddUser/AddUser.ts
-         :language: typescript
+.. literalinclude:: /examples/generated/code/start/WorkWithRealm.codeblock.multi-add.cs
+   :language: csharp
 
 .. _dotnet-list-users:
 
 List All On-Device Users
 ~~~~~~~~~~~~~~~~~~~~~~~~
-
 You can access a list of all :ref:`user accounts <user-accounts>` that are
-stored on the device. This list includes all users that have logged in to the
+stored on the device by reading the 
+:dotnet-sdk:`App.AllUsers <reference/Realms.Sync.App.html#Realms_Sync_App_AllUsers>` 
+property. This list includes all users that have logged in to the
 client app on a given device regardless of whether they are currently
 authenticated.
 
-.. tabs-realm-languages::
-   
-   .. tab::
-      :tabid: javascript
-      
-      .. literalinclude:: /examples/MultiUser/ListUsers/ListUsers.js
-         :language: javascript
-   
-   .. tab::
-      :tabid: typescript
-      
-      .. literalinclude:: /examples/MultiUser/ListUsers/ListUsers.ts
-         :language: typescript
+.. literalinclude:: /examples/generated/code/start/WorkWithRealm.codeblock.multi-list.cs
+   :language: csharp
 
 .. _dotnet-switch-user:
 
 Switch the Active User
 ~~~~~~~~~~~~~~~~~~~~~~
 
-You can quickly switch an app's :ref:`active user <active-user>` to another
-logged in user at any time.
+You can switch an app's :ref:`active user <active-user>` to another
+logged in user by calling 
+:dotnet-sdk:`SwitchUser() <reference/Realms.Sync.App.html#Realms_Sync_App_SwitchUser_Realms_Sync_User_>`:
 
-.. tabs-realm-languages::
-   
-   .. tab::
-      :tabid: javascript
-      
-      .. literalinclude:: /examples/MultiUser/SwitchUser/SwitchUser.js
-         :language: javascript
-   
-   .. tab::
-      :tabid: typescript
-      
-      .. literalinclude:: /examples/MultiUser/SwitchUser/SwitchUser.ts
-         :language: typescript
+.. literalinclude:: /examples/generated/code/start/WorkWithRealm.codeblock.multi-switch.cs
+   :language: csharp
+
 
 .. _dotnet-remove-user:
 
@@ -137,18 +107,8 @@ Remove a User from the Device
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 You can remove all information about a user from the device and automatically
-log the user out.
+log the user out with a call to 
+:dotnet-sdk:`RemoveUserAsync() <reference/Realms.Sync.App.html#Realms_Sync_App_RemoveUserAsync_Realms_Sync_User_>`:
 
-.. tabs-realm-languages::
-   
-   .. tab::
-      :tabid: javascript
-      
-      .. literalinclude:: /examples/MultiUser/LogoutUser/LogoutUser.js
-         :language: javascript
-   
-   .. tab::
-      :tabid: typescript
-      
-      .. literalinclude:: /examples/MultiUser/LogoutUser/LogoutUser.ts
-         :language: typescript
+.. literalinclude:: /examples/generated/code/start/WorkWithRealm.codeblock.multi-remove.cs
+   :language: csharp

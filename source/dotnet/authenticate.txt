@@ -14,10 +14,13 @@ Authenticate a User
 
 Overview
 --------
-
 {+service+} provides an API for authenticating users using any enabled
-authentication provider. Instantiate a ``Credentials`` object and pass
-it to the  ``app.LogInAsync()`` method to authenticate and obtain a ``User`` 
+authentication provider. Instantiate a 
+:dotnet-sdk:`Credentials <reference/Realms.Sync.Credentials.html>` 
+object and pass
+it to the  
+:dotnet-sdk:`LogInAsync() <reference/Realms.Sync.App.html#Realms_Sync_App_LogInAsync_Realms_Sync_Credentials_>` 
+method to authenticate and obtain a :dotnet-sdk:`User <reference/Realms.Sync.User.html>`
 instance. The ``Credentials`` class exposes factory methods that correspond to 
 each of the authentication providers:
 
@@ -122,8 +125,13 @@ you can log in using the following code:
 Facebook Authentication
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-If you have enabled :ref:`Facebook authentication <facebook-authentication>`,
-you can log in using the following code:
+The :doc:`Facebook </authentication/facebook>` authentication provider allows
+you to authenticate users through a Facebook app using their existing Facebook
+account.
+
+.. include:: /includes/note-enable-facebook-auth.rst
+
+.. include:: /includes/note-facebook-profile-picture-url.rst
 
 .. literalinclude:: /examples/generated/code/start/Examples.codeblock.logon_fb.cs
    :language: csharp
@@ -141,8 +149,9 @@ you can log in using the following code:
 
 .. _dotnet-login-apple:
 
-Sign-in with Apple
-~~~~~~~~~~~~~~~~~~
+Apple Authentication
+~~~~~~~~~~~~~~~~~~~~
+
 If you have enabled :ref:`Sign-in with Apple authentication <apple-id-authentication>`,
 you can log in using the following code:
 

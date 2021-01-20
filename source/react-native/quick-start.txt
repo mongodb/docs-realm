@@ -22,8 +22,7 @@ integrated into your app. Before you begin, ensure you have:
 - :ref:`Enabled {+sync+} <enable-sync>`
 - :ref:`Installed the Node SDK <react-native-install>` to use with your Realm Native app.
 
-.. admonition:: Check Out the Tutorial
-   :class: note
+.. note:: Check Out the Tutorial
    
    This page contains only the essential information that you need to set up a
    MongoDB Realm application. If you prefer to follow a guided tutorial that
@@ -92,7 +91,7 @@ Define Your Object Model
 ------------------------
 
 If have not :ref:`enabled {+sync+} <enable-sync>` or you enabled
-{+sync-short+} with :term:`Development Mode` in the {+ui+}, you can
+{+sync-short+} with :term:`development mode` in the {+ui+}, you can
 define your :ref:`object model <react-native-realm-objects>` directly in code.
 
 .. note::
@@ -184,8 +183,9 @@ into your app without providing any identifying information:
 
 {+service-short+} provides many additional ways to authenticate, register, and link users.
 
-.. seealso:: :ref:`Authenticate a User <react-native-authenticate>`
+.. seealso::
 
+   :ref:`Authenticate a User <react-native-authenticate>`
 .. _react-native-quick-start-open-realm:
 
 Open a Realm
@@ -210,7 +210,7 @@ user, you can open a synced :ref:`{+realm+} <react-native-realms>`:
              // ...
              console.log(`Logged in with the user: ${user.identity}`);
              const config = {
-               schema: [TaskModel],
+               schema: [Task.schema],
                sync: {
                  user: user, 
                  partitionValue: "myPartition",
@@ -229,8 +229,9 @@ user, you can open a synced :ref:`{+realm+} <react-native-realms>`:
       code-block:: typescript
 
 
-.. seealso:: :ref:`Sync Data <react-native-sync-data>`
+.. seealso::
 
+   :ref:`Sync Data <react-native-sync-data>`
 .. _react-native-quick-start-crud:
 
 Create, Read, Update, and Delete Objects
@@ -254,9 +255,8 @@ To create a new Task run the method "realm.create()" inside the
 
          realm.write(() => {
            realm.create("Task", {
-             _id: new mongodb.ObjectID(),
+             _id: new ObjectId(),
              name: "go grocery shopping",
-             description: "buy milk, eggs, bread",
              status: "Open",
            });
          });

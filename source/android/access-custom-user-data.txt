@@ -85,8 +85,7 @@ method on the ``User`` object of a logged in user:
             }
          });
 
-.. admonition:: Custom Data May Be Stale
-   :class: warning
+.. warning:: Custom Data May Be Stale
    
    {+backend+} does not dynamically update the value of
    :java-sdk:`User.customData() <io/realm/mongodb/User.html#getCustomData-->`
@@ -122,8 +121,10 @@ information from your custom user data configuration:
 - the :term:`user ID field` used to map custom user data documents
   to users (via :term:`user ID`)
 
-You can find this information in the the :guilabel:`Custom User Data`
-tab of the :guilabel:`Users` left sidebar entry of the {+ui+}.
+.. tip::
+   
+   You can find this information in the {+ui+} on the :guilabel:`App Users` page
+   under the :guilabel:`Custom User Data` tab.
 
 .. _android-create-custom-user-data:
 
@@ -133,7 +134,7 @@ Create Custom User Data for a User
 To create custom user data for a user, create a MongoDB document in the
 custom user data collection. The user ID field of the document should
 contain the the user's :term:`user ID`. The following example uses
-:term:`MongoDB Data Access <android-mongodb-data-access>` to insert a
+:ref:`MongoDB Data Access <android-mongodb-data-access>` to insert a
 document containing the user ID of the currently logged in user and a
 ``favoriteColor`` value into the custom user data collection:
 
@@ -162,7 +163,7 @@ document containing the user ID of the currently logged in user and a
                 val mongoDatabase : MongoDatabase =
                     mongoClient.getDatabase("<custom user data database>")!!
                 val mongoCollection : MongoCollection<Document> =
-                    mongoDatabase.getCollection("<custom user data cluster>")!!
+                    mongoDatabase.getCollection("<custom user data collection>")!!
 
                 mongoCollection.insertOne(
                     Document("<user ID field>", user.id).append("favoriteColor", "pink"))
@@ -200,7 +201,7 @@ document containing the user ID of the currently logged in user and a
                 MongoDatabase mongoDatabase =
                     mongoClient.getDatabase("<custom user data database>");
                 MongoCollection<Document> mongoCollection =
-                    mongoDatabase.getCollection("<custom user data cluster>");
+                    mongoDatabase.getCollection("<custom user data collection>");
 
                 mongoCollection.insertOne(
                     new Document("<user ID field>", user.getId()).append("favoriteColor", "pink"))
@@ -236,7 +237,7 @@ Explorer </data-explorer/>`.
 
 To update a user's custom user data with MongoDB Data Access, edit the
 MongoDB document whose user ID field contains the user ID of the user.
-The following example uses :term:`MongoDB Data Access
+The following example uses :ref:`MongoDB Data Access
 <android-mongodb-data-access>` to update the ``favoriteColor`` field of
 the the document containing the user ID of the currently logged in user
 in the custom user data collection:
@@ -266,7 +267,7 @@ in the custom user data collection:
                 val mongoDatabase : MongoDatabase =
                     mongoClient.getDatabase("<custom user data database>")!!
                 val mongoCollection : MongoCollection<Document> =
-                    mongoDatabase.getCollection("<custom user data cluster>")!!
+                    mongoDatabase.getCollection("<custom user data collection>")!!
 
                 mongoCollection.updateOne(
                     Document("<user ID field>", user.id), Document("favoriteColor", "cerulean"))
@@ -308,7 +309,7 @@ in the custom user data collection:
                 MongoDatabase mongoDatabase =
                     mongoClient.getDatabase("<custom user data database>");
                 MongoCollection<Document> mongoCollection =
-                    mongoDatabase.getCollection("<custom user data cluster>");
+                    mongoDatabase.getCollection("<custom user data collection>");
 
                 mongoCollection.updateOne(
                     new Document("<user ID field>", user.getId()), new Document("favoriteColor", "cerulean"))
@@ -328,9 +329,10 @@ in the custom user data collection:
             }
          }
 
-You can determine the ``id`` of a user through either the ``User``
-object of the user once logged in or via the :guilabel:`Users` tab of
-the :guilabel:`Users` left sidebar entry of the {+ui+}.
+.. tip::
+   
+   To determine a user's ID, access the ``User.id`` property or find the user in the {+ui+}
+   on the :guilabel:`App Users` page under the :guilabel:`Users` tab.
 
 Summary
 -------

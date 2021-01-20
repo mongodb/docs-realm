@@ -9,7 +9,7 @@ content: |
       page of the `Apple Developer Portal
       <https://developer.apple.com/account>`_.
 
-   2. Click :guilabel:`Identifiers` in the left-hand navigation.
+   2. Click :guilabel:`Identifiers` in the {+leftnav+}.
 
    3. Click the blue plus icon next to :guilabel:`Identifiers`.
 
@@ -32,7 +32,7 @@ content: |
    you to configure an authorization callback URL and define a private
    key for the application.
 
-   1. Click :guilabel:`Identifiers` in the left-hand navigation.
+   1. Click :guilabel:`Identifiers` in the {+leftnav+}.
 
    2. Click the blue plus icon next to :guilabel:`Identifiers`.
 
@@ -43,8 +43,7 @@ content: |
       :guilabel:`Description` and a :wikipedia:`reverse-dns notation
       <Reverse_domain_name_notation>` :guilabel:`Identifier`.
 
-      .. admonition:: Save the Identifier
-         :class: important
+      .. important:: Save the Identifier
          
          The :guilabel:`Identifier` value of the Services ID is your
          application's :guilabel:`Client ID`. You will need this value
@@ -65,7 +64,7 @@ content: |
    create and sign with a **private key**. You need to generate the
    private key through the Apple Developer Portal.
    
-   1. Click :guilabel:`Keys` in the left-hand navigation.
+   1. Click :guilabel:`Keys` in the {+leftnav+}.
    
    2. Click the blue plus icon next to :guilabel:`Keys`.
    
@@ -78,7 +77,6 @@ content: |
       created as the :guilabel:`Primary App ID` and then click
       :guilabel:`Save`.
       
-      .. cssclass:: bordered-figure
       .. figure:: /images/apple-auth-configure-key.png
          :alt: The Configure Key page in the Apple Developer Portal
    
@@ -91,8 +89,7 @@ content: |
       ``.p8`` text file. You will use these to generate the client
       secret.
       
-      .. admonition:: Save the Key
-         :class: important
+      .. important:: Save the Key
          
          You can only download the key one time. Make sure that you save
          the key somewhere safe in case you need it again. If you lose
@@ -113,7 +110,6 @@ content: |
    - Your Apple Team ID. You can find this in the top right of the Apple
      Developer Portal.
      
-     .. cssclass:: bordered-figure
      .. figure:: /images/apple-team-id.png
         :alt: An Apple team ID in the Apple Developer Portal
    
@@ -176,8 +172,7 @@ content: |
       
       ruby generate_client_secret.rb >> client_secret.txt
    
-   .. admonition:: Save the JWT
-      :class: important
+   .. important:: Save the JWT
       
       The ``generate_client_secret.rb`` script saves the JWT string to a
       file called ``client_secret.txt``. You will need the JWT to
@@ -196,9 +191,8 @@ content: |
       .. tab::
          :tabid: ui
          
-         1. Click :guilabel:`Users` in the left-hand navigation,
-            select the :guilabel:`Providers` tab, and then click
-            :guilabel:`Apple ID`.
+         1. Click :guilabel:`Authentication` in the {+leftnav+} and
+            then click :guilabel:`Apple ID`.
          
          2. Turn on the :guilabel:`Provider Enabled` toggle.
          
@@ -231,7 +225,6 @@ content: |
          ``/auth_providers/oauth2-apple.json``. The configuration file
          should have the following form:
          
-         .. cssclass:: wide-container
          .. code-block:: none
             :caption: /auth_providers/oauth2-apple.json
             
@@ -248,7 +241,6 @@ content: |
               "redirect_uris": ["<string>", ...]
             }
          
-         .. cssclass:: auth-table
          .. list-table::
             :header-rows: 1
             :widths: 15 30

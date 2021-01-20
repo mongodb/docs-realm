@@ -49,8 +49,7 @@ documents in the collection. Realm automatically generates
 based on the collection schema and regenerates new types whenever the
 schema changes.
 
-.. admonition:: Automatically Generate a Schema
-   :class: note
+.. note:: Automatically Generate a Schema
 
    Realm can generate a collection schema for you based on a sample of
    existing documents in the collection. If you don't have existing
@@ -126,7 +125,7 @@ field matches a foreign key included in the local field.
       field of the collection's rules configuration file.
       
       .. code-block:: json
-         :caption: ``/services/mongodb-atlas/rules/<db>.<collection>.json``
+         :caption: /services/mongodb-atlas/rules/<db>.<collection>.json
          
          {
            ...,
@@ -284,8 +283,7 @@ There are three situations where you can set the ``title`` field:
      }
    }
 
-.. admonition:: Singular and Plural Types
-   :class: note
+.. note:: Singular and Plural Types
 
    {+service-short+} generates two :ref:`GraphQL queries
    <graphql-query-resolvers>` for each collection:

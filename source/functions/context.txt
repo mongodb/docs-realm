@@ -99,8 +99,7 @@ service as methods.
                - Refer to the ``name`` field of the service's
                  :ref:`config.json <appschema-services>` file.
 
-          .. admonition:: MongoDB Service Names
-             :class: note
+          .. note:: MongoDB Service Names
              
              The default name for the :doc:`MongoDB Service </mongodb>`
              associated with a {+app+}'s linked cluster is
@@ -277,8 +276,7 @@ context.user
 A property that contains the :ref:`user object <user-objects>` of the
 function's :ref:`active user <function-active-user>`.
 
-.. admonition:: System Functions
-   :class: note
+.. note:: System Functions
 
    ``context.user`` always resolves to the authenticated application
    user that called the function, even if the function is a
@@ -402,8 +400,7 @@ determine the origin of the call. It may contain the following fields:
        incoming HTTP request that caused the function to execute. All
        query parameters appear in the same order as they were specified.
 
-       .. admonition:: Realm Removes The Secret Parameter
-          :class: important
+       .. important:: Realm Removes The Secret Parameter
 
           For security reasons, {+service-short+} automatically removes any query
           string key/value pair where the key is ``secret``. For
@@ -425,7 +422,7 @@ determine the origin of the call. It may contain the following fields:
        <Web/HTTP/Headers/User-Agent>`.
    * - ``service``
      - string
-     - Contains the name of the `service` called within the function.
+     - Contains the name of the service called within the function.
    * - ``action``
      - string
      - The action executed on the service.

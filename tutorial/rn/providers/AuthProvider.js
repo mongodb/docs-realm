@@ -28,6 +28,7 @@ const AuthProvider = ({ children }) => {
     setProjectData([myProject]);
 
     // :code-block-start: open-user-realm
+    // :hide-start:
     const config = {
       sync: {
         user,
@@ -72,6 +73,7 @@ const AuthProvider = ({ children }) => {
     // :replace-with:
     //// TODO: Return a cleanup function that closes the user realm.
     // :hide-end:
+    // :code-block-end:
   }, [user]);
 
   // :code-block-start: sign-in

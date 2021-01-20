@@ -77,7 +77,7 @@ Define Your Object Model
 ------------------------
 
 If you have not :ref:`enabled {+sync+} <enable-sync>` or you enabled
-{+sync-short+} with :term:`Development Mode`, you can define your :ref:`object
+{+sync-short+} with :term:`development mode`, you can define your :ref:`object
 model <node-realm-objects>` directly in code.
 
 .. note::
@@ -177,17 +177,18 @@ without providing any identifying information:
            // Anonymous credentials don't have any identifying information, but other
            // authentication providers accept additional data, like a user's email and
            // password.
-           const credentials: Realm.Credentials = Realm.Credentials.anonymous();
+           const credentials = Realm.Credentials.anonymous();
            // You can log in with any set of credentials using `app.logIn()`
-           const user: Realm.User = await app.logIn(credentials);
+           const user = await app.logIn(credentials);
            console.log(`Logged in with the user id: ${user.id}`);
          };
          handleLogin().catch(err => {
            console.error("Failed to log in:", err)
          });
 
-.. seealso:: :ref:`Authenticate a User <node-authenticate>`
+.. seealso::
 
+   :ref:`Authenticate a User <node-authenticate>`
 .. _node-quick-start-open-realm:
 
 Open a Realm
@@ -213,7 +214,7 @@ you can open a synced :ref:`{+realm+} <node-realms>` by calling
            // syncs pending remote changes as well as any unsynced changes made
            // to the realm on the device.
            const realm = await Realm.open({
-             schema: [TaskModel],
+             schema: [TaskSchema],
              sync: {
                user: app.currentUser,
                partitionValue: "myPartition",
@@ -241,8 +242,8 @@ you can open a synced :ref:`{+realm+} <node-realms>` by calling
            // creates the realm on the device (if it didn't exist already) and
            // syncs pending remote changes as well as any unsynced changes made
            // to the realm on the device.
-           const realm: Realm = await Realm.open({
-             schema: [TaskModel],
+           const realm = await Realm.open({
+             schema: [TaskSchema],
              sync: {
                user: app.currentUser?,
                partitionValue: "myPartition",
@@ -256,8 +257,10 @@ you can open a synced :ref:`{+realm+} <node-realms>` by calling
            console.error("Failed to open realm:", err)
          });
 
-.. seealso:: :ref:`Sync Data <node-sync-data>`
+.. seealso::
 
+   :ref:`Sync Data <node-sync-data>`
+   
 .. _node-quick-start-crud:
 
 Create, Read, Update, and Delete Objects
@@ -295,7 +298,7 @@ To create a new object, start a new transaction by calling
       .. code-block:: typescript
 
          realm.write(() => {
-           const newTask: Task = realm.create("Task", {
+           const newTask = realm.create<Task>("Task", {
              _id: new BSON.ObjectID(),
              name: "go grocery shopping",
              status: "Open",
@@ -324,7 +327,7 @@ contains all objects of a given type in the {+realm+}:
       .. code-block:: typescript
 
          // Query realm for all instances of the "Task" type.
-         const tasks: Realm.Collection<Task> = realm.objects<Task>("Task");
+         const tasks = realm.objects<Task>("Task");
 
 Filter & Query Collections
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -349,8 +352,8 @@ You can filter the objects in a collection by providing a :ref:`query filter
 
       .. code-block:: typescript
          
-         const tasks: Realm.Collection<Task> = realm.objects<Task>("Task");
-         const openTasks: Realm.Collection<Task> = tasks.filtered("status = 'Open'");
+         const tasks = realm.objects<Task>("Task");
+         const openTasks = tasks.filtered("status = 'Open'");
          console.log(`${openTasks.length} tasks are Open (Total tasks: ${tasks.length})`);
 
 Modify an Object
@@ -377,8 +380,8 @@ To modify an object, update its properties in a :js-sdk:`Realm.write()
 
       .. code-block:: typescript
 
-         const tasks: Realm.Collection<Task> = realm.objects<Task>("Task");
-         const someTask: Task = tasks.filtered("status = 'Open' LIMIT(1)")[0];
+         const tasks = realm.objects<Task>("Task");
+         const someTask = tasks.filtered("status = 'Open' LIMIT(1)")[0];
          realm.write(() => {
            someTask.status = 'InProgress';
          });
@@ -410,8 +413,8 @@ a :js-sdk:`Realm.write() <Realm.html#write>` transaction block:
 
       .. code-block:: typescript
 
-         const tasks: Realm.Collection<Task> = realm.objects<Task>("Task");
-         let someTask: Task | null = tasks.filtered("status = 'Open' LIMIT(1)")[0];
+         const tasks = realm.objects<Task>("Task");
+         let someTask = tasks.filtered("status = 'Open' LIMIT(1)")[0];
          realm.write(() => {
            // Delete the task from the realm.
            realm.delete(someTask);
@@ -482,7 +485,7 @@ methods.
          const tasks = realm.objects("Task");
          
          // Define the collection notification listener
-         const listener: Realm.CollectionChangeCallback<Task> = (
+         const listener = (
            tasks: Realm.Collection<Task>,
            changes: Realm.ObjectChanges
          ) => {

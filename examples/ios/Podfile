@@ -1,12 +1,16 @@
-# Uncomment the next line to define a global platform for your project
-platform :ios, '12.0'
+platform :ios, '13.0'
 
 target 'RealmExamples' do
-  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
+  pod 'Realm', '=10.4.0'
+  pod 'RealmSwift', '=10.4.0'
+  pod 'GoogleSignIn'
+  pod 'FBSDKLoginKit'
+end
+
+target 'QuickStartSwiftUI' do
   use_frameworks!
 
-  # Pods for RealmObjcExamples
-  pod 'Realm', '=10.0.0-rc.1'
-  pod 'RealmSwift', '=10.0.0-rc.1'
+  pod 'RealmSwift', '=10.4.0'
 end
 

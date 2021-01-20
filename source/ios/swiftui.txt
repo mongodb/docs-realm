@@ -1,0 +1,248 @@
+.. _ios-swiftui-combine-quick-start:
+
+====================================
+Quick Start with SwiftUI and Combine
+====================================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+This page contains instructions to quickly get {+client-database+} integrated
+into your SwiftUI and Combine app. 
+
+Prerequisites
+-------------
+
+Before you begin, ensure you have:
+
+- :ref:`Installed the iOS SDK <ios-install>` with a minimum iOS target of 14.0.
+
+This quick start guide includes optional support for :ref:`{+sync+} <sync>`. If
+you wish to integrate the quick start with {+sync+}, ensure you have:
+
+- :ref:`Created a {+app+} <create-a-realm-app>`.
+- :ref:`Enabled anonymous authentication <anonymous-authentication-configuration>`.
+- :ref:`Enabled {+sync+} <enable-sync>`.
+
+.. note::
+
+   The code example presented below requires a minimum iOS target of 14.0, which
+   requires Xcode 12 or later. You might be able to use iOS 13.x by adapting the
+   code to remove iOS 14.0 features such as the ``SwiftUI.App`` class, but that
+   is out of scope of this quick start guide.
+
+The Code
+--------
+
+Paste the following into your main file, such as ``QuickStart.swift``. Delete
+any other ``@main`` ``App`` classes that Xcode generated for your project (for
+example, in MyProjectApp.swift). 
+
+If you are using {+sync+}, find the ``USE_REALM_SYNC`` flag at the top of the
+file and set it to ``true``. Update ``YOUR_REALM_APP_ID_HERE`` to your
+:ref:`{+app+} ID <find-your-app-id>`. Run the app.
+
+.. literalinclude:: /examples/generated/code/start/QuickStart.codeblock.complete-swiftui-combine-quick-start.swift
+   :language: swift
+
+The Explanation
+---------------
+
+App Flow
+~~~~~~~~
+
+If you opted in to using :ref:`{+sync+} <enable-sync>`, the first screen is the
+LoginView. Otherwise, you start at the ItemsView.
+
+In the LoginView, you can implement :ref:`email/password authentication
+<ios-manage-email-password-users>` or :ref:`another authentication provider
+<authentication-providers>`. For simplicity, the example uses
+:ref:`Anonymous authentication <anonymous-authentication>`.
+
+When you press the :guilabel:`Log in` button, the app navigates to the
+ItemsView, where you see a list of **items** in a single **group**. The app
+demonstrates a single group, but you can add more in the group management
+screen.
+
+On the ItemsView, you can log out (if using {+sync+}), edit the list, and add
+items. Press the :guilabel:`Add` button on the bottom right of the screen to add
+randomly generated items. Press the :guilabel:`Edit` button on the top right to
+modify the list order, which the app persists in the {+realm+}. You can also
+swipe to delete items.
+
+When you have items in the list, you can press one of the items to navigate to
+the ItemDetailsView. This is where you can modify the item name or mark it as a
+favorite. Press the text field in the center of the screen and type a new name.
+When you press Return, the item name should update across the app. You can also
+toggle its favorite status by pressing the toggle in the top right.
+
+.. note::
+
+   If you are using {+sync+}, you can see the changes you make sync to the
+   backend and across devices.
+
+It's a small app, but it demonstrates a few key points about using Realm with
+SwiftUI and Combine that we discuss in the following sections.
+
+Models
+~~~~~~
+
+A common {+service-short+} data modeling use case is to have "things" and
+"containers of things". This app defines two related Realm object models: item
+and group.
+
+An item has two user-facing properties:
+
+- A randomly generated name, which the user can edit.
+- An ``isFavorite`` boolean property, which indicates whether the user "favorited" the item.
+
+A group contains items. You can extend the group to have a name and an
+association with a specific user, but that is out of scope of this quick start.
+
+State Objects
+~~~~~~~~~~~~~
+
+We recommend keeping app state separate from Views as much as possible. A View
+should only be aware of what it needs. We define the AppState class to
+centralize the state of the app. As the app grows in complexity, we might
+consider breaking functionality into smaller classes that become members of the
+AppState class. For now, this class reports authentication events and holds the
+list of items.
+
+When the app launches, the AppState opens a {+realm+} if either of the following
+conditions are true:
+
+- A user from a previous session still logged in.
+- We are not using {+sync+} and authentication at all.
+
+Otherwise, the AppState opens a {+realm+} when a user logs in.
+
+When opening a synced {+realm+} for the first time, it's a good idea to use
+``asyncOpen()`` in order to download the {+realm+} completely from the backend
+before opening it. When using the local-only {+realm+}, we can use the Realm
+constructor directly.
+
+Once the {+realm+} opens, the AppState retrieves the group in the {+realm+} or
+creates one if one does not exist already. The AppState stores the list of items
+in the group. Any views observing this state object refresh themselves in
+response.
+
+On logout, the AppState clears its reference to the items, and any views
+observing this state object refresh themselves in response.
+
+Views
+~~~~~
+
+Switching Views Depending on the App State
+``````````````````````````````````````````
+
+The ContentView is the main entrypoint of the app. It owns and observes an
+instance of the AppState. It uses the AppState to determine which view to
+present:
+
+- If the AppState instance has a reference to the items of a group, we present the ItemsView.
+- If the AppState instance does not have reference to the items of a group, we must be waiting for login and for the {+realm+} to open, so we present the LoginView.
+
+When the AppState changes, this view renders again and has the opportunity to
+present a different view based on the new state.
+
+Handling Authentication ({+sync+})
+````````````````````````````````````
+
+The LoginView uses the {+app+} instance to log in anonymously. On success, it
+forwards the event to the AppState's loginPublisher.
+
+Likewise, the LogoutButton uses the {+app+} instance to log out and forward the
+event to the AppState's logoutPublisher.
+
+Presenting Lists of Realm Objects
+`````````````````````````````````
+
+The ItemsView receives the list of items from the ContentView and observes it.
+You must :ref:`freeze <ios-frozen-objects>` a list when iterating over
+it in a SwiftUI view, even if you do not modify the list while iterating.
+Otherwise, unexpected behavior will occur when modifying the list, especially
+when deleting objects.
+
+.. note::
+
+   To understand why freezing a list is necessary, consider that SwiftUI caches
+   several copies of a list depending on the state of the view. When you delete
+   from a list, the view still shows a cached copy of that list for a moment.
+   However, :ref:`Realm lists are "live" <ios-live-collections>`, so the cached
+   copy actually reflects the latest state of the Realm list. SwiftUI expects a
+   cached list to reflect the previous state and assumes the number of elements
+   in the list has not changed. Consequently, the view tries to display a list
+   element that no longer exists. Freezing the list removes its "live" property,
+   allowing the list copy to behave in line with SwiftUI's expectation.
+
+Before passing each item to the ItemRow and ItemDetailsView views, we "thaw" the
+frozen object by fetching it again from the {+realm+}. This is only necessary
+because the ItemDetailsView may edit the item, and you cannot modify a frozen
+item. However, we must be careful to treat the item as frozen until we intend to
+modify it.
+
+Note that the ItemRow and ItemDetailsView views do not observe their items.
+That is, they do not declare the item as ``@ObservedObject var item: Item``
+but rather ``var item: Item``. Otherwise, if these views observed an invalid
+object caused by deleting an item, the app could crash.
+
+.. important::
+
+   Always treat the items in a list as "frozen" in SwiftUI views. When an item
+   gets deleted, the view observing the list of items (ItemsView) will notice
+   and re-render its list of ItemRows, so you do not need to and should not
+   observe individual items in a list.
+
+
+Modifying Properties of Presented Realm Objects
+```````````````````````````````````````````````
+
+The ItemDetailsView allows users to edit the name of an item with a TextField.
+We use a ``@State`` variable to hold the new name value entered by a user. It's
+important to avoid directly updating the item's ``name`` property here, because that
+would result in an attempt to modify a Realm object outside of a transaction.
+
+.. important:: 
+
+   You may only update a Realm object's properties in a transaction. If
+   we used the object's properties directly here, any edits to the TextField
+   would automatically apply to the item's name outside of a transaction,
+   resulting in a fatal exception.
+
+There are two approaches to binding an editable Realm object property to a
+SwiftUI control:
+
+- Use another variable to hold the value until ready to commit it in a write transaction.
+- Create a custom :apple:`binding <documentation/swiftui/binding>` that handles writes in a transaction.
+
+We use the first approach to handle the update to the name because we want to
+wait until the user actually commits the edit in the TextField before writing to
+the {+realm+}.
+
+Meanwhile, the user can also update the isFavorite property on the item using
+the FavoriteToggle view. In this case, we want to write the update immediately
+rather than waiting for the user to commit their edit in a TextField, so we
+create a custom binding that handles writes in transactions.
+
+Summary
+-------
+
+- The quick start demonstrates both local-only and {+sync+} use cases.
+- Only provide views with the state they need. Avoid "wrapping" Realm where possible; use the SDK directly.
+- Always :ref:`freeze <ios-frozen-objects>` a list when iterating over it. Do not observe iterated list items, or unexpected behavior will occur when modifying the list.
+- Avoid using Realm object properties directly where they can be edited by the UI. Instead, store the new value in another variable until you're ready to commit the change in a transaction, or wrap the property in a custom binding that opens a transaction on write.
+
+Feedback
+--------
+
+Did you find this quick start guide helpful? Please let us know with the
+feedback form on the right side of the page!

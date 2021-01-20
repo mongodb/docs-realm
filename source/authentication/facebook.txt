@@ -38,7 +38,7 @@ Configuration
        content: |
          You can enable and configure the Facebook authentication
          provider from the {+ui+} by selecting :guilabel:`Facebook`
-         from the :guilabel:`Users > Providers` page.
+         from the :guilabel:`Authentication` page.
 
      - id: cli
        content: |
@@ -53,9 +53,8 @@ Configuration
          files for the Facebook authentication provider have the
          following form:
 
-         .. cssclass:: wide-container
          .. code-block:: none
-            :caption: ``/auth_providers/oauth2-facebook.json``
+            :caption: /auth_providers/oauth2-facebook.json
 
             {
               "name": "oauth2-facebook",
@@ -75,7 +74,6 @@ Configuration
 The Facebook authentication provider has the following configuration
 options:
 
-.. cssclass:: auth-table
 .. list-table::
    :header-rows: 1
    :widths: 15 30
@@ -176,3 +174,50 @@ walk through creating the app, setting up Facebook Login,
 and configuring the provider to connect with the app.
 
 .. include:: /includes/steps/auth-facebook-app-setup.rst
+
+.. _facebook-authentication-examples:
+
+Examples
+--------
+
+For code examples that demonstrate how to register and log in using
+Facebook authentication, see the documentation for the Realm SDKs:
+
+.. tabs-realm-sdks::
+
+   .. tab::
+      :tabid: android
+
+      To register or log in a Facebook user from the Android Client SDK, see the
+      :ref:`Android SDK guide to Facebook authentication <android-login-facebook>`.
+
+   .. tab::
+      :tabid: ios
+
+      To register or log in a Facebook user from the iOS Client SDK, see the
+      :ref:`iOS SDK guide to Facebook authentication <ios-login-facebook>`.
+
+   .. tab::
+      :tabid: web
+
+      To register or log in a Facebook user from the Web Client SDK, see the
+      :ref:`Web SDK guide to Facebook authentication <web-login-facebook>`.
+
+   .. tab::
+      :tabid: node
+      
+      To register or log in a Facebook user from the Node Client SDK, see the
+      :ref:`Node SDK guide to Facebook authentication <node-login-facebook>`.
+
+   .. tab::
+      :tabid: react-native
+
+      To register or log in a Facebook user from the React Native Client SDK, see the
+      :ref:`React Native SDK guide to Facebook authentication <react-native-login-facebook>`.
+
+   .. tab::
+      :tabid: dotnet
+
+      To register or log in a Facebook user from the .NET Client SDK, see the
+      :ref:`.NET SDK guide to Facebook authentication <dotnet-login-facebook>`.
+

@@ -1,22 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using dotnet;
 using Examples;
 using MongoDB.Bson;
 using NUnit.Framework;
 using Realms;
 using Realms.Sync;
 
-
 namespace UnitTests
 {
     public class MongoDBExamples
     {
         App app;
-        ObjectId testTaskId;
         User user;
         SyncConfiguration config;
         const string myRealmAppId = "tuts-tijya";
@@ -25,12 +20,12 @@ namespace UnitTests
         MongoClient.Database dbPlantInventory;
         MongoClient.Collection<Plant> plantsCollection;
 
-        [SetUp]
+        [OneTimeSetUp]
         public async Task Setup()
         {
             app = App.Create(myRealmAppId);
-            user = app.LogInAsync(Credentials.EmailPassword("foo@foo.com", "foobar")).Result;
-            config = new SyncConfiguration("My Project", user);
+            user = await app.LogInAsync(Credentials.EmailPassword("foo@foo.com", "foobar"));
+            config = new SyncConfiguration("myPart", user);
 
             // :code-block-start: mongo-setup
             mongoClient = user.GetMongoClient("mongodb-atlas");
@@ -38,78 +33,63 @@ namespace UnitTests
             plantsCollection = dbPlantInventory.GetCollection<Plant>("plants");
             // :code-block-end:
 
+            await InsertsOne();
+            await InsertsMany();
             return;
         }
 
-        [Test]
         public async Task InsertsOne()
         {
-
-            /*[{"name": "venus flytrap", "sunlight": "full", "color": "white", "type": "perennial", "_partition": "Store 42"},
-{"name": "sweet basil", "sunlight": "partial", "color": "green", "type": "annual", "_partition": "Store 42"},
-{"name": "thai basil", "sunlight": "partial", "color": "green", "type": "perennial", "_partition": "Store 42"},
-{"name": "helianthus", "sunlight": "full", "color": "yellow", "type": "annual", "_partition": "Store 42"},
-{"name": "petunia", "sunlight": "full", "color": "purple", "type": "annual", "_partition": "Store 47"}]*/
-
-
-
             // :code-block-start: mongo-insert-one
             var plant = new Plant
             {
                 Name = "Venus Flytrap",
-                Sunlight = Sunlight.full,
-                Color = PlantColor.white,
-                Type = PlantType.perennial,
+                Sunlight = Sunlight.Full,
+                Color = PlantColor.White,
+                Type = PlantType.Perennial,
                 Partition = "Store 42"
-
             };
 
             var insertResult = await plantsCollection.InsertOneAsync(plant);
-
             var newId = insertResult.InsertedId;
-            Assert.IsNotNull(plant.Id);
-            Assert.AreEqual(newId, plant.Id);
             // :code-block-end:
+            
         }
-        [Test]
+       
         public async Task InsertsMany()
         {
             // :code-block-start: mongo-insert-many
             var sweetBasil = new Plant
             {
                 Name = "Sweet Basil",
-                Sunlight = Sunlight.partial,
-                Color = PlantColor.green,
-                Type = PlantType.annual,
+                Sunlight = Sunlight.Partial,
+                Color = PlantColor.Green,
+                Type = PlantType.Annual,
                 Partition = "Store 42"
-
             };
             var thaiBasil = new Plant
             {
                 Name = "Thai Basil",
-                Sunlight = Sunlight.partial,
-                Color = PlantColor.green,
-                Type = PlantType.perennial,
+                Sunlight = Sunlight.Partial,
+                Color = PlantColor.Green,
+                Type = PlantType.Perennial,
                 Partition = "Store 42"
-
             };
             var helianthus = new Plant
             {
                 Name = "Helianthus",
-                Sunlight = Sunlight.full,
-                Color = PlantColor.yellow,
-                Type = PlantType.annual,
+                Sunlight = Sunlight.Full,
+                Color = PlantColor.Yellow,
+                Type = PlantType.Annual,
                 Partition = "Store 42"
-
             };
             var petunia = new Plant
             {
                 Name = "Petunia",
-                Sunlight = Sunlight.full,
-                Color = PlantColor.purple,
-                Type = PlantType.annual,
+                Sunlight = Sunlight.Full,
+                Color = PlantColor.Purple,
+                Type = PlantType.Annual,
                 Partition = "Store 47"
-
             };
 
             var listofPlants = new List<Plant>
@@ -121,27 +101,23 @@ namespace UnitTests
             };
 
             var insertResult = await plantsCollection.InsertManyAsync(listofPlants);
-
             var newIds = insertResult.InsertedIds;
             // :code-block-end:
-
-            Assert.AreEqual(newIds[0], sweetBasil.Id);
-            Assert.AreEqual(newIds[1], thaiBasil.Id);
-            Assert.AreEqual(newIds[2], helianthus.Id);
-            Assert.AreEqual(newIds[3], petunia.Id);
         }
 
         [Test]
         public async Task ReadsDocuments()
         {
             // :code-block-start: mongo-find-one
-            var petunia = await plantsCollection.FindOneAsync<Plant>(
-                new BsonDocument("name", "petunia"), null);
+            var petunia = await plantsCollection.FindOneAsync(
+               new { name = "Petunia" },
+               null);
             // :code-block-end:
-            Assert.AreEqual(petunia.Partition, "Store 47");
+            Assert.AreEqual("Store 47", petunia.Partition);
             // :code-block-start: mongo-find-many
-            var allPerennials = await plantsCollection.FindAsync<Plant>(
-                new BsonDocument("type", PlantType.perennial), null);
+            var allPerennials = await plantsCollection.FindAsync(
+                new {type = PlantType.Perennial.ToString() },
+                new { name = 1 });
             // :code-block-end:
             Assert.AreEqual(2, allPerennials.Count());
             // :code-block-start: mongo-count
@@ -149,25 +125,78 @@ namespace UnitTests
             // :code-block-end:
             Assert.AreEqual(5, allPlants);
         }
+
         [Test]
         public async Task UpdatesDocuments()
         {
+            {
+                // :code-block-start: mongo-update-one
+                var updateResult = await plantsCollection.UpdateOneAsync(
+                    new BsonDocument("sunlight", Sunlight.Partial.ToString()),
+                    new { name = "Petunia" });
+                // :code-block-end:
+                Assert.AreEqual(1, updateResult.MatchedCount);
+                Assert.AreEqual(1, updateResult.ModifiedCount);
+            }
+            {
+                // :code-block-start: mongo-update-many
+                var filter = new { _partition = "Store 47" };
+                var updateDoc = new BsonDocument("$set",
+                    new BsonDocument("_partition", "Area 51"));
 
+                var updateResult = await plantsCollection.UpdateManyAsync(
+                    filter, updateDoc);
+                // :code-block-end:
+                Assert.AreEqual(1, updateResult.MatchedCount);
+                Assert.AreEqual(1, updateResult.ModifiedCount);
+            }
+            {
+                // :code-block-start: mongo-upsert
+                var filter = new BsonDocument()
+                    .Add("name", "Pothos")
+                    .Add("type", PlantType.Perennial)
+                    .Add("sunlight", Sunlight.Full);
+
+                var updateResult = await plantsCollection.UpdateOneAsync(
+                    filter,
+                    new BsonDocument("$set", new BsonDocument("_partition", "Store 42")),
+                    upsert: true);
+
+                /* The upsert will create the following object:
+
+                {
+                   "name": "pothos",
+                   "sunlight": "full",
+                   "type": "perennial",
+                   "_partition": "Store 42"
+                }
+                */
+                // :code-block-end:
+
+                var plant = await plantsCollection.FindOneAsync(filter);
+                Assert.AreEqual("Store 42", plant.Partition);
+                Assert.AreEqual(plant.Id, updateResult.UpsertedId);
+            }
         }
 
-        [TearDown]
+        [OneTimeTearDown]
         public async Task TearDown()
         {
-            config = new SyncConfiguration("My Project", user);
-            using (var realm = await Realm.GetInstanceAsync(config))
+            config = new SyncConfiguration("myPart", user);
+            using var realm = await Realm.GetInstanceAsync(config);
             {
-                realm.Write(() =>
-                {
-                    realm.RemoveAll<RealmTask>();
-                });
-    
-                await user.LogOutAsync();
+                // :code-block-start: mongo-delete-one
+                var filter = new BsonDocument("name", "Thai Basil");
+                var deleteResult = await plantsCollection.DeleteOneAsync(filter);
+                // :code-block-end:
             }
+            {
+                // :code-block-start: mongo-delete-many
+                var filter = new BsonDocument("type", PlantType.Annual);
+                var deleteResult = await plantsCollection.DeleteManyAsync(filter);
+                // :code-block-end:
+            }
+            await plantsCollection.DeleteManyAsync();
             return;
         }
     }

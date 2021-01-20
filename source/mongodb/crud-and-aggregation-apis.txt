@@ -58,7 +58,6 @@ in :ref:`system functions <function-system-user>`.
 Comparison Operator Availability
 ++++++++++++++++++++++++++++++++
 
-.. cssclass:: config-table
 .. list-table::
    :header-rows: 1
    :widths: 25 10 10
@@ -102,7 +101,6 @@ Comparison Operator Availability
 Logical Operator Availability
 +++++++++++++++++++++++++++++
 
-.. cssclass:: config-table
 .. list-table::
    :header-rows: 1
    :widths: 25 10 10
@@ -130,7 +128,6 @@ Logical Operator Availability
 Array Operator Availability
 +++++++++++++++++++++++++++
 
-.. cssclass:: config-table
 .. list-table::
    :header-rows: 1
    :widths: 25 10 10
@@ -154,7 +151,6 @@ Array Operator Availability
 Element Operator Availability
 +++++++++++++++++++++++++++++
 
-.. cssclass:: config-table
 .. list-table::
    :header-rows: 1
    :widths: 25 10 10
@@ -174,7 +170,6 @@ Element Operator Availability
 Evaluation Operator Availability
 ++++++++++++++++++++++++++++++++
 
-.. cssclass:: config-table
 .. list-table::
    :header-rows: 1
    :widths: 25 10 10
@@ -210,7 +205,6 @@ Evaluation Operator Availability
 Geospatial Operator Availability
 ++++++++++++++++++++++++++++++++
 
-.. cssclass:: config-table
 .. list-table::
    :header-rows: 1
    :widths: 25 10 10
@@ -238,7 +232,6 @@ Geospatial Operator Availability
 Bitwise Operator Availability
 +++++++++++++++++++++++++++++
 
-.. cssclass:: config-table
 .. list-table::
    :header-rows: 1
    :widths: 25 10 10
@@ -277,7 +270,6 @@ operators are only available in :ref:`system functions
 Field Update Operator Availability
 ++++++++++++++++++++++++++++++++++
 
-.. cssclass:: config-table
 .. list-table::
    :header-rows: 1
    :widths: 25 10 10
@@ -325,7 +317,6 @@ Field Update Operator Availability
 Array Update Operator Availability
 ++++++++++++++++++++++++++++++++++
 
-.. cssclass:: config-table
 .. list-table::
    :header-rows: 1
    :widths: 25 10 10
@@ -359,17 +350,16 @@ Array Update Operator Availability
      - Yes
 
    * - :manual:`$[] (All Positional Update) </reference/operator/update/positional-all>`
-     - No
+     - Yes
      - Yes
 
    * - :manual:`$[element] (Filtered Positional Update) </reference/operator/update/positional-filtered>`
-     - No
+     - Yes
      - Yes
 
 Array Update Operator Modifiers Availability
 ++++++++++++++++++++++++++++++++++++++++++++
 
-.. cssclass:: config-table
 .. list-table::
    :header-rows: 1
    :widths: 25 10 10
@@ -397,7 +387,6 @@ Array Update Operator Modifiers Availability
 Bitwise Update Operator Availability
 ++++++++++++++++++++++++++++++++++++
 
-.. cssclass:: config-table
 .. list-table::
    :header-rows: 1
    :widths: 25 10 10
@@ -426,11 +415,10 @@ You define ordered bulk operations by calling
 :node-driver:`collection.initializeOrderedBulkOp()
 <Collection.html#initializeOrderedBulkOp>` and manipulating the
 :node-driver:`OrderedBulkOperation <OrderedBulkOperation.html>` object that it
-retuns.
+returns.
 
 {+service-short+} supports the following ``OrderedBulkOperation`` methods:
 
-.. cssclass:: config-table
 .. list-table::
    :header-rows: 1
    :widths: 25 10 10
@@ -454,15 +442,14 @@ retuns.
 Unordered Bulk Write Operation Availability
 +++++++++++++++++++++++++++++++++++++++++++
 
-You define ordered bulk operations by calling
+You define unordered bulk operations by calling
 :node-driver:`collection.initializeUnorderedBulkOp()
 <Collection.html#initializeUnorderedBulkOp>` and manipulating the
 :node-driver:`OrderedBulkOperation <UnorderedBulkOperation.html>` object that it
-retuns.
+returns.
 
 {+service-short+} supports the following ``UnorderedBulkOperation`` methods:
 
-.. cssclass:: config-table
 .. list-table::
    :header-rows: 1
    :widths: 25 10 10
@@ -495,7 +482,6 @@ options are available in :ref:`system functions <function-system-user>`.
 Query Option Availability
 +++++++++++++++++++++++++
 
-.. cssclass:: config-table
 .. list-table::
    :header-rows: 1
    :widths: 25 10 10
@@ -521,17 +507,24 @@ Query Option Availability
 Aggregation
 -----------
 
+Aggregation Methods
+~~~~~~~~~~~~~~~~~~~
+
+{+service+} supports aggregation on the both the database and collection level
+using the following commands:
+
+- :manual:`db.aggregate() </reference/method/db.aggregate>`
+- :manual:`db.collection.aggregate() </reference/method/db.collection.aggregate>`
+
 Aggregation Pipeline Stage Availability
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-{+service+} does not support the following :manual:`aggregation pipeline
-stages </reference/operator/aggregation-pipeline/>` when you :doc:`run
-an aggregation pipeline </mongodb/run-aggregation-pipelines>` in the
-context of an :ref:`application user <user-accounts>`. All aggregation
-pipeline stages are available to the system user except ``$indexStats``
-and ``$currentOp``.
+{+service+} does not support the following :manual:`aggregation pipeline stages
+</reference/operator/aggregation-pipeline/>` when you :doc:`run an aggregation
+pipeline </mongodb/run-aggregation-pipelines>` in the context of an
+:ref:`application user <user-accounts>`. All aggregation pipeline stages are
+available to the system user except for ``$indexStats``.
 
-.. cssclass:: config-table
 .. list-table::
    :header-rows: 1
    :widths: 25 10 10
@@ -546,7 +539,7 @@ and ``$currentOp``.
 
    * - :manual:`$currentOp </reference/operator/aggregation/currentOp/>`
      - No
-     - No
+     - Yes
 
    * - :manual:`$facet </reference/operator/aggregation/facet/>`
      - No
@@ -590,6 +583,13 @@ and ``$currentOp``.
      - Yes
      - Yes
 
+.. note::
+   
+   By default, ``$merge`` and ``$out`` route the entire aggregation operation to
+   the cluster's primary node. If you want to force these stages to respect your
+   configured cluster read preference, set the ``enforceReadPref`` option to
+   ``true``.
+
 Aggregation Pipeline Operator Availability
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -600,7 +600,6 @@ Aggregation Pipeline Operator Availability
 in an :ref:`application user <user-accounts>` context with the following
 exceptions:
 
-.. cssclass:: config-table
 .. list-table::
    :header-rows: 1
    :widths: 25 10 10
@@ -628,79 +627,71 @@ The following :manual:`database commands </reference/command>` are
 partially supported over the wire protocol. Unsupported options for each
 command are listed below.
 
+.. note::
+   
+   {+service-short+} apps cannot run commands on the ``admin`` database.
+
 Database Command Availability
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. cssclass:: config-table
 .. list-table::
    :header-rows: 1
    :widths: 10 40
 
    * - Command
      - Unsupported Options
+     - Realm-Specific Options
 
    * - :manual:`find </reference/command/find>`
-     - .. hlist::
-          :columns: 2
-
-          - ``hint``
-          - ``skip``
-          - ``batchSize``
-          - ``comment``
-          - ``maxScan``
-          - ``maxTimeMS``
-          - ``readConcern``
-          - ``max``
-          - ``min``
-          - ``returnKey``
-          - ``showRecordId``
-          - ``tailable``
-          - ``awaitData``
-          - ``oplogReplay``
-          - ``noCursorTimeout``
-          - ``allowPartialResults``
-          - ``collation``
+     - - ``hint``
+       - ``skip``
+       - ``batchSize``
+       - ``comment``
+       - ``maxScan``
+       - ``maxTimeMS``
+       - ``readConcern``
+       - ``max``
+       - ``min``
+       - ``returnKey``
+       - ``showRecordId``
+       - ``tailable``
+       - ``awaitData``
+       - ``oplogReplay``
+       - ``noCursorTimeout``
+       - ``allowPartialResults``
+       - ``collation``
+     - 
 
    * - :manual:`aggregate </reference/command/aggregate>`
-     - .. hlist::
-          :columns: 2
-
-          - ``explain``
-          - ``allowDiskUse``
-          - ``maxTimeMS``
-          - ``readConcern``
-          - ``collation``
-          - ``bypassDocumentValidation``
-          - ``hint``
-          - ``comment``
-          - ``writeConcern``
+     - - ``explain``
+       - ``allowDiskUse``
+       - ``maxTimeMS``
+       - ``readConcern``
+       - ``collation``
+       - ``bypassDocumentValidation``
+       - ``hint``
+       - ``comment``
+       - ``writeConcern``
+     - - ``enforceReadPref``
 
    * - :manual:`count </reference/command/count>`
-     - .. hlist::
-          :columns: 1
-
-          - ``limit``
-          - ``skip``
-          - ``hint``
-          - ``readConcern``
+     - - ``limit``
+       - ``skip``
+       - ``hint``
+       - ``readConcern``
+     - 
 
    * - :manual:`insert </reference/command/insert>`
-     - .. hlist::
-          :columns: 1
-
-          - ``writeConcern``
-          - ``bypassDocumentValidation``
+     - - ``writeConcern``
+       - ``bypassDocumentValidation``
+     - 
 
    * - :manual:`update </reference/command/update>`
-     - .. hlist::
-          :columns: 1
-
-          - ``bypassDocumentValidation``
-          - ``collation``
-          - ``arrayFilters``
+     - - ``bypassDocumentValidation``
+       - ``collation``
+       - ``arrayFilters``
+     - 
 
    * - :manual:`delete </reference/command/delete>`
-     - .. hlist::
-          :columns: 1
-
-          - ``collation``
+     - - ``collation``
+     - 

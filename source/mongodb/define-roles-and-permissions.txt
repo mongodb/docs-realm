@@ -29,15 +29,25 @@ guide walks through configuring one or more roles for a collection.
    You must define at least one role before you can successfully query a
    collection.
 
+.. important:: Sync Rules
+   
+   This page describes data access rules for clusters where :ref:`{+sync+}
+   <sync>` is not enabled. Synced clusters use a different rules model, which
+   takes precedence over non-sync rules. If sync is enabled for a cluster, any
+   non-sync rules defined for the cluster do not apply.
+   
+   For more information on data access rules for synced clusters, see
+   :doc:`Define Sync Rules </sync/rules>`.
+
+Procedure
+---------
+
 .. note::
 
    This guide requires a :doc:`linked MongoDB Atlas cluster
    </mongodb/link-a-data-source>`. Roles and permissions do not apply to
    a :ref:`linked Data Lake <data-lake-caveats>` as you can only access
    a Data Lake from a :ref:`system function <system-functions>`.
-
-Procedure
----------
 
 .. tabs-realm-admin-interfaces::
 

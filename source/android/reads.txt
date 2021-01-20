@@ -24,150 +24,6 @@ your queries become more complex, design your app's data
 access patterns around a solid understanding of {+client-database+}
 :ref:`read characteristics <android-realm-read-characteristics>`.
 
-.. _android-read-from-realm:
-
-Read from Realm Database
-------------------------
-
-A read from a :term:`{+realm+}` generally consists of the following
-steps:
-
-- Get all :ref:`objects <android-realm-objects>` of a certain type from the {+realm+}.
-- Optionally, :ref:`filter <android-filter-results>` the results using the :ref:`query engine <android-client-query-engine>`.
-- Optionally, :ref:`sort <android-sort-results>` the results.
-
-All query, filter, and sort operations return a
-:ref:`results collection <android-results-collections>`. The results
-collections are live, meaning they always contain the latest
-results of the associated query.
-
-.. admonition:: About the examples on this page
-   :class: note
-
-   The examples on this page use the data model of a project
-   management app that has two {+service-short+} object types: ``Project``
-   and ``Task``. A ``Project`` has zero or more ``Tasks``.
-
-   See the schema for these two classes, ``Project`` and
-   ``Task``, below:
-
-   .. tabs-realm-languages::
-
-      .. tab::
-          :tabid: java
-
-          .. literalinclude:: /examples/Schemas/ProjectAndTask.java
-            :language: java
-
-      .. tab::
-          :tabid: kotlin
-
-          .. literalinclude:: /examples/Schemas/ProjectAndTask.kt
-            :language: kotlin
-
-
-.. _android-get-all-objects:
-
-Get All Objects
-~~~~~~~~~~~~~~~
-
-The first step of any read is to **get all objects** of a
-certain type in a {+realm+}. With this results collection, you
-can operate on all instances on a type or filter and sort to
-refine the results.
-
-.. example::
-
-   In order to access all instances of ``Project`` and ``Task``, use
-   the following syntax:
-
-   .. tabs-realm-languages::
-
-      .. tab::
-          :tabid: java
-
-          .. literalinclude:: /examples/CRUD/Objects.java
-            :language: java
-
-      .. tab::
-          :tabid: kotlin
-
-          .. literalinclude:: /examples/CRUD/Objects.kt
-            :language: kotlin
-
-
-.. _android-filter-results:
-
-Filter Results
-~~~~~~~~~~~~~~
-
-A **filter** selects a subset of results based on the
-value(s) of one or more object properties. {+client-database+} provides a
-full-featured :ref:`query engine <android-client-query-engine>` you
-can use to define filters. The most common use case is to
-find objects where a certain property matches a certain
-value. Additionally, you can compare strings, aggregate over
-collections of numbers, and use logical operators to build
-up complex queries.
-
-.. example::
-
-   In the following example, we use the query
-   engine's comparison operators to:
-
-   - Find high priority tasks by comparing the value of the ``priority`` property value with a threshold number, above which priority can be considered high.
-   - Find just-started or short-running tasks by seeing if the ``progressMinutes`` property falls within a certain range.
-   - Find unassigned tasks by finding tasks where the ``assignee`` property is equal to null.
-   - Find tasks assigned to specific teammates Ali or Jamie by seeing if the ``assignee`` property is in a list of names.
-
-   .. tabs-realm-languages::
-
-      .. tab::
-          :tabid: java
-
-          .. literalinclude:: /examples/Query/Comparison.java
-            :language: java
-
-      .. tab::
-          :tabid: kotlin
-
-          .. literalinclude:: /examples/Query/Comparison.kt
-            :language: kotlin
-
-
-.. _android-sort-results:
-
-Sort Results
-~~~~~~~~~~~~
-
-A **sort** operation allows you to configure the order in
-which {+client-database+} returns queried objects. You can sort based on
-one or more properties of the objects in the results
-collection.
-
-{+client-database+} only guarantees a consistent order of results when the
-results are sorted.
-
-.. example::
-
-   The following code sorts the projects by name in reverse
-   alphabetical order (i.e. "descending" order).
-
-   .. tabs-realm-languages::
-
-      .. tab::
-          :tabid: java
-
-          .. literalinclude:: /examples/CRUD/Sort.java
-            :language: java
-
-      .. tab::
-          :tabid: kotlin
-
-          .. literalinclude:: /examples/CRUD/Sort.kt
-            :language: kotlin
-
-
 .. _android-realm-read-characteristics:
 
 Read Characteristics
@@ -238,6 +94,271 @@ between the objects in {+client-database+} and the results of your query in
 application memory. Because of this, you can traverse direct references
 across an entire {+realm+} from any query result.
 
+.. _android-read-from-realm:
+
+Read from Realm Database
+------------------------
+
+A read from a :term:`{+realm+}` generally consists of the following
+steps:
+
+- Get all :ref:`objects <android-realm-objects>` of a certain type from the {+realm+}.
+- Optionally, :ref:`filter <android-filter-results>` the results using the :ref:`query engine <android-client-query-engine>`.
+- Optionally, :ref:`sort <android-sort-results>` the results.
+
+All query, filter, and sort operations return a
+:ref:`results collection <android-results-collections>`. The results
+collections are live, meaning they always contain the latest
+results of the associated query.
+
+.. note:: About the examples on this page
+
+   The examples on this page use the data model of a project
+   management app that has two {+service-short+} object types: ``Project``
+   and ``Task``. A ``Project`` has zero or more ``Tasks``.
+
+   See the schema for these two classes, ``Project`` and
+   ``Task``, below:
+
+   .. tabs-realm-languages::
+
+      .. tab::
+          :tabid: java
+
+          .. literalinclude:: /examples/Schemas/ProjectAndTask.java
+            :language: java
+
+      .. tab::
+          :tabid: kotlin
+
+          .. literalinclude:: /examples/Schemas/ProjectAndTask.kt
+            :language: kotlin
+
+.. _android-get-all-objects:
+
+Get All Objects
+~~~~~~~~~~~~~~~
+
+The first step of any read is to **get all objects** of a
+certain type in a {+realm+}. With this results collection, you
+can operate on all instances on a type or filter and sort to
+refine the results.
+
+.. example::
+
+   In order to access all instances of ``Project`` and ``Task``, use
+   the following syntax:
+
+   .. tabs-realm-languages::
+
+      .. tab::
+          :tabid: java
+
+          .. literalinclude:: /examples/CRUD/Objects.java
+            :language: java
+
+      .. tab::
+          :tabid: kotlin
+
+          .. literalinclude:: /examples/CRUD/Objects.kt
+            :language: kotlin
+
+.. _android-find-object-by-primary-key:
+
+Find an Object by Primary Key
+-----------------------------
+
+To find an object with a specific primary key value, open a {+realm+}
+and query the primary key field for the desired primary key value
+using the :java-sdk:`RealmQuery.equalTo() <io/realm/RealmQuery.html#equalTo-java.lang.String-Decimal128->` method:
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/generated/android/code/start/RealmQueryTest.codeblock.find-object-by-primary-key.kt
+         :language: kotlin
+
+   .. tab::
+      :tabid: java
+
+      .. literalinclude:: /examples/generated/android/code/start/RealmQueryTest.codeblock.find-object-by-primary-key.java
+         :language: java
+
+.. _android-filter-results:
+
+Filter Results
+~~~~~~~~~~~~~~
+
+A **filter** selects a subset of results based on the
+value(s) of one or more object properties. {+client-database+} provides a
+full-featured :ref:`query engine <android-client-query-engine>` you
+can use to define filters. The most common use case is to
+find objects where a certain property matches a certain
+value. Additionally, you can compare strings, aggregate over
+collections of numbers, and use logical operators to build
+up complex queries.
+
+.. example::
+
+   In the following example, we use the query
+   engine's comparison operators to:
+
+   - Find high priority tasks by comparing the value of the ``priority`` property value with a threshold number, above which priority can be considered high.
+   - Find just-started or short-running tasks by seeing if the ``progressMinutes`` property falls within a certain range.
+   - Find unassigned tasks by finding tasks where the ``assignee`` property is equal to null.
+   - Find tasks assigned to specific teammates Ali or Jamie by seeing if the ``assignee`` property is in a list of names.
+
+   .. tabs-realm-languages::
+
+      .. tab::
+          :tabid: java
+
+          .. literalinclude:: /examples/Query/Comparison.java
+            :language: java
+
+      .. tab::
+          :tabid: kotlin
+
+          .. literalinclude:: /examples/Query/Comparison.kt
+            :language: kotlin
+
+.. _android-sort-results:
+
+Sort Results
+~~~~~~~~~~~~
+
+A **sort** operation allows you to configure the order in
+which {+client-database+} returns queried objects. You can sort based on
+one or more properties of the objects in the results
+collection.
+
+{+client-database+} only guarantees a consistent order of results when the
+results are sorted.
+
+.. example::
+
+   The following code sorts the projects by name in reverse
+   alphabetical order (i.e. "descending" order).
+
+   .. tabs-realm-languages::
+
+      .. tab::
+          :tabid: java
+
+          .. literalinclude:: /examples/CRUD/Sort.java
+            :language: java
+
+      .. tab::
+          :tabid: kotlin
+
+          .. literalinclude:: /examples/CRUD/Sort.kt
+            :language: kotlin
+
+.. _android-query-a-relationship:
+
+Query a Relationship
+--------------------
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: kotlin
+
+      Consider the following relationship between classes ``Person`` and
+      ``Dog``. This arrangement allows each person to own a single dog:
+
+      .. literalinclude:: /examples/generated/android/code/start/Person.kt
+         :language: kotlin
+         :emphasize-lines: 10
+
+      .. literalinclude:: /examples/generated/android/code/start/Dog.kt
+         :language: kotlin
+
+      To query this relationship, use dot notation in a
+      :ref:`query <android-client-query-engine>` to access any property
+      of the linked object:
+
+      .. literalinclude:: /examples/generated/android/code/start/RealmQueryTest.codeblock.query-a-relationship.kt
+         :language: kotlin
+         :emphasize-lines: 15
+
+   .. tab::
+      :tabid: java
+
+      Consider the following relationship between classes ``Human`` and
+      ``Cat``. This arrangement allows each human to own a single cat:
+
+      .. literalinclude:: /examples/generated/android/code/start/Human.java
+         :language: java
+         :emphasize-lines: 12
+
+      .. literalinclude:: /examples/generated/android/code/start/Cat.java
+         :language: java
+
+      To query this relationship, use dot notation in a
+      :ref:`query <android-client-query-engine>` to access any property
+      of the linked object:
+
+      .. literalinclude:: /examples/generated/android/code/start/RealmQueryTest.codeblock.query-a-relationship.java
+         :language: java
+         :emphasize-lines: 16
+
+.. _android-query-an-inverse-relationship:
+
+Query an Inverse Relationship
+-----------------------------
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: kotlin
+
+      Consider the following relationship between classes ``Dog`` and
+      ``Person``. In this example, all dogs link to their owner (or
+      multiple owners, if multiple person objects refer to the same dog).
+      Realm calculates the owners of each dog for you based on the field
+      name you provide to the ``@LinkingObjects`` annotation:
+
+      .. literalinclude:: /examples/generated/android/code/start/Dog.kt
+         :language: kotlin
+         :emphasize-lines: 12-13
+
+      .. literalinclude:: /examples/generated/android/code/start/Person.kt
+         :language: kotlin
+
+      To query this relationship, use dot notation in a
+      :ref:`query <android-client-query-engine>` to access any property
+      of the linked object:
+
+      .. literalinclude:: /examples/generated/android/code/start/RealmQueryTest.codeblock.query-an-inverse-relationship.kt
+         :language: kotlin
+         :emphasize-lines: 15
+
+   .. tab::
+      :tabid: java
+
+      Consider the following relationship between classes ``Cat`` and
+      ``Human``. In this example, all cats link to their human (or
+      multiple humans, if multiple human objects refer to the same cat).
+      Realm calculates the owners of each cat for you based on the field
+      name you provide to the ``@LinkingObjects`` annotation:
+
+      .. literalinclude:: /examples/generated/android/code/start/Cat.java
+         :language: java
+         :emphasize-lines: 14-15
+
+      .. literalinclude:: /examples/generated/android/code/start/Human.java
+         :language: java
+
+      To query this relationship, use dot notation in a
+      :ref:`query <android-client-query-engine>` to access any property
+      of the linked object:
+
+      .. literalinclude:: /examples/generated/android/code/start/RealmQueryTest.codeblock.query-an-inverse-relationship.java
+         :language: java
+         :emphasize-lines: 13
 
 Summary
 -------
@@ -245,4 +366,3 @@ Summary
 - To read from {+client-database+}, first get all objects of a certain type from the {+realm+}, then filter using the query engine, then (optionally) sort the results.
 - When you read, the results are not copies. Instead, through memory mapping, results point directly to the version on disk.
 - Queries are lazily-evaluated.
-

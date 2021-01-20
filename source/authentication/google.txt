@@ -1,3 +1,4 @@
+
 .. _google-authentication:
 
 =====================
@@ -23,6 +24,7 @@ provides {+service+} with an `OAuth 2.0 access token
 {+service-short+} uses the token to identify the user and access approved data from
 Google APIs on their behalf.
 
+.. _openIdConnect:
 .. _auth-google-configuration:
 
 Configuration
@@ -35,7 +37,7 @@ Configuration
       
       You can enable and configure the Google authentication provider
       from the {+ui+} by selecting :guilabel:`Google` from the
-      :guilabel:`Users > Providers` page.
+      :guilabel:`Authentication` page.
    
    .. tab::
       :tabid: cli
@@ -49,16 +51,16 @@ Configuration
       stored in the ``/auth_providers`` directory. Configuration files
       for the Google authentication provider have the following form:
       
-      .. cssclass:: wide-container
       .. code-block:: none
-         :caption: ``/auth_providers/oauth2-google.json``
+         :caption: /auth_providers/oauth2-google.json
       
          {
            "name": "oauth2-google",
            "type": "oauth2-google",
            "disabled": <boolean>,
            "config": {
-             "clientId": <string>
+             "clientId": <string>,
+             "openId": <boolean>
            },
            "secret_config": {
              "clientSecret": <string>
@@ -71,7 +73,6 @@ Configuration
 The Google authentication provider has the following configuration
 options:
 
-.. cssclass:: auth-table
 .. list-table::
    :header-rows: 1
    :widths: 15 30
@@ -155,6 +156,21 @@ options:
           require the email address field in the :guilabel:`Metadata
           Fields` setting.
 
+   * - | :guilabel:`OpenID Connect`
+       | *config.openId*
+
+     - Optional. Default ``false``.
+     
+       If ``true``, the provider uses :google:`OpenID Connect
+       <identity/protocols/oauth2/openid-connect>` to authenticate users.
+       
+       .. important:: OpenID Connect Does Not Support Metadata Fields
+          
+          Google supports OpenID as part of their OAuth 2.0 implementation but does
+          not provide access to restricted scopes for OpenID authentication. This
+          means that Realm cannot access metadata fields for users authenticated
+          with OpenID Connect.
+
 .. _auth-gcp-project-setup:
 
 Set Up a Project in the Google API Console
@@ -176,3 +192,49 @@ following steps walk through creating the project, generating OAuth
 credentials, and configuring the provider to connect with the project.
 
 .. include:: /includes/steps/auth-google-project-setup.rst
+
+.. _google-authentication-examples:
+
+Examples
+--------
+
+For code examples that demonstrate how to register and log in using
+Google authentication, see the documentation for the Realm SDKs:
+
+.. tabs-realm-sdks::
+
+   .. tab::
+      :tabid: android
+
+      To register or log in a Google user from the Android Client SDK, see the
+      :ref:`Android SDK guide to Google authentication <android-login-google>`.
+
+   .. tab::
+      :tabid: ios
+
+      To register or log in a Google user from the iOS Client SDK, see the
+      :ref:`iOS SDK guide to Google authentication <ios-login-google>`.
+
+   .. tab::
+      :tabid: web
+
+      To register or log in a Google user from the Web Client SDK, see the
+      :ref:`Web SDK guide to Google authentication <web-login-google>`.
+
+   .. tab::
+      :tabid: node
+      
+      To register or log in a Google user from the Node Client SDK, see the
+      :ref:`Node SDK guide to Google authentication <node-login-google>`.
+
+   .. tab::
+      :tabid: react-native
+
+      To register or log in a Google user from the React Native Client SDK, see the
+      :ref:`React Native SDK guide to Google authentication <react-native-login-google>`.
+
+   .. tab::
+      :tabid: dotnet
+
+      To register or log in a Google user from the .NET Client SDK, see the
+      :ref:`.NET SDK guide to Google authentication <dotnet-login-google>`.

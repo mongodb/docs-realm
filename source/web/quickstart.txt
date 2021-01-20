@@ -19,8 +19,7 @@ This page shows you how to connect the Realm Web SDK to a MongoDB Realm
 application, authenticate a user, and work with data. Before you begin, you'll
 need to :ref:`create a {+app+} <create-a-realm-app>` for your web app to use.
 
-.. admonition:: Check Out the Tutorial
-   :class: note
+.. note:: Check Out the Tutorial
    
    This page contains only the essential information that you need to set up a
    MongoDB Realm application. If you prefer to follow a guided tutorial that
@@ -164,16 +163,17 @@ users can log into your app without providing any identifying information:
 {+service-short+} provides many additional ways to authenticate, register, and
 link users.
 
-.. seealso:: :ref:`Authenticate a User <web-authenticate>`
+.. seealso::
 
+   :ref:`Authenticate a User <web-authenticate>`
 .. _web-quickstart-function:
 
 Call a Function
 ---------------
 
-To call a :doc:`function </functions>`, use the ``App.functions`` interface to
-call your serverless functions as if they were a regular JavaScript function
-defined on the object.
+To call a :doc:`function </functions>`, use the ``Realm.User.functions`` interface to
+:ref:`call your serverless functions <web-call-a-function>` as if they were 
+regular JavaScript functions defined on the object.
 
 .. tabs-realm-languages::
    
@@ -182,7 +182,7 @@ defined on the object.
       
       .. code-block:: javascript
          
-         const summed = await app.functions.sum(2,3);
+         const summed = await user.functions.sum(2,3);
          assert(summed === 5);
    
    .. tab::
@@ -190,7 +190,7 @@ defined on the object.
       
       .. code-block:: typescript
          
-         const summed: number = await app.functions.sum(2,3);
+         const summed: number = await user.functions.sum(2,3);
          assert(summed === 5);
 
 .. _web-use-graphql:

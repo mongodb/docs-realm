@@ -1,0 +1,49 @@
+.. _dotnet-client-resets:
+.. _dotnet-client-reset:
+
+=============
+Client Resets
+=============
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+When using :doc:`{+sync+} </sync>`, it is possible that your client app will 
+need to handle a **client reset**. While not common, it can be caused when Sync was 
+terminated on the server. For example, a developer deploys a change that includes 
+a destructive schema change. To fix this, they must stop Sync, modify the schema, 
+and then re-enable Sync. This process causes the server to send a client reset 
+message to the clients.
+
+By default, the SDK handles client reset messages automatically, but only on app 
+startup. Until then, users will not receive any data from the server, and any 
+changes they make will be lost during the reset. Therefore, you should handle 
+client resets in your code to ensure users get up-to-date data. 
+
+.. warning::
+
+   A client reset erases all local data and downloads a new copy of the
+   data stored in MongoDB Atlas. Performing a client reset loses all local
+   changes made since the client last successfully synced.
+
+Example
+-------
+When a reset is required, {+realm+} sends a  
+:dotnet-sdk:`ClientResetException <reference/Realms.Sync.Exceptions.ClientResetException.html>`. 
+You can add a listener on the 
+:dotnet-sdk:`Session.Error <reference/Realms.Sync.Session.html#Realms_Sync_Session_Error>` 
+event and handle the client reset by calling the 
+:dotnet-sdk:`InitiateClientReset() <reference/Realms.Sync.Exceptions.ClientResetException.html#Realms_Sync_Exceptions_ClientResetException_InitiateClientReset>` 
+method. The following example demonstrates this:
+
+.. literalinclude:: /examples/generated/code/start/ClientResetExamples.codeblock.handle.cs
+   :language: csharp
+

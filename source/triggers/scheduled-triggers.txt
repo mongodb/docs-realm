@@ -30,7 +30,7 @@ Create a Scheduled Trigger
          To create a scheduled Trigger in the {+ui+}:
 
          1. Click :guilabel:`Triggers` under :guilabel:`MongoDB
-            Cluster` in the left-hand navigation.
+            Cluster` in the {+leftnav+}.
 
          2. Select :guilabel:`Scheduled Triggers` from the Trigger type
             dropdown menu.
@@ -52,9 +52,10 @@ Create a Scheduled Trigger
               </triggers/cron-expressions>` that you define.
 
          5. Click :guilabel:`Save`.
-
-         .. cssclass:: bordered-figure
+         
          .. figure:: /images/trigger-example-scheduled.png
+            :figwidth: 750px
+            :alt: Creating a Trigger in the {+ui+}.
 
      - id: cli
        content: |
@@ -94,9 +95,8 @@ Scheduled Trigger Configuration
        content: |
          Scheduled Trigger configuration files have the following form:
 
-         .. cssclass:: wide-container
          .. code-block:: none
-            :caption: ``/triggers/<triggers name>.json``
+            :caption: /triggers/<triggers name>.json
 
             {
                "type": "SCHEDULED",
@@ -112,7 +112,6 @@ Scheduled Trigger Configuration
        content: |
          Scheduled Triggers have the following configuration parameters:
 
-.. cssclass:: auth-table
 .. list-table::
    :header-rows: 1
    :widths: 15 30

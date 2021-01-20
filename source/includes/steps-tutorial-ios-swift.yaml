@@ -25,6 +25,10 @@ content: |
   client application and install its dependencies with `CocoaPods
   <https://guides.cocoapods.org/using/getting-started.html>`__:
 
+  .. important::
+
+     CocoaPods minimum version 1.10 is required to install Realm.
+
   .. code-block:: shell
      
      cd realm-tutorial-ios-swift
@@ -99,6 +103,11 @@ content: |
 
   .. literalinclude:: /tutorial/generated/code/final/Models.codeblock.user-model.swift
      :language: swift
+
+  .. note::
+
+      To learn more about how {+service-short+} Object models are used in iOS applications, 
+      see :doc:`Realm Objects</ios/objects>` in our iOS client guide. 
 
   Next, implement the Project embedded object that represents a Project that a
   User is a member of:
@@ -321,7 +330,7 @@ content: |
   - Navigate to *second@example.com*'s project
   - Collaborate by adding, updating, and removing some new tasks
 
-  .. admonition:: Reminder
+  .. tip::
    
      If something isn't working for you, you can check out the ``final`` branch of 
      this repo to compare your code with our finished solution.

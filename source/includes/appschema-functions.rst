@@ -1,14 +1,3 @@
-.. sidebar:: File Structure
-
-   .. code-block:: none
-      :copyable: False
-
-      yourRealmApp/
-      └── functions/
-          └── <function name>/
-              ├── config.json
-              └── source.js
-
 {+service-short+} Functions are defined in a sub-directory of your application's
 ``/functions`` directory. Each function maps to its own subdirectory
 with the same name as the function.
@@ -16,11 +5,20 @@ with the same name as the function.
 Each function is configured in ``config.json`` and has its source code
 defined in ``source.js``.
 
+.. code-block:: none
+   :copyable: False
+   
+   yourRealmApp/
+   └── functions/
+       └── <function name>/
+           ├── config.json
+           └── source.js
+
 Configuration
 ~~~~~~~~~~~~~
 
 .. code-block:: json
-   :caption: ``config.json``
+   :caption: config.json
    
    {
      "id": "<Function ID>",
@@ -90,7 +88,7 @@ Source Code
 ~~~~~~~~~~~
 
 .. code-block:: javascript
-   :caption: ``source.js``
+   :caption: source.js
 
    exports = function() {
      // function code

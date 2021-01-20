@@ -12,6 +12,21 @@ Notifications
    :depth: 2
    :class: singlecol
 
+.. note::
+
+   Notifications only work when your {+realm+} regularly refreshes.
+   In the Main or UI thread of your application, {+realm+} refreshes
+   happen automatically.
+   On background threads, you need to handle this
+   yourself by either calling :dotnet-sdk:`Realm.Refresh()
+   <reference/Realms.Realm.html#Realms_Realm_Refresh>` or installing a
+   `SynchronizationContext
+   <https://msdn.microsoft.com/en-us/library/system.threading.synchronizationcontext(v=vs.110).aspx>`__
+   on the thread before opening the {+realm+}. The third-party library
+   `Nito.AsyncEx.Context <https://www.nuget.org/packages/Nito.AsyncEx.Context/1.1.0>`__
+   provides a ``SynchronizationContext`` implementation and a convenient API to 
+   install it.
+
 Overview
 --------
 
@@ -27,28 +42,27 @@ data, independent of the writes that caused the changes.
 
 Realm emits three kinds of notifications:
 
-- :ref:`Realm notifications <dotnet-realm-notifications>` whenever a specific Realm commits a write transaction.
-- :ref:`Collection notifications <dotnet-collection-notifications>` whenever any :term:`Realm object` in a collection changes, including inserts, updates, and deletes.
-- :ref:`Object notifications <dotnet-object-notifications>` whenever a specific Realm object changes, including updates and deletes.
+- :ref:`Realm notifications <dotnet-realm-notifications>` whenever a specific 
+  Realm commits a write transaction.
+- :ref:`Collection notifications <dotnet-collection-notifications>` whenever 
+  any :term:`Realm object` in a collection changes, including inserts, updates, and deletes.
+- :ref:`Object notifications <dotnet-object-notifications>` whenever a specific 
+  Realm object changes.
 
 .. _dotnet-subscribe-to-changes:
 
 Subscribe to Changes
 --------------------
 
-Generally, this is how you observe a Realm, collection, or object:
-
-1. Create a notification handler for the Realm, collection, or object notification.
-2. Add the notification handler to the Realm, collection, or object that you want to observe.
-3. Receive a notification token from the call to add the handler. Retain this token as long as you want to observe.
-4. When you are done observing, invalidate the token.
+Generally, to observe changes, you create a 
+notification handler for the Realm, collection, or object that you want to watch. 
 
 .. _dotnet-realm-notifications:
 
 Realm Notifications
 -------------------
 You can register a notification handler on an entire Realm.
-Realm Database calls the notification handler whenever any write
+Realm Database invokes the notification handler whenever any write
 transaction involving that Realm is committed. The
 handler receives no information about the change.
 
@@ -69,14 +83,9 @@ granular notifications.
   handler would be a great way to drive the code that controls
   the indicator.
 
-  .. tabs-realm-languages::
-
-    .. tab::
-        :tabid: c-sharp
-
-        .. literalinclude:: /examples/Notifications/RealmNotification.cs
-          :language: csharp
-          :emphasize-lines: 2
+  .. literalinclude:: /examples/Notifications/RealmNotification.cs
+     :language: csharp
+     :emphasize-lines: 2
 
 
 .. _dotnet-collection-notifications:
@@ -94,9 +103,8 @@ indices:
 - The indices of the objects that were inserted.
 - The indices of the objects that were modified.
 
-.. admonition:: Order Matters
-   :class: important
-
+.. important:: Order Matters
+   
    In collection notification handlers, always apply changes
    in the following order: deletions, insertions, then
    modifications. Handling insertions before deletions may
@@ -116,17 +124,17 @@ list or other view that represents the collection in the UI.
 .. example::
 
   The following code shows how to observe a collection for
-  changes in order to update the UI.
+  changes in order to update the UI. 
 
-  .. tabs-realm-languages::
 
-    .. tab::
-        :tabid: c-sharp
+  .. literalinclude:: /examples/Notifications/CollectionNotification.cs
+     :language: csharp
+     :emphasize-lines: 2
 
-        .. literalinclude:: /examples/Notifications/CollectionNotification.cs
-          :language: csharp
-          :emphasize-lines: 2
+.. note::
 
+   Every Realm collection implements ``INotifyCollectionChanged``, which allows 
+   you to use a collection directly in data-binding scenarios.
 
 .. _dotnet-object-notifications:
 
@@ -134,33 +142,35 @@ Object Notifications
 --------------------
 
 You can register a notification handler on a specific object
-within a Realm. Realm Database notifies your handler:
+within a Realm. Realm Database notifies your handler when any of the object's 
+properties change.
 
-- When the object is deleted.
-- When any of the object's properties change.
-
-The handler receives information about what fields changed
-and whether the object was deleted.
+The handler receives information about what fields have changed.
 
 .. example::
 
-  The following code shows how to open a default realm, create
-  a new instance of a class, and observe that instance for
+  The following code shows how to observe a specific object for
   changes.
 
-  .. tabs-realm-languages::
+  .. literalinclude:: /examples/Notifications/ObjectNotification.cs
+     :language: csharp
+     :emphasize-lines: 4
 
-    .. tab::
-        :tabid: c-sharp
+Unsubscribing from Events
+-------------------------
+When you no longer want to receive notifications on an event, you unsubscribe. 
+The following code demonstrates this:
 
-        .. literalinclude:: /examples/Notifications/ObjectNotification.cs
-          :language: csharp
-          :emphasize-lines: 22
-
+.. literalinclude:: /examples/Notifications/NotificationUnsub.cs
+   :language: csharp
 
 Summary
 -------
 
-- Notifications allow you to watch for and react to changes on your objects, collections, and Realms.
-- When you add a notification handler to an object, collection, or Realm that you wish to observe, you receive a token. Retain this token as long as you wish to keep observing.
-- Realm Database has three notification types: Realm, collection, and object notifications. Realm notifications only tell you that something changed, while collection and object notifications allow for more granular observation.
+- Notifications allow you to watch for and react to changes on your objects, 
+  collections, and Realms.
+- When you know longer want to receive notifications, you unsubscript from the 
+  event.
+- Realm Database has three notification types: Realm, collection, and object 
+  notifications. Realm notifications only tell you that something changed, while 
+  collection and object notifications allow for more granular observation.

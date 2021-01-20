@@ -72,7 +72,7 @@ To log in, create an anonymous credential and pass it to ``App.logIn()``:
            const credentials = Realm.Credentials.anonymous();
            try {
              // Authenticate the user
-             const user: Realm.User = await app.logIn(credentials);
+             const user = await app.logIn(credentials);
              // `App.currentUser` updates to match the logged in user
              assert(user.id === app.currentUser.id)
              return user
@@ -132,7 +132,7 @@ password and pass it to ``App.logIn()``:
            const credentials = Realm.Credentials.emailPassword(email, password);
            try {
              // Authenticate the user
-             const user: Realm.User = await app.logIn(credentials);
+             const user = await app.logIn(credentials);
              // `App.currentUser ` updates to match the logged in user
              assert(user.id === app.currentUser.id)
              return user
@@ -160,48 +160,15 @@ API key and pass it to ``App.logIn()``:
    .. tab::
       :tabid: javascript
       
-      .. code-block:: javascript
-         :emphasize-lines: 3, 6, 14
-         
-         async function loginApiKey(apiKey) {
-           // Create an API Key credential
-           const credentials = Realm.Credentials.apiKey(apiKey);
-           try {
-             // Authenticate the user
-             const user = await app.logIn(credentials);
-             // `App.currentUser` updates to match the logged in user
-             assert(user.id === app.currentUser.id)
-             return user
-           } catch(err) {
-             console.error("Failed to log in", err);
-           }
-         }
-         loginApiKey("To0SQOPC...ZOU0xUYvWw").then(user => {
-           console.log("Successfully logged in!", user)
-         })
+      .. literalinclude:: /examples/generated/code/start/authenticate.codeblock.server-api-key-login.js
+         :language: javascript
    
    .. tab::
       :tabid: typescript
       
-      .. code-block:: typescript
-         :emphasize-lines: 3, 6, 14
-         
-         async function loginApiKey(apiKey: string) {
-           // Create an API Key credential
-           const credentials = Realm.Credentials.apiKey(apiKey);
-           try {
-             // Authenticate the user
-             const user: Realm.User = await app.logIn(credentials);
-             // `App.currentUser` updates to match the logged in user
-             assert(user.id === app.currentUser.id)
-             return user
-           } catch(err) {
-             console.error("Failed to log in", err);
-           }
-         }
-         loginApiKey("To0SQOPC...ZOU0xUYvWw").then(user => {
-           console.log("Successfully logged in!", user)
-         })
+      .. literalinclude:: /examples/generated/code/start/authenticate.codeblock.server-api-key-login.ts
+         :language: typescript
+
 
 .. _react-native-login-custom-function:
 
@@ -251,7 +218,7 @@ with a payload object and pass it to ``App.logIn()``:
            const credentials = Realm.Credentials.function(payload);
            try {
              // Authenticate the user
-             const user: Realm.User = await app.logIn(credentials);
+             const user = await app.logIn(credentials);
              // `App.currentUser` updates to match the logged in user
              assert(user.id === app.currentUser.id);
              return user;
@@ -311,7 +278,7 @@ and pass it to ``App.logIn()``:
            const credentials = Realm.Credentials.jwt(jwt);
            try {
              // Authenticate the user
-             const user: Realm.User = await app.logIn(credentials);
+             const user = await app.logIn(credentials);
              // `App.currentUser` updates to match the logged in user
              assert(user.id === app.currentUser.id);
              return user;
@@ -325,18 +292,16 @@ and pass it to ``App.logIn()``:
 
 .. _react-native-login-facebook:
 
-Facebook OAuth
-~~~~~~~~~~~~~~
+Facebook Authentication
+~~~~~~~~~~~~~~~~~~~~~~~
 
 The :doc:`Facebook </authentication/facebook>` authentication provider allows
 you to authenticate users through a Facebook app using their existing Facebook
 account.
 
-.. admonition:: Enable the Facebook Auth Provider
-   :class: note
-   
-   To authenticate a Facebook user, you must configure the :doc:`Facebook
-   authentication provider </authentication/facebook>`.
+.. include:: /includes/note-enable-facebook-auth.rst
+
+.. include:: /includes/note-facebook-profile-picture-url.rst
 
 You can use the :facebook:`official Facebook React Native SDK
 <docs/react-native/getting-started/>` to handle the user authentication and
@@ -388,7 +353,7 @@ app.
          import Realm from "realm";
          import { LoginButton, AccessToken } from "react-native-fbsdk";
          
-         const Login: React.FC<{ app: Realm.App }> = ({ app }) => {
+         const Login = ({ app }) => {
            return (
              <View>
                <LoginButton
@@ -400,7 +365,7 @@ app.
                    } else {
                      const { accessToken } = await AccessToken.getCurrentAccessToken();
                      const credential = Realm.Credentials.facebook(accessToken);
-                     const user: Realm.User = await app.logIn(credential);
+                     const user = await app.logIn(credential);
                      console.log(`Logged in with id: ${user.id}`);
                    }
                  }}
@@ -412,14 +377,13 @@ app.
 
 .. _react-native-login-google:
 
-Google OAuth
-~~~~~~~~~~~~
+Google Authentication
+~~~~~~~~~~~~~~~~~~~~~
 
 The :doc:`Google </authentication/google>` authentication provider allows you to
 authenticate users through a Google project using their existing Google account.
 
-.. admonition:: Enable the Google Auth Provider
-   :class: note
+.. note:: Enable the Google Auth Provider
    
    To authenticate a Google user, you must configure the :doc:`Google
    authentication provider </authentication/google>`.
@@ -529,16 +493,16 @@ authorization code to finish logging the user in to your app.
            }
          }
          
-         const Login: React.FC<{ app: Realm.App }> = ({ app }) => {
+         const Login = ({ app }) => {
            return (
              <View>
                <GoogleSigninButton
                  size={GoogleSigninButton.Size.Standard}
                  color={GoogleSigninButton.Color.Auto}
                  onPress={async () => {
-                   const serverAuthCode: string = await getGoogleAuthCode();
+                   const serverAuthCode = await getGoogleAuthCode();
                    const credential = Realm.Credentials.google(serverAuthCode);
-                   const user: Realm.User = await app.logIn(credential);
+                   const user = await app.logIn(credential);
                    console.log(`Logged in with id: ${user.id}`);
                  }}
                />
@@ -549,14 +513,13 @@ authorization code to finish logging the user in to your app.
 
 .. _react-native-login-apple:
 
-Sign-in with Apple
-~~~~~~~~~~~~~~~~~~
+Apple Authentication
+~~~~~~~~~~~~~~~~~~~~
 
 The :doc:`Apple </authentication/apple>` authentication provider allows you to
 authenticate users through Sign-in With Apple.
 
-.. admonition:: Enable the Apple Auth Provider
-   :class: note
+.. note:: Enable the Apple Auth Provider
    
    To authenticate an Apple user, you must configure the :doc:`Apple
    authentication provider </authentication/apple>`.
@@ -663,7 +626,7 @@ the user's ID token to finish logging the user in to your app.
                  onPress={async () => {
                    const identityToken = await getAppleIdentityToken();
                    const credential = Realm.Credentials.apple(identityToken);
-                   const user: Realm.User = await app.logIn(credential);
+                   const user = await app.logIn(credential);
                    console.log(`Logged in with id: ${user.id}`);
                  }}
                />

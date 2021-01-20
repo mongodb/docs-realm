@@ -9,7 +9,6 @@ content: |
    Capabilities`. Click :guilabel:`+ Capability` and add the
    :guilabel:`Sign in with Apple` capability.
       
-   .. cssclass:: bordered-figure
    .. figure:: /images/apple-auth-capability.png
       :alt: The Sign in with Apple capability in XCode
 ---
@@ -67,9 +66,8 @@ content: |
         controller.performRequests()
       }
    
-   .. admonition:: Only Request Necessary Scopes
-      :class: note
-
+   .. note:: Only Request Necessary Scopes
+      
       You can request the user's full name and valid email address as
       part of your app's authorization. This data is sensitive so only
       request these scopes if your application requires them. If you

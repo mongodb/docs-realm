@@ -1,0 +1,69 @@
+.. _dotnet-sync-data:
+
+=========
+Sync Data
+=========
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+.. include:: /includes/sync-beta-note.rst
+
+Prerequisites
+-------------
+
+Before you can access a synced {+realm+} from the client, you must:
+
+- :ref:`Enable sync <enable-sync>` in the {+ui+}.
+
+- :ref:`Authenticate a user <dotnet-quick-start-authenticate>` in
+  your client project.
+
+Open a Synced Realm
+-------------------
+
+.. include:: /includes/dotnet-open-synced-realm.rst
+
+The :ref:`partition value <partitioning>` specifies which subset of your data to sync.
+This is typically a user ID, project ID, store ID, or some other category identifier in
+your app that has particular relevance to the current user. 
+
+.. seealso:: :ref:`Partition Atlas Data into Realms <partitioning>`
+
+
+Sync Data
+---------
+
+The syntax to :ref:`read <dotnet-realm-database-reads>` and :ref:`write
+<dotnet-realm-database-writes>` on a synced {+realm+} is identical to the syntax 
+for non-synced {+realms+}. While you work with local data, a background thread 
+efficiently integrates, uploads, and downloads changesets.
+
+.. important:: When Using Sync, Avoid Writes on the Main Thread
+   
+   The fact that {+service-short+} performs sync integrations on a background thread means
+   that if you write to your {+realm+} on the main thread, there's a small chance your UI
+   could appear to hang as it waits for the background sync thread to finish a write
+   transaction. Therefore, it's a best practice :ref:`never to write on the main thread
+   when using {+sync+} <dotnet-threading-three-rules>`.
+
+The following code creates a new ``Task`` object and writes it to the {+realm+}:
+
+.. literalinclude:: /examples/generated/code/start/Examples.codeblock.create.cs
+   :language: csharp
+
+.. seealso:: :ref:`Threading <dotnet-client-threading>`
+
+Summary
+-------
+
+- Open a synced {+realm+} with the configuration object generated when you pass 
+  a :term:`partition value` to the user object's ``SyncConfiguration`` Builder.
+- Compared to using a non-synced {+realm+}, there is no special syntax for reading 
+  from, writing to, or observing objects on a synced {+realm+}.
+- You should avoid writing to a synced {+realm+} on the main thread.

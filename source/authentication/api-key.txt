@@ -56,7 +56,7 @@ Configuration
        content: |
          You can enable and configure the API Key authentication
          provider from the {+ui+} by selecting :guilabel:`API Keys`
-         from the :guilabel:`Users > Providers` page.
+         from the :guilabel:`Authentication` page.
 
      - id: cli
        content: |
@@ -71,9 +71,8 @@ Configuration
          files for the API Key authentication provider have the
          following form:
 
-         .. cssclass:: wide-container
          .. code-block:: none
-            :caption: ``/auth_providers/api-key.json``
+            :caption: /auth_providers/api-key.json
 
             {
               "name": "api-key",
@@ -100,6 +99,52 @@ Key`. Enter a unique name for the key and click :guilabel:`Save`.
    Remember to copy the server key's value as soon as you create it.
    Once you leave the provider configuration page or disable the key you
    cannot retrieve the value from the {+ui+}.
+
+.. _api-key-authentication-examples:
+
+Examples
+--------
+
+For code examples that demonstrate how to register and log in using
+API Key authentication, see the documentation for the Realm SDKs:
+
+.. tabs-realm-sdks::
+
+   .. tab::
+      :tabid: android
+
+      To register or log in an API Key user from the Android Client SDK, see the
+      :ref:`Android SDK guide to API Key authentication <android-login-api-key>`.
+
+   .. tab::
+      :tabid: ios
+
+      To register or log in an API Key user from the iOS Client SDK, see the
+      :ref:`iOS SDK guide to API Key authentication <ios-login-api-key>`.
+
+   .. tab::
+      :tabid: web
+
+      To register or log in an API Key user from the Web Client SDK, see the
+      :ref:`Web SDK guide to API Key authentication <web-login-api-key>`.
+
+   .. tab::
+      :tabid: node
+      
+      To register or log in an API Key user from the Node Client SDK, see the
+      :ref:`Node SDK guide to API Key authentication <node-login-api-key>`.
+
+   .. tab::
+      :tabid: react-native
+
+      To register or log in an API Key user from the React Native Client SDK, see the
+      :ref:`React Native SDK guide to API Key authentication <react-native-login-api-key>`.
+
+   .. tab::
+      :tabid: dotnet
+
+      To register or log in an API Key user from the .NET Client SDK, see the
+      :ref:`.NET SDK guide to API Key authentication <dotnet-login-api-key>`.
 
 .. _api-key-authentication-summary:
 

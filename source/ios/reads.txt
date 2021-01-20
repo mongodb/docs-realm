@@ -41,8 +41,7 @@ All query, filter, and sort operations return a
 collections are live, meaning they always contain the latest
 results of the associated query.
 
-.. admonition:: About the examples on this page
-   :class: note
+.. note:: About the examples on this page
 
    The examples on this page use the data model of a project
    management app that has two {+service-short+} object types: ``Project``
@@ -63,7 +62,7 @@ results of the associated query.
           :tabid: objective-c
 
           .. literalinclude:: /examples/Schemas/ProjectAndTask.m
-            :language: objective-c
+            :language: objectivec
 
 
 .. _ios-get-all-objects:
@@ -87,7 +86,7 @@ refine the results.
           :tabid: objective-c
 
           .. literalinclude:: /examples/CRUD/Objects.m
-            :language: objective-c
+            :language: objectivec
 
       .. tab::
           :tabid: swift
@@ -126,7 +125,7 @@ up complex queries.
           :tabid: objective-c
 
           .. literalinclude:: /examples/Query/Comparison.m
-            :language: objective-c
+            :language: objectivec
 
       .. tab::
           :tabid: swift
@@ -159,7 +158,7 @@ results are sorted.
           :tabid: objective-c
 
           .. literalinclude:: /examples/CRUD/Sort.m
-            :language: objective-c
+            :language: objectivec
 
       .. tab::
           :tabid: swift
@@ -246,4 +245,3 @@ Summary
 - To read from {+client-database+}, first get all objects of a certain type from the {+realm+}, then filter using the query engine, then (optionally) sort the results.
 - When you read, the results are not copies. Instead, through memory mapping, results point directly to the version on disk.
 - Queries are lazily-evaluated.
-

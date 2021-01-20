@@ -20,29 +20,40 @@ passing in the user's
 :swift-sdk:`Configuration <Structs/Realm/Configuration.html>` object, which  
 includes the partition name. The following code demonstrates this:
 
-.. code-block:: swift
-
-   let user = app.currentUser
-   let partitionValue = "myPartition"
+.. tabs-realm-languages::
    
-   Realm.asyncOpen(configuration: user!.configuration(partitionValue: partitionValue)) { realm, error in
-      guard let realm = realm else {
-         // handle error
-         return
-      }
-      // Realm successfully opened
-   }
+   .. tab::
+      :tabid: swift
 
+      .. literalinclude:: /examples/generated/code/start/OpenCloseRealm.codeblock.open-synced-realm.swift
+         :language: swift
 
-In the above example, the code shows how to open the {+realm+} *asynchronously* by using 
-``asyncOpen``. You can also open a {+realm+} *synchronously* by using one of the 
-:swift-sdk:`Realm() <Structs/Realm.html>` initializers, but this may 
-lead to temporary data inconsistencies while the remote data is downloaded, and 
-is generally not recommended. 
+   .. tab::
+      :tabid: objective-c
 
-.. code-block:: swift
+      .. literalinclude:: /examples/generated/code/start/OpenCloseRealm.codeblock.open-synced-realm.m
+         :language: objectivec
 
-   let realm = try! Realm(configuration: user!.configuration(partitionValue: partitionValue))
+In the above example, the code shows how to open the realm {+realm+}
+*asynchronously* by using ``asyncOpen()``. You can also open a realm
+synchronously by using one of the :swift-sdk:`Realm() <Structs/Realm.html>`
+initializers. This works if the device is offline, but may lead to temporary
+data inconsistencies while the remote data is downloaded.
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: swift
+
+      .. literalinclude:: /examples/generated/code/start/OpenCloseRealm.codeblock.open-synced-realm-synchronously.swift
+         :language: swift
+
+   .. tab::
+      :tabid: objective-c
+
+      .. literalinclude:: /examples/generated/code/start/OpenCloseRealm.codeblock.open-synced-realm-synchronously.m
+         :language: objectivec
+
 
 Open a Local (Non-Synced) Realm
 -------------------------------
@@ -56,19 +67,23 @@ and
 :swift-sdk:`readOnly <Structs/Realm/Configuration.html#/s:10RealmSwift0A0V13ConfigurationV8readOnlySbvp>`
 properties to open a *readonly* local {+realm+} with a specific file location:
 
-.. code-block:: swift
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: swift
 
-   let config = Realm.Configuration(
-      fileURL: Bundle.main.url(forResource: "MyBundledData", withExtension: "realm"),
-      readOnly: true)
+      .. literalinclude:: /examples/generated/code/start/OpenCloseRealm.codeblock.open-local-realm.swift
+         :language: swift
 
-   // Open the Realm with the configuration
-   let realm = try! Realm(configuration: config)
+   .. tab::
+      :tabid: objective-c
+
+      .. literalinclude:: /examples/generated/code/start/OpenCloseRealm.codeblock.open-local-realm.m
+         :language: objectivec
 
 Close a Realm
 -------------
-There is no need to manually close a {+realm+} in Swift. When a {+realm+} goes out of 
+There is no need to manually close a {+realm+} in Swift or Objective-C. When a {+realm+} goes out of 
 scope and is removed from memory due to 
 `ARC <https://docs.swift.org/swift-book/LanguageGuide/AutomaticReferenceCounting.html>`__,
 the {+realm+} is closed.
-

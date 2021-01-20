@@ -41,13 +41,10 @@ An Anonymous user object is not intended to be reused, and once a user
 logs out, they will not be able to retrieve any previous user data.
 To persist data associated with an Anonymous user, you can associate
 that existing Anonymous identity with a user account created by a
-different authentication provider. See :doc:`linking
-</authentication/linking>` for more information on how to accomplish
-this.
+different authentication provider.
 
-.. cssclass:: important
-.. admonition:: Anonymous user expiration
-
+.. important:: Anonymous user expiration
+   
    {+service-short+} may delete an Anonymous user object that is 90 days old (or
    older). When an account is deleted, it is not recoverable and any
    associated user data is lost. Documents created or modified by the
@@ -65,12 +62,9 @@ Configuration
       :tabid: ui
 
       You can enable the Anonymous authentication provider from the
-      {+ui+} in the :guilabel:`Users` options.
+      {+ui+} in the :guilabel:`Authentication` options.
 
-      1. Select :guilabel:`Users` in the left sidebar.
-            
-      #. Navigate to the the :guilabel:`Providers` tab of the
-         :guilabel:`Users` options page.
+      1. Select :guilabel:`Authentication` in the left sidebar.
 
       #. Select the "Allow users to log in anonymously" entry of the
          :guilabel:`Provider` list.
@@ -103,7 +97,7 @@ Configuration
       following form:
 
       .. code-block:: javascript
-         :caption: ``/auth_providers/anon-user.json``
+         :caption: /auth_providers/anon-user.json
 
          {
            "name": "anon-user",
@@ -115,6 +109,52 @@ Configuration
 
    The anonymous authentication provider does not have any
    provider-specific configuration options.
+
+.. _anonymous-authentication-examples:
+
+Examples
+--------
+
+For code examples that demonstrate how to register and log in using
+anonymous authentication, see the documentation for the Realm SDKs:
+
+.. tabs-realm-sdks::
+
+   .. tab::
+      :tabid: android
+
+      To register or log in an anonymous user from the Android Client SDK, see the
+      :ref:`Android SDK guide to anonymous authentication <android-login-anonymous>`.
+
+   .. tab::
+      :tabid: ios
+
+      To register or log in an anonymous user from the iOS Client SDK, see the
+      :ref:`iOS SDK guide to anonymous authentication <ios-login-anonymous>`.
+
+   .. tab::
+      :tabid: web
+
+      To register or log in an anonymous user from the Web Client SDK, see the
+      :ref:`Web SDK guide to anonymous authentication <web-login-anonymous>`.
+
+   .. tab::
+      :tabid: node
+      
+      To register or log in an anonymous user from the Node Client SDK, see the
+      :ref:`Node SDK guide to anonymous authentication <node-login-anonymous>`.
+
+   .. tab::
+      :tabid: react-native
+
+      To register or log in an anonymous user from the React Native Client SDK, see the
+      :ref:`React Native SDK guide to anonymous authentication <react-native-login-anonymous>`.
+
+   .. tab::
+      :tabid: dotnet
+
+      To register or log in an anonymous user from the .NET Client SDK, see the
+      :ref:`.NET SDK guide to anonymous authentication <dotnet-login-anonymous>`.
 
 .. _anonymous-authentication-summary:
 

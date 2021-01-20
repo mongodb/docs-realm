@@ -50,8 +50,26 @@ Realm functions that take specific arguments depending on the service.
 Behavior
 ~~~~~~~~
 
-- Realm automatically encodes values returned from functions as
+- Realm automatically serializes values returned from functions to
   :manual:`Extended JSON </reference/mongodb-extended-json>`.
+  
+  .. tip:: Return JSON instead of EJSON
+     
+     If you return a JavaScript object from a function, it may include EJSON
+     value documents instead of raw JSON values. This is useful to preserve type
+     information but may not be what your application expects.
+     
+     Instead, to return an object as JSON, call ``JSON.stringify()`` on the
+     object and then return the stringified result, as in the following example:
+     
+     .. code-block:: javascript
+        :emphasize-lines: 5
+        
+        const plants = context.services.get("mongodb-atlas").db("example").collection("plants");
+        const plant = await plants.findOne();
+        // Return e.g. { "_id": "5f87976b7b800b285345a8b6", ... }
+        // instead of { "_id": { "$oid": "5f87976b7b800b285345a8b6" } }
+        return JSON.stringify(plant);
 
 - Functions do not continue to execute after they return. You cannot use
   functions with asynchronous callbacks or event listeners. If you need
@@ -68,8 +86,8 @@ Constraints
 - Function memory usage is limited to 256MB.
 
 - Functions support most commonly used ES6+ features, but some features that are
-  uncommon or unsuited to serverless workloads are not supported (e.g.
-  ``WeakSet``, ``Proxy``, ``Array.prototype.flat()``).
+  uncommon or unsuited to serverless workloads are not supported. For more
+  information, see :ref:`JavaScript Feature Compatibility <js-feature-compat>`.
 
 - A function may open a maximum of 5 sockets using the :nodejs:`net
   <docs/v10.18.1/api/net.html>` built-in module.
@@ -115,8 +133,7 @@ You can configure a Function to run as the :ref:`system user
 option. To determine if a function executes as a system user at runtime,
 call :method:`context.runningAsSystem()`.
 
-.. admonition:: System Function Active User
-   :class: note
+.. note:: System Function Active User
    
    {+service-short+} always resolves dynamic references like :ref:`context.user
    <context-user>` and :json-expansion:`%%user` to the authenticated
@@ -145,8 +162,7 @@ the following guides:
 - :doc:`Import External Dependencies </functions/import-external-dependencies>`
 - :doc:`Built-In Module Support </functions/built-in-module-support>`
 
-.. admonition:: Create Your Own Modules
-   :class: note
+.. note:: Create Your Own Modules
 
    Though most npm modules are written by third parties, you can also
    create and publish your own npm modules to house logic specific to
@@ -207,6 +223,9 @@ Reference Documentation
    * - :doc:`Built-In Module Support </functions/built-in-module-support>`
      - Details which standard Node modules and APIs are available in {+service-short+} functions.
 
+   * - :doc:`JavaScript Feature Compatibility </functions/js-feature-compatibility>`
+     - Details the JavaScript syntax and built-ins that are available in {+service-short+} functions.
+
 
 .. toctree::
    :titlesonly:
@@ -234,3 +253,4 @@ Reference Documentation
    Function Context Reference </functions/context>
    Utility Packages </functions/utilities>
    JSON & BSON </functions/json-and-bson>
+   JavaScript Feature Compatibility </functions/js-feature-compatibility>
