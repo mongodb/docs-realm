@@ -16,3 +16,20 @@ Call a Function
 
 Call a Function by Name
 -----------------------
+
+The following example in this section demonstrate calls a simple
+:ref:`Realm function <functions>` named ``sum`` that takes two
+arguments, adds them, and returns the result:
+
+.. code-block:: javascript
+
+   // sum: adds two numbers
+   exports = function(a, b) {
+     return a + b;
+   };
+
+To execute a function from the iOS Client SDK, use the ``functions``
+method of the app:
+
+.. literalinclude:: /examples/generated/code/start/Functions.codeblock.call-a-function.swift
+   :language: swift
