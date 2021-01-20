@@ -245,8 +245,8 @@ To delete an object from a {+realm+}, pass the object to :js-sdk:`Realm.delete()
 
 .. important:: Do not use objects after delete
    
-   {+client-database+} throws an error if you try to use an object after it has
-   been deleted.
+   You cannot access or modify an object after you have deleted it from a Realm.
+   If you try to use a deleted object, {+client-database+} throws an error.
 
 .. _node-delete-multiple-objects:
 .. _node-delete-collection:
