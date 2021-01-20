@@ -41,13 +41,13 @@ can look it up directly with :js-sdk:`Realm.objectForPrimaryKey()
 Query an Object Type
 ~~~~~~~~~~~~~~~~~~~~
 
-Query operations return a :js-sdk:`Realm.Results <Realm.Results.html>`
-collection that contains all objects that match the query. A basic query matches
-all objects of a given type in a {+realm+}, but you can also apply a
-:ref:`filter <node-filter-queries>` to find specific objects.
-
 To query for objects of a given type in a {+realm+}, pass the type name to
-:js-sdk:`Realm.objects <Realm.html#objects>`.
+:js-sdk:`Realm.objects() <Realm.html#objects>`.
+
+Query operations return a collection of {+service-short+} objects that match the
+query as a :js-sdk:`Realm.Results <Realm.Results.html>` object. A basic query
+matches all objects of a given type in a {+realm+}, but you can also apply a
+:ref:`filter <node-filter-queries>` to the collection to find specific objects.
 
 .. tabs-realm-languages::
    
