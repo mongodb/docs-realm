@@ -25,13 +25,13 @@ content: |
      |   |-- App.js // renderer process
      |-- |-- index.js // renderer process
 
-  Any JS files within the ``src`` directory executes on a ``renderer process``.
+  Any JS file within the ``src`` directory executes on a ``renderer process``.
 
   .. note::
 
    Each Electron application can only have one **main process**. The
    main process creates web pages. Each web page runs in its
-   own process, known as a ``renderer process``. To learn more about
+   own process, known as a **renderer process**. To learn more about
    this, read the official `Electron Application
    Architecture <https://www.electronjs.org/docs/tutorial/application-architecture>`_
    doc.
@@ -161,7 +161,7 @@ content: |
 
      npm install realm
 
-  Use realm in the renderer process by adding the following to the top
+  Use realm in the **renderer process** by adding the following to the top
   of the ``src/App.js`` file (you will also need to import it in whichever
   file you write code using Realm in):
 
