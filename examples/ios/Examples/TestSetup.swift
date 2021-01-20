@@ -37,9 +37,9 @@ class TestSetup: NSObject {
         super.init()
 
         deleteAppData()
-        
+
         let app = App(id: YOUR_REALM_APP_ID)
-        
+
         let expectation = XCTestExpectation(description: "Call to delete all users completes")
         app.login(credentials: Credentials.anonymous) { (result) in
             switch result {
@@ -60,11 +60,11 @@ class TestSetup: NSObject {
                 }
             }
         }
-    
+
         let waiter = XCTWaiter()
         waiter.wait(for: [expectation], timeout: 10)
         assert(waiter.fulfilledExpectations == [expectation])
-        
+
         // Ensure all users are completely removed and app.currentUser is nil.
         // Some tests depend on checking app.currentUser.
         removeAllUsersFromDevice()

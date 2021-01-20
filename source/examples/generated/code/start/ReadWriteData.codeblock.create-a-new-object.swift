@@ -4,7 +4,7 @@ myDog.name = "Rex"
 myDog.age = 10
 
 // (2) Create a Dog object from a dictionary
-let myOtherDog = Dog(value: ["name" : "Pluto", "age": 3])
+let myOtherDog = Dog(value: ["name": "Pluto", "age": 3])
 
 // (3) Create a Dog object from an array
 let myThirdDog = Dog(value: ["Fido", 5])

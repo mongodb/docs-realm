@@ -7,9 +7,9 @@ class Functions: AnonymouslyLoggedInTestCase {
         let expectation = XCTestExpectation(description: "it completes")
         // :code-block-start: call-a-function
         let app = App(id: YOUR_REALM_APP_ID)
-        
+
         // ... log in ...
-        
+
         let user = app.currentUser!
 
         // The dynamic member name `sum` is directly associated with the function
@@ -23,7 +23,7 @@ class Functions: AnonymouslyLoggedInTestCase {
                 return
             }
             guard case let .double(value) = sum else {
-                print("Unexpected non-double result: \(sum ?? "nil")");
+                print("Unexpected non-double result: \(sum ?? "nil")")
                 return
             }
             print("Called function 'sum' and got result: \(value)")

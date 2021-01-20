@@ -12,7 +12,7 @@ struct ContentView: View {
     var body: some View {
         Text("""
 This is the RealmExamples host application.
-        
+
 You probably want to Run Tests on the RealmExamples target.
 """)
     }
