@@ -27,6 +27,40 @@ Define a Property Type
 Specify an Optional/Required Property
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: swift
+
+      Because Swift supports optional values, whether a property is
+      **optional** or **required** is built into the type of that
+      property. You can use ``RealmOptional`` to make optional integral
+      properties:
+
+      .. literalinclude:: /examples/generated/code/start/Models.codeblock.person-model.swift
+         :language: swift
+
+   .. tab::
+      :tabid: objective-c
+
+      To declare a given property as required, implement the
+      ``requiredProperties`` method and return an array of required
+      property names.
+
+      .. code-block:: objective-c
+
+         @interface Person : RLMObject
+         @property NSString *name;
+         @property NSDate *birthday;
+         @end
+
+         @implementation Person
+         + (NSArray *)requiredProperties {
+             return @[@"name"];
+         }
+         @end
+
+
 .. _ios-define-a-default-property-value:
 
 Define a Default Property Value
