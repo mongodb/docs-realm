@@ -56,16 +56,24 @@ Example
 The following code demonstrates how to generate an encryption key and
 open an encrypted {+realm+}:
 
+.. warning:: This Example does not Securely Handle Encryption Keys
+
+   This example does not demonstrate best security practices for generating
+   or storing encryption keys. For proper key handling, please consult
+   `the Android documentation <https://developer.android.com/training/articles/keystore.html>`__
+   or `third party guides <http://nelenkov.blogspot.dk/2012/05/storing-application-secrets-in-androids.html>`__.
+
 .. tabs-realm-languages::
    
    .. tab::
-      :tabid: kotlin
+       :tabid: kotlin
 
-      .. literalinclude:: /examples/Encrypt/encrypt.kt
+       .. literalinclude:: /examples/generated/android/code/start/EncryptTest.codeblock.encrypt.kt
          :language: kotlin
 
    .. tab::
-      :tabid: java
+       :tabid: java
 
-      .. literalinclude:: /examples/Encrypt/encrypt.java
+       .. literalinclude:: /examples/generated/android/code/start/EncryptTest.codeblock.encrypt.java
          :language: java
+
