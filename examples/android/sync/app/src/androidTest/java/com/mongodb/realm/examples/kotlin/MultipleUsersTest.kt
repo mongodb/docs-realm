@@ -91,6 +91,7 @@ class MultipleUsersTest : RealmTest() {
                     Log.e("EXAMPLE", "Failed to log in: ${it.error.errorMessage}")
                 }
             }
+            // :code-block-end:
         }
         expectation.await()
     }
