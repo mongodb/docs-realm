@@ -31,31 +31,13 @@ User.
 .. tabs-realm-languages::
    
    .. tab::
-      :tabid: kotlin
-      
-      .. code-block:: kotlin
-         
-         fun linkUserWithEmailPasswordUser(user: User, email: String, password: String) {
-            user.linkCredentialsAsync(Credentials.emailPassword(email, password)) {
-                if (it.isSuccess) {
-                    Log.v("EXAMPLE", "Successfully linked existing user identity with email/password user: ${it.get().id}")
-                } else {
-                    Log.e("EXAMPLE", "Failed to link user identities with: ${it.error}")
-                }
-            }
-         }
+       :tabid: kotlin
+
+       .. literalinclude:: /examples/generated/android/code/start/LinkUserIdentitiesTest.codeblock.link-users.kt
+         :language: kotlin
 
    .. tab::
-      :tabid: java
+       :tabid: java
 
-      .. code-block:: java
-
-         public void linkUserWithEmailPasswordUser(User user, String email, String password) {
-            user.linkCredentialsAsync(Credentials.emailPassword(email, password), it -> {
-                if (it.isSuccess()) {
-                    Log.v("EXAMPLE", "Successfully linked existing user identity with email/password user: " + it.get().getId());
-                } else {
-                    Log.e("EXAMPLE", "Failed to link user identities with: " + it.getError());
-                }
-            });
-         }
+       .. literalinclude:: /examples/generated/android/code/start/LinkUserIdentitiesTest.codeblock.link-users.java
+         :language: java
