@@ -38,12 +38,8 @@ async function getPlantsCollection() {
   > = Realm.Services.MongoDB.MongoDBCollection<T>;
   // :code-block-end:
   // :code-block-start: plants-collection-handle
-  const mongodb = app.currentUser.mongoClient(
-    "mongodb-atlas"
-  );
-  const plants = mongodb
-    .db("example")
-    .collection<Plant>("plants");
+  const mongodb = app.currentUser.mongoClient("mongodb-atlas");
+  const plants = mongodb.db("example").collection<Plant>("plants");
   // :code-block-end:
   return plants;
 }
@@ -294,11 +290,9 @@ describe("Delete Documents", () => {
   test("Delete Multiple Documents", async () => {
     const plants = await getPlantsCollection();
     // :code-block-start: delete-multiple-documents
-    const result = await plants.deleteMany(
-      {
-        _partition: "Store 51",
-      }
-    );
+    const result = await plants.deleteMany({
+      _partition: "Store 51",
+    });
     console.log(result);
     // :code-block-end:
 
