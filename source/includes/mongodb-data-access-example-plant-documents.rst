@@ -1,6 +1,5 @@
-The examples on this page use a MongoDB collection that describes inventory in a
-chain of plant stores. The following collection of documents describe various
-plants for sale in the chain's stores:
+The examples on this page use the following MongoDB collection that describes
+various plants for sale in a chain of plant stores:
 
 .. literalinclude:: /examples/generated/code/start/mongodb.codeblock.plants-collection-documents.js
    :language: javascript
