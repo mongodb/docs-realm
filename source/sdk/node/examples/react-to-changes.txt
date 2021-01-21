@@ -98,14 +98,10 @@ list or other view that represents the collection in the UI.
 Register an Object Change Listener
 ----------------------------------
 
-You can register a notification handler on a specific object
-within a Realm. Realm Database notifies your handler:
-
-- When the object is deleted.
-- When any of the object's properties change.
-
-The handler receives information about what fields changed
-and whether the object was deleted.
+You can register a notification handler on a specific object within a Realm.
+Realm Database calls your change handler if any of the object's properties
+change of if someone deletes the object. The handler receives information about
+what fields changed and whether the object was deleted.
 
 .. example::
 
@@ -131,7 +127,7 @@ To remove all registered realm, object, and collection listeners associated with
 a realm, call :js-sdk:`realm.removeAllListeners()
 <Realm.html#removeAllListeners>`. 
 
-To remove a specific listener, call :js-sdk:`Object.removeListener()
+To remove a specific listener, call :js-sdk:`Realm.Object.removeListener()
 <Realm.Object.html#removeListener>` on the object that is being watched with the
 listener function as the argument.
 
