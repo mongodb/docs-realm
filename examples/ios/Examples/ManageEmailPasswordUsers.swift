@@ -5,7 +5,7 @@ class ManageEmailPasswordUsers: XCTestCase {
 
     func testRegisterNewAccount() {
         let expectation = XCTestExpectation(description: "Registration continues")
-        
+
         // :code-block-start: register-email
         let app = App(id: YOUR_REALM_APP_ID)
         let client = app.emailPasswordAuth
@@ -29,7 +29,7 @@ class ManageEmailPasswordUsers: XCTestCase {
         // :code-block-end:
         wait(for: [expectation], timeout: 10)
     }
-    
+
     func testConfirmNewUserEmail() {
         let expectation = XCTestExpectation(description: "Confirmation continues")
         // :code-block-start: confirm-new-user-email 
@@ -55,7 +55,7 @@ class ManageEmailPasswordUsers: XCTestCase {
         // :code-block-end:
         wait(for: [expectation], timeout: 10)
     }
-    
+
     func testResetPassword() {
         var expectation = XCTestExpectation()
         // :code-block-start: reset-password

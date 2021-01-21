@@ -56,7 +56,7 @@ class CustomUserData: XCTestCase {
                 print("User custom data: \(user.customData)")
 
                 // Refresh the custom user data
-                user.refreshCustomData() { (result) in
+                user.refreshCustomData { (result) in
                     switch result {
                     case .failure(let error):
                         print("Failed to refresh custom data: \(error.localizedDescription)")

@@ -1,21 +1,21 @@
 // Task.h
-@interface QueryEngineExamplesObjc_Task : RLMObject
+@interface Task : RLMObject
 @property NSString *name;
 @property bool isComplete;
 @property NSString *assignee;
 @property int priority;
 @property int progressMinutes;
 @end
-RLM_ARRAY_TYPE(QueryEngineExamplesObjc_Task)
+RLM_ARRAY_TYPE(Task)
 // Task.m
-@implementation QueryEngineExamplesObjc_Task
+@implementation Task
 @end
 
 // Project.h
-@interface QueryEngineExamplesObjc_Project : RLMObject
+@interface Project : RLMObject
 @property NSString *name;
-@property RLMArray<QueryEngineExamplesObjc_Task> *tasks;
+@property RLMArray<Task> *tasks;
 @end
 // Project.m
-@implementation QueryEngineExamplesObjc_Project
+@implementation Project
 @end

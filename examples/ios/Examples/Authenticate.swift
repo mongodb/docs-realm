@@ -87,7 +87,7 @@ class Authenticate: XCTestCase {
                 // :hide-end:
             case .cancelled:
                 print("The user cancelled the login flow.")
-            
+
             }
         }
         // :code-block-end:

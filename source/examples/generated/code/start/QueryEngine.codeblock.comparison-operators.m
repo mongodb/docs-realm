@@ -12,3 +12,4 @@ NSLog(@"Ali or Jamie's tasks: %lu",
 
 NSLog(@"Tasks with progress between 30 and 60 minutes: %lu",
       [[tasks objectsWhere:@"progressMinutes BETWEEN {30, 60}"] count]);
+
