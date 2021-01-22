@@ -1,6 +1,6 @@
 // Person.h
 @interface Person : RLMObject
-@property NSNumber<RLMInt> *_id;
+@property int _id;
 @property NSString *name;
 @property (readonly) RLMLinkingObjects *dogs;
 @end
