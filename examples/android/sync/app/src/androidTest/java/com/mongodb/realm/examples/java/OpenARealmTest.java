@@ -5,10 +5,7 @@ import android.util.Log;
 import com.mongodb.realm.examples.Expectation;
 import com.mongodb.realm.examples.RealmTest;
 
-import org.junit.Assert;
 import org.junit.Test;
-
-import java.util.concurrent.atomic.AtomicReference;
 
 import io.realm.Realm;
 import io.realm.mongodb.App;

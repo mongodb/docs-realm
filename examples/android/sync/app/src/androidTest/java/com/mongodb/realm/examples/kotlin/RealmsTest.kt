@@ -13,11 +13,6 @@ import io.realm.mongodb.User
 import io.realm.mongodb.sync.SyncConfiguration
 import org.junit.Test
 
-/*
-@RealmModule(library = true, allClasses = true)
-class MyLibraryModule
-*/
-
 class RealmsTest : RealmTest() {
     @Test
     fun realmModules() {
@@ -34,6 +29,14 @@ class RealmsTest : RealmTest() {
                 if (it.isSuccess) {
                     /*
                     // :code-block-start: modules
+                    // A library must create a module and set library = true. This will prevent the default
+                    // module from being created.
+                    // allClasses = true can be used instead of listing all classes in the library.
+                    @RealmModule(library = true, allClasses = true)
+                    class MyLibraryModule
+
+                    // ...
+
                     // Library projects are therefore required to explicitly set their own module.
                     val libraryConfig =
                         SyncConfiguration.Builder(app.currentUser(), LIBRARY_PARTITION)
