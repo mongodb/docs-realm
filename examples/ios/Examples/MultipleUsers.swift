@@ -71,11 +71,11 @@ class MultipleUsers: XCTestCase {
         // ... log in ...
         // :hide-start:
         func getSomeOtherUser() -> User {
-            var someOtherUser: User? = nil
+            var someOtherUser: User?
             let expectation = XCTestExpectation(description: "it logs in")
             app.login(credentials: Credentials.anonymous) { (result) in
                 switch result {
-                case .failure(_):
+                case .failure:
                     XCTAssert(false)
                 case .success(let user):
                     someOtherUser = user
@@ -96,11 +96,11 @@ class MultipleUsers: XCTestCase {
         // assert(app.currentUser != secondUser)
 
         // Switch to another user
-        //app.switch(to: secondUser)
+        // app.switch(to: secondUser)
 
         // The switch-to user becomes the app.currentUser
-        //XCTAssertEqual(app.currentUser, secondUser)
-        //assert(app.currentUser == secondUser)
+        // XCTAssertEqual(app.currentUser, secondUser)
+        // assert(app.currentUser == secondUser)
         // :code-block-end:
     }
 

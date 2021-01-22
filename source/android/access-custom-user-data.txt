@@ -39,51 +39,18 @@ method on the ``User`` object of a logged in user:
 .. tabs-realm-languages::
    
    .. tab::
-      :tabid: kotlin
-      
-      .. code-block:: kotlin
-         :emphasize-lines: 13
-         
-         Realm.init(this) // context, usually an Activity or Application
-         val appID = "<your app ID>" // replace this with your App ID
-         val app: App = App(AppConfiguration.Builder(appID)
-                .build())
+       :tabid: kotlin
 
-         val anonymousCredentials: Credentials = Credentials.anonymous()
-
-         val user: User? = null
-         app.loginAsync(anonymousCredentials) {
-            if (it.isSuccess) {
-                Log.v(TAG, "Successfully authenticated anonymously.")
-                user = app.currentUser()
-                val customUserData : Document? = user?.customData
-            } else {
-                Log.e(TAG, it.error.toString())
-            }
-         }
+       .. literalinclude:: /examples/generated/android/code/start/AccessCustomUserDataTest.codeblock.read-custom-user-data.kt
+         :language: kotlin
+         :emphasize-lines: 6
 
    .. tab::
-      :tabid: java
+       :tabid: java
 
-      .. code-block:: java
-         :emphasize-lines: 12
-
-         Realm.init(this); // context, usually an Activity or Application
-         String appID = "<your app ID>"; // replace this with your App ID
-         App app = new App(new AppConfiguration.Builder(appID)
-               .build());
-
-         Credentials anonymousCredentials = Credentials.anonymous();
-
-         app.loginAsync(anonymousCredentials, it -> {
-            if (it.isSuccess()) {
-               Log.v(TAG, "Successfully authenticated anonymously.");
-               user = app.currentUser();
-               Document customUserData = user.getCustomData()
-            } else {
-               Log.e(TAG, it.getError().toString());
-            }
-         });
+       .. literalinclude:: /examples/generated/android/code/start/AccessCustomUserDataTest.codeblock.read-custom-user-data.java
+         :language: java
+         :emphasize-lines: 6
 
 .. warning:: Custom Data May Be Stale
    
@@ -141,82 +108,18 @@ document containing the user ID of the currently logged in user and a
 .. tabs-realm-languages::
    
    .. tab::
-      :tabid: kotlin
-      
-      .. code-block:: kotlin
-         :emphasize-lines: 13-28
-         
-         Realm.init(this) // context, usually an Activity or Application
-         val appID = "<your app ID>" // replace this with your App ID
-         val app: App = App(AppConfiguration.Builder(appID)
-                .build())
+       :tabid: kotlin
 
-         val anonymousCredentials: Credentials = Credentials.anonymous()
-
-         val user: User? = null
-         app.loginAsync(anonymousCredentials) {
-            if (it.isSuccess) {
-                user = app.currentUser()
-
-                val mongoClient : MongoClient =
-                    user.getMongoClient("<mongodb service name for custom user data cluster>")!!
-                val mongoDatabase : MongoDatabase =
-                    mongoClient.getDatabase("<custom user data database>")!!
-                val mongoCollection : MongoCollection<Document> =
-                    mongoDatabase.getCollection("<custom user data collection>")!!
-
-                mongoCollection.insertOne(
-                    Document("<user ID field>", user.id).append("favoriteColor", "pink"))
-                    .getAsync() {
-                        if (it.isSuccess) {
-                            Log.v("EXAMPLE", "Inserted custom user data document. _id of inserted document: ${it.get().insertedId}")
-                        } else {
-                            Log.e("EXAMPLE", "Unable to insert custom user data. Error: ${it.error}")
-                        }
-                }
-            } else {
-                Log.e("EXAMPLE", "Failed to log in anonymously: ${it.error}")
-            }
-         }
+       .. literalinclude:: /examples/generated/android/code/start/AccessCustomUserDataTest.codeblock.create-custom-user-data.kt
+         :language: kotlin
+         :emphasize-lines: 11
 
    .. tab::
-      :tabid: java
+       :tabid: java
 
-      .. code-block:: java
-         :emphasize-lines: 12-28
-
-         Realm.init(this); // context, usually an Activity or Application
-         String appID = "<your app ID>"; // replace this with your App ID
-         App app = new App(new AppConfiguration.Builder(appID)
-                .build());
-
-         Credentials credentials = Credentials.anonymous();
-
-         app.loginAsync(credentials, it -> {
-            if (it.isSuccess()) {
-                User user = app.currentUser();
-
-                MongoClient mongoClient =
-                    user.getMongoClient("<mongodb service name for custom user data cluster>");
-                MongoDatabase mongoDatabase =
-                    mongoClient.getDatabase("<custom user data database>");
-                MongoCollection<Document> mongoCollection =
-                    mongoDatabase.getCollection("<custom user data collection>");
-
-                mongoCollection.insertOne(
-                    new Document("<user ID field>", user.getId()).append("favoriteColor", "pink"))
-                    .getAsync(result -> {
-                        if (result.isSuccess()) {
-                            Log.v("EXAMPLE", "Inserted custom user data document. _id of inserted document: "
-                                + result.get().getId());
-                        } else {
-                            Log.e("EXAMPLE", "Unable to insert custom user data. Error: " + result.getError());
-                        }
-                });
-            } else {
-                Log.e("EXAMPLE", "Failed to log in anonymously:" + it.getError().toString())
-            }
-         }
+       .. literalinclude:: /examples/generated/android/code/start/AccessCustomUserDataTest.codeblock.create-custom-user-data.java
+         :language: java
+         :emphasize-lines: 11,12
 
 
 You can add any number of arbitrary fields and values to the custom user
@@ -245,89 +148,18 @@ in the custom user data collection:
 .. tabs-realm-languages::
    
    .. tab::
-      :tabid: kotlin
-      
-      .. code-block:: kotlin
-         :emphasize-lines: 13-32
-         
-         Realm.init(this) // context, usually an Activity or Application
-         val appID = "<your app ID>" // replace this with your App ID
-         val app: App = App(AppConfiguration.Builder(appID)
-                .build())
+       :tabid: kotlin
 
-         val anonymousCredentials: Credentials = Credentials.anonymous()
-
-         val user: User? = null
-         app.loginAsync(anonymousCredentials) {
-            if (it.isSuccess) {
-                user = app.currentUser()
-
-                val mongoClient : MongoClient =
-                    user.getMongoClient("<mongodb service name for custom user data cluster>")!!
-                val mongoDatabase : MongoDatabase =
-                    mongoClient.getDatabase("<custom user data database>")!!
-                val mongoCollection : MongoCollection<Document> =
-                    mongoDatabase.getCollection("<custom user data collection>")!!
-
-                mongoCollection.updateOne(
-                    Document("<user ID field>", user.id), Document("favoriteColor", "cerulean"))
-                    .getAsync() {
-                        if (it.isSuccess) {
-                            if (it.get().modifiedCount == 1L) {
-                                Log.v("EXAMPLE", "Updated custom user data document.")
-                            } else {
-                                Log.v("EXAMPLE", "Could not find custom user data document to update.")
-                            }
-                        } else {
-                            Log.e("EXAMPLE", "Unable to update custom user data. Error: ${it.error}")
-                        }
-                }
-            } else {
-                Log.e("EXAMPLE", "Failed to log in anonymously: ${it.error}")
-            }
-         }
+       .. literalinclude:: /examples/generated/android/code/start/AccessCustomUserDataTest.codeblock.update-custom-user-data.kt
+         :language: kotlin
+         :emphasize-lines: 11
 
    .. tab::
-      :tabid: java
+       :tabid: java
 
-      .. code-block:: java
-         :emphasize-lines: 12-31
-
-         Realm.init(this); // context, usually an Activity or Application
-         String appID = "<your app ID>"; // replace this with your App ID
-         App app = new App(new AppConfiguration.Builder(appID)
-                .build());
-
-         Credentials credentials = Credentials.anonymous();
-
-         app.loginAsync(credentials, it -> {
-            if (it.isSuccess()) {
-                User user = app.currentUser();
-
-                MongoClient mongoClient =
-                    user.getMongoClient("<mongodb service name for custom user data cluster>");
-                MongoDatabase mongoDatabase =
-                    mongoClient.getDatabase("<custom user data database>");
-                MongoCollection<Document> mongoCollection =
-                    mongoDatabase.getCollection("<custom user data collection>");
-
-                mongoCollection.updateOne(
-                    new Document("<user ID field>", user.getId()), new Document("favoriteColor", "cerulean"))
-                    .getAsync(result -> {
-                        if (result.isSuccess()) {
-                            if (result.get().getModifiedCount() == 1L) {
-                                Log.v("EXAMPLE", "Updated custom user data document.");
-                            } else {
-                                Log.v("EXAMPLE", "Could not find custom user data document to update.");
-                            }
-                        } else {
-                            Log.e("EXAMPLE", "Unable to update custom user data. Error: " + result.getError().toString());
-                        }
-                });
-            } else {
-                Log.e("EXAMPLE", "Failed to log in anonymously:" + it.getError().toString())
-            }
-         }
+       .. literalinclude:: /examples/generated/android/code/start/AccessCustomUserDataTest.codeblock.update-custom-user-data.java
+         :language: java
+         :emphasize-lines: 11,12
 
 .. tip::
    

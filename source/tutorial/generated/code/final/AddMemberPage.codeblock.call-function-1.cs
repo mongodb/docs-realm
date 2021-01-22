@@ -1,0 +1,1 @@
+var teamMembers  = await App.realmApp.CurrentUser.Functions.CallAsync<List<Member>>("getMyTeamMembers");
