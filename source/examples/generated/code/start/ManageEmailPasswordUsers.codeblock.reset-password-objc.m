@@ -30,3 +30,4 @@ NSString *tokenId = @"someTokenId";
     // Password reset.
     NSLog(@"Successfully reset password.");
 }];
+

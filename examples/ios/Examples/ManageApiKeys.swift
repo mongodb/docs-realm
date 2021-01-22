@@ -17,7 +17,7 @@ class ManageApiKeys: XCTestCase {
                 switch result {
                 case .failure(let error):
                     fatalError("Login failed: \(error.localizedDescription)")
-                case .success(_):
+                case .success:
                     expectation.fulfill()
                 }
             }
@@ -123,12 +123,12 @@ class ManageApiKeys: XCTestCase {
         }
 
         let apiKey: UserAPIKey?
-        
+
         // ... Obtain a user API key ...
         // :hide-start:
         apiKey = UserAPIKey()
         // :hide-end:
-        
+
         // Disable the API key
         client.disableAPIKey(apiKey!.objectId) { (error) in
             // ...
@@ -150,14 +150,14 @@ class ManageApiKeys: XCTestCase {
 
         let user = app.currentUser!
         let client = user.apiKeysAuth
-        
+
         let apiKey: UserAPIKey?
-        
+
         // ... Obtain a user API key ...
         // :hide-start:
         apiKey = UserAPIKey()
         // :hide-end:
-        
+
         client.deleteAPIKey(apiKey!.objectId) { (error) in
             guard error == nil else {
                 print("Failed to delete key: \(error!)")

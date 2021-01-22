@@ -18,3 +18,4 @@ let specificOwner = realm.object(ofType: DogOwner.self, forPrimaryKey: 12345)
 // Access directly through an inverse relationship
 print("# memberships: \(specificOwner!.clubs.count)")
 print("First club's name: \(specificOwner!.clubs[0].name)")
+

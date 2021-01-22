@@ -1,0 +1,92 @@
+.. _node-electron-cra-client-quick-start:
+
+=====================================
+Quick Start with Electron using React
+=====================================
+
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+
+Overview
+--------
+
+
+This page contains information to get {+service+} integrated into your
+Electron application quickly by developing an application using `Create React App
+<https://reactjs.org/docs/create-a-new-react-app.html>`_.
+
+Before you begin, ensure you have:
+
+- :ref:`Created a {+app+} <create-a-realm-app>`
+- :ref:`Enabled {+sync+} <enable-sync>`
+
+.. note:: Version Requirement
+   :class: note
+
+   {+service+} works with any of the officially supported Electron
+   versions. We recommend using the latest stable release. To see the
+   officially supported Electron versions, check out the `Electron
+   Releases <https://www.electronjs.org/releases/>`_ document.
+
+.. _electron-setup:
+
+Setup
+------
+
+To set up an Electron application using {+service+} use the following instructions:
+
+.. include:: /includes/steps/realm-with-electron-using-create-react-app.rst
+
+Open a Realm
+------------
+
+Authenticate a user, define a schema, and :ref:`sync enabled {+sync+}
+<enable-sync>`, then call :js-sdk:`Realm.open() <Realm.html#.open>` in a file
+that you have imported Realm into:
+
+.. code-block:: javascript
+   :emphasize-lines: 17
+
+   const app = new Realm.App({ id: "<Your App ID>" }); // create a new instance of the Realm.App
+   async function run() {
+
+     // login with an anonymous credential
+     await app.logIn(Realm.Credentials.anonymous());
+
+     const DogSchema = {
+         name: "Dog",
+         properties: {
+           _id: 'int',
+           name: "string",
+           age: "int",
+         },
+         primaryKey: '_id'
+     };
+
+     const realm = await Realm.open({
+       schema: [DogSchema],
+       sync: {
+         user: app.currentUser,
+         partitionValue: "myPartition",
+       },
+     });
+     
+     // The myPartition realm is now synced to the device. You can
+     // access it through the `realm` object returned by `Realm.open()`
+   }
+   run().catch(err => {
+     console.error("Failed to open realm:", err)
+   });
+
+.. seealso::
+
+   - :ref:`Sync Data <node-sync-data>`
+   - :ref:`Define Your Schema <node-realm-objects>`
+   - :ref:`Authenticate a User <node-authenticate>`

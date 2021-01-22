@@ -15,7 +15,7 @@ user.functions.sum([1, 2]) { sum, error in
         return
     }
     guard case let .double(value) = sum else {
-        print("Unexpected non-double result: \(sum ?? "nil")");
+        print("Unexpected non-double result: \(sum ?? "nil")")
         return
     }
     print("Called function 'sum' and got result: \(value)")

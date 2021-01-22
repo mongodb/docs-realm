@@ -37,8 +37,10 @@ user keys with their account.
 Create a User API Key
 ---------------------
 
-To create a new user API key, call the ``createApiKey()`` or
-``createApiKeyAsync()`` methods of a logged in user's ``apiKeyAuth``
+To create a new user API key, call the :java-sdk:`create()
+<io/realm/mongodb/auth/ApiKeyAuth.html#create-java.lang.String->` or
+:java-sdk:`createAsync() <io/realm/mongodb/auth/ApiKeyAuth.html#createAsync-java.lang.String-io.realm.mongodb.App.Callback->`
+methods of a logged in user's :java-sdk:`apiKeyAuth <io/realm/mongodb/auth/ApiKeyAuth.html>`
 instance. The user API key will be associated with the logged in user
 and can be used to interact with {+service+} on their behalf. You cannot
 create user API keys for anonymous users.
@@ -65,8 +67,12 @@ Look up a User's API Keys
 -------------------------
 
 To get a list of all user API keys associated with the logged in user,
-call the ``fetchApiKeys()`` or ``fetchApiKeysAsync()`` methods of a
-logged in user's ``apiKeyAuth`` instance.
+call the synchronous :java-sdk:`fetchAll() <io/realm/mongodb/auth/ApiKeyAuth.html#fetchAll-->`
+method or asynchronous :java-sdk:`fetchAll()
+<io/realm/mongodb/auth/ApiKeyAuth.html#fetchAll-io.realm.mongodb.App.Callback->` method of a
+logged in user's :java-sdk:`ApiKeyAuth <io/realm/mongodb/auth/ApiKeyAuth.html>` instance.
+
+.. include:: /includes/note-store-user-api-key-value.rst
 
 .. include:: /includes/note-store-user-api-key-value.rst
 
@@ -85,7 +91,12 @@ logged in user's ``apiKeyAuth`` instance.
          :language: java
 
 To look up a specific user API key for the logged in user, pass the
-key's id to the ``fetchApiKey`` or ``fetchApiKeyAsync`` methods.
+key's id to the :java-sdk:`fetch() <io/realm/mongodb/auth/ApiKeyAuth.html#fetch-ObjectId->`
+or :java-sdk:`fetchAsync() <io/realm/mongodb/auth/ApiKeyAuth.html#fetchAsync-ObjectId-io.realm.mongodb.App.Callback->`
+methods of a logged in user's
+:java-sdk:`ApiKeyAuth <io/realm/mongodb/auth/ApiKeyAuth.html>` instance.
+
+.. include:: /includes/note-store-user-api-key-value.rst
 
 .. include:: /includes/note-store-user-api-key-value.rst
 
@@ -110,8 +121,10 @@ Disable a User API Key
 ----------------------
 
 To disable a specific user API key without deleting it, pass the
-key's id to the  ``disableApiKey()`` or ``disableApiKeyAsync()`` methods
-of a logged in user's ``apiKeyAuth`` instance.
+key's id to the  :java-sdk:`disable() <io/realm/mongodb/auth/ApiKeyAuth.html#disable-ObjectId->`
+or :java-sdk:`disableAsync() <io/realm/mongodb/auth/ApiKeyAuth.html#disableAsync-ObjectId-io.realm.mongodb.App.Callback->`
+methods of a logged in user's
+:java-sdk:`ApiKeyAuth <io/realm/mongodb/auth/ApiKeyAuth.html>` instance.
 
 .. tabs-realm-languages::
    
@@ -133,8 +146,9 @@ Enable a User API Key
 ---------------------
 
 To enable a specific user API key that was previously disabled, pass the
-key's id to the ``enableApiKey()`` or ``enableApiKeyAsync()`` methods of
-a logged in user's ``apiKeyAuth`` instance.
+key's id to the :java-sdk:`enable() <io/realm/mongodb/auth/ApiKeyAuth.html#enable-ObjectId->`
+or :java-sdk:`enableAsync() <io/realm/mongodb/auth/ApiKeyAuth.html#enableAsync-ObjectId-io.realm.mongodb.App.Callback->`
+methods of a logged in user's :java-sdk:`ApiKeyAuth <io/realm/mongodb/auth/ApiKeyAuth.html>` instance.
 
 .. tabs-realm-languages::
    
@@ -156,8 +170,9 @@ Delete a User API Key
 ---------------------
 
 To permanently remove a specific user API key, pass the
-key's id to the ``deleteApiKey()`` or ``deleteApiKeyAsync()`` methods of
-a logged in user's ``apiKeyAuth`` instance.
+key's id to the :java-sdk:`delete() <io/realm/mongodb/auth/ApiKeyAuth.html#delete-ObjectId->`
+or :java-sdk:`deleteAsync() <io/realm/mongodb/auth/ApiKeyAuth.html#deleteAsync-ObjectId-io.realm.mongodb.App.Callback->`
+methods of a logged in user's :java-sdk:`ApiKeyAuth <io/realm/mongodb/auth/ApiKeyAuth.html>` instance.
 
 .. tabs-realm-languages::
    
