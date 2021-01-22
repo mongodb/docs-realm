@@ -54,18 +54,36 @@ An **expression** consists of one of the following:
    ``Task``, below:
 
    .. tabs-realm-languages::
-
+     
       .. tab::
-          :tabid: java
+         :tabid: kotlin
 
-          .. literalinclude:: /examples/Schemas/ProjectAndTask.java
-            :language: java
-
-      .. tab::
-          :tabid: kotlin
-
-          .. literalinclude:: /examples/Schemas/ProjectAndTask.kt
+         .. literalinclude:: /examples/generated/android/code/start/ProjectTask.codeblock.projecttask.kt
             :language: kotlin
+            :caption: ProjectTask.kt
+
+      .. tab::
+         :tabid: java
+
+         .. literalinclude:: /examples/generated/android/code/start/ProjectTask.codeblock.projecttask.java
+            :language: java
+            :caption: ProjectTask.java
+
+   .. tabs-realm-languages::
+     
+      .. tab::
+         :tabid: kotlin
+         :caption: Project.kt
+
+         .. literalinclude:: /examples/generated/android/code/start/Project.codeblock.project.kt
+            :language: kotlin
+
+      .. tab::
+         :tabid: java
+         :caption: Project.java
+
+         .. literalinclude:: /examples/generated/android/code/start/Project.codeblock.project.java
+            :language: java
 
 
 Comparison Operators
@@ -116,18 +134,18 @@ values.
    - Find tasks assigned to specific teammates Ali or Jamie by seeing if the ``assignee`` property is in a list of names.
 
    .. tabs-realm-languages::
-
+     
       .. tab::
-          :tabid: java
+         :tabid: kotlin
 
-          .. literalinclude:: /examples/Query/Comparison.java
-            :language: java
-
-      .. tab::
-          :tabid: kotlin
-
-          .. literalinclude:: /examples/Query/Comparison.kt
+         .. literalinclude:: /examples/generated/android/code/start/QueryEngineTest.codeblock.comparison-operators.kt
             :language: kotlin
+
+      .. tab::
+         :tabid: java
+
+         .. literalinclude:: /examples/generated/android/code/start/QueryEngineTest.codeblock.comparison-operators.java
+            :language: java
 
 
 Logical Operators
@@ -159,18 +177,18 @@ You can make compound predicates using logical operators.
    the ``isComplete`` property value is ``true``:
 
    .. tabs-realm-languages::
-
+     
       .. tab::
-          :tabid: java
+         :tabid: kotlin
 
-          .. literalinclude:: /examples/Query/Logical.java
-            :language: java
-
-      .. tab::
-          :tabid: kotlin
-
-          .. literalinclude:: /examples/Query/Logical.kt
+         .. literalinclude:: /examples/generated/android/code/start/QueryEngineTest.codeblock.logical-operators.kt
             :language: kotlin
+
+      .. tab::
+         :tabid: java
+
+         .. literalinclude:: /examples/generated/android/code/start/QueryEngineTest.codeblock.logical-operators.java
+            :language: java
 
 String Operators
 ~~~~~~~~~~~~~~~~
@@ -218,18 +236,18 @@ Regex-like wildcards allow more flexibility in search.
    projects with names that contain 'ie':
 
    .. tabs-realm-languages::
+     
+      .. tab::
+         :tabid: kotlin
+
+         .. literalinclude:: /examples/generated/android/code/start/QueryEngineTest.codeblock.string-operators.kt
+            :language: kotlin
 
       .. tab::
-          :tabid: java
+         :tabid: java
 
-          .. literalinclude:: /examples/Query/String.java
-             :language: java
-
-      .. tab::
-          :tabid: kotlin
-
-          .. literalinclude:: /examples/Query/String.kt
-             :language: kotlin
+         .. literalinclude:: /examples/generated/android/code/start/QueryEngineTest.codeblock.string-operators.java
+            :language: java
 
 Aggregate Operators
 ~~~~~~~~~~~~~~~~~~~
@@ -270,18 +288,18 @@ to a single value.
    - Long running projects.
 
    .. tabs-realm-languages::
+     
+      .. tab::
+         :tabid: kotlin
+
+         .. literalinclude:: /examples/generated/android/code/start/QueryEngineTest.codeblock.aggregate-operators.kt
+            :language: kotlin
 
       .. tab::
-          :tabid: java
+         :tabid: java
 
-          .. literalinclude:: /examples/Query/Accumulator.java
-             :language: java
-
-      .. tab::
-          :tabid: kotlin
-
-          .. literalinclude:: /examples/Query/Accumulator.kt
-             :language: kotlin
+         .. literalinclude:: /examples/generated/android/code/start/QueryEngineTest.codeblock.aggregate-operators.java
+            :language: java
 
 Summary
 -------
