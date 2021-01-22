@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.mongodb.realm.examples.Expectation;
 import com.mongodb.realm.examples.RealmTest;
+import com.mongodb.realm.examples.RealmTestKt;
 import com.mongodb.realm.examples.model.Dog;
 
 import org.bson.types.ObjectId;
@@ -24,6 +25,7 @@ import io.realm.mongodb.sync.SyncConfiguration;
 
 import static com.mongodb.realm.examples.RealmTestKt.PARTITION;
 import static com.mongodb.realm.examples.RealmTestKt.YOUR_APP_ID;
+import static com.mongodb.realm.examples.RealmTestKt.getRandomPartition;
 
 public class NotificationsTest extends RealmTest {
 
@@ -81,6 +83,7 @@ public class NotificationsTest extends RealmTest {
     @Test
     public void objectNotifications() {
         Expectation expectation = new Expectation();
+        String PARTITION = getRandomPartition();
         activity.runOnUiThread(() -> {
             String appID = YOUR_APP_ID; // replace this with your App ID
             App app = new App(new AppConfiguration.Builder(appID).build());

@@ -14,16 +14,17 @@ import io.realm.Realm;
 import io.realm.mongodb.App;
 import io.realm.mongodb.AppConfiguration;
 import io.realm.mongodb.Credentials;
-import io.realm.mongodb.User;
 import io.realm.mongodb.sync.SyncConfiguration;
 
-import static com.mongodb.realm.examples.RealmTestKt.PARTITION;
 import static com.mongodb.realm.examples.RealmTestKt.YOUR_APP_ID;
+import static com.mongodb.realm.examples.RealmTestKt.getRandomPartition;
 
 public class OpenARealmTest extends RealmTest {
     @Test
     public void testAllowReadsWritesOnUIThread() {
         Expectation expectation = new Expectation();
+
+        String PARTITION = getRandomPartition();
         activity.runOnUiThread(() -> {
             String appID = YOUR_APP_ID; // replace this with your App ID
             App app = new App(new AppConfiguration.Builder(appID)
