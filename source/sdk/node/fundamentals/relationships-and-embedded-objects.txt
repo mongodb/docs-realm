@@ -1,0 +1,214 @@
+.. _node-relationships-and-embedded-objects:
+
+================================
+Relationships & Embedded Objects
+================================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+.. _node-relationships:
+.. _node-client-relationships:
+
+Relationships
+-------------
+
+{+service+} allows you to define explicit relationships between the types of
+objects in a {+app+}. A relationship is an object property that references
+another {+service-short+} object rather than a scalar or embedded object. You
+define relationships by setting the type of an object property to another object
+type in the :ref:`property schema <node-property-schema>`.
+
+Relationships are direct references to other objects in a {+realm+}, which
+means that you don't need bridge tables or explicit joins to define a
+relationship like you would in a relational database. Instead you can
+access related objects by reading and writing to the property that
+defines the relationship. {+client-database+} executes read operations
+lazily as they come in, so querying a relationship is just as performant
+as reading a regular property.
+
+There are three primary types of relationships between objects:
+
+- :ref:`One-to-One Relationship <node-to-one-relationship>`
+- :ref:`One-to-Many Relationship <node-to-many-relationship>`
+- :ref:`Inverse Relationship <node-inverse-relationship>`
+
+.. _node-to-one-relationship:
+
+To-One Relationship
+~~~~~~~~~~~~~~~~~~~
+
+A **to-one** relationship means that an object is related in a specific
+way to no more than one other object. You define a to-one relationship
+for an object type in its :ref:`object schema <node-object-schema>` by
+specifying a property where the type is the related {+service-short+} object type.
+
+.. example::
+
+   An application could use the following object schemas to indicate
+   that a Person may or may not own a single Dog by including it in its
+   ``dog`` property:
+   
+   .. tabs-realm-languages::
+     
+     .. tab::
+         :tabid: javascript
+ 
+         .. literalinclude:: /examples/Relationships/ToOne/ToOne.js
+           :language: javascript
+           :emphasize-lines: 6
+
+
+.. _node-to-many-relationship:
+
+To-Many Relationship
+~~~~~~~~~~~~~~~~~~~~
+
+A **to-many** relationship means that an object is related in a specific
+way to multiple objects. You define a to-many relationship for an object
+type in its :ref:`object schema <node-object-schema>` by specifying a
+property where the type is a list or array of the related {+service-short+} object
+type.
+
+.. example::
+   
+   An application could use the following object schemas to indicate
+   that a Person may own multiple Dogs by including them in its ``dog``
+   property:
+   
+   .. tabs-realm-languages::
+   
+      .. tab::
+         :tabid: javascript
+   
+         .. literalinclude:: /examples/Relationships/ToMany/ToMany.js
+            :language: javascript
+            :emphasize-lines: 6
+
+.. _node-inverse-relationship:
+
+Inverse Relationship
+~~~~~~~~~~~~~~~~~~~~
+
+An **inverse relationship** links an object back to any other objects that refer
+to it in a defined to-one or to-many relationship. Relationship definitions are
+unidirectional, so you must explicitly define a property in the object's model
+as an inverse relationship.
+
+For example, the to-many relationship "User has many Tasks" does not
+automatically create the inverse relationship "Task belongs to User". If you
+don't specify the inverse relationship in the object model, you would need to
+run a separate query to look up the user that is assigned to a given task.
+
+To define an inverse relationship, define a ``linkingObjects`` property in your
+object model. The ``linkingObjects`` definition specifies the object type and
+property name of the relationship that it inverts.
+
+You cannot manually set the value of an inverse relationship property.
+{+client-database+} automatically updates implicit relationships whenever an
+object is added or removed in the specified relationship.
+
+.. example::
+   
+   An application could use the following object schemas to indicate that a User
+   may be assigned many Tasks and that each Task should automatically keep track
+   of which User it's assigned to.
+   
+   - The User object's ``tasks`` property is defined as a to-many relationship
+     with Task objects and contains all of a given user's assigned tasks.
+     
+   - The Task object's ``assignee`` property inverts the relationship and
+     automatically updates to refer back to any User object that contains the
+     Task in its ``tasks`` property.
+   
+   .. tabs-realm-languages::
+     
+     .. tab::
+         :tabid: javascript
+          
+         .. literalinclude:: /examples/Relationships/Inverse/Inverse.js
+           :language: javascript
+           :emphasize-lines: 8, 19-23
+     
+     .. tab::
+         :tabid: typescript
+          
+         .. literalinclude:: /examples/Relationships/Inverse/Inverse.ts
+           :language: javascript
+           :emphasize-lines: 5, 14, 23, 32-36
+
+.. _node-embedded-objects:
+
+Embedded Objects
+----------------
+
+An embedded object is a special type of :ref:`Realm object <node-realm-objects>`
+that models complex data about a specific object. Embedded objects are similar
+to :ref:`relationships <node-client-relationships>`, but they provide additional
+constraints and map more naturally to the denormalized :manual:`MongoDB document
+model </core/data-modeling-introduction/>`.
+
+Realm enforces unique ownership constraints that treat each embedded object as
+nested data inside of a single, specific parent object. An embedded object
+inherits the lifecycle of its parent object and cannot exist as an independent
+Realm object. This means that embedded objects cannot have a primary key and
+that Realm automatically deletes embedded objects if their parent object is
+deleted.
+
+.. tip:: Embedded object types are reusable and composable
+
+   You can use the same embedded object type in multiple parent object types and
+   you can embed objects inside of other embedded objects. You can even
+   recursively reference an embedded object type as an optional property in its
+   own definition.
+
+Realm Object Models
+~~~~~~~~~~~~~~~~~~~
+
+To specify that a Realm object model define an embedded object, set ``embedded``
+to ``true``. You can reference an embedded object type from parent object types
+in the same way as you would define a relationship:
+
+.. code-block:: javascript
+   :emphasize-lines: 3, 18, 28
+   
+   const AddressSchema = {
+     name: "Address",
+     embedded: true, // default: false
+     properties: {
+       street: "string?",
+       city: "string?",
+       country: "string?",
+       postalCode: "string?",
+     },
+   };
+   
+   const ContactSchema = {
+     name: "Contact",
+     primaryKey: "_id",
+     properties: {
+       _id: "objectId",
+       name: "string",
+       address: "Address", // Embed a single object
+     },
+   };
+   
+   const BusinessSchema = {
+     name: "Business",
+     primaryKey: "_id",
+     properties: {
+       _id: "objectId",
+       name: "string",
+       addresses: { type: "list", objectType: "Address" }, // Embed an array of objects
+     },
+   };
+
+JSON Schema
+~~~~~~~~~~~
+
+.. include:: /includes/embedded-object-json-schema.rst
