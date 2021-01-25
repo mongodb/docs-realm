@@ -1,0 +1,49 @@
+.. _node-realms:
+
+======
+Realms
+======
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+A **realm** is a set of objects that each conform to a specific, user-defined
+type with a well-defined schema. Realms are the core data structure used to
+organize data in Realm Database.
+
+Realm Database can represent 
+
+Realm Database stores a memory-mapped, binary encoded version of all of the
+objects and types in a realm in a single ``.realm`` file.
+
+The {+service-short+} data model is similar to both relational and document
+databases but has distinct differences from both. To underscore these
+differences, it's helpful to highlight what a {+realm+} **is not**:
+
+A {+realm+} is not a single, application-wide database.
+    Applications based on other database systems generally store all of their
+    data in a single database. {+app+}s often split data across multiple
+    {+realms+} to organize data more efficiently and to enforce access controls.
+
+A {+realm+} is not a relational table.
+    Normalized tables in relational databases only store one type of
+    information, such as street addresses or items in a store inventory. A
+    {+realm+} can contain any number of object types that are relevant to a
+    given domain.
+
+A {+realm+} is not a collection of schemaless documents.
+    Document databases don't necessarily enforce a strict schema for the data in
+    each collection. While similar to documents in form, every Realm object
+    conforms to a schema for a specific object type in the {+realm+}. An object
+    cannot contain a property that is not described by its schema.
+
+Local and Synced Realms
+-----------------------
+
+The ``.realm`` file exists on an app's local file system, so you can always
+access and modify data in a realm, even without a network connection.
