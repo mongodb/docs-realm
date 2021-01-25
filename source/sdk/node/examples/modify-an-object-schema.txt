@@ -17,8 +17,8 @@ Modify an Object Schema
 Add a Property
 --------------
 
-To add a property to an schema, add the new property to the object's class and
-set a ``schemaVersion`` of the :js-sdk:`Realm's configuration object <Realm.html#~Configuration>`.
+To add a property to a schema, add the new property to the object's class and
+set a ``schemaVersion`` of the :js-sdk:`realm's configuration object <Realm.html#~Configuration>`.
 
 
 .. example::
@@ -55,7 +55,7 @@ Delete a Property
 -----------------
 
 To delete a property from a schema, remove the property from the object's class
-and set a ``schemaVersion`` of the :js-sdk:`Realm's configuration object
+and set a ``schemaVersion`` of the :js-sdk:`realm's configuration object
 <Realm.html#~Configuration>`. Deleting a property will not impact existing
 objects. 
 
@@ -85,12 +85,12 @@ Rename a Property
 
 To rename a property of the schema, rename the property of the object's class.
 Then, set a ``schemaVersion`` and a ``migration`` callback function of the
-:js-sdk:`Realm's configuration Object <Realm.html#~Configuration>`. 
+:js-sdk:`realm's configuration Object <Realm.html#~Configuration>`. 
 
 .. note::
 
-   Synchronized Realms only support additive changes, to ensure that older
-   clients can continue to sync with newer clients. This means that synchronized
+   Synchronized realms only supports additive changes, to ensure that older
+   clients can sync with newer clients. This means that synchronized
    realms do not support renaming a property of the schema.
 
 .. example::
@@ -118,20 +118,20 @@ Modify a Property Type
 ----------------------
 To modify a property's type, set the property type of the field that you wish to
 modify to the new data type. Then, set a ``schemaVersion``, and a ``migration``
-callback function of the :js-sdk:`Realm's configuration Object
+callback function of the :js-sdk:`realm's configuration Object
 <Realm.html#~Configuration>`. 
 
 .. note::
 
-   Synchronized Realms only support additive changes, to ensure that older
-   clients can continue to sync with newer clients. This means that synchronized
+   Synchronized realms only supports additive changes, to ensure that older
+   clients can sync with newer clients. This means that synchronized
    realms do not support modifying the type of a property of a schema. 
 
 
 .. example::
    
    A {+realm+} using schema version ``1`` has a ``Dog`` object type. The
-   original schema had a ``_id`` with a property type of ``Object ID``. The
+   original schema had an ``_id`` with a property type of ``Object ID``. The
    developer later decides that the ``Dog`` class's ``_id`` field should be of
    type ``string``, and updates the schema.
 
