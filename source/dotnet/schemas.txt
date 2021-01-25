@@ -1,5 +1,3 @@
-.. _dotnet-schemas:
-
 ========
 Schemas
 ========
@@ -8,72 +6,6 @@ Schemas
    :titlesonly:
    :hidden:
    
+   Schema Overview </dotnet/schema-overview>
    Object Models and Schemas </dotnet/models-schemas>
    Schema Versions and Migrations </dotnet/migrations>
-
-Overview
---------
-
-A **{+realm+}** is a set of related objects that conform to a pre-defined
-schema and share user-level access permissions. Realms may contain more
-than one type of data as long as a schema exists for each type.
-
-.. _dotnet-realm-schema:
-
-Realm Schema
-~~~~~~~~~~~~
-
-A **{+backend-schema+}** is a list of valid :ref:`objects <dotnet-realm-objects>` 
-that each define an object type that a {+app+} may persist. All objects in a  
-{+realm+} must conform to the {+backend-schema+}.
-
-A .NET application provides a {+frontend-schema+} when opening a {+realm+}. If the 
-{+realm+} already contains data, then it already has a defined schema, and when 
-the client application opens the {+realm+}, 
-{+client-database+} validates the schema on the client against the existing schema.
-
-To define the schema, you can specify the 
-:dotnet-sdk:`ObjectClasses <reference/Realms.RealmConfigurationBase.html#Realms_RealmConfigurationBase_ObjectClasses>` 
-property on the 
-:dotnet-sdk:`RealmConfiguration <reference/Realms.RealmConfiguration.html>`. If 
-you omit this property, then all classes that inherit from 
-:dotnet-sdk:`RealmObject <reference/Realms.RealmObject.html>` or 
-:dotnet-sdk:`EmbeddedObject <reference/Realms.EmbeddedObject.html>` are added 
-to the schema automatically.
-
-.. _dotnet-schema-version:
-
-Schema Version
-~~~~~~~~~~~~~~
-
-A **schema version** identifies the state of a :ref:`{+backend-schema+}
-<dotnet-realm-schema>` at a given point in time. {+client-database+} tracks the 
-schema version of each {+realm+} and uses it to map the objects in each {+realm+} 
-to the correct schema.
-
-Schema versions are ascending integers that you can optionally include
-in the {+realm+} configuration when you open a {+realm+}. If a client
-application does not specify a version number when it opens a {+realm+} then
-the {+realm+} defaults to version ``0``.
-
-.. important:: Increment Versions Monotonically
-   
-   :ref:`Migrations <dotnet-client-migrations>` must update a {+realm+} to a
-   higher schema version. {+client-database+} will throw an error if a client
-   application opens a {+realm+} with a schema version that is lower than
-   the {+realm+}'s current version or if the specified schema version is the
-   same as the {+realm+}'s current version but includes different
-   :ref:`object schemas <dotnet-object-schema>`.
-
-Summary
--------
-
-- A :term:`{+realm+}` is a collection of objects that conform to a
-  schema. It is not a single, application-wide database. There can and
-  usually will be more than one {+realm+} per application.
-
-- A :term:`partition value` is a {+realm+}'s unique identifier.
-
-- {+service-short+} Rules define who can read or write the {+realm+} and apply to the {+realm+} as a whole.
-
-- A :term:`{+backend-schema+}` is a specification of the object types used in a {+app+}.
