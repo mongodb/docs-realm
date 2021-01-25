@@ -50,7 +50,7 @@ Then, set a ``schemaVersion`` and a ``migration`` callback function of the
    A {+realm+} using schema version ``1`` has a ``Person`` object type. The
    original schema had a ``firstName`` and ``lastName`` field. The developer
    later decides that the ``Person`` class should use a combined ``fullName``
-   field instead of the separate ``firstName`` and ``lastName`` fields.
+   field and removes the separate ``firstName`` and ``lastName`` fields.
    
    To migrate the {+realm+} to conform to the updated ``Person`` schema, the
    developer sets the {+realm+}'s :ref:`schema version <node-schema-version>` to
@@ -80,3 +80,25 @@ callback function of the :js-sdk:`Realm's configuration Object
    Synchronized Realms only support additive changes, to ensure that older
    clients can continue to sync with newer clients. This means that synchronized
    realms do not support modifying the type of a property of a schema. 
+
+
+.. example::
+   
+   A {+realm+} using schema version ``1`` has a ``Dog`` object type. The
+   original schema had a ``_id`` with a property type of ``Object ID``. The
+   developer later decides that the ``Dog`` class's ``_id`` field should be of
+   type ``string``, and updates the schema.
+
+   To migrate the {+realm+} to conform to the updated ``Dog`` schema, the
+   developer sets the {+realm+}'s :ref:`schema version <node-schema-version>` to
+   ``2`` and defines a migration function to convert the ``Object ID`` type to a
+   ``string`` type.
+
+   .. tabs-realm-languages::
+     
+     .. tab::
+         :tabid: javascript
+ 
+         .. literalinclude:: /examples/Migrations/LocalMigration/LocalMigration-modify-property-type.js
+           :language: javascript
+           :emphasize-lines: 3, 12 
