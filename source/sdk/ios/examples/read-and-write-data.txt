@@ -12,6 +12,9 @@ Read & Write Data
    :depth: 2
    :class: singlecol
 
+About These Examples
+--------------------
+
 The examples on this page use the following models:
 
 .. tabs-realm-languages::
@@ -182,6 +185,9 @@ guarantees a consistent order of results if you explicitly sort them.
 Query a Relationship
 ~~~~~~~~~~~~~~~~~~~~
 
+You can query through a relationship the same way you would access a
+member of a regular Swift or Objective-C object.
+
 .. tabs-realm-languages::
    
    .. tab::
@@ -202,6 +208,9 @@ Query a Relationship
 Query an Inverse Relationship
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+You can query through an inverse relationship the same way you would
+access a member of a regular Swift or Objective-C object.
+
 .. tabs-realm-languages::
    
    .. tab::
@@ -220,6 +229,23 @@ Query an Inverse Relationship
 
 Aggregate Data
 ~~~~~~~~~~~~~~
+
+You can use Realm's aggregation operators for sophisticated queries
+against list properties.
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: swift
+      
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.aggregate.swift
+         :language: swift
+
+   .. tab::
+      :tabid: objective-c
+
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.aggregate.m
+         :language: objectivec
 
 .. _ios-write-operations:
 

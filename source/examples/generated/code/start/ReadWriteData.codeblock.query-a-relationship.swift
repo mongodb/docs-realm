@@ -17,7 +17,7 @@ try! realm.write {
 let specificPerson = realm.object(ofType: Person.self, forPrimaryKey: 12345)
 
 // Access directly through a relationship
-let specificPersonDogs = specificPerson!.dogs;
+let specificPersonDogs = specificPerson!.dogs
 let firstDog = specificPersonDogs[0]
 print("# dogs: \(specificPersonDogs.count)")
 print("First dog's name: \(firstDog.name)")
