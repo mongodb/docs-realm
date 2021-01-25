@@ -45,6 +45,26 @@ Then, set a ``schemaVersion`` and a ``migration`` callback function of the
    clients can continue to sync with newer clients. This means that synchronized
    realms do not support renaming a property of the schema.
 
+.. example::
+   
+   A {+realm+} using schema version ``1`` has a ``Person`` object type. The
+   original schema had a ``firstName`` and ``lastName`` field. The developer
+   later decides that the ``Person`` class should use a combined ``fullName``
+   field instead of the separate ``firstName`` and ``lastName`` fields.
+   
+   To migrate the {+realm+} to conform to the updated ``Person`` schema, the
+   developer sets the {+realm+}'s :ref:`schema version <node-schema-version>` to
+   ``2`` and defines a migration function to set the value of ``fullName`` based
+   on the existing ``firstName`` and ``lastName`` properties.
+
+   .. tabs-realm-languages::
+     
+     .. tab::
+         :tabid: javascript
+ 
+         .. literalinclude:: /examples/Migrations/LocalMigration/LocalMigration.js
+           :language: javascript
+           :emphasize-lines: 3, 14
 
 <replace me with existing use case>
 
