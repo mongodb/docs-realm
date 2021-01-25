@@ -24,8 +24,8 @@ that does not have a custom service built-in to {+service+}.
   <http-service-actions>`.
 
 - To handle incoming requests from an external service, :doc:`configure an
-  incoming webhook <configure/service-webhooks>` and provide it to the
-  service, if possible. See the :ref:`incoming webhooks
+  incoming webhook </services/configure/service-webhooks>` and provide it to
+  the service, if possible. See the :ref:`incoming webhooks
   <http-webhooks>` section on this page for an example.
 
 .. toctree::
@@ -48,16 +48,16 @@ You will need to provide values for the following parameters when you
 
 
 .. tabs-realm-admin-interfaces::
-   
+
    .. tab::
       :tabid: ui
-      
+
    .. tab::
       :tabid: cli
-      
+
       .. code-block:: json
          :caption: <Service Name>/config.json
-         
+
          {
            "name": "<Service Name>",
            "type": "http",
@@ -69,7 +69,7 @@ You will need to provide values for the following parameters when you
 
    * - Parameter
      - Description
-   
+
    * - | :guilabel:`Service Name`
        | *config.name*
 
@@ -86,12 +86,12 @@ call in :doc:`functions </functions>` and in the SDKs. Each action maps
 to a standard :mdn:`HTTP request method <Web/HTTP/Methods>`.
 
 For instructions on using an HTTP service action, see :doc:`Call a
-Service Action <call-a-service-action>`.
+Service Action </services/call-a-service-action>`.
 
 .. note::
 
    You must enable a service action in a :doc:`service rule
-   <configure/service-rules>` before you can call it.
+   </services/configure/service-rules>` before you can call it.
 
 .. include:: /includes/extracts/service-actions-http.rst
 
@@ -165,12 +165,12 @@ Configuration
 
        .. tabs-realm-admin-interfaces::
           :hidden: true
-          
+
           .. tab::
              :tabid: ui
-             
+
              .. include:: /includes/run-webhook-as-options.rst
-          
+
           .. tab::
              :tabid: cli
 
@@ -206,20 +206,20 @@ Configuration
      - The :ref:`request validation <webhook-request-validation>` method
        incoming requests should use. The following validation types are
        supported:
-       
+
        .. tabs-realm-admin-interfaces::
           :hidden: true
-          
+
           .. tab::
              :tabid: ui
-             
+
              - :ref:`Verify Payload Signature <webhook-verify-payload-signature>`
              - :ref:`Require Secret as Query Param <webhook-secret-query-parameter>`
              - No validation.
-          
+
           .. tab::
              :tabid: cli
-             
+
              - ``VERIFY_PAYLOAD``: :ref:`Verify Payload Signature <webhook-verify-payload-signature>`
              - ``SECRET_AS_QUERY_PARAM``: :ref:`Require Secret as Query Param <webhook-secret-query-parameter>`
              - ``NO_VALIDATION``: No validation.
