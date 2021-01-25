@@ -1,7 +1,10 @@
 // Joe is already logged in and is the currently active user
 val joe = app.currentUser()
 // Log in as Emma
-val emmaCredentials = Credentials.emailPassword(secondUserEmail, secondUserPassword)
+val emmaCredentials = Credentials.emailPassword(
+    secondUserEmail,
+    secondUserPassword
+)
 app.loginAsync(emmaCredentials) { result ->
     if (result.isSuccess) {
         // The active user is now Emma

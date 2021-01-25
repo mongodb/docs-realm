@@ -1,5 +1,6 @@
 package com.mongodb.realm.examples.java;
 
+import android.os.AsyncTask;
 import android.util.Log;
 
 import com.mongodb.realm.examples.Expectation;
@@ -159,7 +160,12 @@ public class MultipleUsersTest extends RealmTest {
             app.loginAsync(credentials, it -> {
                 if (it.isSuccess()) {
                     User user = it.get();
-                    app.removeUser(user);
+                    AsyncTask.execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            app.removeUser(user);
+                        }
+                    });
                     expectation.fulfill();
                 } else {
                     Log.e("EXAMPLE", "Failed to log in: " + it.getError().getErrorMessage());
