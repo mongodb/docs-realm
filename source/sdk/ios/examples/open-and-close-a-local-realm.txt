@@ -1,0 +1,60 @@
+.. _ios-open-close-local-realm:
+
+==========================
+Open & Close a Local Realm
+==========================
+
+.. _ios-open-a-local-realm:
+
+Open a Local Realm
+------------------
+
+When opening a local (non-synced) {+realm+}, you pass a custom
+:swift-sdk:`Configuration <Structs/Realm/Configuration.html>` object
+without the :swift-sdk:`SyncConfiguration
+<Structs/Realm/Configuration.html#/s:10RealmSwift0A0V13ConfigurationV04syncC0AA04SyncC0VSgvp>`
+object. The following example uses the :swift-sdk:`fileURL
+<Structs/Realm/Configuration.html#/s:10RealmSwift0A0V13ConfigurationV7fileURL10Foundation0E0VSgvp>`
+and :swift-sdk:`readOnly
+<Structs/Realm/Configuration.html#/s:10RealmSwift0A0V13ConfigurationV8readOnlySbvp>`
+properties to open a *readonly* local {+realm+} with a specific file
+location:
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: swift
+
+      .. literalinclude:: /examples/generated/code/start/OpenCloseRealm.codeblock.open-local-realm.swift
+         :language: swift
+
+   .. tab::
+      :tabid: objective-c
+
+      .. literalinclude:: /examples/generated/code/start/OpenCloseRealm.codeblock.open-local-realm.m
+         :language: objectivec
+
+.. _ios-close-a-realm:
+
+Close a Realm
+-------------
+
+There is no need to manually close a {+realm+} in Swift or Objective-C.
+When a {+realm+} goes out of scope and is removed from memory due to
+`ARC
+<https://docs.swift.org/swift-book/LanguageGuide/AutomaticReferenceCounting.html>`__,
+the {+realm+} is closed.
+
+.. _ios-local-realm-configuration:
+
+Local Realm Configuration
+-------------------------
+
+TODO
+
+.. _ios-provide-a-subset-of-classes-to-a-realm:
+
+Provide a Subset of Classes to a Realm
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+TODO

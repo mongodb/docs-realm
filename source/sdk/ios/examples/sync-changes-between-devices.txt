@@ -1,0 +1,105 @@
+.. _ios-sync-changes-between-devices:
+
+============================
+Sync Changes Between Devices
+============================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+.. _ios-open-a-synced-realm:
+
+Open a Synced Realm
+-------------------
+
+To open a synced {+realm+}, call
+:swift-sdk:`Realm.asyncOpen(configuration:)
+<Structs/Realm.html#/s:10RealmSwift0A0V9asyncOpen13configuration13callbackQueue0F0AC05AsyncD4TaskVAC13ConfigurationV_So17OS_dispatch_queueCyACSg_s5Error_pSgtctFZ>`,
+passing in the user's  
+:swift-sdk:`Configuration <Structs/Realm/Configuration.html>` object,
+which  
+includes the partition name. The following code demonstrates this:
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: swift
+
+      .. literalinclude:: /examples/generated/code/start/OpenCloseRealm.codeblock.open-synced-realm.swift
+         :language: swift
+
+   .. tab::
+      :tabid: objective-c
+
+      .. literalinclude:: /examples/generated/code/start/OpenCloseRealm.codeblock.open-synced-realm.m
+         :language: objectivec
+
+In the above example, the code shows how to open the realm {+realm+}
+*asynchronously* by using ``asyncOpen()``. You can also open a realm
+synchronously by using one of the :swift-sdk:`Realm()
+<Structs/Realm.html>` initializers. This works if the device is offline,
+but may lead to temporary data inconsistencies while the remote data is
+downloaded.
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: swift
+
+      .. literalinclude:: /examples/generated/code/start/OpenCloseRealm.codeblock.open-synced-realm-synchronously.swift
+         :language: swift
+
+   .. tab::
+      :tabid: objective-c
+
+      .. literalinclude:: /examples/generated/code/start/OpenCloseRealm.codeblock.open-synced-realm-synchronously.m
+         :language: objectivec
+
+
+.. _ios-sync-changes-in-the-background:
+
+Sync Changes in the Background
+------------------------------
+
+If you want your app to update data in the background (while the app is minimized), 
+iOS requires you to implement :apple:`Background App Refresh  
+<documentation/uikit/app_and_environment/scenes/preparing_your_ui_to_run_in_the_background/updating_your_app_with_background_app_refresh>`.
+Enabling Background App Refresh minimizes the time it takes for the user
+to see the most recent data; without Background App Refresh, {+realm+}
+updates the data when the user launches the app, potentially resulting
+in a noticeable lag.
+
+.. _ios-pause-or-resume-a-sync-session:
+
+Pause or Resume a Sync Session
+------------------------------
+
+.. _ios-check-network-connection:
+
+Check the Current Network Connection
+------------------------------------
+
+.. _ios-check-sync-progress:
+
+Check Upload & Download Progress for a Sync Session
+---------------------------------------------------
+
+.. _ios-reset-a-client-realm-file:
+
+Reset a Client Realm File
+-------------------------
+
+.. _ios-set-the-client-log-level:
+
+Set the Client Log Level
+------------------------
+
+.. _ios-multiplex-sync-sessions:
+
+Multiplex Sync Sessions
+-----------------------
