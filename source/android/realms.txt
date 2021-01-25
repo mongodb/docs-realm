@@ -200,20 +200,20 @@ models. You can selectively include invidual modules when opening a
    schema through a module. Doing so prevents the library from
    generating the default ``RealmModule``, which would conflict with
    the default ``RealmModule`` used by any app that includes the library.
-   Apps using the library access library classes through the module:
+   Apps using the library access library classes through the module.
 
 .. tabs-realm-languages::
-
+   
    .. tab::
-      :tabid: kotlin
+       :tabid: kotlin
 
-      .. literalinclude:: /examples/Schemas/Libraries.kt
+       .. literalinclude:: /examples/generated/android/code/start/RealmsTest.codeblock.modules.kt
          :language: kotlin
 
    .. tab::
-      :tabid: java
+       :tabid: java
 
-      .. literalinclude:: /examples/Schemas/Libraries.java
+       .. literalinclude:: /examples/generated/android/code/start/RealmsTest.codeblock.modules.java
          :language: java
 
 Summary
@@ -230,3 +230,6 @@ Summary
   the {+realm+} and apply to the {+realm+} as a whole.
 
 - A :term:`partition value` is a {+realm+}'s unique identifier.
+
+- Modules let you selectively include subsets of the Realm objects defined
+  in your application schema when opening a {+realm+}.

@@ -67,7 +67,8 @@ granular notifications.
   activity, you want to have an indicator that lights up when
   any change is made. In that case, a realm notification
   handler would be a great way to drive the code that controls
-  the indicator.
+  the indicator. The following code shows how to observe a {+realm+}
+  for changes with with :java-sdk:`addChangeListener() <io/realm/RealmResults.html#addChangeListener-io.realm.OrderedRealmCollectionChangeListener->`:
 
   .. tabs-realm-languages::
 
@@ -122,23 +123,23 @@ list or other view that represents the collection in the UI.
 .. example::
 
   The following code shows how to observe a collection for
-  changes in order to update the UI.
+  changes with :java-sdk:`addChangeListener()
+  <io/realm/Realm.html#addChangeListener-io.realm.RealmChangeListener->`:
+
 
   .. tabs-realm-languages::
+     
+     .. tab::
+         :tabid: kotlin
 
-    .. tab::
-        :tabid: java
+         .. literalinclude:: /examples/generated/android/code/start/NotificationsTest.codeblock.collection-notifications.kt
+           :language: kotlin
 
-        .. literalinclude:: /examples/Notifications/CollectionNotification.java
-          :language: java
-          :emphasize-lines: 34
+     .. tab::
+         :tabid: java
 
-    .. tab::
-        :tabid: kotlin
-
-        .. literalinclude:: /examples/Notifications/CollectionNotification.kt
-          :language: kotlin
-          :emphasize-lines: 37
+         .. literalinclude:: /examples/generated/android/code/start/NotificationsTest.codeblock.collection-notifications.java
+           :language: java
 
 
 .. _android-object-notifications:
@@ -157,30 +158,27 @@ and whether the object was deleted.
 
 .. example::
 
-  The following code shows how to open a default realm, create
-  a new instance of a class, and observe that instance for
-  changes.
+  The following code shows how create a new instance of a class
+  in a {+realm+} and observe that instance for changes with
+  :java-sdk:`addChangeListener() <io/realm/RealmObject.html#addChangeListener-E-io.realm.RealmObjectChangeListener->`:
 
   .. tabs-realm-languages::
+     
+     .. tab::
+         :tabid: kotlin
 
-    .. tab::
-        :tabid: java
+         .. literalinclude:: /examples/generated/android/code/start/NotificationsTest.codeblock.object-notifications.kt
+           :language: kotlin
 
-        .. literalinclude:: /examples/Notifications/ObjectNotification.java
-          :language: java
-          :emphasize-lines: 38
+     .. tab::
+         :tabid: java
 
-    .. tab::
-        :tabid: kotlin
-
-        .. literalinclude:: /examples/Notifications/ObjectNotification.kt
-          :language: kotlin
-          :emphasize-lines: 34
+         .. literalinclude:: /examples/generated/android/code/start/NotificationsTest.codeblock.object-notifications.java
+           :language: java
 
 
 Summary
 -------
 
 - Notifications allow you to watch for and react to changes on your objects, collections, and {+realm+}s.
-- When you add a notification handler to an object, collection, or {+realm+} that you wish to observe, you receive a token. Retain this token as long as you wish to keep observing.
 - {+client-database+} has three notification types: {+realm+}, collection, and object notifications. Realm notifications only tell you that something changed, while collection and object notifications allow for more granular observation.
