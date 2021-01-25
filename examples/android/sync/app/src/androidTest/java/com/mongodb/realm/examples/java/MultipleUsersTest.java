@@ -165,27 +165,20 @@ public class MultipleUsersTest extends RealmTest {
             String appID = YOUR_APP_ID; // replace this with your App ID
             App app = new App(new AppConfiguration.Builder(appID).build());
             // Log in as Joe
-            Credentials joeCredentials = Credentials.emailPassword(firstUserEmail, firstUserPassword);
-            app.loginAsync(joeCredentials, it -> {
+            Credentials credentials = Credentials.emailPassword(firstUserEmail, firstUserPassword);
+            // :code-block-start: remove-a-user-from-device
+            app.loginAsync(credentials, it -> {
                 if (it.isSuccess()) {
-                    // The active user is now Joe
                     User user = it.get();
-                    // :code-block-start: remove-a-user-from-device
-                    user.logOutAsync(result -> {
-                        if (result.isSuccess()) {
-                            Log.v("EXAMPLE", "Successfully removed user from device.");
-                            // :hide-start:
-                            expectation.fulfill();
-                            // :hide-end:
-                        } else {
-                            Log.e("EXAMPLE", "Failed to remove user from device: " + result.getError().getErrorMessage());
-                        }
-                    });
-                    // :code-block-end:
+                    app.removeUser(user);
+                    // :hide-start:
+                    expectation.fulfill();
+                    // :hide-end:
                 } else {
                     Log.e("EXAMPLE", "Failed to log in: " + it.getError().getErrorMessage());
                 }
             });
+            // :code-block-end:
         });
         expectation.await();
     }

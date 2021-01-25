@@ -157,27 +157,20 @@ class MultipleUsersTest : RealmTest() {
             val appID: String = YOUR_APP_ID // replace this with your App ID
             val app = App(AppConfiguration.Builder(appID).build())
             // Log in as Joe
-            val joeCredentials = Credentials.emailPassword(firstUserEmail, firstUserPassword)
-            app.loginAsync(joeCredentials) {
+            val credentials = Credentials.emailPassword(firstUserEmail, firstUserPassword)
+            // :code-block-start: remove-a-user-from-device
+            app.loginAsync(credentials) {
                 if (it.isSuccess) {
-                    // The active user is now Joe
                     val user = it.get()
-                    // :code-block-start: remove-a-user-from-device
-                    user.logOutAsync { result ->
-                        if (result.isSuccess) {
-                            Log.v("EXAMPLE", "Successfully removed user from device.")
-                            // :hide-start:
-                            expectation.fulfill()
-                            // :hide-end:
-                        } else {
-                            Log.e("EXAMPLE", "Failed to remove user from device: ${result.error.errorMessage}")
-                        }
-                    }
-                    // :code-block-end:
+                    app.removeUser(user)
+                    // :hide-start:
+                    expectation.fulfill()
+                    // :hide-end:
                 } else {
                     Log.e("EXAMPLE", "Failed to log in: ${it.error.errorMessage}")
                 }
             }
+            // :code-block-end:
         }
         expectation.await()
     }

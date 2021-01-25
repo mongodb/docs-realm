@@ -1,8 +1,9 @@
-user.logOutAsync { result ->
-    if (result.isSuccess) {
-        Log.v("EXAMPLE", "Successfully removed user from device.")
+app.loginAsync(credentials) {
+    if (it.isSuccess) {
+        val user = it.get()
+        app.removeUser(user)
         expectation.fulfill()
     } else {
-        Log.e("EXAMPLE", "Failed to remove user from device: ${result.error.errorMessage}")
+        Log.e("EXAMPLE", "Failed to log in: ${it.error.errorMessage}")
     }
 }

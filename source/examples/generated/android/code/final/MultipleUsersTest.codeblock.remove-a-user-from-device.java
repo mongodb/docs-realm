@@ -1,8 +1,9 @@
-user.logOutAsync(result -> {
-    if (result.isSuccess()) {
-        Log.v("EXAMPLE", "Successfully removed user from device.");
+app.loginAsync(credentials, it -> {
+    if (it.isSuccess()) {
+        User user = it.get();
+        app.removeUser(user);
         expectation.fulfill();
     } else {
-        Log.e("EXAMPLE", "Failed to remove user from device: " + result.getError().getErrorMessage());
+        Log.e("EXAMPLE", "Failed to log in: " + it.getError().getErrorMessage());
     }
 });
