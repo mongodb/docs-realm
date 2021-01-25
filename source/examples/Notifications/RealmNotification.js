@@ -1,12 +1,10 @@
-function updateUI() {
-  // ... handle update to the UI ...
+// Define a listener callback function
+function onRealmChange() {
+  console.log("Something changed!")
 }
 
-// Observe realm notifications.
-realm.addListener('change', updateUI);
+// Add the listener callback to the realm
+realm.addListener('change', onRealmChange);
 
-// ..later remove the listener
-realm.removeListener('change', updateUI);
-
-// ..or unregister all listeners
-realm.removeAllListeners();
+// Remember to remove the listener when you're done!
+realm.removeListener('change', onRealmChange);
