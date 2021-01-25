@@ -17,8 +17,9 @@ Sync Changes Between Devices
 Open a Synced Realm
 -------------------
 
-o open a synced {+realm+}, call 
-:swift-sdk:`asyncOpen <Structs/Realm.html#/s:10RealmSwift0A0V9asyncOpen13configuration13callbackQueue0F0AC05AsyncD4TaskVAC13ConfigurationV_So17OS_dispatch_queueCyACSg_s5Error_pSgtctFZ>`, 
+To open a synced {+realm+}, call
+:swift-sdk:`Realm.asyncOpen(configuration:)
+<Structs/Realm.html#/s:10RealmSwift0A0V9asyncOpen13configuration13callbackQueue0F0AC05AsyncD4TaskVAC13ConfigurationV_So17OS_dispatch_queueCyACSg_s5Error_pSgtctFZ>`,
 passing in the user's  
 :swift-sdk:`Configuration <Structs/Realm/Configuration.html>` object,
 which  
@@ -66,8 +67,8 @@ Sync Changes in the Background
 ------------------------------
 
 If you want your app to update data in the background (while the app is minimized), 
-iOS requires you to implement `Background App Refresh  
-<https://developer.apple.com/documentation/uikit/app_and_environment/scenes/preparing_your_ui_to_run_in_the_background/updating_your_app_with_background_app_refresh>`_.
+iOS requires you to implement :apple:`Background App Refresh  
+<documentation/uikit/app_and_environment/scenes/preparing_your_ui_to_run_in_the_background/updating_your_app_with_background_app_refresh>`.
 Enabling Background App Refresh minimizes the time it takes for the user
 to see the most recent data; without Background App Refresh, {+realm+}
 updates the data when the user launches the app, potentially resulting
