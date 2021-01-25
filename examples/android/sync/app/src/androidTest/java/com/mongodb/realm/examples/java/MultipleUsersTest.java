@@ -175,11 +175,11 @@ public class MultipleUsersTest extends RealmTest {
                         @Override
                         public void run() {
                             app.removeUser(user);
+                            // :hide-start:
+                            expectation.fulfill();
+                            // :hide-end:
                         }
                     });
-                    // :hide-start:
-                    expectation.fulfill();
-                    // :hide-end:
                 } else {
                     Log.e("EXAMPLE", "Failed to log in: " + it.getError().getErrorMessage());
                 }

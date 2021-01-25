@@ -169,10 +169,10 @@ class MultipleUsersTest : RealmTest() {
                     val user = it.get()
                     AsyncTask.execute {
                         app.removeUser(user)
+                        // :hide-start:
+                        expectation.fulfill()
+                        // :hide-end:
                     }
-                    // :hide-start:
-                    expectation.fulfill()
-                    // :hide-end:
                 } else {
                     Log.e("EXAMPLE", "Failed to log in: ${it.error.errorMessage}")
                 }
