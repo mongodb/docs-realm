@@ -1,5 +1,6 @@
 package com.mongodb.realm.examples.kotlin
 
+import android.os.AsyncTask
 import android.util.Log
 import com.mongodb.realm.examples.Expectation
 import com.mongodb.realm.examples.RealmTest
@@ -11,6 +12,7 @@ import io.realm.mongodb.User
 import org.junit.Before
 import org.junit.Test
 import java.util.*
+
 
 class MultipleUsersTest : RealmTest() {
     var firstUserEmail: String? = null
@@ -125,7 +127,10 @@ class MultipleUsersTest : RealmTest() {
                     // Joe is already logged in and is the currently active user
                     val joe = app.currentUser()
                     // Log in as Emma
-                    val emmaCredentials = Credentials.emailPassword(secondUserEmail, secondUserPassword)
+                    val emmaCredentials = Credentials.emailPassword(
+                        secondUserEmail,
+                        secondUserPassword
+                    )
                     app.loginAsync(emmaCredentials) { result ->
                         if (result.isSuccess) {
                             // The active user is now Emma
@@ -162,7 +167,9 @@ class MultipleUsersTest : RealmTest() {
             app.loginAsync(credentials) {
                 if (it.isSuccess) {
                     val user = it.get()
-                    app.removeUser(user)
+                    AsyncTask.execute {
+                        app.removeUser(user)
+                    }
                     // :hide-start:
                     expectation.fulfill()
                     // :hide-end:
