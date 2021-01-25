@@ -20,6 +20,35 @@ Add a Property
 To add a property to an schema, add the new property to the object's class and
 set a ``schemaVersion`` of the :js-sdk:`Realm's configuration object <Realm.html#~Configuration>`.
 
+
+.. example::
+   
+   A {+realm+} using schema version ``1`` has a ``Person`` object type with a
+   ``firstName``, and ``lastName`` property. The developer decides to add an
+   ``age`` property to the ``Person`` class. 
+
+   To migrate the {+realm+} to conform to the updated ``Person`` schema, the
+   developer sets the {+realm+}'s :ref:`schema version <node-schema-version>` to
+   ``2``.
+
+   .. tabs-realm-languages::
+     
+     .. tab::
+         :tabid: javascript
+ 
+         .. literalinclude:: /examples/Migrations/PersonClassV1/PersonClassV1.js
+           :language: javascript
+           :emphasize-lines: 6
+
+   .. tabs-realm-languages::
+     
+     .. tab::
+         :tabid: javascript
+ 
+         .. literalinclude:: /examples/Migrations/LocalMigration/LocalMigration-add-property.js
+           :language: javascript
+           :emphasize-lines: 3
+
 .. _node-delete-a-property:
 
 Delete a Property
@@ -65,8 +94,6 @@ Then, set a ``schemaVersion`` and a ``migration`` callback function of the
          .. literalinclude:: /examples/Migrations/LocalMigration/LocalMigration.js
            :language: javascript
            :emphasize-lines: 3, 14
-
-<replace me with existing use case>
 
 Modify a Property Type
 ----------------------
