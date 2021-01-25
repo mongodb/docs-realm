@@ -99,8 +99,10 @@ class ReadWriteData: XCTestCase {
         let specificPerson = realm.object(ofType: ReadWriteDataExamples_Person.self, forPrimaryKey: 12345)
 
         // Access directly through a relationship
-        print("# dogs: \(specificPerson!.dogs.count)")
-        print("First dog's name: \(specificPerson!.dogs[0].name)")
+        let specificPersonDogs = specificPerson!.dogs;
+        let firstDog = specificPersonDogs[0]
+        print("# dogs: \(specificPersonDogs.count)")
+        print("First dog's name: \(firstDog.name)")
         // :code-block-end:
     }
 
@@ -124,8 +126,10 @@ class ReadWriteData: XCTestCase {
         let specificPerson = realm.object(ofType: ReadWriteDataExamples_Person.self, forPrimaryKey: 12345)
 
         // Access directly through an inverse relationship
-        print("# memberships: \(specificPerson!.clubs.count)")
-        print("First club's name: \(specificPerson!.clubs[0].name)")
+        let clubs = specificPerson!.clubs
+        let firstClub = clubs[0]
+        print("# memberships: \(clubs.count)")
+        print("First club's name: \(firstClub.name)")
 
         // :code-block-end:
     }

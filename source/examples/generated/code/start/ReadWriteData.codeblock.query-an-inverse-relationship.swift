@@ -16,6 +16,8 @@ try! realm.write {
 let specificPerson = realm.object(ofType: Person.self, forPrimaryKey: 12345)
 
 // Access directly through an inverse relationship
-print("# memberships: \(specificPerson!.clubs.count)")
-print("First club's name: \(specificPerson!.clubs[0].name)")
+let clubs = specificPerson!.clubs
+let firstClub = clubs[0]
+print("# memberships: \(clubs.count)")
+print("First club's name: \(firstClub.name)")
 
