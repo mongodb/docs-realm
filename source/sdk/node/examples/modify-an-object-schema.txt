@@ -61,6 +61,25 @@ objects.
 
 .. _node-rename-a-property:
 
+.. example::
+   
+   A {+realm+} using schema version ``1`` has a ``Dog`` object type with a
+   ``weight`` property. The developer decides to remove the property from the
+   schema.
+
+   To migrate the {+realm+} to conform to the updated ``Dog`` schema, the
+   developer sets the {+realm+}'s :ref:`schema version <node-schema-version>` to
+   ``2``.
+
+   .. tabs-realm-languages::
+     
+     .. tab::
+         :tabid: javascript
+ 
+         .. literalinclude:: /examples/Migrations/LocalMigration/LocalMigration-delete-property.js
+           :language: javascript
+           :emphasize-lines: 3
+
 Rename a Property
 -----------------
 
