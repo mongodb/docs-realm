@@ -49,7 +49,10 @@ Open a Realm
 
 Authenticate a user, define a schema, and :ref:`sync enabled {+sync+}
 <enable-sync>`, then call :js-sdk:`Realm.open() <Realm.html#.open>` in a file
-that you have imported Realm into:
+that you have imported Realm into.
+
+Once you have opened the realm, you can :ref:`write to the realm
+<node-realm-database-writes>`.
 
 .. code-block:: javascript
    :emphasize-lines: 17
@@ -94,4 +97,3 @@ that you have imported Realm into:
    - :ref:`Sync Data <node-sync-data>`
    - :ref:`Define Your Schema <node-realm-objects>`
    - :ref:`Authenticate a User <node-authenticate>`
-   - :ref:`Write to a Realm <node-realm-database-writes>`
