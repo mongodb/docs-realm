@@ -15,7 +15,116 @@ Live Queries
 Live Queries
 ------------
 
+You can, of course, easily read back the data that you have
+:ref:`stored <node-realm-database-writes>` in :term:`{+client-database+}`.
 
+The standard data access pattern across {+service+} SDKs is to find, filter, and
+sort objects, in that order.
+
+To get the best performance from {+service+} as your app grows and your queries
+become more complex, design your app's data access patterns around a solid
+understanding of {+client-database+} :ref:`read characteristics
+<node-realm-read-characteristics>`.
+
+.. _node-live-object:
+
+Live Object
+~~~~~~~~~~~
+
+All {+service-short+} objects are **live objects**, which means they
+automatically update whenever they're modified. 
+
+Realm emits a :ref:`notification event <node-client-notifications>` whenever any
+property .
+
+You can use live objects to work with object-oriented data natively without an
+:wikipedia:`ORM <Object-relational_mapping>` tool.
+
+Live objects are direct proxies to the underlying stored data, which
+means that a live object doesn't directly contain data.
+
+Instead, a live object always references the most up-to-date data on disk and
+:wikipedia:`lazy loads <Lazy_loading>` property values when you access them from
+a :ref:`collection <node-client-collections>`.
+
+This means that a {+realm+} can contain many objects but only pay the
+performance cost for data that the application is actually using.
+
+Valid write operations on a live object automatically persist to the
+{+realm+} and propagate to any other synced clients. You do not need to
+call an update method, modify the {+realm+}, or otherwise "push" updates.
+
+
+
+
+
+Read Characteristics
+--------------------
+
+When you design your app's data access patterns around the
+following three key characteristics of reads in {+client-database+},
+you can be confident you are reading data as
+efficiently as possible.
+
+.. _node-results-are-not-copies:
+
+Results Are Not Copies
+~~~~~~~~~~~~~~~~~~~~~~
+
+Results to a query are not copies of your data: modifying
+the results of a query will modify the data on disk
+directly. This memory mapping also means that results are
+**live**: that is, they always reflect the current state on
+disk.
+
+See also: :ref:`Collections are Live <node-live-collections>`.
+
+.. _node-results-are-lazy:
+
+Results Are Lazy
+~~~~~~~~~~~~~~~~
+
+{+client-database+} defers execution of a query until you access the
+results. You can chain several filter and sort operations
+without requiring extra work to process the intermediate
+state.
+
+See also: :ref:`Results are Lazily Evaluated
+<node-lazy-evaluated-results>`.
+
+.. _node-references-retained:
+
+References Are Retained
+~~~~~~~~~~~~~~~~~~~~~~~
+
+One benefit of {+client-database+}'s object model is that
+{+client-database+} automatically retains all of an object's
+:ref:`relationships <node-client-relationships>` as direct
+references, so you can traverse your graph of relationships
+directly through the results of a query.
+
+A **direct reference**, or pointer, allows you to access a
+related object's properties directly through the reference.
+
+Other databases typically copy objects from database storage
+into application memory when you need to work with them
+directly. Because application objects contain direct
+references, you are left with a choice: copy the object
+referred to by each direct reference out of the database in
+case it's needed, or just copy the foreign key for each
+object and query for the object with that key if it's
+accessed. If you choose to copy referenced objects into
+application memory, you can use up a lot of resources for
+objects that are never accessed, but if you choose to only
+copy the foreign key, referenced object lookups can cause
+your application to slow down.
+
+{+client-database+} bypasses all of this using :term:`zero-copy`
+:term:`live objects`. :term:`{+service-short+} object` accessors point directly into
+database storage using memory mapping, so there is no distinction
+between the objects in {+client-database+} and the results of your query in
+application memory. Because of this, you can traverse direct references
+across an entire {+realm+} from any query result.
 
 Write Transactions
 ------------------
