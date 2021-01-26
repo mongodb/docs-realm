@@ -91,20 +91,18 @@ the transaction immediately after the callback.
    Otherwise, {+client-database+} commits the transaction.
 
    .. tabs-realm-languages::
+      
+      .. tab::
+         :tabid: kotlin
+
+         .. literalinclude:: /examples/generated/android/code/start/WritesTest.codeblock.run-a-transaction.kt
+            :language: kotlin
 
       .. tab::
          :tabid: java
 
-         .. literalinclude:: /examples/CRUD/BatchUpdate.java
+         .. literalinclude:: /examples/generated/android/code/start/WritesTest.codeblock.run-a-transaction.java
             :language: java
-            :emphasize-lines: 10
-
-      .. tab::
-         :tabid: kotlin
-
-         .. literalinclude:: /examples/CRUD/BatchUpdate.kt
-            :language: kotlin
-            :emphasize-lines: 11
 
 
 .. _android-create-an-object:
@@ -128,20 +126,48 @@ This automatically inserts the instance into the {+realm+}.
    This code demonstrates how to create an object with {+client-database+}:
 
    .. tabs-realm-languages::
+      
+      .. tab::
+         :tabid: kotlin
+
+         .. literalinclude:: /examples/generated/android/code/start/WritesTest.codeblock.create-an-object.kt
+            :language: kotlin
 
       .. tab::
          :tabid: java
 
-         .. literalinclude:: /examples/CRUD/Create.java
+         .. literalinclude:: /examples/generated/android/code/start/WritesTest.codeblock.create-an-object.java
             :language: java
-            :emphasize-lines: 4, 12
 
+
+.. _android-update:
+
+Update an Object
+----------------
+
+Within a transaction, you can update a {+service-short+} object the same
+way you would update any other object in your language of
+choice: just assign a new value to the property or update
+the property.
+
+.. example::
+
+   This code changes the dog's name to "Wolfie" and
+   increments the age by 1:
+
+   .. tabs-realm-languages::
+      
       .. tab::
          :tabid: kotlin
 
-         .. literalinclude:: /examples/CRUD/Create.kt
+         .. literalinclude:: /examples/generated/android/code/start/WritesTest.codeblock.update-an-object.kt
             :language: kotlin
-            :emphasize-lines: 4, 12
+
+      .. tab::
+         :tabid: java
+
+         .. literalinclude:: /examples/generated/android/code/start/WritesTest.codeblock.update-an-object.java
+            :language: java
 
 
 .. _android-upsert:
@@ -164,52 +190,18 @@ adding any new entries.
    their name to "Andy" via upsert:
 
    .. tabs-realm-languages::
+      
+      .. tab::
+         :tabid: kotlin
+
+         .. literalinclude:: /examples/generated/android/code/start/WritesTest.codeblock.upsert-an-object.kt
+            :language: kotlin
 
       .. tab::
          :tabid: java
 
-         .. literalinclude:: /examples/CRUD/Upsert.java
+         .. literalinclude:: /examples/generated/android/code/start/WritesTest.codeblock.upsert-an-object.java
             :language: java
-            :emphasize-lines: 7, 14
-
-      .. tab::
-         :tabid: kotlin
-
-         .. literalinclude:: /examples/CRUD/Upsert.kt
-            :language: kotlin
-            :emphasize-lines: 7, 14
-
-
-.. _android-update:
-
-Update an Object
-----------------
-
-Within a transaction, you can update a {+service-short+} object the same
-way you would update any other object in your language of
-choice: just assign a new value to the property or update
-the property.
-
-.. example::
-
-   This code changes the dog's name to "Wolfie" and
-   increments the age by 1:
-
-   .. tabs-realm-languages::
-
-      .. tab::
-         :tabid: java
-
-         .. literalinclude:: /examples/CRUD/Update.java
-            :language: java
-            :emphasize-lines: 8-9
-
-      .. tab::
-         :tabid: kotlin
-
-         .. literalinclude:: /examples/CRUD/Update.kt
-            :language: kotlin
-            :emphasize-lines: 8-9
 
 
 .. _android-batch-update:
@@ -230,20 +222,18 @@ objects in a collection at once.
    {+client-database+} automatically updates Ali's list of dogs.
 
    .. tabs-realm-languages::
+      
+      .. tab::
+         :tabid: kotlin
+
+         .. literalinclude:: /examples/generated/android/code/start/WritesTest.codeblock.update-a-collection.kt
+            :language: kotlin
 
       .. tab::
          :tabid: java
 
-         .. literalinclude:: /examples/CRUD/BatchUpdate.java
+         .. literalinclude:: /examples/generated/android/code/start/WritesTest.codeblock.update-a-collection.java
             :language: java
-            :emphasize-lines: 10
-
-      .. tab::
-         :tabid: kotlin
-
-         .. literalinclude:: /examples/CRUD/BatchUpdate.kt
-            :language: kotlin
-            :emphasize-lines: 11
 
 
 .. _android-delete:
@@ -269,20 +259,18 @@ instance itself.
    its {+realm+}:
 
    .. tabs-realm-languages::
+      
+      .. tab::
+         :tabid: kotlin
+
+         .. literalinclude:: /examples/generated/android/code/start/WritesTest.codeblock.delete-an-object.kt
+            :language: kotlin
 
       .. tab::
          :tabid: java
 
-         .. literalinclude:: /examples/CRUD/Delete.java
+         .. literalinclude:: /examples/generated/android/code/start/WritesTest.codeblock.delete-an-object.java
             :language: java
-            :emphasize-lines: 3
-
-      .. tab::
-         :tabid: kotlin
-
-         .. literalinclude:: /examples/CRUD/Delete.kt
-            :language: kotlin
-            :emphasize-lines: 6
 
 
 .. _android-delete-collection:
@@ -303,20 +291,18 @@ collection itself.
    collection from a {+realm+}:
 
    .. tabs-realm-languages::
+      
+      .. tab::
+         :tabid: kotlin
+
+         .. literalinclude:: /examples/generated/android/code/start/WritesTest.codeblock.delete-a-collection.kt
+            :language: kotlin
 
       .. tab::
          :tabid: java
 
-         .. literalinclude:: /examples/CRUD/DeleteCollection.java
+         .. literalinclude:: /examples/generated/android/code/start/WritesTest.codeblock.delete-a-collection.java
             :language: java
-            :emphasize-lines: 6
-
-      .. tab::
-         :tabid: kotlin
-
-         .. literalinclude:: /examples/CRUD/DeleteCollection.kt
-            :language: kotlin
-            :emphasize-lines: 6
 
 
 .. _android-cascading-delete:
@@ -343,18 +329,18 @@ deleting the parent object.
    then deleting Ali:
 
    .. tabs-realm-languages::
+      
+      .. tab::
+         :tabid: kotlin
+
+         .. literalinclude:: /examples/generated/android/code/start/WritesTest.codeblock.cascading-deletes.kt
+            :language: kotlin
 
       .. tab::
          :tabid: java
 
-         .. literalinclude:: /examples/CRUD/CascadingDelete.java
+         .. literalinclude:: /examples/generated/android/code/start/WritesTest.codeblock.cascading-deletes.java
             :language: java
-
-      .. tab::
-         :tabid: kotlin
-
-         .. literalinclude:: /examples/CRUD/CascadingDelete.kt
-            :language: kotlin
 
 .. _android-delete-all-of-object:
 
@@ -370,20 +356,18 @@ Delete All Instances of a Type
    Dog instances from a {+realm+}:
 
    .. tabs-realm-languages::
+      
+      .. tab::
+         :tabid: kotlin
+
+         .. literalinclude:: /examples/generated/android/code/start/WritesTest.codeblock.delete-all-instances-of-a-type.kt
+            :language: kotlin
 
       .. tab::
          :tabid: java
 
-         .. literalinclude:: /examples/CRUD/DeleteAllOfClass.java
+         .. literalinclude:: /examples/generated/android/code/start/WritesTest.codeblock.delete-all-instances-of-a-type.java
             :language: java
-            :emphasize-lines: 3
-
-      .. tab::
-         :tabid: kotlin
-
-         .. literalinclude:: /examples/CRUD/DeleteAllOfClass.kt
-            :language: kotlin
-            :emphasize-lines: 4
 
 
 .. _android-delete-all:
@@ -401,20 +385,18 @@ quickly clearing out your {+realm+} while prototyping.
    from a {+realm+}:
 
    .. tabs-realm-languages::
+      
+      .. tab::
+         :tabid: kotlin
+
+         .. literalinclude:: /examples/generated/android/code/start/WritesTest.codeblock.delete-everything.kt
+            :language: kotlin
 
       .. tab::
          :tabid: java
 
-         .. literalinclude:: /examples/CRUD/DeleteAll.java
+         .. literalinclude:: /examples/generated/android/code/start/WritesTest.codeblock.delete-everything.java
             :language: java
-            :emphasize-lines: 3
-
-      .. tab::
-         :tabid: kotlin
-
-         .. literalinclude:: /examples/CRUD/DeleteAll.kt
-            :language: kotlin
-            :emphasize-lines: 3
 
 
 Summary
