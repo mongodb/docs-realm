@@ -27,7 +27,31 @@ Set Up Your Project
 Example Data
 ------------
 
-.. include:: /includes/mongodb-data-access-example-plant-documents.rst
+The following examples operate on a MongoDB collection that describes
+inventory in a chain of plant stores. Consider the following collection
+of documents describing various plants for sale in store:
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/generated/android/code/start/Plant.codeblock.plant.kt
+         :language: kotlin
+         :caption: Plant.kt
+
+      .. literalinclude:: /examples/generated/android/code/start/MongoDBDataAccessTest.codeblock.example-data.kt
+         :language: kotlin
+
+   .. tab::
+      :tabid: java
+
+      .. literalinclude:: /examples/generated/android/code/start/Plant.codeblock.plant.java
+         :language: java
+         :caption: Plant.java
+
+      .. literalinclude:: /examples/generated/android/code/start/MongoDBDataAccessTest.codeblock.example-data.java
+         :language: java
 
 .. _android-mongodb-create-documents:
 
