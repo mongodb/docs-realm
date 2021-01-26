@@ -121,18 +121,28 @@ results of the associated query.
    ``Task``, below:
 
    .. tabs-realm-languages::
-
+     
       .. tab::
-          :tabid: java
+         :tabid: kotlin
 
-          .. literalinclude:: /examples/Schemas/ProjectAndTask.java
-            :language: java
-
-      .. tab::
-          :tabid: kotlin
-
-          .. literalinclude:: /examples/Schemas/ProjectAndTask.kt
+         .. literalinclude:: /examples/generated/android/code/start/ProjectTask.codeblock.projecttask.kt
             :language: kotlin
+            :caption: ProjectTask.kt
+
+         .. literalinclude:: /examples/generated/android/code/start/Project.codeblock.project.kt
+            :language: kotlin
+            :caption: Project.kt
+
+      .. tab::
+         :tabid: java
+
+         .. literalinclude:: /examples/generated/android/code/start/ProjectTask.codeblock.projecttask.java
+            :language: java
+            :caption: ProjectTask.java
+
+         .. literalinclude:: /examples/generated/android/code/start/Project.codeblock.project.java
+            :language: java
+            :caption: Project.java
 
 .. _android-get-all-objects:
 
@@ -154,13 +164,13 @@ refine the results.
       .. tab::
           :tabid: java
 
-          .. literalinclude:: /examples/CRUD/Objects.java
+          .. literalinclude:: /examples/generated/android/code/start/ReadsTest.codeblock.get-all-objects.java
             :language: java
 
       .. tab::
           :tabid: kotlin
 
-          .. literalinclude:: /examples/CRUD/Objects.kt
+         .. literalinclude:: /examples/generated/android/code/start/ReadsTest.codeblock.get-all-objects.kt
             :language: kotlin
 
 .. _android-find-object-by-primary-key:
@@ -177,13 +187,13 @@ using the :java-sdk:`RealmQuery.equalTo() <io/realm/RealmQuery.html#equalTo-java
    .. tab::
       :tabid: kotlin
 
-      .. literalinclude:: /examples/generated/android/code/start/RealmQueryTest.codeblock.find-object-by-primary-key.kt
+      .. literalinclude:: /examples/generated/android/code/start/ReadsTest.codeblock.find-an-object-by-primary-key.kt
          :language: kotlin
 
    .. tab::
       :tabid: java
 
-      .. literalinclude:: /examples/generated/android/code/start/RealmQueryTest.codeblock.find-object-by-primary-key.java
+      .. literalinclude:: /examples/generated/android/code/start/ReadsTest.codeblock.find-an-object-by-primary-key.java
          :language: java
 
 .. _android-filter-results:
@@ -215,13 +225,13 @@ up complex queries.
       .. tab::
           :tabid: java
 
-          .. literalinclude:: /examples/Query/Comparison.java
+          .. literalinclude:: /examples/generated/android/code/start/ReadsTest.codeblock.filter-results.java
             :language: java
 
       .. tab::
           :tabid: kotlin
 
-          .. literalinclude:: /examples/Query/Comparison.kt
+         .. literalinclude:: /examples/generated/android/code/start/ReadsTest.codeblock.filter-results.kt
             :language: kotlin
 
 .. _android-sort-results:
@@ -247,13 +257,13 @@ results are sorted.
       .. tab::
           :tabid: java
 
-          .. literalinclude:: /examples/CRUD/Sort.java
+          .. literalinclude:: /examples/generated/android/code/start/ReadsTest.codeblock.sort-results.java
             :language: java
 
       .. tab::
           :tabid: kotlin
 
-          .. literalinclude:: /examples/CRUD/Sort.kt
+         .. literalinclude:: /examples/generated/android/code/start/ReadsTest.codeblock.sort-results.kt
             :language: kotlin
 
 .. _android-query-a-relationship:
