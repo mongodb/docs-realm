@@ -157,7 +157,8 @@ refine the results.
 .. example::
 
    In order to access all instances of ``Project`` and ``Task``, use
-   the following syntax:
+   the :java-sdk:`where() <io/realm/RealmResults.html#where-->` method
+   to specify a class:
 
    .. tabs-realm-languages::
 
@@ -165,13 +166,13 @@ refine the results.
           :tabid: java
 
           .. literalinclude:: /examples/generated/android/code/start/ReadsTest.codeblock.get-all-objects.java
-            :language: java
+             :language: java
 
       .. tab::
           :tabid: kotlin
 
-         .. literalinclude:: /examples/generated/android/code/start/ReadsTest.codeblock.get-all-objects.kt
-            :language: kotlin
+          .. literalinclude:: /examples/generated/android/code/start/ReadsTest.codeblock.get-all-objects.kt
+             :language: kotlin
 
 .. _android-find-object-by-primary-key:
 
