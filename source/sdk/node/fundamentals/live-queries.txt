@@ -1,3 +1,4 @@
+.. _node-realm-database-reads:
 .. _node-live-queries:
 
 ============
@@ -55,8 +56,24 @@ Valid write operations on a live object automatically persist to the
 call an update method, modify the {+realm+}, or otherwise "push" updates.
 
 
+.. _node-read-from-realm:
 
+Read from Realm Database
+------------------------
 
+A read from a :term:`{+realm+}` generally consists of the following
+steps:
+
+- Get all :ref:`objects <node-realm-objects>` of a certain type from the {+realm+}.
+- Optionally, :ref:`filter <node-filter-results>` the results using the :ref:`query engine <node-client-query-engine>`.
+- Optionally, :ref:`sort <node-sort-results>` the results.
+
+All query, filter, and sort operations return a
+:ref:`results collection <node-results-collections>`. The results
+collections are live, meaning they always contain the latest
+results of the associated query.
+
+.. _node-realm-read-characteristics:
 
 Read Characteristics
 --------------------
