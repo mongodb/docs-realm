@@ -31,7 +31,6 @@ public class SyncDataTest extends RealmTest {
             app.loginAsync(credentials, it -> {
                 if (it.isSuccess()) {
                     Log.v("EXAMPLE", "Successfully authenticated.");
-                    // :code-block-start: open-a-synced-realm
                     User user = app.currentUser();
                     SyncConfiguration config = new SyncConfiguration.Builder(user, partition)
                         .build();
@@ -40,12 +39,8 @@ public class SyncDataTest extends RealmTest {
                         public void onSuccess(Realm realm) {
                             Log.v("EXAMPLE", "Successfully opened a realm.");
                             // read and write to realm here via transactions
-                            // :hide-start:
-                            expectation.fulfill();
-                            // :hide-end:
                         }
                     });
-                    // :code-block-end:
                 } else {
                     Log.e("EXAMPLE", "Failed login: " + it.getError().getErrorMessage());
                 }
@@ -66,7 +61,6 @@ public class SyncDataTest extends RealmTest {
             app.loginAsync(credentials, it -> {
                 if (it.isSuccess()) {
                     Log.v("EXAMPLE", "Successfully authenticated.");
-                    // :code-block-start: sync-data
                     User user = app.currentUser();
                     SyncConfiguration config = new SyncConfiguration.Builder(user, partition)
                             .allowQueriesOnUiThread(true)
@@ -81,15 +75,11 @@ public class SyncDataTest extends RealmTest {
                             // Write to the realm. No special syntax required for synced realms.
                             realm.executeTransaction(r -> {
                                 r.insert(new Task());
-                                // :hide-start:
-                                expectation.fulfill();
-                                // :hide-end:
                             });
                             // Don't forget to close your realm!
                             realm.close();
                         }
                     });
-                    // :code-block-end:
                 } else {
                     Log.e("EXAMPLE", "Failed login: " + it.getError().getErrorMessage());
                 }
