@@ -12,14 +12,60 @@ Realm Objects
    :depth: 2
    :class: singlecol
 
-The Node.js SDK memory maps objects in a realm directly to JavaScript objects,
-called **Realm objects**. For the most part Realm objects work just like common
-JavaScript objects, but they also bring along a few additional features.
+The Node.js SDK memory maps objects in a :ref:`realm <node-realms>` directly to
+JavaScript objects, called **Realm objects**. For the most part Realm objects
+work just like common JavaScript objects, but they also bring along a few
+additional features.
 
 This means that you can store just about any JavaScript object in a realm and
+
+
+.. _node-object-schema:
 
 Object Types & Schemas
 ----------------------
 
-Object schemas configure each property of an object type with a built-in data
-type and other constraints.
+An **object type** defines and configures the properties and relationships of
+any {+service-short+} objects that conform to the type.
+
+An **object schema** is a configuration object that defines the structure of an
+object type. A schema can also define default values and indexes for any
+property.
+
+specify a primary key, 
+
+For every property in an object type, the schema defines:
+
+- a specific data type
+- whether the property has a single value or a list of values
+- whether the property is required or optional
+
+Schemas can also define :ref:`relationships <node-client-relationships>` between
+object types in a {+realm+}.
+
+{+service+} guarantees that all objects in a {+realm+} conform to the
+schema for their object type and validates objects whenever they're
+created, modified, or deleted.
+
+.. _node-primary-key:
+
+Primary Keys
+------------
+
+A **primary key** is a string or integer property that uniquely identifies an
+object. You may optionally define a primary key for an object type as part of
+the :ref:`object schema <node-object-schema>`. {+client-database+} automatically
+indexes primary key properties, which allows you to efficiently read and modify
+objects based on their primary key.
+
+If an object type has a primary key, then all objects of that type must include
+the primary key property with a value that is unique among objects of the same
+type in a {+realm+}. You cannot change the primary key property for an object
+type after any object of that type is added to a {+realm+}.
+
+.. _node-index:
+
+Indexes
+-------
+
+An **index** 

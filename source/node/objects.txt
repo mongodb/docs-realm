@@ -48,73 +48,8 @@ class implementation.
 Key Concepts
 ------------
 
-.. _node-live-object:
 
-Live Object
-~~~~~~~~~~~
 
-Objects in {+service-short+} clients are **live objects** that
-update automatically to reflect data changes, including
-:doc:`synced </sync>` remote changes, and emit
-:ref:`notification events <node-client-notifications>` that you
-can subscribe to whenever their underlying data changes. You
-can use live objects to work with object-oriented data
-natively without an :wikipedia:`ORM
-<Object-relational_mapping>` tool.
-
-Live objects are direct proxies to the underlying stored data, which
-means that a live object doesn't directly contain data. Instead, a live
-object always references the most up-to-date data on disk and
-:wikipedia:`lazy loads <Lazy_loading>` property values when you access
-them from a :ref:`collection <node-client-collections>`. This means that a
-{+realm+} can contain many objects but only pay the performance cost for
-data that the application is actually using.
-
-Valid write operations on a live object automatically persist to the
-{+realm+} and propagate to any other synced clients. You do not need to
-call an update method, modify the {+realm+}, or otherwise "push" updates.
-
-.. _node-object-schema:
-
-Object Schema
-~~~~~~~~~~~~~
-
-An **object schema** is a configuration object that defines the fields,
-relationships of a {+service-short+} object type. {+service-short+} client applications
-define object schemas with the native class implementation in their
-respective language using the :term:`{+frontend-schema+}`.
-
-Object schemas specify constraints on object properties such as the data
-type of each property, whether or not a property is required, and the
-default value for optional properties. Schemas can also define
-:ref:`relationships <node-client-relationships>` between object types in
-a {+realm+}.
-
-Every {+app+} has a :ref:`{+backend-schema+} <node-realm-schema>`
-composed of a list of object schemas for each type of object that the
-{+realms+} in that application may contain.
-
-{+service+} guarantees that all objects in a {+realm+} conform to the
-schema for their object type and validates objects whenever they're
-created, modified, or deleted.
-
-.. _node-primary-key:
-
-Primary Key
-~~~~~~~~~~~
-
-A **primary key** is a String or Integer property that uniquely
-identifies an object. You may optionally define a primary key for an
-object type as part of the :ref:`object schema <node-object-schema>`.
-{+client-database+} automatically indexes primary key properties, which
-allows you to efficiently read and modify objects based on their primary
-key.
-
-If an object type has a primary key, then all objects of that type must
-include the primary key property with a value that is unique among
-objects of the same type in a {+realm+}. You cannot change the primary
-key property for an object type after any object of that type is added
-to a {+realm+}.
 
 .. _node-property-schema:
 

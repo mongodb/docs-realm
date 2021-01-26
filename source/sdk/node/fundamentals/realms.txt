@@ -12,14 +12,30 @@ Realms
    :depth: 2
    :class: singlecol
 
-A **realm** is a set of objects that each conform to a specific, user-defined
-type with a well-defined schema. Realms are the core data structure used to
-organize data in Realm Database.
+Realms are the core structure used to organize data in Realm Database. A
+**realm** is a set of objects that each conform to one of a set of user-defined
+type schemas.
 
 Realm Database can represent 
 
 Realm Database stores a memory-mapped, binary encoded version of all of the
 objects and types in a realm in a single ``.realm`` file.
+
+
+
+You can automatically :doc:`synchronize {+realm+} across multiple devices
+</sync>` and set up :ref:`reactive event handlers <node-realm-notifications>`
+that call a function any time an object in a {+realm+} is created, modified, or
+deleted.
+
+Realms may contain more than one type of data as long as a schema exists for
+each type.
+
+A {+realm+} allows you to partition data according to who uses it and when they
+use it.
+
+Realm vs Other Databases
+------------------------
 
 The {+service-short+} data model is similar to both relational and document
 databases but has distinct differences from both. To underscore these
@@ -42,8 +58,67 @@ A {+realm+} is not a collection of schemaless documents.
     conforms to a schema for a specific object type in the {+realm+}. An object
     cannot contain a property that is not described by its schema.
 
+.. _node-realm-schema:
+
+Realm Schema
+------------
+
+A **{+backend-schema+}** is a list of valid :ref:`object schemas
+<node-realm-objects>` that each define an object type that a {+app+}
+may persist. All objects in a {+realm+} must conform to the {+backend-schema+}.
+
+Client applications provide a {+frontend-schema+} when they open a
+{+realm+}. If a {+realm+} already contains data, then {+client-database+}
+validates each existing object to ensure that an object schema was
+provided for its type and that it meets all of the constraints specified
+in the schema.
+
+.. example::
+   
+   A {+realm+} that contains basic data about books in libraries might use a
+   schema like the following:
+   
+   .. code-block:: json
+      
+      [
+        {
+          "type": "Library",
+          "properties": {
+            "address": "string",
+            "books": "Book[]"
+          }
+        },
+        {
+          "type": "Book",
+          "primaryKey": "isbn",
+          "properties": {
+            "isbn": "string",
+            "title": "string",
+            "author": "string",
+            "numberOwned": { "type": "int?", "default": 0 },
+            "numberLoaned": { "type": "int?", "default": 0 }
+          }
+        }
+      ]
+
 Local and Synced Realms
 -----------------------
 
 The ``.realm`` file exists on an app's local file system, so you can always
 access and modify data in a realm, even without a network connection.
+
+.. _node-realm-path:
+
+Realms are Partitions of Atlas Data
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Each {+realm+} corresponds to a subset of the data in your
+:term:`{+app+}'s <{+app+}>`
+:term:`synced {+atlas+} cluster <synced cluster>`. You can customize the
+:ref:`partitioning <partitioning>` of data using your application's
+:ref:`partition key <partition-keys>`. Unique values of the partition
+key, known as :term:`partition values <partition value>`, correspond to
+individual {+realms+}.
+
+You can customize permissions for these partitions of data using
+:ref:`{+service-short+} Rules <sync-rules>`.

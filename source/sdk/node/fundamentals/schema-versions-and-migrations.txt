@@ -1,8 +1,8 @@
-.. _node-realm-versions-and-migrations:
+.. _node-schema-versions-and-migrations:
 
-===========================
-Realm Versions & Migrations
-===========================
+============================
+Schema Versions & Migrations
+============================
 
 .. default-domain:: mongodb
 
@@ -11,3 +11,27 @@ Realm Versions & Migrations
    :backlinks: none
    :depth: 2
    :class: singlecol
+
+.. _node-schema-version:
+
+Schema Version
+--------------
+
+A **schema version** identifies the state of a :ref:`{+backend-schema+}
+<node-realm-schema>` at some point in time. {+client-database+} tracks the schema
+version of each {+realm+} and uses it to map the objects in each {+realm+}
+to the correct schema.
+
+Schema versions are ascending integers that you can optionally include
+in the {+realm+} configuration when you open a {+realm+}. If a client
+application does not specify a version number when it opens a {+realm+} then
+the {+realm+} defaults to version ``0``.
+
+.. important:: Increment Versions Monotonically
+   
+   :ref:`Migrations <node-client-migrations>` must update a {+realm+} to a
+   higher schema version. {+client-database+} will throw an error if a client
+   application opens a {+realm+} with a schema version that is lower than
+   the {+realm+}'s current version or if the specified schema version is the
+   same as the {+realm+}'s current version but includes different
+   :ref:`object schemas <node-object-schema>`.
