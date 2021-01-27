@@ -29,24 +29,24 @@ Open a Synced Realm
 -------------------
 
 To open a synced :term:`{+realm+}` for a given :term:`partition value`, initialize a
-``Realm`` with the ``Realm.getInstanceAsync()`` method.
+``Realm`` with :java-sdk:`Realm.getInstance()
+<io/realm/Realm.html#getInstance-io.realm.RealmConfiguration->` or
+:java-sdk:`Realm.getInstanceAsync()
+<io/realm/Realm.html#getInstanceAsync-io.realm.RealmConfiguration-io.realm.Realm.Callback->`:
 
-.. code-block:: kotlin
-   :emphasize-lines: 3
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: kotlin
 
-   val user: User? = app.currentUser()
-   val partitionValue: String = "myPartition"
-   val config = SyncConfiguration.Builder(user!!, partitionValue)
-                .build()
+      .. literalinclude:: /examples/generated/android/code/start/SyncDataTest.codeblock.open-a-synced-realm.kt
+         :language: kotlin
 
-   var realm: Realm
-   // Sync all realm changes via a new instance, and when that instance has been successfully created connect it to an on-screen list (a recycler view)
-   Realm.getInstanceAsync(config, object: Realm.Callback() {
-      override fun onSuccess(_realm: Realm) {
-            // since this realm should live exactly as long as this activity, assign the realm to a member variable
-            realm = _realm
-      }
-   })
+   .. tab::
+      :tabid: java
+
+      .. literalinclude:: /examples/generated/android/code/start/SyncDataTest.codeblock.open-a-synced-realm.java
+         :language: java
 
 The :ref:`partition value <partitioning>` specifies which subset of your data to sync.
 This is typically a user ID, project ID, store ID, or some other category identifier in
@@ -76,18 +76,19 @@ local data, a background thread efficiently integrates, uploads, and downloads c
 The following code reads a collection of ``Task`` objects, then writes a
 new ``Task`` to the {+realm+}:
 
-.. code-block:: kotlin
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: kotlin
 
-   // Read all tasks in the realm. No special syntax required for synced realms.
-   val tasks : RealmResults<Task>? = realm.where<Task>().findAll()
+      .. literalinclude:: /examples/generated/android/code/start/SyncDataTest.codeblock.sync-data.kt
+         :language: kotlin
 
-   // Write to the realm. No special syntax required for synced realms.
-   realm.executeTransaction {
-      realm.insert(Task())
-   }
+   .. tab::
+      :tabid: java
 
-   // Don't forget to close your realm!
-   realm.close()
+      .. literalinclude:: /examples/generated/android/code/start/SyncDataTest.codeblock.sync-data.java
+         :language: java
 
 .. seealso::
 
