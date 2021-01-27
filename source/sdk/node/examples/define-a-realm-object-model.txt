@@ -88,13 +88,109 @@ To define a default value, set the value of the property to an object with a
 
 .. _node-define-a-relationship-property:
 
-Define a Relationship Property
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Define a To-One Relationship Property
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+A **to-one** relationship maps one property to a single instance of
+another object type.
+
+.. example::
+
+   The following ``PersonSchema`` indicates that a person may or may not own a
+   single Dog by including it in its ``dog`` property: 
+   
+   .. tabs-realm-languages::
+     
+     .. tab::
+         :tabid: javascript
+ 
+         .. literalinclude:: /examples/Relationships/ToOne/ToOne.js
+           :language: javascript
+           :emphasize-lines: 6
+
+Define a To-Many Relationship Property
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+A **to-many** relationship maps one property to zero or more instances
+of another object type.
+
+.. example::
+   
+   An application could use the following object schemas to indicate
+   that a Person may own multiple Dogs by including them in its ``dog``
+   property:
+   
+   .. tabs-realm-languages::
+   
+      .. tab::
+         :tabid: javascript
+   
+         .. literalinclude:: /examples/Relationships/ToMany/ToMany.js
+            :language: javascript
+            :emphasize-lines: 6
+
 
 .. _node-define-an-embedded-object-property:
 
+Define an Inverse Relationship Property
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+An **inverse relationship** property is an automatic backlink
+relationship. {+client-database+} automatically updates implicit
+relationships whenever an object is added or removed in a corresponding
+to-many list. You cannot manually set the value of an inverse
+relationship property.
+
+.. example::
+   
+   An application could use the following object schemas to indicate that a User
+   may be assigned many Tasks and that each Task should automatically keep track
+   of which User it's assigned to.
+   
+   - The User object's ``tasks`` property is defined as a to-many relationship
+     with Task objects and contains all of a given user's assigned tasks.
+     
+   - The Task object's ``assignee`` property inverts the relationship and
+     automatically updates to refer back to any User object that contains the
+     Task in its ``tasks`` property.
+   
+   .. tabs-realm-languages::
+     
+     .. tab::
+         :tabid: javascript
+          
+         .. literalinclude:: /examples/Relationships/Inverse/Inverse.js
+           :language: javascript
+           :emphasize-lines: 8, 19-23
+     
+     .. tab::
+         :tabid: typescript
+          
+         .. literalinclude:: /examples/Relationships/Inverse/Inverse.ts
+           :language: javascript
+           :emphasize-lines: 5, 14, 23, 32-36
+
 Define an Embedded Object Property
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+To specify that a Realm object model define an embedded object, set ``embedded``
+to ``true``. You can reference an embedded object type from parent object types
+in the same way as you would define a relationship.
+
+.. example::
+   
+   An application requires two parent schemas ``ContactSchema`` and
+   ``BusinessSchema``, and a child schema ``AddressSchema`` that is embedded. A
+   ``Business`` object can embed a list of ``Address`` objects, whereas a
+   ``Contact`` object can only embed a single ``Address`` object.
+   
+   .. tabs-realm-languages::
+   
+      .. tab::
+         :tabid: javascript
+   
+         .. literalinclude:: /examples/Schemas/Embedded.js
+            :language: javascript
+            :emphasize-lines: 3, 18, 28
+
+
 
 .. _node-property-annotations:
 
