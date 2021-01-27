@@ -1,8 +1,8 @@
-.. _android-open-a-realm:
+.. _android-sync-changes-between-devices:
 
-======================
-Open and Close a Realm
-======================
+==========================================
+Sync Changes Between Devices - Android SDK
+==========================================
 
 .. default-domain:: mongodb
 
@@ -11,6 +11,8 @@ Open and Close a Realm
    :backlinks: none
    :depth: 2
    :class: singlecol
+
+.. _android-open-a-synced-realm:
 
 Open a Synced Realm
 -------------------
@@ -25,28 +27,17 @@ specific sync settings created using a ``SyncConfiguration`` object:
 .. tabs-realm-languages::
    
    .. tab::
-      :tabid: kotlin
-      
-      .. code-block:: kotlin
+       :tabid: kotlin
 
-         val user: User? = app.currentUser()
-         val partitionValue: String = "myPartition"
-         val config = SyncConfiguration.Builder(user!!, partitionValue).build()
-
-         val realm: Realm = Realm.getInstance(config)
+       .. literalinclude:: /examples/generated/android/code/start/OpenARealmTest.codeblock.open-a-realm.java
+         :language: kotlin
 
    .. tab::
-      :tabid: java
-      
-      .. code-block:: java
+       :tabid: java
 
-         User user = app.currentUser();
-         String partitionValue = "myPartition";
-         SyncConfiguration config = 
-            new SyncConfiguration.Builder(user, partitionValue).build();
+       .. literalinclude:: /examples/generated/android/code/start/OpenARealmTest.codeblock.open-a-realm.java
+         :language: java
 
-         Realm realm = Realm.getInstance(config);
-   
 
 The code above shows how to open the {+realm+} *asynchronously* 
 by using :java-sdk:`getInstanceAsync()
@@ -67,6 +58,37 @@ is generally not recommended.
    :ref:`Install Realm for Android <android-install>`.
 
 
+.. _android-sync-changes-in-the-background:
 
+Sync Changes in the Background
+------------------------------
 
+.. _android-pause-or-resume-a-sync-session:
 
+Pause or Resume a Sync Session
+------------------------------
+
+.. _android-check-network-connection:
+
+Check the Current Network Connection
+------------------------------------
+
+.. _android-check-sync-progress:
+
+Check Upload & Download Progress for a Sync Session
+---------------------------------------------------
+
+.. _android-reset-a-client-realm-file:
+
+Reset a Client Realm File
+-------------------------
+
+.. _android-set-the-client-log-level:
+
+Set the Client Log Level
+------------------------
+
+.. _android-multiplex-sync-sessions:
+
+Multiplex Sync Sessions
+-----------------------

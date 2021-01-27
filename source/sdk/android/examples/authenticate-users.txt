@@ -1,8 +1,9 @@
+.. _android-authenticate-users:
 .. _android-authenticate:
 
-===================
-Authenticate a User
-===================
+================================
+Authenticate Users - Android SDK
+================================
 
 .. default-domain:: mongodb
 
@@ -80,10 +81,11 @@ passed to the callback returns a boolean that indicates whether the
 operation succeeded. In the event of a failure,  you can view the
 error that caused the failure using the ``getError()`` method.
 
-.. _android-login-anonymous:
 
-Anonymous
-~~~~~~~~~
+.. _android-anonymous-login:
+
+Log In an Anonymous User
+------------------------
 
 The :doc:`anonymous authentication provider </authentication/anonymous>`
 enables users to log in to your application with short-term accounts
@@ -106,10 +108,10 @@ authentication, create an anonymous credential by calling
       .. literalinclude:: /examples/generated/android/code/start/AuthenticationTest.codeblock.anonymous.kt
          :language: kotlin
 
-.. _android-login-email-password:
+.. _android-email-password-login:
 
-Email/Password
-~~~~~~~~~~~~~~
+Log In an Email/Password User
+-----------------------------
 
 The :doc:`Email/Password authentication provider </authentication/email-password>`
 enables users to log in to your application with an email username and
@@ -132,10 +134,10 @@ to ``app.login()`` or ``app.loginAsync()``.
       .. literalinclude:: /examples/generated/android/code/start/AuthenticationTest.codeblock.email-password.kt
          :language: kotlin
 
-.. _android-login-api-key:
+.. _android-api-key-login:
 
-API Key
-~~~~~~~
+Log In an API Key User
+----------------------
 
 The :doc:`API Key authentication provider </authentication/api-key>`
 enables users to log in to your application with an API Key generated
@@ -158,11 +160,37 @@ to ``app.login()`` or ``app.loginAsync()``.
       .. literalinclude:: /examples/generated/android/code/start/AuthenticationTest.codeblock.api-key.kt
          :language: kotlin
 
+.. _android-custom-jwt-login:
 
-.. _android-login-custom-function:
+Log In a Custom JWT User
+------------------------
 
-Custom Function
-~~~~~~~~~~~~~~~
+The :doc:`Custom JWT authentication provider </authentication/custom-jwt>`
+enables users to log in to your application with a custom JSON Web Token.
+To log in with custom JWT authentication, create a
+custom JWT credential by calling ``Credentials.jwt()``
+with your custom JWT. Then pass the generated credential
+to ``app.login()`` or ``app.loginAsync()``.
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: java
+
+      .. literalinclude:: /examples/generated/android/code/start/AuthenticationTest.codeblock.custom-jwt.java
+         :language: java
+   
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/generated/android/code/start/AuthenticationTest.codeblock.custom-jwt.kt
+         :language: kotlin
+
+.. _android-custom-function-login:
+
+Log In a Custom Function User
+-----------------------------
+
 The :ref:`Custom Function authentication provider <custom-function-authentication>`
 enables users to log in to your application using a
 :ref:`Realm Function <functions>` defined in your {+app+}. To log in with custom 
@@ -202,37 +230,10 @@ You then pass the generated credential to ``app.login()`` or ``app.loginAsync()`
       .. literalinclude:: /examples/generated/android/code/start/AuthenticationTest.codeblock.custom-function.kt
          :language: kotlin
 
+.. _android-facebook-login:
 
-.. _android-login-custom-jwt:
-
-Custom JWT
-~~~~~~~~~~
-
-The :doc:`Custom JWT authentication provider </authentication/custom-jwt>`
-enables users to log in to your application with a custom JSON Web Token.
-To log in with custom JWT authentication, create a
-custom JWT credential by calling ``Credentials.jwt()``
-with your custom JWT. Then pass the generated credential
-to ``app.login()`` or ``app.loginAsync()``.
-
-.. tabs-realm-languages::
-   
-   .. tab::
-      :tabid: java
-
-      .. literalinclude:: /examples/generated/android/code/start/AuthenticationTest.codeblock.custom-jwt.java
-         :language: java
-   
-   .. tab::
-      :tabid: kotlin
-
-      .. literalinclude:: /examples/generated/android/code/start/AuthenticationTest.codeblock.custom-jwt.kt
-         :language: kotlin
-
-.. _android-login-facebook:
-
-Facebook Authentication
-~~~~~~~~~~~~~~~~~~~~~~~
+Log In a Facebook User
+----------------------
 
 The :doc:`Facebook </authentication/facebook>` authentication provider allows
 you to authenticate users through a Facebook app using their existing Facebook
@@ -266,10 +267,10 @@ create a {+service-short+} Facebook credential and then log the user into your
          :language: kotlin
          :emphasize-lines: 10-21
 
-.. _android-login-google:
+.. _android-google-login:
 
-Google Authentication
-~~~~~~~~~~~~~~~~~~~~~
+Log In a Google User
+--------------------
 
 .. important::
    
@@ -301,10 +302,10 @@ credential and then log the user into your {+service-short+} app.
          :language: kotlin
          :emphasize-lines: 26-36
 
-.. _android-login-apple:
+.. _android-apple-login:
 
-Apple Authentication
-~~~~~~~~~~~~~~~~~~~~
+Log In an Apple User
+--------------------
 
 The :doc:`Sign-in with Apple authentication provider </authentication/apple>`
 enables users to log in to your application with a custom token provided
@@ -329,8 +330,8 @@ to ``app.login()`` or ``app.loginAsync()``.
 
 .. _android-logout:
 
-Log Out
--------
+Log a User Out
+--------------
 
 You can log out any user, regardless of the authentication provider used
 to log in, using the ``user.logOut()`` or ``user.logOutAsync()``

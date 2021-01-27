@@ -1,0 +1,653 @@
+.. _android-read-and-write-data:
+
+===============================
+Read & Write Data - Android SDK
+===============================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+.. note:: About the examples on this page
+
+   The examples on this page use the data model of a project
+   management app that has two {+service-short+} object types: ``Project``
+   and ``Task``. A ``Project`` has zero or more ``Tasks``.
+
+   See the schema for these two classes, ``Project`` and
+   ``Task``, below:
+
+   .. tabs-realm-languages::
+     
+      .. tab::
+         :tabid: kotlin
+
+         .. literalinclude:: /examples/generated/android/code/start/ProjectTask.codeblock.projecttask.kt
+            :language: kotlin
+            :caption: ProjectTask.kt
+
+         .. literalinclude:: /examples/generated/android/code/start/Project.codeblock.project.kt
+            :language: kotlin
+            :caption: Project.kt
+
+      .. tab::
+         :tabid: java
+
+         .. literalinclude:: /examples/generated/android/code/start/ProjectTask.codeblock.projecttask.java
+            :language: java
+            :caption: ProjectTask.java
+
+         .. literalinclude:: /examples/generated/android/code/start/Project.codeblock.project.java
+            :language: java
+            :caption: Project.java
+
+.. _android-read-operations:
+
+Read Operations
+---------------
+
+.. _android-find-a-specific-object-by-primary-key:
+
+Find a Specific Object by Primary Key
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To find an object with a specific primary key value, open a {+realm+}
+and query the primary key field for the desired primary key value
+using the :java-sdk:`RealmQuery.equalTo() <io/realm/RealmQuery.html#equalTo-java.lang.String-Decimal128->` method:
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/generated/android/code/start/ReadsTest.codeblock.find-an-object-by-primary-key.kt
+         :language: kotlin
+
+   .. tab::
+      :tabid: java
+
+      .. literalinclude:: /examples/generated/android/code/start/ReadsTest.codeblock.find-an-object-by-primary-key.java
+         :language: java
+
+.. _android-query-all-objects-of-a-given-type:
+
+Query All Objects of a Given Type
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The first step of any read is to **get all objects** of a
+certain type in a {+realm+}. With this results collection, you
+can operate on all instances on a type or filter and sort to
+refine the results.
+
+.. example::
+
+   In order to access all instances of ``Project`` and ``Task``, use
+   the :java-sdk:`where() <io/realm/RealmResults.html#where-->` method
+   to specify a class:
+
+   .. tabs-realm-languages::
+
+      .. tab::
+          :tabid: java
+
+          .. literalinclude:: /examples/generated/android/code/start/ReadsTest.codeblock.get-all-objects.java
+             :language: java
+
+      .. tab::
+          :tabid: kotlin
+
+          .. literalinclude:: /examples/generated/android/code/start/ReadsTest.codeblock.get-all-objects.kt
+             :language: kotlin
+
+.. _android-filter-queries-based-on-object-properties:
+
+Filter Queries Based on Object Properties
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+A **filter** selects a subset of results based on the
+value(s) of one or more object properties. {+client-database+} provides a
+full-featured :ref:`query engine <android-client-query-engine>` you
+can use to define filters. The most common use case is to
+find objects where a certain property matches a certain
+value. Additionally, you can compare strings, aggregate over
+collections of numbers, and use logical operators to build
+up complex queries.
+
+.. example::
+
+   In the following example, we use the query
+   engine's comparison operators to:
+
+   - Find high priority tasks by comparing the value of the ``priority`` property value with a threshold number, above which priority can be considered high.
+   - Find just-started or short-running tasks by seeing if the ``progressMinutes`` property falls within a certain range.
+   - Find unassigned tasks by finding tasks where the ``assignee`` property is equal to null.
+   - Find tasks assigned to specific teammates Ali or Jamie by seeing if the ``assignee`` property is in a list of names.
+
+   .. tabs-realm-languages::
+
+      .. tab::
+          :tabid: java
+
+          .. literalinclude:: /examples/generated/android/code/start/ReadsTest.codeblock.filter-results.java
+            :language: java
+
+      .. tab::
+          :tabid: kotlin
+
+         .. literalinclude:: /examples/generated/android/code/start/ReadsTest.codeblock.filter-results.kt
+            :language: kotlin
+
+.. _android-sort-query-results:
+
+Sort Query Results
+~~~~~~~~~~~~~~~~~~
+
+A **sort** operation allows you to configure the order in
+which {+client-database+} returns queried objects. You can sort based on
+one or more properties of the objects in the results
+collection.
+
+{+client-database+} only guarantees a consistent order of results when the
+results are sorted.
+
+.. example::
+
+   The following code sorts the projects by name in reverse
+   alphabetical order (i.e. "descending" order).
+
+   .. tabs-realm-languages::
+
+      .. tab::
+          :tabid: java
+
+          .. literalinclude:: /examples/generated/android/code/start/ReadsTest.codeblock.sort-results.java
+            :language: java
+
+      .. tab::
+          :tabid: kotlin
+
+         .. literalinclude:: /examples/generated/android/code/start/ReadsTest.codeblock.sort-results.kt
+            :language: kotlin
+
+.. _android-query-a-relationship:
+
+Query a Relationship
+~~~~~~~~~~~~~~~~~~~~
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: kotlin
+
+      Consider the following relationship between classes ``Person`` and
+      ``Dog``. This arrangement allows each person to own a single dog:
+
+      .. literalinclude:: /examples/generated/android/code/start/Person.kt
+         :language: kotlin
+         :emphasize-lines: 10
+
+      .. literalinclude:: /examples/generated/android/code/start/Dog.kt
+         :language: kotlin
+
+      To query this relationship, use dot notation in a
+      :ref:`query <android-client-query-engine>` to access any property
+      of the linked object:
+
+      .. literalinclude:: /examples/generated/android/code/start/RealmQueryTest.codeblock.query-a-relationship.kt
+         :language: kotlin
+         :emphasize-lines: 15
+
+   .. tab::
+      :tabid: java
+
+      Consider the following relationship between classes ``Human`` and
+      ``Cat``. This arrangement allows each human to own a single cat:
+
+      .. literalinclude:: /examples/generated/android/code/start/Human.java
+         :language: java
+         :emphasize-lines: 12
+
+      .. literalinclude:: /examples/generated/android/code/start/Cat.java
+         :language: java
+
+      To query this relationship, use dot notation in a
+      :ref:`query <android-client-query-engine>` to access any property
+      of the linked object:
+
+      .. literalinclude:: /examples/generated/android/code/start/RealmQueryTest.codeblock.query-a-relationship.java
+         :language: java
+         :emphasize-lines: 16
+
+.. _android-query-an-inverse-relationship:
+
+Query an Inverse Relationship
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: kotlin
+
+      Consider the following relationship between classes ``Dog`` and
+      ``Person``. In this example, all dogs link to their owner (or
+      multiple owners, if multiple person objects refer to the same dog).
+      Realm calculates the owners of each dog for you based on the field
+      name you provide to the ``@LinkingObjects`` annotation:
+
+      .. literalinclude:: /examples/generated/android/code/start/Dog.kt
+         :language: kotlin
+         :emphasize-lines: 12-13
+
+      .. literalinclude:: /examples/generated/android/code/start/Person.kt
+         :language: kotlin
+
+      To query this relationship, use dot notation in a
+      :ref:`query <android-client-query-engine>` to access any property
+      of the linked object:
+
+      .. literalinclude:: /examples/generated/android/code/start/RealmQueryTest.codeblock.query-an-inverse-relationship.kt
+         :language: kotlin
+         :emphasize-lines: 15
+
+   .. tab::
+      :tabid: java
+
+      Consider the following relationship between classes ``Cat`` and
+      ``Human``. In this example, all cats link to their human (or
+      multiple humans, if multiple human objects refer to the same cat).
+      Realm calculates the owners of each cat for you based on the field
+      name you provide to the ``@LinkingObjects`` annotation:
+
+      .. literalinclude:: /examples/generated/android/code/start/Cat.java
+         :language: java
+         :emphasize-lines: 14-15
+
+      .. literalinclude:: /examples/generated/android/code/start/Human.java
+         :language: java
+
+      To query this relationship, use dot notation in a
+      :ref:`query <android-client-query-engine>` to access any property
+      of the linked object:
+
+      .. literalinclude:: /examples/generated/android/code/start/RealmQueryTest.codeblock.query-an-inverse-relationship.java
+         :language: java
+         :emphasize-lines: 13
+
+.. _android-aggregate-data:
+
+Aggregate Data
+~~~~~~~~~~~~~~
+
+.. _android-write-operations:
+
+Write Operations
+----------------
+
+.. _android-open-a-transaction:
+
+Run a Transaction
+~~~~~~~~~~~~~~~~~
+
+{+client-database+} represents each transaction as a callback function
+that contains zero or more read and write operations. To run
+a transaction, define a transaction callback and pass it to
+the {+realm+}'s ``write`` method. Within this callback, you are
+free to create, read, update, and delete on the {+realm+}. If
+the code in the callback throws an exception when {+client-database+} runs
+it, {+client-database+} cancels the transaction. Otherwise, {+client-database+} commits
+the transaction immediately after the callback.
+
+.. important:: Concurrency Concerns
+
+   Since transactions block each other, it is best to avoid
+   opening transactions on both the UI thread and a
+   background thread. If you are using :doc:`Sync
+   </sync>`, avoid opening transactions on the
+   UI thread altogether, as {+client-database+} processes synchronizations
+   on a background thread. If a background transaction
+   blocks your UI thread's transaction, your app may appear
+   unresponsive.
+
+.. example::
+
+   The following code shows how to run a transaction with
+   :java-sdk:`executeTransaction() <io/realm/Realm.html#executeTransaction-io.realm.Realm.Transaction->`
+   or :java-sdk:`executeTransactionAsync() <io/realm/Realm.html#executeTransactionAsync-io.realm.Realm.Transaction->`.
+   If the code in the callback throws an exception, {+client-database+}
+   cancels the transaction. Otherwise, {+client-database+} commits the
+   transaction.
+
+   .. tabs-realm-languages::
+      
+      .. tab::
+         :tabid: kotlin
+
+         .. literalinclude:: /examples/generated/android/code/start/WritesTest.codeblock.run-a-transaction.kt
+            :language: kotlin
+
+      .. tab::
+         :tabid: java
+
+         .. literalinclude:: /examples/generated/android/code/start/WritesTest.codeblock.run-a-transaction.java
+            :language: java
+
+.. _android-create-a-new-object:
+
+Create a New Object
+~~~~~~~~~~~~~~~~~~~
+
+Instantiate :ref:`{+service-short+} objects
+<android-realm-objects>` as you would any other object. In a
+transaction, you can add the object to the {+realm+} if the
+{+realm+}'s :ref:`schema <android-realm-schema>` includes the object
+type. When you add an instance to the {+realm+}, it becomes
+*managed* by that {+realm+}.
+
+With the Java and JavaScript SDKs, instead use the {+realm+}'s
+factory method in a transaction to instantiate your class.
+This automatically inserts the instance into the {+realm+}.
+
+.. example::
+
+   This code demonstrates how to create an object with 
+   :java-sdk:`createObject() <io/realm/Realm.html#createObject-java.lang.Class-java.lang.Object->`:
+
+   .. tabs-realm-languages::
+      
+      .. tab::
+         :tabid: kotlin
+
+         .. literalinclude:: /examples/generated/android/code/start/WritesTest.codeblock.create-an-object.kt
+            :language: kotlin
+            :emphasize-lines: 3
+
+      .. tab::
+         :tabid: java
+
+         .. literalinclude:: /examples/generated/android/code/start/WritesTest.codeblock.create-an-object.java
+            :language: java
+            :emphasize-lines: 3
+
+.. _android-modify-an-object:
+.. _android-update:
+
+Modify an Object
+~~~~~~~~~~~~~~~~
+
+Within a transaction, you can update a {+service-short+} object the same
+way you would update any other object in your language of
+choice. Just assign a new value to the property or update
+the property.
+
+.. example::
+
+   This code changes the turtle's name to "Archibald" and
+   sets Archibald's age to 101 by assigning new values to properties:
+
+   .. tabs-realm-languages::
+      
+      .. tab::
+         :tabid: kotlin
+
+         .. literalinclude:: /examples/generated/android/code/start/WritesTest.codeblock.update-an-object.kt
+            :language: kotlin
+            :emphasize-lines: 6,7
+
+      .. tab::
+         :tabid: java
+
+         .. literalinclude:: /examples/generated/android/code/start/WritesTest.codeblock.update-an-object.java
+            :language: java
+            :emphasize-lines: 6,7
+
+.. _android-upsert:
+
+Upsert an Object
+~~~~~~~~~~~~~~~~
+
+An **upsert** is a write operation that either inserts a new object
+with a given primary key or updates an existing object that already has
+that primary key. We call this an upsert because it is an "**update** or
+**insert**" operation. This is useful when an object may or may not
+already exist, such as when bulk importing a dataset into an existing
+{+realm+}. Upserting is an elegant way to update existing entries while
+adding any new entries.
+
+.. example::
+
+   This code demonstrates how to upsert an object with
+   {+realm+}. We create a new turtle enthusiast named "Drew" and then
+   update their name to "Andy" using :java-sdk:`insertOrUpdate()
+   <io/realm/Realm.html#insertOrUpdate-io.realm.RealmModel->`:
+
+   .. tabs-realm-languages::
+      
+      .. tab::
+         :tabid: kotlin
+
+         .. literalinclude:: /examples/generated/android/code/start/WritesTest.codeblock.upsert-an-object.kt
+            :language: kotlin
+            :emphasize-lines: 14-16
+
+      .. tab::
+         :tabid: java
+
+         .. literalinclude:: /examples/generated/android/code/start/WritesTest.codeblock.upsert-an-object.java
+            :language: java
+            :emphasize-lines: 14-16
+
+.. _android-batch-update:
+
+Update a Collection
+~~~~~~~~~~~~~~~~~~~
+
+{+client-database+} supports collection-wide updates. A collection update
+applies the same update to specific properties of several
+objects in a collection at once.
+
+.. example::
+
+   The following code demonstrates how to update a
+   collection. Thanks to the :ref:`implicit inverse
+   relationship <android-inverse-relationship>` between the Turtle's
+   ``owner`` property and the TurtleEnthusiast's ``turtles`` property,
+   {+client-database+} automatically updates Josephine's list of turtles
+   when you use :java-sdk:`setObject()
+   <io/realm/RealmResults.html#setObject-java.lang.String-io.realm.RealmModel->`
+   to update the "owner" property for all turtles in the collection.
+
+   .. tabs-realm-languages::
+      
+      .. tab::
+         :tabid: kotlin
+
+         .. literalinclude:: /examples/generated/android/code/start/WritesTest.codeblock.update-a-collection.kt
+            :language: kotlin
+            :emphasize-lines: 11,12
+
+      .. tab::
+         :tabid: java
+
+         .. literalinclude:: /examples/generated/android/code/start/WritesTest.codeblock.update-a-collection.java
+            :language: java
+            :emphasize-lines: 9,10
+
+.. _android-delete-an-object:
+
+Delete an Object
+~~~~~~~~~~~~~~~~
+
+To delete an object from a {+realm+}, use either the dynamic or static
+versions of the ``deleteFromRealm()`` method of a :java-sdk:`RealmObject
+<io/realm/RealmObject.html>` subclass.
+
+.. important:: Do not use objects after delete
+
+   {+client-database+} throws an error if you try to use an object after
+   it has been deleted.
+
+.. example::
+
+   The following code shows how to delete one object from
+   its {+realm+} with :java-sdk:`deleteFromRealm()
+   <io/realm/RealmObject.html#deleteFromRealm-->`:
+
+   .. tabs-realm-languages::
+      
+      .. tab::
+         :tabid: kotlin
+
+         .. literalinclude:: /examples/generated/android/code/start/WritesTest.codeblock.delete-an-object.kt
+            :language: kotlin
+            :emphasize-lines: 6
+
+      .. tab::
+         :tabid: java
+
+         .. literalinclude:: /examples/generated/android/code/start/WritesTest.codeblock.delete-an-object.java
+            :language: java
+            :emphasize-lines: 4
+
+.. _android-delete-multiple-objects:
+
+Delete Multiple Objects
+~~~~~~~~~~~~~~~~~~~~~~~
+
+To delete an object from a {+realm+}, use the ``deleteAllFromRealm()``
+method of the :java-sdk:`RealmResults <io/realm/RealmResults.html>`
+instance that contains the objects you would like to delete. You can
+filter the ``RealmResults`` down to a subset of objects using the
+:java-sdk:`where() <io/realm/Realm.html#where-java.lang.Class->` method.
+
+.. example::
+
+   The following code demonstrates how to delete a
+   collection from a {+realm+} with :java-sdk:`deleteAllFromRealm()
+   <io/realm/RealmResults.html#deleteAllFromRealm-->`:
+
+   .. tabs-realm-languages::
+      
+      .. tab::
+         :tabid: kotlin
+
+         .. literalinclude:: /examples/generated/android/code/start/WritesTest.codeblock.delete-a-collection.kt
+            :language: kotlin
+            :emphasize-lines: 6
+
+      .. tab::
+         :tabid: java
+
+         .. literalinclude:: /examples/generated/android/code/start/WritesTest.codeblock.delete-a-collection.java
+            :language: java
+            :emphasize-lines: 4
+
+.. _android-delete-object-and-dependent-objects:
+
+Delete an Object and its Dependent Objects
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Sometimes, you have :ref:`dependent objects
+<android-client-relationships>` that you want to delete when
+you delete the parent object. We call this a **cascading
+delete**. {+client-database+} does not delete the dependent
+objects for you. If you do not delete the objects yourself,
+they will remain orphaned in your {+realm+}. Whether or not
+this is a problem depends on your application's needs.
+
+Currently, the best way to delete dependent objects is to
+iterate through the dependencies and delete them before
+deleting the parent object.
+
+.. example::
+
+   The following code demonstrates how to perform a
+   cascading delete by first deleting all of Ali's turtles,
+   then deleting Ali:
+
+   .. tabs-realm-languages::
+      
+      .. tab::
+         :tabid: kotlin
+
+         .. literalinclude:: /examples/generated/android/code/start/WritesTest.codeblock.cascading-deletes.kt
+            :language: kotlin
+            :emphasize-lines: 6
+
+      .. tab::
+         :tabid: java
+
+         .. literalinclude:: /examples/generated/android/code/start/WritesTest.codeblock.cascading-deletes.java
+            :language: java
+            :emphasize-lines: 5
+
+.. _android-delete-all-object-of-a-specific-type:
+
+Delete All Object of a Specific Type
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+{+client-database+} supports deleting all instances of a :ref:`{+service-short+} type
+<android-realm-objects>` from a {+realm+}.
+
+.. example::
+
+   The following code demonstrates how to delete all
+   Turtle instances from a {+realm+} with :java-sdk:`delete()
+   <io/realm/Realm.html#delete-java.lang.Class->`:
+
+   .. tabs-realm-languages::
+      
+      .. tab::
+         :tabid: kotlin
+
+         .. literalinclude:: /examples/generated/android/code/start/WritesTest.codeblock.delete-all-instances-of-a-type.kt
+            :language: kotlin
+            :emphasize-lines: 2
+
+      .. tab::
+         :tabid: java
+
+         .. literalinclude:: /examples/generated/android/code/start/WritesTest.codeblock.delete-all-instances-of-a-type.java
+            :language: java
+            :emphasize-lines: 2
+
+.. _android-delete-all-objects-in-a-realm:
+
+Delete All Objects in a Realm
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+It is possible to delete all objects from the {+realm+}. This
+does not affect the schema of the {+realm+}. This is useful for
+quickly clearing out your {+realm+} while prototyping.
+
+.. example::
+
+   The following code demonstrates how to delete everything
+   from a {+realm+} with :java-sdk:`deleteAll()
+   <io/realm/Realm.html#deleteAll-->`:
+
+   .. tabs-realm-languages::
+      
+      .. tab::
+         :tabid: kotlin
+
+         .. literalinclude:: /examples/generated/android/code/start/WritesTest.codeblock.delete-all.kt
+            :language: kotlin
+            :emphasize-lines: 2
+
+      .. tab::
+         :tabid: java
+
+         .. literalinclude:: /examples/generated/android/code/start/WritesTest.codeblock.delete-all.java
+            :language: java
+            :emphasize-lines: 2
+
+Summary
+-------
+
+- {+client-database+} handles writes in terms of **transactions**. All writes must occur in a transaction.
+- {+client-database+} transactions are ACID compliant.
+- To write to {+client-database+}, define the transaction in a callback function that you pass to the {+realm+}'s ``write`` method.

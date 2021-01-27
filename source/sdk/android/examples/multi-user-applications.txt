@@ -1,8 +1,8 @@
-.. _android-multi-user:
+.. _android-multi-user-applications:
 
-========================
-Work with Multiple Users
-========================
+=====================================
+Multi-User Applications - Android SDK
+=====================================
 
 .. default-domain:: mongodb
 
@@ -63,10 +63,10 @@ transition between states when certain events occur:
 .. figure:: /images/multi-user.png
    :alt: A diagram the outlines the different states a user can be in: logged out, logged in and active, & logged in and inactive.
 
-.. _android-add-user:
+.. _android-add-a-new-user-to-the-device:
 
-Add a New User to a Device
---------------------------
+Add a New User to the Device
+----------------------------
 
 The {+service-short+} SDK automatically adds users to a device when they log in
 for the first time on that device. When a user logs in, they immediately become
@@ -86,10 +86,10 @@ the application's :ref:`active user <active-user>`.
        .. literalinclude:: /examples/generated/android/code/start/MultipleUsersTest.codeblock.add-a-new-user.java
          :language: java
 
-.. _android-list-users:
+.. _android-list-all-users-on-the-device:
 
-List All On-Device Users
-~~~~~~~~~~~~~~~~~~~~~~~~
+List All Users on the Device
+----------------------------
 
 You can access a list of all :ref:`user accounts <user-accounts>` that are
 stored on the device. This list includes all users that have logged in to the
@@ -110,32 +110,10 @@ authenticated.
        .. literalinclude:: /examples/generated/android/code/start/MultipleUsersTest.codeblock.list-all-on-device-users.java
          :language: java
 
-.. _android-switch-user:
-
-Switch the Active User
-~~~~~~~~~~~~~~~~~~~~~~
-
-You can quickly switch an app's :ref:`active user <active-user>` to another
-logged in user at any time.
-
-.. tabs-realm-languages::
-   
-   .. tab::
-       :tabid: kotlin
-
-       .. literalinclude:: /examples/generated/android/code/start/MultipleUsersTest.codeblock.switch-the-active-user.kt
-         :language: kotlin
-
-   .. tab::
-       :tabid: java
-
-       .. literalinclude:: /examples/generated/android/code/start/MultipleUsersTest.codeblock.switch-the-active-user.java
-         :language: java
-
-.. _android-remove-user:
+.. _android-remove-a-user-from-the-device:
 
 Remove a User from the Device
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-----------------------------
 
 To remove all information about a user from a device,
 use :java-sdk:`app.removeUser() <io/realm/mongodb/App.html#removeUser-io.realm.mongodb.User->`:
@@ -155,3 +133,34 @@ use :java-sdk:`app.removeUser() <io/realm/mongodb/App.html#removeUser-io.realm.m
        .. literalinclude:: /examples/generated/android/code/start/MultipleUsersTest.codeblock.remove-a-user-from-device.java
          :language: java
          :emphasize-lines: 4
+
+.. _android-change-the-active-user:
+
+Change the Active User
+----------------------
+
+You can quickly switch an app's :ref:`active user <active-user>` to another
+logged in user at any time.
+
+.. tabs-realm-languages::
+   
+   .. tab::
+       :tabid: kotlin
+
+       .. literalinclude:: /examples/generated/android/code/start/MultipleUsersTest.codeblock.switch-the-active-user.kt
+         :language: kotlin
+
+   .. tab::
+       :tabid: java
+
+       .. literalinclude:: /examples/generated/android/code/start/MultipleUsersTest.codeblock.switch-the-active-user.java
+         :language: java
+
+Summary
+-------
+
+- The Android SDK allows a single device to accomodate multiple logged
+  in users at the same time on a single device.
+
+- The Android SDK provides utility methods to add, remove, switch, and
+  list users currently logged in on a device.

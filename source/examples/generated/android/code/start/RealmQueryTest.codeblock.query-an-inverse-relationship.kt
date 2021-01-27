@@ -1,4 +1,4 @@
-val config = SyncConfiguration.Builder(app.currentUser(), PARTITION)
+val config = RealmConfiguration.Builder()
     .allowQueriesOnUiThread(true)
     .allowWritesOnUiThread(true)
     .build()

@@ -1,8 +1,8 @@
-.. _android-access-custom-user-data:
+.. _android-custom-user-data:
 
-=======================
-Access Custom User Data
-=======================
+==============================
+Custom User Data - Android SDK
+==============================
 
 .. default-domain:: mongodb
 
@@ -23,10 +23,10 @@ User Data <custom-user-data>`.
 
 .. include:: /includes/use-custom-data-note.rst
 
-.. _android-read-custom-user-data:
+.. _android-read-a-users-custom-data:
 
-Read Custom User Data
----------------------
+Read a User’s Custom Data
+-------------------------
 
 You can read the custom user data of a currently logged in user
 through that user's ``User`` object. You cannot edit custom user data
@@ -70,10 +70,10 @@ method on the ``User`` object of a logged in user:
    <io/realm/mongodb/User.html#refreshCustomData-->` method to request
    the latest version of a user's custom data.
 
-.. _android-write-custom-user-data:
+.. _android-create-a-users-custom-data-document:
 
-Write Custom User Data
-----------------------
+Create a User’s Custom Data Document
+------------------------------------
 
 To create, update, or delete custom user data, you will need the following
 information from your custom user data configuration:
@@ -95,8 +95,8 @@ information from your custom user data configuration:
 
 .. _android-create-custom-user-data:
 
-Create Custom User Data for a User
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Example
+~~~~~~~
 
 To create custom user data for a user, create a MongoDB document in the
 custom user data collection. The user ID field of the document should
@@ -127,10 +127,10 @@ data document when you create it. The user ID field is the only
 requirement for the document to become available on the ``User`` object
 as custom user data.
 
-.. _android-update-custom-user-data:
+.. _android-update-a-users-custom-data:
 
-Update Custom User Data for a User
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Update a User’s Custom Data
+---------------------------
 
 You can update custom user data using :ref:`MongoDB Data Access
 <android-mongodb-data-access>`, {+service-short+} :ref:`Sync

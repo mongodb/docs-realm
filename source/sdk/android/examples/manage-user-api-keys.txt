@@ -1,8 +1,8 @@
-.. _android-create-manage-api-keys:
+.. _manage-user-api-keys:
 
-=============================
-Create & Manage User API Keys
-=============================
+==================================
+Manage User API Keys - Android SDK
+==================================
 
 .. default-domain:: mongodb
 
@@ -32,7 +32,7 @@ user keys with their account.
    more about server API keys, see :ref:`API Key Authentication
    <api-key-authentication>`.
 
-.. _android-api-key-create-user-key:
+.. _android-create-a-user-api-key:
 
 Create a User API Key
 ---------------------
@@ -61,10 +61,10 @@ create user API keys for anonymous users.
        .. literalinclude:: /examples/generated/android/code/start/UserAPIKeysTest.codeblock.create-a-user-api-key.java
          :language: java
 
-.. _android-api-key-look-up-user-key:
+.. _android-look-up-a-user-api-key:
 
-Look up a User's API Keys
--------------------------
+Look up a User API Key
+----------------------
 
 To get a list of all user API keys associated with the logged in user,
 call the synchronous :java-sdk:`fetchAll() <io/realm/mongodb/auth/ApiKeyAuth.html#fetchAll-->`
@@ -114,11 +114,15 @@ methods of a logged in user's
        .. literalinclude:: /examples/generated/android/code/start/UserAPIKeysTest.codeblock.look-up-a-specific-user-api-key.java
          :language: java
 
-.. _android-api-key-enable-disable:
+.. _android-enable-or-disable-a-user-api-key:
+
+Enable or Disable a User API Key
+--------------------------------
+
 .. _android-api-key-disable:
 
 Disable a User API Key
-----------------------
+~~~~~~~~~~~~~~~~~~~~~~
 
 To disable a specific user API key without deleting it, pass the
 key's id to the  :java-sdk:`disable() <io/realm/mongodb/auth/ApiKeyAuth.html#disable-ObjectId->`
@@ -143,7 +147,7 @@ methods of a logged in user's
 .. _android-api-key-enable:
 
 Enable a User API Key
----------------------
+~~~~~~~~~~~~~~~~~~~~~
 
 To enable a specific user API key that was previously disabled, pass the
 key's id to the :java-sdk:`enable() <io/realm/mongodb/auth/ApiKeyAuth.html#enable-ObjectId->`
@@ -164,7 +168,7 @@ methods of a logged in user's :java-sdk:`ApiKeyAuth <io/realm/mongodb/auth/ApiKe
        .. literalinclude:: /examples/generated/android/code/start/UserAPIKeysTest.codeblock.enable-user-api-key.java
          :language: java
 
-.. _android-api-key-delete:
+.. _android-delete-a-user-api-key:
 
 Delete a User API Key
 ---------------------
@@ -187,3 +191,12 @@ methods of a logged in user's :java-sdk:`ApiKeyAuth <io/realm/mongodb/auth/ApiKe
 
        .. literalinclude:: /examples/generated/android/code/start/UserAPIKeysTest.codeblock.delete-user-api-key.java
          :language: java
+
+Summary
+-------
+
+- User API keys allow devices or services to communicate with {+service+}
+  on behalf of a user.
+
+- The Android SDK provides utility methods to create, delete, enable,
+  disable, and look up User API keys.
