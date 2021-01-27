@@ -39,7 +39,7 @@ Define a New Object Type
       You can define a Realm object by deriving from the
       :objc-sdk:`RLMObject <Classes/RLMObject.html>` or
       :objc-sdk:`RLMEmbeddedObject
-      <Classes/RLMEmbeddedObject.html.html>` class. The name of the
+      <Classes/RLMEmbeddedObject.html>` class. The name of the
       class becomes the table name in the realm, and properties of the
       class persist in the database. This makes it as easy to work with
       persisted objects as it is to work with regular Objective-C
@@ -62,7 +62,7 @@ Supported Property Types
       You can use the following types to define your object model
       properties:
 
-      - Boolean ``Bool``
+      - ``Bool``
       - Integral types ``Int``, ``Int8``, ``Int16``, ``Int32``, ``Int64``
       - ``Decimal128``
       - ``Double``
@@ -229,8 +229,8 @@ for slightly slower writes. Indexes take up more space in the realm
 file. It’s best to only add indexes when optimizing the read performance
 for specific situations.
 
-Realm supports indexing for string, integer, boolean, Date, and ObjectId
-properties.
+Realm supports indexing for string, integer, boolean, ``Date``, and
+``ObjectId`` properties.
 
 .. tabs-realm-languages::
 
@@ -262,8 +262,9 @@ Ignore a Property
 ~~~~~~~~~~~~~~~~~
 
 Ignored properties behave exactly like normal properties. They can’t be
-used in queries and won’t trigger Realm notifications. They can still be
-observed using KVO.
+used in queries and won’t trigger Realm notifications. You can still
+observe them using :apple:`KVO
+<library/archive/documentation/Cocoa/Conceptual/KeyValueObserving/KeyValueObserving.html>`.
 
 .. tip::
 
@@ -286,7 +287,7 @@ observed using KVO.
       :tabid: objective-c
 
       If you don’t want to save a field in your model to its realm,
-      override :swift-sdk:`+[RLMObject ignoredProperties]
+      override :objc-sdk:`+[RLMObject ignoredProperties]
       <Classes/RLMObject.html#/c:objc(cs)RLMObject(cm)ignoredProperties>`
       and return a list of ignored property names.
 
@@ -433,7 +434,7 @@ overwritten by a new embedded object instance.
 
       You can define an embedded object by deriving from the
       :objc-sdk:`RLMEmbeddedObject
-      <Classes/RLMEmbeddedObject.html.html>` class. You can use your
+      <Classes/RLMEmbeddedObject.html>` class. You can use your
       embedded object in another model as you would any other type.
 
       .. literalinclude:: /examples/generated/code/start/EmbeddedObjects.codeblock.models.m
