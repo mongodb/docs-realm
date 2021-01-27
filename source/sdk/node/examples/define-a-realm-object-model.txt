@@ -20,20 +20,19 @@ Object Properties
 Every {+service-short+} object has an *object type* that refers to the object's
 class. Objects of the same type share an :ref:`object schema
 <node-object-schema>` that defines the properties and relationships of those
-objects. Your {+service-short+} object should contain a ``name`` field, and a
+objects. Your {+service-short+} object should contain a ``name`` field and a
 ``properties`` field. 
 
 .. _node-define-a-property-type:
 
 Define a Property Type
 ~~~~~~~~~~~~~~~~~~~~~~
-To define a property type, create a key value pair representing the name and
-data type of the property, under the ``properties`` field of the
-{+service-short+} object.
+To define a property type, create a key-value pair representing the name and
+data type of the property under the {+service-short+} object's ``properties`` field.
 
 .. example::
    
-   The following schema defines a DogSchema with the key value pairs ``name:string`` and ``age:int``. 
+   The following schema defines a DogSchema with the key-value pairs ``name:string`` and ``age:int``. 
 
    .. tabs-realm-languages::
      
@@ -48,7 +47,7 @@ data type of the property, under the ``properties`` field of the
 
 Specify an Optional/Required Property
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-To mark a property as optional, append a question mark (?) to its value.
+To mark a property as optional, append a question mark `?` to its value.
 
 
 .. example::
@@ -172,14 +171,15 @@ Define an Embedded Object Property
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 To specify that a Realm object model define an embedded object, set ``embedded``
 to ``true``. You can reference an embedded object type from parent object types
-in the same way as you would define a relationship.
+in the same way you would define a relationship.
 
 .. example::
    
-   An application requires two parent schemas ``ContactSchema`` and
-   ``BusinessSchema``, and a child schema ``AddressSchema`` that is embedded. A
-   ``Business`` object can embed a list of ``Address`` objects, whereas a
-   ``Contact`` object can only embed a single ``Address`` object.
+   An application requires two parent schemas, ``ContactSchema`` and
+   ``BusinessSchema``. The application requires a child schema ``AddressSchema``
+   that is embedded. A ``Business`` object can embed a list of ``Address``
+   objects, whereas a ``Contact`` object can only embed a single ``Address``
+   object.
    
    .. tabs-realm-languages::
    
@@ -203,8 +203,8 @@ Primary keys enforce uniqueness among objects in a realm.
 
 You can efficiently find and update objects by primary key.
 
-As long as an object is managed by a realm, that object's primary key
-value is immutable.
+As long as a realm manages an object, that object's primary key value is
+immutable.
 
 .. example::
    
