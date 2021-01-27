@@ -6,6 +6,7 @@ import com.mongodb.realm.examples.Expectation;
 import com.mongodb.realm.examples.RealmTest;
 import com.mongodb.realm.examples.model.Plant;
 
+import org.bson.BsonObjectId;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.junit.Before;
@@ -17,12 +18,14 @@ import java.util.List;
 import io.realm.mongodb.App;
 import io.realm.mongodb.AppConfiguration;
 import io.realm.mongodb.Credentials;
+import io.realm.mongodb.RealmEventStreamAsyncTask;
 import io.realm.mongodb.RealmResultTask;
 import io.realm.mongodb.User;
 import io.realm.mongodb.mongo.MongoClient;
 import io.realm.mongodb.mongo.MongoCollection;
 import io.realm.mongodb.mongo.MongoDatabase;
 import io.realm.mongodb.mongo.iterable.MongoCursor;
+import io.realm.mongodb.mongo.options.UpdateOptions;
 
 import static com.mongodb.realm.examples.RealmTestKt.YOUR_APP_ID;
 
@@ -45,6 +48,7 @@ public class MongoDBDataAccessTest extends RealmTest {
                             mongoClient.getDatabase("plant-data-database");
                     MongoCollection<Document> mongoCollection =
                             mongoDatabase.getCollection("plant-data-collection");
+                    mongoCollection.deleteMany(new Document());
                     mongoCollection.insertMany(Arrays.asList(
                             new Plant(new ObjectId(),
                                     "venus flytrap",
@@ -273,6 +277,400 @@ public class MongoDBDataAccessTest extends RealmTest {
                             }
                         } else {
                             Log.e("EXAMPLE", "failed to find documents with: ", task.getError());
+                        }
+                    });
+                } else {
+                    Log.e("EXAMPLE", "Failed login: " + it.getError().getErrorMessage());
+                }
+            });
+        });
+        expectation.await();
+    }
+
+    @Test
+    public void countDocuments() {
+        Expectation expectation = new Expectation();
+        activity.runOnUiThread(() -> {
+            String appID = YOUR_APP_ID; // replace this with your App ID
+            App app = new App(new AppConfiguration.Builder(appID).build());
+
+            Credentials credentials = Credentials.anonymous();
+            app.loginAsync(credentials, it -> {
+                if (it.isSuccess()) {
+                    Log.v("EXAMPLE", "Successfully authenticated.");
+                    User user = app.currentUser();
+                    MongoClient mongoClient =
+                            user.getMongoClient("mongodb-atlas"); // service for MongoDB Atlas cluster containing custom user data
+                    MongoDatabase mongoDatabase =
+                            mongoClient.getDatabase("plant-data-database");
+                    MongoCollection<Document> mongoCollection =
+                            mongoDatabase.getCollection("plant-data-collection");
+                    Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle");
+                    mongoCollection.count().getAsync(task -> {
+                        if (task.isSuccess()) {
+                            long count = task.get();
+                            Log.v("EXAMPLE", "successfully counted, number of documents in the collection: " + count);
+                        } else {
+                            Log.e("EXAMPLE", "failed to count documents with: ", task.getError());
+                        }
+                    });
+                } else {
+                    Log.e("EXAMPLE", "Failed login: " + it.getError().getErrorMessage());
+                }
+            });
+        });
+        expectation.await();
+    }
+
+    @Test
+    public void updateASingleDocument() {
+        Expectation expectation = new Expectation();
+        activity.runOnUiThread(() -> {
+            String appID = YOUR_APP_ID; // replace this with your App ID
+            App app = new App(new AppConfiguration.Builder(appID).build());
+
+            Credentials credentials = Credentials.anonymous();
+            app.loginAsync(credentials, it -> {
+                if (it.isSuccess()) {
+                    Log.v("EXAMPLE", "Successfully authenticated.");
+                    User user = app.currentUser();
+                    MongoClient mongoClient =
+                            user.getMongoClient("mongodb-atlas"); // service for MongoDB Atlas cluster containing custom user data
+                    MongoDatabase mongoDatabase =
+                            mongoClient.getDatabase("plant-data-database");
+                    MongoCollection<Document> mongoCollection =
+                            mongoDatabase.getCollection("plant-data-collection");
+                    Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle");
+                    Document queryFilter = new Document("name", "petunia");
+                    Document updateDocument = new Document("sunlight", "partial");
+                    mongoCollection.updateOne(queryFilter, updateDocument).getAsync(task -> {
+                        if (task.isSuccess()) {
+                            long count = task.get().getModifiedCount();
+                            if (count == 1) {
+                                Log.v("EXAMPLE", "successfully updated a document.");
+                            } else {
+                                Log.v("EXAMPLE", "did not update a document.");
+                            }
+                        } else {
+                            Log.e("EXAMPLE", "failed to update document with: ", task.getError());
+                        }
+                    });
+                } else {
+                    Log.e("EXAMPLE", "Failed login: " + it.getError().getErrorMessage());
+                }
+            });
+        });
+        expectation.await();
+    }
+
+    @Test
+    public void updateMultipleDocuments() {
+        Expectation expectation = new Expectation();
+        activity.runOnUiThread(() -> {
+            String appID = YOUR_APP_ID; // replace this with your App ID
+            App app = new App(new AppConfiguration.Builder(appID).build());
+
+            Credentials credentials = Credentials.anonymous();
+            app.loginAsync(credentials, it -> {
+                if (it.isSuccess()) {
+                    Log.v("EXAMPLE", "Successfully authenticated.");
+                    User user = app.currentUser();
+                    MongoClient mongoClient =
+                            user.getMongoClient("mongodb-atlas"); // service for MongoDB Atlas cluster containing custom user data
+                    MongoDatabase mongoDatabase =
+                            mongoClient.getDatabase("plant-data-database");
+                    MongoCollection<Document> mongoCollection =
+                            mongoDatabase.getCollection("plant-data-collection");
+                    Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle");
+                    Document queryFilter = new Document("_partition", "Store 47");
+                    Document updateDocument = new Document("_partition", "Store 51");
+                    mongoCollection.updateMany(queryFilter, updateDocument).getAsync(task -> {
+                        if (task.isSuccess()) {
+                            long count = task.get().getModifiedCount();
+                            if (count != 0) {
+                                Log.v("EXAMPLE", "successfully updated " + count + " documents.");
+                            } else {
+                                Log.v("EXAMPLE", "did not update any documents.");
+                            }
+                        } else {
+                            Log.e("EXAMPLE", "failed to update documents with: ", task.getError());
+                        }
+                    });
+                } else {
+                    Log.e("EXAMPLE", "Failed login: " + it.getError().getErrorMessage());
+                }
+            });
+        });
+        expectation.await();
+    }
+
+    @Test
+    public void upsertASingleDocument() {
+        Expectation expectation = new Expectation();
+        activity.runOnUiThread(() -> {
+            String appID = YOUR_APP_ID; // replace this with your App ID
+            App app = new App(new AppConfiguration.Builder(appID).build());
+
+            Credentials credentials = Credentials.anonymous();
+            app.loginAsync(credentials, it -> {
+                if (it.isSuccess()) {
+                    Log.v("EXAMPLE", "Successfully authenticated.");
+                    User user = app.currentUser();
+                    MongoClient mongoClient =
+                            user.getMongoClient("mongodb-atlas"); // service for MongoDB Atlas cluster containing custom user data
+                    MongoDatabase mongoDatabase =
+                            mongoClient.getDatabase("plant-data-database");
+                    MongoCollection<Document> mongoCollection =
+                            mongoDatabase.getCollection("plant-data-collection");
+                    Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle");
+                    Document queryFilter = new Document("sunlight", "full")
+                            .append("type", "perennial")
+                            .append("color", "green")
+                            .append("_partition", "Store 47");
+                    Document updateDocument = new Document("name", "sweet basil");
+                    UpdateOptions updateOptions = new UpdateOptions().upsert(true);
+                    mongoCollection.updateOne(queryFilter, updateDocument, updateOptions).getAsync(task -> {
+                        if (task.isSuccess()) {
+                            if(task.get().getUpsertedId() != null) {
+                                Log.v("EXAMPLE", "successfully upserted a document with id " + task.get().getUpsertedId());
+                            } else {
+                                Log.v("EXAMPLE", "successfully updated a document.");
+                            }
+                        } else {
+                            Log.e("EXAMPLE", "failed to update or insert document with: ", task.getError());
+                        }
+                    });
+                } else {
+                    Log.e("EXAMPLE", "Failed login: " + it.getError().getErrorMessage());
+                }
+            });
+        });
+        expectation.await();
+    }
+
+    @Test
+    public void deleteASingleDocument() {
+        Expectation expectation = new Expectation();
+        activity.runOnUiThread(() -> {
+            String appID = YOUR_APP_ID; // replace this with your App ID
+            App app = new App(new AppConfiguration.Builder(appID).build());
+
+            Credentials credentials = Credentials.anonymous();
+            app.loginAsync(credentials, it -> {
+                if (it.isSuccess()) {
+                    Log.v("EXAMPLE", "Successfully authenticated.");
+                    User user = app.currentUser();
+                    MongoClient mongoClient =
+                            user.getMongoClient("mongodb-atlas"); // service for MongoDB Atlas cluster containing custom user data
+                    MongoDatabase mongoDatabase =
+                            mongoClient.getDatabase("plant-data-database");
+                    MongoCollection<Document> mongoCollection =
+                            mongoDatabase.getCollection("plant-data-collection");
+                    Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle");
+                    Document queryFilter = new Document("color", "green");
+                    mongoCollection.deleteOne(queryFilter).getAsync(task -> {
+                        if (task.isSuccess()) {
+                            long count = task.get().getDeletedCount();
+                            if (count == 1) {
+                                Log.v("EXAMPLE", "successfully deleted a document.");
+                            } else {
+                                Log.v("EXAMPLE", "did not delete a document.");
+                            }
+                        } else {
+                            Log.e("EXAMPLE", "failed to delete document with: ", task.getError());
+                        }
+                    });
+                } else {
+                    Log.e("EXAMPLE", "Failed login: " + it.getError().getErrorMessage());
+                }
+            });
+        });
+        expectation.await();
+    }
+
+    @Test
+    public void deleteMultipleDocuments() {
+        Expectation expectation = new Expectation();
+        activity.runOnUiThread(() -> {
+            String appID = YOUR_APP_ID; // replace this with your App ID
+            App app = new App(new AppConfiguration.Builder(appID).build());
+
+            Credentials credentials = Credentials.anonymous();
+            app.loginAsync(credentials, it -> {
+                if (it.isSuccess()) {
+                    Log.v("EXAMPLE", "Successfully authenticated.");
+                    User user = app.currentUser();
+                    MongoClient mongoClient =
+                            user.getMongoClient("mongodb-atlas"); // service for MongoDB Atlas cluster containing custom user data
+                    MongoDatabase mongoDatabase =
+                            mongoClient.getDatabase("plant-data-database");
+                    MongoCollection<Document> mongoCollection =
+                            mongoDatabase.getCollection("plant-data-collection");
+                    Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle");
+                    Document queryFilter = new Document("sunlight", "full")
+                            .append("type", "annual");
+                    mongoCollection.deleteMany(queryFilter).getAsync(task -> {
+                        if (task.isSuccess()) {
+                            long count = task.get().getDeletedCount();
+                            if (count != 0) {
+                                Log.v("EXAMPLE", "successfully deleted " + count + " documents.");
+                            } else {
+                                Log.v("EXAMPLE", "did not delete any documents.");
+                            }
+                        } else {
+                            Log.e("EXAMPLE", "failed to delete documents with: ", task.getError());
+                        }
+                    });
+                } else {
+                    Log.e("EXAMPLE", "Failed login: " + it.getError().getErrorMessage());
+                }
+            });
+        });
+        expectation.await();
+    }
+
+    @Test
+    public void aggregateDocuments() {
+        Expectation expectation = new Expectation();
+        activity.runOnUiThread(() -> {
+            String appID = YOUR_APP_ID; // replace this with your App ID
+            App app = new App(new AppConfiguration.Builder(appID).build());
+
+            Credentials credentials = Credentials.anonymous();
+            app.loginAsync(credentials, it -> {
+                if (it.isSuccess()) {
+                    Log.v("EXAMPLE", "Successfully authenticated.");
+                    User user = app.currentUser();
+                    MongoClient mongoClient =
+                            user.getMongoClient("mongodb-atlas"); // service for MongoDB Atlas cluster containing custom user data
+                    MongoDatabase mongoDatabase =
+                            mongoClient.getDatabase("plant-data-database");
+                    MongoCollection<Document> mongoCollection =
+                            mongoDatabase.getCollection("plant-data-collection");
+                    Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle");
+                    List<Document> pipeline = Arrays.asList(
+                            new Document("$group", new Document("_id", "$type")
+                                    .append("totalCount", new Document("$sum", 1))));
+                    RealmResultTask<MongoCursor<Document>> aggregationTask = mongoCollection.aggregate(pipeline).iterator();
+                    aggregationTask.getAsync(task -> {
+                        if (task.isSuccess()) {
+                            MongoCursor<Document> results = task.get();
+                            Log.d("EXAMPLE", "successfully aggregated the plants by type. Type summary:");
+                            while (results.hasNext()) {
+                                Log.v("EXAMPLE", results.next().toString());
+                            }
+                        } else {
+                            Log.e("EXAMPLE", "failed to aggregate documents with: ", task.getError());
+                        }
+                    });
+                } else {
+                    Log.e("EXAMPLE", "Failed login: " + it.getError().getErrorMessage());
+                }
+            });
+        });
+        expectation.await();
+    }
+
+    @Test
+    public void watchDocuments() {
+        Expectation expectation = new Expectation();
+        activity.runOnUiThread(() -> {
+            String appID = YOUR_APP_ID; // replace this with your App ID
+            App app = new App(new AppConfiguration.Builder(appID).build());
+
+            Credentials credentials = Credentials.anonymous();
+            app.loginAsync(credentials, it -> {
+                if (it.isSuccess()) {
+                    Log.v("EXAMPLE", "Successfully authenticated.");
+                    User user = app.currentUser();
+                    MongoClient mongoClient =
+                            user.getMongoClient("mongodb-atlas"); // service for MongoDB Atlas cluster containing custom user data
+                    MongoDatabase mongoDatabase =
+                            mongoClient.getDatabase("plant-data-database");
+                    MongoCollection<Document> mongoCollection =
+                            mongoDatabase.getCollection("plant-data-collection");
+                    Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle");
+                    RealmEventStreamAsyncTask<Document> watcher = mongoCollection.watchAsync();
+                    watcher.get(result -> {
+                        if (result.isSuccess()) {
+                            Log.v("EXAMPLE", "Event type: " + result.get().getOperationType() + " full document: " + result.get().getFullDocument());
+                        } else {
+                            Log.e("EXAMPLE", "failed to subscribe to changes in the collection with : ", result.getError());
+                        }
+                    });
+                    Plant triffid = new Plant(
+                            new ObjectId(),
+                            "triffid",
+                            "low",
+                            "green",
+                            "perennial",
+                            "Store 47");
+                    mongoCollection.insertOne(triffid).getAsync(task -> {
+                        if (task.isSuccess()) {
+                            BsonObjectId insertedId = task.get().getInsertedId().asObjectId();
+                            Log.v("EXAMPLE", "successfully inserted a document with id " + insertedId);
+                        } else {
+                            Log.e("EXAMPLE", "failed to insert document with: ", task.getError());
+                        }
+                    });
+                } else {
+                    Log.e("EXAMPLE", "Failed login: " + it.getError().getErrorMessage());
+                }
+            });
+        });
+        expectation.await();
+    }
+
+    @Test
+    public void watchDocumentsWithFilter() {
+        Expectation expectation = new Expectation();
+        activity.runOnUiThread(() -> {
+            String appID = YOUR_APP_ID; // replace this with your App ID
+            App app = new App(new AppConfiguration.Builder(appID).build());
+
+            Credentials credentials = Credentials.anonymous();
+            app.loginAsync(credentials, it -> {
+                if (it.isSuccess()) {
+                    Log.v("EXAMPLE", "Successfully authenticated.");
+                    User user = app.currentUser();
+                    MongoClient mongoClient =
+                            user.getMongoClient("mongodb-atlas"); // service for MongoDB Atlas cluster containing custom user data
+                    MongoDatabase mongoDatabase =
+                            mongoClient.getDatabase("plant-data-database");
+                    MongoCollection<Document> mongoCollection =
+                            mongoDatabase.getCollection("plant-data-collection");
+                    Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle");
+                    RealmEventStreamAsyncTask<Document> watcher = mongoCollection
+                            .watchWithFilterAsync(new Document("fullDocument._partition", "Store 42"));
+                    watcher.get(result -> {
+                        if (result.isSuccess()) {
+                            Log.v("EXAMPLE", "Event type: " + result.get().getOperationType() + " full document: " + result.get().getFullDocument());
+                        } else {
+                            Log.e("EXAMPLE", "failed to subscribe to filtered changes in the collection with : ", result.getError());
+                        }
+                    });
+                    List<Plant> plants  = Arrays.asList(
+                            new Plant(
+                                    new ObjectId(),
+                                    "triffid",
+                                    "low",
+                                    "green",
+                                    "perennial",
+                                    "Store 47"),
+                            new Plant(
+                                    new ObjectId(),
+                                    "venomous tentacula",
+                                    "low",
+                                    "brown",
+                                    "annual",
+                                    "Store 42"
+                            ));
+                    mongoCollection.insertMany(plants).getAsync(task -> {
+                        if (task.isSuccess()) {
+                            int insertedCount = task.get().getInsertedIds().size();
+                            Log.v("EXAMPLE", "successfully inserted " + insertedCount + " documents into the collection.");
+                        } else {
+                            Log.e("EXAMPLE", "failed to insert documents with: ", task.getError());
                         }
                     });
                 } else {

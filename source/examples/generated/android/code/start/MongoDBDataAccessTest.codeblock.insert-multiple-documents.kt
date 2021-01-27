@@ -27,7 +27,10 @@ val plants = Arrays.asList(
 mongoCollection.insertMany(plants).getAsync { task ->
     if (task.isSuccess) {
         val insertedCount = task.get().insertedIds.size
-        Log.v("EXAMPLE", "successfully inserted $insertedCount documents into the collection.")
+        Log.v(
+            "EXAMPLE",
+            "successfully inserted $insertedCount documents into the collection."
+        )
     } else {
         Log.e("EXAMPLE", "failed to insert documents with: ${task.error}")
     }

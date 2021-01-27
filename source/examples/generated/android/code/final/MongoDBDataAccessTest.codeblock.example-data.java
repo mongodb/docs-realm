@@ -5,6 +5,7 @@ MongoDatabase mongoDatabase =
         mongoClient.getDatabase("plant-data-database");
 MongoCollection<Document> mongoCollection =
         mongoDatabase.getCollection("plant-data-collection");
+mongoCollection.deleteMany(new Document());
 mongoCollection.insertMany(Arrays.asList(
         new Plant(new ObjectId(),
                 "venus flytrap",
