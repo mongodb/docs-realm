@@ -2,40 +2,45 @@ val user = app.currentUser()
 val mongoClient =
     user!!.getMongoClient("mongodb-atlas") // service for MongoDB Atlas cluster containing custom user data
 val mongoDatabase =
-    mongoClient.getDatabase("custom-user-data-database")
+    mongoClient.getDatabase("plant-data-database")
 val mongoCollection =
-    mongoDatabase.getCollection("custom-user-data-collection")
+    mongoDatabase.getCollection("plant-data-collection")
 mongoCollection.insertMany(
     Arrays.asList(
-        Plant(ObjectId(),
+        Plant(
+            ObjectId(),
             "venus flytrap",
             "full",
             "white",
             "perennial",
             "Store 42"
         ),
-        Plant(ObjectId(),
+        Plant(
+            ObjectId(),
             "sweet basil",
             "partial",
             "green",
             "annual",
             "Store 42"
         ),
-        Plant(ObjectId(),
+        Plant(
+            ObjectId(),
             "thai basil",
             "partial",
             "green",
             "perennial",
             "Store 42"
         ),
-        Plant(ObjectId(),
+        Plant(
+            ObjectId(),
             "helianthus",
             "full",
             "yellow",
             "annual",
             "Store 42"
         ),
-        Plant(ObjectId(),
+        Plant(
+            ObjectId(),
             "petunia",
             "full",
             "purple",

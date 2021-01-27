@@ -9,6 +9,8 @@ import io.realm.mongodb.App
 import io.realm.mongodb.AppConfiguration
 import io.realm.mongodb.Credentials
 import io.realm.mongodb.User
+import io.realm.mongodb.mongo.iterable.MongoCursor
+import org.bson.Document
 import org.bson.types.ObjectId
 import org.junit.Before
 import org.junit.Test
@@ -33,40 +35,45 @@ class MongoDBDataAccessTest : RealmTest() {
                     val mongoClient =
                         user!!.getMongoClient("mongodb-atlas") // service for MongoDB Atlas cluster containing custom user data
                     val mongoDatabase =
-                        mongoClient.getDatabase("custom-user-data-database")
+                        mongoClient.getDatabase("plant-data-database")
                     val mongoCollection =
-                        mongoDatabase.getCollection("custom-user-data-collection")
+                        mongoDatabase.getCollection("plant-data-collection")
                     mongoCollection.insertMany(
                         Arrays.asList(
-                            Plant(ObjectId(),
+                            Plant(
+                                ObjectId(),
                                 "venus flytrap",
                                 "full",
                                 "white",
                                 "perennial",
                                 "Store 42"
                             ),
-                            Plant(ObjectId(),
+                            Plant(
+                                ObjectId(),
                                 "sweet basil",
                                 "partial",
                                 "green",
                                 "annual",
                                 "Store 42"
                             ),
-                            Plant(ObjectId(),
+                            Plant(
+                                ObjectId(),
                                 "thai basil",
                                 "partial",
                                 "green",
                                 "perennial",
                                 "Store 42"
                             ),
-                            Plant(ObjectId(),
+                            Plant(
+                                ObjectId(),
                                 "helianthus",
                                 "full",
                                 "yellow",
                                 "annual",
                                 "Store 42"
                             ),
-                            Plant(ObjectId(),
+                            Plant(
+                                ObjectId(),
                                 "petunia",
                                 "full",
                                 "purple",
@@ -106,9 +113,9 @@ class MongoDBDataAccessTest : RealmTest() {
                     val mongoClient =
                         user!!.getMongoClient("mongodb-atlas") // service for MongoDB Atlas cluster containing custom user data
                     val mongoDatabase =
-                        mongoClient.getDatabase("custom-user-data-database")
+                        mongoClient.getDatabase("plant-data-database")
                     val mongoCollection =
-                        mongoDatabase.getCollection("custom-user-data-collection")
+                        mongoDatabase.getCollection("plant-data-collection")
                     Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle")
                     // :hide-start:
                     expectation.fulfill()
@@ -116,6 +123,228 @@ class MongoDBDataAccessTest : RealmTest() {
                     // :code-block-end:
                 } else {
                     Log.e("EXAMPLE", "Failed login: ${it.error.errorMessage}")
+                }
+            }
+        }
+        expectation.await()
+    }
+
+
+    @Test
+    fun insertASingleDocument() {
+        val expectation = Expectation()
+        activity!!.runOnUiThread {
+            val appID: String = YOUR_APP_ID // replace this with your App ID
+            val app = App(AppConfiguration.Builder(appID).build())
+            val credentials = Credentials.anonymous()
+            app.loginAsync(credentials) {
+                if (it.isSuccess) {
+                    Log.v("EXAMPLE", "Successfully authenticated.")
+                    val user = app.currentUser()
+                    val mongoClient =
+                        user!!.getMongoClient("mongodb-atlas") // service for MongoDB Atlas cluster containing custom user data
+                    val mongoDatabase =
+                        mongoClient.getDatabase("plant-data-database")
+                    val mongoCollection =
+                        mongoDatabase.getCollection("plant-data-collection")
+                    Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle")
+                    // :code-block-start: insert-a-single-document
+                    val plant = Plant(
+                        ObjectId(),
+                        "lily of the valley",
+                        "full",
+                        "white",
+                        "perennial",
+                        "Store 47"
+                    )
+                    mongoCollection?.insertOne(plant)?.getAsync() { task ->
+                        if (it.isSuccess) {
+                            Log.v(
+                                "EXAMPLE",
+                                "successfully inserted a document with id: ${task.get().insertedId}"
+                            )
+                            // :hide-start:
+                            expectation.fulfill()
+                            // :hide-end:
+                        } else {
+                            Log.e("EXAMPLE", "failed to insert documents with: ${task.error}")
+                        }
+                    }
+                    // :code-block-end:
+                } else {
+                    Log.e("EXAMPLE", "Failed login: ${it.error.errorMessage}")
+                }
+            }
+        }
+        expectation.await()
+    }
+
+
+    @Test
+    fun insertMultipleDocuments() {
+        val expectation = Expectation()
+        activity!!.runOnUiThread {
+            val appID = YOUR_APP_ID // replace this with your App ID
+            val app = App(AppConfiguration.Builder(appID).build())
+            val credentials = Credentials.anonymous()
+            app.loginAsync(
+                credentials
+            ) { it: App.Result<User?> ->
+                if (it.isSuccess) {
+                    Log.v("EXAMPLE", "Successfully authenticated.")
+                    val user = app.currentUser()
+                    val mongoClient =
+                        user!!.getMongoClient("mongodb-atlas") // service for MongoDB Atlas cluster containing custom user data
+                    val mongoDatabase =
+                        mongoClient.getDatabase("plant-data-database")
+                    val mongoCollection =
+                        mongoDatabase.getCollection("plant-data-collection")
+                    Log.v(
+                        "EXAMPLE",
+                        "Successfully instantiated the MongoDB collection handle"
+                    )
+                    // :code-block-start: insert-multiple-documents
+                    val plants = Arrays.asList(
+                        Plant(
+                            ObjectId(),
+                            "rhubarb",
+                            "full",
+                            "red",
+                            "perennial",
+                            "Store 47"
+                        ),
+                        Plant(
+                            ObjectId(),
+                            "wisteria lilac",
+                            "partial",
+                            "purple",
+                            "perennial",
+                            "Store 42"
+                        ),
+                        Plant(
+                            ObjectId(),
+                            "daffodil",
+                            "full",
+                            "yellow",
+                            "perennial",
+                            "Store 42"
+                        )
+                    )
+                    mongoCollection.insertMany(plants).getAsync { task ->
+                        if (task.isSuccess) {
+                            val insertedCount = task.get().insertedIds.size
+                            Log.v("EXAMPLE", "successfully inserted $insertedCount documents into the collection.")
+                            // :hide-start:
+                            expectation.fulfill()
+                            // :hide-end:
+                        } else {
+                            Log.e("EXAMPLE", "failed to insert documents with: ${task.error}")
+                        }
+                    }
+                    // :code-block-end:
+                } else {
+                    Log.e(
+                        "EXAMPLE",
+                        "Failed login: " + it.error.errorMessage
+                    )
+                }
+            }
+        }
+        expectation.await()
+    }
+
+    @Test
+    fun findASingleDocument() {
+        val expectation = Expectation()
+        activity!!.runOnUiThread {
+            val appID = YOUR_APP_ID // replace this with your App ID
+            val app = App(AppConfiguration.Builder(appID).build())
+            val credentials = Credentials.anonymous()
+            app.loginAsync(
+                credentials
+            ) { it: App.Result<User?> ->
+                if (it.isSuccess) {
+                    Log.v("EXAMPLE", "Successfully authenticated.")
+                    val user = app.currentUser()
+                    val mongoClient =
+                        user!!.getMongoClient("mongodb-atlas") // service for MongoDB Atlas cluster containing custom user data
+                    val mongoDatabase =
+                        mongoClient.getDatabase("plant-data-database")
+                    val mongoCollection =
+                        mongoDatabase.getCollection("plant-data-collection")
+                    Log.v(
+                        "EXAMPLE",
+                        "Successfully instantiated the MongoDB collection handle"
+                    )
+                    // :code-block-start: find-a-single-document
+                    val queryFilter = Document("type", "perennial")
+                    mongoCollection.findOne(queryFilter)
+                        .getAsync { task ->
+                            if (task.isSuccess) {
+                                val result = task.get()
+                                Log.v("EXAMPLE", "successfully found a document: $result")
+                                // :hide-start:
+                                expectation.fulfill()
+                                // :hide-end:
+                            } else {
+                                Log.e("EXAMPLE", "failed to find document with: ${task.error}")
+                            }
+                        }
+                    // :code-block-end:
+                } else {
+                    Log.e("EXAMPLE", "Failed login: " + it.error.errorMessage)
+                }
+            }
+        }
+        expectation.await()
+    }
+
+    @Test
+    fun findMultipleDocuments() {
+        val expectation = Expectation()
+        activity!!.runOnUiThread {
+            val appID = YOUR_APP_ID // replace this with your App ID
+            val app = App(AppConfiguration.Builder(appID).build())
+            val credentials = Credentials.anonymous()
+            app.loginAsync(
+                credentials
+            ) { it: App.Result<User?> ->
+                if (it.isSuccess) {
+                    Log.v("EXAMPLE", "Successfully authenticated.")
+                    val user = app.currentUser()
+                    val mongoClient =
+                        user!!.getMongoClient("mongodb-atlas") // service for MongoDB Atlas cluster containing custom user data
+                    val mongoDatabase =
+                        mongoClient.getDatabase("plant-data-database")
+                    val mongoCollection =
+                        mongoDatabase.getCollection("plant-data-collection")
+                    Log.v(
+                        "EXAMPLE",
+                        "Successfully instantiated the MongoDB collection handle"
+                    )
+                    // :code-block-start: find-multiple-documents
+                    val queryFilter = Document("_partition", "Store 42")
+                    val findTask = mongoCollection.find(queryFilter).iterator()
+                    findTask.getAsync { task ->
+                        if (task.isSuccess) {
+                            val results = task.get()
+                            Log.v("EXAMPLE", "successfully found all plants for Store 42:")
+                            while (results.hasNext()) {
+                                Log.v("EXAMPLE", results.next().toString())
+                            }
+                            // :hide-start:
+                            expectation.fulfill()
+                            // :hide-end:
+                        } else {
+                            Log.e("EXAMPLE", "failed to find documents with: ${task.error}")
+                        }
+                    }
+                    // :code-block-end:
+                } else {
+                    Log.e(
+                        "EXAMPLE",
+                        "Failed login: " + it.error.errorMessage
+                    )
                 }
             }
         }
