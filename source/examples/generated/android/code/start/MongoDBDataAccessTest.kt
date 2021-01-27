@@ -9,7 +9,6 @@ import io.realm.mongodb.App
 import io.realm.mongodb.AppConfiguration
 import io.realm.mongodb.Credentials
 import io.realm.mongodb.User
-import io.realm.mongodb.mongo.iterable.MongoCursor
 import org.bson.Document
 import org.bson.types.ObjectId
 import org.junit.Before
@@ -144,14 +143,10 @@ class MongoDBDataAccessTest : RealmTest() {
                         "full",
                         "white",
                         "perennial",
-                        "Store 47"
-                    )
+                        "Store 47")
                     mongoCollection?.insertOne(plant)?.getAsync() { task ->
                         if (it.isSuccess) {
-                            Log.v(
-                                "EXAMPLE",
-                                "successfully inserted a document with id: ${task.get().insertedId}"
-                            )
+                            Log.v("EXAMPLE", "successfully inserted a document with id: ${task.get().insertedId}")
                         } else {
                             Log.e("EXAMPLE", "failed to insert documents with: ${task.error}")
                         }
