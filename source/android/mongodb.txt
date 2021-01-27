@@ -27,7 +27,31 @@ Set Up Your Project
 Example Data
 ------------
 
-.. include:: /includes/mongodb-data-access-example-plant-documents.rst
+The following examples operate on a MongoDB collection that describes
+inventory in a chain of plant stores. Consider the following collection
+of documents describing various plants for sale in a store:
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/generated/android/code/start/Plant.codeblock.plant.kt
+         :language: kotlin
+         :caption: Plant.kt
+
+      .. literalinclude:: /examples/generated/android/code/start/MongoDBDataAccessTest.codeblock.example-data.kt
+         :language: kotlin
+
+   .. tab::
+      :tabid: java
+
+      .. literalinclude:: /examples/generated/android/code/start/Plant.codeblock.plant.java
+         :language: java
+         :caption: Plant.java
+
+      .. literalinclude:: /examples/generated/android/code/start/MongoDBDataAccessTest.codeblock.example-data.java
+         :language: java
 
 .. _android-mongodb-create-documents:
 
@@ -56,57 +80,18 @@ valley" plant into a
 <android-mongodb-example-dataset>`:
 
 .. tabs-realm-languages::
-   
+
    .. tab::
       :tabid: kotlin
-      
-      .. code-block:: kotlin
-         
-         val user: User? = app.currentUser()
 
-         val mongoClient : MongoClient? = user?.getMongoClient("<mongodb-atlas-service-name>")
-         val mongoDatabase : MongoDatabase? = mongoClient?.getDatabase("inventory")
-         val mongoCollection : MongoCollection<Document>? = mongoDatabase?.getCollection("plants")
-
-         val plant : Document = Document("name", "lily of the valley")
-                                   .append("sunlight", "full")
-                                   .append("color", "white")
-                                   .append("type", "perennial")
-                                   .append("_partition", "Store 47")
-
-         mongoCollection?.insertOne(plant)?.getAsync() {
-            if (it.isSuccess) {
-               Log.v("EXAMPLE", "successfully inserted a document with id: ${it.get().insertedId}")
-            } else {
-               Log.e("EXAMPLE", "failed to insert documents with: ${it.error}")
-            }
-         }
+      .. literalinclude:: /examples/generated/android/code/start/MongoDBDataAccessTest.codeblock.insert-a-single-document.kt
+         :language: kotlin
 
    .. tab::
       :tabid: java
 
-      .. code-block:: java
-
-         User user = app.currentUser();
-
-         MongoClient mongoClient = user.getMongoClient("<mongodb-atlas-service-name>");
-         MongoDatabase mongoDatabase = mongoClient.getDatabase("inventory");
-         MongoCollection<Document> mongoCollection  = mongoDatabase.getCollection("plants");
-
-         Document plant = new Document("name", "lily of the valley")
-                .append("sunlight", "full")
-                .append("color", "white")
-                .append("type", "perennial")
-                .append("_partition", "Store 47");
-
-         mongoCollection.insertOne(plant).getAsync(task -> {
-            if (task.isSuccess()) {
-                BsonObjectId insertedId = task.get().getInsertedId().asObjectId();
-                Log.v("EXAMPLE", "successfully inserted a document with id " + insertedId);
-            } else {
-                Log.e("EXAMPLE", "failed to insert document with: ", task.getError());
-            }
-         });
+      .. literalinclude:: /examples/generated/android/code/start/MongoDBDataAccessTest.codeblock.insert-a-single-document.java
+         :language: java
 
 Running this snippet produces output resembling the following:
 
@@ -128,80 +113,18 @@ The following snippet inserts three documents describing plants into a
 <android-mongodb-example-dataset>`:
 
 .. tabs-realm-languages::
-   
+
    .. tab::
       :tabid: kotlin
 
-      .. code-block:: kotlin
-
-         val user: User? = app.currentUser()
-
-         val mongoClient : MongoClient? = user?.getMongoClient("<mongodb-atlas-service-name>")
-         val mongoDatabase : MongoDatabase? = mongoClient?.getDatabase("inventory")
-         val mongoCollection : MongoCollection<Document>? = mongoDatabase?.getCollection("plants")
-
-         val plants : List<Document> = Arrays.asList(
-                    Document("name", "rhubarb")
-                        .append("sunlight", "full")
-                        .append("color", "red")
-                        .append("type", "perennial")
-                        .append("_partition", "Store 47"),
-                    Document("name", "wisteria lilac")
-                        .append("sunlight", "partial")
-                        .append("color", "purple")
-                        .append("type", "perennial")
-                        .append("_partition", "Store 42"),
-                    Document("name", "daffodil")
-                        .append("sunlight", "full")
-                        .append("color", "yellow")
-                        .append("type", "perennial")
-                        .append("_partition", "Store 42"))
-
-         mongoCollection?.insertMany(plants)?.getAsync {
-            if (it.isSuccess) {
-               Log.v("EXAMPLE", "successfully inserted ${it.get().insertedIds.size} documents into the collection.")
-            } else {
-               Log.e("EXAMPLE", "failed to insert documents with: ${it.error}")
-            }
-         }
-
+      .. literalinclude:: /examples/generated/android/code/start/MongoDBDataAccessTest.codeblock.insert-multiple-documents.kt
+         :language: kotlin
 
    .. tab::
       :tabid: java
 
-      .. code-block:: java
-
-         User user = app.currentUser();
-
-         MongoClient mongoClient = user.getMongoClient("<mongodb-atlas-service-name>");
-         MongoDatabase mongoDatabase = mongoClient.getDatabase("inventory");
-         MongoCollection<Document> mongoCollection  = mongoDatabase.getCollection("plants");
-
-         List<Document> plants  = Arrays.asList(
-                new Document("name", "rhubarb")
-                        .append("sunlight", "full")
-                        .append("color", "red")
-                        .append("type", "perennial")
-                        .append("_partition", "Store 47"),
-                new Document("name", "wisteria lilac")
-                        .append("sunlight", "partial")
-                        .append("color", "purple")
-                        .append("type", "perennial")
-                        .append("_partition", "Store 42"),
-                new Document("name", "daffodil")
-                        .append("sunlight", "full")
-                        .append("color", "yellow")
-                        .append("type", "perennial")
-                        .append("_partition", "Store 42"));
-
-         mongoCollection.insertMany(plants).getAsync(task -> {
-            if (task.isSuccess()) {
-                int insertedCount = task.get().getInsertedIds().size();
-                Log.v("EXAMPLE", "successfully inserted " + insertedCount + " documents into the collection.");
-            } else {
-                Log.e("EXAMPLE", "failed to insert documents with: ", task.getError());
-            }
-         });
+      .. literalinclude:: /examples/generated/android/code/start/MongoDBDataAccessTest.codeblock.insert-multiple-documents.java
+         :language: java
 
 Running this snippet produces output resembling the following:
 
@@ -237,47 +160,18 @@ The following snippet finds a single document from the a
 field contains the string value "perennial":
 
 .. tabs-realm-languages::
-   
+
    .. tab::
       :tabid: kotlin
 
-      .. code-block:: kotlin
-
-         val user: User? = app.currentUser()
-
-         val mongoClient : MongoClient? = user?.getMongoClient("<mongodb-atlas-service-name>")
-         val mongoDatabase : MongoDatabase? = mongoClient?.getDatabase("inventory")
-         val mongoCollection : MongoCollection<Document>? = mongoDatabase?.getCollection("plants")
-
-         val queryFilter : Document = Document("type", "perennial")
-         mongoCollection?.findOne(queryFilter)?.getAsync {
-            if (it.isSuccess) {
-               Log.v("EXAMPLE", "successfully found a document: ${it.get()}")
-            } else {
-               Log.e("EXAMPLE", "failed to find document with: ${it.error}")
-            }
-         }
+      .. literalinclude:: /examples/generated/android/code/start/MongoDBDataAccessTest.codeblock.find-a-single-document.kt
+         :language: kotlin
 
    .. tab::
       :tabid: java
 
-      .. code-block:: java
-
-         User user = app.currentUser();
-
-         MongoClient mongoClient = user.getMongoClient("<mongodb-atlas-service-name>");
-         MongoDatabase mongoDatabase = mongoClient.getDatabase("inventory");
-         MongoCollection<Document> mongoCollection  = mongoDatabase.getCollection("plants");
-
-         Document queryFilter  = new Document("type", "perennial");
-         mongoCollection.findOne(queryFilter).getAsync(task -> {
-            if (task.isSuccess()) {
-                Document result = task.get();
-                Log.v("EXAMPLE", "successfully found a document: " + result);
-            } else {
-                Log.e("EXAMPLE", "failed to find document with: ", task.getError());
-            }
-         });
+      .. literalinclude:: /examples/generated/android/code/start/MongoDBDataAccessTest.codeblock.find-a-single-document.java
+         :language: java
 
 Running this snippet produces output resembling the following:
 
@@ -299,57 +193,18 @@ The following snippet finds all documents in a
 ``_partition`` with a value of "Store 42":
 
 .. tabs-realm-languages::
-   
+
    .. tab::
       :tabid: kotlin
 
-      .. code-block:: kotlin
-
-         val user: User? = app.currentUser()
-
-         val mongoClient : MongoClient? = user?.getMongoClient("<mongodb-atlas-service-name>")
-         val mongoDatabase : MongoDatabase? = mongoClient?.getDatabase("inventory")
-         val mongoCollection : MongoCollection<Document>? = mongoDatabase?.getCollection("plants")
-
-         val queryFilter : Document = Document("_partition", "Store 42")
-         val findIterable : FindIterable<Document>? = mongoCollection?.find(queryFilter)
-
-         findIterable?.iterator()?.getAsync {
-            if (it.isSuccess) {
-               Log.v("EXAMPLE", "successfully found all plants for Store 42:")
-               it.get().forEach {
-                  Log.v("EXAMPLE", it.toString())
-               }
-            } else {
-               Log.e("EXAMPLE", "failed to find documents with: ${it.error}")
-            }
-         }
+      .. literalinclude:: /examples/generated/android/code/start/MongoDBDataAccessTest.codeblock.find-multiple-documents.kt
+         :language: kotlin
 
    .. tab::
       :tabid: java
 
-      .. code-block:: java
-
-         User user = app.currentUser();
-
-         MongoClient mongoClient = user.getMongoClient("<mongodb-atlas-service-name>");
-         MongoDatabase mongoDatabase = mongoClient.getDatabase("inventory");
-         MongoCollection<Document> mongoCollection  = mongoDatabase.getCollection("plants");
-
-         Document queryFilter  = new Document("_partition", "Store 42");
-         Task<MongoCursor<Document>> findTask = mongoCollection.find(queryFilter).iterator();
-
-         findTask.getAsync(task -> {
-            if (task.isSuccess()) {
-                MongoCursor<Document> results = task.get();
-                Log.v("EXAMPLE", "successfully found all plants for Store 42:");
-                while (results.hasNext()) {
-                    Log.v("EXAMPLE", results.next().toString());
-                }
-            } else {
-                Log.e("EXAMPLE", "failed to find documents with: ", task.getError());
-            }
-         });
+      .. literalinclude:: /examples/generated/android/code/start/MongoDBDataAccessTest.codeblock.find-multiple-documents.java
+         :language: java
 
 Running this snippet produces output resembling the following:
 
@@ -378,45 +233,18 @@ The following snippet counts the number of documents in a
 <android-mongodb-example-dataset>`:
 
 .. tabs-realm-languages::
-   
+
    .. tab::
       :tabid: kotlin
 
-      .. code-block:: kotlin
-
-         val user: User? = app.currentUser()
-
-         val mongoClient : MongoClient? = user?.getMongoClient("<mongodb-atlas-service-name>")
-         val mongoDatabase : MongoDatabase? = mongoClient?.getDatabase("inventory")
-         val mongoCollection : MongoCollection<Document>? = mongoDatabase?.getCollection("plants")
-
-         mongoCollection?.count()?.getAsync {
-            if (it.isSuccess) {
-               Log.v("EXAMPLE", "successfully counted, number of documents in the collection: ${it.get()}")
-            } else {
-               Log.e("EXAMPLE", "failed to count documents with: ${it.error}")
-            }
-         }
+      .. literalinclude:: /examples/generated/android/code/start/MongoDBDataAccessTest.codeblock.count-documents.kt
+         :language: kotlin
 
    .. tab::
       :tabid: java
 
-      .. code-block:: java
-
-         User user = app.currentUser();
-
-         MongoClient mongoClient = user.getMongoClient("<mongodb-atlas-service-name>");
-         MongoDatabase mongoDatabase = mongoClient.getDatabase("inventory");
-         MongoCollection<Document> mongoCollection  = mongoDatabase.getCollection("plants");
-
-         mongoCollection.count().getAsync(task -> {
-            if (task.isSuccess()) {
-                long count = task.get();
-                Log.v("EXAMPLE", "successfully counted, number of documents in the collection: " + count);
-            } else {
-                Log.e("EXAMPLE", "failed to count documents with: ", task.getError());
-            }
-         });
+      .. literalinclude:: /examples/generated/android/code/start/MongoDBDataAccessTest.codeblock.count-documents.java
+         :language: java
 
 
 Running this snippet produces output resembling the following:
@@ -454,60 +282,18 @@ where the ``name`` field contains the value "petunia" and changes the value
 of the first matched document's ``sunlight`` field to "partial":
 
 .. tabs-realm-languages::
-   
+
    .. tab::
       :tabid: kotlin
 
-      .. code-block:: kotlin
-
-         val user: User? = app.currentUser()
-
-         val mongoClient : MongoClient? = user?.getMongoClient("<mongodb-atlas-service-name>")
-         val mongoDatabase : MongoDatabase? = mongoClient?.getDatabase("inventory")
-         val mongoCollection : MongoCollection<Document>? = mongoDatabase?.getCollection("plants")
-
-         val queryFilter : Document = Document("name", "petunia")
-         val updateDocument : Document = Document("sunlight", "partial")
-
-         mongoCollection?.updateOne(queryFilter, updateDocument)?.getAsync {
-            if (it.isSuccess) {
-               val count : Long = it.get().modifiedCount
-               if (count == 1L) {
-                  Log.v("EXAMPLE", "successfully updated a document.")
-               } else {
-                  Log.v("EXAMPLE", "did not update a document.")
-               }
-            } else {
-               Log.e("EXAMPLE", "failed to update a document with: ${it.error}")
-            }
-         }
+      .. literalinclude:: /examples/generated/android/code/start/MongoDBDataAccessTest.codeblock.update-a-single-document.kt
+         :language: kotlin
 
    .. tab::
       :tabid: java
 
-      .. code-block:: java
-
-         User user = app.currentUser();
-
-         MongoClient mongoClient = user.getMongoClient("<mongodb-atlas-service-name>");
-         MongoDatabase mongoDatabase = mongoClient.getDatabase("inventory");
-         MongoCollection<Document> mongoCollection  = mongoDatabase.getCollection("plants");
-
-         Document queryFilter = new Document("name", "petunia");
-         Document updateDocument = new Document("sunlight", "partial");
-
-         mongoCollection.updateOne(queryFilter, updateDocument).getAsync(task -> {
-            if (task.isSuccess()) {
-                long count = task.get().getModifiedCount();
-                if (count == 1) {
-                    Log.v("EXAMPLE", "successfully updated a document.");
-                } else {
-                    Log.v("EXAMPLE", "did not update a document.");
-                }
-            } else {
-                Log.e("EXAMPLE", "failed to update document with: ", task.getError());
-            }
-         });
+      .. literalinclude:: /examples/generated/android/code/start/MongoDBDataAccessTest.codeblock.update-a-single-document.java
+         :language: java
 
 Running this snippet produces output resembling the following:
 
@@ -531,59 +317,18 @@ where the ``_partition`` field contains the value "Store 47" and changes
 the value of the ``_partition`` field of each matching document to "Store 51":
 
 .. tabs-realm-languages::
-   
+
    .. tab::
       :tabid: kotlin
 
-      .. code-block:: kotlin
-
-         val user: User? = app.currentUser()
-
-         val mongoClient : MongoClient? = user?.getMongoClient("<mongodb-atlas-service-name>")
-         val mongoDatabase : MongoDatabase? = mongoClient?.getDatabase("inventory")
-         val mongoCollection : MongoCollection<Document>? = mongoDatabase?.getCollection("plants")
-
-         val queryFilter : Document = Document("_partition", "Store 47")
-         val updateDocument : Document = Document("_partition", "Store 51")
-         mongoCollection?.updateMany(queryFilter, updateDocument)?.getAsync {
-            if (it.isSuccess) {
-               val count : Long = it.get().modifiedCount
-               if (count == 1L) {
-                  Log.v("EXAMPLE", "successfully updated ${count} documents.")
-               } else {
-                  Log.v("EXAMPLE", "did not update any documents.")
-               }
-            } else {
-               Log.e("EXAMPLE", "failed to update documents with: ${it.error}")
-            }
-         }
+      .. literalinclude:: /examples/generated/android/code/start/MongoDBDataAccessTest.codeblock.update-multiple-documents.kt
+         :language: kotlin
 
    .. tab::
       :tabid: java
 
-      .. code-block:: java
-
-         User user = app.currentUser();
-
-         MongoClient mongoClient = user.getMongoClient("<mongodb-atlas-service-name>");
-         MongoDatabase mongoDatabase = mongoClient.getDatabase("inventory");
-         MongoCollection<Document> mongoCollection  = mongoDatabase.getCollection("plants");
-
-         Document queryFilter = new Document("_partition", "Store 47");
-         Document updateDocument = new Document("_partition", "Store 51");
-
-         mongoCollection.updateMany(queryFilter, updateDocument).getAsync(task -> {
-            if (task.isSuccess()) {
-                long count = task.get().getModifiedCount();
-                if (count != 0) {
-                    Log.v("EXAMPLE", "successfully updated " + count + " documents.");
-                } else {
-                    Log.v("EXAMPLE", "did not update any documents.");
-                }
-            } else {
-                Log.e("EXAMPLE", "failed to update documents with: ", task.getError());
-            }
-         });
+      .. literalinclude:: /examples/generated/android/code/start/MongoDBDataAccessTest.codeblock.update-multiple-documents.java
+         :language: java
 
 Running this snippet produces output resembling the following:
 
@@ -617,65 +362,18 @@ document matches the query, MongoDB creates a new document that includes
 both the query filter and specified updates:
 
 .. tabs-realm-languages::
-   
+
    .. tab::
       :tabid: kotlin
 
-      .. code-block:: kotlin
-
-         val user: User? = app.currentUser()
-
-         val mongoClient : MongoClient? = user?.getMongoClient("<mongodb-atlas-service-name>")
-         val mongoDatabase : MongoDatabase? = mongoClient?.getDatabase("inventory")
-         val mongoCollection : MongoCollection<Document>? = mongoDatabase?.getCollection("plants")
-
-         val queryFilter : Document = Document("sunlight", "full")
-                                         .append("type", "perennial")
-                                         .append("color", "green")
-                                         .append("_partition", "Store 47")
-         val updateDocument : Document = Document("name", "sweet basil")
-         val updateOptions : UpdateOptions = UpdateOptions().upsert(true)
-         mongoCollection?.updateOne(queryFilter, updateDocument, updateOptions)?.getAsync {
-            if (it.isSuccess) {
-               if (it.get().upsertedId != null) {
-                 Log.v("EXAMPLE", "successfully upserted a document with id: ${it.get().upsertedId}")
-               } else {
-                 Log.v("EXAMPLE", "successfully updated a document.")
-               }
-            } else {
-               Log.e("EXAMPLE", "failed to update or insert document with: ${it.error}")
-            }
-         }
+      .. literalinclude:: /examples/generated/android/code/start/MongoDBDataAccessTest.codeblock.upsert-a-single-document.kt
+         :language: kotlin
 
    .. tab::
       :tabid: java
 
-      .. code-block:: java
-
-         User user = app.currentUser();
-
-         MongoClient mongoClient = user.getMongoClient("<mongodb-atlas-service-name>");
-         MongoDatabase mongoDatabase = mongoClient.getDatabase("inventory");
-         MongoCollection<Document> mongoCollection  = mongoDatabase.getCollection("plants");
-
-         Document queryFilter = new Document("sunlight", "full")
-                .append("type", "perennial")
-                .append("color", "green")
-                .append("_partition", "Store 47");
-         Document updateDocument = new Document("name", "sweet basil");
-         UpdateOptions updateOptions = new UpdateOptions().upsert(true);
-
-         mongoCollection.updateOne(queryFilter, updateDocument, updateOptions).getAsync(task -> {
-            if (task.isSuccess()) {
-                if(task.get().getUpsertedId() != null) {
-                    Log.v("EXAMPLE", "successfully upserted a document with id " + task.get().getUpsertedId());
-                } else {
-                    Log.v("EXAMPLE", "successfully updated a document.");
-                }
-            } else {
-                Log.e("EXAMPLE", "failed to update or insert document with: ", task.getError());
-            }
-         });
+      .. literalinclude:: /examples/generated/android/code/start/MongoDBDataAccessTest.codeblock.upsert-a-single-document.java
+         :language: java
 
 Running this snippet produces output resembling the following:
 
@@ -711,57 +409,18 @@ document where the ``color`` field has a value of "green" and deletes
 the first document that matches the query:
 
 .. tabs-realm-languages::
-   
+
    .. tab::
       :tabid: kotlin
 
-      .. code-block:: kotlin
-
-         val user: User? = app.currentUser()
-
-         val mongoClient : MongoClient? = user?.getMongoClient("<mongodb-atlas-service-name>")
-         val mongoDatabase : MongoDatabase? = mongoClient?.getDatabase("inventory")
-         val mongoCollection : MongoCollection<Document>? = mongoDatabase?.getCollection("plants")
-
-         val queryFilter : Document = Document("color", "green")
-         mongoCollection?.deleteOne(queryFilter)?.getAsync {
-            if (it.isSuccess) {
-               val count : Long = it.get().deletedCount
-               if (count == 1L) {
-                  Log.v("EXAMPLE", "successfully deleted a document.")
-               } else {
-                  Log.v("EXAMPLE", "did not delete a document.")
-               }
-            } else {
-               Log.e("EXAMPLE", "failed to delete document with: ${it.error}")
-            }
-         }
+      .. literalinclude:: /examples/generated/android/code/start/MongoDBDataAccessTest.codeblock.delete-a-single-document.kt
+         :language: kotlin
 
    .. tab::
       :tabid: java
 
-      .. code-block:: java
-
-         User user = app.currentUser();
-
-         MongoClient mongoClient = user.getMongoClient("<mongodb-atlas-service-name>");
-         MongoDatabase mongoDatabase = mongoClient.getDatabase("inventory");
-         MongoCollection<Document> mongoCollection  = mongoDatabase.getCollection("plants");
-
-         Document queryFilter = new Document("color", "green");
-
-         mongoCollection.deleteOne(queryFilter).getAsync(task -> {
-            if (task.isSuccess()) {
-                long count = task.get().getDeletedCount();
-                if (count == 1) {
-                    Log.v("EXAMPLE", "successfully deleted a document.");
-                } else {
-                    Log.v("EXAMPLE", "did not delete a document.");
-                }
-            } else {
-                Log.e("EXAMPLE", "failed to delete document with: ", task.getError());
-            }
-         });
+      .. literalinclude:: /examples/generated/android/code/start/MongoDBDataAccessTest.codeblock.delete-a-single-document.java
+         :language: java
 
 Running this snippet produces output resembling the following:
 
@@ -786,59 +445,18 @@ a ``sunlight`` field value of "full" and a ``type`` field value of
 "annual".
 
 .. tabs-realm-languages::
-   
+
    .. tab::
       :tabid: kotlin
 
-      .. code-block:: kotlin
-
-         val user: User? = app.currentUser()
-
-         val mongoClient : MongoClient? = user?.getMongoClient("<mongodb-atlas-service-name>")
-         val mongoDatabase : MongoDatabase? = mongoClient?.getDatabase("inventory")
-         val mongoCollection : MongoCollection<Document>? = mongoDatabase?.getCollection("plants")
-
-         val queryFilter : Document = Document("sunlight", "full")
-                                         .append("type", "annual")
-         mongoCollection?.deleteMany(queryFilter)?.getAsync {
-            if (it.isSuccess) {
-                val count : Long = it.get().deletedCount
-                if (count != 0L) {
-                    Log.v("EXAMPLE", "succcessfully deleted ${count} documents.")
-                } else {
-                    Log.v("EXAMPLE", "did not delete any documents.")
-                }
-            } else {
-               Log.e("EXAMPLE", "failed to delete documents with: ${it.error}")
-            }
-         }
+      .. literalinclude:: /examples/generated/android/code/start/MongoDBDataAccessTest.codeblock.delete-multiple-documents.kt
+         :language: kotlin
 
    .. tab::
       :tabid: java
 
-      .. code-block:: java
-
-         User user = app.currentUser();
-
-         MongoClient mongoClient = user.getMongoClient("<mongodb-atlas-service-name>");
-         MongoDatabase mongoDatabase = mongoClient.getDatabase("inventory");
-         MongoCollection<Document> mongoCollection  = mongoDatabase.getCollection("plants");
-
-         Document queryFilter = new Document("sunlight", "full")
-                .append("type", "annual");
-
-         mongoCollection.deleteMany(queryFilter).getAsync(task -> {
-            if (task.isSuccess()) {
-                long count = task.get().getDeletedCount();
-                if (count != 0) {
-                    Log.v("EXAMPLE", "successfully deleted " + count + " documents.");
-                } else {
-                    Log.v("EXAMPLE", "did not delete any documents.");
-                }
-            } else {
-                Log.e("EXAMPLE", "failed to delete documents with: ", task.getError());
-            }
-         });
+      .. literalinclude:: /examples/generated/android/code/start/MongoDBDataAccessTest.codeblock.delete-multiple-documents.java
+         :language: java
 
 Running this snippet produces output resembling the following:
 
@@ -877,63 +495,18 @@ collection by their ``type`` value and aggregates a count of the
 number of each type:
 
 .. tabs-realm-languages::
-   
+
    .. tab::
       :tabid: kotlin
 
-      .. code-block:: kotlin
-
-         val user: User? = app.currentUser()
-
-         val mongoClient : MongoClient? = user?.getMongoClient("<mongodb-atlas-service-name>")
-         val mongoDatabase : MongoDatabase? = mongoClient?.getDatabase("<database>")
-         val mongoCollection : MongoCollection<Document>? = mongoDatabase?.getCollection("<collection>")
-
-         val pipeline : List<Document> = Arrays.asList(
-                  Document("\$group", Document("_id", "\$type")
-                     .append("totalCount", Document("\$sum", 1))))
-         val aggregationTask : Task<MongoCursor<Document>>? =
-            mongoCollection?.aggregate(pipeline)?.iterator()
-
-         aggregationTask?.getAsync {
-            if (it.isSuccess) {
-               Log.v("EXAMPLE", "Plant type counts: ")
-               it.result.forEach {
-                  Log.v("EXAMPLE", it.toString())
-               }
-            } else {
-               Log.e("EXAMPLE", "failed to aggregate documents with: ${it.error}")
-            }
-         }
+      .. literalinclude:: /examples/generated/android/code/start/MongoDBDataAccessTest.codeblock.aggregate-documents.kt
+         :language: kotlin
 
    .. tab::
       :tabid: java
 
-      .. code-block:: java
-
-         User user = app.currentUser();
-
-         MongoClient mongoClient = user.getMongoClient("<mongodb-atlas-service-name>");
-         MongoDatabase mongoDatabase = mongoClient.getDatabase("inventory");
-         MongoCollection<Document> mongoCollection  = mongoDatabase.getCollection("plants");
-
-         List<Document> pipeline = Arrays.asList(
-                new Document("$group", new Document("_id", "$type")
-                        .append("totalCount", new Document("$sum", 1))));
-
-         Task<MongoCursor<Document>> aggregationTask = mongoCollection.aggregate(pipeline).iterator();
-
-         aggregationTask.getAsync(task -> {
-            if (task.isSuccess()) {
-                MongoCursor<Document> results = task.getResult();
-                Log.d("EXAMPLE", "successfully aggregated the plants by type. Type summary:");
-                while (results.hasNext()) {
-                    Log.v("EXAMPLE", results.next().toString());
-                }
-            } else {
-                Log.e("EXAMPLE", "failed to aggregate documents with: ", task.getError());
-            }
-         });
+      .. literalinclude:: /examples/generated/android/code/start/MongoDBDataAccessTest.codeblock.aggregate-documents.java
+         :language: java
 
 Running this snippet produces output resembling the following:
 
@@ -969,85 +542,18 @@ The following snippet watches for changes to any documents in the
 ``plants`` collection:
 
 .. tabs-realm-languages::
-   
+
    .. tab::
       :tabid: kotlin
 
-      .. code-block:: kotlin
-
-         val user: User? = app.currentUser()
-
-         val mongoClient : MongoClient? = user?.getMongoClient("<mongodb-atlas-service-name>")
-         val mongoDatabase : MongoDatabase? = mongoClient?.getDatabase("<database>")
-         val mongoCollection : MongoCollection<Document>? = mongoDatabase?.getCollection("<collection>")
-
-         val watcher : RealmEventStreamAsyncTask<Document>? = mongoCollection?.watchAsync()
-
-         watcher?.get {
-            if (it.isSuccess) {
-                Log.v(
-                    "EXAMPLE",
-                    "Event type: ${it.get().operationType}, full document: ${it.get().fullDocument}"
-                )
-            } else {
-                Log.e("EXAMPLE", "failed to subscribe to changes in the collection with: ${it.error}")
-            }
-         }
-
-         val plant : Document = Document("name", "triffid")
-                    .append("sunlight", "low")
-                    .append("color", "green")
-                    .append("type", "perennial")
-                    .append("_partition", "Store 47")
-
-         mongoCollection?.insertOne(plant)?.getAsync() {
-            if (it.isSuccess) {
-                Log.v("EXAMPLE", "successfully inserted a document with id: ${it.get().insertedId}")
-            } else {
-                Log.e("EXAMPLE", "failed to insert documents with: ${it.error}")
-            }
-         }
+      .. literalinclude:: /examples/generated/android/code/start/MongoDBDataAccessTest.codeblock.watch-documents.kt
+         :language: kotlin
 
    .. tab::
       :tabid: java
 
-      .. code-block:: java
-
-         User user = app.currentUser();
-
-         MongoClient mongoClient = user.getMongoClient("<mongodb-atlas-service-name>");
-         MongoDatabase mongoDatabase = mongoClient.getDatabase("inventory");
-         MongoCollection<Document> mongoCollection  = mongoDatabase.getCollection("plants");
-
-         RealmEventStreamAsyncTask<Document> watcher = mongoCollection.watchAsync();
-
-         watcher.get(result -> {
-            if (result.isSuccess()) {
-                Log.v(
-                        "EXAMPLE",
-                        "Event type: " + result.get().getOperationType() + " full document: " + result.get().getFullDocument()
-                );
-            } else {
-                Log.e("EXAMPLE", "failed to subscribe to changes in the collection with : ", result.getError());
-            }
-         });
-
-         Document plant = new Document("name", "triffid")
-                .append("sunlight", "low")
-                .append("color", "green")
-                .append("type", "perennial")
-                .append("_partition", "Store 47");
-
-         mongoCollection.insertOne(plant).getAsync(task -> {
-            if (task.isSuccess()) {
-                BsonObjectId insertedId = task.get().getInsertedId().asObjectId();
-                Log.v("EXAMPLE", "successfully inserted a document with id " + insertedId);
-            } else {
-                Log.e("EXAMPLE", "failed to insert document with: ", task.getError());
-            }
-         });
-
-
+      .. literalinclude:: /examples/generated/android/code/start/MongoDBDataAccessTest.codeblock.watch-documents.java
+         :language: java
 
 Running this snippet produces output resembling the following:
 
@@ -1078,97 +584,18 @@ events corresponding to documents belonging to the partition named
 "Store 42":
 
 .. tabs-realm-languages::
-   
+
    .. tab::
       :tabid: kotlin
 
-      .. code-block:: kotlin
-
-         val user: User? = app.currentUser()
-
-         val mongoClient : MongoClient? = user?.getMongoClient("<mongodb-atlas-service-name>")
-         val mongoDatabase : MongoDatabase? = mongoClient?.getDatabase("<database>")
-         val mongoCollection : MongoCollection<Document>? = mongoDatabase?.getCollection("<collection>")
-
-         val watcher : RealmEventStreamAsyncTask<Document>? = mongoCollection?
-                    .watchWithFilterAsync(Document("fullDocument._partition", "Store 42"))
-
-         watcher?.get {
-            if (it.isSuccess) {
-                Log.v(
-                    "EXAMPLE",
-                    "Event type: ${it.get().operationType}, full document: ${it.get().fullDocument}"
-                )
-            } else {
-                Log.e("EXAMPLE", "failed to subscribe to filtered changes in the collection with: ${it.error}")
-            }
-         }
-
-         val plants : List<Document> = Arrays.asList(
-                    Document("name", "triffid")
-                        .append("sunlight", "low")
-                        .append("color", "green")
-                        .append("type", "perennial")
-                        .append("_partition", "Store 47"),
-                    Document("name", "venomous tentacula")
-                        .append("sunlight", "low")
-                        .append("color", "brown")
-                        .append("type", "annual")
-                        .append("_partition", "Store 42"))
-
-          mongoCollection?.insertMany(plants)?.getAsync {
-              if (it.isSuccess) {
-                  Log.v("EXAMPLE", "successfully inserted ${it.get().insertedIds.size} documents into the collection.")
-              } else {
-                  Log.e("EXAMPLE", "failed to insert documents with: ${it.error}")
-              }
-          }
+      .. literalinclude:: /examples/generated/android/code/start/MongoDBDataAccessTest.codeblock.watch-documents-with-filter.kt
+         :language: kotlin
 
    .. tab::
       :tabid: java
 
-      .. code-block:: java
-
-         User user = app.currentUser();
-
-         MongoClient mongoClient = user.getMongoClient("<mongodb-atlas-service-name>");
-         MongoDatabase mongoDatabase = mongoClient.getDatabase("inventory");
-         MongoCollection<Document> mongoCollection  = mongoDatabase.getCollection("plants");
-
-         RealmEventStreamAsyncTask<Document> watcher = mongoCollection
-            .watchWithFilterAsync(new Document("fullDocument._partition", "Store 42"));
-
-         watcher.get(result -> {
-            if (result.isSuccess()) {
-                Log.v(
-                        "EXAMPLE",
-                        "Event type: " + result.get().getOperationType() + " full document: " + result.get().getFullDocument()
-                );
-            } else {
-                Log.e("EXAMPLE", "failed to subscribe to filtered changes in the collection with : ", result.getError());
-            }
-         });
-
-         List<Document> plants  = Arrays.asList(
-                new Document("name", "triffid")
-                        .append("sunlight", "low")
-                        .append("color", "green")
-                        .append("type", "perennial")
-                        .append("_partition", "Store 47"),
-                new Document("name", "venomous tentacula")
-                        .append("sunlight", "low")
-                        .append("color", "brown")
-                        .append("type", "annual")
-                        .append("_partition", "Store 42"));
-
-         mongoCollection.insertMany(plants).getAsync(task -> {
-            if (task.isSuccess()) {
-                int insertedCount = task.get().getInsertedIds().size();
-                Log.v("EXAMPLE", "successfully inserted " + insertedCount + " documents into the collection.");
-            } else {
-                Log.e("EXAMPLE", "failed to insert documents with: ", task.getError());
-            }
-         });
+      .. literalinclude:: /examples/generated/android/code/start/MongoDBDataAccessTest.codeblock.watch-documents-with-filter.java
+         :language: java
 
 Running this snippet produces output resembling the following:
 

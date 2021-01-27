@@ -75,81 +75,83 @@ the application's :ref:`active user <active-user>`.
 .. tabs-realm-languages::
    
    .. tab::
-      :tabid: kotlin
-      
-      .. literalinclude:: /examples/MultiUser/AddUser/AddUser.kt
+       :tabid: kotlin
+
+       .. literalinclude:: /examples/generated/android/code/start/MultipleUsersTest.codeblock.add-a-new-user.kt
          :language: kotlin
-   
+
    .. tab::
-      :tabid: java
-      
-      .. literalinclude:: /examples/MultiUser/AddUser/AddUser.java
+       :tabid: java
+
+       .. literalinclude:: /examples/generated/android/code/start/MultipleUsersTest.codeblock.add-a-new-user.java
          :language: java
 
 .. _android-list-users:
 
-.. List All On-Device Users
-.. ~~~~~~~~~~~~~~~~~~~~~~~~
+List All On-Device Users
+~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. You can access a list of all :ref:`user accounts <user-accounts>` that are
-.. stored on the device. This list includes all users that have logged in to the
-.. client app on a given device regardless of whether they are currently
-.. authenticated.
+You can access a list of all :ref:`user accounts <user-accounts>` that are
+stored on the device. This list includes all users that have logged in to the
+client app on a given device regardless of whether they are currently
+authenticated.
 
-.. .. tabs-realm-languages::
+.. tabs-realm-languages::
    
-..    .. tab::
-..       :tabid: kotlin
-      
-..       .. literalinclude:: /examples/MultiUser/ListUsers/ListUsers.kt
-..          :language: kotlin
+   .. tab::
+       :tabid: kotlin
+
+       .. literalinclude:: /examples/generated/android/code/start/MultipleUsersTest.codeblock.list-all-on-device-users.kt
+         :language: kotlin
+
+   .. tab::
+       :tabid: java
+
+       .. literalinclude:: /examples/generated/android/code/start/MultipleUsersTest.codeblock.list-all-on-device-users.java
+         :language: java
+
+.. _android-switch-user:
+
+Switch the Active User
+~~~~~~~~~~~~~~~~~~~~~~
+
+You can quickly switch an app's :ref:`active user <active-user>` to another
+logged in user at any time.
+
+.. tabs-realm-languages::
    
-..    .. tab::
-..       :tabid: java
-      
-..       .. literalinclude:: /examples/MultiUser/ListUsers/ListUsers.java
-..          :language: java
+   .. tab::
+       :tabid: kotlin
 
-.. .. _android-switch-user:
+       .. literalinclude:: /examples/generated/android/code/start/MultipleUsersTest.codeblock.switch-the-active-user.kt
+         :language: kotlin
 
-.. Switch the Active User
-.. ~~~~~~~~~~~~~~~~~~~~~~
+   .. tab::
+       :tabid: java
 
-.. You can quickly switch an app's :ref:`active user <active-user>` to another
-.. logged in user at any time.
+       .. literalinclude:: /examples/generated/android/code/start/MultipleUsersTest.codeblock.switch-the-active-user.java
+         :language: java
 
-.. .. tabs-realm-languages::
+.. _android-remove-user:
+
+Remove a User from the Device
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To remove all information about a user from a device,
+use :java-sdk:`app.removeUser() <io/realm/mongodb/App.html#removeUser-io.realm.mongodb.User->`:
+
+.. tabs-realm-languages::
    
-..    .. tab::
-..       :tabid: kotlin
-      
-..       .. literalinclude:: /examples/MultiUser/SwitchUser/SwitchUser.kt
-..          :language: kotlin
-   
-..    .. tab::
-..       :tabid: java
-      
-..       .. literalinclude:: /examples/MultiUser/SwitchUser/SwitchUser.java
-..          :language: java
+   .. tab::
+       :tabid: kotlin
 
-.. .. _android-remove-user:
+       .. literalinclude:: /examples/generated/android/code/start/MultipleUsersTest.codeblock.remove-a-user-from-device.kt
+         :language: kotlin
+         :emphasize-lines: 4
 
-.. Remove a User from the Device
-.. ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   .. tab::
+       :tabid: java
 
-.. You can remove all information about a user from the device and automatically
-.. log the user out.
-
-.. .. tabs-realm-languages::
-   
-..    .. tab::
-..       :tabid: kotlin
-      
-..       .. literalinclude:: /examples/MultiUser/LogoutUser/LogoutUser.kt
-..          :language: kotlin
-   
-..    .. tab::
-..       :tabid: java
-      
-..       .. literalinclude:: /examples/MultiUser/LogoutUser/LogoutUser.java
-..          :language: java
+       .. literalinclude:: /examples/generated/android/code/start/MultipleUsersTest.codeblock.remove-a-user-from-device.java
+         :language: java
+         :emphasize-lines: 4
