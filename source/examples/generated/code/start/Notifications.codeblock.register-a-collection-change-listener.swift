@@ -17,16 +17,18 @@ class CollectionNotificationExampleViewController: UITableViewController {
                 tableView.reloadData()
             case .update(_, let deletions, let insertions, let modifications):
                 // Query results have changed, so apply them to the UITableView
-                tableView.beginUpdates()
-                // Always apply updates in the following order: deletions, insertions, then modifications.
-                // Handling insertions before deletions may result in unexpected behavior.
-                tableView.deleteRows(at: deletions.map({ IndexPath(row: $0, section: 0)}),
-                                     with: .automatic)
-                tableView.insertRows(at: insertions.map({ IndexPath(row: $0, section: 0) }),
-                                     with: .automatic)
-                tableView.reloadRows(at: modifications.map({ IndexPath(row: $0, section: 0) }),
-                                     with: .automatic)
-                tableView.endUpdates()
+                tableView.performBatchUpdates({
+                    // Always apply updates in the following order: deletions, insertions, then modifications.
+                    // Handling insertions before deletions may result in unexpected behavior.
+                    tableView.deleteRows(at: deletions.map({ IndexPath(row: $0, section: 0)}),
+                                         with: .automatic)
+                    tableView.insertRows(at: insertions.map({ IndexPath(row: $0, section: 0) }),
+                                         with: .automatic)
+                    tableView.reloadRows(at: modifications.map({ IndexPath(row: $0, section: 0) }),
+                                         with: .automatic)
+                }, completion: { finished in
+                    // ...
+                })
             case .error(let error):
                 // An error occurred while opening the Realm file on the background worker thread
                 fatalError("\(error)")

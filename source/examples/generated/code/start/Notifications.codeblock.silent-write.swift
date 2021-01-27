@@ -1,6 +1,6 @@
 let realm = try! Realm()
 
-// Observe Realm Notifications
+// Observe realm notifications
 let token = realm.observe { notification, realm in
     // ... handle update
 }

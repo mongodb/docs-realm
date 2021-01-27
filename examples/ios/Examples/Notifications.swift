@@ -40,6 +40,7 @@ func objectNotificationExample() {
         }
     }
 
+    // Now update to trigger the notification
     try! realm.write {
         dog.name = "Wolfie"
     }
@@ -66,16 +67,18 @@ class CollectionNotificationExampleViewController: UITableViewController {
                 tableView.reloadData()
             case .update(_, let deletions, let insertions, let modifications):
                 // Query results have changed, so apply them to the UITableView
-                tableView.beginUpdates()
-                // Always apply updates in the following order: deletions, insertions, then modifications.
-                // Handling insertions before deletions may result in unexpected behavior.
-                tableView.deleteRows(at: deletions.map({ IndexPath(row: $0, section: 0)}),
-                                     with: .automatic)
-                tableView.insertRows(at: insertions.map({ IndexPath(row: $0, section: 0) }),
-                                     with: .automatic)
-                tableView.reloadRows(at: modifications.map({ IndexPath(row: $0, section: 0) }),
-                                     with: .automatic)
-                tableView.endUpdates()
+                tableView.performBatchUpdates({
+                    // Always apply updates in the following order: deletions, insertions, then modifications.
+                    // Handling insertions before deletions may result in unexpected behavior.
+                    tableView.deleteRows(at: deletions.map({ IndexPath(row: $0, section: 0)}),
+                                         with: .automatic)
+                    tableView.insertRows(at: insertions.map({ IndexPath(row: $0, section: 0) }),
+                                         with: .automatic)
+                    tableView.reloadRows(at: modifications.map({ IndexPath(row: $0, section: 0) }),
+                                         with: .automatic)
+                }, completion: { finished in
+                    // ...
+                })
             case .error(let error):
                 // An error occurred while opening the Realm file on the background worker thread
                 fatalError("\(error)")
@@ -90,11 +93,18 @@ class CollectionNotificationExampleViewController: UITableViewController {
 // :code-block-end:
 
 class Notifications: XCTestCase {
+    override func tearDown() {
+        let realm = try! Realm()
+        try! realm.write {
+            realm.deleteAll()
+        }
+    }
+
     func testSilentWrite() {
         // :code-block-start: silent-write
         let realm = try! Realm()
 
-        // Observe Realm Notifications
+        // Observe realm notifications
         let token = realm.observe { notification, realm in
             // ... handle update
         }
@@ -121,13 +131,25 @@ class Notifications: XCTestCase {
         // Observe realm notifications. Keep a strong reference to the notification token
         // or the observation will stop.
         let token = realm.observe { notification, realm in
-            // `notification` is an enum specifying what kind of notification was emitted.
-            // See https://realm.io/docs/swift/latest/api/Classes/Realm.html#/s:10RealmSwift0A0C12NotificationO
-            // for details.
+            // `notification` is an enum specifying what kind of notification was emitted
             viewController.updateUI()
         }
 
+        // ...
+        
         // Later, explicitly stop observing.
+        token.invalidate()
+        // :code-block-end:
+    }
+
+    func testStopWatching() {
+        // :code-block-start: stop-watching
+        let realm = try! Realm()
+
+        // Observe and obtain token
+        let token = realm.observe { notification, realm in /* ... */ }
+
+        // Stop observing
         token.invalidate()
         // :code-block-end:
     }
