@@ -1,4 +1,3 @@
-FacebookSdk.setApplicationId("YOUR FACEBOOK SDK APP ID")
 FacebookSdk.sdkInitialize(activity)
 val callbackManager = CallbackManager.Factory.create()
 LoginManager.getInstance().registerCallback(
