@@ -249,10 +249,21 @@ Realm supports indexing for string, integer, boolean, ``Date``, and
 
 .. _node-ignore-a-property:
 
-Ignore a Property
-~~~~~~~~~~~~~~~~~
-
-.. _node-remap-a-property:
-
 Remap a Property
 ~~~~~~~~~~~~~~~~
+To use a different property name in your code than is stored in Realm DB, use
+the ``mapTo`` property. 
+
+.. example::
+   
+   A developer opens a realm client using a ``DogSchema`` with an alias of
+   ``firstName`` for it's ``first_name`` field.
+   
+   .. tabs-realm-languages::
+   
+      .. tab::
+         :tabid: javascript
+   
+         .. literalinclude:: /examples/Schemas/Mapped.js
+            :language: javascript
+            :emphasize-lines: 5
