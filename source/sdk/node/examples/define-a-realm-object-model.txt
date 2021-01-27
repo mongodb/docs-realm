@@ -190,8 +190,6 @@ in the same way as you would define a relationship.
             :language: javascript
             :emphasize-lines: 3, 18, 28
 
-
-
 .. _node-property-annotations:
 
 Property Annotations
@@ -201,11 +199,53 @@ Property Annotations
 
 Specify a Primary Key
 ~~~~~~~~~~~~~~~~~~~~~
+Primary keys enforce uniqueness among objects in a realm. 
+
+You can efficiently find and update objects by primary key.
+
+As long as an object is managed by a realm, that object's primary key
+value is immutable.
+
+.. example::
+   
+   A developer creates a ``TaskSchema`` and defines a ``_id`` property as it's primary key.
+   
+   .. tabs-realm-languages::
+   
+      .. tab::
+         :tabid: javascript
+   
+         .. literalinclude:: /examples/Schemas/PrimaryKey.js
+            :language: javascript
+            :emphasize-lines: 9
 
 .. _node-index-a-property:
 
 Index a Property
 ~~~~~~~~~~~~~~~~
+Indexes make queries using equality and IN operators faster in exchange
+for slightly slower writes. Indexes take up more space in the realm
+file. It’s best to only add indexes when optimizing the read performance
+for specific situations.
+
+Realm supports indexing for string, integer, boolean, ``Date``, and
+``ObjectId`` properties.
+
+ To enable an index on a given property, set ``indexed:true`` in the property's
+ key-value pair.
+
+.. example::
+   
+   A developer creates a ``BookSchema`` and enables an index on a ``name`` property.
+   
+   .. tabs-realm-languages::
+   
+      .. tab::
+         :tabid: javascript
+   
+         .. literalinclude:: /examples/Schemas/Indexed.js
+            :language: javascript
+            :emphasize-lines: 9
 
 .. _node-ignore-a-property:
 
