@@ -74,11 +74,11 @@ Supported Property Types
         :swift-sdk:`EmbeddedObject <Extensions/EmbeddedObject.html>`-derived types
       - :swift-sdk:`List <Classes/List.html>`
 
-      Additionally, you can use the optional ``String?``, ``Date?``,
-      ``Data?``, and ``ObjectId?`` types. You *must* make user-defined
-      Object properties optional. You can use :swift-sdk:`RealmOptional
-      <Classes/RealmOptional.html>` to represent integers, doubles, and
-      other types as optional.
+      You can use optionals such as ``String?``, ``Date?``, ``Data?``,
+      and ``ObjectId?`` to mark a property optional in the model. You
+      *must* make user-defined Object properties optional. You can use
+      :swift-sdk:`RealmOptional <Classes/RealmOptional.html>` to
+      represent integers, doubles, and other types as optional.
 
       ``CGFloat`` properties are discouraged, as the type is not
       platform independent.
