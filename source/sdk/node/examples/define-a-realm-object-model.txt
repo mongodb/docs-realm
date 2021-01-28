@@ -43,10 +43,10 @@ data type of the property under the {+service-short+} object's ``properties`` fi
            :language: javascript
            :emphasize-lines: 4, 5
 
-.. _node-specify-an-optional-required-property:
+.. _node-specify-an-optional-property:
 
-Specify an Optional/Required Property
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Specify an Optional Property
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 To mark a property as optional, append a question mark ``?`` to its value.
 
 
@@ -86,7 +86,7 @@ To define a default value, set the value of the property to an object with a
            :emphasize-lines: 6
 
 
-.. _node-define-a-relationship-property:
+.. _node-define-a-to-one-relationship-property:
 
 Define a To-One Relationship Property
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -107,6 +107,8 @@ another object type.
          .. literalinclude:: /examples/Relationships/ToOne/ToOne.js
            :language: javascript
            :emphasize-lines: 6
+
+.. _node-define-a-to-many-relationship-property:
 
 Define a To-Many Relationship Property
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -129,7 +131,7 @@ of another object type.
             :emphasize-lines: 6
 
 
-.. _node-define-an-embedded-object-property:
+.. _node-define-an-inverse-relationship-property:
 
 Define an Inverse Relationship Property
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -168,12 +170,13 @@ relationship property.
            :language: javascript
            :emphasize-lines: 5, 14, 23, 32-36
 
+.. _node-define-an-embedded-object-property:
+
 Define an Embedded Object Property
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-To define that a Realm object model contains an embedded object (nested
-{+service-short+} object), set ``embedded`` to ``true``. You can reference an
-embedded object type from parent object types in the same way you would define a
-relationship.
+To define a Realm object model with an embedded object (nested {+service-short+}
+object), set ``embedded`` to ``true``. You can reference an embedded object type
+from parent object types in the same way you define a relationship.
 
 .. example::
    
@@ -253,7 +256,7 @@ Realm supports indexing for string, integer, boolean, ``Date``, and
             :language: javascript
             :emphasize-lines: 9
 
-.. _node-ignore-a-property:
+.. _node-remap-a-property:
 
 Remap a Property
 ~~~~~~~~~~~~~~~~
