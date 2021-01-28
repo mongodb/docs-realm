@@ -1,4 +1,4 @@
-SyncConfiguration config = new SyncConfiguration.Builder(app.currentUser(), PARTITION)
+RealmConfiguration config = new RealmConfiguration.Builder()
         .allowQueriesOnUiThread(true)
         .allowWritesOnUiThread(true)
         .build();
