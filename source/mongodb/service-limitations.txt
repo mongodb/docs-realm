@@ -157,10 +157,21 @@ data appearing on devices while {+realm+} processes changes.
 Concurrent Workloads 
 --------------------
 
-{+service+} supports up to 30
-users concurrently working with data from an underlying MongoDB
-data source. With more than 30 concurrent users, you may see delays in
-syncing or conflict resolution.
+Writing:
+  {+service+} supports up to 30 users concurrently writing data to an
+  underlying MongoDB document. With more than 30 concurrent writers, you
+  may see delays in syncing or conflict resolution.
+
+Reading:
+  Frontend clients reading from a global {+realm+} can scale past tens
+  of thousands of concurrent users.
+
+.. _scalability:
+
+.. tip:: Scalability
+   
+   When you intend to have many concurrent writers, split projects
+   across {+realms+}. 
 
 .. _mongodb-service-limitations-rules:
 
