@@ -16,6 +16,31 @@ Multi-User Applications
 
 Add a New User to the Device
 ----------------------------
+The {+service-short+} SDK automatically adds users to a device when they log in
+for the first time on that device. When a user logs in, they immediately become
+the application's :ref:`active user <active-user>`.
+
+.. example::
+
+   In the example below, a user with the email ``joe@example.com`` logs in and
+   becomes the ``active user``. Later, a user with the email
+   ``emma@example.com`` logs in, becomes the active user, and joe is still
+   logged in as well.
+
+   .. tabs-realm-languages::
+      
+      .. tab::
+         :tabid: javascript
+         
+         .. literalinclude:: /examples/MultiUser/AddUser/AddUser.js
+            :language: javascript
+      
+      .. tab::
+         :tabid: typescript
+         
+         .. literalinclude:: /examples/MultiUser/AddUser/AddUser.ts
+            :language: typescript
+
 
 .. _node-list-all-users-on-the-device:
 
