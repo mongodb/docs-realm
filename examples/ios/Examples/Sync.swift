@@ -6,6 +6,14 @@
 import RealmSwift
 import XCTest
 
+class SyncExamples_Task: Object {
+    @objc dynamic var _id: ObjectId = ObjectId.generate()
+    @objc dynamic var _partition: String = ""
+    override static func primaryKey() -> String? {
+        return "_id"
+    }
+}
+
 class Sync: AnonymouslyLoggedInTestCase {
     func testOpenSyncedRealm() throws {
         let expectation = XCTestExpectation(description: "it completes")
@@ -14,14 +22,12 @@ class Sync: AnonymouslyLoggedInTestCase {
         // Log in...
         let user = app.currentUser
         let partitionValue = "some partition value"
-
         var configuration = user!.configuration(partitionValue: partitionValue)
-
         // :hide-start:
         // The following is only required if you want to specify exactly which
         // types to include in the realm. By default, Realm automatically finds
         // all subclasses of Object and EmbeddedObject to add to the realm.
-        configuration.objectTypes = [Task.self]
+        configuration.objectTypes = [SyncExamples_Task.self]
         // :hide-end:
         Realm.asyncOpen(configuration: configuration) { result in
             switch result {
@@ -51,9 +57,10 @@ class Sync: AnonymouslyLoggedInTestCase {
         // Log in...
         let user = app.currentUser
         let partitionValue = "some partition value"
-
         var configuration = user!.configuration(partitionValue: partitionValue)
-        configuration.objectTypes = [Task.self]
+        // :hide-start:
+        configuration.objectTypes = [SyncExamples_Task.self]
+        // :hide-end:
         let syncedRealm = try! Realm(configuration: configuration)
 
         // :code-block-start: pause-resume-sync-session
@@ -90,7 +97,9 @@ class Sync: AnonymouslyLoggedInTestCase {
         let user = app.currentUser
         let partitionValue = "some partition value"
         var configuration = user!.configuration(partitionValue: partitionValue)
-        configuration.objectTypes = [Task.self]
+        // :hide-start:
+        configuration.objectTypes = [SyncExamples_Task.self]
+        // :hide-end:
         let syncedRealm = try! Realm(configuration: configuration)
         let expectation = XCTestExpectation(description: "it completes")
 
@@ -111,7 +120,7 @@ class Sync: AnonymouslyLoggedInTestCase {
 
         // Upload something
         try! syncedRealm.write {
-            syncedRealm.add(Task())
+            syncedRealm.add(SyncExamples_Task())
         }
         // :code-block-end:
         wait(for: [expectation], timeout: 10)
@@ -129,7 +138,9 @@ class Sync: AnonymouslyLoggedInTestCase {
             let user = app.currentUser
             let partitionValue = "some partition value"
             var configuration = user!.configuration(partitionValue: partitionValue)
-            configuration.objectTypes = [Task.self]
+            // :hide-start:
+            configuration.objectTypes = [SyncExamples_Task.self]
+            // :hide-end:
             _ = try Realm.deleteFiles(for: configuration)
         } catch {
             // handle error
