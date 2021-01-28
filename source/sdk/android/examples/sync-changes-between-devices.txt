@@ -12,6 +12,19 @@ Sync Changes Between Devices - Android SDK
    :depth: 2
    :class: singlecol
 
+.. include:: /includes/sync-beta-note.rst
+
+Prerequisites
+-------------
+
+Before you can access a synced {+realm+} from the client, you must:
+
+- :ref:`Enable sync <enable-sync>` in the {+ui+}.
+
+- :ref:`Initialize the app <android-quick-start-init-app>` and
+  :ref:`authenticate a user <android-quick-start-authenticate>` in
+  your client project.
+
 .. _android-open-a-synced-realm:
 
 Open a Synced Realm
@@ -57,6 +70,53 @@ is generally not recommended.
    For more information on enabling sync in Android, see 
    :ref:`Install Realm for Android <android-install>`.
 
+The :ref:`partition value <partitioning>` specifies which subset of your data to sync.
+This is typically a user ID, project ID, store ID, or some other category identifier in
+your app that has particular relevance to the current user. 
+
+.. seealso::
+
+   :ref:`Partition Atlas Data into Realms <partitioning>`
+
+.. _android-sync-data:
+
+Sync Data
+---------
+
+The syntax to :ref:`read <android-realm-database-reads>`, :ref:`write
+<android-realm-database-writes>`, and
+:ref:`watch for changes <android-client-notifications>` on a
+synced {+realm+} is identical to the syntax for non-synced {+realms+}. While you work with
+local data, a background thread efficiently integrates, uploads, and downloads changesets.
+
+.. important:: When Using Sync, Avoid Writes on the Main Thread
+
+   The fact that {+service-short+} performs sync integrations on a background thread means
+   that if you write to your {+realm+} on the main thread, there's a small chance your UI
+   could appear to hang as it waits for the background sync thread to finish a write
+   transaction. Therefore, it's a best practice :ref:`never to write on the main thread
+   when using {+sync+} <android-threading-three-rules>`.
+
+The following code reads a collection of ``Task`` objects, then writes a
+new ``Task`` to the {+realm+}:
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/generated/android/code/start/SyncDataTest.codeblock.sync-data.kt
+         :language: kotlin
+
+   .. tab::
+      :tabid: java
+
+      .. literalinclude:: /examples/generated/android/code/start/SyncDataTest.codeblock.sync-data.java
+         :language: java
+
+.. seealso::
+
+   :ref:`Threading <android-threading>`
 
 .. _android-sync-changes-in-the-background:
 
