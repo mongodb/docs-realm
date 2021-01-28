@@ -213,6 +213,21 @@ You can index properties with the following types:
 - ``string``
 - ``ObjectId``
 
+.. _dotnet-decimal128:
+
+Using Decimal Values
+--------------------
+Realm supports 128-bit decimal values with the ``Decimal128`` Bson type. When 
+defining a decimal type, you can use the ``Decimal128`` Bson type or the .NET 
+``decimal`` type, even though it is only a 96-bit decimal. The SDK automatically 
+converts between the two, although you risk losing precision or range. The 
+following example shows how to use both the ``Decimal128`` Bson type and the .NET 
+``decimal`` type:
+
+.. literalinclude:: /examples/generated/code/start/DecimalFun.codeblock.decimal128.cs
+   :language: csharp
+
+
 Summary
 -------
 

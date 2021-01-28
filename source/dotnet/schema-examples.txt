@@ -1,14 +1,14 @@
 .. _dotnet-schemas:
 
 ==================
-Schema Examples
+Define Schemas
 ==================
 
-Create the Object
-~~~~~~~~~~~~~~~~~
+Create Objects
+~~~~~~~~~~~~~~
 
 Realm considers any C# class that inherits from ``RealmObject`` or ``EmbeddedObject`` 
-a schema definition. To override this behavior, see 
+a schema definition. To override this behavior, you can  
 :ref:`Provide a Subset of Classes to your Realm Schema <dotnet-provide-subset-classes-schema>`.
 
 .. example::
@@ -235,20 +235,6 @@ a subset of these classes in your {+service-short+}
 Schema, you can update your configuration to include the specific classes you want:
 
 .. literalinclude:: /examples/Schemas/SubsetClasses.cs
-   :language: csharp
-
-.. _dotnet-decimal128:
-
-Using Decimal Values
---------------------
-Realm supports 128-bit decimal values with the ``Decimal128`` Bson type. When 
-defining a decimal type, you can use the ``Decimal128`` Bson type or the .NET 
-``decimal`` type, even though it is only a 96-bit decimal. The SDK automatically 
-converts between the two, although you risk losing precision or range. The 
-following example shows how to use both the ``Decimal128`` Bson type and the .NET 
-``decimal`` type:
-
-.. literalinclude:: /examples/generated/code/start/DecimalFun.codeblock.decimal128.cs
    :language: csharp
 
 Indexing

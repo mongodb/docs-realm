@@ -13,15 +13,9 @@ Open and Close a Realm
    :depth: 2
    :class: singlecol
 
-.. _dotnet-open-synced-realm:
 
-Open a Synced Realm
+Open a Local Realm
 -------------------
-
-.. include:: /includes/dotnet-open-synced-realm.rst
-
-Open a Local (Non-Synced) Realm
--------------------------------
 When opening a local (non-synced) {+realm+}, pass a 
 :dotnet-sdk:`RealmConfiguration <reference/Realms.RealmConfiguration.html#Realms_RealmConfiguration__ctor_System_String_>` 
 object to either ``GetInstanceAsync()`` or ``GetInstance()``. The following example 
@@ -56,3 +50,10 @@ to manage its state by calling the
    because disposing of a {+realm+} invalidates all objects associated with that 
    instance. If you are data binding the {+realm+} objects on the main thread, 
    for example, you should not call ``Dispose()``. 
+
+.. _dotnet-open-synced-realm:
+
+Open a Synced Realm
+-------------------
+
+.. include:: /includes/dotnet-open-synced-realm.rst
