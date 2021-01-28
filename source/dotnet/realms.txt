@@ -71,7 +71,7 @@ Rules <sync-rules>`.
 Realm Schema
 ~~~~~~~~~~~~
 
-A **{+backend-schema+}** is a list of valid :ref:`object schemas <dotnet-realm-objects>` that
+A **{+backend-schema+}** is a list of valid :ref:`object schemas <dotnet-objects>` that
 each define an object type that a {+app+} may persist. All objects in a {+realm+} must
 conform to the {+backend-schema+}.
 
@@ -88,7 +88,7 @@ you omit this property, then all classes that inherit from
 :dotnet-sdk:`EmbeddedObject <reference/Realms.EmbeddedObject.html>` are added 
 to the schema automatically.
 
-.. seealso:: :ref:`Objects <dotnet-realm-objects>`
+.. seealso:: :ref:`Objects <dotnet-objects>`
 
 .. _dotnet-schema-version:
 
@@ -107,7 +107,7 @@ the {+realm+} defaults to version ``0``.
 
 .. important:: Increment Versions Monotonically
    
-   :ref:`Migrations <dotnet-client-migrations>` must update a {+realm+} to a
+   :ref:`Migrations <dotnet-migrations>` must update a {+realm+} to a
    higher schema version. {+client-database+} will throw an error if a client
    application opens a {+realm+} with a schema version that is lower than
    the {+realm+}'s current version or if the specified schema version is the
