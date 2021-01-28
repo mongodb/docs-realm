@@ -20,7 +20,7 @@ Object Properties
 Every {+service-short+} object has an *object type* that refers to the object's
 class. Objects of the same type share an :ref:`object schema
 <node-object-schema>` that defines the properties and relationships of those
-objects. Your {+service-short+} object should contain a ``name`` field and a
+objects. Your {+service-short+} object must contain a ``name`` field and a
 ``properties`` field. 
 
 .. _node-define-a-property-type:
@@ -60,7 +60,7 @@ To mark a property as optional, append a question mark `?` to its value.
      .. tab::
          :tabid: javascript
  
-         .. literalinclude:: /examples/Schemas/OptionalProperty.js
+      .. literalinclude:: /examples/Schemas/OptionalProperty.js
            :language: javascript
            :emphasize-lines: 4
 
@@ -169,9 +169,10 @@ relationship property.
 
 Define an Embedded Object Property
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-To specify that a Realm object model define an embedded object, set ``embedded``
-to ``true``. You can reference an embedded object type from parent object types
-in the same way you would define a relationship.
+To specify that a Realm object model define an embedded object (nested
+{+service-short+} object), set ``embedded`` to ``true``. You can reference an
+embedded object type from parent object types in the same way you would define a
+relationship.
 
 .. example::
    
@@ -186,7 +187,7 @@ in the same way you would define a relationship.
       .. tab::
          :tabid: javascript
    
-         .. literalinclude:: /examples/Schemas/Embedded.js
+      .. literalinclude:: /examples/Schemas/Embedded.js
             :language: javascript
             :emphasize-lines: 3, 18, 28
 
@@ -227,6 +228,10 @@ Indexes make queries using equality and IN operators faster in exchange
 for slightly slower writes. Indexes take up more space in the realm
 file. It’s best to only add indexes when optimizing the read performance
 for specific situations.
+
+.. note::
+
+   Primary keys are always indexed.
 
 Realm supports indexing for string, integer, boolean, ``Date``, and
 ``ObjectId`` properties.
