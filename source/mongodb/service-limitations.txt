@@ -139,6 +139,37 @@ following table lists the limitations for each cluster size:
    - Avoid data models that require you to Watch or Sync an unbounded
      number of collections.
 
+.. _mongodb-service-limitations-atlas-support:
+
+Atlas Support 
+-------------
+
+{+sync+} requires {+atlas+} clusters to run
+MDB 4.4.0 or greater. 
+
+We do not currently support sharded {+atlas+} clusters.
+
+When data is bulk/batch loaded into {+atlas+}, you may see a delay in
+data appearing on devices while {+realm+} processes changes.
+
+.. _mongodb-service-limitations-concurrent-workloads:
+
+Concurrent Workloads 
+--------------------
+
+{+realm+} supports up to 30
+users concurrently working with data from an underlying MongoDB
+document. With more than 30 concurrent users, you may see delays in
+syncing or conflict resolution.
+
+.. _mongodb-service-limitations-rules:
+
+Rules 
+-----
+
+{+sync+} supports :doc:`{+sync-short+} rules</sync/rules>`.
+{+sync+} does not support :doc:`roles/field-level
+rules</mongodb/define-roles-and-permissions>` at this time.
 
 Static Hosting
 --------------
