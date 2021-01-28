@@ -199,6 +199,25 @@ To get the best performance from {+sync+}, design your
 intend to have many concurrent writers, split projects
 across {+realms+}.
 
+.. _realm-sync-best-practices:
+Best Practices
+--------------
+
+For best performance, we recommend: 
+
+- Using a local {+realm+} :doc:`deployment model
+</admin/deployment-models-and-regions>` when building a {+sync+}
+application.
+
+- Configuring your {+app+} and MongoDB cluster to run within the same
+geographic region and cloud provider.
+
+{+sync+} requires access to the {+atlas+} oplog. We recommend keeping 48
+hours of oplog for a cluster using {+sync-short+}. 
+
+.. seealso::
+
+   :ref:`Atlas oplog </reference/atlas-oplog>`
 
 Summary
 -------
