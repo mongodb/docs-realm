@@ -46,13 +46,81 @@ the application's :ref:`active user <active-user>`.
 
 List All Users on the Device
 ----------------------------
+You can access a list of all :ref:`user accounts <user-accounts>` that are
+stored on the device. This list includes all users that have logged in to the
+client app on a given device regardless of whether they are currently
+authenticated.
+
+.. example::
+
+   In the example below, :js-sdk:`Realm.App.allUsers <Realm.App.html#allUsers>`
+   are looped through to print all logged in users on the device.
+
+   .. tabs-realm-languages::
+      
+      .. tab::
+         :tabid: javascript
+         
+         .. literalinclude:: /examples/MultiUser/ListUsers/ListUsers.js
+            :language: javascript
+      
+      .. tab::
+         :tabid: typescript
+         
+         .. literalinclude:: /examples/MultiUser/ListUsers/ListUsers.ts
+            :language: typescript
+
+
 
 .. _node-remove-a-user-from-the-device:
 
 Remove a User from the Device
 -----------------------------
+You can remove all information about a user from the device and automatically
+log the user out.
+
+.. example::
+
+   In the example below, the current user is removed from the device using the
+   :js-sdk:`Realm.App.removeUser()` method. 
+
+   .. tabs-realm-languages::
+      
+      .. tab::
+         :tabid: javascript
+         
+         .. literalinclude:: /examples/MultiUser/LogoutUser/LogoutUser.js
+            :language: javascript
+      
+      .. tab::
+         :tabid: typescript
+         
+         .. literalinclude:: /examples/MultiUser/LogoutUser/LogoutUser.ts
+            :language: typescript
 
 .. _node-change-the-active-user:
 
 Change the Active User
 ----------------------
+You can quickly switch an app's ``active user`` to another logged in user at any
+time.
+
+.. example::
+
+   In the example below, the ``active user`` is initially switched to ``user1``
+   using the :js-sdk:`Realm.App.switchUser() <Realm.App.html#switchUser> method.
+   Later, the ``active user`` is switched to ``user2``.
+
+   .. tabs-realm-languages::
+      
+      .. tab::
+         :tabid: javascript
+         
+         .. literalinclude:: /examples/MultiUser/LogoutUser/LogoutUser.js
+            :language: javascript
+      
+      .. tab::
+         :tabid: typescript
+         
+         .. literalinclude:: /examples/MultiUser/LogoutUser/LogoutUser.ts
+            :language: typescript
