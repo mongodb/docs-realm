@@ -33,13 +33,8 @@ steps:
    See the schema for these two classes, ``Project`` and
    ``Task``, below:
 
-   .. tabs-realm-languages::
-
-      .. tab::
-          :tabid: c-sharp
-
-          .. literalinclude:: /examples/Schemas/ProjectAndTask.cs
-            :language: csharp
+   .. literalinclude:: /examples/Schemas/ProjectAndTask.cs
+      :language: csharp
 
 
 .. _dotnet-get-all-objects:
@@ -57,13 +52,8 @@ refine the results.
    In order to access all instances of ``Project`` and ``Task``, use
    the following syntax:
 
-   .. tabs-realm-languages::
-
-      .. tab::
-          :tabid: c-sharp
-
-          .. literalinclude:: /examples/CRUD/Objects.cs
-            :language: csharp
+   .. literalinclude:: /examples/CRUD/Objects.cs
+      :language: csharp
 
 
 .. _dotnet-filter-results:
@@ -90,13 +80,8 @@ up complex queries.
    - Find unassigned tasks by finding tasks where the ``assignee`` property is equal to null.
    - Find tasks assigned to specific teammates Ali or Jamie by seeing if the ``assignee`` property is in a list of names.
 
-   .. tabs-realm-languages::
-
-      .. tab::
-          :tabid: c-sharp
-
-          .. literalinclude:: /examples/Query/Comparison.cs
-            :language: csharp
+   .. literalinclude:: /examples/Query/Comparison.cs
+      :language: csharp
 
 
 .. _dotnet-sort-results:
@@ -117,13 +102,8 @@ results are sorted.
    The following code sorts the projects by name in reverse
    alphabetical order (i.e. "descending" order).
 
-   .. tabs-realm-languages::
-
-      .. tab::
-          :tabid: c-sharp
-
-          .. literalinclude:: /examples/CRUD/Sort.cs
-            :language: csharp
+   .. literalinclude:: /examples/CRUD/Sort.cs
+      :language: csharp
 
 
 .. _dotnet-find-by-primary-key:
@@ -151,14 +131,9 @@ transaction.
    throws an exception, {+client-database+} cancels the transaction.
    Otherwise, {+client-database+} commits the transaction.
 
-   .. tabs-realm-languages::
-
-      .. tab::
-         :tabid: c-sharp
-
-         .. literalinclude:: /examples/CRUD/BatchUpdate.cs
-            :language: csharp
-            :emphasize-lines: 11-15
+   .. literalinclude:: /examples/CRUD/BatchUpdate.cs
+      :language: csharp
+      :emphasize-lines: 11-15
 
 
 .. _dotnet-create-an-object:
@@ -170,14 +145,9 @@ Create an Object
 
    This code demonstrates how to create an object with {+client-database+}:
 
-   .. tabs-realm-languages::
-
-      .. tab::
-         :tabid: c-sharp
-
-         .. literalinclude:: /examples/CRUD/Create.cs
-            :language: csharp
-            :emphasize-lines: 8
+   .. literalinclude:: /examples/CRUD/Create.cs
+      :language: csharp
+      :emphasize-lines: 8
 
 
 .. _dotnet-upsert:
@@ -191,14 +161,9 @@ Upsert an Object
    {+realm+}. We create a new user named "Drew" and then update
    their name to "Andy" via upsert:
 
-   .. tabs-realm-languages::
-
-      .. tab::
-         :tabid: c-sharp
-
-         .. literalinclude:: /examples/CRUD/Upsert.cs
-            :language: csharp
-            :emphasize-lines: 6, 11
+   .. literalinclude:: /examples/CRUD/Upsert.cs
+      :language: csharp
+      :emphasize-lines: 6, 11
 
 
 .. _dotnet-update:
@@ -211,14 +176,9 @@ Update an Object
    This code changes the dog's name to "Wolfie" and
    increments the age by 1:
 
-   .. tabs-realm-languages::
-
-      .. tab::
-         :tabid: c-sharp
-
-         .. literalinclude:: /examples/CRUD/Update.cs
-            :language: csharp
-            :emphasize-lines: 9-10
+   .. literalinclude:: /examples/CRUD/Update.cs
+      :language: csharp
+      :emphasize-lines: 9-10
 
 
 .. _dotnet-batch-update:
@@ -235,14 +195,9 @@ Update a Collection
    property, {+client-database+} automatically updates Ali's
    list of dogs.
 
-   .. tabs-realm-languages::
-
-      .. tab::
-         :tabid: c-sharp
-
-         .. literalinclude:: /examples/CRUD/BatchUpdate.cs
-            :language: csharp
-            :emphasize-lines: 11-15
+   .. literalinclude:: /examples/CRUD/BatchUpdate.cs
+      :language: csharp
+      :emphasize-lines: 11-15
 
 
 .. _dotnet-delete:
@@ -255,14 +210,9 @@ Delete an Object
    The following code shows how to delete one object from
    its {+realm+}:
 
-   .. tabs-realm-languages::
-
-      .. tab::
-         :tabid: c-sharp
-
-         .. literalinclude:: /examples/CRUD/Delete.cs
-            :language: csharp
-            :emphasize-lines: 4
+   .. literalinclude:: /examples/CRUD/Delete.cs
+      :language: csharp
+      :emphasize-lines: 4
 
 
 .. _dotnet-delete-collection:
@@ -275,14 +225,9 @@ Delete a Collection
    The following code demonstrates how to delete a
    collection from a {+realm+}:
 
-   .. tabs-realm-languages::
-
-      .. tab::
-         :tabid: c-sharp
-
-         .. literalinclude:: /examples/CRUD/DeleteCollection.cs
-            :language: csharp
-            :emphasize-lines: 7
+   .. literalinclude:: /examples/CRUD/DeleteCollection.cs
+      :language: csharp
+      :emphasize-lines: 7
 
 .. _dotnet-cascading-delete:
 
@@ -307,13 +252,8 @@ deleting the parent object.
    cascading delete by first deleting all of Ali's dogs,
    then deleting Ali:
 
-   .. tabs-realm-languages::
-
-      .. tab::
-         :tabid: c-sharp
-
-         .. literalinclude:: /examples/CRUD/CascadingDelete.cs
-            :language: csharp
+   .. literalinclude:: /examples/CRUD/CascadingDelete.cs
+      :language: csharp
 
 
 .. _dotnet-delete-all-of-object:
@@ -330,14 +270,9 @@ Delete All Instances of a Type
    The following code demonstrates how to delete all
    Dog instances from a {+realm+}:
 
-   .. tabs-realm-languages::
-
-      .. tab::
-         :tabid: c-sharp
-
-         .. literalinclude:: /examples/CRUD/DeleteAllOfClass.cs
-            :language: csharp
-            :emphasize-lines: 4
+   .. literalinclude:: /examples/CRUD/DeleteAllOfClass.cs
+      :language: csharp
+      :emphasize-lines: 4
 
 
 .. _dotnet-delete-all:
@@ -354,11 +289,6 @@ quickly clearing out your {+realm+} while prototyping.
    The following code demonstrates how to delete everything
    from a {+realm+}:
 
-   .. tabs-realm-languages::
-
-      .. tab::
-         :tabid: c-sharp
-
-         .. literalinclude:: /examples/CRUD/DeleteAll.cs
-            :language: csharp
-            :emphasize-lines: 3
+   .. literalinclude:: /examples/CRUD/DeleteAll.cs
+      :language: csharp
+      :emphasize-lines: 3

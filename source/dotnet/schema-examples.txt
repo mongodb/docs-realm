@@ -8,12 +8,8 @@ Create the Object
 ~~~~~~~~~~~~~~~~~
 
 Realm considers any C# class that inherits from ``RealmObject`` or ``EmbeddedObject`` 
-a schema definition. 
-
-.. _dotnet-example:
-
-Example
--------
+a schema definition. To override this behavior, see 
+:ref:`Provide a Subset of Classes to your Realm Schema <dotnet-provide-subset-classes-schema>`.
 
 .. example::
 
@@ -86,7 +82,7 @@ You can use the ``[Required]`` attribute as seen in the following example:
 .. _dotnet-default-property-values:
 
 Default Property Values
-~~~~~~~~~~~~~~~~~~~~~~~
+-----------------------
 
 You can use the built-in language features to assign a default value to a property. 
 In C#, you can assign a default value in the property declaration. 
@@ -113,10 +109,11 @@ Relationships
 
    :ref:`Relationships <dotnet-client-relationships>`
 
+
 .. _dotnet-property-relationships-many-to-one:
 
 To-One
-======
+------
 
 To set up a many-to-one or one-to-one relationship, create a property  in your application
 whose type inherits ``RealmObject`` or ``EmbeddedObject``:
@@ -137,7 +134,7 @@ unless that object is :ref:`embedded <dotnet-property-embedded>`.
 .. _dotnet-property-relationships-many-to-many:
 
 To-Many
-=======
+-------
 
 You can create a relationship between one object and any number of objects
 using a property of type ``IList<T>``\ in your application, where ``T`` is a subclass of
@@ -150,7 +147,7 @@ using a property of type ``IList<T>``\ in your application, where ``T`` is a sub
 .. _dotnet-property-relationships-inverse:
 
 Inverse Relationships
-=====================
+---------------------
 
 By default, {+client-database+} relationships are unidirectional. You
 can follow a link from one class to a referenced class, but not in the
@@ -170,7 +167,7 @@ Like any other ``RealmResults`` set, you can
 .. _dotnet-ignore-property:
 
 Ignore a Property
-~~~~~~~~~~~~~~~~~
+-----------------
 
 If you don't want to save a property in your model to a {+realm+}, you can
 ignore that property. A property is ignored by default if it is not autoimplemented or 
@@ -185,7 +182,7 @@ Ignore a property from a {+service-short+} object model with the
 .. _dotnet-rename-property:
 
 Rename a Property
-~~~~~~~~~~~~~~~~~
+-----------------
 
 By default, {+client-database+} uses the name defined in the model class
 to represent properties internally. In some cases you might want to change
@@ -210,7 +207,7 @@ attribute to rename a property:
 .. _dotnet-rename-object:
 
 Rename a Class
-~~~~~~~~~~~~~~
+--------------
 
 By default, {+client-database+} uses the name defined in the model class
 to represent classes internally. In some cases you might want to change
@@ -262,5 +259,4 @@ attribute:
 
 .. literalinclude:: /examples/Schemas/Indexed.cs
    :language: csharp
-
 
