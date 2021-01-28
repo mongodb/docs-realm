@@ -4,11 +4,11 @@
 Schema Examples
 ==================
 
+Create the Object
+~~~~~~~~~~~~~~~~~
 
-Create Object
-~~~~~~~~~~~~~
-
-la la inherit from RealmObject or EmbeddedObject
+Realm considers any C# class that inherits from ``RealmObject`` or ``EmbeddedObject`` 
+a schema definition. 
 
 .. _dotnet-example:
 
@@ -32,28 +32,43 @@ Example
    only a getter. You do not need to initialize it in the constructor, as {+realm+} 
    will generate a collection instance the first time the property is accessed. 
 
+Embedded Objects
+----------------
+To embed an object, extend 
+:dotnet-sdk:`EmbeddedObject <reference/Realms.EmbeddedObject.html>`
+for the class that you'd like to nest within another class:
 
+.. literalinclude:: /examples/Schemas/Embedded.cs
+   :language: csharp
+
+Then, any time you reference that class from another class,
+{+client-database+} will embed the referenced class within the enclosing
+class.
 
 Add Attributes
 ~~~~~~~~~~~~~~
-[PrimaryKey]
-        [MapTo("_id")]
-        [Required]
+
+Class and property Attributes enable finer control over how the schema is defined. 
+Using Attributes, you can specify which property represents the primary key, 
+how property names should be mapped to different field names in {+service-short+}, 
+and relationships between objects.
+
+Specify a Primary Key
+---------------------
+The following example demonstrates how to designate a primary key in an object schema:
+   
+.. literalinclude:: /examples/Schemas/PrimaryKey.cs
+   :language: csharp
 
 .. note::
    
    Once you assign a property as a primary key, you cannot change it.
    
-   The following example demonstrates how to designate a primary key in an object schema:
-   
-   .. literalinclude:: /examples/Schemas/PrimaryKey.cs
-      :language: csharp
-
-
+  
 .. _dotnet-required-optional-property:
 
 Required and Optional Properties
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--------------------------------
 
 In C#, value types are implicitly non-nullable, but can be made optional by appending 
 `?  <https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/nullable-value-types>`__.
@@ -238,4 +253,14 @@ following example shows how to use both the ``Decimal128`` Bson type and the .NE
 
 .. literalinclude:: /examples/generated/code/start/DecimalFun.codeblock.decimal128.cs
    :language: csharp
+
+Indexing
+~~~~~~~~
+
+To index a property, use the :dotnet-sdk:`[Indexed] <reference/Realms.IndexedAttribute.html>`
+attribute:
+
+.. literalinclude:: /examples/Schemas/Indexed.cs
+   :language: csharp
+
 
