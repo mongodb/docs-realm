@@ -200,20 +200,22 @@ intend to have many concurrent writers, split projects
 across {+realms+}.
 
 .. _realm-sync-best-practices:
+
 Best Practices
 --------------
 
-For best performance, we recommend: 
+We recommend following these best practices to improve your {+app+}
+performance:
 
-- Using a local {+realm+} :ref:`deployment model
-<realm-local-deployment>` when building a {+sync+}
-application.
+Deployment model and geographic regions:
+  Use a local {+realm+} :ref:`deployment model<realm-local-deployment>` 
+  when building a {+sync+} application. Configure your {+app+} and
+  MongoDB data source to run within the same geographic region and cloud
+  provider.
 
-- Configuring your {+app+} and MongoDB data source to run within the same
-geographic region and cloud provider.
-
-{+sync+} requires access to the {+atlas+} oplog. We recommend keeping 48
-hours of oplog for a cluster using {+sync-short+}. 
+Atlas oplog:
+  {+sync+} requires access to the {+atlas+} oplog. We recommend keeping
+  48 hours of oplog for a cluster using {+sync-short+}. 
 
 .. seealso::
 
