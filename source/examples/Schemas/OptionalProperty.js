@@ -3,5 +3,5 @@ const DogSchema = {
     properties: {
       breed: "string?"
     }
-  };
+};
   
