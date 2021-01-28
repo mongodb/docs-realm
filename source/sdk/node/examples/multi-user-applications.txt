@@ -24,8 +24,7 @@ the application's :ref:`active user <active-user>`.
 
    In the example below, a user with the email ``joe@example.com`` logs in and
    becomes the ``active user``. Later, a user with the email
-   ``emma@example.com`` logs in, becomes the active user, and joe is still
-   logged in as well.
+   ``emma@example.com`` logs in, becomes the active user.
 
    .. tabs-realm-languages::
       
@@ -46,15 +45,15 @@ the application's :ref:`active user <active-user>`.
 
 List All Users on the Device
 ----------------------------
-You can access a list of all :ref:`user accounts <user-accounts>` that are
-stored on the device. This list includes all users that have logged in to the
-client app on a given device regardless of whether they are currently
-authenticated.
+You can access a list of all :ref:`user accounts <user-accounts>` on the device.
+This list includes all users that have logged in to the client app on a given
+device.
 
 .. example::
 
-   In the example below, :js-sdk:`Realm.App.allUsers <Realm.App.html#allUsers>`
-   are looped through to print all logged in users on the device.
+   In the example below, a developer prints out all the logged-in users on the
+   device by looping through :js-sdk:`Realm.App.allUsers
+   <Realm.App.html#allUsers>`. 
 
    .. tabs-realm-languages::
       
@@ -102,7 +101,7 @@ log the user out.
 
 Change the Active User
 ----------------------
-You can quickly switch an app's ``active user`` to another logged in user at any
+You can quickly switch an app's ``active user`` to another logged-in user at any
 time.
 
 .. example::
