@@ -2,21 +2,14 @@
 @end
 
 @implementation CollectionNotificationExampleViewController {
-    RLMNotificationToken *notificationToken;
+    RLMNotificationToken *_notificationToken;
 }
-- (instancetype)init {
-    if (self = [super init]) {
-        self->notificationToken = nil;
-    }
-    return self;
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
 
     // Observe RLMResults Notifications
     __weak typeof(self) weakSelf = self;
-    self->notificationToken = [[Dog objectsWhere:@"age > 5"]
+    self->_notificationToken = [[Dog objectsWhere:@"age > 5"]
       addNotificationBlock:^(RLMResults<Dog *> *results, RLMCollectionChange *changes, NSError *error) {
         
         if (error) {
@@ -48,6 +41,6 @@
 }
 
 - (void)dealloc {
-    [self->notificationToken invalidate];
+    [self->_notificationToken invalidate];
 }
 @end

@@ -136,7 +136,7 @@ class Notifications: XCTestCase {
         }
 
         // ...
-        
+
         // Later, explicitly stop observing.
         token.invalidate()
         // :code-block-end:
