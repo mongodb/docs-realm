@@ -64,7 +64,7 @@ void objectNotificationExample() {
 
     // Observe RLMResults Notifications
     __weak typeof(self) weakSelf = self;
-    self->_notificationToken = [[NotificationsObjcExamples_Dog objectsWhere:@"age > 5"]
+    _notificationToken = [[NotificationsObjcExamples_Dog objectsWhere:@"age > 5"]
       addNotificationBlock:^(RLMResults<NotificationsObjcExamples_Dog *> *results, RLMCollectionChange *changes, NSError *error) {
         
         if (error) {
@@ -96,7 +96,10 @@ void objectNotificationExample() {
 }
 
 - (void)dealloc {
-    [self->_notificationToken invalidate];
+    // Invalidate the token to stop watching for changes.
+    // Note: dealloc won't necessarily be called when navigating
+    // to another view controller.
+    [_notificationToken invalidate];
 }
 @end
 // :code-block-end:
