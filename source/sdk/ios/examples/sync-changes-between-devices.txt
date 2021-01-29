@@ -34,10 +34,10 @@ Open a Synced Realm
       .. literalinclude:: /examples/generated/code/start/Sync.codeblock.open-synced-realm.swift
          :language: swift
 
-      You can also open the realm with the :swift-sdk:`Realm()
-      <Structs/Realm.html>` initializers. This works if the device is offline,
-      but may lead to temporary data inconsistencies while your app downloads
-      the remote data.
+      You can also open the realm immediately with the
+      :swift-sdk:`Realm() <Structs/Realm.html>` initializers. This works
+      if the device is offline, but may lead to temporary data
+      inconsistencies while your app downloads the remote data.
 
       .. literalinclude:: /examples/generated/code/start/Sync.codeblock.open-synced-realm-synchronously.swift
          :language: swift
@@ -45,8 +45,25 @@ Open a Synced Realm
    .. tab::
       :tabid: objective-c
 
+      To open a synced {+realm+}, pass the logged-in user's
+      :objc-sdk:`RLMRealmConfiguration
+      <Classes/RLMRealmConfiguration.html>` object with the desired
+      :ref:`partition <partitioning>` value to :objc-sdk:`+[RLMRealm
+      asyncOpenWithConfiguration:callbackQueue:callback]
+      <Classes/RLMRealm.html#/c:objc(cs)RLMRealm(cm)asyncOpenWithConfiguration:callbackQueue:callback:>`:
+
+      ``asyncOpen...`` downloads the entire remote {+realm+} before opening a
+      local version. 
+
       .. literalinclude:: /examples/generated/code/start/Sync.codeblock.open-synced-realm.m
          :language: objectivec
+
+      You can also open the realm immediately with the
+      :objc-sdk:`+[RLMRealm realmWithConfiguration:error:]
+      <Classes/RLMRealm.html#/c:objc(cs)RLMRealm(cm)realmWithConfiguration:error:>`
+      initializers. This works if the device is offline, but may lead to
+      temporary data inconsistencies while your app downloads the remote
+      data.
 
       .. literalinclude:: /examples/generated/code/start/Sync.codeblock.open-synced-realm-synchronously.m
          :language: objectivec
@@ -85,6 +102,10 @@ Suspend or Resume a Sync Session
    .. tab::
       :tabid: objective-c
 
+      You can suspend or resume a sync session using the
+      :obj-sdk:`RLMSyncSession <Classes/RLMSyncSession.html>` instance
+      of a synced {+realm+}.
+
       .. literalinclude:: /examples/generated/code/start/Sync.codeblock.pause-resume-sync-session.m
          :language: objectivec
 
@@ -106,13 +127,26 @@ Check Upload & Download Progress for a Sync Session
       method.
 
       This method returns a token that you should retain until you wish
-      to stop observing upload or download progress.
+      to stop observing upload or download progress. Note that if you
+      keep the token in a local variable, observation will stop when the
+      local variable goes out of scope.
 
       .. literalinclude:: /examples/generated/code/start/Sync.codeblock.check-progress.swift
          :language: swift
 
    .. tab::
       :tabid: objective-c
+
+      You can add a progress notification using the synced {+realm+}'s
+      RLMSyncSession instance's
+      :objc-sdk:`[--addProgressNotificationForDirection:mode:block:]
+      <Classes/RLMSyncSession.html#/c:objc(cs)RLMSyncSession(im)addProgressNotificationForDirection:mode:block:>`
+      method.
+
+      This method returns a token that you should retain until you wish
+      to stop observing upload or download progress. Note that if you
+      keep the token in a local variable, observation will stop when the
+      local variable goes out of scope.
 
       .. literalinclude:: /examples/generated/code/start/Sync.codeblock.check-progress.m
          :language: objectivec
@@ -150,8 +184,21 @@ Check the Network Connection
    .. tab::
       :tabid: objective-c
 
+      To check the connection state, you can read the synced {+realm+}'s
+      RLMSyncSession instance's :objc-sdk:`connectionState
+      <Classes/RLMSyncSession.html#/c:objc(cs)RLMSyncSession(py)connectionState>`
+      property directly.
+
+      This property is :apple:`KVO-compliant
+      <library/archive/documentation/Cocoa/Conceptual/KeyValueObserving/KeyValueObserving.html>`,
+      so you can observe changes using KVO. The following example
+      demonstrates how to implement an observer class:
+
       .. literalinclude:: /examples/generated/code/start/Sync.codeblock.check-network-connection-setup.m
          :language: objectivec
+
+      You can then attach an observer instance to the RLMSyncSession
+      object. Be sure to remove the observer when finished.
 
       .. literalinclude:: /examples/generated/code/start/Sync.codeblock.check-network-connection.m
          :language: objectivec
@@ -196,6 +243,12 @@ In practice, there are two safe times to delete the realm file:
    .. tab::
       :tabid: objective-c
 
+      You can delete the ``.realm``, ``.note`` and ``.management`` files
+      for a given configuration with the :objc-sdk:`+[RLMRealm
+      deleteFilesForConfiguration:error:]
+      <Classes/RLMRealm.html#/c:objc(cs)RLMRealm(cm)deleteFilesForConfiguration:error:>`
+      class method.
+
       .. literalinclude:: /examples/generated/code/start/Sync.codeblock.reset-client-realm-file.m
          :language: objectivec
 
@@ -220,6 +273,10 @@ Set the Client Log Level
 
    .. tab::
       :tabid: objective-c
+
+      You can set the {+sync+} client log level on the
+      :objc-sdk:`RLMSyncManager <Classes/RLMSyncManager.html>` instance
+      on your :objc-sdk:`RLMApp <Classes/RLMApp.html>`.
 
       .. literalinclude:: /examples/generated/code/start/Sync.codeblock.set-log-level.m
          :language: objectivec
