@@ -1,7 +1,8 @@
 RLMRealmConfiguration *config = [RLMRealmConfiguration defaultConfiguration];
 
 // Given a RLMObject subclass called `Task`
-// Limit the realm to only the Task object:
+// Limit the realm to only the Task object. All other
+// Object- and EmbeddedObject-derived classes are not added.
 config.objectClasses = @[[Task class]];
 
 NSError *error = nil;

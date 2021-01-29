@@ -6,7 +6,9 @@
 @property NSString *postalCode;
 @end
 
+// Enable Address for use in RLMArray
 RLM_ARRAY_TYPE(Address)
+
 
 @implementation Address
 @end
