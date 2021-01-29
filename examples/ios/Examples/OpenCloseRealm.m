@@ -1,3 +1,8 @@
+// :replace-start: {
+//   "terms": {
+//     "OpenCloseRealmObjcExamples_": ""
+//   }
+// }
 #import <XCTest/XCTest.h>
 #import <Realm/Realm.h>
 
@@ -24,4 +29,31 @@
     (void)defaultRealm;
     
 }
+
+- (void)testConfigureObjectTypes {
+    // :code-block-start: configure-object-types
+    RLMRealmConfiguration *config = [RLMRealmConfiguration defaultConfiguration];
+    // :remove-start:
+    config.inMemoryIdentifier = @"test";
+    // :remove-end:
+    
+    // Given a RLMObject subclass called `OpenCloseRealmObjcExamples_Task`
+    // Limit the realm to only the Task object. All other
+    // Object- and EmbeddedObject-derived classes are not added.
+    config.objectClasses = @[[OpenCloseRealmObjcExamples_Task class]];
+    
+    NSError *error = nil;
+    RLMRealm *realm = [RLMRealm realmWithConfiguration:config error:&error];
+    
+    if (error != nil) {
+        // Something went wrong
+    } else {
+        // Use realm
+    }
+    // :code-block-end:
+    (void)realm;
+}
+
 @end
+
+// :replace-end:

@@ -15,7 +15,9 @@
 @property NSString *postalCode;
 @end
 
+// Enable EmbeddedObjectObjcExamples_Address for use in RLMArray
 RLM_ARRAY_TYPE(EmbeddedObjectObjcExamples_Address)
+
 
 @implementation EmbeddedObjectObjcExamples_Address
 @end

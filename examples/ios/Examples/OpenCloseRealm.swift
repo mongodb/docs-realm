@@ -17,15 +17,16 @@ class OpenCloseRealm: XCTestCase {
         // :code-block-end:
     }
 
-    func testConfigureLocalRealm() {
+    func testConfigureObjectTypes() {
         // :code-block-start: configure-object-types
         var config = Realm.Configuration.defaultConfiguration
         // :remove-start:
         config.inMemoryIdentifier = "test"
         // :remove-end:
 
-        // Given: class Task : Object
-        // Limit the realm to only
+        // Given: `class Task: Object`
+        // Limit the realm to only the Task object. All other
+        // Object- and EmbeddedObject-derived classes are not added.
         config.objectTypes = [Task.self]
 
         let realm = try! Realm(configuration: config)

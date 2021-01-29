@@ -1,0 +1,154 @@
+.. _android-sync-changes-between-devices:
+
+==========================================
+Sync Changes Between Devices - Android SDK
+==========================================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+.. include:: /includes/sync-beta-note.rst
+
+Prerequisites
+-------------
+
+Before you can access a synced {+realm+} from the client, you must:
+
+- :ref:`Enable sync <enable-sync>` in the {+ui+}.
+
+- :ref:`Initialize the app <android-quick-start-init-app>` and
+  :ref:`authenticate a user <android-quick-start-authenticate>` in
+  your client project.
+
+.. _android-open-a-synced-realm:
+
+Open a Synced Realm
+-------------------
+
+To open a synced {+realm+}, call 
+:java-sdk:`getInstanceAsync()
+<io/realm/Realm.html#getInstanceAsync-io.realm.RealmConfiguration-io.realm.Realm.Callback->`, 
+passing in a a :java-sdk:`SyncConfiguration <io/realm/mongodb/sync/SyncConfiguration.html>` 
+object. For example, the following code demonstrates how to create a {+realm+} with 
+specific sync settings created using a ``SyncConfiguration`` object:
+
+.. tabs-realm-languages::
+   
+   .. tab::
+       :tabid: kotlin
+
+       .. literalinclude:: /examples/generated/android/code/start/OpenARealmTest.codeblock.open-a-realm.java
+         :language: kotlin
+
+   .. tab::
+       :tabid: java
+
+       .. literalinclude:: /examples/generated/android/code/start/OpenARealmTest.codeblock.open-a-realm.java
+         :language: java
+
+
+The code above shows how to open the {+realm+} *asynchronously* 
+by using :java-sdk:`getInstanceAsync()
+<io/realm/Realm.html#getInstanceAsync-io.realm.RealmConfiguration-io.realm.Realm.Callback->`. 
+You can also open a {+realm+} synchronously by using :java-sdk:`getInstance()
+<io/realm/Realm.html#getInstance-io.realm.RealmConfiguration->`, but this may 
+lead to temporary data inconsistencies while the remote data is downloaded, and 
+is generally not recommended. 
+
+.. note::
+   
+   To enable sync in your Android project, you need to configure it in the 
+   application-level build.gradle file by adding the following entry:
+   
+   ``realm { syncEnabled = true }``
+   
+   For more information on enabling sync in Android, see 
+   :ref:`Install Realm for Android <android-install>`.
+
+The :ref:`partition value <partitioning>` specifies which subset of your data to sync.
+This is typically a user ID, project ID, store ID, or some other category identifier in
+your app that has particular relevance to the current user. 
+
+.. seealso::
+
+   :ref:`Partition Atlas Data into Realms <partitioning>`
+
+.. _android-sync-data:
+
+Sync Data
+---------
+
+The syntax to :ref:`read <android-realm-database-reads>`, :ref:`write
+<android-realm-database-writes>`, and
+:ref:`watch for changes <android-client-notifications>` on a
+synced {+realm+} is identical to the syntax for non-synced {+realms+}. While you work with
+local data, a background thread efficiently integrates, uploads, and downloads changesets.
+
+.. important:: When Using Sync, Avoid Writes on the Main Thread
+
+   The fact that {+service-short+} performs sync integrations on a background thread means
+   that if you write to your {+realm+} on the main thread, there's a small chance your UI
+   could appear to hang as it waits for the background sync thread to finish a write
+   transaction. Therefore, it's a best practice :ref:`never to write on the main thread
+   when using {+sync+} <android-threading-three-rules>`.
+
+The following code reads a collection of ``Task`` objects, then writes a
+new ``Task`` to the {+realm+}:
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/generated/android/code/start/SyncDataTest.codeblock.sync-data.kt
+         :language: kotlin
+
+   .. tab::
+      :tabid: java
+
+      .. literalinclude:: /examples/generated/android/code/start/SyncDataTest.codeblock.sync-data.java
+         :language: java
+
+.. seealso::
+
+   :ref:`Threading <android-threading>`
+
+.. _android-sync-changes-in-the-background:
+
+Sync Changes in the Background
+------------------------------
+
+.. _android-pause-or-resume-a-sync-session:
+
+Pause or Resume a Sync Session
+------------------------------
+
+.. _android-check-network-connection:
+
+Check the Current Network Connection
+------------------------------------
+
+.. _android-check-sync-progress:
+
+Check Upload & Download Progress for a Sync Session
+---------------------------------------------------
+
+.. _android-reset-a-client-realm-file:
+
+Reset a Client Realm File
+-------------------------
+
+.. _android-set-the-client-log-level:
+
+Set the Client Log Level
+------------------------
+
+.. _android-multiplex-sync-sessions:
+
+Multiplex Sync Sessions
+-----------------------
