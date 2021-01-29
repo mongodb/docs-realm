@@ -41,6 +41,6 @@
 }
 
 - (void)dealloc {
-    [self->_notificationToken invalidate];
+    [_notificationToken invalidate];
 }
 @end
