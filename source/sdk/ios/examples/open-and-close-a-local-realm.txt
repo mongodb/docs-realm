@@ -45,16 +45,30 @@ When a {+realm+} goes out of scope and is removed from memory due to
 <https://docs.swift.org/swift-book/LanguageGuide/AutomaticReferenceCounting.html>`__,
 the {+realm+} is closed.
 
-.. _ios-local-realm-configuration:
-
-Local Realm Configuration
--------------------------
-
-TODO
-
 .. _ios-provide-a-subset-of-classes-to-a-realm:
 
 Provide a Subset of Classes to a Realm
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--------------------------------------
 
-TODO
+By default, the iOS SDK automatically adds all
+:swift-sdk:`Object<<Extensions/Object.html>`- and
+:swift-sdk:`EmbeddedObject<Extensions/EmbeddedObject.html>`-derived
+classes in your executable to the realm schema. You can control which
+objects get added by setting the :swift-sdk:`objectTypes
+<Structs/Realm/Configuration.html#/s:10RealmSwift0A0V13ConfigurationV11objectTypesSaySo13RLMObjectBaseCmGSgvp>`
+property of the :swift-sdk:`Realm.Configuration
+<Structs/Realm/Configuration.html>` object.
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: swift
+
+      .. literalinclude:: /examples/generated/code/start/OpenCloseRealm.codeblock.configure-object-types.swift
+         :language: swift
+
+   .. tab::
+      :tabid: objective-c
+
+      .. literalinclude:: /examples/generated/code/start/OpenCloseRealm.codeblock.configure-object-types.m
+         :language: objectivec
