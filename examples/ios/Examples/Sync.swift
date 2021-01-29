@@ -73,9 +73,6 @@ class Sync: AnonymouslyLoggedInTestCase {
         // :code-block-end:
 
         // :code-block-start: check-network-connection
-        // Read connectionState directly from syncSession
-        let connectionState = syncSession.connectionState
-
         // Observe connectionState for changes using KVO
         let observer = syncSession.observe(\.connectionState, options: [.initial]) { (syncSession, change) in
             switch syncSession.connectionState {
@@ -89,6 +86,21 @@ class Sync: AnonymouslyLoggedInTestCase {
                 break
             }
         }
+        
+        // Observe using Combine
+        let cancellable = syncSession.publisher(for: \.connectionState)
+            .sink { connectionState in
+                switch connectionState {
+                case .connecting:
+                    print("Connecting...")
+                case .connected:
+                    print("Connected")
+                case .disconnected:
+                    print("Disconnected")
+                default:
+                    break
+                }
+            }
         // :code-block-end:
     }
 
@@ -102,6 +114,7 @@ class Sync: AnonymouslyLoggedInTestCase {
         // :hide-end:
         let syncedRealm = try! Realm(configuration: configuration)
         let expectation = XCTestExpectation(description: "it completes")
+        expectation.assertForOverFulfill = false
 
         // :code-block-start: check-progress
         let syncSession = syncedRealm.syncSession!
@@ -109,10 +122,10 @@ class Sync: AnonymouslyLoggedInTestCase {
             for: .upload, mode: .forCurrentlyOutstandingWork) { (progress) in
 
             let transferredBytes = progress.transferredBytes
-            let transferableBytes = progress.transferrableBytes
+            let transferrableBytes = progress.transferrableBytes
             let transferPercent = progress.fractionTransferred * 100
 
-            print("Uploaded \(transferredBytes)B / \(transferableBytes)B (\(transferPercent)%)")
+            print("Uploaded \(transferredBytes)B / \(transferrableBytes)B (\(transferPercent)%)")
             // :remove-start:
             expectation.fulfill()
             // :remove-end:
@@ -131,13 +144,11 @@ class Sync: AnonymouslyLoggedInTestCase {
         autoreleasepool {
             // all Realm usage here -- explicitly guarantee
             // that all realm objects are deallocated
-            // before deleting the file
+            // before deleting the files
         }
         do {
             let app = App(id: YOUR_REALM_APP_ID)
-            let user = app.currentUser
-            let partitionValue = "some partition value"
-            var configuration = user!.configuration(partitionValue: partitionValue)
+            var configuration = app.currentUser!.configuration(partitionValue: "some partition value")
             // :hide-start:
             configuration.objectTypes = [SyncExamples_Task.self]
             // :hide-end:

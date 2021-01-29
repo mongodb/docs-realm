@@ -3,10 +3,10 @@ let token = syncSession.addProgressNotification(
     for: .upload, mode: .forCurrentlyOutstandingWork) { (progress) in
 
     let transferredBytes = progress.transferredBytes
-    let transferableBytes = progress.transferrableBytes
+    let transferrableBytes = progress.transferrableBytes
     let transferPercent = progress.fractionTransferred * 100
 
-    print("Uploaded \(transferredBytes)B / \(transferableBytes)B (\(transferPercent)%)")
+    print("Uploaded \(transferredBytes)B / \(transferrableBytes)B (\(transferPercent)%)")
 }
 
 // Upload something
