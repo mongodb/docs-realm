@@ -225,6 +225,9 @@ public class UserAPIKeysTest extends RealmTest {
                     user.getApiKeys().disableAsync(api_key_id, result -> {
                         if (result.isSuccess()) {
                             Log.v("EXAMPLE", "Successfully disabled API key.");
+                            // :hide-start:
+                            expectation.fulfill();
+                            // :hide-end:
                         } else {
                             Log.e("EXAMPLE", "Error disabling API key: " + result.getError().getErrorMessage());
                             // :hide-start:

@@ -1,0 +1,361 @@
+.. _android-authenticate-users:
+.. _android-authenticate:
+
+================================
+Authenticate Users - Android SDK
+================================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+{+service+} provides an API for authenticating users using any enabled
+authentication provider. Instantiate a ``Credentials`` object and pass
+it to either of the  ``app.login()`` or ``app.loginAsync()`` methods to
+authenticate a user login and create a ``User`` object. Each
+authentication provider corresponds to a static helper method used to
+instantiate ``Credentials`` objects using that authentication providers.
+See the table below to find the method that instantiates the
+``Credentials`` instance for your authentication provider:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
+
+   * - Authentication Provider
+     - Credentials Generation Method
+
+   * - :ref:`Anonymous <android-login-anonymous>`
+     - ``Credentials.anonymous()``
+
+   * - :ref:`Email/Password <android-login-email-password>`
+     - ``Credentials.emailPassword(String email, String password)``
+
+   * - :ref:`API Key <android-login-api-key>`
+     - ``Credentials.apiKey(String key)``
+
+   * - :ref:`Custom Function <android-login-custom-function>`
+     - ``Credentials.customFunction(String functionName, Object... arguments)``
+
+   * - :ref:`Custom JWT <android-login-custom-jwt>`
+     - ``Credentials.jwt(String jwtToken)``
+
+   * - :ref:`Google Authentication <android-login-google>`
+     - ``Credentials.google(String googleToken)``
+
+   * - :ref:`Facebook Authentication <android-login-facebook>`
+     - ``Credentials.facebook(String accessToken)``
+   
+   * - :ref:`Apple Authentication <android-login-apple>`
+     - ``Credentials.apple(String idToken)``
+
+.. _android-login:
+
+Log In
+------
+
+You can authenticate users with either the ``app.login()`` or
+``app.loginAsync()`` methods of your application's instance of the
+``io.realm.mongodb.App`` class. While the ``app.login()`` method blocks
+code execution in the calling thread until the supplied credentials have
+either succeeded or failed to authenticate a user, the
+``app.loginAsync()`` method allows execution to continue, handling
+success or failure with a callback function that is guaranteed to
+execute on the same thread that called ``app.loginAsync()``.
+
+If successful, the ``app.login()`` method returns a ``User`` object.
+In the event of a failure, the ``app.login()`` method throws an
+exception of type ``ObjectServerError``.
+
+Pass a callback to the ``app.loginAsync()`` method to handle success or
+failure. This callback accepts a single parameter of type
+``App.Result``. The ``isSuccess()`` method of the ``App.Result`` object
+passed to the callback returns a boolean that indicates whether the
+operation succeeded. In the event of a failure,  you can view the
+error that caused the failure using the ``getError()`` method.
+
+
+.. _android-anonymous-login:
+
+Log In an Anonymous User
+------------------------
+
+The :doc:`anonymous authentication provider </authentication/anonymous>`
+enables users to log in to your application with short-term accounts
+that store no persistent personal information. To log in with anonymous
+authentication, create an anonymous credential by calling
+``Credentials.anonymous()`` and then pass the generated credential to
+``app.login()`` or ``app.loginAsync()``.
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: java
+
+      .. literalinclude:: /examples/generated/android/code/start/AuthenticationTest.codeblock.anonymous.java
+         :language: java
+   
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/generated/android/code/start/AuthenticationTest.codeblock.anonymous.kt
+         :language: kotlin
+
+.. _android-email-password-login:
+
+Log In an Email/Password User
+-----------------------------
+
+The :doc:`Email/Password authentication provider </authentication/email-password>`
+enables users to log in to your application with an email username and
+a password. To log in with email/password authentication, create an
+email/password credential by calling ``Credentials.emailPassword()``
+with the user's email and password. Then pass the generated credential
+to ``app.login()`` or ``app.loginAsync()``.
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: java
+
+      .. literalinclude:: /examples/generated/android/code/start/AuthenticationTest.codeblock.email-password.java
+         :language: java
+   
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/generated/android/code/start/AuthenticationTest.codeblock.email-password.kt
+         :language: kotlin
+
+.. _android-api-key-login:
+
+Log In an API Key User
+----------------------
+
+The :doc:`API Key authentication provider </authentication/api-key>`
+enables users to log in to your application with an API Key generated
+automatically in the client SDK. To log in with API Key authentication, create an
+API Key credential by calling ``Credentials.apiKey()``
+with an API Key. Then pass the generated credential
+to ``app.login()`` or ``app.loginAsync()``.
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: java
+
+      .. literalinclude:: /examples/generated/android/code/start/AuthenticationTest.codeblock.api-key.java
+         :language: java
+   
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/generated/android/code/start/AuthenticationTest.codeblock.api-key.kt
+         :language: kotlin
+
+.. _android-custom-jwt-login:
+
+Log In a Custom JWT User
+------------------------
+
+The :doc:`Custom JWT authentication provider </authentication/custom-jwt>`
+enables users to log in to your application with a custom JSON Web Token.
+To log in with custom JWT authentication, create a
+custom JWT credential by calling ``Credentials.jwt()``
+with your custom JWT. Then pass the generated credential
+to ``app.login()`` or ``app.loginAsync()``.
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: java
+
+      .. literalinclude:: /examples/generated/android/code/start/AuthenticationTest.codeblock.custom-jwt.java
+         :language: java
+   
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/generated/android/code/start/AuthenticationTest.codeblock.custom-jwt.kt
+         :language: kotlin
+
+.. _android-custom-function-login:
+
+Log In a Custom Function User
+-----------------------------
+
+The :ref:`Custom Function authentication provider <custom-function-authentication>`
+enables users to log in to your application using a
+:ref:`Realm Function <functions>` defined in your {+app+}. To log in with custom 
+function authentication, create a credential by calling 
+``Credentials.customFunction()``. The :java-sdk:`customFunction()
+<io/realm/mongodb/Credentials.html#customFunction-Document->` method expects a 
+Document that contains the properties and values used by the Realm auth function. 
+For example, suppose the backend function expects the input parameter to include 
+a field named ``username``, like this:
+
+.. code-block:: js
+   
+   exports = async function(loginPayload) {
+      const { username } = loginPayload;
+      ...
+   }
+
+The document you pass to ``Credentials.customFunction()`` might look like this:
+
+.. code-block:: java
+   
+   Document("username", "bob")
+
+You then pass the generated credential to ``app.login()`` or ``app.loginAsync()``.
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: java
+
+      .. literalinclude:: /examples/generated/android/code/start/AuthenticationTest.codeblock.custom-function.java
+         :language: java
+   
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/generated/android/code/start/AuthenticationTest.codeblock.custom-function.kt
+         :language: kotlin
+
+.. _android-facebook-login:
+
+Log In a Facebook User
+----------------------
+
+The :doc:`Facebook </authentication/facebook>` authentication provider allows
+you to authenticate users through a Facebook app using their existing Facebook
+account.
+
+.. include:: /includes/note-enable-facebook-auth.rst
+
+.. include:: /includes/note-facebook-profile-picture-url.rst
+
+Follow the official :facebook:`Facebook Login for Android Quickstart
+<docs/facebook-login/android>` to set up the authentication flow for your
+application. In the login completion handler, get the logged in user's access
+token from the Facebook :facebook:`LoginResult
+<docs/reference/android/current/class/LoginResult>`. Use the access token to
+create a {+service-short+} Facebook credential and then log the user into your
+{+service-short+} app.
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: java
+
+      .. literalinclude:: /examples/generated/android/code/start/AuthenticationTest.codeblock.facebook.java
+         :language: java
+         :emphasize-lines: 10-17
+   
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/generated/android/code/start/AuthenticationTest.codeblock.facebook.kt
+         :language: kotlin
+         :emphasize-lines: 10-21
+
+.. _android-google-login:
+
+Log In a Google User
+--------------------
+
+.. important::
+   
+   To log a user in with their existing Google account, you must configure and
+   enable the :ref:`Google authentication provider <google-authentication>` for
+   your application.
+
+Follow the official :google:`Google Sign-In for Android Integration Guide
+<identity/sign-in/android/start-integrating>` to set up the authentication flow
+for your application. In the sign-in completion handler, get the logged in
+user's authorization code from the :google:`GoogleSignInAccount
+<android/reference/com/google/android/gms/auth/api/signin/GoogleSignInAccount>`
+object. Use the authorization code to create a {+service-short+} Google
+credential and then log the user into your {+service-short+} app.
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: java
+
+      .. literalinclude:: /examples/generated/android/code/start/AuthActivity.codeblock.google.java
+         :language: java
+         :emphasize-lines: 26-33
+   
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/generated/android/code/start/AuthActivity.codeblock.google.kt
+         :language: kotlin
+         :emphasize-lines: 26-36
+
+.. _android-apple-login:
+
+Log In an Apple User
+--------------------
+
+The :doc:`Sign-in with Apple authentication provider </authentication/apple>`
+enables users to log in to your application with a custom token provided
+by Apple. To log in with Sign-in with Apple authentication, create a
+Sign-in with Apple credential by calling ``Credentials.apple()``
+with the token provided by Apple. Then pass the generated credential
+to ``app.login()`` or ``app.loginAsync()``.
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: java
+
+      .. literalinclude:: /examples/generated/android/code/start/AuthenticationTest.codeblock.apple.java
+         :language: java
+   
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/generated/android/code/start/AuthenticationTest.codeblock.apple.kt
+         :language: kotlin
+
+.. _android-logout:
+
+Log a User Out
+--------------
+
+You can log out any user, regardless of the authentication provider used
+to log in, using the ``user.logOut()`` or ``user.logOutAsync()``
+methods. Both methods:
+
+- delete locally stored user credentials from the device
+
+- immediately halt any synchronization to and from the user's {+realm+}s
+
+- mark the user's {+realm+}s for deletion the next time the app restarts
+
+Because logging out halts synchronization, you should only log out after
+all local Realm updates have uploaded to the server.
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: java
+
+      .. literalinclude:: /examples/generated/android/code/start/AuthenticationTest.codeblock.log-out.java
+         :language: java
+   
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/generated/android/code/start/AuthenticationTest.codeblock.log-out.kt
+         :language: kotlin

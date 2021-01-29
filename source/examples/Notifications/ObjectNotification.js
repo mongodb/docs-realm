@@ -1,25 +1,26 @@
-async function example() {
-  // Open the default realm.
-  const realm = await Realm.open();
+// You can define a listener for any Realm object
+const dogs = realm.objects("Dog");
 
-  let dog;
-
-  // Create an entry.
-  realm.write(() => {
-    dog = realm.create('Dog', {name: 'Max'})
-  });
-
-  // Observe object notifications.
-  dog.addListener((_changedDog, changes) => {
-    console.log(`dog is deleted? ${changes.deleted}`);
-    console.log(`${changes.changedProperties.length} properties have been changed:`);
+// Define a listener callback function for changes to a specific Dog
+function onDogChange(dog, changes) {
+  const { deleted, changedProperties } = changes;
+  if (deleted) {
+    console.log(`${dog.name} was deleted!`);
+  } else {
+    const numChangedProperties = changes.changedProperties.length;
+    console.log(`${numChangedProperties} properties changed for ${dog.name}:`);
     changes.changedProperties.forEach((prop) => {
-      console.log(` ${prop}`);
+      console.log(`* the value of "${prop}" changed to ${dog[prop]}`);
     });
-  });
-
-  // Later, update the dog to trigger the notification.
-  realm.write(() => {
-    dog.name = 'Wolfie'
-  });
+  }
 }
+
+// Add the listener callback to each Dog individually
+dogs.forEach((dog) => {
+  dog.addListener(onDogChange);
+});
+
+// Remember to remove the listeners when you're done!
+dogs.forEach((dog) => {
+  dog.removeListener(onDogChange);
+});

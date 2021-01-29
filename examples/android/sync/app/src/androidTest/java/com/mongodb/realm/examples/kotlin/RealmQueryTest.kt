@@ -2,10 +2,9 @@ package com.mongodb.realm.examples.kotlin
 
 import android.util.Log
 import com.mongodb.realm.examples.Expectation
-import com.mongodb.realm.examples.PARTITION
 import com.mongodb.realm.examples.RealmTest
 import com.mongodb.realm.examples.YOUR_APP_ID
-import com.mongodb.realm.examples.model.Cat
+import com.mongodb.realm.examples.getRandomPartition
 import com.mongodb.realm.examples.model.Dog
 import com.mongodb.realm.examples.model.Person
 import io.realm.Realm
@@ -19,9 +18,9 @@ import org.junit.Assert
 import org.junit.Test
 
 class RealmQueryTest : RealmTest() {
-    val PARTITION = "REALMQUERYTEST"
     @Test
     fun testFindObjectByPrimaryKey() {
+        val PARTITION = getRandomPartition();
         val expectation : Expectation = Expectation()
         activity?.runOnUiThread {
             val appID = YOUR_APP_ID // replace this with your App ID
@@ -82,6 +81,7 @@ class RealmQueryTest : RealmTest() {
     @Test
     fun testQueryARelationship() {
         val expectation : Expectation = Expectation()
+        val PARTITION = getRandomPartition();
         activity?.runOnUiThread {
             val appID = YOUR_APP_ID // replace this with your App ID
             val app: App = App(
@@ -143,6 +143,7 @@ class RealmQueryTest : RealmTest() {
     @Test
     fun testQueryAnInverseRelationship() {
         val expectation : Expectation = Expectation()
+        val PARTITION = getRandomPartition();
         activity?.runOnUiThread {
             val appID = YOUR_APP_ID // replace this with your App ID
             val app: App = App(
@@ -181,10 +182,6 @@ class RealmQueryTest : RealmTest() {
                                 val dog = transactionRealm.where<Dog>().equalTo("owner.name", "dwayne").findFirst()
                                 val owner = dog?.owner?.first()
                                 Log.v("EXAMPLE", "Queried for dogs with owners named 'dwayne'. Found $dog, owned by $owner")
-                                // :hide-start:
-                                Assert.assertEquals(dog?.name, "henry")
-                                Assert.assertEquals(owner?.name, "dwayne")
-                                // :hide-end:
                             }
                             // :hide-start:
                             expectation.fulfill()

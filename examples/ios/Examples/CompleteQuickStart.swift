@@ -1,5 +1,4 @@
 import XCTest
-import RealmSwift
 
 private var gExpectation: XCTestExpectation?
 
@@ -124,13 +123,13 @@ func onLogin() {
 
             app.currentUser?.logOut { (error) in
                 // Logged out or error occurred
+                // :hide-start:
+                gExpectation!.fulfill()
+                // :hide-end:
             }
 
             // Invalidate notification tokens when done observing
             notificationToken.invalidate()
-            // :hide-start:
-            gExpectation!.fulfill()
-            // :hide-end:
         }
     }
 }

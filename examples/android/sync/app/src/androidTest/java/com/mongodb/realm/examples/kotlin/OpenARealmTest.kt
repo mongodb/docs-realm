@@ -1,10 +1,7 @@
 package com.mongodb.realm.examples.kotlin
 
 import android.util.Log
-import com.mongodb.realm.examples.Expectation
-import com.mongodb.realm.examples.PARTITION
-import com.mongodb.realm.examples.RealmTest
-import com.mongodb.realm.examples.YOUR_APP_ID
+import com.mongodb.realm.examples.*
 import io.realm.Realm
 import io.realm.mongodb.App
 import io.realm.mongodb.AppConfiguration
@@ -16,6 +13,8 @@ class OpenARealmTest : RealmTest() {
     @Test
     fun testAllowReadsWritesOnUIThread() {
         val expectation : Expectation = Expectation()
+        val PARTITION = getRandomPartition()
+
         activity?.runOnUiThread {
             val appID = YOUR_APP_ID // replace this with your App ID
             val app: App = App(
@@ -36,10 +35,7 @@ class OpenARealmTest : RealmTest() {
 
                     Realm.getInstanceAsync(config, object : Realm.Callback() {
                         override fun onSuccess(realm: Realm) {
-                            Log.v(
-                                "EXAMPLE",
-                                "Successfully opened a realm with reads and writes allowed on the UI thread."
-                            )
+                            Log.v("EXAMPLE", "Successfully opened a realm with reads and writes allowed on the UI thread.")
                             // :hide-start:
                             expectation.fulfill()
                             // :hide-end:

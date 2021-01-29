@@ -54,7 +54,10 @@ Open a Realm
 
 Authenticate a user, define a schema, and :ref:`sync enabled {+sync+}
 <enable-sync>`, then call :js-sdk:`Realm.open() <Realm.html#.open>` in your
-renderer.js file:
+renderer.js file.
+
+Once you have opened the realm, you can :ref:`write to the realm
+<node-realm-database-writes>`.
 
 .. code-block:: javascript
    :emphasize-lines: 17
@@ -85,10 +88,14 @@ renderer.js file:
      
      // The myPartition realm is now synced to the device. You can
      // access it through the `realm` object returned by `Realm.open()`
+
+     // write to the realm
    }
    run().catch(err => {
      console.error("Failed to open realm:", err)
    });
+
+.. include:: /includes/note-electron-writes-from-both-processes.rst
 
 .. seealso::
 
