@@ -1,0 +1,61 @@
+title: Shut Down All Running Emulators
+ref: add-the-sign-in-with-apple-capability
+content: |
+   Before upgrading your cluster, end any client application's Sync Connection.
+   To do this, shut down all emulators, simulators, and terminals that are running
+   your {+realm+} application. 
+---
+title: Terminate Realm Sync
+ref: terminate-realm-sync
+content: |
+  Terminate Realm Sync in your {+realm+} application to stop syncing data across
+  devices. In the :guilabel:`Sync` tab, click the red :guilabel:`Terminate Sync`
+  button. In the modal that pops up, check that you want to terminate sync by
+  clicking the :guilabel:`I want to terminate Sync` checkbox and then click the
+  :guilabel:`Terminate Sync` button on the modal.
+
+  .. warning:: 
+   
+   Terminating Realm Sync may lead to data loss.
+
+  .. figure:: /images/terminate-sync.png
+     :alt: The modal that confirms turning off Realm Sync in the UI
+     :width: 461px
+     :lightbox:
+
+---
+title: Upgrade Your Cluster
+ref: upgrade-shared-cluster
+content: |
+  Click the :guilabel:`Upgrade` green button under the :guilabel:`This is a
+  Shared Tier Cluster` heading of the :guilabel:`Atlas` tab.  
+
+  .. figure:: /images/upgrade-cluster-start.png
+     :alt: The modal that confirms turning off Realm Sync in the UI
+     :width: 461px
+     :lightbox:
+     
+  Configure your upgraded cluster settings in the following screen and then
+  click :guilabel:`Review Changes`. To learn more about the pricing of the various
+  Atlas cluster tiers, see the :doc:`billing </billing>` page. 
+
+  .. figure:: /images/upgrade-cluster-settings.png
+     :alt: The configuration settings to upgrade your cluster tier
+     :width: 461px
+     :lightbox:
+
+  Review your upgraded cluster changes, and click the green :guilabel:`Apply Changes` button.
+
+  .. figure:: /images/review-upgraded-cluster-changes.png
+     :alt: The configuration settings review screen to upgrade your cluster tier
+     :width: 461px
+     :lightbox:
+
+  A blue header will appear, indicating the progress of the cluster migration operation.
+
+  .. figure:: /images/cluster-migration-progress-header.png
+     :alt: The cluster migration operation progress indication header
+     :lightbox:
+
+  Finally, reenable :doc:`Realm Sync </sync/get-started>` to resume your
+  application development, testing, and roll-out.

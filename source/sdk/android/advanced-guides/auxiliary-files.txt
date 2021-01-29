@@ -1,0 +1,66 @@
+.. _android-client-auxiliary-files:
+
+=============================
+Auxiliary Files - Android SDK
+=============================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+{+service+} stores data on the filesystem in **auxiliary files**.
+You can access these files through the {+service-short+} SDK. In some error
+situations detailed below, you might need to manually delete the
+auxiliary files. Otherwise, these are implementation details that you
+can safely ignore, presented here only for the curious.
+
+Auxiliary File Types
+--------------------
+
+{+service+}'s internal operation depends on several auxiliary file
+types:
+
+``<path>.realm``:
+  The **{+realm+} file** contains the data and metadata of
+  the {+realm+} at the given :ref:`{+service-short+} path
+  <android-realm-path>`. Each app can have several
+  {+realms+} at different paths, each with their own
+  {+realm+} file.
+
+``<name>.realm.lock``:
+  The **lock file** enables synchronization between writes.
+
+``<name>.realm.note``:
+  The **note file** is a :wikipedia:`named pipe
+  <Named_pipe>` for inter-thread and inter-process
+  notifications. While usually completely internal, the note
+  file can cause the "unsupported resource found" error in
+  iOS builds if you accidentally add it to the app bundle.
+  If you see this error, delete the pipe.
+
+``<name>.realm.management``:
+  The **management directory** contains internal files for
+  the {+realm+}'s state management.
+
+Manually Deleting Auxiliary Files
+---------------------------------
+
+In some circumstances, you might need to delete the
+auxiliary files. You may delete auxiliary files when the {+realm+} is
+closed. Deleting any of a {+realm+}'s files while the {+realm+} is
+open might corrupt the {+realm+} or disrupt :doc:`Sync
+</sync>`.
+
+.. _android-client-realm-studio:
+
+Realm Studio
+------------
+
+.. include:: /includes/realm-studio.rst

@@ -2,7 +2,6 @@ import XCTest
 import RealmSwift
 
 class OpenCloseRealm: AnonymouslyLoggedInTestCase {
-
     func testOpenSyncedRealm() throws {
         let expectation = XCTestExpectation(description: "it completes")
         // :code-block-start: open-synced-realm
@@ -10,9 +9,9 @@ class OpenCloseRealm: AnonymouslyLoggedInTestCase {
         // Log in...
         let user = app.currentUser
         let partitionValue = "some partition value"
-        
+
         var configuration = user!.configuration(partitionValue: partitionValue)
-        
+
         // :hide-start:
         // The following is only required if you want to specify exactly which
         // types to include in the realm. By default, Realm automatically finds
@@ -46,13 +45,29 @@ class OpenCloseRealm: AnonymouslyLoggedInTestCase {
         // :code-block-start: open-local-realm
         // Open the default realm
         let defaultRealm = try! Realm()
-        
+
         // Open the realm with a specific file URL, for example a username
         let username = "GordonCole"
-        var config = Realm.Configuration.defaultConfiguration;
+        var config = Realm.Configuration.defaultConfiguration
         config.fileURL!.deleteLastPathComponent()
         config.fileURL!.appendPathComponent(username)
         config.fileURL!.appendPathExtension("realm")
+        let realm = try! Realm(configuration: config)
+        // :code-block-end:
+    }
+
+    func testConfigureObjectTypes() {
+        // :code-block-start: configure-object-types
+        var config = Realm.Configuration.defaultConfiguration
+        // :remove-start:
+        config.inMemoryIdentifier = "test"
+        // :remove-end:
+
+        // Given: `class Task: Object`
+        // Limit the realm to only the Task object. All other
+        // Object- and EmbeddedObject-derived classes are not added.
+        config.objectTypes = [Task.self]
+
         let realm = try! Realm(configuration: config)
         // :code-block-end:
     }

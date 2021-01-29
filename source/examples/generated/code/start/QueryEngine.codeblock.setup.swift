@@ -1,14 +1,14 @@
 let realm = try! Realm()
 try! realm.write {
     // Add tasks and projects here.
-    let project = QueryEngineExamples_Project()
+    let project = Project()
     project.name = "New Project"
-    let task = QueryEngineExamples_Task()
+    let task = Task()
     task.assignee = "Alex"
     task.priority = 5
     project.tasks.append(task)
     realm.add(project)
     // ...
 }
-let tasks = realm.objects(QueryEngineExamples_Task.self)
-let projects = realm.objects(QueryEngineExamples_Project.self)
+let tasks = realm.objects(Task.self)
+let projects = realm.objects(Project.self)

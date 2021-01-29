@@ -14,6 +14,7 @@ import org.junit.Assert
 import org.junit.Before
 import org.junit.BeforeClass
 import java.time.LocalDateTime
+import java.util.*
 import java.util.concurrent.atomic.AtomicBoolean
 
 abstract class RealmTest {
@@ -94,6 +95,11 @@ fun deleteAllUsers(activity: Activity) {
 
 const val YOUR_APP_ID = "android-example-testers-rztwe"
 const val PARTITION = "Example"
+
+fun getRandomPartition() : String {
+    val random = Random()
+    return random.nextInt(100000).toString()
+}
 
 /**
  * Provides the ability to block until a background task completes.

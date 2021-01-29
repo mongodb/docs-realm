@@ -3,5 +3,5 @@ RLMRealm *realm = [RLMRealm defaultRealm];
     // Add projects and tasks here
 }];
 
-RLMResults *tasks = [QueryEngineExamplesObjc_Task allObjectsInRealm:realm];
-RLMResults *projects = [QueryEngineExamplesObjc_Project allObjectsInRealm:realm];
+RLMResults *tasks = [Task allObjectsInRealm:realm];
+RLMResults *projects = [Project allObjectsInRealm:realm];

@@ -7,7 +7,7 @@ class QsTask: Object {
     // A partition key is only required if you are using Sync.
     @objc dynamic var _partition: String = ""
     @objc dynamic var name: String = ""
-    @objc dynamic var owner: String? = nil
+    @objc dynamic var owner: String?
     @objc dynamic var status: String = ""
     override static func primaryKey() -> String? {
         return "_id"
@@ -15,8 +15,8 @@ class QsTask: Object {
 
     convenience init(partition: String, name: String) {
         self.init()
-        self._partition = partition;
-        self.name = name;
+        self._partition = partition
+        self.name = name
     }
 }
 
@@ -44,7 +44,7 @@ func runExample() {
 func onLogin() {
     // Now logged in, do something with user
     let user = app.currentUser!
-    
+
     // The partition determines which subset of data to access.
     let partitionValue = "some partition value"
 
@@ -76,12 +76,12 @@ func onLogin() {
                     fatalError("\(error)")
                 }
             }
-            
+
             // Delete all from the realm
             try! realm.write {
                 realm.deleteAll()
             }
-            
+
             // Add some tasks
             let task = QsTask(partition: partitionValue, name: "Do laundry")
             try! realm.write {
@@ -114,7 +114,7 @@ func onLogin() {
 
             print("A list of all tasks after deleting one: \(tasks)")
 
-            app.currentUser?.logOut() { (error) in
+            app.currentUser?.logOut { (error) in
                 // Logged out or error occurred
             }
 

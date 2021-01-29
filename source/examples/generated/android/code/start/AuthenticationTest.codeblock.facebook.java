@@ -1,4 +1,4 @@
-FacebookSdk.setApplicationId("YOUR FACEBOOK SDK APP ID");
+FacebookSdk.setApplicationId(YOUR_FACEBOOK_SDK_APP_ID);
 FacebookSdk.sdkInitialize(activity);
 CallbackManager callbackManager = CallbackManager.Factory.create();
 LoginManager.getInstance().registerCallback(callbackManager,

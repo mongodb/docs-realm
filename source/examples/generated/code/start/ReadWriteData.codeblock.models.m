@@ -1,45 +1,70 @@
-@interface Example_Dog : RLMObject
+// DogToy.h
+@interface DogToy : RLMObject
 @property NSString *name;
-@property NSInteger age;
 @end
 
-// Enable Example_Dog for use in RLMArray
-RLM_ARRAY_TYPE(Example_Dog)
+// Dog.h
+@interface Dog : RLMObject
+@property NSString *name;
+@property int age;
 
-// A dog owner has a primary key ID, a collection of dogs, and can be a member of multiple clubs.
-@interface Example_DogOwner : RLMObject
-@property NSInteger id;
+// To-one relationship
+@property DogToy *favoriteToy;
 
-// To-many relationship - a dog owner can have many dogs
-@property RLMArray<Example_Dog *><Example_Dog> *dogs;
+@end
 
-// Inverse relationship - an owner can be a member of many clubs
+// Enable Dog for use in RLMArray
+RLM_ARRAY_TYPE(Dog)
+
+
+// Person.h
+// A person has a primary key ID, a collection of dogs, and can be a member of multiple clubs.
+@interface Person : RLMObject
+@property int _id;
+
+// To-many relationship - a person can have many dogs
+@property RLMArray<Dog *><Dog> *dogs;
+
+// Inverse relationship - a person can be a member of many clubs
 @property (readonly) RLMLinkingObjects *clubs;
 @end
 
-RLM_ARRAY_TYPE(Example_DogOwner)
+RLM_ARRAY_TYPE(Person)
 
-@interface Example_DogClub : RLMObject
+
+// DogClub.h
+@interface DogClub : RLMObject
 @property NSString *name;
-@property RLMArray<Example_DogOwner *><Example_DogOwner> *members;
+@property RLMArray<Person *><Person> *members;
 @end
 
-@implementation Example_Dog
+
+// Dog.m
+@implementation Dog
 @end
 
-@implementation Example_DogOwner
+
+// DogToy.m
+@implementation DogToy
+@end
+
+
+// Person.m
+@implementation Person
 // Define the primary key for the class
 + (NSString *)primaryKey {
-    return @"id";
+    return @"_id";
 }
 
 // Define the inverse relationship to dog clubs
 + (NSDictionary *)linkingObjectsProperties {
     return @{
-        @"clubs": [RLMPropertyDescriptor descriptorWithClass:Example_DogClub.class propertyName:@"members"],
+        @"clubs": [RLMPropertyDescriptor descriptorWithClass:DogClub.class propertyName:@"members"],
     };
 }
 @end
 
-@implementation Example_DogClub
+
+// DogClub.m
+@implementation DogClub
 @end
