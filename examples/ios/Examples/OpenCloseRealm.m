@@ -30,7 +30,10 @@
     NSString *partitionValue = @"some partition value";
 
     RLMRealmConfiguration *configuration = [user configurationWithPartitionValue:partitionValue];
-
+    // :remove-start:
+    configuration.objectClasses = @[[OpenCloseRealmObjcExamples_Task class]];
+    // :remove-end:
+    
     [RLMRealm asyncOpenWithConfiguration:configuration
                            callbackQueue:dispatch_get_main_queue()
                                 callback:^(RLMRealm *realm, NSError *error) {
@@ -94,7 +97,8 @@
     // :remove-end:
     
     // Given a RLMObject subclass called `OpenCloseRealmObjcExamples_Task`
-    // Limit the realm to only the Task object:
+    // Limit the realm to only the Task object. All other
+    // Object- and EmbeddedObject-derived classes are not added.
     config.objectClasses = @[[OpenCloseRealmObjcExamples_Task class]];
     
     NSError *error = nil;

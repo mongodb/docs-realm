@@ -1,5 +1,4 @@
 import XCTest
-import RealmSwift
 
 private var gExpectation: XCTestExpectation?
 
