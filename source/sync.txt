@@ -158,47 +158,28 @@ example, insertions into lists.
 .. seealso::
 
    :ref:`Conflict Resolution <conflict-resolution>`
-.. _scalability:
 
-Use Case Profiles and Scalability
----------------------------------
+.. _realm-sync-best-practices:
 
-In practice, reliable conflict resolution is complex and
-CPU-intensive. Too many writers writing on the same realm
-concurrently can impact performance, leading to scalability
-concerns.
+Best Practices
+--------------
 
-To use {+sync+} effectively, it is important to understand
-the different use case profiles and their scalability
-implications. You can categorize {+sync+} use cases in
-terms of **number of writers, number of readers**:
+We recommend following these best practices to ensure optimal {+app+}
+performance:
 
-Multiple writer, multiple reader:
-  The real-time collaboration app use case.
-  Generally speaking, {+service+} can handle up to 30
-  concurrent writers per {+realm+}. As such, each 'project' on
-  which users can collaborate works best in its own {+realm+}.
+Deployment model and geographic regions:
+  Use a local {+service-short+} :ref:`deployment model<realm-local-deployment>` 
+  when building a {+sync+} application. Configure your {+app+} and
+  MongoDB data source to run within the same geographic region and cloud
+  provider.
 
-Single writer, multiple reader:
-  A single writer, such as a publisher
-  application on the backend, inserts data into a global
-  {+realm+} that all frontend clients can read from but not
-  write to. This can scale past tens of thousands of
-  concurrent users.
+Atlas oplog:
+  {+sync+} requires access to the {+atlas+} oplog. For best results,
+  keep 48 hours of oplog for a cluster using {+sync-short+}. 
 
-Single writer, single reader:
-  Each user has their own private {+realm+} to
-  store, e.g., user account information, preferences, or the
-  individual user's shopping cart. As long as only the user
-  or a backend application interacts with the {+realm+} data,
-  the performance is ideal and scales linearly with number
-  of users.
+.. seealso::
 
-To get the best performance from {+sync+}, design your
-{+app+} with use case profiles in mind. If you
-intend to have many concurrent writers, split projects
-across {+realms+}.
-
+   :atlas:`Atlas oplog </reference/atlas-oplog>`
 
 Summary
 -------
