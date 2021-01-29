@@ -85,10 +85,6 @@ class CollectionNotificationExampleViewController: UITableViewController {
             }
         }
     }
-
-    deinit {
-        notificationToken?.invalidate()
-    }
 }
 // :code-block-end:
 

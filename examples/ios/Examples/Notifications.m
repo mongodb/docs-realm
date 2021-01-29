@@ -94,13 +94,6 @@ void objectNotificationExample() {
         }];
     }];
 }
-
-- (void)dealloc {
-    // Invalidate the token to stop watching for changes.
-    // Note: dealloc won't necessarily be called when navigating
-    // to another view controller.
-    [_notificationToken invalidate];
-}
 @end
 // :code-block-end:
 
