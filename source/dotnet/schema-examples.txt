@@ -1,0 +1,248 @@
+.. _dotnet-schemas:
+
+==================
+Define Schemas
+==================
+
+Create Objects
+~~~~~~~~~~~~~~
+
+Realm considers any C# class that inherits from ``RealmObject`` or ``EmbeddedObject`` 
+a schema definition. To override this behavior, you can  
+:ref:`Provide a Subset of Classes to your Realm Schema <dotnet-provide-subset-classes-schema>`.
+
+.. example::
+
+   The following code block shows an object schema that describes a Dog.
+   Every Dog object must include a ``Name`` and may
+   optionally include the dog's ``Age``, ``Breed`` and a list of people that 
+   represents the dog's ``Owners``. 
+
+   .. literalinclude:: /examples/generated/code/start/Examples.codeblock.dog_class.cs
+      :language: csharp
+
+
+.. note::
+   
+   To define a collection of objects within an object, use an ``IList<T>`` with 
+   only a getter. You do not need to initialize it in the constructor, as {+realm+} 
+   will generate a collection instance the first time the property is accessed. 
+
+Embedded Objects
+----------------
+To embed an object, extend 
+:dotnet-sdk:`EmbeddedObject <reference/Realms.EmbeddedObject.html>`
+for the class that you'd like to nest within another class:
+
+.. literalinclude:: /examples/Schemas/Embedded.cs
+   :language: csharp
+
+Then, any time you reference that class from another class,
+{+client-database+} will embed the referenced class within the enclosing
+class.
+
+Add Attributes
+~~~~~~~~~~~~~~
+
+Class and property Attributes enable finer control over how the schema is defined. 
+Using Attributes, you can specify which property represents the primary key, 
+how property names should be mapped to different field names in {+service-short+}, 
+and relationships between objects.
+
+Specify a Primary Key
+---------------------
+The following example demonstrates how to designate a primary key in an object schema:
+   
+.. literalinclude:: /examples/Schemas/PrimaryKey.cs
+   :language: csharp
+
+.. note::
+   
+   Once you assign a property as a primary key, you cannot change it.
+   
+  
+.. _dotnet-required-optional-property:
+
+Required and Optional Properties
+--------------------------------
+
+In C#, value types are implicitly non-nullable, but can be made optional by appending 
+`?  <https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/nullable-value-types>`__.
+Reference types, such as ``string`` and ``byte[]``, are implicitly nullable and can be
+made required by annotating them with the ``[Required]`` attribute. Properties of types
+that inherit from ``RealmObject`` or ``EmbeddedObject`` are special and can always be
+null. Applying ``[Required]`` on such a property will result in a compilation error.
+
+You can use the ``[Required]`` attribute as seen in the following example:
+
+.. literalinclude:: /examples/Schemas/Required.cs
+   :language: csharp
+
+
+.. _dotnet-default-property-values:
+
+Default Property Values
+-----------------------
+
+You can use the built-in language features to assign a default value to a property. 
+In C#, you can assign a default value in the property declaration. 
+
+.. literalinclude:: /examples/Schemas/DefaultValues.cs
+   :language: csharp
+
+.. note:: Default Values and Nullability
+
+   While default values ensure that a newly created object cannot contain
+   a value of ``null`` (unless you specify a default value of ``null``),
+   they do not impact the nullability of a property. To make a property
+   non-nullable, see :ref:`Required Properties <dotnet-required-optional-property>`.
+
+
+.. _dotnet-property-relationships:
+
+Relationships
+~~~~~~~~~~~~~
+
+{+client-database+} supports several kinds of object relationships.
+
+.. seealso::
+
+   :ref:`Relationships <dotnet-client-relationships>`
+
+
+.. _dotnet-property-relationships-many-to-one:
+
+To-One
+------
+
+To set up a many-to-one or one-to-one relationship, create a property  in your application
+whose type inherits ``RealmObject`` or ``EmbeddedObject``:
+
+
+.. literalinclude:: /examples/Schemas/ManyToOne.cs
+   :language: csharp
+
+Each ``Dog`` references zero or one ``Person`` instances. Nothing prevents
+multiple ``Dog`` instances from referencing the same ``Person`` as an owner;
+the distinction between a many-to-one and a one-to-one relationship is
+up to your application.
+
+Setting a relationship property to null removes the connection between
+objects, but {+client-database+} does not delete the referenced object
+unless that object is :ref:`embedded <dotnet-property-embedded>`.
+
+.. _dotnet-property-relationships-many-to-many:
+
+To-Many
+-------
+
+You can create a relationship between one object and any number of objects
+using a property of type ``IList<T>``\ in your application, where ``T`` is a subclass of
+``RealmObject`` or ``EmbeddedObject``:
+
+.. literalinclude:: /examples/Schemas/ManyToMany.cs
+   :language: csharp
+
+
+.. _dotnet-property-relationships-inverse:
+
+Inverse Relationships
+---------------------
+
+By default, {+client-database+} relationships are unidirectional. You
+can follow a link from one class to a referenced class, but not in the
+opposite direction. You can provide a link in the opposite direction
+with the :dotnet-sdk:`[Backlink] <reference/Realms.BacklinkAttribute.html>` attribute:
+
+.. literalinclude:: /examples/Schemas/Inverse.cs
+   :language: csharp
+
+Since relationships are many-to-one or many-to-many, following inverse
+relationships can result in zero, one, or many objects.
+
+Like any other ``RealmResults`` set, you can
+:ref:`query <dotnet-client-query-engine>` an inverse relationship.
+
+
+.. _dotnet-ignore-property:
+
+Ignore a Property
+-----------------
+
+If you don't want to save a property in your model to a {+realm+}, you can
+ignore that property. A property is ignored by default if it is not autoimplemented or 
+does not have a setter.
+
+Ignore a property from a {+service-short+} object model with the
+:dotnet-sdk:`[Ignored] <reference/Realms.IgnoredAttribute.html>` attribute:
+
+.. literalinclude:: /examples/Schemas/Ignored.cs
+   :language: csharp
+
+.. _dotnet-rename-property:
+
+Rename a Property
+-----------------
+
+By default, {+client-database+} uses the name defined in the model class
+to represent properties internally. In some cases you might want to change
+this behavior:
+
+- To make it easier to work across platforms, since naming conventions differ.
+- To change a property name in .NET without forcing a migration.
+
+Choosing an internal name that differs from the name used in model classes
+has the following implications:
+
+- Migrations must use the internal name when creating classes and properties.
+- Schema errors reported will use the internal name.
+
+Use the :dotnet-sdk:`[MapTo] <reference/Realms.MapToAttribute.html>`
+attribute to rename a property:
+
+.. literalinclude:: /examples/Schemas/RenameProperty.cs
+   :language: csharp
+
+
+.. _dotnet-rename-object:
+
+Rename a Class
+--------------
+
+By default, {+client-database+} uses the name defined in the model class
+to represent classes internally. In some cases you might want to change
+this behavior:
+
+- To support multiple model classes with the same simple name in different namespaces.
+- To make it easier to work across platforms, since naming conventions differ.
+- To use a class name that is longer than the 57 character limit enforced by {+client-database+}.
+- To change a class name in .NET without forcing a migration.
+
+Use the :dotnet-sdk:`[MapTo] <reference/Realms.MapToAttribute.html>`
+attribute to rename a class:
+
+.. literalinclude:: /examples/Schemas/RenameClass.cs
+   :language: csharp
+
+.. _dotnet-provide-subset-classes-schema:
+
+Provide a Subset of Classes to your Realm Schema
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+By default, your application's {+service-short+} Schema includes all
+classes that inherit from ``RealmObject`` or ``EmbeddedObject``. If you only want to include a
+a subset of these classes in your {+service-short+}
+Schema, you can update your configuration to include the specific classes you want:
+
+.. literalinclude:: /examples/Schemas/SubsetClasses.cs
+   :language: csharp
+
+Indexing
+~~~~~~~~
+
+To index a property, use the :dotnet-sdk:`[Indexed] <reference/Realms.IndexedAttribute.html>`
+attribute:
+
+.. literalinclude:: /examples/Schemas/Indexed.cs
+   :language: csharp
+
