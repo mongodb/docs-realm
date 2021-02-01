@@ -45,24 +45,32 @@ object, which must include the ``sync`` property defining a
 .. _node-sync-changes-in-the-background:
 
 
-Reset a Client Realm File
--------------------------
-To delete a {+realm+} file for a given :js-sdk:`configuration
-<Realm.html#~Configuration>`, call :js-sdk:`Realm.deleteFile()
-<Realm.html#.deleteFile>`.
+Handle a Client Reset Error
+---------------------------
+To initiate a client reset if an error occurs with the connection to the
+{+service+}, define an ``error`` callback function in your
+:js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>` object.
 
 .. example::
-
-   In the following example, an application developer deletes a {+realm+} with a
-   predefined configuration. The developer calls :js-sdk:`Realm.exists()
-   <Realm.html#.exists>` to determine if the {+realm+} exists. Finally, the
-   developer opens a {+realm+} with the same configuration object.
    
    .. code-block:: javascript
+      :emphasize-lines: 7
 
-      Realm.deleteFile(config); // delete a Realm file for a predefined config object
-      console.log(`Does the realm exist: ${Realm.exists(syncConfig)}`); // check if the realm exists
-      const realm = await Realm.open(config); // open a Realm
+      const config = {
+         schema: [TaskSchema],
+         sync: {
+            user: app.currentUser,
+            partitionValue: "myPartition",
+         },
+         error: (_session, error) => {
+            if (error.name === 'ClientReset') {
+            let path = realm.path; // realm.path will no be accessible after realm.close()
+            realm.close();
+            Realm.App.Sync.initiateClientReset(app, path);
+            }
+         }
+      }; 
+      const realm = await Realm.open(config);
 
 .. _node-set-the-client-log-level:
 
