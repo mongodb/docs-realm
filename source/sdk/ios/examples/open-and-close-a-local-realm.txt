@@ -9,27 +9,46 @@ Open & Close a Local Realm
 Open a Local Realm
 ------------------
 
-When opening a local (non-synced) {+realm+}, you pass a custom
-:swift-sdk:`Configuration <Structs/Realm/Configuration.html>` object
-without the :swift-sdk:`SyncConfiguration
-<Structs/Realm/Configuration.html#/s:10RealmSwift0A0V13ConfigurationV04syncC0AA04SyncC0VSgvp>`
-object. The following example uses the :swift-sdk:`fileURL
-<Structs/Realm/Configuration.html#/s:10RealmSwift0A0V13ConfigurationV7fileURL10Foundation0E0VSgvp>`
-and :swift-sdk:`readOnly
-<Structs/Realm/Configuration.html#/s:10RealmSwift0A0V13ConfigurationV8readOnlySbvp>`
-properties to open a *readonly* local {+realm+} with a specific file
-location:
-
 .. tabs-realm-languages::
    
    .. tab::
       :tabid: swift
+
+      You can open a realm with the :swift-sdk:`Realm() initializer
+      <Structs/Realm.html#/s:10RealmSwift0A0V13configuration5queueA2C13ConfigurationV_So012OS_dispatch_D0CSgtKcfc>`.
+      If you omit the :swift-sdk:`Realm.Configuration
+      <Structs/Realm/Configuration.html>` parameter, you will open the
+      default realm. You can use the configuration object to open a
+      realm at a specific file URL, in memory, or with :ref:`{+sync+}
+      <sync>`.
+
+      You can set the default realm configuration by assigning a new
+      Realm.Configuration instance to the
+      :swift-sdk:`Realm.Configuration.defaultConfiguration
+      <Structs/Realm/Configuration.html#/s:10RealmSwift0A0V13ConfigurationV07defaultC0AEvpZ>`
+      class property.
 
       .. literalinclude:: /examples/generated/code/start/OpenCloseRealm.codeblock.open-local-realm.swift
          :language: swift
 
    .. tab::
       :tabid: objective-c
+
+      You can open the default realm with :objc-sdk:`+[RLMRealm
+      defaultRealm]
+      <Classes/RLMRealm.html#/c:objc(cs)RLMRealm(cm)defaultRealm>`.
+      
+      You can also pass a :objc-sdk:`RLMRealmConfiguration
+      <Classes/RLMRealmConfiguration.html>` object to
+      :objc-sdk:`+[RLMRealm realmWithConfiguration:error:]
+      <Classes/RLMRealm.html#/c:objc(cs)RLMRealm(cm)realmWithConfiguration:error:>`
+      to open a realm at a specific file URL, in memory, or with
+      :ref:`{+sync+} <sync>`.
+
+      You can set the default realm configuration by passing a
+      RLMRealmConfiguration instance to 
+      :objc-sdk:`+[RLMRealmConfiguration setDefaultConfiguration:]
+      <Classes/RLMRealmConfiguration.html#/c:objc(cs)RLMRealmConfiguration(cm)setDefaultConfiguration:>`.
 
       .. literalinclude:: /examples/generated/code/start/OpenCloseRealm.codeblock.open-local-realm.m
          :language: objectivec
@@ -45,16 +64,39 @@ When a {+realm+} goes out of scope and is removed from memory due to
 <https://docs.swift.org/swift-book/LanguageGuide/AutomaticReferenceCounting.html>`__,
 the {+realm+} is closed.
 
-.. _ios-local-realm-configuration:
-
-Local Realm Configuration
--------------------------
-
-TODO
-
 .. _ios-provide-a-subset-of-classes-to-a-realm:
 
 Provide a Subset of Classes to a Realm
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--------------------------------------
 
-TODO
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: swift
+
+      By default, the iOS SDK automatically adds all
+      :swift-sdk:`Object<Extensions/Object.html>`- and
+      :swift-sdk:`EmbeddedObject<Extensions/EmbeddedObject.html>`-derived
+      classes in your executable to the realm schema. You can control
+      which objects get added by setting the :swift-sdk:`objectTypes
+      <Structs/Realm/Configuration.html#/s:10RealmSwift0A0V13ConfigurationV11objectTypesSaySo13RLMObjectBaseCmGSgvp>`
+      property of the :swift-sdk:`Realm.Configuration
+      <Structs/Realm/Configuration.html>` object.
+
+      .. literalinclude:: /examples/generated/code/start/OpenCloseRealm.codeblock.configure-object-types.swift
+         :language: swift
+
+   .. tab::
+      :tabid: objective-c
+
+      By default, the iOS SDK automatically adds all
+      :objc-sdk:`RLMObject<Classes/RLMObject.html>`- and
+      :objc-sdk:`RLMEmbeddedObject<Classes/RLMEmbeddedObject.html>`-derived
+      classes in your executable to the realm schema. You can control
+      which objects get added by setting the :objc-sdk:`objectClasses
+      <Classes/RLMRealmConfiguration.html#/c:objc(cs)RLMRealmConfiguration(py)objectClasses>`
+      property of the :objc-sdk:`RLMRealmConfiguration
+      <Classes/RLMRealmConfiguration.html>` object.
+
+      .. literalinclude:: /examples/generated/code/start/OpenCloseRealm.codeblock.configure-object-types.m
+         :language: objectivec

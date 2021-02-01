@@ -2,7 +2,6 @@ import XCTest
 import RealmSwift
 
 class OpenCloseRealm: AnonymouslyLoggedInTestCase {
-
     func testOpenSyncedRealm() throws {
         let expectation = XCTestExpectation(description: "it completes")
         // :code-block-start: open-synced-realm
@@ -53,6 +52,22 @@ class OpenCloseRealm: AnonymouslyLoggedInTestCase {
         config.fileURL!.deleteLastPathComponent()
         config.fileURL!.appendPathComponent(username)
         config.fileURL!.appendPathExtension("realm")
+        let realm = try! Realm(configuration: config)
+        // :code-block-end:
+    }
+
+    func testConfigureObjectTypes() {
+        // :code-block-start: configure-object-types
+        var config = Realm.Configuration.defaultConfiguration
+        // :remove-start:
+        config.inMemoryIdentifier = "test"
+        // :remove-end:
+
+        // Given: `class Task: Object`
+        // Limit the realm to only the Task object. All other
+        // Object- and EmbeddedObject-derived classes are not added.
+        config.objectTypes = [Task.self]
+
         let realm = try! Realm(configuration: config)
         // :code-block-end:
     }

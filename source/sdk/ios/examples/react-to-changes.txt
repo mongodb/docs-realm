@@ -33,9 +33,8 @@ committed. The handler receives no information about the change.
   .. tab::
       :tabid: objective-c
 
-      .. literalinclude:: /examples/Notifications/RealmNotification.m
+      .. literalinclude:: /examples/generated/code/start/Notifications.codeblock.register-a-realm-change-listener.m
         :language: objectivec
-        :emphasize-lines: 3
         
 .. _register-a-collection-change-listener:
 
@@ -72,9 +71,8 @@ inserted, and modified.
   .. tab::
       :tabid: objective-c
 
-      .. literalinclude:: /examples/Notifications/CollectionNotification.m
+      .. literalinclude:: /examples/generated/code/start/Notifications.codeblock.register-a-collection-change-listener.m
         :language: objectivec
-        :emphasize-lines: 7
 
 .. _register-an-object-change-listener:
 
@@ -95,13 +93,13 @@ and whether the object was deleted.
   .. tab::
       :tabid: swift
 
-      .. literalinclude:: /examples/generated/code/start/Notifications.codeblock.register-a-collection-change-listener.swift
+      .. literalinclude:: /examples/generated/code/start/Notifications.codeblock.register-an-object-change-listener.swift
         :language: swift
 
   .. tab::
       :tabid: objective-c
 
-      .. literalinclude:: /examples/Notifications/ObjectNotification.m
+      .. literalinclude:: /examples/generated/code/start/Notifications.codeblock.register-an-object-change-listener.m
         :language: objectivec
 
 .. _ios-silent-writes:
@@ -113,13 +111,45 @@ You can write to a {+realm+} *without* sending a notification to a specific
 observer by passing the observer's notification token in an array to
 ``realm.write()``:
 
-.. literalinclude:: /examples/generated/code/start/Notifications.codeblock.silent-write.swift
-   :language: swift
+.. tabs-realm-languages::
+
+  .. tab::
+      :tabid: swift
+
+      .. literalinclude:: /examples/generated/code/start/Notifications.codeblock.silent-write.swift
+         :language: swift
+
+  .. tab::
+      :tabid: objective-c
+
+      .. literalinclude:: /examples/generated/code/start/Notifications.codeblock.silent-write.m
+        :language: objectivec
 
 
-.. _unregister-a-change-listener:
+.. _stop-watching-for-changes:
 
-Unregister a Change Listener
-----------------------------
+Stop Watching for Changes
+-------------------------
 
-TODO
+Observation stops when the token returned by an ``observe`` call becomes
+invalid. You can explicitly invalidate a token by calling its
+``invalidate()`` method.
+
+.. important:: Retain Tokens as Long as You Want to Observe
+
+   Notifications stop if the token is in a local variable that goes out
+   of scope. 
+
+.. tabs-realm-languages::
+
+  .. tab::
+      :tabid: swift
+
+      .. literalinclude:: /examples/generated/code/start/Notifications.codeblock.stop-watching.swift
+         :language: swift
+
+  .. tab::
+      :tabid: objective-c
+
+      .. literalinclude:: /examples/generated/code/start/Notifications.codeblock.stop-watching.m
+        :language: objectivec
