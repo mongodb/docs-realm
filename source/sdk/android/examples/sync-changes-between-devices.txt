@@ -118,37 +118,174 @@ new ``Task`` to the {+realm+}:
 
    :ref:`Threading <android-threading>`
 
-.. _android-sync-changes-in-the-background:
+.. TODO: BACKGROUND SYNC BEST PRACTICES ANDROID
+.. .. _android-sync-changes-in-the-background:
 
-Sync Changes in the Background
-------------------------------
+.. Sync Changes in the Background
+.. ------------------------------
 
 .. _android-pause-or-resume-a-sync-session:
 
 Pause or Resume a Sync Session
 ------------------------------
 
+To pause a currently active sync session, call
+:java-sdk:`stop() <io/realm/mongodb/sync/SyncSession.html#stop-->`
+on your :java-sdk:`SyncSession <io/realm/mongodb/sync/SyncSession.html>`:
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/generated/android/code/start/SyncDataTest.codeblock.pause-sync-session.kt
+         :language: kotlin
+
+   .. tab::
+      :tabid: java
+
+      .. literalinclude:: /examples/generated/android/code/start/SyncDataTest.codeblock.pause-sync-session.java
+         :language: java
+
+
+To resume a currently paused sync session, call
+:java-sdk:`start() <io/realm/mongodb/sync/SyncSession.html#start-->`
+on your :java-sdk:`SyncSession <io/realm/mongodb/sync/SyncSession.html>`:
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/generated/android/code/start/SyncDataTest.codeblock.resume-sync-session.kt
+         :language: kotlin
+
+   .. tab::
+      :tabid: java
+
+      .. literalinclude:: /examples/generated/android/code/start/SyncDataTest.codeblock.resume-sync-session.java
+         :language: java
+
 .. _android-check-network-connection:
 
 Check the Current Network Connection
 ------------------------------------
+
+To check the current network connection, call :java-sdk:`getConnectionState() <io/realm/mongodb/sync/SyncSession.html#getConnectionState-->` on your :java-sdk:`SyncSession <io/realm/mongodb/sync/SyncSession.html>`:
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/generated/android/code/start/SyncDataTest.codeblock.check-network-connection.kt
+         :language: kotlin
+
+   .. tab::
+      :tabid: java
+
+      .. literalinclude:: /examples/generated/android/code/start/SyncDataTest.codeblock.check-network-connection.java
+         :language: java
+
+You can also subscribe to connection changes on your ``SyncSession``
+with :java-sdk:`addConnectionChangeListener()
+<io/realm/mongodb/sync/SyncSession.html#addConnectionChangeListener-io.realm.mongodb.sync.ConnectionListener->`,
+which works similarly to :ref:`upload and download listeners
+<android-check-sync-progress>`.
 
 .. _android-check-sync-progress:
 
 Check Upload & Download Progress for a Sync Session
 ---------------------------------------------------
 
+To subscribe to progress updates for uploads via the Android SDK,
+call :java-sdk:`addUploadProgressListener()
+<io/realm/mongodb/sync/SyncSession.html#addUploadProgressListener-io.realm.mongodb.sync.ProgressMode-io.realm.mongodb.sync.ProgressListener->`
+on your :java-sdk:`SyncSession <io/realm/mongodb/sync/SyncSession.html>`
+with a :java-sdk:`ProgressMode <io/realm/mongodb/sync/ProgressMode.html>`
+and a :java-sdk:`ProgressListener() <io/realm/mongodb/sync/ProgressListener.html>`.
+The ``ProgressMode`` passed determines which upload events your listener
+receives:
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/generated/android/code/start/SyncDataTest.codeblock.check-upload-progress.kt
+         :language: kotlin
+
+   .. tab::
+      :tabid: java
+
+      .. literalinclude:: /examples/generated/android/code/start/SyncDataTest.codeblock.check-upload-progress.java
+         :language: java
+
+To subscribe to progress updates for uploads via the Android SDK,
+call :java-sdk:`addDownloadProgressListener()
+<io/realm/mongodb/sync/SyncSession.html#addDownloadProgressListener-io.realm.mongodb.sync.ProgressMode-io.realm.mongodb.sync.ProgressListener->`
+on your :java-sdk:`SyncSession <io/realm/mongodb/sync/SyncSession.html>`
+with a :java-sdk:`ProgressMode <io/realm/mongodb/sync/ProgressMode.html>`
+and a :java-sdk:`ProgressListener() <io/realm/mongodb/sync/ProgressListener.html>`.
+The ``ProgressMode`` passed determines which upload events your listener
+receives:
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/generated/android/code/start/SyncDataTest.codeblock.check-download-progress.kt
+         :language: kotlin
+
+   .. tab::
+      :tabid: java
+
+      .. literalinclude:: /examples/generated/android/code/start/SyncDataTest.codeblock.check-download-progress.java
+         :language: java
+
 .. _android-reset-a-client-realm-file:
 
 Reset a Client Realm File
 -------------------------
+
+You can customize behavior in the event of a
+:ref:`client reset <android-client-reset>` with a custom client reset
+handler:
+
+.. tabs-realm-languages::
+   
+   .. tab::
+       :tabid: kotlin
+
+       .. literalinclude:: /examples/generated/android/code/start/ClientResetTest.codeblock.client-reset.kt
+         :language: kotlin
+
+   .. tab::
+       :tabid: java
+
+       .. literalinclude:: /examples/generated/android/code/start/ClientResetTest.codeblock.client-reset.java
+         :language: java
 
 .. _android-set-the-client-log-level:
 
 Set the Client Log Level
 ------------------------
 
-.. _android-multiplex-sync-sessions:
+To configure the log level for Realm logs in your application, pass a
+:java-sdk:`LogLevel <io/realm/log/LogLevel.html>` to 
+:java-sdk:`RealmLog.setLevel() <io/realm/log/RealmLog.html#setLevel-int->`:
 
-Multiplex Sync Sessions
------------------------
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/generated/android/code/start/SyncDataTest.codeblock.set-client-log-level.kt
+         :language: kotlin
+
+   .. tab::
+      :tabid: java
+
+      .. literalinclude:: /examples/generated/android/code/start/SyncDataTest.codeblock.set-client-log-level.java
+         :language: java
