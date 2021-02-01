@@ -1,0 +1,61 @@
+.. _dotnet-client-migrations:
+
+=================
+Modify A Schema
+=================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+In the following example, assume that each schema change occurs 
+after the developer has used each version for some
+amount of time. New schema version numbers only apply once you open the Realm 
+with an updated schema and explicitly specify the new version number, so to get to 
+version 4, you would first need to open the app with versions 2 and 3.
+
+A {+realm+} using schema version ``1`` has a ``Person`` object type:
+
+.. literalinclude:: /examples/Migrations/PersonClassV1/PersonClassV1.cs
+    :language: csharp
+    :emphasize-lines: 3
+
+First, the developer decides to add a "LastName" property:
+
+.. literalinclude:: /examples/Migrations/PersonClassV2/PersonClassV2.cs
+    :language: csharp
+    :emphasize-lines: 4
+
+
+The developer decides that the ``Person`` class should use a combined
+``FullName`` field instead of the separate ``FirstName`` and
+``LastName`` fields:
+
+
+.. literalinclude:: /examples/Migrations/PersonClassV3/PersonClassV3.cs
+    :language: csharp
+    :emphasize-lines: 3
+
+Lastly, the developer decides to modify the ``Age`` property by renaming it to
+``Birthday`` and changing the type to ``DateTimeOffset``:
+
+.. literalinclude:: /examples/Migrations/PersonClassV4/PersonClassV4.cs
+    :language: csharp
+    :emphasize-lines: 4
+
+To migrate the {+realm+} to conform to the updated ``Person`` schema, the
+developer sets the {+realm+}'s :ref:`schema version <dotnet-schema-version>` to
+``4`` and defines a migration function to set the value of
+``FullName`` based on the existing ``FirstName`` and ``LastName``
+properties and the value of ``Birthday`` based on ``Age``:
+
+.. literalinclude:: /examples/Migrations/LocalMigration/LocalMigration.cs
+    :language: csharp
+    :emphasize-lines: 3, 21, 25, 31
