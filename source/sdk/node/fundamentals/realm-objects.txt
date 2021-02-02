@@ -1,4 +1,5 @@
 .. _node-realm-objects:
+.. _node-realm-object-model:
 
 =============
 Realm Objects
@@ -12,60 +13,147 @@ Realm Objects
    :depth: 2
    :class: singlecol
 
-The Node.js SDK memory maps objects in a :ref:`realm <node-realms>` directly to
-JavaScript objects, called **Realm objects**. For the most part Realm objects
-work just like common JavaScript objects, but they also bring along a few
-additional features.
+Realm objects are object-oriented data structures that you use to represent data
+in a :ref:`realm <node-realms>`. A Realm object is fundamentally similar to a
+common JavaScript object but it also brings along a few additional features.
 
-This means that you can store just about any JavaScript object in a realm and
+The Node.js SDK memory maps Realm objects directly to JavaScript objects, so
+there's no need for an :wikipedia:`ORM <Object-relational_mapping>` or some
+other library that wraps data access. Instead you can work with Realm objects as
+you would any other object. This memory mapping is the basis for Realm's
+efficient :ref:`live queries <node-live-queries>` and :ref:`write transactions
+<node-write-transactions>`.
 
-
-.. _node-object-schema:
+.. _node-object-types:
+.. _node-object-schemas:
 
 Object Types & Schemas
 ----------------------
 
-An **object type** defines and configures the properties and relationships of
-any {+service-short+} objects that conform to the type.
+Every Realm object conforms to a specific object type. An object type is
+essentially a class that defines the properties and :ref:`relationships
+<node-client-relationships>` for objects of that type using a pre-defined
+schema. {+service-short+} guarantees that all objects in a {+realm+} conform to
+the schema for their object type and validates objects whenever they're created,
+modified, or deleted.
 
-An **object schema** is a configuration object that defines the structure of an
-object type. A schema can also define default values and indexes for any
-property.
+Property Types & Annotations
+----------------------------
 
-specify a primary key, 
+Every property in a {+service-short+} object has a strongly defined data type. A
+property's type can be a primitive data type or an object type defined in the
+same {+realm+}. The type also specifies whether the property contains a single
+value or a list of values.
 
-For every property in an object type, the schema defines:
+{+client-database+} supports the following primitive data types:
 
-- a specific data type
-- whether the property has a single value or a list of values
-- whether the property is required or optional
+- ``bool`` for boolean values
+- ``int`` and ``double``, which map to JavaScript ``number`` values
+- ``Decimal128`` for high precision numbers
+- ``string``
+- ``date``, which maps to :mdn:`Date <Web/JavaScript/Reference/Global_Objects/Date>`
+- ``data``, which maps to :mdn:`ArrayBuffer <Web/JavaScript/Reference/Global_Objects/ArrayBuffer>`
+- ``objectId``, which maps to :manual:`ObjectId </reference/method/ObjectId/>`
 
-Schemas can also define :ref:`relationships <node-client-relationships>` between
-object types in a {+realm+}.
+To specify that a field contains a list of a primitive value type, append ``[]``
+to the type name.
 
-{+service+} guarantees that all objects in a {+realm+} conform to the
-schema for their object type and validates objects whenever they're
-created, modified, or deleted.
+.. example::
+   
+   The following schema defines a ``Student`` object type with a string name and
+   a list of integer grades:
+   
+   .. code-block:: javascript
+      
+      const studentSchema = {
+        name: "Student",
+        properties: {
+          name: "string",
+          grades: "int[]"
+        }
+      }
 
-.. _node-primary-key:
+.. _node-optional-properties:
+
+Optional Properties
+~~~~~~~~~~~~~~~~~~~
+
+An optional property, designated by a question mark (``?``) at the end of its
+type name, may contain a ``null`` value or be entirely omitted from an object.
+By default, all properties are required unless explicitly marked as optional.
+
+.. example::
+   
+   The following schema defines an optional string property, ``breed``:
+   
+   .. literalinclude:: /examples/Schemas/DogSchema.js
+      :language: javascript
+      :emphasize-lines: 6
+
+.. _node-default-values:
+
+Default Values
+~~~~~~~~~~~~~~
+
+Realm can assign a default value to new objects that do not specify a value for
+a property.
+
+.. example::
+   
+   The following schema defines a Car with a default value of 0 for
+   its ``miles`` property:
+   
+   .. code-block:: javascript
+      :emphasize-lines: 6
+      
+      const CarSchema = {
+        name: "Car",
+        properties: {
+          make:  "string",
+          model: "string",
+          miles: { type: "int", default: 0 },
+        }
+      };
+
+.. _node-primary-keys:
 
 Primary Keys
-------------
+~~~~~~~~~~~~
 
 A **primary key** is a string or integer property that uniquely identifies an
 object. You may optionally define a primary key for an object type as part of
 the :ref:`object schema <node-object-schema>`. {+client-database+} automatically
-indexes primary key properties, which allows you to efficiently read and modify
-objects based on their primary key.
+:ref:`indexes <node-indexes>` primary key properties, which allows you to
+efficiently read and modify objects based on their primary key.
 
 If an object type has a primary key, then all objects of that type must include
 the primary key property with a value that is unique among objects of the same
 type in a {+realm+}. You cannot change the primary key property for an object
 type after any object of that type is added to a {+realm+}.
 
-.. _node-index:
+.. _node-indexes:
 
 Indexes
--------
+~~~~~~~
 
-An **index** 
+An **index** significantly increases the speed of certain read operations at the
+cost of additional overhead for write operations. Indexes are particularly
+useful for equality comparison, such as querying for an object based on the
+value of a property.
+
+To define an index for a given property, set ``indexed`` to ``true``.
+
+.. example::
+   
+   The following schema defines an index on the ``name`` property:
+   
+   .. code-block:: javascript
+      :emphasize-lines: 4
+      
+      const BookSchema = {
+      name: "Book",
+        properties: {
+          name: { type: "string", indexed: true },
+          price: "int"
+        }
+      };

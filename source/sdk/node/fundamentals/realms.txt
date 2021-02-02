@@ -12,30 +12,14 @@ Realms
    :depth: 2
    :class: singlecol
 
-Realms are the core structure used to organize data in Realm Database. A
-**realm** is a set of objects that each conform to one of a set of user-defined
-type schemas.
+Realms are the core data structure used to organize data in Realm Database. At
+its core, a realm is a collection of the objects that you use in your
+application, called Realm objects, as well as additional metadata that describe
+the objects. Every Realm object conforms to a user-defined type with a strict
+property schema.
 
-Realm Database can represent 
-
-Realm Database stores a memory-mapped, binary encoded version of all of the
-objects and types in a realm in a single ``.realm`` file.
-
-
-
-You can automatically :doc:`synchronize {+realm+} across multiple devices
-</sync>` and set up :ref:`reactive event handlers <node-realm-notifications>`
-that call a function any time an object in a {+realm+} is created, modified, or
-deleted.
-
-Realms may contain more than one type of data as long as a schema exists for
-each type.
-
-A {+realm+} allows you to partition data according to who uses it and when they
-use it.
-
-Realm vs Other Databases
-------------------------
+Realms vs Other Databases
+-------------------------
 
 The {+service-short+} data model is similar to both relational and document
 databases but has distinct differences from both. To underscore these
@@ -63,15 +47,13 @@ A {+realm+} is not a collection of schemaless documents.
 Realm Schema
 ------------
 
-A **{+backend-schema+}** is a list of valid :ref:`object schemas
-<node-realm-objects>` that each define an object type that a {+app+}
-may persist. All objects in a {+realm+} must conform to the {+backend-schema+}.
+A **{+realm+} schema** is a list of valid :ref:`object schemas
+<node-realm-objects>` that a realm may contain. Every Realm object must conform
+to an object type that's included in its realm's schema.
 
-Client applications provide a {+frontend-schema+} when they open a
-{+realm+}. If a {+realm+} already contains data, then {+client-database+}
-validates each existing object to ensure that an object schema was
-provided for its type and that it meets all of the constraints specified
-in the schema.
+If a {+realm+} already contains data when you open it, {+client-database+}
+validates each object to ensure that an object schema was provided for its type
+and that it meets all of the constraints specified in the schema.
 
 .. example::
    
@@ -101,24 +83,73 @@ in the schema.
         }
       ]
 
-Local and Synced Realms
------------------------
+.. _node-realm-file:
 
-The ``.realm`` file exists on an app's local file system, so you can always
-access and modify data in a realm, even without a network connection.
+Realm Files
+-----------
 
-.. _node-realm-path:
+Realm Database stores a binary encoded version of every object and type in a
+realm in a single ``.realm`` file. The file is located at a specific path that
+you define when you open the realm.
 
-Realms are Partitions of Atlas Data
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. note:: Auxiliary Realm Files
+   
+   Realm Database creates a few additional files for each {+realm+}. These files
+   are primarily for internal use and in general you can ignore them.
 
-Each {+realm+} corresponds to a subset of the data in your
-:term:`{+app+}'s <{+app+}>`
-:term:`synced {+atlas+} cluster <synced cluster>`. You can customize the
-:ref:`partitioning <partitioning>` of data using your application's
-:ref:`partition key <partition-keys>`. Unique values of the partition
-key, known as :term:`partition values <partition value>`, correspond to
-individual {+realms+}.
+   - ``.realm.lock``: The **lock file** enables synchronization between writes.
+   
+   - ``.realm.note``: The **note file** is a :wikipedia:`named pipe
+     <Named_pipe>` for inter-thread and inter-process notifications.
+   
+   - ``.realm.management``: The **management directory** contains internal state
+     management files.
 
-You can customize permissions for these partitions of data using
-:ref:`{+service-short+} Rules <sync-rules>`.
+.. warning:: Use Caution When Deleting Realm Files
+   
+   In some circumstances, such as a client reset scenario, you might need to
+   delete a {+realm+} file and its auxiliary files.
+   
+   If you delete a {+realm+} file or any of its auxiliary files while one or
+   more instances of the {+realm+} are open, you might corrupt the {+realm+} or
+   disrupt :doc:`sync </sync>`.
+   
+   You may safely delete these files when all instances of a {+realm+} are
+   closed. Before you delete a realm file, make sure that you back up any
+   important objects as you will lose all unsynced data in the realm.
+
+.. _node-in-memory-realm:
+
+In-Memory Realms
+~~~~~~~~~~~~~~~~
+
+You can also open a realm entirely in memory, which will not create a ``.realm``
+file or its associated auxiliary files. Instead the SDK stores objects in memory
+while the {+realm+} is open and discards them immediately when all instances are
+closed.
+
+.. _node-synced-realm:
+
+Synced Realms
+-------------
+
+You can configure a realm to automatically synchronize data between many devices
+that each have their own local copy of the data. Synced realms use a different
+configuration than local-only realms and require a MongoDB Realm app to handle
+the synchronization process.
+
+Applications can always create, modify, and delete synced realm objects locally,
+even when offline. Whenever a network connection is available, the Realm SDK
+opens a connection to an application server and syncs changes to and from other
+clients. The :ref:`Realm sync protocol <sync-protocol>` and server-side
+operational transforms guarantee that all fully synced instances of a realm see
+exactly the same data, even if some changes occurred offline and/or were
+receieved out of order.
+
+.. seealso::
+   
+   For more information on synced realms, including directions on how to set up
+   sync in a MongoDB Realm app, see :ref:`Realm Sync Overview <sync>`.
+   
+   For code examples of how to work with a synced realm in the Node.js SDK, see
+   :ref:`Sync Changes Between Devices <node-sync-changes-between-devices>`.
