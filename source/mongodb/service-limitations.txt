@@ -20,8 +20,7 @@ Overview
 You can access most of the CRUD and Aggregation functionality of MongoDB
 version 3.6 with the :doc:`MongoDB service </mongodb>`; however, {+service+}
 does not support all operations and features available in standard tools
-and clients. This page provides a high-level overview of MongoDB feature
-availability in {+service-short+}. For a list of specific MongoDB operations that
+and clients. For a list of specific MongoDB operations that
 are available when you connect to MongoDB through {+service-short+}, see
 :ref:`the CRUD & Aggregation API reference
 <mongodb-crud-and-aggregation-apis>`.
@@ -139,6 +138,48 @@ following table lists the limitations for each cluster size:
    - Avoid data models that require you to Watch or Sync an unbounded
      number of collections.
 
+.. _mongodb-service-limitations-atlas-support:
+
+Atlas Support 
+-------------
+
+{+sync+} requires {+atlas+} clusters to run
+MongoDB 4.4.0 or greater. 
+
+{+service+} does not currently support sharded {+atlas+} clusters.
+
+When data is bulk/batch loaded into {+atlas+}, you may see a delay in
+data appearing on devices while {+service+} processes changes.
+
+.. _mongodb-service-limitations-concurrent-workloads:
+
+Concurrent Workloads 
+--------------------
+
+Writing:
+  {+service+} supports up to 30 users concurrently writing data to an
+  underlying MongoDB document. With more than 30 concurrent writers, you
+  may see delays in syncing or conflict resolution.
+
+Reading:
+  Frontend clients reading from a global {+realm+} can scale past tens
+  of thousands of concurrent users.
+
+.. _scalability:
+
+.. tip:: Scalability
+   
+   When you intend to have many concurrent writers, have each writer
+   work on a separate document. 
+
+.. _mongodb-service-limitations-rules:
+
+Rules 
+-----
+
+{+sync+} supports :ref:`{+sync-short+} rules<sync-rules>`.
+{+sync+} does not support :ref:`roles/field-level
+rules<define-roles-and-permissions>` at this time.
 
 Static Hosting
 --------------

@@ -20,6 +20,7 @@ public class ProjectTask extends RealmObject {
     public int progressMinutes;
     public boolean isComplete;
     public int priority;
+    @Required
     public String _partition;
 }
 // :code-block-end:
