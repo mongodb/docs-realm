@@ -71,9 +71,11 @@ where ``T`` can be the following types:
          :language: java
 
 .. _android-relationships:
+.. _android-define-a-relationship-property:
+.. _android-field-relationships:
 
-Relationships
-~~~~~~~~~~~~~
+Define a Relationship Property
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 In addition to the field data types, you can define relationships,
 collections, and embedded objects in your object schema using the
@@ -90,25 +92,13 @@ information, see :ref:`Relationship Annotations <android-relationships>`.
 
    :ref:`Relationships <android-client-relationships>`
 
-.. _android-define-a-relationship-property:
-.. _android-field-relationships:
-
-Define a Relationship Property
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-{+client-database+} supports several kinds of object relationships.
-
-.. seealso::
-
-   :ref:`Relationships <android-client-relationships>`
-
 .. _android-field-relationships-many-to-one:
 
 Many-to-One
 ===========
 
 To set up a many-to-one or one-to-one relationship, create a field
-with whose type is a {+service-short+} object in your application:
+whose type is a {+service-short+} object in your application:
 
 .. tabs-realm-languages::
 
@@ -223,7 +213,7 @@ Define an Embedded Object Property
 objects. This has several advantages:
 
 - If using {+sync+}, objects will translate into MongoDB documents that
-  follow a :manual:`denormalized data model </manual/core/data-modeling-introduction/>`.
+  follow a :manual:`denormalized data model </core/data-modeling-introduction/>`.
 
 - When you delete an object that contains another object, the delete
   operation removes both objects from the {+realm+}, so unused objects
@@ -344,9 +334,9 @@ nullable, and cannot be made required.
 .. warning:: Kotlin Types and Nullability
 
    In Kotlin, types are non-nullable by default unless you explicitly
-   add a ``?`` suffix to the type. You can only annotate nullable types
-   like ``String`` and ``Date`` -- using the ``@Required`` annotation on
-   non-nullable types will fail compilation.
+   add a ``?`` suffix to the type. You can only annotate
+   :ref:`nullable types <android-optional-field>`. Using the
+   ``@Required`` annotation on non-nullable types will fail compilation.
 
 .. tabs-realm-languages::
 
@@ -385,6 +375,9 @@ Optional Fields
       You can require any type that ends with the Kotlin ``?``
       operator, such as ``Int?``.
 
+      The ``RealmList`` type is non-nullable by default and cannot be
+      made nullable.
+
    .. tab::
       :tabid: java
 
@@ -403,9 +396,9 @@ Optional Fields
       - ``Float``
       - ``Double``
 
-Primitive types like ``int`` and the ``RealmList`` type are non-nullable
-by default and cannot be made nullable, even using the ``@Required``
-annotation.
+      Primitive types like ``int`` and ``long`` are non-nullable by
+      default and cannot be made nullable, as they cannot be set to a
+      null value.
 
 .. _android-default-field-values:
 
@@ -413,20 +406,22 @@ Default Field Values
 ~~~~~~~~~~~~~~~~~~~~
 
 To assign a default value to a field, use the built-in language features
-to assign default values. In Kotlin, you can assign a default value in
-the field declaration. In Java, use the class constructor to assign
-default values.
+to assign default values.
 
 .. tabs-realm-languages::
 
    .. tab::
       :tabid: kotlin
 
+      Assign default values in the field declaration:
+
       .. literalinclude:: /examples/Schemas/DefaultValues.kt
          :language: kotlin
 
    .. tab::
       :tabid: java
+
+      Use the class constructor(s) to assign default values:
 
       .. literalinclude:: /examples/Schemas/DefaultValues.java
          :language: java
