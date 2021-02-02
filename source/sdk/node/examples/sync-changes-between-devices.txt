@@ -64,7 +64,7 @@ To initiate a client reset if an error occurs with the connection to the
          },
          error: (_session, error) => {
             if (error.name === 'ClientReset') {
-            let path = realm.path; // realm.path will no be accessible after realm.close()
+            let path = realm.path; // realm.path will not be accessible after realm.close()
             realm.close();
             Realm.App.Sync.initiateClientReset(app, path);
             }
