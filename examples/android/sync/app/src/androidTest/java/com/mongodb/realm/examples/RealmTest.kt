@@ -129,6 +129,6 @@ class Expectation {
     }
 
     fun await() {
-        await(15000L)
+        await(25000L)
     }
 }

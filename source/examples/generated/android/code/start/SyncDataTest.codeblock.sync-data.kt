@@ -7,8 +7,7 @@ Realm.getInstanceAsync(config, object : Realm.Callback() {
     override fun onSuccess(realm: Realm) {
         Log.v("EXAMPLE", "Successfully opened a realm.")
         // Read all tasks in the realm. No special syntax required for synced realms.
-        val tasks =
-            realm.where(Task::class.java).findAll()
+        val tasks = realm.where(Task::class.java).findAll()
         // Write to the realm. No special syntax required for synced realms.
         realm.executeTransaction { r: Realm ->
             r.insert(Task())
