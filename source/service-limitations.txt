@@ -17,6 +17,17 @@ Service Limitations
 Overview
 --------
 
+{+service+} has several guidelines to keep in mind when architecting how
+your tools and clients interact with MongoDB through {+service-short+}.
+Keep this guidance in mind when deciding how to structure queries,
+selecting which CRUD and aggregation operations to use, and determining
+how to handle concurrent workloads.
+
+.. _mongodb-service-limitations-version-requirements:
+
+MongoDB Version Requirements
+---------------------------
+
 You can access most of the CRUD and Aggregation functionality of MongoDB
 version 3.6 with the :doc:`MongoDB service </mongodb>`; however, {+service+}
 does not support all operations and features available in standard tools
@@ -24,6 +35,9 @@ and clients. For a list of specific MongoDB operations that
 are available when you connect to MongoDB through {+service-short+}, see
 :ref:`the CRUD & Aggregation API reference
 <mongodb-crud-and-aggregation-apis>`.
+
+{+sync+} requires {+atlas+} clusters to run
+MongoDB 4.4.0 or greater. 
 
 .. _mongodb-service-limitations-query-results:
 
@@ -142,9 +156,6 @@ following table lists the limitations for each cluster size:
 
 Atlas Support 
 -------------
-
-{+sync+} requires {+atlas+} clusters to run
-MongoDB 4.4.0 or greater. 
 
 {+service+} does not currently support sharded {+atlas+} clusters.
 
