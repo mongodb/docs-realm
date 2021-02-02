@@ -151,7 +151,7 @@ class SyncDataTest : RealmTest() {
                             session.stop()
                             // :code-block-end:
                             Assert.assertEquals(
-                                ConnectionState.DISCONNECTED,
+                                SyncSession.State.INACTIVE,
                                 app.sync.getSession(config).state
                             )
                             // :code-block-start: resume-sync-session
