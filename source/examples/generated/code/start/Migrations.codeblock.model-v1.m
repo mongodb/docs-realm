@@ -1,4 +1,5 @@
-// Version 1 had separate fields for first name and last name
+// In the first version of the app, the Person model
+// has separate fields for first and last names.
 @interface Person : RLMObject
 @property NSString *firstName;
 @property NSString *lastName;

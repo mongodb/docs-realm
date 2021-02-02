@@ -8,7 +8,8 @@
 #import <Realm/Realm.h>
 
 // :code-block-start: model-v1
-// Version 1 had separate fields for first name and last name
+// In the first version of the app, the Person model
+// has separate fields for first and last names.
 @interface MigrationObjcExampleV1_Person : RLMObject
 @property NSString *firstName;
 @property NSString *lastName;
@@ -23,7 +24,9 @@
 // :code-block-end:
 
 // :code-block-start: model-v2
-// Version 2 now has one combined field for the name.
+// In the second version, the Person model has one
+// combined field for the name. A migration will be required
+// to convert from version 1 to version 2.
 @interface MigrationObjcExampleV2_Person : RLMObject
 @property NSString *fullName;
 @property int age;

@@ -8,7 +8,8 @@ import XCTest
 import RealmSwift
 
 // :code-block-start: model-v1
-// Version 1 had separate fields for first name and last name
+// In the first version of the app, the Person model
+// has separate fields for first and last names.
 class MigrationExampleV1_Person: Object {
     @objc dynamic var firstName = ""
     @objc dynamic var lastName = ""
@@ -17,7 +18,9 @@ class MigrationExampleV1_Person: Object {
 // :code-block-end:
 
 // :code-block-start: model-v2
-// Version 2 now has one combined field for the name.
+// In the second version, the Person model has one
+// combined field for the name. A migration will be required
+// to convert from version 1 to version 2.
 class MigrationExampleV2_Person: Object {
     @objc dynamic var fullName = ""
     @objc dynamic var age = 0
