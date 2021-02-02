@@ -35,7 +35,7 @@ created, modified, or deleted.
 .. _android-field-relationships-lists:
 
 Lists
-~~~~~
+-----
 
 Realm objects can contain lists of non-{+service-short+}-object data
 types. You can model these collections with the type ``RealmList<T>``,
@@ -75,7 +75,7 @@ where ``T`` can be the following types:
 .. _android-field-relationships:
 
 Define a Relationship Property
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+------------------------------
 
 In addition to the field data types, you can define relationships,
 collections, and embedded objects in your object schema using the
@@ -95,7 +95,7 @@ information, see :ref:`Relationship Annotations <android-relationships>`.
 .. _android-field-relationships-many-to-one:
 
 Many-to-One
-===========
+~~~~~~~~~~~
 
 To set up a many-to-one or one-to-one relationship, create a field
 whose type is a {+service-short+} object in your application:
@@ -126,7 +126,7 @@ unless that object is :ref:`embedded <android-field-relationships-embedded>`.
 .. _android-field-relationships-many-to-many:
 
 Many-to-Many
-============
+~~~~~~~~~~~~
 
 You can create a relationship between one object and any number of objects
 using a field of type ``RealmList<?>`` where ``T`` is a
@@ -170,7 +170,7 @@ between objects of the same type:
 .. _android-field-relationships-inverse:
 
 Inverse Relationships
-=====================
+~~~~~~~~~~~~~~~~~~~~~
 
 By default, {+client-database+} relationships are unidirectional. You
 can follow a link from one class to a referenced class, but not in the
@@ -207,7 +207,7 @@ Like any other ``RealmResults`` set, you can
 .. _android-field-relationships-embedded:
 
 Define an Embedded Object Property
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------
 
 {+client-database+} provides the ability to nest objects within other
 objects. This has several advantages:

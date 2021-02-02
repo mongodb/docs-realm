@@ -1,5 +1,5 @@
 .. seealso::
-   | :ref:`Manage Email/Password Users <android-manage-email-password-users>` in the :doc:`Android Client Guide </android>`
+   | :ref:`Manage Email/Password Users <android-manage-email-password-users>` in the :doc:`Android Client Guide </sdk/android>`
    | :ref:`Manage Email/Password Users <ios-manage-email-password-users>` in the :doc:`iOS Client Guide </ios>`
    | :ref:`Manage Email/Password Users <dotnet-manage-email-password-users>` in the :doc:`.NET Client Guide </dotnet>`
    | :ref:`Manage Email/Password Users <node-manage-email-password-users>` in the :doc:`Node.js Client Guide </node>`
