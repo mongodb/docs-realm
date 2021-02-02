@@ -45,32 +45,6 @@ Example
          .. literalinclude:: /examples/Schemas/DogSchema.java
             :language: java
 
-.. _android-live-object:
-
-Live Objects
-------------
-
-Objects in {+service-short+} clients are **live objects** that
-update automatically to reflect data changes, including
-:doc:`synced </sync>` remote changes, and emit
-:ref:`notification events <android-client-notifications>` that you
-can subscribe to whenever their underlying data changes. You
-can use live objects to work with object-oriented data
-natively without an :wikipedia:`ORM
-<Object-relational_mapping>` tool.
-
-Live objects are direct proxies to the underlying stored data, which
-means that a live object doesn't directly contain data. Instead, a live
-object always references the most up-to-date data on disk and
-:wikipedia:`lazy loads <Lazy_loading>` field values when you access
-them from a :ref:`collection <android-client-collections>`. This means that a
-{+realm+} can contain many objects but only pays the performance cost for
-data that the application is actually using.
-
-Valid write operations on a live object automatically persist to the
-{+realm+} and propagate to any other synced clients. You do not need to
-call an update method, modify the {+realm+}, or otherwise "push" updates.
-
 Summary
 -------
 
