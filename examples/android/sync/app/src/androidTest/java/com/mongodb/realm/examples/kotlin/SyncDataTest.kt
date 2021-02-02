@@ -18,6 +18,7 @@ import io.realm.mongodb.mongo.result.InsertOneResult
 import io.realm.mongodb.sync.ConnectionState
 import io.realm.mongodb.sync.ProgressMode
 import io.realm.mongodb.sync.SyncConfiguration
+import io.realm.mongodb.sync.SyncSession
 import org.bson.BsonDocument
 import org.bson.BsonObjectId
 import org.bson.BsonString
@@ -145,26 +146,23 @@ class SyncDataTest : RealmTest() {
                                     Task()
                                 )
                             }
-                            Assert.assertEquals(
-                                ConnectionState.CONNECTING,
-                                app.sync.getSession(config).connectionState
-                            )
                             // :code-block-start: pause-sync-session
-                            app.sync.getSession(config).stop()
+                            val session: SyncSession = app.sync.getSession(config)
+                            session.stop()
                             // :code-block-end:
                             Assert.assertEquals(
                                 ConnectionState.DISCONNECTED,
-                                app.sync.getSession(config).connectionState
+                                app.sync.getSession(config).state
                             )
                             // :code-block-start: resume-sync-session
-                            app.sync.getSession(config).start()
+                            val syncSession: SyncSession = app.sync.getSession(config)
+                            syncSession.start()
                             // :code-block-end:
                             realm.executeTransaction { r: Realm ->
                                 r.insert(
                                     Task()
                                 )
                             }
-                            //Assert.assertEquals(ConnectionState.CONNECTING, app.getSync().getSession(config).getConnectionState());
                             expectation.fulfill()
                             realm.close()
                         }
@@ -202,10 +200,7 @@ class SyncDataTest : RealmTest() {
                         override fun onSuccess(realm: Realm) {
                             Log.v("EXAMPLE", "Successfully opened a realm.")
                             // Read all tasks in the realm. No special syntax required for synced realms.
-                            val tasks =
-                                realm.where(
-                                    Task::class.java
-                                ).findAll()
+                            val tasks = realm.where(Task::class.java).findAll()
                             // Write to the realm. No special syntax required for synced realms.
                             realm.executeTransaction { r ->
                                 r.insert(
@@ -254,10 +249,7 @@ class SyncDataTest : RealmTest() {
                         override fun onSuccess(realm: Realm) {
                             Log.v("EXAMPLE", "Successfully opened a realm.")
                             // Read all tasks in the realm. No special syntax required for synced realms.
-                            val tasks =
-                                realm.where(
-                                    Task::class.java
-                                ).findAll()
+                            val tasks = realm.where(Task::class.java).findAll()
                             // Write to the realm. No special syntax required for synced realms.
                             realm.executeTransaction { r: Realm ->
                                 r.insert(

@@ -1,1 +1,2 @@
-app.sync.getSession(config).start()
+val syncSession: SyncSession = app.sync.getSession(config)
+syncSession.start()

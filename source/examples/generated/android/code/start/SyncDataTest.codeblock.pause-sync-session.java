@@ -1,1 +1,2 @@
-app.getSync().getSession(config).stop();
+SyncSession session = app.getSync().getSession(config);
+session.stop();

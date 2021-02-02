@@ -1,1 +1,2 @@
-app.getSync().getSession(config).start();
+SyncSession syncSession = app.getSync().getSession(config);
+syncSession.start();

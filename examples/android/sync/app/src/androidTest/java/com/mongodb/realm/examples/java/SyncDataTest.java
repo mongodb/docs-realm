@@ -30,6 +30,7 @@ import io.realm.mongodb.sync.Progress;
 import io.realm.mongodb.sync.ProgressListener;
 import io.realm.mongodb.sync.ProgressMode;
 import io.realm.mongodb.sync.SyncConfiguration;
+import io.realm.mongodb.sync.SyncSession;
 
 import static com.mongodb.realm.examples.RealmTestKt.YOUR_APP_ID;
 import static com.mongodb.realm.examples.RealmTestKt.getRandomPartition;
@@ -143,18 +144,18 @@ public class SyncDataTest extends RealmTest {
                                 r.insert(new Task());
                             });
 
-                            Assert.assertEquals(ConnectionState.CONNECTING, app.getSync().getSession(config).getConnectionState());
                             // :code-block-start: pause-sync-session
-                            app.getSync().getSession(config).stop();
+                            SyncSession session = app.getSync().getSession(config);
+                            session.stop();
                             // :code-block-end:
-                            Assert.assertEquals(ConnectionState.DISCONNECTED, app.getSync().getSession(config).getConnectionState());
+                            Assert.assertEquals(SyncSession.State.INACTIVE, app.getSync().getSession(config).getState());
                             // :code-block-start: resume-sync-session
-                            app.getSync().getSession(config).start();
+                            SyncSession syncSession = app.getSync().getSession(config);
+                            syncSession.start();
                             // :code-block-end:
                             realm.executeTransaction(r -> {
                                 r.insert(new Task());
                             });
-                            //Assert.assertEquals(ConnectionState.CONNECTING, app.getSync().getSession(config).getConnectionState());
                             expectation.fulfill();
 
                             realm.close();

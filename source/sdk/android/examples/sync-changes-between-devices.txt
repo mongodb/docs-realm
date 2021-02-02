@@ -187,6 +187,20 @@ To check the current network connection, call :java-sdk:`getConnectionState() <i
       .. literalinclude:: /examples/generated/android/code/start/SyncDataTest.codeblock.check-current-network-connection.java
          :language: java
 
+.. warning:: Connection and Session States
+
+   Multiple users share a network connection on an application
+   level that corresponds to the physical connectivity over the network
+   to your backend {+app+}. However, each user retains control of their
+   personal sync session, including the ability to
+   :ref:`pause and resume <android-pause-or-resume-a-sync-session>`
+   synchronization. This means that your application can have both a
+   "connected" connection state and an "inactive" sync session state when a
+   user has paused synchronization for their personal sync session.
+   Your application can also have a "disconnected" connection state and
+   an "active" sync session state, representing an unpaused personal
+   sync session but a network connection that is currently down.
+
 You can also subscribe to connection changes on your ``SyncSession``
 with :java-sdk:`addConnectionChangeListener()
 <io/realm/mongodb/sync/SyncSession.html#addConnectionChangeListener-io.realm.mongodb.sync.ConnectionListener->`,
