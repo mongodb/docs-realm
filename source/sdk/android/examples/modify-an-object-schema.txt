@@ -28,10 +28,21 @@ your schema. The editable schema exposed via a ``DynamicRealm`` provides
 convenience functions for renaming fields. This gives you full control
 over the behavior of your data during complex schema migrations.
 
+.. _og-schem:
+
+Example 
+-------
+
+The following examples demonstrate how to add, delete, and modify 
+properties in a schema. First, make the required schema change. Then,
+create a corresponding :ref:`migration function
+<android-migration-function>` to move data from the original schema
+to the updated schema.
+
 .. note:: Versions Update on Realm Open
 
    Assume that each schema change in this example occurs after
-   the developer has used each version for some amount of time. New
+   an application has used each version for some amount of time. New
    schema version numbers only apply once you open the {+realm+} 
    with an updated schema and explicitly specify the new version
    number, so in order to get to version 3, you would first need to
@@ -58,7 +69,8 @@ A {+realm+} using schema version ``0`` has a ``Person`` object type:
 Add a Property
 --------------
 
-First, the developer decides to add a ``lastName`` property:
+The following example adds a ``lastName`` property to the
+:ref:`original Person schema <og-schema>`:
 
 .. tabs-realm-languages::
  
@@ -81,9 +93,9 @@ First, the developer decides to add a ``lastName`` property:
 Delete a Property
 -----------------
 
-Next, the developer decides that the ``Person`` class should use a combined
+The following example uses a combined
 ``fullName`` property instead of the separate ``firstName`` and
-``lastName`` property:
+``lastName`` property in the :ref:`original Person schema <og-schema>`:
 
 .. tabs-realm-languages::
 
@@ -107,8 +119,9 @@ Next, the developer decides that the ``Person`` class should use a combined
 Modify a Property Type or Remame a Property
 -------------------------------------------
 
-Lastly, the developer decides to modify the ``age`` property by
-renaming it to ``birthday`` and changing the type to ``Datetime``:
+The following example modifies the ``age`` property in the
+:ref:`original Person schema <og-schema>` by
+renaming it to ``birthday`` and changing the type to ``Date``:
 
 .. tabs-realm-languages::
 
@@ -126,13 +139,15 @@ renaming it to ``birthday`` and changing the type to ``Datetime``:
          :language: java
          :emphasize-lines: 5
 
+.. _android-migration-function:
+
 Migration Functions
 -------------------
 
 To migrate the {+realm+} to conform to the updated
-``Person`` schema, the developer sets the {+realm+}'s
+``Person`` schema, set the {+realm+}'s
 :ref:`schema version <android-schema-version>` to ``3``
-and defines a migration function to set the value of
+and define a migration function to set the value of
 ``fullName`` based on the existing ``firstName`` and
 ``lastName`` properties and the value of ``birthday`` based on
 ``age``:
