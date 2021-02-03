@@ -41,37 +41,6 @@ object, which must include the ``sync`` property defining a
       
       const realm = await Realm.open(config);
 
-
-.. _node-sync-changes-in-the-background:
-
-
-Handle a Client Reset Error
----------------------------
-To initiate a client reset if an error occurs with the connection to the
-{+service+}, define an ``error`` callback function in your
-:js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>` object.
-
-.. example::
-   
-   .. code-block:: javascript
-      :emphasize-lines: 7
-
-      const config = {
-         schema: [TaskSchema],
-         sync: {
-            user: app.currentUser,
-            partitionValue: "myPartition",
-         },
-         error: (_session, error) => {
-            if (error.name === 'ClientReset') {
-            let path = realm.path; // realm.path will not be accessible after realm.close()
-            realm.close();
-            Realm.App.Sync.initiateClientReset(app, path);
-            }
-         }
-      }; 
-      const realm = await Realm.open(config);
-
 .. _node-set-the-client-log-level:
 
 Set the Client Log Level
