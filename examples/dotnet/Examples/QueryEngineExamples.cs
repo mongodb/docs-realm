@@ -79,7 +79,7 @@ namespace Examples
                 StringComparison.OrdinalIgnoreCase));
             // :code-block-end:
 
-            var projects = realm.All<FooProject>();
+            var projects = realm.All<UserProject>();
 
             // :code-block-start: aggregate
             var highPriProjects = projects.Where(p => p.Tasks.Average(task =>
@@ -93,28 +93,33 @@ namespace Examples
 
     }
 
-    public class FooProject : RealmObject
-    {
-        public IList<UserTask> Tasks { get; }
-    }
+    // :code-block-start: classes
+    // :replace-start: {
+    // "terms": {
+    //   "UserTask": "Task"
+    // }}
     public class UserTask : RealmObject
+    // :replace-end:
     {
         [PrimaryKey]
-        public ObjectId Id { get; set; } = ObjectId.GenerateNewId();
-
-        public string Partition { get; set; }
-
-        public string Assignee { get; set; }
-
+        public int Id { get; set; }
         public string Name { get; set; }
-
-        public int Priority { get; set; }
-
-        public int ProgressMinutes { get; set; }
-
+        public string Assignee { get; set; }
         public bool IsComplete { get; set; }
+        public int Priority { get; set; }
+        public int ProgressMinutes { get; set; }
     }
-
-
+    //:replace-start: {
+    // "terms": {
+    //   "UserProject": "Project",
+    //   "UserTask":"Task"}
+    // }
+    public class UserProject : RealmObject
+    {
+        public string Name { get; set; }
+        public IList<UserTask> Tasks { get; }
+    }
+    // :replace-end:
+    // :code-block-end:
 
 }
