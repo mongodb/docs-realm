@@ -1,1 +1,2 @@
-var completedTasksForAli = tasks.Where(t => t.Assignee == "Ali" && t.IsComplete);
+var completedTasksForAli = tasks.Where(t => t.Assignee == "Ali"
+    && t.IsComplete);

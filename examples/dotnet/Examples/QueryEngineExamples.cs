@@ -57,29 +57,36 @@ namespace Examples
             // :code-block-start: comparisons
             var highPri = tasks.Where(t => t.Priority > 5);
 
-            var quickTasks = tasks.Where(t => 1 <= t.ProgressMinutes && t.ProgressMinutes < 15);
+            var quickTasks = tasks.Where(t => 1 <= t.ProgressMinutes
+                && t.ProgressMinutes < 15);
 
             var unassignedTasks = tasks.Where(t => t.Assignee == null);
 
-            var AliOrJamieTasks = tasks.Where(t => new List<string> { "Ali", "Jamie" }.Contains(t.Assignee));
+            var AliOrJamieTasks = tasks.Where(t => new List<string> { "Ali", "Jamie" }
+                .Contains(t.Assignee));
             // :code-block-end:
             // :code-block-start: logical
-            var completedTasksForAli = tasks.Where(t => t.Assignee == "Ali" && t.IsComplete);
+            var completedTasksForAli = tasks.Where(t => t.Assignee == "Ali"
+                && t.IsComplete);
             // :code-block-end:
             // :code-block-start: strings
             bool ignoreCase = true;
 
-            var tasksThatStartWithE = tasks.Where(t => t.Name.StartsWith("E", ignoreCase, CultureInfo.CurrentCulture));
+            var tasksThatStartWithE = tasks.Where(t => t.Name.StartsWith("E",
+                ignoreCase, CultureInfo.CurrentCulture));
 
-            var tasksNamesWithIe = tasks.Where(t => t.Name.Contains("ie", StringComparison.OrdinalIgnoreCase));
+            var tasksNamesWithIe = tasks.Where(t => t.Name.Contains("ie",
+                StringComparison.OrdinalIgnoreCase));
             // :code-block-end:
 
             var projects = realm.All<FooProject>();
 
             // :code-block-start: aggregate
-            var highPriProjects = projects.Where(p => p.Tasks.Average(task => task.Priority) > 5);
+            var highPriProjects = projects.Where(p => p.Tasks.Average(task =>
+                task.Priority) > 5);
 
-            var longRunningProjects = projects.Where(p => p.Tasks.Sum(t => t.ProgressMinutes) > 120);
+            var longRunningProjects = projects.Where(p => p.Tasks.Sum(t =>
+                t.ProgressMinutes) > 120);
             // :code-block-end:
             return;
         }
@@ -88,10 +95,11 @@ namespace Examples
 
     public class FooProject : RealmObject
     {
-        public List<UserTask> Tasks { get; set; }
+        public IList<UserTask> Tasks { get; }
     }
     public class UserTask : RealmObject
     {
+        [PrimaryKey]
         public ObjectId Id { get; set; } = ObjectId.GenerateNewId();
 
         public string Partition { get; set; }
