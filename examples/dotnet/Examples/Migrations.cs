@@ -69,7 +69,8 @@ namespace Examples
         //   "Person2": "Person"
         // }}
         public class Person2 : RealmObject
-        {// :replace-end:
+        {
+            // :replace-end:
             public string FirstName { get; set; }
             public string LastName { get; set; }
             public int Age { get; set; }
@@ -82,7 +83,8 @@ namespace Examples
         //   "Person3": "Person"
         // }}
         public class Person3 : RealmObject
-        {// :replace-end:
+        {
+            // :replace-end:
             public string FullName { get; set; }
             public int Age { get; set; }
         }
@@ -94,7 +96,8 @@ namespace Examples
         //   "Person4": "Person"
         // }}
         public class Person4 : RealmObject
-        {// :replace-end:
+        {
+            // :replace-end:
             public string FullName { get; set; }
             public DateTimeOffset Birthday { get; set; }
         }
