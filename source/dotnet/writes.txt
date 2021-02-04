@@ -90,14 +90,8 @@ the transaction immediately after the callback.
    throws an exception, {+client-database+} cancels the transaction.
    Otherwise, {+client-database+} commits the transaction.
 
-   .. tabs-realm-languages::
-
-      .. tab::
-         :tabid: c-sharp
-
-         .. literalinclude:: /examples/CRUD/BatchUpdate.cs
-            :language: csharp
-            :emphasize-lines: 11-15
+   .. literalinclude:: /examples/generated/dotnet/Writes.codeblock.transaction.cs
+      :language: csharp
 
 
 .. _dotnet-create-an-object:
@@ -120,14 +114,9 @@ This automatically inserts the instance into the {+realm+}.
 
    This code demonstrates how to create an object with {+client-database+}:
 
-   .. tabs-realm-languages::
-
-      .. tab::
-         :tabid: c-sharp
-
-         .. literalinclude:: /examples/CRUD/Create.cs
-            :language: csharp
-            :emphasize-lines: 8
+   .. literalinclude:: /examples/generated/dotnet/Writes.codeblock.create.cs
+      :language: csharp
+      :emphasize-lines: 8
 
 
 .. _dotnet-upsert:
@@ -149,14 +138,9 @@ adding any new entries.
    {+realm+}. We create a new user named "Drew" and then update
    their name to "Andy" via upsert:
 
-   .. tabs-realm-languages::
-
-      .. tab::
-         :tabid: c-sharp
-
-         .. literalinclude:: /examples/CRUD/Upsert.cs
-            :language: csharp
-            :emphasize-lines: 6, 11
+   .. literalinclude:: /examples/generated/dotnet/Writes.codeblock.upsert.cs
+      :language: csharp
+      :emphasize-lines: 6, 11
 
 
 .. _dotnet-update:
@@ -174,14 +158,9 @@ the property.
    This code changes the dog's name to "Wolfie" and
    increments the age by 1:
 
-   .. tabs-realm-languages::
-
-      .. tab::
-         :tabid: c-sharp
-
-         .. literalinclude:: /examples/CRUD/Update.cs
-            :language: csharp
-            :emphasize-lines: 9-10
+   .. literalinclude:: /examples/generated/dotnet/Writes.codeblock.update.cs
+      :language: csharp
+      :emphasize-lines: 9, 10
 
 
 .. _dotnet-batch-update:
@@ -202,14 +181,9 @@ objects in a collection at once.
    property, {+client-database+} automatically updates Ali's
    list of dogs.
 
-   .. tabs-realm-languages::
-
-      .. tab::
-         :tabid: c-sharp
-
-         .. literalinclude:: /examples/CRUD/BatchUpdate.cs
-            :language: csharp
-            :emphasize-lines: 11-15
+   .. literalinclude:: /examples/generated/dotnet/Writes.codeblock.update-collection.cs
+      :language: csharp
+      :emphasize-lines: 11-15
 
 
 .. _dotnet-delete:
@@ -234,14 +208,9 @@ instance itself.
    The following code shows how to delete one object from
    its {+realm+}:
 
-   .. tabs-realm-languages::
-
-      .. tab::
-         :tabid: c-sharp
-
-         .. literalinclude:: /examples/CRUD/Delete.cs
-            :language: csharp
-            :emphasize-lines: 4
+   .. literalinclude:: /examples/generated/dotnet/Writes.codeblock.delete-one.cs
+      :language: csharp
+      :emphasize-lines: 4
 
 
 .. _dotnet-delete-collection:
@@ -261,14 +230,9 @@ collection itself.
    The following code demonstrates how to delete a
    collection from a {+realm+}:
 
-   .. tabs-realm-languages::
-
-      .. tab::
-         :tabid: c-sharp
-
-         .. literalinclude:: /examples/CRUD/DeleteCollection.cs
-            :language: csharp
-            :emphasize-lines: 7
+   .. literalinclude:: /examples/generated/dotnet/Writes.codeblock.delete-collection.cs
+      :language: csharp
+      :emphasize-lines: 7
 
 .. _dotnet-cascading-delete:
 
@@ -293,13 +257,9 @@ deleting the parent object.
    cascading delete by first deleting all of Ali's dogs,
    then deleting Ali:
 
-   .. tabs-realm-languages::
-
-      .. tab::
-         :tabid: c-sharp
-
-         .. literalinclude:: /examples/CRUD/CascadingDelete.cs
-            :language: csharp
+   .. literalinclude:: /examples/generated/dotnet/Writes.codeblock.cascade-delete.cs
+      :language: csharp
+      :emphasize-lines: 4, 7
 
 
 .. _dotnet-delete-all-of-object:
@@ -316,14 +276,9 @@ Delete All Instances of a Type
    The following code demonstrates how to delete all
    Dog instances from a {+realm+}:
 
-   .. tabs-realm-languages::
-
-      .. tab::
-         :tabid: c-sharp
-
-         .. literalinclude:: /examples/CRUD/DeleteAllOfClass.cs
-            :language: csharp
-            :emphasize-lines: 4
+   .. literalinclude:: /examples/generated/dotnet/Writes.codeblock.delete-all-of-type.cs
+      :language: csharp
+      :emphasize-lines: 4
 
 
 .. _dotnet-delete-all:
@@ -340,14 +295,9 @@ quickly clearing out your {+realm+} while prototyping.
    The following code demonstrates how to delete everything
    from a {+realm+}:
 
-   .. tabs-realm-languages::
-
-      .. tab::
-         :tabid: c-sharp
-
-         .. literalinclude:: /examples/CRUD/DeleteAll.cs
-            :language: csharp
-            :emphasize-lines: 3
+   .. literalinclude:: /examples/generated/dotnet/Writes.codeblock.delete-all.cs
+      :language: csharp
+      :emphasize-lines: 4
 
 
 Summary
