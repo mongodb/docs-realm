@@ -13,91 +13,85 @@ Write Transactions
    :depth: 2
    :class: singlecol
 
-:term:`{+client-database+}` uses a highly efficient storage engine
-to persist objects. You can **create** objects in a :term:`{+realm+}`,
-**update** objects in a {+realm+}, and eventually **delete**
-objects from a {+realm+}. Because these operations modify the
-state of the {+realm+}, we call them writes.
+A write transaction is a function that can modify the state of objects in a
+given realm. Write transactions let you create, modify, or delete realm objects
+and can encapsulate multiple operations into a single, idempotent update. In
+other words a transaction is *all or nothing*: either all of the operations in
+the transaction succeed or, if any operation fails, none of the operations in
+the transaction take effect.
 
-{+client-database+} handles writes in terms of **transactions**. A
-transaction is a list of read and write operations that
-{+client-database+} treats as a single indivisible operation. In other
-words, a transaction is *all or nothing*: either all of the
-operations in the transaction succeed or none of the
-operations in the transaction take effect.
+.. important::
+   
+   Every write operation must occur in a write transaction.
 
-.. note:: Remember
+.. example::
+   
+   Write transactions are callback functions that you pass to a {+realm+}
+   instance to modify objects in that realm. For examples of specific write
+   operations, :ref:`Write Operations <node-write-operations>`.
+   
+   .. code-block:: javascript
+      
+      const realm = await Realm.open();
+      realm.write(() => {
+        const tesla = realm.create("Car", {
+          make: "Tesla",
+          model: "Model S",
+          year: 2020,
+          miles: 12000
+        })
+        const honda = realm.create("Car", {
+          make: "Honda",
+          model: "Civic",
+          year: 2018,
+          miles: 30000
+        })
+      })
 
-   All writes must happen in a transaction.
+Transaction Lifecycle
+---------------------
 
-A {+realm+} allows only one open transaction at a time. {+client-database+}
-blocks other writes on other threads until the open
-transaction is complete. Consequently, there is no race
-condition when reading values from the {+realm+} within a
-transaction.
+A given {+realm+} only processes one write transaction at a time. When a
+{+realm+} receives a write transaction, it adds the transaction to a queue and
+evaluates each transaction individually in the order they arrived.
 
-When you are done with your transaction, {+client-database+} either
-**commits** it or **cancels** it:
+After processing a transaction, {+client-database+} either **commits** it or
+**cancels** it:
 
-- When {+client-database+} **commits** a transaction, {+client-database+} writes
-  all changes to disk. For :term:`synced {+realms+} <{+sync+}>`, {+client-database+} queues the change
-  for synchronization with :term:`{+service+}`.
-- When {+client-database+} **cancels** a write transaction or an operation in
-  the transaction causes an error, all changes are discarded
-  (or "rolled back").
+- {+client-database+} applies all operations in a **committed** transaction to
+  the realm. Once applied, Realm automatically updates :ref:`live queries
+  <node-live-queries>` and calls any notification listeners that refer to
+  created, modified, and deleted objects.
+  
+  In :term:`synced {+realms+} <{+sync+}>`, {+client-database+} also queues the
+  change to be sent to :term:`{+service+}` whenever a network is available.
+
+- {+client-database+} does not apply any operations in a **cancelled**
+  transaction to the {+realm+}. Realm cancels a transaction if any operation in
+  the transaction is invalid or fails.
 
 .. _node-acid-compliance:
 
 Realm is ACID Compliant
-~~~~~~~~~~~~~~~~~~~~~~~
+-----------------------
 
-{+client-database+} guarantees that transactions are :term:`ACID`
-compliant. This means that all committed write
-operations are guaranteed to be valid and that clients don't
-see transient states in the event of a system crash.
+Write transactions provide :term:`ACID` guarantees, which ensure that all
+committed write operations are valid and that readers don't see transient or
+inconsistent states.
 
-- {+client-database+} establishes :wikipedia:`atomicity <Atomicity_(database_systems)>` by grouping operations in transactions and rolling back all operations in a transaction if any of them fail.
-- {+client-database+} establishes :wikipedia:`consistency <Consistency_(database_systems)>` and avoids data corruption by validating changes against the schema. If the result of any write operation is not valid, {+client-database+} cancels and rolls back the entire transaction.
-- {+client-database+} establishes :wikipedia:`isolation <Isolation_(database_systems)>` by allowing only one writer at a time. This ensures thread safety between transactions.
-- Finally, {+client-database+} establishes :wikipedia:`durability <Durability_(database_systems)>` by writing to disk immediately when a transaction is committed. In the event of an app crash, for example, the changes are not lost or corrupted.
+- :wikipedia:`Atomicity <Atomicity_(database_systems)>`: Realm groups operations in
+  transactions and rolls back all operations in a transaction if any of them
+  fail.
 
-.. _node-open-a-transaction:
+- :wikipedia:`Consistency <Consistency_(database_systems)>`: Realm avoids invalid
+  data by validating changes to each object against its schema. If the result of
+  any write operation is not valid, {+client-database+} cancels and rolls back
+  the entire transaction.
 
-Run a Transaction
------------------
+- :wikipedia:`Isolation <Isolation_(database_systems)>`: Realm maintains a write
+  queue and applies only one write transaction at a time. This ensures thread
+  safety between transactions.
 
-{+client-database+} represents each transaction as a callback function
-that contains zero or more read and write operations. To run
-a transaction, define a transaction callback and pass it to
-the {+realm+}'s ``write`` method. Within this callback, you are
-free to create, read, update, and delete on the {+realm+}. If
-the code in the callback throws an exception when {+client-database+} runs
-it, {+client-database+} cancels the transaction. Otherwise, {+client-database+} commits
-the transaction immediately after the callback.
-
-.. important:: Concurrency Concerns
-
-   Since transactions block each other, it is best to avoid
-   opening transactions on both the UI thread and a
-   background thread. If you are using :doc:`Sync
-   </sync>`, avoid opening transactions on the
-   UI thread altogether, as {+client-database+} processes synchronizations
-   on a background thread. If a background transaction
-   blocks your UI thread's transaction, your app may appear
-   unresponsive.
-
-.. example::
-
-   The following code shows how to run a transaction with
-   the {+realm+}'s write method. If the code in the callback
-   throws an exception, {+client-database+} cancels the transaction.
-   Otherwise, {+client-database+} commits the transaction.
-
-   .. tabs-realm-languages::
-
-      .. tab::
-         :tabid: javascript
-
-         .. literalinclude:: /examples/CRUD/BatchUpdate.js
-            :language: javascript
-            :emphasize-lines: 9-12
+- :wikipedia:`Durability <Durability_(database_systems)>`: Realm writes
+  operations to disk immediately after committing a transaction. In the event of
+  an app crash, for example, the changes are not lost or corrupted.
