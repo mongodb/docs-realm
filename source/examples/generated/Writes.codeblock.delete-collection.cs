@@ -6,4 +6,3 @@ realm.Write(() =>
     // Remove the collection from the realm.
     realm.RemoveRange(puppies);
 });
-

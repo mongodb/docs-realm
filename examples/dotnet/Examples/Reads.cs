@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using MongoDB.Bson;
 using Realms;
 
 namespace ReadExamples
 {
 
-    public class Task : RealmObject
+    public class ReadsTask : RealmObject
     {
+
         [PrimaryKey]
+        [MapTo("_id")]
         public int Id { get; set; }
         public string Name { get; set; }
         public string Assignee { get; set; }
@@ -17,10 +20,14 @@ namespace ReadExamples
         public int ProgressMinutes { get; set; }
     }
 
-    public class Project : RealmObject
+    public class ReadsProject : RealmObject
     {
+        [PrimaryKey]
+        [MapTo("_id")]
+        public ObjectId ID { get; set; }
+
         public string Name { get; set; }
-        public IList<Task> Tasks { get; }
+        public IList<ReadsTask> Tasks { get; }
     }
 
 
@@ -31,8 +38,14 @@ namespace ReadExamples
             var realm = Realm.GetInstance("");
 
             // :code-block-start: get-all
-            var projects = realm.All<Project>();
-            var tasks = realm.All<Task>();
+            //:replace-start: {
+            // "terms": {
+            //   "ReadsProject": "Project",
+            //   "ReadsTask": "Task"}
+            // }
+            var projects = realm.All<ReadsProject>();
+            var tasks = realm.All<ReadsTask>();
+            // :replace-end:
             // :code-block-end:
 
             // :code-block-start: sort
@@ -41,7 +54,7 @@ namespace ReadExamples
 
             // :code-block-start: primary-key
             // Object to be stored in the Realm instance
-            var myTask = new Task
+            var myTask = new ReadsTask
             {
                 Id = 1
             };
@@ -54,7 +67,7 @@ namespace ReadExamples
             // Other code...
 
             // Find specific object by primary key
-            var obj = realm.Find<Task>(1);
+            var obj = realm.Find<ReadsTask>(1);
             // :code-block-end:
 
         }

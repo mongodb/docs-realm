@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using MongoDB.Bson;
 using Realms;
 
 namespace Examples
@@ -16,11 +17,11 @@ namespace Examples
                 {
                     //:replace-start: {
                     // "terms": {
-                    //   "Person2": "Person",
-                    //   "Person3":"Person"}
+                    //   "Person200": "Person",
+                    //   "Person400":"Person"}
                     // }
-                    var oldPeople = migration.OldRealm.All<Person2>();
-                    var newPeople = migration.NewRealm.All<Person4>();
+                    var oldPeople = migration.OldRealm.All<Person200>();
+                    var newPeople = migration.NewRealm.All<Person400>();
                     // :replace-end:
 
                     // Migrate Person objects
@@ -56,51 +57,71 @@ namespace Examples
         }
 
         // :code-block-start: ro1
-        public class Person : RealmObject
+        //:replace-start: {
+        // "terms": {
+        //   "Person100": "Person"}
+        // }
+        public class Person100 : RealmObject
         {
+            [PrimaryKey]
+            [MapTo("_id")]
+            public ObjectId Id { get; set; }
             public string FirstName { get; set; }
             public int Age { get; set; }
         }
+        //:replace-end:
         // :code-block-end:
 
         // :code-block-start: ro2
         //:replace-start: {
         // "terms": {
-        //   "Person2": "Person"
+        //   "Person200": "Person"
         // }}
-        public class Person2 : RealmObject
+        public class Person200 : RealmObject
         {
-            // :replace-end:
+            [PrimaryKey]
+            [MapTo("_id")]
+            public ObjectId Id { get; set; }
+
             public string FirstName { get; set; }
             public string LastName { get; set; }
             public int Age { get; set; }
         }
+        // :replace-end:
         // :code-block-end:
 
         // :code-block-start: ro3
         //:replace-start: {
         // "terms": {
-        //   "Person3": "Person"
+        //   "Person300": "Person"
         // }}
-        public class Person3 : RealmObject
+        public class Person300 : RealmObject
         {
-            // :replace-end:
+            [PrimaryKey]
+            [MapTo("_id")]
+            public ObjectId Id { get; set; }
+
             public string FullName { get; set; }
             public int Age { get; set; }
         }
+        // :replace-end:
         // :code-block-end:
 
         // :code-block-start: ro4
         //:replace-start: {
         // "terms": {
-        //   "Person4": "Person"
+        //   "Person400": "Person"
         // }}
-        public class Person4 : RealmObject
+        public class Person400 : RealmObject
         {
-            // :replace-end:
+            [PrimaryKey]
+            [MapTo("_id")]
+            public ObjectId Id { get; set; }
+
             public string FullName { get; set; }
             public DateTimeOffset Birthday { get; set; }
         }
+        // :replace-end:
         // :code-block-end:
     }
 }

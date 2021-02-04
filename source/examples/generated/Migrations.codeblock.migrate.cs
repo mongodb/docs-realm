@@ -4,7 +4,7 @@ var config = new RealmConfiguration
     MigrationCallback = (migration, oldSchemaVersion) =>
     {
         var oldPeople = migration.OldRealm.All<Person>();
-        var newPeople = migration.NewRealm.All<Person4>();
+        var newPeople = migration.NewRealm.All<Person>();
 
         // Migrate Person objects
         for (var i = 0; i < newPeople.Count(); i++)

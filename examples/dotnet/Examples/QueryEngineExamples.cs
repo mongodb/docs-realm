@@ -96,26 +96,28 @@ namespace Examples
     // :code-block-start: classes
     // :replace-start: {
     // "terms": {
-    //   "UserTask": "Task"
-    // }}
+    //   "UserTask": "Task",
+    // "UserProject": "Project"}
+    // }
     public class UserTask : RealmObject
-    // :replace-end:
     {
         [PrimaryKey]
-        public int Id { get; set; }
+        [MapTo("_id")]
+        public ObjectId Id { get; set; }
         public string Name { get; set; }
         public string Assignee { get; set; }
         public bool IsComplete { get; set; }
         public int Priority { get; set; }
         public int ProgressMinutes { get; set; }
     }
-    //:replace-start: {
-    // "terms": {
-    //   "UserProject": "Project",
-    //   "UserTask":"Task"}
-    // }
+
     public class UserProject : RealmObject
     {
+        //:hide-start:
+        [PrimaryKey]
+        [MapTo("_id")]
+        public ObjectId ID { get; set; }
+        //:hide-end:
         public string Name { get; set; }
         public IList<UserTask> Tasks { get; }
     }

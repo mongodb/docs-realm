@@ -9,7 +9,7 @@ using TaskStatus = dotnet.TaskStatus;
 using Task = dotnet.Task;
 using System.Collections.Generic;
 
-namespace UnitTests
+namespace Examples
 {
     public class Examples
     {
@@ -47,11 +47,11 @@ namespace UnitTests
             // :code-block-end:
             testTaskId = testTask.Id;
 
-           /* var schemas = config.ObjectClasses;
-            foreach (var schema in schemas)
-            {
-                Console.WriteLine(schema.FullName);
-            }*/
+            /* var schemas = config.ObjectClasses;
+             foreach (var schema in schemas)
+             {
+                 Console.WriteLine(schema.FullName);
+             }*/
 
 
             return;
@@ -87,7 +87,8 @@ namespace UnitTests
             try
             {
                 Directory.Delete(pathToDb, true);
-            } catch (Exception)
+            }
+            catch (Exception)
             {
 
             }
@@ -119,7 +120,8 @@ namespace UnitTests
         {
             // :code-block-start: scope
             config = new SyncConfiguration("myPart", user);
-            using (var realm = await Realm.GetInstanceAsync(config)) { 
+            using (var realm = await Realm.GetInstanceAsync(config))
+            {
                 var allTasks = realm.All<Task>();
             }
             // :code-block-end:
@@ -298,7 +300,7 @@ namespace UnitTests
         }
 
 
-        
+
         [OneTimeTearDown]
         public async System.Threading.Tasks.Task TearDown()
         {
@@ -338,9 +340,13 @@ namespace UnitTests
         }
     }
 
-    [MapTo("DogOne")]
     // :code-block-start: dog_class
-    public class Dog : RealmObject
+    // :replace-start: {
+    //  "terms": {
+    //   "Dog1000": "Dog",
+    //   "Person1000" : "person" }
+    // }
+    public class Dog1000 : RealmObject
     {
         [PrimaryKey]
         [MapTo("_id")]
@@ -351,13 +357,11 @@ namespace UnitTests
 
         public int Age { get; set; }
         public string Breed { get; set; }
-        public IList<Person> Owners { get; }
+        public IList<Person1000> Owners { get; }
     }
 
-    //:hide-start:
-    [MapTo("PersonOne")]
-    //:hide-end:
-    public class Person : RealmObject
+
+    public class Person1000 : RealmObject
     {
         [PrimaryKey]
         [MapTo("_id")]
@@ -375,5 +379,6 @@ namespace UnitTests
 
         */
     }
+    // :replace-end:
     // :code-block-end:
 }

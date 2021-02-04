@@ -6,4 +6,3 @@ realm.Write(() =>
     // Remove Ali.
     realm.Remove(ali);
 });
-

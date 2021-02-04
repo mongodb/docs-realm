@@ -7,6 +7,7 @@ public class Address : EmbeddedObject
 public class Contact : RealmObject
 {
     [PrimaryKey]
+    [MapTo("_id")]
     public ObjectId Id { get; set; }
     public string Name { get; set; }
     public Address Address { get; set; } // embed a single address 

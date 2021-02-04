@@ -5,12 +5,11 @@ using MongoDB.Bson;
 using NUnit.Framework;
 using Realms;
 using Realms.Sync;
-using TaskStatus = dotnet.TaskStatus;
 using Task = dotnet.Task;
 using System.Collections.Specialized;
 using System.Diagnostics;
 
-namespace UnitTests
+namespace Examples
 {
     public class WorkWithRealm
     {
@@ -183,8 +182,13 @@ namespace UnitTests
             //:code-block-end:
 
             //:code-block-start:collection-notifications
+            // :replace-start: {
+            //  "terms": {
+            //   "Dog1000": "Dog",
+            //   "Person1000" : "Person" }
+            // }
             // Observe collection notifications. Retain the token to keep observing.
-            var token = realm.All<Dog>()
+            var token = realm.All<Dog1000>()
                 .SubscribeForNotifications((sender, changes, error) =>
             {
                 foreach (var i in changes.DeletedIndices)
@@ -205,10 +209,21 @@ namespace UnitTests
 
             // Later, when you no longer wish to receive notifications
             token.Dispose();
+            // :replace-end:
             //:code-block-end:
 
+
+            realm.Write(() =>
+            {
+                realm.Add(new Person1000 { Id = ObjectId.GenerateNewId(), Name = "Elvis Presley" });
+            });
             //:code-block-start:object-notifications
-            var theKing = realm.All<Person>()
+            // :replace-start: {
+            //  "terms": {
+            //   "Dog1000": "Dog",
+            //   "Person1000" : "Person" }
+            // }
+            var theKing = realm.All<Person1000>()
                 .FirstOrDefault(p => p.Name == "Elvis Presley");
 
             theKing.PropertyChanged += (sender, eventArgs) =>
@@ -217,6 +232,7 @@ namespace UnitTests
                     $"{eventArgs.PropertyName}");
             };
         }
+        // :replace-end:
         //:code-block-end:
 
         class NotificationUnsub

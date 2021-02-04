@@ -10,4 +10,3 @@ realm.Write(() =>
     // When `update` is true, you overwrite the original entry (i.e. Drew -> Andy).
     realm.Add(andy, update: true);
 });
-

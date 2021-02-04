@@ -7,38 +7,68 @@ using Realms;
 namespace ObjectExamples
 {
     // :code-block-start: embedded
-    public class Address : EmbeddedObject
+    // :replace-start: {
+    //  "terms": {
+    //      "Address10": "Address",
+    //       "Contact10": "Contact"}
+    // }
+    public class Address10 : EmbeddedObject
     {
         public ObjectId Id { get; set; }
         public string Street { get; set; }
         public string City { get; set; }
     }
-    public class Contact : RealmObject
+    public class Contact10 : RealmObject
     {
         [PrimaryKey]
+        [MapTo("_id")]
         public ObjectId Id { get; set; }
         public string Name { get; set; }
-        public Address Address { get; set; } // embed a single address 
+        public Address10 Address { get; set; } // embed a single address 
     }
+    // :replace-end:
     // :code-block-end:
 
     // :code-block-start: primary-key
-    public class Dog : RealmObject
+    // :replace-start: {
+    //  "terms": {
+    //      "PersonA": "Person",
+    //      "DogA": "Dog",
+    //      "//[NotPrimaryKey]": "[PrimaryKey]" }
+    // }
+    public class DogA : RealmObject
     {
+        //:hide-start:
         [PrimaryKey]
+        [MapTo("_id")]
+        public ObjectId ID { get; set; }
+        //:hide-end:
+        //[NotPrimaryKey]
         public string Name { get; set; }
         public int Age { get; set; }
-        public Person Owner { get; set; }
+        public PersonA Owner { get; set; }
     }
+    //:replace-end:
     // :code-block-end:
 
     // :code-block-start: required
-    public class Person : RealmObject
+    // :replace-start: {
+    //  "terms": {
+    //      "PersonA": "Person",
+    //      "DogA": "Dog"}
+    // }
+    public class PersonA : RealmObject
     {
+        //:hide-start:
+        [PrimaryKey]
+        [MapTo("_id")]
+        public ObjectId ID { get; set; }
+        //:hide-end:
         [Required]
         public string Name { get; set; }
-        public IList<Dog> Dogs { get; }
+        public IList<DogA> Dogs { get; }
     }
+    //:replace-end:
     // :code-block-end:
 
     // :code-block-start: default
@@ -48,6 +78,11 @@ namespace ObjectExamples
     // }
     public class Person1 : RealmObject
     {
+        //:hide-start:
+        [PrimaryKey]
+        [MapTo("_id")]
+        public ObjectId ID { get; set; }
+        //:hide-end:
         public string Name { get; set; } = "foo";
     }
     // :replace-end:
@@ -56,13 +91,19 @@ namespace ObjectExamples
     // :code-block-start: index
     // :replace-start: {
     //  "terms": {
-    //      "Person2": "Person" }
+    //      "Person20": "Person",
+    //      "DogA": "Dog"}
     // }
-    public class Person2 : RealmObject
+    public class Person20 : RealmObject
     {
+        //:hide-start:
+        [PrimaryKey]
+        [MapTo("_id")]
+        public ObjectId ID { get; set; }
+        //:hide-end:
         [Indexed]
         public string Name { get; set; }
-        public IList<Dog> Dogs { get; }
+        public IList<DogA> Dogs { get; }
     }
     // :replace-end:
     // :code-block-end:
@@ -70,17 +111,27 @@ namespace ObjectExamples
     // :code-block-start: rel-to-one
     // :replace-start: {
     //     "terms": {
-    //      "Person3": "Person",
-    //      "Dog3": "Dog" }
+    //      "Person30": "Person",
+    //      "Dog30": "Dog" }
     // }
-    public class Dog3 : RealmObject
+    public class Dog30 : RealmObject
     {
+        //:hide-start:
+        [PrimaryKey]
+        [MapTo("_id")]
+        public ObjectId ID { get; set; }
+        //:hide-end:
         // ... other property declarations
-        public Person3 Owner { get; set; }
+        public Person30 Owner { get; set; }
     }
 
-    public class Person3 : RealmObject
+    public class Person30 : RealmObject
     {
+        //:hide-start:
+        [PrimaryKey]
+        [MapTo("_id")]
+        public ObjectId ID { get; set; }
+        //:hide-end:
         // ... other property declarations
         public string Name { get; set; }
     }
@@ -90,19 +141,29 @@ namespace ObjectExamples
     // :code-block-start: rel-to-many
     // :replace-start: {
     //  "terms": {
-    //   "Person4": "Person",
-    //   "Dog4" : "Dog" }
+    //   "Person40": "Person",
+    //   "Dog40" : "Dog" }
     // }
-    public class Dog4 : RealmObject
+    public class Dog40 : RealmObject
     {
+        //:hide-start:
+        [PrimaryKey]
+        [MapTo("_id")]
+        public ObjectId ID { get; set; }
+        //:hide-end:
         // ... other property declarations
         public string Name { get; set; }
     }
 
-    public class Person4 : RealmObject
+    public class Person40 : RealmObject
     {
+        //:hide-start:
+        [PrimaryKey]
+        [MapTo("_id")]
+        public ObjectId ID { get; set; }
+        //:hide-end:
         // ... other property declarations
-        public IList<Dog> Dogs { get; }
+        public IList<Dog40> Dogs { get; }
     }
     // :replace-end:
     // :code-block-end:
@@ -110,21 +171,31 @@ namespace ObjectExamples
     // :code-block-start: inverse
     //  :replace-start: {
     //  "terms": {
-    //   "Person5": "Person",
-    //   "Dog5":"Dog" }
+    //   "Person50": "Person",
+    //   "Dog50":"Dog" }
     // }
-    class Dog5 : RealmObject
+    class Dog50 : RealmObject
     {
+        //:hide-start:
+        [PrimaryKey]
+        [MapTo("_id")]
+        public ObjectId ID { get; set; }
+        //:hide-end:
         // To-one relationship from the Dog to its owner
-        public Person5 Owner { get; set; }
+        public Person50 Owner { get; set; }
     }
 
-    class Person5 : RealmObject
+    class Person50 : RealmObject
     {
+        //:hide-start:
+        [PrimaryKey]
+        [MapTo("_id")]
+        public ObjectId ID { get; set; }
+        //:hide-end:
         // An inverse relationship that returns all Dog instances that have Dog.Owner set to
         // the current Person.
-        [Backlink(nameof(Dog5.Owner))]
-        public IQueryable<Dog5> Dogs { get; }
+        [Backlink(nameof(Dog50.Owner))]
+        public IQueryable<Dog50> Dogs { get; }
 
         // To-many relationship, containing a collection of all hobbies the current person enjoys
         public IList<Hobby> Hobbies { get; }
@@ -132,26 +203,46 @@ namespace ObjectExamples
 
     class Hobby : RealmObject
     {
+        //:hide-start:
+        [PrimaryKey]
+        [MapTo("_id")]
+        public ObjectId ID { get; set; }
+        //:hide-end:
         // An inverse relationship that returns all Person instances that have the current Hobby
         // instance in their Hobbies list.
-        [Backlink(nameof(Person5.Hobbies))]
-        public IQueryable<Person5> PeopleWithThatHobby { get; }
+        [Backlink(nameof(Person50.Hobbies))]
+        public IQueryable<Person50> PeopleWithThatHobby { get; }
         // :replace-end:
     }
     // :code-block-end:
 
     class IgnorantRenamer
     {
+        //:hide-start:
+        [PrimaryKey]
+        [MapTo("_id")]
+        public ObjectId ID { get; set; }
+        //:hide-end:
         // :code-block-start: ignore
         [Ignored]
         public Image Thumbnail { get; set; }
         // :code-block-end:
         // :code-block-start: rename
-        public class Person : RealmObject
+        //:replace-start: {
+        // "terms": {
+        //   "Person60": "Person"}
+        // }
+        public class Person60 : RealmObject
         {
+            //:hide-start:
+            [PrimaryKey]
+            [MapTo("_id")]
+            public ObjectId ID { get; set; }
+            //:hide-end:
             [MapTo("moniker")]
             public string Name { get; set; }
         }
+        //:replace-end:
         // :code-block-end:
 
         public class Image
@@ -162,11 +253,17 @@ namespace ObjectExamples
     // :code-block-start: rename-class
     //:replace-start: {
     // "terms": {
-    //   "Person6": "Person"}
+    //   "Person70": "Person",
+    //      "DogA": "Dog"}
     // }
     [MapTo("Human")]
-    public class Person6 : RealmObject
+    public class Person70 : RealmObject
     {
+        //:hide-start:
+        [PrimaryKey]
+        [MapTo("_id")]
+        public ObjectId ID { get; set; }
+        //:hide-end:
         public string Name { get; set; }
     }
     // :replace-end:
@@ -178,6 +275,11 @@ namespace ObjectExamples
     // Declare your schema
     class LoneClass : RealmObject
     {
+        //:hide-start:
+        [PrimaryKey]
+        [MapTo("_id")]
+        public ObjectId ID { get; set; }
+        //:hide-end:
         public string Name { get; set; }
     }
 
@@ -190,7 +292,7 @@ namespace ObjectExamples
             config.ObjectClasses = new[] { typeof(LoneClass) };
 
             // Or, specify multiple classes to use in the Realm
-            config.ObjectClasses = new[] { typeof(Dog), typeof(Cat) };
+            config.ObjectClasses = new[] { typeof(DogA), typeof(Cat) };
         }
     }
     // :code-block-end:
