@@ -6,6 +6,12 @@
 #import <XCTest/XCTest.h>
 #import <Realm/Realm.h>
 
+@interface OpenCloseRealmObjcExamples_Task : RLMObject
+@end
+
+@implementation OpenCloseRealmObjcExamples_Task
+@end
+
 @interface OpenCloseRealmObjc : XCTestCase
 @end
 
