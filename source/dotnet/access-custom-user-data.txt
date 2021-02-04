@@ -49,7 +49,7 @@ contain the the user's :term:`user ID`. The following example uses
 document containing the user ID of the currently logged in user and several 
 custom properties into the custom user data collection:
 
-.. literalinclude:: /examples/generated/code/start/CustomUserDataExamples.codeblock.create.cs
+.. literalinclude:: /examples/generated/CustomUserDataExamples.codeblock.create.cs
    :language: csharp
 
 You may find it helpful to create a C# class (POCO) that represents the custom 
@@ -57,7 +57,7 @@ user data object. The SDK will serialize/deserialize this class to and from BSON
 when writing, reading, and updating properties. The example above uses the 
 following class to map the properties:
 
-.. literalinclude:: /examples/generated/code/start/CustomUserDataExamples.codeblock.cud.cs
+.. literalinclude:: /examples/generated/CustomUserDataExamples.codeblock.cud.cs
    :language: csharp
 
 .. _dotnet-read-custom-user-data:
@@ -68,7 +68,7 @@ You retrieve custom user data by calling the
 :dotnet-sdk:`GetCustomData() <reference/Realms.Sync.User.html#Realms_Sync_User_GetCustomData>`
 method on the ``User`` object of a logged in user:
 
-.. literalinclude:: /examples/generated/code/start/CustomUserDataExamples.codeblock.read.cs
+.. literalinclude:: /examples/generated/CustomUserDataExamples.codeblock.read.cs
    :language: csharp
 
 .. warning:: Custom Data May Be Stale
@@ -91,7 +91,7 @@ finds and updates the data by using the
 :dotnet-sdk:`UpdateOneAsync() <reference/Realms.Sync.MongoClient.Collection-1.html#Realms_Sync_MongoClient_Collection_1_UpdateOneAsync_System_Object_System_Object_System_Boolean_>` 
 method, and then refreshes the data to ensure the latest changes are available:
 
-.. literalinclude:: /examples/generated/code/start/CustomUserDataExamples.codeblock.update.cs
+.. literalinclude:: /examples/generated/CustomUserDataExamples.codeblock.update.cs
    :language: csharp
 
 Summary
