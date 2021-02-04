@@ -53,6 +53,11 @@ namespace ReadExamples
             // :code-block-end:
 
             // :code-block-start: primary-key
+            //:replace-start: {
+            // "terms": {
+            //   "ReadsProject": "Project",
+            //   "ReadsTask": "Task"}
+            // }
             // Object to be stored in the Realm instance
             var myTask = new ReadsTask
             {
@@ -68,6 +73,7 @@ namespace ReadExamples
 
             // Find specific object by primary key
             var obj = realm.Find<ReadsTask>(1);
+            // :replace-end:
             // :code-block-end:
 
         }

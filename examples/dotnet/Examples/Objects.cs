@@ -272,6 +272,10 @@ namespace ObjectExamples
 
 
     // :code-block-start: subset
+    //:replace-start: {
+    // "terms": {
+    //      "DogA": "Dog"}
+    // }
     // Declare your schema
     class LoneClass : RealmObject
     {
@@ -295,6 +299,7 @@ namespace ObjectExamples
             config.ObjectClasses = new[] { typeof(DogA), typeof(Cat) };
         }
     }
+    // :replace-end:
     // :code-block-end:
 
     class Cat
