@@ -8,33 +8,26 @@ const password = "Pa55w0rd";
 
 const credentials = Realm.Credentials.emailPassword(email, password);
 
-beforeAll(async () => {
-  app = new Realm.App({ id: "tutsbrawl-qfxxj" });
+async function registerNewAccount(email, password) {
+  await app.emailPasswordAuth
+    .registerUser(email, password)
+    .catch((err) =>
+      console.log(
+        `An error occurred while registering: ${JSON.stringify(err, 2, null)}`
+      )
+    );
+}
 
-  async function loginAnonymously() {
-    const anonymousCredentials = Realm.Credentials.anonymous();
-    anonUser = await app.logIn(anonymousCredentials);
-    return anonUser;
-  }
-  async function registerNewAccount(email, password) {
-    await app.emailPasswordAuth
-      .registerUser(email, password)
-      .catch((err) =>
-        console.log(
-          `An error occurred while registering: ${JSON.stringify(err, 2, null)}`
-        )
-      );
-  }
+beforeAll(async () => {
+  /* Unit Testing Setup: */
+  app = new Realm.App({ id: "tutsbrawl-qfxxj" });
+  // Delete all users to start from scratch
+  const tempUser = await app.logIn(Realm.Credentials.anonymous());
+  await tempUser.functions.deleteAllUsers();
+
   // application user tries out the app by logging in anonymously
-  anonUser = await loginAnonymously().catch((err) =>
-    console.log(
-      `An error occurred while logging in anonymously: ${JSON.stringify(
-        err,
-        2,
-        null
-      )}`
-    )
-  );
+  anonUser = await app.logIn(Realm.Credentials.anonymous());
+
   // after using the app for a while the user decides to register:
   await registerNewAccount(email, password);
 });
@@ -81,7 +74,7 @@ describe("Linking Identities Tests", () => {
     // :code-block-end:
 
     const anonUser = await app.logIn(Realm.Credentials.anonymous());
-    anonUser.logOut()
+    anonUser.logOut();
     const freshAnonUser = await app.logIn(Realm.Credentials.anonymous());
     expect(linkAccounts(freshAnonUser, email, password)).resolves.toStrictEqual(
       await app.logIn(credentials)
