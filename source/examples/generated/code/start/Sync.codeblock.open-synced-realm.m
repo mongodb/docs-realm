@@ -1,5 +1,7 @@
 RLMApp *app = [RLMApp appWithId:YOUR_REALM_APP_ID];
+
 // Log in...
+
 RLMUser *user = [app currentUser];
 NSString *partitionValue = @"some partition value";
 
@@ -13,7 +15,6 @@ RLMRealmConfiguration *configuration = [user configurationWithPartitionValue:par
         NSLog(@"Failed to open realm: %@", [error localizedDescription]);
         return;
     }
-
     NSLog(@"Successfully opened realm");
     // Use realm
 }];

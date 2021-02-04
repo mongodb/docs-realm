@@ -2,9 +2,7 @@ let app = App(id: YOUR_REALM_APP_ID)
 // Log in...
 let user = app.currentUser
 let partitionValue = "some partition value"
-
 var configuration = user!.configuration(partitionValue: partitionValue)
-
 Realm.asyncOpen(configuration: configuration) { result in
     switch result {
     case .failure(let error):
