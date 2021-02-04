@@ -4,28 +4,28 @@ using System.Linq;
 using MongoDB.Bson;
 using NUnit.Framework;
 using Realms;
-using Realms.Sync;
-using NUnit.Framework;
 
 namespace Examples
 {
     public class OneToOneRelationship
     {
-        [MapTo("PersonTwo")]
         // :code-block-start: one-to-one
-        public class Person : RealmObject
+        // :replace-start: {
+        //  "terms": {
+        //   "RelPerson": "Person",
+        //   "RelDog" : "Dog" }
+        // }
+        public class RelPerson : RealmObject
         {
             [PrimaryKey]
             [MapTo("_id")]
             public ObjectId Id { get; set; }
             public string Name { get; set; }
             public DateTimeOffset Birthdate { get; set; }
-            public Dog Dog { get; set; }
+            public RelDog Dog { get; set; }
         }
-        //:hide-start:
-        [MapTo("DogTwo")]
-        //:hide-end:
-        public class Dog : RealmObject
+
+        public class RelDog : RealmObject
         {
             [PrimaryKey]
             [MapTo("_id")]
@@ -34,6 +34,7 @@ namespace Examples
             public int Age { get; set; }
             public string Breed { get; set; }
         }
+        //:replace-end:
         // :code-block-end:
 
         [Test]
@@ -42,12 +43,12 @@ namespace Examples
             var realm = await Realm.GetInstanceAsync();
             realm.Write(() =>
             {
-                realm.RemoveAll<Dog>();
-                realm.RemoveAll<Person>();
+                realm.RemoveAll<RelDog>();
+                realm.RemoveAll<RelPerson>();
             });
 
-            var dog = new Dog() { Id = ObjectId.GenerateNewId(), Name = "Fido" };
-            var person = new Person() { Name = "Katie", Dog = dog };
+            var dog = new RelDog() { Id = ObjectId.GenerateNewId(), Name = "Fido" };
+            var person = new RelPerson() { Name = "Katie", Dog = dog };
 
             realm.Write(() =>
             {
@@ -55,7 +56,13 @@ namespace Examples
             });
 
             // :code-block-start: one-to-one-query
-            var fidosPerson = realm.All<Person>().FirstOrDefault(p => p.Dog == dog);
+            // :replace-start: {
+            //  "terms": {
+            //   "RelPerson": "Person",
+            //   "RelDog" : "Dog" }
+            // }
+            var fidosPerson = realm.All<RelPerson>().FirstOrDefault(p => p.Dog == dog);
+            // :replace-end:
             // :code-block-end:
             Assert.AreEqual(fidosPerson, person);
         }
@@ -66,31 +73,40 @@ namespace Examples
         public OneToManyRelationship()
         {
             // :code-block-start: one-to-many-use
+            // :replace-start: {
+            //  "terms": {
+            //   "Rel2Person": "Person",
+            //   "Rel2Dog" : "Dog" }
+            // }
             // To add items to the IList<T>:
-            var person = new Person();
-            person.Dogs.Add(new Dog
+            var person = new Rel2Person();
+            person.Dogs.Add(new Rel2Dog
             {
                 Name = "Caleb",
                 Age = 7,
                 Breed = "mutt"
             });
+            // :replace-end:
             // :code-block-end:
         }
-        [MapTo("PersonThree")]
+
         // :code-block-start: one-to-many
-        public class Person : RealmObject
+        // :replace-start: {
+        //  "terms": {
+        //   "Rel2Person": "Person",
+        //   "Rel2Dog" : "Dog" }
+        // }
+        public class Rel2Person : RealmObject
         {
             [PrimaryKey]
             [MapTo("_id")]
             public ObjectId Id { get; set; }
             public string Name { get; set; }
             public DateTimeOffset Birthdate { get; set; }
-            public IList<Dog> Dogs { get; }
+            public IList<Rel2Dog> Dogs { get; }
         }
-        //:hide-start:
-        [MapTo("DogThree")]
-        //:hide-end:
-        public class Dog : RealmObject
+
+        public class Rel2Dog : RealmObject
         {
             [PrimaryKey]
             [MapTo("_id")]
@@ -99,6 +115,7 @@ namespace Examples
             public int Age { get; set; }
             public string Breed { get; set; }
         }
+        // :replace-end:
         // :code-block-end:
 
         [Test]
@@ -107,15 +124,15 @@ namespace Examples
             var realm = await Realm.GetInstanceAsync();
             realm.Write(() =>
             {
-                realm.RemoveAll<Dog>();
-                realm.RemoveAll<Person>();
+                realm.RemoveAll<Rel2Dog>();
+                realm.RemoveAll<Rel2Person>();
             });
 
-            var dog1 = new Dog() { Id = ObjectId.GenerateNewId(), Name = "Fido", Age = 1 };
-            var dog2 = new Dog() { Id = ObjectId.GenerateNewId(), Name = "Spot", Age = 1 };
-            var dog3 = new Dog() { Id = ObjectId.GenerateNewId(), Name = "Lucky", Age = 2 };
+            var dog1 = new Rel2Dog() { Id = ObjectId.GenerateNewId(), Name = "Fido", Age = 1 };
+            var dog2 = new Rel2Dog() { Id = ObjectId.GenerateNewId(), Name = "Spot", Age = 1 };
+            var dog3 = new Rel2Dog() { Id = ObjectId.GenerateNewId(), Name = "Lucky", Age = 2 };
 
-            var person = new Person() { Name = "Katie" };
+            var person = new Rel2Person() { Name = "Katie" };
 
             realm.Write(() =>
             {
@@ -127,9 +144,15 @@ namespace Examples
             });
 
             // :code-block-start: one-to-many-query
-            var youngDogs = realm.All<Dog>().Where(d => d.Age == 1).OrderBy(dog => dog.Name).ToList();
+            // :replace-start: {
+            //  "terms": {
+            //   "Rel2Person": "Person",
+            //   "Rel2Dog" : "Dog" }
+            // }
+            var youngDogs = realm.All<Rel2Dog>().Where(d => d.Age == 1).OrderBy(dog => dog.Name).ToList();
+            // :replace-end:
             // :code-block-end:
-            var younglist = new List<Dog>();
+            var younglist = new List<Rel2Dog>();
             younglist.Add(dog1);
             younglist.Add(dog2);
             Assert.AreEqual(youngDogs[0].Name, younglist[0].Name);
@@ -139,6 +162,11 @@ namespace Examples
     public class InverseRelationship
     {
         // :code-block-start: inverse
+        // :replace-start: {
+        //  "terms": {
+        //   "UserTwo": "User",
+        //   "TaskTwo" : "Task" }
+        // }
         public class UserTwo : RealmObject
         {
             [PrimaryKey]
@@ -147,13 +175,11 @@ namespace Examples
 
             public string Name { get; set; }
 
-            [Backlink(nameof(Task.Assignee))]
-            public IQueryable<Task> Tasks { get; }
+            [Backlink(nameof(TaskTwo.Assignee))]
+            public IQueryable<TaskTwo> Tasks { get; }
         }
-        //:hide-start:
-        [MapTo("AnudderTask")]
-        //:hide-end:
-        public class Task : RealmObject
+
+        public class TaskTwo : RealmObject
         {
             [PrimaryKey]
             [MapTo("_id")]
@@ -163,6 +189,7 @@ namespace Examples
 
             public UserTwo Assignee { get; set; }
         }
+        // :replace-end:
         // :code-block-end:
 
         [Test]
@@ -171,19 +198,19 @@ namespace Examples
             var realm = await Realm.GetInstanceAsync();
             realm.Write(() =>
             {
-                realm.RemoveAll<Task>();
+                realm.RemoveAll<TaskTwo>();
                 realm.RemoveAll<UserTwo>();
             });
 
             UserTwo user = new UserTwo() { Name = "Katie" };
-          
+
             realm.Write(() =>
             {
                 realm.Add(user);
             });
 
-            var task1 = new Task() { Text = "Defribillate the master oscillator", Assignee = user };
-            var task2 = new Task() { Text = "Subvert the paradigm", Assignee = user };
+            var task1 = new TaskTwo() { Text = "Defribillate the master oscillator", Assignee = user };
+            var task2 = new TaskTwo() { Text = "Subvert the paradigm", Assignee = user };
             realm.Write(() =>
             {
                 realm.Add(task1);
@@ -191,6 +218,11 @@ namespace Examples
             });
 
             // :code-block-start: inverse-query
+            // :replace-start: {
+            //  "terms": {
+            //   "UserTwo": "User",
+            //   "TaskTwo" : "Task" }
+            // }
             var oscillatorAssignees = realm.All<UserTwo>()
                 .Filter("Tasks.Text CONTAINS 'oscillator'").ToList();
 
@@ -198,6 +230,7 @@ namespace Examples
             {
                 Console.WriteLine(u.Name);
             }
+            // :replace-end:
             // :code-block-end:
             Assert.AreEqual(1, oscillatorAssignees.Count());
             Assert.AreEqual("Katie", oscillatorAssignees[0].Name);

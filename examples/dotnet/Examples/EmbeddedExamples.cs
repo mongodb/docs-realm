@@ -7,7 +7,7 @@ using NUnit.Framework;
 using Realms;
 using Realms.Sync;
 
-namespace UnitTests
+namespace Examples
 {
     public class EmbeddedExamples
     {
@@ -26,11 +26,11 @@ namespace UnitTests
             // Synchronous here because setup and tear down don't support async
             var realm = Realm.GetInstance(config);
 
-                realm.Write(() =>
-                {
-                    realm.RemoveAll<Contact>();
-                    realm.RemoveAll<Business>();
-                });
+            realm.Write(() =>
+            {
+                realm.RemoveAll<Contact>();
+                realm.RemoveAll<Business>();
+            });
 
             // :code-block-start:create
             var address = new Address() // Create an Address

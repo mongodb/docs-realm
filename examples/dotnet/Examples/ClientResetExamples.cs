@@ -7,7 +7,7 @@ using Realms.Sync;
 using Realms.Sync.Exceptions;
 using Realms.Sync.Testing;
 
-namespace UnitTests
+namespace Examples
 {
     public class ClientResetExamples
     {
@@ -23,7 +23,7 @@ namespace UnitTests
             app = App.Create(myRealmAppId);
 
             user = app.LogInAsync(Credentials.EmailPassword("foo@foo.com", "foobar")).Result;
- 
+
             config = new SyncConfiguration("myPart", user);
             var realm = await Realm.GetInstanceAsync(config);
 
@@ -34,7 +34,7 @@ namespace UnitTests
                 {
                     var session = (Session)sender;
                     Console.WriteLine("Client Reset requested for " +
-                        session.Path +"due to "+ clientResetEx.Message);
+                        session.Path + "due to " + clientResetEx.Message);
 
                     // Prompt user to perform client reset immediately. If they don't do it,
                     // they won't receive any data from the server until they restart the app
