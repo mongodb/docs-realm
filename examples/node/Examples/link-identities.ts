@@ -2,52 +2,18 @@ import Realm from "realm";
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const randomEmail = require("random-email"); // random-email does not have typescript @types/random-email
 
-let app: Realm.App;
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-let anonUser: any;
+// Define Process Variable - App ID
+const appId: string = process.env.REALM_APP_ID as string;
+const app = new Realm.App({ id: appId });
+
 const email = randomEmail({ domain: "example.com" });
 const password = "Pa55w0rd";
 
-const credentials = Realm.Credentials.emailPassword(email, password);
-
-beforeAll(async () => {
-  app = new Realm.App({ id: "tutsbrawl-qfxxj" });
-
-  async function loginAnonymously() {
-    const anonymousCredentials = Realm.Credentials.anonymous();
-    anonUser = await app.logIn(anonymousCredentials);
-    return anonUser;
-  }
-  async function registerNewAccount(email: string, password: string) {
-    await app.emailPasswordAuth
-      .registerUser(email, password)
-      .catch((err) =>
-        console.log(`An error occurred while registering: ${err}`)
-      );
-  }
-  // application user tries out the app by logging in anonymously
-  anonUser = await loginAnonymously().catch((err) =>
-    console.log(`An error occurred while logging in anonymously: ${err}`)
-  );
-  // after using the app for awhile the user decides to register:
-  await registerNewAccount(email, password);
-});
-
-afterAll(async () => {
-  async function deleteAnonUser(anonUser: Realm.User) {
-    // logging out of an anonymous user will delete the user
-    await anonUser
-      .logOut()
-      .catch((err) =>
-        console.log(`An error occurred while logging out: ${err}`)
-      );
-  }
-  // delete the anon user after logging in with an anonymous identity, then
-  // registering as email/pass identity, then linking the two identities
-  if (anonUser) {
-    await deleteAnonUser(anonUser);
-  }
-});
+async function registerNewAccount(email: string, password: string) {
+  await app.emailPasswordAuth
+    .registerUser(email, password)
+    .catch((err) => console.log(`An error occurred while registering: ${err}`));
+}
 
 /* 
     Steps the app user follows:
@@ -77,7 +43,7 @@ describe("Linking Identities Tests", () => {
     // :code-block-end:
 
     const anonUser = await app.logIn(Realm.Credentials.anonymous());
-    anonUser.logOut()
+    anonUser.logOut();
     const freshAnonUser = await app.logIn(Realm.Credentials.anonymous());
     expect(linkAccounts(freshAnonUser, email, password)).resolves.toStrictEqual(
       await app.logIn(credentials)

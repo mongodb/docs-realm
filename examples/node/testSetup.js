@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 jest.useFakeTimers();
 global.console = {
   ...global.console,
