@@ -29,7 +29,7 @@ creates a ``RealmConfiguration`` object with a local file path, sets the
 ``IsReadOnly`` property to ``true``, and then opens a local {+realm+}  with that 
 configuration information:
 
-.. literalinclude:: /examples/generated/Examples.codeblock.local-realm.cs
+.. literalinclude:: /examples/generated/dotnet/Examples.codeblock.local-realm.cs
    :language: csharp
 
 Scoping the Realm
@@ -40,14 +40,14 @@ on background threads. The simplest way to do this is by declaring the realm
 object with a ``using`` statement, or wrapping the code that interacts with a 
 {+realm+} in a ``using (...)`` statement:
 
-.. literalinclude:: /examples/generated/Examples.codeblock.scope.cs
+.. literalinclude:: /examples/generated/dotnet/Examples.codeblock.scope.cs
    :language: csharp
 
 If you require a realm object to be shared outside of a single method, be sure 
 to manage its state by calling the
 :dotnet-sdk:`Dispose() <reference/Realms.Realm.html#Realms_Realm_Dispose>` method:
 
-.. literalinclude:: /examples/generated/Examples.codeblock.dispose.cs
+.. literalinclude:: /examples/generated/dotnet/Examples.codeblock.dispose.cs
    :language: csharp
 
 .. note::

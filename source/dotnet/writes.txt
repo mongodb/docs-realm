@@ -90,7 +90,7 @@ the transaction immediately after the callback.
    throws an exception, {+client-database+} cancels the transaction.
    Otherwise, {+client-database+} commits the transaction.
 
-   .. literalinclude:: /examples/generated/Writes.codeblock.transaction.cs
+   .. literalinclude:: /examples/generated/dotnet/Writes.codeblock.transaction.cs
       :language: csharp
 
 
@@ -114,7 +114,7 @@ This automatically inserts the instance into the {+realm+}.
 
    This code demonstrates how to create an object with {+client-database+}:
 
-   .. literalinclude:: /examples/generated/Writes.codeblock.create.cs
+   .. literalinclude:: /examples/generated/dotnet/Writes.codeblock.create.cs
       :language: csharp
       :emphasize-lines: 8
 
@@ -138,7 +138,7 @@ adding any new entries.
    {+realm+}. We create a new user named "Drew" and then update
    their name to "Andy" via upsert:
 
-   .. literalinclude:: /examples/generated/Writes.codeblock.upsert.cs
+   .. literalinclude:: /examples/generated/dotnet/Writes.codeblock.upsert.cs
       :language: csharp
       :emphasize-lines: 6, 11
 
@@ -158,7 +158,7 @@ the property.
    This code changes the dog's name to "Wolfie" and
    increments the age by 1:
 
-   .. literalinclude:: /examples/generated/Writes.codeblock.update.cs
+   .. literalinclude:: /examples/generated/dotnet/Writes.codeblock.update.cs
       :language: csharp
       :emphasize-lines: 9, 10
 
@@ -181,7 +181,7 @@ objects in a collection at once.
    property, {+client-database+} automatically updates Ali's
    list of dogs.
 
-   .. literalinclude:: /examples/generated/Writes.codeblock.update-collection.cs
+   .. literalinclude:: /examples/generated/dotnet/Writes.codeblock.update-collection.cs
       :language: csharp
       :emphasize-lines: 11-15
 
@@ -208,7 +208,7 @@ instance itself.
    The following code shows how to delete one object from
    its {+realm+}:
 
-   .. literalinclude:: /examples/generated/Writes.codeblock.delete-one.cs
+   .. literalinclude:: /examples/generated/dotnet/Writes.codeblock.delete-one.cs
       :language: csharp
       :emphasize-lines: 4
 
@@ -230,7 +230,7 @@ collection itself.
    The following code demonstrates how to delete a
    collection from a {+realm+}:
 
-   .. literalinclude:: /examples/generated/Writes.codeblock.delete-collection.cs
+   .. literalinclude:: /examples/generated/dotnet/Writes.codeblock.delete-collection.cs
       :language: csharp
       :emphasize-lines: 7
 
@@ -257,7 +257,7 @@ deleting the parent object.
    cascading delete by first deleting all of Ali's dogs,
    then deleting Ali:
 
-   .. literalinclude:: /examples/generated/Writes.codeblock.cascade-delete.cs
+   .. literalinclude:: /examples/generated/dotnet/Writes.codeblock.cascade-delete.cs
       :language: csharp
       :emphasize-lines: 4, 7
 
@@ -276,7 +276,7 @@ Delete All Instances of a Type
    The following code demonstrates how to delete all
    Dog instances from a {+realm+}:
 
-   .. literalinclude:: /examples/generated/Writes.codeblock.delete-all-of-type.cs
+   .. literalinclude:: /examples/generated/dotnet/Writes.codeblock.delete-all-of-type.cs
       :language: csharp
       :emphasize-lines: 4
 
@@ -295,7 +295,7 @@ quickly clearing out your {+realm+} while prototyping.
    The following code demonstrates how to delete everything
    from a {+realm+}:
 
-   .. literalinclude:: /examples/generated/Writes.codeblock.delete-all.cs
+   .. literalinclude:: /examples/generated/dotnet/Writes.codeblock.delete-all.cs
       :language: csharp
       :emphasize-lines: 4
 

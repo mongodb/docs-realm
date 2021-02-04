@@ -57,12 +57,12 @@ deletes it.
 
    A {+realm+} using schema version ``1`` has a ``Person`` object type:
    
-   .. literalinclude:: /examples/generated/Migrations.codeblock.ro1.cs
+   .. literalinclude:: /examples/generated/dotnet/Migrations.codeblock.ro1.cs
       :language: csharp
 
    First, the developer decides to add a "LastName" property:
 
-   .. literalinclude:: /examples/generated/Migrations.codeblock.ro2.cs
+   .. literalinclude:: /examples/generated/dotnet/Migrations.codeblock.ro2.cs
       :language: csharp
       :emphasize-lines: 4
 
@@ -71,14 +71,14 @@ deletes it.
    ``FullName`` field instead of the separate ``FirstName`` and
    ``LastName`` fields:
    
-   .. literalinclude:: /examples/generated/Migrations.codeblock.ro3.cs
+   .. literalinclude:: /examples/generated/dotnet/Migrations.codeblock.ro3.cs
       :language: csharp
       :emphasize-lines: 3
    
    Lastly, the developer decides to modify the ``Age`` property by renaming it to
    ``Birthday`` and changing the type to ``DateTimeOffset``:
 
-   .. literalinclude:: /examples/generated/Migrations.codeblock.ro4.cs
+   .. literalinclude:: /examples/generated/dotnet/Migrations.codeblock.ro4.cs
       :language: csharp
       :emphasize-lines: 4
 
@@ -89,7 +89,7 @@ deletes it.
    ``FullName`` based on the existing ``FirstName`` and ``LastName``
    properties and the value of ``Birthday`` based on ``Age``:
    
-   .. literalinclude:: /examples/generated/Migrations.codeblock.migrate.cs
+   .. literalinclude:: /examples/generated/dotnet/Migrations.codeblock.migrate.cs
       :language: csharp
       :emphasize-lines: 3, 21, 25, 31
 

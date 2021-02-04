@@ -41,7 +41,7 @@ Example
    optionally include the dog's ``Age``, ``Breed`` and a list of people that 
    represents the dog's ``Owners``. 
 
-   .. literalinclude:: /examples/generated/Examples.codeblock.dog_class.cs
+   .. literalinclude:: /examples/generated/dotnet/Examples.codeblock.dog_class.cs
       :language: csharp
 
 
@@ -168,7 +168,7 @@ To embed an object, extend
 :dotnet-sdk:`EmbeddedObject <reference/Realms.EmbeddedObject.html>`
 for the class that you'd like to nest within another class:
 
-.. literalinclude:: /examples/generated/Objects.codeblock.embedded.cs
+.. literalinclude:: /examples/generated/dotnet/Objects.codeblock.embedded.cs
    :language: csharp
 
 
@@ -218,7 +218,7 @@ objects of the same type in a {+realm+}.
    
    The following example demonstrates how to designate a primary key in an object schema:
    
-   .. literalinclude:: /examples/generated/Objects.codeblock.primary-key.cs
+   .. literalinclude:: /examples/generated/dotnet/Objects.codeblock.primary-key.cs
       :language: csharp
 
 
@@ -236,7 +236,7 @@ null. Applying ``[Required]`` on such a property will result in a compilation er
 
 You can use the ``[Required]`` attribute as seen in the following example:
 
-.. literalinclude:: /examples/generated/Objects.codeblock.required.cs
+.. literalinclude:: /examples/generated/dotnet/Objects.codeblock.required.cs
    :language: csharp
 
 
@@ -248,7 +248,7 @@ Default Property Values
 You can use the built-in language features to assign a default value to a property. 
 In C#, you can assign a default value in the property declaration. 
 
-.. literalinclude:: /examples/generated/Objects.codeblock.default.cs
+.. literalinclude:: /examples/generated/dotnet/Objects.codeblock.default.cs
    :language: csharp
 
 .. note:: Default Values and Nullability
@@ -296,7 +296,7 @@ You can index properties with the following types:
 To index a property, use the :dotnet-sdk:`[Indexed] <reference/Realms.IndexedAttribute.html>`
 attribute:
 
-.. literalinclude:: /examples/generated/Objects.codeblock.index.cs
+.. literalinclude:: /examples/generated/dotnet/Objects.codeblock.index.cs
    :language: csharp
 
 
@@ -320,7 +320,7 @@ To set up a many-to-one or one-to-one relationship, create a property  in your a
 whose type inherits ``RealmObject`` or ``EmbeddedObject``:
 
 
-.. literalinclude:: /examples/generated/Objects.codeblock.rel-to-one.cs
+.. literalinclude:: /examples/generated/dotnet/Objects.codeblock.rel-to-one.cs
    :language: csharp
 
 Each ``Dog`` references zero or one ``Person`` instances. Nothing prevents
@@ -341,7 +341,7 @@ You can create a relationship between one object and any number of objects
 using a property of type ``IList<T>``\ in your application, where ``T`` is a subclass of
 ``RealmObject`` or ``EmbeddedObject``:
 
-.. literalinclude:: /examples/generated/Objects.codeblock.rel-to-many.cs
+.. literalinclude:: /examples/generated/dotnet/Objects.codeblock.rel-to-many.cs
    :language: csharp
 
 
@@ -355,7 +355,7 @@ can follow a link from one class to a referenced class, but not in the
 opposite direction. You can provide a link in the opposite direction
 with the :dotnet-sdk:`[Backlink] <reference/Realms.BacklinkAttribute.html>` attribute:
 
-.. literalinclude:: /examples/generated/Objects.codeblock.inverse.cs
+.. literalinclude:: /examples/generated/dotnet/Objects.codeblock.inverse.cs
    :language: csharp
 
 Since relationships are many-to-one or many-to-many, following inverse
@@ -377,7 +377,7 @@ does not have a setter.
 Ignore a property from a {+service-short+} object model with the
 :dotnet-sdk:`[Ignored] <reference/Realms.IgnoredAttribute.html>` attribute:
 
-.. literalinclude:: /examples/generated/Objects.codeblock.ignore.cs
+.. literalinclude:: /examples/generated/dotnet/Objects.codeblock.ignore.cs
    :language: csharp
 
 .. _dotnet-rename-property:
@@ -401,7 +401,7 @@ has the following implications:
 Use the :dotnet-sdk:`[MapTo] <reference/Realms.MapToAttribute.html>`
 attribute to rename a property:
 
-.. literalinclude:: /examples/generated/Objects.codeblock.rename.cs
+.. literalinclude:: /examples/generated/dotnet/Objects.codeblock.rename.cs
    :language: csharp
 
 
@@ -422,7 +422,7 @@ this behavior:
 Use the :dotnet-sdk:`[MapTo] <reference/Realms.MapToAttribute.html>`
 attribute to rename a class:
 
-.. literalinclude:: /examples/generated/Objects.codeblock.rename-class.cs
+.. literalinclude:: /examples/generated/dotnet/Objects.codeblock.rename-class.cs
    :language: csharp
 
 .. _dotnet-provide-subset-classes-schema:
@@ -435,7 +435,7 @@ classes that inherit from ``RealmObject`` or ``EmbeddedObject``. If you only wan
 a subset of these classes in your {+service-short+}
 Schema, you can update your configuration to include the specific classes you want:
 
-.. literalinclude:: /examples/generated/Objects.codeblock.subset.cs
+.. literalinclude:: /examples/generated/dotnet/Objects.codeblock.subset.cs
    :language: csharp
 
 .. _dotnet-decimal128:
@@ -449,7 +449,7 @@ converts between the two, although you risk losing precision or range. The
 following example shows how to use both the ``Decimal128`` Bson type and the .NET 
 ``decimal`` type:
 
-.. literalinclude:: /examples/generated/DecimalFun.codeblock.decimal128.cs
+.. literalinclude:: /examples/generated/dotnet/DecimalFun.codeblock.decimal128.cs
    :language: csharp
 
 
