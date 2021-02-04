@@ -81,6 +81,7 @@ namespace ObjectExamples
 
     public class Person3 : RealmObject
     {
+        // ... other property declarations
         public string Name { get; set; }
     }
     // :replace-end:
@@ -94,6 +95,7 @@ namespace ObjectExamples
     // }
     public class Dog4 : RealmObject
     {
+        // ... other property declarations
         public string Name { get; set; }
     }
 
@@ -142,7 +144,7 @@ namespace ObjectExamples
     {
         // :code-block-start: ignore
         [Ignored]
-        public Image Headshot { get; set; }
+        public Image Thumbnail { get; set; }
         // :code-block-end:
         // :code-block-start: rename
         public class Person : RealmObject

@@ -1,2 +1,2 @@
 [Ignored]
-public Image Headshot { get; set; }
+public Image Thumbnail { get; set; }

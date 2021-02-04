@@ -6,5 +6,6 @@ public class Dog : RealmObject
 
 public class Person : RealmObject
 {
+    // ... other property declarations
     public string Name { get; set; }
 }

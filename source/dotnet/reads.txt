@@ -50,13 +50,8 @@ results of the associated query.
    See the schema for these two classes, ``Project`` and
    ``Task``, below:
 
-   .. tabs-realm-languages::
-
-      .. tab::
-          :tabid: c-sharp
-
-          .. literalinclude:: /examples/Schemas/ProjectAndTask.cs
-            :language: csharp
+   .. literalinclude:: /examples/generated/QueryEngineExamples.codeblock.classes.cs
+      :language: csharp
 
 
 .. _dotnet-get-all-objects:
@@ -74,14 +69,8 @@ refine the results.
    In order to access all instances of ``Project`` and ``Task``, use
    the following syntax:
 
-   .. tabs-realm-languages::
-
-      .. tab::
-          :tabid: c-sharp
-
-          .. literalinclude:: /examples/CRUD/Objects.cs
-            :language: csharp
-
+   .. literalinclude:: /examples/generated/Reads.codeblock.get-all.cs
+      :language: csharp
 
 .. _dotnet-filter-results:
 
@@ -107,13 +96,8 @@ up complex queries.
    - Find unassigned tasks by finding tasks where the ``assignee`` property is equal to null.
    - Find tasks assigned to specific teammates Ali or Jamie by seeing if the ``assignee`` property is in a list of names.
 
-   .. tabs-realm-languages::
-
-      .. tab::
-          :tabid: c-sharp
-
-          .. literalinclude:: /examples/Query/Comparison.cs
-            :language: csharp
+   .. literalinclude:: /examples/generated/QueryEngineExamples.codeblock.comparisons.cs
+      :language: csharp
 
 
 .. _dotnet-sort-results:
@@ -134,13 +118,8 @@ results are sorted.
    The following code sorts the projects by name in reverse
    alphabetical order (i.e. "descending" order).
 
-   .. tabs-realm-languages::
-
-      .. tab::
-          :tabid: c-sharp
-
-          .. literalinclude:: /examples/CRUD/Sort.cs
-            :language: csharp
+   .. literalinclude:: /examples/generated/Reads.codeblock.sort.cs
+      :language: csharp
 
 
 .. _dotnet-find-by-primary-key:
@@ -151,7 +130,7 @@ You can also find a specific item by its primary key using the
 :dotnet-sdk:`Find <reference/Realms.Realm.html#Realms_Realm_Find__1_System_Nullable_System_Int64__>`
 method, as shown in the following example: 
 
-.. literalinclude:: /examples/Query/FindByPrimaryKey.cs
+.. literalinclude:: /examples/generated/Reads.codeblock.primary-key.cs
    :language: csharp
 
 
