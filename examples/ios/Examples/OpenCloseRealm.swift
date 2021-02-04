@@ -17,6 +17,17 @@ class OpenCloseRealm: XCTestCase {
         // :code-block-end:
     }
 
+    func testOpenInMemoryRealm() {
+        // :code-block-start: open-in-memory-realm
+        // Open the realm with a specific in-memory identifier.
+        let identifier = "MyRealm"
+        let config = Realm.Configuration(
+            inMemoryIdentifier: identifier)
+        // Open the realm
+        let realm = try! Realm(configuration: config)
+        // :code-block-end:
+    }
+
     func testConfigureObjectTypes() {
         // :code-block-start: configure-object-types
         var config = Realm.Configuration.defaultConfiguration

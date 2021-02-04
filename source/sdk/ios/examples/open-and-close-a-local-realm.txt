@@ -64,6 +64,41 @@ When a {+realm+} goes out of scope and is removed from memory due to
 <https://docs.swift.org/swift-book/LanguageGuide/AutomaticReferenceCounting.html>`__,
 the {+realm+} is closed.
 
+.. _ios-open-an-in-memory-realm:
+
+Open an In-Memory Realm
+-----------------------
+
+You can open a realm entirely in memory, which will not create a
+``.realm`` file or its associated auxiliary files. Instead the SDK
+stores objects in memory while the {+realm+} is open and discards them
+immediately when all instances are closed.
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: swift
+
+      Set the :swift-sdk:`inMemoryIdentifier
+      <Structs/Realm/Configuration.html#/s:10RealmSwift0A0V13ConfigurationV18inMemoryIdentifierSSSgvp>`
+      property of the realm configuration. Note that this property
+      cannot be combined with ``fileURL`` or ``syncConfiguration``.
+
+      .. literalinclude:: /examples/generated/code/start/OpenCloseRealm.codeblock.open-in-memory-realm.swift
+         :language: swift
+
+   .. tab::
+      :tabid: objective-c
+
+      Set the :objc-sdk:`inMemoryIdentifier
+      <Classes/RLMRealmConfiguration.html#/c:objc(cs)RLMRealmConfiguration(py)inMemoryIdentifier>`
+      property of the realm configuration. Note that this property
+      cannot be combined with ``fileURL`` or ``syncConfiguration``.
+
+      .. literalinclude:: /examples/generated/code/start/OpenCloseRealm.codeblock.open-in-memory-realm.m
+         :language: objectivec
+
+
 .. _ios-provide-a-subset-of-classes-to-a-realm:
 
 Provide a Subset of Classes to a Realm
