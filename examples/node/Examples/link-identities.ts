@@ -15,38 +15,36 @@ async function registerNewAccount(email: string, password: string) {
     .catch((err) => console.log(`An error occurred while registering: ${err}`));
 }
 
-/* 
-    Steps the app user follows:
-    1. Creates an anonymous account to try out the app
-    2. Decides to create a more permanent account (email/pass) once they decide they enjoy the app
-    3. Links the temporary anonymous account with the permanent
-       email-password account in order to retain their user data
-    4. Deletes the temporary anonymous account
-*/
+// :code-block-start: link-identities
+async function linkAccounts(user: Realm.User, email: string, password: string) {
+  const emailPasswordUserCredentials = Realm.Credentials.emailPassword(
+    email,
+    password
+  );
+  const linkedAccount = await user.linkCredentials(
+    emailPasswordUserCredentials
+  );
+  return linkedAccount;
+}
+// :code-block-end:
+
 describe("Linking Identities Tests", () => {
   test("links anon identity with email/pass identity", async () => {
-    // :code-block-start: link-identities
-    async function linkAccounts(
-      user: Realm.User,
-      email: string,
-      password: string
-    ) {
-      const emailPasswordUserCredentials = Realm.Credentials.emailPassword(
-        email,
-        password
-      );
-      const linkedAccount = await user.linkCredentials(
-        emailPasswordUserCredentials
-      );
-      return linkedAccount;
-    }
-    // :code-block-end:
-
+    // The application user creates an anonymous account
     const anonUser = await app.logIn(Realm.Credentials.anonymous());
-    anonUser.logOut();
-    const freshAnonUser = await app.logIn(Realm.Credentials.anonymous());
-    expect(linkAccounts(freshAnonUser, email, password)).resolves.toStrictEqual(
-      await app.logIn(credentials)
+
+    // after using the app for a while the user decides to register:
+    await registerNewAccount(email, password);
+
+    // an anonymous account is linked to an email/pass account, the linked
+    // account should retain the credentials of the email/pass account.
+    const linkedUser = await linkAccounts(anonUser, email, password);
+    console.log("linkedUser --", linkedUser);
+    // // delete the anonymous user since it has been linked to the email/password user
+    // anonUser.logOut();
+    const emailPassWordUser = await app.logIn(
+      Realm.Credentials.emailPassword(email, password)
     );
+    expect(linkedUser).resolves.toStrictEqual(emailPassWordUser);
   });
 });
