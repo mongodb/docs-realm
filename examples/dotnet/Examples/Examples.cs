@@ -344,7 +344,7 @@ namespace Examples
     // :replace-start: {
     //  "terms": {
     //   "Dog1000": "Dog",
-    //   "Person1000" : "person" }
+    //   "Person1000" : "Person" }
     // }
     public class Dog1000 : RealmObject
     {
