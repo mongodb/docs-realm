@@ -61,11 +61,11 @@ namespace RealmDotnetTutorial
                 // :code-block-end:
                 // :code-block-start:find-user
                 // :state-start: final
-                user = userRealm.All<User>().ToList().Where(u => u.Id ==
-                    App.realmApp.CurrentUser.Id).FirstOrDefault();
+                user = userRealm.Find<User>(App.realmApp.CurrentUser.Id);
                 // :state-end: :state-uncomment-start: start
                 //// TODO: find the user in the userRealm
-                //// start with userRealm.All<User>(). and use ToList() and Where()
+                //// Because the user's ID is the Primary Key, we can easily
+                //// find the user by passing the ID to userRealm.Find<User>().
                 // :state-uncomment-end:
                 // :code-block-end:
                 if (user != null) SetUpProjectList();

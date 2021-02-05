@@ -8,7 +8,7 @@ namespace RealmDotnetTutorial
     public partial class App : Application
     {
         private const string appId = "<my_realm_app_id>";
-        public static Realms.Sync.App realmApp;
+        public static Realms.Sync.App RealmApp;
 
         public App()
         {
@@ -19,12 +19,12 @@ namespace RealmDotnetTutorial
         {
             // :code-block-start:open-realm
             // :state-start: final
-            realmApp = Realms.Sync.App.Create(appId);
+            RealmApp = Realms.Sync.App.Create(appId);
             //:state-end: :state-uncomment-start: start
             //// TODO: call Realms.Sync.App.Create()
             // :state-uncomment-end:
             // :code-block-end:
-            if (App.realmApp.CurrentUser == null)
+            if (App.RealmApp.CurrentUser == null)
             {
                 MainPage = new NavigationPage(new LoginPage());
             }
