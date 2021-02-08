@@ -87,7 +87,7 @@ Fields marked with Java object types and Kotlin nullable types
 (primitives, non-nullable Kotlin object types) are required by default.
 You can mark a nullable field with the :java-sdk:`@Required <io/realm/annotations/Required.html>`
 annotation to prevent that field from holding a null value.
-:java-sdk:`RealmList <io/realm/RealmList.html>`s are never nullable, but
+:java-sdk:`RealmLists <io/realm/RealmList.html>` are never nullable, but
 you can use the ``@Required`` annotation to prevent objects in a list
 from holding a null value, even if the base type would otherwise allow it.
 You cannot mark a ``RealmList`` of ``RealmObject`` subtypes as required.
