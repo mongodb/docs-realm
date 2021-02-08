@@ -43,8 +43,10 @@ content: |
 title: Specify the User ID Field
 ref: specify-the-user-id-field
 content: |
-  Every document in the custom user data collection should have a field
-  that contains the user ID of the {+service-short+} user that it describes.
+  Every document in the custom user data collection should have a field that
+  maps it to a specific application user. The field must have the same name in
+  each document and contain the user's ID as a string.
+  
   Specify the name of the field that contains each user's ID in the
   :guilabel:`User ID Field` input.
 ---
