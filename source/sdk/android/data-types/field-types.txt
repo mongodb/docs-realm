@@ -35,7 +35,7 @@ lowercase primitive alternatives are all stored as ``Long`` values
 within {+client-database+}. Similarly, {+client-database+} stores objects
 of the ``Float`` and ``float`` types as type ``Double``.
 
-``final`` and ``volatile`` fields are not supported, though you can
-include fields with those modifiers if you :ref:`ignore
-<android-ignore-field>` those fields. If you choose to provide custom
+{+service-short+} does not support fields with modifiers ``final`` and
+``volatile``, though you can use fields with those modifiers if you
+:ref:`ignore <android-ignore-field>` them. If you choose to provide custom
 constructors, you must declare a public constructor with no arguments.
