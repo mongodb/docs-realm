@@ -86,7 +86,7 @@ class Sync: AnonymouslyLoggedInTestCase {
                 break
             }
         }
-        
+
         // Observe using Combine
         let cancellable = syncSession.publisher(for: \.connectionState)
             .sink { connectionState in
