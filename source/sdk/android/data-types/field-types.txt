@@ -1,0 +1,41 @@
+.. _android-field-types:
+.. _android-supported-data-types:
+
+=========================
+Field Types - Android SDK
+=========================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+
+{+client-database+} supports the following field data types:
+
+- ``Boolean`` or ``boolean``
+- ``Integer`` or ``int``
+- ``Short`` or ``short``
+- ``Long`` or ``long``
+- ``Byte`` or ``byte[]``
+- ``Double`` or ``double``
+- ``Float`` or ``float``
+- ``String``
+- ``Date``
+- ``Decimal128`` from ``org.bson.types``
+- ``ObjectId`` from ``org.bson.types``
+- Any ``RealmObject`` subclass
+- ``RealmList``
+
+The ``Byte``, ``Short``, ``Integer``, and ``Long`` types and their
+lowercase primitive alternatives are all stored as ``Long`` values
+within {+client-database+}. Similarly, {+client-database+} stores objects
+of the ``Float`` and ``float`` types as type ``Double``.
+
+``final`` and ``volatile`` fields are not supported, though you can
+include fields with those modifiers if you :ref:`ignore
+<android-ignore-field>` those fields. If you choose to provide custom
+constructors, you must declare a public constructor with no arguments.
