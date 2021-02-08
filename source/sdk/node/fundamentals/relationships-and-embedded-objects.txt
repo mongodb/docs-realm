@@ -38,6 +38,28 @@ There are three primary types of relationships between objects:
 - :ref:`One-to-Many Relationship <node-to-many-relationship>`
 - :ref:`Inverse Relationship <node-inverse-relationship>`
 
+.. note:: Realm vs Other Databases
+   
+   Many databases copy objects from database storage into application memory
+   when you need to work with them directly. Objects often contain direct
+   references to other objects, which leaves the developer with a choice of what
+   to copy into memory:
+   
+   - You can copy the entire referenced object ahead of time. This means that
+     all referenced data is always available quickly but can use up a lot of
+     resources for objects that are never accessed. Depending on the amount of
+     available memory this may not be viable.
+   
+   - You can copy only a foreign key value for each object ahead of time that
+     you can use to query the full object if it's needed. These referenced
+     lookups are memory-efficient but they require additional query code and too
+     many lookups can slow your application down.
+   
+   {+service-short+}'s :term:`zero-copy` query architecture avoids this tradeoff
+   between memory footprint and runtime computational overhead. Instead,
+   {+service-short+} queries can directly reference :ref:`related objects
+   <node-relationships>` and their properties on disk.
+
 .. _node-to-one-relationship:
 
 To-One Relationship
