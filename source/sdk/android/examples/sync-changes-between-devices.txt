@@ -195,7 +195,7 @@ To check the current network connection, call :java-sdk:`getConnectionState() <i
    backend {+app+}. *Session state* refers to a single user's
    synchronization state, which can be :ref:`paused and resumed
    <android-pause-or-resume-a-sync-session>` in the SDK at will. As a
-   result, you must check *both* states to determine whether or not
+   result, you must check *both* states to determine whether
    a user's local changes will sync to the backend. Synchronization
    only occurs when the connection state is "connected" and the session
    state is "active".
