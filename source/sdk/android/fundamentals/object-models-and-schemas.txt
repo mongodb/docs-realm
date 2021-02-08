@@ -11,3 +11,134 @@ Object Models & Schemas - Android SDK
    :backlinks: none
    :depth: 2
    :class: singlecol
+
+{+service+} applications model data as objects composed of field-value pairs
+that each contain one or more :ref:`supported <android-supported-data-types>`
+data types. :term:`{+service-short+} objects <Realm object>` behave like
+regular Java or Kotlin objects, but they also include additional features like
+:ref:`real-time updating data views <android-live-object>` and reactive
+:ref:`change event handlers <android-client-notifications>`. To define
+a {+service-short+} object in your application, create a subclass of
+:java-sdk:`RealmObject <io/realm/RealmObject.html>` or implement
+:java-sdk:`RealmModel <io/realm/RealmModel.html>`.
+
+Objects of the same class share an :ref:`object schema
+<android-object-schema>` that defines the fields and relationships of those
+objects. Define your own object schemas :ref:`using Kotlin and
+Java class declarations <create-schema-from-rom>`. Every {+realm+} has a
+schema that consists of one or more object schemas describing the
+different forms of object that can be stored in that {+realm+}.
+
+Example
+-------
+
+.. example::
+
+   The following code block shows an object schema that describes a Dog.
+   Every Dog object must include a ``name`` and ``age`` and may
+   optionally include the dog's ``breed`` and a reference to a Person
+   object that represents the dog's ``owner``.
+
+   .. tabs-realm-languages::
+
+      .. tab::
+         :tabid: kotlin
+
+         .. literalinclude:: /examples/Schemas/DogSchema.kt
+            :language: kotlin
+
+      .. tab::
+         :tabid: java
+
+         .. literalinclude:: /examples/Schemas/DogSchema.java
+            :language: java
+
+Primary Keys
+------------
+
+{+service-short+} treats fields marked with the
+:java-sdk:`@PrimaryKey <io/realm/annotations/PrimaryKey.html>` annotation
+as primary keys for their corresponding object schema. Primary keys are
+subject to the following limitations:
+
+- You can define only one primary key per object schema.
+
+- Primary key values must be unique across all instances of an object
+  in a {+realm+}. Attempting to insert a duplicate primary key value
+  results in a :java-sdk:`RealmPrimaryKeyConstraintException
+  <io/realm/exceptions/RealmPrimaryKeyConstraintException.html>`.
+
+- Primary key values are immutable. To change the primary key value of
+  an object, you must delete the original object and insert a new object
+  with a different primary key value.
+
+- :ref:`Embedded objects <android-embedded-objects>` cannot define a
+  a primary key.
+
+Optionality
+-----------
+
+Fields marked with Java object types and Kotlin nullable types
+(ending with ``?``) are nullable by default. All other types
+(primitives, non-nullable Kotlin object types) are required by default.
+You can mark a nullable field with the :java-sdk:`@Required <io/realm/annotations/Required.html>`
+annotation to prevent that field from holding a null value.
+:java-sdk:`RealmList <io/realm/RealmList.html>`s are never nullable, but
+you can use the ``@Required`` annotation to prevent objects in a list
+from holding a null value, even if the base type would otherwise allow it.
+You cannot mark a ``RealmList`` of ``RealmObject`` subtypes as required.
+
+Relationships
+-------------
+
+You can model **one-to-one** relationships in realm with
+:java-sdk:`RealmObject <io/realm/RealmObject.html>` fields.
+You can model **one-to-many** and **many-to-one** relationships
+:java-sdk:`RealmList <io/realm/RealmList.html>` fields.
+Inverse relationships are the opposite end of a **one-to-many** or
+**many-to-one** relationship.
+You can make **inverse** relationships traversable with the
+:java-sdk:`@LinkingObjects <io/realm/annotations/LinkingObjects.html>`
+annotation on a :java-sdk:`RealmResults <io/realm/RealmResults.html>`
+field. In an instance of a ``RealmObject``, inverse relationship fields
+contain the set of {+service-short+} objects that point to that object
+instance through the described relationship. You can find the same set
+of {+service-short+} objects with a manual query, but the inverse
+relationship field reduces boilerplate query code and capacity for error.
+
+Indexes
+-------
+
+{+service-short+} creates indexes for fields annotated with
+:java-sdk:`@Index <io/realm/annotations/Index.html>`. Indexes speed up
+some queries, but have a negative impact on insert and update operation
+speed. Indexes also consume additional space on disk.
+
+Modules
+-------
+
+{+service-short+} Modules describe the set of {+service-short+} objects
+that can be stored in a {+realm+}. By default, {+service-short+}
+automatically creates a {+service-short+} Module that contains all
+{+service-short+} objects defined in your application.
+You can define a :java-sdk:`RealmModule <io/realm/annotations/RealmModule.html>`
+to restrict a {+realm+} to a subset of classes defined in an application.
+If you produce a library that uses {+service-short+}, you can use a
+{+service-short+} Module to explicitly include only the {+service-short+}
+objects defined in your library in your {+realm+}. This allows
+applications that include your library to also use {+service-short+}
+without managing object name conflicts and migrations with your library's
+defined {+service-short+} objects.
+
+Summary
+-------
+
+- {+service-short+} objects are of a **type** defined as you would any other
+  class.
+
+- {+service-short+} objects are **live**: they always reflect the latest version
+  on disk and update automatically when the underlying object changes.
+
+- The {+service-short+} object's **schema** defines the fields of the object and
+  which fields are optional, which fields have a default value,
+  and which fields are indexed.
