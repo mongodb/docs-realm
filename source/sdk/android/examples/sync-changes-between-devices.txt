@@ -187,19 +187,18 @@ To check the current network connection, call :java-sdk:`getConnectionState() <i
       .. literalinclude:: /examples/generated/android/code/start/SyncDataTest.codeblock.check-current-network-connection.java
          :language: java
 
-.. warning:: Connection and Session States
+.. warning:: Connection States vs. Session States
 
-   Multiple users share a network connection on an application
-   level that corresponds to the physical connectivity over the network
-   to your backend {+app+}. However, each user retains control of their
-   personal sync session, including the ability to
-   :ref:`pause and resume <android-pause-or-resume-a-sync-session>`
-   synchronization. This means that your application can have both a
-   "connected" connection state and an "inactive" sync session state when a
-   user has paused synchronization for their personal sync session.
-   Your application can also have a "disconnected" connection state and
-   an "active" sync session state, representing an unpaused personal
-   sync session but a network connection that is currently down.
+   The Android SDK manages communication with {+backend+} at two levels:
+   **connection state** and **session state**. *Connection state* tracks
+   the state of the network connection between a client device and your
+   backend {+app+}. *Session state* refers to a single user's
+   synchronization state, which can be :ref:`paused and resumed
+   <android-pause-or-resume-a-sync-session>` in the SDK at will. As a
+   result, you must check *both* states to determine whether
+   a user's local changes will sync to the backend. Synchronization
+   only occurs when the connection state is "connected" and the session
+   state is "active".
 
 You can also subscribe to connection changes on your ``SyncSession``
 with :java-sdk:`addConnectionChangeListener()
@@ -280,6 +279,11 @@ handler:
 
        .. literalinclude:: /examples/generated/android/code/start/ClientResetTest.codeblock.client-reset.java
          :language: java
+
+
+.. seealso::
+
+   :ref:`Advanced Guides: Client Resets <android-client-reset>`
 
 .. _android-set-the-client-log-level:
 
