@@ -51,7 +51,7 @@ access your {+app+} using your {+app+} ID. You can find your {+app+} ID in the
 {+ui+}. With that, you can initialize the {+realm+} app, as shown in the following 
 code:
 
-.. literalinclude:: /examples/generated/code/start/Examples.codeblock.initialize-realm.cs
+.. literalinclude:: /examples/generated/dotnet/Examples.codeblock.initialize-realm.cs
    :language: csharp
 
 Define Your Object Model
@@ -79,7 +79,7 @@ this example, we have marked the ``Id`` field as the Primary Key, marked the
 ``Name`` and ``Status`` properties as "required", and are using the ``MapTo`` 
 attribute so we can use .NET-friendly casing on our property names.
 
-.. literalinclude:: /examples/generated/code/start/Task.codeblock.task-object-model.cs
+.. literalinclude:: /examples/generated/dotnet/Task.codeblock.task-object-model.cs
    :language: csharp
 
 .. _dotnet-quick-start-authenticate:
@@ -91,13 +91,13 @@ After you have enabled :ref:`anonymous authentication <anonymous-authentication>
 {+ui+}, users can immediately log into your app without providing any identifying
 information:
 
-.. literalinclude:: /examples/generated/code/start/Examples.codeblock.anon-login.cs
+.. literalinclude:: /examples/generated/dotnet/Examples.codeblock.anon-login.cs
    :language: csharp
 
 You should also provide a way for the user to log out. The following code shows 
 how to do this by calling ``LogOutAsync()``:
 
-.. literalinclude:: /examples/generated/code/start/Examples.codeblock.logout.cs
+.. literalinclude:: /examples/generated/dotnet/Examples.codeblock.logout.cs
    :language: csharp
 
 .. seealso::
@@ -113,7 +113,7 @@ to control the specifics of how your application synchronizes data with
 {+backend+}, which might include the :ref:`partition <partitioning>` name,
 whether to wait for an initial batch of data to sync, and more.
 
-.. literalinclude:: /examples/generated/code/start/Examples.codeblock.config.cs
+.. literalinclude:: /examples/generated/dotnet/Examples.codeblock.config.cs
    :language: csharp
 
 .. seealso::
@@ -131,28 +131,28 @@ Once you have opened a {+realm+}, you can modify the
 The following code shows how to create a new ``Task``. You instantiate the 
 ``Task`` class and then add the new Task to the {+realm+} in a write block:
 
-.. literalinclude:: /examples/generated/code/start/Examples.codeblock.create.cs
+.. literalinclude:: /examples/generated/dotnet/Examples.codeblock.create.cs
    :language: csharp
 
 The following code demonstrates how to retrieve a live 
 :ref:`collection <dotnet-client-collections>` of all ``Task`` objects in the 
 {+realm+}:
 
-.. literalinclude:: /examples/generated/code/start/Examples.codeblock.read-all.cs
+.. literalinclude:: /examples/generated/dotnet/Examples.codeblock.read-all.cs
    :language: csharp
 
 You can also filter that collection using Linq. This example returns all Tasks 
 that have a status of  "Open":
 
-.. literalinclude:: /examples/generated/code/start/Examples.codeblock.read-some.cs
+.. literalinclude:: /examples/generated/dotnet/Examples.codeblock.read-some.cs
    :language: csharp
 
 To modify a task, you update its properties in a write transaction block:
 
-.. literalinclude:: /examples/generated/code/start/Examples.codeblock.modify.cs
+.. literalinclude:: /examples/generated/dotnet/Examples.codeblock.modify.cs
    :language: csharp
 
 Finally, you can delete a task by calling the ``Remove()`` method:
 
-.. literalinclude:: /examples/generated/code/start/Examples.codeblock.delete.cs
+.. literalinclude:: /examples/generated/dotnet/Examples.codeblock.delete.cs
    :language: csharp

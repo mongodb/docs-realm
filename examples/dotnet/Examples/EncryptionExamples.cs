@@ -3,7 +3,7 @@ using System.Security.Cryptography;
 using NUnit.Framework;
 using Realms;
 
-namespace UnitTests
+namespace Examples
 {
     public class EncryptionExamples
     {

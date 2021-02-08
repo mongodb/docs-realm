@@ -9,7 +9,7 @@ using NUnit.Framework;
 using Realms;
 using Realms.Sync;
 
-namespace UnitTests
+namespace Examples
 {
     public class CustomUserDataExamples
     {
