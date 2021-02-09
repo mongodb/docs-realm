@@ -21,16 +21,9 @@ To open a local (non-synced) {+realm+}, pass a :js-sdk:`Realm.Configuration
 <Realm.html#~Configuration>` object to either :js-sdk:`Realm.open()
 <Realm.html#.open>` or :js-sdk:`new Realm() <Realm.html>`.
 
-.. code-block:: javascript
-   
-   // Import RealmObject schemas and/or class models that you define
-   import { TaskSchema, UserSchema, ProjectSchema } from "./object-types.js"
-   
-   // Open a local realm file with a particular path & schema
-   const realm = await Realm.open({
-      path: "myRealm",
-      schema: [TaskSchema, UserSchema, ProjectSchema],
-   });
+.. literalinclude:: /examples/generated/node/open-and-close-a-local-realm.codeblock.open-local-realm-with-car-schema.js
+  :language: javascript
+  :emphasize-lines: 2
 
 .. _node-close-a-realm:
 
