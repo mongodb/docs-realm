@@ -94,32 +94,6 @@ in the schema.
         }
       ]
 
-.. _android-schema-version:
-
-Schema Version
-~~~~~~~~~~~~~~
-
-A **schema version** identifies the state of a :ref:`{+backend-schema+}
-<android-realm-schema>` at some point in time. {+client-database+} tracks the schema
-version of each {+realm+} and uses it to map the objects in each {+realm+}
-to the correct schema.
-
-Schema versions are ascending integers that you can optionally include
-in the {+realm+} configuration when you open a {+realm+}. The version 
-number defaults to 0 if a client application does not specify a version 
-number.
-
-.. important:: Increment Versions Monotonically
-   
-   :ref:`Migrations <android-client-migrations>` must update
-   a {+realm+} to a higher schema version.
-   {+client-database+} will throw an error if a client
-   application opens a {+realm+} with a schema version that
-   is lower than the {+realm+}'s current version or if the
-   specified schema version is the same as the {+realm+}'s
-   current version but includes different :ref:`object
-   schemas <android-object-schema>`.
-
 .. _android-realm-permissions:
 
 Realm Permissions
