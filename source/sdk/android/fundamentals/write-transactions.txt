@@ -74,17 +74,6 @@ the code in the callback throws an exception when {+client-database+} runs
 it, {+client-database+} cancels the transaction. Otherwise, {+client-database+} commits
 the transaction immediately after the callback.
 
-.. important:: Concurrency Concerns
-
-   Since transactions block each other, it is best to avoid
-   opening transactions on both the UI thread and a
-   background thread. If you are using :doc:`Sync
-   </sync>`, avoid opening transactions on the
-   UI thread altogether, as {+client-database+} processes synchronizations
-   on a background thread. If a background transaction
-   blocks your UI thread's transaction, your app may appear
-   unresponsive.
-
 .. example::
 
    The following code shows how to run a transaction with
@@ -107,3 +96,7 @@ the transaction immediately after the callback.
 
          .. literalinclude:: /examples/generated/android/code/start/WritesTest.codeblock.run-a-transaction.java
             :language: java
+
+.. seealso::
+
+   :ref:`Usage Example: Read and Write Data <android-read-and-write-data>`
