@@ -66,9 +66,14 @@ content: |
          data.
      
      * - ``user_id_field``
-       - The name of a field that contains an application user's ID
-         value. All user documents in the collection must have this
-         field and no two documents may contain the same user ID.
+       - The name of the field that maps each document to a specific application
+         user. The field must have the same name in each document and contain
+         the user's ID as a string.
+         
+         .. note::
+            
+            If two documents contain the same user ID, {+service-short+} only
+            maps the first matching document to the user.
 ---
 title: Deploy the Updated Application
 ref: deploy-the-updated-application
