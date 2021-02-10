@@ -135,7 +135,7 @@ public class RealmQueryTest extends RealmTest {
                     });
                     // :code-block-end:
                 } else {
-                    Log.e("EXAMPLE","Failed to log in: " + it.getError().getErrorMessage());
+                    Log.e("EXAMPLE", "Failed to log in: " + it.getError().getErrorMessage());
                 }
             });
         });
@@ -199,4 +199,3 @@ public class RealmQueryTest extends RealmTest {
         expectation.await();
     }
 }
-
