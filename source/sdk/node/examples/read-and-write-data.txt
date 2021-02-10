@@ -66,16 +66,9 @@ To filter a query, call the :js-sdk:`filtered()
 
    - Find high priority tasks by comparing the value of the ``priority`` property value with a threshold number, above which priority can be considered high.
    - Find just-started or short-running tasks by seeing if the ``progressMinutes`` property falls within a certain range.
-   - Find unassigned tasks by finding tasks where the ``assignee`` property is equal to null.
-   - Find tasks assigned to specific teammates Ali or Jamie by seeing if the ``assignee`` property is in a list of names.
 
-   .. tabs-realm-languages::
-
-      .. tab::
-         :tabid: javascript
-
-          .. literalinclude:: /examples/Query/Comparison.js
-             :language: javascript
+   .. literalinclude:: /examples/generated/node/read-and-write-data.codeblock.read-and-write-filter-queries.js
+   :language: javascript
 
 .. tip:: Filter on Related and Embedded Object Properties
    
