@@ -145,6 +145,12 @@ describe("Read & Write Data", () => {
       realm.delete(task2);
       realm.delete(task3);
     });
+
+    // Discard the references.
+    task = null;
+    task2 = null;
+    task3 = null;
+
     // close the realm
     realm.close();
   });
@@ -268,6 +274,18 @@ describe("Read & Write Data", () => {
       realm.delete(dog1);
       realm.delete(dog2);
     });
+
+    // Discard the references.
+    task = null;
+    task2 = null;
+    task3 = null;
+    task4 = null;
+
+    person1 = null;
+    person2 = null;
+
+    dog1 = null;
+    dog2 = null;
     // close the realm
     realm.close();
   });
@@ -295,6 +313,9 @@ describe("Read & Write Data", () => {
     realm.write(() => {
       realm.delete(dog);
     });
+
+    // Discard the references.
+    dog = null;
     realm.close();
   });
   test("should update an object", async () => {
@@ -327,6 +348,9 @@ describe("Read & Write Data", () => {
     realm.write(() => {
       realm.delete(dog);
     });
+
+    // Discard the references.
+    dog = null;
     realm.close();
   });
   test("should upsert an object", async () => {
@@ -369,6 +393,8 @@ describe("Read & Write Data", () => {
     realm.write(() => {
       realm.delete(person);
     });
+    // Discard the references.
+    person = null;
     realm.close();
   });
   test("should bulk update a collection", async () => {
@@ -421,6 +447,37 @@ describe("Read & Write Data", () => {
       realm.delete(dog2);
       realm.delete(dog3);
     });
+
+    // Discard the references.
+    dog1 = null;
+    dog2 = null;
+    dog3 = null;
     realm.close();
+  });
+  test("should delete an object", async () => {
+    // a realm is opened
+    const realm = await Realm.open({
+      path: "myrealm",
+      schema: [DogSchema, PersonSchema],
+    });
+
+    let dog;
+    realm.write(() => {
+      dog = realm.create("Dog", {
+        name: "Fall",
+      });
+    });
+
+    // :code-block-start: read-and-write-delete-object
+    realm.write(() => {
+      // Delete the dog from the realm.
+      realm.delete(dog);
+      // Discard the reference.
+      dog = null;
+    });
+    // :code-block-end:
+
+    // there should be no dogs, since the only dog was deleted
+    expect(realm.objects("Dog").length).toBe(0);
   });
 });
