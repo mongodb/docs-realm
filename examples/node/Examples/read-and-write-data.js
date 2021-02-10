@@ -11,6 +11,23 @@ const TaskSchema = {
   primaryKey: "_id",
 };
 
+const PersonSchema = {
+  name: "Person",
+  properties: {
+    name: "string",
+  },
+};
+const DogSchema = {
+  name: "Dog",
+  properties: {
+    name: "string",
+    owner: "Person?",
+  },
+};
+
+// const dogs = realm.objects("Dog");
+// dogs = dogs.sorted("owner.name");
+
 describe("Read & Write Data", () => {
   test("should find a specific object by primary key", async () => {
     // a realm is opened
@@ -129,5 +146,126 @@ describe("Read & Write Data", () => {
       realm.delete(task2);
       realm.delete(task3);
     });
+    // close the realm
+    realm.close();
+  });
+  test("should return objects from sorted queries", async () => {
+    // a realm is opened
+    const realm = await Realm.open({
+      path: "myrealm",
+      schema: [TaskSchema, PersonSchema, DogSchema],
+    });
+    let task, task2, task3, task4;
+    // write to a realm
+    realm.write(() => {
+      task = realm.create("Task", {
+        _id: 191230,
+        name: "go grocery shopping",
+        priority: 10,
+        progressMinutes: 50,
+      });
+      task2 = realm.create("Task", {
+        _id: 325212012,
+        name: "throw out the trash",
+        priority: 4,
+        progressMinutes: 0,
+      });
+      task3 = realm.create("Task", {
+        _id: 43259540,
+        name: "wash and dry the laundry",
+        priority: 2,
+        progressMinutes: 5,
+      });
+      task4 = realm.create("Task", {
+        _id: 24132021,
+        name: "fold the laundry",
+        priority: 2,
+        progressMinutes: 0,
+      });
+    });
+
+    let person1, person2;
+    let dog1, dog2;
+    realm.write(() => {
+      person1 = realm.create("Person", {
+        name: "Moe Chughtai",
+      });
+      person2 = realm.create("Person", {
+        name: "Chris Bush",
+      });
+      dog1 = realm.create("Dog", {
+        name: "Barky",
+        owner: person1,
+      });
+      dog2 = realm.create("Dog", {
+        name: "Fido",
+        owner: person2,
+      });
+    });
+
+    // :code-block-start: read-and-write-sorted-queries
+    // retrieve the set of Task objects
+    const tasks = realm.objects("Task");
+    // Sort tasks by name in ascending order
+    const tasksByName = tasks.sorted("name");
+    // Sort tasks by name in descending order
+    const tasksByNameDescending = tasks.sorted("name", true);
+    // Sort tasks by priority in descending order and then by name alphabetically
+    const tasksByPriorityDescendingAndName = tasks.sorted([
+      ["priority", true],
+      ["name", false],
+    ]);
+    // Sort dogs by dog's owner's name.
+    let dogsByOwnersName = realm.objects("Dog").sorted("owner.name");
+    // :code-block-end:
+
+    // tasks sorted by name ascending
+    expect(tasksByName.map((myTask) => myTask.name)).toStrictEqual([
+      "fold the laundry",
+      "go grocery shopping",
+      "throw out the trash",
+      "wash and dry the laundry",
+    ]);
+
+    // tasks sorted by name descending
+    expect(tasksByNameDescending.map((myTask) => myTask.name)).toStrictEqual([
+      "wash and dry the laundry",
+      "throw out the trash",
+      "go grocery shopping",
+      "fold the laundry",
+    ]);
+
+    // tasks sorted by priority descending, and then by name ascending
+    expect(
+      tasksByPriorityDescendingAndName.map((myTask) => myTask.name)
+    ).toStrictEqual([
+      "go grocery shopping",
+      "throw out the trash",
+      "fold the laundry",
+      "wash and dry the laundry",
+    ]);
+    // dogs by dog's owner's name.
+    expect(JSON.stringify(dogsByOwnersName)).toBe(
+      JSON.stringify([
+        { name: "Fido", owner: { name: "Chris Bush" } },
+        { name: "Barky", owner: { name: "Moe Chughtai" } },
+      ])
+    );
+
+    // delete tasks, persons, and dogs
+    realm.write(() => {
+      realm.delete(task);
+      realm.delete(task2);
+      realm.delete(task3);
+      realm.delete(task4);
+
+      realm.delete(person1);
+      realm.delete(person2);
+
+      realm.delete(dog1);
+      realm.delete(dog2);
+    });
+    // close the realm
+    realm.close();
   });
 });
