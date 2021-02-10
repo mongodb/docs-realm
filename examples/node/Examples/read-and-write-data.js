@@ -15,6 +15,7 @@ const PersonSchema = {
   name: "Person",
   properties: {
     name: "string",
+    age: "int?",
   },
 };
 const DogSchema = {
@@ -245,8 +246,12 @@ describe("Read & Write Data", () => {
     // dogs by dog's owner's name.
     expect(JSON.stringify(dogsByOwnersName)).toBe(
       JSON.stringify([
-        { name: "Fido", owner: { name: "Chris Bush" }, age: null },
-        { name: "Barky", owner: { name: "Moe Chughtai" }, age: null },
+        { name: "Fido", owner: { name: "Chris Bush", age: null }, age: null },
+        {
+          name: "Barky",
+          owner: { name: "Moe Chughtai", age: null },
+          age: null,
+        },
       ])
     );
 
@@ -321,6 +326,48 @@ describe("Read & Write Data", () => {
     // delete the dog
     realm.write(() => {
       realm.delete(dog);
+    });
+    realm.close();
+  });
+  test("should upsert an object", async () => {
+    // a realm is opened
+    const realm = await Realm.open({
+      path: "myrealm",
+      schema: [DogSchema, PersonSchema],
+    });
+    let person;
+    // :code-block-start: read-and-write-upsert-an-object
+    realm.write(() => {
+      // Add a new person to the realm. Since nobody with ID 1234
+      // has been added yet, this adds the instance to the realm.
+      person = realm.create(
+        "Person",
+        { _id: 1234, name: "Joe", age: 40 },
+        "modified"
+      );
+
+      // :hide-start:
+      // expect there to be a person with a name of Joe and age 40
+      expect(person.name).toBe("Joe");
+      expect(person.age).toBe(40);
+      // :hide-end:
+      // If an object exists, setting the third parameter (`updateMode`) to
+      // "modified" only updates properties that have changed, resulting in
+      // faster operations.
+      person = realm.create(
+        "Person",
+        { _id: 1234, name: "Joseph", age: 40 },
+        "modified"
+      );
+    });
+    // :code-block-end:
+
+    // expect there to be a person age of 40, and name of Andy
+    expect(person.name).toBe("Joseph");
+    expect(person.age).toBe(40);
+
+    realm.write(() => {
+      realm.delete(person);
     });
     realm.close();
   });
