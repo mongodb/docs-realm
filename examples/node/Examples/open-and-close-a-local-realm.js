@@ -1,7 +1,5 @@
 import Realm from "realm";
 
-// const app = new Realm.App({ id: "example-testers-kvjdy" });
-
 const CarSchema = {
   name: "Car",
   properties: {
