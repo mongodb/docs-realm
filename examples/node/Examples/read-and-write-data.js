@@ -25,9 +25,6 @@ const DogSchema = {
   },
 };
 
-// const dogs = realm.objects("Dog");
-// dogs = dogs.sorted("owner.name");
-
 describe("Read & Write Data", () => {
   test("should find a specific object by primary key", async () => {
     // a realm is opened
@@ -266,6 +263,32 @@ describe("Read & Write Data", () => {
       realm.delete(dog2);
     });
     // close the realm
+    realm.close();
+  });
+  test("should write a new object", async () => {
+    // a realm is opened
+    const realm = await Realm.open({
+      path: "myrealm",
+      schema: [DogSchema, PersonSchema],
+    });
+    // :code-block-start: read-and-write-create-a-new-object
+    // Declare the instance.
+    let dog;
+    // Open a transaction.
+    realm.write(() => {
+      // Assign a newly-created instance to the variable.
+      dog = realm.create("Dog", { name: "Max", age: 5 });
+    });
+    // :code-block-end:
+
+    const dogs = realm.objects("Dog");
+
+    expect(dogs[0].name).toBe(dog.name);
+
+    // delete the dog
+    realm.write(() => {
+      realm.delete(dog);
+    });
     realm.close();
   });
 });

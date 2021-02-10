@@ -91,8 +91,6 @@ guarantees a consistent order of results if you explicitly sort them.
 To sort a query, call the :js-sdk:`sorted() <Realm.Collection.html#sorted>`
 method on the query results collection.
 
-foobarian
-
 .. literalinclude:: /examples/generated/node/read-and-write-data.codeblock.read-and-write-sorted-queries.js
   :language: javascript
   :emphasize-lines: 4, 6, 8, 13
@@ -124,15 +122,10 @@ and then pass it to :js-sdk:`Realm.create() <Realm.html#create>` inside of a
 write transaction. If the {+realm+}'s :ref:`schema <node-realm-schema>` includes
 the object type and the object conforms to the schema, then {+service-short+}
 stores the object, which is now *managed* by the {+realm+}.
-
-.. tabs-realm-languages::
    
-   .. tab::
-      :tabid: javascript
-      
-      .. literalinclude:: /examples/CRUD/Create.js
-         :language: javascript
-         :emphasize-lines: 7
+.. literalinclude:: /examples/generated/node/read-and-write-data.codeblock.read-and-write-create-a-new-object.js
+  :language: javascript
+  :emphasize-lines: 6
 
 .. _node-update-an-object:
 
