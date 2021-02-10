@@ -100,13 +100,13 @@ class AccessCustomUserDataTest : RealmTest() {
                     mongoCollection.updateOne(Document("user-id-field", user.id), Document("favoriteColor", "cerulean"))
                         .getAsync { result ->
                             if (result.isSuccess) {
+                                // :hide-start:
+                                expectation.fulfill()
+                                // :hide-end:
                                 if (result.get().modifiedCount == 1L) {
                                     Log.v("EXAMPLE", "Updated custom user data document.")
                                 } else {
                                     Log.v("EXAMPLE", "Could not find custom user data document to update.")
-                                    // :hide-start:
-                                    expectation.fulfill()
-                                    // :hide-end:
                                 }
                             } else {
                                 Log.e("EXAMPLE", "Unable to update custom user data. Error: ${result.error}")
