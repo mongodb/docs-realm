@@ -42,4 +42,37 @@ describe("Read & Write Data", () => {
     // close the realm
     realm.close();
   });
+  test("should query an object type", async () => {
+    // a realm is opened
+    const realm = await Realm.open({
+      path: "myrealm",
+      schema: [TaskSchema],
+    });
+
+    let task;
+
+    // write to a realm
+    realm.write(() => {
+      task = realm.create("Task", {
+        _id: 321512,
+        name: "Walk the dog",
+      });
+    });
+
+    // :code-block-start: read-and-write-data-query-an-object-type
+    // Query realm for all instances of the "Task" type.
+    const tasks = realm.objects("Task");
+    // :code-block-end:
+
+    expect(tasks[0].name).toBe(task.name);
+
+    realm.write(() => {
+      // after running test delete the task
+      realm.delete(task);
+    });
+    task = null;
+
+    // close the realm
+    realm.close();
+  });
 });
