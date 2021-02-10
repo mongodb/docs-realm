@@ -122,7 +122,7 @@ public class MultipleUsersTest extends RealmTest {
     @Test
     public void switchTheActiveUser() {
         Expectation expectation = new Expectation();
-        activity.runOnUiThread(() -> {
+        activity.runOnUiThread(() -> { 
             String appID = YOUR_APP_ID; // replace this with your App ID
             App app = new App(new AppConfiguration.Builder(appID).build());
 
