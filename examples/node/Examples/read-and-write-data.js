@@ -560,4 +560,52 @@ describe("Read & Write Data", () => {
     cat = null;
     realm.close();
   });
+  test("should delete all objects", async () => {
+    // a realm is opened
+    const realm = await Realm.open({
+      path: "myrealm",
+      schema: [CatSchema, TaskSchema],
+    });
+    let cat1, cat2, task1, task2;
+    realm.write(() => {
+      cat1 = realm.create("Cat", {
+        name: "Alice",
+        age: 13,
+      });
+      cat2 = realm.create("Cat", {
+        name: "Snowball",
+        age: 8,
+      });
+      task1 = realm.create("Task", {
+        _id: 191230,
+        name: "go grocery shopping",
+        priority: 10,
+        progressMinutes: 50,
+      });
+      task2 = realm.create("Task", {
+        _id: 325212012,
+        name: "throw out the trash",
+        priority: 4,
+        progressMinutes: 0,
+      });
+    });
+
+    // :code-block-start: read-and-write-delete-all
+    realm.write(() => {
+      // Delete all objects from the realm.
+      realm.deleteAll();
+    });
+    // :code-block-end:
+
+    // there should be no objects, so the length of any objects will be 0.
+    expect(realm.objects("Cat").length).toBe(0);
+    expect(realm.objects("Task").length).toBe(0);
+
+    // Discard the references.
+    cat1 = null;
+    cat2 = null;
+    task1 = null;
+    task2 = null;
+    realm.close();
+  });
 });
