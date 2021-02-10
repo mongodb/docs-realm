@@ -371,4 +371,56 @@ describe("Read & Write Data", () => {
     });
     realm.close();
   });
+  test("should bulk update a collection", async () => {
+    // a realm is opened
+    const realm = await Realm.open({
+      path: "myrealm",
+      schema: [DogSchema, PersonSchema],
+    });
+
+    let dog1, dog2, dog3;
+    realm.write(() => {
+      dog1 = realm.create("Dog", {
+        name: "Fall",
+        age: 5,
+      });
+      dog2 = realm.create("Dog", {
+        name: "Winter",
+        age: 1,
+      });
+      dog3 = realm.create("Dog", {
+        name: "Summer",
+        age: 1,
+      });
+    });
+
+    // :code-block-start: read-and-write-bulk-update
+    realm.write(() => {
+      // Create someone to take care of some dogs.
+      const person = realm.create("Person", { name: "Ali" });
+      // Find dogs younger than 2.
+      const puppies = realm.objects("Dog").filtered("age < 2");
+      // Loop through to update.
+      puppies.forEach((puppy) => {
+        // Give all puppies to Ali.
+        puppy.owner = person;
+      });
+    });
+    // :code-block-end:
+
+    // dog1 should not have an owner because only the dogs younger than 2 have been given an owner
+    expect(dog1.owner).toBe(null);
+
+    // dog2 and dog3 should be owned by Ali
+    expect(dog2.owner.name).toBe("Ali");
+    expect(dog3.owner.name).toBe("Ali");
+
+    realm.write(() => {
+      realm.delete(realm.objects("Person").filtered("name == 'Ali'"));
+      realm.delete(dog1);
+      realm.delete(dog2);
+      realm.delete(dog3);
+    });
+    realm.close();
+  });
 });
