@@ -219,18 +219,13 @@ To delete a collection of objects from a {+realm+}, pass the collection to
 Delete All Objects of a Specific Type
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To delete all objects of a given object type from a {+realm+}, pass the type
-name to :js-sdk:`Realm.deleteModel() <Realm.html#deleteModel>` inside of a write
-transaction.
+To delete all objects of a given object type from a {+realm+}, pass
+``Realm.objects(<ObjectType>)`` to the :js-sdk:`Realm.delete()
+<Realm.html#delete>` method inside of a write transaction.
 
-.. tabs-realm-languages::
-   
-   .. tab::
-      :tabid: javascript
-      
-      .. literalinclude:: /examples/CRUD/DeleteAllOfClass.js
-         :language: javascript
-         :emphasize-lines: 3
+.. literalinclude:: /examples/generated/node/read-and-write-data.codeblock.read-and-write-delete-all-objects-of-a-specific-type.js
+  :language: javascript
+  :emphasize-lines: 3
 
 .. _node-delete-all-objects-in-a-realm:
 

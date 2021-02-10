@@ -27,6 +27,13 @@ const DogSchema = {
   },
 };
 
+const CatSchema = {
+  name: "Cat",
+  properties: {
+    name: "string",
+  },
+};
+
 describe("Read & Write Data", () => {
   test("should find a specific object by primary key", async () => {
     // a realm is opened
@@ -523,6 +530,34 @@ describe("Read & Write Data", () => {
     // Discard the references.
     dog1 = null;
 
+    realm.close();
+  });
+  test("should delete all objects of a specific type", async () => {
+    // a realm is opened
+    const realm = await Realm.open({
+      path: "myrealm",
+      schema: [CatSchema],
+    });
+
+    let cat;
+    realm.write(() => {
+      cat = realm.create("Cat", {
+        name: "Garfield",
+        age: 5,
+      });
+    });
+
+    // :code-block-start: read-and-write-delete-all-objects-of-a-specific-type
+    realm.write(() => {
+      // Delete all instances of Cat from the realm.
+      realm.delete(realm.objects("Cat"));
+    });
+    // :code-block-end:
+
+    expect(realm.objects("Cat").length).toBe(0);
+
+    // Discard the references.
+    cat = null;
     realm.close();
   });
 });
