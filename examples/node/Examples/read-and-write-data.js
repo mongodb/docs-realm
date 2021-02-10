@@ -22,6 +22,7 @@ const DogSchema = {
   properties: {
     name: "string",
     owner: "Person?",
+    age: "int?",
   },
 };
 
@@ -244,8 +245,8 @@ describe("Read & Write Data", () => {
     // dogs by dog's owner's name.
     expect(JSON.stringify(dogsByOwnersName)).toBe(
       JSON.stringify([
-        { name: "Fido", owner: { name: "Chris Bush" } },
-        { name: "Barky", owner: { name: "Moe Chughtai" } },
+        { name: "Fido", owner: { name: "Chris Bush" }, age: null },
+        { name: "Barky", owner: { name: "Moe Chughtai" }, age: null },
       ])
     );
 
@@ -284,6 +285,38 @@ describe("Read & Write Data", () => {
     const dogs = realm.objects("Dog");
 
     expect(dogs[0].name).toBe(dog.name);
+
+    // delete the dog
+    realm.write(() => {
+      realm.delete(dog);
+    });
+    realm.close();
+  });
+  test("should update an object", async () => {
+    // a realm is opened
+    const realm = await Realm.open({
+      path: "myrealm",
+      schema: [DogSchema, PersonSchema],
+    });
+    let dog;
+    realm.write(() => {
+      dog = realm.create("Dog", { name: "Max", age: 2 });
+    });
+
+    // :code-block-start: read-and-write-update-an-object
+    // Open a transaction.
+    realm.write(() => {
+      // Get a dog to update.
+      const dog = realm.objects("Dog")[0];
+      // Update some properties on the instance.
+      // These changes are saved to the realm.
+      dog.name = "Maximilian";
+      dog.age += 1;
+    });
+    // :code-block-end:
+
+    expect(dog.name).toBe("Maximilian");
+    expect(dog.age).toBe(3);
 
     // delete the dog
     realm.write(() => {
