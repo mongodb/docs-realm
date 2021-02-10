@@ -75,7 +75,7 @@ public class RealmQueryTest extends RealmTest {
                     });
                     // :code-block-end:
                 } else {
-                    Log.e("EXAMPLE", it.getError().toString());
+                    Log.e("EXAMPLE", "Failed to log in: " + it.getError().getErrorMessage());
                 }
             });
         });
@@ -135,7 +135,7 @@ public class RealmQueryTest extends RealmTest {
                     });
                     // :code-block-end:
                 } else {
-                    Log.e("EXAMPLE", it.getError().toString());
+                    Log.e("EXAMPLE","Failed to log in: " + it.getError().getErrorMessage());
                 }
             });
         });
@@ -192,7 +192,7 @@ public class RealmQueryTest extends RealmTest {
                     });
                     // :code-block-end:
                 } else {
-                    Log.e("EXAMPLE", it.getError().toString());
+                    Log.e("EXAMPLE", "Failed to log in: " + it.getError().getErrorMessage());
                 }
             });
         });
