@@ -480,4 +480,49 @@ describe("Read & Write Data", () => {
     // there should be no dogs, since the only dog was deleted
     expect(realm.objects("Dog").length).toBe(0);
   });
+  test("should delete multiple objects", async () => {
+    // a realm is opened
+    const realm = await Realm.open({
+      path: "myrealm",
+      schema: [DogSchema, PersonSchema],
+    });
+    let dog1; // dog1 is the only dog declared because the other dogs are deleted in the code example 'read-and-write-delete-multiple-objects'
+    realm.write(() => {
+      dog1 = realm.create("Dog", {
+        name: "Fall",
+        age: 5,
+      });
+      realm.create("Dog", {
+        name: "Winter",
+        age: 1,
+      });
+      realm.create("Dog", {
+        name: "Summer",
+        age: 1,
+      });
+    });
+
+    // :code-block-start: read-and-write-delete-multiple-objects
+    realm.write(() => {
+      // Find dogs younger than 2 years old.
+      const puppies = realm.objects("Dog").filtered("age < 2");
+      // Delete the collection from the realm.
+      realm.delete(puppies);
+    });
+    // :code-block-end:
+
+    const dogs = realm.objects("Dog");
+
+    // expect that the only dog left is the dog with an age greater than 2
+    expect(dogs.map((myDog) => myDog.name)).toStrictEqual(["Fall"]);
+
+    realm.write(() => {
+      realm.delete(dog1); // only delete dog1 because dog2 and dog3 have already been deleted
+    });
+
+    // Discard the references.
+    dog1 = null;
+
+    realm.close();
+  });
 });
