@@ -1,8 +1,8 @@
 .. _dotnet-mongodb-data-access:
 
-==============================
-MongoDB Data Access - .NET SDK
-==============================
+========================
+Query MongoDB - .NET SDK
+========================
 
 .. contents:: On this page
    :local:
@@ -34,7 +34,6 @@ creates a ``MongoClient.Collection`` for the "plants" collection in the
 
 .. _dotnet-mongodb-example-dataset:
 
-
 Example Data
 ------------
 
@@ -42,6 +41,7 @@ Example Data
 
 Mapping Classes
 ~~~~~~~~~~~~~~~
+
 When working with objects in MongoDB, you should create .NET classes (POCOs) that 
 correspond to the BSON objects. This allows you to serialize and deserialize 
 the objects directly, rather than working with generic ``BsonDocument`` objects. 
@@ -61,6 +61,7 @@ class for this purpose:
 
 Create Documents
 ----------------
+
 To create a document in the MongoDB datastore, you instantiate the mapping class, 
 and pass the new object to 
 :dotnet-sdk:`InsertOneAsync() <reference/Realms.Sync.MongoClient.Collection-1.html#Realms_Sync_MongoClient_Collection_1_InsertOneAsync__0_>`. 
@@ -116,6 +117,7 @@ You can also get the count of all documents that match the filter by calling
 
 Find a Single Document
 ~~~~~~~~~~~~~~~~~~~~~~
+
 The following example shows how to find a plant where the "name" property is 
 "petunia":
 
@@ -126,6 +128,7 @@ The following example shows how to find a plant where the "name" property is
 
 Find Multiple Documents
 ~~~~~~~~~~~~~~~~~~~~~~~
+
 The following example shows how to find all plants where the "type" property is 
 "perennial":
 
@@ -142,6 +145,7 @@ The following example shows how to find all plants where the "type" property is
 
 Count Documents in the Collection
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 The following example returns a count of all plants in the collection:
 
 .. literalinclude:: /examples/generated/dotnet/MongoDBExamples.codeblock.mongo-count.cs
@@ -163,6 +167,7 @@ If you want to bulk update multiple documents, you call
 
 Update a Single Document
 ~~~~~~~~~~~~~~~~~~~~~~~~
+
 The following code finds the plant whose "name" property is "petunia" and changes 
 its "sunlight" property to "partial":
 
@@ -173,6 +178,7 @@ its "sunlight" property to "partial":
 
 Update Multiple Documents
 ~~~~~~~~~~~~~~~~~~~~~~~~~
+
 The following code finds all plants with a "_partition" value of "store 47" and 
 changes them all to "area 51":
 
@@ -183,6 +189,7 @@ changes them all to "area 51":
 
 Upsert Documents
 ~~~~~~~~~~~~~~~~
+
 Both :dotnet-sdk:`UpdateOneAsync() <reference/Realms.Sync.MongoClient.Collection-1.html#Realms_Sync_MongoClient_Collection_1_UpdateOneAsync_System_Object_System_Object_System_Boolean_>` 
 and 
 :dotnet-sdk:`UpdateManyAsync() <reference/Realms.Sync.MongoClient.Collection-1.html#Realms_Sync_MongoClient_Collection_1_UpdateManyAsync_System_Object_System_Object_System_Boolean_>`
@@ -204,6 +211,7 @@ update.
 
 Delete Documents
 ----------------
+
 The process for deleting documents is much the same as creating (or updating)
 documents: you create a ``BsonDocument`` that defines the properties you want to 
 match on, and then call either 
@@ -211,11 +219,11 @@ match on, and then call either
 or
 :dotnet-sdk:`DeleteManyAsync() <reference/Realms.Sync.MongoClient.Collection-1.html#Realms_Sync_MongoClient_Collection_1_DeleteManyAsync_System_Object_>`.
 
-
 .. _dotnet-mongodb-deleteOne:
 
 Delete a Single Document
 ~~~~~~~~~~~~~~~~~~~~~~~~
+
 The following example deletes the first document it finds with a "name" property 
 value of "Thai Basil":
 
@@ -226,6 +234,7 @@ value of "Thai Basil":
 
 Delete Multiple Documents
 ~~~~~~~~~~~~~~~~~~~~~~~~~
+
 The following example deletes all documents that have a "type" property value of 
 "annual":
 
@@ -236,6 +245,7 @@ The following example deletes all documents that have a "type" property value of
 
 Aggregate Documents
 -------------------
+
 `Aggregation <https://docs.mongodb.com/manual/aggregation/>`_ enables complex 
 querying of your data in MongoDB. Aggregation operations run all
 documents in a collection through a series of data :ref:`aggregation stages
@@ -281,6 +291,7 @@ method. The following example performs the same aggregation as the preceding exa
 
 Filter Documents
 ~~~~~~~~~~~~~~~~
+
 You can use the :manual:`$match </reference/operator/aggregation/match/>` stage 
 to filter documents according to a standard :manual:`query filter
 </tutorial/query-documents>`.
@@ -296,6 +307,7 @@ method:
 
 Project Data
 ~~~~~~~~~~~~
+
 You can use the :manual:`$project
 </reference/operator/aggregation/project/>` stage to include or omit
 specific fields from documents or to calculate new fields using

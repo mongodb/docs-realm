@@ -309,10 +309,3 @@ quickly clearing out your {+realm+} while prototyping.
 
    .. literalinclude:: /examples/CRUD/DeleteAll.cs
       :language: csharp
-
-Summary
--------
-
-- {+client-database+} handles writes in terms of **transactions**. All writes must occur in a transaction.
-- {+client-database+} transactions are ACID compliant.
-- To write to {+client-database+}, define the transaction in a callback function that you pass to the {+realm+}'s ``write`` method.

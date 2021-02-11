@@ -24,7 +24,7 @@ a {+realm+} across multiple devices </sync>` and set up :ref:`reactive event han
 created, modified, or deleted.
 
 Comparison with Other Databases
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-------------------------------
 
 The {+service+} data model is similar to both relational and document
 databases but has distinct differences from both. To underscore these
@@ -86,28 +86,6 @@ you omit this property, then all classes that inherit from
 to the schema automatically.
 
 .. seealso:: :ref:`Objects <dotnet-objects>`
-
-Schema Version
-~~~~~~~~~~~~~~
-
-A **schema version** identifies the state of a :ref:`{+backend-schema+}
-<dotnet-realm-schema>` at some point in time. {+client-database+} tracks the schema
-version of each {+realm+} and uses it to map the objects in each {+realm+}
-to the correct schema.
-
-Schema versions are ascending integers that you can optionally include
-in the {+realm+} configuration when you open a {+realm+}. If a client
-application does not specify a version number when it opens a {+realm+} then
-the {+realm+} defaults to version ``0``.
-
-.. important:: Increment Versions Monotonically
-   
-   :ref:`Migrations <dotnet-migrations>` must update a {+realm+} to a
-   higher schema version. {+client-database+} will throw an error if a client
-   application opens a {+realm+} with a schema version that is lower than
-   the {+realm+}'s current version or if the specified schema version is the
-   same as the {+realm+}'s current version but includes different
-   :ref:`object schemas <dotnet-object-schema>`.
 
 Summary
 -------

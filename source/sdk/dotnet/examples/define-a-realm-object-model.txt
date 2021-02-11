@@ -29,23 +29,6 @@ objects in a {+realm+} conform to the
 schema for their object type and validates objects whenever they're
 created, modified, or deleted.
 
-.. _dotnet-field-relationships-lists:
-
-Lists
------
-
-Realm objects can contain lists of all supported data types. 
-You can model these collections by defining a getter-only property of type
-`IList<T> <https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ilist-1?view=net-5.0>`__,
-where ``T`` can be any data type (excluding lists).
-
-Lists of objects cannot contain null values - i.e. deleting an object from the database
-will also remove it from any lists where it existed. Lists of primitive types can contain null
-values. If null values should not be allowed, do not use nullable types
-in the list declaration (i.e., use ``IList<double>`` instead of ``IList<double?>``) or
-add the :ref:`[Required]<dotnet-required-optional-property>` attribute if the list contains reference types, such as ``string``
-or ``byte[]``.
-
 .. _dotnet-define-a-relationship-property:
 .. _dotnet-property-relationships:
 
@@ -56,7 +39,7 @@ Define a Relationship Property
 
 .. seealso::
 
-   :ref:`Relationships <dotnet-client-relationships>`
+   :ref:`Fundamentals: Relationships <dotnet-client-relationships>`
 
 .. _dotnet-field-relationships-many-to-one:
 .. _dotnet-property-relationships-many-to-one:
@@ -143,7 +126,7 @@ class.
 
 .. seealso::
 
-   :ref:`Embedded Objects <dotnet-embedded-objects>`
+   :ref:`Data Types: Embedded Objects <dotnet-embedded-objects>`
 
 .. _dotnet-property-annotations:
 
@@ -152,32 +135,10 @@ Property Annotations
 
 Use annotations to customize your Realm object models.
 
-.. _dotnet-primary-key:
+.. _dotnet-primary-key-example:
 
 Primary Key
 ~~~~~~~~~~~
-
-A **primary key** is a property that uniquely identifies an object. You can
-create a primary key with any of the following types (or their nullable counterparts):
-
-- ``ObjectId``
-- ``string``
-- ``char``
-- ``byte``
-- ``short``
-- ``int``
-- ``long``
-
-You may define a primary key on a **single 
-property** for an 
-object type as part of the :ref:`object schema <dotnet-object-schema>`.
-{+client-database+} automatically indexes primary key properties, which
-allows you to efficiently read and modify objects based on their primary
-key. 
-
-If an object type has a primary key, then all objects of that type must
-include the primary key property with a value that is unique among
-objects of the same type in a {+realm+}. 
 
 .. note::
    
@@ -187,6 +148,10 @@ objects of the same type in a {+realm+}.
    
    .. literalinclude:: /examples/generated/dotnet/Objects.codeblock.primary-key.cs
       :language: csharp
+
+.. seealso::
+
+   :ref:`Fundamentals: Primary Key <dotnet-primary-key>`
 
 .. _dotnet-required-field:
 .. _dotnet-optional-field:
@@ -225,47 +190,21 @@ In C#, you can assign a default value in the property declaration.
    they do not impact the nullability of a property. To make a property
    non-nullable, see :ref:`Required Properties <dotnet-required-optional-property>`.
 
-.. _dotnet-index-a-property:
+.. _dotnet-index-property-example:
 .. _dotnet-index-field:
 
 Index a Property
 ~~~~~~~~~~~~~~~~
-
-**Indexes** support the efficient execution of queries in
-{+client-database+}. Without indexes, {+client-database+} must perform a
-*collection scan*, i.e. scan every document in a collection, to select
-those documents that match a query. If an appropriate index exists for a
-query, {+client-database+} can use the index to limit the number of
-documents that it must inspect.
-
-Indexes are special data structures that store a small portion of a
-{+realm+}'s data in an easy to traverse form. The index stores the value
-of a specific property ordered by the value of the property. The ordering of
-the index entries supports efficient equality matches and range-based
-query operations.
-
-Adding an index to a property makes write operations slightly slower, but makes
-certain queries faster. Indexes require space in your {+realm+} file, so
-adding an index to a property will increase disk space consumed by your
-{+realm+} file.
-
-You can index properties with the following types:
-
-- ``bool``
-- ``byte``
-- ``short``
-- ``int``
-- ``long``
-- ``DateTimeOffset``
-- ``char``
-- ``string``
-- ``ObjectId``
 
 To index a property, use the :dotnet-sdk:`[Indexed] <reference/Realms.IndexedAttribute.html>`
 attribute:
 
 .. literalinclude:: /examples/generated/dotnet/Objects.codeblock.index.cs
    :language: csharp
+
+.. seealso::
+
+   :ref:`Fundamentals: Indexes <dotnet-index-property>`
 
 .. _dotnet-ignore-a-property:
 .. _dotnet-ignore-property:

@@ -69,53 +69,6 @@ objects in a {+realm+} conform to the
 schema for their object type and validates objects whenever they're
 created, modified, or deleted.
 
-.. _dotnet-property-types:
-
-Property Types
-~~~~~~~~~~~~~~
-
-{+client-database+} supports the following property data types and their nullable counterparts:
-
-- ``bool``
-- ``byte``
-- ``short``
-- ``int``
-- ``long``
-- ``float``
-- ``double``
-- ``decimal``
-- ``char``
-- ``string``
-- ``byte[]``
-- ``DateTimeOffset``
-- ``Decimal128`` from ``MongoDB.Bson``
-- ``ObjectId`` from ``MongoDB.Bson``
-- A ``RealmObject`` subclass 
-- An ``EmbeddedObject`` subclass (see :ref:`Embedded Objects <dotnet-property-embedded>`)
-- ``IList<T>`` where T is any of the previous data types (see :ref:`Lists <dotnet-property-lists>`)
-
-The ``byte``, ``char``, ``short``, ``int``, and ``long`` types  are all stored as 64 bit integer values
-within {+client-database+}. 
-
-If you choose to provide custom constructors, you must declare a public constructor with no arguments.
-
-.. _dotnet-property-lists:
-
-Lists
-~~~~~
-
-Realm objects can contain lists of all supported data types. 
-You can model these collections by defining a getter-only property of type
-`IList<T> <https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ilist-1?view=net-5.0>`__,
-where ``T`` can be any data type (excluding lists).
-
-Lists of objects cannot contain null values - i.e. deleting an object from the database
-will also remove it from any lists where it existed. Lists of primitive types can contain null
-values. If null values should not be allowed, do not use nullable types
-in the list declaration (i.e., use ``IList<double>`` instead of ``IList<double?>``) or
-add the :ref:`[Required]<dotnet-required-optional-property>` attribute if the list contains reference types, such as ``string``
-or ``byte[]``.
-
 .. _dotnet-property-embedded:
 
 Embedded Objects
@@ -132,10 +85,9 @@ objects. This has several advantages:
   don't accumulate in your {+realm+} file, taking up valuable space on
   user's mobile devices.
 
-
 .. seealso::
 
-   :ref:`Embedded Objects <dotnet-embedded-objects>`
+   :ref:`Usage Examples: Define an Embedded Object Property <dotnet-define-an-embedded-object-property>`
 
 .. _dotnet-attributes:
 
@@ -167,7 +119,11 @@ key.
 
 If an object type has a primary key, then all objects of that type must
 include the primary key property with a value that is unique among
-objects of the same type in a {+realm+}. 
+objects of the same type in a {+realm+}.
+
+.. seealso::
+
+   :ref:`Usage Examples: Primary Key <dotnet-primary-key-example>`
 
 .. _dotnet-index-property:
 
@@ -203,6 +159,10 @@ You can index properties with the following types:
 - ``char``
 - ``string``
 - ``ObjectId``
+
+.. seealso::
+
+   :ref:`Usage Examples: Index a Property <dotnet-index-property-example>`
 
 .. _dotnet-decimal128:
 
