@@ -16,7 +16,7 @@ describe("React to Changes", () => {
       schema: [DogSchema],
     });
     let dog;
-    let hasRealmChanged = false; // boolean value to test if a change to the realm has occurred
+    let hasRealmChanged = false; // boolean value to test if a change has registered
 
     // :code-block-start: react-to-changes-register-change-listener
     // Define a listener callback function
@@ -58,7 +58,7 @@ describe("React to Changes", () => {
     });
     let dog;
 
-    // boolean values to test if a change to the realm has occurred
+    // boolean values to test if a change has registered
     let dogHasBeenInserted = false;
     let dogHasBeenModified = false;
     let dogHasBeenDeleted = false;
@@ -133,7 +133,7 @@ describe("React to Changes", () => {
       schema: [DogSchema],
     });
     let dog;
-    // boolean values to test if a change to the realm has occurred
+    // boolean values to test if a change has registered
     let dogHasBeenDeleted = false;
     let propertyHasChanged = false;
 
@@ -181,6 +181,69 @@ describe("React to Changes", () => {
 
     expect(propertyHasChanged).toBe(true);
     expect(dogHasBeenDeleted).toBe(true);
+    // Discard the references.
+    dog = null;
+    realm.close();
+  });
+  test("should remove all listeners", async () => {
+    // a realm is opened
+    const realm = await Realm.open({
+      path: "myrealm",
+      schema: [DogSchema],
+    });
+    let dog;
+    const dogs = realm.objects("Dog");
+    // boolean values to test if a change has been registered
+    let realmHasChanged = false;
+    let collectionHasChanged = false;
+    let realmObjectHasChanged = false;
+
+    realm.write(() => {
+      dog = realm.create("Dog", { name: "Winter", age: 3 });
+    });
+
+    // realm listener
+    realm.addListener("change", () => {
+      realmHasChanged = true;
+      console.log("foo");
+    });
+    // realm collection listner
+    dogs.addListener(() => {
+      collectionHasChanged = true;
+      console.log("bar");
+    });
+    dog.addListener(() => {
+      realmObjectHasChanged = true;
+      console.log("foh");
+    });
+
+    // :code-block-start: react-to-changes-remove-all-listeners
+    // Remove all listeners from a realm
+    realm.removeAllListeners();
+    // Remove all listeners from a collection
+    dogs.removeAllListeners();
+    // Remove all listeners from an object
+    dog.removeAllListeners();
+    // :code-block-end:
+
+    // a change occurs on the realm, collection, and object, but the listeners will not fire because they have been removed
+    realm.write(() => {
+      dog.age += 1;
+    });
+
+    // none of the <...HasChanged> variables should be true because they are
+    // only made true if a notification has been fired, and the listeners were
+    // all removed before any changes were made to the realm, collection, or
+    // object
+    expect(realmHasChanged).toBe(false);
+    expect(collectionHasChanged).toBe(false);
+    expect(realmObjectHasChanged).toBe(false);
+
+    // delete the dog
+    realm.write(() => {
+      realm.delete(dog);
+    });
+
     // Discard the references.
     dog = null;
     realm.close();
