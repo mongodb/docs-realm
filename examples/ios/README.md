@@ -3,6 +3,8 @@
 The Realm Examples project contains the Swift and iOS code examples for Realm
 and their unit tests.
 
+The backend that this app actually hits is located in the [example-testers Realm app of the Realm Example Testers Atlas project of the Bushicorp Atlas organization](https://realm.mongodb.com/groups/5f60207f14dfb25d23101102/apps/5f6020d292050452b72032e2/dashboard).
+
 ## Get Started
 
 ### Install Dependencies
