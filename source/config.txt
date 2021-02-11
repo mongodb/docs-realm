@@ -1,0 +1,55 @@
+===============================
+Realm Application Configuration
+===============================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+{+service+} applications use a structured directory of JSON and JavaScript files
+to define and configure every component of the app.
+
+{+service-short+} includes several :ref:`application deployment
+<application-deployment>` methods that work directly with application
+configuration files. These are especially useful if you want to version control
+your app or run multiple copies of an app in different environments. Broadly,
+you can:
+
+- export an app's entire configuration as a single directory
+- import configuration directories to create an app or update configurations
+- set up your app to deploy from a configuration directory that you host on GitHub
+
+.. tip:: Realm UI Developers
+   
+   If you develop with the {+service-short+} UI, you probably won't work with
+   configuration files very often becase the configuration screens manage the
+   configuration files for you. You'll see them when you view deployment diffs
+   or define :ref:`advanced mode rules <mongodb-advanced>`.
+   
+   You can also always download your app's current configuration from the UI if
+   you want to work with the files directly.
+
+Configuration File
+------------------
+
+- A JSON file that configures a specific component in a Realm application
+- Configuration files all include a root-level ``name`` field that uniquely identifies the configured component.
+
+Source Code File
+----------------
+
+- A JavaScript file that defines serverless application logic
+- Used to define the logic for functions, triggers, webhooks, custom resolvers, etc
+- :ref:`Functions <functions>`
+
+Configuration Directory
+-----------------------
+
+- A directory that contains a configuration or source code for every component of a Realm app
+- Can be a subset of a full application in practice
+   - i.e. import a single component configuration & leave all else untouched
+- 
