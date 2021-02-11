@@ -111,12 +111,8 @@ describe("React to Changes", () => {
     realm.write(() => {
       realm.delete(dog);
     });
-    realm.write(() => {
-      dog = realm.create("Dog", {
-        name: "testdog",
-        age: 2,
-      });
-    });
+    // An empty write transaction is preformed to refresh the realm and deliver the pending (delete event) notification
+    realm.write(() => {});
     // :hide-end:
     // Remember to remove the listener when you're done!
     dogs.removeListener(onDogsChange);
@@ -126,10 +122,65 @@ describe("React to Changes", () => {
     expect(dogHasBeenModified).toBe(true);
     expect(dogHasBeenDeleted).toBe(true);
 
-    // delete the realm objects to make the test idempotent
+    // Discard the references.
+    dog = null;
+    realm.close();
+  });
+  test("should register a change listener on the realm object", async () => {
+    // a realm is opened
+    const realm = await Realm.open({
+      path: "myrealm",
+      schema: [DogSchema],
+    });
+    let dog;
+    // boolean values to test if a change to the realm has occurred
+    let dogHasBeenDeleted = false;
+    let propertyHasChanged = false;
+
+    // :code-block-start: react-to-changes-register-realm-object-change-listener
+
+    // Define a listener callback function for changes to a specific Dog
+    function onDogChange(dog, changes) {
+      if (changes.deleted) {
+        console.log(`dog is deleted: ${changes.deleted}`);
+        // :hide-start:
+        dogHasBeenDeleted = true;
+        // :hide-end:
+      } else {
+        // :hide-start:
+        propertyHasChanged = true;
+        // :hide-end:
+        changes.changedProperties.forEach((prop) => {
+          console.log(`* the value of "${prop}" changed to ${dog[prop]}`);
+        });
+      }
+    }
+    // :hide-start:
+    realm.write(() => {
+      dog = realm.create("Dog", {
+        name: "Fido",
+        age: 4,
+      });
+    });
+    // :hide-end:
+    // You can define a listener for any Realm object
+    dog.addListener(onDogChange);
+    // :hide-start:
+    realm.write(() => {
+      dog.age += 1;
+    });
     realm.write(() => {
       realm.delete(dog);
     });
+    // An empty write transaction is preformed to refresh the realm and deliver the pending (delete event) notification
+    realm.write(() => {});
+    // :hide-end:
+    // Remember to remove the listeners when you're done!
+    dog.removeListener(onDogChange);
+    // :code-block-end:
+
+    expect(propertyHasChanged).toBe(true);
+    expect(dogHasBeenDeleted).toBe(true);
     // Discard the references.
     dog = null;
     realm.close();
