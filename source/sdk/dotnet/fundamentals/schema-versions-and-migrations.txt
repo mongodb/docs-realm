@@ -1,0 +1,51 @@
+.. _dotnet-schema-versions-and-migrations:
+
+=======================================
+Schema Versions & Migrations - .NET SDK
+=======================================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+.. _dotnet-schema-version:
+
+Schema Version
+--------------
+
+A **schema version** identifies the state of a :ref:`{+backend-schema+}
+<dotnet-realm-schema>` at some point in time. {+client-database+} tracks the schema
+version of each {+realm+} and uses it to map the objects in each {+realm+}
+to the correct schema.
+
+Schema versions are integers that you may include
+in the {+realm+} configuration when you open a {+realm+}. If a client
+application does not specify a version number when it opens a {+realm+} then
+the {+realm+} defaults to version ``0``.
+
+.. important:: Increment Versions Monotonically
+
+   :ref:`Migrations <dotnet-client-migrations>` must update a {+realm+} to a
+   higher schema version. {+client-database+} will throw an error if a client
+   application opens a {+realm+} with a schema version that is lower than
+   the {+realm+}'s current version or if the specified schema version is the
+   same as the {+realm+}'s current version but includes different
+   :ref:`object schemas <dotnet-object-schema>`.
+
+.. _dotnet-migrations:
+
+Migrations
+----------
+
+A **local migration** is a migration for a {+realm+} that does
+not automatically :doc:`{+sync-short+} </sync>` with
+another {+realm+}. Local migrations have access to the existing
+{+backend-schema+}, version, and objects and define logic that
+incrementally updates the {+realm+} to its new schema version.
+To perform a local migration you must specify a new schema
+version that is higher than the current version and provide
+a migration function when you open the out-of-date {+realm+}.
