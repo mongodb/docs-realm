@@ -1,0 +1,98 @@
+.. _dotnet-sync-changes-between-devices:
+.. _dotnet-sync-data:
+
+=======================================
+Sync Changes Between Devices - .NET SDK
+=======================================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Prerequisites
+-------------
+
+Before you can access a synced {+realm+} from the client, you must:
+
+- :ref:`Enable sync <enable-sync>` in the {+ui+}.
+
+- :ref:`Authenticate a user <dotnet-quick-start-authenticate>` in
+  your client project.
+
+.. _dotnet-open-a-synced-realm:
+
+Open a Synced Realm
+-------------------
+
+.. include:: /includes/dotnet-open-synced-realm.rst
+
+The :ref:`partition value <partitioning>` specifies which subset of your data to sync.
+This is typically a user ID, project ID, store ID, or some other category identifier in
+your app that has particular relevance to the current user. 
+
+.. seealso:: 
+
+   :ref:`Partition Atlas Data into Realms <partitioning>`
+
+.. _dotnet-sync-data:
+
+Sync Data
+---------
+
+The syntax to :ref:`read <dotnet-realm-database-reads>` and :ref:`write
+<dotnet-realm-database-writes>` on a synced {+realm+} is identical to the syntax 
+for non-synced {+realms+}. While you work with local data, a background thread 
+efficiently integrates, uploads, and downloads changesets.
+
+.. important:: When Using Sync, Avoid Writes on the Main Thread
+   
+   The fact that {+service-short+} performs sync integrations on a background thread means
+   that if you write to your {+realm+} on the main thread, there's a small chance your UI
+   could appear to hang as it waits for the background sync thread to finish a write
+   transaction. Therefore, it's a best practice :ref:`never to write on the main thread
+   when using {+sync+} <dotnet-threading-three-rules>`.
+
+The following code creates a new ``Task`` object and writes it to the {+realm+}:
+
+.. literalinclude:: /examples/generated/dotnet/Examples.codeblock.create.cs
+   :language: csharp
+
+.. seealso:: 
+   
+   :ref:`Threading <dotnet-client-threading>`
+
+.. TODO: OTHER SECTIONS
+.. _dotnet-sync-changes-in-the-background:
+
+.. Sync Changes in the Background
+.. ------------------------------
+
+.. _dotnet-pause-or-resume-a-sync-session:
+
+.. Pause or Resume a Sync Session
+.. ------------------------------
+
+.. _dotnet-check-network-connection:
+
+.. Check the Current Network Connection
+.. ------------------------------------
+
+.. _dotnet-check-sync-progress:
+
+.. Check Upload & Download Progress for a Sync Session
+.. ---------------------------------------------------
+
+.. _dotnet-reset-a-client-realm-file:
+
+.. Reset a Client Realm File
+.. -------------------------
+
+
+.. _dotnet-set-the-client-log-level:
+
+.. Set the Client Log Level
+.. ------------------------

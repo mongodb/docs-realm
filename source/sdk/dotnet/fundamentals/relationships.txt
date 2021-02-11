@@ -1,0 +1,166 @@
+.. _android-client-relationships:
+
+===========================
+Relationships - Android SDK
+===========================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+{+service+} allows you to define explicit relationships between the types of
+objects in a {+app+}. A relationship is an object property that references
+another {+service-short+} object rather than one of the primitive data types. You
+define relationships by setting the type of an object property to
+another object type in the :ref:`property schema <property-schema>`.
+
+Relationships are direct references to other objects in a {+realm+}, which
+means that you don't need bridge tables or explicit joins to define a
+relationship like you would in a relational database. Instead you can
+access related objects by reading and writing to the property that
+defines the relationship. {+client-database+} executes read operations
+lazily as they come in, so querying a relationship is just as performant
+as reading a regular property.
+
+There are three primary types of relationships between objects:
+
+- :ref:`One-to-One Relationship <android-to-one-relationship>`
+- :ref:`One-to-Many Relationship <android-to-many-relationship>`
+- :ref:`Inverse Relationship <android-inverse-relationship>`
+
+Key Concepts
+------------
+
+.. _android-to-one-relationship:
+
+To-One Relationship
+~~~~~~~~~~~~~~~~~~~
+
+A **to-one** relationship means that an object is related in a specific
+way to no more than one other object. You define a to-one relationship
+for an object type in its :ref:`object schema <android-object-schema>` by
+specifying a property where the type is the related {+service-short+} object type.
+
+.. example::
+
+   An application could use the following object schemas to indicate
+   that a Person may or may not own a single Dog by including it in its
+   ``dog`` property:
+   
+   .. tabs-realm-languages::
+     
+     .. tab::
+         :tabid: kotlin
+ 
+         .. literalinclude:: /examples/Relationships/ToOne/ToOne.kt
+           :language: kotlin
+           :emphasize-lines: 4
+ 
+     .. tab::
+         :tabid: java
+ 
+         .. literalinclude:: /examples/Relationships/ToOne/ToOne.java
+           :language: java
+           :emphasize-lines: 8
+
+
+.. _android-to-many-relationship:
+
+To-Many Relationship
+~~~~~~~~~~~~~~~~~~~~
+
+A **to-many** relationship means that an object is related in a specific
+way to multiple objects. You define a to-many relationship for an object
+type in its :ref:`object schema <android-object-schema>` by specifying a
+property where the type is a list or array of the related {+service-short+} object
+type.
+
+.. example::
+   
+   An application could use the following object schemas to indicate
+   that a Person may own multiple Dogs by including them in its ``dog``
+   property:
+   
+   .. tabs-realm-languages::
+   
+      .. tab::
+         :tabid: kotlin
+   
+         .. literalinclude:: /examples/Relationships/ToMany/ToMany.kt
+            :language: kotlin
+            :emphasize-lines: 4
+   
+      .. tab::
+         :tabid: java
+   
+         .. literalinclude:: /examples/Relationships/ToMany/ToMany.java
+            :language: java
+            :emphasize-lines: 8
+
+
+.. _android-inverse-relationship:
+
+Inverse Relationship
+~~~~~~~~~~~~~~~~~~~~
+
+An **inverse relationship** links an object back to any other objects that refer
+to it in a defined to-one or to-many relationship. Relationship definitions are
+unidirectional, so you must explicitly define a property in the object's model
+as an inverse relationship.
+
+For example, the to-many relationship "User has many Tasks" does not
+automatically create the inverse relationship "Task belongs to User". If you
+don't specify the inverse relationship in the object model, you would need to
+run a separate query to look up the user that is assigned to a given task.
+
+To define an inverse relationship, define a ``LinkingObjects`` property in your
+object model. The ``LinkingObjects`` definition specifies the object type and
+property name of the relationship that it inverts.
+
+{+client-database+} automatically updates implicit relationships whenever an
+object is added or removed in the specified relationship. You cannot manually
+set the value of an inverse relationship property.
+
+.. example::
+   
+   An application could use the following object schemas to indicate that a User
+   may be assigned many Tasks and that each Task should automatically keep track
+   of which User it's assigned to.
+   
+   - The User object's ``tasks`` property is defined as a to-many relationship
+     with Task objects and contains all of a given user's assigned tasks.
+     
+   - The Task object's ``assignee`` property inverts the relationship and
+     automatically updates to refer back to any User object that contains the
+     Task in its ``tasks`` property.
+   
+   .. tabs-realm-languages::
+    
+      .. tab::
+         :tabid: kotlin
+         
+         .. literalinclude:: /examples/Relationships/Inverse/Inverse.kt
+            :language: kotlin
+            :emphasize-lines: 5, 12
+      
+      .. tab::
+         :tabid: java
+         
+         .. literalinclude:: /examples/Relationships/Inverse/Inverse.java
+            :language: java
+            :emphasize-lines: 12, 26-27
+
+Summary
+-------
+
+- A **relationship** is an object property that allows an object to
+  reference other objects of the same or another object type.
+
+- Relationships are direct references. You can access related objects
+  directly through a relationship property without writing any type of join.
+
+- {+client-database+} supports to-one, to-many, and inverse relationships.
