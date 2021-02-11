@@ -20,7 +20,7 @@ update your app whenever data changes.
 
 .. tip:: Learn How to Define and Run Queries
    
-   For code examples that show how to read and filter {+realm+} objects with the
+   For code examples that show how to read and filter Realm objects with the
    Node.js SDK, see :ref:`Read Operations <node-read-operations>`.
 
 .. _node-live-objects:
@@ -35,10 +35,10 @@ your application without running a new query.
 
 .. note:: Memory-mapped Realm Objects
 
-   Realm can support live objects because it {+service-short+}
-   :wikipedia:`memory-maps <Memory-mapped_file>` objects in your application
-   directly to data stored in the :ref:`{+realm+} file <node-realm-file>`
-   instead of a copy of the data stored in memory.
+   Realm can support live objects because it :wikipedia:`memory-maps
+   <Memory-mapped_file>` objects in your application directly to data stored in
+   the :ref:`{+realm+} file <node-realm-file>` instead of a copy of the data
+   stored in memory.
 
 .. _node-results-collections:
 .. _node-limits:
@@ -49,7 +49,7 @@ Collections
 
 A results collection represents all objects in a realm that match a query
 operation. In general you can work with a collection like a regular JavaScript
-array but collections don't actually hold matching {+realm+} objects in memory.
+array but collections don't actually hold matching Realm objects in memory.
 Instead they reference the matched objects which themselves map directly to data
 in the {+realm+} file.
 
