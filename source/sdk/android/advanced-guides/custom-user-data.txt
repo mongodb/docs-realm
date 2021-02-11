@@ -92,10 +92,6 @@ information from your custom user data configuration:
    You can find this information in the {+ui+} on the :guilabel:`App Users` page
    under the :guilabel:`Custom User Data` tab.
 
-
-Example
-~~~~~~~
-
 To create custom user data for a user, create a MongoDB document in the
 custom user data collection. The user ID field of the document should
 contain the the user's :term:`user ID`. The following example uses
@@ -164,15 +160,3 @@ in the custom user data collection:
    
    To determine a user's ID, access the ``User.id`` property or find the user in the {+ui+}
    on the :guilabel:`App Users` page under the :guilabel:`Users` tab.
-
-Summary
--------
-
-- You can use custom user data to store arbitrary information about your application users.
-
-- {+service+} stores custom user data as a document in a MongoDB collection determined by your application configuration.
-
-- {+service+} associates custom user data with a user based on the value of the user ID field.
-
-- The custom user data field of the user object is read-only. You can modify custom user data using :ref:`MongoDB Data Access
-  <android-mongodb-data-access>` or :ref:`Sync <android-sync-data>`.

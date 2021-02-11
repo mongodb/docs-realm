@@ -12,7 +12,10 @@ Read & Write Data - Android SDK
    :depth: 2
    :class: singlecol
 
-.. note:: About the examples on this page
+About the Examples on this Page
+-------------------------------
+
+.. note::
 
    The examples on this page use the data model of a project
    management app that has two {+service-short+} object types: ``Project``
@@ -641,10 +644,3 @@ quickly clearing out your {+realm+} while prototyping.
          .. literalinclude:: /examples/generated/android/code/start/WritesTest.codeblock.delete-all.java
             :language: java
             :emphasize-lines: 2
-
-Summary
--------
-
-- {+client-database+} handles writes in terms of **transactions**. All writes must occur in a transaction.
-- {+client-database+} transactions are ACID compliant.
-- To write to {+client-database+}, define the transaction in a callback function that you pass to the {+realm+}'s ``write`` method.
