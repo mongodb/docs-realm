@@ -12,9 +12,6 @@ Collections - .NET SDK
    :depth: 2
    :class: singlecol
 
-Overview
---------
-
 One of the fundamental building blocks when working with any
 database is the **collection**. A {+service-short+} collection is an
 object that contains zero or more instances of one
@@ -30,6 +27,24 @@ thread. You can also listen for changes in the collection by subscribing
 to :ref:`collection notifications <dotnet-collection-notifications>`.
 
 {+client-database+} has two kinds of collections: **lists** and **results**.
+
+.. _dotnet-field-relationships-lists:
+.. _dotnet-property-lists:
+
+Lists
+-----
+
+Realm objects can contain lists of all supported data types. 
+You can model these collections by defining a getter-only property of type
+`IList<T> <https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ilist-1?view=net-5.0>`__,
+where ``T`` can be any data type (excluding lists).
+
+Lists of objects cannot contain null values - i.e. deleting an object from the database
+will also remove it from any lists where it existed. Lists of primitive types can contain null
+values. If null values should not be allowed, do not use nullable types
+in the list declaration (i.e., use ``IList<double>`` instead of ``IList<double?>``) or
+add the :ref:`[Required]<dotnet-required-optional-property>` attribute if the list contains reference types, such as ``string``
+or ``byte[]``.
 
 .. _dotnet-list-collections:
 

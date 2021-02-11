@@ -27,7 +27,7 @@ function any time an object in a {+realm+} is created,
 modified, or deleted.
 
 Comparison with Other Databases
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-------------------------------
 
 The {+service+} data model is similar to both relational and document
 databases but has distinct differences from both. To underscore these
@@ -93,52 +93,6 @@ in the schema.
           }
         }
       ]
-
-.. _android-realm-permissions:
-
-Realm Permissions
-~~~~~~~~~~~~~~~~~
-
-A **permission** is a boolean flag that indicates that a user is
-authorized to access, modify, or manage a {+realm+}. Permissions are defined
-individually for each {+realm+} and either apply to a specific user or
-configure the default permission for all users that don't have
-permissions specified on the {+realm+}.
-
-All {+realms+} are private by default, which means that the owner has full
-permissions and no other user has any permissions unless explicitly
-granted by the owner or a user with manage permissions on the {+realm+}.
-
-{+service+} supports the following permissions:
-
-.. list-table::
-   :header-rows: 1
-   :widths: 20 80
-
-   * - Permission
-     - Description
-
-   * - ``mayRead``
-     - If ``true``, the user has read access to all objects in the
-       {+realm+}.
-       
-       Read access does not imply write access, so a user may not
-       be able to modify a {+realm+} that they can read.
-
-   * - ``mayWrite``
-     - If ``true``, the user has read and write access to all objects in
-       the {+realm+}.
-       
-       Write access requires read access, so the ``mayWrite``
-       permission also sets ``mayRead`` to ``true`` for the user.
-
-   * - ``mayManage``
-     - If ``true``, the user has read and write access to all objects in
-       the {+realm+} and can set permissions on the {+realm+} for other users.
-       
-       Manage access requires write access, so the ``mayManage``
-       permission also sets ``mayWrite`` and ``mayRead`` to ``true`` for
-       the user.
 
 .. _android-realm-path:
 

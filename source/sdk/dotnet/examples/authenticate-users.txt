@@ -22,48 +22,19 @@ method to authenticate and obtain a :dotnet-sdk:`User <reference/Realms.Sync.Use
 instance. The ``Credentials`` class exposes factory methods that correspond to 
 each of the authentication providers:
 
-.. list-table::
-   :header-rows: 1
-   :widths: 50 50
-
-   * - Authentication Provider
-     - Credentials Generation Method
-
-   * - :ref:`Anonymous <dotnet-login-anonymous>`
-     - ``Credentials.Anonymous()``
-
-   * - :ref:`Email/Password <dotnet-login-email-password>`
-     - ``Credentials.EmailPassword(email, password)``
-
-   * - :ref:`API Key <dotnet-login-api-key>`
-     - ``Credentials.ApiKey(userAPIKey)``
-
-   * - :ref:`Custom Function <dotnet-login-custom-function>`
-     - ``Credentials.Function(functionPayload)``
-
-   * - :ref:`Custom JWT <dotnet-login-custom-jwt>`
-     - ``Credentials.JWT(jwt)``
-
-   * - :ref:`Google OAuth <dotnet-login-google>`
-     - ``Credentials.Google(googleAuthCode)``
-
-   * - :ref:`Facebook OAuth <dotnet-login-facebook>`
-     - ``Credentials.Facebook(facebookToken)``
-   
-   * - :ref:`Sign-in With Apple <dotnet-login-apple>`
-     - ``Credentials.Apple(appleToken)``
-
-
 Before you can authenticate a user, ensure you have:
 
 - :ref:`Created a {+app+} <create-a-realm-app>`
 - Enabled one or more :ref:`authentication providers <authentication-providers>`
 - :ref:`Installed the .NET SDK <dotnet-install>`
 
+Log In
+------
+
 .. _dotnet-login-anonymous:
 
-Log In an Anonymous User
-------------------------
+Anonymous User
+~~~~~~~~~~~~~~
 
 If you have enabled :ref:`Anonymous authentication <anonymous-authentication>` in the
 {+ui+}, users can immediately log into your app without providing any identifying
@@ -74,8 +45,8 @@ information. The following code shows how to do this:
 
 .. _dotnet-login-email-password:
 
-Log In an Email/Password User
------------------------------
+Email/Password User
+~~~~~~~~~~~~~~~~~~~
 
 If you have enabled :ref:`Email/Password authentication <email-password-authentication>`,
 you can log in using the following code:
@@ -85,8 +56,8 @@ you can log in using the following code:
 
 .. _dotnet-login-api-key:
 
-Log In an API Key User
-----------------------
+API Key User
+~~~~~~~~~~~~
 
 If you have enabled :ref:`API Key authentication <api-key-authentication>`,
 you can log in using the following code:
@@ -96,8 +67,8 @@ you can log in using the following code:
 
 .. _dotnet-login-custom-jwt:
 
-Log In a Custom JWT User
-------------------------
+Custom JWT User
+~~~~~~~~~~~~~~~
 
 If you have enabled the :doc:`Custom JWT authentication provider </authentication/custom-jwt>`,
 you can log in using the following code:
@@ -107,8 +78,8 @@ you can log in using the following code:
 
 .. _dotnet-login-custom-function:
 
-Log In a Custom Function User
------------------------------
+Custom Function User
+~~~~~~~~~~~~~~~~~~~~
 
 If you have enabled the 
 :doc:`Custom Function authentication provider </authentication/custom-function>`,
@@ -119,8 +90,8 @@ you can log in using the following code:
 
 .. _dotnet-login-facebook:
 
-Log In a Facebook User
-----------------------
+Facebook User
+~~~~~~~~~~~~~
 
 The :doc:`Facebook </authentication/facebook>` authentication provider allows
 you to authenticate users through a Facebook app using their existing Facebook
@@ -135,8 +106,8 @@ account.
 
 .. _dotnet-login-google:
 
-Log In a Google User
---------------------
+Google User
+~~~~~~~~~~~
 
 If you have enabled :ref:`Google authentication <google-authentication>`,
 you can log in using the following code:
@@ -146,8 +117,8 @@ you can log in using the following code:
 
 .. _dotnet-login-apple:
 
-Log In an Apple User
---------------------
+Apple User
+~~~~~~~~~~
 
 If you have enabled :ref:`Sign-in with Apple authentication <apple-id-authentication>`,
 you can log in using the following code:

@@ -32,25 +32,13 @@ composed of a list of object schemas for each type of object that the
 schema for their object type and validates objects whenever they're
 created, modified, or deleted.
 
-.. _android-field-relationships-lists:
+.. _android-field-relationships-lists-example:
 
 Lists
 -----
 
 Realm objects can contain lists of non-{+service-short+}-object data
-types. You can model these collections with the type ``RealmList<T>``,
-where ``T`` can be the following types:
-
-- ``String``
-- ``Integer``
-- ``Boolean``
-- ``Float``
-- ``Double``
-- ``Short``
-- ``Long``
-- ``Byte``
-- ``byte[]``
-- ``Date``
+types:
 
 .. tabs-realm-languages::
 
@@ -70,6 +58,10 @@ where ``T`` can be the following types:
       .. literalinclude:: /examples/Schemas/Lists.java
          :language: java
 
+.. seealso::
+
+   :ref:`Data Types: Lists <android-field-relationships-lists>`
+
 .. _android-relationships:
 .. _android-define-a-relationship-property:
 .. _android-field-relationships:
@@ -77,20 +69,9 @@ where ``T`` can be the following types:
 Define a Relationship Property
 ------------------------------
 
-In addition to the field data types, you can define relationships,
-collections, and embedded objects in your object schema using the
-following types:
-
-- ``RealmObject``
-- ``RealmList <? extends RealmObject>``
-
-Use annotations to indicate whether a given field represents a foreign
-key relationship or an embedded object relationship. For more
-information, see :ref:`Relationship Annotations <android-relationships>`.
-
 .. seealso::
 
-   :ref:`Relationships <android-client-relationships>`
+   :ref:`Fundamentals: Relationships <android-client-relationships>`
 
 .. _android-field-relationships-many-to-one:
 
@@ -119,18 +100,10 @@ multiple ``Cat`` instances from referencing the same ``Dog`` as a rival;
 the distinction between a many-to-one and a one-to-one relationship is
 up to your application.
 
-Setting a relationship field to null removes the connection between
-objects, but {+client-database+} does not delete the referenced object
-unless that object is :ref:`embedded <android-field-relationships-embedded>`.
-
 .. _android-field-relationships-many-to-many:
 
 Many-to-Many
 ~~~~~~~~~~~~
-
-You can create a relationship between one object and any number of objects
-using a field of type ``RealmList<?>`` where ``T`` is a
-{+service-short+} object in your application:
 
 .. tabs-realm-languages::
 
@@ -194,18 +167,6 @@ annotation:
       .. literalinclude:: /examples/Schemas/Inverse.java
          :language: java
 
-Fields annotated with ``@LinkingObjects`` must be:
-
-- marked ``final``
-- of type ``RealmResults<T>`` where ``T`` is the type at the opposite
-  end of the relationship
-
-Since relationships are many-to-one or many-to-many, following inverse
-relationships can result in zero, one, or many objects.
-
-Like any other ``RealmResults`` set, you can
-:ref:`query <android-client-query-engine>` an inverse relationship.
-
 .. _android-define-an-embedded-object-property:
 .. _android-field-relationships-embedded:
 
@@ -262,33 +223,6 @@ Use annotations to customize your Realm object models.
 Primary Key
 ~~~~~~~~~~~
 
-A **primary key** is a field that uniquely identifies an object. You can
-create a primary key with any of the following types:
-
-- ``String``
-- ``ObjectId``
-- ``Integer`` or ``int``
-- ``Long`` or ``long``
-- ``Short`` or ``short``
-- ``Byte`` or ``byte[]``
-
-Non-primitive types can contain a value of ``null`` as a primary key
-value, but only for one object of a particular type, since each primary
-key value must be unique. Attempting to insert an object with an existing
-primary key into a {+realm+} will result in a
-:java-sdk:`RealmPrimaryKeyConstraintException <io/realm/exceptions/RealmPrimaryKeyConstraintException.html>`.
-
-{+client-database+} automatically :ref:`indexes <android-index-field>`
-primary key fields, which allows you to efficiently read and modify
-objects based on their primary key.
-
-You cannot change the primary key field for an object type after adding
-any object of that type to a {+realm+}. If you are using {+sync+},
-you cannot change the primary key field for an object after defining the
-primary key in your backend :doc:`Realm Schema </mongodb/document-schemas>`.
-
-Embedded objects cannot contain primary keys.
-
 You may optionally define a primary key for an object type as part of
 the :ref:`object schema <android-object-schema>` with the
 :java-sdk:`@PrimaryKey <io/realm/annotations/PrimaryKey.html>` annotation:
@@ -315,32 +249,6 @@ annotation.
 Required Fields
 ~~~~~~~~~~~~~~~
 
-You can make a field required to disallow ``null`` values in a field.
-You can make any of the following types required:
-
-- ``String``
-- ``ObjectId``
-- ``Integer``
-- ``Long``
-- ``Short``
-- ``Byte`` or ``byte[]``
-- ``Boolean``
-- ``Float``
-- ``Double``
-- ``Date``
-- ``RealmList``
-
-Primitive types such as ``int`` and the ``RealmList`` type are
-implicitly required. Fields with the ``RealmObject`` type are always
-nullable, and cannot be made required.
-
-.. warning:: Kotlin Types and Nullability
-
-   In Kotlin, types are non-nullable by default unless you explicitly
-   add a ``?`` suffix to the type. You can only annotate
-   :ref:`nullable types <android-optional-field>`. Using the
-   ``@Required`` annotation on non-nullable types will fail compilation.
-
 .. tabs-realm-languages::
 
    .. tab::
@@ -355,53 +263,21 @@ nullable, and cannot be made required.
       .. literalinclude:: /examples/Schemas/Required.java
          :language: java
 
+.. seealso::
+
+   :ref:`Fundamentals: Optionality <android-optionality>`
+
 .. _android-optional-field:
 
 Optional Fields
 ~~~~~~~~~~~~~~~
 
-.. tabs-realm-languages::
+Fields are only optional if they can hold a value of ``null`` and they
+are not marked with the ``Required`` annotation.
 
-   .. tab::
-      :tabid: kotlin
+.. seealso::
 
-      In Kotlin, fields are considered nullable only if a field is
-      marked nullable with the Kotlin `? operator
-      <https://kotlinlang.org/docs/reference/null-safety.html>`__ except
-      for the following types:
-
-      - ``String``
-      - ``Date``
-      - ``ObjectId``
-      - ``Decimal128``
-
-      You can require any type that ends with the Kotlin ``?``
-      operator, such as ``Int?``.
-
-      The ``RealmList`` type is non-nullable by default and cannot be
-      made nullable.
-
-   .. tab::
-      :tabid: java
-
-      Nullable fields are optional by default in {+client-database+}, unless
-      otherwise specified with the :ref:`@Required <android-required-field>`
-      annotation. The following types are nullable:
-
-      - ``String``
-      - ``Date``
-      - ``ObjectId``
-      - ``Integer``
-      - ``Long``
-      - ``Short``
-      - ``Byte`` or ``byte[]``
-      - ``Boolean``
-      - ``Float``
-      - ``Double``
-
-      Primitive types like ``int`` and ``long`` are non-nullable by
-      default and cannot be made nullable, as they cannot be set to a
-      null value.
+   :ref:`Fundamentals: Optionality <android-optionality>`
 
 .. _android-default-field-values:
 
@@ -441,35 +317,6 @@ to assign default values.
 
 Index a Property
 ~~~~~~~~~~~~~~~~
-
-**Indexes** support the efficient execution of queries in
-{+client-database+}. Without indexes, {+client-database+} must perform a
-*collection scan*, i.e. scan every document in a collection, to select
-those documents that match a query. If an appropriate index exists for a
-query, {+client-database+} can use the index to limit the number of
-documents that it must inspect.
-
-Indexes are special data structures that store a small portion of a
-{+realm+}'s data in an easy to traverse form. The index stores the value
-of a specific field ordered by the value of the field. The ordering of
-the index entries supports efficient equality matches and range-based
-query operations.
-
-Adding an index to a field makes writing slightly slower, but makes
-certain queries faster. Indexes require space in your {+realm+} file, so
-adding an index to a field will increase disk space consumed by your
-{+realm+} file.
-
-You can index fields with the following types:
-
-- ``String``
-- ``ObjectId``
-- ``Integer`` or ``int``
-- ``Long`` or ``long``
-- ``Short`` or ``short``
-- ``Byte`` or ``byte[]``
-- ``Boolean`` or ``bool``
-- ``Date``
 
 To index a field, use the :java-sdk:`@Index <io/realm/annotations/Index.html>`
 annotation:

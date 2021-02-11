@@ -27,6 +27,30 @@ to :ref:`collection notifications <android-collection-notifications>`.
 
 {+client-database+} has two kinds of collections: **lists** and **results**.
 
+.. _android-field-relationships-lists:
+
+Lists
+-----
+
+Realm objects can contain lists of non-{+service-short+}-object data
+types. You can model these collections with the type ``RealmList<T>``,
+where ``T`` can be the following types:
+
+- ``String``
+- ``Integer``
+- ``Boolean``
+- ``Float``
+- ``Double``
+- ``Short``
+- ``Long``
+- ``Byte``
+- ``byte[]``
+- ``Date``
+
+.. seealso::
+
+   :ref:`Usage Example: Lists <android-field-relationships-lists-example>`
+
 .. _android-list-collections:
 
 List Collections
