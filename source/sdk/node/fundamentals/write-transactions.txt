@@ -14,7 +14,7 @@ Write Transactions
    :class: singlecol
 
 A write transaction is a function that can modify the state of objects in a
-given realm. Write transactions let you create, modify, or delete realm objects
+given realm. Write transactions let you create, modify, or delete Realm objects
 and can encapsulate multiple operations into a single, idempotent update. In
 other words a transaction is *all or nothing*: either all of the operations in
 the transaction succeed or, if any operation fails, none of the operations in
@@ -63,8 +63,11 @@ After processing a transaction, {+client-database+} either **commits** it or
   <node-live-queries>` and calls any notification listeners that refer to
   created, modified, and deleted objects.
   
-  In :term:`synced {+realms+} <{+sync+}>`, {+client-database+} also queues the
-  change to be sent to :term:`{+service+}` whenever a network is available.
+  .. note::
+     
+     In :term:`synced {+realms+} <{+sync+}>`, {+client-database+} also queues
+     the change to be sent to :term:`{+service+}` whenever a network is
+     available.
 
 - {+client-database+} does not apply any operations in a **cancelled**
   transaction to the {+realm+}. Realm cancels a transaction if any operation in
