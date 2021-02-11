@@ -1,0 +1,204 @@
+.. _ios-realms:
+
+======
+Realms
+======
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Realms are the core data structure used to organize data in Realm
+Database. A realm is a collection of the objects that you use in your
+application, called Realm objects, as well as additional metadata that
+describe the objects.
+
+.. tip:: Define a Realm Object
+
+   To define a Realm object, see
+   :ref:`ios-define-a-realm-object-schema`. To open a realm, see
+   :ref:`ios-open-a-local-realm`.
+
+
+Realm vs Other Databases
+------------------------
+
+The {+service-short+} data model is similar to both relational and
+document databases but has distinct differences from both. To underscore
+these differences, it's helpful to highlight what a {+realm+} **is
+not**:
+
+A {+realm+} is not a single, application-wide database.
+    Applications based on other database systems generally store all of their
+    data in a single database. {+app+}s often split data across multiple
+    {+realms+} to organize data more efficiently and to enforce access controls.
+
+A {+realm+} is not a relational table.
+    Normalized tables in relational databases only store one type of
+    information, such as street addresses or items in a store inventory. A
+    {+realm+} can contain any number of object types that are relevant to a
+    given domain.
+
+A {+realm+} is not a collection of schemaless documents.
+    Document databases don't necessarily enforce a strict schema for the data in
+    each collection. While similar to documents in form, every Realm object
+    conforms to a schema for a specific object type in the {+realm+}. An object
+    cannot contain a property that is not described by its schema.
+
+.. _ios-object-types:
+.. _ios-object-schemas:
+
+Object Types & Schemas
+----------------------
+
+Every Realm object conforms to a specific **object type**, which is
+essentially a class that defines the properties and :ref:`relationships
+<ios-client-relationships>` for objects of that type. {+service-short+}
+guarantees that all objects in a {+realm+} conform to the schema for
+their object type and validates objects whenever they're created,
+modified, or deleted.
+
+Realm objects are basically regular Swift or Objective-C classes, but
+they also bring a few additional features like :ref:`live queries
+<ios-live-queries>`. The iOS SDK memory maps Realm objects directly to
+native Swift or Objective-C objects, which means there's no need to use
+a special data access library, such as an :wikipedia:`ORM
+<Object-relational_mapping>`. Instead, you can work with Realm objects
+as you would any other class instance.
+
+.. example::
+   
+   The following schema defines a ``Dog`` object type with a string name,
+   optional string breed, date of birth, and primary key ID.
+   
+   .. tabs-realm-languages::
+
+      .. tab::
+         :tabid: swift
+
+         .. literalinclude:: /examples/generated/code/start/ObjectModels.codeblock.define-a-model.swift
+            :language: swift
+
+      .. tab::
+         :tabid: objective-c
+
+         .. literalinclude:: /examples/generated/code/start/ObjectModels.codeblock.define-a-model.m
+            :language: objectivec
+
+
+.. tip:: Learn How to Define an Object Schema
+   
+   For code examples that show how to define a Realm object schema in the
+   iOS SDK, see :ref:`ios-define-a-realm-object-schema`.
+
+.. _ios-realm-schema:
+
+Realm Schema
+------------
+
+A **{+realm+} schema** is a list of valid :ref:`object schemas
+<ios-object-schemas>` that a realm may contain. Every Realm object must
+conform to an object type that's included in its realm's schema.
+
+By default, the iOS SDK automatically adds all classes in your project
+that derive from :objc-sdk:`RLMdObject<Classes/RLMdObject.html>` or
+:objc-sdk:`RLMEmbeddedObject<Classes/RLMEmbeddedObject.html>` to the
+{+realm+} schema.
+
+.. tip:: Configure Your Realm Schema
+   
+   To control which classes Realm adds to a realm schema, see
+   :ref:`provide-a-subset-of-classes-to-a-realm`.
+
+If a {+realm+} already contains data when you open it,
+{+client-database+} validates each object to ensure that an object
+schema was provided for its type and that it meets all of the
+constraints specified in the schema.
+
+.. tip:: Learn How to Work With a Realm
+   
+   For code examples that show how to configure and open a {+realm+} in the
+   iOS SDK, see :ref:`Define a Realm Object Schema
+   <ios-define-a-realm-object-schema>`.
+
+.. _ios-realm-file:
+
+Realm Files
+-----------
+
+Realm Database stores a binary encoded version of every object and type in a
+realm in a single ``.realm`` file. The file is located at a specific path that
+you define when you open the realm.
+
+.. note:: Auxiliary Realm Files
+   
+   Realm Database creates a few additional files for each {+realm+}. These files
+   are primarily for internal use and in general you can ignore them.
+
+   - ``.realm.lock``: The **lock file** enables synchronization between writes.
+   
+   - ``.realm.note``: The **note file** is a :wikipedia:`named pipe
+     <Named_pipe>` for inter-thread and inter-process notifications.
+   
+   - ``.realm.management``: The **management directory** contains internal state
+     management files.
+
+.. warning:: Use Caution When Deleting Realm Files
+   
+   In some circumstances, such as a client reset scenario, you might need to
+   delete a {+realm+} file and its auxiliary files.
+   
+   If you delete a {+realm+} file or any of its auxiliary files while one or
+   more instances of the {+realm+} are open, you might corrupt the {+realm+} or
+   disrupt :doc:`sync </sync>`.
+   
+   You may safely delete these files when all instances of a {+realm+} are
+   closed. Before you delete a realm file, make sure that you back up any
+   important objects as you will lose all unsynced data in the realm.
+
+   For guidance on deleting realm files, see
+   :ref:`ios-reset-a-client-realm-file`.
+
+.. _ios-in-memory-realm:
+
+In-Memory Realms
+~~~~~~~~~~~~~~~~
+
+You can also open a realm entirely in memory, which will not create a ``.realm``
+file or its associated auxiliary files. Instead the SDK stores objects in memory
+while the {+realm+} is open and discards them immediately when all instances are
+closed.
+
+.. tip:: Open an In-Memory Realm
+
+   To open an in-memory realm, see :ref:`ios-open-an-in-memory-realm`.
+
+.. _ios-synced-realm:
+
+Synced Realms
+-------------
+
+You can configure a realm to automatically synchronize data between many devices
+that each have their own local copy of the data. Synced realms use a different
+configuration than local-only realms and require a MongoDB Realm app to handle
+the synchronization process.
+
+Applications can always create, modify, and delete synced realm objects locally,
+even when offline. Whenever a network connection is available, the Realm SDK
+opens a connection to an application server and syncs changes to and from other
+clients. The :ref:`Realm sync protocol <sync-protocol>` and server-side
+operational transforms guarantee that all fully synced instances of a realm see
+exactly the same data, even if some changes occurred offline and/or were
+receieved out of order.
+
+.. tip:: Learn How to Configure and Use Sync
+   
+   For more information on synced realms, including directions on how to
+   set up sync in a MongoDB Realm app, see :ref:`sync`.
+   
+   For code examples that show how to work with a synced realm in the
+   iOS SDK, see :ref:`ios-sync-changes-between-devices`.

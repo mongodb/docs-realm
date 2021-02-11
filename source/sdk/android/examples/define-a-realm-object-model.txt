@@ -168,6 +168,7 @@ between objects of the same type:
          :language: java
 
 .. _android-field-relationships-inverse:
+.. _android-inverse-relationships:
 
 Inverse Relationships
 ~~~~~~~~~~~~~~~~~~~~~
@@ -175,7 +176,9 @@ Inverse Relationships
 By default, {+client-database+} relationships are unidirectional. You
 can follow a link from one class to a referenced class, but not in the
 opposite direction. You can provide a link in the opposite direction
-with the :java-sdk:`@LinkingObjects <>` annotation:
+with the
+:java-sdk:`@LinkingObjects <io/realm/annotations/LinkingObjects.html>`
+annotation:
 
 .. tabs-realm-languages::
 
@@ -627,7 +630,7 @@ annotation to rename a class:
 .. _android-omit-classes-from-schema:
 
 Omit Classes from your Realm Schema
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-----------------------------------
 
 By default, your application's {+service-short+} Schema includes all
 classes that extend ``RealmObject``. If you only want to include a

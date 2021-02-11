@@ -1,0 +1,235 @@
+.. _dotnet-object-models-and-schemas:
+.. _dotnet-realm-objects:
+.. _dotnet-objects:
+
+==================================
+Object Models & Schemas - .NET SDK
+==================================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+{+service+} applications model data as objects composed of property-value pairs
+that each contain one or more primitive data types or other {+service-short+}
+objects. :term:`{+service-short+} objects <Realm object>` are essentially the same
+as regular objects, but they also include
+additional features like
+:ref:`real-time updating data views <dotnet-live-object>` and reactive
+:ref:`change event handlers <dotnet-client-notifications>`.
+
+Every {+service-short+} object has an *object type* that refers to the object's
+class. Objects of the same type share an :ref:`object schema
+<dotnet-object-schema>` that defines the properties and relationships of those
+objects. In most languages you define object schemas using the native
+class implementation.
+
+Example
+-------
+
+.. example::
+
+   The following code block shows an object schema that describes a Dog.
+   Every Dog object must include a ``Name`` and may
+   optionally include the dog's ``Age``, ``Breed`` and a list of people that 
+   represents the dog's ``Owners``. 
+
+   .. literalinclude:: /examples/generated/dotnet/Examples.codeblock.dog_class.cs
+      :language: csharp
+
+.. note::
+   
+   To define a collection of objects within an object, use an ``IList<T>`` with 
+   only a getter. You do not need to initialize it in the constructor, as {+realm+} 
+   will generate a collection instance the first time the property is accessed. 
+
+.. _dotnet-object-schema:
+
+Object Schema
+-------------
+
+An **object schema** is a configuration object that defines the properties and 
+relationships of a {+service-short+} object. {+service-short+} client 
+applications define object schemas with the native class implementation in their 
+respective language using the :term:`{+frontend-schema+}`.
+
+Object schemas specify constraints on object properties such as the data
+type of each property and whether or not a property is required. Schemas can 
+also define :ref:`relationships <dotnet-client-relationships>` between object 
+types in a {+realm+}.
+
+Every {+app+} has a :ref:`{+backend-schema+} <dotnet-realm-schema>`
+composed of a list of object schemas for each type of object that the
+{+realms+} in that application may contain. {+service+} guarantees that all 
+objects in a {+realm+} conform to the
+schema for their object type and validates objects whenever they're
+created, modified, or deleted.
+
+.. _dotnet-property-types:
+
+Property Types
+~~~~~~~~~~~~~~
+
+{+client-database+} supports the following property data types and their nullable counterparts:
+
+- ``bool``
+- ``byte``
+- ``short``
+- ``int``
+- ``long``
+- ``float``
+- ``double``
+- ``decimal``
+- ``char``
+- ``string``
+- ``byte[]``
+- ``DateTimeOffset``
+- ``Decimal128`` from ``MongoDB.Bson``
+- ``ObjectId`` from ``MongoDB.Bson``
+- A ``RealmObject`` subclass 
+- An ``EmbeddedObject`` subclass (see :ref:`Embedded Objects <dotnet-property-embedded>`)
+- ``IList<T>`` where T is any of the previous data types (see :ref:`Lists <dotnet-property-lists>`)
+
+The ``byte``, ``char``, ``short``, ``int``, and ``long`` types  are all stored as 64 bit integer values
+within {+client-database+}. 
+
+If you choose to provide custom constructors, you must declare a public constructor with no arguments.
+
+.. _dotnet-property-lists:
+
+Lists
+~~~~~
+
+Realm objects can contain lists of all supported data types. 
+You can model these collections by defining a getter-only property of type
+`IList<T> <https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ilist-1?view=net-5.0>`__,
+where ``T`` can be any data type (excluding lists).
+
+Lists of objects cannot contain null values - i.e. deleting an object from the database
+will also remove it from any lists where it existed. Lists of primitive types can contain null
+values. If null values should not be allowed, do not use nullable types
+in the list declaration (i.e., use ``IList<double>`` instead of ``IList<double?>``) or
+add the :ref:`[Required]<dotnet-required-optional-property>` attribute if the list contains reference types, such as ``string``
+or ``byte[]``.
+
+.. _dotnet-property-embedded:
+
+Embedded Objects
+~~~~~~~~~~~~~~~~
+
+{+client-database+} provides the ability to nest objects within other
+objects. This has several advantages:
+
+- If using {+sync+}, objects will translate into MongoDB documents that
+  follow a :manual:`denormalized data model </core/data-model-design/>`.
+
+- When you delete an object that contains another object, the delete
+  operation removes both objects from the {+realm+}, so unused objects
+  don't accumulate in your {+realm+} file, taking up valuable space on
+  user's mobile devices.
+
+
+.. seealso::
+
+   :ref:`Embedded Objects <dotnet-embedded-objects>`
+
+.. _dotnet-attributes:
+
+Attributes
+----------
+
+.. _dotnet-primary-key:
+
+Primary Key
+~~~~~~~~~~~
+
+A **primary key** is a property that uniquely identifies an object. You can
+create a primary key with any of the following types (or their nullable counterparts):
+
+- ``ObjectId``
+- ``string``
+- ``char``
+- ``byte``
+- ``short``
+- ``int``
+- ``long``
+
+You may define a primary key on a **single 
+property** for an 
+object type as part of the :ref:`object schema <dotnet-object-schema>`.
+{+client-database+} automatically indexes primary key properties, which
+allows you to efficiently read and modify objects based on their primary
+key. 
+
+If an object type has a primary key, then all objects of that type must
+include the primary key property with a value that is unique among
+objects of the same type in a {+realm+}. 
+
+.. _dotnet-index-property:
+
+Indexes
+~~~~~~~
+
+**Indexes** support the efficient execution of queries in
+{+client-database+}. Without indexes, {+client-database+} must perform a
+*collection scan*, i.e. scan every document in a collection, to select
+those documents that match a query. If an appropriate index exists for a
+query, {+client-database+} can use the index to limit the number of
+documents that it must inspect.
+
+Indexes are special data structures that store a small portion of a
+{+realm+}'s data in an easy to traverse form. The index stores the value
+of a specific property ordered by the value of the property. The ordering of
+the index entries supports efficient equality matches and range-based
+query operations.
+
+Adding an index to a property makes write operations slightly slower, but makes
+certain queries faster. Indexes require space in your {+realm+} file, so
+adding an index to a property will increase disk space consumed by your
+{+realm+} file.
+
+You can index properties with the following types:
+
+- ``bool``
+- ``byte``
+- ``short``
+- ``int``
+- ``long``
+- ``DateTimeOffset``
+- ``char``
+- ``string``
+- ``ObjectId``
+
+.. _dotnet-decimal128:
+
+Using Decimal Values
+--------------------
+Realm supports 128-bit decimal values with the ``Decimal128`` Bson type. When 
+defining a decimal type, you can use the ``Decimal128`` Bson type or the .NET 
+``decimal`` type, even though it is only a 96-bit decimal. The SDK automatically 
+converts between the two, although you risk losing precision or range. The 
+following example shows how to use both the ``Decimal128`` Bson type and the .NET 
+``decimal`` type:
+
+.. literalinclude:: /examples/generated/code/start/DecimalFun.codeblock.decimal128.cs
+   :language: csharp
+
+Summary
+-------
+
+- {+service-short+} objects are of a **type** defined as you would any other
+  class.
+
+- {+service-short+} objects are **live**: they always reflect the latest version
+  on disk and update automatically when the underlying object changes.
+
+- A {+service-short+} object type may have a **primary key** property to uniquely
+  identify each instance of the object type.
+
+- The {+service-short+} object's **schema** defines the properties of the object and
+  which properties are optional, which properties have a default value,
+  and which properties are indexed.

@@ -36,6 +36,19 @@
     
 }
 
+- (void)testOpenInMemoryRealm {
+    // :code-block-start: open-in-memory-realm
+    // Open the realm with a specific in-memory identifier.
+    NSString *identifier = @"MyRealm";
+    RLMRealmConfiguration *configuration = [[RLMRealmConfiguration alloc] init];
+    configuration.inMemoryIdentifier = identifier;
+    // Open the realm
+    RLMRealm *realm = [RLMRealm realmWithConfiguration:configuration error:nil];
+    // :code-block-end:
+    (void)realm;
+}
+    
+
 - (void)testConfigureObjectTypes {
     // :code-block-start: configure-object-types
     RLMRealmConfiguration *config = [RLMRealmConfiguration defaultConfiguration];
