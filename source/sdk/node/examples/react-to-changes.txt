@@ -33,14 +33,8 @@ To remove a realm listener, pass the callback to the realm's :js-sdk:`removeList
    <node-object-listener>` and :ref:`collection listeners
    <node-collection-listener>`.
 
-.. tabs-realm-languages::
-   
-   .. tab::
-      :tabid: javascript
-      
-      .. literalinclude:: /examples/Notifications/RealmNotification.js
-         :language: javascript
-         :emphasize-lines: 6
+.. literalinclude:: /examples/generated/node/react-to-changes.codeblock.react-to-changes-register-change-listener.js
+  :language: javascript
 
 .. _node-register-a-collection-change-listener:
 .. _node-collection-listener:
@@ -62,14 +56,8 @@ To remove a collection listener, pass the callback to the collection's :js-sdk:`
    order: deletions, insertions, then modifications. Handling insertions before
    deletions may result in unexpected behavior.
 
-.. tabs-realm-languages::
-   
-   .. tab::
-      :tabid: javascript
-      
-      .. literalinclude:: /examples/Notifications/CollectionNotification.js
-         :language: javascript
-         :emphasize-lines: 26
+.. literalinclude:: /examples/generated/node/react-to-changes.codeblock.react-to-changes-register-collection-change-listener.js
+  :language: javascript
 
 .. _node-register-an-object-change-listener:
 .. _node-object-listener:
@@ -85,14 +73,8 @@ if any of the object's properties change or if someone deletes the object.
 To remove an object listener, pass the callback to the object's
 :js-sdk:`removeListener() <Realm.html#removeListener>` method.
 
-.. tabs-realm-languages::
-   
-   .. tab::
-      :tabid: javascript
-       
-       .. literalinclude:: /examples/Notifications/ObjectNotification.js
-          :language: javascript
-          :emphasize-lines: 13
+.. literalinclude:: /examples/generated/node/react-to-changes.codeblock.react-to-changes-register-realm-object-change-listener.js
+  :language: javascript
 
 .. _node-remove-all-change-listeners:
 
@@ -106,18 +88,5 @@ call the instance's ``removeAllListeners()`` function:
 - :js-sdk:`Realm.Collection.removeAllListeners() <Realm.Collection.html#removeAllListeners>`
 - :js-sdk:`Realm.Object.removeAllListeners() <Realm.Object.html#removeAllListeners>`
 
-.. tabs-realm-languages::
-   
-   .. tab::
-      :tabid: javascript
-      
-      .. code-block:: javascript
-         
-         // Remove all listeners from a realm
-         realm.removeAllListeners();
-         
-         // Remove all listeners from a collection
-         dogs.removeAllListeners();
-         
-         // Remove all listeners from an object
-         dog.removeAllListeners();
+.. literalinclude:: /examples/generated/node/react-to-changes.codeblock.react-to-changes-remove-all-listeners.js
+  :language: javascript
