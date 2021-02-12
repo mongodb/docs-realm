@@ -48,75 +48,15 @@ Define a New Object Type
       .. literalinclude:: /examples/generated/code/start/ObjectModels.codeblock.define-a-model.m
          :language: objectivec
 
-
-.. _ios-supported-property-types:
-
-Supported Property Types
-------------------------
-
-.. tabs-realm-languages::
-
-   .. tab::
-      :tabid: swift
-
-      You can use the following types to define your object model
-      properties:
-
-      - ``Bool``
-      - Integral types ``Int``, ``Int8``, ``Int16``, ``Int32``, ``Int64``
-      - ``Decimal128``
-      - ``Double``
-      - ``String``
-      - ``Date``
-      - ``Data``
-      - :swift-sdk:`ObjectId <Classes/ObjectId.html>`
-      - User-defined :swift-sdk:`Object <Extensions/Object.html>`- and 
-        :swift-sdk:`EmbeddedObject <Extensions/EmbeddedObject.html>`-derived types
-      - :swift-sdk:`List <Classes/List.html>`
-
-      You can use optionals such as ``String?``, ``Date?``, ``Data?``,
-      and ``ObjectId?`` to mark a property optional in the model. You
-      *must* make user-defined Object properties optional. You can use
-      :swift-sdk:`RealmOptional <Classes/RealmOptional.html>` to
-      represent integers, doubles, and other types as optional.
-
-      ``CGFloat`` properties are discouraged, as the type is not
-      platform independent.
-
-   .. tab::
-      :tabid: objective-c
-
-      You can use the following types to define your object model
-      properties:
-
-      - Boolean types ``BOOL``, ``bool``
-      - Integral types ``int``, ``NSInteger``, ``long``, ``long long``
-      - ``RLMDecimal128``
-      - ``double``
-      - ``NSString``
-      - ``NSDate``
-      - ``NSData``
-      - :objc-sdk:`RLMObjectId <Classes/RLMObjectId.html>`
-      - User-defined :objc-sdk:`RLMObject<Classes/RLMObject.html>`- and 
-        :objc-sdk:`RLMEmbeddedObject<Classes/RLMEmbeddedObject.html>`-derived types
-      - :objc-sdk:`RLMArray <Classes/RLMArray.html>`
-
-      Additionally, you can represent optional number types with
-      ``NSNumber`` tagged with ``RLMInt``, ``RLMDouble``,
-      or ``RLMBool``:
-
-      .. code-block:: objective-c
-
-         @property NSNumber<RLMInt> *age;
-
-      ``CGFloat`` properties are discouraged, as the type is not
-      platform independent.
-
-
 .. _ios-declare-a-property:
 
 Declare Properties
 ------------------
+
+.. tip::
+
+   For reference on which types {+client-database+} supports for use as
+   properties, see :ref:`ios-supported-property-types`.
 
 .. tabs-realm-languages::
 

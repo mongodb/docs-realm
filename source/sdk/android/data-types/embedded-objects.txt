@@ -49,13 +49,11 @@ object types and you can embed objects inside of other embedded objects.
 Realm Object Models
 ~~~~~~~~~~~~~~~~~~~
 
-To specify that a Realm object model defines an embedded object, derive
-the embedded object class from :java-sdk:`RealmObject
+To define an embedded object, derive a class from :java-sdk:`RealmObject
 <io/realm/RealmObject.html>` and set the ``embedded`` property of the
-:java-sdk:`RealmClass <io/realm/annotations/RealmClass.html>`
-annotation to ``true``. You can reference an
-embedded object type from parent object types in the same way as you
-would define a relationship:
+:java-sdk:`RealmClass <io/realm/annotations/RealmClass.html>` annotation
+to ``true``. You can reference an embedded object type from parent
+object types in the same way as you would define a relationship:
 
 
 .. tabs-realm-languages::
