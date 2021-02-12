@@ -46,8 +46,6 @@ describe("React to Changes", () => {
     realm.write(() => {
       realm.delete(dog);
     });
-    // Discard the references.
-    dog = null;
     realm.close();
   });
   test("Register a Collection Change Listener", async () => {
@@ -122,8 +120,6 @@ describe("React to Changes", () => {
     expect(dogHasBeenModified).toBe(true);
     expect(dogHasBeenDeleted).toBe(true);
 
-    // Discard the references.
-    dog = null;
     realm.close();
   });
   test("should register a change listener on the realm object", async () => {
@@ -181,8 +177,6 @@ describe("React to Changes", () => {
 
     expect(propertyHasChanged).toBe(true);
     expect(dogHasBeenDeleted).toBe(true);
-    // Discard the references.
-    dog = null;
     realm.close();
   });
   test("should remove all listeners", async () => {
@@ -244,8 +238,6 @@ describe("React to Changes", () => {
       realm.delete(dog);
     });
 
-    // Discard the references.
-    dog = null;
     realm.close();
   });
 });

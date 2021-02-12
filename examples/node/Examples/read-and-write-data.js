@@ -1,5 +1,6 @@
 import Realm from "realm";
 
+// :code-block-start: read-and-write-data-schemas
 const TaskSchema = {
   name: "Task",
   properties: {
@@ -33,6 +34,7 @@ const CatSchema = {
     name: "string",
   },
 };
+// :code-block-end:
 
 describe("Read & Write Data", () => {
   test("should find a specific object by primary key", async () => {
@@ -300,8 +302,6 @@ describe("Read & Write Data", () => {
       realm.delete(dog);
     });
 
-    // Discard the references.
-    dog = null;
     realm.close();
   });
   test("should update an object", async () => {
@@ -334,9 +334,6 @@ describe("Read & Write Data", () => {
     realm.write(() => {
       realm.delete(dog);
     });
-
-    // Discard the references.
-    dog = null;
     realm.close();
   });
   test("should upsert an object", async () => {
@@ -379,8 +376,7 @@ describe("Read & Write Data", () => {
     realm.write(() => {
       realm.delete(person);
     });
-    // Discard the references.
-    person = null;
+
     realm.close();
   });
   test("should bulk update a collection", async () => {
@@ -434,10 +430,6 @@ describe("Read & Write Data", () => {
       realm.delete(dog3);
     });
 
-    // Discard the references.
-    dog1 = null;
-    dog2 = null;
-    dog3 = null;
     realm.close();
   });
   test("should delete an object", async () => {
@@ -506,9 +498,6 @@ describe("Read & Write Data", () => {
       realm.delete(dog1); // only delete dog1 because dog2 and dog3 have already been deleted
     });
 
-    // Discard the references.
-    dog1 = null;
-
     realm.close();
   });
   test("should delete all objects of a specific type", async () => {
@@ -535,8 +524,6 @@ describe("Read & Write Data", () => {
 
     expect(realm.objects("Cat").length).toBe(0);
 
-    // Discard the references.
-    cat = null;
     realm.close();
   });
   test("should delete all objects", async () => {
@@ -580,11 +567,6 @@ describe("Read & Write Data", () => {
     expect(realm.objects("Cat").length).toBe(0);
     expect(realm.objects("Task").length).toBe(0);
 
-    // Discard the references.
-    cat1 = null;
-    cat2 = null;
-    task1 = null;
-    task2 = null;
     realm.close();
   });
 });
