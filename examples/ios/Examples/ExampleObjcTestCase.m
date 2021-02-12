@@ -24,6 +24,7 @@
 
     // Use the app
     RLMApp *app = [MyRealmApp app];
+    (void)app;
     
     [expectation fulfill];
 
