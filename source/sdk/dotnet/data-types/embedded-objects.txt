@@ -53,11 +53,10 @@ embedded objects.
 Realm Object Models
 ~~~~~~~~~~~~~~~~~~~
 
-To specify that a Realm object model defines an embedded object, derive the
-embedded object class from ``EmbeddedObject``. Use the syntax - "``<YourClass> :
-EmbeddedObject {}``" to accomplish this. You can reference an embedded
-object type from parent object types in the same way as you would define a
-relationship.
+To define an embedded object, derive a class from ``EmbeddedObject``.
+Use the syntax "``<YourClass> : EmbeddedObject {}``" to accomplish this.
+You can reference an embedded object type from parent object types in
+the same way as you would define a relationship.
 
 Consider the following example where the ``Address`` is an Embedded Object. Both
 the ``Contact`` and the ``Business`` classes reference the ``Address`` as an
