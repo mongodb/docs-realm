@@ -62,8 +62,6 @@ describe("Read & Write Data", () => {
       // after running test delete the task
       realm.delete(task);
     });
-    task = null;
-
     // close the realm
     realm.close();
   });
@@ -95,8 +93,6 @@ describe("Read & Write Data", () => {
       // after running test delete the task
       realm.delete(task);
     });
-    task = null;
-
     // close the realm
     realm.close();
   });
@@ -152,12 +148,6 @@ describe("Read & Write Data", () => {
       realm.delete(task2);
       realm.delete(task3);
     });
-
-    // Discard the references.
-    task = null;
-    task2 = null;
-    task3 = null;
-
     // close the realm
     realm.close();
   });
@@ -281,18 +271,6 @@ describe("Read & Write Data", () => {
       realm.delete(dog1);
       realm.delete(dog2);
     });
-
-    // Discard the references.
-    task = null;
-    task2 = null;
-    task3 = null;
-    task4 = null;
-
-    person1 = null;
-    person2 = null;
-
-    dog1 = null;
-    dog2 = null;
     // close the realm
     realm.close();
   });
@@ -310,6 +288,7 @@ describe("Read & Write Data", () => {
       // Assign a newly-created instance to the variable.
       dog = realm.create("Dog", { name: "Max", age: 5 });
     });
+    // use newly created dog object
     // :code-block-end:
 
     const dogs = realm.objects("Dog");
