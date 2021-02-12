@@ -77,12 +77,11 @@ There are two cases when a collection is **not** live:
 - The collection is :ref:`frozen <ios-frozen-objects>`.
 
 Combined with :ref:`collection notifications
-<ios-collection-notifications>`, live collections enable clean,
-reactive code. For example, suppose your view displays the
-results of a query. You can keep a reference to the results
-collection in your view class, then read the results
-collection as needed without having to refresh it or
-validate that it is up-to-date.
+<ios-register-a-collection-change-listener>`, live collections enable
+clean, reactive code. For example, suppose your view displays the
+results of a query. You can keep a reference to the results collection
+in your view class, then read the results collection as needed without
+having to refresh it or validate that it is up-to-date.
 
 .. important:: Indexes may change
 
