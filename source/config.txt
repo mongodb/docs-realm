@@ -4,8 +4,6 @@
 Realm Application Configuration
 ===============================
 
-.. default-domain:: mongodb
-
 .. contents:: On this page
    :local:
    :backlinks: none
@@ -26,46 +24,55 @@ Realm Application Configuration
    Environment Variables </config/environment>
    Legacy Configuration Files </config/legacy>
 
-{+service+} applications use a structured directory of JSON and JavaScript files
-to define and configure every component of the app.
+Every component of a {+service+} application is fully defined and configured
+using structured JSON configuration and JavaScript source code files.
 
-{+service-short+} includes several :ref:`application deployment
-<application-deployment>` methods that work directly with application
-configuration files. These are especially useful if you want to version control
-your app or run multiple copies of an app in different environments. Broadly,
-you can:
+- ``.json`` files define and configure specific components in your app. Every
+  JSON configuration file conforms to a specific schema for the type of
+  component it configures.
 
-- export an app's entire configuration as a single directory
-- import configuration directories to create an app or update configurations
-- set up your app to deploy from a configuration directory that you host on GitHub
+- ``.js`` files define serverless application logic used in functions, triggers,
+  webhooks, and custom resolvers.
 
-.. tip:: Realm UI Developers
+You'll work directly with configuration files if you prefer to develop and
+:ref:`deploy <application-deployment>` locally instead of through the Realm UI.
+They're especially useful if you want to version control your app or run
+multiple copies of an app based on a single configuration.
+
+Broadly, you can:
+
+- Export an app's current configuration and source code files as a single configuration directory.
+- Import configuration files to create an app or configure the components of an existing app.
+- Deploy your app based on a configuration directory that you host on GitHub.
+
+A complete directory of configuration files has the following root-level files
+and directories:
+
+.. code-block:: none
    
-   If you develop with the {+service-short+} UI, you probably won't work with
-   configuration files very often becase the configuration screens manage the
-   configuration files for you. You'll see them when you view deployment diffs
-   or define :ref:`advanced mode rules <mongodb-advanced>`.
-   
-   You can also always download your app's current configuration from the UI if
-   you want to work with the files directly.
+   app/
+   ├── realm_config.json
+   ├── secrets.json
+   ├── auth/
+   ├── data_sources/
+   ├── environment/
+   ├── functions/
+   ├── hosting/
+   ├── http_endpoints/
+   ├── sync/
+   ├── triggers/
+   └── values/
 
-Configuration File
-------------------
+For detailed descriptions and examples of each component type's configuration
+and source code files, refer to the type's page in this section:
 
-- A JSON file that configures a specific component in a Realm application
-- Configuration files all include a root-level ``name`` field that uniquely identifies the configured component.
-
-Source Code File
-----------------
-
-- A JavaScript file that defines serverless application logic
-- Used to define the logic for functions, triggers, webhooks, custom resolvers, etc
-- :ref:`Functions <functions>`
-
-Configuration Directory
------------------------
-
-- A directory that contains a configuration or source code for every component of a Realm app
-- Can be a subset of a full application in practice
-   - i.e. import a single component configuration & leave all else untouched
-- 
+- :doc:`Realm App </config/app>`
+- :doc:`MongoDB Data Sources </config/data_sources>`
+- :doc:`Realm Sync </config/sync>`
+- :doc:`Functions </config/functions>`
+- :doc:`HTTP Endpoints </config/http_endpoints>`
+- :doc:`Static Hosting </config/hosting>`
+- :doc:`Triggers </config/triggers>`
+- :doc:`Values </config/values>`
+- :doc:`Secrets </config/secrets>`
+- :doc:`Environment Variables </config/environment>`
