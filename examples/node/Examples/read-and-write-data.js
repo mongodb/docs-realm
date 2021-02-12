@@ -303,7 +303,7 @@ describe("Read & Write Data", () => {
       schema: [DogSchema, PersonSchema],
     });
     // :code-block-start: read-and-write-create-a-new-object
-    // Declare the instance.
+    // Declare the variable that will hold the dog instance.
     let dog;
     // Open a transaction.
     realm.write(() => {
