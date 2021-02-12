@@ -26,7 +26,7 @@ You can filter and sort any collection using {+client-database+}'s
 :ref:`live <ios-live-object>`, so they always reflect the current state
 of the :term:`{+realm+} instance` on the current thread. You can also
 listen for changes in the collection by subscribing to :ref:`collection
-notifications <ios-collection-notifications>`.
+notifications <ios-register-a-collection-change-listener>`.
 
 {+client-database+} has two kinds of collections: **lists** and **results**.
 
@@ -38,8 +38,9 @@ List Collections
 A **list collection** represents a :ref:`to-many relationship
 <ios-to-many-relationship>` between two {+service-short+} types. Lists
 are mutable: within a write transaction, you can add and remove elements
-to and from a list. Lists are not associated with a query and are usually
-declared as a property of an :ref:`object model <ios-object-model>`.
+to and from a list. Lists are not associated with a query and are
+usually declared as a property of an :ref:`object model
+<ios-object-models-and-schemas>`.
 
 .. seealso::
 
