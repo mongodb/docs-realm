@@ -25,6 +25,51 @@ For an introduction to NSPredicate in general, See Apple’s
 <https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/Predicates/AdditionalChapters/Introduction.html>`__.
 
 
+About the Examples on This Page
+-------------------------------
+   
+The examples in this page use a simple data set for a
+task list app. The two Realm object types are ``Project``
+and ``Task``. A ``Task`` has a name, assignee's name, and
+completed flag. There is also an arbitrary number for
+priority -- higher is more important -- and a count of
+minutes spent working on it. A ``Project`` has zero or more
+``Tasks``.
+
+See the schema for these two classes, ``Project`` and
+``Task``, below:
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: swift
+
+      .. literalinclude:: /examples/generated/code/start/QueryEngine.codeblock.models.swift
+         :language: swift
+
+   .. tab::
+      :tabid: objective-c
+
+      .. literalinclude:: /examples/generated/code/start/QueryEngine.codeblock.models.m
+         :language: objectivec
+
+You can set up the {+realm+} for these examples with the following code:
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: swift
+
+      .. literalinclude:: /examples/generated/code/start/QueryEngine.codeblock.setup.swift
+         :language: swift
+
+   .. tab::
+      :tabid: objective-c
+
+      .. literalinclude:: /examples/generated/code/start/QueryEngine.codeblock.setup.m
+         :language: objectivec
+
+
 Predicates
 ----------
 
@@ -139,49 +184,6 @@ work by **evaluating** an operator expression for every
 :term:`object <Realm object>` in the collection being
 filtered. If the expression resolves to ``true``, Realm
 Database includes the object in the results collection.
-
-.. note:: About the examples on this page
-   
-   The examples in this page use a simple data set for a
-   task list app. The two Realm object types are ``Project``
-   and ``Task``. A ``Task`` has a name, assignee's name, and
-   completed flag. There is also an arbitrary number for
-   priority -- higher is more important -- and a count of
-   minutes spent working on it. A ``Project`` has zero or more
-   ``Tasks``.
-
-   See the schema for these two classes, ``Project`` and
-   ``Task``, below:
-
-   .. tabs-realm-languages::
-
-      .. tab::
-         :tabid: swift
-
-         .. literalinclude:: /examples/generated/code/start/QueryEngine.codeblock.models.swift
-             :language: swift
-
-      .. tab::
-         :tabid: objective-c
-
-         .. literalinclude:: /examples/generated/code/start/QueryEngine.codeblock.models.m
-             :language: objectivec
-
-   You can set up the {+realm+} for these examples with the following code:
-
-   .. tabs-realm-languages::
-
-      .. tab::
-         :tabid: swift
-
-         .. literalinclude:: /examples/generated/code/start/QueryEngine.codeblock.setup.swift
-            :language: swift
-
-      .. tab::
-         :tabid: objective-c
-
-         .. literalinclude:: /examples/generated/code/start/QueryEngine.codeblock.setup.m
-             :language: objectivec
 
 Comparison Operators
 ~~~~~~~~~~~~~~~~~~~~
@@ -474,10 +476,3 @@ the object.
 
           .. literalinclude:: /examples/generated/code/start/QueryEngine.codeblock.set-operators.swift
              :language: swift
-
-
-Summary
--------
-
-- Realm accepts predicates based on NSPredicate to filter results.
-- There are several categories of **operators** available to filter results: comparison, logical, string, aggregate, and set operators.
