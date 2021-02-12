@@ -12,11 +12,7 @@ Collections - Android SDK
    :depth: 2
    :class: singlecol
 
-Overview
---------
-
-One of the fundamental building blocks when working with any
-database is the **collection**. A {+service-short+} collection is an
+A {+service-short+} collection is an
 object that contains zero or more instances of one
 :ref:`{+service-short+} type <android-realm-objects>`. {+service-short+} collections
 are homogenous, i.e. all objects in a collection are of the
@@ -30,6 +26,30 @@ thread. You can also listen for changes in the collection by subscribing
 to :ref:`collection notifications <android-collection-notifications>`.
 
 {+client-database+} has two kinds of collections: **lists** and **results**.
+
+.. _android-field-relationships-lists:
+
+Lists
+-----
+
+Realm objects can contain lists of non-{+service-short+}-object data
+types. You can model these collections with the type ``RealmList<T>``,
+where ``T`` can be the following types:
+
+- ``String``
+- ``Integer``
+- ``Boolean``
+- ``Float``
+- ``Double``
+- ``Short``
+- ``Long``
+- ``Byte``
+- ``byte[]``
+- ``Date``
+
+.. seealso::
+
+   :ref:`Usage Example: Lists <android-field-relationships-lists-example>`
 
 .. _android-list-collections:
 

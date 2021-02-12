@@ -1,8 +1,9 @@
 .. _ios-object-models-and-schemas:
+.. _ios-realm-objects:
 
-=======================
-Object Models & Schemas
-=======================
+=================================
+Object Models & Schemas - iOS SDK
+=================================
 
 .. default-domain:: mongodb
 
@@ -11,3 +12,92 @@ Object Models & Schemas
    :backlinks: none
    :depth: 2
    :class: singlecol
+
+{+client-database+} applications model data as objects composed of
+field-value pairs that each contain one or more :ref:`supported
+<ios-supported-data-types>` data types. :term:`Realm objects <Realm
+object>` behave like regular Swift or Objective-C objects, but they also
+include additional features like :ref:`real-time updating data views
+<ios-live-object>` and reactive :ref:`change event handlers
+<ios-client-notifications>`.
+
+Objects of the same class share an :ref:`object schema
+<ios-object-schema>` that defines the fields and relationships of those
+objects. Every {+realm+} has a schema that consists of one or more
+object schemas describing the different forms of object that can be
+stored in that {+realm+}.
+
+.. tip::
+
+   To learn how to define a Realm object in Swift or Objective-C, see
+   :ref:`ios-define-a-realm-object-schema`.
+
+Primary Keys
+------------
+
+You can identify a property as the primary key of your class. Primary
+keys are subject to the following limitations:
+
+- You can define only one primary key per object model.
+
+- Primary key values must be unique across all instances of an object
+  in a {+realm+}. {+client-database+} throws an error if you try to
+  insert a duplicate primary key value.
+
+- Primary key values are immutable. To change the primary key value of
+  an object, you must delete the original object and insert a new object
+  with a different primary key value.
+
+- :ref:`Embedded objects <ios-embedded-objects>` cannot define a
+  a primary key.
+
+.. tip::
+
+   To learn how to define a primary key for your Realm object, see
+   :ref:`<ios-specify-a-primary-key>`.
+
+Indexes
+-------
+
+You can create an index on a given property of your model. Indexes speed
+up some queries, but have a negative impact on insert and update
+operation speed. Indexes also consume additional space on disk to store
+the actual index information.
+
+.. tip::
+
+   To learn how to add an index to your Realm object, see
+   :ref:`ios-index-a-property`.
+
+Relationships
+-------------
+
+{+client-database+} supports **to-one**, **to-many**, and **inverse**
+relationships. You can specify a relationship by adding a reference or
+list of references to the related Realm object as a property of your
+Realm object.
+
+Inverse relationship properties contain the set of {+service-short+}
+objects that point to that object instance through a to-one or to-many
+relationship. Inverse relationships automatically update themselves with
+corresponding backlinks. You can find the same set of {+service-short+}
+objects with a manual query, but the inverse relationship field reduces
+boilerplate query code and capacity for error.
+
+.. tip::
+
+   To learn how to add relationships to your Realm object, see
+   :ref:`ios-declare-relationship-properties`.
+
+Summary
+-------
+
+- {+service-short+} objects are of a **type** defined as you would any other
+  class.
+
+- The {+service-short+} object's **schema** defines the fields of the object and
+  which fields are optional, which fields have a default value,
+  and which fields are indexed.
+
+- You can define to-one, to-many, and inverse relationships in your schema.
+  Inverse relationships automatically form backlinks.

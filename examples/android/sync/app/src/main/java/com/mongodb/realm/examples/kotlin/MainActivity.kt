@@ -5,6 +5,7 @@ import org.bson.types.ObjectId
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import android.util.Log
+import com.mongodb.realm.examples.YOUR_APP_ID
 import io.realm.OrderedRealmCollectionChangeListener
 
 import io.realm.Realm
@@ -36,11 +37,8 @@ class MainActivity : AppCompatActivity() {
         // :code-block-end:
 
         // :code-block-start: initialize-the-app
-        // :hide-start:
-        val appID = "example-testers-kvjdy" // replace this with your App ID
-        // :replace-with:
-        //val appID : String = YOUR_APP_ID;
-        // :hide-end:
+        val appID : String = YOUR_APP_ID;
+
         app = App(AppConfiguration.Builder(appID)
                 .build())
         // :code-block-end:

@@ -13,11 +13,19 @@ Authenticate Users
    :class: singlecol
 
 
+Log In
+------
+
+{+service+} provides an API for authenticating users using any enabled
+authentication provider. Instantiate a ``Credentials`` object and pass it to the
+``app.login()`` method to authenticate a user login and create a ``User``
+object.
+
 .. _node-anonymous-login:
 .. _node-login-anonymous:
 
-Log In an Anonymous User
-------------------------
+Anonymous User
+--------------
 
 The :doc:`Anonymous </authentication/anonymous>` provider allows users to log in
 to your application with temporary accounts that have no associated information.
@@ -41,8 +49,8 @@ To log in, create an anonymous credential and pass it to ``App.logIn()``:
 .. _node-email-password-login:
 .. _node-login-email-password:
 
-Log In an Email/Password User
------------------------------
+Email/Password User
+-------------------
 
 The :doc:`email/password </authentication/email-password>` authentication
 provider allows users to log in to your application with an email address and a
@@ -68,8 +76,8 @@ password and pass it to ``App.logIn()``:
 .. _node-api-key-login:
 .. _node-login-api-key:
 
-Log In an API Key User
-----------------------
+API Key User
+------------
 
 The :doc:`API key </authentication/api-key>` authentication provider allows
 server processes to access to access your app directly or on behalf of a user.
@@ -94,8 +102,8 @@ API key and pass it to ``App.logIn()``:
 .. _node-custom-jwt-login:
 .. _node-login-custom-jwt:
 
-Log In a Custom JWT User
-------------------------
+Custom JWT User
+---------------
 
 The :doc:`Custom JWT </authentication/custom-jwt>` authentication provider
 allows you to handle user authentication with any authentication system that
@@ -121,8 +129,8 @@ and pass it to ``App.logIn()``:
 .. _node-custom-function-login:
 .. _node-login-custom-function:
 
-Log In a Custom Function User
------------------------------
+Custom Function User
+--------------------
 
 The :doc:`Custom Function </authentication/custom-function>` authentication
 provider allows you to handle user authentication by running a :doc:`function
@@ -148,8 +156,8 @@ with a payload object and pass it to ``App.logIn()``:
 .. _node-facebook-login:
 .. _node-login-facebook:
 
-Log In a Facebook User
-----------------------
+Facebook User
+-------------
 
 The :doc:`Facebook </authentication/facebook>` authentication provider allows
 you to authenticate users through a Facebook app using their existing Facebook
@@ -197,8 +205,8 @@ to your Node.js app and use to finish logging the user in to your app.
 .. _node-google-login:
 .. _node-login-google:
 
-Log In a Google User
---------------------
+Google User
+-----------
 
 The :doc:`Google </authentication/google>` authentication provider allows you to
 authenticate users through a Google project using their existing Google account.
@@ -246,8 +254,8 @@ use to finish logging the user in to your app.
 .. _node-apple-login:
 .. _node-login-apple:
 
-Log In an Apple User
---------------------
+Apple User
+----------
 
 The :doc:`Apple </authentication/apple>` authentication provider allows you to
 authenticate users through Sign-in With Apple.

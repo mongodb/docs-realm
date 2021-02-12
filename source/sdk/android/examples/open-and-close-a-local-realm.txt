@@ -4,6 +4,14 @@
 Open & Close a Local Realm - Android SDK
 ========================================
 
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
 .. _android-open-a-local-realm:
 
 Open a Local Realm
@@ -113,15 +121,6 @@ models. You can selectively include individual modules when opening a
        .. literalinclude:: /examples/generated/android/code/start/RealmsTest.codeblock.modules.java
          :language: java
 
-Summary
--------
+.. seealso::
 
-- Open a local {+realm+} by first creating a ``RealmConfiguration``,
-  then passing that configuration object to ``Realm.getInstance()``.
-
-- Always close your {+realm+}s when you are done using them to free up
-  unused resources.
-
-- You can open a {+realm+} with only a subset of the {+service-short+}
-  object models declared in your application with by creating a
-  ``RealmModule``.
+   :ref:`Fundamentals: Modules <android-modules>`

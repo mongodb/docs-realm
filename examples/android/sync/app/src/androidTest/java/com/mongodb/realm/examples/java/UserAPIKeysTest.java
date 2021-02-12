@@ -190,11 +190,11 @@ public class UserAPIKeysTest extends RealmTest {
                     // :code-block-start: enable-user-api-key
                     User user = app.currentUser();
                     user.getApiKeys().enableAsync(api_key_id, result -> {
+                        // :hide-start:
+                        expectation.fulfill();
+                        // :hide-end:
                         if (result.isSuccess()) {
                             Log.v("EXAMPLE", "Successfully enabled API key.");
-                            // :hide-start:
-                            expectation.fulfill();
-                            // :hide-end:
                         } else {
                             Log.e("EXAMPLE", "Error fetching API key: " + result.getError().getErrorMessage());
                         }

@@ -1,4 +1,4 @@
-.. _manage-user-api-keys:
+.. _android-manage-user-api-keys:
 
 ==================================
 Manage User API Keys - Android SDK
@@ -12,11 +12,8 @@ Manage User API Keys - Android SDK
    :depth: 2
    :class: singlecol
 
-Overview
---------
-
-User API keys are generated for specific application users by the client
-SDKs. You can allow devices or services to communicate with {+service+}
+Application users can generate user API keys with the Android SDK. You
+can allow devices or services to communicate with {+service+}
 on behalf of a user by associating a unique user API key with each
 device or service.
 
@@ -191,12 +188,3 @@ methods of a logged in user's :java-sdk:`ApiKeyAuth <io/realm/mongodb/auth/ApiKe
 
        .. literalinclude:: /examples/generated/android/code/start/UserAPIKeysTest.codeblock.delete-user-api-key.java
          :language: java
-
-Summary
--------
-
-- User API keys allow devices or services to communicate with {+service+}
-  on behalf of a user.
-
-- The Android SDK provides utility methods to create, delete, enable,
-  disable, and look up User API keys.
