@@ -206,7 +206,7 @@ In ``tasks.js``:
 * ``createTask``
 
   Whenever we modify an object in realm, we must do so within a 
-  :ref:`transaction <node-open-a-transaction>`. 
+  :doc:`transaction </sdk/node/fundamentals/write-transactions/>`. 
   The :js-sdk:`write() <Realm.html#write>` method takes care of 
   transaction handling for us. So, within the ``write`` function, we call
   the :js-sdk:`create() <Realm.html#create>` function, passing in all of the 
