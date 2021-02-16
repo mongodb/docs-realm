@@ -37,7 +37,7 @@ User Account States
 When a user first logs in through a {+service-short+} SDK on a given device or
 browser, the SDK saves the user's information and keeps track of the user's
 state on the device. The user's data remains on the device, even if they log
-out, unless you actively :ref:`remove the user <ios-remove-user>`.
+out, unless you actively :ref:`remove the user <react-native-remove-user>`.
 
 The following states describe an on-device user at any given time:
 
@@ -51,8 +51,9 @@ The following states describe an on-device user at any given time:
     more information.
    
   - **Inactive**: all authenticated users that are not the current
-    active user. You can :ref:`switch the active user <ios-switch-user>` to a
-    currently inactive user at any time.
+    active user. You can :ref:`switch the active user
+    <react-native-switch-user>` to a currently inactive user at any
+    time.
 
 - **Logged Out:** any user that authenticated on the device but
   has since logged out or had its session revoked.
