@@ -54,7 +54,7 @@ Changes
      - Migrate all occurrences of ``StitchUser`` to ``Realm.User``.
 
    * - The login API has changed from `stitchAppClient.auth.loginWithCredential() <http://stitch-sdks.s3-website-us-east-1.amazonaws.com/stitch-sdks/js-server/4/interfaces/stitchauth.html#loginwithcredential>`__ to :js-sdk:`Realm.App.logIn() <Realm.App.html#logIn>`
-     - Rewrite all authentication logic to use the :ref:`new login API <node-authenticate>`.
+     - Rewrite all authentication logic to use the :doc:`new login API </sdk/node/examples/authenticate-users/>`.
 
    * - The API to log users out has changed from `stitchAppClient.auth.logout() <http://stitch-sdks.s3-website-us-east-1.amazonaws.com/stitch-sdks/js-server/4/interfaces/stitchauth.html#logout>`__ to :js-sdk:`Realm.User.logOut() <Realm.User.html#logOut>`.
      - Rewrite the application logic to log out using the ``Realm.User`` object's ``logOut()`` method.
