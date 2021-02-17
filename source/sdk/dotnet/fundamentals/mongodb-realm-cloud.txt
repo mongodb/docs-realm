@@ -1,8 +1,8 @@
-.. _dotnet-mongodb-realm-cloud:
+.. _mongodb-realm-cloud:
 
-==============================
-MongoDB Realm Cloud - .NET SDK
-==============================
+=============
+MongoDB Realm
+=============
 
 .. default-domain:: mongodb
 
@@ -11,3 +11,65 @@ MongoDB Realm Cloud - .NET SDK
    :backlinks: none
    :depth: 2
    :class: singlecol
+
+
+Overview
+--------
+
+{+realm+} provides SDKs that help you connect your client apps to the {+realm+} 
+backend. The SDK provides the {+realm+} functionality needed to 
+authenticate users with any of the built-in :ref:`Authentication providers <authentication-providers>`, 
+call backend :ref:`functions <functions>`, and directly access a 
+:ref:`MongoDB database <mongodb-service>`. 
+
+.. note:: Code Examples
+
+   Each SDK section in the Realm documentation includes code examples for 
+   accomplishing the functionality discussed here. Find the platform / language 
+   you are working with and look under **Usage Examples**.
+
+The App Client
+----------------
+The fundamental building block in the SDK is the ``App`` object. It is from this 
+object that all other functionality is provided. The ``App`` object is 
+:ref:`initialized <dotnet-init-appclient>` with the Realm app ID, which you can 
+:ref:`find your Realm app ID <find-your-app-id>` in the Realm UI.
+
+Authentication
+--------------
+One of the most challenging aspects of client development is implementing a 
+robust and secure authentication system. With the {+realm+} SDKs, however, you 
+can use any of the {+realm+} authentication providers with very minimal backend 
+setup or client-side code required. With the authentication APIs, you can 
+implement the following functionality:
+
+- Creation of new user accounts
+- User log-in and log-out
+- Multiple concurrent users
+- Linking user accounts from different providers
+- Providing custom user data
+
+For more information, see :ref:`Authenticate Users <dotnet-authenticate>`.
+
+Calling Functions
+-----------------
+Using {+realm+}, you can :ref:`create server-side functions <create-a-function>`, 
+which enables you to call the same functionality from multiple client types 
+without have to reproduce the logic. Calling functions from your client code is 
+then reduced to only a few lines of code. 
+
+For more information on calling functions, see :ref:`<dotnet-call-a-function>`.
+
+Accessing MongoDB
+-----------------
+While many app clients don't require functionality beyond that provided by 
+{+realm+}, the Realm SDKs include the APIs for accessing a MongoDB 
+Atlas instance directly. With these APIs, you can perform all of the standard 
+CRUD operations from your client. 
+
+For more information on the MongoDB APIs, see :ref:`<dotnet-mongodb-data-access>`.
+
+
+
+
+
