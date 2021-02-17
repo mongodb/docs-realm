@@ -22,7 +22,7 @@ Relationships
 objects in a {+app+}. A relationship is an object property that references
 another {+service-short+} object type instead of a property type. You define
 relationships by setting the type of an object property to another object type
-in the :ref:`property schema <node-property-schema>`.
+in the :ref:`property schema <node-realm-schema>`.
 
 Relationships are direct references to other objects in a {+realm+}, which
 means that you don't need bridge tables or explicit joins to define a
@@ -67,7 +67,7 @@ To-One Relationship
 
 A **to-one** relationship means that an object is related in a specific
 way to no more than one other object. You define a to-one relationship
-for an object type in its :ref:`object schema <node-object-schema>` by
+for an object type in its :ref:`object schema <node-object-schemas>` by
 specifying a property where the type is the related {+service-short+} object type.
 
 .. example::
@@ -93,7 +93,7 @@ To-Many Relationship
 
 A **to-many** relationship means that an object is related in a specific
 way to multiple objects. You define a to-many relationship for an object
-type in its :ref:`object schema <node-object-schema>` by specifying a
+type in its :ref:`object schema <node-object-schemas>` by specifying a
 property where the type is a list or array of the related {+service-short+} object
 type.
 
@@ -169,7 +169,7 @@ object is added or removed in the specified relationship.
 Embedded Objects
 ----------------
 
-An embedded object is a special type of :ref:`Realm object <node-realm-objects>`
+An embedded object is a special type of :ref:`Realm object <node-object-schemas>`
 that models complex data about a specific object. Embedded objects are similar
 to :ref:`relationships <node-client-relationships>`, but they provide additional
 constraints and map more naturally to the denormalized :manual:`MongoDB document

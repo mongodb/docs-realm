@@ -16,15 +16,13 @@ Overview
 --------
 
 To filter data in your Realms, you can leverage
-{+client-database+}'s query engine. {+client-database+}'s
-query engine uses a language inspired by `NSPredicate
-<https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/Predicates/AdditionalChapters/Introduction.html>`__.
+{+client-database+}'s query engine. 
 
 Operators
 ---------
 
 There are several types of operators available to filter a
-:ref:`Realm collection <node-client-collections>`.
+:ref:`Realm collection <node-results-collections>`.
 Filters work by **evaluating** an operator expression for
 every :term:`object <Realm object>` in the collection being
 filtered. If the expression resolves to ``true``, Realm
@@ -211,7 +209,7 @@ Aggregate Operators
 
 You can apply an aggregate operator to a collection property
 of a Realm object. Aggregate operators traverse a
-:ref:`collection <node-client-collections>` and reduce it
+:ref:`collection <node-results-collections>` and reduce it
 to a single value.
 
 .. list-table::
@@ -259,8 +257,7 @@ Set Operators
 A **set operator** uses specific rules to determine whether
 to pass each input collection object to the output
 collection by applying a given predicate to every element of
-a given :ref:`list <node-list-collections>` property of
-the object.
+a given list property of the object.
 
 .. list-table::
    :header-rows: 1

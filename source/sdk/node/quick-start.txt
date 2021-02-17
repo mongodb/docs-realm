@@ -78,7 +78,7 @@ Define Your Object Model
 
 If you have not :ref:`enabled {+sync+} <enable-sync>` or you enabled
 {+sync-short+} with :term:`development mode`, you can define your :ref:`object
-model <node-realm-objects>` directly in code.
+model <node-object-schemas>` directly in code.
 
 .. note::
 
@@ -188,7 +188,7 @@ without providing any identifying information:
 
 .. seealso::
 
-   :ref:`Authenticate a User <node-authenticate>`
+   :doc:`Authenticate a User </sdk/node/examples/authenticate-users/>`
 .. _node-quick-start-open-realm:
 
 Open a Realm
@@ -259,7 +259,7 @@ you can open a synced :ref:`{+realm+} <node-realms>` by calling
 
 .. seealso::
 
-   :ref:`Sync Data <node-sync-data>`
+   :ref:`Sync Changes Between Devices <node-sync-changes-between-devices>`
    
 .. _node-quick-start-crud:
 
@@ -267,7 +267,7 @@ Create, Read, Update, and Delete Objects
 ----------------------------------------
 
 Once you have opened a {+realm+}, you can modify it and its :ref:`objects
-<node-realm-objects>` in a :ref:`write transaction <node-realm-database-writes>`
+<node-object-schemas>` in a :ref:`write transaction <node-realm-database-writes>`
 block.
 
 Create New Objects
@@ -308,7 +308,7 @@ To create a new object, start a new transaction by calling
 Get a Collection of Objects
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-You can retrieve a live :ref:`collection <node-client-collections>` that
+You can retrieve a live :ref:`collection <node-results-collections>` that
 contains all objects of a given type in the {+realm+}:
 
 .. tabs-realm-languages::
@@ -428,7 +428,7 @@ Watch for Changes
 -----------------
 
 You can :ref:`watch a realm, collection, or object for changes
-<node-client-notifications>` by registering event handlers with the
+<node-change-notifications>` by registering event handlers with the
 :js-sdk:`Realm.addListener() <Realm.html#addListener>`
 :js-sdk:`Object.addListener() <Realm.Object.html#addListener>`
 :js-sdk:`Collection.addListener() <Realm.Collection.html#addListener>`
