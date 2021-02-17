@@ -1,9 +1,9 @@
 .. _ios-realm-database-reads:
 .. _ios-live-queries:
 
-============
-Live Queries
-============
+======================
+Live Queries - iOS SDK
+======================
 
 .. default-domain:: mongodb
 
@@ -17,7 +17,7 @@ Live Queries
 ------------
 
 You can read back the data that you have :ref:`stored
-<ios-realm-database-writes>` in :term:`{+client-database+}` by finding,
+<ios-write-transactions>` in :term:`{+client-database+}` by finding,
 filtering, and sorting objects.
 
 To get the best performance from {+service+} as your app grows and your
@@ -37,8 +37,8 @@ Live Object
 
 All {+service-short+} objects are **live objects**, which means they
 automatically update whenever they're modified.  Realm emits a
-:ref:`notification event <ios-client-notifications>` whenever any
-property changes.
+:ref:`notification event <ios-react-to-changes>` whenever any property
+changes.
 
 You can use live objects to work with object-oriented data natively
 without an :wikipedia:`ORM <Object-relational_mapping>` tool. Live
@@ -65,8 +65,8 @@ A read from a :term:`{+realm+}` generally consists of the following
 steps:
 
 - Get all :ref:`objects <ios-realm-objects>` of a certain type from the {+realm+}.
-- Optionally, :ref:`filter <ios-filter-results>` the results using the :ref:`query engine <ios-client-query-engine>`.
-- Optionally, :ref:`sort <ios-sort-results>` the results.
+- Optionally, :ref:`filter <ios-filter-data>` the results.
+- Optionally, :ref:`sort <ios-sort-query-results>` the results.
 
 All query, filter, and sort operations return a
 :ref:`results collection <ios-results-collections>`. The results

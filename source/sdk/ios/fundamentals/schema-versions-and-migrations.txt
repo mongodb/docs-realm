@@ -29,12 +29,12 @@ the {+realm+} defaults to version ``0``.
 
 .. important:: Increment Versions Monotonically
 
-   :ref:`Migrations <ios-client-migrations>` must update a {+realm+} to a
-   higher schema version. {+client-database+} will throw an error if a client
-   application opens a {+realm+} with a schema version that is lower than
-   the {+realm+}'s current version or if the specified schema version is the
-   same as the {+realm+}'s current version but includes different
-   :ref:`object schemas <ios-object-schema>`.
+   Migrations must update a {+realm+} to a higher schema version.
+   {+client-database+} will throw an error if a client application opens
+   a {+realm+} with a schema version that is lower than the {+realm+}'s
+   current version or if the specified schema version is the same as the
+   {+realm+}'s current version but includes different :ref:`object
+   schemas <ios-object-models-and-schemas>`.
 
 .. tip::
 

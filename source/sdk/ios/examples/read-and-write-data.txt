@@ -1,8 +1,8 @@
 .. _ios-read-and-write-data:
 
-=================
-Read & Write Data
-=================
+===========================
+Read & Write Data - iOS SDK
+===========================
 
 .. default-domain:: mongodb
 
@@ -46,7 +46,7 @@ Find a Specific Object by Primary Key
    .. tab::
       :tabid: swift
       
-      If you know the :ref:`primary key <ios-primary-key>` for a given
+      If you know the :ref:`primary key <ios-specify-a-primary-key>` for a given
       object, you can look it up directly with
       :swift-sdk:`Realm.object(ofType:forPrimaryKey:)
       <Structs/Realm.html#/s:10RealmSwift0A0V6object6ofType13forPrimaryKeyxSgxm_q_tSo0aB6ObjectCRbzr0_lF>`.
@@ -57,9 +57,9 @@ Find a Specific Object by Primary Key
    .. tab::
       :tabid: objective-c
 
-      If you know the :ref:`primary key <ios-primary-key>` for a given
-      object, you can look it up directly with :objc-sdk:`+[RLMObject
-      objectForPrimaryKey:]
+      If you know the :ref:`primary key <ios-specify-a-primary-key>` for
+      a given object, you can look it up directly with
+      :objc-sdk:`+[RLMObject objectForPrimaryKey:]
       <Classes/RLMObject.html#/c:objc(cs)RLMObject(cm)objectForPrimaryKey:>`.
 
       .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.find-a-specific-object-by-primary-key.m
@@ -135,8 +135,12 @@ engine that you can use to define filters.
 
    To filter a query based on a property of an :ref:`embedded object
    <ios-define-an-embedded-object-property>` or a :ref:`related object
-   <ios-define-a-relationship-property>`, use dot-notation as if it were
+   <ios-declare-relationship-properties>`, use dot-notation as if it were
    in a regular, nested object.
+
+.. seealso::
+   
+   :ref:`ios-filter-data`
 
 .. _ios-sort-query-results:
 
@@ -176,8 +180,8 @@ guarantees a consistent order of results if you explicitly sort them.
 
    To sort a query based on a property of an :ref:`embedded object
    <ios-define-an-embedded-object-property>` or a :ref:`related object
-   <ios-define-a-relationship-property>`, use dot-notation as if it were
-   in a regular, nested object.
+   <ios-declare-relationship-properties>`, use dot-notation as if it
+   were in a regular, nested object.
 
 .. _ios-query-a-relationship:
 
@@ -308,7 +312,7 @@ Objective-C object.
 
    To update a property of an :ref:`embedded object
    <ios-define-an-embedded-object-property>` or a :ref:`related object
-   <ios-define-a-relationship-property>`, modify the property with
+   <ios-declare-relationship-properties>`, modify the property with
    dot-notation or bracket-notation as if it were in a regular, nested
    object.
 
