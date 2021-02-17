@@ -54,7 +54,7 @@ content: |
   headers to every request by defining a custom ``fetch`` function.
   
   .. code-block:: javascript
-     :emphasize-lines: 15, 21-25
+     :emphasize-lines: 15, 24-28
   
      // Connect to your MongoDB Realm app
      const app = new Realm.App(APP_ID);
@@ -76,6 +76,9 @@ content: |
      const client = new ApolloClient({
        link: new HttpLink({
          uri: graphql_url,
+         // We define a custom fetch handler for the Apollo client that lets us authenticate GraphQL requests.
+         // The function intercepts every Apollo HTTP request and adds an Authorization header with a valid
+         // access token before sending the request.
          fetch: async (uri, options) => {
            const accessToken = await getValidAccessToken();
            options.headers.Authorization = `Bearer ${accessToken}`;
