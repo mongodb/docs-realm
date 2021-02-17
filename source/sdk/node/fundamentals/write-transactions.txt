@@ -1,0 +1,100 @@
+.. _node-realm-database-writes:
+.. _node-write-transactions:
+
+================================
+Write Transactions - Node.js SDK
+================================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+A write transaction is a function that can modify the state of objects in a
+given realm. Write transactions let you create, modify, or delete Realm objects
+and can encapsulate multiple operations into a single, idempotent update. In
+other words a transaction is *all or nothing*: either all of the operations in
+the transaction succeed or, if any operation fails, none of the operations in
+the transaction take effect.
+
+.. important::
+   
+   Every write operation must occur in a write transaction.
+
+.. example::
+   
+   Write transactions are callback functions that you pass to a {+realm+}
+   instance to modify objects in that realm. For examples of specific write
+   operations, see :ref:`node-write-operations`.
+   
+   .. code-block:: javascript
+      
+      const realm = await Realm.open();
+      realm.write(() => {
+        const tesla = realm.create("Car", {
+          make: "Tesla",
+          model: "Model S",
+          year: 2020,
+          miles: 12000
+        })
+        const honda = realm.create("Car", {
+          make: "Honda",
+          model: "Civic",
+          year: 2018,
+          miles: 30000
+        })
+      })
+
+Transaction Lifecycle
+---------------------
+
+A given {+realm+} only processes one write transaction at a time. When a
+{+realm+} receives a write transaction, it adds the transaction to a queue and
+evaluates each transaction individually in the order they arrived.
+
+After processing a transaction, {+client-database+} either **commits** it or
+**cancels** it:
+
+- {+client-database+} applies all operations in a **committed** transaction to
+  the realm. Once applied, Realm automatically updates :ref:`live queries
+  <node-live-queries>` and calls any notification listeners that refer to
+  created, modified, and deleted objects.
+  
+  .. note::
+     
+     In :term:`synced {+realms+} <{+sync+}>`, {+client-database+} also queues
+     the change to be sent to :term:`{+service+}` whenever a network is
+     available.
+
+- {+client-database+} does not apply any operations in a **cancelled**
+  transaction to the {+realm+}. Realm cancels a transaction if any operation in
+  the transaction is invalid or fails.
+
+.. _node-acid-compliance:
+
+Realm is ACID Compliant
+-----------------------
+
+Write transactions provide :term:`ACID` guarantees, which ensure that all
+committed write operations are valid and that readers don't see transient or
+inconsistent states.
+
+- :wikipedia:`Atomicity <Atomicity_(database_systems)>`: Realm groups operations in
+  transactions and rolls back all operations in a transaction if any of them
+  fail.
+
+- :wikipedia:`Consistency <Consistency_(database_systems)>`: Realm avoids invalid
+  data by validating changes to each object against its schema. If the result of
+  any write operation is not valid, {+client-database+} cancels and rolls back
+  the entire transaction.
+
+- :wikipedia:`Isolation <Isolation_(database_systems)>`: Realm maintains a write
+  queue and applies only one write transaction at a time. This ensures thread
+  safety between transactions.
+
+- :wikipedia:`Durability <Durability_(database_systems)>`: Realm writes
+  operations to disk immediately after committing a transaction. In the event of
+  an app crash, for example, the changes are not lost or corrupted.

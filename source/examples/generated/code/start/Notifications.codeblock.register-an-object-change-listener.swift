@@ -29,6 +29,7 @@ func objectNotificationExample() {
         }
     }
 
+    // Now update to trigger the notification
     try! realm.write {
         dog.name = "Wolfie"
     }

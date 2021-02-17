@@ -437,3 +437,4 @@ struct ActivityIndicator: UIViewRepresentable {
         (uiView as! UIActivityIndicatorView).startAnimating()
     }
 }
+

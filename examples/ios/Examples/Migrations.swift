@@ -1,20 +1,27 @@
+// :replace-start: {
+//   "terms": {
+//     "MigrationExampleV1_": "",
+//     "MigrationExampleV2_": ""
+//   }
+// }
 import XCTest
 import RealmSwift
 
-/*
 // :code-block-start: model-v1
-// Version 1 had separate fields for first name and last name
-class MigrationExample_Person: Object {
+// In the first version of the app, the Person model
+// has separate fields for first and last names.
+class MigrationExampleV1_Person: Object {
     @objc dynamic var firstName = ""
     @objc dynamic var lastName = ""
     @objc dynamic var age = 0
 }
 // :code-block-end:
-*/
 
 // :code-block-start: model-v2
-// Version 2 now has one combined field for the name.
-class MigrationExample_Person: Object {
+// In the second version, the Person model has one
+// combined field for the name. A migration will be required
+// to convert from version 1 to version 2.
+class MigrationExampleV2_Person: Object {
     @objc dynamic var fullName = ""
     @objc dynamic var age = 0
 }
@@ -38,7 +45,7 @@ class Migrations: XCTestCase {
                 if oldSchemaVersion < 2 {
                     // The enumerateObjects(ofType:_:) method iterates over
                     // every Person object stored in the Realm file
-                    migration.enumerateObjects(ofType: MigrationExample_Person.className()) { oldObject, newObject in
+                    migration.enumerateObjects(ofType: MigrationExampleV2_Person.className()) { oldObject, newObject in
                         // combine name fields into a single field
                         let firstName = oldObject!["firstName"] as? String
                         let lastName = oldObject!["lastName"] as? String
@@ -59,3 +66,4 @@ class Migrations: XCTestCase {
         XCTAssert(realm.isEmpty)
     }
 }
+// :replace-end:

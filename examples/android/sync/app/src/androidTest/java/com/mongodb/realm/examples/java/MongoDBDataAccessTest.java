@@ -154,7 +154,7 @@ public class MongoDBDataAccessTest extends RealmTest {
                             "perennial",
                             "Store 47");
                     mongoCollection.insertOne(plant).getAsync(task -> {
-                        if (it.isSuccess()) {
+                        if (task.isSuccess()) {
                             Log.v("EXAMPLE", "successfully inserted a document with id: " + task.get().getInsertedId());
                             // :hide-start:
                             expectation.fulfill();

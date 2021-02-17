@@ -1,0 +1,480 @@
+.. _ios-read-and-write-data:
+
+===========================
+Read & Write Data - iOS SDK
+===========================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+About These Examples
+--------------------
+
+The examples on this page use the following models:
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: swift
+      
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.models.swift
+         :language: swift
+
+   .. tab::
+      :tabid: objective-c
+      
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.models.m
+         :language: objectivec
+
+.. _ios-read-operations:
+
+Read Operations
+---------------
+
+.. _ios-find-a-specific-object-by-primary-key:
+
+Find a Specific Object by Primary Key
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: swift
+      
+      If you know the :ref:`primary key <ios-specify-a-primary-key>` for a given
+      object, you can look it up directly with
+      :swift-sdk:`Realm.object(ofType:forPrimaryKey:)
+      <Structs/Realm.html#/s:10RealmSwift0A0V6object6ofType13forPrimaryKeyxSgxm_q_tSo0aB6ObjectCRbzr0_lF>`.
+
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.find-a-specific-object-by-primary-key.swift
+         :language: swift
+
+   .. tab::
+      :tabid: objective-c
+
+      If you know the :ref:`primary key <ios-specify-a-primary-key>` for
+      a given object, you can look it up directly with
+      :objc-sdk:`+[RLMObject objectForPrimaryKey:]
+      <Classes/RLMObject.html#/c:objc(cs)RLMObject(cm)objectForPrimaryKey:>`.
+
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.find-a-specific-object-by-primary-key.m
+         :language: objectivec
+
+.. _ios-query-all-objects-of-a-given-type:
+
+Query All Objects of a Given Type
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: swift
+
+      To query for objects of a given type in a realm, pass the metatype
+      instance ``YourClassName.self`` to :swift-sdk:`Realm.objects(_:)
+      <Structs/Realm.html#/s:10RealmSwift0A0V7objectsyAA7ResultsVyxGxmSo0aB6ObjectCRbzlF>`.
+      This returns a :swift-sdk:`Results <Structs/Results.html>` object
+      representing all objects of the given type in the realm.
+
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.objects.swift
+         :language: swift
+
+   .. tab::
+      :tabid: objective-c
+
+      To query for objects of a given type in a realm, pass the realm
+      instance to :objc-sdk:`+[YourRealmObjectClass allObjectsInRealm:]
+      <Classes/RLMObject.html#/c:objc(cs)RLMObject(cm)allObjectsInRealm:>`.
+      Replace ``YourRealmObjectClass`` with your Realm object class
+      name. This returns an :objc-sdk:`RLMResults
+      <Classes/RLMResults.html>` object representing all objects of the
+      given type in the realm.
+
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.objects.m
+         :language: objectivec
+
+
+.. _ios-filter-queries-based-on-object-properties:
+
+Filter Queries Based on Object Properties
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+A filter selects a subset of results based on the value(s) of one or
+more object properties. Realm Database provides a full-featured query
+engine that you can use to define filters.
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: swift
+
+      To filter, call :swift-sdk:`Results.filter(_:)
+      <Structs/Results.html#/s:10RealmSwift7ResultsV6filteryACyxGSo11NSPredicateCF>`
+      with a query predicate.
+
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.filter.swift
+         :language: swift
+
+   .. tab::
+      :tabid: objective-c
+
+      To filter, call :objc-sdk:`-[RLMResults objectsWhere:]
+      <Classes/RLMResults.html#/c:objc(cs)RLMResults(im)objectsWhere:>`
+      with a query predicate.
+      
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.filter.m
+         :language: objectivec
+
+
+.. tip:: Filter on Related and Embedded Object Properties
+
+   To filter a query based on a property of an :ref:`embedded object
+   <ios-define-an-embedded-object-property>` or a :ref:`related object
+   <ios-declare-relationship-properties>`, use dot-notation as if it were
+   in a regular, nested object.
+
+.. seealso::
+   
+   :ref:`ios-filter-data`
+
+.. _ios-sort-query-results:
+
+Sort Query Results
+~~~~~~~~~~~~~~~~~~
+
+A sort operation allows you to configure the order in which Realm
+Database returns queried objects. You can sort based on one or more
+properties of the objects in the results collection. Realm Database only
+guarantees a consistent order of results if you explicitly sort them.
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: swift
+
+      To sort, call :swift-sdk:`Results.sorted(byKeyPath:ascending:)
+      <Structs/Results.html#/s:10RealmSwift7ResultsV6sorted9byKeyPath9ascendingACyxGSS_SbtF>`
+      with the desired key path to sort by.
+
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.sort.swift
+         :language: swift
+
+   .. tab::
+      :tabid: objective-c
+
+      To sort, call :objc-sdk:`-[RLMResults
+      sortedResultsUsingKeyPath:ascending:]
+      <Classes/RLMResults.html#/c:objc(cs)RLMResults(im)sortedResultsUsingKeyPath:ascending:>`
+      with the desired key path to sort by.
+
+      
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.sort.m
+         :language: objectivec
+
+.. tip:: Sort on Related and Embedded Object Properties
+
+   To sort a query based on a property of an :ref:`embedded object
+   <ios-define-an-embedded-object-property>` or a :ref:`related object
+   <ios-declare-relationship-properties>`, use dot-notation as if it
+   were in a regular, nested object.
+
+.. _ios-query-a-relationship:
+
+Query a Relationship
+~~~~~~~~~~~~~~~~~~~~
+
+You can query through a relationship the same way you would access a
+member of a regular Swift or Objective-C object.
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: swift
+      
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.query-a-relationship.swift
+         :language: swift
+
+   .. tab::
+      :tabid: objective-c
+      
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.query-a-relationship.m
+         :language: objectivec
+
+
+.. _ios-query-an-inverse-relationship:
+
+Query an Inverse Relationship
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can query through an inverse relationship the same way you would
+access a member of a regular Swift or Objective-C object.
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: swift
+      
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.query-an-inverse-relationship.swift
+         :language: swift
+
+   .. tab::
+      :tabid: objective-c
+      
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.query-an-inverse-relationship.m
+         :language: objectivec
+
+.. _ios-aggregate-data:
+
+Aggregate Data
+~~~~~~~~~~~~~~
+
+You can use Realm's aggregation operators for sophisticated queries
+against list properties.
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: swift
+      
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.aggregate.swift
+         :language: swift
+
+   .. tab::
+      :tabid: objective-c
+
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.aggregate.m
+         :language: objectivec
+
+.. _ios-write-operations:
+
+Write Operations
+----------------
+
+.. _ios-create-a-new-object:
+
+Create a New Object
+~~~~~~~~~~~~~~~~~~~
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: swift
+
+      To add an object to a realm, instantiate it as you would any other
+      object and then pass it to :swift-sdk:`Realm.add(_:update:)
+      <Structs/Realm.html#/s:10RealmSwift0A0V3add_6updateySo0aB6ObjectC_AC12UpdatePolicyOtF>`
+      inside of a write transaction.
+
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.create.swift
+         :language: swift
+
+   .. tab::
+      :tabid: objective-c
+
+      To add an object to a realm, instantiate it as you would any other
+      object and then pass it to :objc-sdk:`-[RLMRealm addObject:]
+      <Classes/RLMRealm.html#/c:objc(cs)RLMRealm(im)addObject:>` inside
+      of a write transaction.
+
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.create.m
+         :language: objectivec
+
+.. _ios-modify-an-object:
+
+Modify an Object
+~~~~~~~~~~~~~~~~
+
+You can modify properties of a Realm object inside of a write
+transaction in the same way that you would update any other Swift or
+Objective-C object.
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: swift
+      
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.update.swift
+         :language: swift
+
+   .. tab::
+      :tabid: objective-c
+      
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.update.m
+         :language: objectivec
+
+
+.. tip:: Update Related and Embedded Objects
+
+   To update a property of an :ref:`embedded object
+   <ios-define-an-embedded-object-property>` or a :ref:`related object
+   <ios-declare-relationship-properties>`, modify the property with
+   dot-notation or bracket-notation as if it were in a regular, nested
+   object.
+
+.. _ios-upsert-an-object:
+
+Upsert an Object
+~~~~~~~~~~~~~~~~
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: swift
+
+      To upsert an object, call :swift-sdk:`Realm.add(_:update:)
+      <Structs/Realm.html#/s:10RealmSwift0A0V3add_6updateySo0aB6ObjectC_AC12UpdatePolicyOtF>`
+      with the second parameter, update policy, set to ``.modified``.
+      The operation either inserts a new object with the given primary
+      key or updates an existing object that already has that primary
+      key.
+
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.upsert.swift
+         :language: swift
+
+   .. tab::
+      :tabid: objective-c
+
+      To upsert an object, call :objc-sdk:`-[RLMRealm
+      addOrUpdateObject:]
+      <Classes/RLMRealm.html#/c:objc(cs)RLMRealm(im)addOrUpdateObject:>`.
+      The operation either inserts a new object with the given primary
+      key or updates an existing object that already has that primary
+      key.
+
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.upsert.m
+         :language: objectivec
+
+.. _ios-delete-an-object:
+
+Delete an Object
+~~~~~~~~~~~~~~~~
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: swift
+
+      To delete an object from a realm, pass the object to
+      :swift-sdk:`Realm.delete(_:)
+      <Structs/Realm.html#/s:10RealmSwift0A0V6deleteyySo13RLMObjectBaseCF>`
+      inside of a write transaction.
+
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.delete.swift
+         :language: swift
+
+   .. tab::
+      :tabid: objective-c
+
+      To delete an object from a realm, pass the object to
+      :objc-sdk:`-[RLMRealm deleteObject:]
+      <Classes/RLMRealm.html#/c:objc(cs)RLMRealm(im)deleteObject:>`
+      inside of a write transaction.
+
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.delete.m
+         :language: objectivec
+
+.. important:: Do not use objects after delete
+
+   You cannot access or modify an object after you have deleted it from
+   a realm. If you try to use a deleted object, Realm Database throws an
+   error.
+
+.. _ios-delete-multiple-objects:
+
+Delete Multiple Objects
+~~~~~~~~~~~~~~~~~~~~~~~
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: swift
+
+      To delete a collection of objects from a realm, pass the
+      collection to :swift-sdk:`Realm.delete(_:)
+      <Structs/Realm.html#/s:10RealmSwift0A0V6deleteyyxSTRzSo13RLMObjectBaseC7ElementRczlF>`
+      inside of a write transaction.
+
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.delete-collection.swift
+         :language: swift
+
+   .. tab::
+      :tabid: objective-c
+
+      To delete a collection of objects from a realm, pass the
+      collection to :objc-sdk:`-[Realm deleteObjects:]
+      <Classes/RLMRealm.html#/c:objc(cs)RLMRealm(im)deleteObjects:>`
+      inside of a write transaction.
+
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.delete-collection.m
+         :language: objectivec
+
+.. _ios-delete-all-object-of-a-specific-type:
+
+Delete All Objects of a Specific Type
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: swift
+
+      To delete all objects of a given object type from a realm, pass
+      the result of :swift-sdk:`Realm.objects(_:)
+      <Structs/Realm.html#/s:10RealmSwift0A0V7objectsyAA7ResultsVyxGxmSo0aB6ObjectCRbzlF>`
+      for the type you wish to delete to :swift-sdk:`Realm.delete(_:)
+      <Structs/Realm.html#/s:10RealmSwift0A0V6deleteyyxSTRzSo13RLMObjectBaseC7ElementRczlF>`
+      inside of a write transaction.
+
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.delete-all-of-class.swift
+         :language: swift
+
+   .. tab::
+      :tabid: objective-c
+
+      To delete all objects of a given object type from a realm, pass
+      the result of :objc-sdk:`+[YourRealmObjectClass
+      allObjectsInRealm:]
+      <Classes/RLMObject.html#/c:objc(cs)RLMObject(cm)allObjectsInRealm:>`
+      to :objc-sdk:`-[Realm deleteObjects:]
+      <Classes/RLMRealm.html#/c:objc(cs)RLMRealm(im)deleteObjects:>`
+      inside of a write transaction. Replace ``YourRealmObjectClass``
+      with your Realm object class name.
+
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.delete-all-of-class.m
+         :language: objectivec
+
+.. _ios-delete-all-objects-in-a-realm:
+
+Delete All Objects in a Realm
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: swift
+
+      To delete all objects from the realm, call
+      :swift-sdk:`Realm.deleteAll()
+      <Structs/Realm.html#/s:10RealmSwift0A0V9deleteAllyyF>` inside of a
+      write transaction. This clears the realm of all object instances
+      but does not affect the realm's schema.
+
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.delete-all.swift
+         :language: swift
+
+   .. tab::
+      :tabid: objective-c
+
+      To delete all objects from the realm, call :objc-sdk:`-[RLMRealm
+      deleteAllObjects]
+      <Classes/RLMRealm.html#/c:objc(cs)RLMRealm(im)deleteAllObjects>`
+      inside of a write transaction. This clears the realm of all object
+      instances but does not affect the realm's schema.
+      
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.delete-all.m
+         :language: objectivec

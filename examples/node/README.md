@@ -1,5 +1,6 @@
 # Realm Examples
 
+
 The Realm Examples project contains unit tested JavaScript and TypeScript code examples for the
 MongoDB Realm Node.js SDK. This project serves as the source of truth for generated code examples in
 the Node.js SDK documentation.

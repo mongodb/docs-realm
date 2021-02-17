@@ -108,14 +108,14 @@ public class AccessCustomUserDataTest extends RealmTest {
                     mongoCollection.updateOne(
                             new Document("user-id-field", user.getId()), new Document("favoriteColor", "cerulean"))
                             .getAsync(result -> {
+                                // :hide-start:
+                                expectation.fulfill();
+                                // :hide-end:
                                 if (result.isSuccess()) {
                                     if (result.get().getModifiedCount() == 1L) {
                                         Log.v("EXAMPLE", "Updated custom user data document.");
                                     } else {
                                         Log.v("EXAMPLE", "Could not find custom user data document to update.");
-                                        // :hide-start:
-                                        expectation.fulfill();
-                                        // :hide-end:
                                     }
                                 } else {
                                     Log.e("EXAMPLE", "Unable to insert custom user data. Error: " + result.getError());

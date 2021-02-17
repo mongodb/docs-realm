@@ -31,7 +31,7 @@ namespace RealmDotnetTutorial
             {
                 // :code-block-start:call-function-1
                 // :state-start: final
-                teamMembers = await App.realmApp.CurrentUser.Functions.CallAsync<List<Member>>("getMyTeamMembers");
+                teamMembers = await App.RealmApp.CurrentUser.Functions.CallAsync<List<Member>>("getMyTeamMembers");
                 // :state-end: :state-uncomment-start: start
                 //// TODO: Call the "getMyTeamMembers" to get all team members
                 //// teamMembers = await ...
@@ -56,7 +56,7 @@ namespace RealmDotnetTutorial
             {
                 // :code-block-start:call-function-3
                 // :state-start: final
-                var result = await App.realmApp.CurrentUser.Functions.CallAsync("removeTeamMember", email.ToString());
+                var result = await App.RealmApp.CurrentUser.Functions.CallAsync("removeTeamMember", email.ToString());
                 // :state-end: :state-uncomment-start: start
                 //// TODO: Pass email.ToString() to the "removeTeamMember"
                 //// function.
@@ -81,7 +81,7 @@ namespace RealmDotnetTutorial
                 {
                     // :code-block-start:call-function-2
                     // :state-start: final
-                    var functionResult = await App.realmApp.CurrentUser.Functions.CallAsync<FunctionResult>("addTeamMember", result);
+                    var functionResult = await App.RealmApp.CurrentUser.Functions.CallAsync<FunctionResult>("addTeamMember", result);
                     // :state-end: :state-uncomment-start: start
                     //// TODO: Pass the result object to the "addTeamMember" 
                     //// function.

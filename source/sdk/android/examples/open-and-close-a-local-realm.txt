@@ -1,0 +1,126 @@
+.. _android-open-close-local-realm:
+
+========================================
+Open & Close a Local Realm - Android SDK
+========================================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+.. _android-open-a-local-realm:
+
+Open a Local Realm
+------------------
+
+To open a {+realm+}, create a
+:java-sdk:`RealmConfiguration <io/realm/RealmConfiguration.html>` with
+:java-sdk:`RealmConfiguration.Builder <io/realm/RealmConfiguration.Builder.html>` and 
+pass the resulting ``RealmConfiguration`` to
+:java-sdk:`getInstance() <io/realm/Realm.html#getInstance-io.realm.RealmConfiguration->`
+or :java-sdk:`getInstanceAsync() <io/realm/Realm.html#getInstanceAsync-io.realm.RealmConfiguration-io.realm.Realm.Callback->`:
+
+.. tabs-realm-languages::
+   
+   .. tab::
+       :tabid: kotlin
+
+       .. literalinclude:: /examples/generated/android/code/start/OpenARealmTest.codeblock.open-a-realm-local.java
+         :language: kotlin
+
+   .. tab::
+       :tabid: java
+
+       .. literalinclude:: /examples/generated/android/code/start/OpenARealmTest.codeblock.open-a-realm-local.java
+         :language: java
+
+.. _android-close-a-realm:
+
+Close a Realm
+-------------
+
+It is important to remember to call the :java-sdk:`close()
+<io/realm/Realm.html#close-->` method when done with a 
+{+realm+} instance to free resources. Neglecting to close {+realm+}s can lead to an
+``OutOfMemoryError``.
+
+.. tabs-realm-languages::
+   
+   .. tab::
+       :tabid: kotlin
+
+       .. literalinclude:: /examples/generated/android/code/start/OpenARealmTest.codeblock.close-a-realm-local.java
+         :language: kotlin
+
+   .. tab::
+       :tabid: java
+
+       .. literalinclude:: /examples/generated/android/code/start/OpenARealmTest.codeblock.close-a-realm-local.java
+         :language: java
+
+.. _android-local-realm-configuration:
+
+Local Realm Configuration
+-------------------------
+
+To configure settings for a {+realm+}, create a
+:java-sdk:`RealmConfiguration <io/realm/RealmConfiguration.html>` with a
+:java-sdk:`RealmConfiguration.Builder <io/realm/RealmConfiguration.Builder.html>`:
+
+.. tabs-realm-languages::
+   
+   .. tab::
+       :tabid: kotlin
+
+       .. literalinclude:: /examples/generated/android/code/start/OpenARealmTest.codeblock.configure-a-realm-local.java
+         :language: kotlin
+
+   .. tab::
+       :tabid: java
+
+       .. literalinclude:: /examples/generated/android/code/start/OpenARealmTest.codeblock.configure-a-realm-local.java
+         :language: java
+
+.. _android-provide-a-subset-of-classes-to-a-realm:
+
+Provide a Subset of Classes to a Realm
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. _android-realm-modules:
+
+Realm Modules
+-------------
+
+{+service-short+} modules are collections of {+service-short+} object
+models. You can selectively include individual modules when opening a
+{+realm+}.
+
+.. note::
+   
+   Libraries that include {+client-database+} must expose and use their
+   schema through a module. Doing so prevents the library from
+   generating the default ``RealmModule``, which would conflict with
+   the default ``RealmModule`` used by any app that includes the library.
+   Apps using the library access library classes through the module.
+
+.. tabs-realm-languages::
+   
+   .. tab::
+       :tabid: kotlin
+
+       .. literalinclude:: /examples/generated/android/code/start/RealmsTest.codeblock.modules.kt
+         :language: kotlin
+
+   .. tab::
+       :tabid: java
+
+       .. literalinclude:: /examples/generated/android/code/start/RealmsTest.codeblock.modules.java
+         :language: java
+
+.. seealso::
+
+   :ref:`Fundamentals: Modules <android-modules>`

@@ -1,0 +1,289 @@
+.. _android-object-models-and-schemas:
+.. _android-realm-objects:
+
+=====================================
+Object Models & Schemas - Android SDK
+=====================================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+{+service+} applications model data as objects composed of field-value pairs
+that each contain one or more :ref:`supported <android-supported-data-types>`
+data types. :term:`{+service-short+} objects <Realm object>` behave like
+regular Java or Kotlin objects, but they also include additional features like
+:ref:`real-time updating data views <android-live-object>` and reactive
+:ref:`change event handlers <android-client-notifications>`. To define
+a {+service-short+} object in your application, create a subclass of
+:java-sdk:`RealmObject <io/realm/RealmObject.html>` or implement
+:java-sdk:`RealmModel <io/realm/RealmModel.html>`.
+
+Objects of the same class share an :ref:`object schema
+<android-object-schema>` that defines the fields and relationships of those
+objects. Define your own object schemas :ref:`using Kotlin and
+Java class declarations <create-schema-from-rom>`. Every {+realm+} has a
+schema that consists of one or more object schemas describing the
+different forms of object that can be stored in that {+realm+}.
+
+Example
+-------
+
+.. example::
+
+   The following code block shows an object schema that describes a Dog.
+   Every Dog object must include a ``name`` and ``age`` and may
+   optionally include the dog's ``breed`` and a reference to a Person
+   object that represents the dog's ``owner``.
+
+   .. tabs-realm-languages::
+
+      .. tab::
+         :tabid: kotlin
+
+         .. literalinclude:: /examples/Schemas/DogSchema.kt
+            :language: kotlin
+
+      .. tab::
+         :tabid: java
+
+         .. literalinclude:: /examples/Schemas/DogSchema.java
+            :language: java
+
+Primary Keys
+------------
+
+{+service-short+} treats fields marked with the
+:java-sdk:`@PrimaryKey <io/realm/annotations/PrimaryKey.html>` annotation
+as primary keys for their corresponding object schema. Primary keys are
+subject to the following limitations:
+
+- You can define only one primary key per object schema.
+
+- Primary key values must be unique across all instances of an object
+  in a {+realm+}. Attempting to insert a duplicate primary key value
+  results in a :java-sdk:`RealmPrimaryKeyConstraintException
+  <io/realm/exceptions/RealmPrimaryKeyConstraintException.html>`.
+
+- Primary key values are immutable. To change the primary key value of
+  an object, you must delete the original object and insert a new object
+  with a different primary key value.
+
+- :ref:`Embedded objects <android-embedded-objects>` cannot define a
+  a primary key.
+
+You can create a primary key with any of the following types:
+
+- ``String``
+- ``ObjectId``
+- ``Integer`` or ``int``
+- ``Long`` or ``long``
+- ``Short`` or ``short``
+- ``Byte`` or ``byte[]``
+
+Non-primitive types can contain a value of ``null`` as a primary key
+value, but only for one object of a particular type, since each primary
+key value must be unique. Attempting to insert an object with an existing
+primary key into a {+realm+} will result in a
+:java-sdk:`RealmPrimaryKeyConstraintException <io/realm/exceptions/RealmPrimaryKeyConstraintException.html>`.
+
+{+client-database+} automatically :ref:`indexes <android-index-field>`
+primary key fields, which allows you to efficiently read and modify
+objects based on their primary key.
+
+You cannot change the primary key field for an object type after adding
+any object of that type to a {+realm+}. If you are using {+sync+},
+you cannot change the primary key field for an object after defining the
+primary key in your backend :doc:`Realm Schema </mongodb/document-schemas>`.
+
+Embedded objects cannot contain primary keys.
+
+.. seealso::
+
+   :ref:`Usage Example: Primary Key <android-primary-key>`
+
+.. _android-optionality:
+
+Optionality
+-----------
+
+You can make a field required to disallow ``null`` values in a field.
+Fields marked with Java object types and Kotlin nullable types
+(ending with ``?``) are nullable by default. All other types
+(primitives, non-nullable Kotlin object types) are required by default.
+You can mark a nullable field with the :java-sdk:`@Required <io/realm/annotations/Required.html>`
+annotation to prevent that field from holding a null value.
+:java-sdk:`RealmLists <io/realm/RealmList.html>` are never nullable, but
+you can use the ``@Required`` annotation to prevent objects in a list
+from holding a null value, even if the base type would otherwise allow it.
+You cannot mark a ``RealmList`` of ``RealmObject`` subtypes as required.
+
+You can make any of the following types required:
+
+- ``String``
+- ``ObjectId``
+- ``Integer``
+- ``Long``
+- ``Short``
+- ``Byte`` or ``byte[]``
+- ``Boolean``
+- ``Float``
+- ``Double``
+- ``Date``
+- ``RealmList``
+
+Primitive types such as ``int`` and the ``RealmList`` type are
+implicitly required. Fields with the ``RealmObject`` type are always
+nullable, and cannot be made required.
+
+.. warning:: Kotlin Types and Nullability
+
+   In Kotlin, types are non-nullable by default unless you explicitly
+   add a ``?`` suffix to the type. You can only annotate
+   :ref:`nullable types <android-optional-field>`. Using the
+   ``@Required`` annotation on non-nullable types will fail compilation.
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: kotlin
+
+      In Kotlin, fields are considered nullable only if a field is
+      marked nullable with the Kotlin `? operator
+      <https://kotlinlang.org/docs/reference/null-safety.html>`__ except
+      for the following types:
+
+      - ``String``
+      - ``Date``
+      - ``ObjectId``
+      - ``Decimal128``
+
+      You can require any type that ends with the Kotlin ``?``
+      operator, such as ``Int?``.
+
+      The ``RealmList`` type is non-nullable by default and cannot be
+      made nullable.
+
+   .. tab::
+      :tabid: java
+
+      Nullable fields are optional by default in {+client-database+}, unless
+      otherwise specified with the :ref:`@Required <android-required-field>`
+      annotation. The following types are nullable:
+
+      - ``String``
+      - ``Date``
+      - ``ObjectId``
+      - ``Integer``
+      - ``Long``
+      - ``Short``
+      - ``Byte`` or ``byte[]``
+      - ``Boolean``
+      - ``Float``
+      - ``Double``
+
+      Primitive types like ``int`` and ``long`` are non-nullable by
+      default and cannot be made nullable, as they cannot be set to a
+      null value.
+
+Relationships
+-------------
+
+You can model **one-to-one** relationships in realm with
+:java-sdk:`RealmObject <io/realm/RealmObject.html>` fields.
+You can model **one-to-many** and **many-to-one** relationships
+:java-sdk:`RealmList <io/realm/RealmList.html>` fields.
+Inverse relationships are the opposite end of a **one-to-many** or
+**many-to-one** relationship.
+You can make **inverse** relationships traversable with the
+:java-sdk:`@LinkingObjects <io/realm/annotations/LinkingObjects.html>`
+annotation on a :java-sdk:`RealmResults <io/realm/RealmResults.html>`
+field. In an instance of a ``RealmObject``, inverse relationship fields
+contain the set of {+service-short+} objects that point to that object
+instance through the described relationship. You can find the same set
+of {+service-short+} objects with a manual query, but the inverse
+relationship field reduces boilerplate query code and capacity for error.
+
+.. seealso::
+
+   :ref:`Usage Example: Define a Relationship Property <android-relationships>`
+
+Indexes
+-------
+
+**Indexes** support the efficient execution of queries in
+{+client-database+}. Without indexes, {+client-database+} must perform a
+*collection scan*, i.e. scan every document in a collection, to select
+those documents that match a query. If an appropriate index exists for a
+query, {+client-database+} can use the index to limit the number of
+documents that it must inspect.
+
+Indexes are special data structures that store a small portion of a
+{+realm+}'s data in an easy to traverse form. The index stores the value
+of a specific field ordered by the value of the field. The ordering of
+the index entries supports efficient equality matches and range-based
+query operations.
+
+Adding an index to a field makes writing slightly slower, but makes
+certain queries faster. Indexes require space in your {+realm+} file, so
+adding an index to a field will increase disk space consumed by your
+{+realm+} file.
+
+You can index fields with the following types:
+
+- ``String``
+- ``ObjectId``
+- ``Integer`` or ``int``
+- ``Long`` or ``long``
+- ``Short`` or ``short``
+- ``Byte`` or ``byte[]``
+- ``Boolean`` or ``bool``
+- ``Date``
+
+{+service-short+} creates indexes for fields annotated with
+:java-sdk:`@Index <io/realm/annotations/Index.html>`. Indexes speed up
+some queries, but have a negative impact on insert and update operation
+speed. Indexes also consume additional space on disk.
+
+.. seealso::
+
+   :ref:`Usage Example: Index a Field <android-index-field>`
+
+.. _android-modules:
+
+Modules
+-------
+
+{+service-short+} Modules describe the set of {+service-short+} objects
+that can be stored in a {+realm+}. By default, {+service-short+}
+automatically creates a {+service-short+} Module that contains all
+{+service-short+} objects defined in your application.
+You can define a :java-sdk:`RealmModule <io/realm/annotations/RealmModule.html>`
+to restrict a {+realm+} to a subset of classes defined in an application.
+If you produce a library that uses {+service-short+}, you can use a
+{+service-short+} Module to explicitly include only the {+service-short+}
+objects defined in your library in your {+realm+}. This allows
+applications that include your library to also use {+service-short+}
+without managing object name conflicts and migrations with your library's
+defined {+service-short+} objects.
+
+.. seealso::
+
+   :ref:`Usage Example: Omit Classes from your Realm Schema <android-omit-classes-from-schema>`
+
+Summary
+-------
+
+- {+service-short+} objects are of a **type** defined as you would any other
+  class.
+
+- The {+service-short+} object's **schema** defines the fields of the object and
+  which fields are optional, which fields have a default value,
+  and which fields are indexed.
+
+- You can define to-one, to-many, and inverse relationships in your schema. Inverse relationships automatically
+  form backlinks.
