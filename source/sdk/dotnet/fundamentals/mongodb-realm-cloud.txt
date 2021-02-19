@@ -30,7 +30,8 @@ call backend :ref:`functions <functions>`, and directly access a
 
 The App Client
 ----------------
-The fundamental building block in the SDK is the ``App`` object. It is from this 
+When using the SDK to access the {+service-short+} backend, you start with 
+the ``App`` object. It is from this 
 object that all other functionality is provided. The ``App`` object is 
 :ref:`initialized <dotnet-init-appclient>` with the Realm app ID, which you can 
 :ref:`find in the Realm UI <find-your-app-id>`.
@@ -45,9 +46,9 @@ implement the following functionality:
 
 - Creation of new user accounts
 - User log-in and log-out
-- Multiple users logged on at the same time on the same device
-- Linking user accounts from different providers
-- Providing custom user data
+- :ref:`Multiple users logged on at the same time on the same device <dotnet-multi-user>`
+- :ref:`Linking user accounts from different providers <dotnet-link-user-identities>`
+- :ref:`Providing custom user data <dotnet-custom-user-data>`
 
 For more information, see :ref:`Authenticate Users <dotnet-authenticate>`.
 
