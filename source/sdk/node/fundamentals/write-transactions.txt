@@ -55,21 +55,21 @@ A given {+realm+} only processes one write transaction at a time. When a
 {+realm+} receives a write transaction, it adds the transaction to a queue and
 evaluates each transaction individually in the order they arrived.
 
-After processing a transaction, {+client-database+} either **commits** it or
+After processing a transaction, {+service-short+} either **commits** it or
 **cancels** it:
 
-- {+client-database+} applies all operations in a **committed** transaction to
+- {+service-short+} applies all operations in a **committed** transaction to
   the realm. Once applied, Realm automatically updates :ref:`live queries
   <node-live-queries>` and calls any notification listeners that refer to
   created, modified, and deleted objects.
   
   .. note::
      
-     In :term:`synced {+realms+} <{+sync+}>`, {+client-database+} also queues
+     In :term:`synced {+realms+} <{+sync+}>`, {+service-short+} also queues
      the change to be sent to :term:`{+service+}` whenever a network is
      available.
 
-- {+client-database+} does not apply any operations in a **cancelled**
+- {+service-short+} does not apply any operations in a **cancelled**
   transaction to the {+realm+}. Realm cancels a transaction if any operation in
   the transaction is invalid or fails.
 
@@ -88,7 +88,7 @@ inconsistent states.
 
 - :wikipedia:`Consistency <Consistency_(database_systems)>`: Realm avoids invalid
   data by validating changes to each object against its schema. If the result of
-  any write operation is not valid, {+client-database+} cancels and rolls back
+  any write operation is not valid, {+service-short+} cancels and rolls back
   the entire transaction.
 
 - :wikipedia:`Isolation <Isolation_(database_systems)>`: Realm maintains a write
