@@ -29,7 +29,7 @@ operations in the transaction take effect.
    
    All writes must happen in a transaction.
 
-A {+realm+} allows only one open transaction at a time. {+client-database+}
+A {+realm+} allows only one open write transaction at a time. {+client-database+}
 blocks other writes on other threads until the open
 transaction is complete. Consequently, there is no race
 condition when reading values from the {+realm+} within a
