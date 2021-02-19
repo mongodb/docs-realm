@@ -1,0 +1,92 @@
+.. _ios-modify-an-object-schema:
+
+=================================
+Modify an Object Schema - iOS SDK
+=================================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+.. _ios-perform-a-schema-migration:
+
+Perform a Schema Migration
+--------------------------
+
+When the schema of an object changes, {+client-database+} requires a
+migration for any old instances of a given object to the new schema.
+{+client-database+} can automatically migrate added and removed
+properties, but does not automatically set values for new properties
+unless the new object schema specifies a default value. You can define
+custom logic for handling a migration from an old version to a new
+version.
+
+.. note::
+
+   Migrations do not allow you to directly rename a property. Instead,
+   it treats a renamed property as a new property that you must set to
+   the value of the old property before {+service+} automatically
+   deletes it.
+
+.. example::
+
+   A {+realm+} using schema version ``1`` has a ``Person`` object type
+   that has separate fields for first and last names:
+
+   .. tabs-realm-languages::
+   
+      .. tab::
+         :tabid: swift
+
+         .. literalinclude:: /examples/generated/code/start/Migrations.codeblock.model-v1.swift
+            :language: swift
+
+      .. tab::
+         :tabid: objective-c
+
+         .. literalinclude:: /examples/generated/code/start/Migrations.codeblock.model-v1.m
+            :language: objectivec
+
+
+   The developer decides that the ``Person`` class should use a combined
+   ``fullName`` field instead of the separate ``firstName`` and
+   ``lastName`` fields. 
+
+   To migrate the {+realm+} to conform to the updated ``Person`` schema,
+   the developer sets the {+realm+}'s schema version to ``2`` and
+   defines a migration function to set the value of ``fullName`` based
+   on the existing ``firstName`` and ``lastName`` properties.
+
+   .. tabs-realm-languages::
+   
+      .. tab::
+         :tabid: swift
+
+         .. literalinclude:: /examples/generated/code/start/Migrations.codeblock.model-v2.swift
+            :language: swift
+
+         .. literalinclude:: /examples/generated/code/start/Migrations.codeblock.local-migration.swift
+            :language: swift
+
+      .. tab::
+         :tabid: objective-c
+
+         .. literalinclude:: /examples/generated/code/start/Migrations.codeblock.model-v2.m
+            :language: objectivec
+
+         .. literalinclude:: /examples/generated/code/start/Migrations.codeblock.local-migration.m
+            :language: objectivec
+
+
+.. _ios-additional-migration-examples:
+
+Additional Migration Examples
+-----------------------------
+
+Please check out the additional migration examples on the
+:github:`realm-cocoa repo
+<realm/realm-cocoa/tree/master/examples/ios/swift/Migration>`.

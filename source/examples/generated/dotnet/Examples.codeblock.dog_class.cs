@@ -9,11 +9,11 @@ public class Dog : RealmObject
 
     public int Age { get; set; }
     public string Breed { get; set; }
-    public IList<person> Owners { get; }
+    public IList<Person> Owners { get; }
 }
 
 
-public class person : RealmObject
+public class Person : RealmObject
 {
     [PrimaryKey]
     [MapTo("_id")]

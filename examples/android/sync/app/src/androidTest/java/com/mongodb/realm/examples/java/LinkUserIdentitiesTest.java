@@ -84,11 +84,11 @@ public class LinkUserIdentitiesTest extends RealmTest {
                     // link joe to another existing user
                     // :code-block-start: link-users
                     user.linkCredentialsAsync(Credentials.emailPassword(email, password), result -> {
-                        if (it.isSuccess()) {
+                        // :hide-start:
+                        expectation.fulfill();
+                        // :hide-end:
+                        if (result.isSuccess()) {
                             Log.v("EXAMPLE", "Successfully linked existing user identity with email/password user: " + result.get());
-                            // :hide-start:
-                            expectation.fulfill();
-                            // :hide-end:
                         } else {
                             Log.e("EXAMPLE", "Failed to link user identities with: " + result.getError());
                         }

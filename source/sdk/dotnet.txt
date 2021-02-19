@@ -1,0 +1,116 @@
+.. _dotnet-intro:
+
+======================
+MongoDB Realm .NET SDK
+======================
+
+.. toctree::
+   :titlesonly:
+   
+   Install Realm for .NET </sdk/dotnet/install>
+   Quick Start with Sync </sdk/dotnet/quick-start-with-sync>
+   Compatibility </sdk/dotnet/compatibility>
+   Use Realm in a Console App </sdk/dotnet/async-console>
+   Fundamentals </sdk/dotnet/fundamentals>
+   Data Types </sdk/dotnet/data-types>
+   Usage Examples </sdk/dotnet/examples>
+   Advanced Guides </sdk/dotnet/advanced-guides>
+   .NET SDK Reference Manual <https://docs.mongodb.com/realm-sdks/dotnet/10.0.0>
+   Release Notes <https://github.com/realm/realm-dotnet/releases>
+
+The {+service+} .NET SDK enables client applications written in C# for
+the .NET, `UWP 
+<https://docs.microsoft.com/en-us/windows/uwp/get-started/>`__,
+and `Xamarin <https://dotnet.microsoft.com/apps/xamarin>`__
+platforms to access data stored in local {+realms+} and
+interact with {+backend+} services like Functions, MongoDB Data Access,
+and authentication.
+
+.. _dotnet_supported-platforms:
+
+Supported Platforms
+-------------------
+Realm supports the following platforms for developing Realm apps for iOS and 
+.NET devices:
+
+- Xamarin.iOS for iOS 9 or later, using native UI or Xamarin Forms 
+- Xamarin..NET for API level 16 or later, using native UI or Xamarin Forms 
+- Xamarin.Mac for macOS 10.11 or later, using nativeUI or Xamarin Forms 
+- .NET Framework 4.6.1 or later for Windows 8.1 or later 
+- Universal Windows Platform applications using .NET Standard 2.0 or later (Fall Creators Update) 
+- .NET Core 2.0 or later on the following:
+
+  - Ubuntu 16.04 or later
+  - Debian 8 or later
+  - RHEL 7.1 or later
+  - macOS 10.11 or later
+  - Windows 8.1 or later
+
+You can use the following development environments to build Realm apps with 
+the .NET SDK:
+
+- Visual Studio 2015 Update 2 or higher for Windows
+- Visual Studio for Mac 7.0 or higher
+
+Get Started
+-----------
+
+To learn how to add the {+service+} .NET SDK library as a dependency
+to your .NET application, see :ref:`Install Realm for .NET
+<dotnet-install>`.
+
+Installation
+------------
+
+To learn how to add the {+service+} .NET SDK library as a dependency
+to your application, see :ref:`Install Realm for .NET
+<dotnet-install>`.
+
+The Realm Data Model
+--------------------
+
+You can store a wide variety of data within {+realms+} stored on your
+device, and if you enable :term:`{+sync+}`, updates to that data are available 
+across multiple client devices. Data models are classes defined in your 
+code and in {+realm+} schemas.
+
+For information about the structure of data you can store in {+realms+},
+see :ref:`Realms <dotnet-realms>`, :ref:`Objects
+<dotnet-objects>`, and :ref:`Relationships
+<dotnet-client-relationships>`.
+
+Building C# classes to represent the data you store in {+realm+} ensures data 
+consistency when serializing/deserializing and makes working with the data 
+simpler. 
+
+Realm Database
+--------------
+
+Once you have defined the data model(s) for your application, you
+can :ref:`write <dotnet-realm-database-writes>` and
+:ref:`read <dotnet-realm-database-reads>` data to and from
+your {+realm+}s.
+
+To learn how to query for data in local {+realms+}, see
+:ref:`Query Engine <dotnet-client-query-engine>`.
+
+To learn about the results returned from {+realm+} queries, see
+:ref:`Collections <dotnet-client-collections>`.
+
+Mobile application development can be complicated by threading. To learn 
+how to work with {+backend-short+} across threads in your application, 
+see :ref:`Threading <dotnet-client-threading>`.
+
+MongoDB Realm
+-------------
+
+The .NET SDK also connects your {+service-short+} client application
+with your {+app+}'s backend services, including Functions, Services,
+Webhooks, {+sync+}, and built-in third-party authentication.
+
+To learn how to connect to a {+backend+} app to call
+Functions, query data in an instance of {+atlas+}, and synchronize data
+in {+realms+}, see :ref:`Call a Function <dotnet-call-a-function>`.
+
+To learn how to handle schema updates in your client application, see
+:ref:`Migrations <dotnet-migrations>`.

@@ -6,7 +6,7 @@ Plant plant = new Plant(
         "perennial",
         "Store 47");
 mongoCollection.insertOne(plant).getAsync(task -> {
-    if (it.isSuccess()) {
+    if (task.isSuccess()) {
         Log.v("EXAMPLE", "successfully inserted a document with id: " + task.get().getInsertedId());
     } else {
         Log.e("EXAMPLE", "failed to insert documents with: " + task.getError().getErrorMessage());

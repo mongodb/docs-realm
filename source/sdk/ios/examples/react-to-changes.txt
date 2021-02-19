@@ -1,0 +1,155 @@
+.. _ios-react-to-changes:
+
+==========================
+React to Changes - iOS SDK
+==========================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+.. _ios-register-a-realm-change-listener:
+
+Register a Realm Change Listener
+--------------------------------
+
+You can register a notification handler on an entire :ref:`{+realm+}
+<ios-realms>`. {+client-database+} calls the notification
+handler whenever any write transaction involving that Realm is
+committed. The handler receives no information about the change.
+
+.. tabs-realm-languages::
+
+  .. tab::
+      :tabid: swift
+
+      .. literalinclude:: /examples/generated/code/start/Notifications.codeblock.register-a-realm-change-listener.swift
+        :language: swift
+
+  .. tab::
+      :tabid: objective-c
+
+      .. literalinclude:: /examples/generated/code/start/Notifications.codeblock.register-a-realm-change-listener.m
+        :language: objectivec
+        
+.. _ios-register-a-collection-change-listener:
+
+Register a Collection Change Listener
+-------------------------------------
+
+You can register a notification handler on a collection within a
+{+realm+}.
+
+Realm Database notifies your handler:
+
+- After first retrieving the collection.
+- Whenever a write transaction adds, changes, or removes objects in the collection.
+
+Notifications describe the changes since the prior notification with
+three lists of indices: the indices of the objects that were deleted,
+inserted, and modified.
+
+.. important:: Order Matters
+   
+   In collection notification handlers, always apply changes
+   in the following order: deletions, insertions, then
+   modifications. Handling insertions before deletions may
+   result in unexpected behavior.
+
+.. tabs-realm-languages::
+
+  .. tab::
+      :tabid: swift
+
+      .. literalinclude:: /examples/generated/code/start/Notifications.codeblock.register-a-collection-change-listener.swift
+        :language: swift
+        
+  .. tab::
+      :tabid: objective-c
+
+      .. literalinclude:: /examples/generated/code/start/Notifications.codeblock.register-a-collection-change-listener.m
+        :language: objectivec
+
+.. _ios-register-an-object-change-listener:
+
+Register an Object Change Listener
+----------------------------------
+
+You can register a notification handler on a specific object
+within a Realm. Realm Database notifies your handler:
+
+- When the object is deleted.
+- When any of the object's properties change.
+
+The handler receives information about what fields changed
+and whether the object was deleted.
+
+.. tabs-realm-languages::
+
+  .. tab::
+      :tabid: swift
+
+      .. literalinclude:: /examples/generated/code/start/Notifications.codeblock.register-an-object-change-listener.swift
+        :language: swift
+
+  .. tab::
+      :tabid: objective-c
+
+      .. literalinclude:: /examples/generated/code/start/Notifications.codeblock.register-an-object-change-listener.m
+        :language: objectivec
+
+.. _ios-silent-writes:
+
+Silent Writes
+-------------
+
+You can write to a {+realm+} *without* sending a notification to a specific
+observer by passing the observer's notification token in an array to
+``realm.write()``:
+
+.. tabs-realm-languages::
+
+  .. tab::
+      :tabid: swift
+
+      .. literalinclude:: /examples/generated/code/start/Notifications.codeblock.silent-write.swift
+         :language: swift
+
+  .. tab::
+      :tabid: objective-c
+
+      .. literalinclude:: /examples/generated/code/start/Notifications.codeblock.silent-write.m
+        :language: objectivec
+
+
+.. _stop-watching-for-changes:
+
+Stop Watching for Changes
+-------------------------
+
+Observation stops when the token returned by an ``observe`` call becomes
+invalid. You can explicitly invalidate a token by calling its
+``invalidate()`` method.
+
+.. important:: Retain Tokens as Long as You Want to Observe
+
+   Notifications stop if the token is in a local variable that goes out
+   of scope. 
+
+.. tabs-realm-languages::
+
+  .. tab::
+      :tabid: swift
+
+      .. literalinclude:: /examples/generated/code/start/Notifications.codeblock.stop-watching.swift
+         :language: swift
+
+  .. tab::
+      :tabid: objective-c
+
+      .. literalinclude:: /examples/generated/code/start/Notifications.codeblock.stop-watching.m
+        :language: objectivec

@@ -1,36 +1,59 @@
+// DogToy.h
+@interface DogToy : RLMObject
+@property NSString *name;
+@end
+
+// Dog.h
 @interface Dog : RLMObject
 @property NSString *name;
-@property NSInteger age;
+@property int age;
+
+// To-one relationship
+@property DogToy *favoriteToy;
+
 @end
 
 // Enable Dog for use in RLMArray
 RLM_ARRAY_TYPE(Dog)
 
-// A dog owner has a primary key ID, a collection of dogs, and can be a member of multiple clubs.
-@interface DogOwner : RLMObject
-@property NSInteger id;
 
-// To-many relationship - a dog owner can have many dogs
+// Person.h
+// A person has a primary key ID, a collection of dogs, and can be a member of multiple clubs.
+@interface Person : RLMObject
+@property int _id;
+
+// To-many relationship - a person can have many dogs
 @property RLMArray<Dog *><Dog> *dogs;
 
-// Inverse relationship - an owner can be a member of many clubs
+// Inverse relationship - a person can be a member of many clubs
 @property (readonly) RLMLinkingObjects *clubs;
 @end
 
-RLM_ARRAY_TYPE(DogOwner)
+RLM_ARRAY_TYPE(Person)
 
+
+// DogClub.h
 @interface DogClub : RLMObject
 @property NSString *name;
-@property RLMArray<DogOwner *><DogOwner> *members;
+@property RLMArray<Person *><Person> *members;
 @end
 
+
+// Dog.m
 @implementation Dog
 @end
 
-@implementation DogOwner
+
+// DogToy.m
+@implementation DogToy
+@end
+
+
+// Person.m
+@implementation Person
 // Define the primary key for the class
 + (NSString *)primaryKey {
-    return @"id";
+    return @"_id";
 }
 
 // Define the inverse relationship to dog clubs
@@ -41,5 +64,7 @@ RLM_ARRAY_TYPE(DogOwner)
 }
 @end
 
+
+// DogClub.m
 @implementation DogClub
 @end
