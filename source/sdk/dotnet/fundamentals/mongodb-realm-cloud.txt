@@ -1,8 +1,8 @@
-.. _mongodb-realm-cloud:
+.. _dotnet-mongodb-realm-cloud:
 
-=======================================
+==================================
 MongoDB Realm Backend Applications
-=======================================
+==================================
 
 .. default-domain:: mongodb
 
@@ -22,12 +22,6 @@ authenticate users with any of the built-in :ref:`Authentication providers <auth
 call backend :ref:`functions <functions>`, and directly access a 
 :ref:`MongoDB database <mongodb-service>`. 
 
-.. note:: Code Examples
-
-   Each SDK section in the Realm documentation includes code examples for 
-   accomplishing the functionality discussed here. Find the platform / language 
-   you are working with and look under **Usage Examples**.
-
 The App Client
 ----------------
 When using the SDK to access the {+service-short+} backend, you start with 
@@ -35,6 +29,12 @@ the ``App`` object. It is from this
 object that all other functionality is provided. The ``App`` object is 
 :ref:`initialized <dotnet-init-appclient>` with the Realm app ID, which you can 
 :ref:`find in the Realm UI <find-your-app-id>`.
+
+.. tip::
+
+   To learn how to initialize the Realm App client, see
+   :ref:`dotnet-init-appclient`.
+
 
 Authentication
 --------------
@@ -46,31 +46,48 @@ implement the following functionality:
 
 - Creation of new user accounts
 - User log-in and log-out
-- :ref:`Multiple users logged on at the same time on the same device <dotnet-multi-user>`
-- :ref:`Linking user accounts from different providers <dotnet-link-user-identities>`
-- :ref:`Providing custom user data <dotnet-custom-user-data>`
+- Multiple users logged on at the same time on the same device 
+- Linking user accounts from different providers 
+- Providing custom user data 
 
-For more information, see :ref:`Authenticate Users <dotnet-authenticate>`.
+.. tip::
+
+   To learn how to set up authentication with different providers, see
+   :ref:`Authenticate Users <dotnet-authenticate>`.
+
+   To learn how to manage multiple users, see :ref:`dotnet-multi-user`.
+
+   To learn how to link user accounts, see :ref:`dotnet-link-user-identities`.
+
+   To learn how to provide custom user data, see:ref:`dotnet-custom-user-data`.
 
 Calling Functions
 -----------------
-Using the {+service+} SDKs, you can call server-side functions, 
-which enables you to reuse the same backend functionality from multiple client types 
-without having to reproduce the logic client-side. Calling functions from your client code is 
-then reduced to only a few lines of code. In addition, server-side functions can 
-run in the context of a system user, giving them full access to MongoDB CRUD and 
-Aggregation APIs regardless of any rules, roles, or permissions assigned to a 
-collection.
+:ref:`Realm functions <functions>` enable you to define and execute server-side 
+logic for your application. You can call these functions from your client applications
+via the {+service+} SDKs. These server-side functions can run under the context 
+of the authenticated user, and thus honor the rules, roles, and permissions that 
+you have assigned to your collections.
 
-For more information on calling functions, see :ref:`Call a Function <dotnet-call-a-function>`.
+By using Realm functions, you provide a secure way for a variety of client 
+applications to share complex functionality without having to reproduce that 
+logic client-side. 
+
+.. tip::
+
+   To learn how to call functions, see :ref:`Call a Function <dotnet-call-a-function>`.
 
 Accessing MongoDB
 -----------------
-The Realm SDKs include a APIs for accessing a MongoDB Atlas instance directly. 
+The Realm SDKs include APIs for accessing a MongoDB Atlas instance directly. 
 With these APIs, you can perform all of the standard CRUD operations from your 
-client. 
+client. For security, you configure server-side :ref:`data access rules <mongodb-rules>` 
+to dynamically determine read & write permissions for every object that 
+is accessed.
 
-For more information on the MongoDB APIs, see :ref:`Query MongoDB <dotnet-mongodb-data-access>`.
+.. tip::
+
+   To learn how to use the MongoDB APIs, see :ref:`Query MongoDB <dotnet-mongodb-data-access>`.
 
 
 
