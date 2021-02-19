@@ -10,7 +10,7 @@ import SwiftUI
 
 // Set this to true if you have set up a MongoDB Realm app
 // with Realm Sync and anonymous authentication.
-let USE_REALM_SYNC = false
+let USE_REALM_SYNC = true
 
 // The Realm app. Change YOUR_REALM_APP_ID_HERE to your Realm app ID.
 // If you don't have a Realm app and don't wish to use Sync for now,
@@ -92,15 +92,17 @@ struct Main: SwiftUI.App {
 struct LocalOnlyContentView: View {
     // Implicitly use the default realm's objects(Group.self)
     @ObservedResults(Group.self) var groups
+    
     var body: some View {
-        ZStack {
-            if let group = groups.first {
-                ItemsView(group: group)
-            }
-        }.onAppear {
-            if (groups.count == 0) {
+        if let group = groups.first {
+            AnyView(ItemsView(group: group))
+        } else {
+            // For this small app, we only want one group in the realm.
+            // You can expand this app to support multiple groups.
+            // For now, if there is no group, add one here.
+            AnyView(ProgressView().onAppear {
                 $groups.append(Group())
-            }
+            })
         }
     }
 }
@@ -113,35 +115,33 @@ struct SyncContentView: View {
     // Observe a realm that may be opened after login.
     @State var realm: Realm?
 
-    var body: some View {
-        ZStack { () -> AnyView in
-            // If there is no user logged in, show the login view.
-            guard let user = app.currentUser else {
-                return AnyView(LoginView())
-            }
-            // If logged in but the realm is not open yet, then show a progress spinner
-            // while opening the realm. Realm.asyncOpen() downloads the remote changes before
-            // the realm opens, which might take a moment.
-            guard let realm = realm else {
-                return AnyView(ProgressView() // Show the activity indicator while the realm loads
-                    .onReceive(Realm.asyncOpen(configuration: user.configuration(partitionValue: user.id)).assertNoFailure()) { realm in
-                        // Preload one group if it does not exist. This app only ever allows
-                        // one group per user partition, but you could expand it to allow many groups.
-                        if realm.objects(Group.self).count == 0 {
-                            try! realm.write {
-                                realm.add(Group())
-                            }
+    var body: AnyView {
+        // If there is no user logged in, show the login view.
+        guard let user = app.currentUser else {
+            return AnyView(LoginView(app: app))
+        }
+        // If logged in but the realm is not open yet, then show a progress spinner
+        // while opening the realm. Realm.asyncOpen() downloads the remote changes before
+        // the realm opens, which might take a moment.
+        guard let realm = realm else {
+            return AnyView(ProgressView() // Show the activity indicator while the realm loads
+                .onReceive(Realm.asyncOpen(configuration: user.configuration(partitionValue: user.id)).assertNoFailure()) { realm in
+                    // Preload one group if it does not exist. This app only ever allows
+                    // one group per user partition, but you could expand it to allow many groups.
+                    if realm.objects(Group.self).count == 0 {
+                        try! realm.write {
+                            realm.add(Group())
                         }
-                        // Assign the realm to the state property to trigger a view refresh.
-                        self.realm = realm
-                    })
-            }
-            // If logged in and the realm has been opened, then go to the items
-            // screen for the only group in the realm.
-            return AnyView(ItemsView(group: realm.objects(Group.self).first!,
-                      leadingBarButton: AnyView(LogoutButton())))
+                    }
+                    // Assign the realm to the state property to trigger a view refresh.
+                    self.realm = realm
+                })
+        }
+        // If logged in and the realm has been opened, then go to the items
+        // screen for the only group in the realm.
+        return AnyView(ItemsView(group: realm.objects(Group.self).first!,
+                                 leadingBarButton: AnyView(LogoutButton(app: app))))
         // Pass the app to descendents via this environment object.
-        }.environmentObject(app)
     }
 }
 
@@ -155,7 +155,7 @@ struct LoginView: View {
     @State var isLoggingIn = false
     
     // The Realm app is passed in from above
-    @EnvironmentObject var app: RealmSwift.App
+    @ObservedObject var app: RealmSwift.App
 
     var body: some View {
         VStack {
@@ -176,9 +176,9 @@ struct LoginView: View {
                         self.error = error
                         return
                     }
-                    print("Logged in")
                     // Other views are observing the app and will detect
                     // that the currentUser has changed. Nothing more to do here.
+                    print("Logged in")
                 }
             }.disabled(isLoggingIn)
         }
@@ -187,8 +187,9 @@ struct LoginView: View {
 
 /// A button that handles logout requests.
 struct LogoutButton: View {
-    @EnvironmentObject var app: RealmSwift.App
+    @ObservedObject var app: RealmSwift.App
     @State var isLoggingOut = false
+
     var body: some View {
         Button("Log Out") {
             guard let user = app.currentUser else {
@@ -197,9 +198,9 @@ struct LogoutButton: View {
             isLoggingOut = true
             user.logOut() { error in
                 isLoggingOut = false
-                print("Logged out")
                 // Other views are observing the app and will detect
                 // that the currentUser has changed. Nothing more to do here.
+                print("Logged out")
             }
         }.disabled(app.currentUser == nil || isLoggingOut)
     }
@@ -251,6 +252,7 @@ struct ItemsView: View {
 /// Represents an Item in a list.
 struct ItemRow: View {
     @ObservedRealmObject var item: Item
+
     var body: some View {
         // You can click an item in the list to navigate to an edit details screen.
         NavigationLink(destination: ItemDetailsView(item: item)) {
@@ -266,11 +268,12 @@ struct ItemRow: View {
 /// Represents a screen where you can edit the item's name.
 struct ItemDetailsView: View {
     @ObservedRealmObject var item: Item
+
     var body: some View {
         VStack(alignment: .leading) {
             Text("Enter a new name:")
-            // Write the new name to the newItemName state variable.
-            TextField(item.name, text: $item.name)
+            // Accept a new name
+            TextField("New name", text: $item.name)
                 .navigationBarTitle(item.name)
                 .navigationBarItems(trailing: Toggle(isOn: $item.isFavorite) {
                     Image(systemName: item.isFavorite ? "heart.fill" : "heart")
