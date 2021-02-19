@@ -70,9 +70,9 @@ Configuration
        options for the trigger. The exact configuration fields depend on
        the trigger ``type``.
        
-       - :ref:`Database Trigger Configuration <database-trigger-configuration>`
-       - :ref:`Authentication Trigger Configuration <auth-trigger-configuration>`
-       - :ref:`Scheduled Trigger Configuration <scheduled-trigger-configuration>`
+       - :ref:`Database Trigger Configuration <config-database-trigger>`
+       - :ref:`Authentication Trigger Configuration <config-authentication-trigger>`
+       - :ref:`Scheduled Trigger Configuration <config-scheduled-trigger>`
 
    * - | ``disabled``
        | Boolean
