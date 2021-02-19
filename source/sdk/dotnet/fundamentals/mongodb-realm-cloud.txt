@@ -22,10 +22,10 @@ authenticate users with any of the built-in :ref:`Authentication providers <auth
 call backend :ref:`functions <functions>`, and directly access a 
 :ref:`MongoDB database <mongodb-service>`. 
 
-The App Client
-----------------
-When using the SDK to access the {+service-short+} backend, you start with 
-the ``App`` object. It is from this 
+The Realm App Client
+--------------------
+When using the SDK to access the {+service-short+} backend, you start with a 
+Realm App object. It is from this 
 object that all other functionality is provided. The ``App`` object is 
 :ref:`initialized <dotnet-init-appclient>` with the Realm app ID, which you can 
 :ref:`find in the Realm UI <find-your-app-id>`.
@@ -36,8 +36,9 @@ object that all other functionality is provided. The ``App`` object is
    :ref:`dotnet-init-appclient`.
 
 
-Authentication
---------------
+Authentication & USer Management
+--------------------------------
+
 One of the most challenging aspects of client development is implementing a 
 robust and secure authentication system. With the {+service-short+} SDKs, however, you 
 can use any of the {+service+} authentication providers with very minimal backend 
