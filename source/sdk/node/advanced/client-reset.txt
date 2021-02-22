@@ -40,14 +40,14 @@ Define an error handler function in your :js-sdk:`SyncConfiguration
 
 Initiate a client reset if the ``error.name`` is ``"ClientReset"``. Call
 :js-sdk:`Realm.App.Sync.initiateClientReset()
-<Realm.App.Sync.html#~initiateClientReset>` with the {+realm+} ``App`` and the
+<Realm.App.Sync.html#.initiateClientReset>` with the {+realm+} ``App`` and the
 ``realm path``.
 
 The error object also contains the location of the backup copy
 of the Realm file once the client reset process is carried out via the
-``error.config.path``. You can optionally move this backup file to a known
-location for a restore via the `fs.nameSync()
-<https://nodejs.org/api/fs.html#fs_fs_renamesync_oldpath_newpath>`_ method.
+``error.config.path``. You can optionally move this backup file, using the
+<https://nodejs.org/api/fs.html#fs_fs_renamesync_oldpath_newpath>`_ method, to a
+known location for a restore.
 
 Discard the reference to the realm instance by setting the realm to ``null``.
 

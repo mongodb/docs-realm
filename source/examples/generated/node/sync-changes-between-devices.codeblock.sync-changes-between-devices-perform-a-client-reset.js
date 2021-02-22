@@ -1,6 +1,6 @@
 let realm;
 function errorSync(_session, error) {
-  if (realm != undefined) {
+  if (realm) {
     if (error.name === "ClientReset") {
       const realmPath = "<Your Realm Path>";
 

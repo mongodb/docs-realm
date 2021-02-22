@@ -19,7 +19,7 @@ describe("Sync Changes Between Devices", () => {
     // :code-block-start: sync-changes-between-devices-perform-a-client-reset
     let realm;
     function errorSync(_session, error) {
-      if (realm != undefined) {
+      if (realm) {
         if (error.name === "ClientReset") {
           const realmPath = "<Your Realm Path>";
 
