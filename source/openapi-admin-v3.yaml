@@ -1714,7 +1714,7 @@ paths:
                   required: [meta, file]
                   description: >-
                     An asset metadata document (encoded as JSON).
-                    .. literalinclude: /includes/asset-metadata-example.rst
+                    .. include:: /includes/asset-metadata-example.rst
                 file:
                   type: string
                   format: binary
@@ -2541,21 +2541,14 @@ components:
                 Minimum Items: 1
                 The :ref:`database event operation types
                 <database-events>` to listen for.
-                Valid values:
-                - ``INSERT``
-                - ``UPDATE``
-                - ``REPLACE``
-                - ``DELETE``
+              enum: ["INSERT", "UPDATE", "REPLACE", "DELETE"]
             operation_type:
               type: string
               description: >-
                 **Required for Authentication Triggers** --
                 The :ref:`authentication operation type
                 <authentication-event-operation-types>` to listen for.
-                Valid values:
-                - ``LOGIN``
-                - ``CREATE``
-                - ``DELETE``
+              enum: ["LOGIN", "CREATE", "DELETE"]
             providers:
               type: string
               description: >-
@@ -2612,7 +2605,7 @@ components:
             The following event processors are supported: ``AWS_EVENTBRIDGE``
             The following object configures a trigger to :doc:`send events to AWS
             Eventbridge </triggers/eventbridge>`.
-            .. literalinclude:: /includes/event-processor-example.rst
+            .. include:: /includes/event-processor-example.rst
     MetadataAttribute:
       type: object
       properties:
