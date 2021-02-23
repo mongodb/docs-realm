@@ -5,9 +5,9 @@ content: |
    Create or open your project in Android Studio. Select the
    "Project" view in the top-left panel:
 
-   .. image:: /images/android-studio-project-view.png   
+   .. image:: /images/android-studio-project-view.png
       :alt: The project view is in the top-left panel.
-   
+
    Open the project-level ``build.gradle`` file:
 
    .. image:: /images/project-level-build-gradle.png
@@ -85,7 +85,8 @@ content: |
       you must apply the ``realm-android`` plugin *after* the ``kotlin-kapt``
       plugin if your application uses the Kotlin programming language.
 
-   If you are using :ref:`sync <sync>`, you can enable it here:
+   If your application uses :ref:`sync <sync>`, you must enable the sync
+   features of the Android SDK here:
 
    .. code-block:: groovy
 
@@ -168,6 +169,20 @@ content: |
                implementation "androidx.appcompat:appcompat:1.1.0"
                implementation "androidx.core:core-ktx:1.2.0"
             }
+
+   .. note:: Enabling Sync is Optional
+
+      The Realm Android SDK includes functionality that allows you to
+      :ref:`sync <sync>` data between mobile applications and a MongoDB
+      Realm backend. If your application only uses local Realm Database,
+      you can omit the following snippet from your application level
+      ``build.gradle`` file to disable that functionality at the SDK level:
+
+      .. code-block:: groovy
+
+         realm {
+            syncEnabled = true
+         }
 
 ---
 title: Sync Project with Gradle Files
