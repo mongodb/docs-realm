@@ -861,10 +861,9 @@ paths:
           content:
             application/json:
               schema: 
-                properties:
+                items:
                   sub:
                     type: string
-                    description: 
                   exp: 
                     type: integer
                     description: :wikipedia:`Unix time <Unix_time>` (number of seconds since January 1, 1970 at 00:00 UTC). 
@@ -873,13 +872,10 @@ paths:
                     description: :wikipedia:`Unix time <Unix_time>` (number of seconds since January 1, 1970 at 00:00 UTC). 
                   iss: 
                     type: string
-                    description: 
                   domain_id: 
                     type: string
-                    description:
                   device_id: 
                     type: string
-                    description: 
     parameters:
       - $ref: "#/components/parameters/GroupId"
       - $ref: "#/components/parameters/AppId"
