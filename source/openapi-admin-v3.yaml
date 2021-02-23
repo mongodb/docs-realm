@@ -12,7 +12,6 @@ paths:
       tags: ['admin']
       operationId: 'getAdminAuthProviders'
       summary: >-
-        .. _get_auth_providers:
         Enumerate available Realm administration authentication providers.
       responses:
         '200':
@@ -31,9 +30,8 @@ paths:
       tags: ['admin']
       operationId: 'adminLogin'
       summary: >-
-        .. _post_login:
         Authenticate as a Realm administrator. Use
-        :ref:`GET /auth/providers <get_auth_providers>` to list the
+        `GET /auth/providers` to list the
         available authentication providers.
       requestBody:
         required: true
@@ -62,7 +60,7 @@ paths:
                     type: string
                     description: >-
                       A refresh token you may provide in the ``Authorization``
-                      header of :ref:`POST auth/session <post_auth_session>` to obtain a new
+                      header of `POST auth/session` to obtain a new
                       ``access_token`` for the current user session.
                   user_id:
                     type: string
@@ -2712,14 +2710,14 @@ components:
       scheme: bearer
       description: >-
         The authorization token provided in the ``access_token`` field of
-        the :ref:`POST /auth/providers/{provider}/login <post_login>` and
-        :ref:`POST /auth/session <post_auth_session>` API endpoints.
+        the `POST /auth/providers/{provider}/login` and
+        `POST /auth/session` API endpoints.
     refreshAuth:
       type: http
       scheme: bearer
       description: >-
         The authorization token provided in the ``refresh_token`` field of
-        the :ref:`POST /auth/providers/{provider}/login <post_login>` API endpoint.
+        the `POST /auth/providers/{provider}/login` API endpoint.
   responses:
     ClientErrorResponse:
       description: "There is an error in the request."
