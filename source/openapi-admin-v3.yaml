@@ -1714,20 +1714,7 @@ paths:
                   required: [meta, file]
                   description: >-
                     An asset metadata document (encoded as JSON).
-                    
-                    .. code-block:: json
-                       
-                       {
-                         "path": "<Asset Resource Path>",
-                         "hash": "<Asset MD5 Checksum Hash>",
-                         "size": <File size in bytes>,
-                         "attrs": [
-                           {
-                             "name": "<Metadata Attribute Name>",
-                             "value": "<Metadata Attribute Value>",
-                           }
-                         ]
-                       }
+                    .. literalinclude: /includes/asset-metadata-example.rst
                 file:
                   type: string
                   format: binary
@@ -2550,13 +2537,11 @@ components:
               ## This behavior would need to be added to the sphinx-openapi directive.
               type: array of strings
               description: >-
-                **Required for Database Triggers**
+                **Required for Database Triggers** --
                 Minimum Items: 1
                 The :ref:`database event operation types
                 <database-events>` to listen for.
-
                 Valid values:
-
                 - ``INSERT``
                 - ``UPDATE``
                 - ``REPLACE``
@@ -2564,19 +2549,17 @@ components:
             operation_type:
               type: string
               description: >-
-                **Required for Authentication Triggers**
+                **Required for Authentication Triggers** --
                 The :ref:`authentication operation type
                 <authentication-event-operation-types>` to listen for.
-
                 Valid values:
-
                 - ``LOGIN``
                 - ``CREATE``
                 - ``DELETE``
             providers:
               type: string
               description: >-
-                **Only Available for Authentication Triggers**
+                **Only Available for Authentication Triggers** --
                 A list of one or more :doc:`authentication provider
                 </authentication/providers>` id values. The trigger
                 will only listen for authentication events produced by
@@ -2626,27 +2609,10 @@ components:
             An object where each field name is an event processor ID and each
             value is an object that configures its corresponding event
             processor.
-
-            The following event processors are supported:
-
-            - ``AWS_EVENTBRIDGE``
-            
-            .. example
-               
-               The following object configures a trigger to :doc:`send events to AWS
-               Eventbridge </triggers/eventbridge>`.
-
-               .. code-block:: json
-                  
-                  "event_processors": {
-                    "AWS_EVENTBRIDGE": {
-                      "type": "AWS_EVENTBRIDGE",
-                      "config": {
-                        "account_id": "012345678901",
-                        "region": "us-east-1"
-                      }
-                    }
-                  }
+            The following event processors are supported: ``AWS_EVENTBRIDGE``
+            The following object configures a trigger to :doc:`send events to AWS
+            Eventbridge </triggers/eventbridge>`.
+            .. literalinclude:: /includes/event-processor-example.rst
     MetadataAttribute:
       type: object
       properties:

@@ -87,7 +87,7 @@ Application ID
 ~~~~~~~~~~~~~~
 
 To find your Application ID, make a request to the {+service-short+}
-:ref:`get-/groups/{groupid}/apps` API endpoint.
+`GET /groups/{groupid}/apps <{+base-url+}{+admin-api-page+}get-/groups/{groupid}/apps>`__ API endpoint.
 
 This request has the following format, referencing the ``access_token``
 described in :ref:`realm-api-authentication`:
@@ -140,7 +140,7 @@ and ``nextSkip`` as the ``end_date`` and ``skip`` parameters, respectively:
 Repeat this step to get more pages until the response does not have a ``nextEndDate`` field.
 This signifies that you have reached the last page.
 
-For more information, see :ref:`get-/groups/{groupId}/apps/{appId}/logs`.
+For more information, see `GET /groups/{groupId}/apps/{appId}/logs <{+base-url+}{+admin-api-page+}get-/groups/{groupId}/apps/{appId}/logs>`__.
 
 .. _admin-api-draft-deploy:
 
