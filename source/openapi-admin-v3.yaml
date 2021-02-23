@@ -843,11 +843,12 @@ paths:
     post:
       tags: ["users"]
       operationId: "adminVerifyUserAccessToken"
-      summary: "Verify a that a user's :ref:`access token
-      <get-client-api-access-token>` is valid."
+      summary: "Verify a that a user's :ref:`client access token <get-client-api-access-token>` is valid."
       requestBody:
         required: true
-        description: The user's :ref:`access token <get-client-api-access-token>`.
+        description: The user's :ref:`client access token
+        <get-client-api-access-token>`. This is distinct from the :ref:`API access
+        token <realm-api-authentication>` you need to authenticate to the admin API.
         content:
           application/json:
             schema:
@@ -855,11 +856,30 @@ paths:
                 token: {type: string}
               required: [token]
       responses:
-        '201':
+        '200':
           description: Success returns a :ref:`user object <user-objects>`.
           content:
             application/json:
-              schema: {$ref: "#/components/schemas/User"}
+              schema: 
+                properties:
+                  sub:
+                    type: string
+                    description: 
+                  exp: 
+                    type: integer
+                    description: :wikipedia:`Unix time <Unix_time>` (number of seconds since January 1, 1970 at 00:00 UTC). 
+                  iat: 
+                    type: integer
+                    description: :wikipedia:`Unix time <Unix_time>` (number of seconds since January 1, 1970 at 00:00 UTC). 
+                  iss: 
+                    type: string
+                    description: 
+                  domain_id: 
+                    type: string
+                    description:
+                  device_id: 
+                    type: string
+                    description: 
     parameters:
       - $ref: "#/components/parameters/GroupId"
       - $ref: "#/components/parameters/AppId"
