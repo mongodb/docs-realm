@@ -839,6 +839,30 @@ paths:
       - $ref: "#/components/parameters/GroupId"
       - $ref: "#/components/parameters/AppId"
 
+  /groups/{groupId}/apps/{appId}/users/verify_token:
+    post:
+      tags: ["users"]
+      operationId: "adminVerifyUserAccessToken"
+      summary: "Verify a user's :ref:`access token <get-client-api-access-token>`."
+      requestBody:
+        required: true
+        description: The user's :ref:`access token <get-client-api-access-token>`.
+        content:
+          application/json:
+            schema:
+              properties:
+                token: {type: string}
+              required: [token]
+      responses:
+        '201':
+          description: Success returns a :ref:`user object <user-objects>`
+          content:
+            application/json:
+              schema: {$ref: "#/components/schemas/User"}
+    parameters:
+      - $ref: "#/components/parameters/GroupId"
+      - $ref: "#/components/parameters/AppId"
+
   /groups/{groupId}/apps/{appId}/users/{uid}:
     get:
       tags: ["users"]
