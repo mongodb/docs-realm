@@ -14,7 +14,6 @@ Quick Start - .NET SDK
 
 Overview
 --------
-
 This page contains information to get a **local instance** of {+service-short+}
 integrated into your .NET app. 
 
@@ -41,7 +40,6 @@ statement:
 
 Define Your Object Model
 ------------------------
-
 Your application's :ref:`object model <dotnet-objects>` defines 
 the data that you can store within {+client-database+}. You define an object 
 model by creating a C# class that inherits from the ``RealmObject`` class.
@@ -82,14 +80,12 @@ The following code shows how to create a new ``Guitar`` object. You instantiate 
 
 Find, Sort, and Filter Objects
 ------------------------------
-
 As with writes, any changes to a Realm object must occur within a 
 :ref:`Write transaction <dotnet-realm-database-writes>` block.
 The following code demonstrates how to:
 
-- retrieve a live 
-    :ref:`collection <dotnet-client-collections>` of all ``Guitar`` objects in the 
-    {+realm+},
+- retrieve a live :ref:`collection <dotnet-client-collections>` of all ``Guitar`` 
+  objects in the {+realm+},
 
 - filter the collection by using the Linq syntax,
 
@@ -102,26 +98,23 @@ The following code demonstrates how to:
 
 Modify an Object
 ----------------
-
-To modify a Guitar, you update its properties in a write transaction block:
+To modify a Guitar, object you update its properties in a write transaction block:
 
 .. literalinclude:: /examples/generated/dotnet/Program.codeblock.update.cs
    :language: csharp
 
 Delete an Object
 ----------------
-
-Finally, you can delete a Guitar by calling the ``Remove()`` method:
+Finally, you can delete a Guitar object by calling the ``Remove()`` method:
 
 .. literalinclude:: /examples/generated/dotnet/Program.codeblock.delete.cs
    :language: csharp
-
 
 Watch a Collection
 ------------------
 If you want your app to respond to changes as they occur in a collection, you 
 can call 
-:dotnet-sdk:`reference/Realms.IRealmCollection-1.html#Realms_IRealmCollection_1_SubscribeForNotifications_Realms_NotificationCallbackDelegate__0__` 
+:dotnet-sdk:`SubscribeForNotifications() <reference/Realms.IRealmCollection-1.html#Realms_IRealmCollection_1_SubscribeForNotifications_Realms_NotificationCallbackDelegate__0__>` 
 on the collection, as shown in the following code:
 
 .. literalinclude:: /examples/generated/dotnet/Program.codeblock.collection-notifications.cs

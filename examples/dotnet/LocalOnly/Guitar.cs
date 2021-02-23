@@ -18,7 +18,6 @@ namespace LocalOnly
         public double Price { get; set; }
 
         public string Owner { get; set; }
-
     }
     //:code-block-end:
 }

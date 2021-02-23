@@ -12,5 +12,4 @@ public class Guitar : RealmObject
     public double Price { get; set; }
 
     public string Owner { get; set; }
-
 }
