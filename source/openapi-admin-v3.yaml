@@ -31,7 +31,7 @@ paths:
       operationId: 'adminLogin'
       summary: >-
         Authenticate as a Realm administrator. Use
-        `GET /auth/providers` to list the
+        `GET /auth/providers <{+base-url+}{+admin-api-page+}post-/auth/providers`__ to list the
         available authentication providers.
       requestBody:
         required: true
@@ -60,7 +60,7 @@ paths:
                     type: string
                     description: >-
                       A refresh token you may provide in the ``Authorization``
-                      header of `POST auth/session` to obtain a new
+                      header of `POST auth/session <{+base-url+}{+admin-api-page+}post-auth-session>`__ to obtain a new
                       ``access_token`` for the current user session.
                   user_id:
                     type: string
@@ -2710,14 +2710,14 @@ components:
       scheme: bearer
       description: >-
         The authorization token provided in the ``access_token`` field of
-        the `POST /auth/providers/{provider}/login` and
-        `POST /auth/session` API endpoints.
+        the `POST /auth/providers/{provider}/login <{+base-url+}{+admin-api-page+}post-/auth/providers/{provider}/login>`__ and
+        `POST /auth/session <{+base-url+}{+admin-api-page+}post-/auth/session>`__ API endpoints.
     refreshAuth:
       type: http
       scheme: bearer
       description: >-
         The authorization token provided in the ``refresh_token`` field of
-        the `POST /auth/providers/{provider}/login` API endpoint.
+        the `POST /auth/providers/{provider}/login <{+base-url+}{+admin-api-page+}post-/auth/providers/{provider}/login>`__ API endpoint.
   responses:
     ClientErrorResponse:
       description: "There is an error in the request."
