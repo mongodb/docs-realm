@@ -48,7 +48,9 @@ model by creating a C# class that inherits from the ``RealmObject`` class.
 
 The following code shows how to define an object model for a ``Guitar`` object. In 
 this example, we have marked the ``Id`` field as the Primary Key, and marked the 
-``Make`` and ``Model`` properties as "required".
+``Make`` and ``Model`` properties as "Required". Note that the ``Id`` is of type 
+``ObjectId`` in this case, and a new Id is generated when an instance of the 
+class is created.
 
 .. literalinclude:: /examples/generated/dotnet/Guitar.codeblock.guitar-object.cs
    :language: csharp
@@ -58,44 +60,56 @@ Open a Realm
 
 Opening the ``realm`` that your app uses is achieved by calling either 
 :dotnet-sdk:`Realm.GetInstance() <reference/Realms.Realm.html#Realms_Realm_GetInstance_System_String_>` or
-:dotnet-sdk:`reference/Realms.Realm.html#Realms_Realm_GetInstanceAsync_Realms_RealmConfigurationBase_System_Threading_CancellationToken_`:
+:dotnet-sdk:`Realm.GetInstanceAsync() <reference/Realms.Realm.html#Realms_Realm_GetInstanceAsync_Realms_RealmConfigurationBase_System_Threading_CancellationToken_>`:
 
 .. literalinclude:: /examples/generated/dotnet/Program.codeblock.get-instance.cs
    :language: csharp
 
 
-Create, Read, Update, and Delete Objects
-----------------------------------------
+Create Realm Objects
+--------------------
 
-Once you have opened a {+realm+}, you can modify the 
-:ref:`objects <dotnet-objects>` in it. All changes to the data 
-(creates, writes, and updates) must occur within a 
+Once you have opened a {+realm+}, you can create :ref:`objects <dotnet-objects>` 
+in it. All writes must occur within a 
 :ref:`Write transaction <dotnet-realm-database-writes>` block.
 
-The following code shows how to create a new ``Guitar``. You instantiate the 
-``Guitar`` class and then add the new Guitar to the {+realm+} in a write block:
+The following code shows how to create a new ``Guitar`` object. You instantiate the 
+``Guitar`` class and then add the new guitar to the {+realm+} within a 
+``realm.Write`` block:
 
 .. literalinclude:: /examples/generated/dotnet/Program.codeblock.write.cs
    :language: csharp
 
-The following code demonstrates:
+Find, Sort, and Filter Objects
+------------------------------
 
-- How to retrieve a live 
+As with writes, any changes to a Realm object must occur within a 
+:ref:`Write transaction <dotnet-realm-database-writes>` block.
+The following code demonstrates how to:
+
+- retrieve a live 
     :ref:`collection <dotnet-client-collections>` of all ``Guitar`` objects in the 
     {+realm+},
-- How to filter the collection by using the Linq syntax,
 
-- How to sort the collection, and
+- filter the collection by using the Linq syntax,
 
-- How to find a specific item in the collection by Id:
+- sort the collection, and
+
+- find a specific item in the collection by Id:
 
 .. literalinclude:: /examples/generated/dotnet/Program.codeblock.read-filter-sort.cs
    :language: csharp
+
+Modify an Object
+----------------
 
 To modify a Guitar, you update its properties in a write transaction block:
 
 .. literalinclude:: /examples/generated/dotnet/Program.codeblock.update.cs
    :language: csharp
+
+Delete an Object
+----------------
 
 Finally, you can delete a Guitar by calling the ``Remove()`` method:
 
