@@ -17,7 +17,7 @@ describe("Sync Changes Between Devices", () => {
     const credentials = Realm.Credentials.anonymous();
     await app.logIn(credentials);
     // :code-block-start: sync-changes-between-devices-perform-a-client-reset
-    let realm;
+    let realm = await Realm.open(config);
     function errorSync(_session, error) {
       if (realm) {
         if (error.name === "ClientReset") {
@@ -26,7 +26,7 @@ describe("Sync Changes Between Devices", () => {
           realm.close();
 
           console.log(`Error ${error.message}, need to reset ${realmPath}…`);
-          Realm.App.Sync.initiateClientReset(app, realmPath);
+          Realm.App.Sync.initiateClientReset(app, realmPath); // pass your realm app instance, and realm path to initiateClientReset()
           console.log(`Creating backup from ${error.config.path}…`);
           // Move backup file to a known location for a restore
           fs.renameSync(error.config.path, realmPath + "~");
@@ -37,7 +37,7 @@ describe("Sync Changes Between Devices", () => {
         }
       }
     }
-    const config = {
+    var config = {
       schema: [DogSchema], // predefined schema
       sync: {
         user: app.currentUser,
@@ -45,7 +45,6 @@ describe("Sync Changes Between Devices", () => {
         error: errorSync,
       },
     };
-    realm = await Realm.open(config);
     // :code-block-end:
     expect(1).toBe(2);
     realm.close();
