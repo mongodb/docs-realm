@@ -2551,7 +2551,6 @@ components:
               type: array of strings
               description: >-
                 **Required for Database Triggers**
-                
                 Minimum Items: 1
                 The :ref:`database event operation types
                 <database-events>` to listen for.
@@ -2566,7 +2565,6 @@ components:
               type: string
               description: >-
                 **Required for Authentication Triggers**
-
                 The :ref:`authentication operation type
                 <authentication-event-operation-types>` to listen for.
 
@@ -2579,7 +2577,6 @@ components:
               type: string
               description: >-
                 **Only Available for Authentication Triggers**
-
                 A list of one or more :doc:`authentication provider
                 </authentication/providers>` id values. The trigger
                 will only listen for authentication events produced by
@@ -2587,27 +2584,23 @@ components:
             database:
               type: string
               description: >-
-                **Required for Database Triggers**
-
+                **Required for Database Triggers** --
                 The name of the MongoDB database that contains the watched collection.
             collection:
               type: string
               description: >-
-                **Required for Database Triggers**
-
+                **Required for Database Triggers** --
                 The name of the MongoDB collection that the trigger watches for change events.
                 The collection must be part of the specified database.
             service_id:
               type: string
               description: >-
-                **Required for Database Triggers**
-
+                **Required for Database Triggers** --
                 The ID of the MongoDB Service associated with the trigger.
             match:
               type: object
               description: >-
-                **Only Available for Database Triggers**
-
+                **Only Available for Database Triggers** --
                 A :manual:`$match </reference/operator/aggregation/match>`
                 expression document that MongoDB Realm includes in
                 the underlying change stream pipeline for the trigger.
@@ -2618,16 +2611,14 @@ components:
             full_document:
               type: boolean
               description: >-
-                **Only Available for Database Triggers**
-
+                **Only Available for Database Triggers** --
                 If true, indicates that ``UPDATE`` change events should include the most current
                 :manual:`majority-committed </reference/read-concern-majority/>` version of the
                 modified document in the ``fullDocument`` field.
             schedule:
               type: string
               description: >-
-                **Only Available for Scheduled Triggers**
-
+                **Only Available for Scheduled Triggers** --
                 A :doc:`cron expression </triggers/cron-expressions>` that defines the trigger schedule.
         event_processors:
           type: object
