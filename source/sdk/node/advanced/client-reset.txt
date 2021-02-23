@@ -21,7 +21,6 @@ reset** is a serious error recovery task that your client
 app must perform in the following situation:
 
 - The given synced {+realm+} on the server was restored from a backup.
-  For example, due to a {+service-short+} server crash.
 
 - The client app made changes to that {+realm+} since the backup was made,
   but did not sync those changes back to the server before the server
@@ -57,5 +56,4 @@ Discard the reference to the realm instance by setting the realm to ``null``.
 
 .. literalinclude:: /examples/generated/node/sync-changes-between-devices.codeblock.sync-changes-between-devices-perform-a-client-reset.js
    :language: javascript
-
 
