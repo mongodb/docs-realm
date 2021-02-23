@@ -859,7 +859,13 @@ paths:
           content:
             application/json:
               schema: 
-                $ref: "#/components/schemas/User"
+                properties:
+                  sub: {type: string}
+                  exp: {type: integer}
+                  iat: {type: integer}
+                  iss: {type: string}
+                  domain_id: {type: string}
+                  device_id: {type: string}
     parameters:
       - $ref: "#/components/parameters/GroupId"
       - $ref: "#/components/parameters/AppId"
