@@ -11,7 +11,9 @@ paths:
     get:
       tags: ['admin']
       operationId: 'getAdminAuthProviders'
-      summary: 'Enumerate available Realm administration authentication providers.'
+      summary: >-
+        .. _get_auth_providers:
+        Enumerate available Realm administration authentication providers.
       responses:
         '200':
           description: 'Successfully enumerated available authentication providers.'
@@ -29,8 +31,9 @@ paths:
       tags: ['admin']
       operationId: 'adminLogin'
       summary: >-
+        .. _post_login:
         Authenticate as a Realm administrator. Use
-        :ref:`get-/auth/providers` to list the
+        :ref:`GET /auth/providers <get_auth_providers>` to list the
         available authentication providers.
       requestBody:
         required: true
@@ -59,7 +62,7 @@ paths:
                     type: string
                     description: >-
                       A refresh token you may provide in the ``Authorization``
-                      header of :ref:`post-/auth/session` to obtain a new
+                      header of :ref:`POST auth/session <post_auth_session>` to obtain a new
                       ``access_token`` for the current user session.
                   user_id:
                     type: string
@@ -99,6 +102,7 @@ paths:
       tags: ['admin']
       operationId: adminCreateSession
       summary: >-
+        .. _post_auth_session:
         Obtain a Realm access token.
       responses:
         '201':
@@ -2708,14 +2712,14 @@ components:
       scheme: bearer
       description: >-
         The authorization token provided in the ``access_token`` field of
-        the :ref:`post-/auth/providers/{provider}/login` and
-        :ref:`post-/auth/session` API endpoints.
+        the :ref:`POST /auth/providers/{provider}/login <post_login>` and
+        :ref:`POST /auth/session <post_auth_session>` API endpoints.
     refreshAuth:
       type: http
       scheme: bearer
       description: >-
         The authorization token provided in the ``refresh_token`` field of
-        the :ref:`post-/auth/providers/{provider}/login` API endpoint.
+        the :ref:`POST /auth/providers/{provider}/login <post_login>` API endpoint.
   responses:
     ClientErrorResponse:
       description: "There is an error in the request."
