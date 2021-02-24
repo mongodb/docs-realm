@@ -36,15 +36,21 @@ object, which must include the ``sync`` property defining a
 
 Pause or Resume a Sync Session
 ------------------------------
-.. example::
+You can pause synchronization using the :js-sdk:`syncSession.pause()
+<Realm.App.Sync.Session.html#~pause>` method. To resume synchronization, use the
+:js-sdk:`syncSession.resume() <Realm.App.Sync.Session.html#~resume>` method
 
-   In the following example, a developer opens a synced realm, pauses and then resumes synchronization. 
-
-   .. literalinclude:: /examples/generated/node/sync-changes-between-devices.codeblock.sync-changes-between-devices-pause-or-resume-sync-session.js
-      :language: javascript
+.. literalinclude:: /examples/generated/node/sync-changes-between-devices.codeblock.sync-changes-between-devices-pause-or-resume-sync-session.js
+   :language: javascript
 
 
 .. _node-set-the-client-log-level:
+
+.. _node-check-sync-progress:
+
+Check Upload & Download Progress for a Sync Session
+---------------------------------------------------
+
 
 Set the Client Log Level
 ------------------------
