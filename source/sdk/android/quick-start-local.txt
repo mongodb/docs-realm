@@ -25,18 +25,7 @@ Quick Start (Local-only) - Android SDK
 This page contains information to quickly get {+client-database+}
 integrated into your app. Before you begin, ensure you have:
 
-- :ref:`Created a {+app+} <create-a-realm-app>`
-- :ref:`Enabled {+sync+} <enable-sync>`
 - :ref:`Installed the Android SDK <android-install>`
-
-.. note:: Check Out the Tutorial
-
-   This page contains only the essential information that you need to set up a
-   MongoDB Realm application. If you prefer to follow a guided tutorial that
-   shows you step-by-step how to set up a working app, check out the
-   :ref:`Android Tutorial <android-kotlin-tutorial>` where you'll build a mobile
-   app that connects to the :ref:`Task Tracker backend
-   <tutorial-task-tracker-create-realm-app>`.
 
 .. include:: /includes/android-initialize-realm.rst
 
@@ -54,13 +43,13 @@ access your {+app+} using your {+app+} ID. You can find your {+app+} ID in the
    .. tab::
       :tabid: java
 
-      .. literalinclude:: /examples/generated/android/code/start/MainActivity.codeblock.initialize-the-app-local.java
+      .. literalinclude:: /examples/generated/android/MainActivity.codeblock.initialize-realm-local.java
          :language: java
    
    .. tab::
       :tabid: kotlin
 
-      .. literalinclude:: /examples/generated/android/code/start/MainActivity.codeblock.initialize-the-app-local.kt
+      .. literalinclude:: /examples/generated/android/MainActivity.codeblock.initialize-realm-local.kt
          :language: kotlin
 
 .. note:: Android Studio Errors?
@@ -109,16 +98,16 @@ definitions to your application code:
    .. tab::
       :tabid: java
 
-      .. literalinclude:: /examples/generated/android/code/start/Task.codeblock.define-object-model-local.java
+      .. literalinclude:: /examples/generated/android/Task.codeblock.define-object-model-local.java
          :language: java
 
-      .. literalinclude:: /examples/generated/android/code/start/TaskStatus.codeblock.define-object-model-local.java
+      .. literalinclude:: /examples/generated/android/TaskStatus.codeblock.define-object-model-local.java
          :language: java
    
    .. tab::
       :tabid: kotlin
 
-      .. literalinclude:: /examples/generated/android/code/start/MainActivity.codeblock.define-object-model.kt
+      .. literalinclude:: /examples/generated/android/MainActivity.codeblock.define-object-model.kt
          :language: kotlin
 
 Open a Realm
@@ -137,13 +126,13 @@ and more.
    .. tab::
       :tabid: java
 
-      .. literalinclude:: /examples/generated/android/code/start/MainActivity.codeblock.open-a-realm-local.java
+      .. literalinclude:: /examples/generated/android/MainActivity.codeblock.open-a-realm-local.java
          :language: java
    
    .. tab::
       :tabid: kotlin
 
-      .. literalinclude:: /examples/generated/android/code/start/MainActivity.codeblock.open-a-realm-local.kt
+      .. literalinclude:: /examples/generated/android/MainActivity.codeblock.open-a-realm-local.kt
          :language: kotlin
 
 .. seealso::
@@ -167,13 +156,13 @@ To create a new ``Task``, instantiate an instance of the
    .. tab::
       :tabid: java
 
-      .. literalinclude:: /examples/generated/android/code/start/MainActivity.codeblock.create-object-local.java
+      .. literalinclude:: /examples/generated/android/MainActivity.codeblock.create-object-local.java
          :language: java
    
    .. tab::
       :tabid: kotlin
 
-      .. literalinclude:: /examples/generated/android/code/start/MainActivity.codeblock.create-object-local.kt
+      .. literalinclude:: /examples/generated/android/MainActivity.codeblock.create-object-local.kt
          :language: kotlin
 
 You can retrieve a live :ref:`collection <android-client-collections>`
@@ -184,13 +173,13 @@ of all items in the {+realm+}:
    .. tab::
       :tabid: java
 
-      .. literalinclude:: /examples/generated/android/code/start/MainActivity.codeblock.read-object-local.java
+      .. literalinclude:: /examples/generated/android/MainActivity.codeblock.read-object-local.java
          :language: java
    
    .. tab::
       :tabid: kotlin
 
-      .. literalinclude:: /examples/generated/android/code/start/MainActivity.codeblock.read-object-local.kt
+      .. literalinclude:: /examples/generated/android/MainActivity.codeblock.read-object-local.kt
          :language: kotlin
 
 You can also filter that collection using a :ref:`filter
@@ -201,13 +190,13 @@ You can also filter that collection using a :ref:`filter
    .. tab::
       :tabid: java
 
-      .. literalinclude:: /examples/generated/android/code/start/MainActivity.codeblock.filter-collection-local.java
+      .. literalinclude:: /examples/generated/android/MainActivity.codeblock.filter-collection-local.java
          :language: java
    
    .. tab::
       :tabid: kotlin
 
-      .. literalinclude:: /examples/generated/android/code/start/MainActivity.codeblock.filter-collection-local.kt
+      .. literalinclude:: /examples/generated/android/MainActivity.codeblock.filter-collection-local.kt
          :language: kotlin
 
 To modify a task, update its properties in a write transaction block:
@@ -217,13 +206,13 @@ To modify a task, update its properties in a write transaction block:
    .. tab::
       :tabid: java
 
-      .. literalinclude:: /examples/generated/android/code/start/MainActivity.codeblock.update-object-local.java
+      .. literalinclude:: /examples/generated/android/MainActivity.codeblock.update-object-local.java
          :language: java
    
    .. tab::
       :tabid: kotlin
 
-      .. literalinclude:: /examples/generated/android/code/start/MainActivity.codeblock.update-object-local.kt
+      .. literalinclude:: /examples/generated/android/MainActivity.codeblock.update-object-local.kt
          :language: kotlin
 
 Finally, you can delete a task by calling the ``deleteFromRealm()``
@@ -234,13 +223,13 @@ method in a write transaction block:
    .. tab::
       :tabid: java
 
-      .. literalinclude:: /examples/generated/android/code/start/MainActivity.codeblock.delete-object-local.java
+      .. literalinclude:: /examples/generated/android/MainActivity.codeblock.delete-object-local.java
          :language: java
    
    .. tab::
       :tabid: kotlin
 
-      .. literalinclude:: /examples/generated/android/code/start/MainActivity.codeblock.delete-object-local.kt
+      .. literalinclude:: /examples/generated/android/MainActivity.codeblock.delete-object-local.kt
          :language: kotlin
 
 Watch for Changes
@@ -256,13 +245,13 @@ method:
    .. tab::
       :tabid: java
 
-      .. literalinclude:: /examples/generated/android/code/start/MainActivity.codeblock.watch-for-changes-local.java
+      .. literalinclude:: /examples/generated/android/MainActivity.codeblock.watch-for-changes-local.java
          :language: java
    
    .. tab::
       :tabid: kotlin
 
-      .. literalinclude:: /examples/generated/android/code/start/MainActivity.codeblock.watch-for-changes-local.kt
+      .. literalinclude:: /examples/generated/android/MainActivity.codeblock.watch-for-changes-local.kt
          :language: kotlin
 
 Complete Example
@@ -285,22 +274,22 @@ remember to:
    .. tab::
       :tabid: java
 
-      .. literalinclude:: /examples/generated/android/code/start/Task.codeblock.define-object-model-local.java
+      .. literalinclude:: /examples/generated/android/Task.codeblock.define-object-model-local.java
          :caption: Task.java
          :language: java
 
-      .. literalinclude:: /examples/generated/android/code/start/TaskStatus.codeblock.define-object-model-local.java
+      .. literalinclude:: /examples/generated/android/TaskStatus.codeblock.define-object-model-local.java
          :caption: TaskStatus.java
          :language: java
 
-      .. literalinclude:: /examples/generated/android/code/start/MainActivity.codeblock.complete.java
+      .. literalinclude:: /examples/generated/android/MainActivity.codeblock.complete.java
          :caption: MainActivity.java
          :language: java
 
    .. tab::
       :tabid: kotlin
 
-      .. literalinclude:: /examples/generated/android/code/start/MainActivity.codeblock.complete.kt
+      .. literalinclude:: /examples/generated/android/MainActivity.codeblock.complete.kt
          :caption: MainActivity.kt
          :language: kotlin
 
