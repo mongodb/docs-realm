@@ -73,15 +73,14 @@ Project & Application IDs
 {+service-short+} APIs frequently require two parameters: your |atlas|
 *Project/Group ID*, and your {+service-short+} *Application ID*.
 
-
 Project ID
 ~~~~~~~~~~
-
-.. _realm-api-application-id:
 
 To find your Project ID, go to your |atlas| administration console, click
 :guilabel:`Settings` in the {+leftnav+}, and look under the
 :guilabel:`Project ID` heading.
+
+.. _realm-api-application-id:
 
 Application ID
 ~~~~~~~~~~~~~~
@@ -90,7 +89,7 @@ To find your Application ID, make a request to the {+service-short+}
 `GET /groups/{groupid}/apps <{+base-url+}{+admin-api-page+}get-/groups/{groupid}/apps>`__ API endpoint.
 
 This request has the following format, referencing the ``access_token``
-described in :ref:`Realm API Authentication <realm-api-authentication>`:
+described in :ref:`realm-api-authentication`:
 
 .. code-block:: sh
 
