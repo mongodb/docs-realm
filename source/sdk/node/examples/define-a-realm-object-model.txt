@@ -100,14 +100,9 @@ the name and data type of the property under the ``properties`` field.
    The following schema defines a ``Dog`` type that has two properties: a string
    ``name`` and an integer ``age``.
    
-   .. tabs-realm-languages::
-     
-     .. tab::
-         :tabid: javascript
-         
-         .. literalinclude:: /examples/Schemas/DefineAProperty.js
-           :language: javascript
-           :emphasize-lines: 4, 5
+   .. literalinclude:: /examples/Schemas/DefineAProperty.js
+      :language: javascript
+      :emphasize-lines: 4, 5
 
 .. _node-specify-an-optional-property:
 .. _node-optional-properties:
@@ -122,14 +117,9 @@ To mark a property as optional, append a question mark ``?`` to its type.
    The following schema defines a DogSchema with the optional property ``breed``
    of type ``string``.
    
-   .. tabs-realm-languages::
-     
-     .. tab::
-         :tabid: javascript
-         
-         .. literalinclude:: /examples/Schemas/OptionalProperty.js
-           :language: javascript
-           :emphasize-lines: 4
+   .. literalinclude:: /examples/Schemas/OptionalProperty.js
+      :language: javascript
+      :emphasize-lines: 4
 
 .. _node-specify-a-primary-key:
 .. _node-primary-keys:
@@ -158,13 +148,10 @@ To specify a property as an object type's primary key, set the schema's
    
    The following ``Task`` object schema specifies the ``_id`` property as its
    primary key.
-   
-   .. tab::
-      :tabid: javascript
       
-      .. literalinclude:: /examples/Schemas/PrimaryKey.js
-         :language: javascript
-         :emphasize-lines: 9
+   .. literalinclude:: /examples/Schemas/PrimaryKey.js
+      :language: javascript
+      :emphasize-lines: 9
 
 .. _node-index-a-property:
 .. _node-indexes:
@@ -190,15 +177,10 @@ properties. To define an index for a given property, set ``indexed`` to
    
    The following ``Book`` object schema defines an index on the ``name``
    property.
-   
-   .. tabs-realm-languages::
-   
-      .. tab::
-         :tabid: javascript
-   
-         .. literalinclude:: /examples/Schemas/Indexed.js
-            :language: javascript
-            :emphasize-lines: 4
+    
+   .. literalinclude:: /examples/Schemas/Indexed.js
+      :language: javascript
+      :emphasize-lines: 4
 
 .. _node-define-a-default-property-value:
 .. _node-default-values:
@@ -234,14 +216,9 @@ your code.
    ``first_name`` property. The schema maps the property to ``firstName`` for
    objects used in JavaScript code.
    
-   .. tabs-realm-languages::
-   
-      .. tab::
-         :tabid: javascript
-   
-         .. literalinclude:: /examples/Schemas/Mapped.js
-            :language: javascript
-            :emphasize-lines: 5
+   .. literalinclude:: /examples/Schemas/Mapped.js
+      :language: javascript
+      :emphasize-lines: 5
 
 
 .. _node-define-relationship-properties:
@@ -267,14 +244,9 @@ as the property type.
    own a single ``Dog``. If they do own a ``Dog``, Realm links to it via the
    ``dog`` property:
    
-   .. tabs-realm-languages::
-     
-     .. tab::
-         :tabid: javascript
- 
-         .. literalinclude:: /examples/Relationships/ToOne/ToOne.js
-           :language: javascript
-           :emphasize-lines: 6
+   .. literalinclude:: /examples/Relationships/ToOne/ToOne.js
+      :language: javascript
+      :emphasize-lines: 6
 
 .. _node-define-a-to-many-relationship-property:
 
@@ -294,14 +266,9 @@ as a list.
    that a Person may own multiple Dogs by including them in its ``dog``
    property:
    
-   .. tabs-realm-languages::
-   
-      .. tab::
-         :tabid: javascript
-   
-         .. literalinclude:: /examples/Relationships/ToMany/ToMany.js
-            :language: javascript
-            :emphasize-lines: 6
+   .. literalinclude:: /examples/Relationships/ToMany/ToMany.js
+      :language: javascript
+      :emphasize-lines: 6
 
 
 .. _node-define-an-inverse-relationship-property:
@@ -337,15 +304,15 @@ relationship to invert.
          :tabid: javascript
           
          .. literalinclude:: /examples/Relationships/Inverse/Inverse.js
-           :language: javascript
-           :emphasize-lines: 8, 19-23
+            :language: javascript
+            :emphasize-lines: 8, 19-23
      
      .. tab::
          :tabid: typescript
           
          .. literalinclude:: /examples/Relationships/Inverse/Inverse.ts
-           :language: javascript
-           :emphasize-lines: 5, 14, 23, 32-36
+            :language: javascript
+            :emphasize-lines: 5, 14, 23, 32-36
 
 .. _node-define-an-embedded-object-property:
 
@@ -373,12 +340,7 @@ object), set ``embedded`` to ``true``.
    that is embedded. A ``Business`` object can embed a list of ``Address``
    objects, whereas a ``Contact`` object can only embed a single ``Address``
    object.
-
-   .. tabs-realm-languages::
    
-      .. tab::
-         :tabid: javascript
-   
-         .. literalinclude:: /examples/Schemas/Embedded.js
-            :language: javascript
-            :emphasize-lines: 3, 18, 28
+   .. literalinclude:: /examples/Schemas/Embedded.js
+      :language: javascript
+      :emphasize-lines: 3, 18, 28
