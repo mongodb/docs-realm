@@ -13,7 +13,7 @@ type Build = { comMessage?: string[] };
 
 async function nextInStream<T>(
   stream: Stream<T>,
-  timeoutMs = 120000
+  timeoutMs = 3 * 60 * 1000 // allow a lot of time for autobuilder to complete
 ): Promise<T> {
   return new Promise((resolve, reject) => {
     const timeout = setTimeout(() => {
@@ -36,26 +36,30 @@ async function main(): Promise<string[] | undefined> {
   const db = remoteMongoClient.db("pool");
   const collection = db.collection<Build>("queue");
   const { argv } = process;
-  const ownerRepoBranch = argv[2];
+  const ownerActorRepoBranch = argv[2];
 
-  if (ownerRepoBranch === undefined) {
+  if (ownerActorRepoBranch === undefined) {
     return [`Usage: ${argv[0]} ${argv[1]} <owner/repo/branch>`];
   }
 
-  const [owner, repo, branch] = ownerRepoBranch.split("/");
-  if (!owner || !repo || !branch) {
+  const [owner, actor, repo, branch] = ownerActorRepoBranch.split("/");
+  if (!owner || !actor || !repo || !branch) {
     return [
-      `Expected CLI argument in form 'owner/repo/branch', got '${ownerRepoBranch}`,
+      `Expected CLI argument in form 'owner/repo/branch', got '${ownerActorRepoBranch}`,
     ];
   }
   const filter = {
-    "payload.repoOwner": owner,
+    "payload.repoOwner": { 
+      $or: [owner, actor]
+    },
     "payload.repoName": repo,
     "payload.branchName": branch,
   };
 
   const stream = await collection.watch({
-    "fullDocument.payload.repoOwner": owner,
+    "fullDocument.payload.repoOwner": { 
+      $or: [owner, actor]
+    },
     "fullDocument.payload.repoName": repo,
     "fullDocument.payload.branchName": branch,
   });
