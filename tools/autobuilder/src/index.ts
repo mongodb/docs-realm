@@ -2,11 +2,28 @@ import {
   AnonymousCredential,
   RemoteMongoClient,
   Stitch,
+  Stream,
 } from "mongodb-stitch-server-sdk";
 
 const STITCH_APP_ID = "workerpool-boxgs";
 
 const stitchClient = Stitch.initializeDefaultAppClient(STITCH_APP_ID);
+
+async function nextInStream<T>(
+  stream: Stream<T>,
+  timeoutMs = 60000
+): Promise<T> {
+  return new Promise((resolve, reject) => {
+    const timeout = setTimeout(() => {
+      reject(new Error(`Stream watcher timed out after ${timeoutMs}ms`));
+    }, timeoutMs);
+    stream.onNext((event) => {
+      clearTimeout(timeout);
+      stream.close();
+      resolve(event);
+    });
+  });
+}
 
 async function main(): Promise<string[] | undefined> {
   await stitchClient.auth.loginWithCredential(new AnonymousCredential());
@@ -34,9 +51,12 @@ async function main(): Promise<string[] | undefined> {
     "payload.repoName": repo,
     "payload.branchName": branch,
   };
-  const build = await collection
-    .find(filter, { limit: 1, sort: { createdTime: -1 } })
-    .first();
+
+  const stream = await collection.watch({
+    fullDocument: filter,
+  });
+
+  const build = (await nextInStream(stream)).fullDocument;
   const comMessage = build?.comMessage;
   if (comMessage === undefined) {
     return [`Nothing found for filter: ${JSON.stringify(filter)}`];
