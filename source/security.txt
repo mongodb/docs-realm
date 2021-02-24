@@ -48,3 +48,117 @@ all network requests to and from your application, including apps that connect
 from a Realm SDK as well as queries and operations on a linked :term:`MongoDB
 Atlas data source <linked cluster>`. The TLS certificate is pre-defined and
 cannot be customized.
+
+.. _realm-public-ips:
+.. _firewall-configuration:
+
+Firewall Configuration
+----------------------
+
+{+service+} only sends requests from the following IP addresses. You can
+copy this list to an allowlist on your firewall:
+
+.. code-block:: text
+
+   13.236.189.10
+   18.202.2.23
+   18.210.66.32
+   18.211.240.224
+   18.213.24.164
+   52.63.26.53
+   54.203.157.107
+   54.69.74.169
+   54.76.145.13
+
+Additionally, {+service-short+} uses the following IPs in the following
+regions:
+
+**ap-south-1**
+
+.. code-block::  text
+
+   13.232.212.70
+   13.233.17.88
+   3.6.255.136
+   3.7.215.88
+   65.0.113.75
+   65.0.188.79
+
+**ap-southeast-1**
+
+.. code-block::  text
+   
+   122.248.203.228
+   13.251.170.158
+   18.136.226.22
+   54.179.247.236
+   54.251.109.67
+   54.255.78.248
+
+**ap-southeast-2**
+
+.. code-block::  text
+
+   13.238.106.70
+   3.105.146.190
+   52.65.242.206
+   54.79.24.107
+
+**eu-central-1**
+
+.. code-block:: text
+
+   3.121.58.147
+   3.121.9.73
+   3.121.97.130
+   3.122.49.121
+   52.28.11.211
+   52.29.205.189
+
+**eu-west-1**
+
+.. code-block:: text
+
+   108.128.45.118
+   108.128.51.69
+   108.128.63.52
+   108.128.66.107
+   108.128.66.245
+   52.213.157.241
+
+**eu-west-2**
+
+.. code-block:: text
+
+   3.9.47.47
+   3.9.6.254
+   3.9.61.59
+   3.9.74.211
+   3.9.85.190
+   35.176.121.115
+
+**eu-east-1**
+
+.. code-block:: text
+
+   100.26.2.217
+   3.208.110.31
+   3.212.79.116
+   3.214.203.147
+   3.215.10.168
+   3.215.143.88
+   3.92.113.229
+   34.193.91.42
+   34.236.228.98
+   34.237.40.31
+
+**us-west-2**
+
+.. code-block:: text
+
+   35.161.32.231
+   35.161.40.209
+   35.163.245.143
+   35.166.246.78
+   52.34.65.236
+   54.149.249.153
