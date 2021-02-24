@@ -7,7 +7,6 @@ on:
 
 jobs:
   build:
-    name: Check Autobuilder for Errors
     runs-on: ubuntu-latest
 
     strategy:
@@ -20,5 +19,4 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - run: cd tools/autobuilder && npm install
-      - run: node . ${GITHUB_SHA}
+      - run: cd tools/autobuilder && npm install && npm run build && node . ${GITHUB_SHA}
