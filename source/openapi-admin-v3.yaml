@@ -1713,8 +1713,7 @@ paths:
                   $ref: "#/components/schemas/AssetMetadata"
                   required: [meta, file]
                   description: >-
-                    An asset metadata document (encoded as JSON).
-                    .. include:: /includes/asset-metadata-example.rst
+                    An :ref:`asset metadata document <asset-metadata-document>` (encoded as JSON).
                 file:
                   type: string
                   format: binary
@@ -2538,10 +2537,10 @@ components:
               type: array of strings
               description: >-
                 **Required for Database Triggers** --
-                Minimum Items: 1
                 The :ref:`database event operation types
                 <database-events>` to listen for.
               enum: ["INSERT", "UPDATE", "REPLACE", "DELETE"]
+              minimum: 1
             operation_type:
               type: string
               description: >-
@@ -2603,9 +2602,8 @@ components:
             value is an object that configures its corresponding event
             processor.
             The following event processors are supported: ``AWS_EVENTBRIDGE``
-            The following object configures a trigger to :doc:`send events to AWS
-            Eventbridge </triggers/eventbridge>`.
-            .. include:: /includes/event-processor-example.rst
+            For an example configuration object, see
+            :ref:`Send Trigger Events to AWS EventBridge <event_processor_example>`.
     MetadataAttribute:
       type: object
       properties:
