@@ -5,6 +5,11 @@ import {
   Stream,
 } from "mongodb-stitch-server-sdk";
 
+// Add expected errors here.
+const expectedErrors: RegExp[] = [
+  /^ERROR\(admin\/api\/v3\.txt.*Target not found: "extlink:None"/
+];
+
 const STITCH_APP_ID = "workerpool-boxgs";
 
 const stitchClient = Stitch.initializeDefaultAppClient(STITCH_APP_ID);
@@ -13,7 +18,7 @@ type Build = { comMessage?: string[] };
 
 async function nextInStream<T>(
   stream: Stream<T>,
-  timeoutMs = 120000
+  timeoutMs = 3 * 60 * 1000 // allow a lot of time for autobuilder to complete
 ): Promise<T> {
   return new Promise((resolve, reject) => {
     const timeout = setTimeout(() => {
@@ -36,26 +41,32 @@ async function main(): Promise<string[] | undefined> {
   const db = remoteMongoClient.db("pool");
   const collection = db.collection<Build>("queue");
   const { argv } = process;
-  const ownerRepoBranch = argv[2];
+  const actorOwnerRepoBranch = argv[2];
 
-  if (ownerRepoBranch === undefined) {
+  if (actorOwnerRepoBranch === undefined) {
     return [`Usage: ${argv[0]} ${argv[1]} <owner/repo/branch>`];
   }
 
-  const [owner, repo, branch] = ownerRepoBranch.split("/");
-  if (!owner || !repo || !branch) {
+  const [actor, owner, repo, branch] = actorOwnerRepoBranch.split("/");
+  if (!actor || !owner || !repo || !branch) {
     return [
-      `Expected CLI argument in form 'owner/repo/branch', got '${ownerRepoBranch}`,
+      `Expected CLI argument in form 'owner/repo/branch', got '${actorOwnerRepoBranch}`,
     ];
   }
   const filter = {
-    "payload.repoOwner": owner,
+    $or: [
+      {"payload.repoOwner": actor},
+      {"payload.repoOwner": owner},
+    ],
     "payload.repoName": repo,
     "payload.branchName": branch,
   };
 
   const stream = await collection.watch({
-    "fullDocument.payload.repoOwner": owner,
+    $or: [
+      {"fullDocument.payload.repoOwner": actor},
+      {"fullDocument.payload.repoOwner": owner},
+    ],
     "fullDocument.payload.repoName": repo,
     "fullDocument.payload.branchName": branch,
   });
@@ -69,10 +80,13 @@ async function main(): Promise<string[] | undefined> {
     console.log("Falling back to findOne.");
     build = await collection.findOne(filter);
   }
+  if (build == null) {
+    return [`Nothing found for filter: ${JSON.stringify(filter)}, build=${JSON.stringify(build)}`];
+  }
 
-  const comMessage = build?.comMessage;
+  const comMessage = build.comMessage;
   if (comMessage === undefined) {
-    return [`Nothing found for filter: ${JSON.stringify(filter)}`];
+    return [`comMessage undefined, build=${JSON.stringify(build)}`];
   }
   const log = comMessage[0];
   if (log === undefined) {
@@ -96,7 +110,19 @@ main()
     if (errors === undefined) {
       process.exit(0);
     }
-    console.error("Encountered the following errors:");
-    console.error(errors.join("\n"));
+    const unexpectedErrors = errors.filter(error => {
+      for (let re of expectedErrors) {
+        if (re.test(error)) {
+          return false;
+        }
+      }
+      return true;
+    });
+    if (unexpectedErrors.length === 0) {
+      console.log("Passed with expected errors.");
+      process.exit(0);
+    }
+    console.error("Encountered the following unexpected errors:");
+    console.error(unexpectedErrors.join("\n"));
     process.exit(1);
   });
