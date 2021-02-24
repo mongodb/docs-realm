@@ -150,3 +150,37 @@ following URL:
       curl --location --request POST 'https://realm.mongodb.com/api/client/v2.0/auth/session' \
         --header 'Content-Type: application/json' \
         --header 'Authorization: Bearer <Refresh Token>'
+
+.. _verify-client-access-token:
+
+Verify a Client Access Token
+----------------------------
+
+If you want to verify that a client access token is valid, you can do so using
+the :ref:`verify access token endpoint in the administration API <adminVerifyUserAccessToken>`.
+
+The Admin API verify access token endpoint accepts a ``POST`` request that
+includes the client access token as the payload, and requires an :ref:`Admin API 
+access token <realm-api-authentication>` ``Authorization`` header, to this URL:
+
+.. code-block:: text
+   
+   https://realm.mongodb.com/api/admin/v3.0/​groups/​{groupId}/​apps/​{appId}/​users/​verify_token
+
+.. example::
+
+   The following request demonstrates how to use a the Admin API endpoint to 
+   verify that a user's client access token is valid. Replace ``<API Access Token>`` 
+   with the ``access_token`` value you get after authenticating with the
+   Admin API, and ``<Client Access Token>`` with the client access token you
+   got using one of the above methods. 
+   
+   .. code-block:: shell
+      :emphasize-lines: 3
+   
+      curl --location --request POST 'https://realm.mongodb.com/api/admin/v3.0/​groups/​{groupId}/​apps/​{appId}/​users/​verify_token' \
+        --header 'Content-Type: application/json' \
+        --header 'Authorization: Bearer <API Access Token>'
+        --data-raw '{
+              	 "token": "<Client Access Token>"
+              }
