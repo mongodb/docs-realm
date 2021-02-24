@@ -150,13 +150,12 @@ configuration files:
      - If ``true``, ``UPDATE`` change events include the most current
        :manual:`majority-committed </reference/read-concern-majority/>` version
        of the modified document in the ``fullDocument`` field.
-
+       
        .. note::
           
-          This option only affects ``UPDATE`` change events. ``INSERT``
-          and ``REPLACE`` events always include the ``fullDocument``
-          field. ``DELETE`` events never include the ``fullDocument``
-          field. For more information, see the :manual:`change events
+          ``INSERT`` and ``REPLACE`` events always include the ``fullDocument``
+          field. ``DELETE`` events never include the ``fullDocument`` field. For
+          more information, see the :manual:`change events
           </reference/change-events/>` reference page.
        
        .. tip::

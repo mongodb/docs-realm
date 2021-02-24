@@ -20,14 +20,6 @@ MongoDB Data Source Configuration Files
 Service Configuration
 ---------------------
 
-.. important::
-
-   MongoDB service names are not necessarily the same as their linked data
-   source's name in Atlas. You define the service name for a data source when
-   you link it to your application. For linked clusters, the default MongoDB
-   service name is ``mongodb-atlas``. For linked Data Lakes, the default service
-   name is ``mongodb-datalake``.
-
 MongoDB Clusters
 ~~~~~~~~~~~~~~~~
 
@@ -55,7 +47,14 @@ MongoDB Clusters
        | String
      - The name of the MongoDB  service. The name may be at most 64 characters
        long and can only contain ASCII letters, numbers, underscores,
-       and hyphens. For clusters, the default name is ``mongodb-atlas``.
+       and hyphens.
+       
+       .. important::
+          
+          MongoDB service names are not necessarily the same as their linked
+          data source's name in Atlas. For linked clusters, the default MongoDB
+          service name is ``mongodb-atlas``. For linked Data Lakes, the default
+          service name is ``mongodb-datalake``.
    
    * - | ``type``
        | String
@@ -102,13 +101,17 @@ MongoDB Data Lakes
        | String
      - The name of the MongoDB  service. The name may be at most 64 characters
        long and can only contain ASCII letters, numbers, underscores,
-       and hyphens. For clusters, the default name is ``mongodb-atlas``.
-       For Data Lakes, it is ``mongodb-datalake``.
+       and hyphens.
+       
+       .. important::
+          
+          MongoDB service names are not necessarily the same as their linked
+          data source's name in Atlas. For linked Data Lakes, the default
+          service name is ``mongodb-datalake``.
    
    * - | ``type``
        | String
-     - For MongoDB Atlas clusters, this value is always ``"mongodb-atlas"``.
-       For Data Lakes, this value is always ``"datalake"``.
+     - For Data Lakes, this value is always ``"datalake"``.
    
    * - | ``config.dataLakeName``
        | String   
