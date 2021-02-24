@@ -36,30 +36,32 @@ async function main(): Promise<string[] | undefined> {
   const db = remoteMongoClient.db("pool");
   const collection = db.collection<Build>("queue");
   const { argv } = process;
-  const ownerActorRepoBranch = argv[2];
+  const actorOwnerRepoBranch = argv[2];
 
-  if (ownerActorRepoBranch === undefined) {
+  if (actorOwnerRepoBranch === undefined) {
     return [`Usage: ${argv[0]} ${argv[1]} <owner/repo/branch>`];
   }
 
-  const [owner, actor, repo, branch] = ownerActorRepoBranch.split("/");
-  if (!owner || !actor || !repo || !branch) {
+  const [actor, owner, repo, branch] = actorOwnerRepoBranch.split("/");
+  if (!actor || !owner || !repo || !branch) {
     return [
-      `Expected CLI argument in form 'owner/repo/branch', got '${ownerActorRepoBranch}`,
+      `Expected CLI argument in form 'owner/repo/branch', got '${actorOwnerRepoBranch}`,
     ];
   }
   const filter = {
-    "payload.repoOwner": { 
-      $or: [owner, actor]
-    },
+    $or: [
+      {"payload.repoOwner": actor},
+      {"payload.repoOwner": owner},
+    ],
     "payload.repoName": repo,
     "payload.branchName": branch,
   };
 
   const stream = await collection.watch({
-    "fullDocument.payload.repoOwner": { 
-      $or: [owner, actor]
-    },
+    $or: [
+      {"fullDocument.payload.repoOwner": actor},
+      {"fullDocument.payload.repoOwner": owner},
+    ],
     "fullDocument.payload.repoName": repo,
     "fullDocument.payload.branchName": branch,
   });
