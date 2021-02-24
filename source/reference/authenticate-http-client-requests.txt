@@ -157,7 +157,7 @@ Verify a Client Access Token
 ----------------------------
 
 If you want to verify that a client access token is valid, you can do so using
-the :ref:`verify access token endpoint in the administration API <adminVerifyUserAccessToken>`.
+the verify access token endpoint in the :ref:`administration API <admin-api>`.
 
 The Admin API verify access token endpoint accepts a ``POST`` request that
 includes the client access token as the payload, and requires an :ref:`Admin API 
@@ -178,9 +178,8 @@ access token <realm-api-authentication>` ``Authorization`` header, to this URL:
    .. code-block:: shell
       :emphasize-lines: 3
    
-      curl --location --request POST 'https://realm.mongodb.com/api/admin/v3.0/​groups/​{groupId}/​apps/​{appId}/​users/​verify_token' \
+      curl --request POST \
+        --url https://realm.mongodb.com/api/admin/v3.0/groups/{groupId}/apps/{appId}/users/verify_token \
+        --header 'Authorization: Bearer <API Access Token>' \
         --header 'Content-Type: application/json' \
-        --header 'Authorization: Bearer <API Access Token>'
-        --data-raw '{
-              	 "token": "<Client Access Token>"
-              }
+        --data '{ "token": "<Client Access Token>" }'
