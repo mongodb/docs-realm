@@ -157,7 +157,7 @@ Verify a Client Access Token
 ----------------------------
 
 If you want to verify that a client access token is valid, you can do so using
-the `verify access token endpoint <{+base-url+}{+admin-api-page+}get-/groups/{groupId}/apps/{appId}/users/verify-token>`__ 
+the `verify access token endpoint <{+base-url+}{+admin-api-page+}post-/groups/{groupId}/apps/{appId}/users/verify-token>`__ 
 in the administration API.
 
 This endpoint accepts ``POST`` request that includes these details:
@@ -197,7 +197,10 @@ token is valid:
         --header 'Content-Type: application/json' \
         --data '{ "token": "<Client Access Token>" }'
 
-If you get a ``200 OK`` with this object, the client access token is valid:
+Responses
+~~~~~~~~~
+
+**Valid access token**: If you get a ``200 OK`` with this object, the client access token is valid:
 
 .. code-block:: json
 
@@ -210,8 +213,8 @@ If you get a ``200 OK`` with this object, the client access token is valid:
     "device_id": "000000000000000000000000"
   }
 
-If the <API Access Token> has expired, you'll get a ``401 Unauthorized`` 
-containing this response:
+**Expired API Access Token**: If the <API Access Token> has expired, you'll get 
+a ``401 Unauthorized`` containing this response:
 
 .. code-block:: json
 
@@ -220,5 +223,20 @@ containing this response:
     "error_code": "InvalidSession"
   }
 
-If the <Client Access Token> has expired, you'll get a ``200 OK`` but
-the response will return ``token expired``.
+**Expired Client Access Token**: If the <Client Access Token> has expired, 
+you'll get a ``200 OK`` but the response will return ``token expired``.
+
+.. code-block:: json
+
+  {
+    "token expired"
+  }
+
+**Invalid Client Access Token**: If the <Client Access Token> is not valid,
+you'll get a ``400 Bad Request`` that contains additional details about the error.
+
+.. code-block:: json
+
+  {
+    "error": "token contains an invalid number of segments"
+  }
