@@ -1,4 +1,3 @@
-// :code-block-start: define-object-model-local
 package com.mongodb.realm.examples.model;
 
 import io.realm.RealmObject;
@@ -8,9 +7,6 @@ import io.realm.annotations.Required;
 
 import org.bson.types.ObjectId;
 
-// :hide-start:
-@RealmClass(name = "DefinitelyNotJavaTask")
-// :hide-end:
 public class Task extends RealmObject {
     @PrimaryKey
     private ObjectId _id = new ObjectId();
@@ -50,4 +46,3 @@ public class Task extends RealmObject {
     public Task() {}
 }
 
-// :code-block-end:
