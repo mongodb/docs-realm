@@ -17,21 +17,29 @@ async function main(): Promise<string[] | undefined> {
   const db = remoteMongoClient.db("pool");
   const collection = db.collection<{ comMessage?: string[] }>("queue");
   const { argv } = process;
-  const newHead = argv[2];
+  const ownerRepoBranch = argv[2];
 
-  if (newHead === undefined) {
-    return [`Usage: ${argv[0]} ${argv[1]} <commit hash>`];
+  if (ownerRepoBranch === undefined) {
+    return [`Usage: ${argv[0]} ${argv[1]} <owner/repo/branch>`];
   }
 
+  const [owner, repo, branch] = ownerRepoBranch.split("/");
+  if (!owner || !repo || !branch) {
+    return [
+      `Expected CLI argument in form 'owner/repo/branch', got '${ownerRepoBranch}`,
+    ];
+  }
+  const filter = {
+    "payload.repoOwner": owner,
+    "payload.repoName": repo,
+    "payload.branchName": branch,
+  };
   const build = await collection
-    .find(
-      { "payload.newHead": newHead },
-      { limit: 100, sort: { createdTime: -1 } }
-    )
+    .find(filter, { limit: 1, sort: { createdTime: -1 } })
     .first();
   const comMessage = build?.comMessage;
   if (comMessage === undefined) {
-    return [`Commit not found: ${newHead}`];
+    return [`Nothing found for filter: ${JSON.stringify(filter)}`];
   }
   const log = comMessage[0];
   if (log === undefined) {

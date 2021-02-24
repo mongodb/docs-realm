@@ -14,13 +14,9 @@ jobs:
         node-version: [14.x]
 
     steps:
-      - name: Dump GitHub context
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: echo "$GITHUB_CONTEXT"
       - uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - run: cd tools/autobuilder && npm install && npm run build && node . ${{github.event.pull_request.head.sha}}
+      - run: cd tools/autobuilder && npm install && npm run build && node . "${{github.event.pull_request.head.repo.full_name}}"/"${{github.head_ref}}"
