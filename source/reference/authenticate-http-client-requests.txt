@@ -160,12 +160,22 @@ If you want to verify that a client access token is valid, you can do so using
 the verify access token endpoint in the :ref:`administration API <admin-api>`.
 
 The Admin API verify access token endpoint accepts a ``POST`` request that
-includes the client access token as the payload, and requires an :ref:`Admin API 
-access token <realm-api-authentication>` ``Authorization`` header, to this URL:
+includes these details:
+- Use the client access token you got using one of the above methods for the payload
+- You'll need an :ref:`Admin API access token <realm-api-authentication>` ``Authorization`` header
+- The {groupId} and {appId} form the URL. View :ref:`the admin API documentation <realm-api-project-and-application-ids>` for details on how to find these
+
+With this information, call this API endpoint to verify that the client access 
+token is valid:
 
 .. code-block:: text
    
    https://realm.mongodb.com/api/admin/v3.0/​groups/​{groupId}/​apps/​{appId}/​users/​verify_token
+
+.. important:: Security recommendations
+   Because this endpoint requires admin API access, implementing this is best 
+   done as a backend service behind an authorization layer - not directly 
+   in the client app.
 
 .. example::
 
