@@ -18,7 +18,7 @@ type Build = { comMessage?: string[] };
 
 async function nextInStream<T>(
   stream: Stream<T>,
-  timeoutMs = 3 * 60 * 1000 // allow a lot of time for autobuilder to complete
+  timeoutMs = 5 * 60 * 1000 // allow a lot of time for autobuilder to complete
 ): Promise<T> {
   return new Promise((resolve, reject) => {
     const timeout = setTimeout(() => {
