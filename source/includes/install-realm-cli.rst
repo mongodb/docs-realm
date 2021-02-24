@@ -11,14 +11,14 @@
 
          .. code-block:: shell
 
-            npm install -g mongodb-realm-cli
+            npm install -g mongodb-realm-cli@1.1.0
 
          You can also install the CLI from npm with `Yarn
          <https://yarnpkg.com/en/>`_:
 
          .. code-block:: shell
 
-            yarn global add mongodb-realm-cli
+            yarn global add mongodb-realm-cli@1.1.0
 
      - id: manual-install
        name: Manual Install
