@@ -855,12 +855,12 @@ paths:
               required: [token]
       responses:
         '200':
-          description: Success returns this object.
+          description: Success returns this object. A 200 may also return "token expired".
           content:
             application/json:
               schema: 
                 properties:
-                  sub: {type: string, description: Contains user ID and custom user data if the app uses it.}
+                  sub: {type: string, description: Contains user ID and custom user data if it exists for the user.}
                   exp: {type: integer}
                   iat: {type: integer}
                   iss: {type: string}

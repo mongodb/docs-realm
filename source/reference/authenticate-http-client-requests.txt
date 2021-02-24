@@ -173,7 +173,8 @@ token is valid:
    
    https://realm.mongodb.com/api/admin/v3.0/​groups/​{groupId}/​apps/​{appId}/​users/​verify_token
 
-.. important::
+.. important:: Do Not Access the Admin API Directly from Client Applications
+   
    Because this endpoint requires admin API access, implementing this is best 
    done as a backend service behind an authorization layer - not directly 
    in the client app.
@@ -184,7 +185,8 @@ token is valid:
    verify that a user's client access token is valid. Replace ``<API Access Token>`` 
    with the ``access_token`` value you get after authenticating with the
    Admin API, and ``<Client Access Token>`` with the client access token you
-   got using one of the above methods. 
+   got using one of the above methods. In the URL, replace {groupId} and {appId}
+   with :ref:`the values for your Realm app <realm-api-project-and-application-ids>`.
    
    .. code-block:: shell
       :emphasize-lines: 3
@@ -194,3 +196,29 @@ token is valid:
         --header 'Authorization: Bearer <API Access Token>' \
         --header 'Content-Type: application/json' \
         --data '{ "token": "<Client Access Token>" }'
+
+If you get a ``200 OK`` with this object, the client access token is valid:
+
+.. code-block:: json
+
+  {
+    "sub": "60367b71e07e1fa6f55af328",
+    "exp": 1614185081,
+    "iat": 1614183281,
+    "iss": "60367b71e07e1fa6f55af32a",
+    "domain_id": "6025a0d127065da7ff49d260",
+    "device_id": "000000000000000000000000"
+  }
+
+If the <API Access Token> has expired, you'll get a ``401 Unauthorized`` 
+containing this response:
+
+.. code-block:: json
+
+  {
+    "error": "invalid session",
+    "error_code": "InvalidSession"
+  }
+
+If the <Client Access Token> has expired, you'll get a ``200 OK`` but
+the response will return ``token expired``.
