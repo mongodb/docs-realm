@@ -860,12 +860,13 @@ paths:
             application/json:
               schema: 
                 properties:
-                  sub: {type: string, description: Contains user ID and custom user data if it exists for the user.}
-                  exp: {type: integer}
-                  iat: {type: integer}
-                  iss: {type: string}
-                  domain_id: {type: string}
+                  sub: {type: string, description: "Contains user ID and :ref:`custom user data <custom-user-data>` if it exists for the user."}
+                  exp: {type: integer, description: Unix timestamp after which the JWT expires.}
+                  iat: {type: integer, description: Unix timestamp at which the JWT was issued.}
+                  iss: {type: string, description: The issuer of the JWT.}
+                  domain_id: {type: string, description: The UID representing the app domain.}
                   device_id: {type: string}
+                  data: {type: string, description: "Optional: any metadata stored with the token."}
     parameters:
       - $ref: "#/components/parameters/GroupId"
       - $ref: "#/components/parameters/AppId"
