@@ -14,13 +14,13 @@ Quick Start - .NET SDK
 
 Overview
 --------
-This page contains information to get a **local instance** of {+service-short+}
-integrated into your .NET app. 
+This page contains information to get Realm Database integrated into your .NET 
+app. 
 
 .. important::
 
-   If you will be using ``Sync`` and other backend features of {+service-short+} 
-   in your app, see :ref:`<dotnet-client-quick-start>`.
+   If you will be using :ref:`Sync <sync>` and other backend features of 
+   {+service-short+} in your app, see :ref:`<dotnet-client-quick-start>`.
 
 Import Realm
 ------------
@@ -29,6 +29,9 @@ In the shared code project of your solution, go to :guilabel:`Manage NuGet
 Packages`. In the NuGet Package Manager, switch to the Browse tab and then
 search for **Realm**. Select the latest version of the Realm package, and then 
 click :guilabel:`Add Package`. 
+
+.. figure:: /images/add-realm-via-nuget.png
+   :alt: Adding Realm via Nuget
 
 At the top of each C# file that uses Realm, add the following ``using``
 statement:
@@ -56,9 +59,12 @@ class is created.
 Open a Realm
 ------------
 
-Opening the ``realm`` that your app uses is achieved by calling either 
+To open your app's ``realm``, you call either 
 :dotnet-sdk:`Realm.GetInstance() <reference/Realms.Realm.html#Realms_Realm_GetInstance_System_String_>` or
-:dotnet-sdk:`Realm.GetInstanceAsync() <reference/Realms.Realm.html#Realms_Realm_GetInstanceAsync_Realms_RealmConfigurationBase_System_Threading_CancellationToken_>`:
+:dotnet-sdk:`Realm.GetInstanceAsync() <reference/Realms.Realm.html#Realms_Realm_GetInstanceAsync_Realms_RealmConfigurationBase_System_Threading_CancellationToken_>`.
+Which method you use depends entirely on if and how you are using `asynchronous 
+patterns <https://docs.microsoft.com/en-us/dotnet/csharp/async>`_ in your app. 
+The following code shows how to use ``GetInstance()``:
 
 .. literalinclude:: /examples/generated/dotnet/Program.codeblock.get-instance.cs
    :language: csharp
@@ -71,9 +77,9 @@ Once you have opened a {+realm+}, you can create :ref:`objects <dotnet-objects>`
 in it. All writes must occur within a 
 :ref:`Write transaction <dotnet-realm-database-writes>` block.
 
-The following code shows how to create a new ``Guitar`` object. You instantiate the 
-``Guitar`` class and then add the new guitar to the {+realm+} within a 
-``realm.Write`` block:
+The following code shows how to create a new ``Guitar`` object. In it, we 
+instantiate the ``Guitar`` class and then add the new guitar to the {+realm+} 
+within a ``realm.Write`` block:
 
 .. literalinclude:: /examples/generated/dotnet/Program.codeblock.write.cs
    :language: csharp
@@ -81,13 +87,15 @@ The following code shows how to create a new ``Guitar`` object. You instantiate 
 Find, Sort, and Filter Objects
 ------------------------------
 As with writes, any changes to a Realm object must occur within a 
-:ref:`Write transaction <dotnet-realm-database-writes>` block.
-The following code demonstrates how to:
+:ref:`Write transaction <dotnet-realm-database-writes>` block. The following code 
+demonstrates how to:
 
 - retrieve a live :ref:`collection <dotnet-client-collections>` of all ``Guitar`` 
   objects in the {+realm+},
 
-- filter the collection by using the Linq syntax,
+- filter the collection by using the 
+  `Linq <https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/linq/>`_ 
+  syntax,
 
 - sort the collection, and
 
@@ -98,7 +106,7 @@ The following code demonstrates how to:
 
 Modify an Object
 ----------------
-To modify a Guitar, object you update its properties in a write transaction block:
+To modify a Guitar object, you update its properties in a write transaction block:
 
 .. literalinclude:: /examples/generated/dotnet/Program.codeblock.update.cs
    :language: csharp
