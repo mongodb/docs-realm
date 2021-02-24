@@ -200,7 +200,7 @@ token is valid:
 Responses
 ~~~~~~~~~
 
-**Valid access token**: If you get a ``200 OK`` with this object, the client access token is valid:
+**Valid access token**: If you get a ``200 OK`` with this object, the <Client Access Token> is valid:
 
 .. code-block:: json
 
@@ -211,16 +211,6 @@ Responses
     "iss": "60367b71e07e1fa6f55af32a",
     "domain_id": "6025a0d127065da7ff49d260",
     "device_id": "000000000000000000000000"
-  }
-
-**Expired API Access Token**: If the <API Access Token> has expired, you'll get 
-a ``401 Unauthorized`` containing this response:
-
-.. code-block:: json
-
-  {
-    "error": "invalid session",
-    "error_code": "InvalidSession"
   }
 
 **Expired Client Access Token**: If the <Client Access Token> has expired, 
@@ -239,4 +229,14 @@ you'll get a ``400 Bad Request`` that contains additional details about the erro
 
   {
     "error": "token contains an invalid number of segments"
+  }
+
+**Expired API Access Token**: If the <API Access Token> has expired, you'll get 
+a ``401 Unauthorized`` containing this response:
+
+.. code-block:: json
+
+  {
+    "error": "invalid session",
+    "error_code": "InvalidSession"
   }
