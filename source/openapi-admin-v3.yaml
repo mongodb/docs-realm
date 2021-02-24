@@ -860,7 +860,7 @@ paths:
             application/json:
               schema: 
                 properties:
-                  sub: {type: string}
+                  sub: {type: string, description: Contains user ID, and custom user data if the app uses it.}
                   exp: {type: integer}
                   iat: {type: integer}
                   iss: {type: string}
