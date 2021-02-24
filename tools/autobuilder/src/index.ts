@@ -18,7 +18,7 @@ type Build = { comMessage?: string[] };
 
 async function nextInStream<T>(
   stream: Stream<T>,
-  timeoutMs = 5 * 60 * 1000 // allow a lot of time for autobuilder to complete
+  timeoutMs = 3 * 60 * 1000 // allow a lot of time for autobuilder to complete
 ): Promise<T> {
   return new Promise((resolve, reject) => {
     const timeout = setTimeout(() => {
@@ -80,10 +80,13 @@ async function main(): Promise<string[] | undefined> {
     console.log("Falling back to findOne.");
     build = await collection.findOne(filter);
   }
+  if (build == null) {
+    return [`Nothing found for filter: ${JSON.stringify(filter)}, build=${JSON.stringify(build)}`];
+  }
 
-  const comMessage = build?.comMessage;
+  const comMessage = build.comMessage;
   if (comMessage === undefined) {
-    return [`Nothing found for filter: ${JSON.stringify(filter)}`];
+    return [`comMessage undefined, build=${JSON.stringify(build)}`];
   }
   const log = comMessage[0];
   if (log === undefined) {
