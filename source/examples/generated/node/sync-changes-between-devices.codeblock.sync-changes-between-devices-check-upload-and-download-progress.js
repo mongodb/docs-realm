@@ -26,3 +26,9 @@ realm.write(() => {
   });
 });
 // use dog
+
+// remember to unregister the progress notifications
+syncSession.removeProgressNotification((transferred, transferable) => {
+  console.log(`There was ${transferable} total transferable bytes`);
+  console.log(`${transferred} bytes were transferred`);
+});

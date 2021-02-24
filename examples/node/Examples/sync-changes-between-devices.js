@@ -143,6 +143,12 @@ describe("Sync Changes Between Devices", () => {
       });
     });
     // use dog
+
+    // remember to unregister the progress notifications
+    syncSession.removeProgressNotification((transferred, transferable) => {
+      console.log(`There was ${transferable} total transferable bytes`);
+      console.log(`${transferred} bytes were transferred`);
+    });
     // :code-block-end:
     expect(progressNotificationHasBeenTriggered).toBe(true);
     // Delete the dog from the realm.
