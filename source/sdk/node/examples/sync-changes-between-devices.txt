@@ -56,10 +56,33 @@ The ``syncSession.addProgressNotification()`` method takes in the following thre
 - A ``mode`` parameter that can be set to ``"reportIndefinitely"`` (for the notifications to continue until the callback is unregistered using the :js-sdk:`syncSession.removeProgressNotification() <Realm.App.Sync.Session.html#.removeProgressNotification>` method), or ``"forCurrentlyOutstandingWork"`` (for the notifications to continue until only the currently transferable bytes are synced).
 - A callback parameter that has the arguements ``transferred`` and ``transferable`` which represents the current number of bytes already transferred and the number of transferable bytes (the number of bytes already transferred plus the number of bytes pending transfer) respectively.
 
+.. example::
 
-.. literalinclude:: /examples/generated/node/sync-changes-between-devices.codeblock.sync-changes-between-devices-check-upload-and-download-progress.js
+   In the following example, an application developer registers a callback on the ``syncSession`` to
+   listen for upload events indefinitely. The developer writes to the realm, and
+   then unregisters the ``syncSession`` notification callback. 
+
+   .. literalinclude:: /examples/generated/node/sync-changes-between-devices.codeblock.sync-changes-between-devices-check-upload-and-download-progress.js
+      :language: javascript
+
+
+.. _node-check-network-connection:
+
+Check the Network Connection
+----------------------------
+To check the current state of the connection to the server, call the
+:js-sdk:`syncSession.connectionState()
+<Realm.App.Sync.Session.html#.connectionState>` method.
+
+.. tip:: 
+
+   {+service+}'s *offline-first* design means that you generally don't need to
+   check the current network connection state. That said, the
+   ``syncSession.connectionState()`` method is available if your app calls for
+   some indication of connection state.
+
+.. literalinclude:: /examples/generated/node/sync-changes-between-devices.codeblock.sync-changes-between-devices-check-network-connection.js
    :language: javascript
-
 
 .. _node-set-the-client-log-level:
 
