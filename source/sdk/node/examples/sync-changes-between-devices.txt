@@ -54,7 +54,7 @@ The ``syncSession.addProgressNotification()`` method takes in the following thre
 
 - A ``direction`` parameter that can be set to ``"upload"`` or ``"download"`` to register notifications for either event.
 - A ``mode`` parameter that can be set to ``"reportIndefinitely"`` (for the notifications to continue until the callback is unregistered using the :js-sdk:`syncSession.removeProgressNotification() <Realm.App.Sync.Session.html#.removeProgressNotification>` method), or ``"forCurrentlyOutstandingWork"`` (for the notifications to continue until only the currently transferable bytes are synced).
-- A callback parameter that has the arguements ``transferred`` and ``transferable`` which represents the current number of bytes already transferred and the number of transferable bytes (the number of bytes already transferred plus the number of bytes pending transfer) respectively.
+- A callback parameter with the arguments ``transferred`` and ``transferable``, representing the current number of bytes already transferred and the number of transferable bytes (the number of bytes already transferred plus the number of bytes pending transfer), respectively.
 
 .. example::
 
