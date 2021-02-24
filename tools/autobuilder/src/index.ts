@@ -55,6 +55,7 @@ async function main(): Promise<string[] | undefined> {
   let build = await collection.findOne(filter);
 
   if (build == null) {
+    console.log(`${JSON.stringify(filter)} not found, waiting for update...`);
     const stream = await collection.watch({
       filter: { fullDocument: filter },
     });
