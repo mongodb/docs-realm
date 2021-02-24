@@ -2538,9 +2538,9 @@ components:
               description: >-
                 **Required for Database Triggers** --
                 The :ref:`database event operation types
-                <database-events>` to listen for.
+                <database-events>` to listen for. This must contain at
+                least one value.
               enum: ["INSERT", "UPDATE", "REPLACE", "DELETE"]
-              minimum: 1
             operation_type:
               type: string
               description: >-
