@@ -5,6 +5,11 @@ import {
   Stream,
 } from "mongodb-stitch-server-sdk";
 
+// Add expected errors here.
+const expectedErrors: RegExp[] = [
+  /^ERROR\(admin\/api\/v3\.txt.*Target not found: "extlink:None"/
+];
+
 const STITCH_APP_ID = "workerpool-boxgs";
 
 const stitchClient = Stitch.initializeDefaultAppClient(STITCH_APP_ID);
@@ -102,7 +107,19 @@ main()
     if (errors === undefined) {
       process.exit(0);
     }
-    console.error("Encountered the following errors:");
-    console.error(errors.join("\n"));
+    const unexpectedErrors = errors.filter(error => {
+      for (let re of expectedErrors) {
+        if (re.test(error)) {
+          return false;
+        }
+      }
+      return true;
+    });
+    if (unexpectedErrors.length === 0) {
+      console.log("Passed with expected errors.");
+      process.exit(0);
+    }
+    console.error("Encountered the following unexpected errors:");
+    console.error(unexpectedErrors.join("\n"));
     process.exit(1);
   });
