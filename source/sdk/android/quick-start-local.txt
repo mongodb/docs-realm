@@ -29,69 +29,17 @@ integrated into your app. Before you begin, ensure you have:
 
 .. include:: /includes/android-initialize-realm.rst
 
-.. _android-quick-start-init-app-local:
-
-Initialize the App
-------------------
-
-To use {+backend+} features such as authentication and sync, you must
-access your {+app+} using your {+app+} ID. You can find your {+app+} ID in the
-{+ui+}.
-
-.. tabs-realm-languages::
-
-   .. tab::
-      :tabid: java
-
-      .. literalinclude:: /examples/generated/android/MainActivity.codeblock.initialize-realm-local.java
-         :language: java
-   
-   .. tab::
-      :tabid: kotlin
-
-      .. literalinclude:: /examples/generated/android/MainActivity.codeblock.initialize-realm-local.kt
-         :language: kotlin
-
-.. note:: Android Studio Errors?
-
-   If Android Studio does not recognize the ``Realm``, ``App``, or
-   ``AppConfiguration`` types, there could be a problem with the
-   your Gradle build configuration. To fix the issue:
-
-   - Clean your project with ``Build > Clean Project``
-
-   - Rebuild your project based on your updated ``build.gradle`` file
-     with ``Build > Rebuild Project``
-
-   - Revisit the :ref:`Install the Android SDK <android-install>`
-     guide to make sure that you installed the dependencies correctly.
-
 Define Your Object Model
 ------------------------
 
 Your application's **data model** defines the structure of data
 stored within {+client-database+} and synchronized to and from
-{+backend+}. You can define your application's data model in two ways:
+{+backend+}. You can define your application's data model via Kotlin or
+Java classes in your application code with
+:ref:`Realm Object Models <create-schema-from-rom>`.
 
-- Via JSON :ref:`document schemas <mongodb-schemas>` in {+backend+} with
-  :ref:`Realm Schema <create-rom-from-schema>`.
-
-- Via Kotlin or Java classes in your application code with
-  :ref:`Realm Object Models <create-schema-from-rom>`.
-
-This quick start uses the latter approach, which defines your schema
-using classes in your mobile application code. To define your {+app+}'s
-object model in this way, you need to :ref:`enable Developer Mode
-<enable-development-mode>`.
-
-Once you've enabled Developer Mode, add the following class
+To define your application's data model, add the following class
 definitions to your application code:
-
-.. seealso::
-
-   See :ref:`Configure Your Data Model <configure-your-data-model>` for
-   more information on Realm Schema, object models, and Developer
-   Mode.
 
 .. tabs-realm-languages::
 
@@ -113,13 +61,10 @@ definitions to your application code:
 Open a Realm
 ------------
 
-Once you have :ref:`enabled {+sync+} <enable-sync>` and authenticated a
-user, you can open a synced :ref:`{+realm+} <android-realms>`. Use the
-``SyncConfiguration`` to control the specifics of how your application
-synchronizes data with {+backend+}, including the :ref:`partition
-<partitioning>`, how long to wait before a request times out, whether
-to allow synchronous reads or writes to a {+realm+} on the UI thread,
-and more.
+Use ``RealmConfiguration`` to control the specifics of the {+realm+} you
+would like to open, including the :ref:`partition <partitioning>`,
+whether to allow synchronous reads or writes to a {+realm+} on the UI
+thread, and more.
 
 .. tabs-realm-languages::
 
@@ -257,14 +202,11 @@ method:
 Complete Example
 ----------------
 
-Run the complete example by replacing the appId with your {+realm+} app ID.
 If you're running this project in a fresh Android Studio project, you can
 copy and paste this file into your application's ``MainActivity`` -- just
 remember to:
 
 - change the package declaration so it matches your project
-
-- replace the App ID placeholder with your {+app+}'s App ID
 
 - update the ``import`` statements for ``Task`` and ``TaskStatus`` if
   you're using java
