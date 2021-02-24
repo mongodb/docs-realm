@@ -52,11 +52,15 @@ async function main(): Promise<string[] | undefined> {
     "payload.branchName": branch,
   };
 
-  const stream = await collection.watch({
-    fullDocument: filter,
-  });
+  let build = await collection.findOne(filter);
 
-  const build = (await nextInStream(stream)).fullDocument;
+  if (build == null) {
+    const stream = await collection.watch({
+      filter: { fullDocument: filter },
+    });
+    build = (await nextInStream(stream)).fullDocument ?? null;
+  }
+
   const comMessage = build?.comMessage;
   if (comMessage === undefined) {
     return [`Nothing found for filter: ${JSON.stringify(filter)}`];
