@@ -1,6 +1,6 @@
 # Reviewing Guidelines for the MongoDB Realm Documentation
 
-The MongoDB Realm Docs Team (also known as Developer Education) produces
+The MongoDB Realm Docs Team (a part of the Developer Education Team) produces
 documentation for MongoDB Realm using JIRA and GitHub. Here's what the
 process looks like:
 
