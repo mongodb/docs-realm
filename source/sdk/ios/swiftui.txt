@@ -23,7 +23,7 @@ Overview
 --------
 
 This page contains all of the code for a working Realm and SwiftUI app.
-The app starts on the ItemsView, where you can edit a list of items:
+The app starts on the **ItemsView**, where you can edit a list of items:
 
 - Press the :guilabel:`Add` button on the bottom right of the screen to add randomly-generated items.
 - Press the :guilabel:`Edit` button on the top right to modify the list order, which the app persists in the {+realm+}.
@@ -42,10 +42,10 @@ item name or mark it as a favorite:
    This guide optionally integrates with :ref:`{+sync+} <sync>`. See
    :ref:`swiftui-integrate-with-sync` below.
 
-Import Realm
-~~~~~~~~~~~~
+Get Started
+~~~~~~~~~~~
 
-We assume you have create an Xcode project with the SwiftUI "App"
+We assume you have created an Xcode project with the SwiftUI "App"
 template. Open the main Swift file and delete all of the code inside,
 including any ``@main`` ``App`` classes that Xcode generated for you. At
 the top of the file, import the Realm, Combine, and SwiftUI frameworks:
@@ -72,6 +72,8 @@ An item has two user-facing properties:
 
 A group contains items. You can extend the group to have a name and an
 association with a specific user, but that's out of scope of this guide.
+
+Paste the following code into your main Swift file to define the models:
 
 .. literalinclude:: /examples/generated/swiftui/local/QuickStart.codeblock.models.swift
    :language: swift
@@ -164,7 +166,7 @@ across devices. Before you can add sync to this app, make sure to:
    The Sync version of this app changes the app flow a bit. The first
    screen becomes the **LoginView**. When you press the :guilabel:`Log
    in` button, the app navigates to the ItemsView, where you see the
-   synced list of **items** in a single **group**.
+   synced list of items in a single group.
 
 At the top of the source file, initialize an optional :swift-sdk:`Realm
 app <Extensions/App.html>` with :ref:`your Realm app ID
