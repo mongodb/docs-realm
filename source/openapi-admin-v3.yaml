@@ -865,7 +865,7 @@ paths:
                   exp: {type: integer, description: Unix timestamp after which the JWT expires.}
                   iat: {type: integer, description: Unix timestamp at which the JWT was issued.}
                   iss: {type: string, description: The issuer of the JWT.}
-                  custom_user_data: {type: object, description: "Optional; contains :ref:`custom user data <custom-user-data>` if it exists for the user. Omitted if empty."}
+                  custom_user_data: {type: object, description: "Optional; contains :ref:`custom user data <custom-user-data>` if it exists for the user. Only present if the access token is created after custom user data is enabled and configured. Omitted if empty."}
                   domain_id: {type: string, description: The UID representing the app domain.}
                   data: {type: string, description: "Optional: any metadata stored with the token. Omitted if empty."}
                   device_id: {type: string, description: The UID representing the device.}
