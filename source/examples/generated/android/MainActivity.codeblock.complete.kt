@@ -1,4 +1,3 @@
-// :code-block-start: complete
 package com.mongodb.realm.examples.kotlin
 
 import org.bson.types.ObjectId
@@ -22,9 +21,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // :code-block-start: initialize-realm-local
         Realm.init(this) // context, usually an Activity or Application
-        // :code-block-end:
 
         val config = RealmConfiguration.Builder()
             .build()
@@ -37,18 +34,9 @@ class MainActivity : AppCompatActivity() {
         val executorService: ExecutorService = Executors.newFixedThreadPool(2)
         executorService.execute(task)
 
-        // :hide-start:
-        while(!task.isDone) {
-            // wait for task completion
-        }
-        Log.v("QUICKSTART", "Result: ${task.get()}")
-
-        finish() // destroy activity when background task completes
-        // :hide-end:
     }
 
     fun addChangeListenerToRealm(realm : Realm) {
-        // :code-block-start: watch-for-changes-local
         // all tasks in the realm
         val tasks : RealmResults<Task> = realm.where<Task>().findAllAsync()
 
@@ -70,7 +58,6 @@ class MainActivity : AppCompatActivity() {
                 Log.v("QUICKSTART", "Updated range: ${range.startIndex} to ${range.startIndex + range.length - 1}")
             }
         })
-        // :code-block-end:
     }
 
     override fun onDestroy() {
@@ -83,32 +70,23 @@ class MainActivity : AppCompatActivity() {
     class BackgroundQuickStart : Runnable {
 
         override fun run() {
-            // :code-block-start: open-a-realm-local
             val partitionValue: String = "My Project"
             val config = RealmConfiguration.Builder().build()
 
             val backgroundThreadRealm : Realm = Realm.getInstance(config)
-            // :code-block-end:
 
-            // :code-block-start: create-object-local
             val task : Task = Task("New Task", partitionValue)
             backgroundThreadRealm.executeTransaction { transactionRealm ->
                 transactionRealm.insert(task)
             }
-            // :code-block-end:
 
-            // :code-block-start: read-object-local
             // all tasks in the realm
             val tasks : RealmResults<Task> = backgroundThreadRealm.where<Task>().findAll()
-            // :code-block-end:
 
-            // :code-block-start: filter-collection-local
             // you can also filter a collection
             val tasksThatBeginWithN : List<Task> = tasks.where().beginsWith("name", "N").findAll()
             val openTasks : List<Task> = tasks.where().equalTo("status", TaskStatus.Open.name).findAll()
-            // :code-block-end:
 
-            // :code-block-start: update-object-local
             val otherTask: Task = tasks[0]!!
 
             // all modifications to a realm must happen inside of a write block
@@ -116,9 +94,7 @@ class MainActivity : AppCompatActivity() {
                 val innerOtherTask : Task = transactionRealm.where<Task>().equalTo("_id", otherTask._id).findFirst()!!
                 innerOtherTask.status = TaskStatus.Complete.name
             }
-            // :code-block-end:
 
-            // :code-block-start: delete-object-local
             val yetAnotherTask: Task = tasks.get(0)!!
             val yetAnotherTaskId: ObjectId = yetAnotherTask._id
             // all modifications to a realm must happen inside of a write block
@@ -126,7 +102,6 @@ class MainActivity : AppCompatActivity() {
                 val innerYetAnotherTask : Task = transactionRealm.where<Task>().equalTo("_id", yetAnotherTaskId).findFirst()!!
                 innerYetAnotherTask.deleteFromRealm()
             }
-            // :code-block-end:
 
             // because this background thread uses synchronous realm transactions, at this point all
             // transactions have completed and we can safely close the realm
@@ -136,7 +111,6 @@ class MainActivity : AppCompatActivity() {
     }
 }
 
-// :code-block-start: define-object-model-local
 
 enum class TaskStatus(val displayName: String) {
     Open("Open"),
@@ -164,5 +138,3 @@ open class Task(_name: String = "Task", project: String = "My Project") : RealmO
         set(value) { status = value.name }
 }
 
-// :code-block-end:
-// :code-block-end:

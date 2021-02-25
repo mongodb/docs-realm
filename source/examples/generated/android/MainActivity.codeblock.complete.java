@@ -1,4 +1,3 @@
-// :code-block-start: complete
 package com.mongodb.realm.examples.java;
 
 import io.realm.OrderedCollectionChangeSet;
@@ -32,9 +31,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // :code-block-start: initialize-realm-local
         Realm.init(this); // context, usually an Activity or Application
-        // :code-block-end:
 
         String partitionValue = "My Project";
         RealmConfiguration config = new RealmConfiguration.Builder().build();
@@ -47,24 +44,9 @@ public class MainActivity extends AppCompatActivity {
         ExecutorService executorService = Executors.newFixedThreadPool(2);
         executorService.execute(task);
 
-        // :hide-start:
-        while(!task.isDone()) {
-            // wait for task completion
-        }
-
-        try {
-            Log.v("QUICKSTART", "Result: " + task.get());
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        finish(); // destroy activity when background task completes
-        // :hide-end:
     }
 
     private void addChangeListenerToRealm(Realm realm) {
-        // :code-block-start: watch-for-changes-local
         // all tasks in the realm
         RealmResults<Task> tasks = uiThreadRealm.where(Task.class).findAllAsync();
 
@@ -86,7 +68,6 @@ public class MainActivity extends AppCompatActivity {
                     Log.v("QUICKSTART", "Updated range: " + range.startIndex + " to " + (range.startIndex + range.length - 1));                            }
             }
         });
-        // :code-block-end:
     }
 
 
@@ -102,32 +83,23 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void run() {
-            // :code-block-start: open-a-realm-local
             String partitionValue = "My Project";
             RealmConfiguration config = new RealmConfiguration.Builder().build();
 
             Realm backgroundThreadRealm = Realm.getInstance(config);
-            // :code-block-end:
 
-            // :code-block-start: create-object-local
             Task task = new Task("New Task");
             backgroundThreadRealm.executeTransaction (transactionRealm -> {
                 transactionRealm.insert(task);
             });
-            // :code-block-end:
 
-            // :code-block-start: read-object-local
             // all tasks in the realm
             RealmResults<Task> tasks = backgroundThreadRealm.where(Task.class).findAll();
-            // :code-block-end:
 
-            // :code-block-start: filter-collection-local
             // you can also filter a collection
             RealmResults<Task> tasksThatBeginWithN = tasks.where().beginsWith("name", "N").findAll();
             RealmResults<Task> openTasks = tasks.where().equalTo("status", TaskStatus.Open.name()).findAll();
-            // :code-block-end:
 
-            // :code-block-start: update-object-local
             Task otherTask = tasks.get(0);
 
             // all modifications to a realm must happen inside of a write block
@@ -135,9 +107,7 @@ public class MainActivity extends AppCompatActivity {
                 Task innerOtherTask = transactionRealm.where(Task.class).equalTo("_id", otherTask.get_id()).findFirst();
                 innerOtherTask.setStatus(TaskStatus.Complete);
             });
-            // :code-block-end:
 
-            // :code-block-start: delete-object-local
             Task yetAnotherTask = tasks.get(0);
             ObjectId yetAnotherTaskId = yetAnotherTask.get_id();
             // all modifications to a realm must happen inside of a write block
@@ -145,7 +115,6 @@ public class MainActivity extends AppCompatActivity {
                 Task innerYetAnotherTask = transactionRealm.where(Task.class).equalTo("_id", yetAnotherTaskId).findFirst();
                 innerYetAnotherTask.deleteFromRealm();
             });
-            // :code-block-end:
 
             // because this background thread uses synchronous realm transactions, at this point all
             // transactions have completed and we can safely close the realm
@@ -153,4 +122,3 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 }
-// :code-block-end:
