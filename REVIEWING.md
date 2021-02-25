@@ -43,7 +43,7 @@ necessary.
 - Wording
 - Page structure
 - Snooty Autobuilder build errors and warnings
-- Altered or added Example App tests (if any have changed, CI should
+- Altered or added example app tests (if any have changed, CI should
   automatically run)
 - Technical content from a "looks correct" perspective, since technical
   review should address deeper concerns
