@@ -1,4 +1,10 @@
 // Use [c] for case-insensitivity.
-print("Projects that start with 'e': \(projects.filter("name BEGINSWITH[c] 'e'").count)")
-print("Projects that contain 'ie': \(projects.filter("name CONTAINS 'ie'").count)")
-print("Projects that contain 'e', 'E', 'é', etc.: \(projects.filter("name CONTAINS[cd] 'e'").count)")
+let startWithE = projects.filter("name BEGINSWITH[c] 'e'")
+print("Projects that start with 'e': \(startWithE.count)")
+
+let containIe = projects.filter("name CONTAINS 'ie'")
+print("Projects that contain 'ie': \(containIe.count)")
+
+// [d] for diacritic insensitivty: contains 'e', 'E', 'é', etc.
+let containElike = projects.filter("name CONTAINS[cd] 'e'")
+print("Projects that contain 'e', 'E', 'é', etc.: \(containElike.count)")
