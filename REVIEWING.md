@@ -50,7 +50,7 @@ necessary.
 - Whether or not the PR fulfills the Acceptance Criteria described in the
   linked JIRA ticket.
 
-### What not to Review
+### What Not to Review
 
 Very little is completely off-limits to a copy edit of a PR -- if you
 notice a technical issue, it's best to call it out early than to waste
