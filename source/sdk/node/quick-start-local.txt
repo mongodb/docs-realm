@@ -129,3 +129,20 @@ You can delete an object by calling the :js-sdk:`realm.delete()
    .. literalinclude:: /examples/generated/node/quickstart-local.codeblock.quickstart-local-delete-an-object.js
      :language: javascript
 
+
+Watch a Collection
+------------------
+You can :ref:`watch a realm, collection, or object for changes
+<node-change-notifications>` by registering event handlers with the
+:js-sdk:`Realm.addListener() <Realm.html#addListener>`
+:js-sdk:`Object.addListener() <Realm.Object.html#addListener>`
+:js-sdk:`Collection.addListener() <Realm.Collection.html#addListener>`
+methods.
+
+.. example::
+
+    In the following example, an application developer watches for changes to the ``Task`` collection.
+    
+   .. literalinclude:: /examples/generated/node/quickstart-local.codeblock.quickstart-local-watch-a-collection.js
+     :language: javascript
+
