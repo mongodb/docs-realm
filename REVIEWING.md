@@ -74,7 +74,7 @@ perform the technical review.
 - Code snippets
 - Technical claims, e.g. ("To create a `Foo`, use the `Bar.createFoo()` method")
 - Missing "footguns", i.e. potential pitfalls that could trip up users
-  who try to follow the documetntation.
+  who try to follow the documentation.
 
 ### What not to Review
 
