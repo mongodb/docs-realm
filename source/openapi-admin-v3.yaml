@@ -839,6 +839,40 @@ paths:
       - $ref: "#/components/parameters/GroupId"
       - $ref: "#/components/parameters/AppId"
 
+  /groups/{groupId}/apps/{appId}/users/verify_token:
+    post:
+      tags: ["users"]
+      operationId: "adminVerifyUserAccessToken"
+      summary: "Verify a that a user's :ref:`client access token <get-client-api-access-token>` is valid."
+      requestBody:
+        required: true
+        description: The user's :ref:`client access token <get-client-api-access-token>`. This is distinct from the :ref:`API access token <realm-api-authentication>` you need to authenticate to the admin API.
+        content:
+          application/json:
+            schema:
+              properties:
+                token: {type: string}
+              required: [token]
+      responses:
+        '200':
+          description: "Success returns this object. A 200 :ref:`may also return token expired<verify-client-access-token-responses>`."
+          content:
+            application/json:
+              schema: 
+                properties:
+                  sub: {type: string, description: User ID.}
+                  aud: {type: string, description: "Optional; specifies which Resource Servers the JWT is valid for. Omitted if empty."}
+                  exp: {type: integer, description: Unix timestamp after which the JWT expires.}
+                  iat: {type: integer, description: Unix timestamp at which the JWT was issued.}
+                  iss: {type: string, description: The issuer of the JWT.}
+                  custom_user_data: {type: object, description: "Optional; contains :ref:`custom user data <custom-user-data>` if it exists for the user. Only present if the access token is created after custom user data is enabled and configured. Omitted if empty."}
+                  domain_id: {type: string, description: The UID representing the app domain.}
+                  data: {type: string, description: "Optional: any metadata stored with the token. Omitted if empty."}
+                  device_id: {type: string, description: The UID representing the device.}
+    parameters:
+      - $ref: "#/components/parameters/GroupId"
+      - $ref: "#/components/parameters/AppId"
+
   /groups/{groupId}/apps/{appId}/users/{uid}:
     get:
       tags: ["users"]
