@@ -1,8 +1,8 @@
-// :code-block-start: local-quickstart-import-realm
+// :code-block-start: quickstart-local-import-realm
 import Realm from "realm";
 // :code-block-end:
 
-// :code-block-start: local-quickstart-define-an-object-model
+// :code-block-start: quickstart-local-define-an-object-model
 const TaskSchema = {
   name: "Task",
   properties: {
@@ -15,15 +15,15 @@ const TaskSchema = {
 };
 // :code-block-end:
 
-describe("Local QuickStart", () => {
+describe("QuickStart Local", () => {
   test("should define an object model, open a realm, perform crud operations, and watch a collection", async () => {
-    // :code-block-start: local-quickstart-open-a-realm
+    // :code-block-start: quickstart-local-open-a-realm
     const realm = await Realm.open({
       path: "myrealm",
       schema: [TaskSchema],
     });
     // :code-block-end:
-    // :code-block-start: local-quickstart-create-realm-objects
+    // :code-block-start: quickstart-local-create-realm-objects
     // Add a couple of Tasks in a single, atomic transaction
     // Realm automatically sets the _partition property based on the partitionValue used to open the realm
     let task1, task2;
@@ -46,13 +46,13 @@ describe("Local QuickStart", () => {
     expect(task1.name).toBe("go grocery shopping");
     expect(task2.name).toBe("go exercise");
 
-    // :code-block-start: local-quickstart-find-sort-and-filter-objects
+    // :code-block-start: quickstart-local-find-sort-and-filter-objects
     // :code-block-end:
-    // :code-block-start: local-quickstart-modify-an-object
+    // :code-block-start: quickstart-local-modify-an-object
     // :code-block-end:
-    // :code-block-start: local-quickstart-delete-an-object
+    // :code-block-start: quickstart-local-delete-an-object
     // :code-block-end:
-    // :code-block-start: local-quickstart-watch-a-collection
+    // :code-block-start: quickstart-local-watch-a-collection
     // :code-block-end:
 
     realm.write(() => {
