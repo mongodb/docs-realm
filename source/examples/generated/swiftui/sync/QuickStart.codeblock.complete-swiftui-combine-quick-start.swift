@@ -1,20 +1,14 @@
-import Foundation
 import RealmSwift
 import Combine
 import SwiftUI
 
 // MARK: MongoDB Realm (Optional)
 
-// Set this to true if you have set up a MongoDB Realm app
-// with Realm Sync and anonymous authentication.
-let USE_REALM_SYNC = true
-
 // The Realm app. Change YOUR_REALM_APP_ID_HERE to your Realm app ID.
 // If you don't have a Realm app and don't wish to use Sync for now,
 // you can change this to:
 //   let app: RealmSwift.App? = nil
-let app = USE_REALM_SYNC ? RealmSwift.App(id: YOUR_REALM_APP_ID_HERE) : nil
-
+let app: RealmSwift.App? = RealmSwift.App(id: YOUR_REALM_APP_ID_HERE)
 // MARK: Models
 
 /// Random adjectives for more interesting demo item names
@@ -66,13 +60,12 @@ final class Group: Object, ObjectKeyIdentifiable {
     }
 }
 
-
 // MARK: Views
 
-// MARK: Main View
+// MARK: Main Views
 /// The main screen that determines whether to present the SyncContentView or the LocalOnlyContentView.
 @main
-struct Main: SwiftUI.App {
+struct ContentView: SwiftUI.App {
     var body: some Scene {
         WindowGroup {
             // Using Sync?
@@ -85,7 +78,7 @@ struct Main: SwiftUI.App {
     }
 }
 
-// The main content view if not using Sync.
+/// The main content view if not using Sync.
 struct LocalOnlyContentView: View {
     // Implicitly use the default realm's objects(Group.self)
     @ObservedResults(Group.self) var groups
@@ -143,7 +136,7 @@ struct SyncContentView: View {
 }
 
 // MARK: Authentication Views
-/// Represents the login screen. We will just have a button to log in anonymously.
+/// Represents the login screen. We will have a button to log in anonymously.
 struct LoginView: View {
     // Hold an error if one occurs so we can display it.
     @State var error: Error?
@@ -237,7 +230,7 @@ struct ItemsView: View {
                     Button(action: {
                         // The bound collection automatically
                         // handles write transactions, so we can
-                        // just append directly to it.
+                        // append directly to it.
                         $group.items.append(Item())
                     }) { Image(systemName: "plus") }
                 }.padding()
