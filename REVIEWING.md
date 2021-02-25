@@ -32,3 +32,28 @@ Review the technical accuracy and completeness of a docs PR
   an issue with content that's outside of the JIRA ticket's scope,
   please mention it in the #docs-realm Slack channel or file a JIRA
   ticket with the `DOCSP` project.
+
+## Copy Edits
+
+Review the structure, wording and flow of a docs PR and correct it if
+necessary.
+
+### What to Review
+
+- Wording
+- Page Structure
+- Snooty Autobuilder build errors and warnings
+- Altered or added Example App tests (if any have changed, CI should
+  automatically run)
+- Technical content from a "looks correct" perspective, since technical
+  review should address deeper concerns
+- Whether or not the PR fulfills the Acceptance Criteria described in the
+  linked JIRA ticket.
+
+### What not to Review
+
+Very little is completely off-limits to a copy edit of a PR -- if you
+notice a technical issue, it's best to call it out early than to waste
+an engineer's time fixing something that anybody could notice. However,
+copy editors should constrain their reviews to only content within the
+scope of the JIRA ticket.
