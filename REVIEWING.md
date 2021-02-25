@@ -41,7 +41,7 @@ necessary.
 ### What to Review
 
 - Wording
-- Page Structure
+- Page structure
 - Snooty Autobuilder build errors and warnings
 - Altered or added Example App tests (if any have changed, CI should
   automatically run)
