@@ -4,7 +4,7 @@ import Realm from "realm";
 
 describe("QuickStart Local", () => {
   test("should define an object model, open a realm, perform crud operations, and watch a collection", async () => {
-    // :code-block-start: complete
+    // :code-block-start: quickstart-local-complete
     // :code-block-start: quickstart-local-define-an-object-model
     const TaskSchema = {
       name: "Task",
