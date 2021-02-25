@@ -27,3 +27,55 @@ Import Realm
 ------------
 At the top of your source files where you want to use {+service+}, add
 the following line to import the SDK.
+
+.. literalinclude:: /examples/generated/node/quickstart-local.codeblock.quickstart-local-import-realm.js
+  :language: javascript
+
+Define Your Object Model
+------------------------
+Your application's :ref:`object model <node-object-schemas>` defines the data
+that you can store within {+client-database+}. 
+
+To define a Realm object type, create a schema object that specifies the type's
+``name`` and ``properties``. The type name must be unique among object types in
+a {+realm+}. For details on how to define specific properties, see :ref:`Define
+Object Properties <node-define-a-property>`.
+
+.. example::
+
+    The following code shows how to define an object model for a ``Task``
+    object. In this example, the ``primaryKey`` is the ``_id`` of type ``int``.
+    Another common type used for primary keys is :js-sdk:`ObjectId
+    <Realm.Object.html#objectId>`.  The ``name`` field is required. The
+    ``status`` is optional, denoted by the question mark immediately after the
+    data type.
+    
+   .. literalinclude:: /examples/generated/node/quickstart-local.codeblock.quickstart-local-define-an-object-model.js
+     :language: javascript
+
+Open a Realm
+------------
+To open a local (non-synced) {+realm+}, pass a :js-sdk:`Realm.Configuration
+<Realm.html#~Configuration>` object to either :js-sdk:`Realm.open()
+<Realm.html#.open>` or :js-sdk:`new Realm() <Realm.html>`.
+
+.. literalinclude:: /examples/generated/node/quickstart-local.codeblock.quickstart-local-open-a-realm.js
+  :language: javascript
+
+Create Realm Objects
+--------------------
+
+Once you have opened a {+realm+}, you can create :ref:`objects
+<node-object-types>` in it. All writes must occur within a :ref:`Write
+transaction <node-write-transactions>`.
+
+.. example::
+
+    In the following example, two tasks are created. One task with a name of "go
+    grocery shopping" and another with the name of "go exercise". Both tasks
+    have a status of "Open".
+    
+   .. literalinclude:: /examples/generated/node/quickstart-local.codeblock.quickstart-local-create-realm-objects.js
+     :language: javascript
+
+

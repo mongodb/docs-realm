@@ -7,9 +7,8 @@ const TaskSchema = {
   name: "Task",
   properties: {
     _id: "int",
-    _partition: "string?",
     name: "string",
-    status: "string",
+    status: "string?",
   },
   primaryKey: "_id",
 };
@@ -25,7 +24,6 @@ describe("QuickStart Local", () => {
     // :code-block-end:
     // :code-block-start: quickstart-local-create-realm-objects
     // Add a couple of Tasks in a single, atomic transaction
-    // Realm automatically sets the _partition property based on the partitionValue used to open the realm
     let task1, task2;
     realm.write(() => {
       task1 = realm.create("Task", {
