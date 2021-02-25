@@ -15,7 +15,7 @@ Use Realm Database with SwiftUI and Combine
 Prerequisites
 -------------
 
-- Xcode 12.2 or later (minimum Swift version 5.3.1).
+- Have Xcode 12.2 or later (minimum Swift version 5.3.1).
 - Create a new Xcode project using the SwiftUI "App" template with a minimum iOS target of 14.0.
 - :ref:`Install the iOS SDK. <ios-install>`
 
@@ -159,7 +159,7 @@ across devices. Before you can add sync to this app, make sure to:
 
 - :ref:`Create a {+app+} <create-a-realm-app>`.
 - :ref:`Enable anonymous authentication <anonymous-authentication-configuration>`.
-- :ref:`Enable {+sync+} <enable-sync>`.
+- :ref:`Enable {+sync+} <enable-sync>` with Development Mode on.
 
 .. tip::
 
@@ -225,8 +225,8 @@ Here's the code for the SyncContentView:
 .. literalinclude:: /examples/generated/swiftui/sync/QuickStart.codeblock.sync-content-view.swift
    :language: swift
 
-User Authentication with MongoDB Realm
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Authenticate Users with MongoDB Realm
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The LoginView maintains some state in order to display an activity
 indicator or error. It uses a reference to the Realm app instance passed
