@@ -80,9 +80,9 @@ transaction <node-write-transactions>`.
 
 .. example::
 
-    In the following example, two tasks are created. One task with a name of "go
-    grocery shopping" and another with the name of "go exercise". Both tasks
-    have a status of "Open".
+    In the following example, an application developer creates two tasks. One
+    task with a name of "go grocery shopping" and another with the name of "go
+    exercise". Both tasks have a status of "Open".
     
    .. literalinclude:: /examples/generated/node/quickstart-local.codeblock.quickstart-local-create-realm-objects.js
      :language: javascript
@@ -97,4 +97,19 @@ The following code demonstrates how to:
 
 .. literalinclude:: /examples/generated/node/quickstart-local.codeblock.quickstart-local-find-sort-and-filter-objects.js
   :language: javascript
+
+Modify an Object
+----------------
+As with writes, any changes to a Realm object must occur within a 
+:ref:`Write transaction <node-write-transactions>` block. 
+To modify an object, you update the object properties:
+
+.. example::
+
+    In the following example, an application developer updates ``task1`` from
+    the :ref:`Create Realm Objects <node-quickstart-local-create-realm-objects>`
+    example above. 
+    
+   .. literalinclude:: /examples/generated/node/quickstart-local.codeblock.quickstart-local-create-realm-objects.js
+     :language: javascript
 
