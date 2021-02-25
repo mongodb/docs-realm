@@ -23,6 +23,8 @@ integrated into your app.
    If you will be using :ref:`Sync <sync>` and other backend features of 
    {+service-short+} in your app, see :ref:`<node-client-quick-start>`.
 
+.. _node-quickstart-local-import-realm:
+
 Import Realm
 ------------
 At the top of your source files where you want to use {+service+}, add
@@ -30,6 +32,8 @@ the following line to import the SDK.
 
 .. literalinclude:: /examples/generated/node/quickstart-local.codeblock.quickstart-local-import-realm.js
   :language: javascript
+
+.. _node-quickstart-local-define-an-object-model:
 
 Define Your Object Model
 ------------------------
@@ -53,6 +57,9 @@ Object Properties <node-define-a-property>`.
    .. literalinclude:: /examples/generated/node/quickstart-local.codeblock.quickstart-local-define-an-object-model.js
      :language: javascript
 
+.. _node-quickstart-local-open-a-realm:
+
+
 Open a Realm
 ------------
 To open a local (non-synced) {+realm+}, pass a :js-sdk:`Realm.Configuration
@@ -61,6 +68,8 @@ To open a local (non-synced) {+realm+}, pass a :js-sdk:`Realm.Configuration
 
 .. literalinclude:: /examples/generated/node/quickstart-local.codeblock.quickstart-local-open-a-realm.js
   :language: javascript
+
+.. _node-quickstart-local-create-realm-objects:
 
 Create Realm Objects
 --------------------
@@ -78,4 +87,14 @@ transaction <node-write-transactions>`.
    .. literalinclude:: /examples/generated/node/quickstart-local.codeblock.quickstart-local-create-realm-objects.js
      :language: javascript
 
+Find, Sort, and Filter Objects
+------------------------------
+The following code demonstrates how to:
+
+- Query for all instances of the "Task" object type.
+- Filter the query to retrieve only the tasks that are "Open".
+- Sort the tasks by the name in an ascending order.
+
+.. literalinclude:: /examples/generated/node/quickstart-local.codeblock.quickstart-local-find-sort-and-filter-objects.js
+  :language: javascript
 
