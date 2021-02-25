@@ -53,7 +53,7 @@ necessary.
 ### What Not to Review
 
 Very little is completely off-limits to a copy edit of a PR -- if you
-notice a technical issue, it's best to call it out early than to waste
+notice a technical issue, it's best to call it out early.
 an engineer's time fixing something that anybody could notice. However,
 copy editors should constrain their reviews to only content within the
 scope of the JIRA ticket.
