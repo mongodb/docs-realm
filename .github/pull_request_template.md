@@ -10,4 +10,4 @@ https://docs-mongodborg-staging.corp.mongodb.com/NNNNNNN/java/docsworker-xlarge/
 https://workerpool-boxgs.mongodbstitch.com/pages/job.html?jobId=NNNNNNNNNNNNNNNNNNNNNN
 
 ### Review Guidelines
-[REVIEWING.md](REVIEWING.md)
+[REVIEWING.md](https://github.com/mongodb/docs-realm/blob/master/REVIEWING.md)
