@@ -26,12 +26,8 @@ Before you begin, ensure you have:
 - :ref:`Installed the iOS SDK <ios-install>` with a minimum iOS target of 14.0.
 - Xcode 12.2 or later (minimum Swift version 5.3.1).
 
-This quick start guide includes optional support for :ref:`{+sync+} <sync>`. If
-you wish to integrate the quick start with {+sync+}, ensure you have:
-
-- :ref:`Created a {+app+} <create-a-realm-app>`.
-- :ref:`Enabled anonymous authentication <anonymous-authentication-configuration>`.
-- :ref:`Enabled {+sync+} <enable-sync>`.
+This quick start guide includes optional support for :ref:`{+sync+}
+<sync>`. See :ref:`swiftui-integrate-with-sync` below.
 
 .. note::
 
@@ -40,34 +36,21 @@ you wish to integrate the quick start with {+sync+}, ensure you have:
    code to remove iOS 14.0 features such as the ``SwiftUI.App`` class, but that
    is out of scope of this guide.
 
-The Code
---------
+The Code - Local Only
+---------------------
 
-Paste the following into your main file, such as ``QuickStart.swift``. Delete
-any other ``@main`` ``App`` classes that Xcode generated for your project (for
-example, in MyProjectApp.swift). 
+Paste the following into your main file, such as ``QuickStart.swift``.
+Delete any other ``@main`` ``App`` classes that Xcode generated for your
+project (for example, in MyProjectApp.swift). We'll walk through each
+piece below.
 
-If you are using {+sync+}, find the ``USE_REALM_SYNC`` flag at the top of the
-file and set it to ``true``. Update ``YOUR_REALM_APP_ID_HERE`` to your
-:ref:`{+app+} ID <find-your-app-id>`. Run the app.
-
-.. literalinclude:: /examples/generated/code/start/QuickStart.codeblock.complete-swiftui-combine-quick-start.swift
+.. literalinclude:: /examples/generated/swiftui/local/QuickStart.codeblock.complete-swiftui-combine-quick-start.swift
    :language: swift
 
-The Explanation
----------------
-
 App Overview
-~~~~~~~~~~~~
+------------
 
-If you opted in to using :ref:`{+sync+} <enable-sync>`, the first screen is the
-**LoginView**. Otherwise, you start at the **ItemsView**.
-
-When you press the :guilabel:`Log in` button, the app navigates to the
-ItemsView, where you see a list of **items** in a single **group**.
-
-On the ItemsView, you can log out (if using {+sync+}), edit the list, and add
-items:
+The app starts on the ItemsView, where you can edit a list of items:
 
 - Press the :guilabel:`Add` button on the bottom right of the screen to add randomly-generated items.
 - Press the :guilabel:`Edit` button on the top right to modify the list order, which the app persists in the {+realm+}.
@@ -77,13 +60,9 @@ When you have items in the list, you can press one of the items to
 navigate to the **ItemDetailsView**. This is where you can modify the
 item name or mark it as a favorite:
 
-- Press the text field in the center of the screen and type a new name. When you press Return, the item name should update across the app.
+- Press the text field in the center of the screen and type a new name.
+  When you press Return, the item name should update across the app.
 - You can also toggle its favorite status by pressing the heart toggle in the top right.
-
-.. note::
-
-   If you are using {+sync+}, you can see the changes you make sync to the
-   backend and across devices.
 
 Models
 ~~~~~~
@@ -100,18 +79,18 @@ An item has two user-facing properties:
 A group contains items. You can extend the group to have a name and an
 association with a specific user, but that's out of scope of this guide.
 
-.. literalinclude:: /examples/generated/swiftui/QuickStart.codeblock.models.swift
+.. literalinclude:: /examples/generated/swiftui/local/QuickStart.codeblock.models.swift
    :language: swift
 
 Views and Observed Objects
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The entrypoint of the app is the **ContentView** class that derives from
-``SwiftUI.App``. Depending on whether you've opted to use {+sync+}, Main
-decides whether to show either the **SyncContentView** or the
-**LocalOnlyContentView**.
+``SwiftUI.App``. For now, this always displays the
+**LocalOnlyContentView**. Later, this will show the **SyncContentView**
+when {+sync+} is enabled.
 
-.. literalinclude:: /examples/generated/swiftui/QuickStart.codeblock.content-view.swift
+.. literalinclude:: /examples/generated/swiftui/local/QuickStart.codeblock.content-view.swift
    :language: swift
 
 The LocalOnlyContentView has an :swift-sdk:`@ObservedResults
@@ -138,7 +117,7 @@ the view observes the groups thanks to the ``@ObservedResults`` property
 wrapper, the view immediately refreshes upon adding that first group and
 displays the ItemsView.
 
-.. literalinclude:: /examples/generated/swiftui/QuickStart.codeblock.local-only-content-view.swift
+.. literalinclude:: /examples/generated/swiftui/local/QuickStart.codeblock.local-only-content-view.swift
    :language: swift
 
 The ItemsView receives the group from the parent view and stores it in
@@ -157,7 +136,7 @@ remove and move events of the SwiftUI List. Thanks to the
 without explicitly opening a write transaction. The property wrapper
 automatically opens a write transaction as needed.
 
-.. literalinclude:: /examples/generated/swiftui/QuickStart.codeblock.items-view.swift
+.. literalinclude:: /examples/generated/swiftui/local/QuickStart.codeblock.items-view.swift
    :language: swift
 
 Finally, the **ItemRow** and **ItemDetailsView** classes use the
@@ -165,20 +144,58 @@ Finally, the **ItemRow** and **ItemDetailsView** classes use the
 above. These classes demonstrate a few more examples of how to use the
 property wrapper to display and update properties.
 
-.. literalinclude:: /examples/generated/swiftui/QuickStart.codeblock.item-row-and-details.swift
+.. literalinclude:: /examples/generated/swiftui/local/QuickStart.codeblock.item-row-and-details.swift
    :language: swift
 
-MongoDB Realm and Sync
-~~~~~~~~~~~~~~~~~~~~~~
+At this point, you have everything you need to work with
+{+client-database+} and SwiftUI. Test it out and see if everything is
+working as expected. Read on to learn how to integrate this app with
+{+sync+}.
 
-If you opted to use Sync, the ContentView entrypoint displays the
-**SyncContentView**.
+.. _swiftui-integrate-with-sync:
 
-The SyncContentView observes the Realm :swift-sdk:`app instance
-<Extensions/App.html>`. The app instance is the interface to the MongoDB
-Realm backend, which provides the user authentication required for Sync.
-By observing the app instance, the SyncContentView can react when a user
-logs in or out.
+Integrate MongoDB Realm and Sync
+--------------------------------
+
+Now that we have a working {+client-database+} app, we can optionally
+integrate with {+sync+}. Sync allows you to you see the changes you make
+across devices. Before you can add sync to this app, make sure to:
+
+- :ref:`Create a {+app+} <create-a-realm-app>`.
+- :ref:`Enable anonymous authentication <anonymous-authentication-configuration>`.
+- :ref:`Enable {+sync+} <enable-sync>`.
+
+.. tip::
+
+   The Sync version of this app changes the app flow a bit. The first
+   screen becomes the **LoginView**. When you press the :guilabel:`Log
+   in` button, the app navigates to the ItemsView, where you see the
+   synced list of **items** in a single **group**.
+
+At the top of the source file, initialize an optional :swift-sdk:`Realm
+app <Extensions/App.html>` with :ref:`your Realm app ID
+<find-your-app-id>`:
+
+.. literalinclude:: /examples/generated/swiftui/sync/QuickStart.codeblock.mongodb-realm.swift
+   :language: swift
+
+.. tip::
+
+   You can change the app reference to ``nil`` to switch back to
+   local-only (non-{+sync+}) mode.
+
+Let's update the main ContentView to show the **SyncContentView** if the
+app reference is not ``nil``:
+
+.. literalinclude:: /examples/generated/swiftui/sync/QuickStart.codeblock.content-view.swift
+   :language: swift
+
+We define the SyncContentView below. 
+
+The SyncContentView observes the Realm app instance. The app instance is
+the interface to the MongoDB Realm backend, which provides the user
+authentication required for Sync. By observing the app instance, the
+SyncContentView can react when a user logs in or out.
 
 The SyncContentView also owns an optional :swift-sdk:`realm
 <Structs/Realm.html>` wrapped in a :apple:`@State
@@ -207,7 +224,9 @@ This view has three possible states:
 - Otherwise, there is a user and an open {+realm+}, so show the ItemsView for the group in the {+realm+}.
   Provide a **LogoutButton** the ItemsView can display on the top left of the navigation bar.
 
-.. literalinclude:: /examples/generated/swiftui/QuickStart.codeblock.sync-content-view.swift
+Here's the code for the SyncContentView:
+
+.. literalinclude:: /examples/generated/swiftui/sync/QuickStart.codeblock.sync-content-view.swift
    :language: swift
 
 User Authentication with MongoDB Realm
@@ -231,23 +250,31 @@ more. Because the parent view is observing the Realm app, it will notice
 when the user authentication state has changed and decide to show
 something other than the LoginView.
 
-.. literalinclude:: /examples/generated/swiftui/QuickStart.codeblock.login-view.swift
+.. literalinclude:: /examples/generated/swiftui/sync/QuickStart.codeblock.login-view.swift
    :language: swift
 
 The LogoutButton works just like the LoginView, but logs out instead of
 logging in:
 
-.. literalinclude:: /examples/generated/swiftui/QuickStart.codeblock.logout-button.swift
+.. literalinclude:: /examples/generated/swiftui/sync/QuickStart.codeblock.logout-button.swift
    :language: swift
 
-Summary
--------
-
-- The guide demonstrates both local-only and {+sync+} use cases.
-- Only provide views with the state they need. Avoid "wrapping" Realm where possible; use the SDK directly.
+Once logged in, the app follows the same flow as the local-only version.
+No additional changes are required to the original classes. They don't
+need to know whether or not you're using {+sync+}!
 
 Feedback
 --------
 
 Did you find this guide helpful? Found an issue? Have a question? Please
-let us know with the feedback form on the right side of the page!
+let us know with the feedback form on the right side of the page.
+
+Complete Code
+-------------
+
+In case you would like to copy and paste or examine the complete code
+with {+sync+}, see below:
+
+.. literalinclude:: /examples/generated/swiftui/sync/QuickStart.codeblock.complete-swiftui-combine-quick-start.swift
+   :language: swift
+

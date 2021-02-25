@@ -1,4 +1,4 @@
-/// Represents the login screen. We will just have a button to log in anonymously.
+/// Represents the login screen. We will have a button to log in anonymously.
 struct LoginView: View {
     // Hold an error if one occurs so we can display it.
     @State var error: Error?

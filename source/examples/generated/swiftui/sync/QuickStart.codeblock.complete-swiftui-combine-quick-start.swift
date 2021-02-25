@@ -1,13 +1,8 @@
-let YOUR_REALM_APP_ID_HERE = "example-testers-kvjdy"
-
-// :code-block-start: complete-swiftui-combine-quick-start
 import Foundation
 import RealmSwift
 import Combine
 import SwiftUI
 
-// :state-start: sync
-// :code-block-start: mongodb-realm
 // MARK: MongoDB Realm (Optional)
 
 // The Realm app. Change YOUR_REALM_APP_ID_HERE to your Realm app ID.
@@ -15,8 +10,6 @@ import SwiftUI
 // you can change this to:
 //   let app: RealmSwift.App? = nil
 let app: RealmSwift.App? = RealmSwift.App(id: YOUR_REALM_APP_ID_HERE)
-// :code-block-end:
-// :state-end:
 // MARK: Models
 
 /// Random adjectives for more interesting demo item names
@@ -34,7 +27,6 @@ let randomNouns = [
     "cork", "mouse pad"
 ]
 
-// :code-block-start: models
 /// An individual item. Part of a `Group`.
 final class Item: Object, ObjectKeyIdentifiable {
     /// The unique ID of the Item.
@@ -68,37 +60,25 @@ final class Group: Object, ObjectKeyIdentifiable {
         "_id"
     }
 }
-// :code-block-end:
 
 // MARK: Views
 
 // MARK: Main Views
-// :code-block-start: content-view
 /// The main screen that determines whether to present the SyncContentView or the LocalOnlyContentView.
-// :state-start: local
-/// For now, it always displays the LocalOnlyContentView.
-// :state-end:
 @main
 struct ContentView: SwiftUI.App {
     var body: some Scene {
         WindowGroup {
-            // :state-start: sync
             // Using Sync?
             if let app = app {
                 SyncContentView(app: app)
             } else {
                 LocalOnlyContentView()
             }
-            // :state-end:
-            // :state-uncomment-start: local
-            // LocalOnlyContentView()
-            // :state-uncomment-end:
         }
     }
 }
-// :code-block-end:
 
-// :code-block-start: local-only-content-view
 /// The main content view if not using Sync.
 struct LocalOnlyContentView: View {
     // Implicitly use the default realm's objects(Group.self)
@@ -117,10 +97,7 @@ struct LocalOnlyContentView: View {
         }
     }
 }
-// :code-block-end:
 
-// :state-start: sync
-// :code-block-start: sync-content-view
 // The main content view if using Sync.
 struct SyncContentView: View {
     // Observe the Realm app object in order to react to login state changes.
@@ -158,10 +135,8 @@ struct SyncContentView: View {
         // Pass the app to descendents via this environment object.
     }
 }
-// :code-block-end:
 
 // MARK: Authentication Views
-// :code-block-start: login-view
 /// Represents the login screen. We will have a button to log in anonymously.
 struct LoginView: View {
     // Hold an error if one occurs so we can display it.
@@ -200,9 +175,7 @@ struct LoginView: View {
         }
     }
 }
-// :code-block-end:
 
-// :code-block-start: logout-button
 /// A button that handles logout requests.
 struct LogoutButton: View {
     @ObservedObject var app: RealmSwift.App
@@ -223,11 +196,8 @@ struct LogoutButton: View {
         }.disabled(app.currentUser == nil || isLoggingOut)
     }
 }
-// :code-block-end:
-// :state-end:
 
 // MARK: Item Views
-// :code-block-start: items-view
 /// The screen containing a list of items in a group. Implements functionality for adding, rearranging,
 /// and deleting items in the group.
 struct ItemsView: View {
@@ -269,9 +239,7 @@ struct ItemsView: View {
         }
     }
 }
-// :code-block-end:
 
-// :code-block-start: item-row-and-details
 /// Represents an Item in a list.
 struct ItemRow: View {
     @ObservedRealmObject var item: Item
@@ -304,6 +272,4 @@ struct ItemDetailsView: View {
         }.padding()
     }
 }
-// :code-block-end:
 
-// :code-block-end:

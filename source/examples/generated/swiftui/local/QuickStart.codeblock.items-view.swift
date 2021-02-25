@@ -31,7 +31,7 @@ struct ItemsView: View {
                     Button(action: {
                         // The bound collection automatically
                         // handles write transactions, so we can
-                        // just append directly to it.
+                        // append directly to it.
                         $group.items.append(Item())
                     }) { Image(systemName: "plus") }
                 }.padding()
