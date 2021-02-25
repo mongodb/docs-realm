@@ -1,10 +1,11 @@
 let YOUR_REALM_APP_ID_HERE = "example-testers-kvjdy"
 
 // :code-block-start: complete-swiftui-combine-quick-start
-import Foundation
+// :code-block-start: imports
 import RealmSwift
 import Combine
 import SwiftUI
+// :code-block-end:
 
 // :state-start: sync
 // :code-block-start: mongodb-realm
@@ -19,6 +20,7 @@ let app: RealmSwift.App? = RealmSwift.App(id: YOUR_REALM_APP_ID_HERE)
 // :state-end:
 // MARK: Models
 
+// :code-block-start: models
 /// Random adjectives for more interesting demo item names
 let randomAdjectives = [
     "fluffy", "classy", "bumpy", "bizarre", "wiggly", "quick", "sudden",
@@ -34,7 +36,6 @@ let randomNouns = [
     "cork", "mouse pad"
 ]
 
-// :code-block-start: models
 /// An individual item. Part of a `Group`.
 final class Item: Object, ObjectKeyIdentifiable {
     /// The unique ID of the Item.

@@ -12,44 +12,17 @@ Use Realm Database with SwiftUI and Combine
    :depth: 2
    :class: singlecol
 
-Overview
---------
-
-This page contains instructions to quickly get {+client-database+} integrated
-into your SwiftUI and Combine app. 
-
 Prerequisites
 -------------
 
-Before you begin, ensure you have:
-
-- :ref:`Installed the iOS SDK <ios-install>` with a minimum iOS target of 14.0.
+- Create a new Xcode project using the SwiftUI "App" template with a minimum iOS target of 14.0.
+- :ref:`Install the iOS SDK. <ios-install>`
 - Xcode 12.2 or later (minimum Swift version 5.3.1).
 
-This quick start guide includes optional support for :ref:`{+sync+}
-<sync>`. See :ref:`swiftui-integrate-with-sync` below.
+Overview
+--------
 
-.. note::
-
-   The code example presented below requires a minimum iOS target of 14.0, which
-   requires Xcode 12.2 or later. You might be able to use iOS 13.x by adapting the
-   code to remove iOS 14.0 features such as the ``SwiftUI.App`` class, but that
-   is out of scope of this guide.
-
-The Code - Local Only
----------------------
-
-Paste the following into your main file, such as ``QuickStart.swift``.
-Delete any other ``@main`` ``App`` classes that Xcode generated for your
-project (for example, in MyProjectApp.swift). We'll walk through each
-piece below.
-
-.. literalinclude:: /examples/generated/swiftui/local/QuickStart.codeblock.complete-swiftui-combine-quick-start.swift
-   :language: swift
-
-App Overview
-------------
-
+This page contains all of the code for a working Realm and SwiftUI app.
 The app starts on the ItemsView, where you can edit a list of items:
 
 - Press the :guilabel:`Add` button on the bottom right of the screen to add randomly-generated items.
@@ -64,8 +37,29 @@ item name or mark it as a favorite:
   When you press Return, the item name should update across the app.
 - You can also toggle its favorite status by pressing the heart toggle in the top right.
 
-Models
-~~~~~~
+.. tip::
+
+   This guide optionally integrates with :ref:`{+sync+} <sync>`. See
+   :ref:`swiftui-integrate-with-sync` below.
+
+Import Realm
+~~~~~~~~~~~~
+
+We assume you have create an Xcode project with the SwiftUI "App"
+template. Open the main Swift file and delete all of the code inside,
+including any ``@main`` ``App`` classes that Xcode generated for you. At
+the top of the file, import the Realm, Combine, and SwiftUI frameworks:
+
+.. literalinclude:: /examples/generated/swiftui/local/QuickStart.codeblock.imports.swift
+   :language: swift
+
+.. tip::
+
+   Just want to dive right in with the complete code? Jump to
+   :ref:`swiftui-complete-code` below.
+
+Define Models
+~~~~~~~~~~~~~
 
 A common {+service-short+} data modeling use case is to have "things" and
 "containers of things". This app defines two related Realm object models: item
@@ -269,11 +263,22 @@ Feedback
 Did you find this guide helpful? Found an issue? Have a question? Please
 let us know with the feedback form on the right side of the page.
 
+.. _swiftui-complete-code:
+
 Complete Code
 -------------
 
 In case you would like to copy and paste or examine the complete code
-with {+sync+}, see below:
+with or without {+sync+}, see below.
+
+Without Sync
+~~~~~~~~~~~~
+
+.. literalinclude:: /examples/generated/swiftui/local/QuickStart.codeblock.complete-swiftui-combine-quick-start.swift
+   :language: swift
+
+With Sync
+~~~~~~~~~
 
 .. literalinclude:: /examples/generated/swiftui/sync/QuickStart.codeblock.complete-swiftui-combine-quick-start.swift
    :language: swift
