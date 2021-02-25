@@ -146,3 +146,37 @@ methods.
    .. literalinclude:: /examples/generated/node/quickstart-local.codeblock.quickstart-local-watch-a-collection.js
      :language: javascript
 
+Complete Example
+----------------
+
+Code
+~~~~
+
+The following code is a fully runnable example that includes all of the concepts
+on this page. Make sure to import Realm at the top of the file.
+
+.. literalinclude:: /examples/generated/node/quickstart-local.codeblock.quickstart-local.codeblock.complete.js
+  :language: javascript
+
+Output
+~~~~~~
+
+Running the above code should output something like the following:
+
+.. code-block:: shell
+
+   created two tasks: go grocery shopping & go exercise
+   
+   The lists of tasks are: go grocery shopping,go exercise
+   
+   The lists of open tasks are: go grocery shopping,go exercise
+   
+   The lists of tasks in alphabetical order are: go exercise,go grocery shopping
+   
+   modifiedTask: {
+     "_id": 1,
+     "name": "go grocery shopping",
+     "status": "InProgress"
+   }
+   
+   A task was deleted at the 0 index
