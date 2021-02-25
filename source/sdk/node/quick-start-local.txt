@@ -108,9 +108,24 @@ To modify an object, you update the object properties:
 
     In the following example, an application developer updates ``task1`` from
     the :ref:`Create Realm Objects <node-quickstart-local-create-realm-objects>`
-    example above. 
+    example above. The developer begins progress on the "go grocery shopping
+    task" and sets ``task1`` to "InProgress".
     
    .. literalinclude:: /examples/generated/node/quickstart-local.codeblock.quickstart-local-modify-an-object.js
      :language: javascript
 
+
+Delete an Object
+----------------
+You can delete an object by calling the :js-sdk:`realm.delete()
+<Realm.html#delete>` method within a write transaction block:
+
+.. example::
+
+    In the following example, an application developer deletes ``task1`` from
+    the :ref:`Create Realm Objects <node-quickstart-local-create-realm-objects>`
+    example above. 
+    
+   .. literalinclude:: /examples/generated/node/quickstart-local.codeblock.quickstart-local-delete-an-object.js
+     :language: javascript
 
