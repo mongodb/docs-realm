@@ -8,3 +8,6 @@ https://docs-mongodborg-staging.corp.mongodb.com/NNNNNNN/java/docsworker-xlarge/
 
 ### Docs staging build link:
 https://workerpool-boxgs.mongodbstitch.com/pages/job.html?jobId=NNNNNNNNNNNNNNNNNNNNNN
+
+### Review Guidelines
+[REVIEWING.md](https://github.com/mongodb/docs-realm/blob/master/REVIEWING.md)
