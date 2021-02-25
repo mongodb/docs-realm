@@ -20,7 +20,7 @@ perform the technical review.
 - Missing "footguns", i.e. potential pitfalls that could trip up users
   who try to follow the documentation.
 
-### What not to Review
+### What Not to Review
 
 - Wording of sentences: while suggestions are appreciated, PRs
   that have reached the technical review stage have already passed copy
