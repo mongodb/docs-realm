@@ -11,7 +11,7 @@ Realm realmB = Realm.getInstance(config);
 // stored in the database from each realm instance
 Frog frogA = realmA.where(Frog.class)
         .equalTo("name", "Mr. President").findFirst();
-Frog frogB = realmA.where(Frog.class)
+Frog frogB = realmB.where(Frog.class)
         .equalTo("name", "Mr. President").findFirst();
 
 // update frog A's name

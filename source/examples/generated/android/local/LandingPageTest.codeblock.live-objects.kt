@@ -9,12 +9,12 @@ val realmB = Realm.getInstance(config)
 
 // get a reference to a single frog object
 // stored in the database from each realm instance
-val frogA =
-    realmA.where(Frog::class.java).equalTo("name", "Mr. President")
-        .findFirst()
-val frogB =
-    realmA.where(Frog::class.java).equalTo("name", "Mr. President")
-        .findFirst()
+val frogA = realmA.where(Frog::class.java)
+    .equalTo("name", "Mr. President")
+    .findFirst()
+val frogB = realmB.where(Frog::class.java)
+    .equalTo("name", "Mr. President")
+    .findFirst()
 
 // update frog A's name
 realmA.executeTransaction { frogA?.name = "Skipper" }

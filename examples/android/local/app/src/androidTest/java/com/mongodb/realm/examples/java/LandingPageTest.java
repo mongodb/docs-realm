@@ -172,7 +172,7 @@ public class LandingPageTest extends RealmTest {
             // stored in the database from each realm instance
             FrogJava frogA = realmA.where(FrogJava.class)
                     .equalTo("name", "Mr. President").findFirst();
-            FrogJava frogB = realmA.where(FrogJava.class)
+            FrogJava frogB = realmB.where(FrogJava.class)
                     .equalTo("name", "Mr. President").findFirst();
 
             // update frog A's name

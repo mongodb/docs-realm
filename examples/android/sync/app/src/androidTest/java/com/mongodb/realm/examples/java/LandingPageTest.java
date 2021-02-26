@@ -31,7 +31,9 @@ public class LandingPageTest extends RealmTest {
                     // :code-block-start: update
                     // Sync uses SyncConfiguration instead of RealmConfiguration,
                     // and requires both a logged-in user and a partition value
-                    SyncConfiguration config = new SyncConfiguration.Builder(app.currentUser(), "myPartition")
+                    SyncConfiguration config = new SyncConfiguration.Builder(
+                            app.currentUser(),
+                            "myPartition")
                             // :hide-start:
                             .allowQueriesOnUiThread(true) // only need these for the behind-the-scenes insert, so hide them
                             .allowWritesOnUiThread(true)
@@ -48,9 +50,9 @@ public class LandingPageTest extends RealmTest {
 
                     realm.executeTransactionAsync(transactionRealm -> { // start a write transaction
                         // get a frog from the database to update
-                        FrogJava frog =
-                                transactionRealm.where(FrogJava.class)
-                                        .equalTo("name", "Benjamin Franklin").findFirst();
+                        FrogJava frog = transactionRealm.where(FrogJava.class)
+                                .equalTo("name", "Benjamin Franklin")
+                                .findFirst();
                         // change the frog's name
                         frog.setName("George Washington");
                         // change the frog's species
