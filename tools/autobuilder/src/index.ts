@@ -7,14 +7,19 @@ import {
 
 // Add expected errors here.
 const expectedErrors: RegExp[] = [
-  /^ERROR\(admin\/api\/v3\.txt.*Target not found: "extlink:None"/
+  /^ERROR\(admin\/api\/v3\.txt.*Target not found: "extlink:None"/,
 ];
 
 const STITCH_APP_ID = "workerpool-boxgs";
 
 const stitchClient = Stitch.initializeDefaultAppClient(STITCH_APP_ID);
 
-type Build = { comMessage?: string[] };
+type Build = {
+  comMessage?: string[];
+  logs?: {
+    try0?: string[];
+  };
+};
 
 async function nextInStream<T>(
   stream: Stream<T>,
@@ -54,18 +59,15 @@ async function main(): Promise<string[] | undefined> {
     ];
   }
   const filter = {
-    $or: [
-      {"payload.repoOwner": actor},
-      {"payload.repoOwner": owner},
-    ],
+    $or: [{ "payload.repoOwner": actor }, { "payload.repoOwner": owner }],
     "payload.repoName": repo,
     "payload.branchName": branch,
   };
 
   const stream = await collection.watch({
     $or: [
-      {"fullDocument.payload.repoOwner": actor},
-      {"fullDocument.payload.repoOwner": owner},
+      { "fullDocument.payload.repoOwner": actor },
+      { "fullDocument.payload.repoOwner": owner },
     ],
     "fullDocument.payload.repoName": repo,
     "fullDocument.payload.branchName": branch,
@@ -81,18 +83,32 @@ async function main(): Promise<string[] | undefined> {
     build = await collection.findOne(filter);
   }
   if (build == null) {
-    return [`Nothing found for filter: ${JSON.stringify(filter)}, build=${JSON.stringify(build)}`];
+    return [
+      `Nothing found for filter: ${JSON.stringify(
+        filter
+      )}, build=${JSON.stringify(build)}
+
+This might happen if the autobuilder is not set up on your fork.
+`,
+    ];
   }
 
-  const comMessage = build.comMessage;
-  if (comMessage === undefined) {
-    return [`comMessage undefined, build=${JSON.stringify(build)}`];
-  }
-  const log = comMessage[0];
+  const log = build.comMessage
+    ? build.comMessage[0]
+    : build.logs?.try0?.join("\n");
   if (log === undefined) {
-    console.warn("Log not found!");
-    return undefined; // don't fail the PR
+    return [`comMessage or logs undefined, build=${JSON.stringify(build)}`];
   }
+  // Log this for posterity
+  console.log(
+    `Logs found in ${
+      build.logs?.try0 !== undefined
+        ? "build.logs.try0"
+        : build.comMessage === undefined
+        ? "build.comMessage[0]"
+        : "unknown"
+    }`
+  );
   const re = /ERROR.*/g;
   const errors: string[] = [];
   for (let match = re.exec(log); match !== null; match = re.exec(log)) {
@@ -110,8 +126,8 @@ main()
     if (errors === undefined) {
       process.exit(0);
     }
-    const unexpectedErrors = errors.filter(error => {
-      for (let re of expectedErrors) {
+    const unexpectedErrors = errors.filter((error) => {
+      for (const re of expectedErrors) {
         if (re.test(error)) {
           return false;
         }
