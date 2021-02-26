@@ -7,7 +7,8 @@ val realmA = Realm.getInstance(config)
 val realmB = Realm.getInstance(config)
 
 
-// get a reference to a single frog object  stored in the database from each realm instance
+// get a reference to a single frog object
+// stored in the database from each realm instance
 val frogA =
     realmA.where(Frog::class.java).equalTo("name", "Mr. President")
         .findFirst()
