@@ -6,13 +6,16 @@ val realm = Realm.getInstance(config)
 val frogsQuery = realm.where(Frog::class.java)
 
 val numTadpoles =
-    frogsQuery.lessThan("age", 1).count()
-Log.i("EXAMPLE", "Tadpoles: $numTadpoles")
+    frogsQuery.lessThan("age", 2).count()
+Log.i("EXAMPLE",
+    "Tadpoles: $numTadpoles")
 
 val numFrogsNamedJasonFunderburker =
     frogsQuery.equalTo("name", "Jason Funderburker").count()
-Log.i("EXAMPLE", "Frogs named Jason Funderburker: $numFrogsNamedJasonFunderburker")
+Log.i("EXAMPLE",
+    "Frogs named Jason Funderburker: $numFrogsNamedJasonFunderburker")
 
 val numFrogsWithoutOwners =
     frogsQuery.isNull("owner").count()
-Log.i("EXAMPLE", "Frogs without owners: $numFrogsWithoutOwners")
+Log.i("EXAMPLE",
+    "Frogs without owners: $numFrogsWithoutOwners")

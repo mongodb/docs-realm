@@ -25,16 +25,19 @@ class LandingPageTest : RealmTest() {
             val frogsQuery = realm.where(Frog::class.java)
 
             val numTadpoles =
-                frogsQuery.lessThan("age", 1).count()
-            Log.i("EXAMPLE", "Tadpoles: $numTadpoles")
+                frogsQuery.lessThan("age", 2).count()
+            Log.i("EXAMPLE",
+                "Tadpoles: $numTadpoles")
 
             val numFrogsNamedJasonFunderburker =
                 frogsQuery.equalTo("name", "Jason Funderburker").count()
-            Log.i("EXAMPLE", "Frogs named Jason Funderburker: $numFrogsNamedJasonFunderburker")
+            Log.i("EXAMPLE",
+                "Frogs named Jason Funderburker: $numFrogsNamedJasonFunderburker")
 
             val numFrogsWithoutOwners =
                 frogsQuery.isNull("owner").count()
-            Log.i("EXAMPLE", "Frogs without owners: $numFrogsWithoutOwners")
+            Log.i("EXAMPLE",
+                "Frogs without owners: $numFrogsWithoutOwners")
             // :code-block-end:
             realm.close()
             expectation.fulfill()
@@ -63,8 +66,8 @@ class LandingPageTest : RealmTest() {
                 frog.name = "Benjamin Franklin"
             }
             // :hide-end:
-
-            realm.executeTransactionAsync { transactionRealm: Realm ->  // start a write transaction
+            // start a write transaction
+            realm.executeTransactionAsync { transactionRealm: Realm ->
                 // get a frog from the database to update
                 val frog = transactionRealm.where(Frog::class.java)
                     .equalTo("name", "Benjamin Franklin").findFirst()
@@ -75,7 +78,8 @@ class LandingPageTest : RealmTest() {
                 // :hide-start:
                 expectation.fulfill()
                 // :hide-end:
-            } // when the transaction completes, the frog's name and species are updated in the database
+            } // when the transaction completes, the frog's name and species
+            // are updated in the database
             // :code-block-end:
         }
         expectation.await()
@@ -107,7 +111,8 @@ class LandingPageTest : RealmTest() {
             }
 
             // create a listener that logs new changes to the frog
-            val listener = RealmObjectChangeListener { changedFrog: Frog?, changeSet: ObjectChangeSet? ->
+            val listener = RealmObjectChangeListener { changedFrog: Frog?,
+                                                       changeSet: ObjectChangeSet? ->
                 if (changeSet!!.isDeleted) {
                     Log.i("EXAMPLE", "The frog was deleted")
                 } else {

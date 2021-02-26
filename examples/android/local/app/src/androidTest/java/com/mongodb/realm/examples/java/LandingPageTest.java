@@ -79,7 +79,8 @@ public class LandingPageTest extends RealmTest {
             realm.executeTransactionAsync(transactionRealm -> { // start a write transaction
                 // get a frog from the database to update
                 FrogJava frog =
-                        transactionRealm.where(FrogJava.class).equalTo("name", "Benjamin Franklin").findFirst();
+                        transactionRealm.where(FrogJava.class)
+                                .equalTo("name", "Benjamin Franklin").findFirst();
                 // change the frog's name
                 frog.setName("George Washington");
                 // change the frog's species
@@ -87,7 +88,8 @@ public class LandingPageTest extends RealmTest {
                 // :hide-start:
                 expectation.fulfill();
                 // :hide-end:
-            }); // when the transaction completes, the frog's name and species are updated in the database
+            }); // when the transaction completes, the frog's name and species
+            // are updated in the database
             // :code-block-end:
         });
         expectation.await();
@@ -166,23 +168,26 @@ public class LandingPageTest extends RealmTest {
             });
             // :hide-end:
 
-            // get a reference to a single frog object  stored in the database from each realm instance
-            FrogJava frogA = realmA.where(FrogJava.class).equalTo("name", "Mr. President").findFirst();
-            FrogJava frogB = realmA.where(FrogJava.class).equalTo("name", "Mr. President").findFirst();
+            // get a reference to a single frog object
+            // stored in the database from each realm instance
+            FrogJava frogA = realmA.where(FrogJava.class)
+                    .equalTo("name", "Mr. President").findFirst();
+            FrogJava frogB = realmA.where(FrogJava.class)
+                    .equalTo("name", "Mr. President").findFirst();
 
             // update frog A's name
             realmA.executeTransaction(transactionRealm -> {
                 frogA.setName("Skipper");
             });
             // frog B instance automatically updates with the new name
-            assert(frogA.getName() == frogB.getName());
+            assert(frogA.getName().equals(frogB.getName()));
 
             // update frog B's age
             realmB.executeTransaction(transactionRealm -> {
                 frogB.setAge(10);
             });
             // frog A instance automatically updates with the new name
-            assert(frogB.getName() == frogA.getName());
+            assert(frogB.getName().equals(frogA.getName()));
             // :code-block-end:
             expectation.fulfill();
         });

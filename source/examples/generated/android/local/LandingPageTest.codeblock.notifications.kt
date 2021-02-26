@@ -18,7 +18,8 @@ realm.executeTransaction { transactionRealm: Realm ->
 }
 
 // create a listener that logs new changes to the frog
-val listener = RealmObjectChangeListener { changedFrog: Frog?, changeSet: ObjectChangeSet? ->
+val listener = RealmObjectChangeListener { changedFrog: Frog?,
+                                           changeSet: ObjectChangeSet? ->
     if (changeSet!!.isDeleted) {
         Log.i("EXAMPLE", "The frog was deleted")
     } else {
