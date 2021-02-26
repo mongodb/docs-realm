@@ -34,6 +34,7 @@ class OpenARealmTest : RealmTest() {
         activity!!.runOnUiThread {
             // :code-block-start: configure-a-realm-local
             val config = RealmConfiguration.Builder()
+                .name("alternate-realm")
                 .allowQueriesOnUiThread(true)
                 .allowWritesOnUiThread(true)
                 .compactOnLaunch()

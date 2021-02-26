@@ -21,8 +21,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.FutureTask;
 
-import com.mongodb.realm.examples.model.Task;
-import com.mongodb.realm.examples.model.TaskStatus;
+import com.mongodb.realm.examples.model.kotlin.Task;
+import com.mongodb.realm.examples.model.kotlin.TaskStatus;
 
 
 public class MainActivity extends AppCompatActivity {
