@@ -1,3 +1,4 @@
+// :code-block-start: define-object-model-local
 package com.mongodb.realm.examples.model;
 
 public enum TaskStatus {
@@ -10,3 +11,4 @@ public enum TaskStatus {
         this.displayName = displayName;
     }
 }
+// :code-block-end:

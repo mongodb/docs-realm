@@ -1,3 +1,4 @@
+// :code-block-start: complete
 package com.mongodb.realm.examples.kotlin
 
 import org.bson.types.ObjectId
@@ -21,7 +22,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // :code-block-start: initialize-realm
+        // :code-block-start: initialize-realm-local
         Realm.init(this) // context, usually an Activity or Application
         // :code-block-end:
 
@@ -44,12 +45,10 @@ class MainActivity : AppCompatActivity() {
 
         finish() // destroy activity when background task completes
         // :hide-end:
-        // :code-block-end:
-
     }
 
     fun addChangeListenerToRealm(realm : Realm) {
-        // :code-block-start: watch-for-changes
+        // :code-block-start: watch-for-changes-local
         // all tasks in the realm
         val tasks : RealmResults<Task> = realm.where<Task>().findAllAsync()
 
@@ -84,32 +83,32 @@ class MainActivity : AppCompatActivity() {
     class BackgroundQuickStart : Runnable {
 
         override fun run() {
-            // :code-block-start: open-a-realm
+            // :code-block-start: open-a-realm-local
             val partitionValue: String = "My Project"
             val config = RealmConfiguration.Builder().build()
 
             val backgroundThreadRealm : Realm = Realm.getInstance(config)
             // :code-block-end:
 
-            // :code-block-start: create-object
+            // :code-block-start: create-object-local
             val task : Task = Task("New Task", partitionValue)
             backgroundThreadRealm.executeTransaction { transactionRealm ->
                 transactionRealm.insert(task)
             }
             // :code-block-end:
 
-            // :code-block-start: read-object
+            // :code-block-start: read-object-local
             // all tasks in the realm
             val tasks : RealmResults<Task> = backgroundThreadRealm.where<Task>().findAll()
             // :code-block-end:
 
-            // :code-block-start: filter-collection
+            // :code-block-start: filter-collection-local
             // you can also filter a collection
             val tasksThatBeginWithN : List<Task> = tasks.where().beginsWith("name", "N").findAll()
             val openTasks : List<Task> = tasks.where().equalTo("status", TaskStatus.Open.name).findAll()
             // :code-block-end:
 
-            // :code-block-start: update-object
+            // :code-block-start: update-object-local
             val otherTask: Task = tasks[0]!!
 
             // all modifications to a realm must happen inside of a write block
@@ -119,7 +118,7 @@ class MainActivity : AppCompatActivity() {
             }
             // :code-block-end:
 
-            // :code-block-start: delete-object
+            // :code-block-start: delete-object-local
             val yetAnotherTask: Task = tasks.get(0)!!
             val yetAnotherTaskId: ObjectId = yetAnotherTask._id
             // all modifications to a realm must happen inside of a write block
@@ -137,7 +136,7 @@ class MainActivity : AppCompatActivity() {
     }
 }
 
-// :code-block-start: define-object-model
+// :code-block-start: define-object-model-local
 
 enum class TaskStatus(val displayName: String) {
     Open("Open"),
@@ -165,4 +164,5 @@ open class Task(_name: String = "Task", project: String = "My Project") : RealmO
         set(value) { status = value.name }
 }
 
+// :code-block-end:
 // :code-block-end:

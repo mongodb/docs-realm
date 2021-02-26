@@ -1,3 +1,4 @@
+// :code-block-start: complete
 package com.mongodb.realm.examples.java;
 
 import io.realm.OrderedCollectionChangeSet;
@@ -31,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // :code-block-start: initialize-realm
+        // :code-block-start: initialize-realm-local
         Realm.init(this); // context, usually an Activity or Application
         // :code-block-end:
 
@@ -63,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void addChangeListenerToRealm(Realm realm) {
-        // :code-block-start: watch-for-changes
+        // :code-block-start: watch-for-changes-local
         // all tasks in the realm
         RealmResults<Task> tasks = uiThreadRealm.where(Task.class).findAllAsync();
 
@@ -101,32 +102,32 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void run() {
-            // :code-block-start: open-a-realm
+            // :code-block-start: open-a-realm-local
             String partitionValue = "My Project";
             RealmConfiguration config = new RealmConfiguration.Builder().build();
 
             Realm backgroundThreadRealm = Realm.getInstance(config);
             // :code-block-end:
 
-            // :code-block-start: create-object
+            // :code-block-start: create-object-local
             Task task = new Task("New Task");
             backgroundThreadRealm.executeTransaction (transactionRealm -> {
                 transactionRealm.insert(task);
             });
             // :code-block-end:
 
-            // :code-block-start: read-object
+            // :code-block-start: read-object-local
             // all tasks in the realm
             RealmResults<Task> tasks = backgroundThreadRealm.where(Task.class).findAll();
             // :code-block-end:
 
-            // :code-block-start: filter-collection
+            // :code-block-start: filter-collection-local
             // you can also filter a collection
             RealmResults<Task> tasksThatBeginWithN = tasks.where().beginsWith("name", "N").findAll();
             RealmResults<Task> openTasks = tasks.where().equalTo("status", TaskStatus.Open.name()).findAll();
             // :code-block-end:
 
-            // :code-block-start: update-object
+            // :code-block-start: update-object-local
             Task otherTask = tasks.get(0);
 
             // all modifications to a realm must happen inside of a write block
@@ -136,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
             });
             // :code-block-end:
 
-            // :code-block-start: delete-object
+            // :code-block-start: delete-object-local
             Task yetAnotherTask = tasks.get(0);
             ObjectId yetAnotherTaskId = yetAnotherTask.get_id();
             // all modifications to a realm must happen inside of a write block
@@ -152,3 +153,4 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 }
+// :code-block-end:

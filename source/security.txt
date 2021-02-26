@@ -48,3 +48,37 @@ all network requests to and from your application, including apps that connect
 from a Realm SDK as well as queries and operations on a linked :term:`MongoDB
 Atlas data source <linked cluster>`. The TLS certificate is pre-defined and
 cannot be customized.
+
+.. _realm-public-ips:
+.. _firewall-configuration:
+
+Firewall Configuration
+----------------------
+
+{+service+} only sends requests from the following IP addresses. You can
+copy this list to an allowlist on your firewall:
+
+.. code-block:: text
+
+   13.236.189.10
+   18.202.2.23
+   18.210.66.32
+   18.211.240.224
+   18.213.24.164
+   52.63.26.53
+   54.203.157.107
+   54.69.74.169
+   54.76.145.13
+
+You can find this information in computer-friendly formats at these
+URLs:
+
+JSON
+  https://docs.mongodb.com/realm-sdks/mongodb/RealmPublicIPs.json
+
+CSV
+  https://docs.mongodb.com/realm-sdks/mongodb/RealmPublicIPs.csv
+
+.. 
+   Note to docs writer: the hosted csv and json files are managed in the
+   docs-realm-sdks repo: https://github.com/10gen/docs-realm-sdks

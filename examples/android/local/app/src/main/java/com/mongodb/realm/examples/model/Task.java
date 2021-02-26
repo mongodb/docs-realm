@@ -1,4 +1,4 @@
-// :code-block-start: define-object-model
+// :code-block-start: define-object-model-local
 package com.mongodb.realm.examples.model;
 
 import io.realm.RealmObject;
