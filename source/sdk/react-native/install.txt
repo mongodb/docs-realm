@@ -1,0 +1,72 @@
+.. _react-native-install:
+
+=========================
+Install Realm for React Native
+=========================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+The {+service+} React Native SDK enables development of applications using the
+JavaScript and `TypeScript <https://www.typescriptlang.org/>`__ languages.
+{+service+} on React Native is best suited for writing server-side applications. Your
+React Native application could be one component in a wider stack that also includes
+iOS and Android apps.
+
+The {+service+} React Native SDK is not suitable for front-end application
+development.
+
+- Due to limitations of the browser environment, it is not possible to build a
+  browser-based web app with this SDK. For front-end web applications, use the
+  {+service+} :doc:`GraphQL SDK </graphql>`.
+
+- For cross-platform mobile app development using web frameworks, use the
+  {+service+} :doc:`React Native SDK </react-native/install>`.
+
+Prerequisites
+-------------
+
+Before getting started, ensure your environment meets the
+following prerequisites:
+
+- `React Native <https://react-nativejs.org/en/>`__ version 10.x or later (including React Native version 14) 
+- Linux, macOS 10.8 (or later), or Windows 8 (or later)
+
+Installation
+------------
+
+Follow these steps to create a React Native project and add the
+{+service+} React Native SDK to it.
+
+.. include:: /includes/steps/install-react-native.rst
+
+
+Import Realm
+------------
+
+Add the following line to the top of your source files where
+you want to use {+service+}:
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: javascript
+
+      .. code-block:: javascript
+
+         import Realm from "realm";
+
+   .. tab::
+      :tabid: typescript
+
+      .. code-block:: typescript
+
+         import Realm from "realm";
