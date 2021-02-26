@@ -138,6 +138,23 @@ MongoDB Realm Apps
 The {+service+} Android SDK optionally contains the ability to access
 backend {+backend+} apps running in the cloud. With {+app+}s, you can:
 
+- automatically sync data between {+realm+}s on client devices and your
+  MongoDB Atlas data store with :ref:`Sync <android-sync-changes-between-devices>`
+
+  .. tabs-realm-languages::
+   
+     .. tab::
+        :tabid: kotlin
+
+        .. literalinclude:: /examples/generated/android/sync/LandingPageTest.codeblock.update.kt
+           :language: kotlin
+
+     .. tab::
+        :tabid: java
+
+        .. literalinclude:: /examples/generated/android/sync/LandingPageTest.codeblock.update.java
+           :language: java
+
 - use {+service-short+}'s built-in user management to enable
   :ref:`user account creation <android-register-a-new-user-account>`
   and user :ref:`authentication <android-authenticate-users>` across
@@ -152,9 +169,6 @@ backend {+backend+} apps running in the cloud. With {+app+}s, you can:
 
 - react to events in your backend {+app+} using
   :ref:`Triggers <triggers>`
-
-- automatically sync data between {+realm+}s on client devices and your
-  MongoDB Atlas data store with :ref:`Sync <android-sync-changes-between-devices>`
 
 .. seealso::
 
