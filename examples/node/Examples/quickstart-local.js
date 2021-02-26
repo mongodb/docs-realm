@@ -1,11 +1,15 @@
-// :code-block-start: quickstart-local-import-realm
+// :code-block-start: import-realm
 import Realm from "realm";
 // :code-block-end:
 
 describe("QuickStart Local", () => {
   test("should define an object model, open a realm, perform crud operations, and watch a collection", async () => {
-    // :code-block-start: quickstart-local-complete
-    // :code-block-start: quickstart-local-define-an-object-model
+    // :code-block-start: complete
+    // :uncomment-start:
+    //import Realm from "realm";
+    // :uncomment-end:
+
+    // :code-block-start: define-an-object-model
     const TaskSchema = {
       name: "Task",
       properties: {
@@ -18,14 +22,14 @@ describe("QuickStart Local", () => {
     // :code-block-end:
 
     async function quickStart() {
-      // :code-block-start: quickstart-local-open-a-realm
+      // :code-block-start: open-a-realm
       const realm = await Realm.open({
         path: "myrealm",
         schema: [TaskSchema],
       });
       // :code-block-end:
 
-      // :code-block-start: quickstart-local-create-realm-objects
+      // :code-block-start: create-realm-objects
       // Add a couple of Tasks in a single, atomic transaction
       let task1, task2;
       realm.write(() => {
@@ -49,7 +53,7 @@ describe("QuickStart Local", () => {
       expect(task2.name).toBe("go exercise");
       // :hide-end:
 
-      // :code-block-start: quickstart-local-find-sort-and-filter-objects
+      // :code-block-start: find-sort-and-filter-objects
       // query realm for all instances of the "Task" type.
       const tasks = realm.objects("Task");
       console.log(`The lists of tasks are: ${tasks.map((task) => task.name)}`);
@@ -80,7 +84,7 @@ describe("QuickStart Local", () => {
       let taskHasBeenDeleted = false;
       // :hide-end:
 
-      // :code-block-start: quickstart-local-watch-a-collection
+      // :code-block-start: watch-a-collection
       // Define the collection notification listener
       function listener(tasks, changes) {
         // :hide-start:
@@ -117,7 +121,7 @@ describe("QuickStart Local", () => {
       tasks.addListener(listener);
       // :code-block-end:
 
-      // :code-block-start: quickstart-local-modify-an-object
+      // :code-block-start: modify-an-object
       realm.write(() => {
         task1.status = "InProgress";
       });
@@ -127,7 +131,7 @@ describe("QuickStart Local", () => {
       expect(task1.status).toBe("InProgress");
       // :hide-end:
 
-      // :code-block-start: quickstart-local-delete-an-object
+      // :code-block-start: delete-an-object
       realm.write(() => {
         // Delete the task from the realm.
         realm.delete(task1);
@@ -147,8 +151,10 @@ describe("QuickStart Local", () => {
       });
       // :hide-end:
 
+      // :code-block-start: close-a-realm
       // Remember to close the realm
       realm.close();
+      // :code-block-end:
     }
     quickStart().catch((error) => {
       console.log(`An error occurred: ${error}`);
