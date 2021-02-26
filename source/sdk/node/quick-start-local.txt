@@ -58,7 +58,6 @@ Object Properties <node-define-a-property>`.
 
 .. _node-quickstart-local-open-a-realm:
 
-
 Open a Realm
 ------------
 To open a local (non-synced) {+realm+}, pass a :js-sdk:`Realm.Configuration
@@ -86,6 +85,8 @@ transaction <node-write-transactions>`.
    .. literalinclude:: /examples/generated/node/quickstart-local.codeblock.create-realm-objects.js
      :language: javascript
 
+.. _node-quickstart-local-find-sort-and-filter-objects:
+
 Find, Sort, and Filter Objects
 ------------------------------
 The following code demonstrates how to:
@@ -97,6 +98,8 @@ The following code demonstrates how to:
 .. literalinclude:: /examples/generated/node/quickstart-local.codeblock.find-sort-and-filter-objects.js
   :language: javascript
 
+.. _node-quickstart-local-modify-an-object:
+
 Modify an Object
 ----------------
 As with writes, any changes to a Realm object must occur within a 
@@ -105,14 +108,15 @@ To modify an object, you update the object properties:
 
 .. example::
 
-    In the following example, an application developer updates ``task1`` from
-    the :ref:`Create Realm Objects <node-quickstart-local-create-realm-objects>`
-    example above. The developer begins progress on the "go grocery shopping
-    task" and sets ``task1`` to "InProgress".
+   In the following example, an application developer updates ``task1`` from the
+   :ref:`Create Realm Objects <node-quickstart-local-create-realm-objects>`
+   example above. The developer begins progress on the "go grocery shopping
+   task" and sets ``task1`` to "InProgress".
     
    .. literalinclude:: /examples/generated/node/quickstart-local.codeblock.modify-an-object.js
      :language: javascript
 
+.. _node-quickstart-local-delete-an-object:
 
 Delete an Object
 ----------------
@@ -121,13 +125,14 @@ You can delete an object by calling the :js-sdk:`realm.delete()
 
 .. example::
 
-    In the following example, an application developer deletes ``task1`` from
-    the :ref:`Create Realm Objects <node-quickstart-local-create-realm-objects>`
-    example above. 
+   In the following example, an application developer deletes ``task1`` from the
+   :ref:`Create Realm Objects <node-quickstart-local-create-realm-objects>`
+   example above. 
     
    .. literalinclude:: /examples/generated/node/quickstart-local.codeblock.delete-an-object.js
      :language: javascript
 
+.. _node-quickstart-local-watch-a-collection:
 
 Watch a Collection
 ------------------
@@ -140,10 +145,13 @@ methods.
 
 .. example::
 
-    In the following example, an application developer watches for changes to the ``Task`` collection.
+   In the following example, an application developer watches for changes to the
+   ``Task`` collection.
     
    .. literalinclude:: /examples/generated/node/quickstart-local.codeblock.watch-a-collection.js
      :language: javascript
+
+.. _node-quickstart-local-close-a-realm:
 
 Close a Realm
 -------------
@@ -153,6 +161,7 @@ Call the :js-sdk:`realm.close() <Realm.html#close>` method when done with a real
   :language: javascript
 
 
+.. _node-quickstart-local-complete:
 
 Complete Example
 ----------------
