@@ -99,6 +99,16 @@ This might happen if the autobuilder is not set up on your fork.
   if (log === undefined) {
     return [`comMessage or logs undefined, build=${JSON.stringify(build)}`];
   }
+  // Log this for posterity
+  console.log(
+    `Logs found in ${
+      build.logs?.try0 !== undefined
+        ? "build.logs.try0"
+        : build.comMessage === undefined
+        ? "build.comMessage[0]"
+        : "unknown"
+    }`
+  );
   const re = /ERROR.*/g;
   const errors: string[] = [];
   for (let match = re.exec(log); match !== null; match = re.exec(log)) {
