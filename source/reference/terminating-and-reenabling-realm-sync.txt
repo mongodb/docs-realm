@@ -26,7 +26,7 @@ If you have :ref:`enabled Realm Sync <enable-sync>`, you may have to terminate a
 
 Terminate Realm Sync 
 --------------------
-Terminate Realm Sync in your {+realm+} application to stop syncing data across
+Terminate {+sync+} in your {+backend+} application to stop syncing data across
 devices. 
 
 .. warning:: 
@@ -67,15 +67,36 @@ Procedure
 
 1. In the :guilabel:`Sync` tab of the {+service+} UI, click the red :guilabel:`Terminate Sync` button.
 
-.. figure:: /images/export-app-button.png
+.. figure:: /images/click-terminate-sync-button.png
    :alt: the terminate sync button
 
 2. In the modal that pops up, check that you want to terminate sync by clicking
 the :guilabel:`I want to terminate Sync` checkbox and then click the
 :guilabel:`Terminate Sync` button on the modal.
 
-.. figure:: /images/export-app-button.png
+.. figure:: /images/terminate-sync-model.png
    :alt: the terminate sync model
+
+3. Click the :guilabel:`Review & Deploy` button in the blue notification bar
+telling you that changes have been made to your {+backend+} app.
+
+.. figure:: /images/terminating-sync-review-and-deploy.png
+   :alt: "Review & Deploy" notification
+
+4. In the model that appears, review your changes. Click the green
+:guilabel:`Deploy` button.
+
+.. figure:: /images/terminating-sync-deploy-button.png
+   :alt: Review Changes Model
+
+You have now terminated {+sync+} and should get a green notification bar on the
+top of the :guilabel:`Sync` page that states that your "Deployment was
+successful!"
+
+.. figure:: /images/terminating-sync-deployment-successful.png
+   :alt: Review Changes Model
 
 Reenable Realm Sync
 -------------------
+To reenable {+sync+} follow the steps in the :doc:`Get Started with Sync
+</sync/get-started>` guide. 
