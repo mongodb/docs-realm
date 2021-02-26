@@ -38,6 +38,7 @@ public class OpenARealmTest extends RealmTest {
         activity.runOnUiThread(() -> {
             // :code-block-start: configure-a-realm-local
             RealmConfiguration config = new RealmConfiguration.Builder()
+                    .name("alternate-realm")
                     .allowQueriesOnUiThread(true)
                     .allowWritesOnUiThread(true)
                     .compactOnLaunch()
