@@ -21,8 +21,10 @@ If you have :ref:`enabled Realm Sync <enable-sync>`, you may have to terminate a
 - When moving an {+atlas-short+} cluster across regions/cloud providers
 - When upgrading NVMe Atlas clusters
 - If the Oplog rolls over due to a Bug or misconfiguration
-- If {+sync+} becomes paused on a shared tier clusters with in-frequent usage 
+- If {+sync+} becomes paused on a shared tier cluster with in-frequent usage 
 - For certain troubleshooting steps (at the request of MongoDB Support)
+
+.. _terminating-realm-sync:
 
 Terminate Realm Sync 
 --------------------
@@ -83,20 +85,22 @@ telling you that changes have been made to your {+backend+} app.
 .. figure:: /images/terminating-sync-review-and-deploy.png
    :alt: "Review & Deploy" notification
 
-4. In the model that appears, review your changes. Click the green
+4. In the model that appears, review your changes and then click the green
 :guilabel:`Deploy` button.
 
 .. figure:: /images/terminating-sync-deploy-button.png
    :alt: Review Changes Model
 
 You have now terminated {+sync+} and should get a green notification bar on the
-top of the :guilabel:`Sync` page that states that your "Deployment was
-successful!"
+top of the :guilabel:`Sync` page that states that your deployment was
+successful.
 
 .. figure:: /images/terminating-sync-deployment-successful.png
    :alt: Review Changes Model
 
+.. _reenable-realm-sync:
+
 Reenable Realm Sync
 -------------------
-To reenable {+sync+} follow the steps in the :doc:`Get Started with Sync
+To reenable {+sync+}, follow the steps in the :doc:`Get Started with Sync
 </sync/get-started>` guide. 
