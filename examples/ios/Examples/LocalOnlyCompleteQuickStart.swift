@@ -1,7 +1,5 @@
 import XCTest
 
-private var gExpectation: XCTestExpectation?
-
 import UIKit
 
 // :code-block-start: complete-quick-start
@@ -86,8 +84,6 @@ func runLocalOnlyExample() {
 
 class LocalOnlyQuickStartTest: XCTestCase {
     func testRunLocalOnlyExample() {
-        gExpectation = XCTestExpectation(description: "Run complete quick start")
         runLocalOnlyExample()
-        wait(for: [], timeout: 20.0)
     }
 }
