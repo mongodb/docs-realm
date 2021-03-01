@@ -154,8 +154,8 @@ The {+service+} Android SDK optionally contains the ability to access
 backend {+backend+} apps running in the cloud. In addition to local
 {+client-database+} functionality, {+app+}s provide:
 
-Automatic Sync
-~~~~~~~~~~~~~~
+Realm Sync
+~~~~~~~~~~
 
 Automatically sync data between {+realm+}s on client devices and your
 MongoDB Atlas data store with :ref:`Sync <android-sync-changes-between-devices>`:
@@ -212,75 +212,82 @@ Get Started
 To start using the {+service+} Android SDK
 in your Android application, see :ref:`Install Realm for Android
 <android-install>` to add the Android SDK dependency and then check
-out the :ref:`Quick Start <android-client-quick-start-local>`:
-
-- :doc:`Install Realm for Android </sdk/android/install>`
-- :doc:`Quick Start </sdk/android/quick-start-local>`
-- :doc:`Quick Start with Sync </sdk/android/quick-start-sync>`
-- :doc:`Quick Start with LiveData </sdk/android/livedata>`
-- :doc:`Upgrade from Stitch to Realm </sdk/android/migrate>`
-
-Fundamentals
-------------
+out the :ref:`Quick Start <android-client-quick-start-local>`.
 
 To learn more about the concepts that underly {+client-database+},
 such as the :ref:`Asynchronous API <android-async-api>`, the 
 :ref:`Query Engine <android-client-query-engine>`, and more,
-check out the Fundamentals section:
-
-- :doc:`Asynchronous API </sdk/android/fundamentals/async-api>`
-- :doc:`Realms </sdk/android/fundamentals/realms>`
-- :doc:`Live Queries </sdk/android/fundamentals/live-queries>`
-- :doc:`Query Engine </sdk/android/fundamentals/query-engine>`
-- :doc:`Write Transactions </sdk/android/fundamentals/write-transactions>`
-- :doc:`Relationships </sdk/android/fundamentals/relationships>`
-- :doc:`Object Models & Schemas </sdk/android/fundamentals/object-models-and-schemas>`
-- :doc:`Schema Versions & Migrations </sdk/android/fundamentals/schema-versions-and-migrations>`
-- :doc:`MongoDB Realm Cloud </sdk/android/fundamentals/mongodb-realm-cloud>`
-
-Examples
---------
+check out the Fundamentals.
 
 For practical code samples of common tasks in {+client-database+} and
-{+app+}s, take a look at the Examples section:
+{+app+}s, take a look at the Examples.
+   
+.. list-table::
+   :header-rows: 1
+   :class: index-table
 
-Realm Database Examples
-~~~~~~~~~~~~~~~~~~~~~~~
+   * - Get Started
+     - Fundamentals
+     - Examples
+     - Sync Examples
+     
+   * - :doc:`Install Realm for Android </sdk/android/install>`
+   
+       :doc:`Quick Start </sdk/android/quick-start-local>`
+       
+       :doc:`Quick Start with Sync </sdk/android/quick-start-sync>`
+       
+       :doc:`Quick Start with LiveData </sdk/android/livedata>`
+       
+       :doc:`Upgrade from Stitch to Realm </sdk/android/migrate>`
+       
+     - :doc:`Asynchronous API </sdk/android/fundamentals/async-api>`
+     
+       :doc:`Realms </sdk/android/fundamentals/realms>`
+       
+       :doc:`Live Queries </sdk/android/fundamentals/live-queries>`
+       
+       :doc:`Query Engine </sdk/android/fundamentals/query-engine>`
+       
+       :doc:`Write Transactions </sdk/android/fundamentals/write-transactions>`
+       
+       :doc:`Object Models & Schemas </sdk/android/fundamentals/object-models-and-schemas>`
+     
+     - :doc:`Define a Realm Object Schema </sdk/android/examples/define-a-realm-object-model>`
+     
+       :doc:`Open & Close a Local Realm </sdk/android/examples/open-and-close-a-local-realm>`
+       
+       :doc:`Read & Write Data </sdk/android/examples/read-and-write-data>`
+       
+       :doc:`React to Changes </sdk/android/examples/react-to-changes>`
+       
+       :doc:`Modify an Object Schema </sdk/android/examples/modify-an-object-schema>`
+       
+     - :doc:`Connect to a MongoDB Realm Backend App </sdk/android/examples/connect-to-mongodb-realm-backend-app>`
+     
+       :doc:`Authenticate Users </sdk/android/examples/authenticate-users>`
+       
+       :doc:`Sync Changes Between Devices </sdk/android/examples/sync-changes-between-devices>`
+       
+       :doc:`Call a Function </sdk/android/examples/call-a-function>`
+       
+       :doc:`Manage Email/Password Users </sdk/android/examples/email-password-users>`
+       
+       :doc:`Query MongoDB </sdk/android/examples/mongodb-remote-access>`
 
-- :doc:`Define a Realm Object Schema </sdk/android/examples/define-a-realm-object-model>`
-- :doc:`Open & Close a Local Realm </sdk/android/examples/open-and-close-a-local-realm>`
-- :doc:`Read & Write Data </sdk/android/examples/read-and-write-data>`
-- :doc:`React to Changes </sdk/android/examples/react-to-changes>`
-- :doc:`Modify an Object Schema </sdk/android/examples/modify-an-object-schema>`
-
-MongoDB Realm App Examples
-~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-- :doc:`Connect to a MongoDB Realm Backend App </sdk/android/examples/connect-to-mongodb-realm-backend-app>`
-- :doc:`Authenticate Users </sdk/android/examples/authenticate-users>`
-- :doc:`Sync Changes Between Devices </sdk/android/examples/sync-changes-between-devices>`
-- :doc:`Call a Function </sdk/android/examples/call-a-function>`
-- :doc:`Manage Email/Password Users </sdk/android/examples/email-password-users>`
-- :doc:`Create & Manage User API Keys </sdk/android/examples/manage-user-api-keys>`
-- :doc:`Query MongoDB </sdk/android/examples/mongodb-remote-access>`
-
-Advanced
---------
+Advanced Guides
+---------------
 
 For information about advanced concepts, such as
 :ref:`encryption <android-encrypt-a-realm>`
 and :ref:`threading <android-threading>`, see the
 :ref:`Advanced Guides <advanced-guides>` section.
 
-Realm Database
-~~~~~~~~~~~~~~
-
 - :doc:`Encryption </sdk/android/advanced-guides/encryption>`
 - :doc:`Threading </sdk/android/advanced-guides/threading>`
 
-
-MongoDB Realm App
-~~~~~~~~~~~~~~~~~
+Advanced Sync Guides
+~~~~~~~~~~~~~~~~~~~~
 
 - :doc:`Link User Identities </sdk/android/advanced-guides/link-user-identities>`
 - :doc:`Multi-User Applications </sdk/android/advanced-guides/multi-user-applications>`
