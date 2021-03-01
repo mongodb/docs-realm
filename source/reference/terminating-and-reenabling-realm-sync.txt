@@ -33,13 +33,9 @@ devices.
 
 .. warning:: 
  
- Terminating/Re-enabling Sync will prevent local changes that you have not
- synced yet from syncing. If you plan on terminating Sync in production and wish
- to capture any write transaction that you have not sent to the Realm server
- yet, you should ensure that your applications have client reset logic that
- handles this case. 
-
- To learn how to perform a client reset, see the documentation for the Realm SDKs:
+ Terminating and re-enabling {+sync+} prevents unsynchronized client changes
+ from automatically syncing. To recover any unsynchronized changes, implement a
+ manual client reset that handles this case in your client applications:
 
  .. tabs-realm-sdks::
 
