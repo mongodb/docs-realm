@@ -11,3 +11,30 @@ Testing - Android SDK
    :backlinks: none
    :depth: 2
    :class: singlecol
+
+You can test your Android {+service-short+} applications with a few caveats.
+
+Unit Testing
+------------
+
+- Mockito for mocking
+- mock everything realm does
+- example gradle imports and test?
+- no link to your backend or a local Realm Database, so everything
+  must be mocked clientside,
+  from function logic to auth logic to partition/sync logic
+
+
+Integration Testing
+-------------------
+
+- Realm cannot run in a testing thread
+- need to run logic in a looper thread, so running on the ui thread of
+  a testing device lets you hit your backend
+- certain functions cannot be run synchronously in the ui thread, so
+  you'll either have to use the async version on the ui thread (and
+  find a way to block while you wait for the async result, similar to
+  promises in JS) or create a custom looper thread to test your logic.
+  you should choose the approach that best reflects the logic you use
+  in your application (async ui thread requests or sync background
+  looper thread requests?)
