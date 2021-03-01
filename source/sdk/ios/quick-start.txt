@@ -30,9 +30,8 @@ Import Realm
 Near the top of any Swift file that uses Realm, add the following import
 statement:
 
-.. code-block:: swift
-
-   import RealmSwift
+.. literalinclude:: /examples/generated/code/start/LocalOnlyCompleteQuickStart.codeblock.import-realmswift.swift
+   :language: swift
 
 Define Your Object Model
 ------------------------
@@ -40,19 +39,8 @@ Define Your Object Model
 For a local-only {+client-database+} you can define your :ref:`object model
 <ios-realm-objects>` directly in code.
 
-.. code-block:: swift
-
-   // LocalOnlyQsTask is the Task model for this QuickStart
-   class LocalOnlyQsTask: Object {
-      @objc dynamic var name: String = ""
-      @objc dynamic var owner: String?
-      @objc dynamic var status: String = ""
-    
-      convenience init(name: String) {
-         self.init()
-         self.name = name
-      }
-    }
+.. literalinclude:: /examples/generated/code/start/LocalOnlyCompleteQuickStart.codeblock.quick-start-local-define-object-model.swift
+   :language: swift
 
 Open a Realm
 ------------
@@ -60,10 +48,8 @@ Open a Realm
 In a local-only {+client-database+}, the simplest option to open a {+realm+}
 is by omitting the configuration parameter, which uses the default {+realm+}:
 
-.. code-block:: swift
-
-   // Open the local-only default realm
-   let localRealm = try! Realm()
+.. literalinclude:: /examples/generated/code/start/LocalOnlyCompleteQuickStart.codeblock.quick-start-local-open-realm-without-config-param.swift
+   :language: swift
 
 You can also specify a :swift-sdk:`Realm.Configuration <Structs/Realm/Configuration.html>` 
 parameter to open a {+realm+} at a specific file URL, in-memory, or with a 
@@ -81,47 +67,28 @@ in a :ref:`write transaction <ios-write-transactions>` block.
 
 To create a new Task, instantiate the Task class and add it to the {+realm+} in a write block:
 
-.. code-block:: swift
-
-   let task = LocalOnlyQsTask(name: "Do laundry")
-   try! localRealm.write {
-      localRealm.add(task)
-   }
+.. literalinclude:: /examples/generated/code/start/LocalOnlyCompleteQuickStart.codeblock.quick-start-local-write-transaction.swift
+   :language: swift
 
 You can retrieve a live :ref:`collection <ios-client-collections>` of all tasks in the {+realm+}:
 
-.. code-block:: swift
-
-   // Get all tasks in the realm
-   let tasks = localRealm.objects(LocalOnlyQsTask.self)
+.. literalinclude:: /examples/generated/code/start/LocalOnlyCompleteQuickStart.codeblock.quick-start-local-live-collection-of-all-tasks.swift
+   :language: swift
 
 You can also filter that collection using a :ref:`filter <ios-client-query-engine>`:
 
-.. code-block:: swift
-
-   let tasksInProgress = tasks.filter("status = %@", "InProgress")
-   print("A list of all tasks in progress: \(tasksInProgress)")
+.. literalinclude:: /examples/generated/code/start/LocalOnlyCompleteQuickStart.codeblock.quick-start-local-filter-collection.swift
+   :language: swift
 
 To modify a task, update its properties in a write transaction block:
 
-.. code-block:: swift
-
-   // All modifications to a realm must happen in a write block.
-   let taskToUpdate = tasks[0]
-   try! localRealm.write {
-      taskToUpdate.status = "InProgress"
-   }
+.. literalinclude:: /examples/generated/code/start/LocalOnlyCompleteQuickStart.codeblock.quick-start-local-modify-task.swift
+   :language: swift
 
 Finally, you can delete a task:
 
-.. code-block:: swift
-
-   // All modifications to a realm must happen in a write block.
-   let taskToDelete = tasks[0]
-   try! localRealm.write {
-      // Delete the LocalOnlyQsTask.
-      localRealm.delete(taskToDelete)
-   }
+.. literalinclude:: /examples/generated/code/start/LocalOnlyCompleteQuickStart.codeblock.quick-start-local-delete-task.swift
+   :language: swift
 
 Watch for Changes
 -----------------
@@ -135,32 +102,17 @@ You can :ref:`watch a realm, collection, or object for changes
    long as you want to continue observing. When you are done observing, 
    invalidate the token to free the resources.
 
-.. code-block:: swift
+.. literalinclude:: /examples/generated/code/start/LocalOnlyCompleteQuickStart.codeblock.quick-start-local-set-notification-token.swift
+   :language: swift
 
-   // Retain notificationToken as long as you want to observe
-   let notificationToken = tasks.observe { (changes) in
-       switch changes {
-       case .initial: break
-           // Results are now populated and can be accessed without blocking the UI
-       case .update(_, let deletions, let insertions, let modifications):
-           // Query results have changed.
-           print("Deleted indices: ", deletions)
-           print("Inserted indices: ", insertions)
-           print("Modified modifications: ", modifications)
-       case .error(let error):
-           // An error occurred while opening the Realm file on the background worker thread
-           fatalError("\(error)")
-       }
-   }
-
-   // Later, when done observing
-   notificationToken.invalidate()
+.. literalinclude:: /examples/generated/code/start/LocalOnlyCompleteQuickStart.codeblock.quick-start-local-invalidate-notification-token.swift
+   :language: swift
 
 Complete Example
 ----------------
 
 Run the complete example by calling ``runLocalOnlyExample()``.
 
-.. literalinclude:: /examples/generated/code/start/LocalOnlyCompleteQuickStart.codeblock.complete-quick-start.swift
+.. literalinclude:: /examples/generated/code/start/LocalOnlyCompleteQuickStart.codeblock.complete-quick-start-local.swift
    :language: swift
 
