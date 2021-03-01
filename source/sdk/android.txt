@@ -83,8 +83,8 @@ Android-native queries:
 Update Live Objects
 ~~~~~~~~~~~~~~~~~~~
 
-:ref:`Update <android-modify-an-object>` stored objects by simply
-updating field values on an instance of the object:
+:ref:`Update <android-modify-an-object>` objects in {+client-database+} by
+updating field values on an instance of the object within a transaction:
 
 .. tabs-realm-languages::
    
@@ -146,13 +146,15 @@ of an object up to date at all times:
    To get started with {+client-database+}, try our
    :ref:`Local-only Quick Start <android-client-quick-start-local>`.
 
-MongoDB Realm Apps
-------------------
+App Services
+------------
 
-{+app+}s are MongoDB cloud-hosted backends for client applications.
+{+app+}s are MongoDB cloud-hosted backends for client applications
+that provide a layer of functionality collectively called **App Services**.
 The {+service+} Android SDK optionally contains the ability to access
 backend {+backend+} apps running in the cloud. In addition to local
-{+client-database+} functionality, {+app+}s includes the ability to:
+{+client-database+} functionality in the SDK, App Services provide
+the ability to:
 
 - Automatically sync data between {+realm+}s on client devices and your
   MongoDB Atlas data store with :ref:`Sync <android-sync-changes-between-devices>`:
@@ -213,8 +215,8 @@ For practical code samples of common tasks in {+client-database+} and
 
    * - Get Started
      - Fundamentals
-     - Realm Database Examples
-     - MongoDB Realm App Examples
+     - Examples
+     - App Services Examples
      
    * - :doc:`Install Realm for Android </sdk/android/install>`
    
@@ -274,8 +276,8 @@ Realm Database
 - :doc:`Encryption </sdk/android/advanced-guides/encryption>`
 - :doc:`Threading </sdk/android/advanced-guides/threading>`
 
-MongoDB Realm Apps
-~~~~~~~~~~~~~~~~~~
+App Services
+~~~~~~~~~~~~
 
 - :doc:`Link User Identities </sdk/android/advanced-guides/link-user-identities>`
 - :doc:`Multi-User Applications </sdk/android/advanced-guides/multi-user-applications>`
