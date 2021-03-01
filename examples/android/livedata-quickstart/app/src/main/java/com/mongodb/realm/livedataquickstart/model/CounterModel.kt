@@ -61,7 +61,6 @@ class CounterModel : ViewModel() {
                 // 5. Instantiate a LiveRealmObject using the Counter and store it in a member variable
                 // the counters query is life, so we can just grab the 0th index to get a guaranteed counter
                 this._counter.postValue(counters[0]!!)
-                // :hide-end:
             } else {
                 Log.e("QUICKSTART", "Failed to log in anonymously. Error: ${it.error.message}")
             }
