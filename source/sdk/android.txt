@@ -152,54 +152,39 @@ MongoDB Realm Apps
 {+app+}s are MongoDB cloud-hosted backends for client applications.
 The {+service+} Android SDK optionally contains the ability to access
 backend {+backend+} apps running in the cloud. In addition to local
-{+client-database+} functionality, {+app+}s provide:
+{+client-database+} functionality, {+app+}s includes the ability to:
 
-Realm Sync
-~~~~~~~~~~
+- Automatically sync data between {+realm+}s on client devices and your
+  MongoDB Atlas data store with :ref:`Sync <android-sync-changes-between-devices>`:
 
-Automatically sync data between {+realm+}s on client devices and your
-MongoDB Atlas data store with :ref:`Sync <android-sync-changes-between-devices>`:
-
-.. tabs-realm-languages::
+  .. tabs-realm-languages::
    
-   .. tab::
-      :tabid: kotlin
+     .. tab::
+        :tabid: kotlin
 
-      .. literalinclude:: /examples/generated/android/sync/LandingPageTest.codeblock.update.kt
-         :language: kotlin
+        .. literalinclude:: /examples/generated/android/sync/LandingPageTest.codeblock.update.kt
+           :language: kotlin
 
-   .. tab::
-      :tabid: java
+     .. tab::
+        :tabid: java
 
-      .. literalinclude:: /examples/generated/android/sync/LandingPageTest.codeblock.update.java
-         :language: java
+        .. literalinclude:: /examples/generated/android/sync/LandingPageTest.codeblock.update.java
+           :language: java
 
-User Accounts
-~~~~~~~~~~~~~
+- Use {+service-short+}'s built-in user management to enable
+  :ref:`user account creation <android-register-a-new-user-account>`
+  and user :ref:`authentication <android-authenticate-users>` across
+  devices.
 
-Use {+service-short+}'s built-in user management to enable
-:ref:`user account creation <android-register-a-new-user-account>`
-and user :ref:`authentication <android-authenticate-users>` across
-devices.
+- Store data persistently with :ref:`permissions <mongodb-crud-permissions>`
+  in your backend {+app+} using a
+  :ref:`{+atlas+} database <mongodb-service>`.
 
-Database Permissions
-~~~~~~~~~~~~~~~~~~~~
+- Execute logic in your backend {+app+} from a client application using
+  :ref:`Functions <android-call-a-function>`.
 
-Store data persistently with :ref:`permissions <mongodb-crud-permissions>`
-in your backend {+app+} using a
-:ref:`{+atlas+} database <mongodb-service>`.
-
-Realm Functions
-~~~~~~~~~~~~~~~
-
-Execute logic in your backend {+app+} from a client application using
-:ref:`Functions <android-call-a-function>`.
-
-Realm Triggers
-~~~~~~~~~~~~~~
-
-React to events in your backend {+app+} using
-:ref:`Triggers <triggers>`.
+- React to events in your backend {+app+} using
+  :ref:`Triggers <triggers>`.
 
 .. seealso::
 
