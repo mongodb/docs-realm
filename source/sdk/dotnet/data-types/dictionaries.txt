@@ -19,11 +19,11 @@ A {+service-short+} dictionary is an implementation of
 that has keys of type ``String`` and supports values of any 
 :ref:`{+service-short+} type <dotnet-objects>` except :ref:`dotnet-client-collections`. 
 To define a dictionary, use 
-a getter-only ``IDictionary<string, TValue>`` property, where `TValue` is any 
+a getter-only ``IDictionary<string, TValue>`` property, where ``TValue`` is any 
 of the supported types.
 
 Deleting an object from the database will remove it from any dictionaries 
-where it existed. Therefore, a dictionary of objects will never contain null objects.
+in which it existed. Therefore, a dictionary of objects will never contain null objects.
 However, dictionaries of primitive types can contain null values. If you do not 
 want to allow null values in a dictionary, then either use non-nullable types in 
 the dictionary declaration (for example, use ``IDictionary<double>`` instead of 
@@ -41,7 +41,7 @@ The following code shows examples of dictionary types:
    You cannot query against a {+service-short+} Dictionary.
 
 Data Binding
-------------
+~~~~~~~~~~~~
 Like other Realm collections, ``IDictionary`` implements ``INotifyCollectionChanged``, 
 so you can use it in data-binding scenarios (for example, when 
 :ref:`watching for changes <dotnet-react-to-changes>`). 

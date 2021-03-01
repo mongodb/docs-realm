@@ -19,12 +19,12 @@ is an implementation of
 and
 `IEnumerable<> <https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1?view=net-5.0>`_. 
 It supports values of any 
-:ref:`{+service-short+} type <dotnet-objects>` except :ref:`dotnet-client-collections`. 
-To define a set, use a getter-only ``ISet<TValue>`` property, where `TValue` is any 
-of the supported types:
+:ref:`{+service-short+} type <dotnet-objects>` except :ref:`collections <dotnet-client-collections>`. 
+To define a set, use a getter-only ``ISet<TValue>`` property, where ``TValue`` 
+is any of the supported types.
 
 Deleting an object from the database will remove it from any sets 
-where it existed. Therefore, a set of objects will never contain null objects.
+in which it existed. Therefore, a set of objects will never contain null objects.
 However, sets of primitive types can contain null values. If you do not 
 want to allow null values in a set, then either use non-nullable types in 
 the set declaration (for example, use ``ISet<double>`` instead of 
@@ -43,7 +43,7 @@ The following code shows examples of set types:
 
 
 Data Binding
-------------
+~~~~~~~~~~~~
 Like other Realm collections, ``ISet`` implements ``INotifyCollectionChanged``, 
 so you can use it in data-binding scenarios (for example, when 
 :ref:`watching for changes <dotnet-react-to-changes>`). 
