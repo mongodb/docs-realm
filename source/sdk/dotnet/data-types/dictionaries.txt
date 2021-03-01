@@ -17,17 +17,17 @@ Overview
 A {+service-short+} dictionary is an implementation of   
 `IDictionary <https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.idictionary-2?view=net-5.0>`_ 
 that has keys of type ``String`` and supports values of any 
-:ref:`{+service-short+} type <dotnet-objects>` except :ref:`dotnet-client-collections`. 
+:ref:`{+service-short+} type <dotnet-objects>` except 
+:ref:`collections <dotnet-client-collections>`. 
 To define a dictionary, use 
 a getter-only ``IDictionary<string, TValue>`` property, where ``TValue`` is any 
 of the supported types.
 
-Deleting an object from the database will remove it from any dictionaries 
-in which it existed. Therefore, a dictionary of objects will never contain null objects.
-However, dictionaries of primitive types can contain null values. If you do not 
+A dictionary of objects can contain null objects. Likewise, dictionaries 
+of primitive types can also contain null values. If you do not 
 want to allow null values in a dictionary, then either use non-nullable types in 
-the dictionary declaration (for example, use ``IDictionary<double>`` instead of 
-``IDictionary<double?>``), or add the 
+the dictionary declaration (for example, use ``IDictionary<string, double>`` 
+instead of ``IDictionary<string, double?>``), or add the 
 :ref:`[Required]<dotnet-required-optional-property>` attribute if the dictionary  
 contains nullable reference types, such as ``string`` or ``byte[]``.
 
@@ -38,7 +38,9 @@ The following code shows examples of dictionary types:
 
 .. note::
    
-   You cannot query against a {+service-short+} Dictionary.
+   You cannot use Linq to query against a {+service-short+} Dictionary. Instead, 
+   use a string query. For more information, see 
+   :ref:`Data Type Queries <dotnet-data-type-queries>`.
 
 Data Binding
 ~~~~~~~~~~~~

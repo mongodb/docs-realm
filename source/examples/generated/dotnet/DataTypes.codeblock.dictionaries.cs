@@ -1,8 +1,8 @@
 public class Inventory : RealmObject
 {
-    // The key must be of type string; the value
-    // can be of any Realm-supported type, including
-    // objects that inherit from RealmObject
+    // The key must be of type string; the value can be 
+    // of any Realm-supported type, including objects
+    // that inherit from RealmObject or EmbeddedObject
     public IDictionary<string, Plant> PlantDict { get; }
 
     public IDictionary<string, bool> BooleansDict { get; }
