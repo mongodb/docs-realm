@@ -40,91 +40,106 @@ Local Realm Database
 With the {+service+} Android SDK, you can access objects stored in a local
 instance of {+client-database+}. With {+client-database+}, you can:
 
-- :ref:`define your object schema <android-define-a-realm-object-schema>`
-  with annotated Kotlin or Java classes:
+Define an Object Schema
+~~~~~~~~~~~~~~~~~~~~~~~
 
-  .. tabs-realm-languages::
+:ref:`Define your object schema <android-define-a-realm-object-schema>`
+with annotated Kotlin or Java classes:
 
-     .. tab::
-        :tabid: kotlin
+.. tabs-realm-languages::
 
-        .. literalinclude:: /examples/generated/android/local/Frog.codeblock.frog-definition-local.kt
-           :language: kotlin
+   .. tab::
+      :tabid: kotlin
 
-     .. tab::
-        :tabid: java
+      .. literalinclude:: /examples/generated/android/local/Frog.codeblock.frog-definition-local.kt
+         :language: kotlin
 
-        .. literalinclude:: /examples/generated/android/local/FrogJava.codeblock.frog-definition-local.java
-           :language: java
+   .. tab::
+      :tabid: java
 
-- :ref:`query <android-client-query-engine>` for stored objects using
-  Android-native queries:
+      .. literalinclude:: /examples/generated/android/local/FrogJava.codeblock.frog-definition-local.java
+         :language: java
 
-  .. tabs-realm-languages::
+Query Realm Database
+~~~~~~~~~~~~~~~~~~~~
+
+:ref:`Query <android-client-query-engine>` for stored objects using
+Android-native queries:
+
+.. tabs-realm-languages::
      
-     .. tab::
-        :tabid: kotlin
+   .. tab::
+      :tabid: kotlin
 
-        .. literalinclude:: /examples/generated/android/local/LandingPageTest.codeblock.query.kt
-           :language: kotlin
+      .. literalinclude:: /examples/generated/android/local/LandingPageTest.codeblock.query.kt
+         :language: kotlin
 
-     .. tab::
-        :tabid: java
+   .. tab::
+      :tabid: java
 
-        .. literalinclude:: /examples/generated/android/local/LandingPageTest.codeblock.query.java
-           :language: java
+      .. literalinclude:: /examples/generated/android/local/LandingPageTest.codeblock.query.java
+         :language: java
 
-- :ref:`update <android-modify-an-object>` stored objects by simply
-  updating field values on an instance of the object:
+Update Live Objects
+~~~~~~~~~~~~~~~~~~~
 
-  .. tabs-realm-languages::
+:ref:`Update <android-modify-an-object>` stored objects by simply
+updating field values on an instance of the object:
+
+.. tabs-realm-languages::
    
-     .. tab::
-        :tabid: kotlin
+   .. tab::
+      :tabid: kotlin
 
-        .. literalinclude:: /examples/generated/android/local/LandingPageTest.codeblock.update.kt
-           :language: kotlin
+      .. literalinclude:: /examples/generated/android/local/LandingPageTest.codeblock.update.kt
+         :language: kotlin
 
-     .. tab::
-        :tabid: java
+   .. tab::
+      :tabid: java
 
-        .. literalinclude:: /examples/generated/android/local/LandingPageTest.codeblock.update.java
-           :language: java
+      .. literalinclude:: /examples/generated/android/local/LandingPageTest.codeblock.update.java
+         :language: java
 
-- :ref:`receive object updates and notifications automatically
-  <android-react-to-changes>` when objects stored in {+client-database+}
-  change:
+Watch for Object Updates
+~~~~~~~~~~~~~~~~~~~~~~~~
 
-  .. tabs-realm-languages::
+:ref:`Receive object updates and notifications automatically
+<android-react-to-changes>` when objects stored in {+client-database+}
+change:
+
+.. tabs-realm-languages::
   
-     .. tab::
-        :tabid: kotlin
+   .. tab::
+      :tabid: kotlin
 
-        .. literalinclude:: /examples/generated/android/local/LandingPageTest.codeblock.notifications.kt
-          :language: kotlin
+      .. literalinclude:: /examples/generated/android/local/LandingPageTest.codeblock.notifications.kt
+         :language: kotlin
 
-     .. tab::
-        :tabid: java
+   .. tab::
+      :tabid: java
 
-        .. literalinclude:: /examples/generated/android/local/LandingPageTest.codeblock.notifications.java
-           :language: java
+      .. literalinclude:: /examples/generated/android/local/LandingPageTest.codeblock.notifications.java
+         :language: java
 
-- :ref:`live objects <android-live-object>` keep all instances
-  of an object up to date at all times:
+Always Access the Latest Data
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-  .. tabs-realm-languages::
+:ref:`Live objects <android-live-object>` keep all instances
+of an object up to date at all times:
+
+.. tabs-realm-languages::
   
-     .. tab::
-        :tabid: kotlin
+   .. tab::
+      :tabid: kotlin
 
-        .. literalinclude:: /examples/generated/android/local/LandingPageTest.codeblock.live-objects.kt
-          :language: kotlin
+      .. literalinclude:: /examples/generated/android/local/LandingPageTest.codeblock.live-objects.kt
+         :language: kotlin
 
-     .. tab::
-        :tabid: java
+   .. tab::
+      :tabid: java
 
-        .. literalinclude:: /examples/generated/android/local/LandingPageTest.codeblock.live-objects.java
-           :language: java
+      .. literalinclude:: /examples/generated/android/local/LandingPageTest.codeblock.live-objects.java
+         :language: java
 
 .. seealso::
 
@@ -136,39 +151,54 @@ MongoDB Realm Apps
 
 {+app+}s are MongoDB cloud-hosted backends for client applications.
 The {+service+} Android SDK optionally contains the ability to access
-backend {+backend+} apps running in the cloud. With {+app+}s, you can:
+backend {+backend+} apps running in the cloud.
 
-- automatically sync data between {+realm+}s on client devices and your
-  MongoDB Atlas data store with :ref:`Sync <android-sync-changes-between-devices>`
+Automatic Sync
+~~~~~~~~~~~~~~
 
-  .. tabs-realm-languages::
+Automatically sync data between {+realm+}s on client devices and your
+MongoDB Atlas data store with :ref:`Sync <android-sync-changes-between-devices>`.
+
+.. tabs-realm-languages::
    
-     .. tab::
-        :tabid: kotlin
+   .. tab::
+      :tabid: kotlin
 
-        .. literalinclude:: /examples/generated/android/sync/LandingPageTest.codeblock.update.kt
-           :language: kotlin
+      .. literalinclude:: /examples/generated/android/sync/LandingPageTest.codeblock.update.kt
+         :language: kotlin
 
-     .. tab::
-        :tabid: java
+   .. tab::
+      :tabid: java
 
-        .. literalinclude:: /examples/generated/android/sync/LandingPageTest.codeblock.update.java
-           :language: java
+      .. literalinclude:: /examples/generated/android/sync/LandingPageTest.codeblock.update.java
+         :language: java
 
-- use {+service-short+}'s built-in user management to enable
-  :ref:`user account creation <android-register-a-new-user-account>`
-  and user :ref:`authentication <android-authenticate-users>` across
-  devices
+User Accounts
+~~~~~~~~~~~~~
 
-- store data persistently with :ref:`permissions <mongodb-crud-permissions>`
-  in your backend {+app+} using a
-  :ref:`MongoDB Atlas database <mongodb-service>`
+Use {+service-short+}'s built-in user management to enable
+:ref:`user account creation <android-register-a-new-user-account>`
+and user :ref:`authentication <android-authenticate-users>` across
+devices.
 
-- execute logic in your backend {+app+} from a client application using
-  :ref:`Functions <android-call-a-function>`
+Database Permissions
+~~~~~~~~~~~~~~~~~~~~
 
-- react to events in your backend {+app+} using
-  :ref:`Triggers <triggers>`
+Store data persistently with :ref:`permissions <mongodb-crud-permissions>`
+in your backend {+app+} using a
+:ref:`{+atlas+} database <mongodb-service>`.
+
+Realm Functions
+~~~~~~~~~~~~~~~
+
+Execute logic in your backend {+app+} from a client application using
+:ref:`Functions <android-call-a-function>`.
+
+Realm Triggers
+~~~~~~~~~~~~~~
+
+React to events in your backend {+app+} using
+:ref:`Triggers <triggers>`.
 
 .. seealso::
 
