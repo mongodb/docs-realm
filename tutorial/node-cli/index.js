@@ -4,13 +4,6 @@ const users = require("./users");
 const schemas = require("./schemas");
 const output = require("./output");
 
-/*  Change the logLevel to increase or decrease the 
-    amount of messages you see in the console.
-    Valid options are:
-    fatal, error, warn, info, detail, debug, and trace
-*/
-Realm.Sync.setLogLevel("error");
-
 const realms = {};
 
 // :code-block-start: openRealm
