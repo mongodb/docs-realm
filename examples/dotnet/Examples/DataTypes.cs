@@ -22,9 +22,15 @@ namespace Examples
             storeInventory.NullableIntDict.Add("things", 7);
             storeInventory.RequiredStringsDict.Add("foo", "bar");
 
+            var storeInventory2 = new Inventory();
+
+            storeInventory2.RequiredStringsDict.Add("foo", "Bar");
+
+
             realm.Write(() =>
             {
                 realm.Add<Inventory>(storeInventory);
+                realm.Add<Inventory>(storeInventory2);
             });
 
             //:code-block-start:query-dictionaries
@@ -37,10 +43,18 @@ namespace Examples
             // IntDict that is larger than 5
             var matchesMoreThanFive = realm.All<Inventory>()
                 .Filter("NullableIntDict.@values > 5");
+
+            // Find all Inventory items where any RequiredStringsDict has a key
+            // "Foo", and the value of that key contains the phrase "bar"
+            // (case insensitive)
+            var matches = realm.All<Inventory>().Filter("RequiredStringsDict['foo'] CONTAINS[c] 'bar'");
+
+
             //:code-block-end:
 
             Assert.IsNotNull(petunias);
             Assert.IsNotNull(matchesMoreThanFive);
+            Assert.AreEqual(2, matches.Count());
         }
         [Test]
         public async Task WorkWithSets()
@@ -162,18 +176,10 @@ namespace Examples
         }
         //:code-block-end:
 
-        //:code-block-start:lists
-        //:replace-start: {
-        //  "terms": {
-        //   "ListInventory": "Inventory"}
-        // }
         public class ListInventory : RealmObject
         {
-            // A Set can contain any Realm-supported type, including
-            // objects that inherit from RealmObject or EmbeddedObject
+
             public IList<Plant> Plants { get; }
         }
-        // :replace-end:
-        //:code-block-end:
     }
 }
