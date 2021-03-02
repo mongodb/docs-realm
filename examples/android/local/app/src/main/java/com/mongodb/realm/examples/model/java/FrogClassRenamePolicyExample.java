@@ -8,8 +8,9 @@ package com.mongodb.realm.examples.model.java;
 
 import io.realm.RealmObject;
 import io.realm.annotations.RealmClass;
+import io.realm.annotations.RealmNamingPolicy;
 
-@RealmClass(name="__Frog") // :emphasize:
+@RealmClass(fieldNamingPolicy = RealmNamingPolicy.PASCAL_CASE) // :emphasize:
 public class FrogClassRenamePolicyExample extends RealmObject {
     private String name;
     private int age;

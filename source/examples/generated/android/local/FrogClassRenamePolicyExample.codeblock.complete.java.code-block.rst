@@ -1,11 +1,12 @@
 .. code-block:: java
-   :emphasize-lines: 5
+   :emphasize-lines: 6
 
 
    import io.realm.RealmObject;
    import io.realm.annotations.RealmClass;
+   import io.realm.annotations.RealmNamingPolicy;
 
-   @RealmClass(name="__Frog") 
+   @RealmClass(fieldNamingPolicy = RealmNamingPolicy.PASCAL_CASE) 
    public class Frog extends RealmObject {
        private String name;
        private int age;

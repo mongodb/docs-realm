@@ -78,8 +78,7 @@ types:
       null values. If null values shouldn't be allowed, use the
       :ref:`@Required <android-required-field>` annotation.
 
-      .. literalinclude:: /examples/Schemas/Lists.java
-         :language: java
+      .. include:: /examples/generated/android/local/FrogListExample.codeblock.complete.java.code-block.rst
 
 .. seealso::
 
@@ -115,8 +114,7 @@ whose type is a {+service-short+} object in your application:
    .. tab::
       :tabid: java
 
-      .. literalinclude:: /examples/Schemas/ManyToOne.java
-         :language: java
+      .. include:: /examples/generated/android/local/FrogManyToOneExample.codeblock.complete.java.code-block.rst
 
 Each ``Frog`` references zero or one other ``Frog`` instances. Nothing
 prevents multiple ``Frog`` instances from referencing the same ``Frog``
@@ -143,8 +141,7 @@ Many-to-Many
    .. tab::
       :tabid: java
 
-      .. literalinclude:: /examples/Schemas/ManyToMany.java
-         :language: java
+      .. include:: /examples/generated/android/local/FrogManyToManyExample.codeblock.complete.java.code-block.rst
 
 ``RealmList`` s are containers of ``RealmObject`` s, but otherwise behave
 like a regular collection. You can use the same object in multiple
@@ -162,10 +159,8 @@ Inverse Relationships
 
 By default, {+client-database+} relationships are unidirectional. You
 can follow a link from one class to a referenced class, but not in the
-opposite direction. You can provide a link in the opposite direction
-with the
-:java-sdk:`@LinkingObjects <io/realm/annotations/LinkingObjects.html>`
-annotation:
+opposite direction. Consider the following class defining a ``Toad`` with
+a list of ``frogFriends``:
 
 .. tabs-realm-languages::
 
@@ -178,10 +173,29 @@ annotation:
    .. tab::
       :tabid: java
 
-      .. literalinclude:: /examples/Schemas/Inverse.java
-         :language: java
+      .. include:: /examples/generated/android/local/ToadInverseRelationshipExample.codeblock.complete.java.code-block.rst
 
-Inverse relationship fields must be marked ``final``.
+You can provide a link in the opposite direction, from ``Frog`` to ``Toad``,
+with the :java-sdk:`@LinkingObjects <io/realm/annotations/LinkingObjects.html>`
+annotation on a ``final`` (in Java) or ``val`` (in Kotlin) field of type
+``RealmResults<T>``:
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/Schemas/Inverse.kt
+         :language: kotlin
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /examples/generated/android/local/FrogInverseRelationshipExample.codeblock.complete.java.code-block.rst
+
+.. important::
+
+   Inverse relationship fields must be marked ``final``.
 
 .. seealso::
 
@@ -220,12 +234,24 @@ another class:
    .. tab::
       :tabid: java
 
-      .. literalinclude:: /examples/Schemas/Embedded.java
-         :language: java
+      .. include:: /examples/generated/android/local/FlyEmbeddedExample.codeblock.complete.java.code-block.rst
 
 Then, any time you reference that class from another class,
 {+client-database+} will embed the referenced class within the enclosing
-class.
+class, as in the following example:
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/Schemas/Embedded.kt
+         :language: kotlin
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /examples/generated/android/local/FrogEmbeddedExample.codeblock.complete.java.code-block.rst
 
 .. seealso::
 
@@ -258,8 +284,7 @@ the :ref:`object schema <android-object-schema>` with the
    .. tab::
       :tabid: java
 
-      .. literalinclude:: /examples/Schemas/PrimaryKey.java
-         :language: java
+      .. include:: /examples/generated/android/local/FrogPrimaryKeyExample.codeblock.complete.java.code-block.rst
 
 Only one field in a RealmObject can use the ``@PrimaryKey``
 annotation.
@@ -284,8 +309,7 @@ Required Fields
    .. tab::
       :tabid: java
 
-      .. literalinclude:: /examples/Schemas/Required.java
-         :language: java
+      .. include:: /examples/generated/android/local/FrogRequiredExample.codeblock.complete.java.code-block.rst
 
 .. seealso::
 
@@ -326,8 +350,7 @@ to assign default values.
 
       Use the class constructor(s) to assign default values:
 
-      .. literalinclude:: /examples/Schemas/DefaultValues.java
-         :language: java
+      .. include:: /examples/generated/android/local/FrogDefaultValueExample.codeblock.complete.java.code-block.rst
 
 .. note:: Default Values and Nullability
 
@@ -356,8 +379,7 @@ annotation:
    .. tab::
       :tabid: java
 
-      .. literalinclude:: /examples/Schemas/Index.java
-         :language: java
+      .. include:: /examples/generated/android/local/FrogIndexExample.codeblock.complete.java.code-block.rst
 
 .. seealso::
 
@@ -387,8 +409,7 @@ Ignore a field from a {+service-short+} object model with the
    .. tab::
       :tabid: java
 
-      .. literalinclude:: /examples/Schemas/Ignore.java
-         :language: java
+      .. include:: /examples/generated/android/local/FrogIgnoreExample.codeblock.complete.java.code-block.rst
 
 .. note:: Ignoring ``static`` and ``transient`` Fields
 
@@ -427,8 +448,7 @@ annotation to rename a field:
    .. tab::
       :tabid: java
 
-      .. literalinclude:: /examples/Schemas/RenameField.java
-         :language: java
+      .. include:: /examples/generated/android/local/FrogRenameAFieldExample.codeblock.complete.java.code-block.rst
 
 Alternatively, you can also assign a naming policy at the module or
 class levels to change the way that {+client-database+} interprets field
@@ -450,8 +470,7 @@ which will affect all classes included in the module:
    .. tab::
       :tabid: java
 
-      .. literalinclude:: /examples/Schemas/ModuleFieldNamingPolicy.java
-         :language: java
+      .. include:: /examples/generated/android/local/RenameModuleExample.codeblock.complete.java.code-block.rst
 
 You can also define a
 :java-sdk:`naming policy <io/realm/annotations/RealmNamingPolicy.html>`
@@ -468,8 +487,7 @@ at the class level, which overrides module level settings:
    .. tab::
       :tabid: java
 
-      .. literalinclude:: /examples/Schemas/ClassFieldNamingPolicy.java
-         :language: java
+      .. include:: /examples/generated/android/local/FrogClassRenamePolicyExample.codeblock.complete.java.code-block.rst
 
 .. _android-rename-object:
 
@@ -499,8 +517,7 @@ annotation to rename a class:
    .. tab::
       :tabid: java
 
-      .. literalinclude:: /examples/Schemas/RenameClass.java
-         :language: java
+      .. include:: /examples/generated/android/local/FrogRenameClassExample.codeblock.complete.java.code-block.rst
 
 .. _android-omit-classes-from-schema:
 
@@ -524,5 +541,4 @@ your {+realm+} using that module:
    .. tab::
       :tabid: java
 
-      .. literalinclude:: /examples/Schemas/Modules.java
-         :language: java
+      .. include:: /examples/generated/android/local/OmitModuleExample.codeblock.complete.java.code-block.rst
