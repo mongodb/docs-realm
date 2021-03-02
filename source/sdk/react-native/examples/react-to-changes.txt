@@ -33,7 +33,7 @@ To remove a realm listener, pass the callback to the realm's :js-sdk:`removeList
    <react-native-object-listener>` and :ref:`collection listeners
    <react-native-collection-listener>`.
 
-.. literalinclude:: /examples/generated/react-native/react-to-changes.codeblock.react-to-changes-register-change-listener.js
+.. literalinclude:: /examples/generated/node/react-to-changes.codeblock.react-to-changes-register-change-listener.js
   :language: javascript
 
 .. _react-native-register-a-collection-change-listener:
@@ -56,7 +56,7 @@ To remove a collection listener, pass the callback to the collection's :js-sdk:`
    order: deletions, insertions, then modifications. Handling insertions before
    deletions may result in unexpected behavior.
 
-.. literalinclude:: /examples/generated/react-native/react-to-changes.codeblock.react-to-changes-register-collection-change-listener.js
+.. literalinclude:: /examples/generated/node/react-to-changes.codeblock.react-to-changes-register-collection-change-listener.js
   :language: javascript
 
 .. _react-native-register-an-object-change-listener:
@@ -73,7 +73,7 @@ if any of the object's properties change or if someone deletes the object.
 To remove an object listener, pass the callback to the object's
 :js-sdk:`removeListener() <Realm.html#removeListener>` method.
 
-.. literalinclude:: /examples/generated/react-native/react-to-changes.codeblock.react-to-changes-register-realm-object-change-listener.js
+.. literalinclude:: /examples/generated/node/react-to-changes.codeblock.react-to-changes-register-realm-object-change-listener.js
   :language: javascript
 
 .. _react-native-remove-all-change-listeners:
@@ -88,5 +88,5 @@ call the instance's ``removeAllListeners()`` function:
 - :js-sdk:`Realm.Collection.removeAllListeners() <Realm.Collection.html#removeAllListeners>`
 - :js-sdk:`Realm.Object.removeAllListeners() <Realm.Object.html#removeAllListeners>`
 
-.. literalinclude:: /examples/generated/react-native/react-to-changes.codeblock.react-to-changes-remove-all-listeners.js
+.. literalinclude:: /examples/generated/node/react-to-changes.codeblock.react-to-changes-remove-all-listeners.js
   :language: javascript
