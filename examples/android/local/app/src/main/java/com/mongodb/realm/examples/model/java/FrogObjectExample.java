@@ -5,7 +5,6 @@ package com.mongodb.realm.examples.model.java;
 //       "FrogObjectExample": "Frog"
 //    }
 // }
-
 import io.realm.RealmObject;
 
 // To add an object to your Realm Schema, extend RealmObject

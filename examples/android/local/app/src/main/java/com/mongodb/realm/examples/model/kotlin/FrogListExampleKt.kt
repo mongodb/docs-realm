@@ -8,7 +8,7 @@ package com.mongodb.realm.examples.model.kotlin
 import io.realm.RealmList
 import io.realm.RealmObject
 
-class FrogListExampleKt : RealmObject {
+open class FrogListExampleKt : RealmObject {
     var name: String? = null
     var age = 0
     var species: String? = null

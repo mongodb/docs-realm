@@ -8,7 +8,7 @@ package com.mongodb.realm.examples.model.kotlin
 import io.realm.RealmObject
 import io.realm.annotations.Ignore
 
-class FrogIgnoreExampleKt : RealmObject {
+open class FrogIgnoreExampleKt : RealmObject {
     var name: String? = null
     var age = 0
     var species: String? = null

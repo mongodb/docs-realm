@@ -8,7 +8,7 @@ package com.mongodb.realm.examples.model.kotlin
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
 
-class FrogPrimaryKeyExampleKt : RealmObject {
+open class FrogPrimaryKeyExampleKt : RealmObject {
     @PrimaryKey var name : String? = null // :emphasize:
     var age = 0
     var species: String? = null

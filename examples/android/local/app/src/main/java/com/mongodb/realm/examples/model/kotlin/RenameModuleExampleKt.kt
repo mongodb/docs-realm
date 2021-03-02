@@ -13,6 +13,6 @@ import io.realm.annotations.RealmNamingPolicy
     classNamingPolicy = RealmNamingPolicy.LOWER_CASE_WITH_UNDERSCORES, // :emphasize:
     fieldNamingPolicy = RealmNamingPolicy.LOWER_CASE_WITH_UNDERSCORES // :emphasize:
 )
-class RenameModuleExampleKt
+open class RenameModuleExampleKt
 // :replace-end:
 // :code-block-end:

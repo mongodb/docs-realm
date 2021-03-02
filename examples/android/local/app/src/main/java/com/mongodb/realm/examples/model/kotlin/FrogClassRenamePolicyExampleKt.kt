@@ -10,7 +10,7 @@ import io.realm.annotations.RealmClass
 import io.realm.annotations.RealmNamingPolicy
 
 @RealmClass(fieldNamingPolicy = RealmNamingPolicy.PASCAL_CASE) // :emphasize:
-class FrogClassRenamePolicyExampleKt : RealmObject {
+open class FrogClassRenamePolicyExampleKt : RealmObject {
     var name: String? = null
     var age = 0
     var species: String? = null

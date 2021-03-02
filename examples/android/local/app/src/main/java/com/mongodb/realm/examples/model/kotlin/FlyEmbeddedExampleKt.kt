@@ -9,7 +9,7 @@ import io.realm.RealmObject
 import io.realm.annotations.RealmClass
 
 @RealmClass(embedded = true) // :emphasize:
-class FlyEmbeddedExampleKt : RealmObject {
+open class FlyEmbeddedExampleKt : RealmObject {
     private var name: String? = null
 
     constructor(name: String?) {

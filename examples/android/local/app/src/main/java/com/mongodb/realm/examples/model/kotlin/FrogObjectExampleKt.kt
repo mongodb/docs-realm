@@ -7,9 +7,9 @@ package com.mongodb.realm.examples.model.kotlin
 // }
 import io.realm.RealmObject
 
-
-// :emphasize: // providing default values for each constructor parameter fulfills the need for an empty constructor
-class FrogObjectExampleKt(
+// :emphasize: // providing default values for each constructor parameter
+// :emphasize: // fulfills the need for an empty constructor
+open class FrogObjectExampleKt(
     var name: String? = null,
     var age: Int = 0,
     var species: String? = null,

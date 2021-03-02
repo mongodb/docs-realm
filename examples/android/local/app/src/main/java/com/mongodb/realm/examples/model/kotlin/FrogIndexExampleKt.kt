@@ -8,7 +8,7 @@ package com.mongodb.realm.examples.model.kotlin
 import io.realm.RealmObject
 import io.realm.annotations.Index
 
-class FrogIndexExampleKt : RealmObject {
+open class FrogIndexExampleKt : RealmObject {
     var name: String? = null
     var age = 0
     @Index var species : String? = null // :emphasize:

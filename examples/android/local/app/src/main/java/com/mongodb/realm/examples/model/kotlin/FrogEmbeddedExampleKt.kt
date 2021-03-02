@@ -8,13 +8,12 @@ package com.mongodb.realm.examples.model.kotlin
 // }
 import io.realm.RealmObject
 
-class FrogEmbeddedExampleKt : RealmObject {
+open class FrogEmbeddedExampleKt : RealmObject {
     var name: String? = null
     var age = 0
     var species: String? = null
     var owner: String? = null
-    var lastMeal // :emphasize:
-            : FlyEmbeddedExampleKt? = null
+    var lastMeal: FlyEmbeddedExampleKt? = null // :emphasize:
 
     constructor(
         name: String?,

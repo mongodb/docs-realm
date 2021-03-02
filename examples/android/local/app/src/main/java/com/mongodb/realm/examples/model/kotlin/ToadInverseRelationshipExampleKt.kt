@@ -9,10 +9,7 @@ package com.mongodb.realm.examples.model.kotlin
 import io.realm.RealmList
 import io.realm.RealmObject
 
-
-
-
-class ToadInverseRelationshipExampleKt : RealmObject {
+open class ToadInverseRelationshipExampleKt : RealmObject {
     var frogFriends: RealmList<FrogInverseRelationshipExampleKt>? = null // :emphasize:
 
     constructor(frogFriends: RealmList<FrogInverseRelationshipExampleKt>?) {

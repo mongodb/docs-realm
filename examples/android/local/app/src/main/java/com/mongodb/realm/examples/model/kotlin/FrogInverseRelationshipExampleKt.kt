@@ -10,7 +10,7 @@ import io.realm.RealmObject
 import io.realm.RealmResults
 import io.realm.annotations.LinkingObjects
 
-class FrogInverseRelationshipExampleKt : RealmObject {
+open class FrogInverseRelationshipExampleKt : RealmObject {
     var name: String? = null
     var age = 0
     var species: String? = null

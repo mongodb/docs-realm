@@ -7,13 +7,12 @@ package com.mongodb.realm.examples.model.kotlin
 // }
 import io.realm.RealmObject
 
-class FrogManyToOneExampleKt : RealmObject {
+open class FrogManyToOneExampleKt : RealmObject {
     var name: String? = null
     var age = 0
     var species: String? = null
     var owner: String? = null
-    var bestFriend // :emphasize:
-            : FrogManyToOneExampleKt? = null
+    var bestFriend: FrogManyToOneExampleKt? = null // :emphasize:
 
     constructor(
         name: String?,

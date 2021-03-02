@@ -8,7 +8,7 @@ package com.mongodb.realm.examples.model.kotlin
 import io.realm.RealmObject
 import io.realm.annotations.Required
 
-class FrogRequiredExampleKt : RealmObject {
+open class FrogRequiredExampleKt : RealmObject {
     @Required var name: String? = null // :emphasize:
     var age = 0
     var species: String? = null

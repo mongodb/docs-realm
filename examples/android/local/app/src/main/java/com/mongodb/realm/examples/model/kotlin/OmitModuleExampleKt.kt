@@ -10,6 +10,6 @@ package com.mongodb.realm.examples.model.kotlin
 import io.realm.annotations.RealmModule
 
 @RealmModule(classes = [FrogEmbeddedExampleKt::class, FlyEmbeddedExampleKt::class]) // :emphasize:
-class OmitModuleExampleKt
+open class OmitModuleExampleKt
 // :replace-end:
 // :code-block-end:

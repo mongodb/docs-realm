@@ -8,8 +8,8 @@ package com.mongodb.realm.examples.model.kotlin
 import io.realm.RealmObject
 import io.realm.annotations.RealmClass
 
-@RealmClass(name = "ShortBodiedTaillessAmphibian") // :emphasize:
-class FrogRenameClassExampleKt : RealmObject {
+@RealmClass(name = "Short_Bodied_Tailless_Amphibian") // :emphasize:
+open class FrogRenameClassExampleKt : RealmObject {
     var name: String? = null
     var age = 0
     var species: String? = null

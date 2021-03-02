@@ -7,7 +7,7 @@ package com.mongodb.realm.examples.model.kotlin
 // }
 import io.realm.RealmObject
 
-class FrogDefaultValueExampleKt : RealmObject {
+open class FrogDefaultValueExampleKt : RealmObject {
     var name = "Kitty" // :emphasize:
     var age = 0
     var species: String? = null

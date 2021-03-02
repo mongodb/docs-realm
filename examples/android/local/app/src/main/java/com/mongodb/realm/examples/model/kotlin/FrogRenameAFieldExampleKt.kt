@@ -8,7 +8,7 @@ package com.mongodb.realm.examples.model.kotlin
 import io.realm.RealmObject
 import io.realm.annotations.RealmField
 
-class FrogRenameAFieldExampleKt : RealmObject {
+open class FrogRenameAFieldExampleKt : RealmObject {
     var name: String? = null
     var age = 0
     @RealmField("latinName") var species: String? = null // :emphasize:
