@@ -1,8 +1,8 @@
 .. _terminating-and-reenabling-sync:
 
-=================================
-Terminating/Reenabling Realm Sync
-=================================
+====================================
+Terminating & Re-enabling Realm Sync
+====================================
 
 .. default-domain:: mongodb
 
@@ -19,7 +19,7 @@ If you have :ref:`enabled Realm Sync <enable-sync>`, you may have to terminate a
 
 - An upgrade from a Shared Tier {+atlas-short+} Cluster to a Shared or Dedicated instance
 - A move to an {+atlas-short+} cluster that is distributed across regions/cloud providers
-- When upgrading NVMe Atlas clusters
+- An upgrade to NVMe Atlas clusters
 - An :manual:`oplog </core/replica-set-oplog/>` rollover
 - A paused {+sync+} session on a shared tier cluster due to in-frequent usage 
 - troubleshooting, at the request of MongoDB Support
@@ -31,7 +31,7 @@ Terminate Realm Sync
 Terminate {+sync+} in your {+app+} to stop syncing data across
 devices. 
 
-.. warning:: 
+.. warning:: Recovering Unsynchronized Changes after Terminating Sync
  
  Terminating and re-enabling {+sync+} prevents unsynchronized client changes
  from automatically syncing. To recover any unsynchronized changes, implement a
