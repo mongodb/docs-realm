@@ -1,5 +1,3 @@
-package com.mongodb.realm.examples.java;
-
 import io.realm.OrderedCollectionChangeSet;
 
 import android.os.Bundle;

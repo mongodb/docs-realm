@@ -46,9 +46,11 @@ definitions to your application code:
    .. tab::
       :tabid: java
 
+      :guilabel:`Task.java`
       .. literalinclude:: /examples/generated/android/local/DefinitelyNotJavaTask.codeblock.define-object-model-local.java
          :language: java
 
+      :guilabel:`TaskStatus.java`
       .. literalinclude:: /examples/generated/android/local/TaskStatus.codeblock.define-object-model-local.java
          :language: java
    
@@ -202,7 +204,7 @@ If you're running this project in a fresh Android Studio project, you can
 copy and paste this file into your application's ``MainActivity`` -- just
 remember to:
 
-- change the package declaration so it matches your project
+- use a package declaration at the top of the file for your own project
 
 - update the ``import`` statements for ``Task`` and ``TaskStatus`` if
   you're using java

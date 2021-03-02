@@ -1,4 +1,3 @@
-package com.mongodb.realm.examples.kotlin
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

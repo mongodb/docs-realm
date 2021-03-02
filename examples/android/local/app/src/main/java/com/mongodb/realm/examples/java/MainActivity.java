@@ -1,11 +1,10 @@
+package com.mongodb.realm.examples.java;
 // :code-block-start: complete
 // :replace-start: {
 //    "terms": {
 //       "DefinitelyNotJavaTask": "Task"
 //    }
 // }
-package com.mongodb.realm.examples.java;
-
 import io.realm.OrderedCollectionChangeSet;
 
 import android.os.Bundle;

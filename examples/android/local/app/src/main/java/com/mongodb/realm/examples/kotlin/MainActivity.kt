@@ -1,5 +1,5 @@
-// :code-block-start: complete
 package com.mongodb.realm.examples.kotlin
+// :code-block-start: complete
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
