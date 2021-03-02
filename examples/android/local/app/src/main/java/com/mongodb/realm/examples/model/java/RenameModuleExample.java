@@ -8,11 +8,13 @@ package com.mongodb.realm.examples.model.java;
 import io.realm.annotations.RealmModule;
 import io.realm.annotations.RealmNamingPolicy;
 
+// :emphasize-start:
 @RealmModule(
         allClasses = true,
-        classNamingPolicy = RealmNamingPolicy.LOWER_CASE_WITH_UNDERSCORES, // :emphasize:
-        fieldNamingPolicy = RealmNamingPolicy.LOWER_CASE_WITH_UNDERSCORES // :emphasize:
+        classNamingPolicy = RealmNamingPolicy.LOWER_CASE_WITH_UNDERSCORES,
+        fieldNamingPolicy = RealmNamingPolicy.LOWER_CASE_WITH_UNDERSCORES
 )
+// :emphasize-end:
 public class RenameModuleExample {
 }
 // :replace-end:

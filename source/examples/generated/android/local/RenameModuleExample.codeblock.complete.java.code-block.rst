@@ -1,13 +1,13 @@
 .. code-block:: java
-   :emphasize-lines: 6, 7
+   :emphasize-lines: 4-8
 
    import io.realm.annotations.RealmModule;
    import io.realm.annotations.RealmNamingPolicy;
 
    @RealmModule(
            allClasses = true,
-           classNamingPolicy = RealmNamingPolicy.LOWER_CASE_WITH_UNDERSCORES, 
-           fieldNamingPolicy = RealmNamingPolicy.LOWER_CASE_WITH_UNDERSCORES 
+           classNamingPolicy = RealmNamingPolicy.LOWER_CASE_WITH_UNDERSCORES,
+           fieldNamingPolicy = RealmNamingPolicy.LOWER_CASE_WITH_UNDERSCORES
    )
    public class MyModule {
    }
