@@ -1,5 +1,5 @@
-// :code-block-start: define-object-model-local
 package com.mongodb.realm.examples.model.java;
+// :code-block-start: define-object-model-local
 
 public enum TaskStatus {
     Open("Open"),

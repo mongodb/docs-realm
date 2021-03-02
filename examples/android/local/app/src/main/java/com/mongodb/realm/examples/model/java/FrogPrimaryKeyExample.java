@@ -5,7 +5,6 @@ package com.mongodb.realm.examples.model.java;
 //       "FrogPrimaryKeyExample": "Frog"
 //    }
 // }
-
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 

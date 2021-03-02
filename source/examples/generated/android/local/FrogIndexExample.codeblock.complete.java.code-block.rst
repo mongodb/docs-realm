@@ -1,6 +1,5 @@
 .. code-block:: java
-   :emphasize-lines: 8
-
+   :emphasize-lines: 7
 
    import io.realm.RealmObject;
    import io.realm.annotations.Index;

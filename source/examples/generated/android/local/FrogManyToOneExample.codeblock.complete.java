@@ -1,4 +1,3 @@
-
 import io.realm.RealmObject;
 
 public class Frog extends RealmObject {

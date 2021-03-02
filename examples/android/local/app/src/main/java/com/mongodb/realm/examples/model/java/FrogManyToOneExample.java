@@ -5,7 +5,6 @@ package com.mongodb.realm.examples.model.java;
 //       "FrogManyToOneExample": "Frog"
 //    }
 // }
-
 import io.realm.RealmObject;
 
 public class FrogManyToOneExample extends RealmObject {

@@ -6,7 +6,6 @@ package com.mongodb.realm.examples.model.java;
 //       "FlyEmbeddedExample": "Fly"
 //    }
 // }
-
 import io.realm.RealmObject;
 
 public class FrogEmbeddedExample extends RealmObject {

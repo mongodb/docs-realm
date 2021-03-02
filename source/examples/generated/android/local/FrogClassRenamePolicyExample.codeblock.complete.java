@@ -1,4 +1,3 @@
-
 import io.realm.RealmObject;
 import io.realm.annotations.RealmClass;
 import io.realm.annotations.RealmNamingPolicy;

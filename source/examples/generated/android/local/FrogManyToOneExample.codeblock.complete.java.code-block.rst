@@ -1,6 +1,5 @@
 .. code-block:: java
-   :emphasize-lines: 9
-
+   :emphasize-lines: 8
 
    import io.realm.RealmObject;
 

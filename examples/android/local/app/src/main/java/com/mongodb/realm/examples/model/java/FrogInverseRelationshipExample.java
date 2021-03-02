@@ -6,7 +6,6 @@ package com.mongodb.realm.examples.model.java;
 //       "ToadInverseRelationshipExample": "Toad"
 //    }
 // }
-
 import io.realm.RealmObject;
 import io.realm.RealmResults;
 import io.realm.annotations.LinkingObjects;

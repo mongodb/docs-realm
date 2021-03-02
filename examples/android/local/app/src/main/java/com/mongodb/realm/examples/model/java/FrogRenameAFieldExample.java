@@ -1,12 +1,10 @@
 package com.mongodb.realm.examples.model.java;
-
 // :code-block-start: complete
 // :replace-start: {
 //    "terms": {
 //       "FrogRenameAFieldExample": "Frog"
 //    }
 // }
-
 import io.realm.RealmObject;
 import io.realm.annotations.RealmField;
 

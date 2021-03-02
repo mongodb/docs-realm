@@ -1,4 +1,3 @@
-package com.mongodb.realm.examples.model.java;
 
 public enum TaskStatus {
     Open("Open"),

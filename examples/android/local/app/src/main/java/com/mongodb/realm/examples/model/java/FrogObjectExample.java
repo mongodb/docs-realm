@@ -8,7 +8,7 @@ package com.mongodb.realm.examples.model.java;
 
 import io.realm.RealmObject;
 
-// All objects in your Realm Schema must extend RealmObject
+// To add an object to your Realm Schema, extend RealmObject
 public class FrogObjectExample extends RealmObject { // :emphasize:
     private String name;
     private int age;

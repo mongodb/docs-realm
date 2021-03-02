@@ -5,7 +5,6 @@ package com.mongodb.realm.examples.model.java;
 //       "FrogListExample": "Frog"
 //    }
 // }
-
 import io.realm.RealmList;
 import io.realm.RealmObject;
 

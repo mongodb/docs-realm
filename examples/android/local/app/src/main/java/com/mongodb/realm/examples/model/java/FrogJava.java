@@ -5,7 +5,6 @@ package com.mongodb.realm.examples.model.java;
 //       "FrogJava": "Frog"
 //    }
 // }
-
 import io.realm.RealmObject;
 
 public class FrogJava extends RealmObject {

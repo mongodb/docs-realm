@@ -5,7 +5,6 @@ package com.mongodb.realm.examples.model.java;
 //       "FrogIndexExample": "Frog"
 //    }
 // }
-
 import io.realm.RealmObject;
 import io.realm.annotations.Index;
 

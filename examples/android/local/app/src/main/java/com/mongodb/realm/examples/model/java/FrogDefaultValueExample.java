@@ -1,12 +1,10 @@
 package com.mongodb.realm.examples.model.java;
-
 // :code-block-start: complete
 // :replace-start: {
 //    "terms": {
 //       "FrogDefaultValueExample": "Frog"
 //    }
 // }
-
 import io.realm.RealmObject;
 
 public class FrogDefaultValueExample extends RealmObject {
