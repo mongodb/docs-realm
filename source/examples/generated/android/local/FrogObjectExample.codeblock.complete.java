@@ -1,4 +1,3 @@
-
 import io.realm.RealmObject;
 
 // To add an object to your Realm Schema, extend RealmObject

@@ -3,13 +3,12 @@
 
    import io.realm.RealmObject
 
-   class Frog : RealmObject {
+   open class Frog : RealmObject {
        var name: String? = null
        var age = 0
        var species: String? = null
        var owner: String? = null
-       var lastMeal 
-               : Fly? = null
+       var lastMeal: Fly? = null 
 
        constructor(
            name: String?,

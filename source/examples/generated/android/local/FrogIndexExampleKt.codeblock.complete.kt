@@ -1,7 +1,7 @@
 import io.realm.RealmObject
 import io.realm.annotations.Index
 
-class Frog : RealmObject {
+open class Frog : RealmObject {
     var name: String? = null
     var age = 0
     @Index var species : String? = null 

@@ -4,7 +4,7 @@
    import io.realm.RealmObject
    import io.realm.annotations.Required
 
-   class Frog : RealmObject {
+   open class Frog : RealmObject {
        @Required var name: String? = null 
        var age = 0
        var species: String? = null

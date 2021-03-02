@@ -3,7 +3,7 @@
 
    import io.realm.RealmObject
 
-   class Frog : RealmObject {
+   open class Frog : RealmObject {
        var name = "Kitty" 
        var age = 0
        var species: String? = null
