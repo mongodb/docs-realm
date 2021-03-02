@@ -8,7 +8,8 @@ package com.mongodb.realm.examples.model.java;
 
 import io.realm.RealmObject;
 
-public class FrogObjectExample extends RealmObject { // :emphasize:
+// :emphasize:
+public class FrogObjectExample extends RealmObject {
     private String name;
     private int age;
     private String species;
@@ -19,7 +20,8 @@ public class FrogObjectExample extends RealmObject { // :emphasize:
         this.species = species;
         this.owner = owner;
     }
-    public FrogObjectExample(){} // :emphasize: // RealmObject subclasses must provide an empty constructor
+    // :emphasize: 
+    public FrogObjectExample(){} // RealmObject subclasses must provide an empty constructor
 
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
