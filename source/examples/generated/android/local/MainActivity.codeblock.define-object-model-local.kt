@@ -5,10 +5,9 @@ enum class TaskStatus(val displayName: String) {
     Complete("Complete"),
 }
 
-open class Task(_name: String = "Task", project: String = "My Project") : RealmObject() {
+open class Task() : RealmObject() {
     @PrimaryKey
-    var _id: ObjectId = ObjectId()
-    var name: String = _name
+    var name: String = "task"
 
     @Required
     var status: String = TaskStatus.Open.name

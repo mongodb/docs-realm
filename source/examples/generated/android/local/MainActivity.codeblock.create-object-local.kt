@@ -1,4 +1,5 @@
-val task : Task = Task("New Task", partitionValue)
+val task : Task = Task()
+task.name = "New Task"
 backgroundThreadRealm.executeTransaction { transactionRealm ->
     transactionRealm.insert(task)
 }

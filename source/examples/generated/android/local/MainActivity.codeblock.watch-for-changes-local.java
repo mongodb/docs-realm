@@ -1,7 +1,7 @@
-// all tasks in the realm
-RealmResults<Task> tasks = uiThreadRealm.where(Task.class).findAllAsync();
+// all Tasks in the realm
+RealmResults<Task> Tasks = uiThreadRealm.where(Task.class).findAllAsync();
 
-tasks.addChangeListener(new OrderedRealmCollectionChangeListener<RealmResults<Task>>() {
+Tasks.addChangeListener(new OrderedRealmCollectionChangeListener<RealmResults<Task>>() {
     @Override
     public void onChange(RealmResults<Task> collection, OrderedCollectionChangeSet changeSet) {
         // process deletions in reverse order if maintaining parallel data structures so indices don't change as you iterate

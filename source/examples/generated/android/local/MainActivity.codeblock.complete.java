@@ -2,8 +2,6 @@ package com.mongodb.realm.examples.java;
 
 import io.realm.OrderedCollectionChangeSet;
 
-import org.bson.types.ObjectId;
-
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,8 +18,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.FutureTask;
 
-import com.mongodb.realm.examples.model.Task;
-import com.mongodb.realm.examples.model.TaskStatus;
+import com.mongodb.realm.examples.model.java.Task;
+import com.mongodb.realm.examples.model.java.TaskStatus;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -40,17 +38,17 @@ public class MainActivity extends AppCompatActivity {
 
         addChangeListenerToRealm(uiThreadRealm);
 
-        FutureTask<String> task = new FutureTask(new BackgroundQuickStart(), "test");
+        FutureTask<String> Task = new FutureTask(new BackgroundQuickStart(), "test");
         ExecutorService executorService = Executors.newFixedThreadPool(2);
-        executorService.execute(task);
+        executorService.execute(Task);
 
     }
 
     private void addChangeListenerToRealm(Realm realm) {
-        // all tasks in the realm
-        RealmResults<Task> tasks = uiThreadRealm.where(Task.class).findAllAsync();
+        // all Tasks in the realm
+        RealmResults<Task> Tasks = uiThreadRealm.where(Task.class).findAllAsync();
 
-        tasks.addChangeListener(new OrderedRealmCollectionChangeListener<RealmResults<Task>>() {
+        Tasks.addChangeListener(new OrderedRealmCollectionChangeListener<RealmResults<Task>>() {
             @Override
             public void onChange(RealmResults<Task> collection, OrderedCollectionChangeSet changeSet) {
                 // process deletions in reverse order if maintaining parallel data structures so indices don't change as you iterate
@@ -88,31 +86,31 @@ public class MainActivity extends AppCompatActivity {
 
             Realm backgroundThreadRealm = Realm.getInstance(config);
 
-            Task task = new Task("New Task");
+            Task Task = new Task("New Task");
             backgroundThreadRealm.executeTransaction (transactionRealm -> {
-                transactionRealm.insert(task);
+                transactionRealm.insert(Task);
             });
 
-            // all tasks in the realm
-            RealmResults<Task> tasks = backgroundThreadRealm.where(Task.class).findAll();
+            // all Tasks in the realm
+            RealmResults<Task> Tasks = backgroundThreadRealm.where(Task.class).findAll();
 
             // you can also filter a collection
-            RealmResults<Task> tasksThatBeginWithN = tasks.where().beginsWith("name", "N").findAll();
-            RealmResults<Task> openTasks = tasks.where().equalTo("status", TaskStatus.Open.name()).findAll();
+            RealmResults<Task> TasksThatBeginWithN = Tasks.where().beginsWith("name", "N").findAll();
+            RealmResults<Task> openTasks = Tasks.where().equalTo("status", TaskStatus.Open.name()).findAll();
 
-            Task otherTask = tasks.get(0);
+            Task otherTask = Tasks.get(0);
 
             // all modifications to a realm must happen inside of a write block
             backgroundThreadRealm.executeTransaction( transactionRealm -> {
-                Task innerOtherTask = transactionRealm.where(Task.class).equalTo("_id", otherTask.get_id()).findFirst();
+                Task innerOtherTask = transactionRealm.where(Task.class).equalTo("_id", otherTask.getName()).findFirst();
                 innerOtherTask.setStatus(TaskStatus.Complete);
             });
 
-            Task yetAnotherTask = tasks.get(0);
-            ObjectId yetAnotherTaskId = yetAnotherTask.get_id();
+            Task yetAnotherTask = Tasks.get(0);
+            String yetAnotherTaskName = yetAnotherTask.getName();
             // all modifications to a realm must happen inside of a write block
             backgroundThreadRealm.executeTransaction( transactionRealm -> {
-                Task innerYetAnotherTask = transactionRealm.where(Task.class).equalTo("_id", yetAnotherTaskId).findFirst();
+                Task innerYetAnotherTask = transactionRealm.where(Task.class).equalTo("_id", yetAnotherTaskName).findFirst();
                 innerYetAnotherTask.deleteFromRealm();
             });
 
