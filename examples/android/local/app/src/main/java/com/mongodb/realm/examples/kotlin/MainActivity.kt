@@ -24,7 +24,9 @@ class MainActivity : AppCompatActivity() {
         Realm.init(this) // context, usually an Activity or Application
         // :code-block-end:
 
+        val realmName: String = "My Project"
         val config = RealmConfiguration.Builder()
+            .name(realmName)
             .build()
 
         uiThreadRealm = Realm.getInstance(config)
@@ -82,8 +84,8 @@ class MainActivity : AppCompatActivity() {
 
         override fun run() {
             // :code-block-start: open-a-realm-local
-            val partitionValue: String = "My Project"
-            val config = RealmConfiguration.Builder().build()
+            val realmName: String = "My Project"
+            val config = RealmConfiguration.Builder().name(realmName).build()
 
             val backgroundThreadRealm : Realm = Realm.getInstance(config)
             // :code-block-end:

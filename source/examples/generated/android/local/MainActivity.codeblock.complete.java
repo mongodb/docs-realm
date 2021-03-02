@@ -31,8 +31,8 @@ public class MainActivity extends AppCompatActivity {
 
         Realm.init(this); // context, usually an Activity or Application
 
-        String partitionValue = "My Project";
-        RealmConfiguration config = new RealmConfiguration.Builder().build();
+        String realmName = "My Project";
+        RealmConfiguration config = new RealmConfiguration.Builder().name(realmName).build();
 
         uiThreadRealm = Realm.getInstance(config);
 
@@ -81,8 +81,8 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void run() {
-            String partitionValue = "My Project";
-            RealmConfiguration config = new RealmConfiguration.Builder().build();
+            String realmName = "My Project";
+            RealmConfiguration config = new RealmConfiguration.Builder().name(realmName).build();
 
             Realm backgroundThreadRealm = Realm.getInstance(config);
 

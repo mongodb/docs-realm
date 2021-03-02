@@ -1,4 +1,4 @@
-val partitionValue: String = "My Project"
-val config = RealmConfiguration.Builder().build()
+val realmName: String = "My Project"
+val config = RealmConfiguration.Builder().name(realmName).build()
 
 val backgroundThreadRealm : Realm = Realm.getInstance(config)
