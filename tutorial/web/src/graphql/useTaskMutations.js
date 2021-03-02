@@ -117,7 +117,6 @@ function useAddTask(project) {
 // :code-block-end: 
 
 // :code-block-start: useUpdateTask
-// :hide-start: 
 function useUpdateTask(project) {
   const [updateTaskMutation] = useMutation(UpdateTaskMutation);
   // :hide-start:

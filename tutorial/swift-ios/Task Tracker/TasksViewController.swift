@@ -11,7 +11,7 @@ import RealmSwift
 
 class TasksViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
-    // :code-block-start:
+    // :code-block-start: properties
     let tableView = UITableView()
     let partitionValue: String
     let realm: Realm

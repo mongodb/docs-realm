@@ -4,9 +4,9 @@ import android.util.Log;
 
 import com.mongodb.realm.examples.Expectation;
 import com.mongodb.realm.examples.RealmTest;
-import com.mongodb.realm.examples.model.Cat;
-import com.mongodb.realm.examples.model.Human;
-import com.mongodb.realm.examples.model.Task;
+import com.mongodb.realm.examples.model.kotlin.Cat;
+import com.mongodb.realm.examples.model.kotlin.Human;
+import com.mongodb.realm.examples.model.kotlin.Task;
 
 import org.bson.types.ObjectId;
 import org.junit.Assert;

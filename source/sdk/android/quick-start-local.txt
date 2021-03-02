@@ -1,9 +1,9 @@
 .. _android-client-quick-start:
 .. _android-client-quick-start-local:
 
-======================================
-Quick Start (Local-only) - Android SDK
-======================================
+=========================
+Quick Start - Android SDK
+=========================
 
 .. default-domain:: mongodb
 
@@ -13,9 +13,9 @@ Quick Start (Local-only) - Android SDK
    :depth: 2
    :class: singlecol
 
-.. important:: This Tutorial is Local-only
+.. important:: This Guide Does Not Use Realm Sync
 
-   This guide can help you get started with local-only Realm Database.
+   This guide can help you get started with device-local Realm Database.
    If your application needs to communicate with a backend
    {+app+} over the network using features like :ref:`Sync <sync>`, Realm
    Functions, or user management, you should follow the
@@ -62,7 +62,7 @@ Open a Realm
 ------------
 
 Use ``RealmConfiguration`` to control the specifics of the {+realm+} you
-would like to open, including the :ref:`partition <partitioning>`,
+would like to open, including the name or location of the {+realm+},
 whether to allow synchronous reads or writes to a {+realm+} on the UI
 thread, and more.
 

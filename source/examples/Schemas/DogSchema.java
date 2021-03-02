@@ -1,10 +1,7 @@
 public class Dog extends RealmObject {
     public String name;
-
     public int age;
-
     public String breed;
-
     public Person owner;
 
     public Dog(String name, int age, String breed, Person owner) {

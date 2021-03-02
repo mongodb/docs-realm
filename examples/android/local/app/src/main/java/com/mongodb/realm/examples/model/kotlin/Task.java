@@ -1,5 +1,5 @@
 // :code-block-start: define-object-model-local
-package com.mongodb.realm.examples.model;
+package com.mongodb.realm.examples.model.kotlin;
 
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;

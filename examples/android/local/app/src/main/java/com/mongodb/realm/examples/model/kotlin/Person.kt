@@ -1,5 +1,6 @@
-package com.mongodb.realm.examples.model
+package com.mongodb.realm.examples.model.kotlin
 
+import com.mongodb.realm.examples.model.kotlin.Dog
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
 import org.bson.types.ObjectId
