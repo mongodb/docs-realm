@@ -1,7 +1,5 @@
 package com.mongodb.realm.examples.model.java;
 
-import com.mongodb.realm.examples.model.java.Cat;
-
 import org.bson.types.ObjectId;
 
 import io.realm.RealmObject;
