@@ -32,6 +32,29 @@ composed of a list of object schemas for each type of object that the
 schema for their object type and validates objects whenever they're
 created, modified, or deleted.
 
+Example
+-------
+
+.. example::
+
+   The following code block shows an object schema that describes a Frog.
+   Every Frog object must include a ``name`` and ``age`` and may
+   optionally include the frog's ``species`` and a String
+   that contains the name of the frog's ``owner``.
+
+   .. tabs-realm-languages::
+
+      .. tab::
+         :tabid: kotlin
+
+         .. literalinclude:: /examples/Schemas/DogSchema.kt
+            :language: kotlin
+
+      .. tab::
+         :tabid: java
+
+         .. includes:: /examples/generated/android/local/FrogObjectExample.codeblock.complete.java.code-block.rst
+
 .. _android-field-relationships-lists-example:
 
 Lists
@@ -66,8 +89,8 @@ types:
 .. _android-define-a-relationship-property:
 .. _android-field-relationships:
 
-Define a Relationship Property
-------------------------------
+Define a Relationship Field
+---------------------------
 
 .. seealso::
 
@@ -95,10 +118,14 @@ whose type is a {+service-short+} object in your application:
       .. literalinclude:: /examples/Schemas/ManyToOne.java
          :language: java
 
-Each ``Cat`` references zero or one ``Dog`` instances. Nothing prevents
-multiple ``Cat`` instances from referencing the same ``Dog`` as a rival;
-the distinction between a many-to-one and a one-to-one relationship is
-up to your application.
+Each ``Frog`` references zero or one other ``Frog`` instances. Nothing
+prevents multiple ``Frog`` instances from referencing the same ``Frog``
+as a best friend; the distinction between a many-to-one and a one-to-one
+relationship is up to your application.
+
+.. seealso::
+
+   :ref:`Fundamentals: Relationships <android-relationships-fundamentals>`
 
 .. _android-field-relationships-many-to-many:
 
@@ -123,22 +150,9 @@ Many-to-Many
 like a regular collection. You can use the same object in multiple
 ``RealmList`` s.
 
-You can even use many-to-many ``RealmList`` s to declare relationships
-between objects of the same type:
+.. seealso::
 
-.. tabs-realm-languages::
-
-   .. tab::
-      :tabid: kotlin
-
-      .. literalinclude:: /examples/Schemas/SameTypeRelationships.kt
-         :language: kotlin
-
-   .. tab::
-      :tabid: java
-
-      .. literalinclude:: /examples/Schemas/SameTypeRelationships.java
-         :language: java
+   :ref:`Fundamentals: Relationships <android-relationships-fundamentals>`
 
 .. _android-field-relationships-inverse:
 .. _android-inverse-relationships:
@@ -167,11 +181,17 @@ annotation:
       .. literalinclude:: /examples/Schemas/Inverse.java
          :language: java
 
+Inverse relationship fields must be marked ``final``.
+
+.. seealso::
+
+   :ref:`Fundamentals: Relationships <android-relationships-fundamentals>`
+
 .. _android-define-an-embedded-object-property:
 .. _android-field-relationships-embedded:
 
-Define an Embedded Object Property
-----------------------------------
+Define an Embedded Object Field
+-------------------------------
 
 {+client-database+} provides the ability to nest objects within other
 objects. This has several advantages:
@@ -213,8 +233,8 @@ class.
 
 .. _android-property-annotations:
 
-Property Annotations
---------------------
+Annotations
+-----------
 
 Use annotations to customize your Realm object models.
 
@@ -243,6 +263,10 @@ the :ref:`object schema <android-object-schema>` with the
 
 Only one field in a RealmObject can use the ``@PrimaryKey``
 annotation.
+
+.. seealso::
+
+   :ref:`Fundamentals: Primary Key <android-primary-key-fundamentals>`
 
 .. _android-required-field:
 
@@ -315,8 +339,8 @@ to assign default values.
 .. _android-index-a-property:
 .. _android-index-field:
 
-Index a Property
-~~~~~~~~~~~~~~~~
+Index a Field
+~~~~~~~~~~~~~
 
 To index a field, use the :java-sdk:`@Index <io/realm/annotations/Index.html>`
 annotation:
@@ -335,12 +359,16 @@ annotation:
       .. literalinclude:: /examples/Schemas/Index.java
          :language: java
 
+.. seealso::
+
+   :ref:`Fundamentals: Indexes <android-indexes-fundamentals>`
+
 .. _android-ignore-a-property:
 .. _android-ignore-a-field:
 .. _android-ignore-field:
 
-Ignore a Property
-~~~~~~~~~~~~~~~~~
+Ignore a Field
+~~~~~~~~~~~~~~
 
 If you don't want to save a field in your model to a {+realm+}, you can
 ignore a field.

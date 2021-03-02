@@ -1,5 +1,4 @@
 package com.mongodb.realm.examples.model.java;
-
 // :code-block-start: frog-definition-local
 // :replace-start: {
 //    "terms": {
@@ -10,10 +9,10 @@ package com.mongodb.realm.examples.model.java;
 import io.realm.RealmObject;
 
 public class FrogJava extends RealmObject {
-    public String name;
-    public int age;
-    public String species;
-    public String owner;
+    private String name;
+    private int age;
+    private String species;
+    private String owner;
 
     public FrogJava(String name, int age, String species, String owner) {
         this.name = name;

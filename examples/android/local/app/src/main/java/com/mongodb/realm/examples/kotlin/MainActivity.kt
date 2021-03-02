@@ -1,14 +1,12 @@
 // :code-block-start: complete
 package com.mongodb.realm.examples.kotlin
 
-import org.bson.types.ObjectId
-
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import android.util.Log
 import io.realm.*
-
 import io.realm.annotations.PrimaryKey
+
 import io.realm.annotations.Required
 import io.realm.kotlin.where
 import java.util.concurrent.ExecutorService
@@ -91,7 +89,8 @@ class MainActivity : AppCompatActivity() {
             // :code-block-end:
 
             // :code-block-start: create-object-local
-            val task : Task = Task("New Task", partitionValue)
+            val task : Task = Task()
+            task.name = "New Task"
             backgroundThreadRealm.executeTransaction { transactionRealm ->
                 transactionRealm.insert(task)
             }
@@ -113,17 +112,17 @@ class MainActivity : AppCompatActivity() {
 
             // all modifications to a realm must happen inside of a write block
             backgroundThreadRealm.executeTransaction { transactionRealm ->
-                val innerOtherTask : Task = transactionRealm.where<Task>().equalTo("_id", otherTask._id).findFirst()!!
+                val innerOtherTask : Task = transactionRealm.where<Task>().equalTo("name", otherTask.name).findFirst()!!
                 innerOtherTask.status = TaskStatus.Complete.name
             }
             // :code-block-end:
 
             // :code-block-start: delete-object-local
             val yetAnotherTask: Task = tasks.get(0)!!
-            val yetAnotherTaskId: ObjectId = yetAnotherTask._id
+            val yetAnotherTaskName: String = yetAnotherTask.name
             // all modifications to a realm must happen inside of a write block
             backgroundThreadRealm.executeTransaction { transactionRealm ->
-                val innerYetAnotherTask : Task = transactionRealm.where<Task>().equalTo("_id", yetAnotherTaskId).findFirst()!!
+                val innerYetAnotherTask : Task = transactionRealm.where<Task>().equalTo("name", yetAnotherTaskName).findFirst()!!
                 innerYetAnotherTask.deleteFromRealm()
             }
             // :code-block-end:
@@ -144,10 +143,9 @@ enum class TaskStatus(val displayName: String) {
     Complete("Complete"),
 }
 
-open class Task(_name: String = "Task", project: String = "My Project") : RealmObject() {
+open class Task() : RealmObject() {
     @PrimaryKey
-    var _id: ObjectId = ObjectId()
-    var name: String = _name
+    var name: String = "task"
 
     @Required
     var status: String = TaskStatus.Open.name
