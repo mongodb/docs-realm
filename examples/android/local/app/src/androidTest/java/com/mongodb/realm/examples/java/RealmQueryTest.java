@@ -4,14 +4,14 @@ import android.util.Log;
 
 import com.mongodb.realm.examples.Expectation;
 import com.mongodb.realm.examples.RealmTest;
-import com.mongodb.realm.examples.model.kotlin.Cat;
-import com.mongodb.realm.examples.model.kotlin.Human;
-import com.mongodb.realm.examples.model.kotlin.Task;
+import com.mongodb.realm.examples.model.java.DefinitelyNotJavaTask;
+import com.mongodb.realm.examples.model.java.Cat;
+import com.mongodb.realm.examples.model.java.Human;
 
-import org.bson.types.ObjectId;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.Random;
 import java.util.concurrent.atomic.AtomicReference;
 
 import io.realm.Realm;
@@ -37,19 +37,19 @@ public class RealmQueryTest extends RealmTest {
                     );
 
                     // :hide-start:
-                    AtomicReference<ObjectId> PRIMARY_KEY_VALUE  = new AtomicReference<ObjectId>();
+                    AtomicReference<String> PRIMARY_KEY_VALUE  = new AtomicReference<String>();
                     realm.executeTransaction( transactionRealm -> {
-                        Task newTask = new Task("test task");
+                        DefinitelyNotJavaTask newTask = new DefinitelyNotJavaTask("test task" + new Random().nextLong());
                         transactionRealm.insert(newTask);
-                        PRIMARY_KEY_VALUE.set(newTask.get_id());
+                        PRIMARY_KEY_VALUE.set(newTask.getName());
                     });
                     // :hide-end:
 
                     realm.executeTransaction( transactionRealm -> {
-                        Task task = transactionRealm.where(Task.class).equalTo("_id", PRIMARY_KEY_VALUE.get()).findFirst();
+                        DefinitelyNotJavaTask task = transactionRealm.where(DefinitelyNotJavaTask.class).equalTo("name", PRIMARY_KEY_VALUE.get()).findFirst();
                         Log.v("EXAMPLE", "Fetched object by primary key: " + task);
                         // :hide-start:
-                        Assert.assertEquals(task.get_id(), PRIMARY_KEY_VALUE.get());
+                        Assert.assertEquals(task.getName(), PRIMARY_KEY_VALUE.get());
                         // :hide-end:
                     });
                     // :hide-start:

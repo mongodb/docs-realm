@@ -13,46 +13,40 @@ Object Models & Schemas - Android SDK
    :depth: 2
    :class: singlecol
 
-{+service+} applications model data as objects composed of field-value pairs
-that each contain one or more :ref:`supported <android-supported-data-types>`
-data types. :term:`{+service-short+} objects <Realm object>` behave like
-regular Java or Kotlin objects, but they also include additional features like
-:ref:`real-time updating data views <android-live-object>` and reactive
-:ref:`change event handlers <android-client-notifications>`. To define
-a {+service-short+} object in your application, create a subclass of
-:java-sdk:`RealmObject <io/realm/RealmObject.html>` or implement
-:java-sdk:`RealmModel <io/realm/RealmModel.html>`.
+An **object schema** is a configuration object that defines the fields and
+relationships of a {+service-short+} object type. Android
+{+service-short+} applications define object schemas with Java or Kotlin
+classes using :term:`{+frontend-schema+}s <{+frontend-schema+}>`.
 
-Objects of the same class share an :ref:`object schema
-<android-object-schema>` that defines the fields and relationships of those
-objects. Define your own object schemas :ref:`using Kotlin and
-Java class declarations <create-schema-from-rom>`. Every {+realm+} has a
-schema that consists of one or more object schemas describing the
-different forms of object that can be stored in that {+realm+}.
+Object schemas specify constraints on object fields such as the data
+:ref:`type <android-supported-data-types>` of each field, whether a
+field is required, and default field values. Schemas can also define
+:ref:`relationships <android-client-relationships>` between object types in
+a {+realm+}.
 
-Example
--------
+Modifying your application's {+frontend-schema+} requires you to
+:ref:`migrate <android-schema-versions-and-migrations>` data from older
+versions of your {+frontend-schema+} to the new version.
 
-.. example::
+Realm Apps
+----------
 
-   The following code block shows an object schema that describes a Dog.
-   Every Dog object must include a ``name`` and ``age`` and may
-   optionally include the dog's ``breed`` and a reference to a Person
-   object that represents the dog's ``owner``.
+Every {+app+} has a :ref:`{+backend-schema+} <android-realm-schema>`
+composed of a list of object schemas for each type of object that the
+{+realms+} in that application may contain.
 
-   .. tabs-realm-languages::
+{+service+} guarantees that all objects in a {+realm+} conform to the
+schema for their object type and validates objects whenever they're
+created, modified, or deleted.
 
-      .. tab::
-         :tabid: kotlin
+{+app+}s that take advantage of {+sync+} can define schemas in two ways:
 
-         .. literalinclude:: /examples/Schemas/DogSchema.kt
-            :language: kotlin
+- object schemas :ref:`using Kotlin and Java class declarations
+  <create-schema-from-rom>` with :ref:`Development Mode <enable-development-mode>`.
 
-      .. tab::
-         :tabid: java
+- JSON :ref:`object schemas <object-schema>` in your {+app+} backend.
 
-         .. literalinclude:: /examples/Schemas/DogSchema.java
-            :language: java
+.. _android-primary-key-fundamentals:
 
 Primary Keys
 ------------
@@ -84,6 +78,9 @@ You can create a primary key with any of the following types:
 - ``Long`` or ``long``
 - ``Short`` or ``short``
 - ``Byte`` or ``byte[]``
+
+Using a ``String`` as a primary key implicitly
+:ref:`indexes <android-indexes-fundamentals>` the field.
 
 Non-primitive types can contain a value of ``null`` as a primary key
 value, but only for one object of a particular type, since each primary
@@ -190,6 +187,13 @@ nullable, and cannot be made required.
       default and cannot be made nullable, as they cannot be set to a
       null value.
 
+.. seealso::
+
+   :ref:`Usage Example: Required Fields <android-required-field>`
+   :ref:`Usage Example: Optional Fields <android-optional-field>`
+
+.. _android-relationships-fundamentals:
+
 Relationships
 -------------
 
@@ -210,7 +214,10 @@ relationship field reduces boilerplate query code and capacity for error.
 
 .. seealso::
 
-   :ref:`Usage Example: Define a Relationship Property <android-relationships>`
+   :ref:`Fundamentals: Relationships <android-relationships-fundamentals>`
+   :ref:`Usage Example: Define a Relationship Field <android-relationships>`
+
+.. _android-indexes-fundamentals:
 
 Indexes
 -------
