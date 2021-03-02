@@ -156,4 +156,5 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 }
+// :replace-end:
 // :code-block-end:
