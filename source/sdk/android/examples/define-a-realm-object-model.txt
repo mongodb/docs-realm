@@ -13,27 +13,19 @@ Define a Realm Object Schema - Android SDK
    :depth: 2
    :class: singlecol
 
-An **object schema** is a configuration object that defines the fields and
-relationships of a {+service-short+} object type. {+service-short+} client applications
-define object schemas with the native class implementation in their
-respective language using the :term:`{+frontend-schema+}`.
+.. tip::
 
-Object schemas specify constraints on object fields such as the data
-type of each field, whether a field is required, and the
-default value for optional fields. Schemas can also define
-:ref:`relationships <android-client-relationships>` between object types in
-a {+realm+}.
+   For conceptual information about schemas, as well as details about
+   types and constraints, see :ref:`Fundametals: Object Models & Schemas
+   <android-object-models-and-schemas>`.
 
-Every {+app+} has a :ref:`{+backend-schema+} <android-realm-schema>`
-composed of a list of object schemas for each type of object that the
-{+realms+} in that application may contain.
+Object Example
+--------------
 
-{+service+} guarantees that all objects in a {+realm+} conform to the
-schema for their object type and validates objects whenever they're
-created, modified, or deleted.
-
-Example
--------
+To define
+a {+service-short+} object in your application, create a subclass of
+:java-sdk:`RealmObject <io/realm/RealmObject.html>` or implement
+:java-sdk:`RealmModel <io/realm/RealmModel.html>`.
 
 .. example::
 
@@ -47,13 +39,17 @@ Example
       .. tab::
          :tabid: kotlin
 
-         .. literalinclude:: /examples/Schemas/DogSchema.kt
-            :language: kotlin
+         .. include:: /examples/generated/android/local/FrogObjectExampleKt.codeblock.complete.kotlin.code-block.rst
 
       .. tab::
          :tabid: java
 
          .. include:: /examples/generated/android/local/FrogObjectExample.codeblock.complete.java.code-block.rst
+
+.. important::
+
+   All {+service-short+} objects defined in your Android application
+   must provide an empty constructor.
 
 .. _android-field-relationships-lists-example:
 
@@ -68,8 +64,7 @@ types:
    .. tab::
       :tabid: kotlin
 
-      .. literalinclude:: /examples/Schemas/Lists.kt
-         :language: kotlin
+      .. include:: /examples/generated/android/local/FrogListExampleKt.codeblock.complete.kt.code-block.rst
 
    .. tab::
       :tabid: java
@@ -108,8 +103,7 @@ whose type is a {+service-short+} object in your application:
    .. tab::
       :tabid: kotlin
 
-      .. literalinclude:: /examples/Schemas/ManyToOne.kt
-         :language: kotlin
+      .. include:: /examples/generated/android/local/FrogManyToOneExampleKt.codeblock.complete.kt.code-block.rst
 
    .. tab::
       :tabid: java
@@ -135,8 +129,7 @@ Many-to-Many
    .. tab::
       :tabid: kotlin
 
-      .. literalinclude:: /examples/Schemas/ManyToMany.kt
-         :language: kotlin
+      .. include:: /examples/generated/android/local/FrogManyToManyExampleKt.codeblock.complete.kt.code-block.rst
 
    .. tab::
       :tabid: java
@@ -167,8 +160,7 @@ a list of ``frogFriends``:
    .. tab::
       :tabid: kotlin
 
-      .. literalinclude:: /examples/Schemas/Inverse.kt
-         :language: kotlin
+      .. include:: /examples/generated/android/local/ToadInverseRelationshipExampleKt.codeblock.complete.kt.code-block.rst
 
    .. tab::
       :tabid: java
@@ -185,8 +177,7 @@ annotation on a ``final`` (in Java) or ``val`` (in Kotlin) field of type
    .. tab::
       :tabid: kotlin
 
-      .. literalinclude:: /examples/Schemas/Inverse.kt
-         :language: kotlin
+      .. include:: /examples/generated/android/local/FrogInverseRelationshipExampleKt.codeblock.complete.kt.code-block.rst
 
    .. tab::
       :tabid: java
@@ -228,8 +219,7 @@ another class:
    .. tab::
       :tabid: kotlin
 
-      .. literalinclude:: /examples/Schemas/Embedded.kt
-         :language: kotlin
+      .. include:: /examples/generated/android/local/FlyEmbeddedExampleKt.codeblock.complete.kt.code-block.rst
 
    .. tab::
       :tabid: java
@@ -245,8 +235,7 @@ class, as in the following example:
    .. tab::
       :tabid: kotlin
 
-      .. literalinclude:: /examples/Schemas/Embedded.kt
-         :language: kotlin
+      .. include:: /examples/generated/android/local/FrogEmbeddedExampleKt.codeblock.complete.kt.code-block.rst
 
    .. tab::
       :tabid: java
@@ -255,7 +244,7 @@ class, as in the following example:
 
 .. seealso::
 
-   :ref:`Embedded Objects <android-embedded-objects>`
+   :ref:`Data Types: Embedded Objects <android-embedded-objects>`
 
 .. _android-property-annotations:
 
@@ -278,8 +267,7 @@ the :ref:`object schema <android-object-schema>` with the
    .. tab::
       :tabid: kotlin
 
-      .. literalinclude:: /examples/Schemas/PrimaryKey.kt
-         :language: kotlin
+      .. include:: /examples/generated/android/local/FrogPrimaryKeyExampleKt.codeblock.complete.kt.code-block.rst
 
    .. tab::
       :tabid: java
@@ -303,8 +291,7 @@ Required Fields
    .. tab::
       :tabid: kotlin
 
-      .. literalinclude:: /examples/Schemas/Required.kt
-         :language: kotlin
+      .. include:: /examples/generated/android/local/FrogRequiredExampleKt.codeblock.complete.kt.code-block.rst
 
    .. tab::
       :tabid: java
@@ -342,8 +329,7 @@ to assign default values.
 
       Assign default values in the field declaration:
 
-      .. literalinclude:: /examples/Schemas/DefaultValues.kt
-         :language: kotlin
+      .. include:: /examples/generated/android/local/FrogDefaultValueExampleKt.codeblock.complete.kt.code-block.rst
 
    .. tab::
       :tabid: java
@@ -373,8 +359,7 @@ annotation:
    .. tab::
       :tabid: kotlin
 
-      .. literalinclude:: /examples/Schemas/Index.kt
-         :language: kotlin
+      .. include:: /examples/generated/android/local/FrogIndexExampleKt.codeblock.complete.kt.code-block.rst
 
    .. tab::
       :tabid: java
@@ -403,8 +388,7 @@ Ignore a field from a {+service-short+} object model with the
    .. tab::
       :tabid: kotlin
 
-      .. literalinclude:: /examples/Schemas/Ignore.kt
-         :language: kotlin
+      .. include:: /examples/generated/android/local/FrogIgnoreExampleKt.codeblock.complete.kt.code-block.rst
 
    .. tab::
       :tabid: java
@@ -442,8 +426,7 @@ annotation to rename a field:
    .. tab::
       :tabid: kotlin
 
-      .. literalinclude:: /examples/Schemas/RenameField.kt
-         :language: kotlin
+      .. include:: /examples/generated/android/local/FrogRenameAFieldExampleKt.codeblock.complete.kt.code-block.rst
 
    .. tab::
       :tabid: java
@@ -464,8 +447,7 @@ which will affect all classes included in the module:
    .. tab::
       :tabid: kotlin
 
-      .. literalinclude:: /examples/Schemas/ModuleFieldNamingPolicy.kt
-         :language: kotlin
+      .. include:: /examples/generated/android/local/RenameModuleExampleKt.codeblock.complete.kt.code-block.rst
 
    .. tab::
       :tabid: java
@@ -481,8 +463,7 @@ at the class level, which overrides module level settings:
    .. tab::
       :tabid: kotlin
 
-      .. literalinclude:: /examples/Schemas/ClassFieldNamingPolicy.kt
-         :language: kotlin
+      .. include:: /examples/generated/android/local/FrogClassRenamePolicyExampleKt.codeblock.complete.kt.code-block.rst
 
    .. tab::
       :tabid: java
@@ -511,8 +492,7 @@ annotation to rename a class:
    .. tab::
       :tabid: kotlin
 
-      .. literalinclude:: /examples/Schemas/RenameClass.kt
-         :language: kotlin
+      .. include:: /examples/generated/android/local/FrogRenameClassExampleKt.codeblock.complete.kt.code-block.rst
 
    .. tab::
       :tabid: java
@@ -535,8 +515,7 @@ your {+realm+} using that module:
    .. tab::
       :tabid: kotlin
 
-      .. literalinclude:: /examples/Schemas/Modules.kt
-         :language: kotlin
+      .. include:: /examples/generated/android/local/OmitModuleExampleKt.codeblock.complete.kt.code-block.rst
 
    .. tab::
       :tabid: java

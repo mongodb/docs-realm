@@ -1,6 +1,6 @@
-package com.mongodb.realm.examples.model.kotlin;
+package com.mongodb.realm.examples.model.java;
 
-import com.mongodb.realm.examples.model.kotlin.Cat;
+import com.mongodb.realm.examples.model.java.Cat;
 
 import org.bson.types.ObjectId;
 

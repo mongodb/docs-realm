@@ -5,8 +5,8 @@ import android.util.Log;
 import com.mongodb.realm.examples.Expectation;
 import com.mongodb.realm.examples.RealmTest;
 import com.mongodb.realm.examples.model.java.DefinitelyNotJavaTask;
-import com.mongodb.realm.examples.model.kotlin.Cat;
-import com.mongodb.realm.examples.model.kotlin.Human;
+import com.mongodb.realm.examples.model.java.Cat;
+import com.mongodb.realm.examples.model.java.Human;
 
 import org.junit.Assert;
 import org.junit.Test;

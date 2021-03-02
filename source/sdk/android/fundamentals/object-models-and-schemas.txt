@@ -13,22 +13,38 @@ Object Models & Schemas - Android SDK
    :depth: 2
    :class: singlecol
 
-{+service+} applications model data as objects composed of field-value pairs
-that each contain one or more :ref:`supported <android-supported-data-types>`
-data types. :term:`{+service-short+} objects <Realm object>` behave like
-regular Java or Kotlin objects, but they also include additional features like
-:ref:`real-time updating data views <android-live-object>` and reactive
-:ref:`change event handlers <android-client-notifications>`. To define
-a {+service-short+} object in your application, create a subclass of
-:java-sdk:`RealmObject <io/realm/RealmObject.html>` or implement
-:java-sdk:`RealmModel <io/realm/RealmModel.html>`.
+An **object schema** is a configuration object that defines the fields and
+relationships of a {+service-short+} object type. Android
+{+service-short+} applications define object schemas with Java or Kotlin
+classes using :term:`{+frontend-schema+}s <{+frontend-schema+}>`.
 
-Objects of the same class share an :ref:`object schema
-<android-object-schema>` that defines the fields and relationships of those
-objects. Define your own object schemas :ref:`using Kotlin and
-Java class declarations <create-schema-from-rom>`. Every {+realm+} has a
-schema that consists of one or more object schemas describing the
-different forms of object that can be stored in that {+realm+}.
+Object schemas specify constraints on object fields such as the data
+:ref:`type <android-supported-data-types>` of each field, whether a
+field is required, and default field values. Schemas can also define
+:ref:`relationships <android-client-relationships>` between object types in
+a {+realm+}.
+
+Modifying your application's {+frontend-schema+} requires you to
+:ref:`migrate <android-schema-versions-and-migrations>` data from older
+versions of your {+frontend-schema+} to the new version.
+
+Realm Apps
+----------
+
+Every {+app+} has a :ref:`{+backend-schema+} <android-realm-schema>`
+composed of a list of object schemas for each type of object that the
+{+realms+} in that application may contain.
+
+{+service+} guarantees that all objects in a {+realm+} conform to the
+schema for their object type and validates objects whenever they're
+created, modified, or deleted.
+
+{+app+}s that take advantage of {+sync+} can define schemas in two ways:
+
+- object schemas :ref:`using Kotlin and Java class declarations
+  <create-schema-from-rom>` with :ref:`Development Mode <enable-development-mode>`.
+
+- JSON :ref:`object schemas <object-schema>` in your {+app+} backend.
 
 .. _android-primary-key-fundamentals:
 
@@ -198,6 +214,7 @@ relationship field reduces boilerplate query code and capacity for error.
 
 .. seealso::
 
+   :ref:`Fundamentals: Relationships <android-relationships-fundamentals>`
    :ref:`Usage Example: Define a Relationship Field <android-relationships>`
 
 .. _android-indexes-fundamentals:

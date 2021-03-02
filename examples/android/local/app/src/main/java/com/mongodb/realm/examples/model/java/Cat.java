@@ -1,4 +1,4 @@
-package com.mongodb.realm.examples.model.kotlin;
+package com.mongodb.realm.examples.model.java;
 
 import org.bson.types.ObjectId;
 
