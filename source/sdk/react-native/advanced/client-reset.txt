@@ -48,12 +48,12 @@ Initiate a client reset if the ``error.name`` is ``"ClientReset"``. Call
 
 The error object also contains the location of the backup copy of the Realm file
 once the client reset process is carried out via the ``error.config.path``. You
-can optionally move this backup file, using the :react-nativejs:`fs.renameSync
+can optionally move this backup file, using the :nodejs:`fs.renameSync
 </api/fs.html#fs_fs_renamesync_oldpath_newpath>` method, to a known location for
 a restore.
 
 Discard the reference to the realm instance by setting the realm to ``null``.
 
-.. literalinclude:: /examples/generated/react-native/sync-changes-between-devices.codeblock.sync-changes-between-devices-perform-a-client-reset.js
+.. literalinclude:: /examples/generated/node/sync-changes-between-devices.codeblock.sync-changes-between-devices-perform-a-client-reset.js
    :language: javascript
 
