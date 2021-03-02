@@ -1,6 +1,7 @@
 
 import io.realm.RealmObject;
 
+// All objects in your Realm Schema must extend RealmObject
 public class Frog extends RealmObject { 
     private String name;
     private int age;

@@ -1,9 +1,10 @@
 .. code-block:: java
-   :emphasize-lines: 4, 15
+   :emphasize-lines: 5, 16
 
 
    import io.realm.RealmObject;
 
+   // All objects in your Realm Schema must extend RealmObject
    public class Frog extends RealmObject { 
        private String name;
        private int age;
