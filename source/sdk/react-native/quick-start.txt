@@ -92,7 +92,7 @@ Define Your Object Model
 
 If have not :ref:`enabled {+sync+} <enable-sync>` or you enabled
 {+sync-short+} with :term:`development mode` in the {+ui+}, you can
-define your :ref:`object model <react-native-realm-objects>` directly in code.
+define your :ref:`object model <react-native-object-schemas>` directly in code.
 
 .. note::
 
@@ -185,7 +185,8 @@ into your app without providing any identifying information:
 
 .. seealso::
 
-   :ref:`Authenticate a User <react-native-authenticate>`
+   :ref:`Authenticate a User <react-native-authenticate-users>`
+
 .. _react-native-quick-start-open-realm:
 
 Open a Realm
@@ -231,14 +232,14 @@ user, you can open a synced :ref:`{+realm+} <react-native-realms>`:
 
 .. seealso::
 
-   :ref:`Sync Data <react-native-sync-data>`
+   :ref:`Sync Changes Between Devices <react-native-sync-changes-between-devices>`
 .. _react-native-quick-start-crud:
 
 Create, Read, Update, and Delete Objects
 ----------------------------------------
 
 Once you have opened a {+realm+}, you can modify it and its
-:ref:`objects <react-native-realm-objects>` in a :ref:`write transaction
+:ref:`objects <react-native-object-schemas>` in a :ref:`write transaction
 <react-native-realm-database-writes>` block.
 
 
@@ -267,7 +268,7 @@ To create a new Task run the method "realm.create()" inside the
 
 
 
-You can retrieve a live :ref:`collection <react-native-client-collections>` of
+You can retrieve a live :ref:`collection <react-native-results-collections>` of
 all tasks in the {+realm+}:
 
 .. tabs-realm-languages::
@@ -351,8 +352,11 @@ Watch for Changes
 -----------------
 
 You can :ref:`watch a realm, collection, or object for changes
-<react-native-client-notifications>` by adding a listener event handler
-with the "addListener()" method.
+<react-native-change-notifications>` by registering event handlers with the
+:js-sdk:`Realm.addListener() <Realm.html#addListener>`
+:js-sdk:`Object.addListener() <Realm.Object.html#addListener>`
+:js-sdk:`Collection.addListener() <Realm.Collection.html#addListener>`
+methods.
 
 .. tabs-realm-languages::
 
