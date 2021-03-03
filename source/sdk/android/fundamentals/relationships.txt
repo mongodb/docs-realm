@@ -55,31 +55,13 @@ way to no more than one other object. You define a to-one relationship
 for an object type in its :ref:`object schema <android-object-schema>` by
 specifying a property where the type is the related {+service-short+} object type.
 
-.. example::
-
-   An application could use the following object schemas to indicate
-   that a Person may or may not own a single Dog by including it in its
-   ``dog`` property:
-   
-   .. tabs-realm-languages::
-     
-     .. tab::
-         :tabid: kotlin
- 
-         .. literalinclude:: /examples/Relationships/ToOne/ToOne.kt
-           :language: kotlin
-           :emphasize-lines: 4
- 
-     .. tab::
-         :tabid: java
- 
-         .. literalinclude:: /examples/Relationships/ToOne/ToOne.java
-           :language: java
-           :emphasize-lines: 8
-
 Setting a relationship field to null removes the connection between
 objects, but {+client-database+} does not delete the referenced object
 unless that object is :ref:`embedded <android-field-relationships-embedded>`.
+
+.. seealso::
+
+   :ref:`Usage Example: To-One Relationships <android-field-relationships-many-to-one>`
 
 .. _android-to-many-relationship:
 
@@ -91,27 +73,9 @@ way to multiple objects. You can create a relationship between one object
 and any number of objects using a field of type ``RealmList<?>``
 where ``T`` is a {+service-short+} object in your application:
 
-.. example::
-   
-   An application could use the following object schemas to indicate
-   that a Person may own multiple Dogs by including them in its ``dog``
-   property:
-   
-   .. tabs-realm-languages::
-   
-      .. tab::
-         :tabid: kotlin
-   
-         .. literalinclude:: /examples/Relationships/ToMany/ToMany.kt
-            :language: kotlin
-            :emphasize-lines: 4
-   
-      .. tab::
-         :tabid: java
-   
-         .. literalinclude:: /examples/Relationships/ToMany/ToMany.java
-            :language: java
-            :emphasize-lines: 8
+.. seealso::
+
+   :ref:`Usage Example: To-Many Relationships <android-field-relationships-many-to-many>`
 
 .. _android-inverse-relationship:
 
@@ -148,34 +112,9 @@ relationships can result in zero, one, or many objects.
 Like any other ``RealmResults`` set, you can
 :ref:`query <android-client-query-engine>` an inverse relationship.
 
-.. example::
-   
-   An application could use the following object schemas to indicate that a User
-   may be assigned many Tasks and that each Task should automatically keep track
-   of which User it's assigned to.
-   
-   - The User object's ``tasks`` property is defined as a to-many relationship
-     with Task objects and contains all of a given user's assigned tasks.
-     
-   - The Task object's ``assignee`` property inverts the relationship and
-     automatically updates to refer back to any User object that contains the
-     Task in its ``tasks`` property.
-   
-   .. tabs-realm-languages::
-    
-      .. tab::
-         :tabid: kotlin
-         
-         .. literalinclude:: /examples/Relationships/Inverse/Inverse.kt
-            :language: kotlin
-            :emphasize-lines: 5, 12
-      
-      .. tab::
-         :tabid: java
-         
-         .. literalinclude:: /examples/Relationships/Inverse/Inverse.java
-            :language: java
-            :emphasize-lines: 12, 26-27
+.. seealso::
+
+   :ref:`Usage Example: Inverse Relationships <android-field-relationships-inverse>`
 
 Summary
 -------
