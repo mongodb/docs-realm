@@ -13,7 +13,7 @@ Realm.getInstanceAsync(config, new Realm.Callback() {
 
 
         realm.executeTransaction( transactionRealm -> {
-            Task task = transactionRealm.where(Task.class).equalTo("_id", PRIMARY_KEY_VALUE.get()).findFirst();
+            DefinitelyNotJavaTask task = transactionRealm.where(DefinitelyNotJavaTask.class).equalTo("name", PRIMARY_KEY_VALUE.get()).findFirst();
             Log.v("EXAMPLE", "Fetched object by primary key: " + task);
         });
         realm.close();

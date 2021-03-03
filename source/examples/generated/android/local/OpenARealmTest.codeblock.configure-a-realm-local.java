@@ -1,4 +1,5 @@
 RealmConfiguration config = new RealmConfiguration.Builder()
+        .name("alternate-realm")
         .allowQueriesOnUiThread(true)
         .allowWritesOnUiThread(true)
         .compactOnLaunch()

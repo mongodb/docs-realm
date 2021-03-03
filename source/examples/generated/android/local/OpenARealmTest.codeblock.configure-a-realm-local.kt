@@ -1,4 +1,5 @@
 val config = RealmConfiguration.Builder()
+    .name("alternate-realm")
     .allowQueriesOnUiThread(true)
     .allowWritesOnUiThread(true)
     .compactOnLaunch()

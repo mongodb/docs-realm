@@ -1,6 +1,6 @@
 val config = RealmConfiguration.Builder()
-    .allowWritesOnUiThread(true)
     .allowQueriesOnUiThread(true)
+    .allowWritesOnUiThread(true)
     .build()
 
 Realm.getInstanceAsync(config, object : Realm.Callback() {
@@ -12,8 +12,9 @@ Realm.getInstanceAsync(config, object : Realm.Callback() {
 
 
         realm.executeTransaction { transactionRealm ->
-            val task = transactionRealm.where<Task>().equalTo("name", PRIMARY_KEY_VALUE).findFirst()
-            Log.v("EXAMPLE", "Found object by primary key: $task")
+            val dog = transactionRealm.where<Dog>().equalTo("owner.name", "dwayne").findFirst()
+            val owner = dog?.owner
+            Log.v("EXAMPLE", "Queried for dogs with owners named 'dwayne'. Found $dog, owned by $owner")
         }
         realm.close()
     }
