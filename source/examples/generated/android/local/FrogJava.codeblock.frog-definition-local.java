@@ -1,11 +1,10 @@
-
 import io.realm.RealmObject;
 
 public class Frog extends RealmObject {
-    public String name;
-    public int age;
-    public String species;
-    public String owner;
+    private String name;
+    private int age;
+    private String species;
+    private String owner;
 
     public Frog(String name, int age, String species, String owner) {
         this.name = name;
