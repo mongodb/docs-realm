@@ -110,5 +110,22 @@ namespace LocalOnly
 
 
         }
+
+        public void Subset()
+        {
+            //:code-block-start:subset
+            var config = new RealmConfiguration()
+            {
+                ObjectClasses = new Type[]
+                {
+                    typeof(AClassWorthStoring),
+                    typeof(AnotherClassWorthStoring)
+                }
+            };
+            //:code-block-end:
+        }
     }
+
+    public class AClassWorthStoring : RealmObject { }
+    public class AnotherClassWorthStoring : RealmObject { }
 }
