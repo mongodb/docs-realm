@@ -33,7 +33,7 @@ Types of Realm
 
 When opening a {+realm+}, you can configure many properties of the {+realm+}.
 
-.. _android-read-only-realms:
+.. _android-read-only-realms-fundamentals:
 
 Read-Only Realms
 ~~~~~~~~~~~~~~~~
@@ -45,25 +45,17 @@ method when configuring your {+realm+} to make it read-only. This can
 prevent accidental writes to the {+realm+} and causes the {+realm+} to
 throw an ``IllegalStateException`` if a write occurs.
 
-.. tabs-realm-languages::
-   
-   .. tab::
-       :tabid: kotlin
-
-       .. include:: /examples/generated/android/local/RealmTypesTest.codeblock.read-only.kt.code-block.rst
-
-   .. tab::
-       :tabid: java
-
-       .. include:: /examples/generated/android/local/RealmTypesTest.codeblock.read-only.java.code-block.rst
-
 .. warning:: Read-Only Realm Files are Writeable
 
    Read-only {+realm+}s are only enforced as read-only in process; the
    {+realm+} file itself is still writeable. As a result, it is still
    possible for other process to write to a read-only {+realm+}.
 
-.. _android-in-memory-realms:
+.. seealso::
+
+   :ref:`Examples: Read-Only Realms <android-read-only-realms>`
+
+.. _android-in-memory-realms-fundamentals:
 
 In-Memory Realms
 ~~~~~~~~~~~~~~~~
@@ -71,18 +63,6 @@ In-Memory Realms
 To create a {+realm+} that runs entirely in memory without being written
 to a file, use the :java-sdk:`inMemory()` method when configuring your
 {+realm+}.
-
-.. tabs-realm-languages::
-   
-   .. tab::
-       :tabid: kotlin
-
-       .. include:: /examples/generated/android/local/RealmTypesTest.codeblock.in-memory.kt.code-block.rst
-
-   .. tab::
-       :tabid: java
-
-       .. include:: /examples/generated/android/local/RealmTypesTest.codeblock.in-memory.java.code-block.rst
 
 .. important:: In-Memory Realms May Persist to Disk Under High Memory Pressure
 
@@ -92,7 +72,11 @@ to a file, use the :java-sdk:`inMemory()` method when configuring your
    {+realm+} are deleted when that {+realm+} closes or all references
    to that {+realm+} fall out of scope.
 
-.. _android-dynamic-realms:
+.. seealso::
+
+   :ref:`Examples: In-Memory Realms <android-in-memory-realms>`
+
+.. _android-dynamic-realms-fundamentals:
 
 Dynamic Realms
 ~~~~~~~~~~~~~~
@@ -104,24 +88,16 @@ define a schema at runtime. Opening a dynamic {+realm+} uses the same
 configuration as a conventional {+realm+}, but dynamic {+realm+}s ignore
 all configured schema, migration, and schema versions.
 
-.. tabs-realm-languages::
-   
-   .. tab::
-       :tabid: kotlin
-
-       .. include:: /examples/generated/android/local/RealmTypesTest.codeblock.dynamic.kt.code-block.rst
-
-   .. tab::
-       :tabid: java
-
-       .. include:: /examples/generated/android/local/RealmTypesTest.codeblock.dynamic.java.code-block.rst
-
 .. important:: Dynamic Realms Lack Type-Safety
 
    Dynamic {+realm+}s offer flexibility at the expense of type safety and
    performance. As a result, only use dynamic {+realm+}s when that
    flexibility is required, such as during migrations, manual client
    resets, and when working with string-based data like CSV files or JSON.
+
+.. seealso::
+
+   :ref:`Examples: Dynamic Realms <android-dynamic-realms>`
 
 Comparison with Other Databases
 -------------------------------
