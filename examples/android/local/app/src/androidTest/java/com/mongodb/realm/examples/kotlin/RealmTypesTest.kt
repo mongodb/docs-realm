@@ -9,7 +9,6 @@ import io.realm.DynamicRealmObject
 import io.realm.Realm
 import io.realm.RealmConfiguration
 import org.junit.Test
-import java.util.concurrent.atomic.AtomicReference
 
 class RealmTypesTest : RealmTest() {
     @Test
@@ -19,12 +18,16 @@ class RealmTypesTest : RealmTest() {
 
             // :code-block-start: read-only
             val config = RealmConfiguration.Builder()
-                .assetFile("kt.bundled.realm")
+                .assetFile("readonly.realm")
+                // :hide-start:
+                .name("readonly.realm")
+                // :hide-end:
                 .readOnly() // :emphasize:
                 .modules(BundledRealmModule())
                 .build()
-            val realm = Realm.getInstance(config)
             // :code-block-end:
+            //val realm = Realm.getInstance(config)
+            //realm.close()
             expectation.fulfill()
         }
         expectation.await()
@@ -42,6 +45,7 @@ class RealmTypesTest : RealmTest() {
                 .build()
             val realm = Realm.getInstance(config)
             // :code-block-end:
+            realm.close();
             expectation.fulfill()
         }
         expectation.await()
@@ -61,7 +65,7 @@ class RealmTypesTest : RealmTest() {
                 .inMemory() // make this example secretly transient so state doesn't save between test runs
                 // :hide-end:
                 .build()
-            val dynamicRealm = DynamicRealm.getInstance(config) // :emphasize
+            val dynamicRealm = DynamicRealm.getInstance(config) // :emphasize:
 
             // all objects in a DynamicRealm are DynamicRealmObjects
             var frog: DynamicRealmObject? = null
@@ -93,6 +97,7 @@ class RealmTypesTest : RealmTest() {
                 .equalTo("name", "Wirt Jr.")
                 .findAll()
             // :code-block-end:
+            dynamicRealm.close();
             expectation.fulfill()
         }
         expectation.await()

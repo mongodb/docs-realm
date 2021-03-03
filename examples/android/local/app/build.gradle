@@ -35,6 +35,11 @@ android {
             includeAndroidResources = true
         }
     }
+
+    sourceSets.androidTest {
+        assets.srcDirs += ['src/main/assets/']
+        java.srcDirs += ['src/main/assets/']
+    }
 }
 
 kapt {

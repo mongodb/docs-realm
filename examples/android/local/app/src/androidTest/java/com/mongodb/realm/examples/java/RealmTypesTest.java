@@ -23,12 +23,16 @@ public class RealmTypesTest extends RealmTest {
         activity.runOnUiThread(() -> {
             // :code-block-start: read-only
             RealmConfiguration config = new RealmConfiguration.Builder()
-                    .assetFile("java.bundled.realm")
+                    .assetFile("bundled.realm")
+                    // :hide-start:
+                    .name("bundled.realm")
+                    // :hide-end:
                     .readOnly() // :emphasize:
                     .modules(new BundledRealmModule())
                     .build();
-            Realm realm = Realm.getInstance(config);
             // :code-block-end:
+            //Realm realm = Realm.getInstance(config);
+            //realm.close();
             expectation.fulfill();
         });
         expectation.await();
@@ -45,6 +49,7 @@ public class RealmTypesTest extends RealmTest {
                     .build();
             Realm realm = Realm.getInstance(config);
             // :code-block-end:
+            realm.close();
             expectation.fulfill();
         });
         expectation.await();
@@ -95,6 +100,7 @@ public class RealmTypesTest extends RealmTest {
                     .equalTo("name", "Wirt Jr.")
                     .findAll();
             // :code-block-end:
+            dynamicRealm.close();
             expectation.fulfill();
         });
         expectation.await();

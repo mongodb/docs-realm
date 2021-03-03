@@ -1,6 +1,5 @@
 val config = RealmConfiguration.Builder()
-    .assetFile("bundled.realm")
+    .assetFile("readonly.realm")
     .readOnly() 
     .modules(BundledRealmModule())
     .build()
-val realm = Realm.getInstance(config)

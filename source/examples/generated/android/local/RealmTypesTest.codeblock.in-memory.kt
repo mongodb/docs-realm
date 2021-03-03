@@ -1,5 +1,5 @@
 val config = RealmConfiguration.Builder()
     .inMemory() 
-    .name("transient.realm")
+    .name("kt.transient.realm")
     .build()
 val realm = Realm.getInstance(config)

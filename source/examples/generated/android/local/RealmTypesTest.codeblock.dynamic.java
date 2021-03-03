@@ -1,7 +1,7 @@
 RealmConfiguration config = new RealmConfiguration.Builder()
         .allowWritesOnUiThread(true)
         .allowQueriesOnUiThread(true)
-        .name("dynamic.realm")
+        .name("java.dynamic.realm")
         .build();
 DynamicRealm dynamicRealm = DynamicRealm.getInstance(config); 
 
