@@ -57,8 +57,8 @@ authentication endpoints accept valid user credentials in the body of a
    
    https://<hostname>/api/client/v2.0/app/<yourappid>/auth/providers/<provider-type>/login
 
-To find the ``<hostname>``, issue the following request, passing in the app name 
-and API key:
+If your app is deployed globally, the ``<hostname>`` is **realm.mongodb.com**. 
+Otherwise, you need to find your hostname by issuing the following request:
 
 .. code-block:: shell
 
