@@ -19,7 +19,7 @@ class RealmTypesTest : RealmTest() {
 
             // :code-block-start: read-only
             val config = RealmConfiguration.Builder()
-                .assetFile("bundled.realm")
+                .assetFile("kt.bundled.realm")
                 .readOnly() // :emphasize:
                 .modules(BundledRealmModule())
                 .build()
@@ -38,7 +38,7 @@ class RealmTypesTest : RealmTest() {
             // :code-block-start: in-memory
             val config = RealmConfiguration.Builder()
                 .inMemory() // :emphasize:
-                .name("transient.realm")
+                .name("kt.transient.realm")
                 .build()
             val realm = Realm.getInstance(config)
             // :code-block-end:
@@ -56,7 +56,7 @@ class RealmTypesTest : RealmTest() {
             val config = RealmConfiguration.Builder()
                 .allowWritesOnUiThread(true)
                 .allowQueriesOnUiThread(true)
-                .name("dynamic.realm")
+                .name("kt.dynamic.realm")
                 // :hide-start:
                 .inMemory() // make this example secretly transient so state doesn't save between test runs
                 // :hide-end:

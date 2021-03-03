@@ -23,7 +23,7 @@ public class RealmTypesTest extends RealmTest {
         activity.runOnUiThread(() -> {
             // :code-block-start: read-only
             RealmConfiguration config = new RealmConfiguration.Builder()
-                    .assetFile("bundled.realm")
+                    .assetFile("java.bundled.realm")
                     .readOnly() // :emphasize:
                     .modules(new BundledRealmModule())
                     .build();
@@ -41,7 +41,7 @@ public class RealmTypesTest extends RealmTest {
             // :code-block-start: in-memory
             RealmConfiguration config = new RealmConfiguration.Builder()
                     .inMemory() // :emphasize:
-                    .name("transient.realm")
+                    .name("java.transient.realm")
                     .build();
             Realm realm = Realm.getInstance(config);
             // :code-block-end:
@@ -58,7 +58,7 @@ public class RealmTypesTest extends RealmTest {
             RealmConfiguration config = new RealmConfiguration.Builder()
                     .allowWritesOnUiThread(true)
                     .allowQueriesOnUiThread(true)
-                    .name("dynamic.realm")
+                    .name("java.dynamic.realm")
                     // :hide-start:
                     .inMemory() // make this example secretly transient so state doesn't save between test runs
                     // :hide-end:
