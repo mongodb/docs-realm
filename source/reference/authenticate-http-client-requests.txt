@@ -55,28 +55,31 @@ authentication endpoints accept valid user credentials in the body of a
 
 .. code-block:: text
    
-   https://<hostname>/api/client/v2.0/app/<yourappid-abcde>/auth/providers/<provider type>/login
+   https://<hostname>/api/client/v2.0/app/
+      <yourappid-abcde>/auth/providers/<provider type>/login
 
-To find the ``<hostname>``, issue the following request, passing in your app name 
+To find the ``<hostname>``, issue the following request, passing in the app name 
 and API key:
 
-   .. code-block:: shell
-   
-      curl --location --request GET 'https://realm.mongodb.com/api/client/v2.0/app/<APP NAME>/location' \
-         --header 'Content-Type: application/json' \
-         --data-raw '{
-            "key": <API KEY> 
-         }'
+.. code-block:: shell
+
+   curl --location --request GET \
+      'https://realm.mongodb.com/api/client/v2.0/app/<APP NAME>/location' \
+      --header 'Content-Type: application/json' \
+      --data-raw '{
+         "key": <API KEY> 
+      }'
 
 The ``hostname`` is in the response:
 
 .. code-block:: text
    :emphasize-lines: 3
 
-   {"deployment_model":"LOCAL",
+   { "deployment_model":"LOCAL",
       "location":"US-VA",
       "hostname":"https://us-east-1.aws.realm.mongodb.com",
       "ws_hostname":"wss://ws.us-east-1.aws.realm.mongodb.com"
+   }
 
 .. example::
 
