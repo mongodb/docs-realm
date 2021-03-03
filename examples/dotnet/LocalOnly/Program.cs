@@ -126,6 +126,12 @@ namespace LocalOnly
         }
     }
 
-    public class AClassWorthStoring : RealmObject { }
-    public class AnotherClassWorthStoring : RealmObject { }
+    public class AClassWorthStoring : RealmObject
+    {
+        public string Id { get; set; }
+    }
+    public class AnotherClassWorthStoring : RealmObject
+    {
+        public string Id { get; set; }
+    }
 }
