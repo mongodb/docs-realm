@@ -11,6 +11,7 @@ import io.realm.kotlin.where
 import org.bson.types.ObjectId
 import org.junit.Assert
 import org.junit.Test
+import java.util.*
 
 class RealmQueryTest : RealmTest() {
     @Test
@@ -31,19 +32,20 @@ class RealmQueryTest : RealmTest() {
                     )
 
                     // :hide-start:
-                    var PRIMARY_KEY_VALUE : ObjectId? = null
+                    var PRIMARY_KEY_VALUE : String? = null
                     realm.executeTransaction { transactionRealm ->
-                        val newTask = Task("test task")
+                        val newTask = Task()
+                        newTask.name = "test task" + Random().nextLong()
                         transactionRealm.insert(newTask)
-                        PRIMARY_KEY_VALUE = newTask._id
+                        PRIMARY_KEY_VALUE = newTask.name
                     }
                     // :hide-end:
 
                     realm.executeTransaction { transactionRealm ->
-                        val task = transactionRealm.where<Task>().equalTo("_id", PRIMARY_KEY_VALUE).findFirst()
+                        val task = transactionRealm.where<Task>().equalTo("name", PRIMARY_KEY_VALUE).findFirst()
                         Log.v("EXAMPLE", "Found object by primary key: $task")
                         // :hide-start:
-                        Assert.assertEquals(task?._id, PRIMARY_KEY_VALUE)
+                        Assert.assertEquals(task?.name, PRIMARY_KEY_VALUE)
                         // :hide-end:
                     }
                     // :hide-start:
