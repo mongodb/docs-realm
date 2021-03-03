@@ -12,7 +12,16 @@ Testing - Android SDK
    :depth: 2
    :class: singlecol
 
-You can test your Android {+service-short+} applications with a few caveats.
+You can test your Android {+service-short+} applications in two ways:
+
+- **Unit Testing**, which individually tests small facets of your
+  application, such as a single function. Unit testing notably never
+  sends data over the network and typically uses
+  :wiki:`mocking <Mock_object>` to replace network connectivity with
+  expected behavior.
+
+- **Integration Testing**, which tests entire workflows and sections
+  of your codebase and sometimes involves network requests.
 
 Unit Testing
 ------------
@@ -27,6 +36,12 @@ Unit Testing
 
 Integration Testing
 -------------------
+
+When integration testing {+service-short+}, you should be aware of a few
+limitations:
+
+- Realm relies on a :ref:`Looper </reference/android/os/Looper>` message
+  loop in threads that communicate with your database.
 
 - Realm cannot run in a testing thread
 - need to run logic in a looper thread, so running on the ui thread of
