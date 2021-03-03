@@ -1,5 +1,3 @@
-package com.mongodb.realm.examples.model
-// :code-block-start: complete
 import io.realm.RealmList
 import io.realm.RealmObject
 import io.realm.RealmResults
@@ -12,4 +10,3 @@ open class Dog(var name : String? = null): RealmObject() {
     var _id : ObjectId = ObjectId()
     var owner: RealmList<Person>? = null
 }
-// :code-block-end:

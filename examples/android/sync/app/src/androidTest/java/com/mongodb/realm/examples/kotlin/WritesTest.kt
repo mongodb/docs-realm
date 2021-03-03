@@ -219,6 +219,7 @@ class WritesTest : RealmTest() {
                                     ImportFlag.CHECK_SAME_VALUES_BEFORE_SET)
                                 // :hide-start:
                                 expectation.fulfill()
+                                // :hide-end:
                             }
                             // :code-block-end:
                         }

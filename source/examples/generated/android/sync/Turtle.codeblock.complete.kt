@@ -1,5 +1,3 @@
-package com.mongodb.realm.examples.model
-// :code-block-start: complete
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
 import org.bson.types.ObjectId
@@ -9,4 +7,3 @@ open class Turtle(var name : String? = null, var age : Int = 0): RealmObject() {
     var _id : ObjectId = ObjectId()
     var owner : TurtleEnthusiast? = null
 }
-// :code-block-end:

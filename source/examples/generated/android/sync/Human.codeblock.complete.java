@@ -1,5 +1,3 @@
-package com.mongodb.realm.examples.model;
-// :code-block-start: complete
 import org.bson.types.ObjectId;
 
 import io.realm.RealmObject;
@@ -38,4 +36,3 @@ public class Human extends RealmObject {
         return _id;
     }
 }
-// :code-block-end:

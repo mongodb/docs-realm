@@ -1,6 +1,5 @@
 package com.mongodb.realm.examples.model.kotlin
 // :code-block-start: frog-definition-local
-
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
 import org.bson.types.ObjectId

@@ -1,5 +1,3 @@
-package com.mongodb.realm.examples.model;
-// :code-block-start: complete
 import org.bson.types.ObjectId;
 
 import io.realm.RealmObject;
@@ -35,4 +33,3 @@ public class Cat extends RealmObject {
         return owner;
     }
 }
-// :code-block-end:
