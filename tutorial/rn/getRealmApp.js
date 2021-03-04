@@ -7,7 +7,11 @@ let app;
 export function getRealmApp() {
   if (app === undefined) {
     // :state-start: final
+    // :replace-start: {
+    //   "terms": { "tasktracker-qczfq": "<your Realm app ID here>" }
+    // }
     const appId = "tasktracker-qczfq"; // Set Realm app ID here.
+    // :replace-end:
     const appConfig = {
       id: appId,
       timeout: 10000,
