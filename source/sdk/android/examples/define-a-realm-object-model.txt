@@ -19,13 +19,16 @@ Define a Realm Object Schema - Android SDK
    types and constraints, see :ref:`Fundametals: Object Models & Schemas
    <android-object-models-and-schemas>`.
 
-Object Example
---------------
+Define a Realm Object
+---------------------
 
 To define
 a {+service-short+} object in your application, create a subclass of
 :java-sdk:`RealmObject <io/realm/RealmObject.html>` or implement
 :java-sdk:`RealmModel <io/realm/RealmModel.html>`.
+
+Define a Realm Object by extending ``RealmObject``
+--------------------------------------------------
 
 .. example::
 
@@ -57,6 +60,9 @@ a {+service-short+} object in your application, create a subclass of
 
             All {+service-short+} objects defined in your Android
             application must use the ``public`` visibility modifier.
+
+Define a Realm Object by implementing ``RealmModel``
+----------------------------------------------------
 
 .. example::
 
