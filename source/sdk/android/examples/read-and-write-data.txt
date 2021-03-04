@@ -65,6 +65,8 @@ All query, filter, and sort operations return a
 collections are live, meaning they always contain the latest
 results of the associated query.
 
+.. include:: /includes/android-synchronous-reads-writes-ui-thread.rst
+
 .. seealso::
 
    :ref:`Fundamentals: Live Queries <android-live-queries>`
@@ -343,6 +345,8 @@ transaction, see :ref:`Write Transactions <android-write-transactions>`.
    :ref:`notifications <android-react-to-changes>` to any subscribed
    listeners. As a result, you should only write to {+service-short+}
    objects when necessary to persist data.
+
+.. include:: /includes/android-synchronous-reads-writes-ui-thread.rst
 
 .. _android-create-a-new-object:
 
