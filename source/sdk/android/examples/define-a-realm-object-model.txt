@@ -26,8 +26,8 @@ To define a {+service-short+} object in your application,
 create a subclass of :java-sdk:`RealmObject <io/realm/RealmObject.html>`
 or implement :java-sdk:`RealmModel <io/realm/RealmModel.html>`.
 
-Extending ``RealmObject``
-~~~~~~~~~~~~~~~~~~~~~~~~~
+Extend ``RealmObject``
+~~~~~~~~~~~~~~~~~~~~~~
 
 .. example::
 
@@ -57,8 +57,8 @@ Extending ``RealmObject``
             All {+service-short+} objects defined in your Android
             application must use the ``public`` visibility modifier.
 
-Implementing ``RealmModel``
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Implement ``RealmModel``
+~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. example::
 
@@ -94,26 +94,25 @@ Implementing ``RealmModel``
    All {+service-short+} objects defined in your Android application
    must provide an empty constructor.
 
-Using ``RealmObject`` Methods
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. tip:: Using ``RealmObject`` Methods
 
-When you create a {+service-short+} object by extending the ``RealmObject``
-class, methods are available on dynamic methods. {+service-short+} objects
-created by implementing ``RealmModel`` use static ``RealmObject`` methods:
+   When you create a {+service-short+} object by extending the ``RealmObject``
+   class, methods are available on dynamic methods. {+service-short+} objects
+   created by implementing ``RealmModel`` use static ``RealmObject`` methods:
 
-.. tabs-realm-languages::
+   .. tabs-realm-languages::
 
-   .. tab::
-      :tabid: kotlin
+      .. tab::
+         :tabid: kotlin
 
-      .. literalinclude:: /examples/generated/android/local/RealmObjectVsRealmModelTest.codeblock.realm-object-vs-realm-model.kt
-         :language: kotlin
+         .. literalinclude:: /examples/generated/android/local/RealmObjectVsRealmModelTest.codeblock.realm-object-vs-realm-model.kt
+            :language: kotlin
 
-   .. tab::
-      :tabid: java
+      .. tab::
+         :tabid: java
 
-      .. literalinclude:: /examples/generated/android/local/RealmObjectVsRealmModelTest.codeblock.realm-object-vs-realm-model.java
-         :language: java
+         .. literalinclude:: /examples/generated/android/local/RealmObjectVsRealmModelTest.codeblock.realm-object-vs-realm-model.java
+            :language: java
 
 .. _android-field-relationships-lists-example:
 
