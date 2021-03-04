@@ -12,7 +12,7 @@ Realm.getInstanceAsync(config, object : Realm.Callback() {
 
 
         realm.executeTransaction { transactionRealm ->
-            val task = transactionRealm.where<Task>().equalTo("_id", PRIMARY_KEY_VALUE).findFirst()
+            val task = transactionRealm.where<Task>().equalTo("name", PRIMARY_KEY_VALUE).findFirst()
             Log.v("EXAMPLE", "Found object by primary key: $task")
         }
         realm.close()

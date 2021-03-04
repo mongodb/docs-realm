@@ -22,7 +22,7 @@ const TasksProvider = ({ children, projectPartition }) => {
         partitionValue: projectPartition,
       },
     };
-    // :hide-start:
+    // :state-start: final
     // open a realm for this particular project
     Realm.open(config).then((projectRealm) => {
       realmRef.current = projectRealm;
@@ -34,13 +34,13 @@ const TasksProvider = ({ children, projectPartition }) => {
         setTasks([...sortedTasks]);
       });
     });
-    // :replace-with:
+    // :state-end: :state-uncomment-start: start
     //// TODO: Open the project realm with the given configuration and store
     //// it in the realmRef. Once opened, fetch the Task objects in the realm,
     //// sorted by name, and attach a listener to the Task collection. When the
     //// listener fires, use the setTasks() function to apply the updated Tasks
     //// list to the state.
-    // :hide-end:
+    // :state-uncomment-end:
     // :code-block-end:
 
     // :code-block-start: clean-up
@@ -48,13 +48,13 @@ const TasksProvider = ({ children, projectPartition }) => {
       // cleanup function
       const projectRealm = realmRef.current;
       if (projectRealm) {
-        // :hide-start:
+        // :state-start: final
         projectRealm.close();
         realmRef.current = null;
-        // :replace-with:
+        // :state-end: :state-uncomment-start: start
         //// TODO: close the project realm and reset the realmRef's
         //// current value to null.
-        // :hide-end:
+        // :state-uncomment-end:
         setTasks([]);
       }
     };
@@ -64,7 +64,7 @@ const TasksProvider = ({ children, projectPartition }) => {
   // :code-block-start: create-task
   const createTask = (newTaskName) => {
     const projectRealm = realmRef.current;
-    // :hide-start:
+    // :state-start: final
     projectRealm.write(() => {
       // Create a new task in the same partition -- that is, in the same project.
       projectRealm.create(
@@ -75,9 +75,9 @@ const TasksProvider = ({ children, projectPartition }) => {
         })
       );
     });
-    // :replace-with:
+    // :state-end: :state-uncomment-start: start
     //// TODO: Create the Task in a write block.
-    // :hide-end:
+    // :state-uncomment-end:
   };
   // :code-block-end:
 
@@ -96,13 +96,13 @@ const TasksProvider = ({ children, projectPartition }) => {
     }
     const projectRealm = realmRef.current;
 
-    // :hide-start:
+    // :state-start: final
     projectRealm.write(() => {
       task.status = status;
     });
-    // :replace-with:
+    // :state-end: :state-uncomment-start: start
     //// TODO: In a write block, update the Task's status.
-    // :hide-end:
+    // :state-uncomment-end:
   };
   // :code-block-end:
 
@@ -110,14 +110,14 @@ const TasksProvider = ({ children, projectPartition }) => {
   // Define the function for deleting a task.
   const deleteTask = (task) => {
     const projectRealm = realmRef.current;
-    // :hide-start:
+    // :state-start: final
     projectRealm.write(() => {
       projectRealm.delete(task);
       setTasks([...projectRealm.objects("Task").sorted("name")]);
     });
-    // :replace-with:
+    // :state-end: :state-uncomment-start: start
     //// TODO: In a write block, delete the Task.
-    // :hide-end:
+    // :state-uncomment-end:
   };
   // :code-block-end:
 

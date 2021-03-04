@@ -21,7 +21,7 @@ class ProjectsViewController: UIViewController, UITableViewDelegate, UITableView
         super.init(nibName: nil, bundle: nil)
 
         // :code-block-start: user-in-realm-notification
-        // :hide-start:
+        // :state-start: final
         // There should only be one user in my realm - that is myself
         let usersInRealm = userRealm.objects(User.self)
 
@@ -30,9 +30,9 @@ class ProjectsViewController: UIViewController, UITableViewDelegate, UITableView
             guard let tableView = self?.tableView else { return }
             tableView.reloadData()
         }
-        // :replace-with:
+        // :state-end: :state-uncomment-start: start
         // // TODO: Observe user realm for user objects
-        // :hide-end:
+        // :state-uncomment-end:
         // :code-block-end:
     }
 
@@ -42,12 +42,12 @@ class ProjectsViewController: UIViewController, UITableViewDelegate, UITableView
 
     // :code-block-start: invalidate-token
     deinit {
-        // :hide-start:
+        // :state-start: final
         // Always invalidate any notification tokens when you are done with them.
         notificationToken?.invalidate()
-        // :replace-with:
+        // :state-end: :state-uncomment-start: start
         // // TODO: invalidate notificationToken
-        // :hide-end:
+        // :state-uncomment-end:
     }
     // :code-block-end:
 
@@ -71,18 +71,18 @@ class ProjectsViewController: UIViewController, UITableViewDelegate, UITableView
         alertController.addAction(UIAlertAction(title: "Yes, Log Out", style: .destructive, handler: {
             alert -> Void in
             print("Logging out...");
-            // :hide-start:
+            // :state-start: final
             app.currentUser?.logOut() { (error) in
                 DispatchQueue.main.async {
                     print("Logged out!");
                     self.navigationController?.popViewController(animated: true)
                 }
             }
-            // :replace-with:
+            // :state-end: :state-uncomment-start: start
             // // TODO: log out the app's currentUser, then, on the main thread, pop this
             // // view controller from the navigation controller to navigate back to
             // // the WelcomeViewController.
-            // :hide-end:
+            // :state-uncomment-end:
         }))
         alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         self.present(alertController, animated: true, completion: nil)
@@ -91,16 +91,16 @@ class ProjectsViewController: UIViewController, UITableViewDelegate, UITableView
 
     // :code-block-start: number-of-rows-in-section
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // :hide-start:
+        // :state-start: final
         // You always have at least one project (your own)
         return userData?.memberOf.count ?? 1
-        // :replace-with:
+        // :state-end: :state-uncomment-start: start
         // // TODO: Each project should have its own row. Check the userData memberOf
         // // field for how many projects the user is a member of. However, the userData
         // // may not have loaded in yet. If that's the case, the user always has their
         // // own project, so you should always return at least 1.
         // return 0
-        // :hide-end:
+        // :state-uncomment-end:
     }
     // :code-block-end:
 
@@ -109,16 +109,16 @@ class ProjectsViewController: UIViewController, UITableViewDelegate, UITableView
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell") ?? UITableViewCell(style: .default, reuseIdentifier: "Cell")
         cell.selectionStyle = .none
 
-        // :hide-start:
+        // :state-start: final
         // User data may not have loaded yet. You always have your own project.
         let projectName = userData?.memberOf[indexPath.row].name ?? "My Project"
         cell.textLabel?.text = projectName
-        // :replace-with:
+        // :state-end: :state-uncomment-start: start
         // // TODO: Get project name using userData's memberOf field and indexPath.row.
         // // The userData may not have loaded yet. Regardless, you always have your own project.
         // let projectName = "TODO"
         // cell.textLabel?.text = projectName 
-        // :hide-end:
+        // :state-uncomment-end:
         
         return cell
     }
@@ -126,7 +126,7 @@ class ProjectsViewController: UIViewController, UITableViewDelegate, UITableView
 
     // :code-block-start: did-select-row-at
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        // :hide-start:
+        // :state-start: final
         let user = app.currentUser!
         let project = userData?.memberOf[indexPath.row] ?? Project(partition: "project=\(user.id)", name: "My Project")
 
@@ -141,13 +141,13 @@ class ProjectsViewController: UIViewController, UITableViewDelegate, UITableView
                 );
             }
         }
-        // :replace-with:
+        // :state-end: :state-uncomment-start: start
         // // TODO: open the realm for the selected project and navigate to the TasksViewController.
         // // The project information is contained in the userData's memberOf field.
         // // The userData may not have loaded yet. Regardless, the current user always has their own project.
         // // A user's project partition value is "project=\(user.id!)". Use the user.configuration() with
         // // the project's partition value to open the realm for that project.
-        // :hide-end: 
+        // :state-uncomment-end: 
     }
     // :code-block-end:
 

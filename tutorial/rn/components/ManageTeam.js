@@ -15,12 +15,12 @@ export function ManageTeam() {
   // team members of the logged in user's project
   const getTeam = async () => {
     try {
-      // :hide-start:
+      // :state-start: final
       const teamMembers = await user.functions.getMyTeamMembers([]);
       setTeamMemberList(teamMembers);
-      // :replace-with:
+      // :state-end: :state-uncomment-start: start
       //// TODO: Call the getMyTeamMembers Realm function and pass the result to setTeamMemberList().
-      // :hide-end:
+      // :state-uncomment-end:
     } catch (err) {
       Alert.alert("An error occurred while getting team members", err);
     }
@@ -32,13 +32,13 @@ export function ManageTeam() {
   // team member to the logged in user's project
   const addTeamMember = async () => {
     try {
-      // :hide-start:
+      // :state-start: final
       await user.functions.addTeamMember(newTeamMember);
       getTeam();
-      // :replace-with:
+      // :state-end: :state-uncomment-start: start
       //// TODO: Call the addTeamMember Realm function with the given email,
       //// then call getTeam() to refresh the list.
-      // :hide-end:
+      // :state-uncomment-end:
     } catch (err) {
       Alert.alert("An error occurred while adding a team member", err.message);
     }
@@ -50,13 +50,13 @@ export function ManageTeam() {
   // team member from the logged in user's project
   const removeTeamMember = async (email) => {
     try {
-      // :hide-start:
+      // :state-start: final
       await user.functions.removeTeamMember(email);
       getTeam();
-      // :replace-with:
+      // :state-end: :state-uncomment-start: start
       //// TODO: Call the removeTeamMember Realm function with the given email,
       //// then call getTeam() to refresh the list.
-      // :hide-end:
+      // :state-uncomment-end:
     } catch (err) {
       Alert.alert("An error occurred while removing a team member", err);
     }

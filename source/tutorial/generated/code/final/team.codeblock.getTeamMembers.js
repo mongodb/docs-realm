@@ -3,8 +3,7 @@ exports.getTeamMembers = async () => {
   try {
     const teamMembers = await currentUser.functions.getMyTeamMembers();
     output.result(JSON.stringify(teamMembers, null, 2));
-  }
-  catch (err) {
+  } catch (err) {
     output.error(JSON.stringify(err));
   }
-}; 
+};
