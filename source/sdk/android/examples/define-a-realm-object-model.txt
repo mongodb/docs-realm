@@ -97,8 +97,10 @@ Implement ``RealmModel``
 .. tip:: Using ``RealmObject`` Methods
 
    When you create a {+service-short+} object by extending the ``RealmObject``
-   class, methods are available on dynamic methods. {+service-short+} objects
-   created by implementing ``RealmModel`` use static ``RealmObject`` methods:
+   class, you can access ``RealmObject`` class methods dynamically on
+   instances of your {+service-short+} object. {+service-short+} objects
+   created by implementing ``RealmModel`` can access those same methods
+   statically through the ``RealmObject`` class:
 
    .. tabs-realm-languages::
 
