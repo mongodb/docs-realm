@@ -6,7 +6,7 @@ let app;
 // Returns the shared instance of the Realm app.
 export function getRealmApp() {
   if (app === undefined) {
-    // :hide-start:
+    // :state-start: final
     const appId = "tasktracker-qczfq"; // Set Realm app ID here.
     const appConfig = {
       id: appId,
@@ -17,9 +17,9 @@ export function getRealmApp() {
       },
     };
     app = new Realm.App(appConfig);
-    // :replace-with:
+    // :state-end: :state-uncomment-start: start
     //// TODO: Create a Realm App instance with your Realm app ID.
-    // :hide-end:
+    // :state-uncomment-end:
   }
   return app;
 }

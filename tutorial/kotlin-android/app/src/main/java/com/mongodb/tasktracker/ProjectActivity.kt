@@ -40,7 +40,7 @@ class ProjectActivity : AppCompatActivity() {
             startActivity(Intent(this, LoginActivity::class.java))
         } else {
             // :code-block-start: set-up-user-realm
-            // :hide-start:
+            // :state-start: final
             // configure realm to use the current user and the partition corresponding to the user's project
             val config = SyncConfiguration.Builder(user!!, "user=${user!!.id}")
                 .build()
@@ -53,9 +53,9 @@ class ProjectActivity : AppCompatActivity() {
                     setUpRecyclerView(realm)
                 }
             })
-            // :replace-with:
+            // :state-end: :state-uncomment-start: start
             //// TODO: initialize a connection to a realm containing the user's User object
-            // :hide-end:
+            // :state-uncomment-end:
             // :code-block-end:
         }
     }
@@ -67,28 +67,28 @@ class ProjectActivity : AppCompatActivity() {
     }
 
     // :code-block-start: on-stop-close-realm
-    // :hide-start:
+    // :state-start: final
     override fun onStop() {
         super.onStop()
         user.run {
             userRealm?.close()
         }
     }
-    // :replace-with:
+    // :state-end: :state-uncomment-start: start
     //// TODO: always ensure that the user realm closes when the activity ends via the onStop lifecycle method
-    // :hide-end:
+    // :state-uncomment-end:
     // :code-block-end:
 
     // :code-block-start: on-destroy-close-realm
-    // :hide-start:
+    // :state-start: final
     override fun onDestroy() {
         super.onDestroy()
         userRealm?.close()
         recyclerView.adapter = null
     }
-    // :replace-with:
+    // :state-end: :state-uncomment-start: start
     //// TODO: always ensure that the user realm closes when the activity ends via the onDestroy lifecycle method
-    // :hide-end:
+    // :state-uncomment-end:
     // :code-block-end:
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -119,13 +119,13 @@ class ProjectActivity : AppCompatActivity() {
     private fun setUpRecyclerView(realm: Realm) {
         // query for a user object in our user realm, which should only contain our user object
         // :code-block-start: fetch-synced-user-safely
-        // :hide-start:
+        // :state-start: final
         val syncedUsers : RealmResults<User> = realm.where<User>().sort("_id").findAll()
         val syncedUser : User? = syncedUsers.getOrNull(0) // since there might be no user objects in the results, default to "null"
-        // :replace-with:
+        // :state-end: :state-uncomment-start: start
         //// TODO: query the realm to get a copy of the currently logged in user's User object (or null, if the trigger didn't create it yet)
         //var syncedUser : User? = null
-        // :hide-end:
+        // :state-uncomment-end:
         // :code-block-end:
 
         // if a user object exists, create the recycler view and the corresponding adapter
@@ -147,15 +147,15 @@ class ProjectActivity : AppCompatActivity() {
             Log.i(TAG(), "User object not yet initialized, waiting for initialization via Trigger before displaying projects.")
             // change listener on a query for our user object lets us know when the user object has been created by the auth trigger
             // :code-block-start: user-init-change-listener
-            // :hide-start:
+            // :state-start: final
             val changeListener = OrderedRealmCollectionChangeListener<RealmResults<User>> { results, changeSet ->
                 Log.i(TAG(), "User object initialized, displaying project list.")
                 setUpRecyclerView(realm)
             }
             syncedUsers.addChangeListener(changeListener)
-            // :replace-with:
+            // :state-end: :state-uncomment-start: start
             //// TODO: set up a change listener that will set up the recycler view once our trigger initializes the user's User object
-            // :hide-end:
+            // :state-uncomment-end:
             // :code-block-end:
         }
     }

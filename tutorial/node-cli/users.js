@@ -41,23 +41,23 @@ async function logIn() {
   ]);
 
   try {
-    // :hide-start:
+    // :state-start: final
     const credentials = Realm.Credentials.emailPassword(
       input.email,
       input.password
     );
-    // :replace-with:
+    // :state-end: :state-uncomment-start: start
     // // TODO: create new emailPassword credentials and assign it to ``credentials``
     //const credentials;
-    // :hide-end:
+    // :state-uncomment-end:
 
-    // :hide-start:
+    // :state-start: final
     const user = await app.logIn(credentials);
-    // :replace-with: 
+    // :state-end: :state-uncomment-start: start
     // // TODO: call the app.logIn() method and assign its value to ``user``
-    //const user; 
+    //const user;
 
-    // :hide-end: 
+    // :state-uncomment-end:
     if (user) {
       output.result("You have successfully logged in as " + app.currentUser.id);
       return main.mainMenu();
@@ -70,7 +70,7 @@ async function logIn() {
     return logIn();
   }
 }
-// :code-block-end: 
+// :code-block-end:
 
 async function registerUser() {
   output.header("WELCOME, NEW USER");
@@ -124,9 +124,7 @@ function getAuthedUser() {
   return app.currentUser;
 }
 
-
 exports.getAuthedUser = getAuthedUser;
 exports.logIn = logIn;
 exports.logOut = logOut;
 exports.registerUser = registerUser;
-

@@ -1,8 +1,8 @@
 const ProjectSchema = {
-  name: 'Project',
+  name: "Project",
   embedded: true,
   properties: {
-    name: 'string?',
-    partition: 'string?',
+    name: "string?",
+    partition: "string?",
   },
 };

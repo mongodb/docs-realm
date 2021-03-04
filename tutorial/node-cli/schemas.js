@@ -1,53 +1,53 @@
 // :code-block-start: taskSchema
 const TaskSchema = {
-  // :hide-start:
-  name: 'Task',
+  // :state-start: final
+  name: "Task",
   properties: {
-    _id: 'objectId',
-    _partition: 'string',
-    name: 'string',
-    owner: 'string?',
-    status: 'string',
+    _id: "objectId",
+    _partition: "string",
+    name: "string",
+    owner: "string?",
+    status: "string",
   },
-  primaryKey: '_id',
-  // :replace-with:
+  primaryKey: "_id",
+  // :state-end: :state-uncomment-start: start
   // // TODO: Define the data model for tasks.
 
-  // :hide-end:
+  // :state-uncomment-end:
 };
 // :code-block-end:
 
 // :code-block-start: userSchema
 const UserSchema = {
-  // :hide-start:
-  name: 'User',
+  // :state-start: final
+  name: "User",
   properties: {
-    _id: 'string',
-    _partition: 'string',
-    memberOf: 'Project[]',
-    name: 'string',
+    _id: "string",
+    _partition: "string",
+    memberOf: "Project[]",
+    name: "string",
   },
-  primaryKey: '_id',
-  // :replace-with: 
+  primaryKey: "_id",
+  // :state-end: :state-uncomment-start: start
   // // TODO: Define the data model for users.
 
-  // :hide-end:
+  // :state-uncomment-end:
 };
 // :code-block-end:
 
 // :code-block-start: projectSchema
 const ProjectSchema = {
-  // :hide-start:
-  name: 'Project',
+  // :state-start: final
+  name: "Project",
   embedded: true,
   properties: {
-    name: 'string?',
-    partition: 'string?',
+    name: "string?",
+    partition: "string?",
   },
-  // :replace-with: 
+  // :state-end: :state-uncomment-start: start
   // // TODO: Define the data model for users.
 
-  // :hide-end:
+  // :state-uncomment-end:
 };
 // :code-block-end:
 
