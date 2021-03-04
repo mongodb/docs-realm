@@ -38,7 +38,8 @@ realm-cli login --api-key=[public API key] --private-api-key=[private API key]
 If logged in successfully, you can now import the app:
 
 ```bash
-realm-cli import --app-name tasktracker --path ./backend/
+cd realm-tutorial-backend
+realm-cli import
 ```
 
 Follow the prompts and wait for the app to deploy.

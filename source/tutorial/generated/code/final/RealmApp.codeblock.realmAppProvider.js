@@ -3,7 +3,7 @@ export const RealmAppProvider = ({ appId, children }) => {
   React.useEffect(() => {
     setApp(new Realm.App(appId));
   }, [appId]);
-  
+
   // Wrap the Realm.App object's user state with React state
   const [currentUser, setCurrentUser] = React.useState(app.currentUser);
   async function logIn(credentials) {
@@ -20,7 +20,7 @@ export const RealmAppProvider = ({ appId, children }) => {
   }
 
   const wrapped = { ...app, currentUser, logIn, logOut };
-  
+
   return (
     <RealmAppContext.Provider value={wrapped}>
       {children}

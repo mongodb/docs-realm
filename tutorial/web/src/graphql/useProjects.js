@@ -6,12 +6,12 @@ export default function useProjects() {
   if (!app.currentUser) {
     throw new Error("Cannot list projects if there is no logged in user.");
   }
-  // :hide-start: 
+  // :state-start: final
   const projects = app.currentUser.customData.memberOf;
-  // :replace-with: 
-  // // TODO: Retrieve the current user's projects and assign it to `projects`. 
+  // :state-end: :state-uncomment-start: start
+  // // TODO: Retrieve the current user's projects and assign it to `projects`.
   // const projects;
-  // :hide-end:
+  // :state-uncomment-end:
   return projects;
 }
 // :code-block-end:

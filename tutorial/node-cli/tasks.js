@@ -8,16 +8,16 @@ const users = require("./users");
 // :code-block-start: getTasks
 exports.getTasks = async (partition) => {
   const realm = await index.getRealm(partition);
-  // :hide-start:
+  // :state-start: final
   const tasks = realm.objects("Task");
-  // :replace-with:
+  // :state-end: :state-uncomment-start: start
   // //TODO: Call the objects() method and pass in the name of the collection.
 
-  // :hide-end:
+  // :state-uncomment-end:
   output.header("MY TASKS:");
   output.result(JSON.stringify(tasks, null, 2));
 };
-// :code-block-end: 
+// :code-block-end:
 
 // :code-block-start: getTask
 exports.getTask = async (partition) => {
@@ -30,12 +30,12 @@ exports.getTask = async (partition) => {
         message: "What is the task ID (_id)?",
       },
     ]);
-    // :hide-start:
+    // :state-start: final
     let result = realm.objectForPrimaryKey("Task", new bson.ObjectID(task.id));
-    // :replace-with:
-    // //TODO: Call the objectForPrimaryKey() method to get a task by its ID. 
+    // :state-end: :state-uncomment-start: start
+    // //TODO: Call the objectForPrimaryKey() method to get a task by its ID.
 
-    // :hide-end:
+    // :state-uncomment-end:
     if (result !== undefined) {
       output.header("Here is the task you requested:");
       output.result(JSON.stringify(result, null, 2));
@@ -69,17 +69,17 @@ exports.createTask = async (partition) => {
     ]);
     let result;
     realm.write(() => {
-      // :hide-start: 
+      // :state-start: final
       result = realm.create("Task", {
         _id: new bson.ObjectID(),
         _partition: partition,
         name: task.name,
-        status: task.status.replace(/\s/g, ''), // Removes space from "In Progress",
+        status: task.status.replace(/\s/g, ""), // Removes space from "In Progress",
       });
-      // :replace-with: 
+      // :state-end: :state-uncomment-start: start
       // //TODO: Call the create() Realm function and pass in all of the required properties.
 
-      // :hide-end:
+      // :state-uncomment-end:
     });
 
     output.header("New task created");
@@ -108,19 +108,19 @@ exports.deleteTask = async (partition) => {
   ]);
 
   if (answers.confirm) {
-    // :hide-start: 
+    // :state-start: final
     let task = realm.objectForPrimaryKey("Task", new bson.ObjectID(answers.id));
-    // :replace-with: 
+    // :state-end: :state-uncomment-start: start
     // //TODO: Call the objectForPrimaryKey() method to get a task by its ID and assign it to task.
     //let task;
-    // :hide-end:
+    // :state-uncomment-end:
     realm.write(() => {
-      // :hide-start:
+      // :state-start: final
       realm.delete(task);
-      // :replace-with:
+      // :state-end: :state-uncomment-start: start
       // //TODO: Call the delete() function.
 
-      // :hide-end:
+      // :state-uncomment-end:
       output.result("Task deleted.");
     });
     return;
@@ -183,13 +183,13 @@ async function modifyTask(answers, partition) {
   let task;
   try {
     realm.write(() => {
-      // :hide-start:
+      // :state-start: final
       task = realm.objectForPrimaryKey("Task", new bson.ObjectID(answers.id));
       task[answers.key] = answers.value;
-      // :replace-with:
+      // :state-end: :state-uncomment-start: start
       // //TODO: Call the objectForPrimaryKey() method to get the task by ID and
-      // //change the task object's status. 
-      // :hide-end:
+      // //change the task object's status.
+      // :state-uncomment-end:
     });
     return JSON.stringify(task, null, 2);
   } catch (err) {

@@ -1,10 +1,10 @@
 const UserSchema = {
-  name: 'User',
+  name: "User",
   properties: {
-    _id: 'string',
-    _partition: 'string',
-    memberOf: 'Project[]',
-    name: 'string',
+    _id: "string",
+    _partition: "string",
+    memberOf: "Project[]",
+    name: "string",
   },
-  primaryKey: '_id',
+  primaryKey: "_id",
 };

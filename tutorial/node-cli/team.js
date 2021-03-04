@@ -7,19 +7,18 @@ const users = require("./users");
 exports.getTeamMembers = async () => {
   const currentUser = users.getAuthedUser();
   try {
-    // :hide-start:
+    // :state-start: final
     const teamMembers = await currentUser.functions.getMyTeamMembers();
-    // :replace-with:
+    // :state-end: :state-uncomment-start: start
     // //TODO: call the getMyTeamMembers() Realm function
 
-    // :hide-end:
+    // :state-uncomment-end:
     output.result(JSON.stringify(teamMembers, null, 2));
-  }
-  catch (err) {
+  } catch (err) {
     output.error(JSON.stringify(err));
   }
-}; 
-// :code-block-end: 
+};
+// :code-block-end:
 
 // :code-block-start: addTeamMember
 exports.addTeamMember = async () => {
@@ -33,12 +32,12 @@ exports.addTeamMember = async () => {
         message: "What is the new team member's email address?",
       },
     ]);
-    // :hide-start:
+    // :state-start: final
     await currentUser.functions.addTeamMember(email);
-    // :replace-with:
+    // :state-end: :state-uncomment-start: start
     // //TODO: call the addTeamMember() Realm function
 
-    // :hide-end:
+    // :state-uncomment-end:
     output.result("The user was added to your team.");
   } catch (err) {
     output.error(err.message);
@@ -50,7 +49,7 @@ exports.addTeamMember = async () => {
 exports.removeTeamMember = async () => {
   const currentUser = users.getAuthedUser();
   const teamMembers = await currentUser.functions.getMyTeamMembers();
-  const teamMemberNames = teamMembers.map(t => t.name);
+  const teamMemberNames = teamMembers.map((t) => t.name);
   try {
     output.header("*** REMOVE A TEAM MEMBER ***");
     const { selectedTeamMember } = await inquirer.prompt([
@@ -61,12 +60,14 @@ exports.removeTeamMember = async () => {
         choices: [...teamMemberNames, new inquirer.Separator()],
       },
     ]);
-    // :hide-start:
-    let result = await currentUser.functions.removeTeamMember(selectedTeamMember);
-    // :replace-with:
+    // :state-start: final
+    let result = await currentUser.functions.removeTeamMember(
+      selectedTeamMember
+    );
+    // :state-end: :state-uncomment-start: start
     // //TODO: call the removeTeamMember() Realm function
 
-    // :hide-end:
+    // :state-uncomment-end:
     output.result("The user was removed from your team.");
   } catch (err) {
     output.error(JSON.stringify(err));
