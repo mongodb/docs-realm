@@ -1,6 +1,6 @@
 name: Push to Artifact Repos
 
-on: [push, pull_request]
+on: [push]
 
 jobs:
   push:
@@ -15,14 +15,14 @@ jobs:
           states: start final
           source: ./tutorial/rn
           toRepo: https://${{ secrets.TUTORIAL_REPO_ACCESS_TOKEN }}@github.com/mongodb-university/realm-tutorial-react-native.git
-      - name: iOS/Swift
-        uses: ./.github/actions/push-to-artifact-repo
-        with:
-          email: chris.bush+arty-fact@mongodb.com
-          name: Arty Fact
-          states: start final
-          source: ./tutorial/swift-ios
-          toRepo: https://${{ secrets.TUTORIAL_REPO_ACCESS_TOKEN }}@github.com/mongodb-university/realm-tutorial-ios-swift.git
+      #      - name: iOS/Swift
+      #        uses: ./.github/actions/push-to-artifact-repo
+      #        with:
+      #          email: chris.bush+arty-fact@mongodb.com
+      #          name: Arty Fact
+      #          states: start final
+      #          source: ./tutorial/swift-ios
+      #          toRepo: https://${{ secrets.TUTORIAL_REPO_ACCESS_TOKEN }}@github.com/mongodb-university/realm-tutorial-ios-swift.git
       - name: Web
         uses: ./.github/actions/push-to-artifact-repo
         with:
@@ -39,20 +39,20 @@ jobs:
           states: start final
           source: ./tutorial/node-cli
           toRepo: https://${{ secrets.TUTORIAL_REPO_ACCESS_TOKEN }}@github.com/mongodb-university/realm-tutorial-node-js.git
-      - name: Android/Kotlin
-        uses: ./.github/actions/push-to-artifact-repo
-        with:
-          email: chris.bush+arty-fact@mongodb.com
-          name: Arty Fact
-          states: start final
-          source: ./tutorial/kotlin-android
-          toRepo: https://${{ secrets.TUTORIAL_REPO_ACCESS_TOKEN }}@github.com/mongodb-university/realm-tutorial-android-kotlin.git
-      - name: Backend
-        uses: ./.github/actions/push-to-artifact-repo
-        with:
-          email: chris.bush+arty-fact@mongodb.com
-          name: Arty Fact
-          states: final # note: backend does not currently use states
-          source: ./tutorial/backend
-          toRepo: https://${{ secrets.TUTORIAL_REPO_ACCESS_TOKEN }}@github.com/mongodb-university/realm-tutorial-backend.git
+#      - name: Android/Kotlin
+#        uses: ./.github/actions/push-to-artifact-repo
+#        with:
+#          email: chris.bush+arty-fact@mongodb.com
+#          name: Arty Fact
+#          states: start final
+#          source: ./tutorial/kotlin-android
+#          toRepo: https://${{ secrets.TUTORIAL_REPO_ACCESS_TOKEN }}@github.com/mongodb-university/realm-tutorial-android-kotlin.git
+#      - name: Backend
+#        uses: ./.github/actions/push-to-artifact-repo
+#        with:
+#          email: chris.bush+arty-fact@mongodb.com
+#          name: Arty Fact
+#          states: final # note: backend does not currently use states
+#          source: ./tutorial/backend
+#          toRepo: https://${{ secrets.TUTORIAL_REPO_ACCESS_TOKEN }}@github.com/mongodb-university/realm-tutorial-backend.git
 # TODO: dotnet (arty-fact machine user does not currently have access)
