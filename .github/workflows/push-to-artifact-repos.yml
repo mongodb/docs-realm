@@ -22,7 +22,7 @@ jobs:
           source: ./tutorial/rn
           state: start
           toRepo: https://${{ secrets.TUTORIAL_REPO_ACCESS_TOKEN }}@github.com/mongodb-university/realm-tutorial-react-native.git
-      - uses: ./github/actions/push-to-artifact-repo
+      - uses: ./.github/actions/push-to-artifact-repo
         with:
           email: chris.bush+arty-fact@mongodb.com
           name: Arty Fact
