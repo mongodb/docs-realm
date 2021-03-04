@@ -1,6 +1,12 @@
 name: "Push to Artifact Repo"
 description: "Use bluehawk and bluehawk-plugin-git to copy, commit, and push transformed code to artifact repos."
 inputs:
+  name:
+    description: "The name to use in the git commit"
+    required: true
+  email:
+    description: "The email to use in the git commit"
+    required: true
   toRepo:
     description: "The destination repo"
     required: true
