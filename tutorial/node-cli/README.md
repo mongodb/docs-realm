@@ -1,8 +1,6 @@
-# Realm Android Kotlin Tutorial
+# Realm Node.js CLI Tutorial
 
-Follow along at https://docs.mongodb.com/realm/tutorial/android-kotlin/
-
-You can run this project by opening it in Android Studio version 4 or later.
+Follow along at https://docs.mongodb.com/realm/tutorial/nodejs-cli/
 
 ## Troubleshooting
 
@@ -10,7 +8,7 @@ The most common issue is schema mismatch due to frequent little tweaks to the
 schema as you develop your app.
 
 - Be sure to **check the logs in Realm UI** for more information as well as the console in your app.
-- **Delete the app from the simulator** to purge local data.
+- Purge local data by deleting any realm files (e.g. in `localRealmDb/`).
 - **Restart Sync** in the Realm UI by clicking "Delete Synced Data" on the Sync page.
 - Be sure to **deploy your changes** in the Realm UI.
 - If your schema does not match the server, **compare the class definitions from the SDKs tab in the Realm UI** with those in the client code.
