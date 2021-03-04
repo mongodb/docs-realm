@@ -1,0 +1,29 @@
+name: Push to Artifact Repos
+
+# https://github.com/mongodb-university/realm-tutorial-react-native.git
+# https://github.com/mongodb-university/realm-tutorial-backend
+# https://github.com/mongodb-university/realm-tutorial-web
+# https://github.com/mongodb-university/realm-tutorial-node-js
+# https://github.com/mongodb-university/realm-tutorial-ios-swift
+# https://github.com/mongodb-university/realm-tutorial-android-kotlin
+# https://github.com/mongodb-university/realm-tutorial-dotnet
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: ./actions/push-to-artifact-repos
+        with:
+          source: ./tutorial/rn
+          state: start
+          to-repo: https://${{ secrets.TUTORIAL_REPO_ACCESS_TOKEN }}@github.com/mongodb-university/realm-tutorial-react-native.git
+      - uses: ./actions/push-to-artifact-repos
+        with:
+          source: ./tutorial/rn
+          state: final
+          to-repo: https://${{ secrets.TUTORIAL_REPO_ACCESS_TOKEN }}@github.com/mongodb-university/realm-tutorial-react-native.git
