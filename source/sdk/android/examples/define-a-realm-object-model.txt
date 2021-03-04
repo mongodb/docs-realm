@@ -26,6 +26,10 @@ To define a {+service-short+} object in your application,
 create a subclass of :java-sdk:`RealmObject <io/realm/RealmObject.html>`
 or implement :java-sdk:`RealmModel <io/realm/RealmModel.html>`.
 
+.. important::
+
+   All {+service-short+} objects must provide an empty constructor.
+
 Extend ``RealmObject``
 ~~~~~~~~~~~~~~~~~~~~~~
 
@@ -44,8 +48,8 @@ Extend ``RealmObject``
 
          .. important::
 
-            All {+service-short+} objects defined in your Android
-            application must use the ``open`` visibility modifier.
+            All {+service-short+} objects defined must use the
+            ``open`` visibility modifier.
 
       .. tab::
          :tabid: java
@@ -54,8 +58,8 @@ Extend ``RealmObject``
 
          .. important::
 
-            All {+service-short+} objects defined in your Android
-            application must use the ``public`` visibility modifier.
+            All {+service-short+} objects must use the ``public``
+            visibility modifier.
 
 Implement ``RealmModel``
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -76,8 +80,8 @@ Implement ``RealmModel``
 
          .. important::
 
-            All {+service-short+} objects defined in your Android
-            application must use the ``open`` visibility modifier.
+            All {+service-short+} objects must use the ``open``
+            visibility modifier.
 
       .. tab::
          :tabid: java
@@ -86,13 +90,8 @@ Implement ``RealmModel``
 
          .. important::
 
-            All {+service-short+} objects defined in your Android
-            application must use the ``public`` visibility modifier.
-
-.. important::
-
-   All {+service-short+} objects defined in your Android application
-   must provide an empty constructor.
+            All {+service-short+} objects must use the ``public``
+            visibility modifier.
 
 .. tip:: Using ``RealmObject`` Methods
 
