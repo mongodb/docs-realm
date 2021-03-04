@@ -1,0 +1,123 @@
+.. _android-client-query-engine:
+.. _android-filter-data:
+
+.. _android-filter-data:
+
+=========================
+Filter Data - Android SDK
+=========================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Predicates
+----------
+
+You can build a filter with NSPredicate:
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: swift
+
+      .. literalinclude:: /examples/generated/code/start/QueryEngine.codeblock.predicates.swift
+         :language: swift
+
+   .. tab::
+      :tabid: objective-c
+
+      .. literalinclude:: /examples/generated/code/start/QueryEngine.codeblock.predicates.m
+         :language: objectivec
+
+Expressions
+~~~~~~~~~~~
+
+Filters consist of **expressions** in an NSPredicate. An expression consists of
+one of the following:
+
+- The name of a property of the object currently being evaluated.
+- An operator and up to two argument expression(s).
+- A literal string, number, or date.
+
+Link Queries
+~~~~~~~~~~~~
+
+When referring to an object property, you can use **dot notation** to refer
+to child properties of that object. You can even refer to the properties of
+:ref:`embedded objects <android-embedded-objects>` and :ref:`relationships
+<android-client-relationships>` with dot notation.
+
+For example, consider a query on an object with a ``workplace`` property that
+refers to a Workplace object. The Workplace object has an embedded object
+property, ``address``. You can chain dot notations to refer to the zipcode
+property of that address: 
+
+.. code-block:: objective-c
+
+   workplace.address.zipcode == 10012
+
+Substitutions
+~~~~~~~~~~~~~
+
+You can use the following substitutions in your predicate format strings:
+
+- ``%@`` to specify values
+- ``%K`` to specify `keypaths <https://docs.swift.org/swift-book/ReferenceManual/Expressions.html#grammar_key-path-expression>`_
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: swift
+
+      .. literalinclude:: /examples/generated/code/start/QueryEngine.codeblock.substitutions.swift
+         :language: swift
+
+   .. tab::
+      :tabid: objective-c
+
+      .. literalinclude:: /examples/generated/code/start/QueryEngine.codeblock.substitutions.m
+         :language: objectivec
+
+Subqueries
+~~~~~~~~~~
+
+You can iterate through a collection property with another query using the
+``SUBQUERY()`` predicate function. ``SUBQUERY()`` has the following signature:
+
+.. code-block:: objective-c
+
+   SUBQUERY(<collection>, <variableName>, <predicate>)
+
+- ``collection``: the name of the list property to iterate through
+- ``variableName``: a variable name of the current element to use in the subquery
+- ``predicate``: a string that contains the subquery predicate. You can use the
+  variable name specified by ``variableName`` to refer to the currently-iterated
+  element.
+
+.. example::
+
+   Running the following filter on a projects collect returns projects
+   with tasks that have not been completed by a user named Alex.
+
+   .. tabs-realm-languages::
+
+      .. tab::
+         :tabid: swift
+
+         .. literalinclude:: /examples/generated/code/start/QueryEngine.codeblock.subquery.swift
+             :language: swift
+
+      .. tab::
+         :tabid: objective-c
+
+         .. literalinclude:: /examples/generated/code/start/QueryEngine.codeblock.subquery.m
+             :language: objectivec
+
+.. seealso::
+
+   :ref:`Fundamentals: Query Engine <android-client-query-engine>`
