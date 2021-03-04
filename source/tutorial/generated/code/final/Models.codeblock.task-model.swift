@@ -2,7 +2,7 @@ class Task: Object {
     @objc dynamic var _id: ObjectId = ObjectId.generate()
     @objc dynamic var _partition: String = ""
     @objc dynamic var name: String = ""
-    @objc dynamic var owner: String? = nil
+    @objc dynamic var owner: String?
     @objc dynamic var status: String = ""
     override static func primaryKey() -> String? {
         return "_id"
@@ -16,7 +16,7 @@ class Task: Object {
             status = newValue.rawValue
         }
     }
-    
+
     convenience init(partition: String, name: String) {
         self.init()
         self._partition = partition
