@@ -20,13 +20,13 @@
       .. tab::
          :tabid: java
 
-         .. literalinclude:: /examples/generated/android/code/start/OpenARealmTest.codeblock.allow-reads-writes-ui-thread.java
+         .. literalinclude:: /examples/generated/android/sync/OpenARealmTest.codeblock.allow-reads-writes-ui-thread.java
             :language: java
             :emphasize-lines: 2,3
 
       .. tab::
          :tabid: kotlin
 
-         .. literalinclude:: /examples/generated/android/code/start/OpenARealmTest.codeblock.allow-reads-writes-ui-thread.kt
+         .. literalinclude:: /examples/generated/android/sync/OpenARealmTest.codeblock.allow-reads-writes-ui-thread.kt
             :language: kotlin
             :emphasize-lines: 2,3

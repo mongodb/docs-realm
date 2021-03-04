@@ -1,6 +1,5 @@
-// :code-block-start: define-object-model
 package com.mongodb.realm.examples.model;
-
+// :code-block-start: define-object-model
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.RealmClass;
