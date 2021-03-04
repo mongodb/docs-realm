@@ -32,7 +32,9 @@ a {+service-short+} object in your application, create a subclass of
    The following code block shows an object schema that describes a Frog.
    Every Frog object must include a ``name`` and ``age`` and may
    optionally include the frog's ``species`` and a String
-   that contains the name of the frog's ``owner``.
+   that contains the name of the frog's ``owner``. This Frog class can
+   be stored in {+client-database+} because it ``extends`` the
+   ``RealmObject`` class.
 
    .. tabs-realm-languages::
 
@@ -56,10 +58,59 @@ a {+service-short+} object in your application, create a subclass of
             All {+service-short+} objects defined in your Android
             application must use the ``public`` visibility modifier.
 
+.. example::
+
+   The following code block shows an object schema that describes a Frog.
+   Every Frog object must include a ``name`` and ``age`` and may
+   optionally include the frog's ``species`` and a String
+   that contains the name of the frog's ``owner``. This Frog class can
+   be stored in {+client-database+} because it ``implements`` the
+   ``RealmModel`` class and uses the ``@RealmClass`` annotation:
+
+   .. tabs-realm-languages::
+
+      .. tab::
+         :tabid: kotlin
+
+         .. include:: /examples/generated/android/local/FrogRealmModelExampleKt.codeblock.complete.kt.code-block.rst
+
+         .. important::
+
+            All {+service-short+} objects defined in your Android
+            application must use the ``open`` visibility modifier.
+
+      .. tab::
+         :tabid: java
+
+         .. include:: /examples/generated/android/local/FrogRealmModelExample.codeblock.complete.java.code-block.rst
+
+         .. important::
+
+            All {+service-short+} objects defined in your Android
+            application must use the ``public`` visibility modifier.
+
 .. important::
 
    All {+service-short+} objects defined in your Android application
    must provide an empty constructor.
+
+When you create a {+service-short+} object by extending the ``RealmObject``
+class, methods are available on dynamic methods. {+service-short+} objects
+created by implementing ``RealmModel`` use static ``RealmObject`` methods:
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/generated/android/local/RealmObjectVsRealmModelTest.codeblock.realm-object-vs-realm-model.kt
+         :language: kotlin
+
+   .. tab::
+      :tabid: java
+
+      .. literalinclude:: /examples/generated/android/local/RealmObjectVsRealmModelTest.codeblock.realm-object-vs-realm-model.java
+         :language: java
 
 .. _android-field-relationships-lists-example:
 
