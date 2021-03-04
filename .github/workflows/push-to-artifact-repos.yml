@@ -11,15 +11,16 @@ name: Push to Artifact Repos
 on: [push, pull_request]
 
 jobs:
-  publish:
+  push:
     runs-on: ubuntu-latest
     steps:
-      - uses: ./actions/push-to-artifact-repos
+      - uses: actions/checkout@v2
+      - uses: ./.github/actions/push-to-artifact-repo
         with:
           source: ./tutorial/rn
           state: start
           to-repo: https://${{ secrets.TUTORIAL_REPO_ACCESS_TOKEN }}@github.com/mongodb-university/realm-tutorial-react-native.git
-      - uses: ./actions/push-to-artifact-repos
+      - uses: ./github/actions/push-to-artifact-repo
         with:
           source: ./tutorial/rn
           state: final
