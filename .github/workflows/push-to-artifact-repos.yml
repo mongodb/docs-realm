@@ -8,10 +8,7 @@ name: Push to Artifact Repos
 # https://github.com/mongodb-university/realm-tutorial-android-kotlin
 # https://github.com/mongodb-university/realm-tutorial-dotnet
 
-on:
-  push:
-    branches:
-      - master
+on: [push, pull_request]
 
 jobs:
   publish:
