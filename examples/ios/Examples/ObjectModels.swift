@@ -89,7 +89,7 @@ class ObjectModelsExamples_Person: Object {
 }
 
 // To use the enum:
-class ObjectModelsExamples_TaskStatus: Object {
+class ObjectModelsExamples_Task: Object {
     @objc dynamic var name: String = ""
     @objc dynamic var owner: String?
 

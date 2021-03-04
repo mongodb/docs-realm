@@ -6,7 +6,7 @@
 }
 
 // To use the enum:
-class TaskStatus: Object {
+class Task: Object {
     @objc dynamic var name: String = ""
     @objc dynamic var owner: String?
 
