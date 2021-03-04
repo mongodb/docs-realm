@@ -22,22 +22,18 @@ Define a Realm Object Schema - Android SDK
 Define a Realm Object
 ---------------------
 
-To define
-a {+service-short+} object in your application, create a subclass of
-:java-sdk:`RealmObject <io/realm/RealmObject.html>` or implement
-:java-sdk:`RealmModel <io/realm/RealmModel.html>`.
+To define a {+service-short+} object in your application,
+create a subclass of :java-sdk:`RealmObject <io/realm/RealmObject.html>`
+or implement :java-sdk:`RealmModel <io/realm/RealmModel.html>`.
 
-Define a Realm Object by extending ``RealmObject``
---------------------------------------------------
+Extending ``RealmObject``
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. example::
 
-   The following code block shows an object schema that describes a Frog.
-   Every Frog object must include a ``name`` and ``age`` and may
-   optionally include the frog's ``species`` and a String
-   that contains the name of the frog's ``owner``. This Frog class can
-   be stored in {+client-database+} because it ``extends`` the
-   ``RealmObject`` class.
+   The following code block shows a {+service-short+} object that
+   describes a Frog. This Frog class can be stored in
+   {+client-database+} because it ``extends`` the ``RealmObject`` class.
 
    .. tabs-realm-languages::
 
@@ -61,15 +57,13 @@ Define a Realm Object by extending ``RealmObject``
             All {+service-short+} objects defined in your Android
             application must use the ``public`` visibility modifier.
 
-Define a Realm Object by implementing ``RealmModel``
-----------------------------------------------------
+Implementing ``RealmModel``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. example::
 
-   The following code block shows an object schema that describes a Frog.
-   Every Frog object must include a ``name`` and ``age`` and may
-   optionally include the frog's ``species`` and a String
-   that contains the name of the frog's ``owner``. This Frog class can
+   The following code block shows a {+service-short+} object that
+   describes a Frog. This Frog class can
    be stored in {+client-database+} because it ``implements`` the
    ``RealmModel`` class and uses the ``@RealmClass`` annotation:
 
@@ -99,6 +93,9 @@ Define a Realm Object by implementing ``RealmModel``
 
    All {+service-short+} objects defined in your Android application
    must provide an empty constructor.
+
+Using ``RealmObject`` Methods
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 When you create a {+service-short+} object by extending the ``RealmObject``
 class, methods are available on dynamic methods. {+service-short+} objects
