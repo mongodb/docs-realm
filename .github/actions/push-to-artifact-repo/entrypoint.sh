@@ -1,12 +1,12 @@
-#!/bin/bash -e
+#!/bin/bash -ex
 
 npm i -g bluehawk bluehawk-plugin-git
 
 bluehawk \
   --plugin "`bluehawk-plugin-git`" \
   git copy \
-  --to-repo "$INPUTS_TO_REPO" \
-  --state "$INPUTS_STATE" \
-  --branch "$INPUTS_STATE" \
+  --to-repo "$INPUT_TO_REPO" \
+  --state "$INPUT_STATE" \
+  --branch "$INPUT_STATE" \
   --delete-everything \
-  "$INPUTS_SOURCE"
+  "$INPUT_SOURCE"
