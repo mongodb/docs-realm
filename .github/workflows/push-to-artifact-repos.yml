@@ -1,7 +1,9 @@
 name: Push to Artifact Repos
 
-# TODO: change this to push to master branch only (and update to tutorial/**)
-on: [push]
+on:
+  push:
+    branches:
+      - master
 
 jobs:
   push:
@@ -56,4 +58,11 @@ jobs:
           states: final # note: backend does not currently use states
           source: ./tutorial/backend
           toRepo: https://${{ secrets.TUTORIAL_REPO_ACCESS_TOKEN }}@github.com/mongodb-university/realm-tutorial-backend.git
-# TODO: dotnet (arty-fact machine user does not currently have access)
+      - name: C#/.NET
+        uses: ./.github/actions/push-to-artifact-repo
+        with:
+          email: chris.bush+arty-fact@mongodb.com
+          name: Arty Fact
+          states: start final
+          source: ./tutorial/dotnet
+          toRepo: https://${{ secrets.TUTORIAL_REPO_ACCESS_TOKEN }}@github.com/mongodb-university/realm-tutorial-dotnet.git
