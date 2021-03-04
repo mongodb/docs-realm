@@ -1,12 +1,12 @@
 .. code-block:: kotlin
-   :emphasize-lines: 1, 1, 1
+   :emphasize-lines: 1, 1, 1, 6, 6
 
    val config = RealmConfiguration.Builder()
        .allowWritesOnUiThread(true)
        .allowQueriesOnUiThread(true)
-       .name("dynamic.realm")
+       .name("kt.dynamic.realm")
        .build()
-   val dynamicRealm = DynamicRealm.getInstance(config) // :emphasize
+   val dynamicRealm = DynamicRealm.getInstance(config) 
 
    // all objects in a DynamicRealm are DynamicRealmObjects
    var frog: DynamicRealmObject? = null
