@@ -4,9 +4,21 @@ on:
   push:
     branches:
       - master
+    paths:
+      - "tutorial/**"
 
 jobs:
+  check:
+    name: Bluehawk Check Tutorials
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 15.x
+      - run: npx bluehawk check -i "*.md" -i "*.properties" -i "*.lock" tutorial
   push:
+    needs: check
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
