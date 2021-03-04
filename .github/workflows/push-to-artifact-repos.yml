@@ -19,9 +19,9 @@ jobs:
         with:
           source: ./tutorial/rn
           state: start
-          to-repo: https://${{ secrets.TUTORIAL_REPO_ACCESS_TOKEN }}@github.com/mongodb-university/realm-tutorial-react-native.git
+          toRepo: https://${{ secrets.TUTORIAL_REPO_ACCESS_TOKEN }}@github.com/mongodb-university/realm-tutorial-react-native.git
       - uses: ./github/actions/push-to-artifact-repo
         with:
           source: ./tutorial/rn
           state: final
-          to-repo: https://${{ secrets.TUTORIAL_REPO_ACCESS_TOKEN }}@github.com/mongodb-university/realm-tutorial-react-native.git
+          toRepo: https://${{ secrets.TUTORIAL_REPO_ACCESS_TOKEN }}@github.com/mongodb-university/realm-tutorial-react-native.git
