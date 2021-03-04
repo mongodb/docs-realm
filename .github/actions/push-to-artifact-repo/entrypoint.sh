@@ -1,7 +1,9 @@
 #!/bin/bash -e
 
+npm i -g bluehawk bluehawk-plugin-git
+
 bluehawk \
-  --plugin "`npx bluehawk-plugin-git`" \
+  --plugin "`bluehawk-plugin-git`" \
   git copy \
   --to-repo "$INPUTS_TO_REPO" \
   --state "$INPUTS_STATE" \
