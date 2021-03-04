@@ -108,7 +108,7 @@ class WelcomeViewController: UIViewController {
 
     // :code-block-start: sign-up
     @objc func signUp() {
-        // :hide-start:
+        // :state-start: final
         setLoading(true);
         app.emailPasswordAuth.registerUser(email: email!, password: password!, completion: { [weak self](error) in
             // Completion handlers are not necessarily called on the UI thread.
@@ -129,16 +129,16 @@ class WelcomeViewController: UIViewController {
                 self!.signIn()
             }
         })
-        // :replace-with:
+        // :state-end: :state-uncomment-start: start
         // // TODO: Use the app's emailPasswordAuth to registerUser with the email and password.
         // // When registered, call signIn().
-        // :hide-end:
+        // :state-uncomment-end:
     }
     // :code-block-end:
 
     // :code-block-start: sign-in
     @objc func signIn() {
-        // :hide-start:
+        // :state-start: final
         print("Log in as user: \(email!)");
         setLoading(true);
 
@@ -181,13 +181,13 @@ class WelcomeViewController: UIViewController {
                 }
             }
         };
-        // :replace-with:
+        // :state-end: :state-uncomment-start: start
         // // TODO: Use app.login() to log in. Once logged in, open the user realm,
         // // then navigate to the ProjectsViewController.
         // // The user realm contains the synced custom user data object, which
         // // contains the list of projects the user is a member of.
         // // The user realm partition value is "user=\(user.id!)". 
-        // :hide-end:
+        // :state-uncomment-end:
     }
     // :code-block-end:
 }
