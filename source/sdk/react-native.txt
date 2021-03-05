@@ -1,0 +1,106 @@
+.. _react-native-intro:
+
+==============================
+MongoDB Realm React Native SDK
+==============================
+
+.. toctree::
+   :titlesonly:
+   :hidden:
+   
+   Install Realm for React Native </sdk/react-native/install>
+   Quick Start </sdk/react-native/quick-start-local>
+   Quick Start with Sync </sdk/react-native/quick-start>
+   Fundamentals </sdk/react-native/fundamentals>
+   Usage Examples </sdk/react-native/examples>
+   Advanced Guides </sdk/react-native/advanced>
+   
+   Javascript SDK Reference Manual <https://docs.mongodb.com/realm-sdks/js/>
+   Upgrade from Stitch to Realm </sdk/react-native/migrate>
+   Release Notes <https://github.com/realm/realm-js/releases>
+   
+The {+service+} React Native SDK enables client applications using the
+`React Native <https://facebook.github.io/react-native/>`__ framework for
+iOS and Android to access data stored in local {+realms+} and interact
+with backend services like Functions, MongoDB Data Access, and
+authentication. React Native enables you to build cross-platform iOS and
+Android apps with a single codebase using the `React
+<https://reactjs.org/>`__ framework. The React Native SDK supports both
+JavaScript and `TypeScript <https://www.typescriptlang.org/>`__
+applications.
+
+.. note::
+
+   The React Native SDK does not support JavaScript or TypeScript
+   applications written for web browsers. For that use case, you should
+   consider the :ref:`Web SDK <web-intro>`. For development on Node.js
+   without React, refer to the :ref:`Node.js SDK <node-intro>`
+   documentation.
+
+Installation
+------------
+
+To learn how to add the {+service+} React Native SDK library as a dependency to
+your application, see :ref:`Install Realm for React Native
+<react-native-install>`.
+
+Get Started
+-----------
+
+To get started quickly with some JavaScript or TypeScript code, see the :ref:`Quick Start
+<react-native-client-quick-start>`.
+
+The Realm Data Model
+--------------------
+
+You can store a wide variety of data within {+realms+} stored on your
+client. With :term:`{+sync+}`, you can share updates to that data across
+clients and {+atlas+}.
+
+For information about the structure of data you can store in {+realms+},
+see :ref:`Realms <react-native-realms>`, :ref:`Objects
+<react-native-object-schemas>`, and :ref:`Relationships
+<react-native-client-relationships>`.
+
+To learn about the results returned from {+realm+} queries, see
+:ref:`Collections <react-native-results-collections>`.
+
+Realm Database
+--------------
+
+Once you have defined a data model for your application, you
+need to be able to :ref:`write <react-native-realm-database-writes>` and
+:ref:`read <react-native-realm-database-reads>` pieces of data to and from
+your {+realm+}s.
+
+To learn how to query for data in local {+realms+}, see
+:ref:`Query Engine <react-native-client-query-engine>`.
+
+For information about how to react to changes in {+realm+} data, see
+:ref:`Notifications <react-native-change-notifications>`.
+
+For additional security, you can also :ref:`encrypt a {+realm+}
+<react-native-encrypt-a-realm>`.
+
+MongoDB Realm
+-------------
+
+The React Native SDK also connects your {+service-short+} client application
+with your {+app+}'s backend services, including Functions, Services,
+Webhooks, {+sync+}, and built-in third-party authentication.
+
+To get connected to your {+backend+} app, see
+:ref:`Connect to a MongoDB Realm Backend App <react-native-connect-to-mongodb-realm-backend-app>`.
+
+To learn how to connect to a {+backend+} app to call
+Functions, query data in an instance of {+atlas+}, and synchronize data
+in {+realms+}, see :ref:`Call a Function <react-native-call-a-function>`.
+
+To learn how to incorporate user authentication  within your {+backend+}
+app, see :doc:`Authentication </sdk/react-native/examples/authenticate-users/>`.
+
+To learn how to handle schema updates in your client application, see
+:ref:`Migrations <react-native-migrations>`.
+
+To learn how to query for data in MongoDB with the React Native SDK, see
+:ref:`Query MongoDB <react-native-mongodb-data-access>`.  

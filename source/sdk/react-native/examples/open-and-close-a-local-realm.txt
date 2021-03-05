@@ -1,0 +1,47 @@
+.. _react-native-open-close-local-realm:
+
+=============================================
+Open & Close a Local Realm - React Native SDK
+=============================================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+.. _react-native-open-a-local-realm:
+
+Open a Local Realm
+------------------
+
+To open a local (non-synced) {+realm+}, pass a :js-sdk:`Realm.Configuration
+<Realm.html#~Configuration>` object to either :js-sdk:`Realm.open()
+<Realm.html#.open>` or :js-sdk:`new Realm() <Realm.html>`.
+
+.. literalinclude:: /examples/generated/node/open-and-close-a-local-realm.codeblock.open-local-realm-with-car-schema.js
+  :language: javascript
+  :emphasize-lines: 2
+
+.. _react-native-close-a-realm:
+
+Close a Realm
+-------------
+
+It is important to remember to call the ``close()`` method when done with a
+{+realm+} instance to avoid memory leaks.
+
+.. literalinclude:: /examples/generated/node/open-and-close-a-local-realm.codeblock.close-local-realm.js
+  :language: javascript
+
+.. .. _react-native-local-realm-configuration:
+
+.. Local Realm Configuration
+.. -------------------------
+
+.. .. _react-native-provide-a-subset-of-classes-to-a-realm:
+
+.. Provide a Subset of Classes to a Realm
+.. ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
