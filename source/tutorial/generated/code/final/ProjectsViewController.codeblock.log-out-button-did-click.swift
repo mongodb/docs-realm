@@ -1,11 +1,11 @@
 @objc func logOutButtonDidClick() {
-    let alertController = UIAlertController(title: "Log Out", message: "", preferredStyle: .alert);
+    let alertController = UIAlertController(title: "Log Out", message: "", preferredStyle: .alert)
     alertController.addAction(UIAlertAction(title: "Yes, Log Out", style: .destructive, handler: {
-        alert -> Void in
-        print("Logging out...");
-        app.currentUser?.logOut() { (error) in
+        _ -> Void in
+        print("Logging out...")
+        app.currentUser?.logOut { (_) in
             DispatchQueue.main.async {
-                print("Logged out!");
+                print("Logged out!")
                 self.navigationController?.popViewController(animated: true)
             }
         }

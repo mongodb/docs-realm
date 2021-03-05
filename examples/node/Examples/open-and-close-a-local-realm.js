@@ -18,8 +18,23 @@ describe("Open and Close a Local Realm", () => {
       schema: [CarSchema],
     });
     // :code-block-end:
+
+    // :code-block-start: open-local-realm-synchronously
+    // :replace-start: {
+    //   "terms": {
+    //     "synchronouslyOpenedRealm": "realm"
+    //   }
+    // }
+    // Synchronously open a local realm file with a particular path & predefined CarSchema
+    const synchronouslyOpenedRealm = new Realm({
+      path: "myrealm",
+      schema: [CarSchema],
+    });
+    // :replace-end:
+    // :code-block-end:
+
     // you can test that a realm has been open in general (but not if a realm has been open with a specific path or schema)
-    expect(realm).toStrictEqual(new Realm());
+    expect(realm).toStrictEqual(synchronouslyOpenedRealm);
     // :code-block-start: close-local-realm
     realm.close();
     // :code-block-end:
