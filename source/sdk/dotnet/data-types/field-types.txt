@@ -39,6 +39,8 @@ within {+client-database+}.
 
 If you choose to provide custom constructors, you must declare a public constructor with no arguments.
 
+.. _realminteger:
+
 RealmInteger<T>
 ---------------
 
@@ -55,15 +57,15 @@ an ``int``:
    :language: csharp
 
 Traditionally, a counter would be implemented by reading a value, incrementing 
-it, and then setting it (myObject.Counter += 1). This does not work well in an 
-asynchronous situation (for example, when two clients are offline). Consider 
+it, and then setting it (``myObject.Counter += 1``). This does not work well in 
+an asynchronous situation like when two clients are offline. Consider 
 the following scenario:
 
-- The {+realm+} object has a "counter" property of type int. It is currently 
+- The {+realm+} object has a ``counter`` property of type ``int``. It is currently 
   set to a value of ``10``.
 
-- Clients 1 and 2 both read the "counter" property (``10``) and each increments 
-  the value by 1.
+- Clients 1 and 2 both read the ``counter`` property (``10``) and each increments 
+  the value by ``1``.
 
 - When each client regains connectivity and merges their changes, they expect a 
   value of 11, and there is no conflict. However, the counter value should be 
@@ -81,9 +83,9 @@ you would an ``int``:
    When you reset a ``RealmInteger``, you may run into the offline merge issue 
    described above.
 
-
-``RealmInteger``s are backed by traditional integer types, so no migration is 
-required when changing a property type from T to RealmInteger<T>.
+A ``RealmInteger`` is backed by traditional ``integer`` type, so no schema 
+migration is required when changing a property type from ``T`` to 
+``RealmInteger<T>``.
 
 .. _dotnet-decimal128:
 
