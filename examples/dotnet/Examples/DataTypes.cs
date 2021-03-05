@@ -8,7 +8,7 @@ namespace Examples
     public class MyRealmClass : RealmObject
     {
         [PrimaryKey]
-        public int Id { get; set; }
+        public int _id { get; set; }
         public RealmInteger<int> Counter { get; set; }
     }
     // :code-block-end:
@@ -36,7 +36,7 @@ namespace Examples
                 realm.Add(mrc);
             });
 
-            var id = mrc.Id;
+            var id = mrc._id;
             //:code-block-start:realmint-use
             var myObject = realm.Find<MyRealmClass>(id);
             var counter = myObject.Counter; // 0
