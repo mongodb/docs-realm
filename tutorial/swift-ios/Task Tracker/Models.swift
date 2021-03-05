@@ -28,8 +28,8 @@ class User: Object {
 // :code-block-start: project-model
 class Project: EmbeddedObject {
     // :state-start: final
-    @objc dynamic var name: String? = nil
-    @objc dynamic var partition: String? = nil
+    @objc dynamic var name: String?
+    @objc dynamic var partition: String?
     convenience init(partition: String, name: String) {
         self.init()
         self.partition = partition
@@ -53,7 +53,7 @@ class Task: Object {
     @objc dynamic var _id: ObjectId = ObjectId.generate()
     @objc dynamic var _partition: String = ""
     @objc dynamic var name: String = ""
-    @objc dynamic var owner: String? = nil
+    @objc dynamic var owner: String?
     @objc dynamic var status: String = ""
     override static func primaryKey() -> String? {
         return "_id"
@@ -67,7 +67,7 @@ class Task: Object {
             status = newValue.rawValue
         }
     }
-    
+
     convenience init(partition: String, name: String) {
         self.init()
         self._partition = partition
@@ -91,4 +91,3 @@ struct Member {
         self.name = document["name"]!!.stringValue!
     }
 }
-
