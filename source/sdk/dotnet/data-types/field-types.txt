@@ -41,22 +41,22 @@ If you choose to provide custom constructors, you must declare a public construc
 
 .. _realminteger:
 
-RealmInteger<T>
----------------
+RealmInteger
+------------
 
 Realm offers 
 :dotnet-sdk:`RealmInteger<T> <reference/Realms.RealmInteger-1.html>` as a 
 special integer type to be used as a logical counter. ``RealmInteger<T>`` 
 exposes an additional API that can more clearly express intent and generate 
 better conflict resolution steps when using Synchronized Realms. The type 
-argument <T> can be of type ``byte``, ``short``, ``int``, or ``long``. The 
+argument ``<T>`` can be of type ``byte``, ``short``, ``int``, or ``long``. The 
 following example shows how to use a ``RealmInteger`` property that maps to 
 an ``int``:
 
 .. literalinclude:: /examples/generated/dotnet/DataTypes.codeblock.realmint-class.cs
    :language: csharp
 
-Traditionally, a counter would be implemented by reading a value, incrementing 
+Traditionally, you would implement a counter by reading a value, incrementing 
 it, and then setting it (``myObject.Counter += 1``). This does not work well in 
 an asynchronous situation like when two clients are offline. Consider 
 the following scenario:
