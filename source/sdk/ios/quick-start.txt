@@ -1,0 +1,120 @@
+.. _ios-client-quick-start:
+
+=====================
+Quick Start - iOS SDK
+=====================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Prerequisites
+-------------
+
+Before you begin, ensure you have :ref:`Installed the iOS SDK <ios-install>`.
+
+.. note:: This Quickstart is Local-only
+   
+   For a quickstart featuring communicating with a backend {+app+} over the 
+   network using :ref:`{+sync-short+} <sync>`, Realm Functions, or user 
+   management, see the :ref:`Quick Start with {+sync-short+} <ios-client-quick-start-with-sync>`, 
+   or the full :ref:`iOS Tutorial <ios-swift-tutorial>`.
+
+Import Realm
+------------
+
+Near the top of any Swift file that uses Realm, add the following import
+statement:
+
+.. literalinclude:: /examples/generated/code/start/LocalOnlyCompleteQuickStart.codeblock.import-realmswift.swift
+   :language: swift
+
+Define Your Object Model
+------------------------
+
+For a local-only {+client-database+} you can define your :ref:`object model
+<ios-realm-objects>` directly in code.
+
+.. literalinclude:: /examples/generated/code/start/LocalOnlyCompleteQuickStart.codeblock.quick-start-local-define-object-model.swift
+   :language: swift
+
+Open a Realm
+------------
+
+In a local-only {+client-database+}, the simplest option to open a {+realm+}
+is by omitting the configuration parameter, which uses the default {+realm+}:
+
+.. literalinclude:: /examples/generated/code/start/LocalOnlyCompleteQuickStart.codeblock.quick-start-local-open-realm-without-config-param.swift
+   :language: swift
+
+You can also specify a :swift-sdk:`Realm.Configuration <Structs/Realm/Configuration.html>` 
+parameter to open a {+realm+} at a specific file URL, in-memory, or with a 
+subset of classes.
+
+.. seealso::
+
+   :ref:`Open a Local Realm <ios-open-a-local-realm>`
+
+Create, Read, Update, and Delete Objects
+----------------------------------------
+
+Once you have opened a {+realm+}, you can modify it and its :ref:`objects <ios-realm-objects>` 
+in a :ref:`write transaction <ios-write-transactions>` block.
+
+To create a new Task, instantiate the Task class and add it to the {+realm+} in a write block:
+
+.. literalinclude:: /examples/generated/code/start/LocalOnlyCompleteQuickStart.codeblock.quick-start-local-write-transaction.swift
+   :language: swift
+
+You can retrieve a live :ref:`collection <ios-client-collections>` of all tasks in the {+realm+}:
+
+.. literalinclude:: /examples/generated/code/start/LocalOnlyCompleteQuickStart.codeblock.quick-start-local-live-collection-of-all-tasks.swift
+   :language: swift
+
+You can also filter that collection using a :ref:`filter <ios-client-query-engine>`:
+
+.. literalinclude:: /examples/generated/code/start/LocalOnlyCompleteQuickStart.codeblock.quick-start-local-filter-collection.swift
+   :language: swift
+
+To modify a task, update its properties in a write transaction block:
+
+.. literalinclude:: /examples/generated/code/start/LocalOnlyCompleteQuickStart.codeblock.quick-start-local-modify-task.swift
+   :language: swift
+
+Finally, you can delete a task:
+
+.. literalinclude:: /examples/generated/code/start/LocalOnlyCompleteQuickStart.codeblock.quick-start-local-delete-task.swift
+   :language: swift
+
+Watch for Changes
+-----------------
+
+You can :ref:`watch a realm, collection, or object for changes
+<ios-react-to-changes>` with the ``observe`` method.
+
+.. note::
+
+   Be sure to retain the notification token returned by ``observe`` as 
+   long as you want to continue observing. When you are done observing, 
+   invalidate the token to free the resources.
+
+.. literalinclude:: /examples/generated/code/start/LocalOnlyCompleteQuickStart.codeblock.quick-start-local-set-notification-token.swift
+   :language: swift
+
+Later, when done observing:
+
+.. literalinclude:: /examples/generated/code/start/LocalOnlyCompleteQuickStart.codeblock.quick-start-local-invalidate-notification-token.swift
+   :language: swift
+
+Complete Example
+----------------
+
+Run the complete example by calling ``runLocalOnlyExample()``.
+
+.. literalinclude:: /examples/generated/code/start/LocalOnlyCompleteQuickStart.codeblock.complete-quick-start-local.swift
+   :language: swift
+
