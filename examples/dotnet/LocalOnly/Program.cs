@@ -124,6 +124,16 @@ namespace LocalOnly
             };
             //:code-block-end:
         }
+
+        public void InMemory()
+        {
+            //:code-block-start:in-memory
+            var config = new InMemoryConfiguration("some-identifier");
+            var realm = Realm.GetInstance(config);
+            //:code-block-end:
+        }
+
+
     }
 
     public class AClassWorthStoring : RealmObject

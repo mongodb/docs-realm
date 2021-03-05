@@ -29,6 +29,7 @@ Field Types - .NET SDK
 - ``DateTimeOffset``
 - ``Decimal128`` from ``MongoDB.Bson``
 - ``ObjectId`` from ``MongoDB.Bson``
+- ``RealmInteger<T>`` (see below)
 - A ``RealmObject`` subclass 
 - An ``EmbeddedObject`` subclass (see :ref:`Embedded Objects <dotnet-property-embedded>`)
 - ``IList<T>`` where T is any of the previous data types (see :ref:`Lists <dotnet-property-lists>`)
@@ -37,6 +38,52 @@ The ``byte``, ``char``, ``short``, ``int``, and ``long`` types  are all stored a
 within {+client-database+}. 
 
 If you choose to provide custom constructors, you must declare a public constructor with no arguments.
+
+RealmInteger<T>
+---------------
+
+Realm offers 
+:dotnet-sdk:`RealmInteger<T> <reference/Realms.RealmInteger-1.html>` as a 
+special integer type to be used as a logical counter. ``RealmInteger<T>`` 
+exposes an additional API that can more clearly express intent and generate 
+better conflict resolution steps when using Synchronized Realms. The type 
+argument <T> can be of type ``byte``, ``short``, ``int``, or ``long``. The 
+following example shows how to use a ``RealmInteger`` property that maps to 
+an ``int``:
+
+.. literalinclude:: /examples/generated/dotnet/DataTypes.codeblock.realmint-class.cs
+   :language: csharp
+
+Traditionally, a counter would be implemented by reading a value, incrementing 
+it, and then setting it (myObject.Counter += 1). This does not work well in an 
+asynchronous situation (for example, when two clients are offline). Consider 
+the following scenario:
+
+- The {+realm+} object has a "counter" property of type int. It is currently 
+  set to a value of ``10``.
+
+- Clients 1 and 2 both read the "counter" property (``10``) and each increments 
+  the value by 1.
+
+- When each client regains connectivity and merges their changes, they expect a 
+  value of 11, and there is no conflict. However, the counter value should be 
+  ``12``!
+
+When using a ``RealmInteger``, however, you can call the ``Increment()`` and 
+``Decrement()`` methods, and to reset the counter, you set it to ``0``, just as 
+you would an ``int``:
+
+.. literalinclude:: /examples/generated/dotnet/DataTypes.codeblock.realmint-use.cs
+   :language: csharp
+
+.. important::
+
+   When you reset a ``RealmInteger``, you may run into the offline merge issue 
+   described above.
+
+
+``RealmInteger``s are backed by traditional integer types, so no migration is 
+required when changing a property type from T to RealmInteger<T>.
 
 .. _dotnet-decimal128:
 
