@@ -26,7 +26,8 @@ in the function manifest file: ``/functions/config.json``.
    {+service-short+} automatically adds functions to the manifest on import if
    they don't already have a configuration defined. If you're okay with the
    default settings, you can skip defining the configuration for a function and
-   let {+service-short+} do it for you.
+   let {+service-short+} do it for you. The manifest will include the generated
+   configurations the next time you export or pull your app.
 
 .. code-block:: json
    :caption: functions/config.json
@@ -105,8 +106,9 @@ the main function that runs whenever a request calls the function.
 .. important::
    
    You can organize source code files by defining arbitrary subdirectories
-   within ``/functions``. However, {+service-short+} ignores file paths so every
-   file name must be unique, even in different directories.
+   within ``/functions``. However, Realm identifies each function's source code
+   strictly by file name, so all ``.js`` files must have unique names, even if
+   they are in different directories.
 
 .. code-block:: javascript
    :caption: /functions/<function name>.js

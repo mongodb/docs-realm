@@ -1,8 +1,8 @@
 .. _appconfig-environment:
 
-========================================
-Environment Variable Configuration Files
-========================================
+=====================================
+Environment Value Configuration Files
+=====================================
 
 .. default-domain:: mongodb
 
@@ -19,17 +19,13 @@ Environment Variable Configuration Files
 Environment Configuration
 -------------------------
 
-You can define variables for each :ref:`environment <environment-variables>` in
-a ``.json`` file within the ``/environments`` directory that uses the
+You can define variable values for each :ref:`environment <environment-values>`
+in a ``.json`` file within the ``/environments`` directory that uses the
 environment name as its file name.
 
 {+service-short+} supports the following environments:
 
-- ``no-environment``
-- ``development``
-- ``testing``
-- ``qa``
-- ``production``
+.. include:: /includes/list-of-environment-names.rst
 
 .. code-block:: json
    :caption: environments/<environment name>.json
@@ -49,5 +45,5 @@ environment name as its file name.
     
    * - | ``values``
        | Object
-     - An object where each property maps the name of an environment variable to
-       its value in the current environment.
+     - An object where each property maps the name of an environment value name
+       to its value in the current environment.

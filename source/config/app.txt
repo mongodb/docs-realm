@@ -24,6 +24,7 @@ Configuration
      "app_id": "<Realm Application ID>",
      "name": "<Realm Application Name>",
      "config_version": <Version Number>,
+     "environment": "<Environment Name>",
      "allowed_request_origins": ["<Origin URL>", ...],
      "deployment_model": "<Deployment Model Type>",
      "location": "<Deployment Cloud Region Name>"
@@ -52,6 +53,18 @@ Configuration
      - The schema version that all configuration files in the application
        conform to. This value is machine generated and you typically should not
        manually set or modify it.
+   
+   * - | ``environment``
+       | String
+     
+     - The name of the environment the app should
+       use when evaluating :ref:`environment values <environment-values>`.
+       
+       Valid options:
+       
+       .. include:: /includes/list-of-environment-names.rst
+       
+       Default: ``"no-environment"``
    
    * - | ``allowed_request_origins``
        | Document
