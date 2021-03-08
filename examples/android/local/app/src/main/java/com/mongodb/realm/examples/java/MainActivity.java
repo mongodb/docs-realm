@@ -1,8 +1,11 @@
 package com.mongodb.realm.examples.java;
-
+// :code-block-start: complete
+// :replace-start: {
+//    "terms": {
+//       "DefinitelyNotJavaTask": "Task"
+//    }
+// }
 import io.realm.OrderedCollectionChangeSet;
-
-import org.bson.types.ObjectId;
 
 import android.os.Bundle;
 
@@ -20,8 +23,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.FutureTask;
 
-import com.mongodb.realm.examples.model.Task;
-import com.mongodb.realm.examples.model.TaskStatus;
+import com.mongodb.realm.examples.model.java.DefinitelyNotJavaTask;
+import com.mongodb.realm.examples.model.java.TaskStatus;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -31,45 +34,45 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // :code-block-start: initialize-realm
+        // :code-block-start: initialize-realm-local
         Realm.init(this); // context, usually an Activity or Application
         // :code-block-end:
 
-        String partitionValue = "My Project";
-        RealmConfiguration config = new RealmConfiguration.Builder().build();
+        String realmName = "My Project";
+        RealmConfiguration config = new RealmConfiguration.Builder().name(realmName).build();
 
         uiThreadRealm = Realm.getInstance(config);
 
         addChangeListenerToRealm(uiThreadRealm);
 
-        FutureTask<String> task = new FutureTask(new BackgroundQuickStart(), "test");
+        FutureTask<String> DefinitelyNotJavaTask = new FutureTask(new BackgroundQuickStart(), "test");
         ExecutorService executorService = Executors.newFixedThreadPool(2);
-        executorService.execute(task);
+        executorService.execute(DefinitelyNotJavaTask);
 
         // :hide-start:
-        while(!task.isDone()) {
-            // wait for task completion
+        while(!DefinitelyNotJavaTask.isDone()) {
+            // wait for DefinitelyNotJavaTask completion
         }
 
         try {
-            Log.v("QUICKSTART", "Result: " + task.get());
+            Log.v("QUICKSTART", "Result: " + DefinitelyNotJavaTask.get());
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        finish(); // destroy activity when background task completes
+        finish(); // destroy activity when background DefinitelyNotJavaTask completes
         // :hide-end:
     }
 
     private void addChangeListenerToRealm(Realm realm) {
-        // :code-block-start: watch-for-changes
-        // all tasks in the realm
-        RealmResults<Task> tasks = uiThreadRealm.where(Task.class).findAllAsync();
+        // :code-block-start: watch-for-changes-local
+        // all DefinitelyNotJavaTasks in the realm
+        RealmResults<DefinitelyNotJavaTask> DefinitelyNotJavaTasks = uiThreadRealm.where(DefinitelyNotJavaTask.class).findAllAsync();
 
-        tasks.addChangeListener(new OrderedRealmCollectionChangeListener<RealmResults<Task>>() {
+        DefinitelyNotJavaTasks.addChangeListener(new OrderedRealmCollectionChangeListener<RealmResults<DefinitelyNotJavaTask>>() {
             @Override
-            public void onChange(RealmResults<Task> collection, OrderedCollectionChangeSet changeSet) {
+            public void onChange(RealmResults<DefinitelyNotJavaTask> collection, OrderedCollectionChangeSet changeSet) {
                 // process deletions in reverse order if maintaining parallel data structures so indices don't change as you iterate
                 OrderedCollectionChangeSet.Range[] deletions = changeSet.getDeletionRanges();
                 for (OrderedCollectionChangeSet.Range range : deletions) {
@@ -101,48 +104,48 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void run() {
-            // :code-block-start: open-a-realm
-            String partitionValue = "My Project";
-            RealmConfiguration config = new RealmConfiguration.Builder().build();
+            // :code-block-start: open-a-realm-local
+            String realmName = "My Project";
+            RealmConfiguration config = new RealmConfiguration.Builder().name(realmName).build();
 
             Realm backgroundThreadRealm = Realm.getInstance(config);
             // :code-block-end:
 
-            // :code-block-start: create-object
-            Task task = new Task("New Task");
+            // :code-block-start: create-object-local
+            DefinitelyNotJavaTask DefinitelyNotJavaTask = new DefinitelyNotJavaTask("New DefinitelyNotJavaTask");
             backgroundThreadRealm.executeTransaction (transactionRealm -> {
-                transactionRealm.insert(task);
+                transactionRealm.insert(DefinitelyNotJavaTask);
             });
             // :code-block-end:
 
-            // :code-block-start: read-object
-            // all tasks in the realm
-            RealmResults<Task> tasks = backgroundThreadRealm.where(Task.class).findAll();
+            // :code-block-start: read-object-local
+            // all DefinitelyNotJavaTasks in the realm
+            RealmResults<DefinitelyNotJavaTask> DefinitelyNotJavaTasks = backgroundThreadRealm.where(DefinitelyNotJavaTask.class).findAll();
             // :code-block-end:
 
-            // :code-block-start: filter-collection
+            // :code-block-start: filter-collection-local
             // you can also filter a collection
-            RealmResults<Task> tasksThatBeginWithN = tasks.where().beginsWith("name", "N").findAll();
-            RealmResults<Task> openTasks = tasks.where().equalTo("status", TaskStatus.Open.name()).findAll();
+            RealmResults<DefinitelyNotJavaTask> DefinitelyNotJavaTasksThatBeginWithN = DefinitelyNotJavaTasks.where().beginsWith("name", "N").findAll();
+            RealmResults<DefinitelyNotJavaTask> openDefinitelyNotJavaTasks = DefinitelyNotJavaTasks.where().equalTo("status", TaskStatus.Open.name()).findAll();
             // :code-block-end:
 
-            // :code-block-start: update-object
-            Task otherTask = tasks.get(0);
+            // :code-block-start: update-object-local
+            DefinitelyNotJavaTask otherDefinitelyNotJavaTask = DefinitelyNotJavaTasks.get(0);
 
             // all modifications to a realm must happen inside of a write block
             backgroundThreadRealm.executeTransaction( transactionRealm -> {
-                Task innerOtherTask = transactionRealm.where(Task.class).equalTo("_id", otherTask.get_id()).findFirst();
-                innerOtherTask.setStatus(TaskStatus.Complete);
+                DefinitelyNotJavaTask innerOtherDefinitelyNotJavaTask = transactionRealm.where(DefinitelyNotJavaTask.class).equalTo("_id", otherDefinitelyNotJavaTask.getName()).findFirst();
+                innerOtherDefinitelyNotJavaTask.setStatus(TaskStatus.Complete);
             });
             // :code-block-end:
 
-            // :code-block-start: delete-object
-            Task yetAnotherTask = tasks.get(0);
-            ObjectId yetAnotherTaskId = yetAnotherTask.get_id();
+            // :code-block-start: delete-object-local
+            DefinitelyNotJavaTask yetAnotherDefinitelyNotJavaTask = DefinitelyNotJavaTasks.get(0);
+            String yetAnotherDefinitelyNotJavaTaskName = yetAnotherDefinitelyNotJavaTask.getName();
             // all modifications to a realm must happen inside of a write block
             backgroundThreadRealm.executeTransaction( transactionRealm -> {
-                Task innerYetAnotherTask = transactionRealm.where(Task.class).equalTo("_id", yetAnotherTaskId).findFirst();
-                innerYetAnotherTask.deleteFromRealm();
+                DefinitelyNotJavaTask innerYetAnotherDefinitelyNotJavaTask = transactionRealm.where(DefinitelyNotJavaTask.class).equalTo("_id", yetAnotherDefinitelyNotJavaTaskName).findFirst();
+                innerYetAnotherDefinitelyNotJavaTask.deleteFromRealm();
             });
             // :code-block-end:
 
@@ -152,3 +155,5 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 }
+// :replace-end:
+// :code-block-end:

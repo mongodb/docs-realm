@@ -32,8 +32,8 @@ namespace RealmDotnetTutorial
             try
             {
                 var syncConfig = new SyncConfiguration(
-                    $"project={App.realmApp.CurrentUser.Id }",
-                    App.realmApp.CurrentUser);
+                    $"project={App.RealmApp.CurrentUser.Id }",
+                    App.RealmApp.CurrentUser);
                 // :code-block-start:task-realm-config
                 // :state-start: final
                 taskRealm = await Realm.GetInstanceAsync(syncConfig);
@@ -89,7 +89,7 @@ namespace RealmDotnetTutorial
 
             if (taskRealm == null)
             {
-                var syncConfig = new SyncConfiguration($"project={App.realmApp.CurrentUser.Id }", App.realmApp.CurrentUser);
+                var syncConfig = new SyncConfiguration($"project={App.RealmApp.CurrentUser.Id }", App.RealmApp.CurrentUser);
                 taskRealm = await Realm.GetInstanceAsync(syncConfig);
             }
 

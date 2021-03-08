@@ -1,3 +1,3 @@
 let realm = try! Realm()
 
-let specificDogOwner = realm.object(ofType: DogOwner.self, forPrimaryKey: 12345)
+let specificPerson = realm.object(ofType: Person.self, forPrimaryKey: 12345)

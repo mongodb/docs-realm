@@ -1,0 +1,102 @@
+.. _node-intro:
+
+=========================
+MongoDB Realm Node.js SDK
+=========================
+
+.. toctree::
+   :titlesonly:
+   :hidden:
+   
+   Install Realm for Node.js </sdk/node/install>
+   Quick Start </sdk/node/quick-start-local>
+   Quick Start with Sync </sdk/node/quick-start>
+   Fundamentals </sdk/node/fundamentals>
+   Usage Examples </sdk/node/examples>
+   Integration Guides </sdk/node/integrations>
+   Advanced Guides </sdk/node/advanced>
+   
+   Javascript SDK Reference Manual <https://docs.mongodb.com/realm-sdks/js/>
+   Upgrade from Stitch to Realm </sdk/node/migrate>
+   Release Notes <https://github.com/realm/realm-js/releases>
+   
+The {+service+} Node.js SDK enables server-side
+client applications to access data stored in local {+realms+}
+and interact with {+backend+} services like Functions, MongoDB Data
+Access, and authentication. The Node.js SDK supports both JavaScript and
+TypeScript applications.
+
+.. note::
+
+   The Node.js SDK does not support JavaScript or TypeScript
+   applications written for web browsers. For that use case, you should
+   consider the :ref:`Web SDK <web-intro>`. For development in React
+   Native, refer to the :ref:`React Native SDK <react-native-intro>`
+   documentation.
+
+Installation
+------------
+
+To learn how to add the {+service+} Node.js SDK library as a dependency
+to your application, see :ref:`Install Realm for Node.js
+<node-install>`.
+
+Get Started
+-----------
+
+To get started quickly with some JavaScript or TypeScript code, see the
+:ref:`Quick Start <node-client-quick-start>`. To quickly learn to build a
+desktop application using Electron and React, see the :ref:`Quick Start for
+Electron using React <node-electron-cra-client-quick-start>`.
+
+The Realm Data Model
+--------------------
+
+You can store a wide variety of data within {+realms+} stored on your
+client. With :term:`{+sync+}`, you can share updates to that data across
+clients and {+atlas+}.
+
+For information about the structure of data you can store in {+realms+},
+see :ref:`Realms <node-realms>`, :ref:`Objects
+<node-object-schemas>`, and :ref:`Relationships
+<node-client-relationships>`.
+
+To learn about the results returned from {+realm+} queries, see
+:ref:`Collections <node-results-collections>`.
+
+Realm Database
+--------------
+
+Once you have defined a data model for your application, you
+need to be able to :ref:`write <node-realm-database-writes>` and
+:ref:`read <node-realm-database-reads>` pieces of data to and from
+your {+realm+}s.
+
+To learn how to query for data in local {+realms+}, see
+:ref:`Query Engine <node-client-query-engine>`.
+
+For information about how to react to changes in {+realm+} data, see
+:ref:`Notifications <node-change-notifications>`.
+
+For additional security, you can also :ref:`encrypt a {+realm+}
+<node-encrypt-a-realm>`.
+
+MongoDB Realm
+-------------
+
+The Node.js SDK also connects your {+service-short+} client application
+with your {+app+}'s backend services, including Functions, Services,
+Webhooks, {+sync+}, and built-in third-party authentication.
+
+To learn how to connect to a {+backend+} app to call
+Functions, query data in an instance of {+atlas+}, and synchronize data
+in {+realms+}, see :ref:`Call a Function <node-call-a-function>`.
+
+To learn how to incorporate user authentication  within your {+backend+}
+app, see :doc:`Authentication </sdk/node/examples/authenticate-users/>`.
+
+To learn how to handle schema updates in your client application, see
+:ref:`Migrations <node-migrations>`.
+
+To learn how to query for data in MongoDB with the Node.js SDK, see
+:ref:`Query MongoDB <node-mongodb-data-access>`.  

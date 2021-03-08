@@ -84,7 +84,7 @@ internal class TaskAdapter(data: OrderedRealmCollection<Task>, val user: io.real
 
     private fun changeStatus(status: TaskStatus, _id: ObjectId?) {
         // :code-block-start: change-task-status
-        // :hide-start:
+        // :state-start: final
         // need to create a separate instance of realm to issue an update, since this event is
         // handled by a background thread and realm instances cannot be shared across threads
         val config = SyncConfiguration.Builder(user, partition)
@@ -100,18 +100,18 @@ internal class TaskAdapter(data: OrderedRealmCollection<Task>, val user: io.real
         }
         // always close realms when you are done with them!
         realm.close()
-        // :replace-with:
+        // :state-end: :state-uncomment-start: start
         //// TODO: Change the status of the specified Task object in the project realm.
         //// Step 1: Connect to the project realm using the `partition` member variable of the adapter.
         //// Step 2: Query the realm for the Task with the specified _id value.
         //// Step 3: Set the `statusEnum` property of the Task to the specified status value.
-        // :hide-end:
+        // :state-uncomment-end:
         // :code-block-end:
     }
 
     private fun removeAt(id: ObjectId) {
         // :code-block-start: delete-task
-        // :hide-start:
+        // :state-start: final
         // need to create a separate instance of realm to issue an update, since this event is
         // handled by a background thread and realm instances cannot be shared across threads
         val config = SyncConfiguration.Builder(user, partition)
@@ -127,12 +127,12 @@ internal class TaskAdapter(data: OrderedRealmCollection<Task>, val user: io.real
         }
         // always close realms when you are done with them!
         realm.close()
-        // :replace-with:
+        // :state-end: :state-uncomment-start: start
         //// TODO: Delete the specified Task object from the project realm.
         //// Step 1: Connect to the project realm using the `partition` member variable of the adapter.
         //// Step 2: Query the realm for the Task with the specified _id value.
         //// Step 3: Delete the Task from the project realm.
-        // :hide-end:
+        // :state-uncomment-end:
         // :code-block-end:
     }
 

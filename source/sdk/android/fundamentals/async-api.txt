@@ -1,0 +1,66 @@
+.. _android-async-api:
+
+==============================
+Asynchronous API - Android SDK
+==============================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+The {+service-short+} Android SDK lets you access network and disk
+resources in two ways: **synchronously** and **asynchronously**. While
+synchronous, or "sync", requests block execution until the request returns
+success or failure, asynchronous, or "async", requests assign a
+callback and proceed execution to the next line of code. When
+the request returns, the callback runs to process results.
+In the callback, you can check if the request executed
+successfully and either access the returned results or the returned
+error.
+
+Example
+-------
+
+Asynchronous API requests in the Android SDK end with the suffix "Async".
+These requests, such as :java-sdk:`callFunctionAsync()
+<io/realm/mongodb/functions/Functions.html#callFunctionAsync-java.lang.String-java.util.List--io.realm.mongodb.App.Callback->`
+use subclasses of :java-sdk:`App.Callback
+<io/realm/mongodb/App.Callback.html>` to handle callbacks. When an async
+request completes, async methods such as ``callFunctionAsync()``
+pass results of type :java-sdk:`App.Result
+<io/realm/mongodb/App.Result.html>` into the :java-sdk:`onResult()
+<io/realm/mongodb/App.Callback.html#onResult-io.realm.mongodb.App.Result->` method
+of an ``App.Callback`` subclass. You can override this method by passing
+a lambda function that accepts a single ``App.Result`` parameter as the
+final argument of an async method.
+
+The following example shows how to
+add a callback to an async request and handle the success or failure of that
+request. In this example, we actually use **two** callbacks: one to handle the
+result of logging in a user, and one to handle the result of calling a
+function:
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: java
+
+      .. literalinclude:: /examples/generated/android/sync/FunctionTest.codeblock.call-a-function.java
+         :language: java
+   
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/generated/android/sync/FunctionTest.codeblock.call-a-function.kt
+         :language: kotlin
+
+You can use the ``isSuccess()`` method of the ``App.Result`` passed to
+your callback to check if the request returned successfully. If
+``isSuccess()`` returns ``true``, you can access the result of the
+request using the ``get()`` method. In Kotlin, these requests use property
+syntax instead of direct method calls, so ``isSuccess()`` becomes
+``success`` and ``get()`` becomes ``get``.

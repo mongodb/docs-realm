@@ -31,15 +31,15 @@ class WelcomeViewController: UIViewController {
     }
 
     override func viewDidLoad() {
-        super.viewDidLoad();
+        super.viewDidLoad()
         view.backgroundColor = .white
 
         // Create a view that will automatically lay out the other controls.
-        let container = UIStackView();
+        let container = UIStackView()
         container.translatesAutoresizingMaskIntoConstraints = false
         container.axis = .vertical
         container.alignment = .fill
-        container.spacing = 16.0;
+        container.spacing = 16.0
         view.addSubview(container)
 
         // Configure the activity indicator.
@@ -56,7 +56,7 @@ class WelcomeViewController: UIViewController {
             container.topAnchor.constraint(equalTo: guide.topAnchor, constant: 16),
             // The activity indicator is centered over the rest of the view.
             activityIndicator.centerYAnchor.constraint(equalTo: guide.centerYAnchor),
-            activityIndicator.centerXAnchor.constraint(equalTo: guide.centerXAnchor),
+            activityIndicator.centerXAnchor.constraint(equalTo: guide.centerXAnchor)
             ])
 
         // Add some text at the top of the view to explain what to do.
@@ -78,11 +78,11 @@ class WelcomeViewController: UIViewController {
         container.addArrangedSubview(passwordField)
 
         // Configure the sign in and sign up buttons.
-        signInButton.setTitle("Sign In", for: .normal);
+        signInButton.setTitle("Sign In", for: .normal)
         signInButton.addTarget(self, action: #selector(signIn), for: .touchUpInside)
         container.addArrangedSubview(signInButton)
 
-        signUpButton.setTitle("Sign Up", for: .normal);
+        signUpButton.setTitle("Sign Up", for: .normal)
         signUpButton.addTarget(self, action: #selector(signUp), for: .touchUpInside)
         container.addArrangedSubview(signUpButton)
 
@@ -95,10 +95,10 @@ class WelcomeViewController: UIViewController {
     // Turn on or off the activity indicator.
     func setLoading(_ loading: Bool) {
         if loading {
-            activityIndicator.startAnimating();
-            errorLabel.text = "";
+            activityIndicator.startAnimating()
+            errorLabel.text = ""
         } else {
-            activityIndicator.stopAnimating();
+            activityIndicator.stopAnimating()
         }
         emailField.isEnabled = !loading
         passwordField.isEnabled = !loading
@@ -108,15 +108,15 @@ class WelcomeViewController: UIViewController {
 
     // :code-block-start: sign-up
     @objc func signUp() {
-        // :hide-start:
-        setLoading(true);
+        // :state-start: final
+        setLoading(true)
         app.emailPasswordAuth.registerUser(email: email!, password: password!, completion: { [weak self](error) in
             // Completion handlers are not necessarily called on the UI thread.
             // This call to DispatchQueue.main.async ensures that any changes to the UI,
             // namely disabling the loading indicator and navigating to the next page,
             // are handled on the UI thread:
             DispatchQueue.main.async {
-                self!.setLoading(false);
+                self!.setLoading(false)
                 guard error == nil else {
                     print("Signup failed: \(error!)")
                     self!.errorLabel.text = "Signup failed: \(error!.localizedDescription)"
@@ -129,18 +129,18 @@ class WelcomeViewController: UIViewController {
                 self!.signIn()
             }
         })
-        // :replace-with:
+        // :state-end: :state-uncomment-start: start
         // // TODO: Use the app's emailPasswordAuth to registerUser with the email and password.
         // // When registered, call signIn().
-        // :hide-end:
+        // :state-uncomment-end:
     }
     // :code-block-end:
 
     // :code-block-start: sign-in
     @objc func signIn() {
-        // :hide-start:
-        print("Log in as user: \(email!)");
-        setLoading(true);
+        // :state-start: final
+        print("Log in as user: \(email!)")
+        setLoading(true)
 
         app.login(credentials: Credentials.emailPassword(email: email!, password: password!)) { [weak self](result) in
             // Completion handlers are not necessarily called on the UI thread.
@@ -148,18 +148,18 @@ class WelcomeViewController: UIViewController {
             // namely disabling the loading indicator and navigating to the next page,
             // are handled on the UI thread:
             DispatchQueue.main.async {
-                self!.setLoading(false);
+                self!.setLoading(false)
                 switch result {
                 case .failure(let error):
                     // Auth error: user already exists? Try logging in as that user.
-                    print("Login failed: \(error)");
+                    print("Login failed: \(error)")
                     self!.errorLabel.text = "Login failed: \(error.localizedDescription)"
                     return
                 case .success(let user):
-                    print("Login succeeded!");
+                    print("Login succeeded!")
 
                     // Load again while we open the realm.
-                    self!.setLoading(true);
+                    self!.setLoading(true)
                     // Get a configuration to open the synced realm.
                     var configuration = user.configuration(partitionValue: "user=\(user.id)")
                     // Only allow User objects in this partition.
@@ -168,26 +168,26 @@ class WelcomeViewController: UIViewController {
                     // opening the local copy.
                     Realm.asyncOpen(configuration: configuration) { [weak self](result) in
                         DispatchQueue.main.async {
-                            self!.setLoading(false);
+                            self!.setLoading(false)
                             switch result {
                             case .failure(let error):
                                 fatalError("Failed to open realm: \(error)")
                             case .success(let userRealm):
                                 // Go to the list of projects in the user object contained in the user realm.
-                                self!.navigationController!.pushViewController(ProjectsViewController(userRealm: userRealm), animated: true);
+                                self!.navigationController!.pushViewController(ProjectsViewController(userRealm: userRealm), animated: true)
                             }
                         }
                     }
                 }
             }
-        };
-        // :replace-with:
+        }
+        // :state-end: :state-uncomment-start: start
         // // TODO: Use app.login() to log in. Once logged in, open the user realm,
         // // then navigate to the ProjectsViewController.
         // // The user realm contains the synced custom user data object, which
         // // contains the list of projects the user is a member of.
         // // The user realm partition value is "user=\(user.id!)". 
-        // :hide-end:
+        // :state-uncomment-end:
     }
     // :code-block-end:
 }

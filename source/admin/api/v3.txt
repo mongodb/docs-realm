@@ -73,21 +73,20 @@ Project & Application IDs
 {+service-short+} APIs frequently require two parameters: your |atlas|
 *Project/Group ID*, and your {+service-short+} *Application ID*.
 
-
 Project ID
 ~~~~~~~~~~
 
-.. _realm-api-application-id:
-
 To find your Project ID, go to your |atlas| administration console, click
-:guilabel:`Settings` in the {+leftnav+}, and look under the :guilabel:`Project
-ID` heading.
+:guilabel:`Settings` in the {+leftnav+}, and look under the
+:guilabel:`Project ID` heading.
+
+.. _realm-api-application-id:
 
 Application ID
 ~~~~~~~~~~~~~~
 
 To find your Application ID, make a request to the {+service-short+}
-:ref:`get-/groups/{groupid}/apps` API endpoint.
+`GET /groups/{groupid}/apps <{+base-url+}{+admin-api-page+}get-/groups/{groupid}/apps>`__ API endpoint.
 
 This request has the following format, referencing the ``access_token``
 described in :ref:`realm-api-authentication`:
@@ -140,18 +139,27 @@ and ``nextSkip`` as the ``end_date`` and ``skip`` parameters, respectively:
 Repeat this step to get more pages until the response does not have a ``nextEndDate`` field.
 This signifies that you have reached the last page.
 
-For more information, see :ref:`get-/groups/{groupId}/apps/{appId}/logs`.
+For more information, see `GET /groups/{groupId}/apps/{appId}/logs <{+base-url+}{+admin-api-page+}get-/groups/{groupId}/apps/{appId}/logs>`__.
 
 .. _admin-api-draft-deploy:
 
 Draft and Deploy a Group of Changes
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-You can :doc:`deploy </deploy>` a group of application changes together
+You can :ref:`deploy <application-deployment>` a group of application changes together
 by creating and deploying a draft. To create and deploy a set of draft
 changes:
 
 .. include:: /includes/steps/admin-api-deploy-a-draft.rst
+
+.. _asset-metadata-document:
+
+Asset Metadata Document Example
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Asset metadata documents describe hosted asset files.
+
+.. include:: /includes/asset-metadata-example.rst
 
 Resources
 ---------
@@ -163,3 +171,4 @@ Resources
    :class: twocols
 
 .. openapi:: /openapi-admin-v3.yaml
+   :uses-rst:

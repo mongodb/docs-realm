@@ -1,0 +1,200 @@
+.. _android-realms:
+
+====================
+Realms - Android SDK
+====================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+A **{+realm+}** is a set of related objects that conform to a pre-defined
+schema and share user-level access permissions. Realms may contain more
+than one type of data as long as a schema exists for each type.
+
+A {+realm+} allows you to partition data according to who
+uses it and when they use it. Every {+realm+} stores data in
+a separate :term:`{+realm+} file` that contains a binary
+encoding of each object in the {+realm+}. You can
+automatically :doc:`synchronize {+realm+} across multiple
+devices </sync>` and set up :ref:`reactive
+event handlers <android-realm-notifications>` that call a
+function any time an object in a {+realm+} is created,
+modified, or deleted.
+
+.. _android-realm-types:
+
+Types of Realm
+--------------
+
+When opening a {+realm+}, you can configure many properties of the {+realm+}.
+
+.. _android-read-only-realms-fundamentals:
+
+Read-Only Realms
+~~~~~~~~~~~~~~~~
+
+It's sometimes useful to ship a prepared {+realm+} file with your app
+that contains shared data that does not frequently change. You can use
+the :java-sdk:`readOnly() <io/realm/RealmConfiguration.Builder.html#readOnly-->`
+method when configuring your {+realm+} to make it read-only. This can
+prevent accidental writes to the {+realm+} and causes the {+realm+} to
+throw an ``IllegalStateException`` if a write occurs.
+
+.. warning:: Read-Only Realm Files are Writeable
+
+   Read-only {+realm+}s are only enforced as read-only in process; the
+   {+realm+} file itself is still writeable. As a result, it is still
+   possible for other process to write to a read-only {+realm+}.
+
+.. seealso::
+
+   :ref:`Examples: Read-Only Realms <android-read-only-realms>`
+
+.. _android-in-memory-realms-fundamentals:
+
+In-Memory Realms
+~~~~~~~~~~~~~~~~
+
+To create a {+realm+} that runs entirely in memory without being written
+to a file, use the :java-sdk:`inMemory()` method when configuring your
+{+realm+}.
+
+.. important:: In-Memory Realms May Persist to Disk Under High Memory Pressure
+
+   When memory runs low on an Android device, in-memory {+realm+}s
+   may :wikipedia:`swap <Memory_paging#Terminology>` temporarily from main
+   memory to disk space. However, all files created by an in-memory
+   {+realm+} are deleted when that {+realm+} closes or all references
+   to that {+realm+} fall out of scope.
+
+.. seealso::
+
+   :ref:`Examples: In-Memory Realms <android-in-memory-realms>`
+
+.. _android-dynamic-realms-fundamentals:
+
+Dynamic Realms
+~~~~~~~~~~~~~~
+
+Conventional {+realm+}s define a schema using ``RealmObject`` subclasses
+or the ``RealmModel`` interface. A
+:java-sdk:`DynamicRealm <io/realm/DynamicRealm.html>` uses strings to
+define a schema at runtime. Opening a dynamic {+realm+} uses the same
+configuration as a conventional {+realm+}, but dynamic {+realm+}s ignore
+all configured schema, migration, and schema versions.
+
+.. important:: Dynamic Realms Lack Type-Safety
+
+   Dynamic {+realm+}s offer flexibility at the expense of type safety and
+   performance. As a result, only use dynamic {+realm+}s when that
+   flexibility is required, such as during migrations, manual client
+   resets, and when working with string-based data like CSV files or JSON.
+
+.. seealso::
+
+   :ref:`Examples: Dynamic Realms <android-dynamic-realms>`
+
+Comparison with Other Databases
+-------------------------------
+
+The {+service+} data model is similar to both relational and document
+databases but has distinct differences from both. To underscore these
+differences, it's helpful to highlight what a {+realm+} **is not**:
+
+A {+realm+} is not a single, application-wide database.
+    Unlike other applications, which store all of their data in a single
+    database, {+app+}s often split data across multiple {+realms+} to
+    organize data more efficiently and to enforce access controls.
+
+A {+realm+} is not a table.
+    Tables typically only store one kind of information, such as street
+    addresses or items in a store inventory, whereas a {+realm+} can contain
+    any number of object types.
+
+A {+realm+} is not a collection of schemaless documents.
+    Application objects are similar to documents, but every object in a
+    {+realm+} conforms to a defined schema for its object type. An object
+    cannot contain a field that is not described by its schema.
+
+.. _android-realm-schema:
+
+Realm Schema
+------------
+
+A **{+backend-schema+}** is a list of valid :ref:`object schemas
+<android-realm-objects>` that each define an object type that a {+app+}
+may persist. All objects in a {+realm+} must conform to the {+backend-schema+}.
+
+Client applications provide a {+frontend-schema+} when they open a
+{+realm+}. If a {+realm+} already contains data, then {+client-database+}
+validates each existing object to ensure that an object schema was
+provided for its type and that it meets all of the constraints specified
+in the schema.
+
+.. example::
+   
+   A {+realm+} that contains basic data about books in libraries might use a
+   schema like the following:
+   
+   .. code-block:: json
+      
+      [
+        {
+          "type": "Library",
+          "properties": {
+            "address": "string",
+            "books": "Book[]"
+          }
+        },
+        {
+          "type": "Book",
+          "primaryKey": "isbn",
+          "properties": {
+            "isbn": "string",
+            "title": "string",
+            "author": "string",
+            "numberOwned": { "type": "int?", "default": 0 },
+            "numberLoaned": { "type": "int?", "default": 0 }
+          }
+        }
+      ]
+
+.. _android-realm-path:
+
+Realms are Partitions of Atlas Data
+-----------------------------------
+
+Each {+realm+} corresponds to a subset of the data in your
+:term:`{+app+}'s <{+app+}>`
+:term:`synced {+atlas+} cluster <synced cluster>`. You can customize the
+:ref:`partitioning <partitioning>` of data using your application's
+:ref:`partition key <partition-keys>`. Unique values of the partition
+key, known as :term:`partition values <partition value>`, correspond to
+individual {+realms+}.
+
+You can customize permissions for these partitions of data using
+:ref:`{+service-short+} Rules <sync-rules>`.
+
+
+Summary
+-------
+
+- A :term:`{+realm+}` is a collection of objects that conform to a
+  schema. It is not a single, application-wide database. There can and
+  usually will be more than one {+realm+} per application.
+
+- A :term:`{+backend-schema+}` is a versioned specification of the
+  object types used in a {+app+}.
+
+- {+service-short+} Rules define who can read or write
+  the {+realm+} and apply to the {+realm+} as a whole.
+
+- A :term:`partition value` is a {+realm+}'s unique identifier.
+
+- Modules let you selectively include subsets of the Realm objects defined
+  in your application schema when opening a {+realm+}.

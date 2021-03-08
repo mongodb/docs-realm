@@ -40,9 +40,8 @@ User API keys are generated for specific application users by the client
 SDKs. You can allow devices or services to communicate with {+service-short+} on
 behalf of a user by associating a unique user API key with each device.
 
-User keys are always associated with a user object created by another
-authentication provider. Each user can associate up to 20 user keys with
-their account.
+User keys are always associated with a non-anonymous user. Each user can
+associate up to 20 user keys with their account.
 
 .. _api-key-authentication-configuration:
 .. _config-api-key:
@@ -100,6 +99,11 @@ Key`. Enter a unique name for the key and click :guilabel:`Save`.
    Remember to copy the server key's value as soon as you create it.
    Once you leave the provider configuration page or disable the key you
    cannot retrieve the value from the {+ui+}.
+
+.. tip:: 
+   If you get an error advising you to "please deploy an enabled api key 
+   auth provider before adding api keys," verify that you have :ref:`deployed
+   the latest version of your app <application-deployment>`.
 
 .. _api-key-authentication-examples:
 

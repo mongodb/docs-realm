@@ -11,25 +11,40 @@ class OpenARealmTest : RealmTest() {
     @Test
     fun testAllowReadsWritesOnUIThread() {
         val expectation : Expectation = Expectation()
-        activity?.runOnUiThread {
-            // :code-block-start: allow-reads-writes-ui-thread
+        activity!!.runOnUiThread {
+            // :code-block-start: open-a-realm-local
             val config = RealmConfiguration.Builder()
                 .allowQueriesOnUiThread(true)
                 .allowWritesOnUiThread(true)
                 .build()
-
-            Realm.getInstanceAsync(config, object : Realm.Callback() {
-                override fun onSuccess(realm: Realm) {
-                    Log.v(
-                        "EXAMPLE",
-                        "Successfully opened a realm with reads and writes allowed on the UI thread."
-                    )
-                    // :hide-start:
-                    expectation.fulfill()
-                    // :hide-end:
-                }
-            })
+            val realm = Realm.getInstance(config)
+            Log.v("EXAMPLE", "Successfully opened a realm at: " + realm.path)
             // :code-block-end:
+            // :code-block-start: close-a-realm-local
+            realm.close()
+            // :code-block-end:
+            expectation.fulfill()
+        }
+        expectation.await()
+    }
+
+    @Test
+    fun configureARealm() {
+        val expectation = Expectation()
+        activity!!.runOnUiThread {
+            // :code-block-start: configure-a-realm-local
+            val config = RealmConfiguration.Builder()
+                .name("alternate-realm")
+                .allowQueriesOnUiThread(true)
+                .allowWritesOnUiThread(true)
+                .compactOnLaunch()
+                .inMemory()
+                .build()
+            val realm = Realm.getInstance(config)
+            Log.v("EXAMPLE", "Successfully opened a realm at: " + realm.path)
+            // :code-block-end:
+            realm.close()
+            expectation.fulfill()
         }
         expectation.await()
     }

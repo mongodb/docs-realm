@@ -1,0 +1,80 @@
+.. _node-install:
+
+=========================
+Install Realm for Node.js
+=========================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+The {+service+} Node.js SDK enables development of applications using the
+JavaScript and `TypeScript <https://www.typescriptlang.org/>`__ languages.
+{+service+} on Node.js is best suited for writing server-side applications. Your
+Node.js application could be one component in a wider stack that also includes
+iOS and Android apps.
+
+The {+service+} Node.js SDK is not suitable for front-end application
+development.
+
+- Due to limitations of the browser environment, it is not possible to build a
+  browser-based web app with this SDK. For front-end web applications, use the
+  {+service+} :doc:`GraphQL SDK </graphql>`.
+
+- For cross-platform mobile app development, use the {+service+} :doc:`React Native SDK </sdk/react-native/install>`.
+
+Prerequisites
+-------------
+
+Before getting started, ensure your environment meets the
+following prerequisites:
+
+- `Node.js <https://nodejs.org/en/>`__ version 10.x or later (including Node version 14) 
+- Linux, macOS 10.8 (or later), or Windows 8 (or later)
+
+Installation
+------------
+
+Follow these steps to create a Node.js project and add the
+{+service+} Node.js SDK to it.
+
+.. include:: /includes/steps/install-node.rst
+
+
+IoT Installation
+----------------
+
+To create a Node.js project and add the {+service+} Node.js SDK on an
+Internet of Things (IoT) platform such as the Raspberry Pi 2, 3, or 4
+running Raspberry Pi OS (formerly Raspbian), follow the steps below:
+
+.. include:: /includes/steps/install-node-iot.rst
+
+Import Realm
+------------
+
+Add the following line to the top of your source files where
+you want to use {+service+}:
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: javascript
+
+      .. code-block:: javascript
+
+         const Realm = require("realm");
+
+   .. tab::
+      :tabid: typescript
+
+      .. code-block:: typescript
+
+         import Realm from "realm";

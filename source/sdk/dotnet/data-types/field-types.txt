@@ -1,0 +1,102 @@
+.. _dotnet-field-types:
+.. _dotnet-supported-data-types:
+
+======================
+Field Types - .NET SDK
+======================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+{+client-database+} supports the following property data types and their nullable counterparts:
+
+- ``bool``
+- ``byte``
+- ``short``
+- ``int``
+- ``long``
+- ``float``
+- ``double``
+- ``decimal``
+- ``char``
+- ``string``
+- ``byte[]``
+- ``DateTimeOffset``
+- ``Decimal128`` from ``MongoDB.Bson``
+- ``ObjectId`` from ``MongoDB.Bson``
+- ``RealmInteger<T>`` (see below)
+- A ``RealmObject`` subclass 
+- An ``EmbeddedObject`` subclass (see :ref:`Embedded Objects <dotnet-property-embedded>`)
+- ``IList<T>`` where T is any of the previous data types (see :ref:`Lists <dotnet-property-lists>`)
+
+The ``byte``, ``char``, ``short``, ``int``, and ``long`` types  are all stored as 64 bit integer values
+within {+client-database+}. 
+
+If you choose to provide custom constructors, you must declare a public constructor with no arguments.
+
+.. _realminteger:
+
+RealmInteger
+------------
+
+Realm offers 
+:dotnet-sdk:`RealmInteger<T> <reference/Realms.RealmInteger-1.html>` as a 
+special integer type to be used as a logical counter. ``RealmInteger<T>`` 
+exposes an additional API that can more clearly express intent and generate 
+better conflict resolution steps when using Synchronized Realms. The type 
+argument ``<T>`` can be of type ``byte``, ``short``, ``int``, or ``long``. The 
+following example shows how to use a ``RealmInteger`` property that maps to 
+an ``int``:
+
+.. literalinclude:: /examples/generated/dotnet/DataTypes.codeblock.realmint-class.cs
+   :language: csharp
+
+Traditionally, you would implement a counter by reading a value, incrementing 
+it, and then setting it (``myObject.Counter += 1``). This does not work well in 
+an asynchronous situation like when two clients are offline. Consider 
+the following scenario:
+
+- The {+realm+} object has a ``counter`` property of type ``int``. It is currently 
+  set to a value of ``10``.
+
+- Clients 1 and 2 both read the ``counter`` property (``10``) and each increments 
+  the value by ``1``.
+
+- When each client regains connectivity and merges their changes, they expect a 
+  value of 11, and there is no conflict. However, the counter value should be 
+  ``12``!
+
+When using a ``RealmInteger``, however, you can call the ``Increment()`` and 
+``Decrement()`` methods, and to reset the counter, you set it to ``0``, just as 
+you would an ``int``:
+
+.. literalinclude:: /examples/generated/dotnet/DataTypes.codeblock.realmint-use.cs
+   :language: csharp
+
+.. important::
+
+   When you reset a ``RealmInteger``, you may run into the offline merge issue 
+   described above.
+
+A ``RealmInteger`` is backed by traditional ``integer`` type, so no schema 
+migration is required when changing a property type from ``T`` to 
+``RealmInteger<T>``.
+
+.. _dotnet-decimal128:
+
+Using Decimal Values
+--------------------
+Realm supports 128-bit decimal values with the ``Decimal128`` Bson type. When 
+defining a decimal type, you can use the ``Decimal128`` Bson type or the .NET 
+``decimal`` type, even though it is only a 96-bit decimal. The SDK automatically 
+converts between the two, although you risk losing precision or range. The 
+following example shows how to use both the ``Decimal128`` Bson type and the .NET 
+``decimal`` type:
+
+.. literalinclude:: /examples/generated/dotnet/DecimalFun.codeblock.decimal128.cs
+   :language: csharp

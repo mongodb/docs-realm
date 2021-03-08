@@ -11,7 +11,8 @@ paths:
     get:
       tags: ['admin']
       operationId: 'getAdminAuthProviders'
-      summary: 'Enumerate available Realm administration authentication providers.'
+      summary: >-
+        Enumerate available Realm administration authentication providers.
       responses:
         '200':
           description: 'Successfully enumerated available authentication providers.'
@@ -28,9 +29,9 @@ paths:
     post:
       tags: ['admin']
       operationId: 'adminLogin'
-      summary: |
+      summary: >-
         Authenticate as a Realm administrator. Use
-        :ref:`get-/auth/providers` to list the
+        `GET /auth/providers <{+base-url+}{+admin-api-page+}post-/auth/providers`__ to list the
         available authentication providers.
       requestBody:
         required: true
@@ -50,16 +51,16 @@ paths:
                 properties:
                   access_token:
                     type: string
-                    description: |
+                    description: >-
                       An access token you may provide in the
                       ``Authorization`` header of API requests.
                       :ref:`realm-api-authentication` demonstrates how to
                       use this token.
                   refresh_token:
                     type: string
-                    description: |
+                    description: >-
                       A refresh token you may provide in the ``Authorization``
-                      header of :ref:`post-/auth/session` to obtain a new
+                      header of `POST auth/session <{+base-url+}{+admin-api-page+}post-auth/session>`__ to obtain a new
                       ``access_token`` for the current user session.
                   user_id:
                     type: string
@@ -98,7 +99,7 @@ paths:
     post:
       tags: ['admin']
       operationId: adminCreateSession
-      summary: |
+      summary: >-
         Obtain a Realm access token.
       responses:
         '201':
@@ -128,7 +129,7 @@ paths:
     get:
       tags: ["apps"]
       operationId: "adminListApplications"
-      summary: |
+      summary: >-
         List all Realm apps within an |atlas|
         :atlas:`project/group </tutorial/manage-projects/>`.
       responses:
@@ -838,6 +839,40 @@ paths:
       - $ref: "#/components/parameters/GroupId"
       - $ref: "#/components/parameters/AppId"
 
+  /groups/{groupId}/apps/{appId}/users/verify_token:
+    post:
+      tags: ["users"]
+      operationId: "adminVerifyUserAccessToken"
+      summary: "Verify a that a user's :ref:`client access token <get-client-api-access-token>` is valid."
+      requestBody:
+        required: true
+        description: The user's :ref:`client access token <get-client-api-access-token>`. This is distinct from the :ref:`API access token <realm-api-authentication>` you need to authenticate to the admin API.
+        content:
+          application/json:
+            schema:
+              properties:
+                token: {type: string}
+              required: [token]
+      responses:
+        '200':
+          description: "Success returns this object. A 200 :ref:`may also return token expired<verify-client-access-token-responses>`."
+          content:
+            application/json:
+              schema: 
+                properties:
+                  sub: {type: string, description: User ID.}
+                  aud: {type: string, description: "Optional; specifies which Resource Servers the JWT is valid for. Omitted if empty."}
+                  exp: {type: integer, description: Unix timestamp after which the JWT expires.}
+                  iat: {type: integer, description: Unix timestamp at which the JWT was issued.}
+                  iss: {type: string, description: The issuer of the JWT.}
+                  custom_user_data: {type: object, description: "Optional; contains :ref:`custom user data <custom-user-data>` if it exists for the user. Only present if the access token is created after custom user data is enabled and configured. Omitted if empty."}
+                  domain_id: {type: string, description: The UID representing the app domain.}
+                  data: {type: string, description: "Optional: any metadata stored with the token. Omitted if empty."}
+                  device_id: {type: string, description: The UID representing the device.}
+    parameters:
+      - $ref: "#/components/parameters/GroupId"
+      - $ref: "#/components/parameters/AppId"
+
   /groups/{groupId}/apps/{appId}/users/{uid}:
     get:
       tags: ["users"]
@@ -1123,7 +1158,7 @@ paths:
     get:
       tags: ["security"]
       operationId: "adminListAllowedRequestOrigins"
-      summary: |
+      summary: >-
         List the allowed `HTTP origins <https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Origin>`__
         from which MongoDB Realm should allow requests.
       responses:
@@ -1137,12 +1172,12 @@ paths:
     post:
       tags: ["security"]
       operationId: "adminSetAllowedRequestOrigins"
-      summary: |
+      summary: >-
         Set the allowed `HTTP origins <https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Origin>`__
         from which MongoDB Realm should allow requests.
       requestBody:
         required: true
-        description: |
+        description: >-
           A list of HTTP origins.
         content:
           application/json:
@@ -1201,7 +1236,7 @@ paths:
             minimum: 1
             maximum: 100
           default: 100
-          description: |
+          description: >-
             The maximum number of log entries to include in the response. If the
             query matches more than this many logs, it returns documents in
             ascending order by date until the limit is reached.
@@ -1517,7 +1552,7 @@ paths:
     get:
       tags: ["deploy"]
       operationId: "adminListDeployments"
-      summary: |
+      summary: >-
         Return the 100 most recent application deployments.
       responses:
         '200':
@@ -1535,7 +1570,7 @@ paths:
     get:
       tags: ["deploy"]
       operationId: "adminListDeploymentDrafts"
-      summary: |
+      summary: >-
         Return the current application deployment draft, if applicable.
       responses:
         '200':
@@ -1547,7 +1582,7 @@ paths:
     post:
       tags: ["deploy"]
       operationId: "adminCreateDeploymentDraft"
-      summary: |
+      summary: >-
         Create a new application deployment draft, if none exists.
       responses:
         '200':
@@ -1569,7 +1604,7 @@ paths:
     delete:
       tags: ["deploy"]
       operationId: "adminDiscardDraft"
-      summary: |
+      summary: >-
         Discard the specified application deployment draft.
       responses:
         '204':
@@ -1582,7 +1617,7 @@ paths:
     post:
       tags: ["deploy"]
       operationId: "adminDeployDraft"
-      summary: |
+      summary: >-
         Deploy the specified application deployment draft.
       responses:
         '201':
@@ -1599,7 +1634,7 @@ paths:
     get:
       tags: ["deploy"]
       operationId: "adminDeployDraftDiff"
-      summary: |
+      summary: >-
         Return a diff between the currently deployed application and the
         specified draft.
       responses:
@@ -1618,7 +1653,7 @@ paths:
     get:
       tags: ["hosting"]
       operationId: "adminGetAllHostedAssets"
-      summary: |
+      summary: >-
         List all hosted assets.
       responses:
         '200':
@@ -1642,22 +1677,22 @@ paths:
               properties:
                 move_from:
                   type: string
-                  description: |
+                  description: >-
                     The current resource path of the asset to move.
                     Must be used with ``move_to``.
                 move_to:
                   type: string
-                  description: |
+                  description: >-
                     The resource path to which the asset will move.
                     Must be used with ``move_from``.
                 copy_from:
                   type: string
-                  description: |
+                  description: >-
                     The current resource path of the asset to copy.
                     Must be used with ``copy_to``.
                 copy_to:
                   type: string
-                  description: |
+                  description: >-
                     The resource path to which the asset will be copied.
                     Must be used with ``copy_from``.
       responses:
@@ -1671,7 +1706,7 @@ paths:
     get:
       tags: ["hosting"]
       operationId: "adminGetHostedAsset"
-      summary: |
+      summary: >-
         Retrieve metadata for a specific hosted asset
       parameters:
         - $ref: "#/components/parameters/AssetResourcePath"
@@ -1694,7 +1729,7 @@ paths:
     put:
       tags: ["hosting"]
       operationId: "adminUploadHostedAsset"
-      summary: |
+      summary: >-
         Upload or replace an asset at a specific resource path.
       parameters:
         - $ref: "#/components/parameters/AssetResourcePath"
@@ -1710,22 +1745,8 @@ paths:
                   type: object
                   $ref: "#/components/schemas/AssetMetadata"
                   required: [meta, file]
-                  description: |
-                    An asset metadata document (encoded as JSON).
-                    
-                    .. code-block:: json
-                       
-                       {
-                         "path": "<Asset Resource Path>",
-                         "hash": "<Asset MD5 Checksum Hash>",
-                         "size": <File size in bytes>,
-                         "attrs": [
-                           {
-                             "name": "<Metadata Attribute Name>",
-                             "value": "<Metadata Attribute Value>",
-                           }
-                         ]
-                       }
+                  description: >-
+                    An :ref:`asset metadata document <asset-metadata-document>` (encoded as JSON).
                 file:
                   type: string
                   format: binary
@@ -1745,7 +1766,7 @@ paths:
     patch:
       tags: ["hosting"]
       operationId: "adminUpdateHostedAsset"
-      summary: |
+      summary: >-
         Update the metadata attributes of a hosted asset at a specific resource path.
       parameters:
         - $ref: "#/components/parameters/AssetResourcePath"
@@ -1755,7 +1776,7 @@ paths:
         '400':
           description: "Bad Request."
       requestBody:
-        description: |
+        description: >-
           The new metadata attributes for the hosted asset. These
           attributes replace all existing attributes for the file.
         required: true
@@ -1818,33 +1839,33 @@ paths:
                     description: The |atlas| :atlas:`Group ID </tutorial/manage-projects/>`.
                   measurements:
                     type: array
-                    description: |
+                    description: >-
                       The array of measurements.
                     items:
                       properties:
                         name:
                           type: string
                           enum: [request_count, compute_time, data_out, sync_time]
-                          description: |
+                          description: >-
                             The usage metric represented by each data point. See :doc:`billing </billing>`. 
                         units:
                           type: string
                           enum: ['<empty string>', HOURS, GIGABYTES]
-                          description: |
+                          description: >-
                             The unit of the ``value`` of each data point.
                         data_points:
                           type: array
-                          description: |
+                          description: >-
                             The array of data points for this measurement. A finer ``granularity`` results in more data points.
                           items:
                             properties:
                               timestamp:
                                 type: string
-                                description: |
+                                description: >-
                                   The ISO 8601 date and time of the data point.
                               value:
                                 type: number
-                                description: |
+                                description: >-
                                   The value at the time in the ``unit`` of the measurement.
         '400': {$ref: "#/components/responses/ClientErrorResponse"}
   /groups/{groupId}/apps/{appId}/measurements/:
@@ -1899,33 +1920,33 @@ paths:
                     description: The name of the Realm app specified by the ``appId`` path parameter.
                   measurements:
                     type: array
-                    description: |
+                    description: >-
                       The array of measurements.
                     items:
                       properties:
                         name:
                           type: string
                           enum: [request_count, compute_time, data_out, sync_time, mem_usage]
-                          description: |
+                          description: >-
                             The usage metric represented by each data point. See :doc:`billing </billing>`. 
                         units:
                           type: string
                           enum: ['<empty string>', HOURS, GIGABYTES, GIGABYTE_SECONDS]
-                          description: |
+                          description: >-
                             The unit of the ``value`` of each data point.
                         data_points:
                           type: array
-                          description: |
+                          description: >-
                             The array of data points for this measurement. A finer ``granularity`` results in more data points.
                           items:
                             properties:
                               timestamp:
                                 type: string
-                                description: |
+                                description: >-
                                   The ISO 8601 date and time of the data point.
                               value:
                                 type: number
-                                description: |
+                                description: >-
                                   The value at the time in the ``unit`` of the measurement.
         '400': {$ref: "#/components/responses/ClientErrorResponse"}
 components:
@@ -1953,7 +1974,7 @@ components:
         type: "string"
     AppId:
       name: "appId"
-      description: |
+      description: >-
         The ObjectID of your application.
         :ref:`realm-api-project-and-application-ids` demonstrates how
         to find this value.
@@ -1964,7 +1985,7 @@ components:
     UsersAfter:
       name: "after"
       required: false
-      description: |
+      description: >-
         The ``id`` of the last user returned by a previous paginated request.
       in: "query"
       schema:
@@ -1972,7 +1993,7 @@ components:
     UsersSort:
       name: "sort"
       required: false
-      description: |
+      description: >-
         The field name to sort to sort results by. The only valid value is the
         default: ``_id``.
       in: "query"
@@ -1982,7 +2003,7 @@ components:
       name: "desc"
       required: false
       default: false
-      description: |
+      description: >-
         If ``true``, returns sorted results in descending order. Otherwise,
         results return in ascending order.
       in: "query"
@@ -2081,7 +2102,7 @@ components:
         type: "string"
     TriggerId:
       name: "triggerId"
-      description: |
+      description: >-
         The ObjectID of the trigger.
       in: "path"
       required: true
@@ -2125,18 +2146,18 @@ components:
       properties:
         version:
           type: string
-          description: |
+          description: >-
             Human-readable version information about the mongod
             instance. This string will take the format
             ``<major>.<minor>.<patch>``.
         gitVersion:
           type: string
-          description: |
+          description: >-
             The commit identifier that identifies the state of the code
             use to build the mongod.
         versionArray:
           type: array
-          description: |
+          description: >-
             An array that conveys version information about the mongod
             instance. See version for a more readable version of this
             string.
@@ -2144,23 +2165,23 @@ components:
             type: integer
         javascriptEngine:
           type: string
-          description: |
+          description: >-
             A string that reports the JavaScript engine used in the
             mongod instance. By default, this is ``mozjs`` after version
             ``3.2``, and previously ``V8``.
         bits:
           type: string
-          description: |
+          description: >-
             A number that reflects the target processor architecture
             of the mongod binary.
         debug:
           type: boolean
-          description: |
+          description: >-
             A boolean that reflects whether or not the ``mongod``
             instance was built with debugging options.
         maxBsonObjectSize:
           type: integer
-          description: |
+          description: >-
             A number that reports the
             :manual:`Maximum BSON Document Size
             </reference/limits/#BSON-Document-Size>`
@@ -2175,18 +2196,18 @@ components:
           description: The application's deployment region.
         user_id:
           type: string
-          description: |
+          description: >-
             The unique ``_id`` value of the MongoDB Cloud user that
             uploaded the dependency collection.
         last_modified:
           type: integer
-          description: |
+          description: >-
               The time at which the dependencies were uploaded
               in :wikipedia:`Unix time <Unix_time>` (number of seconds
               since January 1, 1970 at 00:00 UTC).
         dependencies_list:
           type: array
-          description: |
+          description: >-
             An array of documents that each describe a
             dependency uploaded to the application.
           items: {$ref: "#/components/schemas/Dependency"}
@@ -2368,23 +2389,23 @@ components:
       properties:
         can_evaluate:
           type: object
-          description: |
+          description: >-
             A JSON expression that evaluates to ``true`` if the Function
             is allowed to run in response to an incoming request.
         name:
           type: string
-          description: |
+          description: >-
             A unique name for the Function.
         private:
           type: boolean
-          description: |
+          description: >-
             If ``true``, the function is hidden from client
             applications. You can still call a private function from
             JSON expressions and other functions, including incoming
             webhooks and triggers.
         source:
           type: string
-          description: |
+          description: >-
             The stringified source code for the function. The code must
             be valid ES6.
       required: [can_evaluate, name, private, source]
@@ -2393,23 +2414,23 @@ components:
         _id: {type: string}
         can_evaluate:
           type: object
-          description: |
+          description: >-
             A JSON expression that evaluates to ``true`` if the Function
             is allowed to run in response to an incoming request.
         name:
           type: string
-          description: |
+          description: >-
             A unique name for the Function.
         private:
           type: boolean
-          description: |
+          description: >-
             If ``true``, the function is hidden from client
             applications. You can still call a private function from
             JSON expressions and other functions, including incoming
             webhooks and triggers.
         source:
           type: string
-          description: |
+          description: >-
             The stringified source code for the function. The code must
             be valid ES6.
     ValueSummary:
@@ -2527,9 +2548,9 @@ components:
           description: The ID of the function associated with the trigger.
         disabled:
           type: boolean
-          description: |
-            | Default: ``false``
-            | If true, the trigger is disabled.
+          description: >-
+            Default: ``false``
+            If true, the trigger is disabled.
         config:
           type: object
           description: An object that defines configuration values for the trigger.
@@ -2547,104 +2568,75 @@ components:
               ## Unfortunately we don't currently support either of these :(.
               ## This behavior would need to be added to the sphinx-openapi directive.
               type: array of strings
-              description: |
-                | **Required for Database Triggers**
-                | Minimum Items: 1
-                | The :ref:`database event operation types
-                  <database-events>` to listen for.
-
-                | Valid values:
-
-                - ``INSERT``
-                - ``UPDATE``
-                - ``REPLACE``
-                - ``DELETE``
+              description: >-
+                **Required for Database Triggers** --
+                The :ref:`database event operation types
+                <database-events>` to listen for. This must contain at
+                least one value.
+              enum: ["INSERT", "UPDATE", "REPLACE", "DELETE"]
             operation_type:
               type: string
-              description: |
-                | **Required for Authentication Triggers**
-                | The :ref:`authentication operation type
-                  <authentication-event-operation-types>` to listen for.
-
-                | Valid values:
-
-                - ``LOGIN``
-                - ``CREATE``
-                - ``DELETE``
+              description: >-
+                **Required for Authentication Triggers** --
+                The :ref:`authentication operation type
+                <authentication-event-operation-types>` to listen for.
+              enum: ["LOGIN", "CREATE", "DELETE"]
             providers:
               type: string
-              description: |
-                | **Only Available for Authentication Triggers**
-                | A list of one or more :doc:`authentication provider
-                  </authentication/providers>` id values. The trigger
-                  will only listen for authentication events produced by
-                  these providers.
+              description: >-
+                **Only Available for Authentication Triggers** --
+                A list of one or more :doc:`authentication provider
+                </authentication/providers>` id values. The trigger
+                will only listen for authentication events produced by
+                these providers.
             database:
               type: string
-              description: |
-                | **Required for Database Triggers**
-                | The name of the MongoDB database that contains the watched collection.
+              description: >-
+                **Required for Database Triggers** --
+                The name of the MongoDB database that contains the watched collection.
             collection:
               type: string
-              description: |
-                | **Required for Database Triggers**
-                | The name of the MongoDB collection that the trigger watches for change events.
-                  The collection must be part of the specified database.
+              description: >-
+                **Required for Database Triggers** --
+                The name of the MongoDB collection that the trigger watches for change events.
+                The collection must be part of the specified database.
             service_id:
               type: string
-              description: |
-                | **Required for Database Triggers**
-                | The ID of the MongoDB Service associated with the trigger.
+              description: >-
+                **Required for Database Triggers** --
+                The ID of the MongoDB Service associated with the trigger.
             match:
               type: object
-              description: |
-                | **Only Available for Database Triggers**
-                | A :manual:`$match </reference/operator/aggregation/match>`
-                  expression document that MongoDB Realm includes in
-                  the underlying change stream pipeline for the trigger.
-                  This is useful when you want to filter change events
-                  beyond their operation type. The trigger will only
-                  fire if the expression evaluates to true for a given
-                  change event.
+              description: >-
+                **Only Available for Database Triggers** --
+                A :manual:`$match </reference/operator/aggregation/match>`
+                expression document that MongoDB Realm includes in
+                the underlying change stream pipeline for the trigger.
+                This is useful when you want to filter change events
+                beyond their operation type. The trigger will only
+                fire if the expression evaluates to true for a given
+                change event.
             full_document:
               type: boolean
-              description: |
-                | **Only Available for Database Triggers**
-                | If true, indicates that ``UPDATE`` change events should include the most current
-                  :manual:`majority-committed </reference/read-concern-majority/>` version of the
-                  modified document in the ``fullDocument`` field.
+              description: >-
+                **Only Available for Database Triggers** --
+                If true, indicates that ``UPDATE`` change events should include the most current
+                :manual:`majority-committed </reference/read-concern-majority/>` version of the
+                modified document in the ``fullDocument`` field.
             schedule:
               type: string
-              description: |
-                | **Only Available for Scheduled Triggers**
-                | A :doc:`cron expression </triggers/cron-expressions>` that defines the trigger schedule.
+              description: >-
+                **Only Available for Scheduled Triggers** --
+                A :doc:`cron expression </triggers/cron-expressions>` that defines the trigger schedule.
         event_processors:
           type: object
-          description: |
-            | An object where each field name is an event processor ID and each
-              value is an object that configures its corresponding event
-              processor.
-
-              The following event processors are supported:
-
-              - ``AWS_EVENTBRIDGE``
-              
-              .. example
-                 
-                 The following object configures a trigger to :doc:`send events to AWS
-                 Eventbridge </triggers/eventbridge>`.
-
-                 .. code-block:: json
-                    
-                    "event_processors": {
-                      "AWS_EVENTBRIDGE": {
-                        "type": "AWS_EVENTBRIDGE",
-                        "config": {
-                          "account_id": "012345678901",
-                          "region": "us-east-1"
-                        }
-                      }
-                    }
+          description: >-
+            An object where each field name is an event processor ID and each
+            value is an object that configures its corresponding event
+            processor.
+            The following event processors are supported: ``AWS_EVENTBRIDGE``
+            For an example configuration object, see
+            :ref:`Send Trigger Events to AWS EventBridge <event_processor_example>`.
     MetadataAttribute:
       type: object
       properties:
@@ -2664,7 +2656,7 @@ components:
           description: The size of the asset in bytes
         attrs:
           type: array
-          description: |
+          description: >-
             An array of documents that each describe a :doc:`metadata
             attribute </hosting/file-metadata-attributes>` that applies
             to the asset.
@@ -2679,7 +2671,7 @@ components:
           description: The unique App ID of the Realm app that is hosting the file.
         last_modified:
           type: integer
-          description: |
+          description: >-
             The time at which the hosted asset was last modified in
             :wikipedia:`Unix time <Unix_time>` (number of seconds since
             January 1, 1970 at 00:00 UTC).
@@ -2694,7 +2686,7 @@ components:
           description: The size of the hosted asset in bytes
         attrs:
           type: array
-          description: |
+          description: >-
             An array of documents that each describe a :doc:`metadata
             attribute </hosting/file-metadata-attributes>` that applies
             to the asset.
@@ -2706,16 +2698,16 @@ components:
     tokenAuth:
       type: http
       scheme: bearer
-      description: |
+      description: >-
         The authorization token provided in the ``access_token`` field of
-        the :ref:`post-/auth/providers/{provider}/login` and
-        :ref:`post-/auth/session` API endpoints.
+        the `POST /auth/providers/{provider}/login <{+base-url+}{+admin-api-page+}post-/auth/providers/{provider}/login>`__ and
+        `POST /auth/session <{+base-url+}{+admin-api-page+}post-/auth/session>`__ API endpoints.
     refreshAuth:
       type: http
       scheme: bearer
-      description: |
+      description: >-
         The authorization token provided in the ``refresh_token`` field of
-        the :ref:`post-/auth/providers/{provider}/login` API endpoint.
+        the `POST /auth/providers/{provider}/login <{+base-url+}{+admin-api-page+}post-/auth/providers/{provider}/login>`__ API endpoint.
   responses:
     ClientErrorResponse:
       description: "There is an error in the request."
@@ -2725,7 +2717,7 @@ components:
             properties:
               error:
                 type: string
-                description: |
+                description: >-
                   A message describing the error.
 tags:
   - name: admin

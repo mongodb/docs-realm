@@ -1,0 +1,393 @@
+.. _ios-define-a-realm-object-schema:
+
+======================================
+Define a Realm Object Schema - iOS SDK
+======================================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+.. _ios-define-a-new-object-type:
+
+Define a New Object Type
+------------------------
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: swift
+
+      You can define a Realm object by deriving from the
+      :swift-sdk:`Object <Extensions/Object.html>` or
+      :swift-sdk:`EmbeddedObject <Extensions/EmbeddedObject.html>`
+      class. The name of the class becomes the table name in the realm,
+      and properties of the class persist in the database. This makes it
+      as easy to work with persisted objects as it is to work with
+      regular Swift objects.
+
+      .. literalinclude:: /examples/generated/code/start/ObjectModels.codeblock.define-a-model.swift
+         :language: swift
+
+   .. tab::
+      :tabid: objective-c
+
+      You can define a Realm object by deriving from the
+      :objc-sdk:`RLMObject <Classes/RLMObject.html>` or
+      :objc-sdk:`RLMEmbeddedObject
+      <Classes/RLMEmbeddedObject.html>` class. The name of the
+      class becomes the table name in the realm, and properties of the
+      class persist in the database. This makes it as easy to work with
+      persisted objects as it is to work with regular Objective-C
+      objects.
+
+      .. literalinclude:: /examples/generated/code/start/ObjectModels.codeblock.define-a-model.m
+         :language: objectivec
+
+.. _ios-declare-a-property:
+
+Declare Properties
+------------------
+
+.. tip::
+
+   For reference on which types {+client-database+} supports for use as
+   properties, see :ref:`ios-supported-property-types`.
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: swift
+
+      When declaring non-generic properties, use the ``@objc dynamic
+      var`` annotation. The ``@objc dynamic var`` attribute turns Realm
+      model properties into accessors for the underlying database data.
+      If the class is declared as ``@objcMembers`` (Swift 4 or later),
+      you can declare properties as ``dynamic var`` without ``@objc``.
+
+      To declare properties of generic types ``LinkingObjects``,
+      ``List``, and ``RealmOptional``, use ``let``. Generic properties
+      cannot be represented in the Objective‑C runtime, which
+      {+client-database+} uses for dynamic dispatch of dynamic
+      properties.
+
+   .. tab::
+      :tabid: objective-c
+
+      Declare properties on your object type as you would on a normal
+      Objective-C interface.
+      
+      In order to use your interface in a Realm array, pass your
+      interface name to the ``RLM_ARRAY_TYPE()`` macro. You can put this
+      at the bottom of your interface's header file. The
+      ``RLM_ARRAY_TYPE()`` macro creates a protocol that allows you to
+      tag :objc-sdk:`RLMArray <Classes/RLMArray.html>` with your type:
+
+      .. literalinclude:: /examples/generated/code/start/ObjectModels.codeblock.array-declaration.m
+         :language: objectivec
+
+.. _ios-specify-an-optional-required-property:
+
+Specify an Optional/Required Property
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: swift
+
+      You can declare ``String``, ``Date``, ``Data``, and
+      :swift-sdk:`ObjectId <Classes/ObjectId.html>` properties as
+      optional or required (non-optional) using standard Swift syntax.
+      Declare optional numeric types using the :swift-sdk:`RealmOptional
+      <Classes/RealmOptional.html>` type.
+
+      .. literalinclude:: /examples/generated/code/start/ObjectModels.codeblock.optional-required-properties.swift
+         :language: swift
+
+      RealmOptional supports ``Int``, ``Float``, ``Double``, ``Bool``,
+      and all of the sized versions of ``Int`` (``Int8``, ``Int16``,
+      ``Int32``, ``Int64``).
+
+   .. tab::
+      :tabid: objective-c
+
+      To declare a given property as required, implement the
+      :objc-sdk:`requiredProperties
+      <Classes/RLMObject.html#/c:objc(cs)RLMObject(cm)requiredProperties>`
+      method and return an array of required property names.
+
+      .. literalinclude:: /examples/generated/code/start/ObjectModels.codeblock.optional-required-properties.m
+         :language: objectivec
+
+.. _ios-specify-a-primary-key:
+
+Specify a Primary Key
+~~~~~~~~~~~~~~~~~~~~~
+
+Primary keys enforce uniqueness among objects in a realm. 
+
+You can efficiently find and update objects by primary key.
+
+As long as an object is managed by a realm, that object's primary key
+value is immutable.
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: swift
+
+      Override :swift-sdk:`Object.primaryKey()
+      <Extensions/Object.html#/c:@CM@RealmSwift@@objc(cs)RealmSwiftObject(cm)primaryKey>`
+      to set the model’s primary key.
+
+      .. literalinclude:: /examples/generated/code/start/ObjectModels.codeblock.specify-a-primary-key.swift
+         :language: swift
+
+   .. tab::
+      :tabid: objective-c
+
+      Override :objc-sdk:`+[RLMObject primaryKey]
+      <Classes/RLMObject.html#/c:objc(cs)RLMObject(cm)primaryKey>` to
+      set the model’s primary key.
+
+      .. literalinclude:: /examples/generated/code/start/ObjectModels.codeblock.specify-a-primary-key.m
+         :language: objectivec
+
+
+.. _ios-index-a-property:
+
+Index a Property
+~~~~~~~~~~~~~~~~
+
+Indexes make queries using equality and IN operators faster in exchange
+for slightly slower writes. Indexes take up more space in the realm
+file. It’s best to only add indexes when optimizing the read performance
+for specific situations.
+
+Realm supports indexing for string, integer, boolean, ``Date``, and
+``ObjectId`` properties.
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: swift
+
+      To index a property, override
+      :swift-sdk:`Object.indexedProperties()
+      <Extensions/Object.html#/c:@CM@RealmSwift@@objc(cs)RealmSwiftObject(cm)indexedProperties>`
+      and return a list of indexed property names.
+
+      .. literalinclude:: /examples/generated/code/start/ObjectModels.codeblock.index-a-property.swift
+         :language: swift
+
+   .. tab::
+      :tabid: objective-c
+
+      To index a property, override :objc-sdk:`+[RLMObject
+      indexedProperties]
+      <Classes/RLMObject.html#/c:objc(cs)RLMObject(cm)indexedProperties>`
+      and return a list of indexed property names.
+
+      .. literalinclude:: /examples/generated/code/start/ObjectModels.codeblock.index-a-property.m
+         :language: objectivec
+
+.. _ios-ignore-a-property:
+
+Ignore a Property
+~~~~~~~~~~~~~~~~~
+
+Ignored properties behave exactly like normal properties. They can’t be
+used in queries and won’t trigger Realm notifications. You can still
+observe them using :apple:`KVO
+<library/archive/documentation/Cocoa/Conceptual/KeyValueObserving/KeyValueObserving.html>`.
+
+.. tip::
+
+   Realm automatically ignores read-only properties.
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: swift
+
+      If you don’t want to save a field in your model to its realm,
+      override :swift-sdk:`Object.ignoredProperties()
+      <Extensions/Object.html#/c:@CM@RealmSwift@@objc(cs)RealmSwiftObject(cm)ignoredProperties>`
+      and return a list of ignored property names.
+
+      .. literalinclude:: /examples/generated/code/start/ObjectModels.codeblock.ignore-a-property.swift
+         :language: swift
+
+   .. tab::
+      :tabid: objective-c
+
+      If you don’t want to save a field in your model to its realm,
+      override :objc-sdk:`+[RLMObject ignoredProperties]
+      <Classes/RLMObject.html#/c:objc(cs)RLMObject(cm)ignoredProperties>`
+      and return a list of ignored property names.
+
+      .. literalinclude:: /examples/generated/code/start/ObjectModels.codeblock.ignore-a-property.m
+         :language: objectivec
+
+.. _ios-realm-enum:
+
+Declare Enum Properties
+-----------------------
+
+{+service-short+} supports only ``Int``-backed ``@objc`` enums.
+
+.. include:: /examples/generated/code/start/ObjectModels.codeblock.realm-object-enum.swift.code-block.rst
+
+.. seealso::
+
+   :swift-sdk:`RealmEnum <Protocols.html#/s:10RealmSwift0A4EnumP>`
+
+.. _ios-declare-relationship-properties:
+
+Declare Relationship Properties
+-------------------------------
+
+.. _ios-define-a-to-one-relationship-property:
+
+Define a To-One Relationship Property
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+A **to-one** relationship maps one property to a single instance of
+another object type. For example, you can model a person having at most
+one companion dog as a to-one relationship.
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: swift
+
+      .. literalinclude:: /examples/generated/code/start/Relationships.codeblock.to-one-relationship.swift
+         :language: swift
+
+   .. tab::
+      :tabid: objective-c
+
+      .. literalinclude:: /examples/generated/code/start/Relationships.codeblock.to-one-relationship.m
+         :language: objectivec
+
+.. _ios-define-a-to-many-relationship-property:
+
+Define a To-Many Relationship Property
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+A **to-many** relationship maps one property to zero or more instances
+of another object type. For example, you can model a person having any
+number of companion dogs as a to-many relationship.
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: swift
+
+      Use :swift-sdk:`List <Classes/List.html>` tagged with your target
+      type to define your to-many relationship property.
+
+      .. literalinclude:: /examples/generated/code/start/Relationships.codeblock.to-many-relationship.swift
+         :language: swift
+
+   .. tab::
+      :tabid: objective-c
+
+      Use :objc-sdk:`RLMArray <Classes/RLMArray.html>` tagged with your
+      target type to define your to-many relationship property.
+
+      .. tip::
+
+         Remember to use the ``RLM_ARRAY_TYPE()`` macro with your type
+         to :ref:`declare the RLMArray protocol for your type
+         <ios-declare-a-property>`.
+
+      .. literalinclude:: /examples/generated/code/start/Relationships.codeblock.to-many-relationship.m
+         :language: objectivec
+
+.. _ios-define-an-inverse-relationship-property:
+
+Define an Inverse Relationship Property
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+An **inverse relationship** property is an automatic backlink
+relationship. {+client-database+} automatically updates implicit
+relationships whenever an object is added or removed in a corresponding
+to-many list or to-one relationship property. You cannot manually set
+the value of an inverse relationship property.
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: swift
+
+      To define an inverse relationship, use :swift-sdk:`LinkingObjects
+      <Structs/LinkingObjects.html>` in your object model. The
+      ``LinkingObjects`` definition specifies the object type and
+      property name of the relationship that it inverts.
+
+      .. literalinclude:: /examples/generated/code/start/Relationships.codeblock.inverse-relationship.swift
+         :language: swift
+
+   .. tab::
+      :tabid: objective-c
+
+      To define an inverse relationship, use
+      :objc-sdk:`RLMLinkingObjects
+      <Classes.html#/c:objc(cs)RLMLinkingObjects>` in your object model.
+      Override :objc-sdk:`+[RLMObject linkingObjectProperties]
+      <Classes/RLMObject.html#/c:objc(cs)RLMObject(cm)linkingObjectsProperties>`
+      method in your class to specify the object type and property name
+      of the relationship that it inverts.
+
+      .. literalinclude:: /examples/generated/code/start/Relationships.codeblock.inverse-relationship.m
+         :language: objectivec
+
+.. _ios-define-an-embedded-object-property:
+
+Define an Embedded Object Property
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+An **embedded object** exists as nested data inside of a single,
+specific parent object. It inherits the lifecycle of its parent object
+and cannot exist as an independent Realm object. Realm automatically
+deletes embedded objects if their parent object is deleted or when
+overwritten by a new embedded object instance.
+
+.. note:: Realm Uses Cascading Deletes for Embedded Objects
+   
+   When you delete a Realm object, any embedded objects referenced by
+   that object are deleted with it. If you want the referenced objects
+   to persist after the deletion of the parent object, your type should
+   not be an embedded object at all. Use a regular :ref:`Realm object
+   <ios-define-a-new-object-type>` with a :ref:`to-one relationship
+   <ios-define-a-to-one-relationship-property>` instead.
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: swift
+
+      You can define an embedded object by deriving from the
+      :swift-sdk:`EmbeddedObject <Extensions/EmbeddedObject.html>`
+      class. You can use your embedded object in another model as you
+      would any other type.
+
+      .. literalinclude:: /examples/generated/code/start/EmbeddedObjects.codeblock.models.swift
+         :language: swift
+
+   .. tab::
+      :tabid: objective-c
+
+      You can define an embedded object by deriving from the
+      :objc-sdk:`RLMEmbeddedObject
+      <Classes/RLMEmbeddedObject.html>` class. You can use your
+      embedded object in another model as you would any other type.
+
+      .. literalinclude:: /examples/generated/code/start/EmbeddedObjects.codeblock.models.m
+         :language: objectivec

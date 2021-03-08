@@ -150,6 +150,12 @@ manager or the ``realm-cli`` binary:
 
 .. include:: /includes/install-realm-cli.rst
 
+.. note:: Realm CLI Version Compatibility
+
+   This tutorial is compatible with version ``1.1.0`` of ``realm-cli``.
+   If you encounter an error importing this app, try switching to
+   version ``1.1.0``.
+
 After installing the ``realm-cli``, you can run the
 following command to confirm that your installation was successful:
 
@@ -425,7 +431,7 @@ Sync
 
 In the :guilabel:`Sync` section, you'll find information about {+sync+},
 which synchronizes data between client devices and your MongoDB Atlas
-cluster. To enable sync, we've define a **partition key**, which
+cluster. To enable sync, we've defined a **partition key**, which
 :ref:`sorts the data in Atlas into multiple {+realm+}s <partitioning>`.
 We've chosen an easy-to-understand name for our partition key:
 ``_partition``. Task Tracker also defines **permissions** for {+sync+},

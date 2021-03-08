@@ -38,9 +38,19 @@ realm-cli login --api-key=[public API key] --private-api-key=[private API key]
 If logged in successfully, you can now import the app:
 
 ```bash
-realm-cli import --app-name tasktracker --path ./backend/
+cd realm-tutorial-backend
+realm-cli import
 ```
 
 Follow the prompts and wait for the app to deploy.
 
 Congratulations! You now have a working MongoDB Realm backend with Sync enabled.
+
+## Issues & Pull Requests
+
+If you find an issue or have a suggestion, please let us know using the feedback
+widget on the [docs site](http://docs.mongodb.com/realm/tutorial).
+
+This repo is automatically derived from our main docs repo. If you'd like to
+submit a pull request -- thanks! -- please feel free to do so at
+https://github.com/mongodb/docs-realm/ (see the tutorial/ subdirectory).

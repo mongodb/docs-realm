@@ -1,0 +1,88 @@
+.. _node-realm-database-reads:
+.. _node-live-queries:
+
+==========================
+Live Queries - Node.js SDK
+==========================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+You can query a {+realm+} to find objects based on their type and the values of
+their properties. Objects and queries always reflect the latest state of an
+object and emit :ref:`notifications <node-change-notifications>` that can
+update your app whenever data changes.
+
+.. tip:: Learn How to Define and Run Queries
+   
+   For code examples that show how to read and filter Realm objects with the
+   Node.js SDK, see :ref:`Read Operations <node-read-operations>`.
+
+.. _node-live-objects:
+
+Live Objects
+------------
+
+Data in {+service-short+} is *live*, which means that an object always reflects
+its most recent saved state and read operations never block. Objects
+automatically update in response to changes, so you can see up-to-date data in
+your application without running a new query.
+
+.. note:: Memory-mapped Realm Objects
+
+   Realm can support live objects because it :wikipedia:`memory-maps
+   <Memory-mapped_file>` objects in your application directly to data stored in
+   the :ref:`{+realm+} file <node-realm-file>` instead of a copy of the data
+   stored in memory.
+
+.. _node-results-collections:
+.. _node-limits:
+.. _node-pagination:
+
+Collections
+-----------
+
+A results collection represents all objects in a realm that match a query
+operation. In general you can work with a collection like a regular JavaScript
+array but collections don't actually hold matching Realm objects in memory.
+Instead they reference the matched objects, which themselves map directly to data
+in the {+realm+} file.
+
+.. note:: Pagination & Limits
+   
+   Some queries only need to access a subset of all objects that match the query.
+   {+service-short+}'s lazy-loaded collections only fetch objects when you actually
+   access them, so you do not need any special mechanism to limit query results.
+   
+   For example, if you only want to find 10 matching objects at a time (such as
+   in a paged product catalog) you can just access ten elements of the results
+   collection. To advance to the next page, access the next ten elements of the
+   results collection starting at the index immediately following the last
+   element of the previous page.
+
+.. _node-change-notifications:
+
+Change Notifications
+--------------------
+
+Realm objects and collections always reflect the latest state of your data when
+you read them. Realm emits a change notification whenever the state of your data
+changes, which lets you reactively update your app in response to committed
+:ref:`write transaction <node-write-transactions>`.
+
+You can register three types of notification listeners:
+
+- A **{+realm+} listener** fires whenever any object in a realm changes.
+- A **collection listener** fires whenever a specific query matches a new set of objects or when any matched object changes.
+- An **object listener** fires whenever a specific object is deleted or has one or more properties modified.
+
+.. tip:: Learn How to React to Changes
+   
+   For code examples that show how to define, register, and clean up change
+   notification listeners with the Node.js SDK, see :ref:`React to Changes
+   <node-react-to-changes>`.

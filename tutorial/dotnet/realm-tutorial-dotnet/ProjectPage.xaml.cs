@@ -32,7 +32,7 @@ namespace RealmDotnetTutorial
         protected override async void OnAppearing()
         {
             WaitingLayout.IsVisible = true;
-            if (App.realmApp.CurrentUser == null)
+            if (App.RealmApp.CurrentUser == null)
             {
                 // No user? Go back to the LoginPage
                 await Navigation.PopAsync();
@@ -49,8 +49,8 @@ namespace RealmDotnetTutorial
             try
             {
                 var syncConfig = new SyncConfiguration(
-                    $"user={ App.realmApp.CurrentUser.Id }",
-                    App.realmApp.CurrentUser);
+                    $"user={ App.RealmApp.CurrentUser.Id }",
+                    App.RealmApp.CurrentUser);
                 // :code-block-start:user-realm-config
                 // :state-start: final
                 userRealm = await Realm.GetInstanceAsync(syncConfig);
@@ -61,11 +61,11 @@ namespace RealmDotnetTutorial
                 // :code-block-end:
                 // :code-block-start:find-user
                 // :state-start: final
-                user = userRealm.All<User>().ToList().Where(u => u.Id ==
-                    App.realmApp.CurrentUser.Id).FirstOrDefault();
+                user = userRealm.Find<User>(App.RealmApp.CurrentUser.Id);
                 // :state-end: :state-uncomment-start: start
                 //// TODO: find the user in the userRealm
-                //// start with userRealm.All<User>(). and use ToList() and Where()
+                //// Because the user's ID is the Primary Key, we can easily
+                //// find the user by passing the ID to userRealm.Find<User>().
                 // :state-uncomment-end:
                 // :code-block-end:
                 if (user != null) SetUpProjectList();
@@ -114,9 +114,9 @@ namespace RealmDotnetTutorial
         {
             try
             {
-                if (App.realmApp.CurrentUser != null)
+                if (App.RealmApp.CurrentUser != null)
                 {
-                    await App.realmApp.CurrentUser.LogOutAsync();
+                    await App.RealmApp.CurrentUser.LogOutAsync();
                     var loginPage = new LoginPage();
                     await Navigation.PushAsync(loginPage);
                 }

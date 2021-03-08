@@ -1,0 +1,51 @@
+.. _android-link-user-identities:
+
+==================================
+Link User Identities - Android SDK
+==================================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+{+service+} provides :ref:`multiple ways <authentication-providers>` for
+users to log into your application. Because each method of authentication
+corresponds to a unique user identity, {+service-short+} lets you merge
+multiple identities corresponding to a single user into one user
+identity.
+
+Example
+-------
+
+For instance, consider an application that enables users to authenticate
+via :ref:`anonymous authentication <anonymous-authentication>` so they
+may explore functionality without linking to an existing
+SSO provider or generating a new password. When that user decides to
+finally create a full account with an SSO provider or email/password
+authentication, you need some way of persisting the user's original
+anonymous identity with their new permanent identity.
+
+You can link identities using the
+:java-sdk:`linkCredentials() <io/realm/mongodb/User.html#linkCredentials-io.realm.mongodb.Credentials->`
+or :java-sdk:`linkCredentialsAsync()
+<io/realm/mongodb/User.html#linkCredentialsAsync-io.realm.mongodb.Credentials-io.realm.mongodb.App.Callback->`
+methods of the :java-sdk:`User <io/realm/mongodb/User.html>` object of a
+logged in user.
+
+.. tabs-realm-languages::
+   
+   .. tab::
+       :tabid: kotlin
+
+       .. literalinclude:: /examples/generated/android/sync/LinkUserIdentitiesTest.codeblock.link-users.kt
+         :language: kotlin
+
+   .. tab::
+       :tabid: java
+
+       .. literalinclude:: /examples/generated/android/sync/LinkUserIdentitiesTest.codeblock.link-users.java
+         :language: java

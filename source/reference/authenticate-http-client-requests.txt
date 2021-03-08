@@ -55,7 +55,30 @@ authentication endpoints accept valid user credentials in the body of a
 
 .. code-block:: text
    
-   https://realm.mongodb.com/api/client/v2.0/app/<yourappid-abcde>/auth/providers/<provider type>/login
+   https://<hostname>/api/client/v2.0/app/<yourappid>/auth/providers/<provider-type>/login
+
+If your app is deployed globally, the ``<hostname>`` is **realm.mongodb.com**. 
+Otherwise, you need to find your hostname by issuing the following request:
+
+.. code-block:: shell
+
+   curl --location --request GET \
+      'https://realm.mongodb.com/api/client/v2.0/app/<APP NAME>/location' \
+      --header 'Content-Type: application/json' \
+      --data-raw '{
+         "key": <API KEY> 
+      }'
+
+The ``hostname`` is in the response:
+
+.. code-block:: text
+   :emphasize-lines: 3
+
+   { "deployment_model":"LOCAL",
+      "location":"US-VA",
+      "hostname":"https://us-east-1.aws.realm.mongodb.com",
+      "ws_hostname":"wss://ws.us-east-1.aws.realm.mongodb.com"
+   }
 
 .. example::
 
@@ -150,3 +173,95 @@ following URL:
       curl --location --request POST 'https://realm.mongodb.com/api/client/v2.0/auth/session' \
         --header 'Content-Type: application/json' \
         --header 'Authorization: Bearer <Refresh Token>'
+
+.. _verify-client-access-token:
+
+Verify a Client Access Token
+----------------------------
+
+If you want to verify that a client access token is valid, you can do so using
+the `verify access token endpoint <{+base-url+}{+admin-api-page+}post-/groups/{groupId}/apps/{appId}/users/verify-token>`__ 
+in the administration API.
+
+This endpoint accepts a ``POST`` request that includes these details:
+
+- the client access token you got using one of the :ref:`above methods <get-client-api-access-token>` for the payload
+- an :ref:`Admin API access token <realm-api-authentication>` ``Authorization`` header
+- the :ref:`{groupId} and {appId} <realm-api-project-and-application-ids>` for your backend {+app+}
+
+With this information, call this API endpoint to verify that the client access 
+token is valid:
+
+.. code-block:: text
+   
+   https://realm.mongodb.com/api/admin/v3.0/​groups/​{groupId}/​apps/​{appId}/​users/​verify_token
+
+.. important:: Do Not Access the Admin API Directly from Client Applications
+   
+   Because this endpoint requires admin API access, implementing this is best 
+   done as a backend service behind an authorization layer - not directly 
+   in the client app.
+
+.. example::
+
+   The following request demonstrates how to use the Admin API endpoint to 
+   verify that a user's client access token is valid. Replace ``<API Access Token>`` 
+   with the ``access_token`` value you get after authenticating with the
+   Admin API, and ``<Client Access Token>`` with the client access token you
+   got using one of the above methods. In the URL, replace {groupId} and {appId}
+   with :ref:`the values for your Realm app <realm-api-project-and-application-ids>`.
+   
+   .. code-block:: shell
+      :emphasize-lines: 3
+   
+      curl --request POST \
+        --url https://realm.mongodb.com/api/admin/v3.0/groups/{groupId}/apps/{appId}/users/verify_token \
+        --header 'Authorization: Bearer <API Access Token>' \
+        --header 'Content-Type: application/json' \
+        --data '{ "token": "<Client Access Token>" }'
+
+.. _verify-client-access-token-responses:
+
+Responses
+~~~~~~~~~
+
+**Valid access token**: If you get a ``200 OK`` with a response that contains the following fields, the <Client Access Token> is valid:
+
+.. code-block:: json
+
+  {
+    "sub": "60367b71e07e1fa6f55af328",
+    "exp": 1614185081,
+    "iat": 1614183281,
+    "iss": "60367b71e07e1fa6f55af32a",
+    "domain_id": "6025a0d127065da7ff49d260",
+    "device_id": "000000000000000000000000"
+  }
+
+**Expired Client Access Token**: If the <Client Access Token> has expired, 
+you'll get a ``200 OK`` but the response will return ``token expired``.
+
+.. code-block:: json
+
+  {
+    "token expired"
+  }
+
+**Invalid Client Access Token**: If the <Client Access Token> is not valid,
+you'll get a ``400 Bad Request`` that contains additional details about the error.
+
+.. code-block:: json
+
+  {
+    "error": "token contains an invalid number of segments"
+  }
+
+**Expired API Access Token**: If the <API Access Token> has expired, you'll get 
+a ``401 Unauthorized`` containing this response:
+
+.. code-block:: json
+
+  {
+    "error": "invalid session",
+    "error_code": "InvalidSession"
+  }

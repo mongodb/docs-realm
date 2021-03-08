@@ -26,7 +26,7 @@ namespace RealmDotnetTutorial
             {
                 // :code-block-start:login-async
                 // :state-start: final
-                var user = await App.realmApp.LogInAsync(Credentials.EmailPassword(email, password));
+                var user = await App.RealmApp.LogInAsync(Credentials.EmailPassword(email, password));
                 // :state-end: :state-uncomment-start: start
                 //// TODO: pass the email and password properties to LogInAsync
                 //// user = await ...
@@ -55,7 +55,7 @@ namespace RealmDotnetTutorial
             {
                 // :code-block-start:register-user
                 // :state-start: final
-                await App.realmApp.EmailPasswordAuth.RegisterUserAsync(email, password);
+                await App.RealmApp.EmailPasswordAuth.RegisterUserAsync(email, password);
                 // :state-end: :state-uncomment-start: start
                 //// TODO: pass the email and password properties to RegisterUserAsync
                 // :state-uncomment-end:

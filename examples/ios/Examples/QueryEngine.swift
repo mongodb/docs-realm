@@ -58,35 +58,63 @@ class QueryEngine: XCTestCase {
         // :code-block-end:
 
         // :code-block-start: comparison-operators
-        print("High priority tasks: \(tasks.filter("priority > 5").count)")
-        print("Long running tasks: \(tasks.filter("progressMinutes > 120").count)")
-        print("Unassigned tasks: \(tasks.filter("assignee == nil").count)")
-        print("Ali or Jamie's tasks: \(tasks.filter("assignee IN {'Ali', 'Jamie'}").count)")
-        print("Tasks with progress between 30 and 60 minutes: \(tasks.filter("progressMinutes BETWEEN {30, 60}").count)")
+        let highPriorityTasks = tasks.filter("priority > 5")
+        print("High priority tasks: \(highPriorityTasks.count)")
+
+        let longRunningTasks = tasks.filter("progressMinutes > 120")
+        print("Long running tasks: \(longRunningTasks.count)")
+
+        let unassignedTasks = tasks.filter("assignee == nil")
+        print("Unassigned tasks: \(unassignedTasks.count)")
+
+        let aliOrJamiesTasks = tasks.filter("assignee IN {'Ali', 'Jamie'}")
+        print("Ali or Jamie's tasks: \(aliOrJamiesTasks.count)")
+
+        let progressBetween30and60 = tasks.filter("progressMinutes BETWEEN {30, 60}")
+        print("Tasks with progress between 30 and 60 minutes: \(progressBetween30and60.count)")
         // :code-block-end:
 
         // :code-block-start: logical-operators
-        print("Ali's complete tasks: \(tasks.filter("assignee == 'Ali' AND isComplete == true").count)")
+        let aliComplete = tasks.filter("assignee == 'Ali' AND isComplete == true")
+        print("Ali's complete tasks: \(aliComplete.count)")
         // :code-block-end:
 
         // :code-block-start: string-operators
         // Use [c] for case-insensitivity.
-        print("Projects that start with 'e': \(projects.filter("name BEGINSWITH[c] 'e'").count)")
-        print("Projects that contain 'ie': \(projects.filter("name CONTAINS 'ie'").count)")
-        print("Projects that contain 'e', 'E', 'é', etc.: \(projects.filter("name CONTAINS[cd] 'e'").count)")
+        let startWithE = projects.filter("name BEGINSWITH[c] 'e'")
+        print("Projects that start with 'e': \(startWithE.count)")
+
+        let containIe = projects.filter("name CONTAINS 'ie'")
+        print("Projects that contain 'ie': \(containIe.count)")
+
+        // [d] for diacritic insensitivty: contains 'e', 'E', 'é', etc.
+        let containElike = projects.filter("name CONTAINS[cd] 'e'")
+        print("Projects that contain 'e', 'E', 'é', etc.: \(containElike.count)")
         // :code-block-end:
 
         // :code-block-start: aggregate-operators
-        print("Projects with average task priority above 5: \(projects.filter("tasks.@avg.priority > 5").count)")
-        print("Projects where all tasks are lower priority: \(projects.filter("tasks.@max.priority < 5").count)")
-        print("Projects where all tasks are high priority: \(projects.filter("tasks.@min.priority > 5").count)")
-        print("Projects with more than 5 tasks: \(projects.filter("tasks.@count > 5").count)")
-        print("Long running projects: \(projects.filter("tasks.@sum.progressMinutes > 100").count)")
+        let averageTaskPriorityAbove5 = projects.filter("tasks.@avg.priority > 5")
+        print("Projects with average task priority above 5: \(averageTaskPriorityAbove5.count)")
+
+        let allTasksLowerPriority = projects.filter("tasks.@max.priority < 5")
+        print("Projects where all tasks are lower priority: \(allTasksLowerPriority.count)")
+
+        let allTasksHighPriority = projects.filter("tasks.@min.priority > 5")
+        print("Projects where all tasks are high priority: \(allTasksHighPriority.count)")
+
+        let moreThan5Tasks = projects.filter("tasks.@count > 5")
+        print("Projects with more than 5 tasks: \(moreThan5Tasks.count)")
+
+        let longRunningProjects = projects.filter("tasks.@sum.progressMinutes > 100")
+        print("Long running projects: \(longRunningProjects.count)")
         // :code-block-end:
 
         // :code-block-start: set-operators
-        print("Projects with no complete tasks: \(projects.filter("NONE tasks.isComplete == true").count)")
-        print("Projects with any top priority tasks: \(projects.filter("ANY tasks.priority == 10").count)")
+        let noCompleteTasks = projects.filter("NONE tasks.isComplete == true")
+        print("Projects with no complete tasks: \(noCompleteTasks.count)")
+
+        let anyTopPriorityTasks = projects.filter("ANY tasks.priority == 10")
+        print("Projects with any top priority tasks: \(anyTopPriorityTasks.count)")
         // :code-block-end:
 
         // :code-block-start: subquery

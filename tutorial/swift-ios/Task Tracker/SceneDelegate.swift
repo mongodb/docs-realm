@@ -10,12 +10,13 @@ import UIKit
 import RealmSwift
 
 // :code-block-start: initialize-app
-// :hide-start:
-let app = App(id: "tasktracker-qczfq")
-// :replace-with:
-// // TODO: initialize the app with your Realm app ID 
+let app = App(id: "tasktracker-qczfq") // :remove:
+// :state-start: start
+// TODO: initialize the app with your Realm app ID
+// :state-end:
+// :state-uncomment-start: final
 // let app = App(id: "<your-realm-app-ID-here>")
-// :hide-end:
+// :state-uncomment-end:
 // :code-block-end:
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
@@ -26,9 +27,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
- 
+
         guard let windowScene = (scene as? UIWindowScene) else { return }
-               
+
         window = UIWindow(windowScene: windowScene)
         window?.makeKeyAndVisible()
         window?.rootViewController = UINavigationController(rootViewController: WelcomeViewController())
@@ -62,6 +63,4 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // to restore the scene back to its current state.
     }
 
-
 }
-

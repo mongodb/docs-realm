@@ -1,0 +1,66 @@
+.. _dotnet-write-transactions:
+.. _dotnet-transactions:
+
+=============================
+Write Transactions - .NET SDK
+=============================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+:term:`{+client-database+}` uses a highly efficient storage engine
+to persist objects. You can **create** objects in a :term:`{+realm+}`,
+**update** objects in a {+realm+}, and eventually **delete**
+objects from a {+realm+}. Because these operations modify the
+state of the {+realm+}, we call them writes.
+
+All writes to {+service-short+} must be within a **transaction**. A
+transaction is a list of read and write operations that
+{+service-short+} treats as a single indivisible operation. In other
+words, a transaction is *all or nothing*: either all of the
+operations in the transaction succeed or none of the
+operations in the transaction take effect.
+
+.. note:: Remember
+
+   All writes must happen in a transaction.
+
+A {+realm+} allows only one open transaction at a time. {+service-short+}
+blocks other writes on other threads until the open
+transaction is complete. Consequently, there is no race
+condition when reading values from the {+realm+} within a
+transaction.
+
+When you are done with your transaction, {+service-short+} either
+**commits** it or **cancels** it:
+
+- When {+service-short+} **commits** a transaction, {+service-short+} writes
+  all changes to disk. For :term:`synced {+realms+} <{+sync+}>`, {+service-short+} queues the change
+  for synchronization with :term:`{+service+}`.
+- When {+service-short+} **cancels** a write transaction or an operation in
+  the transaction causes an error, all changes are discarded
+  (or "rolled back").
+
+.. _dotnet-acid-compliance:
+
+Realm is ACID Compliant
+~~~~~~~~~~~~~~~~~~~~~~~
+
+{+service-short+} guarantees that transactions are :term:`ACID`
+compliant. This means that all committed write
+operations are guaranteed to be valid and that clients don't
+see transient states in the event of a system crash.
+
+.. TODO: EXAMPLE
+.. _dotnet-open-a-transaction:
+
+.. Run a Transaction
+.. ~~~~~~~~~~~~~~~~~
