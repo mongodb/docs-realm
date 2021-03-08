@@ -222,11 +222,8 @@ content: |
        - The resolver returns the automatically generated ``DefaultPayload``
          type which has the following signature:
          
-         .. code-block:: graphql
-            
-            type DefaultPayload {
-              status: String!
-            }
+         .. literalinclude:: /includes/DefaultPayload.type.graphql
+            :language: graphql
             
          The ``status`` field will always resolve to ``"complete"`` regardless
          of the resolver function's return value.
