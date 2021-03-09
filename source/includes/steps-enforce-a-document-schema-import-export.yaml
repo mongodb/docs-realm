@@ -42,7 +42,7 @@ content: |
         # Create the collection's configuration directory
         mkdir -p data_sources/<service>/<db>/<collection>
         # Create the collection's schema file
-        touch data_sources/<service>/<db>/<collection>/schema.json
+        echo '{}' >> data_sources/<service>/<db>/<collection>/schema.json
   
   The root-level schema for every document must be of type ``object``. You
   can use additional :doc:`schema types </mongodb/document-schemas>` to
