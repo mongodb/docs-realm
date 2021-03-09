@@ -28,6 +28,14 @@ Storage <essentials/secure-storage>` to simplify the access to underlying
 storage. Ultimately, it is the developer's responsibility to ensure that
 attackers cannot easily extract the key.
 
+.. note::
+
+   The same encryption key must be supplied every time you obtain a Realm instance.
+   If you don't provide a key, or specify the wrong key, for an encrypted 
+   Realm, you will get a 
+   :dotnet-sdk:`RealmFileAccessErrorException <reference/Realms.Exceptions.RealmFileAccessErrorException.html>` 
+   when you call ``GetInstance``.
+
 Example
 -------
 
