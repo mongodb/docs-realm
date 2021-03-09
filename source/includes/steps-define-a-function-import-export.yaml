@@ -36,10 +36,12 @@ content: |
   For more information about the properties of the function configuration object, 
   see :ref:`Function Configuration Filesm <appconfig-functions>`.
 
----
-title: Configure User Authentication
-ref: configure-user-authentication
-content: |
+  Configuration Settings
+  ~~~~~~~~~~~~~~~~~~~~~~
+
+  Set User Authentication
+  =======================
+
   Functions in {+service+} always execute in the context of a specific
   application user or as a :ref:`system user <system-user>` (which
   bypasses rules). To configure the function's execution user, specify
@@ -61,39 +63,39 @@ content: |
 
     To execute a function as a specific user, use the following configuration:
 
-    .. code-block:: json
-      
-       {
-         "run_as_system": false,
-         "run_as_user_id": "<Realm User Id>",
-         "run_as_user_id_script_source": "",
-       }
+      .. code-block:: json
+        
+        {
+          "run_as_system": false,
+          "run_as_user_id": "<Realm User Id>",
+          "run_as_user_id_script_source": "",
+        }
 
   - **Script**
 
       The third way to execute a function is to specify another function that 
-      returns a user id. Your function will execute as this muser. To do this, 
+      returns a user id. Your function will execute as this user. To do this, 
       use the following configuration:
 
         .. code-block:: json
       
            {
              "run_as_system": false,
-             "run_as_user_id": "<Realm User Id>",
+             "run_as_user_id": "",
              "run_as_user_id_script_source": "<Function Source Code>",
            }
 
----
-title: Configure Function Execution Logs
-ref: configure-function-execution-logs
-content: |
+
+  Set Execution Logging
+  =====================
+
   To include any values that the function receives as arguments in its
   :doc:`log entry </logs/function>`, set ``disable_arg_logs`` to
   ``false``.
----
-title: Specify an Authorization Expression
-ref: specify-an-authorization-expression
-content: |
+
+  Specify an Authorization Expression
+  ===================================
+
   You can dynamically authorize requests based on the contents of each
   request by defining a :guilabel:`Can Evaluate` :doc:`JSON expression
   </services/json-expressions>`. {+backend+} evaluates the expression
@@ -121,10 +123,10 @@ content: |
                 ]
             }
         }
----
-title: Configure the Function's Privacy Level
-ref: configure-the-functions-privacy-level
-content: |
+
+  Configure the Function's Privacy Level
+  ======================================
+
   By default, you can call a function from client applications as well
   as other functions in the same application. You can prevent client
   applications from seeing or calling a function by setting ``private``
@@ -133,6 +135,7 @@ content: |
   You can still call a private function from :doc:`JSON expressions
   </services/json-expressions>` and other functions, including incoming
   webhooks and triggers.
+
 ---
 title: Write the Function Code
 ref: write-the-function-code
