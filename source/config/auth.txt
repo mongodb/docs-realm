@@ -88,11 +88,11 @@ configuration fields.
        - ``"anon-user"`` for :ref:`Anonymous <anonymous-authentication>` authentication.
        - ``"local-userpass"`` for :ref:`Email/Password <email-password-authentication>` authentication.
        - ``"api-key"`` for :ref:`API Key <api-key-authentication>` authentication.
-       - ``"custom-token"`` for :ref:`Custom JWT <custom-token-authentication>` authentication.
+       - ``"custom-token"`` for :ref:`Custom JWT <custom-jwt-authentication>` authentication.
        - ``"custom-function"`` for :ref:`Custom Function <custom-function-authentication>` authentication.
-       - ``"oauth2-google"`` for :ref:`Google <oauth2-google-authentication>` authentication.
-       - ``"oauth2-facebook"`` for :ref:`Facebook <oauth2-facebook-authentication>` authentication.
-       - ``"oauth2-apple"`` for :ref:`Apple ID <oauth2-apple-authentication>` authentication.
+       - ``"oauth2-google"`` for :ref:`Google <google-authentication>` authentication.
+       - ``"oauth2-facebook"`` for :ref:`Facebook <facebook-authentication>` authentication.
+       - ``"oauth2-apple"`` for :ref:`Apple ID <apple-id-authentication>` authentication.
    
    * - | ``disabled``
        | Boolean
@@ -108,7 +108,7 @@ configuration fields.
        The following provider configurations include ``config``:
        
        - :ref:`Email/Password <config-email-password>`
-       - :ref:`Custom JWT <config-custom-token>`
+       - :ref:`Custom JWT <config-custom-jwt>`
        - :ref:`Custom Function <config-custom-function>`
        - :ref:`Google <config-oauth2-google>`
        - :ref:`Facebook <config-oauth2-facebook>`
@@ -122,7 +122,7 @@ configuration fields.
        
        The following provider configurations include ``redirect_uris``:
        
-       - :ref:`Custom JWT <config-custom-token>`
+       - :ref:`Custom JWT <config-custom-jwt>`
        - :ref:`Google <config-oauth2-google>`
        - :ref:`Facebook <config-oauth2-facebook>`
        - :ref:`Apple ID <config-oauth2-apple>`
@@ -136,7 +136,7 @@ configuration fields.
        
        The following provider configurations include ``metadata_fields``:
        
-       - :ref:`Custom JWT <config-custom-token>`
+       - :ref:`Custom JWT <config-custom-jwt>`
        - :ref:`Google <config-oauth2-google>`
        - :ref:`Facebook <config-oauth2-facebook>`
    
