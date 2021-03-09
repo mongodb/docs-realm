@@ -1,8 +1,7 @@
 import Realm from "realm";
 
-//Define Realm object types with JavaScript classes
 describe("Define a Realm Object Schema", () => {
-  test("should open and close a local realm", async () => {
+  test("should define realm object types with js classes", async () => {
     // :code-block-start: define-a-realm-object-schema-define-js-classes
     class Car {
       static schema = {
