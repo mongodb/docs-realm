@@ -12,4 +12,4 @@ realm.write(() => {
   });
 });
 console.log(car1.carName);
-// use car
+// use car1

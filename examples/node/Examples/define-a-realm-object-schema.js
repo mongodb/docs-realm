@@ -34,7 +34,7 @@ describe("Define a Realm Object Schema", () => {
       });
     });
     console.log(car1.carName);
-    // use car
+    // use car1
     // :code-block-end:
 
     expect(car1.carName).toBe("Nissan Sentra");
