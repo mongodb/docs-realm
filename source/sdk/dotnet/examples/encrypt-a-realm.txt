@@ -18,16 +18,6 @@ Overview
 You can encrypt your local {+realm+} to ensure data security. For more information,
 see :ref:`dotnet-realm-encryption`.
 
-Storing & Reusing Keys
-----------------------
-
-You must pass the same encryption key when opening the encrypted {+realm+}
-again. Apps should securely store the encryption key, typically in the target
-platform's secure key/value pair storage. You can use :xamarin:`Xamarin Secure
-Storage <essentials/secure-storage>` to simplify the access to underlying
-storage. Ultimately, it is the developer's responsibility to ensure that
-attackers cannot easily extract the key.
-
 .. note::
 
    The same encryption key must be supplied every time you obtain a Realm instance.
