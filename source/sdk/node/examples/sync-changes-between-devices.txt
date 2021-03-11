@@ -53,7 +53,7 @@ Create a :js-sdk:`Configuration <Realm.html#~Configuration>` object, which must
 include the ``sync`` property defining a :js-sdk:`SyncConfiguration
 <Realm.App.Sync.html#~SyncConfiguration>` object. Set this
 ``OpenRealmBehaviorConfiguration`` object as the value for
-the``newRealmFileBehavior`` and ``existingRealmFileBehavior`` fields of the
+the ``newRealmFileBehavior`` and ``existingRealmFileBehavior`` fields of the
 ``SyncConfiguration``. 
 
 .. literalinclude:: /examples/generated/node/sync-changes-between-devices.codeblock.sync-changes-between-devices-sync-changes-in-the-background-create-config.js
@@ -69,7 +69,7 @@ downloading any existing data from the server in the background.
 
 .. warning:: Read-only Realms Must Not Be Synced in the Background
 
-   If a Realm has read-only Realm level permissions, then you must
+   If a {+realm+} has read-only {+realm+} level permissions, then you must
    asynchronously open the {+realm+}. Opening a file-level read-only {+realm+}
    without the asynchronous API will cause an error if your session is online.
    Synced realms are opened asynchronously by default. Learn how to :ref:`open a
