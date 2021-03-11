@@ -84,7 +84,7 @@ You can pause synchronization using the :js-sdk:`syncSession.pause()
 <Realm.App.Sync.Session.html#~pause>` method. To resume synchronization, use the
 :js-sdk:`syncSession.resume() <Realm.App.Sync.Session.html#~resume>` method
 
-.. literalinclude:: /examples/generated/react-native/sync-changes-between-devices.codeblock.sync-changes-between-devices-pause-or-resume-sync-session.js
+.. literalinclude:: /examples/generated/node/sync-changes-between-devices.codeblock.sync-changes-between-devices-pause-or-resume-sync-session.js
    :language: javascript
 
 .. _react-native-check-sync-progress:
@@ -106,7 +106,7 @@ The ``syncSession.addProgressNotification()`` method takes in the following thre
    listen for upload events indefinitely. The developer writes to the realm and
    then unregisters the ``syncSession`` notification callback. 
 
-   .. literalinclude:: /examples/generated/react-native/sync-changes-between-devices.codeblock.sync-changes-between-devices-check-upload-and-download-progress.js
+   .. literalinclude:: /examples/generated/node/sync-changes-between-devices.codeblock.sync-changes-between-devices-check-upload-and-download-progress.js
       :language: javascript
 
 
@@ -125,7 +125,7 @@ To check the current state of the connection to the server, call the
    ``syncSession.connectionState()`` method is available if your app needs to
    gets the current state of the connection to the server.
 
-.. literalinclude:: /examples/generated/react-native/sync-changes-between-devices.codeblock.sync-changes-between-devices-check-network-connection.js
+.. literalinclude:: /examples/generated/node/sync-changes-between-devices.codeblock.sync-changes-between-devices-check-network-connection.js
    :language: javascript
 
 .. _react-native-set-the-client-log-level:
@@ -168,5 +168,5 @@ Perform a Client Reset
 You can customize behavior in the event of a :ref:`client reset
 <react-native-client-resets>` error with a custom error handler function:
 
-.. literalinclude:: /examples/generated/react-native/sync-changes-between-devices.codeblock.sync-changes-between-devices-perform-a-client-reset.js
+.. literalinclude:: /examples/generated/node/sync-changes-between-devices.codeblock.sync-changes-between-devices-perform-a-client-reset.js
    :language: javascript
