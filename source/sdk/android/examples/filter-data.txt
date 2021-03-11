@@ -1,6 +1,3 @@
-.. _android-client-query-engine:
-.. _android-filter-data:
-
 .. _android-filter-data:
 
 =========================
@@ -28,22 +25,22 @@ See the schema for these two classes below:
    .. tab::
       :tabid: kotlin
 
-      .. literalinclude:: /examples/generated/android/sync/TeacherKt.codeblock.complete.kt
+      .. literalinclude:: /examples/generated/android/local/TeacherKt.codeblock.complete.kt
          :language: kotlin
          :caption: Teacher.kt
 
-      .. literalinclude:: /examples/generated/android/sync/StudentKt.codeblock.complete.kt
+      .. literalinclude:: /examples/generated/android/local/StudentKt.codeblock.complete.kt
          :language: kotlin
          :caption: Student.kt
 
    .. tab::
       :tabid: java
 
-      .. literalinclude:: /examples/generated/android/sync/Teacher.codeblock.complete.java
+      .. literalinclude:: /examples/generated/android/local/Teacher.codeblock.complete.java
          :language: java
          :caption: Teacher.java
 
-      .. literalinclude:: /examples/generated/android/sync/Student.codeblock.complete.java
+      .. literalinclude:: /examples/generated/android/local/Student.codeblock.complete.java
          :language: java
          :caption: Student.java
 
@@ -61,13 +58,13 @@ You can build filters using the operator methods of the
    .. tab::
       :tabid: kotlin
 
-      .. literalinclude:: /examples/generated/code/start/FilterDataTest.codeblock.filters.kt
+      .. literalinclude:: /examples/generated/android/local/FilterDataTest.codeblock.filters.kt
          :language: kotlin
 
    .. tab::
       :tabid: java
 
-      .. literalinclude:: /examples/generated/code/start/FilterDataTest.codeblock.filters.java
+      .. literalinclude:: /examples/generated/android/local/FilterDataTest.codeblock.filters.java
          :language: java
 
 This gives you a new instance of the class :java-sdk:`RealmResults <io/realm/RealmResults.html>`,
@@ -113,13 +110,13 @@ For example, consider a query for all teachers with a student named
    .. tab::
       :tabid: kotlin
 
-      .. literalinclude:: /examples/generated/code/start/FilterDataTest.codeblock.link-queries.kt
+      .. literalinclude:: /examples/generated/android/local/FilterDataTest.codeblock.link-queries.kt
          :language: kotlin
 
    .. tab::
       :tabid: java
 
-      .. literalinclude:: /examples/generated/code/start/FilterDataTest.codeblock.link-queries.java
+      .. literalinclude:: /examples/generated/android/local/FilterDataTest.codeblock.link-queries.java
          :language: java
 
 You can even use dot notation to query inverse relationships:
@@ -129,13 +126,13 @@ You can even use dot notation to query inverse relationships:
    .. tab::
       :tabid: kotlin
 
-      .. literalinclude:: /examples/generated/code/start/FilterDataTest.codeblock.link-queries-inverse.kt
+      .. literalinclude:: /examples/generated/android/local/FilterDataTest.codeblock.link-queries-inverse.kt
          :language: kotlin
 
    .. tab::
       :tabid: java
 
-      .. literalinclude:: /examples/generated/code/start/FilterDataTest.codeblock.link-queries-inverse.java
+      .. literalinclude:: /examples/generated/android/local/FilterDataTest.codeblock.link-queries-inverse.java
          :language: java
 
 Sort Results
@@ -150,13 +147,13 @@ method:
    .. tab::
       :tabid: kotlin
 
-      .. literalinclude:: /examples/generated/code/start/FilterDataTest.codeblock.sort.kt
+      .. literalinclude:: /examples/generated/android/local/FilterDataTest.codeblock.sort.kt
          :language: kotlin
 
    .. tab::
       :tabid: java
 
-      .. literalinclude:: /examples/generated/code/start/FilterDataTest.codeblock.sort.java
+      .. literalinclude:: /examples/generated/android/local/FilterDataTest.codeblock.sort.java
          :language: java
 
 Sorts organize results in ascending order by default. To organize results
@@ -185,13 +182,13 @@ method:
    .. tab::
       :tabid: kotlin
 
-      .. literalinclude:: /examples/generated/code/start/FilterDataTest.codeblock.limit.kt
+      .. literalinclude:: /examples/generated/android/local/FilterDataTest.codeblock.limit.kt
          :language: kotlin
 
    .. tab::
       :tabid: java
 
-      .. literalinclude:: /examples/generated/code/start/FilterDataTest.codeblock.limit.java
+      .. literalinclude:: /examples/generated/android/local/FilterDataTest.codeblock.limit.java
          :language: java
 
 Limited result collections automatically update like any other query
@@ -227,13 +224,13 @@ method:
    .. tab::
       :tabid: kotlin
 
-      .. literalinclude:: /examples/generated/code/start/FilterDataTest.codeblock.unique.kt
+      .. literalinclude:: /examples/generated/android/local/FilterDataTest.codeblock.unique.kt
          :language: kotlin
 
    .. tab::
       :tabid: java
 
-      .. literalinclude:: /examples/generated/code/start/FilterDataTest.codeblock.unique.java
+      .. literalinclude:: /examples/generated/android/local/FilterDataTest.codeblock.unique.java
          :language: java
 
 You can only call distinct on integer, long, short, and ``String``
@@ -251,13 +248,13 @@ You can apply additional filters to a results collection by calling the
    .. tab::
       :tabid: kotlin
 
-      .. literalinclude:: /examples/generated/code/start/FilterDataTest.codeblock.chain-queries.kt
+      .. literalinclude:: /examples/generated/android/local/FilterDataTest.codeblock.chain-queries.kt
          :language: kotlin
 
    .. tab::
       :tabid: java
 
-      .. literalinclude:: /examples/generated/code/start/FilterDataTest.codeblock.chain-queries.java
+      .. literalinclude:: /examples/generated/android/local/FilterDataTest.codeblock.chain-queries.java
          :language: java
 
 The ``where()`` method returns a ``RealmQuery`` that you can resolve into
