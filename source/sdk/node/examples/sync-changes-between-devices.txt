@@ -36,17 +36,9 @@ Sync Changes in the Background
 ------------------------------
 You may want to sync changes in the background to display partial data to the
 user while the synced {+realm+} downloads data from the server, preventing the
-user experience from being blocked. We also recommend syncing changes in the
+user experience from being blocked. We recommend syncing changes in the
 background for applications in which the user's device may go offline. To sync
-changes in the background, open a synced {+synced+} synchronously.
-
-.. warning:: Read-only realms must be asynchronously opened.
-
-   If a Realm has read-only Realm level permissions, then you must
-   asynchronously open the {+realm+}. Opening a file-level read-only {+realm+}
-   without the asynchronous API will cause an error if your session is online.
-   Synced realms are opened asynchronously by default. Learn how to :ref:`open a
-   synced {+realm+} <node-open-a-synced-realm>`.
+changes in the background, open a synced {+realm+} synchronously.
 
 Create a :js-sdk:`OpenRealmBehaviorConfiguration
 <Realm.App.Sync.html#~OpenRealmBehaviorConfiguration>` object and set its
@@ -71,6 +63,15 @@ downloading any existing data from the server in the background.
 
 .. literalinclude:: /examples/generated/node/sync-changes-between-devices.codeblock.sync-changes-between-devices-sync-changes-in-the-background-open-realm.js
       :language: javascript
+
+
+.. warning:: Read-only realms must not be synced in the background
+
+   If a Realm has read-only Realm level permissions, then you must
+   asynchronously open the {+realm+}. Opening a file-level read-only {+realm+}
+   without the asynchronous API will cause an error if your session is online.
+   Synced realms are opened asynchronously by default. Learn how to :ref:`open a
+   synced {+realm+} <node-open-a-synced-realm>`.
 
 .. _node-pause-or-resume-a-sync-session:
 
