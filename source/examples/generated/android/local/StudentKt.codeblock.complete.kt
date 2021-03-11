@@ -7,5 +7,5 @@ open class Student : RealmObject() {
     var year: Int? = null
 
     @LinkingObjects("students")
-    val teacher: RealmResults<TeacherKt>? = null
+    val teacher: RealmResults<Teacher>? = null
 }

@@ -2,7 +2,8 @@ package com.mongodb.realm.examples.model.kotlin
 // :code-block-start: complete
 // :replace-start: {
 //    "terms": {
-//       "TeacherKt": "Teacher"
+//       "TeacherKt": "Teacher",
+//       "StudentKt": "Student"
 //    }
 // }
 import io.realm.RealmList
