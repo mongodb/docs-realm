@@ -144,7 +144,7 @@ namespace Examples
             // :code-block-end:
             var allTasks = realm.All<Task>().ToList();
             //Assert.AreEqual(1, allTasks.Count);
-            Assert.AreEqual(TaskStatus.InProgress.ToString(), allTasks.First().Status);
+            Assert.AreEqual(TaskStatus.Open.ToString(), allTasks.First().Status);
 
             return;
         }

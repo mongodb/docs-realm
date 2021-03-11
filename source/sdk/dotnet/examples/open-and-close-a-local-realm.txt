@@ -28,10 +28,31 @@ configuration information:
 .. literalinclude:: /examples/generated/dotnet/Examples.codeblock.local-realm.cs
    :language: csharp
 
+In-Memory Realms
+----------------
+With an 
+:dotnet-sdk:`InMemoryConfiguration <reference/Realms.InMemoryConfiguration.html>` 
+object, you can create a {+realm+} that runs entirely in memory (that is, without 
+the data written to disk.) The following example shows how to do this: 
+
+.. literalinclude:: /examples/generated/dotnet/Program.codeblock.in-memory.cs
+   :language: csharp
+
+In-memory {+realm+}s might still use disk space if memory is running low, but all 
+files created by an in-memory {+realm+} will be deleted when the {+realm+} is 
+closed. When creating an in-memory {+realm+}, the identifier must be unique to all 
+{+realm+}s, including both in-memory and persisted {+realm+}s. 
+
+.. important::
+
+   When an in-memory {+realm+} is disposed or garbage-collected, the data is lost. 
+   To keep an in-memory {+realm+} “alive” throughout your app’s execution, be sure 
+   to hold a reference to {+realm+}. 
+
 Scoping the Realm
 -----------------
 
-The Realm instance implements ``IDisposable`` to ensure native resources are 
+The {+realm+} instance implements ``IDisposable`` to ensure native resources are 
 freed up. You should dispose of a realm object immediately after use, especially 
 on background threads. The simplest way to do this is by declaring the realm 
 object with a ``using`` statement, or wrapping the code that interacts with a 
@@ -40,7 +61,7 @@ object with a ``using`` statement, or wrapping the code that interacts with a
 .. literalinclude:: /examples/generated/dotnet/Examples.codeblock.scope.cs
    :language: csharp
 
-If you require a realm object to be shared outside of a single method, be sure 
+If you require a {+realm+} object to be shared outside of a single method, be sure 
 to manage its state by calling the
 :dotnet-sdk:`Dispose() <reference/Realms.Realm.html#Realms_Realm_Dispose>` method:
 

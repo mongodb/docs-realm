@@ -83,6 +83,13 @@ matches, the returned ``RealmResults`` object will be a list of length
 You can only modify or delete objects in a ``RealmResults`` set
 in a write transaction.
 
+Iteration
+---------
+
+Because {+service-short+} collections are live, objects may move as you
+iterate over a collection. You can use
+:ref:`snapshots <android-iteration>` to iterate over collections safely.
+
 .. _android-live-collections:
 
 Collections are Live

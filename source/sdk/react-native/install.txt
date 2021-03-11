@@ -1,0 +1,84 @@
+.. _react-native-install:
+
+==============================
+Install Realm for React Native
+==============================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+The {+service+} React Native SDK enables development of `React
+Native <https://facebook.github.io/react-native/>`__
+applications using the JavaScript and `TypeScript
+<https://www.typescriptlang.org/>`__ languages. React Native
+enables you to build cross-platform iOS and Android apps
+with a single codebase using the `React
+<https://reactjs.org/>`__ framework.
+
+Prerequisites
+-------------
+
+Before getting started, ensure your development environment
+meets the following prerequisites:
+
+- React Native v0.31.0 or later. Follow the `official React Native CLI Quickstart instructions <https://facebook.github.io/react-native/docs/getting-started.html>`__ to set up your environment.
+- `CocoaPods <https://cocoapods.org/>`__ (recommended for building an iOS app with React Native v.60+).
+
+.. important:: Expo does not support Realm
+
+   Unfortunately, `Expo does not support {+service-short+}
+   <https://expo.canny.io/feature-requests/p/support-for-realm>`__.
+   If you use the Expo CLI or ``create-react-native-app`` to
+   create your React Native project, you will need to
+   "eject" your Expo project to use {+service-short+}. The installation
+   steps on this page do not use the Expo CLI.
+
+
+Installation
+------------
+
+Select the tab below that corresponds to your React Native
+version. Follow the steps to create a React Native project
+and add the {+service-short+} React Native SDK to it.
+
+.. tabs::
+
+   .. tab:: React Native v.60+
+      :tabid: rn-v-60-plus
+
+      .. include:: /includes/steps/install-react-native-v60-plus.rst
+
+   .. tab:: Older React Native Versions
+      :tabid: rn-pre-v-60
+
+      .. include:: /includes/steps/install-react-native-pre-v60.rst
+
+Import Realm
+------------
+
+Add the following line to the top of your source files where
+you want to use {+service+}:
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: javascript
+
+      .. code-block:: javascript
+
+         import Realm from "realm";
+
+   .. tab::
+      :tabid: typescript
+
+      .. code-block:: typescript
+
+         import Realm from "realm";

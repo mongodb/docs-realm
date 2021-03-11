@@ -80,6 +80,27 @@ class ObjectModelsExamples_Person: Object {
 }
 // :code-block-end:
 
+// :code-block-start: realm-object-enum
+// Define the enum
+@objc enum ObjectModelsExamples_TaskStatusEnum: Int, RealmEnum {
+    case notStarted = 1
+    case inProgress = 2
+    case complete = 3
+}
+
+// To use the enum:
+class ObjectModelsExamples_Task: Object {
+    @objc dynamic var name: String = ""
+    @objc dynamic var owner: String?
+
+    // Required enum property
+    @objc dynamic var status = ObjectModelsExamples_TaskStatusEnum.notStarted // :emphasize:
+
+    // Optional enum property
+    let optionalTaskStatusEnumProperty = RealmOptional<ObjectModelsExamples_TaskStatusEnum>() // :emphasize:
+}
+// :code-block-end:
+
 class ObjectModels: XCTestCase {
 
 }
