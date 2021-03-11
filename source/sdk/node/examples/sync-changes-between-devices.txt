@@ -34,41 +34,43 @@ object, which must include the ``sync`` property defining a
 
 Sync Changes in the Background
 ------------------------------
-You can sync changes in the background, by setting the
-``newRealmFileBehavior.type`` or the ``existingRealmFileBehavior.type`` to a
-:js-sdk:`OpenRealmBehaviorConfiguration
-<Realm.App.Sync.html#~OpenRealmBehaviorConfiguration>`.
+You may want to sync changes in the background to display partial data to the
+user while the synced {+realm+} downloads data from the server, preventing the
+user experience from being blocked. We also recommend syncing changes in the
+background for applications in which the user's device may go offline. To sync
+changes in the background, open a synced {+synced+} synchronously.
 
-If a :ref:`realm file<node-realm-file>` does not exist yet, set the
-``newRealmFileBehavior`` field of the :js-sdk:`SyncConfiguration
-<Realm.App.Sync.html#~SyncConfiguration>` object. This defines whether to create a
-new file and sync in background or wait for the file to be synced.
+.. warning:: Read-only realms must be asynchronously opened.
 
-.. example::
+   If a Realm has read-only Realm level permissions, then you must
+   asynchronously open the {+realm+}. Opening a file-level read-only {+realm+}
+   without the asynchronous API will cause an error if your session is online.
+   Synced realms are opened asynchronously by default. Learn how to :ref:`open a
+   synced {+realm+} <node-open-a-synced-realm>`.
 
-   In the following example, an application developer sets the
-   ``newRealmFileBehavior.type`` to ``openImmediately`` in order to create a new
-   ``.realm`` file and sync in the background.
+Create a :js-sdk:`OpenRealmBehaviorConfiguration
+<Realm.App.Sync.html#~OpenRealmBehaviorConfiguration>` object and set its
+``type`` to ``"openImmediately"``. 
 
-   .. literalinclude:: /examples/generated/node/sync-changes-between-devices.codeblock.sync-changes-between-devices-check-upload-and-download-progress.js
+.. literalinclude:: /examples/generated/node/sync-changes-between-devices.codeblock.sync-changes-between-devices-sync-changes-in-the-background-create-OpenRealmBehaviorObject.js
       :language: javascript
 
+Create a :js-sdk:`Configuration <Realm.html#~Configuration>` object, which must
+include the ``sync`` property defining a :js-sdk:`SyncConfiguration
+<Realm.App.Sync.html#~SyncConfiguration>` object. Set this
+``OpenRealmBehaviorConfiguration`` object as the value for
+the``newRealmFileBehavior`` and ``existingRealmFileBehavior`` fields of the
+``SyncConfiguration``. 
 
-If a :ref:`realm file<node-realm-file>` already exists, set the
-``existingRealmFileBehavior`` field of the :js-sdk:`SyncConfiguration
-<Realm.App.Sync.html#~SyncConfiguration>` object. This defines whether to open
-an existing file and sync in background or wait for the sync of the file to
-complete and then open
-
-.. example::
-
-   In the following example, an application developer sets the
-   ``existingRealmFileBehavior.type`` to ``downloadBeforeOpen`` in order to wait
-   for the existing file to be synced and then open the realm.
-
-   .. literalinclude:: /examples/generated/node/sync-changes-between-devices.codeblock.sync-changes-between-devices-check-upload-and-download-progress.js
+.. literalinclude:: /examples/generated/node/sync-changes-between-devices.codeblock.sync-changes-between-devices-sync-changes-in-the-background-create-config.js
       :language: javascript
 
+Finally,  call :js-sdk:`Realm.open() <Realm.html#.open>`
+to open a synced {+realm+}. This will create a sync session and begin
+downloading any existing data from the server in the background.
+
+.. literalinclude:: /examples/generated/node/sync-changes-between-devices.codeblock.sync-changes-between-devices-sync-changes-in-the-background-open-realm.js
+      :language: javascript
 
 .. _node-pause-or-resume-a-sync-session:
 
