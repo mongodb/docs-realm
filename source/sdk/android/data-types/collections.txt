@@ -73,6 +73,23 @@ cannot add or remove elements on the results collection.
 Results have an associated query that determines their
 contents.
 
+The :java-sdk:`RealmResults <io/realm/RealmResults.html>` class inherits from
+:android:`AbstractList <reference/java/util/AbstractList>` and behaves
+in similar ways. For example, ``RealmResults`` are ordered, and you can
+access the individual objects through an index. If a query has no
+matches, the returned ``RealmResults`` object will be a list of length
+0, not a ``null`` object reference.
+
+You can only modify or delete objects in a ``RealmResults`` set
+in a write transaction.
+
+Iteration
+---------
+
+Because {+service-short+} collections are live, objects may move as you
+iterate over a collection. You can use
+:ref:`snapshots <android-iteration>` to iterate over collections safely.
+
 .. _android-lists-adapters:
 
 Adapters
