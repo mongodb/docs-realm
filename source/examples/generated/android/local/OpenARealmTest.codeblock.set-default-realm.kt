@@ -1,9 +1,9 @@
 val config = RealmConfiguration.Builder()
-    .name("alternate-realm")
+    .name("default-realm")
     .allowQueriesOnUiThread(true)
     .allowWritesOnUiThread(true)
     .compactOnLaunch()
     .inMemory()
     .build()
-val realm = Realm.getInstance(config)
-Log.v("EXAMPLE", "Successfully opened a realm at: ${realm.path}")
+// set this config as the default realm
+Realm.setDefaultConfiguration(config) 
