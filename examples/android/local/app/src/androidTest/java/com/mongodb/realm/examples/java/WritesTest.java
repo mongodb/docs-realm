@@ -58,6 +58,8 @@ public class WritesTest extends RealmTest {
                 expectation.fulfill();
             }
             realm.close();
+        }
+        expectation.await();
     }
                               
     @Test
