@@ -90,6 +90,37 @@ Because {+service-short+} collections are live, objects may move as you
 iterate over a collection. You can use
 :ref:`snapshots <android-iteration>` to iterate over collections safely.
 
+.. _android-lists-adapters:
+
+Adapters
+--------
+
+{+client-database+} offers adapters to help bind data
+to standard UI widgets. These classes work with any class that
+implements the ``OrderedRealmCollection`` interface, which includes
+the built-in ``RealmResults`` and ``RealmList`` classes. To use the
+adapters, add the dependency to your application level ``build.gradle``:
+
+.. code-block:: groovy
+
+   dependencies {
+      compile 'io.realm:android-adapters:2.1.1'
+   }
+
+ListView
+~~~~~~~~
+
+You can use ``RealmBaseAdapter`` with ``ListView`` widgets. For an example,
+see the ``realm-android-adapters`` `GitHub repository
+<https://github.com/realm/realm-android-adapters/blob/master/example/src/main/java/io/realm/examples/adapters/ui/listview/MyListAdapter.java>`__.
+
+RecyclerView
+~~~~~~~~~~~~
+
+You can use ``RealmRecyclerViewAdapter`` with ``RecyclerView`` widgets.
+For an example, see the ``realm-android-adapters`` `GitHub repository
+<https://github.com/realm/realm-android-adapters/blob/master/example/src/main/java/io/realm/examples/adapters/ui/recyclerview/MyRecyclerViewAdapter.java>`__.
+
 .. _android-live-collections:
 
 Collections are Live
