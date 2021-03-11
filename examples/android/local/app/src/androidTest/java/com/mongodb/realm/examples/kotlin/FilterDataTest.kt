@@ -8,6 +8,7 @@ package com.mongodb.realm.examples.kotlin
 // }
 import com.mongodb.realm.examples.Expectation
 import com.mongodb.realm.examples.RealmTest
+import com.mongodb.realm.examples.model.java.Student
 import com.mongodb.realm.examples.model.kotlin.StudentKt
 import com.mongodb.realm.examples.model.kotlin.TeacherKt
 import io.realm.Realm
@@ -120,6 +121,28 @@ class FilterDataTest: RealmTest() {
                 .findAll()
             // then sort the results set by name
             val sortedResult = unsortedResult.sort("name")
+            // :code-block-end:
+            realm.close()
+            expectation.fulfill()
+        }
+        expectation.await()
+    }
+
+    @Test
+    fun testLimit() {
+        val expectation = Expectation()
+        activity!!.runOnUiThread {
+            val config = RealmConfiguration.Builder()
+                .allowQueriesOnUiThread(true)
+                .allowWritesOnUiThread(true)
+                .build()
+            val realm = Realm.getInstance(config)
+            // :code-block-start: limit
+            // Find all students in year 8, and limit the results collection to 10 items
+            val result: RealmResults<StudentKt> = realm.where(StudentKt::class.java)
+                .equalTo("year", 8L)
+                .limit(10)
+                .findAll()
             // :code-block-end:
             realm.close()
             expectation.fulfill()

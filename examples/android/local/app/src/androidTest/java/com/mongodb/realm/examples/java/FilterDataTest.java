@@ -129,6 +129,29 @@ public class FilterDataTest extends RealmTest {
     }
 
     @Test
+    public void testLimit() {
+        Expectation expectation = new Expectation();
+        activity.runOnUiThread(() -> {
+            RealmConfiguration config = new RealmConfiguration.Builder()
+                    .allowQueriesOnUiThread(true)
+                    .allowWritesOnUiThread(true)
+                    .build();
+
+            Realm realm = Realm.getInstance(config);
+            // :code-block-start: limit
+            // Find all students in year 8, and limit the results collection to 10 items
+            RealmResults<Student> result = realm.where(Student.class)
+                    .equalTo("year", 8)
+                    .limit(10)
+                    .findAll();
+            // :code-block-end:
+            realm.close();
+            expectation.fulfill();
+        });
+        expectation.await();
+    }
+
+    @Test
     public void testUnique() {
         Expectation expectation = new Expectation();
         activity.runOnUiThread(() -> {
