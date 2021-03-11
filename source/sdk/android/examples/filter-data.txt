@@ -15,109 +15,252 @@ Filter Data - Android SDK
    :depth: 2
    :class: singlecol
 
-Predicates
-----------
+About the Examples on This Page
+-------------------------------
 
-You can build a filter with NSPredicate:
+The examples in this page use two Realm object types: ``Teacher``
+and ``Student``.
+
+See the schema for these two classes below:
 
 .. tabs-realm-languages::
 
    .. tab::
-      :tabid: swift
+      :tabid: kotlin
 
-      .. literalinclude:: /examples/generated/code/start/QueryEngine.codeblock.predicates.swift
-         :language: swift
+      .. literalinclude:: /examples/generated/android/sync/TeacherKt.codeblock.complete.kt
+         :language: kotlin
+         :caption: Teacher.kt
+
+      .. literalinclude:: /examples/generated/android/sync/StudentKt.codeblock.complete.kt
+         :language: kotlin
+         :caption: Student.kt
 
    .. tab::
-      :tabid: objective-c
+      :tabid: java
 
-      .. literalinclude:: /examples/generated/code/start/QueryEngine.codeblock.predicates.m
-         :language: objectivec
+      .. literalinclude:: /examples/generated/android/sync/Teacher.codeblock.complete.java
+         :language: java
+         :caption: Teacher.java
 
-Expressions
-~~~~~~~~~~~
+      .. literalinclude:: /examples/generated/android/sync/Student.codeblock.complete.java
+         :language: java
+         :caption: Student.java
 
-Filters consist of **expressions** in an NSPredicate. An expression consists of
-one of the following:
+.. _android-client-filters:
 
-- The name of a property of the object currently being evaluated.
-- An operator and up to two argument expression(s).
-- A literal string, number, or date.
+Filters
+-------
+
+You can build filters using the operator methods of the
+:wikipedia:`fluent interface <Fluent_interface>` exposed by the
+:java-sdk:`RealmQuery <io/realm/RealmQuery.html>` class:
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/generated/code/start/FilterDataTest.codeblock.filters.kt
+         :language: kotlin
+
+   .. tab::
+      :tabid: java
+
+      .. literalinclude:: /examples/generated/code/start/FilterDataTest.codeblock.filters.java
+         :language: java
+
+This gives you a new instance of the class :java-sdk:`RealmResults <io/realm/RealmResults.html>`,
+containing teachers with the name "Ms. Langtree" or "Mrs. Jacobs".
+
+``RealmQuery`` includes several methods that can execute queries:
+
+- :java-sdk:`findAll() <io/realm/RealmQuery.html#findAll-->` blocks until
+  it finds all objects that meet the query conditions
+
+- :java-sdk:`findAllAsync() <io/realm/RealmQuery.html#findAllAsync-->`
+  returns immediately and finds all objects that meet the query
+  conditions asynchronously on a background thread
+
+- :java-sdk:`findFirst() <io/realm/RealmQuery.html#findFirst-->` blocks
+  until it finds the first object that meets the query conditions
+
+- :java-sdk:`findFirstAsync() <io/realm/RealmQuery.html#findFirstAsync-->`
+  returns immediately and finds the first object that meets the query
+  conditions asynchronously on a background thread
+
+Queries return a list of references to the matching {+service-short+}
+objects using the :ref:`RealmResults <android-results-collections>` type.
+
+.. seealso::
+
+   :ref:`Fundamentals: Query Engine <android-client-query-engine>`
+   :ref:`Fundamentals: Results Collections <android-results-collections>`
 
 Link Queries
 ~~~~~~~~~~~~
 
 When referring to an object property, you can use **dot notation** to refer
-to child properties of that object. You can even refer to the properties of
+to child properties of that object. You can refer to the properties of
 :ref:`embedded objects <android-embedded-objects>` and :ref:`relationships
 <android-client-relationships>` with dot notation.
 
-For example, consider a query on an object with a ``workplace`` property that
-refers to a Workplace object. The Workplace object has an embedded object
-property, ``address``. You can chain dot notations to refer to the zipcode
-property of that address: 
-
-.. code-block:: objective-c
-
-   workplace.address.zipcode == 10012
-
-Substitutions
-~~~~~~~~~~~~~
-
-You can use the following substitutions in your predicate format strings:
-
-- ``%@`` to specify values
-- ``%K`` to specify `keypaths <https://docs.swift.org/swift-book/ReferenceManual/Expressions.html#grammar_key-path-expression>`_
+For example, consider a query for all teachers with a student named
+"Wirt" or "Greg":
 
 .. tabs-realm-languages::
 
    .. tab::
-      :tabid: swift
+      :tabid: kotlin
 
-      .. literalinclude:: /examples/generated/code/start/QueryEngine.codeblock.substitutions.swift
-         :language: swift
+      .. literalinclude:: /examples/generated/code/start/FilterDataTest.codeblock.link-queries.kt
+         :language: kotlin
 
    .. tab::
-      :tabid: objective-c
+      :tabid: java
 
-      .. literalinclude:: /examples/generated/code/start/QueryEngine.codeblock.substitutions.m
-         :language: objectivec
+      .. literalinclude:: /examples/generated/code/start/FilterDataTest.codeblock.link-queries.java
+         :language: java
 
-Subqueries
-~~~~~~~~~~
+You can even use dot notation to query inverse relationships:
 
-You can iterate through a collection property with another query using the
-``SUBQUERY()`` predicate function. ``SUBQUERY()`` has the following signature:
+.. tabs-realm-languages::
 
-.. code-block:: objective-c
+   .. tab::
+      :tabid: kotlin
 
-   SUBQUERY(<collection>, <variableName>, <predicate>)
+      .. literalinclude:: /examples/generated/code/start/FilterDataTest.codeblock.link-queries-inverse.kt
+         :language: kotlin
 
-- ``collection``: the name of the list property to iterate through
-- ``variableName``: a variable name of the current element to use in the subquery
-- ``predicate``: a string that contains the subquery predicate. You can use the
-  variable name specified by ``variableName`` to refer to the currently-iterated
-  element.
+   .. tab::
+      :tabid: java
 
-.. example::
+      .. literalinclude:: /examples/generated/code/start/FilterDataTest.codeblock.link-queries-inverse.java
+         :language: java
 
-   Running the following filter on a projects collect returns projects
-   with tasks that have not been completed by a user named Alex.
+Sort Results
+------------
 
-   .. tabs-realm-languages::
+You can define the order of query results using the
+:java-sdk:`sort() <io/realm/RealmQuery.html#sort-java.lang.String->`
+method:
 
-      .. tab::
-         :tabid: swift
+.. tabs-realm-languages::
 
-         .. literalinclude:: /examples/generated/code/start/QueryEngine.codeblock.subquery.swift
-             :language: swift
+   .. tab::
+      :tabid: kotlin
 
-      .. tab::
-         :tabid: objective-c
+      .. literalinclude:: /examples/generated/code/start/FilterDataTest.codeblock.sort.kt
+         :language: kotlin
 
-         .. literalinclude:: /examples/generated/code/start/QueryEngine.codeblock.subquery.m
-             :language: objectivec
+   .. tab::
+      :tabid: java
 
-.. seealso::
+      .. literalinclude:: /examples/generated/code/start/FilterDataTest.codeblock.sort.java
+         :language: java
 
-   :ref:`Fundamentals: Query Engine <android-client-query-engine>`
+Sorts organize results in ascending order by default. To organize results
+in descending order, pass ``Sort.DESCENDING`` as a second argument.
+You can resolve sort order ties between identical property values
+by passing an array of properties instead of a single property: in the
+event of a tie, {+client-database+} sorts the tied objects by subsequent
+properties in order.
+
+.. important::
+
+   {+client-database+} applies the ``distinct()``, ``sort()`` and
+   ``limit()`` methods in the order they are specified. Depending on the
+   data set this can alter the query result. Generally, you should
+   apply ``limit()`` last to avoid unintended result sets.
+
+Limit Results
+-------------
+
+You can cap the number of query results to a specific maximum number
+using the :java-sdk:`limit() <io/realm/RealmQuery.html#limit-long->`
+method:
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/generated/code/start/FilterDataTest.codeblock.limit.kt
+         :language: kotlin
+
+   .. tab::
+      :tabid: java
+
+      .. literalinclude:: /examples/generated/code/start/FilterDataTest.codeblock.limit.java
+         :language: java
+
+Limited result collections automatically update like any other query
+result. Consequently, objects might drop out of the collection as
+underlying data changes.
+
+.. important:: Pagination is Not Necessary for {+client-database+} Optimization
+
+   Some databases encourage paginating results with limits to avoid
+   reading unnecessary data from disk or using too much memory.
+
+   Since {+client-database+} queries are lazy, there is no need to
+   take such measures. {+client-database+} only loads objects from query
+   results when they are explicitly accessed.
+
+.. warning:: Deleted Notifications in Limited Results
+
+   :ref:`Collection notifications <android-collection-notifications>`
+   reports objects as deleted when they drop out of the result set.
+   This does not necessarily mean that they have been deleted from the
+   underlying {+realm+}, just that they are no longer part of the
+   query result.
+
+Unique Results
+--------------
+
+You can reduce query results to unique values for a given field or fields
+using the :java-sdk:`limit() <io/realm/RealmQuery.html#limit-long->`
+method:
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/generated/code/start/FilterDataTest.codeblock.unique.kt
+         :language: kotlin
+
+   .. tab::
+      :tabid: java
+
+      .. literalinclude:: /examples/generated/code/start/FilterDataTest.codeblock.unique.java
+         :language: java
+
+You can only call distinct on integer, long, short, and ``String``
+fields; other field types will throw an exception. As with sorting,
+you can specify multiple fields to resolve ties.
+
+Chain Queries
+-------------
+
+You can apply additional filters to a results collection by calling the
+:ref:`where() <io/realm/RealmResults.html#where-->` method:
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/generated/code/start/FilterDataTest.codeblock.chain-queries.kt
+         :language: kotlin
+
+   .. tab::
+      :tabid: java
+
+      .. literalinclude:: /examples/generated/code/start/FilterDataTest.codeblock.chain-queries.java
+         :language: java
+
+The ``where()`` method returns a ``RealmQuery`` that you can resolve into
+a ``RealmResults`` using a ``find`` method. Filtered results can only
+return objects of the same type as the original results set, but are
+otherwise able to use any :ref:`filters <android-client-filters>`.
