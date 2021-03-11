@@ -6,4 +6,3 @@
            .readOnly() 
            .modules(new BundledRealmModule())
            .build();
-   Realm realm = Realm.getInstance(config);
