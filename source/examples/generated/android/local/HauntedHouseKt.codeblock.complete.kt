@@ -1,5 +1,5 @@
-import io.realm.MutableRealmInteger;
-import io.realm.RealmObject;
+import io.realm.MutableRealmInteger
+import io.realm.RealmObject
 import io.realm.annotations.Required
 
 open class HauntedHouse: RealmObject() {
