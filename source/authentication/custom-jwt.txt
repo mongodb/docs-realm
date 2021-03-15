@@ -56,42 +56,41 @@ Configuration
    .. tab::
       :tabid: cli
 
-      You can enable the Custom JWT authentication provider with
-      :doc:`realm-cli </deploy/realm-cli-reference>` by importing an
-      application directory that contains a :ref:`configuration file
-      <appschema-authentication-providers>` for the provider.
+      To enable and configure the Custom JWT authentication provider with
+      :ref:`{+cli-bin+} <realm-cli>`, define a :ref:`configuration object
+      <appconfig-auth>` for it in ``/auth/providers.json``.
 
-      The configuration file must be named ``custom-token.json`` and
-      stored in the ``/auth_providers`` directory. Configuration files
-      for the Custom authentication provider have the following form:
+      Custom JWT provider configurations have the following form:
 
       .. code-block:: none
-         :caption: /auth_providers/custom-token.json
-
+         :caption: /auth/providers.json
+         
          {
-           "name": "custom-token",
-           "type": "custom-token",
-           "config": {
-             "audience": "<JWT Audience>",
-             "signingAlgorithm": "<JWT Signing Algorithm>",
-             "useJWKURI": <boolean>,
-             "jwkURI": "<JWK or JWKS URL>",
-           },
-           "secret_config": {
-             "signingKeys": [
-               "<Signing Key Secret Name>",
-               ...
-             ]
-           },
-           "metadata_fields": [
-             {
-               "required": <boolean>,
-               "name": "<JWT Field Path>",
-               "field_name": "<Metadata Field Name>",
+           "custom-token": {
+             "name": "custom-token",
+             "type": "custom-token",
+             "config": {
+               "audience": "<JWT Audience>",
+               "signingAlgorithm": "<JWT Signing Algorithm>",
+               "useJWKURI": <boolean>,
+               "jwkURI": "<JWK or JWKS URL>",
              },
-             ...
-           ],
-           "disabled": <boolean>,
+             "secret_config": {
+               "signingKeys": [
+                 "<Signing Key Secret Name>",
+                 ...
+               ]
+             },
+             "metadata_fields": [
+               {
+                 "required": <boolean>,
+                 "name": "<JWT Field Path>",
+                 "field_name": "<Metadata Field Name>",
+               },
+               ...
+             ],
+             "disabled": <boolean>
+           }
          }
 
 .. _custom-jwt-authentication-configuration-audience:
