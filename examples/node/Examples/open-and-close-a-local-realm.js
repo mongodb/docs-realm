@@ -1,6 +1,6 @@
 import Realm from "realm";
 
-const CarSchema = {
+const Car = {
   name: "Car",
   properties: {
     make: "string",
@@ -12,10 +12,10 @@ const CarSchema = {
 describe("Open and Close a Local Realm", () => {
   test("should open and close a local realm", async () => {
     // :code-block-start: open-local-realm-with-car-schema
-    // Open a local realm file with a particular path & predefined CarSchema
+    // Open a local realm file with a particular path & predefined Car schema
     const realm = await Realm.open({
       path: "myrealm",
-      schema: [CarSchema],
+      schema: [Car],
     });
     // :code-block-end:
 
@@ -25,10 +25,10 @@ describe("Open and Close a Local Realm", () => {
     //     "synchronouslyOpenedRealm": "realm"
     //   }
     // }
-    // Synchronously open a local realm file with a particular path & predefined CarSchema
+    // Synchronously open a local realm file with a particular path & predefined Car schema
     const synchronouslyOpenedRealm = new Realm({
       path: "myrealm",
-      schema: [CarSchema],
+      schema: [Car],
     });
     // :replace-end:
     // :code-block-end:
