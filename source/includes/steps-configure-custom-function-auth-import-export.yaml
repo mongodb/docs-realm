@@ -1,19 +1,19 @@
-title: Export Your Realm Application
-ref: export-your-application
+title: Pull the Latest Version of Your App
+ref: pull-the-latest-version-of-your-app
 content: |
-  You can set up and enable the Custom Function authentication provider
-  through {+cli-bin+} or automatic GitHub deployment. To configure the
-  provider, you need the latest version of the :ref:`application
-  directory <application-directory>` for your application.
-
-  You can :doc:`export </deploy/export-realm-app>` your application from the
-  :guilabel:`Import/Export App` tab of the :guilabel:`Deploy` page in the
-  {+ui+}, or by running the following command from an authenticated instance of
-  :doc:`realm-cli </deploy/realm-cli-reference>`:
-
-  .. code-block:: shell
-
-     realm-cli export --app-id=<App ID>
+  To configure the Custom Function provider with {+cli-bin+}, you need a local
+  copy of your application's configuration files.
+  
+  To pull a local copy of the latest version of your app, run the following:
+  
+  .. code-block:: bash
+     
+     realm-cli pull --remote="<Your App ID>"
+  
+  .. tip::
+     
+     You can also download a copy of your application's configuration files from
+     the :guilabel:`Deploy > Export App` screen in the {+ui+}.
 ---
 title: Define the Authentication Function
 ref: define-the-authentication-function
@@ -96,49 +96,34 @@ content: |
 title: Add a Provider Configuration File
 ref: add-a-provider-configuration-file
 content: |
-  To configure the Custom Function authentication provider, create a new
-  authentication provider configuration file named
-  ``custom-function.json`` in the ``auth_providers`` directory and set
-  the value of ``config.authFunctionName`` the name of the
-  authentication function:
-
+  To enable and configure the Custom Function authentication provider, define a
+  a :ref:`configuration object <appconfig-auth>` for it in
+  ``/auth/providers.json``.
+  
+  Custom Function provider configurations have the following form:
+  
   .. code-block:: json
-     :caption: /auth_providers/custom-function.json
-     :emphasize-lines: 5
-
+     :caption: /auth/providers.json
+     
      {
+       "custom-function": {
          "name": "custom-function",
          "type": "custom-function",
          "config": {
            "authFunctionName": "<Authentication Function Name>"
          },
          "disabled": false
+       }
      }
 ---
 title: Deploy the Updated Application
 ref: deploy-the-updated-application
 content: |
-  Once you have created the authentication function and configured the
-  provider, you can make Custom Function authentication available to
-  client applications by deploying your application.
+  Once you have created the authentication function and configured the provider,
+  you can push the updated configurations to your remote app. {+cli+}
+  immediately deploys the new schema on push.
   
-  To deploy a draft application with {+cli-bin+}:
-
-  .. code-block:: shell
-
-     realm-cli import
-  
-  To deploy a draft application with automatic :doc:`GitHub deployment
-  </deploy/deploy-automatically-with-github>`:
-
-  .. code-block:: shell
+  .. code-block:: bash
      
-     git add functions/<Authentication Function Name>
-     git add auth_providers/custom-function.json
-     git commit -m "Configure and Enable Custom Function Authentication"
-     git push
-
-  Once the application successfully deploys, you will be able to create
-  a user and log in with the Custom Function provider from a client
-  application.
+     realm-cli push --remote="<Your App ID>"
 ...
