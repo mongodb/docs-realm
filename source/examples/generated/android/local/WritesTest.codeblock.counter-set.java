@@ -1,3 +1,3 @@
 realm.executeTransaction(r -> {
-    house.ghosts.set(42);
+    house.getGhosts().set(42);
 });

@@ -6,6 +6,8 @@ import io.realm.annotations.Required;
 
 public class HauntedHouse extends RealmObject {
     @Required
-    public final MutableRealmInteger ghosts = MutableRealmInteger.valueOf(0);
+    private final MutableRealmInteger ghosts = MutableRealmInteger.valueOf(0);
+    public HauntedHouse() {}
+    public MutableRealmInteger getGhosts() { return ghosts; }
 }
 // :code-block-end:

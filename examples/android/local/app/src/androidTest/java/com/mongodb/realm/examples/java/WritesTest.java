@@ -117,16 +117,16 @@ public class WritesTest extends RealmTest {
             HauntedHouse house = realm.where(HauntedHouse.class)
                     .findFirst();
             realm.executeTransaction(r -> {
-                Log.v("EXAMPLE", "Number of ghosts: " + house.ghosts.get()); // 0
-                house.ghosts.increment(1); // 1
-                house.ghosts.increment(5); // 6
-                house.ghosts.decrement(2); // 4
+                Log.v("EXAMPLE", "Number of ghosts: " + house.getGhosts().get()); // 0
+                house.getGhosts().increment(1); // 1
+                house.getGhosts().increment(5); // 6
+                house.getGhosts().decrement(2); // 4
             });
             // :code-block-end:
 
             // :code-block-start: counter-set
             realm.executeTransaction(r -> {
-                house.ghosts.set(42);
+                house.getGhosts().set(42);
             });
             // :code-block-end:
             realm.close();
