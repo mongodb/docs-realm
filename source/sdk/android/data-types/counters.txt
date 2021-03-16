@@ -13,21 +13,23 @@ Counters - Android SDK
    :class: singlecol
 
 {+client-database+} offers :java-sdk:`MutableRealmInteger
-<io/realm/MutableRealmInteger.html>` to help better synchronize changes
-to numeric values across multiple instances. Incrementing or
-decrementing a ``byte``, ``short``, ``int``, or ``long`` variable usually
-looks something like this:
+<io/realm/MutableRealmInteger.html>`, a wrapper around numeric values,
+to help better synchronize numeric changes across multiple clients.
 
-1. Read the current value.
+Typically, incrementing or decrementing a
+``byte``, ``short``, ``int``, or ``long`` field of a {+service-short+}
+object looks something like this:
+
+1. Read the current value of the field.
 #. Update that value in memory to a new value based on the increment or
    decrement.
-#. Write a new value back to the original variable.
+#. Write a new value back to the field.
 
 When multiple distributed clients attempt this at the same time,
 different updates reaching different clients in different orders can
-result in lost updates. ``MutableRealmInteger`` improves on
-this by translating numeric updates into sync operations that can be
-executed in any order to converge to the same value.
+result in different values on different clients. ``MutableRealmInteger``
+improves on this by translating numeric updates into sync operations
+that can be executed in any order to converge to the same value.
 
 ``MutableRealmInteger`` fields are backed by traditional numeric types,
 so no migration is required when changing a field from ``byte``, ``short``,
