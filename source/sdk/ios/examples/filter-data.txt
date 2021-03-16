@@ -193,14 +193,12 @@ values.
 
 .. important:: Types Must Match
 
-   The type on both sides of the operator much be equivalent. You can
-   compare a string with string, date with date, and ObjectId with
-   ObjectId, but you cannot compare a string with date, date with
-   number, or :ref:`ObjectId with string <ios-filter-object-id>`. Type
-   mismatch will result in a precondition failure with a message similar
-   to: ``"Expected object of type object id for property 'id' on object
-   of type 'User', but received: 11223344556677889900aabb (Invalid
-   value)"``.
+   The type on both sides of the operator must be equivalent. For
+   example, comparing an :ref:`ObjectId with string
+   <ios-filter-object-id>` will result in a precondition failure with a
+   message like: ``"Expected object of type object id for property 'id'
+   on object of type 'User', but received: 11223344556677889900aabb
+   (Invalid value)"``.
    
    You can compare any :ref:`numeric type
    <ios-supported-property-types>` with any other numeric type.
