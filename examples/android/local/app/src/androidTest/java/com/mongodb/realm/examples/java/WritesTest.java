@@ -3,6 +3,7 @@ package com.mongodb.realm.examples.java;
 import android.util.Log;
 import com.mongodb.realm.examples.Expectation;
 import com.mongodb.realm.examples.RealmTest;
+import com.mongodb.realm.examples.model.java.HauntedHouse;
 import com.mongodb.realm.examples.model.kotlin.Frog;
 
 import org.junit.Test;
@@ -93,6 +94,43 @@ public class WritesTest extends RealmTest {
                 }
             });
 
+            // :code-block-end:
+            realm.close();
+            expectation.fulfill();
+        });
+        expectation.await();
+    }
+
+    @Test
+    public void testCounter() {
+        Expectation expectation = new Expectation();
+        activity.runOnUiThread(() -> {
+            RealmConfiguration config = new RealmConfiguration.Builder()
+                    .name("writes-test-counter")
+                    .allowQueriesOnUiThread(true)
+                    .allowWritesOnUiThread(true)
+                    .inMemory()
+                    .build();
+            Realm realm = Realm.getInstance(config);
+            realm.executeTransaction(r -> realm.createObject(HauntedHouse.class));
+            // :code-block-start: counter-increment-decrement
+            HauntedHouse house = realm.where(HauntedHouse.class)
+                    .findFirst();
+            realm.executeTransaction(r -> {
+                Log.v("EXAMPLE", "Number of ghosts: " + house.getGhosts().get()); // 0
+                house.getGhosts().increment(1);
+                Log.v("EXAMPLE", "Number of ghosts: " + house.getGhosts().get()); // 1
+                house.getGhosts().increment(5);
+                Log.v("EXAMPLE", "Number of ghosts: " + house.getGhosts().get()); // 6
+                house.getGhosts().decrement(2);
+                Log.v("EXAMPLE", "Number of ghosts: " + house.getGhosts().get()); // 4
+            });
+            // :code-block-end:
+
+            // :code-block-start: counter-set
+            realm.executeTransaction(r -> {
+                house.getGhosts().set(42);
+            });
             // :code-block-end:
             realm.close();
             expectation.fulfill();

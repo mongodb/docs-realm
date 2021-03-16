@@ -1,8 +1,10 @@
 package com.mongodb.realm.examples.kotlin
 
+import android.util.Log
 import com.mongodb.realm.examples.Expectation
 import com.mongodb.realm.examples.RealmTest
 import com.mongodb.realm.examples.model.kotlin.Frog
+import com.mongodb.realm.examples.model.kotlin.HauntedHouseKt
 import io.realm.Realm
 import io.realm.RealmConfiguration
 import org.junit.Test
@@ -27,8 +29,10 @@ class WritesTest : RealmTest() {
                 // :code-block-start: create-an-object-json
                 // Insert from a string
                 realm.executeTransaction { realm ->
-                    realm.createObjectFromJson(Frog::class.java,
-                        "{ name: \"Doctor Cucumber\", age: 1, species: \"bullfrog\", owner: \"Wirt\" }")
+                    realm.createObjectFromJson(
+                        Frog::class.java,
+                        "{ name: \"Doctor Cucumber\", age: 1, species: \"bullfrog\", owner: \"Wirt\" }"
+                    )
                 }
 
                 // Insert multiple items using an InputStream
@@ -81,6 +85,53 @@ class WritesTest : RealmTest() {
                 }
             }
             // :code-block-end:
+            realm.close()
+            expectation.fulfill()
+        }
+        expectation.await()
+    }
+
+    @Test
+    fun testCounter() {
+        val expectation = Expectation()
+        activity!!.runOnUiThread {
+            val config = RealmConfiguration.Builder()
+                .name("writes-test-counter")
+                .allowQueriesOnUiThread(true)
+                .allowWritesOnUiThread(true)
+                .inMemory()
+                .build()
+            val realm = Realm.getInstance(config)
+            realm.executeTransaction { r: Realm? ->
+                realm.createObject(
+                    HauntedHouseKt::class.java
+                )
+            }
+            // :replace-start: {
+            //    "terms": {
+            //       "HauntedHouseKt": "HauntedHouse"
+            //    }
+            // }
+            // :code-block-start: counter-increment-decrement
+            val house = realm.where(HauntedHouseKt::class.java)
+                .findFirst()!!
+            realm.executeTransaction {
+                Log.v("EXAMPLE", "Number of ghosts: ${house.ghosts.get()}") // 0
+                house.ghosts.increment(1)
+                Log.v("EXAMPLE", "Number of ghosts: ${house.ghosts.get()}") // 1
+                house.ghosts.increment(5)
+                Log.v("EXAMPLE", "Number of ghosts: ${house.ghosts.get()}") // 6
+                house.ghosts.decrement(2)
+                Log.v("EXAMPLE", "Number of ghosts: ${house.ghosts.get()}") // 2
+            }
+            // :code-block-end:
+
+            // :code-block-start: counter-set
+            realm.executeTransaction {
+                house!!.ghosts.set(42)
+            }
+            // :code-block-end:
+            // :replace-end:
             realm.close()
             expectation.fulfill()
         }
