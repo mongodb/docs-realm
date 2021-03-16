@@ -142,6 +142,25 @@ engine that you can use to define filters.
    
    :ref:`ios-filter-data`
 
+.. _ios-filter-object-id:
+
+Filter on Object ID Properties
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+It's important that the types in your predicate match the types of the
+properties. In particular, avoid inadvertently comparing
+:swift-sdk:`ObjectId <Classes/ObjectId.html>` properties to strings, as
+{+client-database+} does not automatically convert strings to ObjectIds.
+
+The following example shows the correct and incorrect way to write a
+query with an ObjectId given the following Realm object:
+
+.. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.object-id-model.swift
+   :language: swift
+
+.. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.query-object-id.swift
+   :language: swift
+
 .. _ios-sort-query-results:
 
 Sort Query Results

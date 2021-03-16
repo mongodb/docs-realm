@@ -95,9 +95,9 @@ Expressions
 Filters consist of **expressions** in an NSPredicate. An expression consists of
 one of the following:
 
-- The name of a property of the object currently being evaluated.
+- The name (keypath) of a property of the object currently being evaluated.
 - An operator and up to two argument expression(s).
-- A literal string, number, or date.
+- A value, such as a string (``'hello'``) or a number (``5``).
 
 Dot Notation
 ~~~~~~~~~~~~
@@ -190,6 +190,20 @@ Comparison Operators
 
 The most straightforward operation in a search is to compare
 values.
+
+.. important:: Types Must Match
+
+   The type on both sides of the operator much be equivalent. You can
+   compare a string with string, date with date, and ObjectId with
+   ObjectId, but you cannot compare a string with date, date with
+   number, or :ref:`ObjectId with string <ios-filter-object-id>`. Type
+   mismatch will result in a precondition failure with a message similar
+   to: ``"Expected object of type object id for property 'id' on object
+   of type 'User', but received: 11223344556677889900aabb (Invalid
+   value)"``.
+   
+   You can compare any :ref:`numeric type
+   <ios-supported-property-types>` with any other numeric type.
 
 .. list-table::
    :header-rows: 1
