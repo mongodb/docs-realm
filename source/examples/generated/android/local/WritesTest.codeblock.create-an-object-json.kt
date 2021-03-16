@@ -1,7 +1,9 @@
 // Insert from a string
 realm.executeTransaction { realm ->
-    realm.createObjectFromJson(Frog::class.java,
-        "{ name: \"Doctor Cucumber\", age: 1, species: \"bullfrog\", owner: \"Wirt\" }")
+    realm.createObjectFromJson(
+        Frog::class.java,
+        "{ name: \"Doctor Cucumber\", age: 1, species: \"bullfrog\", owner: \"Wirt\" }"
+    )
 }
 
 // Insert multiple items using an InputStream
