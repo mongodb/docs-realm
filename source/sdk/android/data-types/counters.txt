@@ -26,7 +26,7 @@ object looks something like this:
 #. Write a new value back to the field.
 
 When multiple distributed clients attempt this at the same time,
-different updates reaching different clients in different orders can
+updates reaching clients in different orders can
 result in different values on different clients. ``MutableRealmInteger``
 improves on this by translating numeric updates into sync operations
 that can be executed in any order to converge to the same value.
