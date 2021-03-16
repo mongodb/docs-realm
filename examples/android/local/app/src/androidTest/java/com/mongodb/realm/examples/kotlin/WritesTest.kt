@@ -122,7 +122,7 @@ class WritesTest : RealmTest() {
                 house.ghosts.increment(5)
                 Log.v("EXAMPLE", "Number of ghosts: ${house.ghosts.get()}") // 6
                 house.ghosts.decrement(2)
-                Log.v("EXAMPLE", "Number of ghosts: ${house.ghosts.get()}") // 2
+                Log.v("EXAMPLE", "Number of ghosts: ${house.ghosts.get()}") // 4
             }
             // :code-block-end:
 
