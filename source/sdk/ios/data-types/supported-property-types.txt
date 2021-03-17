@@ -58,13 +58,12 @@ Supported Property Types - iOS SDK
            - ``let value = List<Type>()``
            - 
          * - User-defined :swift-sdk:`Object <Extensions/Object.html>`
-           - N/A: Must be optional
-           - ``@objc dynamic var value: Class?``
+           - N/A
+           - ``@objc dynamic var value: MyClass?``
       
       Additionally:
 
-      - User-defined :swift-sdk:`Object <Extensions/Object.html>`- and 
-        :swift-sdk:`EmbeddedObject <Extensions/EmbeddedObject.html>`-derived types
+      - :swift-sdk:`EmbeddedObject <Extensions/EmbeddedObject.html>`-derived types
       - :swift-sdk:`Enum <Protocols.html#/s:10RealmSwift0A4EnumP>`
 
       You can use :swift-sdk:`RealmOptional <Classes/RealmOptional.html>` to
@@ -107,15 +106,23 @@ Supported Property Types - iOS SDK
          * - Date
            - ``@property NSDate *value;``
            - ``@property NSDate *value;``
+         * - Decimal128
+           - ``@property RLMDecimal128 *value;``
+           - ``@property RLMDecimal128 *value;``
+         * - :objc-sdk:`RLMObjectId <Classes/RLMObjectId.html>`
+           - ``@property RLMObjectId *objectId;``
+           - ``@property RLMObjectId *objectId;``
+         * - :objc-sdk:`RLMArray <Classes/RLMArray.html>`
+           - ``@property RLMArray<MyArray *><MyArray> *arrayItems;``
+           - ``@property RLMArray<MyArray *><MyArray> *arrayItems;``
+         * - User-defined :objc-sdk:`RLMObject<Classes/RLMObject.html>`
+           - N/A
+           - ``@interface MyClass : RLMObject``
 
       Additionally:
 
       - Integral types ``int``, ``NSInteger``, ``long``, ``long long``
-      - ``RLMDecimal128``
-      - :objc-sdk:`RLMObjectId <Classes/RLMObjectId.html>`
-      - User-defined :objc-sdk:`RLMObject<Classes/RLMObject.html>`- and 
-        :objc-sdk:`RLMEmbeddedObject<Classes/RLMEmbeddedObject.html>`-derived types
-      - :objc-sdk:`RLMArray <Classes/RLMArray.html>`
+      - :objc-sdk:`RLMEmbeddedObject<Classes/RLMEmbeddedObject.html>`-derived types
 
       ``CGFloat`` properties are discouraged, as the type is not
       platform independent.
