@@ -99,6 +99,42 @@ all configured schema, migration, and schema versions.
 
    :ref:`Usage Examples: Dynamic Realms <android-dynamic-realms>`
 
+.. _android-realm-lifecycle:
+
+The Realm Lifecycle
+-------------------
+
+Every {+realm+} instance consumes a significant amount of resources.
+Opening and closing a {+realm+} are both expensive operations, but
+keeping a {+realm+} open also incurs significant resource overhead. To
+maximize the performance of your application, you should minimize the
+number of open {+realm+}s at any given time and limit the number of
+open and close operations used.
+
+As a best practice, we recommend tying the {+realm+} instance
+lifecycle to the lifecycles of the views that observe the {+realm+}. For
+instance, consider a ``RecyclerView`` that displays ``RealmResults``
+data via a ``Fragment``. You could:
+
+- Open a single {+realm+} that contains the data for that view
+  in the ``Fragment.onCreateView()`` lifecycle method.
+- Close that same {+realm+} in the ``Fragment.onDestroyView()``
+  lifecycle method.
+
+.. note::
+
+   If your {+realm+} is especially large, fetching a {+realm+} instance
+   in ``Fragment.onCreateView()`` may briefly block rendering. If
+   opening your {+realm+} in ``onCreateView()`` causes performance
+   issues, consider managing the {+realm+} from ``Fragment.onStart()``
+   and ``Fragment.onStop()`` instead.
+
+If multiple ``Fragment`` instances require access to the same dataset,
+you could manage a single {+realm+} in the enclosing ``Activity``:
+
+- Open the {+realm+} in the ``Activity.onCreate()`` lifecycle method.
+- Close the {+realm+} in the ``Activity.onDestroy()`` lifecycle method.
+
 Comparison with Other Databases
 -------------------------------
 
@@ -166,8 +202,8 @@ in the schema.
 
 .. _android-realm-path:
 
-Realms are Partitions of Atlas Data
------------------------------------
+Synced Realms are Partitions of Atlas Data
+------------------------------------------
 
 Each {+realm+} corresponds to a subset of the data in your
 :term:`{+app+}'s <{+app+}>`
