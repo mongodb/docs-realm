@@ -113,13 +113,13 @@ open and close operations used.
 
 One way you can follow this advice involves tying the {+realm+} instance
 lifecycle to the lifecycles of the views that observe the {+realm+}. For
-instance, if you embed a `RecyclerView` in a `Fragment`,
+instance, if you embed a ``RecyclerView`` in a ``Fragment``,
 you could open a single {+realm+} that contains the data for that view
-in the ``Fragment.onCreateView()`` lifecycle method of the `Fragment`.
+in the ``Fragment.onCreateView()`` lifecycle method of the ``Fragment``.
 You could close that same {+realm+} in the ``Fragment.onDestroyView()``
-lifecycle method. And if multiple `Fragment` instances require access to
+lifecycle method. And if multiple ``Fragment`` instances require access to
 the same dataset, you could manage a single {+realm+} in the enclosing
-`Activity` by opening the {+realm+} in ``Activity.onCreate()`` and
+``Activity`` by opening the {+realm+} in ``Activity.onCreate()`` and
 closing the {+realm+} in ``Activity.onDestroy()``.
 
 .. note::
