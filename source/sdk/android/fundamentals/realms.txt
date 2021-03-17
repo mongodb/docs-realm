@@ -111,16 +111,15 @@ maximize the performance of your application, you should minimize the
 number of open {+realm+}s at any given time and limit the number of
 open and close operations used.
 
-One way you can follow this advice involves tying the {+realm+} instance
+As a best practice, we recommend tying the {+realm+} instance
 lifecycle to the lifecycles of the views that observe the {+realm+}. For
-instance, if you embed a ``RecyclerView`` in a ``Fragment``,
-you could open a single {+realm+} that contains the data for that view
-in the ``Fragment.onCreateView()`` lifecycle method of the ``Fragment``.
-You could close that same {+realm+} in the ``Fragment.onDestroyView()``
-lifecycle method. And if multiple ``Fragment`` instances require access to
-the same dataset, you could manage a single {+realm+} in the enclosing
-``Activity`` by opening the {+realm+} in ``Activity.onCreate()`` and
-closing the {+realm+} in ``Activity.onDestroy()``.
+instance, consider a ``RecyclerView`` that displays ``RealmResults``
+data via a ``Fragment``. You could:
+
+- Open a single {+realm+} that contains the data for that view
+  in the ``Fragment.onCreateView()`` lifecycle method.
+- Close that same {+realm+} in the ``Fragment.onDestroyView()``
+  lifecycle method.
 
 .. note::
 
@@ -129,6 +128,12 @@ closing the {+realm+} in ``Activity.onDestroy()``.
    opening your {+realm+} in ``onCreateView()`` causes performance
    issues, consider managing the {+realm+} from ``Fragment.onStart()``
    and ``Fragment.onStop()`` instead.
+
+If multiple ``Fragment`` instances require access to the same dataset,
+you could manage a single {+realm+} in the enclosing ``Activity``:
+
+- Open the {+realm+} in the ``Activity.onCreate()`` lifecycle method.
+- Close the {+realm+} in the ``Activity.onDestroy()`` lifecycle method.
 
 Comparison with Other Databases
 -------------------------------
