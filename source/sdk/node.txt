@@ -20,6 +20,11 @@ MongoDB Realm Node.js SDK
    Upgrade from Stitch to Realm </sdk/node/migrate>
    Release Notes <https://github.com/realm/realm-js/releases>
    
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
 
 The {+service+} Node.js SDK allows you to use {+client-database+} and
 backend {+app+}s from Node.js applications written in JavaScript or TypeScript.
@@ -60,7 +65,7 @@ Query Realm Database
 Update Live Objects
 ~~~~~~~~~~~~~~~~~~~
 
-:ref:`Update <node-modify-an-object>` objects in {+client-database+} by
+:ref:`Update <node-update-an-object>` objects in {+client-database+} by
 updating field values on an instance of the object within a transaction:
 
 .. literalinclude:: /examples/generated/node/landing-page.codeblock.node-landing-update-live-objects.js
@@ -79,7 +84,7 @@ change:
 Always Access the Latest Data
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-:ref:`Live objects <node-live-object>` keep all instances
+:ref:`Live objects <node-live-objects>` keep all instances
 of an object up to date at all times:
 
 .. literalinclude:: /examples/generated/node/landing-page.codeblock.node-landing-access-the-latest-data.js
@@ -115,7 +120,7 @@ App Services
 ~~~~~~~~~~~~
 
 - Use {+service-short+}'s built-in user management to enable
-  :ref:`user account creation <node-register-a-new-user-account>`
+  :ref:`user account creation <node-register-new-user>`
   and user :ref:`authentication <node-authenticate-users>` across
   devices.
 
@@ -132,7 +137,7 @@ App Services
 .. seealso::
 
    To get started with {+service+}, try the our
-   :ref:`Quick Start with Sync <node-client-quick-start-sync>`.
+   :ref:`Quick Start with Sync <node-client-quick-start>`.
 
 Get Started
 -----------
@@ -167,7 +172,7 @@ For practical code samples of common tasks in {+client-database+} and
               
        :doc:`Upgrade from Stitch to Realm </sdk/node/migrate>`
 
-       :doc:`Quick Start with Electron using React </sdk/integrations/electron-cra>`
+       :doc:`Quick Start with Electron </sdk/node/integrations/electron>`
        
      - :doc:`Realms </sdk/node/fundamentals/realms>`
             
@@ -195,8 +200,8 @@ For practical code samples of common tasks in {+client-database+} and
        
        :doc:`Sync Changes Between Devices </sdk/node/examples/sync-changes-between-devices>`
        
-       :doc:`Call a Function </sdk/android/node/call-a-function>`
+       :doc:`Call a Function </sdk/node/call-a-function>`
        
        :doc:`Manage Email/Password Users </sdk/node/examples/email-password-users>`
        
-       :doc:`Query MongoDB </sdk/android/node/mongodb-remote-access>`
+       :doc:`Query MongoDB </sdk/node/query-mongodb>`

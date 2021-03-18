@@ -103,7 +103,7 @@ describe("Node Landing Page", () => {
 
     // :code-block-end:
 
-    // :code-block-start:  node-landing-acess-the-latest-data
+    // :code-block-start:  node-landing-access-the-latest-data
     // always access the latest data
     const realmInstanceA = await Realm.open({
       schema: [Cat],
