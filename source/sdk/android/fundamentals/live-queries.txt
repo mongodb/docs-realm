@@ -34,6 +34,19 @@ Valid write operations on a live object automatically persist to the
 {+realm+} and propagate to any other synced clients. You do not need to
 call an update method, modify the {+realm+}, or otherwise "push" updates.
 
+.. _android-auto-refresh:
+
+Auto-Refresh
+------------
+
+{+service-short+} objects accessed on a thread associated with a
+:android:`Looper <reference/android/os/Looper.html>` automatically
+update periodically to reflect changes to underlying data.
+
+The Android UI thread always contains a ``Looper`` instance. If you need
+to keep {+service-short+} objects around for long periods of time on
+any other thread, you should configure a ``Looper`` for that thread.
+
 .. _android-read-operations:
 .. _android-realm-database-reads:
 

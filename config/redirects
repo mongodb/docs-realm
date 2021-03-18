@@ -1,21 +1,25 @@
 define: base https://docs.mongodb.com/realm
 
-raw: realm/tutorials -> ${base}/tutorial
-raw: realm/deploy/application-schema -> ${base}/deploy/application-configuration-files
-raw: realm/mongodb/link-a-cluster -> ${base}/mongodb/link-a-data-source
-raw: realm/node/remotely-access-mongodb -> ${base}/node/mongodb
-raw: realm/react-native/remotely-access-mongodb -> ${base}/react-native/mongodb
-raw: realm/web/remotely-access-mongodb -> ${base}/web/mongodb
-raw: realm/import-export/realm-cli-reference -> ${base}/deploy/realm-cli-reference 
-raw: realm/admin/users-and-groups -> ${base}/security
-raw: realm/authentication/linking -> ${base}/authentication
-raw: realm/getting-started/configure-rules-based-access-to-mongodb -> ${base}/mongodb/define-roles-and-permissions
-raw: realm/procedures/create-stitch-app -> ${base}/get-started/create-realm-app
+raw: realm/tutorials -> ${base}/tutorial/
+raw: realm/deploy/application-schema -> ${base}/deploy/application-configuration-files/
+raw: realm/mongodb/link-a-cluster -> ${base}/mongodb/link-a-data-source/
+raw: realm/node/remotely-access-mongodb -> ${base}/node/mongodb/
+raw: realm/react-native/remotely-access-mongodb -> ${base}/react-native/mongodb/
+raw: realm/web/remotely-access-mongodb -> ${base}/web/mongodb/
+raw: realm/import-export/realm-cli-reference -> ${base}/deploy/realm-cli-reference /
+raw: realm/admin/users-and-groups -> ${base}/security/
+raw: realm/authentication/linking -> ${base}/authentication/
+raw: realm/getting-started/configure-rules-based-access-to-mongodb -> ${base}/mongodb/define-roles-and-permissions/
+raw: realm/procedures/create-stitch-app -> ${base}/get-started/create-realm-app/
 raw: realm/graphql/graphql-types-and-resolvers/index.html -> ${base}/graphql/types-and-resolvers/
 raw: realm/triggers/overview -> ${base}/triggers/
 raw: realm/sync/overview -> ${base}/sync/
 raw: realm/mongodb/service-limitations -> ${base}/reference/service-limitations/
 
+# App Structure V2 (https://jira.mongodb.org/browse/DOCSP-14491)
+raw: realm/deploy/application-configuration-files -> ${base}/configuration/legacy/
+
+# New SDK IA 2020/2021 (https://jira.mongodb.org/browse/DOCSP-12546)
 raw: realm/android -> ${base}/sdk/android/
 raw: realm/android/access-custom-user-data -> ${base}/sdk/android/advanced-guides/custom-user-data/
 raw: realm/android/async-api -> ${base}/sdk/android/fundamentals/async-api/
@@ -54,6 +58,7 @@ raw: realm/android/writes -> ${base}/sdk/android/examples/read-and-write-data/
 
 raw: realm/node/access-custom-user-data -> ${base}/sdk/node/advanced/custom-user-data/
 raw: realm/node/authenticate -> ${base}/sdk/node/examples/authenticate-users/
+raw: realm/node/auxiliary-files -> ${base}/sdk/node/fundamentals/realms/
 raw: realm/node/call-a-function -> ${base}/sdk/node/examples/authenticate-users/
 raw: realm/node/collections -> ${base}/sdk/node/fundamentals/live-queries/
 raw: realm/node/create-manage-api-keys -> ${base}/sdk/node/examples/manage-user-api-keys/
@@ -77,12 +82,43 @@ raw: realm/node/open-a-realm -> ${base}/sdk/node/examples/open-and-close-a-local
 raw: realm/node/query-engine -> ${base}/sdk/node/advanced/query-engine/
 raw: realm/node/quick-start -> ${base}/sdk/node/quick-start/
 raw: realm/node/reads -> ${base}/sdk/node/examples/read-and-write-data/
-raw: realm/node/realms -> ${base}/sdk/node/
+raw: realm/node/realms -> ${base}/sdk/node/fundamentals/realms/
 raw: realm/node/reference -> ${base}/sdk/node/
 raw: realm/node/relationships -> ${base}/sdk/node/fundamentals/relationships-and-embedded-objects/
 raw: realm/node/sync-data -> ${base}/sdk/node/examples/sync-changes-between-devices/
 raw: realm/node/work-with-multiple-users -> ${base}/sdk/node/advanced/multi-user-applications/
 raw: realm/node/writes -> ${base}/sdk/node/examples/read-and-write-data/
+
+raw: realm/react-native/access-custom-user-data -> ${base}/sdk/react-native/advanced/access-custom-user-data/
+raw: realm/react-native/authenticate -> ${base}/sdk/react-native/examples/authenticate-users/
+raw: realm/react-native/auxiliary-files -> ${base}/sdk/react-native/fundamentals/realms/
+raw: realm/react-native/call-a-function -> ${base}/sdk/react-native/examples/authenticate-users/
+raw: realm/react-native/collections -> ${base}/sdk/react-native/fundamentals/live-queries/
+raw: realm/react-native/create-manage-api-keys -> ${base}/sdk/react-native/examples/manage-user-api-keys/
+raw: realm/react-native/data-model -> ${base}/sdk/react-native/fundamentals/realms/
+raw: realm/react-native/database -> ${base}/sdk/react-native/fundamentals/realms/
+raw: realm/react-native/embedded-objects -> ${base}/sdk/react-native/fundamentals/relationships-and-embedded-objects/
+raw: realm/react-native/encrypt -> ${base}/sdk/react-native/advanced/encrypt/
+raw: realm/react-native/init-realmclient -> ${base}/sdk/react-native/examples/connect-to-mongodb-realm-backend-app/
+raw: realm/react-native/install -> ${base}/sdk/react-native/install/
+raw: realm/react-native/link-identities -> ${base}/sdk/react-native/advanced/link-identities/
+raw: realm/react-native/manage-email-password-users -> ${base}/sdk/react-native/examples/manage-email-password-users/
+raw: realm/react-native/migrate -> ${base}/sdk/react-native/fundamentals/schema-versions-and-migrations/
+raw: realm/react-native/migrations -> ${base}/sdk/react-native/examples/modify-an-object-schema/
+raw: realm/react-native/mongodb-realm -> ${base}/sdk/react-native/
+raw: realm/react-native/mongodb -> ${base}/sdk/react-native/examples/query-mongodb/
+raw: realm/react-native/notifications -> ${base}/sdk/react-native/examples/react-to-changes/
+raw: realm/react-native/objects -> ${base}/sdk/react-native/fundamentals/realms/
+raw: realm/react-native/open-a-realm -> ${base}/sdk/react-native/examples/open-and-close-a-local-realm/
+raw: realm/react-native/query-engine -> ${base}/sdk/react-native/advanced/query-engine/
+raw: realm/react-native/quick-start -> ${base}/sdk/react-native/quick-start/
+raw: realm/react-native/reads -> ${base}/sdk/react-native/examples/read-and-write-data/
+raw: realm/react-native/realms -> ${base}/sdk/react-native/fundamentals/realms/
+raw: realm/react-native/reference -> ${base}/sdk/react-native/
+raw: realm/react-native/relationships -> ${base}/sdk/react-native/fundamentals/relationships-and-embedded-objects/
+raw: realm/react-native/sync-data -> ${base}/sdk/react-native/examples/sync-changes-between-devices/
+raw: realm/react-native/work-with-multiple-users -> ${base}/sdk/react-native/advanced/multi-user-applications/
+raw: realm/react-native/writes -> ${base}/sdk/react-native/examples/read-and-write-data/
 
 raw: realm/dotnet -> ${base}/sdk/dotnet/
 raw: realm/dotnet/access-custom-user-data -> ${base}/sdk/dotnet/advanced-guides/custom-user-data/

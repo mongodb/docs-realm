@@ -20,23 +20,53 @@ Supported Property Types - iOS SDK
       You can use the following types to define your object model
       properties:
 
-      - ``Bool``
-      - Integral types ``Int``, ``Int8``, ``Int16``, ``Int32``, ``Int64``
-      - ``Decimal128``
-      - ``Double``
-      - ``String``
-      - ``Date``
-      - ``Data``
-      - :swift-sdk:`ObjectId <Classes/ObjectId.html>`
-      - User-defined :swift-sdk:`Object <Extensions/Object.html>`- and 
-        :swift-sdk:`EmbeddedObject <Extensions/EmbeddedObject.html>`-derived types
-      - :swift-sdk:`List <Classes/List.html>`
+      .. list-table::
+         :header-rows: 1
+         :stub-columns: 1
+      
+         * - Type
+           - Required
+           - Optional
+         * - Bool
+           - ``@objc dynamic var value = false``
+           - ``let value = RealmOptional<Bool>()``
+         * - Int, Int8, Int16, Int32, Int64
+           - ``@objc dynamic var value = 0``
+           - ``let value = RealmOptional<Int>()``
+         * - Float
+           - ``@objc dynamic var value: Float = 0.0``
+           - ``let value = RealmOptional<Float>()``
+         * - Double
+           - ``@objc dynamic var value: Double = 0.0``
+           - ``let value = RealmOptional<Double>()``
+         * - String
+           - ``@objc dynamic var value = ""``
+           - ``@objc dynamic var value: String? = nil``
+         * - Data
+           - ``@objc dynamic var value = Data()``
+           - ``@objc dynamic var value: Data? = nil``
+         * - Date
+           - ``@objc dynamic var value = Date()``
+           - ``@objc dynamic var value: Date? = nil``
+         * - Decimal128
+           - ``@objc dynamic var decimal: Decimal128 = 0``
+           - ``@objc dynamic var decimal: Decimal128?``
+         * - :swift-sdk:`ObjectId <Classes/ObjectId.html>`
+           - ``@objc dynamic var objectId = ObjectId.generate()``
+           - ``@objc dynamic var objectId: ObjectId?``
+         * - :swift-sdk:`List <Classes/List.html>`
+           - ``let value = List<Type>()``
+           - 
+         * - User-defined :swift-sdk:`Object <Extensions/Object.html>`
+           - N/A
+           - ``@objc dynamic var value: MyClass?``
+      
+      Additionally:
+
+      - :swift-sdk:`EmbeddedObject <Extensions/EmbeddedObject.html>`-derived types
       - :swift-sdk:`Enum <Protocols.html#/s:10RealmSwift0A4EnumP>`
 
-      You can use optionals such as ``String?``, ``Date?``, ``Data?``,
-      and ``ObjectId?`` to mark a property optional in the model. You
-      *must* make user-defined Object properties optional. You can use
-      :swift-sdk:`RealmOptional <Classes/RealmOptional.html>` to
+      You can use :swift-sdk:`RealmOptional <Classes/RealmOptional.html>` to
       represent integers, doubles, and other types as optional.
 
       ``CGFloat`` properties are discouraged, as the type is not
@@ -48,25 +78,51 @@ Supported Property Types - iOS SDK
       You can use the following types to define your object model
       properties:
 
-      - Boolean types ``BOOL``, ``bool``
+      .. list-table::
+         :header-rows: 1
+         :stub-columns: 1
+      
+         * - Type
+           - Required
+           - Optional
+         * - Boolean
+           - ``@property BOOL value;``
+           - ``@property NSNumber<RLMBool> *value;``
+         * - Integer
+           - ``@property int value;``
+           - ``@property NSNumber<RLMInt> *value;``
+         * - Float
+           - ``@property float value;``
+           - ``@property NSNumber<RLMFloat> *value;``
+         * - Double
+           - ``@property double value;``
+           - ``@property NSNumber<RLMDouble> *value;``
+         * - String
+           - ``@property NSString *value;``
+           - ``@property NSString *value;``
+         * - Data
+           - ``@property NSData *value;``
+           - ``@property NSData *value;``
+         * - Date
+           - ``@property NSDate *value;``
+           - ``@property NSDate *value;``
+         * - Decimal128
+           - ``@property RLMDecimal128 *value;``
+           - ``@property RLMDecimal128 *value;``
+         * - :objc-sdk:`RLMObjectId <Classes/RLMObjectId.html>`
+           - ``@property RLMObjectId *objectId;``
+           - ``@property RLMObjectId *objectId;``
+         * - :objc-sdk:`RLMArray <Classes/RLMArray.html>`
+           - ``@property RLMArray<MyClass *><MyClass> *items;``
+           - ``@property RLMArray<MyClass *><MyClass> *items;``
+         * - User-defined :objc-sdk:`RLMObject<Classes/RLMObject.html>`
+           - N/A
+           - ``@property MyClass *value;``
+
+      Additionally:
+
       - Integral types ``int``, ``NSInteger``, ``long``, ``long long``
-      - ``RLMDecimal128``
-      - ``double``
-      - ``NSString``
-      - ``NSDate``
-      - ``NSData``
-      - :objc-sdk:`RLMObjectId <Classes/RLMObjectId.html>`
-      - User-defined :objc-sdk:`RLMObject<Classes/RLMObject.html>`- and 
-        :objc-sdk:`RLMEmbeddedObject<Classes/RLMEmbeddedObject.html>`-derived types
-      - :objc-sdk:`RLMArray <Classes/RLMArray.html>`
-
-      Additionally, you can represent optional number types with
-      ``NSNumber`` tagged with ``RLMInt``, ``RLMDouble``,
-      or ``RLMBool``:
-
-      .. code-block:: objective-c
-
-         @property NSNumber<RLMInt> *age;
+      - :objc-sdk:`RLMEmbeddedObject<Classes/RLMEmbeddedObject.html>`-derived types
 
       ``CGFloat`` properties are discouraged, as the type is not
       platform independent.

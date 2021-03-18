@@ -157,4 +157,37 @@ describe("Sync Changes Between Devices", () => {
     });
     realm.close();
   });
+  test.skip("should sync changes in the background", async () => {
+    const app = new Realm.App({ id: "<Your App ID>" });
+    const credentials = Realm.Credentials.anonymous();
+    await app.logIn(credentials);
+
+    // :code-block-start: sync-changes-between-devices-sync-changes-in-the-background-create-OpenRealmBehaviorObject
+    const OpenRealmBehaviorConfiguration = {
+      type: "openImmediately",
+    };
+    // :code-block-end:
+
+    // :code-block-start: sync-changes-between-devices-sync-changes-in-the-background-create-config
+    const config = {
+      schema: [DogSchema], // predefined schema
+      sync: {
+        user: app.currentUser,
+        partitionValue: "MyPartitionValue",
+        // The behavior to use when this is the first time opening a realm.
+        newRealmFileBehavior: OpenRealmBehaviorConfiguration,
+        // The behavior to use when a realm file already exists locally,
+        // i.e. you have previously opened the realm.
+        existingRealmFileBehavior: OpenRealmBehaviorConfiguration,
+      },
+    };
+    // :code-block-end:
+
+    // :code-block-start: sync-changes-between-devices-sync-changes-in-the-background-open-realm
+    const realm = await Realm.open(config);
+    // :code-block-end:
+
+    // you can test that a realm has been open in general (but not if a realm has been open with a specific path or config)
+    expect(realm).toBe(new Realm(config));
+  });
 });

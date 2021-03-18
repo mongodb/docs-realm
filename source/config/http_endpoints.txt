@@ -1,0 +1,186 @@
+.. _appconfig-http_endpoints:
+
+=================================
+HTTP Endpoint Configuration Files
+=================================
+
+.. default-domain:: mongodb
+
+.. code-block:: none
+   
+   app/
+   └── http_endpoints/
+       └── <Service Name>/
+           ├── config.json
+           └── <Webhook Name>/
+               ├── config.json
+               └── source.js
+
+HTTP Service Configuration
+--------------------------
+
+HTTP endpoints are grouped into named HTTP services. You define each HTTP
+service in its own subdirectory within ``/http_endpoints``.
+
+.. code-block:: json
+   :caption: http_endpoints/<Service Name>/config.json
+   
+   {
+     "name": "<Service Name>",
+     "type": "http",
+     "config": {}
+   }
+
+.. list-table::
+   :header-rows: 1
+   :widths: 10 30
+
+   * - Field
+     - Description
+    
+   * - | ``name``
+       | String
+     - The name of the HTTP endpoints service. This must be unique among all
+       HTTP endpoint services in the app and match the name of its containing
+       directory.
+    
+   * - | ``type``
+       | String
+     - For HTTP endpoints, this value is always ``"http"``.
+    
+   * - | ``config``
+       | String
+     - Additional configuration options for the service. HTTP Endpoints
+       currently have no additional configuration options.
+
+Incoming Webhooks
+-----------------
+
+Configuration
+~~~~~~~~~~~~~
+
+.. code-block:: json
+   :caption: http_endpoints/<Service Name>/<Webhook Name>/config.json
+   
+   {
+     "name": "<Webhook Name>",
+     "can_evaluate": { <JSON Expression> },
+     "run_as_authed_user": <Boolean>,
+     "run_as_user_id": "<Realm User ID>",
+     "run_as_user_id_script_source": "<Function Source Code>",
+     "respond_result": <Boolean>,
+     "fetch_custom_user_data": <Boolean>,
+     "create_user_on_auth": <Boolean>,
+     "options": {
+       "httpMethod": "<HTTP Method>",
+       "validationMethod": "<Webhook Validation Method>",
+       "secret": "<Webhook Secret>"
+     }
+   }
+
+
+.. list-table::
+   :header-rows: 1
+   :widths: 10 30
+
+   * - Field
+     - Description
+   
+   * - | ``name``
+       | String
+     - The name of the webhook. This must be unique among all webhooks in the
+       HTTP endpoints service and match the name of its containing directory.
+   
+   * - | ``can_evaluate``
+       | JSON Expression (default: ``true``)
+     - A :doc:`JSON expression </services/json-expressions>` that
+       evaluates to ``true`` if the webhook is allowed to execute.
+       {+service-short+} evaluates this expression for every incoming request.
+   
+   * - | ``disable_arg_logs``
+       | Boolean
+     - If ``true``, {+service-short+} omits the arguments provided to the webhook
+       from the :doc:`function execution log entry </logs/function>`.
+   
+   * - | ``run_as_authed_user``
+       | Boolean
+     - If ``true``, the webhook function runs in the context of an existing
+       application user specified by each incoming request. Incoming requests
+       must include the user's authentication provider credentials in either the
+       request body or the request headers.
+
+       .. tip::
+          
+          For an example of how to specify credentials, see
+          :ref:`configure-webhooks`.
+   
+   * - | ``run_as_user_id``
+       | String
+     - The unique ID of a :doc:`{+service-short+} User </authentication>` that
+       the function always executes as. Cannot be used with
+       ``run_as_user_id_script_source`` or ``run_as_authed_user``.
+   
+   * - | ``run_as_user_id_script_source``
+       | String
+     - A stringified :doc:`function </functions>` that runs whenever the
+       webhook is called and returns the unique ID of a :doc:`{+service-short+}
+       User </authentication>` that the function executes as. Cannot be used with
+       ``run_as_user_id`` or ``run_as_authed_user``.
+   
+   * - | ``respond_result``
+       | Boolean
+     - If ``true``, {+service-short+} includes the webhook function return value as
+       the body of the HTTP response it sends to the client that initiated the
+       webhook request.
+   
+   * - | ``options``
+       | Document
+     - A document that contains configuration options for the webhook.
+
+       .. code-block:: json
+
+          {
+            "httpMethod": "<HTTP Method>",
+            "validationMethod": "<Webhook Validation Method>",
+            "secret": "<Webhook Secret>"
+          }
+
+       .. list-table::
+          :header-rows: 1
+          :widths: 10 30
+
+          * - Field
+            - Description
+
+          * - | ``httpMethod``
+              | String
+            - The HTTP method type that the webhook accepts. Incoming
+              webhook requests must use this method.
+
+          * - | ``validationMethod``
+              | String
+            - The name of the :ref:`request validation method
+              <webhook-request-validation>` that the webhook uses.
+              
+              Valid options:
+              
+              - ``"VERIFY_PAYLOAD"``
+              - ``"SECRET_AS_QUERY_PARAM"``
+              - ``"NO_VALIDATION"``
+
+          * - | ``secret``
+              | String
+            - The secret value used to :ref:`validate incoming webhook
+              requests <webhook-request-validation>`.
+
+Source Code
+~~~~~~~~~~~
+
+You define a webhook function's source code in a ``source.js`` file within the
+webhook directory. Each file must export the main function that runs whenever a
+request calls the webhook.
+
+.. literalinclude:: /includes/webhook-function-example.js
+   :language: javascript
+   :emphasize-lines: 3, 10-11, 14-15
+   :caption: http_endpoints/<Service Name>/<Webhook Name>/source.js

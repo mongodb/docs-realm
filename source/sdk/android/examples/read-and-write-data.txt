@@ -385,6 +385,34 @@ This automatically inserts the instance into the {+realm+}.
             :language: java
             :emphasize-lines: 3
 
+You can also insert objects into a {+realm+} from JSON. {+service-short+}
+supports creating objects from ``String``,
+:android:`JSONObject <reference/org/json/JSONObject.html>`, and
+:android:`InputStream <reference/java/io/InputStream.html>` types.
+{+service-short+} ignores any properties present in the JSON that are
+not defined in the {+service-short+} object schema.
+
+.. example::
+
+   This code demonstrates how to create a single object from JSON with 
+   :java-sdk:`createObjectFromJson() <io/realm/Realm.html#createObjectFromJson-java.lang.Class-java.lang.String->`
+   or multiple objects from JSON with
+   :java-sdk:`createAllFromJson() <io/realm/Realm.html#createAllFromJson-java.lang.Class-java.lang.String->`:
+
+   .. tabs-realm-languages::
+      
+      .. tab::
+         :tabid: kotlin
+
+         .. literalinclude:: /examples/generated/android/local/WritesTest.codeblock.create-an-object-json.kt
+            :language: kotlin
+
+      .. tab::
+         :tabid: java
+
+         .. literalinclude:: /examples/generated/android/local/WritesTest.codeblock.create-an-object-json.java
+            :language: java
+
 .. _android-modify-an-object:
 .. _android-update:
 
@@ -518,6 +546,45 @@ objects in a collection at once.
          .. literalinclude:: /examples/generated/android/sync/WritesTest.codeblock.update-a-collection.java
             :language: java
             :emphasize-lines: 9,10
+
+.. _android-iteration:
+
+Iteration
+~~~~~~~~~
+
+Because {+realm+} collections always reflect the latest state, they
+can appear, disappear, or change while you iterate over a collection.
+To get a stable collection you can iterate over, you can create a
+**snapshot** of a collection's data. A snapshot guarantees the order of
+elements will not change, even if an element is deleted or modified.
+
+``Iterator`` objects created from ``RealmResults`` use snapshots
+automatically. ``Iterator`` objects created from ``RealmList``
+instances do *not* use snapshots. Use
+:java-sdk:`RealmList.createSnapshot() <io/realm/RealmList.html#createSnapshot-->`
+or
+:java-sdk:`RealmResults.createSnapshot() <io/realm/RealmResults.html#createSnapshot-->`
+to manually generate a snapshot you can iterate over manually:
+
+.. example::
+
+   The following code demonstrates how to iterate over a collection
+   safely using either an implicit snapshot created from a ``RealmResults``
+   ``Iterator`` or a manual snapshot created from a ``RealmList``:
+
+   .. tabs-realm-languages::
+      
+      .. tab::
+         :tabid: kotlin
+
+         .. literalinclude:: /examples/generated/android/local/WritesTest.codeblock.iterate.kt
+            :language: kotlin
+
+      .. tab::
+         :tabid: java
+
+         .. literalinclude:: /examples/generated/android/local/WritesTest.codeblock.iterate.java
+            :language: java
 
 .. _android-delete-an-object:
 

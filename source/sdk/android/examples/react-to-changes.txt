@@ -58,6 +58,15 @@ granular notifications.
           :language: kotlin
           :emphasize-lines: 12
 
+.. important:: Automatic Refresh
+
+   All threads that contain a ``Looper`` automatically refresh
+   ``RealmObject`` and ``RealmResult`` instances when new changes are
+   written to the {+realm+}. As a result, it isn't necessary to fetch
+   those objects again when reacting to a ``RealmChangeListener``, since
+   those objects are already updated and ready to be redrawn to the
+   screen.
+
 .. _android-register-a-collection-change-listener:
 .. _android-collection-notifications:
 

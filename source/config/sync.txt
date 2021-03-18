@@ -1,0 +1,93 @@
+.. _appconfig-sync:
+
+==============================
+Realm Sync Configuration Files
+==============================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+You can configure :ref:`Realm sync <sync>` for your application in the ``sync``
+directory:
+
+.. code-block:: none
+   
+   app/
+   └── sync/
+       └── config.json
+
+Configuration
+-------------
+
+.. code-block:: json
+   :caption: sync/config.json
+   
+   {
+     "state": <"enabled" | "disabled">,
+     "development_mode_enabled": <Boolean>
+     "partition": {
+       "key": "<Partition Key Field Name>",
+       "type": "<Partition Key Type>",
+       "permissions": {
+         "read": { <JSON Expression> },
+         "write": { <JSON Expression> }
+       }
+     }
+   }
+
+.. list-table::
+   :header-rows: 1
+   :widths: 10 30
+
+   * - Field
+     - Description
+
+   * - | ``state``
+       | String
+     - The current state of the Sync protocol for the application.
+       
+       Valid Options:
+
+       - ``"enabled"``
+       - ``"disabled"``
+
+   * - | ``development_mode_enabled``
+       | Boolean
+     - If ``true``, :ref:`development mode <enable-development-mode>` is enabled
+       for the application.
+
+   * - | ``partition.key``
+       | String
+     - The field name of your app's :ref:`partition key <partition-keys>`. This
+       field must be defined in the schema for object types that you want to
+       sync.
+
+   * - | ``partition.type``
+       | String
+     - The value type of the partition key field. This must match the type
+       defined in the object schema.
+       
+       Valid Options:
+
+       - ``"string"``
+       - ``"objectId"``
+       - ``"long"``
+
+   * - | ``partition.permissions.read``
+       | JSON Expression
+     - An :ref:`expression <expressions>` that evaluates to ``true`` when a user
+       has permission to read objects in a partition. If the expression
+       evaluates to ``false``, {+service-short+} does not allow the user to read
+       an object or its properties.
+
+   * - | ``partition.permissions.write``
+       | JSON Expression
+     - An :ref:`expression <expressions>` that evaluates to ``true`` when a user
+       has permission to write objects in a partition. If the expression
+       evaluates to ``false``, {+service-short+} does not allow the user to
+       modify an object or its properties.

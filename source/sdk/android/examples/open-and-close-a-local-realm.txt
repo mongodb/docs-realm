@@ -29,7 +29,7 @@ or :java-sdk:`getInstanceAsync() <io/realm/Realm.html#getInstanceAsync-io.realm.
    .. tab::
        :tabid: kotlin
 
-       .. literalinclude:: /examples/generated/android/local/OpenARealmTest.codeblock.open-a-realm-local.java
+       .. literalinclude:: /examples/generated/android/local/OpenARealmTest.codeblock.open-a-realm-local.kt
          :language: kotlin
 
    .. tab::
@@ -57,7 +57,7 @@ It is important to remember to call the :java-sdk:`close()
    .. tab::
        :tabid: kotlin
 
-       .. literalinclude:: /examples/generated/android/local/OpenARealmTest.codeblock.close-a-realm-local.java
+       .. literalinclude:: /examples/generated/android/local/OpenARealmTest.codeblock.close-a-realm-local.kt
          :language: kotlin
 
    .. tab::
@@ -84,7 +84,7 @@ To configure settings for a {+realm+}, create a
    .. tab::
        :tabid: kotlin
 
-       .. literalinclude:: /examples/generated/android/local/OpenARealmTest.codeblock.configure-a-realm-local.java
+       .. literalinclude:: /examples/generated/android/local/OpenARealmTest.codeblock.configure-a-realm-local.kt
          :language: kotlin
 
    .. tab::
@@ -172,11 +172,45 @@ To open a Dynamic Realm with a mutable schema, use
 
    :ref:`Fundamentals: Dynamic Realms <android-dynamic-realms-fundamentals>`
 
+The Default Realm
+-----------------
+
+You can save any :java-sdk:`RealmConfiguration <io/realm/RealmConfiguration.html>`
+as the default for your application using the
+:java-sdk:`setDefaultConfiguration() <io/realm/Realm.html#setDefaultConfiguration-io.realm.RealmConfiguration->`
+method:
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /examples/generated/android/local/OpenARealmTest.codeblock.set-default-realm.kt.code-block.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /examples/generated/android/local/OpenARealmTest.codeblock.set-default-realm.java.code-block.rst
+
+You can then use the
+:java-sdk:`getDefaultConfiguration() <io/realm/Realm.html#getDefaultConfiguration-->`
+or :java-sdk:`getDefaultInstance() <io/realm/Realm.html#getDefaultInstance-->`
+methods to access that configuration, or an instance created from that
+configuration:
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /examples/generated/android/local/OpenARealmTest.codeblock.use-default-realm.kt.code-block.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /examples/generated/android/local/OpenARealmTest.codeblock.use-default-realm.java.code-block.rst
+
 .. _android-provide-a-subset-of-classes-to-a-realm:
-
-Provide a Subset of Classes to a Realm
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 .. _android-realm-modules:
 
 Realm Modules
