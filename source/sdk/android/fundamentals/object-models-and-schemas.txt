@@ -287,25 +287,27 @@ defined {+service-short+} objects.
 Realm Object Limitations
 ------------------------
 
-{+service-short+} objects are subject to a few limitations:
+{+service-short+} objects:
 
-- {+service-short+} objects cannot contain fields that use the
-  ``final`` or ``volatile`` modifiers.
+- cannot contain fields that use the ``final`` or ``volatile`` modifiers.
 
-- {+service-short+} objects cannot extend any object other than
-  ``RealmObject``.
+- cannot extend any object other than ``RealmObject``.
 
-- {+service-short+} objects must contain an empty constructor.
+- must contain an empty constructor.
 
-- {+service-short+} object class names cannot exceed 57 characters.
+Naming limitations:
 
-- {+service-short+} object field names cannot exceed 63 characters.
+- Class names cannot exceed 57 characters.
 
-- No two {+service-short+} objects in a single
-  :ref:`realm module <android-modules>` can share the same
-  name.
+- Class names must be unique within :ref:`realm modules <android-modules>`
+
+- Field names cannot exceed 63 characters.
+
+Size limitations:
 
 - ``String`` or ``byte[]`` fields cannot exceed 16 MB.
+
+Usage limitations:
 
 - Because {+service-short+} objects are live and can change at any time,
   their ``hashCode()`` value can change over time. As a result, you
@@ -314,17 +316,15 @@ Realm Object Limitations
 Incremental Builds
 ------------------
 
-The bytecode transformer used by realm supports incremental builds, but
-some cases require a full rebuild:
+The bytecode transformer used by {+service-short+} supports incremental
+builds, but your application requires a full rebuild when adding or
+removing the following from a {+service-short+} object field:
 
-- adding or removing an ``@Ignore`` annotation from a {+service-short+}
-  object field
+- an ``@Ignore`` annotation
 
-- adding or removing the ``static`` keyword from a {+service-short+}
-  object field
+- the ``static`` keyword
 
-- adding or removing the ``transient`` keyword from a {+service-short+}
-  object field
+- the ``transient`` keyword
 
 You can perform a full rebuild with :guilabel:`Build > Clean Project`
 and :guilabel:`Build > Rebuild Project` in these cases.
