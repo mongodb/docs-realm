@@ -215,7 +215,6 @@ Regex-like wildcards allow more flexibility in search.
    * - | ``equalTo``
      - Evaluates to ``true`` if the left-hand string is lexicographically equal to the right-hand string.
 
-
 .. example::
 
    We use the query engine's string operators to find
@@ -235,6 +234,15 @@ Regex-like wildcards allow more flexibility in search.
 
          .. literalinclude:: /examples/generated/android/sync/QueryEngineTest.codeblock.string-operators.java
             :language: java
+
+.. note:: Case-insensitive Character Limitations
+
+   Case-insensitive string operators only support the
+   ``Latin Basic``, ``Latin Supplement``, ``Latin Extended A``, and
+   ``Latin Extended B (UTF-8 range 0–591)`` character sets. Setting
+   the case insensitive flag in queries when using ``equalTo``,
+   ``notEqualTo``, ``contains``, ``endsWith``, ``beginsWith``, or
+   ``like`` only works on English locale characters.
 
 Aggregate Operators
 ~~~~~~~~~~~~~~~~~~~

@@ -282,6 +282,53 @@ defined {+service-short+} objects.
 
    :ref:`Usage Example: Omit Classes from your Realm Schema <android-omit-classes-from-schema>`
 
+.. _android-realm-object-limitations:
+
+Realm Object Limitations
+------------------------
+
+{+service-short+} objects are subject to a few limitations:
+
+- {+service-short+} objects cannot contain fields that use the
+  ``final`` or ``volatile`` modifiers.
+
+- {+service-short+} objects cannot extend any object other than
+  ``RealmObject``.
+
+- {+service-short+} objects must contain an empty constructor.
+
+- {+service-short+} object class names cannot exceed 57 characters.
+
+- {+service-short+} object field names cannot exceed 63 characters.
+
+- No two {+service-short+} objects in a single
+  :ref:`realm module <android-modules>` can share the same
+  name.
+
+- ``String`` or ``byte[]`` fields cannot exceed 16 MB.
+
+- Because {+service-short+} objects are live and can change at any time,
+  their ``hashCode()`` value can change over time. As a result, you
+  should not use ``RealmObject`` instances as a key in any map or set.
+
+Incremental Builds
+------------------
+
+The bytecode transformer used by realm supports incremental builds, but
+some cases require a full rebuild:
+
+- adding or removing an ``@Ignore`` annotation from a {+service-short+}
+  object field
+
+- adding or removing the ``static`` keyword from a {+service-short+}
+  object field
+
+- adding or removing the ``transient`` keyword from a {+service-short+}
+  object field
+
+You can perform a full rebuild with :guilabel:`Build > Clean Project`
+and :guilabel:`Build > Rebuild Project` in these cases.
+
 Summary
 -------
 
