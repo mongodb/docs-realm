@@ -50,10 +50,10 @@ Supported Property Types - iOS SDK
            - ``@objc dynamic var value: Date? = nil``
          * - Decimal128
            - ``@objc dynamic var decimal: Decimal128 = 0``
-           - ``@objc dynamic var decimalOpt: Decimal128?``
+           - ``@objc dynamic var decimal: Decimal128?``
          * - :swift-sdk:`ObjectId <Classes/ObjectId.html>`
-           - ``@objc dynamic var objectId = ObjectId()``
-           - ``@objc dynamic var objectIdOpt: ObjectId?``
+           - ``@objc dynamic var objectId = ObjectId.generate()``
+           - ``@objc dynamic var objectId: ObjectId?``
          * - :swift-sdk:`List <Classes/List.html>`
            - ``let value = List<Type>()``
            - 
@@ -85,10 +85,10 @@ Supported Property Types - iOS SDK
          * - Type
            - Required
            - Optional
-         * - Bool
+         * - Boolean
            - ``@property BOOL value;``
            - ``@property NSNumber<RLMBool> *value;``
-         * - Int
+         * - Integer
            - ``@property int value;``
            - ``@property NSNumber<RLMInt> *value;``
          * - Float
