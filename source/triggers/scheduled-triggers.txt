@@ -23,84 +23,128 @@ Create a Scheduled Trigger
 --------------------------
 
 .. tabs-realm-admin-interfaces::
-
-   tabs:
-     - id: ui
-       content: |
-         To open the scheduled trigger configuration screen in the {+ui+}, click
-         :guilabel:`Triggers` in the {+leftnav+}, select the
-         :guilabel:`Scheduled Triggers` tab, and then click :guilabel:`Add a
-         Trigger`.
-
-         Configure the trigger and then click :guilabel:`Save` at the bottom of the
-         page to add it to your current deployment draft.
-
-         You can configure two types of trigger schedules: :guilabel:`Basic` or
-         :guilabel:`Advanced`.
-         
-         - A :guilabel:`Basic` schedule executes the trigger periodically based
+   
+   .. tab::
+      :tabid: ui
+      
+      To create a scheduled Trigger in the {+ui+}:
+      
+      1. Click :guilabel:`Triggers` under :guilabel:`MongoDB Cluster` in the
+         {+leftnav+}.
+      
+      2. Select :guilabel:`Scheduled Triggers` from the Trigger type dropdown
+         menu.
+      
+      3. Click :guilabel:`Add a Trigger` to open the Trigger configuration page.
+      
+      4. Enter :ref:`configuration values <scheduled-trigger-configuration>` for
+         the Trigger. You can configure two types of Trigger schedules:
+         :guilabel:`Basic` or :guilabel:`Advanced`.
+      
+         - A :guilabel:`Basic` schedule executes the Trigger periodically based
            on a single unit of time and an interval, such as "every five
            minutes" or "every Monday".
-         
-         - An :guilabel:`Advanced` schedule executes the trigger based on a
+      
+         - An :guilabel:`Advanced` schedule executes the Trigger based on a
            custom :doc:`CRON expression </triggers/cron-expressions>` that you
            define.
-         
-         A scheduled trigger also has the following configuration options:
-         
-         .. list-table::
-            :header-rows: 1
-            :widths: 15 30
-         
-            * - Field
-              - Description
-         
-            * - | :guilabel:`Trigger Type`
-                | ``type: <string>``
-         
-              - Required. The type of the trigger.
-                
-                For scheduled triggers, this value should be set to ``SCHEDULED``.
-         
-            * - | :guilabel:`Trigger Name`
-                | ``name: <string>``
-         
-              - Required. The name of the trigger.
-         
-            * - | :guilabel:`Linked Function`
-                | ``function_name: <string>``
-         
-              - Required. The name of the {+service-short+} Function that the trigger
-                executes whenever it fires.
-         
-                .. note::
-         
-                   A scheduled trigger does not pass any arguments to its linked
-                   Function.
-         
-         .. figure:: /images/trigger-example-scheduled.png
-            :figwidth: 750px
-            :alt: Creating a Trigger in the {+ui+}.
+      
+      5. Click :guilabel:`Save`.
+      
+      .. figure:: /images/trigger-example-scheduled.png
+         :figwidth: 750px
+         :alt: Creating a Trigger in the {+ui+}.
+   
+   .. tab::
+      :tabid: cli
+      
+      .. include:: /includes/note-procedure-uses-cli-v1.rst
+      
+      To create a scheduled Trigger with :doc:`realm-cli
+      </deploy/realm-cli-reference>`:
+      
+      1. Add a scheduled Trigger :ref:`configuration file
+         <scheduled-trigger-configuration>` to the ``triggers`` subdirectory of
+         a local application directory.
+      
+         .. note::
+      
+            You cannot create a Trigger that runs on a :guilabel:`Basic`
+            schedule using Realm CLI. All imported scheduled Trigger
+            configurations must specify a :doc:`CRON expression
+            </triggers/cron-expressions>`.
+      
+      2. :doc:`Import </deploy/deploy-cli>` the application directory into your
+         application.
+      
+         .. code-block:: shell
+      
+            realm-cli import
 
+Reference
+---------
+
+.. _scheduled-trigger-configuration:
+
+Scheduled Trigger Configuration
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. tabs-realm-admin-interfaces::
+
+   tabs:
      - id: cli
        content: |
-         To create a scheduled trigger with :doc:`realm-cli
-         </deploy/realm-cli-reference>`:
+         Scheduled Trigger configuration files have the following form:
 
-         1. Add a scheduled trigger :ref:`configuration file
-            <config-scheduled-trigger>` to the ``triggers`` subdirectory of a
-            local application directory.
+         .. code-block:: none
+            :caption: /triggers/<triggers name>.json
 
-            .. note::
+            {
+               "type": "SCHEDULED",
+               "name": "<Trigger Name>",
+               "function_name": "<Trigger Function Name>",
+               "config": {
+                 "schedule": "<CRON expression>"
+               },
+               "disabled": <boolean>
+            }
 
-               You cannot create a trigger that runs on a
-               :guilabel:`Basic` schedule using Realm CLI. All imported
-               scheduled trigger configurations must specify a
-               :doc:`CRON expression </triggers/cron-expressions>`.
+     - id: ui
+       content: |
+         Scheduled Triggers have the following configuration parameters:
 
-         2. :doc:`Import </deploy/deploy-cli>` the
-            application directory into your application.
+.. list-table::
+   :header-rows: 1
+   :widths: 15 30
 
-            .. code-block:: shell
+   * - Field
+     - Description
 
-               realm-cli import
+   * - | :guilabel:`Trigger Type`
+       | ``type: <string>``
+
+     - Required. The type of the Trigger.
+       
+       For scheduled Triggers, this value should be set to ``SCHEDULED``.
+
+   * - | :guilabel:`Trigger Name`
+       | ``name: <string>``
+
+     - Required. The name of the Trigger.
+
+   * - | :guilabel:`Linked Function`
+       | ``function_name: <string>``
+
+     - Required. The name of the {+service-short+} Function that the Trigger
+       executes whenever it fires.
+
+       .. note::
+
+          A scheduled Trigger does not pass any arguments to its linked
+          Function.
+
+   * - | :guilabel:`Schedule`
+       | ``config.schedule: <string>``
+
+     - Required. The :doc:`CRON expression </triggers/cron-expressions>`
+       that {+backend+} uses to determine when to fire the Trigger.

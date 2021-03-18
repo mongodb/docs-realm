@@ -43,32 +43,31 @@ Configuration
    .. tab::
       :tabid: cli
       
-      You can enable and configure the Google authentication provider
-      with :doc:`realm-cli </deploy/realm-cli-reference>` by importing
-      an application directory that contains a :ref:`configuration file
-      <legacy-appschema-authentication-providers>` for the provider.
-      
-      The configuration file must be named ``oauth2-google.json`` and
-      stored in the ``/auth_providers`` directory. Configuration files
-      for the Google authentication provider have the following form:
+      To enable and configure the Google authentication provider with
+      :ref:`{+cli-bin+} <realm-cli>`, define a :ref:`configuration object
+      <appconfig-auth>` for it in ``/auth/providers.json``.
+
+      Google provider configurations have the following form:
       
       .. code-block:: none
-         :caption: /auth_providers/oauth2-google.json
+         :caption: /auth/providers.json
       
          {
-           "name": "oauth2-google",
-           "type": "oauth2-google",
-           "disabled": <boolean>,
-           "config": {
-             "clientId": <string>,
-             "openId": <boolean>
-           },
-           "secret_config": {
-             "clientSecret": <string>
-           },
-           "metadata_fields": [<document>, ...],
-           "redirect_uris": [<string>, ...],
-           "domain_restrictions": [<string>, ...]
+           "oauth2-google": {
+             "name": "oauth2-google",
+             "type": "oauth2-google",
+             "disabled": <boolean>,
+             "config": {
+               "clientId": <string>,
+               "openId": <boolean>
+             },
+             "secret_config": {
+               "clientSecret": <string>
+             },
+             "metadata_fields": [<document>, ...],
+             "redirect_uris": [<string>, ...],
+             "domain_restrictions": [<string>, ...]
+           }
          }
 
 The Google authentication provider has the following configuration

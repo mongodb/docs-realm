@@ -34,43 +34,41 @@ Configuration
 
 .. tabs-realm-admin-interfaces::
 
-   tabs:
-     - id: ui
-       content: |
-         You can enable and configure the Facebook authentication
-         provider from the {+ui+} by selecting :guilabel:`Facebook`
-         from the :guilabel:`Authentication` page.
+   .. tab::
+      :tabid: ui
+         
+      You can enable and configure the Facebook authentication provider from the
+      {+ui+} by selecting :guilabel:`Facebook` from the
+      :guilabel:`Authentication` page.
 
-     - id: cli
-       content: |
-         You can enable and configure the Facebook authentication
-         provider with :doc:`realm-cli
-         </deploy/realm-cli-reference>` by importing an
-         application directory that contains a :ref:`configuration file
-         <legacy-appschema-authentication-providers>` for the provider.
+   .. tab::
+      :tabid: cli
+      
+      To enable and configure the Facebook authentication provider with
+      :ref:`{+cli-bin+} <realm-cli>`, define a :ref:`configuration object
+      <appconfig-auth>` for it in ``/auth/providers.json``.
 
-         The configuration file must be named ``oauth2-facebook.json``
-         and stored in the ``/auth_providers`` directory. Configuration
-         files for the Facebook authentication provider have the
-         following form:
-
-         .. code-block:: none
-            :caption: /auth_providers/oauth2-facebook.json
-
-            {
-              "name": "oauth2-facebook",
-              "type": "oauth2-facebook",
-              "disabled": <boolean>,
-              "config": {
-                "clientId": <string>
-              },
-              "secret_config": {
-                "clientSecret": <string>
-              },
-              "metadata_fields": [<document>, ...],
-              "redirect_uris": [<string>, ...],
-              "domain_restrictions": [<string>, ...]
-            }
+      Facebook provider configurations have the following form:
+      
+      .. code-block:: none
+         :caption: /auth/providers.json
+         
+         {
+           "oauth2-facebook": {
+             "name": "oauth2-facebook",
+             "type": "oauth2-facebook",
+             "disabled": <boolean>,
+             "config": {
+               "clientId": <string>
+             },
+             "secret_config": {
+               "clientSecret": <string>
+             },
+             "metadata_fields": [<document>, ...],
+             "redirect_uris": [<string>, ...],
+             "domain_restrictions": [<string>, ...]
+           }
+         }
 
 The Facebook authentication provider has the following configuration
 options:

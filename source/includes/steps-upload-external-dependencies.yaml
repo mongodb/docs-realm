@@ -27,8 +27,8 @@ title: Create a Dependency Archive
 ref: create-a-dependency-archive
 content: |
   Now that you've downloaded all of your npm modules, you need to
-  package them up in an archive so you can upload them to {+service-short+}. Create
-  an archive containing the ``node_modules`` folder:
+  package them up in an archive so you can upload them to {+service-short+}. 
+  Create an archive containing the ``node_modules`` folder:
 
   .. code-block:: shell
      
@@ -74,6 +74,8 @@ content: |
      .. tab::
         :tabid: cli
         
+        .. include:: /includes/note-procedure-uses-cli-v1.rst
+        
         #. Add the ``node_modules`` archive to your ``/functions``
            directory:
            
@@ -81,9 +83,9 @@ content: |
               
               mv node_modules.tar.gz ./myapp/functions
         
-        #. Import your application with the :option:`--include-dependencies
-           <realm-cli import --include-dependencies>` option:
+        #. Push your application with the :option:`--include-dependencies
+           <realm-cli push --include-dependencies>` option:
            
            .. code-block:: shell
               
-              realm-cli import --include-dependencies
+              realm-cli push --include-dependencies
