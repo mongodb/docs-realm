@@ -4,14 +4,14 @@ content: |
   To create new function with :doc:`realm-cli
   </deploy/realm-cli-reference>`, you need a previously created
   :ref:`application configuration <application-directory>`.
-
+  
   You can :doc:`pull </deploy/export-realm-app>` your application from the
-  :guilabel:`Import/Export App` tab of the :guilabel:`Deploy` page in the
+  :guilabel:`Export App` tab of the :guilabel:`Deploy` page in the
   {+ui+}, or by running the following command from an authenticated instance of
   :doc:`realm-cli </deploy/realm-cli-reference>`:
-
+  
   .. code-block:: shell
-
+     
      realm-cli pull --app-id=<App ID>
 ---
 title: Add to the Function Configuration File
@@ -20,7 +20,7 @@ content: |
   In the ``functions`` directory of your application, open the ``config.json`` 
   file and add an object to the array that describes your new function. The
   object must have the following form:
-
+  
   .. code-block:: json
 
      {
@@ -53,44 +53,43 @@ content: |
     
     To execute a function as a System user, use the following configuration:
 
-   .. code-block:: json
-      
-      {
-        "run_as_system": true,
-        "run_as_user_id": "",
-        "run_as_user_id_script_source": "",
-      }
+    .. code-block:: json
+       
+       {
+         "run_as_system": true,
+         "run_as_user_id": "",
+         "run_as_user_id_script_source": ""
+       }
 
   - **User**
 
     To execute a function as a specific user, use the following configuration:
 
-      .. code-block:: json
-        
-         {
-           "run_as_system": false,
-           "run_as_user_id": "<Realm User Id>",
-           "run_as_user_id_script_source": "",
-         }
+    .. code-block:: json
+       
+       {
+         "run_as_system": false,
+         "run_as_user_id": "<Realm User Id>",
+         "run_as_user_id_script_source": ""
+       }
 
   - **Script**
 
-      The third way to execute a function is to specify another function that 
-      returns a user id. Your function will execute as this user. To do this, 
-      use the following configuration:
+    The third way to execute a function is to specify another function that 
+    returns a user id. Your function will execute as this user. To do this, 
+    use the following configuration:
 
-        .. code-block:: json
-      
-           {
-             "run_as_system": false,
-             "run_as_user_id": "",
-             "run_as_user_id_script_source": "<Function Source Code>",
-           }
-
+    .. code-block:: json
+       
+       {
+         "run_as_system": false,
+         "run_as_user_id": "",
+         "run_as_user_id_script_source": "<Function Source Code>"
+       }
 
   Set Execution Logging
   =====================
-
+  
   To include any values that the function receives as arguments in its
   :doc:`log entry </logs/function>`, set ``disable_arg_logs`` to
   ``false``.
