@@ -289,11 +289,14 @@ Realm Object Limitations
 
 {+service-short+} objects:
 
-- cannot contain fields that use the ``final`` or ``volatile`` modifiers.
+- cannot contain fields that use the ``final`` or ``volatile`` modifiers
+  (except for :ref:`inverse relationship <android-inverse-relationship>`
+  fields).
 
 - cannot extend any object other than ``RealmObject``.
 
-- must contain an empty constructor.
+- must contain an empty constructor (if your class does not include any
+  constructor, the automatically generated empty constructor will suffice)
 
 Naming limitations:
 
