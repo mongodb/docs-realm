@@ -26,6 +26,8 @@ MongoDB Data Source Configuration Files
 Service Configuration
 ---------------------
 
+.. _config-mongodb-cluster:
+
 MongoDB Clusters
 ~~~~~~~~~~~~~~~~
 
@@ -38,6 +40,7 @@ MongoDB Clusters
      "config": {
        "clusterName": "<Atlas Cluster Name>",
        "readPreference": "<Read Preference>",
+       "sync": { <Sync Configuration> },
        "wireProtocolEnabled": <Boolean>
      }
    }
@@ -51,24 +54,19 @@ MongoDB Clusters
    
    * - | ``name``
        | String
-     - The name of the MongoDB  service. The name may be at most 64 characters
-       long and can only contain ASCII letters, numbers, underscores,
-       and hyphens.
+     - Required. Default: ``mongodb-atlas``
        
-       .. important::
-          
-          MongoDB service names are not necessarily the same as their linked
-          data source's name in Atlas. For linked clusters, the default MongoDB
-          service name is ``mongodb-atlas``. For linked Data Lakes, the default
-          service name is ``mongodb-datalake``.
+       The service name used to refer to the cluster within this Realm
+       app. The name may be at most 64 characters long and must only
+       contain ASCII letters, numbers, underscores, and hyphens.
    
    * - | ``type``
        | String
-     - For MongoDB Atlas clusters, this value is always ``"mongodb-atlas"``.
+     - Required. For MongoDB Atlas clusters, this value is always ``"mongodb-atlas"``.
    
    * - | ``config.clusterName``
        | String
-     - The name of the service's linked cluster in MongoDB Atlas.
+     - Required. The name of the cluster in Atlas.
 
    * - | ``config.readPreference``
        | String
@@ -77,24 +75,114 @@ MongoDB Clusters
        
        .. include:: /mongodb/tables/read-preference-modes.rst
    
+   * - | ``config.sync``
+       | Document
+     - A configuration document that determines if a cluster is :doc:`synced
+       </sync>` and, if it is, defines the rules for sync operations on the
+       cluster.
+
+       For detailed information on sync configuration documents, see
+       :ref:`Synced Cluster Configuration <config-synced-cluster>`.
+   
    * - | ``config.wireProtocolEnabled``
        | Boolean   
      - If ``true``, clients may :ref:`connect to the app over the MongoDB Wire
        Protocol <wire-protocol-connect>`.
 
-MongoDB Data Lakes
-~~~~~~~~~~~~~~~~~~
+.. _config-synced-cluster:
+
+Synced Cluster Configuration
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The ``config.sync`` field of ``config.json`` determines if a cluster is
+:doc:`synced </sync>` and, if it is, defines the rules for sync operations on
+the cluster.
 
 .. code-block:: json
    :caption: config.json
 
    {
+     ...,
+     "config": {
+       ...,
+       "sync": {
+         "state": <Boolean>,
+         "development_mode_enabled": <Boolean>,
+         "database_name": "<Developer Mode Database Name>",
+         "partition": {
+           "key": "<Partition Key Field Name>",
+           "type": "<Partition Key Value Type>",
+           "permissions": {
+             "read": <JSON Expression>,
+             "write": <JSON Expression>
+           }
+         }
+       }
+     }
+   }
+
+.. list-table::
+   :header-rows: 1
+   :widths: 10 30
+
+   * - Field
+     - Description
+   
+   * - | ``sync.state``
+       | Boolean
+     - If ``true``, :doc:`Sync </sync>` is enabled for the cluster, which means
+       that client applications can sync data in the cluster with Realm Database
+       and that :ref:`non-sync collection rules <mongodb-service-rules>` do not
+       apply.
+   
+   * - | ``sync.development_mode_enabled``
+       | Boolean
+     - If ``true``, :term:`development mode` is enabled for the cluster. While
+       enabled, Realm does not enforce sync rules, stores synced objects in a
+       specific database within the cluster, and mirrors object types in that
+       database's collection schemas.
+
+   * - | ``sync.database_name``
+       | String
+     - The name of the database in the synced cluster where Realm should store
+       synced objects.
+       
+       When :term:`development mode` is enabled, Realm stores synced objects in
+       this database. Each object type maps to its own collection in the
+       database with a schema that matches the synced objects.
+   
+   * - | ``sync.partition.key``
+       | String
+     - The name of the field that :ref:`partitions <partitioning>` data into
+       client Realms.
+   
+   * - | ``sync.partition.type``
+       | String
+     - The type of the partition key field value.
+   
+   * - | ``sync.partition.permissions``
+       | Document
+     - A document that defines the ``read`` and ``write`` permissions for the
+       synced cluster. Permissions are defined with :ref:`rule expressions
+       <expressions>` that Realm evaluates per-user, per-partition. The
+       expressions have access to the :json-expansion:`%%user` and
+       :json-expansion:`%%partition` expansions.
+
+.. _config-datalake:
+
+MongoDB Data Lakes
+~~~~~~~~~~~~~~~~~~
+
+.. code-block:: json
+   :caption: /data_sources/<Service Name>/config.json
+   
+   {
      "name": "<Service Name>",
      "type": "datalake",
      "config": {
-        "dataLakeName": "<Data Lake Name>"
+        "dataLakeName": "<Data Lake>"
       }
-    }
+   }
 
 .. list-table::
    :header-rows: 1
@@ -105,23 +193,20 @@ MongoDB Data Lakes
    
    * - | ``name``
        | String
-     - The name of the MongoDB  service. The name may be at most 64 characters
-       long and can only contain ASCII letters, numbers, underscores,
-       and hyphens.
+     - Required. Default: ``mongodb-datalake``
        
-       .. important::
-          
-          MongoDB service names are not necessarily the same as their linked
-          data source's name in Atlas. For linked Data Lakes, the default
-          service name is ``mongodb-datalake``.
+       The service name used to refer to the data lake within this Realm
+       app. The name may be at most 64 characters long and must only
+       contain ASCII letters, numbers, underscores, and hyphens.
    
    * - | ``type``
        | String
-     - For Data Lakes, this value is always ``"datalake"``.
+     - Required. For MongoDB Atlas data lakes, this value is always ``"datalake"``.
    
    * - | ``config.dataLakeName``
        | String   
-     - The name of the Data Lake that you want to link to your application.
+     - Required. The name of the data lake in Atlas.
+
 
 Databases & Collections
 -----------------------
