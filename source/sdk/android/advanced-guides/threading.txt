@@ -146,6 +146,20 @@ beginning of that thread's loop. However, you must manually refresh
 {+realm+} instances that do not exist on loop threads or that have
 auto-refresh disabled.
 
+.. tabs-realm-languages::
+   
+   .. tab::
+       :tabid: kotlin
+
+       .. literalinclude:: /examples/generated/android/local/ThreadingTest.codeblock.refresh-realm.kt
+         :language: kotlin
+
+   .. tab::
+       :tabid: java
+
+       .. literalinclude:: /examples/generated/android/local/ThreadingTest.codeblock.refresh-realm.java
+         :language: java
+
 .. _android-frozen-objects:
 
 Frozen Objects
@@ -186,6 +200,20 @@ time of freezing.
 
 When you freeze a {+realm+}, its child objects also become
 frozen.
+
+.. tabs-realm-languages::
+   
+   .. tab::
+       :tabid: kotlin
+
+       .. literalinclude:: /examples/generated/android/local/ThreadingTest.codeblock.freeze-objects.kt
+         :language: kotlin
+
+   .. tab::
+       :tabid: java
+
+       .. literalinclude:: /examples/generated/android/local/ThreadingTest.codeblock.freeze-objects.java
+         :language: java
 
 Frozen objects remain valid as long as the live {+realm+} that
 spawned them stays open. Therefore, avoid closing the live
