@@ -112,9 +112,8 @@ number of open {+realm+}s at any given time and limit the number of
 open and close operations used.
 
 However, opening a {+realm+} is not always consistently expensive.
-The amount of resources consumed when opening a {+realm+} instance is
-determined by whether that {+realm+} is already open within the
-same process and thread:
+If the {+realm+} is already open within the same process or thread,
+opening an additional instance requires fewer resources:
 
 - If the {+realm+} is not open within the same process, opening the
   {+realm+} is expensive.
