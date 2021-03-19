@@ -27,8 +27,8 @@ Studio: the debugger can provide misleading values depending on the
 debugging view you’re using.
 
 For example, adding a watch in Android Studio on a
-{+service-short+} object displays values of the fields. Unfortunately,
-these values are wrong because the field values are not used.
+{+service-short+} object displays values of the fields. These values 
+are wrong because the field values are not used.
 {+service-short+} creates a proxy object behind the scenes and overrides
 the getters and setters in order to access the persisted data in the
 {+realm+}. Adding a watch for any of the accessors will yield the
