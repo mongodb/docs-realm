@@ -25,5 +25,5 @@ assert(frogA.getName().equals(frogB.getName()));
 realmB.executeTransaction(transactionRealm -> {
     frogB.setAge(10);
 });
-// frog A instance automatically updates with the new name
-assert(frogB.getName().equals(frogA.getName()));
+// frog A instance automatically updates with the new age
+assert(frogB.getAge() == frogA.getAge());
