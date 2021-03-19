@@ -1,33 +1,29 @@
-title: Export Your Realm Application
-ref: export-your-application
+title: Pull the Latest Version of Your App
+ref: pull-the-latest-version-of-your-app
 content: |
-  You can configure the read preference for a linked cluster by
-  importing an :ref:`application directory <application-directory>` that
-  includes a cluster configuration file with your desired settings.
-  If you're configuring read preference for an existing {+app+},
-  the most straightforward method is to :doc:`export
-  </deploy/export-realm-app>` your application, update the
-  cluster configuration, and then import the updated directory.
-  To export your application, click the :guilabel:`Export App` button on
-  the :guilabel:`Import/Export App` tab of the :guilabel:`Deploy` page in the
-  {+ui+} or run the following command from an authenticated instance
-  of :doc:`realm-cli </deploy/realm-cli-reference>`:
-
-  .. code-block:: shell
-
-     realm-cli export --app-id=<App ID>
+  To define the read preference for a linked cluster with {+cli-bin+}, you need
+  a local copy of your application's configuration files.
+  
+  To pull a local copy of the latest version of your app, run the following:
+  
+  .. code-block:: bash
+     
+     realm-cli pull --remote="<Your App ID>"
+  
+  .. tip::
+     
+     You can also download a copy of your application's configuration files from
+     the :guilabel:`Deploy > Export App` screen in the {+ui+}.
 ---
 title: Specify a Cluster Read Preference
 ref: specify-a-cluster-read-preference
 content: |
-  Configure the read preference for a linked cluster in the cluster's
-  ``config.json`` file. Locate this file in the cluster's
-  :ref:`configuration directory <legacy-appschema-services>` within the
-  application directory (``/services/<MongoDB Service Name>``). To
-  specify a read preference, set the value of ``config.readPreference``:
+  To configure the read preference for a linked cluster, open the cluster's
+  ``config.json`` file and set the value of ``config.readPreference``:
 
   .. code-block:: json
      :emphasize-lines: 5
+     :caption: /data_sources/<Service Name>/config.json
 
      {
         "name": "<MongoDB Service Name>",
@@ -36,9 +32,9 @@ content: |
            "readPreference": "<Read Preference Mode>"
         }
      }
-
+  
   The following read preference modes are available:
-
+  
   .. include:: /mongodb/tables/read-preference-modes.rst
 
 ---
@@ -57,6 +53,7 @@ content: |
 
   .. code-block:: json
      :emphasize-lines: 6-9
+     :caption: /data_sources/<Service Name>/config.json
 
      {
         "name": "<MongoDB Service Name>",
@@ -77,24 +74,13 @@ content: |
      on which tags are defined nodes in an Atlas cluster, see :atlas:`Atlas
      Replica Set Tags </reference/replica-set-tags>`.
 ---
-title: Import Your Application Directory
-ref: import-your-application-directory
+title: Deploy the Updated Data Source Configuration
+ref: deploy-the-updated-data-source-configuration
 content: |
-  Once you have specified a :guilabel:`Read Preference` and any
-  :guilabel:`Read Preference Tags`, navigate to the root of the
-  application directory and run the following command from an
-  authenticated instance of :doc:`realm-cli
-  </deploy/realm-cli-reference>`:
-
-  .. code-block:: shell
-
-     realm-cli import
-
-  Once the import completes, {+backend+} immediately routes all incoming
-  database read requests for the cluster according to your preference.
-
-  .. note::
-
-     For a detailed walkthrough of importing an application directory,
-     see :doc:`Deploy Changes with {+cli+}
-     </deploy/deploy-cli>`
+  Once you've set the read preference for the cluster in ``config.json``, you
+  can push the config to your remote app. {+cli+} immediately deploys the
+  update on push.
+  
+  .. code-block:: bash
+     
+     realm-cli push --remote="<Your App ID>"
