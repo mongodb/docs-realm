@@ -135,6 +135,15 @@ you could manage a single {+realm+} in the enclosing ``Activity``:
 - Open the {+realm+} in the ``Activity.onCreate()`` lifecycle method.
 - Close the {+realm+} in the ``Activity.onDestroy()`` lifecycle method.
 
+Multi-process
+-------------
+
+You cannot access :ref:`encrypted <android-encrypt-a-realm>` or
+:ref:`synced <android-sync-changes-between-devices>` {+realm+}s
+simultaneously from different processes. However, local {+realm+}s
+function normally across processes, so you can read, write, and
+receive notifications from multiple APKs.
+
 Comparison with Other Databases
 -------------------------------
 

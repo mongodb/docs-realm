@@ -170,6 +170,16 @@ properties in order.
    data set this can alter the query result. Generally, you should
    apply ``limit()`` last to avoid unintended result sets.
 
+.. important:: String Sorting Limitations
+
+   {+service-short+} uses non-standard sorting for upper and lowercase
+   letters, sorting them together rather than sorting uppercase first.
+   As a result, ``'- !"#0&()*,./:;?_+<=>123aAbBcC...xXyYzZ`` is the
+   actual sorting order in {+client-database+}. Additionally, sorting
+   strings only supports the ``Latin Basic``, ``Latin Supplement``,
+   ``Latin Extended A``, and ``Latin Extended B (UTF-8 range 0–591)``
+   character sets.
+
 Limit Results
 -------------
 
