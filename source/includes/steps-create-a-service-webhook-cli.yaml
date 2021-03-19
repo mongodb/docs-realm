@@ -1,49 +1,55 @@
-title: Export Your Realm Application
-ref: export-your-realm-application
+title: Pull the Latest Version of Your App
+ref: pull-the-latest-version-of-your-app
 content: |
-  To create new incoming webhook with :doc:`realm-cli
-  </deploy/realm-cli-reference>`, you need a
-  previously created :ref:`application configuration <application-directory>`.
-
-  You can :doc:`export </deploy/export-realm-app>` your application from the
-  :guilabel:`Import/Export App` tab of the :guilabel:`Deploy` page in the
-  {+ui+}, or by running the following command from an authenticated instance of
-  :doc:`realm-cli </deploy/realm-cli-reference>`:
-
-  .. code-block:: shell
-
-     realm-cli export --app-id=<App ID>
+  To define an incoming webhook with {+cli-bin+}, you need a local copy of your
+  application's configuration files.
+  
+  To pull a local copy of the latest version of your app, run the following:
+  
+  .. code-block:: bash
+     
+     realm-cli pull --remote="<Your App ID>"
+  
+  .. tip::
+     
+     You can also download a copy of your application's configuration files from
+     the :guilabel:`Deploy > Export App` screen in the {+ui+}.
 ---
 title: Add a Webhook Configuration Directory
 ref: add-a-webhook-configuration-directory
 content: |
-  Create a new subdirectory in the ``/<service>/incoming_webhooks``
-  folder of the application directory that you exported, where
-  ``<service>`` is the service that you want to add a webhook to. The
-  name of the subdirectory should match the configured name of the
-  webhook.
+  Create a new subdirectory with the same name as the webhook in
+  ``/http_endpoints/<service>/``:
 
   .. code-block:: shell
 
-     mkdir -p services/<service>/incoming_webhooks/<webhook name>
+     mkdir -p http_endpoints/<service>/<webhook name>
 ---
 title: Add a Webhook Configuration File
 ref: add-a-webhook-configuration-file
 content: |
-  Add a file named ``config.json`` to the new webhook directory.
+  Add an :ref:`incoming webhook configuration file <config-incoming-webhooks>`
+  named ``config.json`` to the new webhook directory.
+  
   The configuration file should have the following form:
 
-  .. code-block:: javascript
-
+  .. code-block:: json
+     :caption: http_endpoints/<Service Name>/<Webhook Name>/config.json
+     
      {
-       "name": "<Unique Webhook Name>",
-       "respond_result": <boolean>,
-       "run_as_authed_user": <boolean>,
+       "name": "<Webhook Name>",
+       "can_evaluate": { <JSON Expression> },
+       "run_as_authed_user": <Boolean>,
        "run_as_user_id": "<Realm User ID>",
-       "run_as_user_id_script_source": "<Stringified Function>",
-       "can_evaluate": <JSON Expression>,
-       "disable_arg_logs": <boolean>,
-       "options": <document>,
+       "run_as_user_id_script_source": "<Function Source Code>",
+       "respond_result": <Boolean>,
+       "fetch_custom_user_data": <Boolean>,
+       "create_user_on_auth": <Boolean>,
+       "options": {
+         "httpMethod": "<HTTP Method>",
+         "validationMethod": "<Webhook Validation Method>",
+         "secret": "<Webhook Secret>"
+       }
      }
 ---
 title: Name the New Webhook
@@ -349,15 +355,13 @@ content: |
      :emphasize-lines: 3, 10-11, 14-15
 
 ---
-title: Import the Webhook
-ref: import-the-webhook
+title: Deploy the Incoming Webhook Configuration
+ref: deploy-the-incoming-webhook-configuration
 content: |
-  Once you have added the appropriate configuration files to the webhook
-  subdirectory, you can import the webhook into your application.
-
-  Navigate to the root of the application directory and run the
-  following command:
-
-  .. code-block:: shell
-
-     realm-cli import
+  Once you've set the read preference for the cluster in ``config.json``, you
+  can push the config to your remote app. {+cli+} immediately deploys the
+  update on push.
+  
+  .. code-block:: bash
+     
+     realm-cli push --remote="<Your App ID>"
