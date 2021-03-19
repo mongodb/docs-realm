@@ -215,9 +215,9 @@ frozen.
        .. literalinclude:: /examples/generated/android/local/ThreadingTest.codeblock.freeze-objects.java
          :language: java
 
-Frozen objects remain valid as long as the live {+realm+} that
-spawned them stays open. Therefore, avoid closing the live
-{+realm+} until all threads are done with the frozen objects.
+Avoid closing the live {+realm+} until all threads are done 
+with frozen objects. Frozen objects remain valid for as long 
+as the {+realm+} that spawned them stays open.
 You can close frozen {+realm+} before the live {+realm+} is closed.
 
 .. important:: On caching frozen objects
