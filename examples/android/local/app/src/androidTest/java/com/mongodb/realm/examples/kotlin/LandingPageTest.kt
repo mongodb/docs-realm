@@ -174,8 +174,8 @@ class LandingPageTest : RealmTest() {
 
             // update frog B's age
             realmB.executeTransaction { frogB?.age = 10 }
-            // frog A instance automatically updates with the new name
-            assert(frogB?.name === frogA?.name)
+            // frog A instance automatically updates with the new age
+            assert(frogB?.age === frogA?.age)
             // :code-block-end:
             expectation.fulfill()
         }
