@@ -12,3 +12,66 @@ Testing - Android SDK
    :depth: 2
    :class: singlecol
 
+.. seealso::
+
+   See the `Unit Testing Example App
+   <https://github.com/realm/realm-java/tree/master/examples/unitTestExample>`__
+   for information on how {+service-short+} can be combined with JUnit3,
+   JUnit4, Robolectric, Mockito and PowerMock.
+
+Android Studio Debugging
+------------------------
+
+There’s a small “gotcha” to be aware of when working using Android
+Studio: the debugger can provide misleading values depending on the
+debugging view you’re using.
+
+For example, adding a watch in Android Studio on a
+{+service-short+} object displays values of the fields. Unfortunately,
+these values are wrong because the field values are not used.
+{+service-short+} creates a proxy object behind the scenes and overrides
+the getters and setters in order to access the persisted data in the
+{+realm+}. Adding a watch for any of the accessors will yield the
+correct values. See the image below:
+
+.. figure:: /images/android-studio-debugging.png
+   :alt: When using the Android Studio debugger, accessors display the correct field value, while fields show outdated information.
+
+In the image above, the debugger has stopped on line ``113``. There are
+three watch values:
+
+- the ``person`` variable
+- the ``person.getName()`` accessor
+- the ``person.getAge()`` accessor
+
+The code from lines ``107`` to ``111`` alters the ``person`` instance by
+changing the name and age in a write transaction. On line ``113``, where
+the debugger is currently paused, the ``person`` watch instance reports
+incorrect values for the *field* watch values. The watch values that use
+the *accessors* for report values that are correct. You can also use
+the {+service-short+} object ``toString()`` method to see the latest
+field values.
+
+NDK Debugging
+-------------
+
+The {+service-short+} Android SDK library contains native code. We
+recommend that you use a crash reporting tool, such as
+`Crashlytics <http://www.crashlytics.com/>`__, to track native errors
+so we are in a better position to help you if something goes wrong.
+
+Debugging NDK crashes is usually cumbersome as the default stack trace
+provides minimal information. Crashlytics allows you to capture valuable
+NDK crash information. To enable NDK crash reporting in Crashlytics for
+your project, add the following to the root of your application
+``build.gradle`` file:
+
+.. code-block:: groovy
+
+   crashlytics {
+      enableNdk true
+   }
+
+.. note::
+
+   The values ``androidNdkOut`` and ``androidNdkLibsOut`` are not needed.
