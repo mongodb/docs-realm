@@ -54,14 +54,16 @@ field values.
 NDK Debugging
 -------------
 
-The {+service-short+} Android SDK library contains native code. We
-recommend that you use a crash reporting tool, such as
-`Crashlytics <http://www.crashlytics.com/>`__, to track native errors
-so we are in a better position to help you if something goes wrong.
+The {+service-short+} Android SDK library contains native code. 
+Debugging NDK crashes can be cumbersome as the default stack trace
+provides minimal information. 
 
-Debugging NDK crashes is usually cumbersome as the default stack trace
-provides minimal information. Crashlytics allows you to capture valuable
-NDK crash information. To enable NDK crash reporting in Crashlytics for
+We recommend you use a crash reporting tool such as
+`Crashlytics <http://www.crashlytics.com/>`__ to track native errors
+and gather other valuable information so we are in a better position 
+to help you if something goes wrong.
+
+To enable NDK crash reporting in Crashlytics for
 your project, add the following to the root of your application
 ``build.gradle`` file:
 
