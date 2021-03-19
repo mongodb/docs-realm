@@ -110,17 +110,15 @@ title: Enable Development Mode
 ref: enable-development-mode
 content: |
   You can turn development mode on and off by setting a boolean value for
-  ``sync.development_mode_enabled`` in your app's ``sync/config.json`` file. To
+  ``development_mode_enabled`` in your app's ``sync/config.json`` file. To
   enable dev mode, set the value to ``true``:
 
   .. code-block:: json
-     :caption: config.json
+     :caption: sync/config.json
      
      {
        ...,
-       "sync": {
-         "development_mode_enabled": true
-       }
+       "development_mode_enabled": true
      }
 ---
 title: Deploy the Updated App Configuration
