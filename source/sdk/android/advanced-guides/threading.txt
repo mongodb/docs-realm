@@ -117,12 +117,12 @@ several options depending on your use case:
 Intents
 ~~~~~~~
 
-``RealmObject`` instances are not thread-safe or ``Parcelable``, so you
-cannot pass them between activities or threads via an ``Intent``. Instead,
-you can pass an object identifier, like a :ref:`primary key
-<android-primary-key-fundamentals>`, in the ``Intent`` extras bundle,
-and then open a new {+realm+} instance in the separate thread to query
-for that identifier.
+:ref:`Managed <android-managed-objects>` ``RealmObject`` instances are
+not thread-safe or ``Parcelable``, so you cannot pass them between
+activities or threads via an ``Intent``. Instead, you can pass an object
+identifier, like a :ref:`primary key <android-primary-key-fundamentals>`,
+in the ``Intent`` extras bundle, and then open a new {+realm+} instance
+in the separate thread to query for that identifier.
 
 .. seealso::
 

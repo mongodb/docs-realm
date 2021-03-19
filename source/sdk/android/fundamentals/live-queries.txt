@@ -132,6 +132,34 @@ between the objects in {+client-database+} and the results of your query in
 application memory. Because of this, you can traverse direct references
 across an entire {+realm+} from any query result.
 
+.. _android-managed-objects:
+
+Managed Objects
+---------------
+
+**Managed objects** are live {+service-short+} objects that update
+based on changes to underlying data in {+client-database+}. Managed
+objects can only come from an open {+realm+}, and receive updates
+as long as that {+realm+} remains open.
+
+.. note:: Managed Objects are Not Thread-safe
+
+   Managed objects cannot be passed between threads.
+
+.. _android-unmanaged-objects:
+
+Unmanaged objects
+-----------------
+
+**Unmanaged objects** are instances of {+service-short+} objects that are
+not live. You can get an unmanaged object by manually constructing a
+{+service-short+} object yourself, or by calling
+:java-sdk:`Realm.copyFromRealm() <io/realm/Realm.html#copyFromRealm-E->`.
+
+.. note:: Unmanaged Objects are Thread-safe
+
+   Unmanaged objects can be passed between threads.
+
 Notifications
 -------------
 
