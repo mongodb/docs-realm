@@ -29,15 +29,15 @@ Android Studio Debugging
    accessor values instead, or use the {+service-short+} object
    ``toString()`` method to see the latest field values.
 
-This guide details information you should keep in mind when debugging
+This section details information you should keep in mind when debugging
 {+service-short+} applications with Android Studio to avoid incorrect
 value reporting. For example, adding a watch in Android Studio on a
 {+service-short+} object displays values of the fields. These values 
 are wrong because the field values are not used.
 {+service-short+} creates a proxy object behind the scenes and overrides
 the getters and setters in order to access the persisted data in the
-{+realm+}. Adding a watch for any of the accessors will yield the
-correct values. See the image below:
+{+realm+}. Add a watch on any of the accessors to see the correct
+values. See the image below:
 
 .. figure:: /images/android-studio-debugging.png
    :alt: When using the Android Studio debugger, accessors display the correct field value, while fields show outdated information.
@@ -45,9 +45,9 @@ correct values. See the image below:
 In the image above, the debugger has stopped on line ``113``. There are
 three watch values:
 
-- the ``person`` variable
-- the ``person.getName()`` accessor
-- the ``person.getAge()`` accessor
+- The ``person`` variable
+- The ``person.getName()`` accessor
+- The ``person.getAge()`` accessor
 
 The code from lines ``107`` to ``111`` alters the ``person`` instance by
 changing the name and age in a write transaction. On line ``113``, the ``person`` watch instance reports
