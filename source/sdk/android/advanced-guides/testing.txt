@@ -24,10 +24,14 @@ Android Studio Debugging
 
 .. warning::
    
-   The Android Studio debugger can provide misleading values depending on the view
-   you are using.
+   The Android Studio debugger can provide misleading values for
+   {+service-short+} object fields. For correct values, you can watch
+   accessor values instead, or use the {+service-short+} object
+   ``toString()`` method to see the latest field values.
 
-For example, adding a watch in Android Studio on a
+This guide details information you should keep in mind when debugging
+{+service-short+} applications with Android Studio to avoid incorrect
+value reporting. For example, adding a watch in Android Studio on a
 {+service-short+} object displays values of the fields. These values 
 are wrong because the field values are not used.
 {+service-short+} creates a proxy object behind the scenes and overrides
@@ -48,9 +52,7 @@ three watch values:
 The code from lines ``107`` to ``111`` alters the ``person`` instance by
 changing the name and age in a write transaction. On line ``113``, the ``person`` watch instance reports
 incorrect values for the *field* watch values. The watch values that use
-the *accessors* report values that are correct. You can also use
-the {+service-short+} object ``toString()`` method to see the latest
-field values.
+the *accessors* report values that are correct.
 
 NDK Debugging
 -------------
