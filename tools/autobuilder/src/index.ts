@@ -7,7 +7,6 @@ import {
 
 // Add expected errors here.
 const expectedErrors: RegExp[] = [
-  /^ERROR\(admin\/api\/v3\.txt.*Target not found: "extlink:None"/,
 ];
 
 const STITCH_APP_ID = "workerpool-boxgs";
@@ -109,7 +108,7 @@ This might happen if the autobuilder is not set up on your fork.
         : "unknown"
     }`
   );
-  const re = /ERROR.*/g;
+  const re = /(?:WARNING|ERROR).*/g;
   const errors: string[] = [];
   for (let match = re.exec(log); match !== null; match = re.exec(log)) {
     errors.push(match[0]);
