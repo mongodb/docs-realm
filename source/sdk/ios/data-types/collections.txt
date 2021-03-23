@@ -37,7 +37,7 @@ The Swift SDK has the following collections:
 #. :swift-sdk:`List <Classes/List.html>`, a class representing :ref:`to-many relationships <ios-to-many-relationship>` in models.
 #. :swift-sdk:`LinkingObjects <Structs/LinkingObjects.html>`, a class representing :ref:`inverse relationships <ios-inverse-relationship>` in models.
 #. :swift-sdk:`RealmCollection <Protocols/RealmCollection.html>`, a protocol defining the common interface of any Realm collection.
-#. :swift-sdk:`AnyRealmCollection <Structs/AnyRealmCollection.html>`, a type-erased class that can forward calls to a concrete Realm collection like Results, List or LinkingObjects.
+#. :swift-sdk:`AnyRealmCollection <Structs/AnyRealmCollection.html>`, a :wikipedia:`type-erased <Type_erasure>` class that can forward calls to a concrete Realm collection like Results, List or LinkingObjects.
 
 .. _ios-results-collections:
 
@@ -179,7 +179,7 @@ Summary
   :ref:`{+service-short+} type <ios-realm-objects>`.
 
 - Collections are :ref:`live <ios-live-object>` (auto-updating) unless
-  you they are :ref:`frozen <ios-frozen-objects>` or they are not part of a {+realm+}.
+  they are :ref:`frozen <ios-frozen-objects>` or they are not part of a {+realm+}.
 
 - Lazy evaluation of results collections means there is no need to
   design a special query to get limited or paginated results. Perform
