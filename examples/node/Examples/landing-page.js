@@ -78,7 +78,7 @@ describe("Node Landing Page", () => {
     expect(cloverCat.age).toBe(5);
 
     // :code-block-start:  node-landing-watch-for-object-updates
-    // insert a cat into the database and store it in our reference
+    // insert a cat into the database
     let aliceCat;
     realm.write(() => {
       aliceCat = realm.create("Cat", {
