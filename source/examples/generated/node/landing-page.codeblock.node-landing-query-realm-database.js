@@ -6,6 +6,6 @@ const catsOlderThan7 = cats.filtered("age > 7");
 console.log(
   `There are ${catsOlderThan7.length} cats older than 7 years old`
 );
-// filer for calico cats
+// filter for calico cats
 const calicoCats = cats.filtered("type == 'Calico'");
 console.log(`There are ${calicoCats.length} Calico cats`);

@@ -5,8 +5,8 @@ var config = {
     partitionValue: "MyPartitionValue",
   },
 };
-// Open a realm with a configuration object that with a SyncConfiguration
-// a SyncConfiguration requires both a logged-in user and a partition value
+// Open a realm with a configuration object that has a SyncConfiguration
+// A SyncConfiguration requires both a logged-in user and a partition value
 let realm = await Realm.open(config);
 
 
@@ -19,6 +19,4 @@ realm.write(() => {
   darukCat.name = "Daruk Goron";
 }); // when the transaction completes, the cat's name is updated in the database
 // and synced to the connected Realm App
-
-// use darukCat
 

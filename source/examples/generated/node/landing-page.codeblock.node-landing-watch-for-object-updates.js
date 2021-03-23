@@ -1,4 +1,4 @@
-// insert a cats into the database and store it in our reference
+// insert a cat into the database and store it in our reference
 let aliceCat;
 realm.write(() => {
   aliceCat = realm.create("Cat", {

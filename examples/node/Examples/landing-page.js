@@ -56,7 +56,7 @@ describe("Node Landing Page", () => {
     console.log(
       `There are ${catsOlderThan7.length} cats older than 7 years old`
     );
-    // filer for calico cats
+    // filter for calico cats
     const calicoCats = cats.filtered("type == 'Calico'");
     console.log(`There are ${calicoCats.length} Calico cats`);
     // :code-block-end:
@@ -78,7 +78,7 @@ describe("Node Landing Page", () => {
     expect(cloverCat.age).toBe(5);
 
     // :code-block-start:  node-landing-watch-for-object-updates
-    // insert a cats into the database and store it in our reference
+    // insert a cat into the database and store it in our reference
     let aliceCat;
     realm.write(() => {
       aliceCat = realm.create("Cat", {
@@ -162,14 +162,14 @@ describe("Node Landing Page", () => {
         partitionValue: "MyPartitionValue",
       },
     };
-    // Open a realm with a configuration object that with a SyncConfiguration
-    // a SyncConfiguration requires both a logged-in user and a partition value
+    // Open a realm with a configuration object that has a SyncConfiguration
+    // A SyncConfiguration requires both a logged-in user and a partition value
     let realm = await Realm.open(config);
 
     // :hide-start:
     let cat1;
     realm.write(() => {
-      realm.create("Cat", {
+      cat1 = realm.create("Cat", {
         name: "Daruk",
         age: 6,
         type: "Munchkin",
@@ -187,12 +187,11 @@ describe("Node Landing Page", () => {
     }); // when the transaction completes, the cat's name is updated in the database
     // and synced to the connected Realm App
 
-    // use darukCat
-
     // :code-block-end:
 
     // close the realm, and delete the objects
     realm.write(() => {
+      realm.delete(cat1);
       realm.delete(darukCat);
     });
     realm.close();
