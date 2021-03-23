@@ -102,7 +102,38 @@ class ObjectModelsExamples_Task: Object {
 // :code-block-end:
 
 class ObjectModels: XCTestCase {
+    func testGenericCollectionFunc() {
+        // :code-block-start: generic-collection
+        func operateOn<C: RealmCollection>(collection: C) {
+            // Collection could be either Results or List
+            print("operating on collection containing \(collection.count) objects")
+        }
+        // :code-block-end:
+    }
+    
+    func testAnyRealmCollection() {
+        class MyModel : Object {}
+        
+        // :code-block-start: any-realm-collection
+        class ViewController {
+        //    let collection: RealmCollection
+        //                    ^
+        //                    error: protocol 'RealmCollection' can only be used
+        //                    as a generic constraint because it has Self or
+        //                    associated type requirements
+        //
+        //    init<C: RealmCollection>(collection: C) where C.ElementType == MyModel {
+        //        self.collection = collection
+        //    }
 
+            let collection: AnyRealmCollection<MyModel>
+
+            init<C: RealmCollection>(collection: C) where C.ElementType == MyModel {
+                self.collection = AnyRealmCollection(collection)
+            }
+        }
+        // :code-block-end:
+    }
 }
 
 // :replace-end:
