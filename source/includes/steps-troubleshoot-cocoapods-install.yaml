@@ -10,7 +10,8 @@ content: |
       pod cache clean RealmSwift
       pod deintegrate || rm -rf Pods
       pod install --repo-update --verbose
-      rm -rf ~/Library/Developer/Xcode/DerivedData
+      # Assumes default DerivedData location
+      rm -rf ~/Library/Developer/Xcode/DerivedData # Assumes default DerivedData location
 
 ---
 title: Clean the Xcode Build Folder
