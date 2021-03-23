@@ -54,11 +54,14 @@ the {+realm+} defaults to version ``0``.
 
 .. important:: Increment Versions Monotonically
 
-   :ref:`Migrations <dotnet-client-migrations>` must update a {+realm+} to a
+   Migrations must update a {+realm+} to a
    higher schema version. {+client-database+} will throw an error if a client
    application opens a {+realm+} with a schema version that is lower than
    the {+realm+}'s current version or if the specified schema version is the
    same as the {+realm+}'s current version but includes different
    :ref:`object schemas <dotnet-object-schema>`.
+
+Migrate a Schema
+----------------
 
 To learn how to perform a migration, see :ref:`<dotnet-modify-an-object-schema>`.
