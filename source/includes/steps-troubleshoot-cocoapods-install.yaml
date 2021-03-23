@@ -9,7 +9,7 @@ content: |
       pod cache clean Realm
       pod cache clean RealmSwift
       pod deintegrate || rm -rf Pods
-      pod install --verbose
+      pod install --repo-update --verbose
       rm -rf ~/Library/Developer/Xcode/DerivedData
 
 ---
