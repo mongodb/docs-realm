@@ -1,7 +1,7 @@
 // :replace-start: {
 //   "terms": {
 //     "LandingPageExamples_": "",
-//     "landingPageExamples_": ""
+//     "setUp()": "let realm = try! Realm()"
 //   }
 // }
 
@@ -35,11 +35,9 @@ class LandingPageExamples: XCTestCase {
         }
     }
 
-    func testQueryCoffeeRatings() {
+    let realm = try! Realm()
 
-        // :code-block-start: query
-        let realm = try! Realm()
-        // :hide-start:
+    override func setUp() {
         try! realm.write {
             // Add coffee shop and drink info here.
             let shop = LandingPageExamples_CoffeeShop()
@@ -49,14 +47,34 @@ class LandingPageExamples: XCTestCase {
             drink.rating = 7
             shop.drinks.append(drink)
             realm.add(shop)
-            // ...
         }
-        // :hide-end:
+    }
+
+    func testWriteObject() {
+        // :code-block-start: write-an-object
+        let realm = try! Realm()
+        try! realm.write {
+            // Add coffee shop and drink info here.
+            let shop = LandingPageExamples_CoffeeShop()
+            shop.name = "Better Coffee"
+            let drink = LandingPageExamples_CoffeeDrink()
+            drink.name = "Maple Latte"
+            drink.rating = 7
+            shop.drinks.append(drink)
+            realm.add(shop)
+        }
+        // :code-block-end:
+    }
+
+    func testQueryCoffeeRatings() {
+
+        // :code-block-start: query
+        setUp()
 
         let drinks = realm.objects(LandingPageExamples_CoffeeDrink.self)
 
-        let wellRatedDrinks = drinks.filter("rating > 6")
-        print("Well-rated drinks: \(wellRatedDrinks.count)")
+        let highlyRatedDrinks = drinks.filter("rating > 6")
+        print("Highly-rated drinks: \(highlyRatedDrinks.count)")
 
         let mapleOrCaramelLattes = drinks.filter("name IN {'Maple Latte', 'Caramel Latte'}")
         print("Number of maple or caramel lattes: \(mapleOrCaramelLattes.count)")
@@ -71,22 +89,7 @@ class LandingPageExamples: XCTestCase {
 
     func testUpdateMapleLatte() {
         // :code-block-start: update-live-objects
-        let realm = try! Realm()
-
-        // :hide-start:
-        try! realm.write {
-            // Add coffee shop and drink info here.
-            let shop = LandingPageExamples_CoffeeShop()
-            shop.name = "Better Coffee"
-            let drink = LandingPageExamples_CoffeeDrink()
-            drink.name = "Maple Latte"
-            drink.rating = 7
-            shop.drinks.append(drink)
-            realm.add(shop)
-            // ...
-        }
-        // :hide-end:
-
+        setUp()
         // Get a maple latte
         let mapleLatte = realm.objects(LandingPageExamples_CoffeeDrink.self).filter("name == 'Maple Latte'").first!
 
@@ -109,7 +112,7 @@ class LandingPageExamples: XCTestCase {
 
     var drinkNotificationToken: NotificationToken?
 
-    func landingPageExamples_objectNotificationExample() {
+    func objectNotificationExample() {
 
         // Create a new drink
         let drink = LandingPageExamples_CoffeeDrink()
@@ -146,26 +149,11 @@ class LandingPageExamples: XCTestCase {
 
     // MARK: Always Access the Latest Data
 
-    func testLandingPageLiveObjectExample() {
-        let expectation = XCTestExpectation(description: "Verify live object updates")
+    func testLiveObjectExample() {
 
         // :code-block-start: always-access-the-latest-data
         // Open the default realm.
-        let realm = try! Realm()
-
-        // :hide-start:
-        try! realm.write {
-            // Add coffee shop and drink info here.
-            let shop = LandingPageExamples_CoffeeShop()
-            shop.name = "Better Coffee"
-            let drink = LandingPageExamples_CoffeeDrink()
-            drink.name = "Maple Latte"
-            drink.rating = 7
-            shop.drinks.append(drink)
-            realm.add(shop)
-            // ...
-        }
-        // :hide-end:
+        setUp()
 
         // Create a couple of references to a single underlying coffee drink object
         let drinkA = realm.objects(LandingPageExamples_CoffeeDrink.self).filter("name == 'Maple Latte'").first!
@@ -182,10 +170,6 @@ class LandingPageExamples: XCTestCase {
         }
         // See that drink A instance updates with the new rating
         XCTAssert(drinkB.rating == drinkA.rating)
-
-        // :hide-start:
-        expectation.fulfill()
-        // :hide-end:
         // :code-block-end:
     }
 }

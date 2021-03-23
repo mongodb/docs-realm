@@ -2,8 +2,8 @@ let realm = try! Realm()
 
 let drinks = realm.objects(CoffeeDrink.self)
 
-let wellRatedDrinks = drinks.filter("rating > 6")
-print("Well-rated drinks: \(wellRatedDrinks.count)")
+let highlyRatedDrinks = drinks.filter("rating > 6")
+print("Highly-rated drinks: \(highlyRatedDrinks.count)")
 
 let mapleOrCaramelLattes = drinks.filter("name IN {'Maple Latte', 'Caramel Latte'}")
 print("Number of maple or caramel lattes: \(mapleOrCaramelLattes.count)")

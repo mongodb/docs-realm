@@ -1,6 +1,4 @@
 let realm = try! Realm()
-
-
 // Get a maple latte
 let mapleLatte = realm.objects(CoffeeDrink.self).filter("name == 'Maple Latte'").first!
 

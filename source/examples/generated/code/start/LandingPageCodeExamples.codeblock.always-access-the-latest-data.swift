@@ -1,7 +1,6 @@
 // Open the default realm.
 let realm = try! Realm()
 
-
 // Create a couple of references to a single underlying coffee drink object
 let drinkA = realm.objects(CoffeeDrink.self).filter("name == 'Maple Latte'").first!
 let drinkB = realm.objects(CoffeeDrink.self).filter("name == 'Maple Latte'").first!
@@ -17,4 +16,3 @@ try! realm.write {
 }
 // See that drink A instance updates with the new rating
 XCTAssert(drinkB.rating == drinkA.rating)
-

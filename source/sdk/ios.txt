@@ -28,8 +28,8 @@ MongoDB Realm iOS SDK
    :class: singlecol
 
 The {+service+} Swift SDK enables mobile applications to access data
-stored in local {+realms+} and interact with {+backend+} services like
-Functions, MongoDB Data Access, and authentication.
+stored in local {+realms+}. Optionally, interact with {+backend+} services 
+like Functions, MongoDB Data Access, and authentication.
 
 Realm Database
 --------------
@@ -43,6 +43,15 @@ Define an Object Schema
 Use Swift to idiomatically :ref:`define an object schema <ios-define-a-realm-object-schema>`.
 
 .. literalinclude:: /examples/generated/code/start/LandingPageCodeExamples.codeblock.coffee-drink-object.swift
+   :language: swift
+
+Write an Object
+~~~~~~~~~~~~~~~
+
+Create a new object as you would instantiate any other object. Then,
+pass it to {+client-database+} inside :ref:`a write transaction <ios-create-a-new-object>`.
+
+.. literalinclude:: /examples/generated/code/start/LandingPageCodeExamples.codeblock.write-an-object.swift
    :language: swift
 
 Query Realm Database
