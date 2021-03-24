@@ -32,10 +32,11 @@ To open a local (non-synced) {+realm+}, pass a :js-sdk:`Realm.Configuration
   :emphasize-lines: 2
 
 Some additional options a ``Configuration`` objects has includes, but is not limited to:
-- ``migration``: a function that updates a realm and any objects it contains from one schema version to a newer version. Learn more about :doc:`performing migrations </node/fundamentals/schema-versions-and-migrations>`.
-- ``deleteRealmIfMigrationNeeded``: a boolean value that if true, deletes the Realm if a migration is needed. This is useful during development since the data model might change often.
-- ``inMemory``: a boolean value that specifies if the Realm should be opened in-memory. Realms opened in memory are not be persisted the last Realm instance is closed.
-- ``sync``: a sync configuration object that allows you to specify options to :doc:`sync data across devices </sync-changes-between-devices>` 
+
+- ``migration``: a function that updates a {+realm+} and any objects it contains from one schema version to a newer version. Learn more about :doc:`performing migrations </sdk/node/fundamentals/schema-versions-and-migrations>`.
+- ``deleteRealmIfMigrationNeeded``: a boolean value that if true, deletes the {+realm+} if a migration is needed. This is useful during development since the data model might change often.
+- ``inMemory``: a boolean value that specifies if the {+realm+} should be opened in-memory. When you close the last {+realm+} instance, the in-memory {+realm+} does not persist the data.
+- ``sync``: a sync configuration object that allows you to specify options to :doc:`sync changes between devices </sdk/node/examples/sync-changes-between-devices>` 
   
 In the above example, the code shows how to open the {+realm+} *asynchronously*
 by calling ``realm.open()``. You can also open a realm synchronously by passing
