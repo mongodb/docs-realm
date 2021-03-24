@@ -31,7 +31,7 @@ To open a local (non-synced) {+realm+}, pass a :js-sdk:`Realm.Configuration
   :language: javascript
   :emphasize-lines: 2
 
-Some additional options a ``Configuration`` objects has includes, but is not limited to:
+A ``Configuration`` object includes the following, but isn't limited to, additional options:
 
 - ``migration``: a function that updates a {+realm+} and any objects it contains from one schema version to a newer version. Learn more about :doc:`performing migrations </sdk/node/fundamentals/schema-versions-and-migrations>`.
 - ``deleteRealmIfMigrationNeeded``: a boolean value that if true, deletes the {+realm+} if a migration is needed. This is useful during development since the data model might change often.
