@@ -101,6 +101,10 @@ class ObjectModelsExamples_Task: Object {
 }
 // :code-block-end:
 
+class ObjectModelsExamples_MyModel: Object {
+    @objc dynamic var someProperty = 0
+}
+
 class ObjectModels: XCTestCase {
     func testGenericCollectionFunc() {
         // :code-block-start: generic-collection
@@ -110,10 +114,8 @@ class ObjectModels: XCTestCase {
         }
         // :code-block-end:
     }
-    
+
     func testAnyRealmCollection() {
-        class MyModel : Object {}
-        
         // :code-block-start: any-realm-collection
         class ViewController {
         //    let collection: RealmCollection
@@ -122,13 +124,13 @@ class ObjectModels: XCTestCase {
         //                    as a generic constraint because it has Self or
         //                    associated type requirements
         //
-        //    init<C: RealmCollection>(collection: C) where C.ElementType == MyModel {
+        //    init<C: RealmCollection>(collection: C) where C.ElementType == ObjectModelsExamples_MyModel {
         //        self.collection = collection
         //    }
 
-            let collection: AnyRealmCollection<MyModel>
+            let collection: AnyRealmCollection<ObjectModelsExamples_MyModel>
 
-            init<C: RealmCollection>(collection: C) where C.ElementType == MyModel {
+            init<C: RealmCollection>(collection: C) where C.ElementType == ObjectModelsExamples_MyModel {
                 self.collection = AnyRealmCollection(collection)
             }
         }
