@@ -16,9 +16,9 @@ Authentication Triggers
 Overview
 --------
 
-Authentication Triggers allow you to execute server-side logic
+Authentication triggers allow you to execute server-side logic
 whenever a user interacts with an :doc:`authentication provider
-</authentication/providers>`. You can use authentication Triggers
+</authentication/providers>`. You can use authentication triggers
 to implement advanced user management, including storing new user data
 in your :term:`linked cluster`, maintaining data integrity upon user
 deletion, or calling a service with a user’s information when they log
@@ -32,19 +32,51 @@ Create an Authentication Trigger
    .. tab::
       :tabid: ui
       
-      To create an authentication trigger in the {+ui+}:
+      To open the authentication trigger configuration screen in the {+ui+},
+      click :guilabel:`Triggers` in the {+leftnav+}, select the
+      :guilabel:`Authentication Triggers` tab, and then click :guilabel:`Add a
+      Trigger`.
+
+      Configure the trigger and then click :guilabel:`Save` at the bottom of the
+      page to add it to your current deployment draft.
       
-      1. Click :guilabel:`Triggers` under :guilabel:`MongoDB
-         Cluster` in the {+leftnav+}.
+      An authentication trigger has the following configuration options:
       
-      2. Select the :guilabel:`Authentication Triggers` tab.
+      .. list-table::
+         :header-rows: 1
+         :widths: 15 30
       
-      3. Click :guilabel:`Add Authentication Trigger` in the top
-         right to open the trigger configuration page.
+         * - Field
+           - Description
       
-      4. Enter :ref:`configuration values <auth-trigger-configuration>`
-         for the trigger and click :guilabel:`Save` at the bottom of
-         the page.
+         * - :guilabel:`Trigger Type`
+      
+           - The type of the trigger. For authentication triggers,
+             this value should be set to ``AUTHENTICATION``.
+      
+         * - :guilabel:`Trigger Name`
+      
+           - The name of the trigger.
+      
+         * - :guilabel:`Linked Function`
+      
+           - The name of the {+service-short+} Function that the trigger
+             executes whenever it fires. The trigger passes the :ref:`authentication
+             event object <authentication-events>` that caused it to fire as the only
+             argument to this function.
+      
+         * - :guilabel:`Operation Type`
+      
+           - The :ref:`authentication operation
+             type <authentication-event-operation-types>` that causes the trigger to
+             fire.
+      
+         * - :guilabel:`Providers`
+      
+           - A list of one or more :doc:`authentication provider
+             </authentication/providers>` types. The trigger will only listen for
+             :ref:`authentication events <authentication-events>` produced by these
+             providers.
       
       .. figure:: /images/auth-trigger-example-config.png
          :alt: An example of a configured authentication trigger in the UI
@@ -53,20 +85,22 @@ Create an Authentication Trigger
       
    .. tab::
       :tabid: cli
+      
+      .. include:: /includes/note-procedure-uses-cli-v1.rst
 
-      To create an authentication Trigger with :doc:`{+cli+}
+      To create an authentication trigger with :doc:`{+cli+}
       </deploy/realm-cli-reference>`:
       
-      1. Add an authentication Trigger :ref:`configuration file
-         <auth-trigger-configuration>` to the ``triggers``
-         subdirectory of a local application directory.
+      1. Add an authentication trigger :ref:`configuration file
+         <config-authentication-trigger>` to the ``triggers`` subdirectory of a
+         local application directory.
       
          .. note::
             
-            {+backend+} does not enforce specific filenames for {+service-short+} Trigger
+            {+backend+} does not enforce specific filenames for {+service-short+} trigger
             configuration files. However, once imported, {+backend+} will
             rename each configuration file to match the name of the
-            Trigger it defines, e.g. ``mytrigger.json``.
+            trigger it defines, e.g. ``mytrigger.json``.
       
       2. :doc:`Import </deploy/deploy-cli>` the
          application directory into your application.
@@ -75,91 +109,10 @@ Create an Authentication Trigger
             
             realm-cli import
 
-Reference
----------
-
-.. _auth-trigger-configuration:
-
-Authentication Trigger Configuration
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. tabs-realm-admin-interfaces::
-
-   tabs:
-     - id: cli
-       content: |
-         Configuration files for authentication Triggers have the
-         following form:
-
-         .. code-block:: none
-            :caption: /triggers/<trigger name>.json
-
-            {
-               "type": <string>,
-               "name": <string>,
-               "function_name": <string>,
-               "config": {
-                 "operation_type": <string>,
-                 "providers": [<string>, ...]
-               },
-               "disabled": <boolean>
-            }
-
-     - id: ui
-       content: |
-         Authentication Triggers have the following configuration
-         parameters:
-
-.. list-table::
-   :header-rows: 1
-   :widths: 15 30
-
-   * - Field
-     - Description
-
-   * - | :guilabel:`Trigger Type`
-       | *type*
-
-     - Required. The type of the trigger. For authentication Triggers,
-       this value should be set to ``AUTHENTICATION``.
-
-   * - | :guilabel:`Trigger Name`
-       | *name*
-
-     - Required. The name of the trigger.
-
-   * - | :guilabel:`Linked Function`
-       | *function_name*
-
-     - Required. The name of the {+service-short+} Function that the Trigger
-       executes whenever it fires. The Trigger passes the
-       :ref:`authentication event object <authentication-events>` that
-       caused it to fire as the only argument to this function.
-
-   * - | :guilabel:`Operation Type`
-       | *config.operation_type*
-
-     - Required. The :ref:`authentication operation
-       type <authentication-event-operation-types>` that causes the
-       trigger to fire. The operation type must be formatted as a
-       fully-capitalized string, e.g. ``"LOGIN"``.
-
-   * - | :guilabel:`Providers`
-       | *config.providers*
-
-     - Required. A list of one or more :doc:`authentication provider
-       </authentication/providers>` types. The Trigger will
-       only listen for :ref:`authentication events
-       <authentication-events>` produced by these providers.
-
-       The following values are valid:
-
-       .. include:: /includes/auth-provider-internal-names.rst
-
 .. _authentication-events:
 
 Authentication Events
-~~~~~~~~~~~~~~~~~~~~~
+----------------------
 
 .. _authentication-event-operation-types:
 

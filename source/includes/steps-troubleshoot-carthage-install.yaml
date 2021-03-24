@@ -1,0 +1,30 @@
+title: Reset Carthage-managed Dependency State
+ref: remove-carthage-managed-dependencies
+content: |
+
+   Run these commands in the terminal, in the root of your project:
+   
+   .. code-block:: bash
+      
+      rm -rf Carthage
+      # Assumes default DerivedData location:
+      rm -rf ~/Library/Developer/Xcode/DerivedData
+      carthage update
+   
+   .. important:: 
+   
+      This will update **all** of your Carthage-managed dependencies, not
+      just {+backend+}.
+
+---
+title: Clean the Xcode Build Folder
+ref: clean-the-xcode-build-folder
+content: |
+
+   With your project open in Xcode, go to the Product drop-down menu,
+   and select Clean Build Folder.
+
+   .. figure:: /images/xcode-clean-build-folder.png
+      :alt: Select Product, then Clean Build Folder.
+      :lightbox:
+

@@ -220,25 +220,28 @@ content: |
       .. tab::
          :tabid: cli
          
-         Create a configuration file for the provider in your exported
-         application directory at the path
-         ``/auth_providers/oauth2-apple.json``. The configuration file
-         should have the following form:
+         To enable and configure the Apple authentication provider with
+         :ref:`realm-cli <realm-cli>`, define a :ref:`configuration object
+         <appconfig-auth>` for it in ``/auth/providers.json``.
+
+         Apple provider configurations have the following form:
          
          .. code-block:: none
-            :caption: /auth_providers/oauth2-apple.json
+            :caption: /auth/providers.json
             
             {
-              "name": "oauth2-apple",
-              "type": "oauth2-apple",
-              "disabled": <boolean>,
-              "config": {
-                "clientId": "<Apple Services ID>"
-              },
-              "secret_config": {
-                "clientSecret": "<Secret Name>"
-              },
-              "redirect_uris": ["<string>", ...]
+              "oauth2-apple": {
+                "name": "oauth2-apple",
+                "type": "oauth2-apple",
+                "disabled": <boolean>,
+                "config": {
+                  "clientId": "<Apple Services ID>"
+                },
+                "secret_config": {
+                  "clientSecret": "<Secret Name>"
+                },
+                "redirect_uris": ["<string>", ...]
+              }
             }
          
          .. list-table::
@@ -289,14 +292,14 @@ content: |
        
          .. code-block:: shell
        
-            realm-cli import
+            realm-cli push
          
          To deploy a draft application with automatic :doc:`GitHub deployment
          </deploy/deploy-automatically-with-github>`:
        
          .. code-block:: shell
        
-            git add ./auth_providers/oauth2-apple.json
+            git add ./auth/providers.json
             git commit -m "Configure and Enable Apple ID Authentication"
             git push origin <branch name>
 ...

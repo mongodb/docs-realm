@@ -1,50 +1,45 @@
-title: Export Your Realm Application
-ref: export-your-application
+title: Pull the Latest Version of Your App
+ref: pull-the-latest-version-of-your-app
 content: |
-  To enable static hosting for your  application with
-  :doc:`realm-cli </deploy/realm-cli-reference>` you need to
-  export an :ref:`application directory <application-directory>`.
+  To enable static hosting with {+cli-bin+}, you need a local copy of your
+  application's configuration files.
   
-  You can :doc:`export </deploy/export-realm-app>` your application from the
-  :guilabel:`Import/Export App` tab of the :guilabel:`Deploy` page in the
-  {+ui+}, or by running the following command from an authenticated instance of
-  :doc:`realm-cli </deploy/realm-cli-reference>`:
-
-  .. code-block:: none
-
-     realm-cli export --app-id=<App ID>
-
+  To pull a local copy of the latest version of your app, run the following:
+  
+  .. code-block:: bash
+     
+     realm-cli pull --remote="<Your App ID>"
+  
+  .. tip::
+     
+     You can also download a copy of your application's configuration files from
+     the :guilabel:`Deploy > Import/Export App` screen in the {+ui+}.
 ---
-title: Enable Hosting in the Application Configuration
-ref: enable-hosting-in-the-application-configuration
+title: Create a Static Hosting Configuration
+ref: create-a-static-hosting-configuration
 content: |
-  In :ref:`config.json <appschema-realm-config>`, set the value of
-  ``hosting.enabled`` to ``true`` then save the file.
+  In ``hosting/config.json``, set ``enabled`` to ``true``, then save the file.
 
   .. code-block:: json
-
-     "hosting": { "enabled": true }
+     :caption: /hosting/config.json
+     
+     { "enabled": true }
 
 ---
-title: Import the Updated Application Configuration
-ref: import-the-updated-application-configuration
+title: Deploy the Static Hosting Configuration
+ref: deploy-the-static-hosting-configuration
 content: |
-  Once you have enabled hosting in ``config.json``, you can import the
-  directory into your application.
-  Navigate to the root of the application directory and run the
-  following command:
-
-  .. code-block:: none
-
-     realm-cli import
-
-  {+service+} will begin provisioning hosting for your application after you
-  successfully import the application directory.
+  Once you've enabled static hosting, you can push the updated config to your
+  remote app. {+cli+} immediately deploys your new configuration on push.
+  
+  .. code-block:: bash
+     
+     realm-cli push --remote="<Your App ID>"
 
   .. note::
-
-     It may take a few minutes for {+service-short+} to finish provisioning hosting
-     for your application once you've enabled it. You can :doc:`upload
-     content to {+service-short+} </hosting/upload-content-to-realm>` immediately,
-     but you will need to wait for provisioning to complete before
+     
+     It may take a few minutes for {+service-short+} to finish provisioning
+     hosting for your application once you've enabled it. You can :doc:`upload
+     content to {+service-short+} </hosting/upload-content-to-realm>`
+     immediately, but you will need to wait for provisioning to complete before
      {+service-short+} serves your files.

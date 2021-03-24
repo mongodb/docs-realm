@@ -1,0 +1,27 @@
+title: Reset the Cocoapods Integration State
+ref: reset-cocoapods-integration-state
+content: |
+
+   Run these commands in the terminal, in the root of your project:
+   
+   .. code-block:: bash
+      
+      pod cache clean Realm
+      pod cache clean RealmSwift
+      pod deintegrate || rm -rf Pods
+      pod install --repo-update --verbose
+      # Assumes the default DerivedData location:
+      rm -rf ~/Library/Developer/Xcode/DerivedData
+
+---
+title: Clean the Xcode Build Folder
+ref: clean-the-xcode-build-folder
+content: |
+
+   With your project open in Xcode, go to the Product drop-down menu,
+   and select Clean Build Folder.
+
+   .. figure:: /images/xcode-clean-build-folder.png
+      :alt: Select Product, then Clean Build Folder.
+      :lightbox:
+

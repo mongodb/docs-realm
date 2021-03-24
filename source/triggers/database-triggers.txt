@@ -45,56 +45,167 @@ Create a Database Trigger
 -------------------------
 
 .. tabs-realm-admin-interfaces::
-
-   tabs:
-     - id: ui
-       content: |
-         To create a database Trigger in the {+ui+}:
-
-         1. Click :guilabel:`Triggers` under :guilabel:`MongoDB
-            Cluster` in the {+leftnav+}.
-
-         2. Select the :guilabel:`Database Triggers` tab.
-
-         3. Click :guilabel:`Add Database Trigger` in the top
-            right to open the Trigger configuration page.
-
-         4. Enter :ref:`configuration values <database-trigger-configuration>`
-            for the Trigger and click :guilabel:`Save` at the bottom of
-            the page.
+   
+   .. tab::
+      :tabid: ui
+      
+      To open the database trigger configuration screen in the {+ui+}, click
+      :guilabel:`Triggers` in the {+leftnav+}, select the
+      :guilabel:`Database Triggers` tab, and then click :guilabel:`Add a
+      Trigger`.
          
-         .. figure:: /images/db-trigger-example-config-1.png
-            :alt: Example UI that configures the trigger, including its type and name
-            :width: 750px
-            :lightbox:
+      Configure the trigger and then click :guilabel:`Save` at the bottom of
+      the page to add it to your current deployment draft.
          
-         .. figure:: /images/db-trigger-example-config-2.png
-            :alt: Example UI that configures the trigger function
-            :width: 750px
-            :lightbox:
+      A database trigger has the following configuration options:
+         
+      .. list-table::
+         :header-rows: 1
+         :widths: 15 30
+         
+         * - Field
+           - Description
+         
+         * - | :guilabel:`Trigger Type`
+             | *type*
+         
+           - Required. The type of the Trigger. Set this value to ``DATABASE`` for database Triggers
+         
+         * - | :guilabel:`Trigger Name`
+             | *name*
+         
+           - Required. The name of the Trigger.
+         
+         * - | :guilabel:`Linked Function`
+             | *function_name*
+         
+           - Required. The name of the {+service-short+} Function that the Trigger
+             executes whenever it fires. The Trigger passes the
+             :ref:`database event object <database-events>` that
+             caused it to fire as the only argument to this Function.
+         
+         * - | :guilabel:`Cluster`
+             | *config.service_name*
+         
+           - Required. The name of the MongoDB Service that the Trigger is
+             associated with.
+         
+         * - | :guilabel:`Database Name`
+             | *config.database*
+         
+           - Required. The MongoDB database that contains the watched
+             collection.
+         
+         * - | :guilabel:`Collection Name`
+             | *config.collection*
+         
+           - Required. The name of the collection that the Trigger watches for
+             change events.
+         
+         * - | :guilabel:`Operation Types`
+             | *config.operation_types*
+         
+           - Required. A list of one or more :ref:`database operation
+             types <database-event-operation-types>` that cause the Trigger to
+             fire. Format each operation type as a fully capitalized string, e.g., ``"INSERT"``.
+         
+         * - | :guilabel:`Full Document`
+             | *config.full_document*
+         
+           - Required. If true, indicates that ``UPDATE`` change events should
+             include the most current :manual:`majority-committed
+             </reference/read-concern-majority/>` version of the modified
+             document in the ``fullDocument`` field.
+         
+             .. note::
+         
+                This option only affects ``UPDATE`` change events. ``INSERT``
+                and ``REPLACE`` events always include the ``fullDocument``
+                field. ``DELETE`` events never include the ``fullDocument``
+                field. For more information, see the :manual:`change events
+                </reference/change-events/>` reference page.
+         
+             .. warning::
+         
+                Update operations executed from {+compass+} or the
+                {+atlas+} Data Explorer fully replace the previous
+                document. As a result, update operations from these clients
+                will generate ``REPLACE`` change events rather than ``UPDATE``
+                events.
+         
+         * - | :guilabel:`Event Ordering`
+             | *config.unordered*
+         
+           - 
+             .. tabs-realm-admin-interfaces::
+                :hidden: true
+                
+                .. tab::
+                   :tabid: ui
+                       
+                   Default: Enabled.
+                       
+                   Indicates whether event ordering is enabled for this Trigger.
+                       
+                .. tab::
+                   :tabid: cli
+                       
+                   Optional. Default: ``false``.
+                       
+                   If ``true``, indicates that event ordering is disabled for
+                   this trigger.
+                
+             .. include:: /includes/trigger-event-ordering.rst
+         
+         * - | :guilabel:`Match Expression`
+             | *config.match*
+         
+           - Optional.
+             
+             .. include:: /includes/trigger-match-expression.rst
+         
+         * - | :guilabel:`Project Expression`
+             | *config.project*
+         
+           - Optional.
+             
+             .. include:: /includes/trigger-project-expression.rst
 
-     - id: cli
-       content: |
-         To create a database trigger with :doc:`realm-cli
-         </deploy/realm-cli-reference>`:
-
-         1. Add a database trigger :ref:`configuration file
-            <database-trigger-configuration>` to the ``triggers``
-            subdirectory of a local application directory.
-
-         2. :doc:`Import </deploy/deploy-cli>` the
-            application directory into your application.
-
-            .. code-block:: shell
-
-               realm-cli import
-
-         .. note::
-
-            {+service+} does not enforce specific filenames for Trigger
-            configuration files. However, once imported, {+backend+} will
-            rename each configuration file to match the name of the
-            Trigger it defines, e.g. ``mytrigger.json``.
+      .. figure:: /images/db-trigger-example-config-1.png
+         :alt: Example UI that configures the trigger, including its type and name
+         :width: 750px
+         :lightbox:
+      
+      .. figure:: /images/db-trigger-example-config-2.png
+         :alt: Example UI that configures the trigger function
+         :width: 750px
+         :lightbox:
+   
+   .. tab::
+      :tabid: cli
+      
+      .. include:: /includes/note-procedure-uses-cli-v1.rst
+      
+      To create a database trigger with :doc:`realm-cli
+      </deploy/realm-cli-reference>`:
+      
+      1. Add a database trigger :ref:`configuration file
+         <database-trigger-configuration>` to the ``triggers`` subdirectory of a
+         local application directory.
+      
+      2. :doc:`Import </deploy/deploy-cli>` the application directory into your
+         application.
+      
+         .. code-block:: shell
+      
+            realm-cli import
+      
+      .. note::
+      
+         {+service+} does not enforce specific filenames for Trigger
+         configuration files. However, once imported, {+backend+} will rename
+         each configuration file to match the name of the Trigger it defines,
+         e.g. ``mytrigger.json``.
 
 Restart a Database Trigger
 --------------------------
@@ -114,251 +225,23 @@ You can attempt to restart a suspended Trigger from the {+ui+} or by
 importing an application directory with {+cli-bin+}.
 
 .. tabs-realm-admin-interfaces::
+   
+   .. tab::
+      :tabid: ui
+      
+      .. include:: /includes/steps/restart-db-trigger-realm-ui.rst
 
-   tabs:
-     - id: ui
-       content: |
-         .. include:: /includes/steps/restart-db-trigger-realm-ui.rst
-     - id: cli
-       content: |
-         .. include:: /includes/steps/restart-db-trigger-import-export.rst
-
-Reference
----------
-
-.. _database-trigger-configuration:
-
-Database Trigger Configuration
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. tabs-realm-admin-interfaces::
-
-   tabs:
-     - id: cli
-       content: |
-         Configuration files for database Triggers have the
-         following form:
-
-         .. code-block:: none
-            :caption: /triggers/<trigger name>.json
-
-            {
-               "type": <string>,
-               "name": <string>,
-               "function_name": <string>,
-               "config": {
-                 "service_name": <string>,
-                 "database": <string>,
-                 "collection": <string>,
-                 "operation_types": [<string>, ...],
-                 "full_document": <boolean>,
-                 "unordered": <boolean>,
-                 "match": <document>,
-                 "project": <document>
-               },
-               "disabled": <boolean>
-            }
-
-     - id: ui
-       content: |
-         Database Triggers have the following configuration parameters:
-
-.. list-table::
-   :header-rows: 1
-   :widths: 15 30
-
-   * - Field
-     - Description
-
-   * - | :guilabel:`Trigger Type`
-       | *type*
-
-     - Required. The type of the Trigger. Set this value to ``DATABASE`` for database Triggers
-
-   * - | :guilabel:`Trigger Name`
-       | *name*
-
-     - Required. The name of the Trigger.
-
-   * - | :guilabel:`Linked Function`
-       | *function_name*
-
-     - Required. The name of the {+service-short+} Function that the Trigger
-       executes whenever it fires. The Trigger passes the
-       :ref:`database event object <database-events>` that
-       caused it to fire as the only argument to this Function.
-
-   * - | :guilabel:`Cluster`
-       | *config.service_name*
-
-     - Required. The name of the MongoDB Service that the Trigger is
-       associated with.
-
-   * - | :guilabel:`Database Name`
-       | *config.database*
-
-     - Required. The MongoDB database that contains the watched
-       collection.
-
-   * - | :guilabel:`Collection Name`
-       | *config.collection*
-
-     - Required. The name of the collection that the Trigger watches for
-       change events.
-
-   * - | :guilabel:`Operation Types`
-       | *config.operation_types*
-
-     - Required. A list of one or more :ref:`database operation
-       types <database-event-operation-types>` that cause the Trigger to
-       fire. Format each operation type as a fully capitalized string, e.g., ``"INSERT"``.
-
-   * - | :guilabel:`Full Document`
-       | *config.full_document*
-
-     - Required. If true, indicates that ``UPDATE`` change events should
-       include the most current :manual:`majority-committed
-       </reference/read-concern-majority/>` version of the modified
-       document in the ``fullDocument`` field.
-
-       .. note::
-
-          This option only affects ``UPDATE`` change events. ``INSERT``
-          and ``REPLACE`` events always include the ``fullDocument``
-          field. ``DELETE`` events never include the ``fullDocument``
-          field. For more information, see the :manual:`change events
-          </reference/change-events/>` reference page.
-
-       .. warning::
-
-          Update operations executed from {+compass+} or the
-          {+atlas+} Data Explorer fully replace the previous
-          document. As a result, update operations from these clients
-          will generate ``REPLACE`` change events rather than ``UPDATE``
-          events.
-
-   * - | :guilabel:`Event Ordering`
-       | *config.unordered*
-
-     - 
-       .. tabs-realm-admin-interfaces::
-          :hidden: true
-
-          .. tab::
-             :tabid: ui
-             
-             Default: Enabled.
-             
-             Indicates whether event ordering is enabled for this Trigger.
-             
-          .. tab::
-             :tabid: cli
-             
-             Optional. Default: ``false``.
-             
-             If ``true``, indicates that event ordering is disabled for
-             this trigger.
-       
-       If event ordering is enabled, multiple executions of this Trigger
-       will occur sequentially based on the timestamps of the change
-       events. If event ordering is disabled, multiple executions of
-       this Trigger will occur independently.
-       
-       .. tip::
-          
-          Consider disabling event ordering if your trigger fires on a
-          collection that receives short bursts of events (e.g.
-          inserting data as part of a daily batch job).
-          
-          Ordered Triggers wait to execute a Function for a particular
-          event until the Functions of previous events have finished
-          executing. As a consequence, ordered Triggers are effectively
-          rate-limited by the run time of each sequential Trigger
-          function. This may cause a significant delay between the
-          database event and the Trigger firing if a sufficiently large
-          number of Trigger executions are currently in the queue.
-
-          Unordered Triggers execute functions in parallel if possible,
-          which can be significantly faster (depending on your use case)
-          but does not guarantee that multiple executions of a Trigger
-          Function occur in event order.
-
-   * - | :guilabel:`Match Expression`
-       | *config.match*
-
-     - Optional.
-       A :manual:`$match </reference/operator/aggregation/match>`
-       expression document that {+service-short+} uses to filter which change
-       events cause the Trigger to fire. The Trigger
-       evaluates all change event objects that it receives against this
-       match expression and only executes if the expression evaluates to
-       ``true`` for a given change event.
-          
-       .. note:: Use Dot-Notation for Embedded Fields
-          
-          MongoDB performs a full equality match for embedded
-          documents in a match expression. If you want to match a
-          specific field in an embedded document, refer to the field
-          directly using :manual:`dot-notation
-          </core/document/#document-dot-notation>`. For more
-          information, see :manual:`Query on Embedded Documents
-          </tutorial/query-embedded-documents>` in the MongoDB server
-          manual.
-
-       .. example::
-
-          The following :guilabel:`Match Expression` configures a
-          trigger to fire only if the change event object specifies that
-          the ``status`` field in a document changed.
-          
-          .. code-block:: javascript
-
-             {
-               "updateDescription.updatedFields.status": {
-                 "$exists": true
-               }
-             }
-
-   * - | :guilabel:`Project Expression`
-       | *config.project*
-
-     - Optional.
-       A :manual:`$project </reference/operator/aggregation/project>` expression
-       document that {+service-short+} uses to filter the fields that appear in
-       change event objects.
-       
-       .. example::
-
-          A trigger is configured with the following :guilabel:`Project
-          Expression`:
-          
-          .. code-block:: json
-
-             {
-               "_id": 0,
-               "operationType": 1,
-               "updateDescription.updatedFields.status": 1
-             }
-          
-          The change event object that {+service-short+} passes to the trigger
-          function only includes the fields specifed in the projection, as in
-          the following example:
-          
-          .. code-block:: json
-             
-             {
-               "operationType": "update",
-               "updateDescription": {
-                 "updatedFields": {
-                   "status": "InProgress"
-                 }
-               }
-             }
+   .. tab::
+      :tabid: cli
+      
+      .. include:: /includes/note-procedure-uses-cli-v1.rst
+      
+      .. include:: /includes/steps/restart-db-trigger-import-export.rst
 
 .. _database-events:
 
 Database Change Events
-~~~~~~~~~~~~~~~~~~~~~~
+----------------------
 
 .. _database-event-operation-types:
 

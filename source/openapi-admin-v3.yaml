@@ -31,7 +31,7 @@ paths:
       operationId: 'adminLogin'
       summary: >-
         Authenticate as a Realm administrator. Use
-        `GET /auth/providers <{+base-url+}{+admin-api-page+}post-/auth/providers`__ to list the
+        `GET /auth/providers <{+base-url+}{+admin-api-page+}get-/auth/providers>`_ to list the
         available authentication providers.
       requestBody:
         required: true
@@ -60,7 +60,7 @@ paths:
                     type: string
                     description: >-
                       A refresh token you may provide in the ``Authorization``
-                      header of `POST auth/session <{+base-url+}{+admin-api-page+}post-auth/session>`__ to obtain a new
+                      header of `POST auth/session <{+base-url+}{+admin-api-page+}post-auth/session>`_ to obtain a new
                       ``access_token`` for the current user session.
                   user_id:
                     type: string
@@ -1159,7 +1159,7 @@ paths:
       tags: ["security"]
       operationId: "adminListAllowedRequestOrigins"
       summary: >-
-        List the allowed `HTTP origins <https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Origin>`__
+        List the allowed :mdn:`HTTP origins <Web/HTTP/Headers/Origin>`
         from which MongoDB Realm should allow requests.
       responses:
         '200':
@@ -1173,7 +1173,7 @@ paths:
       tags: ["security"]
       operationId: "adminSetAllowedRequestOrigins"
       summary: >-
-        Set the allowed `HTTP origins <https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Origin>`__
+        Set the allowed :mdn:`HTTP origins <Web/HTTP/Headers/Origin>`
         from which MongoDB Realm should allow requests.
       requestBody:
         required: true
@@ -2700,14 +2700,14 @@ components:
       scheme: bearer
       description: >-
         The authorization token provided in the ``access_token`` field of
-        the `POST /auth/providers/{provider}/login <{+base-url+}{+admin-api-page+}post-/auth/providers/{provider}/login>`__ and
-        `POST /auth/session <{+base-url+}{+admin-api-page+}post-/auth/session>`__ API endpoints.
+        the `POST /auth/providers/{provider}/login <{+base-url+}{+admin-api-page+}post-/auth/providers/{provider}/login>`_ and
+        `POST /auth/session <{+base-url+}{+admin-api-page+}post-/auth/session>`_ API endpoints.
     refreshAuth:
       type: http
       scheme: bearer
       description: >-
         The authorization token provided in the ``refresh_token`` field of
-        the `POST /auth/providers/{provider}/login <{+base-url+}{+admin-api-page+}post-/auth/providers/{provider}/login>`__ API endpoint.
+        the `POST /auth/providers/{provider}/login <{+base-url+}{+admin-api-page+}post-/auth/providers/{provider}/login>`_ API endpoint.
   responses:
     ClientErrorResponse:
       description: "There is an error in the request."

@@ -44,40 +44,40 @@ User keys are always associated with a non-anonymous user. Each user can
 associate up to 20 user keys with their account.
 
 .. _api-key-authentication-configuration:
+.. _config-api-key:
 
 Configuration
 -------------
 
 .. tabs-realm-admin-interfaces::
+   
+   
+   .. tab::
+      :tabid: ui
 
-   tabs:
-     - id: ui
-       content: |
-         You can enable and configure the API Key authentication
-         provider from the {+ui+} by selecting :guilabel:`API Keys`
-         from the :guilabel:`Authentication` page.
+      You can enable and configure the API Key authentication
+      provider from the {+ui+} by selecting :guilabel:`API Keys`
+      from the :guilabel:`Authentication` page.
 
-     - id: cli
-       content: |
-         You can enable and configure the API Key authentication
-         provider with :doc:`realm-cli
-         </deploy/realm-cli-reference>` by importing an
-         application directory that contains a :ref:`configuration file
-         <appschema-authentication-providers>` for the provider.
+   .. tab::
+      :tabid: cli
+         
+      To enable and configure the API Key authentication provider with
+      :ref:`realm-cli <realm-cli>`, define a :ref:`configuration object
+      <appconfig-auth>` for it in ``/auth/providers.json``.
 
-         The configuration file must be named ``api-key.json``
-         and stored in the ``/auth_providers`` directory. Configuration
-         files for the API Key authentication provider have the
-         following form:
+      API Key provider configurations have the following form:
 
-         .. code-block:: none
-            :caption: /auth_providers/api-key.json
-
-            {
-              "name": "api-key",
-              "type": "api-key",
-              "disabled": false
-            }
+      .. code-block:: none
+         :caption: /auth/providers.json
+         
+         {
+           "api-key": {
+             "name": "api-key",
+             "type": "api-key",
+             "disabled": false
+           }
+         }
 
 .. note::
 

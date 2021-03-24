@@ -65,9 +65,7 @@ Usage
 
 The :java-sdk:`counter.increment() <io/realm/MutableRealmInteger.html#increment-long->`
 and :java-sdk:`counter.decrement() <io/realm/MutableRealmInteger.html#decrement-long->`
-operators implement a
-:wikipedia:`conflict free replicated data type <Conflict-free_replicated_data_type>`;
-this ensures that increments and decrements from multiple distributed
+operators ensure that increments and decrements from multiple distributed
 clients are aggregated correctly.
 
 To change a :java-sdk:`MutableRealmInteger

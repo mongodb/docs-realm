@@ -39,6 +39,13 @@ class ReadWriteDataExamples_DogClub: Object {
 }
 // :code-block-end:
 
+// :code-block-start: object-id-model
+class ReadWriteDataExamples_User: Object {
+    @objc dynamic var id = ObjectId.generate()
+    @objc dynamic var name = ""
+}
+// :code-block-end:
+
 class ReadWriteData: XCTestCase {
     override func tearDown() {
         let realm = try! Realm()
@@ -273,6 +280,22 @@ class ReadWriteData: XCTestCase {
         print(puppies.count)
         print(dogsWithoutFavoriteToy.count)
         print(dogsWhoLikeTennisBalls.count)
+    }
+
+    func testQueryObjectId() {
+        // :code-block-start: query-object-id
+        let realm = try! Realm()
+
+        let users = realm.objects(ReadWriteDataExamples_User.self)
+
+        // Get specific user by ObjectId id
+        let specificUser = users.filter("id = %@", ObjectId("11223344556677889900aabb")).first
+
+        // WRONG: Realm will not convert the string to an object id
+        // users.filter("id = '11223344556677889900aabb'") // not ok
+        // users.filter("id = %@", "11223344556677889900aabb") // not ok
+        // :code-block-end:
+        print("\(specificUser ?? ReadWriteDataExamples_User())")
     }
 
     func testTransaction() {

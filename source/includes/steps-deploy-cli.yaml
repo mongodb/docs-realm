@@ -1,81 +1,41 @@
-title: Prepare the Application Directory
-ref: prepare-application-directory
+title: Log In to MongoDB Cloud
+ref: log-in-to-mongodb-cloud
 content: |
-  :doc:`Export </deploy/export-realm-app>` your application to a local
-  application directory. Alternatively, create a new application
-  directory that contains a :ref:`config.json <appschema-realm-config>`
-  file with your application's ``app_id``.
-
-  .. code-block:: json
-
-     {
-       "app_id": "<Your Application ID>"
-     }
----
-title: Add or Update Application Entities
-ref: add-update-application-entities
-content: |
-  Add sub-directories and configuration files for any new entities
-  you're importing, or update the values in existing entity files. Every
-  configuration file must conform to its :doc:`configuration file schema
-  </deploy/application-configuration-files>`.
----
-title: Authenticate a MongoDB Atlas User
-ref: authenticate-atlas-user
-content: |
-  To import or update a {+app+} with {+cli-bin+}, users
-  must authenticate with `{+atlas+} <https://www.mongodb.com/cloud/atlas?tck=docs_realm>`_
-  using an API Key.
-
-  .. code-block:: shell
-
-     realm-cli login --api-key="<my api key>" --private-api-key="<my private api key>"
----
-title: Run the Import Command
-ref: run-import-command
-content: |
-  Use the {+cli-bin+} :ref:`import <realm-cli-import>` to deploy
-  your changes:
-
-  .. code-block:: shell
+  To configure your app with {+cli-bin+}, you must log in to MongoDB Cloud using
+  an :atlas:`API key </reference/api/apiKey>` scoped to the organization or
+  project that contains the app.
+  
+  .. code-block:: bash
      
-     realm-cli import --strategy=merge
-
-  .. note:: Import Strategy
-     
-     The ``--strategy`` flag indicates how you want {+service-short+} to handle
-     configuration files that are missing or duplicated compared to the
-     currently deployed version of your application. For more
-     information, see :ref:`import strategies
-     <realm-import-strategies>`.
-
-  If you want to :doc:`upload static assets to {+service-short+} Hosting
-  </hosting/upload-content-to-realm>`, include the static assets in the
-  ``/hosting/files`` directory and specify the
-  :option:`--include-hosting <realm-cli import --include-hosting>`
-  option:
-
-  .. code-block:: shell
-
-     realm-cli import --strategy=merge --include-hosting
-
-  If you want to :doc:`upload external dependencies
-  </functions/upload-external-dependencies>`, include your archived
-  ``node_modules`` in the ``/functions`` directory and specify the
-  :option:`--include-dependencies
-  <realm-cli import --include-dependencies>` option:
-
-  .. code-block:: shell
-
-     realm-cli import --strategy=merge --include-dependencies
+     realm-cli login --api-key="<MongoDB Cloud Public API Key>" --private-api-key="<MongoDB Cloud Private API Key>"
 ---
-title: Review and Confirm Import Diff
-ref: confirm-import-diff
+title: Pull the Latest Version of Your App
+ref: pull-the-latest-version-of-your-app
 content: |
-  Before committing the import, {+cli-bin+} will show you a diff of
-  the changes that will be made to your application. Review the diff to
-  ensure that all changes are correct then confirm the import.
-
-  After successfully importing your application, {+service-short+} will
-  automatically deploy a new version of your app and update your local
-  application directory to match the new deployment.
+  You'll need a local copy of your application's configuration files. To pull a
+  local copy of the latest version of your app, run the following:
+  
+  .. code-block:: bash
+     
+     realm-cli pull --remote="<Your App ID>"
+  
+  .. tip::
+     
+     You can also download a copy of your application's configuration files from
+     the :guilabel:`Deploy > Import/Export App` screen in the {+ui+}.
+---
+title: Update Your Application
+ref: update-your-application
+content: |
+  Add, delete, and modify :ref:`configuration files <app-configuration>` for
+  your application's various components.
+---
+title: Deploy the Updated App
+ref: deploy-the-updated-app
+content: |
+  Once you've updated your app's configuration files, you can push them to your
+  remote app. {+cli+} immediately deploys the updated configurations on push.
+  
+  .. code-block:: bash
+     
+     realm-cli push --remote="<Your App ID>"
