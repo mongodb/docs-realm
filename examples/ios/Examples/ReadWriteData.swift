@@ -425,6 +425,19 @@ class ReadWriteData: XCTestCase {
         }
         // :code-block-end:
     }
+    
+    func testKeyValueCoding() {
+        // :code-block-start: key-value-coding
+        let realm = try! Realm()
+
+        let allDogs = realm.objects(ReadWriteDataExamples_Dog.self)
+
+        try! realm.write {
+            allDogs.first?.setValue("Sparky", forKey: "name")
+            allDogs.first?.setValue(3, forKey: "age")
+        }
+        // :code-block-end:
+    }
 }
 
 // :replace-end:
