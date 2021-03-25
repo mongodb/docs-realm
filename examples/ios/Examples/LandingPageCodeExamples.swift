@@ -1,7 +1,6 @@
 // :replace-start: {
 //   "terms": {
-//     "LandingPageExamples_": "",
-//     "setUp()": "let realm = try! Realm()"
+//     "LandingPageExamples_": ""
 //   }
 // }
 
@@ -69,7 +68,7 @@ class LandingPageExamples: XCTestCase {
     func testQueryCoffeeRatings() {
 
         // :code-block-start: query
-        setUp()
+        let realm = try! Realm()
 
         let drinks = realm.objects(LandingPageExamples_CoffeeDrink.self)
 
@@ -89,7 +88,7 @@ class LandingPageExamples: XCTestCase {
 
     func testUpdateMapleLatte() {
         // :code-block-start: update-live-objects
-        setUp()
+        let realm = try! Realm()
         // Get a maple latte
         let mapleLatte = realm.objects(LandingPageExamples_CoffeeDrink.self).filter("name == 'Maple Latte'").first!
 
@@ -153,7 +152,7 @@ class LandingPageExamples: XCTestCase {
 
         // :code-block-start: always-access-the-latest-data
         // Open the default realm.
-        setUp()
+        let realm = try! Realm()
 
         // Create a couple of references to a single underlying coffee drink object
         let drinkA = realm.objects(LandingPageExamples_CoffeeDrink.self).filter("name == 'Maple Latte'").first!
