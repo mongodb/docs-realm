@@ -303,6 +303,42 @@ Create a New Object
       .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.create.m
          :language: objectivec
 
+
+.. _ios-copy-an-object-to-another-realm:
+
+Copy an Object to Another Realm
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: swift
+
+      To copy an object from one {+realm+} to another, pass the original
+      object to :swift-sdk:`Realm.create(_:value:update:):
+      <Structs/Realm.html#/s:10RealmSwift0A0V6create_5value6updatexxm_ypAC12UpdatePolicyOtSo0aB6ObjectCRbzlF>`:
+
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.copy-to-another-realm.swift
+         :language: swift
+
+   .. tab::
+      :tabid: objective-c
+
+      To copy an object from one {+realm+} to another, pass the original
+      object to :objc-sdk:`+[RLMObject createInRealm:withValue:]
+      <Classes/RLMObject.html#/c:objc(cs)RLMObject(cm)createInRealm:withValue:>`:
+
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.copy-to-another-realm.m
+         :language: objectivec
+
+
+.. important::
+
+   The ``create`` methods do not support handling cyclical object
+   graphs. Do not pass in an object containing relationships involving
+   objects that refer back to their parents, either directly or
+   indirectly.
+
 .. _ios-modify-an-object:
 
 Modify an Object
