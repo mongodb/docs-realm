@@ -41,7 +41,7 @@ exports.getTask = async (partition) => {
       output.result(JSON.stringify(result, null, 2));
     }
   } catch (err) {
-    output.error(JSON.stringify(err));
+    output.error(err.message);
   }
 };
 // :code-block-end:
@@ -85,7 +85,7 @@ exports.createTask = async (partition) => {
     output.header("New task created");
     output.result(JSON.stringify(result, null, 2));
   } catch (err) {
-    output.error(JSON.stringify(err));
+    output.error(err.message);
   }
 };
 // :code-block-end:
@@ -193,7 +193,7 @@ async function modifyTask(answers, partition) {
     });
     return JSON.stringify(task, null, 2);
   } catch (err) {
-    return output.error(err);
+    return output.error(err.message);
   }
 }
 // :code-block-end:

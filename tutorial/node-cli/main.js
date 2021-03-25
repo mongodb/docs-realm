@@ -1,13 +1,6 @@
 const inquirer = require("inquirer");
-const ora = require("ora");
-
-const tasks = require("./tasks");
-const index = require("./index");
-const watch = require("./watch");
 const users = require("./users");
 const output = require("./output");
-const manageTeam = require("./manageTeam");
-const { ProjectSchema } = require("./schemas");
 const projects = require("./projects");
 
 const Choices = {
@@ -45,7 +38,7 @@ async function mainMenu() {
       }
     }
   } catch (err) {
-    output.error(err);
+    output.error(err.message);
     return;
   }
 }

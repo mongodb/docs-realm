@@ -15,7 +15,7 @@ exports.getTeamMembers = async () => {
     // :state-uncomment-end:
     output.result(JSON.stringify(teamMembers, null, 2));
   } catch (err) {
-    output.error(JSON.stringify(err));
+    output.error(err.message);
   }
 };
 // :code-block-end:
@@ -70,7 +70,7 @@ exports.removeTeamMember = async () => {
     // :state-uncomment-end:
     output.result("The user was removed from your team.");
   } catch (err) {
-    output.error(JSON.stringify(err));
+    output.error(err.message);
   }
 };
 // :code-block-end:

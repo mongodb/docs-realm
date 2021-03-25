@@ -17,9 +17,9 @@ async function openRealm(partitionKey) {
   };
   // :state-start: final
   return Realm.open(config);
-  // :state-end: :state-uncomment-start: start
-  // //TODO: open a realm with these configuration settings.
-  // :state-uncomment-end:
+  // :state-end: :state-start: start
+  // TODO: open a realm with these configuration settings.
+  // :state-end:
 }
 // :code-block-end:
 
@@ -56,10 +56,9 @@ async function getRealm(partitionKey) {
   if (realms[partitionKey] == undefined) {
     // :state-start: final
     realms[partitionKey] = openRealm(partitionKey);
-    // :state-end: :state-uncomment-start: start
-    // //TODO: Call the openRealm() function with the partition key parameter.
-
-    // :state-uncomment-end:
+    // :state-end: :state-start: start
+    // TODO: Call the openRealm() function with the partition key parameter.
+    // :state-end:
   }
   return realms[partitionKey];
 }
