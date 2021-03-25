@@ -193,8 +193,8 @@ of {+backend-short+} instances. Avoid “pinning” old Realm transactions.
 Use auto-refreshing Realms and wrap the use of Realm APIs from background 
 threads in explicit autorelease pools.
 
-Realm File Growth When Threading
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Threading
+~~~~~~~~~
 
 Realm updates the version of your data that it accesses at the start of 
 a run loop iteration. While this gives you a consistent view of your 
@@ -203,11 +203,11 @@ data, it has file size implications.
 Imagine this scenario:
 
 - Thread A: Read some data from a Realm, and then block the thread on a 
-long-running operation.
+  long-running operation.
 - Thread B: Write data on another thread.
 - Thread A: The version that you're still holding on the read thread isn't 
-updated. Realm has to hold intermediate versions of the data, growing in 
-file size with every write. 
+  updated. Realm has to hold intermediate versions of the data, growing in 
+  file size with every write. 
 
 To avoid this issue, call ``invalidate`` to tell Realm that you no 
 longer need the objects you've read so far. This frees Realm from 
@@ -217,11 +217,10 @@ access it, Realm will have the latest version of the objects.
 You can also use these two methods to compact your Realm:
 
 - Set :swift-sdk:`shouldCompactOnLaunch<Structs/Realm/Configuration.html>`
-- Use :swift-sdk:`writeCopy(toFile:encryptionKey:) 
-<Structs/Realm.html>`
+- Use :swift-sdk:`writeCopy(toFile:encryptionKey:)<Structs/Realm.html>`
 
-Realm File Growth When Using Dispatch Queues
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Dispatch Queues
+~~~~~~~~~~~~~~~
 
 When accessing Realm using :apple:`Grand Central Dispatch 
 <documentation/dispatch>`, you may see similar file growth. A dispatch 
@@ -236,9 +235,10 @@ Default Realm
 -------------
 
 Calling ``Realm()`` opens the default Realm. This method returns a ``Realm`` 
-object that maps to a file named ``default.realm``. You can find this file 
-in the Documents folder (iOS) or Application Support folder (macOS) of 
-your app.
+object that maps to a file named ``default.realm``. You can find this file:
+
+- iOS: in the Documents folder of your app
+- macOS: in the Application Support folder of your app
 
 
 .. _ios-synced-realm:
