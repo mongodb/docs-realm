@@ -53,17 +53,19 @@ directly from GitHub:
 
 .. code-block:: console
    
-   git clone https://github.com/mongodb-university/realm-tutorial-node-js.git
+   git clone --branch start https://github.com/mongodb-university/realm-tutorial-node-js.git
+   cd realm-tutorial-node-js
 
 .. important::
    
-   The ``final`` branch is a finished version of the app as it should look *after*
-   you complete this tutorial. To walk through this tutorial, please check 
-   out the ``start`` branch:
+   The ``start`` branch is an incomplete version of the app that we will
+   complete in this tutorial. To view the finished app, check out the
+   ``final`` branch and update ``realmAppId`` in the ``config.js`` to
+   point to :ref:`your Realm app ID <find-your-app-id>`.
 
    .. code-block:: console
     
-      git checkout start
+      git checkout final
 
 In your terminal, run the following command to install its dependencies:
 
@@ -128,7 +130,7 @@ To get the app working with your backend, you first need to add your Realm App I
 to the ``config.js`` file. The ``config.js`` module exports a single property, 
 ``realmAppId``, which is currently set to "TODO":
 
-.. literalinclude:: /tutorial/generated/code/final/config.codeblock.realmAppID.js
+.. literalinclude:: /tutorial/generated/node/config.codeblock.realmAppID.js
    :language: javascript
 
 Change this value to your Realm App ID. 
@@ -143,14 +145,14 @@ open a {+realm+}. In ``index.js``, find the ``openRealm`` function. Replace the 
 line with a line of code that opens a {+realm+} and assigns it to the ``realm`` 
 property. It will look like this:
 
-.. literalinclude:: /tutorial/generated/code/final/index.codeblock.openRealm.js
+.. literalinclude:: /tutorial/generated/node/index.codeblock.openRealm.js
    :language: javascript
 
 Now that you have implemented the ``openRealm`` function, you will now need to 
 complete the code that retrieves the {+realm+}. In ``index.js``, find the 
 ``getRealm`` function. It will look like this: 
 
-.. literalinclude:: /tutorial/generated/code/final/index.codeblock.getRealm.js
+.. literalinclude:: /tutorial/generated/node/index.codeblock.getRealm.js
    :language: javascript
 
 At this point, your app is pointing to your backend and opens a connection 
@@ -169,10 +171,41 @@ credential and passes it to the Realm
 Find the the ``logIn`` function and add the following code to create a
 ``emailPassword`` credential and call the ``logIn()`` method. 
 
-.. literalinclude:: /tutorial/generated/code/final/users.codeblock.userLogin.js
+.. literalinclude:: /tutorial/generated/node/users.codeblock.userLogin.js
    :language: javascript
 
-E. Implement the CRUD methods
+E. Define the Object Schemas
+----------------------------
+
+In order to model data in the database, we need to define some schemas
+for the data we store. In ``schemas.js``:
+
+* ``TaskSchema``
+
+  The task model contains information about a user's tasks. Find the
+  ``TaskSchema`` code and replace it with the following:
+
+  .. literalinclude:: /tutorial/generated/node/schemas.codeblock.taskSchema.js
+     :language: javascript
+
+* ``UserSchema``
+
+  The user model represents a user and their permissions. Find the
+  ``UserSchema`` code and replace it with the following:
+
+  .. literalinclude:: /tutorial/generated/node/schemas.codeblock.userSchema.js
+     :language: javascript
+
+* ``ProjectSchema``
+
+  We also need a project model to represent the projects a user is a member of.
+  Find the ``ProjectSchema`` code and replace it with the following:
+
+  .. literalinclude:: /tutorial/generated/node/schemas.codeblock.projectSchema.js
+     :language: javascript
+
+
+F. Implement the CRUD methods
 -----------------------------
 
 In the ``tasks.js`` and ``projects.js`` files, there are a number of functions to handle typical  
@@ -189,7 +222,7 @@ In ``tasks.js``:
   To get all objects, call the :js-sdk:`objects() <Realm.html#objects>` method 
   and pass in the name of the collection:
   
-  .. literalinclude:: /tutorial/generated/code/final/tasks.codeblock.getTasks.js
+  .. literalinclude:: /tutorial/generated/node/tasks.codeblock.getTasks.js
      :language: javascript
 
 
@@ -199,7 +232,7 @@ In ``tasks.js``:
   we call the :js-sdk:`objectForPrimaryKey() <Realm.html#objectForPrimaryKey>`  
   function to get a task by its Id.
 
-  .. literalinclude:: /tutorial/generated/code/final/tasks.codeblock.getTask.js
+  .. literalinclude:: /tutorial/generated/node/tasks.codeblock.getTask.js
      :language: javascript
 
 
@@ -212,7 +245,7 @@ In ``tasks.js``:
   the :js-sdk:`create() <Realm.html#create>` function, passing in all of the 
   required properties:
 
-  .. literalinclude:: /tutorial/generated/code/final/tasks.codeblock.createTask.js
+  .. literalinclude:: /tutorial/generated/node/tasks.codeblock.createTask.js
      :language: javascript
 
   .. note::
@@ -231,7 +264,7 @@ In ``tasks.js``:
   We'll first call the ``objectForPrimaryKey`` method to get the specific we want
   to delete and then the :js-sdk:`delete() <Realm.html#delete>` function on that task:
 
-  .. literalinclude:: /tutorial/generated/code/final/tasks.codeblock.deleteTask.js
+  .. literalinclude:: /tutorial/generated/node/tasks.codeblock.deleteTask.js
      :language: javascript
 
 
@@ -243,7 +276,7 @@ In ``tasks.js``:
   call to a Realm API to change an object. Rather, you change the *local* object 
   and Sync ensures the object is updated on the server.
   
-  .. literalinclude:: /tutorial/generated/code/final/tasks.codeblock.modifyTask.js
+  .. literalinclude:: /tutorial/generated/node/tasks.codeblock.modifyTask.js
      :language: javascript
 
 
@@ -259,7 +292,7 @@ In ``projects.js``:
   To get all projects the user is a part of, we'll have to use the ``objectForPrimaryKey``
   method to get the current user and then access the current user's ``memberOf`` property.
 
-  .. literalinclude:: /tutorial/generated/code/final/projects.codeblock.getProjects.js
+  .. literalinclude:: /tutorial/generated/node/projects.codeblock.getProjects.js
      :language: javascript
 
   .. note::
@@ -267,7 +300,7 @@ In ``projects.js``:
      To learn more about how {+service-short+} Object models are used in Node.js applications, 
      see :ref:`Realm Object Schemas <node-object-schemas>` in our Node.js client guide. 
 
-F. Use Realm Functions
+G. Use Realm Functions
 ----------------------
 
 In the ``team.js`` file, there are functions that rely on :ref:`{+service-short+} 
@@ -280,7 +313,7 @@ implement the calls to {+service-short+}.
   To get all team members, call the ``getMyTeamMembers`` {+service-short+} function
   using the ``User.functions`` method. 
 
-  .. literalinclude:: /tutorial/generated/code/final/team.codeblock.getTeamMembers.js
+  .. literalinclude:: /tutorial/generated/node/team.codeblock.getTeamMembers.js
      :language: javascript
 
 * ``addTeamMember``
@@ -289,7 +322,7 @@ implement the calls to {+service-short+}.
   to call the ``addTeamMember`` {+service-short+} function and pass it the ``email`` 
   parameter. 
 
-  .. literalinclude:: /tutorial/generated/code/final/team.codeblock.addTeamMember.js
+  .. literalinclude:: /tutorial/generated/node/team.codeblock.addTeamMember.js
      :language: javascript
 
 * ``removeTeamMember`` 
@@ -298,7 +331,7 @@ implement the calls to {+service-short+}.
   remove from their project. You will need to call the ``removeTeamMember`` 
   {+service-short+} function and pass it the ``email`` parameter.
   
-  .. literalinclude:: /tutorial/generated/code/final/team.codeblock.removeTeamMember.js
+  .. literalinclude:: /tutorial/generated/node/team.codeblock.removeTeamMember.js
      :language: javascript
 
 

@@ -49,7 +49,7 @@ exports.selectProject = async () => {
     );
     return projectMenu(selectedProject.partition);
   } catch (err) {
-    output.error(JSON.stringify(err));
+    output.error(err.message);
   }
 };
 
@@ -118,7 +118,7 @@ async function projectMenu(partition) {
       }
     }
   } catch (err) {
-    output.error(err);
+    output.error(err.message);
     return;
   }
 }

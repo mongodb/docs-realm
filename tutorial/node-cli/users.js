@@ -4,8 +4,6 @@ const index = require("./index");
 const config = require("./config");
 const main = require("./main");
 const output = require("./output");
-const projects = require("./projects");
-const { ProjectSchema } = require("./schemas");
 
 const REALM_APP_ID = config.realmAppId;
 const appConfig = {
@@ -66,7 +64,7 @@ async function logIn() {
       return logIn();
     }
   } catch (err) {
-    output.error(JSON.stringify(err, null, 2));
+    output.error(err.message);
     return logIn();
   }
 }
@@ -89,7 +87,7 @@ async function registerUser() {
   ]);
 
   try {
-    const result = await app.emailPasswordAuth.registerUser(
+    await app.emailPasswordAuth.registerUser(
       input.email,
       input.password
     );
@@ -108,7 +106,7 @@ async function registerUser() {
       return registerUser();
     }
   } catch (err) {
-    output.error(JSON.stringify(err, null, 2));
+    output.error(err.message);
     return registerUser();
   }
 }

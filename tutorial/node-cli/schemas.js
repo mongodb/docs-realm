@@ -45,7 +45,7 @@ const ProjectSchema = {
     partition: "string?",
   },
   // :state-end: :state-uncomment-start: start
-  // // TODO: Define the data model for users.
+  // // TODO: Define the data model for projects.
 
   // :state-uncomment-end:
 };
