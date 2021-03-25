@@ -188,24 +188,24 @@ comparable SQLite database. Unexpected file growth may be related to the
 
 .. tip:: Avoid pinning old Realm transactions
 
-{+backend-short+} ties read transaction lifetimes to the memory lifetime 
-of {+backend-short+} instances. Avoid “pinning” old Realm transactions. 
-Use auto-refreshing Realms and wrap the use of Realm APIs from background 
-threads in explicit autorelease pools.
+   {+backend-short+} ties read transaction lifetimes to the memory lifetime 
+   of {+backend-short+} instances. Avoid “pinning” old Realm transactions. 
+   Use auto-refreshing {+backend-short+}s, and wrap the use of Realm APIs 
+   from background threads in explicit autorelease pools.
 
 Threading
 ~~~~~~~~~
 
-Realm updates the version of your data that it accesses at the start of 
-a run loop iteration. While this gives you a consistent view of your 
-data, it has file size implications. 
+{+backend-short+} updates the version of your data that it accesses at 
+the start of a run loop iteration. While this gives you a consistent 
+view of your data, it has file size implications. 
 
 Imagine this scenario:
 
-- Thread A: Read some data from a Realm, and then block the thread on a 
+- **Thread A**: Read some data from a Realm, and then block the thread on a 
   long-running operation.
-- Thread B: Write data on another thread.
-- Thread A: The version that you're still holding on the read thread isn't 
+- **Thread B**: Write data on another thread.
+- **Thread A**: The version that you're still holding on the read thread isn't 
   updated. Realm has to hold intermediate versions of the data, growing in 
   file size with every write. 
 
