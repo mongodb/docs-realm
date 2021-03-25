@@ -1,0 +1,27 @@
+.. _ios-auxiliary-files:
+
+===============
+Auxiliary Files
+===============
+
+Realm generates and maintains additional files and directories for its
+own internal operations:
+
+.realm.lock
+  A lock file for resource locks.
+
+.realm.management
+  Directory of interprocess lock files.
+
+.realm.note
+  A named pipe for interprocess notifications.
+
+These files don’t have any effect on .realm database files, and won’t
+cause any erroneous behavior if their parent database file is deleted or
+replaced.
+
+.. note::
+
+   When reporting Realm issues, please be sure to include these
+   auxiliary files along with your main .realm file as they contain
+   useful information for debugging purposes.
