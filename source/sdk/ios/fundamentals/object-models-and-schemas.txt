@@ -31,6 +31,25 @@ object that can be stored in that {+realm+}.
    To learn how to define a Realm object in Swift or Objective-C, see
    :ref:`ios-define-a-realm-object-schema`.
 
+Property Attributes
+-------------------
+
+Declare dynamic {+backend-short+} model properties in the Objective-C runtime. This 
+enables them to access the underlying database data. 
+
+- Use ``@objc dynamic var`` when declaring individual properties
+- Use ``@objcMembers`` to declare a class. Then, declare individual 
+properties with ``dynamic var``. 
+
+Use ``let`` to declare ``LinkingObjects``, ``List``, and 
+``RealmOptional``. The Objective-C runtime cannot represent these 
+generic properties.
+
+.. seealso::
+
+   Our :ref:`Supported Property Types <ios-supported-property-types>` 
+   page contains a property declaration cheatsheet.
+
 Primary Keys
 ------------
 
