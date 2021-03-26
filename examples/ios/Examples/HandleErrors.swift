@@ -19,19 +19,11 @@ class HandleErrors: XCTestCase {
     }
 
     func testErrorHandlerMethod() {
-        let expectation = XCTestExpectation(description: "it completes")
         let app = App(id: YOUR_REALM_APP_ID)
-        let user = app.currentUser
-        let partitionValue = "some partition value"
-        let configuration = user!.configuration(partitionValue: partitionValue)
-        _ = try! Realm(configuration: configuration)
-
         // :code-block-start: create-error-handler
         app.syncManager.errorHandler = { error, session in
             // handle error
         }
         // :code-block-end:
-
-        expectation.fulfill()
     }
 }
