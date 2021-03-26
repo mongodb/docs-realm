@@ -77,6 +77,7 @@ async function main(): Promise<string[] | undefined> {
     console.log("Falling back to findOne.");
     build = await collection.findOne(filter);
   }
+
   if (build == null) {
     return [
       `Nothing found for filter: ${JSON.stringify(
@@ -99,7 +100,7 @@ This might happen if the autobuilder is not set up on your fork.
   const log = build.logs[build.logs.length - 1];
 
   if (log === undefined) {
-    return [`last log undefined?? build=${JSON.stringify(build)}`];
+    return [`last log undefined?! build=${JSON.stringify(build)}`];
   }
 
   const re = /(?:WARNING|ERROR).*/g;
@@ -107,6 +108,7 @@ This might happen if the autobuilder is not set up on your fork.
   for (let match = re.exec(log); match !== null; match = re.exec(log)) {
     errors.push(match[0]);
   }
+
   return errors.length > 0 ? errors : undefined;
 }
 
@@ -117,6 +119,7 @@ main()
   })
   .then((errors) => {
     if (errors === undefined) {
+      console.log("Build completed without errors.");
       process.exit(0);
     }
     const unexpectedErrors = errors.filter((error) => {
