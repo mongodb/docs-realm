@@ -132,6 +132,13 @@ paths:
       summary: >-
         List all Realm apps within an |atlas|
         :atlas:`project/group </tutorial/manage-projects/>`.
+      parameters:
+        - name: product
+          in: query
+          description: "Specify ``product=atlas`` to include :atlas:`Atlas trigger </triggers>` apps."
+          required: false
+          schema:
+            type: string
       responses:
         '200':
           description: "Successfully listed."
