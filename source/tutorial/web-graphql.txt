@@ -67,7 +67,7 @@ directly from GitHub:
 
 .. code-block:: shell
    
-   git clone https://github.com/mongodb-university/realm-tutorial-web.git
+   git clone --branch start https://github.com/mongodb-university/realm-tutorial-web.git
 
 In your terminal, run the following commands to navigate to the task tracker
 client application and install its dependencies:
@@ -77,14 +77,12 @@ client application and install its dependencies:
    cd realm-tutorial-web
    npm install
 
-The :github:`realm-tutorial-web <mongodb-university/realm-tutorial-web>`
-repository contains two branches: ``final`` and ``start``. The ``final`` branch
-is a finished version of the app as it should look *after* you complete this
-tutorial. To walk through this tutorial, please check out the ``start`` branch:
-
-.. code-block:: shell
-   
-   git checkout start
+.. important::
+ 
+   The ``start`` branch is an incomplete version of the app that we will
+   complete in this tutorial. To view the finished app, check out the
+   ``final`` branch and update ``src/App.js`` with your :ref:`Realm app
+   ID <find-your-app-id>`.
 
 B. Explore the App Structure & Components
 -----------------------------------------
