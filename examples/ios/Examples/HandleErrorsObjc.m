@@ -30,13 +30,15 @@
     [app loginWithCredential:[RLMCredentials anonymousCredentials] completion:^(RLMUser *user, NSError *error) {
         NSAssert(error == nil, @"Failed to log in: %@", [error localizedDescription]);
     }];
-
+    
+    // :code-block-start: create-error-handler
     // Access the sync manager for the app
     RLMSyncManager *syncManager = [app syncManager];
-
+    
     syncManager.errorHandler = ^(NSError *error, RLMSyncSession *session) {
         // handle error
     };
+    // :code-block-end:
 }
 
 @end
