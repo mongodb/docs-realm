@@ -29,7 +29,7 @@ namespace RealmDotnetTutorial
 
         protected override async void OnAppearing()
         {
-            projectPartition = $"project={App.RealmApp.CurrentUser.Id }";
+            projectPartition = $"project={App.RealmApp.CurrentUser.Id}";
             WaitingLayout.IsVisible = true;
             try
             {
