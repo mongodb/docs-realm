@@ -6,18 +6,14 @@ import {
 } from "mongodb-stitch-server-sdk";
 
 // Add expected errors here.
-const expectedErrors: RegExp[] = [
-];
+const expectedErrors: RegExp[] = [];
 
 const STITCH_APP_ID = "workerpool-boxgs";
 
 const stitchClient = Stitch.initializeDefaultAppClient(STITCH_APP_ID);
 
 type Build = {
-  comMessage?: string[];
-  logs?: {
-    try0?: string[];
-  };
+  logs: string[];
 };
 
 async function nextInStream<T>(
@@ -92,22 +88,20 @@ This might happen if the autobuilder is not set up on your fork.
     ];
   }
 
-  const log = build.comMessage
-    ? build.comMessage[0]
-    : build.logs?.try0?.join("\n");
-  if (log === undefined) {
-    return [`comMessage or logs undefined, build=${JSON.stringify(build)}`];
+  if (build.logs === undefined) {
+    return [`build.logs undefined! build=${JSON.stringify(build)}`];
   }
-  // Log this for posterity
-  console.log(
-    `Logs found in ${
-      build.logs?.try0 !== undefined
-        ? "build.logs.try0"
-        : build.comMessage === undefined
-        ? "build.comMessage[0]"
-        : "unknown"
-    }`
-  );
+
+  if (build.logs.length === 0) {
+    return [`build.logs.length === 0! build=${JSON.stringify(build)}`];
+  }
+
+  const log = build.logs[build.logs.length - 1];
+
+  if (log === undefined) {
+    return [`last log undefined?? build=${JSON.stringify(build)}`];
+  }
+
   const re = /(?:WARNING|ERROR).*/g;
   const errors: string[] = [];
   for (let match = re.exec(log); match !== null; match = re.exec(log)) {
