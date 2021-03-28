@@ -9,19 +9,15 @@ content: |
 
   .. code-block:: console
 
-     git clone https://github.com/mongodb-university/realm-tutorial-android-kotlin.git
+     git clone --branch start https://github.com/mongodb-university/realm-tutorial-android-kotlin.git
 
-  .. important::
+  .. tip::
    
-     The realm-tutorial-android-kotlin repository contains two branches:
-     ``final`` and ``start``. The ``final`` branch is a finished version
-     of the app as it should look *after* you complete this tutorial.
-     To walk through this tutorial, please check out the ``start``
-     branch:
-
-     .. code-block:: console
-    
-        git checkout start
+     The ``start`` branch is an incomplete version of the app that we will
+     complete in this tutorial. To view the finished app, check out the
+     ``final`` branch and update the app's ``build.gradle`` with your
+     :ref:`Realm app ID <find-your-app-id>` (see "Connect to Your MongoDB Realm
+     App" below).
 
 ---
 title: Open the Project in Android Studio
@@ -248,7 +244,7 @@ content: |
   projects in the ``User`` object. Tasktracker stores each ``User``
   object in a special :ref:`{+realm+} <partitioning>` with a value of
   the following format: ``user=<user-id>``.
-  
+
   .. note::
 
     To learn more about how {+service-short+} Object models are used in Android applications, 

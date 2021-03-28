@@ -7,7 +7,12 @@ namespace RealmDotnetTutorial
 {
     public partial class App : Application
     {
-        private const string appId = "<my_realm_app_id>";
+        // :uncomment-start:
+        // private const string appId = "<my_realm_app_id>";
+        // :uncomment-end:
+        // :remove-start:
+        private const string appId = "tasktracker-dkkvt";
+        // :remove-end:
         public static Realms.Sync.App RealmApp;
 
         public App()

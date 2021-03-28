@@ -12,6 +12,7 @@ namespace RealmDotnetTutorial
     {
         private Realm taskRealm;
         private ObservableCollection<Task> _tasks = new ObservableCollection<Task>();
+        private string projectPartition;
 
         public ObservableCollection<Task> MyTasks
         {
@@ -28,12 +29,12 @@ namespace RealmDotnetTutorial
 
         protected override async void OnAppearing()
         {
+            projectPartition = $"project={App.RealmApp.CurrentUser.Id}";
             WaitingLayout.IsVisible = true;
             try
             {
-                var syncConfig = new SyncConfiguration(
-                    $"project={App.RealmApp.CurrentUser.Id }",
-                    App.RealmApp.CurrentUser);
+                var syncConfig = new SyncConfiguration(projectPartition, App.RealmApp.CurrentUser);
+
                 // :code-block-start:task-realm-config
                 // :state-start: final
                 taskRealm = await Realm.GetInstanceAsync(syncConfig);
@@ -89,7 +90,7 @@ namespace RealmDotnetTutorial
 
             if (taskRealm == null)
             {
-                var syncConfig = new SyncConfiguration($"project={App.RealmApp.CurrentUser.Id }", App.RealmApp.CurrentUser);
+                var syncConfig = new SyncConfiguration(projectPartition, App.RealmApp.CurrentUser);
                 taskRealm = await Realm.GetInstanceAsync(syncConfig);
             }
 
@@ -98,6 +99,7 @@ namespace RealmDotnetTutorial
             var newTask = new Task()
             {
                 Name = result,
+                Partition = projectPartition,
                 Status = Task.TaskStatus.Open.ToString()
             };
 

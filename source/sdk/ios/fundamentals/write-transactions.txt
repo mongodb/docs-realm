@@ -110,3 +110,42 @@ the transaction immediately after the callback.
 .. seealso::
 
    :ref:`Usage Example: Read and Write Data <ios-read-and-write-data>`
+
+.. _ios-interface-driven-writes:
+.. _ios-silent-writes:
+
+Interface-Driven Writes
+-----------------------
+
+{+service-short+} always delivers notifications asynchronously, so they
+never block the UI thread. However, there are situations when the UI
+must reflect changes instantly. If you update the UI directly at the
+same time as the write, the eventual notification could double that
+update. This could lead to your app crashing due to inconsistent state
+between the UI and the backing data store. To avoid this, you can write
+without sending a notification to a specific handler. We call this type
+of transaction an **interface-driven write**.
+
+.. example::
+
+   Say we decide to manage a table view's data source manually, because
+   our app design requires an instantaneous response to UI-driven table
+   updates. As soon as a user adds an item to the table view, we insert
+   it to our data source, which writes to the {+realm+} but also
+   immediately kicks off the animation. However, when {+service-short+}
+   delivers the change notification for this insertion a little later,
+   it indicates that an object has been added. But we already updated
+   the table view for it! Rather than writing complicated code to handle
+   this case, we can use interface-driven writes to prevent a specific
+   notification handler from firing for that specific write.
+
+Interface-driven writes, also known as silent writes, are especially
+useful when using fine-grained collection notifications with a
+:ref:`synchronized {+realm+} <sync>` {+realm+}. While you use
+interface-driven writes for the current user's updates and update the UI
+immediately, the sync process can use standard notifications to update
+the UI.
+
+.. seealso::
+
+   :ref:`ios-write-silently`
