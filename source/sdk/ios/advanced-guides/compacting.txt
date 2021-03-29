@@ -1,0 +1,92 @@
+.. _ios-client-compacting:
+
+====================
+Compacting - iOS SDK
+====================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+The size of a {+client-database+} file is always larger than the total 
+size of the objects stored within it. This architecture enables some of 
+{+client-database+}s great performance, concurrency, and safety benefits. 
+
+To avoid making expensive system calls, {+realm+} files are rarely 
+shrunk at runtime. Instead, they grow by specific size increments. 
+{+realm+} writes new data within unused space tracked inside the file. 
+In some situations, unused space may comprise a significant portion of a 
+{+realm+} file. 
+
+.. _ios-compacting-realms:
+
+Compacting Realms
+~~~~~~~~~~~~~~~~~
+
+Use ``shouldCompactOnLaunch()`` on a Realm's configuration object to 
+manage compacting. This method is a boolean that determines whether to 
+compact a realm when it first opens. Specify conditions to execute this 
+method, such as:
+
+- The size of the file on disk
+- How much free space the file contains
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: swift
+
+      .. literalinclude:: /examples/generated/code/start/Compacting.codeblock.compacting.swift
+        :language: swift
+
+   .. tab::
+      :tabid: objective-c
+
+      .. literalinclude:: /examples/generated/code/start/Compacting.codeblock.compacting.swift
+        :language: swift
+
+.. important:: Compacting may not occur
+
+   If another process is accessing the {+realm+}, compacting does not occur. 
+   It doesn't matter if the configuration block's conditions apply. 
+   Compacting cannot be safely performed while a Realm is being accessed.
+
+.. _ios-how-compacting-works:
+
+How Compacting Works
+~~~~~~~~~~~~~~~~~~~~
+
+Realm compacting works by:
+
+1. Reading the entire contents of the {+client-database+} file
+2. Writing the contents to a new file at a different location
+3. Replacing the original file
+
+If the file contains a lot of data, this can be an expensive operation.
+
+Best Practices
+~~~~~~~~~~~~~~
+
+Experiment with conditions to find the right balance of how often to 
+compact a {+client-database+} file. Because the operation can be 
+expensive, don't compact every time you open a {+realm+}. Do compact 
+often enough to prevent the file size from growing too large.
+
+Summary
+-------
+
+- {+client-database+}s architecture enables benefits, but can result in 
+  file size growth.
+
+- Use compacting to manage file size growth.
+
+- Define conditions for ``shouldCompactOnLaunch()`` to manage compacting.
+
+- Compacting cannot occur if another process is accessing the {+realm+}.
