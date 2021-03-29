@@ -30,10 +30,9 @@ In some situations, unused space may comprise a significant portion of a
 Compact a Realm
 ~~~~~~~~~~~~~~~
 
-Use ``shouldCompactOnLaunch()`` on a {+realm+}'s configuration object to 
-compact a {+realm+}. This method is a boolean that determines whether to 
-compact a realm when it first opens. Specify conditions to execute this 
-method, such as:
+Use ``shouldCompactOnLaunch()`` or on a {+realm+}'s configuration object 
+to compact a {+realm+}. Specify conditions to execute this method, such 
+as:
 
 - The size of the file on disk
 - How much free space the file contains
@@ -49,11 +48,15 @@ method, such as:
    .. tab::
       :tabid: swift
 
+      For more info, see: :swift-sdk:`shouldCompactOnLaunch()<Structs/Realm/Configuration.html>`
+
       .. literalinclude:: /examples/generated/code/start/Compacting.codeblock.compacting.swift
         :language: swift
 
    .. tab::
       :tabid: objective-c
+
+      For more info, see: :objc-sdk:`shouldCompactOnLaunch<Classes/RLMRealmConfiguration.html#/c:objc(cs)RLMRealmConfiguration(py)shouldCompactOnLaunch`
 
       .. literalinclude:: /examples/generated/code/start/Compacting.codeblock.compacting.m
         :language: objectivec
