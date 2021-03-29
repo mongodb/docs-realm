@@ -152,3 +152,12 @@ and define a migration function to set the value of
 .. seealso::
 
    :ref:`Fundamentals: Migrations <android-migrations>`
+
+.. tip::
+
+   You can use the
+   :java-sdk:`RealmConfiguration.shouldDeleteRealmIfMigrationNeeded()
+   <io/realm/RealmConfiguration.html#shouldDeleteRealmIfMigrationNeeded-->`
+   builder method when constructing a {+realm+} to delete the {+realm+}
+   instead of performing a migration when a migration is required. This
+   can come in handy during development when schemas often change.
