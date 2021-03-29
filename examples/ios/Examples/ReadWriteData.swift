@@ -398,6 +398,33 @@ class ReadWriteData: XCTestCase {
         people.filter("dogs.@sum.age > 10")
         // :code-block-end:
     }
+
+    func testCopyToAnotherRealm() {
+        // :code-block-start: copy-to-another-realm
+        let realm = try! Realm(configuration: Realm.Configuration(inMemoryIdentifier: "first realm"))
+
+        try! realm.write {
+            let dog = ReadWriteDataExamples_Dog()
+            dog.name = "Wolfie"
+            dog.age = 1
+            realm.add(dog)
+        }
+
+        // Later, fetch the instance we want to copy
+        let wolfie = realm.objects(ReadWriteDataExamples_Dog.self).first(where: { $0.name == "Wolfie" })!
+
+        // Open the other realm
+        let otherRealm = try! Realm(configuration: Realm.Configuration(inMemoryIdentifier: "second realm"))
+        try! otherRealm.write {
+            // Copy to the other realm
+            let wolfieCopy = otherRealm.create(type(of: wolfie), value: wolfie)
+            wolfieCopy.age = 2
+
+            // Verify that the copy is separate from the original
+            XCTAssertNotEqual(wolfie.age, wolfieCopy.age)
+        }
+        // :code-block-end:
+    }
 }
 
 // :replace-end:

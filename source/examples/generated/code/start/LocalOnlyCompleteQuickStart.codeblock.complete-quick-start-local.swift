@@ -14,7 +14,6 @@ class LocalOnlyQsTask: Object {
 
 // Entrypoint. Call this to run the example.
 func runLocalOnlyExample() {
-    
     // Open the local-only default realm
     let localRealm = try! Realm()
     // Get all tasks in the realm
