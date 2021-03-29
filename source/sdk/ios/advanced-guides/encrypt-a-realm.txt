@@ -50,6 +50,22 @@ You can encrypt a :ref:`synced realm
 on the device and stores the data unencrypted in your {+atlas+}
 :term:`data source`.
 
+Multiple Processes
+~~~~~~~~~~~~~~~~~~
+
+If multiple processes need to access a {+realm+} simultaneously, use an 
+unencrypted {+realm+}. Encrypted {+realms+} cannot be accessed by 
+multiple processes at the same time. 
+
+As an alternative, you can store data that you want to encrypt as 
+``NSData`` properties on {+realm+} objects. Then, you can encrypt and 
+decrypt individual fields. 
+
+One possible tool to encrypt and decrypt fields is :apple:`Apple's 
+CryptoKit framework <documentation/cryptokit>`. You can use :github:`Swift 
+Crypto <apple/swift-crypto>` to simplify app 
+development with CryptoKit.
+
 Example
 -------
 
