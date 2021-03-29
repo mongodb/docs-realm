@@ -33,6 +33,25 @@ and watching changes that match a certain filter.
    the cluster's size. See :ref:`change stream limitations
    <mongodb-service-limitations-change-streams>` for more information.
 
+Use Cases
+---------
+
+The ``collection.watch()`` API provides real-time notifications to client apps
+whenever a document in a specified collection changes. This is useful for cases
+where you want to know when something happened while a user is online. For
+example:
+
+- Track the location of a delivery
+- Get the most up-to-date score and stats for a game
+- Update a chat thread when a user sends a new message
+
+.. important::
+   
+   Change streams returned by the ``watch()`` API are not resumable and only
+   process changes while a user is online. As a result, they are not generally
+   suited for use cases where you must ensure that every update is processed. To
+   handle reactive business logic like this, use :ref:`triggers <triggers>`.
+
 Examples
 --------
 
