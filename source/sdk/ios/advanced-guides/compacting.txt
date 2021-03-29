@@ -1,8 +1,8 @@
-.. _ios-client-compacting:
+.. _ios-client-compact-a-realm:
 
-====================
-Compacting - iOS SDK
-====================
+=========================
+Compact a Realm - iOS SDK
+=========================
 
 .. default-domain:: mongodb
 
@@ -17,26 +17,32 @@ Overview
 
 The size of a {+client-database+} file is always larger than the total 
 size of the objects stored within it. This architecture enables some of 
-{+client-database+}s great performance, concurrency, and safety benefits. 
+{+realm+}'s great performance, concurrency, and safety benefits. 
 
 To avoid making expensive system calls, {+realm+} files are rarely 
 shrunk at runtime. Instead, they grow by specific size increments. 
-{+realm+} writes new data within unused space tracked inside the file. 
+{+backend-short+} writes new data within unused space tracked inside the file. 
 In some situations, unused space may comprise a significant portion of a 
 {+realm+} file. 
 
-.. _ios-compacting-realms:
+.. _ios-how-to-compact-a-realm:
 
-Compacting Realms
-~~~~~~~~~~~~~~~~~
+Compact a Realm
+~~~~~~~~~~~~~~~
 
-Use ``shouldCompactOnLaunch()`` on a Realm's configuration object to 
-manage compacting. This method is a boolean that determines whether to 
+Use ``shouldCompactOnLaunch()`` on a {+realm+}'s configuration object to 
+compact a {+realm+}. This method is a boolean that determines whether to 
 compact a realm when it first opens. Specify conditions to execute this 
 method, such as:
 
 - The size of the file on disk
 - How much free space the file contains
+
+.. important:: Compacting may not occur
+
+   If another process is accessing the {+realm+}, compacting does not occur. 
+   It doesn't matter if the configuration block's conditions apply. 
+   Compacting cannot be safely performed while a {+realm+} is being accessed.
 
 .. tabs-realm-languages::
 
@@ -49,23 +55,17 @@ method, such as:
    .. tab::
       :tabid: objective-c
 
-      .. literalinclude:: /examples/generated/code/start/Compacting.codeblock.compacting.swift
-        :language: swift
-
-.. important:: Compacting may not occur
-
-   If another process is accessing the {+realm+}, compacting does not occur. 
-   It doesn't matter if the configuration block's conditions apply. 
-   Compacting cannot be safely performed while a Realm is being accessed.
+      .. literalinclude:: /examples/generated/code/start/Compacting.codeblock.compacting.m
+        :language: objectivec
 
 .. _ios-how-compacting-works:
 
 How Compacting Works
 ~~~~~~~~~~~~~~~~~~~~
 
-Realm compacting works by:
+{+backend-short+} compacting works by:
 
-1. Reading the entire contents of the {+client-database+} file
+1. Reading the entire contents of the {+realm+} file
 2. Writing the contents to a new file at a different location
 3. Replacing the original file
 
@@ -75,18 +75,18 @@ Best Practices
 ~~~~~~~~~~~~~~
 
 Experiment with conditions to find the right balance of how often to 
-compact a {+client-database+} file. Because the operation can be 
+compact a {+realm+} file. Because the operation can be 
 expensive, don't compact every time you open a {+realm+}. Do compact 
 often enough to prevent the file size from growing too large.
 
 Summary
 -------
 
-- {+client-database+}s architecture enables benefits, but can result in 
+- {+client-database+}'s architecture enables benefits, but can result in 
   file size growth.
 
 - Use compacting to manage file size growth.
 
-- Define conditions for ``shouldCompactOnLaunch()`` to manage compacting.
+- Define conditions for ``shouldCompactOnLaunch()`` to compact a {+realm+}.
 
 - Compacting cannot occur if another process is accessing the {+realm+}.
