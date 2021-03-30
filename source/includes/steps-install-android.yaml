@@ -13,6 +13,23 @@ content: |
    .. image:: /images/project-level-build-gradle.png
       :alt: Location of the project-level build.gradle file.
 
+   First, add the following repository to your buildscript:
+
+   .. tabs::
+      .. tab:: Version 10.4.0 and up
+         :tabid: gte-10-4-0
+
+         .. code-block:: groovy
+
+            mavenCentral()
+
+      .. tab:: Versions below 10.4.0
+         :tabid: lt-10-4-0
+
+         .. code-block:: groovy
+
+            jcenter()
+
    Paste the {+service-short+} classpath into the
    ``buildscript.dependencies`` block:
 
