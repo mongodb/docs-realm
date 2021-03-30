@@ -426,7 +426,7 @@ class ReadWriteData: XCTestCase {
         }
         // :code-block-end:
     }
-    
+
     func testKeyValueCoding() {
         // :code-block-start: key-value-coding
         let realm = try! Realm()

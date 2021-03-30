@@ -171,8 +171,52 @@ instance of ``SomeSwiftType`` before
 ``applicationDidFinishLaunching()``, you might be accessing your
 {+realm+} before it has been correctly configured.
 
-To avoid such issues, consider doing one of the following options:
+To avoid such issues, consider doing one of the following:
 
 - Defer instantiation of any type that eagerly initializes properties using {+client-database+} APIs until after your app has completed setting up its {+realm+} configurations. 
 - Define your properties using Swift’s ``lazy`` keyword. This allows you to safely instantiate such types at any time during your application’s lifecycle, as long as you do not attempt to access your ``lazy`` properties until after your app has set up its {+realm+} configurations.
 - Only initialize your properties using Realm APIs that explicitly take in user-defined configurations. You can be sure that the configuration values you are using have been set up properly before they are used to open {+realms+}.
+
+.. _use-realm-when-the-device-is-locked:
+
+Use Realm When the Device is Locked
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+By default, iOS 8 and above encrypts app files using
+``NSFileProtection`` whenever the device is locked. If your app attempts
+to do any work on a {+realm+} while the device is locked, you might see
+the following error:
+
+.. code-block:: text
+
+   open() failed: Operation not permitted
+
+To handle this, you can downgrade the file protection of the folder[1]_
+containing :ref:`the Realm file itself and its auxiliary files
+<ios-realm-files>` to a less strict protection level that allows file
+access even when the device is locked, such as
+:apple:`NSFileProtectionCompleteUntilFirstUserAuthentication
+</documentation/foundation/nsfileprotectioncompleteuntilfirstuserauthentication>`.
+
+.. [1] It is recommended that you apply the file protection attribute to
+   the folder containing the Realm files rather than to the specific
+   files themselves. {+service-short+} may create and deletes auxiliary
+   files at any time. By applying the file protection attribute to the
+   parent folder, you can ensure the file protection applies to all of
+   the relevant files, regardless of when they were created.
+
+.. tip::
+
+   If you choose to opt out of complete iOS file encryption in this way,
+   we encourage you to use Realm's own :ref:`built-in encryption
+   <ios-encrypt-a-realm>` to secure your data.
+
+The following example shows how to apply a less strict protection level
+to the parent directory of the default {+realm+}:
+
+.. literalinclude:: /examples/generated/code/start/Encrypt.codeblock.background-app-refresh-encryption.swift
+   :language: swift
+
+.. seealso::
+   
+   :ref:`sync-changes-in-the-background`
