@@ -15,7 +15,7 @@ namespace Examples
     {
         App app;
         User user;
-        const string myRealmAppId = "tuts-tijya";
+        const string myRealmAppId = Config.appid;
         MongoClient mongoClient;
         MongoClient.Database dbTracker;
         MongoClient.Collection<CustomUserData> cudCollection;

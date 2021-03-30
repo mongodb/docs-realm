@@ -14,7 +14,7 @@ namespace Examples
         App app;
         User user;
         SyncConfiguration config;
-        const string myRealmAppId = "tuts-tijya";
+        const string myRealmAppId = Config.appid;
 
         MongoClient mongoClient;
         MongoClient.Database dbPlantInventory;

@@ -32,7 +32,7 @@ namespace Examples
         public void PlayWithDecimals()
         {
             // :hide-start:
-            var app = App.Create("tuts-tijya");
+            var app = App.Create(Config.appid);
             var user = app.LogInAsync(Credentials.EmailPassword("foo@foo.com", "foobar")).Result;
             var config = new SyncConfiguration("myPart", user);
             var realm = Realm.GetInstanceAsync().Result;

@@ -9,7 +9,7 @@ namespace ConsoleTests
 {
     class Program
     {
-        const string myRealmAppId = "tuts-tijya";
+        const string myRealmAppId = "codesnippetbackend-drcpb";
 
         //:code-block-start: async-console
         public static void Main(string[] args)
