@@ -23,7 +23,7 @@ namespace Examples
         ObjectId testTaskId;
         Realms.Sync.User user;
         SyncConfiguration config;
-        const string myRealmAppId = "tuts-tijya";
+        const string myRealmAppId = Config.appid;
 
         [OneTimeSetUp]
         public async System.Threading.Tasks.Task Setup()
@@ -36,6 +36,7 @@ namespace Examples
             var testTask = new Task
             {
                 Name = "Do this thing",
+                Partition = "myPart",
                 Status = TaskStatus.Open.ToString()
             };
 
