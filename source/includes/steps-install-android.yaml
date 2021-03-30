@@ -18,38 +18,72 @@ content: |
 
    .. code-block:: groovy
     
-      classpath "io.realm:realm-gradle-plugin:10.3.1"
+      classpath "io.realm:realm-gradle-plugin:10.4.0"
 
    When done, your project-level ``build.gradle`` should look something like this:
 
-   .. code-block:: groovy
-      :emphasize-lines: 9
+   .. tabs::
+      .. tab:: Version 10.4.0 and up
+         :tabid: gte-10-4-0
 
-      buildscript {
-          repositories {
-              google()
-              jcenter()
-              
-          }
-          dependencies {
-              classpath "com.android.tools.build:gradle:3.5.1"
-              classpath "io.realm:realm-gradle-plugin:10.3.1"
-          }
-      }
+         .. code-block:: groovy
+            :emphasize-lines: 9
 
-      allprojects {
-          repositories {
-              google()
-              jcenter()
-          }
+            buildscript {
+                repositories {
+                    google()
+                    mavenCentral()
+                }
+                dependencies {
+                    classpath "com.android.tools.build:gradle:3.5.1"
+                    classpath "io.realm:realm-gradle-plugin:10.4.0"
+                }
+            }
 
-          dependencies {
-          }
-      }
+            allprojects {
+                repositories {
+                    google()
+                    mavenCentral()
+                }
 
-      task clean(type: Delete) {
-          delete rootProject.buildDir
-      }
+                dependencies {
+                }
+            }
+
+            task clean(type: Delete) {
+                delete rootProject.buildDir
+            }
+
+      .. tab:: Versions below 10.4.0
+         :tabid: lt-10-4-0
+
+         .. code-block:: groovy
+            :emphasize-lines: 9
+
+            buildscript {
+                repositories {
+                    google()
+                    jcenter()
+                }
+                dependencies {
+                    classpath "com.android.tools.build:gradle:3.5.1"
+                    classpath "io.realm:realm-gradle-plugin:10.3.1"
+                }
+            }
+
+            allprojects {
+                repositories {
+                    google()
+                    jcenter()
+                }
+
+                dependencies {
+                }
+            }
+
+            task clean(type: Delete) {
+                delete rootProject.buildDir
+            }
 
 ---
 title: Add Realm to the Application-Level ``build.gradle`` File
