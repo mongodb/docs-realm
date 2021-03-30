@@ -19,6 +19,10 @@ The size of a {+client-database+} file is always larger than the total
 size of the objects stored within it. This architecture enables some of 
 {+realm+}'s great performance, concurrency, and safety benefits. 
 
+.. seealso::
+
+   :ref:`ios-client-threading`
+
 To avoid making expensive system calls, {+realm+} files are rarely 
 shrunk at runtime. Instead, they grow by specific size increments. 
 {+backend-short+} writes new data within unused space tracked inside the file. 
@@ -30,33 +34,29 @@ In some situations, unused space may comprise a significant portion of a
 Compact a Realm
 ~~~~~~~~~~~~~~~
 
-Use ``shouldCompactOnLaunch`` on a {+realm+}'s configuration object 
-to compact a {+realm+}. Specify conditions to execute this method, such 
-as:
+Use :swift-sdk:`shouldCompactOnLaunch()<Structs/Realm/Configuration.html>` 
+(Swift) or :objc-sdk:`shouldCompactOnLaunch <Classes/RLMRealmConfiguration.html>` 
+(Objective-C) on a {+realm+}'s configuration object to compact a {+realm+}. 
+Specify conditions to execute this method, such as:
 
 - The size of the file on disk
 - How much free space the file contains
 
 .. important:: Compacting may not occur
 
-   If another process is accessing the {+realm+}, compacting does not occur. 
-   It doesn't matter if the configuration block's conditions apply. 
-   Compacting cannot be safely performed while a {+realm+} is being accessed.
+   Compacting cannot occur while a {+realm+} is being accessed, 
+   regardless of any configuration settings.
 
 .. tabs-realm-languages::
 
    .. tab::
       :tabid: swift
 
-      For more info, see: :swift-sdk:`shouldCompactOnLaunch()<Structs/Realm/Configuration.html>`
-
       .. literalinclude:: /examples/generated/code/start/Compacting.codeblock.compacting.swift
         :language: swift
 
    .. tab::
       :tabid: objective-c
-
-      For more info, see: :objc-sdk:`shouldCompactOnLaunch <Classes/RLMRealmConfiguration.html>`
 
       .. literalinclude:: /examples/generated/code/start/Compacting.codeblock.compacting.m
         :language: objectivec
@@ -85,8 +85,8 @@ often enough to prevent the file size from growing too large.
 Summary
 -------
 
-- {+client-database+}'s architecture enables benefits, but can result in 
-  file size growth.
+- {+client-database+}'s architecture enables :ref:`threading-related benefits <ios-client-threading>`, 
+  but can result in file size growth.
 
 - Use compacting to manage file size growth.
 
