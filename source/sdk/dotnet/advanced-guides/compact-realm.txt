@@ -24,9 +24,11 @@ potentially reduce the file size, you can compact the {+service-short+} file.
    Realm cannot compact a file that is in use. Be sure there are no open 
    instances that use the file.
 
-Realm compacts the file by making a new, compacted version of the file, and then 
-replacing the original with the newly-compacted file. Therefore, to compact, you 
-must have free storage space equivalent to the original realm file size. 
+Realm reduces the file size by writing a new (compact) version of the file, and 
+then replacing the original with the newly-written file. Therefore, to compact, 
+you must have free storage space equivalent to the original realm file size. 
+
+
 
 Compaction Options
 ------------------
@@ -59,16 +61,4 @@ method. The following example shows how to do this:
 .. literalinclude:: /examples/generated/dotnet/Compact.codeblock.manual-compact.cs
    :language: csharp
 
-
-Considerations
---------------
-
-- There must not be any open realm instances that use the file.
-- The file system should have free space for at least a full copy of the Realm 
-  file.
-- If any part of the operation fails, the Realm file is left untouched.
-- The Compact method will return true if the operation is successful or false 
-  if there are open Realm instances accessing the same file.
-- To estimate the potential size gain by compacting a Realm, monitor your 
-  database’s size between app launches and compact it if it crosses some
-  threshold.
+The ``Compact`` method will return true if the operation is successful.
