@@ -435,7 +435,7 @@ class ReadWriteData: XCTestCase {
 
         try! realm.write {
             allDogs.first?.setValue("Sparky", forKey: "name")
-            // An international dognapping ring moves all the dogs to Toronto
+            // Move the dogs to Toronto for vacation
             allDogs.setValue("Toronto", forKey: "currentCity")
         }
         // :code-block-end:
