@@ -23,7 +23,6 @@ class LocalOnlyQsTask: Object {
 
 // Entrypoint. Call this to run the example.
 func runLocalOnlyExample() {
-    
     // :code-block-start: quick-start-local-open-realm-without-config-param
     // Open the local-only default realm
     let localRealm = try! Realm()

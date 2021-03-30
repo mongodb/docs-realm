@@ -14,6 +14,7 @@ class ReadWriteDataExamples_DogToy: Object {
 class ReadWriteDataExamples_Dog: Object {
     @objc dynamic var name = ""
     @objc dynamic var age = 0
+    @objc dynamic var currentCity = ""
 
     // To-one relationship
     @objc dynamic var favoriteToy: ReadWriteDataExamples_DogToy?
@@ -396,6 +397,47 @@ class ReadWriteData: XCTestCase {
 
         // People whose dogs' ages combined > 10 years
         people.filter("dogs.@sum.age > 10")
+        // :code-block-end:
+    }
+
+    func testCopyToAnotherRealm() {
+        // :code-block-start: copy-to-another-realm
+        let realm = try! Realm(configuration: Realm.Configuration(inMemoryIdentifier: "first realm"))
+
+        try! realm.write {
+            let dog = ReadWriteDataExamples_Dog()
+            dog.name = "Wolfie"
+            dog.age = 1
+            realm.add(dog)
+        }
+
+        // Later, fetch the instance we want to copy
+        let wolfie = realm.objects(ReadWriteDataExamples_Dog.self).first(where: { $0.name == "Wolfie" })!
+
+        // Open the other realm
+        let otherRealm = try! Realm(configuration: Realm.Configuration(inMemoryIdentifier: "second realm"))
+        try! otherRealm.write {
+            // Copy to the other realm
+            let wolfieCopy = otherRealm.create(type(of: wolfie), value: wolfie)
+            wolfieCopy.age = 2
+
+            // Verify that the copy is separate from the original
+            XCTAssertNotEqual(wolfie.age, wolfieCopy.age)
+        }
+        // :code-block-end:
+    }
+    
+    func testKeyValueCoding() {
+        // :code-block-start: key-value-coding
+        let realm = try! Realm()
+
+        let allDogs = realm.objects(ReadWriteDataExamples_Dog.self)
+
+        try! realm.write {
+            allDogs.first?.setValue("Sparky", forKey: "name")
+            // Move the dogs to Toronto for vacation
+            allDogs.setValue("Toronto", forKey: "currentCity")
+        }
         // :code-block-end:
     }
 }
