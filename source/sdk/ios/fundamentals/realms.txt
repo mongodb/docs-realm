@@ -202,37 +202,3 @@ receieved out of order.
    
    For code examples that show how to work with a synced realm in the
    iOS SDK, see :ref:`ios-sync-changes-between-devices`.
-
-.. _ios-realm-considerations:
-
-Considerations
----------------
-
-.. _ios-realm-api-properties:
-
-Properties Initialized with Realm APIs
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-You might define properties whose values are initialized using
-{+client-database+} APIs. For example:
-
-.. code-block:: swift
-
-   class SomeSwiftType {
-       let persons = try! Realm().objects(Person.self)
-       // ...
-   }
-
-If this initialization code runs before you set up your Realm
-configurations, you might get unexpected behavior. For example, if you
-set a :ref:`migration <ios-migrations>` block for the default {+realm+}
-configuration in ``applicationDidFinishLaunching()``, but you create an
-instance of ``SomeSwiftType`` before
-``applicationDidFinishLaunching()``, you might be accessing your
-{+realm+} before it has been correctly configured.
-
-In order to avoid such issues you may choose to:
-
-- Defer instantiation of any type that eagerly initializes properties using {+client-database+} APIs until after your app has completed setting up its {+realm+} configurations. 
-- Define your properties using Swift’s ``lazy`` keyword. This allows you to safely instantiate such types at any time during your application’s lifecycle, as long as you do not attempt to access your ``lazy`` properties until after your app has set up its {+realm+} configurations.
-- Only initialize your properties using Realm APIs that explicitly take in user-defined configurations. You can be sure that the configuration values you are using have been set up properly before they are used to open {+realms+}.

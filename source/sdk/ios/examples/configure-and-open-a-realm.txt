@@ -1,15 +1,8 @@
-.. _ios-open-close-local-realm:
+.. _ios-configure-and-open-a-realm:
 
-====================================
-Open & Close a Local Realm - iOS SDK
-====================================
-
-.. tip:: Operating with Low Memory Constraints
-   
-   Some applications, such as watchOS apps and iOS app extensions, have tight
-   constraints on their memory footprints. To optimize your data model for
-   low-memory environments, :ref:`open the {+realm+} with a subset 
-   of classes <ios-provide-a-subset-of-classes-to-a-realm>`.
+==================================
+Configure & Open a Realm - iOS SDK
+==================================
 
 .. _ios-open-a-local-realm:
 
@@ -77,9 +70,10 @@ Open an In-Memory Realm
 -----------------------
 
 You can open a realm entirely in memory, which will not create a
-``.realm`` file or its associated auxiliary files. Instead the SDK
-stores objects in memory while the {+realm+} is open and discards them
-immediately when all instances are closed.
+``.realm`` file or its associated :ref:`auxiliary files
+<ios-realm-file>`. Instead the SDK stores objects in memory while the
+{+realm+} is open and discards them immediately when all instances are
+closed.
 
 .. tabs-realm-languages::
    
@@ -110,6 +104,13 @@ immediately when all instances are closed.
 
 Provide a Subset of Classes to a Realm
 --------------------------------------
+
+.. tip:: Operating with Low Memory Constraints
+   
+   Some applications, such as watchOS apps and iOS app extensions, have
+   tight constraints on their memory footprints. To optimize your data
+   model for low-memory environments, open the {+realm+} with a subset
+   of classes.
 
 .. tabs-realm-languages::
    
@@ -142,3 +143,33 @@ Provide a Subset of Classes to a Realm
 
       .. literalinclude:: /examples/generated/code/start/OpenCloseRealm.codeblock.configure-object-types.m
          :language: objectivec
+
+
+.. _ios-realm-api-properties:
+
+Initialize Properties Using Realm APIs
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You might define properties whose values are initialized using
+{+client-database+} APIs. For example:
+
+.. code-block:: swift
+
+   class SomeSwiftType {
+       let persons = try! Realm().objects(Person.self)
+       // ...
+   }
+
+If this initialization code runs before you set up your Realm
+configurations, you might get unexpected behavior. For example, if you
+set a :ref:`migration <ios-migrations>` block for the default {+realm+}
+configuration in ``applicationDidFinishLaunching()``, but you create an
+instance of ``SomeSwiftType`` before
+``applicationDidFinishLaunching()``, you might be accessing your
+{+realm+} before it has been correctly configured.
+
+To avoid such issues, consider doing one of the following options:
+
+- Defer instantiation of any type that eagerly initializes properties using {+client-database+} APIs until after your app has completed setting up its {+realm+} configurations. 
+- Define your properties using Swift’s ``lazy`` keyword. This allows you to safely instantiate such types at any time during your application’s lifecycle, as long as you do not attempt to access your ``lazy`` properties until after your app has set up its {+realm+} configurations.
+- Only initialize your properties using Realm APIs that explicitly take in user-defined configurations. You can be sure that the configuration values you are using have been set up properly before they are used to open {+realms+}.
