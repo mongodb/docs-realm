@@ -36,6 +36,7 @@ namespace Examples
             var testTask = new Task
             {
                 Name = "Do this thing",
+                Partition = "myPart",
                 Status = TaskStatus.Open.ToString()
             };
 

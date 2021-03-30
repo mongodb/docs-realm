@@ -3,7 +3,7 @@ namespace Examples
 {
     public class Config
     {
-        public const string appid = "codesnippetbackend-drcpb";
+        public const string appid = "snippetsdonotdelete-qrouq";
 
     }
 }

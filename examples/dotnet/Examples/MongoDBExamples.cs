@@ -53,9 +53,9 @@ namespace Examples
             var insertResult = await plantsCollection.InsertOneAsync(plant);
             var newId = insertResult.InsertedId;
             // :code-block-end:
-            
+
         }
-       
+
         public async Task InsertsMany()
         {
             // :code-block-start: mongo-insert-many
@@ -116,7 +116,7 @@ namespace Examples
             Assert.AreEqual("Store 47", petunia.Partition);
             // :code-block-start: mongo-find-many
             var allPerennials = await plantsCollection.FindAsync(
-                new {type = PlantType.Perennial.ToString() },
+                new { type = PlantType.Perennial.ToString() },
                 new { name = 1 });
             // :code-block-end:
             Assert.AreEqual(2, allPerennials.Count());
@@ -132,8 +132,9 @@ namespace Examples
             {
                 // :code-block-start: mongo-update-one
                 var updateResult = await plantsCollection.UpdateOneAsync(
-                    new BsonDocument("sunlight", Sunlight.Partial.ToString()),
-                    new { name = "Petunia" });
+                    new { name = "Petunia" },
+                    new BsonDocument("$set", new BsonDocument("sunlight", Sunlight.Partial.ToString()))
+                    );
                 // :code-block-end:
                 Assert.AreEqual(1, updateResult.MatchedCount);
                 Assert.AreEqual(1, updateResult.ModifiedCount);

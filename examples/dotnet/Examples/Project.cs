@@ -9,6 +9,7 @@ namespace dotnet
         [MapTo("_id")]
         public ObjectId _id { get; set; }
         [MapTo("_partition")]
+        [Required]
         public string Partition { get; set; }
         [MapTo("name")]
         [Required]
