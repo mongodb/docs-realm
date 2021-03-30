@@ -5,6 +5,7 @@ class DogToy: Object {
 class Dog: Object {
     @objc dynamic var name = ""
     @objc dynamic var age = 0
+    @objc dynamic var currentCity = ""
 
     // To-one relationship
     @objc dynamic var favoriteToy: DogToy?
