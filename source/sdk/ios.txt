@@ -4,12 +4,6 @@
 MongoDB Realm iOS SDK
 =====================
 
-
-The {+service+} iOS SDK enables mobile applications to access data
-stored in local {+realms+} and interact with {+backend+} services like
-Functions, MongoDB Data Access, and authentication. The iOS SDK supports
-both Swift and Objective-C apps. 
-
 .. toctree::
    :titlesonly:
    
@@ -26,3 +20,199 @@ both Swift and Objective-C apps.
    Objective-C Reference Manual <https://docs.mongodb.com/realm-sdks/objc/10.7.0>
    Swift Reference Manual <https://docs.mongodb.com/realm-sdks/swift/10.7.0>
    Release Notes <https://github.com/realm/realm-cocoa/releases>
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+The {+service+} Swift SDK enables mobile applications to access data
+stored in local {+realms+}. Optionally, interact with {+backend+} services 
+like Functions, MongoDB Data Access, and authentication.
+
+Realm Database
+--------------
+
+With the {+service+} Swift SDK, you can access objects stored in a local
+instance of {+client-database+}.
+
+Define an Object Schema
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Use Swift to idiomatically :ref:`define an object schema <ios-define-a-realm-object-schema>`.
+
+.. literalinclude:: /examples/generated/code/start/LandingPageCodeExamples.codeblock.coffee-drink-object.swift
+   :language: swift
+
+Write an Object
+~~~~~~~~~~~~~~~
+
+Create a new object as you would instantiate any other object. Then,
+pass it to {+client-database+} inside :ref:`a write transaction <ios-create-a-new-object>`.
+
+.. literalinclude:: /examples/generated/code/start/LandingPageCodeExamples.codeblock.write-an-object.swift
+   :language: swift
+
+Query Realm Database
+~~~~~~~~~~~~~~~~~~~~
+
+:ref:`Query <ios-mongodb-data-access>` directly from your client application code.
+
+.. literalinclude:: /examples/generated/code/start/LandingPageCodeExamples.codeblock.query.swift
+   :language: swift
+
+Update Live Objects
+~~~~~~~~~~~~~~~~~~~
+
+:ref:`Update <ios-modify-an-object>` objects by updating field values on
+an instance of the object within a transaction:
+
+.. literalinclude:: /examples/generated/code/start/LandingPageCodeExamples.codeblock.update-live-objects.swift
+   :language: swift
+
+Watch for Updates
+~~~~~~~~~~~~~~~~~
+
+:ref:`Register a notification handler <ios-react-to-changes>` on an entire 
+{+realm+}, a collection, or an object, and react to changes.
+
+.. literalinclude:: /examples/generated/code/start/LandingPageCodeExamples.codeblock.watch-for-object-updates.swift
+   :language: swift
+
+Always Access the Latest Data
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Because {+client-database+} objects are **live objects**, they're 
+automatically updated when they're modified:
+
+.. literalinclude:: /examples/generated/code/start/LandingPageCodeExamples.codeblock.always-access-the-latest-data.swift
+   :language: swift
+
+Realm Apps
+----------
+
+{+app+}s are backends for client applications hosted by MongoDB in the 
+cloud. They provide the ability to synchronize data stored in
+{+client-database+}, called **{+sync+}**, as well as a layer of backend
+functionality collectively called **App Services**. In addition to working
+with local {+client-database+}, the Swift SDK also enables you to leverage
+the features of {+app+}s.
+
+Realm Sync
+~~~~~~~~~~
+
+Use :ref:`{+sync+} <ios-sync-changes-between-devices>` to automatically 
+sync your {+realm+}s across client devices and a {+atlas+} data store backend.
+
+App Services
+~~~~~~~~~~~~
+
+When you create a {+app+}, you get access to a variety of services to streamline
+app development:
+
+- :ref:`User management <ios-authenticate-users>`: built-in user management to enable account 
+  creation and authentication
+- :ref:`Functions <ios-call-a-function>`: define and execute server-side logic
+- :ref:`Triggers <triggers>`: react to events or define a schedule to execute 
+  automated processes
+
+Get Started
+-----------
+
+.. list-table::
+   :header-rows: 1
+   :class: index-table
+
+   * - Get Started
+     - Fundamentals
+     - Examples
+     - Realm Apps Examples
+
+   * - :doc:`Install Realm for iOS, macOS, tvOS, and watchOS </sdk/ios/install>`
+
+       :doc:`Quick Start </sdk/ios/quick-start>`
+
+       :doc:`Quick Start with Sync </sdk/ios/quick-start-with-sync>`
+
+       :doc:`SwiftUI and Combine </sdk/ios/swiftui>`
+
+       :doc:`Upgrade from Stitch to Realm </sdk/ios/upgrade-from-stitch-to-realm>`
+   
+     - :doc:`Realms </sdk/ios/fundamentals/realms>`
+
+       :doc:`Live Queries </sdk/ios/fundamentals/live-queries>`
+
+       :doc:`Write Transactions </sdk/ios/fundamentals/write-transactions>`
+
+       :doc:`Object Models & Schemas </sdk/ios/fundamentals/object-models-and-schemas>`
+
+     - :doc:`Define a Realm Object Schema </sdk/ios/examples/define-a-realm-object-model>`
+
+       :doc:`Open & Closed a Realm </sdk/ios/examples/open-and-close-a-local-realm>`
+
+       :doc:`Read & Write Data </sdk/ios/examples/read-and-write-data>`
+
+       :doc:`React to Changes </sdk/ios/examples/react-to-changes>`
+
+       :doc:`Modify an Object Schema </sdk/ios/examples/modify-an-object-schema>`
+
+     - :doc:`Connect to a Realm Backend App </sdk/ios/examples/connect-to-a-mongodb-realm-backend-app>`
+
+       :doc:`Authenticate Users </sdk/ios/examples/authenticate-users>`
+
+       :doc:`Sync Changes Between Devices </sdk/ios/examples/sync-changes-between-devices>`
+
+       :doc:`Call a Function </sdk/ios/examples/call-a-function>`
+
+       :doc:`Manage Email/Password Users </sdk/ios/examples/manage-email-password-users>`
+
+       :doc:`Query MongoDB </sdk/ios/examples/mongodb-remote-access>`
+
+Advanced Guides
+---------------
+
+For information about advanced concepts, such as encryption and threading,
+see the :ref:`Advanced Guides <ios-advanced-guides>` section.
+
+Realm Database
+~~~~~~~~~~~~~~
+
+- :doc:`Encryption </sdk/ios/advanced-guides/encrypt-a-realm>`
+- :doc:`Threading </sdk/ios/advanced-guides/threading>`
+
+Realm Apps
+~~~~~~~~~~
+
+- :doc:`Custom User Data </sdk/ios/advanced-guides/custom-user-data>`
+- :doc:`Multi-User Applications </sdk/ios/advanced-guides/multi-user-applications>`
+- :doc:`Link User Identities </sdk/ios/advanced-guides/link-user-identities>`
+
+OS Support
+----------
+
+.. list-table::
+   :header-rows: 1
+   :stub-columns: 1
+   :class: index-table
+
+   * - Supported OS
+     - Realm Database
+     - Realm Apps
+
+   * - iOS 8.0+
+     - X
+     - X
+
+   * - macOS 10.9+
+     - X
+     - X
+   
+   * - tvOS 9.0+
+     - X
+     - X
+
+   * - watchOS 2.0+
+     - X
+     - 
+

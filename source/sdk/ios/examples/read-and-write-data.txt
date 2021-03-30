@@ -373,6 +373,21 @@ Objective-C object.
 
 .. _ios-upsert-an-object:
 
+Update Properties with Key-value Coding
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+``Object``, ``Result``, and ``List`` all conform to 
+:apple:`key-value coding<library/archive/documentation/Cocoa/Conceptual/KeyValueCoding/>`. 
+This can be useful when you need to determine which property to update 
+at runtime.
+
+Applying KVC to a collection is a great way to update objects in bulk. 
+Avoid the overhead of iterating over a collection while creating 
+accessors for every item.
+
+.. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.key-value-coding.swift
+   :language: swift
+
 Upsert an Object
 ~~~~~~~~~~~~~~~~
 
