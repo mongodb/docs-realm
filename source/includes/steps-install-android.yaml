@@ -13,12 +13,20 @@ content: |
    .. image:: /images/project-level-build-gradle.png
       :alt: Location of the project-level build.gradle file.
 
-   First, add the following repository to your buildscript:
+   First, add the following repositories to your project:
 
    .. tabs::
 
       .. tab:: Version 10.4.0 and up
          :tabid: gte-10-4-0
+
+         In ``buildscript.dependencies``, add the following:
+
+         .. code-block:: groovy
+
+            jcenter()
+
+         In ``allprojects.repositories``, add the following:
 
          .. code-block:: groovy
 
@@ -26,6 +34,9 @@ content: |
 
       .. tab:: Versions below 10.4.0
          :tabid: lt-10-4-0
+
+         In ``buildscript.dependencies`` and
+         ``allprojects.repositories``, add the following:
 
          .. code-block:: groovy
 
@@ -51,7 +62,7 @@ content: |
             buildscript {
                 repositories {
                     google()
-                    mavenCentral()
+                    jcenter()
                 }
                 dependencies {
                     classpath "com.android.tools.build:gradle:3.5.1"
