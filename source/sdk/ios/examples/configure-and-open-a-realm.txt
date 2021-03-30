@@ -198,13 +198,6 @@ access even when the device is locked, such as
 :apple:`NSFileProtectionCompleteUntilFirstUserAuthentication
 </documentation/foundation/nsfileprotectioncompleteuntilfirstuserauthentication>`.
 
-.. [1] It is recommended that you apply the file protection attribute to
-   the folder containing the Realm files rather than to the specific
-   files themselves. {+service-short+} may create and deletes auxiliary
-   files at any time. By applying the file protection attribute to the
-   parent folder, you can ensure the file protection applies to all of
-   the relevant files, regardless of when they were created.
-
 .. tip::
 
    If you choose to opt out of complete iOS file encryption in this way,
@@ -220,3 +213,10 @@ to the parent directory of the default {+realm+}:
 .. seealso::
    
    :ref:`ios-sync-changes-in-the-background`
+
+.. [1] It is recommended that you apply the file protection attribute to
+   the folder containing the Realm files rather than to the specific
+   files themselves. {+service-short+} may create and deletes auxiliary
+   files at any time. By applying the file protection attribute to the
+   parent folder, you can ensure the file protection applies to all of
+   the relevant files, regardless of when they were created.
