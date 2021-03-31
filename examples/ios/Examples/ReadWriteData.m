@@ -428,6 +428,16 @@ RLM_ARRAY_TYPE(ReadWriteDataObjcExample_Person)
     }];
     // :code-block-end:
 }
+
+- (void)testChainQuery {
+    // :code-block-start: chain-query
+    RLMRealm *realm = [RLMRealm defaultRealm];
+    RLMResults<ReadWriteDataObjcExample_Dog *> *tanDogs = [ReadWriteDataObjcExample_Dog objectsInRealm:realm where:@"color = 'tan'"];
+    RLMResults<ReadWriteDataObjcExample_Dog *> *tanDogsWithBNames = [tanDogs objectsWhere:@"name BEGINSWITH 'B'"];
+    // :code-block-end:
+    (void)tanDogsWithBNames;
+}
+
 @end
 
 // :replace-end:
