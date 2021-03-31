@@ -262,7 +262,7 @@ receives:
 Handle Sync Errors
 ------------------
 
-While developing an application that uses Realm Sync, you should set an error
+While developing an application that uses {+sync+}, you should set an error
 handler. This error handler will detect and respond to any failed sync-related
 API calls. 
 
@@ -274,6 +274,10 @@ API calls.
       .. literalinclude:: /examples/generated/android/sync/ErrorHandlerTest.codeblock.error-handler.kt
          :language: kotlin
 
+      .. note::
+   
+         To register a default global error handler that will apply to all :java-sdk:`SyncConfigurations <io/realm/mongodb/sync/SyncConfiguration.html>`, call :java-sdk:`SyncManager.setDefaultSessionErrorHandler() <io/realm/SyncManager.html#setDefaultSessionErrorHandler-io.realm.SyncSession.ErrorHandler->`
+
    .. tab::
       :tabid: java
 
@@ -282,7 +286,7 @@ API calls.
 
       .. note::
    
-         To register a default global error handler that will apply to all SyncConfigurations, call :java-sdk:`SyncManager.setDefaultSessionErrorHandler() <io/realm/SyncManager.html#setDefaultSessionErrorHandler-io.realm.SyncSession.ErrorHandler->`
+         To register a default global error handler that will apply to all :java-sdk:`SyncConfigurations <io/realm/mongodb/sync/SyncConfiguration.html>`, call :java-sdk:`SyncManager.setDefaultSessionErrorHandler() <io/realm/SyncManager.html#setDefaultSessionErrorHandler-io.realm.SyncSession.ErrorHandler->`
 
 
 .. _android-reset-a-client-realm-file:
