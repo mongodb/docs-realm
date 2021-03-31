@@ -191,7 +191,7 @@ the following error:
 
    open() failed: Operation not permitted
 
-To handle this, you can downgrade the file protection of the folder [1]_
+To handle this, you can downgrade the file protection of the folder
 containing :ref:`the Realm file itself and its auxiliary files
 <ios-realm-file>` to a less strict protection level that allows file
 access even when the device is locked, such as
@@ -205,18 +205,18 @@ access even when the device is locked, such as
    <ios-encrypt-a-realm>` to secure your data.
 
 The following example shows how to apply a less strict protection level
-to the parent directory of the default {+realm+}:
+to the parent directory of the default {+realm+}. 
 
 .. literalinclude:: /examples/generated/code/start/Encrypt.codeblock.background-app-refresh-encryption.swift
    :language: swift
 
+You should apply the file protection attribute to the folder containing
+the Realm files rather than to the specific files themselves because
+{+service-short+} may create and deletes auxiliary files at any time. By
+applying the file protection attribute to the parent folder, you ensure
+the file protection applies to all of the relevant files, regardless of
+when they were created.
+
 .. seealso::
    
    :ref:`ios-sync-changes-in-the-background`
-
-.. [1] It is recommended that you apply the file protection attribute to
-   the folder containing the Realm files rather than to the specific
-   files themselves. {+service-short+} may create and deletes auxiliary
-   files at any time. By applying the file protection attribute to the
-   parent folder, you can ensure the file protection applies to all of
-   the relevant files, regardless of when they were created.
