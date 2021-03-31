@@ -23,11 +23,10 @@ size of the objects stored within it. This architecture enables some of
 
    :ref:`ios-client-threading`
 
-To avoid making expensive system calls, {+realm+} files are rarely 
-shrunk at runtime. Instead, they grow by specific size increments. 
-{+backend-short+} writes new data within unused space tracked inside the file. 
-In some situations, unused space may comprise a significant portion of a 
-{+realm+} file. 
+{+backend-short+} writes new data within unused space tracked inside 
+file. In some situations, unused space may comprise a significant 
+portion of a {+realm+} file. If file size grows large enough to 
+negatively impact performance, compact the {+realm+}. 
 
 .. _ios-how-to-compact-a-realm:
 
