@@ -165,13 +165,15 @@ To enable session multiplexing, call :js-sdk:`Realm.App.Sync.enableSessionMultip
 Handle Sync Errors
 ------------------
 
-Realm Sync represents errors via :dotnet-sdk:`SessionExceptions <api/reference/Realms.Sync.Exceptions.SessionException.html>` . In
-addition to the standard exception properties, you have access to an :dotnet-sdk:`ErrorCode <api/reference/Realms.Sync.Exceptions.ErrorCode.html>`
-that contains information about the type of the error and allows you to have
-strongly typed handling logic.
+While developing an application that uses Realm Sync, you should set an error
+handler. This error handler will detect and respond to any failed sync-related
+API calls. 
 
-.. literalinclude:: /examples/generated/dotnet/ErrorHandler.codeblock.handle-errors.cs
-   :language: csharp
+Set an error handler by registering an error callback as part of the
+configuration.
+
+.. literalinclude:: /examples/generated/node/sync-changes-between-devices.codeblock.sync-changes-between-devices-handle-sync-errors.js
+   :language: javascript
 
 
 .. _node-perform-a-client-reset:
