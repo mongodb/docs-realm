@@ -184,38 +184,35 @@ Use Realm When the Device Is Locked
 
 By default, iOS 8 and above encrypts app files using
 ``NSFileProtection`` whenever the device is locked. If your app attempts
-to do any work on a {+realm+} while the device is locked, you might see
-the following error:
+to access a {+realm+} while the device is locked, you might see the
+following error:
 
 .. code-block:: text
 
    open() failed: Operation not permitted
 
-To handle this, you can downgrade the file protection of the folder
-containing :ref:`the Realm file itself and its auxiliary files
-<ios-realm-file>` to a less strict protection level that allows file
-access even when the device is locked, such as
-:apple:`NSFileProtectionCompleteUntilFirstUserAuthentication
-</documentation/foundation/nsfileprotectioncompleteuntilfirstuserauthentication>`.
+To handle this, downgrade the file protection of the folder containing
+:ref:`the Realm files <ios-realm-file>`. A less strict protection level
+like :apple:`NSFileProtectionCompleteUntilFirstUserAuthentication
+<documentation/foundation/nsfileprotectioncompleteuntilfirstuserauthentication>`
+allows file access even when the device is locked.
 
 .. tip::
 
-   If you choose to opt out of complete iOS file encryption in this way,
-   we encourage you to use Realm's own :ref:`built-in encryption
-   <ios-encrypt-a-realm>` to secure your data.
+   If you reduce iOS file encryption, consider using Realm's
+   :ref:`built-in encryption <ios-encrypt-a-realm>` to secure your data
+   instead.
 
-The following example shows how to apply a less strict protection level
-to the parent directory of the default {+realm+}. 
+This example shows how to apply a less strict protection level to the
+parent directory of the default {+realm+}.
 
 .. literalinclude:: /examples/generated/code/start/Encrypt.codeblock.background-app-refresh-encryption.swift
    :language: swift
 
-You should apply the file protection attribute to the folder containing
-the Realm files (as above) rather than to the specific files themselves
-because {+service-short+} may create and delete auxiliary files at any
-time. By applying the file protection attribute to the parent folder,
-you ensure the file protection applies to all of the relevant files,
-regardless of when they were created.
+{+service-short+} may create and delete auxiliary files at any time.
+Instead of downgrading file protection on the files, apply it to the
+parent folder. This way, the file protection applies to all relevant
+files regardless of creation time.
 
 .. seealso::
    
