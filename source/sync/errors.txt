@@ -19,6 +19,53 @@ While you develop applications using {+sync+}, you may run into errors. This
 section details some common errors. 
 
 
+.. _sync-errors-error-codes:
+
+Error Codes:
+------------
+When the server encounters an error that appears to be caused by the connected
+client, it will send an error message to that client. The error message will
+have a code number and description. To see the full list of sync errors, see the
+:github:`error code list on the Realm Core github repository. <realm/realm-core/blob/master/doc/protocol/protocol_1.md#error-codes>`.
+
+.. _sync-error-logging:
+
+Error Logging:
+--------------
+When actively troubleshooting an issue, set the logging level to ``debug`` or
+``trace`` to diagnose errors while developing your application. When running in a
+production environment, you will want to decrease the logging level for improved
+performance.
+
+.. tabs-realm-sdks::
+
+   .. tab::
+      :tabid: android
+
+      Learn how to :ref:`set the log level <android-set-the-client-log-level>` with the Android SDK.
+
+   .. tab::
+      :tabid: ios
+
+      Learn how to :ref:`set the log level <ios-set-the-client-log-level>` with the iOS SDK.
+
+   .. tab::
+      :tabid: node
+      
+      Learn how to :ref:`set the log level <node-set-the-client-log-level>` with the Node.js SDK.
+
+   .. tab::
+      :tabid: react-native
+      
+      Learn how to :ref:`set the log level <react-native-set-the-client-log-level>` with the React Native SDK.
+
+   .. tab::
+      :tabid: dotnet
+
+      Learn how to :ref:`set the log level <dotnet-set-the-client-log-level>` with the .NET SDK.
+
+.. _sync-errors-reporting:
+
 Error Reporting
 ---------------
 
@@ -49,6 +96,7 @@ Error Reporting
 
       To learn how to detect and respond to any failed sync-related API calls with the .NET SDK, see the :ref:`Handle Sync Errors <dotnet-handle-sync-errors>` documentation.
 
+.. _sync-errors-client-resets:
 
 Client Resets
 -------------
@@ -99,16 +147,3 @@ changes made since the client last successfully synced.
       :tabid: dotnet
 
       To learn more about client resets with the .NET SDK, see the :ref:`Android Client Reset <dotnet-client-resets>` documentation.
-
-
-
-Unable to Open Realm at Path
-----------------------------
-
-
-Session Specific Errors
------------------------
-
-
-Connection level and protocol errors
-------------------------------------

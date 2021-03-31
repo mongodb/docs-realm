@@ -19,12 +19,15 @@ namespace Examples
         [Test]
         public async Task handleErrors()
         {
+            // :code-block-start: set-log-level
             var appConfig = new AppConfiguration(myRealmAppId)
             {
                 LogLevel = LogLevel.Debug,
+                // :hide-start:
                 DefaultRequestTimeout = TimeSpan.FromMilliseconds(1500)
+                // :hide-end:
             };
-
+            // :code-block-end:
             app = App.Create(appConfig);
             user = await app.LogInAsync(Credentials.Anonymous());
             config = new SyncConfiguration("myPartition", user);
