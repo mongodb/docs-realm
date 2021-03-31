@@ -94,6 +94,8 @@ objects using the :ref:`RealmResults <android-results-collections>` type.
    - :ref:`Fundamentals: Query Engine <android-client-query-engine>`
    - :ref:`Fundamentals: Results Collections <android-results-collections>`
 
+.. _android-link-queries:
+
 Link Queries
 ~~~~~~~~~~~~
 
@@ -134,6 +136,8 @@ You can even use dot notation to query inverse relationships:
 
       .. literalinclude:: /examples/generated/android/local/FilterDataTest.codeblock.link-queries-inverse.java
          :language: java
+
+.. _android-sort-results:
 
 Sort Results
 ------------
@@ -180,6 +184,8 @@ properties in order.
    ``Latin Extended A``, and ``Latin Extended B (UTF-8 range 0–591)``
    character sets.
 
+.. _android-limit-results:
+
 Limit Results
 -------------
 
@@ -222,12 +228,14 @@ underlying data changes.
    underlying {+realm+}, just that they are no longer part of the
    query result.
 
+.. _android-unique-results:
+
 Unique Results
 --------------
 
 You can reduce query results to unique values for a given field or fields
-using the :java-sdk:`limit() <io/realm/RealmQuery.html#limit-long->`
-method:
+using the :java-sdk:`distinct()
+<io/realm/RealmQuery.html#distinct-java.lang.String->` method:
 
 .. tabs-realm-languages::
 
@@ -246,6 +254,8 @@ method:
 You can only call ``distinct()`` on integer, long, short, and ``String``
 fields; other field types will throw an exception. As with sorting,
 you can specify multiple fields to resolve ties.
+
+.. _android-chain-queries:
 
 Chain Queries
 -------------
@@ -271,6 +281,8 @@ The ``where()`` method returns a ``RealmQuery`` that you can resolve into
 a ``RealmResults`` using a ``find`` method. Filtered results can only
 return objects of the same type as the original results set, but are
 otherwise able to use any :ref:`filters <android-client-filters>`.
+
+.. _android-realm-query-language:
 
 Query with Realm Query Language
 -------------------------------
