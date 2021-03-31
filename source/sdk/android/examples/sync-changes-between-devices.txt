@@ -256,6 +256,31 @@ receives:
       .. literalinclude:: /examples/generated/android/sync/SyncDataTest.codeblock.check-download-progress.java
          :language: java
 
+
+.. _android-handle-sync-errors:
+
+Handle Sync Errors
+------------------
+
+While developing an application that uses Realm Sync, you should set an error
+handler. This error handler will detect and respond to any failed sync-related
+API calls. 
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/generated/android/sync/SyncDataTest.codeblock.check-download-progress.kt
+         :language: kotlin
+
+   .. tab::
+      :tabid: java
+
+      .. literalinclude:: /examples/generated/android/sync/SyncDataTest.codeblock.check-download-progress.java
+         :language: java
+
+
 .. _android-reset-a-client-realm-file:
 
 Reset a Client Realm File
