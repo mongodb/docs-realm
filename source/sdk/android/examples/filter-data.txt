@@ -271,3 +271,37 @@ The ``where()`` method returns a ``RealmQuery`` that you can resolve into
 a ``RealmResults`` using a ``find`` method. Filtered results can only
 return objects of the same type as the original results set, but are
 otherwise able to use any :ref:`filters <android-client-filters>`.
+
+Query with Realm Query Language
+-------------------------------
+
+.. versionadded:: 10.4.0
+
+You can use :java-sdk:`RealmQuery.rawPredicate()
+<io/realm/RealmQuery.html#rawPredicate-java.lang.String->` to query
+{+realm+}s using Realm Query Language, a language inspired by
+`NSPredicate <https://academy.realm.io/posts/nspredicate-cheatsheet/>`.
+Realm Query Language can use either the class and property names defined
+in your Realm Model classes or the internal names defined with ``@RealmField``.
+You can combine raw predicates with other raw predicates or type-safe
+predicates created with ``RealmQuery``.
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/generated/android/local/FilterDataTest.codeblock.realm-query-language.kt
+         :language: kotlin
+
+   .. tab::
+      :tabid: java
+
+      .. literalinclude:: /examples/generated/android/local/FilterDataTest.codeblock.realm-query-language.java
+         :language: java
+
+.. seealso::
+
+   For more information about Realm Query Language, see the
+   :ref:`iOS query examples <ios-client-query-engine>` and the
+   :ref:`Node.js query engine <node-client-query-engine>` reference.
