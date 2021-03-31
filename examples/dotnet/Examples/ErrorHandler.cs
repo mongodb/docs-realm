@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Examples;
-using MongoDB.Bson;
 using NUnit.Framework;
 using Realms;
 using Realms.Sync;
 using Realms.Sync.Exceptions;
+using Realms.Sync.Testing;
 
 namespace Examples
 {
@@ -16,7 +13,8 @@ namespace Examples
         App app;
         Realms.Sync.User user;
         SyncConfiguration config;
-        string myRealmAppId = "example-testers-kvjdy";
+        bool didTriggerErrorHandler;
+        string myRealmAppId = "mockerrorapp-orcsd";
 
         [Test]
         public async Task handleErrors()
@@ -30,6 +28,8 @@ namespace Examples
             app = App.Create(appConfig);
             user = await app.LogInAsync(Credentials.Anonymous());
             config = new SyncConfiguration("myPartition", user);
+            var realm = await Realm.GetInstanceAsync(config);
+
             // :code-block-start: handle-errors
             Session.Error += (session, errorArgs) =>
             {
@@ -42,6 +42,9 @@ namespace Examples
                         break;
                     case ErrorCode.PermissionDenied:
                         // Tell the user they don't have permissions to work with that Realm
+                        // :hide-start:
+                        didTriggerErrorHandler = true;
+                        // :hide-end:
                         break;
                     case ErrorCode.Unknown:
                         // Likely the app version is too old, prompt for update
@@ -50,8 +53,15 @@ namespace Examples
                 }
             };
             // :code-block-end:
+            TestingExtensions.SimulateError(realm.GetSession(),
+            ErrorCode.PermissionDenied, "No permission to work with the Realm", false);
 
+            // Close the Realm before doing the reset as it'll need
+            // to be deleted and all objects obtained from it will be
+            // invalidated.
+            realm.Dispose();
 
+            Assert.IsTrue(didTriggerErrorHandler);
         }
     }
 }
