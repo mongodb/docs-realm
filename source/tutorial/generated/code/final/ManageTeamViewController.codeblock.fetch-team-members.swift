@@ -3,13 +3,13 @@ func fetchTeamMembers() {
     // Start loading indicator
     activityIndicator.startAnimating()
     let user = app.currentUser!
-    
+
     user.functions.getMyTeamMembers([]) { [weak self](result, error) in
         DispatchQueue.main.async {
             guard self != nil else {
                 // This can happen if the view is dismissed 
                 // before the operation completes
-                print("Team members list no longer needed.");
+                print("Team members list no longer needed.")
                 return
             }
             // Stop loading indicator
@@ -19,12 +19,12 @@ func fetchTeamMembers() {
                 return
             }
             print("Fetch team members complete.")
-            
+
             // Convert documents to members array
             self!.members = result!.arrayValue!.map({ (bson) in
                 return Member(document: bson!.documentValue!)
             })
-            
+
             // Notify UI of changed data
             self!.tableView.reloadData()
         }

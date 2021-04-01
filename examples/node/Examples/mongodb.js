@@ -337,7 +337,7 @@ describe("Aggregation Stages", () => {
         { _id: "annual", numItems: 1 },
         { _id: "perennial", numItems: 5 },
       ]
-      // :code-block-end
+      // :code-block-end:
     );
   });
 
@@ -368,7 +368,7 @@ describe("Aggregation Stages", () => {
         { "name": "daffodil", "storeNumber": "42" },
         { "name": "sweet basil", "storeNumber": "47" }
       ]
-      // :code-block-end
+      // :code-block-end:
     )
   });
   test("Add Fields to Documents", async () => {
@@ -428,7 +428,7 @@ describe("Watch for Changes", () => {
   test("Watch for Changes in a Collection", async () => {
     const plants = await getPlantsCollection();
     // :code-block-start: watch-a-collection
-    // :hide-start:
+    // :state-start: start
     try {
       const watching = plants.watch();
       const next = watching.next();
@@ -442,46 +442,46 @@ describe("Watch for Changes", () => {
     }
     expect.assertions(1);
     return;
-    /* eslint-disable no-unreachable */
-    // :replace-with:
-    for await (const change of plants.watch()) {
-      const { operationType } = change;
-      switch (operationType) {
-        case "insert": {
-          const { documentKey, fullDocument } = change;
-          console.log(`new document: ${documentKey}`, fullDocument);
-          break;
-        }
-        case "update": {
-          const { documentKey, fullDocument } = change;
-          console.log(`updated document: ${documentKey}`, fullDocument);
-          break;
-        }
-        case "replace": {
-          const { documentKey, fullDocument } = change;
-          console.log(`replaced document: ${documentKey}`, fullDocument);
-          break;
-        }
-        case "delete": {
-          const { documentKey } = change;
-          console.log(`deleted document: ${documentKey}`);
-          break;
-        }
-      }
-      // :hide-end:
-      // :code-block-end:
-      /* eslint-enable no-unreachable */
-    }
+    // :state-end:
+    // :state-uncomment-start: final
+    // for await (const change of plants.watch()) {
+    //   switch (change.operationType) {
+    //     case "insert": {
+    //       const { documentKey, fullDocument } = change;
+    //       console.log(`new document: ${documentKey}`, fullDocument);
+    //       break;
+    //     }
+    //     case "update": {
+    //       const { documentKey, fullDocument } = change;
+    //       console.log(`updated document: ${documentKey}`, fullDocument);
+    //       break;
+    //     }
+    //     case "replace": {
+    //       const { documentKey, fullDocument } = change;
+    //       console.log(`replaced document: ${documentKey}`, fullDocument);
+    //       break;
+    //     }
+    //     case "delete": {
+    //       const { documentKey } = change;
+    //       console.log(`deleted document: ${documentKey}`);
+    //       break;
+    //     }
+    //   }
+    // }
+    // :state-uncomment-end:
+    // :code-block-end:
   });
 
   test("Watch for Changes in a Collection with a Filter", async () => {
     const plants = await getPlantsCollection();
     // :code-block-start: watch-a-collection-with-filter
-    // :hide-start:
+    // :state-start: start
     try {
       const watching = plants.watch({
-        operationType: "insert",
-        "fullDocument.type": "perennial",
+        filter: {
+          operationType: "insert",
+          "fullDocument.type": "perennial",
+        },
       });
       const next = watching.next();
       jest.runOnlyPendingTimers();
@@ -494,17 +494,19 @@ describe("Watch for Changes", () => {
     }
     expect.assertions(1);
     return;
-    /* eslint-disable no-unreachable */
-    // :replace-with:
-    for await (const change of plants.watch({
-      operationType: "insert",
-      "fullDocument.type": "perennial",
-    })) {
-      // The change event will always represent a newly inserted perennial
-      const { documentKey, fullDocument } = change;
-      console.log(`new document: ${documentKey}`, fullDocument);
-    }
-    // :hide-end:
+    // :state-end:
+    // :state-uncomment-start: final
+    // for await (const change of plants.watch({
+    //   filter: {
+    //     operationType: "insert",
+    //     "fullDocument.type": "perennial",
+    //   },
+    // })) {
+    //   // The change event will always represent a newly inserted perennial
+    //   const { documentKey, fullDocument } = change;
+    //   console.log(`new document: ${documentKey}`, fullDocument);
+    // }
+    // :state-uncomment-end:
     // :code-block-end:
     /* eslint-enable no-unreachable */
   });

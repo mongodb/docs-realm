@@ -54,22 +54,22 @@ An **expression** consists of one of the following:
       .. tab::
          :tabid: kotlin
 
-         .. literalinclude:: /examples/generated/android/code/start/ProjectTask.codeblock.projecttask.kt
+         .. literalinclude:: /examples/generated/android/sync/ProjectTask.codeblock.projecttask.kt
             :language: kotlin
             :caption: ProjectTask.kt
 
-         .. literalinclude:: /examples/generated/android/code/start/Project.codeblock.project.kt
+         .. literalinclude:: /examples/generated/android/sync/Project.codeblock.project.kt
             :language: kotlin
             :caption: Project.kt
 
       .. tab::
          :tabid: java
 
-         .. literalinclude:: /examples/generated/android/code/start/ProjectTask.codeblock.projecttask.java
+         .. literalinclude:: /examples/generated/android/sync/ProjectTask.codeblock.projecttask.java
             :language: java
             :caption: ProjectTask.java
 
-         .. literalinclude:: /examples/generated/android/code/start/Project.codeblock.project.java
+         .. literalinclude:: /examples/generated/android/sync/Project.codeblock.project.java
             :language: java
             :caption: Project.java
 
@@ -125,13 +125,13 @@ values.
       .. tab::
          :tabid: kotlin
 
-         .. literalinclude:: /examples/generated/android/code/start/QueryEngineTest.codeblock.comparison-operators.kt
+         .. literalinclude:: /examples/generated/android/sync/QueryEngineTest.codeblock.comparison-operators.kt
             :language: kotlin
 
       .. tab::
          :tabid: java
 
-         .. literalinclude:: /examples/generated/android/code/start/QueryEngineTest.codeblock.comparison-operators.java
+         .. literalinclude:: /examples/generated/android/sync/QueryEngineTest.codeblock.comparison-operators.java
             :language: java
 
 
@@ -168,13 +168,13 @@ You can make compound predicates using logical operators.
       .. tab::
          :tabid: kotlin
 
-         .. literalinclude:: /examples/generated/android/code/start/QueryEngineTest.codeblock.logical-operators.kt
+         .. literalinclude:: /examples/generated/android/sync/QueryEngineTest.codeblock.logical-operators.kt
             :language: kotlin
 
       .. tab::
          :tabid: java
 
-         .. literalinclude:: /examples/generated/android/code/start/QueryEngineTest.codeblock.logical-operators.java
+         .. literalinclude:: /examples/generated/android/sync/QueryEngineTest.codeblock.logical-operators.java
             :language: java
 
 String Operators
@@ -215,7 +215,6 @@ Regex-like wildcards allow more flexibility in search.
    * - | ``equalTo``
      - Evaluates to ``true`` if the left-hand string is lexicographically equal to the right-hand string.
 
-
 .. example::
 
    We use the query engine's string operators to find
@@ -227,14 +226,23 @@ Regex-like wildcards allow more flexibility in search.
       .. tab::
          :tabid: kotlin
 
-         .. literalinclude:: /examples/generated/android/code/start/QueryEngineTest.codeblock.string-operators.kt
+         .. literalinclude:: /examples/generated/android/sync/QueryEngineTest.codeblock.string-operators.kt
             :language: kotlin
 
       .. tab::
          :tabid: java
 
-         .. literalinclude:: /examples/generated/android/code/start/QueryEngineTest.codeblock.string-operators.java
+         .. literalinclude:: /examples/generated/android/sync/QueryEngineTest.codeblock.string-operators.java
             :language: java
+
+.. note:: Case-insensitive Character Limitations
+
+   Case-insensitive string operators only support the
+   ``Latin Basic``, ``Latin Supplement``, ``Latin Extended A``, and
+   ``Latin Extended B (UTF-8 range 0–591)`` character sets. Setting
+   the case insensitive flag in queries when using ``equalTo``,
+   ``notEqualTo``, ``contains``, ``endsWith``, ``beginsWith``, or
+   ``like`` only works on English locale characters.
 
 Aggregate Operators
 ~~~~~~~~~~~~~~~~~~~
@@ -279,13 +287,13 @@ to a single value.
       .. tab::
          :tabid: kotlin
 
-         .. literalinclude:: /examples/generated/android/code/start/QueryEngineTest.codeblock.aggregate-operators.kt
+         .. literalinclude:: /examples/generated/android/sync/QueryEngineTest.codeblock.aggregate-operators.kt
             :language: kotlin
 
       .. tab::
          :tabid: java
 
-         .. literalinclude:: /examples/generated/android/code/start/QueryEngineTest.codeblock.aggregate-operators.java
+         .. literalinclude:: /examples/generated/android/sync/QueryEngineTest.codeblock.aggregate-operators.java
             :language: java
 
 Summary

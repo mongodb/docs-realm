@@ -56,7 +56,7 @@ You will need to provide values for the following parameters when you
       :tabid: cli
 
       .. code-block:: json
-         :caption: <Service Name>/config.json
+         :caption: /http_endpoints/<Service Name>/config.json
 
          {
            "name": "<Service Name>",
@@ -114,21 +114,27 @@ Configuration
 
      - id: cli
        content: |
-         You will need to provide a configuration file of the following
-         form when you :doc:`configure an HTTP incoming webhook
+         You will need to provide a :ref:`configuration file
+         <config-incoming-webhooks>` of the following form when you
+         :doc:`configure an HTTP incoming webhook
          </services/configure/service-webhooks>`:
-
-         .. code-block:: javascript
-
+         
+         .. code-block:: json
+            :caption: http_endpoints/<Service Name>/<Webhook Name>/config.json
+            
             {
-              "name": <string>,
-              "respond_result": <boolean>,
-              "run_as_user_id": <string>,
-              "run_as_user_id_script_source": <string>,
+              "name": "<Webhook Name>",
+              "can_evaluate": { <JSON Expression> },
+              "run_as_authed_user": <Boolean>,
+              "run_as_user_id": "<Realm User ID>",
+              "run_as_user_id_script_source": "<Function Source Code>",
+              "respond_result": <Boolean>,
+              "fetch_custom_user_data": <Boolean>,
+              "create_user_on_auth": <Boolean>,
               "options": {
-                "httpMethod": <string>,
-                "secret": <string>,
-                "validationMethod": <string>
+                "httpMethod": "<HTTP Method>",
+                "validationMethod": "<Webhook Validation Method>",
+                "secret": "<Webhook Secret>"
               }
             }
 

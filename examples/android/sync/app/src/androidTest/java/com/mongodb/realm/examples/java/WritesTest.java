@@ -10,6 +10,7 @@ import com.mongodb.realm.examples.model.TurtleEnthusiast;
 import org.bson.types.ObjectId;
 import org.junit.Test;
 
+import io.realm.ImportFlag;
 import io.realm.Realm;
 import io.realm.RealmResults;
 import io.realm.mongodb.App;
@@ -147,6 +148,58 @@ public class WritesTest extends RealmTest {
                                 // Judging by the ID, it's the same turtle enthusiast, just with a different name.
                                 // As a result, you overwrite the original entry, renaming "Drew" to "Andy".
                                 r.insertOrUpdate(andy);
+                                // :hide-start:
+                                expectation.fulfill();
+                                // :hide-end:
+                            });
+                            // :code-block-end:
+                        }
+                    });
+                } else {
+                    Log.e("EXAMPLE", "Failed login: " + it.getError().getErrorMessage());
+                }
+            });
+        });
+        expectation.await();
+    }
+
+    @Test
+    public void copyToRealmOrUpdateWithSameValuesFlag() {
+        Expectation expectation = new Expectation();
+        activity.runOnUiThread(() -> {
+            String appID = YOUR_APP_ID; // replace this with your App ID
+            App app = new App(new AppConfiguration.Builder(appID).build());
+
+            Credentials credentials = Credentials.anonymous();
+            app.loginAsync(credentials, it -> {
+                if (it.isSuccess()) {
+                    Log.v("EXAMPLE", "Successfully authenticated.");
+                    SyncConfiguration config = new SyncConfiguration.Builder(app.currentUser(), getRandomPartition())
+                            .allowQueriesOnUiThread(true)
+                            .allowWritesOnUiThread(true)
+                            .build();
+
+                    Realm.getInstanceAsync(config, new Realm.Callback() {
+                        @Override
+                        public void onSuccess(Realm realm) {
+                            Log.v("EXAMPLE", "Successfully opened a realm with reads and writes allowed on the UI thread.");
+                            // :code-block-start: copy-or-update-same-values-flag
+                            realm.executeTransaction(r -> {
+                                ObjectId id = new ObjectId();
+                                TurtleEnthusiast drew = new TurtleEnthusiast();
+                                drew.set_id(id);
+                                drew.setName("Drew");
+                                drew.setAge(25);
+                                // Add a new turtle enthusiast to the realm. Since nobody with this id
+                                // has been added yet, this adds the instance to the realm.
+                                r.insertOrUpdate(drew);
+                                TurtleEnthusiast andy = new TurtleEnthusiast();
+                                andy.set_id(id);
+                                andy.setName("Andy");
+                                // Judging by the ID, it's the same turtle enthusiast, just with a different name.
+                                // As a result, you overwrite the original entry, renaming "Drew" to "Andy".
+                                // the flag passed ensures that we only write the updated name field to the db
+                                r.copyToRealmOrUpdate(andy, ImportFlag.CHECK_SAME_VALUES_BEFORE_SET);
                                 // :hide-start:
                                 expectation.fulfill();
                                 // :hide-end:

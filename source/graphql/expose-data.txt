@@ -122,10 +122,11 @@ field matches a foreign key included in the local field.
       
       To define a relationship for a local collection using Realm CLI or another
       code deploy method, add a relationship definition to the ``relationships``
-      field of the collection's rules configuration file.
+      field of the collection's :ref:`schema configuration
+      <config-collection-schema>`.
       
       .. code-block:: json
-         :caption: /services/mongodb-atlas/rules/<db>.<collection>.json
+         :caption: /data_sources/<service>/<database>/<collection>/schema.json
          
          {
            ...,

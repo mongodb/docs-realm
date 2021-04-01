@@ -1,0 +1,284 @@
+.. _appconfig-data_sources:
+
+=======================================
+MongoDB Data Source Configuration Files
+=======================================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+.. code-block:: none
+   
+   app/
+   └── data_sources/
+       └── <service name>/
+           ├── config.json
+           └── <database>/
+               └── <collection>/
+                   ├── schema.json
+                   └── rules.json
+
+Service Configuration
+---------------------
+
+.. _config-mongodb-cluster:
+
+MongoDB Clusters
+~~~~~~~~~~~~~~~~
+
+.. code-block:: json
+   :caption: config.json
+   
+   {
+     "name": "<Service Name>",
+     "type": "mongodb-atlas",
+     "config": {
+       "clusterName": "<Atlas Cluster Name>",
+       "readPreference": "<Read Preference>",
+       "sync": { <Sync Configuration> },
+       "wireProtocolEnabled": <Boolean>
+     }
+   }
+
+.. list-table::
+   :header-rows: 1
+   :widths: 10 30
+   
+   * - Field
+     - Description
+   
+   * - | ``name``
+       | String
+     - Required. Default: ``mongodb-atlas``
+       
+       The service name used to refer to the cluster within this Realm
+       app. The name may be at most 64 characters long and must only
+       contain ASCII letters, numbers, underscores, and hyphens.
+   
+   * - | ``type``
+       | String
+     - Required. For MongoDB Atlas clusters, this value is always ``"mongodb-atlas"``.
+   
+   * - | ``config.clusterName``
+       | String
+     - Required. The name of the cluster in Atlas.
+
+   * - | ``config.readPreference``
+       | String
+     - The :ref:`read preference <read-preference>` mode for queries sent
+       through the service.
+       
+       .. include:: /mongodb/tables/read-preference-modes.rst
+   
+   * - | ``config.sync``
+       | Document
+     - A configuration document that determines if a cluster is :doc:`synced
+       </sync>` and, if it is, defines the rules for sync operations on the
+       cluster.
+
+       For detailed information on sync configuration documents, see
+       :ref:`Synced Cluster Configuration <config-synced-cluster>`.
+   
+   * - | ``config.wireProtocolEnabled``
+       | Boolean   
+     - If ``true``, clients may :ref:`connect to the app over the MongoDB Wire
+       Protocol <wire-protocol-connect>`.
+
+.. _config-synced-cluster:
+
+Synced Cluster Configuration
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The ``config.sync`` field of ``config.json`` determines if a cluster is
+:doc:`synced </sync>` and, if it is, defines the rules for sync operations on
+the cluster.
+
+.. code-block:: json
+   :caption: config.json
+
+   {
+     ...,
+     "config": {
+       ...,
+       "sync": {
+         "state": <Boolean>,
+         "development_mode_enabled": <Boolean>,
+         "database_name": "<Developer Mode Database Name>",
+         "partition": {
+           "key": "<Partition Key Field Name>",
+           "type": "<Partition Key Value Type>",
+           "permissions": {
+             "read": <JSON Expression>,
+             "write": <JSON Expression>
+           }
+         }
+       }
+     }
+   }
+
+.. list-table::
+   :header-rows: 1
+   :widths: 10 30
+
+   * - Field
+     - Description
+   
+   * - | ``sync.state``
+       | Boolean
+     - If ``true``, :doc:`Sync </sync>` is enabled for the cluster, which means
+       that client applications can sync data in the cluster with Realm Database
+       and that :ref:`non-sync collection rules <mongodb-service-rules>` do not
+       apply.
+   
+   * - | ``sync.development_mode_enabled``
+       | Boolean
+     - If ``true``, :term:`development mode` is enabled for the cluster. While
+       enabled, Realm automatically stores synced objects in a specific database
+       within the cluster and mirrors objects types in that database's
+       collection schemas.
+       
+       .. important::
+          
+          Realm does not enforce rules when development mode is enabled.
+
+   * - | ``sync.database_name``
+       | String
+     - The name of the database in the synced cluster where Realm should store
+       synced objects.
+       
+       When :term:`development mode` is enabled, Realm stores synced objects in
+       this database. Each object type maps to its own collection in the
+       database with a schema that matches the synced objects.
+   
+   * - | ``sync.partition.key``
+       | String
+     - The name of the field that :ref:`partitions <partitioning>` data into
+       client Realms.
+   
+   * - | ``sync.partition.type``
+       | String
+     - The type of the partition key field value.
+   
+   * - | ``sync.partition.permissions``
+       | Document
+     - A document that defines the ``read`` and ``write`` permissions for the
+       synced cluster. Permissions are defined with :ref:`rule expressions
+       <expressions>` that Realm evaluates per-user, per-partition. The
+       expressions have access to the :json-expansion:`%%user` and
+       :json-expansion:`%%partition` expansions.
+
+.. _config-datalake:
+
+MongoDB Data Lakes
+~~~~~~~~~~~~~~~~~~
+
+.. code-block:: json
+   :caption: /data_sources/<Service Name>/config.json
+   
+   {
+     "name": "<Service Name>",
+     "type": "datalake",
+     "config": {
+        "dataLakeName": "<Data Lake>"
+      }
+   }
+
+.. list-table::
+   :header-rows: 1
+   :widths: 10 30
+   
+   * - Field
+     - Description
+   
+   * - | ``name``
+       | String
+     - Required. Default: ``mongodb-datalake``
+       
+       The service name used to refer to the data lake within this Realm
+       app. The name may be at most 64 characters long and must only
+       contain ASCII letters, numbers, underscores, and hyphens.
+   
+   * - | ``type``
+       | String
+     - Required. For MongoDB Atlas data lakes, this value is always ``"datalake"``.
+   
+   * - | ``config.dataLakeName``
+       | String   
+     - Required. The name of the data lake in Atlas.
+
+
+Databases & Collections
+-----------------------
+
+.. _config-collection-schema:
+
+Collection Schema
+~~~~~~~~~~~~~~~~~
+
+If you want to enforce a :ref:`document schema <document-schema-config>` for a
+collection, you can define a ``schema.json`` configuration file that contains a
+JSON schema for the documents. The root level schema must be an :ref:`object
+schema <schema-type-objects>`, which has the following form:
+
+.. code-block:: json
+   :caption: /<service>/<database>/<collection>/schema.json
+   
+   {
+     "title": "<Object Type Name>",
+     "bsonType": "object",
+     "properties": {
+       "<Property Name>": { <Schema> },
+       ...
+     }
+   }
+
+Collection Rules
+~~~~~~~~~~~~~~~~
+
+If the data source is not a :doc:`synced cluster </sync>` or a :ref:`data lake
+<data-lake-caveats>`, then you can define collection-level rules in a
+collection's ``rules.json`` configuration file.
+
+.. code-block:: json
+   :caption: /data_sources/<service>/<database>/<collection>/rules.json
+   
+   {
+     "database": "<Database Name>",
+     "collection": "<Collection Name>",
+     "roles": [<Query Role>],
+     "filters": [<Query Filter>]
+   }
+
+.. list-table::
+   :widths: 10 30
+   :header-rows: 1
+
+   * - Field
+     - Description
+   
+   * - | ``database``
+       | String
+     - The name of the database that holds the collection.
+   
+   * - | ``collection``
+       | String
+     - The name of the collection.
+
+   * - | ``roles``
+       | Array<Document>
+     - An array of :ref:`query role configuration documents
+       <query-role-config>`, which have the following form:
+       
+       .. include:: /mongodb/tables/query-role-configuration.rst
+
+   * - | ``filters``
+       | Array<Document>
+     - An array of :ref:`query filter configuration documents
+       <query-filter-config>`, which have the following form:
+
+       .. include:: /mongodb/tables/query-filter-params.rst

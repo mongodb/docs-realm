@@ -1,7 +1,8 @@
 .. important:: Synchronous Reads and Writes on the UI Thread
    
    By default, you can only read or write to a {+realm+} in your
-   application's UI thread using asynchronous transactions. That is,
+   application's UI thread using
+   :ref:`asynchronous transactions <android-async-api>`. That is,
    you can only use ``Realm`` methods whose name ends with the word
    ``Async`` in the main thread of your Android application unless you
    explicitly allow the use of synchronous methods.
@@ -20,13 +21,13 @@
       .. tab::
          :tabid: java
 
-         .. literalinclude:: /examples/generated/android/code/start/OpenARealmTest.codeblock.allow-reads-writes-ui-thread.java
+         .. literalinclude:: /examples/generated/android/sync/OpenARealmTest.codeblock.allow-reads-writes-ui-thread.java
             :language: java
             :emphasize-lines: 2,3
 
       .. tab::
          :tabid: kotlin
 
-         .. literalinclude:: /examples/generated/android/code/start/OpenARealmTest.codeblock.allow-reads-writes-ui-thread.kt
+         .. literalinclude:: /examples/generated/android/sync/OpenARealmTest.codeblock.allow-reads-writes-ui-thread.kt
             :language: kotlin
             :emphasize-lines: 2,3

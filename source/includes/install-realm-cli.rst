@@ -1,27 +1,17 @@
-.. tabs::
+{+cli+} is available on ``npm``. To install it on your system, ensure that you
+have `Node.js <https://nodejs.org/en/download/>`_ installed and then run the
+following command in your shell:
 
-   tabs:
-     - id: npm
-       name: npm / Yarn
-       content: |
-         The easiest way to install {+cli-bin+} is with the `npm
-         <https://www.npmjs.com/get-npm>`_ package manager. Ensure that
-         you have `Node.js <https://nodejs.org/en/download/>`_
-         installed, then run the following command in your shell:
+.. code-block:: shell
 
-         .. code-block:: shell
+  npm install -g mongodb-realm-cli
 
-            npm install -g mongodb-realm-cli@1.1.0
+.. note:: Try {+cli+} Version 2
+   
+   The newest version of {+cli+} includes a refreshed API and support for the
+   latest MongoDB Realm features. To install it, run the following command in
+   your shell:
 
-         You can also install the CLI from npm with `Yarn
-         <https://yarnpkg.com/en/>`_:
-
-         .. code-block:: shell
-
-            yarn global add mongodb-realm-cli@1.1.0
-
-     - id: manual-install
-       name: Manual Install
-       content: |
-         .. include:: /includes/steps/cli-install.rst
-         
+   .. code-block:: shell
+      
+      npm install -g mongodb-realm-cli@beta

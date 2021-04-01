@@ -5,7 +5,13 @@ import RealmApolloProvider from "./graphql/RealmApolloProvider";
 import { useRealmApp, RealmAppProvider } from "./RealmApp";
 
 // :code-block-start: appID
+// :replace-start: {
+//   "terms": {
+//     "tasktracker-huhcb": "<your Realm app ID here>"
+//   }
+// }
 export const APP_ID = "tasktracker-huhcb";
+// :replace-end:
 // :code-block-end:
 
 // :code-block-start: requireLoggedInUser

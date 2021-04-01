@@ -145,7 +145,7 @@ Incoming webhooks for a specific service are defined in the
 ``/<service name>/incoming_webhooks/`` sub-directory.
 
 Incoming webhooks use the :ref:`same configuration format as function
-<appschema-functions>` but have additional configuration parameters.
+<legacy-appschema-functions>` but have additional configuration parameters.
 
 Configuration
 +++++++++++++

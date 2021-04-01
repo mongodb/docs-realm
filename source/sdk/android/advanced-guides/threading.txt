@@ -97,7 +97,7 @@ more space-efficient, and more performant as a result.
 When you need to communicate across threads, you have
 several options depending on your use case:
 
-- To work modify the data on two threads, :ref:`query <android-client-query-engine>`
+- To modify the data on two threads, :ref:`query <android-client-query-engine>`
   for the object on both threads.
 
 - To react to changes made on any thread, use {+client-database+}'s
@@ -112,6 +112,26 @@ several options depending on your use case:
 - To keep and share many read-only views of the object in your app, copy
   the object from the {+realm+}.
 
+.. _android-intents:
+
+Intents
+~~~~~~~
+
+:ref:`Managed <android-managed-objects>` ``RealmObject`` instances are
+not thread-safe or ``Parcelable``, so you cannot pass them between
+activities or threads via an ``Intent``. Instead, you can pass an object
+identifier, like a :ref:`primary key <android-primary-key-fundamentals>`,
+in the ``Intent`` extras bundle, and then open a new {+realm+} instance
+in the separate thread to query for that identifier.
+
+.. seealso::
+
+   You can find working examples in the `Passing Objects <https://github.com/realm/realm-java/blob/master/examples/threadExample/src/main/java/io/realm/examples/threads/PassingObjectsFragment.java>`__
+   portion of the `Android SDK Threading Example
+   <https://github.com/realm/realm-java/tree/master/examples/threadExample>`__.
+   The example shows you how to pass IDs and retrieve a RealmObject in
+   common Android use cases.
+
 .. _android-refreshing-realms:
 
 Refreshing Realms
@@ -125,6 +145,20 @@ any :term:`event loop` thread -- automatically refresh themselves at the
 beginning of that thread's loop. However, you must manually refresh
 {+realm+} instances that do not exist on loop threads or that have
 auto-refresh disabled.
+
+.. tabs-realm-languages::
+   
+   .. tab::
+       :tabid: kotlin
+
+       .. literalinclude:: /examples/generated/android/local/ThreadingTest.codeblock.refresh-realm.kt
+         :language: kotlin
+
+   .. tab::
+       :tabid: java
+
+       .. literalinclude:: /examples/generated/android/local/ThreadingTest.codeblock.refresh-realm.java
+         :language: java
 
 .. _android-frozen-objects:
 
@@ -167,9 +201,23 @@ time of freezing.
 When you freeze a {+realm+}, its child objects also become
 frozen.
 
-Frozen objects remain valid as long as the live {+realm+} that
-spawned them stays open. Therefore, avoid closing the live
-{+realm+} until all threads are done with the frozen objects.
+.. tabs-realm-languages::
+   
+   .. tab::
+       :tabid: kotlin
+
+       .. literalinclude:: /examples/generated/android/local/ThreadingTest.codeblock.freeze-objects.kt
+         :language: kotlin
+
+   .. tab::
+       :tabid: java
+
+       .. literalinclude:: /examples/generated/android/local/ThreadingTest.codeblock.freeze-objects.java
+         :language: java
+
+Avoid closing the live {+realm+} until all threads are done 
+with frozen objects. Frozen objects remain valid for as long 
+as the {+realm+} that spawned them stays open.
 You can close frozen {+realm+} before the live {+realm+} is closed.
 
 .. important:: On caching frozen objects

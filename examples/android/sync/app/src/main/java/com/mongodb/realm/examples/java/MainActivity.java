@@ -1,5 +1,5 @@
 package com.mongodb.realm.examples.java;
-
+// :code-block-start: complete
 import io.realm.OrderedCollectionChangeSet;
 
 import org.bson.types.ObjectId;
@@ -201,3 +201,4 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 }
+// :code-block-end:

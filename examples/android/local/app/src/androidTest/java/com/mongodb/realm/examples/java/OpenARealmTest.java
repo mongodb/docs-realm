@@ -38,6 +38,7 @@ public class OpenARealmTest extends RealmTest {
         activity.runOnUiThread(() -> {
             // :code-block-start: configure-a-realm-local
             RealmConfiguration config = new RealmConfiguration.Builder()
+                    .name("alternate-realm")
                     .allowQueriesOnUiThread(true)
                     .allowWritesOnUiThread(true)
                     .compactOnLaunch()
@@ -46,6 +47,33 @@ public class OpenARealmTest extends RealmTest {
 
             Realm realm = Realm.getInstance(config);
             Log.v("EXAMPLE", "Successfully opened a realm at: " + realm.getPath());
+            // :code-block-end:
+            realm.close();
+            expectation.fulfill();
+        });
+        expectation.await();
+    }
+
+
+    @Test
+    public void setAndUseDefaultRealm() {
+        Expectation expectation = new Expectation();
+        activity.runOnUiThread(() -> {
+            // :code-block-start: set-default-realm
+            RealmConfiguration config = new RealmConfiguration.Builder()
+                    .name("default-realm")
+                    .allowQueriesOnUiThread(true)
+                    .allowWritesOnUiThread(true)
+                    .compactOnLaunch()
+                    .inMemory()
+                    .build();
+            // set this config as the default realm
+            Realm.setDefaultConfiguration(config); // :emphasize:
+            // :code-block-end:
+
+            // :code-block-start: use-default-realm
+            Realm realm = Realm.getDefaultInstance();
+            Log.v("EXAMPLE","Successfully opened the default realm at: " + realm.getPath());
             // :code-block-end:
             realm.close();
             expectation.fulfill();

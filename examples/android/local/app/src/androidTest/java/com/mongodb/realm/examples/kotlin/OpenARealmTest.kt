@@ -18,7 +18,7 @@ class OpenARealmTest : RealmTest() {
                 .allowWritesOnUiThread(true)
                 .build()
             val realm = Realm.getInstance(config)
-            Log.v("EXAMPLE", "Successfully opened a realm at: " + realm.path)
+            Log.v("EXAMPLE", "Successfully opened a realm at: ${realm.path}")
             // :code-block-end:
             // :code-block-start: close-a-realm-local
             realm.close()
@@ -34,13 +34,40 @@ class OpenARealmTest : RealmTest() {
         activity!!.runOnUiThread {
             // :code-block-start: configure-a-realm-local
             val config = RealmConfiguration.Builder()
+                .name("alternate-realm")
                 .allowQueriesOnUiThread(true)
                 .allowWritesOnUiThread(true)
                 .compactOnLaunch()
                 .inMemory()
                 .build()
             val realm = Realm.getInstance(config)
-            Log.v("EXAMPLE", "Successfully opened a realm at: " + realm.path)
+            Log.v("EXAMPLE", "Successfully opened a realm at: ${realm.path}")
+            // :code-block-end:
+            realm.close()
+            expectation.fulfill()
+        }
+        expectation.await()
+    }
+
+    @Test
+    fun setAndUseDefaultRealm() {
+        val expectation = Expectation()
+        activity!!.runOnUiThread {
+            // :code-block-start: set-default-realm
+            val config = RealmConfiguration.Builder()
+                .name("default-realm")
+                .allowQueriesOnUiThread(true)
+                .allowWritesOnUiThread(true)
+                .compactOnLaunch()
+                .inMemory()
+                .build()
+            // set this config as the default realm
+            Realm.setDefaultConfiguration(config) // :emphasize:
+            // :code-block-end:
+
+            // :code-block-start: use-default-realm
+            val realm = Realm.getDefaultInstance()
+            Log.v("EXAMPLE","Successfully opened the default realm at: ${realm.path}")
             // :code-block-end:
             realm.close()
             expectation.fulfill()

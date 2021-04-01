@@ -4,8 +4,6 @@ const index = require("./index");
 const config = require("./config");
 const main = require("./main");
 const output = require("./output");
-const projects = require("./projects");
-const { ProjectSchema } = require("./schemas");
 
 const REALM_APP_ID = config.realmAppId;
 const appConfig = {
@@ -15,6 +13,13 @@ const appConfig = {
 
 // :code-block-start: newRealmApp
 const app = new Realm.App(appConfig);
+/*  Change the logLevel to increase or decrease the 
+    amount of messages you see in the console.
+    Valid options are:
+    fatal, error, warn, info, detail, debug, and trace
+*/
+Realm.App.Sync.setLogLevel(app, "error");
+
 // :code-block-end:
 
 // :code-block-start: userLogin
@@ -34,23 +39,23 @@ async function logIn() {
   ]);
 
   try {
-    // :hide-start:
+    // :state-start: final
     const credentials = Realm.Credentials.emailPassword(
       input.email,
       input.password
     );
-    // :replace-with:
+    // :state-end: :state-uncomment-start: start
     // // TODO: create new emailPassword credentials and assign it to ``credentials``
     //const credentials;
-    // :hide-end:
+    // :state-uncomment-end:
 
-    // :hide-start:
+    // :state-start: final
     const user = await app.logIn(credentials);
-    // :replace-with: 
+    // :state-end: :state-uncomment-start: start
     // // TODO: call the app.logIn() method and assign its value to ``user``
-    //const user; 
+    //const user;
 
-    // :hide-end: 
+    // :state-uncomment-end:
     if (user) {
       output.result("You have successfully logged in as " + app.currentUser.id);
       return main.mainMenu();
@@ -59,11 +64,11 @@ async function logIn() {
       return logIn();
     }
   } catch (err) {
-    output.error(JSON.stringify(err, null, 2));
+    output.error(err.message);
     return logIn();
   }
 }
-// :code-block-end: 
+// :code-block-end:
 
 async function registerUser() {
   output.header("WELCOME, NEW USER");
@@ -82,7 +87,7 @@ async function registerUser() {
   ]);
 
   try {
-    const result = await app.emailPasswordAuth.registerUser(
+    await app.emailPasswordAuth.registerUser(
       input.email,
       input.password
     );
@@ -101,7 +106,7 @@ async function registerUser() {
       return registerUser();
     }
   } catch (err) {
-    output.error(JSON.stringify(err, null, 2));
+    output.error(err.message);
     return registerUser();
   }
 }
@@ -117,9 +122,7 @@ function getAuthedUser() {
   return app.currentUser;
 }
 
-
 exports.getAuthedUser = getAuthedUser;
 exports.logIn = logIn;
 exports.logOut = logOut;
 exports.registerUser = registerUser;
-

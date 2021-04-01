@@ -22,8 +22,8 @@ class Functions: AnonymouslyLoggedInTestCase {
                 print("Function call failed: \(error!.localizedDescription)")
                 return
             }
-            guard case let .double(value) = sum else {
-                print("Unexpected non-double result: \(sum ?? "nil")")
+            guard case let .int64(value) = sum else {
+                print("Unexpected non-int64 result: \(sum ?? "nil")")
                 return
             }
             print("Called function 'sum' and got result: \(value)")

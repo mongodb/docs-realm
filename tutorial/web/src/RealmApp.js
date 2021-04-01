@@ -15,44 +15,44 @@ export const useRealmApp = () => {
 
 // :code-block-start: realmAppProvider
 export const RealmAppProvider = ({ appId, children }) => {
-  // :hide-start:
+  // :state-start: final
   const [app, setApp] = React.useState(new Realm.App(appId));
-  // :replace-with:
+  // :state-end: :state-uncomment-start: start
   // // TODO: Wrap the Realm.App object with React state.
-  // :hide-end: 
+  // :state-uncomment-end:
   React.useEffect(() => {
     setApp(new Realm.App(appId));
   }, [appId]);
-  
+
   // Wrap the Realm.App object's user state with React state
   const [currentUser, setCurrentUser] = React.useState(app.currentUser);
   async function logIn(credentials) {
-    // :hide-start:
+    // :state-start: final
     await app.logIn(credentials);
-    // :replace-with: 
+    // :state-end: :state-uncomment-start: start
     // // TODO: Call the logIn() method with the given credentials
-    // :hide-end:
+    // :state-uncomment-end:
     // If successful, app.currentUser is the user that just logged in
     setCurrentUser(app.currentUser);
   }
   async function logOut() {
     // Log out the currently active user
-    // :hide-start:
+    // :state-start: final
     await app.currentUser?.logOut();
-    // :replace-with:
-    // // TODO: Call the logOut() method on the current user. 
-    // :hide-end:
+    // :state-end: :state-uncomment-start: start
+    // // TODO: Call the logOut() method on the current user.
+    // :state-uncomment-end:
     // If another user was logged in too, they're now the current user.
     // Otherwise, app.currentUser is null.
-    // :hide-start:
+    // :state-start: final
     setCurrentUser(app.currentUser);
-    // :replace-with:
+    // :state-end: :state-uncomment-start: start
     // // TODO: Call the setCurrentUser() method on the app's current user.
-    // :hide-end:
+    // :state-uncomment-end:
   }
 
   const wrapped = { ...app, currentUser, logIn, logOut };
-  
+
   return (
     <RealmAppContext.Provider value={wrapped}>
       {children}

@@ -13,31 +13,34 @@ Enforce a Document Schema
 Overview
 --------
 
-You can control the shape and contents of documents in a collection by
-defining a :ref:`document schema <mongodb-schemas>`. Schemas are regular
-documents that adhere to the same JSON schema specification as the
-:manual:`schema validation </core/schema-validation>` built into the
-core MongoDB server. You can use schemas to control the type of a
-field's value, require specific fields, and validate changes before
-committing the results of insert and update operations.
+You can control the shape and contents of documents in a collection by defining
+a :ref:`document schema <mongodb-schemas>`. Schemas are regular documents that
+adhere to the same JSON schema specification as the :manual:`schema validation
+</core/schema-validation>` built into the core MongoDB server. You can use
+schemas to control the type of a field's value, require specific fields, and
+validate changes before committing the results of insert and update operations.
 
-This guide walks through creating a document schema for a `{+atlas+}
-<https://www.mongodb.com/cloud/atlas?tck=docs_realm>`_ collection.
+This guide walks through creating a document schema for a collection in a
+:ref:`linked {+atlas+} cluster <mongodb-service>`.
 
-.. note::
+.. note:: Data Lakes Do Not Support Schemas
 
-   This guide requires a :doc:`linked MongoDB Atlas data source
-   </mongodb/link-a-data-source>`.
+   Data Lake data sources :ref:`do not support rules <data-lake-caveats>`. You
+   can only access a Data Lake data source in a system function.
 
 Procedure
 ---------
 
 .. tabs-realm-admin-interfaces::
-
-   tabs:
-     - id: ui
-       content: |
-         .. include:: /includes/steps/enforce-a-document-schema-realm-ui.rst
-     - id: cli
-       content: |
-         .. include:: /includes/steps/enforce-a-document-schema-import-export.rst
+   
+   .. tab::
+      :tabid: ui
+      
+      .. include:: /includes/steps/enforce-a-document-schema-realm-ui.rst
+   
+   .. tab::
+      :tabid: cli
+      
+      .. include:: /includes/note-procedure-uses-cli-v2.rst
+      
+      .. include:: /includes/steps/enforce-a-document-schema-import-export.rst

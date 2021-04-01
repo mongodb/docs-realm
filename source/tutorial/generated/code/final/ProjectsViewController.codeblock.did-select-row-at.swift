@@ -10,7 +10,7 @@ func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
             self?.navigationController?.pushViewController(
                 TasksViewController(realm: realm, title: "\(project.name!)'s Tasks"),
                 animated: true
-            );
+            )
         }
     }
 }

@@ -19,13 +19,13 @@ application runs.
    .. tab::
       :tabid: java
    
-      .. literalinclude:: /examples/generated/android/code/start/MainActivity.codeblock.initialize-realm.java
+      .. literalinclude:: /examples/generated/android/sync/MainActivity.codeblock.initialize-realm.java
          :language: java
    
    .. tab::
       :tabid: kotlin
 
-      .. literalinclude:: /examples/generated/android/code/start/MainActivity.codeblock.initialize-realm.kt
+      .. literalinclude:: /examples/generated/android/sync/MainActivity.codeblock.initialize-realm.kt
          :language: kotlin
 
 .. note:: Register Your Application Subclass in the Android Manifest

@@ -28,7 +28,7 @@ const AuthProvider = ({ children }) => {
     setProjectData([myProject]);
 
     // :code-block-start: open-user-realm
-    // :hide-start:
+    // :state-start: final
     const config = {
       sync: {
         user,
@@ -53,14 +53,14 @@ const AuthProvider = ({ children }) => {
         }
       });
     });
-    // :replace-with:
+    // :state-end: :state-uncomment-start: start
     //// TODO: Open the user realm, which contains at most one user custom data object
     //// for the logged-in user.
-    // :hide-end:
+    // :state-uncomment-end:
     // :code-block-end:
 
     // :code-block-start: user-realm-cleanup
-    // :hide-start:
+    // :state-start: final
     return () => {
       // cleanup function
       const userRealm = realmRef.current;
@@ -70,9 +70,9 @@ const AuthProvider = ({ children }) => {
         setProjectData([]); // set project data to an empty array (this prevents the array from staying in state on logout)
       }
     };
-    // :replace-with:
+    // :state-end: :state-uncomment-start: start
     //// TODO: Return a cleanup function that closes the user realm.
-    // :hide-end:
+    // :state-uncomment-end:
     // :code-block-end:
   }, [user]);
 
@@ -80,14 +80,14 @@ const AuthProvider = ({ children }) => {
   // The signIn function takes an email and password and uses the
   // emailPassword authentication provider to log in.
   const signIn = async (email, password) => {
-    // :hide-start:
+    // :state-start: final
     const creds = Realm.Credentials.emailPassword(email, password);
     const newUser = await app.logIn(creds);
     setUser(newUser);
-    // :replace-with:
+    // :state-end: :state-uncomment-start: start
     //// TODO: Pass the email and password to Realm's email password provider to log in.
     //// Use the setUser() function to set the logged-in user.
-    // :hide-end:
+    // :state-uncomment-end:
   };
   // :code-block-end:
 
@@ -95,12 +95,12 @@ const AuthProvider = ({ children }) => {
   // The signUp function takes an email and password and uses the
   // emailPassword authentication provider to register the user.
   const signUp = async (email, password) => {
-    // :hide-start:
+    // :state-start: final
     await app.emailPasswordAuth.registerUser(email, password);
-    // :replace-with:
+    // :state-end: :state-uncomment-start: start
     //// TODO: Pass the email and password to Realm's email password provider to register the user.
     //// Registering only registers and does not log in.
-    // :hide-end:
+    // :state-uncomment-end:
   };
   // :code-block-end:
 
@@ -112,12 +112,12 @@ const AuthProvider = ({ children }) => {
       console.warn("Not logged in, can't log out!");
       return;
     }
-    // :hide-start:
+    // :state-start: final
     user.logOut();
     setUser(null);
-    // :replace-with:
+    // :state-end: :state-uncomment-start: start
     //// TODO: Log out the current user and use the setUser() function to set the current user to null.
-    // :hide-end:
+    // :state-uncomment-end:
   };
   // :code-block-end:
 

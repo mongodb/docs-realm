@@ -1,5 +1,5 @@
 package com.mongodb.realm.examples.model;
-
+// :code-block-start: complete
 public enum TaskStatus {
     Open("Open"),
     InProgress("In Progress"),
@@ -10,3 +10,4 @@ public enum TaskStatus {
         this.displayName = displayName;
     }
 }
+// :code-block-end:

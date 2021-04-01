@@ -34,6 +34,19 @@ Valid write operations on a live object automatically persist to the
 {+realm+} and propagate to any other synced clients. You do not need to
 call an update method, modify the {+realm+}, or otherwise "push" updates.
 
+.. _android-auto-refresh:
+
+Auto-Refresh
+------------
+
+{+service-short+} objects accessed on a thread associated with a
+:android:`Looper <reference/android/os/Looper.html>` automatically
+update periodically to reflect changes to underlying data.
+
+The Android UI thread always contains a ``Looper`` instance. If you need
+to keep {+service-short+} objects around for long periods of time on
+any other thread, you should configure a ``Looper`` for that thread.
+
 .. _android-read-operations:
 .. _android-realm-database-reads:
 
@@ -119,6 +132,34 @@ between the objects in {+client-database+} and the results of your query in
 application memory. Because of this, you can traverse direct references
 across an entire {+realm+} from any query result.
 
+.. _android-managed-objects:
+
+Managed Objects
+---------------
+
+**Managed objects** are live {+service-short+} objects that update
+based on changes to underlying data in {+client-database+}. Managed
+objects can only come from an open {+realm+}, and receive updates
+as long as that {+realm+} remains open.
+
+.. note:: Managed Objects are Not Thread-safe
+
+   Managed objects cannot be passed between threads.
+
+.. _android-unmanaged-objects:
+
+Unmanaged objects
+-----------------
+
+**Unmanaged objects** are instances of {+service-short+} objects that are
+not live. You can get an unmanaged object by manually constructing a
+{+service-short+} object yourself, or by calling
+:java-sdk:`Realm.copyFromRealm() <io/realm/Realm.html#copyFromRealm-E->`.
+
+.. note:: Unmanaged Objects are Thread-safe
+
+   Unmanaged objects can be passed between threads.
+
 Notifications
 -------------
 
@@ -137,6 +178,10 @@ data, independent of the writes that caused the changes.
 - :ref:`Realm notifications <android-realm-notifications>` whenever a specific {+realm+} commits a write transaction.
 - :ref:`Collection notifications <android-collection-notifications>` whenever any :term:`{+service-short+} object` in a collection changes, including inserts, updates, and deletes.
 - :ref:`Object notifications <android-object-notifications>` whenever a specific {+service-short+} object changes, including updates and deletes.
+
+.. seealso::
+
+   :ref:`Usage Example: React to Changes <android-react-to-changes>`
 
 .. _android-subscribe-to-changes:
 

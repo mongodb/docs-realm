@@ -1,153 +1,102 @@
-title: Export Your Realm Application
+title: Pull Your Realm Application
 ref: export-your-realm-application
 content: |
   To create new function with :doc:`realm-cli
   </deploy/realm-cli-reference>`, you need a previously created
   :ref:`application configuration <application-directory>`.
   
-  You can :doc:`export </deploy/export-realm-app>` your application from the
-  :guilabel:`Import/Export App` tab of the :guilabel:`Deploy` page in the
+  You can :doc:`pull </deploy/export-realm-app>` your application from the
+  :guilabel:`Export App` tab of the :guilabel:`Deploy` page in the
   {+ui+}, or by running the following command from an authenticated instance of
   :doc:`realm-cli </deploy/realm-cli-reference>`:
-
+  
   .. code-block:: shell
-
-     realm-cli export --app-id=<App ID>
+     
+     realm-cli pull --app-id=<App ID>
 ---
-title: Add a Function Configuration Directory
-ref: add-a-function-configuration-directory
-content: |
-  Create a new subdirectory with the same name as the function in the
-  ``/functions`` folder of the application directory that you exported.
-
-  .. code-block:: shell
-
-     mkdir -p functions/<function name>
----
-title: Add a Function Configuration File
+title: Add to the Function Configuration File
 ref: add-a-function-configuration-file
 content: |
-  Add a file named ``config.json`` to the new function directory. The
-  configuration file should have the following form:
-
-  .. code-block:: javascript
-
-     {
-       "name": "<Unique Function Name>",
-       "run_as_authed_user": <boolean>,
-       "run_as_user_id": "<Realm User ID>",
-       "run_as_user_id_script_source": "<Stringified Function>",
-       "disable_arg_logs": <boolean>,
-       "can_evaluate": <JSON Expression>,
-       "options": <document>
-     }
----
-title: Name the New Webhook
-ref: name-the-new-webhook
-content: |
-  Enter a unique, identifying name for the webhook in the
-  :guilabel:`Name` field. This name must be distinct from all other
-  functions in the application.
-
+  In the ``functions`` directory of your application, open the ``config.json`` 
+  file and add an object to the array that describes your new function. The
+  object must have the following form:
+  
   .. code-block:: json
-     
+
      {
-       "name": "<Unique Webhook Name>"
+       "name": "<Function Name>",
+       "private": <Boolean>,
+       "can_evaluate": { <JSON Expression> },
+       "disable_arg_logs": <Boolean>,
+       "run_as_system": <Boolean>,
+       "run_as_user_id": "<Realm User ID>",
+       "run_as_user_id_script_source": "<Function Source Code>"
      }
+
+  For more information about the properties of the function configuration object, 
+  see :ref:`Function Configuration Files <appconfig-functions>`.
+
 ---
-title: Configure User Authentication
-ref: configure-user-authentication
+title: Configure Your Function
+ref: configure-your-function
 content: |
-  Specify the type of authentication that {+service+} should use for the
-  webhook. {+service-short+} supports the following webhook authentication methods:
 
-  .. list-table::
-     :widths: 20 80
-     :header-rows: 1
-     
-     * - Authentication Method
-       - Description
-     
-     * - Application Authentication
-       - This type of authentication configures a function to run in
-         the context of the existing application user that was logged in
-         when the client application called the function. If the
-         function was called from another function then it inherits the
-         execution user from that function.
-     
-         To configure a webhook to use application authentication, set
-         the value of ``run_as_authed_user`` to ``true``:
-     
-         .. code-block:: json
-            
-            {
-              "run_as_authed_user": true,
-              "run_as_user_id": "",
-              "run_as_user_id_script_source": "",
-            }
-     
-     * - System
-       - This type of authentication configures a function to run as a
-         :ref:`system user <system-user>` that has full access to
-         MongoDB CRUD and Aggregation APIs and is not affected by any
-         rules, roles, or permissions.
+  Set User Authentication
+  =======================
 
-         To configure a webhook to run as a system user, do not set any
-         other authentication fields:
+  Functions in {+service+} always execute in the context of a specific
+  application user or as a :ref:`system user <system-user>` (which
+  bypasses rules). To configure the function's execution user, specify
+  the type of authentication that {+service-short+} should use:
 
-         .. code-block:: json
-            
-            {
-              "run_as_authed_user": false,
-              "run_as_user_id": "",
-              "run_as_user_id_script_source": "",
-            }
-     
-     * - User ID
-       - This type of authentication configures a function to always run
-         as a specific application user.
+  - **System**
+    
+    To execute a function as a System user, use the following configuration:
 
-         To configure a webhook to always run as a specific user, set
-         ``run_as_user_id`` to the user's id:
+    .. code-block:: json
+       
+       {
+         "run_as_system": true,
+         "run_as_user_id": "",
+         "run_as_user_id_script_source": ""
+       }
 
-         .. code-block:: json
-            
-            {
-              "run_as_authed_user": false,
-              "run_as_user_id": "<Realm User ID>",
-              "run_as_user_id_script_source": "",
-            }
-     
-     * - Script
-       - This type of authentication configures a function to run as a
-         specific application user determined based on the result of a
-         custom :doc:`function </functions>` that you define. The
-         function must return a specific user's ``id`` string or can
-         specify a system user by returning ``{ "runAsSystemUser": true
-         }``.
+  - **User**
 
-         To configure a webhook to run as a user determined by a
-         function, set ``run_as_user_id_script_source`` to the
-         stringified function code:
+    To execute a function as a specific user, use the following configuration:
 
-         .. code-block:: json
-            
-            {
-              "run_as_authed_user": false,
-              "run_as_user_id": "",
-              "run_as_user_id_script_source": "<Stringified Function>",
-            }
----
-title: Configure Function Execution Logs
-ref: configure-function-execution-logs
-content: |
+    .. code-block:: json
+       
+       {
+         "run_as_system": false,
+         "run_as_user_id": "<Realm User Id>",
+         "run_as_user_id_script_source": ""
+       }
+
+  - **Script**
+
+    The third way to execute a function is to specify another function that 
+    returns a user id. Your function will execute as this user. To do this, 
+    use the following configuration:
+
+    .. code-block:: json
+       
+       {
+         "run_as_system": false,
+         "run_as_user_id": "",
+         "run_as_user_id_script_source": "<Function Source Code>"
+       }
+
+  Set Execution Logging
+  =====================
+  
   To include any values that the function receives as arguments in its
   :doc:`log entry </logs/function>`, set ``disable_arg_logs`` to
   ``false``.
----
-title: Specify an Authorization Expression
-ref: specify-an-authorization-expression
-content: |
+
+  Specify an Authorization Expression
+  ===================================
+
   You can dynamically authorize requests based on the contents of each
   request by defining a :guilabel:`Can Evaluate` :doc:`JSON expression
   </services/json-expressions>`. {+backend+} evaluates the expression
@@ -162,7 +111,7 @@ content: |
   .. example::
      
      The following expression only authorizes incoming requests if the
-     sender's IP address is not included in the list of addresses.
+     sender's IP address is not included in the specified list of addresses.
      
      .. code-block:: json
         
@@ -175,10 +124,10 @@ content: |
                 ]
             }
         }
----
-title: Configure the Function's Privacy Level
-ref: configure-the-functions-privacy-level
-content: |
+
+  Configure the Function's Privacy Level
+  ======================================
+
   By default, you can call a function from client applications as well
   as other functions in the same application. You can prevent client
   applications from seeing or calling a function by setting ``private``
@@ -187,6 +136,7 @@ content: |
   You can still call a private function from :doc:`JSON expressions
   </services/json-expressions>` and other functions, including incoming
   webhooks and triggers.
+
 ---
 title: Write the Function Code
 ref: write-the-function-code
@@ -195,23 +145,25 @@ content: |
   write the actual javascript code that runs when you :doc:`call the
   function </functions/call-a-function>`.
 
-  Add a file named ``source.js`` that contains the javascript code for
-  the function to the new function directory.
+  Create a subdirectory whose name matches the name of the function you 
+  specified in the configuration file, and then add a file named ``source.js``
+  to the new function directory. This file contains the javascript code for the 
+  function.
 
   .. note::
 
      You can use most modern (ES6+) JavaScript features in functions,
      including async/await, destructuring, and template literals.
 ---
-title: Import the Function
+title: Push the Function
 ref: import-the-function
 content: |
   Once you've configured the function and written the source code, all
-  that's left is to import the function.
+  that's left is to push the function to {+service-short+}.
 
-  A. Ensure that ``config.json`` and ``source.js`` are saved.
+  A. Ensure that your changes to ``config.json`` and ``source.js`` are saved.
 
-  #. Navigate to the root of the exported application directory.
+  #. Navigate to the root of your application directory.
 
   #. Log in to MongoDB `{+atlas+} <https://www.mongodb.com/cloud/atlas?tck=docs_realm>`_ 
      with {+cli-bin+}:
@@ -220,14 +172,13 @@ content: |
 
         realm-cli login --api-key="<my api key>" --private-api-key="<my private api key>"
 
-  #. Import the directory:
+  #. Push the directory:
 
      .. code-block:: shell
 
-        realm-cli import
+        realm-cli push
 
-  Now that you have imported the function, you can begin using it
-  immediately.
+  Once you have pushed the function, you can begin using it immediately.
 
   For more information on using the function, see
   :doc:`/functions/call-a-function`.

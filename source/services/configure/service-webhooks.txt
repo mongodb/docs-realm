@@ -1,3 +1,5 @@
+.. _configure-webhooks:
+
 ==========================
 Configure Service Webhooks
 ==========================
@@ -14,11 +16,9 @@ Overview
 --------
 
 Some external services allow you to create :ref:`incoming webhooks
-<service-webhooks>` that external clients can call over HTTP. You can
-create webhooks for these services from the Realm UI or by
-:doc:`importing </deploy/deploy-cli>` a service
-configuration directory that contains a webhook configuration. Select
-the tab below that corresponds to the method you want to use.
+<service-webhooks>` that external clients can call over HTTP. You can create
+webhooks for these services from the Realm UI or with {+cli+}. Select the tab
+below that corresponds to the method you want to use.
 
 Procedure
 ---------
@@ -32,5 +32,7 @@ Procedure
    
    .. tab::
       :tabid: cli
+      
+      .. include:: /includes/note-procedure-uses-cli-v2.rst
       
       .. include:: /includes/steps/create-a-service-webhook-cli.rst
