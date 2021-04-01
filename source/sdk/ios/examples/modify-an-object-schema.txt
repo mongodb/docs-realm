@@ -33,8 +33,8 @@ The migration block receives a :swift-sdk:`Migration object
 <Structs/Migration.html>` that you can use to perform the migration. You
 can use the Migration object's :swift-sdk:`enumerateObjects(ofType:_:)
 <Structs/Migration.html#/s:10RealmSwift9MigrationV16enumerateObjects6ofType_ySS_yAA13DynamicObjectCSg_AHtXEtF>`
-method to iterate over and update all instances of a given Realm type in
-the {+realm+}.
+method to iterate over and update all instances of a given
+{+service-short+} type in the {+realm+}.
 
 .. example::
 
@@ -102,9 +102,8 @@ To rename a property during a migration, use the
 <Structs/Migration.html#/s:10RealmSwift9MigrationV14renameProperty6onType4from2toySS_S2StF>`
 method. 
 
-Make sure that your new models have a property with the new name and
-don't have a property with the old name. {+client-database+} applies any
-new nullability or indexing settings during the rename operation.
+{+client-database+} applies any new nullability or indexing settings
+during the rename operation.
 
 .. tabs-realm-languages::
 
