@@ -43,4 +43,13 @@ class OpenCloseRealm: XCTestCase {
         let realm = try! Realm(configuration: config)
         // :code-block-end:
     }
+    
+    func testTvOs() {
+        // :code-block-start: tvos-share-path
+        let fileUrl = FileManager.default
+            .containerURL(forSecurityApplicationGroupIdentifier: "group.com.mongodb.realm.examples.extension")!
+            .appendingPathComponent("Library/Caches/default.realm")
+        // :code-block-end:
+        print(fileUrl)
+    }
 }
