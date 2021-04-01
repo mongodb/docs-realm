@@ -56,116 +56,118 @@ For this tutorial, we will use a third-party website,
 1. Go to `JWT.IO <https://jwt.io/>`_. Scroll down until you see the **Encoded** 
    and **Decoded** headers. In the **Decoded** column, you will see three sections 
    that comprise a JWT token: **Header**, **Payload**, and 
-   **Verify Signature** areas. 
-   
-	======
-   Header
-   ======
-   
-	The header of a JWT informs consuming applications what algorithm was used to 
-	encode the token. The default, which we will use for this tutorial, is ``HS256``. 
+   **Verify Signature** areas, each of which is explained in the next sections.
+ 
+======
+Header
+======
 
-   .. note::
+The header of a JWT informs consuming applications what algorithm was used to 
+encode the token. The default, which we will use for this tutorial, is ``HS256``. 
 
-      For more information on JWT algorithms, visit `this web page 
-      <https://auth0.com/blog/json-web-token-signing-algorithms-overview/>`_.
-      {+service-short+} supports ``HS256`` and ``RS256``.
+.. note::
+
+	For more information on JWT algorithms, visit `this web page 
+	<https://auth0.com/blog/json-web-token-signing-algorithms-overview/>`_.
+	{+service-short+} supports ``HS256`` and ``RS256``.
 
 
-	=======
-	Payload
-	=======
+=======
+Payload
+=======
 
-	The Payload section contains the information that we need to configure for 
-	our Realm-specific needs. By default, three fields are included: ``sub``, 
-	``name``, and ``iat``. We will use these and add two more fields. The following 
-	table explains each field and the value expected:
+The Payload section contains the information that we need to configure for 
+our Realm-specific needs. By default, three fields are included: ``sub``, 
+``name``, and ``iat``. We will use these and add two more fields. The following 
+table explains each field and the value expected:
 
-   .. list-table::
-	   :header-rows: 1
+.. list-table::
+	:header-rows: 1
+
+	* - Field
+	  - Description
+	  - Value
+	
+	* - ``sub``
+	  - The subject of the jwt. Not Used. 
+	  - "1234567890"
+	
+	* - ``name``
+	  - The name of the user to whom this JWT is assigned. If specified, Realm 
+		 uses this value as the user's display name. Optional.
+	  - <your name>
+	
+	* - ``iat``
+	  - "Issued At" is a Unix epoch timestamp of when the token was issued. 
+	  - The current date-time in seconds since Unix epoch. 
+	
+	* - ``exp``
+	  - The date-time when this token will expire. 
+	  - A future date-time (in seconds since Unix epoch) for when you want 
+		 the token to expire. Depending on your business needs, this can be any 
+		 duration.
+	
+	* - ``aud``
+	  - The audience (consumer) of the token.
+	  - Your {+service-short+} App ID, which you can :ref:`find in the Realm UI
+		 <find-your-app-id>`.
   
-	  * - Field
-		 - Description
-		 - Value
-	  * - ``sub``
-		 - The subject of the jwt. Not Used. 
-		 - "1234567890"
-	  * - ``name``
-		 - The name of the user to whom this JWT is assigned. If specified, Realm 
-		   uses this value as the user's display name. Optional.
-		 - <your name>
-	  * - ``iat``
-		 - "Issued At" is a Unix epoch timestamp of when the token was issued. 
-		 - The current date-time in seconds since Unix epoch. 
-	  * - ``exp``
-		 - The date-time when this token will expire. 
-		 - A future date-time (in seconds since Unix epoch) for when you want 
-		   the token to expire. Depending on your business needs, this can be any 
-			duration.
-	  * - ``aud``
-		 - The audience (consumer) of the token.
-		 - Your {+service-short+} App ID, which you can :ref:`find in the Realm UI
-			<find-your-app-id>`.
-  
-	For this tutorial, we have created a JWT for a user named "Caleb". The token was 
-	issued at the time of writing and will expire in exactly 1 year, and is 
-	intended to be used by a {+service-short+} with an ID of "boiboi-cyal8r". Our 
-	completed JSON payload looks like this:
+For this tutorial, we have created a JWT for a user named "Caleb". The token was 
+issued at the time of writing and will expire in exactly 1 year, and is 
+intended to be used by a {+service-short+} with an ID of "boiboi-cyal8r". Our 
+completed JSON payload looks like this:
 
-	.. code-block:: javascript
+.. code-block:: javascript
+
+	{
+		"sub": "1234567890",
+		"name": "Caleb",
+		"iat": 1617313420,
+		"exp": 1648849420,
+		"aud": "boiboi-cyal8r"
+	}
 	
-		{
-			"sub": "1234567890",
-			"name": "Caleb",
-			"iat": 1617313420,
-			"exp": 1648849420,
-			"aud": "boiboi-cyal8r"
-		}
-	
-	.. note::
+.. note::
 
-	   When you change the JSON payload, the resulting **Encoded** value on the 
-		web page updates automatically. 
+	When you change the JSON payload, the resulting **Encoded** value on the 
+	web page updates automatically. 
 
-	================
-	Verify Signature
-	================
+================
+Verify Signature
+================
 
-	The final step in creating the JWT is to add a 256-bit secret with which the 
-	token is encoded. In this last section, find the field with the placeholder 
-	text of "your-256-bit-secret". Paste in any 256-bit string value into this field.
-	If you are uncertain what value to use, consider visiting a random key 
-	generator website, like `keygen.io <https://keygen.io/>`_, and  
-	find a 256-bit value that has been generated for you. 
+The final step in creating the JWT is to add a 256-bit secret with which the 
+token is encoded. In this last section, find the field with the placeholder 
+text of "your-256-bit-secret". Paste in any 256-bit string value into this field.
+If you are uncertain what value to use, consider visiting a random key 
+generator website, like `keygen.io <https://keygen.io/>`_, and  
+find a 256-bit value that has been generated for you. 
 
-	.. important::
+.. important::
 
-	   The key you use must only contain ASCII letters, numbers, underscores, 
-		and hyphens, and must be between 32 and 512 characters long.
+	The key you use must only contain ASCII letters, numbers, underscores, 
+	and hyphens, and must be between 32 and 512 characters long.
 
-	..note::
+..note::
 
-	  Keep track of this secret, as you will need it in the next section, when 
-	  we configure the {service-short+} authentication.
+	Keep track of this secret, as you will need it in the next section, when 
+	we configure the {service-short+} authentication.
 
-   
-	Finally, check the ``secret base64 encoded`` check box.
+Finally, check the ``secret base64 encoded`` check box.
 
-	At this point, you have generated a JWT key that can be used with -- and 
-	only with -- the {+app+} you specified. Copy this key from the 
-	:guilabel:`Encoded` box and temporarily save it in a text document, along 
-	with the secret you used. In our case, our JWT looks like the following (your
-	token will **not** match this!):
+At this point, you have generated a JWT key that can be used with -- and 
+only with -- the {+app+} you specified. Copy this key from the 
+:guilabel:`Encoded` box and temporarily save it in a text document, along 
+with the secret you used. In our case, our JWT looks like the following (your
+token will **not** match this!):
 
-	.. code-block:: javascript
-	
-		eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.
-		eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkNhbGViIiwiaWF0IjoxN \ 
-		jE3MzEzNDIwLCJleHAiOjE2NDg4NDk0MjAsImF1ZCI6ImJvaWJvaS1jeWFsOHIifQ.
-		GaIE4e6mGxlIBNnz4FcheFBUmxd25GK-rfOfF6F85rY
-	
-	
-	Now it is time to update your {+app+}.
+.. code-block:: javascript
+
+	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.
+	eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkNhbGViIiwiaWF0IjoxNjE3MzEzNDIwLCJleHAiOjE2NDg4NDk0MjAsImF1ZCI6ImJvaWJvaS1jeWFsOHIifQ.
+	GaIE4e6mGxlIBNnz4FcheFBUmxd25GK-rfOfF6F85rY
+
+Now it is time to update your {+app+}.
 
 Enable JWT Authentication
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -187,16 +189,22 @@ JWT in the previous section.
   
 		* - Field
 		  - Value
+		
 		* - :guilabel:`Provider Enabled`
 		  - Select to enable
+		
 		* - :guilabel:`Verification Method`
 		  - :guilabel:`Manually specify signing keys`
+		
 		* - :guilabel:`Signing Algorithm`
 		  - ``HS256``
+		
 		* - :guilabel:`Signing Key (Secret Name)`
 		  - See text below this table.
+		
 		* - :guilabel:`Metadata Fields (Optional)`
 		  - Leave blank
+		
 		* - :guilabel:`Audience (Optional)`
 		  - Leave blank.
 		 
