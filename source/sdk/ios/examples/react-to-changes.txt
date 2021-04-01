@@ -192,7 +192,7 @@ Observing the properties of managed objects works differently. With
 
 - You assign to it
 - You call ``realm.refresh()``
-- The {+realm+} is automatically refreshed when a write transaction 
+- The {+realm+} is automatically refreshed after a write transaction 
   occurs on a different thread
 - You call ``realm.beginWrite()`` after changes to a different thread which 
   have not been picked up by a refresh on the current thread
