@@ -1,4 +1,4 @@
-// Find all students in year 9 and resolve the query into a results collection
+// Build a RealmQuery based on the Student type
 RealmQuery<Student> query = realm.where(Student.class);
 
 // Simple query

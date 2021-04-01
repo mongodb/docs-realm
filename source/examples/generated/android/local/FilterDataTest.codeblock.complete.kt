@@ -184,7 +184,7 @@ class FilterDataTest: RealmTest() {
                 .allowWritesOnUiThread(true)
                 .build()
             val realm = Realm.getInstance(config)
-            // Find all students in year 9 and resolve the query into a results collection
+            // Build a RealmQuery based on the Student type
             val query = realm.where(Student::class.java)
 
             // Simple query

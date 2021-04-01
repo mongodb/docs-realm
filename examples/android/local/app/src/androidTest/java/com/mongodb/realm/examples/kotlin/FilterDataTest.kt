@@ -207,7 +207,7 @@ class FilterDataTest: RealmTest() {
                 .build()
             val realm = Realm.getInstance(config)
             // :code-block-start: realm-query-language
-            // Find all students in year 9 and resolve the query into a results collection
+            // Build a RealmQuery based on the Student type
             val query = realm.where(Student::class.java)
 
             // Simple query
