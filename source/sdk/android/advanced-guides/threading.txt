@@ -104,7 +104,8 @@ not thread-safe or ``Parcelable``, so you cannot pass them between
 activities or threads via an ``Intent``. Instead, you can pass an object
 identifier, like a :ref:`primary key <android-primary-key-fundamentals>`,
 in the ``Intent`` extras bundle, and then open a new {+realm+} instance
-in the separate thread to query for that identifier.
+in the separate thread to query for that identifier. Alternatively, you
+can :ref:`freeze <android-frozen-objects>` {+service-short+} objects.
 
 .. seealso::
 
@@ -114,39 +115,10 @@ in the separate thread to query for that identifier.
    The example shows you how to pass IDs and retrieve a ``RealmObject``
    in common Android use cases.
 
-.. _android-refreshing-realms:
-
-Refreshing Realms
------------------
-
-When you open a {+realm+}, it reflects the most recent successful write
-commit and remains on that version until it is **refreshed**. This means
-that the {+realm+} will not see changes that happened on another thread
-until the next refresh. Realms on any :term:`event loop` thread 
-(including the UI thread) automatically refresh themselves at the
-beginning of that thread's loop. However, you must manually refresh
-{+realm+} instances that are tied to non-looping threads or that have
-auto-refresh disabled. To refresh a {+realm+}, call
-:java-sdk:`Realm.refresh() <io/realm/Realm.html#refresh-->`:
-
-.. tabs-realm-languages::
-   
-   .. tab::
-       :tabid: kotlin
-
-       .. literalinclude:: /examples/generated/android/local/ThreadingTest.codeblock.refresh-realm.kt
-         :language: kotlin
-
-   .. tab::
-       :tabid: java
-
-       .. literalinclude:: /examples/generated/android/local/ThreadingTest.codeblock.refresh-realm.java
-         :language: java
-
 .. _android-frozen-objects:
 
 Frozen Objects
---------------
+~~~~~~~~~~~~~~
 
 Live, thread-confined objects work fine in most cases.
 However, some apps -- those based on reactive, event
@@ -209,6 +181,35 @@ To freeze an object, collection, or {+realm+}, use the
    storage than it might have without frozen objects. If you need to
    separately freeze a large number of objects for long periods of time,
    consider copying what you need out of the {+realm+} instead.
+
+.. _android-refreshing-realms:
+
+Refreshing Realms
+-----------------
+
+When you open a {+realm+}, it reflects the most recent successful write
+commit and remains on that version until it is **refreshed**. This means
+that the {+realm+} will not see changes that happened on another thread
+until the next refresh. Realms on any :term:`event loop` thread 
+(including the UI thread) automatically refresh themselves at the
+beginning of that thread's loop. However, you must manually refresh
+{+realm+} instances that are tied to non-looping threads or that have
+auto-refresh disabled. To refresh a {+realm+}, call
+:java-sdk:`Realm.refresh() <io/realm/Realm.html#refresh-->`:
+
+.. tabs-realm-languages::
+   
+   .. tab::
+       :tabid: kotlin
+
+       .. literalinclude:: /examples/generated/android/local/ThreadingTest.codeblock.refresh-realm.kt
+         :language: kotlin
+
+   .. tab::
+       :tabid: java
+
+       .. literalinclude:: /examples/generated/android/local/ThreadingTest.codeblock.refresh-realm.java
+         :language: java
 
 .. _android-mvcc:
 
