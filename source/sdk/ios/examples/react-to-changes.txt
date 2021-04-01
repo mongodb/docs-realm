@@ -167,7 +167,7 @@ Key-value Observation
 Key-value Observation Compliance
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-{+client-database+} objects are :apple:`key-value observing 
+{+client-database+} objects are :apple:`key-value observing (KVO) 
 compliant<documentation/swift/cocoa_design_patterns/using_key-value_observing_in_swift>` 
 for most properties:
 
@@ -184,8 +184,8 @@ You cannot observe ``LinkingObjects`` properties via Key-value observation.
 Managed vs. Unmanaged KVO Considerations
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Working with unmanaged instances of ``Object`` subclasses? Observing their 
-properties works like any other dynamic property.
+Observing the properties of unmanaged instances of ``Object`` subclasses 
+works like any other dynamic property.
 
 Observing the properties of managed objects works differently. With 
 {+realm+}-managed objects, the value of a property may change when:
@@ -208,10 +208,10 @@ Intermediate steps do not trigger KVO notifications.
    change directly from 1 to 10. You won't get notifications for every 
    incremental change between 1 and 10.
 
-We don't recommend modifying managed Realm objects from within 
-``observeValueForKeyPath(_:ofObject:change:context:)``. This is because 
-property values can change when not in a write transaction, or as 
-part of beginning a write transaction.
+Avoid modifying managed Realm objects from within 
+``observeValueForKeyPath(_:ofObject:change:context:)``. Property values 
+can change when not in a write transaction, or as part of beginning a 
+write transaction.
 
 Observing Realm Lists
 ~~~~~~~~~~~~~~~~~~~~~
