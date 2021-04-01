@@ -14,7 +14,7 @@ namespace Examples
         App app;
         Realms.Sync.User user;
         SyncConfiguration config;
-        const string myRealmAppId = "tuts-tijya";
+        const string myRealmAppId = Config.appid;
 
 
         [Test]

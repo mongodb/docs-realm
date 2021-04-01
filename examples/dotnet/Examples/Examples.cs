@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.IO;
 using System.Linq;
 using MongoDB.Bson;
@@ -17,7 +17,7 @@ namespace Examples
         ObjectId testTaskId;
         Realms.Sync.User user;
         SyncConfiguration config;
-        const string myRealmAppId = "tuts-tijya";
+        const string myRealmAppId = Config.appid;
 
         [OneTimeSetUp]
         public async System.Threading.Tasks.Task Setup()
@@ -37,7 +37,8 @@ namespace Examples
             var testTask = new Task
             {
                 Name = "Do this thing",
-                Status = TaskStatus.Open.ToString()
+                Status = TaskStatus.Open.ToString(),
+                Partition = "myPart"
             };
 
             realm.Write(() =>
@@ -142,9 +143,9 @@ namespace Examples
             });
 
             // :code-block-end:
-            var allTasks = realm.All<Task>().ToList();
+            var ttest = realm.All<Task>().FirstOrDefault(x => x.Id == t.Id);
             //Assert.AreEqual(1, allTasks.Count);
-            Assert.AreEqual(TaskStatus.Open.ToString(), allTasks.First().Status);
+            Assert.AreEqual(TaskStatus.InProgress.ToString(), ttest.Status);
 
             return;
         }
@@ -168,7 +169,7 @@ namespace Examples
                 await user.LogOutAsync();
             }
             {
-                var apiKey = "eRECwv1e6gkLEse99XokWOgegzoguEkwmvYvXk08zAucG4kXmZu7TTgV832SwFCv";
+                var apiKey = "F5ONly653MyQEq781wR4LT3nu3eGmIf0uDhHnkpsAkXyvsbPee8RqJyv6HVzM9dU";
                 // :code-block-start: logon_API
                 var user = await app.LogInAsync(Credentials.ApiKey(apiKey));
                 // :code-block-end:
@@ -192,7 +193,11 @@ namespace Examples
                 await user.LogOutAsync();
             }
             {
-                var jwt_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkNhbGViIiwiaWF0IjoxNjAxNjc4ODcyLCJleHAiOjI1MTYyMzkwMjIsImF1ZCI6InR1dHMtdGlqeWEifQ.LHbeSI2FDWrlUVOBxe-rasuFiW-etv2Gu5e3eAa6Y6k";
+
+                var jwt_token =
+                    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9." +
+                    "eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6ImNhbGViQGV4YW1wbGUuY29tIiwiaWF0IjoxNjAxNjc4ODcyLCJleHAiOjI1MTYyMzkwMjIsImF1ZCI6InNuaXBwZXRzZG9ub3RkZWxldGUtcXJvdXEifQ." +
+                    "Qp-sRcKAyuS5ONeBDvZuSg6-YAzohCdU3yKLnz7MXbI";
                 // :code-block-start: logon_JWT
                 var user =
                     await app.LogInAsync(Credentials.JWT(jwt_token));
