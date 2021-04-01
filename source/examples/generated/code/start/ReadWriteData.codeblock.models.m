@@ -7,6 +7,7 @@
 @interface Dog : RLMObject
 @property NSString *name;
 @property int age;
+@property NSString *color;
 
 // To-one relationship
 @property DogToy *favoriteToy;

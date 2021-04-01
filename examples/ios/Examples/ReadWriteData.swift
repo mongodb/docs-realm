@@ -441,7 +441,7 @@ class ReadWriteData: XCTestCase {
         }
         // :code-block-end:
     }
-    
+
     func testChainQuery() {
         // :code-block-start: chain-query
         let realm = try! Realm()
