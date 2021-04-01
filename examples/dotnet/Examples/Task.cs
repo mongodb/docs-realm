@@ -11,6 +11,7 @@ namespace dotnet
         public ObjectId Id { get; set; } = ObjectId.GenerateNewId();
 
         [MapTo("_partition")]
+        [Required]
         public string Partition { get; set; }
 
         [MapTo("assignee")]

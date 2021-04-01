@@ -13,43 +13,107 @@ content: |
    .. image:: /images/project-level-build-gradle.png
       :alt: Location of the project-level build.gradle file.
 
+   First, add the following repositories to your project:
+
+   .. tabs::
+
+      .. tab:: Version 10.4.0 and up
+         :tabid: gte-10-4-0
+
+         In ``buildscript.dependencies``, add the following:
+
+         .. code-block:: groovy
+
+            jcenter()
+
+         In ``allprojects.repositories``, add the following:
+
+         .. code-block:: groovy
+
+            mavenCentral()
+
+      .. tab:: Versions below 10.4.0
+         :tabid: lt-10-4-0
+
+         In ``buildscript.dependencies`` and
+         ``allprojects.repositories``, add the following:
+
+         .. code-block:: groovy
+
+            jcenter()
+
    Paste the {+service-short+} classpath into the
    ``buildscript.dependencies`` block:
 
    .. code-block:: groovy
     
-      classpath "io.realm:realm-gradle-plugin:10.3.1"
+      classpath "io.realm:realm-gradle-plugin:10.4.0"
 
    When done, your project-level ``build.gradle`` should look something like this:
 
-   .. code-block:: groovy
-      :emphasize-lines: 9
+   .. tabs::
 
-      buildscript {
-          repositories {
-              google()
-              jcenter()
-              
-          }
-          dependencies {
-              classpath "com.android.tools.build:gradle:3.5.1"
-              classpath "io.realm:realm-gradle-plugin:10.3.1"
-          }
-      }
+      .. tab:: Version 10.4.0 and up
+         :tabid: gte-10-4-0
 
-      allprojects {
-          repositories {
-              google()
-              jcenter()
-          }
+         .. code-block:: groovy
+            :emphasize-lines: 4, 8, 15
 
-          dependencies {
-          }
-      }
+            buildscript {
+                repositories {
+                    google()
+                    jcenter()
+                }
+                dependencies {
+                    classpath "com.android.tools.build:gradle:3.5.1"
+                    classpath "io.realm:realm-gradle-plugin:10.4.0"
+                }
+            }
 
-      task clean(type: Delete) {
-          delete rootProject.buildDir
-      }
+            allprojects {
+                repositories {
+                    google()
+                    mavenCentral()
+                }
+
+                dependencies {
+                }
+            }
+
+            task clean(type: Delete) {
+                delete rootProject.buildDir
+            }
+
+      .. tab:: Versions below 10.4.0
+         :tabid: lt-10-4-0
+
+         .. code-block:: groovy
+            :emphasize-lines: 4, 8, 15
+
+            buildscript {
+                repositories {
+                    google()
+                    jcenter()
+                }
+                dependencies {
+                    classpath "com.android.tools.build:gradle:3.5.1"
+                    classpath "io.realm:realm-gradle-plugin:10.3.1"
+                }
+            }
+
+            allprojects {
+                repositories {
+                    google()
+                    jcenter()
+                }
+
+                dependencies {
+                }
+            }
+
+            task clean(type: Delete) {
+                delete rootProject.buildDir
+            }
 
 ---
 title: Add Realm to the Application-Level ``build.gradle`` File

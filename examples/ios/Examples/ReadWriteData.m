@@ -16,6 +16,7 @@
 @interface ReadWriteDataObjcExample_Dog : RLMObject
 @property NSString *name;
 @property int age;
+@property NSString *color;
 
 // To-one relationship
 @property ReadWriteDataObjcExample_DogToy *favoriteToy;
@@ -396,6 +397,46 @@ RLM_ARRAY_TYPE(ReadWriteDataObjcExample_Person)
     // People whose dogs' ages combined > 10 years
     [people objectsWhere:@"dogs.@sum.age > 10"];
     // :code-block-end:
+}
+
+- (void)testCopyToAnotherRealm {
+    // :code-block-start: copy-to-another-realm
+    RLMRealmConfiguration *configuration = [RLMRealmConfiguration defaultConfiguration];
+    configuration.inMemoryIdentifier = @"first realm";
+    RLMRealm *realm = [RLMRealm realmWithConfiguration:configuration error:nil];
+
+    [realm transactionWithBlock:^{
+        ReadWriteDataObjcExample_Dog *dog = [[ReadWriteDataObjcExample_Dog alloc] init];
+        dog.name = @"Wolfie";
+        dog.age = 1;
+        [realm addObject:dog];
+    }];
+
+    // Later, fetch the instance we want to copy
+    ReadWriteDataObjcExample_Dog *wolfie = [[ReadWriteDataObjcExample_Dog objectsInRealm:realm where:@"name == 'Wolfie'"] firstObject];
+
+    // Open the other realm
+    RLMRealmConfiguration *otherConfiguration = [RLMRealmConfiguration defaultConfiguration];
+    otherConfiguration.inMemoryIdentifier = @"second realm";
+    RLMRealm *otherRealm = [RLMRealm realmWithConfiguration:otherConfiguration error:nil];
+    [otherRealm transactionWithBlock:^{
+        // Copy to the other realm
+        ReadWriteDataObjcExample_Dog *wolfieCopy = [[wolfie class] createInRealm:otherRealm withValue:wolfie];
+        wolfieCopy.age = 2;
+        
+        // Verify that the copy is separate from the original
+        XCTAssertNotEqual(wolfie.age, wolfieCopy.age);
+    }];
+    // :code-block-end:
+}
+
+- (void)testChainQuery {
+    // :code-block-start: chain-query
+    RLMRealm *realm = [RLMRealm defaultRealm];
+    RLMResults<ReadWriteDataObjcExample_Dog *> *tanDogs = [ReadWriteDataObjcExample_Dog objectsInRealm:realm where:@"color = 'tan'"];
+    RLMResults<ReadWriteDataObjcExample_Dog *> *tanDogsWithBNames = [tanDogs objectsWhere:@"name BEGINSWITH 'B'"];
+    // :code-block-end:
+    (void)tanDogsWithBNames;
 }
 
 @end

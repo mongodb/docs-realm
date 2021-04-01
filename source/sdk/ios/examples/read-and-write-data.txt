@@ -269,6 +269,35 @@ against list properties.
       .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.aggregate.m
          :language: objectivec
 
+.. _ios-chain-queries:
+
+Chain Queries
+~~~~~~~~~~~~~
+
+Because :ref:`results are lazily evaluated <ios-results-are-lazy>`, you
+can chain several queries together. Unlike traditional databases, this
+does not require a separate trip to the database for each successive
+query.
+
+.. example::
+
+   To get a result set for tan dogs, and tan dogs whose names start with
+   ‘B’, chain two queries like this:
+
+   .. tabs-realm-languages::
+       
+      .. tab::
+         :tabid: swift
+          
+         .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.chain-query.swift
+            :language: swift
+
+      .. tab::
+         :tabid: objective-c
+
+         .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.chain-query.m
+            :language: objectivec
+
 .. _ios-write-operations:
 
 Write Operations
@@ -303,6 +332,42 @@ Create a New Object
       .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.create.m
          :language: objectivec
 
+
+.. _ios-copy-an-object-to-another-realm:
+
+Copy an Object to Another Realm
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: swift
+
+      To copy an object from one {+realm+} to another, pass the original
+      object to :swift-sdk:`Realm.create(_:value:update:):
+      <Structs/Realm.html#/s:10RealmSwift0A0V6create_5value6updatexxm_ypAC12UpdatePolicyOtSo0aB6ObjectCRbzlF>`:
+
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.copy-to-another-realm.swift
+         :language: swift
+
+   .. tab::
+      :tabid: objective-c
+
+      To copy an object from one {+realm+} to another, pass the original
+      object to :objc-sdk:`+[RLMObject createInRealm:withValue:]
+      <Classes/RLMObject.html#/c:objc(cs)RLMObject(cm)createInRealm:withValue:>`:
+
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.copy-to-another-realm.m
+         :language: objectivec
+
+
+.. important::
+
+   The ``create`` methods do not support handling cyclical object
+   graphs. Do not pass in an object containing relationships involving
+   objects that refer back to their parents, either directly or
+   indirectly.
+
 .. _ios-modify-an-object:
 
 Modify an Object
@@ -336,6 +401,21 @@ Objective-C object.
    object.
 
 .. _ios-upsert-an-object:
+
+Update Properties with Key-value Coding
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+``Object``, ``Result``, and ``List`` all conform to 
+:apple:`key-value coding<library/archive/documentation/Cocoa/Conceptual/KeyValueCoding/>`. 
+This can be useful when you need to determine which property to update 
+at runtime.
+
+Applying KVC to a collection is a great way to update objects in bulk. 
+Avoid the overhead of iterating over a collection while creating 
+accessors for every item.
+
+.. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.key-value-coding.swift
+   :language: swift
 
 Upsert an Object
 ~~~~~~~~~~~~~~~~

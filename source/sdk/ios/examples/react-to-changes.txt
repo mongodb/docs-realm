@@ -102,14 +102,15 @@ and whether the object was deleted.
       .. literalinclude:: /examples/generated/code/start/Notifications.codeblock.register-an-object-change-listener.m
         :language: objectivec
 
-.. _ios-silent-writes:
+.. _ios-write-silently:
 
-Silent Writes
--------------
+Write Silently
+--------------
 
-You can write to a {+realm+} *without* sending a notification to a specific
-observer by passing the observer's notification token in an array to
-``realm.write()``:
+You can write to a {+realm+} *without* sending a notification to a
+specific observer by passing the observer's notification token in an
+array to :swift-sdk:`realm.write(withoutNotifying:_:)
+<Structs/Realm.html#/s:10RealmSwift0A0V5write16withoutNotifying_xSaySo20RLMNotificationTokenCG_xyKXEtKlF>`:
 
 .. tabs-realm-languages::
 
@@ -125,6 +126,10 @@ observer by passing the observer's notification token in an array to
       .. literalinclude:: /examples/generated/code/start/Notifications.codeblock.silent-write.m
         :language: objectivec
 
+
+.. seealso::
+
+   :ref:`ios-interface-driven-writes`
 
 .. _stop-watching-for-changes:
 

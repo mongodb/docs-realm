@@ -79,6 +79,23 @@
     // :code-block-end:
     (void)realm;
 }
+
+- (void)testRenameProperty {
+    // :code-block-start: rename-property
+    RLMRealmConfiguration *config = [[RLMRealmConfiguration alloc] init];
+    // :remove-start:
+    // Prevent schema version from affecting other unit tests
+    config.inMemoryIdentifier = @"LocalMigrationObjcExample";
+    // :remove-end:
+    config.schemaVersion = 1;
+    config.migrationBlock = ^(RLMMigration * _Nonnull migration, uint64_t oldSchemaVersion) {
+        if (oldSchemaVersion < 1) {
+            [migration renamePropertyForClass:[MigrationObjcExampleV2_Person className] oldName:@"yearsSinceBirth" newName:@"age"];
+        }
+    };
+    // :code-block-end:
+}
+
 @end
 
 // :replace-end:

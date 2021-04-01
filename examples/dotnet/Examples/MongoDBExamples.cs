@@ -14,7 +14,7 @@ namespace Examples
         App app;
         User user;
         SyncConfiguration config;
-        const string myRealmAppId = "tuts-tijya";
+        const string myRealmAppId = Config.appid;
 
         MongoClient mongoClient;
         MongoClient.Database dbPlantInventory;
@@ -132,8 +132,9 @@ namespace Examples
             {
                 // :code-block-start: mongo-update-one
                 var updateResult = await plantsCollection.UpdateOneAsync(
-                    new BsonDocument("sunlight", Sunlight.Partial.ToString()),
-                    new { name = "Petunia" });
+                    new { name = "Petunia" },
+                    new BsonDocument("$set", new BsonDocument("sunlight", Sunlight.Partial.ToString()))
+                    );
                 // :code-block-end:
                 Assert.AreEqual(1, updateResult.MatchedCount);
                 Assert.AreEqual(1, updateResult.ModifiedCount);
