@@ -14,6 +14,7 @@ class ReadWriteDataExamples_DogToy: Object {
 class ReadWriteDataExamples_Dog: Object {
     @objc dynamic var name = ""
     @objc dynamic var age = 0
+    @objc dynamic var color = ""
     @objc dynamic var currentCity = ""
 
     // To-one relationship
@@ -438,6 +439,14 @@ class ReadWriteData: XCTestCase {
             // Move the dogs to Toronto for vacation
             allDogs.setValue("Toronto", forKey: "currentCity")
         }
+        // :code-block-end:
+    }
+    
+    func testChainQuery() {
+        // :code-block-start: chain-query
+        let realm = try! Realm()
+        let tanDogs = realm.objects(ReadWriteDataExamples_Dog.self).filter("color = 'tan'")
+        let tanDogsWithBNames = tanDogs.filter("name BEGINSWITH 'B'")
         // :code-block-end:
     }
 }

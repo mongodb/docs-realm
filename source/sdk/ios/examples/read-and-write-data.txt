@@ -269,6 +269,35 @@ against list properties.
       .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.aggregate.m
          :language: objectivec
 
+.. _ios-chain-queries:
+
+Chain Queries
+~~~~~~~~~~~~~
+
+Because :ref:`results are lazily evaluated <ios-results-are-lazy>`, you
+can chain several queries together. Unlike traditional databases, this
+does not require a separate trip to the database for each successive
+query.
+
+.. example::
+
+   To get a result set for tan dogs, and tan dogs whose names start with
+   ‘B’, chain two queries like this:
+
+   .. tabs-realm-languages::
+       
+      .. tab::
+         :tabid: swift
+          
+         .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.chain-query.swift
+            :language: swift
+
+      .. tab::
+         :tabid: objective-c
+
+         .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.chain-query.m
+            :language: objectivec
+
 .. _ios-write-operations:
 
 Write Operations

@@ -16,6 +16,7 @@
 @interface ReadWriteDataObjcExample_Dog : RLMObject
 @property NSString *name;
 @property int age;
+@property NSString *color;
 
 // To-one relationship
 @property ReadWriteDataObjcExample_DogToy *favoriteToy;
@@ -428,6 +429,16 @@ RLM_ARRAY_TYPE(ReadWriteDataObjcExample_Person)
     }];
     // :code-block-end:
 }
+
+- (void)testChainQuery {
+    // :code-block-start: chain-query
+    RLMRealm *realm = [RLMRealm defaultRealm];
+    RLMResults<ReadWriteDataObjcExample_Dog *> *tanDogs = [ReadWriteDataObjcExample_Dog objectsInRealm:realm where:@"color = 'tan'"];
+    RLMResults<ReadWriteDataObjcExample_Dog *> *tanDogsWithBNames = [tanDogs objectsWhere:@"name BEGINSWITH 'B'"];
+    // :code-block-end:
+    (void)tanDogsWithBNames;
+}
+
 @end
 
 // :replace-end:
