@@ -1,0 +1,280 @@
+.. _backend-tutorial:
+
+============================================
+Set up JWT Authentication with MongoDB Realm
+============================================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+In this tutorial, you will implement :ref:`Custom JWT <config-custom-jwt> Authentication` 
+for your Realm app. You will learn how to:
+
+- Enable JWT Authentication,
+- Use a third-party JWT provider to generate a valid token,
+- Authenticate against the backend from a client application.
+
+This tutorial should take around 30 minutes.
+
+Prerequisites
+-------------
+
+- Read how {+realm+} handles :ref:`Custom JWT <config-custom-jwt> Authentication`.
+- :doc:`Create a {+app+} </get-started/create-realm-app>`. If you have completed 
+  the :ref:`Task Tracker tutorial <tutorial-task-tracker-create-realm-app>`, you 
+  can use that backend {+app+}.
+- (Recommended) Build or download one of the Task Tracker apps from the 
+  :doc:`Tutorial </tutorial>`, or one of your own.
+
+Procedure
+---------
+This procedure is divided into three logical steps:
+
+1. Create a JWT token
+2. Enable and configure JWT Authentication in {+service-short+}
+3. Add authentication code to your client app.
+
+Create a JWT Token
+~~~~~~~~~~~~~~~~~~
+For this tutorial, we will use a third-party website, 
+`JWT.IO <https://jwt.io/>`_ to generate a JWT token. 
+
+.. important::
+
+   JWT tokens are credentials used to grant access to resources in 
+   your {+app+}. Care should be taken when storing them, especially when using 
+   them in a production environment.
+
+1. Go to `JWT.IO <https://jwt.io/>`_. Scroll down until you see the **Encoded** 
+   and **Decoded** headers. In the **Decoded** column, you will see three sections 
+   that comprise a JWT token: **Header**, **Payload**, and 
+   **Verify Signature** areas. 
+   
+   Header
+   ======
+   The header of a JWT informs consuming applications what algorithm was used to 
+	encode the token. The default, which we will use for this tutorial, is ``HS256``. 
+
+   .. note::
+
+      For more information on JWT algorithms, visit `this web page 
+      <https://auth0.com/blog/json-web-token-signing-algorithms-overview/>`_.
+      {+service-short+} supports ``HS256`` and ``RS256``.
+
+	Payload
+	=======
+	The Payload section contains the information that we need to configure for 
+	our Realm-specific needs. By default, three fields are included: ``sub``, 
+	``name``, and ``iat``. We will use these and add two more fields. The following 
+	table explains each field and the value expected:
+
+   .. list-table::
+	  :header-rows: 1
+  
+	  * - Field
+		 - Description
+		 - Value
+	  * - ``sub``
+		 - The subject of the jwt. Not Used. 
+		 - "1234567890"
+	  * - ``name``
+		 - The name of the user to whom this JWT is assigned. If specified, Realm 
+		   uses this value as the user's display name. Optional.
+		 - <your name>
+	  * - ``iat``
+		 - "Issued At" is a Unix epoch timestamp of when the token was issued. 
+		 - The current date-time in seconds since Unix epoch. 
+	  * - ``exp``
+		 - The date-time when this token will expire. 
+		 - A future date-time (in seconds since Unix epoch) for when you want 
+		   the token to expire. Depending on your business needs, this can be any 
+			duration.
+	  * - ``aud``
+		 - The audience (consumer) of the token.
+		 - Your {+service-short+} App ID, which you can :ref:`find in the Realm UI
+			<find-your-app-id>`.
+  
+	For this tutorial, we have created a JWT for a user named "Caleb". The token was 
+	issued at the time of writing and will expire in exactly 1 year, and is 
+	intended to be used by a {+service-short+} with an ID of "boiboi-cyal8r". Our 
+	completed JSON payload looks like this:
+
+	.. code-block:: javascript
+	
+		{
+			"sub": "1234567890",
+			"name": "Caleb",
+			"iat": 1617313420,
+			"exp": 1648849420,
+			"aud": "boiboi-cyal8r"
+		}
+	
+	.. note::
+
+	   When you change the JSON payload, the resulting **Encoded** value on the 
+		web page updates automatically. 
+
+	Verify Signature
+	================
+
+	The final step in creating the JWT is to add a 256-bit secret with which the 
+	token is encoded. In this last section, find the field with the placeholder 
+	text of "your-256-bit-secret". Paste in any 256-bit string value into this field.
+	If you are uncertain what value to use, consider visiting a random key 
+	generator website, like `keygen.io <https://keygen.io/>`_, and  
+	find a 256-bit value that has been generated for you. 
+
+	.. important::
+
+	   The key you use must only contain ASCII letters, numbers, underscores, 
+		and hyphens, and must be between 32 and 512 characters long.
+
+	..note::
+
+	  Keep track of this secret, as you will need it in the next section, when 
+	  we configure the {service-short+} authentication.
+
+   Finally, check the ``secret base64 encoded`` check box.
+
+	At this point, you have generated a JWT key that can be used with -- and 
+	only with -- the {+app+} you specified. Copy this key from the 
+	:guilabel:`Encoded` box and temporarily save it in a text document, along 
+	with the secret you used. In our case, our JWT looks like the following (your
+	token will **not** match this!):
+
+	.. code-block:: javascript
+	
+		eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.
+		eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkNhbGViIiwiaWF0IjoxN \ 
+		jE3MzEzNDIwLCJleHAiOjE2NDg4NDk0MjAsImF1ZCI6ImJvaWJvaS1jeWFsOHIifQ.
+		GaIE4e6mGxlIBNnz4FcheFBUmxd25GK-rfOfF6F85rY
+	
+	
+	Now it is time to update your {+app+}.
+
+Enable JWT Authentication
+~~~~~~~~~~~~~~~~~~~~~~~~~
+If you are not currently logged in to `Realm <realm.mongodb.com>`_, do so 
+now, and navigate to the {+app+} that you specified when generating the 
+JWT in the previous section. 
+
+1. In the left-hand navigation, under :guilabel:`Data Access`, select 
+	:guilabel:`Authentication`.
+
+2. Select the :guilabel:`Authentication Providers` tab.
+
+3. Near the bottom of the list of providers, select :guilabel:`Custom JWT Authentication`.
+
+4. Use the following table to set the properties on this page:
+
+   .. list-table::
+	   :header-rows: 1
+  
+		* - Field
+			- Value
+		* - :guilabel:`Provider Enabled`
+			- Select to enable
+		* - :guilabel:`Verification Method`
+			- :guilabel:`Manually specify signing keys`
+		* - :guilabel:`Signing Algorithm`
+			- ``HS256``
+		* - :guilabel:`Signing Key (Secret Name)`
+			- See text below this table.
+		* - :guilabel:`Metadata Fields (Optional)`
+			- Leave blank
+		* - :guilabel:`Audience (Optional)`
+			- Leave blank.
+		 
+	In the :guilabel:`Signing Key Name 1` box, provide a name that will 
+	have some meaning to you (for example, "newKey"), and then click 
+	the box that appears immediately below the name that reads 
+	"Create <key name>":
+
+	.. image:: /src/images/new_jwt_key.png
+		:alt:  Creating a new JWT key
+			
+	In the resulting :guilabel:`Signing Key` text box, paste in the 256-bit 
+	key that you used when generating the JWT in the previous section. Do 
+	**not** click the :guilabel:`Add Singing Key` button.
+
+4. When you have set all of the values, click :guilabel:`Save`. If you are you 
+   prompted to do so at the top of the screen, review and deploy your changes. 
+
+Update Your Client to Use JWT Authentication
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The final step in this tutorial is to update your client application to use 
+JWT authentication. The {+service-short+} SDKs make this process very simple, 
+and while each language has its own specific implementation, the pattern they 
+each use is the same: pass the generated token to a login call:
+
+.. tabs-realm-sdks::
+   .. tab::
+      :tabid: android
+      See :ref:`<android-login-custom-jwt>`
+
+		**Java**
+		.. literalinclude:: /examples/generated/android/sync/AuthenticationTest.codeblock.custom-jwt.java
+         :language: java
+   
+		**Kotlin**
+      .. literalinclude:: /examples/generated/android/sync/AuthenticationTest.codeblock.custom-jwt.kt
+         :language: kotlin
+
+   .. tab::
+      :tabid: ios
+      See :ref:`<ios-login-custom-jwt>`
+
+		.. literalinclude:: /examples/generated/code/start/Authenticate.codeblock.jwt.swift
+   		:language: swift
+
+   .. tab::
+      :tabid: node
+      
+		See :ref:`<node-login-custom-jwt>`
+
+		**Javascript**
+		.. literalinclude:: /examples/generated/code/start/authenticate.codeblock.custom-jwt-login.js
+         :language: javascript
+
+   	**Typescript**
+      .. literalinclude:: /examples/generated/code/start/authenticate.codeblock.custom-jwt-login.ts
+         :language: typescript
+
+   .. tab::
+      :tabid: react-native
+      
+		See :ref:`<react-native-login-custom-jwt>`
+
+		**Javascript**
+		.. literalinclude:: /examples/generated/code/start/authenticate.codeblock.custom-function-login.js
+         :language: javascript
+
+   	**Typescript**
+      .. literalinclude:: /examples/generated/code/start/authenticate.codeblock.custom-function-login.ts
+         :language: typescript
+  
+  .. tab::
+      :tabid: dotnet
+      
+		See :ref:`<dotnet-login-custom-jwt>`
+
+		.. literalinclude:: /examples/generated/dotnet/Examples.codeblock.logon_JWT.cs
+   		:language: csharp
+
+
+Summary
+---------
+
+Implementing a custom JWT authentication provider involves:
+
+- Generating a valid JWT token that includes the {+app+} ID in the payload.
+- Enabling the authentication provider in {+service-short+}.
+- Adding the authentication logic to your client.
