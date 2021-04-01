@@ -35,7 +35,9 @@ best to treat {+service-short+} as a rebuildable cache.
    directory. Because tvOS restricts writes to that directory, the
    default Realm file location on tvOS is instead ``NSCachesDirectory``.
    tvOS can purge files in that directory at any time, so reliable
-   long-term storage is not possible.
+   long-term storage is not possible. To use {+service-short+} for
+   storage, consider using :ref:`{+sync+}
+   <ios-sync-changes-between-devices>`.
 
 You can also use {+service-short+} as an initial data source by bundling
 prebuilt Realm files in your app. Note that the :apple:`App Store
