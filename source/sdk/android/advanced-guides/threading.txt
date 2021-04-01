@@ -274,11 +274,10 @@ version, much like how Git has a pointer to its HEAD commit.
 :wikipedia:`isolation <Isolation_(database_systems)>` and
 :wikipedia:`durability <Durability_(database_systems)>`.
 When you make changes, {+client-database+} copies the relevant part of the
-tree for writing. {+client-database+} then commits the changes in two
-phases:
+tree for writing, then commits the changes in two phases:
 
-- {+client-database+} writes changes to disk and verifies success.
-- {+client-database+} then sets its latest version pointer to point to the newly-written version.
+- write changes to disk and verifies success.
+- set the latest version pointer to point to the newly-written version.
 
 This two-step commit process guarantees that even if the
 write failed partway, the original version is not corrupted
@@ -287,25 +286,7 @@ relevant part of the tree. Likewise, the {+realm+}'s root
 pointer will point to the original version until the new
 version is guaranteed to be valid.
 
-.. note:: Diagram
-
-   The following diagram illustrates the commit process:
-
-   .. figure:: /images/mvcc-diagram.png
-      :alt: {+client-database+} copies the relevant part of the tree for writes, then replaces the latest version by updating a pointer.
-      :lightbox:
-
-   1. The {+realm+} is structured as a tree. The {+realm+} has a pointer
-      to its latest version, V1.
-
-   #. When writing, {+client-database+} creates a new version V2 based on V1.
-      {+client-database+} makes copies of objects for modification (A\ :sup:`1`,
-      C\ :sup:`1`),  while links to unmodified objects continue to
-      point to the original versions (B, D).
-
-   #. After validating the commit, {+client-database+} updates the {+realm+}'s
-      pointer to the new latest version, V2. {+client-database+} discards
-      old nodes no longer connected to the tree.
+.. include:: /includes/commit-process-diagram.rst
 
 {+client-database+} uses :term:`zero-copy` techniques
 like memory mapping to handle data. When you read a value
@@ -320,14 +301,13 @@ Summary
 
 - {+service+} enables simple and safe multithreaded code when you follow
   three rules:
+
   - don't lock to read
 
   - avoid writes on the UI thread if you write on background threads or
     use :doc:`{+sync+} </sync>`
     
   - don't pass live objects to other threads.
-
-- There is a proper way to share objects across threads for each use case.
 
 - In order to see changes made on other threads in your {+realm+}
   instance, you must manually **refresh** {+realm+} instances that do
