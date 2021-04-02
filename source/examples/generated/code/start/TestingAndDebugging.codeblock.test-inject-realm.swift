@@ -22,6 +22,8 @@ func testThatUserIsUpdatedFromServer() {
     let config = Realm.Configuration(fileURL: realmPath)
     let testRealm = try! Realm(configuration: config)
     let jsonData = "{\"email\": \"help@realm.io\"}".data(using: .utf8)!
+    // In our test, we're passing in the testRealm. This is where we'd
+    // pass in our "real" realm in the application code above.
     createOrUpdateUser(in: testRealm, with: jsonData)
     XCTAssertEqual(testRealm.objects(User.self).first!.email, "help@realm.io",
                    "User was not properly updated from server.")
