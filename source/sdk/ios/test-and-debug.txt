@@ -4,6 +4,14 @@
 Test and Debug - iOS SDK
 ========================
 
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
 Testing
 -------
 
@@ -12,33 +20,40 @@ Testing
 Test Using a Default Realm
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The easiest way to use and test Realm apps is to use the default Realm. 
-To avoid overriding application data or leaking state between tests, 
-set the default Realm to a new file for each test.
+The easiest way to use and test {+client-database+}-backed applications 
+is to use the default {+realm+}. To avoid overriding application data or 
+leaking state between tests, set the default {+realm+} to a new file for 
+each test.
 
 .. literalinclude:: /examples/generated/code/start/TestingAndDebugging.codeblock.test-base-case.swift
      :language: swift
 
+.. _ios-test-injecting-realm-instances:
+
 Injecting Realm Instances
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Another way to test Realm-related code is to have all the methods you’d 
-like to test accept a Realm instance as an argument. This enables you to 
-pass in different Realms when running the app and when testing it. 
+Another way to test {+client-db-short+}-related code is to have all the 
+methods you’d like to test accept a {+realm+} instance as an argument. This 
+enables you to pass in different {+realms+} when running the app and when 
+testing it. 
 
-For example, suppose your app has a method to GET a user profile from a 
-JSON API. You want to test that the local profile is properly created:
+For example, suppose your app has a method to ``GET`` a user profile 
+from a JSON API. You want to test that the local profile is properly 
+created:
 
 .. literalinclude:: /examples/generated/code/start/TestingAndDebugging.codeblock.test-inject-realm.swift
      :language: swift
 
+.. _ios-test-targets:
+
 Test Targets
 ~~~~~~~~~~~~
 
-Don't link the Realm framework directly to your test target. This can 
-cause your tests to fail with an exception message "Object type 'YourObject' 
-is not managed by the Realm." Unlinking Realm from your test target 
-should resolve this issue.
+Don't link the {+client-db-short+} framework directly to your test target. 
+This can cause your tests to fail with an exception message "Object type 
+'YourObject' is not managed by the Realm." Unlinking {+client-db-short+} 
+from your test target should resolve this issue.
 
 Compile your model class files in your application or framework targets; 
 don't add them to your unit test targets. Otherwise, those classes are 
@@ -47,12 +62,17 @@ duplicated when testing, which can lead to difficult-to-debug issues.
 Expose all the code that you need for testing to your unit test 
 targets. Use the ``public`` access modifier or ``@testable``.
 
-Since you’re using Realm as a dynamic framework, you’ll need to make 
-sure your unit test target can find Realm. Add the parent path to 
-``RealmSwift.framework`` to your unit test’s “Framework Search Paths”.
+Since you’re using {+client-db-short+} as a dynamic framework, you’ll 
+need to make sure your unit test target can find {+client-db-short+}. 
+Add the parent path to ``RealmSwift.framework`` to your unit test’s 
+“Framework Search Paths”.
+
+.. _ios-debugging:
 
 Debugging
 ---------
+
+.. _ios-debug-using-realm-studio:
 
 Debug Using Realm Studio
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -60,16 +80,18 @@ Debug Using Realm Studio
 Realm Studio enables you to open and edit local {+realms+}. It supports 
 Mac, Windows and Linux.
 
+.. _ios-lldb:
+
 LLDB
 ~~~~
 
 Debugging apps using {+client-db-short+}'s Swift API must be done through 
 the LLDB console.
 
-Although the LLDB script allows inspecting the contents of your Realm 
+Although the LLDB script allows inspecting the contents of your {+realm+} 
 variables in Xcode’s UI, this doesn’t yet work for Swift. Those 
 variables will show incorrect data. Instead, use LLDB’s ``po``
-command to inspect the contents of data stored in a Realm.
+command to inspect the contents of data stored in a {+realm+}.
 
 .. _ios-resolve-build-issues:
 
