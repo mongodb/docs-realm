@@ -66,9 +66,9 @@ encode the token. The default, which we will use for this tutorial, is ``HS256``
 
 .. note::
 
-	For more information on JWT algorithms, visit `this web page 
-	<https://auth0.com/blog/json-web-token-signing-algorithms-overview/>`_.
-	{+service-short+} supports ``HS256`` and ``RS256``.
+   For more information on JWT algorithms, visit `this web page 
+   <https://auth0.com/blog/json-web-token-signing-algorithms-overview/>`_.
+   {+service-short+} supports ``HS256`` and ``RS256``.
 
 
 Payload
@@ -80,33 +80,33 @@ our Realm-specific needs. By default, three fields are included: ``sub``,
 table explains each field and the value expected:
 
 .. list-table::
-	:header-rows: 1
+   :header-rows: 1
 
-	* - Field
-	  - Description
-	  - Value
-	
-	* - ``sub`` 
-	  - The subject of the jwt. Not Used. 
-	  - "1234567890"
-	
-	* - ``name`` 
-	  - The name of the user to whom this JWT is assigned. If specified, Realm 
-	    uses this value as the user's display name. Optional.
-	  - <your name>
-	
-	* - ``iat``
-	  - "Issued At" is a Unix epoch timestamp of when the token was issued. 
-	  - The current date-time in seconds since Unix epoch. 
-	
-	* - ``exp``
-	  - The date-time when this token will expire. 
-	  - A future date-time (in seconds since Unix epoch) for when you want the token to expire. Depending on your business needs, this can be any duration.
-	
-	* - ``aud``
-	  - The audience (consumer) of the token.
-	  - Your {+service-short+} App ID, which you can 
-	    :ref:`find in the Realm UI <find-your-app-id>`.
+   * - Field
+     - Description
+     - Value
+   
+   * - ``sub`` 
+     - The subject of the jwt. Not Used. 
+     - "1234567890"
+   
+   * - ``name`` 
+     - The name of the user to whom this JWT is assigned. If specified, Realm 
+       uses this value as the user's display name. Optional.
+     - <your name>
+   
+   * - ``iat``
+     - "Issued At" is a Unix epoch timestamp of when the token was issued. 
+     - The current date-time in seconds since Unix epoch. 
+   
+   * - ``exp``
+     - The date-time when this token will expire. 
+     - A future date-time (in seconds since Unix epoch) for when you want the token to expire. Depending on your business needs, this can be any duration.
+   
+   * - ``aud``
+     - The audience (consumer) of the token.
+     - Your {+service-short+} App ID, which you can 
+       :ref:`find in the Realm UI <find-your-app-id>`.
   
 For this tutorial, we have created a JWT for a user named "Caleb". The token was 
 issued at the time of writing and will expire in exactly 1 year, and is 
@@ -115,14 +115,14 @@ completed JSON payload looks like this:
 
 .. code-block:: javascript
 
-	{
-		"sub": "1234567890",
-		"name": "Caleb",
-		"iat": 1617313420,
-		"exp": 1648849420,
-		"aud": "boiboi-cul8r"
-	}
-	
+   {
+      "sub": "1234567890",
+      "name": "Caleb",
+      "iat": 1617313420,
+      "exp": 1648849420,
+      "aud": "boiboi-cul8r"
+   }
+   
 
 Verify Signature
 ################
@@ -136,13 +136,13 @@ find one of the 256-bit values that has been generated.
 
 .. important::
 
-	The key you use must only contain ASCII letters, numbers, underscores, 
-	and hyphens, and must be between 32 and 512 characters long.
+   The key you use must only contain ASCII letters, numbers, underscores, 
+   and hyphens, and must be between 32 and 512 characters long.
 
 .. note::
 
-	Keep track of this secret, as you will need it in the next section when 
-	we configure {+service-short+} authentication.
+   Keep track of this secret, as you will need it in the next section when 
+   we configure {+service-short+} authentication.
 
 After pasting in your key, check the ``secret base64 encoded`` check box.
 
@@ -154,10 +154,10 @@ the following (your token will **not** match this!):
 
 .. code-block:: sh
 
-	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9. ⤶ 
-	eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkNhbGViIiwiaWF0IjoxNjE3MzEzNDIwLCJle ⤶ 
-	HAiOjE2NDg4NDk0MjAsImF1ZCI6ImJvaWJvaS1jeWFsOHIifQ. ⤶ 
-	GaIE4e6mGxlIBNnz4FcheFBUmxd25GK-rfOfF6F85rY
+   eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9. ⤶ 
+   eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkNhbGViIiwiaWF0IjoxNjE3MzEzNDIwLCJle ⤶ 
+   HAiOjE2NDg4NDk0MjAsImF1ZCI6ImJvaWJvaS1jeWFsOHIifQ. ⤶ 
+   GaIE4e6mGxlIBNnz4FcheFBUmxd25GK-rfOfF6F85rY
 
 
 Enable JWT Authentication in Your {+app+}
@@ -169,7 +169,7 @@ JWT in the previous section.
 
 
 1. In the left-hand navigation, under :guilabel:`Data Access`, select 
-	:guilabel:`Authentication`.
+   :guilabel:`Authentication`.
 
 2. Select the :guilabel:`Authentication Providers` tab.
 
@@ -178,35 +178,35 @@ JWT in the previous section.
 4. Use the following table to set the properties on this page:
 
    .. list-table::
-	   :header-rows: 1
-		:widths: 35 65
+      :header-rows: 1
+      :widths: 35 65
 
-		* - Field
-		  - Value
-		
-		* - :guilabel:`Provider Enabled`
-		  - Select to enable
-		
-		* - :guilabel:`Verification Method`
-		  - ``Manually specify signing keys``
-		
-		* - :guilabel:`Signing Algorithm`
-		  - ``HS256``
-		
-		* - :guilabel:`Signing Key (Secret Name)`
-		  - provide a name that will have some meaning to you (for example, "newKey"), and then click the box that appears immediately below the name that reads "Create <key name>".
-		    In the resulting :guilabel:`Signing Key` text box, paste in the 256-bit 
-			 key that you used when generating the JWT in the previous section. Do 
-			 **not** click the :guilabel:`Add Singing Key` button.
-		
-		* - :guilabel:`Metadata Fields (Optional)`
-		  - Leave blank
-		
-		* - :guilabel:`Audience (Optional)`
-		  - Leave blank.
+      * - Field
+        - Value
+      
+      * - :guilabel:`Provider Enabled`
+        - Select to enable
+      
+      * - :guilabel:`Verification Method`
+        - ``Manually specify signing keys``
+      
+      * - :guilabel:`Signing Algorithm`
+        - ``HS256``
+      
+      * - :guilabel:`Signing Key (Secret Name)`
+        - provide a name that will have some meaning to you (for example, "newKey"), and then click the box that appears immediately below the name that reads "Create <key name>".
+          In the resulting :guilabel:`Signing Key` text box, paste in the 256-bit 
+          key that you used when generating the JWT in the previous section. Do 
+          **not** click the :guilabel:`Add Singing Key` button.
+      
+      * - :guilabel:`Metadata Fields (Optional)`
+        - Leave blank
+      
+      * - :guilabel:`Audience (Optional)`
+        - Leave blank.
 
-	5. When you have set all of the values, click :guilabel:`Save`. If you are you 
-		prompted at the top of the screen to do so, review and deploy your changes. 
+   5. When you have set all of the values, click :guilabel:`Save`. If you are you 
+      prompted at the top of the screen to do so, review and deploy your changes. 
 
 Update Your Client to Use JWT Authentication
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -218,34 +218,33 @@ each use is the same: pass the generated token to a login call:
 
 .. tabs-realm-sdks::
 
-	.. tab::
-	   :tabid: android
-		
-		.. literalinclude:: /examples/generated/android/sync/AuthenticationTest.codeblock.custom-jwt.java
+   .. tab::
+      :tabid: android
+
+      .. literalinclude:: /examples/generated/android/sync/AuthenticationTest.codeblock.custom-jwt.java
          :language: java
-		
-		For more information, see :ref:`<android-login-custom-jwt>`.
+             
+      For more information, see :ref:`<android-login-custom-jwt>`.
 
    .. tab::
       :tabid: ios
 
-		For more information, see :ref:`<ios-login-custom-jwt>`
+      For more information, see :ref:`<ios-login-custom-jwt>`
 
    .. tab::
       :tabid: node
       
-		See :ref:`<node-login-custom-jwt>`
+      See :ref:`<node-login-custom-jwt>`
 
    .. tab::
       :tabid: react-native
       
-		See :ref:`<react-native-login-custom-jwt>`
+      See :ref:`<react-native-login-custom-jwt>`
 
   .. tab::
       :tabid: dotnet
       
-		See :ref:`<dotnet-login-custom-jwt>`
-
+      See :ref:`<dotnet-login-custom-jwt>`
 
 Summary
 -------
