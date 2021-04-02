@@ -81,18 +81,18 @@ several options depending on your use case:
   for the object on both threads using a
   :ref:`primary key <android-primary-key-fundamentals>`.
 
+- To send a fast, read-only view of an object to other threads,
+  :ref:`freeze <android-frozen-objects>` the object.
+
+- To keep and share many read-only views of the object in your app, copy
+  the object from the {+realm+}.
+
 - To react to changes made on any thread, use
   :ref:`notifications <android-client-notifications>`.
 
 - To see changes from other threads in the {+realm+} on the current
   thread, :ref:`refresh <android-refreshing-realms>` your {+realm+}
   instance (:term:`event loop` threads refresh automatically).
-
-- To send a fast, read-only view of an object to other threads,
-  :ref:`freeze <android-frozen-objects>` the object.
-
-- To keep and share many read-only views of the object in your app, copy
-  the object from the {+realm+}.
 
 .. _android-intents:
 
@@ -263,8 +263,8 @@ version, much like how Git has a pointer to its HEAD commit.
 When you make changes, {+client-database+} copies the relevant part of the
 tree for writing, then commits the changes in two phases:
 
-- write changes to disk and verifies success.
-- set the latest version pointer to point to the newly-written version.
+- Write changes to disk and verify success.
+- Set the latest version pointer to point to the newly-written version.
 
 This two-step commit process guarantees that even if the
 write failed partway, the original version is not corrupted
@@ -289,12 +289,12 @@ Summary
 - {+service+} enables simple and safe multithreaded code when you follow
   three rules:
 
-  - avoid writes on the UI thread if you write on background threads or
-    use :doc:`{+sync+} </sync>`
+  - Avoid writes on the UI thread if you write on background threads or
+    use :doc:`{+sync+} </sync>`.
 
-  - don't pass live objects to other threads.
+  - Don't pass live objects to other threads.
 
-  - don't lock to read
+  - Don't lock to read.
 
 - In order to see changes made on other threads in your {+realm+}
   instance, you must manually **refresh** {+realm+} instances that do
