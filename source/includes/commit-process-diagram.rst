@@ -15,5 +15,5 @@
       point to the original versions (B, D).
 
    #. After validating the commit, {+client-database+} updates the {+realm+}'s
-      pointer to the new latest version, V2. {+client-database+} discards
+     pointer to the new latest version, V2. {+client-database+} then discards
       old nodes no longer connected to the tree.
