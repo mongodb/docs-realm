@@ -1,4 +1,4 @@
-.. note:: Diagram
+.. example::
 
    The following diagram illustrates the commit process:
 
