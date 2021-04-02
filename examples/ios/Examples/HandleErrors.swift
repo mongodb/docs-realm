@@ -12,8 +12,8 @@ class HandleErrors: XCTestCase {
     }
 
     func testErrorHandlerMethod() {
-        let app = App(id: YOUR_REALM_APP_ID)
         // :code-block-start: create-error-handler
+        let app = App(id: YOUR_REALM_APP_ID)
         app.syncManager.errorHandler = { error, session in
             // handle error
         }
