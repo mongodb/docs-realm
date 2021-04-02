@@ -2,6 +2,7 @@ package com.mongodb.realm.examples.kotlin
 
 import android.util.Log
 import com.mongodb.realm.examples.RealmTest
+import com.mongodb.realm.examples.Expectation
 import com.mongodb.realm.examples.YOUR_APP_ID
 import com.mongodb.realm.examples.getRandomPartition
 import io.realm.mongodb.App
