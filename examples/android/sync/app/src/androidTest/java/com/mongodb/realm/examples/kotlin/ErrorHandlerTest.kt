@@ -34,10 +34,7 @@ class ErrorHandlerTest : RealmTest()  {
                         .build()
                     // :code-block-end:
                 } else {
-                    Log.e(
-                        "EXAMPLE",
-                        "Failed login: " + it.error.errorMessage
-                    )
+                    Log.e( "EXAMPLE", "Failed login: ${it.error.errorMessage}")
                 }
             expectation.fulfill() // TODO: trigger a sync error and test this code!
             }
