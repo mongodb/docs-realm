@@ -97,10 +97,10 @@ This might happen if the autobuilder is not set up on your fork.
     return [`build.logs.length === 0! build=${JSON.stringify(build)}`];
   }
 
-  const log = build.logs[build.logs.length - 1];
+  const log = build.logs.join("\n");
 
   if (log === undefined) {
-    return [`last log undefined?! build=${JSON.stringify(build)}`];
+    return [`log undefined?! build=${JSON.stringify(build)}`];
   }
 
   console.log(`Build log:\n${log}`);
