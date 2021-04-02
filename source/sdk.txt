@@ -15,7 +15,10 @@ Realm SDKs
 
 The MongoDB Realm SDKs are client libraries that allow you to connect to
 local and synced Realm databases, authenticate users, and interact with
-serverless :ref:`MongoDB Realm <realm-cloud>` applications.
+serverless :ref:`MongoDB Realm <realm-cloud>` applications. The SDKs
+include {+client-database+}, an alternative to SQLite and Core Data, so
+you can get started with just the SDK -- no additional dependencies
+required.
 
 Get Started
 -----------
@@ -23,85 +26,75 @@ Get Started
 Realm has native, idiomatic SDKs for most common application ecosystems and
 programming languages. Find yours below to start building your Realm app:
 
-Android SDK
-~~~~~~~~~~~
+.. list-table::
+   :header-rows: 1
+   :class: index-table
 
-- :doc:`Install Realm for Android </sdk/android/install>`
-- :doc:`Quick Start (Local-only) </sdk/android/quick-start-local>`
-- :doc:`Quick Start with Sync </sdk/android/quick-start-sync>`
-- :doc:`Quick Start with LiveData </sdk/android/livedata>`
-- :doc:`Fundamentals </sdk/android/fundamentals>`
-- :doc:`Data Types </sdk/android/data-types>`
-- :doc:`Usage Examples </sdk/android/examples>`
-- :doc:`Advanced Guides </sdk/android/advanced-guides>`
-- :java-sdk:`Java Reference Manual (Javadoc) <>`
-- :kotlin-sdk:`Kotlin Extensions Reference Manual <>`
-- :doc:`Upgrade from Stitch to Realm </sdk/android/migrate>`
-- :github:`Release Notes <realm/realm-java/blob/releases/CHANGELOG.md>`
+   * - Android SDK
+     - iOS SDK
+     - .NET SDK
+     - Node.js SDK
+     - React Native SDK
+     - Web SDK
 
-iOS, macOS, tvOS, and watchOS SDK
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   * - :doc:`Install Realm for Android </sdk/android/install>`
 
-- :doc:`Install Realm for iOS, macOS, tvOS, and watchOS </sdk/ios/install>`
-- :doc:`Quick Start with Sync </sdk/ios/quick-start-with-sync>`
-- :doc:`SwiftUI & Combine </sdk/ios/integrations/swiftui>`
-- :doc:`Fundamentals </sdk/ios/fundamentals>`
-- :doc:`Data Types </sdk/ios/data-types>`
-- :doc:`Usage Examples </sdk/ios/examples>`
-- :doc:`Advanced Guides </sdk/ios/advanced-guides>`
-- :doc:`Upgrade from Stitch to Realm </sdk/ios/upgrade-from-stitch-to-realm>`
-- :objc-sdk:`Objective-C Reference Manual <>`
-- :swift-sdk:`Swift Reference Manual <>`
-- :github:`Release Notes <realm/realm-cocoa/releases>`
+       :doc:`Quick Start </sdk/android/quick-start-local>`
 
-Node.js SDK
-~~~~~~~~~~~
+       :doc:`Quick Start with Sync </sdk/android/quick-start-sync>`
 
-- :doc:`Install Realm for Node.js </sdk/node/install>`
-- :doc:`Quick Start with Sync </sdk/node/quick-start>`
-- :doc:`Fundamentals </sdk/node/fundamentals>`
-- :doc:`Usage Examples </sdk/node/examples>`
-- :doc:`Integration Guides </sdk/node/integrations>`
-- :doc:`Advanced Guides </sdk/node/advanced>`
-- :js-sdk:`Javascript SDK Reference Manual <>`
-- :doc:`Upgrade from Stitch to Realm </sdk/node/migrate>`
-- :github:`Release Notes <realm/realm-js/releases>`
+       :doc:`Quick Start with LiveData </sdk/android/livedata>`
 
-React Native SDK
-~~~~~~~~~~~~~~~~
+       :doc:`Upgrade from Stitch to Realm </sdk/android/migrate>`
 
-- :doc:`Install Realm for React Native </sdk/react-native/install>`
-- :doc:`Quick Start </sdk/react-native/quick-start-local>`
-- :doc:`Quick Start with Sync </sdk/react-native/quick-start>`
-- :doc:`Fundamentals </sdk/react-native/fundamentals>`
-- :doc:`Usage Examples </sdk/react-native/examples>`
-- :doc:`Advanced Guides </sdk/react-native/advanced>`
-- :js-sdk:`Javascript SDK Reference Manual <>`
-- :doc:`Upgrade from Stitch to Realm </sdk/react-native/migrate>`
-- :github:`Release Notes <realm/realm-js/releases>`
+       :java-sdk:`Java Reference Manual (Javadoc) <>`
 
-Web SDK
-~~~~~~~
+       :kotlin-sdk:`Kotlin Extensions Reference Manual <>`
 
-- :doc:`Quick Start </web/quickstart>`
-- :doc:`Quick Start (React) </web/react-web-quickstart>`
-- :doc:`Apollo GraphQL Client (React) </web/graphql-apollo-react>`
-- :doc:`MongoDB Realm </web/mongodb-realm>`
-- :doc:`Reference </web/reference>`
+     - :doc:`Install Realm for iOS, macOS, tvOS, and watchOS </sdk/ios/install>`
 
-.NET SDK
-~~~~~~~~
+       :doc:`Quick Start </sdk/ios/quick-start>`
 
-- :doc:`Install Realm for .NET </sdk/dotnet/install>`
-- :doc:`Quick Start with Sync </sdk/dotnet/quick-start-with-sync>`
-- :doc:`Compatibility </sdk/dotnet/compatibility>`
-- :doc:`Use Realm in a Console App </sdk/dotnet/async-console>`
-- :doc:`Fundamentals </sdk/dotnet/fundamentals>`
-- :doc:`Data Types </sdk/dotnet/data-types>`
-- :doc:`Usage Examples </sdk/dotnet/examples>`
-- :doc:`Advanced Guides </sdk/dotnet/advanced-guides>`
-- :dotnet-sdk:`C#/.NET SDK Reference Manual <>`
-- :github:`Release Notes <realm/realm-dotnet/releases>`
+       :doc:`Quick Start with Sync </sdk/ios/quick-start-with-sync>`
 
-.. 
-   Test
+       :doc:`Upgrade from Stitch to Realm </sdk/ios/upgrade-from-stitch-to-realm>`
+
+       :objc-sdk:`Objective-C Reference Manual <>`
+
+       :swift-sdk:`Swift Reference Manual <>`
+
+     - :doc:`Install Realm for .NET </sdk/dotnet/install>`
+
+       :doc:`Quick Start </sdk/dotnet/quick-start-local>`
+
+       :doc:`Quick Start with Sync </sdk/dotnet/quick-start-with-sync>`
+
+       :doc:`Compatibility </sdk/dotnet/compatibility>`
+
+       :doc:`Use Realm in a Console App </sdk/dotnet/async-console>`
+
+       :dotnet-sdk:`C#/.NET SDK Reference Manual <>`
+
+     - :doc:`Install Realm for Node.js </sdk/node/install>`
+
+       :doc:`Quick Start </sdk/node/quick-start-local>`
+
+       :doc:`Quick Start with Sync </sdk/node/quick-start>`
+
+       :js-sdk:`Javascript SDK Reference Manual <>`
+
+     - :doc:`Install Realm for React Native </sdk/react-native/install>`
+
+       :doc:`Quick Start </sdk/react-native/quick-start-local>`
+
+       :doc:`Quick Start with Sync </sdk/react-native/quick-start>`
+
+       :js-sdk:`Javascript SDK Reference Manual <>`
+
+     - :doc:`Quick Start </web/quickstart>`
+
+       :doc:`Quick Start (React) </web/react-web-quickstart>`
+
+       :doc:`Apollo GraphQL Client (React) </web/graphql-apollo-react>`
+
+       :js-sdk:`Javascript SDK Reference Manual <>`
