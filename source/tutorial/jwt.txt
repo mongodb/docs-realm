@@ -101,9 +101,7 @@ table explains each field and the value expected:
 	
 	* - ``exp``
 	  - The date-time when this token will expire. 
-	  - A future date-time (in seconds since Unix epoch) for when you want 
-	    the token to expire. Depending on your business needs, this can be any 
-		 duration.
+	  - A future date-time (in seconds since Unix epoch) for when you want the token to expire. Depending on your business needs, this can be any duration.
 	
 	* - ``aud``
 	  - The audience (consumer) of the token.
@@ -163,7 +161,8 @@ the following (your token will **not** match this!):
 
 
 Enable JWT Authentication in Your {+app+}
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 If you are not currently logged in to `Realm <https://realm.mongodb.com>`_ do so 
 now, and navigate to the {+app+} that you specified when generating the 
 JWT in the previous section.
@@ -179,7 +178,7 @@ JWT in the previous section.
 
    .. list-table::
 	   :header-rows: 1
-  
+
 		* - Field
 		  - Value
 		
@@ -193,28 +192,19 @@ JWT in the previous section.
 		  - ``HS256``
 		
 		* - :guilabel:`Signing Key (Secret Name)`
-		  - See text below this table.
+		  - provide a name that will have some meaning to you (for example, "newKey"), and then click the box that appears immediately below the name that reads "Create <key name>".
+		    In the resulting :guilabel:`Signing Key` text box, paste in the 256-bit 
+			 key that you used when generating the JWT in the previous section. Do 
+			 **not** click the :guilabel:`Add Singing Key` button.
 		
 		* - :guilabel:`Metadata Fields (Optional)`
 		  - Leave blank
 		
 		* - :guilabel:`Audience (Optional)`
 		  - Leave blank.
-		 
-In the :guilabel:`Signing Key Name 1` box, provide a name that will 
-have some meaning to you (for example, "newKey"), and then click 
-the box that appears immediately below the name that reads 
-"Create <key name>":
 
-.. image:: /src/images/new_jwt_key.png
-	:alt:  Creating a new JWT key
-		
-In the resulting :guilabel:`Signing Key` text box, paste in the 256-bit 
-key that you used when generating the JWT in the previous section. Do 
-**not** click the :guilabel:`Add Singing Key` button.
-
-5. When you have set all of the values, click :guilabel:`Save`. If you are you 
-prompted at the top of the screen to do so, review and deploy your changes. 
+	5. When you have set all of the values, click :guilabel:`Save`. If you are you 
+		prompted at the top of the screen to do so, review and deploy your changes. 
 
 Update Your Client to Use JWT Authentication
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -228,57 +218,28 @@ each use is the same: pass the generated token to a login call:
 
 	.. tab::
 	   :tabid: android
-   
-		**Java**
-		.. literalinclude:: /examples/generated/android/sync/AuthenticationTest.codeblock.custom-jwt.java
-         :language: java
-		**Kotlin**
-      .. literalinclude:: /examples/generated/android/sync/AuthenticationTest.codeblock.custom-jwt.kt
-         :language: kotlin
 		
 		For more information, see :ref:`<android-login-custom-jwt>`.
 
    .. tab::
       :tabid: ios
-      
-		See :ref:`<ios-login-custom-jwt>`
 
-		.. literalinclude:: /examples/generated/code/start/Authenticate.codeblock.jwt.swift
-   		:language: swift
+		For more information, see :ref:`<ios-login-custom-jwt>`
 
    .. tab::
       :tabid: node
       
 		See :ref:`<node-login-custom-jwt>`
 
-		**Javascript**
-		.. literalinclude:: /examples/generated/code/start/authenticate.codeblock.custom-jwt-login.js
-         :language: javascript
-
-   	**Typescript**
-      .. literalinclude:: /examples/generated/code/start/authenticate.codeblock.custom-jwt-login.ts
-         :language: typescript
-
    .. tab::
       :tabid: react-native
       
 		See :ref:`<react-native-login-custom-jwt>`
 
-		**Javascript**
-		.. literalinclude:: /examples/generated/code/start/authenticate.codeblock.custom-function-login.js
-         :language: javascript
-
-   	**Typescript**
-      .. literalinclude:: /examples/generated/code/start/authenticate.codeblock.custom-function-login.ts
-         :language: typescript
-  
   .. tab::
       :tabid: dotnet
       
 		See :ref:`<dotnet-login-custom-jwt>`
-
-		.. literalinclude:: /examples/generated/dotnet/Examples.codeblock.logon_JWT.cs
-   		:language: csharp
 
 
 Summary
