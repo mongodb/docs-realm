@@ -222,12 +222,12 @@ API calls.
       :tabid: swift
 
       Set an error handler on the :swift-sdk:`SyncManager
-      <Typealiases.html#/s:10RealmSwift11SyncManagera>` singleton. When an error
-      occurs, the iOS SDK calls the error handler with an object representing
-      the error and a :swift-sdk:`SyncSession
-      <Structs/Realm.html#/s:10RealmSwift0A0V11syncSessionSo07RLMSyncD0CSgvp>`
-      object representing the session the error occurred on. 
-
+      <Typealiases.html#/s:10RealmSwift11SyncManagera>` singleton. Set an error
+      handler on the SyncManager singleton. When an error occurs, the iOS SDK
+      calls the error handler with the error object and the :swift-sdk:`SyncSession
+      <Structs/Realm.html#/s:10RealmSwift0A0V11syncSessionSo07RLMSyncD0CSgvp>` that the
+      error occurred on.
+      
       .. note::
    
          Realm's :swift-sdk:`SyncError <Structs/Realm/Configuration.html#/s:10RealmSwift0A0V13ConfigurationV07defaultC0AEvpZ>` conforms to :apple:`Swift's Error protocol <documentation/swift/error>`
@@ -238,10 +238,11 @@ API calls.
    .. tab::
       :tabid: objective-c
 
-      Set an error handler on the :objc-sdk:`RLMSyncManager <objc/latest/Classes/RLMSyncManager.html>` singleton. When an error
-      occurs, the iOS SDK calls the error handler with an object representing
-      the error and a :objc-sdk:`RLMSyncSession <objc/latest/Classes/RLMSyncSession.html>` object representing the session the error
-      occurred on. 
+      Set an error handler on the :objc-sdk:`RLMSyncManager
+      <objc/latest/Classes/RLMSyncManager.html>` singleton. When an error
+      occurs, the iOS SDK calls the error handler with the error object and the
+      :objc-sdk:`RLMSyncSession <objc/latest/Classes/RLMSyncSession.html>` that
+      the error occurred on.
 
       .. note::
    
