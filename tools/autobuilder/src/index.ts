@@ -109,7 +109,6 @@ This might happen if the autobuilder is not set up on your fork.
     return [`log undefined?! build=${JSON.stringify(build)}`];
   }
 
-  console.log(`Build log:\n${log}`);
   const re = /(?:WARNING|ERROR).*/g;
   const errors: string[] = [];
   for (let match = re.exec(log); match !== null; match = re.exec(log)) {
