@@ -2,6 +2,7 @@ package com.mongodb.realm.examples.java;
 import android.util.Log;
 
 import com.mongodb.realm.examples.RealmTest;
+import com.mongodb.realm.examples.Expectation;
 import org.junit.Test;
 import io.realm.mongodb.App;
 import io.realm.mongodb.AppConfiguration;
