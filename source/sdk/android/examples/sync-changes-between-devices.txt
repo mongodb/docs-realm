@@ -262,9 +262,12 @@ receives:
 Handle Sync Errors
 ------------------
 
-While developing an application that uses {+sync+}, you should set an error
-handler. This error handler will detect and respond to any failed sync-related
-API calls. 
+You can configure an error handler to detect and respond to any errors that
+occur in the {+sync+} process. To define an error handler, pass an
+:java-sdk:`ErrorHandler <io/realm/mongodb/sync/SyncSession.ErrorHandler.html>`
+to the :java-sdk:`SyncConfiguration.Builder.errorHandler()
+<io/realm/mongodb/sync/SyncConfiguration.Builder.html#errorHandler-io.realm.mongodb.sync.SyncSession.ErrorHandler->`
+builder method.
 
 .. tabs-realm-languages::
    
