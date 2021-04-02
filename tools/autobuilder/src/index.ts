@@ -57,6 +57,9 @@ async function main(): Promise<string[] | undefined> {
     $or: [{ "payload.repoOwner": actor }, { "payload.repoOwner": owner }],
     "payload.repoName": repo,
     "payload.branchName": branch,
+    endTime: {
+      $ne: null,
+    },
   };
 
   const stream = await collection.watch({
@@ -66,6 +69,9 @@ async function main(): Promise<string[] | undefined> {
     ],
     "fullDocument.payload.repoName": repo,
     "fullDocument.payload.branchName": branch,
+    "fullDocument.endTime": {
+      $ne: null,
+    },
   });
 
   let build: Build | null;
@@ -89,15 +95,15 @@ This might happen if the autobuilder is not set up on your fork.
     ];
   }
 
-  if (build.logs === undefined) {
+  if (build?.logs === undefined) {
     return [`build.logs undefined! build=${JSON.stringify(build)}`];
   }
 
-  if (build.logs.length === 0) {
+  if (build?.logs.length === 0) {
     return [`build.logs.length === 0! build=${JSON.stringify(build)}`];
   }
 
-  const log = build.logs.join("\n");
+  const log = build?.logs.join("\n") as string;
 
   if (log === undefined) {
     return [`log undefined?! build=${JSON.stringify(build)}`];
@@ -107,7 +113,7 @@ This might happen if the autobuilder is not set up on your fork.
   const re = /(?:WARNING|ERROR).*/g;
   const errors: string[] = [];
   for (let match = re.exec(log); match !== null; match = re.exec(log)) {
-    errors.push(match[0]);
+    errors.push((match as RegExpExecArray)[0]);
   }
 
   return errors.length > 0 ? errors : undefined;
