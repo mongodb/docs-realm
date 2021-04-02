@@ -154,9 +154,9 @@ the following (your token will **not** match this!):
 
 .. code-block:: sh
 
-	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9. \ 
-	eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkNhbGViIiwiaWF0IjoxNjE3MzEzNDIwLCJle \ 
-	HAiOjE2NDg4NDk0MjAsImF1ZCI6ImJvaWJvaS1jeWFsOHIifQ. \ 
+	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9. ⤶ 
+	eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkNhbGViIiwiaWF0IjoxNjE3MzEzNDIwLCJle ⤶ 
+	HAiOjE2NDg4NDk0MjAsImF1ZCI6ImJvaWJvaS1jeWFsOHIifQ. ⤶ 
 	GaIE4e6mGxlIBNnz4FcheFBUmxd25GK-rfOfF6F85rY
 
 
@@ -166,6 +166,7 @@ Enable JWT Authentication in Your {+app+}
 If you are not currently logged in to `Realm <https://realm.mongodb.com>`_ do so 
 now, and navigate to the {+app+} that you specified when generating the 
 JWT in the previous section.
+
 
 1. In the left-hand navigation, under :guilabel:`Data Access`, select 
 	:guilabel:`Authentication`.
@@ -178,6 +179,7 @@ JWT in the previous section.
 
    .. list-table::
 	   :header-rows: 1
+		:widths: 35 65
 
 		* - Field
 		  - Value
@@ -218,6 +220,9 @@ each use is the same: pass the generated token to a login call:
 
 	.. tab::
 	   :tabid: android
+		
+		.. literalinclude:: /examples/generated/android/sync/AuthenticationTest.codeblock.custom-jwt.java
+         :language: java
 		
 		For more information, see :ref:`<android-login-custom-jwt>`.
 
