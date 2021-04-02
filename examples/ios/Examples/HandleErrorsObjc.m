@@ -18,13 +18,8 @@
 
 
 - (void)testErrorHandlerMethod {
-    RLMApp *app = [RLMApp appWithId:YOUR_REALM_APP_ID];
-    // Log in
-    [app loginWithCredential:[RLMCredentials anonymousCredentials] completion:^(RLMUser *user, NSError *error) {
-        NSAssert(error == nil, @"Failed to log in: %@", [error localizedDescription]);
-    }];
-
     // :code-block-start: create-error-handler
+    RLMApp *app = [RLMApp appWithId:YOUR_REALM_APP_ID];
     // Access the sync manager for the app
     RLMSyncManager *syncManager = [app syncManager];
 
