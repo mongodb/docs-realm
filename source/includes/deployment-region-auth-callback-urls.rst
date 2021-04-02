@@ -28,6 +28,24 @@
 
           https://eu-west-1.aws.stitch.mongodb.com/api/client/v2.0/auth/callback
 
+   * - | **Frankfurt**
+       | (``eu-central-1``)
+     - .. code-block:: text
+
+          https://eu-central-1.aws.stitch.mongodb.com/api/client/v2.0/auth/callback
+
+   * - | **Mumbai**
+       | (``ap-south-1``)
+     - .. code-block:: text
+
+          https://ap-south-1.aws.stitch.mongodb.com/api/client/v2.0/auth/callback
+
+   * - | **Singapore**
+       | (``ap-southeast-1``)
+     - .. code-block:: text
+
+          https://ap-southeast-1.aws.stitch.mongodb.com/api/client/v2.0/auth/callback
+
    * - | **Sydney**
        | (``ap-southeast-2``)
      - .. code-block:: text
