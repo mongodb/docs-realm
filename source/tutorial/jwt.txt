@@ -153,6 +153,7 @@ will be 3 sections of values, separated by periods, and looks something like
 the following (your token will **not** match this!):
 
 .. code-block:: sh
+   :copyable: false
 
    eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9. ⤶ 
    eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkNhbGViIiwiaWF0IjoxNjE3MzEzNDIwLCJle ⤶ 
@@ -219,6 +220,7 @@ JWT authentication. The {+service-short+} SDKs make this process very simple,
 and while each language has its own specific implementation, the pattern they 
 each use is the same: pass the generated token to a login call:
 
+
 .. tabs-realm-sdks::
 
    .. tab::
@@ -258,12 +260,6 @@ each use is the same: pass the generated token to a login call:
       .. literalinclude:: /examples/generated/code/start/authenticate.codeblock.custom-jwt-login.js
          :language: javascript
 
-      The following code snippet demonstrates implementing JWT Authentication 
-      in Typescript:
-
-      .. literalinclude:: /examples/generated/code/start/authenticate.codeblock.custom-jwt-login.ts
-         :language: typescript
-
       For more information, see :ref:`<node-login-custom-jwt>`
 
    .. tab::
@@ -272,14 +268,8 @@ each use is the same: pass the generated token to a login call:
       The following code snippet demonstrates implementing JWT Authentication 
       in Javascript:
 
-      .. literalinclude:: /examples/generated/code/start/authenticate.codeblock.custom-function-login.js
+      .. literalinclude:: /examples/generated/code/start/authenticate.codeblock.custom-jwt-login.js
          :language: javascript
-
-      The following code snippet demonstrates implementing JWT Authentication 
-      in Typescript:
-
-      .. literalinclude:: /examples/generated/code/start/authenticate.codeblock.custom-function-login.ts
-         :language: typescript
 
       For more information, see :ref:`<react-native-login-custom-jwt>`
 
