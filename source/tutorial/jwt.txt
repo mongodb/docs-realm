@@ -58,9 +58,8 @@ For this tutorial, we will use a third-party website,
    that comprise a JWT token: **Header**, **Payload**, and 
    **Verify Signature** areas, each of which is explained in the next sections.
  
-======
 Header
-======
+######
 
 The header of a JWT informs consuming applications what algorithm was used to 
 encode the token. The default, which we will use for this tutorial, is ``HS256``. 
@@ -72,9 +71,8 @@ encode the token. The default, which we will use for this tutorial, is ``HS256``
 	{+service-short+} supports ``HS256`` and ``RS256``.
 
 
-=======
 Payload
-=======
+#######
 
 The Payload section contains the information that we need to configure for 
 our Realm-specific needs. By default, three fields are included: ``sub``, 
@@ -88,13 +86,13 @@ table explains each field and the value expected:
 	  - Description
 	  - Value
 	
-	* - ``sub``
+	* - ``sub`` 
 	  - The subject of the jwt. Not Used. 
 	  - "1234567890"
 	
-	* - ``name``
+	* - ``name`` 
 	  - The name of the user to whom this JWT is assigned. If specified, Realm 
-		 uses this value as the user's display name. Optional.
+	    uses this value as the user's display name. Optional.
 	  - <your name>
 	
 	* - ``iat``
@@ -104,17 +102,17 @@ table explains each field and the value expected:
 	* - ``exp``
 	  - The date-time when this token will expire. 
 	  - A future date-time (in seconds since Unix epoch) for when you want 
-		 the token to expire. Depending on your business needs, this can be any 
+	    the token to expire. Depending on your business needs, this can be any 
 		 duration.
 	
 	* - ``aud``
 	  - The audience (consumer) of the token.
-	  - Your {+service-short+} App ID, which you can :ref:`find in the Realm UI
-		 <find-your-app-id>`.
+	  - Your {+service-short+} App ID, which you can 
+	    :ref:`find in the Realm UI <find-your-app-id>`.
   
 For this tutorial, we have created a JWT for a user named "Caleb". The token was 
 issued at the time of writing and will expire in exactly 1 year, and is 
-intended to be used by a {+service-short+} with an ID of "boiboi-cyal8r". Our 
+intended to be used by a {+service-short+} with an ID of "boiboi-cul8r". Our 
 completed JSON payload looks like this:
 
 .. code-block:: javascript
@@ -132,9 +130,8 @@ completed JSON payload looks like this:
 	When you change the JSON payload, the resulting **Encoded** value on the 
 	web page updates automatically. 
 
-================
 Verify Signature
-================
+################
 
 The final step in creating the JWT is to add a 256-bit secret with which the 
 token is encoded. In this last section, find the field with the placeholder 
@@ -148,7 +145,7 @@ find a 256-bit value that has been generated for you.
 	The key you use must only contain ASCII letters, numbers, underscores, 
 	and hyphens, and must be between 32 and 512 characters long.
 
-..note::
+.. note::
 
 	Keep track of this secret, as you will need it in the next section, when 
 	we configure the {service-short+} authentication.
@@ -161,13 +158,15 @@ only with -- the {+app+} you specified. Copy this key from the
 with the secret you used. In our case, our JWT looks like the following (your
 token will **not** match this!):
 
-.. code-block:: javascript
+.. code-block:: sh
 
-	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.
-	eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkNhbGViIiwiaWF0IjoxNjE3MzEzNDIwLCJleHAiOjE2NDg4NDk0MjAsImF1ZCI6ImJvaWJvaS1jeWFsOHIifQ.
+	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9. \ 
+	eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkNhbGViIiwiaWF0IjoxNjE3MzEzNDIwLCJle \ 
+	HAiOjE2NDg4NDk0MjAsImF1ZCI6ImJvaWJvaS1jeWFsOHIifQ. \ 
 	GaIE4e6mGxlIBNnz4FcheFBUmxd25GK-rfOfF6F85rY
 
 Now it is time to update your {+app+}.
+
 
 Enable JWT Authentication
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -225,25 +224,25 @@ JWT in the previous section.
 
 Update Your Client to Use JWT Authentication
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 The final step in this tutorial is to update your client application to use 
 JWT authentication. The {+service-short+} SDKs make this process very simple, 
 and while each language has its own specific implementation, the pattern they 
 each use is the same: pass the generated token to a login call:
 
 .. tabs-realm-sdks::
-   
+
 	.. tab::
       :tabid: android
-      
-		See :ref:`<android-login-custom-jwt>`
-
+   
 		**Java**
 		.. literalinclude:: /examples/generated/android/sync/AuthenticationTest.codeblock.custom-jwt.java
          :language: java
-   
 		**Kotlin**
       .. literalinclude:: /examples/generated/android/sync/AuthenticationTest.codeblock.custom-jwt.kt
          :language: kotlin
+		
+		For more information, see :ref:`<android-login-custom-jwt>`.
 
    .. tab::
       :tabid: ios
