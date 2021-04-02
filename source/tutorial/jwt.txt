@@ -44,8 +44,8 @@ This procedure is divided into three logical steps:
 
 Create a JWT Token
 ~~~~~~~~~~~~~~~~~~
-For this tutorial, we will use a third-party website, 
-`JWT.IO <https://jwt.io/>`_ to generate a JWT token. 
+For this tutorial, we will use a third-party website, `jwt.io <https://jwt.io/>`_,
+to generate a JWT token. 
 
 .. important::
 
@@ -53,10 +53,10 @@ For this tutorial, we will use a third-party website,
    your {+app+}. Care should be taken when storing them, especially when using 
    them in a production environment.
 
-1. Go to `jwt.io <https://jwt.io/>`_. Scroll down until you see the **Encoded** 
-   and **Decoded** headers. In the **Decoded** column, you will see three sections 
-   that comprise a JWT token: **Header**, **Payload**, and 
-   **Verify Signature** areas, each of which is explained in the next sections.
+Go to `jwt.io <https://jwt.io/>`_. Scroll down until you see the **Encoded** 
+and **Decoded** headers. In the **Decoded** column, you will see three sections 
+that comprise a JWT token: **Header**, **Payload**, and 
+**Verify Signature** areas, each of which is explained in the next sections.
  
 Header
 ######
@@ -146,8 +146,8 @@ find one of the 256-bit values that has been generated.
 
 After pasting in your key, check the ``secret base64 encoded`` check box.
 
-At this point, you have generated a JWT key that can be used with -- and 
-only with -- the {+app+} you specified. Copy this key from the 
+At this point, you have generated a JWT key that can be used with — and 
+only with — the {+app+} you specified. Copy this key from the 
 :guilabel:`Encoded` box and temporarily save it in a text document. Your JWT 
 will be 3 sections of values, separated by periods, and looks something like 
 the following (your token will **not** match this!):
@@ -220,6 +220,7 @@ and while each language has its own specific implementation, the pattern they
 each use is the same: pass the generated token to a login call:
 
 .. tabs-realm-sdks::
+
    .. tab::
       :tabid: android
 
@@ -228,7 +229,7 @@ each use is the same: pass the generated token to a login call:
 
       .. literalinclude:: /examples/generated/android/sync/AuthenticationTest.codeblock.custom-jwt.java
          :language: java
-      
+
       The following code snippet demonstrates implementing JWT Authentication 
       in Kotlin:
 
