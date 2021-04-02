@@ -194,10 +194,13 @@ JWT in the previous section.
         - ``HS256``
       
       * - :guilabel:`Signing Key (Secret Name)`
-        - provide a name that will have some meaning to you (for example, "newKey"), and then click the box that appears immediately below the name that reads "Create <key name>".
+        - Provide a name that will have some meaning to you (for example, "newKey"), 
+          and then click the box that appears immediately below the name that reads 
+          "Create <key name>".
+
           In the resulting :guilabel:`Signing Key` text box, paste in the 256-bit 
-          key that you used when generating the JWT in the previous section. Do 
-          **not** click the :guilabel:`Add Singing Key` button.
+          key that you used when generating the JWT in the previous section. **Do 
+          not** click the "Add Singing Key" button.
       
       * - :guilabel:`Metadata Fields (Optional)`
         - Leave blank
@@ -217,33 +220,78 @@ and while each language has its own specific implementation, the pattern they
 each use is the same: pass the generated token to a login call:
 
 .. tabs-realm-sdks::
-
    .. tab::
       :tabid: android
 
+      The following code snippet demonstrates implementing JWT Authentication 
+      in Java:
+
       .. literalinclude:: /examples/generated/android/sync/AuthenticationTest.codeblock.custom-jwt.java
          :language: java
-             
+      
+      The following code snippet demonstrates implementing JWT Authentication 
+      in Kotlin:
+
+      .. literalinclude:: /examples/generated/android/sync/AuthenticationTest.codeblock.custom-jwt.kt
+         :language: kotlin
+
       For more information, see :ref:`<android-login-custom-jwt>`.
 
    .. tab::
       :tabid: ios
 
+      The following code snippet demonstrates implementing JWT Authentication 
+      in Swift:
+
+      .. literalinclude:: /examples/generated/code/start/Authenticate.codeblock.jwt.swift
+   		:language: swift
+      
       For more information, see :ref:`<ios-login-custom-jwt>`
 
    .. tab::
       :tabid: node
       
+      The following code snippet demonstrates implementing JWT Authentication 
+      in Javascript:
+
+		.. literalinclude:: /examples/generated/code/start/authenticate.codeblock.custom-jwt-login.js
+         :language: javascript
+
+   	The following code snippet demonstrates implementing JWT Authentication 
+      in Typescript:
+
+      .. literalinclude:: /examples/generated/code/start/authenticate.codeblock.custom-jwt-login.ts
+         :language: typescript
+
       See :ref:`<node-login-custom-jwt>`
 
    .. tab::
       :tabid: react-native
       
+      The following code snippet demonstrates implementing JWT Authentication 
+      in Javascript:
+
+		.. literalinclude:: /examples/generated/code/start/authenticate.codeblock.custom-function-login.js
+         :language: javascript
+
+   	The following code snippet demonstrates implementing JWT Authentication 
+      in Typescript:
+
+      .. literalinclude:: /examples/generated/code/start/authenticate.codeblock.custom-function-login.ts
+         :language: typescript
+
       See :ref:`<react-native-login-custom-jwt>`
 
   .. tab::
       :tabid: dotnet
       
+      The following code snippet demonstrates implementing JWT Authentication 
+      in C#:
+
+      .. literalinclude:: /examples/generated/dotnet/Examples.codeblock.logon_JWT.cs
+   		:language: csharp
+
+
       See :ref:`<dotnet-login-custom-jwt>`
 
 Summary
