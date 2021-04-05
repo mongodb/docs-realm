@@ -2,11 +2,11 @@
 #import <Realm/Realm.h>
 #import "MyRealmApp.h"
 
-@interface HandleErrorsObjc : XCTestCase
+@interface Errors : XCTestCase
 
 @end
 
-@implementation HandleErrorsObjc
+@implementation Errors
 
 - (void)setUp {
     // Put setup code here. This method is called before the invocation of each test method in the class.
