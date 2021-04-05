@@ -105,8 +105,10 @@ internal version.
 When you need to communicate across threads, you have
 several options depending on your use case:
 
-- To work modify the data on two threads, :ref:`query <ios-client-query-engine>`
-  for the object on both threads.
+- To work with the data on two threads, :ref:`query <ios-client-query-engine>`
+  for the object on both threads or pass a
+  :swift-sdk:`ThreadSafeReference <Structs/ThreadSafeReference.html>` to
+  the other thread.
 
 - To react to changes made on any thread, use {+client-database+}'s
   :ref:`notifications <ios-react-to-changes>`.
@@ -119,6 +121,31 @@ several options depending on your use case:
 
 - To keep and share many read-only views of the object in your app, copy
   the object from the {+realm+}.
+
+.. _ios-thread-safe-reference:
+
+Pass Instances Across Threads
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Instances of ``Realm``, ``Results``, ``List``, and managed ``Objects``
+are *thread-confined*. That means you may only use them on the thread
+where you created them.
+
+You can pass thread-confined instances to another thread as follows:
+
+1. Initialize a :swift-sdk:`ThreadSafeReference <Structs/ThreadSafeReference.html>` with the thread-confined object.
+#. Pass the reference to the other thread or queue.
+#. Resolve the reference on the other thread's realm by calling :swift-sdk:`Realm.resolve(_:) <Structs/Realm.html#/s:10RealmSwift0A0V7resolveyxSgAA19ThreadSafeReferenceVyxGAA0D8ConfinedRzlF>`. Use the returned object as normal.
+
+.. important::
+
+   You must resolve a ``ThreadSafeReference`` exactly once. Otherwise,
+   the source {+realm+} will remain pinned until the reference gets
+   deallocated. For this reason, ``ThreadSafeReference`` should be
+   short-lived.
+
+.. literalinclude:: /examples/generated/code/start/Threading.codeblock.pass-across-threads.swift
+   :language: swift
 
 .. _ios-refreshing-realms:
 

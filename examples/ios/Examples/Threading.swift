@@ -1,7 +1,29 @@
+// :replace-start: {
+//   "terms": {
+//     "ThreadingExamples_": ""
+//   }
+// }
 import XCTest
 import RealmSwift
 
+class ThreadingExamples_Person : Object {
+    @objc dynamic var name = ""
+    
+    convenience init(name: String) {
+        self.init()
+        self.name = name
+    }
+}
+
 class Threading: XCTestCase {
+    override func setUp() {
+        Realm.Configuration.defaultConfiguration = Realm.Configuration(inMemoryIdentifier: self.name)
+    }
+
+    override func tearDown() {
+        Realm.Configuration.defaultConfiguration = Realm.Configuration()
+    }
+
     func testFreeze() {
         // :code-block-start: freeze
         let realm = try! Realm()
@@ -40,4 +62,32 @@ class Threading: XCTestCase {
         assert(frozenTask.realm!.isFrozen)
         // :code-block-end:
     }
+    
+    func testPassAcrossThreads() {
+        // :code-block-start: pass-across-threads
+        let person = ThreadingExamples_Person(name: "Jane")
+        let realm = try! Realm()
+
+        try! realm.write {
+            realm.add(person)
+        }
+        
+        // Create thread-safe reference to person
+        let personRef = ThreadSafeReference(to: person)
+        
+        // Pass the reference to a background thread
+        DispatchQueue(label: "background").async {
+            autoreleasepool {
+                let realm = try! Realm()
+                guard let person = realm.resolve(personRef) else {
+                    return // person was deleted
+                }
+                try! realm.write {
+                    person.name = "Jane Doe"
+                }
+            }
+        }
+        // :code-block-end:
+    }
 }
+// :replace-end:
