@@ -147,6 +147,18 @@ You can pass thread-confined instances to another thread as follows:
 .. literalinclude:: /examples/generated/code/start/Threading.codeblock.pass-across-threads.swift
    :language: swift
 
+.. _ios-use-realm-across-threads:
+
+Use the Same Realm Across Threads
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You cannot share {+realm+} instances across threads.
+
+To use the same Realm file across threads, open a different {+realm+}
+instance on each thread. As long as you use the same
+:swift-sdk:`configuration <Structs/Realm/Configuration.html>`, all Realm
+instances will map to the same file on disk.
+
 .. _ios-refreshing-realms:
 
 Refreshing Realms

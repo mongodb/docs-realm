@@ -6,9 +6,9 @@
 import XCTest
 import RealmSwift
 
-class ThreadingExamples_Person : Object {
+class ThreadingExamples_Person: Object {
     @objc dynamic var name = ""
-    
+
     convenience init(name: String) {
         self.init()
         self.name = name
@@ -62,8 +62,9 @@ class Threading: XCTestCase {
         assert(frozenTask.realm!.isFrozen)
         // :code-block-end:
     }
-    
+
     func testPassAcrossThreads() {
+        let expectation = XCTestExpectation(description: "it completes")
         // :code-block-start: pass-across-threads
         let person = ThreadingExamples_Person(name: "Jane")
         let realm = try! Realm()
@@ -71,10 +72,10 @@ class Threading: XCTestCase {
         try! realm.write {
             realm.add(person)
         }
-        
+
         // Create thread-safe reference to person
         let personRef = ThreadSafeReference(to: person)
-        
+
         // Pass the reference to a background thread
         DispatchQueue(label: "background").async {
             autoreleasepool {
@@ -85,9 +86,11 @@ class Threading: XCTestCase {
                 try! realm.write {
                     person.name = "Jane Doe"
                 }
+                expectation.fulfill() // :remove:
             }
         }
         // :code-block-end:
+        wait(for: [expectation], timeout: 10)
     }
 }
 // :replace-end:
