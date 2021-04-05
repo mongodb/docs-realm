@@ -17,7 +17,7 @@ to users on first launch. To do so, you can bundle a :ref:`Realm file
 <ios-realm-file>` with your app:
 
 1. Create a new project with the exact same data models as your production app. Open a {+realm+} and add the data you wish to bundle. Since Realm files are cross-platform, you can do this in a macOS app.
-#. Make a :ref:`compacted <ios-client-compact-a-realm>` copy of the file. This reduces the Realm file size, which makes your app lighter to download. See :swift-sdk:`Realm().writeCopyToPath(_:encryptionKey:)`.
+#. Make a :ref:`compacted <ios-client-compact-a-realm>` copy of the file. This reduces the Realm file size, which makes your app lighter to download. See :ref:`ios-make-a-compacted-copy`.
 #. Drag the compacted copy of your Realm file to your production app's Xcode Project Navigator.
 #. Go to your app target's :guilabel:`Build Phases` tab in Xcode. Add the Realm file to the :guilabel:`Copy Bundle Resources` build phase.
 #. At this point, your app can access the bundled Realm file. Find its path with :apple:`NSBundle.main.path(forResource:ofType) <documentation/foundation/bundle/1410989-path>`.
