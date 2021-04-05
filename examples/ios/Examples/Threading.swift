@@ -1,6 +1,7 @@
 // :replace-start: {
 //   "terms": {
-//     "ThreadingExamples_": ""
+//     "ThreadingExamples_": "",
+//     "fileprivate ": ""
 //   }
 // }
 import XCTest
@@ -14,6 +15,32 @@ class ThreadingExamples_Person: Object {
         self.name = name
     }
 }
+
+class ThreadingExamples_Email: Object {
+    @objc dynamic var read = false
+}
+
+// :code-block-start: write-async-extension
+fileprivate extension Realm {
+    func writeAsync<T: ThreadConfined>(_ passedObject: T, errorHandler: @escaping ((_ error: Swift.Error) -> Void) = { _ in return }, block: @escaping ((Realm, T?) -> Void)) {
+        let objectReference = ThreadSafeReference(to: passedObject)
+        let configuration = self.configuration
+        DispatchQueue(label: "background").async {
+            autoreleasepool {
+                do {
+                    let realm = try Realm(configuration: configuration)
+                    let object = realm.resolve(objectReference)
+                    try realm.write {
+                        block(realm, object)
+                    }
+                } catch {
+                    errorHandler(error)
+                }
+            }
+        }
+    }
+}
+// :code-block-end:
 
 class Threading: XCTestCase {
     override func setUp() {
@@ -92,5 +119,24 @@ class Threading: XCTestCase {
         // :code-block-end:
         wait(for: [expectation], timeout: 10)
     }
+
+    func testWriteAsyncExtension() {
+        let expectation = XCTestExpectation(description: "it completes")
+        // :code-block-start: use-write-async-extension
+        let realm = try! Realm()
+        let readEmails = realm.objects(ThreadingExamples_Email.self).filter("read == true")
+        realm.writeAsync(readEmails) { (realm, readEmails) in
+            guard let readEmails = readEmails else {
+                // Already deleted
+                expectation.fulfill() // :remove:
+                return
+            }
+            realm.delete(readEmails)
+            expectation.fulfill() // :remove:
+        }
+        // :code-block-end:
+        wait(for: [expectation], timeout: 10)
+    }
 }
+
 // :replace-end:

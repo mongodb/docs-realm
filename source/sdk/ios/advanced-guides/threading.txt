@@ -147,6 +147,29 @@ You can pass thread-confined instances to another thread as follows:
 .. literalinclude:: /examples/generated/code/start/Threading.codeblock.pass-across-threads.swift
    :language: swift
 
+You can use ``ThreadSafeReference`` with Realm objects whether they have
+a primary key or not. You can also use it with lists and results. The
+downside is that ``ThreadSafeReference`` requires some boilerplate. You
+must remember to wrap everything in an ``autoreleasepool`` so the
+objects do not linger on the background thread. So, it can be helpful to
+make a convenience extension to handle the boilerplate as follows:
+
+.. literalinclude:: /examples/generated/code/start/Threading.codeblock.write-async-extension.swift
+   :language: swift
+
+This extension adds a ``writeAsync()`` method to the Realm class. This
+method passes an instance to a background thread for you.
+
+.. example::
+
+   Suppose you made an email app and want to delete all read emails in
+   the background. You can now do it with two lines of code. Note that
+   the closure runs on the background thread and receives its own
+   version of both the {+realm+} and passed object:
+
+   .. literalinclude:: /examples/generated/code/start/Threading.codeblock.use-write-async-extension.swift
+      :language: swift
+
 .. _ios-use-realm-across-threads:
 
 Use the Same Realm Across Threads
