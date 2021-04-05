@@ -17,10 +17,10 @@ Overview
 --------
 
 Realm functions can interact with connected services, user
-information, predefined values, and other functions through modules
+information, predefined values, and other functions through properties
 attached to the global ``context`` variable.
 
-The ``context`` variable contains the following modules:
+The ``context`` variable contains the following properties:
 
 .. list-table::
    :header-rows: 1
@@ -33,8 +33,19 @@ The ``context`` variable contains the following modules:
      - Access service clients for the :doc:`services </services>` you've
        configured.
 
+   * - ``context.functions``
+     - Execute other functions in your {+app+}.
+
    * - ``context.values``
      - Access :doc:`values </values-and-secrets>` that you've defined.
+
+   * - ``context.http``
+     - Access the HTTP service for ``get``, ``post``, ``put``, ``patch``,
+       ``delete``, and ``head`` actions.
+
+   * - ``context.environment``
+     - Access :ref:`environment values <environment-values>` and the current
+       environment tag.
 
    * - ``context.user``
      - Access information about the :doc:`user </authentication>` that initiated
@@ -43,13 +54,6 @@ The ``context`` variable contains the following modules:
    * - ``context.request``
      - Access information about the HTTP request that triggered this function
        call.
-
-   * - ``context.functions``
-     - Execute other functions in your {+app+}.
-
-   * - ``context.http``
-     - Access the HTTP service for ``get``, ``post``, ``put``, ``patch``,
-       ``delete``, and ``head`` actions.
 
 Context Modules
 ---------------
@@ -265,6 +269,51 @@ rules </services/configure/service-rules>`.
         EJSON.parse(response.body.text());
       };
 
+.. _context-environment:
+
+context.environment
+~~~~~~~~~~~~~~~~~~~
+
+An object that includes the app's current environment and any :ref:`environment
+values <environment-values>` for that environment.
+
+.. method:: context.environment.tag
+   
+   The app's current environment.
+
+   .. code-block:: javascript
+
+      exports = async function() {
+        switch(context.environment.tag) {
+          case "": {
+            return "There is no current environment"
+          }
+          case "development": {
+            return "The current environment is development"
+          }
+          case "testing": {
+            return "The current environment is testing"
+          }
+          case "qa": {
+            return "The current environment is qa"
+          }
+          case "production": {
+            return "The current environment is production"
+          }
+        }
+      };
+
+.. method:: context.environment.values
+   
+   An object where each field maps the name of an :ref:`environment values
+   <environment-values>` to its value in the current environment.
+   
+   .. code-block:: javascript
+      
+      exports = async function() {
+        const baseUrl = context.environment.values.baseUrl
+      };
+
 Context Properties
 ------------------
 
@@ -345,7 +394,7 @@ determine the origin of the call. It may contain the following fields:
       "httpReferrer": <string>,
       "httpUserAgent": <string>,
       "service": <string>,
-      "action":"<string>
+      "action": <string>
    }
 
 .. list-table::
@@ -446,7 +495,6 @@ determine the origin of the call. It may contain the following fields:
          "httpUserAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36"
       }
 
- 
 Context Methods
 ---------------
 
