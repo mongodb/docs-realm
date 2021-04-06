@@ -14,7 +14,7 @@ namespace Examples
         Realms.Sync.User user;
         SyncConfiguration config;
         bool didTriggerErrorHandler;
-        string myRealmAppId = "mockerrorapp-orcsd";
+        string myRealmAppId = "example-testers-kvjdy";
 
         [Test]
         public async Task handleErrors()
