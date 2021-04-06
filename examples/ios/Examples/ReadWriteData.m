@@ -439,6 +439,20 @@ RLM_ARRAY_TYPE(ReadWriteDataObjcExample_Person)
     (void)tanDogsWithBNames;
 }
 
+- (void)testJson {
+    // :code-block-start: json
+    // Specify a dog toy in JSON
+    NSData *data = [@"{\"name\": \"Tennis ball\"}" dataUsingEncoding: NSUTF8StringEncoding];
+    RLMRealm *realm = [RLMRealm defaultRealm];
+
+    // Insert from NSData containing JSON
+    [realm transactionWithBlock:^{
+        id json = [NSJSONSerialization JSONObjectWithData:data options:0 error:NULL];
+        [ReadWriteDataObjcExample_DogToy createOrUpdateModifiedInRealm:realm withValue:json];
+    }];
+    // :code-block-end:
+}
+
 @end
 
 // :replace-end:
