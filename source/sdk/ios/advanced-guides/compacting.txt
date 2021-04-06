@@ -73,10 +73,12 @@ method. The destination file cannot already exist.
 
 .. important::
 
-   Within a :ref:`write transaction <ios-write-transactions>`, this
+   Avoid calling this method within a :ref:`write transaction
+   <ios-write-transactions>`. If called within a write transaction, this
    method copies the absolute latest data. This includes any
    **uncommitted** changes you made in the transaction before this
-   method call.
+   method call, which compromises the :ref:`atomicity
+   <ios-acid-compliance>` of the transaction.
 
 .. _ios-how-compacting-works:
 
