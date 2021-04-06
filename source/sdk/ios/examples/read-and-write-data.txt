@@ -332,6 +332,53 @@ Create a New Object
       .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.create.m
          :language: objectivec
 
+.. _ios-create-an-object-with-json:
+
+Create an Object with JSON
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Realm does not directly support JSON, but you can use
+:apple:`JSONSerialization.jsonObject(with:options:)
+<documentation/foundation/jsonserialization/1415493-jsonobject>` to
+convert JSON into a value that you can pass to
+:swift-sdk:`Realm.create(_:value:update:)
+<Structs/Realm.html#/s:10RealmSwift0A0V6create_5value6updatexxm_ypAC12UpdatePolicyOtSo0aB6ObjectCRbzlF>`.
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: swift
+
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.json.swift
+         :language: swift
+
+   .. tab::
+      :tabid: objective-c
+
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.json.m
+         :language: objectivec
+
+Nested objects or arrays in the JSON map to :ref:`to-one
+<ios-to-one-relationship>` or :ref:`to-many relationships
+<ios-to-one-relationship>`. 
+
+The JSON property names and types must match the destination
+:ref:`object schema <ios-object-schemas>` exactly. For example:
+
+- ``float`` properties must be initialized with float-backed ``NSNumbers``.
+- ``Date`` and ``Data`` properties cannot be inferred from strings. Convert them to the appropriate type before passing to :swift-sdk:`Realm.create(_:value:update:) <Structs/Realm.html#/s:10RealmSwift0A0V6create_5value6updatexxm_ypAC12UpdatePolicyOtSo0aB6ObjectCRbzlF>`.
+- Required properties cannot be ``null`` or missing in the JSON.
+
+Realm ignores any properties in the JSON not defined in the object
+schema.
+
+.. tip::
+
+   If your JSON schema doesn't exactly align with your Realm objects,
+   consider using a third-party framework to transform your JSON. There
+   are many model mapping frameworks that work with Realm. See a
+   :github:`partial list in the realm-cocoa repository
+   <realm/realm-cocoa/issues/694#issuecomment-144785299>`.
 
 .. _ios-copy-an-object-to-another-realm:
 
