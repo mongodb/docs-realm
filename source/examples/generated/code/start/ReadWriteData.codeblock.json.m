@@ -5,5 +5,5 @@ RLMRealm *realm = [RLMRealm defaultRealm];
 // Insert from NSData containing JSON
 [realm transactionWithBlock:^{
     id json = [NSJSONSerialization JSONObjectWithData:data options:0 error:NULL];
-    [DogToy createOrUpdateModifiedInRealm:realm withValue:json];
+    [DogToy createInRealm:realm withValue:json];
 }];

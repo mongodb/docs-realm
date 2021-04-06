@@ -448,7 +448,7 @@ RLM_ARRAY_TYPE(ReadWriteDataObjcExample_Person)
     // Insert from NSData containing JSON
     [realm transactionWithBlock:^{
         id json = [NSJSONSerialization JSONObjectWithData:data options:0 error:NULL];
-        [ReadWriteDataObjcExample_DogToy createOrUpdateModifiedInRealm:realm withValue:json];
+        [ReadWriteDataObjcExample_DogToy createInRealm:realm withValue:json];
     }];
     // :code-block-end:
 }

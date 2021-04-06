@@ -43,7 +43,7 @@ class OpenCloseRealm: XCTestCase {
         let realm = try! Realm(configuration: config)
         // :code-block-end:
     }
-    
+
     func testTvOs() {
         // :code-block-start: tvos-share-path
         let fileUrl = FileManager.default
