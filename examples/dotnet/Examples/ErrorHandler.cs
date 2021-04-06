@@ -14,7 +14,7 @@ namespace Examples
         Realms.Sync.User user;
         SyncConfiguration config;
         bool didTriggerErrorHandler;
-        string myRealmAppId = "example-testers-kvjdy";
+        string myRealmAppId = "errror-handler-example-nythp";
 
         [Test]
         public async Task handleErrors()
