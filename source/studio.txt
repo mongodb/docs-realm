@@ -30,24 +30,24 @@ Find the Realm File(s)
 realm in a single ``.realm`` file. The file is located at a specific path that
 you define when you open the realm.
 
-   .. tabs-realm-languages::
+.. tabs-realm-languages::
 
-      .. tab::
-         :tabid: swift
+   .. tab::
+      :tabid: swift
 
-         In Swift app development, you can find the current path of the
+      In Swift app development, you can find the current path of the
+      default {+realm+} by pausing the simulator and using the LLDB console:
+
+      .. code-block:: swift
+
+         (lldb) po Realm.Configuration.defaultConfiguration.fileURL
+
+   .. tab::
+      :tabid: objective-c
+
+      In Objective-C app development, you can find the current path of the
          default {+realm+} by pausing the simulator and using the LLDB console:
 
-         .. code-block:: swift
+      .. code-block:: objective-c
 
-            (lldb) po Realm.Configuration.defaultConfiguration.fileURL
-
-      .. tab::
-         :tabid: objective-c
-
-         In Objective-C app development, you can find the current path of the
-         default {+realm+} by pausing the simulator and using the LLDB console:
-
-         .. code-block:: objective-c
-
-            (lldb) po [RLMRealmConfiguration defaultConfiguration].fileURL
+         (lldb) po [RLMRealmConfiguration defaultConfiguration].fileURL
