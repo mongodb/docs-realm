@@ -191,11 +191,9 @@ Observing the properties of managed objects works differently. With
 {+realm+}-managed objects, the value of a property may change when:
 
 - You assign to it
-- You call ``realm.refresh()``
-- The {+realm+} is automatically refreshed after a write transaction 
-  occurs on a different thread
-- You call ``realm.beginWrite()`` after changes to a different thread which 
-  have not been picked up by a refresh on the current thread
+- The realm is refreshed, either manually with ``realm.refresh()``, or 
+  automatically on a runloop thread
+- You begin a write transaction after changes on another thread
 
 {+backend-short+} applies changes made in the write transaction(s) on other threads 
 at once. Observers see Key-value observation notifications at once. 
