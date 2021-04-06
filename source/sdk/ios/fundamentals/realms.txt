@@ -131,8 +131,8 @@ Realm Files
 -----------
 
 Realm Database stores a binary encoded version of every object and type in a
-realm in a single ``.realm`` file. The file is located at a specific path that
-you define when you open the realm.
+realm in a single ``.realm`` file. The file is located at :ref:`a specific 
+path <find-the-default-realm-path>` that you define when you open the realm.
 
 .. note:: Auxiliary Realm Files
    
@@ -236,6 +236,15 @@ dispatch pool deallocates the {+realm+} object. Use an explicit
 autorelease pool when accessing {+realm+} from a dispatch queue.
 
 .. _ios-default-realm:
+
+App Download File Size
+~~~~~~~~~~~~~~~~~~~~~~
+
+{+client-database+} should only add around 5 to 8 MB to your app’s download 
+size. The releases we distribute are significantly larger because they 
+include support for the iOS, watchOS and tvOS simulators, some debug symbols, 
+and bitcode, all of which are stripped by the App Store automatically when 
+apps are downloaded.
 
 Default Realm
 -------------
