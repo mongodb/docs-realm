@@ -102,8 +102,8 @@ Create a Database Trigger
          
            - Required. A list of one or more :ref:`database operation
              types <database-event-operation-types>` that cause the Trigger to
-             fire. Format each operation type as a fully capitalized string,
-             e.g., ``"INSERT"``.
+             fire. Format each operation type as an uppercase string, e.g.,
+             ``"INSERT"``.
          
              .. warning::
          
@@ -135,13 +135,23 @@ Create a Database Trigger
              ``fullDocumentBeforeChange`` field. All change events except for
              ``INSERT`` events include the document preimage.
              
-             .. note:: Collection-Level Preimage Settings
+             .. important:: Collection-Level Preimage Settings
                 
-                Document preimages use extra information stored in the
-                collection oplog. This affects all triggers on the collection
-                and may have performance implications for some apps. For more
-                information, see :ref:`View & Disable Trigger Preimages
-                <trigger-preimages>`.
+                Document preimages use extra information stored in the oplog.
+                The extra data may have performance implications for some apps.
+                
+                Once you've enabled document preimages for any trigger on a
+                given collection, that collection will include preimage data in
+                the oplog and other triggers on the collection can use preimages
+                with no additonal overhead.
+                
+                You can disable document preimages on a per-trigger basis to
+                exclude the preimage from change events. Regardless of your
+                trigger-level settings, a collection's oplog entries will
+                continue to include preimage data unless you explicitly disable
+                preimages for the collection.
+                
+                For more information, see :ref:`trigger-preimages`.
          
          * - :guilabel:`Event Ordering`
          
