@@ -12,10 +12,11 @@ let personRef = ThreadSafeReference(to: person)
 DispatchQueue(label: "background").async {
     autoreleasepool {
         let realm = try! Realm()
-        guard let person = realm.resolve(personRef) else {
-            return // person was deleted
-        }
         try! realm.write {
+            // Resolve within the transaction to ensure you get the latest changes from other threads
+            guard let person = realm.resolve(personRef) else {
+                return // person was deleted
+            }
             person.name = "Jane Doe"
         }
     }

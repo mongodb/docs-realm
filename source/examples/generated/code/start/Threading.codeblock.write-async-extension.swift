@@ -6,8 +6,9 @@ extension Realm {
             autoreleasepool {
                 do {
                     let realm = try Realm(configuration: configuration)
-                    let object = realm.resolve(objectReference)
                     try realm.write {
+                        // Resolve within the transaction to ensure you get the latest changes from other threads
+                        let object = realm.resolve(objectReference)
                         block(realm, object)
                     }
                 } catch {

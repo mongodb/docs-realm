@@ -29,8 +29,9 @@ fileprivate extension Realm {
             autoreleasepool {
                 do {
                     let realm = try Realm(configuration: configuration)
-                    let object = realm.resolve(objectReference)
                     try realm.write {
+                        // Resolve within the transaction to ensure you get the latest changes from other threads
+                        let object = realm.resolve(objectReference)
                         block(realm, object)
                     }
                 } catch {
@@ -107,10 +108,11 @@ class Threading: XCTestCase {
         DispatchQueue(label: "background").async {
             autoreleasepool {
                 let realm = try! Realm()
-                guard let person = realm.resolve(personRef) else {
-                    return // person was deleted
-                }
                 try! realm.write {
+                    // Resolve within the transaction to ensure you get the latest changes from other threads
+                    guard let person = realm.resolve(personRef) else {
+                        return // person was deleted
+                    }
                     person.name = "Jane Doe"
                 }
                 expectation.fulfill() // :remove:
