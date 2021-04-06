@@ -334,14 +334,14 @@ Create a New Object
 
 .. _ios-initialize-an-object-with-a-value:
 
-Initialize an Object with a Value
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Initialize Objects with a Value
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-You can initialize an object directly by passing an initializer value to
+You can initialize an object by passing an initializer value to
 :swift-sdk:`Object.init(value:)
 <Extensions/Object.html#/s:So16RealmSwiftObjectC0aB0E5valueAByp_tcfc>`.
-The initializer value can be a :apple:`key-value
-coding<library/archive/documentation/Cocoa/Conceptual/KeyValueCoding/>`
+The initializer value can be a :apple:`key-value coding
+<library/archive/documentation/Cocoa/Conceptual/KeyValueCoding/>`
 compliant object, a dictionary, or an array containing one element for
 each managed property.
 
@@ -490,7 +490,7 @@ Update Properties with Key-value Coding
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ``Object``, ``Result``, and ``List`` all conform to 
-:apple:`key-value coding<library/archive/documentation/Cocoa/Conceptual/KeyValueCoding/>`. 
+:apple:`key-value coding <library/archive/documentation/Cocoa/Conceptual/KeyValueCoding/>`. 
 This can be useful when you need to determine which property to update 
 at runtime.
 
@@ -500,6 +500,11 @@ accessors for every item.
 
 .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.key-value-coding.swift
    :language: swift
+
+.. tip::
+
+   You can also add values for embedded objects or relationships this
+   way. See :ref:`ios-initialize-an-object-with-a-value`.
 
 Upsert an Object
 ~~~~~~~~~~~~~~~~
