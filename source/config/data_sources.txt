@@ -21,6 +21,7 @@ MongoDB Data Source Configuration Files
            └── <database>/
                └── <collection>/
                    ├── schema.json
+                   ├── relationships.json
                    └── rules.json
 
 Service Configuration
@@ -187,7 +188,7 @@ Relationships
    * - | ``foreign_key``
        | String
      - The name of the field in the foreign collection's schema that contains
-       the value reference by ``source_key``.
+       the value referenced by ``source_key``.
    
    * - | ``is_list``
        | Boolean
