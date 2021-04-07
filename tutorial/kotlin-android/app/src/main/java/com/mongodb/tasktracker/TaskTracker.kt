@@ -31,7 +31,9 @@ class TaskTracker : Application() {
             AppConfiguration.Builder(BuildConfig.MONGODB_REALM_APP_ID)
             .build())
         // :state-end: :state-uncomment-start: start
-        //// TODO: Initialize the Realm SDK and create the App object we will use to communicate with the Realm backend.
+        //// Initialize the Realm SDK
+        //Realm.init(this)
+        //// TODO: Create the App object we will use to communicate with the Realm backend.
         // :state-uncomment-end:
         // :code-block-end:
 

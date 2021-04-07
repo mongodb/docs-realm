@@ -5,8 +5,8 @@ val config = SyncConfiguration.Builder(user, partition)
 
 // Sync all realm changes via a new instance, and when that instance has been successfully created connect it to an on-screen list (a recycler view)
 val realm: Realm = Realm.getInstance(config)
-// execute Transaction (not async) because remoteAt should execute on a background thread
-realm.executeTransaction {
+// execute Transaction asynchronously to avoid blocking the UI thread
+realm.executeTransactionAsync {
     // using our thread-local new realm instance, query for and delete the task
     val item = it.where<Task>().equalTo("_id", id).findFirst()
     item?.deleteFromRealm()
