@@ -31,7 +31,6 @@ RLM_ARRAY_TYPE(ReadWriteDataObjcExample_Dog)
 // A person has a primary key ID, a collection of dogs, and can be a member of multiple clubs.
 @interface ReadWriteDataObjcExample_Person : RLMObject
 @property int _id;
-@property NSString *name;
 
 // To-many relationship - a person can have many dogs
 @property RLMArray<ReadWriteDataObjcExample_Dog *><ReadWriteDataObjcExample_Dog> *dogs;
@@ -452,23 +451,6 @@ RLM_ARRAY_TYPE(ReadWriteDataObjcExample_Person)
         [ReadWriteDataObjcExample_DogToy createInRealm:realm withValue:json];
     }];
     // :code-block-end:
-}
-
-- (void)testNestedObjects {
-
-    ReadWriteDataObjcExample_Dog *aDog = [[ReadWriteDataObjcExample_Dog alloc] init];
-    ReadWriteDataObjcExample_Dog *anotherDog = [[ReadWriteDataObjcExample_Dog alloc] init];
-    // :code-block-start: nested-objects
-    // Instead of using pre-existing dogs...
-    ReadWriteDataObjcExample_Person *aPerson = [[ReadWriteDataObjcExample_Person alloc]
-        initWithValue:@[@123, @"Jane", @[aDog, anotherDog]]];
-
-    // ...we can create them inline
-    ReadWriteDataObjcExample_Person *anotherPerson = [[ReadWriteDataObjcExample_Person alloc]
-        initWithValue:@[@123, @"Jane", @[@[@"Buster", @5], @[@"Buddy", @6]]]];
-    // :code-block-end:
-    (void)aPerson;
-    (void)anotherPerson;
 }
 
 @end

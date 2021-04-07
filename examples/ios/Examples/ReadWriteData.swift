@@ -23,7 +23,6 @@ class ReadWriteDataExamples_Dog: Object {
 
 class ReadWriteDataExamples_Person: Object {
     @objc dynamic var id = 0
-    @objc dynamic var name = ""
 
     // To-many relationship - a person can have many dogs
     let dogs = List<ReadWriteDataExamples_Dog>()
@@ -461,18 +460,6 @@ class ReadWriteData: XCTestCase {
             let json = try! JSONSerialization.jsonObject(with: data, options: [])
             realm.create(ReadWriteDataExamples_DogToy.self, value: json)
         }
-        // :code-block-end:
-    }
-
-    func testNestedObjects() {
-        let aDog = ReadWriteDataExamples_Dog(value: ["Buster", 5])
-        let anotherDog = ReadWriteDataExamples_Dog(value: ["Buddy", 6])
-        // :code-block-start: nested-objects
-        // Instead of using pre-existing dogs...
-        let aPerson = ReadWriteDataExamples_Person(value: [123, "Jane", [aDog, anotherDog]])
-
-        // ...we can create them inline
-        let anotherPerson = ReadWriteDataExamples_Person(value: [123, "Jane", [["Buster", 5], ["Buddy", 6]]])
         // :code-block-end:
     }
 }
