@@ -35,6 +35,7 @@ The Swift SDK has the following collections:
 
 1. :swift-sdk:`Results <Structs/Results.html>`, a class representing objects retrieved from queries.
 #. :swift-sdk:`List <Classes/List.html>`, a class representing :ref:`to-many relationships <ios-to-many-relationship>` in models.
+#. :swift-sdk:`MutableSet<Classes/MutableSet.html>`, a class representing :ref:`to-many relationships <ios-to-many-relationship>`. Contains distinct values.
 #. :swift-sdk:`LinkingObjects <Structs/LinkingObjects.html>`, a class representing :ref:`inverse relationships <ios-inverse-relationship>` in models.
 #. :swift-sdk:`RealmCollection <Protocols/RealmCollection.html>`, a protocol defining the common interface of any Realm collection.
 #. :swift-sdk:`AnyRealmCollection <Structs/AnyRealmCollection.html>`, a :wikipedia:`type-erased <Type_erasure>` class that can forward calls to a concrete Realm collection like Results, List or LinkingObjects.
@@ -64,6 +65,31 @@ types. Lists are mutable: within a write transaction, you can add and
 remove elements to and from a list. Lists are not associated with a
 query and are usually declared as a property of an :ref:`object model
 <ios-object-models-and-schemas>`.
+
+.. seealso::
+
+   :ref:`To-Many Relationships <ios-to-many-relationship>`
+
+.. _ios-set-collections:
+
+MutableSet
+~~~~~~~~~~
+
+A :swift-sdk:`MutableSet <Classes/MutableSet.html>` collection represents 
+a :ref:`to-many relationship <ios-to-many-relationship>` containing 
+distinct values. 
+
+Like Swift's :apple:`Set <documentation/swift/set>`, `MutableSet` is a 
+generic type that is parameterized on the type it stores. Unlike 
+:apple:`native Swift collections <documentation/swift/swift_standard_library/collections>`, 
+{+service-short+} mutable sets are reference types. They are only immutable 
+if you open the {+realm+} that manages them as a read-only {+realm+}.
+
+You can filter and sort a MutableSet with the same predicates as 
+:ref:`Results<Element> <ios-results-collections>`. 
+
+.. literalinclude:: /examples/generated/code/start/MutableSetExample.codeblock.set-collections.swift
+   :language: swift
 
 .. seealso::
 
