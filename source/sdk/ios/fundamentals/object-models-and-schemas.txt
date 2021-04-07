@@ -113,28 +113,28 @@ Realm Does Not Support Swift Structs
 ------------------------------------
 
 {+client-database+} does not currently support structs as models for a 
-variety of reasons. Foremost, {+service-short+}'s design focuses on 
-“live” objects. This concept is not compatible with value type structs. 
-By design, {+service-short+} provides features which are incompatible with 
-these semantics, such as:
+variety of reasons. {+service-short+}'s design focuses on “live” objects. 
+This concept is not compatible with value type structs. By design, 
+{+service-short+} provides features that are incompatible with these 
+semantics, such as:
  
-- Live data
-- Reactive APIs
+- :ref:`Live data <ios-live-object>`
+- :ref:`Reactive APIs <ios-react-to-changes>`
 - Low memory footprint of data
 - Good operation performance
-- Lazy and cheap access to partial data
+- :ref:`Lazy and cheap access to partial data <ios-live-queries>`
 - Lack of data serialization/deserialization
-- Keeping potentially complex object graphs synchronized
+- :ref:`Keeping potentially complex object graphs synchronized <ios-sync-changes-between-devices>`
 
 That said, it is sometimes useful to detach objects from their backing 
 {+realm+}. This typically isn't an ideal design decision. Instead, 
 developers use this as a workaround for temporary limitations in our 
 library. 
 
-To make this easier, we’ve implemented standalone/detached {+service-short+} 
-objects to behave like :apple:`Apple's NSObject <documentation/objectivec/nsobject>`. 
-We support making “in-memory copies” of {+service-short+} objects. Use an initializer 
-to create a standalone object by key-value coding copying a persisted object’s properties: 
+To make this easier, we've made unmanaged objects behave like 
+:apple:`Apple's NSObject <documentation/objectivec/nsobject>`. Use an 
+initializer to create an unmanaged object by key-value coding copying a 
+persisted object’s properties: 
 
 .. code-block:: swift
 
