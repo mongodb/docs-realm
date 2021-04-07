@@ -62,7 +62,7 @@ content: |
   .. cssclass:: config-table
   .. list-table::
      :header-rows: 1
-     :widths: 15 85
+     :widths: 20 80
 
      * - File
        - Purpose
@@ -202,6 +202,18 @@ content: |
 
   Replace ``<your app ID here>`` with your Realm app ID, which you can
   :ref:`find in the Realm UI <find-your-app-id>`.
+
+---
+title: Create the Realm App
+ref: create-realm-app
+content: |
+
+  Navigate to ``TaskTracker``, which initializes {+service-short+} and
+  sets the SDK log level. You should instantiate ``taskApp``, the global
+  {+service-short+} App reference, here:
+
+  .. literalinclude:: /tutorial/generated/code/final/TaskTracker.codeblock.initialize-realm-and-create-app.kt
+     :language: kotlin
 
 ---
 title: Enable Authentication
