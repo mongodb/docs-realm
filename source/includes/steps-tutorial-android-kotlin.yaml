@@ -46,7 +46,8 @@ content: |
   (nonfunctional) login screen with the text "Task Tracker" at the top of
   the screen:
 
-  .. image:: /images/task-tracker-login.png
+  .. figure:: /images/task-tracker-login.png
+     :figwidth: 300px
      :alt: The login screen of the Task Tracker Android app.
 
 ---
@@ -61,7 +62,7 @@ content: |
   .. cssclass:: config-table
   .. list-table::
      :header-rows: 1
-     :widths: 15 85
+     :widths: 20 80
 
      * - File
        - Purpose
@@ -201,6 +202,18 @@ content: |
 
   Replace ``<your app ID here>`` with your Realm app ID, which you can
   :ref:`find in the Realm UI <find-your-app-id>`.
+
+---
+title: Create the Realm App
+ref: create-realm-app
+content: |
+
+  Navigate to ``TaskTracker``, which initializes {+service-short+} and
+  sets the SDK log level. You should instantiate ``taskApp``, the global
+  {+service-short+} App reference, here:
+
+  .. literalinclude:: /tutorial/generated/code/final/TaskTracker.codeblock.initialize-realm-and-create-app.kt
+     :language: kotlin
 
 ---
 title: Enable Authentication
@@ -451,21 +464,21 @@ content: |
   Click the :guilabel:`Run` button in Android Studio. If the app builds
   successfully, here are some things you can try in the app:
 
-  - Create a user with email *first@example.com*
-  - Explore the app, then log out or launch a second instance of the app
-    on another virtual device
-  - Create another user with email *second@example.com*
-  - Navigate to *second@example.com*'s project
-  - Add, update, and remove some tasks
-  - Navigate back to the list of projects in ``ProjectActivity`` with
-    the back button
-  - Click the three dots "options" menu on "My Project"
-  - Add *first@example.com* to your team by clicking the floating action
-    button and entering "*first@example.com*"
-  - Log out and log in as *first@example.com*
-  - You should see two projects in the projects list, one of them labeled "*second@example.com*'s project"
-  - Navigate to *second@example.com*'s project
-  - Collaborate by adding, updating, and removing some new tasks
+  1. Create a user with email *first@example.com*.
+  #. Explore the app, then log out or launch a second instance of the app
+     on another virtual device.
+  #. Create another user with email *second@example.com*.
+  #.  Navigate to *second@example.com*'s project.
+  #. Add, update, and remove some tasks.
+  #. Navigate back to the list of projects in ``ProjectActivity`` with
+     the back button.
+  #. Click the three dots "options" menu on "My Project".
+  #. Add *first@example.com* to your team by clicking the floating action
+     button and entering "*first@example.com*".
+  #. Log out and log in as *first@example.com*.
+  #. You should see two projects in the projects list, one of them labeled "*second@example.com*'s project".
+  #. Navigate to *second@example.com*'s project.
+  #. Collaborate by adding, updating, and removing some new tasks.
 
   .. tip::
    

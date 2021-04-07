@@ -122,6 +122,7 @@ class ProjectActivity : AppCompatActivity() {
         // :state-start: final
         val syncedUsers : RealmResults<User> = realm.where<User>().sort("_id").findAll()
         val syncedUser : User? = syncedUsers.getOrNull(0) // since there might be no user objects in the results, default to "null"
+        Log.v(TAG(), "Synced users length: ${syncedUsers.size}")
         // :state-end: :state-uncomment-start: start
         //// TODO: query the realm to get a copy of the currently logged in user's User object (or null, if the trigger didn't create it yet)
         //var syncedUser : User? = null
