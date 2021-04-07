@@ -14,7 +14,6 @@ class Dog: Object {
 
 class Person: Object {
     @objc dynamic var id = 0
-    @objc dynamic var name = ""
 
     // To-many relationship - a person can have many dogs
     let dogs = List<Dog>()
