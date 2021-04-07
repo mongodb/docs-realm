@@ -147,7 +147,7 @@ You can pass thread-confined instances to another thread as follows:
 .. literalinclude:: /examples/generated/code/start/Threading.codeblock.pass-across-threads.swift
    :language: swift
 
-You can use ``ThreadSafeReference`` with Realm objects whether they have
+You can use ``ThreadSafeReference`` with {+service-short+} objects whether they have
 a primary key or not. You can also use it with lists and results. The
 downside is that ``ThreadSafeReference`` requires some boilerplate. You
 must remember to wrap everything in an ``autoreleasepool`` so the
