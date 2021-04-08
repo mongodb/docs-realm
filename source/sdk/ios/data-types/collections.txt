@@ -82,11 +82,14 @@ distinct values.
 Like Swift's :apple:`Set <documentation/swift/set>`, ``MutableSet`` is a 
 generic type that is parameterized on the type it stores. Unlike 
 :apple:`native Swift collections <documentation/swift/swift_standard_library/collections>`, 
-{+service-short+} mutable sets are reference types. They are only immutable 
-if you open the {+realm+} that manages them as a read-only {+realm+}.
+{+service-short+} mutable sets are reference types. 
 
-You can filter and sort a ``MutableSet`` with the same predicates as 
-:ref:`Results <ios-results-collections>`. 
+You can only call the ``MutableSets`` mutation methods during a write 
+transaction. As a result, ``MutableSets`` are immutable if you open the 
+managing {+realm+} as a read-only {+realm+}. 
+
+You can filter and sort a ``MutableSet`` with the :ref:`same predicates 
+<ios-filter-data>` as :ref:`Results <ios-results-collections>`. 
 
 .. literalinclude:: /examples/generated/code/start/MutableSetExample.codeblock.set-collections.swift
    :language: swift

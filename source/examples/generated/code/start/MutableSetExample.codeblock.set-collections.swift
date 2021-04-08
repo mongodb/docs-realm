@@ -1,50 +1,45 @@
-let realm = try! Realm()
-
-// Create some dogs of specific breeds. Two of the dogs are the same breed.
-let dog1 = Dog()
-dog1.name = "Alpha"
-dog1.breed = "Beagle"
-
-let dog2 = Dog()
-dog2.name = "Beta"
-dog2.breed = "Labrador Retriever"
-
-let dog3 = Dog()
-dog3.name = "Charlie"
-dog3.breed = "Beagle"
-
-// Create a relationship between the dogs and a specific person
-let person = Person()
-person.id = 12345
-person.dogs.append(objectsIn: [dog1, dog2, dog3])
-
-try! realm.write {
-    realm.add(person)
+class Dog: Object {
+    @objc dynamic var name = ""
+    @objc dynamic var currentCity = ""
+    let citiesVisited = MutableSet<String>()
 }
 
-// Later, query the specific person
-let specificPerson = realm.object(ofType: Person.self, forPrimaryKey: 12345)
+    func testMutableSet() {
 
-// Create a Realm MutableSet of type String to store the dog breeds
-let specificPersonsDogBreeds = MutableSet<String>()
+        let realm = try! Realm()
 
-// Iterate through the person's dogs, and add each breed to the set
-for dog in specificPerson!.dogs {
-    specificPersonsDogBreeds.insert(dog.breed!)
-}
+        // Record a dog's name and current city
+        let dog = Dog()
+        dog.name = "Maui"
+        dog.currentCity = "New York"
 
-// Get some details about the person's dogs.
-// In this example, the person should have 3 dogs
-print("# dogs: \(specificPerson!.dogs.count)")
-XCTAssert(specificPerson!.dogs.count == 3)
+        // Store the data in a realm. Add the dog's current city
+        // to the citiesVisited MutableSet
+        try! realm.write {
+            realm.add(dog)
+            dog.citiesVisited.insert(dog.currentCity)
+        }
 
-// But the number of breeds in the set should only be 2
-// Printing them yields Labrador Retriever and Beagle
-print("Dog breeds: \(specificPersonsDogBreeds)")
-XCTAssert(specificPersonsDogBreeds.count == 2)
-
-// Check whether the set contains a specific value, and do something
-// In this example, we'll see "At least one of this person's dogs is a Beagle"
-if specificPersonsDogBreeds.contains("Beagle") {
-    print("At least one of this person's dogs is a Beagle")
-}
+        // Later, retreive the dog
+        let dogs = realm.objects(Dog.self)
+        let specificDog = dogs.filter("name == 'Maui'").first!
+ 
+        // Update his current city, and add it to the set of cities visited
+        try! realm.write {
+            specificDog.currentCity = "Toronto"
+            specificDog.citiesVisited.insert(specificDog.currentCity)
+        }
+        
+        // Send him back to New York
+        try! realm.write {
+            specificDog.currentCity = "New York"
+            specificDog.citiesVisited.insert(specificDog.currentCity)
+        }
+        
+        // Get some information about the cities he has visited
+        // This tells us he has visited New York and Toronto.
+        print(specificDog.citiesVisited)
+        // Because 'citiesVisited' is a MutableSet, you only see
+        // New York listed once, even though he has been there twice
+        XCTAssert(specificDog.citiesVisited.count == 2)
+    }
