@@ -31,6 +31,7 @@ public class ErrorHandlerTest extends RealmTest {
                     // :code-block-start: error-handler
                     SyncConfiguration config = new SyncConfiguration.Builder(user, partition)
                             .errorHandler((session, error) -> {
+                                
                                 // do some error handling
                             }).build();
                     // :code-block-end:
