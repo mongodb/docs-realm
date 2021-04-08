@@ -90,7 +90,10 @@ transaction. As a result, ``MutableSets`` are immutable if you open the
 managing {+realm+} as a read-only {+realm+}. 
 
 You can filter and sort a ``MutableSet`` with the :ref:`same predicates 
-<ios-filter-data>` as :ref:`Results <ios-results-collections>`. 
+<ios-filter-data>` as :ref:`Results <ios-results-collections>`. Like other
+{+service-short+} collections, you can :ref:`register a change listener 
+<ios-register-a-collection-change-listener>` on a ``MutableSet``.
+
 
 For example, a ``Dog`` class model might contain a ``MutableSet`` for 
 ``citiesVisited``:
