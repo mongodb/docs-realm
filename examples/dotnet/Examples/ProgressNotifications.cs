@@ -51,13 +51,12 @@ namespace Examples
                 realm.Add(myObj);
             });
             Assert.Greater(progressPercentage, Convert.ToUInt32(-1));
-            // :code-block-start: remove-progress-notification
             realm.Write(() =>
             {
                 realm.RemoveAll<ProgressObj>();
             });
+            // :code-block-start: remove-progress-notification
             token.Dispose();
-            realm.Dispose();
             // :code-block-end: remove-progress-notification
         }
     }
