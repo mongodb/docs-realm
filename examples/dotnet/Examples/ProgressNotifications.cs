@@ -22,7 +22,6 @@ namespace Examples
         [Test]
         public async Task TestUploadDownloadProgressNotification()
         {
-            var progressNotificationTriggered = false;
             var appConfig = new AppConfiguration(myRealmAppId)
             {
                 DefaultRequestTimeout = TimeSpan.FromMilliseconds(1500)
@@ -31,28 +30,35 @@ namespace Examples
             user = app.LogInAsync(Credentials.Anonymous()).Result;
             config = new SyncConfiguration("myPartition", user);
             var realm = await Realm.GetInstanceAsync(config);
+            ulong progressPercentage = Convert.ToUInt32(-1);
             // :code-block-start: upload-download-progress-notification
             var session = realm.GetSession();
             var token = session.GetProgressObservable(ProgressDirection.Upload, ProgressMode.ReportIndefinitely)
                 .Subscribe(progress =>
                    {
-                       progressNotificationTriggered = true;
                        Console.WriteLine($"transferred bytes: {progress.TransferredBytes}");
                        Console.WriteLine($"transferable bytes: {progress.TransferableBytes}");
+                       progressPercentage = progress.TransferredBytes / progress.TransferableBytes;
                    });
             // :code-block-end: upload-download-progress-notification
-            var id = 1;
+            var id = 2;
             var myObj = new ProgressObj
             {
                 Id = id
             };
             realm.Write(() =>
             {
-                realm.RemoveAll<ProgressObj>();
                 realm.Add(myObj);
             });
-            Assert.IsTrue(progressNotificationTriggered);
+            Assert.Greater(progressPercentage, Convert.ToUInt32(-1));
+            // :code-block-start: remove-progress-notification
+            realm.Write(() =>
+            {
+                realm.RemoveAll<ProgressObj>();
+            });
+            token.Dispose();
+            realm.Dispose();
+            // :code-block-end: remove-progress-notification
         }
-
     }
 }

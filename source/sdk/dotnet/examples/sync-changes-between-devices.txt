@@ -95,9 +95,14 @@ The ``session.GetProgressObservable`` method takes in the following two paramete
 .. example::
    In the following example, an application developer registers a callback on the ``session`` to 
    listen for upload events indefinitely. When this callback is triggered, the console prints
-   the number of transferred bytes and the number of transferrable bytes.
+   the number of transferred bytes and the number of transferrable bytes. Then the developer divides
+   them to calculate the progress percentage of the upload.
    .. literalinclude:: /examples/generated/dotnet/ProgressNotifications.codeblock.upload-download-progress-notification.cs
       :language: dotnet
+
+.. example::
+   Once the progress notification is no longer needed, the developer removes all objects from the realm, 
+   disposes of the notification token, and closes the realm.
 
 .. _dotnet-handle-sync-errors:
 
