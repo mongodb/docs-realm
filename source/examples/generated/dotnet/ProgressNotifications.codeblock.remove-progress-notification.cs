@@ -1,2 +1,1 @@
 token.Dispose();
-token = null;

@@ -57,7 +57,6 @@ namespace Examples
             });
             // :code-block-start: remove-progress-notification
             token.Dispose();
-            token = null;
             // :code-block-end: remove-progress-notification
         }
     }
