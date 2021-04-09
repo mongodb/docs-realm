@@ -30,8 +30,8 @@ namespace Examples
             app = App.Create(appConfig);
             user = app.LogInAsync(Credentials.Anonymous()).Result;
             config = new SyncConfiguration("myPartition", user);
+            var realm = await Realm.GetInstanceAsync(config);
             // :code-block-start: upload-download-progress-notification
-            var realm = await Realm.GetInstanceAsync(config); // predefined SyncConfiguration
             var session = realm.GetSession();
             var token = session.GetProgressObservable(ProgressDirection.Upload, ProgressMode.ReportIndefinitely)
                 .Subscribe(progress =>
