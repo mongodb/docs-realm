@@ -1,0 +1,153 @@
+.. _sync-errors:
+
+===========
+Sync Errors
+===========
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+While you develop applications using {+sync+}, you may run into errors. This
+section details some common errors. 
+
+
+.. _sync-errors-error-codes:
+
+Error Codes
+-----------
+When the server encounters an error that appears to be caused by the connected
+client, it will send an error message to that client. The error message will
+have a code number and description. To see the full list of sync errors, see the
+:github:`error code list on the Realm Core github repository. <realm/realm-core/blob/master/doc/protocol/protocol_1.md#error-codes>`.
+
+.. _sync-error-logging:
+
+Error Logging
+-------------
+When actively troubleshooting an issue, set the logging level to ``debug`` or
+``trace`` to diagnose errors while developing your application. When running in a
+production environment, you will want to decrease the logging level for improved
+performance.
+
+.. note::
+
+   {+backend+} creates sync logs whenever a user interacts with {+sync+}. To learn more, read the documentation on :ref:`application logs <logs>`.
+
+.. tabs-realm-sdks::
+
+   .. tab::
+      :tabid: android
+
+      Learn how to :ref:`set the log level <android-set-the-client-log-level>` with the Android SDK.
+
+   .. tab::
+      :tabid: ios
+
+      Learn how to :ref:`set the log level <ios-set-the-client-log-level>` with the iOS SDK.
+
+   .. tab::
+      :tabid: node
+      
+      Learn how to :ref:`set the log level <node-set-the-client-log-level>` with the Node.js SDK.
+
+   .. tab::
+      :tabid: react-native
+      
+      Learn how to :ref:`set the log level <react-native-set-the-client-log-level>` with the React Native SDK.
+
+   .. tab::
+      :tabid: dotnet
+
+      Learn how to :ref:`set the log level <dotnet-set-the-client-log-level>` with the .NET SDK.
+
+.. _sync-errors-reporting:
+
+Error Reporting
+---------------
+
+.. tabs-realm-sdks::
+
+   .. tab::
+      :tabid: android
+
+      To learn how to detect and respond to any failed sync-related API calls with the Android SDK, see the :ref:`Handle Sync Errors <android-handle-sync-errors>` documentation.
+
+   .. tab::
+      :tabid: ios
+
+      To learn how to detect and respond to any failed sync-related API calls with the iOS SDK, see the :ref:`Handle Sync Errors <ios-handle-sync-errors>` documentation.
+
+   .. tab::
+      :tabid: node
+      
+      To learn how to detect and respond to any failed sync-related API calls with the Node.js SDK, see the :ref:`Handle Sync Errors <node-handle-sync-errors>` documentation.
+
+   .. tab::
+      :tabid: react-native
+      
+      To learn how to detect and respond to any failed sync-related API calls with the React Native SDK, see the :ref:`Handle Sync Errors <react-native-handle-sync-errors>` documentation.
+
+   .. tab::
+      :tabid: dotnet
+
+      To learn how to detect and respond to any failed sync-related API calls with the .NET SDK, see the :ref:`Handle Sync Errors <dotnet-handle-sync-errors>` documentation.
+
+.. _sync-errors-client-resets:
+
+Client Resets
+-------------
+
+When using :doc:`{+sync+} </sync>`, a **client
+reset** is a serious error recovery task that your client
+app must perform in the following situation:
+
+- The given synced {+realm+} on the server was restored from a backup.
+  For example, due to a {+service-short+} server crash.
+
+- The client app made changes to that {+realm+} since the backup was made,
+  but did not sync those changes back to the server before the server
+  was restored.
+
+In other words, the client app must carry out a client reset
+on a given synced {+realm+} if the server is restored to a
+version older than the version on the client.
+
+A client reset erases all local data and downloads a new copy of the
+data stored in MongoDB Atlas. Performing a client reset loses all local
+changes made since the client last successfully synced.
+
+
+.. tabs-realm-sdks::
+
+   .. tab::
+      :tabid: android
+
+      To learn more about client resets with the Android SDK, see the :ref:`Android Client Reset <android-client-resets>` documentation.
+
+   .. tab::
+      :tabid: ios
+
+      To learn how to perform a client reset with the iOS SDK, see the :ref:`iOS Client Reset <ios-reset-a-client-realm-file>` documentation.
+
+   .. tab::
+      :tabid: node
+      
+      To learn more about client resets with the Node.js SDK, see the :ref:`Node.js Client Reset <node-client-resets>` documentation.
+
+   .. tab::
+      :tabid: react-native
+      
+      To learn more about client resets with the React Native SDK, see the :ref:`React Native Client Reset <react-native-client-resets>` documentation.
+
+   .. tab::
+      :tabid: dotnet
+
+      To learn more about client resets with the .NET SDK, see the :ref:`Android Client Reset <dotnet-client-resets>` documentation.

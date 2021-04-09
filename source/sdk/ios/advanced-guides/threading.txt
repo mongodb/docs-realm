@@ -105,8 +105,10 @@ internal version.
 When you need to communicate across threads, you have
 several options depending on your use case:
 
-- To work modify the data on two threads, :ref:`query <ios-client-query-engine>`
-  for the object on both threads.
+- To work with the data on two threads, :ref:`query <ios-client-query-engine>`
+  for the object on both threads or pass a
+  :swift-sdk:`ThreadSafeReference <Structs/ThreadSafeReference.html>` to
+  the other thread.
 
 - To react to changes made on any thread, use {+client-database+}'s
   :ref:`notifications <ios-react-to-changes>`.
@@ -119,6 +121,71 @@ several options depending on your use case:
 
 - To keep and share many read-only views of the object in your app, copy
   the object from the {+realm+}.
+
+.. _ios-thread-safe-reference:
+
+Pass Instances Across Threads
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Instances of ``Realm``, ``Results``, ``List``, and managed ``Objects``
+are *thread-confined*. That means you may only use them on the thread
+where you created them.
+
+You can pass thread-confined instances to another thread as follows:
+
+1. Initialize a :swift-sdk:`ThreadSafeReference <Structs/ThreadSafeReference.html>` with the thread-confined object.
+#. Pass the reference to the other thread or queue.
+#. Resolve the reference on the other thread's realm by calling :swift-sdk:`Realm.resolve(_:) <Structs/Realm.html#/s:10RealmSwift0A0V7resolveyxSgAA19ThreadSafeReferenceVyxGAA0D8ConfinedRzlF>`. Use the returned object as normal.
+
+.. important::
+
+   You must resolve a ``ThreadSafeReference`` exactly once. Otherwise,
+   the source {+realm+} will remain pinned until the reference gets
+   deallocated. For this reason, ``ThreadSafeReference`` should be
+   short-lived.
+
+.. literalinclude:: /examples/generated/code/start/Threading.codeblock.pass-across-threads.swift
+   :language: swift
+
+Another way to work with an object on another thread is to query for it
+again on that thread. But this can get complicated when the object does
+not have a :ref:`primary key
+<ios-find-a-specific-object-by-primary-key>`. You can use
+``ThreadSafeReference`` on any object, regardless of whether it has a
+primary key. You can also use it with lists and results.
+
+The downside is that ``ThreadSafeReference`` requires some boilerplate.
+You must remember to wrap everything in an ``autoreleasepool`` so the
+objects do not linger on the background thread. So, it can be helpful to
+make a convenience extension to handle the boilerplate as follows:
+
+.. literalinclude:: /examples/generated/code/start/Threading.codeblock.write-async-extension.swift
+   :language: swift
+
+This extension adds a ``writeAsync()`` method to the Realm class. This
+method passes an instance to a background thread for you.
+
+.. example::
+
+   Suppose you made an email app and want to delete all read emails in
+   the background. You can now do it with two lines of code. Note that
+   the closure runs on the background thread and receives its own
+   version of both the {+realm+} and passed object:
+
+   .. literalinclude:: /examples/generated/code/start/Threading.codeblock.use-write-async-extension.swift
+      :language: swift
+
+.. _ios-use-realm-across-threads:
+
+Use the Same Realm Across Threads
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You cannot share {+realm+} instances across threads.
+
+To use the same Realm file across threads, open a different {+realm+}
+instance on each thread. As long as you use the same
+:swift-sdk:`configuration <Structs/Realm/Configuration.html>`, all Realm
+instances will map to the same file on disk.
 
 .. _ios-refreshing-realms:
 
@@ -302,25 +369,7 @@ relevant part of the tree. Likewise, the {+realm+}'s root
 pointer will point to the original version until the new
 version is guaranteed to be valid.
 
-.. note:: Diagram
-
-   The following diagram illustrates the commit process:
-
-   .. figure:: /images/mvcc-diagram.png
-      :alt: {+client-database+} copies the relevant part of the tree for writes, then replaces the latest version by updating a pointer.
-      :lightbox:
-
-   1. The {+realm+} is structured as a tree. The {+realm+} has a pointer
-      to its latest version, V1.
-
-   #. When writing, {+client-database+} creates a new version V2 based on V1.
-      {+client-database+} makes copies of objects for modification (A\ :sup:`1`,
-      C\ :sup:`1`),  while links to unmodified objects continue to
-      point to the original versions (B, D).
-
-   #. After validating the commit, {+client-database+} updates the {+realm+}'s
-      pointer to the new latest version, V2. {+client-database+} discards
-      old nodes no longer connected to the tree.
+.. include:: /includes/commit-process-diagram.rst
 
 {+client-database+} uses :term:`zero-copy` techniques
 like memory mapping to handle data. When you read a value

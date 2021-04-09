@@ -22,29 +22,15 @@ work, and one or more background threads to compute heavier
 workloads before sending it to the UI thread for
 presentation. By offloading heavy work to background
 threads, the UI thread can remain highly responsive
-regardless of the size of the workload. But it can be
-notoriously difficult to write thread-safe, performant, and
-maintainable multithreaded code that avoids issues like
-deadlocking and race conditions. {+service+} aims to
-simplify this for you.
+regardless of the size of the workload.
 
 .. _android-threading-three-rules:
 
 Three Rules to Keep in Mind
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---------------------------
 
 {+service+} enables simple and safe multithreaded code when you
 follow these three rules:
-
-Don't lock to read:
-  {+client-database+}'s :ref:`Multiversion Concurrency Control (MVCC)
-  <android-mvcc>` architecture eliminates the need to lock for read operations. The
-  values you read will never be corrupted or in a
-  partially-modified state. You can freely read from {+realms+}
-  on any thread without the need for locks or mutexes.
-  Unnecessarily locking would be a performance bottleneck
-  since each thread might need to wait its turn before
-  reading.
 
 Avoid writes on the UI thread if you write on a background thread:
   You can :ref:`write <android-realm-database-writes>` to a
@@ -66,51 +52,47 @@ Don't pass live objects, collections, or {+realms+} to other threads:
   :ref:`sharing objects across threads
   <android-communication-across-threads>`.
 
+Don't lock to read:
+  {+client-database+}'s :ref:`Multiversion Concurrency Control (MVCC)
+  <android-mvcc>` architecture eliminates the need to lock for read operations. The
+  values you read will never be corrupted or in a
+  partially-modified state. You can freely read from {+realms+}
+  on any thread without the need for locks or mutexes.
+  Unnecessarily locking would be a performance bottleneck
+  since each thread might need to wait its turn before
+  reading.
+
 .. _android-communication-across-threads:
 
 Communication Across Threads
 ----------------------------
 
-You can have the same {+realm+} open on multiple threads as
-separate {+realm+} instances. You are free to read and write
-with {+realm+} instances on the thread where you first opened
-them. One of the key rules when working with {+client-database+} in a
-multithreaded environment is that objects are
-**thread-confined**: you may not access the instances of a
-{+realm+}, collection, or object that originated on other
-threads. {+client-database+}'s :ref:`Multiversion Concurrency Control
-(MVCC) <android-mvcc>` architecture means that there could be many
-active versions of an object at any time. Thread-confinement
-ensures that all instances in that thread are of the same
-internal version.
-
-A :term:`{+realm+} instance` is designed to work with one version at a
-time, not several different versions. Consider what {+client-database+}
-would have to do to support this: it would need to store a
-potentially enormous graph to allow the {+realm+} instance to
-reconcile the different object versions internally. Faced
-with this, it seems more reasonable to impose the limitation
-that you cannot pass live instances across threads. This
-design choice keeps the implementation relatively simple,
-more space-efficient, and more performant as a result.
+Live objects, collections, and {+realm+}s are **thread-confined**. If
+you need to work with the same data across multiple threads, you should
+open the same {+realm+} on multiple threads as separate {+realm+}
+instances. The Android SDK :ref:`consolidates underlying connections across
+threads where possible <android-realm-lifecycle>` to make this pattern
+more efficient.
 
 When you need to communicate across threads, you have
 several options depending on your use case:
 
-- To modify the data on two threads, :ref:`query <android-client-query-engine>`
-  for the object on both threads.
+- To modify the data on two threads, :ref:`query <android-read-from-realm>`
+  for the object on both threads using a
+  :ref:`primary key <android-primary-key-fundamentals>`.
 
-- To react to changes made on any thread, use {+client-database+}'s
-  :ref:`notifications <android-client-notifications>`.
-
-- To see changes from other threads in the {+realm+} on the current
-  thread, :ref:`refresh <android-refreshing-realms>` your {+realm+} instance.
-
-- To send a fast, read-only view of the object to other threads,
-  :ref:`"freeze" <android-frozen-objects>` the object.
+- To send a fast, read-only view of an object to other threads,
+  :ref:`freeze <android-frozen-objects>` the object.
 
 - To keep and share many read-only views of the object in your app, copy
   the object from the {+realm+}.
+
+- To react to changes made on any thread, use
+  :ref:`notifications <android-client-notifications>`.
+
+- To see changes from other threads in the {+realm+} on the current
+  thread, :ref:`refresh <android-refreshing-realms>` your {+realm+}
+  instance (:term:`event loop` threads refresh automatically).
 
 .. _android-intents:
 
@@ -122,43 +104,16 @@ not thread-safe or ``Parcelable``, so you cannot pass them between
 activities or threads via an ``Intent``. Instead, you can pass an object
 identifier, like a :ref:`primary key <android-primary-key-fundamentals>`,
 in the ``Intent`` extras bundle, and then open a new {+realm+} instance
-in the separate thread to query for that identifier.
+in the separate thread to query for that identifier. Alternatively, you
+can :ref:`freeze <android-frozen-objects>` {+service-short+} objects.
 
 .. seealso::
 
    You can find working examples in the `Passing Objects <https://github.com/realm/realm-java/blob/master/examples/threadExample/src/main/java/io/realm/examples/threads/PassingObjectsFragment.java>`__
    portion of the `Android SDK Threading Example
    <https://github.com/realm/realm-java/tree/master/examples/threadExample>`__.
-   The example shows you how to pass IDs and retrieve a RealmObject in
-   common Android use cases.
-
-.. _android-refreshing-realms:
-
-Refreshing Realms
-~~~~~~~~~~~~~~~~~
-
-When you open a {+realm+}, it reflects the most recent successful write
-commit and remains on that version until it is **refreshed**. This means
-that the {+realm+} will not see changes that happened on another thread
-until the next refresh. Realms on the UI thread -- more precisely, on
-any :term:`event loop` thread -- automatically refresh themselves at the
-beginning of that thread's loop. However, you must manually refresh
-{+realm+} instances that do not exist on loop threads or that have
-auto-refresh disabled.
-
-.. tabs-realm-languages::
-   
-   .. tab::
-       :tabid: kotlin
-
-       .. literalinclude:: /examples/generated/android/local/ThreadingTest.codeblock.refresh-realm.kt
-         :language: kotlin
-
-   .. tab::
-       :tabid: java
-
-       .. literalinclude:: /examples/generated/android/local/ThreadingTest.codeblock.refresh-realm.java
-         :language: java
+   The example shows you how to pass IDs and retrieve a ``RealmObject``
+   in common Android use cases.
 
 .. _android-frozen-objects:
 
@@ -168,10 +123,7 @@ Frozen Objects
 Live, thread-confined objects work fine in most cases.
 However, some apps -- those based on reactive, event
 stream-based architectures, for example -- need to send
-immutable copies around to many threads for processing
-before ultimately ending up on the UI thread. Making a deep
-copy every time would be expensive, and {+client-database+} does not allow
-live instances to be shared across threads. In this case,
+immutable copies across threads. In this case,
 you can **freeze** objects, collections, and {+realms+}.
 
 Freezing creates an immutable view of a specific object,
@@ -180,26 +132,32 @@ need to be deeply copied when passed around to other
 threads. You can freely share a frozen object across threads
 without concern for thread issues.
 
-When working with frozen objects, an attempt to do any of
-the following throws an exception:
+Frozen objects are not live and do not automatically update. They are
+effectively snapshots of the object state at the time of freezing. When
+you freeze a {+realm+} all child objects and collections also become
+frozen. You can't modify frozen objects, but you can read the primary
+key from a frozen object, query a live {+realm+} for the underlying
+object, and then update that live object instance.
 
-- Opening a write transaction on a frozen {+realm+}.
-- Modifying a frozen object.
-- Adding a change listener to a frozen {+realm+}, collection, or object.
+Frozen objects remain valid for as long as the {+realm+} that
+spawned them stays open. Avoid closing {+realm+}s that contain frozen
+objects until all threads are done working with those frozen objects.
 
-Once frozen, it is not possible to unfreeze an object. You
-can use ``isFrozen()`` to check if the object is frozen.
+.. warning:: Frozen Object Exceptions
+
+   When working with frozen objects, an attempt to do any of
+   the following throws an exception:
+
+   - Opening a write transaction on a frozen {+realm+}.
+   - Modifying a frozen object.
+   - Adding a change listener to a frozen {+realm+}, collection, or object.
+
+Once frozen, you cannot unfreeze an object. You
+can use ``isFrozen()`` to check if an object is frozen.
 This method is always thread-safe.
 
-To modify a frozen object, query for it on an unfrozen
-{+realm+}, then modify it.
-
-Frozen objects are not live and do not automatically update.
-They are effectively snapshots of the object state at the
-time of freezing.
-
-When you freeze a {+realm+}, its child objects also become
-frozen.
+To freeze an object, collection, or {+realm+}, use the
+:java-sdk:`freeze() <io/realm/RealmObject.html#freeze-->` method:
 
 .. tabs-realm-languages::
    
@@ -215,18 +173,47 @@ frozen.
        .. literalinclude:: /examples/generated/android/local/ThreadingTest.codeblock.freeze-objects.java
          :language: java
 
-Avoid closing the live {+realm+} until all threads are done 
-with frozen objects. Frozen objects remain valid for as long 
-as the {+realm+} that spawned them stays open.
-You can close frozen {+realm+} before the live {+realm+} is closed.
+.. important:: Frozen Objects and Realm Size
 
-.. important:: On caching frozen objects
-
-   Caching too many frozen objects can have a negative
-   impact on the {+realm+} file size. "Too many" depends on your
-   specific target device and the size of your {+service-short+}
-   objects. If you need to cache a large number of versions,
+   Frozen objects preserve an entire copy of the {+realm+} that contains
+   them at the moment they were frozen. As a result, freezing a large
+   number of objects can cause a {+realm+} to consume more memory and
+   storage than it might have without frozen objects. If you need to
+   separately freeze a large number of objects for long periods of time,
    consider copying what you need out of the {+realm+} instead.
+
+.. _android-refreshing-realms:
+
+Refreshing Realms
+-----------------
+
+When you open a {+realm+}, it reflects the most recent successful write
+commit and remains on that version until it is **refreshed**. This means
+that the {+realm+} will not see changes that happened on another thread
+until the next refresh. Realms on any :term:`event loop` thread 
+(including the UI thread) automatically refresh themselves at the
+beginning of that thread's loop. However, you must manually refresh
+{+realm+} instances that are tied to non-looping threads or that have
+auto-refresh disabled. To refresh a {+realm+}, call
+:java-sdk:`Realm.refresh() <io/realm/Realm.html#refresh-->`:
+
+.. tabs-realm-languages::
+   
+   .. tab::
+       :tabid: kotlin
+
+       .. literalinclude:: /examples/generated/android/local/ThreadingTest.codeblock.refresh-realm.kt
+         :language: kotlin
+
+   .. tab::
+       :tabid: java
+
+       .. literalinclude:: /examples/generated/android/local/ThreadingTest.codeblock.refresh-realm.java
+         :language: java
+
+.. note:: Refresh on Write
+
+   Realms also automatically refresh after completing a write transaction.
 
 .. _android-mvcc:
 
@@ -274,11 +261,10 @@ version, much like how Git has a pointer to its HEAD commit.
 :wikipedia:`isolation <Isolation_(database_systems)>` and
 :wikipedia:`durability <Durability_(database_systems)>`.
 When you make changes, {+client-database+} copies the relevant part of the
-tree for writing. {+client-database+} then commits the changes in two
-phases:
+tree for writing, then commits the changes in two phases:
 
-- {+client-database+} writes changes to disk and verifies success.
-- {+client-database+} then sets its latest version pointer to point to the newly-written version.
+- Write changes to disk and verify success.
+- Set the latest version pointer to point to the newly-written version.
 
 This two-step commit process guarantees that even if the
 write failed partway, the original version is not corrupted
@@ -287,25 +273,7 @@ relevant part of the tree. Likewise, the {+realm+}'s root
 pointer will point to the original version until the new
 version is guaranteed to be valid.
 
-.. note:: Diagram
-
-   The following diagram illustrates the commit process:
-
-   .. figure:: /images/mvcc-diagram.png
-      :alt: {+client-database+} copies the relevant part of the tree for writes, then replaces the latest version by updating a pointer.
-      :lightbox:
-
-   1. The {+realm+} is structured as a tree. The {+realm+} has a pointer
-      to its latest version, V1.
-
-   #. When writing, {+client-database+} creates a new version V2 based on V1.
-      {+client-database+} makes copies of objects for modification (A\ :sup:`1`,
-      C\ :sup:`1`),  while links to unmodified objects continue to
-      point to the original versions (B, D).
-
-   #. After validating the commit, {+client-database+} updates the {+realm+}'s
-      pointer to the new latest version, V2. {+client-database+} discards
-      old nodes no longer connected to the tree.
+.. include:: /includes/commit-process-diagram.rst
 
 {+client-database+} uses :term:`zero-copy` techniques
 like memory mapping to handle data. When you read a value
@@ -320,14 +288,13 @@ Summary
 
 - {+service+} enables simple and safe multithreaded code when you follow
   three rules:
-  - don't lock to read
 
-  - avoid writes on the UI thread if you write on background threads or
-    use :doc:`{+sync+} </sync>`
-    
-  - don't pass live objects to other threads.
+  - Avoid writes on the UI thread if you write on background threads or
+    use :doc:`{+sync+} </sync>`.
 
-- There is a proper way to share objects across threads for each use case.
+  - Don't pass live objects to other threads.
+
+  - Don't lock to read.
 
 - In order to see changes made on other threads in your {+realm+}
   instance, you must manually **refresh** {+realm+} instances that do
@@ -335,10 +302,11 @@ Summary
 
 - For apps based on reactive, event-stream-based architectures, you can
   **freeze** objects, collections, and {+realms+} in order to pass
-  shallow copies around efficiently to different threads for processing.
+  copies around efficiently to different threads for processing.
 
 - {+client-database+}'s multiversion concurrency control (MVCC)
   architecture is similar to Git's. Unlike Git, {+client-database+} has
   only one true latest version for each {+realm+}.
 
-- {+client-database+} commits in two stages to guarantee isolation and durability.
+- {+client-database+} commits in two stages to guarantee isolation and
+  durability.

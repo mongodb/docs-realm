@@ -6,8 +6,8 @@ Linux.
 .. image:: /images/realm-studio.png
    :alt: A screenshot of Realm Studio
 
-See :github:`Releases on GitHub <realm/realm-studio/releases/tag/v10.0.0-beta.2>`:
+See :github:`Releases on GitHub <realm/realm-studio/releases/latest>`:
 
-- :github:`Download for Linux <realm/realm-studio/releases/download/v10.0.0-beta.2/realm-studio-10.0.0-beta.2.tar.gz>`
-- :github:`Download for Mac <realm/realm-studio/releases/download/v10.0.0-beta.2/MongoDB.Realm.Studio-10.0.0-beta.2-mac.zip>`
-- :github:`Download for Windows <realm/realm-studio/releases/download/v10.0.0-beta.2/MongoDB.Realm.Studio-10.0.0-beta.2-win.zip>`
+- `Download for Linux <https://studio-releases.realm.io/latest/download/linux-appimage>`__
+- `Download for Mac <https://studio-releases.realm.io/latest/download/mac-dmg>`__
+- `Download for Windows <https://studio-releases.realm.io/latest/download/win-setup>`__

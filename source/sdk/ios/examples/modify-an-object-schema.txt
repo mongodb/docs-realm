@@ -21,16 +21,20 @@ When the schema of an object changes, {+client-database+} requires a
 migration for any old instances of a given object to the new schema.
 {+client-database+} can automatically migrate added and removed
 properties, but does not automatically set values for new properties
-unless the new object schema specifies a default value. You can define
-custom logic for handling a migration from an old version to a new
-version.
+unless the new object schema specifies a default value.
 
-.. note::
+To define custom migration logic, set the :swift-sdk:`migrationBlock
+<Structs/Realm/Configuration.html#/s:10RealmSwift0A0V13ConfigurationV14migrationBlockyAA9MigrationV_s6UInt64VtcSgvp>`
+property of the :swift-sdk:`Configuration
+<Structs/Realm/Configuration.html>` when :ref:`opening a realm
+<ios-configure-and-open-a-realm>`.
 
-   Migrations do not allow you to directly rename a property. Instead,
-   it treats a renamed property as a new property that you must set to
-   the value of the old property before {+service+} automatically
-   deletes it.
+The migration block receives a :swift-sdk:`Migration object
+<Structs/Migration.html>` that you can use to perform the migration. You
+can use the Migration object's :swift-sdk:`enumerateObjects(ofType:_:)
+<Structs/Migration.html#/s:10RealmSwift9MigrationV16enumerateObjects6ofType_ySS_yAA13DynamicObjectCSg_AHtXEtF>`
+method to iterate over and update all instances of a given
+{+service-short+} type in the {+realm+}.
 
 .. example::
 
@@ -80,6 +84,40 @@ version.
 
          .. literalinclude:: /examples/generated/code/start/Migrations.codeblock.local-migration.m
             :language: objectivec
+
+
+.. tip:: Linear Migrations
+
+   Avoid nesting ``if (oldSchemaVersion < X)`` statements in migration
+   blocks. This ensures that users see all upgrades, no matter which
+   schema version they start from.
+
+.. _ios-rename-a-property:
+
+Rename a Property
+~~~~~~~~~~~~~~~~~
+
+To rename a property during a migration, use the
+:swift-sdk:`Migration.renameProperty(onType:from:to:)
+<Structs/Migration.html#/s:10RealmSwift9MigrationV14renameProperty6onType4from2toySS_S2StF>`
+method. 
+
+{+client-database+} applies any new nullability or indexing settings
+during the rename operation.
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: swift
+
+      .. literalinclude:: /examples/generated/code/start/Migrations.codeblock.rename-property.swift
+         :language: swift
+
+   .. tab::
+      :tabid: objective-c
+
+      .. literalinclude:: /examples/generated/code/start/Migrations.codeblock.rename-property.m
+         :language: objectivec
 
 
 .. _ios-additional-migration-examples:

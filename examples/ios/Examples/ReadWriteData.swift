@@ -23,6 +23,7 @@ class ReadWriteDataExamples_Dog: Object {
 
 class ReadWriteDataExamples_Person: Object {
     @objc dynamic var id = 0
+    @objc dynamic var name = ""
 
     // To-many relationship - a person can have many dogs
     let dogs = List<ReadWriteDataExamples_Dog>()
@@ -441,12 +442,51 @@ class ReadWriteData: XCTestCase {
         }
         // :code-block-end:
     }
-    
+
     func testChainQuery() {
         // :code-block-start: chain-query
         let realm = try! Realm()
         let tanDogs = realm.objects(ReadWriteDataExamples_Dog.self).filter("color = 'tan'")
         let tanDogsWithBNames = tanDogs.filter("name BEGINSWITH 'B'")
+        // :code-block-end:
+    }
+
+    func testJson() {
+        // :code-block-start: json
+        // Specify a dog toy in JSON
+        let data = "{\"name\": \"Tennis ball\"}".data(using: .utf8)!
+        let realm = try! Realm()
+        // Insert from data containing JSON
+        try! realm.write {
+            let json = try! JSONSerialization.jsonObject(with: data, options: [])
+            realm.create(ReadWriteDataExamples_DogToy.self, value: json)
+        }
+        // :code-block-end:
+    }
+
+    func testNestedObjects() {
+        let aDog = ReadWriteDataExamples_Dog(value: ["Buster", 5])
+        let anotherDog = ReadWriteDataExamples_Dog(value: ["Buddy", 6])
+        // :code-block-start: nested-objects
+        // Instead of using pre-existing dogs...
+        let aPerson = ReadWriteDataExamples_Person(value: [123, "Jane", [aDog, anotherDog]])
+
+        // ...we can create them inline
+        let anotherPerson = ReadWriteDataExamples_Person(value: [123, "Jane", [["Buster", 5], ["Buddy", 6]]])
+        // :code-block-end:
+    }
+
+    func testPartialUpdate() {
+        // :code-block-start: partial-update
+        let realm = try! Realm()
+        try! realm.write {
+            // Use .modified to only update the provided values.
+            // Note that the "name" property will remain the same
+            // for the person with primary key "id" 123.
+            realm.create(ReadWriteDataExamples_Person.self,
+                         value: ["id": 123, "dogs": [["Buster", 5]]],
+                         update: .modified)
+        }
         // :code-block-end:
     }
 }
