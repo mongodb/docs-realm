@@ -36,8 +36,8 @@ PODS:
 DEPENDENCIES:
   - FBSDKLoginKit
   - GoogleSignIn
-  - Realm (= 10.7.0)
-  - RealmSwift (= 10.7.0)
+  - Realm (from `https://github.com/realm/realm-cocoa`, branch `new_data_types`)
+  - RealmSwift (from `https://github.com/realm/realm-cocoa`, branch `new_data_types`)
   - SwiftLint
 
 SPEC REPOS:
@@ -48,9 +48,23 @@ SPEC REPOS:
     - GoogleSignIn
     - GTMAppAuth
     - GTMSessionFetcher
-    - Realm
-    - RealmSwift
     - SwiftLint
+
+EXTERNAL SOURCES:
+  Realm:
+    :branch: new_data_types
+    :git: https://github.com/realm/realm-cocoa
+  RealmSwift:
+    :branch: new_data_types
+    :git: https://github.com/realm/realm-cocoa
+
+CHECKOUT OPTIONS:
+  Realm:
+    :commit: 368a7b6a77a113ef7c5c96c011db0e772300a317
+    :git: https://github.com/realm/realm-cocoa
+  RealmSwift:
+    :commit: 368a7b6a77a113ef7c5c96c011db0e772300a317
+    :git: https://github.com/realm/realm-cocoa
 
 SPEC CHECKSUMS:
   AppAuth: 31bcec809a638d7bd2f86ea8a52bd45f6e81e7c7
@@ -59,10 +73,10 @@ SPEC CHECKSUMS:
   GoogleSignIn: 7137d297ddc022a7e0aa4619c86d72c909fa7213
   GTMAppAuth: 197a8dabfea5d665224aa00d17f164fc2248dab9
   GTMSessionFetcher: b3503b20a988c4e20cc189aa798fd18220133f52
-  Realm: a03c41a3afbda6c197ba4dfba5428b8b54cc2df4
+  Realm: 0b00eec04802f43e307712305f751de140e76b74
   RealmSwift: 5e7abc842276d7fabd386e67afbf3efde54eb1c6
   SwiftLint: 4fa9579c63416865179bc416f0a92d55f009600d
 
-PODFILE CHECKSUM: 8fe57bcaa242f607dab2c46b78b9676ebd5945ef
+PODFILE CHECKSUM: 449898889882d8f96a7aef8a7858ddde169ba9df
 
 COCOAPODS: 1.10.1
