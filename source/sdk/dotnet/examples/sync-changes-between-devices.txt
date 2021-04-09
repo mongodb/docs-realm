@@ -100,9 +100,7 @@ The ``session.GetProgressObservable`` method takes in the following two paramete
    .. literalinclude:: /examples/generated/dotnet/ProgressNotifications.codeblock.upload-download-progress-notification.cs
       :language: dotnet
 
-.. example::
-   Once the progress notification is no longer needed, the developer removes all objects from the realm, 
-   disposes of the notification token, and closes the realm.
+Once the notification token is no longer needed, dispose of it using ``token.Dispose()``.
 
 .. _dotnet-handle-sync-errors:
 

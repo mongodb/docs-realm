@@ -57,7 +57,6 @@ namespace Examples
                 realm.RemoveAll<ProgressObj>();
             });
             token.Dispose();
-            realm.Dispose();
             // :code-block-end: remove-progress-notification
         }
     }
