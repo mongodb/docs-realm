@@ -475,6 +475,20 @@ class ReadWriteData: XCTestCase {
         let anotherPerson = ReadWriteDataExamples_Person(value: [123, "Jane", [["Buster", 5], ["Buddy", 6]]])
         // :code-block-end:
     }
+
+    func testPartialUpdate() {
+        // :code-block-start: partial-update
+        let realm = try! Realm()
+        try! realm.write {
+            // Use .modified to only update the provided values.
+            // Note that the "name" property will remain the same
+            // for the person with primary key "id" 123.
+            realm.create(ReadWriteDataExamples_Person.self,
+                         value: ["id": 123, "dogs": [["Buster", 5]]],
+                         update: .modified)
+        }
+        // :code-block-end:
+    }
 }
 
 // :replace-end:
