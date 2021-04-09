@@ -25,8 +25,9 @@ try! realm.write {
 }
 
 // Get some information about the cities he has visited
-// This tells us he has visited New York and Toronto.
-print(dog.citiesVisited)
+print("Cities Maui has visited: \(dog.citiesVisited)")
+// Prints "New York", "Toronto"
+
 // Because 'citiesVisited' is a MutableSet, you only see
 // New York listed once, even though he has been there twice
 XCTAssert(dog.citiesVisited.count == 2)
