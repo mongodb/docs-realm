@@ -94,6 +94,8 @@ You can filter and sort a ``MutableSet`` with the :ref:`same predicates
 {+service-short+} collections, you can :ref:`register a change listener 
 <ios-register-a-collection-change-listener>` on a ``MutableSet``.
 
+MutableSet as a Property
+````````````````````````
 
 For example, a ``Dog`` class model might contain a ``MutableSet`` for 
 ``citiesVisited``:
@@ -105,6 +107,9 @@ Which you can then update during write transactions:
 
 .. literalinclude:: /examples/generated/code/start/MutableSetExample.codeblock.set-collections-example.swift
    :language: swift
+
+MutableSet Methods
+``````````````````
 
 {+service-short+} ``MutableSet`` also provides some set-specific methods to
 work with the data, including methods to compare sets and mutate them in place:
