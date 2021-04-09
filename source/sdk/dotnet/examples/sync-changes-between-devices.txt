@@ -93,7 +93,7 @@ The ``session.GetProgressObservable`` method takes in the following two paramete
 - A ``ProgressMode`` parameter that can be set to ``ProgressMode.ReportIndefinitely`` for the notifications to continue until the callback is unregistered using the :js-sdk:`syncSession.removeProgressNotification() <Realm.App.Sync.Session.html#.removeProgressNotification>` method), or ``"ProgressMode.ForCurrentlyOutstandingWork"`` (for the notifications to continue until only the currently transferable bytes are synced).
 
 .. example::
-   In the following example, an application developer registers a callback on the ``session`` to 
+   In the following example, an application developer registers a progress observable on the ``session`` to
    listen for upload events indefinitely. When this callback is triggered, the console prints
    the number of transferred bytes and the number of transferrable bytes. Then the developer divides
    them to calculate the progress percentage of the upload.
