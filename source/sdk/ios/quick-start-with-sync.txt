@@ -36,9 +36,8 @@ Import Realm
 Near the top of any Swift file that uses Realm, add the following import
 statement:
 
-.. code-block:: swift
-
-   import RealmSwift
+.. literalinclude:: /examples/generated/code/start/CompleteQuickStart.import-realm.swift
+   :language: swift
 
 .. _ios-quick-start-init-app:
 
@@ -49,9 +48,8 @@ To use {+backend+} features such as authentication and sync, you must
 access your {+app+} using your {+app+} ID. You can find your {+app+} ID in the
 {+ui+}.
 
-.. code-block:: swift
-
-   let app = App(id: YOUR_REALM_APP_ID) // Replace YOUR_REALM_APP_ID with your Realm app ID 
+.. literalinclude:: /examples/generated/code/start/CompleteQuickStart.codeblock.initialize-app.swift
+   :language: swift
 
 Define Your Object Model
 ------------------------
@@ -64,27 +62,8 @@ If have not :ref:`enabled {+sync+} <enable-sync>` or you enabled {+sync-short+} 
 
    If you have enabled {+sync-short+} but turned off Developer Mode, you can copy and paste the object model definitions that {+backend-short+} generated for you from the :guilabel:`SDKs` tab in the {+ui+}. You must re-enable Developer Mode if you want to make changes to the object model definition from client side code. See :ref:`Configure Your Data Model <configure-your-data-model>`.
 
-.. code-block:: swift
-
-   // QsTask is the Task model for this QuickStart
-   class QsTask: Object {
-       @objc dynamic var _id: ObjectId = ObjectId.generate()
-       // When configuring Sync, we selected `_partition` as the partition key.
-       // A partition key is only required if you are using Sync.
-       @objc dynamic var _partition: String = ""
-       @objc dynamic var name: String = ""
-       @objc dynamic var owner: String? = nil
-       @objc dynamic var status: String = ""
-       override static func primaryKey() -> String? {
-           return "_id"
-       }
-
-       convenience init(partition: String, name: String) {
-           self.init()
-           self._partition = partition;
-           self.name = name;
-       }
-   }
+.. literalinclude:: /examples/generated/code/start/CompleteQuickStart.codeblock.model.swift
+   :language: swift
 
 .. _ios-quick-start-authenticate:
 
@@ -95,23 +74,8 @@ When you have enabled :ref:`anonymous authentication <anonymous-authentication>`
 {+ui+}, users can immediately log into your app without providing any identifying
 information:
 
-.. code-block:: swift
-
-   // Log in anonymously.
-   app.login(credentials: Credentials.anonymous) { (result) in
-       // Remember to dispatch back to the main thread in completion handlers
-       // if you want to do anything on the UI.
-       DispatchQueue.main.async {
-           switch result {
-           case .failure(let error):
-               print("Login failed: \(error)")
-           case .success(let user):
-               print("Login as \(user) succeeded!")
-               // Continue below
-               onLogin()
-           }
-       }
-   }
+.. literalinclude:: /examples/generated/code/start/CompleteQuickStart.codeblock.authenticate-user.swift
+   :language: swift
 
 {+service-short+} provides many additional ways to authenticate, register, and link users.
 
@@ -129,26 +93,8 @@ passing in the user's
 :swift-sdk:`Configuration <Structs/Realm/Configuration.html>` object, which  
 includes the partition name. The following code demonstrates this:
 
-.. code-block:: swift
-
-   let user = app.currentUser!
-  
-   // The partition determines which subset of data to access.
-   let partitionValue = "myPartition"
-
-   // Get a sync configuration from the user object.
-   var configuration = user.configuration(partitionValue: partitionValue)
-   configuration.objectTypes = [QsTask.self]
-   // Open the realm asynchronously to ensure backend data is downloaded first.
-   Realm.asyncOpen(configuration: user.configuration(partitionValue: partitionValue)) { (result) in
-       switch result {
-       case .failure(let error):
-           print("Failed to open realm: \(error.localizedDescription)")
-           // Handle error...
-       case .success(let realm):
-           // realm successfully opened
-       }
-   }
+.. literalinclude:: /examples/generated/code/start/CompleteQuickStart.codeblock.open-realm.swift
+   :language: swift
 
 .. seealso::
 
@@ -161,47 +107,28 @@ Once you have opened a {+realm+}, you can modify it and its :ref:`objects <ios-r
 
 To create a new Task, instantiate the Task class and add it to the {+realm+} in a write block:
 
-.. code-block:: swift
-
-   let task = QsTask(partition: partitionValue, name: "Do laundry")
-   try! realm.write {
-       realm.add(task)
-   }
+.. literalinclude:: /examples/generated/code/start/CompleteQuickStart.codeblock.create-task.swift
+   :language: swift
 
 You can retrieve a live :ref:`collection <ios-client-collections>` of all tasks in the {+realm+}:
 
-.. code-block:: swift
-
-   // Get all tasks in the realm
-   let tasks = realm.objects(QsTask.self)
+.. literalinclude:: /examples/generated/code/start/CompleteQuickStart.codeblock.get-all-tasks.swift
+   :language: swift
 
 You can also filter that collection using a :ref:`filter <ios-client-query-engine>`:
 
-.. code-block:: swift
-
-   let tasksInProgress = tasks.filter("status = %@", "InProgress")
-   print("A list of all tasks in progress: \(tasksInProgress)")
+.. literalinclude:: /examples/generated/code/start/CompleteQuickStart.codeblock.filter.swift
+   :language: swift
 
 To modify a task, update its properties in a write transaction block:
 
-.. code-block:: swift
-
-   let taskToUpdate = tasks[0]
-   // All modifications to a realm must happen in a write block.
-   try! realm.write {
-       taskToUpdate.status = "InProgress"
-   }
+.. literalinclude:: /examples/generated/code/start/CompleteQuickStart.codeblock.modify-write-block.swift
+   :language: swift
 
 Finally, you can delete a task:
 
-.. code-block:: swift
-
-   let taskToDelete = tasks[0]
-   // All modifications to a realm must happen in a write block.
-   try! realm.write {
-       // Delete the QsTask.
-       realm.delete(taskToDelete)
-   }
+.. literalinclude:: /examples/generated/code/start/CompleteQuickStart.codeblock.delete.swift
+   :language: swift
 
 Watch for Changes
 -----------------
@@ -213,26 +140,13 @@ You can :ref:`watch a realm, collection, or object for changes
 
    Be sure to retain the notification token returned by ``observe`` as long as you want to continue observing. When you are done observing, invalidate the token to free the resources.
 
-.. code-block:: swift
+.. literalinclude:: /examples/generated/code/start/CompleteQuickStart.codeblock.watch-for-changes.swift
+   :language: swift
 
-   // Retain notificationToken as long as you want to observe
-   let notificationToken = tasks.observe { (changes) in
-       switch changes {
-       case .initial: break
-           // Results are now populated and can be accessed without blocking the UI
-       case .update(_, let deletions, let insertions, let modifications):
-           // Query results have changed.
-           print("Deleted indices: ", deletions)
-           print("Inserted indices: ", insertions)
-           print("Modified modifications: ", modifications)
-       case .error(let error):
-           // An error occurred while opening the Realm file on the background worker thread
-           fatalError("\(error)")
-       }
-   }
+Later, when you're done observing, invalidate the token:
 
-   // Later, when done observing
-   notificationToken.invalidate()
+.. literalinclude:: /examples/generated/code/start/CompleteQuickStart.codeblock.invalidate-notification-token.swift
+   :language: swift
 
 
 Log Out
@@ -240,11 +154,8 @@ Log Out
 
 Once logged in, you can log out:
 
-.. code-block:: swift
-
-   app.currentUser?.logOut() { (error) in
-       // Logged out or error occurred
-   }
+.. literalinclude:: /examples/generated/code/start/CompleteQuickStart.codeblock.logout.swift
+   :language: swift
 
 Complete Example
 ----------------
