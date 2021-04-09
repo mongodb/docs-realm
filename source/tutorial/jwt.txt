@@ -1,7 +1,7 @@
 .. _jwt-tutorial:
 
 ============================================
-Set up JWT Authentication with MongoDB Realm
+Set up JWT Authentication with MongoDB {+service-short+}
 ============================================
 
 .. default-domain:: mongodb
@@ -16,7 +16,7 @@ Overview
 --------
 
 In this tutorial, you will implement :ref:`Custom JWT Authentication <config-custom-jwt>`  
-for your Realm app. You will learn how to:
+for your {+service-short+} app. You will learn how to:
 
 - Enable JWT Authentication,
 - Use a third-party JWT provider to generate a valid token,
@@ -27,11 +27,10 @@ This tutorial should take around 30 minutes.
 Prerequisites
 -------------
 
-- Read how {+realm+} handles :ref:`Custom JWT Authentication <config-custom-jwt>`.
 - :doc:`Create a {+app+} </get-started/create-realm-app>`. If you have completed 
   the :ref:`Task Tracker tutorial <tutorial-task-tracker-create-realm-app>`, you 
   can use that backend {+app+}.
-- Build or download one of the Task Tracker apps from the :doc:`Tutorial </tutorial>`, 
+- Build or download one of the Task Tracker apps from the :doc:`tutorial </tutorial>`, 
   or use one of your own.
 
 Procedure
@@ -46,12 +45,6 @@ Create a JWT Token
 ~~~~~~~~~~~~~~~~~~
 For this tutorial, we will use a third-party website, `jwt.io <https://jwt.io/>`_,
 to generate a JWT token. 
-
-.. important::
-
-   JWT tokens are credentials used to grant access to resources in 
-   your {+app+}. Care should be taken when storing them, especially when using 
-   them in a production environment.
 
 Go to `jwt.io <https://jwt.io/>`_. Scroll down until you see the **Encoded** 
 and **Decoded** headers. In the **Decoded** column, you will see three sections 
@@ -75,7 +68,7 @@ Payload
 #######
 
 The Payload section contains the information that we need to configure for 
-our Realm-specific needs. By default, three fields are included: ``sub``, 
+our {+service-short+}-specific needs. By default, three fields are included: ``sub``, 
 ``name``, and ``iat``. We will use these three, plus two more fields. The following 
 table explains each field and the value expected:
 
@@ -87,11 +80,13 @@ table explains each field and the value expected:
      - Value
    
    * - ``sub`` 
-     - The subject of the jwt. Not Used. 
-     - "1234567890"
+     - The subject of the jwt, which you set according to your business needs. 
+       For more information, see 
+       `RFC 7519 4.1.2<https://tools.ietf.org/html/rfc7519#page-9>`_. 
+     - <your email or any other unique value>
    
    * - ``name`` 
-     - The name of the user to whom this JWT is assigned. If specified, Realm 
+     - The name of the user to whom this JWT is assigned. If specified, {+service-short+} 
        uses this value as the user's display name. Optional.
      - <your name>
    
@@ -106,7 +101,7 @@ table explains each field and the value expected:
    * - ``aud``
      - The audience (consumer) of the token.
      - Your {+service-short+} App ID, which you can 
-       :ref:`find in the Realm UI <find-your-app-id>`.
+       :ref:`find in the {+service-short+} UI <find-your-app-id>`.
   
 For this tutorial, we have created a JWT for a user named "Caleb". The token was 
 issued at the time of writing and will expire in exactly 1 year, and is 
@@ -132,7 +127,7 @@ token is encoded. In this last section, find the field with the placeholder
 text of "your-256-bit-secret". Paste in any 256-bit string value into this field.
 If you are uncertain what value to use, consider visiting a random key 
 generator website, like `keygen.io <https://keygen.io/>`_, and  
-find one of the 256-bit values that has been generated. 
+copy one of the 256-bit values that has been generated. 
 
 .. important::
 
@@ -164,8 +159,8 @@ the following (your token will **not** match this!):
 Enable JWT Authentication in Your {+app+}
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-If you are not currently logged in to `Realm <https://realm.mongodb.com>`_ do so 
-now, and navigate to the {+app+} that you specified when generating the 
+If you are not currently logged in to `{+service-short+} <https://realm.mongodb.com>`_ 
+do so now and navigate to the {+app+} that you specified when generating the 
 JWT in the previous section.
 
 
@@ -202,6 +197,13 @@ JWT in the previous section.
           In the resulting :guilabel:`Signing Key` text box, paste in the 256-bit 
           key that you used when generating the JWT in the previous section. **Do 
           not** click the "Add Singing Key" button.
+
+          .. warning::
+
+             A :guilabel:`Signing Key` is a secret key and anyone with the
+             key can issue valid user credentials for your app. Ensure that
+             it's never stored in a publicly accessible location, such as a
+             git repository, message board, or in your code.
       
       * - :guilabel:`Metadata Fields (Optional)`
         - Leave blank
@@ -209,7 +211,7 @@ JWT in the previous section.
       * - :guilabel:`Audience (Optional)`
         - Leave blank.
 
-5. When you have set all of the values, click :guilabel:`Save`. If you are you 
+5. When you have set all of the values, click :guilabel:`Save`. If you are  
    prompted at the top of the screen to do so, review and deploy your changes. 
 
 Update Your Client to Use JWT Authentication
