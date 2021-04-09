@@ -46,6 +46,7 @@ namespace Examples
             {
                 Id = id
             };
+            
             realm.Write(() =>
             {
                 realm.RemoveAll<ProgressObj>();
