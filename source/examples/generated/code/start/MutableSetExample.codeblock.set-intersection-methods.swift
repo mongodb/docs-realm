@@ -4,7 +4,7 @@ let dog2 = Dog()
 dog2.name = "Lita"
 dog2.currentCity = "New York"
 // Create an array of strings that represents all the cities the dog has visited
-let dog2Cities: [String] = ["Boston", "New York", "Toronto", "Montreal", "Boston"]
+let dog2Cities = ["Boston", "New York", "Toronto", "Montreal", "Boston"]
 
 // Use an iterator to store the data as a Realm MutableSet
 try! realm.write {
@@ -21,7 +21,7 @@ XCTAssert(dog2.citiesVisited.count == 4)
 
 // Check whether Lita and Maui have visited some of the same cities.
 // Use "intersects" to find out whether the values of the two sets share common elements
-let isInBothCitiesVisited: Bool = (dog.citiesVisited.intersects(dog2.citiesVisited))
+let isInBothCitiesVisited = (dog.citiesVisited.intersects(dog2.citiesVisited))
 
 print("Lita and Maui have visited some of the same cities: \(isInBothCitiesVisited)")
 // Prints "Lita and Maui have visited some of the same cities: true"

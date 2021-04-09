@@ -25,7 +25,7 @@ class MutableSetExample: XCTestCase {
     }
 
     func testMutableSet() {
-        // :code-block-start: set-collections-example
+        // :code-block-start: set-collections
         let realm = try! Realm()
 
         // Record a dog's name and current city
@@ -61,14 +61,14 @@ class MutableSetExample: XCTestCase {
         XCTAssert(dog.citiesVisited.count == 2)
         // :code-block-end:
 
-        // :code-block-start: set-methods-example
+        // :code-block-start: set-intersection-methods
         // Record another dog's name and give it a longer set of cities,
         // some of which overlap the first dog's set
         let dog2 = MutableSetExamples_Dog()
         dog2.name = "Lita"
         dog2.currentCity = "New York"
         // Create an array of strings that represents all the cities the dog has visited
-        let dog2Cities: [String] = ["Boston", "New York", "Toronto", "Montreal", "Boston"]
+        let dog2Cities = ["Boston", "New York", "Toronto", "Montreal", "Boston"]
 
         // Use an iterator to store the data as a Realm MutableSet
         try! realm.write {
@@ -85,7 +85,7 @@ class MutableSetExample: XCTestCase {
 
         // Check whether Lita and Maui have visited some of the same cities.
         // Use "intersects" to find out whether the values of the two sets share common elements
-        let isInBothCitiesVisited: Bool = (dog.citiesVisited.intersects(dog2.citiesVisited))
+        let isInBothCitiesVisited = (dog.citiesVisited.intersects(dog2.citiesVisited))
 
         print("Lita and Maui have visited some of the same cities: \(isInBothCitiesVisited)")
         // Prints "Lita and Maui have visited some of the same cities: true"
