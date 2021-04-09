@@ -1,0 +1,45 @@
+.. _android-adapters:
+
+======================
+Adapters - Android SDK
+======================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Realm offers abstract utility classes to help bind data contained in
+:ref:`collections <android-client-collections>` that implement the
+``OrderedRealmCollections`` interface. Both ``RealmResults`` and
+``RealmList`` implement this interface.
+
+To use the adapters, add the following dependency to your application
+level ``build.gradle`` file:
+
+.. code-block:: gradle
+
+   dependencies {
+      compile 'io.realm:android-adapters:4.0.0'
+   }
+
+You can find the source code for the adapters at
+:github:`/realm/realm-android-adapters`.
+
+.. _android-adapters-listview:
+
+ListView
+--------
+
+Use RealmBaseAdapter with ListView. See an example.
+
+
+.. _android-adapters-recyclerview:
+
+RecyclerView
+------------
+
+Use RealmRecyclerViewAdapter with RecyclerView. See an example.
