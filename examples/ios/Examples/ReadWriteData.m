@@ -31,6 +31,7 @@ RLM_ARRAY_TYPE(ReadWriteDataObjcExample_Dog)
 // A person has a primary key ID, a collection of dogs, and can be a member of multiple clubs.
 @interface ReadWriteDataObjcExample_Person : RLMObject
 @property int _id;
+@property NSString *name;
 
 // To-many relationship - a person can have many dogs
 @property RLMArray<ReadWriteDataObjcExample_Dog *><ReadWriteDataObjcExample_Dog> *dogs;
@@ -439,6 +440,49 @@ RLM_ARRAY_TYPE(ReadWriteDataObjcExample_Person)
     (void)tanDogsWithBNames;
 }
 
+- (void)testJson {
+    // :code-block-start: json
+    // Specify a dog toy in JSON
+    NSData *data = [@"{\"name\": \"Tennis ball\"}" dataUsingEncoding: NSUTF8StringEncoding];
+    RLMRealm *realm = [RLMRealm defaultRealm];
+
+    // Insert from NSData containing JSON
+    [realm transactionWithBlock:^{
+        id json = [NSJSONSerialization JSONObjectWithData:data options:0 error:NULL];
+        [ReadWriteDataObjcExample_DogToy createInRealm:realm withValue:json];
+    }];
+    // :code-block-end:
+}
+
+- (void)testNestedObjects {
+
+    ReadWriteDataObjcExample_Dog *aDog = [[ReadWriteDataObjcExample_Dog alloc] init];
+    ReadWriteDataObjcExample_Dog *anotherDog = [[ReadWriteDataObjcExample_Dog alloc] init];
+    // :code-block-start: nested-objects
+    // Instead of using pre-existing dogs...
+    ReadWriteDataObjcExample_Person *aPerson = [[ReadWriteDataObjcExample_Person alloc]
+        initWithValue:@[@123, @"Jane", @[aDog, anotherDog]]];
+
+    // ...we can create them inline
+    ReadWriteDataObjcExample_Person *anotherPerson = [[ReadWriteDataObjcExample_Person alloc]
+        initWithValue:@[@123, @"Jane", @[@[@"Buster", @5], @[@"Buddy", @6]]]];
+    // :code-block-end:
+    (void)aPerson;
+    (void)anotherPerson;
+}
+
+- (void)testPartialUpdate {
+    // :code-block-start: partial-update
+    RLMRealm *realm = [RLMRealm defaultRealm];
+    [realm transactionWithBlock:^{
+        // Only update the provided values.
+        // Note that the "name" property will remain the same
+        // for the person with primary key "_id" 123.
+        [ReadWriteDataObjcExample_Person createOrUpdateModifiedInRealm:realm
+            withValue:@{@"_id": @123, @"dogs": @[@[@"Buster", @5]]}];
+    }];
+    // :code-block-end:
+}
 @end
 
 // :replace-end:

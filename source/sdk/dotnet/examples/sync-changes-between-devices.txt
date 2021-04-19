@@ -85,6 +85,21 @@ The following code creates a new ``Task`` object and writes it to the {+realm+}:
 .. Check Upload & Download Progress for a Sync Session
 .. ---------------------------------------------------
 
+
+.. _dotnet-handle-sync-errors:
+
+Handle Sync Errors
+------------------
+
+{+sync+} represents errors via :dotnet-sdk:`SessionExceptions <api/reference/Realms.Sync.Exceptions.SessionException.html>`. In
+addition to the standard exception properties, you have access to an :dotnet-sdk:`ErrorCode <api/reference/Realms.Sync.Exceptions.ErrorCode.html>`
+that contains information about the type of the error and allows you to have
+strongly typed handling logic.
+
+.. literalinclude:: /examples/generated/dotnet/ErrorHandler.codeblock.handle-errors.cs
+   :language: csharp
+
+
 .. _dotnet-reset-a-client-realm-file:
 
 .. Reset a Client Realm File
@@ -93,5 +108,9 @@ The following code creates a new ``Task`` object and writes it to the {+realm+}:
 
 .. _dotnet-set-the-client-log-level:
 
-.. Set the Client Log Level
-.. ------------------------
+Set the Client Log Level
+------------------------
+To control which messages are logged by the sync client logger, set the :dotnet-sdk:`LogLevel <reference/Realms.Sync.LogLevel.html>` property of the :dotnet-sdk:`AppConfiguration <reference/Realms.Sync.AppConfiguration.html>` object:
+
+.. literalinclude:: /examples/generated/dotnet/ErrorHandler.codeblock.set-log-level.cs
+   :language: csharp

@@ -190,4 +190,25 @@ describe("Sync Changes Between Devices", () => {
     // you can test that a realm has been open in general (but not if a realm has been open with a specific path or config)
     expect(realm).toBe(new Realm(config));
   });
+  test.skip("should handle sync errors", async () => {
+    const app = new Realm.App({ id: "<Your App ID>" });
+    const credentials = Realm.Credentials.anonymous();
+    await app.logIn(credentials);
+
+    // :code-block-start: sync-changes-between-devices-handle-sync-errors
+    var config = {
+      schema: [DogSchema], // predefined schema
+      sync: {
+        user: app.currentUser,
+        partitionValue: "MyPartitionValue",
+        error: (_session, error) => {
+          (error) => {
+            console.log(error.name, error.message);
+          };
+        },
+      },
+    };
+    const realm = await Realm.open(config);
+    // :code-block-end:
+  });
 });

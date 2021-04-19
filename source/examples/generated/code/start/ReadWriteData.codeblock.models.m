@@ -7,6 +7,7 @@
 @interface Dog : RLMObject
 @property NSString *name;
 @property int age;
+@property NSString *color;
 
 // To-one relationship
 @property DogToy *favoriteToy;
@@ -21,6 +22,7 @@ RLM_ARRAY_TYPE(Dog)
 // A person has a primary key ID, a collection of dogs, and can be a member of multiple clubs.
 @interface Person : RLMObject
 @property int _id;
+@property NSString *name;
 
 // To-many relationship - a person can have many dogs
 @property RLMArray<Dog *><Dog> *dogs;

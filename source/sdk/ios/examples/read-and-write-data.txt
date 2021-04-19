@@ -332,6 +332,90 @@ Create a New Object
       .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.create.m
          :language: objectivec
 
+.. _ios-initialize-an-object-with-a-value:
+
+Initialize Objects with a Value
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can initialize an object by passing an initializer value to
+:swift-sdk:`Object.init(value:)
+<Extensions/Object.html#/s:So16RealmSwiftObjectC0aB0E5valueAByp_tcfc>`.
+The initializer value can be a :apple:`key-value coding
+<library/archive/documentation/Cocoa/Conceptual/KeyValueCoding/>`
+compliant object, a dictionary, or an array containing one element for
+each managed property.
+
+.. note::
+
+   When using an array as an initializer value, you must include all
+   properties in the same order as they are defined in the model.
+
+You can even initialize :ref:`related <ios-client-relationships>` or
+:ref:`embedded objects <ios-embedded-objects>` by nesting initializer
+values:
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: swift
+
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.nested-objects.swift
+         :language: swift
+
+   .. tab::
+      :tabid: objective-c
+
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.nested-objects.m
+         :language: objectivec
+
+
+.. _ios-create-an-object-with-json:
+
+Create an Object with JSON
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Realm does not directly support JSON, but you can use
+:apple:`JSONSerialization.jsonObject(with:options:)
+<documentation/foundation/jsonserialization/1415493-jsonobject>` to
+convert JSON into a value that you can pass to
+:swift-sdk:`Realm.create(_:value:update:)
+<Structs/Realm.html#/s:10RealmSwift0A0V6create_5value6updatexxm_ypAC12UpdatePolicyOtSo0aB6ObjectCRbzlF>`.
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: swift
+
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.json.swift
+         :language: swift
+
+   .. tab::
+      :tabid: objective-c
+
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.json.m
+         :language: objectivec
+
+Nested objects or arrays in the JSON map to :ref:`to-one
+<ios-to-one-relationship>` or :ref:`to-many relationships
+<ios-to-one-relationship>`. 
+
+The JSON property names and types must match the destination
+:ref:`object schema <ios-object-schemas>` exactly. For example:
+
+- ``float`` properties must be initialized with float-backed ``NSNumbers``.
+- ``Date`` and ``Data`` properties cannot be inferred from strings. Convert them to the appropriate type before passing to :swift-sdk:`Realm.create(_:value:update:) <Structs/Realm.html#/s:10RealmSwift0A0V6create_5value6updatexxm_ypAC12UpdatePolicyOtSo0aB6ObjectCRbzlF>`.
+- Required properties cannot be ``null`` or missing in the JSON.
+
+{+service-short+} ignores any properties in the JSON not defined in the
+object schema.
+
+.. tip::
+
+   If your JSON schema doesn't exactly align with your Realm objects,
+   consider using a third-party framework to transform your JSON. There
+   are many model mapping frameworks that work with {+service-short+}.
+   See a :github:`partial list in the realm-cocoa repository
+   <realm/realm-cocoa/issues/694#issuecomment-144785299>`.
 
 .. _ios-copy-an-object-to-another-realm:
 
@@ -400,13 +484,13 @@ Objective-C object.
    dot-notation or bracket-notation as if it were in a regular, nested
    object.
 
-.. _ios-upsert-an-object:
+.. _ios-update-with-key-value-coding:
 
 Update Properties with Key-value Coding
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ``Object``, ``Result``, and ``List`` all conform to 
-:apple:`key-value coding<library/archive/documentation/Cocoa/Conceptual/KeyValueCoding/>`. 
+:apple:`key-value coding <library/archive/documentation/Cocoa/Conceptual/KeyValueCoding/>`. 
 This can be useful when you need to determine which property to update 
 at runtime.
 
@@ -417,8 +501,19 @@ accessors for every item.
 .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.key-value-coding.swift
    :language: swift
 
+.. tip::
+
+   You can also add values for embedded objects or relationships this
+   way. See :ref:`ios-initialize-an-object-with-a-value`.
+
+.. _ios-upsert-an-object:
+
 Upsert an Object
 ~~~~~~~~~~~~~~~~
+
+An **upsert** either inserts or updates an object depending on whether
+the object already exists. Upserts require the data model to have a
+:ref:`primary key <ios-specify-a-primary-key>`.
 
 .. tabs-realm-languages::
    
@@ -428,9 +523,6 @@ Upsert an Object
       To upsert an object, call :swift-sdk:`Realm.add(_:update:)
       <Structs/Realm.html#/s:10RealmSwift0A0V3add_6updateySo0aB6ObjectC_AC12UpdatePolicyOtF>`
       with the second parameter, update policy, set to ``.modified``.
-      The operation either inserts a new object with the given primary
-      key or updates an existing object that already has that primary
-      key.
 
       .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.upsert.swift
          :language: swift
@@ -441,11 +533,25 @@ Upsert an Object
       To upsert an object, call :objc-sdk:`-[RLMRealm
       addOrUpdateObject:]
       <Classes/RLMRealm.html#/c:objc(cs)RLMRealm(im)addOrUpdateObject:>`.
-      The operation either inserts a new object with the given primary
-      key or updates an existing object that already has that primary
-      key.
 
       .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.upsert.m
+         :language: objectivec
+
+You can also partially update an object by passing the primary key and a
+subset of the values to update:
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: swift
+
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.partial-update.swift
+         :language: swift
+
+   .. tab::
+      :tabid: objective-c
+
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.partial-update.m
          :language: objectivec
 
 .. _ios-delete-an-object:

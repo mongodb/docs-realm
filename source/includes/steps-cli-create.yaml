@@ -3,19 +3,17 @@ ref: create-app-directory
 content: |
   Create a new directory for your application and navigate into it.
 
-  Add a :ref:`config.json <legacy-appschema-realm-config>` file to the root
+  Add a :ref:`realm_config.json <appconfig-app>` file to the root
   level of the directory. The file should contain an empty JSON object.
 
   .. code-block:: shell
 
-     echo \{\} > config.json
+     echo \{\} > realm_config.json
 
   .. note::
 
-     Upon successfully creating a new {+app+}, {+cli-bin+}
-     will immediately update ``config.json`` to reflect the new app.
-
-     This overwrites any existing values in ``config.json``.
+     When you import your new app, {+cli-bin+} overwrites ``realm_config.json``
+     with the app's metadata.
 ---
 title: Initialize Application Entities
 ref: initialize-app-entities
@@ -88,7 +86,7 @@ title: Verify Application Creation
 ref: verify-app-creation
 content: |
   You can confirm that your new {+app+} was successfully imported by
-  checking ``config.json``. If the creation was successful, the
+  checking ``realm_config.json``. If the creation was successful, the
   ``app_id`` and ``name`` fields will have updated values that reflect
   the new application.
 
