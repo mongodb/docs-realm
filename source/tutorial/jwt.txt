@@ -18,9 +18,9 @@ Overview
 In this tutorial, you will implement :ref:`Custom JWT Authentication <config-custom-jwt>`  
 for your {+service-short+} app. You will learn how to:
 
-- Enable JWT Authentication,
-- Use a third-party JWT provider to generate a valid token,
-- Authenticate against the backend from a client application.
+- Enable JWT Authentication
+- Use a third-party JWT provider to generate a valid token
+- Authenticate against the backend from a client application
 
 This tutorial should take around 30 minutes.
 
@@ -31,7 +31,7 @@ Prerequisites
   the :ref:`Task Tracker tutorial <tutorial-task-tracker-create-realm-app>`, you 
   can use that backend {+app+}.
 - You can use any {+service-short+} app for this tutorial. If you do not have 
-  an test app you can use, download one of the Task Tracker apps from 
+  a test app you can use, download one of the Task Tracker apps from 
   the :doc:`tutorial </tutorial>`.
 
 Procedure
@@ -60,7 +60,8 @@ encode the token. The default, which we will use for this tutorial, is ``HS256``
 
 .. note::
 
-   For more information on JWT algorithms, visit `this web page 
+   For more information on JWT algorithms, see 
+   `JSON Web Token (JWT) Signing Algorithms Overview 
    <https://auth0.com/blog/json-web-token-signing-algorithms-overview/>`_.
    {+service-short+} supports ``HS256`` and ``RS256``.
 
@@ -219,7 +220,7 @@ Update Your Client to Use JWT Authentication
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The final step in this tutorial is to update your client application to use 
-JWT authentication. The {+service-short+} SDKs make this process very simple, 
+JWT authentication. The {+service-short+} SDKs make this process straightforward, 
 and while each language has its own specific implementation, the pattern they 
 each use is the same: pass the generated token to a login call:
 
@@ -292,6 +293,6 @@ Summary
 
 Implementing a custom JWT authentication provider involves:
 
-- Generating a valid JWT token that includes the {+app+} ID in the payload.
-- Enabling the authentication provider in {+service-short+}.
-- Adding the authentication logic to your client.
+- Generating a valid JWT token that includes the {+app+} ID in the payload
+- Enabling the authentication provider in {+service-short+}
+- Adding the authentication logic to your client
