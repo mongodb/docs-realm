@@ -117,6 +117,38 @@ boilerplate query code and capacity for error.
    To learn how to add relationships to your Realm object, see
    :ref:`ios-declare-relationship-properties`.
 
+.. _ios-structs:
+
+Swift Structs
+-------------
+
+{+client-database+} does not support Swift structs as models for a variety of 
+reasons. {+service-short+}'s design focuses on “live” objects. 
+This concept is not compatible with value type structs. By design, 
+{+service-short+} provides features that are incompatible with these 
+semantics, such as:
+ 
+- :ref:`Live data <ios-live-object>`
+- :ref:`Reactive APIs <ios-react-to-changes>`
+- Low memory footprint of data
+- Good operation performance
+- :ref:`Lazy and cheap access to partial data <ios-live-queries>`
+- Lack of data serialization/deserialization
+- :ref:`Keeping potentially complex object graphs synchronized <ios-sync-changes-between-devices>`
+
+That said, it is sometimes useful to detach objects from their backing 
+{+realm+}. This typically isn't an ideal design decision. Instead, 
+developers use this as a workaround for temporary limitations in our 
+library.
+
+You can use key-value coding to initialize an unmanaged object as a copy of 
+a managed object. Then, you can work with that unmanaged object
+like any other :apple:`NSObject <documentation/objectivec/nsobject>`.
+
+.. code-block:: swift
+
+   let standaloneModelObject = MyModel(value: persistedModelObject)
+
 Summary
 -------
 
@@ -129,3 +161,6 @@ Summary
 
 - You can define to-one, to-many, and inverse relationships in your schema.
   Inverse relationships automatically form backlinks.
+
+- {+service-short+} does not currently support structs. When required, 
+  create "in-memory copies" of {+service-short+} objects.
