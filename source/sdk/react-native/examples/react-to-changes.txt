@@ -12,6 +12,46 @@ React to Changes - React Native SDK
    :depth: 2
    :class: singlecol
 
+.. _react-native-using-listeners-in-components:
+
+cceptance Criteria:
+
+Create React Native Documentation on using change listeners within the
+useEffect() method of functional components (and within constructor of non
+functional components) in order to update State when a collection, realm or
+object is changed to avoid UI crashes
+
+Using Change Listeners in Components
+------------------------------------
+React has built in state that allows us to copy our {+realm+} objects. However,
+since {+realm+} objects are live and always reflects their most recent saved
+state, you must update the copy of these objects in state by registering a
+change listener on them.
+
+.. warning::
+
+   Failing to update copies in react state of {+realm+} objects will lead to
+   your UI being out of date. 
+
+Adding Change Listeners to Functional Components
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Declare a state variable for your {+realm+} objects using the
+:reactjs:`useState() <docs/hooks-state.html>` hook. Within a
+:reactjs:`useEffect() <docs/hooks-effect.html>` hook, set state to the initial
+value of your objects and then declare a change listener on the {+realm+} objects.
+
+
+.. literalinclude:: /examples/ReactNative/react-to-changes-functional-component.js
+   :language: javascript
+   :emphasize-lines: 4, 11, 13, 15, 29, 32
+
+Adding Change Listeners to Class Components
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. literalinclude:: /examples/ReactNative/react-to-changes-class-component.js
+   :language: javascript
+   :emphasize-lines: 13, 21, 23, 37, 44
+
 .. _react-native-register-a-realm-change-listener:
 .. _react-native-realm-listener:
 
