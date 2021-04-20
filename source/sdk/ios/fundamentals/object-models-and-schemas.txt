@@ -149,6 +149,25 @@ like any other :apple:`NSObject <documentation/objectivec/nsobject>`.
 
    let standaloneModelObject = MyModel(value: persistedModelObject)
 
+.. _ios-inheritance:
+
+Model Inheritance
+-----------------
+
+You can subclass {+client-database+} models to share behavior between
+classes, but there are limitations. In particular, {+service-short+}
+does not allow you to:
+
+- Cast between polymorphic classes: subclass to subclass, subclass to parent, parent to subclass
+- Query on multiple classes simultaneously: for example, "get all instances of parent class and subclass"
+- Multi-class containers: ``List`` and ``Results`` with a mixture of parent and subclass
+
+.. tip::
+
+   Check out the :github:`code samples
+   <realm/realm-cocoa/issues/1109#issuecomment-143834756>` for working
+   around these limitations.
+
 Summary
 -------
 
@@ -164,3 +183,5 @@ Summary
 
 - {+service-short+} does not currently support structs. When required, 
   create "in-memory copies" of {+service-short+} objects.
+
+- Model inheritance is possible but significantly limited.
