@@ -33,6 +33,9 @@ Declare a state variable for your {+realm+} objects using the
 :reactjs:`useEffect() <docs/hooks-effect.html>` hook, set state to the initial
 value of your objects and then declare a change listener on the {+realm+} objects.
 
+Finally, return an anonymous cleanup function that you can use to remove the
+change listener and close the realm. React will call this cleanup function when
+the component unmounts.
 
 .. literalinclude:: /examples/ReactNative/react-to-changes-functional-component.js
    :language: javascript
@@ -40,6 +43,18 @@ value of your objects and then declare a change listener on the {+realm+} object
 
 Adding Change Listeners to Class Components
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In your component's constructor, create a react :reactjs:`ref
+</refs-and-the-dom.html#creating-refs>` to store your {+realm+} instance. When
+the value of the {+realm+} changes the component will not re-render, as it would
+with a state variable. Declare a state variable to store your {+realm+} objects.
+
+Within your :reactjs:`componentDidMount()
+<react-component.html#componentdidmount>` method, set state to the initial value
+of your objects and then declare a change listener on the {+realm+} objects.
+
+Finally, within your :reactjs:`componentWillUnmount()
+<react-component.html#componentwillunmount>` method, remove the listener and
+close the {+realm+}.
 
 .. literalinclude:: /examples/ReactNative/react-to-changes-class-component.js
    :language: javascript
