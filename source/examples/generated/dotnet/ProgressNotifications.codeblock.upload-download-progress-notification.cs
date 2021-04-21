@@ -4,5 +4,4 @@ var token = session.GetProgressObservable(ProgressDirection.Upload, ProgressMode
        {
            Console.WriteLine($"transferred bytes: {progress.TransferredBytes}");
            Console.WriteLine($"transferable bytes: {progress.TransferableBytes}");
-           progressPercentage = progress.TransferredBytes / progress.TransferableBytes;
        });
