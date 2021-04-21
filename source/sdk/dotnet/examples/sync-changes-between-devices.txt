@@ -90,7 +90,7 @@ notification using the :dotnet-sdk:`session.GetProgressObservable() <Realms.Sync
 The ``session.GetProgressObservable`` method takes in the following two parameters:
 
 - A ``ProgressDirection`` parameter that can be set to ``ProgressDirection.Upload`` or ``ProgressDirection.Download`` to register notifications for either event.
-- A ``ProgressMode`` parameter that can be set to ``ProgressMode.ReportIndefinitely`` for the notifications to continue until the callback is unregistered, or ``"ProgressMode.ForCurrentlyOutstandingWork"`` (for the notifications to continue until only the currently transferable bytes are synced).
+- A ``ProgressMode`` parameter that can be set to ``ProgressMode.ReportIndefinitely`` for the notifications to continue until the callback is unregistered, or ``"ProgressMode.ForCurrentlyOutstandingWork"`` for the notifications to continue until only the currently transferable bytes are synced.
 
 .. example::
    In the following example, an application developer registers a progress observable on the ``session`` to
