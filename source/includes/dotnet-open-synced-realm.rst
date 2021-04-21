@@ -8,6 +8,14 @@ the user. The following code demonstrates this:
 .. literalinclude:: /examples/generated/code/start/Examples.codeblock.open-synced-realm.cs
    :language: csharp
 
+.. note::
+   To get the initial download progress when opening a synced {+realm+}
+   *asynchronously* using ``GetInstanceAsync``, set the `OnProgress
+   <https://docs.mongodb.com/realm-sdks/dotnet/latest/reference/Realms.Sync.SyncConfiguration.html#Realms_Sync_SyncConfiguration_OnProgress>`_
+   callback. To learn how to track upload or download progress during the
+   lifetime of the {+realm+}, check out the :ref:`Check Upload & Download
+   Progress for a Sync Session <dotnet-check-sync-progress>` documentation. 
+
 In the above example, the code shows how to open the {+realm+} *asynchronously* 
 by calling ``GetInstanceAsync()``. You can also open a {+realm+} *synchronously* 
 by calling the 
