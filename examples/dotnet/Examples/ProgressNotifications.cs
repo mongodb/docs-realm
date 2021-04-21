@@ -22,6 +22,7 @@ namespace Examples
         [Test]
         public async Task TestUploadDownloadProgressNotification()
         {
+            var progressNotificationTriggered = false;
             var appConfig = new AppConfiguration(myRealmAppId)
             {
                 DefaultRequestTimeout = TimeSpan.FromMilliseconds(1500)
@@ -30,15 +31,16 @@ namespace Examples
             user = app.LogInAsync(Credentials.Anonymous()).Result;
             config = new SyncConfiguration("myPartition", user);
             var realm = await Realm.GetInstanceAsync(config);
-            ulong progressPercentage = Convert.ToUInt32(-1);
             // :code-block-start: upload-download-progress-notification
             var session = realm.GetSession();
             var token = session.GetProgressObservable(ProgressDirection.Upload, ProgressMode.ReportIndefinitely)
                 .Subscribe(progress =>
                    {
+                       // :hide-start:
+                       progressNotificationTriggered = true;
+                       // :hide-end:
                        Console.WriteLine($"transferred bytes: {progress.TransferredBytes}");
                        Console.WriteLine($"transferable bytes: {progress.TransferableBytes}");
-                       progressPercentage = progress.TransferredBytes / progress.TransferableBytes;
                    });
             // :code-block-end: upload-download-progress-notification
             var id = 2;
@@ -50,7 +52,6 @@ namespace Examples
             {
                 realm.Add(myObj);
             });
-            Assert.Greater(progressPercentage, Convert.ToUInt32(-1));
             realm.Write(() =>
             {
                 realm.RemoveAll<ProgressObj>();
@@ -58,6 +59,8 @@ namespace Examples
             // :code-block-start: remove-progress-notification
             token.Dispose();
             // :code-block-end: remove-progress-notification
+
+            Assert.IsTrue(progressNotificationTriggered);
         }
     }
 }
