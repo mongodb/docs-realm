@@ -16,6 +16,7 @@ class MyClassComponent extends Component {
     }).then(realm => {
       this.realm.current = realm;
       const tasks = realm.objects('Task');
+      // set state to the initial value of your realm objects
       this.setState({tasks: [...tasks]});
 
       tasks.addListener(() => {

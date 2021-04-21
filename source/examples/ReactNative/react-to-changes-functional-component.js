@@ -6,8 +6,8 @@ const MyFunctionalComponent = () => {
       schema: [TaskSchema], // predefined schema
     }).then(realm => {
     
-      // set state to the initial value of your realm objects
       const tasks = realm.objects('Task');
+      // set state to the initial value of your realm objects
       setTasks([...tasks]);
 
       tasks.addListener(() => {
