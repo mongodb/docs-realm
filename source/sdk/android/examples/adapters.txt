@@ -17,8 +17,8 @@ contained in :ref:`collections <android-client-collections>` that
 implement the ``OrderedRealmCollections`` interface. Both
 ``RealmResults`` and ``RealmList`` implement this interface.
 
-Install
--------
+Install Adapters
+----------------
 
 To use the adapters, add the following dependencies to your application
 level ``build.gradle`` file:
@@ -53,8 +53,11 @@ your project level ``build.gradle`` file:
 You can find the source code for the adapters at
 :github:`realm/realm-android-adapters`.
 
-Examples
---------
+Example Models
+--------------
+
+The examples on this page all use the following data models for a
+{+service-short+} object named `Item`:
 
 .. tabs-realm-languages::
 
@@ -72,8 +75,8 @@ Examples
 
 .. _android-adapters-listview:
 
-ListView
---------
+Display Collections in a ListView
+---------------------------------
 
 You can display {+service-short+} objects in a
 :android:`ListView <reference/android/widget/ListView>` by extending
@@ -87,6 +90,9 @@ You can display {+service-short+} objects in a
       .. literalinclude:: /examples/generated/android/local/ExampleListAdapter.codeblock.complete.java
          :language: java
 
+      The following code instantiates a ``ListView`` and attaches an
+      ``ExampleListAdapter`` to display list data in an activity:
+
       .. literalinclude:: /examples/generated/android/local/AdapterTest.codeblock.list-adapter.java
          :language: java
 
@@ -96,13 +102,16 @@ You can display {+service-short+} objects in a
       .. literalinclude:: /examples/generated/android/local/ExampleListAdapter.codeblock.complete.kt
          :language: kotlin
 
+      The following code instantiates a ``ListView`` and attaches an
+      ``ExampleListAdapter`` to display list data in an activity:
+
       .. literalinclude:: /examples/generated/android/local/AdapterTest.codeblock.list-adapter.kt
          :language: kotlin
 
 .. _android-adapters-recyclerview:
 
-RecyclerView
-------------
+Display Collections in a RecyclerView
+-------------------------------------
 
 You can display {+service-short+} objects in a
 :android:`RecyclerView <reference/androidx/recyclerview/widget/RecyclerView.html>`
@@ -116,6 +125,9 @@ by extending ``RealmRecyclerViewAdapter``.
       .. literalinclude:: /examples/generated/android/local/ExampleRecyclerViewAdapter.codeblock.complete.java
          :language: java
 
+      The following code instantiates a ``RecyclerView`` and attaches an
+      ``ExampleRecyclerViewAdapter`` to display list data in an activity:
+
       .. literalinclude:: /examples/generated/android/local/AdapterTest.codeblock.recycler-view-adapter.java
          :language: java
 
@@ -124,6 +136,9 @@ by extending ``RealmRecyclerViewAdapter``.
 
       .. literalinclude:: /examples/generated/android/local/ExampleRecyclerViewAdapter.codeblock.complete.kt
          :language: kotlin
+
+      The following code instantiates a ``RecyclerView`` and attaches an
+      ``ExampleRecyclerViewAdapter`` to display list data in an activity:
 
       .. literalinclude:: /examples/generated/android/local/AdapterTest.codeblock.recycler-view-adapter.kt
          :language: kotlin
