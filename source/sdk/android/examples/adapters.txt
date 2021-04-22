@@ -12,15 +12,17 @@ Display Collections - Android SDK
    :depth: 2
    :class: singlecol
 
-Android applications usually display collection data in the UI through
+Android applications usually display collection data in the UI using the
+built-in
 :android:`RecyclerView <reference/androidx/recyclerview/widget/RecyclerView.html>`
-or :android:`ListView <reference/android/widget/ListView>` widgets.
-{+service-short+} offers adapters to help display data
-contained in :ref:`collections <android-client-collections>` that
-implement the ``OrderedRealmCollections`` interface, including
-``RealmResults`` and ``RealmList``. Using these adapters, displayed data
-automatically updates to reflect changes to underlying {+service-short+}
-objects.
+or :android:`ListView <reference/android/widget/ListView>` components.
+{+service-short+} offers **adapters** to help display data
+contained in :ref:`collections <android-client-collections>` of
+{+service-short+} objects that implement the ``OrderedRealmCollections``
+interface, including :ref:`RealmResults <android-results-collections>`
+and :ref:`RealmList <android-list-collections>`. When you use
+these adapters, UI components automatically update to reflect changes to
+underlying {+service-short+} objects.
 
 Install Adapters
 ----------------
@@ -35,10 +37,11 @@ level ``build.gradle`` file:
       implementation 'androidx.recyclerview:recyclerview:1.1.0'
    }
 
-The {+service-short+} adapters are currently hosted on the JCenter
+The {+service-short+} adapters are currently hosted on the
+`JCenter <https://mvnrepository.com/repos/jcenter>`_
 artifact repository. If you have not already registered ``jcenter`` as a
-repository, you can add it to your project with the following lines in
-your project level ``build.gradle`` file:
+repository for your Android application, you can add it to your project
+with the following lines in your project level ``build.gradle`` file:
 
 .. code-block:: gradle
    :emphasize-lines: 3, 9
@@ -55,14 +58,17 @@ your project level ``build.gradle`` file:
        }
    }
 
-You can find the source code for the adapters at
-:github:`realm/realm-android-adapters`.
+You can find the source code for the {+service-short+} Android adapters
+in the :github:`realm/realm-android-adapters` GitHub repository.
+
+.. _android-adapters-model-item:
 
 Example Models
 --------------
 
 The examples on this page all use the following data models for a
-{+service-short+} object named ``Item``:
+{+service-short+} object named ``Item``. This class contains a single
+piece of string data named "name" and an identifier number named "id":
 
 .. tabs-realm-languages::
 
@@ -85,7 +91,15 @@ Display Collections in a ListView
 
 You can display {+service-short+} objects in a
 :android:`ListView <reference/android/widget/ListView>` by extending
-``RealmBaseAdapter``.
+:github:`RealmBaseAdapter
+<realm/realm-android-adapters/blob/master/adapters/src/main/java/io/realm/RealmBaseAdapter.java>`.
+The adapter uses the ``ListAdapter`` interface, so implementation works
+just like any implementation of ``ListAdapter``, but provides support
+for automatically-updating {+service-short+} objects.
+
+The following example demonstrates how to use a subclass of
+``RealmBaseAdapter`` to display
+:ref:`Item <android-adapters-model-item>` objects in a ``ListView``:
 
 .. tabs-realm-languages::
 
@@ -120,7 +134,15 @@ Display Collections in a RecyclerView
 
 You can display {+service-short+} objects in a
 :android:`RecyclerView <reference/androidx/recyclerview/widget/RecyclerView.html>`
-by extending ``RealmRecyclerViewAdapter``.
+by extending :github:`RealmRecyclerViewAdapter
+<realm/realm-android-adapters/blob/master/adapters/src/main/java/io/realm/RealmRecyclerViewAdapter.java>`.
+The adapter extends ``RecyclerView.Adapter``, so implementation works
+just like any ``RecyclerView`` adapter, but provides support
+for automatically-updating {+service-short+} objects.
+
+The following example demonstrates how to use a subclass of
+``RealmRecyclerViewAdapter`` to display
+:ref:`Item <android-adapters-model-item>` objects in a ``RecyclerView``:
 
 .. tabs-realm-languages::
 
