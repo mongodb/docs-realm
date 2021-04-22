@@ -1,3 +1,7 @@
+import React, {Component, createRef} from 'react';
+import {Text} from 'react-native';
+import Realm from 'realm';
+// :code-block-start: using-change-listeners-class-component
 class MyClassComponent extends Component {
   constructor(props) {
     super(props);
@@ -58,3 +62,5 @@ class MyClassComponent extends Component {
     );
   }
 }
+// :code-block-end:
+export default MyClassComponent;
