@@ -26,6 +26,7 @@ class AdapterTest : RealmTest() {
         activity!!.runOnUiThread {
             val config = RealmConfiguration.Builder()
                 .inMemory()
+                .name("adapter-test-list-kotlin")
                 .allowQueriesOnUiThread(true)
                 .allowWritesOnUiThread(true)
                 .build()
@@ -65,6 +66,7 @@ class AdapterTest : RealmTest() {
         activity!!.runOnUiThread {
             val config = RealmConfiguration.Builder()
                 .inMemory()
+                .name("adapter-test-recycler-kotlin")
                 .allowQueriesOnUiThread(true)
                 .allowWritesOnUiThread(true)
                 .build()

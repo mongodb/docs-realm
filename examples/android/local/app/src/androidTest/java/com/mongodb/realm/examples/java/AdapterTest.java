@@ -33,6 +33,7 @@ public class AdapterTest extends RealmTest {
         activity.runOnUiThread(() -> {
             RealmConfiguration config = new RealmConfiguration.Builder()
                     .inMemory()
+                    .name("adapter-test-list-java")
                     .allowQueriesOnUiThread(true)
                     .allowWritesOnUiThread(true)
                     .build();
@@ -75,6 +76,7 @@ public class AdapterTest extends RealmTest {
         activity.runOnUiThread(() -> {
             RealmConfiguration config = new RealmConfiguration.Builder()
                     .inMemory()
+                    .name("adapter-test-recycler-java")
                     .allowQueriesOnUiThread(true)
                     .allowWritesOnUiThread(true)
                     .build();
