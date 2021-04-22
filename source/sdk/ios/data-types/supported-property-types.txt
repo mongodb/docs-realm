@@ -51,6 +51,9 @@ Supported Property Types - iOS SDK
          * - Decimal128
            - ``@objc dynamic var decimal: Decimal128 = 0``
            - ``@objc dynamic var decimal: Decimal128?``
+         * - UUID
+           - ``@objc dynamic var uuid = UUID()``
+           - 
          * - :swift-sdk:`ObjectId <Classes/ObjectId.html>`
            - ``@objc dynamic var objectId = ObjectId.generate()``
            - ``@objc dynamic var objectId: ObjectId?``
@@ -112,6 +115,9 @@ Supported Property Types - iOS SDK
          * - Decimal128
            - ``@property RLMDecimal128 *value;``
            - ``@property RLMDecimal128 *value;``
+         * - NSUUID
+           - ``@property NSUUID *uuid;``
+           - 
          * - :objc-sdk:`RLMObjectId <Classes/RLMObjectId.html>`
            - ``@property RLMObjectId *objectId;``
            - ``@property RLMObjectId *objectId;``
@@ -129,4 +135,11 @@ Supported Property Types - iOS SDK
 
       ``CGFloat`` properties are discouraged, as the type is not
       platform independent.
+
+Unique Identifiers
+------------------
+
+ObjectId is a MongoDB-specific 12-bit unique value. UUID is a 16-bit 
+globally-unique value. Both types are :ref:`indexable <ios-index-a-property>` 
+and can be used as :ref:`primary keys <ios-specify-a-primary-key>`.
 
