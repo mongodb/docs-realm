@@ -157,7 +157,10 @@ following table lists the limitations for each cluster size:
 Atlas Support 
 -------------
 
-{+service+} does not currently support sharded {+atlas+} clusters.
+{+sync+} does not currently support sharded {+atlas+} clusters. However,
+you can add a sharded cluster as a data source and access it through
+:ref:`functions <functions>` and
+:ref:`MongoDB Data Access <mongodb-data-access>`.
 
 When data is bulk/batch loaded into {+atlas+}, you may see a delay in
 data appearing on devices while {+service+} processes changes.
