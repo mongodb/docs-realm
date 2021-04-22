@@ -12,34 +12,118 @@ Adapters - Android SDK
    :depth: 2
    :class: singlecol
 
-Realm offers abstract utility classes to help bind data contained in
-:ref:`collections <android-client-collections>` that implement the
-``OrderedRealmCollections`` interface. Both ``RealmResults`` and
-``RealmList`` implement this interface.
+{+service-short+} offers abstract utility classes to help bind data
+contained in :ref:`collections <android-client-collections>` that
+implement the ``OrderedRealmCollections`` interface. Both
+``RealmResults`` and ``RealmList`` implement this interface.
 
-To use the adapters, add the following dependency to your application
+Install
+-------
+
+To use the adapters, add the following dependencies to your application
 level ``build.gradle`` file:
 
 .. code-block:: gradle
 
    dependencies {
-      compile 'io.realm:android-adapters:4.0.0'
+      implementation 'io.realm:android-adapters:4.0.0'
+      implementation 'androidx.recyclerview:recyclerview:1.1.0'
+   }
+
+The {+service-short+} adapters are currently hosted on the JCenter
+artifact repository. If you have not already registered ``jcenter`` as a
+repository, you can add it to your project with the following lines in
+your project level ``build.gradle`` file:
+
+.. code-block:: gradle
+   :emphasize-lines: 3, 9
+
+   buildscript {
+       repositories {
+           jcenter()
+       }
+   }
+
+   allprojects {
+       repositories {
+           jcenter()
+       }
    }
 
 You can find the source code for the adapters at
-:github:`/realm/realm-android-adapters`.
+:github:`realm/realm-android-adapters`.
+
+Examples
+--------
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: java
+
+      .. literalinclude:: source/examples/generated/android/local/JavaItem.codeblock.complete.java
+         :language: java
+
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: source/examples/generated/android/local/Item.codeblock.complete.kt
+         :language: kotlin
 
 .. _android-adapters-listview:
 
 ListView
 --------
 
-Use RealmBaseAdapter with ListView. See an example.
+You can display {+service-short+} objects in a
+:android:`ListView <reference/android/widget/ListView>` by extending
+``RealmBaseAdapter``.
 
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: java
+
+      .. literalinclude:: source/examples/generated/android/local/ExampleListAdapter.codeblock.complete.java
+         :language: java
+
+      .. literalinclude:: source/examples/generated/android/local/AdapterTest.codeblock.list-adapter.java
+         :language: java
+
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: source/examples/generated/android/local/ExampleListAdapter.codeblock.complete.kt
+         :language: kotlin
+
+      .. literalinclude:: source/examples/generated/android/local/AdapterTest.codeblock.list-adapter.kt
+         :language: kotlin
 
 .. _android-adapters-recyclerview:
 
 RecyclerView
 ------------
 
-Use RealmRecyclerViewAdapter with RecyclerView. See an example.
+You can display {+service-short+} objects in a
+:android:`RecyclerView <reference/androidx/recyclerview/widget/RecyclerView.html>`
+by extending ``RealmRecyclerViewAdapter``.
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: java
+
+      .. literalinclude:: source/examples/generated/android/local/ExampleRecyclerViewAdapter.codeblock.complete.java
+         :language: java
+
+      .. literalinclude:: source/examples/generated/android/local/AdapterTest.codeblock.recycler-view-adapter.java
+         :language: java
+
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: source/examples/generated/android/local/ExampleRecyclerViewAdapter.codeblock.complete.kt
+         :language: kotlin
+
+      .. literalinclude:: source/examples/generated/android/local/AdapterTest.codeblock.recycler-view-adapter.kt
+         :language: kotlin
