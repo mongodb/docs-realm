@@ -13,7 +13,9 @@ internal class ExampleListAdapter(realmResults: OrderedRealmCollection<Item?>?) 
     RealmBaseAdapter<Item?>(realmResults), ListAdapter {
     var TAG = "REALM_LIST_ADAPTER"
 
-    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+    override fun getView(position: Int,
+                         convertView: View?,
+                         parent: ViewGroup): View {
         var convertView = convertView
         val viewHolder: ViewHolder
         if (convertView == null) {

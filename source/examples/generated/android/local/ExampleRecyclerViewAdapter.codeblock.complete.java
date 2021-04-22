@@ -7,21 +7,25 @@ import io.realm.OrderedRealmCollection;
 import io.realm.RealmRecyclerViewAdapter;
 
 /*
- * ExampleRecyclerViewAdapter: extends the Realm-provided RealmRecyclerViewAdapter to provide data
+ * ExampleRecyclerViewAdapter: extends the Realm-provided
+ * RealmRecyclerViewAdapter to provide data
  * for a RecyclerView to display
  * Realm objects on screen to a user.
  */
 class ExampleRecyclerViewAdapter
-        extends RealmRecyclerViewAdapter<Item, ExampleRecyclerViewAdapter.ExampleViewHolder> {
+        extends RealmRecyclerViewAdapter<Item,
+        ExampleRecyclerViewAdapter.ExampleViewHolder> {
     String TAG = "REALM_RECYCLER_ADAPTER";
 
     ExampleRecyclerViewAdapter(OrderedRealmCollection<Item> data) {
         super(data, true);
-        Log.i(TAG, "Created RealmRecyclerViewAdapter for " + getData().size() + " items.");
+        Log.i(TAG, "Created RealmRecyclerViewAdapter for "
+                + getData().size() + " items.");
     }
 
     @Override
-    public ExampleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ExampleViewHolder onCreateViewHolder(ViewGroup parent,
+                                                int viewType) {
         Log.i(TAG, "Creating view holder");
         TextView textView = new TextView(parent.getContext());
         textView.setLayoutParams(
@@ -32,7 +36,8 @@ class ExampleRecyclerViewAdapter
     }
 
     @Override
-    public void onBindViewHolder(ExampleViewHolder holder, int position) {
+    public void onBindViewHolder(ExampleViewHolder holder,
+                                 int position) {
         final Item obj = getItem(position);
         Log.i(TAG, "Binding view holder: " + obj.getName());
         holder.data = obj;

@@ -39,7 +39,8 @@ class AdapterTest : RealmTest() {
                 ViewGroup.LayoutParams.MATCH_PARENT
             )
 
-            // create an adapter with a RealmResults collection and attach it to the ListView
+            // create an adapter with a RealmResults collection
+            // and attach it to the ListView
             val adapter = ExampleListAdapter(realm.where(Item::class.java).findAll())
             listView.adapter = adapter
             val layoutParams = ViewGroup.LayoutParams(
@@ -72,12 +73,15 @@ class AdapterTest : RealmTest() {
             // :code-block-start: recycler-view-adapter
             // instantiate a RecyclerView programmatically
             val recyclerView = RecyclerView(activity!!.applicationContext)
-            recyclerView.layoutManager = LinearLayoutManager(activity!!.applicationContext)
+            recyclerView.layoutManager =
+                LinearLayoutManager(activity!!.applicationContext)
             recyclerView.setHasFixedSize(true)
-            recyclerView.addItemDecoration(DividerItemDecoration(activity!!.applicationContext,
+            recyclerView.addItemDecoration(
+                DividerItemDecoration(activity!!.applicationContext,
                     DividerItemDecoration.VERTICAL))
 
-            // create an adapter with a RealmResults collection and attach it to the RecyclerView
+            // create an adapter with a RealmResults collection
+            // and attach it to the RecyclerView
             val adapter = ExampleRecyclerViewAdapter(realm.where(Item::class.java).findAll())
             recyclerView.adapter = adapter
             val layoutParams = ViewGroup.LayoutParams(

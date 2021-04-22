@@ -42,12 +42,21 @@ public class AdapterTest extends RealmTest {
             // :code-block-start: list-adapter
             // instantiate a ListView programmatically
             ListView listView = new ListView(activity.getApplicationContext());
-            listView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+            listView.setLayoutParams(
+                    new ViewGroup.LayoutParams(
+                            ViewGroup.LayoutParams.MATCH_PARENT,
+                            ViewGroup.LayoutParams.MATCH_PARENT));
 
-            // create an adapter with a RealmResults collection and attach it to the ListView
-            ExampleListAdapter adapter = new ExampleListAdapter(realm.where(JavaItem.class).findAll());
+            // create an adapter with a RealmResults collection
+            // and attach it to the ListView
+            ExampleListAdapter adapter =
+                    new ExampleListAdapter(
+                            realm.where(JavaItem.class).findAll());
             listView.setAdapter(adapter);
-            ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+            ViewGroup.LayoutParams layoutParams =
+                    new ViewGroup.LayoutParams(
+                            ViewGroup.LayoutParams.MATCH_PARENT,
+                            ViewGroup.LayoutParams.MATCH_PARENT);
             activity.addContentView(listView, layoutParams);
             // :code-block-end:
         });
@@ -74,15 +83,25 @@ public class AdapterTest extends RealmTest {
             createNItems(realm, 8);
             // :code-block-start: recycler-view-adapter
             // instantiate a RecyclerView programmatically
-            RecyclerView recyclerView = new RecyclerView(activity.getApplicationContext());
-            recyclerView.setLayoutManager(new LinearLayoutManager(activity.getApplicationContext()));
+            RecyclerView recyclerView =
+                    new RecyclerView(activity.getApplicationContext());
+            recyclerView.setLayoutManager(
+                    new LinearLayoutManager(activity.getApplicationContext()));
             recyclerView.setHasFixedSize(true);
-            recyclerView.addItemDecoration(new DividerItemDecoration(activity.getApplicationContext(), DividerItemDecoration.VERTICAL));
+            recyclerView.addItemDecoration(new DividerItemDecoration(
+                    activity.getApplicationContext(),
+                    DividerItemDecoration.VERTICAL));
 
-            // create an adapter with a RealmResults collection and attach it to the RecyclerView
-            ExampleRecyclerViewAdapter adapter = new ExampleRecyclerViewAdapter(realm.where(JavaItem.class).findAll());
+            // create an adapter with a RealmResults collection
+            // and attach it to the RecyclerView
+            ExampleRecyclerViewAdapter adapter =
+                    new ExampleRecyclerViewAdapter(
+                            realm.where(JavaItem.class).findAll());
             recyclerView.setAdapter(adapter);
-            ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+            ViewGroup.LayoutParams layoutParams =
+                    new ViewGroup.LayoutParams(
+                            ViewGroup.LayoutParams.MATCH_PARENT,
+                            ViewGroup.LayoutParams.MATCH_PARENT);
             activity.addContentView(recyclerView, layoutParams);
             // :code-block-end:
         });

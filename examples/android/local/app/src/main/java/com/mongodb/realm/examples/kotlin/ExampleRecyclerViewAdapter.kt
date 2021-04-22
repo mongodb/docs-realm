@@ -9,15 +9,18 @@ import io.realm.OrderedRealmCollection
 import io.realm.RealmRecyclerViewAdapter
 
 /*
- * ExampleRecyclerViewAdapter: extends the Realm-provided RealmRecyclerViewAdapter to provide data
+ * ExampleRecyclerViewAdapter: extends the Realm-provided
+ * RealmRecyclerViewAdapter to provide data
  * for a RecyclerView to display
  * Realm objects on screen to a user.
  */
 internal class ExampleRecyclerViewAdapter(data: OrderedRealmCollection<Item?>?) :
-    RealmRecyclerViewAdapter<Item?, ExampleRecyclerViewAdapter.ExampleViewHolder?>(data, true) {
+    RealmRecyclerViewAdapter<Item?,
+            ExampleRecyclerViewAdapter.ExampleViewHolder?>(data, true) {
     var TAG = "REALM_RECYCLER_ADAPTER"
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExampleViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup,
+                                    viewType: Int): ExampleViewHolder {
         Log.i(TAG, "Creating view holder")
         val textView = TextView(parent.context)
         textView.layoutParams = ViewGroup.LayoutParams(
@@ -44,7 +47,8 @@ internal class ExampleRecyclerViewAdapter(data: OrderedRealmCollection<Item?>?) 
     }
 
     init {
-        Log.i(TAG, "Created RealmRecyclerViewAdapter for ${getData()!!.size} items.")
+        Log.i(TAG,
+            "Created RealmRecyclerViewAdapter for ${getData()!!.size} items.")
     }
 }
 // :code-block-end:
