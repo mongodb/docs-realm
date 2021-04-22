@@ -15,15 +15,15 @@ Using Change Listeners In Your Components - React Native SDK
 
 Overview
 --------
-React has built in state that allows us to copy our {+realm+} objects. However,
-since {+realm+} objects are live and always reflects their most recent saved
-state, you must update the copy of these objects in state by registering a
-change listener on them.
+You can copy our {+realm+} objects to our component's :reactjs:`state
+<docs/state-and-lifecycle.html>`.  However, since {+realm+} objects are live and
+automatically update in response to changes, you must also update the copy of
+{+realm+} objects in state. You can do this by registering a change listener in
+your component and updating the state variable when that listener fires.  
 
 .. warning::
 
-   Failing to update copies in react state of {+realm+} objects will lead to
-   your UI being out of date. 
+   Failing to update copies of {+realm+} objects leads to your UI being out of date. 
 
 Adding Change Listeners to Functional Components
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -33,7 +33,7 @@ Declare a state variable for your {+realm+} objects using the
 value of your objects and then declare a change listener on the {+realm+} objects.
 
 Finally, return an anonymous cleanup function that you can use to remove the
-change listener and close the realm. React will call this cleanup function when
+change listener and close the realm. Reactjs will call this cleanup function when
 the component unmounts.
 
 .. literalinclude:: /examples/generated/rn/using-change-listeners-functional-component.codeblock.using-change-listeners-functional-component.js
@@ -42,7 +42,7 @@ the component unmounts.
 
 Adding Change Listeners to Class Components
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-In your component's constructor, create a react :reactjs:`ref
+In your component's constructor, create a :reactjs:`ref
 </refs-and-the-dom.html#creating-refs>` to store your {+realm+} instance. When
 the value of the {+realm+} changes the component will not re-render, as it would
 with a state variable. Declare a state variable to store your {+realm+} objects.
