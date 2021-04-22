@@ -14,11 +14,13 @@ Display Collections - Android SDK
 
 Android applications usually display collection data in the UI through
 :android:`RecyclerView <reference/androidx/recyclerview/widget/RecyclerView.html>`
-or :android:`ListView <reference/android/widget/ListView>`.
-{+service-short+} offers abstract utility classes to help display data
+or :android:`ListView <reference/android/widget/ListView>` widgets.
+{+service-short+} offers adapters to help display data
 contained in :ref:`collections <android-client-collections>` that
-implement the ``OrderedRealmCollections`` interface. Both
-``RealmResults`` and ``RealmList`` implement this interface.
+implement the ``OrderedRealmCollections`` interface, including
+``RealmResults`` and ``RealmList``. Using these adapters, displayed data
+automatically updates to reflect changes to underlying {+service-short+}
+objects.
 
 Install Adapters
 ----------------
