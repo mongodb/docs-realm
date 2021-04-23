@@ -132,7 +132,7 @@ namespace Examples
         public async System.Threading.Tasks.Task ModifiesATask()
         {
             config = new SyncConfiguration("myPart", user);
-            var realm = await Realm.GetInstanceAsync(config);
+            var realm = Realm.GetInstance(config);
             // :code-block-start: modify
             var t = realm.All<Task>()
                 .FirstOrDefault(t => t.Id == testTaskId);

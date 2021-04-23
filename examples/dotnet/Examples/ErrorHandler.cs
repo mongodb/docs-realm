@@ -31,6 +31,7 @@ namespace Examples
             app = App.Create(appConfig);
             user = await app.LogInAsync(Credentials.Anonymous());
             config = new SyncConfiguration("myPartition", user);
+
             var realm = await Realm.GetInstanceAsync(config);
 
             // :code-block-start: handle-errors

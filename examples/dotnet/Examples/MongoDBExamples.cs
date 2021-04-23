@@ -44,9 +44,9 @@ namespace Examples
             var plant = new Plant
             {
                 Name = "Venus Flytrap",
-                Sunlight = Sunlight.Full,
-                Color = PlantColor.White,
-                Type = PlantType.Perennial,
+                Sunlight = Sunlight.Full.ToString(),
+                Color = PlantColor.White.ToString(),
+                Type = PlantType.Perennial.ToString(),
                 Partition = "Store 42"
             };
 
@@ -62,33 +62,33 @@ namespace Examples
             var sweetBasil = new Plant
             {
                 Name = "Sweet Basil",
-                Sunlight = Sunlight.Partial,
-                Color = PlantColor.Green,
-                Type = PlantType.Annual,
+                Sunlight = Sunlight.Partial.ToString(),
+                Color = PlantColor.Green.ToString(),
+                Type = PlantType.Annual.ToString(),
                 Partition = "Store 42"
             };
             var thaiBasil = new Plant
             {
                 Name = "Thai Basil",
-                Sunlight = Sunlight.Partial,
-                Color = PlantColor.Green,
-                Type = PlantType.Perennial,
+                Sunlight = Sunlight.Partial.ToString(),
+                Color = PlantColor.Green.ToString(),
+                Type = PlantType.Perennial.ToString(),
                 Partition = "Store 42"
             };
             var helianthus = new Plant
             {
                 Name = "Helianthus",
-                Sunlight = Sunlight.Full,
-                Color = PlantColor.Yellow,
-                Type = PlantType.Annual,
+                Sunlight = Sunlight.Full.ToString(),
+                Color = PlantColor.Yellow.ToString(),
+                Type = PlantType.Annual.ToString(),
                 Partition = "Store 42"
             };
             var petunia = new Plant
             {
                 Name = "Petunia",
-                Sunlight = Sunlight.Full,
-                Color = PlantColor.Purple,
-                Type = PlantType.Annual,
+                Sunlight = Sunlight.Full.ToString(),
+                Color = PlantColor.Purple.ToString(),
+                Type = PlantType.Annual.ToString(),
                 Partition = "Store 47"
             };
 
