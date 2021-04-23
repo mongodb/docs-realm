@@ -90,17 +90,17 @@ class Threading: XCTestCase {
         assert(frozenTask.realm!.isFrozen)
 
         // When you want to modify a frozen object, you can thaw it
-        let thawedTask = task.thaw()
+        let thawedTask = frozenTask.thaw()
 
         assert(thawedTask!.isFrozen == false)
 
         // You can thaw collections
-        let thawedTasks = tasks.thaw()
+        let thawedTasks = frozenTasks.thaw()
 
         assert(thawedTasks!.isFrozen == false)
 
         // And you can thaw a frozen Realm
-        let thawedRealm = realm.thaw()
+        let thawedRealm = frozenRealm.thaw()
 
         assert(thawedRealm.isFrozen == false)
         // :code-block-end:
