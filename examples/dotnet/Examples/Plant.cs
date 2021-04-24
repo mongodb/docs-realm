@@ -7,6 +7,10 @@ namespace Examples
     // :code-block-start: plant-class
     public class Plant : RealmObject
     {
+        //:hide-start:
+        [PrimaryKey]
+        [MapTo("_id")]
+        //:hide-end:
         [BsonElement("_id")]
         public ObjectId Id { get; set; } = ObjectId.GenerateNewId();
 

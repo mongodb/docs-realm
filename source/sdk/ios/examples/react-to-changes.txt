@@ -102,14 +102,15 @@ and whether the object was deleted.
       .. literalinclude:: /examples/generated/code/start/Notifications.codeblock.register-an-object-change-listener.m
         :language: objectivec
 
-.. _ios-silent-writes:
+.. _ios-write-silently:
 
-Silent Writes
--------------
+Write Silently
+--------------
 
-You can write to a {+realm+} *without* sending a notification to a specific
-observer by passing the observer's notification token in an array to
-``realm.write()``:
+You can write to a {+realm+} *without* sending a notification to a
+specific observer by passing the observer's notification token in an
+array to :swift-sdk:`realm.write(withoutNotifying:_:)
+<Structs/Realm.html#/s:10RealmSwift0A0V5write16withoutNotifying_xSaySo20RLMNotificationTokenCG_xyKXEtKlF>`:
 
 .. tabs-realm-languages::
 
@@ -125,6 +126,10 @@ observer by passing the observer's notification token in an array to
       .. literalinclude:: /examples/generated/code/start/Notifications.codeblock.silent-write.m
         :language: objectivec
 
+
+.. seealso::
+
+   :ref:`ios-interface-driven-writes`
 
 .. _stop-watching-for-changes:
 
@@ -153,3 +158,74 @@ invalid. You can explicitly invalidate a token by calling its
 
       .. literalinclude:: /examples/generated/code/start/Notifications.codeblock.stop-watching.m
         :language: objectivec
+
+.. _ios-key-value-observation:
+
+Key-value Observation
+---------------------
+
+Key-value Observation Compliance
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+{+client-database+} objects are :apple:`key-value observing (KVO) 
+compliant<documentation/swift/cocoa_design_patterns/using_key-value_observing_in_swift>` 
+for most properties:
+
+- Almost all managed (non-ignored) properties on ``Object`` subclasses 
+- The ``invalidated`` property on ``Object`` and ``List``
+
+You cannot observe ``LinkingObjects`` properties via Key-value observation.
+
+.. important::
+
+   You cannot add an object to a {+realm+} (with ``realm.add(obj)`` or similar 
+   methods) while it has any registered observers.
+
+Managed vs. Unmanaged KVO Considerations
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Observing the properties of unmanaged instances of ``Object`` subclasses 
+works like any other dynamic property.
+
+Observing the properties of managed objects works differently. With 
+{+realm+}-managed objects, the value of a property may change when:
+
+- You assign to it
+- The realm is refreshed, either manually with ``realm.refresh()`` or 
+  automatically on a runloop thread
+- You begin a write transaction after changes on another thread
+
+{+service-short+} applies changes made in the write transaction(s) on other threads 
+at once. Observers see Key-value observation notifications at once. 
+Intermediate steps do not trigger KVO notifications.
+
+.. example::
+
+   Say your app performs a write transaction that increments a property 
+   from 1 to 10. On the main thread, you get a single notification of a 
+   change directly from 1 to 10. You won't get notifications for every 
+   incremental change between 1 and 10.
+
+Avoid modifying managed Realm objects from within 
+``observeValueForKeyPath(_:ofObject:change:context:)``. Property values 
+can change when not in a write transaction, or as part of beginning a 
+write transaction.
+
+Observing Realm Lists
+~~~~~~~~~~~~~~~~~~~~~
+
+Observing changes made to {+service-short+} ``List`` properties is simpler than 
+``NSMutableArray`` properties:
+
+- You don't have to mark ``List`` properties as dynamic to observe them.
+- You can call modification methods on ``List`` directly. Anyone observing 
+  the property that stores it gets a notification.
+
+You don't need to use ``mutableArrayValueForKey(_:)``, although {+realm+} 
+does support this for code compatibility. 
+
+.. seealso::
+
+   Examples of using Realm with :github:`ReactiveCocoa from 
+   Objective‑C<realm/realm-cocoa/tree/master/examples/ios/objc/RACTableView>`
+   , and :github:`ReactKit from Swift<realm/realm-cocoa/tree/v2.3.0/examples/ios/swift-2.2/ReactKit>`.

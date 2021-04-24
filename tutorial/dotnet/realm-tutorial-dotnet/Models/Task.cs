@@ -9,17 +9,21 @@ namespace RealmDotnetTutorial.Models
     {
         [PrimaryKey]
         [MapTo("_id")]
-        [Required]
-        public string Id { get; set; } = ObjectId.GenerateNewId().ToString();
+        public ObjectId Id { get; set; } = ObjectId.GenerateNewId();
 
         [MapTo("owner")]
-        public IList<Project> Owner { get; }
+        public string Owner { get; set; }
 
         [MapTo("name")]
         [Required]
         public string Name { get; set; }
 
+        [MapTo("_partition")]
+        [Required]
+        public string Partition { get; set; }
+
         [MapTo("status")]
+        [Required]
         public string Status { get; set; }
 
         public enum TaskStatus

@@ -13,15 +13,15 @@ namespace Examples
     {
         App app;
         User user;
-        SyncConfiguration config;
-        const string myRealmAppId = "tuts-tijya";
+        RealmConfiguration config;
+        const string myRealmAppId = Config.appid;
 
         [OneTimeSetUp]
         public void Setup()
         {
             app = App.Create(myRealmAppId);
             user = app.LogInAsync(Credentials.EmailPassword("foo@foo.com", "foobar")).Result;
-            config = new SyncConfiguration("myPart", user);
+            config = new RealmConfiguration();// "myPart", user);
 
             // Synchronous here because setup and tear down don't support async
             var realm = Realm.GetInstance(config);
@@ -44,6 +44,9 @@ namespace Examples
             var contact = new Contact() // Create a Contact
             {
                 Name = "Nick Riviera",
+                // :hide-start:
+                Partition = "myPart",
+                // :hide-end:
                 Address = address // Embed the Address Object
             };
 
@@ -64,7 +67,7 @@ namespace Examples
         [Test]
         public async Task UpdateEmbeddedObject()
         {
-            using (var realm = await Realm.GetInstanceAsync(config))
+            using (var realm = Realm.GetInstance(config))
             {
 
                 // :code-block-start:update
@@ -90,7 +93,7 @@ namespace Examples
         [Test]
         public async Task OverwriteEmbeddedObject()
         {
-            using (var realm = await Realm.GetInstanceAsync(config))
+            using (var realm = Realm.GetInstance(config))
             {
 
                 // :code-block-start:overwrite
@@ -123,7 +126,7 @@ namespace Examples
         [Test]
         public async Task QueryEmbeddedObject()
         {
-            using (var realm = await Realm.GetInstanceAsync(config))
+            using (var realm = Realm.GetInstance(config))
             {
                 var address = new Address() // Create an Address
                 {
@@ -136,6 +139,7 @@ namespace Examples
                 var newContact = new Contact() // Create a Contact
                 {
                     Name = "Foo Barbaz",
+                    Partition = "myPart",
                     Address = address // Embed the Address Object
                 };
 
@@ -168,7 +172,7 @@ namespace Examples
         [OneTimeTearDown]
         public async Task TearDown()
         {
-            using (var realm = await Realm.GetInstanceAsync(config))
+            using (var realm = Realm.GetInstance(config))
             {
                 realm.Write(() =>
                 {
@@ -208,6 +212,7 @@ namespace Examples
             public ObjectId Id { get; set; } = ObjectId.GenerateNewId();
 
             [MapTo("_partition")]
+            [Required]
             public string Partition { get; set; }
 
             [MapTo("name")]
@@ -224,6 +229,7 @@ namespace Examples
             public ObjectId Id { get; set; } = ObjectId.GenerateNewId();
 
             [MapTo("_partition")]
+            [Required]
             public string Partition { get; set; }
 
             [MapTo("name")]

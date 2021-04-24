@@ -9,7 +9,7 @@ namespace ConsoleTests
 {
     class Program
     {
-        const string myRealmAppId = "tuts-tijya";
+        const string myRealmAppId = "codesnippetbackend-drcpb";
 
         //:code-block-start: async-console
         public static void Main(string[] args)
@@ -23,7 +23,7 @@ namespace ConsoleTests
             var user = await app.LogInAsync(Credentials.Anonymous());
             var config = new SyncConfiguration("partition", user);
 
-            using var realm = await Realm.GetInstanceAsync();
+            using var realm = Realm.GetInstance();
             var foos = realm.All<Foo>().Where(f => f.Bar > 5);
             foreach (var foo in foos)
             {

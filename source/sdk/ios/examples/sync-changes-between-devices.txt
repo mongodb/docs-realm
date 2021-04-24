@@ -86,6 +86,10 @@ to see the most recent data; without Background App Refresh, {+service+}
 updates the data when the user launches the app, potentially resulting
 in noticeable lag.
 
+To use the {+realm+} while the device is locked, you must adjust the
+file protection settings. See
+:ref:`use-realm-when-the-device-is-locked`.
+
 .. _ios-suspend-or-resume-a-sync-session:
 
 Suspend or Resume a Sync Session
@@ -207,6 +211,52 @@ Check the Network Connection
       .. literalinclude:: /examples/generated/code/start/Sync.codeblock.check-network-connection.m
          :language: objectivec
 
+.. _ios-handle-sync-errors:
+
+Handle Sync Errors
+------------------
+
+While developing an application that uses {+sync+}, you should set an error
+handler. This error handler will detect and respond to any failed sync-related
+API calls. 
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: swift
+
+      Set an error handler on the :swift-sdk:`SyncManager
+      <Typealiases.html#/s:10RealmSwift11SyncManagera>` singleton. Set an error
+      handler on the SyncManager singleton. When an error occurs, the iOS SDK
+      calls the error handler with the error object and the :swift-sdk:`SyncSession
+      <Structs/Realm.html#/s:10RealmSwift0A0V11syncSessionSo07RLMSyncD0CSgvp>` that the
+      error occurred on.
+      
+      .. note::
+   
+         Realm's :swift-sdk:`SyncError <Structs/Realm/Configuration.html#/s:10RealmSwift0A0V13ConfigurationV07defaultC0AEvpZ>` conforms to :apple:`Swift's Error protocol <documentation/swift/error>`
+
+      .. literalinclude:: /examples/generated/Errors.codeblock.create-error-handler.swift
+         :language: swift
+
+   .. tab::
+      :tabid: objective-c
+
+      Set an error handler on the :objc-sdk:`RLMSyncManager
+      <objc/latest/Classes/RLMSyncManager.html>` singleton. When an error
+      occurs, the iOS SDK calls the error handler with the error object and the
+      :objc-sdk:`RLMSyncSession <objc/latest/Classes/RLMSyncSession.html>` that
+      the error occurred on.
+
+      .. note::
+   
+         Realm represents sync errors through :objc-sdk:`NSError <Categories/NSError%28RLMSync%29.html>` objects whose domain is
+         :objc-sdk:`RLMSyncErrorDomain <Constants.html#/c:@RLMSyncErrorDomain>`. To learn more about the error codes, check out
+         the definitions of :objc-sdk:`RLMSyncError <Enums/RLMSyncError.html>` and :objc-sdk:`RLMSyncAuthError <Enums/RLMSyncAuthError.html>`.
+
+      .. literalinclude:: /examples/generated/Errors.codeblock.create-error-handler.m
+         :language: objectivec
+
 
 .. _ios-reset-a-client-realm-file:
 
@@ -255,6 +305,12 @@ In practice, there are two safe times to delete the realm file:
 
       .. literalinclude:: /examples/generated/code/start/Sync.codeblock.reset-client-realm-file.m
          :language: objectivec
+
+.. tip::
+
+   To see how to recover unsynced local changes in a client reset, check out
+   this :github:`example on GitHub
+   <mongodb/realm-practice/blob/main/swift/RealmPractice/Classes/ViewController.swift#L260>`.
 
 
 .. _ios-set-the-client-log-level:

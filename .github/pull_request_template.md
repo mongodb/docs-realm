@@ -1,10 +1,13 @@
 ## Pull Request Info
 
-### Issue JIRA link:
-https://jira.mongodb.org/browse/DOCSP-NNNN
+### Jira
 
-### Docs staging link (requires sign-in on MongoDB Corp SSO):
-https://docs-mongodborg-staging.corp.mongodb.com/NNNNNNN/java/docsworker-xlarge/NNNNNNNNNNN/
+- https://jira.mongodb.org/browse/DOCSP-NNNNN
+
+### Staged Changes (Requires MongoDB Corp SSO)
+
+- [PAGE_NAME](https://docs-mongodbcom-staging.corp.mongodb.com/realm/docsworker-xlarge/BRANCH_NAME/)
 
 ### Review Guidelines
+
 [REVIEWING.md](https://github.com/mongodb/docs-realm/blob/master/REVIEWING.md)

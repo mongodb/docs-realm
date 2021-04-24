@@ -5,6 +5,8 @@ class DogToy: Object {
 class Dog: Object {
     @objc dynamic var name = ""
     @objc dynamic var age = 0
+    @objc dynamic var color = ""
+    @objc dynamic var currentCity = ""
 
     // To-one relationship
     @objc dynamic var favoriteToy: DogToy?
@@ -12,6 +14,7 @@ class Dog: Object {
 
 class Person: Object {
     @objc dynamic var id = 0
+    @objc dynamic var name = ""
 
     // To-many relationship - a person can have many dogs
     let dogs = List<Dog>()

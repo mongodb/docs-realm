@@ -16,6 +16,7 @@
 @interface ReadWriteDataObjcExample_Dog : RLMObject
 @property NSString *name;
 @property int age;
+@property NSString *color;
 
 // To-one relationship
 @property ReadWriteDataObjcExample_DogToy *favoriteToy;
@@ -30,6 +31,7 @@ RLM_ARRAY_TYPE(ReadWriteDataObjcExample_Dog)
 // A person has a primary key ID, a collection of dogs, and can be a member of multiple clubs.
 @interface ReadWriteDataObjcExample_Person : RLMObject
 @property int _id;
+@property NSString *name;
 
 // To-many relationship - a person can have many dogs
 @property RLMArray<ReadWriteDataObjcExample_Dog *><ReadWriteDataObjcExample_Dog> *dogs;
@@ -398,6 +400,89 @@ RLM_ARRAY_TYPE(ReadWriteDataObjcExample_Person)
     // :code-block-end:
 }
 
+- (void)testCopyToAnotherRealm {
+    // :code-block-start: copy-to-another-realm
+    RLMRealmConfiguration *configuration = [RLMRealmConfiguration defaultConfiguration];
+    configuration.inMemoryIdentifier = @"first realm";
+    RLMRealm *realm = [RLMRealm realmWithConfiguration:configuration error:nil];
+
+    [realm transactionWithBlock:^{
+        ReadWriteDataObjcExample_Dog *dog = [[ReadWriteDataObjcExample_Dog alloc] init];
+        dog.name = @"Wolfie";
+        dog.age = 1;
+        [realm addObject:dog];
+    }];
+
+    // Later, fetch the instance we want to copy
+    ReadWriteDataObjcExample_Dog *wolfie = [[ReadWriteDataObjcExample_Dog objectsInRealm:realm where:@"name == 'Wolfie'"] firstObject];
+
+    // Open the other realm
+    RLMRealmConfiguration *otherConfiguration = [RLMRealmConfiguration defaultConfiguration];
+    otherConfiguration.inMemoryIdentifier = @"second realm";
+    RLMRealm *otherRealm = [RLMRealm realmWithConfiguration:otherConfiguration error:nil];
+    [otherRealm transactionWithBlock:^{
+        // Copy to the other realm
+        ReadWriteDataObjcExample_Dog *wolfieCopy = [[wolfie class] createInRealm:otherRealm withValue:wolfie];
+        wolfieCopy.age = 2;
+        
+        // Verify that the copy is separate from the original
+        XCTAssertNotEqual(wolfie.age, wolfieCopy.age);
+    }];
+    // :code-block-end:
+}
+
+- (void)testChainQuery {
+    // :code-block-start: chain-query
+    RLMRealm *realm = [RLMRealm defaultRealm];
+    RLMResults<ReadWriteDataObjcExample_Dog *> *tanDogs = [ReadWriteDataObjcExample_Dog objectsInRealm:realm where:@"color = 'tan'"];
+    RLMResults<ReadWriteDataObjcExample_Dog *> *tanDogsWithBNames = [tanDogs objectsWhere:@"name BEGINSWITH 'B'"];
+    // :code-block-end:
+    (void)tanDogsWithBNames;
+}
+
+- (void)testJson {
+    // :code-block-start: json
+    // Specify a dog toy in JSON
+    NSData *data = [@"{\"name\": \"Tennis ball\"}" dataUsingEncoding: NSUTF8StringEncoding];
+    RLMRealm *realm = [RLMRealm defaultRealm];
+
+    // Insert from NSData containing JSON
+    [realm transactionWithBlock:^{
+        id json = [NSJSONSerialization JSONObjectWithData:data options:0 error:NULL];
+        [ReadWriteDataObjcExample_DogToy createInRealm:realm withValue:json];
+    }];
+    // :code-block-end:
+}
+
+- (void)testNestedObjects {
+
+    ReadWriteDataObjcExample_Dog *aDog = [[ReadWriteDataObjcExample_Dog alloc] init];
+    ReadWriteDataObjcExample_Dog *anotherDog = [[ReadWriteDataObjcExample_Dog alloc] init];
+    // :code-block-start: nested-objects
+    // Instead of using pre-existing dogs...
+    ReadWriteDataObjcExample_Person *aPerson = [[ReadWriteDataObjcExample_Person alloc]
+        initWithValue:@[@123, @"Jane", @[aDog, anotherDog]]];
+
+    // ...we can create them inline
+    ReadWriteDataObjcExample_Person *anotherPerson = [[ReadWriteDataObjcExample_Person alloc]
+        initWithValue:@[@123, @"Jane", @[@[@"Buster", @5], @[@"Buddy", @6]]]];
+    // :code-block-end:
+    (void)aPerson;
+    (void)anotherPerson;
+}
+
+- (void)testPartialUpdate {
+    // :code-block-start: partial-update
+    RLMRealm *realm = [RLMRealm defaultRealm];
+    [realm transactionWithBlock:^{
+        // Only update the provided values.
+        // Note that the "name" property will remain the same
+        // for the person with primary key "_id" 123.
+        [ReadWriteDataObjcExample_Person createOrUpdateModifiedInRealm:realm
+            withValue:@{@"_id": @123, @"dogs": @[@[@"Buster", @5]]}];
+    }];
+    // :code-block-end:
+}
 @end
 
 // :replace-end:

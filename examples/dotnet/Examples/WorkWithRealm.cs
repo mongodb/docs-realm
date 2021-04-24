@@ -15,7 +15,7 @@ namespace Examples
     {
         App app;
         Realms.Sync.User user;
-        string myRealmAppId = "tuts-tijya";
+        string myRealmAppId = Config.appid;
 
         [OneTimeSetUp]
         public async System.Threading.Tasks.Task Setup()
@@ -122,7 +122,7 @@ namespace Examples
         [Test]
         public async System.Threading.Tasks.Task MultiUser()
         {
-            myRealmAppId = "tuts-tijya";
+            myRealmAppId = Config.appid;
             var app = App.Create(myRealmAppId);
 
             {
@@ -167,7 +167,7 @@ namespace Examples
         [Test]
         public void Notifications()
         {
-            myRealmAppId = "tuts-tijya";
+            myRealmAppId = Config.appid;
             var app = App.Create(myRealmAppId);
             var realm = Realm.GetInstance("");
 

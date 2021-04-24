@@ -40,7 +40,7 @@ namespace Examples
         [Test]
         public async System.Threading.Tasks.Task OneToOneQuery()
         {
-            var realm = await Realm.GetInstanceAsync();
+            var realm = Realm.GetInstance();
             realm.Write(() =>
             {
                 realm.RemoveAll<RelDog>();
@@ -121,7 +121,7 @@ namespace Examples
         [Test]
         public async System.Threading.Tasks.Task OneToManyQuery()
         {
-            var realm = await Realm.GetInstanceAsync();
+            var realm = Realm.GetInstance();
             realm.Write(() =>
             {
                 realm.RemoveAll<Rel2Dog>();
@@ -195,7 +195,7 @@ namespace Examples
         [Test]
         public async System.Threading.Tasks.Task InverseQuery()
         {
-            var realm = await Realm.GetInstanceAsync();
+            var realm = Realm.GetInstance();
             realm.Write(() =>
             {
                 realm.RemoveAll<TaskTwo>();

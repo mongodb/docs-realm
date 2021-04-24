@@ -14,7 +14,7 @@ namespace Examples
         App app;
         Realms.Sync.User user;
         SyncConfiguration config;
-        const string myRealmAppId = "tuts-tijya";
+        const string myRealmAppId = Config.appid;
 
 
         [Test]
@@ -25,7 +25,7 @@ namespace Examples
             user = app.LogInAsync(Credentials.EmailPassword("foo@foo.com", "foobar")).Result;
 
             config = new SyncConfiguration("myPart", user);
-            var realm = await Realm.GetInstanceAsync(config);
+            var realm = Realm.GetInstance(config);
 
             // :code-block-start: handle
             Session.Error += (sender, err) =>

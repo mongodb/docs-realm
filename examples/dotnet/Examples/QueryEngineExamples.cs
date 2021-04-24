@@ -23,7 +23,7 @@ namespace Examples
         ObjectId testTaskId;
         Realms.Sync.User user;
         SyncConfiguration config;
-        const string myRealmAppId = "tuts-tijya";
+        const string myRealmAppId = Config.appid;
 
         [OneTimeSetUp]
         public async System.Threading.Tasks.Task Setup()
@@ -31,11 +31,12 @@ namespace Examples
             app = App.Create(myRealmAppId);
             user = app.LogInAsync(Credentials.EmailPassword("foo@foo.com", "foobar")).Result;
             config = new SyncConfiguration("myPart", user);
-            var realm = await Realm.GetInstanceAsync(config);
+            var realm = Realm.GetInstance(config);
             var synchronousRealm = Realm.GetInstance(config);
             var testTask = new Task
             {
                 Name = "Do this thing",
+                Partition = "myPart",
                 Status = TaskStatus.Open.ToString()
             };
 
@@ -52,7 +53,7 @@ namespace Examples
         [Test]
         public async System.Threading.Tasks.Task Comparisons()
         {
-            var realm = await Realm.GetInstanceAsync(config);
+            var realm = Realm.GetInstance(config);
             var tasks = realm.All<UserTask>();
             // :code-block-start: comparisons
             var highPri = tasks.Where(t => t.Priority > 5);

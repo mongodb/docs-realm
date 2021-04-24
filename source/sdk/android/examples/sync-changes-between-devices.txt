@@ -256,6 +256,33 @@ receives:
       .. literalinclude:: /examples/generated/android/sync/SyncDataTest.codeblock.check-download-progress.java
          :language: java
 
+
+.. _android-handle-sync-errors:
+
+Handle Sync Errors
+------------------
+
+You can configure an error handler to detect and respond to any errors that
+occur in the {+sync+} process. To define an error handler, pass an
+:java-sdk:`ErrorHandler <io/realm/mongodb/sync/SyncSession.ErrorHandler.html>`
+to the :java-sdk:`SyncConfiguration.Builder.errorHandler()
+<io/realm/mongodb/sync/SyncConfiguration.Builder.html#errorHandler-io.realm.mongodb.sync.SyncSession.ErrorHandler->`
+builder method:
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/generated/android/sync/ErrorHandlerTest.codeblock.error-handler.kt
+         :language: kotlin
+
+   .. tab::
+      :tabid: java
+
+      .. literalinclude:: /examples/generated/android/sync/ErrorHandlerTest.codeblock.error-handler.java
+         :language: java
+
 .. _android-reset-a-client-realm-file:
 
 Reset a Client Realm File
@@ -279,30 +306,8 @@ handler:
        .. literalinclude:: /examples/generated/android/sync/ClientResetTest.codeblock.client-reset.java
          :language: java
 
+.. tip::
 
-.. seealso::
-
-   :ref:`Advanced Guides: Client Resets <android-client-reset>`
-
-.. _android-set-the-client-log-level:
-
-Set the Client Log Level
-------------------------
-
-To configure the log level for Realm logs in your application, pass a
-:java-sdk:`LogLevel <io/realm/log/LogLevel.html>` to 
-:java-sdk:`RealmLog.setLevel() <io/realm/log/RealmLog.html#setLevel-int->`:
-
-.. tabs-realm-languages::
-   
-   .. tab::
-      :tabid: kotlin
-
-      .. literalinclude:: /examples/generated/android/sync/SyncDataTest.codeblock.set-client-log-level.kt
-         :language: kotlin
-
-   .. tab::
-      :tabid: java
-
-      .. literalinclude:: /examples/generated/android/sync/SyncDataTest.codeblock.set-client-log-level.java
-         :language: java
+   To see how to recover unsynced local changes in a client reset, check out
+   this :github:`example on GitHub
+   <mongodb/realm-practice/blob/main/node/index.js#L49>`.

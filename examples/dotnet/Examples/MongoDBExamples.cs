@@ -14,7 +14,7 @@ namespace Examples
         App app;
         User user;
         SyncConfiguration config;
-        const string myRealmAppId = "tuts-tijya";
+        const string myRealmAppId = Config.appid;
 
         MongoClient mongoClient;
         MongoClient.Database dbPlantInventory;
@@ -132,8 +132,9 @@ namespace Examples
             {
                 // :code-block-start: mongo-update-one
                 var updateResult = await plantsCollection.UpdateOneAsync(
-                    new BsonDocument("sunlight", Sunlight.Partial.ToString()),
-                    new { name = "Petunia" });
+                    new { name = "Petunia" },
+                    new BsonDocument("$set", new BsonDocument("sunlight", Sunlight.Partial.ToString()))
+                    );
                 // :code-block-end:
                 Assert.AreEqual(1, updateResult.MatchedCount);
                 Assert.AreEqual(1, updateResult.ModifiedCount);
@@ -154,8 +155,8 @@ namespace Examples
                 // :code-block-start: mongo-upsert
                 var filter = new BsonDocument()
                     .Add("name", "Pothos")
-                    .Add("type", PlantType.Perennial)
-                    .Add("sunlight", Sunlight.Full);
+                    .Add("type", PlantType.Perennial.ToString())
+                    .Add("sunlight", Sunlight.Full.ToString());
 
                 var updateResult = await plantsCollection.UpdateOneAsync(
                     filter,
@@ -183,7 +184,7 @@ namespace Examples
         public async Task TearDown()
         {
             config = new SyncConfiguration("myPart", user);
-            using var realm = await Realm.GetInstanceAsync(config);
+            using var realm = Realm.GetInstance(config);
             {
                 // :code-block-start: mongo-delete-one
                 var filter = new BsonDocument("name", "Thai Basil");
