@@ -17,9 +17,12 @@ Overview
 --------
 
 The .Net SDK supports three categories of data types:
-- .Net types
-- MongoDB.Bson types
-- Custom Realm Types
+
+- :ref:`.Net types <dotnet-dotnettypes>`
+- :ref:`MongoDB.Bson types <dotnet-bsontypes>`
+- :ref:`Custom Realm Types <dotnet-realmtypes>`
+
+.. _dotnet-dotnettypes:
 
 .NET Types
 ----------
@@ -47,14 +50,16 @@ nullable counterparts:
    The ``byte``, ``char``, ``short``, ``int``, and ``long`` types  are all stored 
    as 64 bit integer values within {+client-database+}. 
 
-``MongoDB.Bson`` Types
-----------------------
+.. _dotnet-bsontypes:
+
+MongoDB.Bson Types
+------------------
 
 - ``ObjectId`` 
 - ``Decimal128``
 
-``Guid`` and ``ObjectId`` Properties
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Guid and ObjectId Properties
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ``MongoDB.Bson.ObjectId`` is a MongoDB-specific 12-byte unique value, while the 
 built-in .NET type ``Guid`` is a 16-byte universally-unique value. Both types are 
@@ -76,10 +81,12 @@ following example shows how to use both the ``Decimal128`` Bson type and the .NE
 .. literalinclude:: /examples/generated/dotnet/DecimalFun.codeblock.decimal128.cs
    :language: csharp
 
+.. _dotnet-realmtypes:
+
 Realm-Specific Types
 --------------------
-- :ref:`RealmInteger<T> <realminteger>`
-- :ref:`RealmValue <realmvalue>`
+- ``RealmInteger<T>``
+- ``RealmValue``
 - A ``RealmObject`` subclass 
 - An ``EmbeddedObject`` subclass (see :ref:`Embedded Objects <dotnet-property-embedded>`)
 
