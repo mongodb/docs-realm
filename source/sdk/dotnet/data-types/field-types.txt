@@ -30,8 +30,8 @@ Field Types - .NET SDK
 - ``Guid``
 - ``ObjectId`` from ``MongoDB.Bson``
 - ``Decimal128`` from ``MongoDB.Bson``
-- :ref:` ``RealmInteger<T>`` <realminteger>`
-- :ref:` ``RealmValue`` <realmvalue>`
+- :ref:`RealmInteger<T> <realminteger>`
+- :ref:`RealmValue <realmvalue>`
 - A ``RealmObject`` subclass 
 - An ``EmbeddedObject`` subclass (see :ref:`Embedded Objects <dotnet-property-embedded>`)
 - ``IList<T>`` where T is any of the supported data types (see :ref:`Lists <dotnet-property-lists>`)
@@ -105,8 +105,9 @@ cannot be a collection.
 
 .. note:: 
 
-   You cannot create a nullable ``RealmValue``. However, if you want a 
-   ``RealmValue`` property to contain a null value, you can use ``RealValue.Null``.
+   You cannot create a nullable ``RealmValue`` property. However, if you want a 
+   ``RealmValue`` property to contain a null value, you can use 
+   ``RealValue.Null``.
 
 The following code demonstrates creating a ``RealmValue`` property in a class 
 that inherits from ``RealmObject`` and then getting and setting the value of 

@@ -261,18 +261,25 @@ namespace Examples
             public Guid Id { get; set; }
 
             public RealmValue MyValue { get; set; }
+
+            // A nullable RealmValue preoprtrty is *not supported*
+            // public RealmValue? NullableRealmValueNotAllowed { get; set; }
         }
 
         private void TestRealmValue()
         {
             var obj = new MyRealmValueObject();
 
+            // set the value to null:
             obj.MyValue = RealmValue.Null;
-            // or
+
+            // or an int...
             obj.MyValue = 1;
-            // or
+
+            // or a string...
             obj.MyValue = "abc";
 
+            // Use RealmValueType to check the type:
             if (obj.MyValue.Type == RealmValueType.String)
             {
                 var myString = obj.MyValue.AsString();
