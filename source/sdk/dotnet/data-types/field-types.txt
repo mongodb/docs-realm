@@ -98,15 +98,15 @@ migration is required when changing a property type from ``T`` to
 
 RealmValue
 ----------
-The ``RealmValue`` data type is a "mixed" data type, and so can represent any 
+The ``RealmValue`` data type is a mixed data type, and can represent any 
 other valid Realm data type except a collection. You can create collections 
-(lists, sets and dictionaries) of ``RealmValue``s, but a ``RealmValue`` itself 
+(lists, sets and dictionaries) of type ``RealmValue``, but a ``RealmValue`` itself 
 cannot be a collection. 
 
 .. note:: 
 
-   You cannot create a nullable ``RealmValue`` but you can set the value of a 
-   ``RealmValue`` property to null by using ``RealValue.Null``.
+   You cannot create a nullable ``RealmValue``. However, if you want a 
+   ``RealmValue`` property to contain a null value, you can use ``RealValue.Null``.
 
 The following code demonstrates creating a ``RealmValue`` property in a class 
 that inherits from ``RealmObject`` and then getting and setting the value of 
@@ -114,6 +114,8 @@ that property:
 
 .. literalinclude:: /examples/generated/dotnet/DataTypes.codeblock.realmvalue.cs
    :language: csharp
+   :emphasize-lines: 6
+
 
 .. _dotnet-decimal128:
 
