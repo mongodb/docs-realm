@@ -13,7 +13,12 @@ Field Types - .NET SDK
    :depth: 2
    :class: singlecol
 
-{+client-database+} supports the following property data types and their nullable counterparts:
+Supported Types
+---------------
+.NET Types
+~~~~~~~~~~
+{+client-database+} supports the following .NET data types and their 
+nullable counterparts:
 
 - ``bool``
 - ``byte``
@@ -28,23 +33,34 @@ Field Types - .NET SDK
 - ``byte[]``
 - ``DateTimeOffset``
 - ``Guid``
-- ``ObjectId`` from ``MongoDB.Bson``
-- ``Decimal128`` from ``MongoDB.Bson``
+- ``IList<T>``, where T is any of the supported data types 
+  (see :ref:`Lists <dotnet-property-lists>`)
+
+.. note::
+
+   The ``byte``, ``char``, ``short``, ``int``, and ``long`` types  are all stored 
+   as 64 bit integer values within {+client-database+}. 
+
+``MongoDB.Bson`` Types
+~~~~~~~~~~~~~~~~~~~~~~
+
+- ``ObjectId`` 
+- ``Decimal128``
+
+Custom Realm Types
+~~~~~~~~~~~~~~~~~~
 - :ref:`RealmInteger<T> <realminteger>`
 - :ref:`RealmValue <realmvalue>`
 - A ``RealmObject`` subclass 
 - An ``EmbeddedObject`` subclass (see :ref:`Embedded Objects <dotnet-property-embedded>`)
-- ``IList<T>`` where T is any of the supported data types (see :ref:`Lists <dotnet-property-lists>`)
 
-The ``byte``, ``char``, ``short``, ``int``, and ``long`` types  are all stored 
-as 64 bit integer values within {+client-database+}. 
-
-Object IDs
-----------
+``Guid`` and ``ObjectId`` Properties
+------------------------------------
 ``MongoDB.Bson.ObjectId`` is a MongoDB-specific 12-byte unique value, while 
 ``Guid`` is a 16-byte universally-unique value. Both types are 
 :ref:`indexable <dotnet-index-field>`, and either can be used as a 
 :ref:`Primary Key <dotnet-primary-key>`.
+
 
 .. _realminteger:
 
@@ -106,7 +122,7 @@ cannot be a collection.
 .. note:: 
 
    You cannot create a nullable ``RealmValue`` property. However, if you want a 
-   ``RealmValue`` property to contain a null value, you can use 
+   ``RealmValue`` property to contain a null value, you can set its value to 
    ``RealValue.Null``.
 
 The following code demonstrates creating a ``RealmValue`` property in a class 
