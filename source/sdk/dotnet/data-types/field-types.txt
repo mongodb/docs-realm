@@ -13,10 +13,16 @@ Field Types - .NET SDK
    :depth: 2
    :class: singlecol
 
-Supported Types
----------------
+Overview
+--------
+
+The .Net SDK supports three categories of data types:
+- .Net types
+- MongoDB.Bson types
+- Custom Realm Types
+
 .NET Types
-~~~~~~~~~~
+----------
 {+client-database+} supports the following .NET data types and their 
 nullable counterparts:
 
@@ -42,30 +48,45 @@ nullable counterparts:
    as 64 bit integer values within {+client-database+}. 
 
 ``MongoDB.Bson`` Types
-~~~~~~~~~~~~~~~~~~~~~~
+----------------------
 
 - ``ObjectId`` 
 - ``Decimal128``
 
-Custom Realm Types
-~~~~~~~~~~~~~~~~~~
+``Guid`` and ``ObjectId`` Properties
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+``MongoDB.Bson.ObjectId`` is a MongoDB-specific 12-byte unique value, while the 
+built-in .NET type ``Guid`` is a 16-byte universally-unique value. Both types are 
+:ref:`indexable <dotnet-index-field>`, and either can be used as a 
+:ref:`Primary Key <dotnet-primary-key>`.
+
+.. _dotnet-decimal128:
+
+Using Decimal Values
+~~~~~~~~~~~~~~~~~~~~
+
+Realm supports 128-bit decimal values with the ``Decimal128`` Bson type. When 
+defining a decimal type, you can use the ``Decimal128`` Bson type or the .NET 
+``decimal`` type, even though it is only a 96-bit decimal. The SDK automatically 
+converts between the two, although you risk losing precision or range. The 
+following example shows how to use both the ``Decimal128`` Bson type and the .NET 
+``decimal`` type:
+
+.. literalinclude:: /examples/generated/dotnet/DecimalFun.codeblock.decimal128.cs
+   :language: csharp
+
+Realm-Specific Types
+--------------------
 - :ref:`RealmInteger<T> <realminteger>`
 - :ref:`RealmValue <realmvalue>`
 - A ``RealmObject`` subclass 
 - An ``EmbeddedObject`` subclass (see :ref:`Embedded Objects <dotnet-property-embedded>`)
 
-``Guid`` and ``ObjectId`` Properties
-------------------------------------
-``MongoDB.Bson.ObjectId`` is a MongoDB-specific 12-byte unique value, while 
-``Guid`` is a 16-byte universally-unique value. Both types are 
-:ref:`indexable <dotnet-index-field>`, and either can be used as a 
-:ref:`Primary Key <dotnet-primary-key>`.
-
-
 .. _realminteger:
 
 RealmInteger
-------------
+~~~~~~~~~~~~
 
 Realm offers 
 :dotnet-sdk:`RealmInteger<T> <reference/Realms.RealmInteger-1.html>` as a 
@@ -113,7 +134,8 @@ migration is required when changing a property type from ``T`` to
 .. _realmvalue:
 
 RealmValue
-----------
+~~~~~~~~~~
+
 The ``RealmValue`` data type is a mixed data type, and can represent any 
 other valid Realm data type except a collection. You can create collections 
 (lists, sets and dictionaries) of type ``RealmValue``, but a ``RealmValue`` itself 
@@ -121,29 +143,15 @@ cannot be a collection.
 
 .. note:: 
 
-   You cannot create a nullable ``RealmValue`` property. However, if you want a 
-   ``RealmValue`` property to contain a null value, you can set its value to 
-   ``RealValue.Null``.
+   You cannot create a nullable ``RealmValue``. However, if you want a
+   ``RealmValue`` property to contain a null value, you can 
+   use ``RealmValue.Null``.
 
 The following code demonstrates creating a ``RealmValue`` property in a class 
-that inherits from ``RealmObject`` and then getting and setting the value of 
+that inherits from ``RealmObject`` and then setting and getting the value of 
 that property:
 
 .. literalinclude:: /examples/generated/dotnet/DataTypes.codeblock.realmvalue.cs
    :language: csharp
    :emphasize-lines: 6
 
-
-.. _dotnet-decimal128:
-
-Using Decimal Values
---------------------
-Realm supports 128-bit decimal values with the ``Decimal128`` Bson type. When 
-defining a decimal type, you can use the ``Decimal128`` Bson type or the .NET 
-``decimal`` type, even though it is only a 96-bit decimal. The SDK automatically 
-converts between the two, although you risk losing precision or range. The 
-following example shows how to use both the ``Decimal128`` Bson type and the .NET 
-``decimal`` type:
-
-.. literalinclude:: /examples/generated/dotnet/DecimalFun.codeblock.decimal128.cs
-   :language: csharp
