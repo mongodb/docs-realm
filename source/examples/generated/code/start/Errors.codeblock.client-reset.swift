@@ -8,7 +8,9 @@ func saveBackupRealmPath(_ path: String) {
 
 let app = App(id: YOUR_REALM_APP_ID)
 app.syncManager.errorHandler = { error, session in
-    let syncError = error as! SyncError
+    guard let syncError = error as? SyncError else {
+        fatalError("Unexpected error type passed to sync error handler! \(error)")
+    }
     switch syncError.code {
     case .clientResetError:
         if let (path, clientResetToken) = syncError.clientResetInfo() {
