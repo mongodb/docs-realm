@@ -27,17 +27,24 @@ Field Types - .NET SDK
 - ``string``
 - ``byte[]``
 - ``DateTimeOffset``
-- ``Decimal128`` from ``MongoDB.Bson``
+- ``Guid``
 - ``ObjectId`` from ``MongoDB.Bson``
-- ``RealmInteger<T>`` (see below)
+- ``Decimal128`` from ``MongoDB.Bson``
+- :ref:` ``RealmInteger<T>`` <realminteger>`
+- :ref:` ``RealmValue`` <realmvalue>`
 - A ``RealmObject`` subclass 
 - An ``EmbeddedObject`` subclass (see :ref:`Embedded Objects <dotnet-property-embedded>`)
 - ``IList<T>`` where T is any of the supported data types (see :ref:`Lists <dotnet-property-lists>`)
 
-The ``byte``, ``char``, ``short``, ``int``, and ``long`` types  are all stored as 64 bit integer values
-within {+client-database+}. 
+The ``byte``, ``char``, ``short``, ``int``, and ``long`` types  are all stored 
+as 64 bit integer values within {+client-database+}. 
 
-If you choose to provide custom constructors, you must declare a public constructor with no arguments.
+Object IDs
+----------
+``MongoDB.Bson.ObjectId`` is a MongoDB-specific 12-byte unique value, while 
+``Guid`` is a 16-byte universally-unique value. Both types are 
+:ref:`indexable <dotnet-index-field>`, and either can be used as a 
+:ref:`Primary Key <dotnet-primary-key>`.
 
 .. _realminteger:
 
@@ -86,6 +93,27 @@ you would an ``int``:
 A ``RealmInteger`` is backed by traditional ``integer`` type, so no schema 
 migration is required when changing a property type from ``T`` to 
 ``RealmInteger<T>``.
+
+.. _realmvalue:
+
+RealmValue
+----------
+The ``RealmValue`` data type is a "mixed" data type, and so can represent any 
+other valid Realm data type except a collection. You can create collections 
+(lists, sets and dictionaries) of ``RealmValue``s, but a ``RealmValue`` itself 
+cannot be a collection. 
+
+.. note:: 
+
+   You cannot create a nullable ``RealmValue`` but you can set the value of a 
+   ``RealmValue`` property to null by using ``RealValue.Null``.
+
+The following code demonstrates creating a ``RealmValue`` property in a class 
+that inherits from ``RealmObject`` and then getting and setting the value of 
+that property:
+
+.. literalinclude:: /examples/generated/dotnet/DataTypes.codeblock.realmvalue.cs
+   :language: csharp
 
 .. _dotnet-decimal128:
 
