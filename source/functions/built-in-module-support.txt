@@ -56,48 +56,7 @@ Partially Supported Modules
 
 {+service+} supports a subset of the functionality of the following modules.
 
-.. _partially-supported-module-dns:
-
-util
-~~~~
-{+service-short+} supports the :nodejs:`util <docs/v10.18.1/api/util.html>` module with the following **exceptions**:
-
-- {+service-short+} does **not** support :nodejs:`util.TextEncoder <docs/v10.18.1/api/util.html#util_class_util_textencoder>` 
-- {+service-short+} does **not** support :nodejs:`util.TextDecoder <docs/v10.18.1/api/util.html#util_class_util_textdecoder>` 
-
-dns
-~~~
-
-{+service-short+} supports the :nodejs:`dns
-<docs/v10.18.1/api/dns.html>` module with the following **exceptions**:
-
-- {+service-short+} does **not** support the :nodejs:`dns Promises API <docs/v10.18.1/api/dns.html#dns_dns_promises_api>`
-- {+service-short+} does **not** support :nodejs:`resolver.cancel() <docs/v10.18.1/api/dns.html#dns_resolver_cancel>`
-
-.. _partially-supported-module-fs:
-
-fs
-~~~
-
-{+service-short+} supports the following ``fs`` APIs:
-
-- :nodejs:`accessSync <docs/v10.18.1/api/fs.html#fs_fs_accesssync_path_mode>`
-- :nodejs:`constants <docs/v10.18.1/api/fs.html#fs_fs_constants>`
-- :nodejs:`lstatSync <docs/v10.18.1/api/fs.html#fs_fs_lstatsync_path_options>`
-- :nodejs:`readFileSync <docs/v10.18.1/api/fs.html#fs_fs_readfilesync_path_options>`
-- :nodejs:`statSync <docs/v10.18.1/api/fs.html#fs_fs_statsync_path_options>`
-
-.. _partially-supported-module-process:
-
-process
-~~~~~~~
-
-{+service-short+} supports the following ``process`` APIs:
-
-- :nodejs:`hrTime <docs/v10.18.1/api/process.html#process_process_hrtime_time>`
-- :nodejs:`nextTick <docs/v10.18.1/api/process.html#process_process_nexttick_callback_args>`
-- :nodejs:`version <docs/v10.18.1/api/process.html#process_process_version>`
-- :nodejs:`versions <docs/v10.18.1/api/process.html#process_process_versions>`
+.. _partially-supported-module-dgram:
 
 dgram
 ~~~~~
@@ -119,6 +78,48 @@ dgram
 - :nodejs:`socket.ref <api/dgram.html#dgram_socket_ref>`
 - :nodejs:`socket.setTTL <api/dgram.html#dgram_socket_setttl_ttl>`
 - :nodejs:`socket.unref <api/dgram.html#dgram_socket_unref>`
+
+.. _partially-supported-module-dns:
+
+dns
+~~~
+{+service-short+} supports the :nodejs:`dns
+<docs/v10.18.1/api/dns.html>` module with the following **exceptions**:
+
+- {+service-short+} does **not** support the :nodejs:`dns Promises API <docs/v10.18.1/api/dns.html#dns_dns_promises_api>`
+- {+service-short+} does **not** support :nodejs:`resolver.cancel() <docs/v10.18.1/api/dns.html#dns_resolver_cancel>`
+
+.. _partially-supported-module-fs:
+
+fs
+~~~
+{+service-short+} supports the following ``fs`` APIs:
+
+- :nodejs:`accessSync <docs/v10.18.1/api/fs.html#fs_fs_accesssync_path_mode>`
+- :nodejs:`constants <docs/v10.18.1/api/fs.html#fs_fs_constants>`
+- :nodejs:`lstatSync <docs/v10.18.1/api/fs.html#fs_fs_lstatsync_path_options>`
+- :nodejs:`readFileSync <docs/v10.18.1/api/fs.html#fs_fs_readfilesync_path_options>`
+- :nodejs:`statSync <docs/v10.18.1/api/fs.html#fs_fs_statsync_path_options>`
+
+.. _partially-supported-module-process:
+
+process
+~~~~~~~
+{+service-short+} supports the following ``process`` APIs:
+
+- :nodejs:`hrTime <docs/v10.18.1/api/process.html#process_process_hrtime_time>`
+- :nodejs:`nextTick <docs/v10.18.1/api/process.html#process_process_nexttick_callback_args>`
+- :nodejs:`version <docs/v10.18.1/api/process.html#process_process_version>`
+- :nodejs:`versions <docs/v10.18.1/api/process.html#process_process_versions>`
+
+.. _partially-supported-module-util:
+
+util
+~~~~
+{+service-short+} supports the :nodejs:`util <docs/v10.18.1/api/util.html>` module with the following **exceptions**:
+
+- {+service-short+} does **not** support :nodejs:`util.TextEncoder <docs/v10.18.1/api/util.html#util_class_util_textencoder>` 
+- {+service-short+} does **not** support :nodejs:`util.TextDecoder <docs/v10.18.1/api/util.html#util_class_util_textdecoder>` 
 
 
 crypto
