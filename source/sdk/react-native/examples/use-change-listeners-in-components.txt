@@ -15,22 +15,22 @@ Use Change Listeners In Components - React Native SDK
 
 Overview
 --------
-You can copy your {+realm+} objects to your component's :reactjs:`state
-<docs/state-and-lifecycle.html>`.  However, since {+realm+} objects are live and
+You can copy your {+service-short+} objects to your component's :reactjs:`state
+<docs/state-and-lifecycle.html>`.  However, since {+service-short+} objects are live and
 automatically update in response to changes, you must also update the copy of
-{+realm+} objects in state. You can do this by registering a change listener in
+{+service-short+} objects in state. You can do this by registering a change listener in
 your component and updating the state variable when that listener fires.  
 
 .. warning::
 
-   Failing to update copies of {+realm+} objects leads to your UI being out of date. 
+   Failing to update copies of {+service-short+} objects leads to your UI being out of date. 
 
 Adding Change Listeners to Functional Components
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Declare a state variable for your {+realm+} objects using the
+Declare a state variable for your {+service-short+} objects using the
 :reactjs:`useState() <docs/hooks-state.html>` hook. Within a
 :reactjs:`useEffect() <docs/hooks-effect.html>` hook, set state to the initial
-value of your objects and then declare a change listener on the {+realm+} objects.
+value of your objects and then declare a change listener on the {+service-short+} objects.
 
 Finally, return an anonymous cleanup function that you can use to remove the
 change listener and close the realm. Reactjs will call this cleanup function when
@@ -45,11 +45,11 @@ Adding Change Listeners to Class Components
 In your component's constructor, create a :reactjs:`ref
 </refs-and-the-dom.html#creating-refs>` to store your {+realm+} instance. When
 the value of the {+realm+} changes, the component will not re-render, as it would
-with a state variable. Declare a state variable to store your {+realm+} objects.
+with a state variable. Declare a state variable to store your {+service-short+} objects.
 
 Within your :reactjs:`componentDidMount()
 <react-component.html#componentdidmount>` method, set state to the initial value
-of your objects and then declare a change listener on the {+realm+} objects.
+of your objects and then declare a change listener on the {+service-short+} objects.
 
 Finally, within your :reactjs:`componentWillUnmount()
 <react-component.html#componentwillunmount>` method, remove the listener and
