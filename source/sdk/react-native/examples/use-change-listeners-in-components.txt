@@ -31,8 +31,9 @@ Adding Change Listeners to Functional Components
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Declare a state variable for your {+service-short+} objects using the
 :reactjs:`useState() <docs/hooks-state.html>` hook. Within a
-:reactjs:`useEffect() <docs/hooks-effect.html>` hook, set state to the initial
-value of your objects and then declare a change listener on the {+service-short+} objects.
+:reactjs:`useEffect() <docs/hooks-effect.html>` hook, set the state variable to
+the initial value of your objects and then declare a change listener on the
+{+service-short+} objects.
 
 Finally, return an anonymous cleanup function that you can use to remove the
 change listener and close the realm. React.js will call this cleanup function when
