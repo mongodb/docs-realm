@@ -55,13 +55,9 @@ the component unmounts.
    developer then creates some additional tasks. 
 
    Once the component unmounts, the developer wants to unregister the change
-   listener and :ref:`close the realm <react-native-close-a-realm>`. To do this,
-   they return a cleanup function and calls ``task.removeAllListeners()`` and then ``realm.close()``.
+   listener. To do this, they return a cleanup function and call ``task.removeAllListeners()``. 
+   Finally they :ref:`close the realm <react-native-close-a-realm>`.
    
-   To retrieve the initial
-   set of tasks already saved in the database, they :ref:`open a realm
-   <react-native-open-a-local-realm>` w
-
    .. literalinclude:: /examples/generated/rn/using-change-listeners-functional-component.codeblock.using-change-listeners-functional-component.js
       :language: javascript
       :emphasize-lines: 4, 13-17, 29-35
