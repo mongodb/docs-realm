@@ -34,7 +34,6 @@ Fully Supported Modules
 
 - :nodejs:`assert <docs/v10.18.1/api/assert.html>`
 - :nodejs:`buffer <docs/v10.18.1/api/buffer.html>`
-- :nodejs:`crypto <docs/v10.18.1/api/crypto.html>`
 - :nodejs:`events <docs/v10.18.1/api/events.html>`
 - :nodejs:`http <docs/v10.18.1/api/http.html>`
 - :nodejs:`https <docs/v10.18.1/api/https.html>`
@@ -56,6 +55,8 @@ Partially Supported Modules
 ---------------------------
 
 {+service+} supports a subset of the functionality of the following modules.
+
+.. _partially-supported-module-dgram:
 
 dgram
 ~~~~~
@@ -119,6 +120,16 @@ util
 
 - {+service-short+} does **not** support :nodejs:`util.TextEncoder <docs/v10.18.1/api/util.html#util_class_util_textencoder>` 
 - {+service-short+} does **not** support :nodejs:`util.TextDecoder <docs/v10.18.1/api/util.html#util_class_util_textdecoder>` 
+
+
+crypto
+~~~~~~
+{+service-short+} supports the :nodejs:`crypto <api/crypto.html>` module with
+the following **exceptions**:
+
+- {+service-short+} does **not** support :nodejs:`crypto.createDiffieHellman() <api/crypto.html#crypto_crypto_creatediffiehellman_prime_primeencoding_generator_generatorencoding>`
+- {+service-short+} does **not** support :nodejs:`crypto.createDiffieHellmanGroup() <api/crypto.html#crypto_crypto_creatediffiehellmangroup_name>`
+- {+service-short+} does **not** support :nodejs:`crypto.createECDH() <api/crypto.html#crypto_crypto_createecdh_curvename>`
 
 .. _unsupported-modules:
 
