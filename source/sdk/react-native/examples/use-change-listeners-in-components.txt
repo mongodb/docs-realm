@@ -24,7 +24,7 @@ component and updating the state variable when that listener fires.
 
 .. warning::
 
-   Failing to update copies of {+realm+} objects leads to your UI being out of date as objects are deleted or changed. 
+   Failing to update copies of {+service-short+} objects leads to your UI being out of date as objects are deleted or changed. 
 
 Procedure
 ~~~~~~~~~
@@ -37,13 +37,13 @@ the initial value of your objects. Then declare a change listener on the
 {+service-short+} objects.
 
 Finally, return an anonymous cleanup function that you can use to remove the
-change listener and close the realm. React.js will call this cleanup function when
+change listener and close the {+service-short+}. React.js will call this cleanup function when
 the component unmounts.
 
 .. example::
 
    In the following example, a developer is creating an application to manage
-   tasks. Within a ``TaskList`` component define a state variable called
+   tasks. Within a ``TaskList`` component, define a state variable called
    ``tasks``. The developer wants to display the initial list of tasks already
    saved in the database after the component mounts. To do this, they :ref:`open
    a realm <react-native-open-a-local-realm>` with a ``useEffect`` function, and
