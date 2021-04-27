@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Text} from 'react-native';
 import Realm from 'realm';
 // :code-block-start: using-change-listeners-functional-component
-const MyFunctionalComponent = () => {
+const TaskList = () => {
   const [tasks, setTasks] = useState([]);
 
   useEffect(() => {
@@ -49,4 +49,4 @@ const MyFunctionalComponent = () => {
   );
 };
 // :code-block-end:
-export default MyFunctionalComponent;
+export default TaskList;

@@ -1,4 +1,4 @@
-const MyFunctionalComponent = () => {
+const TaskList = () => {
   const [tasks, setTasks] = useState([]);
 
   useEffect(() => {
