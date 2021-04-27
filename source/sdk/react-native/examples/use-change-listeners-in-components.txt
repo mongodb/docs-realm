@@ -16,14 +16,11 @@ Use Change Listeners In Components - React Native SDK
 Overview
 --------
 You can copy your {+service-short+} objects to your component's :reactjs:`state
-<docs/state-and-lifecycle.html>`.  However, since {+service-short+} objects are live and
-automatically update in response to changes, you must also update the copy of
-{+service-short+} objects in state. You can do this by registering a change listener in
-your component and updating the state variable when that listener fires.  
-
-.. warning::
-
-   Failing to update copies of {+service-short+} objects leads to your UI being out of date. 
+<docs/state-and-lifecycle.html>`. However, since {+service-short+} objects are
+live and automatically update in response to changes, you must update the copies
+of them to prevent your UI from being out of date. You can do this by
+registering a change listener in your component and updating the state variable
+when that listener fires.  
 
 Adding Change Listeners to Functional Components
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
