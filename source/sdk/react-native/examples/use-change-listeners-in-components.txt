@@ -22,6 +22,11 @@ of them to prevent your UI from being out of date. You can do this by
 registering a change listener in your component and updating the state variable
 when that listener fires.  
 
+
+.. warning::
+
+   Failing to update copies of {+realm+} objects leads to your UI being out of date. 
+
 Adding Change Listeners to Functional Components
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Declare a state variable for your {+service-short+} objects using the
