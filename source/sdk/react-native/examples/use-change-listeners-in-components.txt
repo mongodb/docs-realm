@@ -29,10 +29,12 @@ when that listener fires.
 
 Adding Change Listeners to Functional Components
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Declare a state variable for your {+service-short+} objects using the
-:reactjs:`useState() <docs/hooks-state.html>` hook. Within a
-:reactjs:`useEffect() <docs/hooks-effect.html>` hook, set the state variable to
-the initial value of your objects and then declare a change listener on the
+To keep your UI up-to-date with changes to underlying {+service-short+} objects,
+declare a state variable for your {+service-short+} objects using the
+:reactjs:`useState() <docs/hooks-state.html>` hook.
+
+Within the :reactjs:`useEffect() <docs/hooks-effect.html>` hook, set the state variable to
+the initial value of your objects. Then declare a change listener on the
 {+service-short+} objects.
 
 Finally, return an anonymous cleanup function that you can use to remove the
