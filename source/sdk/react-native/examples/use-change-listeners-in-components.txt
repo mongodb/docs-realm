@@ -41,22 +41,3 @@ the component unmounts.
 .. literalinclude:: /examples/generated/rn/using-change-listeners-functional-component.codeblock.using-change-listeners-functional-component.js
    :language: javascript
    :emphasize-lines: 4, 13-17, 29-35
-
-Adding Change Listeners to Class Components
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-In your component's constructor, create a :reactjs:`ref
-</refs-and-the-dom.html#creating-refs>` to store your {+realm+} instance. When
-the value of the {+realm+} changes, the component will not re-render, as it would
-with a state variable. Declare a state variable to store your {+service-short+} objects.
-
-Within your :reactjs:`componentDidMount()
-<react-component.html#componentdidmount>` method, set state to the initial value
-of your objects and then declare a change listener on the {+service-short+} objects.
-
-Finally, within your :reactjs:`componentWillUnmount()
-<react-component.html#componentwillunmount>` method, remove the listener and
-close the {+realm+}.
-
-.. literalinclude:: /examples/generated/rn/using-change-listeners-class-component.codeblock.using-change-listeners-class-component.js
-   :language: javascript
-   :emphasize-lines: 13, 22-25, 38-49
