@@ -88,21 +88,44 @@ class Threading: XCTestCase {
         assert(frozenTask.isFrozen)
         // Frozen objects have a reference to a frozen realm
         assert(frozenTask.realm!.isFrozen)
+        // :code-block-end:
+    }
 
-        // When you want to modify a frozen object, you can thaw it
+    func testThaw() {
+        let realm = try! Realm()
+
+        try! realm.write {
+            realm.add(Task())
+        }
+
+        let frozenRealm = realm.freeze()
+
+        // :code-block-start: thaw
+        // Read from a frozen realm
+        let frozenTasks = frozenRealm.objects(Task.self)
+
+        // The collection that we pull from the frozen realm is also frozen
+        assert(frozenTasks.isFrozen)
+
+        // Get an individual task from the collection
+        let frozenTask = frozenTasks.first!
+
+        // To modify the task, you must first thaw it
+        // You can also thaw collections and realms
         let thawedTask = frozenTask.thaw()
 
         assert(thawedTask!.isFrozen == false)
 
-        // You can thaw collections
-        let thawedTasks = frozenTasks.thaw()
+        // Thawing the task also thaws the frozen realm it references
+        assert(thawedTask!.realm!.isFrozen == false)
 
-        assert(thawedTasks!.isFrozen == false)
+        // Let's make the code easier to follow by naming the thawed realm
+        let thawedRealm = thawedTask!.realm!
 
-        // And you can thaw a frozen Realm
-        let thawedRealm = frozenRealm.thaw()
-
-        assert(thawedRealm.isFrozen == false)
+        // Now, you can modify the task
+        try! thawedRealm.write {
+           thawedTask!.status = "Done"
+        }
         // :code-block-end:
     }
 

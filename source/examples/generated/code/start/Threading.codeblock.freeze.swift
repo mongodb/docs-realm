@@ -27,18 +27,3 @@ let frozenTask = task.freeze()
 assert(frozenTask.isFrozen)
 // Frozen objects have a reference to a frozen realm
 assert(frozenTask.realm!.isFrozen)
-
-// When you want to modify a frozen object, you can thaw it
-let thawedTask = frozenTask.thaw()
-
-assert(thawedTask!.isFrozen == false)
-
-// You can thaw collections
-let thawedTasks = frozenTasks.thaw()
-
-assert(thawedTasks!.isFrozen == false)
-
-// And you can thaw a frozen Realm
-let thawedRealm = frozenRealm.thaw()
-
-assert(thawedRealm.isFrozen == false)

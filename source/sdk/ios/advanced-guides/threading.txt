@@ -292,9 +292,14 @@ thread-safe.
              // ...
          }
 
-To modify a frozen object, you thaw the object. Alternately, you can 
+To modify a frozen object, you must thaw the object. Alternately, you can 
 query for it on an unfrozen {+realm+}, then modify it. Calling ``thaw`` 
-on a live collection returns itself.
+on a live object, collection, or {+realm+} returns itself.
+
+Thawing an object or collection also thaws the {+realm+} it references.
+
+.. literalinclude:: /examples/generated/code/start/Threading.codeblock.thaw.swift
+         :language: swift
 
 Frozen objects remain valid as long as the live {+realm+} that
 spawned them stays open. Therefore, avoid closing the live
