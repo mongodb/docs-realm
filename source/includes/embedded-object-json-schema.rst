@@ -10,16 +10,16 @@ embedded objects map to embedded documents in the parent type's
      "bsonType": "object",
      "required": ["_id"],
      "properties": {
-       "_id": "objectId",
-       "name": "string",
+       "_id": { "bsonType": "objectId" },
+       "name": { "bsonType": "string" },
        "address": {
          "title": "Address",
          "bsonType": "object",
          "properties": {
-           "street": "string",
-           "city": "string",
-           "country": "string",
-           "postalCode": "string"
+           "street": { "bsonType": "string" },
+           "city": { "bsonType": "string" },
+           "country": { "bsonType": "string" },
+           "postalCode": { "bsonType": "string" }
          }
        }
      }
@@ -34,17 +34,17 @@ embedded objects map to embedded documents in the parent type's
      "required": ["_id", "name", "addresses"],
      "properties": {
        "_id": "objectId",
-       "name": "string",
+       "name": { "bsonType": "string" },
        "addresses": {
          "bsonType": "array",
          "items": {
            "title": "Address",
            "bsonType": "object",
            "properties": {
-             "street": "string",
-             "city": "string",
-             "country": "string",
-             "postalCode": "string"
+             "street": { "bsonType": "string" },
+             "city": { "bsonType": "string" },
+             "country": { "bsonType": "string" },
+             "postalCode": { "bsonType": "string" }
            }
          }
        }
