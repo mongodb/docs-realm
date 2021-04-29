@@ -17,7 +17,9 @@ Object Models & Schemas - .NET SDK
 {+service+} applications model data as objects composed of property-value pairs
 that each contain one or more primitive data types or other {+service-short+}
 objects. :term:`{+service-short+} objects <Realm object>` are essentially the same
-as regular objects, but they also include
+as regular objects, but they inherit from 
+:dotnet-sdk:`RealmObject <reference/Realms.RealmObject.html>` or 
+:dotnet-sdk:`EmbeddedObject <reference/Realms.EmbeddedObject.html>` and include
 additional features like
 :ref:`real-time updating data views <dotnet-live-object>` and reactive
 :ref:`change event handlers <dotnet-client-notifications>`.
@@ -27,11 +29,16 @@ class. Objects of the same type share an :ref:`object schema
 <dotnet-object-schema>` that defines the properties and relationships of those
 objects. In C#, you define object schemas by using the native class implementation.
 
+When {+service-short+} is initialized, it discovers the {+service-short+} objects 
+defined in all assemblies that have been loaded.
+
 .. note:: 
 
-   If you define the object models in an assembly other than the one that uses 
-   the objects, be sure to reference that assembly, or Realm will not 
-   discover the objects when it first loads. 
+   .NET does not load an assembly until you reference a class in it, so if you 
+   define your object models in one assembly and instantiate Realm in another, 
+   be sure to call a method in the assembly that contains the object models
+   *before* initializing Realm. Otherwise, Realm will not discover the objects 
+   when it first loads. 
 
 Example
 -------
