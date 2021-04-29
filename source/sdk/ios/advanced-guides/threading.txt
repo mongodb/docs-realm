@@ -305,6 +305,11 @@ You can close frozen {+realm+} before the live {+realm+} is closed.
    objects. If you need to cache a large number of versions,
    consider copying what you need out of the {+realm+} instead.
 
+.. _ios-modify-frozen-object:
+
+Modify a Frozen Object
+``````````````````````
+
 To modify a frozen object, you must thaw the object. Alternately, you can 
 query for it on an unfrozen {+realm+}, then modify it. Calling ``thaw`` 
 on a live object, collection, or {+realm+} returns itself.
