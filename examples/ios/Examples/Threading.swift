@@ -114,7 +114,10 @@ class Threading: XCTestCase {
         // You can also thaw collections and realms
         let thawedTask = frozenTask.thaw()
 
-        assert(thawedTask!.isFrozen == false)
+        // Check to make sure this task is valid. An object is
+        // invalidated when it is deleted from its managing realm,
+        // or when its managing realm has invalidate() called on it.
+        assert(thawedTask?.isInvalidated == false)
 
         // Thawing the task also thaws the frozen realm it references
         assert(thawedTask!.realm!.isFrozen == false)
