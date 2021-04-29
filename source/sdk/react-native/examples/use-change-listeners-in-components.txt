@@ -18,7 +18,7 @@ Overview
 You can copy your {+service-short+} objects to your component's :reactjs:`state
 <docs/state-and-lifecycle.html>`. However, since {+service-short+} objects are
 live and automatically update in response to changes, you must update the copies
-of them to prevent your UI from being out of date. You can do this by
+of them to prevent your UI from drifting out of date with underlying data. You can do this by
 registering a :ref:`change listener <react-native-change-notifications>` in your
 component and updating the state variable when that listener fires.  
 
