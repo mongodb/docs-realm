@@ -37,7 +37,7 @@ defined in all assemblies that have been loaded.
    .NET does not load an assembly until you reference a class in it, so if you 
    define your object models in one assembly and instantiate Realm in another, 
    be sure to call a method in the assembly that contains the object models
-   *before* initializing Realm. Otherwise, Realm will not discover the objects 
+   *before* initialization. Otherwise, Realm will not discover the objects 
    when it first loads. 
 
 Example
@@ -170,7 +170,6 @@ You can index properties with the following types:
 - ``DateTimeOffset``
 - ``char``
 - ``string``
-- ``Guid``
 - ``ObjectId``
 
 .. seealso::
