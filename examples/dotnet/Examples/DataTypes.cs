@@ -39,7 +39,7 @@ namespace Examples
             var id = mrc._id;
             //:code-block-start:realmint-use
             var myObject = realm.Find<MyRealmClass>(id);
-            var counter = myObject.Counter; // 0
+            // myObject.Counter == 0
 
             realm.Write(() =>
             {
@@ -66,8 +66,8 @@ namespace Examples
 
                 // RealmInteger<T> is implicitly convertable to T:
                 int bar = myObject.Counter;
-                //:code-block-end:
             });
+            //:code-block-end:
             Assert.AreEqual(0, myObject.Counter);
         }
 
