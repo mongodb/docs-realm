@@ -144,7 +144,7 @@ Retrieve the Current User
 Once you have an authenticated user, you can retrieve the User object with the 
 :dotnet-sdk:`App.CurrentUser <reference/Realms.Sync.App.html#Realms_Sync_App_CurrentUser>` 
 property. The ``CurrentUser`` object is persisted in local storage, so even if 
-the app is shut down after the initial authentication, you do not need to call 
+the app shuts down after the initial authentication, you do not need to call 
 ``LoginAsync`` again (unless the user logged out). Instead, use 
 :dotnet-sdk:`Realm.GetInstance(config) <reference/Realms.Realm.html#Realms_Realm_GetInstance_Realms_RealmConfigurationBase_>`, 
 where ``config`` is a 
