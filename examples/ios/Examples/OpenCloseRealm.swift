@@ -52,4 +52,15 @@ class OpenCloseRealm: XCTestCase {
         // :code-block-end:
         print(fileUrl)
     }
+    
+    func testHandleError() {
+        // :code-block-start: handle-error
+        do {
+            let realm = try Realm()
+            // Use realm
+        } catch let error as NSError {
+            // Handle error
+        }
+        // :code-block-end:
+    }
 }
