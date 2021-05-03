@@ -188,9 +188,19 @@ comparable SQLite database. Unexpected file growth may be related to the
 .. tip:: Avoid pinning old Realm transactions
 
    {+backend-short+} ties read transaction lifetimes to the memory lifetime 
-   of {+backend-short+} instances. Avoid “pinning” old Realm transactions. 
+   of {+backend-short+} instances. Avoid "pinning" old Realm transactions. 
    Use auto-refreshing {+backend-short+}s, and wrap the use of Realm APIs 
    from background threads in explicit autorelease pools.
+
+.. note::
+
+   A large {+realm+} file can cause problems for your app. Any single
+   {+realm+} file cannot be larger than the amount of memory your
+   application would be allowed to map in iOS. This limit depends on the
+   device and on how fragmented the memory space is at that point in
+   time. If you need to store more data, you can map it over multiple
+   {+realm+} files. There is an open `Radar issue
+   <http://www.openradar.me/17119975>`__.
 
 Threading
 ~~~~~~~~~
