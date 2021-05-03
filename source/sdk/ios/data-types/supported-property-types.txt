@@ -12,6 +12,9 @@ Supported Property Types - iOS SDK
    :depth: 2
    :class: singlecol
 
+Property Cheat Sheet
+--------------------
+
 .. tabs-realm-languages::
 
    .. tab::
@@ -172,11 +175,16 @@ data types. Supported ``AnyRealmValue`` data types include:
 - String
 - Object
 
-This mixed data type is indexable, but you can't use it as a primary key. 
-Because ``null`` is a permitted value, you can't declare an ``AnyRealmValue`` 
-as optional.
+This :swift-sdk:`mixed data type <Enums/AnyRealmValue.html>` is 
+:ref:`indexable <ios-index-a-property>`, but you can't use it as a 
+:ref:`primary key <ios-specify-a-primary-key>`. Because ``null`` is a 
+permitted value, you can't declare an ``AnyRealmValue`` as optional.
+
+.. literalinclude:: /examples/generated/code/start/AnyRealmValue.codeblock.mixed-data-type.swift
+   :language: swift
 
 You can compare these mixed value types:
+
 - Numeric: int, bool, float, double, decimal
 - Byte-based: string, binary
 - Time-based: timestamp, objectId
@@ -184,9 +192,7 @@ You can compare these mixed value types:
 When using the ``AnyRealmValue`` mixed data type, keep these things in mind:
 
 - Equals queries match on the value and the type
-- Not equals queries match objects with either different values or different types
+- Not equals queries match objects with either different values or 
+  different types
 - Realm converts comparable numeric properties where possible
 - String properties do not match numeric queries.
-
-.. literalinclude:: /examples/generated/code/start/AnyRealmValue.codeblock.mixed-data-type.swift
-   :language: swift
