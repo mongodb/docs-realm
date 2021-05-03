@@ -17,6 +17,9 @@ Supported Property Types - iOS SDK
    .. tab::
       :tabid: swift
 
+      .. versionchanged:: 10.?
+         ``RealmProperty`` replaces ``RealmOptional`` in this version.
+
       You can use the following types to define your object model
       properties:
 
@@ -29,16 +32,16 @@ Supported Property Types - iOS SDK
            - Optional
          * - Bool
            - ``@objc dynamic var value = false``
-           - ``let value = RealmOptional<Bool>()``
+           - ``let value = RealmProperty<Bool?>()``
          * - Int, Int8, Int16, Int32, Int64
            - ``@objc dynamic var value = 0``
-           - ``let value = RealmOptional<Int>()``
+           - ``let value = RealmProperty<Int?>()``
          * - Float
            - ``@objc dynamic var value: Float = 0.0``
-           - ``let value = RealmOptional<Float>()``
+           - ``let value = RealmProperty<Float?>()``
          * - Double
            - ``@objc dynamic var value: Double = 0.0``
-           - ``let value = RealmOptional<Double>()``
+           - ``let value = RealmProperty<Double?>()``
          * - String
            - ``@objc dynamic var value = ""``
            - ``@objc dynamic var value: String? = nil``
@@ -53,7 +56,7 @@ Supported Property Types - iOS SDK
            - ``@objc dynamic var decimal: Decimal128?``
          * - UUID
            - ``@objc dynamic var uuid = UUID()``
-           - 
+           - ``@objc dynamic var uuidOpt: UUID?``
          * - :swift-sdk:`ObjectId <Classes/ObjectId.html>`
            - ``@objc dynamic var objectId = ObjectId.generate()``
            - ``@objc dynamic var objectId: ObjectId?``
@@ -72,7 +75,7 @@ Supported Property Types - iOS SDK
       - :swift-sdk:`EmbeddedObject <Extensions/EmbeddedObject.html>`-derived types
       - :swift-sdk:`Enum <Protocols.html#/s:10RealmSwift0A4EnumP>`
 
-      You can use :swift-sdk:`RealmOptional <Classes/RealmOptional.html>` to
+      You can use ``RealmProperty <T?>`` to
       represent integers, doubles, and other types as optional.
 
       ``CGFloat`` properties are discouraged, as the type is not

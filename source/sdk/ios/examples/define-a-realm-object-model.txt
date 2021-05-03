@@ -70,7 +70,7 @@ Declare Properties
       you can declare properties as ``dynamic var`` without ``@objc``.
 
       To declare properties of generic types ``LinkingObjects``,
-      ``List``, and ``RealmOptional``, use ``let``. Generic properties
+      ``List``, and ``RealmProperty``, use ``let``. Generic properties
       cannot be represented in the Objective‑C runtime, which
       {+client-database+} uses for dynamic dispatch of dynamic
       properties.
@@ -103,13 +103,13 @@ Specify an Optional/Required Property
       You can declare ``String``, ``Date``, ``Data``, and
       :swift-sdk:`ObjectId <Classes/ObjectId.html>` properties as
       optional or required (non-optional) using standard Swift syntax.
-      Declare optional numeric types using the :swift-sdk:`RealmOptional
-      <Classes/RealmOptional.html>` type.
+      Declare optional numeric types using the :swift-sdk:`RealmProperty
+      <Classes/RealmProperty.html>` type.
 
       .. literalinclude:: /examples/generated/code/start/ObjectModels.codeblock.optional-required-properties.swift
          :language: swift
 
-      RealmOptional supports ``Int``, ``Float``, ``Double``, ``Bool``,
+      RealmProperty supports ``Int``, ``Float``, ``Double``, ``Bool``,
       and all of the sized versions of ``Int`` (``Int8``, ``Int16``,
       ``Int32``, ``Int64``).
 
