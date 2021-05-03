@@ -66,6 +66,9 @@ Supported Property Types - iOS SDK
          * - :swift-sdk:`MutableSet <Classes/MutableSet.html>`
            - ``let value = MutableSet<Type>()``
            - 
+         * - :swift-sdk:`Mixed Data Type <Enums/AnyRealmValue.html>`
+           - ``let value = RealmProperty<AnyRealmValue>()``
+           - N/A
          * - User-defined :swift-sdk:`Object <Extensions/Object.html>`
            - N/A
            - ``@objc dynamic var value: MyClass?``
@@ -146,3 +149,44 @@ ObjectId is a MongoDB-specific 12-byte unique value. UUID is a 16-byte
 globally-unique value. You can :ref:`index <ios-index-a-property>` both types,
 and use either as a :ref:`primary key <ios-specify-a-primary-key>`.
 
+.. _ios-mixed-data-type:
+
+Mixed Data Type
+---------------
+
+.. versionadded:: 10.?
+   The ``AnyRealmValue`` type is new in this version.
+
+``AnyRealmValue`` is a {+service-short+} property type that can hold different 
+data types. Supported ``AnyRealmValue`` data types include:
+
+- Int
+- Float
+- Double
+- Decimal128
+- ObjectID
+- UUID
+- Bool
+- Date
+- Data
+- String
+- Object
+
+This mixed data type is indexable, but you can't use it as a primary key. 
+Because ``null`` is a permitted value, you can't declare an ``AnyRealmValue`` 
+as optional.
+
+You can compare these mixed value types:
+- Numeric: int, bool, float, double, decimal
+- Byte-based: string, binary
+- Time-based: timestamp, objectId
+
+When using the ``AnyRealmValue`` mixed data type, keep these things in mind:
+
+- Equals queries match on the value and the type
+- Not equals queries match objects with either different values or different types
+- Realm converts comparable numeric properties where possible
+- String properties do not match numeric queries.
+
+.. literalinclude:: /examples/generated/code/start/AnyRealmValue.codeblock.mixed-data-type.swift
+   :language: swift
