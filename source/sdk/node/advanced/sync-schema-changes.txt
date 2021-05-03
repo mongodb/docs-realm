@@ -1,0 +1,176 @@
+.. _node-client-query-engine:
+
+==============================================
+Schema Changes for Synced Realms - Node.js SDK
+==============================================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+When developing an application using {+sync+}, you may want to make changes to
+your schema at some point. {+client-database+} offers an intuitive API for
+making schema changes to synced {+realms+} that is backwards compatible allowing
+old clients continue to sync with newer ones.
+
+Additive Changes
+----------------
+Additive changes, such as adding a class or adding a field to a class, are
+applied automatically to synced {+realms+}, meaning you can alter the schema
+with no additional configuration.
+
+Add a Property
+~~~~~~~~~~~~~~
+Unlike {+realms+} that are not-synchronized to a server, synced realms do not require a schema version.
+
+.. example::
+
+   In the following example, an application is developed with an initial ``Dog`` schema: 
+
+   .. code-block:: javascript
+
+      const DogSchema = {
+         name: 'Dog',
+         properties: {
+            name: 'string'
+         }
+      };
+      const config = { 
+         sync: syncConfig, // a predefined sync configuration object
+         schema: [DogSchema]
+      };
+      const realm = await Realm.open(config);
+
+   The developer adds an ``owner`` property to the ``Dog` schema, that depicts a
+   relationship to a ``Person`` class:
+
+   .. code-block:: javascript
+
+      const DogSchema = {
+         name: 'Dog',
+         properties: {
+            name: 'string',
+            owner: 'Person'
+         }
+      };
+      const PersonSchema = {
+         name: 'Person',
+         properties: {
+            name: 'string',
+            birthdate: 'date'
+         }
+      };
+      const config = { 
+         sync: syncConfig, // a predefined sync configuration object
+         schema: [DogSchema, PersonSchema]
+      };
+      const realm = await Realm.open(config);
+
+
+Delete a Property
+~~~~~~~~~~~~~~~~~
+To maintain backwards compatiblility, removing a field from a schema doesn’t
+delete the field from the database, but instead instructs Realm to ignore that
+field. New objects retain the removed field, but Realm automatically sets the
+field's value set to null. Realm sets fields that are non-nullable to an
+appropriate empty value, such as a 0 for integer values, and empty string for
+string values.
+
+.. example::
+
+   In the following example, an application developer opens a realm with an initial ``Dog``
+   schema, and create a dog named 'Scruffy'.
+
+   .. code-block:: javascript
+
+      const DogSchema = {
+         name: 'Dog',
+         properties: {
+            name: 'string',
+            breed: 'string'
+         }
+      };
+      const config = { 
+         sync: syncConfig, // a predefined sync configuration object
+         schema: [DogSchema]
+      };
+      const realm = await Realm.open(config);
+      realm.create('Dog', { name: 'Scruffy', breed: 'Husky' });
+
+   The developer then decides to remove the ``breed`` property from the ``Dog``
+   schema, and insert a dog named 'Spot'. 
+
+   .. code-block:: javascript
+
+      const DogSchema = {
+         name: 'Dog',
+         properties: {
+            name: 'string'
+         }
+      };
+      const config = { 
+         sync: syncConfig, // a predefined sync configuration object
+         schema: [DogSchema]
+      };
+      const realm = await Realm.open(config);
+      realm.create('Dog', { name: 'Spot' });
+
+   Finally, he prints both dog objects to see their values:
+
+   .. code-block:: javascript
+
+      const scruffyDog = realm.objects('Dog').filtered("name = 'Scruffy'")[0];
+      const spotDog = realm.objects('Dog').filtered("name = 'Dog'")[0];
+      console.log(`Scruffy the dog: ${JSON.stringify(scruffyDog, null, 2)}`);
+      console.log(`Spot the dog: ${JSON.stringify(spotDog, null, 2)}`);
+
+
+   The console prints the following output:
+
+   .. code-block:: json
+
+      Scruffy the dog: {
+         name: 'Scruffy',
+         breed: 'Husky'
+      }
+      Spot the dog: {
+         name: 'Scruffy',
+         breed: ''
+      }
+
+Destructive Changes
+-------------------
+Destructive changes to a schema are usually modifications of existing fields, such as:
+
+- Changing a property’s type but keeping the same name
+- Changing a primary key
+- Changing a property from optional to required (or vice-versa)
+
+Synchronized {+realms+} only support additive changes to a schema. Attempting to
+perform a destructive change on a synchronized {+realm+} will lead to errors
+like the following:
+
+.. code-block:: shell
+
+   {
+    message: 'The following changes cannot be made in additive-only schema mode:\n' +
+      "- Property 'Task.difficulty' has been made optional.",
+    errorCode: 1
+   }
+
+However, there are workarounds that you can do to perform a destructive change. 
+
+
+To perform a destructive change, create a collection that is a copy of the
+original collection with the change you need. You will need to copy the
+objects in the original collection to the new collection. Finally, set up a 
+
+Summary
+-------
+- Additive changes to the schema of a synced {+realm+} do not require any additional configuration. 
