@@ -3,19 +3,16 @@ package com.mongodb.realm.examples.kotlin
 import android.util.Log
 import com.mongodb.realm.examples.Expectation
 import com.mongodb.realm.examples.RealmTest
-import com.mongodb.realm.examples.model.java.FrogSet
+import com.mongodb.realm.examples.model.java.FrogDictionary
 import com.mongodb.realm.examples.model.java.GroupOfPeople
-import com.mongodb.realm.examples.model.java.Snack
-import com.mongodb.realm.examples.model.kotlin.FrogAnyKt
-import com.mongodb.realm.examples.model.kotlin.FrogSetKt
-import com.mongodb.realm.examples.model.kotlin.Person
-import com.mongodb.realm.examples.model.kotlin.SnackKt
+import com.mongodb.realm.examples.model.kotlin.*
 import io.realm.Realm
 import io.realm.RealmAny
 import io.realm.RealmConfiguration
 import org.junit.Assert
 import org.junit.Test
 import java.util.*
+import java.util.Map
 
 
 class DataTypesTest : RealmTest() {
@@ -147,6 +144,76 @@ class DataTypesTest : RealmTest() {
                 flies.deleteFromRealm()
                 // deleting flies object reduced the size of the set by one
                 Assert.assertTrue(sizeOfSetBeforeDelete == set.size + 1)
+                // :code-block-end:
+                // :replace-end:
+                expectation.fulfill()
+            }
+        }
+        expectation.await()
+    }
+
+    @Test
+    fun testRealmDictionary() {
+        val expectation = Expectation()
+        activity!!.runOnUiThread {
+            val config = RealmConfiguration.Builder()
+                .inMemory()
+                .name("realmdictionary-test-kotlin")
+                .allowQueriesOnUiThread(true)
+                .allowWritesOnUiThread(true)
+                .build()
+            val realm = Realm.getInstance(config)
+            realm.executeTransaction { r: Realm? ->
+                // :replace-start: {
+                //    "terms": {
+                //       "FrogDictionaryKt": "Frog"
+                //    }
+                // }
+                // :code-block-start: realmDictionary
+                val frog =
+                    realm.createObject(FrogDictionaryKt::class.java)
+                frog.name = "George Washington"
+
+                // get the RealmDictionary field from the object we just created
+                val dictionary = frog.nicknamesToFriends
+
+                // add key/value to the dictionary
+                val wirt =
+                    realm.createObject(FrogDictionaryKt::class.java)
+                wirt.name = "Wirt"
+                dictionary["tall frog"] = wirt
+
+                // add multiple keys/values to the dictionary
+                val greg =
+                    realm.createObject(FrogDictionaryKt::class.java)
+                greg.name = "Greg"
+                val beatrice =
+                    realm.createObject(FrogDictionaryKt::class.java)
+                wirt.name = "Beatrice"
+                dictionary.putAll(mapOf<String, FrogDictionaryKt>(
+                    Pair("small frog", greg),
+                    Pair("feathered frog", beatrice)))
+
+                // check for the presence of a key
+                Assert.assertTrue(dictionary.containsKey("small frog"))
+
+                // check for the presence of a value
+                Assert.assertTrue(dictionary.containsValue(greg))
+
+                // remove a key
+                dictionary.remove("feathered frog")
+                Assert.assertFalse(dictionary.containsKey("feathered frog"))
+
+                // deleting a Realm object does NOT remove it from the dictionary
+                val sizeOfDictionaryBeforeDelete = dictionary.size
+                greg.deleteFromRealm()
+                // deleting greg object did not reduce the size of the dictionary
+                Assert.assertEquals(
+                    sizeOfDictionaryBeforeDelete.toLong(),
+                    dictionary.size.toLong()
+                )
+                // but greg object IS now null:
+                Assert.assertEquals(dictionary["small frog"], null)
                 // :code-block-end:
                 // :replace-end:
                 expectation.fulfill()

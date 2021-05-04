@@ -5,6 +5,7 @@ import android.util.Log;
 import com.mongodb.realm.examples.Expectation;
 import com.mongodb.realm.examples.RealmTest;
 import com.mongodb.realm.examples.model.java.FrogAny;
+import com.mongodb.realm.examples.model.java.FrogDictionary;
 import com.mongodb.realm.examples.model.java.FrogSet;
 import com.mongodb.realm.examples.model.java.GroupOfPeople;
 import com.mongodb.realm.examples.model.java.Snack;
@@ -15,10 +16,12 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.Map;
 
 import io.realm.Realm;
 import io.realm.RealmAny;
 import io.realm.RealmConfiguration;
+import io.realm.RealmDictionary;
 import io.realm.RealmSet;
 
 public class DataTypesTest extends RealmTest {
@@ -29,7 +32,7 @@ public class DataTypesTest extends RealmTest {
         activity.runOnUiThread(() -> {
             RealmConfiguration config = new RealmConfiguration.Builder()
                     .inMemory()
-                    .name("realmset-test-java")
+                    .name("realmany-test-java")
                     .allowQueriesOnUiThread(true)
                     .allowWritesOnUiThread(true)
                     .build();
@@ -97,7 +100,7 @@ public class DataTypesTest extends RealmTest {
         activity.runOnUiThread(() -> {
             RealmConfiguration config = new RealmConfiguration.Builder()
                     .inMemory()
-                    .name("realmany-test-java")
+                    .name("realmset-test-java")
                     .allowQueriesOnUiThread(true)
                     .allowWritesOnUiThread(true)
                     .build();
@@ -148,6 +151,69 @@ public class DataTypesTest extends RealmTest {
                 flies.deleteFromRealm();
                 // deleting flies object reduced the size of the set by one
                 Assert.assertTrue(sizeOfSetBeforeDelete == set.size() + 1);
+                // :code-block-end:
+                // :replace-end:
+                expectation.fulfill();
+            });
+        });
+        expectation.await();
+    }
+
+    @Test
+    public void testRealmDictionary() {
+        Expectation expectation = new Expectation();
+        activity.runOnUiThread(() -> {
+            RealmConfiguration config = new RealmConfiguration.Builder()
+                    .inMemory()
+                    .name("realmdictionary-test-java")
+                    .allowQueriesOnUiThread(true)
+                    .allowWritesOnUiThread(true)
+                    .build();
+
+            Realm realm = Realm.getInstance(config);
+
+            realm.executeTransaction(r -> {
+                // :replace-start: {
+                //    "terms": {
+                //       "FrogDictionary": "Frog"
+                //    }
+                // }
+                // :code-block-start: realmDictionary
+                FrogDictionary frog = realm.createObject(FrogDictionary.class);
+                frog.setName("George Washington");
+
+                // get the RealmDictionary field from the object we just created
+                RealmDictionary<FrogDictionary> dictionary = frog.getNicknamesToFriends();
+
+                // add key/value to the dictionary
+                FrogDictionary wirt = realm.createObject(FrogDictionary.class);
+                wirt.setName("Wirt");
+                dictionary.put("tall frog", wirt);
+
+                // add multiple keys/values to the dictionary
+                FrogDictionary greg = realm.createObject(FrogDictionary.class);
+                greg.setName("Greg");
+                FrogDictionary beatrice = realm.createObject(FrogDictionary.class);
+                wirt.setName("Beatrice");
+                dictionary.putAll(Map.of("small frog", greg, "feathered frog", beatrice));
+
+                // check for the presence of a key
+                Assert.assertTrue(dictionary.containsKey("small frog"));
+
+                // check for the presence of a value
+                Assert.assertTrue(dictionary.containsValue(greg));
+
+                // remove a key
+                dictionary.remove("feathered frog");
+                Assert.assertFalse(dictionary.containsKey("feathered frog"));
+
+                // deleting a Realm object does NOT remove it from the dictionary
+                int sizeOfDictionaryBeforeDelete = dictionary.size();
+                greg.deleteFromRealm();
+                // deleting greg object did not reduce the size of the dictionary
+                Assert.assertEquals(sizeOfDictionaryBeforeDelete, dictionary.size());
+                // but greg object IS now null:
+                Assert.assertEquals(dictionary.get("small frog"), null);
                 // :code-block-end:
                 // :replace-end:
                 expectation.fulfill();

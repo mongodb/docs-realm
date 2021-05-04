@@ -1,0 +1,62 @@
+.. _android-realmdictionary:
+
+=============================
+RealmDictionary - Android SDK
+=============================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+.. versionadded:: 10.5.0
+
+You can use the :java-sdk:`RealmDictionary
+<io/realm/RealmDictionary.html>` data type to manage a collection of
+unique ``String`` keys paired with values. ``RealmDictionary``
+implements Java's ``Map`` interface, so it works just like the built-in
+``HashMap`` class, except managed ``RealmDictionary`` instances persist
+their contents to a {+realm+}. ``RealmDictionary`` instances that
+contain {+service-short+} objects actually only store references to
+those objects, so deleting a {+service-short+} object from a {+realm+}
+results in a ``null`` value in any ``RealmSet`` instances that contain
+the object.
+
+Usage
+-----
+
+To create a field of type ``RealmDictionary``, define an object property
+of type ``RealmDictionary<T>``, where ``T`` defines the values you would
+like to store in your ``RealmDictionary``. All ``RealmDictionary``
+instances use keys of type ``String``. You can add an object to a
+``RealmDictionary`` with the
+:java-sdk:`RealmDictionary.put() <io/realm/RealmDictionary.html#put-E->`
+method or you can add multiple objects with
+:java-sdk:`RealmDictionary.putAll() <io/realm/RealmDictionary.html#putAll-Map->`.
+You can check if the dictionary contains an object with the
+:java-sdk:`RealmSet.containsKey() <io/realm/RealmDictionary.html#containsKey-String->`
+method or you can check if the dictionary contains a specific value with
+:java-sdk:`RealmSet.containsValue() <io/realm/RealmDictionary.html#containsValue-Object->`.
+
+.. tabs-realm-languages::
+   
+   .. tab::
+       :tabid: kotlin
+
+       .. literalinclude:: /examples/generated/android/local/FrogDictionaryKt.codeblock.complete.kt
+          :language: kotlin
+
+       .. literalinclude:: /examples/generated/android/local/DataTypesTest.codeblock.realmDictionary.kt
+          :language: kotlin
+
+   .. tab::
+       :tabid: java
+
+       .. literalinclude:: /examples/generated/android/local/FrogDictionary.codeblock.complete.java
+          :language: java
+
+       .. literalinclude:: /examples/generated/android/local/DataTypesTest.codeblock.realmDictionary.java
+          :language: java
