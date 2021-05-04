@@ -183,7 +183,7 @@ permitted value, you can't declare an ``AnyRealmValue`` as optional.
 .. literalinclude:: /examples/generated/code/start/AnyRealmValue.codeblock.mixed-data-type.swift
    :language: swift
 
-You can compare these mixed value types:
+You can :ref:`compare <ios-filter-data/#operators>` these mixed value types:
 
 - Numeric: int, bool, float, double, decimal
 - Byte-based: string, binary
@@ -191,8 +191,11 @@ You can compare these mixed value types:
 
 When using the ``AnyRealmValue`` mixed data type, keep these things in mind:
 
-- Equals queries match on the value and the type
-- Not equals queries match objects with either different values or 
+- ``equals`` queries match on value and type
+- ``not equals`` queries match objects with either different values or 
   different types
-- Realm converts comparable numeric properties where possible
-- String properties do not match numeric queries.
+- {+realm+} converts comparable numeric properties where possible. For example,
+  in a mixed type field, 1 matches all of 1.0, 1, and true.
+- String properties do not match numeric queries. For example, in a mixed
+  type field, 1 does not match "1". "1" does not match 1, 1.0, or true.
+  
