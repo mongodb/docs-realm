@@ -1,4 +1,5 @@
 Frog frog = realm.createObject(Frog.class);
+
 frog.setName("Jonathan Livingston Applesauce");
 
 // set RealmAny field to a null value
@@ -13,10 +14,12 @@ frog.setBestFriend(RealmAny.valueOf("Greg"));
 Log.v("EXAMPLE", "Best friend: " + frog.bestFriendToString());
 
 // RealmAny instances change type as you reassign to different values
+
 Assert.assertTrue(frog.getBestFriend().getType() == RealmAny.Type.STRING);
 
 // set RealmAny field to a realm object, also with valueOf
 Person person = new Person("Jason Funderburker");
+
 frog.setBestFriend(RealmAny.valueOf(person));
 Log.v("EXAMPLE", "Best friend: " + frog.bestFriendToString());
 

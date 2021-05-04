@@ -29,7 +29,7 @@ public class DataTypesTest extends RealmTest {
         activity.runOnUiThread(() -> {
             RealmConfiguration config = new RealmConfiguration.Builder()
                     .inMemory()
-                    .name("realmset-test-kotlin")
+                    .name("realmset-test-java")
                     .allowQueriesOnUiThread(true)
                     .allowWritesOnUiThread(true)
                     .build();
@@ -45,7 +45,7 @@ public class DataTypesTest extends RealmTest {
                 // :code-block-start: realmany
                 FrogAny frog = realm.createObject(FrogAny.class);
                 frog.setName("Jonathan Livingston Applesauce");
-
+              
                 // set RealmAny field to a null value
                 frog.setBestFriend(RealmAny.nullValue());
                 Log.v("EXAMPLE", "Best friend: " + frog.bestFriendToString());
@@ -62,6 +62,7 @@ public class DataTypesTest extends RealmTest {
 
                 // set RealmAny field to a realm object, also with valueOf
                 Person person = new Person("Jason Funderburker");
+
                 frog.setBestFriend(RealmAny.valueOf(person));
                 Log.v("EXAMPLE", "Best friend: " + frog.bestFriendToString());
 

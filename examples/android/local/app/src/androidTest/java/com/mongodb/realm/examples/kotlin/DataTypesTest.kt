@@ -59,6 +59,7 @@ class DataTypesTest : RealmTest() {
 
                 // set RealmAny field to a realm object, also with valueOf
                 val person = Person("Jason Funderburker")
+
                 frog.bestFriend = RealmAny.valueOf(person)
                 Log.v("EXAMPLE", "Best friend: " + frog.bestFriendToString())
 
