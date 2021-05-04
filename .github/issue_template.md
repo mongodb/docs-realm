@@ -1,7 +1,7 @@
 ## Is there something wrong with existing Docs content, or is something missing from the Docs?
 <!-- something is wrong with existing content OR something is missing from the Docs -->
 
-## If this is related to existing Docs content, what page or pages are effected?
+## If this is related to existing Docs content, what page or pages are affected?
 <!-- links to pages -->
 
 ## Is this related to the MongoDB Realm backend, or an SDK? If it is an issue with an SDK, which one?
