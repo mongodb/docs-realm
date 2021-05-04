@@ -73,6 +73,19 @@
     (void)realm;
 }
 
+- (void)testHandleError {
+    // :code-block-start: handle-error
+    NSError *error = nil;
+    RLMRealmConfiguration *config = [RLMRealmConfiguration defaultConfiguration];
+    RLMRealm *realm = [RLMRealm realmWithConfiguration:config error:&error];
+    if (!realm) {
+        // Handle error
+        return;
+    }
+    // Use realm
+    // :code-block-end:
+}
+
 @end
 
 // :replace-end:

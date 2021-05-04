@@ -53,7 +53,7 @@ class TestCaseInjectRealm: XCTestCase {
     }
 
     // Test Code
-    
+
     let realmPath = URL(fileURLWithPath: "...")
 
     func testThatUserIsUpdatedFromServer() {

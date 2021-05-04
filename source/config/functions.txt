@@ -17,9 +17,7 @@ Function Configuration Files
    app/
    └── functions/
        ├── config.json
-       ├── <function>.js
-       └── <directory>/
-           └── <function>.js
+       └── <function>.js
 
 Function Manifest
 -----------------
@@ -66,9 +64,9 @@ in the function manifest file: ``/functions/config.json``.
    
    * - | ``private``
        | Boolean
-     - If ``true``, this function may only be accessed from incoming webhooks,
-       rules, and named functions. You cannot call a private function directly
-       from a client application or with an SDK.
+     - If ``true``, this function may only be called from other functions or in
+       :json-operator:`%function` rule expressions. You cannot call a private
+       function directly from a client application or with an SDK.
    
    * - | ``can_evaluate``
        | JSON Expression (default: ``true``)
@@ -111,10 +109,9 @@ the main function that runs whenever a request calls the function.
 
 .. important::
    
-   You can organize source code files by defining arbitrary subdirectories
-   within ``/functions``. However, Realm identifies each function's source code
-   strictly by file name, so all ``.js`` files must have unique names, even if
-   they are in different directories.
+   All of your function source code files must be in the ``/functions``
+   directory. Realm does not recognize functions nested in subdirectories of
+   ``/functions``.
 
 .. code-block:: javascript
    :caption: /functions/<function name>.js

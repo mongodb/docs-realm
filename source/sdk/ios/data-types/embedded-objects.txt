@@ -37,16 +37,20 @@ by a new embedded object instance.
    should use :ref:`relationships <ios-client-relationships>`
    instead.
 
-Embedded object types are reusable and composable. You can use the same
-embedded object type in multiple parent object types and you can embed
-objects inside of other embedded objects.
+Embedded Object Data Models
+---------------------------
 
-Realm Object Models
--------------------
+You can define embedded object types using either Realm object models or
+a server-side document schema. Embedded object types are reusable and
+composable. You can use the same embedded object type in multiple parent
+object types and you can embed objects inside of other embedded objects.
 
 .. important::
    
    Embedded objects cannot have a :ref:`primary key <ios-primary-keys>`.
+
+Realm Object Models
+~~~~~~~~~~~~~~~~~~~
 
 To define an embedded object, derive a class from
 :swift-sdk:`EmbeddedObject <Classes/EmbeddedObject.html>` in Swift or
@@ -67,6 +71,11 @@ object types in the same way as you would define a relationship:
 
       .. literalinclude:: /examples/EmbeddedObjects/DefineEmbeddedObjects.m
          :language: objectivec
+
+JSON Schema
+~~~~~~~~~~~
+
+.. include:: /includes/embedded-object-json-schema.rst
 
 Read and Write Embedded Objects
 -------------------------------

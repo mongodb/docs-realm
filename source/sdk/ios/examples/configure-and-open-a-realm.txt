@@ -4,6 +4,14 @@
 Configure & Open a Realm - iOS SDK
 ==================================
 
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
 A **{+realm+}** is the core data structure used to organize data in
 {+client-database+}. For more information, see :ref:`ios-realms`.
 
@@ -67,6 +75,32 @@ When a {+realm+} goes out of scope and is removed from memory due to
 <https://docs.swift.org/swift-book/LanguageGuide/AutomaticReferenceCounting.html>`__,
 the {+realm+} is closed.
 
+.. _ios-handle-errors:
+
+Handle Errors
+-------------
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: swift
+
+      To handle errors when accessing a {+realm+}, use Swift's built-in
+      error handling mechanism:
+
+      .. literalinclude:: /examples/generated/code/start/OpenCloseRealm.codeblock.handle-error.swift
+         :language: swift
+
+   .. tab::
+      :tabid: objective-c
+
+      To handle errors when accessing a {+realm+}, provide an
+      ``NSError`` pointer to the ``error`` parameter:
+
+      .. literalinclude:: /examples/generated/code/start/OpenCloseRealm.codeblock.handle-error.m
+         :language: objectivec
+
+
 .. _ios-open-an-in-memory-realm:
 
 Open an In-Memory Realm
@@ -102,6 +136,12 @@ closed.
       .. literalinclude:: /examples/generated/code/start/OpenCloseRealm.codeblock.open-in-memory-realm.m
          :language: objectivec
 
+.. important::
+
+   When all *in-memory* {+realm+} instances with a particular identifier
+   go out of scope, {+client-database+} deletes **all data** in that
+   {+realm+}. To avoid this, hold onto a strong reference to any
+   in-memory {+realms+} during your app's lifetime. 
 
 .. _ios-provide-a-subset-of-classes-to-a-realm:
 
