@@ -83,7 +83,6 @@ namespace Examples
 
             storeInventory2.RequiredStringsDict.Add("foo", "Bar");
 
-
             realm.Write(() =>
             {
                 realm.Add<Inventory>(storeInventory);
@@ -218,6 +217,7 @@ namespace Examples
         //:code-block-end:
 
         //:code-block-start:dictionaries
+
         public class Inventory : RealmObject
         {
             //:hide-start:
