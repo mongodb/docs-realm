@@ -36,48 +36,20 @@ Add a Property
 ~~~~~~~~~~~~~~
 Unlike {+realms+} that are not-synchronized to a server, synced realms do not require a schema version.
 
+*GENERATED* 
+
 .. example::
 
    In the following example, an application is developed with an initial ``Dog`` schema: 
 
-   .. code-block:: javascript
-
-      const DogSchema = {
-         name: 'Dog',
-         properties: {
-            name: 'string'
-         }
-      };
-      const config = { 
-         sync: syncConfig, // a predefined sync configuration object
-         schema: [DogSchema]
-      };
-      const realm = await Realm.open(config);
+   .. literalinclude:: /examples/generated/node/sync-schema-changes.codeblock.sync-schema-changes-add-a-property-initial-schema.js
+      :language: javascript
 
    The developer adds an ``owner`` property to the ``Dog` schema, that depicts a
    relationship to a ``Person`` class:
 
-   .. code-block:: javascript
-
-      const DogSchema = {
-         name: 'Dog',
-         properties: {
-            name: 'string',
-            owner: 'Person'
-         }
-      };
-      const PersonSchema = {
-         name: 'Person',
-         properties: {
-            name: 'string',
-            birthdate: 'date'
-         }
-      };
-      const config = { 
-         sync: syncConfig, // a predefined sync configuration object
-         schema: [DogSchema, PersonSchema]
-      };
-      const realm = await Realm.open(config);
+   .. literalinclude:: /examples/generated/node/sync-schema-changes.codeblock.sync-schema-changes-add-a-property-updated-schema.js
+      :language: javascript
 
 
 Delete a Property
