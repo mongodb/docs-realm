@@ -7,9 +7,8 @@ package com.mongodb.realm.examples.model.kotlin
 // }
 import io.realm.RealmObject
 
-class SnackKt : RealmObject() {
+open class SnackKt : RealmObject() {
     var name: String? = null
-
 }
 // :replace-end:
 // :code-block-end:

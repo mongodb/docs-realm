@@ -9,11 +9,10 @@ package com.mongodb.realm.examples.model.kotlin
 import io.realm.RealmObject
 import io.realm.RealmSet
 
-open class FrogSetKt  // realm-required empty constructor
+open class FrogSetKt
     : RealmObject() {
     var name: String = ""
     var favoriteSnacks: RealmSet<SnackKt> = RealmSet<SnackKt>();
-
 }
 // :replace-end:
 // :code-block-end:
