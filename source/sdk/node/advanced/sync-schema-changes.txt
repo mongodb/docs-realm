@@ -19,6 +19,13 @@ your schema at some point. {+client-database+} offers an intuitive API for
 making schema changes to synced {+realms+} that is backwards compatible allowing
 old clients continue to sync with newer ones.
 
+.. note::
+
+   This page details how to modify a schema when working with {+sync+}, if you
+   are developing your application without {+sync+} refer to the :doc:`Modify an
+   Object Schema </sdk/node/examples/modify-an-object-schema>` page.
+
+
 Additive Changes
 ----------------
 Additive changes, such as adding a class or adding a field to a class, are
@@ -101,7 +108,9 @@ string values.
          schema: [DogSchema]
       };
       const realm = await Realm.open(config);
-      realm.create('Dog', { name: 'Scruffy', breed: 'Husky' });
+      realm.write(() => {
+         realm.create('Dog', { name: 'Scruffy', breed: 'Husky' });
+      })
 
    The developer then decides to remove the ``breed`` property from the ``Dog``
    schema, and insert a dog named 'Spot'. 
@@ -119,14 +128,16 @@ string values.
          schema: [DogSchema]
       };
       const realm = await Realm.open(config);
-      realm.create('Dog', { name: 'Spot' });
+      realm.write(() => {
+         realm.create('Dog', { name: 'Spot' });
+      });
 
    Finally, he prints both dog objects to see their values:
 
    .. code-block:: javascript
 
       const scruffyDog = realm.objects('Dog').filtered("name = 'Scruffy'")[0];
-      const spotDog = realm.objects('Dog').filtered("name = 'Dog'")[0];
+      const spotDog = realm.objects('Dog').filtered("name = 'Spot'")[0];
       console.log(`Scruffy the dog: ${JSON.stringify(scruffyDog, null, 2)}`);
       console.log(`Spot the dog: ${JSON.stringify(spotDog, null, 2)}`);
 
@@ -140,7 +151,7 @@ string values.
          breed: 'Husky'
       }
       Spot the dog: {
-         name: 'Scruffy',
+         name: 'Spot',
          breed: ''
       }
 
@@ -164,13 +175,184 @@ like the following:
     errorCode: 1
    }
 
-However, there are workarounds that you can do to perform a destructive change. 
+Using Partner Collections to Perform Destructive Changes
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+If you are developing an application using {+sync+}, you can create a second
+version of your collection, with a schema that has the modifications to the
+fields that you require. Doing so requires you to always have data in both
+collections synchronized. Copy the {+service-short+} objects from the first
+collection to the second collection to get it up-to-date. To keep the
+collections synchronized when data is subsequently changed, create a
+:ref:`database trigger <create-a-database-trigger>` for each respective
+collection to copy the changed data from the collection to its partner
+collection.
 
-To perform a destructive change, create a collection that is a copy of the
-original collection with the change you need. You will need to copy the
-objects in the original collection to the new collection. Finally, set up a 
+.. example::
 
+   In the following example, an application developer opens a synced {+realm+}
+   with an initial ``Task`` schema with an ``_id``, ``name``, and ``difficulty``
+   field. The developer then creates some sample tasks.
+
+   .. code-block:: javascript
+      :caption: first-collection.js
+ 
+      const Realm = require("realm");
+      const BSON = require("bson");
+      const app = new Realm.App({ id: "<Your App ID>" });
+      const credentials = Realm.Credentials.anonymous();
+      
+      const TaskSchema = {
+          name: "Task",
+          properties: {
+            _id: "objectId",
+            name: "string",
+            difficulty: "int"
+          },
+          primaryKey: "_id",
+      };
+      
+      async function run() {
+          await app.logIn(credentials);
+          const syncConfig = {
+              user: app.currentUser,
+              partitionValue: "myPartition",
+          };
+          const realm = await Realm.open({
+              schema: [TaskSchema],
+              sync: syncConfig // predefined sync configuration object
+          });
+          const tasks = realm.objects("Task");
+      
+          realm.write(() => {
+              realm.delete(tasks); // delete tasks objects to keep unit test idempotent
+          })
+      
+          // Create some tasks in the first client
+          realm.write(() => {
+              realm.create("Task", {
+                  _id: new BSON.ObjectID(),
+                  name: "Buy some groceries from Trader Joes",
+                  difficulty: 1
+              })
+              realm.create("Task", {
+                  _id: new BSON.ObjectID(),
+                  name: "Buy some notebooks from Staples",
+                  difficulty: 1
+              })
+              realm.create("Task", {
+                  _id: new BSON.ObjectID(),
+                  name: "Wash the car",
+                  difficulty: 2
+              })
+          })
+      }
+      run().catch((err)=> {
+          console.log("An error occurred \n",err)
+      });
+
+   The developer then decides to change the ``difficulty`` field of the ``Task``
+   collection to optional, he does this by creating a second collection as a
+   partner collection of the first and copying the objects in the first
+   collection to the second collection.
+
+   .. code-block:: javascript
+      :caption: second-collection.js
+ 
+      const Realm = require("realm");
+      const BSON = require("bson");
+      const app = new Realm.App({ id: "<Your App ID>" });
+      const credentials = Realm.Credentials.anonymous();
+
+      const TaskSchema = {
+         name: "Task",
+         properties: {
+            _id: "objectId",
+            name: "string",
+            difficulty: "int"
+         },
+         primaryKey: "_id",
+      };
+
+      const TaskSchemaV2 = {
+         name: "TaskV2",
+         properties: {
+            _id: "objectId",
+            name: "string",
+            difficulty: {type: 'int', optional: true}
+         },
+         primaryKey: "_id",
+      };
+
+      async function run() {
+         await app.logIn(credentials);
+         const syncConfig = {
+            user: app.currentUser,
+            partitionValue: "myPartition",
+         };
+
+         const realm = await Realm.open({
+            schema: [TaskSchema, TaskSchemaV2],
+            sync: syncConfig // predefined sync configuration object
+         });
+
+         const tasks = realm.objects("Task");
+         const tasksV2 = realm.objects("TaskV2");
+
+         realm.write(() => {
+            realm.delete(tasksV2);
+         })
+
+         tasks.map((task) => {
+            realm.write(()=>{
+                  realm.create("TaskV2", task);
+            });
+         })
+
+         console.log(`The lists of tasks are: ${tasks.map((task) => JSON.stringify(task, null, 2))}`);
+         console.log(`The lists of version 2 tasks are: ${tasksV2.map((task) => JSON.stringify(task,null,2))}`);
+
+      }
+      run().catch((err)=> {
+         console.log("An error occurred \n",err)
+      });
+
+   Finally, the developer creates a :ref:`database trigger
+   <create-a-database-trigger>` for each respective collection that fires
+   whenever {+atlas+} performs a insert, update, delete or replace operation on
+   the collection. The trigger's function copies the changed data to the
+   collection's partner collection.
+
+   .. code-block:: javascript
+      :caption: copyDataFromTasksToTasksV2 trigger
+ 
+      exports = async function(changeEvent) {
+         const db = context.services.get("mongodb-atlas").db("syncSchemaChangesTester");
+         const taskCollection = db.collection("Task");
+         const taskV2Collection = db.collection("TaskV2");
+         const docId = changeEvent.documentKey._id; // _id of changed or inserted document
+         const changedItem = await taskCollection.findOne({_id: docId}); // find the changed or inserted documented
+         await taskV2Collection.insertOne(changedItem); // insert the changed or inserted document into its partnet collection
+      };
+
+   .. code-block:: javascript
+      :caption: copyDataFromTasksV2ToTasks trigger
+ 
+      exports = async function(changeEvent) {
+         const db = context.services.get("mongodb-atlas").db("syncSchemaChangesTester");
+         const taskV2Collection = db.collection("TaskV2");
+         const taskCollection = db.collection("Task");
+         const docId = changeEvent.documentKey._id; // _id of changed or inserted document
+         const changedItem = await taskV2Collection.findOne({_id: docId}); // find the changed or inserted documented
+         await taskCollection.insertOne(changedItem); // insert the changed or inserted document into its partnet collection
+      };
+   
 Summary
 -------
+- Schema changes on synced {+realms+} are backwards compatible, allowing old clients continue to sync with newer ones.
 - Additive changes to the schema of a synced {+realm+} do not require any additional configuration. 
+- Synchronized {+realms+} only support additive changes to a schema.
+- Destructive changes are modifications to existing fields of a schema.
+- Synchronized {+realms+} do not support destructive changes directly.
+- To perform destructive changes, create a partner collection that has the modifications to the fields of the schema that you require, and manually copy the data from the first collection to the second collection.
+- To keep partner collections synchronized, set up database triggers to copy changed data from one collection to its partner.
