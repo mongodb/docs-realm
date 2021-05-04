@@ -1,0 +1,68 @@
+.. _ios-client-resets:
+.. _ios-client-reset:
+
+=======================
+Client Resets - iOS SDK
+=======================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+When using :doc:`{+sync+} </sync>`, a **client reset** is a serious
+error recovery task that your client app must perform in the following
+situation:
+
+- The given synced {+realm+} on the server was restored from a backup.
+  For example, due to a {+service-short+} server crash.
+
+- The client app made changes to that {+realm+} since the backup was made,
+  but did not sync those changes back to the server before the server
+  was restored.
+
+In other words, the client app must carry out a client reset on a given
+synced {+realm+} if the server is restored to a version older than the
+version on the client.
+
+A client reset erases all local data and downloads a new copy of the
+data stored in MongoDB Atlas. Performing a client reset loses all local
+changes made since the client last successfully synced.
+
+Example
+-------
+
+By default, the SDK performs client resets automatically on startup when
+instructed to do so by the server. When a client reset occurs, the SDK
+creates a backup of local data. By default, the SDK makes no effort to
+recover lost local changes from this backup.
+
+If you override the client reset handler, you can access this backup
+copy through the path stored in the :objc-sdk:`SyncError
+<Enums/RLMSyncError.html#/c:@E@RLMSyncError@RLMSyncErrorClientResetError>`
+to manually transfer data from the backup copy to the newly created
+{+realm+}.
+
+.. tabs-realm-languages::
+   
+   .. tab::
+       :tabid: swift
+
+       .. literalinclude:: /examples/generated/code/start/Errors.codeblock.client-reset.swift
+         :language: swift
+
+   .. tab::
+       :tabid: objective-c
+
+       .. literalinclude:: /examples/generated/code/start/Errors.codeblock.client-reset.m
+         :language: objectivec
+
+
+.. tip::
+
+   To see how to recover unsynced local changes in a client reset, check out
+   this :github:`example on GitHub
+   <mongodb/realm-practice/blob/main/swift/RealmPractice/Classes/ViewController.swift#L260>`.

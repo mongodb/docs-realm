@@ -1,0 +1,63 @@
+.. _react-native-use-listeners-in-components:
+
+=====================================================
+Use Change Listeners In Components - React Native SDK
+=====================================================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+
+Overview
+--------
+You can copy your {+service-short+} objects to your component's :reactjs:`state
+<docs/state-and-lifecycle.html>`. However, since {+service-short+} objects are
+live and automatically update in response to changes, you must update the copies
+of them to prevent your UI from drifting out of date with underlying data. You can do this by
+registering a :ref:`change listener <react-native-change-notifications>` in your
+component and updating the state variable when that listener fires.  
+
+.. warning::
+
+   Failing to update copies of {+service-short+} objects leads to out-of-date data displayed
+   in your UI as objects are deleted or changed.
+
+Procedure
+~~~~~~~~~
+To keep your UI up-to-date with changes to underlying {+service-short+} objects,
+declare a state variable for your {+service-short+} objects using the
+:reactjs:`useState() <docs/hooks-state.html>` hook.
+
+Within the :reactjs:`useEffect() <docs/hooks-effect.html>` hook, set the state variable to
+the initial value of your objects. Then declare a change listener on the
+{+service-short+} objects.
+
+Finally, return an anonymous cleanup function that you can use to remove the
+change listener and close the {+service-short+}. React.js will call this cleanup function when
+the component unmounts.
+
+.. example::
+
+   In the following example, a developer creates an application to manage
+   tasks. Within a ``TaskList`` component, define a state variable called
+   ``tasks``. The developer wants to display the initial list of tasks already
+   saved in the database after the component mounts. To do this, they :ref:`open
+   a realm <react-native-open-a-local-realm>` within a ``useEffect`` function and
+   then set the ``tasks`` state variable to the initial value of the ``tasks``
+   stored in the {+service-short+}. 
+
+   The developer registers a change listener to update the state variable when
+   changes to the ``tasks`` have been made in the {+client-database+}. The
+   developer then creates some additional tasks. 
+
+   Once the component unmounts, the developer wants to unregister the change
+   listener. To do this, they return a cleanup function and call ``task.removeAllListeners()``. 
+   Finally they :ref:`close the realm <react-native-close-a-realm>`.
+   
+   .. include:: /examples/generated/rn/using-change-listeners-functional-component.codeblock.using-change-listeners-functional-component.js.code-block.rst
+
