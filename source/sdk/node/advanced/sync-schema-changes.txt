@@ -34,9 +34,7 @@ with no additional configuration.
 
 Add a Property
 ~~~~~~~~~~~~~~
-Unlike {+realms+} that are not-synchronized to a server, synced realms do not require a schema version.
-
-*GENERATED* 
+Unlike {+realms+} that are not-synchronized to a server, synced realms do not require you to specify a schema version.
 
 .. example::
 
@@ -45,7 +43,7 @@ Unlike {+realms+} that are not-synchronized to a server, synced realms do not re
    .. literalinclude:: /examples/generated/node/sync-schema-changes.codeblock.sync-schema-changes-add-a-property-initial-schema.js
       :language: javascript
 
-   The developer adds an ``owner`` property to the ``Dog` schema, that depicts a
+   The developer adds an ``owner`` property to the ``Dog`` schema, that depicts a
    relationship to a ``Person`` class:
 
    .. literalinclude:: /examples/generated/node/sync-schema-changes.codeblock.sync-schema-changes-add-a-property-updated-schema.js
@@ -66,57 +64,25 @@ string values.
    In the following example, an application developer opens a realm with an initial ``Dog``
    schema, and create a dog named 'Scruffy'.
 
-   .. code-block:: javascript
+   .. literalinclude:: /examples/generated/node/sync-schema-changes.codeblock.sync-schema-changes-delete-a-property-initial-schema.js
+      :language: javascript
 
-      const DogSchema = {
-         name: 'Dog',
-         properties: {
-            name: 'string',
-            breed: 'string'
-         }
-      };
-      const config = { 
-         sync: syncConfig, // a predefined sync configuration object
-         schema: [DogSchema]
-      };
-      const realm = await Realm.open(config);
-      realm.write(() => {
-         realm.create('Dog', { name: 'Scruffy', breed: 'Husky' });
-      })
 
    The developer then decides to remove the ``breed`` property from the ``Dog``
    schema, and insert a dog named 'Spot'. 
 
-   .. code-block:: javascript
-
-      const DogSchema = {
-         name: 'Dog',
-         properties: {
-            name: 'string'
-         }
-      };
-      const config = { 
-         sync: syncConfig, // a predefined sync configuration object
-         schema: [DogSchema]
-      };
-      const realm = await Realm.open(config);
-      realm.write(() => {
-         realm.create('Dog', { name: 'Spot' });
-      });
+   .. literalinclude:: /examples/generated/node/sync-schema-changes.codeblock.sync-schema-changes-delete-a-property-updated-schema.js
+      :language: javascript
 
    Finally, he prints both dog objects to see their values:
 
-   .. code-block:: javascript
-
-      const scruffyDog = realm.objects('Dog').filtered("name = 'Scruffy'")[0];
-      const spotDog = realm.objects('Dog').filtered("name = 'Spot'")[0];
-      console.log(`Scruffy the dog: ${JSON.stringify(scruffyDog, null, 2)}`);
-      console.log(`Spot the dog: ${JSON.stringify(spotDog, null, 2)}`);
+   .. literalinclude:: /examples/generated/node/sync-schema-changes.codeblock.sync-schema-changes-delete-a-property-log-objects.js
+      :language: javascript
 
 
    The console prints the following output:
 
-   .. code-block:: json
+   .. code-block:: shell
 
       Scruffy the dog: {
          name: 'Scruffy',

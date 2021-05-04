@@ -69,7 +69,64 @@ describe("Schema Changes for Synced Realms", () => {
     expect(realmWithInitialSchema).toStrictEqual(new Realm());
     expect(realmWithUpdatedSchema).toStrictEqual(new Realm());
   });
-  test("dummy test", () => {
-    expect(1).toBe(1);
+  test.skip("should delete a property from the schema of a synced realm", async () => {
+    await app.logIn(credentials);
+    const syncConfig = {
+      user: app.currentUser,
+      partitionValue: "myPartition",
+    };
+
+    async function openRealmWithInitialSchema() {
+      // :code-block-start: sync-schema-changes-delete-a-property-initial-schema
+      const DogSchema = {
+        name: "Dog",
+        properties: {
+          name: "string",
+          breed: "string",
+        },
+      };
+      const config = {
+        sync: syncConfig, // a predefined sync configuration object
+        schema: [DogSchema],
+      };
+      const realm = await Realm.open(config);
+      realm.write(() => {
+        realm.create("Dog", { name: "Scruffy", breed: "Husky" });
+      });
+      // :code-block-end:
+      return realm;
+    }
+
+    async function openRealmWithUpdatedSchema() {
+      // :code-block-start: sync-schema-changes-delete-a-property-updated-schema
+      const DogSchema = {
+        name: "Dog",
+        properties: {
+          name: "string",
+        },
+      };
+      const config = {
+        sync: syncConfig, // a predefined sync configuration object
+        schema: [DogSchema],
+      };
+      const realm = await Realm.open(config);
+      realm.write(() => {
+        realm.create("Dog", { name: "Spot" });
+      });
+      // :code-block-end:
+      return realm;
+    }
+    const realmWithInitialSchema = openRealmWithInitialSchema();
+    const realmWithUpdatedSchema = openRealmWithUpdatedSchema();
+    const realm = realmWithUpdatedSchema;
+    // :code-block-start: sync-schema-changes-delete-a-property-log-objects
+    const scruffyDog = realm.objects("Dog").filtered("name = 'Scruffy'")[0];
+    const spotDog = realm.objects("Dog").filtered("name = 'Spot'")[0];
+    console.log(`Scruffy the dog: ${JSON.stringify(scruffyDog, null, 2)}`);
+    console.log(`Spot the dog: ${JSON.stringify(spotDog, null, 2)}`);
+    // :code-block-end:
+    expect(scruffyDog.breed).toStrictEqual("Husky");
+    // expect the schema with the deleted breed property to have an empty string ""
+    expect(spotDog.breed).toStrictEqual("");
   });
 });
