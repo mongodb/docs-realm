@@ -132,62 +132,9 @@ collection.
    with an initial ``Task`` schema with an ``_id``, ``name``, and ``difficulty``
    field. The developer then creates some sample tasks.
 
-   .. code-block:: javascript
-      :caption: first-collection.js
- 
-      const Realm = require("realm");
-      const BSON = require("bson");
-      const app = new Realm.App({ id: "<Your App ID>" });
-      const credentials = Realm.Credentials.anonymous();
-      
-      const TaskSchema = {
-          name: "Task",
-          properties: {
-            _id: "objectId",
-            name: "string",
-            difficulty: "int"
-          },
-          primaryKey: "_id",
-      };
-      
-      async function run() {
-          await app.logIn(credentials);
-          const syncConfig = {
-              user: app.currentUser,
-              partitionValue: "myPartition",
-          };
-          const realm = await Realm.open({
-              schema: [TaskSchema],
-              sync: syncConfig // predefined sync configuration object
-          });
-          const tasks = realm.objects("Task");
-      
-          realm.write(() => {
-              realm.delete(tasks); // delete tasks objects to keep unit test idempotent
-          })
-      
-          // Create some tasks in the first client
-          realm.write(() => {
-              realm.create("Task", {
-                  _id: new BSON.ObjectID(),
-                  name: "Buy some groceries from Trader Joes",
-                  difficulty: 1
-              })
-              realm.create("Task", {
-                  _id: new BSON.ObjectID(),
-                  name: "Buy some notebooks from Staples",
-                  difficulty: 1
-              })
-              realm.create("Task", {
-                  _id: new BSON.ObjectID(),
-                  name: "Wash the car",
-                  difficulty: 2
-              })
-          })
-      }
-      run().catch((err)=> {
-          console.log("An error occurred \n",err)
-      });
+   .. literalinclude:: /examples/generated/node/sync-schema-changes.codeblock.sync-schema-changes-destructive-changes-initial-collection.js
+      :language: javascript
+
 
    The developer then decides to change the ``difficulty`` field of the ``Task``
    collection to optional, he does this by creating a second collection as a
@@ -195,65 +142,10 @@ collection.
    collection to the second collection.
 
    .. code-block:: javascript
-      :caption: second-collection.js
+      :caption: Create a Copy of the Initial Collection and Modify a Property
  
-      const Realm = require("realm");
-      const BSON = require("bson");
-      const app = new Realm.App({ id: "<Your App ID>" });
-      const credentials = Realm.Credentials.anonymous();
-
-      const TaskSchema = {
-         name: "Task",
-         properties: {
-            _id: "objectId",
-            name: "string",
-            difficulty: "int"
-         },
-         primaryKey: "_id",
-      };
-
-      const TaskSchemaV2 = {
-         name: "TaskV2",
-         properties: {
-            _id: "objectId",
-            name: "string",
-            difficulty: {type: 'int', optional: true}
-         },
-         primaryKey: "_id",
-      };
-
-      async function run() {
-         await app.logIn(credentials);
-         const syncConfig = {
-            user: app.currentUser,
-            partitionValue: "myPartition",
-         };
-
-         const realm = await Realm.open({
-            schema: [TaskSchema, TaskSchemaV2],
-            sync: syncConfig // predefined sync configuration object
-         });
-
-         const tasks = realm.objects("Task");
-         const tasksV2 = realm.objects("TaskV2");
-
-         realm.write(() => {
-            realm.delete(tasksV2);
-         })
-
-         tasks.map((task) => {
-            realm.write(()=>{
-                  realm.create("TaskV2", task);
-            });
-         })
-
-         console.log(`The lists of tasks are: ${tasks.map((task) => JSON.stringify(task, null, 2))}`);
-         console.log(`The lists of version 2 tasks are: ${tasksV2.map((task) => JSON.stringify(task,null,2))}`);
-
-      }
-      run().catch((err)=> {
-         console.log("An error occurred \n",err)
-      });
+   .. literalinclude:: /examples/generated/node/sync-schema-changes.codeblock.sync-schema-changes-destructive-changes-second-version-collection.js
+      :language: javascript
 
    Finally, the developer creates a :ref:`database trigger
    <create-a-database-trigger>` for each respective collection that fires
