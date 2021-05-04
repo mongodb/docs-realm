@@ -237,9 +237,9 @@ live instances to be shared across threads. In this case,
 you can **freeze** and **thaw** objects, collections, and {+realms+}.
 
 Freezing creates an immutable view of a specific object,
-collection, or {+realm+} that still exists on disk and does not
-need to be deeply copied when passed around to other
-threads. You can freely share a frozen object across threads
+collection, or {+realm+}. The frozen object, collection, or {+realm+} still 
+exists on disk, and does not need to be deeply copied when passed around 
+to other threads. You can freely share the frozen object across threads
 without concern for thread issues. When you freeze a {+realm+}, its child 
 objects also become frozen.
 
