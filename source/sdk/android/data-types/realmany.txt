@@ -15,7 +15,7 @@ RealmAny - Android SDK
 
 .. versionadded:: 10.5.0
 
-You can use the :java-sdk:`RealmAny <TODO>` data type to create
+You can use the :java-sdk:`RealmAny <io/realm/RealmAny.html>` data type to create
 {+service-short+} object fields that can contain any of several
 underlying types. You can store multiple ``RealmAny`` instances in
 ``RealmList``, ``RealmDictionary``, or ``RealmSet`` fields. To change
@@ -40,17 +40,17 @@ Usage
 -----
 
 To create a ``RealmAny`` instance, use the
-:java-sdk:`RealmAny.valueOf()` method to assign an initial value or
-``RealmAny.nullValue()`` to assign no value. ``RealmAny`` instances
-are immutable just like ``String`` or ``Integer`` instances; if you
-want to assign a new value to a ``RealmAny`` field, you must create
-a new ``RealmAny`` instance.
+:java-sdk:`RealmAny.valueOf() <io/realm/RealmAny.html#valueOf-->` method
+to assign an initial value or ``RealmAny.nullValue()`` to assign no
+value. ``RealmAny`` instances are immutable just like ``String`` or
+``Integer`` instances; if you want to assign a new value to a
+``RealmAny`` field, you must create a new ``RealmAny`` instance.
 
 .. important:: Null ``RealmAny`` Values
 
-   ``RealmAny`` instances are not :ref:`nullable <android-optionality>`
-   themselves. However, instances that do not contain a value are of
-   type ``RealmAny.Type.NULL``.
+   ``RealmAny`` instances are always :ref:`nullable
+   <android-optionality>`. Additionally, instances can contain a value
+   of type ``RealmAny.Type.NULL``.
 
 .. tabs-realm-languages::
    
