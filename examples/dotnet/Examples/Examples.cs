@@ -31,7 +31,7 @@ namespace Examples
             var realm = await Realm.GetInstanceAsync(config);
             // :code-block-end:
             // :code-block-start: open-synced-realm-sync
-            var synchronousRealm = Realm.GetInstance(config);
+            var synchronousRealm = await Realm.GetInstanceAsync(config);
             // :code-block-end:
             // :code-block-start: create
             var testTask = new Task

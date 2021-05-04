@@ -110,7 +110,7 @@ extlinks = {
     'swift-sdk': ('https://docs.mongodb.com/realm-sdks/swift/10.7.0/%s', ''),
     'objc-sdk': ('https://docs.mongodb.com/realm-sdks/objc/10.7.0/%s', ''),
     'js-sdk': ('https://docs.mongodb.com/realm-sdks/js/latest/%s', ''),
-    'dotnet-sdk': ('https://docs.mongodb.com/realm-sdks/dotnet/10.0.0/%s', ''),
+    'dotnet-sdk': ('https://docs.mongodb.com/realm-sdks/dotnet/latest/%s', ''),
     # True External Links
     'android': ('https://developer.android.com/%s', ''),
     'apollo': ('https://www.apollographql.com/%s', ''),

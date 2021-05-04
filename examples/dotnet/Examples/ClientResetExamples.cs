@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using MongoDB.Bson;
 using NUnit.Framework;
 using Realms;
 using Realms.Sync;
@@ -12,7 +11,7 @@ namespace Examples
     public class ClientResetExamples
     {
         App app;
-        Realms.Sync.User user;
+        User user;
         SyncConfiguration config;
         const string myRealmAppId = Config.appid;
 

@@ -13,7 +13,21 @@ Field Types - .NET SDK
    :depth: 2
    :class: singlecol
 
-{+client-database+} supports the following property data types and their nullable counterparts:
+Overview
+--------
+
+The .Net SDK supports three categories of data types:
+
+- :ref:`.Net types <dotnet-dotnettypes>`
+- :ref:`MongoDB.Bson types <dotnet-bsontypes>`
+- :ref:`Realm-Specific Types <dotnet-realmtypes>`
+
+.. _dotnet-dotnettypes:
+
+.NET Types
+----------
+{+client-database+} supports the following .NET data types and their 
+nullable counterparts:
 
 - ``bool``
 - ``byte``
@@ -27,22 +41,62 @@ Field Types - .NET SDK
 - ``string``
 - ``byte[]``
 - ``DateTimeOffset``
-- ``Decimal128`` from ``MongoDB.Bson``
-- ``ObjectId`` from ``MongoDB.Bson``
-- ``RealmInteger<T>`` (see below)
+- ``Guid``
+- ``IList<T>``, where T is any of the supported data types 
+  (see :ref:`Lists <dotnet-property-lists>`)
+
+.. note::
+
+   The ``byte``, ``char``, ``short``, ``int``, and ``long`` types  are all stored 
+   as 64 bit integer values within {+client-database+}. 
+
+.. _dotnet-bsontypes:
+
+MongoDB.Bson Types
+------------------
+
+- ``ObjectId`` 
+- ``Decimal128``
+
+Guid and ObjectId Properties
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+``Guid`` is .. versionadded:: 10.2.0-beta.1
+
+``MongoDB.Bson.ObjectId`` is a MongoDB-specific 12-byte unique value, while the 
+built-in .NET type ``Guid`` is a 16-byte universally-unique value. Both types are 
+:ref:`indexable <dotnet-index-field>`, and either can be used as a 
+:ref:`Primary Key <dotnet-primary-key>`.
+
+.. _dotnet-decimal128:
+
+Using Decimal Values
+~~~~~~~~~~~~~~~~~~~~
+
+Realm supports 128-bit decimal values with the ``Decimal128`` Bson type. When 
+defining a decimal type, you can use the ``Decimal128`` Bson type or the .NET 
+``decimal`` type, even though it is only a 96-bit decimal. The SDK automatically 
+converts between the two, although you risk losing precision or range. The 
+following example shows how to use both the ``Decimal128`` Bson type and the .NET 
+``decimal`` type:
+
+.. literalinclude:: /examples/generated/dotnet/DecimalFun.codeblock.decimal128.cs
+   :language: csharp
+
+.. _dotnet-realmtypes:
+
+Realm-Specific Types
+--------------------
+- ``RealmInteger<T>``
+- ``RealmValue``
 - A ``RealmObject`` subclass 
 - An ``EmbeddedObject`` subclass (see :ref:`Embedded Objects <dotnet-property-embedded>`)
-- ``IList<T>`` where T is any of the previous data types (see :ref:`Lists <dotnet-property-lists>`)
 
-The ``byte``, ``char``, ``short``, ``int``, and ``long`` types  are all stored as 64 bit integer values
-within {+client-database+}. 
-
-If you choose to provide custom constructors, you must declare a public constructor with no arguments.
 
 .. _realminteger:
 
 RealmInteger
-------------
+~~~~~~~~~~~~
+.. versionadded:: 10.2.0-beta.1
 
 Realm offers 
 :dotnet-sdk:`RealmInteger<T> <reference/Realms.RealmInteger-1.html>` as a 
@@ -87,16 +141,30 @@ A ``RealmInteger`` is backed by traditional ``integer`` type, so no schema
 migration is required when changing a property type from ``T`` to 
 ``RealmInteger<T>``.
 
-.. _dotnet-decimal128:
 
-Using Decimal Values
---------------------
-Realm supports 128-bit decimal values with the ``Decimal128`` Bson type. When 
-defining a decimal type, you can use the ``Decimal128`` Bson type or the .NET 
-``decimal`` type, even though it is only a 96-bit decimal. The SDK automatically 
-converts between the two, although you risk losing precision or range. The 
-following example shows how to use both the ``Decimal128`` Bson type and the .NET 
-``decimal`` type:
+.. versionadded:: 10.2.0-beta.1
 
-.. literalinclude:: /examples/generated/dotnet/DecimalFun.codeblock.decimal128.cs
+.. _realmvalue:
+
+RealmValue
+~~~~~~~~~~
+
+The ``RealmValue`` data type is a mixed data type, and can represent any 
+other valid Realm data type except a collection. You can create collections 
+(lists, sets and dictionaries) of type ``RealmValue``, but a ``RealmValue`` itself 
+cannot be a collection. 
+
+.. note:: 
+
+   You cannot create a nullable ``RealmValue``. However, if you want a
+   ``RealmValue`` property to contain a null value, you can 
+   use ``RealmValue.Null``.
+
+The following code demonstrates creating a ``RealmValue`` property in a class 
+that inherits from ``RealmObject`` and then setting and getting the value of 
+that property:
+
+.. literalinclude:: /examples/generated/dotnet/DataTypes.codeblock.realmvalue.cs
    :language: csharp
+   :emphasize-lines: 6
+

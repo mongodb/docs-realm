@@ -14,7 +14,7 @@ namespace Examples
         Realms.Sync.User user;
         SyncConfiguration config;
         bool didTriggerErrorHandler;
-        string myRealmAppId = "errror-handler-example-nythp";
+        string myRealmAppId = Config.appid;
 
         [Test]
         public async Task handleErrors()
@@ -22,7 +22,7 @@ namespace Examples
             // :code-block-start: set-log-level
             var appConfig = new AppConfiguration(myRealmAppId)
             {
-                LogLevel = LogLevel.Debug,
+                //LogLevel = LogLevel.Debug,
                 // :hide-start:
                 DefaultRequestTimeout = TimeSpan.FromMilliseconds(1500)
                 // :hide-end:

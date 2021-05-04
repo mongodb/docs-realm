@@ -32,7 +32,7 @@ namespace Examples
             user = app.LogInAsync(Credentials.EmailPassword("foo@foo.com", "foobar")).Result;
             config = new SyncConfiguration("myPart", user);
             var realm = await Realm.GetInstanceAsync(config);
-            var synchronousRealm = Realm.GetInstance(config);
+            var synchronousRealm = await Realm.GetInstanceAsync(config);
             var testTask = new Task
             {
                 Name = "Do this thing",
