@@ -184,7 +184,7 @@ namespace Examples
         public async Task TearDown()
         {
             config = new SyncConfiguration("myPart", user);
-            using var realm = Realm.GetInstance(config);
+            using var realm = await Realm.GetInstanceAsync(config);
             {
                 // :code-block-start: mongo-delete-one
                 var filter = new BsonDocument("name", "Thai Basil");

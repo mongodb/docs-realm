@@ -23,7 +23,7 @@ namespace ConsoleTests
             var user = await app.LogInAsync(Credentials.Anonymous());
             var config = new SyncConfiguration("partition", user);
 
-            using var realm = Realm.GetInstance();
+            using var realm = await Realm.GetInstanceAsync();
             var foos = realm.All<Foo>().Where(f => f.Bar > 5);
             foreach (var foo in foos)
             {

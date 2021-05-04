@@ -28,10 +28,10 @@ namespace Examples
             user = app.LogInAsync(Credentials.EmailPassword("foo@foo.com", "foobar")).Result;
             // :code-block-start: open-synced-realm
             config = new SyncConfiguration("myPart", user);
-            var realm = Realm.GetInstance(config);
+            var realm = await Realm.GetInstanceAsync(config);
             // :code-block-end:
             // :code-block-start: open-synced-realm-sync
-            var synchronousRealm = Realm.GetInstance(config);
+            var synchronousRealm = await Realm.GetInstanceAsync(config);
             // :code-block-end:
             // :code-block-start: create
             var testTask = new Task
@@ -103,7 +103,7 @@ namespace Examples
             // :code-block-end:
             // :code-block-start: config
             config = new SyncConfiguration("myPart", user);
-            var realm = Realm.GetInstance(config);
+            var realm = await Realm.GetInstanceAsync(config);
             // :code-block-end:
             // :code-block-start: read-all
             var tasks = realm.All<Task>();
@@ -121,7 +121,7 @@ namespace Examples
         {
             // :code-block-start: scope
             config = new SyncConfiguration("myPart", user);
-            using (var realm = Realm.GetInstance(config))
+            using (var realm = await Realm.GetInstanceAsync(config))
             {
                 var allTasks = realm.All<Task>();
             }
@@ -132,7 +132,7 @@ namespace Examples
         public async System.Threading.Tasks.Task ModifiesATask()
         {
             config = new SyncConfiguration("myPart", user);
-            var realm = Realm.GetInstance(config);
+            var realm = await Realm.GetInstanceAsync(config);
             // :code-block-start: modify
             var t = realm.All<Task>()
                 .FirstOrDefault(t => t.Id == testTaskId);
@@ -310,7 +310,7 @@ namespace Examples
         public async System.Threading.Tasks.Task TearDown()
         {
             config = new SyncConfiguration("myPart", user);
-            using (var realm = Realm.GetInstance(config))
+            using (var realm = await Realm.GetInstanceAsync(config))
             {
                 var myTask = new Task();
                 // :code-block-start: delete

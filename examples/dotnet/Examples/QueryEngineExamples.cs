@@ -31,8 +31,8 @@ namespace Examples
             app = App.Create(myRealmAppId);
             user = app.LogInAsync(Credentials.EmailPassword("foo@foo.com", "foobar")).Result;
             config = new SyncConfiguration("myPart", user);
-            var realm = Realm.GetInstance(config);
-            var synchronousRealm = Realm.GetInstance(config);
+            var realm = await Realm.GetInstanceAsync(config);
+            var synchronousRealm = await Realm.GetInstanceAsync(config);
             var testTask = new Task
             {
                 Name = "Do this thing",
@@ -53,7 +53,7 @@ namespace Examples
         [Test]
         public async System.Threading.Tasks.Task Comparisons()
         {
-            var realm = Realm.GetInstance(config);
+            var realm = await Realm.GetInstanceAsync(config);
             var tasks = realm.All<UserTask>();
             // :code-block-start: comparisons
             var highPri = tasks.Where(t => t.Priority > 5);

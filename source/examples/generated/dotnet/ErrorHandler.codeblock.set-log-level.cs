@@ -1,4 +1,4 @@
 var appConfig = new AppConfiguration(myRealmAppId)
 {
-    LogLevel = LogLevel.Debug,
+    //LogLevel = LogLevel.Debug,
 };

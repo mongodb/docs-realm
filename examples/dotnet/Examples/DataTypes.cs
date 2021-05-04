@@ -16,9 +16,6 @@ namespace Examples
         public void Init()
         {
             var config = new InMemoryConfiguration("borkbork");
-            //config.SchemaVersion = 2;
-
-
             realm = Realm.GetInstance(config);
         }
 
@@ -74,7 +71,7 @@ namespace Examples
         [Test]
         public async Task WorkWithDictionaries()
         {
-            if (realm == null) realm = Realm.GetInstance();
+            if (realm == null) realm = await Realm.GetInstanceAsync();
 
             var storeInventory = new Inventory() { Id = ObjectId.GenerateNewId().ToString() };
 
@@ -116,10 +113,11 @@ namespace Examples
             Assert.IsNotNull(matchesMoreThanFive);
             Assert.AreEqual(2, matches.Count());
         }
+
         [Test]
         public async Task WorkWithSets()
         {
-            if (realm == null) realm = Realm.GetInstance();
+            if (realm == null) realm = await Realm.GetInstanceAsync();
 
             var pi = new PlantInventory();
             pi.PlantSet.Add(new Plant() { Name = "Prickly Pear" });
@@ -152,7 +150,7 @@ namespace Examples
         [Test]
         public async Task WorkWithLists()
         {
-            if (realm == null) realm = Realm.GetInstance();
+            if (realm == null) realm = await Realm.GetInstanceAsync();
             var li = new ListInventory();
             li.Plants.Add(new Plant() { Name = "Prickly Pear", Color = PlantColor.Green.ToString() });
             realm.Write(() =>
@@ -199,7 +197,8 @@ namespace Examples
             //:hide-start:
             [PrimaryKey]
             [MapTo("_id")]
-            public string Id { get; set; }
+            [Required]
+            public string Id { get; set; } = ObjectId.GenerateNewId().ToString();
             //:hide-end:
             // A Set can contain any Realm-supported type, including
             // objects that inherit from RealmObject or EmbeddedObject
@@ -258,6 +257,7 @@ namespace Examples
         public class MyRealmValueObject : RealmObject
         {
             [PrimaryKey]
+            [MapTo("_id")]
             public Guid Id { get; set; }
 
             public RealmValue MyValue { get; set; }

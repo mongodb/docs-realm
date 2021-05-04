@@ -30,7 +30,7 @@ namespace Examples
                         ((double)usedBytes / totalBytes > 0.5);
                 }
             };
-            var realm = Realm.GetInstance(config);
+            var realm = await Realm.GetInstanceAsync(config);
             // :code-block-end:
 
             // :code-block-start:manual-compact

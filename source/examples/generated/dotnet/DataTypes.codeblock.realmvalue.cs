@@ -1,6 +1,7 @@
 public class MyRealmValueObject : RealmObject
 {
     [PrimaryKey]
+    [MapTo("_id")]
     public Guid Id { get; set; }
 
     public RealmValue MyValue { get; set; }

@@ -67,7 +67,7 @@ namespace Examples
         [Test]
         public async Task UpdateEmbeddedObject()
         {
-            using (var realm = Realm.GetInstance(config))
+            using (var realm = await Realm.GetInstanceAsync(config))
             {
 
                 // :code-block-start:update
@@ -93,7 +93,7 @@ namespace Examples
         [Test]
         public async Task OverwriteEmbeddedObject()
         {
-            using (var realm = Realm.GetInstance(config))
+            using (var realm = await Realm.GetInstanceAsync(config))
             {
 
                 // :code-block-start:overwrite
@@ -126,7 +126,7 @@ namespace Examples
         [Test]
         public async Task QueryEmbeddedObject()
         {
-            using (var realm = Realm.GetInstance(config))
+            using (var realm = await Realm.GetInstanceAsync(config))
             {
                 var address = new Address() // Create an Address
                 {
@@ -172,7 +172,7 @@ namespace Examples
         [OneTimeTearDown]
         public async Task TearDown()
         {
-            using (var realm = Realm.GetInstance(config))
+            using (var realm = await Realm.GetInstanceAsync(config))
             {
                 realm.Write(() =>
                 {
