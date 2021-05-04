@@ -15,7 +15,7 @@ namespace Examples
     {
         App app;
         ObjectId testTaskId;
-        Realms.Sync.User user;
+        User user;
         SyncConfiguration config;
         const string myRealmAppId = Config.appid;
 
@@ -28,6 +28,14 @@ namespace Examples
             user = app.LogInAsync(Credentials.EmailPassword("foo@foo.com", "foobar")).Result;
             // :code-block-start: open-synced-realm
             config = new SyncConfiguration("myPart", user);
+            //:hide-start:
+            config.ObjectClasses = new[]
+            {
+                typeof(Task),
+                typeof(MyClass),
+                typeof(dotnet.User)
+            };
+            //:hide-end:
             var realm = await Realm.GetInstanceAsync(config);
             // :code-block-end:
             // :code-block-start: open-synced-realm-sync
@@ -103,6 +111,13 @@ namespace Examples
             // :code-block-end:
             // :code-block-start: config
             config = new SyncConfiguration("myPart", user);
+            //:hide-start:
+            config.ObjectClasses = new[]
+            {
+                typeof(Task),
+                typeof(dotnet.User)
+            };
+            //:hide-end:
             var realm = await Realm.GetInstanceAsync(config);
             // :code-block-end:
             // :code-block-start: read-all
@@ -121,6 +136,12 @@ namespace Examples
         {
             // :code-block-start: scope
             config = new SyncConfiguration("myPart", user);
+            //:hide-start:
+            config.ObjectClasses = new[]
+            {
+                typeof(Task)
+            };
+            //:hide-end:
             using (var realm = await Realm.GetInstanceAsync(config))
             {
                 var allTasks = realm.All<Task>();
@@ -132,6 +153,12 @@ namespace Examples
         public async System.Threading.Tasks.Task ModifiesATask()
         {
             config = new SyncConfiguration("myPart", user);
+            //:hide-start:
+            config.ObjectClasses = new[]
+            {
+                typeof(Task)
+            };
+            //:hide-end:
             var realm = await Realm.GetInstanceAsync(config);
             // :code-block-start: modify
             var t = realm.All<Task>()

@@ -205,8 +205,9 @@ namespace Examples
 
             public ISet<double> DoubleSet { get; }
 
-            // nullable values are supported
-            public ISet<int> NullableIntsSet { get; }
+            // Nullable types are supported in local-only
+            // Realms, but not with Sync
+            public ISet<int?> NullableIntsSet { get; }
 
             // For C# types that are implicitly nullable, you can
             // use the [Required] attribute to prevent storing null values
@@ -232,8 +233,9 @@ namespace Examples
 
             public IDictionary<string, bool> BooleansDict { get; }
 
-            // Nullable types are supported
-            public IDictionary<string, int> NullableIntDict { get; }
+            // Nullable types are supported in local-only
+            // Realms, but not with Sync
+            public IDictionary<string, int?> NullableIntDict { get; }
 
             // For C# types that are implicitly nullable, you can
             // use the [Required] attribute to prevent storing null values
