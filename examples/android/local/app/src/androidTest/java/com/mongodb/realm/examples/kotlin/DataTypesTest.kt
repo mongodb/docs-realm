@@ -26,8 +26,13 @@ class DataTypesTest : RealmTest() {
             val realm = Realm.getInstance(config)
 
             realm.executeTransaction {
+                // :replace-start: {
+                //    "terms": {
+                //       "FrogAnyKt": "Frog"
+                //    }
+                // }
                 // :code-block-start: realmany
-                val frog = realm.createObject(FrogAny::class.java)
+                val frog = realm.createObject(FrogAnyKt::class.java)
                 frog.name = "George Washington"
 
                 // set RealmAny field to a null value
@@ -63,6 +68,7 @@ class DataTypesTest : RealmTest() {
                         frog.bestFriend.asRealmModel(GroupOfPeople::class.java)
                             .people.toString())
                 // :code-block-end:
+                // :replace-end:
             }
             expectation.fulfill()
         }

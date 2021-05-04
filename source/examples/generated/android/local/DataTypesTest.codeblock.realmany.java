@@ -1,4 +1,4 @@
-FrogAny frog = realm.createObject(FrogAny.class);
+Frog frog = realm.createObject(Frog.class);
 frog.setName("George Washington");
 
 // set RealmAny field to a null value

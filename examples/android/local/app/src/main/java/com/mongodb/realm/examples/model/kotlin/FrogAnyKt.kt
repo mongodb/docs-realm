@@ -2,13 +2,13 @@ package com.mongodb.realm.examples.model.kotlin
 // :code-block-start: complete
 // :replace-start: {
 //    "terms": {
-//       "FrogAny": "Frog"
+//       "FrogAnyKt": "Frog"
 //    }
 // }
 import io.realm.RealmAny
 import io.realm.RealmObject
 
-open class FrogAny : RealmObject() {
+open class FrogAnyKt : RealmObject() {
     var name: String? = null
     var bestFriend: RealmAny? = null
 }

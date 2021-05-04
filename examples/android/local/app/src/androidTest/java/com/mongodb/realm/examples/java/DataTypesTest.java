@@ -30,6 +30,11 @@ public class DataTypesTest extends RealmTest {
             Realm realm = Realm.getInstance(config);
 
             realm.executeTransaction(r -> {
+                // :replace-start: {
+                //    "terms": {
+                //       "FrogAny": "Frog"
+                //    }
+                // }
                 // :code-block-start: realmany
                 FrogAny frog = realm.createObject(FrogAny.class);
                 frog.setName("George Washington");
@@ -70,6 +75,7 @@ public class DataTypesTest extends RealmTest {
                 frog.setBestFriend(RealmAny.valueOf(persons));
                 Log.v("EXAMPLE", "Best friend: " + frog.getBestFriend().asRealmModel(GroupOfPeople.class).getPeople().toString());
                 // :code-block-end:
+                // :replace-end:
             });
 
             expectation.fulfill();
