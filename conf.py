@@ -95,7 +95,6 @@ source_constants = {
     'ui': 'Realm UI',
     'app': 'Realm app',
     'leftnav': 'left navigation menu',
-    'local-only': 'Not Available in Sync',
 }
 
 extlinks = {
