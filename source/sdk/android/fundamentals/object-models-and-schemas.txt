@@ -158,6 +158,7 @@ nullable, and cannot be made required.
       - ``Date``
       - ``ObjectId``
       - ``Decimal128``
+      - ``RealmAny``
 
       You can require any type that ends with the Kotlin ``?``
       operator, such as ``Int?``.
@@ -250,6 +251,7 @@ You can index fields with the following types:
 - ``Byte`` or ``byte[]``
 - ``Boolean`` or ``bool``
 - ``Date``
+- ``RealmAny``
 
 {+service-short+} creates indexes for fields annotated with
 :java-sdk:`@Index <io/realm/annotations/Index.html>`. Indexes speed up
