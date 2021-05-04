@@ -147,36 +147,26 @@ collection.
    .. literalinclude:: /examples/generated/node/sync-schema-changes.codeblock.sync-schema-changes-destructive-changes-second-version-collection.js
       :language: javascript
 
-   Finally, the developer creates a :ref:`database trigger
-   <create-a-database-trigger>` for each respective collection that fires
-   whenever {+atlas+} performs a insert, update, delete or replace operation on
-   the collection. The trigger's function copies the changed data to the
-   collection's partner collection.
-
-   .. code-block:: javascript
+   To copy any new changes to the initial ``Task`` collection into the
+   ``TaskV2`` collection, the developer  creates a :ref:`database trigger
+   <create-a-database-trigger>`. The trigger fires whenever {+atlas+} performs a
+   insert, update, delete or replace operation on the ``Task`` collection.
+ 
+   .. literalinclude:: /examples/Triggers/copy-data-from-initial-collection.js
+      :language: javascript
       :caption: copyDataFromTasksToTasksV2 trigger
- 
-      exports = async function(changeEvent) {
-         const db = context.services.get("mongodb-atlas").db("syncSchemaChangesTester");
-         const taskCollection = db.collection("Task");
-         const taskV2Collection = db.collection("TaskV2");
-         const docId = changeEvent.documentKey._id; // _id of changed or inserted document
-         const changedItem = await taskCollection.findOne({_id: docId}); // find the changed or inserted documented
-         await taskV2Collection.insertOne(changedItem); // insert the changed or inserted document into its partnet collection
-      };
+      :emphasize-lines: 6, 7
 
-   .. code-block:: javascript
+   To copy any new changes to the ``TaskV2`` collection into the
+   ``Task`` collection, the developer  creates a :ref:`database trigger
+   <create-a-database-trigger>`. The trigger fires whenever {+atlas+} performs a
+   insert, update, delete or replace operation on the ``TaskV2`` collection.
+
+   .. literalinclude:: /examples/Triggers/copy-data-from-second-version-collection.js
+      :language: javascript
       :caption: copyDataFromTasksV2ToTasks trigger
- 
-      exports = async function(changeEvent) {
-         const db = context.services.get("mongodb-atlas").db("syncSchemaChangesTester");
-         const taskV2Collection = db.collection("TaskV2");
-         const taskCollection = db.collection("Task");
-         const docId = changeEvent.documentKey._id; // _id of changed or inserted document
-         const changedItem = await taskV2Collection.findOne({_id: docId}); // find the changed or inserted documented
-         await taskCollection.insertOne(changedItem); // insert the changed or inserted document into its partnet collection
-      };
-   
+      :emphasize-lines: 6, 7
+
 Summary
 -------
 - Schema changes on synced {+realms+} are backwards compatible, allowing old clients continue to sync with newer ones.
