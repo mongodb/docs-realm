@@ -14,15 +14,15 @@ Schema Changes for Synced Realms - Node.js SDK
 
 Overview
 --------
-When developing an application using {+sync+}, you may want to make changes to
-your schema at some point. {+client-database+} offers an intuitive API for
-making schema changes to synced {+realms+} that is backwards compatible allowing
-old clients continue to sync with newer ones.
+When developing an application using Realm Sync, you may want to make changes to
+your schema at some point. Realm Database offers an intuitive API for making
+schema changes to synced realms that are backward compatible, allowing old
+clients to sync with newer ones.
 
 .. note::
 
-   This page details how to modify a schema when working with {+sync+}, if you
-   are developing your application without {+sync+} refer to the :doc:`Modify an
+   This page details how to modify a schema when working with {+sync+} if you
+   are developing your application without {+sync+}, refer to the :doc:`Modify an
    Object Schema </sdk/node/examples/modify-an-object-schema>` page.
 
 
@@ -34,7 +34,8 @@ with no additional configuration.
 
 Add a Property
 ~~~~~~~~~~~~~~
-Unlike {+realms+} that are not-synchronized to a server, synced realms do not require you to specify a schema version.
+Unlike local-only {+realms+} that are not synchronized to a server, synced realms do not
+require you to specify a schema version.
 
 .. example::
 
@@ -52,11 +53,11 @@ Unlike {+realms+} that are not-synchronized to a server, synced realms do not re
 
 Delete a Property
 ~~~~~~~~~~~~~~~~~
-To maintain backwards compatiblility, removing a field from a schema doesn’t
-delete the field from the database, but instead instructs Realm to ignore that
+To maintain backward compatiblility, removing a field from a schema doesn’t
+delete the field from the database and instead instructs Realm to ignore that
 field. New objects retain the removed field, but Realm automatically sets the
 field's value set to null. Realm sets fields that are non-nullable to an
-appropriate empty value, such as a 0 for integer values, and empty string for
+appropriate empty value, such as a 0 for integer values and an empty string for
 string values.
 
 .. example::
@@ -118,7 +119,7 @@ Using Partner Collections to Modify Properties of a Schema
 
 If you are developing an application using {+sync+}, you can create a second
 version of your collection, with a schema that has the modifications to the
-fields that you require. Doing so requires you to always have data in both
+fields you require. Doing so requires you to always have data in both
 collections synchronized. Copy the {+service-short+} objects from the first
 collection to the second collection to get it up-to-date. To keep the
 collections synchronized when data is subsequently changed, create a
@@ -137,9 +138,9 @@ collection.
 
 
    The developer then decides to change the ``difficulty`` field of the ``Task``
-   collection to optional, he does this by creating a second collection as a
-   partner collection of the first and copying the objects in the first
-   collection to the second collection.
+   collection to optional by creating a second collection as a partner
+   collection of the first and copying the objects in the first collection to
+   the second collection.
 
    .. code-block:: javascript
       :caption: Create a Copy of the Initial Collection and Modify a Property
@@ -149,7 +150,7 @@ collection.
 
    To copy any new changes to the initial ``Task`` collection into the
    ``TaskV2`` collection, the developer  creates a :ref:`database trigger
-   <create-a-database-trigger>`. The trigger fires whenever {+atlas+} performs a
+   <create-a-database-trigger>`. The trigger fires whenever {+atlas+} performs an
    insert, update, delete or replace operation on the ``Task`` collection.
  
    .. literalinclude:: /examples/Triggers/copy-data-from-initial-collection.js
@@ -159,7 +160,7 @@ collection.
 
    To copy any new changes to the ``TaskV2`` collection into the
    ``Task`` collection, the developer  creates a :ref:`database trigger
-   <create-a-database-trigger>`. The trigger fires whenever {+atlas+} performs a
+   <create-a-database-trigger>`. The trigger fires whenever {+atlas+} performs an
    insert, update, delete or replace operation on the ``TaskV2`` collection.
 
    .. literalinclude:: /examples/Triggers/copy-data-from-second-version-collection.js
@@ -169,10 +170,10 @@ collection.
 
 Summary
 -------
-- Schema changes on synced {+realms+} are backwards compatible, allowing old clients continue to sync with newer ones.
+- Schema changes on synced {+realms+} are backward compatible, allowing old clients to sync with newer ones.
 - Additive changes to the schema of a synced {+realm+} do not require any additional configuration. 
 - Synchronized {+realms+} only support additive changes to a schema.
 - Destructive changes are modifications to existing fields of a schema.
 - Synchronized {+realms+} do not support destructive changes directly.
-- To perform destructive changes, create a partner collection that has the modifications to the fields of the schema that you require, and manually copy the data from the first collection to the second collection.
+- To perform destructive changes, create a partner collection that has the modifications that you require, and manually copy the data from the first collection to the second collection.
 - To keep partner collections synchronized, set up database triggers to copy changed data from one collection to its partner.
