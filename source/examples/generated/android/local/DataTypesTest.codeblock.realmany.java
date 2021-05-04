@@ -3,16 +3,14 @@ frog.setName("George Washington");
 
 // set RealmAny field to a null value
 frog.setBestFriend(RealmAny.nullValue());
-RealmAny noBestFriend = frog.getBestFriend();
-Log.v("EXAMPLE", "Best friend: " + noBestFriend);
+Log.v("EXAMPLE", "Best friend: " + frog.bestFriendToString());
 
 // possible types for RealmAny are defined in RealmAny.Type
 assert(frog.getBestFriend().getType() == RealmAny.Type.NULL);
 
 // set RealmAny field to a string with RealmAny.valueOf a string value
 frog.setBestFriend(RealmAny.valueOf("Greg"));
-String bestFriendString = frog.getBestFriend().asString();
-Log.v("EXAMPLE", "Best friend: " + bestFriendString);
+Log.v("EXAMPLE", "Best friend: " + frog.bestFriendToString());
 
 // RealmAny instances change type as you reassign to different values
 assert(frog.getBestFriend().getType() == RealmAny.Type.STRING);
@@ -20,6 +18,9 @@ assert(frog.getBestFriend().getType() == RealmAny.Type.STRING);
 // set RealmAny field to a realm object, also with valueOf
 Person person = new Person("Jason Funderberker");
 frog.setBestFriend(RealmAny.valueOf(person));
+Log.v("EXAMPLE", "Best friend: " + frog.bestFriendToString());
+
+// You can also extract underlying Realm Objects from RealmAny with asRealmModel
 Person bestFriendObject = frog.getBestFriend().asRealmModel(Person.class);
 Log.v("EXAMPLE", "Best friend: " + bestFriendObject.getName());
 

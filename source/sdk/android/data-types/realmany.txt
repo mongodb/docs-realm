@@ -16,11 +16,12 @@ RealmAny - Android SDK
 .. versionadded:: 10.5.0
 
 You can use the :java-sdk:`RealmAny <TODO>` data type to create
-{+service-short+} object fields that can contain any of several underlying
-types. You store multiple ``RealmAny`` instances in collection fields of
-type ``RealmList<RealmAny>``. ``RealmAny`` instances can change
-underlying type when they are assigned a new underlying value. In
-{+sync+} backend :ref:`object schemas <object-schema>`, the ``RealmAny``
+{+service-short+} object fields that can contain any of several
+underlying types. You can store multiple ``RealmAny`` instances in
+``RealmList``, ``RealmDictionary``, or ``RealmSet`` fields. To change
+the value of a ``RealmAny`` field, assign a new ``RealmAny`` instance
+with a different underlying value. In {+sync+} backend
+:ref:`object schemas <object-schema>`, the ``RealmAny``
 data type is called **mixed**. ``RealmAny`` fields are indexable, but
 cannot be used as primary keys.
 
@@ -41,7 +42,9 @@ Usage
 To create a ``RealmAny`` instance, use the
 :java-sdk:`RealmAny.valueOf()` method to assign an initial value or
 ``RealmAny.nullValue()`` to assign no value. ``RealmAny`` instances
-are immutable, but you can reassign the underlying value.
+are immutable just like ``String`` or ``Integer`` instances; if you
+want to assign a new value to a ``RealmAny`` field, you must create
+a new ``RealmAny`` instance.
 
 .. important:: Null ``RealmAny`` Values
 

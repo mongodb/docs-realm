@@ -8,9 +8,31 @@ package com.mongodb.realm.examples.model.kotlin
 import io.realm.RealmAny
 import io.realm.RealmObject
 
-open class FrogAnyKt : RealmObject() {
+open class FrogAnyKt(var bestFriend: RealmAny? = RealmAny.nullValue()) : RealmObject() {
     var name: String? = null
-    var bestFriend: RealmAny? = null
+    open fun bestFriendToString(): String {
+        if (bestFriend == null) {
+            return "null"
+        }
+        return when (bestFriend!!.type) {
+            RealmAny.Type.NULL -> {
+                "no best friend"
+            }
+            RealmAny.Type.STRING -> {
+                bestFriend!!.asString()
+            }
+            RealmAny.Type.OBJECT -> {
+                if (bestFriend!!.valueClass == Person::class.java) {
+                    val person = bestFriend!!.asRealmModel(Person::class.java)
+                    person.name
+                }
+                "unknown type"
+            }
+            else -> {
+                "unknown type"
+            }
+        }
+    }
 }
 // :replace-end:
 // :code-block-end:
