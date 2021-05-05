@@ -3,20 +3,14 @@ package com.mongodb.realm.examples.kotlin
 import android.util.Log
 import com.mongodb.realm.examples.Expectation
 import com.mongodb.realm.examples.RealmTest
-import com.mongodb.realm.examples.model.java.FrogDictionary
-import com.mongodb.realm.examples.model.java.FrogSet
 import com.mongodb.realm.examples.model.java.GroupOfPeople
-import com.mongodb.realm.examples.model.java.Snack
-import com.mongodb.realm.examples.model.kotlin.FrogAnyKt
-import com.mongodb.realm.examples.model.kotlin.FrogSetKt
-import com.mongodb.realm.examples.model.kotlin.Person
-import com.mongodb.realm.examples.model.kotlin.SnackKt
+import com.mongodb.realm.examples.model.kotlin.*
 import io.realm.Realm
 import io.realm.RealmAny
 import io.realm.RealmConfiguration
 import org.junit.Assert
 import org.junit.Test
-import java.util.Map
+import java.util.*
 
 class DataTypesTest : RealmTest() {
     @Test
