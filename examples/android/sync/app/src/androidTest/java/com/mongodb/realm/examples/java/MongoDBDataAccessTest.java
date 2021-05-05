@@ -8,7 +8,6 @@ import com.mongodb.realm.examples.model.java.Plant;
 
 import org.bson.BsonObjectId;
 import org.bson.Document;
-import org.bson.codecs.*;
 import org.bson.codecs.configuration.CodecRegistry;
 import org.bson.codecs.pojo.PojoCodecProvider;
 import org.bson.types.ObjectId;
@@ -58,7 +57,6 @@ public class MongoDBDataAccessTest extends RealmTest {
                     CodecRegistry pojoCodecRegistry = fromRegistries(mongoCollection.getCodecRegistry(),
                             fromProviders(PojoCodecProvider.builder().automatic(true).build()));
                     mongoCollection = mongoCollection.withCodecRegistry(pojoCodecRegistry);
-                    mongoCollection.deleteMany(new Document());
                     mongoCollection.insertMany(Arrays.asList(
                             new Plant(new ObjectId(),
                                     "venus flytrap",
@@ -654,25 +652,21 @@ public class MongoDBDataAccessTest extends RealmTest {
                 if (it.isSuccess()) {
                     Log.v("EXAMPLE", "Successfully authenticated.");
                     User user = app.currentUser();
+                    // :code-block-start: aggregate-documents
                     MongoClient mongoClient =
                             user.getMongoClient("mongodb-atlas"); // service for MongoDB Atlas cluster containing custom user data
                     MongoDatabase mongoDatabase =
                             mongoClient.getDatabase("plant-data-database");
-                    MongoCollection<Plant> mongoCollection =
-                            mongoDatabase.getCollection("plant-data-collection", Plant.class);
-                    // registry to handle POJOs (Plain Old Java Objects)
-                    CodecRegistry pojoCodecRegistry = fromRegistries(mongoCollection.getCodecRegistry(),
-                            fromProviders(PojoCodecProvider.builder().automatic(true).build()));
-                    mongoCollection = mongoCollection.withCodecRegistry(pojoCodecRegistry);
+                    MongoCollection<Document> mongoCollection =
+                            mongoDatabase.getCollection("plant-data-collection");
                     Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle");
-                    // :code-block-start: aggregate-documents
                     List<Document> pipeline = Arrays.asList(
                             new Document("$group", new Document("_id", "$type")
                                     .append("totalCount", new Document("$sum", 1))));
-                    RealmResultTask<MongoCursor<Plant>> aggregationTask = mongoCollection.aggregate(pipeline).iterator();
+                    RealmResultTask<MongoCursor<Document>> aggregationTask = mongoCollection.aggregate(pipeline).iterator();
                     aggregationTask.getAsync(task -> {
                         if (task.isSuccess()) {
-                            MongoCursor<Plant> results = task.get();
+                            MongoCursor<Document> results = task.get();
                             Log.d("EXAMPLE", "successfully aggregated the plants by type. Type summary:");
                             while (results.hasNext()) {
                                 Log.v("EXAMPLE", results.next().toString());

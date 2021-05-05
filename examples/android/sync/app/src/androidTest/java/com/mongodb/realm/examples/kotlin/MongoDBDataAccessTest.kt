@@ -10,6 +10,7 @@ import io.realm.mongodb.AppConfiguration
 import io.realm.mongodb.Credentials
 import io.realm.mongodb.mongo.iterable.MongoCursor
 import io.realm.mongodb.mongo.options.UpdateOptions
+import io.realm.mongodb.mongo.result.DeleteResult
 import org.bson.Document
 import org.bson.codecs.configuration.CodecRegistries
 import org.bson.codecs.pojo.PojoCodecProvider
@@ -714,30 +715,19 @@ class MongoDBDataAccessTest : RealmTest() {
                 if (it.isSuccess) {
                     Log.v("EXAMPLE", "Successfully authenticated.")
                     val user = app.currentUser()
+                    // :code-block-start: aggregate-documents
                     val mongoClient =
                         user!!.getMongoClient("mongodb-atlas") // service for MongoDB Atlas cluster containing custom user data
                     val mongoDatabase =
                         mongoClient.getDatabase("plant-data-database")
                     var mongoCollection =
-                        mongoDatabase.getCollection("plant-data-collection",
-                            Plant::class.java)
-                    // registry to handle POJOs (Plain Old Java Objects)
-                    val pojoCodecRegistry = CodecRegistries.fromRegistries(
-                        mongoCollection.codecRegistry,
-                        CodecRegistries.fromProviders(
-                            PojoCodecProvider.builder().automatic(true).build()))
-                    mongoCollection = mongoCollection.withCodecRegistry(pojoCodecRegistry)
+                        mongoDatabase.getCollection("plant-data-collection")
                     Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle")
-                    // :code-block-start: aggregate-documents
-                    val pipeline = listOf(
-                        Document(
-                            "\$group", Document("_id", "\$type")
-                                .append("totalCount", Document("\$sum", 1))
-                        )
-                    )
+                    val pipeline = listOf(Document("\$group", Document("_id", "\$type")
+                                .append("totalCount", Document("\$sum", 1))))
                     val aggregationTask =
                         mongoCollection.aggregate(pipeline).iterator()
-                    aggregationTask.getAsync { task: App.Result<MongoCursor<Plant>> ->
+                    aggregationTask.getAsync { task: App.Result<MongoCursor<Document>> ->
                         if (task.isSuccess) {
                             val results = task.get()
                             Log.d("EXAMPLE", "successfully aggregated the plants by type. Type summary:")

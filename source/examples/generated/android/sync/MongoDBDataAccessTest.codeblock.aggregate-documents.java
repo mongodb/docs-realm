@@ -1,10 +1,17 @@
+MongoClient mongoClient =
+        user.getMongoClient("mongodb-atlas"); // service for MongoDB Atlas cluster containing custom user data
+MongoDatabase mongoDatabase =
+        mongoClient.getDatabase("plant-data-database");
+MongoCollection<Document> mongoCollection =
+        mongoDatabase.getCollection("plant-data-collection");
+Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle");
 List<Document> pipeline = Arrays.asList(
         new Document("$group", new Document("_id", "$type")
                 .append("totalCount", new Document("$sum", 1))));
-RealmResultTask<MongoCursor<Plant>> aggregationTask = mongoCollection.aggregate(pipeline).iterator();
+RealmResultTask<MongoCursor<Document>> aggregationTask = mongoCollection.aggregate(pipeline).iterator();
 aggregationTask.getAsync(task -> {
     if (task.isSuccess()) {
-        MongoCursor<Plant> results = task.get();
+        MongoCursor<Document> results = task.get();
         Log.d("EXAMPLE", "successfully aggregated the plants by type. Type summary:");
         while (results.hasNext()) {
             Log.v("EXAMPLE", results.next().toString());

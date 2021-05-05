@@ -9,7 +9,6 @@ MongoCollection<Plant> mongoCollection =
 CodecRegistry pojoCodecRegistry = fromRegistries(mongoCollection.getCodecRegistry(),
         fromProviders(PojoCodecProvider.builder().automatic(true).build()));
 mongoCollection = mongoCollection.withCodecRegistry(pojoCodecRegistry);
-mongoCollection.deleteMany(new Document());
 mongoCollection.insertMany(Arrays.asList(
         new Plant(new ObjectId(),
                 "venus flytrap",
