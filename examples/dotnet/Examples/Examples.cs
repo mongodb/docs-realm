@@ -37,6 +37,12 @@ namespace Examples
             };
             //:hide-end:
             var realm = await Realm.GetInstanceAsync(config);
+            //:hide-start:
+            realm.Write(() =>
+            {
+                realm.RemoveAll<Task>();
+            });
+            //:hide-end:
             // :code-block-end:
             // :code-block-start: open-synced-realm-sync
             var synchronousRealm = await Realm.GetInstanceAsync(config);
@@ -139,7 +145,8 @@ namespace Examples
             //:hide-start:
             config.ObjectClasses = new[]
             {
-                typeof(Task)
+                typeof(Task),
+                typeof(dotnet.User)
             };
             //:hide-end:
             using (var realm = await Realm.GetInstanceAsync(config))
@@ -156,7 +163,8 @@ namespace Examples
             //:hide-start:
             config.ObjectClasses = new[]
             {
-                typeof(Task)
+                typeof(Task),
+                typeof(dotnet.User)
             };
             //:hide-end:
             var realm = await Realm.GetInstanceAsync(config);
@@ -336,7 +344,6 @@ namespace Examples
         [OneTimeTearDown]
         public async System.Threading.Tasks.Task TearDown()
         {
-            config = new SyncConfiguration("myPart", user);
             using (var realm = await Realm.GetInstanceAsync(config))
             {
                 var myTask = new Task();
@@ -346,7 +353,10 @@ namespace Examples
                     realm.Remove(myTask);
                 });
                 // :code-block-end:
-                realm.RemoveAll<Task>();
+                realm.Write(() =>
+                {
+                    realm.RemoveAll<Task>();
+                });
                 var user = await app.LogInAsync(Credentials.Anonymous());
                 // :code-block-start: logout
                 await user.LogOutAsync();

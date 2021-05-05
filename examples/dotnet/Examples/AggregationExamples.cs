@@ -44,6 +44,8 @@ namespace Examples
             dbPlantInventory = mongoClient.GetDatabase("inventory");
             plantsCollection = dbPlantInventory.GetCollection<Plant>("plants");
 
+            await plantsCollection.DeleteManyAsync();
+
             venus = new Plant
             {
                 Name = "Venus Flytrap",
@@ -241,6 +243,7 @@ namespace Examples
         [OneTimeTearDown]
         public async Task TearDown()
         {
+
             await plantsCollection.DeleteManyAsync();
             return;
         }
