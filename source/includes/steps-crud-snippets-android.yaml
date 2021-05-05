@@ -89,8 +89,18 @@ content: |
      To use classes other than the built-in ``Document`` class with
      MongoDB, you can add *codecs* to your ``MongoCollection`` instances.
      In the above example, we add the ``PojoCodecProvider`` to support
-     Plain Old Java Objects, known as POJOs. We first include the
-     default codec provider by accessing the provider that the SDK
-     automatically configures for collections by default. Then we
-     build an instance of ``PojoCodecProvider`` that automatically
-     creates new codecs to support any POJO classes.
+     Plain Old Java Objects (POJOs). Custom object support requires two
+     *codec providers*:
+
+     - the default codec provider, which provides support for built-in
+       Java types (accessed through calling ``getCodecRegistry()`` on
+       a ``MongoCollection`` with no custom codecs)
+
+     - ``PojoCodecProvider``, which automatically creates new codecs to
+       support POJO classes.
+
+     The SDK checks registries in order until one returns a codec for
+     the requested class. As a result, you should list the default codec
+     registry first, and the ``PojoCodecProvider`` should always be the
+     last CodecProvider since it can provide a codec for almost any
+     class.
