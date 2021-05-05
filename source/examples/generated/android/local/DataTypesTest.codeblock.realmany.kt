@@ -8,17 +8,18 @@ frog.bestFriend = RealmAny.nullValue()
 Log.v("EXAMPLE", "Best friend: " + frog.bestFriendToString())
 
 // possible types for RealmAny are defined in RealmAny.Type
-assert(frog.bestFriend?.type == RealmAny.Type.NULL)
+Assert.assertEquals(frog.bestFriend?.type, RealmAny.Type.NULL)
 
 // set RealmAny field to a string with RealmAny.valueOf a string value
 frog.bestFriend = RealmAny.valueOf("Greg")
 Log.v("EXAMPLE", "Best friend: " + frog.bestFriendToString())
 
 // RealmAny instances change type as you reassign to different values
-assert(frog.bestFriend?.type == RealmAny.Type.STRING)
+Assert.assertEquals(frog.bestFriend?.type, RealmAny.Type.STRING)
 
 // set RealmAny field to a realm object, also with valueOf
-val person = Person("Jason Funderberker")
+val person = Person("Jason Funderburker")
+
 frog.bestFriend = RealmAny.valueOf(person)
 Log.v("EXAMPLE", "Best friend: " + frog.bestFriendToString())
 
@@ -27,7 +28,7 @@ val bestFriendObject = frog.bestFriend?.asRealmModel(Person::class.java)
 Log.v("EXAMPLE", "Best friend: " + bestFriendObject?.name)
 
 // RealmAny fields referring to any Realm Object use the OBJECT type
-assert(frog.bestFriend?.type == RealmAny.Type.OBJECT)
+Assert.assertEquals(frog.bestFriend?.type, RealmAny.Type.OBJECT)
 
 // you can't put a RealmList in a RealmAny field directly,
 // ...but you can set a RealmAny field to a RealmObject that contains a list
