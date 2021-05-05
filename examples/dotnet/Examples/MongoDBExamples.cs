@@ -183,7 +183,6 @@ namespace Examples
         [OneTimeTearDown]
         public async Task TearDown()
         {
-            config = new SyncConfiguration("myPart", user);
             using var realm = await Realm.GetInstanceAsync(config);
             {
                 // :code-block-start: mongo-delete-one

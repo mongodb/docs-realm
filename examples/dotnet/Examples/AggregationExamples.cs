@@ -34,9 +34,17 @@ namespace Examples
             app = App.Create(myRealmAppId);
             user = app.LogInAsync(Credentials.EmailPassword("foo@foo.com", "foobar")).Result;
             config = new SyncConfiguration("myPart", user);
+            //:hide-start:
+            config.ObjectClasses = new[]
+            {
+                typeof(Plant)
+            };
+            //:hide-end:
             mongoClient = user.GetMongoClient("mongodb-atlas");
             dbPlantInventory = mongoClient.GetDatabase("inventory");
             plantsCollection = dbPlantInventory.GetCollection<Plant>("plants");
+
+            await plantsCollection.DeleteManyAsync();
 
             venus = new Plant
             {
@@ -235,6 +243,7 @@ namespace Examples
         [OneTimeTearDown]
         public async Task TearDown()
         {
+
             await plantsCollection.DeleteManyAsync();
             return;
         }

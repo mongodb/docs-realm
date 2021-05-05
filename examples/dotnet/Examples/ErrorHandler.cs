@@ -11,7 +11,7 @@ namespace Examples
     public class ErrorHandler
     {
         App app;
-        Realms.Sync.User user;
+        User user;
         SyncConfiguration config;
         bool didTriggerErrorHandler;
         string myRealmAppId = Config.appid;
@@ -31,6 +31,12 @@ namespace Examples
             app = App.Create(appConfig);
             user = await app.LogInAsync(Credentials.Anonymous());
             config = new SyncConfiguration("myPartition", user);
+            //:hide-start:
+            config.ObjectClasses = new[]
+            {
+                typeof(dotnet.User)
+            };
+            //:hide-end:
             var realm = await Realm.GetInstanceAsync(config);
 
             // :code-block-start: handle-errors

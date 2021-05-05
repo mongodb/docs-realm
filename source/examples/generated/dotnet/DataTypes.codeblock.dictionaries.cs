@@ -1,3 +1,4 @@
+
 public class Inventory : RealmObject
 {
     // The key must be of type string; the value can be 
@@ -7,7 +8,8 @@ public class Inventory : RealmObject
 
     public IDictionary<string, bool> BooleansDict { get; }
 
-    // Nullable types are supported
+    // Nullable types are supported in local-only
+    // Realms, but not with Sync
     public IDictionary<string, int?> NullableIntDict { get; }
 
     // For C# types that are implicitly nullable, you can

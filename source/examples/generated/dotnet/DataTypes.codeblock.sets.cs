@@ -6,7 +6,8 @@ public class Inventory : RealmObject
 
     public ISet<double> DoubleSet { get; }
 
-    // nullable values are supported
+    // Nullable types are supported in local-only
+    // Realms, but not with Sync
     public ISet<int?> NullableIntsSet { get; }
 
     // For C# types that are implicitly nullable, you can

@@ -5,6 +5,8 @@
 #
 # This file is execfile()d with the current directory set to its containing dir.
 
+from giza.config.helper import fetch_config, get_versions, get_manual_path
+from giza.config.runtime import RuntimeStateConfig
 import sys
 import os.path
 import datetime
@@ -12,14 +14,13 @@ import datetime
 project_root = os.path.join(os.path.abspath(os.path.dirname(__file__)))
 sys.path.append(project_root)
 
-from giza.config.runtime import RuntimeStateConfig
-from giza.config.helper import fetch_config, get_versions, get_manual_path
 
 conf = fetch_config(RuntimeStateConfig())
 intersphinx_libs = conf.system.files.data.intersphinx
 sconf = conf.system.files.data.sphinx_local
 
-sys.path.append(os.path.join(conf.paths.projectroot, conf.paths.buildsystem, 'sphinxext'))
+sys.path.append(os.path.join(conf.paths.projectroot,
+                conf.paths.buildsystem, 'sphinxext'))
 
 # -- General configuration ----------------------------------------------------
 
@@ -70,37 +71,39 @@ rst_epilog = '\n'.join([
 ])
 
 source_constants = {
-    'package-name-org' : 'docs-realm',
-    'realm' : 'realm',
-    'realms' : 'realms',
-    'client-database' : 'Realm Database',
-    'atlas' : 'MongoDB Atlas',
-    'atlas-short' : 'Atlas',
-    'compass' : 'MongoDB Compass',
-    'compass-short' : 'Compass',
-    'charts' : 'MongoDB Charts',
-    'charts-short' : 'Charts',
-    'service' : 'MongoDB Realm', # product (backend + sdks)
-    'service-short' : 'Realm', # use as shorthand, AND as a prefix for features
-    'backend' : 'MongoDB Realm',
-    'backend-short' : 'Realm',
-    'sync' : 'Realm Sync',
-    'sync-short' : 'Sync', # feature/product name, NOT verb
-    'backend-schema' : 'Realm Schema',
-    'frontend-schema' : 'Realm Object Model',
-    'cli-bin' : '``realm-cli``', # binary -- DO NOT USE IN LINKS! Will break them.
-    'cli' : 'Realm CLI',
-    'ui' : 'Realm UI',
-    'app' : 'Realm app',
-    'leftnav' : 'left navigation menu',
+    'package-name-org': 'docs-realm',
+    'realm': 'realm',
+    'realms': 'realms',
+    'client-database': 'Realm Database',
+    'atlas': 'MongoDB Atlas',
+    'atlas-short': 'Atlas',
+    'compass': 'MongoDB Compass',
+    'compass-short': 'Compass',
+    'charts': 'MongoDB Charts',
+    'charts-short': 'Charts',
+    'service': 'MongoDB Realm',  # product (backend + sdks)
+    'service-short': 'Realm',  # use as shorthand, AND as a prefix for features
+    'backend': 'MongoDB Realm',
+    'backend-short': 'Realm',
+    'sync': 'Realm Sync',
+    'sync-short': 'Sync',  # feature/product name, NOT verb
+    'backend-schema': 'Realm Schema',
+    'frontend-schema': 'Realm Object Model',
+    # binary -- DO NOT USE IN LINKS! Will break them.
+    'cli-bin': '``realm-cli``',
+    'cli': 'Realm CLI',
+    'ui': 'Realm UI',
+    'app': 'Realm app',
+    'leftnav': 'left navigation menu',
 }
 
 extlinks = {
     # MongoDB Docs Sites
-    'admin-api-endpoint': ('https://docs.mongodb.com/realm/admin/api/v3/#%s', ''), # sphinx_openapi doesn't support endpoint refs, so we have to use an extlink instead
+    # sphinx_openapi doesn't support endpoint refs, so we have to use an extlink instead
+    'admin-api-endpoint': ('https://docs.mongodb.com/realm/admin/api/v3/#%s', ''),
     'manual': ('http://docs.mongodb.org/manual%s', ''),
-    'atlas': ('https://docs.atlas.mongodb.com%s',''),
-    'adl': ('https://docs.mongodb.com/datalake%s',''),
+    'atlas': ('https://docs.atlas.mongodb.com%s', ''),
+    'adl': ('https://docs.mongodb.com/datalake%s', ''),
     'facebook': ('https://developers.facebook.com/%s', ''),
     'mms-docs': ('https://docs.cloud.mongodb.com%s', ''),
     'mms-home': ('https://cloud.mongodb.com%s', ''),
@@ -179,7 +182,7 @@ languages = [
 # -- Options for HTML output ---------------------------------------------------
 
 html_theme = sconf.theme.name
-html_theme_path = [ os.path.join(conf.paths.buildsystem, 'themes') ]
+html_theme_path = [os.path.join(conf.paths.buildsystem, 'themes')]
 html_title = conf.project.title
 htmlhelp_basename = 'MongoDBdoc'
 
