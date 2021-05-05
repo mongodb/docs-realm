@@ -3,8 +3,12 @@ MongoClient mongoClient =
         user.getMongoClient("mongodb-atlas"); // service for MongoDB Atlas cluster containing custom user data
 MongoDatabase mongoDatabase =
         mongoClient.getDatabase("plant-data-database");
-MongoCollection<Document> mongoCollection =
-        mongoDatabase.getCollection("plant-data-collection");
+MongoCollection<Plant> mongoCollection =
+        mongoDatabase.getCollection("plant-data-collection", Plant.class);
+// registry to handle POJOs (Plain Old Java Objects)
+CodecRegistry pojoCodecRegistry = fromRegistries(mongoCollection.getCodecRegistry(),
+        fromProviders(PojoCodecProvider.builder().automatic(true).build()));
+mongoCollection = mongoCollection.withCodecRegistry(pojoCodecRegistry);
 mongoCollection.deleteMany(new Document());
 mongoCollection.insertMany(Arrays.asList(
         new Plant(new ObjectId(),

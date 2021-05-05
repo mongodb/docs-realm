@@ -6,7 +6,7 @@ val pipeline = listOf(
 )
 val aggregationTask =
     mongoCollection.aggregate(pipeline).iterator()
-aggregationTask.getAsync { task: App.Result<MongoCursor<Document>> ->
+aggregationTask.getAsync { task: App.Result<MongoCursor<Plant>> ->
     if (task.isSuccess) {
         val results = task.get()
         Log.d("EXAMPLE", "successfully aggregated the plants by type. Type summary:")
