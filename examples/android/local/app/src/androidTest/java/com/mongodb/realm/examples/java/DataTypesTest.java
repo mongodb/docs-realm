@@ -32,7 +32,7 @@ public class DataTypesTest extends RealmTest {
         activity.runOnUiThread(() -> {
             RealmConfiguration config = new RealmConfiguration.Builder()
                     .inMemory()
-                    .name("realmany-test-java")
+                    .name("realmset-test-java")
                     .allowQueriesOnUiThread(true)
                     .allowWritesOnUiThread(true)
                     .build();
@@ -127,17 +127,17 @@ public class DataTypesTest extends RealmTest {
 
                 // add multiple values to the RealmSet
                 Snack water = realm.createObject(Snack.class);
-                flies.setName("water");
+                water.setName("water");
                 Snack verySmallRocks = realm.createObject(Snack.class);
-                flies.setName("verySmallRocks");
+                verySmallRocks.setName("verySmallRocks");
                 set.addAll(Arrays.asList(water, verySmallRocks));
 
                 // check for the presence of a key with contains
                 Assert.assertTrue(set.contains(flies));
 
-                Snack biscuits = realm.createObject(Snack.class);
-                flies.setName("biscuits");
                 // check for the presence of multiple keys with containsAll
+                Snack biscuits = realm.createObject(Snack.class);
+                biscuits.setName("biscuits");
                 Assert.assertTrue(set.containsAll(Arrays.asList(water, biscuits)) == false);
 
                 // remove string from a set
@@ -158,6 +158,7 @@ public class DataTypesTest extends RealmTest {
         });
         expectation.await();
     }
+
 
     @Test
     public void testRealmDictionary() {

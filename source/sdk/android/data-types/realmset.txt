@@ -40,14 +40,19 @@ Usage
 
 To create a field of type ``RealmSet``, define an object property of
 type ``RealmSet<E>``, where ``E`` defines the keys you would like to
-store in your ``RealmSet``. You can add an object to a ``RealmSet`` with
-the :java-sdk:`RealmSet.add() <io/realm/RealmSet.html#add-E->` method
-or you can add multiple objects with
-:java-sdk:`RealmSet.addAll() <io/realm/RealmSet.html#addAll-Collection->`.
-You can check if the set contains an object with the
-:java-sdk:`RealmSet.contains() <io/realm/RealmSet.html#contains-Object->`
-method or you can check if the set contains multiple objects with
-:java-sdk:`RealmSet.containsAll() <io/realm/RealmSet.html#containsAll-Collection->`.
+store in your ``RealmSet``.
+
+- Add an object to a ``RealmSet`` with
+  :java-sdk:`RealmSet.add() <io/realm/RealmSet.html#add-E->`
+
+- Add multiple objects with
+  :java-sdk:`RealmSet.addAll() <io/realm/RealmSet.html#addAll-Collection->`
+
+- Check if the set contains a specific object with
+  :java-sdk:`RealmSet.contains() <io/realm/RealmSet.html#contains-Object->`
+
+- Check if the set contains all of multiple objects with
+  :java-sdk:`RealmSet.containsAll() <io/realm/RealmSet.html#containsAll-Collection->`
 
 .. tabs-realm-languages::
    

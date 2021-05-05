@@ -4,16 +4,19 @@ import android.util.Log
 import com.mongodb.realm.examples.Expectation
 import com.mongodb.realm.examples.RealmTest
 import com.mongodb.realm.examples.model.java.FrogDictionary
+import com.mongodb.realm.examples.model.java.FrogSet
 import com.mongodb.realm.examples.model.java.GroupOfPeople
-import com.mongodb.realm.examples.model.kotlin.*
+import com.mongodb.realm.examples.model.java.Snack
+import com.mongodb.realm.examples.model.kotlin.FrogAnyKt
+import com.mongodb.realm.examples.model.kotlin.FrogSetKt
+import com.mongodb.realm.examples.model.kotlin.Person
+import com.mongodb.realm.examples.model.kotlin.SnackKt
 import io.realm.Realm
 import io.realm.RealmAny
 import io.realm.RealmConfiguration
 import org.junit.Assert
 import org.junit.Test
-import java.util.*
 import java.util.Map
-
 
 class DataTypesTest : RealmTest() {
     @Test
@@ -120,17 +123,17 @@ class DataTypesTest : RealmTest() {
 
                 // add multiple values to the RealmSet
                 val water = realm.createObject(SnackKt::class.java)
-                flies.name = "water"
+                water.name = "water"
                 val verySmallRocks = realm.createObject(SnackKt::class.java)
-                flies.name = "verySmallRocks"
+                verySmallRocks.name = "verySmallRocks"
                 set.addAll(listOf(water, verySmallRocks))
 
                 // check for the presence of a key with contains
                 Assert.assertTrue(set.contains(flies))
-                val biscuits = realm.createObject(SnackKt::class.java)
-                flies.name = "biscuits"
 
                 // check for the presence of multiple keys with containsAll
+                val biscuits = realm.createObject(SnackKt::class.java)
+                biscuits.name = "biscuits"
                 Assert.assertTrue(set.containsAll(Arrays.asList(water, biscuits)) == false)
 
                 // remove string from a set
