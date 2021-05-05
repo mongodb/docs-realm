@@ -20,10 +20,10 @@ unique ``String`` keys paired with values. ``RealmDictionary``
 implements Java's ``Map`` interface, so it works just like the built-in
 ``HashMap`` class, except managed ``RealmDictionary`` instances persist
 their contents to a {+realm+}. ``RealmDictionary`` instances that
-contain {+service-short+} objects actually only store references to
-those objects, so deleting a {+service-short+} object from a {+realm+}
-results in a ``null`` value in any ``RealmDictionary`` instances that
-contain the object.
+contain {+service-short+} objects store references to those objects.
+When you delete a {+service-short+} object from a {+realm+}, any
+references to that object in a ``RealmDictionary`` become ``null``
+values.
 
 Usage
 -----

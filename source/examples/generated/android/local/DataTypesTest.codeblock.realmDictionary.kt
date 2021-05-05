@@ -17,7 +17,7 @@ val greg =
 greg.name = "Greg"
 val beatrice =
     realm.createObject(Frog::class.java)
-wirt.name = "Beatrice"
+beatrice.name = "Beatrice"
 dictionary.putAll(mapOf<String, Frog>(
     Pair("small frog", greg),
     Pair("feathered frog", beatrice)))

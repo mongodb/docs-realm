@@ -189,7 +189,7 @@ class DataTypesTest : RealmTest() {
                 greg.name = "Greg"
                 val beatrice =
                     realm.createObject(FrogDictionaryKt::class.java)
-                wirt.name = "Beatrice"
+                beatrice.name = "Beatrice"
                 dictionary.putAll(mapOf<String, FrogDictionaryKt>(
                     Pair("small frog", greg),
                     Pair("feathered frog", beatrice)))

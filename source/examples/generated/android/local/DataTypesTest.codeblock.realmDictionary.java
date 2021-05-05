@@ -13,7 +13,7 @@ dictionary.put("tall frog", wirt);
 Frog greg = realm.createObject(Frog.class);
 greg.setName("Greg");
 Frog beatrice = realm.createObject(Frog.class);
-wirt.setName("Beatrice");
+beatrice.setName("Beatrice");
 dictionary.putAll(Map.of("small frog", greg, "feathered frog", beatrice));
 
 // check for the presence of a key

@@ -194,7 +194,7 @@ public class DataTypesTest extends RealmTest {
                 FrogDictionary greg = realm.createObject(FrogDictionary.class);
                 greg.setName("Greg");
                 FrogDictionary beatrice = realm.createObject(FrogDictionary.class);
-                wirt.setName("Beatrice");
+                beatrice.setName("Beatrice");
                 dictionary.putAll(Map.of("small frog", greg, "feathered frog", beatrice));
 
                 // check for the presence of a key
