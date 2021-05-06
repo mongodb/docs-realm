@@ -40,10 +40,11 @@ title: Remove the web-vitals dependency
 ref: remove-web-vitals
 content: |
   Create React App version 4.0+ includes the :npm:`web-vitals
-  </package/web-vitals>` module. Since 'web-vitals' is designed to work with the web rather than an Electron environment, the inclusion of this module may lead to a
-  ``"chunk runtime-main [entry] Cannot convert undefined or null to object"``
-  error when building the application. To avoid this error, run the following
-  command to uninstall the ``web-vitals`` package.
+  </package/web-vitals>` module. Since 'web-vitals' is designed to work with the
+  web rather than an Electron environment, the inclusion of this module may lead
+  to a ``"chunk runtime-main [entry] Cannot convert undefined or null to
+  object"`` error when building the application. To avoid this error, run the
+  following command to uninstall the ``web-vitals`` package.
 
   .. code-block:: shell
 
@@ -52,13 +53,13 @@ content: |
 
   Then delete the ``reportWebVitals.js`` file:
 
-   .. code-block:: shell
+  .. code-block:: shell
 
      rm src/reportWebVitals.js
 
   Finally, remove the following lines from the ``src/index.js`` file:
 
-   .. code-block:: javascript
+  .. code-block:: javascript
 
      import reportWebVitals from './reportWebVitals';
      reportWebVitals();
