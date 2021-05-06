@@ -39,10 +39,104 @@ Create an Object
 Modify an Object
 ----------------
 
+There are a few ways you can modify a {+realm+} object in Realm Studio:
+
+- Change a field value
+- Change an object relationship
+
+Change a Field Value
+~~~~~~~~~~~~~~~~~~~~
+
+You can manually change an object's field values:
+
+- Click into the field of an object
+- Enter a different value
+
+When you change a field value in this way, you can attempt to enter any 
+value into the field. Realm Studio provides simple type validation, such 
+as providing a list of acceptable boolean options: :guilabel:`Use "true", 
+"false", "0", or "1"`, or automatically converting a date into a valid 
+datetime. However, this validation may lead to unexpected behavior. For 
+example, typing "123abc" into an `int` field simply discards the 
+non-numeric characters without providing user feedback or errors. 
+
+Keep this in mind when editing field values in Realm Studio.
+
+Change an Object Relationship
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can change an object's relationship with other objects using Realm
+Studio. 
+
+To add a new object relationship:
+
+- Click into the property that defines the relationship
+- Right-click (or control-click) anywhere in the main pane, and select
+  :guilabel:`Add existing {linked class name}`
+- Select the object you want to link, and press the :guilabel:`Select` button
+
+.. important::
+   
+   Adding an object relationship does not remove an existing object 
+   relationship. If you want to change an object relationship; for example, 
+   move a task from one category to another; you must also remove the 
+   relationship that linked the task to the old category.
+
+To remove an object relationship:
+
+- Click into the property that defines the relationship.
+- Right-click (or control-click) the object whose relationship you 
+  want to remove, and select :guilabel:`Remove selected row from the list`
+  or :guilabel:`Delete selected object` depending on the type of relationship.
+- You'll see a dialog asking you to confirm the action. Press the button 
+  to confirm you want to remove or delete the object.
+
 Delete an Object
 ----------------
+
+To delete an object from a {+realm+}:
+
+- Right-click (or control-click) the object you want to delete, and 
+  select :guilabel:`Delete selected object`.
+- You'll see a dialog asking you to confirm the action. Press the 
+  :guilabel:`Delete selected object` button to confirm.
+
+.. tip::
+   
+   If you don't see the :guilabel:`Delete selected object` option, you
+   may be viewing it in a linking relationship list view. Go directly to
+   the class where the objects are stored. 
+
+   If you're in the class where the objects are stored, and still don't
+   see the :guilabel:`Delete selected objects` option, it may be because
+   you have another object selected. Click to select the object you want 
+   to delete, and then right-click (or control-click) to get the delete
+   option.
 
 .. _realm-studio-save-data:
 
 Save the Data
 -------------
+
+Because {+realm+} objects are live objects, you can make changes to a 
+{+realm+} file and see them reflected in a client app in realtime. However,
+if you want to persist your changes after you close the {+realm+} file, 
+you must save the data from Realm Studio.
+
+To save data from Realm Studio:
+
+- Go to :guilabel:`File` > :guilabel:`Save data` and select :guilabel:`JSON`
+  or :guilabel:`Local Realm`.
+- Select the filename and destination where you want to save the file.
+- Press the :guilabel:`Save` button.
+
+Once you have saved the data, you can import it back into your app. 
+
+If you save it as JSON, you can use your preferred method to import the
+JSON into your app. 
+
+If you save the data as a {+realm+} file, and you haven't :ref:`modified 
+the schema <realm-studio-modify-schema>`, you can use that {+realm+} 
+file as a direct replacement for the existing realm file in your client 
+app. Simply replace the existing {+realm+} file on your filesystem with 
+the new one.
