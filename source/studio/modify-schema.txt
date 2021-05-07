@@ -15,14 +15,128 @@ Modify Schema in a Realm Studio
 Overview
 --------
 
+Realm Studio gives you tools to make additive changes to your schema. You 
+can:
+
+- :ref:`Add classes to the schema<realm-studio-add-class-to-schema>`
+- :ref:`Add properties to classes<realm-studio-add-property-to-class>`
+
+After you make schema changes, you can add values to the new properties 
+and classes from within Realm Studio. This gives you a graphical user 
+interface (GUI) tool to experiment with changes to your schema until 
+you get the object model you need.
+
+When you've completed your changes, you can export your model definitions 
+from Realm Studio. This gives you new class definitions in your language 
+of choice, which you can drop into your code.
+
+You can also save an updated version of the {+realm+} file and use it in 
+your app. When you save a {+realm+} file with an updated schema, you must 
+perform a migration to use it in your app.
+
+.. _realm-studio-add-class-to-schema:
+
 Add a Class to the Schema
 -------------------------
+
+To add a new class to your schema:
+
+- Press the :guilabel:`+` button next to the :guilabel:`Classes` header
+  in the upper-left hand corner of the Realm Studio window
+- Name your new class
+- Designate a primary key (Optional)
+- Press the :guilabel:`Add class` button
+
+You'll now see a new class in the class list displayed in the left-hand
+sidebar.
+
+.. _realm-studio-add-property-to-class:
 
 Add a Property to the Class
 ---------------------------
 
+To add properties to a class:
+
+- Select the class where you want to add properties in the left-hand sidebar
+- Press the :guilabel:`+` button under the :guilabel:`Create {Class Name}`
+  button in the upper-right hand corner of the Realm Studio window
+- Name your new property
+- Select a type for your new property from the drop-down selector
+- Click the checkboxes to select :guilabel:`Make this a list of strings` 
+  and :guilabel:`Optional: Allow a null value` if needed
+- Press the :guilabel:`Add property` button
+
+You'll see your new property displayed alongside the other class properties.
+
+If you already have objects in your class, you can add values for this 
+property by clicking into the property's field for each value. If this is
+a new class with no objects, you can create new objects in the class.
+
+.. seealso:: 
+
+   :ref:`Modify Objects in a Realm File <realm-studio-modify-objects>`
+
 Save Model Definitions
 ----------------------
 
+After you've made changes to your schema, you can export your new schema 
+as class definitions.
+
+To export updated class definitions:
+
+- Go to :guilabel:`File` > :guilabel:`Save model definitions`, and select
+  your preferred language. Supported languages include: Swift, JavaScript,
+  TypeScript, Java, Kotlin, and C#. 
+- Specify a name and destination for your new class definitions. Press
+  the :guilabel:`Save` button.
+
+You'll see a new directory at your specified destination containing your 
+class definitions. The file contains a complete list of classes and 
+properties, including new additions. 
+
+This is a great tool to iterate on your schema. You can also export class 
+definitions in multiple languages for cross-platform development.
+
 Perform a Migration
 -------------------
+
+After you make changes to your schema, you can :ref:`add values to new 
+properties <realm-studio-modify-an-object>` and even :ref:`create new 
+objects <realm-studio-create-an-object>`. If you want to then use this 
+updated {+realm+} file in your app, you can :ref:`save the data <realm-studio-save-data>`. 
+Before you can use it in your client app, though, you'll need to perform 
+a migration.
+
+{client-database} requires you to increment the version monotonically when 
+you change the schema. If you try to open a realm with an updated object 
+schema without migrating, your client will throw an error.
+
+For instructions on how to complete this migration, consult your SDK's 
+migration guide.
+
+.. tabs::
+
+   .. tab:: Android
+      :tabid: android
+
+      :ref:`Schema Versions & Migrations - Android SDK<android-schema-versions-and-migrations>`
+
+   .. tab:: Swift
+      :tabid: swift
+
+      :ref:`Schema Versions & Migrations - iOS SDK<ios-schema-versions-and-migrations>`
+
+   .. tab:: Node.js
+      :tabid: node
+
+      :ref:`Schema Versions & Migrations - Node.js SDK<node-schema-versions-and-migrations>`
+
+   .. tab:: React Native
+      :tabid: react-native
+    
+      :ref:`Schema Versions & Migrations - React Native SDK<react-native-schema-versions-and-migrations>`
+
+   .. tab:: .Net
+      :tabid: dotnet
+
+      :ref:`Schema Versions & Migrations - .NET SDK<dotnet-schema-versions-and-migrations>`
