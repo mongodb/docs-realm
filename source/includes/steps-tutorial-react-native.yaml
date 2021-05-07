@@ -40,19 +40,25 @@ content: |
      pod install --repo-update
      cd ..
 
-  Be sure to switch back to the realm-tutorial-react-native root directory after 
-  installing the pods.
+  Be sure to switch back to the :guilabel:`realm-tutorial-react-native` root 
+  directory after installing the pods.
 
-  Once the dependency installations are complete, you can run the app. Start by 
-  running `Metro <https://facebook.github.io/metro/>`__ by using the following 
-  command in a terminal window:
+  Test the Installation
+  ~~~~~~~~~~~~~~~~~~~~~
+  At this point, you have a React Native app that can run on iOS, Android, or 
+  both platforms. We haven't yet implemented the necessary code for app 
+  functionality, so there will be errors when the app loads, but you can 
+  ensure that the app deploys properly. 
+
+  Start by running `Metro <https://facebook.github.io/metro/>`__ in a terminal 
+  window by using the following command:
 
   .. code-block:: shell
 
      npx react-native start
 
-  In a separate terminal window, use one of the following commands, depending 
-  on whether you want to run on iOS or Android:
+  Leave Metro running, and in a **separate terminal window**, issue one of the 
+  following commands, depending on whether you want to run on iOS or Android:
 
   .. code-block:: shell
 
@@ -63,6 +69,30 @@ content: |
   .. code-block:: shell
 
      npx react-native run-android
+
+  After the emulator is started and the bits have been deployed, you should see 
+  the app is "running" and one or more errors are displayed:
+    
+  .. figure:: /images/rn-app-initial-state.png
+    :alt: The initial state of React Native app
+    :width: 250px
+
+  .. important:: CompileC Error
+    
+     If, when compiling the iOS app, you get a CompileC build error that involves
+     "Flipper," you will need to edit the ``Podfile`` file. Look for the section 
+     that enables Flipper and comment out those lines:
+
+     .. code-block:: text
+
+        # Enables Flipper.
+        #
+        # Note that if you have use_frameworks! enabled, Flipper will not work and
+        # you should disable these next few lines.
+        # use_flipper!
+        #post_install do |installer|
+        #  flipper_post_install(installer)
+        #end
 ---
 title: Explore the App Structure
 ref: explore-the-app-structure
