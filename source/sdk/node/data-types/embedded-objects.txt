@@ -22,7 +22,7 @@ constraints and map more naturally to the denormalized :manual:`MongoDB document
 model </core/data-modeling-introduction/>`.
 
 Realm enforces unique ownership constraints that treat each embedded object as
-nested data inside of a single, specific parent object. An embedded object
+nested data inside a single, specific parent object. An embedded object
 inherits the lifecycle of its parent object and cannot exist as an independent
 Realm object. This means that embedded objects cannot have a primary key and
 that Realm automatically deletes embedded objects if their parent object is
