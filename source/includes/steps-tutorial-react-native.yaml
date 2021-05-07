@@ -43,8 +43,10 @@ content: |
   Be sure to switch back to the :guilabel:`realm-tutorial-react-native` root 
   directory after installing the pods.
 
-  Test the Installation
-  ~~~~~~~~~~~~~~~~~~~~~
+---
+title: Test the Setup
+ref: test-setup
+content: |
   At this point, you have a React Native app that can run on iOS, Android, or 
   both platforms. We haven't yet implemented the necessary code for app 
   functionality, so there will be errors when the app loads, but you can 
@@ -80,7 +82,7 @@ content: |
   .. important:: CompileC Error
     
      If, when compiling the iOS app, you get a CompileC build error that involves
-     "Flipper," you will need to edit the ``Podfile`` file. Look for the section 
+     "Flipper," you will need to edit ``/ios/Podfile``. Look for the section 
      that enables Flipper and comment out those lines:
 
      .. code-block:: text
@@ -93,69 +95,6 @@ content: |
         #post_install do |installer|
         #  flipper_post_install(installer)
         #end
----
-title: Explore the App Structure
-ref: explore-the-app-structure
-content: |
-  Open the realm-tutorial-react-native directory in the text editor of your
-  choice and explore the code in project. Be sure to check out the following
-  files:
-
-  .. cssclass:: config-table
-  .. list-table::
-     :header-rows: 1
-     :widths: 15 85
-     
-     * - File
-       - Purpose
-
-     * - getRealmApp.js
-       - Provides access to the Realm app instance.
-
-     * - App.js
-       - Defines which screens are in the app and sets up the navigation system.
-
-     * - schemas.js
-       - Defines the Realm object models used in this app.
-
-     * - providers/AuthProvider.js
-       - Defines the AuthProvider, which handles user login, log out, and
-         project membership information for the current user.
-
-     * - providers/TasksProvider.js
-       - Defines the TasksProvider, which handles fetching, adding, updating,
-         and deleting tasks within a project.
-
-     * - components/ActionSheet.js
-       - A component that presents the user with a list of actions.
-
-     * - components/AddTask.js
-       - A button that, when pressed, prompts the user to enter new task
-         information and creates it with the given createTask function.
-
-     * - components/Logout.js
-       - A button that handles user log out.
-
-     * - components/ManageTeam.js
-       - A list of team members on the current user's project that provides
-         controls for adding and removing team members.
-
-     * - components/TaskItem.js
-       - A list item that represents a task in a list. When pressed, it presents
-         an ActionSheet with actions corresponding to deleting the task or
-         updating the task's status.
-
-     * - views/ProjectsView.js
-       - The screen that presents a list of projects that the current user is a
-         team member of.
-
-     * - views/TasksView.js
-       - The screen showing the tasks for a given project. If this is the
-         logged-in user's own project, the TasksView includes a button open a
-         ManageTeam view.
-
-     * - views/WelcomeView.js
-       - The screen that allows a user to log in or register a user.
 
 ---
 title: Connect to Your MongoDB Realm App
