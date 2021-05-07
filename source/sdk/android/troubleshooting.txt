@@ -1,0 +1,162 @@
+.. _android-troubleshooting:
+
+=============================
+Troubleshooting - Android SDK
+=============================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Couldn't load "librealm-jni.so"
+-------------------------------
+
+If your app uses native libraries that don’t ship with support for
+64-bit architectures, Android will fail to load Realm’s
+``librealm-jni.so`` file on ARM64 devices. This happens because Android
+cannot load 32-bit and 64-bit native libraries concurrently. Ideally,
+all libraries could provide the same set of supported ABIs, but
+sometimes that may not be doable when using a 3rd-party library.
+
+To work around this issue, you can exclude Realm’s ARM64 library from
+the APK file by adding the following code to the application’s
+``build.gradle``. You can refer to Mixing 32- and 64-bit Dependencies in Android for more information.
+
+.. code-block:: gradle
+
+   android {
+       //...
+       packagingOptions {
+           exclude "lib/arm64-v8a/librealm-jni.so"
+       }
+       //...
+   }
+
+.. seealso::
+
+   For more information, see `Mixing 32- and 64-bit Dependencies in Android
+   <https://corbt.com/posts/2015/09/18/mixing-32-and-64bit-dependencies-in-android.html>`__.
+
+Network Calls to Mixpanel
+-------------------------
+
+{+service-short+} collects anonymous analytics when you run the
+{+service-short+} bytecode transformer on your source code. This is
+completely anonymous and helps us improve the product by flagging:
+
+- which version of the SDK you use
+- which operating system you use
+- if your application uses Kotlin
+- if your application uses local-only {+client-database+} or {+sync+}
+
+Analytics do not run when your application runs on user devices - only
+when you compile your source code. To opt out of analytics, you can set
+the ``REALM_DISABLE_ANALYTICS`` environment variable to ``true``.
+
+Customize Dependecies Defined by the Realm Gradle Plugin
+--------------------------------------------------------
+
+{+service-short+} uses a Gradle plugin because it makes it easier to set
+up a large number of dependencies. Unfortunately this also makes it a
+bit harder to ignore specific transitive dependencies.
+
+If you want to customize {+service-short+} beyond what is exposed by the
+plugin, you can manually set up all the dependencies and ignore the
+Gradle plugin. The following example demonstrates how to set up the SDK
+for an Android application using Kotlin manually:
+
+.. code-block:: gradle
+
+   buildscript {
+       ext.kotlin_version = '1.2.41'
+       ext.realm_version = '10.5.0'
+       repositories {
+           jcenter()
+           mavenCentral()
+       }
+       dependencies {
+           classpath "io.realm:realm-transformer:$realm_version"
+           classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+       }
+   }
+
+   apply plugin: 'com.android.application'
+   apply plugin: 'kotlin-android'
+   apply plugin: 'kotlin-kapt'
+
+   import io.realm.transformer.RealmTransformer
+   android.registerTransform(new RealmTransformer(project))
+
+   dependencies {
+     api "io.realm:realm-annotations:$realm_version"
+     api "io.realm:realm-android-library:$realm_version"
+     api "io.realm:realm-android-kotlin-extensions:$realm_version"
+     kapt "io.realm:realm-annotations-processor:$realm_version"
+   }
+
+Use Realm in System Apps on Custom ROMs
+---------------------------------------
+
+{+service-short+} uses named pipes in order to support notifications and
+access to the {+realm+} file from multiple processes. While this is
+allowed by default for normal user apps, it is disallowed for system
+apps.
+
+You can define a system apps by setting
+``android:sharedUserId="android.uid.system"`` in the Android manifest.
+When working with a system app, you may see a security violation in
+Logcat that looks something like this:
+
+.. code-block::
+
+   05-24 14:08:08.984  6921  6921 W .realmsystemapp: type=1400 audit(0.0:99): avc: denied { write } for name="realm.testapp.com.realmsystemapp-Bfqpnjj4mUvxWtfMcOXBCA==" dev="vdc" ino=14660 scontext=u:r:system_app:s0 tcontext=u:object_r:apk_data_file:s0 tclass=dir permissive=0
+   05-24 14:08:08.984  6921  6921 W .realmsystemapp: type=1400 audit(0.0:100): avc: denied { write } for name="realm.testapp.com.realmsystemapp-Bfqpnjj4mUvxWtfMcOXBCA==" dev="vdc" ino=14660 scontext=u:r:system_app:s0 tcontext=u:object_r:apk_data_file:s0 tclass=dir permissive=0
+
+In order to fix this you need to adjust the SELinux security rules in
+the ROM. This can be done by using the tool ``audit2allow``, which ships
+as part of AOSP:
+
+1. Pull the current policy from the device:
+
+   .. code-block::
+
+      adb pull /sys/fs/selinux/policy
+
+#. Copy the SELinux error inside a text file called input.txt.
+
+#. Run the ``audit2allow`` tool:
+
+   .. code-block::
+
+      audit2allow -p policy -i input.txt
+
+#. The tool should output a rule you can add to your existing policy
+   to enable the use of {+service-short+}.
+
+An example of such a policy is provided below:
+
+.. code-block::
+
+   # Allow system_app to create named pipes required by Realm
+   # Credit: https://github.com/mikalackis/platform_vendor_ariel/blob/master_oreo/sepolicy/system_app.te
+   allow system_app fuse:fifo_file create;
+   allow system_app system_app_data_file:fifo_file create;
+   allow system_app system_app_data_file:fifo_file { read write };
+   allow system_app system_app_data_file:fifo_file open;
+
+.. seealso:: audit2allow
+
+   ``audit2allow`` is produced when compiling AOSP/ROM and only runs on
+   Linux. You can read more about it `here
+   <https://source.android.com/security/selinux/validate#using_audit2allow>`__.
+
+.. note:: Changes in Android Oreo and Above
+
+   Since Android Oreo, Google changed the way it configures SELinux.
+   The default security policies are now much more modularized.
+   Read more about that
+   `here <https://source.android.com/security/selinux/images/SELinux_Treble.pdf>`__.

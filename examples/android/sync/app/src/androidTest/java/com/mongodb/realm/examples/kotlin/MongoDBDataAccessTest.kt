@@ -32,18 +32,18 @@ class MongoDBDataAccessTest : RealmTest() {
                     // :code-block-start: example-data
                     val user = app.currentUser()
                     val mongoClient =
-                        user!!.getMongoClient("mongodb-atlas") // service for MongoDB Atlas cluster containing custom user data
+                        user!!.getMongoClient("mongodb-atlas")
                     val mongoDatabase =
                         mongoClient.getDatabase("plant-data-database")
-                    var mongoCollection =
-                        mongoDatabase.getCollection("plant-data-collection",
-                            Plant::class.java)
                     // registry to handle POJOs (Plain Old Java Objects)
                     val pojoCodecRegistry = CodecRegistries.fromRegistries(
-                        mongoCollection.codecRegistry,
+                        AppConfiguration.DEFAULT_BSON_CODEC_REGISTRY,
                         CodecRegistries.fromProviders(
                             PojoCodecProvider.builder().automatic(true).build()))
-                    mongoCollection = mongoCollection.withCodecRegistry(pojoCodecRegistry)
+                    val mongoCollection =
+                        mongoDatabase.getCollection(
+                            "plant-data-collection",
+                            Plant::class.java).withCodecRegistry(pojoCodecRegistry)
                     mongoCollection.insertMany(
                         listOf(
                             Plant(
@@ -117,18 +117,18 @@ class MongoDBDataAccessTest : RealmTest() {
                     // :code-block-start: instantiate-a-mongodb-collection-handle
                     val user = app.currentUser()
                     val mongoClient =
-                        user!!.getMongoClient("mongodb-atlas") // service for MongoDB Atlas cluster containing custom user data
+                        user!!.getMongoClient("mongodb-atlas")
                     val mongoDatabase =
                         mongoClient.getDatabase("plant-data-database")
-                    var mongoCollection =
-                        mongoDatabase.getCollection("plant-data-collection",
-                            Plant::class.java)
                     // registry to handle POJOs (Plain Old Java Objects)
                     val pojoCodecRegistry = CodecRegistries.fromRegistries(
-                        mongoCollection.codecRegistry,
+                        AppConfiguration.DEFAULT_BSON_CODEC_REGISTRY,
                         CodecRegistries.fromProviders(
                             PojoCodecProvider.builder().automatic(true).build()))
-                    mongoCollection = mongoCollection.withCodecRegistry(pojoCodecRegistry)
+                    val mongoCollection =
+                        mongoDatabase.getCollection(
+                            "plant-data-collection",
+                            Plant::class.java).withCodecRegistry(pojoCodecRegistry)
                     Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle")
                     // :hide-start:
                     expectation.fulfill()
@@ -155,18 +155,18 @@ class MongoDBDataAccessTest : RealmTest() {
                     Log.v("EXAMPLE", "Successfully authenticated.")
                     val user = app.currentUser()
                     val mongoClient =
-                        user!!.getMongoClient("mongodb-atlas") // service for MongoDB Atlas cluster containing custom user data
+                        user!!.getMongoClient("mongodb-atlas")
                     val mongoDatabase =
                         mongoClient.getDatabase("plant-data-database")
-                    var mongoCollection =
-                        mongoDatabase.getCollection("plant-data-collection",
-                            Plant::class.java)
                     // registry to handle POJOs (Plain Old Java Objects)
                     val pojoCodecRegistry = CodecRegistries.fromRegistries(
-                        mongoCollection.codecRegistry,
+                        AppConfiguration.DEFAULT_BSON_CODEC_REGISTRY,
                         CodecRegistries.fromProviders(
                             PojoCodecProvider.builder().automatic(true).build()))
-                    mongoCollection = mongoCollection.withCodecRegistry(pojoCodecRegistry)
+                    val mongoCollection =
+                        mongoDatabase.getCollection(
+                            "plant-data-collection",
+                            Plant::class.java).withCodecRegistry(pojoCodecRegistry)
                     Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle")
                     // :code-block-start: insert-a-single-document
                     val plant = Plant(
@@ -212,18 +212,18 @@ class MongoDBDataAccessTest : RealmTest() {
                     Log.v("EXAMPLE", "Successfully authenticated.")
                     val user = app.currentUser()
                     val mongoClient =
-                        user!!.getMongoClient("mongodb-atlas") // service for MongoDB Atlas cluster containing custom user data
+                        user!!.getMongoClient("mongodb-atlas")
                     val mongoDatabase =
                         mongoClient.getDatabase("plant-data-database")
-                    var mongoCollection =
-                        mongoDatabase.getCollection("plant-data-collection",
-                            Plant::class.java)
                     // registry to handle POJOs (Plain Old Java Objects)
                     val pojoCodecRegistry = CodecRegistries.fromRegistries(
-                        mongoCollection.codecRegistry,
+                        AppConfiguration.DEFAULT_BSON_CODEC_REGISTRY,
                         CodecRegistries.fromProviders(
                             PojoCodecProvider.builder().automatic(true).build()))
-                    mongoCollection = mongoCollection.withCodecRegistry(pojoCodecRegistry)
+                    val mongoCollection =
+                        mongoDatabase.getCollection(
+                            "plant-data-collection",
+                            Plant::class.java).withCodecRegistry(pojoCodecRegistry)
                     Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle")
                     // :code-block-start: insert-multiple-documents
                     val plants = listOf(
@@ -290,18 +290,18 @@ class MongoDBDataAccessTest : RealmTest() {
                     Log.v("EXAMPLE", "Successfully authenticated.")
                     val user = app.currentUser()
                     val mongoClient =
-                        user!!.getMongoClient("mongodb-atlas") // service for MongoDB Atlas cluster containing custom user data
+                        user!!.getMongoClient("mongodb-atlas")
                     val mongoDatabase =
                         mongoClient.getDatabase("plant-data-database")
-                    var mongoCollection =
-                        mongoDatabase.getCollection("plant-data-collection",
-                            Plant::class.java)
                     // registry to handle POJOs (Plain Old Java Objects)
                     val pojoCodecRegistry = CodecRegistries.fromRegistries(
-                        mongoCollection.codecRegistry,
+                        AppConfiguration.DEFAULT_BSON_CODEC_REGISTRY,
                         CodecRegistries.fromProviders(
                             PojoCodecProvider.builder().automatic(true).build()))
-                    mongoCollection = mongoCollection.withCodecRegistry(pojoCodecRegistry)
+                    val mongoCollection =
+                        mongoDatabase.getCollection(
+                            "plant-data-collection",
+                            Plant::class.java).withCodecRegistry(pojoCodecRegistry)
                     Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle")
                     // :code-block-start: find-a-single-document
                     val queryFilter = Document("type", "perennial")
@@ -338,18 +338,18 @@ class MongoDBDataAccessTest : RealmTest() {
                     Log.v("EXAMPLE", "Successfully authenticated.")
                     val user = app.currentUser()
                     val mongoClient =
-                        user!!.getMongoClient("mongodb-atlas") // service for MongoDB Atlas cluster containing custom user data
+                        user!!.getMongoClient("mongodb-atlas")
                     val mongoDatabase =
                         mongoClient.getDatabase("plant-data-database")
-                    var mongoCollection =
-                        mongoDatabase.getCollection("plant-data-collection",
-                            Plant::class.java)
                     // registry to handle POJOs (Plain Old Java Objects)
                     val pojoCodecRegistry = CodecRegistries.fromRegistries(
-                        mongoCollection.codecRegistry,
+                        AppConfiguration.DEFAULT_BSON_CODEC_REGISTRY,
                         CodecRegistries.fromProviders(
                             PojoCodecProvider.builder().automatic(true).build()))
-                    mongoCollection = mongoCollection.withCodecRegistry(pojoCodecRegistry)
+                    val mongoCollection =
+                        mongoDatabase.getCollection(
+                            "plant-data-collection",
+                            Plant::class.java).withCodecRegistry(pojoCodecRegistry)
                     Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle")
                     // :code-block-start: find-multiple-documents
                     val queryFilter = Document("_partition", "Store 42")
@@ -393,18 +393,18 @@ class MongoDBDataAccessTest : RealmTest() {
                     Log.v("EXAMPLE", "Successfully authenticated.")
                     val user = app.currentUser()
                     val mongoClient =
-                        user!!.getMongoClient("mongodb-atlas") // service for MongoDB Atlas cluster containing custom user data
+                        user!!.getMongoClient("mongodb-atlas")
                     val mongoDatabase =
                         mongoClient.getDatabase("plant-data-database")
-                    var mongoCollection =
-                        mongoDatabase.getCollection("plant-data-collection",
-                            Plant::class.java)
                     // registry to handle POJOs (Plain Old Java Objects)
                     val pojoCodecRegistry = CodecRegistries.fromRegistries(
-                        mongoCollection.codecRegistry,
+                        AppConfiguration.DEFAULT_BSON_CODEC_REGISTRY,
                         CodecRegistries.fromProviders(
                             PojoCodecProvider.builder().automatic(true).build()))
-                    mongoCollection = mongoCollection.withCodecRegistry(pojoCodecRegistry)
+                    val mongoCollection =
+                        mongoDatabase.getCollection(
+                            "plant-data-collection",
+                            Plant::class.java).withCodecRegistry(pojoCodecRegistry)
                     Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle")
                     // :code-block-start: count-documents
                     mongoCollection.count().getAsync { task ->
@@ -442,18 +442,18 @@ class MongoDBDataAccessTest : RealmTest() {
                     Log.v("EXAMPLE", "Successfully authenticated.")
                     val user = app.currentUser()
                     val mongoClient =
-                        user!!.getMongoClient("mongodb-atlas") // service for MongoDB Atlas cluster containing custom user data
+                        user!!.getMongoClient("mongodb-atlas")
                     val mongoDatabase =
                         mongoClient.getDatabase("plant-data-database")
-                    var mongoCollection =
-                        mongoDatabase.getCollection("plant-data-collection",
-                            Plant::class.java)
                     // registry to handle POJOs (Plain Old Java Objects)
                     val pojoCodecRegistry = CodecRegistries.fromRegistries(
-                        mongoCollection.codecRegistry,
+                        AppConfiguration.DEFAULT_BSON_CODEC_REGISTRY,
                         CodecRegistries.fromProviders(
                             PojoCodecProvider.builder().automatic(true).build()))
-                    mongoCollection = mongoCollection.withCodecRegistry(pojoCodecRegistry)
+                    val mongoCollection =
+                        mongoDatabase.getCollection(
+                            "plant-data-collection",
+                            Plant::class.java).withCodecRegistry(pojoCodecRegistry)
                     Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle")
                     // :code-block-start: update-a-single-document
                     val queryFilter = Document("name", "petunia")
@@ -497,18 +497,18 @@ class MongoDBDataAccessTest : RealmTest() {
                     Log.v("EXAMPLE", "Successfully authenticated.")
                     val user = app.currentUser()
                     val mongoClient =
-                        user!!.getMongoClient("mongodb-atlas") // service for MongoDB Atlas cluster containing custom user data
+                        user!!.getMongoClient("mongodb-atlas")
                     val mongoDatabase =
                         mongoClient.getDatabase("plant-data-database")
-                    var mongoCollection =
-                        mongoDatabase.getCollection("plant-data-collection",
-                            Plant::class.java)
                     // registry to handle POJOs (Plain Old Java Objects)
                     val pojoCodecRegistry = CodecRegistries.fromRegistries(
-                        mongoCollection.codecRegistry,
+                        AppConfiguration.DEFAULT_BSON_CODEC_REGISTRY,
                         CodecRegistries.fromProviders(
                             PojoCodecProvider.builder().automatic(true).build()))
-                    mongoCollection = mongoCollection.withCodecRegistry(pojoCodecRegistry)
+                    val mongoCollection =
+                        mongoDatabase.getCollection(
+                            "plant-data-collection",
+                            Plant::class.java).withCodecRegistry(pojoCodecRegistry)
                     Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle")
                     // :code-block-start: update-multiple-documents
                     val queryFilter = Document("_partition", "Store 47")
@@ -552,18 +552,18 @@ class MongoDBDataAccessTest : RealmTest() {
                     Log.v("EXAMPLE", "Successfully authenticated.")
                     val user = app.currentUser()
                     val mongoClient =
-                        user!!.getMongoClient("mongodb-atlas") // service for MongoDB Atlas cluster containing custom user data
+                        user!!.getMongoClient("mongodb-atlas")
                     val mongoDatabase =
                         mongoClient.getDatabase("plant-data-database")
-                    var mongoCollection =
-                        mongoDatabase.getCollection("plant-data-collection",
-                            Plant::class.java)
                     // registry to handle POJOs (Plain Old Java Objects)
                     val pojoCodecRegistry = CodecRegistries.fromRegistries(
-                        mongoCollection.codecRegistry,
+                        AppConfiguration.DEFAULT_BSON_CODEC_REGISTRY,
                         CodecRegistries.fromProviders(
                             PojoCodecProvider.builder().automatic(true).build()))
-                    mongoCollection = mongoCollection.withCodecRegistry(pojoCodecRegistry)
+                    val mongoCollection =
+                        mongoDatabase.getCollection(
+                            "plant-data-collection",
+                            Plant::class.java).withCodecRegistry(pojoCodecRegistry)
                     Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle")
                     // :code-block-start: upsert-a-single-document
                     val queryFilter = Document("sunlight", "full")
@@ -608,18 +608,18 @@ class MongoDBDataAccessTest : RealmTest() {
                     Log.v("EXAMPLE", "Successfully authenticated.")
                     val user = app.currentUser()
                     val mongoClient =
-                        user!!.getMongoClient("mongodb-atlas") // service for MongoDB Atlas cluster containing custom user data
+                        user!!.getMongoClient("mongodb-atlas")
                     val mongoDatabase =
                         mongoClient.getDatabase("plant-data-database")
-                    var mongoCollection =
-                        mongoDatabase.getCollection("plant-data-collection",
-                            Plant::class.java)
                     // registry to handle POJOs (Plain Old Java Objects)
                     val pojoCodecRegistry = CodecRegistries.fromRegistries(
-                        mongoCollection.codecRegistry,
+                        AppConfiguration.DEFAULT_BSON_CODEC_REGISTRY,
                         CodecRegistries.fromProviders(
                             PojoCodecProvider.builder().automatic(true).build()))
-                    mongoCollection = mongoCollection.withCodecRegistry(pojoCodecRegistry)
+                    val mongoCollection =
+                        mongoDatabase.getCollection(
+                            "plant-data-collection",
+                            Plant::class.java).withCodecRegistry(pojoCodecRegistry)
                     Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle")
                     // :code-block-start: delete-a-single-document
                     val queryFilter = Document("color", "green")
@@ -662,18 +662,18 @@ class MongoDBDataAccessTest : RealmTest() {
                     Log.v("EXAMPLE", "Successfully authenticated.")
                     val user = app.currentUser()
                     val mongoClient =
-                        user!!.getMongoClient("mongodb-atlas") // service for MongoDB Atlas cluster containing custom user data
+                        user!!.getMongoClient("mongodb-atlas")
                     val mongoDatabase =
                         mongoClient.getDatabase("plant-data-database")
-                    var mongoCollection =
-                        mongoDatabase.getCollection("plant-data-collection",
-                            Plant::class.java)
                     // registry to handle POJOs (Plain Old Java Objects)
                     val pojoCodecRegistry = CodecRegistries.fromRegistries(
-                        mongoCollection.codecRegistry,
+                        AppConfiguration.DEFAULT_BSON_CODEC_REGISTRY,
                         CodecRegistries.fromProviders(
                             PojoCodecProvider.builder().automatic(true).build()))
-                    mongoCollection = mongoCollection.withCodecRegistry(pojoCodecRegistry)
+                    val mongoCollection =
+                        mongoDatabase.getCollection(
+                            "plant-data-collection",
+                            Plant::class.java).withCodecRegistry(pojoCodecRegistry)
                     Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle")
                     // :code-block-start: delete-documents
                     val queryFilter = Document("sunlight", "full").append("type", "annual")
@@ -717,10 +717,10 @@ class MongoDBDataAccessTest : RealmTest() {
                     val user = app.currentUser()
                     // :code-block-start: aggregate-documents
                     val mongoClient =
-                        user!!.getMongoClient("mongodb-atlas") // service for MongoDB Atlas cluster containing custom user data
+                        user!!.getMongoClient("mongodb-atlas")
                     val mongoDatabase =
                         mongoClient.getDatabase("plant-data-database")
-                    var mongoCollection =
+                    val mongoCollection =
                         mongoDatabase.getCollection("plant-data-collection")
                     Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle")
                     val pipeline = listOf(Document("\$group", Document("_id", "\$type")
@@ -765,18 +765,18 @@ class MongoDBDataAccessTest : RealmTest() {
                     Log.v("EXAMPLE", "Successfully authenticated.")
                     val user = app.currentUser()
                     val mongoClient =
-                        user!!.getMongoClient("mongodb-atlas") // service for MongoDB Atlas cluster containing custom user data
+                        user!!.getMongoClient("mongodb-atlas")
                     val mongoDatabase =
                         mongoClient.getDatabase("plant-data-database")
-                    var mongoCollection =
-                        mongoDatabase.getCollection("plant-data-collection",
-                            Plant::class.java)
                     // registry to handle POJOs (Plain Old Java Objects)
                     val pojoCodecRegistry = CodecRegistries.fromRegistries(
-                        mongoCollection.codecRegistry,
+                        AppConfiguration.DEFAULT_BSON_CODEC_REGISTRY,
                         CodecRegistries.fromProviders(
                             PojoCodecProvider.builder().automatic(true).build()))
-                    mongoCollection = mongoCollection.withCodecRegistry(pojoCodecRegistry)
+                    val mongoCollection =
+                        mongoDatabase.getCollection(
+                            "plant-data-collection",
+                            Plant::class.java).withCodecRegistry(pojoCodecRegistry)
                     Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle")
                     // :code-block-start: watch-documents
                     val watcher = mongoCollection.watchAsync()
@@ -831,18 +831,18 @@ class MongoDBDataAccessTest : RealmTest() {
                     Log.v("EXAMPLE", "Successfully authenticated.")
                     val user = app.currentUser()
                     val mongoClient =
-                        user!!.getMongoClient("mongodb-atlas") // service for MongoDB Atlas cluster containing custom user data
+                        user!!.getMongoClient("mongodb-atlas")
                     val mongoDatabase =
                         mongoClient.getDatabase("plant-data-database")
-                    var mongoCollection =
-                        mongoDatabase.getCollection("plant-data-collection",
-                            Plant::class.java)
                     // registry to handle POJOs (Plain Old Java Objects)
                     val pojoCodecRegistry = CodecRegistries.fromRegistries(
-                        mongoCollection.codecRegistry,
+                        AppConfiguration.DEFAULT_BSON_CODEC_REGISTRY,
                         CodecRegistries.fromProviders(
                             PojoCodecProvider.builder().automatic(true).build()))
-                    mongoCollection = mongoCollection.withCodecRegistry(pojoCodecRegistry)
+                    val mongoCollection =
+                        mongoDatabase.getCollection(
+                            "plant-data-collection",
+                            Plant::class.java).withCodecRegistry(pojoCodecRegistry)
                     Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle")
                     // :code-block-start: watch-documents-with-filter
                     val watcher = mongoCollection

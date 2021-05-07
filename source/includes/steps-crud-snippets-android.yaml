@@ -93,8 +93,8 @@ content: |
      *codec providers*:
 
      - the default codec provider, which provides support for built-in
-       Java types (accessed through calling ``getCodecRegistry()`` on
-       a ``MongoCollection`` with no custom codecs)
+       Java types (accessed through
+       ``AppConfiguration.DEFAULT_BSON_CODEC_REGISTRY``)
 
      - ``PojoCodecProvider``, which automatically creates new codecs to
        support POJO classes

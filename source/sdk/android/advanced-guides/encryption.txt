@@ -32,7 +32,39 @@ Storing & Reusing Keys
 You must pass the same encryption key when opening the encrypted
 {+realm+} again. Apps should store the encryption key in the
 :android:`Android KeyStore <training/articles/keystore.html>` so
-that other apps cannot read the key.
+that other apps cannot read the key. Here is a recommended way to use
+the KeyStore for encryption with {+service-short+}:
+
+1. Generate an asymmetric RSA key that Android can securely store and
+   retrieve using the Android KeyStore.
+
+   .. note:: Android Version M and Above: Keystore Security
+
+      Versions M and above require user PIN or fingerprint to unlock
+      the KeyStore.
+
+#. Generate a symmetric key (AES) you can use to encrypt the {+realm+}.
+
+#. Encrypt the symmetric AES key using your private RSA key.
+
+#. Store the encrypted AES key on filesystem (in a
+   ``SharedPreferences``, for example).
+
+When you need to use your encrypted {+realm+}:
+
+a. retrieve your encrypted AES key
+#. decrypt it using the public RSA key
+#. use it in the ``RealmConfiguration`` to open the encrypted
+   {+realm+}.
+
+.. seealso::
+
+   For an end-to-end example of storing and reusing encryption keys, see
+   the following example projects:
+
+   - `realm-android-user-store <https://github.com/realm/realm-android-user-store>`__
+   - `store_password <https://github.com/realm/realm-java/tree/feature/example/store_password/examples/StoreEncryptionPassword>`
+     (using the fingerprint API)
 
 Performance Impact
 ~~~~~~~~~~~~~~~~~~
