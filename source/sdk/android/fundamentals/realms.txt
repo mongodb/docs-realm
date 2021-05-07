@@ -294,7 +294,9 @@ Unexpected file size growth usually happens for one of three reasons:
    long-running operation while writing many times to the {+realm+} on
    other threads.* This causes {+client-database+} to create many
    intermediate versions. You can avoid this by:
+
    - batching the writes
+
    - avoiding leaving the {+realm+} open while otherwise blocking the
      background thread.
 
@@ -347,8 +349,8 @@ version of a {+realm+} to a destination file.
    If you want to back up a {+realm+} to an external location like
    Google Drive, see the following tutorial: (`Part 1
    <https://medium.com/glucosio-project/example-class-to-export-import-a-realm-database-on-android-c429ade2b4ed#.80ibsc7wm>`__,
-   `Part 2 <https://medium.com/glucosio-project/backup-restore-a-realm-database-on-google-drive-with-drive-api-c238515a5975#.qbuugb322>`,
-   `Part 3 <https://medium.com/glucosio-project/build-a-nice-ux-to-backup-and-sync-your-app-data-on-google-drive-3-3-a3b598cab68b#.5mjk4w4se>`).
+   `Part 2 <https://medium.com/glucosio-project/backup-restore-a-realm-database-on-google-drive-with-drive-api-c238515a5975#.qbuugb322>`__,
+   `Part 3 <https://medium.com/glucosio-project/build-a-nice-ux-to-backup-and-sync-your-app-data-on-google-drive-3-3-a3b598cab68b#.5mjk4w4se>`__).
 
 Summary
 -------

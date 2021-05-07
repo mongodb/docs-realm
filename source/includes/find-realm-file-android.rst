@@ -6,8 +6,6 @@ You can get your {+realm+} file path with the
    .. tab::
       :tabid: java
 
-      ``Task.java``:
-
       .. literalinclude:: /examples/generated/android/local/RealmFileLocationTest.codeblock.get-realm-file-location.java
          :language: java
 
@@ -37,6 +35,6 @@ the following command:
    You can also find your application's {+realm+} files using Android
    Studio's :guilabel:`Device File Explorer`, found on the bottom right
    of the Android Studio IDE. Navigate to
-   `/data/data/your.package.name/files/`, right click on your {+realm+}
+   ``/data/data/your.package.name/files/``, right click on your {+realm+}
    file, and select :guilabel:`Save As` to copy the file from your
    Android device to your local file system.
