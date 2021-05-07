@@ -55,7 +55,7 @@ in the same way as you would define a relationship:
    Embedded objects cannot have a :ref:`primary key <node-primary-keys>`.
    
 .. literalinclude:: /examples/generated/node/data-types.codeblock.define-embedded-objects.js
-  :language: javascript
+    :language: javascript
     :emphasize-lines: 3, 18, 28
 
 
@@ -113,5 +113,8 @@ property value:
 
 Delete an Embedded Object
 ~~~~~~~~~~~~~~~~~~~~~~~~~
+Realm Uses Cascading Deletes for Embedded Objects. To delete an embedded object,
+delete the embedded objects parent. 
+
 .. literalinclude:: /examples/generated/node/data-types.codeblock.delete-an-embedded-object.js
   :language: javascript
