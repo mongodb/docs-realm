@@ -282,10 +282,59 @@ defined {+service-short+} objects.
 
    :ref:`Usage Example: Omit Classes from your Realm Schema <android-omit-classes-from-schema>`
 
+.. _android-realm-objects:
+
+Realm Objects
+-------------
+
+Unlike normal Java objects, which contain their own data, a
+{+service-short+} object doesn’t contain data. Instead,
+{+service-short+} objects read and write properties directly to
+{+client-database+}.
+
+Instances of Realm objects can be either **managed** or **unmanaged**.
+
+- **Managed** objects are:
+
+  - persisted in {+client-database+}
+
+  - always up to date
+
+  - thread confined
+
+  - generally more lightweight than the unmanaged version as they take
+    up less space on the Java heap.
+
+- **Unmanaged** objects are just like ordinary Java objects, since
+  they are not persisted and never update automatically.
+  You can move unmanaged objects freely across threads.
+
+You can convert between the two states using
+:java-sdk:`realm.copyToRealm()
+<io/realm/Realm.html#copyToRealm-E-io.realm.ImportFlag...->`
+and :java-sdk:`realm.copyFromRealm()
+<io/realm/Realm.html#copyFromRealm-E->`.
+
+.. _android-realm-proxy:
+
+RealmProxy
+~~~~~~~~~~
+
+The ``RealmProxy`` classes are the {+service-short+} SDK's way of
+ensuring that {+service-short+} objects don't contain any data
+themselves. Instead, each class's ``RealmProxy`` accesses data directly
+in the database.
+
+For every model class in your project, the {+service-short+} annotation
+processor generates a corresponding ``RealmProxy`` class. This class
+extends your model class and is returned when you call
+``Realm.createObject()``. In your code, this object works just like your
+model class.
+
 .. _android-realm-object-limitations:
 
 Realm Object Limitations
-------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~
 
 {+service-short+} objects:
 
@@ -331,51 +380,6 @@ removing the following from a {+service-short+} object field:
 
 You can perform a full rebuild with :guilabel:`Build > Clean Project`
 and :guilabel:`Build > Rebuild Project` in these cases.
-
-Realm Objects
--------------
-
-Unlike normal Java objects, which contain their own data, a
-{+service-short+} object doesn’t contain data. Instead,
-{+service-short+} objects read and write properties directly to
-{+client-database+}.
-
-Instances of Realm objects can be either **managed** or **unmanaged**.
-
-- **Managed** objects are:
-
-  - persisted in {+client-database+}
-
-  - always up to date
-
-  - thread confined
-
-  - generally more lightweight than the unmanaged version as they take
-    up less space on the Java heap.
-
-- **Unmanaged** objects are just like ordinary Java objects, since
-  they are not persisted and never update automatically.
-  You can move unmanaged objects freely across threads.
-
-You can convert between the two states using
-:java-sdk:`realm.copyToRealm()
-<io/realm/Realm.html#copyToRealm-E-io.realm.ImportFlag...->`
-and :java-sdk:`realm.copyFromRealm()
-<io/realm/Realm.html#copyFromRealm-E->`.
-
-RealmProxy
-~~~~~~~~~~
-
-The ``RealmProxy`` classes are the {+service-short+} SDK's way of
-ensuring that {+service-short+} objects don't contain any data
-themselves. Instead, each class's ``RealmProxy`` accesses data directly
-in the database.
-
-For every model class in your project, the {+service-short+} annotation
-processor generates a corresponding ``RealmProxy`` class. This class
-extends your model class and is returned when you call
-``Realm.createObject()``. In your code, this object works just like your
-model class.
 
 Summary
 -------
