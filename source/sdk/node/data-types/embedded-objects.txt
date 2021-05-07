@@ -53,40 +53,11 @@ in the same way as you would define a relationship:
 .. important::
    
    Embedded objects cannot have a :ref:`primary key <node-primary-keys>`.
+   
+.. literalinclude:: /examples/generated/node/data-types.codeblock.define-embedded-objects.js
+  :language: javascript
+    :emphasize-lines: 3, 18, 28
 
-.. code-block:: javascript
-   :emphasize-lines: 3, 18, 28
-   
-   const AddressSchema = {
-     name: "Address",
-     embedded: true, // default: false
-     properties: {
-       street: "string?",
-       city: "string?",
-       country: "string?",
-       postalCode: "string?",
-     },
-   };
-   
-   const ContactSchema = {
-     name: "Contact",
-     primaryKey: "_id",
-     properties: {
-       _id: "objectId",
-       name: "string",
-       address: "Address", // Embed a single object
-     },
-   };
-   
-   const BusinessSchema = {
-     name: "Business",
-     primaryKey: "_id",
-     properties: {
-       _id: "objectId",
-       name: "string",
-       addresses: { type: "list", objectType: "Address" }, // Embed an array of objects
-     },
-   };
 
 JSON Schema
 ~~~~~~~~~~~
@@ -103,17 +74,28 @@ Create an Embedded Object
 To create an embedded object, assign an instance of the embedded object
 to a parent object's property:
 
+.. literalinclude:: /examples/generated/node/data-types.codeblock.create-an-embedded-object.js
+  :language: javascript
+
 Update an Embedded Object Property
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To update a property in an embedded object, modify the property in a
 write transaction:
 
+.. literalinclude:: /examples/generated/node/data-types.codeblock.update-an-embedded-object.js
+  :language: javascript
+
+
 Overwrite an Embedded Object
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To overwrite an embedded object, reassign the embedded object property
 of a party to a new instance in a write transaction:
+
+.. literalinclude:: /examples/generated/node/data-types.codeblock.overwrite-an-embedded-object.js
+  :language: javascript
+
 
 Query a Collection on Embedded Object Properties
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -123,3 +105,13 @@ Use dot notation to filter or sort a :ref:`collection
 property value:
 
 .. include:: /includes/directly-query-embedded-objects-note.rst
+
+.. literalinclude:: /examples/generated/node/data-types.codeblock.query-an-embedded-object.js
+  :language: javascript
+
+
+
+Delete an Embedded Object
+~~~~~~~~~~~~~~~~~~~~~~~~~
+.. literalinclude:: /examples/generated/node/data-types.codeblock.delete-an-embedded-object.js
+  :language: javascript
