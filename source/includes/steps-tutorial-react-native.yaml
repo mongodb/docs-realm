@@ -14,8 +14,8 @@ content: |
    
      The ``start`` branch is an incomplete version of the app that we will
      complete in this tutorial. To view the finished app, check out the
-     ``final`` branch, install dependencies, and update ``getRealmApp.js`` with
-     your :ref:`Realm app ID <find-your-app-id>`.
+     ``final`` branch, install dependencies (as described in the next step), 
+     and update ``getRealmApp.js`` with your :ref:`Realm app ID <find-your-app-id>`.
 
 ---
 title: Install Dependencies and Launch the App
@@ -29,8 +29,10 @@ content: |
      cd realm-tutorial-react-native
      npm install
 
-  If you wish to run the app on iOS, you need to install additional dependencies
-  with `CocoaPods <https://guides.cocoapods.org/using/getting-started.html>`__:
+  If you plan to run the app on an iOS device or emulator, you need to install 
+  additional dependencies with 
+  `CocoaPods <https://guides.cocoapods.org/using/getting-started.html>`__. Change 
+  directories to the ``ios`` directory and run ``pod install``, as shown here:
 
   .. code-block:: shell
      
@@ -38,14 +40,25 @@ content: |
      pod install --repo-update
      cd ..
 
-  Once the dependency installations are complete, you can run the app using one
-  of the following commands, depending on whether you want to run on iOS:
+  Be sure to switch back to the realm-tutorial-react-native root directory after 
+  installing the pods.
+
+  Once the dependency installations are complete, you can run the app. Start by 
+  running `Metro <https://facebook.github.io/metro/>`__ by using the following 
+  command in a terminal window:
+
+  .. code-block:: shell
+
+     npx react-native start
+
+  In a separate terminal window, use one of the following commands, depending 
+  on whether you want to run on iOS or Android:
 
   .. code-block:: shell
 
      npx react-native run-ios
 
-  Or Android (note: you may need to install Android development tools):
+  or
 
   .. code-block:: shell
 
