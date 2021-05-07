@@ -21,18 +21,22 @@ can:
 - :ref:`Add classes to the schema<realm-studio-add-class-to-schema>`
 - :ref:`Add properties to classes<realm-studio-add-property-to-class>`
 
-After you make schema changes, you can add values to the new properties 
-and classes from within Realm Studio. This gives you a graphical user 
-interface (GUI) tool to experiment with changes to your schema until 
-you get the object model you need.
+After you make schema changes, you can :ref:`add values <realm-studio-modify-an-object>` 
+to the new properties and classes from within Realm Studio. You can also
+:ref:`create new objects <realm-studio-create-an-object>` based on your 
+new classes and properties. This gives you a graphical user interface 
+(GUI) tool to experiment with changes to your schema until you get the 
+object model you need.
 
-When you've completed your changes, you can export your model definitions 
-from Realm Studio. This gives you new class definitions in your language 
-of choice, which you can drop into your code.
+When you've completed your changes, you can :ref:`export your model 
+definitions <realm-studio-export-model-definitions>` from Realm Studio. 
+This gives you new class definitions in your language of choice, which 
+you can drop into your code.
 
-You can also save an updated version of the {+realm+} file and use it in 
-your app. When you save a {+realm+} file with an updated schema, you must 
-perform a migration to use it in your app.
+You can also :ref:`save an updated version of the {+realm+} file 
+<realm-studio-save-data>` to use in your app. When you save a {+realm+} 
+file with an updated schema, you must :ref:`perform a migration 
+<realm-studio-perform-migration>` to use it in your app.
 
 .. _realm-studio-add-class-to-schema:
 
@@ -76,6 +80,8 @@ a new class with no objects, you can create new objects in the class.
 
    :ref:`Modify Objects in a Realm File <realm-studio-modify-objects>`
 
+.. _realm-studio-export-model-definitions:
+
 Save Model Definitions
 ----------------------
 
@@ -97,6 +103,8 @@ properties, including new additions.
 This is a great tool to iterate on your schema. You can also export class 
 definitions in multiple languages for cross-platform development.
 
+.. _realm-studio-perform-migration:
+
 Perform a Migration
 -------------------
 
@@ -107,7 +115,7 @@ updated {+realm+} file in your app, you can :ref:`save the data <realm-studio-sa
 Before you can use it in your client app, though, you'll need to perform 
 a migration.
 
-{client-database} requires you to increment the version monotonically when 
+{+client-database+} requires you to increment the version monotonically when 
 you change the schema. If you try to open a realm with an updated object 
 schema without migrating, your client will throw an error.
 
