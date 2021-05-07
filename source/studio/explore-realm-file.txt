@@ -15,11 +15,51 @@ Explore a Realm File
 Overview
 --------
 
-View Live Data
---------------
+View Live Objects in Realtime
+-----------------------------
+
+Realm Studio gives you the ability to view live objects while you're 
+running a client app in an emulator. You can see how functions in your 
+app are transforming objects live in your local {+realm+} file in 
+realtime. This is a powerful debugging and development tool.
+
+To view live objects in Realm Studio, you'll need to :ref:`find your {+realm+} 
+file <realm-studio-find-a-realm-file>`. Once you know your {+realm+} file 
+path, you can open it in Realm Studio while your app is running.
+
+.. note::
+
+   Unfortunately, Android emulators do not support viewing live objects 
+   in Realm Studio. If you're developing for Android, you must download 
+   the file from the emulator before you can access it.
 
 Query Objects in the Realm
 --------------------------
 
+When you view a {+realm+} file in Realm Studio, you can query the objects 
+within the file. The Realm Studio query bar at the top of the main pane 
+accepts the :ref:`{+client-database+} JavaScript query syntax<node-client-query-engine>`. 
+You can query using:
+
+- Comparison operators
+- Logical operators
+- String operators
+- Aggregate operators?
+- Set operators?
+
+You can also access a query reference document from within Realm Studio 
+by pressing the :guilabel:`?` button next to the query bar.
+
 Export SDK Model Definitions
 ----------------------------
+
+Realm Studio offers a feature that streamlines cross-platform development: 
+export SDK model definitions. 
+
+For example, you may be an iOS developer who has already created a 
+schema in an existing app. You now need to declare the same schema for 
+your Android app. Recreating that schema in another programming language 
+can be time-consuming and error-prone. Instead, you can open your {+realm+} 
+file in Realm Studio, and export the model definition in Java. 
+
+.. include:: /includes/realm-studio-export-class-definitions.rst 
