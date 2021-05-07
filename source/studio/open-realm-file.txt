@@ -90,7 +90,8 @@ When you create a {+realm+} from CSV, Realm Studio infers these details:
 - The first row of your CSV becomes the class property names in the {+realm+} 
 - The values of each column shape the class property types. A column of 
   'true' and 'false' values becomes a boolean property type. A column of
-  whole numbers becomes an integer property type, and so on. 
+  whole numbers becomes an integer property type, and so on. If Realm Studio
+  can't determine the property type, it becomes a string.
 
 .. include:: /includes/steps/create-realm-from-csv.rst
 

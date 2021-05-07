@@ -15,8 +15,8 @@ Modify Objects in a Realm File
 Overview
 --------
 
-Realm Studio gives you the ability to not just view, but modify objects 
-in your {+realm+} file. You can:
+Realm Studio gives you the ability to view and modify objects in your 
+{+realm+} file. You can:
 
 - Import data from a CSV
 - Create new objects
@@ -42,6 +42,38 @@ Import from a CSV
 Create an Object
 ----------------
 
+Consider Object Relationships
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+When you create a new object, think about the relationships between the 
+objects. For example, a to-do app, might have categories and tasks. 
+The categories have a to-many relationship to the tasks; one category 
+may have many tasks. The tasks have an inverse relationship 
+to the category. 
+  
+In {+client-database+}, a to-many relationship is represented as a 
+``list`` property linking the two objects. In the example of a to-do app, 
+the ``Category`` class has a ``list`` property whose value is all of the 
+related ``Task`` objects.
+
+In the Realm Studio UI, you would select the ``Category`` class. Click 
+into the ``[list-of-task]`` property for the category where you want to 
+add the task - for example, "Work". You'll see all the task objects that 
+have an inverse relationship with the Work category. 
+
+From here, you might create a new task object to "Review PR 1013." When 
+you create the new task object from within the Work list, Realm Studio 
+sets the inverse relationship with the Work parent category.
+
+If you select the ``Task`` class directly, you could create a new task
+object. But that task object would not have an inverse relationship with 
+any parent category. You would then have to :ref:`manually add the orphaned 
+task object <realm-studio-change-object-relationship>` to the category 
+where it belongs.
+
+Create the Object
+~~~~~~~~~~~~~~~~~
+
 .. include:: /includes/steps/realm-studio-create-object.rst
 
 .. _realm-studio-modify-an-object:
@@ -62,18 +94,18 @@ You can manually change an object's field values:
 - Click into the field of an object
 - Enter a different value
 
-When you change a field value in this way, you can attempt to enter any 
-value into the field. Realm Studio provides simple type validation, such 
-as providing a list of acceptable boolean options: :guilabel:`Use "true", 
-"false", "0", or "1"`, or automatically converting a date into a valid 
-datetime. However, this validation may lead to unexpected behavior. For 
-example, typing "123abc" into an ``int`` field simply discards the 
-non-numeric characters without providing user feedback or errors. 
+Realm Studio provides simple type validation, such as providing a list of 
+acceptable boolean options: :guilabel:`Use "true", "false", "0", or "1"`, 
+or automatically converting a date into a valid datetime. However, this 
+validation may lead to unexpected behavior. For example, typing "123abc" 
+into an ``int`` field simply discards the non-numeric characters without 
+providing user feedback or errors. Therefore, it is up to you to ensure 
+the data you enter into a field value is of the correct type.
 
-Keep this in mind when editing field values in Realm Studio.
+.. _realm-studio-change-object-relationship:
 
-Change an Object Relationship
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Change an Object's Relationships
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 You can change an object's relationship with other objects using Realm
 Studio. 
@@ -115,9 +147,9 @@ To delete an object from a {+realm+}:
    
    If you don't see the :guilabel:`Delete selected object` option, you
    may be viewing it in a linking relationship list view. Go directly to
-   the class where the objects are stored. 
+   the class where the object is stored. 
 
-   If you're in the class where the objects are stored, and still don't
+   If you're in the class where the object is stored, and still don't
    see the :guilabel:`Delete selected objects` option, it may be because
    you have another object selected. Click to select the object you want 
    to delete, and then right-click (or control-click) to get the delete

@@ -6,6 +6,6 @@ To export updated class definitions:
 - Specify a name and destination for your new class definitions. Press
   the :guilabel:`Save` button.
 
-You'll see a new directory at your specified destination containing your 
-class definitions. The file contains a complete list of classes and 
-properties, including new additions.
+If your destination directory does not already exist, Realm Studio creates 
+it. Inside, you'll find a file that contains a complete list of classes 
+and properties, including new additions.
