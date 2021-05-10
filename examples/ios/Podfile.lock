@@ -26,18 +26,18 @@ PODS:
   - GTMSessionFetcher/Core (1.5.0)
   - GTMSessionFetcher/Full (1.5.0):
     - GTMSessionFetcher/Core (= 1.5.0)
-  - Realm (10.7.0):
-    - Realm/Headers (= 10.7.0)
-  - Realm/Headers (10.7.0)
-  - RealmSwift (10.7.0):
-    - Realm (= 10.7.0)
+  - Realm (10.8.0-beta.0):
+    - Realm/Headers (= 10.8.0-beta.0)
+  - Realm/Headers (10.8.0-beta.0)
+  - RealmSwift (10.8.0-beta.0):
+    - Realm (= 10.8.0-beta.0)
   - SwiftLint (0.42.0)
 
 DEPENDENCIES:
   - FBSDKLoginKit
   - GoogleSignIn
-  - Realm (from `https://github.com/realm/realm-cocoa`, branch `new_data_types`)
-  - RealmSwift (from `https://github.com/realm/realm-cocoa`, branch `new_data_types`)
+  - Realm (= 10.8.0-beta.0)
+  - RealmSwift (= 10.8.0-beta.0)
   - SwiftLint
 
 SPEC REPOS:
@@ -48,23 +48,9 @@ SPEC REPOS:
     - GoogleSignIn
     - GTMAppAuth
     - GTMSessionFetcher
+    - Realm
+    - RealmSwift
     - SwiftLint
-
-EXTERNAL SOURCES:
-  Realm:
-    :branch: new_data_types
-    :git: https://github.com/realm/realm-cocoa
-  RealmSwift:
-    :branch: new_data_types
-    :git: https://github.com/realm/realm-cocoa
-
-CHECKOUT OPTIONS:
-  Realm:
-    :commit: ae6c23a1abdf328e96066fd4d3f864863e0c0837
-    :git: https://github.com/realm/realm-cocoa
-  RealmSwift:
-    :commit: ae6c23a1abdf328e96066fd4d3f864863e0c0837
-    :git: https://github.com/realm/realm-cocoa
 
 SPEC CHECKSUMS:
   AppAuth: 31bcec809a638d7bd2f86ea8a52bd45f6e81e7c7
@@ -73,10 +59,10 @@ SPEC CHECKSUMS:
   GoogleSignIn: 7137d297ddc022a7e0aa4619c86d72c909fa7213
   GTMAppAuth: 197a8dabfea5d665224aa00d17f164fc2248dab9
   GTMSessionFetcher: b3503b20a988c4e20cc189aa798fd18220133f52
-  Realm: c77e784b4d3c0aac17a6e17fe2e0dc4c4690ff29
-  RealmSwift: 5e7abc842276d7fabd386e67afbf3efde54eb1c6
+  Realm: 317f5e9de56991399afc312cc90f08ca112f7294
+  RealmSwift: e2c2c8c78832addb0cf8ef1b5eb532ec40fdc915
   SwiftLint: 4fa9579c63416865179bc416f0a92d55f009600d
 
-PODFILE CHECKSUM: 449898889882d8f96a7aef8a7858ddde169ba9df
+PODFILE CHECKSUM: e7de491ae8cf7b4de810ec91dd6fa00e1da17f46
 
 COCOAPODS: 1.10.1

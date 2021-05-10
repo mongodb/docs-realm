@@ -20,7 +20,7 @@ Property Cheat Sheet
    .. tab::
       :tabid: swift
 
-      .. versionchanged:: 10.?
+      .. versionchanged:: 10.8.0-beta.0
          ``RealmProperty`` replaces ``RealmOptional`` in this version.
 
       You can use the following types to define your object model
@@ -148,6 +148,9 @@ Property Cheat Sheet
 Unique Identifiers
 ------------------
 
+.. versionadded:: 10.8.0-beta.0
+   The ``UUID`` is available for beta from this version.
+
 ObjectId is a MongoDB-specific 12-byte unique value. UUID is a 16-byte 
 globally-unique value. You can :ref:`index <ios-index-a-property>` both types,
 and use either as a :ref:`primary key <ios-specify-a-primary-key>`.
@@ -157,7 +160,7 @@ and use either as a :ref:`primary key <ios-specify-a-primary-key>`.
 Mixed Data Type
 ---------------
 
-.. versionadded:: 10.?
+.. versionadded:: 10.8.0-beta.0
    The ``AnyRealmValue`` type is new in this version.
 
 ``AnyRealmValue`` is a {+service-short+} property type that can hold different 
