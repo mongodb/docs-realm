@@ -252,6 +252,107 @@ individual {+realms+}.
 You can customize permissions for these partitions of data using
 :ref:`{+service-short+} Rules <sync-rules>`.
 
+.. _android-realm-file:
+
+Find Your Realm File
+--------------------
+
+.. include:: /includes/find-realm-file-android.rst
+
+.. _android-realm-file-size:
+
+Realm File Size
+---------------
+
+{+client-database+} usually takes up less space on disk than an
+equivalent SQLite database. However, in order to give you a consistent
+view of your data, {+service-short+} operates on multiple versions of a
+{+realm+}. If many versions of a {+realm+} are opened simultaneously,
+the {+realm+} file can require additional space on disk.
+
+These versions take up an amount of space dependent on the amount of
+changes in each transaction. Many small transactions have the same
+overhead as a small number of large transactions.
+
+Unexpected file size growth usually happens for one of three reasons:
+
+1) *You open a {+realm+} on a background thread and forget to close it
+   again.* As a result, {+client-database+} retains a reference to the
+   older version of data on the background thread. Because
+   {+client-database+} automatically updates {+realm+}s to the most
+   recent version on threads with loopers, the UI thread and other
+   Looper threads do not have this problem.
+
+2) *You hold references to too many versions of frozen objects.*
+   Frozen objects preserve the version of a {+realm+} that existed when
+   the object was first frozen. If you need to freeze a large number of
+   objects, consider using :java-sdk:`Realm.copyFromRealm()
+   <io/realm/Realm.html#copyFromRealm-E->` instead to only preserve the
+   data you need.
+
+3) *You read some data from a {+realm+}. Then, you block the thread with
+   a long-running operation. Meanwhile, you write many times to the
+   {+realm+} on other threads.* This causes {+client-database+} to
+   create many intermediate versions. You can avoid this by:
+
+   - batching the writes
+
+   - avoiding leaving the {+realm+} open while otherwise blocking the
+     background thread.
+
+.. _android-limit-max-number-of-active-versions:
+
+Limit the Maximum Number of Active Versions
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can set :java-sdk:`maxNumberOfActiveVersions()
+<io/realm/RealmConfiguration.Builder.html#maxNumberOfActiveVersions-long->`
+when building your ``RealmConfiguration`` to throw an
+``IllegalStateException`` if your application opens more versions of
+a {+realm+} than the permitted number. Versions are created when
+executing a write transaction.
+
+{+client-database+} automatically removes older versions of data once
+they are no longer used by your application. However,
+{+client-database+} does not free the space used by older versions of
+data; instead, that space is used for new writes to the {+realm+}.
+
+.. _android-compact-a-realm:
+
+Compact a Realm
+~~~~~~~~~~~~~~~
+
+You can remove unused space by **compacting** the {+realm+} file:
+
+- Manually: call :java-sdk:`compactRealm()
+  <io/realm/Realm.html#compactRealm-io.realm.RealmConfiguration->`
+
+- Automatically: specify the :java-sdk:`compactOnLaunch()
+  <io/realm/RealmConfiguration.Builder.html#compactOnLaunch-io.realm.CompactOnLaunchCallback->`
+  builder option when opening the first connection to a {+realm+} in your
+  Android application
+
+.. _android-backup-and-restore-realms:
+
+Backup and Restore Realms
+-------------------------
+
+{+client-database+} persists {+realms+} to disk using files on your
+Android device. To back up a {+realm+}, :ref:`find your {+realm+} file
+<android-realm-file>` and copy it to a safe location. You should close
+all instances of the {+realm+} before copying it.
+
+Alternatively, you can also use :java-sdk:`realm.writeCopyTo()
+<io/realm/Realm.html#writeCopyTo-java.io.File->` to write a compacted
+version of a {+realm+} to a destination file.
+
+.. seealso::
+
+   If you want to back up a {+realm+} to an external location like
+   Google Drive, see the following article series: (`Part 1
+   <https://medium.com/glucosio-project/example-class-to-export-import-a-realm-database-on-android-c429ade2b4ed#.80ibsc7wm>`__,
+   `Part 2 <https://medium.com/glucosio-project/backup-restore-a-realm-database-on-google-drive-with-drive-api-c238515a5975#.qbuugb322>`__,
+   `Part 3 <https://medium.com/glucosio-project/build-a-nice-ux-to-backup-and-sync-your-app-data-on-google-drive-3-3-a3b598cab68b#.5mjk4w4se>`__).
 
 Summary
 -------

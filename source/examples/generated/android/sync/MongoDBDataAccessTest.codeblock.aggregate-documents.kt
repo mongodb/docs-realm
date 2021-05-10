@@ -1,8 +1,8 @@
 val mongoClient =
-    user!!.getMongoClient("mongodb-atlas") // service for MongoDB Atlas cluster containing custom user data
+    user!!.getMongoClient("mongodb-atlas")
 val mongoDatabase =
     mongoClient.getDatabase("plant-data-database")
-var mongoCollection =
+val mongoCollection =
     mongoDatabase.getCollection("plant-data-collection")
 Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle")
 val pipeline = listOf(Document("\$group", Document("_id", "\$type")

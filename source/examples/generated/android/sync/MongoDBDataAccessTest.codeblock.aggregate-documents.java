@@ -1,5 +1,5 @@
 MongoClient mongoClient =
-        user.getMongoClient("mongodb-atlas"); // service for MongoDB Atlas cluster containing custom user data
+        user.getMongoClient("mongodb-atlas");
 MongoDatabase mongoDatabase =
         mongoClient.getDatabase("plant-data-database");
 MongoCollection<Document> mongoCollection =
