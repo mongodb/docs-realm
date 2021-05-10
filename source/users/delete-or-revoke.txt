@@ -183,27 +183,46 @@ You can enable a :ref:`disabled user <disable-user>` to let them log in again.
 Revoke a User's Sessions
 ------------------------
 
-Situations may arise where you need to log a particular user out of
-all of their :ref:`sessions <user-sessions>` and prevent them from making
-further requests until they reauthenticate. The {+service-short+} admin console
-makes this a straightforward process.
+You can revoke all of a user's current :ref:`sessions <user-sessions>`. This
+invalidates the sessions and prevents the user from making any requests on any
+device until they log in again.
 
-Use the following procedure to revoke all the sessions for a particular
-user:
+.. tabs-realm-admin-interfaces::
+   
+   .. tab::
+      :tabid: ui
 
-#. Select :guilabel:`App Users` from the {+leftnav+}.
-
-#. Under the :guilabel:`Users` tab, find a user in the list and click on the ellipsis (``...``).
-
-#. Click :guilabel:`Revoke all sessions`. This invalidates all access
-   tokens and refresh tokens for that user, meaning that to perform
-   any further requests in any of their sessions, users will need to
-   reauthenticate.
-
-Summary
--------
-
-- You can delete or disable {+app+} users through the {+ui+}.
-
-- You can log out {+app+} users from all of their sessions through
-  the {+service-short+} admin console.
+      #. Select :guilabel:`App Users` from the {+leftnav+}.
+      
+      #. Under the :guilabel:`Users` tab, find a user in the list and click on the ellipsis (``...``).
+      
+      #. Click :guilabel:`Revoke all sessions`.
+   
+   .. tab::
+      :tabid: cli
+      
+      .. include:: /includes/note-procedure-uses-cli-v2.rst
+      
+      To revoke all sessions for a user, call ``realm-cli users revoke``. The CLI will prompt you
+      for your App ID and list users in that app for you to select.
+      
+      .. code-block:: bash
+         
+         realm-cli users revoke
+      
+      You can also specify the arguments when you call the program:
+      
+      .. code-block:: bash
+         
+         realm-cli users revoke \
+           --app=<Your App ID> \
+           --user=<User ID>
+      
+      .. tip::
+         
+         You can revoke sessions for multiple users with a single command by
+         specifying their ``id`` values as a comma-separated list.
+         
+         .. code-block:: bash
+            
+            realm-cli users revoke --user=6099694d5debcbcc873ff413,60996996b78eca4a8d615d3a
