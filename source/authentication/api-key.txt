@@ -89,10 +89,6 @@ Configuration
 Create a Server API Key
 -----------------------
 
-To create a new server API key, navigate to the API Key authentication
-configuration page in the {+ui+} and click :guilabel:`Create API
-Key`. Enter a unique name for the key and click :guilabel:`Save`.
-
 .. important::
 
    Remember to copy the server key's value as soon as you create it.
@@ -103,6 +99,44 @@ Key`. Enter a unique name for the key and click :guilabel:`Save`.
    If you get an error advising you to "please deploy an enabled api key 
    auth provider before adding api keys," verify that you have :ref:`deployed
    the latest version of your app <application-deployment>`.
+
+.. tabs-realm-admin-interfaces::
+   
+   .. tab::
+      :tabid: ui
+      
+      #. Select :guilabel:`App Users` from the {+leftnav+}.
+      
+      #. Select the :guilabel:`Authentication Providers` button and then select
+         the :guilabel:`API Keys` provider.
+      
+      #. If the API Key provider is not currently enabled, enable it and then
+         deploy your application.
+      
+      #. Click :guilabel:`Create API Key`.
+      
+      #. Enter a unique name for the key and then click :guilabel:`Save`.
+   
+   .. tab::
+      :tabid: cli
+      
+      .. include:: /includes/note-procedure-uses-cli-v2.rst
+      
+      To create a new server API key, call ``realm-cli users create`` and
+      specify ``--type=api-key``. The CLI will prompt you for your App ID as
+      well as a name for the new API key.
+      
+      .. code-block:: bash
+         
+         realm-cli users create --type=api-key
+      
+      You can also specify the arguments when you call the program:
+      
+      .. code-block:: bash
+         
+         realm-cli users create --type=api-key \
+           --app=<Your App ID> \
+           --name=<API Key Name>
 
 .. _api-key-authentication-examples:
 
