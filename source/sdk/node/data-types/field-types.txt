@@ -17,5 +17,8 @@ Field Types -Node.js SDK
 - ``float`` maps to the JavaScript :mdn:`Number <Web/JavaScript/Reference/Global_Objects/Number>` type. Internally {+client-database+} stores ``float`` with 32 bits.
 - ``double`` maps to the JavaScript :mdn:`Number <Web/JavaScript/Reference/Global_Objects/Number>` type. Internally {+client-database+} stores ``double`` with 64 bits.
 - ``string`` maps to the JavaScript :mdn:`String <Web/JavaScript/Reference/Global_Objects/Boolean>` type.
+- ``decimal128`` for high precision numbers.
+- ``objectId`` maps to BSON :manual:`ObjectId </reference/method/ObjectId/>` type.
 - ``data`` maps to the JavaScript :mdn:`ArrayBuffer <Web/JavaScript/Reference/Global_Objects/ArrayBuffer>` type.
 - ``date`` maps to the JavaScript :mdn:`Date <Web/JavaScript/Reference/Global_Objects/Date>` type.
+- ``list`` maps to the JavaScript :mdn:`Array <Web/JavaScript/Reference/Global_Objects/Array>` type. You can also specify that a field contains a list of a primitive value type by appending `[]` to the type name.
