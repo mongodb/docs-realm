@@ -22,14 +22,14 @@ When unit testing {+service-short+} applications, it's best to mock
 
    See the `Unit Testing Example App
    <https://github.com/realm/realm-java/tree/master/examples/unitTestExample>`__
-   for information on how {+service-short+} can be combined with JUnit3,
+   for an example of how {+service-short+} can be combined with JUnit3,
    JUnit4, Robolectric, Mockito and PowerMock.
 
 Integration Testing
 -------------------
 
 Integration testing for {+service-short+} applications faces one major
-challenge: the {+client-database+} interface (both local and {+sync+}
+challenge: the {+client-database+} interface (both local and {+sync+})
 requires an Android application context to access data stored on disk.
-As a result, you should create an application context, such as a test
-activity, in your application so you can access the database.
+Create an application context, such as a test activity, in your
+application so you can access the database.

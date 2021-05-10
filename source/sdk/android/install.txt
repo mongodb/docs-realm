@@ -35,8 +35,8 @@ Once your app is built for release and split for distribution, the SDK
 should only add about 800KB to your APK in most cases. The releases are
 significantly larger because they include support for more architectures,
 such as ARM7, ARMv7, ARM64, x86, and MIPS. The APK file contains all
-supported architectures but the Android installer only installs native
-code for the device’s architecture. As a consequence, the installed app
+supported architectures, but the Android installer only installs native
+code for the device’s architecture. This means that the installed app
 is smaller than the size of the APK file.
 
 You can reduce the size of the Android APK itself by splitting the APK
@@ -84,3 +84,44 @@ of architectures supported in a single APK. This is done by adding
    For more details about ABI splits and filters, see
    `Controlling APK Size When Using Native Libraries
    <https://android.jlelse.eu/controlling-apk-size-when-using-native-libraries-45c6c0e5b70a>`__.
+
+Customize Dependecies Defined by the Realm Gradle Plugin
+--------------------------------------------------------
+
+{+service-short+} uses a Gradle plugin because it makes it easier to set
+up a large number of dependencies. Unfortunately this also makes it a
+bit harder to ignore specific transitive dependencies.
+
+If you want to customize {+service-short+} beyond what is exposed by the
+plugin, you can manually set up all the dependencies and ignore the
+Gradle plugin. The following example demonstrates how to set up the SDK
+for an Android application using Kotlin manually:
+
+.. code-block:: gradle
+
+   buildscript {
+       ext.kotlin_version = '1.2.41'
+       ext.realm_version = '10.5.0'
+       repositories {
+           jcenter()
+           mavenCentral()
+       }
+       dependencies {
+           classpath "io.realm:realm-transformer:$realm_version"
+           classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+       }
+   }
+
+   apply plugin: 'com.android.application'
+   apply plugin: 'kotlin-android'
+   apply plugin: 'kotlin-kapt'
+
+   import io.realm.transformer.RealmTransformer
+   android.registerTransform(new RealmTransformer(project))
+
+   dependencies {
+     api "io.realm:realm-annotations:$realm_version"
+     api "io.realm:realm-android-library:$realm_version"
+     api "io.realm:realm-android-kotlin-extensions:$realm_version"
+     kapt "io.realm:realm-annotations-processor:$realm_version"
+   }

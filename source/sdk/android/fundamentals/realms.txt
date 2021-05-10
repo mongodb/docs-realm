@@ -272,7 +272,7 @@ if too many versions of a {+realm+} need to be maintained at one time.
 
 These versions take up an amount of space dependent on the amount of
 changes in each transaction. Many small transactions have the same
-overhead as s small number of large transactions.
+overhead as a small number of large transactions.
 
 Unexpected file size growth usually happens for one of three reasons:
 
@@ -290,10 +290,10 @@ Unexpected file size growth usually happens for one of three reasons:
    <io/realm/Realm.html#copyFromRealm-E->` instead to only preserve the
    data you need.
 
-3) *You read some data from a {+realm+} and then block the thread on a
-   long-running operation while writing many times to the {+realm+} on
-   other threads.* This causes {+client-database+} to create many
-   intermediate versions. You can avoid this by:
+3) *You read some data from a {+realm+}. Then, you block the thread with
+   a long-running operation. Meanwhile, you write many times to the
+   {+realm+} on other threads.* This causes {+client-database+} to
+   create many intermediate versions. You can avoid this by:
 
    - batching the writes
 
@@ -322,13 +322,15 @@ data; instead, that space is used for new writes to the {+realm+}.
 Compact a Realm
 ~~~~~~~~~~~~~~~
 
-If needed, you can remove the extra space by **compacting** the
-{+realm+} file. You can compact manually with :java-sdk:`compactRealm()
-<io/realm/Realm.html#compactRealm-io.realm.RealmConfiguration->` or
-automatically when opening the first connection to a {+realm+} in your
-Android application with the :java-sdk:`compactOnLaunch()
-<io/realm/RealmConfiguration.Builder.html#compactOnLaunch-io.realm.CompactOnLaunchCallback->`
-builder option.
+You can remove unused space by **compacting** the {+realm+} file:
+
+- Manually: call :java-sdk:`compactRealm()
+  <io/realm/Realm.html#compactRealm-io.realm.RealmConfiguration->`
+
+- Automatically: specify the :java-sdk:`compactOnLaunch()
+  <io/realm/RealmConfiguration.Builder.html#compactOnLaunch-io.realm.CompactOnLaunchCallback->`
+  builder option when opening the first connection to a {+realm+} in your
+  Android application
 
 .. _android-backup-and-restore-realms:
 
@@ -347,7 +349,7 @@ version of a {+realm+} to a destination file.
 .. seealso::
 
    If you want to back up a {+realm+} to an external location like
-   Google Drive, see the following tutorial: (`Part 1
+   Google Drive, see the following article series: (`Part 1
    <https://medium.com/glucosio-project/example-class-to-export-import-a-realm-database-on-android-c429ade2b4ed#.80ibsc7wm>`__,
    `Part 2 <https://medium.com/glucosio-project/backup-restore-a-realm-database-on-google-drive-with-drive-api-c238515a5975#.qbuugb322>`__,
    `Part 3 <https://medium.com/glucosio-project/build-a-nice-ux-to-backup-and-sync-your-app-data-on-google-drive-3-3-a3b598cab68b#.5mjk4w4se>`__).

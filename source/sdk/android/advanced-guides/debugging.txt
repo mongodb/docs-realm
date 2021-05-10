@@ -24,13 +24,14 @@ Android Studio Debugging
 
 This section details information you should keep in mind when debugging
 {+service-short+} applications with Android Studio to avoid incorrect
-value reporting. For example, adding a watch in Android Studio on a
-{+service-short+} object displays values of the fields. These values 
-are wrong because the field values are not used.
-{+service-short+} creates a proxy object behind the scenes and overrides
-the getters and setters in order to access the persisted data in the
-{+realm+}. Add a watch on any of the accessors to see the correct
-values. See the image below:
+value reporting. When you watch a {+service-short+} object in Android
+Studio, you'll see values displayed in the object's fields. These values 
+are incorrect because the field values themselves are not used. This is
+because {+service-short+} creates a :ref:`proxy object
+<android-realm-proxy>` behind the scenes, overriding
+the getters and setters to access the persisted data in the
+{+realm+}. To see the correct values, add a watch on the accessors.
+See the image below:
 
 .. figure:: /images/android-studio-debugging.png
    :alt: When using the Android Studio debugger, accessors display the correct field value, while fields show outdated information.
@@ -51,13 +52,13 @@ NDK Debugging
 -------------
 
 The {+service-short+} Android SDK library contains native code. 
-Debugging NDK crashes can be cumbersome as the default stack trace
+Debugging NDK crashes can be cumbersome, as the default stack trace
 provides minimal information. 
 
 We recommend you use a crash reporting tool such as
-`Crashlytics <http://www.crashlytics.com/>`__ to track native errors
-and gather other valuable information so we are in a better position 
-to help you if something goes wrong.
+`Crashlytics <http://www.crashlytics.com/>`__. This gives you the
+ability to track native errors and gather other valuable information. We
+can help with your issues faster if you have this information.
 
 To enable NDK crash reporting in Crashlytics for
 your project, add the following to the root of your application
