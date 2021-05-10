@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading.Tasks;
 using NUnit.Framework;
 using Realms.Sync;
 using TaskStatus = dotnet.TaskStatus;
@@ -20,8 +19,7 @@ namespace Examples
         }
 
         App app;
-        ObjectId testTaskId;
-        Realms.Sync.User user;
+        User user;
         SyncConfiguration config;
         const string myRealmAppId = Config.appid;
 
@@ -31,8 +29,16 @@ namespace Examples
             app = App.Create(myRealmAppId);
             user = app.LogInAsync(Credentials.EmailPassword("foo@foo.com", "foobar")).Result;
             config = new SyncConfiguration("myPart", user);
+            //:hide-start:
+            config.ObjectClasses = new[]
+            {
+                typeof(Task),
+                typeof(UserTask),
+                typeof(UserProject)
+            };
+            //:hide-end:
             var realm = await Realm.GetInstanceAsync(config);
-            var synchronousRealm = Realm.GetInstance(config);
+            var synchronousRealm = await Realm.GetInstanceAsync(config);
             var testTask = new Task
             {
                 Name = "Do this thing",
@@ -44,8 +50,6 @@ namespace Examples
             {
                 realm.Add(testTask);
             });
-            testTaskId = testTask.Id;
-
             return;
         }
 

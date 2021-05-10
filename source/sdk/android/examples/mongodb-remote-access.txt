@@ -173,11 +173,11 @@ field contains the string value "perennial":
       .. literalinclude:: /examples/generated/android/sync/MongoDBDataAccessTest.codeblock.find-a-single-document.java
          :language: java
 
-Running this snippet produces output resembling the following:
+Running this snippet produces output similar to the following:
 
 .. code-block:: text
 
-   V/EXAMPLE: successfully found a document: Document{{_id=5f18..., name=venus flytrap, sunlight=full, color=white, type=perennial, _partition=Store 42}}
+   V/EXAMPLE: successfully found a document: Plant [id=5f18..., name=venus flytrap, sunlight=full, color=white, type=perennial, partition=Store 42]
 
 .. _android-mongodb-findMany:
 
@@ -211,10 +211,10 @@ Running this snippet produces output resembling the following:
 .. code-block:: text
 
    V/EXAMPLE: successfully found all plants for Store 42:
-   V/EXAMPLE: Document{{_id=5f18..., name=venus flytrap, sunlight=full, color=white, type=perennial, _partition=Store 42}}
-   V/EXAMPLE: Document{{_id=5f18..., name=sweet basil, sunlight=partial, color=green, type=annual, _partition=Store 42}}
-   V/EXAMPLE: Document{{_id=5f18..., name=thai basil, sunlight=partial, color=green, type=perennial, _partition=Store 42}}
-   V/EXAMPLE: Document{{_id=5f18..., name=helianthus, sunlight=full, color=yellow, type=annual, _partition=Store 42}}
+   V/EXAMPLE: Plant [id=5f18..., name=venus flytrap, sunlight=full, color=white, type=perennial, partition=Store 42]
+   V/EXAMPLE: Plant [id=5f18..., name=sweet basil, sunlight=partial, color=green, type=annual, partition=Store 42]
+   V/EXAMPLE: Plant [id=5f18..., name=thai basil, sunlight=partial, color=green, type=perennial, partition=Store 42]
+   V/EXAMPLE: Plant [id=5f18..., name=helianthus, sunlight=full, color=yellow, type=annual, partition=Store 42]
 
 .. _android-mongodb-count:
 
@@ -512,7 +512,7 @@ Running this snippet produces output resembling the following:
 
 .. code-block:: text
 
-   V/EXAMPLE: Plant type counts: 
+   V/EXAMPLE: successfully aggregated the plants by type. Type summary: 
    V/EXAMPLE: Document{{_id=perennial, totalCount=2}}
    V/EXAMPLE: Document{{_id=annual, totalCount=3}}
 
@@ -560,7 +560,7 @@ Running this snippet produces output resembling the following:
 .. code-block:: text
 
    V/EXAMPLE: successfully inserted a document with id BsonObjectId{value=5f6bb...}
-   V/EXAMPLE: Event type: INSERT full document: Document{{_id=5f6bb..., name=triffid, sunlight=low, color=green, type=perennial, _partition=Store 47}}
+   V/EXAMPLE: Event type: INSERT full document: Plant [id=5f6bb..., name=triffid, sunlight=low, color=green, type=perennial, partition=Store 47]
 
 .. _android-mongodb-watch-with-filter:
 
@@ -602,7 +602,7 @@ Running this snippet produces output resembling the following:
 .. code-block:: text
 
    V/EXAMPLE: successfully inserted 2 documents into the collection
-   V/EXAMPLE: Event type: INSERT full document: Document{{_id=5f6bb..., name=venomous tentacula, sunlight=low, color=brown, type=annual, _partition=Store 42}}
+   V/EXAMPLE: Event type: INSERT full document: Plant [id=5f6bb..., name=venomous tentacula, sunlight=low, color=brown, type=annual, partition=Store 42]
 
 .. _android-mongodb-aggregation-stages:
 

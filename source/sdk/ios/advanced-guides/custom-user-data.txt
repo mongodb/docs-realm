@@ -45,9 +45,10 @@ data, see :ref:`Update Custom User Data
    Instead, {+backend+} fetches the most recent version of custom user
    data whenever a user refreshes their :ref:`access token
    <user-sessions>`, which is used by most SDK operations that contact
-   the {+backend+} back end. {+service-short+} refreshes access tokens
-   every 30 minutes, so custom user data can be stale for no more than
-   30 minutes.
+   the {+backend+} back end. If the token is not refreshed before its default 
+   30 minute expiration time, {+service-short+} refreshes the token on the next 
+   call to the backend, so custom user data could be stale for up to 30 minutes 
+   plus the time until the next SDK call to the backend occurs.
 
 .. note::
 

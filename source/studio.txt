@@ -20,3 +20,34 @@ See :github:`Releases on GitHub <realm/realm-studio/releases/latest>`:
 - `Download for Linux <https://studio-releases.realm.io/latest/download/linux-appimage>`_
 - `Download for Mac <https://studio-releases.realm.io/latest/download/mac-dmg>`_
 - `Download for Windows <https://studio-releases.realm.io/latest/download/win-setup>`_
+
+.. _find-the-default-realm-path:
+
+Find the Realm File(s)
+----------------------
+
+{+client-database+} stores a binary encoded version of every object and type in a
+realm in a single ``.realm`` file. The file is located at a specific path that
+you define when you open the realm.
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: swift
+
+      In Swift app development, you can find the current path of the
+      default {+realm+} by pausing the simulator and using the LLDB console:
+
+      .. code-block:: swift
+
+         (lldb) po Realm.Configuration.defaultConfiguration.fileURL
+
+   .. tab::
+      :tabid: objective-c
+
+      In Objective-C app development, you can find the current path of the
+         default {+realm+} by pausing the simulator and using the LLDB console:
+
+      .. code-block:: objective-c
+
+         (lldb) po [RLMRealmConfiguration defaultConfiguration].fileURL
