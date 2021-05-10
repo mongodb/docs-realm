@@ -265,10 +265,10 @@ Realm File Size
 ---------------
 
 {+client-database+} usually takes up less space on disk than an
-equivalent SQLite database. In order to give you a consistent view of
-your data, {+service-short+} operates on multiple versions of a
-{+realm+}. This can cause the {+realm+} file to grow disproportionately
-if too many versions of a {+realm+} need to be maintained at one time.
+equivalent SQLite database. However, in order to give you a consistent
+view of your data, {+service-short+} operates on multiple versions of a
+{+realm+}. If many versions of a {+realm+} are opened simultaneously,
+the {+realm+} file can require additional space on disk.
 
 These versions take up an amount of space dependent on the amount of
 changes in each transaction. Many small transactions have the same
