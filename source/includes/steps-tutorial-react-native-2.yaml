@@ -53,8 +53,8 @@ content: |
 title: Open a Realm
 ref: open-close-a-realm
 content: |
-  The AuthProvider must access the user custom data object for the user so it can  
-  provide the list of projects associated with the user. We have set up our app 
+  The AuthProvider must access the custom user data object so it can 
+  provide a list of projects associated with the user. We have set up our app 
   so that the custom user data object exists in a specific realm, where only 
   one user object exists.
 
@@ -63,7 +63,7 @@ content: |
     To learn more about how {+service-short+} Object models are used in React Native applications, 
     see :ref:`Object Types & Schemas <react-native-object-schemas>` in our React Native client guide.
 
-  To do access the custom user data, we will create a Configuration object that 
+  To access the custom user data, we will create a Configuration object that 
   specifies a partition value of the  pattern ``user=<USER_ID>`` and then add 
   code to open the realm.
 
@@ -123,7 +123,7 @@ content: |
   always has exactly one project, specified by the partition key value
   containing their own user ID.
 
-  In ``providers/TasksProvider.js``, in the effect block, configure and open the 
+  In the effect block of ``providers/TasksProvider.js``, configure and open the 
   realm. Once opened, attach an observer that will update the tasks list when 
   any changes come in:
 
