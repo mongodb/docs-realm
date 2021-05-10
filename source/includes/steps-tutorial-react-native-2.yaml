@@ -95,7 +95,7 @@ content: |
     available to the logged-in user.
 
   You should now be able to run the app, sign in, view your projects, and sign
-  out. Next, we need to implement the task management functionality.
+  out. We will implement the task management functionality next.
 
 ---
 title: Define the Task Schema
@@ -123,7 +123,7 @@ content: |
   always has exactly one project, specified by the partition key value
   containing their own user ID.
 
-  In ``providers/TasksProvider.js``, the effect block, configure and open the 
+  In ``providers/TasksProvider.js``, in the effect block, configure and open the 
   realm. Once opened, attach an observer that will update the tasks list when 
   any changes come in:
 
@@ -137,18 +137,20 @@ content: |
      :language: javascript
 
   A user can create, update, and delete tasks in a project that they are a
-  member of. Implement the task creation functionality like so:
+  member of. To implement the task creation functionality, find the 
+  ``createTask`` function and add the following code::
 
   .. literalinclude:: /tutorial/generated/code/final/TasksProvider.codeblock.create-task.js
      :language: javascript
 
-  We limit updates to changing the status of the task. In a write block, you can
-  assign to the task object's members to have it persisted to the database:
+  For this application, we limit updates to changing the status of the task. 
+  Find the ``setTaskStatus`` function and implement the following code, which 
+  changes the Task's status:
 
   .. literalinclude:: /tutorial/generated/code/final/TasksProvider.codeblock.set-task-status.js
      :language: javascript
 
-  Finally, implement the task deletion functionality:
+  Finally, in the ``deleteTask`` function, implement the task deletion functionality:
 
   .. literalinclude:: /tutorial/generated/code/final/TasksProvider.codeblock.delete-task.js
      :language: javascript
@@ -156,6 +158,7 @@ content: |
   Check out the ``views/TasksView.js`` and ``components/TaskItem.js`` files to see how
   they use the provider's task data and functionality via the ``useTasks()``
   hook function.
+
 ---
 title: Implement Team Management
 ref: implement-team-management
@@ -165,20 +168,20 @@ content: |
   functionality by calling a few Realm functions on the backend that we defined
   earlier.
 
-  Navigate to ``components/ManageTeam.js``. First, we need to fetch the list of
-  current team members:
+  Navigate to ``components/ManageTeam.js`` and find the ``getTeam`` function. 
+  In this function, we need to fetch the list of  current team members:
 
   .. literalinclude:: /tutorial/generated/code/final/ManageTeam.codeblock.get-team.js
      :language: javascript
 
-  Next, call the ``addTeamMember`` function on the backend to implement add team
-  member functionality:
+  Next, in the ``addTeamMember`` function, we will call the backend function 
+  ``addTeamMember``to implement add team  member functionality:
 
   .. literalinclude:: /tutorial/generated/code/final/ManageTeam.codeblock.add-team-member.js
      :language: javascript
 
-  Finally, call the ``removeTeamMember`` function on the backend to implement remove
-  team member functionality:
+  Finally, in the ``removeTeamMember`` function, we call another backend function, 
+  named ``removeTeamMember``, that removes a team member:
 
   .. literalinclude:: /tutorial/generated/code/final/ManageTeam.codeblock.remove-team-member.js
      :language: javascript
