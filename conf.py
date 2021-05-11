@@ -110,8 +110,8 @@ extlinks = {
     'guides': ('https://docs.mongodb.com/guides%s', ''),
     'java-sdk': ('https://docs.mongodb.com/realm-sdks/java/10.0.1/%s', ''),
     'kotlin-sdk': ('https://docs.mongodb.com/realm-sdks/kotlin/10.0.1/%s', ''),
-    'swift-sdk': ('https://docs.mongodb.com/realm-sdks/swift/10.7.0/%s', ''),
-    'objc-sdk': ('https://docs.mongodb.com/realm-sdks/objc/10.7.0/%s', ''),
+    'swift-sdk': ('https://docs.mongodb.com/realm-sdks/swift/10.8.0-beta.0/%s', ''),
+    'objc-sdk': ('https://docs.mongodb.com/realm-sdks/objc/10.8.0-beta.0/%s', ''),
     'js-sdk': ('https://docs.mongodb.com/realm-sdks/js/latest/%s', ''),
     'dotnet-sdk': ('https://docs.mongodb.com/realm-sdks/dotnet/latest/%s', ''),
     # True External Links
