@@ -55,7 +55,7 @@ describe("Node.js Data Types", () => {
       });
       realm.create("Profile", {
         name: "Tim Doe.",
-        _id: new UUID("882dd631-bc6e-4e0e-a9e8-f07b685fec8c"), // create a _id with a specific UUId value
+        _id: new UUID("882dd631-bc6e-4e0e-a9e8-f07b685fec8c"), // create a _id with a specific UUID value
       });
     });
     // :code-block-end:
