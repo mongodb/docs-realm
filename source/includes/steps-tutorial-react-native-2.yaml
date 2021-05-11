@@ -10,8 +10,8 @@ content: |
   .. literalinclude:: /tutorial/generated/code/final/getRealmApp.codeblock.get-realm-app.js
      :language: javascript
 
-  Be sure to enter your own Realm app ID, which you can :ref:`find in the Realm
-  UI <find-your-app-id>`.
+  Be sure to enter your own Realm app ID, which you can 
+  :ref:`find in the Realm UI <find-your-app-id>`.
 
 ---
 title: Implement the AuthProvider
@@ -88,11 +88,11 @@ content: |
 
   .. note::
 
-    Check out the ``App.js``, ``view/WelcomeView.js``, and ``view/ProjectView.js`` 
-    files to see how they use the AuthProvider's ``signIn``, ``signUp``, and 
-    ``signOut`` functions and the user data via the ``useAuth()`` hook function. 
-    The ProjectView also uses the project data to populate the list of projects 
-    available to the logged-in user.
+     Check out the ``App.js``, ``view/WelcomeView.js``, and ``view/ProjectView.js`` 
+     files to see how they use the AuthProvider's ``signIn``, ``signUp``, and 
+     ``signOut`` functions and the user data via the ``useAuth()`` hook function. 
+     The ProjectView also uses the project data to populate the list of projects 
+     available to the logged-in user.
 
   You should now be able to run the app, sign in, view your projects, and sign
   out. We will implement the task management functionality next.
@@ -118,7 +118,7 @@ content: |
 
   The first thing to implement is opening the realm for the specified
   project. When configuring the user realm, we used a partition key value pattern of
-  ``user=<USER_ID>``; similarly, projects use a partition key value pattern of
+  ``user=<USER_ID>``. Similarly, projects use a partition key value pattern of
   ``project=<USER_ID>``. For the sake of this tutorial's simplicity, each user
   always has exactly one project, specified by the partition key value
   containing their own user ID.
