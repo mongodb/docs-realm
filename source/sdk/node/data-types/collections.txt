@@ -77,7 +77,7 @@ are usually **live**:
 
 A collection is **not** live when: 
 
-- It is a results collection that you are iterating through using a :mdn:`for..in <Web/JavaScript/Reference/Statements/for...in>` or :mdn:`for..of <Web/JavaScript/Reference/Statements/for...of>` statement. Both statements will continue to iterate through objects in the collection even if you have deleted or modified the collection's objects to exclude them from the filter that produced the results collection.
+- it is a :ref:`results collection <node-realm-results>` that you are iterating through using a :mdn:`for..in <Web/JavaScript/Reference/Statements/for...in>` or :mdn:`for..of <Web/JavaScript/Reference/Statements/for...of>` statement. Both statements will continue to iterate through objects in the collection even if you have deleted or modified the collection's objects to exclude them from the filter that produced the results collection.
 - the collection is a frozen :js-sdk:`Results.snapshot() <Realm.Collection.html#snapshot>` 
 
 Combined with :ref:`collection notifications
