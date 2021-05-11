@@ -28,21 +28,6 @@ To define a dictionary in your object model, set the data type of your field to 
 .. literalinclude:: /examples/generated/node/data-types.codeblock.define-dictionary-in-schema.js
     :language: javascript
 
-Add a Listener to a Dictionary
-------------------------------
-You can add a listener to a dictionary by running the
-:js-sdk:`dictionary.addListener() <Realm.List.html#addListener>` method. The
-``addListener`` method's callback function has two parameters, the changed
-dictionary and an array of changes describing how the dictionary was changed.
-
-.. note:: 
-
-   Learn more about :ref:`change notifications <node-change-notifications>`.
-
-.. literalinclude:: /examples/generated/node/data-types.codeblock.add-a-listener-to-a-dictionary.js
-    :language: javascript
-
-
 Create an Object with a  Dictionary Value
 -----------------------------------------
 Create an object with a dictionary value by running the :js-sdk:`realm.create()
@@ -65,6 +50,20 @@ determine return all ``Person`` objects with a ``home`` with a ``"price"``
 property by running the query: ``home.@keys = "price"``.
 
 .. literalinclude:: /examples/generated/node/data-types.codeblock.query-a-dictionary.js
+    :language: javascript
+
+Add a Listener to a Dictionary
+------------------------------
+You can add a listener to a dictionary by running the
+:js-sdk:`dictionary.addListener() <Realm.List.html#addListener>` method. The
+``addListener`` method's callback function has two parameters, the changed
+dictionary and an array of changes describing how the dictionary was changed.
+
+.. note:: 
+
+   Learn more about :ref:`change notifications <node-change-notifications>`.
+
+.. literalinclude:: /examples/generated/node/data-types.codeblock.add-a-listener-to-a-dictionary.js
     :language: javascript
 
 Update a Dictionary
