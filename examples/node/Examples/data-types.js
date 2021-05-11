@@ -40,7 +40,8 @@ describe("Node.js Data Types", () => {
     // :code-block-end:
 
     // :code-block-start: query-objects-with-mixed-values
-    // query for Blaise's birthDate by filtering for his name to get the entire Realm object and using dot notation to get the birthDate
+    // To query for Blaise's birthDate, filter for his name to retrieve the realm object.
+    // Use dot notation to access the birthDate property.
     let blaiseBirthDate = realm.objects("Dog").filtered(`name = 'Blaise'`)[0]
       .birthDate;
     console.log(`Blaise's birth date is ${blaiseBirthDate}`);
