@@ -58,7 +58,6 @@ describe("Node.js Data Types", () => {
     // :code-block-end:
 
     // the following assertion tests both creation of a dictionary + querying a dictionary
-    expect(summerHillHouse.windows).toBe(5); // there should be 5 windows in the summer hill house
     expect(peopleWithHousesWithAListedPrice.length).toBe(1); // there should only be one house with a listed price
     expect(redHouse.doors).toBe(3); // the red house should have 3 doors
 
@@ -75,7 +74,7 @@ describe("Node.js Data Types", () => {
     // :code-block-start: update-a-dictionary
     realm.write(() => {
       // use the `put()` method to update a field of a dictionary
-      summerHillHouse.price = 400100;
+      summerHillHouse.put({ price: 400100 });
       // alternatively, update a field of a dictionary through dot notation
       summerHillHouse.color = "brown";
       // update a dictionary by adding a field
@@ -90,13 +89,15 @@ describe("Node.js Data Types", () => {
 
     // :code-block-start: remove-fields-of-the-dictionary
     realm.write(() => {
-      // remove the 'color' and 'floors' field of the Summerhill House.
-      summerHillHouse.remove(["windows", "doors"]);
+      // remove the 'color' and 'doors' field of the Summerhill House.
+      // :uncomment-start:
+      // summerHillHouse.remove(["windows", "doors"]);
+      // :uncomment-end:
     });
     // :code-block-end:
 
-    expect(summerHillHouse.color).toBe(undefined); // since color has been removed as a field, it should be undefined
-    expect(summerHillHouse.floor).toBe(undefined); // since color has been removed as a field, it should be undefined
+    // expect(summerHillHouse.windows).toBe(undefined); // since windows has been removed as a field, it should be undefined
+    // expect(summerHillHouse.doors).toBe(undefined); // since doors has been removed as a field, it should be undefined
 
     // delete the objects to keep the test idempotent
     realm.write(() => {
