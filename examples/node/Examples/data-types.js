@@ -34,6 +34,42 @@ const BusinessSchema = {
 };
 // :code-block-end:
 describe("Node.js Data Types", () => {
+  test("should work with UUID", async () => {
+    // :code-block-start: work-with-uuid
+    const { UUID } = Realm.BSON;
+    const ProfileSchema = {
+      name: "Profile",
+      primaryKey: "_id",
+      properties: {
+        _id: "uuid",
+        name: "string",
+      },
+    };
+    const realm = await Realm.open({
+      schema: [ProfileSchema],
+    });
+    realm.write(() => {
+      realm.create("Profile", {
+        name: "John Doe.",
+        _id: new UUID(),
+      });
+    });
+    // :code-block-end:
+
+    const johnDoeProfile = realm
+      .objects("Profile")
+      .filtered("name = 'John Doe.'")[0];
+
+    // test if johnDoeProfile's _id is a valid UUID field
+    expect(UUID.isValid(johnDoeProfile._id)).toBe(true);
+
+    // delete the objects to keep the tests idempotent
+    realm.write(() => {
+      realm.delete(johnDoeProfile);
+    });
+    // close the realm
+    realm.close();
+  });
   test("should work with Mixed Type", async () => {
     // :code-block-start: define-mixed-in-schema
     const DogSchema = {
@@ -86,12 +122,16 @@ describe("Node.js Data Types", () => {
     const Blaise = realm.objects("Dog").filtered(`name = 'Blaise'`)[0];
     const Euclid = realm.objects("Dog").filtered(`name = 'Euclid'`)[0];
     const Pythagoras = realm.objects("Dog").filtered(`name = 'Pythagoras'`)[0];
+    // delete the objects to keep the tests idempotent
     realm.write(() => {
       realm.delete(Euler);
       realm.delete(Blaise);
       realm.delete(Euclid);
       realm.delete(Pythagoras);
     });
+    // close the realm
+    realm.close();
+  });
   test("should create and read and delete an embedded object", async () => {
     const realm = await Realm.open({
       schema: [AddressSchema, ContactSchema],
@@ -182,5 +222,11 @@ describe("Node.js Data Types", () => {
     // :code-block-end:
 
     expect(harryPotter.address.city).toBe("London");
+    // delete the objects to keep the tests idempotent
+    realm.write(() => {
+      realm.delete(harryPotter);
+    });
+    // close the realm
+    realm.close();
   });
 });

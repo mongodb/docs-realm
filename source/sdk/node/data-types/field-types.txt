@@ -24,6 +24,7 @@ Field Types -Node.js SDK
 - ``list`` maps to the JavaScript :mdn:`Array <Web/JavaScript/Reference/Global_Objects/Array>` type. You can also specify that a field contains a list of a primitive value type by appending ``[]`` to the type name.
 - ``uuid`` is a universally unique identifier from :js-sdk:`Realm.BSON <Realm.html#.BSON>`.
 
+.. _node-field-types-objectid:
 
 ObjectId
 --------
@@ -33,6 +34,7 @@ value. You can use ``ObjectId`` as an identifier for objects. ``ObjectId`` is
 :ref:`indexable <node-indexes>` and can be used as a :ref:`primary keys
 <node-primary-keys>`.
 
+.. _node-field-types-uuid:
 
 UUID 
 ----
@@ -42,11 +44,14 @@ UUID
 ``UUID`` (Universal Unique Identifier) is a 16-byte :wikipedia:`unique value
 <Universally_unique_identifier>`. You can use ``UUID`` as an identifier for
 objects. ``UUID`` is :ref:`indexable <node-indexes>` and can be used as a
-:ref:`primary keys <node-primary-keys>`. Use ``UUID`` by importing
-:js-sdk:`Realm.BSON <Realm.html#.BSON>` and calling ``new UUID()``.  
+:ref:`primary keys <node-primary-keys>`.
 
 .. note::
 
    If you are migrating data not stored in MongoDB, it is likely that your
    object's unique identifiers are of a ``UUID`` type. 
+
+Usage
+~~~~~
+
 
