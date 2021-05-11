@@ -57,7 +57,7 @@ Property Cheat Sheet
          * - Decimal128
            - ``@objc dynamic var decimal: Decimal128 = 0``
            - ``@objc dynamic var decimal: Decimal128?``
-         * - UUID
+         * - `UUID <https://docs.mongodb.com/realm-sdks/swift/10.8.0-beta.0/Extensions.html#/s:10Foundation4UUIDV>`_
            - ``@objc dynamic var uuid = UUID()``
            - ``@objc dynamic var uuidOpt: UUID?``
          * - :swift-sdk:`ObjectId <Classes/ObjectId.html>`
@@ -66,10 +66,10 @@ Property Cheat Sheet
          * - :swift-sdk:`List <Classes/List.html>`
            - ``let value = List<Type>()``
            - 
-         * - :swift-sdk:`MutableSet <Classes/MutableSet.html>`
+         * - `MutableSet <https://docs.mongodb.com/realm-sdks/swift/10.8.0-beta.0/Classes/MutableSet.html>`_
            - ``let value = MutableSet<Type>()``
            - 
-         * - :swift-sdk:`Mixed Data Type <Enums/AnyRealmValue.html>`
+         * - `Mixed Data Type <https://docs.mongodb.com/realm-sdks/swift/10.8.0-beta.0/Enums/AnyRealmValue.html>`_
            - ``let value = RealmProperty<AnyRealmValue>()``
            - N/A
          * - User-defined :swift-sdk:`Object <Extensions/Object.html>`
@@ -178,8 +178,8 @@ data types. Supported ``AnyRealmValue`` data types include:
 - String
 - Object
 
-This :swift-sdk:`mixed data type <Enums/AnyRealmValue.html>` is 
-:ref:`indexable <ios-index-a-property>`, but you can't use it as a 
+This `mixed data type <https://docs.mongodb.com/realm-sdks/swift/10.8.0-beta.0/Enums/AnyRealmValue.html>`_ 
+is :ref:`indexable <ios-index-a-property>`, but you can't use it as a 
 :ref:`primary key <ios-specify-a-primary-key>`. Because ``null`` is a 
 permitted value, you can't declare an ``AnyRealmValue`` as optional.
 
