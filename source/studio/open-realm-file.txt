@@ -93,6 +93,21 @@ When you create a {+realm+} from CSV, Realm Studio infers these details:
   whole numbers becomes an integer property type, and so on. If Realm Studio
   can't determine the property type, it becomes a string.
 
+For example, a CSV named ``data.csv`` with this formatting:
+
+.. codeblock::
+   :linenos:
+   
+   device,number,flag
+   gizmo,1,TRUE
+   widget,2,FALSE
+
+Becomes a class model named ``data`` that has three properties:
+
+- ``device``, with a type ``string``
+- ``number``, with a type ``int``
+- ``flag``, with a type ``bool``
+
 .. include:: /includes/steps/create-realm-from-csv.rst
 
 Download an Example
