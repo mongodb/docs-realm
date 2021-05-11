@@ -3,8 +3,8 @@ import Realm from "realm";
 describe("Node.js Data Types", () => {
   test("should create, update and query Realm dictionaries", async () => {
     // :code-block-start: define-dictionary-in-schema
-    const CitySchema = {
-      name: "City",
+    const PersonSchema = {
+      name: "Person",
       properties: {
         name: "string",
         home: "{}",
@@ -13,45 +13,54 @@ describe("Node.js Data Types", () => {
     // :code-block-end:
 
     const realm = await Realm.open({
-      schema: [CitySchema],
+      schema: [PersonSchema],
     });
 
     // :code-block-start: create-realm-obj-with-dictionary
-    let sanDiegoCity;
+    let johnDoe;
+    let janeSmith;
     realm.write(() => {
-      sanDiegoCity = realm.create("City", {
-        name: "san diego",
+      johnDoe = realm.create("Person", {
+        name: "John Doe",
         home: {
           windows: 5,
           doors: 3,
-          floor: 1,
           color: "red",
           address: "Summerhill St.",
+          price: 400123,
+        },
+      });
+      janeSmith = realm.create("Person", {
+        name: "Jane Smith",
+        home: {
+          address: "100 northroad st.",
+          yearBuilt: 1990,
         },
       });
     });
     // :code-block-end:
 
     // :code-block-start: query-a-dictionary
-    // find all houses in san diego
-    const housesInSanDiego = realm
-      .objects("City")
-      .filtered("name = 'san diego'");
-    // filtered for a house with the address Summerhill St.
-    const summerHillHouse = housesInSanDiego.filtered(
-      `home['address'] = "Summerhill St."`
-    )[0];
+    // query for all Person objects
+    const persons = realm.objects("Person");
 
-    // Find all houses that has windows as a key.
-    const housesWithWindows = housesInSanDiego.filtered(
-      `home.@keys = "windows" `
+    // run the `.filtered()` method on all the returned persons to find the house with the address "Summerhill St."
+    const summerHillHouse = persons.filtered(
+      `home['address'] = "Summerhill St."`
+    )[0].home;
+
+    // Find all people that have a house with a listed price
+    const peopleWithHousesWithAListedPrice = persons.filtered(
+      `home.@keys = "price" `
     );
-    // find all houses that has any field with a value of 'red'
-    const redHouses = housesInSanDiego.filtered(`home.@values = "red" `);
+    // find a house that has any field with a value of 'red'
+    const redHouse = persons.filtered(`home.@values = "red" `)[0].home;
     // :code-block-end:
 
     // the following assertion tests both creation of a dictionary + querying a dictionary
-    expect(housesInSanDiego[0].home.windows).toBe(5); // there should be 5 windows in the houses in san diego
+    expect(summerHillHouse.windows).toBe(5); // there should be 5 windows in the summer hill house
+    expect(peopleWithHousesWithAListedPrice.length).toBe(1); // there should only be one house with a listed price
+    expect(redHouse.doors).toBe(3); // the red house should have 3 doors
 
     let dictionaryListenerHasBeenCalled = false;
     // :code-block-start: add-a-listener-to-a-dictionary
@@ -59,79 +68,40 @@ describe("Node.js Data Types", () => {
       // :hide-start:
       dictionaryListenerHasBeenCalled = true;
       // :hide-end:
-      console.log(
-        `The following changes have occurred in the home: ${JSON.stringify(
-          changes,
-          null,
-          2
-        )}`
-      );
+      console.log("A change has occurred to the Summer Hill House Object");
     });
     // :code-block-end:
 
     // :code-block-start: update-a-dictionary
-    // update an existing home, from an existing city in the database
     realm.write(() => {
-      // use the `put()` method to add a field to a dictionary property
-      summerHillHouse.home.put({ style: "Victorian" });
-      // alternatively, set a field of a dictionary through dot notation
+      // use the `put()` method to update a field of a dictionary
+      summerHillHouse.price = 400100;
+      // alternatively, update a field of a dictionary through dot notation
       summerHillHouse.color = "brown";
+      // update a dictionary by adding a field
+      summerHillHouse.yearBuilt = 2004;
     });
     // :code-block-end:
 
     expect(dictionaryListenerHasBeenCalled).toBe(true); // a home (dictionary inside a realm object) should be able to have a change listener
-    expect(summerHillHouse.home.style).toBe("Victorian"); // the summerHillHouse should be a Victorian style house
-
-    let queensCity, yakimaCity;
-    realm.write(() => {
-      queensCity = realm.create("City", {
-        name: "Richmond Hill, Queens, NY",
-      });
-      yakimaCity = realm.create("City", {
-        name: "Yakima, Washington",
-      });
-    });
-
-    // :code-block-start: setting-new-dictionaries-to-existing-objects
-    let newVictorianHome;
-    realm.write(() => {
-      newVictorianHome = {
-        doors: 4,
-        floor: 3,
-        color: "white",
-        address: "Trailwoods Rd.",
-      };
-      // use the `put()` method to add a dictionary to a pre-existing city in the database
-      summerHillHouse.home.put(newVictorianHome);
-
-      // alternatively, use dot notation to add a dictionary to a pre-existing city
-      yakimaCity.home = newVictorianHome;
-    });
-    // :code-block-end:
-
-    // :code-block-start: set-additional-fields
-    // use the `put()` method to set a new field, yearBuilt, to the yakimaCity home
-    yakimaCity.home.put({ yearBuilt: 1993 });
-    // alternatively, use dot notation to add a new field, price, to the yakimaCity home
-    yakimaCity.home.price = 512400;
-    // :code-block-end:
-
-    expect(yakimaCity.home.color).toBe("white"); // yakimaCity's home should be updated with the newVictorianHome 'white' color
+    expect(summerHillHouse.price).toBe(400100); // the summerHillHouse should be $400,100 now
+    expect(summerHillHouse.color).toBe("brown"); // the summerHillHouse should be brown now
+    expect(summerHillHouse.yearBuilt).toBe(2004); // the summerHillHouse should've been built in 2004
 
     // :code-block-start: remove-fields-of-the-dictionary
     realm.write(() => {
-      // remove the 'color' and 'floors' field of the Yakima City Victorian Home
-      yakimaCity.home.remove(["color", "floor"]);
+      // remove the 'color' and 'floors' field of the Summerhill House.
+      summerHillHouse.remove(["windows", "doors"]);
     });
     // :code-block-end:
 
-    expect(yakimaCity.home.color).toBe(undefined); // since color has been removed as a field, it should be undefined
+    expect(summerHillHouse.color).toBe(undefined); // since color has been removed as a field, it should be undefined
+    expect(summerHillHouse.floor).toBe(undefined); // since color has been removed as a field, it should be undefined
 
     // delete the objects to keep the test idempotent
     realm.write(() => {
-      realm.delete(sanDiegoCity);
-      realm.delete(queensCity);
-      realm.delete(yakimaCity);
+      realm.delete(johnDoe);
+      realm.delete(janeSmith);
     });
     // close the realm to avoid memory leaks
     realm.close();

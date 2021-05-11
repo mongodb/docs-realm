@@ -1,7 +1,8 @@
-// update an existing home, from an existing city in the database
 realm.write(() => {
-  // use the `put()` method to add a field to a dictionary property
-  summerHillHouse.home.put({ style: "Victorian" });
-  // alternatively, set a field of a dictionary through dot notation
+  // use the `put()` method to update a field of a dictionary
+  summerHillHouse.price = 400100;
+  // alternatively, update a field of a dictionary through dot notation
   summerHillHouse.color = "brown";
+  // update a dictionary by adding a field
+  summerHillHouse.yearBuilt = 2004;
 });

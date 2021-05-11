@@ -18,20 +18,23 @@ Overview
 -------- 
 You can use the ``dictionary`` data type to manage a collection of unique String
 keys paired with values. The ``dictionary`` data maps to the Javascript
-:mdn:`Object <Web/JavaScript/Reference/Global_Objects/Object>` type.
+:mdn:`Object <Web/JavaScript/Reference/Global_Objects/Object>` type. 
 
 Realm Object Models
 -------------------
 
+To define a dictionary in your object model, set the data type of your field to an empty object, ``"{}"``.
+
 .. literalinclude:: /examples/generated/node/data-types.codeblock.define-dictionary-in-schema.js
     :language: javascript
 
-Create a Dictionary
--------------------
+Create an Object with a  Dictionary Value
+-----------------------------------------
+Create an object with a dictionary value by running the :js-sdk:`realm.create()
+<Realm.html#create>` method within a write transaction.
 
 .. literalinclude:: /examples/generated/node/data-types.codeblock.create-realm-obj-with-dictionary.js
     :language: javascript
-
 
 Query for Objects with a Dictionary Property
 --------------------------------------------
@@ -46,19 +49,8 @@ Add a Listener to a Dictionary
 
 Update a Dictionary
 -------------------
-Update an Existing Field of a Dictionary
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 .. literalinclude:: /examples/generated/node/data-types.codeblock.update-a-dictionary.js
-    :language: javascript
-
-Add New Fields to a Dictionary
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.. literalinclude:: /examples/generated/node/data-types.codeblock.set-additional-fields.js
-    :language: javascript
-
-Overwrite a Dictionary
-~~~~~~~~~~~~~~~~~~~~~~
-.. literalinclude:: /examples/generated/node/data-types.codeblock.setting-new-dictionaries-to-existing-objects.js
     :language: javascript
 
 

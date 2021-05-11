@@ -1,9 +1,3 @@
 summerHillHouse.addListener((changedHouse, changes) => {
-  console.log(
-    `The following changes have occurred in the home: ${JSON.stringify(
-      changes,
-      null,
-      2
-    )}`
-  );
+  console.log("A change has occurred to the Summer Hill House Object");
 });

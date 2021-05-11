@@ -1,4 +1,4 @@
 realm.write(() => {
-  // remove the 'color' and 'floors' field of the Yakima City Victorian Home
-  yakimaCity.home.remove(["color", "floor"]);
+  // remove the 'color' and 'floors' field of the Summerhill House.
+  summerHillHouse.remove(["windows", "doors"]);
 });

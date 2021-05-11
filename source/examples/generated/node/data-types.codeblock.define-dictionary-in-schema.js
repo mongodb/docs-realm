@@ -1,5 +1,5 @@
-const CitySchema = {
-  name: "City",
+const PersonSchema = {
+  name: "Person",
   properties: {
     name: "string",
     home: "{}",
