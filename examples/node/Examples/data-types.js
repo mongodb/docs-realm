@@ -67,7 +67,7 @@ describe("Node.js Data Types", () => {
       // :hide-start:
       dictionaryListenerHasBeenCalled = true;
       // :hide-end:
-      console.log("A change has occurred to the Summer Hill House Object");
+      console.log("A change has occurred to the Summer Hill House object");
     });
     // :code-block-end:
 
