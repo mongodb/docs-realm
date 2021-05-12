@@ -12,6 +12,8 @@ Platform and Framework Compatibility - .NET SDK
    :depth: 2
    :class: singlecol
 
+Frameworks
+----------
 The following table shows which .NET and Xamarin framework
 version(s) you can use with {+service-short+} on your target platforms:
 
@@ -43,3 +45,22 @@ version(s) you can use with {+service-short+} on your target platforms:
 
    * - iOS 9 or later
      - Xamarin.iOS for iOS 9 or later
+
+Android Deployment
+------------------
+Due to some instruction set limitations, {+service-short+} does not support 
+deploying Android apps to the ``armeabi`` ABI. Default templates often 
+have different ABI settings for Debug and Release modes, and so an Android 
+application that works in Debug mode may throw a ``System.TypeInitializationException`` 
+exception in Release mode if the ``armeabi`` ABI is selected.
+
+To avoid this, you should verify the ABI settings for both Debug and Release modes.
+The `Visual Studio CPU Architectures <https://docs.microsoft.com/en-us/xamarin/android/app-fundamentals/cpu-architectures>`_ 
+page provides instructions for setting these in Visual Studio for Mac and Windows.
+
+Unless you have a good reason to avoid linking other ABIs, we recommend 
+checking all of the settings other than ``armabi``:
+
+.. figure:: /images/ABI-settings.png
+   :alt: ABI settings
+   :width: 250px
