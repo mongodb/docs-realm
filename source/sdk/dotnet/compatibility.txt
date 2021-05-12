@@ -49,14 +49,15 @@ version(s) you can use with {+service-short+} on your target platforms:
 Android Deployment
 ------------------
 Due to some instruction set limitations, {+service-short+} does not support 
-deploying Android apps to the ``armeabi`` ABI. Default templates often 
-have different ABI settings for Debug and Release modes, and so an Android 
-application that works in Debug mode may throw a ``System.TypeInitializationException`` 
-exception in Release mode if the ``armeabi`` ABI is selected.
+deploying Android apps to the ``armeabi`` ABI. Because default templates often 
+have different ABI settings for Debug and Release modes, your app may throw 
+a ``System.TypeInitializationException`` exception in Release mode but not when 
+it was running in Debug mode.
 
-To avoid this, you should verify the ABI settings for both Debug and Release modes.
-The `Visual Studio CPU Architectures <https://docs.microsoft.com/en-us/xamarin/android/app-fundamentals/cpu-architectures>`_ 
-page provides instructions for setting these in Visual Studio for Mac and Windows.
+To avoid this, verify the ABI settings for both Debug and Release modes. To check 
+and change the settings, follow the steps in the 
+`Visual Studio CPU Architectures <https://docs.microsoft.com/en-us/xamarin/android/app-fundamentals/cpu-architectures>`_ 
+page.
 
 Unless you have a good reason to avoid linking other ABIs, we recommend 
 checking all of the settings other than ``armabi``:
