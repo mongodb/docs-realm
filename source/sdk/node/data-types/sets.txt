@@ -16,11 +16,28 @@ Sets - Node.js SDK
 
 Overview
 --------
+A {+service-short+} set is a special object that allows you to store a
+collection of unique values. {+service-short+} sets work similarly to JavaScript
+:mdn:`Sets <Web/JavaScript/Reference/Global_Objects/Set>` except they must be a single
+type, and can only be modified within a write-transaction.
 
+.. note:: {+service-short+} Sets Do Not Guarantee Traversal Order
+   
+   When using a ``forEach()`` loop or other :mdn:`iteration methods
+   <Web/JavaScript/Reference/Global_Objects/Set#iteration_methods>` to iterate
+   through a loop, {+service-short+} sets may be in a different order than
+   originally written to. If you require an ordered version of your set, you
+   must implement that ordering yourself, for instance by creating an array of
+   the set's values in the insertion order.
+   
 .. _node-define-set-objects:
 
 Realm Object Models
 -------------------
+To define a property's values as a {+service-short+} set, specify the data type
+followed by a less than and equal sign. For instance, for a set made of integer
+values, specify ``"int<>"``. 
+
 .. literalinclude:: /examples/generated/node/data-types.codeblock.define-set-objects.js
     :language: javascript
 
@@ -28,6 +45,11 @@ Realm Object Models
 
 Create an Object With a Set
 ---------------------------
+To create an object with a property that value is of the set data type, create a
+{+service-short+} object within a write transaction. When defining your
+{+service-short+} object, specify your set property's value as an array of
+initial values. 
+
 .. literalinclude:: /examples/generated/node/data-types.codeblock.create-set-objects.js
     :language: javascript
 
@@ -36,6 +58,8 @@ Create an Object With a Set
 
 Add Items to a Set
 ------------------
+To add items to a set, pass the new value to the ``set.add()`` method within a write transaction.
+
 .. literalinclude:: /examples/generated/node/data-types.codeblock.add-items-to-set.js
     :language: javascript
 
@@ -43,6 +67,9 @@ Add Items to a Set
 
 Check if a Set has Specific Items
 ---------------------------------
+To find out if a set has a particular value, pass the value to the ``set.has()`` method. The
+``set.has()`` method will return true if the set contains the value specified.
+
 .. literalinclude:: /examples/generated/node/data-types.codeblock.check-if-set-has-items.js
     :language: javascript
 
@@ -50,6 +77,8 @@ Check if a Set has Specific Items
 
 Check the Size of a Set
 -----------------------
+To discover how many items are in a set, you can check the set's ``size`` property.
+
 .. literalinclude:: /examples/generated/node/data-types.codeblock.check-set-size.js
     :language: javascript
 
@@ -57,6 +86,8 @@ Check the Size of a Set
 
 Remove an Item from a Set
 -------------------------
+To remove a specific value from a set, pass the value to the ``set.delete()`` method within a write transaction.
+
 .. literalinclude:: /examples/generated/node/data-types.codeblock.remove-specific-item-from-set.js
     :language: javascript
 
@@ -65,5 +96,7 @@ Remove an Item from a Set
 
 Remove all Items from a Set
 ---------------------------
+To clear the set, run the ``set.clear()`` method within a write transaction.
+
 .. literalinclude:: /examples/generated/node/data-types.codeblock.remove-all-items-from-set.js
     :language: javascript
