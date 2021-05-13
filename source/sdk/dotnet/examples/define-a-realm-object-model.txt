@@ -133,11 +133,12 @@ class.
 
 Custom Setters
 --------------
-Realm will not store any property with a custom setter. By mapping 
-a private property to a public property with a custom setter, you can implement 
-validation before storing the private property. The following code shows how do 
-to this; the private ``email`` property is stored in the {+realm+}, but the 
-public ``Email`` property, which provides validation, is not persisted:
+Realm will not store any property with a custom setter. To use a custom setter, 
+store the property value in a private property and then 
+map that value to a public property with the custom setter. Realm will store the 
+private property, while you modify its value via the public property.
+In the following code, the private ``email`` property is stored in the {+realm+}, 
+but the public ``Email`` property, which provides validation, is not persisted:
 
 .. literalinclude:: /examples/generated/dotnet/Objects.codeblock.custom-setter.cs
    :language: csharp
