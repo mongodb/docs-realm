@@ -64,3 +64,30 @@ checking all of the settings other than ``armabi``:
 
 .. figure:: /images/ABI-settings.png
    :alt: ABI settings
+
+Limitations 
+-----------
+Realm has limits imposed to balance flexibility with performance. You should 
+be aware of following rules:
+
+**Class Names**
+
+- Must be between 0 and 57 bytes in length. 
+- UTF-8 characters are supported. 
+
+**Property Names**
+  
+- Must be between 0 and 63 bytes in length. 
+- UTF-8 characters are supported.
+
+An exception will be thrown during app initialization if these limits are exceeded.
+
+**iOS Limitation** 
+The total size of all open Realm files cannot be larger than the amount of memory 
+your application is allowed to map in iOS. This changes per device, and 
+depends on how fragmented the memory space on the device is at that point in time.
+If you need to store more data than is allowed, you can split your data into 
+multiple Realm files, open a {+realm+} only when needed, and close it when it is 
+no longer needed.
+
+For more information, see `Open Radar 17119975 <http://www.openradar.me/17119975>`_.
