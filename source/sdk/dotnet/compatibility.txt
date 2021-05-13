@@ -71,9 +71,9 @@ Realm has limits imposed to balance flexibility with performance. The SDK
 throws an exception during app initialization if the following limits are 
 exceeded:
 
-- Class names must be between 0 and 57 bytes in length. 
+- Class names can't exceed 57 bytes in length. 
 
-- Property names must be between 0 and 63 bytes in length. 
+- Property names can't exceed 63 bytes in length. 
 
 In addition, for iOS apps, the total size of all open Realm files cannot be 
 larger than the amount of memory your application is allowed to map in iOS. This 
