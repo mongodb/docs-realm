@@ -86,7 +86,7 @@ An exception will be thrown during app initialization if these limits are exceed
 
 The total size of all open Realm files cannot be larger than the amount of memory 
 your application is allowed to map in iOS. This changes per device, and 
-depends on how fragmented the memory space on the device is at that point in time.
+depends on how fragmented the memory space on the device is. 
 If you need to store more data than is allowed, you can split your data into 
 multiple Realm files, open a {+realm+} only when needed, and close it when it is 
 no longer needed.
