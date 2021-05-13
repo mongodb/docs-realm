@@ -367,7 +367,7 @@ describe("Node.js Data Types", () => {
 
     // :code-block-start: remove-all-items-from-set
     realm.write(() => {
-      // clear all data from the items slot of the hunter by calling `set.clear()` in a write transaction
+      // clear all data from the inventory slot of the hunter by calling `set.clear()` in a write transaction
       hunter.inventory.clear();
     });
     // :code-block-end:
