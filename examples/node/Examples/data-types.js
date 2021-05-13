@@ -87,9 +87,10 @@ describe("Node.js Data Types", () => {
     expect(summerHillHouse.color).toBe("brown"); // the summerHillHouse should be brown now
     expect(summerHillHouse.yearBuilt).toBe(2004); // the summerHillHouse should've been built in 2004
 
+    console.log(summerHillHouse);
     // :code-block-start: remove-fields-of-the-dictionary
     realm.write(() => {
-      // remove the 'color' and 'doors' field of the Summerhill House.
+      // remove the 'windows' and 'doors' field of the Summerhill House.
       // :uncomment-start:
       // summerHillHouse.remove(["windows", "doors"]);
       // :uncomment-end:
