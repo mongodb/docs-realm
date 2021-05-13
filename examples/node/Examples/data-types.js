@@ -356,6 +356,15 @@ describe("Node.js Data Types", () => {
     // :code-block-end:
     expect(hunterHasCompletedLevelThree).toBe(false);
 
+    // :code-block-start: remove-specific-item-from-set
+    realm.write(() => {
+      // remove the compass from link's inventory by calling `set.delete()` within a write transaction
+      link.inventory.delete("compass");
+    });
+
+    // :code-block-end:
+    expect(link.inventory.has("compass")).toBe(false);
+
     // :code-block-start: remove-all-items-from-set
     realm.write(() => {
       // clear all data from the items slot of the hunter by calling `set.clear()` in a write transaction
