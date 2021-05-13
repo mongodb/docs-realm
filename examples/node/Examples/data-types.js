@@ -299,4 +299,83 @@ describe("Node.js Data Types", () => {
     // close the realm
     realm.close();
   });
+  test("should work with the Set data type", async () => {
+    // :code-block-start: define-set-objects
+    const characterSchema = {
+      name: "Character",
+      primaryKey: "_id",
+      properties: {
+        _id: "objectId",
+        name: "string",
+        levelsCompleted: "int<>",
+        inventory: "string<>",
+      },
+    };
+    // :code-block-end:
+    const realm = await Realm.open({
+      schema: [characterSchema],
+    });
+
+    // :code-block-start: create-set-objects
+    let link, hunter;
+    realm.write(() => {
+      link = realm.create("Character", {
+        _id: new BSON.ObjectId(),
+        name: "Link",
+        inventory: ["elixir", "compass", "glowing shield"],
+        levelsCompleted: [4, 9],
+      });
+      hunter = realm.create("Character", {
+        _id: new BSON.ObjectId(),
+        name: "Hunter",
+        inventory: ["estus flask", "gloves", "rune"],
+        levelsCompleted: [1, 2, 5, 24],
+      });
+    });
+    // :code-block-end:
+
+    expect(link.inventory.has("elixir")).toBe(true);
+    expect(hunter.inventory.has("gloves")).toBe(true);
+
+    // :code-block-start: add-items-to-set
+    realm.write(() => {
+      link.inventory.add("hammer");
+      link.levelsCompleted.add(32);
+    });
+    // :code-block-end:
+
+    expect(link.inventory.size).toBe(4);
+    expect(link.levelsCompleted.size).toBe(3);
+
+    // :code-block-start: check-if-set-has-items
+    // check if the hunter has completed level 3 by calling the `set.has()` method
+    const hunterHasCompletedLevelThree = hunter.levelsCompleted.has(3);
+    console.log(
+      `Is level three completed by the hunter: ${hunterHasCompletedLevelThree}`
+    );
+    // :code-block-end:
+    expect(hunterHasCompletedLevelThree).toBe(false);
+
+    // :code-block-start: remove-all-items-from-set
+    realm.write(() => {
+      // clear all data from the items slot of the hunter by calling `set.clear()` in a write transaction
+      hunter.inventory.clear();
+    });
+    // :code-block-end:
+
+    // :code-block-start: check-set-size
+    // check how many items the hunter has in his inventory through the `set.size` property
+    const hunterInventorySize = hunter.inventory.size;
+    console.log(`The hunter has ${hunterInventorySize} inventory items`);
+    // :code-block-end:
+    expect(hunter.inventory.size).toBe(0);
+
+    // delete the object specifically created in this test to keep tests idempotent
+    realm.write(() => {
+      realm.delete(link);
+      realm.delete(hunter);
+    });
+    // close the realm
+    realm.close();
+  });
 });
