@@ -20,17 +20,17 @@ You may see a ``System.InvalidOperationException`` with the message
 
 There are three known causes of this exception:
 
-- You either have no woven RealmObjects, probably because something went wrong 
+- You have no woven ``RealmObject``s, probably because something went wrong 
   with Fody. If this is the case, the exception is thrown from ``RealmSchema``. See 
-  :ref:`fail-to-weave` for details.
+  :ref:`fail-to-weave` for details on how to fix this.
 
-- Your Realm Objects had their properties stripped so appear to Realm to be empty.
-  If this is the case, the exception is thrown from ``ObjectSchema``. This can 
-  occur if you have your 
+- A linker has stripped properties from one or more RealmObjects, and Realm thinks 
+  those properties don't exist. This can occur if you have your 
   `Linker Behavior <https://docs.microsoft.com/en-us/xamarin/ios/deploy-test/linker?tabs=macos>`_ 
   set to ``Link all assemblies`` but have not used the ``[Preserve(AllMembers = true)]`` 
-  attribute on the class declaration. The linker will only preserve class members 
-  which are referenced explicitly in the code. This means that if you have a 
+  attribute on the class declaration. The linker only preserves class members 
+  that are referenced explicitly in the code or marked with the 
+  ``[Preserve(AllMembers = true)]`` attribute. This means that if you have a 
   property that should be persisted in {+realm+} but is not referenced anywhere 
   in your code, the linker may remove it, causing a schema mismatch.
 
@@ -43,7 +43,7 @@ There are three known causes of this exception:
 
 Fody: 'An Unhandled Exception Occurred'
 ---------------------------------------
-This common build failure can easily be triggered when you have already built a 
+This common build failure is triggered when you have already built a 
 project and then add a new ``RealmObject`` sub-class. Choosing to 
 :guilabel:`Build` or :guilabel:`Run` your project does not rebuild the project 
 thoroughly enough to invoke the Fody Weaver. To fix this, 
@@ -78,16 +78,17 @@ Removing the following line from your .csproj file might help:
 .. code-block:: sh
      :copyable: false
 
-     <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
+     <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" 
+      Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
 
 
 Troubleshooting WriteAsync Issues
 ----------------------------------
 
-Inside the ``WriteAsync`` method, we check for a non-null 
+Inside the ``WriteAsync()`` method, we check for a non-null 
 ``SynchronizationContext.Current`` object to determine if the code is executed on 
 the UI thread. This check may be inaccurate if you have set ``Current`` in your  
 worker threads. If you have set ``SynchronizationContext.Current`` in a 
-worker thread, call the ``Write`` method instead of ``WriteAsync``.
+worker thread, call the ``Write()`` method instead of ``WriteAsync()``.
 
 For more information, see :ref:`Asynchronous Writes <dotnet-async-writes>`.
