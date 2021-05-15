@@ -13,3 +13,13 @@ Dog *dog = [dogs firstObject];
 
 // You can freeze objects
 Dog *frozenDog = [dog freeze];
+
+// To modify frozen objects, you can thaw them
+// You can thaw collections
+RLMResults *thawedDogs = [dogs thaw];
+
+// You can thaw objects
+Dog *thawedDog = [dog thaw];
+
+// You can thaw frozen realms
+RLMRealm *thawedRealm = [realm thaw];

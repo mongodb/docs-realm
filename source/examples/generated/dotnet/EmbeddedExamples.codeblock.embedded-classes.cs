@@ -26,6 +26,7 @@ public class Contact : RealmObject
     public ObjectId Id { get; set; } = ObjectId.GenerateNewId();
 
     [MapTo("_partition")]
+    [Required]
     public string Partition { get; set; }
 
     [MapTo("name")]
@@ -42,6 +43,7 @@ public class Business : RealmObject
     public ObjectId Id { get; set; } = ObjectId.GenerateNewId();
 
     [MapTo("_partition")]
+    [Required]
     public string Partition { get; set; }
 
     [MapTo("name")]

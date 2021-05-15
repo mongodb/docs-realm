@@ -1,9 +1,9 @@
 var plant = new Plant
 {
     Name = "Venus Flytrap",
-    Sunlight = Sunlight.Full,
-    Color = PlantColor.White,
-    Type = PlantType.Perennial,
+    Sunlight = Sunlight.Full.ToString(),
+    Color = PlantColor.White.ToString(),
+    Type = PlantType.Perennial.ToString(),
     Partition = "Store 42"
 };
 

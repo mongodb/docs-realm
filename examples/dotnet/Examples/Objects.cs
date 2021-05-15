@@ -224,9 +224,16 @@ namespace ObjectExamples
         public ObjectId ID { get; set; }
         //:hide-end:
         // :code-block-start: ignore
+        // Rather than store an Image in Realm,
+        // store the path to the Image...
+        public string ThumbnailPath { get; set; }
+
+        // ...and the Image itself can be
+        // in-memory when the app is running:
         [Ignored]
         public Image Thumbnail { get; set; }
         // :code-block-end:
+
         // :code-block-start: rename
         //:replace-start: {
         // "terms": {
@@ -248,6 +255,28 @@ namespace ObjectExamples
         public class Image
         {
         }
+    }
+
+    public class CustomGetterSetter : RealmObject
+    {
+        [PrimaryKey]
+        public string _id { get; set; } = ObjectId.GenerateNewId().ToString();
+        // :code-block-start: custom-setter
+        // This property will be stored in the Realm
+        private string email { get; set; }
+
+        // Custom validation of the email property.
+        // This property is *not* stored in Realm.
+        public string Email
+        {
+            get { return email; }
+            set
+            {
+                if (!value.Contains("@")) throw new Exception("Invalid email address");
+                email = value;
+            }
+        }
+        // :code-block-end:
     }
 
     // :code-block-start: rename-class

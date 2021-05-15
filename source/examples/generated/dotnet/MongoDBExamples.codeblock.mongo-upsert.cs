@@ -1,7 +1,7 @@
 var filter = new BsonDocument()
     .Add("name", "Pothos")
-    .Add("type", PlantType.Perennial)
-    .Add("sunlight", Sunlight.Full);
+    .Add("type", PlantType.Perennial.ToString())
+    .Add("sunlight", Sunlight.Full.ToString());
 
 var updateResult = await plantsCollection.UpdateOneAsync(
     filter,

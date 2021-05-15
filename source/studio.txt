@@ -4,50 +4,39 @@
 Realm Studio
 ============
 
+.. toctree::
+   :titlesonly:
+   :hidden:
+   
+   Install Realm Studio </studio/install>
+   Open a Realm File </studio/open-realm-file>
+   Explore a Realm File </studio/explore-realm-file>
+   Modify a Realm File </studio/modify-objects>
+   Modify Schema </studio/modify-schema>
+
 Get Started with Realm Studio
 -----------------------------
 
-Realm Studio is a developer tool for desktop operating systems that
-allows you to manage Realm Database instances. With Realm Studio, you
-can open and edit local and synced realms. It supports Mac, Windows, and
-Linux.
+Realm Studio is a visual tool to view, edit, and design {+client-database+} 
+files. With Realm Studio, developers can:
+
+- Query objects in the database
+- View live objects in realtime while running an app
+- Create, modify, and delete objects
+- Add classes and properties to the schema
+- Export the schema as class definitions in C#, Java, JavaScript, Kotlin, 
+  Swift, and TypeScript
+- Save and import changes into a client app or production database
 
 .. image:: /images/realm-studio.png
    :alt: A screenshot of Realm Studio
 
-See :github:`Releases on GitHub <realm/realm-studio/releases/latest>`:
+View Realm Studio Releases
+--------------------------
 
-- `Download for Linux <https://studio-releases.realm.io/latest/download/linux-appimage>`_
-- `Download for Mac <https://studio-releases.realm.io/latest/download/mac-dmg>`_
-- `Download for Windows <https://studio-releases.realm.io/latest/download/win-setup>`_
+You can see a list of all releases at `Realm Studio Releases <https://studio-releases.realm.io/>`_. 
+Click a version number to view a page listing enhancements, fixes, and 
+file downloads for that version.
 
-.. _find-the-default-realm-path:
-
-Find the Realm File(s)
-----------------------
-
-{+client-database+} stores a binary encoded version of every object and type in a
-realm in a single ``.realm`` file. The file is located at a specific path that
-you define when you open the realm.
-
-.. tabs-realm-languages::
-
-   .. tab::
-      :tabid: swift
-
-      In Swift app development, you can find the current path of the
-      default {+realm+} by pausing the simulator and using the LLDB console:
-
-      .. code-block:: swift
-
-         (lldb) po Realm.Configuration.defaultConfiguration.fileURL
-
-   .. tab::
-      :tabid: objective-c
-
-      In Objective-C app development, you can find the current path of the
-         default {+realm+} by pausing the simulator and using the LLDB console:
-
-      .. code-block:: objective-c
-
-         (lldb) po [RLMRealmConfiguration defaultConfiguration].fileURL
+Alternately, you can view :github:`Releases on GitHub <realm/realm-studio/releases/latest>`,
+as well as track and file issues for Realm Studio.
