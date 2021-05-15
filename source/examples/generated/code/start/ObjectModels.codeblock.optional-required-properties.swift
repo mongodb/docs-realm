@@ -9,5 +9,5 @@ class Person: Object {
     @objc dynamic var ageYears = 0
 
     // Optional numeric property
-    let heightCm = RealmOptional<Float>()
+    let heightCm = RealmProperty<Float?>()
 }

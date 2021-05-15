@@ -34,7 +34,7 @@ class OptionalRequiredPropertyExample_Person: Object {
     @objc dynamic var ageYears = 0
 
     // Optional numeric property
-    let heightCm = RealmOptional<Float>()
+    let heightCm = RealmProperty<Float?>()
 }
 // :code-block-end:
 
@@ -97,7 +97,7 @@ class ObjectModelsExamples_Task: Object {
     @objc dynamic var status = ObjectModelsExamples_TaskStatusEnum.notStarted // :emphasize:
 
     // Optional enum property
-    let optionalTaskStatusEnumProperty = RealmOptional<ObjectModelsExamples_TaskStatusEnum>() // :emphasize:
+    let optionalTaskStatusEnumProperty = RealmProperty<ObjectModelsExamples_TaskStatusEnum?>() // :emphasize:
 }
 // :code-block-end:
 

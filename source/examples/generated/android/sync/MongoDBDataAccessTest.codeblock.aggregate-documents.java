@@ -1,3 +1,10 @@
+MongoClient mongoClient =
+        user.getMongoClient("mongodb-atlas");
+MongoDatabase mongoDatabase =
+        mongoClient.getDatabase("plant-data-database");
+MongoCollection<Document> mongoCollection =
+        mongoDatabase.getCollection("plant-data-collection");
+Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle");
 List<Document> pipeline = Arrays.asList(
         new Document("$group", new Document("_id", "$type")
                 .append("totalCount", new Document("$sum", 1))));

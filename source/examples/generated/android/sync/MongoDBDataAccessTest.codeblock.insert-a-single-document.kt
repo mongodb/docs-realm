@@ -6,7 +6,7 @@ val plant = Plant(
     "perennial",
     "Store 47"
 )
-mongoCollection?.insertOne(plant)?.getAsync() { task ->
+mongoCollection?.insertOne(plant)?.getAsync { task ->
     if (task.isSuccess) {
         Log.v(
             "EXAMPLE",
