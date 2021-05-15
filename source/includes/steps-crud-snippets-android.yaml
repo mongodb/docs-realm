@@ -83,3 +83,24 @@ content: |
 
         .. literalinclude:: /examples/generated/android/sync/MongoDBDataAccessTest.codeblock.instantiate-a-mongodb-collection-handle.java
            :language: java
+
+  .. note:: Using Custom Classes with MongoDB
+
+     To use classes other than the built-in ``Document`` class with
+     MongoDB, you can add *codecs* to your ``MongoCollection`` instances.
+     In the above example, we add the ``PojoCodecProvider`` to support
+     Plain Old Java Objects (POJOs). Custom object support requires two
+     *codec providers*:
+
+     - the default codec provider, which provides support for built-in
+       Java types (accessed through
+       ``AppConfiguration.DEFAULT_BSON_CODEC_REGISTRY``)
+
+     - ``PojoCodecProvider``, which automatically creates new codecs to
+       support POJO classes
+
+     The SDK checks registries in order until one returns a codec for
+     the requested class. As a result, you should list the default codec
+     registry first, and the ``PojoCodecProvider`` should always be the
+     last CodecProvider since it can provide a codec for almost any
+     class.

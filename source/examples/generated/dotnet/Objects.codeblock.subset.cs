@@ -13,6 +13,6 @@ class AnotherClass
         config.ObjectClasses = new[] { typeof(LoneClass) };
 
         // Or, specify multiple classes to use in the Realm
-        config.ObjectClasses = new[] { typeof(DogA), typeof(Cat) };
+        config.ObjectClasses = new[] { typeof(Dog), typeof(Cat) };
     }
 }
