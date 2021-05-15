@@ -39,9 +39,9 @@ Realm.Callback
 Asynchronous calls to open a {+realm+}, both with and without {+sync+},
 use a final parameter of type :java-sdk:`Realm.Callback
 <io/realm/Realm.Callback.html>`. To retrieve returned values after the
-request completes, implement the `onSuccess()` method in the callback
+request completes, implement the ``onSuccess()`` method in the callback
 object passed as the final parameter to these asynchronous methods. You
-should also implement the `onError()` method to handle request failures,
+should also implement the ``onError()`` method to handle request failures,
 but it is not required.
 
 .. tabs-realm-languages::
@@ -49,13 +49,13 @@ but it is not required.
    .. tab::
       :tabid: java
 
-      .. literalinclude:: /examples/generated/android/sync/AsyncTest.codeblock.realm-callback.java
+      .. literalinclude:: /examples/generated/android/local/AsyncTest.codeblock.realm-callback.java
          :language: java
    
    .. tab::
       :tabid: kotlin
 
-      .. literalinclude:: /examples/generated/android/sync/AsyncTest.codeblock.realm-callback.kt
+      .. literalinclude:: /examples/generated/android/local/AsyncTest.codeblock.realm-callback.kt
          :language: kotlin
 
 .. _android-app-callback:
@@ -73,12 +73,12 @@ single parameter of type :java-sdk:`App.Result
 <io/realm/mongodb/App.Result.html`. To retrieve a returned values from
 ``App.Callback`` requests:
 
-1. Use the `isSuccess()` method of the ``App.Result`` passed to the
+1. Use the ``isSuccess()`` method of the ``App.Result`` passed to the
    callback function to determine if the query completed
    successfully.
 
-#. If the query was successful, use the `get()` method to retrieve
-   the result of the query. If the query failed, use `getError()` to
+#. If the query was successful, use the ``get()`` method to retrieve
+   the result of the query. If the query failed, use ``getError()`` to
    retrieve the exception that caused the query to fail.
 
 .. tabs-realm-languages::
@@ -118,13 +118,13 @@ transaction.
    .. tab::
       :tabid: java
 
-      .. literalinclude:: /examples/generated/android/sync/AsyncTest.codeblock.realm-async-task.java
+      .. literalinclude:: /examples/generated/android/local/AsyncTest.codeblock.realm-async-task.java
          :language: java
    
    .. tab::
       :tabid: kotlin
 
-      .. literalinclude:: /examples/generated/android/sync/AsyncTest.codeblock.realm-async-task.kt
+      .. literalinclude:: /examples/generated/android/local/AsyncTest.codeblock.realm-async-task.kt
          :language: kotlin
 
 .. _android-realm-results:
@@ -146,13 +146,13 @@ to receive a notification when the query completes.
    .. tab::
       :tabid: java
 
-      .. literalinclude:: /examples/generated/android/sync/AsyncTest.codeblock.realm-results.java
+      .. literalinclude:: /examples/generated/android/local/AsyncTest.codeblock.realm-results.java
          :language: java
    
    .. tab::
       :tabid: kotlin
 
-      .. literalinclude:: /examples/generated/android/sync/AsyncTest.codeblock.realm-results.kt
+      .. literalinclude:: /examples/generated/android/local/AsyncTest.codeblock.realm-results.kt
          :language: kotlin
 
 .. _android-realm-result-task:
@@ -204,5 +204,5 @@ use these extensions to :kotlin-sdk:`execute transactions
 and :kotlin-sdk:`write
 <io.realm.kotlin/io.realm.-realm/create-object.html>`.
 
-.. literalinclude:: /examples/generated/android/sync/AsyncTest.codeblock.coroutines.kt
+.. literalinclude:: /examples/generated/android/local/AsyncTest.codeblock.coroutines.kt
    :language: kotlin
