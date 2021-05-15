@@ -1,4 +1,4 @@
-RealmEventStreamAsyncTask<Plant> watcher = mongoCollection.watchAsync();
+RealmEventStreamAsyncTask<Document> watcher = mongoCollection.watchAsync();
 watcher.get(result -> {
     if (result.isSuccess()) {
         Log.v("EXAMPLE", "Event type: " + result.get().getOperationType() + " full document: " + result.get().getFullDocument());

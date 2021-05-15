@@ -12,16 +12,10 @@ Supported Property Types - iOS SDK
    :depth: 2
    :class: singlecol
 
-Property Cheat Sheet
---------------------
-
 .. tabs-realm-languages::
 
    .. tab::
       :tabid: swift
-
-      .. versionchanged:: 10.8.0-beta.0
-         ``RealmProperty`` replaces ``RealmOptional``
 
       You can use the following types to define your object model
       properties:
@@ -35,16 +29,16 @@ Property Cheat Sheet
            - Optional
          * - Bool
            - ``@objc dynamic var value = false``
-           - ``let value = RealmProperty<Bool?>()``
+           - ``let value = RealmOptional<Bool>()``
          * - Int, Int8, Int16, Int32, Int64
            - ``@objc dynamic var value = 0``
-           - ``let value = RealmProperty<Int?>()``
+           - ``let value = RealmOptional<Int>()``
          * - Float
            - ``@objc dynamic var value: Float = 0.0``
-           - ``let value = RealmProperty<Float?>()``
+           - ``let value = RealmOptional<Float>()``
          * - Double
            - ``@objc dynamic var value: Double = 0.0``
-           - ``let value = RealmProperty<Double?>()``
+           - ``let value = RealmOptional<Double>()``
          * - String
            - ``@objc dynamic var value = ""``
            - ``@objc dynamic var value: String? = nil``
@@ -57,21 +51,12 @@ Property Cheat Sheet
          * - Decimal128
            - ``@objc dynamic var decimal: Decimal128 = 0``
            - ``@objc dynamic var decimal: Decimal128?``
-         * - `UUID <https://docs.mongodb.com/realm-sdks/swift/10.8.0-beta.0/Extensions.html#/s:10Foundation4UUIDV>`_
-           - ``@objc dynamic var uuid = UUID()``
-           - ``@objc dynamic var uuidOpt: UUID?``
          * - :swift-sdk:`ObjectId <Classes/ObjectId.html>`
            - ``@objc dynamic var objectId = ObjectId.generate()``
            - ``@objc dynamic var objectId: ObjectId?``
          * - :swift-sdk:`List <Classes/List.html>`
            - ``let value = List<Type>()``
            - 
-         * - `MutableSet <https://docs.mongodb.com/realm-sdks/swift/10.8.0-beta.0/Classes/MutableSet.html>`_
-           - ``let value = MutableSet<Type>()``
-           - 
-         * - `Mixed Data Type <https://docs.mongodb.com/realm-sdks/swift/10.8.0-beta.0/Enums/AnyRealmValue.html>`_
-           - ``let value = RealmProperty<AnyRealmValue>()``
-           - N/A
          * - User-defined :swift-sdk:`Object <Extensions/Object.html>`
            - N/A
            - ``@objc dynamic var value: MyClass?``
@@ -81,7 +66,7 @@ Property Cheat Sheet
       - :swift-sdk:`EmbeddedObject <Extensions/EmbeddedObject.html>`-derived types
       - :swift-sdk:`Enum <Protocols.html#/s:10RealmSwift0A4EnumP>`
 
-      You can use ``RealmProperty <T?>`` to
+      You can use :swift-sdk:`RealmOptional <Classes/RealmOptional.html>` to
       represent integers, doubles, and other types as optional.
 
       ``CGFloat`` properties are discouraged, as the type is not
@@ -124,9 +109,6 @@ Property Cheat Sheet
          * - Decimal128
            - ``@property RLMDecimal128 *value;``
            - ``@property RLMDecimal128 *value;``
-         * - NSUUID
-           - ``@property NSUUID *uuid;``
-           - 
          * - :objc-sdk:`RLMObjectId <Classes/RLMObjectId.html>`
            - ``@property RLMObjectId *objectId;``
            - ``@property RLMObjectId *objectId;``
@@ -145,60 +127,3 @@ Property Cheat Sheet
       ``CGFloat`` properties are discouraged, as the type is not
       platform independent.
 
-Unique Identifiers
-------------------
-
-.. versionadded:: 10.8.0-beta.0
-   ``UUID`` type
-
-ObjectId is a MongoDB-specific 12-byte unique value. UUID is a 16-byte 
-globally-unique value. You can :ref:`index <ios-index-a-property>` both types,
-and use either as a :ref:`primary key <ios-specify-a-primary-key>`.
-
-.. _ios-mixed-data-type:
-
-Mixed Data Type
----------------
-
-.. versionadded:: 10.8.0-beta.0
-   ``AnyRealmValue`` type
-
-``AnyRealmValue`` is a {+service-short+} property type that can hold different 
-data types. Supported ``AnyRealmValue`` data types include:
-
-- Int
-- Float
-- Double
-- Decimal128
-- ObjectID
-- UUID
-- Bool
-- Date
-- Data
-- String
-- Object
-
-This `mixed data type <https://docs.mongodb.com/realm-sdks/swift/10.8.0-beta.0/Enums/AnyRealmValue.html>`_ 
-is :ref:`indexable <ios-index-a-property>`, but you can't use it as a 
-:ref:`primary key <ios-specify-a-primary-key>`. Because ``null`` is a 
-permitted value, you can't declare an ``AnyRealmValue`` as optional.
-
-.. literalinclude:: /examples/generated/code/start/AnyRealmValue.codeblock.mixed-data-type.swift
-   :language: swift
-
-You can :ref:`compare <ios-filter-data-operators>` these mixed value types:
-
-- Numeric: int, bool, float, double, decimal
-- Byte-based: string, binary
-- Time-based: timestamp, objectId
-
-When using the ``AnyRealmValue`` mixed data type, keep these things in mind:
-
-- ``equals`` queries match on value and type
-- ``not equals`` queries match objects with either different values or 
-  different types
-- {+realm+} converts comparable numeric properties where possible. For example,
-  in a mixed type field, 1 matches all of 1.0, 1, and true.
-- String properties do not match numeric queries. For example, in a mixed
-  type field, 1 does not match "1". "1" does not match 1, 1.0, or true.
-  

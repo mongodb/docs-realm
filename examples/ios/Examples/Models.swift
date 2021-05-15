@@ -9,6 +9,6 @@ class Person: Object {
     @objc dynamic var address: String?
 
     // Optional integral type property
-    let age = RealmProperty<Int?>()
+    let age = RealmOptional<Int>()
 }
 // :code-block-end:

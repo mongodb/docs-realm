@@ -4,12 +4,10 @@ import android.util.Log;
 
 import com.mongodb.realm.examples.Expectation;
 import com.mongodb.realm.examples.RealmTest;
-import com.mongodb.realm.examples.model.java.Plant;
+import com.mongodb.realm.examples.model.Plant;
 
 import org.bson.BsonObjectId;
 import org.bson.Document;
-import org.bson.codecs.configuration.CodecRegistry;
-import org.bson.codecs.pojo.PojoCodecProvider;
 import org.bson.types.ObjectId;
 import org.junit.Before;
 import org.junit.Test;
@@ -30,8 +28,6 @@ import io.realm.mongodb.mongo.iterable.MongoCursor;
 import io.realm.mongodb.mongo.options.UpdateOptions;
 
 import static com.mongodb.realm.examples.RealmTestKt.YOUR_APP_ID;
-import static org.bson.codecs.configuration.CodecRegistries.fromProviders;
-import static org.bson.codecs.configuration.CodecRegistries.fromRegistries;
 
 public class MongoDBDataAccessTest extends RealmTest {
     @Before
@@ -48,16 +44,12 @@ public class MongoDBDataAccessTest extends RealmTest {
                     // :code-block-start: example-data
                     User user = app.currentUser();
                     MongoClient mongoClient =
-                            user.getMongoClient("mongodb-atlas");
+                            user.getMongoClient("mongodb-atlas"); // service for MongoDB Atlas cluster containing custom user data
                     MongoDatabase mongoDatabase =
                             mongoClient.getDatabase("plant-data-database");
-                    // registry to handle POJOs (Plain Old Java Objects)
-                    CodecRegistry pojoCodecRegistry = fromRegistries(AppConfiguration.DEFAULT_BSON_CODEC_REGISTRY,
-                            fromProviders(PojoCodecProvider.builder().automatic(true).build()));
-                    MongoCollection<Plant> mongoCollection =
-                            mongoDatabase.getCollection(
-                                    "plant-data-collection",
-                                    Plant.class).withCodecRegistry(pojoCodecRegistry);
+                    MongoCollection<Document> mongoCollection =
+                            mongoDatabase.getCollection("plant-data-collection");
+                    mongoCollection.deleteMany(new Document());
                     mongoCollection.insertMany(Arrays.asList(
                             new Plant(new ObjectId(),
                                     "venus flytrap",
@@ -116,16 +108,11 @@ public class MongoDBDataAccessTest extends RealmTest {
                     // :code-block-start: instantiate-a-mongodb-collection-handle
                     User user = app.currentUser();
                     MongoClient mongoClient =
-                            user.getMongoClient("mongodb-atlas");
+                            user.getMongoClient("mongodb-atlas"); // service for MongoDB Atlas cluster containing custom user data
                     MongoDatabase mongoDatabase =
                             mongoClient.getDatabase("plant-data-database");
-                    // registry to handle POJOs (Plain Old Java Objects)
-                    CodecRegistry pojoCodecRegistry = fromRegistries(AppConfiguration.DEFAULT_BSON_CODEC_REGISTRY,
-                            fromProviders(PojoCodecProvider.builder().automatic(true).build()));
-                    MongoCollection<Plant> mongoCollection =
-                            mongoDatabase.getCollection(
-                                    "plant-data-collection",
-                                    Plant.class).withCodecRegistry(pojoCodecRegistry);
+                    MongoCollection<Document> mongoCollection =
+                            mongoDatabase.getCollection("plant-data-collection");
                     Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle");
                     // :hide-start:
                     expectation.fulfill();
@@ -152,16 +139,11 @@ public class MongoDBDataAccessTest extends RealmTest {
                     Log.v("EXAMPLE", "Successfully authenticated.");
                     User user = app.currentUser();
                     MongoClient mongoClient =
-                            user.getMongoClient("mongodb-atlas");
+                            user.getMongoClient("mongodb-atlas"); // service for MongoDB Atlas cluster containing custom user data
                     MongoDatabase mongoDatabase =
                             mongoClient.getDatabase("plant-data-database");
-                    // registry to handle POJOs (Plain Old Java Objects)
-                    CodecRegistry pojoCodecRegistry = fromRegistries(AppConfiguration.DEFAULT_BSON_CODEC_REGISTRY,
-                            fromProviders(PojoCodecProvider.builder().automatic(true).build()));
-                    MongoCollection<Plant> mongoCollection =
-                            mongoDatabase.getCollection(
-                                    "plant-data-collection",
-                                    Plant.class).withCodecRegistry(pojoCodecRegistry);
+                    MongoCollection<Document> mongoCollection =
+                            mongoDatabase.getCollection("plant-data-collection");
                     Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle");
                     // :code-block-start: insert-a-single-document
                     Plant plant = new Plant(
@@ -203,16 +185,11 @@ public class MongoDBDataAccessTest extends RealmTest {
                     Log.v("EXAMPLE", "Successfully authenticated.");
                     User user = app.currentUser();
                     MongoClient mongoClient =
-                            user.getMongoClient("mongodb-atlas");
+                            user.getMongoClient("mongodb-atlas"); // service for MongoDB Atlas cluster containing custom user data
                     MongoDatabase mongoDatabase =
                             mongoClient.getDatabase("plant-data-database");
-                    // registry to handle POJOs (Plain Old Java Objects)
-                    CodecRegistry pojoCodecRegistry = fromRegistries(AppConfiguration.DEFAULT_BSON_CODEC_REGISTRY,
-                            fromProviders(PojoCodecProvider.builder().automatic(true).build()));
-                    MongoCollection<Plant> mongoCollection =
-                            mongoDatabase.getCollection(
-                                    "plant-data-collection",
-                                    Plant.class).withCodecRegistry(pojoCodecRegistry);
+                    MongoCollection<Document> mongoCollection =
+                            mongoDatabase.getCollection("plant-data-collection");
                     Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle");
                     // :code-block-start: insert-multiple-documents
                     List<Plant> plants  = Arrays.asList(
@@ -267,22 +244,17 @@ public class MongoDBDataAccessTest extends RealmTest {
                     Log.v("EXAMPLE", "Successfully authenticated.");
                     User user = app.currentUser();
                     MongoClient mongoClient =
-                            user.getMongoClient("mongodb-atlas");
+                            user.getMongoClient("mongodb-atlas"); // service for MongoDB Atlas cluster containing custom user data
                     MongoDatabase mongoDatabase =
                             mongoClient.getDatabase("plant-data-database");
-                    // registry to handle POJOs (Plain Old Java Objects)
-                    CodecRegistry pojoCodecRegistry = fromRegistries(AppConfiguration.DEFAULT_BSON_CODEC_REGISTRY,
-                            fromProviders(PojoCodecProvider.builder().automatic(true).build()));
-                    MongoCollection<Plant> mongoCollection =
-                            mongoDatabase.getCollection(
-                                    "plant-data-collection",
-                                    Plant.class).withCodecRegistry(pojoCodecRegistry);
+                    MongoCollection<Document> mongoCollection =
+                            mongoDatabase.getCollection("plant-data-collection");
                     Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle");
                     // :code-block-start: find-a-single-document
                     Document queryFilter  = new Document("type", "perennial");
                     mongoCollection.findOne(queryFilter).getAsync(task -> {
                         if (task.isSuccess()) {
-                            Plant result = task.get();
+                            Document result = task.get();
                             Log.v("EXAMPLE", "successfully found a document: " + result);
                             // :hide-start:
                             expectation.fulfill();
@@ -313,23 +285,18 @@ public class MongoDBDataAccessTest extends RealmTest {
                     Log.v("EXAMPLE", "Successfully authenticated.");
                     User user = app.currentUser();
                     MongoClient mongoClient =
-                            user.getMongoClient("mongodb-atlas");
+                            user.getMongoClient("mongodb-atlas"); // service for MongoDB Atlas cluster containing custom user data
                     MongoDatabase mongoDatabase =
                             mongoClient.getDatabase("plant-data-database");
-                    // registry to handle POJOs (Plain Old Java Objects)
-                    CodecRegistry pojoCodecRegistry = fromRegistries(AppConfiguration.DEFAULT_BSON_CODEC_REGISTRY,
-                            fromProviders(PojoCodecProvider.builder().automatic(true).build()));
-                    MongoCollection<Plant> mongoCollection =
-                            mongoDatabase.getCollection(
-                                    "plant-data-collection",
-                                    Plant.class).withCodecRegistry(pojoCodecRegistry);
+                    MongoCollection<Document> mongoCollection =
+                            mongoDatabase.getCollection("plant-data-collection");
                     Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle");
                     // :code-block-start: find-multiple-documents
                     Document queryFilter  = new Document("_partition", "Store 42");
-                    RealmResultTask<MongoCursor<Plant>> findTask = mongoCollection.find(queryFilter).iterator();
+                    RealmResultTask<MongoCursor<Document>> findTask = mongoCollection.find(queryFilter).iterator();
                     findTask.getAsync(task -> {
                         if (task.isSuccess()) {
-                            MongoCursor<Plant> results = task.get();
+                            MongoCursor<Document> results = task.get();
                             Log.v("EXAMPLE", "successfully found all plants for Store 42:");
                             while (results.hasNext()) {
                                 Log.v("EXAMPLE", results.next().toString());
@@ -363,16 +330,11 @@ public class MongoDBDataAccessTest extends RealmTest {
                     Log.v("EXAMPLE", "Successfully authenticated.");
                     User user = app.currentUser();
                     MongoClient mongoClient =
-                            user.getMongoClient("mongodb-atlas");
+                            user.getMongoClient("mongodb-atlas"); // service for MongoDB Atlas cluster containing custom user data
                     MongoDatabase mongoDatabase =
                             mongoClient.getDatabase("plant-data-database");
-                    // registry to handle POJOs (Plain Old Java Objects)
-                    CodecRegistry pojoCodecRegistry = fromRegistries(AppConfiguration.DEFAULT_BSON_CODEC_REGISTRY,
-                            fromProviders(PojoCodecProvider.builder().automatic(true).build()));
-                    MongoCollection<Plant> mongoCollection =
-                            mongoDatabase.getCollection(
-                                    "plant-data-collection",
-                                    Plant.class).withCodecRegistry(pojoCodecRegistry);
+                    MongoCollection<Document> mongoCollection =
+                            mongoDatabase.getCollection("plant-data-collection");
                     Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle");
                     // :code-block-start: count-documents
                     mongoCollection.count().getAsync(task -> {
@@ -408,16 +370,11 @@ public class MongoDBDataAccessTest extends RealmTest {
                     Log.v("EXAMPLE", "Successfully authenticated.");
                     User user = app.currentUser();
                     MongoClient mongoClient =
-                            user.getMongoClient("mongodb-atlas");
+                            user.getMongoClient("mongodb-atlas"); // service for MongoDB Atlas cluster containing custom user data
                     MongoDatabase mongoDatabase =
                             mongoClient.getDatabase("plant-data-database");
-                    // registry to handle POJOs (Plain Old Java Objects)
-                    CodecRegistry pojoCodecRegistry = fromRegistries(AppConfiguration.DEFAULT_BSON_CODEC_REGISTRY,
-                            fromProviders(PojoCodecProvider.builder().automatic(true).build()));
-                    MongoCollection<Plant> mongoCollection =
-                            mongoDatabase.getCollection(
-                                    "plant-data-collection",
-                                    Plant.class).withCodecRegistry(pojoCodecRegistry);
+                    MongoCollection<Document> mongoCollection =
+                            mongoDatabase.getCollection("plant-data-collection");
                     Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle");
                     // :code-block-start: update-a-single-document
                     Document queryFilter = new Document("name", "petunia");
@@ -459,16 +416,11 @@ public class MongoDBDataAccessTest extends RealmTest {
                     Log.v("EXAMPLE", "Successfully authenticated.");
                     User user = app.currentUser();
                     MongoClient mongoClient =
-                            user.getMongoClient("mongodb-atlas");
+                            user.getMongoClient("mongodb-atlas"); // service for MongoDB Atlas cluster containing custom user data
                     MongoDatabase mongoDatabase =
                             mongoClient.getDatabase("plant-data-database");
-                    // registry to handle POJOs (Plain Old Java Objects)
-                    CodecRegistry pojoCodecRegistry = fromRegistries(AppConfiguration.DEFAULT_BSON_CODEC_REGISTRY,
-                            fromProviders(PojoCodecProvider.builder().automatic(true).build()));
-                    MongoCollection<Plant> mongoCollection =
-                            mongoDatabase.getCollection(
-                                    "plant-data-collection",
-                                    Plant.class).withCodecRegistry(pojoCodecRegistry);
+                    MongoCollection<Document> mongoCollection =
+                            mongoDatabase.getCollection("plant-data-collection");
                     Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle");
                     // :code-block-start: update-multiple-documents
                     Document queryFilter = new Document("_partition", "Store 47");
@@ -510,16 +462,11 @@ public class MongoDBDataAccessTest extends RealmTest {
                     Log.v("EXAMPLE", "Successfully authenticated.");
                     User user = app.currentUser();
                     MongoClient mongoClient =
-                            user.getMongoClient("mongodb-atlas");
+                            user.getMongoClient("mongodb-atlas"); // service for MongoDB Atlas cluster containing custom user data
                     MongoDatabase mongoDatabase =
                             mongoClient.getDatabase("plant-data-database");
-                    // registry to handle POJOs (Plain Old Java Objects)
-                    CodecRegistry pojoCodecRegistry = fromRegistries(AppConfiguration.DEFAULT_BSON_CODEC_REGISTRY,
-                            fromProviders(PojoCodecProvider.builder().automatic(true).build()));
-                    MongoCollection<Plant> mongoCollection =
-                            mongoDatabase.getCollection(
-                                    "plant-data-collection",
-                                    Plant.class).withCodecRegistry(pojoCodecRegistry);
+                    MongoCollection<Document> mongoCollection =
+                            mongoDatabase.getCollection("plant-data-collection");
                     Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle");
                     // :code-block-start: upsert-a-single-document
                     Document queryFilter = new Document("sunlight", "full")
@@ -564,16 +511,11 @@ public class MongoDBDataAccessTest extends RealmTest {
                     Log.v("EXAMPLE", "Successfully authenticated.");
                     User user = app.currentUser();
                     MongoClient mongoClient =
-                            user.getMongoClient("mongodb-atlas");
+                            user.getMongoClient("mongodb-atlas"); // service for MongoDB Atlas cluster containing custom user data
                     MongoDatabase mongoDatabase =
                             mongoClient.getDatabase("plant-data-database");
-                    // registry to handle POJOs (Plain Old Java Objects)
-                    CodecRegistry pojoCodecRegistry = fromRegistries(AppConfiguration.DEFAULT_BSON_CODEC_REGISTRY,
-                            fromProviders(PojoCodecProvider.builder().automatic(true).build()));
-                    MongoCollection<Plant> mongoCollection =
-                            mongoDatabase.getCollection(
-                                    "plant-data-collection",
-                                    Plant.class).withCodecRegistry(pojoCodecRegistry);
+                    MongoCollection<Document> mongoCollection =
+                            mongoDatabase.getCollection("plant-data-collection");
                     Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle");
                     // :code-block-start: delete-a-single-document
                     Document queryFilter = new Document("color", "green");
@@ -614,16 +556,11 @@ public class MongoDBDataAccessTest extends RealmTest {
                     Log.v("EXAMPLE", "Successfully authenticated.");
                     User user = app.currentUser();
                     MongoClient mongoClient =
-                            user.getMongoClient("mongodb-atlas");
+                            user.getMongoClient("mongodb-atlas"); // service for MongoDB Atlas cluster containing custom user data
                     MongoDatabase mongoDatabase =
                             mongoClient.getDatabase("plant-data-database");
-                    // registry to handle POJOs (Plain Old Java Objects)
-                    CodecRegistry pojoCodecRegistry = fromRegistries(AppConfiguration.DEFAULT_BSON_CODEC_REGISTRY,
-                            fromProviders(PojoCodecProvider.builder().automatic(true).build()));
-                    MongoCollection<Plant> mongoCollection =
-                            mongoDatabase.getCollection(
-                                    "plant-data-collection",
-                                    Plant.class).withCodecRegistry(pojoCodecRegistry);
+                    MongoCollection<Document> mongoCollection =
+                            mongoDatabase.getCollection("plant-data-collection");
                     Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle");
                     // :code-block-start: delete-documents
                     Document queryFilter = new Document("sunlight", "full")
@@ -664,14 +601,14 @@ public class MongoDBDataAccessTest extends RealmTest {
                 if (it.isSuccess()) {
                     Log.v("EXAMPLE", "Successfully authenticated.");
                     User user = app.currentUser();
-                    // :code-block-start: aggregate-documents
                     MongoClient mongoClient =
-                            user.getMongoClient("mongodb-atlas");
+                            user.getMongoClient("mongodb-atlas"); // service for MongoDB Atlas cluster containing custom user data
                     MongoDatabase mongoDatabase =
                             mongoClient.getDatabase("plant-data-database");
                     MongoCollection<Document> mongoCollection =
                             mongoDatabase.getCollection("plant-data-collection");
                     Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle");
+                    // :code-block-start: aggregate-documents
                     List<Document> pipeline = Arrays.asList(
                             new Document("$group", new Document("_id", "$type")
                                     .append("totalCount", new Document("$sum", 1))));
@@ -712,19 +649,14 @@ public class MongoDBDataAccessTest extends RealmTest {
                     Log.v("EXAMPLE", "Successfully authenticated.");
                     User user = app.currentUser();
                     MongoClient mongoClient =
-                            user.getMongoClient("mongodb-atlas");
+                            user.getMongoClient("mongodb-atlas"); // service for MongoDB Atlas cluster containing custom user data
                     MongoDatabase mongoDatabase =
                             mongoClient.getDatabase("plant-data-database");
-                    // registry to handle POJOs (Plain Old Java Objects)
-                    CodecRegistry pojoCodecRegistry = fromRegistries(AppConfiguration.DEFAULT_BSON_CODEC_REGISTRY,
-                            fromProviders(PojoCodecProvider.builder().automatic(true).build()));
-                    MongoCollection<Plant> mongoCollection =
-                            mongoDatabase.getCollection(
-                                    "plant-data-collection",
-                                    Plant.class).withCodecRegistry(pojoCodecRegistry);
+                    MongoCollection<Document> mongoCollection =
+                            mongoDatabase.getCollection("plant-data-collection");
                     Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle");
                     // :code-block-start: watch-documents
-                    RealmEventStreamAsyncTask<Plant> watcher = mongoCollection.watchAsync();
+                    RealmEventStreamAsyncTask<Document> watcher = mongoCollection.watchAsync();
                     watcher.get(result -> {
                         if (result.isSuccess()) {
                             Log.v("EXAMPLE", "Event type: " + result.get().getOperationType() + " full document: " + result.get().getFullDocument());
@@ -772,19 +704,14 @@ public class MongoDBDataAccessTest extends RealmTest {
                     Log.v("EXAMPLE", "Successfully authenticated.");
                     User user = app.currentUser();
                     MongoClient mongoClient =
-                            user.getMongoClient("mongodb-atlas");
+                            user.getMongoClient("mongodb-atlas"); // service for MongoDB Atlas cluster containing custom user data
                     MongoDatabase mongoDatabase =
                             mongoClient.getDatabase("plant-data-database");
-                    // registry to handle POJOs (Plain Old Java Objects)
-                    CodecRegistry pojoCodecRegistry = fromRegistries(AppConfiguration.DEFAULT_BSON_CODEC_REGISTRY,
-                            fromProviders(PojoCodecProvider.builder().automatic(true).build()));
-                    MongoCollection<Plant> mongoCollection =
-                            mongoDatabase.getCollection(
-                                    "plant-data-collection",
-                                    Plant.class).withCodecRegistry(pojoCodecRegistry);
+                    MongoCollection<Document> mongoCollection =
+                            mongoDatabase.getCollection("plant-data-collection");
                     Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle");
                     // :code-block-start: watch-documents-with-filter
-                    RealmEventStreamAsyncTask<Plant> watcher = mongoCollection
+                    RealmEventStreamAsyncTask<Document> watcher = mongoCollection
                             .watchWithFilterAsync(new Document("fullDocument._partition", "Store 42"));
                     watcher.get(result -> {
                         if (result.isSuccess()) {
