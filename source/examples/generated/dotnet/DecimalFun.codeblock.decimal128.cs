@@ -1,5 +1,4 @@
-public class MyClassWithDecimals
-{
+public class MyClassWithDecimals { 
     [PrimaryKey]
     public ObjectId _id { get; } = ObjectId.GenerateNewId();
 
@@ -14,7 +13,7 @@ public class MyClassWithDecimals
     public decimal? MaybeDecimal { get; set; }
     public Decimal128? MaybeDecimal128 { get; set; }
 
-    public void DoDecimalStuff()
+    public void PlayWithDecimals()
     {
         var myInstance = new MyClassWithDecimals();
         // To store decimal values:

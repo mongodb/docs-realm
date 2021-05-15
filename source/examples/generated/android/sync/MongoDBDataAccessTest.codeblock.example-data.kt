@@ -1,19 +1,12 @@
 val user = app.currentUser()
 val mongoClient =
-    user!!.getMongoClient("mongodb-atlas")
+    user!!.getMongoClient("mongodb-atlas") // service for MongoDB Atlas cluster containing custom user data
 val mongoDatabase =
     mongoClient.getDatabase("plant-data-database")
-// registry to handle POJOs (Plain Old Java Objects)
-val pojoCodecRegistry = CodecRegistries.fromRegistries(
-    AppConfiguration.DEFAULT_BSON_CODEC_REGISTRY,
-    CodecRegistries.fromProviders(
-        PojoCodecProvider.builder().automatic(true).build()))
 val mongoCollection =
-    mongoDatabase.getCollection(
-        "plant-data-collection",
-        Plant::class.java).withCodecRegistry(pojoCodecRegistry)
+    mongoDatabase.getCollection("plant-data-collection")
 mongoCollection.insertMany(
-    listOf(
+    Arrays.asList(
         Plant(
             ObjectId(),
             "venus flytrap",

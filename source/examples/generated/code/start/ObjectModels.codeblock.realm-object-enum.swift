@@ -14,5 +14,5 @@ class Task: Object {
     @objc dynamic var status = TaskStatusEnum.notStarted 
 
     // Optional enum property
-    let optionalTaskStatusEnumProperty = RealmProperty<TaskStatusEnum?>() 
+    let optionalTaskStatusEnumProperty = RealmOptional<TaskStatusEnum>() 
 }

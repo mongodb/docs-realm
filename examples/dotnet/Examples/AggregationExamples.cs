@@ -34,56 +34,48 @@ namespace Examples
             app = App.Create(myRealmAppId);
             user = app.LogInAsync(Credentials.EmailPassword("foo@foo.com", "foobar")).Result;
             config = new SyncConfiguration("myPart", user);
-            //:hide-start:
-            config.ObjectClasses = new[]
-            {
-                typeof(Plant)
-            };
-            //:hide-end:
             mongoClient = user.GetMongoClient("mongodb-atlas");
             dbPlantInventory = mongoClient.GetDatabase("inventory");
             plantsCollection = dbPlantInventory.GetCollection<Plant>("plants");
 
-            await plantsCollection.DeleteManyAsync();
-
             venus = new Plant
             {
                 Name = "Venus Flytrap",
-                Sunlight = Sunlight.Full.ToString(),
-                Color = PlantColor.White.ToString(),
-                Type = PlantType.Perennial.ToString(),
+                Sunlight = Sunlight.Full,
+                Color = PlantColor.White,
+                Type = PlantType.Perennial,
                 Partition = "Store 42"
             };
             sweetBasil = new Plant
             {
                 Name = "Sweet Basil",
-                Sunlight = Sunlight.Partial.ToString(),
-                Color = PlantColor.Green.ToString(),
-                Type = PlantType.Annual.ToString(),
+                Sunlight = Sunlight.Partial,
+                Color = PlantColor.Green,
+                Type = PlantType.Annual,
                 Partition = "Store 42"
             };
             thaiBasil = new Plant
             {
                 Name = "Thai Basil",
-                Sunlight = Sunlight.Partial.ToString(),
-                Color = PlantColor.Green.ToString(),
-                Type = PlantType.Perennial.ToString(),
+                Sunlight = Sunlight.Partial,
+                Color = PlantColor.Green,
+                Type = PlantType.Perennial,
                 Partition = "Store 42"
             };
             helianthus = new Plant
             {
                 Name = "Helianthus",
-                Sunlight = Sunlight.Full.ToString(),
-                Color = PlantColor.Yellow.ToString(),
-                Type = PlantType.Annual.ToString(),
+                Sunlight = Sunlight.Full,
+                Color = PlantColor.Yellow,
+                Type = PlantType.Annual,
                 Partition = "Store 42"
             };
             petunia = new Plant
             {
                 Name = "Petunia",
-                Sunlight = Sunlight.Full.ToString(),
-                Color = PlantColor.Purple.ToString(),
-                Type = PlantType.Annual.ToString(),
+                Sunlight = Sunlight.Full,
+                Color = PlantColor.Purple,
+                Type = PlantType.Annual,
                 Partition = "Store 47"
             };
 
@@ -243,7 +235,6 @@ namespace Examples
         [OneTimeTearDown]
         public async Task TearDown()
         {
-
             await plantsCollection.DeleteManyAsync();
             return;
         }

@@ -14,8 +14,7 @@ namespace Examples
     }
 
     // :code-block-start: decimal128
-    public class MyClassWithDecimals
-    {
+    public class MyClassWithDecimals { 
         [PrimaryKey]
         public ObjectId _id { get; } = ObjectId.GenerateNewId();
 
@@ -30,7 +29,7 @@ namespace Examples
         public decimal? MaybeDecimal { get; set; }
         public Decimal128? MaybeDecimal128 { get; set; }
 
-        public void DoDecimalStuff()
+        public void PlayWithDecimals()
         {
             // :hide-start:
             var app = App.Create(Config.appid);

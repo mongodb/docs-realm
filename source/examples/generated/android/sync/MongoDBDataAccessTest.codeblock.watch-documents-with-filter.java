@@ -1,4 +1,4 @@
-RealmEventStreamAsyncTask<Plant> watcher = mongoCollection
+RealmEventStreamAsyncTask<Document> watcher = mongoCollection
         .watchWithFilterAsync(new Document("fullDocument._partition", "Store 42"));
 watcher.get(result -> {
     if (result.isSuccess()) {

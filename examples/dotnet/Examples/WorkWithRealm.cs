@@ -22,7 +22,7 @@ namespace Examples
         {
             var appConfig = new AppConfiguration(myRealmAppId)
             {
-                // LogLevel = LogLevel.Debug,
+                LogLevel = LogLevel.Debug,
                 DefaultRequestTimeout = TimeSpan.FromMilliseconds(1500)
             };
 
@@ -42,7 +42,7 @@ namespace Examples
             // :code-block-start: appConfig
             var appConfig = new AppConfiguration(myRealmAppId)
             {
-                //LogLevel = LogLevel.Debug,
+                LogLevel = LogLevel.Debug,
                 DefaultRequestTimeout = TimeSpan.FromMilliseconds(1500)
             };
 

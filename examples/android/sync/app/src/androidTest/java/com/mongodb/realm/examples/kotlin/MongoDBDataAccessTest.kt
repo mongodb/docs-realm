@@ -8,15 +8,20 @@ import com.mongodb.realm.examples.model.Plant
 import io.realm.mongodb.App
 import io.realm.mongodb.AppConfiguration
 import io.realm.mongodb.Credentials
+import io.realm.mongodb.User
+import io.realm.mongodb.mongo.events.BaseChangeEvent
 import io.realm.mongodb.mongo.iterable.MongoCursor
+import io.realm.mongodb.mongo.options.InsertManyResult
 import io.realm.mongodb.mongo.options.UpdateOptions
 import io.realm.mongodb.mongo.result.DeleteResult
+import io.realm.mongodb.mongo.result.InsertOneResult
+import io.realm.mongodb.mongo.result.UpdateResult
 import org.bson.Document
-import org.bson.codecs.configuration.CodecRegistries
-import org.bson.codecs.pojo.PojoCodecProvider
 import org.bson.types.ObjectId
 import org.junit.Before
 import org.junit.Test
+import java.util.*
+
 
 class MongoDBDataAccessTest : RealmTest() {
     @Before
@@ -26,26 +31,21 @@ class MongoDBDataAccessTest : RealmTest() {
             val appID = YOUR_APP_ID // replace this with your App ID
             val app = App(AppConfiguration.Builder(appID).build())
             val credentials = Credentials.anonymous()
-            app.loginAsync(credentials) {
+            app.loginAsync(
+                credentials
+            ) { it: App.Result<User?> ->
                 if (it.isSuccess) {
                     Log.v("EXAMPLE", "Successfully authenticated.")
                     // :code-block-start: example-data
                     val user = app.currentUser()
                     val mongoClient =
-                        user!!.getMongoClient("mongodb-atlas")
+                        user!!.getMongoClient("mongodb-atlas") // service for MongoDB Atlas cluster containing custom user data
                     val mongoDatabase =
                         mongoClient.getDatabase("plant-data-database")
-                    // registry to handle POJOs (Plain Old Java Objects)
-                    val pojoCodecRegistry = CodecRegistries.fromRegistries(
-                        AppConfiguration.DEFAULT_BSON_CODEC_REGISTRY,
-                        CodecRegistries.fromProviders(
-                            PojoCodecProvider.builder().automatic(true).build()))
                     val mongoCollection =
-                        mongoDatabase.getCollection(
-                            "plant-data-collection",
-                            Plant::class.java).withCodecRegistry(pojoCodecRegistry)
+                        mongoDatabase.getCollection("plant-data-collection")
                     mongoCollection.insertMany(
-                        listOf(
+                        Arrays.asList(
                             Plant(
                                 ObjectId(),
                                 "venus flytrap",
@@ -117,18 +117,11 @@ class MongoDBDataAccessTest : RealmTest() {
                     // :code-block-start: instantiate-a-mongodb-collection-handle
                     val user = app.currentUser()
                     val mongoClient =
-                        user!!.getMongoClient("mongodb-atlas")
+                        user!!.getMongoClient("mongodb-atlas") // service for MongoDB Atlas cluster containing custom user data
                     val mongoDatabase =
                         mongoClient.getDatabase("plant-data-database")
-                    // registry to handle POJOs (Plain Old Java Objects)
-                    val pojoCodecRegistry = CodecRegistries.fromRegistries(
-                        AppConfiguration.DEFAULT_BSON_CODEC_REGISTRY,
-                        CodecRegistries.fromProviders(
-                            PojoCodecProvider.builder().automatic(true).build()))
                     val mongoCollection =
-                        mongoDatabase.getCollection(
-                            "plant-data-collection",
-                            Plant::class.java).withCodecRegistry(pojoCodecRegistry)
+                        mongoDatabase.getCollection("plant-data-collection")
                     Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle")
                     // :hide-start:
                     expectation.fulfill()
@@ -155,18 +148,11 @@ class MongoDBDataAccessTest : RealmTest() {
                     Log.v("EXAMPLE", "Successfully authenticated.")
                     val user = app.currentUser()
                     val mongoClient =
-                        user!!.getMongoClient("mongodb-atlas")
+                        user!!.getMongoClient("mongodb-atlas") // service for MongoDB Atlas cluster containing custom user data
                     val mongoDatabase =
                         mongoClient.getDatabase("plant-data-database")
-                    // registry to handle POJOs (Plain Old Java Objects)
-                    val pojoCodecRegistry = CodecRegistries.fromRegistries(
-                        AppConfiguration.DEFAULT_BSON_CODEC_REGISTRY,
-                        CodecRegistries.fromProviders(
-                            PojoCodecProvider.builder().automatic(true).build()))
                     val mongoCollection =
-                        mongoDatabase.getCollection(
-                            "plant-data-collection",
-                            Plant::class.java).withCodecRegistry(pojoCodecRegistry)
+                        mongoDatabase.getCollection("plant-data-collection")
                     Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle")
                     // :code-block-start: insert-a-single-document
                     val plant = Plant(
@@ -177,7 +163,7 @@ class MongoDBDataAccessTest : RealmTest() {
                         "perennial",
                         "Store 47"
                     )
-                    mongoCollection?.insertOne(plant)?.getAsync { task ->
+                    mongoCollection?.insertOne(plant)?.getAsync() { task ->
                         if (task.isSuccess) {
                             Log.v(
                                 "EXAMPLE",
@@ -207,26 +193,24 @@ class MongoDBDataAccessTest : RealmTest() {
             val appID = YOUR_APP_ID // replace this with your App ID
             val app = App(AppConfiguration.Builder(appID).build())
             val credentials = Credentials.anonymous()
-            app.loginAsync(credentials) {
+            app.loginAsync(
+                credentials
+            ) { it: App.Result<User?> ->
                 if (it.isSuccess) {
                     Log.v("EXAMPLE", "Successfully authenticated.")
                     val user = app.currentUser()
                     val mongoClient =
-                        user!!.getMongoClient("mongodb-atlas")
+                        user!!.getMongoClient("mongodb-atlas") // service for MongoDB Atlas cluster containing custom user data
                     val mongoDatabase =
                         mongoClient.getDatabase("plant-data-database")
-                    // registry to handle POJOs (Plain Old Java Objects)
-                    val pojoCodecRegistry = CodecRegistries.fromRegistries(
-                        AppConfiguration.DEFAULT_BSON_CODEC_REGISTRY,
-                        CodecRegistries.fromProviders(
-                            PojoCodecProvider.builder().automatic(true).build()))
                     val mongoCollection =
-                        mongoDatabase.getCollection(
-                            "plant-data-collection",
-                            Plant::class.java).withCodecRegistry(pojoCodecRegistry)
-                    Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle")
+                        mongoDatabase.getCollection("plant-data-collection")
+                    Log.v(
+                        "EXAMPLE",
+                        "Successfully instantiated the MongoDB collection handle"
+                    )
                     // :code-block-start: insert-multiple-documents
-                    val plants = listOf(
+                    val plants = Arrays.asList(
                         Plant(
                             ObjectId(),
                             "rhubarb",
@@ -285,24 +269,22 @@ class MongoDBDataAccessTest : RealmTest() {
             val appID = YOUR_APP_ID // replace this with your App ID
             val app = App(AppConfiguration.Builder(appID).build())
             val credentials = Credentials.anonymous()
-            app.loginAsync(credentials) {
+            app.loginAsync(
+                credentials
+            ) { it: App.Result<User?> ->
                 if (it.isSuccess) {
                     Log.v("EXAMPLE", "Successfully authenticated.")
                     val user = app.currentUser()
                     val mongoClient =
-                        user!!.getMongoClient("mongodb-atlas")
+                        user!!.getMongoClient("mongodb-atlas") // service for MongoDB Atlas cluster containing custom user data
                     val mongoDatabase =
                         mongoClient.getDatabase("plant-data-database")
-                    // registry to handle POJOs (Plain Old Java Objects)
-                    val pojoCodecRegistry = CodecRegistries.fromRegistries(
-                        AppConfiguration.DEFAULT_BSON_CODEC_REGISTRY,
-                        CodecRegistries.fromProviders(
-                            PojoCodecProvider.builder().automatic(true).build()))
                     val mongoCollection =
-                        mongoDatabase.getCollection(
-                            "plant-data-collection",
-                            Plant::class.java).withCodecRegistry(pojoCodecRegistry)
-                    Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle")
+                        mongoDatabase.getCollection("plant-data-collection")
+                    Log.v(
+                        "EXAMPLE",
+                        "Successfully instantiated the MongoDB collection handle"
+                    )
                     // :code-block-start: find-a-single-document
                     val queryFilter = Document("type", "perennial")
                     mongoCollection.findOne(queryFilter)
@@ -333,24 +315,22 @@ class MongoDBDataAccessTest : RealmTest() {
             val appID = YOUR_APP_ID // replace this with your App ID
             val app = App(AppConfiguration.Builder(appID).build())
             val credentials = Credentials.anonymous()
-            app.loginAsync(credentials) {
+            app.loginAsync(
+                credentials
+            ) { it: App.Result<User?> ->
                 if (it.isSuccess) {
                     Log.v("EXAMPLE", "Successfully authenticated.")
                     val user = app.currentUser()
                     val mongoClient =
-                        user!!.getMongoClient("mongodb-atlas")
+                        user!!.getMongoClient("mongodb-atlas") // service for MongoDB Atlas cluster containing custom user data
                     val mongoDatabase =
                         mongoClient.getDatabase("plant-data-database")
-                    // registry to handle POJOs (Plain Old Java Objects)
-                    val pojoCodecRegistry = CodecRegistries.fromRegistries(
-                        AppConfiguration.DEFAULT_BSON_CODEC_REGISTRY,
-                        CodecRegistries.fromProviders(
-                            PojoCodecProvider.builder().automatic(true).build()))
                     val mongoCollection =
-                        mongoDatabase.getCollection(
-                            "plant-data-collection",
-                            Plant::class.java).withCodecRegistry(pojoCodecRegistry)
-                    Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle")
+                        mongoDatabase.getCollection("plant-data-collection")
+                    Log.v(
+                        "EXAMPLE",
+                        "Successfully instantiated the MongoDB collection handle"
+                    )
                     // :code-block-start: find-multiple-documents
                     val queryFilter = Document("_partition", "Store 42")
                     val findTask = mongoCollection.find(queryFilter).iterator()
@@ -388,23 +368,18 @@ class MongoDBDataAccessTest : RealmTest() {
             val appID = YOUR_APP_ID // replace this with your App ID
             val app = App(AppConfiguration.Builder(appID).build())
             val credentials = Credentials.anonymous()
-            app.loginAsync(credentials) {
+            app.loginAsync(
+                credentials
+            ) { it: App.Result<User?> ->
                 if (it.isSuccess) {
                     Log.v("EXAMPLE", "Successfully authenticated.")
                     val user = app.currentUser()
                     val mongoClient =
-                        user!!.getMongoClient("mongodb-atlas")
+                        user!!.getMongoClient("mongodb-atlas") // service for MongoDB Atlas cluster containing custom user data
                     val mongoDatabase =
                         mongoClient.getDatabase("plant-data-database")
-                    // registry to handle POJOs (Plain Old Java Objects)
-                    val pojoCodecRegistry = CodecRegistries.fromRegistries(
-                        AppConfiguration.DEFAULT_BSON_CODEC_REGISTRY,
-                        CodecRegistries.fromProviders(
-                            PojoCodecProvider.builder().automatic(true).build()))
                     val mongoCollection =
-                        mongoDatabase.getCollection(
-                            "plant-data-collection",
-                            Plant::class.java).withCodecRegistry(pojoCodecRegistry)
+                        mongoDatabase.getCollection("plant-data-collection")
                     Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle")
                     // :code-block-start: count-documents
                     mongoCollection.count().getAsync { task ->
@@ -437,24 +412,22 @@ class MongoDBDataAccessTest : RealmTest() {
             val appID = YOUR_APP_ID // replace this with your App ID
             val app = App(AppConfiguration.Builder(appID).build())
             val credentials = Credentials.anonymous()
-            app.loginAsync(credentials) {
+            app.loginAsync(
+                credentials
+            ) { it: App.Result<User?> ->
                 if (it.isSuccess) {
                     Log.v("EXAMPLE", "Successfully authenticated.")
                     val user = app.currentUser()
                     val mongoClient =
-                        user!!.getMongoClient("mongodb-atlas")
+                        user!!.getMongoClient("mongodb-atlas") // service for MongoDB Atlas cluster containing custom user data
                     val mongoDatabase =
                         mongoClient.getDatabase("plant-data-database")
-                    // registry to handle POJOs (Plain Old Java Objects)
-                    val pojoCodecRegistry = CodecRegistries.fromRegistries(
-                        AppConfiguration.DEFAULT_BSON_CODEC_REGISTRY,
-                        CodecRegistries.fromProviders(
-                            PojoCodecProvider.builder().automatic(true).build()))
                     val mongoCollection =
-                        mongoDatabase.getCollection(
-                            "plant-data-collection",
-                            Plant::class.java).withCodecRegistry(pojoCodecRegistry)
-                    Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle")
+                        mongoDatabase.getCollection("plant-data-collection")
+                    Log.v(
+                        "EXAMPLE",
+                        "Successfully instantiated the MongoDB collection handle"
+                    )
                     // :code-block-start: update-a-single-document
                     val queryFilter = Document("name", "petunia")
                     val updateDocument = Document("sunlight", "partial")
@@ -492,24 +465,22 @@ class MongoDBDataAccessTest : RealmTest() {
             val appID = YOUR_APP_ID // replace this with your App ID
             val app = App(AppConfiguration.Builder(appID).build())
             val credentials = Credentials.anonymous()
-            app.loginAsync(credentials) {
+            app.loginAsync(
+                credentials
+            ) { it: App.Result<User?> ->
                 if (it.isSuccess) {
                     Log.v("EXAMPLE", "Successfully authenticated.")
                     val user = app.currentUser()
                     val mongoClient =
-                        user!!.getMongoClient("mongodb-atlas")
+                        user!!.getMongoClient("mongodb-atlas") // service for MongoDB Atlas cluster containing custom user data
                     val mongoDatabase =
                         mongoClient.getDatabase("plant-data-database")
-                    // registry to handle POJOs (Plain Old Java Objects)
-                    val pojoCodecRegistry = CodecRegistries.fromRegistries(
-                        AppConfiguration.DEFAULT_BSON_CODEC_REGISTRY,
-                        CodecRegistries.fromProviders(
-                            PojoCodecProvider.builder().automatic(true).build()))
                     val mongoCollection =
-                        mongoDatabase.getCollection(
-                            "plant-data-collection",
-                            Plant::class.java).withCodecRegistry(pojoCodecRegistry)
-                    Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle")
+                        mongoDatabase.getCollection("plant-data-collection")
+                    Log.v(
+                        "EXAMPLE",
+                        "Successfully instantiated the MongoDB collection handle"
+                    )
                     // :code-block-start: update-multiple-documents
                     val queryFilter = Document("_partition", "Store 47")
                     val updateDocument = Document("_partition", "Store 51")
@@ -547,24 +518,22 @@ class MongoDBDataAccessTest : RealmTest() {
             val appID = YOUR_APP_ID // replace this with your App ID
             val app = App(AppConfiguration.Builder(appID).build())
             val credentials = Credentials.anonymous()
-            app.loginAsync(credentials) {
+            app.loginAsync(
+                credentials
+            ) { it: App.Result<User?> ->
                 if (it.isSuccess) {
                     Log.v("EXAMPLE", "Successfully authenticated.")
                     val user = app.currentUser()
                     val mongoClient =
-                        user!!.getMongoClient("mongodb-atlas")
+                        user!!.getMongoClient("mongodb-atlas") // service for MongoDB Atlas cluster containing custom user data
                     val mongoDatabase =
                         mongoClient.getDatabase("plant-data-database")
-                    // registry to handle POJOs (Plain Old Java Objects)
-                    val pojoCodecRegistry = CodecRegistries.fromRegistries(
-                        AppConfiguration.DEFAULT_BSON_CODEC_REGISTRY,
-                        CodecRegistries.fromProviders(
-                            PojoCodecProvider.builder().automatic(true).build()))
                     val mongoCollection =
-                        mongoDatabase.getCollection(
-                            "plant-data-collection",
-                            Plant::class.java).withCodecRegistry(pojoCodecRegistry)
-                    Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle")
+                        mongoDatabase.getCollection("plant-data-collection")
+                    Log.v(
+                        "EXAMPLE",
+                        "Successfully instantiated the MongoDB collection handle"
+                    )
                     // :code-block-start: upsert-a-single-document
                     val queryFilter = Document("sunlight", "full")
                         .append("type", "perennial")
@@ -603,24 +572,22 @@ class MongoDBDataAccessTest : RealmTest() {
             val appID = YOUR_APP_ID // replace this with your App ID
             val app = App(AppConfiguration.Builder(appID).build())
             val credentials = Credentials.anonymous()
-            app.loginAsync(credentials) {
+            app.loginAsync(
+                credentials
+            ) { it: App.Result<User?> ->
                 if (it.isSuccess) {
                     Log.v("EXAMPLE", "Successfully authenticated.")
                     val user = app.currentUser()
                     val mongoClient =
-                        user!!.getMongoClient("mongodb-atlas")
+                        user!!.getMongoClient("mongodb-atlas") // service for MongoDB Atlas cluster containing custom user data
                     val mongoDatabase =
                         mongoClient.getDatabase("plant-data-database")
-                    // registry to handle POJOs (Plain Old Java Objects)
-                    val pojoCodecRegistry = CodecRegistries.fromRegistries(
-                        AppConfiguration.DEFAULT_BSON_CODEC_REGISTRY,
-                        CodecRegistries.fromProviders(
-                            PojoCodecProvider.builder().automatic(true).build()))
                     val mongoCollection =
-                        mongoDatabase.getCollection(
-                            "plant-data-collection",
-                            Plant::class.java).withCodecRegistry(pojoCodecRegistry)
-                    Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle")
+                        mongoDatabase.getCollection("plant-data-collection")
+                    Log.v(
+                        "EXAMPLE",
+                        "Successfully instantiated the MongoDB collection handle"
+                    )
                     // :code-block-start: delete-a-single-document
                     val queryFilter = Document("color", "green")
                     mongoCollection.deleteOne(queryFilter).getAsync { task ->
@@ -657,24 +624,22 @@ class MongoDBDataAccessTest : RealmTest() {
             val appID = YOUR_APP_ID // replace this with your App ID
             val app = App(AppConfiguration.Builder(appID).build())
             val credentials = Credentials.anonymous()
-            app.loginAsync(credentials) {
+            app.loginAsync(
+                credentials
+            ) { it: App.Result<User?> ->
                 if (it.isSuccess) {
                     Log.v("EXAMPLE", "Successfully authenticated.")
                     val user = app.currentUser()
                     val mongoClient =
-                        user!!.getMongoClient("mongodb-atlas")
+                        user!!.getMongoClient("mongodb-atlas") // service for MongoDB Atlas cluster containing custom user data
                     val mongoDatabase =
                         mongoClient.getDatabase("plant-data-database")
-                    // registry to handle POJOs (Plain Old Java Objects)
-                    val pojoCodecRegistry = CodecRegistries.fromRegistries(
-                        AppConfiguration.DEFAULT_BSON_CODEC_REGISTRY,
-                        CodecRegistries.fromProviders(
-                            PojoCodecProvider.builder().automatic(true).build()))
                     val mongoCollection =
-                        mongoDatabase.getCollection(
-                            "plant-data-collection",
-                            Plant::class.java).withCodecRegistry(pojoCodecRegistry)
-                    Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle")
+                        mongoDatabase.getCollection("plant-data-collection")
+                    Log.v(
+                        "EXAMPLE",
+                        "Successfully instantiated the MongoDB collection handle"
+                    )
                     // :code-block-start: delete-documents
                     val queryFilter = Document("sunlight", "full").append("type", "annual")
                     mongoCollection.deleteMany(queryFilter).getAsync { task ->
@@ -711,20 +676,26 @@ class MongoDBDataAccessTest : RealmTest() {
             val appID = YOUR_APP_ID // replace this with your App ID
             val app = App(AppConfiguration.Builder(appID).build())
             val credentials = Credentials.anonymous()
-            app.loginAsync(credentials) {
+            app.loginAsync(
+                credentials
+            ) { it: App.Result<User?> ->
                 if (it.isSuccess) {
                     Log.v("EXAMPLE", "Successfully authenticated.")
                     val user = app.currentUser()
-                    // :code-block-start: aggregate-documents
                     val mongoClient =
-                        user!!.getMongoClient("mongodb-atlas")
+                        user!!.getMongoClient("mongodb-atlas") // service for MongoDB Atlas cluster containing custom user data
                     val mongoDatabase =
                         mongoClient.getDatabase("plant-data-database")
                     val mongoCollection =
                         mongoDatabase.getCollection("plant-data-collection")
                     Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle")
-                    val pipeline = listOf(Document("\$group", Document("_id", "\$type")
-                                .append("totalCount", Document("\$sum", 1))))
+                    // :code-block-start: aggregate-documents
+                    val pipeline = listOf(
+                        Document(
+                            "\$group", Document("_id", "\$type")
+                                .append("totalCount", Document("\$sum", 1))
+                        )
+                    )
                     val aggregationTask =
                         mongoCollection.aggregate(pipeline).iterator()
                     aggregationTask.getAsync { task: App.Result<MongoCursor<Document>> ->
@@ -760,24 +731,22 @@ class MongoDBDataAccessTest : RealmTest() {
             val appID = YOUR_APP_ID // replace this with your App ID
             val app = App(AppConfiguration.Builder(appID).build())
             val credentials = Credentials.anonymous()
-            app.loginAsync(credentials) {
+            app.loginAsync(
+                credentials
+            ) { it: App.Result<User?> ->
                 if (it.isSuccess) {
                     Log.v("EXAMPLE", "Successfully authenticated.")
                     val user = app.currentUser()
                     val mongoClient =
-                        user!!.getMongoClient("mongodb-atlas")
+                        user!!.getMongoClient("mongodb-atlas") // service for MongoDB Atlas cluster containing custom user data
                     val mongoDatabase =
                         mongoClient.getDatabase("plant-data-database")
-                    // registry to handle POJOs (Plain Old Java Objects)
-                    val pojoCodecRegistry = CodecRegistries.fromRegistries(
-                        AppConfiguration.DEFAULT_BSON_CODEC_REGISTRY,
-                        CodecRegistries.fromProviders(
-                            PojoCodecProvider.builder().automatic(true).build()))
                     val mongoCollection =
-                        mongoDatabase.getCollection(
-                            "plant-data-collection",
-                            Plant::class.java).withCodecRegistry(pojoCodecRegistry)
-                    Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle")
+                        mongoDatabase.getCollection("plant-data-collection")
+                    Log.v(
+                        "EXAMPLE",
+                        "Successfully instantiated the MongoDB collection handle"
+                    )
                     // :code-block-start: watch-documents
                     val watcher = mongoCollection.watchAsync()
                     watcher[{ result ->
@@ -826,24 +795,22 @@ class MongoDBDataAccessTest : RealmTest() {
             val appID = YOUR_APP_ID // replace this with your App ID
             val app = App(AppConfiguration.Builder(appID).build())
             val credentials = Credentials.anonymous()
-            app.loginAsync(credentials) {
+            app.loginAsync(
+                credentials
+            ) { it: App.Result<User?> ->
                 if (it.isSuccess) {
                     Log.v("EXAMPLE", "Successfully authenticated.")
                     val user = app.currentUser()
                     val mongoClient =
-                        user!!.getMongoClient("mongodb-atlas")
+                        user!!.getMongoClient("mongodb-atlas") // service for MongoDB Atlas cluster containing custom user data
                     val mongoDatabase =
                         mongoClient.getDatabase("plant-data-database")
-                    // registry to handle POJOs (Plain Old Java Objects)
-                    val pojoCodecRegistry = CodecRegistries.fromRegistries(
-                        AppConfiguration.DEFAULT_BSON_CODEC_REGISTRY,
-                        CodecRegistries.fromProviders(
-                            PojoCodecProvider.builder().automatic(true).build()))
                     val mongoCollection =
-                        mongoDatabase.getCollection(
-                            "plant-data-collection",
-                            Plant::class.java).withCodecRegistry(pojoCodecRegistry)
-                    Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle")
+                        mongoDatabase.getCollection("plant-data-collection")
+                    Log.v(
+                        "EXAMPLE",
+                        "Successfully instantiated the MongoDB collection handle"
+                    )
                     // :code-block-start: watch-documents-with-filter
                     val watcher = mongoCollection
                         .watchWithFilterAsync(Document("fullDocument._partition", "Store 42"))

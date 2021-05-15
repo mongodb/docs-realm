@@ -1,5 +1,5 @@
 var myObject = realm.Find<MyRealmClass>(id);
-// myObject.Counter == 0
+var counter = myObject.Counter; // 0
 
 realm.Write(() =>
 {
@@ -17,4 +17,3 @@ realm.Write(() =>
 
     // RealmInteger<T> is implicitly convertable to T:
     int bar = myObject.Counter;
-});
