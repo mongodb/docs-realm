@@ -22,45 +22,187 @@ In the callback, you can check if the request executed
 successfully and either access the returned results or the returned
 error.
 
-Example
--------
+.. _android-async-calls:
+
+Asynchronous Calls
+------------------
 
 Asynchronous API requests in the Android SDK end with the suffix "Async".
-These requests, such as :java-sdk:`callFunctionAsync()
-<io/realm/mongodb/functions/Functions.html#callFunctionAsync-java.lang.String-java.util.List--io.realm.mongodb.App.Callback->`
-use subclasses of :java-sdk:`App.Callback
-<io/realm/mongodb/App.Callback.html>` to handle callbacks. When an async
-request completes, async methods such as ``callFunctionAsync()``
-pass results of type :java-sdk:`App.Result
-<io/realm/mongodb/App.Result.html>` into the :java-sdk:`onResult()
-<io/realm/mongodb/App.Callback.html#onResult-io.realm.mongodb.App.Result->` method
-of an ``App.Callback`` subclass. You can override this method by passing
-a lambda function that accepts a single ``App.Result`` parameter as the
-final argument of an async method.
+There are several different ways an asynchronous request can behave,
+depending on which part of the SDK you're using.
 
-The following example shows how to
-add a callback to an async request and handle the success or failure of that
-request. In this example, we actually use **two** callbacks: one to handle the
-result of logging in a user, and one to handle the result of calling a
-function:
+.. _android-realm-callback:
+
+Realm.Callback
+~~~~~~~~~~~~~~
+
+Asynchronous calls to open a {+realm+}, both with and without {+sync+},
+use a final parameter of type :java-sdk:`Realm.Callback
+<io/realm/Realm.Callback.html>`. To retrieve returned values after the
+request completes, implement the `onSuccess()` method in the callback
+object passed as the final parameter to these asynchronous methods. You
+should also implement the `onError()` method to handle request failures,
+but it is not required.
 
 .. tabs-realm-languages::
 
    .. tab::
       :tabid: java
 
-      .. literalinclude:: /examples/generated/android/sync/FunctionTest.codeblock.call-a-function.java
+      .. literalinclude:: /examples/generated/android/sync/AsyncTest.codeblock.realm-callback.java
          :language: java
    
    .. tab::
       :tabid: kotlin
 
-      .. literalinclude:: /examples/generated/android/sync/FunctionTest.codeblock.call-a-function.kt
+      .. literalinclude:: /examples/generated/android/sync/AsyncTest.codeblock.realm-callback.kt
          :language: kotlin
 
-You can use the ``isSuccess()`` method of the ``App.Result`` passed to
-your callback to check if the request returned successfully. If
-``isSuccess()`` returns ``true``, you can access the result of the
-request using the ``get()`` method. In Kotlin, these requests use property
-syntax instead of direct method calls, so ``isSuccess()`` becomes
-``success`` and ``get()`` becomes ``get``.
+.. _android-app-callback:
+
+App.Callback
+~~~~~~~~~~~~
+
+When you query {+service+} App Services like :ref:`Functions
+<android-call-a-function>` and :ref:`user authentication
+<android-authenticate-users>`, asynchronous calls accept a final
+parameter of type  :java-sdk:`App.Callback
+<io/realm/mongodb/App.Callback.html>`.
+You can handle this callback with a lambda function that accepts a
+single parameter of type :java-sdk:`App.Result
+<io/realm/mongodb/App.Result.html`. To retrieve a returned values from
+``App.Callback`` requests:
+
+1. Use the `isSuccess()` method of the ``App.Result`` passed to the
+   callback function to determine if the query completed
+   successfully.
+
+#. If the query was successful, use the `get()` method to retrieve
+   the result of the query. If the query failed, use `getError()` to
+   retrieve the exception that caused the query to fail.
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: java
+
+      .. literalinclude:: /examples/generated/android/sync/AuthenticationTest.codeblock.anonymous.java
+         :language: java
+   
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/generated/android/sync/AuthenticationTest.codeblock.anonymous.kt
+         :language: kotlin
+
+.. _android-realm-async-task:
+
+RealmAsyncTask
+~~~~~~~~~~~~~~
+
+Asynchronous calls to :ref:`execute transactions
+<android-write-transactions>` on a {+realm+} return
+an instance of :java-sdk:`RealmAsyncTask
+<io/realm/RealmAsyncTask.html>`. You can optionally :java-sdk:`specify an error
+handler <io/realm/Realm.Transaction.OnError.html>` or a
+:java-sdk:`success notification
+<io/realm/Realm.Transaction.OnSuccess.html>` for ``RealmAsyncTask`` by
+passing additional parameters to the asynchronous call. Additionally,
+you use the :java-sdk:`cancel() <io/realm/RealmAsyncTask.html#cancel-->`
+method to stop a transaction from completing. The lambda function passed
+to a ``RealmAsyncTask`` contains the write operations to include in the
+transaction.
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: java
+
+      .. literalinclude:: /examples/generated/android/sync/AsyncTest.codeblock.realm-async-task.java
+         :language: java
+   
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/generated/android/sync/AsyncTest.codeblock.realm-async-task.kt
+         :language: kotlin
+
+.. _android-realm-results:
+
+RealmResults
+~~~~~~~~~~~~
+
+Asynchronous reads from a {+realm+} using :java-sdk:`findAllAsync()
+<io/realm/RealmQuery.html#findAllAsync-->` immediately return an empty
+:java-sdk:`RealmResults <io/realm/RealmResults.html>` instance. The SDK
+executes the query on a background thread and populates the
+``RealmResults`` instance with the results when the query completes. You
+can register a listener with :java-sdk:`addChangeListener()
+<io/realm/RealmResults.html#addChangeListener-io.realm.RealmChangeListener->`
+to receive a notification when the query completes.
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: java
+
+      .. literalinclude:: /examples/generated/android/sync/AsyncTest.codeblock.realm-results.java
+         :language: java
+   
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/generated/android/sync/AsyncTest.codeblock.realm-results.kt
+         :language: kotlin
+
+.. _android-realm-result-task:
+
+RealmResultTask
+~~~~~~~~~~~~~~~
+
+Asynchronous :ref:`queries to {+atlas+}
+<android-mongodb-data-access>` return an instance of
+:java-sdk:`RealmResultTask <io/realm/mongodb/RealmResultTask.html>`.
+You can cancel ``RealmResultTask`` instances just like
+``RealmAsyncTask``. To access the values returned by your query, you
+can use:
+
+- :java-sdk:`get() <io/realm/mongodb/RealmResultTask.html#get-->` to
+  block until the operation completes
+
+- :java-sdk:`getAsync()
+  <io/realm/mongodb/RealmResultTask.html#getAsync-io.realm.mongodb.App.Callback->`
+  to handle the result via an :ref:`App.Callback <android-app-callback>`
+  instance
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/generated/android/sync/MongoDBDataAccessTest.codeblock.find-a-single-document.kt
+         :language: kotlin
+
+   .. tab::
+      :tabid: java
+
+      .. literalinclude:: /examples/generated/android/sync/MongoDBDataAccessTest.codeblock.find-a-single-document.java
+         :language: java
+
+.. _android-coroutines:
+
+Coroutines
+----------
+
+The SDK provides a set of :kotlin-sdk:`kotlin extensions <>` to request
+asynchronously using coroutines and flows instead of callbacks. You can
+use these extensions to :kotlin-sdk:`execute transactions
+<io.realm.kotlin/io.realm.-realm/execute-transaction-await.html>`,
+:kotlin-sdk:`watch for changes
+<io.realm.kotlin/add-change-listener.html>`, :kotlin-sdk:`read
+<io.realm.kotlin/io.realm.-realm/where.html>`,
+and :kotlin-sdk:`write
+<io.realm.kotlin/io.realm.-realm/create-object.html>`.
+
+.. literalinclude:: /examples/generated/android/sync/AsyncTest.codeblock.coroutines.kt
+   :language: kotlin
