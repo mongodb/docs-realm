@@ -28,7 +28,7 @@ transaction.
    <Web/JavaScript/Reference/Global_Objects/Set#iteration_methods>` to iterate
    through a loop, ``{+service-short+} Sets`` may be in a different order than
    originally written to. If you require an ordered version of your set, you
-   must implement that order yourself. You can do this by creating an array of
+   must implement that ordering yourself. You can do this by creating an array of
    the set's values in the insertion order.
    
 .. _node-define-set-objects:
@@ -59,7 +59,7 @@ initial values.
 
 Add Items to a Set
 ------------------
-To add items to a set, pass the new value to the ``set.add()`` method within a write transaction.
+To add an item to a set, pass the new value to the ``<Set>.add()`` method within a write transaction.
 
 .. literalinclude:: /examples/generated/node/data-types.codeblock.add-items-to-set.js
     :language: javascript
@@ -68,7 +68,7 @@ To add items to a set, pass the new value to the ``set.add()`` method within a w
 
 Check if a Set has Specific Items
 ---------------------------------
-To find out if a set has a particular value, pass the value to the ``set.has()`` method. The
+To find out if a set contains a particular value, pass the value to the ``<Set>.has()`` method. The
 ``set.has()`` method will return true if the set contains the value specified.
 
 .. literalinclude:: /examples/generated/node/data-types.codeblock.check-if-set-has-items.js
@@ -87,7 +87,7 @@ To discover how many items are in a set, you can check the set's ``size`` proper
 
 Remove an Item from a Set
 -------------------------
-To remove a specific value from a set, pass the value to the ``set.delete()`` method within a write transaction.
+To remove a specific value from a set, pass the value to the ``<Set>.delete()`` method within a write transaction.
 
 .. literalinclude:: /examples/generated/node/data-types.codeblock.remove-specific-item-from-set.js
     :language: javascript
@@ -97,7 +97,7 @@ To remove a specific value from a set, pass the value to the ``set.delete()`` me
 
 Remove all Items from a Set
 ---------------------------
-To clear the set, run the ``set.clear()`` method within a write transaction.
+To clear the set, run the ``<Set>.clear()`` method within a write transaction.
 
 .. literalinclude:: /examples/generated/node/data-types.codeblock.remove-all-items-from-set.js
     :language: javascript
