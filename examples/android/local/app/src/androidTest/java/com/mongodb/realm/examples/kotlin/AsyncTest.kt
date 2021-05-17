@@ -8,8 +8,10 @@ import io.realm.Realm
 import io.realm.RealmChangeListener
 import io.realm.RealmConfiguration
 import io.realm.RealmResults
+import io.realm.kotlin.createObject
 import io.realm.kotlin.executeTransactionAwait
 import io.realm.kotlin.toFlow
+import io.realm.kotlin.where
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -58,7 +60,7 @@ class AsyncTest : RealmTest() {
                     // :code-block-start: realm-async-task
                     // using class instances for transaction, success, error
                     realm.executeTransactionAsync(Realm.Transaction { transactionRealm ->
-                            val item: Item = transactionRealm.createObject(Item::class.java)
+                            val item: Item = transactionRealm.createObject<Item>()
                     }, Realm.Transaction.OnSuccess {
                             Log.v("EXAMPLE", "Successfully completed the transaction")
                     }, Realm.Transaction.OnError { error ->
@@ -68,7 +70,7 @@ class AsyncTest : RealmTest() {
                     // transaction logic, success notification, error handler all via lambdas
                     realm.executeTransactionAsync(
                         { transactionRealm ->
-                            val item = transactionRealm.createObject(Item::class.java)
+                            val item = transactionRealm.createObject<Item>()
                         },
                         { Log.v("EXAMPLE", "Successfully completed the transaction") },
                         { error ->
@@ -101,7 +103,7 @@ class AsyncTest : RealmTest() {
                     Log.v("EXAMPLE", "Successfully fetched realm instance")
 
                     // :code-block-start: realm-results
-                    val items = realm.where(Item::class.java).findAllAsync()
+                    val items = realm.where<Item>().findAllAsync()
                     // length of items is zero when initially returned
                     items.addChangeListener(RealmChangeListener {
                         Log.v("EXAMPLE", "Completed the query.")
@@ -134,16 +136,16 @@ class AsyncTest : RealmTest() {
                 override fun onSuccess(realm: Realm) {
                     Log.v("EXAMPLE", "Successfully fetched realm instance")
 
-                    CoroutineScope(Dispatchers.IO).launch {
+                    CoroutineScope(Dispatchers.Main).launch {
                         // asynchronous transaction
-                        realm.executeTransactionAwait { transactionRealm: Realm ->
+                        realm.executeTransactionAwait(Dispatchers.IO) { transactionRealm: Realm ->
                             if (isActive) {
-                                val item = transactionRealm.createObject(Item::class.java)
+                                val item = transactionRealm.createObject<Item>()
                             }
                         }
                     }
                     // asynchronous query
-                    val items: Flow<RealmResults<Item>> = realm.where(Item::class.java).findAllAsync().toFlow()
+                    val items: Flow<RealmResults<Item>> = realm.where<Item>().findAllAsync().toFlow()
                 }
 
                 fun onError(e: Exception) {

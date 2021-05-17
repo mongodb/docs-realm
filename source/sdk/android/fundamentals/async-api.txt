@@ -70,7 +70,7 @@ parameter of type  :java-sdk:`App.Callback
 <io/realm/mongodb/App.Callback.html>`.
 You can handle this callback with a lambda function that accepts a
 single parameter of type :java-sdk:`App.Result
-<io/realm/mongodb/App.Result.html`. To retrieve a returned values from
+<io/realm/mongodb/App.Result.html>`. To retrieve a returned values from
 ``App.Callback`` requests:
 
 1. Use the ``isSuccess()`` method of the ``App.Result`` passed to the
@@ -194,7 +194,7 @@ can use:
 Coroutines
 ----------
 
-The SDK provides a set of :kotlin-sdk:`kotlin extensions <>` to request
+The SDK provides a set of :kotlin-sdk:`Kotlin extensions <>` to request
 asynchronously using coroutines and flows instead of callbacks. You can
 use these extensions to :kotlin-sdk:`execute transactions
 <io.realm.kotlin/io.realm.-realm/execute-transaction-await.html>`,
@@ -206,3 +206,16 @@ and :kotlin-sdk:`write
 
 .. literalinclude:: /examples/generated/android/local/AsyncTest.codeblock.coroutines.kt
    :language: kotlin
+
+.. note:: Kotlin Flows use Frozen Objects Across Multiple Threads
+
+   The ``toFlow()`` extension method passes :ref:`frozen <>`
+   {+service-short+} objects to safely communicate between threads.
+
+.. tip::
+   
+   The SDK also includes Kotlin extensions that make specifying type
+   parameters for {+client-database+} :kotlin-sdk:`reads
+   <io.realm.kotlin/io.realm.-realm/where.html>` and
+   :kotlin-sdk:`writes
+   <io.realm.kotlin/io.realm.-realm/create-object.html>` easier.
