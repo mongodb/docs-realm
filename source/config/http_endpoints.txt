@@ -12,9 +12,12 @@ HTTP Endpoint Configuration Files
    └── http_endpoints/
        └── <Service Name>/
            ├── config.json
-           └── <Webhook Name>/
-               ├── config.json
-               └── source.js
+           ├── rules/
+           │   └── <Rule Name>.json
+           └── incoming_webhooks/
+               └── <Webhook Name>/
+                   ├── config.json
+                   └── source.js
 
 HTTP Service Configuration
 --------------------------
@@ -53,6 +56,45 @@ service in its own subdirectory within ``/http_endpoints``.
      - Additional configuration options for the service. HTTP Endpoints
        currently have no additional configuration options.
 
+Service Action Rules
+--------------------
+
+You define :ref:`service action rules <service-rules>` in the service's
+``rules/`` sub-directory. Each rule maps to its own ``.json`` configuration file
+with the same name as the rule.
+
+.. code-block:: json
+   :caption: http_endpoints/<Service Name>/rules/<Rule Name>.json
+
+   {
+     "name": "<Rule Name>",
+     "actions": ["<Service Action Name>"],
+     "when": { <JSON Rule Expression> }
+   }
+
+.. list-table::
+   :header-rows: 1
+   :widths: 10 30
+
+   * - Field
+     - Description
+   
+   * - | ``name``
+       | String
+     - The name of the service rule. The name may be at most 64
+       characters long and can only contain ASCII letters, numbers,
+       underscores, and hyphens.
+   
+   * - | ``actions``
+       | Array<String>
+     - A list of :ref:`HTTP actions <http-service-actions>` that the rule
+       applies to.
+   
+   * - | ``when``
+       | Document
+     - A :doc:`rule expression </services/json-expressions>` that
+       evaluates to ``true`` when the rule applies to a given request.
+
 .. _config-incoming-webhooks:
 
 Incoming Webhooks
@@ -62,7 +104,7 @@ Configuration
 ~~~~~~~~~~~~~
 
 .. code-block:: json
-   :caption: http_endpoints/<Service Name>/<Webhook Name>/config.json
+   :caption: http_endpoints/<Service Name>/incoming_webhooks/<Webhook Name>/config.json
    
    {
      "name": "<Webhook Name>",
@@ -185,4 +227,4 @@ request calls the webhook.
 .. literalinclude:: /includes/webhook-function-example.js
    :language: javascript
    :emphasize-lines: 3, 10-11, 14-15
-   :caption: http_endpoints/<Service Name>/<Webhook Name>/source.js
+   :caption: http_endpoints/<Service Name>/incoming_webhooks/<Webhook Name>/source.js

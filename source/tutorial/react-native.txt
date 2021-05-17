@@ -40,20 +40,93 @@ Prerequisites
 
 Ensure that you have the following:
 
-- `nodejs <https://nodejs.org/dist/latest-v10.x/>`_ version 10.x or later (including Node version 14)
+- `nodejs <https://nodejs.org/dist/latest-v10.x/>`_ version 10.x or later.
 
-- If you wish to run on iOS: `Xcode <https://developer.apple.com/xcode/>`__
+- If you plan to run the app on an iOS device or emulator: 
+  `Xcode <https://developer.apple.com/xcode/>`__
   version 11.0 or higher, which requires macOS 10.14.4 or higher.
 
-- If you wish to run on Android: `Android Studio
+- If you plan to run the app on an Android device or emulator: `Android Studio
   <https://developer.android.com/studio>`_.
 
-- :ref:`Set up the backend <tutorial-task-tracker-create-realm-app>`.
+- The React Native CLI. Detailed instructions for setting up your development 
+  environment, including the CLI tools, can be found in the 
+  `React Native docs <https://reactnative.dev/docs/environment-setup>`_.
 
-Set up the Mobile App
----------------------
+- :ref:`Set up the backend Realm app <tutorial-task-tracker-create-realm-app>`.
 
-.. include:: /includes/steps/tutorial-react-native.rst
+Get Set Up
+----------
+
+.. include:: /includes/steps/tutorial-react-native-1.rst
+
+
+A Look Inside
+-------------
+For a better understanding of the files used in this tutorial, the following table 
+highlights some of the more important files. :
+
+.. cssclass:: config-table
+.. list-table::
+    :header-rows: 1
+    :widths: 30 70
+    
+    * - File
+      - Purpose
+
+    * - getRealmApp.js
+      - Provides access to the Realm app instance.
+
+    * - App.js
+      - Defines which screens are in the app and sets up the navigation system.
+
+    * - schemas.js
+      - Defines the Realm object models used in this app.
+
+    * - providers/AuthProvider.js
+      - Defines the AuthProvider, which handles user login, log out, and
+        project membership information for the current user.
+
+    * - providers/TasksProvider.js
+      - Defines the TasksProvider, which handles fetching, adding, updating,
+        and deleting tasks within a project.
+
+    * - components/ActionSheet.js
+      - A component that presents the user with a list of actions.
+
+    * - components/AddTask.js
+      - A button that, when pressed, prompts the user to enter new task
+        information and creates it with the given createTask function.
+
+    * - components/Logout.js
+      - A button that handles user log out.
+
+    * - components/ManageTeam.js
+      - A list of team members on the current user's project that provides
+        controls for adding and removing team members.
+
+    * - components/TaskItem.js
+      - A list item that represents a task in a list. When pressed, it presents
+        an ActionSheet with actions corresponding to deleting the task or
+        updating the task's status.
+
+    * - views/ProjectsView.js
+      - The screen that presents a list of projects that the current user is a
+        team member of.
+
+    * - views/TasksView.js
+      - The screen showing the tasks for a given project. If this is the
+        logged-in user's own project, the TasksView includes a button open a
+        ManageTeam view.
+
+    * - views/WelcomeView.js
+      - The screen that allows a user to log in or register a user.
+
+
+Build The App
+-------------
+
+.. include:: /includes/steps/tutorial-react-native-2.rst
 
 What's Next?
 ------------

@@ -29,7 +29,9 @@ Configuration
    
    {
      "state": <"enabled" | "disabled">,
-     "development_mode_enabled": <Boolean>
+     "development_mode_enabled": <Boolean>,
+     "service_name": "<Data Source Name>",
+     "database_name": "<Development Mode Database Name>",
      "partition": {
        "key": "<Partition Key Field Name>",
        "type": "<Partition Key Type>",
@@ -37,7 +39,8 @@ Configuration
          "read": { <JSON Expression> },
          "write": { <JSON Expression> }
        }
-     }
+     },
+     "last_disabled": <Number>
    }
 
 .. list-table::
@@ -49,17 +52,35 @@ Configuration
 
    * - | ``state``
        | String
-     - The current state of the Sync protocol for the application.
+     - The current state of the :doc:`Sync </sync>` protocol for the application.
        
        Valid Options:
 
        - ``"enabled"``
        - ``"disabled"``
 
+   * - | ``service_name``
+       | String
+     - The name of the Atlas cluster :ref:`data source <appconfig-data_sources>`
+       to sync.
+
    * - | ``development_mode_enabled``
        | Boolean
      - If ``true``, :ref:`development mode <enable-development-mode>` is enabled
-       for the application.
+       for the application. While enabled, Realm automatically stores synced
+       objects in a specific database (specified in ``database_name``) and
+       mirrors objects types in that database's collection schemas.
+       
+       .. important::
+          
+          Realm does not enforce rules when development mode is enabled.
+
+   * - | ``database_name``
+       | String
+     - The name of a database in the synced cluster where Realm stores data in
+       :ref:`development mode <enable-development-mode>`. Realm automatically
+       generates a schema for each synced type and maps each object type to a
+       collection within the database.
 
    * - | ``partition.key``
        | String
@@ -91,3 +112,9 @@ Configuration
        has permission to write objects in a partition. If the expression
        evaluates to ``false``, {+service-short+} does not allow the user to
        modify an object or its properties.
+
+   * - | ``last_disabled``
+       | Number
+     - The date and time that sync was last paused or disabled, represented by
+       the number of seconds since the Unix epoch (January 1, 1970, 00:00:00
+       UTC).
