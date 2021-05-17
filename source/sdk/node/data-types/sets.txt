@@ -24,12 +24,12 @@ transaction.
 
 .. note:: ``{+service-short+} Sets`` Do Not Guarantee Traversal Order
    
-   When using a ``forEach()`` loop or other :mdn:`iteration methods
-   <Web/JavaScript/Reference/Global_Objects/Set#iteration_methods>` to iterate
-   through a loop, ``{+service-short+} Sets`` may be in a different order than
-   originally written to. If you require an ordered version of your set, you
-   must implement that ordering yourself. You can do this by creating an array of
-   the set's values in the insertion order.
+   When using a ``forEach()`` loop or other :mdn:`iteration method
+   <Web/JavaScript/Reference/Global_Objects/Set#iteration_methods>` to traverse
+   the set in a loop, the content of the ``{+service-short+} Set`` may be in a
+   different order than originally written to. If you require an ordered version
+   of your set, you must implement that ordering yourself. You can do this by
+   creating an array of the set's values in the insertion order.
    
 .. _node-define-set-objects:
 
@@ -68,7 +68,7 @@ To add an item to a set, pass the new value to the ``<Set>.add()`` method within
 
 Check if a Set has Specific Items
 ---------------------------------
-To find out if a set contains a particular value, pass the value to the ``<Set>.has()`` method. The
+To determine if a set contains a particular value, pass the value to the ``<Set>.has()`` method. The
 ``set.has()`` method will return true if the set contains the value specified.
 
 .. literalinclude:: /examples/generated/node/data-types.codeblock.check-if-set-has-items.js
