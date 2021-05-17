@@ -104,4 +104,29 @@ class ManageEmailPasswordUsers: XCTestCase {
         // :code-block-end:
         wait(for: [expectation], timeout: 10)
     }
+
+    func testPasswordResetFunc() {
+        var expectation = XCTestExpectation()
+        // :code-block-start: password-reset-function
+        let app = App(id: YOUR_REALM_APP_ID)
+        let client = app.emailPasswordAuth
+
+        let email = "forgot.my.password@example.com"
+        let newPassword = "mynewpassword12345"
+        let args: [AnyBSON] = []
+
+        client.callResetPasswordFunction(email: email, password: newPassword, args: args) { (error) in
+            guard error == nil else {
+                print("Password reset failed: \(error!.localizedDescription)")
+                // :hide-start:
+                XCTAssertEqual(error!.localizedDescription, "failed to reset password for user")
+                expectation.fulfill()
+                // :hide-end:
+                return
+            }
+            print("Password reset successful!")
+        }
+        // :code-block-end:
+        wait(for: [expectation], timeout: 10)
+    }
 }
