@@ -89,17 +89,6 @@ Configuration
 Create a Server API Key
 -----------------------
 
-.. important::
-
-   Remember to copy the server key's value as soon as you create it.
-   Once you leave the provider configuration page or disable the key you
-   cannot retrieve the value from the {+ui+}.
-
-.. tip:: 
-   If you get an error advising you to "please deploy an enabled api key 
-   auth provider before adding api keys," verify that you have :ref:`deployed
-   the latest version of your app <application-deployment>`.
-
 .. tabs-realm-admin-interfaces::
    
    .. tab::
@@ -122,6 +111,11 @@ Create a Server API Key
       
       .. include:: /includes/note-procedure-uses-cli-v2.rst
       
+      
+      .. tip::
+         
+         You must enable the API key provider before you can create an API key.
+      
       To create a new server API key, call ``realm-cli users create`` and
       specify ``--type=api-key``. The CLI will prompt you for your App ID as
       well as a name for the new API key.
@@ -137,6 +131,12 @@ Create a Server API Key
          realm-cli users create --type=api-key \
            --app=<Your App ID> \
            --name=<API Key Name>
+
+.. important::
+
+   Remember to copy the server key's value as soon as you create it.
+   Once you leave the provider configuration page or disable the key you
+   cannot retrieve the value from the {+ui+}.
 
 .. _api-key-authentication-examples:
 
