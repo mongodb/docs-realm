@@ -1,4 +1,4 @@
-val items = realm.where(Item::class.java).findAllAsync()
+val items = realm.where<Item>().findAllAsync()
 // length of items is zero when initially returned
 items.addChangeListener(RealmChangeListener {
     Log.v("EXAMPLE", "Completed the query.")

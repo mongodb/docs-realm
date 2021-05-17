@@ -3,16 +3,16 @@ Realm.getInstanceAsync(config, object : Realm.Callback() {
     override fun onSuccess(realm: Realm) {
         Log.v("EXAMPLE", "Successfully fetched realm instance")
 
-        CoroutineScope(Dispatchers.IO).launch {
+        CoroutineScope(Dispatchers.Main).launch {
             // asynchronous transaction
-            realm.executeTransactionAwait { transactionRealm: Realm ->
+            realm.executeTransactionAwait(Dispatchers.IO) { transactionRealm: Realm ->
                 if (isActive) {
-                    val item = transactionRealm.createObject(Item::class.java)
+                    val item = transactionRealm.createObject<Item>()
                 }
             }
         }
         // asynchronous query
-        val items: Flow<RealmResults<Item>> = realm.where(Item::class.java).findAllAsync().toFlow()
+        val items: Flow<RealmResults<Item>> = realm.where<Item>().findAllAsync().toFlow()
     }
 
     fun onError(e: Exception) {
