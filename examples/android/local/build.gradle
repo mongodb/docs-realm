@@ -4,12 +4,19 @@ buildscript {
     repositories {
         google()
         jcenter()
+        maven {
+            url 'https://oss.sonatype.org/content/repositories/snapshots/'
+        }
     }
     dependencies {
         classpath "com.android.tools.build:gradle:4.0.2"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath "io.realm:realm-gradle-plugin:10.4.0"
+        classpath "io.realm:realm-gradle-plugin:10.6.0-BETA.1"
     }
+}
+
+configurations.all {
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
 }
 
 allprojects {
@@ -17,6 +24,9 @@ allprojects {
         google()
         mavenCentral()
         jcenter()
+        maven {
+            url 'https://oss.sonatype.org/content/repositories/snapshots/'
+        }
     }
 }
 
