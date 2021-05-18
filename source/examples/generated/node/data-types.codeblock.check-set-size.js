@@ -1,3 +1,3 @@
-// check how many items the hunter has in his inventory through the `set.size` property
-const hunterInventorySize = hunter.inventory.size;
-console.log(`The hunter has ${hunterInventorySize} inventory items`);
+// check how many items the characterTwo has in his inventory through the `set.size` property
+const characterTwoInventorySize = characterTwo.inventory.size;
+console.log(`The characterTwo has ${characterTwoInventorySize} inventory items`);

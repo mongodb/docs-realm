@@ -1,14 +1,14 @@
-let link, hunter;
+let characterOne, characterTwo;
 realm.write(() => {
-  link = realm.create("Character", {
+  characterOne = realm.create("Character", {
     _id: new BSON.ObjectId(),
-    name: "Link",
+    name: "CharacterOne",
     inventory: ["elixir", "compass", "glowing shield"],
     levelsCompleted: [4, 9],
   });
-  hunter = realm.create("Character", {
+  characterTwo = realm.create("Character", {
     _id: new BSON.ObjectId(),
-    name: "Hunter",
+    name: "CharacterTwo",
     inventory: ["estus flask", "gloves", "rune"],
     levelsCompleted: [1, 2, 5, 24],
   });

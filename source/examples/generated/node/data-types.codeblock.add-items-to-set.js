@@ -1,4 +1,4 @@
 realm.write(() => {
-  link.inventory.add("hammer");
-  link.levelsCompleted.add(32);
+  characterOne.inventory.add("hammer");
+  characterOne.levelsCompleted.add(32);
 });
