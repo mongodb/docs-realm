@@ -4,6 +4,8 @@ import android.util.Log
 import com.mongodb.realm.examples.Expectation
 import com.mongodb.realm.examples.RealmTest
 import com.mongodb.realm.examples.YOUR_APP_ID
+import com.mongodb.realm.examples.getRandomPartition
+
 import io.realm.mongodb.App
 import io.realm.mongodb.AppConfiguration
 import org.junit.Test
@@ -109,17 +111,16 @@ class ManageEmailPasswordTest : RealmTest() {
 
     @Test
     fun runAPasswordResetFunc() {
-        val random = Random()
-        val email = "test" + random.nextInt(100000)
-        val password = "testtest"
+        val email = getRandomPartition()
         val expectation = Expectation()
         activity!!.runOnUiThread {
             val appID: String = YOUR_APP_ID // replace this with your App ID
             val app = App(AppConfiguration.Builder(appID).build())
+
+            // :code-block-start: run-password-reset-func
             val newPassword = "newFakePassword"
             val args = arrayOf("security answer 1", "security answer 2")
 
-            // :code-block-start: run-password-reset-func
             app.emailPassword.callResetPasswordFunctionAsync(email, newPassword, args) {
                 if (it.isSuccess) {
                     Log.i("EXAMPLE", "Successfully reset the password for $email")
