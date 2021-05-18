@@ -208,17 +208,17 @@ title: Create the Realm App
 ref: create-realm-app
 content: |
 
-  Navigate to ``TaskTracker` This Application subclass defines
-  the global {+service-short+} App reference, named ``taskApp``,
-  using the ``appId`` variable we just configured in your app-level
-  ``build.gradle`` file. Android automatically runs the ``onCreate()``
-  lifecycle method of this class when you launch the Task Tracker
-  app since it's configured as the global Application reference in
+  Navigate to ``TaskTracker``. Android automatically runs the
+  ``onCreate()`` lifecycle method of this class when you launch
+  the Task Tracker app. This happens because ``TaskTracker`` is
+  configured as the global ``Application`` reference in
   ``AndroidManifest.xml``. This allows us to run certain logic
   once each time you run the app, such as:
   
   - initializing {+service-short+}
-  - defining the global ``App`` reference
+  - defining the global ``App`` reference using the ``appId``
+    variable you just configured in your app-level
+    ``build.gradle`` file
   - setting the {+service-short+} log level
 
   .. literalinclude:: /tutorial/generated/code/final/TaskTracker.codeblock.initialize-realm-and-create-app.kt
