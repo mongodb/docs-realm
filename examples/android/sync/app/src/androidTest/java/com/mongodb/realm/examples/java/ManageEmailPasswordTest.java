@@ -5,6 +5,8 @@ import android.util.Log;
 import com.mongodb.realm.examples.Expectation;
 import com.mongodb.realm.examples.RealmTest;
 
+import org.bson.BSONObject;
+import org.bson.BsonArray;
 import org.junit.Test;
 
 import java.util.Random;
@@ -13,6 +15,7 @@ import io.realm.mongodb.App;
 import io.realm.mongodb.AppConfiguration;
 
 import static com.mongodb.realm.examples.RealmTestKt.YOUR_APP_ID;
+import static com.mongodb.realm.examples.RealmTestKt.getRandomPartition;
 
 public class ManageEmailPasswordTest extends RealmTest {
 
@@ -121,6 +124,36 @@ public class ManageEmailPasswordTest extends RealmTest {
         });
         expectation.await();
     }
+
+    @Test
+    public void runAPasswordResetFunc() {
+        String email = getRandomPartition();
+
+        Expectation expectation = new Expectation();
+        activity.runOnUiThread(() -> {
+
+            String appID = YOUR_APP_ID; // replace this with your App ID
+            App app = new App(new AppConfiguration.Builder(appID).build());
+
+            // :code-block-start: run-password-reset-func
+            String newPassword = "newFakePassword";
+            String[] args = {"security answer 1", "security answer 2"};
+
+            app.getEmailPassword().callResetPasswordFunctionAsync(email, newPassword, args, it -> {
+                if (it.isSuccess()) {
+                    Log.i("EXAMPLE", "Successfully reset the password for" + email);
+                } else {
+                    Log.e("EXAMPLE", "Failed to reset the password for" + email + ": " + it.getError().getErrorMessage());
+                    // :hide-start:
+                    expectation.fulfill();
+                    // :hide-end:
+                }
+            });
+            // :code-block-end:
+        });
+        expectation.await();
+    }
+
 
 
 }
