@@ -106,4 +106,32 @@ class ManageEmailPasswordTest : RealmTest() {
         }
         expectation.await()
     }
+
+    @Test
+    fun runAPasswordResetFunc() {
+        val random = Random()
+        val email = "test" + random.nextInt(100000)
+        val password = "testtest"
+        val expectation = Expectation()
+        activity!!.runOnUiThread {
+            val appID: String = YOUR_APP_ID // replace this with your App ID
+            val app = App(AppConfiguration.Builder(appID).build())
+            val newPassword = "newFakePassword"
+            val args = arrayOf("security answer 1", "security answer 2")
+
+            // :code-block-start: run-password-reset-func
+            app.emailPassword.callResetPasswordFunctionAsync(email, newPassword, args) {
+                if (it.isSuccess) {
+                    Log.i("EXAMPLE", "Successfully reset the password for $email")
+                } else {
+                    Log.e("EXAMPLE", "Failed to reset the password for $email: $it.error")
+                    // :hide-start:
+                    expectation.fulfill()
+                    // :hide-end:
+                }
+            }
+            // :code-block-end:
+        }
+        expectation.await()
+    }
 }

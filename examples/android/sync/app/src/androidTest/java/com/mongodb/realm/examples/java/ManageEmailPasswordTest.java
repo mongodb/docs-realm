@@ -5,6 +5,8 @@ import android.util.Log;
 import com.mongodb.realm.examples.Expectation;
 import com.mongodb.realm.examples.RealmTest;
 
+import org.bson.BSONObject;
+import org.bson.BsonArray;
 import org.junit.Test;
 
 import java.util.Random;
@@ -78,7 +80,7 @@ public class ManageEmailPasswordTest extends RealmTest {
     }
 
     @Test
-    public void resetAUsersPassword() {
+    public void runAPasswordResetFunc() {
         Random random = new Random();
         String email = "test" + random.nextInt(100000);
         String password = "testtest";
@@ -89,29 +91,16 @@ public class ManageEmailPasswordTest extends RealmTest {
             String appID = YOUR_APP_ID; // replace this with your App ID
             App app = new App(new AppConfiguration.Builder(appID).build());
 
-
-            String token = "token-fake";
-            String tokenId = "token-id-fake";
             String newPassword = "newFakePassword";
 
-            // :code-block-start: send-reset-password-email
-            app.getEmailPassword().sendResetPasswordEmailAsync(email, it -> {
-                if (it.isSuccess()) {
-                    Log.i("EXAMPLE", "Successfully sent the user a reset password link to " + email);
-                } else {
-                    Log.e("EXAMPLE", "Failed to send the user a reset password link to " + email + ": " + it.getError().getErrorMessage());
-                }
-            });
-            // :code-block-end:
+            String[] args = {"security answer 1", "security answer 2"};
 
-            // :code-block-start: reset-password
-            // token and tokenId are query parameters in the confirmation
-            // link sent in the password reset email.
-            app.getEmailPassword().resetPasswordAsync(token, tokenId, newPassword, it -> {
+            // :code-block-start: run-password-reset-func
+            app.getEmailPassword().callResetPasswordFunctionAsync(email, newPassword, args, it -> {
                 if (it.isSuccess()) {
-                    Log.i("EXAMPLE", "Successfully updated password for user.");
+                    Log.i("EXAMPLE", "Successfully reset the password for" + email);
                 } else {
-                    Log.e("EXAMPLE", "Failed to reset user's password: " + it.getError().getErrorMessage());
+                    Log.e("EXAMPLE", "Failed to reset the password for" + email + ": " + it.getError().getErrorMessage());
                     // :hide-start:
                     expectation.fulfill();
                     // :hide-end:
@@ -121,6 +110,7 @@ public class ManageEmailPasswordTest extends RealmTest {
         });
         expectation.await();
     }
+
 
 
 }
