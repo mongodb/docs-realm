@@ -80,6 +80,51 @@ public class ManageEmailPasswordTest extends RealmTest {
     }
 
     @Test
+    public void resetAUsersPassword() {
+        Random random = new Random();
+        String email = "test" + random.nextInt(100000);
+        String password = "testtest";
+
+        Expectation expectation = new Expectation();
+        activity.runOnUiThread(() -> {
+
+            String appID = YOUR_APP_ID; // replace this with your App ID
+            App app = new App(new AppConfiguration.Builder(appID).build());
+
+
+            String token = "token-fake";
+            String tokenId = "token-id-fake";
+            String newPassword = "newFakePassword";
+
+            // :code-block-start: send-reset-password-email
+            app.getEmailPassword().sendResetPasswordEmailAsync(email, it -> {
+                if (it.isSuccess()) {
+                    Log.i("EXAMPLE", "Successfully sent the user a reset password link to " + email);
+                } else {
+                    Log.e("EXAMPLE", "Failed to send the user a reset password link to " + email + ": " + it.getError().getErrorMessage());
+                }
+            });
+            // :code-block-end:
+
+            // :code-block-start: reset-password
+            // token and tokenId are query parameters in the confirmation
+            // link sent in the password reset email.
+            app.getEmailPassword().resetPasswordAsync(token, tokenId, newPassword, it -> {
+                if (it.isSuccess()) {
+                    Log.i("EXAMPLE", "Successfully updated password for user.");
+                } else {
+                    Log.e("EXAMPLE", "Failed to reset user's password: " + it.getError().getErrorMessage());
+                    // :hide-start:
+                    expectation.fulfill();
+                    // :hide-end:
+                }
+            });
+            // :code-block-end:
+        });
+        expectation.await();
+    }
+
+    @Test
     public void runAPasswordResetFunc() {
         Random random = new Random();
         String email = "test" + random.nextInt(100000);
