@@ -27,13 +27,9 @@ class TaskTracker : Application() {
         // Initialize the Realm SDK
         Realm.init(this)
         // :code-block-start: initialize-realm-and-create-app
-        // :state-start: final
         taskApp = App(
             AppConfiguration.Builder(BuildConfig.MONGODB_REALM_APP_ID)
             .build())
-        // :state-end: :state-uncomment-start: start
-        //// TODO: Create the App object we will use to communicate with the Realm backend.
-        // :state-uncomment-end:
         // :code-block-end:
 
         // Enable more logging in debug mode
