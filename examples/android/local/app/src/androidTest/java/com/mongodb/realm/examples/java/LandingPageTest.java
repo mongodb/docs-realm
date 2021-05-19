@@ -12,6 +12,7 @@ import com.mongodb.realm.examples.Expectation;
 import com.mongodb.realm.examples.RealmTest;
 import com.mongodb.realm.examples.model.java.FrogJava;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.concurrent.atomic.AtomicReference;
@@ -180,14 +181,14 @@ public class LandingPageTest extends RealmTest {
                 frogA.setName("Skipper");
             });
             // frog B instance automatically updates with the new name
-            assert(frogA.getName().equals(frogB.getName()));
+            Assert.assertEquals(frogA.getName(), frogB.getName());
 
             // update frog B's age
             realmB.executeTransaction(transactionRealm -> {
                 frogB.setAge(10);
             });
             // frog A instance automatically updates with the new age
-            assert(frogB.getAge() == frogA.getAge());
+            Assert.assertEquals(frogB.getAge(), frogA.getAge());
             // :code-block-end:
             expectation.fulfill();
         });

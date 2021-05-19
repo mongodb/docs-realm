@@ -8,6 +8,7 @@ using Realms.Sync;
 using TaskStatus = dotnet.TaskStatus;
 using Task = dotnet.Task;
 using System.Collections.Generic;
+using ObjectExamples;
 
 namespace Examples
 {
@@ -33,7 +34,8 @@ namespace Examples
             {
                 typeof(Task),
                 typeof(MyClass),
-                typeof(dotnet.User)
+                typeof(dotnet.User),
+                typeof(CustomGetterSetter)
             };
             //:hide-end:
             var realm = await Realm.GetInstanceAsync(config);
@@ -121,7 +123,8 @@ namespace Examples
             config.ObjectClasses = new[]
             {
                 typeof(Task),
-                typeof(dotnet.User)
+                typeof(dotnet.User),
+                typeof(CustomGetterSetter)
             };
             //:hide-end:
             var realm = await Realm.GetInstanceAsync(config);
@@ -146,7 +149,8 @@ namespace Examples
             config.ObjectClasses = new[]
             {
                 typeof(Task),
-                typeof(dotnet.User)
+                typeof(dotnet.User),
+                typeof(CustomGetterSetter)
             };
             //:hide-end:
             using (var realm = await Realm.GetInstanceAsync(config))
@@ -339,7 +343,27 @@ namespace Examples
             return;
         }
 
+        [Test]
+        public async System.Threading.Tasks.Task TestsCustomSetter()
+        {
+            var foo = new CustomGetterSetter()
+            {
+                Email = "foo@foo.com"
+            };
 
+            using (var realm = await Realm.GetInstanceAsync(config))
+            {
+                realm.Write(() =>
+            {
+                realm.Add(foo);
+            });
+
+                Assert.IsNotNull(foo.Email);
+
+                var bar = realm.All<CustomGetterSetter>().Where(f => f._id == foo._id).FirstOrDefault();
+                Assert.AreEqual("foo@foo.com", bar.Email);
+            }
+        }
 
         [OneTimeTearDown]
         public async System.Threading.Tasks.Task TearDown()
@@ -356,6 +380,7 @@ namespace Examples
                 realm.Write(() =>
                 {
                     realm.RemoveAll<Task>();
+                    realm.RemoveAll<CustomGetterSetter>();
                 });
                 var user = await app.LogInAsync(Credentials.Anonymous());
                 // :code-block-start: logout
