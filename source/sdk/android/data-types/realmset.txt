@@ -23,6 +23,11 @@ actually only store references to those objects, so deleting a
 {+service-short+} object from a {+realm+} also deletes that object from
 any ``RealmSet`` instances that contain the object.
 
+Because ``RealmSet`` implements ``RealmCollection``, it has some useful
+mathematical methods, such as ``sum``, ``min``, and ``max``. For a complete
+list of available ``RealmSet`` methods, see: :java-sdk:`the RealmSet 
+reference documentation<io/realm/RealmSet.html>`.
+
 .. note:: ``RealmSet`` Limitations
 
    Objects containing ``RealmSet`` fields currently cannot use the
