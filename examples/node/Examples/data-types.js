@@ -340,4 +340,92 @@ describe("Node.js Data Types", () => {
     // close the realm
     realm.close();
   });
+  test("should work with the Set data type", async () => {
+    // :code-block-start: define-set-objects
+    const characterSchema = {
+      name: "Character",
+      primaryKey: "_id",
+      properties: {
+        _id: "objectId",
+        name: "string",
+        levelsCompleted: "int<>",
+        inventory: "string<>",
+      },
+    };
+    // :code-block-end:
+    const realm = await Realm.open({
+      schema: [characterSchema],
+    });
+
+    // :code-block-start: create-set-objects
+    let playerOne, playerTwo;
+    realm.write(() => {
+      playerOne = realm.create("Character", {
+        _id: new BSON.ObjectId(),
+        name: "PlayerOne",
+        inventory: ["elixir", "compass", "glowing shield"],
+        levelsCompleted: [4, 9],
+      });
+      playerTwo = realm.create("Character", {
+        _id: new BSON.ObjectId(),
+        name: "PlayerTwo",
+        inventory: ["estus flask", "gloves", "rune"],
+        levelsCompleted: [1, 2, 5, 24],
+      });
+    });
+    // :code-block-end:
+
+    expect(playerOne.inventory.has("elixir")).toBe(true);
+    expect(playerTwo.inventory.has("gloves")).toBe(true);
+
+    // :code-block-start: add-items-to-set
+    realm.write(() => {
+      playerOne.inventory.add("hammer");
+      playerOne.levelsCompleted.add(32);
+    });
+    // :code-block-end:
+
+    expect(playerOne.inventory.size).toBe(4);
+    expect(playerOne.levelsCompleted.size).toBe(3);
+
+    // :code-block-start: check-if-set-has-items
+    // check if the playerTwo has completed level 3 by calling the `set.has()` method
+    const playerTwoHasCompletedLevelThree = playerTwo.levelsCompleted.has(3);
+    console.log(
+      `Is level three completed by the playerTwo: ${playerTwoHasCompletedLevelThree}`
+    );
+    // :code-block-end:
+    expect(playerTwoHasCompletedLevelThree).toBe(false);
+
+    // :code-block-start: remove-specific-item-from-set
+    realm.write(() => {
+      // remove the compass from playerOne's inventory by calling `set.delete()` within a write transaction
+      playerOne.inventory.delete("compass");
+    });
+
+    // :code-block-end:
+    expect(playerOne.inventory.has("compass")).toBe(false);
+
+    // :code-block-start: remove-all-items-from-set
+    realm.write(() => {
+      // clear all data from the inventory slot of the playerTwo by calling `set.clear()` in a write transaction
+      playerTwo.inventory.clear();
+    });
+    // :code-block-end:
+
+    // :code-block-start: check-set-size
+    // check how many items the playerTwo has in his inventory through the `set.size` property
+    const playerTwoInventorySize = playerTwo.inventory.size;
+    console.log(`The playerTwo has ${playerTwoInventorySize} inventory items`);
+    // :code-block-end:
+    expect(playerTwo.inventory.size).toBe(0);
+
+    // delete the object specifically created in this test to keep tests idempotent
+    realm.write(() => {
+      realm.delete(playerOne);
+      realm.delete(playerTwo);
+    });
+    // close the realm
+    realm.close();
+  });
 });
