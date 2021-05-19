@@ -33,7 +33,9 @@ and how to handle them.{+service+} reports errors to your :doc:`{+sync-short+} l
      - Description and How to Handle the Error
 
    * - ErrorBadClientFileIdent
-     - This error indicates that you need to :ref:`perform a client reset <sync-errors-client-resets>`. It occurs when the client is using a {+realm+} file that the server cannot access after :doc:`terminating and re-enabling {+sync-short+} </reference/terminating-and-reenabling-realm-sync>`. 
+     - This error occurs when the client is using a {+realm+} file that the server cannot access after :doc:`terminating and re-enabling {+sync-short+} </reference/terminating-and-reenabling-realm-sync>`. 
+
+     To solve this error, :ref:`perform a client reset <sync-errors-client-resets>`.
 
    * - ErrorClientFileUserMismatch
      - This error occurs when a user tries to synchronize data to a {+realm+} that has already terminated {+sync+} or when you try to synchronize data to a {+realm+} using a different user than the one used to open the synced realm. If you encounter this error, delete the local realm file on the client and re-initialize {+sync+}.
