@@ -15,23 +15,9 @@ Mixed - React Native SDK
 
 Overview
 --------
-The mixed data type is a {+realm+} property type that can hold different data types.
-Supported data types include:
-
-- ``bool``
-- ``int``
-- ``float``
-- ``double`` 
-- ``string``
-- ``decimal128``
-- ``objectId``
-- ``Date`` 
-- ``Data``
-- ``list``
-- ``UUID``
-- ``Set``
-- ``Dictionary``
-- ``null``
+The mixed data type is a {+realm+} property type that can hold any valid Realm data type except a collection.
+You can create collections (lists, sets and dictionaries) of type ``mixed``, but a ``mixed`` itself 
+cannot be a collection. Properties using the mixed property type can also hold null values.
 
 .. note::
 
