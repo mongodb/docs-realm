@@ -18,16 +18,20 @@ Overview
 The mixed data type is a {+realm+} property type that can hold different data types.
 Supported data types include:
 
-- bool
-- int 
-- float 
-- double 
-- string
-- Date 
-- Data
-- UUID
-- Set
-- null
+- ``bool``
+- ``int``
+- ``float``
+- ``double`` 
+- ``string``
+- ``decimal128``
+- ``objectId``
+- ``Date`` 
+- ``Data``
+- ``list``
+- ``UUID``
+- ``Set``
+- ``Dictionary``
+- ``null``
 
 .. note::
 
@@ -39,7 +43,7 @@ Realm Object Models
 -------------------
 To :ref:`set a property of your object model
 <react-native-define-a-realm-object-schema>` as mixed, set the property's type to
-``"mixed"``.
+"``mixed``".
 
 .. literalinclude:: /examples/generated/node/data-types.codeblock.define-mixed-in-schema.js
     :language: javascript
