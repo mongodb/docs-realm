@@ -33,15 +33,13 @@ and how to handle them.{+service+} reports errors to your :doc:`{+sync-short+} l
      - Description and How to Handle the Error
 
    * - ErrorBadClientFileIdent
-     - This error occurs when the client is using a {+realm+} file that the server cannot access after :doc:`terminating and re-enabling {+sync-short+} </reference/terminating-and-reenabling-realm-sync>`. 
-
-     To solve this error, :ref:`perform a client reset <sync-errors-client-resets>`.
+     - This error occurs when the client is using a {+realm+} file that the server cannot access after :doc:`terminating and re-enabling {+sync-short+} </reference/terminating-and-reenabling-realm-sync>`. To solve this error, :ref:`perform a client reset <sync-errors-client-resets>`.
 
    * - ErrorClientFileUserMismatch
      - This error occurs when a user tries to synchronize data to a {+realm+} that has already terminated {+sync+} or when you try to synchronize data to a {+realm+} using a different user than the one used to open the synced realm. If you encounter this error, delete the local realm file on the client and re-initialize {+sync+}.
 
    * - ErrorDivergingHistories
-     - This error indicates that you need to :ref:`perform a client reset <sync-errors-client-resets>`. It may occur if a user connected to a specific identity goes offline, and {+sync-short+} is :doc:`terminated and reenabled </reference/terminating-and-reenabling-realm-sync>` while the user is offline, invalidating that identity. 
+     - This error may occur if a user connected to a specific identity goes offline, and {+sync-short+} is :doc:`terminated and reenabled </reference/terminating-and-reenabling-realm-sync>` while the user is offline, invalidating that identity. To solve this error, that you need to :ref:`perform a client reset <sync-errors-client-resets>`.
 
    * - ErrorIllegalRealmPath
      - You may see the message "attempted to bind on illegal realm partition: expected partition to have type objectId but found string". Ensure that the partition value passed to the client matches the partition value in your {+sync-short+} configuration.
