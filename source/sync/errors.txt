@@ -16,13 +16,44 @@ Overview
 --------
 
 While you develop applications using {+sync+}, you may run into errors. This
-section details some common errors. 
+section details some common errors and how to log and handle them. 
 
+.. _sync-errors-common-protocol-errors:
+
+Common Sync Protocol Errors 
+---------------------------
+The table below lists some common :doc:`{+sync-short+} protocol </sync/protocol>` errors
+and how to handle them. To see if {+service+} has encountered any of these
+errors, check your :doc:`{+sync-short+} logs </logs>`.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 30 70
+
+   * - ErrorBadClientFileIdent
+     - This error indicates that you need to :ref:`perform a client reset <sync-errors-client-resets>`. It occurs when the client is using a {+realm+} file that the server cannot access after :doc:`terminating and re-enabling {+sync-short+} </reference/terminating-and-reenabling-realm-sync>`. 
+
+   * - ErrorClientFileUserMismatch
+     - This error occurs when a user tries to synchronize data to a {+realm+} that has already terminated {+sync+} or when you try to synchronize data to a {+realm+} using a different user than the one used to open the synced realm. If you encounter this error, delete the local realm file on the client and re-initialize {+sync+}.
+
+   * - ErrorDivergingHistories
+     - This error indicates that you need to :ref:`perform a client reset <sync-errors-client-resets>`. It may occur if a user connected to a specific identity goes offline, and {+sync-short+} is :doc:`terminated and reenabled </reference/terminating-and-reenabling-realm-sync>` while the user is offline, invalidating that identity. 
+
+   * - ErrorIllegalRealmPath
+     - You may see the message "attempted to bind on illegal realm partition: expected partition to have type objectId but found string". Ensure that the partition value passed to the client matches the partition value in your {+sync-short+} configuration.
+   
+   * - ErrorOtherError
+     - This error indicates an internal communication failure between {+sync+} and {+atlas+} and occurs when you have encountered the limit on the storage quota of a Free tier cluster. If you are encountering this error, you can :doc:`upgrade your cluster tier </reference/upgrade-shared-cluster/>`.
+
+   * - ErrorPermissionDenied
+     - This error occurs when a user requests data they don't have access to. Check your :doc:`{+sync-short+} permissions </sync/permissions/>` logic to ensure users have access to the correct data to prevent this error.
+
+If you are encountering errors other than the ones listed above, you can file a `support ticket <https://support.mongodb.com/welcome>`_.
 
 .. _sync-errors-error-codes:
 
-Error Codes
------------
+Error Codes Sent to the Client
+------------------------------
 When the server encounters an error that appears to be caused by the connected
 client, it will send an error message to that client. The error message will
 have a code number and description. To see the full list of sync errors, see the
