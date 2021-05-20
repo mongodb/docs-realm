@@ -7,4 +7,4 @@ import io.realm.annotations.RealmClass
 open class Project(
     var name: String? = null,
     var partition: String? = null
-): RealmObject() {}
+): RealmObject()

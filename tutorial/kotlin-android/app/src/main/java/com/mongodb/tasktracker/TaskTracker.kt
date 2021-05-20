@@ -2,6 +2,8 @@ package com.mongodb.tasktracker
 
 import android.app.Application
 import android.util.Log
+import android.widget.Toast
+import androidx.core.content.ContextCompat
 
 import io.realm.Realm
 import io.realm.log.LogLevel
@@ -29,6 +31,9 @@ class TaskTracker : Application() {
         // :code-block-start: initialize-realm-and-create-app
         taskApp = App(
             AppConfiguration.Builder(BuildConfig.MONGODB_REALM_APP_ID)
+                .defaultSyncErrorHandler { session, error ->
+                    Log.e(TAG(), "Sync error: ${error.errorMessage}")
+                }
             .build())
         // :code-block-end:
 
@@ -40,3 +45,4 @@ class TaskTracker : Application() {
         Log.v(TAG(), "Initialized the Realm App configuration for: ${taskApp.configuration.appId}")
     }
 }
+
