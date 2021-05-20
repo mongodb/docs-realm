@@ -148,7 +148,7 @@ class ProjectActivity : AppCompatActivity() {
             // :state-uncomment-end:
             // :code-block-end:
 
-            // use should have a personal project no matter what, so create it if it doesn't already exist
+            // user should have a personal project no matter what, so create it if it doesn't already exist
             // RealmRecyclerAdapters only work on managed objects, so create an in-memory realm to manage our fake custom user data object
             val fakeRealm = Realm.getInstance(
                 RealmConfiguration.Builder()
