@@ -130,10 +130,7 @@ class ProjectActivity : AppCompatActivity() {
         } else {
             // since a trigger creates our user object after initial signup, the object might not exist immediately upon first login.
             // if the user object doesn't yet exist (that is, if there are no users in the user realm), call this function again when it is created
-            Log.i(
-                TAG(),
-                "User object not yet initialized, only showing default user project until initialization."
-            )
+            Log.i(TAG(), "User object not yet initialized, only showing default user project until initialization.")
             // change listener on a query for our user object lets us know when the user object has been created by the auth trigger
             // :code-block-start: user-init-change-listener
             // :state-start: final
