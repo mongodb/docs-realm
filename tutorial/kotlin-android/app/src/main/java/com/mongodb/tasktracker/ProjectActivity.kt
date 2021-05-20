@@ -146,7 +146,10 @@ class ProjectActivity : AppCompatActivity() {
             // :code-block-end:
 
             // user should have a personal project no matter what, so create it if it doesn't already exist
-            // RealmRecyclerAdapters only work on managed objects, so create an in-memory realm to manage our fake custom user data object
+            // RealmRecyclerAdapters only work on managed objects,
+            // so create a realm to manage a fake custom user data object
+            // offline, in-memory because this data does not need to be persistent or synced:
+            // the object is only used to determine the partition for storing tasks
             val fakeRealm = Realm.getInstance(
                 RealmConfiguration.Builder()
                     .allowWritesOnUiThread(true)
