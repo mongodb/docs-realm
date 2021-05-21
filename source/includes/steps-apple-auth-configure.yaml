@@ -24,6 +24,10 @@ content: |
    6. Scroll down the :guilabel:`Register an App ID` page until you see
       the :guilabel:`Sign in with Apple` capability. Check the checkbox
       to enable the capability.
+
+   7. Press the :guilabel:`Continue` button at the top of the page. Complete
+      any other setup steps that apply to your app, and then press the 
+      :guilabel:`Register` button.
 ---
 title: Create a Services ID
 ref: create-a-services-id
@@ -49,11 +53,17 @@ content: |
          application's :guilabel:`Client ID`. You will need this value
          later to configure the Apple ID provider in {+service-short+}.
 
-   5. Check the checkbox to enable :guilabel:`Sign in with Apple` and
-      then click :guilabel:`Configure`. Select the App ID that you
-      created as the :guilabel:`Primary App ID`.
+      Press the :guilabel:`Continue` button. Confirm the details, and
+      then press :guilabel:`Register`.
+
+   5. Click into the service you just created. Check the checkbox to enable 
+      :guilabel:`Sign in with Apple` and then click :guilabel:`Configure`. 
+      Select the App ID that you created as the :guilabel:`Primary App ID`.
+
+   6. Enter your domains, subdomains, and return URLs for the Services ID.
+      Press the :guilabel:`Next` button.  
    
-   6. Click :guilabel:`Save` and then click :guilabel:`Continue`.
+   6. Click :guilabel:`Continue` and then click :guilabel:`Save` .
       Confirm that you have correctly configured the Services ID and
       then click :guilabel:`Register`.
 ---
@@ -196,8 +206,9 @@ content: |
          
          2. Turn on the :guilabel:`Provider Enabled` toggle.
          
-         3. For :guilabel:`Client ID`, enter the :guilabel:`Services ID`
-            that you created.
+         3. For the {+service-short+} :guilabel:`Client ID`, enter the 
+            Apple :guilabel:`Services ID` you got when you created a
+            Services ID in step 2.
          
          4. For :guilabel:`Client Secret`, create a new :ref:`secret
             <app-secret>` with a descriptive name and set the
@@ -255,7 +266,8 @@ content: |
          
                 | *config.clientId*
          
-              - Required. The :guilabel:`Services ID` that you created.
+              - Required. The Apple :guilabel:`Services ID` that you created
+                when you completed step 2 above.
          
             * - :guilabel:`Client Secret`
          
