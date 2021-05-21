@@ -50,9 +50,13 @@ and how to handle them.{+service+} reports errors to your :doc:`{+sync-short+} l
        limit of a free tier Atlas cluster.
 
    * - ErrorPermissionDenied
-     - This error occurs when a user requests data they don't have access to. Check your :doc:`{+sync-short+} permissions </sync/permissions/>` logic to ensure users have access to the correct data to prevent this error.
+     - This error occurs when a user's data access permissions are not
+       sufficient for a given request. This can occur if a user attempts to open
+       a realm without read permission or modify data without write permission.
+       Review your :doc:`{+sync-short+} rules </sync/permissions/>` to make sure
+       that users have proper data access permissions.
 
-If you are encountering errors other than the ones listed above, you can file a `support ticket <https://support.mongodb.com/welcome>`_.
+If you encounter errors other than the ones listed above, you can file a `support ticket <https://support.mongodb.com/welcome>`_.
 
 .. _sync-errors-error-codes:
 
