@@ -45,7 +45,9 @@ and how to handle them.{+service+} reports errors to your :doc:`{+sync-short+} l
      - The message "attempted to bind on illegal realm partition: expected partition to have type objectId but found string" is shown in the {+sync+} logs when an ErrorIllegalRealmPath is thrown. To solve this error, ensure that the partition value passed to the client matches the partition value in your {+sync-short+} configuration.
    
    * - ErrorOtherError
-     - This error indicates an internal communication failure between {+sync+} and {+atlas+} and occurs when you have encountered the limit on the storage quota of a Free tier cluster. If you encounter this error, you can :doc:`upgrade your cluster tier </reference/upgrade-shared-cluster/>`.
+     - This error indicates an internal failure that is not covered by a more
+       specific error. For example, this might occur when you hit the storage
+       limit of a free tier Atlas cluster.
 
    * - ErrorPermissionDenied
      - This error occurs when a user requests data they don't have access to. Check your :doc:`{+sync-short+} permissions </sync/permissions/>` logic to ensure users have access to the correct data to prevent this error.
