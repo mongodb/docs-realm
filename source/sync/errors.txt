@@ -18,10 +18,11 @@ Overview
 While you develop applications using {+sync+}, you may run into errors. This
 section details some common errors and how to log and handle them. 
 
-.. _sync-errors-common-protocol-errors:
+.. _sync-protocol-errors:
 
 Sync Protocol Errors 
 --------------------
+
 The table below lists some common :doc:`{+sync-short+} protocol </sync/protocol>` errors
 and how to handle them.{+service+} reports errors to your :doc:`{+sync-short+} logs </logs>`.
 
@@ -57,6 +58,36 @@ and how to handle them.{+service+} reports errors to your :doc:`{+sync-short+} l
        that users have proper data access permissions.
 
 If you encounter errors other than the ones listed above, you can file a `support ticket <https://support.mongodb.com/welcome>`_.
+
+.. _mongodb-translator-errors:
+
+MongoDB Translator Errors
+-------------------------
+
+The following errors may occur in the translation process between {+sync-short+}
+and MongoDB Atlas.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 30 70
+
+   * - Error Name
+     - Description
+
+   * - MongoEncodingError
+     - This error occurs when a MongoDB Atlas write (i.e. not a Sync client)
+       modifies a document such that it no longer conforms to the app's schema.
+       Documents that do not match the schema cannot be synced and any local
+       updates to the object represented by such a document will not propagate.
+       
+       To recover from an encoding error, update the document to conform to the
+       app's schema. To avoid the problem, review all workloads that write to a
+       synced cluster and ensure that they conform to your app's schema.
+       
+       .. warning::
+          
+          If a synced cluster contains more than 100,000 "unsyncable" document,
+          Realm automatically terminates sync with a fatal error.
 
 .. _sync-errors-error-codes:
 
