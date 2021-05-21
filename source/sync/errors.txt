@@ -88,6 +88,14 @@ and MongoDB Atlas.
           
           If a synced cluster contains more than 100,000 "unsyncable" document,
           Realm automatically terminates sync with a fatal error.
+   
+   * - TranslatorCorrectiveErasure
+   - This error occurs when a synced MongoDB cluster rejects the write
+     operation for a propagated {+sync-short+} change. This is usually caused by
+     a duplicate key exception, which means that two objects use the same
+     primary key. To avoid this error, use an ``ObjectId`` or ``UUID`` as the
+     primary key value. Alternatively, ensure that every synced object has a
+     unique primary key, even across partitions.
 
 .. _sync-errors-error-codes:
 
