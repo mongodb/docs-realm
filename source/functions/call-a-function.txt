@@ -13,11 +13,8 @@ Call a Function
 Overview
 --------
 
-You can call a :doc:`function </functions>` from other parts of your
-{+app+} or from a connected client application.
-
-Usage
------
+You can call a :doc:`function </functions>` from other parts of your {+app+},
+from a connected client application, or with Realm CLI.
 
 The examples in this section demonstrate calling a simple function named
 ``sum`` that takes two arguments, adds them, and returns the result:
@@ -29,8 +26,8 @@ The examples in this section demonstrate calling a simple function named
      return a + b;
    };
 
-Call from Another Function
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+Call from A Function, Trigger, or HTTP Endpoint
+-----------------------------------------------
 
 You can call a function from another function, including incoming
 webhooks and triggers, by :doc:`accessing function context
@@ -50,7 +47,7 @@ For additional information, see the :doc:`Function Context
 .. _call-function-json-expression:
 
 Call from a JSON Expression
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---------------------------
 
 You can call a function from a {+service-short+} :doc:`JSON Expression
 </services/json-expressions>`, including service rules, by using the
@@ -70,8 +67,23 @@ You can call a function from a {+service-short+} :doc:`JSON Expression
      }
    }
 
+Call from Realm CLI
+-------------------
+
+.. include:: /includes/note-procedure-uses-cli-v2.rst
+
+To call a function with :ref:`Realm CLI <realm-cli>`, run ``realm-cli function
+run`` and specify the function name and any arguments. The command returns the
+function result as EJSON as well as any log or error messages.
+
+.. code-block:: bash
+   
+   realm-cli function run \
+    --function=sum \
+    --args=1 --args=2
+
 Call from a Client Application
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+------------------------------
 
 You can call a function from client applications that are connected with
 a Client SDK or over the :ref:`wire protocol <wire-protocol-usage-call-function>`.
