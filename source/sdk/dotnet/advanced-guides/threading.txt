@@ -29,6 +29,13 @@ maintainable multithreaded code that avoids issues like
 deadlocking and race conditions. {+service+} aims to
 simplify this for you.
 
+.. important:: SynchronizationContext Threads
+
+   Throughout this page, we refer to the "main thread" (or "UI thread") and 
+   "background threads". To be more accurate, any mention of the main or UI thread 
+   refers to **any thread with a ``SynchronizationContext``**, while those threads 
+   without a SynchronizationContext are considered background threads.
+
 .. _dotnet-threading-three-rules:
 
 Three Rules to Keep in Mind
@@ -150,11 +157,13 @@ the current background thread.
 .. note::
 
    In general, since {+realm+} writes are very fast, we recommend using the 
-   ``Write()`` method for interface-driven changes where only a few values 
-   change at a time. The ``WriteAsync()`` method is useful in scenarios where 
-   there are hundreds or thousands of changes (e.g. fetching objects from the 
-   network, or batch-updating multiple objects) and performing the changes 
-   synchronously might lead to interface jitters.
+   ``Write()`` method when only a few values change at a time (like responding 
+   to user interactions.) Conversely, the ``WriteAsync()`` method is useful in 
+   scenarios where there are hundreds or thousands of changes. For example, 
+   fetching objects from the network, or batch-updating multiple objects, can be 
+   time-consuming, and performing the changes synchronously might lead to 
+   interface jitters and a poor user experience. Using ``WriteAsync()`` 
+   prevents this.
 
 .. _dotnet-frozen-objects:
 
