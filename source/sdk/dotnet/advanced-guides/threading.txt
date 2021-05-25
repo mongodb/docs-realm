@@ -29,6 +29,13 @@ maintainable multithreaded code that avoids issues like
 deadlocking and race conditions. {+service+} aims to
 simplify this for you.
 
+.. important:: SynchronizationContext Threads
+
+   Throughout this page, we refer to the "main thread" (or "UI thread") and 
+   "background threads". To be more accurate, any mention of the main or UI thread 
+   refers to **any thread with a ``SynchronizationContext``**, while those threads 
+   without a SynchronizationContext are considered background threads.
+
 .. _dotnet-threading-three-rules:
 
 Three Rules to Keep in Mind
@@ -70,35 +77,27 @@ Don't pass live objects, collections, or {+realms+} to other threads:
 .. _dotnet-communication-across-threads:
 
 Communication Across Threads
-----------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-You can have the same {+realm+} open on multiple threads as
-separate {+realm+} instances. You are free to read and write
-with {+realm+} instances on the thread where you first opened
-them. One of the key rules when working with {+client-database+} in a
+To access the same {+realm+} file from different threads, you must initialize a 
+new {+realm+} to get a different :term:`{+realm+} instance` for every thread of 
+your app. As long as you specify the same configuration, all {+realm+} instances 
+will map to the same file on disk.
+
+One of the key rules when working with {+client-database+} in a
 multithreaded environment is that objects are
-**thread-confined**: you may not access the instances of a
+thread-confined: **you cannot access the instances of a
 {+realm+}, collection, or object that originated on other
-threads. {+client-database+}'s :ref:`Multiversion Concurrency Control
+threads.** {+client-database+}'s :ref:`Multiversion Concurrency Control
 (MVCC) <dotnet-mvcc>` architecture means that there could be many
 active versions of an object at any time. Thread-confinement
 ensures that all instances in that thread are of the same
 internal version.
-
-A :term:`{+realm+} instance` is designed to work with one version at a
-time, not several different versions. Consider what {+client-database+}
-would have to do to support this: it would need to store a
-potentially enormous graph to allow the {+realm+} instance to
-reconcile the different object versions internally. Faced
-with this, it seems more reasonable to impose the limitation
-that you cannot pass live instances across threads. This
-design choice keeps the implementation relatively simple,
-more space-efficient, and more performant as a result.
-
+ 
 When you need to communicate across threads, you have
 several options depending on your use case:
 
-- To work modify the data on two threads, :ref:`query <dotnet-client-query-engine>`
+- To modify the data on two threads, :ref:`query <dotnet-client-query-engine>`
   for the object on both threads.
 
 - To react to changes made on any thread, use {+client-database+}'s
@@ -118,14 +117,53 @@ several options depending on your use case:
 Refreshing Realms
 ~~~~~~~~~~~~~~~~~
 
-When you open a {+realm+}, it reflects the most recent successful write
-commit and remains on that version until it is **refreshed**. This means
-that the {+realm+} will not see changes that happened on another thread
-until the next refresh. Realms on the UI thread -- more precisely, on
-any :term:`event loop` thread -- automatically refresh themselves at the
-beginning of that thread's loop. However, you must manually refresh
-{+realm+} instances that do not exist on loop threads or that have
-auto-refresh disabled.
+On the main UI thread (or any thread with a run loop), {+realm+} 
+automatically refreshes objects at the start of every run loop iteration. 
+Between run loop iterations, you will be working on the snapshot, so 
+individual methods always see a consistent view and never have to worry 
+about what happens on other threads.
+
+When you initially open a {+realm+} on a thread, its state will be the most 
+recent successful write commit, and it will remain on that version until 
+refreshed. If a thread has no run loop (which is generally the case in a 
+background thread), then the 
+:dotnet-sdk:`Realm.Refresh() <reference/Realms.Realm.html#Realms_Realm_Refresh>`
+method must be called manually in order to advance the transaction to the most 
+recent state.
+
+Realms are also refreshed when write transactions are committed with 
+:dotnet-sdk:`Transaction.Commit() <reference/Realms.Transaction.html#Realms_Transaction_Commit>`.
+
+.. note:: 
+   
+   Failing to refresh Realms on a regular basis could lead to some transaction 
+   versions becoming “pinned”, preventing Realm from reusing the disk space used 
+   by that version, leading to larger file sizes. 
+
+.. _dotnet-async-writes:
+
+Asynchronous Writes
+~~~~~~~~~~~~~~~~~~~
+
+The :dotnet-sdk:`WriteAsync() <reference/Realms.Realm.html#Realms_Realm_WriteAsync_System_Action_Realms_Realm__>`
+method provides a simple way to offload the UI thread by performing writes in a 
+background thread. When run on the UI thread, {+service-short+} creates a 
+temporary {+realm+} instance that is passed to the Lambda function, performs the 
+write, disposes of the temporary instance, and then calls ``Realm.Refresh()`` on 
+the UI thread to update the {+realm+}. When ``WriteAsync()`` is 
+run in a background thread, {+service-short+} forwards the call to ``Write()`` on 
+the current background thread. 
+
+.. note::
+
+   In general, since {+realm+} writes are very fast, we recommend using the 
+   ``Write()`` method when only a few values change at a time (like responding 
+   to user interactions.) Conversely, the ``WriteAsync()`` method is useful in 
+   scenarios where there are hundreds or thousands of changes. For example, 
+   fetching objects from the network, or batch-updating multiple objects, can be 
+   time-consuming, and performing the changes synchronously might lead to 
+   interface jitters and a poor user experience. Using ``WriteAsync()`` 
+   prevents this.
 
 .. _dotnet-frozen-objects:
 
@@ -184,7 +222,7 @@ You can close frozen {+realm+} before the live {+realm+} is closed.
 .. _dotnet-mvcc:
 
 Realm's Threading Model in Depth
---------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 {+client-database+} provides safe, fast, lock-free, and concurrent access
 across threads with its :wikipedia:`Multiversion Concurrency
@@ -192,7 +230,7 @@ Control (MVCC) <Multiversion_concurrency_control>`
 architecture.
 
 Compared and Contrasted with Git
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--------------------------------
 
 If you are familiar with a distributed version control
 system like `Git <https://git-scm.com/>`__, you may already
@@ -215,7 +253,7 @@ version. This makes sense: your data should converge on one
 latest version of the truth.
 
 Internal Structure
-~~~~~~~~~~~~~~~~~~
+------------------
 
 A {+realm+} is implemented using a :wikipedia:`B+ tree
 <B%2B_tree>` data structure. The top-level node represents a
@@ -251,7 +289,7 @@ head pointer can be set to point to the new version after
 the write to disk has been validated.
 
 Summary
--------
+~~~~~~~
 
 - {+service+} enables simple and safe multithreaded code when you follow
   three rules:

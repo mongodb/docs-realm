@@ -2,12 +2,13 @@ package com.mongodb.tasktracker.model
 
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
+import io.realm.annotations.RealmField
 import io.realm.annotations.Required
 import org.bson.types.ObjectId
 
 
 open class Task(_name: String = "Task") : RealmObject() {
-    @PrimaryKey var _id: ObjectId = ObjectId()
+    @PrimaryKey @RealmField("_id") var id: ObjectId = ObjectId()
     var name: String = _name
     var owner: String? = null
 

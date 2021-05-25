@@ -111,6 +111,7 @@ configuration files:
        "collection": "<Collection Name>",
        "operation_types": ["<Operation Type>", ...],
        "full_document": <boolean>,
+       "full_document_before_change": <boolean>,
        "unordered": <boolean>,
        "match": { <Match Filter> },
        "project": { <Projection Filter> },
@@ -150,19 +151,6 @@ configuration files:
        - ``"UPDATE"``
        - ``"REPLACE"``
        - ``"DELETE"``
-   
-   * - | ``config.full_document``
-       | Boolean
-     - If ``true``, ``UPDATE`` change events include the most current
-       :manual:`majority-committed </reference/read-concern-majority/>` version
-       of the modified document in the ``fullDocument`` field.
-       
-       .. note::
-          
-          ``INSERT`` and ``REPLACE`` events always include the ``fullDocument``
-          field. ``DELETE`` events never include the ``fullDocument`` field. For
-          more information, see the :manual:`change events
-          </reference/change-events/>` reference page.
        
        .. tip::
           
@@ -171,6 +159,47 @@ configuration files:
           operations from these clients will generate ``REPLACE`` change events
           rather than ``UPDATE`` events.
    
+   * - | ``config.full_document``
+       | Boolean
+     - If ``true``, ``UPDATE`` change events include the latest
+       :manual:`majority-committed </reference/read-concern-majority/>` version
+       of the modified document *after* the change was applied in the
+       ``fullDocument`` field.
+       
+       .. note::
+       
+          Regardless of this setting:
+          
+          - ``INSERT`` and ``REPLACE`` events always include the
+            ``fullDocument`` field.
+          
+          - ``DELETE`` events never include the ``fullDocument`` field.
+   
+   * - | ``config.full_document_before_change``
+       | Boolean
+     - **(Beta)** If ``true``, change events include a copy of the modified document
+       from immediately *before* the change was applied in the
+       ``fullDocumentBeforeChange`` field. All change events except for
+       ``INSERT`` events include the document preimage.
+             
+       .. important:: Collection-Level Preimage Settings
+          
+          Document preimages use extra information stored in the oplog.
+          The extra data may have performance implications for some apps.
+          
+          Once you've enabled document preimages for any trigger on a
+          given collection, that collection will include preimage data in
+          the oplog and other triggers on the collection can use preimages
+          with no additonal overhead.
+          
+          You can disable document preimages on a per-trigger basis to
+          exclude the preimage from change events. Regardless of your
+          trigger-level settings, a collection's oplog entries will
+          continue to include preimage data unless you explicitly disable
+          preimages for the collection.
+          
+          For more information, see :ref:`trigger-preimages`.
+       
    * - | ``config.unordered``
        | Boolean
      - If ``true``, indicates that event ordering is disabled for this trigger.
