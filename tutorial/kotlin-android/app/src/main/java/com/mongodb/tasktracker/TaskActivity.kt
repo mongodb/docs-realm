@@ -139,7 +139,7 @@ class TaskActivity : AppCompatActivity() {
         // sort this collection so that the displayed order of Tasks remains stable across updates
         // :code-block-start: fetch-tasks-for-project-sorted-by-id
         // :state-start: final
-        adapter = TaskAdapter(realm.where<Task>().sort("_id").findAll(), user!!, partition)
+        adapter = TaskAdapter(realm.where<Task>().sort("id").findAll(), user!!, partition)
         // :state-end: :state-uncomment-start: start
         //// TODO: Query the realm for Task objects, sorted by a stable order that remains consistent between runs.
         // :state-uncomment-end:

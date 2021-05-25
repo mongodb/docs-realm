@@ -4,6 +4,8 @@ import android.util.Log
 import com.mongodb.realm.examples.Expectation
 import com.mongodb.realm.examples.RealmTest
 import com.mongodb.realm.examples.YOUR_APP_ID
+import com.mongodb.realm.examples.getRandomPartition
+
 import io.realm.mongodb.App
 import io.realm.mongodb.AppConfiguration
 import org.junit.Test
@@ -97,6 +99,33 @@ class ManageEmailPasswordTest : RealmTest() {
                     Log.i("EXAMPLE", "Successfully updated password for user.")
                 } else {
                     Log.e("EXAMPLE", "Failed to reset user's password: $it.error")
+                    // :hide-start:
+                    expectation.fulfill()
+                    // :hide-end:
+                }
+            }
+            // :code-block-end:
+        }
+        expectation.await()
+    }
+
+    @Test
+    fun runAPasswordResetFunc() {
+        val email = getRandomPartition()
+        val expectation = Expectation()
+        activity!!.runOnUiThread {
+            val appID: String = YOUR_APP_ID // replace this with your App ID
+            val app = App(AppConfiguration.Builder(appID).build())
+
+            // :code-block-start: run-password-reset-func
+            val newPassword = "newFakePassword"
+            val args = arrayOf("security answer 1", "security answer 2")
+
+            app.emailPassword.callResetPasswordFunctionAsync(email, newPassword, args) {
+                if (it.isSuccess) {
+                    Log.i("EXAMPLE", "Successfully reset the password for $email")
+                } else {
+                    Log.e("EXAMPLE", "Failed to reset the password for $email: $it.error")
                     // :hide-start:
                     expectation.fulfill()
                     // :hide-end:
