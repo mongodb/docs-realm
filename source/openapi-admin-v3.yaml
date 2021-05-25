@@ -1097,8 +1097,9 @@ paths:
           application/json:
             schema:
               properties:
-                eval_source: {type: string}
-                  description: This JSON expression must evaluate to ``true`` before the function may run. If this field is blank, it will evaluate to ``true``.
+                eval_source: 
+                 type: string
+                 description: This JSON expression must evaluate to ``true`` before the function may run. If this field is blank, it will evaluate to ``true``.
                 source: {type: string}
               required: [source]
       responses:
