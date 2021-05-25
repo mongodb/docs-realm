@@ -2358,8 +2358,9 @@ components:
           description: The error type.
     NewApplication:
       properties:
-        name: {type: string}
-        description: Can only contain ASCII letters, numbers, underscores, and hyphens.
+        name:
+          type: string
+          description: Can only contain ASCII letters, numbers, underscores, and hyphens.
       required: [name]
     ApplicationSummary:
       properties:
