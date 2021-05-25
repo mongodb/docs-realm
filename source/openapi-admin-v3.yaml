@@ -1028,15 +1028,13 @@ paths:
       parameters:
         - name: user_id
           in: query
-          description: The user as which to execute the function. Either ``user_id``
-          or ``run_as_system`` is required. You cannot specify both.
+          description: The user as which to execute the function. Either ``user_id`` or ``run_as_system`` is required. You cannot specify both.
           schema:
             type: string
           required: true
         - name: run_as_system
           in: query
-          description: Determine whether or not to run as system user. Either
-          ``run_as_system`` or ``user_id`` is required. You cannot specify both.
+          description: Determine whether or not to run as system user. Either ``run_as_system`` or ``user_id`` is required. You cannot specify both.
           schema:
             type: boolean
           required: true
@@ -1079,15 +1077,13 @@ paths:
       parameters:
         - name: user_id
           in: query
-          description: The user as which to execute the function. Either ``user_id``
-          or ``run_as_system`` is required. You cannot specify both.
+          description: The user as which to execute the function. Either ``user_id`` or ``run_as_system`` is required. You cannot specify both.
           schema:
             type: string
           required: true
         - name: run_as_system
           in: query
-          description: Determine whether or not to run as system user. Either
-          ``run_as_system`` or ``user_id`` is required. You cannot specify both.
+          description: Determine whether or not to run as system user. Either ``run_as_system`` or ``user_id`` is required. You cannot specify both.
           schema:
             type: boolean
           required: true
@@ -1099,9 +1095,7 @@ paths:
             schema:
               properties:
                 eval_source: {type: string}
-                description: This JSON expression must evaluate to 
-                    ``true`` before the function may run. If this field 
-                    is blank, it will evaluate to ``true``.
+                  description: This JSON expression must evaluate to ``true`` before the function may run. If this field is blank, it will evaluate to ``true``.
                 source: {type: string}
               required: [source]
       responses:
