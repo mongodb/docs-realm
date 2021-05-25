@@ -2201,6 +2201,36 @@ components:
         domain_id:
           type: string
         group_id: {$ref: "#/components/parameters/GroupId"}
+    ApplicationSummary:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: The application's unique internal ID.
+        client_app_id:
+          type: string
+          description: The application's public App ID.
+        name:
+          type: string
+          description: The name of the application.
+        location:
+          type: string
+          description: The application's deployment region.
+        deployment_model:
+          type: string
+          description: The application's deployment model.
+        domain_id:
+          type: string
+        group_id: 
+          type: string
+        last_used: 
+          type: integer
+        last_modified: 
+          type: integer
+        product: 
+          type: string
+        environment: 
+          type: string
     BuildInfo:
       type: object
       properties:
@@ -2366,19 +2396,6 @@ components:
           type: string
           description: Can only contain ASCII letters, numbers, underscores, and hyphens.
       required: [name]
-    ApplicationSummary:
-      properties:
-        _id: {type: string}
-        client_app_id: {type: string}
-        name: {type: string}
-        location: {type: string}
-        deployment_model: {type: string}
-        domain_id: {type: string}
-        group_id: {type: string}
-        last_used: {type: integer}
-        last_modified: {type: integer}
-        product: {type: string}
-        environment: {type: string}
     Service:
       properties:
         _id: {type: string}
