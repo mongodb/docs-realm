@@ -220,7 +220,6 @@ class EncryptTest : RealmTest() {
     }
     // :code-block-end:
 
-    // :code-block-end:
     // :code-block-start: decrypt-key
     // Access the encrypted key in the keystore, decrypt it with the secret,
     // and use it to open and read from the realm again
