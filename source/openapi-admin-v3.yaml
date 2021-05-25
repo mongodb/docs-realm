@@ -1045,8 +1045,9 @@ paths:
             application/json:
               schema:
                 properties:
-                  service: {type: string}
-                   description: The service to use when calling this function.
+                  service: 
+                    type: string
+                    description: The service to use when calling this function.
                   name: {type: string}
                    description: The name of the function you want to run.
                   arguments: {type: array}
