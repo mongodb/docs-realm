@@ -158,7 +158,8 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ApplicationSummary"
+                items:
+                  $ref: "#/components/schemas/ApplicationSummary"
     parameters:
       - $ref: "#/components/parameters/GroupId"
 
@@ -1148,7 +1149,9 @@ paths:
           description: "Successfully created."
           content:
             application/json:
-              schema: {$ref: "#/components/schemas/FullProvider"}
+              schema: 
+                items:
+                  $ref: "#/components/schemas/FullProvider"
     parameters:
       - $ref: "#/components/parameters/GroupId"
       - $ref: "#/components/parameters/AppId"
