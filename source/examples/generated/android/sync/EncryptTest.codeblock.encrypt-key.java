@@ -71,7 +71,7 @@ public byte[] getNewKey() {
     }
 
     // keep the encrypted key in shared preferences
-    // to keep it accessible across your activity
+    // to persist it across application runs
     byte[] initializationVectorAndEncryptedKey =
             new byte[Integer.BYTES +
                     initializationVector.length +

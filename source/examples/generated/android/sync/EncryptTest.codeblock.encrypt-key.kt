@@ -66,7 +66,7 @@ fun getNewKey(): ByteArray {
     }
 
     // keep the encrypted key in shared preferences
-    // to keep it accessible across your activity
+    // to persist it across application runs
     val initializationVectorAndEncryptedKey = ByteArray(Integer.BYTES +
             initializationVector.size +
             encryptedKeyForRealm.size)
