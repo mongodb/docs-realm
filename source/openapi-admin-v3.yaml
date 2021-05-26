@@ -94,8 +94,8 @@ paths:
       operationId: adminDeleteSession
       summary: "Delete a Realm access token."
       responses:
-        '204':
-          description: "Successfully deleted."
+        '401':
+          description: "invalid refresh token: incorrect token type"
     post:
       tags: ['admin']
       operationId: adminCreateSession
@@ -111,19 +111,6 @@ paths:
                   access_token: {type: string}
       security:
         - refreshAuth: []
-
-  /groups/{groupID}/apps/{appID}/services/{serviceId}/commands/build_info:
-    get:
-      tags: ['admin']
-      operationId: "getBuildInfo"
-      summary: "Get information about the underlying Atlas mongod."
-      responses:
-        '200':
-          description: "The build information was successfully retrieved."
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/BuildInfo'
 
   /groups/{groupId}/apps:
     get:
@@ -168,6 +155,10 @@ paths:
       responses:
         '201':
           description: "The application was successfully created."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApplicationSummary"
     parameters:
       - $ref: "#/components/parameters/GroupId"
 
@@ -488,6 +479,19 @@ paths:
       - $ref: "#/components/parameters/AppId"
       - $ref: "#/components/parameters/ServiceId"
       - $ref: "#/components/parameters/CommandName"
+
+  /groups/{groupId}/apps/{appId}/services/{serviceId}/commands/build_info:
+    get:
+      tags: ["services"]
+      operationId: "getBuildInfo"
+      summary: "Get information about the underlying Atlas mongod."
+      responses:
+        '200':
+          description: "The build information was successfully retrieved."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BuildInfo'
 
   /groups/{groupId}/apps/{appId}/services/{serviceId}/config:
     get:
@@ -1021,9 +1025,51 @@ paths:
       tags: ["functions"]
       operationId: "adminExecuteFunction"
       summary: "Execute a :ref:`function <functions>` for testing."
+      parameters:
+        - name: user_id
+          in: query
+          description: The user as which to execute the function. Either ``user_id`` or ``run_as_system`` is required. You cannot specify both.
+          schema:
+            type: string
+          required: true
+        - name: run_as_system
+          in: query
+          description: Determine whether or not to run as system user. Either ``run_as_system`` or ``user_id`` is required. You cannot specify both.
+          schema:
+            type: boolean
+          required: true
+      requestBody:
+          required: true
+          description: The function to execute.
+          content:
+            application/json:
+              schema:
+                properties:
+                  service: 
+                   type: string
+                   description: The service to use when calling this function.
+                  name: 
+                   type: string
+                   description: The name of the function you want to run.
+                  arguments: 
+                   type: array
+                   description: Any arguments that your function needs.
+                   items:
+                     type: string
+                required: [name]
       responses:
-        '201':
+        '200':
           description: "Successfully executed."
+          content:
+            application/json:
+              schema:
+                properties:
+                 error: {type: object}
+                 logs: {}
+                 result: {type: object}
+                 stats:
+                  properties:
+                    execution_time: {type: string}
     parameters:
       - $ref: "#/components/parameters/GroupId"
       - $ref: "#/components/parameters/AppId"
@@ -1036,9 +1082,15 @@ paths:
       parameters:
         - name: user_id
           in: query
-          description: The user as which to execute the function.
+          description: The user as which to execute the function. Either ``user_id`` or ``run_as_system`` is required. You cannot specify both.
           schema:
             type: string
+          required: true
+        - name: run_as_system
+          in: query
+          description: Determine whether or not to run as system user. Either ``run_as_system`` or ``user_id`` is required. You cannot specify both.
+          schema:
+            type: boolean
           required: true
       requestBody:
         required: true
@@ -1047,9 +1099,11 @@ paths:
           application/json:
             schema:
               properties:
-                eval_source: {type: string}
+                eval_source: 
+                 type: string
+                 description: This JSON expression must evaluate to ``true`` before the function may run. If this field is blank, it will evaluate to ``true``.
                 source: {type: string}
-              required: [eval_source, source]
+              required: [source]
       responses:
         '200':
           description: "Successfully executed."
@@ -1094,6 +1148,10 @@ paths:
       responses:
         '201':
           description: "Successfully created."
+          content:
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/FullProvider"
     parameters:
       - $ref: "#/components/parameters/GroupId"
       - $ref: "#/components/parameters/AppId"
@@ -1451,17 +1509,8 @@ paths:
                 value: {type: string}
               required: [name, value]
       responses:
-        '200':
-          description: "The Secret was successfully modified."
-          content:
-            application/json:
-              schema:
-                items:
-                  properties:
-                    _id: {type: string}
-                    name: {type: string}
-                    value: {type: string}
-                  required: [_id, name, value]
+        '204':
+          description: "No body returned for response"
     delete:
       tags: ["secrets"]
       operationId: "adminDeleteSecret"
@@ -1542,7 +1591,7 @@ paths:
       - $ref: "#/components/parameters/AppId"
       - $ref: "#/components/parameters/FunctionId"
 
-  /dependencies:
+  /groups/{groupId}/apps/{appId}/dependencies:
     get:
       tags: ["dependencies"]
       operationId: "adminGetAllDependencies"
@@ -1554,6 +1603,9 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/DependenciesSummary"
+    parameters:
+      - $ref: "#/components/parameters/GroupId"
+      - $ref: "#/components/parameters/AppId"
 
   /groups/{groupId}/apps/{appId}/deployments:
     get:
@@ -2148,6 +2200,42 @@ components:
         domain_id:
           type: string
         group_id: {$ref: "#/components/parameters/GroupId"}
+    ApplicationSummary:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: The application's unique internal ID.
+        client_app_id:
+          type: string
+          description: The application's public App ID.
+        name:
+          type: string
+          description: The name of the application.
+        location:
+          type: string
+          description: The application's deployment region.
+        deployment_model:
+          type: string
+          description: The application's deployment model.
+        domain_id:
+          type: string
+          description: The application's associated domain ID.
+        group_id: 
+          type: string
+          description: The application's current owner ID.
+        last_used: 
+          type: integer
+          description: The time this app was last used.
+        last_modified: 
+          type: integer
+          description: The time this app was last modified.
+        product: 
+          type: string
+          description: The product this app is for.
+        environment: 
+          type: string
+          description: The environment the app is in.
     BuildInfo:
       type: object
       properties:
@@ -2309,7 +2397,9 @@ components:
           description: The error type.
     NewApplication:
       properties:
-        name: {type: string}
+        name:
+          type: string
+          description: Can only contain ASCII letters, numbers, underscores, and hyphens.
       required: [name]
     Service:
       properties:
@@ -2391,7 +2481,7 @@ components:
             type: object
             properties:
               role_name: {type: string}
-              group_id: {$ref: "#/components/parameters/GroupId"}
+              group_id: {type: string}
     NewFunction:
       properties:
         can_evaluate:
@@ -2415,7 +2505,12 @@ components:
           description: >-
             The stringified source code for the function. The code must
             be valid ES6.
-      required: [can_evaluate, name, private, source]
+        run_as_system:
+          type: boolean
+          description: >-
+            If ``true``, the function executes with full privileges, 
+            bypassing rules on all services.
+      required: [name, private, source, run_as_system]
     Function:
       properties:
         _id: {type: string}
@@ -2460,8 +2555,15 @@ components:
     ProviderType:
       type: string
       enum:
-        - mongodb-cloud
-        - local
+        - anon-user
+        - local-userpass
+        - api-key
+        - oauth2-apple
+        - oauth2-google
+        - oauth2-facebook
+        - custom-token
+        - custom-function
+
     ProfileType:
       type: string
       enum:
