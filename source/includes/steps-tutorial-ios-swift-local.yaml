@@ -81,7 +81,7 @@ content: |
   models derive from ``Object`` from the ``RealmSwift`` library, which allows
   Realm to store them in the Realm Database:
 
-  .. literalinclude:: /tutorial/generated/code/local/Models.codeblock.user-model.swift
+  .. literalinclude:: /tutorial/generated/swift-ios/local/Models.codeblock.user-model.swift
      :language: swift
 
   .. note::
@@ -92,12 +92,12 @@ content: |
   Next, implement the Project embedded object that represents a Project that a
   User is a member of:
 
-  .. literalinclude:: /tutorial/generated/code/local/Models.codeblock.project-model.swift
+  .. literalinclude:: /tutorial/generated/swift-ios/local/Models.codeblock.project-model.swift
      :language: swift
 
   Finally, let's turn the Task class into a Realm object model:
 
-  .. literalinclude:: /tutorial/generated/code/local/Models.codeblock.task-model.swift
+  .. literalinclude:: /tutorial/generated/swift-ios/local/Models.codeblock.task-model.swift
      :language: swift
 
 ---
@@ -117,7 +117,7 @@ content: |
   immediately after creating an account. So, we should watch the realm itself
   for changes:
 
-  .. literalinclude:: /tutorial/generated/code/local/ProjectsViewController.codeblock.user-in-realm-notification.swift
+  .. literalinclude:: /tutorial/generated/swift-ios/local/ProjectsViewController.codeblock.user-in-realm-notification.swift
      :language: swift
 
   Whenever we observe a realm, collection, or object, we receive a notification
@@ -126,7 +126,7 @@ content: |
   screen, we should invalidate that token. One convenient place to do so is in
   the deinit method of the view controller:
 
-  .. literalinclude:: /tutorial/generated/code/local/ProjectsViewController.codeblock.invalidate-token.swift
+  .. literalinclude:: /tutorial/generated/swift-ios/local/ProjectsViewController.codeblock.invalidate-token.swift
      :language: swift
 
   Let's provide a way for a user to log out and get back to the
@@ -134,7 +134,7 @@ content: |
   button at the top of the view to the ``logOutButtonDidClick()`` method. We can
   implement ``logOutButtonDidClick()`` as follows:
 
-  .. literalinclude:: /tutorial/generated/code/local/ProjectsViewController.codeblock.log-out-button-did-click.swift
+  .. literalinclude:: /tutorial/generated/swift-ios/local/ProjectsViewController.codeblock.log-out-button-did-click.swift
      :language: swift
 
   Since the ProjectsViewController implements the UITableViewDelegate protocol
@@ -144,14 +144,14 @@ content: |
   their own project, we always return at least 1 even though the user object may
   not be available yet:
 
-  .. literalinclude:: /tutorial/generated/code/local/ProjectsViewController.codeblock.number-of-rows-in-section.swift
+  .. literalinclude:: /tutorial/generated/swift-ios/local/ProjectsViewController.codeblock.number-of-rows-in-section.swift
      :language: swift
 
   Next, implement the ``tableView(_:cellForRowAt:)`` to fill out the project
   information for each cell. Again, if the user object has not loaded yet, we
   still know the user's own project is always in the list:
 
-  .. literalinclude:: /tutorial/generated/code/local/ProjectsViewController.codeblock.cell-for-row-at.swift
+  .. literalinclude:: /tutorial/generated/swift-ios/local/ProjectsViewController.codeblock.cell-for-row-at.swift
      :language: swift
 
   Finally, implement the ``tableView(_:didSelectRowAt:)`` method to handle what
@@ -160,7 +160,7 @@ content: |
   ProjectsViewController, we'll open the project realm before navigating to the
   TasksViewController:
 
-  .. literalinclude:: /tutorial/generated/code/local/ProjectsViewController.codeblock.did-select-row-at.swift
+  .. literalinclude:: /tutorial/generated/swift-ios/local/ProjectsViewController.codeblock.did-select-row-at.swift
      :language: swift
 
 ---
@@ -174,14 +174,14 @@ content: |
   use ``RealmResults`` instead of a standard Swift array. Let's convert that
   property now:
 
-  .. literalinclude:: /tutorial/generated/code/local/TasksViewController.codeblock.properties.swift
+  .. literalinclude:: /tutorial/generated/swift-ios/local/TasksViewController.codeblock.properties.swift
      :language: swift
 
   We can initialize the ``tasks`` property with a query on the project realm
   passed in from the ProjectsViewController. Once we have the live tasks
   collection, we can observe that for changes:
 
-  .. literalinclude:: /tutorial/generated/code/local/TasksViewController.codeblock.init.swift
+  .. literalinclude:: /tutorial/generated/swift-ios/local/TasksViewController.codeblock.init.swift
      :language: swift
 
   Calls to ``observe`` Realm objects return a notificationToken. Always retain
@@ -190,7 +190,7 @@ content: |
   -- be sure to invalidate the token. The ``deinit`` method is a good place to
   do so:
 
-  .. literalinclude:: /tutorial/generated/code/local/TasksViewController.codeblock.deinit.swift
+  .. literalinclude:: /tutorial/generated/swift-ios/local/TasksViewController.codeblock.deinit.swift
      :language: swift
 
   The TasksViewController already populates the UI using the Tasks in the list.
@@ -204,20 +204,20 @@ content: |
   the ``addButtonDidClick()`` method. We can implement the Task creation in this
   method:
 
-  .. literalinclude:: /tutorial/generated/code/local/TasksViewController.codeblock.add-button-did-click.swift
+  .. literalinclude:: /tutorial/generated/swift-ios/local/TasksViewController.codeblock.add-button-did-click.swift
      :language: swift
 
   When the user selects a Task in the list, we present them with an action sheet
   to allow them to update the Task's status. Complete the
   ``tableView(_:didSelectRowAt:)`` method implementation as follows:
 
-  .. literalinclude:: /tutorial/generated/code/local/TasksViewController.codeblock.populate-action-sheet.swift
+  .. literalinclude:: /tutorial/generated/swift-ios/local/TasksViewController.codeblock.populate-action-sheet.swift
      :language: swift
 
   To handle swipes to delete a Task, we implement the
   ``tableView(_:commit:forRowAt:)`` method:
 
-  .. literalinclude:: /tutorial/generated/code/local/TasksViewController.codeblock.delete-task.swift
+  .. literalinclude:: /tutorial/generated/swift-ios/local/TasksViewController.codeblock.delete-task.swift
      :language: swift
 
   Finally, a user can manage the team of their own project. When setting up the
@@ -225,7 +225,7 @@ content: |
   to add the "Manage Team" action to the action bar. We can implement that as
   follows:
 
-  .. literalinclude:: /tutorial/generated/code/local/TasksViewController.codeblock.is-own-tasks.swift
+  .. literalinclude:: /tutorial/generated/swift-ios/local/TasksViewController.codeblock.is-own-tasks.swift
      :language: swift
 
 ---

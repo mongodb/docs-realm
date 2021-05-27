@@ -6,7 +6,7 @@ content: |
   To get the app working with your backend, you first need to add your Realm App
   ID to the SceneDelegate.swift file. Declare a global Realm App instance:
 
-  .. literalinclude:: /tutorial/generated/code/sync/SceneDelegate.codeblock.initialize-app.swift
+  .. literalinclude:: /tutorial/generated/swift-ios/sync/SceneDelegate.codeblock.initialize-app.swift
      :language: swift
 
   Change the value of ``id`` to your Realm app ID, which you can :ref:`find in
@@ -25,14 +25,14 @@ content: |
   uses the email/password authentication provider of the Realm app to register a
   new user:
 
-  .. literalinclude:: /tutorial/generated/code/sync/WelcomeViewController.codeblock.sign-up.swift
+  .. literalinclude:: /tutorial/generated/swift-ios/sync/WelcomeViewController.codeblock.sign-up.swift
      :language: swift
 
   Now, implement the ``signIn()`` method to log in with an existing user using
   email/password credentials. Once logged in successfully, open the user realm
   and navigate to the ProjectsViewController:
 
-  .. literalinclude:: /tutorial/generated/code/sync/WelcomeViewController.codeblock.sign-in.swift
+  .. literalinclude:: /tutorial/generated/swift-ios/sync/WelcomeViewController.codeblock.sign-in.swift
      :language: swift
 
 ---
@@ -50,7 +50,7 @@ content: |
   ``getMyTeamMembers`` function that returns a list of team members and refresh
   the list upon successful return:
 
-  .. literalinclude:: /tutorial/generated/code/sync/ManageTeamViewController.codeblock.fetch-team-members.swift
+  .. literalinclude:: /tutorial/generated/swift-ios/sync/ManageTeamViewController.codeblock.fetch-team-members.swift
      :language: swift
 
   The ManageTeamViewController wires up the add button and swipe to delete
@@ -61,14 +61,14 @@ content: |
   can use the ``onTeamMemberOperationComplete()`` method as a completion
   handler:
 
-  .. literalinclude:: /tutorial/generated/code/sync/ManageTeamViewController.codeblock.add-team-member.swift
+  .. literalinclude:: /tutorial/generated/swift-ios/sync/ManageTeamViewController.codeblock.add-team-member.swift
      :language: swift
 
   The ``removeTeamMember()`` method calls the ``removeTeamMember`` Realm function and
   also uses the ``onTeamMemberOperationComplete()`` method as a completion
   handler:
 
-  .. literalinclude:: /tutorial/generated/code/sync/ManageTeamViewController.codeblock.remove-team-member.swift
+  .. literalinclude:: /tutorial/generated/swift-ios/sync/ManageTeamViewController.codeblock.remove-team-member.swift
      :language: swift
 
   The ``onTeamMemberOperationComplete()`` method presents any errors to the user
