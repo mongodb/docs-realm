@@ -27,11 +27,12 @@ namespace RealmDotnetTutorial
         }
         protected override async void OnAppearing()
         {
+            var function = "getMyTeamMembers";
             try
             {
                 // :code-block-start:call-function-1
                 // :state-start: final
-                teamMembers = await App.RealmApp.CurrentUser.Functions.CallAsync<List<User>>("getMyTeamMembers");
+                teamMembers = await App.RealmApp.CurrentUser.Functions.CallAsync<List<User>>(function);
                 // :state-end: :state-uncomment-start: start
                 //// TODO: Call the "getMyTeamMembers" to get all team members
                 //// teamMembers = await ...
@@ -43,6 +44,21 @@ namespace RealmDotnetTutorial
                 }
                 listMembers.ItemsSource = Members;
             }
+            catch (Realms.Sync.Exceptions.AppException ex)
+            {
+                string message;
+                if (ex.Message.Contains("FunctionNotFound"))
+                {
+                    message = "It looks like your backend is not set up correctly. " +
+                        $"Did you forget to create the \"{function}\" function?\r\n\r\n{ex.Message}";
+                }
+                else
+                {
+                    message = ex.Message;
+                }
+
+                await DisplayAlert("Error", message, "OK");
+            }
             catch (Exception ex)
             {
                 await DisplayAlert("Error", ex.Message, "OK");
@@ -51,12 +67,13 @@ namespace RealmDotnetTutorial
 
         async void Delete_Button_Clicked(object sender, EventArgs e)
         {
+            var function = "removeTeamMember";
             var email = ((Button)sender).CommandParameter;
             try
             {
                 // :code-block-start:call-function-3
                 // :state-start: final
-                var result = await App.RealmApp.CurrentUser.Functions.CallAsync("removeTeamMember", email.ToString());
+                var result = await App.RealmApp.CurrentUser.Functions.CallAsync(function, email.ToString());
                 // :state-end: :state-uncomment-start: start
                 //// TODO: Pass email.ToString() to the "removeTeamMember"
                 //// function.
@@ -66,6 +83,21 @@ namespace RealmDotnetTutorial
                 await DisplayAlert("Remove User", result.ToString(), "OK");
                 listMembers.ItemsSource = Members;
             }
+            catch (Realms.Sync.Exceptions.AppException ex)
+            {
+                string message;
+                if (ex.Message.Contains("FunctionNotFound"))
+                {
+                    message = "It looks like your backend is not set up correctly. " +
+                        $"Did you forget to create the \"{function}\" function?\r\n\r\n{ex.Message}";
+                }
+                else
+                {
+                    message = ex.Message;
+                }
+
+                await DisplayAlert("Error", message, "OK");
+            }
             catch (Exception ex)
             {
                 await DisplayAlert("Error", ex.Message, "OK");
@@ -74,6 +106,7 @@ namespace RealmDotnetTutorial
 
         async void Add_Button_Clicked(object sender, EventArgs e)
         {
+            var function = "addTeamMember";
             string result = await DisplayPromptAsync("Add User to My Project", "User email:");
             if (result != null)
             {
@@ -81,12 +114,26 @@ namespace RealmDotnetTutorial
                 {
                     // :code-block-start:call-function-2
                     // :state-start: final
-                    var functionResult = await App.RealmApp.CurrentUser.Functions.CallAsync<FunctionResult>("addTeamMember", result);
+                    var functionResult = await App.RealmApp.CurrentUser.Functions.CallAsync<FunctionResult>(function, result);
                     // :state-end: :state-uncomment-start: start
                     //// TODO: Pass the result object to the "addTeamMember" 
                     //// function.
                     // :state-uncomment-end:
                     // :code-block-end:
+                }
+                catch (Realms.Sync.Exceptions.AppException ex)
+                {
+                    string message;
+                    if (ex.Message.Contains("FunctionNotFound"))
+                    {
+                        message = "It looks like your backend is not set up correctly. " +
+                            $"Did you forget to create the \"{function}\" function?\r\n\r\n{ex.Message}";
+                    }
+                    else
+                    {
+                        message = ex.Message;
+                    }
+                    await DisplayAlert("Error", message, "OK");
                 }
                 catch (Exception ex)
                 {
