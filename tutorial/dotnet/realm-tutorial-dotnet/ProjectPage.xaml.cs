@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading;
 using RealmDotnetTutorial.Models;
 using Realms;
 using Realms.Sync;
@@ -74,10 +75,21 @@ namespace RealmDotnetTutorial
                 {
                     // Either the trigger hasn't completed yet, has failed,
                     // or was never created on the backend
-                    await DisplayAlert("No User object",
-                        "The User object for this user was not found on the server. " +
-                        "If this is a new user acocunt, the backend trigger may not have completed, " +
-                        "or the tirgger doesn't exist. Check you backend set up and logs.", "OK");
+                    // So let's wait a few seconds and check again...
+                    Thread.Sleep(5000);
+                    user = userRealm.Find<User>(App.RealmApp.CurrentUser.Id);
+                    if (user == null)
+                    {
+                        Console.WriteLine("NO USER OBJECT: This error occurs if " +
+                            "you do not have the trigger configured on the backend " +
+                            "or when there is a network connectivity issue. See " +
+                            "https://docs.mongodb.com/realm/tutorial/realm-app/#triggers");
+
+                        await DisplayAlert("No User object",
+                            "The User object for this user was not found on the server. " +
+                            "If this is a new user acocunt, the backend trigger may not have completed, " +
+                            "or the tirgger doesn't exist. Check you backend set up and logs.", "OK");
+                    }
                 }
 
                 SetUpProjectList();

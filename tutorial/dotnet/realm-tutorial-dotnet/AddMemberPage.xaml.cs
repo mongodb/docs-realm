@@ -50,7 +50,9 @@ namespace RealmDotnetTutorial
                 if (ex.Message.Contains("FunctionNotFound"))
                 {
                     message = "It looks like your backend is not set up correctly. " +
-                        $"Did you forget to create the \"{function}\" function?\r\n\r\n{ex.Message}";
+                        $"Did you forget to create the \"{function}\" " +
+                        $"function?\r\n\r\n{ex.Message}";
+                    LogFunctionError();
                 }
                 else
                 {
@@ -58,6 +60,7 @@ namespace RealmDotnetTutorial
                 }
 
                 await DisplayAlert("Error", message, "OK");
+                LogFunctionError();
             }
             catch (Exception ex)
             {
@@ -89,7 +92,9 @@ namespace RealmDotnetTutorial
                 if (ex.Message.Contains("FunctionNotFound"))
                 {
                     message = "It looks like your backend is not set up correctly. " +
-                        $"Did you forget to create the \"{function}\" function?\r\n\r\n{ex.Message}";
+                        $"Did you forget to create the \"{function}\" " +
+                        $"function?\r\n\r\n{ex.Message}";
+                    LogFunctionError();
                 }
                 else
                 {
@@ -127,7 +132,9 @@ namespace RealmDotnetTutorial
                     if (ex.Message.Contains("FunctionNotFound"))
                     {
                         message = "It looks like your backend is not set up correctly. " +
-                            $"Did you forget to create the \"{function}\" function?\r\n\r\n{ex.Message}";
+                            $"Did you forget to create the \"{function}\" " +
+                            $"function?\r\n\r\n{ex.Message}";
+                        LogFunctionError();
                     }
                     else
                     {
@@ -148,6 +155,13 @@ namespace RealmDotnetTutorial
         {
             OperationCompeleted(this, EventArgs.Empty);
             await Navigation.PopAsync();
+        }
+
+        void LogFunctionError()
+        {
+            Console.WriteLine("One or more functions is missing on the backend. " +
+                "Check your set up. For more information , see" +
+                "https://docs.mongodb.com/realm/tutorial/realm-app/#functions");
         }
     }
 
