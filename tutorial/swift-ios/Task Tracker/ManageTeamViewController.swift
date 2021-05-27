@@ -78,35 +78,35 @@ class ManageTeamViewController: UIViewController, UITableViewDelegate, UITableVi
     func fetchTeamMembers() {
         // Start loading indicator
         activityIndicator.startAnimating()
-        // :state-start: final
-        let user = app.currentUser!
-
-        user.functions.getMyTeamMembers([]) { [weak self](result, error) in
-            DispatchQueue.main.async {
-                guard self != nil else {
-                    // This can happen if the view is dismissed 
-                    // before the operation completes
-                    print("Team members list no longer needed.")
-                    return
-                }
-                // Stop loading indicator
-                self!.activityIndicator.stopAnimating()
-                guard error == nil else {
-                    print("Fetch team members failed: \(error!.localizedDescription)")
-                    return
-                }
-                print("Fetch team members complete.")
-
-                // Convert documents to members array
-                self!.members = result!.arrayValue!.map({ (bson) in
-                    return Member(document: bson!.documentValue!)
-                })
-
-                // Notify UI of changed data
-                self!.tableView.reloadData()
-            }
-        }
-        // :state-end: :state-uncomment-start: start
+        // :state-uncomment-start: sync
+        // let user = app.currentUser!
+        //
+        // user.functions.getMyTeamMembers([]) { [weak self](result, error) in
+        //     DispatchQueue.main.async {
+        //         guard self != nil else {
+        //             // This can happen if the view is dismissed
+        //             // before the operation completes
+        //             print("Team members list no longer needed.")
+        //             return
+        //         }
+        //         // Stop loading indicator
+        //         self!.activityIndicator.stopAnimating()
+        //         guard error == nil else {
+        //             print("Fetch team members failed: \(error!.localizedDescription)")
+        //             return
+        //         }
+        //         print("Fetch team members complete.")
+        //
+        //         // Convert documents to members array
+        //         self!.members = result!.arrayValue!.map({ (bson) in
+        //             return Member(document: bson!.documentValue!)
+        //         })
+        //
+        //         // Notify UI of changed data
+        //         self!.tableView.reloadData()
+        //     }
+        // }
+        // :state-uncomment-end: :state-uncomment-start: start
         // // TODO: use the app's current user's functions object to call the getMyTeamMembers function
         // // on the backend. Create Member objects to represent the result in the completion handler
         // // and reload the table data to refresh the view.
@@ -118,11 +118,11 @@ class ManageTeamViewController: UIViewController, UITableViewDelegate, UITableVi
     func addTeamMember(email: String) {
         print("Adding member: \(email)")
         activityIndicator.startAnimating()
-        // :state-start: final
-        let user = app.currentUser!
-
-        user.functions.addTeamMember([AnyBSON(email)], self.onTeamMemberOperationComplete)
-        // :state-end: :state-uncomment-start: start
+        // :state-uncomment-start: sync
+        // let user = app.currentUser!
+        //
+        // user.functions.addTeamMember([AnyBSON(email)], self.onTeamMemberOperationComplete)
+        // :state-uncomment-end: :state-uncomment-start: start
         // // TODO: use the app's current user's functions object to call the addTeamMember function
         // // on the backend with the given email converted to AnyBSON. Use `self.onTeamMemberOperationComplete`
         // // as the completion handler.
@@ -134,11 +134,11 @@ class ManageTeamViewController: UIViewController, UITableViewDelegate, UITableVi
     func removeTeamMember(email: String) {
         print("Removing member: \(email)")
         activityIndicator.startAnimating()
-        // :state-start: final
-        let user = app.currentUser!
-
-        user.functions.removeTeamMember([AnyBSON(email)], self.onTeamMemberOperationComplete)
-        // :state-end: :state-uncomment-start: start
+        // :state-uncomment-start: sync
+        // let user = app.currentUser!
+        //
+        // user.functions.removeTeamMember([AnyBSON(email)], self.onTeamMemberOperationComplete)
+        // :state-uncomment-end: :state-uncomment-start: start
         // // TODO: use the app's current user's functions object to call the removeTeamMember function
         // // on the backend with the given email converted to AnyBSON. Use `self.onTeamMemberOperationComplete`
         // // as the completion handler.

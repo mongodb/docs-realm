@@ -13,15 +13,25 @@ class ProjectsViewController: UIViewController, UITableViewDelegate, UITableView
     let tableView = UITableView()
     let userRealm: Realm
     var notificationToken: NotificationToken?
+    // :state-start: local
+    var username: String
+    // :state-end:
     var userData: User?
 
-    init(userRealm: Realm) {
+    // :state-start: local
+    init(userRealm: Realm, username: String) {
+    // :state-end: :state-uncomment-start: sync
+    // init(userRealm: Realm) {
+    // :state-uncomment-end:
         self.userRealm = userRealm
+        // :state-start: local
+        self.username = username
+        // :state-end:
 
         super.init(nibName: nil, bundle: nil)
 
         // :code-block-start: user-in-realm-notification
-        // :state-start: final
+        // :state-start: sync
         // There should only be one user in my realm - that is myself
         let usersInRealm = userRealm.objects(User.self)
 
@@ -42,7 +52,7 @@ class ProjectsViewController: UIViewController, UITableViewDelegate, UITableView
 
     // :code-block-start: invalidate-token
     deinit {
-        // :state-start: final
+        // :state-start: sync
         // Always invalidate any notification tokens when you are done with them.
         notificationToken?.invalidate()
         // :state-end: :state-uncomment-start: start
@@ -71,14 +81,17 @@ class ProjectsViewController: UIViewController, UITableViewDelegate, UITableView
         alertController.addAction(UIAlertAction(title: "Yes, Log Out", style: .destructive, handler: {
             _ -> Void in
             print("Logging out...")
-            // :state-start: final
-            app.currentUser?.logOut { (_) in
-                DispatchQueue.main.async {
-                    print("Logged out!")
-                    self.navigationController?.popViewController(animated: true)
-                }
-            }
-            // :state-end: :state-uncomment-start: start
+            // :state-start: local
+            print("Logged out!")
+            self.navigationController?.popViewController(animated: true)
+            // :state-end: :state-uncomment-start: sync
+            // app.currentUser?.logOut { (_) in
+            //     DispatchQueue.main.async {
+            //         print("Logged out!")
+            //         self.navigationController?.popViewController(animated: true)
+            //     }
+            // }
+            // :state-uncomment-end: :state-uncomment-start: start
             // // TODO: log out the app's currentUser, then, on the main thread, pop this
             // // view controller from the navigation controller to navigate back to
             // // the WelcomeViewController.
@@ -91,7 +104,7 @@ class ProjectsViewController: UIViewController, UITableViewDelegate, UITableView
 
     // :code-block-start: number-of-rows-in-section
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // :state-start: final
+        // :state-start: sync
         // You always have at least one project (your own)
         return userData?.memberOf.count ?? 1
         // :state-end: :state-uncomment-start: start
@@ -109,7 +122,7 @@ class ProjectsViewController: UIViewController, UITableViewDelegate, UITableView
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell") ?? UITableViewCell(style: .default, reuseIdentifier: "Cell")
         cell.selectionStyle = .none
 
-        // :state-start: final
+        // :state-start: sync
         // User data may not have loaded yet. You always have your own project.
         let projectName = userData?.memberOf[indexPath.row].name ?? "My Project"
         cell.textLabel?.text = projectName
@@ -126,11 +139,14 @@ class ProjectsViewController: UIViewController, UITableViewDelegate, UITableView
 
     // :code-block-start: did-select-row-at
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        // :state-start: final
-        let user = app.currentUser!
-        let project = userData?.memberOf[indexPath.row] ?? Project(partition: "project=\(user.id)", name: "My Project")
-
-        Realm.asyncOpen(configuration: user.configuration(partitionValue: project.partition!)) { [weak self] (result) in
+        // :state-start: local
+        let project = Project(partition: "project=\(self.username)", name: "My Project")
+        var config = Realm.Configuration.defaultConfiguration
+        config.fileURL!.deleteLastPathComponent()
+        config.fileURL!.appendPathComponent(project.partition!)
+        config.fileURL!.appendPathExtension("realm")
+        config.objectTypes = [Task.self]
+        Realm.asyncOpen(configuration: config) { [weak self] (result) in
             switch result {
             case .failure(let error):
                 fatalError("Failed to open realm: \(error)")
@@ -141,7 +157,22 @@ class ProjectsViewController: UIViewController, UITableViewDelegate, UITableView
                 )
             }
         }
-        // :state-end: :state-uncomment-start: start
+        // :state-end: :state-uncomment-start: sync
+        // let user = app.currentUser!
+        // let project = userData?.memberOf[indexPath.row] ?? Project(partition: "project=\(user.id)", name: "My Project")
+        //
+        // Realm.asyncOpen(configuration: user.configuration(partitionValue: project.partition!)) { [weak self] (result) in
+        //     switch result {
+        //     case .failure(let error):
+        //         fatalError("Failed to open realm: \(error)")
+        //     case .success(let realm):
+        //         self?.navigationController?.pushViewController(
+        //             TasksViewController(realm: realm, title: "\(project.name!)'s Tasks"),
+        //             animated: true
+        //         )
+        //     }
+        // }
+        // :state-uncomment-end: :state-uncomment-start: start
         // // TODO: open the realm for the selected project and navigate to the TasksViewController.
         // // The project information is contained in the userData's memberOf field.
         // // The userData may not have loaded yet. Regardless, the current user always has their own project.

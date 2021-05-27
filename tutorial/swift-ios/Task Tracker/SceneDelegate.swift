@@ -10,11 +10,11 @@ import UIKit
 import RealmSwift
 
 // :code-block-start: initialize-app
-let app = App(id: "tasktracker-qczfq") // :remove:
+// let app = App(id: "tasktracker-qczfq") // :remove:
 // :state-start: start
 // TODO: initialize the app with your Realm app ID
 // :state-end:
-// :state-uncomment-start: final
+// :state-uncomment-start: sync
 // let app = App(id: "<your-realm-app-ID-here>")
 // :state-uncomment-end:
 // :code-block-end:

@@ -1,0 +1,101 @@
+
+---
+title: Connect to Your MongoDB Realm App
+ref: connect-to-your-mongodb-realm-app
+content: |
+  To get the app working with your backend, you first need to add your Realm App
+  ID to the SceneDelegate.swift file. Declare a global Realm App instance:
+
+  .. literalinclude:: /tutorial/generated/code/sync/SceneDelegate.codeblock.initialize-app.swift
+     :language: swift
+
+  Change the value of ``id`` to your Realm app ID, which you can :ref:`find in
+  the Realm UI <find-your-app-id>`.
+
+---
+title: Enable Authentication
+ref: enable-authentication
+content: |
+  Navigate to the WelcomeViewController.swift file, which is where we implement
+  all login and user registration logic. This controller is set up with a text
+  field for email and password, sign in and sign up buttons, and an activity
+  indicator to show when the app is handling an authentication request.
+
+  First, let's implement the ``signUp()`` method to register a new user, which
+  uses the email/password authentication provider of the Realm app to register a
+  new user:
+
+  .. literalinclude:: /tutorial/generated/code/sync/WelcomeViewController.codeblock.sign-up.swift
+     :language: swift
+
+  Now, implement the ``signIn()`` method to log in with an existing user using
+  email/password credentials. Once logged in successfully, open the user realm
+  and navigate to the ProjectsViewController:
+
+  .. literalinclude:: /tutorial/generated/code/sync/WelcomeViewController.codeblock.sign-in.swift
+     :language: swift
+
+---
+title: Implement the Manage Team View
+ref: implement-the-manage-team-view
+content: |
+  A user can add and remove team members to their own Project using the Manage
+  Team view. Since the client side cannot handle access management, we need to
+  call out to our Realm functions we defined earlier.
+
+  Navigate to the ManageTeamViewController.swift file, which defines the view
+  that pops up when a user clicks the "Manage Team" action on the
+  TasksViewController. The ManageTeamViewController uses its
+  ``fetchTeamMembers()`` to get the list of team members. Add the call to the
+  ``getMyTeamMembers`` function that returns a list of team members and refresh
+  the list upon successful return:
+
+  .. literalinclude:: /tutorial/generated/code/sync/ManageTeamViewController.codeblock.fetch-team-members.swift
+     :language: swift
+
+  The ManageTeamViewController wires up the add button and swipe to delete
+  functionality to the ``addTeamMember()`` and ``removeTeamMember()`` methods,
+  respectively.
+
+  The ``addTeamMember()`` method calls the ``addTeamMember`` Realm function and
+  can use the ``onTeamMemberOperationComplete()`` method as a completion
+  handler:
+
+  .. literalinclude:: /tutorial/generated/code/sync/ManageTeamViewController.codeblock.add-team-member.swift
+     :language: swift
+
+  The ``removeTeamMember()`` method calls the ``removeTeamMember`` Realm function and
+  also uses the ``onTeamMemberOperationComplete()`` method as a completion
+  handler:
+
+  .. literalinclude:: /tutorial/generated/code/sync/ManageTeamViewController.codeblock.remove-team-member.swift
+     :language: swift
+
+  The ``onTeamMemberOperationComplete()`` method presents any errors to the user
+  and refreshes the member list.
+
+---
+title: Run and Test
+ref: run-and-test
+content: |
+  Once you have completed the code, you can run the app and check functionality.
+
+  Click the :guilabel:`Run` button in Xcode. If the app builds successfully,
+  here are some things you can try in the app:
+
+  - Create a user with email *first@example.com*
+  - Explore the app, then log out or launch a second instance of the app on another device or simulator
+  - Create another user with email second@example.com
+  - Navigate to *second@example.com*'s project
+  - Add, update, and remove some tasks
+  - Click "Manage Team"
+  - Add *first@example.com* to your team
+  - Log out and log in as *first@example.com*
+  - See two projects in the projects list
+  - Navigate to *second@example.com*'s project
+  - Collaborate by adding, updating, and removing some new tasks
+
+  .. tip::
+   
+     If something isn't working for you, you can check out the ``final`` branch of 
+     this repo to compare your code with our finished solution.

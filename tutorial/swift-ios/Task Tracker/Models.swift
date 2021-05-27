@@ -11,7 +11,7 @@ import RealmSwift
 
 // :code-block-start: user-model
 class User: Object {
-    // :state-start: final
+    // :state-start: sync
     @objc dynamic var _id: String = ""
     @objc dynamic var _partition: String = ""
     @objc dynamic var name: String = ""
@@ -27,7 +27,7 @@ class User: Object {
 
 // :code-block-start: project-model
 class Project: EmbeddedObject {
-    // :state-start: final
+    // :state-start: sync
     @objc dynamic var name: String?
     @objc dynamic var partition: String?
     convenience init(partition: String, name: String) {
@@ -48,7 +48,7 @@ enum TaskStatus: String {
 }
 
 // :code-block-start: task-model
-// :state-start: final
+// :state-start: sync
 class Task: Object {
     @objc dynamic var _id: ObjectId = ObjectId.generate()
     @objc dynamic var _partition: String = ""
