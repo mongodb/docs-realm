@@ -71,12 +71,12 @@ namespace RealmDotnetTutorial
                 // :state-uncomment-end:
                 // :code-block-end:
 
-                if (user == null)
+                if (user == null && !Constants.AlreadyWarnedAboutBackendSetup)
                 {
                     // Either the trigger hasn't completed yet, has failed,
                     // or was never created on the backend
                     // So let's wait a few seconds and check again...
-                    Thread.Sleep(5000);
+                    await System.Threading.Tasks.Task.Delay(5000);
                     user = userRealm.Find<User>(App.RealmApp.CurrentUser.Id);
                     if (user == null)
                     {
@@ -89,9 +89,10 @@ namespace RealmDotnetTutorial
                             "The User object for this user was not found on the server. " +
                             "If this is a new user acocunt, the backend trigger may not have completed, " +
                             "or the tirgger doesn't exist. Check you backend set up and logs.", "OK");
+
+                        Constants.AlreadyWarnedAboutBackendSetup = true;
                     }
                 }
-
                 SetUpProjectList();
             }
             catch (Exception ex)

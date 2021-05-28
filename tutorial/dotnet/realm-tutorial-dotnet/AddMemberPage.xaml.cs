@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using RealmDotnetTutorial.Models;
+using Realms.Sync.Exceptions;
 using Xamarin.Forms;
 
 namespace RealmDotnetTutorial
@@ -25,14 +26,16 @@ namespace RealmDotnetTutorial
         {
             InitializeComponent();
         }
+
         protected override async void OnAppearing()
         {
-            var function = "getMyTeamMembers";
+            var functionToCall = "getMyTeamMembers";
             try
             {
                 // :code-block-start:call-function-1
                 // :state-start: final
-                teamMembers = await App.RealmApp.CurrentUser.Functions.CallAsync<List<User>>(function);
+                teamMembers = await App.RealmApp.CurrentUser.Functions
+                    .CallAsync<List<User>>(functionToCall);
                 // :state-end: :state-uncomment-start: start
                 //// TODO: Call the "getMyTeamMembers" to get all team members
                 //// teamMembers = await ...
@@ -44,23 +47,16 @@ namespace RealmDotnetTutorial
                 }
                 listMembers.ItemsSource = Members;
             }
-            catch (Realms.Sync.Exceptions.AppException ex)
+            catch (AppException ex)
             {
-                string message;
                 if (ex.Message.Contains("FunctionNotFound"))
                 {
-                    message = "It looks like your backend is not set up correctly. " +
-                        $"Did you forget to create the \"{function}\" " +
-                        $"function?\r\n\r\n{ex.Message}";
-                    LogFunctionError();
+                    HandleFunctionError(functionToCall, ex);
                 }
                 else
                 {
-                    message = ex.Message;
+                    await DisplayAlert("Error", ex.Message, "OK");
                 }
-
-                await DisplayAlert("Error", message, "OK");
-                LogFunctionError();
             }
             catch (Exception ex)
             {
@@ -70,13 +66,13 @@ namespace RealmDotnetTutorial
 
         async void Delete_Button_Clicked(object sender, EventArgs e)
         {
-            var function = "removeTeamMember";
+            var functionToCall = "removeTeamMember";
             var email = ((Button)sender).CommandParameter;
             try
             {
                 // :code-block-start:call-function-3
                 // :state-start: final
-                var result = await App.RealmApp.CurrentUser.Functions.CallAsync(function, email.ToString());
+                var result = await App.RealmApp.CurrentUser.Functions.CallAsync(functionToCall, email.ToString());
                 // :state-end: :state-uncomment-start: start
                 //// TODO: Pass email.ToString() to the "removeTeamMember"
                 //// function.
@@ -86,22 +82,16 @@ namespace RealmDotnetTutorial
                 await DisplayAlert("Remove User", result.ToString(), "OK");
                 listMembers.ItemsSource = Members;
             }
-            catch (Realms.Sync.Exceptions.AppException ex)
+            catch (AppException ex)
             {
-                string message;
                 if (ex.Message.Contains("FunctionNotFound"))
                 {
-                    message = "It looks like your backend is not set up correctly. " +
-                        $"Did you forget to create the \"{function}\" " +
-                        $"function?\r\n\r\n{ex.Message}";
-                    LogFunctionError();
+                    HandleFunctionError(functionToCall, ex);
                 }
                 else
                 {
-                    message = ex.Message;
+                    await DisplayAlert("Error", ex.Message, "OK");
                 }
-
-                await DisplayAlert("Error", message, "OK");
             }
             catch (Exception ex)
             {
@@ -111,7 +101,7 @@ namespace RealmDotnetTutorial
 
         async void Add_Button_Clicked(object sender, EventArgs e)
         {
-            var function = "addTeamMember";
+            var functionToCall = "addTeamMember";
             string result = await DisplayPromptAsync("Add User to My Project", "User email:");
             if (result != null)
             {
@@ -119,28 +109,23 @@ namespace RealmDotnetTutorial
                 {
                     // :code-block-start:call-function-2
                     // :state-start: final
-                    var functionResult = await App.RealmApp.CurrentUser.Functions.CallAsync<FunctionResult>(function, result);
+                    var functionResult = await App.RealmApp.CurrentUser.Functions.CallAsync<FunctionResult>(functionToCall, result);
                     // :state-end: :state-uncomment-start: start
                     //// TODO: Pass the result object to the "addTeamMember" 
                     //// function.
                     // :state-uncomment-end:
                     // :code-block-end:
                 }
-                catch (Realms.Sync.Exceptions.AppException ex)
+                catch (AppException ex)
                 {
-                    string message;
                     if (ex.Message.Contains("FunctionNotFound"))
                     {
-                        message = "It looks like your backend is not set up correctly. " +
-                            $"Did you forget to create the \"{function}\" " +
-                            $"function?\r\n\r\n{ex.Message}";
-                        LogFunctionError();
+                        HandleFunctionError(functionToCall, ex);
                     }
                     else
                     {
-                        message = ex.Message;
+                        await DisplayAlert("Error", ex.Message, "OK");
                     }
-                    await DisplayAlert("Error", message, "OK");
                 }
                 catch (Exception ex)
                 {
@@ -157,12 +142,22 @@ namespace RealmDotnetTutorial
             await Navigation.PopAsync();
         }
 
+        private async void HandleFunctionError(string functionToCall, AppException ex)
+        {
+            string message = "It looks like your backend is not set up correctly. " +
+                                    $"Did you forget to create the \"{functionToCall}\" " +
+                                    $"function?\r\n\r\n{ex.Message}";
+            await DisplayAlert("Error", message, "OK");
+            LogFunctionError();
+        }
+
         void LogFunctionError()
         {
             Console.WriteLine("One or more functions is missing on the backend. " +
                 "Check your set up. For more information , see" +
                 "https://docs.mongodb.com/realm/tutorial/realm-app/#functions");
         }
+
     }
 
     class FunctionResult
