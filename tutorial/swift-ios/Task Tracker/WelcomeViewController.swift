@@ -155,8 +155,8 @@ class WelcomeViewController: UIViewController {
     //     :state-uncomment-end: :state-uncomment-start: start
     //     // TODO: Use the app's emailPasswordAuth to registerUser with the email and password.
     //     // When registered, call signIn().
-    //     :state-uncomment-end:
     // }
+    // :state-uncomment-end:
     // :code-block-end:
 
     // :code-block-start: sign-in
