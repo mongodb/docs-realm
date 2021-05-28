@@ -31,7 +31,7 @@ class ProjectsViewController: UIViewController, UITableViewDelegate, UITableView
         super.init(nibName: nil, bundle: nil)
 
         // :code-block-start: user-in-realm-notification
-        // :state-start: sync
+        // :state-start: local
         // There should only be one user in my realm - that is myself
         let usersInRealm = userRealm.objects(User.self)
 
@@ -40,7 +40,17 @@ class ProjectsViewController: UIViewController, UITableViewDelegate, UITableView
             guard let tableView = self?.tableView else { return }
             tableView.reloadData()
         }
-        // :state-end: :state-uncomment-start: start
+        // :state-end:
+        // :state-uncomment-start: sync
+        // // There should only be one user in my realm - that is myself
+        // let usersInRealm = userRealm.objects(User.self)
+        //
+        // notificationToken = usersInRealm.observe { [weak self, usersInRealm] (_) in
+        //     self?.userData = usersInRealm.first
+        //     guard let tableView = self?.tableView else { return }
+        //     tableView.reloadData()
+        // }
+        // :state-uncomment-end: :state-uncomment-start: start
         // // TODO: Observe user realm for user objects
         // :state-uncomment-end:
         // :code-block-end:
@@ -52,10 +62,14 @@ class ProjectsViewController: UIViewController, UITableViewDelegate, UITableView
 
     // :code-block-start: invalidate-token
     deinit {
-        // :state-start: sync
+        // :state-start: local
         // Always invalidate any notification tokens when you are done with them.
         notificationToken?.invalidate()
-        // :state-end: :state-uncomment-start: start
+        // :state-end:
+        // :state-uncomment-start: sync
+        // // Always invalidate any notification tokens when you are done with them.
+        // notificationToken?.invalidate()
+        // :state-uncomment-end: :state-uncomment-start: start
         // // TODO: invalidate notificationToken
         // :state-uncomment-end:
     }
@@ -104,10 +118,14 @@ class ProjectsViewController: UIViewController, UITableViewDelegate, UITableView
 
     // :code-block-start: number-of-rows-in-section
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // :state-start: sync
+        // :state-start: local
         // You always have at least one project (your own)
         return userData?.memberOf.count ?? 1
-        // :state-end: :state-uncomment-start: start
+        // :state-end:
+        // :state-uncomment-start: sync
+        // // You always have at least one project (your own)
+        // return userData?.memberOf.count ?? 1
+        // :state-uncomment-end: :state-uncomment-start: start
         // // TODO: Each project should have its own row. Check the userData memberOf
         // // field for how many projects the user is a member of. However, the userData
         // // may not have loaded in yet. If that's the case, the user always has their
@@ -122,11 +140,16 @@ class ProjectsViewController: UIViewController, UITableViewDelegate, UITableView
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell") ?? UITableViewCell(style: .default, reuseIdentifier: "Cell")
         cell.selectionStyle = .none
 
-        // :state-start: sync
+        // :state-start: local
         // User data may not have loaded yet. You always have your own project.
         let projectName = userData?.memberOf[indexPath.row].name ?? "My Project"
         cell.textLabel?.text = projectName
-        // :state-end: :state-uncomment-start: start
+        // :state-end:
+        // :state-uncomment-start: sync
+        // User data may not have loaded yet. You always have your own project.
+        // let projectName = userData?.memberOf[indexPath.row].name ?? "My Project"
+        // cell.textLabel?.text = projectName
+        // :state-uncomment-end: :state-uncomment-start: start
         // // TODO: Get project name using userData's memberOf field and indexPath.row.
         // // The userData may not have loaded yet. Regardless, you always have your own project.
         // let projectName = "TODO"

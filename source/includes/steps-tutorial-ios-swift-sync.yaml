@@ -21,7 +21,11 @@ content: |
   field for email and password, sign in and sign up buttons, and an activity
   indicator to show when the app is handling an authentication request.
 
-  First, let's implement the ``signUp()`` method to register a new user, which
+  First, let's add a UI element where the user can enter a password:
+
+  
+
+  Then, implement the ``signUp()`` method to register a new user, which
   uses the email/password authentication provider of the Realm app to register a
   new user:
 
@@ -29,7 +33,7 @@ content: |
      :language: swift
 
   Now, implement the ``signIn()`` method to log in with an existing user using
-  email/password credentials. Once logged in successfully, open the user realm
+  email/password credentials. Once logged in successfully, open the user {+realm+}
   and navigate to the ProjectsViewController:
 
   .. literalinclude:: /tutorial/generated/swift-ios/sync/WelcomeViewController.codeblock.sign-in.swift

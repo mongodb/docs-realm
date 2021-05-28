@@ -106,15 +106,15 @@ ref: implement-the-projects-list
 content: |
   Open the ProjectsViewController.swift file, which is where we present the user
   with a list of projects they are a member of. The WelcomeViewController has
-  opened the user realm for us and passed it in to this controller. This is a
-  good practice, as it allows the realm to fully download before transitioning
-  to the next screen. If the realm failed to open for some reason, the error
+  opened the user {+realm+} for us and passed it in to this controller. This is a
+  good practice, as it allows the {+realm+} to fully download before transitioning
+  to the next screen. If the {+realm+} failed to open for some reason, the error
   could be handled on the original screen and not have to undo a transition.
 
-  We have designed our app so that the user realm will only ever contain at most
-  one object: that is, the user custom data object. Because an authentication
-  trigger creates this user object, the realm may not contain the object
-  immediately after creating an account. So, we should watch the realm itself
+  We have designed our app so that the user {+realm+} will only ever contain at most
+  one object: a custom user data object of type ``User``. Because an authentication
+  trigger creates this user object, the {+realm+} may not contain the object
+  immediately after creating an account. So, we should watch the {+realm+} itself
   for changes:
 
   .. literalinclude:: /tutorial/generated/swift-ios/local/ProjectsViewController.codeblock.user-in-realm-notification.swift
@@ -156,8 +156,8 @@ content: |
 
   Finally, implement the ``tableView(_:didSelectRowAt:)`` method to handle what
   happens when the user clicks a project in the list. As we opened the user
-  realm in the WelcomeViewController before navigating to the
-  ProjectsViewController, we'll open the project realm before navigating to the
+  {+realm+} in the WelcomeViewController before navigating to the
+  ProjectsViewController, we'll open the project {+realm+} before navigating to the
   TasksViewController:
 
   .. literalinclude:: /tutorial/generated/swift-ios/local/ProjectsViewController.codeblock.did-select-row-at.swift
