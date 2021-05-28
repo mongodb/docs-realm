@@ -16,7 +16,7 @@ Overview
 --------
 
 While you develop applications using {+sync+}, you may run into errors. This
-section details some common errors and how to log and handle them. 
+section lists common errors and describes how to and handle them.
 
 .. note::
    
@@ -37,41 +37,54 @@ errors and how to handle them. {+service+} reports errors in your
    :widths: 30 70
 
    * - Error Name
-     - Description and How to Handle the Error
+     - Description
 
    * - ErrorBadClientFileIdent
      - This error occurs when the client is using a {+realm+} file that the
-       server cannot access after :doc:`terminating and re-enabling {+sync-short+}
-       </reference/terminating-and-reenabling-realm-sync>`. To solve this error,
-       :ref:`perform a client reset <sync-errors-client-resets>`.
+       server cannot access after :doc:`terminating and re-enabling
+       {+sync-short+} </reference/terminating-and-reenabling-realm-sync>`.
+       
+       To recover from this error, :ref:`perform a client reset
+       <sync-errors-client-resets>`.
 
    * - ErrorClientFileUserMismatch
-     - This error occurs when a user tries to synchronize data to a {+realm+}
-       that has already terminated {+sync+} or when you try to synchronize data
-       to a {+realm+} using a different user than the one used to open the
-       synced realm. If you encounter this error, delete the local realm file on
-       the client and then re-open the realm to download the correct data.
+     - This error indicates that the client attempted to synchronize a
+       {+realm+} file associated with an identity other than the specified user.
+       This may occur if {+sync-short+} is :doc:`terminated and reenabled
+       </reference/terminating-and-reenabling-realm-sync>` while the user is
+       offline, which invalidates their previous identity.
+       
+       To recover from this error, delete the local realm file and then re-open
+       the realm.
 
    * - ErrorDivergingHistories
-     - This error may occur if a user connected to a specific identity goes
-       offline, and {+sync-short+} is :doc:`terminated and reenabled
-       </reference/terminating-and-reenabling-realm-sync>` while the user is
-       offline, invalidating that identity. To solve this error, that you need to
-       :ref:`perform a client reset <sync-errors-client-resets>`.
+     - This error indicates that the client attempted to synchronize a 
+       {+realm+} file that has a different sync history than the server
+       {+realm+}. This may occur if {+sync-short+} is :doc:`terminated and
+       reenabled </reference/terminating-and-reenabling-realm-sync>` while the
+       user is offline, which invalidates their previous sync history.
+       
+       To recover from this error, :ref:`perform a client reset
+       <sync-errors-client-resets>`.
 
    * - ErrorIllegalRealmPath
-     - The message "attempted to bind on illegal realm partition: expected
-       partition to have type objectId but found string" is shown in the {+sync+}
-       logs when an ErrorIllegalRealmPath is thrown. To solve this error, ensure
-       that the partition value passed to the client matches the partition value
-       in your {+sync-short+} configuration.
+     - This error indicates that the client attempted to open a {+realm+} with a
+       partition value of the wrong type. For example, you might see the error
+       message "attempted to bind on illegal realm partition: expected partition
+       to have type objectId but found string".
+       
+       To recover from this error, ensure that the type of the partition value
+       used to open the realm matches the partition key type in your
+       {+sync-short+} configuration.
 
    * - ErrorPermissionDenied
      - This error occurs when a user's data access permissions are not
        sufficient for a given request. This can occur if a user attempts to open
        a realm without read permission or modify data without write permission.
-       Review your :doc:`{+sync-short+} rules </sync/permissions/>` to make sure
-       that users have proper data access permissions.
+       
+       To troubleshoot this error, review your :doc:`{+sync-short+} rules
+       </sync/rules/>` to make sure that users have proper data access
+       permissions.
    
    * - ErrorOtherError
      - This error indicates an internal failure that is not covered by a more
