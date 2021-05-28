@@ -5,7 +5,7 @@
         // Open the realm based on the username entered by the user
         var config = Realm.Configuration.defaultConfiguration
         config.fileURL!.deleteLastPathComponent()
-        config.fileURL!.appendPathComponent(self.email!)
+        config.fileURL!.appendPathComponent(self.username!)
         config.fileURL!.appendPathExtension("realm")
         // Only allow User objects in this partition.
         config.objectTypes = [User.self, Project.self]

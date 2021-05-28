@@ -11,7 +11,8 @@ import RealmSwift
 
 // The WelcomeViewController handles login and account creation.
 class WelcomeViewController: UIViewController {
-    let emailField = UITextField()
+    let usernameField = UITextField()
+    // :code-block-start: password-field-and-sign-up-button
     // :state-uncomment-start: sync
     // let passwordField = UITextField()
     // :state-uncomment-end:
@@ -19,15 +20,17 @@ class WelcomeViewController: UIViewController {
     // :state-uncomment-start: sync
     // let signUpButton = UIButton(type: .roundedRect)
     // :state-uncomment-end:
+    // :code-block-end:
     let errorLabel = UILabel()
     let activityIndicator = UIActivityIndicatorView(style: .medium)
 
-    var email: String? {
+    var username: String? {
         get {
-            return emailField.text
+            return usernameField.text
         }
     }
 
+    // :code-block-start: get-password
     // :state-uncomment-start: sync
     // var password: String? {
     //     get {
@@ -35,6 +38,7 @@ class WelcomeViewController: UIViewController {
     //     }
     // }
     // :state-uncomment-end:
+    // :code-block-end:
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -68,41 +72,49 @@ class WelcomeViewController: UIViewController {
         // Add some text at the top of the view to explain what to do.
         let infoLabel = UILabel()
         infoLabel.numberOfLines = 0
+        // :code-block-start: info-label-password-add
         // :state-start: local
         infoLabel.text = "Please enter a username."
         // :state-end: :state-uncomment-start: sync
         // infoLabel.text = "Please enter a email and password."
         // :state-uncomment-end:
+        // :code-block-end:
         container.addArrangedSubview(infoLabel)
 
+        // :code-block-start: password-field-placeholder
         // Configure the email and password text input fields.
         // :state-start: local
-        emailField.placeholder = "Username"
+        usernameField.placeholder = "Username"
         // :state-end: :state-uncomment-start: sync
-        // emailField.placeholder = "Email"
+        // usernameField.placeholder = "Email"
         // :state-uncomment-end:
-        emailField.borderStyle = .roundedRect
-        emailField.autocapitalizationType = .none
-        emailField.autocorrectionType = .no
-        container.addArrangedSubview(emailField)
+        // :code-block-end:
+        usernameField.borderStyle = .roundedRect
+        usernameField.autocapitalizationType = .none
+        usernameField.autocorrectionType = .no
+        container.addArrangedSubview(usernameField)
 
+        // :code-block-start: password-field-add
         // :state-uncomment-start: sync
         // passwordField.placeholder = "Password"
         // passwordField.isSecureTextEntry = true
         // passwordField.borderStyle = .roundedRect
         // container.addArrangedSubview(passwordField)
         // :state-uncomment-end:
+        // :code-block-end:
         
         // Configure the sign in and sign up buttons.
         signInButton.setTitle("Sign In", for: .normal)
         signInButton.addTarget(self, action: #selector(signIn), for: .touchUpInside)
         container.addArrangedSubview(signInButton)
 
+        // :code-block-start: sign-up-button
         // :state-uncomment-start: sync
         // signUpButton.setTitle("Sign Up", for: .normal)
         // signUpButton.addTarget(self, action: #selector(signUp), for: .touchUpInside)
         // container.addArrangedSubview(signUpButton)
         // :state-uncomment-end:
+        // :code-block-end:
         
         // Error messages will be set on the errorLabel.
         errorLabel.numberOfLines = 0
@@ -118,7 +130,9 @@ class WelcomeViewController: UIViewController {
         } else {
             activityIndicator.stopAnimating()
         }
-        emailField.isEnabled = !loading
+        
+        // :code-block-start: password-field-enable
+        usernameField.isEnabled = !loading
         // :state-uncomment-start: sync
         // passwordField.isEnabled = !loading
         // :state-uncomment-end:
@@ -126,6 +140,7 @@ class WelcomeViewController: UIViewController {
         // :state-uncomment-start: sync
         // signUpButton.isEnabled = !loading
         // :state-uncomment-end:
+        // :code-block-end:
     }
 
     // :code-block-start: sign-up
@@ -168,7 +183,7 @@ class WelcomeViewController: UIViewController {
             // Open the realm based on the username entered by the user
             var config = Realm.Configuration.defaultConfiguration
             config.fileURL!.deleteLastPathComponent()
-            config.fileURL!.appendPathComponent(self.email!)
+            config.fileURL!.appendPathComponent(self.username!)
             config.fileURL!.appendPathExtension("realm")
             // Only allow User objects in this partition.
             config.objectTypes = [User.self, Project.self]

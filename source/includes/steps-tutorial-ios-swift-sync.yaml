@@ -20,10 +20,46 @@ content: |
   all login and user registration logic. This controller is set up with a text
   field for email and password, sign in and sign up buttons, and an activity
   indicator to show when the app is handling an authentication request.
+  To enable users to log in with {+service+} accounts, we'll add a field
+  where the user can enter a password and a button to register
+  an account as variables in WelcomeViewController:
 
-  First, let's add a UI element where the user can enter a password:
+  .. literalinclude:: /tutorial/generated/swift-ios/sync/WelcomeViewController.codeblock.password-field-and-sign-up-button.swift
+     :language: swift
 
+  We'll also need to add an accessor to get the password entered by the
+  user when they register or log in:
 
+  .. literalinclude:: /tutorial/generated/swift-ios/sync/WelcomeViewController.codeblock.get-password.swift
+     :language: swift
+
+  In the ``viewDidLoad()`` method, we'll need to update the ``infoLabel``
+  value to mention a username *and* password:
+
+  .. literalinclude:: /tutorial/generated/swift-ios/sync/WelcomeViewController.codeblock.info-label-password-add.swift
+     :language: swift
+
+  Change the placeholder value of the username entry field to "Email",
+  since usernames for {+service+} accounts should be email addresses:
+
+  .. literalinclude:: /tutorial/generated/swift-ios/sync/WelcomeViewController.codeblock.password-field-add.swift
+     :language: swift
+
+  And add placeholder text of "Password" to the password entry field:
+
+  .. literalinclude:: /tutorial/generated/swift-ios/sync/WelcomeViewController.codeblock.password-field-placeholder.swift
+     :language: swift
+
+  In the ``setLoading()`` method, enable the password field when the
+  username field is enabled when the view has loaded:
+
+  .. literalinclude:: /tutorial/generated/swift-ios/sync/WelcomeViewController.codeblock.password-field-enable.swift
+     :language: swift
+
+  Then, add a button that users can click to register an account:
+
+  .. literalinclude:: /tutorial/generated/swift-ios/sync/WelcomeViewController.codeblock.sign-up-button.swift
+     :language: swift
 
   Then, implement the ``signUp()`` method to register a new user, which
   uses the email/password authentication provider of the Realm app to register a
