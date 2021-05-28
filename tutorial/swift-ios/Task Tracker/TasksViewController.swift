@@ -120,10 +120,13 @@ class TasksViewController: UIViewController, UITableViewDelegate, UITableViewDat
 
     // :code-block-start: deinit
     deinit {
-        // :state-start: sync
+        // :state-start: local
         // Always invalidate any notification tokens when you are done with them.
         notificationToken?.invalidate()
-        // :state-end: :state-uncomment-start: start
+        // :state-end: :state-uncomment-start: sync
+        // // Always invalidate any notification tokens when you are done with them.
+        // notificationToken?.invalidate()
+        // :state-uncomment-end: :state-uncomment-start: start
         // // TODO: invalidate notificationToken
         // :state-uncomment-end:
     }
@@ -184,7 +187,8 @@ class TasksViewController: UIViewController, UITableViewDelegate, UITableViewDat
             let textField = alertController.textFields![0] as UITextField
 
             // :code-block-start: add-button-did-click
-            // :state-start: sync
+            
+            // :state-start: local
             // Create a new Task with the text that the user entered.
             let task = Task(partition: self.partitionValue, name: textField.text ?? "New Task")
 
@@ -193,7 +197,16 @@ class TasksViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 // Add the Task to the Realm. That's it!
                 self.realm.add(task)
             }
-            // :state-end: :state-uncomment-start: start
+            // :state-end: :state-uncomment-start: sync
+            // // Create a new Task with the text that the user entered.
+            // let task = Task(partition: self.partitionValue, name: textField.text ?? "New Task")
+            //
+            // // Any writes to the Realm must occur in a write block.
+            // try! self.realm.write {
+            //     // Add the Task to the Realm. That's it!
+            //     self.realm.add(task)
+            // }
+            // :state-uncomment-end: :state-uncomment-start: start
             // // TODO: Create a Task instance and add it to the realm in a write block.
             // :state-uncomment-end:
             // :code-block-end:
@@ -216,7 +229,7 @@ class TasksViewController: UIViewController, UITableViewDelegate, UITableViewDat
         let actionSheet: UIAlertController = UIAlertController(title: task.name, message: "Select an action", preferredStyle: .actionSheet)
 
         // :code-block-start: populate-action-sheet
-        // :state-start: sync
+        // :state-start: local
         // If the task is not in the Open state, we can set it to open. Otherwise, that action will not be available.
         // We do this for the other two states -- InProgress and Complete.
         if task.statusEnum != .Open {
@@ -244,7 +257,35 @@ class TasksViewController: UIViewController, UITableViewDelegate, UITableViewDat
                     }
                 })
         }
-        // :state-end: :state-uncomment-start: start
+        // :state-end: :state-uncomment-start: sync
+        // // If the task is not in the Open state, we can set it to open. Otherwise, that action will not be available.
+        // // We do this for the other two states -- InProgress and Complete.
+        // if task.statusEnum != .Open {
+        //     actionSheet.addAction(UIAlertAction(title: "Open", style: .default) { _ in
+        //             // Any modifications to managed objects must occur in a write block.
+        //             // When we modify the Task's state, that change is automatically reflected in the realm.
+        //             try! self.realm.write {
+        //                 task.statusEnum = .Open
+        //             }
+        //         })
+        // }
+        //
+        // if task.statusEnum != .InProgress {
+        //     actionSheet.addAction(UIAlertAction(title: "Start Progress", style: .default) { _ in
+        //             try! self.realm.write {
+        //                 task.statusEnum = .InProgress
+        //             }
+        //         })
+        // }
+        //
+        // if task.statusEnum != .Complete {
+        //     actionSheet.addAction(UIAlertAction(title: "Complete", style: .default) { _ in
+        //             try! self.realm.write {
+        //                 task.statusEnum = .Complete
+        //             }
+        //         })
+        // }
+        // :state-uncomment-end: :state-uncomment-start: start
         // // TODO: Populate the action sheet with task status update functions
         // // for every state the task is not currently in.
         // :state-uncomment-end:
@@ -265,13 +306,19 @@ class TasksViewController: UIViewController, UITableViewDelegate, UITableViewDat
         // User can swipe to delete items.
         let task = tasks[indexPath.row]
 
-        // :state-start: sync
+        // :state-start: local
         // All modifications to a realm must happen in a write block.
         try! realm.write {
             // Delete the Task.
             realm.delete(task)
         }
-        // :state-end: :state-uncomment-start: start
+        // :state-end: :state-uncomment-start: sync
+        // All modifications to a realm must happen in a write block.
+        // try! realm.write {
+        //     // Delete the Task.
+        //     realm.delete(task)
+        // }
+        // :state-uncomment-end: :state-uncomment-start: start
         // // TODO: delete the task from the realm in a write block.
         // :state-uncomment-end:
     }
