@@ -146,7 +146,7 @@ class ProjectsViewController: UIViewController, UITableViewDelegate, UITableView
         cell.textLabel?.text = projectName
         // :state-end:
         // :state-uncomment-start: sync
-        // User data may not have loaded yet. You always have your own project.
+        // //  User data may not have loaded yet. You always have your own project.
         // let projectName = userData?.memberOf[indexPath.row].name ?? "My Project"
         // cell.textLabel?.text = projectName
         // :state-uncomment-end: :state-uncomment-start: start

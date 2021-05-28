@@ -28,7 +28,7 @@ class TasksViewController: UIViewController, UITableViewDelegate, UITableViewDat
     required init(realm: Realm, title: String) {
 
         // :state-uncomment-start: sync
-        // Ensure the realm was opened with sync.
+        // // Ensure the realm was opened with sync.
         // guard let syncConfiguration = realm.configuration.syncConfiguration else {
         //    fatalError("Sync configuration not found! Realm not opened with sync?")
         // }
@@ -39,10 +39,10 @@ class TasksViewController: UIViewController, UITableViewDelegate, UITableViewDat
         // :state-start: local
         partitionValue = "tasks"
         // :state-end: :state-uncomment-start: sync
-        // Partition value must be of string type.
+        // // Partition value must be of string type.
         // partitionValue = syncConfiguration.partitionValue!.stringValue!
         // :state-uncomment-end:
-        // Access all tasks in the realm, sorted by _id so that the ordering is defined.
+        // // Access all tasks in the realm, sorted by _id so that the ordering is defined.
         // :state-start: local
         tasks = realm.objects(Task.self).sorted(byKeyPath: "_id")
         // :state-end: :state-uncomment-start: sync
@@ -82,7 +82,7 @@ class TasksViewController: UIViewController, UITableViewDelegate, UITableViewDat
             }
         }
         // :state-end: :state-uncomment-start: sync
-        // Observe the tasks for changes. Hang on to the returned notification token.
+        // // Observe the tasks for changes. Hang on to the returned notification token.
         // notificationToken = tasks.observe { [weak self] (changes) in
         //     guard let tableView = self?.tableView else { return }
         //     switch changes {
@@ -313,7 +313,7 @@ class TasksViewController: UIViewController, UITableViewDelegate, UITableViewDat
             realm.delete(task)
         }
         // :state-end: :state-uncomment-start: sync
-        // All modifications to a realm must happen in a write block.
+        // // All modifications to a realm must happen in a write block.
         // try! realm.write {
         //     // Delete the Task.
         //     realm.delete(task)
@@ -333,9 +333,9 @@ class TasksViewController: UIViewController, UITableViewDelegate, UITableViewDat
     func isOwnTasks() -> Bool {
         // :state-start: local
         return false // no need to manage users when there is no app or users
-        // :state-end: :state--uncomment-start: sync
+        // :state-end: :state-uncomment-start: sync
         // return partitionValue == "project=\(app.currentUser!.id)"
-        // :state--uncomment-end: :state-uncomment-start: start
+        // :state-uncomment-end: :state-uncomment-start: start
         // // TODO: Check if the partition value matches the user's project's partition value,
         // // which should look like "project=\(app.currentUser()!.id!)"
         // return false

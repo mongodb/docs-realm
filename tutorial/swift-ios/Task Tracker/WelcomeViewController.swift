@@ -76,13 +76,13 @@ class WelcomeViewController: UIViewController {
         // :state-start: local
         infoLabel.text = "Please enter a username."
         // :state-end: :state-uncomment-start: sync
-        // infoLabel.text = "Please enter a email and password."
+        // infoLabel.text = "Please enter an email and password."
         // :state-uncomment-end:
         // :code-block-end:
         container.addArrangedSubview(infoLabel)
 
         // :code-block-start: password-field-placeholder
-        // Configure the email and password text input fields.
+        // Configure the username and password text input fields.
         // :state-start: local
         usernameField.placeholder = "Username"
         // :state-end: :state-uncomment-start: sync
@@ -148,7 +148,7 @@ class WelcomeViewController: UIViewController {
     // :state-end: :state-uncomment-start: sync
     // @objc func signUp() {
     //     setLoading(true)
-    //     app.emailPasswordAuth.registerUser(email: email!, password: password!, completion: { [weak self](error) in
+    //     app.emailPasswordAuth.registerUser(email: username!, password: password!, completion: { [weak self](error) in
     //         // Completion handlers are not necessarily called on the UI thread.
     //         // This call to DispatchQueue.main.async ensures that any changes to the UI,
     //         // namely disabling the loading indicator and navigating to the next page,
@@ -167,6 +167,7 @@ class WelcomeViewController: UIViewController {
     //             self!.signIn()
     //         }
     //     })
+    // }
     //     :state-uncomment-end: :state-uncomment-start: start
     //     // TODO: Use the app's emailPasswordAuth to registerUser with the email and password.
     //     // When registered, call signIn().
@@ -197,16 +198,16 @@ class WelcomeViewController: UIViewController {
                         fatalError("Failed to open realm: \(error)")
                     case .success(let userRealm):
                         // Go to the list of projects in the user object contained in the user realm.
-                        self!.navigationController!.pushViewController(ProjectsViewController(userRealm: userRealm, username: (self?.email)!), animated: true)
+                        self!.navigationController!.pushViewController(ProjectsViewController(userRealm: userRealm, username: (self?.username)!), animated: true)
                     }
                 }
             }
         }
         // :state-end: :state-uncomment-start: sync
-        // print("Log in as user: \(email!)")
+        // print("Log in as user: \(username!)")
         // setLoading(true)
         //
-        // app.login(credentials: Credentials.emailPassword(email: email!, password: password!)) { [weak self](result) in
+        // app.login(credentials: Credentials.emailPassword(email: username!, password: password!)) { [weak self](result) in
         //     // Completion handlers are not necessarily called on the UI thread.
         //     // This call to DispatchQueue.main.async ensures that any changes to the UI,
         //     // namely disabling the loading indicator and navigating to the next page,
