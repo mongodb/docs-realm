@@ -145,8 +145,10 @@ namespace RealmDotnetTutorial
         private async void HandleFunctionError(string functionToCall, AppException ex)
         {
             string message = "It looks like your backend is not set up correctly. " +
-                                    $"Did you forget to create the \"{functionToCall}\" " +
-                                    $"function?\r\n\r\n{ex.Message}";
+                                    $"Did the \"{functionToCall}\" function get " +
+                                    $"created? See the 'Set up the Task Tracker " +
+                                    $"Tutorial Backend' steps in the tutorial." +
+                                    $"\r\n\r\n{ex.Message}";
             await DisplayAlert("Error", message, "OK");
             LogFunctionError();
         }
