@@ -13,12 +13,16 @@ class TasksViewController: UIViewController, UITableViewDelegate, UITableViewDat
 
     // :code-block-start: properties
     let tableView = UITableView()
-    let partitionValue: String
+    // :state-uncomment-start: sync
+    // let partitionValue: String
+    // :state-uncomment-end:
     let realm: Realm
     var notificationToken: NotificationToken?
-    // :state-start: sync
+    // :state-start: local
     let tasks: Results<Task>
-    // :state-end: :state-uncomment-start: start
+    // :state-end: :state-uncomment-start: sync
+    // let tasks: Results<Task>
+    // :state-uncomment-end: :state-uncomment-start: start
     // // TODO: Use Realm Results collection for `tasks`
     // let tasks: [Task] = []
     // :state-uncomment-end:
@@ -32,18 +36,16 @@ class TasksViewController: UIViewController, UITableViewDelegate, UITableViewDat
         // guard let syncConfiguration = realm.configuration.syncConfiguration else {
         //    fatalError("Sync configuration not found! Realm not opened with sync?")
         // }
+        //
         // :state-uncomment-end:
-
         self.realm = realm
-
-        // :state-start: local
-        partitionValue = "tasks"
-        // :state-end: :state-uncomment-start: sync
+        // :state-uncomment-start: sync
         // // Partition value must be of string type.
         // partitionValue = syncConfiguration.partitionValue!.stringValue!
         // :state-uncomment-end:
-        // // Access all tasks in the realm, sorted by _id so that the ordering is defined.
+        
         // :state-start: local
+        // Access all tasks in the realm, sorted by _id so that the ordering is defined.
         tasks = realm.objects(Task.self).sorted(byKeyPath: "_id")
         // :state-end: :state-uncomment-start: sync
         // tasks = realm.objects(Task.self).sorted(byKeyPath: "_id")
@@ -143,13 +145,15 @@ class TasksViewController: UIViewController, UITableViewDelegate, UITableViewDat
 
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonDidClick))
 
-        if isOwnTasks() {
-            // Only set up the manage team button if these are tasks the user owns.
-            toolbarItems = [
-                UIBarButtonItem(title: "Manage Team", style: .plain, target: self, action: #selector(manageTeamButtonDidClick))
-            ]
-            navigationController?.isToolbarHidden = false
-        }
+        // :state-uncomment-start: sync
+        // if isOwnTasks() {
+        //     // Only set up the manage team button if these are tasks the user owns.
+        //     toolbarItems = [
+        //         UIBarButtonItem(title: "Manage Team", style: .plain, target: self, action: #selector(manageTeamButtonDidClick))
+        //     ]
+        //     navigationController?.isToolbarHidden = false
+        // }
+        // :state-uncomment-end:
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -190,7 +194,7 @@ class TasksViewController: UIViewController, UITableViewDelegate, UITableViewDat
             
             // :state-start: local
             // Create a new Task with the text that the user entered.
-            let task = Task(partition: self.partitionValue, name: textField.text ?? "New Task")
+            let task = Task(name: textField.text ?? "New Task")
 
             // Any writes to the Realm must occur in a write block.
             try! self.realm.write {
@@ -329,17 +333,11 @@ class TasksViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
 
     // :code-block-start: is-own-tasks
-    // Returns true if these are the user's own tasks.
-    func isOwnTasks() -> Bool {
-        // :state-start: local
-        return false // no need to manage users when there is no app or users
-        // :state-end: :state-uncomment-start: sync
-        // return partitionValue == "project=\(app.currentUser!.id)"
-        // :state-uncomment-end: :state-uncomment-start: start
-        // // TODO: Check if the partition value matches the user's project's partition value,
-        // // which should look like "project=\(app.currentUser()!.id!)"
-        // return false
-        // :state-uncomment-end:
-    }
+    // :state-uncomment-start: sync
+    // // Returns true if these are the user's own tasks.
+    // func isOwnTasks() -> Bool {
+    //     return partitionValue == "project=\(app.currentUser!.id)"
+    // }
+    // :state-uncomment-end:
     // :code-block-end:
 }

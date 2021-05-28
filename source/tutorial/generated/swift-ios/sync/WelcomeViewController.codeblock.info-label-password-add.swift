@@ -1,1 +1,1 @@
-infoLabel.text = "Please enter a email and password."
+infoLabel.text = "Please enter an email and password."

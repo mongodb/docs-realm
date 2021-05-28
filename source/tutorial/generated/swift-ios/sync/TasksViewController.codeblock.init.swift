@@ -1,22 +1,21 @@
 required init(realm: Realm, title: String) {
 
-    Ensure the realm was opened with sync.
+    // Ensure the realm was opened with sync.
     guard let syncConfiguration = realm.configuration.syncConfiguration else {
        fatalError("Sync configuration not found! Realm not opened with sync?")
     }
-
+    
     self.realm = realm
-
-    Partition value must be of string type.
+    // Partition value must be of string type.
     partitionValue = syncConfiguration.partitionValue!.stringValue!
-    // Access all tasks in the realm, sorted by _id so that the ordering is defined.
+    
     tasks = realm.objects(Task.self).sorted(byKeyPath: "_id")
 
     super.init(nibName: nil, bundle: nil)
 
     self.title = title
 
-    Observe the tasks for changes. Hang on to the returned notification token.
+    // Observe the tasks for changes. Hang on to the returned notification token.
     notificationToken = tasks.observe { [weak self] (changes) in
         guard let tableView = self?.tableView else { return }
         switch changes {

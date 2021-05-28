@@ -10,16 +10,8 @@ import Foundation
 import RealmSwift
 
 // :code-block-start: user-model
-class User: Object {
-    // :state-start: local
-    @objc dynamic var _id: String = ""
-    @objc dynamic var _partition: String = ""
-    @objc dynamic var name: String = ""
-    let memberOf = RealmSwift.List<Project>()
-    override static func primaryKey() -> String? {
-        return "_id"
-    }
-    // :state-end: // :state-uncomment-start: sync
+// :state-uncomment-start: sync
+//class User: Object {
     // @objc dynamic var _id: String = ""
     // @objc dynamic var _partition: String = ""
     // @objc dynamic var name: String = ""
@@ -27,23 +19,13 @@ class User: Object {
     // override static func primaryKey() -> String? {
     //     return "_id"
     // }
-    // :state-uncomment-end: :state-uncomment-start: start
-    // // TODO: Add User model (see SDKs panel in Realm UI)
-    // :state-uncomment-end:
-}
+//}
+// :state-uncomment-end:
 // :code-block-end:
 
 // :code-block-start: project-model
-class Project: EmbeddedObject {
-    // :state-start: local
-    @objc dynamic var name: String?
-    @objc dynamic var partition: String?
-    convenience init(partition: String, name: String) {
-        self.init()
-        self.partition = partition
-        self.name = name
-    }
-    // :state-end: // :state-uncomment-start: sync
+// :state-uncomment-start: sync
+// class Project: EmbeddedObject {
     // @objc dynamic var name: String?
     // @objc dynamic var partition: String?
     // convenience init(partition: String, name: String) {
@@ -51,10 +33,8 @@ class Project: EmbeddedObject {
     //     self.partition = partition
     //     self.name = name
     // }
-    // :state-uncomment-end: :state-uncomment-start: start
-    // // TODO: Add Project model (see SDKs panel in Realm UI)
-    // :state-uncomment-end:
-}
+//}
+// :state-uncomment-end:
 // :code-block-end:
 
 enum TaskStatus: String {
@@ -67,7 +47,6 @@ enum TaskStatus: String {
 // :state-start: local
 class Task: Object {
     @objc dynamic var _id: ObjectId = ObjectId.generate()
-    @objc dynamic var _partition: String = ""
     @objc dynamic var name: String = ""
     @objc dynamic var owner: String?
     @objc dynamic var status: String = ""
@@ -84,9 +63,8 @@ class Task: Object {
         }
     }
 
-    convenience init(partition: String, name: String) {
+    convenience init(name: String) {
         self.init()
-        self._partition = partition
         self.name = name
     }
 }

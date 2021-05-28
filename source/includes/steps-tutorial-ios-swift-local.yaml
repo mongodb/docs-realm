@@ -71,6 +71,10 @@ content: |
      * - TasksViewController.swift
        - The list of tasks for a given project.
 
+     * - ManageTeamViewController.swift
+       - This file isn't used in the part 1 of the tutorial,
+         but is used to manage members of a user's project in part 2.
+
 ---
 title: Define the Object Models
 ref: define-the-object-models
@@ -106,7 +110,7 @@ ref: implement-the-projects-list
 content: |
   Open the ProjectsViewController.swift file, which is where we present the user
   with a list of projects they are a member of. The WelcomeViewController has
-  opened the user {+realm+} for us and passed it in to this controller. This is a
+  opened the user {+realm+} for us and passed it to this controller. This is a
   good practice, as it allows the {+realm+} to fully download before transitioning
   to the next screen. If the {+realm+} failed to open for some reason, the error
   could be handled on the original screen and not have to undo a transition.

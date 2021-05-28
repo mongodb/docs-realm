@@ -75,7 +75,9 @@ class WelcomeViewController: UIViewController {
         // :code-block-start: info-label-password-add
         // :state-start: local
         infoLabel.text = "Please enter a username."
-        // :state-end: :state-uncomment-start: sync
+        // :state-end: :state-uncomment-start: start
+        // infoLabel.text = "Please enter a username."
+        // :state-uncomment-end::state-uncomment-start: sync
         // infoLabel.text = "Please enter an email and password."
         // :state-uncomment-end:
         // :code-block-end:
@@ -85,7 +87,9 @@ class WelcomeViewController: UIViewController {
         // Configure the username and password text input fields.
         // :state-start: local
         usernameField.placeholder = "Username"
-        // :state-end: :state-uncomment-start: sync
+        // :state-end: :state-uncomment-start: start
+        // usernameField.placeholder = "Username"
+        // :state-uncomment-end: :state-uncomment-start: sync
         // usernameField.placeholder = "Email"
         // :state-uncomment-end:
         // :code-block-end:
@@ -168,41 +172,14 @@ class WelcomeViewController: UIViewController {
     //         }
     //     })
     // }
-    //     :state-uncomment-end: :state-uncomment-start: start
-    //     // TODO: Use the app's emailPasswordAuth to registerUser with the email and password.
-    //     // When registered, call signIn().
-    // }
     // :state-uncomment-end:
     // :code-block-end:
 
     // :code-block-start: sign-in
     @objc func signIn() {
         // :state-start: local
-        DispatchQueue.main.async {
-            // Load again while we open the realm.
-            self.setLoading(true)
-            // Open the realm based on the username entered by the user
-            var config = Realm.Configuration.defaultConfiguration
-            config.fileURL!.deleteLastPathComponent()
-            config.fileURL!.appendPathComponent(self.username!)
-            config.fileURL!.appendPathExtension("realm")
-            // Only allow User objects in this partition.
-            config.objectTypes = [User.self, Project.self]
-            // Open the realm asynchronously so that it downloads the remote copy before
-            // opening the local copy.
-            Realm.asyncOpen(configuration: config) { [weak self](result) in
-                DispatchQueue.main.async {
-                    self!.setLoading(false)
-                    switch result {
-                    case .failure(let error):
-                        fatalError("Failed to open realm: \(error)")
-                    case .success(let userRealm):
-                        // Go to the list of projects in the user object contained in the user realm.
-                        self!.navigationController!.pushViewController(ProjectsViewController(userRealm: userRealm, username: (self?.username)!), animated: true)
-                    }
-                }
-            }
-        }
+        // Go to the list of projects in the user object contained in the user realm.
+        self.navigationController!.pushViewController(ProjectsViewController(username: (self.username)!), animated: true)
         // :state-end: :state-uncomment-start: sync
         // print("Log in as user: \(username!)")
         // setLoading(true)

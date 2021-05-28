@@ -11,36 +11,36 @@ import RealmSwift
 
 class ProjectsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     let tableView = UITableView()
-    let userRealm: Realm
+    // :state-uncomment-start: sync
+    // let userRealm: Realm
+    // :state-uncomment-end:
     var notificationToken: NotificationToken?
     // :state-start: local
     var username: String
     // :state-end:
+    // :state-uncomment-start: start
+    // var username: String
+    // :state-uncomment-end:
     var userData: User?
 
     // :state-start: local
-    init(userRealm: Realm, username: String) {
-    // :state-end: :state-uncomment-start: sync
+    init(username: String) {
+    // :state-end: :state-uncomment-start: start
+    // init(userRealm: Realm, username: String) {
+    // :state-uncomment-end: :state-uncomment-start: sync
     // init(userRealm: Realm) {
+    //     self.userRealm = userRealm
     // :state-uncomment-end:
-        self.userRealm = userRealm
         // :state-start: local
         self.username = username
         // :state-end:
+        // :state-uncomment-start: start
+        // self.username = username
+        // :state-uncomment-end:
 
         super.init(nibName: nil, bundle: nil)
 
         // :code-block-start: user-in-realm-notification
-        // :state-start: local
-        // There should only be one user in my realm - that is myself
-        let usersInRealm = userRealm.objects(User.self)
-
-        notificationToken = usersInRealm.observe { [weak self, usersInRealm] (_) in
-            self?.userData = usersInRealm.first
-            guard let tableView = self?.tableView else { return }
-            tableView.reloadData()
-        }
-        // :state-end:
         // :state-uncomment-start: sync
         // // There should only be one user in my realm - that is myself
         // let usersInRealm = userRealm.objects(User.self)
@@ -119,8 +119,8 @@ class ProjectsViewController: UIViewController, UITableViewDelegate, UITableView
     // :code-block-start: number-of-rows-in-section
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // :state-start: local
-        // You always have at least one project (your own)
-        return userData?.memberOf.count ?? 1
+        // You always have one project (your own)
+        return 1
         // :state-end:
         // :state-uncomment-start: sync
         // // You always have at least one project (your own)
@@ -142,7 +142,7 @@ class ProjectsViewController: UIViewController, UITableViewDelegate, UITableView
 
         // :state-start: local
         // User data may not have loaded yet. You always have your own project.
-        let projectName = userData?.memberOf[indexPath.row].name ?? "My Project"
+        let projectName = "My Project"
         cell.textLabel?.text = projectName
         // :state-end:
         // :state-uncomment-start: sync
@@ -163,10 +163,9 @@ class ProjectsViewController: UIViewController, UITableViewDelegate, UITableView
     // :code-block-start: did-select-row-at
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // :state-start: local
-        let project = Project(partition: "project=\(self.username)", name: "My Project")
         var config = Realm.Configuration.defaultConfiguration
         config.fileURL!.deleteLastPathComponent()
-        config.fileURL!.appendPathComponent(project.partition!)
+        config.fileURL!.appendPathComponent("project=\(self.username)")
         config.fileURL!.appendPathExtension("realm")
         config.objectTypes = [Task.self]
         Realm.asyncOpen(configuration: config) { [weak self] (result) in
@@ -175,7 +174,7 @@ class ProjectsViewController: UIViewController, UITableViewDelegate, UITableView
                 fatalError("Failed to open realm: \(error)")
             case .success(let realm):
                 self?.navigationController?.pushViewController(
-                    TasksViewController(realm: realm, title: "\(project.name!)'s Tasks"),
+                    TasksViewController(realm: realm, title: "\(self!.username)'s Tasks"),
                     animated: true
                 )
             }
@@ -199,10 +198,8 @@ class ProjectsViewController: UIViewController, UITableViewDelegate, UITableView
         // // TODO: open the realm for the selected project and navigate to the TasksViewController.
         // // The project information is contained in the userData's memberOf field.
         // // The userData may not have loaded yet. Regardless, the current user always has their own project.
-        // // A user's project partition value is "project=\(user.id!)". Use the user.configuration() with
-        // // the project's partition value to open the realm for that project.
+        // // A user's realm name is "project=username".
         // :state-uncomment-end: 
     }
     // :code-block-end:
-
 }

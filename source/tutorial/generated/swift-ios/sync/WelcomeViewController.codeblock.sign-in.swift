@@ -1,8 +1,8 @@
 @objc func signIn() {
-    print("Log in as user: \(email!)")
+    print("Log in as user: \(username!)")
     setLoading(true)
     
-    app.login(credentials: Credentials.emailPassword(email: email!, password: password!)) { [weak self](result) in
+    app.login(credentials: Credentials.emailPassword(email: username!, password: password!)) { [weak self](result) in
         // Completion handlers are not necessarily called on the UI thread.
         // This call to DispatchQueue.main.async ensures that any changes to the UI,
         // namely disabling the loading indicator and navigating to the next page,

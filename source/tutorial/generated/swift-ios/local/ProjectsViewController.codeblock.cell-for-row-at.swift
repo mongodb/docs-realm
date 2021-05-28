@@ -3,7 +3,7 @@ func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> U
     cell.selectionStyle = .none
 
     // User data may not have loaded yet. You always have your own project.
-    let projectName = userData?.memberOf[indexPath.row].name ?? "My Project"
+    let projectName = "My Project"
     cell.textLabel?.text = projectName
 
     return cell
