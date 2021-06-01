@@ -3,8 +3,8 @@ platform :ios, '13.0'
 target 'RealmExamples' do
   use_frameworks!
   pod 'SwiftLint'
-  pod 'Realm', '=10.8.0-beta.1'
-  pod 'RealmSwift', '=10.8.0-beta.1'
+  pod 'Realm', :git => 'https://github.com/realm/realm-cocoa', :branch => 'py/dictionary'
+  pod 'RealmSwift', :git => 'https://github.com/realm/realm-cocoa', :branch => 'py/dictionary'
   pod 'GoogleSignIn'
   pod 'FBSDKLoginKit', '=8.1.0'
 end
@@ -13,5 +13,5 @@ target 'QuickStartSwiftUI' do
   use_frameworks!
 
   pod 'SwiftLint'
-  pod 'RealmSwift', '=10.8.0-beta.1'
+  pod 'RealmSwift', :git => 'https://github.com/realm/realm-cocoa', :branch => 'py/dictionary'
 end

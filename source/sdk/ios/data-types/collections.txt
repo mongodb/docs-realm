@@ -128,6 +128,43 @@ For example, ``MutableSet`` intersection methods:
      `MutableSet API reference <https://docs.mongodb.com/realm-sdks/swift/10.8.0-beta.0/Classes/MutableSet.html>`_
    - For more info on to-many relationships, see: :ref:`To-Many Relationships <ios-to-many-relationship>`
 
+.. _ios-map:
+
+Map
+~~~
+
+.. versionadded:: 10.9.0
+   ``Map``
+
+The :swift-sdk:`Map <Classes/Map.html>` is an associative array that
+contains key-value pairs with unique keys.
+
+Like Swift's :apple:`Dictionary <documentation/swift/dictionary>`,
+``Map`` is a generic type that is parameterized on its key and value
+types. Unlike :apple:`native Swift collections
+<documentation/swift/swift_standard_library/collections>`,
+{+service-short+} Maps are reference types, as opposed to value types
+(structs).
+
+Usage
+`````
+
+You can declare a Map as a property of an object:
+
+.. literalinclude:: /examples/generated/code/start/MapExamples.codeblock.models.swift
+   :language: swift
+
+You can then update, check values, iterate over, and delete from the Map
+as you would a standard :apple:`Dictionary
+<documentation/swift/dictionary>`:
+
+.. literalinclude:: /examples/generated/code/start/MapExamples.codeblock.map.swift
+   :language: swift
+
+.. important::
+
+   You must modify the Map in a write transaction.
+
 .. _ios-linking-objects:
 
 LinkingObjects
