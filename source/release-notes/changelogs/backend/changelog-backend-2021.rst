@@ -4,5 +4,5 @@
 ~~~~~~~~~~~~~~~~~~~~
 
 - Improves performance of client requests to app servers.
-- Supports aggregation pipeline ``$set`` operator for updates.
+- Fixes an issue where aggregation pipelines did not support the ``$set`` operator for updates.
 - Reduces "Invalid Session" logs.
