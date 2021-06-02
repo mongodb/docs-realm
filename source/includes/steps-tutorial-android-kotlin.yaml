@@ -5,7 +5,7 @@ content: |
 
   We've already put together a task tracker Android application that has
   most of the code you'll need. You can clone the client application
-  repository directly from GitHub:
+  repository directly from :github:`GitHub <mongodb-university/realm-tutorial-android-kotlin>`: 
 
   .. code-block:: console
 
@@ -56,8 +56,14 @@ ref: explore-the-app-structure
 content: |
 
   In the Android Studio Project view, you can see the source files of the task
-  tracker application in the ``app`` folder and its subfolders. The
-  relevant files are as follows:
+  tracker application in the ``app`` folder and its subfolders. 
+  
+  TaskTracker stores files that describe the UI logic for Android
+  views in the ``app/java/com/mongodb/tasktracker`` directory. Files
+  that describe data models or how those data models relate to the UI
+  belong in the ``app/java/com/mongodb/tasktracker/model`` directory.
+  
+  The relevant files are as follows:
 
   .. cssclass:: config-table
   .. list-table::
@@ -135,11 +141,6 @@ content: |
      * - User
        - Model describing in-app user data, including the list of
          projects to which that user belongs.
-
-  TaskTracker stores files that describe the UI logic for Android
-  views in the ``app/java/com/mongodb/tasktracker`` directory. Files
-  that describe data models or how those data models relate to the UI
-  belong in the ``app/java/com/mongodb/tasktracker/models`` directory.
 
 ---
 title: Connect to Your MongoDB Realm App
@@ -292,9 +293,9 @@ content: |
   logged in user. An :ref:`authentication trigger
   <authentication-triggers>` automatically creates and initializes this
   object when the user creates an account. Add the code that queries for
-  the user object:
+  the user object in ``getProjects()``:
 
-  .. literalinclude:: /tutorial/generated/code/final/ProjectActivity.codeblock.user-init-change-listener.kt
+  .. literalinclude:: /tutorial/generated/code/final/ProjectActivity.codeblock.fetch-synced-user-safely.kt
      :language: kotlin
 
   Because it can take a few seconds for the trigger to create this
@@ -304,18 +305,30 @@ content: |
   watch the {+realm+} for changes and only set up the project's Recycler
   View once the trigger runs:
 
-  .. literalinclude:: /tutorial/generated/code/final/ProjectActivity.codeblock.fetch-synced-user-safely.kt
+  .. literalinclude:: /tutorial/generated/code/final/ProjectActivity.codeblock.user-init-change-listener.kt
      :language: kotlin
+
+  .. note:: Always Enabling the User's Personal Project
+
+     Users shouldn't have to wait for a Trigger to complete just to
+     write tasks to their personal project. But Task Tracker doesn't
+     display any projects until the user's custom user data object has
+     been initialized by a Trigger. To work around this, we automatically
+     create a temporary fake custom user data object whenever custom
+     user data isn't yet available, so the Recycler View has something
+     to display. Since tasks are written to a separate {+realm+}, using
+     an in-memory {+realm+} for the fake custom user data doesn't impact
+     creating and syncing tasks.
 
   Finally, we need to guarantee that ``ProjectActivity`` always closes
   the user {+realm+} when the app closes or the user logs out. To
   accomplish this, add logic that calls the ``realm.close()`` method
-  when ``ProjectActivity`` finishes or stops:
-
-  .. literalinclude:: /tutorial/generated/code/final/ProjectActivity.codeblock.on-destroy-close-realm.kt
-     :language: kotlin
+  when ``ProjectActivity`` stops or finishes:
 
   .. literalinclude:: /tutorial/generated/code/final/ProjectActivity.codeblock.on-stop-close-realm.kt
+     :language: kotlin
+
+  .. literalinclude:: /tutorial/generated/code/final/ProjectActivity.codeblock.on-destroy-close-realm.kt
      :language: kotlin
 
 ---
@@ -415,7 +428,7 @@ content: |
   Navigate to ``MemberActivity``, which defines the view
   that pops up when a user clicks the "options" action on their project
   in ``ProjectActivity``. Just like ``ProjectActivity`` and
-  ``ProjectActivity``, ``MemberActivity`` fetches the data for the
+  ``TaskActivity``, ``MemberActivity`` fetches the data for the
   Recycler View in the ``setUpRecyclerView`` method. However, instead of
   querying against a realm, we'll instead use a call to the
   ``getMyTeamMembers`` function. This function returns a list of team

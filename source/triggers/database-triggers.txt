@@ -1,3 +1,5 @@
+.. _database-trigger:
+
 -----------------
 Database Triggers
 -----------------
@@ -66,75 +68,92 @@ Create a Database Trigger
          * - Field
            - Description
          
-         * - | :guilabel:`Trigger Type`
-             | *type*
+         * - :guilabel:`Trigger Type`
          
            - Required. The type of the Trigger. Set this value to ``DATABASE`` for database Triggers
          
-         * - | :guilabel:`Trigger Name`
-             | *name*
+         * - :guilabel:`Trigger Name`
          
            - Required. The name of the Trigger.
          
-         * - | :guilabel:`Linked Function`
-             | *function_name*
+         * - :guilabel:`Linked Function`
          
            - Required. The name of the {+service-short+} Function that the Trigger
              executes whenever it fires. The Trigger passes the
              :ref:`database event object <database-events>` that
              caused it to fire as the only argument to this Function.
          
-         * - | :guilabel:`Cluster`
-             | *config.service_name*
+         * - :guilabel:`Cluster`
          
            - Required. The name of the MongoDB Service that the Trigger is
              associated with.
          
-         * - | :guilabel:`Database Name`
-             | *config.database*
+         * - :guilabel:`Database Name`
          
            - Required. The MongoDB database that contains the watched
              collection.
          
-         * - | :guilabel:`Collection Name`
-             | *config.collection*
+         * - :guilabel:`Collection Name`
          
            - Required. The name of the collection that the Trigger watches for
              change events.
          
-         * - | :guilabel:`Operation Types`
-             | *config.operation_types*
+         * - :guilabel:`Operation Types`
          
            - Required. A list of one or more :ref:`database operation
              types <database-event-operation-types>` that cause the Trigger to
-             fire. Format each operation type as a fully capitalized string, e.g., ``"INSERT"``.
-         
-         * - | :guilabel:`Full Document`
-             | *config.full_document*
-         
-           - Required. If true, indicates that ``UPDATE`` change events should
-             include the most current :manual:`majority-committed
-             </reference/read-concern-majority/>` version of the modified
-             document in the ``fullDocument`` field.
-         
-             .. note::
-         
-                This option only affects ``UPDATE`` change events. ``INSERT``
-                and ``REPLACE`` events always include the ``fullDocument``
-                field. ``DELETE`` events never include the ``fullDocument``
-                field. For more information, see the :manual:`change events
-                </reference/change-events/>` reference page.
+             fire. Format each operation type as an uppercase string, e.g.,
+             ``"INSERT"``.
          
              .. warning::
          
-                Update operations executed from {+compass+} or the
-                {+atlas+} Data Explorer fully replace the previous
-                document. As a result, update operations from these clients
-                will generate ``REPLACE`` change events rather than ``UPDATE``
-                events.
+                Update operations executed from {+compass+} or the {+atlas+}
+                Data Explorer fully replace the previous document. As a result,
+                update operations from these clients will generate ``REPLACE``
+                change events rather than ``UPDATE`` events.
          
-         * - | :guilabel:`Event Ordering`
-             | *config.unordered*
+         * - :guilabel:`Full Document`
+         
+           - If enabled, ``UPDATE`` change events include the latest
+             :manual:`majority-committed </reference/read-concern-majority/>`
+             version of the modified document *after* the change was applied in
+             the ``fullDocument`` field.
+         
+             .. note::
+         
+                Regardless of this setting:
+                
+                - ``INSERT`` and ``REPLACE`` events always include the
+                  ``fullDocument`` field.
+                
+                - ``DELETE`` events never include the ``fullDocument`` field.
+         
+         * - :guilabel:`Document Preimage (Beta)`
+         
+           - If enabled, change events include a copy of the modified document
+             from immediately *before* the change was applied in the
+             ``fullDocumentBeforeChange`` field. All change events except for
+             ``INSERT`` events include the document preimage.
+             
+             .. important:: Collection-Level Preimage Settings
+                
+                Document preimages use extra information stored in the oplog.
+                The extra data may have performance implications for some apps.
+                
+                Once you've enabled document preimages for any trigger on a
+                given collection, that collection will include preimage data in
+                the oplog and other triggers on the collection can use preimages
+                with no additonal overhead.
+                
+                You can disable document preimages on a per-trigger basis to
+                exclude the preimage from change events. Regardless of your
+                trigger-level settings, a collection's oplog entries will
+                continue to include preimage data unless you explicitly disable
+                preimages for the collection.
+                
+                For more information, see :ref:`trigger-preimages`.
+         
+         * - :guilabel:`Event Ordering`
          
            - 
              .. tabs-realm-admin-interfaces::
@@ -157,15 +176,13 @@ Create a Database Trigger
                 
              .. include:: /includes/trigger-event-ordering.rst
          
-         * - | :guilabel:`Match Expression`
-             | *config.match*
+         * - :guilabel:`Match Expression`
          
            - Optional.
              
              .. include:: /includes/trigger-match-expression.rst
          
-         * - | :guilabel:`Project Expression`
-             | *config.project*
+         * - :guilabel:`Project Expression`
          
            - Optional.
              
@@ -280,6 +297,7 @@ Database change event objects have the following general form:
       _id : <ObjectId>,
       "operationType": <string>,
       "fullDocument": <document>,
+      "fullDocumentBeforeChange": <document>,
       "ns": {
          "db" : <string>,
          "coll" : <string>
