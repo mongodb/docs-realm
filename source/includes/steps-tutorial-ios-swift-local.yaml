@@ -80,26 +80,16 @@ title: Define the Object Models
 ref: define-the-object-models
 content: |
   Navigate to the Models.swift file to implement the Realm Object Models used in
-  this app. First, implement the User model, which contains information about
-  the user's membership in different projects. Notice that the Realm object
-  models derive from ``Object`` from the ``RealmSwift`` library, which allows
-  Realm to store them in the Realm Database:
-
-  .. literalinclude:: /tutorial/generated/swift-ios/local/Models.codeblock.user-model.swift
-     :language: swift
+  this app. Notice that the Realm object models derive from ``Object``
+  from the ``RealmSwift`` library, which allows us to store them in
+  {+client-database+}:
 
   .. note::
 
       To learn more about how {+service-short+} Object models are used in iOS applications, 
       see :ref:`ios-read-and-write-data` in our iOS client guide. 
 
-  Next, implement the Project embedded object that represents a Project that a
-  User is a member of:
-
-  .. literalinclude:: /tutorial/generated/swift-ios/local/Models.codeblock.project-model.swift
-     :language: swift
-
-  Finally, let's turn the Task class into a Realm object model:
+  Let's turn the Task class into a Realm object model:
 
   .. literalinclude:: /tutorial/generated/swift-ios/local/Models.codeblock.task-model.swift
      :language: swift
