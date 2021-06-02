@@ -103,6 +103,7 @@ class LoginActivity : AppCompatActivity() {
             }
             // :state-end: :state-uncomment-start: start
             //// TODO: Log in with the supplied username and password when the "Log in" button is pressed.
+            //onLoginFailed("Couldn't log in. Configure your App ID and login handler.")
             // :state-uncomment-end:
             // :code-block-end:
         }

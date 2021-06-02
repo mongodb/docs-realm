@@ -1,0 +1,41 @@
+.. _react-native-data-types-uuid:
+
+=======================
+UUID - React Native SDK
+=======================
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+.. versionadded:: 10.5.0-beta.1
+
+Overview
+--------
+
+``UUID`` (Universal Unique Identifier) is a 16-byte :wikipedia:`unique value
+<Universally_unique_identifier>`. You can use ``UUID`` as an identifier for
+objects. ``UUID`` is :ref:`indexable <react-native-indexes>` and you can use it as a
+:ref:`primary key <react-native-primary-keys>`.
+
+.. note:: Using UUID Instead of ObjectId
+
+   In general, you can use ``UUID`` for any fields that function as a unique
+   identifier. Using ``UUID`` might be particularly useful if you are migrating
+   data not stored in MongoDB since it is likely that your object's unique
+   identifiers are already of a ``UUID`` type. Alternatively, using ``ObjectId``
+   might be useful for a collection of data that already exists in MongoDB.
+
+Usage
+----- 
+To define a property as a ``UUID``, set its type to the string ``"uuid"`` in
+your :ref:`object model <react-native-object-schemas>`. Create a {+service-short+}
+object within a write transaction. To set any unique identifier properties of
+your object to a random value, call ``new UUID()``. Alternatively, pass a string
+to ``new UUID()`` to set the unique identifier property to a specific value.
+
+.. literalinclude:: /examples/generated/node/data-types.codeblock.work-with-uuid.js
+    :language: javascript

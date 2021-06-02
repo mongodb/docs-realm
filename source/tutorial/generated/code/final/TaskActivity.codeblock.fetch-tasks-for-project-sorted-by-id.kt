@@ -1,1 +1,1 @@
-adapter = TaskAdapter(realm.where<Task>().sort("_id").findAll(), user!!, partition)
+adapter = TaskAdapter(realm.where<Task>().sort("id").findAll(), user!!, partition)

@@ -1,0 +1,97 @@
+---
+title: Clone the Client App Repository
+ref: clone-the-client-app-repository
+content: |
+  We've put together a React Native application that has
+  most of the code you'll need. Clone the client application repository
+  directly from :github:`GitHub <mongodb-university/realm-tutorial-react-native>`:
+
+  .. code-block:: shell
+
+     git clone --branch start https://github.com/mongodb-university/realm-tutorial-react-native.git
+
+  .. tip::
+   
+     The ``start`` branch is an incomplete version of the app that we will
+     complete in this tutorial. To view the finished app, check out the
+     ``final`` branch, install dependencies (as described in the next step), 
+     and update ``getRealmApp.js`` with your :ref:`Realm app ID <find-your-app-id>`.
+
+---
+title: Install Dependencies and Launch the App
+ref: install-dependencies-and-launch-the-app
+content: |
+  In your terminal, run the following commands to navigate to the task tracker
+  client application and install its dependencies:
+
+  .. code-block:: shell
+     
+     cd realm-tutorial-react-native
+     npm install
+
+  If you plan to run the app on an iOS device or emulator, you need to install 
+  additional dependencies with 
+  `CocoaPods <https://guides.cocoapods.org/using/getting-started.html>`__. Change 
+  directories to the ``ios`` directory and run ``pod install``, as shown here:
+
+  .. code-block:: shell
+     
+     cd ios
+     pod install --repo-update
+     cd ..
+
+  Be sure to switch back to the :guilabel:`realm-tutorial-react-native` root 
+  directory after installing the pods.
+
+---
+title: Test the Setup
+ref: test-setup
+content: |
+  At this point, you have a React Native app that can run on both iOS and Android. 
+  We haven't yet implemented the necessary code for app 
+  functionality, so there will be errors when the app loads, but you can 
+  ensure that the app deploys properly. 
+
+  Start by running `Metro <https://facebook.github.io/metro/>`__ in a terminal 
+  window by using the following command:
+
+  .. code-block:: shell
+
+     npx react-native start
+
+  Leave Metro running, and in a **separate terminal window**, issue one of the 
+  following commands, depending on whether you want to run on iOS or Android:
+
+  .. code-block:: shell
+
+     npx react-native run-ios
+
+  or
+
+  .. code-block:: shell
+
+     npx react-native run-android
+
+  After the emulator is started and the bits have been deployed, you should see 
+  the app is "running" and one or more errors are displayed:
+    
+  .. figure:: /images/rn-app-initial-state.png
+    :alt: The initial state of React Native app
+    :width: 250px
+
+  .. important:: CompileC Error
+    
+     If, when compiling the iOS app, you get a CompileC build error that involves
+     "Flipper," you will need to edit ``/ios/Podfile``. Look for the section 
+     that enables Flipper and comment out those lines:
+
+     .. code-block:: text
+
+        # Enables Flipper.
+        #
+        # Note that if you have use_frameworks! enabled, Flipper will not work and
+        # you should disable these next few lines.
+        # use_flipper!
+        #post_install do |installer|
+        #  flipper_post_install(installer)
+        #end

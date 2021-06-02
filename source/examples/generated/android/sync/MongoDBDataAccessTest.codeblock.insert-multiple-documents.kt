@@ -1,4 +1,4 @@
-val plants = Arrays.asList(
+val plants = listOf(
     Plant(
         ObjectId(),
         "rhubarb",

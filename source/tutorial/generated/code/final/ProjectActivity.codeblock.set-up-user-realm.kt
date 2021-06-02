@@ -7,6 +7,6 @@ Realm.getInstanceAsync(config, object: Realm.Callback() {
     override fun onSuccess(realm: Realm) {
         // since this realm should live exactly as long as this activity, assign the realm to a member variable
         this@ProjectActivity.userRealm = realm
-        setUpRecyclerView(realm)
+        setUpRecyclerView(getProjects(realm))
     }
 })

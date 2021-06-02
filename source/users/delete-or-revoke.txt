@@ -10,62 +10,219 @@ Delete or Prevent Users From Accessing a Realm Application
    :depth: 1
    :class: singlecol
 
-Delete or Disable a User
-------------------------
+.. _delete-user:
 
-There may be a situation when you need to disable or completely remove a
-user from your :term:`{+app+}`. To do so, use the following procedure:
+Delete a User
+-------------
 
-#. Select :guilabel:`App Users` from the {+leftnav+}.
+You can completely remove a user from your application, including any metadata
+and authentication provider identities.
 
-#. Select either :guilabel:`Confirmed` or :guilabel:`Pending`, depending
-   on the current state of the user you wish to delete.
+.. tip::
+   
+   If you don't want to delete the user's account, you can :ref:`disable their
+   account <disable-user>` to temporarily suspend their access.
 
-#. Under the :guilabel:`Users` tab, find a user in the list and click on
-   the ellipsis (``...``).
-
-#. Choose either :guilabel:`Disable User` or :guilabel:`Delete User`.
-   Both options invalidate all access tokens and refresh tokens for the
-   user, and the user can no longer log in. :guilabel:`Delete User` also
-   removes the account from your {+app+}. Users who are not
-   yet confirmed cannot be disabled, only deleted.
+.. tabs-realm-admin-interfaces::
+   
+   .. tab::
+      :tabid: ui
+      
+      #. Select :guilabel:`App Users` from the {+leftnav+}.
+      
+      #. Select either :guilabel:`Confirmed` or :guilabel:`Pending`, depending
+         on the current state of the user you wish to delete.
+      
+      #. Under the :guilabel:`Users` tab, find a user in the list and click on
+         the ellipsis (``...``).
+      
+      #. Click :guilabel:`Delete User` and confirm your choice.
+   
+   .. tab::
+      :tabid: cli
+      
+      .. include:: /includes/note-procedure-uses-cli-v2.rst
+      
+      To delete a user, call ``realm-cli users delete``. The CLI will prompt you
+      for your App ID and list users in that app for you to select.
+      
+      .. code-block:: bash
+         
+         realm-cli users delete
+      
+      You can also specify the arguments when you call the program:
+      
+      .. code-block:: bash
+         
+         realm-cli users delete \
+           --app=<Your App ID> \
+           --user=<User ID>
+      
+      .. tip::
+         
+         You can delete multiple users with a single command by specifying
+         their ``id`` values as a comma-separated list.
+         
+         .. code-block:: bash
+            
+            realm-cli users delete --user=6099694d5debcbcc873ff413,60996996b78eca4a8d615d3a
 
 .. note::
 
-   Deleting a user will not automatically delete any data in your
-   :term:`linked {+atlas+} cluster <linked cluster>` that you have
-   associated with that user. For example, if you have a ``todo_items``
-   collection with an ``"owner_id"`` field, deleting a user will not
-   automatically delete all of their To-Do items. You will need to
-   manually remove those documents from your database if you want to
-   remove all traces of that user fully.
+   Realm does not automatically delete any data in your :term:`linked {+atlas+}
+   cluster <linked cluster>` that you have associated with a deleted user, such
+   as by including their ID in an ``owner_id`` field. To remove all traces of a
+   deleted user, you must manually delete or modify any such documents.
+
+.. _disable-user:
+
+Disable a User
+--------------
+
+You can temporarily disable a user, which prevents the user from logging in and
+invalidates any of the user's existing access and refresh tokens. You can
+:ref:`enable <enable-user>` a disabled user to let them log in again.
+
+.. tabs-realm-admin-interfaces::
+   
+   .. tab::
+      :tabid: ui
+      
+      #. Select :guilabel:`App Users` from the {+leftnav+}.
+      
+      #. Select either :guilabel:`Confirmed` or :guilabel:`Pending`, depending
+         on the current state of the user you wish to disable.
+      
+      #. Under the :guilabel:`Users` tab, find a user in the list and click on
+         the ellipsis (``...``).
+      
+      #. Click :guilabel:`Disable User` and confirm your choice.
+   
+   .. tab::
+      :tabid: cli
+      
+      .. include:: /includes/note-procedure-uses-cli-v2.rst
+      
+      To disable a user, call ``realm-cli users disable``. The CLI will prompt you
+      for your App ID and list users in that app for you to select.
+      
+      .. code-block:: bash
+         
+         realm-cli users disable
+      
+      You can also specify the arguments when you call the program:
+      
+      .. code-block:: bash
+         
+         realm-cli users disable \
+           --app=<Your App ID> \
+           --user=<User ID>
+      
+      .. tip::
+         
+         You can disable multiple users with a single command by specifying
+         their ``id`` values as a comma-separated list.
+         
+         .. code-block:: bash
+            
+            realm-cli users disable --user=6099694d5debcbcc873ff413,60996996b78eca4a8d615d3a
+
+.. _enable-user:
+
+Enable a User
+-------------
+
+You can enable a :ref:`disabled user <disable-user>` to let them log in again.
+
+.. tabs-realm-admin-interfaces::
+   
+   .. tab::
+      :tabid: ui
+      
+      #. Select :guilabel:`App Users` from the {+leftnav+}.
+      
+      #. Select either :guilabel:`Confirmed` or :guilabel:`Pending`, depending
+         on the current state of the user you wish to enable.
+      
+      #. Under the :guilabel:`Users` tab, find a user in the list and click on
+         the ellipsis (``...``).
+      
+      #. Click :guilabel:`Enable User` and confirm your choice.
+   
+   .. tab::
+      :tabid: cli
+      
+      .. include:: /includes/note-procedure-uses-cli-v2.rst
+      
+      To enable a user, call ``realm-cli users enable``. The CLI will prompt you
+      for your App ID and list users in that app for you to select.
+      
+      .. code-block:: bash
+         
+         realm-cli users enable
+      
+      You can also specify the arguments when you call the program:
+      
+      .. code-block:: bash
+         
+         realm-cli users enable \
+           --app=<Your App ID> \
+           --user=<User ID>
+      
+      .. tip::
+         
+         You can enable multiple users with a single command by specifying
+         their ``id`` values as a comma-separated list.
+         
+         .. code-block:: bash
+            
+            realm-cli users enable --user=6099694d5debcbcc873ff413,60996996b78eca4a8d615d3a
 
 .. _revoke-user-sessions:
 
 Revoke a User's Sessions
 ------------------------
 
-Situations may arise where you need to log a particular user out of
-all of their :ref:`sessions <user-sessions>` and prevent them from making
-further requests until they reauthenticate. The {+service-short+} admin console
-makes this a straightforward process.
+You can revoke all of a user's current :ref:`sessions <user-sessions>`. This
+invalidates the sessions and prevents the user from making any requests on any
+device until they log in again.
 
-Use the following procedure to revoke all the sessions for a particular
-user:
+.. tabs-realm-admin-interfaces::
+   
+   .. tab::
+      :tabid: ui
 
-#. Select :guilabel:`App Users` from the {+leftnav+}.
-
-#. Under the :guilabel:`Users` tab, find a user in the list and click on the ellipsis (``...``).
-
-#. Click :guilabel:`Revoke all sessions`. This invalidates all access
-   tokens and refresh tokens for that user, meaning that to perform
-   any further requests in any of their sessions, users will need to
-   reauthenticate.
-
-Summary
--------
-
-- You can delete or disable {+app+} users through the {+ui+}.
-
-- You can log out {+app+} users from all of their sessions through
-  the {+service-short+} admin console.
+      #. Select :guilabel:`App Users` from the {+leftnav+}.
+      
+      #. Under the :guilabel:`Users` tab, find a user in the list and click on the ellipsis (``...``).
+      
+      #. Click :guilabel:`Revoke all sessions`.
+   
+   .. tab::
+      :tabid: cli
+      
+      .. include:: /includes/note-procedure-uses-cli-v2.rst
+      
+      To revoke all sessions for a user, call ``realm-cli users revoke``. The CLI will prompt you
+      for your App ID and list users in that app for you to select.
+      
+      .. code-block:: bash
+         
+         realm-cli users revoke
+      
+      You can also specify the arguments when you call the program:
+      
+      .. code-block:: bash
+         
+         realm-cli users revoke \
+           --app=<Your App ID> \
+           --user=<User ID>
+      
+      .. tip::
+         
+         You can revoke sessions for multiple users with a single command by
+         specifying their ``id`` values as a comma-separated list.
+         
+         .. code-block:: bash
+            
+            realm-cli users revoke --user=6099694d5debcbcc873ff413,60996996b78eca4a8d615d3a

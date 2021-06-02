@@ -234,20 +234,19 @@ immutable copies around to many threads for processing
 before ultimately ending up on the UI thread. Making a deep
 copy every time would be expensive, and {+client-database+} does not allow
 live instances to be shared across threads. In this case,
-you can **freeze** objects, collections, and {+realms+}.
+you can **freeze** and **thaw** objects, collections, and {+realms+}.
 
 Freezing creates an immutable view of a specific object,
-collection, or {+realm+} that still exists on disk and does not
-need to be deeply copied when passed around to other
-threads. You can freely share a frozen object across threads
-without concern for thread issues.
+collection, or {+realm+}. The frozen object, collection, or {+realm+} still 
+exists on disk, and does not need to be deeply copied when passed around 
+to other threads. You can freely share the frozen object across threads
+without concern for thread issues. When you freeze a {+realm+}, its child 
+objects also become frozen.
 
 Frozen objects are not live and do not automatically update.
 They are effectively snapshots of the object state at the
-time of freezing.
-
-When you freeze a {+realm+}, its child objects also become
-frozen.
+time of freezing. Thawing an object returns a live version of the frozen 
+object.
 
 .. tabs-realm-languages::
 
@@ -270,9 +269,8 @@ the following throws an exception:
 - Modifying a frozen object.
 - Adding a change listener to a frozen {+realm+}, collection, or object.
 
-Once frozen, it is not possible to unfreeze an object. You can use
-``isFrozen`` to check if the object is frozen. This is always
-thread-safe.
+You can use ``isFrozen`` to check if the object is frozen. This is always
+thread-safe. 
 
 .. tabs-realm-languages::
 
@@ -294,9 +292,6 @@ thread-safe.
              // ...
          }
 
-To modify a frozen object, query for it on an unfrozen
-{+realm+}, then modify it.
-
 Frozen objects remain valid as long as the live {+realm+} that
 spawned them stays open. Therefore, avoid closing the live
 {+realm+} until all threads are done with the frozen objects.
@@ -309,6 +304,20 @@ You can close frozen {+realm+} before the live {+realm+} is closed.
    specific target device and the size of your {+service-short+}
    objects. If you need to cache a large number of versions,
    consider copying what you need out of the {+realm+} instead.
+
+.. _ios-modify-frozen-object:
+
+Modify a Frozen Object
+``````````````````````
+
+To modify a frozen object, you must thaw the object. Alternately, you can 
+query for it on an unfrozen {+realm+}, then modify it. Calling ``thaw`` 
+on a live object, collection, or {+realm+} returns itself.
+
+Thawing an object or collection also thaws the {+realm+} it references.
+
+.. literalinclude:: /examples/generated/code/start/Threading.codeblock.thaw.swift
+         :language: swift
 
 .. _ios-mvcc:
 

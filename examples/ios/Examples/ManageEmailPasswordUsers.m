@@ -65,7 +65,7 @@
     }];
 }
 
-- (void)testResetPassword {
+- (void)testResetPasswordObjc {
     XCTestExpectation *expectation = [self expectationWithDescription:@"send reset email completes"];
 
     // :code-block-start: reset-password-objc

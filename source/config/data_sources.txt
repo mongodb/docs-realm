@@ -21,6 +21,7 @@ MongoDB Data Source Configuration Files
            └── <database>/
                └── <collection>/
                    ├── schema.json
+                   ├── relationships.json
                    └── rules.json
 
 Service Configuration
@@ -40,7 +41,6 @@ MongoDB Clusters
      "config": {
        "clusterName": "<Atlas Cluster Name>",
        "readPreference": "<Read Preference>",
-       "sync": { <Sync Configuration> },
        "wireProtocolEnabled": <Boolean>
      }
    }
@@ -75,102 +75,10 @@ MongoDB Clusters
        
        .. include:: /mongodb/tables/read-preference-modes.rst
    
-   * - | ``config.sync``
-       | Document
-     - A configuration document that determines if a cluster is :doc:`synced
-       </sync>` and, if it is, defines the rules for sync operations on the
-       cluster.
-
-       For detailed information on sync configuration documents, see
-       :ref:`Synced Cluster Configuration <config-synced-cluster>`.
-   
    * - | ``config.wireProtocolEnabled``
        | Boolean   
      - If ``true``, clients may :ref:`connect to the app over the MongoDB Wire
        Protocol <wire-protocol-connect>`.
-
-.. _config-synced-cluster:
-
-Synced Cluster Configuration
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-The ``config.sync`` field of ``config.json`` determines if a cluster is
-:doc:`synced </sync>` and, if it is, defines the rules for sync operations on
-the cluster.
-
-.. code-block:: json
-   :caption: config.json
-
-   {
-     ...,
-     "config": {
-       ...,
-       "sync": {
-         "state": <Boolean>,
-         "development_mode_enabled": <Boolean>,
-         "database_name": "<Developer Mode Database Name>",
-         "partition": {
-           "key": "<Partition Key Field Name>",
-           "type": "<Partition Key Value Type>",
-           "permissions": {
-             "read": <JSON Expression>,
-             "write": <JSON Expression>
-           }
-         }
-       }
-     }
-   }
-
-.. list-table::
-   :header-rows: 1
-   :widths: 10 30
-
-   * - Field
-     - Description
-   
-   * - | ``sync.state``
-       | Boolean
-     - If ``true``, :doc:`Sync </sync>` is enabled for the cluster, which means
-       that client applications can sync data in the cluster with Realm Database
-       and that :ref:`non-sync collection rules <mongodb-service-rules>` do not
-       apply.
-   
-   * - | ``sync.development_mode_enabled``
-       | Boolean
-     - If ``true``, :term:`development mode` is enabled for the cluster. While
-       enabled, Realm automatically stores synced objects in a specific database
-       within the cluster and mirrors objects types in that database's
-       collection schemas.
-       
-       .. important::
-          
-          Realm does not enforce rules when development mode is enabled.
-
-   * - | ``sync.database_name``
-       | String
-     - The name of the database in the synced cluster where Realm should store
-       synced objects.
-       
-       When :term:`development mode` is enabled, Realm stores synced objects in
-       this database. Each object type maps to its own collection in the
-       database with a schema that matches the synced objects.
-   
-   * - | ``sync.partition.key``
-       | String
-     - The name of the field that :ref:`partitions <partitioning>` data into
-       client Realms.
-   
-   * - | ``sync.partition.type``
-       | String
-     - The type of the partition key field value.
-   
-   * - | ``sync.partition.permissions``
-       | Document
-     - A document that defines the ``read`` and ``write`` permissions for the
-       synced cluster. Permissions are defined with :ref:`rule expressions
-       <expressions>` that Realm evaluates per-user, per-partition. The
-       expressions have access to the :json-expansion:`%%user` and
-       :json-expansion:`%%partition` expansions.
 
 .. _config-datalake:
 
@@ -211,7 +119,6 @@ MongoDB Data Lakes
        | String   
      - Required. The name of the data lake in Atlas.
 
-
 Databases & Collections
 -----------------------
 
@@ -226,7 +133,7 @@ JSON schema for the documents. The root level schema must be an :ref:`object
 schema <schema-type-objects>`, which has the following form:
 
 .. code-block:: json
-   :caption: /<service>/<database>/<collection>/schema.json
+   :caption: /data_sources/<service>/<database>/<collection>/schema.json
    
    {
      "title": "<Object Type Name>",
@@ -236,6 +143,86 @@ schema <schema-type-objects>`, which has the following form:
        ...
      }
    }
+
+.. _config-relationships:
+
+Relationships
+~~~~~~~~~~~~~
+
+.. code-block:: json
+   :caption: /data_sources/<service>/<database>/<collection>/relationships.json
+
+   {
+     "<Source Field Name>": {
+       "ref": "#/relationship/<Data Source Name>/<Database Name>/<Collection Name>",
+       "source_key": "<Source Field Name>",
+       "foreign_key": "<Foreign Field Name>",
+       "is_list": <Boolean>
+     },
+     ...
+   }
+
+.. list-table::
+   :widths: 10 30
+   :header-rows: 1
+
+   * - Field
+     - Description
+   
+   * - | ``ref``
+       | String
+     - A JSON schema ``$ref`` string that specifies the foreign collection. The
+       string has the following form:
+       
+       .. code-block:: text
+          
+          #/relationship/<Data Source Name>/<Database Name>/<Collection Name>
+   
+   * - | ``source_key``
+       | String
+     - The name of the field in this collection's schema that specifies which
+       documents in the foreign collection to include in the relationship. A
+       foreign document is included if ``source_key`` contains the value of its
+       ``foreign_key`` field.
+   
+   * - | ``foreign_key``
+       | String
+     - The name of the field in the foreign collection's schema that contains
+       the value referenced by ``source_key``.
+   
+   * - | ``is_list``
+       | Boolean
+     - If ``true``, the relationship may refer to multiple foreign documents
+       (i.e. a "to-many" relationship). The ``source_key`` field must be an
+       array with elements of the same type as the ``foreign_key`` field.
+       
+       If ``false``, the relationship may refer to zero or one foreign documents
+       (i.e. a "to-one" relationship). The ``source_key`` field must be the same
+       type as the ``foreign_key`` field.
+
+.. example::
+   
+   An ecommerce app defines a relationship between two collections: each
+   document in ``store.orders`` references one or more documents in the
+   ``store.items`` collection by including item ``_id`` values in the order's
+   ``items`` array. Both collection are in the same linked cluster
+   (``mongodb-atlas``) and database (``store``).
+   
+   The relationship is defined for the ``orders`` collection:
+   
+   .. code-block:: json
+      :caption: /data_sources/mongodb-atlas/store/orders/relationships.json
+      
+      {
+        "items": {
+          "ref": "#/relationship/mongodb-atlas/store/items",
+          "source_key": "items",
+          "foreign_key": "_id",
+          "is_list": true
+        }
+      }
+
+.. _config-collection-rules:
 
 Collection Rules
 ~~~~~~~~~~~~~~~~

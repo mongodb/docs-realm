@@ -17,7 +17,7 @@
      .then(customers => {
        console.log(`Successfully grouped purchases for ${customers.length} customers.`)
        for(const customer of customers) {
-         console.log(`customer: ${_id}`)
+         console.log(`customer: ${customer._id}`)
          console.log(`num purchases: ${customer.numPurchases}`)
          console.log(`total items purchased: ${customer.numItemsPurchased}`)
          console.log(`average items per purchase: ${customer.averageNumItemsPurchased}`)

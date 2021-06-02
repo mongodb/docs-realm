@@ -10,27 +10,125 @@ Find and View a User
    :depth: 1
    :class: singlecol
 
+.. _find-users:
+
 Find a User
 -----------
 
-To find a specific user, click :guilabel:`App Users` in the {+leftnav+}. The
-Users page displays with the :guilabel:`Users` tab as the default view. You will
-see a list of users associated with your {+app+}, like this:
+.. tabs-realm-admin-interfaces::
+   
+   .. tab::
+      :tabid: ui
+      
+      To find information about one or more users, click :guilabel:`App Users`
+      in the {+leftnav+}. The page opens to the :guilabel:`Users` tab which has
+      a list of users associated with your {+app+}:
+      
+      .. figure:: /images/find.png
+         :figwidth: 750px
+         :alt: The Users screen in the UI, which shows a filterable list of all users
+      
+      .. tip::
+         
+         If you already know the ID of the user you want to find, you can search
+         for their ID in the :guilabel:`Users` table search bar.
+   
+   .. tab::
+      :tabid: cli
+      
+      .. include:: /includes/note-procedure-uses-cli-v2.rst
+      
+      To find information about one or more users, call ``realm-cli users
+      list``. The CLI will prompt you for your App ID and list users in that app
+      for you to select.
+      
+      .. code-block:: bash
+         
+         realm-cli users list
+      
+      You can also specify the arguments when you call the program:
+      
+      .. code-block:: bash
+         
+         realm-cli users list --app=<Your App ID>
 
-.. figure:: /images/find.png
-   :figwidth: 750px
-   :alt: The Users screen in the UI, which shows a filterable list of all users
+.. _filter-users:
 
-As the number of users increases, you may find it convenient to filter
-the view to a subset of users. To do this, use the :guilabel:`filter bar`
-to limit the types of users. You can filter by:
+Filter Users
+------------
 
-- :guilabel:`Provider type` -- Anonymous, Email/Password, Google,
-  Facebook, API Keys, or Custom Authentication
-- :guilabel:`Status` -- Enabled or Disabled
+You can specify filters that limit a list of users to a subset of users that
+satisfy the filter conditions.
 
-Also, the :guilabel:`filter bar` contains a search box, enabling
-you to find a specific user by their ID.
+.. tabs-realm-admin-interfaces::
+   
+   .. tab::
+      :tabid: ui
+      
+      Use the :guilabel:`filter bar` at the top of the :guilabel:`Users` table
+      to define filters. You can filter by:
+      
+      - :guilabel:`Provider type`
+        
+        - Anonymous
+        - Email/Password
+        - API Key
+        - Facebook
+        - Google
+        - Apple
+        - Custom JWT
+        - Custom Function
+      
+      - :guilabel:`Status`
+      
+        - Confirmed
+        - Pending
+      
+      - :guilabel:`State`
+      
+        - Enabled
+        - Disabled
+   
+   .. tab::
+      :tabid: cli
+
+      You can filter user operations with the following flags and arguments:
+      
+      - ``--pending``: If included, lists only pending users. Otherwise, lists only confirmed users.
+      
+      - ``--state``: Lists only users in the specified state
+        
+        - ``"enabled"``
+        - ``"disabled"``
+      
+      - ``--provider``:
+        
+        - ``"anon-user"``
+        - ``"local-userpass"``
+        - ``"api-key"``
+        - ``"oauth2-facebook"``
+        - ``"oauth2-google"``
+        - ``"oauth2-apple"``
+        - ``"custom-token"``
+        - ``"custom-function"``
+      
+      .. example::
+         
+         The following command limits the output to only :ref:`pending
+         <confirm-user>` (unconfirmed) email/password users:
+         
+         .. code-block:: shell
+            
+            realm-cli users list --pending --provider="local-userpass"
+      
+      .. example::
+         
+         The following command limits the output to only :ref:`disabled
+         <disable-user>` users:
+         
+         .. code-block:: shell
+            
+            realm-cli users list --state="disabled"
 
 View a User's Devices
 ---------------------

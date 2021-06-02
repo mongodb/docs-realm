@@ -66,14 +66,14 @@ internal class TaskAdapter(data: OrderedRealmCollection<Task>, val user: io.real
                             status = TaskStatus.Complete
                         }
                         deleteCode -> {
-                            removeAt(holder.data?._id!!)
+                            removeAt(holder.data?.id!!)
                         }
                     }
 
                     // if the status variable has a new value, update the status of the task in realm
                     if (status != null) {
-                        Log.v(TAG(), "Changing status of ${holder.data?.name} (${holder.data?._id}) to $status")
-                        changeStatus(status!!, holder.data?._id)
+                        Log.v(TAG(), "Changing status of ${holder.data?.name} (${holder.data?.id}) to $status")
+                        changeStatus(status, holder.data?.id!!)
                     }
                     true
                 }
@@ -82,7 +82,7 @@ internal class TaskAdapter(data: OrderedRealmCollection<Task>, val user: io.real
         }
     }
 
-    private fun changeStatus(status: TaskStatus, _id: ObjectId?) {
+    private fun changeStatus(status: TaskStatus, id: ObjectId) {
         // :code-block-start: change-task-status
         // :state-start: final
         // need to create a separate instance of realm to issue an update
@@ -96,7 +96,7 @@ internal class TaskAdapter(data: OrderedRealmCollection<Task>, val user: io.real
         // execute Transaction asynchronously to avoid blocking the UI thread
         realm.executeTransactionAsync {
             // using our thread-local new realm instance, query for and update the task status
-            val item = it.where<Task>().equalTo("_id", _id).findFirst()
+            val item = it.where<Task>().equalTo("id", id).findFirst()
             item?.statusEnum = status
         }
         // always close realms when you are done with them!
@@ -123,7 +123,7 @@ internal class TaskAdapter(data: OrderedRealmCollection<Task>, val user: io.real
         // execute Transaction asynchronously to avoid blocking the UI thread
         realm.executeTransactionAsync {
             // using our thread-local new realm instance, query for and delete the task
-            val item = it.where<Task>().equalTo("_id", id).findFirst()
+            val item = it.where<Task>().equalTo("id", id).findFirst()
             item?.deleteFromRealm()
         }
         // always close realms when you are done with them!

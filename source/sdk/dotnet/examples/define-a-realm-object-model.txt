@@ -128,6 +128,21 @@ class.
 
    :ref:`Data Types: Embedded Objects <dotnet-embedded-objects>`
 
+
+.. _dotnet-customer-setter:
+
+Custom Setters
+--------------
+Realm will not store a property with a custom setter. To use a custom setter, 
+store the property value in a private property and then 
+map that value to a public property with the custom setter. Realm will store the 
+private property, while you modify its value via the public property.
+In the following code, the private ``email`` property is stored in the {+realm+}, 
+but the public ``Email`` property, which provides validation, is not persisted:
+
+.. literalinclude:: /examples/generated/dotnet/Objects.codeblock.custom-setter.cs
+   :language: csharp
+
 .. _dotnet-property-annotations:
 
 Property Annotations

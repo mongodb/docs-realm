@@ -16,89 +16,176 @@ Overview
 --------
 
 While you develop applications using {+sync+}, you may run into errors. This
-section details some common errors. 
-
-
-.. _sync-errors-error-codes:
-
-Error Codes
------------
-When the server encounters an error that appears to be caused by the connected
-client, it will send an error message to that client. The error message will
-have a code number and description. To see the full list of sync errors, see the
-:github:`error code list on the Realm Core github repository. <realm/realm-core/blob/master/doc/protocol/protocol_1.md#error-codes>`.
-
-.. _sync-error-logging:
-
-Error Logging
--------------
-When actively troubleshooting an issue, set the logging level to ``debug`` or
-``trace`` to diagnose errors while developing your application. When running in a
-production environment, you will want to decrease the logging level for improved
-performance.
+section lists common errors and describes how to and handle them.
 
 .. note::
+   
+   If you encounter an error not listed on this page, you can file a `support
+   ticket <https://support.mongodb.com/welcome>`_.
 
-   {+backend+} creates sync logs whenever a user interacts with {+sync+}. To learn more, read the documentation on :ref:`application logs <logs>`.
+.. _sync-protocol-errors:
+
+Sync Protocol Errors 
+--------------------
+
+The following table describes :doc:`{+sync-short+} protocol </sync/protocol>`
+errors and how to handle them. {+service+} reports errors in your
+:doc:`{+sync-short+} logs </logs>`.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 30 70
+
+   * - Error Name
+     - Description
+
+   * - ErrorBadClientFileIdent
+     - This error occurs when the client is using a {+realm+} file that the
+       server cannot access after :doc:`terminating and re-enabling
+       {+sync-short+} </reference/terminating-and-reenabling-realm-sync>`.
+       
+       To recover from this error, :ref:`perform a client reset
+       <sync-errors-client-resets>`.
+
+   * - ErrorClientFileUserMismatch
+     - This error indicates that the client attempted to synchronize a
+       {+realm+} file associated with an identity other than the specified user.
+       This may occur if {+sync-short+} is :doc:`terminated and reenabled
+       </reference/terminating-and-reenabling-realm-sync>` while the user is
+       offline, which invalidates their previous identity.
+       
+       To recover from this error, delete the local realm file and then re-open
+       the realm.
+
+   * - ErrorDivergingHistories
+     - This error indicates that the client attempted to synchronize a 
+       {+realm+} file that has a different sync history than the server
+       {+realm+}. This may occur if {+sync-short+} is :doc:`terminated and
+       reenabled </reference/terminating-and-reenabling-realm-sync>` while the
+       user is offline, which invalidates their previous sync history.
+       
+       To recover from this error, :ref:`perform a client reset
+       <sync-errors-client-resets>`.
+
+   * - ErrorIllegalRealmPath
+     - This error indicates that the client attempted to open a {+realm+} with a
+       partition value of the wrong type. For example, you might see the error
+       message "attempted to bind on illegal realm partition: expected partition
+       to have type objectId but found string".
+       
+       To recover from this error, ensure that the type of the partition value
+       used to open the realm matches the partition key type in your
+       {+sync-short+} configuration.
+
+   * - ErrorPermissionDenied
+     - This error occurs when a user's data access permissions are not
+       sufficient for a given request. This can occur if a user attempts to open
+       a realm without read permission or modify data without write permission.
+       
+       To troubleshoot this error, review your :doc:`{+sync-short+} rules
+       </sync/rules/>` to make sure that users have proper data access
+       permissions.
+   
+   * - ErrorOtherError
+     - This error indicates an internal failure that is not covered by a more
+       specific error. For example, this might occur when you hit the storage
+       limit of a free tier Atlas cluster.
+
+.. _mongodb-translator-errors:
+
+MongoDB Translator Errors
+-------------------------
+
+The following errors may occur in the translation process between {+sync-short+}
+and MongoDB Atlas.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 30 70
+
+   * - Error Name
+     - Description
+
+   * - MongoEncodingError
+     - This error occurs when a MongoDB Atlas write (i.e. not a Sync client)
+       modifies a document such that it no longer conforms to the app's schema.
+       Documents that do not match the schema cannot be synced and any local
+       updates to the object represented by such a document will not propagate.
+       
+       To recover from an encoding error, update the document to conform to the
+       app's schema. To avoid the problem, review all workloads that write to a
+       synced cluster and ensure that they conform to your app's schema.
+       
+       .. warning::
+          
+          If a synced cluster contains more than 100,000 "unsyncable" documents,
+          Realm automatically terminates sync with a fatal error.
+   
+   * - TranslatorCorrectiveErasure
+     - This error occurs when a synced MongoDB cluster rejects the write
+       operation for a propagated {+sync-short+} change. This is usually caused by
+       a duplicate key exception, which means that two objects use the same
+       primary key. To avoid this error, use an ``ObjectId`` or ``UUID`` as the
+       primary key value. Alternatively, ensure that every synced object has a
+       unique primary key, even across partitions.
+
+.. _sync-client-errors:
+
+Sync Client Errors
+------------------
+
+The :ref:`sync protocol <sync-protocol>` returns an :sync-server-message:`ERROR`
+message when an error appears to have been caused by a connected client. Each
+message contains a code number and a description of the error.
+
+To see the full list of sync errors, refer to the :github:`error code list
+<realm/realm-core/blob/master/doc/protocol/protocol_1.md#error-codes>` in the
+Realm Core GitHub repository.
+
+.. _handle-and-log-sync-errors:
+
+Handle and Log Sync Errors
+--------------------------
+
+You can configure the Realm SDKs to handle errors and generate error logs based
+on their severity level. To learn how, check out the following examples:
 
 .. tabs-realm-sdks::
 
    .. tab::
       :tabid: android
 
-      Learn how to :ref:`set the log level <android-set-the-client-log-level>` with the Android SDK.
+      - :ref:`Handle Sync Errors <android-handle-sync-errors>`
+      
+      - :ref:`Set the Client Log Level <android-set-the-client-log-level>`
 
    .. tab::
       :tabid: ios
 
-      Learn how to :ref:`set the log level <ios-set-the-client-log-level>` with the iOS SDK.
+      - :ref:`Handle Sync Errors <ios-handle-sync-errors>`
+      
+      - :ref:`Set the Client Log Level <ios-set-the-client-log-level>`
 
    .. tab::
       :tabid: node
+
+      - :ref:`Handle Sync Errors <node-handle-sync-errors>`
       
-      Learn how to :ref:`set the log level <node-set-the-client-log-level>` with the Node.js SDK.
+      - :ref:`Set the Client Log Level <node-set-the-client-log-level>`
 
    .. tab::
       :tabid: react-native
+
+      - :ref:`Handle Sync Errors <react-native-handle-sync-errors>`
       
-      Learn how to :ref:`set the log level <react-native-set-the-client-log-level>` with the React Native SDK.
+      - :ref:`Set the Client Log Level <react-native-set-the-client-log-level>`
 
    .. tab::
       :tabid: dotnet
 
-      Learn how to :ref:`set the log level <dotnet-set-the-client-log-level>` with the .NET SDK.
-
-.. _sync-errors-reporting:
-
-Error Reporting
----------------
-
-.. tabs-realm-sdks::
-
-   .. tab::
-      :tabid: android
-
-      To learn how to detect and respond to any failed sync-related API calls with the Android SDK, see the :ref:`Handle Sync Errors <android-handle-sync-errors>` documentation.
-
-   .. tab::
-      :tabid: ios
-
-      To learn how to detect and respond to any failed sync-related API calls with the iOS SDK, see the :ref:`Handle Sync Errors <ios-handle-sync-errors>` documentation.
-
-   .. tab::
-      :tabid: node
+      - :ref:`Handle Sync Errors <dotnet-handle-sync-errors>`
       
-      To learn how to detect and respond to any failed sync-related API calls with the Node.js SDK, see the :ref:`Handle Sync Errors <node-handle-sync-errors>` documentation.
-
-   .. tab::
-      :tabid: react-native
-      
-      To learn how to detect and respond to any failed sync-related API calls with the React Native SDK, see the :ref:`Handle Sync Errors <react-native-handle-sync-errors>` documentation.
-
-   .. tab::
-      :tabid: dotnet
-
-      To learn how to detect and respond to any failed sync-related API calls with the .NET SDK, see the :ref:`Handle Sync Errors <dotnet-handle-sync-errors>` documentation.
+      - :ref:`Set the Client Log Level <dotnet-set-the-client-log-level>`
 
 .. _sync-errors-client-resets:
 
@@ -150,4 +237,4 @@ changes made since the client last successfully synced.
    .. tab::
       :tabid: dotnet
 
-      To learn more about client resets with the .NET SDK, see the :ref:`Android Client Reset <dotnet-client-resets>` documentation.
+      To learn more about client resets with the .NET SDK, see the :ref:`.NET Client Reset <dotnet-client-resets>` documentation.

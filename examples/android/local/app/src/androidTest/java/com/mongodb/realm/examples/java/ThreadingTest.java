@@ -4,6 +4,7 @@ import com.mongodb.realm.examples.Expectation;
 import com.mongodb.realm.examples.RealmTest;
 import com.mongodb.realm.examples.model.kotlin.Frog;
 
+import org.junit.Assert;
 import org.junit.Test;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
@@ -53,25 +54,25 @@ public class ThreadingTest extends RealmTest {
 
             // Get an immutable copy of the realm that can be passed across threads
             Realm frozenRealm = realm.freeze();
-            assert(frozenRealm.isFrozen());
+            Assert.assertTrue(frozenRealm.isFrozen());
 
             RealmResults<Frog> frogs = realm.where(Frog.class).findAll();
             // You can freeze collections
             RealmResults<Frog> frozenFrogs = frogs.freeze();
-            assert(frozenFrogs.isFrozen());
+            Assert.assertTrue(frozenFrogs.isFrozen());
 
             // You can still read from frozen realms
             RealmResults<Frog> frozenFrogs2 = frozenRealm.where(Frog.class).findAll();
-            assert(frozenFrogs2.isFrozen());
+            Assert.assertTrue(frozenFrogs2.isFrozen());
 
             Frog frog = frogs.first();
-            assert(!frog.getRealm().isFrozen());
+            Assert.assertTrue(!frog.getRealm().isFrozen());
 
             // You can freeze objects
             Frog frozenFrog = frog.freeze();
-            assert(frozenFrog.isFrozen());
+            Assert.assertTrue(frozenFrog.isFrozen());
             // Frozen objects have a reference to a frozen realm
-            assert(frozenFrog.getRealm().isFrozen());
+            Assert.assertTrue(frozenFrog.getRealm().isFrozen());
             // :code-block-end:
             expectation.fulfill();
             realm.close();

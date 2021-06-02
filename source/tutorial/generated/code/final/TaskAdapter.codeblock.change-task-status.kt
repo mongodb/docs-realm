@@ -9,7 +9,7 @@ val realm: Realm = Realm.getInstance(config)
 // execute Transaction asynchronously to avoid blocking the UI thread
 realm.executeTransactionAsync {
     // using our thread-local new realm instance, query for and update the task status
-    val item = it.where<Task>().equalTo("_id", _id).findFirst()
+    val item = it.where<Task>().equalTo("id", id).findFirst()
     item?.statusEnum = status
 }
 // always close realms when you are done with them!

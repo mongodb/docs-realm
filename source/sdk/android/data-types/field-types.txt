@@ -13,7 +13,6 @@ Field Types - Android SDK
    :depth: 2
    :class: singlecol
 
-
 {+client-database+} supports the following field data types:
 
 - ``Boolean`` or ``boolean``
@@ -27,8 +26,12 @@ Field Types - Android SDK
 - ``Date``
 - ``Decimal128`` from ``org.bson.types``
 - ``ObjectId`` from ``org.bson.types``
+- ``UUID`` from ``java.util.UUID``
 - Any ``RealmObject`` subclass
 - ``RealmList``
+- ``RealmAny``
+- ``RealmSet``
+- ``RealmDictionary``
 
 The ``Byte``, ``Short``, ``Integer``, and ``Long`` types and their
 lowercase primitive alternatives are all stored as ``Long`` values
@@ -47,3 +50,15 @@ Since {+client-database+} operates on fields as a whole, it's not possible
 to directly update individual elements of strings or byte arrays. Instead,
 you'll need to read the whole field, make your modification to individual
 elements, and then write the entire field back again in a transaction block.
+
+Object IDs and UUIDs
+--------------------
+
+.. note:: UUID type -- *new to version 10.6.0*
+
+``ObjectId`` and ``UUID`` (Universal Unique Identifier) both provide
+unique values that can be used as identifiers for objects.
+``ObjectId`` is a :manual:`MongoDB-specific </reference/method/ObjectId/>`
+12-byte unique value. ``UUID`` is a :rfc:`standardized <rfc4122>` 16-byte
+unique value. Both types are :ref:`indexable <android-indexes-fundamentals>`
+and can be used as :ref:`primary keys <android-primary-key-fundamentals>`.
