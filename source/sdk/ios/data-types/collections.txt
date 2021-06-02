@@ -133,7 +133,7 @@ For example, ``MutableSet`` intersection methods:
 Map
 ~~~
 
-.. versionadded:: 10.9.0
+.. versionadded:: 10.8.0-beta.2
    ``Map``
 
 The :swift-sdk:`Map <Classes/Map.html>` is an associative array that
@@ -143,27 +143,23 @@ Like Swift's :apple:`Dictionary <documentation/swift/dictionary>`,
 ``Map`` is a generic type that is parameterized on its key and value
 types. Unlike :apple:`native Swift collections
 <documentation/swift/swift_standard_library/collections>`,
-{+service-short+} Maps are reference types, as opposed to value types
-(structs).
+{+service-short+} Maps are reference types (classes), as opposed to
+value types (structs).
 
 Usage
 `````
 
 You can declare a Map as a property of an object:
 
-.. literalinclude:: /examples/generated/code/start/MapExamples.codeblock.models.swift
+.. literalinclude:: /examples/generated/code/start/MapExample.codeblock.models.swift
    :language: swift
 
 You can then update, check values, iterate over, and delete from the Map
 as you would a standard :apple:`Dictionary
 <documentation/swift/dictionary>`:
 
-.. literalinclude:: /examples/generated/code/start/MapExamples.codeblock.map.swift
+.. literalinclude:: /examples/generated/code/start/MapExample.codeblock.map.swift
    :language: swift
-
-.. important::
-
-   You must modify the Map in a write transaction.
 
 .. _ios-linking-objects:
 

@@ -59,7 +59,9 @@ class MapExample: XCTestCase {
         try! realm.write {
             // Use removeObject(for:)
             dog.favoriteParksByCity.removeObject(for: "New York")
-            // Or assign `nil` to delete
+            // Or assign `nil` to delete non-optional values.
+            // If the value type were optional (e.g. Map<String, String?>)
+            // this would assign `nil` to that entry rather than deleting it.
             dog.favoriteParksByCity["New York"] = nil
         }
         // :code-block-end:
