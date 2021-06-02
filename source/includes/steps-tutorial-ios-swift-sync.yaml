@@ -165,16 +165,21 @@ title: Add Partitions and a Project Member Management Button to the Tasks View
 ref: add-partitions-and-project-member-management-to-tasks
 content: |
   Because we updated our models to include the new ``partition`` field,
-  we need to update our logic for creating Tasks to set that partition
-  value:
+  we need to pass that partition value whenever we create new tasks. To
+  make that partition value available at all times in the Tasks View,
+  add a property that stores the partition value:
 
-  .. literalinclude:: /tutorial/generated/swift-ios/sync/TasksViewController.codeblock.add-button-did-click.swift
+  .. literalinclude:: /tutorial/generated/swift-ios/sync/TasksViewController.codeblock.properties.swift
      :language: swift
 
-  In the ``viewDidLoad`` method, add logic that calls the method you just
-  created:
+  And we need to set that value in ``init``:
 
-  .. literalinclude:: /tutorial/generated/swift-ios/sync/TasksViewController.codeblock.check-if-own-tasks.swift
+  .. literalinclude:: /tutorial/generated/swift-ios/sync/TasksViewController.codeblock.set-partition-value.swift
+     :language: swift
+
+  Update the logic for creating Tasks to set that partition value:
+
+  .. literalinclude:: /tutorial/generated/swift-ios/sync/TasksViewController.codeblock.add-button-did-click.swift
      :language: swift
 
   You'll also have to add a new method that checks if a project is owned
@@ -189,6 +194,12 @@ content: |
   .. literalinclude:: /tutorial/generated/swift-ios/sync/TasksViewController.codeblock.manage-button-did-click.swift
      :language: swift
 
+  In the ``viewDidLoad`` method, add logic that calls the method you just
+  created:
+
+  .. literalinclude:: /tutorial/generated/swift-ios/sync/TasksViewController.codeblock.check-if-own-tasks.swift
+     :language: swift
+
 ---
 title: Implement the Manage Team View
 ref: implement-the-manage-team-view
@@ -199,10 +210,18 @@ content: |
 
   Navigate to the ManageTeamViewController.swift file, which defines the view
   that pops up when a user clicks the "Manage Team" action on the
-  TasksViewController. The ManageTeamViewController uses its
-  ``fetchTeamMembers()`` to get the list of team members. Add the call to the
-  ``getMyTeamMembers`` function that returns a list of team members and refresh
-  the list upon successful return:
+  TasksViewController. The file should be empty except for a copyright
+  disclaimer comment. Copy and paste the following code into the file:
+
+  .. literalinclude:: /tutorial/generated/swift-ios/sync/ManageTeamViewController.codeblock.complete.swift
+     :language: swift
+
+  You should now have a fully functional ManageTeamViewController
+  implementation. However, it's worth taking a look at some of the core
+  logic to get a sense of how team management works in Task Tracker.
+
+  The ManageTeamViewController uses ``fetchTeamMembers()`` to get the
+  list of team members:
 
   .. literalinclude:: /tutorial/generated/swift-ios/sync/ManageTeamViewController.codeblock.fetch-team-members.swift
      :language: swift

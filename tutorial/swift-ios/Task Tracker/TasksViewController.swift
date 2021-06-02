@@ -30,7 +30,7 @@ class TasksViewController: UIViewController, UITableViewDelegate, UITableViewDat
 
     // :code-block-start: init
     required init(realm: Realm, title: String) {
-
+        // :code-block-start: set-partition-value
         // :state-uncomment-start: sync
         // // Ensure the realm was opened with sync.
         // guard let syncConfiguration = realm.configuration.syncConfiguration else {
@@ -39,10 +39,12 @@ class TasksViewController: UIViewController, UITableViewDelegate, UITableViewDat
         //
         // :state-uncomment-end:
         self.realm = realm
+        
         // :state-uncomment-start: sync
         // // Partition value must be of string type.
         // partitionValue = syncConfiguration.partitionValue!.stringValue!
         // :state-uncomment-end:
+        // :code-block-end:
         
         // :state-start: local
         // Access all tasks in the realm, sorted by _id so that the ordering is defined.
