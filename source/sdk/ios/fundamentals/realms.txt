@@ -194,12 +194,12 @@ comparable SQLite database. Unexpected file growth may be related to the
 
 .. note::
 
-   A large {+realm+} file can cause problems for your app. Any single
-   {+realm+} file cannot be larger than the amount of memory your
-   application would be allowed to map in iOS. This limit depends on the
-   device and on how fragmented the memory space is at that point in
-   time. If you need to store more data, you can map it over multiple
-   {+realm+} files.
+   A large {+realm+} file can impact the performance and reliability of
+   your app. Any single {+realm+} file cannot be larger than the amount
+   of memory your application would be allowed to map in iOS. This limit
+   depends on the device and on how fragmented the memory space is at
+   that point in time. If you need to store more data, you can map it
+   over multiple {+realm+} files.
 
 Threading
 ~~~~~~~~~
