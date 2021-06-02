@@ -11,18 +11,21 @@ import RealmSwift
 
 class ProjectsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     let tableView = UITableView()
+    // :code-block-start: user-realm
     // :state-uncomment-start: sync
     // let userRealm: Realm
+    // var userData: User?
+    // var notificationToken: NotificationToken?
     // :state-uncomment-end:
-    var notificationToken: NotificationToken?
     // :state-start: local
     var username: String
     // :state-end:
     // :state-uncomment-start: start
     // var username: String
     // :state-uncomment-end:
-    var userData: User?
+    // :code-block-end:
 
+    // :code-block-start: init-signature
     // :state-start: local
     init(username: String) {
     // :state-end: :state-uncomment-start: start
@@ -31,6 +34,7 @@ class ProjectsViewController: UIViewController, UITableViewDelegate, UITableView
     // init(userRealm: Realm) {
     //     self.userRealm = userRealm
     // :state-uncomment-end:
+    // :code-block-end:
         // :state-start: local
         self.username = username
         // :state-end:
@@ -55,6 +59,7 @@ class ProjectsViewController: UIViewController, UITableViewDelegate, UITableView
         // :state-uncomment-end:
         // :code-block-end:
     }
+    
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -63,8 +68,6 @@ class ProjectsViewController: UIViewController, UITableViewDelegate, UITableView
     // :code-block-start: invalidate-token
     deinit {
         // :state-start: local
-        // Always invalidate any notification tokens when you are done with them.
-        notificationToken?.invalidate()
         // :state-end:
         // :state-uncomment-start: sync
         // // Always invalidate any notification tokens when you are done with them.

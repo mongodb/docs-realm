@@ -10,7 +10,16 @@ import UIKit
 import RealmSwift
 
 class ManageTeamViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        <#code#>
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        <#code#>
+    }
+    
+// :code-block-start: manage-view-controller
+    /*
     let tableView = UITableView()
     var activityIndicator = UIActivityIndicatorView(style: .large)
     var members: [Member] = []
@@ -189,4 +198,6 @@ class ManageTeamViewController: UIViewController, UITableViewDelegate, UITableVi
             fetchTeamMembers()
         }
     }
+ */
+// :code-block-end:
 }

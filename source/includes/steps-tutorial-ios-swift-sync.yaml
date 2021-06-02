@@ -13,6 +13,29 @@ content: |
   the Realm UI <find-your-app-id>`.
 
 ---
+title: Update Your App's Realm Models
+ref: update-realm-models
+content: |
+
+  To support online functionality like shared projects, we'll need some
+  additional models.
+
+  Add a model for custom user data:
+
+  .. literalinclude:: /tutorial/generated/swift-ios/sync/Models.codeblock.user-model.swift
+     :language: swift
+
+  And a model for user projects:
+
+  .. literalinclude:: /tutorial/generated/swift-ios/sync/Models.codeblock.project-model.swift
+     :language: swift
+
+  We also need to add a partition key to the Task model:
+
+  .. literalinclude:: /tutorial/generated/swift-ios/sync/Models.codeblock.task-model.swift
+     :language: swift
+
+---
 title: Enable Authentication
 ref: enable-authentication
 content: |
@@ -33,8 +56,8 @@ content: |
   .. literalinclude:: /tutorial/generated/swift-ios/sync/WelcomeViewController.codeblock.get-password.swift
      :language: swift
 
-  In the ``viewDidLoad()`` method, we'll need to update the ``infoLabel``
-  value to mention a username *and* password:
+  In the ``viewDidLoad()`` method, update the ``infoLabel``
+  value to mention both a username *and* password:
 
   .. literalinclude:: /tutorial/generated/swift-ios/sync/WelcomeViewController.codeblock.info-label-password-add.swift
      :language: swift
@@ -42,12 +65,12 @@ content: |
   Change the placeholder value of the username entry field to "Email",
   since usernames for {+service+} accounts should be email addresses:
 
-  .. literalinclude:: /tutorial/generated/swift-ios/sync/WelcomeViewController.codeblock.password-field-add.swift
+  .. literalinclude:: /tutorial/generated/swift-ios/sync/WelcomeViewController.codeblock.username-field-placeholderswift
      :language: swift
 
   And add placeholder text of "Password" to the password entry field:
 
-  .. literalinclude:: /tutorial/generated/swift-ios/sync/WelcomeViewController.codeblock.password-field-placeholder.swift
+  .. literalinclude:: /tutorial/generated/swift-ios/sync/WelcomeViewController.codeblock.password-field-configure.swift
      :language: swift
 
   In the ``setLoading()`` method, enable the password field when the
@@ -56,23 +79,84 @@ content: |
   .. literalinclude:: /tutorial/generated/swift-ios/sync/WelcomeViewController.codeblock.password-field-enable.swift
      :language: swift
 
-  Then, add a button that users can click to register an account:
-
-  .. literalinclude:: /tutorial/generated/swift-ios/sync/WelcomeViewController.codeblock.sign-up-button.swift
-     :language: swift
-
-  Then, implement the ``signUp()`` method to register a new user, which
+  Implement the ``signUp()`` method to register a new user, which
   uses the email/password authentication provider of the Realm app to register a
   new user:
 
   .. literalinclude:: /tutorial/generated/swift-ios/sync/WelcomeViewController.codeblock.sign-up.swift
      :language: swift
 
-  Now, implement the ``signIn()`` method to log in with an existing user using
-  email/password credentials. Once logged in successfully, open the user {+realm+}
-  and navigate to the ProjectsViewController:
+  Then, add a button that users can click to register an account:
+
+  .. literalinclude:: /tutorial/generated/swift-ios/sync/WelcomeViewController.codeblock.sign-up-button.swift
+     :language: swift
+
+  Now, implement the ``signIn()`` method to authenticate user credentials with
+  your backend {+app+} using email/password credentials. Once logged in
+  successfully, open the user {+realm+} and navigate to the ProjectsViewController:
 
   .. literalinclude:: /tutorial/generated/swift-ios/sync/WelcomeViewController.codeblock.sign-in.swift
+     :language: swift
+
+---
+title: Add Shared Projects to the Projects View with Sync
+ref: add-shared-projects-to-projects-view
+content: |
+  Users can share projects with other users so that multiple users can add,
+  update, and remove tasks from a project. To support this functionality,
+  we'll have to add an additional {+realm+} to ProjectsViewController.swift.
+
+  Begin by declaring a global {+realm+} reference in the Projects View:
+
+  .. literalinclude:: /tutorial/generated/swift-ios/sync/ProjectsViewController.codeblock.user-realm.swift
+     :language: swift
+
+  Because we open the user {+realm+} in WelcomeViewController, update the
+  ``init`` method in ProjectsViewController to accept a {+realm+} parameter
+  instead of a username:
+
+  .. literalinclude:: /tutorial/generated/swift-ios/sync/ProjectsViewController.codeblock.init-signature.swift
+     :language: swift
+
+  You can also remove the logic that sets the global ``username`` value
+  from the local-only tutorial.
+
+  Next, add a change listener to the ``init`` method that watches for
+  a new ``User`` object in the user {+realm+}. Because your backend app
+  creates ``User`` objects with a Trigger, it can sometimes take a few
+  seconds after account creation for the backend Trigger to generate a
+  user's ``User`` object.
+
+  .. literalinclude:: /tutorial/generated/swift-ios/sync/ProjectsViewController.codeblock.user-in-realm-notification.swift
+     :language: swift
+
+  In the ``deinit`` method, ensure that your application invalidates the
+  notification token for that change listener when the view is destroyed:
+
+  .. literalinclude:: /tutorial/generated/swift-ios/sync/ProjectsViewController.codeblock.invalidate-token.swift
+     :language: swift
+
+  When a user logs out, we should end the user's session with the backend
+  app:
+
+  .. literalinclude:: /tutorial/generated/swift-ios/sync/ProjectsViewController.codeblock.log-out-button-did-click.swift
+     :language: swift
+
+  And update the logic that calculates the number of rows in the project
+  table:
+
+  .. literalinclude:: /tutorial/generated/swift-ios/sync/ProjectsViewController.codeblock.number-of-rows-in-section.swift
+     :language: swift
+
+  You'll also need to add the logic to display multiple projects:
+
+  .. literalinclude:: /tutorial/generated/swift-ios/sync/ProjectsViewController.codeblock.cell-for-row-at.swift
+     :language: swift
+
+  And logic that handles clicking on one of those projects, which opens
+  the {+realm+} corresponding to that project:
+
+  .. literalinclude:: /tutorial/generated/swift-ios/sync/ProjectsViewController.codeblock.did-select-row-at.swift
      :language: swift
 
 ---

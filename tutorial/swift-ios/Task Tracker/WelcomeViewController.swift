@@ -16,7 +16,12 @@ class WelcomeViewController: UIViewController {
     // :state-uncomment-start: sync
     // let passwordField = UITextField()
     // :state-uncomment-end:
+    // :state-start: local
     let signInButton = UIButton(type: .roundedRect)
+    // :state-end:
+    // :state-uncomment-start: start
+    // let signInButton = UIButton(type: .roundedRect)
+    // :state-uncomment-end:
     // :state-uncomment-start: sync
     // let signUpButton = UIButton(type: .roundedRect)
     // :state-uncomment-end:
@@ -83,8 +88,8 @@ class WelcomeViewController: UIViewController {
         // :code-block-end:
         container.addArrangedSubview(infoLabel)
 
-        // :code-block-start: password-field-placeholder
-        // Configure the username and password text input fields.
+        // :code-block-start: username-field-placeholder
+        // Configure the username text input field.
         // :state-start: local
         usernameField.placeholder = "Username"
         // :state-end: :state-uncomment-start: start
@@ -98,7 +103,8 @@ class WelcomeViewController: UIViewController {
         usernameField.autocorrectionType = .no
         container.addArrangedSubview(usernameField)
 
-        // :code-block-start: password-field-add
+        // :code-block-start: password-field-configure
+        // Configure the password text input field.
         // :state-uncomment-start: sync
         // passwordField.placeholder = "Password"
         // passwordField.isSecureTextEntry = true
@@ -107,13 +113,14 @@ class WelcomeViewController: UIViewController {
         // :state-uncomment-end:
         // :code-block-end:
         
-        // Configure the sign in and sign up buttons.
+        // Configure the sign in button.
         signInButton.setTitle("Sign In", for: .normal)
         signInButton.addTarget(self, action: #selector(signIn), for: .touchUpInside)
         container.addArrangedSubview(signInButton)
 
         // :code-block-start: sign-up-button
         // :state-uncomment-start: sync
+        // Configure the sign up button.
         // signUpButton.setTitle("Sign Up", for: .normal)
         // signUpButton.addTarget(self, action: #selector(signUp), for: .touchUpInside)
         // container.addArrangedSubview(signUpButton)
