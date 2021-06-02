@@ -186,12 +186,6 @@ namespace Examples
         // :code-block-start:embedded-classes
         public class Address : EmbeddedObject
         {
-            [MapTo("_id")]
-            public ObjectId Id { get; set; } = ObjectId.GenerateNewId();
-
-            [MapTo("_partition")]
-            public string Partition { get; set; }
-
             [MapTo("street")]
             public string Street { get; set; }
 
