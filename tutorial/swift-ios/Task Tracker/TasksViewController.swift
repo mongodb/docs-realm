@@ -145,6 +145,7 @@ class TasksViewController: UIViewController, UITableViewDelegate, UITableViewDat
 
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonDidClick))
 
+        // :code-block-start: check-if-own-tasks
         // :state-uncomment-start: sync
         // if isOwnTasks() {
         //     // Only set up the manage team button if these are tasks the user owns.
@@ -154,6 +155,7 @@ class TasksViewController: UIViewController, UITableViewDelegate, UITableViewDat
         //     navigationController?.isToolbarHidden = false
         // }
         // :state-uncomment-end:
+        // :code-block-end:
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -328,9 +330,13 @@ class TasksViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
     // :code-block-end:
 
-    @objc func manageTeamButtonDidClick() {
-        present(UINavigationController(rootViewController: ManageTeamViewController()), animated: true)
-    }
+    // :code-block-start: manage-button-did-click
+    // :state-uncomment-start: sync
+    // @objc func manageTeamButtonDidClick() {
+    //     present(UINavigationController(rootViewController: ManageTeamViewController()), animated: true)
+    // }
+    // :state-uncomment-end:
+    // :code-block-end:
 
     // :code-block-start: is-own-tasks
     // :state-uncomment-start: sync

@@ -20,17 +20,18 @@ content: |
   To support online functionality like shared projects, we'll need some
   additional models.
 
-  Add a model for custom user data:
-
-  .. literalinclude:: /tutorial/generated/swift-ios/sync/Models.codeblock.user-model.swift
-     :language: swift
-
-  And a model for user projects:
+  Add an embedded object model for user projects:
 
   .. literalinclude:: /tutorial/generated/swift-ios/sync/Models.codeblock.project-model.swift
      :language: swift
 
-  We also need to add a partition key to the Task model:
+  And a model for custom user data that contains those projects:
+
+  .. literalinclude:: /tutorial/generated/swift-ios/sync/Models.codeblock.user-model.swift
+     :language: swift
+
+  Finally, add a partition key and its corresponding access methods
+  to the Task model:
 
   .. literalinclude:: /tutorial/generated/swift-ios/sync/Models.codeblock.task-model.swift
      :language: swift
@@ -157,6 +158,35 @@ content: |
   the {+realm+} corresponding to that project:
 
   .. literalinclude:: /tutorial/generated/swift-ios/sync/ProjectsViewController.codeblock.did-select-row-at.swift
+     :language: swift
+
+---
+title: Add Partitions to Tasks
+ref: add-partitions-to-tasks
+content: |
+  Because we updated our models to include the new ``partition`` field,
+  we need to update our logic for creating Tasks to set that partition
+  value:
+
+  .. literalinclude:: /tutorial/generated/swift-ios/sync/TasksViewController.codeblock.add-button-did-click.swift
+     :language: swift
+
+  In the ``viewDidLoad`` method, add logic that calls the method you just
+  created:
+
+  .. literalinclude:: /tutorial/generated/swift-ios/sync/TasksViewController.codeblock.check-if-own-tasks.swift
+     :language: swift
+
+  You'll also have to add a new method that checks if a project is owned
+  by the current user, which controls whether or not the user can manage
+  the list of users allowed to access that project:
+
+  .. literalinclude:: /tutorial/generated/swift-ios/sync/TasksViewController.codeblock.is-own-tasks.swift
+     :language: swift
+
+  And the corresponding click handler for that method:
+
+  .. literalinclude:: /tutorial/generated/swift-ios/sync/TasksViewController.codeblock.manage-button-did-click.swift
      :language: swift
 
 ---
