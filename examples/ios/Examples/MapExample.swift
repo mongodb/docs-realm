@@ -18,11 +18,12 @@ class MapExamples_Dog: Object {
 // :code-block-end:
 
 class MapExample: XCTestCase {
+    override func setUp() {
+        Realm.Configuration.defaultConfiguration = Realm.Configuration(inMemoryIdentifier: "MapExample")
+    }
+    
     override func tearDown() {
-        let realm = try! Realm()
-        try! realm.write {
-            realm.deleteAll()
-        }
+        Realm.Configuration.defaultConfiguration = Realm.Configuration(inMemoryIdentifier: nil)
     }
 
     func testMapExample() {
