@@ -53,9 +53,12 @@ and resolve conflicting changesets before sending them to connected clients.
 
 .. note:: Delta Sync
 
-   To maximize bandwidth in mobile networks, the {+sync+} service only
-   transmits the changes (deltas) at the field level. The service
-   compresses the deltas on the fly with :wikipedia:`zlib <Zlib>` compression.
+   When you make a change to a synced object, {+service-short+} does not
+   re-upload the entire object. Instead, {+service-short+} sends only
+   the difference ("delta") between before and after. The service
+   compresses the deltas with :wikipedia:`zlib <Zlib>` compression. This
+   reduces network load, which is especially useful in mobile network
+   conditions.
 
 .. _operational-transformations:
 
