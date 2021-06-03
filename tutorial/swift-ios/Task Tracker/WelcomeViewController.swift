@@ -104,8 +104,8 @@ class WelcomeViewController: UIViewController {
         container.addArrangedSubview(usernameField)
 
         // :code-block-start: password-field-configure
-        // Configure the password text input field.
         // :state-uncomment-start: sync
+        // // Configure the password text input field.
         // passwordField.placeholder = "Password"
         // passwordField.isSecureTextEntry = true
         // passwordField.borderStyle = .roundedRect
@@ -120,7 +120,7 @@ class WelcomeViewController: UIViewController {
 
         // :code-block-start: sign-up-button
         // :state-uncomment-start: sync
-        // Configure the sign up button.
+        // // Configure the sign up button.
         // signUpButton.setTitle("Sign Up", for: .normal)
         // signUpButton.addTarget(self, action: #selector(signUp), for: .touchUpInside)
         // container.addArrangedSubview(signUpButton)
