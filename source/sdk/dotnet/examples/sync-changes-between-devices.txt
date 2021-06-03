@@ -99,7 +99,7 @@ Then call `session.WaitForUploadAsync()
 <https://docs.mongodb.com/realm-sdks/dotnet/10.0.0/reference/Realms.Sync.Session.html#Realms_Sync_Session_WaitForDownloadAsync>`_.
 
 .. literalinclude:: /examples/generated/dotnet/ProgressNotifications.codeblock.wait-for-changes-to-download-async-progress-notification.cs
-   :language: dotnet
+   :language: csharp
 
 .. _dotnet-check-sync-progress-display-progress-bar:
 
@@ -119,7 +119,7 @@ The ``session.GetProgressObservable`` method takes in the following two paramete
    the number of transferred bytes and the number of transferable bytes.
 
    .. literalinclude:: /examples/generated/dotnet/ProgressNotifications.codeblock.upload-download-progress-notification.cs
-      :language: dotnet
+      :language: csharp
 
 Once you no longer wish to receive notifications, unregister the token by using ``token.Dispose()``
 
