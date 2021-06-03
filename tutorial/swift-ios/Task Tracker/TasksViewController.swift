@@ -39,7 +39,6 @@ class TasksViewController: UIViewController, UITableViewDelegate, UITableViewDat
         //
         // :state-uncomment-end:
         self.realm = realm
-        
         // :state-uncomment-start: sync
         // // Partition value must be of string type.
         // partitionValue = syncConfiguration.partitionValue!.stringValue!

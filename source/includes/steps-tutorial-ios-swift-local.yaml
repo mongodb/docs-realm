@@ -99,29 +99,8 @@ title: Implement the Projects List
 ref: implement-the-projects-list
 content: |
   Open the ProjectsViewController.swift file, which is where we present the user
-  with a list of projects they are a member of. The WelcomeViewController has
-  opened the user {+realm+} for us and passed it to this controller. This is a
-  good practice, as it allows the {+realm+} to fully download before transitioning
-  to the next screen. If the {+realm+} failed to open for some reason, the error
-  could be handled on the original screen and not have to undo a transition.
-
-  We have designed our app so that the user {+realm+} will only ever contain at most
-  one object: a custom user data object of type ``User``. Because an authentication
-  trigger creates this user object, the {+realm+} may not contain the object
-  immediately after creating an account. So, we should watch the {+realm+} itself
-  for changes:
-
-  .. literalinclude:: /tutorial/generated/swift-ios/local/ProjectsViewController.codeblock.user-in-realm-notification.swift
-     :language: swift
-
-  Whenever we observe a realm, collection, or object, we receive a notification
-  token that we must retain as long as we want to keep observing that object.
-  Once we are done observing, for example because the user navigated to another
-  screen, we should invalidate that token. One convenient place to do so is in
-  the deinit method of the view controller:
-
-  .. literalinclude:: /tutorial/generated/swift-ios/local/ProjectsViewController.codeblock.invalidate-token.swift
-     :language: swift
+  with a list of projects they are a member of. The WelcomeViewController passes
+  a username to this view, so we can generate a project {+realm+} for the user.
 
   Let's provide a way for a user to log out and get back to the
   WelcomeViewController. The ``viewDidLoad()`` method hooks up the Log Out
@@ -214,14 +193,6 @@ content: |
   .. literalinclude:: /tutorial/generated/swift-ios/local/TasksViewController.codeblock.delete-task.swift
      :language: swift
 
-  Finally, a user can manage the team of their own project. When setting up the
-  UI, the TasksViewController uses the ``isOwnTasks()`` method to decide whether
-  to add the "Manage Team" action to the action bar. We can implement that as
-  follows:
-
-  .. literalinclude:: /tutorial/generated/swift-ios/local/TasksViewController.codeblock.is-own-tasks.swift
-     :language: swift
-
 ---
 title: Run and Test
 ref: run-and-test
@@ -231,17 +202,9 @@ content: |
   Click the :guilabel:`Run` button in Xcode. If the app builds successfully,
   here are some things you can try in the app:
 
-  - Create a user with email *first@example.com*
-  - Explore the app, then log out or launch a second instance of the app on another device or simulator
-  - Create another user with email second@example.com
-  - Navigate to *second@example.com*'s project
+  - Create a user with username *test*
+  - Navigate to "My Project"
   - Add, update, and remove some tasks
-  - Click "Manage Team"
-  - Add *first@example.com* to your team
-  - Log out and log in as *first@example.com*
-  - See two projects in the projects list
-  - Navigate to *second@example.com*'s project
-  - Collaborate by adding, updating, and removing some new tasks
 
   .. tip::
    

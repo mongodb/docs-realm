@@ -29,7 +29,7 @@ class ProjectsViewController: UIViewController, UITableViewDelegate, UITableView
     // :state-start: local
     init(username: String) {
     // :state-end: :state-uncomment-start: start
-    // init(userRealm: Realm, username: String) {
+    // init(username: String) {
     // :state-uncomment-end: :state-uncomment-start: sync
     // init(userRealm: Realm) {
     //     self.userRealm = userRealm
@@ -54,8 +54,6 @@ class ProjectsViewController: UIViewController, UITableViewDelegate, UITableView
         //     guard let tableView = self?.tableView else { return }
         //     tableView.reloadData()
         // }
-        // :state-uncomment-end: :state-uncomment-start: start
-        // // TODO: Observe user realm for user objects
         // :state-uncomment-end:
         // :code-block-end:
     }
@@ -66,16 +64,12 @@ class ProjectsViewController: UIViewController, UITableViewDelegate, UITableView
     }
 
     // :code-block-start: invalidate-token
-    deinit {
-        // :state-start: local
-        // :state-end:
-        // :state-uncomment-start: sync
-        // // Always invalidate any notification tokens when you are done with them.
-        // notificationToken?.invalidate()
-        // :state-uncomment-end: :state-uncomment-start: start
-        // // TODO: invalidate notificationToken
-        // :state-uncomment-end:
-    }
+    // :state-uncomment-start: sync
+    // deinit {
+    //     // Always invalidate any notification tokens when you are done with them.
+    //     notificationToken?.invalidate()
+    // }
+    // :state-uncomment-end:
     // :code-block-end:
 
     override func viewDidLoad() {
@@ -98,6 +92,7 @@ class ProjectsViewController: UIViewController, UITableViewDelegate, UITableView
         alertController.addAction(UIAlertAction(title: "Yes, Log Out", style: .destructive, handler: {
             _ -> Void in
             print("Logging out...")
+            self.navigationController?.popViewController(animated: true)
             // :state-start: local
             print("Logged out!")
             self.navigationController?.popViewController(animated: true)
@@ -108,10 +103,6 @@ class ProjectsViewController: UIViewController, UITableViewDelegate, UITableView
             //         self.navigationController?.popViewController(animated: true)
             //     }
             // }
-            // :state-uncomment-end: :state-uncomment-start: start
-            // // TODO: log out the app's currentUser, then, on the main thread, pop this
-            // // view controller from the navigation controller to navigate back to
-            // // the WelcomeViewController.
             // :state-uncomment-end:
         }))
         alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
@@ -129,11 +120,8 @@ class ProjectsViewController: UIViewController, UITableViewDelegate, UITableView
         // // You always have at least one project (your own)
         // return userData?.memberOf.count ?? 1
         // :state-uncomment-end: :state-uncomment-start: start
-        // // TODO: Each project should have its own row. Check the userData memberOf
-        // // field for how many projects the user is a member of. However, the userData
-        // // may not have loaded in yet. If that's the case, the user always has their
-        // // own project, so you should always return at least 1.
-        // return 0
+        // // You always have one project (your own)
+        // return 1
         // :state-uncomment-end:
     }
     // :code-block-end:
@@ -153,9 +141,7 @@ class ProjectsViewController: UIViewController, UITableViewDelegate, UITableView
         // let projectName = userData?.memberOf[indexPath.row].name ?? "My Project"
         // cell.textLabel?.text = projectName
         // :state-uncomment-end: :state-uncomment-start: start
-        // // TODO: Get project name using userData's memberOf field and indexPath.row.
-        // // The userData may not have loaded yet. Regardless, you always have your own project.
-        // let projectName = "TODO"
+        // let projectName = "My Project"
         // cell.textLabel?.text = projectName 
         // :state-uncomment-end:
 

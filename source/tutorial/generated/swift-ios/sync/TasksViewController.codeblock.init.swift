@@ -5,7 +5,6 @@ required init(realm: Realm, title: String) {
     }
     
     self.realm = realm
-    
     // Partition value must be of string type.
     partitionValue = syncConfiguration.partitionValue!.stringValue!
     

@@ -4,6 +4,5 @@ guard let syncConfiguration = realm.configuration.syncConfiguration else {
 }
 
 self.realm = realm
-
 // Partition value must be of string type.
 partitionValue = syncConfiguration.partitionValue!.stringValue!

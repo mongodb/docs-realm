@@ -1,7 +1,6 @@
 required init(realm: Realm, title: String) {
     self.realm = realm
     
-    
     // Access all tasks in the realm, sorted by _id so that the ordering is defined.
     tasks = realm.objects(Task.self).sorted(byKeyPath: "_id")
 

@@ -20,9 +20,9 @@ import RealmSwift
     //     return "_id"
     // }
 //}
+
 // :state-uncomment-end:
 // :code-block-end:
-
 // :code-block-start: project-model
 // :state-uncomment-start: sync
 // class Project: EmbeddedObject {

@@ -231,11 +231,8 @@ class WelcomeViewController: UIViewController {
         //     }
         // }
         // :state-uncomment-end: :state-uncomment-start: start
-        // // TODO: Use app.login() to log in. Once logged in, open the user realm,
-        // // then navigate to the ProjectsViewController.
-        // // The user realm contains the synced custom user data object, which
-        // // contains the list of projects the user is a member of.
-        // // The user realm partition value is "user=\(user.id!)". 
+        // // Go to the list of projects in the user object contained in the user realm.
+        // self.navigationController!.pushViewController(ProjectsViewController(username: (self.username)!), animated: true)
         // :state-uncomment-end:
     }
     // :code-block-end:

@@ -3,6 +3,7 @@
     alertController.addAction(UIAlertAction(title: "Yes, Log Out", style: .destructive, handler: {
         _ -> Void in
         print("Logging out...")
+        self.navigationController?.popViewController(animated: true)
         print("Logged out!")
         self.navigationController?.popViewController(animated: true)
     }))
