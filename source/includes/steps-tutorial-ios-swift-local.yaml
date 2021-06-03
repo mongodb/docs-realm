@@ -89,7 +89,7 @@ content: |
       To learn more about how {+service-short+} Object models are used in iOS applications, 
       see :ref:`ios-read-and-write-data` in our iOS client guide. 
 
-  Let's turn the Task class into a Realm object model:
+  Turn the Task class into a Realm object model:
 
   .. literalinclude:: /tutorial/generated/swift-ios/local/Models.codeblock.task-model.swift
      :language: swift
@@ -114,24 +114,22 @@ content: |
   for its own list, let's implement these methods. First, implement the
   ``tableView(_:numberOfRowsInSection:)`` method to return the number of
   available projects to the current user. Since the user always has access to
-  their own project, we always return at least 1 even though the user object may
-  not be available yet:
+  their own project, we always return 1:
 
   .. literalinclude:: /tutorial/generated/swift-ios/local/ProjectsViewController.codeblock.number-of-rows-in-section.swift
      :language: swift
 
   Next, implement the ``tableView(_:cellForRowAt:)`` to fill out the project
-  information for each cell. Again, if the user object has not loaded yet, we
-  still know the user's own project is always in the list:
+  information for each cell:
 
   .. literalinclude:: /tutorial/generated/swift-ios/local/ProjectsViewController.codeblock.cell-for-row-at.swift
      :language: swift
 
   Finally, implement the ``tableView(_:didSelectRowAt:)`` method to handle what
-  happens when the user clicks a project in the list. As we opened the user
-  {+realm+} in the WelcomeViewController before navigating to the
-  ProjectsViewController, we'll open the project {+realm+} before navigating to the
-  TasksViewController:
+  happens when the user clicks a project in the list. We'll open the
+  project {+realm+} before navigating to the TasksViewController so that
+  if anything goes wrong, we can handle the error before launching a
+  separate view:
 
   .. literalinclude:: /tutorial/generated/swift-ios/local/ProjectsViewController.codeblock.did-select-row-at.swift
      :language: swift
@@ -161,7 +159,7 @@ content: |
   the notificationToken as long as you want the observation to complete. When
   done observing -- for example, because the user navigated away from this view
   -- be sure to invalidate the token. The ``deinit`` method is a good place to
-  do so:
+  do this:
 
   .. literalinclude:: /tutorial/generated/swift-ios/local/TasksViewController.codeblock.deinit.swift
      :language: swift
