@@ -116,6 +116,10 @@ The ``session.GetProgressObservable`` method takes in the following two paramete
    listen for upload events indefinitely. When this callback is triggered, the console prints
    the number of transferred bytes and the number of transferable bytes.
 
+   .. note:: 
+   
+   The following snippet requires the `System.Reactive <https://www.nuget.org/packages/System.Reactive/>`_ NuGet package. 
+
    .. literalinclude:: /examples/generated/dotnet/ProgressNotifications.codeblock.upload-download-progress-notification.cs
       :language: csharp
 
@@ -127,7 +131,11 @@ Once you no longer wish to receive notifications, unregister the token by using 
 
 .. warning:: 
    
-   Changesets under 16mb only trigger when they are 0% completed or 100% completed. Each consecutive 16mb will trigger a notification. So changesets that are 160mb, will trigger 10 notifications.
+   {+service-short+} will try to optimize download speeds by combining multiple changesets
+   into a single download message up to 16 MB. Since the progress callback is
+   only invoked once before and after a download message is processed, this
+   means that you'll likely see ``transferredBytes`` change in increments of roughly
+   16 MB rather than continuously as the message is being downloaded."
 
 .. _dotnet-handle-sync-errors:
 
