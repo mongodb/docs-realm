@@ -92,7 +92,7 @@ Wait for Changes to be Uploaded or Downloaded
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 To asynchronously wait for your changes to be completed, create an awaitable `Task <https://docs.microsoft.com/en-us/dotnet/api/system.threading.tasks.task?view=net-5.0>`_ that completes when all pending downloads or uploads for the sync session are completed.
 
-First, get the sync session by calling `Realms.Sync.getSession()
+First, get the sync session by calling `Realms.Sync.GetSession()
 <https://docs.mongodb.com/realm-sdks/dotnet/latest/reference/Realms.Sync.RealmSyncExtensions.html#Realms_Sync_RealmSyncExtensions_GetSession_Realms_Realm_>`_.
 Then call `session.WaitForUploadAsync()
 <https://docs.mongodb.com/realm-sdks/dotnet/10.0.0/reference/Realms.Sync.Session.html#Realms_Sync_Session_WaitForUploadAsync>`_  or `session.WaitForDownloadAsync()
