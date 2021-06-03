@@ -95,7 +95,6 @@ class ProjectsViewController: UIViewController, UITableViewDelegate, UITableView
             self.navigationController?.popViewController(animated: true)
             // :state-start: local
             print("Logged out!")
-            self.navigationController?.popViewController(animated: true)
             // :state-end: :state-uncomment-start: sync
             // app.currentUser?.logOut { (_) in
             //     DispatchQueue.main.async {
