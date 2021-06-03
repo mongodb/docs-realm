@@ -8,6 +8,7 @@ import io.realm.ObjectChangeSet
 import io.realm.Realm
 import io.realm.RealmConfiguration
 import io.realm.RealmObjectChangeListener
+import org.junit.Assert
 import org.junit.Test
 
 class LandingPageTest : RealmTest() {
@@ -170,12 +171,12 @@ class LandingPageTest : RealmTest() {
             // update frog A's name
             realmA.executeTransaction { frogA?.name = "Skipper" }
             // frog B instance automatically updates with the new name
-            assert(frogA?.name === frogB?.name)
+            Assert.assertEquals(frogA?.name, frogB?.name)
 
             // update frog B's age
             realmB.executeTransaction { frogB?.age = 10 }
             // frog A instance automatically updates with the new age
-            assert(frogB?.age === frogA?.age)
+            Assert.assertEquals(frogB?.age, frogA?.age)
             // :code-block-end:
             expectation.fulfill()
         }

@@ -122,8 +122,7 @@ constraints specified in the schema.
 .. tip:: Learn How to Work With a Realm
    
    For code examples that show how to configure and open a {+realm+} in the
-   iOS SDK, see :ref:`Define a Realm Object Schema
-   <ios-define-a-realm-object-schema>`.
+   iOS SDK, see :ref:`ios-configure-and-open-a-realm`.
 
 .. _ios-realm-file:
 
@@ -131,8 +130,8 @@ Realm Files
 -----------
 
 Realm Database stores a binary encoded version of every object and type in a
-realm in a single ``.realm`` file. The file is located at a specific path that
-you define when you open the realm.
+realm in a single ``.realm`` file. The file is located at :ref:`a specific 
+path <find-the-default-realm-path>` that you define when you open the realm.
 
 .. note:: Auxiliary Realm Files
    
@@ -161,7 +160,7 @@ you define when you open the realm.
    important objects as you will lose all unsynced data in the realm.
 
    For guidance on deleting realm files, see
-   :ref:`ios-reset-a-client-realm-file`.
+   :ref:`ios-delete-a-client-realm-file`.
 
 .. _ios-in-memory-realm:
 
@@ -189,9 +188,18 @@ comparable SQLite database. Unexpected file growth may be related to the
 .. tip:: Avoid pinning old Realm transactions
 
    {+backend-short+} ties read transaction lifetimes to the memory lifetime 
-   of {+backend-short+} instances. Avoid “pinning” old Realm transactions. 
+   of {+backend-short+} instances. Avoid "pinning" old Realm transactions. 
    Use auto-refreshing {+backend-short+}s, and wrap the use of Realm APIs 
    from background threads in explicit autorelease pools.
+
+.. note::
+
+   A large {+realm+} file can impact the performance and reliability of
+   your app. Any single {+realm+} file cannot be larger than the amount
+   of memory your application would be allowed to map in iOS. This limit
+   depends on the device and on how fragmented the memory space is at
+   that point in time. If you need to store more data, you can map it
+   over multiple {+realm+} files.
 
 Threading
 ~~~~~~~~~
@@ -234,6 +242,17 @@ queue's autorelease pool may not drain immediately upon executing your
 code. Realm cannot reuse intermediate versions of the data until the 
 dispatch pool deallocates the {+realm+} object. Use an explicit 
 autorelease pool when accessing {+realm+} from a dispatch queue.
+
+.. _ios-app-download-file-size:
+
+App Download File Size
+~~~~~~~~~~~~~~~~~~~~~~
+
+{+client-database+} should only add around 5 to 8 MB to your app’s download 
+size. The releases we distribute are significantly larger because they 
+include support for the iOS, watchOS and tvOS simulators, some debug symbols, 
+and bitcode, all of which are stripped by the App Store automatically when 
+apps are downloaded.
 
 .. _ios-default-realm:
 

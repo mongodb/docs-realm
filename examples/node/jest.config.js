@@ -6,27 +6,21 @@ module.exports = {
   projects: [
     {
       displayName: "JavaScript",
-      moduleFileExtensions: ['js'],
-      testMatch: [
-        "<rootDir>/Examples/**/*.js",
-      ],
-      setupFilesAfterEnv: [
-        '<rootDir>/testSetup.js',
-      ],
+      moduleFileExtensions: ["js"],
+      testMatch: ["<rootDir>/Examples/**/*.js"],
+      setupFilesAfterEnv: ["<rootDir>/testSetup.js"],
+      modulePathIgnorePatterns: ["<rootDir>/Examples/rn"],
     },
     {
       displayName: "TypeScript",
-      moduleFileExtensions: ['ts', 'js'],
-      preset: 'ts-jest/presets/js-with-ts',
-      setupFilesAfterEnv: [
-        '<rootDir>/testSetup.js',
-      ],
-      testMatch: [
-        "<rootDir>/Examples/**/*.ts",
-      ],
-      "transform": {
-        "^.+\\.ts$": "ts-jest"
+      moduleFileExtensions: ["ts", "js"],
+      preset: "ts-jest/presets/js-with-ts",
+      setupFilesAfterEnv: ["<rootDir>/testSetup.js"],
+      modulePathIgnorePatterns: ["<rootDir>/Examples/rn"],
+      testMatch: ["<rootDir>/Examples/**/*.ts"],
+      transform: {
+        "^.+\\.ts$": "ts-jest",
       },
     },
-  ]
+  ],
 };

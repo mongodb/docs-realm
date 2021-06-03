@@ -23,55 +23,117 @@ uses the other 256 bits of the 512-bit encryption key to validate
 integrity using a :wikipedia:`hash-based message authentication code
 (HMAC) <HMAC>`.
 
-Considerations
---------------
+.. note:: Performance Impact
 
-Storing & Reusing Keys
-~~~~~~~~~~~~~~~~~~~~~~
+   Reads and writes on encrypted {+realm+}s can be up to 10%
+   slower than equivalent reads and writes to unencrypted {+realm+}s.
 
-You must pass the same encryption key when opening the encrypted
-{+realm+} again. Apps should store the encryption key in the
+.. important:: Encryption and Realm Sync
+
+   You can encrypt a :ref:`synced realm <android-sync-data>`, but
+   {+service+} only encrypts the data on the device. {+service+} stores
+   the data unencrypted in your :term:`data source`.
+
+Store & Reuse Keys
+------------------
+
+To repeatedly access an encrypted {+realm+}, you must pass the same
+encryption key to :java-sdk:`RealmConfiguration.Builder.encryptionKey()
+<io/realm/RealmConfiguration.Builder.html#encryptionKey-byte:A->` each
+time you open the {+realm+}. Apps should store the encryption key in the
 :android:`Android KeyStore <training/articles/keystore.html>` so
-that other apps cannot read the key.
+that other apps cannot read the key. The following steps describe the
+recommended way to use the KeyStore for encryption with
+{+service-short+}:
 
-Performance Impact
-~~~~~~~~~~~~~~~~~~
+1. Generate an asymmetric RSA key that Android can securely store and
+   retrieve using the Android KeyStore.
 
-Typically, reads and writes on encrypted {+realm+}s can be up to 10%
-slower than unencrypted {+realm+}s.
+   .. note:: Android Version M and Above: Keystore Security
 
-Encryption and Realm Sync
-~~~~~~~~~~~~~~~~~~~~~~~~~
+      Versions M and above require user PIN or fingerprint to unlock
+      the KeyStore.
 
-You can encrypt a :ref:`synced realm <android-sync-data>`. {+service+} only
-encrypts the data on the device and stores the data unencrypted in your
-{+atlas+} :term:`data source`.
+#. Generate a symmetric key (AES) you can use to encrypt the {+realm+}.
 
-Example
--------
+#. Encrypt the symmetric AES key using your private RSA key.
 
-The following code demonstrates how to generate an encryption key and
-open an encrypted {+realm+} with the :java-sdk:`encryptionKey() <io/realm/mongodb/sync/SyncConfiguration.Builder.html#encryptionKey-byte:A->`
-method:
+#. Store the encrypted AES key on filesystem (in a
+   ``SharedPreferences``, for example).
 
-.. warning:: This Example Does Not Securely Handle Encryption Keys
+When you need to use your encrypted {+realm+}:
 
-   This example does not demonstrate best security practices for generating
-   or storing encryption keys. For proper key handling, please consult
-   `the Android documentation <https://developer.android.com/training/articles/keystore.html>`__
-   or `third party guides <http://nelenkov.blogspot.dk/2012/05/storing-application-secrets-in-androids.html>`__.
+1. Retrieve your encrypted AES key.
+#. Decrypt your encrypted AES key using the public RSA key.
+#. Use the decrypted AES key in the ``RealmConfiguration`` to open the
+   encrypted {+realm+}.
+
+.. seealso::
+
+   For an end-to-end example of storing and reusing encryption keys, see
+   the `store_password <https://github.com/realm/realm-java/tree/feature/example/store_password/examples/StoreEncryptionPassword>`__ example project, which demonstrates the
+   fingerprint API.
+   
+.. include:: /includes/encrypt-use-strong-cryptographic-hash.rst
+
+Generate and Store an Encryption Key
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The following code demonstrates how to securely generate and store an
+encryption key for a {+realm+}:
 
 .. tabs-realm-languages::
    
    .. tab::
        :tabid: kotlin
 
-       .. literalinclude:: /examples/generated/android/sync/EncryptTest.codeblock.encrypt.kt
+       .. literalinclude:: /examples/generated/android/sync/EncryptTest.codeblock.encrypt-key.kt
          :language: kotlin
 
    .. tab::
        :tabid: java
 
-       .. literalinclude:: /examples/generated/android/sync/EncryptTest.codeblock.encrypt.java
+       .. literalinclude:: /examples/generated/android/sync/EncryptTest.codeblock.encrypt-key.java
+         :language: java
+
+Access an Existing Encryption Key
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The following code demonstrates how to access and decrypt a securely
+stored encryption key for a {+realm+}:
+
+.. tabs-realm-languages::
+   
+   .. tab::
+       :tabid: kotlin
+
+       .. literalinclude:: /examples/generated/android/sync/EncryptTest.codeblock.decrypt-key.kt
+         :language: kotlin
+
+   .. tab::
+       :tabid: java
+
+       .. literalinclude:: /examples/generated/android/sync/EncryptTest.codeblock.decrypt-key.java
+         :language: java
+
+Open an Encrypted Realm
+~~~~~~~~~~~~~~~~~~~~~~~
+
+The following code demonstrates how to open an encrypted {+realm+} with
+the :java-sdk:`encryptionKey() <io/realm/mongodb/sync/SyncConfiguration.Builder.html#encryptionKey-byte:A->`
+method:
+
+.. tabs-realm-languages::
+   
+   .. tab::
+       :tabid: kotlin
+
+       .. literalinclude:: /examples/generated/android/sync/EncryptTest.codeblock.read-and-write-encrypted-realm.kt
+         :language: kotlin
+
+   .. tab::
+       :tabid: java
+
+       .. literalinclude:: /examples/generated/android/sync/EncryptTest.codeblock.read-and-write-encrypted-realm.java
          :language: java
 

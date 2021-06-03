@@ -8,6 +8,7 @@ using Realms.Sync;
 using TaskStatus = dotnet.TaskStatus;
 using Task = dotnet.Task;
 using System.Collections.Generic;
+using ObjectExamples;
 
 namespace Examples
 {
@@ -15,7 +16,7 @@ namespace Examples
     {
         App app;
         ObjectId testTaskId;
-        Realms.Sync.User user;
+        User user;
         SyncConfiguration config;
         const string myRealmAppId = Config.appid;
 
@@ -28,10 +29,25 @@ namespace Examples
             user = app.LogInAsync(Credentials.EmailPassword("foo@foo.com", "foobar")).Result;
             // :code-block-start: open-synced-realm
             config = new SyncConfiguration("myPart", user);
+            //:hide-start:
+            config.ObjectClasses = new[]
+            {
+                typeof(Task),
+                typeof(MyClass),
+                typeof(dotnet.User),
+                typeof(CustomGetterSetter)
+            };
+            //:hide-end:
             var realm = await Realm.GetInstanceAsync(config);
+            //:hide-start:
+            realm.Write(() =>
+            {
+                realm.RemoveAll<Task>();
+            });
+            //:hide-end:
             // :code-block-end:
             // :code-block-start: open-synced-realm-sync
-            var synchronousRealm = Realm.GetInstance(config);
+            var synchronousRealm = await Realm.GetInstanceAsync(config);
             // :code-block-end:
             // :code-block-start: create
             var testTask = new Task
@@ -103,6 +119,14 @@ namespace Examples
             // :code-block-end:
             // :code-block-start: config
             config = new SyncConfiguration("myPart", user);
+            //:hide-start:
+            config.ObjectClasses = new[]
+            {
+                typeof(Task),
+                typeof(dotnet.User),
+                typeof(CustomGetterSetter)
+            };
+            //:hide-end:
             var realm = await Realm.GetInstanceAsync(config);
             // :code-block-end:
             // :code-block-start: read-all
@@ -121,6 +145,14 @@ namespace Examples
         {
             // :code-block-start: scope
             config = new SyncConfiguration("myPart", user);
+            //:hide-start:
+            config.ObjectClasses = new[]
+            {
+                typeof(Task),
+                typeof(dotnet.User),
+                typeof(CustomGetterSetter)
+            };
+            //:hide-end:
             using (var realm = await Realm.GetInstanceAsync(config))
             {
                 var allTasks = realm.All<Task>();
@@ -132,6 +164,13 @@ namespace Examples
         public async System.Threading.Tasks.Task ModifiesATask()
         {
             config = new SyncConfiguration("myPart", user);
+            //:hide-start:
+            config.ObjectClasses = new[]
+            {
+                typeof(Task),
+                typeof(dotnet.User)
+            };
+            //:hide-end:
             var realm = await Realm.GetInstanceAsync(config);
             // :code-block-start: modify
             var t = realm.All<Task>()
@@ -304,12 +343,31 @@ namespace Examples
             return;
         }
 
+        [Test]
+        public async System.Threading.Tasks.Task TestsCustomSetter()
+        {
+            var foo = new CustomGetterSetter()
+            {
+                Email = "foo@foo.com"
+            };
 
+            using (var realm = await Realm.GetInstanceAsync(config))
+            {
+                realm.Write(() =>
+            {
+                realm.Add(foo);
+            });
+
+                Assert.IsNotNull(foo.Email);
+
+                var bar = realm.All<CustomGetterSetter>().Where(f => f._id == foo._id).FirstOrDefault();
+                Assert.AreEqual("foo@foo.com", bar.Email);
+            }
+        }
 
         [OneTimeTearDown]
         public async System.Threading.Tasks.Task TearDown()
         {
-            config = new SyncConfiguration("myPart", user);
             using (var realm = await Realm.GetInstanceAsync(config))
             {
                 var myTask = new Task();
@@ -319,7 +377,11 @@ namespace Examples
                     realm.Remove(myTask);
                 });
                 // :code-block-end:
-                realm.RemoveAll<Task>();
+                realm.Write(() =>
+                {
+                    realm.RemoveAll<Task>();
+                    realm.RemoveAll<CustomGetterSetter>();
+                });
                 var user = await app.LogInAsync(Credentials.Anonymous());
                 // :code-block-start: logout
                 await user.LogOutAsync();

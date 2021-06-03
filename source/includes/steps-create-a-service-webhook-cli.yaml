@@ -19,11 +19,11 @@ title: Add a Webhook Configuration Directory
 ref: add-a-webhook-configuration-directory
 content: |
   Create a new subdirectory with the same name as the webhook in
-  ``/http_endpoints/<service>/``:
+  ``/http_endpoints/<service>/incoming_webhooks/``:
 
   .. code-block:: shell
 
-     mkdir -p http_endpoints/<service>/<webhook name>
+     mkdir -p http_endpoints/<service>/incoming_webhooks/<webhook name>
 ---
 title: Add a Webhook Configuration File
 ref: add-a-webhook-configuration-file
@@ -34,7 +34,7 @@ content: |
   The configuration file should have the following form:
 
   .. code-block:: json
-     :caption: http_endpoints/<Service Name>/<Webhook Name>/config.json
+     :caption: http_endpoints/<Service Name>/incoming_webhooks/<Webhook Name>/config.json
      
      {
        "name": "<Webhook Name>",

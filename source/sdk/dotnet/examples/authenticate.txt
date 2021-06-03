@@ -126,6 +126,8 @@ you can log in using the following code:
 .. literalinclude:: /examples/generated/dotnet/Examples.codeblock.logon_apple.cs
    :language: csharp
 
+.. include:: /includes/authorization-appleidcredential-string.rst
+
 .. _dotnet-logout:
 
 Log a User Out
@@ -137,3 +139,18 @@ Once logged in, you can log out by calling the ``LogOutAsync()`` method:
    :language: csharp
 
 .. include:: /includes/log-out-queries-in-progress.rst
+
+Retrieve the Current User
+-------------------------
+
+Once you have an authenticated user, you can retrieve the User object with the 
+:dotnet-sdk:`App.CurrentUser <reference/Realms.Sync.App.html#Realms_Sync_App_CurrentUser>` 
+property. The ``CurrentUser`` object is persisted in local storage, so even if 
+the app shuts down after the initial authentication, you do not need to call 
+``LoginAsync`` again (unless the user logged out). Instead, use 
+:dotnet-sdk:`Realm.GetInstance(config) <reference/Realms.Realm.html#Realms_Realm_GetInstance_Realms_RealmConfigurationBase_>`, 
+where ``config`` is a 
+:dotnet-sdk:`SyncConfiguration <reference/Realms.Sync.SyncConfiguration.html#Realms_Sync_SyncConfiguration__ctor_System_Nullable_MongoDB_Bson_ObjectId__Realms_Sync_User_System_String_>` 
+object. This approach results in a faster start-up and also enables the user to 
+work offline.
+

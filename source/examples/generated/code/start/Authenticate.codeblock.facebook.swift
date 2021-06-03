@@ -1,3 +1,5 @@
+// This example demonstrates login logic for FBSDK version 8.x. If you're using
+// a different version of FBSDK, you'll need to adapt this example for your version.
 let loginManager = LoginManager()
 loginManager.logIn(permissions: [ .email ]) { loginResult in
     switch loginResult {

@@ -1,0 +1,36 @@
+.. _dotnet-data-type-queries:
+
+============================
+Data Type Queries - .NET SDK
+============================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+You cannot query {+service-short+} Collections, Dictionaries, or Sets by using 
+Linq. You can query them, however, with string queries. The following code shows 
+how to use string queries for these types:
+
+Lists
+~~~~~
+.. literalinclude:: /examples/generated/dotnet/DataTypes.codeblock.query-lists.cs
+   :language: csharp
+  
+Dictionaries
+~~~~~~~~~~~~
+.. literalinclude:: /examples/generated/dotnet/DataTypes.codeblock.query-dictionaries.cs
+   :language: csharp
+ 
+
+Sets
+~~~~
+.. literalinclude:: /examples/generated/dotnet/DataTypes.codeblock.query-sets.cs
+   :language: csharp
+ 

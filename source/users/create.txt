@@ -10,40 +10,72 @@ Create a User
    :depth: 1
    :class: singlecol
 
-Create an Email/Password User
------------------------------
+Manually Create an Email/Password User
+--------------------------------------
 
-For most :doc:`authentication providers </authentication/providers>`,
-when an end-user authenticates for the first time, the user object is
-created.  For the :doc:`Email/Password authentication provider
-</authentication/email-password>`, a prompt requires users to create an
-account the first time they connect to your :term:`{+app+}`.
+You can create a new :ref:`Email/Password <email-password-authentication>` user
+from the UI or CLI. Manually-created users bypass any configured user
+confirmation flows.
 
-For testing and debugging with the Email/Password authentication
-provider, create new users from within the {+service-short+} admin console
-by following the steps below:
-
-
-#. Select :guilabel:`App Users` from the {+leftnav+}.
-
-#. Click the :guilabel:`Add New User` button.
-
-#. Specify an email address and password for the new user.
-
-   .. note::
-
-      The Email/Password authentication provider requires passwords to be
-      between 6 and 128 characters long.
-
-#. Click :guilabel:`Create`.
-
-.. note::
+.. tip::
    
-   You can also create API keys that applications use to connect to your
-   {+app+}. Although API Keys are not associated with
-   a single user, the :guilabel:`Users` tab lists them. To learn more
-   about API keys, see :doc:`API Key Authentication
-   </authentication/api-key>`.
+   This is particularly useful for testing and debugging your application in
+   development.
+
+.. tabs-realm-admin-interfaces::
+   
+   .. tab::
+      :tabid: ui
+      
+      #. Select :guilabel:`App Users` from the {+leftnav+}.
+      
+      #. Click the :guilabel:`Add New User` button.
+      
+      #. Specify an email address and password for the new user.
+      
+         .. note::
+      
+            The Email/Password authentication provider requires passwords to be
+            between 6 and 128 characters long.
+      
+      #. Click :guilabel:`Create`.
+      
+      .. note::
+         
+         You can also create API keys that applications use to connect to your
+         {+app+}. Although API Keys are not associated with
+         a single user, the :guilabel:`Users` tab lists them. To learn more
+         about API keys, see :doc:`API Key Authentication
+         </authentication/api-key>`.
+   
+   .. tab::
+      :tabid: cli
+      
+      .. include:: /includes/note-procedure-uses-cli-v2.rst
+      
+      To create a new email/password user, call ``realm-cli users create`` and
+      specify ``--type=email``. The CLI will prompt you for your App ID as well
+      as the new user's email and password.
+      
+      .. code-block:: bash
+         
+         realm-cli users create --type=email
+      
+      You can also specify the arguments when you call the program:
+      
+      .. code-block:: bash
+         
+         realm-cli users create --type=email \
+           --app=<Your App ID> \
+           --email=<User's Email Address> \
+           --password=<User's Password>
+         
+      .. note::
+         
+         The Email/Password authentication provider requires passwords to be
+         between 6 and 128 characters long.
+
+.. _confirm-user:
 
 Confirm a User
 --------------
@@ -88,7 +120,7 @@ users manually by following the below steps:
    :guilabel:`User Status` changes from :guilabel:`Pending Confirmation`
    to :guilabel:`Pending User Login`.
 
-A manually confirmed user continues to appear in the :guilabel:`PENDING`
+A manually-confirmed user continues to appear in the :guilabel:`PENDING`
 user list until they log in to your application for the first time, at
 which point {+backend+} moves them into the list of confirmed users and
 transitions their :guilabel:`User Status` to ``confirmed``.
