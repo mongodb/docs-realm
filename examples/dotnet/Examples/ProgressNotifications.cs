@@ -10,7 +10,7 @@ namespace Examples
         App app;
         Realms.Sync.User user;
         SyncConfiguration config;
-        string myRealmAppId = "errror-handler-example-nythp";
+        string myRealmAppId = "todo-sync-jkujb";
         public class ProgressObj : RealmObject
         {
             [PrimaryKey]
@@ -18,7 +18,22 @@ namespace Examples
             public int Id { get; set; }
             public string Name { get; set; }
         }
+        [Test]
+        public async Task TestWaitForChangesToDownloadAsync()
+        {
+            var appConfig = new AppConfiguration(myRealmAppId)
+            {
+                DefaultRequestTimeout = TimeSpan.FromMilliseconds(1500)
+            };
+            app = App.Create(appConfig);
+            user = app.LogInAsync(Credentials.Anonymous()).Result;
+            config = new SyncConfiguration("myPartition", user);
 
+            // :code-block-start: wait-for-changes-to-download-async-progress-notification
+            var realm = Realm.GetInstance(config);
+            await realm.GetSession().WaitForDownloadAsync();
+            // :code-block-end:
+        }
         [Test]
         public async Task TestUploadDownloadProgressNotification()
         {
