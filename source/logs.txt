@@ -140,12 +140,12 @@ Log Lines
 
 Functions can log information using JavaScript's ``console.log()``
 method. {+backend+} stringifies each console log and stores each string
-as a single line. {+backend+} truncates lines to 256 bytes in length.
-For ASCII character sets, this translates to 256 characters; depending
+as a single line. {+backend+} truncates lines to 512 bytes in length.
+For ASCII character sets, this translates to 512 characters; depending
 on the character set you use, you may see truncation at lower character
 counts.
 
-{+backend+} saves only the first 10 log lines for a given log entry.
+{+backend+} saves only the first 25 log lines for a given log entry.
 
 {+backend+} stores each output as a single string in the log entry's
 ``Logs`` field.
