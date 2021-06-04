@@ -3,5 +3,10 @@ RealmConfiguration config = new RealmConfiguration.Builder()
         .allowWritesOnUiThread(true)
         .build();
 
-Realm realm = Realm.getInstance(config);
-Log.v("EXAMPLE", "Successfully opened a realm at: " + realm.getPath());
+try {
+    Realm realm = Realm.getInstance(config);
+    Log.v("EXAMPLE", "Successfully opened a realm at: " + realm.getPath());
+} catch (RealmFileException ex) {
+    Log.v("EXAMPLE", "Error opening the realm at: " + realm.getPath());
+    Log.v("EXAMPLE", ex.toString());
+}

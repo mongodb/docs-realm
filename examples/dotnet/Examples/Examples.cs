@@ -9,6 +9,8 @@ using TaskStatus = dotnet.TaskStatus;
 using Task = dotnet.Task;
 using System.Collections.Generic;
 using ObjectExamples;
+using Realms.Exceptions;
+using System.Threading.Tasks;
 
 namespace Examples
 {
@@ -37,9 +39,19 @@ namespace Examples
                 typeof(dotnet.User),
                 typeof(CustomGetterSetter)
             };
+            Realm realm;
             //:hide-end:
-            var realm = await Realm.GetInstanceAsync(config);
+            try
+            {
+                realm = await Realm.GetInstanceAsync(config);
+            }
+            catch (RealmFileAccessErrorException ex)
+            {
+                Console.WriteLine($@"There was an error creating the file
+                    specified in the Configuration. {ex.Message}");
+            }
             //:hide-start:
+            realm = await Realm.GetInstanceAsync(config);
             realm.Write(() =>
             {
                 realm.RemoveAll<Task>();

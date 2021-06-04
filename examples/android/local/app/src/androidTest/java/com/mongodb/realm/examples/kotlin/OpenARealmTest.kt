@@ -17,8 +17,13 @@ class OpenARealmTest : RealmTest() {
                 .allowQueriesOnUiThread(true)
                 .allowWritesOnUiThread(true)
                 .build()
-            val realm = Realm.getInstance(config)
-            Log.v("EXAMPLE", "Successfully opened a realm at: ${realm.path}")
+            try {
+                val realm = Realm.getInstance(config)
+                Log.v("EXAMPLE", "Successfully opened a realm at: ${realm.path}")
+            } catch(ex: RealmFileException) {
+                Log.v("EXAMPLE", "Error opening the realm at ${realm.path}")
+                Log.v("EXAMPLE", ex.toString())
+            }
             // :code-block-end:
             // :code-block-start: close-a-realm-local
             realm.close()

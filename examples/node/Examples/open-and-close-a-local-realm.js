@@ -13,10 +13,15 @@ describe("Open and Close a Local Realm", () => {
   test("should open and close a local realm", async () => {
     // :code-block-start: open-local-realm-with-car-schema
     // Open a local realm file with a particular path & predefined Car schema
-    const realm = await Realm.open({
-      path: "myrealm",
-      schema: [Car],
-    });
+    const realm;
+    try {
+      realm = await Realm.open({
+        path: "myrealm",
+        schema: [Car],
+      });
+    } catch (err) {
+      console.error("Failed to open the realm", err.message);
+    }
     // :code-block-end:
 
     // :code-block-start: open-local-realm-synchronously
@@ -26,10 +31,15 @@ describe("Open and Close a Local Realm", () => {
     //   }
     // }
     // Synchronously open a local realm file with a particular path & predefined Car schema
-    const synchronouslyOpenedRealm = new Realm({
-      path: "myrealm",
-      schema: [Car],
-    });
+    const synchronouslyOpenedRealm;
+    try {
+      synchronouslyOpenedRealm = new Realm({
+        path: "myrealm",
+        schema: [Car],
+      });
+    } catch (err) {
+      console.error("Failed to open the realm", err.message);
+    }
     // :replace-end:
     // :code-block-end:
 

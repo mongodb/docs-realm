@@ -21,8 +21,13 @@ public class OpenARealmTest extends RealmTest {
                     .allowWritesOnUiThread(true)
                     .build();
 
-            Realm realm = Realm.getInstance(config);
-            Log.v("EXAMPLE", "Successfully opened a realm at: " + realm.getPath());
+            try {
+                Realm realm = Realm.getInstance(config);
+                Log.v("EXAMPLE", "Successfully opened a realm at: " + realm.getPath());
+            } catch (RealmFileException ex) {
+                Log.v("EXAMPLE", "Error opening the realm at: " + realm.getPath());
+                Log.v("EXAMPLE", ex.toString());
+            }
             // :code-block-end:
             // :code-block-start: close-a-realm-local
             realm.close();
