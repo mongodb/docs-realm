@@ -47,8 +47,8 @@ namespace Examples
             }
             catch (RealmFileAccessErrorException ex)
             {
-                Console.WriteLine($@"There was an error creating the file
-                    specified in the Configuration. {ex.Message}");
+                Console.WriteLine($@"Error creating or opening the
+                    realm file. {ex.Message}");
             }
             //:hide-start:
             realm = await Realm.GetInstanceAsync(config);
@@ -109,8 +109,18 @@ namespace Examples
             {
                 IsReadOnly = true,
             };
-            var localRealm = Realm.GetInstance(config);
+            Realm localRealm;
+            try
+            {
+                localRealm = Realm.GetInstance(config);
+            }
+            catch (RealmFileAccessErrorException ex)
+            {
+                Console.WriteLine($@"Error creating or opening the
+                    realm file. {ex.Message}");
+            }
             // :code-block-end:
+            localRealm = Realm.GetInstance(config);
             Assert.IsNotNull(localRealm);
             localRealm.Dispose();
             try

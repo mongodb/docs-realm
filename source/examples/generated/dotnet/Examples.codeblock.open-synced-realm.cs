@@ -5,6 +5,6 @@ try
 }
 catch (RealmFileAccessErrorException ex)
 {
-    Console.WriteLine($@"There was an error creating the file
-        specified in the Configuration. {ex.Message}");
+    Console.WriteLine($@"Error creating or opening the
+        realm file. {ex.Message}");
 }
