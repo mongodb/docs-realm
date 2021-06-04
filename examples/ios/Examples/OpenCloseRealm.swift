@@ -52,7 +52,7 @@ class OpenCloseRealm: XCTestCase {
         // :code-block-end:
         print(fileUrl)
     }
-    
+
     func testHandleError() {
         // :code-block-start: handle-error
         do {
