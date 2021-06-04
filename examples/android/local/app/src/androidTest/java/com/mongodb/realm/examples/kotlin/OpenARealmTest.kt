@@ -6,6 +6,7 @@ import com.mongodb.realm.examples.RealmTest
 import io.realm.Realm
 import io.realm.RealmConfiguration
 import org.junit.Test
+import io.realm.exceptions.RealmFileException;
 
 class OpenARealmTest : RealmTest() {
     @Test
@@ -17,8 +18,10 @@ class OpenARealmTest : RealmTest() {
                 .allowQueriesOnUiThread(true)
                 .allowWritesOnUiThread(true)
                 .build()
+            
+            val realm: Realm
             try {
-                val realm = Realm.getInstance(config)
+                realm = Realm.getInstance(config)
                 Log.v("EXAMPLE", "Successfully opened a realm at: ${realm.path}")
             } catch(ex: RealmFileException) {
                 Log.v("EXAMPLE", "Error opening the realm at ${realm.path}")
