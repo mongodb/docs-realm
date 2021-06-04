@@ -19,18 +19,20 @@ class OpenARealmTest : RealmTest() {
                 .allowWritesOnUiThread(true)
                 .build()
             
-            val realm: Realm
+            var realm: Realm
             try {
                 realm = Realm.getInstance(config)
                 Log.v("EXAMPLE", "Successfully opened a realm at: ${realm.path}")
             } catch(ex: RealmFileException) {
-                Log.v("EXAMPLE", "Error opening the realm at ${realm.path}")
+                Log.v("EXAMPLE", "Error opening the realm.")
                 Log.v("EXAMPLE", ex.toString())
             }
             // :code-block-end:
+            realm = Realm.getInstance(config)
             // :code-block-start: close-a-realm-local
             realm.close()
             // :code-block-end:
+
             expectation.fulfill()
         }
         expectation.await()
