@@ -9,7 +9,6 @@ import com.mongodb.realm.examples.model.java.FrogDictionary;
 import com.mongodb.realm.examples.model.java.FrogSet;
 import com.mongodb.realm.examples.model.java.GroupOfPeople;
 import com.mongodb.realm.examples.model.java.Snack;
-import com.mongodb.realm.examples.model.kotlin.Frog;
 import com.mongodb.realm.examples.model.kotlin.Person;
 
 import org.junit.Assert;
@@ -17,6 +16,7 @@ import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 
 import io.realm.Realm;
 import io.realm.RealmAny;
@@ -32,7 +32,7 @@ public class DataTypesTest extends RealmTest {
         activity.runOnUiThread(() -> {
             RealmConfiguration config = new RealmConfiguration.Builder()
                     .inMemory()
-                    .name("realmset-test-java")
+                    .name("realmany-test-java")
                     .allowQueriesOnUiThread(true)
                     .allowWritesOnUiThread(true)
                     .build();
@@ -86,6 +86,82 @@ public class DataTypesTest extends RealmTest {
 
                 frog.setBestFriend(RealmAny.valueOf(persons));
                 Log.v("EXAMPLE", "Best friend: " + frog.getBestFriend().asRealmModel(GroupOfPeople.class).getPeople().toString());
+                // :code-block-end:
+                // :replace-end:
+                expectation.fulfill();
+            });
+        });
+        expectation.await();
+    }
+
+    @Test
+    public void testRealmAnyNotifications() {
+        Expectation expectation = new Expectation();
+        activity.runOnUiThread(() -> {
+            RealmConfiguration config = new RealmConfiguration.Builder()
+                    .inMemory()
+                    .name("realmany-notification-test-java")
+                    .allowQueriesOnUiThread(true)
+                    .allowWritesOnUiThread(true)
+                    .build();
+
+            Realm realm = Realm.getInstance(config);
+
+            AtomicReference<FrogAny> frog = new AtomicReference<FrogAny>();
+            realm.executeTransaction(r -> {
+                    // :replace-start: {
+                    //    "terms": {
+                    //       "FrogAny": "Frog"
+                    //    }
+                    // }
+                    // :code-block-start: realmany-notifications
+                    frog.set(realm.createObject(FrogAny.class));
+                    frog.get().setName("Jonathan Livingston Applesauce");
+            });
+
+            frog.get().addChangeListener(change -> {
+                Log.v("EXAMPLE", "Change: " + change.toString());
+            });
+
+            realm.executeTransaction(r -> {
+
+                // set RealmAny field to a null value
+                frog.get().setBestFriend(RealmAny.nullValue());
+                Log.v("EXAMPLE", "Best friend: " + frog.get().bestFriendToString());
+
+                // possible types for RealmAny are defined in RealmAny.Type
+                Assert.assertTrue(frog.get().getBestFriend().getType() == RealmAny.Type.NULL);
+
+                // set RealmAny field to a string with RealmAny.valueOf a string value
+                frog.get().setBestFriend(RealmAny.valueOf("Greg"));
+                Log.v("EXAMPLE", "Best friend: " + frog.get().bestFriendToString());
+
+                // RealmAny instances change type as you reassign to different values
+                Assert.assertTrue(frog.get().getBestFriend().getType() == RealmAny.Type.STRING);
+
+                // set RealmAny field to a realm object, also with valueOf
+                Person person = new Person("Jason Funderburker");
+
+                frog.get().setBestFriend(RealmAny.valueOf(person));
+                Log.v("EXAMPLE", "Best friend: " + frog.get().bestFriendToString());
+
+                // You can also extract underlying Realm Objects from RealmAny with asRealmModel
+                Person bestFriendObject = frog.get().getBestFriend().asRealmModel(Person.class);
+                Log.v("EXAMPLE", "Best friend: " + bestFriendObject.getName());
+
+                // RealmAny fields referring to any Realm Object use the OBJECT type
+                Assert.assertTrue(frog.get().getBestFriend().getType() == RealmAny.Type.OBJECT);
+
+                // you can't put a RealmList in a RealmAny field directly,
+                // ...but you can set a RealmAny field to a RealmObject that contains a list
+                GroupOfPeople persons = new GroupOfPeople();
+                // GroupOfPeople contains a RealmList of people
+                persons.getPeople().add("Rand");
+                persons.getPeople().add("Perrin");
+                persons.getPeople().add("Mat");
+
+                frog.get().setBestFriend(RealmAny.valueOf(persons));
+                Log.v("EXAMPLE", "Best friend: " + frog.get().getBestFriend().asRealmModel(GroupOfPeople.class).getPeople().toString());
                 // :code-block-end:
                 // :replace-end:
                 expectation.fulfill();
