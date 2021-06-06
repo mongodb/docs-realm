@@ -30,6 +30,10 @@ namespace Examples
             config = new SyncConfiguration("myPartition", user);
 
             // :code-block-start: wait-for-changes-to-download-async-progress-notification
+            // :uncomment-start:
+            // using Realms.Sync;
+
+            // :uncomment-end:
             var realm = Realm.GetInstance(config);
             await realm.GetSession().WaitForDownloadAsync();
             // :code-block-end:
