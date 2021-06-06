@@ -82,9 +82,60 @@ The following code creates a new ``Task`` object and writes it to the {+realm+}:
 
 .. _dotnet-check-sync-progress:
 
-.. Check Upload & Download Progress for a Sync Session
-.. ---------------------------------------------------
+Check Upload & Download Progress for a Sync Session
+---------------------------------------------------
+You can check on the status of your current changes by :ref:`waiting for changes to be uploaded or downloaded <dotnet-check-sync-progress-wait-for-upload-or-download>` or by :ref:`displaying a progress bar <dotnet-check-sync-progress-display-progress-bar>`.
 
+.. _dotnet-check-sync-progress-wait-for-upload-or-download:
+
+Wait for Changes to be Uploaded or Downloaded
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+To asynchronously wait for your changes to be completed, get the sync session by calling `Realms.Sync.GetSession()
+<https://docs.mongodb.com/realm-sdks/dotnet/latest/reference/Realms.Sync.RealmSyncExtensions.html#Realms_Sync_RealmSyncExtensions_GetSession_Realms_Realm_>`_.
+Then call `session.WaitForUploadAsync()
+<https://docs.mongodb.com/realm-sdks/dotnet/10.0.0/reference/Realms.Sync.Session.html#Realms_Sync_Session_WaitForUploadAsync>`_  or `session.WaitForDownloadAsync()
+<https://docs.mongodb.com/realm-sdks/dotnet/10.0.0/reference/Realms.Sync.Session.html#Realms_Sync_Session_WaitForDownloadAsync>`_.
+
+.. literalinclude:: /examples/generated/dotnet/ProgressNotifications.codeblock.wait-for-changes-to-download-async-progress-notification.cs
+   :language: csharp
+
+.. _dotnet-check-sync-progress-display-progress-bar:
+
+Display a Progress Bar
+~~~~~~~~~~~~~~~~~~~~~~
+You can use progress notifications to display a progress bar. First, get the sync session by calling `Realms.Sync.GetSession() <https://docs.mongodb.com/realm-sdks/dotnet/latest/reference/Realms.Sync.RealmSyncExtensions.html#Realms_Sync_RealmSyncExtensions_GetSession_Realms_Realm_>`_. Then, add a progress
+notification using the `session.GetProgressObservable() <https://docs.mongodb.com/realm-sdks/dotnet/latest/reference/Realms.Sync.Session.html#Realms_Sync_Session_GetProgressObservable_Realms_Sync_ProgressDirection_Realms_Sync_ProgressMode_>`_ method.
+
+The ``session.GetProgressObservable`` method takes in the following two parameters:
+
+- A ``ProgressDirection`` parameter that can be set to ``ProgressDirection.Upload`` or ``ProgressDirection.Download`` to register notifications for either event.
+- A ``ProgressMode`` parameter that can be set to ``ProgressMode.ReportIndefinitely`` for the notifications to continue until the callback is unregistered, or ``ProgressMode.ForCurrentlyOutstandingWork`` for the notifications to continue until only the currently transferable bytes are synced.
+
+.. example::
+   In the following example, an application developer registers a progress observable on the ``session`` to
+   listen for upload events indefinitely. When this callback is triggered, the console prints
+   the number of transferred bytes and the number of transferable bytes.
+
+   .. note:: 
+   
+      The following snippet requires the `System.Reactive <https://www.nuget.org/packages/System.Reactive/>`_ NuGet package. 
+
+   .. literalinclude:: /examples/generated/dotnet/ProgressNotifications.codeblock.upload-download-progress-notification.cs
+      :language: csharp
+
+Once you no longer wish to receive notifications, unregister the token by using ``token.Dispose()``
+
+.. warning:: 
+   
+   The number of transferred and transferable bytes are estimates. Since the actual changesets are compressed through `gzip <https://www.gnu.org/software/gzip/>`_ before transmitting over the network, the actual transmitted sizes will be much smaller for both transferable and transferred bytes.
+
+.. warning:: 
+   
+   {+service-short+} will try to optimize download speeds by combining multiple changesets
+   into a single download message up to 16 MB. Since the progress callback is
+   only invoked once before and after a download message is processed, this
+   means that you'll likely see ``transferredBytes`` change in increments of roughly
+   16 MB rather than continuously as the message is being downloaded."
 
 .. _dotnet-handle-sync-errors:
 
