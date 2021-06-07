@@ -13,9 +13,8 @@ describe("Open and Close a Local Realm", () => {
   test("should open and close a local realm", async () => {
     // :code-block-start: open-local-realm-with-car-schema
     // Open a local realm file with a particular path & predefined Car schema
-    const realm;
     try {
-      realm = await Realm.open({
+      const realm = await Realm.open({
         path: "myrealm",
         schema: [Car],
       });
