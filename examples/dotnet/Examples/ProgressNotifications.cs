@@ -38,7 +38,6 @@ namespace Examples
             var realm = Realm.GetInstance(config);
             await realm.GetSession().WaitForDownloadAsync();
             // :code-block-end:
-
         }
         [Test]
         public async Task TestUploadDownloadProgressNotification()
