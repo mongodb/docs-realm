@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using NUnit.Framework;
 using Realms;
 using Realms.Sync;
+
 namespace Examples
 {
     public class ProgressNotifications
@@ -28,15 +29,21 @@ namespace Examples
             app = App.Create(appConfig);
             user = app.LogInAsync(Credentials.Anonymous()).Result;
             config = new SyncConfiguration("myPartition", user);
+            try
+            {
+                // :code-block-start: wait-for-changes-to-download-async-progress-notification
+                // :uncomment-start:
+                // using Realms.Sync;
 
-            // :code-block-start: wait-for-changes-to-download-async-progress-notification
-            // :uncomment-start:
-            // using Realms.Sync;
+                // :uncomment-end:
+                var realm = Realm.GetInstance(config);
+                await realm.GetSession().WaitForDownloadAsync();
+                // :code-block-end:
+            }
+            catch (Exception ex)
+            {
 
-            // :uncomment-end:
-            var realm = Realm.GetInstance(config);
-            await realm.GetSession().WaitForDownloadAsync();
-            // :code-block-end:
+            }
         }
         [Test]
         public async Task TestUploadDownloadProgressNotification()
@@ -52,14 +59,15 @@ namespace Examples
             var realm = await Realm.GetInstanceAsync(config);
             // :code-block-start: upload-download-progress-notification
             var session = realm.GetSession();
-            var token = session.GetProgressObservable(ProgressDirection.Upload, ProgressMode.ReportIndefinitely)
+            var token = session.GetProgressObservable(ProgressDirection.Upload,
+                ProgressMode.ReportIndefinitely)
                 .Subscribe(progress =>
                    {
                        // :hide-start:
                        progressNotificationTriggered = true;
                        // :hide-end:
-                       Console.WriteLine($"transferred bytes: {progress.TransferredBytes}"); 
-                       Console.WriteLine($"transferable bytes: {progress.TransferableBytes}"); 
+                       Console.WriteLine($"transferred bytes: {progress.TransferredBytes}");
+                       Console.WriteLine($"transferable bytes: {progress.TransferableBytes}");
                    });
             // :code-block-end: upload-download-progress-notification
             var id = 2;
