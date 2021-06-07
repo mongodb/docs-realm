@@ -29,15 +29,21 @@ namespace Examples
             app = App.Create(appConfig);
             user = app.LogInAsync(Credentials.Anonymous()).Result;
             config = new SyncConfiguration("myPartition", user);
+            try
+            {
+                // :code-block-start: wait-for-changes-to-download-async-progress-notification
+                // :uncomment-start:
+                // using Realms.Sync;
 
-            // :code-block-start: wait-for-changes-to-download-async-progress-notification
-            // :uncomment-start:
-            // using Realms.Sync;
+                // :uncomment-end:
+                var realm = Realm.GetInstance(config);
+                await realm.GetSession().WaitForDownloadAsync();
+                // :code-block-end:
+            }
+            catch (Exception ex)
+            {
 
-            // :uncomment-end:
-            var realm = Realm.GetInstance(config);
-            await realm.GetSession().WaitForDownloadAsync();
-            // :code-block-end:
+            }
         }
         [Test]
         public async Task TestUploadDownloadProgressNotification()
