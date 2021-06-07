@@ -30,9 +30,8 @@ describe("Open and Close a Local Realm", () => {
     //   }
     // }
     // Synchronously open a local realm file with a particular path & predefined Car schema
-    const synchronouslyOpenedRealm;
     try {
-      synchronouslyOpenedRealm = new Realm({
+      const synchronouslyOpenedRealm = new Realm({
         path: "myrealm",
         schema: [Car],
       });
