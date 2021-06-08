@@ -27,6 +27,9 @@ To define a dictionary, use
 a getter-only ``IDictionary<string, TValue>`` property, where ``TValue`` is any 
 of the supported types.
 
+Dictionary Types
+----------------
+
 A dictionary of objects can contain null objects. Likewise, dictionaries 
 of primitive types can also contain null values. If you do not 
 want to allow null values in a dictionary, then either use non-nullable types in 
@@ -40,20 +43,22 @@ contains nullable reference types, such as ``string`` or ``byte[]``.
    Local-only {+client-database+}s support collections of nullable (optional) values, 
    but ``Sync`` does not.
 
-
 The following code shows examples of dictionary types:
 
 .. literalinclude:: /examples/generated/dotnet/DataTypes.codeblock.dictionaries.cs
    :language: csharp
 
-.. note::
-   
-   You cannot use Linq to query against a {+service-short+} Dictionary. Instead, 
-   use a string query. For more information, see 
-   :ref:`Data Type Queries <dotnet-data-type-queries>`.
+Querying Dictionaries
+---------------------
+You cannot use Linq to query against a {+service-short+} Dictionary. Instead, 
+use a string query:
+
+.. literalinclude:: /examples/generated/dotnet/DataTypes.codeblock.query-dictionaries.cs
+   :language: csharp
+
 
 Data Binding
-~~~~~~~~~~~~
+------------
 Like other Realm collections, ``IDictionary`` implements ``INotifyCollectionChanged``, 
 so you can use it in data-binding scenarios (for example, when 
 :ref:`watching for changes <dotnet-react-to-changes>`). 
