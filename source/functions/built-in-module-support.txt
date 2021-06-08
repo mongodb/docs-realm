@@ -38,6 +38,20 @@ Fully Supported Modules
 - :nodejs:`net <docs/v10.18.1/api/net.html>`
 - :nodejs:`os <docs/v10.18.1/api/os.html>`
 - :nodejs:`path <docs/v10.18.1/api/path.html>`
+- :github:`punycode <bestiejs/punycode.js>`
+
+  .. note::
+  
+    The built-in :nodejs:`punycode module is deprecated
+    <docs/v10.18.1/api/punycode.html>`. However, {+service-short+}
+    provides the :github:`userland punycode module
+    <bestiejs/punycode.js>` automatically. You can import the module
+    with:
+    
+    .. code-block:: javascript
+    
+       const punycode = require("punycode");
+
 - :nodejs:`querystring <docs/v10.18.1/api/querystring.html>`
 - :nodejs:`stream <docs/v10.18.1/api/stream.html>`
 - :nodejs:`string_decoder <docs/v10.18.1/api/string_decoder.html>`
@@ -150,7 +164,6 @@ modules:
 - ``child_process``
 - ``cluster``
 - ``domain``
-- ``punycode``
 - ``readline``
 - ``v8``
 - ``vm``
