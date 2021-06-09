@@ -1,3 +1,12 @@
+var inventory = new Inventory();
+inventory.PlantSet.Add(new Plant() { Name = "Prickly Pear" });
+inventory.DoubleSet.Add(123.45);
+
+realm.Write(() =>
+{
+    realm.Add<Inventory>(inventory);
+});
+
 // Find all Plants that have "Prickly Pear" in the name
 var pricklyPear = realm.All<Inventory>()
     .Filter("PlantSet.Name CONTAINS 'Prickly Pear'");
