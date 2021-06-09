@@ -178,6 +178,21 @@ namespace Examples
             Assert.AreEqual(1, greenPlants.Count());
         }
 
+        [Test]
+        public async Task RealmValueTests()
+        {
+            //:code-block-start:realmValues
+            // CS0029 - Cannot implicitly convert type:
+            // :uncomment-start:
+            // RealmValue myList = new List<Inventory>();
+            // :uncomment-end:
+
+            // These are valid uses of RealmValue:
+            var rvList = new List<RealmValue>();
+            var rvDict = new Dictionary<string, RealmValue>();
+            //:code-block-end:
+        }
+
         [TearDown]
         public void TearDown()
         {
