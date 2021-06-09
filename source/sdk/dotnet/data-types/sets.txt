@@ -1,7 +1,7 @@
 .. _dotnet-client-sets:
 
 ======================
-Sets (beta) - .NET SDK
+Sets (Beta) - .NET SDK
 ======================
 
 .. default-domain:: mongodb
@@ -44,20 +44,28 @@ contains nullable reference types, such as ``string`` or ``byte[]``.
    Local-only {+client-database+}s support collections of nullable (optional) values, 
    but ``Sync`` does not.
 
+Set Types
+---------
 The following code shows examples of set types:
 
 .. literalinclude:: /examples/generated/dotnet/DataTypes.codeblock.sets.cs
    :language: csharp
 
+Usage Example
+-------------
+The following code shows how to create, write to, and read from Sets.
+
 .. note::
-   
+
    You cannot use Linq to query against a {+service-short+} Set. Instead, 
-   use a string query. For more information, see 
-   :ref:`Data Type Queries <dotnet-data-type-queries>`.
+   use a string query.
+
+.. literalinclude:: /examples/generated/dotnet/DataTypes.codeblock.query-sets.cs
+   :language: csharp
 
 
 Data Binding
-~~~~~~~~~~~~
+------------
 Like other Realm collections, ``ISet`` implements ``INotifyCollectionChanged``, 
 so you can use it in data-binding scenarios (for example, when 
 :ref:`watching for changes <dotnet-react-to-changes>`). 
