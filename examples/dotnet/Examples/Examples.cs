@@ -9,6 +9,8 @@ using TaskStatus = dotnet.TaskStatus;
 using Task = dotnet.Task;
 using System.Collections.Generic;
 using ObjectExamples;
+using Realms.Exceptions;
+using System.Threading.Tasks;
 
 namespace Examples
 {
@@ -37,9 +39,19 @@ namespace Examples
                 typeof(dotnet.User),
                 typeof(CustomGetterSetter)
             };
+            Realm realm;
             //:hide-end:
-            var realm = await Realm.GetInstanceAsync(config);
+            try
+            {
+                realm = await Realm.GetInstanceAsync(config);
+            }
+            catch (RealmFileAccessErrorException ex)
+            {
+                Console.WriteLine($@"Error creating or opening the
+                    realm file. {ex.Message}");
+            }
             //:hide-start:
+            realm = await Realm.GetInstanceAsync(config);
             realm.Write(() =>
             {
                 realm.RemoveAll<Task>();
@@ -97,8 +109,18 @@ namespace Examples
             {
                 IsReadOnly = true,
             };
-            var localRealm = Realm.GetInstance(config);
+            Realm localRealm;
+            try
+            {
+                localRealm = Realm.GetInstance(config);
+            }
+            catch (RealmFileAccessErrorException ex)
+            {
+                Console.WriteLine($@"Error creating or opening the
+                    realm file. {ex.Message}");
+            }
             // :code-block-end:
+            localRealm = Realm.GetInstance(config);
             Assert.IsNotNull(localRealm);
             localRealm.Dispose();
             try

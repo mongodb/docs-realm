@@ -49,6 +49,17 @@ client (including changes in a synced MongoDB cluster) at any time and uses an
 operational transformation algorithm to serialize changes into a linear order
 and resolve conflicting changesets before sending them to connected clients.
 
+.. _delta-sync:
+
+.. note:: Delta Sync
+
+   When you make a change to a synced object, {+service-short+} does not
+   re-upload the entire object. Instead, {+service-short+} sends only
+   the difference ("delta") between before and after. The service
+   compresses the deltas with :wikipedia:`zlib <Zlib>` compression. This
+   reduces network load, which is especially useful in mobile network
+   conditions.
+
 .. _operational-transformations:
 
 Operational Transformation

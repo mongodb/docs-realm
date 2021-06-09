@@ -9,6 +9,7 @@ import org.junit.Test;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
+import io.realm.exceptions.RealmFileException;
 
 public class OpenARealmTest extends RealmTest {
     @Test
@@ -20,10 +21,17 @@ public class OpenARealmTest extends RealmTest {
                     .allowQueriesOnUiThread(true)
                     .allowWritesOnUiThread(true)
                     .build();
-
-            Realm realm = Realm.getInstance(config);
-            Log.v("EXAMPLE", "Successfully opened a realm at: " + realm.getPath());
+            
+            Realm realm;
+            try {
+                realm = Realm.getInstance(config);
+                Log.v("EXAMPLE", "Successfully opened a realm at: " + realm.getPath());
+            } catch (RealmFileException ex) {
+                Log.v("EXAMPLE", "Error opening the realm.");
+                Log.v("EXAMPLE", ex.toString());
+            }
             // :code-block-end:
+            realm = Realm.getInstance(config);
             // :code-block-start: close-a-realm-local
             realm.close();
             // :code-block-end:

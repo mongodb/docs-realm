@@ -72,11 +72,13 @@ query and are usually declared as a property of an :ref:`object model
 
 .. _ios-set-collections:
 
-MutableSet
-~~~~~~~~~~
+MutableSet (beta)
+~~~~~~~~~~~~~~~~~
 
 .. versionadded:: 10.8.0-beta.0
    ``MutableSet``
+
+.. include:: /includes/note-beta-feature.rst
 
 A `MutableSet <https://docs.mongodb.com/realm-sdks/swift/10.8.0-beta.0/Classes/MutableSet.html>`_ 
 collection represents a :ref:`to-many relationship <ios-to-many-relationship>` 
@@ -127,6 +129,39 @@ For example, ``MutableSet`` intersection methods:
      ``isSubset``, ``union``, ``subtract``, see: 
      `MutableSet API reference <https://docs.mongodb.com/realm-sdks/swift/10.8.0-beta.0/Classes/MutableSet.html>`_
    - For more info on to-many relationships, see: :ref:`To-Many Relationships <ios-to-many-relationship>`
+
+.. _ios-map:
+
+Map
+~~~
+
+.. versionadded:: 10.8.0-beta.2
+   ``Map``
+
+The :swift-sdk:`Map <Classes/Map.html>` is an associative array that
+contains key-value pairs with unique keys.
+
+Like Swift's :apple:`Dictionary <documentation/swift/dictionary>`,
+``Map`` is a generic type that is parameterized on its key and value
+types. Unlike :apple:`native Swift collections
+<documentation/swift/swift_standard_library/collections>`,
+{+service-short+} Maps are reference types (classes), as opposed to
+value types (structs).
+
+Usage
+`````
+
+You can declare a Map as a property of an object:
+
+.. literalinclude:: /examples/generated/code/start/MapExample.codeblock.models.swift
+   :language: swift
+
+You can then update, check values, iterate over, and delete from the Map
+as you would a standard :apple:`Dictionary
+<documentation/swift/dictionary>`:
+
+.. literalinclude:: /examples/generated/code/start/MapExample.codeblock.map.swift
+   :language: swift
 
 .. _ios-linking-objects:
 

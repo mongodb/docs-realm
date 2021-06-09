@@ -1,2 +1,10 @@
 config = new SyncConfiguration("myPart", user);
-var realm = await Realm.GetInstanceAsync(config);
+try
+{
+    realm = await Realm.GetInstanceAsync(config);
+}
+catch (RealmFileAccessErrorException ex)
+{
+    Console.WriteLine($@"Error creating or opening the
+        realm file. {ex.Message}");
+}
