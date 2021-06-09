@@ -119,6 +119,25 @@ during the rename operation.
       .. literalinclude:: /examples/generated/code/start/Migrations.codeblock.rename-property.m
          :language: objectivec
 
+.. _ios-convert-to-an-embedded-object:
+
+Convert from Object to EmbeddedObject
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+:ref:`Embedded objects <ios-embedded-objects>` cannot exist
+independently of a parent object. When changing an Object to an
+EmbeddedObject, the migration block must ensure that every embedded
+object has exactly one backlink to a parent object. Having no backlinks
+at all or having multiple backlinks raises the following exception:
+
+.. code-block::
+   :copyable: False
+
+   At least one object does not have a backlink (data would get lost).
+
+.. seealso::
+
+   :ref:`ios-embedded-objects`
 
 .. _ios-additional-migration-examples:
 
