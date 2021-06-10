@@ -37,4 +37,5 @@
   persons.getPeople().add("Mat");
 
   frog.setBestFriend(RealmAny.valueOf(persons));
-  Log.v("EXAMPLE", "Best friend: " + frog.getBestFriend().asRealmModel(GroupOfPeople.class).getPeople().toString());
+  Log.v("EXAMPLE", "Best friend: " +
+          frog.getBestFriend().asRealmModel(GroupOfPeople.class).getPeople().toString());

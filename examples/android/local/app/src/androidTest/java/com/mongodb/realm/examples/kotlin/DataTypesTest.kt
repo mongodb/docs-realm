@@ -3,11 +3,10 @@ package com.mongodb.realm.examples.kotlin
 import android.util.Log
 import com.mongodb.realm.examples.Expectation
 import com.mongodb.realm.examples.RealmTest
+import com.mongodb.realm.examples.model.java.FrogAny
 import com.mongodb.realm.examples.model.java.GroupOfPeople
 import com.mongodb.realm.examples.model.kotlin.*
-import io.realm.Realm
-import io.realm.RealmAny
-import io.realm.RealmConfiguration
+import io.realm.*
 import org.junit.Assert
 import org.junit.Test
 import java.util.*
@@ -84,6 +83,60 @@ class DataTypesTest : RealmTest() {
         expectation.await()
     }
 
+    @Test
+    fun testRealmAnyNotifications() {
+        val expectation = Expectation()
+        activity!!.runOnUiThread {
+            val config = RealmConfiguration.Builder()
+                    .inMemory()
+                    .name("realmany-notification-test-java")
+                    .allowQueriesOnUiThread(true)
+                    .allowWritesOnUiThread(true)
+                    .build()
+            val realm = Realm.getInstance(config)
+
+            // :replace-start: {
+            //    "terms": {
+            //       "FrogAnyKt": "Frog"
+            //    }
+            // }
+            // :code-block-start: realmany-notifications
+            var frog: FrogAnyKt? = null
+
+            realm.executeTransaction { r: Realm? ->
+                frog = realm.createObject(FrogAnyKt::class.java)
+                frog?.name = "Jonathan Livingston Applesauce"
+            }
+
+            val objectChangeListener
+                    = RealmObjectChangeListener<FrogAnyKt> { frog, changeSet ->
+                if (changeSet != null) {
+                    Log.v("EXAMPLE", "Changes to fields: " +
+                            changeSet.changedFields)
+                    if (changeSet.isFieldChanged("best_friend")) {
+                        Log.v("EXAMPLE", "RealmAny best friend field changed to : " +
+                                frog.bestFriendToString())
+                    }
+                }
+            }
+
+            frog?.addChangeListener(objectChangeListener)
+
+            realm.executeTransaction { r: Realm? ->
+                // set RealmAny field to a null value
+                frog?.bestFriend = RealmAny.nullValue()
+                Log.v("EXAMPLE", "Best friend: " + frog?.bestFriendToString())
+
+                // set RealmAny field to a string with RealmAny.valueOf a string value
+                frog?.bestFriend = RealmAny.valueOf("Greg")
+                expectation.fulfill() // :hide:
+            }
+            // :code-block-end:
+            // :replace-end:
+        }
+        expectation.await()
+    }
+
 
     @Test
     fun testRealmSet() {
@@ -145,6 +198,62 @@ class DataTypesTest : RealmTest() {
                 // :replace-end:
                 expectation.fulfill()
             }
+        }
+        expectation.await()
+    }
+
+    @Test
+    fun testRealmSetNotifications() {
+        val expectation = Expectation()
+        activity!!.runOnUiThread {
+            val config = RealmConfiguration.Builder()
+                    .inMemory()
+                    .name("realmset-test-java")
+                    .allowQueriesOnUiThread(true)
+                    .allowWritesOnUiThread(true)
+                    .build()
+            val realm = Realm.getInstance(config)
+
+            // :replace-start: {
+            //    "terms": {
+            //       "FrogSetKt": "Frog",
+            //       "SnackKt": "Snack"
+            //    }
+            // }
+            // :code-block-start: realmset-notifications
+            var frog :FrogSetKt? = null
+            realm.executeTransaction { r: Realm? ->
+                frog = realm.createObject(FrogSetKt::class.java)
+                frog?.name = "Jonathan Livingston Applesauce"
+            }
+
+            val setChangeListener: SetChangeListener<SnackKt>
+                    = SetChangeListener<SnackKt> { set, changes ->
+                Log.v("EXAMPLE", "Set changed: " +
+                        changes.numberOfInsertions + " new items, " +
+                        changes.numberOfDeletions + " items removed.")
+            }
+            frog?.favoriteSnacks?.addChangeListener(setChangeListener)
+
+            realm.executeTransaction { r: Realm? ->
+                // get the RealmSet field from the object we just created
+                val set = frog!!.favoriteSnacks
+
+                // add value to the RealmSet
+                val flies = realm.createObject(SnackKt::class.java)
+                flies.name = "flies"
+                set.add(flies)
+
+                // add multiple values to the RealmSet
+                val water = realm.createObject(SnackKt::class.java)
+                water.name = "water"
+                val verySmallRocks = realm.createObject(SnackKt::class.java)
+                verySmallRocks.name = "verySmallRocks"
+                set.addAll(Arrays.asList(water, verySmallRocks))
+                expectation.fulfill() // :hide
+            }
+            // :code-block-end:
+            // :replace-end:
         }
         expectation.await()
     }
@@ -215,6 +324,65 @@ class DataTypesTest : RealmTest() {
                 // :replace-end:
                 expectation.fulfill()
             }
+        }
+        expectation.await()
+    }
+
+    @Test
+    fun testRealmDictionaryNotifications() {
+        val expectation = Expectation()
+        activity!!.runOnUiThread {
+            val config = RealmConfiguration.Builder()
+                    .inMemory()
+                    .name("realmdictionary-test-java")
+                    .allowQueriesOnUiThread(true)
+                    .allowWritesOnUiThread(true)
+                    .build()
+            val realm = Realm.getInstance(config)
+
+            // :replace-start: {
+            //    "terms": {
+            //       "FrogDictionaryKt": "Frog"
+            //    }
+            // }
+            // :code-block-start: realmdictionary-notifications
+            var frog: FrogDictionaryKt? = null
+            realm.executeTransaction { r: Realm? ->
+                frog = realm.createObject(FrogDictionaryKt::class.java)
+                frog?.name = "Jonathan Livingston Applesauce"
+            }
+
+            val mapChangeListener: MapChangeListener<String, FrogDictionaryKt>
+                    = MapChangeListener<String, FrogDictionaryKt> { map, changes ->
+                for (insertion in changes.insertions) {
+                    Log.v("EXAMPLE",
+                            "Inserted key:  $insertion, Inserted value: ${map[insertion]!!.name}")
+                }
+            }
+
+            frog?.nicknamesToFriends?.addChangeListener(mapChangeListener)
+
+            realm.executeTransaction { r: Realm? ->
+                // get the RealmDictionary field from the object we just created
+                val dictionary = frog!!.nicknamesToFriends
+
+                // add key/value to the dictionary
+                val wirt = realm.createObject(FrogDictionaryKt::class.java)
+                wirt.name = "Wirt"
+                dictionary["tall frog"] = wirt
+
+                // add multiple keys/values to the dictionary
+                val greg = realm.createObject(FrogDictionaryKt::class.java)
+                greg.name = "Greg"
+                val beatrice = realm.createObject(FrogDictionaryKt::class.java)
+                beatrice.name = "Beatrice"
+                dictionary.putAll(mapOf<String, FrogDictionaryKt>(
+                        Pair("small frog", greg),
+                        Pair("feathered frog", beatrice)))
+                expectation.fulfill() // :hide:
+            }
+            // :code-block-end:
+            // :replace-end:
         }
         expectation.await()
     }

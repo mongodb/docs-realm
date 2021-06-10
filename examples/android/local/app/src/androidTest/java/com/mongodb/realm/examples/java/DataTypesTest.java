@@ -9,20 +9,33 @@ import com.mongodb.realm.examples.model.java.FrogDictionary;
 import com.mongodb.realm.examples.model.java.FrogSet;
 import com.mongodb.realm.examples.model.java.GroupOfPeople;
 import com.mongodb.realm.examples.model.java.Snack;
-import com.mongodb.realm.examples.model.kotlin.Frog;
 import com.mongodb.realm.examples.model.kotlin.Person;
 
+import org.jetbrains.annotations.NotNull;
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 
+import javax.annotation.Nullable;
+
+import io.realm.MapChangeListener;
+import io.realm.MapChangeSet;
+import io.realm.ObjectChangeSet;
+import io.realm.OrderedCollectionChangeSet;
+import io.realm.OrderedRealmCollectionChangeListener;
 import io.realm.Realm;
 import io.realm.RealmAny;
+import io.realm.RealmChangeListener;
 import io.realm.RealmConfiguration;
 import io.realm.RealmDictionary;
+import io.realm.RealmMap;
+import io.realm.RealmObjectChangeListener;
 import io.realm.RealmSet;
+import io.realm.SetChangeListener;
+import io.realm.SetChangeSet;
 
 public class DataTypesTest extends RealmTest {
 
@@ -32,7 +45,7 @@ public class DataTypesTest extends RealmTest {
         activity.runOnUiThread(() -> {
             RealmConfiguration config = new RealmConfiguration.Builder()
                     .inMemory()
-                    .name("realmset-test-java")
+                    .name("realmany-test-java")
                     .allowQueriesOnUiThread(true)
                     .allowWritesOnUiThread(true)
                     .build();
@@ -85,11 +98,70 @@ public class DataTypesTest extends RealmTest {
                 persons.getPeople().add("Mat");
 
                 frog.setBestFriend(RealmAny.valueOf(persons));
-                Log.v("EXAMPLE", "Best friend: " + frog.getBestFriend().asRealmModel(GroupOfPeople.class).getPeople().toString());
+                Log.v("EXAMPLE", "Best friend: " +
+                        frog.getBestFriend().asRealmModel(GroupOfPeople.class).getPeople().toString());
                 // :code-block-end:
                 // :replace-end:
                 expectation.fulfill();
             });
+        });
+        expectation.await();
+    }
+
+    @Test
+    public void testRealmAnyNotifications() {
+        Expectation expectation = new Expectation();
+        activity.runOnUiThread(() -> {
+            RealmConfiguration config = new RealmConfiguration.Builder()
+                    .inMemory()
+                    .name("realmany-notification-test-java")
+                    .allowQueriesOnUiThread(true)
+                    .allowWritesOnUiThread(true)
+                    .build();
+
+            Realm realm = Realm.getInstance(config);
+
+            // :replace-start: {
+            //    "terms": {
+            //       "FrogAny": "Frog"
+            //    }
+            // }
+            // :code-block-start: realmany-notifications
+            AtomicReference<FrogAny> frog = new AtomicReference<FrogAny>();
+            realm.executeTransaction(r -> {
+                    frog.set(realm.createObject(FrogAny.class));
+                    frog.get().setName("Jonathan Livingston Applesauce");
+            });
+
+            RealmObjectChangeListener<FrogAny> objectChangeListener =
+                    new RealmObjectChangeListener<FrogAny>() {
+                @Override
+                public void onChange(@NotNull FrogAny frog, @Nullable ObjectChangeSet changeSet) {
+                    if (changeSet != null) {
+                        Log.v("EXAMPLE", "Changes to fields: " +
+                                Arrays.toString(changeSet.getChangedFields()));
+                        if (changeSet.isFieldChanged("best_friend")) {
+                            Log.v("EXAMPLE", "RealmAny best friend field changed to : " +
+                                    frog.bestFriendToString());
+                        }
+                    }
+                }
+            };
+
+            frog.get().addChangeListener(objectChangeListener);
+
+            realm.executeTransaction(r -> {
+                // set RealmAny field to a null value
+                frog.get().setBestFriend(RealmAny.nullValue());
+                Log.v("EXAMPLE", "Best friend: " + frog.get().bestFriendToString());
+
+                // set RealmAny field to a string with RealmAny.valueOf a string value
+                frog.get().setBestFriend(RealmAny.valueOf("Greg"));
+
+                expectation.fulfill(); // :hide:
+            });
+            // :code-block-end:
+            // :replace-end:
         });
         expectation.await();
     }
@@ -159,6 +231,64 @@ public class DataTypesTest extends RealmTest {
         expectation.await();
     }
 
+    @Test
+    public void testRealmSetNotifications() {
+        Expectation expectation = new Expectation();
+        activity.runOnUiThread(() -> {
+            RealmConfiguration config = new RealmConfiguration.Builder()
+                    .inMemory()
+                    .name("realmset-test-java")
+                    .allowQueriesOnUiThread(true)
+                    .allowWritesOnUiThread(true)
+                    .build();
+
+            Realm realm = Realm.getInstance(config);
+
+            // :replace-start: {
+            //    "terms": {
+            //       "FrogSet": "Frog"
+            //    }
+            // }
+            // :code-block-start: realmset-notifications
+            AtomicReference<FrogSet> frog = new AtomicReference<FrogSet>();
+            realm.executeTransaction(r -> {
+                frog.set(realm.createObject(FrogSet.class));
+                frog.get().setName("Jonathan Livingston Applesauce");
+            });
+
+            SetChangeListener<Snack> setChangeListener = new SetChangeListener<Snack>() {
+                @Override
+                public void onChange(@NotNull RealmSet<Snack> set, SetChangeSet changes) {
+                    Log.v("EXAMPLE", "Set changed: " +
+                            changes.getNumberOfInsertions() + " new items, " +
+                            changes.getNumberOfDeletions() + " items removed.");
+                }
+            };
+            frog.get().getFavoriteSnacks().addChangeListener(setChangeListener);
+
+            realm.executeTransaction(r -> {
+                // get the RealmSet field from the object we just created
+                RealmSet<Snack> set = frog.get().getFavoriteSnacks();
+
+                // add value to the RealmSet
+                Snack flies = realm.createObject(Snack.class);
+                flies.setName("flies");
+                set.add(flies);
+
+                // add multiple values to the RealmSet
+                Snack water = realm.createObject(Snack.class);
+                water.setName("water");
+                Snack verySmallRocks = realm.createObject(Snack.class);
+                verySmallRocks.setName("verySmallRocks");
+                set.addAll(Arrays.asList(water, verySmallRocks));
+
+                expectation.fulfill(); // :hide:
+            });
+            // :code-block-end:
+            // :replace-end:
+        });
+        expectation.await();
+    }
 
     @Test
     public void testRealmDictionary() {
@@ -219,6 +349,70 @@ public class DataTypesTest extends RealmTest {
                 // :replace-end:
                 expectation.fulfill();
             });
+        });
+        expectation.await();
+    }
+
+    @Test
+    public void testRealmDictionaryNotifications() {
+        Expectation expectation = new Expectation();
+        activity.runOnUiThread(() -> {
+            RealmConfiguration config = new RealmConfiguration.Builder()
+                    .inMemory()
+                    .name("realmdictionary-test-java")
+                    .allowQueriesOnUiThread(true)
+                    .allowWritesOnUiThread(true)
+                    .build();
+
+            Realm realm = Realm.getInstance(config);
+
+            // :replace-start: {
+            //    "terms": {
+            //       "FrogDictionary": "Frog"
+            //    }
+            // }
+            // :code-block-start: realmdictionary-notifications
+            AtomicReference<FrogDictionary> frog = new AtomicReference<FrogDictionary>();
+            realm.executeTransaction(r -> {
+                frog.set(realm.createObject(FrogDictionary.class));
+                frog.get().setName("Jonathan Livingston Applesauce");
+            });
+
+            MapChangeListener<String, FrogDictionary> mapChangeListener =
+                new MapChangeListener<String, FrogDictionary>() {
+                    @Override
+                    public void onChange(RealmMap<String, FrogDictionary> map,
+                                         MapChangeSet<String> changes) {
+                        for (String insertion : changes.getInsertions()) {
+                            Log.v("EXAMPLE",
+                                    "Inserted key:  " + insertion +
+                                            ", Inserted value: " + map.get(insertion).getName());
+                        }
+                    }
+                };
+
+            frog.get().getNicknamesToFriends().addChangeListener(mapChangeListener);
+
+            realm.executeTransaction(r -> {
+                // get the RealmDictionary field from the object we just created
+                RealmDictionary<FrogDictionary> dictionary = frog.get().getNicknamesToFriends();
+
+                // add key/value to the dictionary
+                FrogDictionary wirt = realm.createObject(FrogDictionary.class);
+                wirt.setName("Wirt");
+                dictionary.put("tall frog", wirt);
+
+                // add multiple keys/values to the dictionary
+                FrogDictionary greg = realm.createObject(FrogDictionary.class);
+                greg.setName("Greg");
+                FrogDictionary beatrice = realm.createObject(FrogDictionary.class);
+                beatrice.setName("Beatrice");
+                dictionary.putAll(Map.of("small frog", greg, "feathered frog", beatrice));
+
+                expectation.fulfill(); // :hide:
+            });
+            // :code-block-end:
+            // :replace-end:
         });
         expectation.await();
     }
