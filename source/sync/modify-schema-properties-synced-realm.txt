@@ -119,6 +119,67 @@ collection.
       :caption: copyDataFromTasksV2ToTasks trigger
       :emphasize-lines: 6, 7
 
+   The developer then navigates to his {+backend-short+} app's :guilabel:`Schema` tab and views his new JSON schemas:
+
+   .. code-block:: javascript
+      :caption: Task Schema
+
+      {
+        "title": "Task",
+        "bsonType": "object",
+        "required": [
+          "_id",
+          "_partition",
+          "name",
+          "difficulty"
+        ],
+        "properties": {
+          "_id": {
+            "bsonType": "objectId"
+          },
+          "_partition": {
+            "bsonType": "string"
+          },
+          "name": {
+            "bsonType": "string"
+          },
+          "difficulty": {
+            "bsonType": "long"
+          }
+        }
+      }
+
+   .. code-block:: javascript
+      :caption: TaskV2 Schema
+
+      {
+        "title": "TaskV2",
+        "bsonType": "object",
+        "required": [
+          "_id",
+          "_partition",
+          "name"
+        ],
+        "properties": {
+          "_id": {
+            "bsonType": "objectId"
+          },
+          "_partition": {
+            "bsonType": "string"
+          },
+          "name": {
+            "bsonType": "string"
+          },
+          "difficulty": {
+            "bsonType": "long"
+          }
+        }
+      }
+
+    The ``difficulty`` field is required for the ``Task`` collection, but not required for the ``TaskV2`` collection as specified in the schema modification.
+
+
+
 Summary
 -------
 - Schema changes on synced {+realms+} are backward compatible, allowing old clients to sync with newer ones.
