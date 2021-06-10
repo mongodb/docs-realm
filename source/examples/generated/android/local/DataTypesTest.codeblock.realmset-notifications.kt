@@ -3,6 +3,7 @@ realm.executeTransaction { r: Realm? ->
     frog = realm.createObject(Frog::class.java)
     frog?.name = "Jonathan Livingston Applesauce"
 }
+
 val setChangeListener: SetChangeListener<Snack>
         = SetChangeListener<Snack> { set, changes ->
     Log.v("EXAMPLE", "Set changed: " +
@@ -10,6 +11,7 @@ val setChangeListener: SetChangeListener<Snack>
             changes.numberOfDeletions + " items removed.")
 }
 frog?.favoriteSnacks?.addChangeListener(setChangeListener)
+
 realm.executeTransaction { r: Realm? ->
     // get the RealmSet field from the object we just created
     val set = frog!!.favoriteSnacks

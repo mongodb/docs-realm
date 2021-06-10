@@ -30,5 +30,4 @@ realm.executeTransaction(r -> {
     verySmallRocks.setName("verySmallRocks");
     set.addAll(Arrays.asList(water, verySmallRocks));
 
-    expectation.fulfill(); // :hide
 });

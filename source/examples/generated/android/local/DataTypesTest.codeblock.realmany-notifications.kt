@@ -26,5 +26,4 @@ realm.executeTransaction { r: Realm? ->
 
     // set RealmAny field to a string with RealmAny.valueOf a string value
     frog?.bestFriend = RealmAny.valueOf("Greg")
-    expectation.fulfill() // :hide
 }

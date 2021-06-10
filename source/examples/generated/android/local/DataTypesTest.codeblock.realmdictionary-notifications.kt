@@ -31,5 +31,4 @@ realm.executeTransaction { r: Realm? ->
     dictionary.putAll(mapOf<String, Frog>(
             Pair("small frog", greg),
             Pair("feathered frog", beatrice)))
-    expectation.fulfill() // :hide
 }

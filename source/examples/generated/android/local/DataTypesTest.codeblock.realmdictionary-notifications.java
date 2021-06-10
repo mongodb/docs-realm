@@ -35,5 +35,4 @@ realm.executeTransaction(r -> {
     beatrice.setName("Beatrice");
     dictionary.putAll(Map.of("small frog", greg, "feathered frog", beatrice));
 
-    expectation.fulfill(); // :hide
 });

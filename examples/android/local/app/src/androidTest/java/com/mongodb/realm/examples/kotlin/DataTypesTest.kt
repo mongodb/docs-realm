@@ -129,7 +129,7 @@ class DataTypesTest : RealmTest() {
 
                 // set RealmAny field to a string with RealmAny.valueOf a string value
                 frog?.bestFriend = RealmAny.valueOf("Greg")
-                expectation.fulfill() // :hide
+                expectation.fulfill() // :hide:
             }
             // :code-block-end:
             // :replace-end:
@@ -226,6 +226,7 @@ class DataTypesTest : RealmTest() {
                 frog = realm.createObject(FrogSetKt::class.java)
                 frog?.name = "Jonathan Livingston Applesauce"
             }
+
             val setChangeListener: SetChangeListener<SnackKt>
                     = SetChangeListener<SnackKt> { set, changes ->
                 Log.v("EXAMPLE", "Set changed: " +
@@ -233,6 +234,7 @@ class DataTypesTest : RealmTest() {
                         changes.numberOfDeletions + " items removed.")
             }
             frog?.favoriteSnacks?.addChangeListener(setChangeListener)
+
             realm.executeTransaction { r: Realm? ->
                 // get the RealmSet field from the object we just created
                 val set = frog!!.favoriteSnacks
@@ -377,7 +379,7 @@ class DataTypesTest : RealmTest() {
                 dictionary.putAll(mapOf<String, FrogDictionaryKt>(
                         Pair("small frog", greg),
                         Pair("feathered frog", beatrice)))
-                expectation.fulfill() // :hide
+                expectation.fulfill() // :hide:
             }
             // :code-block-end:
             // :replace-end:
