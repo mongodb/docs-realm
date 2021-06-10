@@ -128,12 +128,17 @@ Convert from Object to EmbeddedObject
 independently of a parent object. When changing an Object to an
 EmbeddedObject, the migration block must ensure that every embedded
 object has exactly one backlink to a parent object. Having no backlinks
-at all or having multiple backlinks raises the following exception:
+or multiple backlinks raises the following exceptions:
 
 .. code-block::
    :copyable: False
 
    At least one object does not have a backlink (data would get lost).
+
+.. code-block::
+   :copyable: False
+
+   At least one object does have multiple backlinks.
 
 .. seealso::
 
