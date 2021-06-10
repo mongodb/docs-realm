@@ -65,3 +65,35 @@ instances can only use keys of type ``String``.
 
        .. literalinclude:: /examples/generated/android/local/DataTypesTest.codeblock.realmDictionary.java
           :language: java
+
+Notifications
+-------------
+
+To subscribe to changes to a ``RealmDictionary``, pass a
+:java-sdk:`MapChangeListener <io/realm/MapChangeListener.html>`
+implementation to the :java-sdk:`RealmSet.addChangeListener <io/realm/RealmMap.html#addChangeListener-io.realm.MapChangeListener->` method.
+Your ``MapChangeListener`` implementation must define an
+``onChange()`` method, which accepts a reference to the changed ``RealmDictionary``
+and a set of changes as parameters. You can access the keys
+added to the dictionary as well as the keys removed from the dictionary
+through the ``MapChangeSet`` parameter.
+
+.. tabs-realm-languages::
+   
+   .. tab::
+       :tabid: kotlin
+
+       .. literalinclude:: /examples/generated/android/local/FrogDictionaryKt.codeblock.complete.kt
+          :language: kotlin
+
+       .. literalinclude:: /examples/generated/android/local/DataTypesTest.codeblock.realmdictionary-notifications.kt
+          :language: kotlin
+
+   .. tab::
+       :tabid: java
+
+       .. literalinclude:: /examples/generated/android/local/FrogDictionary.codeblock.complete.java
+          :language: java
+
+       .. literalinclude:: /examples/generated/android/local/DataTypesTest.codeblock.realmdictionary-notifications.java
+          :language: java

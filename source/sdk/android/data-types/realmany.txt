@@ -83,3 +83,31 @@ values that do not contain the type. Type queries match the underlying
 type, rather than ``RealmAny``. Arithmetic operators convert numeric
 values implicitly to compare across types.
 
+Notifications
+-------------
+
+To subscribe to changes to a ``RealmAny`` field, subscribe to changes to
+the object that contains the field with :java-sdk:`RealmObject.addChangeListener
+<io/realm/RealmObject.html#addChangeListener-io.realm.RealmChangeListener->`.
+You can use the ``ObjectChangeSet`` parameter to determine if the
+``RealmAny`` field changed.
+
+.. tabs-realm-languages::
+   
+   .. tab::
+       :tabid: kotlin
+
+       .. literalinclude:: /examples/generated/android/local/FrogAnyKt.codeblock.complete.kt
+          :language: kotlin
+
+       .. literalinclude:: /examples/generated/android/local/DataTypesTest.codeblock.realmany-notifications.kt
+          :language: kotlin
+
+   .. tab::
+       :tabid: java
+
+       .. literalinclude:: /examples/generated/android/local/FrogAny.codeblock.complete.java
+          :language: java
+
+       .. literalinclude:: /examples/generated/android/local/DataTypesTest.codeblock.realmany-notifications.java
+          :language: java
