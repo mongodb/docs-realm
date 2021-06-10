@@ -23,7 +23,7 @@ clients to sync with newer ones.
 
 .. note::
 
-   This page details how to modify a schema when working with {+sync+} if you
+   This page details how to modify a schema when working with {+sync+}. If you
    are developing your application without {+sync+}, refer to the :doc:`Modify an
    Object Schema </sdk/node/examples/modify-an-object-schema>` page.
 
@@ -35,7 +35,7 @@ with no additional configuration.
 
 .. note:: Removing a Property from Your Schema Is Considered an Additive Change.
 
-   To maintain backward compatiblility, removing a field from a schema doesn’t
+   To maintain backward compatibility, removing a field from a schema doesn’t
    delete the field from the database and instead instructs Realm to ignore that
    field. New objects retain the removed field, but Realm automatically sets the
    field's value set to null. Realm sets fields that are non-nullable to an
@@ -67,7 +67,7 @@ Using Partner Collections to Modify Properties of a Schema
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 If you are developing an application using {+sync+}, you can create a second
-version of your collection, with a schema that has the modifications to the
+version of your collection with a schema containing the modifications to the
 fields you require. Doing so requires data to flow in both directions, meaning
 that when one collection is written to, the other should be as well.
 
@@ -79,7 +79,7 @@ with the :manual:`Mongo shell <mongo>`.
 To ensure the collections always have the same data and stay up-to-date when
 data is subsequently changed, create a :ref:`database trigger
 <create-a-database-trigger>` for each respective collection. Within the
-trigger's function copy the changed data from the collection to its partner
+trigger's function, copy the changed data from the collection to its partner
 collection. 
 
 .. example::
@@ -120,7 +120,7 @@ collection.
       :caption: copyDataFromTasksV2ToTasks trigger
       :emphasize-lines: 6, 7
 
-   The developer then navigates to his {+backend-short+} app's :guilabel:`Schema` tab and views his new JSON schemas:
+   The developer then navigates to his {+app+}'s :guilabel:`Schema` tab and views his new JSON schemas:
 
    .. code-block:: javascript
       :caption: Task Schema
@@ -177,7 +177,7 @@ collection.
         }
       }
 
-   The ``difficulty`` field is required for the ``Task`` collection, but not
+   The ``difficulty`` field is required for the ``Task`` collection but is not
    required for the ``TaskV2`` collection as specified in the schema
    modification.
 
