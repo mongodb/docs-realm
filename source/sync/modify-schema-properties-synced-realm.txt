@@ -1,0 +1,130 @@
+
+
+.. _modify-schema-properties-synced-realm:
+
+===========================================
+ Modify Schema Properties of a Synced Realm
+===========================================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+When developing an application using Realm Sync, you may want to make changes to
+your schema at some point. Realm Database offers an intuitive API for making
+schema changes to synced realms that are backward compatible, allowing old
+clients to sync with newer ones.
+
+.. note::
+
+   This page details how to modify a schema when working with {+sync+} if you
+   are developing your application without {+sync+}, refer to the :doc:`Modify an
+   Object Schema </sdk/node/examples/modify-an-object-schema>` page.
+
+Additive Changes
+----------------
+Additive changes, such as adding a class or adding a field to a class, are
+applied automatically to synced {+realms+}, meaning you can alter the schema
+with no additional configuration. 
+
+.. note:: Removing a Property from Your Schema Is Considered an Additive Change.
+
+   To maintain backward compatiblility, removing a field from a schema doesn’t
+   delete the field from the database and instead instructs Realm to ignore that
+   field. New objects retain the removed field, but Realm automatically sets the
+   field's value set to null. Realm sets fields that are non-nullable to an
+   appropriate empty value, such as a 0 for integer values and an empty string
+   for string values.
+
+Destructive Changes
+-------------------
+Destructive changes to a schema are usually **modifications** of existing fields, such as:
+
+- Changing a property’s type but keeping the same name
+- Changing a primary key
+- Changing a property from optional to required (or vice-versa)
+
+Synchronized {+realms+} only support additive changes to a schema. Attempting to
+perform a destructive change on a synchronized {+realm+} will lead to errors
+like the following:
+
+.. code-block:: shell
+
+   {
+    message: 'The following changes cannot be made in additive-only schema mode:\n' +
+      "- Property 'Task.difficulty' has been made optional.",
+    errorCode: 1
+   }
+
+
+Using Partner Collections to Modify Properties of a Schema
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+If you are developing an application using {+sync+}, you can create a second
+version of your collection, with a schema that has the modifications to the
+fields you require. Doing so requires data to flow in both directions, meaning
+that when one collection is written to, the other should be as well.
+
+To set up your partner collections, copy the data from the initial collection to
+the second collection. You can do this by using the
+:manual:`db.collection.aggregate() <reference/method/db.collection.aggregate>` method
+with the :manual:`Mongo shell <mongo>`.
+
+To ensure the collections always have the same data and stay up-to-date when
+data is subsequently changed, create a :ref:`database trigger
+<create-a-database-trigger>` for each respective collection. Within the
+trigger's function copy the changed data from the collection to its partner
+collection. 
+
+.. example::
+
+   In the following example, an application developer opens a synced {+realm+}
+   with an initial ``Task`` schema with an ``_id``, ``name``, and ``difficulty``
+   field. The developer then creates some sample tasks.
+
+   The developer then decides to change the ``difficulty`` field of the ``Task``
+   collection to optional by creating a partner collection, ``TaskV2``, with the
+   changed schema. He copies the objects in the first collection to the second
+   collection by performing the following aggregation using the Mongo shell:
+
+   .. code-block:: shell
+      :caption: Match All Documents in the Initial Collection and Output Them to the Partner Collection 
+
+      const collection = client.db("<Your Database Name>").collection("Task");
+      collection.aggregate([{ $match: {} }, { $out: "TaskV2" }]);
+
+   To copy any new changes to the initial ``Task`` collection into the
+   ``TaskV2`` collection, the developer  creates a :ref:`database trigger
+   <create-a-database-trigger>`. The trigger fires whenever {+atlas+} performs an
+   insert, update, delete or replace operation on the ``Task`` collection.
+ 
+   .. literalinclude:: /examples/Triggers/copy-data-from-initial-collection.js
+      :language: javascript
+      :caption: copyDataFromTasksToTasksV2 trigger
+      :emphasize-lines: 6, 7
+
+   To copy any new changes to the ``TaskV2`` collection into the
+   ``Task`` collection, the developer  creates a :ref:`database trigger
+   <create-a-database-trigger>`. The trigger fires whenever {+atlas+} performs an
+   insert, update, delete or replace operation on the ``TaskV2`` collection.
+
+   .. literalinclude:: /examples/Triggers/copy-data-from-second-version-collection.js
+      :language: javascript
+      :caption: copyDataFromTasksV2ToTasks trigger
+      :emphasize-lines: 6, 7
+
+Summary
+-------
+- Schema changes on synced {+realms+} are backward compatible, allowing old clients to sync with newer ones.
+- Additive changes to the schema of a synced {+realm+} do not require any additional configuration. 
+- Synchronized {+realms+} only support additive changes to a schema.
+- Destructive changes are modifications to existing fields of a schema.
+- Synchronized {+realms+} do not support destructive changes directly. 
+- To perform destructive schema changes to a synced {+realm+}, create a partner collection with the necessary schema changes, and manually copy the data from the first collection to the second collection.
+- To keep partner collections up-to-date with each other, set up database triggers to copy changed data from one collection to its partner.
