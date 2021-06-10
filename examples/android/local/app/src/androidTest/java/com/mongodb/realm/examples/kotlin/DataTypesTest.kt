@@ -108,7 +108,8 @@ class DataTypesTest : RealmTest() {
                 frog?.name = "Jonathan Livingston Applesauce"
             }
 
-            val objectChangeListener = RealmObjectChangeListener<FrogAnyKt> { frog, changeSet ->
+            val objectChangeListener
+                    = RealmObjectChangeListener<FrogAnyKt> { frog, changeSet ->
                 if (changeSet != null) {
                     Log.v("EXAMPLE", "Changes to fields: " +
                             changeSet.changedFields)
@@ -128,10 +129,10 @@ class DataTypesTest : RealmTest() {
 
                 // set RealmAny field to a string with RealmAny.valueOf a string value
                 frog?.bestFriend = RealmAny.valueOf("Greg")
-                // :code-block-end:
-                // :replace-end:
-                expectation.fulfill()
+                expectation.fulfill() // :hide
             }
+            // :code-block-end:
+            // :replace-end:
         }
         expectation.await()
     }
@@ -225,7 +226,8 @@ class DataTypesTest : RealmTest() {
                 frog = realm.createObject(FrogSetKt::class.java)
                 frog?.name = "Jonathan Livingston Applesauce"
             }
-            val setChangeListener: SetChangeListener<SnackKt> = SetChangeListener<SnackKt> { set, changes ->
+            val setChangeListener: SetChangeListener<SnackKt>
+                    = SetChangeListener<SnackKt> { set, changes ->
                 Log.v("EXAMPLE", "Set changed: " +
                         changes.numberOfInsertions + " new items, " +
                         changes.numberOfDeletions + " items removed.")
@@ -246,10 +248,10 @@ class DataTypesTest : RealmTest() {
                 val verySmallRocks = realm.createObject(SnackKt::class.java)
                 verySmallRocks.name = "verySmallRocks"
                 set.addAll(Arrays.asList(water, verySmallRocks))
-                // :code-block-end:
-                // :replace-end:
-                expectation.fulfill()
+                expectation.fulfill() // :hide
             }
+            // :code-block-end:
+            // :replace-end:
         }
         expectation.await()
     }
@@ -348,11 +350,11 @@ class DataTypesTest : RealmTest() {
                 frog?.name = "Jonathan Livingston Applesauce"
             }
 
-            val mapChangeListener: MapChangeListener<String, FrogDictionaryKt> = MapChangeListener<String, FrogDictionaryKt> { map, changes ->
+            val mapChangeListener: MapChangeListener<String, FrogDictionaryKt>
+                    = MapChangeListener<String, FrogDictionaryKt> { map, changes ->
                 for (insertion in changes.insertions) {
                     Log.v("EXAMPLE",
-                            "Inserted key:  " + insertion +
-                                    ", Inserted value: " + map[insertion]!!.name)
+                            "Inserted key:  $insertion, Inserted value: ${map[insertion]!!.name}")
                 }
             }
 
@@ -375,10 +377,10 @@ class DataTypesTest : RealmTest() {
                 dictionary.putAll(mapOf<String, FrogDictionaryKt>(
                         Pair("small frog", greg),
                         Pair("feathered frog", beatrice)))
-                // :code-block-end:
-                // :replace-end:
-                expectation.fulfill()
+                expectation.fulfill() // :hide
             }
+            // :code-block-end:
+            // :replace-end:
         }
         expectation.await()
     }

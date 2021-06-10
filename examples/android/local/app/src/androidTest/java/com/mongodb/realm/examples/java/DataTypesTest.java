@@ -98,7 +98,8 @@ public class DataTypesTest extends RealmTest {
                 persons.getPeople().add("Mat");
 
                 frog.setBestFriend(RealmAny.valueOf(persons));
-                Log.v("EXAMPLE", "Best friend: " + frog.getBestFriend().asRealmModel(GroupOfPeople.class).getPeople().toString());
+                Log.v("EXAMPLE", "Best friend: " +
+                        frog.getBestFriend().asRealmModel(GroupOfPeople.class).getPeople().toString());
                 // :code-block-end:
                 // :replace-end:
                 expectation.fulfill();
@@ -157,7 +158,7 @@ public class DataTypesTest extends RealmTest {
                 // set RealmAny field to a string with RealmAny.valueOf a string value
                 frog.get().setBestFriend(RealmAny.valueOf("Greg"));
 
-                expectation.fulfill();
+                expectation.fulfill(); // :hide
             });
             // :code-block-end:
             // :replace-end:
@@ -281,7 +282,7 @@ public class DataTypesTest extends RealmTest {
                 verySmallRocks.setName("verySmallRocks");
                 set.addAll(Arrays.asList(water, verySmallRocks));
 
-                expectation.fulfill();
+                expectation.fulfill(); // :hide
             });
             // :code-block-end:
             // :replace-end:
@@ -408,7 +409,7 @@ public class DataTypesTest extends RealmTest {
                 beatrice.setName("Beatrice");
                 dictionary.putAll(Map.of("small frog", greg, "feathered frog", beatrice));
 
-                expectation.fulfill();
+                expectation.fulfill(); // :hide
             });
             // :code-block-end:
             // :replace-end:

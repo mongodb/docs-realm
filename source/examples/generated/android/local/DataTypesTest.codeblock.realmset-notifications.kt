@@ -3,7 +3,8 @@ realm.executeTransaction { r: Realm? ->
     frog = realm.createObject(Frog::class.java)
     frog?.name = "Jonathan Livingston Applesauce"
 }
-val setChangeListener: SetChangeListener<Snack> = SetChangeListener<Snack> { set, changes ->
+val setChangeListener: SetChangeListener<Snack>
+        = SetChangeListener<Snack> { set, changes ->
     Log.v("EXAMPLE", "Set changed: " +
             changes.numberOfInsertions + " new items, " +
             changes.numberOfDeletions + " items removed.")
@@ -24,3 +25,5 @@ realm.executeTransaction { r: Realm? ->
     val verySmallRocks = realm.createObject(Snack::class.java)
     verySmallRocks.name = "verySmallRocks"
     set.addAll(Arrays.asList(water, verySmallRocks))
+    expectation.fulfill() // :hide
+}

@@ -5,7 +5,8 @@ realm.executeTransaction { r: Realm? ->
     frog?.name = "Jonathan Livingston Applesauce"
 }
 
-val objectChangeListener = RealmObjectChangeListener<Frog> { frog, changeSet ->
+val objectChangeListener
+        = RealmObjectChangeListener<Frog> { frog, changeSet ->
     if (changeSet != null) {
         Log.v("EXAMPLE", "Changes to fields: " +
                 changeSet.changedFields)
@@ -25,3 +26,5 @@ realm.executeTransaction { r: Realm? ->
 
     // set RealmAny field to a string with RealmAny.valueOf a string value
     frog?.bestFriend = RealmAny.valueOf("Greg")
+    expectation.fulfill() // :hide
+}

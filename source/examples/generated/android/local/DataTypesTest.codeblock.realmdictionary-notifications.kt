@@ -4,11 +4,11 @@ realm.executeTransaction { r: Realm? ->
     frog?.name = "Jonathan Livingston Applesauce"
 }
 
-val mapChangeListener: MapChangeListener<String, Frog> = MapChangeListener<String, Frog> { map, changes ->
+val mapChangeListener: MapChangeListener<String, Frog>
+        = MapChangeListener<String, Frog> { map, changes ->
     for (insertion in changes.insertions) {
         Log.v("EXAMPLE",
-                "Inserted key:  " + insertion +
-                        ", Inserted value: " + map[insertion]!!.name)
+                "Inserted key:  $insertion, Inserted value: ${map[insertion]!!.name}")
     }
 }
 
@@ -31,3 +31,5 @@ realm.executeTransaction { r: Realm? ->
     dictionary.putAll(mapOf<String, Frog>(
             Pair("small frog", greg),
             Pair("feathered frog", beatrice)))
+    expectation.fulfill() // :hide
+}

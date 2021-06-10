@@ -86,11 +86,12 @@ values implicitly to compare across types.
 Notifications
 -------------
 
-To subscribe to changes to a ``RealmAny`` field, subscribe to changes to
-the object that contains the field with :java-sdk:`RealmObject.addChangeListener
-<io/realm/RealmObject.html#addChangeListener-io.realm.RealmChangeListener->`.
-You can use the ``ObjectChangeSet`` parameter to determine if the
-``RealmAny`` field changed.
+To subscribe to changes to a ``RealmAny`` field, use the
+:java-sdk:`RealmObject.addChangeListener
+<io/realm/RealmObject.html#addChangeListener-io.realm.RealmChangeListener->`
+method of the enclosing object. You can use the
+:java-sdk:`ObjectChangeSet <io/realm/ObjectChangeSet.html>`
+parameter to determine if the ``RealmAny`` field changed.
 
 .. tabs-realm-languages::
    

@@ -29,5 +29,5 @@ realm.executeTransaction(r -> {
     // set RealmAny field to a string with RealmAny.valueOf a string value
     frog.get().setBestFriend(RealmAny.valueOf("Greg"));
 
-    expectation.fulfill();
+    expectation.fulfill(); // :hide
 });
