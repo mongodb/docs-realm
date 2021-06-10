@@ -86,11 +86,12 @@ collection.
 
    In the following example, an application developer opens a synced {+realm+}
    with an initial ``Task`` schema with an ``_id``, ``name``, and ``difficulty``
-   field. The developer then creates some sample tasks.
-
-   The developer then decides to change the ``difficulty`` field of the ``Task``
-   collection to optional by creating a partner collection, ``TaskV2``, with the
-   changed schema. He copies the objects in the first collection to the second
+   field. The developer then creates some sample tasks. The developer then
+   decides to change the ``difficulty`` field of the ``Task`` collection to
+   optional by creating a partner collection, ``TaskV2``, with the changed
+   schema. 
+   
+   He copies the objects in the first collection to the second
    collection by performing the following aggregation using the Mongo shell:
 
    .. code-block:: shell
@@ -176,7 +177,9 @@ collection.
         }
       }
 
-    The ``difficulty`` field is required for the ``Task`` collection, but not required for the ``TaskV2`` collection as specified in the schema modification.
+   The ``difficulty`` field is required for the ``Task`` collection, but not
+   required for the ``TaskV2`` collection as specified in the schema
+   modification.
 
 
 
