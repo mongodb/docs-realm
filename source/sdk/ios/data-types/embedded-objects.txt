@@ -27,7 +27,8 @@ object as nested data inside of a single, specific parent object. An
 embedded object inherits the lifecycle of its parent object and cannot
 exist as an independent Realm object. Realm automatically deletes
 embedded objects if their parent object is deleted or when overwritten
-by a new embedded object instance.
+by a new embedded object instance. Embedded objects cannot have a
+primary key, and you cannot query embedded objects directly.
 
 .. note:: Realm Uses Cascading Deletes for Embedded Objects
    
@@ -36,6 +37,14 @@ by a new embedded object instance.
    application must persist after the deletion of their parent object
    should use :ref:`relationships <ios-client-relationships>`
    instead.
+
+This unique ownership has implications for :ref:`schema migrations
+<ios-modify-an-object-schema>` that convert an Object to an
+EmbeddedObject.
+
+.. seealso::
+
+   :ref:`ios-convert-to-an-embedded-object`
 
 Embedded Object Data Models
 ---------------------------
