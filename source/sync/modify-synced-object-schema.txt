@@ -151,7 +151,10 @@ collection.
       :caption: copyDataFromTasksV2ToTasks trigger
       :emphasize-lines: 6, 7
 
-   The developer then navigates to his {+app+}'s :guilabel:`Schema` tab and views his new JSON schemas:
+   The developer then navigates to his {+app+}'s :guilabel:`Schema` tab and
+   views his new JSON schemas. He notes that the ``difficulty`` field is
+   required for the ``Task`` collection but is not required for the ``TaskV2``
+   collection as specified in the schema modification.
 
    .. code-block:: javascript
       :caption: Task Schema
@@ -208,10 +211,6 @@ collection.
           }
         }
       }
-
-   The ``difficulty`` field is required for the ``Task`` collection but is not
-   required for the ``TaskV2`` collection as specified in the schema
-   modification.
 
 
 
