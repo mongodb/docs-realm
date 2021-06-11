@@ -65,7 +65,7 @@ with no additional configuration.
    To maintain backward compatibility, removing a field from a schema doesn’t
    delete the field from the database and instead instructs Realm to ignore that
    field. New objects retain the removed field, but Realm automatically sets the
-   field's value set to null. Realm sets fields that are non-nullable to an
+   field's value to ``null``. Realm sets fields that are non-nullable to an
    appropriate empty value, such as a 0 for integer values and an empty string
    for string values.
 
