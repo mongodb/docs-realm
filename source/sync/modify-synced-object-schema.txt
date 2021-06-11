@@ -93,10 +93,13 @@ like the following:
 Using Partner Collections to Modify Properties of a Schema
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-If you are developing an application using {+sync+}, you can create a second
-version of your collection with a schema containing the modifications to the
-fields you require. Doing so requires data to flow in both directions, meaning
-that when one collection is written to, the other should be as well.
+If you are developing an application using Realm Sync and need to make schema
+changes, you can create a **"partner collection"**.
+
+A partner collection is a second collection that contains the same data as
+another collection but with a schema containing the required changes. Partner
+collections use database triggers to ensure that data flows in both directions,
+meaning that when one collection is written to, the other is also written to.
 
 To set up your partner collections, copy the data from the initial collection to
 the second collection. You can do this by using the
@@ -124,7 +127,8 @@ collection.
    .. code-block:: shell
       :caption: Match All Documents in the Initial Collection and Output Them to the Partner Collection 
 
-      const collection = client.db("<Your Database Name>").collection("Task");
+      use "<database-name>" // switch the current db to the db that the Task collection is stored in
+      collection = db.Task;
       collection.aggregate([{ $match: {} }, { $out: "TaskV2" }]);
 
    To copy any new changes to the initial ``Task`` collection into the
