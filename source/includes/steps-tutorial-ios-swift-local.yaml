@@ -133,9 +133,8 @@ content: |
   .. literalinclude:: /tutorial/generated/swift-ios/local/TasksViewController.codeblock.properties.swift
      :language: swift
 
-  We can initialize the ``tasks`` property with a query on the project realm
-  passed in from the ProjectsViewController. Once we have the live tasks
-  collection, we can observe that for changes:
+  We can initialize the ``tasks`` property with a query on the project realm.
+  Once we have the live tasks collection, we can observe that for changes:
 
   .. literalinclude:: /tutorial/generated/swift-ios/local/TasksViewController.codeblock.init.swift
      :language: swift
@@ -174,6 +173,17 @@ content: |
   ``tableView(_:commit:forRowAt:)`` method:
 
   .. literalinclude:: /tutorial/generated/swift-ios/local/TasksViewController.codeblock.delete-task.swift
+     :language: swift
+
+---
+title: Enable Sign-in
+ref: sign-in
+content: |
+  Finally, implement the ``signIn()`` method to open a unique project
+  based on the username entered in WelcomViewController. Once you've
+  opened the user {+realm+} successfully, navigate to the TasksViewController:
+
+  .. literalinclude:: /tutorial/generated/swift-ios/local/WelcomeViewController.codeblock.sign-in.swift
      :language: swift
 
 ---

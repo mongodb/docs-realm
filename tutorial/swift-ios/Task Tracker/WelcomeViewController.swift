@@ -226,7 +226,7 @@ class WelcomeViewController: UIViewController {
         //             self!.setLoading(true)
         //             // Get a configuration to open the synced realm.
         //             var configuration = user.configuration(partitionValue: "user=\(user.id)")
-        //             // Only allow User objects in this partition.
+        //             // Only allow User and Project objects in this partition.
         //             configuration.objectTypes = [User.self, Project.self]
         //             // Open the realm asynchronously so that it downloads the remote copy before
         //             // opening the local copy.
@@ -246,8 +246,7 @@ class WelcomeViewController: UIViewController {
         //     }
         // }
         // :state-uncomment-end: :state-uncomment-start: start
-        // // Go to the list of projects in the user object contained in the user realm.
-        // self.navigationController!.pushViewController(ProjectsViewController(username: (self.username)!), animated: true)
+        // // TODO: Open a project realm and launch the task view.
         // :state-uncomment-end:
     }
     // :code-block-end:

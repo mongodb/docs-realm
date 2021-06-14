@@ -22,7 +22,7 @@
                 self!.setLoading(true)
                 // Get a configuration to open the synced realm.
                 var configuration = user.configuration(partitionValue: "user=\(user.id)")
-                // Only allow User objects in this partition.
+                // Only allow User and Project objects in this partition.
                 configuration.objectTypes = [User.self, Project.self]
                 // Open the realm asynchronously so that it downloads the remote copy before
                 // opening the local copy.
