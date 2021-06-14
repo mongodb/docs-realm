@@ -11,40 +11,19 @@ import RealmSwift
 
 class ProjectsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     let tableView = UITableView()
-    // :code-block-start: user-realm
-    // :state-uncomment-start: sync
-    // let userRealm: Realm
-    // var userData: User?
-    // var notificationToken: NotificationToken?
-    // :state-uncomment-end:
-    // :state-start: local
-    var username: String
-    // :state-end:
-    // :state-uncomment-start: start
-    // var username: String
-    // :state-uncomment-end:
-    // :code-block-end:
+    let userRealm: Realm
+    var userData: User?
+    var notificationToken: NotificationToken?
 
-    // :code-block-start: init-signature
-    // :state-start: local
-    init(username: String) {
-    // :state-end: :state-uncomment-start: start
-    // init(username: String) {
-    // :state-uncomment-end: :state-uncomment-start: sync
-    // init(userRealm: Realm) {
-    //     self.userRealm = userRealm
-    // :state-uncomment-end:
-    // :code-block-end:
-        // :state-start: local
-        self.username = username
-        // :state-end:
-        // :state-uncomment-start: start
-        // self.username = username
-        // :state-uncomment-end:
-
+    init(userRealm: Realm) {
+        self.userRealm = userRealm
         super.init(nibName: nil, bundle: nil)
 
         // :code-block-start: user-in-realm-notification
+        // :state-start: local
+        // TODO: fetch user data object
+        // :state-uncomment-start: start
+        // // TODO: fetch user data object
         // :state-uncomment-start: sync
         // // There should only be one user in my realm - that is myself
         // let usersInRealm = userRealm.objects(User.self)
@@ -70,6 +49,10 @@ class ProjectsViewController: UIViewController, UITableViewDelegate, UITableView
     //     notificationToken?.invalidate()
     // }
     // :state-uncomment-end:
+    // :state-start: local
+    // TODO: deinit method
+    // :state-start: start
+    // TODO: deinit method
     // :code-block-end:
 
     override func viewDidLoad() {
@@ -93,8 +76,10 @@ class ProjectsViewController: UIViewController, UITableViewDelegate, UITableView
             _ -> Void in
             print("Logging out...")
             self.navigationController?.popViewController(animated: true)
-            // :state-start: local
-            print("Logged out!")
+            // :state-start: start
+            // TODO: log out the current user
+            // :state-end: :state-start: local
+            // TODO: log out the current user
             // :state-end: :state-uncomment-start: sync
             // app.currentUser?.logOut { (_) in
             //     DispatchQueue.main.async {
@@ -113,14 +98,14 @@ class ProjectsViewController: UIViewController, UITableViewDelegate, UITableView
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // :state-start: local
         // You always have one project (your own)
-        return 1
+        return 1 // TODO: calculate number of rows based on user data
         // :state-end:
         // :state-uncomment-start: sync
         // // You always have at least one project (your own)
         // return userData?.memberOf.count ?? 1
         // :state-uncomment-end: :state-uncomment-start: start
         // // You always have one project (your own)
-        // return 1
+        // return 1 // TODO: calculate number of rows based on user data
         // :state-uncomment-end:
     }
     // :code-block-end:
@@ -131,17 +116,15 @@ class ProjectsViewController: UIViewController, UITableViewDelegate, UITableView
         cell.selectionStyle = .none
 
         // :state-start: local
-        // User data may not have loaded yet. You always have your own project.
-        let projectName = "My Project"
-        cell.textLabel?.text = projectName
+        // TODO: load data about projects that the user can access
         // :state-end:
         // :state-uncomment-start: sync
         // //  User data may not have loaded yet. You always have your own project.
         // let projectName = userData?.memberOf[indexPath.row].name ?? "My Project"
         // cell.textLabel?.text = projectName
         // :state-uncomment-end: :state-uncomment-start: start
-        // let projectName = "My Project"
-        // cell.textLabel?.text = projectName 
+        // TODO: load data about projects that the user can access
+        // :state-end:
         // :state-uncomment-end:
 
         return cell
@@ -151,22 +134,10 @@ class ProjectsViewController: UIViewController, UITableViewDelegate, UITableView
     // :code-block-start: did-select-row-at
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // :state-start: local
-        var config = Realm.Configuration.defaultConfiguration
-        config.fileURL!.deleteLastPathComponent()
-        config.fileURL!.appendPathComponent("project=\(self.username)")
-        config.fileURL!.appendPathExtension("realm")
-        config.objectTypes = [Task.self]
-        Realm.asyncOpen(configuration: config) { [weak self] (result) in
-            switch result {
-            case .failure(let error):
-                fatalError("Failed to open realm: \(error)")
-            case .success(let realm):
-                self?.navigationController?.pushViewController(
-                    TasksViewController(realm: realm, title: "\(self!.username)'s Tasks"),
-                    animated: true
-                )
-            }
-        }
+        // TODO: open the realm for the selected project and navigate to the TasksViewController.
+        // The project information is contained in the userData's memberOf field.
+        // The userData may not have loaded yet. Regardless, the current user always has their own project.
+        // A user's realm name is "project=username".
         // :state-end: :state-uncomment-start: sync
         // let user = app.currentUser!
         // let project = userData?.memberOf[indexPath.row] ?? Project(partition: "project=\(user.id)", name: "My Project")
