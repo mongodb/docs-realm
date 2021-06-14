@@ -16,12 +16,7 @@ class WelcomeViewController: UIViewController {
     // :state-uncomment-start: sync
     // let passwordField = UITextField()
     // :state-uncomment-end:
-    // :state-start: local
     let signInButton = UIButton(type: .roundedRect)
-    // :state-end:
-    // :state-uncomment-start: start
-    // let signInButton = UIButton(type: .roundedRect)
-    // :state-uncomment-end:
     // :state-uncomment-start: sync
     // let signUpButton = UIButton(type: .roundedRect)
     // :state-uncomment-end:
