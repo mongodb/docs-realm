@@ -4,7 +4,7 @@
         _ -> Void in
         print("Logging out...")
         self.navigationController?.popViewController(animated: true)
-        print("Logged out!")
+        // TODO: log out the current user
     }))
     alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
     self.present(alertController, animated: true, completion: nil)

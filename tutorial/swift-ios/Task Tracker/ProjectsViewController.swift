@@ -22,9 +22,9 @@ class ProjectsViewController: UIViewController, UITableViewDelegate, UITableView
         // :code-block-start: user-in-realm-notification
         // :state-start: local
         // TODO: fetch user data object
-        // :state-uncomment-start: start
-        // // TODO: fetch user data object
-        // :state-uncomment-start: sync
+        // :state-end: :state-start: start
+        // TODO: fetch user data object
+        // :state-end: :state-uncomment-start: sync
         // // There should only be one user in my realm - that is myself
         // let usersInRealm = userRealm.objects(User.self)
         //
@@ -51,8 +51,9 @@ class ProjectsViewController: UIViewController, UITableViewDelegate, UITableView
     // :state-uncomment-end:
     // :state-start: local
     // TODO: deinit method
-    // :state-start: start
+    // :state-end: :state-start: start
     // TODO: deinit method
+    // :state-end:
     // :code-block-end:
 
     override func viewDidLoad() {
@@ -117,14 +118,12 @@ class ProjectsViewController: UIViewController, UITableViewDelegate, UITableView
 
         // :state-start: local
         // TODO: load data about projects that the user can access
-        // :state-end:
-        // :state-uncomment-start: sync
+        // :state-end: :state-start: start
+        // TODO: load data about projects that the user can access
+        // :state-end: :state-uncomment-start: sync
         // //  User data may not have loaded yet. You always have your own project.
         // let projectName = userData?.memberOf[indexPath.row].name ?? "My Project"
         // cell.textLabel?.text = projectName
-        // :state-uncomment-end: :state-uncomment-start: start
-        // TODO: load data about projects that the user can access
-        // :state-end:
         // :state-uncomment-end:
 
         return cell
