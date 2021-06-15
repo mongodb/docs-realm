@@ -1,9 +1,9 @@
 .. _ios-mixed-data-type:
 .. _ios-anyrealmvalue-data-type:
 
-=======================
-AnyRealmValue - iOS SDK
-=======================
+==============================
+AnyRealmValue (beta) - iOS SDK
+==============================
 
 .. default-domain:: mongodb
 
@@ -14,7 +14,7 @@ AnyRealmValue - iOS SDK
    :class: singlecol
 
 
-.. versionadded:: 10.8.0-beta.0
+.. versionadded:: 10.8.0
    ``AnyRealmValue`` type
 
 .. include:: /includes/note-beta-feature.rst
@@ -36,7 +36,7 @@ data types. Supported ``AnyRealmValue`` data types include:
 - String
 - Object
 
-This `mixed data type <https://docs.mongodb.com/realm-sdks/swift/10.8.0-beta.0/Enums/AnyRealmValue.html>`_ 
+This :swift-sdk:`mixed data type <Enums/AnyRealmValue.html>` 
 is :ref:`indexable <ios-index-a-property>`, but you can't use it as a 
 :ref:`primary key <ios-specify-a-primary-key>`. Because ``null`` is a 
 permitted value, you can't declare an ``AnyRealmValue`` as optional.
