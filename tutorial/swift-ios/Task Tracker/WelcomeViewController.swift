@@ -11,24 +11,34 @@ import RealmSwift
 
 // The WelcomeViewController handles login and account creation.
 class WelcomeViewController: UIViewController {
-    let emailField = UITextField()
-    let passwordField = UITextField()
+    let usernameField = UITextField()
+    // :code-block-start: password-field-and-sign-up-button
+    // :state-uncomment-start: sync
+    // let passwordField = UITextField()
+    // :state-uncomment-end:
     let signInButton = UIButton(type: .roundedRect)
-    let signUpButton = UIButton(type: .roundedRect)
+    // :state-uncomment-start: sync
+    // let signUpButton = UIButton(type: .roundedRect)
+    // :state-uncomment-end:
+    // :code-block-end:
     let errorLabel = UILabel()
     let activityIndicator = UIActivityIndicatorView(style: .medium)
 
-    var email: String? {
+    var username: String? {
         get {
-            return emailField.text
+            return usernameField.text
         }
     }
 
-    var password: String? {
-        get {
-            return passwordField.text
-        }
-    }
+    // :code-block-start: get-password
+    // :state-uncomment-start: sync
+    // var password: String? {
+    //     get {
+    //         return passwordField.text
+    //     }
+    // }
+    // :state-uncomment-end:
+    // :code-block-end:
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,30 +72,56 @@ class WelcomeViewController: UIViewController {
         // Add some text at the top of the view to explain what to do.
         let infoLabel = UILabel()
         infoLabel.numberOfLines = 0
-        infoLabel.text = "Please enter a email and password."
+        // :code-block-start: info-label-password-add
+        // :state-start: local
+        infoLabel.text = "Please enter a username."
+        // :state-end: :state-uncomment-start: start
+        // infoLabel.text = "Please enter a username."
+        // :state-uncomment-end::state-uncomment-start: sync
+        // infoLabel.text = "Please enter an email and password."
+        // :state-uncomment-end:
+        // :code-block-end:
         container.addArrangedSubview(infoLabel)
 
-        // Configure the email and password text input fields.
-        emailField.placeholder = "Username"
-        emailField.borderStyle = .roundedRect
-        emailField.autocapitalizationType = .none
-        emailField.autocorrectionType = .no
-        container.addArrangedSubview(emailField)
+        // :code-block-start: username-field-placeholder
+        // Configure the username text input field.
+        // :state-start: local
+        usernameField.placeholder = "Username"
+        // :state-end: :state-uncomment-start: start
+        // usernameField.placeholder = "Username"
+        // :state-uncomment-end: :state-uncomment-start: sync
+        // usernameField.placeholder = "Email"
+        // :state-uncomment-end:
+        // :code-block-end:
+        usernameField.borderStyle = .roundedRect
+        usernameField.autocapitalizationType = .none
+        usernameField.autocorrectionType = .no
+        container.addArrangedSubview(usernameField)
 
-        passwordField.placeholder = "Password"
-        passwordField.isSecureTextEntry = true
-        passwordField.borderStyle = .roundedRect
-        container.addArrangedSubview(passwordField)
-
-        // Configure the sign in and sign up buttons.
+        // :code-block-start: password-field-configure
+        // :state-uncomment-start: sync
+        // // Configure the password text input field.
+        // passwordField.placeholder = "Password"
+        // passwordField.isSecureTextEntry = true
+        // passwordField.borderStyle = .roundedRect
+        // container.addArrangedSubview(passwordField)
+        // :state-uncomment-end:
+        // :code-block-end:
+        
+        // Configure the sign in button.
         signInButton.setTitle("Sign In", for: .normal)
         signInButton.addTarget(self, action: #selector(signIn), for: .touchUpInside)
         container.addArrangedSubview(signInButton)
 
-        signUpButton.setTitle("Sign Up", for: .normal)
-        signUpButton.addTarget(self, action: #selector(signUp), for: .touchUpInside)
-        container.addArrangedSubview(signUpButton)
-
+        // :code-block-start: sign-up-button
+        // :state-uncomment-start: sync
+        // // Configure the sign up button.
+        // signUpButton.setTitle("Sign Up", for: .normal)
+        // signUpButton.addTarget(self, action: #selector(signUp), for: .touchUpInside)
+        // container.addArrangedSubview(signUpButton)
+        // :state-uncomment-end:
+        // :code-block-end:
+        
         // Error messages will be set on the errorLabel.
         errorLabel.numberOfLines = 0
         errorLabel.textColor = .red
@@ -100,93 +136,112 @@ class WelcomeViewController: UIViewController {
         } else {
             activityIndicator.stopAnimating()
         }
-        emailField.isEnabled = !loading
-        passwordField.isEnabled = !loading
+        
+        // :code-block-start: password-field-enable
+        usernameField.isEnabled = !loading
+        // :state-uncomment-start: sync
+        // passwordField.isEnabled = !loading
+        // :state-uncomment-end:
         signInButton.isEnabled = !loading
-        signUpButton.isEnabled = !loading
+        // :state-uncomment-start: sync
+        // signUpButton.isEnabled = !loading
+        // :state-uncomment-end:
+        // :code-block-end:
     }
 
     // :code-block-start: sign-up
-    @objc func signUp() {
-        // :state-start: final
-        setLoading(true)
-        app.emailPasswordAuth.registerUser(email: email!, password: password!, completion: { [weak self](error) in
-            // Completion handlers are not necessarily called on the UI thread.
-            // This call to DispatchQueue.main.async ensures that any changes to the UI,
-            // namely disabling the loading indicator and navigating to the next page,
-            // are handled on the UI thread:
-            DispatchQueue.main.async {
-                self!.setLoading(false)
-                guard error == nil else {
-                    print("Signup failed: \(error!)")
-                    self!.errorLabel.text = "Signup failed: \(error!.localizedDescription)"
-                    return
-                }
-                print("Signup successful!")
-
-                // Registering just registers. Now we need to sign in, but we can reuse the existing email and password.
-                self!.errorLabel.text = "Signup successful! Signing in..."
-                self!.signIn()
-            }
-        })
-        // :state-end: :state-uncomment-start: start
-        // // TODO: Use the app's emailPasswordAuth to registerUser with the email and password.
-        // // When registered, call signIn().
-        // :state-uncomment-end:
-    }
+    // :state-start: local
+    // :state-end: :state-uncomment-start: sync
+    // @objc func signUp() {
+    //     setLoading(true)
+    //     app.emailPasswordAuth.registerUser(email: username!, password: password!, completion: { [weak self](error) in
+    //         // Completion handlers are not necessarily called on the UI thread.
+    //         // This call to DispatchQueue.main.async ensures that any changes to the UI,
+    //         // namely disabling the loading indicator and navigating to the next page,
+    //         // are handled on the UI thread:
+    //         DispatchQueue.main.async {
+    //             self!.setLoading(false)
+    //             guard error == nil else {
+    //                 print("Signup failed: \(error!)")
+    //                 self!.errorLabel.text = "Signup failed: \(error!.localizedDescription)"
+    //                 return
+    //             }
+    //             print("Signup successful!")
+    //
+    //             // Registering just registers. Now we need to sign in, but we can reuse the existing email and password.
+    //             self!.errorLabel.text = "Signup successful! Signing in..."
+    //             self!.signIn()
+    //         }
+    //     })
+    // }
+    // :state-uncomment-end:
     // :code-block-end:
 
     // :code-block-start: sign-in
     @objc func signIn() {
-        // :state-start: final
-        print("Log in as user: \(email!)")
-        setLoading(true)
-
-        app.login(credentials: Credentials.emailPassword(email: email!, password: password!)) { [weak self](result) in
-            // Completion handlers are not necessarily called on the UI thread.
-            // This call to DispatchQueue.main.async ensures that any changes to the UI,
-            // namely disabling the loading indicator and navigating to the next page,
-            // are handled on the UI thread:
-            DispatchQueue.main.async {
-                self!.setLoading(false)
-                switch result {
-                case .failure(let error):
-                    // Auth error: user already exists? Try logging in as that user.
-                    print("Login failed: \(error)")
-                    self!.errorLabel.text = "Login failed: \(error.localizedDescription)"
-                    return
-                case .success(let user):
-                    print("Login succeeded!")
-
-                    // Load again while we open the realm.
-                    self!.setLoading(true)
-                    // Get a configuration to open the synced realm.
-                    var configuration = user.configuration(partitionValue: "user=\(user.id)")
-                    // Only allow User objects in this partition.
-                    configuration.objectTypes = [User.self, Project.self]
-                    // Open the realm asynchronously so that it downloads the remote copy before
-                    // opening the local copy.
-                    Realm.asyncOpen(configuration: configuration) { [weak self](result) in
-                        DispatchQueue.main.async {
-                            self!.setLoading(false)
-                            switch result {
-                            case .failure(let error):
-                                fatalError("Failed to open realm: \(error)")
-                            case .success(let userRealm):
-                                // Go to the list of projects in the user object contained in the user realm.
-                                self!.navigationController!.pushViewController(ProjectsViewController(userRealm: userRealm), animated: true)
-                            }
-                        }
-                    }
-                }
+        // :state-start: local
+        // Go to the list of projects in the user object contained in the user realm.
+        var config = Realm.Configuration.defaultConfiguration
+        config.fileURL!.deleteLastPathComponent()
+        config.fileURL!.appendPathComponent("project=\(self.username!)")
+        config.fileURL!.appendPathExtension("realm")
+        config.objectTypes = [Task.self]
+        Realm.asyncOpen(configuration: config) { [weak self] (result) in
+            switch result {
+            case .failure(let error):
+                fatalError("Failed to open realm: \(error)")
+            case .success(let realm):
+                self?.navigationController?.pushViewController(
+                    TasksViewController(realm: realm, title: "\(self!.username!)'s Tasks"),
+                    animated: true
+                )
             }
         }
-        // :state-end: :state-uncomment-start: start
-        // // TODO: Use app.login() to log in. Once logged in, open the user realm,
-        // // then navigate to the ProjectsViewController.
-        // // The user realm contains the synced custom user data object, which
-        // // contains the list of projects the user is a member of.
-        // // The user realm partition value is "user=\(user.id!)". 
+        // :state-end: :state-uncomment-start: sync
+        // print("Log in as user: \(username!)")
+        // setLoading(true)
+        //
+        // app.login(credentials: Credentials.emailPassword(email: username!, password: password!)) { [weak self](result) in
+        //     // Completion handlers are not necessarily called on the UI thread.
+        //     // This call to DispatchQueue.main.async ensures that any changes to the UI,
+        //     // namely disabling the loading indicator and navigating to the next page,
+        //     // are handled on the UI thread:
+        //     DispatchQueue.main.async {
+        //         self!.setLoading(false)
+        //         switch result {
+        //         case .failure(let error):
+        //             // Auth error: user already exists? Try logging in as that user.
+        //             print("Login failed: \(error)")
+        //             self!.errorLabel.text = "Login failed: \(error.localizedDescription)"
+        //             return
+        //         case .success(let user):
+        //             print("Login succeeded!")
+        //
+        //             // Load again while we open the realm.
+        //             self!.setLoading(true)
+        //             // Get a configuration to open the synced realm.
+        //             var configuration = user.configuration(partitionValue: "user=\(user.id)")
+        //             // Only allow User and Project objects in this partition.
+        //             configuration.objectTypes = [User.self, Project.self]
+        //             // Open the realm asynchronously so that it downloads the remote copy before
+        //             // opening the local copy.
+        //             Realm.asyncOpen(configuration: configuration) { [weak self](result) in
+        //                 DispatchQueue.main.async {
+        //                     self!.setLoading(false)
+        //                     switch result {
+        //                     case .failure(let error):
+        //                         fatalError("Failed to open realm: \(error)")
+        //                     case .success(let userRealm):
+        //                         // Go to the list of projects in the user object contained in the user realm.
+        //                         self!.navigationController!.pushViewController(ProjectsViewController(userRealm: userRealm), animated: true)
+        //                     }
+        //                 }
+        //             }
+        //         }
+        //     }
+        // }
+        // :state-uncomment-end: :state-uncomment-start: start
+        // // TODO: Open a project realm and launch the task view.
         // :state-uncomment-end:
     }
     // :code-block-end:
