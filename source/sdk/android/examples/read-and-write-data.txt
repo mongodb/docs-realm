@@ -662,7 +662,7 @@ Delete an Object and its Dependent Objects
 
 Sometimes, you have :ref:`dependent objects
 <android-client-relationships>` that you want to delete when
-you delete the parent object. We call this a **cascading
+you delete the parent object. We call this a **chaining
 delete**. {+client-database+} does not delete the dependent
 objects for you. If you do not delete the objects yourself,
 they will remain orphaned in your {+realm+}. Whether or not
@@ -675,7 +675,7 @@ deleting the parent object.
 .. example::
 
    The following code demonstrates how to perform a
-   cascading delete by first deleting all of Ali's turtles,
+   chaining delete by first deleting all of Ali's turtles,
    then deleting Ali:
 
    .. tabs-realm-languages::
