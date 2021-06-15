@@ -8,7 +8,7 @@ To run:
 pod install --repo-update
 ```
 
-NOTE: CocoaPods >1.10 is REQUIRED.
+NOTE: CocoaPods >1.10.1 is REQUIRED.
 
 Then open 
 
