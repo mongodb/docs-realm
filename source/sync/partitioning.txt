@@ -185,7 +185,7 @@ Partition keys and values are subject to certain limitations.
 .. _partition-limitations-types:
 
 Supported Partition Key Types
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++++++++++++++++++++++++++++++
 
 Partition keys must be one of the following types:
 
@@ -195,7 +195,7 @@ Partition keys must be one of the following types:
 - Long
 
 Use a Different Field for Partition Key
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++++++++++++++++++++++++++++++++++++++++
 
 Once you have chosen a partition key and :ref:`enabled sync <enable-sync>`, 
 you cannot reassign the partition key to a different field. To use a different
@@ -212,7 +212,7 @@ field as your partition key:
    <client reset>` on all clients.
 
 Change Partition Key Field Name
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++++++++++++++++++++++++++++++++
 
 Once you have chosen a partition key and enabled {+sync-short+}, you
 cannot change the name of the field you selected as your partition
@@ -231,7 +231,7 @@ key. To alter the field name of your partition key:
    <client reset>` on all clients.
 
 Side Effects of Changing Partition Values
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++++++++++++++++++++++++++++++++++++++++++
 
 If you change a partition value in {+atlas-short+}, {+backend+} interprets
 the change as a delete, then an insert. First, {+backend+} deletes
@@ -249,7 +249,7 @@ the {+service-short+} SDK because it triggers a
 :term:`client reset <client reset>`.
 
 Handle Relationships that Span Partitions
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++++++++++++++++++++++++++++++++++++++++++
 
 Documents linked to each other using a relationship produce
 "dangling links" with a null value if the documents do not
