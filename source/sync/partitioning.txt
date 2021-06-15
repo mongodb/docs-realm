@@ -180,80 +180,92 @@ information about partitioning strategies.
 Partitioning Limitations
 -------------------------
 
-Partition keys and values are subject to certain limitations:
+Partition keys and values are subject to certain limitations.
 
 .. _partition-limitations-types:
 
-- Partition keys must be one of the following types:
+Supported Partition Key Types
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-  - String
+Partition keys must be one of the following types:
 
-  - ObjectID
+- String
+- ObjectID
+- Int
+- Long
 
-  - Int
+Use a Different Field for Partition Key
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-  - Long
-
-- Once you have chosen a partition key and :ref:`enabled sync <enable-sync>`, you cannot
-  reassign the partition key to a different field. To use a different
-  field as your partition key:
+Once you have chosen a partition key and :ref:`enabled sync <enable-sync>`, 
+you cannot reassign the partition key to a different field. To use a different
+field as your partition key:
   
-  1) Disable {+sync+}.
+1) Disable {+sync+}.
   
-  2) Enable {+sync+} again with the new field selected as your
-     partition key.
+2) Enable {+sync+} again with the new field selected as your
+   partition key.
      
-  .. warning::
+.. warning::
 
-     Disabling and re-enabling {+sync-short+} will trigger a :term:`client reset
-     <client reset>` on all clients.
+   Disabling and re-enabling {+sync-short+} will trigger a :term:`client reset
+   <client reset>` on all clients.
 
-- Once you have chosen a partition key and enabled {+sync-short+}, you
-  cannot change the name of the field you selected as your partition
-  key. To alter the field name of your partition key:
+Change Partition Key Field Name
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-  1) Disable {+sync+}.
+Once you have chosen a partition key and enabled {+sync-short+}, you
+cannot change the name of the field you selected as your partition
+key. To alter the field name of your partition key:
+
+1) Disable {+sync+}.
   
-  2) Change the field name.
+2) Change the field name.
 
-  3) Enable {+sync+} again with the updated field name selected as
-     your partition key.
+3) Enable {+sync+} again with the updated field name selected as
+   your partition key.
 
-  .. warning::
+.. warning::
 
-     Disabling and re-enabling {+sync+} will trigger a :term:`client reset
-     <client reset>` on all clients.
+   Disabling and re-enabling {+sync+} will trigger a :term:`client reset
+   <client reset>` on all clients.
 
-- If you change a partition value in {+atlas-short+}, {+backend+} interprets
-  the change as a delete, then an insert. First, {+backend+} deletes
-  the corresponding :term:`{+service-short+} object` from the object's original
-  {+realm+}. Next, {+backend+} inserts a new {+service-short+} object containing the
-  same data into the object's new {+realm+}. 
+Side Effects of Changing Partition Values
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+If you change a partition value in {+atlas-short+}, {+backend+} interprets
+the change as a delete, then an insert. First, {+backend+} deletes
+the corresponding :term:`{+service-short+} object` from the object's original
+{+realm+}. Next, {+backend+} inserts a new {+service-short+} object containing the
+same data into the object's new {+realm+}. 
   
-  .. warning::
+.. warning::
 
-     Changing a partition value in {+atlas-short+} will lose any un-synced client
-     updates to the object.
+   Changing a partition value in {+atlas-short+} will lose any un-synced client
+   updates to the object.
 
-- Avoid changing a partition value in a {+service-short+} object using
-  the {+service-short+} SDK because it triggers a
-  :term:`client reset <client reset>`.
+Avoid changing a partition value in a {+service-short+} object using
+the {+service-short+} SDK because it triggers a
+:term:`client reset <client reset>`.
 
-- Documents linked to each other using a relationship produce
-  "dangling links" with a null value if the documents do not
-  belong to the same partition. If your application creates relations
-  that span multiple {+realms+}, you should be prepared to handle null
-  values for all such relations.
+Handle Relationships that Span Partitions
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-  .. warning::
+Documents linked to each other using a relationship produce
+"dangling links" with a null value if the documents do not
+belong to the same partition. If your application creates relations
+that span multiple {+realms+}, you should be prepared to handle null
+values for all such relations.
+
+.. warning::
      
-     Relational object fields that lack a corresponding object, known as
-     "dangling links," resolve to null values in the {+service-short+}
-     SDKs. Dangling links can occur if a relation spans multiple
-     {+realms+} These relations *are* valid in MongoDB Atlas which
-     contains both objects in the relation, but not in any single client
-     {+realm+}. To prevent dangling links, make sure that each object in
-     a relation uses the same partition value.
+   Relational object fields that lack a corresponding object, known as
+   "dangling links," resolve to null values in the {+service-short+}
+   SDKs. Dangling links can occur if a relation spans multiple
+   {+realms+} These relations *are* valid in MongoDB Atlas which
+   contains both objects in the relation, but not in any single client
+   {+realm+}. To prevent dangling links, make sure that each object in
+   a relation uses the same partition value.
 
 .. _partition-key-examples:
 
