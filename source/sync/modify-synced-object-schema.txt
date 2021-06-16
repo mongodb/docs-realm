@@ -115,21 +115,52 @@ collection.
 .. example::
 
    In the following example, an application developer opens a synced {+realm+}
-   with an initial ``Task`` schema with an ``_id``, ``name``, and ``difficulty``
-   field. The developer then creates some sample tasks. The developer then
-   decides to change the ``difficulty`` field of the ``Task`` collection to
-   optional by creating a partner collection, ``TaskV2``, with the changed
-   schema. 
+   with the following ``Task`` JSON Schema:
    
-   He copies the objects in the first collection to the second
-   collection by performing the following aggregation using the Mongo shell:
+   .. code-block:: json
+      :caption: Task Schema
+      :emphasize-lines: 8
+
+      {
+        "title": "Task",
+        "bsonType": "object",
+        "required": [
+          "_id",
+          "name"
+        ],
+        "properties": {
+          "_id": {
+            "bsonType": "objectId"
+          },
+          "_partition": {
+            "bsonType": "string"
+          },
+          "name": {
+            "bsonType": "string"
+          }
+        }
+      }
+
+   The developer then creates some sample tasks. The developer then decides to
+   change the ``_id`` field from a ``objectId`` type to a ``string`` type. To do
+   this, he copies the objects in the first collection to a partner collection
+   and transform their ``_id`` field to a ``string`` type. He does this by
+   performing the following aggregation using the Mongo shell:
 
    .. code-block:: shell
       :caption: Match All Documents in the Initial Collection and Output Them to the Partner Collection 
 
       use "<database-name>" // switch the current db to the db that the Task collection is stored in
       collection = db.Task;
-      collection.aggregate([{ $match: {} }, { $out: "TaskV2" }]);
+      collection.aggregate([
+        { $match: {} },
+        {
+          $addFields: {
+            _id: { $toString: "$_id" },
+          },
+        },
+        { $out: "TaskV2" },
+      ]);
 
    To copy any new changes to the initial ``Task`` collection into the
    ``TaskV2`` collection, the developer  creates a :ref:`database trigger
@@ -156,7 +187,7 @@ collection.
    required for the ``Task`` collection but is not required for the ``TaskV2``
    collection as specified in the schema modification.
 
-   .. code-block:: javascript
+   .. code-block:: json
       :caption: Task Schema
       :emphasize-lines: 8
 
@@ -165,27 +196,22 @@ collection.
         "bsonType": "object",
         "required": [
           "_id",
-          "_partition",
-          "name",
-          "difficulty"
+          "name"
         ],
         "properties": {
           "_id": {
-            "bsonType": "objectId"
+            "bsonType": "int"
           },
           "_partition": {
             "bsonType": "string"
           },
           "name": {
             "bsonType": "string"
-          },
-          "difficulty": {
-            "bsonType": "long"
           }
         }
       }
 
-   .. code-block:: javascript
+   .. code-block:: json
       :caption: TaskV2 Schema
 
       {
@@ -193,21 +219,17 @@ collection.
         "bsonType": "object",
         "required": [
           "_id",
-          "_partition",
           "name"
         ],
         "properties": {
           "_id": {
-            "bsonType": "objectId"
+            "bsonType": "string"
           },
           "_partition": {
             "bsonType": "string"
           },
           "name": {
             "bsonType": "string"
-          },
-          "difficulty": {
-            "bsonType": "long"
           }
         }
       }
