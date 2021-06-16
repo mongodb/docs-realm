@@ -27,5 +27,4 @@ realm.executeTransaction { r: Realm? ->
     val verySmallRocks = realm.createObject(Snack::class.java)
     verySmallRocks.name = "verySmallRocks"
     set.addAll(Arrays.asList(water, verySmallRocks))
-    expectation.fulfill() // :hide
 }

@@ -250,7 +250,7 @@ class DataTypesTest : RealmTest() {
                 val verySmallRocks = realm.createObject(SnackKt::class.java)
                 verySmallRocks.name = "verySmallRocks"
                 set.addAll(Arrays.asList(water, verySmallRocks))
-                expectation.fulfill() // :hide
+                expectation.fulfill() // :hide:
             }
             // :code-block-end:
             // :replace-end:
