@@ -88,7 +88,7 @@ content: |
      :emphasize-lines: 10
 
      {
-       "title": "Task",
+       "title": "TaskV2",
        "bsonType": "object",
        "required": [
          "_id",
@@ -108,7 +108,7 @@ content: |
      }
 
   .. note::
-  
+
      You can now use your partner collection to read existing data in new
      clients. The existing data has been modified to adhere to the schema of the
      partner collection.
@@ -122,40 +122,63 @@ content: |
   on its partner. This will cause the old clients to be out of sync with the
   new clients that are using the new collection with the modified schema. 
 
-  We want to keep data flowing in both directions, meaning that when one
-  collection is written to, the other is also written to. To do this, set up a
-  :ref:`database trigger <create-a-database-trigger>` for each collection. The
-  database trigger will fire 
-  
-  hile development mode is enabled, Realm maps every synced object type to its
-  own collection in the linked cluster. The collections use the pluralized name
-  of the object type and are located in a specific database.
+  To do this, set up a :ref:`database trigger <create-a-database-trigger>` for
+  each respective collection. When data is written to one collection, the
+  trigger's function should perform the write to the partner collection.
 
-  Determine which database in the linked cluster you want to contain the synced
-  data and then enter it into the :guilabel:`Define a Database Name` input.
+  Follow the steps in the :ref:`database trigger <create-a-database-trigger>`
+  documentation to create a trigger to copy data from the ``Task`` collection to
+  the ``TaskV2`` collection. Ensure that you have checkmarked all operation types in
+  the :guilabel:``Operation Type`` column. 
+ 
+  Repeat these steps and create a second trigger to copy data from the
+  ``TaskV2`` collection to the ``Task`` collection.
 
-  .. figure:: /images/enable-dev-mode-database-name.png
+  .. figure:: /images/trigger-copyTaskObjectToTaskV2.png
+     :alt: Create a Database Trigger to Copy Data from Task to TaskV2
      :width: 750px
-     :alt: The database selection dropown menu
+     :lightbox:
 ---
-title: Choose a Partition Key
-ref: choose-a-partition-key
+title: Copy Data Within Your Trigger's Function
+ref: copy-data-trigger-fn
 content: |
-  The sync :term:`partition key` is a field in every synced document that maps
-  each document to a client-side realm. Sync rules apply at the partition level,
-  so it is particularly important to consider your data model and access
-  patterns. For more information on partition keys and how to choose one, see
-  :ref:`Partition Atlas Data into Realms <partitioning>`.
+  To copy any new changes to the initial collection to the partner collection,
+  alter the trigger function's code. 
   
-  Once you have decided which field to use, enter the field name into the
-  :guilabel:`Choose A Partition Key` input.
+  If the :ref:`change event <database-events>` is a delete, meaning the object
+  has been deleted from the collection, delete the object from it's partner
+  collection by performing a :manual:`db.collection.deleteOne()
+  <reference/method/db.collection.deleteOne>` and passing the
+  ``changeEvent.documentKey._id``. In the following example, we call
+  :mdn:`parseInt() <Web/JavaScript/Reference/Global_Objects/parseInt>` on the
+  ``_id`` field since the ``TaskV2`` collection stores the ``_id`` field as an
+  integer.
 
-  .. figure:: /images/enable-dev-mode-partition-key.png
-     :width: 750px
-     :alt: The partition key selection dropdown menu
----
-title: Turn On Development Mode
-ref: turn-on-development-mode
-content: |
-  Click :guilabel:`Turn Dev Mode On` to enable development mode.
-...
+  If the :ref:`change event <database-events>` is a write, perform the same
+  write to the partner collection by performing an :manual:`aggregation
+  <reference/method/db.collection.aggregate>`. In the aggregation, match the
+  object with the ``changeEvent.documentKey._id`` as an integer. 
+
+  Modify the desired fields of the initial collection by using the
+  :manual:`$addFields operator <reference/operator/aggregation/addFields/>`. In
+  the following example, the initial data's ``_id`` field is transformed to a
+  ``string`` type using the :manual:`$toString operator <reference/operator/aggregation/toString/>`.
+
+  Finally, write the transformed data to the partner collection, by using the
+  :manual:`$merge operator <reference/operator/aggregation/merge/>` to avoid
+  overwriting existing data.  In this example we wrote the data to the
+  ``TaskV2`` collection.
+
+  .. literalinclude:: /examples/Triggers/copy-data-from-initial-collection.js
+     :language: javascript
+     :caption: copyTaskObjectToTaskV2 trigger
+     :emphasize-lines: 6, 7
+
+  To copy data from ``TaskV2`` collection to the ``Task`` collection when the
+  trigger fires, alter your trigger function's code. This time, transforming the
+  ``_id`` from a string to an integer value.
+
+  .. literalinclude:: /examples/Triggers/copy-data-from-second-version-collection.js
+     :language: javascript
+     :caption: copyTaskV2ObjectToTask trigger
+     :emphasize-lines: 6, 7
