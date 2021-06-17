@@ -1,7 +1,7 @@
 const highPriorityTasks = tasks.filtered("priority > 5");
 const unassignedTasks = tasks.filtered("assignee == null");
 const lowProgressTasks = tasks.filtered("1 <= progressMinutes && progressMinutes < 10");
-const aliTasks = tasks.filtered("assignee == Ali");
+const aliTasks = tasks.filtered("assignee == 'Ali'");
 
 console.log(
   `Number of high priority tasks: ${highPriorityTasks.length}`,
