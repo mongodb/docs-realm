@@ -94,8 +94,8 @@ like the following:
     errorCode: 1
    }
 
-If you are developing an application using Realm Sync and need to make
-destructive schema changes, you can create a **"partner collection"**.
+If you are developing an application using Realm Sync and require destructive
+schema changes, you can create a **"partner collection"**.
 
 A partner collection is a second collection that contains the same data as
 another collection but with a schema containing the required changes. Partner
@@ -113,5 +113,5 @@ Summary
 - Synchronized {+realms+} only support additive changes to a schema.
 - Destructive changes are modifications to existing fields of a schema.
 - Synchronized {+realms+} do not support destructive changes directly. 
-- To perform destructive schema changes to a synced {+realm+}, create a partner collection with the necessary schema changes, and manually copy the data from the first collection to the second collection.
+- To perform destructive schema changes to a synced {+realm+}, create a partner collection with the necessary schema changes and manually copy the data from the first collection to the second collection.
 - To keep partner collections up-to-date with each other, set up database triggers to copy changed data from one collection to its partner.

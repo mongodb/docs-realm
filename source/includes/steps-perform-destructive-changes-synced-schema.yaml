@@ -43,7 +43,7 @@ ref: set-up-a-partner-collection
 content: |
   Since destructive changes cannot be performed directly on a synced object
   schema, you can create a partner collection with a schema containing the
-  required changes. The partner collections should always have the same data, to
+  required changes. The partner collections should always have the same data to
   ensure that newer clients can synchronize with older clients.
 
   To copy the data from your initial collection to your partner collection,
@@ -61,9 +61,9 @@ content: |
   ``string`` type using the :manual:`$toString operator
   <reference/operator/aggregation/toString/>`.
 
-  Finally, write the transformed data to the partner collection, by using the
+  Finally, write the transformed data to the partner collection by using the
   :manual:`$out operator <reference/operator/aggregation/out/>` and specifying
-  the partner collection name. In this example we wrote the data to a new
+  the partner collection name. In this example, we wrote the data to a new
   collection named ``TaskV2``.
 
   .. code-block:: shell
@@ -166,7 +166,7 @@ content: |
 
   Finally, write the transformed data to the partner collection, by using the
   :manual:`$merge operator <reference/operator/aggregation/merge/>` to avoid
-  overwriting existing data.  In this example we wrote the data to the
+  overwriting existing data.  In this example, we wrote the data to the
   ``TaskV2`` collection.
 
   .. literalinclude:: /examples/Triggers/copy-data-from-initial-collection.js
