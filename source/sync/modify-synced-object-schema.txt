@@ -52,8 +52,10 @@ sync with newer ones.
       .. tab::
          :tabid: dotnet
     
-         :doc:`Modify an Object Schema .NET SDK </sdk/dotnet/examples/modify-an-object-schema>`
-   
+         :doc:`Modify an Object Schema - .NET SDK </sdk/dotnet/examples/modify-an-object-schema>`
+
+.. _additive-changes-synced-schema:
+
 Additive Changes
 ----------------
 Additive changes, such as adding a class or adding a field to a class, are
@@ -68,6 +70,9 @@ with no additional configuration.
    field's value to ``null``. Realm sets fields that are non-nullable to an
    appropriate empty value, such as a 0 for integer values or an empty string
    for string values.
+
+
+.. _destructive-changes-synced-schema:
 
 Destructive Changes
 -------------------
@@ -89,17 +94,23 @@ like the following:
     errorCode: 1
    }
 
-
-Using Partner Collections to Modify Properties of a Schema
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-If you are developing an application using Realm Sync and need to make schema
-changes, you can create a **"partner collection"**.
+If you are developing an application using Realm Sync and need to make
+destructive schema changes, you can create a **"partner collection"**.
 
 A partner collection is a second collection that contains the same data as
 another collection but with a schema containing the required changes. Partner
 collections use database triggers to ensure that data flows in both directions,
 meaning that when one collection is written to, the other is also written to.
+
+Procedure
+~~~~~~~~~
+/Users/mohammad.hunan/Desktop/docs-realm/source/includes/steps-perform-destructive-changes-synced-schema.yaml
+
+.. include:: /includes/steps/perform-destructive-changes-synced-schema.rst
+
+what your doing 
+why your doing 
+how your doing
 
 To set up your partner collections, copy the data from the initial collection to
 the second collection. You can do this by using the
@@ -141,21 +152,21 @@ collection.
         }
       }
 
-   The developer then creates some sample tasks. The developer then decides to
-   change the ``_id`` field from a ``objectId`` type to a ``string`` type. To do
-   this, he copies the objects in the first collection to a partner collection
-   and transforms their ``_id`` field to a ``string`` type. He does this by
-   performing the following aggregation using the Mongo shell:
+   The developer creates some sample tasks. The developer later receives
+   requirements to change the ``_id`` field from a ``int`` type to a
+   ``string`` type. To do this, he copies the objects in the first collection to
+   a partner collection and transforms their ``_id`` field to a ``string`` type.
+   He does this by performing the following aggregation using the Mongo shell:
 
    .. code-block:: shell
       :caption: Match All Documents in the Initial Collection and Output Them to the Partner Collection 
 
-      use "<database-name>" // switch the current db to the db that the Task collection is stored in
+      use "<database-name>" // switch the current db to the db that the "Task" collection is stored in
       collection = db.Task;
       collection.aggregate([
-        { $match: {} },
+        { $match: {} }, // match all documents in the "Task" collection
         {
-          $addFields: {
+          $addFields: { // 
             _id: { $toString: "$_id" },
           },
         },

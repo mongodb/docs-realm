@@ -1,0 +1,160 @@
+title: Consider If You Want to Perform a Destructive Change
+ref: consider-destructive-change
+content: |
+  If you need to add or remove a field to a schema, you need to perform an
+  :ref:`additive change <additive-changes-synced-schema>`. You can do this by
+  changing your schema directly, without any additional configuration. 
+
+  If you want to modify an existing field of a schema, you need to perform a
+  :ref:`destructive change <destructive-changes-synced-schema>`. The following
+  steps detail how to perform a destructive change.
+
+  In the following example, the initial collection is specified with the
+  following JSON Schema for a ``Task`` collection. The schema for the ``Task``
+  contains a ``_id`` field of ``int`` type, and a ``name`` field of ``string``
+  type.
+
+  .. code-block:: json
+     :caption: Task Schema
+     :emphasize-lines: 10
+
+     {
+       "title": "Task",
+       "bsonType": "object",
+       "required": [
+         "_id",
+         "name"
+       ],
+       "properties": {
+         "_id": {
+           "bsonType": "int"
+         },
+         "_partition": {
+           "bsonType": "string"
+         },
+         "name": {
+           "bsonType": "string"
+         }
+       }
+     }
+---
+title: Set up a Partner Collection
+ref: set-up-a-partner-collection
+content: |
+  Since destructive changes cannot be performed directly on a synced object
+  schema, you can create a partner collection with a schema containing the
+  required changes. The partner collections should always have the same data, to
+  ensure that newer clients can synchronize with older clients.
+
+  To copy the data from your initial collection to your partner collection,
+  perform an aggregation by using the :manual:`db.collection.aggregate()
+  <reference/method/db.collection.aggregate>` method with the :manual:`Mongo
+  shell <mongo>`. 
+  
+  Match all the documents in the initial collection by passing
+  an empty filter to the :manual:`$match operator
+  <reference/operator/aggregation/match/>`.
+
+  Modify the desired fields of the initial collection by using the
+  :manual:`$addFields operator <reference/operator/aggregation/addFields/>`. In
+  the following example, the initial data's ``_id`` field is transformed to a
+  ``string`` type using the :manual:`$toString operator
+  <reference/operator/aggregation/toString/>`.
+
+  Finally, write the transformed data to the partner collection, by using the
+  :manual:`$out operator <reference/operator/aggregation/out/>` and specifying
+  the partner collection name. In this example we wrote the data to a new
+  collection named ``TaskV2``.
+
+  .. code-block:: shell
+     :caption: Match All Documents in the Initial Collection and Output Them to the Partner Collection 
+
+     use "<database-name>" // switch the current db to the db that the Task collection is stored in
+     collection = db.Task;
+     collection.aggregate([
+       { $match: {} }, // match all documents in the Task collection
+       {
+         $addFields: { // transform the data
+           _id: { $toString: "$_id" }, // change the _id field of the data to a string type
+         },
+       },
+       { $out: "TaskV2" }, // output the data to a partner collection, TaskV2
+     ]);
+
+  The partner collection, ``TaskV2``, has a JSON Schema that looks like the following:
+
+  .. code-block:: json
+     :caption: Task Schema
+     :emphasize-lines: 10
+
+     {
+       "title": "Task",
+       "bsonType": "object",
+       "required": [
+         "_id",
+         "name"
+       ],
+       "properties": {
+         "_id": {
+           "bsonType": "string"
+         },
+         "_partition": {
+           "bsonType": "string"
+         },
+         "name": {
+           "bsonType": "string"
+         }
+       }
+     }
+
+.. note::
+
+   You can now use your partner collection to read existing data in new
+   clients. The existing data has been modified to adhere to the schema of the
+   partner collection.
+
+---
+title: Set up Database Triggers for Your Partner Collections
+ref: set-up-db-triggers-partner-collections
+content: |
+  Once your partner collection is set up, you can use it to read existing data.
+  However, any new writes to the data of the either collection will not be shown
+  on its partner. This will cause the old clients to be out of sync with the
+  new clients that are using the new collection with the modified schema. 
+
+  We want to keep data flowing in both directions, meaning that when one
+  collection is written to, the other is also written to. To do this, set up a
+  :ref:`database trigger <create-a-database-trigger>` for each collection. The database trigger will fire 
+  
+  hile development mode is enabled, Realm maps every synced object type to its
+  own collection in the linked cluster. The collections use the pluralized name
+  of the object type and are located in a specific database.
+
+  Determine which database in the linked cluster you want to contain the synced
+  data and then enter it into the :guilabel:`Define a Database Name` input.
+
+  .. figure:: /images/enable-dev-mode-database-name.png
+     :width: 750px
+     :alt: The database selection dropown menu
+---
+title: Choose a Partition Key
+ref: choose-a-partition-key
+content: |
+  The sync :term:`partition key` is a field in every synced document that maps
+  each document to a client-side realm. Sync rules apply at the partition level,
+  so it is particularly important to consider your data model and access
+  patterns. For more information on partition keys and how to choose one, see
+  :ref:`Partition Atlas Data into Realms <partitioning>`.
+  
+  Once you have decided which field to use, enter the field name into the
+  :guilabel:`Choose A Partition Key` input.
+
+  .. figure:: /images/enable-dev-mode-partition-key.png
+     :width: 750px
+     :alt: The partition key selection dropdown menu
+---
+title: Turn On Development Mode
+ref: turn-on-development-mode
+content: |
+  Click :guilabel:`Turn Dev Mode On` to enable development mode.
+...
