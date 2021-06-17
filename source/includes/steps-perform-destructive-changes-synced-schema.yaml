@@ -38,7 +38,7 @@ content: |
        }
      }
 ---
-title: Set up a Partner Collection
+title: Set Up a Partner Collection
 ref: set-up-a-partner-collection
 content: |
   Since destructive changes cannot be performed directly on a synced object
@@ -129,7 +129,7 @@ content: |
   Follow the steps in the :ref:`database trigger <create-a-database-trigger>`
   documentation to create a trigger to copy data from the ``Task`` collection to
   the ``TaskV2`` collection. Ensure that you have checkmarked all operation types in
-  the :guilabel:``Operation Type`` column. 
+  the :guilabel:`Operation Type` column. 
  
   Repeat these steps and create a second trigger to copy data from the
   ``TaskV2`` collection to the ``Task`` collection.
@@ -172,7 +172,6 @@ content: |
   .. literalinclude:: /examples/Triggers/copy-data-from-initial-collection.js
      :language: javascript
      :caption: copyTaskObjectToTaskV2 trigger
-     :emphasize-lines: 6, 7
 
   To copy data from ``TaskV2`` collection to the ``Task`` collection when the
   trigger fires, alter your trigger function's code. This time, transforming the
@@ -181,4 +180,3 @@ content: |
   .. literalinclude:: /examples/Triggers/copy-data-from-second-version-collection.js
      :language: javascript
      :caption: copyTaskV2ObjectToTask trigger
-     :emphasize-lines: 6, 7
