@@ -63,21 +63,26 @@ export function TaskItem({ task }) {
         }}
         actions={actions}
       />
-      <ListItem
-        key={task.id}
-        onPress={() => {
-          setActionSheetVisible(true);
-        }}
-        title={task.name}
-        bottomDivider
-        checkmark={
-          task.status === Task.STATUS_COMPLETE ? (
-            <Text>&#10004; {/* checkmark */}</Text>
-          ) : task.status === Task.STATUS_IN_PROGRESS ? (
-            <Text>In Progress</Text>
-          ) : null
-        }
-      />
+      <ListItem>
+        <ListItem.Content>
+          <ListItem.Title
+            key={task.id}
+            onPress={() => {
+              setActionSheetVisible(true);
+            }}
+            bottomDivider
+            checkmark={
+              task.status === Task.STATUS_COMPLETE ? (
+                <Text>&#10004; {/* checkmark */}</Text>
+              ) : task.status === Task.STATUS_IN_PROGRESS ? (
+                <Text>In Progress</Text>
+              ) : null
+            }
+          >        
+            {task.name}
+          </ListItem.Title>
+        </ListItem.Content>
+      </ListItem>
     </>
   );
 }
