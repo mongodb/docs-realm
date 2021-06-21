@@ -141,9 +141,9 @@ content: |
   To copy any new changes to the initial collection to the partner collection,
   alter the trigger function's code. 
   
-  If the :ref:`change event <database-events>` is a delete, meaning the object
-  has been deleted from the collection, delete the object from it's partner
-  collection by performing a :manual:`db.collection.deleteOne()
+  If the :ref:`change event <database-events>` is a delete event, meaning the
+  object has been removed from the collection, delete the object from it's
+  partner collection by performing a :manual:`db.collection.deleteOne()
   <reference/method/db.collection.deleteOne>` and passing the
   ``changeEvent.documentKey._id``. In the following example, we call
   :mdn:`parseInt() <Web/JavaScript/Reference/Global_Objects/parseInt>` on the
