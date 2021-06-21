@@ -170,8 +170,9 @@ content: |
      :caption: copyTaskObjectToTaskV2 trigger
 
   To copy data from ``TaskV2`` collection to the ``Task`` collection when the
-  trigger fires, alter your trigger function's code. This time, transforming the
-  ``_id`` from a string to an integer value.
+  trigger fires, write a function similar to the first trigger's function. In
+  this example, we transform the data of ``TaskV2`` before inserting it into the
+  ``Task`` collection by changing the ``_id`` from a string to an integer value.
 
   .. literalinclude:: /examples/Triggers/copy-data-from-second-version-collection.js
      :language: javascript
