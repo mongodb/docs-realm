@@ -116,9 +116,10 @@ content: |
   on its partner. This will cause the old clients to be out of sync with the
   new clients that are using the new collection with the modified schema. 
 
-  To do this, set up a :ref:`database trigger <create-a-database-trigger>` for
-  each respective collection. When data is written to one collection, the
-  trigger's function should perform the write to the partner collection.
+  To ensure that data is reflected in both collections, you need to set up a
+  :ref:`database trigger <create-a-database-trigger>` for each respective
+  collection. When data is written to one collection, the trigger's function
+  should perform the write to the partner collection.
 
   Follow the steps in the :ref:`database trigger <create-a-database-trigger>`
   documentation to create a trigger to copy data from the ``Task`` collection to
