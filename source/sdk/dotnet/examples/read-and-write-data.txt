@@ -248,14 +248,14 @@ Delete Multiple Objects
       :language: csharp
 
 .. _dotnet-delete-object-and-dependent-objects:
-.. _dotnet-cascading-delete:
+.. _dotnet-chaining-delete:
 
 Delete an Object and its Dependent Objects
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Sometimes, you have :ref:`dependent objects
 <dotnet-client-relationships>` that you want to delete when
-you delete the parent object. We call this a **cascading
+you delete the parent object. We call this a **chaining
 delete**. {+client-database+} will not delete the dependent objects for
 you. If you do not delete the objects yourself, they will
 remain orphaned in your {+realm+}. Whether or not this is a
@@ -268,10 +268,10 @@ deleting the parent object.
 .. example::
 
    The following code demonstrates how to perform a
-   cascading delete by first deleting all of Ali's dogs,
+   chaining delete by first deleting all of Ali's dogs,
    then deleting Ali:
 
-   .. literalinclude:: /examples/CRUD/CascadingDelete.cs
+   .. literalinclude:: /examples/CRUD/ChainingDelete.cs
       :language: csharp
 
 .. _dotnet-delete-all-of-object:
