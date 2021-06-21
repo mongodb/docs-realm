@@ -55,11 +55,10 @@ Trigger.
 .. note::
 
    {+service+} limits the execution of Trigger
-   Functions to a rate of 1000 executions per second across
-   all Triggers in an application. If additional
-   Triggers fire beyond this threshold, {+backend+} adds their
-   associated Function calls to a queue and executes the
-   Function calls once capacity becomes available.
+   Functions to a rate of 1000 executions per second per Trigger. If there 
+   are additional Trigger executions beyond this threshold, {+backend+} adds 
+   their associated Function calls to a queue and executes each one when the 
+   capacity becomes available.
 
    Database Triggers with *event ordering* enabled are an exception to
    this rule. Each ordered Trigger processes events in order,

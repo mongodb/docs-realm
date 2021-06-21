@@ -38,6 +38,8 @@ where ``T`` can be the following types:
 
 - ``String``
 - ``Integer``
+- ``UUID``
+- ``ObjectId``
 - ``Boolean``
 - ``Float``
 - ``Double``
@@ -98,28 +100,17 @@ Adapters
 {+client-database+} offers adapters to help bind data
 to standard UI widgets. These classes work with any class that
 implements the ``OrderedRealmCollection`` interface, which includes
-the built-in ``RealmResults`` and ``RealmList`` classes. To use the
-adapters, add the dependency to your application level ``build.gradle``:
+the built-in ``RealmResults`` and ``RealmList`` classes. For more
+information on adapters, see the documentation on
+:ref:`Displaying Collections <android-adapters>`.
 
-.. code-block:: groovy
+.. note:: Adapters Require Managed Objects
 
-   dependencies {
-      compile 'io.realm:android-adapters:2.1.1'
-   }
-
-ListView
-~~~~~~~~
-
-You can use ``RealmBaseAdapter`` with ``ListView`` widgets. For an example,
-see the ``realm-android-adapters`` `GitHub repository
-<https://github.com/realm/realm-android-adapters/blob/master/example/src/main/java/io/realm/examples/adapters/ui/listview/MyListAdapter.java>`__.
-
-RecyclerView
-~~~~~~~~~~~~
-
-You can use ``RealmRecyclerViewAdapter`` with ``RecyclerView`` widgets.
-For an example, see the ``realm-android-adapters`` `GitHub repository
-<https://github.com/realm/realm-android-adapters/blob/master/example/src/main/java/io/realm/examples/adapters/ui/recyclerview/MyRecyclerViewAdapter.java>`__.
+   The {+client-database+} adapters only accept *managed*
+   {+service-short+} object instances tied to an instance of a {+realm+}.
+   To display non-managed objects, use the general-use Android
+   ``RecyclerView.Adapter`` for recycler views or ``ArrayAdapter`` for
+   list views.
 
 .. _android-live-collections:
 

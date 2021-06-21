@@ -22,7 +22,6 @@ namespace Examples
         [Test]
         public void Increment()
         {
-
             var mrc = new MyRealmClass()
             {
                 Counter = 0
@@ -72,14 +71,20 @@ namespace Examples
         public async Task WorkWithDictionaries()
         {
             if (realm == null) realm = await Realm.GetInstanceAsync();
-
-            var storeInventory = new Inventory() { Id = ObjectId.GenerateNewId().ToString() };
+            //:code-block-start:query-dictionaries
+            var storeInventory = new Inventory()
+            {
+                Id = ObjectId.GenerateNewId().ToString()
+            };
 
             storeInventory.PlantDict.Add("Petunia", new Plant());
-            storeInventory.NullableIntDict.Add("things", 7);
+            storeInventory.NullableIntDict.Add("random things", 7);
             storeInventory.RequiredStringsDict.Add("foo", "bar");
 
-            var storeInventory2 = new Inventory();
+            var storeInventory2 = new Inventory()
+            {
+                Id = ObjectId.GenerateNewId().ToString()
+            };
 
             storeInventory2.RequiredStringsDict.Add("foo", "Bar");
 
@@ -89,7 +94,6 @@ namespace Examples
                 realm.Add<Inventory>(storeInventory2);
             });
 
-            //:code-block-start:query-dictionaries
             // Find all Inventory items that have "Petunia"
             // as a key in their PlantDict.
             var petunias = realm.All<Inventory>()
@@ -104,7 +108,7 @@ namespace Examples
             // "Foo", and the value of that key contains the phrase "bar"
             // (case insensitive)
             var matches = realm.All<Inventory>().Filter("RequiredStringsDict['foo'] CONTAINS[c] 'bar'");
-
+            // matches.Count() == 2
 
             //:code-block-end:
 
@@ -118,20 +122,20 @@ namespace Examples
         {
             if (realm == null) realm = await Realm.GetInstanceAsync();
 
-            var pi = new PlantInventory();
-            pi.PlantSet.Add(new Plant() { Name = "Prickly Pear" });
-            pi.DoubleSet.Add(123.45);
-
-            realm.Write(() =>
-            {
-                realm.Add<PlantInventory>(pi);
-            });
-
             //:code-block-start:query-sets
             //:replace-start: {
             //  "terms": {
             //   "PlantInventory": "Inventory"}
             // }
+            var inventory = new PlantInventory();
+            inventory.PlantSet.Add(new Plant() { Name = "Prickly Pear" });
+            inventory.DoubleSet.Add(123.45);
+
+            realm.Write(() =>
+            {
+                realm.Add<PlantInventory>(inventory);
+            });
+
             // Find all Plants that have "Prickly Pear" in the name
             var pricklyPear = realm.All<PlantInventory>()
                 .Filter("PlantSet.Name CONTAINS 'Prickly Pear'");
@@ -172,6 +176,21 @@ namespace Examples
 
             Assert.IsNotNull(certainCacti);
             Assert.AreEqual(1, greenPlants.Count());
+        }
+
+        [Test]
+        public async Task RealmValueTests()
+        {
+            //:code-block-start:realmValues
+            // CS0029 - Cannot implicitly convert type:
+            // :uncomment-start:
+            // RealmValue myList = new List<Inventory>();
+            // :uncomment-end:
+
+            // These are valid uses of RealmValue:
+            var rvList = new List<RealmValue>();
+            var rvDict = new Dictionary<string, RealmValue>();
+            //:code-block-end:
         }
 
         [TearDown]

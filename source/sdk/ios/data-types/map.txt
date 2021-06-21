@@ -1,0 +1,44 @@
+.. _ios-map:
+
+====================
+Map (beta) - iOS SDK
+====================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+.. versionadded:: 10.8.0
+   ``Map``
+
+.. include:: /includes/note-beta-feature.rst
+
+Overview
+--------
+The :swift-sdk:`Map <Classes/Map.html>` is an associative array that
+contains key-value pairs with unique keys.
+
+Like Swift's :apple:`Dictionary <documentation/swift/dictionary>`,
+``Map`` is a generic type that is parameterized on its key and value
+types. Unlike :apple:`native Swift collections
+<documentation/swift/swift_standard_library/collections>`,
+{+service-short+} Maps are reference types (classes), as opposed to
+value types (structs).
+
+Usage
+-----
+You can declare a Map as a property of an object:
+
+.. literalinclude:: /examples/generated/code/start/MapExample.codeblock.models.swift
+   :language: swift
+
+You can then update, check values, iterate over, and delete from the Map
+as you would a standard :apple:`Dictionary
+<documentation/swift/dictionary>`:
+
+.. literalinclude:: /examples/generated/code/start/MapExample.codeblock.map.swift
+   :language: swift

@@ -35,7 +35,7 @@ jobs:
         with:
           email: chris.bush+arty-fact@mongodb.com
           name: Arty Fact
-          states: start final
+          states: start local sync
           source: ./tutorial/swift-ios
           toRepo: https://${{ secrets.TUTORIAL_REPO_ACCESS_TOKEN }}@github.com/mongodb-university/realm-tutorial-ios-swift.git
       - name: Web

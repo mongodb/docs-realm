@@ -1,0 +1,62 @@
+.. _ios-mixed-data-type:
+.. _ios-anyrealmvalue-data-type:
+
+==============================
+AnyRealmValue (beta) - iOS SDK
+==============================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+
+.. versionadded:: 10.8.0
+   ``AnyRealmValue`` type
+
+.. include:: /includes/note-beta-feature.rst
+
+Overview
+--------
+``AnyRealmValue`` is a {+service-short+} property type that can hold different 
+data types. Supported ``AnyRealmValue`` data types include:
+
+- Int
+- Float
+- Double
+- Decimal128
+- ObjectID
+- UUID
+- Bool
+- Date
+- Data
+- String
+- Object
+
+This :swift-sdk:`mixed data type <Enums/AnyRealmValue.html>` 
+is :ref:`indexable <ios-index-a-property>`, but you can't use it as a 
+:ref:`primary key <ios-specify-a-primary-key>`. Because ``null`` is a 
+permitted value, you can't declare an ``AnyRealmValue`` as optional.
+
+.. literalinclude:: /examples/generated/code/start/AnyRealmValue.codeblock.mixed-data-type.swift
+   :language: swift
+
+You can :ref:`compare <ios-filter-data-operators>` these mixed value types:
+
+- Numeric: int, bool, float, double, decimal
+- Byte-based: string, binary
+- Time-based: timestamp, objectId
+
+When using the ``AnyRealmValue`` mixed data type, keep these things in mind:
+
+- ``equals`` queries match on value and type
+- ``not equals`` queries match objects with either different values or 
+  different types
+- {+realm+} converts comparable numeric properties where possible. For example,
+  in a mixed type field, 1 matches all of 1.0, 1, and true.
+- String properties do not match numeric queries. For example, in a mixed
+  type field, 1 does not match "1". "1" does not match 1, 1.0, or true.
+  

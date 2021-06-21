@@ -86,3 +86,29 @@ store in your ``RealmSet``.
 
        .. literalinclude:: /examples/generated/android/local/DataTypesTest.codeblock.realmSet.java
           :language: java
+
+Notifications
+-------------
+
+To subscribe to changes to a ``RealmSet``, pass a
+:java-sdk:`SetChangeListener <io/realm/SetChangeListener.html>`
+implementation to the :java-sdk:`RealmSet.addChangeListener <io/realm/RealmSet.html#addChangeListener-io.realm.SetChangeListener->` method.
+Your ``SetChangeListener`` implementation must define an
+``onChange()`` method, which accepts a reference to the changed ``RealmSet``
+and a set of changes as parameters. You can access the number of items
+added to the set as well as the number of items removed from the set
+through the ``SetChangeSet`` parameter.
+
+.. tabs-realm-languages::
+   
+   .. tab::
+       :tabid: kotlin
+
+       .. literalinclude:: /examples/generated/android/local/DataTypesTest.codeblock.realmset-notifications.kt
+          :language: kotlin
+
+   .. tab::
+       :tabid: java
+
+       .. literalinclude:: /examples/generated/android/local/DataTypesTest.codeblock.realmset-notifications.java
+          :language: java

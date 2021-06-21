@@ -1,0 +1,41 @@
+.. _realmvalue:
+
+============================
+RealmValue (Beta) - .NET SDK
+============================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+.. versionadded:: 10.2.0-beta.1
+
+.. include:: /includes/note-beta-feature.rst
+
+The ``RealmValue`` data type is a mixed data type, and can represent any 
+other valid Realm data type except a collection. You can create collections 
+(lists, sets, and dictionaries) of type ``RealmValue``, but a ``RealmValue`` 
+itself cannot be a collection: 
+
+.. literalinclude:: /examples/generated/dotnet/DataTypes.codeblock.realmValues.cs
+   :language: csharp
+
+.. note:: 
+
+   You cannot create a nullable ``RealmValue``. However, if you want a
+   ``RealmValue`` property to contain a null value, you can 
+   use the special ``RealmValue.Null`` property.
+
+The following code demonstrates creating a ``RealmValue`` property in a class 
+that inherits from ``RealmObject`` and then setting and getting the value of 
+that property:
+
+.. literalinclude:: /examples/generated/dotnet/DataTypes.codeblock.realmvalue.cs
+   :language: csharp
+
