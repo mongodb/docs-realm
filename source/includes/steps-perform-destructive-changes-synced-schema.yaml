@@ -55,10 +55,11 @@ content: |
   an empty filter to the :manual:`$match operator
   <reference/operator/aggregation/match/>`.
 
-  Modify the desired fields of the initial collection by using the
-  :manual:`$addFields operator <reference/operator/aggregation/addFields/>`. In
-  the following example, the initial data's ``_id`` field is transformed to a
-  ``string`` type using the :manual:`$toString operator
+  Modify the desired fields of the initial collection by using an
+  :manual:`aggregation pipeline operator <reference/operator/aggregation/>`. In
+  the following example, the data is transformed using the :manual:`$addFields
+  operator <reference/operator/aggregation/addFields/>`. The``_id`` field is
+  transformed to a ``string`` type with the :manual:`$toString operator
   <reference/operator/aggregation/toString/>`.
 
   Finally, write the transformed data to the partner collection by using the
