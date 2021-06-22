@@ -6,7 +6,7 @@
    aware that:
    
    - The API may change.
-   - New data types are not backward compatible. 
+   - New data types are not backwards compatible. 
 
    If you add new data types via :ref:`development mode <enable-development-mode>`, 
    you must update the client SDK. {+sync+} client applications using older
