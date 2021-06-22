@@ -81,10 +81,10 @@ objects.
       .. code-block:: javascript
 
          const jsonString = `{
-           answer: 42,
-           submittedAt: "2020-03-02T16:50:24.475Z"
+           "answer": 42,
+           "submittedAt": "2020-03-02T16:50:24.475Z"
          }`;
-         const object = JSON.parse(jsonString);
+         const jsonObject = JSON.parse(jsonString);
 
 .. method:: JSON.stringify(object)
 
@@ -160,16 +160,16 @@ preserves additional type information.
       .. code-block:: javascript
 
          const ejsonString = `{
-           answer: {
+           "answer": {
              "$numberLong": "42"
            },
-           submittedAt: {
+           "submittedAt": {
              "$date": {
                "$numberLong": "1583167607977"
              }
            }
          }`;
-         const object = EJSON.parse(ejsonString);
+         const ejsonObject = EJSON.parse(ejsonString);
 
 .. method:: EJSON.stringify(object)
 
