@@ -39,7 +39,7 @@ If logged in successfully, you can now import the app:
 
 ```bash
 cd realm-tutorial-backend
-realm-cli import
+realm-cli push
 ```
 
 Follow the prompts and wait for the app to deploy.

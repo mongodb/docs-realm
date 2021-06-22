@@ -211,9 +211,9 @@ that you can use to administrate your new Atlas project:
       :alt: Grant your API Key "Project Owner" permissions.
       :width: 600px
 
-#. Copy your Public API Key and save it somewhere.
-
 #. Click :guilabel:`Next`.
+
+#. Copy your Public API Key and save it somewhere.
 
 #. Copy your Private API Key and save it somewhere; after leaving this
    page, you will no longer be able to view it via the Realm UI.
@@ -239,7 +239,7 @@ successfully authenticated:
 
 .. code-block:: console
 
-   you have successfully logged in as <public API key>
+   Successfully logged in 
 
 .. see::
 
@@ -303,14 +303,14 @@ line tool:
 
    .. code-block:: console
 
-      realm-cli import
+      realm-cli push
 
 #. ``realm-cli`` may take a few seconds to query your Atlas project, but
    you should soon see the following output:
 
    .. code-block:: console
 
-      this app does not exist yet: would you like to create a new app? [y/n]:
+      Do you wish to creat a new app? [y/n]
 
    Press "y", then press ENTER to confirm your intention to create a new app.
 
@@ -319,28 +319,22 @@ line tool:
    .. code-block:: console
 
       App name [tasktracker]:
-      Available Projects:
-      Project 0 - <project ID>
-      Atlas Project Name or ID [Project 0]:
-      Location [US-VA]:
-      Deployment Model [GLOBAL]:
+      App Location
+      App Deployment Model
+      App Environment
 
    Press ENTER at each prompt to use the default value for your app
    configuration.
 
-If you see output containing the App ID for your new {+app+}, your
-import command successfully created a new app:
+#. Press "y", then press ENTER to confirm the values for the app configuration
+
+You should see the following output if your push command successfully created a new app:
 
 .. code-block:: console
 
-   Successfully imported 'tasktracker-...'
+   Successfully pushed app up
 
-.. important::
-
-   Note down this Realm app ID ("tasktracker-..."). You'll use this Realm app ID to
-   connect to your {+app+} in the client SDK tutorials.
-
-You can also confirm that your app was created successfully by
+You can confirm that your app was created successfully by
 navigating to the :guilabel:`Realm` tab in the Atlas UI. You should
 see a {+app+} named ``tasktracker``:
 
