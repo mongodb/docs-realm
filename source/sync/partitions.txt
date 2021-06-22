@@ -1,0 +1,162 @@
+.. _sync-partitions:
+
+==========
+Partitions
+==========
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+A **partition** represents a subset of the documents in a synced cluster that
+all share a logical access pattern and have the same read/write permissions for
+a given user. Realm directly maps partitions to individual synced ``.realm``
+files so each object in a synced realm has a corresponding document in the
+partition.
+
+Partitions bridge the gap between the Realm data model and the MongoDB document
+model, which operate under different constraints and assumptions:
+
+- A MongoDB cluster is composed of multiple remote servers with access to enough
+  storage capacity to store all of your synced data. Each object type maps to
+  its own collection.
+
+- A synced realm is a specific local file and often has significant storage and
+  memory constraints imposed by the device. Realms generally contain multiple
+  object types but only a subset of all objects that are relevant to the end
+  user.
+
+.. figure:: /images/partitioning.png
+   :alt: A diagram that explains partitioning using groups of shapes and colors. MongoDB collections group by shape (equivalent to object types) while realms group by color (equivalent to partition value).
+   
+   Partition shape data in an `{+atlas+}
+   <https://www.mongodb.com/realm?tck=realm-docs#atlas-form-container>`_
+   cluster. Each shape represents an object type. Partitions are determined by
+   each shape's ``color``: red, green, or blue.
+
+Key Terms
+---------
+
+.. _partition-key:
+
+Partition Key
+~~~~~~~~~~~~~
+
+The **partition key** is the name of the field that Realm uses to determine
+which partition a given document in a synced MongoDB cluster belongs to. Your
+app's partition key is a central part of the sync data model that you should
+consider during development.
+
+Depending on your data model and the complexity of your app, your partition key
+could be either:
+
+- A property that already exists in each document and that logically partitions
+  data. For example, if every document is private to a specific user you might
+  indicate the user's ID value in an ``owner_id`` field and then use that as the
+  partition key.
+
+- A synthetic property that you create specifically to partition data (e.g.
+  ``_partition``). This is useful for more complex data models that don't
+  include a natural partition key or that require granular access permissions.
+
+You can require that every synced object includes the partition key or allow
+some objects to omit it. If you specify that the partition key is optional,
+Realm maps any object that does not include it to a single default partition
+called the *null partition*.
+
+.. example::
+   
+   The following schemas demonstrate natural and synthetic partition keys:
+   
+   - The ``owner_id`` field is a natural key because it's already part of the
+     app's data model.
+   
+   - The ``_partition`` field is a synthetic key because its only purpose is to
+     serve as a partition key.
+   
+   An app can only specify a single partition key, but either of these fields
+   could work depending on your use case:
+
+   .. code-block:: json
+      :emphasize-lines: 12, 13, 29, 30
+      
+      {
+        "title": "note",
+        "bsonType": "object",
+        "required": [
+          "_id",
+          "_partition",
+          "owner_id",
+          "text"
+        ],
+        "properties": {
+          "_id": { "bsonType": "objectId" },
+          "_partition": { "bsonType": "string" },
+          "owner_id": { "bsonType": "string" },
+          "text": { "bsonType": "string" }
+        }
+      }
+      
+      {
+        "title": "notebook",
+        "bsonType": "object",
+        "required": [
+          "_id",
+          "_partition",
+          "owner_id",
+          "notes"
+        ],
+        "properties": {
+          "_id": { "bsonType": "objectId" },
+          "_partition": { "bsonType": "string" },
+          "owner_id": { "bsonType": "string" },
+          "notes": {
+            "bsonType": "array",
+            "items": { "bsonType": "objectId" }
+          }
+        }
+      }
+
+.. _partition-value:
+
+Partition Value
+~~~~~~~~~~~~~~~
+
+A **partition value** is a value of the partition key field for a given
+document. Documents with the same partition value belong to the same partition,
+sync to the same realm file, and share user-level data access permissions.
+
+A partition's value is the identifier for its corresponding synced realm. To
+work with the data in a given partition from a client application, you specify
+the partition's value when you open its corresponding synced realm.
+
+.. _partition-strategy:
+
+Partition Strategy
+~~~~~~~~~~~~~~~~~~
+
+A **partition strategy** is a specific partition key and value pattern that you
+use to divide objects into partitions for a particular use case. Combined with
+sync permissions, partition strategies form a core part of your app's synced
+data model that determines the data that each user can access and store on their
+device.
+
+You can compose individual partition strategies within the same app to form a
+larger strategy that handles arbitrarily complex use cases. The exact strategy
+that you should use depends on your app's data model and access patterns. For
+example, you might make some data, like announcements or an organizational
+chart, available in a public partition but restrict other data, like personal
+information, to privileged users.
+
+.. example::
+   
+   Check out the :ref:`Partition Strategies <partition-strategies>` page to see
+   some common partitioning use cases, including examples of how to implement
+   each strategy and how to combine multiple strategies.

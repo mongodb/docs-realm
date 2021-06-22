@@ -1,4 +1,3 @@
-.. _partitioning:
 
 ================================
 Partition Atlas Data into Realms
@@ -107,73 +106,6 @@ you don't have to include the partition key in all collections; {+sync+}
 ignores any collections that lack a {+backend-schema+} as well as any
 documents that lack a valid value for the partition key.
 
-Partition Values
-----------------
-
-Each unique :term:`partition value`, or value of a partition key, maps
-to a different {+realm+}. Documents that share the same partition value
-belong to the same {+realm+}. All documents in a {+realm+} share the same
-read and write permissions.
-
-Map Documents to Realms
-+++++++++++++++++++++++
-
-Since all documents that share the same partition value also share the
-same permissions for each user, you should select a key whose unique values
-correspond with permissions within your application. Consider which documents
-each user needs to read, and which documents each user needs to write. What
-separates one user's data from another? The concepts of ownership
-(which users can change which data?) and access (which users can see
-which data?) decide how you should partition your data.
-
-.. _partition-strategies:
-
-Partition Strategies
---------------------
-
-Most applications access data in similar ways. A few common patterns,
-applied individually or in combination, cover a vast majority of
-permissioning use cases:
-
-- **User {+service-short+}s**: If your application stores data privately for each
-  individual user, you could create an ``owner_id`` field containing a
-  specific user ID for every document. Selecting the ``owner_id``
-  field as your partition key would partition your database into {+realms+}
-  corresponding to individual users.
-     
-- **Team {+service-short+}s**: If your application shares resources across teams,
-  you could create a ``teams`` collection that maps user IDs to team
-  IDs. You could then create a ``team_id`` field containing a specific
-  team ID for every document you want to sync. Selecting the ``team_id``
-  field as your partition key would partition your database into {+realms+}
-  containing data for entire teams.
-
-- **Public {+service-short+}s**: It's often helpful to store read-only data viewable
-  to all users; for this kind of use case, you can define a special
-  partition value in your permissions, such as ``PUBLIC``, that all
-  users sync with read permissions only.
-
-You can combine these partitioning strategies to create applications
-that make some data publicly available, like announcements or an
-organizational chart, but restrict other data to privileged users.
-
-To combine strategies, you can use a generic partition key field name
-like ``_partitionKey`` with a partition value structured like a query
-string. For example:
-
-.. code-block:: javascript
-
-   _partitionKey: "team_id=1234"
-   _partitionKey: "user_id=abcdefg"
-
-{+service-short+} Rules expressions can check the prefix before looking
-up the team or user ID in the appropriate lookup collection to determine
-whether or not a given user has access to a {+realm+}. Structuring your
-partition values like a query string lets you take
-advantage of multiple partitioning strategies at once, providing the
-power of user, team, and public {+realms+} all at once. See the
-:ref:`partition key examples <partition-key-examples>` for more
-information about partitioning strategies.
 
 .. _partition-key-limitations:
 
@@ -182,17 +114,7 @@ Partitioning Limitations
 
 Partition keys and values are subject to certain limitations.
 
-.. _partition-limitations-types:
 
-Supported Partition Key Types
-+++++++++++++++++++++++++++++
-
-Partition keys must be one of the following types:
-
-- String
-- ObjectID
-- Int
-- Long
 
 Use a Different Field for Partition Key
 +++++++++++++++++++++++++++++++++++++++
@@ -209,25 +131,6 @@ field as your partition key:
 .. warning::
 
    Disabling and re-enabling {+sync-short+} will trigger a :term:`client reset
-   <client reset>` on all clients.
-
-Change Partition Key Field Name
-+++++++++++++++++++++++++++++++
-
-Once you have chosen a partition key and enabled {+sync-short+}, you
-cannot change the name of the field you selected as your partition
-key. To alter the field name of your partition key:
-
-1) Disable {+sync+}.
-  
-2) Change the field name.
-
-3) Enable {+sync+} again with the updated field name selected as
-   your partition key.
-
-.. warning::
-
-   Disabling and re-enabling {+sync+} will trigger a :term:`client reset
    <client reset>` on all clients.
 
 Side Effects of Changing Partition Values
