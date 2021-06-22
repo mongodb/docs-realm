@@ -434,7 +434,111 @@ either ``true`` or ``false``.
 For more information, see the official JSON Schema `boolean guide
 <https://json-schema.org/understanding-json-schema/reference/boolean.html>`_.
 
-
 .. code-block:: json
 
    { "bsonType": "bool" }
+
+.. _schema-type-uuid:
+
+UUID
+~~~~
+
+The ``uuid`` (Universal Unique Identifier) schema type provides
+:rfc:`standardized <rfc4122>` 16-byte unique values that can be used as
+identifiers for objects.
+
+.. code-block:: json
+
+   { bsonType: "uuid" }
+
+.. _schema-type-objectid:
+
+ObjectId
+~~~~~~~~
+
+The ``objectId`` schema type provides 12-bit
+:manual:`MongoDB-specific </reference/method/ObjectId/>`
+unique values that can be used as identifiers for objects.
+
+.. code-block:: json
+
+   { "bsonType":"objectId" }
+
+.. note:: UUID and ObjectId
+
+   Use ``objectId`` for modeling data that already exists in an instance
+   of MongoDB. Prefer ``uuid`` for novel data.
+
+.. _schema-type-mixed:
+
+Mixed
+~~~~~
+
+The ``mixed`` schema type enables you to configure
+{+service-short+} object fields that can contain any of several
+underlying types.
+
+.. code-block:: json
+
+   { "bsonType": "mixed" }
+
+.. _schema-type-set:
+
+Set
+~~~
+
+The set data type models a collection of unique keys.
+To create a schema for the set data type, configure an ``array``
+with ``uniqueItems`` set to ``true``.
+
+.. code-block:: json
+
+   {
+      "bsonType": "array",
+      "uniqueItems": true,
+      "items": {
+         "bsonType": "long"
+      }
+   }
+
+.. _schema-type-dictionary:
+
+Dictionary
+~~~~~~~~~~
+
+The dictionary data type models a collection of
+unique ``string`` keys paired with values.
+To create a schema for the dictionary data type, configure an ``object``
+and set the ``additionalProperties`` field to the schema type of the
+values stored in the dictionary. You can set ``additionalProperties``
+to ``true`` to store ``mixed`` values in the dictionary.
+
+.. code-block:: json
+
+   {
+      "bsonType":"object",
+         "additionalProperties": {
+            "bsonType": "string"
+         }
+      }
+   }
+
+Dictionary of Embedded Objects
+==============================
+
+To define a schema for a dictionary of embedded objects, set the value of
+``additionalProperties.bsonType`` to ``object`` and configure
+``additionalProperties.title`` to the name of the embedded object
+you are configuring. Use ``additionalProperties.properties`` to define
+fields of the embedded object.
+
+.. code-block:: json
+
+   {
+      "bsonType":"object",
+         "additionalProperties": {
+            "bsonType": "object",
+            "title": “Address”,
+            properties: { ... }
+      }
+   }
