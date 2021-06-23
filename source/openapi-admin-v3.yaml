@@ -197,6 +197,25 @@ paths:
       - $ref: "#/components/parameters/GroupId"
       - $ref: "#/components/parameters/AppId"
 
+  /groups/{groupId}/apps/{appId}/import:
+    post:
+      tags: ["apps"]
+      operationId: "adminImportApplication"
+      summary: ":ref:`Import <export-realm-app>` an application."
+      requestBody:
+        description: The app to import.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApplicationImport'
+      responses:
+        '204':
+          description: "No content"
+    parameters:
+      - $ref: "#/components/parameters/GroupId"
+      - $ref: "#/components/parameters/AppId"
+
   # Triggers
 
   /groups/{groupId}/apps/{appId}/triggers:
@@ -2200,6 +2219,581 @@ components:
         domain_id:
           type: string
         group_id: {$ref: "#/components/parameters/GroupId"}
+    ApplicationImport:
+      type: object
+      properties:
+        config_version:
+          type: integer
+          description: >-
+            The {+service+} schema version of the configuration files in the 
+            application. This is distinct from your application's schema
+            version, and tells {+sync+} how to process your application import.
+          enum:
+            - 20180301
+            - 20200603
+            - 20210101
+        environments:
+          type: object
+          description: >-
+            This object maps environment names to their respective
+            environment values.
+          properties:
+            <environment_name>: 
+              type: string
+              description: >-
+                This string is the name of the environment whose
+                values you're passing in. 
+              enum: 
+                - <empty string>
+                - development
+                - qa
+                - testing
+                - production
+            values:
+              type: object
+              description: >-
+                Values for the environment.
+        environment:
+          type: string
+          description: >-
+            The name of the environment the app should use when evaluating
+            environment values.
+          enum:
+            - <empty string>
+            - development
+            - testing
+            - qa
+            - production
+        name: 
+          type: string
+          description: The name of the application.
+        security:
+          type: object
+          properties:
+            allowed_request_origins:
+              type: array
+              description: >-
+                An array of URLs that incoming requests may originate from.
+                If you define any allowed origins, then Realm blocks any
+                incoming request from an origin that is not listed. 
+              items:
+                type: string
+        values:
+          type: object
+          description: >-
+            This object describes named :ref:`values <app-value>` for your 
+            application. This may include plain text values or secret values. 
+            Possible types include JSON objects, arrays, or strings.
+          properties:
+            name:
+              type: string
+              description: The name to refer to the value.
+            value:
+              type: JSON object | array | string
+              description: The value to store for this name.
+            from_secret:
+              type: boolean
+              description: If ``true``, this value is from a secret.
+        functions:
+          type: object
+          description: >-
+            Define and execute server-side logic for your application. For
+            more information on functions, see: :ref:`Functions <functions>`,
+            or for more information on this config, see: 
+            :ref:`Function Configuration Files<appconfig-functions>`.
+          properties:
+            name:
+              type: string
+              description: >- 
+                The name of the function. The name must match the file name
+                of a :ref:`source code file <function-source-code-file>`, 
+                and be unique among all functions in your application.
+            private:
+              type: boolean
+              description: >-
+                If ``true``, this function may only be called from other functions,
+                or in :json-operator:`%function` rule expressions.
+            can_evaluate:
+              type: object
+              description: >-
+                A :doc:`JSON expression </services/json-expressions>` that 
+                evaluates to ``true`` if the function is allowed to execute. 
+                {+service-short+} evaluates this expression for every incoming 
+                request.
+            disable_arg_logs:
+              type: boolean
+              description: >-
+                If ``true``, {+service-short+} omits the arguments provided to
+                the function from the :doc:`function execution log entry 
+                </logs/function>`.
+            run_as_system:
+              type: boolean
+              description: >-
+                If ``true``, this function :ref:`runs as the system user
+                <system-functions>`. This overrides any values defined for
+                ``run_as_user_id`` and ``run_as_user_id_script_source``.
+            run_as_user_id:
+              type: string
+              description: >-
+                The unique ID of a :doc:`{+service-short+} User </authentication>` 
+                that the function always executes as. Cannot be used with
+                ``run_as_user_id_script_source``.
+            run_as_user_id_script_source:
+              type: string
+              description: >-
+                A stringified :doc:`function </functions>` that runs whenever 
+                the function is called and returns the unique ID of a 
+                :doc:`{+service-short+} User </authentication>` that the 
+                function executes as. Cannot be used with ``run_as_user_id``.
+        services:
+          type: object
+          description: >-
+            Configure service actions to handle specific use cases for particular 
+            services, such as :doc:`sending a text message </services/twilio-actions/send>` 
+            with Twilio or :ref:`putting an object <aws-usage-s3>` to an AWS S3 
+            bucket.
+          properties:
+            _id:
+              type: ObjectID
+              description: The ID of the service.
+            name:
+              type: string
+              description: The name of the service.
+            type:
+              type: string
+              description: The type of the service.
+              enum:
+                - aws
+                - twilio
+                - github
+                - gcm
+            config:
+              type: object
+              description: >-
+                This object maps to additional configuration options for the service. 
+                Possible configuration fields depend on the service ``type``. 
+                See: :ref:`AWS Service Configuration <aws-service-configuration>`, 
+                :ref:`Twilio Service Configuration <twilio-service-configuration>`, 
+                or :ref:`GitHub Service Configuration <github-service-configuration>`.
+            secret_config:
+              type: object
+              description: >-
+                This is an object where each field name is a private configuration
+                field for the service, and the value of each field is the name
+                of a :ref:`Secret <app-secret>` that stores the configuration value.
+            rules:
+              type: object
+              description: >-
+                Configure rules for the specific external service.
+              properties:
+                name:
+                  type: string
+                  description: The name of the service rule.
+                actions:
+                  type: array
+                  description: >-
+                    A list of :ref:`service actions <service-actions>` that 
+                    the rule applies to. The specific actions available depend 
+                    on the service ``type``. 
+                  items:
+                    type: string
+                when:
+                  type: object
+                  description: >-
+                    A :ref:`rule expression <expressions>` that evaluates to 
+                    ``true`` when the rule applies to a given request.
+            incoming_webhooks:
+              type: object
+              description: >-
+                Configure incoming webhooks for your service. For more information 
+                on configuring an incoming webhook, see: :ref:`Configure Service 
+                Webhooks <configure-webhooks>`.
+              properties:
+                _id:
+                  type: ObjectID
+                  description: The ID of the incoming webhook.
+                name: 
+                  type: string
+                  description: A name for the webhook.
+                function_source:
+                  type: string
+                  description: >-
+                    The stringified source code to execute for the incoming webhook.
+                can_evaluate:
+                  type: object
+                  description: >-
+                    A :ref:`JSON expression <expressions>` that evaluates to 
+                    ``true`` if the webhook should execute. Realm evaluates this
+                    expression for every incoming request.
+                disable_arg_logs:
+                  type: boolean
+                  description: >-
+                    If ``true``, Realm omits the arguments provided to the
+                    webhook from the :ref:`function execution log entry <logs>`.
+                run_as_authed_user:
+                  type: boolean
+                  description: >-
+                    If ``true``, the webhook function runs in the context of the
+                    existing application user specified by each incoming request.
+                run_as_user_id:
+                  type: string
+                  description: >-
+                    When you specify a :ref:`Realm User's <users-and-authentication>`
+                    unique ID in this property, the function always executes as this
+                    user. You cannot use this property with ``run_as_user_id_script_source`` 
+                    or ``run_as_authed_user``; they're mutually-exclusive options.
+                run_as_user_id_script_source:
+                  type: string
+                  description: >-
+                    This stringified function runs every time the webhook is called,
+                    and returns the unique ID of a :ref:`Realm User <users-and-authentication>`
+                    to use as the execution context for the function. You cannot 
+                    use this property with ``run_as_user_id`` or ``run_as_authed_user``; 
+                    they're mutually-exclusive options.
+                respond_result:
+                  type: boolean
+                  description: >-
+                    If ``true``, Realm includes the webhook function return value 
+                    as the body of the HTTP response that it sends to the client
+                    that initiated the webhook request.
+                options:
+                  type: object
+                  description: >-
+                    A document that contains configuration options for the webhook.    
+                  properties:
+                    httpMethod:
+                      type: string
+                      description: >-
+                        The HTTP method type that the webhook accepts. Incoming
+                        webhook requests must use this method.
+                    validationMethod:
+                      type: string
+                      description: >-
+                        The name of the :ref:`request validation method <request-validation-methods>` 
+                        that the webhook uses.
+                      enum:
+                        - VERIFY_PAYLOAD
+                        - SECRET_AS_QUERY_PARAM
+                        - NO_VALIDATION
+                    secret:
+                      type: string
+                      description: >-
+                        The secret value used to validate incoming webhook requests.
+        hosting:
+          type: object
+          description: >-
+            Enable, disable, and configure hosting for your {+app+}. 
+          properties:
+            enabled:
+              type: bool
+              description: If ``true``, hosting is enabled.
+            default_domain:
+              type: object
+              description: >-
+                Configure your application's hosting provider.
+              properties:
+                provider_type:
+                  type: string
+                  description: Your application's provider type.
+                config:
+                  type: object
+                  description: The configuration object for the provider.
+                  properties:
+                    name:
+                      type: string
+                      description: The name of the provider.
+                    type:
+                      type: string
+                      description: The application's provider type.
+                    metadata_fields: 
+                      type: array
+                      description: >-
+                        An array of objects where each object defines a metadata
+                        field that describes the user. The existence of this field and
+                        exact format of each depends on the provider ``type``. 
+                      items:
+                        type: object
+                    domain_restrictions:
+                      type: array
+                      description: >-
+                        The set of domains associated with users with which they're
+                        allowed to authenticate.
+                      items:
+                        type: string
+                    redirect_uris:
+                      type: array
+                      description: >-
+                        A list of URLs that {+service+} may redirect the user back to after they
+                        complete an OAuth authorization. The provider ``type`` options that use
+                        ``redirect_uris`` are: :ref:`Google <auth-google-configuration>`, :ref:`Facebook 
+                        <auth-facebook-configuration>`, and :ref:`Apple <configure-apple-auth>`.
+                      items:
+                        type: string
+                    config:
+                      type: object
+                      description: >-
+                        An object that contains configuration values specific to the 
+                        hosting provider. The form of this config varies
+                        depending on the provider. The provider ``type`` options that use ``config``
+                        are: :ref:`email/password <config-email-password>`, :ref:`custom JWT 
+                        <config-custom-jwt>`, :ref:`custom function <config-custom-function>`,
+                        :ref:`Google <auth-google-configuration>`, :ref:`Facebook 
+                        <auth-facebook-configuration>`, and :ref:`Apple <configure-apple-auth>`.
+                    secret_config:
+                      type: object
+                      description: >-
+                        An object that contains secrets for private configuration fields.
+                        The provider ``types`` that use ``secret_config`` are: :ref:`custom JWT 
+                        <config-custom-jwt>`, :ref:`Google <auth-google-configuration>`,
+                        :ref:`Facebook <auth-facebook-configuration>`, and :ref:`Apple 
+                        <configure-apple-auth>`.
+                    disabled:
+                      type: boolean
+                      description: If ``true``, this hosting provider is not enabled.
+        auth_providers:
+          type: object
+          description: >-
+            Enable and configure authentication providers.
+          properties:
+            name:
+              type: string
+              description: >-
+                The name of the authentication provider. This should be the
+                same as the provider's ``type``.
+            type:
+              type: string
+              description: The authentication provider type.
+              enum:
+                - anon-user
+                - local-userpass
+                - api-key
+                - custom-token
+                - custom-function
+                - oauth2-google
+                - oauth2-facebook
+                - oauth2-apple
+            metadata_fields:
+              type: array
+              description: >-
+                An array of documents where each document defines a metadata
+                field that describes the user. The existence of this field and
+                exact format of each depends on the provider ``type``. The
+                provider ``type``s that use metadata fields are: :ref:`custom 
+                JWT <config-custom-jwt>`, :ref:`Google <auth-google-configuration>`, and 
+                :ref:`Facebook <auth-facebook-configuration>`. For more information, 
+                see: :ref:`Authentication Providers Configuration <config-auth-providers>`.
+              items:
+                type: object
+            domain_restrictions:
+              type: array
+              description: >-
+                The set of domains associated with users with which they're
+                allowed to authenticate.
+              items:
+                type: string
+            redirect_uris:
+              type: array
+              description: >-
+                A list of URLs that {+service+} may redirect the user back to after they
+                complete an OAuth authorization. The provider ``type`` options that use
+                ``redirect_uris`` are: :ref:`Google <auth-google-configuration>`, :ref:`Facebook 
+                <auth-facebook-configuration>`, and :ref:`Apple <configure-apple-auth>`.
+              items:
+                type: string
+            config:
+              type: object
+              description: >-
+                A document that contains configuration values specific to the 
+                authentication provider. The form of this config varies
+                depending on the provider. The provider ``types`` that use ``config``
+                are: :ref:`email/password <config-email-password>`, :ref:`custom JWT 
+                <config-custom-jwt>`, :ref:`custom function <config-custom-function>`,
+                :ref:`Google <auth-google-configuration>`, :ref:`Facebook 
+                <auth-facebook-configuration>`, and :ref:`Apple <configure-apple-auth>`.
+            secret_config:
+              type: object
+              description: >-
+                A document that contains secrets for private configuration fields.
+                The provider ``types`` that use ``secret_config`` are: :ref:`custom JWT 
+                <config-custom-jwt>`, :ref:`Google <auth-google-configuration>`,
+                :ref:`Facebook <auth-facebook-configuration>`, and :ref:`Apple 
+                <configure-apple-auth>`.
+            disabled:
+              type: boolean
+              description: If ``true``, this authentication provider is not enabled.
+        custom_user_data_config:
+          type: object
+          description: An object that describes a configuration for custom user data, if enabled.
+          properties:
+            enabled:
+              type: boolean
+              description: If ``true``, custom user data is enabled.
+            mongo_service_id:
+              type: ObjectID
+              description: >-
+                The ObjectID for the MongoDB service that contains the data
+                source for the custom user data collection.
+            database_name:
+              type: string
+              description: The name of the database that contains the custom user data collection.
+            collection_name:
+              type: string
+              description: The name of the collection that contains the custom user data. 
+            user_id_field:
+              type: string
+              description: >-
+                The name of the field in custom user data documents that
+                contains the user ID of the application user the document describes.
+          required: [enabled, mongo_service_id, database_name, collection_name, user_id_field]
+        triggers:
+          type: object
+          description: 
+            :ref:`Triggers <triggers>` listen for application events of 
+            a configured type, and enable you to execute application and 
+            database logic when those events occur.
+          properties:
+            name: 
+              type: string
+              description: The name of the trigger.
+            type:
+              type: string
+              description: The type of the trigger.
+              enum:
+                - DATABASE
+                - AUTHENTICATION
+                - SCHEDULED
+            config:
+              type: object
+              description: >-
+                Configuration fields vary depending on the ``type`` of trigger.
+                For more information, see: :ref:`database triggers 
+                <config-database-trigger>`, :ref:`authentication triggers 
+                <config-authentication-trigger>`, or :ref:`scheduled triggers 
+                <config-scheduled-trigger>`.
+            function_name:
+              type: string
+              description: >-
+                The name of the {+service+} :ref:`function <functions>` that
+                the trigger executes when it fires.
+            function_id:
+              type: ObjectID
+              description:
+                The ID of the {+service+} :ref:`function <functions>` that
+                the trigger executes when it fires.
+            disabled:
+              type: boolean
+              description: >-
+                If ``true``, the trigger does not listen for events and 
+                does not fire.
+        secrets:
+          type: object
+          description: Configure secrets for authentication providers and services.
+          properties:
+            auth_providers:
+              type: object
+              description: >-
+                This is a set of key-value pairs containing secrets required
+                for auth providers.
+            services:
+              type: object
+              description: >-
+                This is a set of key-value pairs containing secrets required
+                for services.
+        graphql:
+          type: object
+          description: >-
+            Configure the GraphQL API for your application. For more 
+            information, see: :ref:`GraphQL Configuration Files <appconfig-graphql>`.
+          properties:
+            custom_resolvers:
+              type: object
+              description: >-
+                Configure custom resolvers for your application. For more 
+                information, see: :ref:`Custom Resolver Configuration 
+                <appconfig-custom-resolver>`
+              properties:
+                _id:
+                  type: ObjectID
+                  description: The ID of the custom resolver.
+                function_id:
+                  type: ObjectID
+                  description: >-
+                    The ID of the function that runs when the resolver is
+                    called. The function arguments may accept a single argument
+                    (configured by ``input_type`` and ``input_type_format``) and
+                    must return a payload value (configured by ``payload_type``
+                    and ``payload_type_format``).
+                on_type:
+                  type: string
+                  description: >-
+                    The parent type that exposes the custom resolver as one
+                    of its fields.
+                  enum:
+                    - QUERY
+                    - MUTATION
+                    - A singular :ref:`exposed <graphql-expose-data>`type name
+                field_name:
+                  type: string
+                  description: >-
+                    The name of the field on the parent type that exposes the
+                    custom resolver. 
+                input_type:
+                  type: string | JSON Schema
+                  description: >-
+                    The type of the resolver's ``input`` argument (if it accepts 
+                    input). You can specify either the name of another type in
+                    your GraphQL schema, or a custom JSON schema specific to
+                    the resolver.
+                input_type_format:
+                  type: string
+                  description: A metadata description of the ``input_type``.
+                  enum:
+                    - scalar
+                    - scalar-list
+                    - generated
+                    - generated-list
+                    - custom
+                payload_type:
+                  type: string | JSON schema
+                  description: >-
+                    The type of the value returned in the resolver's payload. 
+                    You can specify either the name of another type in your 
+                    GraphQL schema, or a custom JSON schema specific to the 
+                    resolver.
+                payload_type_format:
+                  type: string
+                  description: A metadata description of the ``payload_type``.
+                  enum:
+                    - scalar
+                    - scalar-list
+                    - generated
+                    - generated-list
+                    - custom
+            config:
+              type: object
+              description: Specify whether your GraphQL API should use natural pluralization.
+              properties:
+                use_natural_pluralization:
+                  type: boolean
+                  description: >-
+                    If ``true``, Realm uses the common English pluralization of a 
+                    type name whenever possible. If ``false``, or if Realm cannot 
+                    determine a natural pluralization, the default plural type 
+                    is the singular type with an "s" appended to the end.
+        sync:
+          type: object
+          description: Configure {+sync+} for your application.
+          properties:
+            development_mode_enabled:
+              type: boolean
+              description: >- 
+                If ``true``, :ref:`development mode <enable-development-mode>` 
+                is enabled for the application.
+            service_id:
+              type: string
+              description: The ID of the synced service.
+          required: [development_mode_enabled]
+      required: [config_version, environments, environment, name]
     ApplicationSummary:
       type: object
       properties:
