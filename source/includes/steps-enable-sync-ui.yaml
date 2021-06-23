@@ -36,8 +36,13 @@ content: |
 
         An index will make reads of the data faster but writes to the data slightly slower. You should generally use an index unless:
 
-           - Your application has a write-heavy workload with comparatively few reads
-           - You already have an index on the partition key field
+        - Your application has a write-heavy workload with comparatively few reads
+        - You already have an index on the partition key field, such as the basic index that would be created by the option (e.g. ``{ _partition: 1 }``) or a compound index that starts with the partition key (e.g. ``{ _partition: 1, date: 1 }``)
+
+        
+
+
+
 
   #. **Define Permissions (Configuration Tab Only):** Select a template from the dropdown or enter your read and write :ref:`sync rule <sync-rules>` in the input boxes.
 ---
