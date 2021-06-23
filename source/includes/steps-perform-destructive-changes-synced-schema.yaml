@@ -48,22 +48,22 @@ content: |
 
   To copy the data from your initial collection to your partner collection,
   perform an aggregation by using the :manual:`db.collection.aggregate()
-  <reference/method/db.collection.aggregate>` method with the :manual:`Mongo
+  </reference/method/db.collection.aggregate>` method with the :manual:`Mongo
   shell <mongo>`. 
   
   Match all the documents in the initial collection by passing
   an empty filter to the :manual:`$match operator
-  <reference/operator/aggregation/match/>`.
+  </reference/operator/aggregation/match/>`.
 
   Modify the desired fields of the initial collection by using an
-  :manual:`aggregation pipeline operator <reference/operator/aggregation/>`. In
+  :manual:`aggregation pipeline operator </reference/operator/aggregation/>`. In
   the following example, the data is transformed using the :manual:`$addFields
-  operator <reference/operator/aggregation/addFields/>`. The ``_id`` field is
+  operator </reference/operator/aggregation/addFields/>`. The ``_id`` field is
   transformed to a ``string`` type with the :manual:`$toString operator
-  <reference/operator/aggregation/toString/>`.
+  </reference/operator/aggregation/toString/>`.
 
   Finally, write the transformed data to the partner collection by using the
-  :manual:`$out operator <reference/operator/aggregation/out/>` and specifying
+  :manual:`$out operator </reference/operator/aggregation/out/>` and specifying
   the partner collection name. In this example, we wrote the data to a new
   collection named ``TaskV2``.
 
@@ -139,11 +139,11 @@ ref: create-forward-migration-fn
 content: |
   To copy any new changes to the initial collection to the partner collection,
   write a forward migration function for your initial collection's trigger. The
-  forward migration function follows a :wikipedia:`Extract, transform, load
+  forward migration function follows an :wikipedia:`Extract, transform, load
   (ETL) <Extract,_transform,_load>` procedure. The function performs an
   aggregation that extract's data from the initial collection, transforms the
   data using an :manual:`aggregation pipeline operator
-  <reference/operator/aggregation/>`, and loads the data into the partner
+  </reference/operator/aggregation/>`, and loads the data into the partner
   collection. 
 
   In the following example, if the operation type is delete, meaning a document
@@ -151,10 +151,10 @@ content: |
   collection. If the operation type is a write event, a pipeline is created with
   the **ETL** procedure. The inserted or modified document in the initial
   collection is extracted using the :manual:`$match operator
-  <reference/operator/aggregation/match/>`. The extracted document is then
+  </reference/operator/aggregation/match/>`. The extracted document is then
   transformed from an ``integer`` value to a ``string`` value to adhere to
   ``TaskV2``'s schema. Finally, the the transformed data is loaded into
-  ``TaskV2``, by using the :manual:`$merge operator <reference/operator/aggregation/merge/>`.
+  ``TaskV2``, by using the :manual:`$merge operator </reference/operator/aggregation/merge/>`.
 
   .. literalinclude:: /examples/Triggers/copy-data-from-initial-collection.js
      :language: javascript
