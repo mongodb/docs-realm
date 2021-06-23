@@ -141,7 +141,7 @@ content: |
   write a forward migration function for your initial collection's trigger. The
   forward migration function follows an :wikipedia:`Extract, transform, load
   (ETL) <Extract,_transform,_load>` procedure. The function performs an
-  aggregation that extract's data from the initial collection, transforms the
+  aggregation that extracts data from the initial collection, transforms the
   data using an :manual:`aggregation pipeline operator
   </reference/operator/aggregation/>`, and loads the data into the partner
   collection. 
@@ -153,7 +153,7 @@ content: |
   collection is extracted using the :manual:`$match operator
   </reference/operator/aggregation/match/>`. The extracted document is then
   transformed from an ``integer`` value to a ``string`` value to adhere to
-  ``TaskV2``'s schema. Finally, the the transformed data is loaded into
+  ``TaskV2``'s schema. Finally, the transformed data is loaded into
   ``TaskV2``, by using the :manual:`$merge operator </reference/operator/aggregation/merge/>`.
 
   .. literalinclude:: /examples/Triggers/copy-data-from-initial-collection.js
