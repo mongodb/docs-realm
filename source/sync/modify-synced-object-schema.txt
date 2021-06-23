@@ -82,9 +82,9 @@ Destructive changes to a schema are usually **modifications** of existing fields
 - Changing a primary key
 - Changing a property from optional to required (or vice-versa)
 
-Synchronized {+realms+} only support additive changes to a schema. Attempting to
-perform a destructive change on a synchronized {+realm+} will lead to errors
-like the following:
+Synchronized {+realms+} only support additive changes to a schema. Therefore,
+attempting to perform a destructive change on a synchronized {+realm+} will lead
+to errors like the following:
 
 .. code-block:: shell
 
