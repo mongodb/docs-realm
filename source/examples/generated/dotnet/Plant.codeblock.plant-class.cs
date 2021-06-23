@@ -1,4 +1,4 @@
-public class Plant : RealmObject
+public class Plant
 {
     [BsonElement("_id")]
     public ObjectId Id { get; set; } = ObjectId.GenerateNewId();
