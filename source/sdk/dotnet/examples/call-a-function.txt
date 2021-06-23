@@ -34,10 +34,10 @@ named ``sum`` that takes two arguments, adds them, and returns the result:
 Call a Function by Name
 -----------------------
 
-To execute a function from the .NET Client SDK, use the 
-:dotnet-sdk:`user.Functions.CallAsync() <reference/Realms.Sync.User.FunctionsClient.html#Realms_Sync_User_FunctionsClient_CallAsync_System_String_System_Object___>` 
-method, passing in the name of the function as the first parameter and the arguments
-as the remaining parameters:
+To execute a function from the .NET SDK, use the 
+:dotnet-sdk:`Functions.CallAsync() <reference/Realms.Sync.User.FunctionsClient.html#Realms_Sync_User_FunctionsClient_CallAsync_System_String_System_Object___>` 
+method on the ``User`` object, passing in the name of the function as the first 
+parameter and the arguments as the remaining parameters:
 
 .. literalinclude:: /examples/generated/dotnet/Examples.codeblock.callfunc.cs
    :language: csharp
