@@ -134,44 +134,47 @@ content: |
      :width: 750px
      :lightbox:
 ---
-title: Copy Data Within Your Trigger's Function
+title: Create a Forward Migration Function
 ref: copy-data-trigger-fn
 content: |
   To copy any new changes to the initial collection to the partner collection,
-  alter the trigger function's code. 
-  
-  If the :ref:`change event <database-events>` is a delete event, meaning the
-  object has been removed from the collection, delete the object from it's
-  partner collection by performing a :manual:`db.collection.deleteOne()
-  <reference/method/db.collection.deleteOne>` and passing the
-  ``changeEvent.documentKey._id``. In the following example, we call
-  :mdn:`parseInt() <Web/JavaScript/Reference/Global_Objects/parseInt>` on the
-  ``_id`` field since the ``TaskV2`` collection stores the ``_id`` field as an
-  integer.
+  write a forward migration function for your initial collection's trigger. The
+  forward migration function follows a :wikipedia:`Extract, transform, load
+  (ETL) <Extract,_transform,_load>` procedure. The function performs an
+  aggregation that extract's data from the initial collection, transforms the
+  data using an :manual:`aggregation pipeline operator
+  <reference/operator/aggregation/>`, and loads the data into the partner
+  collection. 
 
-  If the :ref:`change event <database-events>` is a write, perform the same
-  write to the partner collection by performing an :manual:`aggregation
-  <reference/method/db.collection.aggregate>`. In the aggregation, match the
-  object with the ``changeEvent.documentKey._id`` as an integer. 
-
-  Modify the desired fields of the initial collection by using the
-  :manual:`$addFields operator <reference/operator/aggregation/addFields/>`. In
-  the following example, the initial data's ``_id`` field is transformed to a
-  ``string`` type using the :manual:`$toString operator <reference/operator/aggregation/toString/>`.
-
-  Finally, write the transformed data to the partner collection, by using the
-  :manual:`$merge operator <reference/operator/aggregation/merge/>` to avoid
-  overwriting existing data.  In this example, we wrote the data to the
-  ``TaskV2`` collection.
+  In the following example, if the operation type is delete, meaning a document
+  has been deleted in one collection, the document is also deleted in the other
+  collection. If the operation type is a write event, a pipeline is created with
+  the **ETL** procedure. The inserted or modified document in the initial
+  collection is extracted using the :manual:`$match operator
+  <reference/operator/aggregation/match/>`. The extracted document is then
+  transformed from an ``integer`` value to a ``string`` value to adhere to
+  ``TaskV2``'s schema. Finally, the the transformed data is loaded into
+  ``TaskV2``, by using the :manual:`$merge operator <reference/operator/aggregation/merge/>`.
 
   .. literalinclude:: /examples/Triggers/copy-data-from-initial-collection.js
      :language: javascript
      :caption: copyTaskObjectToTaskV2 trigger
 
-  To copy data from ``TaskV2`` collection to the ``Task`` collection when the
-  trigger fires, write a function similar to the first trigger's function. In
-  this example, we transform the data of ``TaskV2`` before inserting it into the
-  ``Task`` collection by changing the ``_id`` from a string to an integer value.
+---
+title: Create a Reverse Migration Function
+ref: copy-data-trigger-fn
+content: |
+  To copy any new changes to the second collection to the initial collection,
+  write a reverse migration function for your second collection's trigger.
+  The reverse migration follows the same idea as the previous step, but this
+  time inserts data from the second collection to the initial collection. 
+
+  The following example goes through the same procuedure as the example in the
+  prior step. If a document has been deleted in one collection, the document is
+  also deleted in the other collection. If the operation type is a write event,
+  the changed document from ``TaskV2`` is extracted, transformed from a
+  ``string`` value to an ``integer`` value, and loaded into the ``Task``
+  collection.
 
   .. literalinclude:: /examples/Triggers/copy-data-from-second-version-collection.js
      :language: javascript
