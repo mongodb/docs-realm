@@ -7,8 +7,6 @@
    
    - The API may change.
    - New data types are not backwards compatible. 
-   - Realm Studio version 11.0.0-beta is not compatible with {+realm+} files
-     using this new data type. 
 
    To add new data types via :ref:`development mode <enable-development-mode>`, 
    you must update the client SDK. {+sync+} client applications using older
