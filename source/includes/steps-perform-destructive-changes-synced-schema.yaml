@@ -10,8 +10,8 @@ content: |
   steps detail how to perform a destructive change.
 
   In the following example, the initial collection uses the JSON Schema below for a
-  ``Task`` collection. The schema for the ``Task`` contains a ``_id`` field of
-  ``int`` type, and a ``name`` field of ``string`` type.
+  ``Task`` collection. The schema for the ``Task`` contains an ``_id`` field of
+  ``int`` type and a ``name`` field of ``string`` type.
 
   .. code-block:: json
      :caption: Task Schema
@@ -46,7 +46,7 @@ content: |
   ensure that newer clients can synchronize with older clients.
 
   To copy the data from your initial collection to your partner collection,
-  perform an aggregation by using the :manual:`db.collection.aggregate()
+  perform an aggregation using the :manual:`db.collection.aggregate()
   </reference/method/db.collection.aggregate>` method with the :manual:`Mongo
   shell <mongo>`. 
   
