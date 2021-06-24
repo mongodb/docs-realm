@@ -27,8 +27,23 @@ content: |
   Follow the instructions in the {+ui+} to configure sync for your cluster.
 
   1. **Select a Cluster to Sync:** {+sync+} applies to the entire cluster. Specify which cluster you want to sync in the dropdown.
+
   #. **Define a Database Name (Development Mode Tab Only):** If you opted to use Development Mode, {+service-short+} needs to know which database in your cluster to use for new collections it creates for {+sync-short+}. Specify that database name in the input field.
-  #. **Choose a Partition Key:** Specify which field to use to determine which {+realm+} each object belongs to. See :ref:`Partition Atlas Data into Realms <partitioning>`.
+
+  #. **Choose a Partition Key:** Specify the field name and type to determine which {+realm+} each object belongs to. You can also select the 'Create an index on the partition key' option, to enable Realm to automatically add an index on the partition key field for the synced cluster.  See :ref:`Partition Atlas Data into Realms <partitioning>`.
+
+     .. tip:: When to enable automatic creation of an index on the partition key
+
+        An index will make reads of the data faster but writes to the data slightly slower. You should generally use an index unless:
+
+        - Your application has a write-heavy workload with comparatively few reads
+        - You already have an index on the partition key field, such as the basic index that would be created by the option (e.g. ``{ _partition: 1 }``) or a compound index that starts with the partition key (e.g. ``{ _partition: 1, date: 1 }``)
+
+        
+
+
+
+
   #. **Define Permissions (Configuration Tab Only):** Select a template from the dropdown or enter your read and write :ref:`sync rule <sync-rules>` in the input boxes.
 ---
 title: Save the Configuration and Enable Sync

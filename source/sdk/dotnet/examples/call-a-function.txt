@@ -12,8 +12,8 @@ Call a Function - .NET SDK
    :depth: 2
    :class: singlecol
 
-The examples in this section demonstrate calling a simple function named
-``sum`` that takes two arguments, adds them, and returns the result:
+The examples in this section demonstrate calling a :ref:`Realm Function <functions>` 
+named ``sum`` that takes two arguments, adds them, and returns the result:
 
 .. code-block:: javascript
 
@@ -22,14 +22,22 @@ The examples in this section demonstrate calling a simple function named
      return a + b;
    };
 
+
+.. note:: Authenticate First
+
+   You call Functions on a :dotnet-sdk:`User <reference/Realms.Sync.User.html>`
+   object, so before calling any function, you must  
+   :ref:`authenticate a user <dotnet-authenticate>`.
+
 .. _dotnet-call-a-function-by-name:
 
 Call a Function by Name
 -----------------------
 
-To execute a function from the .NET Client SDK, use the ``user.Functions.CallAsync()`` 
-method, passing in the name of the function as the first parameter and the arguments
-as the remaining parameters:
+To execute a function from the .NET SDK, use the 
+:dotnet-sdk:`Functions.CallAsync() <reference/Realms.Sync.User.FunctionsClient.html#Realms_Sync_User_FunctionsClient_CallAsync_System_String_System_Object___>` 
+method on the ``User`` object, passing in the name of the function as the first 
+parameter and the arguments as the remaining parameters:
 
 .. literalinclude:: /examples/generated/dotnet/Examples.codeblock.callfunc.cs
    :language: csharp

@@ -1,7 +1,7 @@
 public class Inventory : RealmObject
 {
     // A Set can contain any Realm-supported type, including
-    // objects that inherit from RealmObject or EmbeddedObject
+    // objects that inherit from RealmObject
     public ISet<Plant> PlantSet { get; }
 
     public ISet<double> DoubleSet { get; }

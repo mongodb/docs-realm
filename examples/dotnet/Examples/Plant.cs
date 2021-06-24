@@ -5,7 +5,10 @@ using Realms;
 namespace Examples
 {
     // :code-block-start: plant-class
-    public class Plant : RealmObject
+    public class Plant
+    //:hide-start:
+    : RealmObject
+    //:hide-end:
     {
         //:hide-start:
         [PrimaryKey]
