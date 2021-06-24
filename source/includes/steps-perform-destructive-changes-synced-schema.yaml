@@ -136,9 +136,11 @@ content: |
 title: Create a Forward Migration Function
 ref: create-forward-migration-fn
 content: |
-  To copy any new changes to the initial collection to the partner collection,
-  write a forward migration function for your initial collection's trigger. The
-  forward migration function follows an :wikipedia:`Extract, transform, load
+  A forward migration trigger listens for inserts, updates, and deletes in the
+  initial collection, modifies them to reflect the partner collection's schema, and
+  then applies them to the partner collection. 
+  
+  The forward migration function follows an :wikipedia:`Extract, transform, load
   (ETL) <Extract,_transform,_load>` procedure. The function performs an
   aggregation that extracts data from the initial collection, transforms the
   data using an :manual:`aggregation pipeline operator
@@ -163,10 +165,10 @@ content: |
 title: Create a Reverse Migration Function
 ref: create-reverse-migration-fn
 content: |
-  To copy any new changes to the second collection to the initial collection,
-  write a reverse migration function for your second collection's trigger.
-  The reverse migration follows the same idea as the previous step, but this
-  time inserts data from the second collection to the initial collection. 
+  To listen for changes to the second collection and apply them to the initial
+  collection, write a reverse migration function for your second collection's
+  trigger. The reverse migration follows the same idea as the previous step, but
+  this time inserts data from the second collection to the initial collection. 
 
   The following example goes through similar steps as the example in the
   prior step. If a document has been deleted in one collection, the document is
