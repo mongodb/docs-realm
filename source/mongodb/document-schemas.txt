@@ -31,11 +31,16 @@ document schemas can represent any of the :manual:`BSON types
 supported by the ``$type`` operator. This page describes
 schemas for the following common types:
 
-- :ref:`Arrays <schema-type-arrays>`
 - :ref:`Objects <schema-type-objects>`
+- :ref:`Arrays <schema-type-arrays>`
 - :ref:`Strings <schema-type-strings>`
 - :ref:`Numbers <schema-type-numbers>`
 - :ref:`Booleans <schema-type-booleans>`
+- :ref:`UUID <schema-type-uuid>`
+- :ref:`ObjectId <schema-type-objectid>`
+- :ref:`Mixed <schema-type-mixed>`
+- :ref:`Set <schema-type-set>`
+- :ref:`Dictionary <schema-type-dictionary>`
 
 .. note::
 
@@ -146,12 +151,12 @@ The following fields are available for all schema types:
 
        The following standard JSON types are available:
 
-       - object
-       - array
-       - number
-       - boolean
-       - string
-       - null
+       - ``object``
+       - ``array``
+       - ``number``
+       - ``boolean``
+       - ``string``
+       - ``null``
 
        .. note::
 
@@ -169,14 +174,21 @@ The following fields are available for all schema types:
        </reference/operator/query/type/#document-type-available-types>`,
        such as:
 
-       - objectId
-       - int
-       - long
-       - double
-       - decimal
-       - date
-       - timestamp
-       - regex
+       - ``double``
+       - ``string``
+       - ``object``
+       - ``array``
+       - ``objectid``
+       - ``date``
+       - ``bool``
+       - ``null``
+       - ``regex``
+       - ``int``
+       - ``timestamp``
+       - ``long``
+       - ``decimal``
+       - ``uuid``
+       - ``mixed``
 
    * - ``enum``
      - An array that includes all valid values for the data that the
@@ -267,6 +279,12 @@ For more information, see the official JSON Schema `object guide
    * - ``dependencies``
      - Specify property and schema dependencies.
 
+.. note:: Model Dictionaries With the ``object`` Schema Type
+
+   To model :ref:`dictionaries <schema-type-dictionaries>`, use
+   the ``object`` schema type with ``additionalProperties`` set to
+   the object type of the values stored in the dictionary.
+
 .. _schema-type-arrays:
 
 Arrays
@@ -329,6 +347,12 @@ For more information, see the official JSON Schema `array guide
 
        If ``true``, each item in the array must be unique.
        If ``false``, multiple array items may be identical.
+
+.. note:: Model Sets With the ``array`` Schema Type
+
+   To model :ref:`sets <schema-type-sets>`, use
+   the ``array`` schema type with ``uniqueItems`` set to
+   ``true``.
 
 .. _schema-type-strings:
 
@@ -438,7 +462,7 @@ For more information, see the official JSON Schema `boolean guide
 
    { "bsonType": "bool" }
 
-.. _schema-type-uuid:
+.. _schema-type-uuids:
 
 UUID
 ~~~~
@@ -451,7 +475,7 @@ identifiers for objects.
 
    { bsonType: "uuid" }
 
-.. _schema-type-objectid:
+.. _schema-type-objectids:
 
 ObjectId
 ~~~~~~~~
@@ -482,7 +506,7 @@ underlying types.
 
    { "bsonType": "mixed" }
 
-.. _schema-type-set:
+.. _schema-type-sets:
 
 Set
 ~~~
@@ -501,7 +525,7 @@ with ``uniqueItems`` set to ``true``.
       }
    }
 
-.. _schema-type-dictionary:
+.. _schema-type-dictionaries:
 
 Dictionary
 ~~~~~~~~~~
