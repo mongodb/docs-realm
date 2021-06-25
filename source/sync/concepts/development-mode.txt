@@ -32,7 +32,7 @@ Design Schemas in Code
 
 With development mode enabled, you can design schemas directly in client 
 code. The objects and relationships that you define in your application 
-become your schema. :ref:`Realm SDKs` give you language-specific 
+become your schema. :ref:`Realm SDKs <realm-sdks>` give you language-specific 
 tools to define and work with these objects.
 
 In practice, here's how the schema definition process works with 
@@ -74,7 +74,8 @@ Bypass Rules and Validation
 When you enable development mode, {+service-short+} bypasses data access 
 rules and schema validation. This lets developers iterate quickly to develop 
 new features or fix bugs. However, this aspect of development mode means 
-it's vital to disable it in production.
+it's vital to disable it in production. Leaving development mode enabled 
+in production can expose your app to security vulnerabilities. 
 
 Development Mode in Workflows
 -----------------------------
@@ -91,20 +92,28 @@ production application. Use separate {+service-short+} applications with
 different settings for your respective environments. Always keeps development 
 mode disabled in production.
 
+Leaving development mode enabled in production exposes your app to potential
+security vulnerabilities. Additionally, if a developer makes changes to 
+schema via developer mode while an app is in production, schema mismatch 
+issues can leave your production client applications buggy or unable to
+open.
+
 Do Not Use Production Data in Development
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Ensure your development database does not contain production data. When 
 you enable development mode, {+service-short+} does not enforce data access 
-rules. If your development database contains production data, this could 
-potentially expose that data.
+rules. If your development database contains production data, developer
+mode would leave that data vulnerable to inadvertent or malicious access.
 
 Automate Development Mode in CI/CD Workflows
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 If your team uses CI/CD workflows, add a step to your workflow to disable 
-development mode. You can update this in your :ref:`{+sync+} configuration 
-<appconfig-sync>` by setting ``development_mode_enabled`` to ``false``.
+development mode. You might set an automation to disable development mode
+when merging from development to testing, and again when merging to production.
+This is an additional safeguard against a developer inadvertently committing
+a config that contains ``developer_mode_enabled``: ``true``.
 
-You can set this value via the :ref:`Realm CLI <realm-cli>` in your CI/CD 
-workflows.
+You can update this in your :ref:`{+sync+} configuration 
+<appconfig-sync>` by setting ``development_mode_enabled`` to ``false``.
