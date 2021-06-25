@@ -1,0 +1,110 @@
+.. _concept-development-mode:
+
+================
+Development Mode
+================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Development mode is a {+sync+} configuration setting for your {+app+}.
+Enable development mode to streamline schema design, but disable it in
+production applications.
+
+.. seealso::
+   
+   For the procedure to enable or disable development mode, see:
+   :ref:`Enable/Disable Development Mode <enable-disable-development-mode>`.
+
+Benefits of Enabling Development Mode
+-------------------------------------
+
+{+sync+} development mode enables developers to develop faster, and design
+schemas directly in client application code.
+
+Design Schemas in Code
+~~~~~~~~~~~~~~~~~~~~~~
+
+With development mode enabled, you can design schemas directly in client 
+code. The objects and relationships that you define in your application 
+become your schema. :ref:`Realm SDKs` give you language-specific 
+tools to define and work with these objects.
+
+In practice, here's how the schema definition process works with 
+development mode:
+
+1. Enable development mode.
+2. Sync {+realm+} files from your local {+client-database+}.
+3. The objects in the files become the definitions for your schema.
+
+After you have synced {+realm+} files to define your schema, you can view
+the schema through the Realm UI. Go to your Realm App -> :guilabel:`Data Access` 
+-> :guilabel:`Schema`.
+
+Create and Update Schemas
+`````````````````````````
+
+Schemas change as applications evolve. Development mode isn't just for 
+creating schemas. You can also update schemas in the same way. 
+
+When you sync a {+realm+} file, {+backend+} maps every synced object type 
+to its own collection. {+backend-short+} then updates the collection schema 
+to match the synced type. 
+
+When you later sync an updated object, {+backend-short+} automatically 
+updates the collection schema. 
+
+This lets you update objects in your client code as you develop your app, 
+while {+backend+} updates the schema to match.
+
+.. warning:: Disable Development Mode for Production Apps
+ 
+   Development mode is a development utility. Do not leave development mode 
+   enabled in production. See: :ref:`Disable Development Mode <disable-development-mode>` 
+   for the procedure to turn off development mode.
+
+Bypass Rules and Validation
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+When you enable development mode, {+service-short+} bypasses data access 
+rules and schema validation. This lets developers iterate quickly to develop 
+new features or fix bugs. However, this aspect of development mode means 
+it's vital to disable it in production.
+
+Development Mode in Workflows
+-----------------------------
+
+Because development mode disables schema validation and data access rules, 
+use it only in development. Following are {+service-short+} best practices 
+for using development mode in workflows.
+
+Use Separate Realm Apps for Development, Staging, and Production
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Ensure your team does not accidentally enable development mode in a 
+production application. Use separate {+service-short+} applications with 
+different settings for your respective environments. Always keeps development 
+mode disabled in production.
+
+Do Not Use Production Data in Development
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Ensure your development database does not contain production data. When 
+you enable development mode, {+service-short+} does not enforce data access 
+rules. If your development database contains production data, this could 
+potentially expose that data.
+
+Automate Development Mode in CI/CD Workflows
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+If your team uses CI/CD workflows, add a step to your workflow to disable 
+development mode. You can update this in your :ref:`{+sync+} configuration 
+<appconfig-sync>` by setting ``development_mode_enabled`` to ``false``.
+
+You can set this value via the :ref:`Realm CLI <realm-cli>` in your CI/CD 
+workflows.

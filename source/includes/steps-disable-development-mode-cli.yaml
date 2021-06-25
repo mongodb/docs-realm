@@ -1,0 +1,25 @@
+title: Disable Development Mode
+ref: disable-development-mode-in-cli
+content: |
+  You can turn development mode on and off by setting a boolean value for
+  ``development_mode_enabled`` in your app's ``sync/config.json`` file. To
+  disable dev mode, set the value to ``false``:
+
+  .. code-block:: json
+     :caption: sync/config.json
+     
+     {
+       "development_mode_enabled": false
+     }
+---
+title: Deploy the Updated App Configuration
+ref: deploy-development-mode-disabled-updated-app-configuration
+content: |
+  Now that you've configured development mode and specified that it's disabled,
+  you can deploy your changes to turn it on.
+
+  To deploy your changes, import your app configuration:
+
+  .. code-block:: shell
+     
+     realm-cli push --remote="<Your App ID>"
