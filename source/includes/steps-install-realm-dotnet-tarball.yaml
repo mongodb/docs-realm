@@ -1,30 +1,58 @@
-title: Add Package Dependency
-ref: swiftpm-add-dependency
+title: Download the Latest Realm .NET SDK Release
+ref: download-latest-dotnet-sdk-release
 content: |
 
-  In Xcode, select ``File`` > ``Swift Packages`` > ``Add Package Dependency``.
+  Before you begin using {+service+} within your Unity project, you must
+  download the {+service-short+} .NET SDK. 
 
+  Navigate to the :github:`realm-dotnet repository releases
+  <realm/realm-dotnet/releases>` page, and scroll down to the release you want
+  to use in your project. If you are unsure of which release to use, you can use
+  the one labelled **"latest release"** on the left row. 
+
+  .. figure:: /images/find-latest-dotnet-release.png
+     :alt: Find the latest release of the .NET SDK
+  
+  Scroll down to the **"Assets"** dropdown of the release and click the link
+  labeled **"io.realm.unity-bundled-<version-number>.tgz"** to download the SDK.
+
+  .. figure:: /images/download-unity-bundled-tgz.png
+     :alt: Download the latest release of the .NET SDK  
 ---
-title: Specify the Repository
-ref: swiftpm-specify-repository
-content: |
-
-  Copy and paste the following into the search/input box, then click ``Next``.
-
-  .. code-block:: sh
-
-     https://github.com/realm/realm-cocoa.git
-
----
-title: Specify Options
+title: Add the Tarball to Your Projects Package Manager
 ref: swiftpm-specify-options
 content: |
 
-  Leave the default value of ``Up to Next Major``, then click ``Next``.
+  Since Unity does not save the tarball within your project automatically, you
+  must move your downloaded {+service-short+} .NET SDK tarball to your project
+  folder. You can do this by dragging and dropping the file to your project's
+  "Packages" folder. This ensures that the {+service-short+} .NET SDK is bundled
+  with your project. Next, you must load the tarball into your project using the
+  Unity `package manager <https://docs.unity3d.com/Manual/upm-ui.html>`_. 
+  
+  To open the package manager, click the :guilabel:`Window` tab on the top of
+  the Unity menu. Click :guilabel:`Package Manager` from the :guilabel:`Window
+  dropdown`. Once the package manager model opens, click the :guilabel:`+` icon
+  in the top left corner of the model. Select the :guilabel:`Add package from
+  tarball...` option. 
+ 
+  .. figure:: /images/add-package-from-tar-unity.png
+     :alt: Add package from tarball Unity UI
 
+  Select your **"Packages/io.realm.unity-bundled-<version-number>.tgz"** file to
+  begin importing your project. 
+  
 ---
-title: Select the Package Products
-ref: swiftpm-package-products
+title: Import Realm
+ref: import-realm
 content: |
 
-  Select both ``Realm`` and ``RealmSwift``, then click ``Finish``.
+  `Create a C# script
+  <https://docs.unity3d.com/Manual/CreatingAndUsingScripts.html>`_ or use a C#
+  script you have already created. Open that script in `Visual Studio
+  <https://docs.microsoft.com/en-us/visualstudio/>` or another text editor. Add
+  the following line to import your {+service-short+} package: 
+
+  .. code-block:: csharp
+
+   using Realms;
