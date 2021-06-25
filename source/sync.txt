@@ -28,27 +28,11 @@ Realm Sync Overview
    :depth: 2
    :class: singlecol
 
-Overview
---------
-
-To sync data across devices, you can :ref:`enable {+sync+} <enable-sync>` for your
-{+app+}. {+sync+} automatically handles complex and tedious issues like data
-serialization, network recovery, and conflict resolution, so you can focus on the actual
-business logic of your app.
-
-To understand how best to use {+sync+}, it's important to understand the problem
-{+sync-short+} aims to address.
-
-.. include:: /includes/mongodb-4.4-required-for-sync-admonition.rst
-
-.. _the-connectivity-problem:
-
-The Connectivity Problem
-------------------------
-
+What is {+sync+}?
+-------------------
 :term:`{+client-database+}` is a local, mobile database in
 which your app can store data. Eventually, most apps
-need to share that data with the outside world.
+need to share that data with other apps and the outside world.
 Consider a few examples:
 
 - A team collaborates in real-time on a shared
@@ -59,8 +43,8 @@ Consider a few examples:
 
 - An IoT device uploads its sensor data to the cloud.
 
-Traditionally, developers use an HTTP client in a mobile app to
-manually communicate with a REST API over the Internet. This means that
+Traditionally, mobile app developers use an HTTP client to
+manually communicate with an endpoint. This means that
 every mobile app needs to solve the following problems for every
 client platform:
 
@@ -79,10 +63,18 @@ the same regardless of network conditions. The :term:`{+service-short+} data mod
 makes it easy to manage a consistent schema of objects in your database
 and across all client platforms.
 
-.. _offline-first:
+The {+sync+} Philosophy
+-------------------------
+There are 3 pillars to the {+sync+} philosophy:
 
-Think Offline-first
--------------------
+- :ref:`Offline-first functionality <offline-first-overview>`
+- :ref:`Live objects <live-objects-overview>`
+- :ref:`Conflict resolution <conflict-resolution-overview>`
+
+.. _offline-first-overview:
+
+Offline-First
+~~~~~~~~~~~~~
 
 {+sync+} is built on the assumption that connectivity will
 drop. We call this mentality **offline-first**. After you
@@ -94,42 +86,38 @@ the local {+realm+}. In effect, you continue to work with the
 local {+realm+} without moment-to-moment concern for network
 connectivity or lack thereof.
 
-The offline-first design leads to some of the main benefits
-of {+service+}:
+The offline-first design leads to one of the main benefits of {+service+}: a 
+seamless user experience. Users interact with local data with zero latency 
+regardless of their moment-to-moment connectivity.
 
-Seamless User Experience:
-  Users interact with local data with zero latency
-  regardless of their moment-to-moment connectivity.
+Because {+sync+} is built into the {+service-short+} SDK, you do not need to write
+your own synchronization protocol and deal with connectivity issues when 
+synchronizing data. The :term:`sync protocol` is the same across platforms. 
+{+service+} handles passing the objects across the network automatically, so 
+you do not need to map from one platform's database to another, or serialize and 
+deserialize objects in order to send and receive them over the network.
 
-Live Objects Across Devices:
-  {+service+}'s :term:`live objects` concept extends across
-  devices: updates on one device sync to the corresponding
-  objects on other devices. :term:`Notifications` based on
-  these updates make it easy to update the application UI to
-  react to local and remote changes.
+The main difficulty with offline-first data is ensuring that devices that are 
+offline for extended periods are able to resolve potential conflicts with 
+changes made to the same data. Ultimately, every client device must
+arrive at the same state when all changes have been synced. This is why {+sync+} 
+includes :ref:`automatic conflict resolution <conflict-resolution-overview>`.
 
-It's Automatic:
-  {+sync+} is built into the {+service-short+} SDK. You do not need to write
-  your own synchronization protocol and deal with connectivity
-  issues when synchronizing data. The :term:`sync protocol` is
-  the same across platforms. {+service+} handles passing the
-  objects across the network automatically, so there is no
-  need to map from one platform's database to another or
-  serialize and deserialize objects in order to send and
-  receive them over the network.
+.. _live-objects-overview:
 
-Despite these advantages, offline-first design introduces one
-problem: if client devices can remain offline while changes
-are made locally and remotely, they must share those changes
-when those client devices come back online.
-To make matters more complicated, every client device must
-arrive at the same state when all changes have been synced.
-This is why {+sync+} includes **automatic conflict resolution**.
+Live Objects
+~~~~~~~~~~~~
+Realm's :term:`Live objects <live objects>` means that you can update data in 
+one place (a mobile app, for example), and that data is updated everywhere. 
+Live objects always reflect the latest data stored in {+client-database+}. 
+This concept extends across devices: updates on one device sync to the corresponding 
+objects on other devices. :term:`Notifications` based on these updates make it 
+easy to update the application UI to react to local and remote changes.
 
 .. _conflict-resolution-overview:
 
-Resolving Conflicts
--------------------
+Conflict Resolution
+~~~~~~~~~~~~~~~~~~~
 
 {+service+}'s :term:`sync conflict resolution engine <sync protocol>` is
 deterministic. Changes received out-of-order eventually converge on the
@@ -157,6 +145,30 @@ example, insertions into lists.
 .. seealso::
 
    :ref:`Conflict Resolution <conflict-resolution>`
+
+
+How Does {+sync+} Work?
+-------------------------
+.. note:: Deep Dive
+
+   The following information is not needed to use Sync, and is provided solely for 
+   a deeper understanding of the process.
+
+.. TODO
+
+Protocols, Background processes, deltas, etc....
+
+
+
+
+Getting Started With Realm
+--------------------------
+
+To sync data across devices, you :ref:`enable {+sync+} <enable-sync>` for your
+{+app+} and then use the sync-related methods and properties in the SDKs.
+
+.. include:: /includes/mongodb-4.4-required-for-sync-admonition.rst
+
 
 .. _realm-sync-best-practices:
 
