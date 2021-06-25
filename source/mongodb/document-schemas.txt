@@ -11,7 +11,7 @@ Document Schemas
 .. contents:: On this page
    :local:
    :backlinks: none
-   :depth: 2
+   :depth: 3
    :class: singlecol
 
 Overview
@@ -31,11 +31,16 @@ document schemas can represent any of the :manual:`BSON types
 supported by the ``$type`` operator. This page describes
 schemas for the following common types:
 
-- :ref:`Arrays <schema-type-arrays>`
 - :ref:`Objects <schema-type-objects>`
+- :ref:`Arrays <schema-type-arrays>`
 - :ref:`Strings <schema-type-strings>`
 - :ref:`Numbers <schema-type-numbers>`
 - :ref:`Booleans <schema-type-booleans>`
+- :ref:`UUIDs <schema-type-uuids>`
+- :ref:`ObjectIds <schema-type-objectids>`
+- :ref:`Mixed <schema-type-mixed>`
+- :ref:`Sets <schema-type-sets>`
+- :ref:`Dictionarys <schema-type-dictionaries>`
 
 .. note::
 
@@ -146,12 +151,12 @@ The following fields are available for all schema types:
 
        The following standard JSON types are available:
 
-       - object
-       - array
-       - number
-       - boolean
-       - string
-       - null
+       - ``object``
+       - ``array``
+       - ``number``
+       - ``boolean``
+       - ``string``
+       - ``null``
 
        .. note::
 
@@ -169,14 +174,21 @@ The following fields are available for all schema types:
        </reference/operator/query/type/#document-type-available-types>`,
        such as:
 
-       - objectId
-       - int
-       - long
-       - double
-       - decimal
-       - date
-       - timestamp
-       - regex
+       - ``double``
+       - ``string``
+       - ``object``
+       - ``array``
+       - ``objectid``
+       - ``date``
+       - ``bool``
+       - ``null``
+       - ``regex``
+       - ``int``
+       - ``timestamp``
+       - ``long``
+       - ``decimal``
+       - ``uuid``
+       - ``mixed``
 
    * - ``enum``
      - An array that includes all valid values for the data that the
@@ -267,6 +279,12 @@ For more information, see the official JSON Schema `object guide
    * - ``dependencies``
      - Specify property and schema dependencies.
 
+.. note:: Model Dictionaries With the ``object`` Schema Type
+
+   To model :ref:`dictionaries <schema-type-dictionaries>`, use
+   the ``object`` schema type with ``additionalProperties`` set to
+   the object type of the values stored in the dictionary.
+
 .. _schema-type-arrays:
 
 Arrays
@@ -329,6 +347,12 @@ For more information, see the official JSON Schema `array guide
 
        If ``true``, each item in the array must be unique.
        If ``false``, multiple array items may be identical.
+
+.. note:: Model Sets With the ``array`` Schema Type
+
+   To model :ref:`sets <schema-type-sets>`, use
+   the ``array`` schema type with ``uniqueItems`` set to
+   ``true``.
 
 .. _schema-type-strings:
 
@@ -434,7 +458,111 @@ either ``true`` or ``false``.
 For more information, see the official JSON Schema `boolean guide
 <https://json-schema.org/understanding-json-schema/reference/boolean.html>`_.
 
-
 .. code-block:: json
 
    { "bsonType": "bool" }
+
+.. _schema-type-uuids:
+
+UUID
+~~~~
+
+The ``uuid`` (Universal Unique Identifier) schema type provides
+:rfc:`standardized <rfc4122>` 16-byte unique values that can be used as
+identifiers for objects.
+
+.. code-block:: json
+
+   { "bsonType": "uuid" }
+
+.. _schema-type-objectids:
+
+ObjectId
+~~~~~~~~
+
+The ``objectId`` schema type provides 12-bit
+:manual:`MongoDB-specific </reference/method/ObjectId/>`
+unique values that can be used as identifiers for objects.
+
+.. code-block:: json
+
+   { "bsonType":"objectId" }
+
+.. note:: UUID and ObjectId
+
+   Use ``objectId`` for modeling data that already exists in an instance
+   of MongoDB. Prefer ``uuid`` for novel data.
+
+.. _schema-type-mixed:
+
+Mixed
+~~~~~
+
+The ``mixed`` schema type enables you to configure
+{+service-short+} object fields that can contain any of several
+underlying types.
+
+.. code-block:: json
+
+   { "bsonType": "mixed" }
+
+.. _schema-type-sets:
+
+Set
+~~~
+
+The set data type models a collection of unique keys.
+To create a schema for the set data type, configure an ``array``
+with ``uniqueItems`` set to ``true``.
+
+.. code-block:: json
+
+   {
+      "bsonType": "array",
+      "uniqueItems": true,
+      "items": {
+         "bsonType": "long"
+      }
+   }
+
+.. _schema-type-dictionaries:
+
+Dictionary
+~~~~~~~~~~
+
+The dictionary data type models a collection of
+unique ``string`` keys paired with values.
+To create a schema for the dictionary data type, configure an ``object``
+and set the ``additionalProperties`` field to the schema type of the
+values stored in the dictionary. You can set ``additionalProperties``
+to ``true`` to store ``mixed`` values in the dictionary.
+
+.. code-block:: json
+
+   {
+      "bsonType":"object",
+         "additionalProperties": {
+            "bsonType": "string"
+         }
+      }
+   }
+
+Dictionary of Embedded Objects
+==============================
+
+To define a schema for a dictionary of embedded objects, set the value of
+``additionalProperties.bsonType`` to ``object`` and configure
+``additionalProperties.title`` to the name of the embedded object
+you are configuring. Use ``additionalProperties.properties`` to define
+fields of the embedded object.
+
+.. code-block:: json
+
+   {
+      "bsonType":"object",
+         "additionalProperties": {
+            "bsonType": "object",
+            "title": “Address”,
+            "properties": { ... }
+      }
+   }
