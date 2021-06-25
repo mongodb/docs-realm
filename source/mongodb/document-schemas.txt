@@ -36,11 +36,11 @@ schemas for the following common types:
 - :ref:`Strings <schema-type-strings>`
 - :ref:`Numbers <schema-type-numbers>`
 - :ref:`Booleans <schema-type-booleans>`
-- :ref:`UUID <schema-type-uuids>`
-- :ref:`ObjectId <schema-type-objectids>`
+- :ref:`UUIDs <schema-type-uuids>`
+- :ref:`ObjectIds <schema-type-objectids>`
 - :ref:`Mixed <schema-type-mixed>`
-- :ref:`Set <schema-type-sets>`
-- :ref:`Dictionary <schema-type-dictionaries>`
+- :ref:`Sets <schema-type-sets>`
+- :ref:`Dictionarys <schema-type-dictionaries>`
 
 .. note::
 
@@ -473,7 +473,7 @@ identifiers for objects.
 
 .. code-block:: json
 
-   { bsonType: "uuid" }
+   { "bsonType": "uuid" }
 
 .. _schema-type-objectids:
 
@@ -563,6 +563,6 @@ fields of the embedded object.
          "additionalProperties": {
             "bsonType": "object",
             "title": “Address”,
-            properties: { ... }
+            "properties": { ... }
       }
    }
