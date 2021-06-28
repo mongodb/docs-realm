@@ -63,9 +63,9 @@ the same regardless of network conditions. The :term:`{+service-short+} data mod
 makes it easy to manage a consistent schema of objects in your database
 and across all client platforms.
 
-The {+sync+} Philosophy
--------------------------
-There are 3 pillars to the {+sync+} philosophy:
+How {+sync+} Works
+------------------
+{+sync+} is built on 3 main pillars:
 
 - :ref:`Offline-first functionality <offline-first-overview>`
 - :ref:`Live objects <live-objects-overview>`
@@ -147,50 +147,13 @@ example, insertions into lists.
    :ref:`Conflict Resolution <conflict-resolution>`
 
 
-How Does {+sync+} Work?
--------------------------
-.. note:: Deep Dive
-
-   The following information is not needed to use Sync, and is provided solely for 
-   a deeper understanding of the process.
-
-.. TODO
-
-Protocols, Background processes, deltas, etc....
-
-
-
-
-Getting Started With Realm
+Using {+sync+} in Your App
 --------------------------
 
 To sync data across devices, you :ref:`enable {+sync+} <enable-sync>` for your
-{+app+} and then use the sync-related methods and properties in the SDKs.
+{+app+} and then use the sync-related methods and properties in the SDKs. To 
+learn more, see :ref:`Get Started with Sync <realm-sync-get-started>`.
 
-.. include:: /includes/mongodb-4.4-required-for-sync-admonition.rst
-
-
-.. _realm-sync-best-practices:
-
-Best Practices
---------------
-
-We recommend following these best practices to ensure optimal {+app+}
-performance:
-
-Deployment model and geographic regions:
-  Use a local {+service-short+} :ref:`deployment model<realm-local-deployment>` 
-  when building a {+sync+} application. Configure your {+app+} and
-  MongoDB data source to run within the same geographic region and cloud
-  provider.
-
-Atlas oplog:
-  {+sync+} requires access to the {+atlas+} oplog. For best results,
-  keep 48 hours of oplog for a cluster using {+sync-short+}. 
-
-.. seealso::
-
-   :atlas:`Atlas oplog </reference/atlas-oplog>`
 
 Summary
 -------
