@@ -1,4 +1,4 @@
 class Person: RealmObject { // Realm schema version 3
     var fullName: String = ""
-    var birthday: Date = new Date();
+    var birthday: Date = Date()
 }
