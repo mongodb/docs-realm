@@ -43,21 +43,7 @@ However, we recommend installing the :doc:`{+service-short+} .NET SDK
 
 Additional Considerations
 -------------------------
-
-This page details considerations when using {+client-database+} on tvOS.
-
-{+service+} 
-
-This page contains information to integrate {+service+} into your
-Electron application quickly. To learn how to set up an Electron
-application with Realm without using any additional frameworks, see the
-:ref:`Electron set up <electron-setup>` instructions. If you have
-already created an application using `Create React App
-<https://reactjs.org/docs/create-a-new-react-app.html>`_ or are
-interested in integrating a React App with Realm using Electron, check
-out the :ref:`Electron with React set up <node-electron-cra-client-quick-start>`
-instructions.
-
-
-Summary
--------
+- Unity does not support the `dynamic keyword <https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/types/using-type-dynamic>`_, meaning all C# scripts must be statically typed. When you use the {+service-short+} .NET SDK with Unity, you must convert dynamic types to static types. You can do this with the `Convert.ChangeType() <https://docs.microsoft.com/en-us/dotnet/api/system.convert.changetype?view=net-5.0>`_ method. To view the full list of limitations, see the Unity `scripting limitations <https://docs.unity3d.com/Manual/ScriptingRestrictions.html>`_ documentation.
+- Unity performs `managed code stripping <https://docs.unity3d.com/Manual/ManagedCodeStripping.html>`_, discarding any unused code from a build in order to decrease build time. This may lead to issues when serializing :manual:`BSON </reference/bson-types/>` into C# classes. For platforms, such as iOS, that use `IL2CPP <https://docs.unity3d.com/Manual/IL2CPP.html>`_ managed code stripping is enabled by default. When working with BSON, it is recommended to disable managed code stripping through the `ManagedStrippingLevel API <https://docs.unity3d.com/2018.3/Documentation/ScriptReference/ManagedStrippingLevel.html>`_ or through the `"Managed stripping levels" option <https://docs.unity3d.com/Manual/ManagedCodeStripping.html>`_ in the project player settings of the Unity UI.
+- The {+service-short+} .NET SDK cannot be accessed within the `AppDomain.DomainUnload Event <https://docs.microsoft.com/en-us/dotnet/api/system.appdomain.domainunload?view=net-5.0>`_ or the `Application.quitting <https://docs.unity3d.com/ScriptReference/Application-quitting.html>`_ event. This means you cannot :doc:`close a realm </sdk/dotnet/examples/open-and-close-a-local-realm>` when the player application is qutting. Instead, you may want to dispose the {+realm+} within a `ScriptableObject.OnDisable() <https://docs.unity3d.com/ScriptReference/ScriptableObject.OnDisable.html>`_ cleanup method which is called when a scriptable object, such as a GameController, goes out of scope.
+- To do - Add info on "Building for iOS, needs to add xcframework manually after generating the XCode project"
