@@ -30,9 +30,10 @@ Realm Sync Overview
 
 What is {+sync+}?
 -------------------
-:term:`{+client-database+}` is a local, mobile database in
-which your app can store data. Eventually, most apps
-need to share that data with other apps and the outside world.
+Most mobile apps are data-dependent. Eventually, many apps
+need to share that data with other apps and the outside world. {+sync+} is 
+an out-of-the-box that meets this need.
+
 Consider a few examples:
 
 - A team collaborates in real-time on a shared
@@ -96,14 +97,10 @@ connectivity or lack thereof.
 
 The offline-first design leads to one of the main benefits of {+service+}: a 
 seamless user experience. Users interact with local data with zero latency 
-regardless of their moment-to-moment connectivity.
-
-Because {+sync+} is built into the {+service-short+} SDK, you do not need to write
+regardless of their moment-to-moment connectivity, and because {+sync+} is 
+built into the {+service-short+} SDK, you do not need to write
 your own synchronization protocol and deal with connectivity issues when 
-synchronizing data. The :term:`sync protocol` is the same across platforms. 
-{+service+} handles passing the objects across the network automatically, so 
-you do not need to map from one platform's database to another, or serialize and 
-deserialize objects in order to send and receive them over the network.
+synchronizing data. 
 
 The main difficulty with offline-first data is ensuring that devices that are 
 offline for extended periods are able to resolve potential conflicts with 
@@ -158,8 +155,13 @@ example, insertions into lists.
 Summary
 -------
 
+- {+sync+} is the part of {+realm+} that handles data synchronization between 
+  a Realm Database on one or more clients and MongoDB Atlas.
+
 - {+sync+} enables offline-first app development by handling network
   loss and recovery automatically.
 
 - {+sync+} has a built-in conflict resolution engine that guarantees
   strong eventual consistency.
+
+- {+sync+} is included in the client SDKs to simplify app development.
