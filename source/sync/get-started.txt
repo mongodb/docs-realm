@@ -1,3 +1,5 @@
+.. _realm-sync-get-started:
+
 =====================
 Get Started with Sync
 =====================
@@ -34,6 +36,26 @@ You can enable {+sync-short+} on any {+app+} you have :ref:`created <create-a-re
    field to the clients.
 
 .. include:: /includes/steps/enable-sync-ui.rst
+
+Best Practices
+--------------
+
+We recommend following these best practices to ensure optimal {+app+}
+performance:
+
+Deployment model and geographic regions:
+  Use a local {+service-short+} :ref:`deployment model<realm-local-deployment>` 
+  when building a {+sync+} application. Configure your {+app+} and
+  MongoDB data source to run within the same geographic region and cloud
+  provider.
+
+Atlas oplog:
+  {+sync+} requires access to the {+atlas+} oplog. For best results,
+  keep 48 hours of oplog for a cluster using {+sync-short+}. 
+
+.. seealso::
+
+   :atlas:`Atlas oplog </reference/atlas-oplog>`
 
 Summary
 -------
