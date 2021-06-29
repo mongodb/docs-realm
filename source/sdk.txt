@@ -13,12 +13,30 @@ Realm SDKs
    React Native SDK </sdk/react-native>
    Web SDK </web>
 
-The MongoDB Realm SDKs are client libraries that allow you to connect to
-local and synced Realm databases, authenticate users, and interact with
-serverless :ref:`MongoDB Realm <realm-cloud>` applications. The SDKs
-include {+client-database+}, an alternative to SQLite and Core Data, so
-you can get started with just the SDK -- no additional dependencies
-required.
+The MongoDB Realm SDKs are client libraries that allow you to connect to local
+and synced Realm databases, authenticate users, and interact with serverless
+:ref:`MongoDB Realm <realm-cloud>` applications. The SDKs include
+{+client-database+}, an alternative to SQLite, Core Data, and other embedded
+databases where your data model is your app's object classes instead of rows and
+columns in a table. You can get use Realm with just the SDK -- no additional
+dependencies required.
+
+Realm Database memory-maps and lazy-loads your data which makes querying fast
+and idiomatic for your language of choice and eliminates multithreading
+consistency bugs by making your objects thread-safe. 
+
+A database can either be local to the device or synced through MongoDB Realm.
+Both database types use the same APIs to define the schema, open the database,
+read and write data, as well as get notified of changes. The only difference is
+that with sync, the Realm SDK will send and receive any data changes to the
+cloud in a background thread. No networking or conflict resolution code is
+needed.
+
+.. note::
+   
+   Sync through MongoDB Realm is a hosted service with usage based pricing and a
+   generous monthly free-tier. To learn more about how much Realm and Sync cost,
+   see :ref:`Billing <billing>`.
 
 Get Started
 -----------
