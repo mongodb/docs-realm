@@ -1,3 +1,14 @@
+.. _backend_20210701:
+
+July 01 2021 Release
+~~~~~~~~~~~~~~~~~~~~
+
+- Added :ref:`JWT Authentication <custom-jwt-authentication>` support for
+  JWTs with multiple audiences.
+- Introduced support for bi-directional :ref:`GitHub Autodeploy <deploy-github>`.
+- Added the ability to link a Github repository on application create.
+
+
 .. _backend_20210616:
 
 16 June 2021 Release
