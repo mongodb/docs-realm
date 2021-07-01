@@ -151,6 +151,30 @@ example, insertions into lists.
 
    :ref:`Conflict Resolution <conflict-resolution>`
 
+.. _realm-sync-best-practices:
+
+Best Practices
+--------------
+
+We recommend following these best practices to ensure optimal {+app+}
+performance:
+
+Deployment model and geographic regions:
+  Use a local {+service-short+} :ref:`deployment model<realm-local-deployment>` 
+  when building a {+sync+} application. Configure your {+app+} and
+  MongoDB data source to run within the same geographic region and cloud
+  provider.
+
+Atlas oplog:
+  {+sync+} requires access to the {+atlas+} oplog. For best results,
+  keep 48 hours of oplog for a cluster using {+sync-short+}.  For 
+  more information, see :atlas:`Atlas oplog </reference/atlas-oplog>`.
+
+Realm Sync Schema Data Consistency
+  If you create or modify {+sync+} documents using another tool, such as the 
+  :binary:`~bin.mongo` shell or {+compass+}, be sure the documents validate 
+  against the Sync object schema. For more information, see 
+  :ref:`Realm Sync Schema Data Consistency <realm-sync-data-consistency>`.
 
 Summary
 -------
