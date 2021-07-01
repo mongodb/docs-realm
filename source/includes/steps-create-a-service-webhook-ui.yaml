@@ -78,12 +78,29 @@ content: |
                   {
                     "jwtTokenString": "<User's JWT Token>"
                   }
-     
+         
          .. important:: Do Not Use Both Headers and Body Fields
             
             If a request includes credentials in both the request
             headers and the request body, then Realm throws an error
             and does not execute the function.
+         
+         .. note:: Application Users
+            
+            You can configure a webhook that uses application authentication to
+            perform additional user-related work for each request:
+            
+            - If you enable :guilabel:`Fetch Custom User Data`,
+              {+service-short+} queries the requesting user's :ref:`custom user
+              data <custom-user-data>` and, if it exists, exposes the data as an
+              object on the ``context.user.custom_data`` property.
+            
+            - If you enable :guilabel:`Create User Upon Authentication`,
+              {+service-short+} automatically creates a new user based on the
+              provided user credentials if they don't match an already existing
+              user. The authentication provider that corresponds to the
+              credentials must be enabled at the time of the request to create a
+              new user.
      
      * - System
        - This type of authentication configures a webhook to run as the
