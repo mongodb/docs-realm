@@ -154,23 +154,17 @@ following command in your shell:
 
 .. code-block:: shell
 
-   npm install -g mongodb-realm-cli@1.3.4
+   npm install -g mongodb-realm-cli@beta
 
 .. note:: Realm CLI Version Compatibility
 
-   This tutorial is compatible with version ``1.3.4`` of ``realm-cli``.
-   If you encounter an error importing this app, try switching to
-   version ``1.3.4``. The above command installs version ``1.3.4``.
+   This tutorial is compatible with version 2 of ``realm-cli``. If you already
+   have the CLI installed, check your version to make sure that it's compatible
+   with this tutorial.
 
-After installing the ``realm-cli``, you can run the
-following command to confirm that your installation was successful:
-
-.. code-block:: console
-
-   realm-cli --version
-
-If you see output containing a version number such as ``1.3.4``, your
-``realm-cli`` installation was successful.
+   .. code-block:: bash
+      
+      realm-cli --version
 
 .. see::
 
@@ -287,19 +281,24 @@ line tool:
       Resolving deltas: 100% (3/3), done.
 
    The directory where you ran the above ``git clone`` command should now
-   contain another directory called ``realm-tutorial-backend``. We'll use
-   the contents of that directory to create your very own Task Tracker
-   {+app+} backend with the Realm CLI.
+   contain another directory called ``realm-tutorial-backend``. We'll use the
+   contents of that directory to create your very own Task Tracker {+app+}
+   backend with the Realm CLI.
 
-#. Navigate into the root directory of the
-   ``realm-tutorial-backend`` project:
+   .. important:: Realm CLI Version Compatibility
+      
+      If you're using version 1 of ``realm-cli`` then you will need to use a
+      different branch that contains compatible configuration files:
+      
+      git checkout -b final-v1 origin/final-v1
+
+#. Navigate into the root directory of the ``realm-tutorial-backend`` project:
 
    .. code-block:: console
 
       cd realm-tutorial-backend
 
-#. Run the ``import`` command of ``realm-cli`` to create your
-   app.
+#. Run the ``import`` command of ``realm-cli`` to create your app.
 
    .. code-block:: console
 
