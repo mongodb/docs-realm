@@ -194,7 +194,7 @@ might resemble the following code:
 Realm Sync Schema Data Consistency
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-If the collection in which you create and modify objects is also accessed by {+realm+} 
+If the collection in which you create and modify objects is also accessed by Realm 
 :ref:`Sync clients <sync>`, you must ensure that the data conforms to the 
 Realm :ref:`object schema <object-schema>` defined on the collection. Consider 
 the following scenario:
@@ -212,7 +212,7 @@ the following scenario:
        age: number;
      };
   
-- Via a {+service+} client (say, {+compass+}), you create and insert a document 
+- Using a Realm client (say, {+compass+}), you create and insert a document 
   into the collection. The ``age`` property of this document has a value of 
   "forty two". 
   
