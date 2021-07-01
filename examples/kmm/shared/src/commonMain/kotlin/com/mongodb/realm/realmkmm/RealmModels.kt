@@ -23,7 +23,7 @@ class Frog : RealmObject {
 
 // :code-block-start: quick-start-model
 open class Task : RealmObject {
-    var name: String = "task"
-    var status: String = "open"
+    var name: String = "new task"
+    var status: String = "Open"
 }
 // :code-block-end:
