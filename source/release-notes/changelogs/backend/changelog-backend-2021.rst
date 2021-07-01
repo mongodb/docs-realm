@@ -7,7 +7,6 @@ June 30 2021 Release
   JWTs with multiple audiences.
 - Introduced support for bi-directional :ref:`GitHub Autodeploy <deploy-github>`.
 - Added the ability to link a Github repository on application create.
-- :ref:`Realm CLI <realm-cli>` 2.0 released.
 
 
 .. _backend_20210616:
