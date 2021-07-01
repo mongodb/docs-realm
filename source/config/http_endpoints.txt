@@ -112,9 +112,9 @@ Configuration
      "run_as_authed_user": <Boolean>,
      "run_as_user_id": "<Realm User ID>",
      "run_as_user_id_script_source": "<Function Source Code>",
-     "respond_result": <Boolean>,
      "fetch_custom_user_data": <Boolean>,
      "create_user_on_auth": <Boolean>,
+     "respond_result": <Boolean>,
      "options": {
        "httpMethod": "<HTTP Method>",
        "validationMethod": "<Webhook Validation Method>",
@@ -176,6 +176,16 @@ Configuration
      - If ``true``, {+service-short+} includes the webhook function return value as
        the body of the HTTP response it sends to the client that initiated the
        webhook request.
+   
+   * - | ``fetch_custom_user_data``
+       | Boolean
+     - If ``true``, {+service-short+} queries the requesting user's :ref:`custom
+       user data <custom-user-data>` and, if it exists, exposes the data as an
+       object on the ``context.user.custom_data`` property.
+       
+       This option is only available if ``run_as_authed_user`` is set to
+       ``true``.
+
    
    * - | ``options``
        | Document
