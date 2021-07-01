@@ -227,17 +227,22 @@ the following scenario:
 The same scenario holds true if a valid document is modified outside of Sync 
 such that one or more properties no longer conform to the Sync schema. 
 
-.. important:: 
+Any document that fails the object schema validation is added to the 
+``__realm_sync.unsynced_documents`` collection (along with the reason for the 
+failure) and will also be logged in the 
+Realm UI ``Logs`` console. If there are 10,000 or more documents that can't be 
+synced, the Realm app is paused.
 
-   If you create a document that does not meet the definition of the object model 
-   and then modify the document to match the schema, the Sync history will be 
-   corrupted because it shows an **update** without a preceding **create** event. 
-   The solution is to delete the original document and insert a new document that 
-   conforms to the object model. 
+To fix this problem, you must **replace** the invalid document with one that 
+conforms to the object model. Updating the existing document will not add it to 
+Sync. 
 
-In summary: if your data is used by Sync clients but can also be created or 
-modified outside of Realm Sync, you must ensure those creations and modifications 
-match the defined object schema on the collection.
+.. note:: Summary
+
+   If your data is used by Sync clients but can also be created or 
+   modified outside of Realm Sync, you must ensure those creations and modifications 
+   match the defined object schema on the collection. For documents that have 
+   failed, you must replace the entire document before it can sync.
 
 
 Related Content
