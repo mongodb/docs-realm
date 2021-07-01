@@ -27,7 +27,7 @@ content: |
           dependencies {
               classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.20")
               classpath("com.android.tools.build:gradle:4.2.1")
-              classpath("io.realm.kotlin:gradle-plugin:0.2.0")
+              classpath("io.realm.kotlin:gradle-plugin:0.3.0")
           }
       }
 
@@ -50,7 +50,7 @@ content: |
    Open the shared module ``build.gradle.kts`` file in the root of the
    shared module directory of your project. By default, this module is
    called "shared". Add the ``io.realm.kotlin`` dependency to
-   ``plugins`` and ``implementation("io.realm.kotlin:library:0.2.0")``
+   ``plugins`` and ``implementation("io.realm.kotlin:library:0.3.0")``
    to ``kotlin.sourceSets.commonMain.dependencies``:
 
    .. code-block:: groovy
@@ -89,7 +89,7 @@ content: |
           sourceSets {
               val commonMain by getting {
                   dependencies {
-                      implementation("io.realm.kotlin:library:0.2.0")
+                      implementation("io.realm.kotlin:library:0.3.0")
                   }
               }
               val commonTest by getting {

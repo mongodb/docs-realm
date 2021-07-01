@@ -42,101 +42,28 @@ stored in a local instance of {+client-database+}. With
 Define an Object Schema
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-Define your object schema
-with annotated Kotlin classes:
+Define your object schema with annotated Kotlin classes:
 
-.. tabs-realm-languages::
+.. literalinclude:: /examples/generated/kotlin-multiplatform/RealmModels.codeblock.landing-page-model.kt
+   :language: kotlin
 
-   .. tab::
-      :tabid: kotlin
-
-      .. literalinclude:: /examples/generated/android/local/Frog.codeblock.frog-definition-local.kt
-         :language: kotlin
-
-   .. tab::
-      :tabid: java
-
-      .. literalinclude:: /examples/generated/android/local/FrogJava.codeblock.frog-definition-local.java
-         :language: java
 
 Query Realm Database
 ~~~~~~~~~~~~~~~~~~~~
 
 Query for stored objects:
 
-.. tabs-realm-languages::
-     
-   .. tab::
-      :tabid: kotlin
+.. literalinclude:: /examples/generated/kotlin-multiplatform/Greeting.codeblock.landing-page-query.kt
+   :language: kotlin
 
-      .. literalinclude:: /examples/generated/android/local/LandingPageTest.codeblock.query.kt
-         :language: kotlin
+Update Objects
+~~~~~~~~~~~~~~
 
-   .. tab::
-      :tabid: java
+Update objects in {+client-database+} by updating field values on an
+instance of the object within a transaction:
 
-      .. literalinclude:: /examples/generated/android/local/LandingPageTest.codeblock.query.java
-         :language: java
-
-Update Live Objects
-~~~~~~~~~~~~~~~~~~~
-
-Update objects in {+client-database+} by
-updating field values on an instance of the object within a transaction:
-
-.. tabs-realm-languages::
-   
-   .. tab::
-      :tabid: kotlin
-
-      .. literalinclude:: /examples/generated/android/local/LandingPageTest.codeblock.update.kt
-         :language: kotlin
-
-   .. tab::
-      :tabid: java
-
-      .. literalinclude:: /examples/generated/android/local/LandingPageTest.codeblock.update.java
-         :language: java
-
-Watch for Object Updates
-~~~~~~~~~~~~~~~~~~~~~~~~
-
-Receive object updates and notifications automatically
-when objects stored in {+client-database+} change:
-
-.. tabs-realm-languages::
-  
-   .. tab::
-      :tabid: kotlin
-
-      .. literalinclude:: /examples/generated/android/local/LandingPageTest.codeblock.notifications.kt
-         :language: kotlin
-
-   .. tab::
-      :tabid: java
-
-      .. literalinclude:: /examples/generated/android/local/LandingPageTest.codeblock.notifications.java
-         :language: java
-
-Always Access the Latest Data
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Live objects keep all instances
-of an object up to date at all times:
-
-.. tabs-realm-languages::
-  
-   .. tab::
-      :tabid: kotlin
-
-      .. literalinclude:: /examples/generated/android/local/LandingPageTest.codeblock.live-objects.kt
-         :language: kotlin
-
-   .. tab::
-      :tabid: java
-
-      .. literalinclude:: /examples/generated/android/local/LandingPageTest.codeblock.live-objects.java
-         :language: java
+.. literalinclude:: /examples/generated/kotlin-multiplatform/Greeting.codeblock.landing-page-update.kt
+   :language: kotlin
 
 Get Started
 -----------
