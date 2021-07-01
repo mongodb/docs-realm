@@ -2,7 +2,7 @@ Document queryFilter = new Document("sunlight", "full")
         .append("type", "perennial")
         .append("color", "green")
         .append("_partition", "Store 47");
-Document updateDocument = new Document("name", "sweet basil");
+Document updateDocument = new Document("$set", new Document("name", "sweet basil"));
 UpdateOptions updateOptions = new UpdateOptions().upsert(true);
 mongoCollection.updateOne(queryFilter, updateDocument, updateOptions).getAsync(task -> {
     if (task.isSuccess()) {

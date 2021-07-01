@@ -3,11 +3,11 @@ val config = RealmConfiguration.Builder()
     .allowWritesOnUiThread(true)
     .build()
 
-val realm: Realm
+var realm: Realm
 try {
     realm = Realm.getInstance(config)
     Log.v("EXAMPLE", "Successfully opened a realm at: ${realm.path}")
 } catch(ex: RealmFileException) {
-    Log.v("EXAMPLE", "Error opening the realm at ${realm.path}")
+    Log.v("EXAMPLE", "Error opening the realm.")
     Log.v("EXAMPLE", ex.toString())
 }

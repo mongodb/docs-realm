@@ -421,7 +421,7 @@ public class MongoDBDataAccessTest extends RealmTest {
                     Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle");
                     // :code-block-start: update-a-single-document
                     Document queryFilter = new Document("name", "petunia");
-                    Document updateDocument = new Document("sunlight", "partial");
+                    Document updateDocument = new Document("$set", new Document("sunlight", "partial"));
                     mongoCollection.updateOne(queryFilter, updateDocument).getAsync(task -> {
                         if (task.isSuccess()) {
                             long count = task.get().getModifiedCount();
@@ -472,7 +472,7 @@ public class MongoDBDataAccessTest extends RealmTest {
                     Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle");
                     // :code-block-start: update-multiple-documents
                     Document queryFilter = new Document("_partition", "Store 47");
-                    Document updateDocument = new Document("_partition", "Store 51");
+                    Document updateDocument = new Document("$set", new Document("_partition", "Store 51"));
                     mongoCollection.updateMany(queryFilter, updateDocument).getAsync(task -> {
                         if (task.isSuccess()) {
                             long count = task.get().getModifiedCount();
@@ -526,7 +526,7 @@ public class MongoDBDataAccessTest extends RealmTest {
                             .append("type", "perennial")
                             .append("color", "green")
                             .append("_partition", "Store 47");
-                    Document updateDocument = new Document("name", "sweet basil");
+                    Document updateDocument = new Document("$set", new Document("name", "sweet basil"));
                     UpdateOptions updateOptions = new UpdateOptions().upsert(true);
                     mongoCollection.updateOne(queryFilter, updateDocument, updateOptions).getAsync(task -> {
                         if (task.isSuccess()) {
