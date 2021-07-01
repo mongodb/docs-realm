@@ -191,6 +191,53 @@ might resemble the following code:
       { $unset: { _id_realm_transaction: "" } }
    )
 
+Realm Sync Schema Data Consistency
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+If the collection in which you create and modify objects is also accessed by {+realm+} 
+:ref:`Sync clients <sync>`, you must ensure that the data conforms to the 
+Realm :ref:`object schema <object-schema>` defined on the collection. Consider 
+the following scenario:
+
+- You have a collection of objects that is used by {+realm+} Sync clients. The 
+  **object schema** for the collection looks like this:
+
+  .. code-block:: js
+     :copyable: false
+
+     type Person = {
+       _id: BSON.ObjectId;
+       name: string;
+       address: string;
+       age: number;
+     };
+  
+- Via a {+service+} client (say, {+compass+}), you create and insert a document 
+  into the collection. The ``age`` property of this document has a value of 
+  "forty two". 
+  
+- Because of MongoDB's flexible schema, there is no error when inserting the 
+  document. However, because the the Sync object schema defines the ``age`` 
+  property as type ``number``, the object fails schema validation and is not 
+  pushed to Sync.
+
+- The collection is now divergent: Sync clients do not see the new document, but 
+  {+service+} clients do. 
+
+The same scenario holds true if a valid document is modified outside of Sync 
+such that one or more properties no longer conform to the Sync schema. 
+
+.. important:: 
+
+   If you create a document that does not meet the definition of the object model 
+   and then modify the document to match the schema, the Sync history will be 
+   corrupted because it shows an **update** without a preceding **create** event. 
+   The solution is to delete the original document and insert a new document that 
+   conforms to the object model. 
+
+In summary: if your data is used by Sync clients but can also be created or 
+modified outside of Realm Sync, you must ensure those creations and modifications 
+match the defined object schema on the collection.
 
 Related Content
 ---------------
