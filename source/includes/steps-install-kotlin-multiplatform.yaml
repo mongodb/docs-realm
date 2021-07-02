@@ -83,6 +83,18 @@ content: |
           }
       }
 
+   .. note:: Android Module Dependencies
+
+      If you use any part of the SDK, including model classes and query
+      results, inside the Android module (named "androidApp" by default),
+      add the SDK's compile-time dependency:
+
+      .. code-block:: kotlin
+
+         dependencies {
+            compileOnly("io.realm.kotlin:library:{+kotlin-sdk-version+}")
+         }
+
 ---
 title: Sync Project with Gradle Files
 ref: sync-gradle-dependencies
