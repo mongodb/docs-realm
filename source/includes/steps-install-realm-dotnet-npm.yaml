@@ -18,7 +18,8 @@ content: |
   .. figure:: /images/unity-open-advanced-project-settings.png
      :alt: Select "Advanced Project Settings" 
   
-  Fill out the scoped registry form with the details below.
+  Fill out the scoped registry form with the details below and click the save
+  button.
 
   .. code-block:: none
 
@@ -29,18 +30,38 @@ content: |
   .. figure:: /images/add-scoped-registry-form.png
      :alt: Download the latest release of the .NET SDK    
 ---
-title: Add Realm as a Dependency
-ref: add-realm-as-a-dependency
+title: Add Realm to the Project Manifest
+ref: add-realm-project-manifest
 content: |
 
-  Move your downloaded 
-    why your doing it; how your doing it
+  Now that Unity has the ability to install the {+service-short+} .NET SDK from
+  NPM, you need to add {+service-short+} as a dependency in your
+  your project's `manifest file
+  <https://docs.unity3d.com/Manual/upm-manifestPrj.html>`_. Open
+  "Packages/manifest.json" file in `Visual Studio
+  <https://docs.microsoft.com/en-us/visualstudio/>`_ or another text editor. At
+  the bottom of the dependency's object, add the field, "io.realm.unity" and
+  it's value, the {+service-short+} .NET version number you want to use in quotes.
+
+  .. code-block:: none
+
+   "io.realm.unity": "<version-number>"
+
+  Remember to replace the version-number above with the actual version number.
+  When you save this file, Unity will download the specified version of the
+  {+service-short+} .NET SDK package from the NPM registry.
+
+  .. figure:: /images/unity-resolve-packages.png
+     :alt: Unity downloading {+service-short+} .NET SDK package
 ---
 title: Verify the Realm Dependency and Check for Updates
 ref: verify-realm-dependency-check-for-updates
 content: |
 
-  Move your downloaded 
+  To verify that the {+service-short+} package has been downloaded from NPM,
+  return to the Unity package manager 
+  ove your downloaded 
+  why your doing it; how your doing it
 ---
 title: Import Realm
 ref: import-realm-npm-steps
