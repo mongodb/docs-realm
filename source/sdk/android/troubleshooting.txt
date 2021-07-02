@@ -69,7 +69,7 @@ or writability settings. However, configurations that include lambda
 functions, such as those passed to
 :java-sdk:`initialData() <io/realm/RealmConfiguration.Builder.html#initialData-io.realm.Realm.Transaction->`
 and
-:java-sdk:`compactOnLaunch() <io/realm/RealmConfiguration.Builder.html#compactOnLaunch-io.realm.CompactOnLaunchCallback-`,
+:java-sdk:`compactOnLaunch() <io/realm/RealmConfiguration.Builder.html#compactOnLaunch-io.realm.CompactOnLaunchCallback->`,
 can break this ``equals()`` comparison, since two different lambdas are
 never considered equal using Java's built-in comparison.
 To avoid this error when using lambdas, you can either:
