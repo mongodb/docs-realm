@@ -228,8 +228,8 @@ namespace Examples
 
             theKing.PropertyChanged += (sender, eventArgs) =>
             {
-                Debug.WriteLine($"New value set for The King: " +
-                    $"{eventArgs.PropertyName}");
+                Debug.WriteLine("New value set for The King: " +
+                    eventArgs.PropertyName);
             };
         }
         // :replace-end:
