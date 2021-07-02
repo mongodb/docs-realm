@@ -191,6 +191,65 @@ might resemble the following code:
       { $unset: { _id_realm_transaction: "" } }
    )
 
+.. _realm-sync-data-consistency:
+
+Realm Sync Schema Data Consistency
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+If the collection in which you create and modify objects is also accessed by  
+:ref:`{+sync+} clients <sync>`, you must ensure that the data conforms to the 
+{+service-short+} :ref:`object schema <object-schema>` defined on the collection. 
+Consider the following scenario:
+
+- You have a collection of objects that is used by {+sync+} clients. The 
+  **object schema** for the collection looks like this:
+
+  .. code-block:: js
+     :copyable: false
+
+     type Person = {
+       _id: BSON.ObjectId;
+       name: string;
+       address: string;
+       age: number;
+     };
+  
+- Using a {+service-short+} client (say, {+compass+}), you create and insert a 
+  document into the collection. The ``age`` property of this document has a 
+  value of "forty two". 
+  
+- Because of MongoDB's flexible schema, there is no error when inserting the 
+  document. However, because the the Sync object schema defines the ``age`` 
+  property as type ``number``, the object fails schema validation and is not 
+  pushed to Sync.
+
+- The collection is now divergent: Sync clients do not see the new document, but 
+  {+service+} clients do. 
+
+The same scenario holds true if a valid document is modified outside of {+sync+}  
+such that one or more properties no longer conform to the Sync schema. 
+
+Any document that fails the object schema validation is added to the 
+``__realm_sync.unsynced_documents`` collection (along with the reason for the 
+failure) and will also be logged in the 
+Realm UI ``Logs`` console. If there are 100,000 or more documents that can't be 
+synced, the Realm app is paused.
+
+.. important::
+
+   You can read from the ``__realm_sync.unsynced_documents`` collection, but you 
+   should not modify it in any way.
+
+To fix this problem, you must **replace** the invalid document with one that 
+conforms to the object model. Updating the existing document will not add it to 
+Sync. 
+
+**Summary**
+  If your data is used by Sync clients but can also be created or 
+  modified outside of Realm Sync, you must ensure those creations and modifications 
+  match the defined object schema on the collection. For documents that have 
+  failed, you must replace the entire document before it can sync.
+
 
 Related Content
 ---------------

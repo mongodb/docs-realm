@@ -112,14 +112,8 @@ and MongoDB Atlas.
        Documents that do not match the schema cannot be synced and any local
        updates to the object represented by such a document will not propagate.
        
-       To recover from an encoding error, update the document to conform to the
-       app's schema. To avoid the problem, review all workloads that write to a
-       synced cluster and ensure that they conform to your app's schema.
-       
-       .. warning::
-          
-          If a synced cluster contains more than 100,000 "unsyncable" documents,
-          Realm automatically terminates sync with a fatal error.
+       For more information, see 
+       :ref:`Realm Sync Schema Data Consistency <realm-sync-data-consistency>`.
    
    * - TranslatorCorrectiveErasure
      - This error occurs when a synced MongoDB cluster rejects the write
