@@ -3,7 +3,7 @@
 
     theKing.PropertyChanged += (sender, eventArgs) =>
     {
-        Debug.WriteLine($"New value set for The King: " +
+        Debug.WriteLine("New value set for The King: " +
             eventArgs.PropertyName);
     };
 }
