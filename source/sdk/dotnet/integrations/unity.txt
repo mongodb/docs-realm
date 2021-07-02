@@ -59,4 +59,17 @@ the following additional considerations in mind when developing your project:
 - Unity performs `managed code stripping <https://docs.unity3d.com/Manual/ManagedCodeStripping.html>`_, discarding any unused code from a build in order to decrease build time. This may lead to issues when serializing :manual:`BSON </reference/bson-types/>` into C# classes. For platforms, such as iOS, that use `IL2CPP <https://docs.unity3d.com/Manual/IL2CPP.html>`_ managed code stripping is enabled by default. When working with BSON, it is recommended to disable managed code stripping through the `ManagedStrippingLevel API <https://docs.unity3d.com/2018.3/Documentation/ScriptReference/ManagedStrippingLevel.html>`_ or through the `"Managed stripping levels" option <https://docs.unity3d.com/Manual/ManagedCodeStripping.html>`_ in the project player settings of the Unity UI.
 - The {+service-short+} .NET SDK cannot be accessed within the `AppDomain.DomainUnload Event <https://docs.microsoft.com/en-us/dotnet/api/system.appdomain.domainunload?view=net-5.0>`_ or the `Application.quitting <https://docs.unity3d.com/ScriptReference/Application-quitting.html>`_ event. This means you cannot :doc:`close a realm </sdk/dotnet/examples/open-and-close-a-local-realm>` when the player application is qutting. Instead, you may want to dispose the {+realm+} within a `ScriptableObject.OnDisable() <https://docs.unity3d.com/ScriptReference/ScriptableObject.OnDisable.html>`_ cleanup method which is called when a scriptable object, such as a GameController, goes out of scope.
 
+Additional Examples
+--------------------
+The {+service+} community has created the following projects that demonstrate the
+usage of the :doc:`{+service-short+} .NET SDK </sdk/dotnet>` with Unity. 
 
+.. note:: 
+
+   The MongoDB Documentation team does not directly maintain these examples. 
+
+
+- `MongoDB Devhub: Unity with {+service-short+} Articles<https://developer.mongodb.com/learn/?content=Articles&text=unity>`_
+- `MongoDB Youtube Channel: Getting Started with the Realm SDK for Unity <https://www.youtube.com/watch?v=df2qo8G2ZfU>`_
+- `MongoDB Youtube Channel: Build an Infinite Runner Game with Unity and the Realm Unity SDK <https://www.youtube.com/watch?v=8S0NuFwFazY>`_
+- `dodoTV42 Youtube Channel: How to SAVE and LOAD data in Unity3D with Realm SDK <https://www.youtube.com/watch?v=8jo_S02HLkI>`_
