@@ -22,18 +22,18 @@ PODS:
     - AppAuth/Core (~> 1.4)
     - GTMSessionFetcher/Core (~> 1.5)
   - GTMSessionFetcher/Core (1.5.0)
-  - Realm (10.8.0-beta.1):
-    - Realm/Headers (= 10.8.0-beta.1)
-  - Realm/Headers (10.8.0-beta.1)
-  - RealmSwift (10.8.0-beta.1):
-    - Realm (= 10.8.0-beta.1)
+  - Realm (10.9.0):
+    - Realm/Headers (= 10.9.0)
+  - Realm/Headers (10.9.0)
+  - RealmSwift (10.9.0):
+    - Realm (= 10.9.0)
   - SwiftLint (0.43.1)
 
 DEPENDENCIES:
   - FBSDKLoginKit (= 8.1.0)
   - GoogleSignIn
-  - Realm (from `https://github.com/realm/realm-cocoa`, branch `py/dictionary`)
-  - RealmSwift (from `https://github.com/realm/realm-cocoa`, branch `py/dictionary`)
+  - Realm (~> 10.9.0)
+  - RealmSwift (~> 10.9.0)
   - SwiftLint
 
 SPEC REPOS:
@@ -44,23 +44,9 @@ SPEC REPOS:
     - GoogleSignIn
     - GTMAppAuth
     - GTMSessionFetcher
+    - Realm
+    - RealmSwift
     - SwiftLint
-
-EXTERNAL SOURCES:
-  Realm:
-    :branch: py/dictionary
-    :git: https://github.com/realm/realm-cocoa
-  RealmSwift:
-    :branch: py/dictionary
-    :git: https://github.com/realm/realm-cocoa
-
-CHECKOUT OPTIONS:
-  Realm:
-    :commit: 060730333ffa736b97ece326c401adcbbf59c3b1
-    :git: https://github.com/realm/realm-cocoa
-  RealmSwift:
-    :commit: 060730333ffa736b97ece326c401adcbbf59c3b1
-    :git: https://github.com/realm/realm-cocoa
 
 SPEC CHECKSUMS:
   AppAuth: 31bcec809a638d7bd2f86ea8a52bd45f6e81e7c7
@@ -69,10 +55,10 @@ SPEC CHECKSUMS:
   GoogleSignIn: 7137d297ddc022a7e0aa4619c86d72c909fa7213
   GTMAppAuth: ad5c2b70b9a8689e1a04033c9369c4915bfcbe89
   GTMSessionFetcher: b3503b20a988c4e20cc189aa798fd18220133f52
-  Realm: 6bc0a74e52ce6cf6626479b29f23f85204911417
-  RealmSwift: 0d1bfae191c637683948c74b5e5fa2cd94e5e0e7
+  Realm: 9feef41ab8230ed706c4dc503fc292594915bf9a
+  RealmSwift: 91246183b772e0ea1bf777116c4b8d9939f983b3
   SwiftLint: 99f82d07b837b942dd563c668de129a03fc3fb52
 
-PODFILE CHECKSUM: 05ac07d0379c42f8f02a349f60750d77c201ab98
+PODFILE CHECKSUM: 47c2b935c4f0d5228a8fd01244199d1e89628091
 
 COCOAPODS: 1.10.1
