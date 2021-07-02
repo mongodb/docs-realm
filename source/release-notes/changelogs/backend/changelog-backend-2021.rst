@@ -1,6 +1,6 @@
 .. _backend_20210702:
 
-July 02 2021 Release
+02 July 2021 Release
 ~~~~~~~~~~~~~~~~~~~~
 
 - Added :ref:`JWT Authentication <custom-jwt-authentication>` support for
