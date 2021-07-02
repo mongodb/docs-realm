@@ -1,6 +1,6 @@
 .. list-table::
    :header-rows: 1
-   :widths: 10 10 80
+   :widths: 10 15 75
 
    * - Field
      - Type
