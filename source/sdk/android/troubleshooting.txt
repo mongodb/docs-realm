@@ -61,12 +61,18 @@ Configurations Cannot be Different if Used to Open the Same File
 ----------------------------------------------------------------
 
 {+client-database+} runs checks whenever you open a {+realm+} file to
-avoid corruption. In most cases, this works well to ensure that you don't
-open one {+realm+} with two different schemas, durability levels, or
-writability settings, since the SDK shares underlying connections to
-the same file. However, some settings are not properly compared by this
-compatibility check, such as ``initialData()`` or ``compactOnLaunch()``.
-To avoid this error when you're using settings like these, you can either:
+avoid corruption. In order to avoid accidentally opening a {+realm+}
+file with incompatible settings, the SDK uses Java's ``equals()`` method
+to compare ``RealmConfiguration`` objects. This prevents the SDK from
+opening a single {+realm+} file with different schemas, durability levels,
+or writability settings. However, configurations that include lambda
+functions, such as those passed to
+:java-sdk:`initialData() <io/realm/RealmConfiguration.Builder.html#initialData-io.realm.Realm.Transaction->`
+and
+:java-sdk:`compactOnLaunch() <io/realm/RealmConfiguration.Builder.html#compactOnLaunch-io.realm.CompactOnLaunchCallback-`,
+can break this ``equals()`` comparison, since two different lambdas are
+never considered equal using Java's built-in comparison.
+To avoid this error when using lambdas, you can either:
 
 1. Store a single configuration statically in your application, so that
    separate {+realm+} instantiations use the exact same
