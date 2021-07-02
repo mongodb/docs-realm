@@ -67,3 +67,43 @@ Due to an update to Linux kernel 5.x,
 <android-client-notifications>` do not work in SDK versions below
 10.5.1 on emulated devices running Android 12. For full functionality
 in Android 12, update to SDK version 10.5.1.
+
+Configurations Cannot be Different if Used to Open the Same File
+----------------------------------------------------------------
+
+{+client-database+} runs checks whenever you open a {+realm+} file to
+avoid corruption. In order to avoid accidentally opening a {+realm+}
+file with incompatible settings, the SDK uses Java's ``equals()`` method
+to compare ``RealmConfiguration`` objects. This prevents the SDK from
+opening a single {+realm+} file with different schemas, durability levels,
+or writability settings. However, configurations that include lambda
+functions, such as those passed to
+:java-sdk:`initialData() <io/realm/RealmConfiguration.Builder.html#initialData-io.realm.Realm.Transaction->`
+and
+:java-sdk:`compactOnLaunch() <io/realm/RealmConfiguration.Builder.html#compactOnLaunch-io.realm.CompactOnLaunchCallback->`,
+can break this ``equals()`` comparison, since two different lambdas are
+never considered equal using Java's built-in comparison.
+To avoid this error when using lambdas, you can either:
+
+1. Store a single configuration statically in your application, so that
+   separate {+realm+} instances use the exact same
+   ``RealmConfiguration`` object and it passes the check.
+
+#. Override the default equals check of the ``RealmConfiguration``:
+
+   .. code-block:: kotlin
+
+      val config = RealmConfiguration.Builder()
+           .initialData(object: Realm.Transaction {
+               override fun execute(realm: Realm) {
+                   TODO("Not yet implemented")
+               }
+
+               override fun equals(other: Any?): Boolean {
+                   return true
+               }
+
+               override fun hashCode(): Int {
+                   return 37
+               }
+           }).build()
