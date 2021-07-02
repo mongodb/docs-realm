@@ -20,9 +20,7 @@ class ProjectsViewController: UIViewController, UITableViewDelegate, UITableView
         super.init(nibName: nil, bundle: nil)
 
         // :code-block-start: user-in-realm-notification
-        // :state-start: local
-        // TODO: fetch user data object
-        // :state-end: :state-start: start
+        // :state-start: local start
         // TODO: fetch user data object
         // :state-end: :state-uncomment-start: sync
         // // There should only be one user in my realm - that is myself
@@ -49,9 +47,7 @@ class ProjectsViewController: UIViewController, UITableViewDelegate, UITableView
     //     notificationToken?.invalidate()
     // }
     // :state-uncomment-end:
-    // :state-start: local
-    // TODO: deinit method
-    // :state-end: :state-start: start
+    // :state-start: local start
     // TODO: deinit method
     // :state-end:
     // :code-block-end:
@@ -77,9 +73,7 @@ class ProjectsViewController: UIViewController, UITableViewDelegate, UITableView
             _ -> Void in
             print("Logging out...")
             self.navigationController?.popViewController(animated: true)
-            // :state-start: start
-            // TODO: log out the current user
-            // :state-end: :state-start: local
+            // :state-start: start local
             // TODO: log out the current user
             // :state-end: :state-uncomment-start: sync
             // app.currentUser?.logOut { (_) in
@@ -97,16 +91,13 @@ class ProjectsViewController: UIViewController, UITableViewDelegate, UITableView
 
     // :code-block-start: number-of-rows-in-section
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // :state-start: local
+        // :state-start: local start
         // You always have one project (your own)
         return 1 // TODO: calculate number of rows based on user data
         // :state-end:
         // :state-uncomment-start: sync
         // // You always have at least one project (your own)
         // return userData?.memberOf.count ?? 1
-        // :state-uncomment-end: :state-uncomment-start: start
-        // // You always have one project (your own)
-        // return 1 // TODO: calculate number of rows based on user data
         // :state-uncomment-end:
     }
     // :code-block-end:
@@ -116,9 +107,7 @@ class ProjectsViewController: UIViewController, UITableViewDelegate, UITableView
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell") ?? UITableViewCell(style: .default, reuseIdentifier: "Cell")
         cell.selectionStyle = .none
 
-        // :state-start: local
-        // TODO: load data about projects that the user can access
-        // :state-end: :state-start: start
+        // :state-start: local start
         // TODO: load data about projects that the user can access
         // :state-end: :state-uncomment-start: sync
         // //  User data may not have loaded yet. You always have your own project.
@@ -132,7 +121,7 @@ class ProjectsViewController: UIViewController, UITableViewDelegate, UITableView
 
     // :code-block-start: did-select-row-at
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        // :state-start: local
+        // :state-start: local start
         // TODO: open the realm for the selected project and navigate to the TasksViewController.
         // The project information is contained in the userData's memberOf field.
         // The userData may not have loaded yet. Regardless, the current user always has their own project.
@@ -152,12 +141,7 @@ class ProjectsViewController: UIViewController, UITableViewDelegate, UITableView
         //         )
         //     }
         // }
-        // :state-uncomment-end: :state-uncomment-start: start
-        // // TODO: open the realm for the selected project and navigate to the TasksViewController.
-        // // The project information is contained in the userData's memberOf field.
-        // // The userData may not have loaded yet. Regardless, the current user always has their own project.
-        // // A user's realm name is "project=username".
-        // :state-uncomment-end: 
+        // :state-uncomment-end:
     }
     // :code-block-end:
 }

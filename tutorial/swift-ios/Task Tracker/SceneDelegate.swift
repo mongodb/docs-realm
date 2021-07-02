@@ -14,9 +14,7 @@ import RealmSwift
 // :state-uncomment-start: sync
 // let app = App(id: "<your-realm-app-ID-here>")
 // :state-uncomment-end:
-// :state-start: local
-// TODO: Declare a global Realm App instance.
-// :state-end: :state-start: start
+// :state-start: start local
 // TODO: Declare a global Realm App instance.
 // :state-end:
 // :code-block-end:

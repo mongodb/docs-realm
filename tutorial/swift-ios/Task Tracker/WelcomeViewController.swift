@@ -73,11 +73,9 @@ class WelcomeViewController: UIViewController {
         let infoLabel = UILabel()
         infoLabel.numberOfLines = 0
         // :code-block-start: info-label-password-add
-        // :state-start: local
+        // :state-start: local start
         infoLabel.text = "Please enter a username."
-        // :state-end: :state-uncomment-start: start
-        // infoLabel.text = "Please enter a username."
-        // :state-uncomment-end::state-uncomment-start: sync
+        // :state-end: :state-uncomment-start: sync
         // infoLabel.text = "Please enter an email and password."
         // :state-uncomment-end:
         // :code-block-end:
@@ -85,11 +83,9 @@ class WelcomeViewController: UIViewController {
 
         // :code-block-start: username-field-placeholder
         // Configure the username text input field.
-        // :state-start: local
+        // :state-start: local start
         usernameField.placeholder = "Username"
-        // :state-end: :state-uncomment-start: start
-        // usernameField.placeholder = "Username"
-        // :state-uncomment-end: :state-uncomment-start: sync
+        // :state-end: :state-uncomment-start: sync
         // usernameField.placeholder = "Email"
         // :state-uncomment-end:
         // :code-block-end:
