@@ -1,5 +1,75 @@
-title: To do - add npm install steps
-ref: to-do-add-npm-i-steps
+title: Add NPM as a Scoped Registry
+ref: download-the-latest-realm
 content: |
 
-  To do - add npm install steps
+  Before you can download and use {+service+} within your Unity project, you
+  must add :npm:`NPM <>` as a `scoped registry
+  <https://docs.unity3d.com/Manual/upm-scoped.html>`_. Adding NPM as a scoped
+  registry configures Unity to communicate with NPM allowing you to install
+  packages, such as {+service-short+} from it.
+
+  Open the `Unity package manager
+  <https://docs.unity3d.com/Manual/upm-ui.html>`_ by clicking the
+  :guilabel:`Window` tab on the top of the Unity menu. Click :guilabel:`Package
+  Manager` from the :guilabel:`Window dropdown`. Then, click the gear icon on
+  the right hand corner. Select the :guilabel:`Advanced Project
+  Settings` option from the dropdown. 
+
+  .. figure:: /images/unity-open-advanced-project-settings.png
+     :alt: Select "Advanced Project Settings" 
+  
+  Fill out the scoped registry form with the details below.
+
+  .. code-block:: none
+
+   name = NPM
+   URL = https://registry.npmjs.org
+   Scope(s) = io.realm.unity
+
+  .. figure:: /images/add-scoped-registry-form.png
+     :alt: Download the latest release of the .NET SDK    
+---
+title: Add Realm as a Dependency
+ref: add-realm-as-a-dependency
+content: |
+
+  Move your downloaded 
+    why your doing it; how your doing it
+---
+title: Verify the Realm Dependency and Check for Updates
+ref: verify-realm-dependency-check-for-updates
+content: |
+
+  Move your downloaded 
+---
+title: Import Realm
+ref: import-realm-npm-steps
+content: |
+
+  `Create a C# script
+  <https://docs.unity3d.com/Manual/CreatingAndUsingScripts.html>`_ or use a C#
+  script you have already created. Open that script in `Visual Studio
+  <https://docs.microsoft.com/en-us/visualstudio/>`_ or another text editor. Add
+  the following line to import your {+service-short+} package: 
+
+  .. code-block:: csharp
+
+   using Realms;
+
+     Before you begin using {+service+} within your Unity project, you must
+  download the {+service-short+} .NET SDK. 
+
+  Navigate to the :github:`realm-dotnet repository releases
+  <realm/realm-dotnet/releases>` page, and scroll down to the release you want
+  to use in your project. If you are unsure of which release to use, you can use
+  the one labeled **"latest release"** on the left row. 
+
+  .. figure:: /images/find-latest-dotnet-release.png
+     :alt: Find the latest release of the .NET SDK
+  
+  Scroll down to the **"Assets"** dropdown of the release and click the link
+  labeled **"io.realm.unity-bundled-<version-number>.tgz"** to download the SDK.
+
+  .. figure:: /images/download-unity-bundled-tgz.png
+     :alt: Download the latest release of the .NET SDK  
+
