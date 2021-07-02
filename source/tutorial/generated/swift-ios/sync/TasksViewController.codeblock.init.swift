@@ -8,6 +8,7 @@ required init(realm: Realm, title: String) {
     // Partition value must be of string type.
     partitionValue = syncConfiguration.partitionValue!.stringValue!
     
+    // Access all tasks in the realm, sorted by _id so that the ordering is defined.
     tasks = realm.objects(Task.self).sorted(byKeyPath: "_id")
 
     super.init(nibName: nil, bundle: nil)
