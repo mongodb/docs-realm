@@ -102,14 +102,23 @@ title: Sync Project with Gradle Files
 ref: sync-gradle-dependencies
 content: |
 
-   Now that you have updated the Gradle configurations,
+   Now that you have updated the Gradle configuration,
    resolve the dependencies by clicking :guilabel:`File` >
    :guilabel:`Sync Project with Gradle Files`.
 
-   Once Android Studio has resolved the dependencies, you
-   can get started with {+service-short+}. Import the {+service-short+} SDK with
-   this import statement in your ``.kt`` files in ``commonMain``:
+---
+title: Run the Application
+ref: run-the-application
+content: |
+
+   Once Android Studio has successfully resolved the dependencies, you
+   can get started with {+service-short+}. Import the {+service-short+}
+   SDK with the following import statement in your ``.kt`` files in
+   ``commonMain``:
 
    .. code-block:: kotlin
       
       import io.realm.Realm
+
+   Then, click the :guilabel:`Run` button (a green triangle) to run
+   the application in your compatible emulator.
