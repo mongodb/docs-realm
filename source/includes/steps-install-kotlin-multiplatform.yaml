@@ -7,42 +7,6 @@ content: |
    <https://kotlinlang.org/docs/mobile/create-first-app.html>`__.
 
 ---
-title: Add Realm to the Project Gradle Configuration
-ref: add-realm-to-project-gradle-config
-content: |
-
-   Open the project ``build.gradle.kts`` file in the root directory
-   of your project. Add the ``io.realm.kotlin`` dependency to
-   ``buildscript.dependencies``:
-
-   .. code-block:: groovy
-      :emphasize-lines: 10
-
-      buildscript {
-          repositories {
-              gradlePluginPortal()
-              google()
-              mavenCentral()
-          }
-          dependencies {
-              classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.20")
-              classpath("com.android.tools.build:gradle:4.2.1")
-              classpath("io.realm.kotlin:gradle-plugin:0.3.0")
-          }
-      }
-
-      allprojects {
-          repositories {
-              google()
-              mavenCentral()
-          }
-      }
-
-      tasks.register("clean", Delete::class) {
-          delete(rootProject.buildDir)
-      }
-
----
 title: Add Realm to the Shared Module Gradle Configuration
 ref: add-realm-to-shared-module-gradle-config
 content: |
@@ -50,7 +14,7 @@ content: |
    Open the shared module ``build.gradle.kts`` file in the root of the
    shared module directory of your project. By default, this module is
    called "shared". Add the ``io.realm.kotlin`` dependency to
-   ``plugins`` and ``implementation("io.realm.kotlin:library:0.3.0")``
+   ``plugins`` and ``implementation("io.realm.kotlin:library:{+kotlin-sdk-version+}")``
    to ``kotlin.sourceSets.commonMain.dependencies``:
 
    .. code-block:: groovy
@@ -62,7 +26,7 @@ content: |
           kotlin("multiplatform")
           kotlin("native.cocoapods")
           id("com.android.library")
-          id("io.realm.kotlin")
+          id("io.realm.kotlin") version "{+kotlin-sdk-version+}"
       }
 
       version = "1.0"
@@ -89,7 +53,7 @@ content: |
           sourceSets {
               val commonMain by getting {
                   dependencies {
-                      implementation("io.realm.kotlin:library:0.3.0")
+                      implementation("io.realm.kotlin:library:{+kotlin-sdk-version+}")
                   }
               }
               val commonTest by getting {
@@ -118,6 +82,20 @@ content: |
               targetSdkVersion(30)
           }
       }
+
+   .. note:: Kotlin ``plugin`` Syntax
+
+      If using ``plugin`` syntax, add the version in the ``plugins``
+      section:
+
+      .. code-block:: groovy
+
+          plugins {
+              kotlin("multiplatform")
+              kotlin("native.cocoapods")
+              id("com.android.library")
+              id("io.realm.kotlin") version "{+kotlin-sdk-version+}"
+          }
 
 ---
 title: Sync Project with Gradle Files
