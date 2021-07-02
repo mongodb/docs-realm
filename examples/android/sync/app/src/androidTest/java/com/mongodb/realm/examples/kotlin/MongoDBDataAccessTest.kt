@@ -10,7 +10,6 @@ import io.realm.mongodb.AppConfiguration
 import io.realm.mongodb.Credentials
 import io.realm.mongodb.mongo.iterable.MongoCursor
 import io.realm.mongodb.mongo.options.UpdateOptions
-import io.realm.mongodb.mongo.result.DeleteResult
 import org.bson.Document
 import org.bson.codecs.configuration.CodecRegistries
 import org.bson.codecs.pojo.PojoCodecProvider
@@ -457,7 +456,7 @@ class MongoDBDataAccessTest : RealmTest() {
                     Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle")
                     // :code-block-start: update-a-single-document
                     val queryFilter = Document("name", "petunia")
-                    val updateDocument = Document("sunlight", "partial")
+                    val updateDocument = Document("\$set", Document("sunlight", "partial"))
                     mongoCollection.updateOne(queryFilter, updateDocument).getAsync { task ->
                         if (task.isSuccess) {
                             val count = task.get().modifiedCount
@@ -512,7 +511,7 @@ class MongoDBDataAccessTest : RealmTest() {
                     Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle")
                     // :code-block-start: update-multiple-documents
                     val queryFilter = Document("_partition", "Store 47")
-                    val updateDocument = Document("_partition", "Store 51")
+                    val updateDocument = Document("\$set", Document("_partition", "Store 51"))
                     mongoCollection.updateMany(queryFilter, updateDocument).getAsync { task ->
                         if (task.isSuccess) {
                             val count = task.get().modifiedCount
@@ -570,7 +569,7 @@ class MongoDBDataAccessTest : RealmTest() {
                         .append("type", "perennial")
                         .append("color", "green")
                         .append("_partition", "Store 47")
-                    val updateDocument = Document("name", "sweet basil")
+                    val updateDocument = Document("\$set", Document("name", "sweet basil"))
                     val updateOptions = UpdateOptions().upsert(true)
                     mongoCollection.updateOne(queryFilter, updateDocument, updateOptions)
                         .getAsync { task ->

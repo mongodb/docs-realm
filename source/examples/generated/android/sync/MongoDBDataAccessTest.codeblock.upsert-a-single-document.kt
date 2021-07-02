@@ -2,7 +2,7 @@ val queryFilter = Document("sunlight", "full")
     .append("type", "perennial")
     .append("color", "green")
     .append("_partition", "Store 47")
-val updateDocument = Document("name", "sweet basil")
+val updateDocument = Document("\$set", Document("name", "sweet basil"))
 val updateOptions = UpdateOptions().upsert(true)
 mongoCollection.updateOne(queryFilter, updateDocument, updateOptions)
     .getAsync { task ->
