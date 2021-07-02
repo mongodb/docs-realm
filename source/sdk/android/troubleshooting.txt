@@ -75,7 +75,7 @@ never considered equal using Java's built-in comparison.
 To avoid this error when using lambdas, you can either:
 
 1. Store a single configuration statically in your application, so that
-   separate {+realm+} instantiations use the exact same
+   separate {+realm+} instances use the exact same
    ``RealmConfiguration`` object and it passes the check.
 
 #. Override the default equals check of the ``RealmConfiguration``:
