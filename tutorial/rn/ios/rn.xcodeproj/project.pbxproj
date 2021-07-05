@@ -20,6 +20,7 @@
 		53EFBAAD2E83ABB2B9048A49 /* libPods-rn-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F699C5811E5E6517E52D1A68 /* libPods-rn-tvOSTests.a */; };
 		5C744F91AD69F6D63CB5DF6F /* libPods-rn-rnTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D54A9B759F2BF7C48755C879 /* libPods-rn-rnTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		99274A5D2693693600D1E791 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99274A5C2693693600D1E791 /* File.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,6 +61,8 @@
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = rn/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8396642B2F6EAA2D7522478C /* Pods-rn-rnTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-rn-rnTests.debug.xcconfig"; path = "Target Support Files/Pods-rn-rnTests/Pods-rn-rnTests.debug.xcconfig"; sourceTree = "<group>"; };
 		849E1A9AD8B4F4B0A5BF3E72 /* libPods-rn.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-rn.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		99274A5B2693693600D1E791 /* rn-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "rn-Bridging-Header.h"; sourceTree = "<group>"; };
+		99274A5C2693693600D1E791 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		C673122E7885EDCFECE10ABA /* Pods-rn.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-rn.debug.xcconfig"; path = "Target Support Files/Pods-rn/Pods-rn.debug.xcconfig"; sourceTree = "<group>"; };
 		D54A9B759F2BF7C48755C879 /* libPods-rn-rnTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-rn-rnTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EB397370B5DE1CB4595794FC /* Pods-rn-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-rn-tvOS.release.xcconfig"; path = "Target Support Files/Pods-rn-tvOS/Pods-rn-tvOS.release.xcconfig"; sourceTree = "<group>"; };
@@ -134,7 +137,6 @@
 				7F7879398481606CDB633B05 /* Pods-rn-tvOSTests.debug.xcconfig */,
 				7A7E01FD098C4E123FDC46EB /* Pods-rn-tvOSTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -148,6 +150,8 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
+				99274A5C2693693600D1E791 /* File.swift */,
+				99274A5B2693693600D1E791 /* rn-Bridging-Header.h */,
 			);
 			name = rn;
 			sourceTree = "<group>";
@@ -294,7 +298,7 @@
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						LastSwiftMigration = 1120;
+						LastSwiftMigration = 1300;
 					};
 					2D02E47A1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -641,6 +645,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
+				99274A5D2693693600D1E791 /* File.swift in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -682,6 +687,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 8396642B2F6EAA2D7522478C /* Pods-rn-rnTests.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -705,6 +711,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 4B10760314F483DD46C3A7B9 /* Pods-rn-rnTests.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
 				INFOPLIST_FILE = rnTests/Info.plist;
@@ -738,6 +745,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = rn;
+				SWIFT_OBJC_BRIDGING_HEADER = "rn-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -760,6 +768,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = rn;
+				SWIFT_OBJC_BRIDGING_HEADER = "rn-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
