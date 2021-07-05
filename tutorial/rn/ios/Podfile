@@ -6,6 +6,11 @@ platform :ios, '12.0'
 target 'rn' do
   config = use_native_modules!
 
+  pod 'EXUpdatesInterface', path: '../node_modules/expo-updates-interface/ios/', :configurations => :debug
+  pod 'expo-dev-menu-interface', path: '../node_modules/expo-dev-menu-interface', :configurations => :debug
+  pod 'expo-dev-menu', path: '../node_modules/expo-dev-menu', :configurations => :debug
+  pod 'expo-dev-launcher', path: '../node_modules/expo-dev-launcher', :configurations => :debug
+
   use_react_native!(:path => config["reactNativePath"])
 
   target 'rnTests' do
