@@ -1,11 +1,15 @@
-=============
-MongoDB Realm
-=============
+:template: product-landing
+:hidefeedback: header
+:noprevnext:
+
+=================================
+Welcome to the MongoDB Realm Docs
+=================================
 
 .. toctree::
    :titlesonly:
    :hidden:
-   
+
    Get Started </get-started>
    Tutorial </tutorial>
    Realm Database SDKs </sdk>
@@ -15,130 +19,48 @@ MongoDB Realm
    MongoDB Stitch (Legacy) </stitch>
    Release Notes </release-notes>
 
-Welcome to the {+service+} documentation! You can use the guides and reference
-materials here to learn how to work with the two key components of Realm: the
-Realm SDKs and MongoDB Realm application services.
 
-- The Realm SDKs are a set of free and open source client libraries that you can
-  use to build mobile, desktop, or IoT applications. The SDKs each include Realm
-  Database, an embedded object database that stores data directly on the device
-  and uses an idomatic object model instead of a tabular data model. You can
-  also use the SDKs to connect to MongoDB Realm and sync data between client
-  applications and MongoDB Atlas.
+.. introduction::
 
-- MongoDB Realm is a cloud application platform run and hosted by MongoDB that
-  provides services for your app. You can write serverless functions to handle
-  your application logic and data access rules to manage user-level read and
-  write permissions, all without worrying about the creating and maintaining the
-  underlying infrastructure. Other services include Realm Sync, user
-  authentication and authorization, database triggers, static file hosting, and
-  more.
+  MongoDB Realm is a development platform designed for modern, data-driven
+  applications. You can use Realm to build mobile, web, desktop, and IoT.
 
-.. note:: Feedback Appreciated
+  .. button:: Get started with a tutorial
+     :uri: /tutorial
 
-   While using the documentation, please provide feedback with the feedback form
-   on the bottom right of the page. If you have suggestions for the product
-   itself, please share with us on the `MongoDB Feedback Engine for Realm
-   <https://feedback.mongodb.com/forums/923521-realm/>`_.
+  :doc:`Read the 5 Minute Introduction </get-started/introduction-mobile>`
 
-Get Started
------------
+.. image:: /images/hero.png
+   :alt: Realm landing page hero image
+   :class: hero-img
 
-Build a complete Task Tracker app with multiple clients in our
-:doc:`Create a Task Tracker App </tutorial>` tutorial.
+Realm includes an embedded, object-oriented database that lets you build
+real-time, offline-first applications. You can also use Realm’s hosted
+application services as a secure backend that can sync data between devices,
+authenticate and manage users, and run serverless JavaScript functions.
 
-Ready to set up a serverless backend {+app+}? Jump into :doc:`Create a MongoDB
-Realm App </get-started/create-realm-app>` to get started.
 
-.. list-table::
-   :header-rows: 1
-   :class: index-table
+.. card-group::
+   :columns: 3
+   :style: extra-compact
 
-   * - Introduction
-     - App Services
-     - SDKs
-     - Reference
+   .. card::
+      :headline: Realm SDKs
+      :icon: /images/icons/realm_sdk.svg
 
-   * - :doc:`Introduction for Mobile Developers </get-started/introduction-mobile>`
+      Use platform-specific libraries to include and work with the Realm database in your application.
 
-       :doc:`Introduction for Backend Developers  </get-started/introduction-backend>`
+      :card-ref:`Android<android-intro>`
+      :card-ref:`iOS<ios-intro>`
+      :card-ref:`.Net<dotnet-intro>`
+      :card-ref:`Web<web-intro>`
+      :card-ref:`React Native<react-native-intro>`
+      :card-ref:`Node.js<node-intro>`
 
-       :doc:`Introduction for Web Developers </get-started/introduction-web>`
+   .. card::
+      :cta: Learn more about MongoDB Realm Application Services
+      :headline: MongoDB Realm
+      :icon: /images/icons/realm.svg
+      :url: https://docs.mongodb.com/realm/services/
 
-     - :doc:`Users & Authentication </authentication>`
-
-       :doc:`MongoDB Data Access </mongodb>`
-
-       :doc:`Sync </sync>`
-
-       :doc:`GraphQL API </graphql>`
-
-       :doc:`Functions </functions>`
-
-       :doc:`Triggers </triggers>`
-
-       :doc:`Services </services>`
-
-       :doc:`Static Hosting </hosting>`
-
-       :doc:`Values & Secrets </values-and-secrets>`
-
-       :doc:`Application Management </deploy>`
-
-     - :doc:`Android SDK </sdk/android>` for Kotlin and Java
-
-       :doc:`iOS SDK </sdk/ios>` for Swift and Objective-C
-
-       :doc:`.NET SDK </sdk/dotnet>` for C# / Xamarin
-
-       :doc:`Node SDK </sdk/node>` for TypeScript and JavaScript
-
-       :doc:`React Native SDK </sdk/react-native>` for TypeScript and JavaScript
-
-       :doc:`Web SDK </web>` for TypeScript and JavaScript
-
-     - :doc:`Glossary </get-started/glossary>`
-
-       :doc:`Realm Administration API </admin/api/v3>`
-
-       :doc:`Realm CLI Reference </deploy/realm-cli-reference>`
-
-       :doc:`Expression Variables </services/expression-variables>`
-
-       :doc:`JSON Expressions </services/json-expressions>`
-
-       :doc:`Realm Application Security </security>`
-
-       :doc:`Known Issues & Workarounds </reference/issues-and-workarounds>`
-
-       :doc:`Third-Party Licenses </reference/third-party-licenses>`
-
-       :doc:`Service Limitations </reference/service-limitations>`
-
-Billing & Reference
--------------------
-
-{+service+} has a free tier. All usage below the free tier thresholds in
-a given month is not billed, so you can get started with {+service+} at
-no cost. To see how billing works in {+service+}, see :doc:`Billing
-</billing>`.
-
-Stitch Documentation (Legacy)
------------------------------
-
-You can find the deprecated MongoDB Stitch documentation at
-http://stitch-docs-old.s3-website-us-east-1.amazonaws.com/.
-
-Realm Database Documentation (Legacy)
--------------------------------------
-
-{+service+} uses {+client-database+} version 10 and above. The
-documentation for earlier versions of {+client-database+} can be found
-on at `Realm documentation (legacy)
-<https://docs.mongodb.com/realm-legacy/docs/>`_.
-
-Legacy Realm, both self-hosted Realm Object Server and the Realm Cloud,
-is currently End of Life and will be shut down on November 1st 2021. See
-`Realm Legacy Migration Guide
-<https://docs.realm.io/realm-legacy-migration-guide/>`_ for migration
-instructions.
+      Discover how to sync data, define permissions, and connect to other services, including MongoDB Atlas.
