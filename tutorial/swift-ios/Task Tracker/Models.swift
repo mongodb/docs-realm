@@ -10,30 +10,29 @@ import Foundation
 import RealmSwift
 
 // :code-block-start: user-model
-// :state-uncomment-start: sync
-//class User: Object {
-    // @objc dynamic var _id: String = ""
-    // @objc dynamic var name: String = ""
-    // let memberOf = RealmSwift.List<Project>()
-    // override static func primaryKey() -> String? {
-    //     return "_id"
-    // }
-//}
-
-// :state-uncomment-end:
+// :state-start: sync
+class User: Object {
+    @objc dynamic var _id: String = ""
+    @objc dynamic var name: String = ""
+    let memberOf = RealmSwift.List<Project>()
+    override static func primaryKey() -> String? {
+        return "_id"
+    }
+}
+// :state-end:
 // :code-block-end:
 // :code-block-start: project-model
-// :state-uncomment-start: sync
-// class Project: EmbeddedObject {
-    // @objc dynamic var name: String?
-    // @objc dynamic var partition: String?
-    // convenience init(partition: String, name: String) {
-    //     self.init()
-    //     self.partition = partition
-    //     self.name = name
-    // }
-//}
-// :state-uncomment-end:
+// :state-start: sync
+class Project: EmbeddedObject {
+    @objc dynamic var name: String?
+    @objc dynamic var partition: String?
+    convenience init(partition: String, name: String) {
+        self.init()
+        self.partition = partition
+        self.name = name
+    }
+}
+// :state-end:
 // :code-block-end:
 
 enum TaskStatus: String {

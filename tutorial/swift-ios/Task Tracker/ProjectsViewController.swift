@@ -16,22 +16,22 @@ class ProjectsViewController: UIViewController, UITableViewDelegate, UITableView
     var notificationToken: NotificationToken?
 
     init(userRealmConfiguration: Realm.Configuration) {
-        self.userRealm = try! Realm(configuration: userRealmConfiguration)
-        super.init(nibName: nil, bundle: nil)
-
         // :code-block-start: user-in-realm-notification
         // :state-start: local start
         // TODO: fetch user data object
-        // :state-end: :state-uncomment-start: sync
-        // // There should only be one user in my realm - that is myself
-        // let usersInRealm = userRealm.objects(User.self)
-        //
-        // notificationToken = usersInRealm.observe { [weak self, usersInRealm] (_) in
-        //     self?.userData = usersInRealm.first
-        //     guard let tableView = self?.tableView else { return }
-        //     tableView.reloadData()
-        // }
-        // :state-uncomment-end:
+        // :state-end: :state-start: sync
+        self.userRealm = try! Realm(configuration: userRealmConfiguration)
+        // :state-end:
+        super.init(nibName: nil, bundle: nil)
+        // :state-start: sync
+        // There should only be one user in my realm - that is myself
+        let usersInRealm = userRealm.objects(User.self)
+        notificationToken = usersInRealm.observe { [weak self, usersInRealm] (_) in
+            self?.userData = usersInRealm.first
+            guard let tableView = self?.tableView else { return }
+            tableView.reloadData()
+        }
+        // :state-end:
         // :code-block-end:
     }
     

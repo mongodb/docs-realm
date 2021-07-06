@@ -6,4 +6,3 @@ class User: Object {
         return "_id"
     }
 }
-
