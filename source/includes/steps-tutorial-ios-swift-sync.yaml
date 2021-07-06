@@ -167,7 +167,7 @@ content: |
   .. literalinclude:: /tutorial/generated/swift-ios/sync/TasksViewController.codeblock.is-own-tasks.swift
      :language: swift
 
-  And the corresponding click handler for that method:
+  Add the corresponding click handler for that method:
 
   .. literalinclude:: /tutorial/generated/swift-ios/sync/TasksViewController.codeblock.manage-button-did-click.swift
      :language: swift
@@ -190,6 +190,13 @@ content: |
   A user can add and remove team members to their own Project using the Manage
   Team view. Since the client side cannot handle access management, we need to
   call out to our Realm functions we defined earlier.
+
+  .. note::
+
+     This view heavily relies on the serverless functions we built into the
+     backend. If you did not :ref:`import the backend
+     <tutorial-task-tracker-create-realm-app>`, the code in this section will
+     not work as expected.
 
   Navigate to the ManageTeamViewController.swift file, which defines the view
   that pops up when a user clicks the "Manage Team" action on the
