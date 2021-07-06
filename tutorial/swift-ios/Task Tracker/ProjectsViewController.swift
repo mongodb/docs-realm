@@ -15,8 +15,8 @@ class ProjectsViewController: UIViewController, UITableViewDelegate, UITableView
     var userData: User?
     var notificationToken: NotificationToken?
 
-    init(userRealm: Realm) {
-        self.userRealm = userRealm
+    init(userRealmConfiguration: Realm.Configuration) {
+        self.userRealm = try! Realm(configuration: userRealmConfiguration)
         super.init(nibName: nil, bundle: nil)
 
         // :code-block-start: user-in-realm-notification
@@ -129,14 +129,14 @@ class ProjectsViewController: UIViewController, UITableViewDelegate, UITableView
         // :state-end: :state-uncomment-start: sync
         // let user = app.currentUser!
         // let project = userData?.memberOf[indexPath.row] ?? Project(partition: "project=\(user.id)", name: "My Project")
-        //
-        // Realm.asyncOpen(configuration: user.configuration(partitionValue: project.partition!)) { [weak self] (result) in
+        // let configuration = user.configuration(partitionValue: project.partition!)
+        // Realm.asyncOpen(configuration: configuration) { [weak self] (result) in
         //     switch result {
         //     case .failure(let error):
         //         fatalError("Failed to open realm: \(error)")
         //     case .success(let realm):
         //         self?.navigationController?.pushViewController(
-        //             TasksViewController(realm: realm, title: "\(project.name!)'s Tasks"),
+        //             TasksViewController(realmConfiguration: configuration, title: "\(project.name!)'s Tasks"),
         //             animated: true
         //         )
         //     }
