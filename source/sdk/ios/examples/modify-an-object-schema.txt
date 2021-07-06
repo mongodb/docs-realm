@@ -25,6 +25,13 @@ migration for any old instances of a given object to the new schema.
 properties, but does not automatically set values for new properties
 unless the new object schema specifies a default value.
 
+.. tip::
+
+   You can use the :swift-sdk:`deleteRealmIfMigrationNeeded <Structs/Realm/Configuration.html#/s:10RealmSwift0A0V13ConfigurationV06deleteA17IfMigrationNeededSbvp>` 
+   method to delete the {+realm+} if it would require a migration. This can
+   be useful during development when you need to iterate quickly and don't
+   want to perform the migration.
+
 To define custom migration logic, set the :swift-sdk:`migrationBlock
 <Structs/Realm/Configuration.html#/s:10RealmSwift0A0V13ConfigurationV14migrationBlockyAA9MigrationV_s6UInt64VtcSgvp>`
 property of the :swift-sdk:`Configuration
