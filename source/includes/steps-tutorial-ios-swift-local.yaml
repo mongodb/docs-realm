@@ -179,13 +179,17 @@ content: |
 title: Enable Sign-in
 ref: sign-in
 content: |
-  Finally, implement the ``signIn()`` method to open a unique project
-  based on the username entered in WelcomViewController. Once you've
-  opened the user {+realm+} successfully, navigate to the TasksViewController:
+  Finally, implement the ``signIn()`` method. Create a {+realm+} configuration
+  that specifies which "project" to open and pass it to the TasksViewController:
 
   .. literalinclude:: /tutorial/generated/swift-ios/local/WelcomeViewController.codeblock.sign-in.swift
      :language: swift
 
+  .. note::
+
+     TasksViewController is agnostic of whether we're using Sync or not. That
+     makes it easier to add Sync later in Part 2: we'll only need to change the
+     configuration we pass into TasksViewController.
 ---
 title: Run and Test
 ref: run-and-test
