@@ -202,7 +202,7 @@ paths:
       tags: ["apps"]
       operationId: "adminImportApplication"
       summary: >-
-        :ref:`Import <deploy-cli>` an application. Warning: this endpoint 
+        :ref:`Import <realm-cli-import>` an application. Warning: this endpoint 
         requires care and is quite complex. Consider :ref:`using the CLI to 
         import an application <realm-import-strategies>` instead, if possible. 
         Additionally, this endpoint does not support incomplete application 
@@ -2247,7 +2247,7 @@ components:
               description: >-
                 The {+service+} schema version of the configuration files in the 
                 application. This is distinct from your application's schema
-                version, and tells {+sync+} how to process your application import.
+                version. It tells {+sync+} how to process your application import.
                 This documentation is specifically for schema version ``20210101``.
                 If you are uncertain what schema version your app uses, :ref:`export 
                 <export-realm-app>` a copy of your :ref:`{+app+} config files 
@@ -2333,7 +2333,7 @@ components:
                   type: object
                   description: >-
                     A document that contains secrets for private configuration fields.
-                    The provider ``types`` that use ``secret_config`` are: :ref:`custom JWT 
+                    The provider ``type`` options that use ``secret_config`` are: :ref:`custom JWT 
                     <config-custom-jwt>`, :ref:`Google <auth-google-configuration>`,
                     :ref:`Facebook <auth-facebook-configuration>`, and :ref:`Apple 
                     <configure-apple-auth>`.
@@ -2343,7 +2343,7 @@ components:
                     An array of documents where each document defines a metadata
                     field that describes the user. The existence of this field and
                     exact format of each depends on the provider ``type``. The
-                    provider ``type``s that use metadata fields are: :ref:`custom 
+                    provider type options that use metadata fields are: :ref:`custom 
                     JWT <config-custom-jwt>`, :ref:`Google <auth-google-configuration>`, and 
                     :ref:`Facebook <auth-facebook-configuration>`.
                   items:
@@ -2422,8 +2422,8 @@ components:
               type: string
               description: >- 
                 The name of the function. The name must match the file name
-                of a :ref:`source code file <function-source-code-file>`, 
-                and be unique among all functions in your application.
+                of a :ref:`source code file <function-source-code-file>`. 
+                It must be unique among all functions in your application.
             private:
               type: boolean
               description: >-
@@ -2791,8 +2791,8 @@ components:
           type: object
           description: >-
             :ref:`Triggers <triggers>` listen for application events of 
-            a configured type, and enable you to execute application and 
-            database logic when those events occur. For more information, 
+            a configured type. When those events occur, triggers can execute 
+            application and database logic. For more information, 
             see: :ref:`Trigger Configuration Files <appconfig-triggers>`.
           properties:
             name: 
