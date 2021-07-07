@@ -25,9 +25,11 @@ content: |
 
   Move your downloaded {+service-short+} .NET SDK tarball inside of your
   project. You can do this by dragging and dropping the file into your project's
-  "Packages" folder. Adding the tarball to your **"Packages"** folder ensures
-  that the {+service-short+} .NET SDK is bundled with your project. Next, you
-  must load the tarball into your project using the `Unity package manager
+  folder. Copying the tarball to your project folder and committing it to version
+  control ensures other developers working on the project can just clone the
+  repository and build without manually downloading the Realm dependency.
+
+  Next, you must load the tarball into your project using the `Unity package manager
   <https://docs.unity3d.com/Manual/upm-ui.html>`_.
   
   To open the package manager, click the :guilabel:`Window` tab on the top of
@@ -39,7 +41,7 @@ content: |
   .. figure:: /images/add-package-from-tar-unity.png
      :alt: Add package from tarball Unity UI
 
-  Select your **"Packages/io.realm.unity-bundled-<version-number>.tgz"** file to
+  Select your **"io.realm.unity-bundled-<version-number>.tgz"** file to
   begin importing your project. 
   
 ---
