@@ -185,21 +185,29 @@ Generally, {+client-database+} takes less space on disk than a
 comparable SQLite database. Unexpected file growth may be related to the 
 {+backend-short+} referring to outdated data.
 
-.. tip:: Avoid pinning old Realm transactions
+.. seealso::
 
-   {+backend-short+} ties read transaction lifetimes to the memory lifetime 
-   of {+backend-short+} instances. Avoid "pinning" old Realm transactions. 
-   Use auto-refreshing {+backend-short+}s, and wrap the use of Realm APIs 
-   from background threads in explicit autorelease pools.
+   If file size negatively impacts performance, you may want to compact the file:
+   :ref:`Compact a Realm <ios-client-compact-a-realm>`.
 
-.. note::
+Avoid Pinning Transactions
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-   A large {+realm+} file can impact the performance and reliability of
-   your app. Any single {+realm+} file cannot be larger than the amount
-   of memory your application would be allowed to map in iOS. This limit
-   depends on the device and on how fragmented the memory space is at
-   that point in time. If you need to store more data, you can map it
-   over multiple {+realm+} files.
+{+backend-short+} ties read transaction lifetimes to the memory lifetime 
+of {+realm+} instances. Avoid "pinning" old Realm transactions. 
+Use auto-refreshing {+realms+}, and wrap the use of Realm APIs 
+from background threads in explicit autorelease pools.
+
+Consider iOS File Size Limitations
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+A large {+realm+} file can impact the performance and reliability of
+your app. Any single {+realm+} file cannot be larger than the amount
+of memory your application would be allowed to map in iOS. This limit
+depends on the device and on how fragmented the memory space is at
+that point in time. 
+
+If you need to store more data, map it over multiple {+realm+} files.
 
 Threading
 ~~~~~~~~~
