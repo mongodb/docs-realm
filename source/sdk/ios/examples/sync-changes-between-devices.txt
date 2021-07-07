@@ -19,10 +19,10 @@ Open a Synced Realm
 
 When you use {+sync+}, you can open a {+realm+} in two ways: 
 
-1. Open the {+realm+} file that is on the device immediately, using whatever
-   data currently exists in the file.
-2. Download an up-to-date copy of the {+realm+} from the server, which means 
-   there will be a delay while the file downloads.
+- Open the {+realm+} file that is on the device immediately, using whatever
+  data currently exists in the file.
+- Download an up-to-date copy of the {+realm+} from the server, which means 
+  there will be a delay while the file downloads.
 
 For best practices and common patterns around which method to use, see: 
 :ref:`Decide How to Open the Realm <init-vs-async-open>`.
@@ -41,7 +41,7 @@ Open a Realm Immediately
 
       You can open the realm immediately with the
       :swift-sdk:`Realm() <Structs/Realm.html>` initializers. This opens 
-      the {+realm+} without downloading a fresh copy from the server.
+      the {+realm+} before downloading changesets from the server.
       This works if the device is offline, but may lead to temporary data
       inconsistencies while your app downloads any new remote data.
 
@@ -54,7 +54,7 @@ Open a Realm Immediately
       You can open the realm immediately with the
       :objc-sdk:`+[RLMRealm realmWithConfiguration:error:]
       <Classes/RLMRealm.html#/c:objc(cs)RLMRealm(cm)realmWithConfiguration:error:>`
-      initializers. This opens the {+realm+} without downloading a fresh copy 
+      initializers. This opens the {+realm+} before downloading changesets 
       from the server. This works if the device is offline, but may lead to
       temporary data inconsistencies while your app downloads any new remote
       data.
@@ -76,9 +76,13 @@ Log In and Download a Synced Realm
       :swift-sdk:`Realm.asyncOpen(configuration:)
       <Structs/Realm.html#/s:10RealmSwift0A0V9asyncOpen13configuration13callbackQueue0F0AC05AsyncD4TaskVAC13ConfigurationV_So17OS_dispatch_queueCyACSg_s5Error_pSgtctFZ>`:
 
-      ``asyncOpen`` downloads the entire remote {+realm+} before opening a
-      local version. A common pattern is to use ``asyncOpen`` during a login 
-      flow.
+      If this is the first time opening the {+realm+} on the device, ``asyncOpen`` 
+      downloads the entire remote {+realm+} before opening a local version. If
+      a {+realm+} is already present on the device, ``asyncOpen`` downloads 
+      only the latest changes since the {+realm+} last synced with the {+app+}.
+      
+      A common pattern is to use ``asyncOpen`` during a login flow, but use 
+      ``init`` to open a {+realm+} on subsequent opens.
 
       .. literalinclude:: /examples/generated/code/start/Sync.codeblock.open-synced-realm.swift
          :language: swift
@@ -93,9 +97,12 @@ Log In and Download a Synced Realm
       asyncOpenWithConfiguration:callbackQueue:callback]
       <Classes/RLMRealm.html#/c:objc(cs)RLMRealm(cm)asyncOpenWithConfiguration:callbackQueue:callback:>`:
 
-      ``asyncOpen...`` downloads the entire remote {+realm+} before opening a
-      local version. A common pattern is to use ``asyncOpen...`` during a login 
-      flow.
+      If this is the first time opening the {+realm+} on the device, ``asyncOpen`` 
+      downloads the entire remote {+realm+} before opening a local version. If
+      a {+realm+} is already present on the device, ``asyncOpen`` downloads 
+      only the latest changes since the {+realm+} last synced with the {+app+}.
+      A common pattern is to use ``asyncOpen`` during a login 
+      flow, but use ``init`` to open a {+realm+} on subsequent opens.
 
       .. literalinclude:: /examples/generated/code/start/Sync.codeblock.open-synced-realm.m
          :language: objectivec
@@ -135,8 +142,10 @@ Loading with stale data might get the user into the game faster, but three
 levels behind.
 
 A common pattern is to open a {+realm+} with ``asyncOpen`` in the login flow, 
-and then use ``init`` for subsequent opens. If you need to always fetch fresh 
-data and don't want to support offline start, use ``asyncOpen`` every time.
+and then use ``init`` for subsequent opens. If you want users to only interact 
+with the most up-to-date version of your data, you can exclusively use 
+asyncOpen. This incurs the cost of additional loading time and prevents users 
+from opening a realm while offline.
 
 .. tip::
 
