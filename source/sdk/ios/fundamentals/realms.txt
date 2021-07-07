@@ -188,14 +188,14 @@ comparable SQLite database. Unexpected file growth may be related to the
 .. seealso::
 
    If file size negatively impacts performance, you may want to compact the file:
-   :ref:`Advanced Guides: Compacting <ios-client-compact-a-realm>`.
+   :ref:`Compact a Realm <ios-client-compact-a-realm>`.
 
 Avoid Pinning Transactions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 {+backend-short+} ties read transaction lifetimes to the memory lifetime 
-of {+backend-short+} instances. Avoid "pinning" old Realm transactions. 
-Use auto-refreshing {+backend-short+}s, and wrap the use of Realm APIs 
+of {+realm+} instances. Avoid "pinning" old Realm transactions. 
+Use auto-refreshing {+realms+}, and wrap the use of Realm APIs 
 from background threads in explicit autorelease pools.
 
 Consider iOS File Size Limitations
