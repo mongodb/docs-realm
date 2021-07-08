@@ -5,8 +5,7 @@ const createTask = (newTaskName) => {
     projectRealm.create(
       "Task",
       new Task({
-        name: newTaskName || "New Task",
-        partition: projectPartition,
+        name: newTaskName || "New Task"
       })
     );
   });
