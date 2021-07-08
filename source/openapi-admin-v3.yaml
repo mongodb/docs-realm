@@ -202,14 +202,22 @@ paths:
       tags: ["apps"]
       operationId: "adminImportApplication"
       summary: >-
-        :ref:`Import <realm-cli-import>` an application. Warning: this endpoint 
-        requires care and is quite complex. Consider :ref:`using the CLI to 
-        import an application <realm-import-strategies>` instead, if possible. 
+        :ref:`Import <realm-cli-import>` an application. 
+        
+        Warning: this endpoint requires a complex request body. Consider 
+        :ref:`using the CLI to import an application <realm-import-strategies>` 
+        instead, if possible. If you do use this endpoint, test your request 
+        body by importing a dummy application before attempting to import into a
+        working application.
+        
         Additionally, this endpoint does not support incomplete application 
         imports. If you only need to import a subset of this data, use a more 
-        specific endpoint. For more information about any of the concepts 
-        discussed in this endpoint documentation, see: :ref:`Realm App Configuration 
-        <app-configuration>`.
+        specific endpoint. If you attempt to import a partial app configuration,
+        you may still get a ``204`` response. However, your app may be incorrectly 
+        configured, partially configured, or may silently fail in unexpected ways.
+        
+        For more information about any of the concepts discussed in this endpoint 
+        documentation, see: :ref:`Realm App Configuration <app-configuration>`.
       requestBody:
         description: The app to import.
         required: true
