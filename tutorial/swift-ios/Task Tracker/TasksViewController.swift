@@ -3,7 +3,7 @@
 //  Task Tracker
 //
 //  Created by MongoDB on 2020-05-07.
-//  Copyright © 2020 MongoDB, Inc. All rights reserved.
+//  Copyright © 2020-2021 MongoDB, Inc. All rights reserved.
 //
 
 import UIKit
@@ -13,9 +13,6 @@ class TasksViewController: UIViewController, UITableViewDelegate, UITableViewDat
 
     // :code-block-start: properties
     let tableView = UITableView()
-    // :state-uncomment-start: sync
-    // let partitionValue: String
-    // :state-uncomment-end:
     let realm: Realm
     var notificationToken: NotificationToken?
     // :state-start: local sync
@@ -27,21 +24,8 @@ class TasksViewController: UIViewController, UITableViewDelegate, UITableViewDat
     // :code-block-end:
 
     // :code-block-start: init
-    required init(realm: Realm, title: String) {
-        // :code-block-start: set-partition-value
-        // :state-uncomment-start: sync
-        // // Ensure the realm was opened with sync.
-        // guard let syncConfiguration = realm.configuration.syncConfiguration else {
-        //    fatalError("Sync configuration not found! Realm not opened with sync?")
-        // }
-        //
-        // :state-uncomment-end:
-        self.realm = realm
-        // :state-uncomment-start: sync
-        // // Partition value must be of string type.
-        // partitionValue = syncConfiguration.partitionValue!.stringValue!
-        // :state-uncomment-end:
-        // :code-block-end:
+    required init(realmConfiguration: Realm.Configuration, title: String) {
+        self.realm = try! Realm(configuration: realmConfiguration)
         
         // :state-start: local sync
         // Access all tasks in the realm, sorted by _id so that the ordering is defined.
@@ -162,7 +146,7 @@ class TasksViewController: UIViewController, UITableViewDelegate, UITableViewDat
 
             // :code-block-start: add-button-did-click
             
-            // :state-start: local
+            // :state-start: local sync
             // Create a new Task with the text that the user entered.
             let task = Task(name: textField.text ?? "New Task")
 
@@ -171,17 +155,11 @@ class TasksViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 // Add the Task to the Realm. That's it!
                 self.realm.add(task)
             }
-            // :state-end: :state-uncomment-start: sync
-            // // Create a new Task with the text that the user entered.
-            // let task = Task(partition: self.partitionValue, name: textField.text ?? "New Task")
-
-            // // Any writes to the Realm must occur in a write block.
-            // try! self.realm.write {
-            //     // Add the Task to the Realm. That's it!
-            //     self.realm.add(task)
-            // }
-            // :state-uncomment-end: :state-uncomment-start: start
-            // // TODO: Create a Task instance and add it to the realm in a write block.
+            // :state-end: :state-uncomment-start: start
+            // // TODO: Replace the following code with code to create a Task instance and add it to the realm in a write block.
+            // let alertController = UIAlertController(title: "TODO", message: "Implement add task functionality in TasksViewController.swift", preferredStyle: .alert)
+            // alertController.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+            // self.present(alertController, animated: true)
             // :state-uncomment-end:
             // :code-block-end:
         }))
@@ -259,7 +237,10 @@ class TasksViewController: UIViewController, UITableViewDelegate, UITableViewDat
             realm.delete(task)
         }
         // :state-end: :state-uncomment-start: start
-        // // TODO: delete the task from the realm in a write block.
+        // // TODO: Replace the following code with code to delete the task from the realm in a write block.
+        // let alertController = UIAlertController(title: "TODO", message: "Implement delete functionality in TasksViewController.swift", preferredStyle: .alert)
+        // alertController.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+        // self.present(alertController, animated: true)
         // :state-uncomment-end:
     }
     // :code-block-end:
@@ -272,12 +253,13 @@ class TasksViewController: UIViewController, UITableViewDelegate, UITableViewDat
     // :state-uncomment-end:
     // :code-block-end:
 
+    // :state-start: sync
     // :code-block-start: is-own-tasks
-    // :state-uncomment-start: sync
-    // // Returns true if these are the user's own tasks.
-    // func isOwnTasks() -> Bool {
-    //     return partitionValue == "project=\(app.currentUser!.id)"
-    // }
-    // :state-uncomment-end:
+    // Returns true if these are the user's own tasks.
+    func isOwnTasks() -> Bool {
+        let partitionValue = self.realm.configuration.syncConfiguration?.partitionValue?.stringValue
+        return partitionValue != nil && partitionValue == "project=\(app.currentUser!.id)"
+    }
     // :code-block-end:
+    // :state-end:
 }

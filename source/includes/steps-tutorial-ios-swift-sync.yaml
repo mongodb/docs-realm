@@ -16,7 +16,7 @@ title: Update Your App's Realm Models
 ref: update-realm-models
 content: |
 
-  To support online functionality like shared projects, we'll need some
+  To support online functionality like shared projects, we'll need two
   additional models.
 
   Add an embedded object model for user projects:
@@ -24,15 +24,10 @@ content: |
   .. literalinclude:: /tutorial/generated/swift-ios/sync/Models.codeblock.project-model.swift
      :language: swift
 
-  And a model for custom user data that contains those projects:
+  And a model for custom user data that stores the list of projects as user can
+  access:
 
   .. literalinclude:: /tutorial/generated/swift-ios/sync/Models.codeblock.user-model.swift
-     :language: swift
-
-  Finally, add a partition key and its corresponding access methods
-  to the Task model:
-
-  .. literalinclude:: /tutorial/generated/swift-ios/sync/Models.codeblock.task-model.swift
      :language: swift
 
 ---
@@ -74,37 +69,32 @@ content: |
   .. literalinclude:: /tutorial/generated/swift-ios/sync/WelcomeViewController.codeblock.password-field-configure.swift
      :language: swift
 
-  In the ``setLoading()`` method, enable the password field alongside
+  Configure a sign-up button that users can click to register an account:
+
+  .. literalinclude:: /tutorial/generated/swift-ios/sync/WelcomeViewController.codeblock.sign-up-button.swift
+     :language: swift
+
+  Next, in the ``setLoading()`` method, enable the password field alongside
   the username field when the view loads:
 
   .. literalinclude:: /tutorial/generated/swift-ios/sync/WelcomeViewController.codeblock.password-field-enable.swift
      :language: swift
 
-  Implement the ``signUp()`` method to register a new user, which
-  uses the email/password authentication provider of the Realm app to register a
-  new user:
+  Implement the ``signUp()`` method to register a new user, which uses the
+  :ref:`email/password authentication provider <email-password-authentication>`
+  of the Realm app to register a new user:
 
   .. literalinclude:: /tutorial/generated/swift-ios/sync/WelcomeViewController.codeblock.sign-up.swift
      :language: swift
 
-  Then, configure a sign-up button that users can click to register an
-  account in ``viewDidLoad`` after configuring the sign-in button:
-
-  .. literalinclude:: /tutorial/generated/swift-ios/sync/WelcomeViewController.codeblock.sign-up-button.swift
-     :language: swift
-
-  Finally, implement the ``signIn()`` method to authenticate user credentials with
-  your backend {+app+} using email/password credentials. Once logged in
-  successfully, open the user {+realm+} and navigate to the ProjectsViewController:
+  Finally, implement the ``signIn()`` method to authenticate user credentials
+  with your backend {+app+} using email/password credentials. Once logged in
+  successfully, open the user {+realm+} and navigate to the
+  ProjectsViewController. We open the {+realm+} using ``asyncOpen()`` because it
+  fully downloads any remote data before proceeding:
 
   .. literalinclude:: /tutorial/generated/swift-ios/sync/WelcomeViewController.codeblock.sign-in.swift
      :language: swift
-
-  .. note:: User Realm Error
-
-     In the next step, we'll add the ``userRealm`` parameter to the
-     Project View Controller ``init`` method, so if you see an error
-     about it here, it should go away after the next step.
 
 ---
 title: Implement the Projects List
@@ -122,16 +112,26 @@ content: |
   .. literalinclude:: /tutorial/generated/swift-ios/sync/ProjectsViewController.codeblock.log-out-button-did-click.swift
      :language: swift
 
-  Next, add a change listener at the end of the ``init`` method that watches for
-  a new ``User`` object in the user {+realm+}. Because your backend app
-  creates ``User`` objects with a Trigger, it can sometimes take a few
-  seconds after account creation for the backend Trigger to generate a
-  user's ``User`` object.
+  Next, open the {+realm+} with the configuration passed in from the previous
+  controller. By receiving the configuration rather than creating one here, the
+  ViewController does not need to know whether the {+realm+} is using Sync or
+  not.
+
+  Add a change listener at the end of the ``init`` method that watches for a new
+  ``User`` object in the user {+realm+}. Because your backend app creates
+  ``User`` objects with a Trigger, it can sometimes take a few seconds after
+  account creation for the backend Trigger to generate a user's ``User`` object.
 
   .. literalinclude:: /tutorial/generated/swift-ios/sync/ProjectsViewController.codeblock.user-in-realm-notification.swift
      :language: swift
 
-  Add a ``deinit`` method to ensure that your application invalidates the
+  The ProjectsViewController reads the list of projects the user has access to
+  from a custom user data object. We added the model for the user custom data
+  earlier in this tutorial. 
+
+  .. include:: /includes/note-tutorial-custom-user-data-permissions.txt
+
+  Now add a ``deinit`` method to ensure that your application invalidates the
   notification token for that change listener when the view is destroyed:
 
   .. literalinclude:: /tutorial/generated/swift-ios/sync/ProjectsViewController.codeblock.invalidate-token.swift
@@ -162,39 +162,18 @@ content: |
      :language: swift
 
 ---
-title: Add Partitions and a Project Member Management Button to the Tasks View
+title: Add Project Member Management Button to the Tasks View
 ref: add-partitions-and-project-member-management-to-tasks
 content: |
-  Next, we need to add partition values for tasks and a button to manage members
-  of a project. Navigate to TaskViewController.swift.
-
-  Because we updated our models to include the new ``partition`` field,
-  we need to pass that partition value whenever we create new tasks. To
-  make that partition value available at all times in the Tasks View,
-  add a property that stores the partition value:
-
-  .. literalinclude:: /tutorial/generated/swift-ios/sync/TasksViewController.codeblock.properties.swift
-     :language: swift
-
-  And we need to set that value at the beginning of ``init``:
-
-  .. literalinclude:: /tutorial/generated/swift-ios/sync/TasksViewController.codeblock.set-partition-value.swift
-     :language: swift
-
-  Update the logic for creating Tasks to set that partition value in
-  ``addButtonDidClick``:
-
-  .. literalinclude:: /tutorial/generated/swift-ios/sync/TasksViewController.codeblock.add-button-did-click.swift
-     :language: swift
-
-  You'll also have to add a new method that checks if a project is owned
-  by the current user, which controls whether or not the user can manage
-  the list of users allowed to access that project:
+  Next, we'll add a menu to manage members of a project. You can open this menu
+  with a button. Navigate to TaskViewController.swift. Add a new method that
+  checks if a project is owned by the current user. This controls whether or not
+  the user can manage the list of users allowed to access that project:
 
   .. literalinclude:: /tutorial/generated/swift-ios/sync/TasksViewController.codeblock.is-own-tasks.swift
      :language: swift
 
-  And the corresponding click handler for that method:
+  Add the corresponding click handler for that method:
 
   .. literalinclude:: /tutorial/generated/swift-ios/sync/TasksViewController.codeblock.manage-button-did-click.swift
      :language: swift
@@ -217,6 +196,13 @@ content: |
   A user can add and remove team members to their own Project using the Manage
   Team view. Since the client side cannot handle access management, we need to
   call out to our Realm functions we defined earlier.
+
+  .. warning::
+
+     This view heavily relies on the serverless functions we built into the
+     backend. If you did not :ref:`import the backend
+     <tutorial-task-tracker-create-realm-app>`, the code in this section will
+     not work as expected.
 
   Navigate to the ManageTeamViewController.swift file, which defines the view
   that pops up when a user clicks the "Manage Team" action on the

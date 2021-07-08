@@ -1,6 +1,5 @@
 class Task: Object {
     @objc dynamic var _id: ObjectId = ObjectId.generate()
-    @objc dynamic var _partition: String = ""
     @objc dynamic var name: String = ""
     @objc dynamic var owner: String?
     @objc dynamic var status: String = ""
@@ -17,9 +16,8 @@ class Task: Object {
         }
     }
 
-    convenience init(partition: String, name: String) {
+    convenience init(name: String) {
         self.init()
-        self._partition = partition
         self.name = name
     }
 }
