@@ -19,39 +19,40 @@ Development mode is a {+sync+} configuration setting for your {+app+}.
 Enable development mode to streamline schema design, but disable it in
 production applications.
 
-.. seealso::
-   
-   For the procedure to enable or disable development mode, see:
-   :ref:`Enable/Disable Development Mode <enable-disable-development-mode>`.
-
-Benefits of Enabling Development Mode
--------------------------------------
-
 {+sync+} development mode enables developers to develop faster, and design
 :ref:`schemas <configure-your-data-model>` directly in client application 
 code.
 
+.. seealso::
+   
+   For a guided walkthrough of how to enable or disable development mode, see:
+   :ref:`Enable/Disable Development Mode <enable-disable-development-mode>`.
+
 Design Schemas in Code
-~~~~~~~~~~~~~~~~~~~~~~
+----------------------
 
 With development mode enabled, you can design schemas directly in client 
 code. The objects and relationships that you define in your application 
-become your schema. :ref:`Realm SDKs <realm-sdks>` give you language-specific 
-tools to define and work with these objects.
+become the server-side document schema based on your SDK models. 
+:ref:`Realm SDKs <realm-sdks>` give you language-specific tools to define 
+and work with these objects.
 
-In practice, here's how the schema definition process works with 
-development mode:
+Create Schemas
+~~~~~~~~~~~~~~
+
+In practice, here's how the server-side document schema definition process 
+works with development mode:
 
 1. Enable development mode.
 2. Sync {+realm+} files from your local {+client-database+}.
 3. The objects in the files become the definitions for your schema.
 
-After you have synced {+realm+} files to define your schema, you can view
-the schema through the Realm UI. Go to your Realm App -> :guilabel:`Data Access` 
--> :guilabel:`Schema`.
+After you have synced {+realm+} files to define your schema, you can view the 
+schema, and you can also export your data model for any or all of the {+service+}
+SDKs.
 
-Create and Update Schemas
-`````````````````````````
+Update Schemas
+~~~~~~~~~~~~~~
 
 Schemas change as applications evolve. Development mode isn't just for 
 creating schemas. You can also make additive changes to schemas in the 
@@ -126,6 +127,8 @@ You can update this in your :ref:`{+sync+} configuration
 Key Concepts
 ------------
 
+.. _sync-development-database:
+
 Development Database
 ~~~~~~~~~~~~~~~~~~~~
 
@@ -133,20 +136,21 @@ When you enable Development Mode, you specify a database to store synced
 objects. {+service-short+} creates new collections in this Development Mode 
 database for every type of synced object.
 
-For example, you specify a Development Mode database of ``myapp``. Your 
-iOS client has a ``Person`` model. You sync a {+realm+} that contains an 
-instance of the ``Person`` object. Developer Mode creates a server-side 
-schema associated with the model. The object syncs to the ``myapp.Person`` 
-collection. 
-
-{+service-short+} continues creating new server-side schemas and collections 
-for each new object type. If you later add a ``Dog`` object, that object 
-will sync to a new ``myapp.Dog`` collection that {+service-short+} will 
-create.
-
 {+service-short+} does not enforce data access rules while in Development 
 Mode. Your Development Mode Database should not contain any production 
 or user data.
+
+.. example::
+
+   Specify a Development Mode database of ``myapp``. Your iOS client has a 
+   ``Person`` model. You sync a {+realm+} that contains an instance of the 
+   ``Person`` object. Developer Mode creates a server-side schema associated 
+   with the model. The object syncs to the ``myapp.Person`` collection. 
+
+   {+service-short+} continues creating new server-side schemas and collections 
+   for each new object type. If you later add a ``Dog`` object, that object 
+   will sync to a new ``myapp.Dog`` collection that {+service-short+} will 
+   create.
 
 Summary
 -------
