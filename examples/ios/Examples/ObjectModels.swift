@@ -11,98 +11,90 @@ import RealmSwift
 // A dog has an _id primary key, a string name, an optional
 // string breed, and a date of birth.
 class ObjectModelsExamples_Dog: Object {
-    @objc dynamic var _id = ObjectId.generate()
-    @objc dynamic var name = ""
-    @objc dynamic var breed: String?
-    @objc dynamic var dateOfBirth = Date()
-
-    override static func primaryKey() -> String? {
-        return "_id"
-    }
+    @Persisted(primaryKey: true) var _id: ObjectId
+    @Persisted var name = ""
+    @Persisted var breed: String?
+    @Persisted var dateOfBirth = Date()
 }
 // :code-block-end:
 
 // :code-block-start: optional-required-properties
 class OptionalRequiredPropertyExample_Person: Object {
     // Required string property
-    @objc dynamic var name = ""
+    @Persisted var name = ""
 
     // Optional string property
-    @objc dynamic var address: String?
+    @Persisted var address: String?
 
     // Required numeric property
-    @objc dynamic var ageYears = 0
+    @Persisted var ageYears = 0
 
     // Optional numeric property
-    let heightCm = RealmProperty<Float?>()
+    @Persisted var heightCm: Float?
 }
 // :code-block-end:
 
 // :code-block-start: specify-a-primary-key
 class ObjectModelsExamples_Project: Object {
-    @objc dynamic var id = 0
-    @objc dynamic var name = ""
-
-    // Return the name of the primary key property
-    override static func primaryKey() -> String? {
-        return "id"
-    }
+    @Persisted(primaryKey: true) var id = 0
+    @Persisted var name = ""
 }
 // :code-block-end:
 
 // :code-block-start: index-a-property
 class ObjectModelsExamples_Book: Object {
-    @objc dynamic var priceCents = 0
-    @objc dynamic var title = ""
-
-    // Return a list of indexed property names
-    override static func indexedProperties() -> [String] {
-        return ["title"]
-    }
+    @Persisted var priceCents = 0
+    @Persisted(indexed: true) var title = ""
 }
 // :code-block-end:
 
 // :code-block-start: ignore-a-property
 class ObjectModelsExamples_Person: Object {
-    @objc dynamic var tmpId = 0
-    @objc dynamic var firstName = ""
-    @objc dynamic var lastName = ""
+    // If some properties are marked as @Persisted,
+    // any properties that do not have the @Persisted
+    // annotation are automatically ignored.
+    var tmpId = 0
+
+    // The @Persisted properties are managed
+    @Persisted var firstName = ""
+    @Persisted var lastName = ""
 
     // Read-only properties are automatically ignored
     var name: String {
         return "\(firstName) \(lastName)"
     }
 
-    // Return a list of ignored property names
-    override static func ignoredProperties() -> [String] {
-        return ["tmpId"]
-    }
+    // If you mix the pre-10.10 property declaration
+    // syntax `@objc dynamic` with the 10.10+ @Persisted
+    // annotation within a class, `@objc dynamic`
+    // properties are ignored.
+    @objc dynamic var email = ""
 }
 // :code-block-end:
 
 // :code-block-start: realm-object-enum
 // Define the enum
-@objc enum ObjectModelsExamples_TaskStatusEnum: Int, RealmEnum {
-    case notStarted = 1
-    case inProgress = 2
-    case complete = 3
+enum ObjectModelsExamples_TaskStatusEnum: String, PersistableEnum {
+    case notStarted
+    case inProgress
+    case complete
 }
 
 // To use the enum:
 class ObjectModelsExamples_Task: Object {
-    @objc dynamic var name: String = ""
-    @objc dynamic var owner: String?
+    @Persisted var name: String = ""
+    @Persisted var owner: String?
 
     // Required enum property
-    @objc dynamic var status = ObjectModelsExamples_TaskStatusEnum.notStarted // :emphasize:
+    @Persisted var status = ObjectModelsExamples_TaskStatusEnum.notStarted // :emphasize:
 
     // Optional enum property
-    let optionalTaskStatusEnumProperty = RealmProperty<ObjectModelsExamples_TaskStatusEnum?>() // :emphasize:
+    @Persisted var optionalTaskStatusEnumProperty: ObjectModelsExamples_TaskStatusEnum? // :emphasize:
 }
 // :code-block-end:
 
 class ObjectModelsExamples_MyModel: Object {
-    @objc dynamic var someProperty = 0
+    @Persisted var someProperty = 0
 }
 
 class ObjectModels: XCTestCase {

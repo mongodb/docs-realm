@@ -1,7 +1,7 @@
 class Dog: Object {
-    @objc dynamic var name = ""
-    @objc dynamic var currentCity = ""
+    @Persisted var name = ""
+    @Persisted var currentCity = ""
 
     // Map of city name -> favorite park in that city
-    let favoriteParksByCity = Map<String, String>()
+    @Persisted var favoriteParksByCity: Map<String, String>
 }

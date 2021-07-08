@@ -1,14 +1,14 @@
 class Person: Object {
-    @objc dynamic var name: String = ""
-    @objc dynamic var birthdate: Date = Date(timeIntervalSince1970: 1)
+    @Persisted var name: String = ""
+    @Persisted var birthdate: Date = Date(timeIntervalSince1970: 1)
 
     // A person can have one dog
-    @objc dynamic var dog: Dog?
+    @Persisted var dog: Dog?
 }
 
 class Dog: Object {
-    @objc dynamic var name: String = ""
-    @objc dynamic var age: Int = 0
-    @objc dynamic var breed: String?
+    @Persisted var name: String = ""
+    @Persisted var age: Int = 0
+    @Persisted var breed: String?
     // No backlink to person -- one-directional relationship
 }
