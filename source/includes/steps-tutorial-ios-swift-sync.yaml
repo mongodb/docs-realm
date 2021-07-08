@@ -24,7 +24,8 @@ content: |
   .. literalinclude:: /tutorial/generated/swift-ios/sync/Models.codeblock.project-model.swift
      :language: swift
 
-  And a model for custom user data that contains those projects:
+  And a model for custom user data that stores the list of projects as user can
+  access:
 
   .. literalinclude:: /tutorial/generated/swift-ios/sync/Models.codeblock.user-model.swift
      :language: swift
@@ -68,8 +69,7 @@ content: |
   .. literalinclude:: /tutorial/generated/swift-ios/sync/WelcomeViewController.codeblock.password-field-configure.swift
      :language: swift
 
-  Still in in ``viewDidLoad``, configure a sign-up button that users can click
-  to register an account:
+  Configure a sign-up button that users can click to register an account:
 
   .. literalinclude:: /tutorial/generated/swift-ios/sync/WelcomeViewController.codeblock.sign-up-button.swift
      :language: swift
@@ -80,9 +80,9 @@ content: |
   .. literalinclude:: /tutorial/generated/swift-ios/sync/WelcomeViewController.codeblock.password-field-enable.swift
      :language: swift
 
-  Implement the ``signUp()`` method to register a new user, which
-  uses the email/password authentication provider of the Realm app to register a
-  new user:
+  Implement the ``signUp()`` method to register a new user, which uses the
+  :ref:`email/password authentication provider <email-password-authentication>`
+  of the Realm app to register a new user:
 
   .. literalinclude:: /tutorial/generated/swift-ios/sync/WelcomeViewController.codeblock.sign-up.swift
      :language: swift
@@ -113,9 +113,9 @@ content: |
      :language: swift
 
   Next, open the {+realm+} with the configuration passed in from the previous
-  controller. It's best to pass configurations around rather than {+realm+}.
-  Whether the {+realm+} was opened with Sync or not doesn't really matter to
-  this ViewController.
+  controller. By receiving the configuration rather than creating one here, the
+  ViewController does not need to know whether the {+realm+} is using Sync or
+  not.
 
   Add a change listener at the end of the ``init`` method that watches for a new
   ``User`` object in the user {+realm+}. Because your backend app creates
@@ -125,7 +125,13 @@ content: |
   .. literalinclude:: /tutorial/generated/swift-ios/sync/ProjectsViewController.codeblock.user-in-realm-notification.swift
      :language: swift
 
-  Add a ``deinit`` method to ensure that your application invalidates the
+  The ProjectsViewController reads the list of projects the user has access to
+  from a custom user data object. We added the model for the user custom data
+  earlier in this tutorial. 
+
+  .. include:: /includes/note-tutorial-custom-user-data-permissions.txt
+
+  Now add a ``deinit`` method to ensure that your application invalidates the
   notification token for that change listener when the view is destroyed:
 
   .. literalinclude:: /tutorial/generated/swift-ios/sync/ProjectsViewController.codeblock.invalidate-token.swift
@@ -159,10 +165,10 @@ content: |
 title: Add Project Member Management Button to the Tasks View
 ref: add-partitions-and-project-member-management-to-tasks
 content: |
-  Next, we'll to add menu to manage members of a project that you can open with
-  the press of a button. Navigate to TaskViewController.swift. Add a new method
-  that checks if a project is owned by the current user, which controls whether
-  or not the user can manage the list of users allowed to access that project:
+  Next, we'll add a menu to manage members of a project. You can open this menu
+  with a button. Navigate to TaskViewController.swift. Add a new method that
+  checks if a project is owned by the current user. This controls whether or not
+  the user can manage the list of users allowed to access that project:
 
   .. literalinclude:: /tutorial/generated/swift-ios/sync/TasksViewController.codeblock.is-own-tasks.swift
      :language: swift
@@ -191,7 +197,7 @@ content: |
   Team view. Since the client side cannot handle access management, we need to
   call out to our Realm functions we defined earlier.
 
-  .. note::
+  .. warning::
 
      This view heavily relies on the serverless functions we built into the
      backend. If you did not :ref:`import the backend
