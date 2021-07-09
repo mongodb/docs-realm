@@ -1,6 +1,7 @@
 // :replace-start: {
 //   "terms": {
 //     "InverseRelationshipExample_": "",
+//     "InverseRelationshipObjcDynamicExample_": "",
 //     "ToManyExample_": "",
 //     "ToOneRelationship_": ""
 //   }
@@ -25,6 +26,35 @@ class InverseRelationshipExample_Task: Object {
     // Backlink to the user. This is automatically updated whenever
     // this task is added to or removed from a user's task list.
     @Persisted(originProperty: "tasks") var assignee: LinkingObjects<InverseRelationshipExample_User>
+}
+// :code-block-end:
+
+// :code-block-start: inverse-relationship-objc-dynamic
+class InverseRelationshipObjcDynamicExample_User: Object {
+    @objc dynamic var _id: ObjectId = ObjectId.generate()
+    @objc dynamic var _partition: String = ""
+    @objc dynamic var name: String = ""
+
+    // A user can have many tasks.
+    let tasks = List<InverseRelationshipObjcDynamicExample_Task>()
+
+    override static func primaryKey() -> String? {
+        return "_id"
+    }
+}
+
+class InverseRelationshipObjcDynamicExample_Task: Object {
+    @objc dynamic var _id: ObjectId = ObjectId.generate()
+    @objc dynamic var _partition: String = ""
+    @objc dynamic var text: String = ""
+
+    // Backlink to the user. This is automatically updated whenever
+    // this task is added to or removed from a user's task list.
+    let assignee = LinkingObjects(fromType: InverseRelationshipObjcDynamicExample_User.self, property: "tasks")
+
+    override static func primaryKey() -> String? {
+        return "_id"
+    }
 }
 // :code-block-end:
 

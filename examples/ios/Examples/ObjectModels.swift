@@ -1,7 +1,9 @@
 // :replace-start: {
 //   "terms": {
 //     "ObjectModelsExamples_": "",
-//     "OptionalRequiredPropertyExample_": ""
+//     "ObjectModelsObjcDynamicExamples_": "",
+//     "OptionalRequiredPropertyExample_": "",
+//     "OptionalRequiredPropertyObjcDynamicExample_": ""
 //   }
 // }
 import XCTest
@@ -34,6 +36,22 @@ class OptionalRequiredPropertyExample_Person: Object {
 }
 // :code-block-end:
 
+// :code-block-start: optional-required-properties-objc-dynamic
+class OptionalRequiredPropertyObjcDynamicExample_Person: Object {
+    // Required string property
+    @objc dynamic var name = ""
+
+    // Optional string property
+    @objc dynamic var address: String?
+
+    // Required numeric property
+    @objc dynamic var ageYears = 0
+
+    // Optional numeric property
+    let heightCm = RealmProperty<Float?>()
+}
+// :code-block-end:
+
 // :code-block-start: specify-a-primary-key
 class ObjectModelsExamples_Project: Object {
     @Persisted(primaryKey: true) var id = 0
@@ -41,10 +59,34 @@ class ObjectModelsExamples_Project: Object {
 }
 // :code-block-end:
 
+// :code-block-start: specify-a-primary-key-objc-dynamic
+class ObjectModelsObjcDynamicExamples_Project: Object {
+    @objc dynamic var id = 0
+    @objc dynamic var name = ""
+
+    // Return the name of the primary key property
+    override static func primaryKey() -> String? {
+        return "id"
+    }
+}
+// :code-block-end:
+
 // :code-block-start: index-a-property
 class ObjectModelsExamples_Book: Object {
     @Persisted var priceCents = 0
     @Persisted(indexed: true) var title = ""
+}
+// :code-block-end:
+
+// :code-block-start: index-a-property-objc-dynamic
+class ObjectModelsObjcDynamicExamples_Book: Object {
+    @objc dynamic var priceCents = 0
+    @objc dynamic var title = ""
+
+    // Return a list of indexed property names
+    override static func indexedProperties() -> [String] {
+        return ["title"]
+    }
 }
 // :code-block-end:
 
@@ -72,6 +114,24 @@ class ObjectModelsExamples_Person: Object {
 }
 // :code-block-end:
 
+// :code-block-start: ignore-a-property-objc-dynamic
+class ObjectModelsObjcDynamicExamples_Person: Object {
+    @objc dynamic var tmpId = 0
+    @objc dynamic var firstName = ""
+    @objc dynamic var lastName = ""
+
+    // Read-only properties are automatically ignored
+    var name: String {
+        return "\(firstName) \(lastName)"
+    }
+
+    // Return a list of ignored property names
+    override static func ignoredProperties() -> [String] {
+        return ["tmpId"]
+    }
+}
+// :code-block-end:
+
 // :code-block-start: realm-object-enum
 // Define the enum
 enum ObjectModelsExamples_TaskStatusEnum: String, PersistableEnum {
@@ -90,6 +150,26 @@ class ObjectModelsExamples_Task: Object {
 
     // Optional enum property
     @Persisted var optionalTaskStatusEnumProperty: ObjectModelsExamples_TaskStatusEnum? // :emphasize:
+}
+// :code-block-end:
+
+// :code-block-start: realm-object-enum-objc-dynamic
+// Define the enum
+@objc enum ObjectModelsObjcDynamicExamples_TaskStatusEnum: Int, RealmEnum {
+    case notStarted = 1
+    case inProgress = 2
+    case complete = 3
+}
+
+// To use the enum:
+class ObjectModelsObjcDynamicExamples_Task: Object {
+    @objc dynamic var name: String = ""
+    @objc dynamic var owner: String?
+
+    // Required enum property
+    @objc dynamic var status = ObjectModelsObjcDynamicExamples_TaskStatusEnum.notStarted // :emphasize:
+    // Optional enum property
+    let optionalTaskStatusEnumProperty = RealmProperty<ObjectModelsObjcDynamicExamples_TaskStatusEnum?>() // :emphasize:
 }
 // :code-block-end:
 
