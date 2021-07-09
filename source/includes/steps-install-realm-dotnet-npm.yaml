@@ -48,8 +48,28 @@ content: |
    "io.realm.unity": "<version-number>"
 
   Remember to replace the ``<version-number>`` above with the actual version
-  number. Unity downloads the specified version of the {+service-short+}
-  .NET SDK package from the NPM registry when you save this file.
+  number. Your full manifest file should look something like the following:
+
+  .. code-block:: none
+
+   {
+    "dependencies": {
+      ...
+      "io.realm.unity": "10.2.1"
+    },
+    "scopedRegistries": [
+      {
+        "name": "NPM",
+        "url": "https://registry.npmjs.org/",
+        "scopes": [
+          "io.realm.unity"
+        ]
+      }
+    ]
+   }
+   
+  When you save this file, Unity downloads the specified version of the
+  {+service-short+} .NET SDK package from the NPM registry.
 
   .. figure:: /images/unity-resolve-packages.png
      :width: 400px
