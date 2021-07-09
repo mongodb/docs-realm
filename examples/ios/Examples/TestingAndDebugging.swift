@@ -10,12 +10,8 @@ import XCTest
 import RealmSwift
 
 class Debugging_User: Object {
-    @objc dynamic var _id = ObjectId.generate()
-    @objc dynamic var email: String = ""
-
-    override static func primaryKey() -> String? {
-        return "_id"
-    }
+    @Persisted(primaryKey: true) var _id: ObjectId
+    @Persisted var email: String = ""
 }
 
 // :code-block-start: test-base-case

@@ -1,13 +1,7 @@
-required init(realm: Realm, title: String) {
-    // Ensure the realm was opened with sync.
-    guard let syncConfiguration = realm.configuration.syncConfiguration else {
-       fatalError("Sync configuration not found! Realm not opened with sync?")
-    }
+required init(realmConfiguration: Realm.Configuration, title: String) {
+    self.realm = try! Realm(configuration: realmConfiguration)
     
-    self.realm = realm
-    // Partition value must be of string type.
-    partitionValue = syncConfiguration.partitionValue!.stringValue!
-    
+    // Access all tasks in the realm, sorted by _id so that the ordering is defined.
     tasks = realm.objects(Task.self).sorted(byKeyPath: "_id")
 
     super.init(nibName: nil, bundle: nil)

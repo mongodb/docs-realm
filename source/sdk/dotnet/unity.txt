@@ -1,0 +1,122 @@
+.. _dotnet-unity:
+
+=====================================
+Integrate Realm with Unity - .NET SDK
+=====================================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 1
+   :class: singlecol
+
+
+Overview
+--------
+
+This page contains information on how to install and integrate {+service+} into
+your Unity project. 
+
+.. note:: Known Issues When Developing With Unity
+
+   The following is a list of known issues when integrating {+service-short+} with Unity:
+
+   - The {+service-short+} .NET SDK only supports Intel64 Macs and does not yet support Macs with the Apple M1 chip. Set your `build settings: Architecture <https://docs.unity3d.com/Manual/BuildSettingsStandalone.html>`_ to "Intel64" in order to allow building for MacOS.
+
+   - On Windows, your project may crash when running multiple instances of your project since multiple processes are attempting to access the same {+realm+}. To avoid these crashes, explicitly specify different names for each respective {+realm+}. 
+
+Prerequisites
+-------------
+- Unity `2020.3.12f1 (LTS) <https://unity3d.com/get-unity/download/archive>`_
+
+.. note::
+
+    The :doc:`{+service-short+} .NET SDK </sdk/dotnet>` may be compatible
+    with other versions of Unity, but ``2020.3.12f1 (LTS)`` is the version that
+    the {+service-short+} team uses for testing and development. We recommend
+    using this version to ensure your project works with {+service-short+} and
+    that the install steps match the steps below since Unity's UI often changes
+    between versions. 
+
+Install
+-------
+{+service-short+} provides various ways to install the :doc:`{+service-short+}
+.NET SDK </sdk/dotnet>` for use with Unity. Experienced Unity developers may
+find installing {+service-short+} manually with a tarball to be intuitive.
+However, we recommend installing the :doc:`{+service-short+} .NET SDK
+</sdk/dotnet>` via npm since it provides `notifications of version
+updates through Unity's package manager
+<https://docs.unity3d.com/Packages/com.unity.package-manager-ui@2.0/manual/index.html#PackManUpdate>`_.
+
+.. tabs::
+
+   .. tab:: Install with NPM
+      :tabid: npm
+
+      .. include:: /includes/steps/install-realm-dotnet-npm.rst
+
+   .. tab:: Manually Install a Tarball
+      :tabid: tarball
+
+      .. include:: /includes/steps/install-realm-dotnet-tarball.rst
+
+Import Realm
+------------
+`Create a C# script
+<https://docs.unity3d.com/Manual/CreatingAndUsingScripts.html>`_ or use a C#
+script you have already created. Open that script in `Visual Studio
+<https://docs.microsoft.com/en-us/visualstudio/>`_ or another text editor and add
+the following line to import your {+service-short+} package: 
+
+.. code-block:: csharp
+
+ using Realms;
+
+Using {+service-short+} in Your Unity Project
+---------------------------------------------
+When developing with :doc:`{+service-short+} .NET SDK </sdk/dotnet>`, the API
+methods are the same regardless of whether you use Unity or another platform.
+However, since Unity has some `scripting restrictions
+<https://docs.unity3d.com/Manual/ScriptingRestrictions.html>`_, you should keep
+the following additional considerations in mind when developing your project:
+
+``dynamic`` Keyword Support
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Unity does not support the `dynamic keyword <https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/types/using-type-dynamic>`_ when using `IL2CPP  <https://docs.unity3d.com/Manual/IL2CPP.html>`_. This means all types used in C# scripts must be known at compile time. When you use the {+service-short+} .NET SDK with Unity, you must convert dynamic types to concrete types. To view the full list of limitations, see the Unity `scripting limitations <https://docs.unity3d.com/Manual/ScriptingRestrictions.html>`_ documentation. Although the {+service-short+} .NET SDK exposes the :dotnet-sdk:`Dynamic API<reference/Realms.Realm.Dynamic.html?q=dynamic>`, we recommend it only when performing migrations.
+
+.. example::
+
+   The following example shows a portion of a code block for performing a
+   :ref:`migration <dotnet-migration-function>` to illustrate the usage of the
+   :dotnet-sdk:`DynamicAPI <reference/Realms.Realm.Dynamic.html>`.
+
+   .. code-block:: csharp
+
+    var dynamicPeople = (IQueryable<RealmObject>)migration.OldRealm.All("Person");
+    var personName = dynamicPeople.First().DynamicApi.Get<string>("Name");
+
+Managed Code Stripping
+~~~~~~~~~~~~~~~~~~~~~~
+Unity performs `managed code stripping <https://docs.unity3d.com/Manual/ManagedCodeStripping.html>`_, discarding any unused code from a build to reduce binary size. This may lead to issues when deserializing :manual:`BSON </reference/bson-types/>` into C# classes. For platforms that use `IL2CPP <https://docs.unity3d.com/Manual/IL2CPP.html>`_, such as iOS, managed code stripping is enabled by default. When working with BSON, use the `[Preserve] attribute <https://docs.unity3d.com/ScriptReference/Scripting.PreserveAttribute.html>`_ to prevent managed code stripping on types properties that are only populated by the serializer. Since those properties use `reflection <https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/reflection>`_, Unity cannot statically infer that the property setter is used. This means that unless you apply the ``[Preserve] attribute``, Unity will strip those properties away. For examples of when you may perform BSON deserialization, check out the :doc:`Query MongoDB </sdk/dotnet/examples/mongodb-remote-access>` and :doc:`Call a Function </sdk/dotnet/examples/call-a-function/>` documentation.
+
+Using Realm While the Application is Quitting
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The {+service-short+} .NET SDK cannot be accessed within the `AppDomain.DomainUnload Event <https://docs.microsoft.com/en-us/dotnet/api/system.appdomain.domainunload?view=net-5.0>`_ or the `Application.quitting <https://docs.unity3d.com/ScriptReference/Application-quitting.html>`_ event. This means you cannot write data to a Realm while the player application is quitting. If you need to store some data just before the app exits, consider using the `Application.wantsToQuit <https://docs.unity3d.com/ScriptReference/Application-wantsToQuit.html>`_ event instead.
+
+Additional Examples
+--------------------
+The {+service+} community has created many projects that demonstrate the usage
+of the Realm .NET SDK. Check out the examples below that demonstrate the usage
+of the :doc:`{+service-short+} .NET SDK </sdk/dotnet>` with Unity! 
+
+.. note:: 
+
+   The MongoDB Documentation team does not directly maintain these examples. 
+
+- `MongoDB Devhub: Unity with {+service-short+} Articles <https://developer.mongodb.com/learn/?content=Articles&text=unity>`_
+- `MongoDB Youtube Channel: Getting Started with the Realm SDK for Unity <https://www.youtube.com/watch?v=df2qo8G2ZfU>`_
+- `MongoDB Youtube Channel: Build an Infinite Runner Game with Unity and the Realm Unity SDK <https://www.youtube.com/watch?v=8S0NuFwFazY>`_
+- `dodoTV42 Youtube Channel: How to SAVE and LOAD data in Unity3D with Realm SDK <https://www.youtube.com/watch?v=8jo_S02HLkI>`_
+- `Chris Paliqaw's Blog Post: Migrating from Unity PlayerPrefs to MongoDB Realm <https://medium.com/@chris_paliqaw/migrating-from-unity-playerprefs-to-mongodb-realm-part-1-4eb4dc24bae8>`_

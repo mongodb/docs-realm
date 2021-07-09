@@ -62,7 +62,7 @@ class TestSetup: NSObject {
         }
 
         let waiter = XCTWaiter()
-        waiter.wait(for: [expectation], timeout: 10)
+        waiter.wait(for: [expectation], timeout: 20)
         assert(waiter.fulfilledExpectations == [expectation])
 
         // Ensure all users are completely removed and app.currentUser is nil.

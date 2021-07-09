@@ -1,5 +1,5 @@
 Document queryFilter = new Document("name", "petunia");
-Document updateDocument = new Document("sunlight", "partial");
+Document updateDocument = new Document("$set", new Document("sunlight", "partial"));
 mongoCollection.updateOne(queryFilter, updateDocument).getAsync(task -> {
     if (task.isSuccess()) {
         long count = task.get().getModifiedCount();

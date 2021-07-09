@@ -1,5 +1,5 @@
 Document queryFilter = new Document("_partition", "Store 47");
-Document updateDocument = new Document("_partition", "Store 51");
+Document updateDocument = new Document("$set", new Document("_partition", "Store 51"));
 mongoCollection.updateMany(queryFilter, updateDocument).getAsync(task -> {
     if (task.isSuccess()) {
         long count = task.get().getModifiedCount();

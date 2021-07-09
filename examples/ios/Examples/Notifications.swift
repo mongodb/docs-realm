@@ -11,7 +11,7 @@ import XCTest
 // :code-block-start: register-an-object-change-listener
 // Define the dog class.
 class NotificationExample_Dog: Object {
-    @objc dynamic var name = ""
+    @Persisted var name = ""
 }
 
 var objectNotificationToken: NotificationToken?

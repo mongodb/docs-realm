@@ -9,11 +9,11 @@ import RealmSwift
 
 // :code-block-start: models
 class MapExamples_Dog: Object {
-    @objc dynamic var name = ""
-    @objc dynamic var currentCity = ""
+    @Persisted var name = ""
+    @Persisted var currentCity = ""
 
     // Map of city name -> favorite park in that city
-    let favoriteParksByCity = Map<String, String>()
+    @Persisted var favoriteParksByCity: Map<String, String>
 }
 // :code-block-end:
 
@@ -21,7 +21,7 @@ class MapExample: XCTestCase {
     override func setUp() {
         Realm.Configuration.defaultConfiguration = Realm.Configuration(inMemoryIdentifier: "MapExample")
     }
-    
+
     override func tearDown() {
         Realm.Configuration.defaultConfiguration = Realm.Configuration(inMemoryIdentifier: nil)
     }

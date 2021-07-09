@@ -7,10 +7,10 @@ import { useRealmApp, RealmAppProvider } from "./RealmApp";
 // :code-block-start: appID
 // :replace-start: {
 //   "terms": {
-//     "tasktracker-huhcb": "<your Realm app ID here>"
+//     "tasktracker-qczfq": "<your Realm app ID here>"
 //   }
 // }
-export const APP_ID = "tasktracker-huhcb";
+export const APP_ID = "tasktracker-qczfq";
 // :replace-end:
 // :code-block-end:
 

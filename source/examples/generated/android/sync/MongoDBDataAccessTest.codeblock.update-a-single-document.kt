@@ -1,5 +1,5 @@
 val queryFilter = Document("name", "petunia")
-val updateDocument = Document("sunlight", "partial")
+val updateDocument = Document("\$set", Document("sunlight", "partial"))
 mongoCollection.updateOne(queryFilter, updateDocument).getAsync { task ->
     if (task.isSuccess) {
         val count = task.get().modifiedCount

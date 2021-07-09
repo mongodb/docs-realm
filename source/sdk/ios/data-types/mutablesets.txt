@@ -63,7 +63,19 @@ For example, a ``Dog`` class model might contain a ``MutableSet`` for
 .. literalinclude:: /examples/generated/code/start/MutableSetExample.codeblock.set-collections-model.swift
    :language: swift
 
-Which you can then update during write transactions:
+.. note::
+
+   When declaring default values for ``@Persisted`` MutableSet property attributes, 
+   both of these syntax types is valid:
+
+   - ``@Persisted var value: MutableSet<String>``
+   - ``@Persisted var value = MutableSet<String>()``
+
+   However, the second will result in significantly worse performance. This is
+   because the MutableSet is created when the parent object is created, rather than 
+   lazily as needed.
+
+You can then update the ``MutableSet`` during write transactions:
 
 .. literalinclude:: /examples/generated/code/start/MutableSetExample.codeblock.set-collections.swift
    :language: swift

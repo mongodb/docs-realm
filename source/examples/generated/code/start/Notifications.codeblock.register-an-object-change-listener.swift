@@ -1,6 +1,6 @@
 // Define the dog class.
 class Dog: Object {
-    @objc dynamic var name = ""
+    @Persisted var name = ""
 }
 
 var objectNotificationToken: NotificationToken?

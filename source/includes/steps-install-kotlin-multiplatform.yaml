@@ -1,0 +1,122 @@
+title: Create a KMM App
+ref: create-a-kmm-app
+content: |
+
+   Create a KMM App using the "KMM Application" template in Android
+   Studio. Follow the instructions at the `KMM documentation
+   <https://kotlinlang.org/docs/mobile/create-first-app.html>`__.
+
+---
+title: Add Realm to the Shared Module Gradle Configuration
+ref: add-realm-to-shared-module-gradle-config
+content: |
+
+   Open the shared module ``build.gradle.kts`` file in the root of the
+   shared module directory of your project. By default, this module is
+   called "shared". Add the ``io.realm.kotlin`` dependency to
+   ``plugins`` and ``implementation("io.realm.kotlin:library:{+kotlin-sdk-version+}")``
+   to ``kotlin.sourceSets.commonMain.dependencies``:
+
+   .. code-block:: kotlin
+      :emphasize-lines: 7, 34
+
+      import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
+
+      plugins {
+          kotlin("multiplatform")
+          kotlin("native.cocoapods")
+          id("com.android.library")
+          id("io.realm.kotlin") version "{+kotlin-sdk-version+}"
+      }
+
+      version = "1.0"
+
+      kotlin {
+          android()
+
+          val iosTarget: (String, KotlinNativeTarget.() -> Unit) -> KotlinNativeTarget =
+              if (System.getenv("SDK_NAME")?.startsWith("iphoneos") == true)
+                  ::iosArm64
+              else
+                  ::iosX64
+
+          iosTarget("ios") {}
+
+          cocoapods {
+              summary = "Some description for the Shared Module"
+              homepage = "Link to the Shared Module homepage"
+              ios.deploymentTarget = "14.4"
+              frameworkName = "shared"
+              podfile = project.file("../iosApp/Podfile")
+          }
+          
+          sourceSets {
+              val commonMain by getting {
+                  dependencies {
+                      implementation("io.realm.kotlin:library:{+kotlin-sdk-version+}")
+                  }
+              }
+              val commonTest by getting {
+                  dependencies {
+                      implementation(kotlin("test-common"))
+                      implementation(kotlin("test-annotations-common"))
+                  }
+              }
+              val androidMain by getting
+              val androidTest by getting {
+                  dependencies {
+                      implementation(kotlin("test-junit"))
+                      implementation("junit:junit:4.13.2")
+                  }
+              }
+              val iosMain by getting
+              val iosTest by getting
+          }
+      }
+
+      android {
+          compileSdkVersion(30)
+          sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
+          defaultConfig {
+              minSdkVersion(16)
+              targetSdkVersion(30)
+          }
+      }
+
+   .. note:: Android Module Dependencies
+
+      If you use any part of the SDK, including model classes and query
+      results, inside the Android module (named "androidApp" by default),
+      add the SDK's compile-time dependency:
+
+      .. code-block:: kotlin
+
+         dependencies {
+            compileOnly("io.realm.kotlin:library:{+kotlin-sdk-version+}")
+         }
+
+---
+title: Sync Project with Gradle Files
+ref: sync-gradle-dependencies
+content: |
+
+   Now that you have updated the Gradle configuration,
+   resolve the dependencies by clicking :guilabel:`File` >
+   :guilabel:`Sync Project with Gradle Files`.
+
+---
+title: Run the Application
+ref: run-the-application
+content: |
+
+   Once Android Studio has successfully resolved the dependencies, you
+   can get started with {+service-short+}. Import the {+service-short+}
+   SDK with the following import statement in your ``.kt`` files in
+   ``commonMain``:
+
+   .. code-block:: kotlin
+      
+      import io.realm.Realm
+
+   Then, click the :guilabel:`Run` button (a green triangle) to run
+   the application in your compatible emulator.

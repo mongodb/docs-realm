@@ -9,9 +9,9 @@ import RealmSwift
 
 // :code-block-start: set-collections-model
 class MutableSetExamples_Dog: Object {
-    @objc dynamic var name = ""
-    @objc dynamic var currentCity = ""
-    let citiesVisited = MutableSet<String>()
+    @Persisted var name = ""
+    @Persisted var currentCity = ""
+    @Persisted var citiesVisited: MutableSet<String>
 }
 // :code-block-end:
 

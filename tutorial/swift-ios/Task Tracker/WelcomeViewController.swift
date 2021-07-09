@@ -3,7 +3,7 @@
 //  Task Tracker
 //
 //  Created by MongoDB on 2020-04-30.
-//  Copyright © 2020 MongoDB, Inc. All rights reserved.
+//  Copyright © 2020-2021 MongoDB, Inc. All rights reserved.
 //
 
 import UIKit
@@ -73,11 +73,9 @@ class WelcomeViewController: UIViewController {
         let infoLabel = UILabel()
         infoLabel.numberOfLines = 0
         // :code-block-start: info-label-password-add
-        // :state-start: local
+        // :state-start: local start
         infoLabel.text = "Please enter a username."
-        // :state-end: :state-uncomment-start: start
-        // infoLabel.text = "Please enter a username."
-        // :state-uncomment-end::state-uncomment-start: sync
+        // :state-end: :state-uncomment-start: sync
         // infoLabel.text = "Please enter an email and password."
         // :state-uncomment-end:
         // :code-block-end:
@@ -85,11 +83,9 @@ class WelcomeViewController: UIViewController {
 
         // :code-block-start: username-field-placeholder
         // Configure the username text input field.
-        // :state-start: local
+        // :state-start: local start
         usernameField.placeholder = "Username"
-        // :state-end: :state-uncomment-start: start
-        // usernameField.placeholder = "Username"
-        // :state-uncomment-end: :state-uncomment-start: sync
+        // :state-end: :state-uncomment-start: sync
         // usernameField.placeholder = "Email"
         // :state-uncomment-end:
         // :code-block-end:
@@ -126,6 +122,15 @@ class WelcomeViewController: UIViewController {
         errorLabel.numberOfLines = 0
         errorLabel.textColor = .red
         container.addArrangedSubview(errorLabel)
+        
+        // :state-start: sync
+        // If already logged in, go straight to the projects page for the user
+        let user = app.currentUser
+        if (user != nil && user!.isLoggedIn) {
+            let configuration = user!.configuration(partitionValue: "user=\(user!.id)")
+            navigationController!.pushViewController(ProjectsViewController(userRealmConfiguration: configuration), animated: true)
+        }
+        // :state-end:
     }
 
     // Turn on or off the activity indicator.
@@ -180,23 +185,17 @@ class WelcomeViewController: UIViewController {
     // :code-block-start: sign-in
     @objc func signIn() {
         // :state-start: local
-        // Go to the list of projects in the user object contained in the user realm.
+        // Go to the list of tasks in the user object contained in the user realm.
         var config = Realm.Configuration.defaultConfiguration
+        // This configuration step is not really needed, but if we add Sync later,
+        // this allows us to keep the tasks we made.
         config.fileURL!.deleteLastPathComponent()
         config.fileURL!.appendPathComponent("project=\(self.username!)")
         config.fileURL!.appendPathExtension("realm")
-        config.objectTypes = [Task.self]
-        Realm.asyncOpen(configuration: config) { [weak self] (result) in
-            switch result {
-            case .failure(let error):
-                fatalError("Failed to open realm: \(error)")
-            case .success(let realm):
-                self?.navigationController?.pushViewController(
-                    TasksViewController(realm: realm, title: "\(self!.username!)'s Tasks"),
-                    animated: true
-                )
-            }
-        }
+        navigationController!.pushViewController(
+            TasksViewController(realmConfiguration: config, title: "\(username!)'s Tasks"),
+            animated: true
+        )
         // :state-end: :state-uncomment-start: sync
         // print("Log in as user: \(username!)")
         // setLoading(true)
@@ -220,9 +219,7 @@ class WelcomeViewController: UIViewController {
         //             // Load again while we open the realm.
         //             self!.setLoading(true)
         //             // Get a configuration to open the synced realm.
-        //             var configuration = user.configuration(partitionValue: "user=\(user.id)")
-        //             // Only allow User and Project objects in this partition.
-        //             configuration.objectTypes = [User.self, Project.self]
+        //             let configuration = user.configuration(partitionValue: "user=\(user.id)")
         //             // Open the realm asynchronously so that it downloads the remote copy before
         //             // opening the local copy.
         //             Realm.asyncOpen(configuration: configuration) { [weak self](result) in
@@ -231,9 +228,9 @@ class WelcomeViewController: UIViewController {
         //                     switch result {
         //                     case .failure(let error):
         //                         fatalError("Failed to open realm: \(error)")
-        //                     case .success(let userRealm):
+        //                     case .success:
         //                         // Go to the list of projects in the user object contained in the user realm.
-        //                         self!.navigationController!.pushViewController(ProjectsViewController(userRealm: userRealm), animated: true)
+        //                         self!.navigationController!.pushViewController(ProjectsViewController(userRealmConfiguration: configuration), animated: true)
         //                     }
         //                 }
         //             }
@@ -241,7 +238,10 @@ class WelcomeViewController: UIViewController {
         //     }
         // }
         // :state-uncomment-end: :state-uncomment-start: start
-        // // TODO: Open a project realm and launch the task view.
+        // // TODO: Replace the following code with code to launch the tasks view.
+        // let alertController = UIAlertController(title: "TODO", message: "Implement sign-in functionality in WelcomeViewController.swift", preferredStyle: .alert)
+        // alertController.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+        // self.present(alertController, animated: true)
         // :state-uncomment-end:
     }
     // :code-block-end:

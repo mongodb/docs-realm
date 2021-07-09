@@ -21,9 +21,7 @@
                 // Load again while we open the realm.
                 self!.setLoading(true)
                 // Get a configuration to open the synced realm.
-                var configuration = user.configuration(partitionValue: "user=\(user.id)")
-                // Only allow User and Project objects in this partition.
-                configuration.objectTypes = [User.self, Project.self]
+                let configuration = user.configuration(partitionValue: "user=\(user.id)")
                 // Open the realm asynchronously so that it downloads the remote copy before
                 // opening the local copy.
                 Realm.asyncOpen(configuration: configuration) { [weak self](result) in
@@ -32,9 +30,9 @@
                         switch result {
                         case .failure(let error):
                             fatalError("Failed to open realm: \(error)")
-                        case .success(let userRealm):
+                        case .success:
                             // Go to the list of projects in the user object contained in the user realm.
-                            self!.navigationController!.pushViewController(ProjectsViewController(userRealm: userRealm), animated: true)
+                            self!.navigationController!.pushViewController(ProjectsViewController(userRealmConfiguration: configuration), animated: true)
                         }
                     }
                 }

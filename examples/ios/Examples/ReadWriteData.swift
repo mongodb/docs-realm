@@ -8,44 +8,40 @@ import RealmSwift
 
 // :code-block-start: models
 class ReadWriteDataExamples_DogToy: Object {
-    @objc dynamic var name = ""
+    @Persisted var name = ""
 }
 
 class ReadWriteDataExamples_Dog: Object {
-    @objc dynamic var name = ""
-    @objc dynamic var age = 0
-    @objc dynamic var color = ""
-    @objc dynamic var currentCity = ""
+    @Persisted var name = ""
+    @Persisted var age = 0
+    @Persisted var color = ""
+    @Persisted var currentCity = ""
 
     // To-one relationship
-    @objc dynamic var favoriteToy: ReadWriteDataExamples_DogToy?
+    @Persisted var favoriteToy: ReadWriteDataExamples_DogToy?
 }
 
 class ReadWriteDataExamples_Person: Object {
-    @objc dynamic var id = 0
-    @objc dynamic var name = ""
+    @Persisted(primaryKey: true) var id = 0
+    @Persisted var name = ""
 
     // To-many relationship - a person can have many dogs
-    let dogs = List<ReadWriteDataExamples_Dog>()
+    @Persisted var dogs: List<ReadWriteDataExamples_Dog>
 
     // Inverse relationship - a person can be a member of many clubs
-    let clubs = LinkingObjects(fromType: ReadWriteDataExamples_DogClub.self, property: "members")
-
-    override static func primaryKey() -> String? {
-        return "id"
-    }
+    @Persisted(originProperty: "members") var clubs: LinkingObjects<ReadWriteDataExamples_DogClub>
 }
 
 class ReadWriteDataExamples_DogClub: Object {
-    @objc dynamic var name = ""
-    let members = List<ReadWriteDataExamples_Person>()
+    @Persisted var name = ""
+    @Persisted var members: List<ReadWriteDataExamples_Person>
 }
 // :code-block-end:
 
 // :code-block-start: object-id-model
 class ReadWriteDataExamples_User: Object {
-    @objc dynamic var id = ObjectId.generate()
-    @objc dynamic var name = ""
+    @Persisted var id: ObjectId
+    @Persisted var name = ""
 }
 // :code-block-end:
 
