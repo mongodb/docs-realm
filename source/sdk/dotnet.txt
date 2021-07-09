@@ -8,6 +8,7 @@ MongoDB Realm .NET SDK
    :titlesonly:
    
    Install Realm for .NET </sdk/dotnet/install>
+   Integrate Realm with Unity </sdk/dotnet/unity>
    Quick Start </sdk/dotnet/quick-start-local>
    Quick Start with Sync </sdk/dotnet/quick-start-with-sync>
    Compatibility </sdk/dotnet/compatibility>
@@ -20,13 +21,12 @@ MongoDB Realm .NET SDK
    .NET SDK Reference Manual <https://docs.mongodb.com/realm-sdks/dotnet/latest>
    Release Notes <https://github.com/realm/realm-dotnet/releases>
 
-The {+service+} .NET SDK enables client applications written in C# for
-the .NET, `UWP 
-<https://docs.microsoft.com/en-us/windows/uwp/get-started/>`__,
-and `Xamarin <https://dotnet.microsoft.com/apps/xamarin>`__
-platforms to access data stored in local {+realms+} and
-interact with {+backend+} services like Functions, MongoDB Data Access,
-and authentication.
+The {+service+} .NET SDK enables client applications written in C# for the .NET,
+`UWP <https://docs.microsoft.com/en-us/windows/uwp/get-started/>`__, `Xamarin
+<https://dotnet.microsoft.com/apps/xamarin>`__, and `Unity
+<https://unity.com/>`_ platforms to access data stored in local {+realms+} and
+interact with {+backend+} services like Functions, MongoDB Data Access, and
+authentication.
 
 .. _dotnet_supported-platforms:
 
@@ -60,13 +60,17 @@ the .NET SDK:
 
 - Visual Studio 2015 Update 2 or higher for Windows
 - Visual Studio for Mac 7.0 or higher
+- Unity `2020.3.12f1 (LTS) <https://unity3d.com/get-unity/download/archive>`_ 
 
-Get Started
------------
+.. note::
 
-To learn how to add the {+service+} .NET SDK library as a dependency
-to your .NET application, see :ref:`Install Realm for .NET
-<dotnet-install>`.
+    The :doc:`{+service-short+} .NET SDK </sdk/dotnet>` may be compatible with
+    other versions of Unity, but ``2020.3.12f1 (LTS)`` is the version that the
+    {+service-short+} team uses for testing and development. We recommend using
+    this version to ensure your project works with {+service-short+} and that
+    the install steps match the :doc:`Integrate Realm with Unity
+    </sdk/dotnet/unity>` documentation steps  since Unity's UI
+    often changes between versions. 
 
 Installation
 ------------
@@ -74,6 +78,10 @@ Installation
 To learn how to add the {+service+} .NET SDK library as a dependency
 to your application, see :ref:`Install Realm for .NET
 <dotnet-install>`.
+
+To learn how to add the {+service+} .NET SDK library as a dependency to your
+Unity project, see the :doc:`Integrate Realm with Unity
+</sdk/dotnet/unity>` documentation.
 
 The Realm Data Model
 --------------------

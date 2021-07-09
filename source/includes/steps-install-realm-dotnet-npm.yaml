@@ -1,0 +1,94 @@
+title: Add NPM as a Scoped Registry
+ref: download-the-latest-realm
+content: |
+
+  Before you can download and use {+service+} within your Unity project, you
+  must add :npm:`NPM <>` as a `scoped registry
+  <https://docs.unity3d.com/Manual/upm-scoped.html>`_. Adding NPM as a scoped
+  registry configures Unity to communicate with NPM, allowing you to install
+  packages, such as {+service-short+}.
+
+  Open the `Unity package manager
+  <https://docs.unity3d.com/Manual/upm-ui.html>`_ by clicking the
+  :guilabel:`Window` tab on the top of the Unity menu. Click :guilabel:`Package
+  Manager` from the :guilabel:`Window dropdown`. Then, click the gear icon on
+  the right-hand corner. Select the :guilabel:`Advanced Project
+  Settings` option from the dropdown. 
+
+  .. figure:: /images/unity-open-advanced-project-settings.png
+     :alt: Select "Advanced Project Settings" 
+  
+  Fill out the scoped registry form with the details below and click the save
+  button.
+
+  .. code-block:: none
+
+   name = NPM
+   URL = https://registry.npmjs.org
+   Scope(s) = io.realm.unity
+
+  .. figure:: /images/add-scoped-registry-form.png
+     :alt: Download the latest release of the .NET SDK    
+---
+title: Add Realm to the Project Manifest
+ref: add-realm-project-manifest
+content: |
+
+  Now that Unity can install the {+service-short+} .NET SDK from NPM, you need
+  to add {+service-short+} as a dependency in your  project's `manifest file
+  <https://docs.unity3d.com/Manual/upm-manifestPrj.html>`_. Open
+  "Packages/manifest.json" file in `Visual Studio
+  <https://docs.microsoft.com/en-us/visualstudio/>`_ or another text editor. At
+  the bottom of the dependency's object, add the field, "io.realm.unity" and
+  its value, the {+service-short+} .NET version number you want to use in
+  quotes.
+
+  .. code-block:: none
+
+   "io.realm.unity": "<version-number>"
+
+  Remember to replace the ``<version-number>`` above with the actual version
+  number. Your full manifest file should look something like the following:
+
+  .. code-block:: none
+
+   {
+    "dependencies": {
+      ...
+      "io.realm.unity": "10.2.1"
+    },
+    "scopedRegistries": [
+      {
+        "name": "NPM",
+        "url": "https://registry.npmjs.org/",
+        "scopes": [
+          "io.realm.unity"
+        ]
+      }
+    ]
+   }
+   
+  When you save this file, Unity downloads the specified version of the
+  {+service-short+} .NET SDK package from the NPM registry.
+
+  .. figure:: /images/unity-resolve-packages.png
+     :width: 400px
+     :alt: Unity downloading {+service-short+} .NET SDK package
+---
+title: Verify the Realm Dependency and Check for Updates
+ref: verify-realm-dependency-check-for-updates
+content: |
+
+  To verify that the {+service-short+} package has been downloaded from NPM,
+  open your Unity package manager by clicking the :guilabel:`Window` tab on the
+  top of the Unity menu. Click :guilabel:`Package Manager` from the
+  :guilabel:`Window` dropdown. You should see {+service-short+} on the :guilabel:`"Packages: In
+  Project"` tab.
+
+  .. figure:: /images/unity-realm-is-installed.png
+     :alt: Unity Realm Installed
+
+  If you see a green check icon next to the version number of the
+  {+service-short+} package, that means your package is up-to-date. However, if
+  you see the up arrow icon, a new version of the package is available. Clicking
+  it gives you the option to upgrade to the latest release.
