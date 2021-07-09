@@ -52,7 +52,7 @@ Persisted Property Attributes
    The ``@Persisted`` declaration style replaces the ``@objc dynamic``, 
    ``RealmOptional``, and ``RealmProperty`` declaration notations from older 
    versions of the SDK. For an older version of the SDK, see: 
-   :ref:`Objective-C Dynamic Property Attributes <objc-dynamic-property-attributes>`
+   :ref:`Objective-C Dynamic Property Attributes <objc-dynamic-property-attributes>`.
 
 Declare model properties that you want to store to the database as 
 ``@Persisted``. This enables them to access the underlying database data.
@@ -216,10 +216,11 @@ does not allow you to:
 
 .. versionadded:: 10.10.0
    While you can't mix ``@Persisted`` and ``@objc dynamic`` property declarations
-   within a class, you can mix the notation styles across parent and subclasses. 
-   For example, a parent class could have a ``@Persisted var foo: Int`` property, 
-   and a child of that class could have an ``@objc dynamic var bar = 0`` property, 
-   and both will be persisted.
+   within a class, you can mix the notation styles across base and subclasses. 
+   For example, a base class could have a ``@Persisted var foo: Int`` property, 
+   and a subclass could have an ``@objc dynamic var bar = 0`` property, with 
+   both persisted. However, the ``@objc dynamic`` property would be ignored if
+   the ``@Persisted`` property was within the same base or subclass.
 
 Summary
 -------

@@ -256,7 +256,7 @@ both types, and use either as a :ref:`primary key <ios-specify-a-primary-key>`.
 .. note::
 
    When declaring default values for ``@Persisted`` UUID or ObjectId property 
-   attributes, both of these syntax types is valid:
+   attributes, both of these syntax types are valid:
 
    - ``@Persisted var value: UUID``
    - ``@Persisted var value = UUID()``
@@ -265,8 +265,10 @@ both types, and use either as a :ref:`primary key <ios-specify-a-primary-key>`.
    
    Additionally, ``@Persisted var id: ObjectId`` has equivalent behavior to 
    ``@objc dynamic var _id = ObjectId.generate()``, but not ``@objc 
-   dynamic var _id = ObjectId()``. The first syntax provides better performance
-   than ``ObjectId.generate()``.
+   dynamic var _id = ObjectId()``. 
+   
+   Prefer ``Persisted var id: ObjectId`` over ``@objc dynamic var _id = 
+   ObjectId.generate()`` for improved performance.
 
 
 .. _ios-size-limitations:
