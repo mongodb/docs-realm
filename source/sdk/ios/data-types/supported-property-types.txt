@@ -85,28 +85,29 @@ Property Cheat Sheet
       ``CGFloat`` properties are discouraged, as the type is not
       platform independent.
 
-      .. important:
+      Setting Default Values
+      ~~~~~~~~~~~~~~~~~~~~~~
 
-         With the ``@Persisted`` declaration syntax, you may see a performance 
-         impact when setting default values for: 
+      With the ``@Persisted`` property declaration syntax, you may see a 
+      performance impact when setting default values for: 
          
-         - ``List``
-         - ``MutableSet`` 
-         - ``Dictionary``
-         - ``Decimal128``
-         - ``UUID``
-         - ``ObjectId`` 
+      - ``List``
+      - ``MutableSet`` 
+      - ``Dictionary``
+      - ``Decimal128``
+      - ``UUID``
+      - ``ObjectId`` 
          
-         ``@Persisted var listProperty: List<Int>`` and ``@Persisted var 
-         listProperty = List<Int>()`` are both valid, and are functionally 
-         equivalent. However, the second declaration will result in poorer 
-         performance. 
+      ``@Persisted var listProperty: List<Int>`` and ``@Persisted var 
+      listProperty = List<Int>()`` are both valid, and are functionally 
+      equivalent. However, the second declaration will result in poorer 
+      performance. 
          
-         This is because the List is created when the parent object is 
-         created, rather than lazily as needed. For most types, this is 
-         a difference so small you can't measure it. For the types listed 
-         here, you may see a performance impact when using the second 
-         declaration style.
+      This is because the List is created when the parent object is 
+      created, rather than lazily as needed. For most types, this is 
+      a difference so small you can't measure it. For the types listed 
+      here, you may see a performance impact when using the second 
+      declaration style.
 
    .. tab:: Obective C
       :tabid: objective-c
