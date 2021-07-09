@@ -34,6 +34,49 @@ object that can be stored in that {+realm+}.
 Property Attributes
 -------------------
 
+When you declare the property attributes of a class, you can specify whether
+or not those properties should be managed by the {+realm+}. Managed properties 
+are stored or updated in the database. Conversely, ignored properties are not
+stored to the database. You can mix managed and ignored properties 
+within a class. 
+
+The syntax to mark properties as managed or ignored varies depending on which
+version of the SDK you use.
+
+.. _persisted-property-attributes:
+
+Persisted Property Attributes
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. versionadded:: 10.10.0
+   The ``@Persisted`` declaration style replaces the ``@objc dynamic``, 
+   ``RealmOptional``, and ``RealmProperty`` declaration notations from older 
+   versions of the SDK. For an older version of the SDK, see: 
+   :ref:`Objective-C Dynamic Property Attributes <objc-dynamic-property-attributes>`.
+
+Declare model properties that you want to store to the database as 
+``@Persisted``. This enables them to access the underlying database data.
+
+When you declare any properties as ``@Persisted`` within a class, the other 
+properties within that class are automatically ignored.
+
+If you mix ``@Persisted`` and ``@objc dynamic`` property declarations within
+a class definition, any property attributes marked as ``@objc dynamic`` will 
+be ignored.
+
+.. seealso::
+
+   Our :ref:`Supported Property Types <ios-supported-property-types>` 
+   page contains a property declaration cheatsheet.
+
+.. _objc-dynamic-property-attributes:
+
+Objective-C Dynamic Property Attributes
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. versionchanged:: 10.10.0
+   This property declaration information is for versions of the SDK before 
+   10.10.0. 
+
 Declare dynamic {+backend-short+} model properties in the Objective-C runtime. This 
 enables them to access the underlying database data. 
 
@@ -171,6 +214,14 @@ does not allow you to:
    <realm/realm-cocoa/issues/1109#issuecomment-143834756>` for working
    around these limitations.
 
+.. versionadded:: 10.10.0
+   While you can't mix ``@Persisted`` and ``@objc dynamic`` property declarations
+   within a class, you can mix the notation styles across base and subclasses. 
+   For example, a base class could have a ``@Persisted var foo: Int`` property, 
+   and a subclass could have an ``@objc dynamic var bar = 0`` property, with 
+   both persisted. However, the ``@objc dynamic`` property would be ignored if
+   the ``@Persisted`` property were within the same base or subclass.
+
 Summary
 -------
 
@@ -179,7 +230,7 @@ Summary
 
 - The {+service-short+} object's **schema** defines the fields of the object and
   which fields are optional, which fields have a default value,
-  and which fields are indexed.
+  which fields are indexed, and which fields are ignored.
 
 - You can define to-one, to-many, and inverse relationships in your schema.
   Inverse relationships automatically form backlinks.

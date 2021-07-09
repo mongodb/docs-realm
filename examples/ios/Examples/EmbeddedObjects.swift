@@ -9,24 +9,20 @@ import RealmSwift
 // :code-block-start: models
 // Define an embedded object
 class EmbeddedObjectExamples_Address: EmbeddedObject {
-    @objc dynamic var street: String?
-    @objc dynamic var city: String?
-    @objc dynamic var country: String?
-    @objc dynamic var postalCode: String?
+    @Persisted var street: String?
+    @Persisted var city: String?
+    @Persisted var country: String?
+    @Persisted var postalCode: String?
 }
 
 // Define an object with one embedded object
 class EmbeddedObjectExamples_Contact: Object {
-    @objc dynamic var _id = ObjectId.generate()
-    @objc dynamic var name = ""
+    @Persisted(primaryKey: true) var _id: ObjectId
+    @Persisted var name = ""
 
     // Embed a single object.
     // Embedded object properties must be marked optional.
-    @objc dynamic var address: EmbeddedObjectExamples_Address?
-
-    override static func primaryKey() -> String? {
-        return "_id"
-    }
+    @Persisted var address: EmbeddedObjectExamples_Address?
 
     convenience init(name: String, address: EmbeddedObjectExamples_Address) {
         self.init()
@@ -37,8 +33,8 @@ class EmbeddedObjectExamples_Contact: Object {
 
 // Define an object with an array of embedded objects
 class EmbeddedObjectExamples_Business: Object {
-    @objc dynamic var name = ""
-    let addresses = List<EmbeddedObjectExamples_Address>() // Embed an array of objects
+    @Persisted var name = ""
+    @Persisted var addresses: List<EmbeddedObjectExamples_Address> // Embed an array of objects
 
     convenience init(name: String, addresses: [EmbeddedObjectExamples_Address]) {
         self.init()

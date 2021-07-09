@@ -1,33 +1,29 @@
 class DogToy: Object {
-    @objc dynamic var name = ""
+    @Persisted var name = ""
 }
 
 class Dog: Object {
-    @objc dynamic var name = ""
-    @objc dynamic var age = 0
-    @objc dynamic var color = ""
-    @objc dynamic var currentCity = ""
+    @Persisted var name = ""
+    @Persisted var age = 0
+    @Persisted var color = ""
+    @Persisted var currentCity = ""
 
     // To-one relationship
-    @objc dynamic var favoriteToy: DogToy?
+    @Persisted var favoriteToy: DogToy?
 }
 
 class Person: Object {
-    @objc dynamic var id = 0
-    @objc dynamic var name = ""
+    @Persisted(primaryKey: true) var id = 0
+    @Persisted var name = ""
 
     // To-many relationship - a person can have many dogs
-    let dogs = List<Dog>()
+    @Persisted var dogs: List<Dog>
 
     // Inverse relationship - a person can be a member of many clubs
-    let clubs = LinkingObjects(fromType: DogClub.self, property: "members")
-
-    override static func primaryKey() -> String? {
-        return "id"
-    }
+    @Persisted(originProperty: "members") var clubs: LinkingObjects<DogClub>
 }
 
 class DogClub: Object {
-    @objc dynamic var name = ""
-    let members = List<Person>()
+    @Persisted var name = ""
+    @Persisted var members: List<Person>
 }
