@@ -261,14 +261,15 @@ both types, and use either as a :ref:`primary key <ios-specify-a-primary-key>`.
    - ``@Persisted var value: UUID``
    - ``@Persisted var value = UUID()``
 
-   However, the second will result in poorer performance. 
+   However, the second will result in poorer performance. This is because the
+   latter creates a new identifier that is never used any time an object is
+   read from the {+realm+}, while the former only creates them when needed.
+
+   ``@Persisted var id: ObjectId`` has equivalent behavior to ``@objc dynamic 
+   var _id = ObjectId.generate()``. They both make random ObjectIds. 
    
-   Additionally, ``@Persisted var id: ObjectId`` has equivalent behavior to 
-   ``@objc dynamic var _id = ObjectId.generate()``, but not ``@objc 
-   dynamic var _id = ObjectId()``. 
-   
-   Prefer ``Persisted var id: ObjectId`` over ``@objc dynamic var _id = 
-   ObjectId.generate()`` for improved performance.
+   ``@Persisted var _id = ObjectId()`` has equivalent behavior to ``@objc 
+   dynamic var _id = ObjectId()``. They both make zero-initialized ObjectIds.
 
 
 .. _ios-size-limitations:
