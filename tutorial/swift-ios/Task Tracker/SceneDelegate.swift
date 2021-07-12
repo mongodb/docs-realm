@@ -3,14 +3,14 @@
 //  Task Tracker
 //
 //  Created by MongoDB on 2020-04-30.
-//  Copyright © 2020 MongoDB, Inc. All rights reserved.
+//  Copyright © 2020-2021 MongoDB, Inc. All rights reserved.
 //
 
 import UIKit
 import RealmSwift
 
 // :code-block-start: initialize-app
-// let app = App(id: "tasktracker-qczfq") // :remove:
+let app = App(id: "tasktracker-qczfq") // :remove:
 // :state-uncomment-start: sync
 // let app = App(id: "<your-realm-app-ID-here>")
 // :state-uncomment-end:

@@ -1,12 +1,12 @@
 class Task: Object {
-    @objc dynamic var name = ""
-    @objc dynamic var isComplete = false
-    @objc dynamic var assignee: String?
-    @objc dynamic var priority = 0
-    @objc dynamic var progressMinutes = 0
+    @Persisted var name = ""
+    @Persisted var isComplete = false
+    @Persisted var assignee: String?
+    @Persisted var priority = 0
+    @Persisted var progressMinutes = 0
 }
 
 class Project: Object {
-    @objc dynamic var name = ""
-    let tasks = List<Task>()
+    @Persisted var name = ""
+    @Persisted var tasks: List<Task>
 }

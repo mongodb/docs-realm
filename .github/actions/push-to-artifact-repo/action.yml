@@ -16,6 +16,9 @@ inputs:
   source:
     description: "The path to the source to copy"
     required: true
+  commitMessage:
+    description: "The commit message to use"
+    required: false
 runs:
   using: "docker"
   image: "Dockerfile"

@@ -15,10 +15,161 @@ Supported Property Types - iOS SDK
 Property Cheat Sheet
 --------------------
 
-.. tabs-realm-languages::
+.. tabs::
 
-   .. tab::
+   .. tab:: Swift
       :tabid: swift
+
+      .. versionchanged:: 10.10.0
+         ``@Persisted`` property declaration syntax
+
+      You can use the following types to define your object model
+      properties:
+
+      .. list-table::
+         :header-rows: 1
+         :stub-columns: 1
+         :widths: 20 40 40
+      
+         * - Type
+           - Required
+           - Optional
+         * - Bool
+           - ``@Persisted var value: Bool``
+           - ``@Persisted var value: Bool?``
+         * - Int, Int8, Int16, Int32, Int64
+           - ``@Persisted var value: Int``
+           - ``@Persisted var value: Int?``
+         * - Float
+           - ``@Persisted var value: Float``
+           - ``@Persisted var value: Float?``
+         * - Double
+           - ``@Persisted var value: Double``
+           - ``@Persisted var value: Double?``
+         * - String
+           - ``@Persisted var value: String``
+           - ``@Persisted var value: String?``
+         * - Data
+           - ``@Persisted var value = Data()``
+           - ``@Persisted var value: Data?``
+         * - Date
+           - ``@Persisted var value = Date()``
+           - ``@Persisted var value: Date?``
+         * - Decimal128
+           - ``@Persisted var decimal: Decimal128``
+           - ``@Persisted var decimal: Decimal128?``
+         * - :swift-sdk:`UUID <Extensions.html#/s:10Foundation4UUIDV>`
+           - ``@Persisted var uuid: UUID``
+           - ``@Persisted var uuidOpt: UUID?``
+         * - :swift-sdk:`ObjectId <Classes/ObjectId.html>`
+           - ``@Persisted var objectId: ObjectId``
+           - ``@Persisted var objectId: ObjectId?``
+         * - :swift-sdk:`List <Classes/List.html>`
+           - ``@Persisted var value: List<Type>``
+           - ``@Persisted var value: List<Type?>``
+         * - :ref:`MutableSet <ios-mutableset-data-type>` 
+           - ``@Persisted var value: MutableSet<Type>``
+           - ``@Persisted var value: MutableSet<Type?>``
+         * - :ref:`Map <ios-map>` 
+           - ``@Persisted var value = Map<String, String>``
+           - N/A
+         * - :ref:`AnyRealmValue <ios-anyrealmvalue-data-type>`
+           - ``@Persisted var value: AnyRealmValue``
+           - N/A
+      
+      Additionally:
+
+      - :swift-sdk:`EmbeddedObject <Extensions/EmbeddedObject.html>`-derived types
+      - :swift-sdk:`Enum <Protocols.html#/s:10RealmSwift0A4EnumP>`
+
+      ``CGFloat`` properties are discouraged, as the type is not
+      platform independent.
+
+      Setting Default Values
+      ~~~~~~~~~~~~~~~~~~~~~~
+
+      With the ``@Persisted`` property declaration syntax, you may see a 
+      performance impact when setting default values for: 
+         
+      - ``List``
+      - ``MutableSet`` 
+      - ``Dictionary``
+      - ``Decimal128``
+      - ``UUID``
+      - ``ObjectId`` 
+         
+      ``@Persisted var listProperty: List<Int>`` and ``@Persisted var 
+      listProperty = List<Int>()`` are both valid, and are functionally 
+      equivalent. However, the second declaration will result in poorer 
+      performance. 
+         
+      This is because the List is created when the parent object is 
+      created, rather than lazily as needed. For most types, this is 
+      a difference so small you can't measure it. For the types listed 
+      here, you may see a performance impact when using the second 
+      declaration style.
+
+   .. tab:: Obective C
+      :tabid: objective-c
+
+      You can use the following types to define your object model
+      properties:
+
+      .. list-table::
+         :header-rows: 1
+         :stub-columns: 1
+         :widths: 20 40 40
+      
+         * - Type
+           - Required
+           - Optional
+         * - Boolean
+           - ``@property BOOL value;``
+           - ``@property NSNumber<RLMBool> *value;``
+         * - Integer
+           - ``@property int value;``
+           - ``@property NSNumber<RLMInt> *value;``
+         * - Float
+           - ``@property float value;``
+           - ``@property NSNumber<RLMFloat> *value;``
+         * - Double
+           - ``@property double value;``
+           - ``@property NSNumber<RLMDouble> *value;``
+         * - String
+           - ``@property NSString *value;``
+           - ``@property NSString *value;``
+         * - Data
+           - ``@property NSData *value;``
+           - ``@property NSData *value;``
+         * - Date
+           - ``@property NSDate *value;``
+           - ``@property NSDate *value;``
+         * - Decimal128
+           - ``@property RLMDecimal128 *value;``
+           - ``@property RLMDecimal128 *value;``
+         * - NSUUID
+           - ``@property NSUUID *uuid;``
+           - 
+         * - :objc-sdk:`RLMObjectId <Classes/RLMObjectId.html>`
+           - ``@property RLMObjectId *objectId;``
+           - ``@property RLMObjectId *objectId;``
+         * - :objc-sdk:`RLMArray <Classes/RLMArray.html>`
+           - ``@property RLMArray<MyClass *><MyClass> *items;``
+           - ``@property RLMArray<MyClass *><MyClass> *items;``
+         * - User-defined :objc-sdk:`RLMObject<Classes/RLMObject.html>`
+           - N/A
+           - ``@property MyClass *value;``
+
+      Additionally:
+
+      - Integral types ``int``, ``NSInteger``, ``long``, ``long long``
+      - :objc-sdk:`RLMEmbeddedObject<Classes/RLMEmbeddedObject.html>`-derived types
+
+      ``CGFloat`` properties are discouraged, as the type is not
+      platform independent.
+
+   .. tab:: Swift pre-10.10.0
+      :tabid: swift-pre-10.10.0
 
       .. versionchanged:: 10.8.0
          ``RealmProperty`` replaces ``RealmOptional``
@@ -29,6 +180,7 @@ Property Cheat Sheet
       .. list-table::
          :header-rows: 1
          :stub-columns: 1
+         :widths: 20 40 40
       
          * - Type
            - Required
@@ -90,64 +242,6 @@ Property Cheat Sheet
       ``CGFloat`` properties are discouraged, as the type is not
       platform independent.
 
-   .. tab::
-      :tabid: objective-c
-
-      You can use the following types to define your object model
-      properties:
-
-      .. list-table::
-         :header-rows: 1
-         :stub-columns: 1
-      
-         * - Type
-           - Required
-           - Optional
-         * - Boolean
-           - ``@property BOOL value;``
-           - ``@property NSNumber<RLMBool> *value;``
-         * - Integer
-           - ``@property int value;``
-           - ``@property NSNumber<RLMInt> *value;``
-         * - Float
-           - ``@property float value;``
-           - ``@property NSNumber<RLMFloat> *value;``
-         * - Double
-           - ``@property double value;``
-           - ``@property NSNumber<RLMDouble> *value;``
-         * - String
-           - ``@property NSString *value;``
-           - ``@property NSString *value;``
-         * - Data
-           - ``@property NSData *value;``
-           - ``@property NSData *value;``
-         * - Date
-           - ``@property NSDate *value;``
-           - ``@property NSDate *value;``
-         * - Decimal128
-           - ``@property RLMDecimal128 *value;``
-           - ``@property RLMDecimal128 *value;``
-         * - NSUUID
-           - ``@property NSUUID *uuid;``
-           - 
-         * - :objc-sdk:`RLMObjectId <Classes/RLMObjectId.html>`
-           - ``@property RLMObjectId *objectId;``
-           - ``@property RLMObjectId *objectId;``
-         * - :objc-sdk:`RLMArray <Classes/RLMArray.html>`
-           - ``@property RLMArray<MyClass *><MyClass> *items;``
-           - ``@property RLMArray<MyClass *><MyClass> *items;``
-         * - User-defined :objc-sdk:`RLMObject<Classes/RLMObject.html>`
-           - N/A
-           - ``@property MyClass *value;``
-
-      Additionally:
-
-      - Integral types ``int``, ``NSInteger``, ``long``, ``long long``
-      - :objc-sdk:`RLMEmbeddedObject<Classes/RLMEmbeddedObject.html>`-derived types
-
-      ``CGFloat`` properties are discouraged, as the type is not
-      platform independent.
-
 
 Unique Identifiers
 ------------------
@@ -155,9 +249,27 @@ Unique Identifiers
 .. versionadded:: 10.8.0
    ``UUID`` type
 
-ObjectId is a MongoDB-specific 12-byte unique value. UUID is a 16-byte 
-globally-unique value. You can :ref:`index <ios-index-a-property>` both types,
-and use either as a :ref:`primary key <ios-specify-a-primary-key>`.
+``ObjectId`` is a MongoDB-specific 12-byte unique value. ``UUID`` is a 
+16-byte globally-unique value. You can :ref:`index <ios-index-a-property>` 
+both types, and use either as a :ref:`primary key <ios-specify-a-primary-key>`.
+
+.. note::
+
+   When declaring default values for ``@Persisted`` UUID or ObjectId property 
+   attributes, both of these syntax types are valid:
+
+   - ``@Persisted var value: UUID``
+   - ``@Persisted var value = UUID()``
+
+   However, the second will result in poorer performance. This is because the
+   latter creates a new identifier that is never used any time an object is
+   read from the {+realm+}, while the former only creates them when needed.
+
+   ``@Persisted var id: ObjectId`` has equivalent behavior to ``@objc dynamic 
+   var _id = ObjectId.generate()``. They both make random ObjectIds. 
+   
+   ``@Persisted var _id = ObjectId()`` has equivalent behavior to ``@objc 
+   dynamic var _id = ObjectId()``. They both make zero-initialized ObjectIds.
 
 
 .. _ios-size-limitations:

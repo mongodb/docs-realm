@@ -76,23 +76,42 @@ application.
      - Description
 
    * - .. json-expansion:: %%values
-     - Document
-     - A document that includes all :doc:`global values </values-and-secrets>`
-       that you have defined in your {+app+}. You
-       can access a specific value from this document.
-
+     - Object
+     - An object that includes all :doc:`global values </values-and-secrets>`.
+       You can access a specific value from this document. Each property of the
+       object maps the name of a value to its corresponding JSON or a secret.
+       
        .. example::
-
-          The following is a MongoDB schema validation
-          expression that evaluates to ``true`` if the
-          document's ``secret`` field matches the
-          used-defined :doc:`value </values-and-secrets>`
-          named ``secretString``:
-
+          
+          The following JSON expression evaluates to ``true`` if the current
+          user's ``id`` value is listed in the ``admin_ids`` :doc:`value
+          </values-and-secrets>`:
+          
           .. code-block:: json
-
+             
              {
-               "%%root.secret": "%%values.secretString"
+               "%%user.id": { "%in": "%%values.admin_ids" }
+             }
+   
+   * - .. json-expansion:: %%environment
+     - Object
+     
+     - An object that represents the current environment as well as its
+       :ref:`environment values <environment-values>`. Each property of the
+       object maps the name of an environment value to its value in the current
+       environment.
+       
+       .. example::
+          
+          The following is a rule expression that evaluates to ``true`` if the
+          current environment is ``"production"`` and the ``"baseUrl"``
+          environment value is defined:
+          
+          .. code-block:: json
+          
+             {
+               "%%environment.tag": "production",
+               "%%environment.values.baseUrl": { "%exists": true }
              }
 
    * - .. json-expansion:: %%request
@@ -101,23 +120,6 @@ application.
        information about the external HTTP request that triggered the function
        call.
 
-   * - .. json-expansion:: %%environment
-     - Document
-     - A document that includes :ref:`environment values <environment-values>`
-       and the current environment tag.
-
-       .. example::
-
-          The following is a rule expression that evaluates to ``true`` if the
-          current environment is ``"production"`` and the ``"baseUrl"``
-          environment value is defined:
-
-          .. code-block:: json
-
-             {
-               "%%environment.tag": "production",
-               "%%environment.values.baseUrl": { "%exists": true }
-             }
 
 .. _user-object:
 .. _expansions-user:

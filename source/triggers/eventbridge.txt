@@ -29,6 +29,15 @@ Trigger, and associating the Trigger event source with an event bus.
 Procedure
 ---------
 
+.. note::
+
+   The AWS put entry for an EventBridge trigger event must be smaller than 256 KB.
+
+   For more information, see the `AWS Documentation to calculate Amazon
+   PutEvents event entry size <https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-putevent-size.html>`_.
+   You can configure a :ref:`project expression <create-a-database-trigger>` 
+   on the trigger to reduce the size of the entry you send to Eventbridge.
+
 .. include:: /includes/steps/eventbridge.rst
 
 .. _event_processor_example:

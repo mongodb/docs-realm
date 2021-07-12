@@ -8,16 +8,16 @@ import RealmSwift
 
 // :code-block-start: models
 class QueryEngineExamples_Task: Object {
-    @objc dynamic var name = ""
-    @objc dynamic var isComplete = false
-    @objc dynamic var assignee: String?
-    @objc dynamic var priority = 0
-    @objc dynamic var progressMinutes = 0
+    @Persisted var name = ""
+    @Persisted var isComplete = false
+    @Persisted var assignee: String?
+    @Persisted var priority = 0
+    @Persisted var progressMinutes = 0
 }
 
 class QueryEngineExamples_Project: Object {
-    @objc dynamic var name = ""
-    let tasks = List<QueryEngineExamples_Task>()
+    @Persisted var name = ""
+    @Persisted var tasks: List<QueryEngineExamples_Task>
 }
 // :code-block-end:
 

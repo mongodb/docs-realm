@@ -15,23 +15,23 @@ class ProjectsViewController: UIViewController, UITableViewDelegate, UITableView
     var userData: User?
     var notificationToken: NotificationToken?
 
-    init(userRealm: Realm) {
-        self.userRealm = userRealm
-        super.init(nibName: nil, bundle: nil)
-
+    init(userRealmConfiguration: Realm.Configuration) {
         // :code-block-start: user-in-realm-notification
         // :state-start: local start
         // TODO: fetch user data object
-        // :state-end: :state-uncomment-start: sync
-        // // There should only be one user in my realm - that is myself
-        // let usersInRealm = userRealm.objects(User.self)
-        //
-        // notificationToken = usersInRealm.observe { [weak self, usersInRealm] (_) in
-        //     self?.userData = usersInRealm.first
-        //     guard let tableView = self?.tableView else { return }
-        //     tableView.reloadData()
-        // }
-        // :state-uncomment-end:
+        // :state-end: :state-start: sync
+        self.userRealm = try! Realm(configuration: userRealmConfiguration)
+        // :state-end:
+        super.init(nibName: nil, bundle: nil)
+        // :state-start: sync
+        // There should only be one user in my realm - that is myself
+        let usersInRealm = userRealm.objects(User.self)
+        notificationToken = usersInRealm.observe { [weak self, usersInRealm] (_) in
+            self?.userData = usersInRealm.first
+            guard let tableView = self?.tableView else { return }
+            tableView.reloadData()
+        }
+        // :state-end:
         // :code-block-end:
     }
     
@@ -129,14 +129,14 @@ class ProjectsViewController: UIViewController, UITableViewDelegate, UITableView
         // :state-end: :state-uncomment-start: sync
         // let user = app.currentUser!
         // let project = userData?.memberOf[indexPath.row] ?? Project(partition: "project=\(user.id)", name: "My Project")
-        //
-        // Realm.asyncOpen(configuration: user.configuration(partitionValue: project.partition!)) { [weak self] (result) in
+        // let configuration = user.configuration(partitionValue: project.partition!)
+        // Realm.asyncOpen(configuration: configuration) { [weak self] (result) in
         //     switch result {
         //     case .failure(let error):
         //         fatalError("Failed to open realm: \(error)")
         //     case .success(let realm):
         //         self?.navigationController?.pushViewController(
-        //             TasksViewController(realm: realm, title: "\(project.name!)'s Tasks"),
+        //             TasksViewController(realmConfiguration: configuration, title: "\(project.name!)'s Tasks"),
         //             animated: true
         //         )
         //     }

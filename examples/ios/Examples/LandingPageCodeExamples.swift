@@ -11,16 +11,16 @@ import RealmSwift
 
 // :code-block-start: coffee-drink-object
 class LandingPageExamples_CoffeeDrink: Object {
-    @objc dynamic var name = ""
-    @objc dynamic var hotOrCold: String?
-    @objc dynamic var rating = 0
+    @Persisted var name = ""
+    @Persisted var hotOrCold: String?
+    @Persisted var rating = 0
 }
 // :code-block-end:
 
 class LandingPageExamples_CoffeeShop: Object {
     // Required string property
-    @objc dynamic var name = ""
-    let drinks = List<LandingPageExamples_CoffeeDrink>()
+    @Persisted var name = ""
+    @Persisted var drinks: List<LandingPageExamples_CoffeeDrink>
 }
 
 // MARK: Query Realm Database

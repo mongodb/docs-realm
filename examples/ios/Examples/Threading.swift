@@ -8,7 +8,7 @@ import XCTest
 import RealmSwift
 
 class ThreadingExamples_Person: Object {
-    @objc dynamic var name = ""
+    @Persisted var name = ""
 
     convenience init(name: String) {
         self.init()
@@ -17,7 +17,7 @@ class ThreadingExamples_Person: Object {
 }
 
 class ThreadingExamples_Email: Object {
-    @objc dynamic var read = false
+    @Persisted var read = false
 }
 
 // :code-block-start: write-async-extension
