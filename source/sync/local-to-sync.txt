@@ -1,0 +1,74 @@
+.. _realm-sync-local-to-sync:
+
+=======================================
+Convert a Local Realm to a Synced Realm
+=======================================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+If you have an app using a local {+client-database+} and you want to 
+convert it to a synced {+client-database+}, there are a few steps you 
+need to follow. Some of the changes happen within the {+backend-short+} 
+backend, while others are in the client code. This page covers the 
+overall process and backend steps; the client changes are covered in 
+the individual SDK pages.
+
+In the following sections, you will learn to do the following on the backend:
+
+- Create a new {+realm+} app in {+atlas+}
+- Configure a User Authentication provider
+- Choose a partition strategy
+
+And then, in your client app, you will:
+
+- Update your {+service-short+} object models
+- Connect with a sync configuration.
+
+Create a Backend App
+--------------------
+To sync your data between devices and with {+atlas+}, you first need to create 
+a {+realm+} app. This app serves -- at a minimum -- two purposes: it provides a 
+gateway to the data, and it provides data security in the form of user 
+authentication, data encryption, and access control.
+
+To get started, follow the steps in 
+:ref:`Create a Realm App (Realm UI) <create-a-realm-app>`.
+
+Enable Authentication
+---------------------
+User authentication plays a crucial role in {+sync+}. {+realm+} provides 
+many different authentication providers; once you have configured one or more,
+you can then control exactly who has access to which data.
+
+To get started, learn about the 
+:ref:`Authentication Providers <authentication-providers>` and then 
+follow the configuration steps for the provider(s) of your choice.
+
+Partition the Data 
+------------------
+Data :ref:`partitioning <partitioning>` strategies enable you to configure which 
+users have access to which data. This process is often the most time-consuming 
+part of setting up {+sync+}, as you want to consider the ramifications of 
+different strategies.
+
+Once you determine your 
+:ref:`partition strategy <partition-strategies>` and choose a
+:ref:`partition key <partition-keys>`, you may need to update your existing object 
+models to include the partition field, unless you have chosen an existing field.
+
+Update the Client App
+---------------------
+
+
+
+
+
+
