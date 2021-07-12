@@ -1,0 +1,74 @@
+.. _flutter-intro:
+
+=====================
+Flutter SDK (Preview)
+=====================
+
+.. toctree::
+   :titlesonly:
+   
+   Realm SDK for Flutter Reference Manual <https://pub.dev/packages/realm>
+   Realm SDK for Flutter APIs <https://pub.dev/documentation/realm/latest/realm/realm-library.html>
+   Realm SDK for Dart APIs <https://pub.dev/documentation/realm_dart/latest/realm/realm-library.html>
+
+.. versionadded:: 0.1.0+preview
+
+The {+service+} Flutter SDK enables client applications written in 
+`Dart <https://dart.dev/>`__ for the `Flutter <https://flutter.dev/>`__ 
+platform to access data stored in local {+realms+}. 
+
+.. include:: /includes/note-preview-sdk.rst
+
+Supported Realm Features
+------------------------
+The preview version of the SDK supports the following {+realm+} features:
+
+- creating Realm objects
+- retrieving Realm objects
+- updating Realm objects
+- querying, sorting, and filtering Realm objects
+- implementing change notifications
+
+.. _flutter_limitations:
+
+Preview Limitations
+-------------------
+Because this is a preview version of the SDK, functionality is limited and there 
+are specific configuration considerations:
+
+- The preview version of the SDK requires a custom engine based on Flutter 2.0. 
+  For more information, and a diff of the changes, see the 
+  `runtime diff <https://github.com/realm/realm-dart/tree/preview/runtime>`__
+  readme page.
+
+- You cannot use the ``realm_dart`` preview package with the Dart SDK 2.12 shipped 
+  with Flutter 2.0. Flutter downloads a custom version of the Dart SDK,
+  and this custom version has known problems loading native binaries. Instead, 
+  use an official Dart SDK 2.12 installation and ensure it is in your PATH.
+
+- The preview version of the SDK enables working with a local-only (on device) 
+  Realm database; Realm Sync functionality is not yet implemented.
+
+- Flutter Hot Reload is available when running on the Android x86 Emulator and 
+  iOS Simulator.
+
+- Running on a physical Android device always includes the libraries in 
+  ``release`` mode.
+
+- New projects for iOS can not be created with ``flutter create``. As a workaround, 
+  use the `Realm Flutter and Dart Samples <https://github.com/realm/realm-dart-samples>`__ 
+  and modify the sample project ``provider_shopper``.
+
+
+.. note:: No Sync Support
+
+   The preview SDK does not support {+sync+}.
+
+Get Started
+-----------
+The `Getting Started <https://pub.dev/packages/realm#getting-started>`__ section 
+of the Realm SDK package provides:
+
+- The steps necessary to import Realm into a Flutter project 
+
+- Code snippets for writing to and reading from the {+realm+}.
