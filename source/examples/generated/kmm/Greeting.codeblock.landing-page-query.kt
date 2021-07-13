@@ -1,5 +1,5 @@
 val config = RealmConfiguration(schema = setOf(Frog::class))
-val realm = Realm.open(config)
+val realm = Realm(config)
 val frogsQuery = realm.objects<Frog>()
 val numTadpoles = frogsQuery.query("age > $0", 2).count()
 print("Tadpoles: $numTadpoles")

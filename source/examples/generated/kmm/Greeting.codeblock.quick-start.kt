@@ -1,8 +1,8 @@
 val config = RealmConfiguration(schema = setOf(Task::class))
-val realm = Realm.open(config)
+val realm = Realm(config)
 realm.writeBlocking {
     this.copyToRealm(Task().apply {
-        name = "Do work";
+        name = "Do work"
         status = "Open"
     })
 }

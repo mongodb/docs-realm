@@ -1,5 +1,5 @@
 val config = RealmConfiguration(schema = setOf(Frog::class))
-val realm = Realm.open(config)
+val realm = Realm(config)
 // start a write transaction
 realm.writeBlocking {
     // get a frog from the database to update
