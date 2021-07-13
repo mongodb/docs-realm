@@ -37,6 +37,21 @@ When developing a partition strategy, there are two primary areas to consider:
   strategy should take storage limitations into account to make sure a user's
   synced data can be stored on their device.
 
+.. tip:: Combine Strategies
+   
+   To use multiple strategies in the same app, you can use a generic partition
+   key field name like ``_partition`` with a partition value structured like a
+   query string. For example:
+   
+   .. code-block:: javascript
+   
+      _partitionKey: "user_id=abcdefg"
+      _partitionKey: "team_id=1234&city='New York, NY'"
+   
+   You can use functions and rule expressions to parse the string and determine
+   whether or not a given user has access to a {+realm+} based on the combined
+   strategy.
+
 .. _partition-strategy-firehose:
 
 Firehose Strategy

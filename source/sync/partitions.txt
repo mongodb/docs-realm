@@ -52,7 +52,9 @@ Partition Key
 The **partition key** is the name of the field that Realm uses to determine
 which partition a given document in a synced MongoDB cluster belongs to. Your
 app's partition key is a central part of the sync data model that you should
-consider during development.
+consider during development. Once you have chosen a partition key and
+:ref:`enabled sync <enable-sync>`, you cannot reassign the partition key to a
+different field.
 
 Depending on your data model and the complexity of your app, your partition key
 could be either:
@@ -67,9 +69,20 @@ could be either:
   include a natural partition key or that require granular access permissions.
 
 You can require that every synced object includes the partition key or allow
-some objects to omit it. If you specify that the partition key is optional,
-Realm maps any object that does not include it to a single default partition
-called the *null partition*.
+objects to optionally omit it. If you specify that the partition key is
+optional, Realm maps any object that does not include it to a single default
+partition called the *null partition*.
+
+Consider the following when choosing a partition key:
+
+- Partition keys must have one of the following property types: ``String``,
+  ``ObjectID``, ``Int``, ``Long``
+
+- {+service-short+} clients should never modify the partition value directly.
+  Any field that clients can modify cannot be used as a partition key.
+
+- Partition keys use the same field name in every synced document. The partition
+  key should not collide with an another field name in any object's model.
 
 .. example::
    
@@ -135,7 +148,14 @@ sync to the same realm file, and share user-level data access permissions.
 
 A partition's value is the identifier for its corresponding synced realm. To
 work with the data in a given partition from a client application, you specify
-the partition's value when you open its corresponding synced realm.
+the partition's value when you open its corresponding synced realm. If you
+change a partition value in {+atlas-short+}, Realm interprets the change as a
+delete from the old partition and an insert into the new partition.
+
+.. warning::
+
+   If you change a document's partition value, you will lose any un-synced
+   updates clients made to the corresponding object in its previous partition.
 
 .. _partition-strategy:
 
