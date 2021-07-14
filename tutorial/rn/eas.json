@@ -1,0 +1,24 @@
+{
+  "builds": {
+    "android": {
+      "release": {
+        "workflow": "generic"
+      },
+      "development": {
+        "workflow": "generic",
+        "gradleCommand": ":app:assembleDebug",
+        "distribution": "internal"
+      }
+    },
+    "ios": {
+      "release": {
+        "workflow": "generic"
+      },
+      "development": {
+        "workflow": "generic",
+        "schemeBuildConfiguration": "Debug",
+        "distribution": "internal"
+      }
+    }
+  }
+}
