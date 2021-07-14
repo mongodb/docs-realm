@@ -1,8 +1,5 @@
 class User: Object {
-    @objc dynamic var _id: String = ""
-    @objc dynamic var name: String = ""
-    let memberOf = RealmSwift.List<Project>()
-    override static func primaryKey() -> String? {
-        return "_id"
-    }
+    @Persisted(primaryKey: true) var _id: String = ""
+    @Persisted var name: String = ""
+    @Persisted var memberOf: List<Project>
 }
