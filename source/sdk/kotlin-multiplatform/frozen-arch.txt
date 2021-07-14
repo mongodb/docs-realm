@@ -47,6 +47,9 @@ support change listeners.
    :github:`kotlinx.coroutines <Kotlin/kotlinx.coroutines#multiplatform>`
    library.
 
+Just like in other {+service-short+} SDKs, write transactions implicitly
+advance your {+realm+} to the most recent version of data stored on disk.
+
 Lazy Loading
 ~~~~~~~~~~~~
 
@@ -59,5 +62,6 @@ Live Objects in Write Transactions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Objects fetched within a write transaction are live objects that
-automatically update during that write transaction. These objects
-become frozen objects when the write transaction completes.
+automatically update during that write transaction. Objects returned
+from a write closure become frozen objects when the write transaction
+completes.
