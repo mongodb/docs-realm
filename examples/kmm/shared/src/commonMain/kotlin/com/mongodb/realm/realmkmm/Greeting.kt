@@ -2,10 +2,13 @@ package com.mongodb.realm.realmkmm
 
 import io.realm.Realm
 import io.realm.RealmConfiguration
+import io.realm.RealmResults
 import io.realm.delete
-import io.realm.internal.runBlocking
-import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 class Greeting {
     fun greeting(): String {
@@ -141,16 +144,19 @@ class Greeting {
         // :code-block-start: change-listeners
         val config = RealmConfiguration(schema = setOf(Task::class))
         val realm = Realm(config)
+
         // fetch objects from a realm as Flowables
-        val tasks = realm.objects(Task::class).observe()
-        tasks.map { task -> print("task: $task") }
+        CoroutineScope(Dispatchers.Main).launch {
+            val flow: Flow<RealmResults<Task>> = realm.objects(Task::class).observe()
+            flow.collect { task ->
+                println("Task: $task")
+            }
+        }
 
         // write an object to the realm in a coroutine
-        runBlocking {
-            launch(Dispatchers.Unconfined) {
-                realm.write {
-                    this.copyToRealm(Task().apply { name = "my task"; status = "Open"})
-                }
+        CoroutineScope(Dispatchers.Main).launch {
+            realm.write {
+                this.copyToRealm(Task().apply { name = "my task"; status = "Open"})
             }
         }
         // :code-block-end:
