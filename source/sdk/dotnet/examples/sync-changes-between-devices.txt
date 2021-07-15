@@ -72,8 +72,20 @@ The following code creates a new ``Task`` object and writes it to the {+realm+}:
 
 .. _dotnet-pause-or-resume-a-sync-session:
 
-.. Pause or Resume a Sync Session
-.. ------------------------------
+Pause or Resume a Sync Session
+------------------------------
+
+You can pause (stop) a sync 
+:dotnet-sdk:`Session <https://docs.mongodb.com/realm-sdks/dotnet/latest/reference/Realms.Sync.Session.html>` 
+by calling the 
+:dotnet-sdk:`Stop() <reference/Realms.Sync.Session.html#Realms_Sync_Session_Stop>`
+method. Calling ``Stop()`` stops any synchronization with the server until the 
+Realm is fully closed and then re-opened. Synchronization can be re-enabled by 
+calling the 
+:dotnet-sdk:`Start()  <reference/Realms.Sync.Session.html#Realms_Sync_Session_Start>`
+method, as shown in the following code block:
+
+
 
 .. _dotnet-check-network-connection:
 
