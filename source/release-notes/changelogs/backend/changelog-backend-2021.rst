@@ -4,7 +4,7 @@
 ~~~~~~~~~~~~~~~~~~~~
 
 - Improved usability of the Admin UI Dashboard.
-- Released :ref:`mongodb-cli 2.0 <realm-cli>`.
+- Released :ref:`mongodb-realm-cli 2.0 <realm-cli>`.
 
 02 July 2021 Release
 ~~~~~~~~~~~~~~~~~~~~
