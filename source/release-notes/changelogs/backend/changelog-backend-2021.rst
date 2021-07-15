@@ -1,5 +1,11 @@
 .. _backend_20210702:
 
+15 July 2021 Release
+~~~~~~~~~~~~~~~~~~~~
+
+- Improved usability of the Admin UI Dashboard.
+- Released :ref:`mongodb-realm-cli 2.0 <realm-cli>`.
+
 02 July 2021 Release
 ~~~~~~~~~~~~~~~~~~~~
 
