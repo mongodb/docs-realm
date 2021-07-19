@@ -14,12 +14,13 @@ Convert a Local Realm to a Synced Realm
 
 Overview
 --------
-If you have an app using a local {+client-database+} and you want to 
-convert it to a synced {+client-database+}, there are a few steps you 
-need to follow. Some of the changes happen within the {+backend-short+} 
-backend, while others are in the client code. This page covers the 
-overall process and backend steps; the client changes are covered in 
-the individual SDK pages.
+Suppose you have an app using a local {+client-database+}. The requirements for 
+the app have changed, and you now want to convert the system to use 
+{+realm+}'s automatic data synchronization.
+
+To convert your app to use a synced {+client-database+}, there are a few steps you 
+need to follow. This change requires setting up a {+backend-short+} 
+backend, and then making changes in the client app code. 
 
 In the following sections, you will learn to do the following on the backend:
 
@@ -30,7 +31,8 @@ In the following sections, you will learn to do the following on the backend:
 And then, in your client app, you will:
 
 - Update your {+service-short+} object models
-- Connect with a sync configuration.
+- Connect with a sync configuration file
+- Authenticate the user
 
 Create a Backend App
 --------------------
@@ -46,7 +48,8 @@ Enable Authentication
 ---------------------
 User authentication plays a crucial role in {+sync+}. {+realm+} provides 
 many different authentication providers; once you have configured one or more,
-you can then control exactly who has access to which data.
+you can then control exactly who has access to which data. From a Sync perspective, 
+it doesn't matter which authentication method you choose.
 
 To get started, learn about the 
 :ref:`Authentication Providers <authentication-providers>` and then 
