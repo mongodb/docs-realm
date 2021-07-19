@@ -45,7 +45,7 @@ To get started, follow the steps in
 :ref:`Create a Realm App (Realm UI) <create-a-realm-app>`.
 
 Enable Authentication
----------------------
+~~~~~~~~~~~~~~~~~~~~~
 User authentication plays a crucial role in {+sync+}. {+realm+} provides 
 many different authentication providers; once you have configured one or more,
 you can then control exactly who has access to which data. From a Sync perspective, 
@@ -56,7 +56,7 @@ To get started, learn about the
 follow the configuration steps for the provider(s) of your choice.
 
 Partition the Data 
-------------------
+~~~~~~~~~~~~~~~~~~
 Data :ref:`partitioning <partitioning>` strategies enable you to configure which 
 users have access to which data. This process is often the most time-consuming 
 part of setting up {+sync+}, as you want to consider the ramifications of 
@@ -90,8 +90,46 @@ platform / language to get started:
    .. tab::
       :tabid: dotnet
 
-      gfdsdhfghj
+      1. At the top of each C# file that uses Realm, add this additional ``using``
+         statement:
 
+         .. code-block:: csharp
+
+            using Realms.Sync;
+
+      2. In your local-only app, you don't initialize a Realm app. In a 
+         Sync-enabled app, you use ``App.Create``:
+
+         .. code-block:: csharp
+
+            Realms.Sync.App app = App.Create(myRealmAppId);
+
+      3. You have already defined one or more object models. If these models 
+         do not currently have a property that maps to the partition key you 
+         selected when creating the backend, you'll need to add that property. 
+         For example, we have added a ``Partition`` property to this ``Task`` 
+         object:
+
+         .. literalinclude:: /examples/generated/dotnet/Task.codeblock.task-object-model.cs
+            :language: csharp
+            :emphasize-lines: 12-14
+
+      4. Authenticate the user by calling the appropriate authentication method, 
+         based on which provider you have set up. The following example uses 
+         Anonymous authentication; for details on implementing each of the 
+         providers, see :ref:`Authentication <dotnet-authenticate>`.
+
+         .. literalinclude:: /examples/generated/dotnet/Examples.codeblock.anon-login.cs
+            :language: csharp
+
+      5. You can now open a synced :ref:`{+realm+} <dotnet-realms>`. Use the 
+         ``SyncConfiguration`` to control the specifics of how your application 
+         synchronizes data with {+backend+}. The configuration which might 
+         include the :ref:`partition <partitioning>` name,  whether to wait for 
+         an initial batch of data to sync, and more.
+
+         .. literalinclude:: /examples/generated/dotnet/Examples.codeblock.config.cs
+            :language: csharp
 
    .. tab::
       :tabid: react-native
