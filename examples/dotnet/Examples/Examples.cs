@@ -83,6 +83,13 @@ namespace Examples
              }*/
 
 
+            // :code-block-start: pause-synced-realm
+            var session = realm.GetSession();
+            session.Stop();
+            //later...
+            session.Start();
+            // :code-block-end:
+
             return;
         }
 

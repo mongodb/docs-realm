@@ -72,8 +72,30 @@ The following code creates a new ``Task`` object and writes it to the {+realm+}:
 
 .. _dotnet-pause-or-resume-a-sync-session:
 
-.. Pause or Resume a Sync Session
-.. ------------------------------
+Pause or Resume a Sync Session
+------------------------------
+Opening a synced {+realm+} starts a {+sync-short+} 
+:dotnet-sdk:`Session <reference/Realms.Sync.Session.html>`. To pause synchronization 
+for a specific session, you can call the 
+:dotnet-sdk:`Stop() <reference/Realms.Sync.Session.html#Realms_Sync_Session_Stop>` 
+method on the session.
+
+When you then call the 
+:dotnet-sdk:`Start() <reference/Realms.Sync.Session.html#Realms_Sync_Session_Start>`  
+method on the paused session, the {+sync-short+} session resumes. 
+
+.. note:: Each session is independent
+
+   You must manually call the ``Stop()`` and ``Start()`` methods for each  
+   {+realm+} whose {+sync-short+} session you want to pause and restart. The 
+   sync state of one session has no impact on other open sessions. 
+
+The following code block demonstrates calling the ``Stop()`` and ``Start()`` 
+methods: 
+
+.. literalinclude:: /examples/generated/dotnet/Examples.codeblock.pause-synced-realm.cs
+   :language: csharp
+
 
 .. _dotnet-check-network-connection:
 
