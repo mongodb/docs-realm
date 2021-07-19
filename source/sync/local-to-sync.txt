@@ -249,7 +249,124 @@ platform / language to get started:
    .. tab::
       :tabid: react-native
 
-      asdfasdf
+      1. At the top of each file that uses Realm, add this additional ``using``
+         statement:
+
+         .. code-block:: javascript
+
+            import Realm from 'realm';
+
+      2. In a local-only app, you don't initialize Realm, but in a 
+         Sync-enabled app, you initialize ``Realm.App`` with your {+app+} ID. 
+         You can find your {+app+} ID in the {+ui+}.
+
+         .. code-block:: javascript
+
+            import Realm from 'realm';
+
+            // Returns the shared instance of the Realm app.
+            export function getRealmApp() {
+               const appId = '<enter your Realm app ID here>'; // Set Realm app ID here.
+               const appConfig = {
+               id: appId,
+               timeout: 10000,
+               };
+            return new Realm.App(appConfig);
+            }
+
+
+      3. You have already defined one or more object models. If these models 
+         do not currently have a property that maps to the partition key you 
+         selected when creating the backend, you'll need to add that property. 
+         For example, we have added a ``Partition`` property to this ``Task`` 
+         object:
+
+         .. code-block:: javascript
+
+            import {ObjectId} from 'bson';
+            
+            class Task {
+            constructor({
+               name,
+               partition,
+               status = Task.STATUS_OPEN,
+               id = new ObjectId(),
+            }) {
+               this._partition = partition;
+               this._id = id;
+               this.name = name;
+               this.status = status;
+            }
+            
+            static STATUS_OPEN = 'Open';
+            static STATUS_IN_PROGRESS = 'InProgress';
+            static STATUS_COMPLETE = 'Complete';
+            
+            static schema = {
+               name: 'Task',
+               properties: {
+                  _id: 'objectId',
+                  _partition: 'string',
+                  name: 'string',
+                  status: 'string',
+               },
+               primaryKey: '_id',
+            };
+            }
+
+            export {Task};
+
+      4. When you have enabled :ref:`anonymous authentication
+         <anonymous-authentication>` in the {+ui+}, users can immediately log
+         into your app without providing any identifying information:
+
+         .. code-block:: javascript
+            :emphasize-lines: 8,9
+
+            import Realm from 'realm';         
+
+            async function anonymousLogin() {
+               let user;
+               try {
+                  // pass in the appConfig variable that you created earlier
+                  const app = new Realm.App(appConfig); 
+      
+                  // create an anonymous credential
+                  const credentials = Realm.Credentials.anonymous(); 
+                  user = await app.logIn(credentials);
+                  return user;
+
+               } catch (error) {
+                     throw `Error logging in anonymously: ${JSON.stringify(error,null,2)}`;
+               }
+            }
+
+      5. Once you have :ref:`enabled {+sync+} <enable-sync>` and authenticated a
+         user, you can open a synced :ref:`{+realm+} <react-native-realms>`:
+
+         .. code-block:: javascript
+            :emphasize-lines: 16
+
+            import Realm from 'realm';
+            async function openRealm() {
+            let user;
+            let realm;
+               try {
+                  // ...
+                  console.log(`Logged in with the user: ${user.identity}`);
+                  const config = {
+                     schema: [Task.schema],
+                     sync: {
+                     user: user, 
+                     partitionValue: "myPartition",
+                     },
+                  };
+
+                  realm = await Realm.open(config);
+               } catch (error) {
+                     throw `Error opening realm: ${JSON.stringify(error,null,2)}`;
+               }
+            }
 
    .. tab::
       :tabid: node
