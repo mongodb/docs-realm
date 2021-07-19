@@ -14,25 +14,23 @@ Convert a Local Realm to a Synced Realm
 
 Overview
 --------
-Suppose you have an app using a local {+client-database+}. The requirements for 
-the app have changed, and you now want to convert the system to use 
-{+realm+}'s automatic data synchronization.
-
-To convert your app to use a synced {+client-database+}, there are a few steps you 
-need to follow. This change requires setting up a {+backend-short+} 
-backend, and then making changes in the client app code. 
+If you have a mobile app that uses a local {+client-database+} and you want to 
+convert the app to use {+sync+}, there are a few steps you 
+need to follow. You first need to set up a {+backend-short+} 
+backend, and then you make code changes in your client app(s). 
 
 In the following sections, you will learn to do the following on the backend:
 
-- Create a new {+realm+} app in {+atlas+}
-- Configure a User Authentication provider
-- Choose a partition strategy
+- Create a new {+realm+} app in {+atlas+},
+- Configure a User Authentication provider, and
+- Choose a partition strategy.
 
 And then, in your client app, you will:
 
-- Update your {+service-short+} object models
-- Connect with a sync configuration file
-- Authenticate the user
+- Update your {+service-short+} object models,
+- Connect with a sync configuration file,
+- Update your object models, if necessary, and then
+- Authenticate the user.
 
 Create a Backend App
 --------------------
