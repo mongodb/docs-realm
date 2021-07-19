@@ -78,8 +78,82 @@ platform / language to get started:
    .. tab::
       :tabid: android
 
-      gggdfsg
+      1. To use {+backend+} features such as authentication and sync, you must
+         access your {+app+} using your {+app+} ID. You can find your {+app+} ID 
+         in the {+ui+}.
 
+         .. tabs-realm-languages::
+
+            .. tab::
+               :tabid: java
+
+               .. literalinclude:: /examples/generated/android/sync/MainActivity.codeblock.initialize-the-app.java
+                  :language: java
+            
+            .. tab::
+               :tabid: kotlin
+
+               .. literalinclude:: /examples/generated/android/sync/MainActivity.codeblock.initialize-the-app.kt
+                  :language: kotlin
+
+      2. You have already defined one or more object models. If these models 
+         do not currently have a property that maps to the partition key you 
+         selected when creating the backend, you'll need to add that property. 
+   
+         .. tabs-realm-languages::
+            .. tab::
+               :tabid: java
+
+               .. literalinclude:: /examples/generated/android/sync/Task.codeblock.define-object-model.java
+                  :language: java
+
+               .. literalinclude:: /examples/generated/android/sync/TaskStatus.codeblock.complete.java
+                  :language: java
+            
+            .. tab::
+               :tabid: kotlin
+
+               .. literalinclude:: /examples/generated/android/sync/MainActivity.codeblock.define-object-model.kt
+                  :language: kotlin
+
+      3. Authenticate the user by calling the appropriate authentication method, 
+         based on which provider you have set up. The following example uses 
+         Anonymous authentication; for details on implementing each of the 
+         providers, see :ref:`Authenticate a User <android-authenticate>`.
+
+         .. tabs-realm-languages::
+
+            .. tab::
+               :tabid: java
+
+               .. literalinclude:: /examples/generated/android/sync/MainActivity.codeblock.authenticate-a-user.java
+                  :language: java
+            
+            .. tab::
+               :tabid: kotlin
+
+               .. literalinclude:: /examples/generated/android/sync/MainActivity.codeblock.authenticate-a-user.kt
+                  :language: kotlin
+
+      4. You can now open a synced {+realm+}. Use a 
+         :java-sdk:`SyncConfiguration <io/realm/mongodb/sync/SyncConfiguration.html>`
+         object to specify of how your application synchronizes data with 
+         {+backend+}. The following example includes a partition name and the user 
+         object:
+
+         .. tabs-realm-languages::
+
+            .. tab::
+               :tabid: java
+
+               .. literalinclude:: /examples/generated/android/sync/MainActivity.codeblock.open-a-realm.java
+                  :language: java
+            
+            .. tab::
+               :tabid: kotlin
+
+               .. literalinclude:: /examples/generated/android/sync/MainActivity.codeblock.open-a-realm.kt
+                  :language: kotlin
 
    .. tab::
       :tabid: ios
@@ -97,8 +171,10 @@ platform / language to get started:
 
             using Realms.Sync;
 
-      2. In your local-only app, you don't initialize a Realm app. In a 
-         Sync-enabled app, you use ``App.Create``:
+      2. In a local-only app, you don't initialize Realm, but in a 
+         Sync-enabled app, you use the ``App.Create`` method and pass in 
+         the ID of your realm app. ou can find your {+app+} ID 
+         in the {+ui+}.
 
          .. code-block:: csharp
 
@@ -117,16 +193,16 @@ platform / language to get started:
       4. Authenticate the user by calling the appropriate authentication method, 
          based on which provider you have set up. The following example uses 
          Anonymous authentication; for details on implementing each of the 
-         providers, see :ref:`Authentication <dotnet-authenticate>`.
+         providers, see :ref:`Authenticate Users - .NET SDK <dotnet-authenticate>`.
 
          .. literalinclude:: /examples/generated/dotnet/Examples.codeblock.anon-login.cs
             :language: csharp
 
-      5. You can now open a synced :ref:`{+realm+} <dotnet-realms>`. Use the 
-         ``SyncConfiguration`` to control the specifics of how your application 
-         synchronizes data with {+backend+}. The configuration which might 
-         include the :ref:`partition <partitioning>` name,  whether to wait for 
-         an initial batch of data to sync, and more.
+      5. You can now open a synced {+realm+}. Use a 
+         :dotnet-sdk:`SyncConfiguration <reference/Realms.Sync.SyncConfiguration.html#Realms_Sync_SyncConfiguration__ctor_System_Nullable_MongoDB_Bson_ObjectId__Realms_Sync_User_System_String_>` 
+         object to specify of how your application synchronizes data with 
+         {+backend+}. The following example includes a partition name and the user 
+         object:
 
          .. literalinclude:: /examples/generated/dotnet/Examples.codeblock.config.cs
             :language: csharp
