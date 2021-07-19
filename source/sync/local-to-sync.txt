@@ -120,7 +120,7 @@ platform / language to get started:
       3. Authenticate the user by calling the appropriate authentication method, 
          based on which provider you have set up. The following example uses 
          Anonymous authentication; for details on implementing each of the 
-         providers, see :ref:`Authenticate a User <android-authenticate>`.
+         providers, see :ref:`android-authenticate`.
 
          .. tabs-realm-languages::
 
@@ -232,7 +232,7 @@ platform / language to get started:
       4. Authenticate the user by calling the appropriate authentication method, 
          based on which provider you have set up. The following example uses 
          Anonymous authentication; for details on implementing each of the 
-         providers, see :ref:`Authenticate Users - .NET SDK <dotnet-authenticate>`.
+         providers, see :ref:`dotnet-authenticate`.
 
          .. literalinclude:: /examples/generated/dotnet/Examples.codeblock.anon-login.cs
             :language: csharp
@@ -316,9 +316,10 @@ platform / language to get started:
 
             export {Task};
 
-      4. When you have enabled :ref:`anonymous authentication
-         <anonymous-authentication>` in the {+ui+}, users can immediately log
-         into your app without providing any identifying information:
+      4. Authenticate the user by calling the appropriate authentication method, 
+         based on which provider you have set up. The following example uses 
+         Anonymous authentication; for details on implementing each of the 
+         providers, see :ref:`react-native-authenticate-users`.
 
          .. code-block:: javascript
             :emphasize-lines: 8,9
@@ -371,9 +372,205 @@ platform / language to get started:
    .. tab::
       :tabid: node
 
-      werqwer
+      1. At the top of your source files where you want to use {+service+}, add
+         the following line to import the SDK.
 
-   .. tab::
-      :tabid: web
+         .. tabs-realm-languages::
 
-      asdf
+            .. tab::
+               :tabid: javascript
+
+               .. code-block:: javascript
+
+                  const Realm = require("realm");
+            
+            .. tab::
+               :tabid: typescript
+
+               .. code-block:: typescript
+                  
+                  import * as Realm from "realm";
+
+      2. In a local-only app, you don't initialize Realm, but in a 
+         Sync-enabled app, you initialize ``Realm.App`` with your {+app+} ID. 
+         You can find your {+app+} ID in the {+ui+}.
+
+         .. tabs-realm-languages::
+
+            .. tab::
+               :tabid: javascript
+
+               .. code-block:: javascript
+
+                  const app = new Realm.App({ id: "<Your App ID>" });
+
+            .. tab::
+               :tabid: typescript
+
+               .. code-block:: typescript
+
+                  const app = new Realm.App({ id: "<Your App ID>" });
+
+
+      3. You have already defined one or more object models. If these models 
+         do not currently have a property that maps to the partition key you 
+         selected when creating the backend, you'll need to add that property. 
+         For example, we have added a ``Partition`` property to this ``Task`` 
+         object:
+
+         .. tabs-realm-languages::
+
+            .. tab::
+               :tabid: javascript
+
+               .. code-block:: javascript
+                  
+                  const TaskSchema = {
+                  name: 'Task',
+                  properties: {
+                     _id: 'objectId',
+                     _partition: 'string?',
+                     name: 'string',
+                     status: 'string',
+                  },
+                  primaryKey: '_id',
+                  };
+
+            .. tab::
+               :tabid: typescript
+
+               .. code-block:: typescript
+                  
+                  import BSON from 'bson';
+                  
+                  type Task = {
+                  _id: BSON.ObjectId;
+                  _partition?: string;
+                  name: string;
+                  status: string;
+                  };
+                  
+                  const TaskSchema = {
+                  name: 'Task',
+                  properties: {
+                     _id: 'objectId',
+                     _partition: 'string?',
+                     name: 'string',
+                     status: 'string',
+                  },
+                  primaryKey: '_id',
+                  };
+
+      4. Authenticate the user by calling the appropriate authentication method, 
+         based on which provider you have set up. The following example uses 
+         Anonymous authentication; for details on implementing each of the 
+         providers, see :ref:`node-authenticate-users`.
+
+         .. tabs-realm-languages::
+
+            .. tab::
+               :tabid: javascript
+
+               .. code-block:: javascript
+                  :emphasize-lines: 7, 9
+                  
+                  const app = new Realm.App({ id: "<Your App ID>" });
+                  async function handleLogin() {
+                     // Create a Credentials object to identify the user.
+                     // Anonymous credentials don't have any identifying information, but other
+                     // authentication providers accept additional data, like a user's email and
+                     // password.
+                     const credentials = Realm.Credentials.anonymous();
+                     // You can log in with any set of credentials using `app.logIn()`
+                     const user = await app.logIn(credentials);
+                     console.log(`Logged in with the user id: ${user.id}`);
+                  };
+                  handleLogin().catch(err => {
+                     console.error("Failed to log in:", err)
+                  });
+            
+            .. tab::
+               :tabid: typescript
+               
+               .. code-block:: typescript
+                  :emphasize-lines: 7, 9
+                  
+                  const app = new Realm.App({ id: "<Your App ID>" });
+                  async function handleLogin() {
+                     // Create a Credentials object to identify the user.
+                     // Anonymous credentials don't have any identifying information, but other
+                     // authentication providers accept additional data, like a user's email and
+                     // password.
+                     const credentials = Realm.Credentials.anonymous();
+                     // You can log in with any set of credentials using `app.logIn()`
+                     const user = await app.logIn(credentials);
+                     console.log(`Logged in with the user id: ${user.id}`);
+                  };
+                  handleLogin().catch(err => {
+                     console.error("Failed to log in:", err)
+                  });
+
+
+      5. Once you have :ref:`enabled {+sync+} <enable-sync>` and authenticated a user,
+         you can open a synced :ref:`{+realm+} <node-realms>` by calling
+         :js-sdk:`Realm.open() <Realm.html#.open>`:
+
+         .. tabs-realm-languages::
+
+            .. tab::
+               :tabid: javascript
+
+               .. code-block:: javascript
+                  :emphasize-lines: 8-14
+
+                  const app = new Realm.App({ id: "<Your App ID>" });
+                  async function run() {
+                     await app.logIn(new Realm.Credentials.anonymous());
+                     // When you open a synced realm, the SDK automatically automatically
+                     // creates the realm on the device (if it didn't exist already) and
+                     // syncs pending remote changes as well as any unsynced changes made
+                     // to the realm on the device.
+                     const realm = await Realm.open({
+                        schema: [TaskSchema],
+                        sync: {
+                           user: app.currentUser,
+                           partitionValue: "myPartition",
+                        },
+                     });
+                     
+                     // The myPartition realm is now synced to the device. You can
+                     // access it through the `realm` object returned by `Realm.open()`
+                  }
+                  run().catch(err => {
+                     console.error("Failed to open realm:", err)
+                  });
+            
+            
+            .. tab::
+               :tabid: typescript
+
+               .. code-block:: typescript
+                  :emphasize-lines: 8-14
+
+                  const app = new Realm.App({ id: "<Your App ID>" });
+                  async function run() {
+                     await app.logIn(new Realm.Credentials.anonymous());
+                     // When you open a synced realm, the SDK automatically automatically
+                     // creates the realm on the device (if it didn't exist already) and
+                     // syncs pending remote changes as well as any unsynced changes made
+                     // to the realm on the device.
+                     const realm = await Realm.open({
+                        schema: [TaskSchema],
+                        sync: {
+                           user: app.currentUser?,
+                           partitionValue: "myPartition",
+                        },
+                     });
+                     
+                     // The myPartition realm is now synced to the device. You can
+                     // access it through the `realm` object returned by `Realm.open()`
+                  }
+                  run().catch(err => {
+                     console.error("Failed to open realm:", err)
+                  });
+
