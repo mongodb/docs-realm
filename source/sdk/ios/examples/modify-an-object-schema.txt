@@ -14,16 +14,73 @@ Modify an Object Schema - iOS SDK
 
 .. include:: /includes/note-modify-schema-properties-of-synced-realms.rst
 
+Overview
+--------
+
+When you update your object schema, you must increment the schema version 
+and perform a migration. 
+
+If your schema update adds or removes properties, {+client-database+} can 
+perform the migration automatically, and you need only increment the 
+``schemaVersion``. 
+
+For more complex schema updates, such as combining fields, renaming fields, or 
+converting from an object to an embedded object, you must also specify the 
+migration logic in a ``migrationBlock``.
+
+Update a Schema Version
+-----------------------
+
+{+client-database+} can automatically migrate added and removed 
+properties, but you must specify an updated schema version when you make 
+these changes.
+
+.. note::
+
+   {+client-database+} does not automatically set values for new properties
+   unless the new object schema specifies a default value.
+
+.. example::
+
+   A {+realm+} using schema version ``1`` has a ``Person`` object type
+   that has separate fields for first and last names, and an ``age`` field:
+
+   .. literalinclude:: /examples/generated/code/start/Migrations.codeblock.model-v1.swift
+            :language: swift
+
+   The developer decides that the ``Person`` class does not need an ``age``
+   field, but does need an ``email`` field.
+
+   .. literalinclude:: /examples/generated/code/start/Migrations.codeblock.model-v1-updated.swift
+            :language: swift
+
+   {+client-database+} automatically migrates the {+realm+} to conform to 
+   the updated ``Person`` schema. But the developer must set the {+realm+}'s 
+   schema version to ``2``.
+
+   .. literalinclude:: /examples/generated/code/start/Migrations.codeblock.update-schema-version.swift
+            :language: swift
+   
+.. tip::
+
+   SwiftUI developers may see an error that a migration is required when they
+   add or remove properties. This is related to the lifecycle in SwiftUI.
+   The Views are laid out, and then the ``.environment`` modifier sets the
+   config.
+
+   To resolve a migration error in these circumstances, pass 
+   ``Realm.Configuration(schemaVersion: <Your Incremented Version>)`` 
+   into the ``ObservedResults`` constructor.
+
+      
+
 .. _ios-perform-a-schema-migration:
 
 Perform a Schema Migration
 --------------------------
 
 When the schema of an object changes, {+client-database+} requires a
-migration for any old instances of a given object to the new schema.
-{+client-database+} can automatically migrate added and removed
-properties, but does not automatically set values for new properties
-unless the new object schema specifies a default value.
+migration for old instances of a given object to the new schema.
 
 .. tip::
 

@@ -2,7 +2,8 @@
 //   "terms": {
 //     "MigrationExampleV0_": "",
 //     "MigrationExampleV1_": "",
-//     "MigrationExampleV2_": ""
+//     "MigrationExampleV2_": "",
+//     "MigrationExampleV1Updated_": ""
 //   }
 // }
 import XCTest
@@ -14,7 +15,8 @@ class MigrationExampleV0_Person: Object {
 
 // :code-block-start: model-v1
 // In the first version of the app, the Person model
-// has separate fields for first and last names.
+// has separate fields for first and last names,
+// and an age property.
 class MigrationExampleV1_Person: Object {
     @Persisted var firstName = ""
     @Persisted var lastName = ""
@@ -29,6 +31,22 @@ class MigrationExampleV1_Person: Object {
 class MigrationExampleV2_Person: Object {
     @Persisted var fullName = ""
     @Persisted var age = 0
+}
+// :code-block-end:
+
+// :code-block-start: model-v1-updated
+// In a new version, you add or remove properties
+// on the Person model.
+class MigrationExampleV1Updated_Person: Object {
+    @Persisted var firstName = ""
+    @Persisted var lastName = ""
+    // New and removed properties can be migrated
+    // automatically, but must update the schema version.
+    // Add a new "email" property, and remove the
+    // "age" property.
+    @Persisted var email = ""
+    // @Persisted var age = 0
+
 }
 // :code-block-end:
 
@@ -90,5 +108,18 @@ class Migrations: XCTestCase {
         print(config)
     }
 
+    func testUpdateSchemaVersionSyntax() {
+        // :code-block-start: update-schema-version
+        // When you open the file, specify that the schema
+        // is now using a newer version.
+        let config = Realm.Configuration(
+            // :hide-start:
+            // Prevent schema version from affecting other unit tests
+            inMemoryIdentifier: "LocalMigrationExample",
+            // :hide-end:
+            schemaVersion: 2)
+        // :code-block-end:
+        print(config)
+    }
 }
 // :replace-end:
