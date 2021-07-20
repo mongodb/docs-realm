@@ -14,6 +14,8 @@ import org.bson.types.ObjectId;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.concurrent.TimeUnit;
+
 import io.realm.Realm;
 import io.realm.RealmResults;
 import io.realm.log.LogLevel;
@@ -37,7 +39,7 @@ import static com.mongodb.realm.examples.RealmTestKt.getRandomPartition;
 
 public class SyncDataTest extends RealmTest {
     @Test
-    public void openASyncedRealm() {
+    public void openASyncedRealmOnline() {
         Expectation expectation = new Expectation();
         activity.runOnUiThread(() -> {
             String appID = YOUR_APP_ID; // replace this with your App ID
@@ -52,6 +54,46 @@ public class SyncDataTest extends RealmTest {
                     User user = app.currentUser();
                     SyncConfiguration config = new SyncConfiguration.Builder(user, partition)
                         .build();
+                    Realm.getInstanceAsync(config, new Realm.Callback() {
+                        @Override
+                        public void onSuccess(Realm realm) {
+                            Log.v("EXAMPLE", "Successfully opened a realm.");
+                            // read and write to realm here via transactions
+                            // :hide-start:
+                            expectation.fulfill();
+                            // :hide-end:
+                        }
+                    });
+                    // :code-block-end:
+                } else {
+                    Log.e("EXAMPLE", "Failed login: " + it.getError().getErrorMessage());
+                }
+            });
+        });
+        expectation.await();
+    }
+
+    @Test
+    public void openASyncedRealmOffline() {
+        Expectation expectation = new Expectation();
+        activity.runOnUiThread(() -> {
+            String appID = YOUR_APP_ID; // replace this with your App ID
+            App app = new App(new AppConfiguration.Builder(appID).build());
+            String partition = getRandomPartition();
+
+            Credentials credentials = Credentials.anonymous();
+            app.loginAsync(credentials, it -> {
+                if (it.isSuccess()) {
+                    Log.v("EXAMPLE", "Successfully authenticated.");
+                    // kill the sync session so we can make sure this works offline
+                    for (SyncSession session: app.getSync().getAllSessions()) {
+                        session.stop();
+                    }
+                    // :code-block-start: open-a-synced-realm-offline
+                    User user = app.currentUser();
+                    SyncConfiguration config = new SyncConfiguration.Builder(user, partition)
+                            .build();
+
                     Realm.getInstanceAsync(config, new Realm.Callback() {
                         @Override
                         public void onSuccess(Realm realm) {

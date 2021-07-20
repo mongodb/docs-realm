@@ -19,9 +19,16 @@ Before you can access a synced {+realm+} from the client, you must:
 
 1. :ref:`Enable sync <enable-sync>` in the {+ui+}.
 
-2. :ref:`Initialize the app <android-quick-start-init-app>`
+#. :ref:`Initialize the app <android-quick-start-init-app>`
 
-3. :ref:`Authenticate a user <android-quick-start-authenticate>` in
+#. Enable {+sync+} in your application by adding the following to the
+   top level of your application-level ``build.gradle`` file:
+
+   .. code-block:: groovy
+
+      realm { syncEnabled = true }
+
+#. :ref:`Authenticate a user <android-quick-start-authenticate>` in
    your client project.
 
 .. _android-open-a-synced-realm:
@@ -29,53 +36,7 @@ Before you can access a synced {+realm+} from the client, you must:
 Open a Synced Realm
 -------------------
 
-To open a synced {+realm+}, call 
-:java-sdk:`getInstanceAsync()
-<io/realm/Realm.html#getInstanceAsync-io.realm.RealmConfiguration-io.realm.Realm.Callback->`, 
-passing in a a :java-sdk:`SyncConfiguration <io/realm/mongodb/sync/SyncConfiguration.html>` 
-object. For example, the following code demonstrates how to create a {+realm+} with 
-specific sync settings created using a ``SyncConfiguration`` object:
-
-.. tabs-realm-languages::
-   
-   .. tab::
-       :tabid: kotlin
-
-       .. literalinclude:: /examples/generated/android/sync/OpenARealmTest.codeblock.allow-reads-writes-ui-thread.kt
-         :language: kotlin
-
-   .. tab::
-       :tabid: java
-
-       .. literalinclude:: /examples/generated/android/sync/OpenARealmTest.codeblock.allow-reads-writes-ui-thread.java
-         :language: java
-
-
-The code above shows how to open the {+realm+} *asynchronously* 
-by using :java-sdk:`getInstanceAsync()
-<io/realm/Realm.html#getInstanceAsync-io.realm.RealmConfiguration-io.realm.Realm.Callback->`. 
-You can also open a {+realm+} synchronously by using :java-sdk:`getInstance()
-<io/realm/Realm.html#getInstance-io.realm.RealmConfiguration->`, but this may 
-lead to temporary data inconsistencies while the remote data is downloaded, and 
-is generally not recommended. 
-
-.. note::
-   
-   To enable sync in your Android project, you need to configure it in the 
-   application-level build.gradle file by adding the following entry:
-   
-   ``realm { syncEnabled = true }``
-   
-   For more information on enabling sync in Android, see 
-   :ref:`Install Realm for Android <android-install>`.
-
-The :ref:`partition value <partitioning>` specifies which subset of your data to sync.
-This is typically a user ID, project ID, store ID, or some other category identifier in
-your app that has particular relevance to the current user. 
-
-.. seealso::
-
-   :ref:`Partition Atlas Data into Realms <partitioning>`
+.. include:: /includes/android-open-synced-realm.rst
 
 .. _android-sync-data:
 
@@ -116,12 +77,6 @@ new ``Task`` to the {+realm+}:
 .. seealso::
 
    :ref:`Threading <android-threading>`
-
-.. TODO: BACKGROUND SYNC BEST PRACTICES ANDROID
-.. .. _android-sync-changes-in-the-background:
-
-.. Sync Changes in the Background
-.. ------------------------------
 
 .. _android-pause-or-resume-a-sync-session:
 
