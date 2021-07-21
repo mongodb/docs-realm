@@ -72,6 +72,7 @@ public class MultipleUsersTest extends RealmTest {
     public void addANewUserToADevice() {
         Expectation expectation = new Expectation();
         activity.runOnUiThread(() -> {
+            try {
             // :code-block-start: add-a-new-user
             String appID = YOUR_APP_ID; // replace this with your App ID
             App app = new App(new AppConfiguration.Builder(appID).build());
@@ -101,6 +102,9 @@ public class MultipleUsersTest extends RealmTest {
                 }
             });
             // :code-block-end:
+            } catch (Exception e) {
+                Log.v("EXAMPLE", "Failed with exception: " + e.getMessage());
+            }
         });
         expectation.await();
     }

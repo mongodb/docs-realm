@@ -63,7 +63,7 @@ class MultipleUsersTest : RealmTest() {
     fun addANewUserToADevice() {
         val expectation = Expectation()
         activity!!.runOnUiThread {
-
+            try {
             // :code-block-start: add-a-new-user
             val appID: String = YOUR_APP_ID // replace this with your App ID
             val app = App(AppConfiguration.Builder(appID).build())
@@ -94,6 +94,9 @@ class MultipleUsersTest : RealmTest() {
                 }
             }
             // :code-block-end:
+            } catch (e: Exception) {
+                Log.v("EXAMPLE", "Failed with exception: ${e.message}")
+            }
         }
         expectation.await()
     }
@@ -184,8 +187,8 @@ class MultipleUsersTest : RealmTest() {
                 }
                 // :code-block-end:
             } catch (e: Exception ) {
-            Log.v("EXAMPLE", "Failed with exception: ${e.message}");
-        }
+                Log.v("EXAMPLE", "Failed with exception: ${e.message}");
+            }
         }
         // expectation.await() // TODO: Figure out why this doesn't always work!
     }
