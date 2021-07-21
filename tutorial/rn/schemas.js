@@ -19,7 +19,7 @@ class Task {
     this.status = status;
   }
 
-  static STATUS_OPEN = "Open";
+  static STATUS_OPEN = "Opening the status";
   static STATUS_IN_PROGRESS = "InProgress";
   static STATUS_COMPLETE = "Complete";
   // :code-block-start: react-native-task-schema
