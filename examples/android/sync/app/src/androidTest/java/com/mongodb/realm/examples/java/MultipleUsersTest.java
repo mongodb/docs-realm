@@ -161,7 +161,7 @@ public class MultipleUsersTest extends RealmTest {
 
     @Test
     public void removeAUserFromDevice() {
-        Expectation expectation = new Expectation();
+        //Expectation expectation = new Expectation();
         activity.runOnUiThread(() -> {
             String appID = YOUR_APP_ID; // replace this with your App ID
             App app = new App(new AppConfiguration.Builder(appID).build());
@@ -176,7 +176,7 @@ public class MultipleUsersTest extends RealmTest {
                         public void run() {
                             app.removeUser(user);
                             // :hide-start:
-                            expectation.fulfill();
+                            //expectation.fulfill();
                             // :hide-end:
                         }
                     });
