@@ -115,7 +115,8 @@ content: |
 
   The first thing to implement is opening the realm for the specified
   project. When configuring the user realm, we used a partition key value pattern of
-  ``user=<USER_ID>``. Similarly, projects use a partition key value pattern of
+  ``user=<USER_ID>``. When there is an existing user, opening the realm synchronously with 
+  ``Realm.open()`` allows for offline access. Projects use a partition key value pattern of
   ``project=<USER_ID>``. For the sake of this tutorial's simplicity, each user
   always has exactly one project, specified by the partition key value
   containing their own user ID.
