@@ -11,6 +11,7 @@ import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
+import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.RuntimeExecutionException;
 import com.mongodb.realm.examples.Expectation;
 import com.mongodb.realm.examples.RealmTest;
@@ -229,11 +230,7 @@ public class AuthenticationTest extends RealmTest {
 
     @Test
     public void testGoogleOAuth() {
-        try {
-            ActivityScenario.launch(AuthActivity.class);
-        } catch (RuntimeExecutionException e) {
-            Log.v("EXAMPLE", "Failed with exception: " + e.getMessage());
-        }
+        ActivityScenario.launch(AuthActivity.class);
     }
 
     @Test
