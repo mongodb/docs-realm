@@ -19,7 +19,7 @@ you'll need to connect with one of our front-end tutorial apps.
 To use our pre-made backend, you'll have to:
 
 A. Create an Atlas account, if you don't already have one. *(3 minutes)*
-#. Create a free Atlas cluster running MongoDB 4.4. *(5 minutes)*
+#. Create a free Atlas cluster running MongoDB 4.4 or higher. *(5 minutes)*
 #. Install the Realm CLI. *(5 minutes)*
 #. Add a programmatic API key to your Atlas project and use it to log
    into the Realm CLI. *(5 minutes)*
@@ -83,10 +83,10 @@ B. Create a Free Atlas Cluster
 
 Next, you'll need an {+atlas+} cluster running MongoDB 4.4 or higher.
 If you've already created a free cluster in your Atlas project running a
-version of MongoDB other than 4.4, you can
+version of MongoDB lower than 4.4, you can
 :atlas:`create a new project in Atlas
 </tutorial/manage-projects/#procedure>`
-and then create a new cluster running MongoDB 4.4 in that project using
+and then create a new cluster running MongoDB 4.4 or higher in that project using
 the instructions below. If you haven't created any clusters yet, follow
 the instructions below to create your first free cluster:
 
@@ -107,7 +107,7 @@ the instructions below to create your first free cluster:
    and :guilabel:`N. Virginia` *(us-east-1)*.
 
 #. Under :guilabel:`Additional Settings`, select :guilabel:`MongoDB 4.4`
-   from the :guilabel:`Select a Version` dropdown.
+   (or a higher version) from the :guilabel:`Select a Version` dropdown.
 
 #. Under :guilabel:`Cluster Name`, enter the name ``Cluster0`` for your
    new cluster.
@@ -256,7 +256,7 @@ E. Use the Realm CLI to Create a New Task Tracker Backend Realm App
 *Time estimate: 5 minutes*
 
 Now that you've got an Atlas account, an Atlas cluster running MongoDB
-4.4, and an authenticated ``realm-cli`` session, you're ready to fetch
+4.4 or higher, and an authenticated ``realm-cli`` session, you're ready to fetch
 the Task Tracker backend configuration. Begin by downloading the
 ``realm-tutorial-backend`` github repository using the ``git`` command
 line tool:
