@@ -98,7 +98,22 @@ properties and the value of ``Birthday`` based on ``Age``:
    Since Unity has various `scripting restrictions
    <https://docs.unity3d.com/Manual/ScriptingRestrictions.html>`_ and does not
    support the `dynamic keyword
-   <https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/types/using-type-dynamic>`_
+   <https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/types/using-type-dynamic>`_.
+   You can do the following instead:
+
+   .. code-block:: csharp
+
+   exports = function() {
+   var oldPeople = (IQueryable<RealmObject>)migration.OldRealm.DynamicApi.All("Person"); // retrieve the Person objects
+   oldPerson.DynamicApi.Get<string>("FirstName") // retrieve the old property "FirstName"
+
+
+
+
+
+var oldPeople = (IQueryable<RealmObject>)migration.OldRealm.DynamicApi.All("Person"); <--- When getting the objects
+oldPerson.DynamicApi.Get<string>("FirstName") <--- When getting the old property "FirstName"
+
    
 
 .. seealso::
