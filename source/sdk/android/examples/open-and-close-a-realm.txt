@@ -12,6 +12,13 @@ Open & Close a Realm - Android SDK
    :depth: 2
    :class: singlecol
 
+Interacting with :ref:`{+realm+}s <android-realms>` in an Android
+application uses the following high-level series of steps:
+
+1. Create a configuration for the {+realm+} you want to open.
+#. Open the {+realm+} using the config.
+#. :ref:`Close the {+realm+} <android-close-a-realm>` when you're finished.
+
 The Default Realm
 -----------------
 
@@ -54,6 +61,41 @@ to open a {+realm+} with that configuration:
 Local Realms
 ------------
 
+.. _android-local-realm-configuration:
+
+Local Realm Configuration
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To configure settings for a {+realm+}, create a
+:java-sdk:`RealmConfiguration <io/realm/RealmConfiguration.html>` with a
+:java-sdk:`RealmConfiguration.Builder <io/realm/RealmConfiguration.Builder.html>`.
+The following example configures a local {+realm+} with:
+
+- the file name "alternate-realm"
+- synchronous reads explicitly allowed on the UI thread
+- synchronous writes explicitly allowed on the UI thread
+- automatic compaction when launching the {+realm+} to save file space
+
+.. tabs-realm-languages::
+   
+   .. tab::
+       :tabid: kotlin
+
+       .. literalinclude:: /examples/generated/android/local/OpenARealmTest.codeblock.configure-a-realm-local.kt
+         :language: kotlin
+
+   .. tab::
+       :tabid: java
+
+       .. literalinclude:: /examples/generated/android/local/OpenARealmTest.codeblock.configure-a-realm-local.java
+         :language: java
+
+.. include:: /includes/android-synchronous-reads-writes-ui-thread.rst
+
+.. seealso::
+
+   :ref:`Fundamentals: Realms <android-realms>`
+
 .. _android-open-a-local-realm:
 .. _android-open-close-local-realm:
 
@@ -80,35 +122,6 @@ or :java-sdk:`getInstanceAsync() <io/realm/Realm.html#getInstanceAsync-io.realm.
 
        .. literalinclude:: /examples/generated/android/local/OpenARealmTest.codeblock.open-a-realm-local.java
          :language: java
-
-.. seealso::
-
-   :ref:`Fundamentals: Realms <android-realms>`
-
-.. _android-local-realm-configuration:
-
-Local Realm Configuration
-~~~~~~~~~~~~~~~~~~~~~~~~~
-
-To configure settings for a {+realm+}, create a
-:java-sdk:`RealmConfiguration <io/realm/RealmConfiguration.html>` with a
-:java-sdk:`RealmConfiguration.Builder <io/realm/RealmConfiguration.Builder.html>`:
-
-.. tabs-realm-languages::
-   
-   .. tab::
-       :tabid: kotlin
-
-       .. literalinclude:: /examples/generated/android/local/OpenARealmTest.codeblock.configure-a-realm-local.kt
-         :language: kotlin
-
-   .. tab::
-       :tabid: java
-
-       .. literalinclude:: /examples/generated/android/local/OpenARealmTest.codeblock.configure-a-realm-local.java
-         :language: java
-
-.. include:: /includes/android-synchronous-reads-writes-ui-thread.rst
 
 .. seealso::
 
@@ -190,23 +203,6 @@ To open a Dynamic Realm with a mutable schema, use
 Synced Realms
 -------------
 
-.. _android-open-a-synced-realm:
-.. _android-open-a-synced-realm-while-online:
-
-Open a Synced Realm While Online
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. include:: /includes/android-open-synced-realm.rst
-
-.. _android-open-a-synced-realm-while-offline:
-
-Open a Synced Realm While Offline
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-You can open a synced {+realm+} when offline with the exact same syntax
-that you use to :ref:`open a synced realm while online
-<android-open-a-synced-realm-while-online>`.
-
 .. _android-synced-realm-configuration:
 
 Synced Realm Configuration
@@ -214,7 +210,14 @@ Synced Realm Configuration
 
 To configure settings for a {+realm+}, create a
 :java-sdk:`SyncConfiguration <io/realm/mongodb/sync/SyncConfiguration.html>` with a
-:java-sdk:`SyncConfiguration.Builder <io/realm/mongodb/sync/SyncConfiguration.Builder.html>`:
+:java-sdk:`SyncConfiguration.Builder <io/realm/mongodb/sync/SyncConfiguration.Builder.html>`.
+The following example configures a synced {+realm+} with:
+
+- synchronous reads explicitly allowed on the UI thread
+- synchronous writes explicitly allowed on the UI thread
+- explicit waiting for all backend changes to synchronize to the device
+  before returning an open {+realm+}
+- automatic compaction when launching the {+realm+} to save file space
 
 .. tabs-realm-languages::
    
@@ -235,6 +238,25 @@ To configure settings for a {+realm+}, create a
 .. seealso::
 
    :ref:`Fundamentals: Realms <android-realms>`
+
+.. _android-open-a-synced-realm:
+.. _android-open-a-synced-realm-while-online:
+
+Open a Synced Realm While Online
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. include:: /includes/android-open-synced-realm.rst
+
+.. _android-open-a-synced-realm-while-offline:
+
+Open a Synced Realm While Offline
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can open a synced {+realm+} when offline with the exact same syntax
+that you use to :ref:`open a synced realm while online
+<android-open-a-synced-realm-while-online>`. Not all SDKs follow this
+pattern, so cross-platform developers should consult the documentation
+for each SDK to learn more.
 
 .. _android-close-a-realm:
 

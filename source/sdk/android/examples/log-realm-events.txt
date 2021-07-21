@@ -20,6 +20,8 @@ view these events using :android:`Logcat </studio/debug/am-logcat>`.
 Set the Client Log Level
 ------------------------
 
+Realm uses the log levels defined by `Log4J
+<https://logging.apache.org/log4j/1.2/apidocs/org/apache/log4j/Level.html>`_.
 To configure the log level for Realm logs in your application, pass a
 :java-sdk:`LogLevel <io/realm/log/LogLevel.html>` to 
 :java-sdk:`RealmLog.setLevel() <io/realm/log/RealmLog.html#setLevel-int->`:
@@ -37,10 +39,5 @@ To configure the log level for Realm logs in your application, pass a
 
       .. literalinclude:: /examples/generated/android/sync/SyncDataTest.codeblock.set-client-log-level.java
          :language: java
-
-.. note::
-
-   Realm uses the log levels defined by
-   `Log4J <https://logging.apache.org/log4j/1.2/apidocs/org/apache/log4j/Level.html>`_.
 
 .. include:: /includes/tip-sync-log-levels.rst
