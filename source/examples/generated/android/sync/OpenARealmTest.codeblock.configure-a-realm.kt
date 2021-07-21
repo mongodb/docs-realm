@@ -2,7 +2,7 @@ val config =
     SyncConfiguration.Builder(app.currentUser(), PARTITION)
         .allowQueriesOnUiThread(true)
         .allowWritesOnUiThread(true)
-        .waitForInitialRemoteData(5, TimeUnit.SECONDS)
+        .waitForInitialRemoteData(500, TimeUnit.MILLISECONDS)
         .compactOnLaunch()
         .build()
 Realm.getInstanceAsync(config, object : Realm.Callback() {
