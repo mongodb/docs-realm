@@ -108,14 +108,18 @@ public class MultipleUsersTest extends RealmTest {
     @Test
     public void listAllOnDeviceUsers() {
         activity.runOnUiThread(() -> {
-            String appID = YOUR_APP_ID; // replace this with your App ID
-            App app = new App(new AppConfiguration.Builder(appID).build());
-            // :code-block-start: list-all-on-device-users
-            Map<String, User> users = app.allUsers();
-            for (Map.Entry<String, User> user : users.entrySet()) {
-                Log.v("EXAMPLE", "User: " + user.getKey());
+            try {
+                String appID = YOUR_APP_ID; // replace this with your App ID
+                App app = new App(new AppConfiguration.Builder(appID).build());
+                // :code-block-start: list-all-on-device-users
+                Map<String, User> users = app.allUsers();
+                for (Map.Entry<String, User> user : users.entrySet()) {
+                    Log.v("EXAMPLE", "User: " + user.getKey());
+                }
+                // :code-block-end:
+            } catch (Exception e) {
+                Log.v("EXAMPLE", "Failed with exception: " + e.getMessage());
             }
-            // :code-block-end:
         });
     }
 
@@ -163,28 +167,32 @@ public class MultipleUsersTest extends RealmTest {
     public void removeAUserFromDevice() {
         //Expectation expectation = new Expectation();
         activity.runOnUiThread(() -> {
-            String appID = YOUR_APP_ID; // replace this with your App ID
-            App app = new App(new AppConfiguration.Builder(appID).build());
-            // Log in as Joe
-            Credentials credentials = Credentials.emailPassword(firstUserEmail, firstUserPassword);
-            // :code-block-start: remove-a-user-from-device
-            app.loginAsync(credentials, it -> {
-                if (it.isSuccess()) {
-                    User user = it.get();
-                    AsyncTask.execute(new Runnable() {
-                        @Override
-                        public void run() {
-                            app.removeUser(user);
-                            // :hide-start:
-                            //expectation.fulfill();
-                            // :hide-end:
-                        }
-                    });
-                } else {
-                    Log.e("EXAMPLE", "Failed to log in: " + it.getError().getErrorMessage());
-                }
-            });
-            // :code-block-end:
+            try {
+                String appID = YOUR_APP_ID; // replace this with your App ID
+                App app = new App(new AppConfiguration.Builder(appID).build());
+                // Log in as Joe
+                Credentials credentials = Credentials.emailPassword(firstUserEmail, firstUserPassword);
+                // :code-block-start: remove-a-user-from-device
+                app.loginAsync(credentials, it -> {
+                    if (it.isSuccess()) {
+                        User user = it.get();
+                        AsyncTask.execute(new Runnable() {
+                            @Override
+                            public void run() {
+                                app.removeUser(user);
+                                // :hide-start:
+                                //expectation.fulfill();
+                                // :hide-end:
+                            }
+                        });
+                    } else {
+                        Log.e("EXAMPLE", "Failed to log in: " + it.getError().getErrorMessage());
+                    }
+                });
+                // :code-block-end:
+            } catch (Exception e) {
+                Log.v("EXAMPLE", "Failed with exception: " + e.getMessage());
+            }
         });
         //expectation.await(); TODO: Figure out why this only works *sometimes*
     }

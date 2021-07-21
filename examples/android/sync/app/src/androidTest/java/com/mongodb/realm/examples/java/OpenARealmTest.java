@@ -80,7 +80,7 @@ public class OpenARealmTest extends RealmTest {
                     SyncConfiguration config = new SyncConfiguration.Builder(app.currentUser(), PARTITION)
                             .allowQueriesOnUiThread(true)
                             .allowWritesOnUiThread(true)
-                            .waitForInitialRemoteData(5, TimeUnit.MILLISECONDS)
+                            .waitForInitialRemoteData(5, TimeUnit.SECONDS)
                             .compactOnLaunch()
                             .build();
 

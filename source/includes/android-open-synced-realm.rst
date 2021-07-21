@@ -26,7 +26,10 @@ You can also open a {+realm+} synchronously by using :java-sdk:`getInstance()
 <io/realm/Realm.html#getInstance-io.realm.RealmConfiguration->`, which
 returns an open {+realm+} before synchronizing all data from the backend.
 However, this may lead to temporary data inconsistencies while the
-remote data is downloaded, and is generally not recommended.
+remote data is downloaded, and is generally not recommended. You can
+use the :java-sdk:`waitForInitialRemoteData() <io/realm/mongodb/sync/SyncConfiguration.Builder.html#waitForInitialRemoteData-->`
+configuration option to force the SDK to fetch remote data before
+opening the {+realm+} to avoid these inconsistencies.
 
 The :ref:`partition value <partitioning>` specifies which subset of your data to sync.
 This is typically a user ID, project ID, store ID, or some other category identifier in

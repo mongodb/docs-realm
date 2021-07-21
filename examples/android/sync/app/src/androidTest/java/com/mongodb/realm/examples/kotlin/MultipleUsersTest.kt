@@ -101,14 +101,18 @@ class MultipleUsersTest : RealmTest() {
     @Test
     fun listAllOnDeviceUsers() {
         activity!!.runOnUiThread {
-            val appID: String = YOUR_APP_ID // replace this with your App ID
-            val app = App(AppConfiguration.Builder(appID).build())
-            // :code-block-start: list-all-on-device-users
-            val users = app.allUsers()
-            for ((key) in users) {
-                Log.v("EXAMPLE", "User: $key")
+            try {
+                val appID: String = YOUR_APP_ID // replace this with your App ID
+                val app = App(AppConfiguration.Builder(appID).build())
+                // :code-block-start: list-all-on-device-users
+                val users = app.allUsers()
+                for ((key) in users) {
+                    Log.v("EXAMPLE", "User: $key")
+                }
+                // :code-block-end:
+            } catch (e: Exception) {
+                Log.v("EXAMPLE", "Failed with exception: ${e.message}")
             }
-            // :code-block-end:
         }
     }
 
@@ -159,25 +163,29 @@ class MultipleUsersTest : RealmTest() {
     fun removeAUserFromDevice() {
         val expectation = Expectation()
         activity!!.runOnUiThread {
-            val appID: String = YOUR_APP_ID // replace this with your App ID
-            val app = App(AppConfiguration.Builder(appID).build())
-            // Log in as Joe
-            val credentials = Credentials.emailPassword(firstUserEmail, firstUserPassword)
-            // :code-block-start: remove-a-user-from-device
-            app.loginAsync(credentials) {
-                if (it.isSuccess) {
-                    val user = it.get()
-                    AsyncTask.execute {
-                        app.removeUser(user)
-                        // :hide-start:
-                        expectation.fulfill()
-                        // :hide-end:
+            try {
+                val appID: String = YOUR_APP_ID // replace this with your App ID
+                val app = App(AppConfiguration.Builder(appID).build())
+                // Log in as Joe
+                val credentials = Credentials.emailPassword(firstUserEmail, firstUserPassword)
+                // :code-block-start: remove-a-user-from-device
+                app.loginAsync(credentials) {
+                    if (it.isSuccess) {
+                        val user = it.get()
+                        AsyncTask.execute {
+                            app.removeUser(user)
+                            // :hide-start:
+                            expectation.fulfill()
+                            // :hide-end:
+                        }
+                    } else {
+                        Log.e("EXAMPLE", "Failed to log in: ${it.error.errorMessage}")
                     }
-                } else {
-                    Log.e("EXAMPLE", "Failed to log in: ${it.error.errorMessage}")
                 }
-            }
-            // :code-block-end:
+                // :code-block-end:
+            } catch (e: Exception ) {
+            Log.v("EXAMPLE", "Failed with exception: ${e.message}");
+        }
         }
         // expectation.await() // TODO: Figure out why this doesn't always work!
     }
