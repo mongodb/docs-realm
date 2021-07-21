@@ -69,7 +69,8 @@ class SyncDataTest : RealmTest() {
         val expectation = Expectation()
         activity!!.runOnUiThread {
             val appID = YOUR_APP_ID // replace this with your App ID
-            val app = App(AppConfiguration.Builder(appID).build())
+            // use a fake non-functional base url so the application is effectively "offline"
+            val app: App = App(AppConfiguration.Builder(appID).baseUrl("http://www.example.com/").build())
             val partition = getRandomPartition()
             val credentials = Credentials.anonymous()
             app.loginAsync(
@@ -77,10 +78,6 @@ class SyncDataTest : RealmTest() {
             ) {
                 if (it.isSuccess) {
                     Log.v("EXAMPLE", "Successfully authenticated.")
-                    // kill the sync session so we can make sure this works offline
-                    for (session in app.sync.allSessions) {
-                        session.stop()
-                    }
                     // :code-block-start: open-a-synced-realm-offline
                     val user = app.currentUser()
                     val config = SyncConfiguration.Builder(user, partition).build()

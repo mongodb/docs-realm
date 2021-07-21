@@ -78,17 +78,15 @@ public class SyncDataTest extends RealmTest {
         Expectation expectation = new Expectation();
         activity.runOnUiThread(() -> {
             String appID = YOUR_APP_ID; // replace this with your App ID
-            App app = new App(new AppConfiguration.Builder(appID).build());
+            // use a fake non-functional base url so the application is effectively "offline"
+            App app = new App(new AppConfiguration.Builder(appID).baseUrl("http://www.example.com/").build());
             String partition = getRandomPartition();
 
             Credentials credentials = Credentials.anonymous();
             app.loginAsync(credentials, it -> {
                 if (it.isSuccess()) {
                     Log.v("EXAMPLE", "Successfully authenticated.");
-                    // kill the sync session so we can make sure this works offline
-                    for (SyncSession session: app.getSync().getAllSessions()) {
-                        session.stop();
-                    }
+
                     // :code-block-start: open-a-synced-realm-offline
                     User user = app.currentUser();
                     SyncConfiguration config = new SyncConfiguration.Builder(user, partition)
