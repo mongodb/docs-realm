@@ -28,7 +28,7 @@ public class UserAPIKeysTest extends RealmTest {
     @Before
     public void setUpUserAndKey() {
         Random random = new Random();
-        email = "test" + random.nextInt(100000);
+        email = "test" + random.nextInt(10000000);
         password = "testtest";
 
         Expectation userIsRegistered = new Expectation();

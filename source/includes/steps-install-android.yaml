@@ -47,7 +47,7 @@ content: |
 
    .. code-block:: groovy
     
-      classpath "io.realm:realm-gradle-plugin:10.6.0"
+      classpath "io.realm:realm-gradle-plugin:{+android-sdk-version+}"
 
    When done, your project-level ``build.gradle`` should look something like this:
 
@@ -67,7 +67,7 @@ content: |
                 }
                 dependencies {
                     classpath "com.android.tools.build:gradle:3.5.1"
-                    classpath "io.realm:realm-gradle-plugin:10.6.0"
+                    classpath "io.realm:realm-gradle-plugin:{+android-sdk-version+}"
                 }
             }
 

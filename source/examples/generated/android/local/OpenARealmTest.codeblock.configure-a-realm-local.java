@@ -3,7 +3,6 @@ RealmConfiguration config = new RealmConfiguration.Builder()
         .allowQueriesOnUiThread(true)
         .allowWritesOnUiThread(true)
         .compactOnLaunch()
-        .inMemory()
         .build();
 
 Realm realm = Realm.getInstance(config);

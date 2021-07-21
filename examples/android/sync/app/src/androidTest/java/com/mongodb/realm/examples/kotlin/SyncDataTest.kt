@@ -14,8 +14,6 @@ import io.realm.mongodb.App
 import io.realm.mongodb.AppConfiguration
 import io.realm.mongodb.Credentials
 import io.realm.mongodb.User
-import io.realm.mongodb.mongo.result.InsertOneResult
-import io.realm.mongodb.sync.ConnectionState
 import io.realm.mongodb.sync.ProgressMode
 import io.realm.mongodb.sync.SyncConfiguration
 import io.realm.mongodb.sync.SyncSession
@@ -29,7 +27,7 @@ import org.junit.Test
 
 class SyncDataTest : RealmTest() {
     @Test
-    fun openASyncedRealm() {
+    fun openASyncedRealmOnline() {
         val expectation = Expectation()
         activity!!.runOnUiThread {
             val appID: String = YOUR_APP_ID // replace this with your App ID
@@ -60,6 +58,41 @@ class SyncDataTest : RealmTest() {
                         "EXAMPLE",
                         "Failed login: " + it.error.errorMessage
                     )
+                }
+            }
+        }
+        expectation.await()
+    }
+
+    @Test
+    fun openASyncedRealmOffline() {
+        val expectation = Expectation()
+        activity!!.runOnUiThread {
+            val appID = YOUR_APP_ID // replace this with your App ID
+            // use a fake non-functional base url so the application is effectively "offline"
+            val app: App = App(AppConfiguration.Builder(appID).baseUrl("http://www.example.com/").build())
+            val partition = getRandomPartition()
+            val credentials = Credentials.anonymous()
+            app.loginAsync(
+                credentials
+            ) {
+                if (it.isSuccess) {
+                    Log.v("EXAMPLE", "Successfully authenticated.")
+                    // :code-block-start: open-a-synced-realm-offline
+                    val user = app.currentUser()
+                    val config = SyncConfiguration.Builder(user, partition).build()
+                    Realm.getInstanceAsync(config, object : Realm.Callback() {
+                        override fun onSuccess(realm: Realm) {
+                            Log.v("EXAMPLE", "Successfully opened a realm.")
+                            // read and write to realm here via transactions
+                            // :hide-start:
+                            expectation.fulfill()
+                            // :hide-end:
+                        }
+                    })
+                    // :code-block-end:
+                } else {
+                    Log.e("EXAMPLE", "Failed login: " + it.error.errorMessage)
                 }
             }
         }

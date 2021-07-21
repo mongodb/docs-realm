@@ -48,7 +48,6 @@ class OpenARealmTest : RealmTest() {
                 .allowQueriesOnUiThread(true)
                 .allowWritesOnUiThread(true)
                 .compactOnLaunch()
-                .inMemory()
                 .build()
             val realm = Realm.getInstance(config)
             Log.v("EXAMPLE", "Successfully opened a realm at: ${realm.path}")
