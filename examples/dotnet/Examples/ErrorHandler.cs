@@ -5,6 +5,7 @@ using Realms;
 using Realms.Sync;
 using Realms.Sync.Exceptions;
 using Realms.Sync.Testing;
+using Realms.Logging;
 
 namespace Examples
 {
@@ -30,6 +31,19 @@ namespace Examples
                 // :hide-end:
             };
             // :code-block-end:
+
+            // :code-block-start: customize-logging-function
+            // :uncomment-start:
+            //using Realms.Logging;
+            //Logger.LogLevel = LogLevel.All;
+            // :uncomment-end:
+            // customize the logging function:
+            Logger.Default = Logger.Function(message =>
+            {
+                // Do something with the message
+            });
+            // :code-block-end:
+
             app = App.Create(appConfig);
             user = await app.LogInAsync(Credentials.Anonymous());
             config = new SyncConfiguration("myPartition", user);

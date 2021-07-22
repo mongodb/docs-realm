@@ -189,3 +189,13 @@ To control which messages are logged by the sync client logger, set the :dotnet-
    :language: csharp
 
 .. include:: /includes/tip-sync-log-levels.rst
+
+
+.. _dotnet-customize-logging-function:
+
+Customize the Logging Function
+------------------------------
+To set a custom logger function, set :dotnet-sdk:`Logger.Default <reference/Realms.Logging.Logger.html>` to a custom Logger function. 
+
+.. literalinclude:: /examples/generated/dotnet/ErrorHandler.codeblock.set-log-level.cs
+   :language: csharp
