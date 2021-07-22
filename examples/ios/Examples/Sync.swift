@@ -17,11 +17,29 @@ class SyncExamples_Task: Object {
 class Sync: AnonymouslyLoggedInTestCase {
     func testOpenSyncedRealm() throws {
         let expectation = XCTestExpectation(description: "it completes")
-        // :code-block-start: open-synced-realm
+        // :code-block-start: login-and-open-synced-realm
+        // Instantiate the app using your Realm app ID
         let app = App(id: YOUR_REALM_APP_ID)
-        // Log in...
+        // Authenticate with the instance of the app that points
+        // to your backend. Here, we're using anonymous login.
+        app.login(credentials: Credentials.anonymous) { (result) in
+            switch result {
+            case .failure(let error):
+                fatalError("Login failed: \(error.localizedDescription)")
+            case .success:
+                // Continue
+                print("Successfully logged in to app")
+            }
+        }
+        // Assign user to the entity currently authenticated with
+        // this instance of your app.
         let user = app.currentUser
+        // Specify which data this authenticated user should
+        // be able to access.
         let partitionValue = "some partition value"
+        // Store a configuration that consists of the current user,
+        // authenticated to this instance of your app, who should be
+        // able to access this data (partition).
         var configuration = user!.configuration(partitionValue: partitionValue)
         // :hide-start:
         // The following is only required if you want to specify exactly which
@@ -29,6 +47,11 @@ class Sync: AnonymouslyLoggedInTestCase {
         // all subclasses of Object and EmbeddedObject to add to the realm.
         configuration.objectTypes = [SyncExamples_Task.self]
         // :hide-end:
+        // Open a Realm asynchronously with this configuration. This
+        // downloads any changes to the synced Realm from the server
+        // before opening it. If this is the first time opening this
+        // synced Realm, it downloads the entire Realm to disk before
+        // opening it.
         Realm.asyncOpen(configuration: configuration) { result in
             switch result {
             case .failure(let error):
@@ -44,9 +67,34 @@ class Sync: AnonymouslyLoggedInTestCase {
         }
         // :code-block-end:
 
-        // :code-block-start: open-synced-realm-synchronously
+        // :code-block-start: open-synced-realm-offline
+        // You can use the same configuration from the initial open to
+        // re-open a Realm that is already on the device immediately.
+        // This doesn't wait to download changes from the server.
+        // Changes will attempt to sync in the background, but will
+        // not block opening the Realm.
         let realm = try! Realm(configuration: configuration)
         print("Opened realm: \(realm)")
+        // :code-block-end:
+
+        // :code-block-start: always-use-async-open
+        // If you want to always download changes from the
+        // server before opening a realm, you can use asyncOpen
+        // exclusively; not just the first time you open a synced
+        // Realm. This only works when the user is online.
+        Realm.asyncOpen(configuration: configuration) { result in
+            switch result {
+            case .failure(let error):
+                print("Failed to open realm: \(error.localizedDescription)")
+                // Handle error
+            case .success(let realm):
+                print("Successfully opened realm: \(realm)")
+                // Use realm
+                // :hide-start:
+                expectation.fulfill()
+                // :hide-end:
+            }
+        }
         // :code-block-end:
 
         wait(for: [expectation], timeout: 10)
