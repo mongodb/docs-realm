@@ -22,7 +22,9 @@ namespace Examples
             // :code-block-start: set-log-level
             var appConfig = new AppConfiguration(myRealmAppId)
             {
+                //:uncomment-start:
                 //LogLevel = LogLevel.Debug,
+                //:uncomment-end:
                 // :hide-start:
                 DefaultRequestTimeout = TimeSpan.FromMilliseconds(1500)
                 // :hide-end:
