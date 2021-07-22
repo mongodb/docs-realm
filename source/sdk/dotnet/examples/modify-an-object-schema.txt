@@ -103,7 +103,6 @@ properties and the value of ``Birthday`` based on ``Age``:
 
    .. code-block:: csharp
 
-     exports = function() {
      var oldPeople = (IQueryable<RealmObject>)migration.OldRealm.DynamicApi.All("Person"); // retrieve the Person objects
      oldPerson.DynamicApi.Get<string>("FirstName") // retrieve the old property "FirstName"
 
