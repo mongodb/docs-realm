@@ -13,17 +13,17 @@ content: |
 title: Update Your Podfile
 ref: update-podfile
 content: |
-  Currently, there is a `Cocoapods bug
-  <https://github.com/CocoaPods/CocoaPods/issues/8891>`_ requiring a development
-  team within CocoaPods that states that you may encounter when building for Mac
-  Catalyst. This bug prevents signing locally. As a workaround, you can alter
-  your Podfile to fix your bundle target's signing certificate to sign to run
-  locally.
 
   .. note:: 
    
-   export PLATFORM_NAME=ios
+   This is a temporary step that will not be necessary when the following Cocoapods issue is solved:
+   :github:`[Catalyst] Podspec Resource Bundle requires a development team <CocoaPods/CocoaPods/issues/8891>`
 
+  Currently, there is a :github:`Cocoapods bug
+  <CocoaPods/CocoaPods/issues/8891>` that causes XCode to require a development
+  team when building for Mac Catalyst. This bug prevents signing locally. As a
+  workaround, you can alter your Podfile to fix your bundle target's signing
+  certificate to sign to run locally.
 
   Replace the post install script in your Podfile, by removing the following lines:
 
@@ -34,7 +34,7 @@ content: |
      react_native_post_install(installer)
    end
 
-   And copy the following lines where your previous post install script was:
+  And copy the following lines where your previous post install script was:
 
   .. code-block:: none
      :caption: /ios/Podfile
