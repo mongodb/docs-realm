@@ -42,7 +42,7 @@ gateway to the data, and it provides data security in the form of user
 authentication, data encryption, and access control.
 
 To get started creating the backend app, follow the steps in 
-:ref:`Create a Realm App (Realm UI) <create-a-realm-app>`.
+:ref:`<create-a-realm-app>`.
 
 Enable Authentication
 ~~~~~~~~~~~~~~~~~~~~~
@@ -83,11 +83,11 @@ language/platform:
 
 Copy Existing Data
 ----------------------
-None of the data in your local realm will be automatically transferred to your 
-new synced realm; it is up to you to ensure the data you want to preserve is 
-copied to the new realm. How you go about doing this depends, in part, on your 
+None of the data in your local {+realm+} will be automatically transferred to your 
+new synced {+realm+}; it is up to you to ensure the data you want to preserve is 
+copied to the new {+realm+}. How you go about doing this depends, in part, on your 
 specific needs, but the following diagram and steps outline the process for 
-copying all of the data from the local realm to the synced realm. If done 
+copying all of the data from the local {+realm+} to the synced {+realm+}. If done 
 correctly, the impact on app performance after the initial copy will be 
 minimal.
 
@@ -97,18 +97,19 @@ App Logic
 .. figure:: /images/local_to_sync.png
    :alt: Flow chart showing the steps to convert from local to sync
 
-1. Check if a synced realm already exists.
+1. Check if a synced {+realm+} already exists.
 
-2. If not, create one. Open a connection to it and to the local realm.
+2. If not, create one. Open a connection to it and to the local {+realm+}.
 
-3. Read each record from the local realm and modify it to meet the needs of the 
-   synced realm (adding a partition key, for example).
+3. Read each record from the local {+realm+} and modify it to meet the needs of the 
+   synced {+realm+} (adding a partition key, for example).
 
-4. Copy the modified record to the new synced realm. Sync will automatically 
+4. Copy the modified record to the new synced {+realm+}. Sync will automatically 
    copy the record to Atlas.
 
-5. Confirm that all records you want to preserve are in the new realm.
+5. Confirm that all records you want to preserve are in the new {+realm+}.
 
-6. Delete the local realm file.
+6. Delete the local {+realm+} file.
 
-7. On each subsequent app load, simply check if the local realm has been deleted.
+7. On each subsequent app load, simply check if the local {+realm+} has been 
+   deleted.
