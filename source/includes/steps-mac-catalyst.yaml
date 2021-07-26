@@ -1,9 +1,9 @@
 title: Update Your Build Phase Settings
 ref: update-build-phase-settings
 content: |
-  Before you can use Mac Catalyst in your React Native application you must
-  specify the platform name. Click :guilabel:`Build Phases` in XCode and within
-  the :guilabel:`Bundle React Native code and images` tab add the following to
+  Before you can use Mac Catalyst in your React Native application, you must
+  specify the platform name. Click :guilabel:`Build Phases` in XCode, and within
+  the :guilabel:`Bundle React Native code and images` tab, add the following to
   specify "ios" as the platform name.
 
   .. code-block:: none
@@ -25,7 +25,7 @@ content: |
   workaround, you can alter your Podfile to fix your bundle target's signing
   certificate to sign to run locally.
 
-  Replace the post install script in your Podfile, by removing the following lines:
+  Replace the post-install script in your Podfile by removing the following lines:
 
   .. code-block:: none
      :caption: /ios/Podfile
@@ -34,7 +34,7 @@ content: |
      react_native_post_install(installer)
    end
 
-  And copy the following lines where your previous post install script was:
+  And copy the following lines where your previous post-install script was:
 
   .. code-block:: none
      :caption: /ios/Podfile
@@ -56,7 +56,7 @@ ref: activate-catalyst
 content: |
   To test out Catalyst in your project, activate Mac in the :guilabel:`general`
   tab of your XCode project workspace. To do this, click :guilabel:`Mac` in the
-  :guilabel:`Deployment Info` section. Select "Scale Interface to Match iPad".  
+  :guilabel:`Deployment Info` section. Select :guilabel:`"Scale Interface to Match iPad"`.  
   This makes "My Mac" selectable, allowing you to run your application on your Mac.
 
   .. figure:: /images/activate-my-mac-xcode-catalyst.png
