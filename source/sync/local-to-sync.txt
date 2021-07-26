@@ -1,7 +1,7 @@
 .. _realm-sync-local-to-sync:
 
 =======================================
-Convert a Local Realm to a Synced Realm
+Add Sync to a Local-Only App
 =======================================
 
 .. default-domain:: mongodb
@@ -22,555 +22,63 @@ backend, and then you make code changes in your client app(s).
 In the following sections, you will learn to do the following on the backend:
 
 - Create a new {+realm+} app in {+atlas+},
-- Configure a User Authentication provider, and
+- Configure at least one User Authentication provider, and
 - Choose a partition strategy.
 
 And then, in your client app, you will:
 
 - Update your {+service-short+} object models,
-- Connect with a sync configuration file,
-- Update your object models, if necessary, and then
+- Connect to the new synced {+realm+} with a sync configuration file,
 - Authenticate the user.
+
+Finally, if needed, you will also need to copy your local data to the new 
+synced {+realm+}.
 
 Create a Backend App
 --------------------
 To sync your data between devices and with {+atlas+}, you first need to create 
-a {+realm+} app. This app serves -- at a minimum -- two purposes: it provides a 
+a {+app+}. This app serves -- at a minimum -- two purposes: it provides a 
 gateway to the data, and it provides data security in the form of user 
 authentication, data encryption, and access control.
 
-To get started, follow the steps in 
+To get started creating the backend app, follow the steps in 
 :ref:`Create a Realm App (Realm UI) <create-a-realm-app>`.
 
 Enable Authentication
 ~~~~~~~~~~~~~~~~~~~~~
-User authentication plays a crucial role in {+sync+}. {+realm+} provides 
-many different authentication providers; once you have configured one or more,
-you can then control exactly who has access to which data. From a Sync perspective, 
-it doesn't matter which authentication method you choose.
+User authentication plays a crucial role in {+sync+}. {+service-short+} provides 
+many different :ref:`Authentication Providers <authentication-providers>` such 
+as email/password and OAuth; once you have configured one or more providers,
+you can then control exactly who has access to which data.
 
-To get started, learn about the 
-:ref:`Authentication Providers <authentication-providers>` and then 
-follow the configuration steps for the provider(s) of your choice.
+To set up an auth provider, choose one of the  
+authentication providers and follow the configuration steps for the provider(s) 
+of your choice.
 
 Partition the Data 
 ~~~~~~~~~~~~~~~~~~
 Data :ref:`partitioning <partitioning>` strategies enable you to configure which 
 users have access to which data. This process is often the most time-consuming 
-part of setting up {+sync+}, as you want to consider the ramifications of 
-different strategies.
+part of setting up {+sync+}, as you as you consider what partition strategy 
+is the best fit for your use case and data.
 
-Once you determine your 
-:ref:`partition strategy <partition-strategies>` and choose a
-:ref:`partition key <partition-keys>`, you may need to update your existing object 
-models to include the partition field, unless you have chosen an existing field.
+As part of determining your :ref:`partition strategy <partition-strategies>`, 
+you'll choose a :ref:`partition key <partition-keys>`. You might choose a 
+partition key that is already a part of your object models, which you can then 
+specify when you set up {+sync+}. If you have chosen a partition key that 
+isn't already a part of your object models, you'll need to update those models.
 
 Update the Client App
 ---------------------
-Now that you have the backend set up for Sync, you need to make a few changes in 
-your client app. Since each SDk is different, choose the tab below for your 
-platform / language to get started:
-
-.. tabs-realm-sdks::
-
-   .. tab::
-      :tabid: android
-
-      1. To use {+backend+} features such as authentication and sync, you must
-         access your {+app+} using your {+app+} ID. You can find your {+app+} ID 
-         in the {+ui+}.
-
-         .. tabs-realm-languages::
-
-            .. tab::
-               :tabid: java
-
-               .. literalinclude:: /examples/generated/android/sync/MainActivity.codeblock.initialize-the-app.java
-                  :language: java
-            
-            .. tab::
-               :tabid: kotlin
-
-               .. literalinclude:: /examples/generated/android/sync/MainActivity.codeblock.initialize-the-app.kt
-                  :language: kotlin
-
-      2. You have already defined one or more object models. If these models 
-         do not currently have a property that maps to the partition key you 
-         selected when creating the backend, you'll need to add that property. 
-   
-         .. tabs-realm-languages::
-            
-            .. tab::
-               :tabid: java
-
-               .. literalinclude:: /examples/generated/android/sync/Task.codeblock.define-object-model.java
-                  :language: java
-
-               .. literalinclude:: /examples/generated/android/sync/TaskStatus.codeblock.complete.java
-                  :language: java
-            
-            .. tab::
-               :tabid: kotlin
-
-               .. literalinclude:: /examples/generated/android/sync/MainActivity.codeblock.define-object-model.kt
-                  :language: kotlin
-
-      3. Authenticate the user by calling the appropriate authentication method, 
-         based on which provider you have set up. The following example uses 
-         Anonymous authentication; for details on implementing each of the 
-         providers, see :ref:`android-authenticate`.
-
-         .. tabs-realm-languages::
-
-            .. tab::
-               :tabid: java
-
-               .. literalinclude:: /examples/generated/android/sync/MainActivity.codeblock.authenticate-a-user.java
-                  :language: java
-                  :emphasize-lines: 1-3
-            
-            .. tab::
-               :tabid: kotlin
-
-               .. literalinclude:: /examples/generated/android/sync/MainActivity.codeblock.authenticate-a-user.kt
-                  :language: kotlin
-                  :emphasize-lines: 1-3
-
-      4. You can now open a synced {+realm+}. Use a 
-         :java-sdk:`SyncConfiguration <io/realm/mongodb/sync/SyncConfiguration.html>`
-         object to specify of how your application synchronizes data with 
-         {+backend+}. The following example includes a partition name and the user 
-         object:
-
-         .. tabs-realm-languages::
-
-            .. tab::
-               :tabid: java
-
-               .. literalinclude:: /examples/generated/android/sync/MainActivity.codeblock.open-a-realm.java
-                  :language: java
-            
-            .. tab::
-               :tabid: kotlin
-
-               .. literalinclude:: /examples/generated/android/sync/MainActivity.codeblock.open-a-realm.kt
-                  :language: kotlin
-
-   .. tab::
-      :tabid: ios
-
-      1. At the top of each file that uses Realm, add this additional ``import``
-         statement:
-
-         .. literalinclude:: /examples/generated/code/start/CompleteQuickStart.codeblock.import-realm.swift
-            :language: swift
-
-      2. In a local-only app, you don't initialize Realm, but in a 
-         Sync-enabled app, you initialize the ``App`` and pass in 
-         the ID of your realm app. ou can find your {+app+} ID 
-         in the {+ui+}.
-
-         .. literalinclude:: /examples/generated/code/start/CompleteQuickStart.codeblock.initialize-app.swift
-            :language: swift
-
-      3. You have already defined one or more object models. If these models 
-         do not currently have a property that maps to the partition key you 
-         selected when creating the backend, you'll need to add that property. 
-
-         .. literalinclude:: /examples/generated/code/start/CompleteQuickStart.codeblock.model.swift
-            :language: swift
-
-      4. Authenticate the user by calling the appropriate authentication method, 
-         based on which provider you have set up. The following example uses 
-         Anonymous authentication; for details on implementing each of the 
-         providers, see :ref:`ios-authenticate-users`.
-
-         .. literalinclude:: /examples/generated/code/start/CompleteQuickStart.codeblock.authenticate-user.swift
-            :language: swift
-            :emphasize-lines: 2
-
-      5. You can now open a :ref:`{+realm+} <ios-realms>` asynchronously by calling 
-         :swift-sdk:`asyncOpen <Structs/Realm.html#/s:10RealmSwift0A0V9asyncOpen13configuration13callbackQueue0F0AC05AsyncD4TaskVAC13ConfigurationV_So17OS_dispatch_queueCyACSg_s5Error_pSgtctFZ>`, 
-         passing in the user's  
-         :swift-sdk:`Configuration <Structs/Realm/Configuration.html>` object, which  
-         includes the partition name. The following code demonstrates this:
-
-         .. literalinclude:: /examples/generated/code/start/CompleteQuickStart.codeblock.open-realm.swift
-            :language: swift
-
-   .. tab::
-      :tabid: dotnet
-
-      1. At the top of each file that uses Realm, add this additional ``using``
-         statement:
-
-         .. code-block:: csharp
-
-            using Realms.Sync;
-
-      2. In a local-only app, you don't initialize Realm, but in a 
-         Sync-enabled app, you use the ``App.Create`` method and pass in 
-         the ID of your realm app. ou can find your {+app+} ID 
-         in the {+ui+}.
-
-         .. code-block:: csharp
-
-            Realms.Sync.App app = App.Create(myRealmAppId);
-
-      3. You have already defined one or more object models. If these models 
-         do not currently have a property that maps to the partition key you 
-         selected when creating the backend, you'll need to add that property. 
-         For example, we have added a ``Partition`` property to this ``Task`` 
-         object:
-
-         .. literalinclude:: /examples/generated/dotnet/Task.codeblock.task-object-model.cs
-            :language: csharp
-            :emphasize-lines: 12-14
-
-      4. Authenticate the user by calling the appropriate authentication method, 
-         based on which provider you have set up. The following example uses 
-         Anonymous authentication; for details on implementing each of the 
-         providers, see :ref:`dotnet-authenticate`.
-
-         .. literalinclude:: /examples/generated/dotnet/Examples.codeblock.anon-login.cs
-            :language: csharp
-
-      5. You can now open a synced {+realm+}. Use a 
-         :dotnet-sdk:`SyncConfiguration <reference/Realms.Sync.SyncConfiguration.html#Realms_Sync_SyncConfiguration__ctor_System_Nullable_MongoDB_Bson_ObjectId__Realms_Sync_User_System_String_>` 
-         object to specify of how your application synchronizes data with 
-         {+backend+}. The following example includes a partition name and the user 
-         object:
-
-         .. literalinclude:: /examples/generated/dotnet/Examples.codeblock.config.cs
-            :language: csharp
-
-   .. tab::
-      :tabid: react-native
-
-      1. At the top of each file that uses Realm, add this additional ``using``
-         statement:
-
-         .. code-block:: javascript
-
-            import Realm from 'realm';
-
-      2. In a local-only app, you don't initialize Realm, but in a 
-         Sync-enabled app, you initialize ``Realm.App`` with your {+app+} ID. 
-         You can find your {+app+} ID in the {+ui+}.
-
-         .. code-block:: javascript
-
-            import Realm from 'realm';
-
-            // Returns the shared instance of the Realm app.
-            export function getRealmApp() {
-               const appId = '<enter your Realm app ID here>'; // Set Realm app ID here.
-               const appConfig = {
-               id: appId,
-               timeout: 10000,
-               };
-            return new Realm.App(appConfig);
-            }
-
-
-      3. You have already defined one or more object models. If these models 
-         do not currently have a property that maps to the partition key you 
-         selected when creating the backend, you'll need to add that property. 
-         For example, we have added a ``Partition`` property to this ``Task`` 
-         object:
-
-         .. code-block:: javascript
-
-            import {ObjectId} from 'bson';
-            
-            class Task {
-            constructor({
-               name,
-               partition,
-               status = Task.STATUS_OPEN,
-               id = new ObjectId(),
-            }) {
-               this._partition = partition;
-               this._id = id;
-               this.name = name;
-               this.status = status;
-            }
-            
-            static STATUS_OPEN = 'Open';
-            static STATUS_IN_PROGRESS = 'InProgress';
-            static STATUS_COMPLETE = 'Complete';
-            
-            static schema = {
-               name: 'Task',
-               properties: {
-                  _id: 'objectId',
-                  _partition: 'string',
-                  name: 'string',
-                  status: 'string',
-               },
-               primaryKey: '_id',
-            };
-            }
-
-            export {Task};
-
-      4. Authenticate the user by calling the appropriate authentication method, 
-         based on which provider you have set up. The following example uses 
-         Anonymous authentication; for details on implementing each of the 
-         providers, see :ref:`react-native-authenticate-users`.
-
-         .. code-block:: javascript
-            :emphasize-lines: 8,9
-
-            import Realm from 'realm';         
-
-            async function anonymousLogin() {
-               let user;
-               try {
-                  // pass in the appConfig variable that you created earlier
-                  const app = new Realm.App(appConfig); 
-      
-                  // create an anonymous credential
-                  const credentials = Realm.Credentials.anonymous(); 
-                  user = await app.logIn(credentials);
-                  return user;
-
-               } catch (error) {
-                     throw `Error logging in anonymously: ${JSON.stringify(error,null,2)}`;
-               }
-            }
-
-      5. Once you have :ref:`enabled {+sync+} <enable-sync>` and authenticated a
-         user, you can open a synced :ref:`{+realm+} <react-native-realms>`:
-
-         .. code-block:: javascript
-            :emphasize-lines: 16
-
-            import Realm from 'realm';
-            async function openRealm() {
-            let user;
-            let realm;
-               try {
-                  // ...
-                  console.log(`Logged in with the user: ${user.identity}`);
-                  const config = {
-                     schema: [Task.schema],
-                     sync: {
-                     user: user, 
-                     partitionValue: "myPartition",
-                     },
-                  };
-
-                  realm = await Realm.open(config);
-               } catch (error) {
-                     throw `Error opening realm: ${JSON.stringify(error,null,2)}`;
-               }
-            }
-
-   .. tab::
-      :tabid: node
-
-      1. At the top of your source files where you want to use {+service+}, add
-         the following line to import the SDK.
-
-         .. tabs-realm-languages::
-
-            .. tab::
-               :tabid: javascript
-
-               .. code-block:: javascript
-
-                  const Realm = require("realm");
-            
-            .. tab::
-               :tabid: typescript
-
-               .. code-block:: typescript
-                  
-                  import * as Realm from "realm";
-
-      2. In a local-only app, you don't initialize Realm, but in a 
-         Sync-enabled app, you initialize ``Realm.App`` with your {+app+} ID. 
-         You can find your {+app+} ID in the {+ui+}.
-
-         .. tabs-realm-languages::
-
-            .. tab::
-               :tabid: javascript
-
-               .. code-block:: javascript
-
-                  const app = new Realm.App({ id: "<Your App ID>" });
-
-            .. tab::
-               :tabid: typescript
-
-               .. code-block:: typescript
-
-                  const app = new Realm.App({ id: "<Your App ID>" });
-
-
-      3. You have already defined one or more object models. If these models 
-         do not currently have a property that maps to the partition key you 
-         selected when creating the backend, you'll need to add that property. 
-         For example, we have added a ``Partition`` property to this ``Task`` 
-         object:
-
-         .. tabs-realm-languages::
-
-            .. tab::
-               :tabid: javascript
-
-               .. code-block:: javascript
-                  
-                  const TaskSchema = {
-                  name: 'Task',
-                  properties: {
-                     _id: 'objectId',
-                     _partition: 'string?',
-                     name: 'string',
-                     status: 'string',
-                  },
-                  primaryKey: '_id',
-                  };
-
-            .. tab::
-               :tabid: typescript
-
-               .. code-block:: typescript
-                  
-                  import BSON from 'bson';
-                  
-                  type Task = {
-                  _id: BSON.ObjectId;
-                  _partition?: string;
-                  name: string;
-                  status: string;
-                  };
-                  
-                  const TaskSchema = {
-                  name: 'Task',
-                  properties: {
-                     _id: 'objectId',
-                     _partition: 'string?',
-                     name: 'string',
-                     status: 'string',
-                  },
-                  primaryKey: '_id',
-                  };
-
-      4. Authenticate the user by calling the appropriate authentication method, 
-         based on which provider you have set up. The following example uses 
-         Anonymous authentication; for details on implementing each of the 
-         providers, see :ref:`node-authenticate-users`.
-
-         .. tabs-realm-languages::
-
-            .. tab::
-               :tabid: javascript
-
-               .. code-block:: javascript
-                  :emphasize-lines: 7, 9
-                  
-                  const app = new Realm.App({ id: "<Your App ID>" });
-                  async function handleLogin() {
-                     // Create a Credentials object to identify the user.
-                     // Anonymous credentials don't have any identifying information, but other
-                     // authentication providers accept additional data, like a user's email and
-                     // password.
-                     const credentials = Realm.Credentials.anonymous();
-                     // You can log in with any set of credentials using `app.logIn()`
-                     const user = await app.logIn(credentials);
-                     console.log(`Logged in with the user id: ${user.id}`);
-                  };
-                  handleLogin().catch(err => {
-                     console.error("Failed to log in:", err)
-                  });
-            
-            .. tab::
-               :tabid: typescript
-               
-               .. code-block:: typescript
-                  :emphasize-lines: 7, 9
-                  
-                  const app = new Realm.App({ id: "<Your App ID>" });
-                  async function handleLogin() {
-                     // Create a Credentials object to identify the user.
-                     // Anonymous credentials don't have any identifying information, but other
-                     // authentication providers accept additional data, like a user's email and
-                     // password.
-                     const credentials = Realm.Credentials.anonymous();
-                     // You can log in with any set of credentials using `app.logIn()`
-                     const user = await app.logIn(credentials);
-                     console.log(`Logged in with the user id: ${user.id}`);
-                  };
-                  handleLogin().catch(err => {
-                     console.error("Failed to log in:", err)
-                  });
-
-
-      5. Once you have :ref:`enabled {+sync+} <enable-sync>` and authenticated a user,
-         you can open a synced :ref:`{+realm+} <node-realms>` by calling
-         :js-sdk:`Realm.open() <Realm.html#.open>`:
-
-         .. tabs-realm-languages::
-
-            .. tab::
-               :tabid: javascript
-
-               .. code-block:: javascript
-                  :emphasize-lines: 8-14
-
-                  const app = new Realm.App({ id: "<Your App ID>" });
-                  async function run() {
-                     await app.logIn(new Realm.Credentials.anonymous());
-                     // When you open a synced realm, the SDK automatically automatically
-                     // creates the realm on the device (if it didn't exist already) and
-                     // syncs pending remote changes as well as any unsynced changes made
-                     // to the realm on the device.
-                     const realm = await Realm.open({
-                        schema: [TaskSchema],
-                        sync: {
-                           user: app.currentUser,
-                           partitionValue: "myPartition",
-                        },
-                     });
-                     
-                     // The myPartition realm is now synced to the device. You can
-                     // access it through the `realm` object returned by `Realm.open()`
-                  }
-                  run().catch(err => {
-                     console.error("Failed to open realm:", err)
-                  });
-            
-            
-            .. tab::
-               :tabid: typescript
-
-               .. code-block:: typescript
-                  :emphasize-lines: 8-14
-
-                  const app = new Realm.App({ id: "<Your App ID>" });
-                  async function run() {
-                     await app.logIn(new Realm.Credentials.anonymous());
-                     // When you open a synced realm, the SDK automatically automatically
-                     // creates the realm on the device (if it didn't exist already) and
-                     // syncs pending remote changes as well as any unsynced changes made
-                     // to the realm on the device.
-                     const realm = await Realm.open({
-                        schema: [TaskSchema],
-                        sync: {
-                           user: app.currentUser?,
-                           partitionValue: "myPartition",
-                        },
-                     });
-                     
-                     // The myPartition realm is now synced to the device. You can
-                     // access it through the `realm` object returned by `Realm.open()`
-                  }
-                  run().catch(err => {
-                     console.error("Failed to open realm:", err)
-                  });
+Now that you have the backend set up for {+sync-short+}, you need to make a few 
+changes in your client app. Follow the steps in the Quick Start for your 
+language/platform:
+
+- :ref:`<android-client-quick-start-sync>`
+- :ref:`<ios-client-quick-start-with-sync>`
+- :ref:`<dotnet-client-quick-start>`
+- :ref:`<react-native-client-quick-start>`
+- :ref:`<node-client-quick-start>`
 
 
 Copy Existing Data
