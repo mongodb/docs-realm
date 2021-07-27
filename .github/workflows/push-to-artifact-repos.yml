@@ -82,7 +82,7 @@ jobs:
         with:
           email: chris.bush+arty-fact@mongodb.com
           name: Arty Fact
-          states: final # note: backend does not currently use states
+          states: final
           source: ./tutorial/backend
           toRepo: https://${{ secrets.TUTORIAL_REPO_ACCESS_TOKEN }}@github.com/mongodb-university/realm-tutorial-backend.git
           commitMessage: Update
