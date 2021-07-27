@@ -979,7 +979,7 @@ public class MongoDBDataAccessTest extends RealmTest {
                                     new Document("storeNumber",
                                             new Document("$arrayElemAt", Arrays.asList(
                                                     new Document("$split", Arrays.asList(
-                                                            "$_partition", "Store 42")), 1)))));
+                                                            "$_partition", " ")), 1)))));
                     RealmResultTask<MongoCursor<Document>> aggregationTask =
                             mongoCollection.aggregate(pipeline).iterator();
                     aggregationTask.getAsync(task -> {

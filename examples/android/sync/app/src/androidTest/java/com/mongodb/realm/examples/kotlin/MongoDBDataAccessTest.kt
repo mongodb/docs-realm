@@ -1060,7 +1060,7 @@ class MongoDBDataAccessTest : RealmTest() {
                                             Document("\$split",
                                                 listOf(
                                                     "\$_partition",
-                                                    "Store 42"
+                                                    " "
                                                 )
                                             ),
                                             1

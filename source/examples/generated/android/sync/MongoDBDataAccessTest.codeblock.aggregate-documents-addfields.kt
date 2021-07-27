@@ -14,7 +14,7 @@ val pipeline =
                         Document("\$split",
                             listOf(
                                 "\$_partition",
-                                "Store 42"
+                                " "
                             )
                         ),
                         1
