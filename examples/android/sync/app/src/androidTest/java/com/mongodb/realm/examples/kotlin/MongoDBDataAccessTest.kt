@@ -8,8 +8,10 @@ import com.mongodb.realm.examples.model.Plant
 import io.realm.mongodb.App
 import io.realm.mongodb.AppConfiguration
 import io.realm.mongodb.Credentials
+import io.realm.mongodb.User
 import io.realm.mongodb.mongo.iterable.MongoCursor
 import io.realm.mongodb.mongo.options.UpdateOptions
+import java.util.*
 import org.bson.Document
 import org.bson.codecs.configuration.CodecRegistries
 import org.bson.codecs.pojo.PojoCodecProvider
@@ -704,55 +706,6 @@ class MongoDBDataAccessTest : RealmTest() {
     }
 
     @Test
-    fun aggregateDocuments() {
-        val expectation = Expectation()
-        activity!!.runOnUiThread {
-            val appID = YOUR_APP_ID // replace this with your App ID
-            val app = App(AppConfiguration.Builder(appID).build())
-            val credentials = Credentials.anonymous()
-            app.loginAsync(credentials) {
-                if (it.isSuccess) {
-                    Log.v("EXAMPLE", "Successfully authenticated.")
-                    val user = app.currentUser()
-                    // :code-block-start: aggregate-documents
-                    val mongoClient =
-                        user!!.getMongoClient("mongodb-atlas")
-                    val mongoDatabase =
-                        mongoClient.getDatabase("plant-data-database")
-                    val mongoCollection =
-                        mongoDatabase.getCollection("plant-data-collection")
-                    Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle")
-                    val pipeline = listOf(Document("\$group", Document("_id", "\$type")
-                                .append("totalCount", Document("\$sum", 1))))
-                    val aggregationTask =
-                        mongoCollection.aggregate(pipeline).iterator()
-                    aggregationTask.getAsync { task: App.Result<MongoCursor<Document>> ->
-                        if (task.isSuccess) {
-                            val results = task.get()
-                            Log.d("EXAMPLE", "successfully aggregated the plants by type. Type summary:")
-                            while (results.hasNext()) {
-                                Log.v("EXAMPLE", results.next().toString())
-                            }
-                            // :hide-start:
-                            expectation.fulfill()
-                            // :hide-end:
-                        } else {
-                            Log.e("EXAMPLE", "failed to aggregate documents with: ${task.error}")
-                        }
-                    }
-                    // :code-block-end:
-                } else {
-                    Log.e(
-                        "EXAMPLE",
-                        "Failed login: " + it.error.errorMessage
-                    )
-                }
-            }
-        }
-        expectation.await()
-    }
-
-    @Test
     fun watchDocuments() {
         val expectation = Expectation()
         activity!!.runOnUiThread {
@@ -885,6 +838,360 @@ class MongoDBDataAccessTest : RealmTest() {
                     // :code-block-end:
                 } else {
                     Log.e("EXAMPLE", "Failed login: " + it.error.errorMessage)
+                }
+            }
+        }
+        expectation.await()
+    }
+
+
+    @Test
+    fun aggregateDocumentsFilter() {
+        val expectation = Expectation()
+        activity!!.runOnUiThread {
+            val appID = YOUR_APP_ID // replace this with your App ID
+            val app = App(AppConfiguration.Builder(appID).build())
+            val credentials = Credentials.anonymous()
+            app.loginAsync(
+                credentials
+            ) {
+                if (it.isSuccess) {
+                    Log.v("EXAMPLE", "Successfully authenticated.")
+                    val user = app.currentUser()
+
+                    // connect to a mongodb cluster linked to the realm app
+                    val mongoClient = user!!.getMongoClient("mongodb-atlas")
+                    val mongoDatabase =
+                        mongoClient.getDatabase("plant-data-database")
+                    val mongoCollection =
+                        mongoDatabase.getCollection("plant-data-collection")
+                    Log.v("EXAMPLE",
+                        "Successfully instantiated the MongoDB collection handle")
+
+                    // :code-block-start: aggregate-documents-filter
+                    // create an aggregation pipeline
+                    val pipeline =
+                        listOf(
+                            Document("\$match",
+                                Document("type",
+                                    Document("\$eq", "perennial")
+                                )
+                            )
+                        )
+
+                    // query mongodb using the pipeline
+                    val aggregationTask = mongoCollection.aggregate(pipeline).iterator()
+
+                    // handle success or failure of the query
+                    aggregationTask.getAsync { task: App.Result<MongoCursor<Document>> ->
+                        if (task.isSuccess) {
+                            val results = task.get()
+
+                            // iterate over and print the results to the log
+                            Log.v("EXAMPLE",
+                                "successfully aggregated the plants. Results:")
+                            while (results.hasNext()) {
+                                Log.v("EXAMPLE", results.next().toString())
+                            }
+                            // :hide-start:
+                            expectation.fulfill()
+                            // :hide-end:
+                        } else {
+                            Log.e("EXAMPLE",
+                                "failed to aggregate documents with: ${task.error}")
+                        }
+                    }
+                    // :code-block-end:
+                } else {
+                    Log.e(
+                        "EXAMPLE",
+                        "Failed login: " + it.error.errorMessage
+                    )
+                }
+            }
+        }
+        expectation.await()
+    }
+
+    @Test
+    fun aggregateDocumentsGroup() {
+        val expectation = Expectation()
+        activity!!.runOnUiThread {
+            val appID = YOUR_APP_ID // replace this with your App ID
+            val app = App(AppConfiguration.Builder(appID).build())
+            val credentials = Credentials.anonymous()
+            app.loginAsync(
+                credentials
+            ) {
+                if (it.isSuccess) {
+                    Log.v("EXAMPLE", "Successfully authenticated.")
+                    val user = app.currentUser()
+                    // connect to a mongodb cluster linked to the realm app
+                    val mongoClient = user!!.getMongoClient("mongodb-atlas")
+                    val mongoDatabase =
+                        mongoClient.getDatabase("plant-data-database")
+                    val mongoCollection =
+                        mongoDatabase.getCollection("plant-data-collection")
+                    Log.v("EXAMPLE",
+                        "Successfully instantiated the MongoDB collection handle")
+
+                    // :code-block-start: aggregate-documents-group
+                    // create an aggregation pipeline
+                    val pipeline =
+                        listOf(
+                            Document("\$group",
+                                Document("_id", "\$type")
+                                    .append("totalCount", Document("\$sum", 1))
+                            )
+                        )
+
+                    // query mongodb using the pipeline
+                    val aggregationTask = mongoCollection.aggregate(pipeline).iterator()
+
+                    // handle success or failure of the query
+                    aggregationTask.getAsync { task: App.Result<MongoCursor<Document>> ->
+                        if (task.isSuccess) {
+                            val results = task.get()
+
+                            // iterate over and print the results to the log
+                            Log.v("EXAMPLE",
+                                "successfully aggregated the plants. Results:")
+                            while (results.hasNext()) {
+                                Log.v("EXAMPLE", results.next().toString())
+                            }
+                            // :hide-start:
+                            expectation.fulfill()
+                            // :hide-end:
+                        } else {
+                            Log.e("EXAMPLE",
+                                "failed to aggregate documents with: ${task.error}")
+                        }
+                    }
+                    // :code-block-end:
+                } else {
+                    Log.e(
+                        "EXAMPLE",
+                        "Failed login: " + it.error.errorMessage
+                    )
+                }
+            }
+        }
+        expectation.await()
+    }
+
+    @Test
+    fun aggregateDocumentsProject() {
+        val expectation = Expectation()
+        activity!!.runOnUiThread {
+            val appID = YOUR_APP_ID // replace this with your App ID
+            val app = App(AppConfiguration.Builder(appID).build())
+            val credentials = Credentials.anonymous()
+            app.loginAsync(
+                credentials
+            ) {
+                if (it.isSuccess) {
+                    Log.v("EXAMPLE", "Successfully authenticated.")
+                    val user = app.currentUser()
+                    // connect to a mongodb cluster linked to the realm app
+                    val mongoClient = user!!.getMongoClient("mongodb-atlas")
+                    val mongoDatabase =
+                        mongoClient.getDatabase("plant-data-database")
+                    val mongoCollection =
+                        mongoDatabase.getCollection("plant-data-collection")
+                    Log.v("EXAMPLE",
+                        "Successfully instantiated the MongoDB collection handle")
+
+                    // :code-block-start: aggregate-documents-project
+                    // create an aggregation pipeline
+                    val pipeline =
+                        listOf(
+                            Document("\$project",
+                                Document("_id", 0)
+                                    .append("name", 1)
+                                    .append("storeNumber",
+                                        Document("\$arrayElemAt",
+                                            listOf(
+                                                Document("\$split",
+                                                    listOf(
+                                                        "\$_partition",
+                                                        " "
+                                                    )
+                                                ),
+                                                1
+                                            )
+                                        )
+                                    )
+                            )
+                        )
+
+                    // query mongodb using the pipeline
+                    val aggregationTask = mongoCollection.aggregate(pipeline).iterator()
+
+                    // handle success or failure of the query
+                    aggregationTask.getAsync { task: App.Result<MongoCursor<Document>> ->
+                        if (task.isSuccess) {
+                            val results = task.get()
+
+                            // iterate over and print the results to the log
+                            Log.v("EXAMPLE",
+                                "successfully aggregated the plants. Results:")
+                            while (results.hasNext()) {
+                                Log.v("EXAMPLE", results.next().toString())
+                            }
+                            // :hide-start:
+                            expectation.fulfill()
+                            // :hide-end:
+                        } else {
+                            Log.e("EXAMPLE",
+                                "failed to aggregate documents with: ${task.error}")
+                        }
+                    }
+                    // :code-block-end:
+                } else {
+                    Log.e(
+                        "EXAMPLE",
+                        "Failed login: " + it.error.errorMessage
+                    )
+                }
+            }
+        }
+        expectation.await()
+    }
+
+    @Test
+    fun aggregateDocumentsAddFields() {
+        val expectation = Expectation()
+        activity!!.runOnUiThread {
+            val appID = YOUR_APP_ID // replace this with your App ID
+            val app = App(AppConfiguration.Builder(appID).build())
+            val credentials = Credentials.anonymous()
+            app.loginAsync(
+                credentials
+            ) {
+                if (it.isSuccess) {
+                    Log.v("EXAMPLE", "Successfully authenticated.")
+                    val user = app.currentUser()
+                    // connect to a mongodb cluster linked to the realm app
+                    val mongoClient = user!!.getMongoClient("mongodb-atlas")
+                    val mongoDatabase =
+                        mongoClient.getDatabase("plant-data-database")
+                    val mongoCollection =
+                        mongoDatabase.getCollection("plant-data-collection")
+                    Log.v("EXAMPLE",
+                        "Successfully instantiated the MongoDB collection handle")
+                    // :code-block-start: aggregate-documents-addfields
+                    // create an aggregation pipeline
+                    val pipeline =
+                        listOf(
+                            Document("\$addFields",
+                                Document("storeNumber",
+                                    Document("\$arrayElemAt",
+                                        listOf(
+                                            Document("\$split",
+                                                listOf(
+                                                    "\$_partition",
+                                                    " "
+                                                )
+                                            ),
+                                            1
+                                        )
+                                    )
+                                )
+                            )
+                        )
+
+                    // query mongodb using the pipeline
+                    val aggregationTask = mongoCollection.aggregate(pipeline).iterator()
+
+                    // handle success or failure of the query
+                    aggregationTask.getAsync { task: App.Result<MongoCursor<Document>> ->
+                        if (task.isSuccess) {
+                            val results = task.get()
+
+                            // iterate over and print the results to the log
+                            Log.v("EXAMPLE",
+                                "successfully aggregated the plants. Results:")
+                            while (results.hasNext()) {
+                                Log.v("EXAMPLE", results.next().toString())
+                            }
+                            // :hide-start:
+                            expectation.fulfill()
+                            // :hide-end:
+                        } else {
+                            Log.e("EXAMPLE",
+                                "failed to aggregate documents with: ${task.error}")
+                        }
+                    }
+                    // :code-block-end:
+                } else {
+                    Log.e(
+                        "EXAMPLE",
+                        "Failed login: " + it.error.errorMessage
+                    )
+                }
+            }
+        }
+        expectation.await()
+    }
+
+    @Test
+    fun aggregateDocumentsUnwindArrays() {
+        val expectation = Expectation()
+        activity!!.runOnUiThread {
+            val appID = YOUR_APP_ID // replace this with your App ID
+            val app = App(AppConfiguration.Builder(appID).build())
+            val credentials = Credentials.anonymous()
+            app.loginAsync(
+                credentials
+            ) {
+                if (it.isSuccess) {
+                    Log.v("EXAMPLE", "Successfully authenticated.")
+                    val user = app.currentUser()
+                    // connect to a mongodb cluster linked to the realm app
+                    val mongoClient = user!!.getMongoClient("mongodb-atlas")
+                    val mongoDatabase =
+                        mongoClient.getDatabase("plant-data-database")
+                    val mongoCollection =
+                        mongoDatabase.getCollection("plant-data-collection")
+                    Log.v("EXAMPLE",
+                        "Successfully instantiated the MongoDB collection handle")
+
+                    // :code-block-start: aggregate-documents-unwind-arrays
+                    // create an aggregation pipeline
+                    val pipeline =
+                        listOf(
+                            Document("\$unwind", Document("path", "\$items")
+                                    .append("includeArrayIndex", "itemIndex"))
+                        )
+
+                    // query mongodb using the pipeline
+                    val aggregationTask = mongoCollection.aggregate(pipeline).iterator()
+
+                    // handle success or failure of the query
+                    aggregationTask.getAsync { task: App.Result<MongoCursor<Document>> ->
+                        if (task.isSuccess) {
+                            val results = task.get()
+
+                            // iterate over and print the results to the log
+                            Log.v("EXAMPLE",
+                                "successfully aggregated the plants. Results:")
+                            while (results.hasNext()) {
+                                Log.v("EXAMPLE", results.next().toString())
+                            }
+                            // :hide-start:
+                            expectation.fulfill()
+                            // :hide-end:
+                        } else {
+                            Log.e("EXAMPLE",
+                                "failed to aggregate documents with: ${task.error}")
+                        }
+                    }
+                    // :code-block-end:
+                } else {
+                    Log.e(
+                        "EXAMPLE",
+                        "Failed login: " + it.error.errorMessage
+                    )
                 }
             }
         }
