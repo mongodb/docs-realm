@@ -12,7 +12,7 @@ RealmResultTask<MongoCursor<Document>> aggregationTask = mongoCollection.aggrega
 aggregationTask.getAsync(task -> {
     if (task.isSuccess()) {
         MongoCursor<Document> results = task.get();
-        Log.d("EXAMPLE", "successfully aggregated the plants by type. Type summary:");
+        Log.v("EXAMPLE", "successfully aggregated the plants by type. Type summary:");
         while (results.hasNext()) {
             Log.v("EXAMPLE", results.next().toString());
         }

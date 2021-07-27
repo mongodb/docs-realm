@@ -653,53 +653,6 @@ public class MongoDBDataAccessTest extends RealmTest {
     }
 
     @Test
-    public void aggregateDocuments() {
-        Expectation expectation = new Expectation();
-        activity.runOnUiThread(() -> {
-            String appID = YOUR_APP_ID; // replace this with your App ID
-            App app = new App(new AppConfiguration.Builder(appID).build());
-
-            Credentials credentials = Credentials.anonymous();
-            app.loginAsync(credentials, it -> {
-                if (it.isSuccess()) {
-                    Log.v("EXAMPLE", "Successfully authenticated.");
-                    User user = app.currentUser();
-                    // :code-block-start: aggregate-documents
-                    MongoClient mongoClient =
-                            user.getMongoClient("mongodb-atlas");
-                    MongoDatabase mongoDatabase =
-                            mongoClient.getDatabase("plant-data-database");
-                    MongoCollection<Document> mongoCollection =
-                            mongoDatabase.getCollection("plant-data-collection");
-                    Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle");
-                    List<Document> pipeline = Arrays.asList(
-                            new Document("$group", new Document("_id", "$type")
-                                    .append("totalCount", new Document("$sum", 1))));
-                    RealmResultTask<MongoCursor<Document>> aggregationTask = mongoCollection.aggregate(pipeline).iterator();
-                    aggregationTask.getAsync(task -> {
-                        if (task.isSuccess()) {
-                            MongoCursor<Document> results = task.get();
-                            Log.d("EXAMPLE", "successfully aggregated the plants by type. Type summary:");
-                            while (results.hasNext()) {
-                                Log.v("EXAMPLE", results.next().toString());
-                            }
-                            // :hide-start:
-                            expectation.fulfill();
-                            // :hide-end:
-                        } else {
-                            Log.e("EXAMPLE", "failed to aggregate documents with: ", task.getError());
-                        }
-                    });
-                    // :code-block-end:
-                } else {
-                    Log.e("EXAMPLE", "Failed login: " + it.getError().getErrorMessage());
-                }
-            });
-        });
-        expectation.await();
-    }
-
-    @Test
     public void watchDocuments() {
         Expectation expectation = new Expectation();
         activity.runOnUiThread(() -> {
@@ -818,6 +771,251 @@ public class MongoDBDataAccessTest extends RealmTest {
                             // :hide-end:
                         } else {
                             Log.e("EXAMPLE", "failed to insert documents with: ", task.getError());
+                        }
+                    });
+                    // :code-block-end:
+                } else {
+                    Log.e("EXAMPLE", "Failed login: " + it.getError().getErrorMessage());
+                }
+            });
+        });
+        expectation.await();
+    }
+
+    @Test
+    public void aggregateDocumentsFilter() {
+        Expectation expectation = new Expectation();
+        activity.runOnUiThread(() -> {
+            String appID = YOUR_APP_ID; // replace this with your App ID
+            App app = new App(new AppConfiguration.Builder(appID).build());
+
+            Credentials credentials = Credentials.anonymous();
+            app.loginAsync(credentials, it -> {
+                if (it.isSuccess()) {
+                    Log.v("EXAMPLE", "Successfully authenticated.");
+                    User user = app.currentUser();
+                    // :code-block-start: aggregate-documents-filter
+                    MongoClient mongoClient =
+                            user.getMongoClient("mongodb-atlas");
+                    MongoDatabase mongoDatabase =
+                            mongoClient.getDatabase("plant-data-database");
+                    MongoCollection<Document> mongoCollection =
+                            mongoDatabase.getCollection("plant-data-collection");
+                    Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle");
+                    List<Document> pipeline = Arrays.asList(
+                            new Document("$match",
+                                    new Document("type",
+                                            new Document("$eq", "perennial"))));
+                    RealmResultTask<MongoCursor<Document>> aggregationTask = mongoCollection.aggregate(pipeline).iterator();
+                    aggregationTask.getAsync(task -> {
+                        if (task.isSuccess()) {
+                            MongoCursor<Document> results = task.get();
+                            Log.v("EXAMPLE", "successfully aggregated the plants by type. Type summary:");
+                            while (results.hasNext()) {
+                                Log.v("EXAMPLE", results.next().toString());
+                            }
+                            // :hide-start:
+                            expectation.fulfill();
+                            // :hide-end:
+                        } else {
+                            Log.e("EXAMPLE", "failed to aggregate documents with: ", task.getError());
+                        }
+                    });
+                    // :code-block-end:
+                } else {
+                    Log.e("EXAMPLE", "Failed login: " + it.getError().getErrorMessage());
+                }
+            });
+        });
+        expectation.await();
+    }
+
+    @Test
+    public void aggregateDocumentsGroup() {
+        Expectation expectation = new Expectation();
+        activity.runOnUiThread(() -> {
+            String appID = YOUR_APP_ID; // replace this with your App ID
+            App app = new App(new AppConfiguration.Builder(appID).build());
+
+            Credentials credentials = Credentials.anonymous();
+            app.loginAsync(credentials, it -> {
+                if (it.isSuccess()) {
+                    Log.v("EXAMPLE", "Successfully authenticated.");
+                    User user = app.currentUser();
+                    // :code-block-start: aggregate-documents-group
+                    MongoClient mongoClient =
+                            user.getMongoClient("mongodb-atlas");
+                    MongoDatabase mongoDatabase =
+                            mongoClient.getDatabase("plant-data-database");
+                    MongoCollection<Document> mongoCollection =
+                            mongoDatabase.getCollection("plant-data-collection");
+                    Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle");
+                    List<Document> pipeline = Arrays.asList(
+                            new Document("$group", new Document("_id", "$type")
+                                    .append("totalCount", new Document("$sum", 1))));
+                    RealmResultTask<MongoCursor<Document>> aggregationTask = mongoCollection.aggregate(pipeline).iterator();
+                    aggregationTask.getAsync(task -> {
+                        if (task.isSuccess()) {
+                            MongoCursor<Document> results = task.get();
+                            Log.v("EXAMPLE", "successfully aggregated the plants by type. Type summary:");
+                            while (results.hasNext()) {
+                                Log.v("EXAMPLE", results.next().toString());
+                            }
+                            // :hide-start:
+                            expectation.fulfill();
+                            // :hide-end:
+                        } else {
+                            Log.e("EXAMPLE", "failed to aggregate documents with: ", task.getError());
+                        }
+                    });
+                    // :code-block-end:
+                } else {
+                    Log.e("EXAMPLE", "Failed login: " + it.getError().getErrorMessage());
+                }
+            });
+        });
+        expectation.await();
+    }
+
+    @Test
+    public void aggregateDocumentsProject() {
+        Expectation expectation = new Expectation();
+        activity.runOnUiThread(() -> {
+            String appID = YOUR_APP_ID; // replace this with your App ID
+            App app = new App(new AppConfiguration.Builder(appID).build());
+
+            Credentials credentials = Credentials.anonymous();
+            app.loginAsync(credentials, it -> {
+                if (it.isSuccess()) {
+                    Log.v("EXAMPLE", "Successfully authenticated.");
+                    User user = app.currentUser();
+                    // :code-block-start: aggregate-documents-project
+                    MongoClient mongoClient =
+                            user.getMongoClient("mongodb-atlas");
+                    MongoDatabase mongoDatabase =
+                            mongoClient.getDatabase("plant-data-database");
+                    MongoCollection<Document> mongoCollection =
+                            mongoDatabase.getCollection("plant-data-collection");
+                    Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle");
+                    List<Document> pipeline = Arrays.asList(
+                            new Document("$project",
+                                    new Document("_id", 0)
+                                        .append("name", 1)
+                                        .append("storeNumber",
+                                            new Document("$arrayElemAt",
+                                                Arrays.asList(
+                                                        new Document("$split",
+                                                                Arrays.asList("$_partition", " ")), 1)))));
+                    RealmResultTask<MongoCursor<Document>> aggregationTask = mongoCollection.aggregate(pipeline).iterator();
+                    aggregationTask.getAsync(task -> {
+                        if (task.isSuccess()) {
+                            MongoCursor<Document> results = task.get();
+                            Log.v("EXAMPLE", "successfully aggregated the plants by type. Type summary:");
+                            while (results.hasNext()) {
+                                Log.v("EXAMPLE", results.next().toString());
+                            }
+                            // :hide-start:
+                            expectation.fulfill();
+                            // :hide-end:
+                        } else {
+                            Log.e("EXAMPLE", "failed to aggregate documents with: ", task.getError());
+                        }
+                    });
+                    // :code-block-end:
+                } else {
+                    Log.e("EXAMPLE", "Failed login: " + it.getError().getErrorMessage());
+                }
+            });
+        });
+        expectation.await();
+    }
+
+    @Test
+    public void aggregateDocumentsAddFields() {
+        Expectation expectation = new Expectation();
+        activity.runOnUiThread(() -> {
+            String appID = YOUR_APP_ID; // replace this with your App ID
+            App app = new App(new AppConfiguration.Builder(appID).build());
+
+            Credentials credentials = Credentials.anonymous();
+            app.loginAsync(credentials, it -> {
+                if (it.isSuccess()) {
+                    Log.v("EXAMPLE", "Successfully authenticated.");
+                    User user = app.currentUser();
+                    // :code-block-start: aggregate-documents-addfields
+                    MongoClient mongoClient =
+                            user.getMongoClient("mongodb-atlas");
+                    MongoDatabase mongoDatabase =
+                            mongoClient.getDatabase("plant-data-database");
+                    MongoCollection<Document> mongoCollection =
+                            mongoDatabase.getCollection("plant-data-collection");
+                    Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle");
+                    List<Document> pipeline = Arrays.asList(
+                            new Document("$addFields",
+                                    new Document("storeNumber",
+                                            new Document("$arrayElemAt", Arrays.asList(
+                                                    new Document("$split", Arrays.asList(
+                                                            "$_partition", "Store 42")), 1)))));
+                    RealmResultTask<MongoCursor<Document>> aggregationTask = mongoCollection.aggregate(pipeline).iterator();
+                    aggregationTask.getAsync(task -> {
+                        if (task.isSuccess()) {
+                            MongoCursor<Document> results = task.get();
+                            Log.v("EXAMPLE", "successfully aggregated the plants by type. Type summary:");
+                            while (results.hasNext()) {
+                                Log.v("EXAMPLE", results.next().toString());
+                            }
+                            // :hide-start:
+                            expectation.fulfill();
+                            // :hide-end:
+                        } else {
+                            Log.e("EXAMPLE", "failed to aggregate documents with: ", task.getError());
+                        }
+                    });
+                    // :code-block-end:
+                } else {
+                    Log.e("EXAMPLE", "Failed login: " + it.getError().getErrorMessage());
+                }
+            });
+        });
+        expectation.await();
+    }
+
+    @Test
+    public void aggregateDocumentsUnwindArrays() {
+        Expectation expectation = new Expectation();
+        activity.runOnUiThread(() -> {
+            String appID = YOUR_APP_ID; // replace this with your App ID
+            App app = new App(new AppConfiguration.Builder(appID).build());
+
+            Credentials credentials = Credentials.anonymous();
+            app.loginAsync(credentials, it -> {
+                if (it.isSuccess()) {
+                    Log.v("EXAMPLE", "Successfully authenticated.");
+                    User user = app.currentUser();
+                    // :code-block-start: aggregate-documents-unwind-arrays
+                    MongoClient mongoClient =
+                            user.getMongoClient("mongodb-atlas");
+                    MongoDatabase mongoDatabase =
+                            mongoClient.getDatabase("plant-data-database");
+                    MongoCollection<Document> mongoCollection =
+                            mongoDatabase.getCollection("plant-data-collection");
+                    Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle");
+                    List<Document> pipeline = Arrays.asList(
+                            new Document("$unwind", new Document("path", "$items")
+                                    .append("includeArrayIndex", "itemIndex")));
+                    RealmResultTask<MongoCursor<Document>> aggregationTask = mongoCollection.aggregate(pipeline).iterator();
+                    aggregationTask.getAsync(task -> {
+                        if (task.isSuccess()) {
+                            MongoCursor<Document> results = task.get();
+                            Log.v("EXAMPLE", "successfully aggregated the plants by type. Type summary:");
+                            while (results.hasNext()) {
+                                Log.v("EXAMPLE", results.next().toString());
+                            }
+                            // :hide-start:
+                            expectation.fulfill();
+                            // :hide-end:
+                        } else {
+                            Log.e("EXAMPLE", "failed to aggregate documents with: ", task.getError());
                         }
                     });
                     // :code-block-end:
