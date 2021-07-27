@@ -7,11 +7,13 @@ UpdateOptions updateOptions = new UpdateOptions().upsert(true);
 mongoCollection.updateOne(queryFilter, updateDocument, updateOptions).getAsync(task -> {
     if (task.isSuccess()) {
         if(task.get().getUpsertedId() != null) {
-            Log.v("EXAMPLE", "successfully upserted a document with id " + task.get().getUpsertedId());
+            Log.v("EXAMPLE", "successfully upserted a document with id " +
+                    task.get().getUpsertedId());
         } else {
             Log.v("EXAMPLE", "successfully updated a document.");
         }
     } else {
-        Log.e("EXAMPLE", "failed to update or insert document with: ", task.getError());
+        Log.e("EXAMPLE", "failed to update or insert document with: ",
+                task.getError());
     }
 });

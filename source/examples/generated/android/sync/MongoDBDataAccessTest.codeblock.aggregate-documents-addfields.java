@@ -4,22 +4,25 @@ MongoDatabase mongoDatabase =
         mongoClient.getDatabase("plant-data-database");
 MongoCollection<Document> mongoCollection =
         mongoDatabase.getCollection("plant-data-collection");
-Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle");
+Log.v("EXAMPLE",
+        "Successfully instantiated the MongoDB collection handle");
 List<Document> pipeline = Arrays.asList(
         new Document("$addFields",
                 new Document("storeNumber",
                         new Document("$arrayElemAt", Arrays.asList(
                                 new Document("$split", Arrays.asList(
                                         "$_partition", "Store 42")), 1)))));
-RealmResultTask<MongoCursor<Document>> aggregationTask = mongoCollection.aggregate(pipeline).iterator();
+RealmResultTask<MongoCursor<Document>> aggregationTask =
+        mongoCollection.aggregate(pipeline).iterator();
 aggregationTask.getAsync(task -> {
     if (task.isSuccess()) {
         MongoCursor<Document> results = task.get();
-        Log.v("EXAMPLE", "successfully aggregated the plants by type. Type summary:");
+        Log.v("EXAMPLE", "successfully aggregated the plants. Results:");
         while (results.hasNext()) {
             Log.v("EXAMPLE", results.next().toString());
         }
     } else {
-        Log.e("EXAMPLE", "failed to aggregate documents with: ", task.getError());
+        Log.e("EXAMPLE", "failed to aggregate documents with: ",
+                task.getError());
     }
 });

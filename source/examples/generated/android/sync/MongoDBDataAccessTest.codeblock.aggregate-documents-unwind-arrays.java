@@ -12,11 +12,12 @@ RealmResultTask<MongoCursor<Document>> aggregationTask = mongoCollection.aggrega
 aggregationTask.getAsync(task -> {
     if (task.isSuccess()) {
         MongoCursor<Document> results = task.get();
-        Log.v("EXAMPLE", "successfully aggregated the plants by type. Type summary:");
+        Log.v("EXAMPLE", "successfully aggregated the plants. Results:");
         while (results.hasNext()) {
             Log.v("EXAMPLE", results.next().toString());
         }
     } else {
-        Log.e("EXAMPLE", "failed to aggregate documents with: ", task.getError());
+        Log.e("EXAMPLE", "failed to aggregate documents with: ",
+                task.getError());
     }
 });

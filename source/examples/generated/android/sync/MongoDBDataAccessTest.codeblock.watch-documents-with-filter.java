@@ -2,9 +2,13 @@ RealmEventStreamAsyncTask<Plant> watcher = mongoCollection
         .watchWithFilterAsync(new Document("fullDocument._partition", "Store 42"));
 watcher.get(result -> {
     if (result.isSuccess()) {
-        Log.v("EXAMPLE", "Event type: " + result.get().getOperationType() + " full document: " + result.get().getFullDocument());
+        Log.v("EXAMPLE", "Event type: " +
+                result.get().getOperationType() + " full document: " +
+                result.get().getFullDocument());
     } else {
-        Log.e("EXAMPLE", "failed to subscribe to filtered changes in the collection with : ", result.getError());
+        Log.e("EXAMPLE",
+                "failed to subscribe to filtered changes in the collection with : ",
+                result.getError());
     }
 });
 List<Plant> plants  = Arrays.asList(
@@ -26,8 +30,10 @@ List<Plant> plants  = Arrays.asList(
 mongoCollection.insertMany(plants).getAsync(task -> {
     if (task.isSuccess()) {
         int insertedCount = task.get().getInsertedIds().size();
-        Log.v("EXAMPLE", "successfully inserted " + insertedCount + " documents into the collection.");
+        Log.v("EXAMPLE", "successfully inserted " +
+                insertedCount + " documents into the collection.");
     } else {
-        Log.e("EXAMPLE", "failed to insert documents with: ", task.getError());
+        Log.e("EXAMPLE", "failed to insert documents with: ",
+                task.getError());
     }
 });

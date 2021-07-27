@@ -867,7 +867,7 @@ class MongoDBDataAccessTest : RealmTest() {
                     Log.v("EXAMPLE",
                         "Successfully instantiated the MongoDB collection handle")
                     val pipeline =
-                        Arrays.asList(
+                        listOf(
                             Document("\$match",
                                 Document("type",
                                     Document("\$eq", "perennial")
@@ -925,7 +925,7 @@ class MongoDBDataAccessTest : RealmTest() {
                     Log.v("EXAMPLE",
                         "Successfully instantiated the MongoDB collection handle")
                     val pipeline =
-                        Arrays.asList(
+                        listOf(
                             Document("\$group",
                                 Document("_id", "\$type")
                                     .append("totalCount", Document("\$sum", 1))
@@ -982,15 +982,15 @@ class MongoDBDataAccessTest : RealmTest() {
                     Log.v("EXAMPLE",
                         "Successfully instantiated the MongoDB collection handle")
                     val pipeline =
-                        Arrays.asList(
+                        listOf(
                             Document("\$project",
                                 Document("_id", 0)
                                     .append("name", 1)
                                     .append("storeNumber",
                                         Document("\$arrayElemAt",
-                                            Arrays.asList(
+                                            listOf(
                                                 Document("\$split",
-                                                    Arrays.asList(
+                                                    listOf(
                                                         "\$_partition",
                                                         " "
                                                     )
@@ -1052,14 +1052,15 @@ class MongoDBDataAccessTest : RealmTest() {
                     Log.v("EXAMPLE",
                         "Successfully instantiated the MongoDB collection handle")
                     val pipeline =
-                        Arrays.asList(
+                        listOf(
                             Document("\$addFields",
                                 Document("storeNumber",
                                     Document("\$arrayElemAt",
-                                        Arrays.asList(
+                                        listOf(
                                             Document("\$split",
-                                                Arrays.asList(
-                                                    "\$_partition", "Store 42"
+                                                listOf(
+                                                    "\$_partition",
+                                                    "Store 42"
                                                 )
                                             ),
                                             1
@@ -1119,7 +1120,7 @@ class MongoDBDataAccessTest : RealmTest() {
                     Log.v("EXAMPLE",
                         "Successfully instantiated the MongoDB collection handle")
                     val pipeline =
-                        Arrays.asList(
+                        listOf(
                             Document("\$unwind", Document("path", "\$items")
                                     .append("includeArrayIndex", "itemIndex"))
                         )

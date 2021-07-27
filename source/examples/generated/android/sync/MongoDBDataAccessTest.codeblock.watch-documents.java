@@ -1,9 +1,12 @@
 RealmEventStreamAsyncTask<Plant> watcher = mongoCollection.watchAsync();
 watcher.get(result -> {
     if (result.isSuccess()) {
-        Log.v("EXAMPLE", "Event type: " + result.get().getOperationType() + " full document: " + result.get().getFullDocument());
+        Log.v("EXAMPLE", "Event type: " +
+                result.get().getOperationType() + " full document: " +
+                result.get().getFullDocument());
     } else {
-        Log.e("EXAMPLE", "failed to subscribe to changes in the collection with : ", result.getError());
+        Log.e("EXAMPLE", "failed to subscribe to changes in the collection with : ",
+                result.getError());
     }
 });
 Plant triffid = new Plant(

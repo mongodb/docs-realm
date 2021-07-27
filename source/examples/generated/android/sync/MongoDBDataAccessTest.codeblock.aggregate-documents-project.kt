@@ -6,15 +6,15 @@ val mongoCollection =
 Log.v("EXAMPLE",
     "Successfully instantiated the MongoDB collection handle")
 val pipeline =
-    Arrays.asList(
+    listOf(
         Document("\$project",
             Document("_id", 0)
                 .append("name", 1)
                 .append("storeNumber",
                     Document("\$arrayElemAt",
-                        Arrays.asList(
+                        listOf(
                             Document("\$split",
-                                Arrays.asList(
+                                listOf(
                                     "\$_partition",
                                     " "
                                 )
@@ -30,7 +30,7 @@ aggregationTask.getAsync { task: App.Result<MongoCursor<Document>> ->
     if (task.isSuccess) {
         val results = task.get()
         Log.v("EXAMPLE",
-            "successfully aggregated the plants by type. Type summary:")
+            "successfully aggregated the plants. Results:")
         while (results.hasNext()) {
             Log.v("EXAMPLE", results.next().toString())
         }
