@@ -378,7 +378,9 @@ public class MongoDBDataAccessTest extends RealmTest {
                     mongoCollection.count().getAsync(task -> {
                         if (task.isSuccess()) {
                             long count = task.get();
-                            Log.v("EXAMPLE", "successfully counted, number of documents in the collection: " + count);
+                            Log.v("EXAMPLE",
+                                    "successfully counted, number of documents in the collection: " +
+                                            count);
                             // :hide-start:
                             expectation.fulfill();
                             // :hide-end:
@@ -531,7 +533,8 @@ public class MongoDBDataAccessTest extends RealmTest {
                     mongoCollection.updateOne(queryFilter, updateDocument, updateOptions).getAsync(task -> {
                         if (task.isSuccess()) {
                             if(task.get().getUpsertedId() != null) {
-                                Log.v("EXAMPLE", "successfully upserted a document with id " + task.get().getUpsertedId());
+                                Log.v("EXAMPLE", "successfully upserted a document with id " +
+                                        task.get().getUpsertedId());
                                 // :hide-start:
                                 expectation.fulfill();
                                 // :hide-end:
@@ -539,7 +542,8 @@ public class MongoDBDataAccessTest extends RealmTest {
                                 Log.v("EXAMPLE", "successfully updated a document.");
                             }
                         } else {
-                            Log.e("EXAMPLE", "failed to update or insert document with: ", task.getError());
+                            Log.e("EXAMPLE", "failed to update or insert document with: ",
+                                    task.getError());
                         }
                     });
                     // :code-block-end:
@@ -680,9 +684,12 @@ public class MongoDBDataAccessTest extends RealmTest {
                     RealmEventStreamAsyncTask<Plant> watcher = mongoCollection.watchAsync();
                     watcher.get(result -> {
                         if (result.isSuccess()) {
-                            Log.v("EXAMPLE", "Event type: " + result.get().getOperationType() + " full document: " + result.get().getFullDocument());
+                            Log.v("EXAMPLE", "Event type: " +
+                                    result.get().getOperationType() + " full document: " +
+                                    result.get().getFullDocument());
                         } else {
-                            Log.e("EXAMPLE", "failed to subscribe to changes in the collection with : ", result.getError());
+                            Log.e("EXAMPLE", "failed to subscribe to changes in the collection with : ",
+                                    result.getError());
                         }
                     });
                     Plant triffid = new Plant(
@@ -741,9 +748,13 @@ public class MongoDBDataAccessTest extends RealmTest {
                             .watchWithFilterAsync(new Document("fullDocument._partition", "Store 42"));
                     watcher.get(result -> {
                         if (result.isSuccess()) {
-                            Log.v("EXAMPLE", "Event type: " + result.get().getOperationType() + " full document: " + result.get().getFullDocument());
+                            Log.v("EXAMPLE", "Event type: " +
+                                    result.get().getOperationType() + " full document: " +
+                                    result.get().getFullDocument());
                         } else {
-                            Log.e("EXAMPLE", "failed to subscribe to filtered changes in the collection with : ", result.getError());
+                            Log.e("EXAMPLE",
+                                    "failed to subscribe to filtered changes in the collection with : ",
+                                    result.getError());
                         }
                     });
                     List<Plant> plants  = Arrays.asList(
@@ -765,12 +776,14 @@ public class MongoDBDataAccessTest extends RealmTest {
                     mongoCollection.insertMany(plants).getAsync(task -> {
                         if (task.isSuccess()) {
                             int insertedCount = task.get().getInsertedIds().size();
-                            Log.v("EXAMPLE", "successfully inserted " + insertedCount + " documents into the collection.");
+                            Log.v("EXAMPLE", "successfully inserted " +
+                                    insertedCount + " documents into the collection.");
                             // :hide-start:
                             expectation.fulfill();
                             // :hide-end:
                         } else {
-                            Log.e("EXAMPLE", "failed to insert documents with: ", task.getError());
+                            Log.e("EXAMPLE", "failed to insert documents with: ",
+                                    task.getError());
                         }
                     });
                     // :code-block-end:
@@ -801,16 +814,18 @@ public class MongoDBDataAccessTest extends RealmTest {
                             mongoClient.getDatabase("plant-data-database");
                     MongoCollection<Document> mongoCollection =
                             mongoDatabase.getCollection("plant-data-collection");
-                    Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle");
+                    Log.v("EXAMPLE",
+                            "Successfully instantiated the MongoDB collection handle");
                     List<Document> pipeline = Arrays.asList(
                             new Document("$match",
                                     new Document("type",
                                             new Document("$eq", "perennial"))));
-                    RealmResultTask<MongoCursor<Document>> aggregationTask = mongoCollection.aggregate(pipeline).iterator();
+                    RealmResultTask<MongoCursor<Document>> aggregationTask =
+                            mongoCollection.aggregate(pipeline).iterator();
                     aggregationTask.getAsync(task -> {
                         if (task.isSuccess()) {
                             MongoCursor<Document> results = task.get();
-                            Log.v("EXAMPLE", "successfully aggregated the plants by type. Type summary:");
+                            Log.v("EXAMPLE", "successfully aggregated the plants. Results:");
                             while (results.hasNext()) {
                                 Log.v("EXAMPLE", results.next().toString());
                             }
@@ -818,7 +833,8 @@ public class MongoDBDataAccessTest extends RealmTest {
                             expectation.fulfill();
                             // :hide-end:
                         } else {
-                            Log.e("EXAMPLE", "failed to aggregate documents with: ", task.getError());
+                            Log.e("EXAMPLE", "failed to aggregate documents with: ",
+                                    task.getError());
                         }
                     });
                     // :code-block-end:
@@ -849,15 +865,17 @@ public class MongoDBDataAccessTest extends RealmTest {
                             mongoClient.getDatabase("plant-data-database");
                     MongoCollection<Document> mongoCollection =
                             mongoDatabase.getCollection("plant-data-collection");
-                    Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle");
+                    Log.v("EXAMPLE",
+                            "Successfully instantiated the MongoDB collection handle");
                     List<Document> pipeline = Arrays.asList(
                             new Document("$group", new Document("_id", "$type")
                                     .append("totalCount", new Document("$sum", 1))));
-                    RealmResultTask<MongoCursor<Document>> aggregationTask = mongoCollection.aggregate(pipeline).iterator();
+                    RealmResultTask<MongoCursor<Document>> aggregationTask =
+                            mongoCollection.aggregate(pipeline).iterator();
                     aggregationTask.getAsync(task -> {
                         if (task.isSuccess()) {
                             MongoCursor<Document> results = task.get();
-                            Log.v("EXAMPLE", "successfully aggregated the plants by type. Type summary:");
+                            Log.v("EXAMPLE", "successfully aggregated the plants. Results:");
                             while (results.hasNext()) {
                                 Log.v("EXAMPLE", results.next().toString());
                             }
@@ -865,7 +883,8 @@ public class MongoDBDataAccessTest extends RealmTest {
                             expectation.fulfill();
                             // :hide-end:
                         } else {
-                            Log.e("EXAMPLE", "failed to aggregate documents with: ", task.getError());
+                            Log.e("EXAMPLE", "failed to aggregate documents with: ",
+                                    task.getError());
                         }
                     });
                     // :code-block-end:
@@ -896,7 +915,8 @@ public class MongoDBDataAccessTest extends RealmTest {
                             mongoClient.getDatabase("plant-data-database");
                     MongoCollection<Document> mongoCollection =
                             mongoDatabase.getCollection("plant-data-collection");
-                    Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle");
+                    Log.v("EXAMPLE",
+                            "Successfully instantiated the MongoDB collection handle");
                     List<Document> pipeline = Arrays.asList(
                             new Document("$project",
                                     new Document("_id", 0)
@@ -905,12 +925,14 @@ public class MongoDBDataAccessTest extends RealmTest {
                                             new Document("$arrayElemAt",
                                                 Arrays.asList(
                                                         new Document("$split",
-                                                                Arrays.asList("$_partition", " ")), 1)))));
-                    RealmResultTask<MongoCursor<Document>> aggregationTask = mongoCollection.aggregate(pipeline).iterator();
+                                                                Arrays.asList("$_partition", " ")),
+                                                        1)))));
+                    RealmResultTask<MongoCursor<Document>> aggregationTask =
+                            mongoCollection.aggregate(pipeline).iterator();
                     aggregationTask.getAsync(task -> {
                         if (task.isSuccess()) {
                             MongoCursor<Document> results = task.get();
-                            Log.v("EXAMPLE", "successfully aggregated the plants by type. Type summary:");
+                            Log.v("EXAMPLE", "successfully aggregated the plants. Results:");
                             while (results.hasNext()) {
                                 Log.v("EXAMPLE", results.next().toString());
                             }
@@ -918,7 +940,8 @@ public class MongoDBDataAccessTest extends RealmTest {
                             expectation.fulfill();
                             // :hide-end:
                         } else {
-                            Log.e("EXAMPLE", "failed to aggregate documents with: ", task.getError());
+                            Log.e("EXAMPLE", "failed to aggregate documents with: ",
+                                    task.getError());
                         }
                     });
                     // :code-block-end:
@@ -949,18 +972,20 @@ public class MongoDBDataAccessTest extends RealmTest {
                             mongoClient.getDatabase("plant-data-database");
                     MongoCollection<Document> mongoCollection =
                             mongoDatabase.getCollection("plant-data-collection");
-                    Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle");
+                    Log.v("EXAMPLE",
+                            "Successfully instantiated the MongoDB collection handle");
                     List<Document> pipeline = Arrays.asList(
                             new Document("$addFields",
                                     new Document("storeNumber",
                                             new Document("$arrayElemAt", Arrays.asList(
                                                     new Document("$split", Arrays.asList(
                                                             "$_partition", "Store 42")), 1)))));
-                    RealmResultTask<MongoCursor<Document>> aggregationTask = mongoCollection.aggregate(pipeline).iterator();
+                    RealmResultTask<MongoCursor<Document>> aggregationTask =
+                            mongoCollection.aggregate(pipeline).iterator();
                     aggregationTask.getAsync(task -> {
                         if (task.isSuccess()) {
                             MongoCursor<Document> results = task.get();
-                            Log.v("EXAMPLE", "successfully aggregated the plants by type. Type summary:");
+                            Log.v("EXAMPLE", "successfully aggregated the plants. Results:");
                             while (results.hasNext()) {
                                 Log.v("EXAMPLE", results.next().toString());
                             }
@@ -968,7 +993,8 @@ public class MongoDBDataAccessTest extends RealmTest {
                             expectation.fulfill();
                             // :hide-end:
                         } else {
-                            Log.e("EXAMPLE", "failed to aggregate documents with: ", task.getError());
+                            Log.e("EXAMPLE", "failed to aggregate documents with: ",
+                                    task.getError());
                         }
                     });
                     // :code-block-end:
@@ -1007,7 +1033,7 @@ public class MongoDBDataAccessTest extends RealmTest {
                     aggregationTask.getAsync(task -> {
                         if (task.isSuccess()) {
                             MongoCursor<Document> results = task.get();
-                            Log.v("EXAMPLE", "successfully aggregated the plants by type. Type summary:");
+                            Log.v("EXAMPLE", "successfully aggregated the plants. Results:");
                             while (results.hasNext()) {
                                 Log.v("EXAMPLE", results.next().toString());
                             }
@@ -1015,7 +1041,8 @@ public class MongoDBDataAccessTest extends RealmTest {
                             expectation.fulfill();
                             // :hide-end:
                         } else {
-                            Log.e("EXAMPLE", "failed to aggregate documents with: ", task.getError());
+                            Log.e("EXAMPLE", "failed to aggregate documents with: ",
+                                    task.getError());
                         }
                     });
                     // :code-block-end:

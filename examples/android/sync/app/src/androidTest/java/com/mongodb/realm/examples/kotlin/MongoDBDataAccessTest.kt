@@ -879,7 +879,7 @@ class MongoDBDataAccessTest : RealmTest() {
                         if (task.isSuccess) {
                             val results = task.get()
                             Log.v("EXAMPLE",
-                                "successfully aggregated the plants by type. Type summary:")
+                                "successfully aggregated the plants. Results:")
                             while (results.hasNext()) {
                                 Log.v("EXAMPLE", results.next().toString())
                             }
@@ -936,7 +936,7 @@ class MongoDBDataAccessTest : RealmTest() {
                         if (task.isSuccess) {
                             val results = task.get()
                             Log.v("EXAMPLE",
-                                "successfully aggregated the plants by type. Type summary:")
+                                "successfully aggregated the plants. Results:")
                             while (results.hasNext()) {
                                 Log.v("EXAMPLE", results.next().toString())
                             }
@@ -1006,7 +1006,7 @@ class MongoDBDataAccessTest : RealmTest() {
                         if (task.isSuccess) {
                             val results = task.get()
                             Log.v("EXAMPLE",
-                                "successfully aggregated the plants by type. Type summary:")
+                                "successfully aggregated the plants. Results:")
                             while (results.hasNext()) {
                                 Log.v("EXAMPLE", results.next().toString())
                             }
@@ -1073,7 +1073,7 @@ class MongoDBDataAccessTest : RealmTest() {
                         if (task.isSuccess) {
                             val results = task.get()
                             Log.v("EXAMPLE",
-                                "successfully aggregated the plants by type. Type summary:")
+                                "successfully aggregated the plants. Results:")
                             while (results.hasNext()) {
                                 Log.v("EXAMPLE", results.next().toString())
                             }
@@ -1128,7 +1128,7 @@ class MongoDBDataAccessTest : RealmTest() {
                         if (task.isSuccess) {
                             val results = task.get()
                             Log.v("EXAMPLE",
-                                "successfully aggregated the plants by type. Type summary:")
+                                "successfully aggregated the plants. Results:")
                             while (results.hasNext()) {
                                 Log.v("EXAMPLE", results.next().toString())
                             }
