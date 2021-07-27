@@ -17,6 +17,7 @@ const TasksProvider = ({ children, projectPartition }) => {
   useEffect(() => {
     // :code-block-start: open-project-realm
     const config = {
+      schema: [Task.schema]
       sync: {
         user: user,
         partitionValue: projectPartition,
@@ -36,9 +37,7 @@ const TasksProvider = ({ children, projectPartition }) => {
 
     // open a realm for this particular project
     if(user){
-      realmRef.current = new Realm({
-        schema: [Task.schema]
-      });
+      realmRef.current = new Realm(config);
       collectTasks(realmRef.current);
     } else { 
       Realm.open(config).then((projectRealm) => {
