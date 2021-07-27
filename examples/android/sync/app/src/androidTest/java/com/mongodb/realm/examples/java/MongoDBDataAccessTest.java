@@ -807,7 +807,7 @@ public class MongoDBDataAccessTest extends RealmTest {
                 if (it.isSuccess()) {
                     Log.v("EXAMPLE", "Successfully authenticated.");
                     User user = app.currentUser();
-                    // :code-block-start: aggregate-documents-filter
+                    // connect to a mongodb cluster linked to the realm app
                     MongoClient mongoClient =
                             user.getMongoClient("mongodb-atlas");
                     MongoDatabase mongoDatabase =
@@ -816,15 +816,23 @@ public class MongoDBDataAccessTest extends RealmTest {
                             mongoDatabase.getCollection("plant-data-collection");
                     Log.v("EXAMPLE",
                             "Successfully instantiated the MongoDB collection handle");
+                    // :code-block-start: aggregate-documents-filter
+                    // create an aggregation pipeline
                     List<Document> pipeline = Arrays.asList(
                             new Document("$match",
                                     new Document("type",
                                             new Document("$eq", "perennial"))));
+
+                    // query mongodb using the pipeline
                     RealmResultTask<MongoCursor<Document>> aggregationTask =
                             mongoCollection.aggregate(pipeline).iterator();
+
+                    // handle success or failure of the query
                     aggregationTask.getAsync(task -> {
                         if (task.isSuccess()) {
                             MongoCursor<Document> results = task.get();
+
+                            // iterate over and print the results to the log
                             Log.v("EXAMPLE", "successfully aggregated the plants. Results:");
                             while (results.hasNext()) {
                                 Log.v("EXAMPLE", results.next().toString());
@@ -858,7 +866,7 @@ public class MongoDBDataAccessTest extends RealmTest {
                 if (it.isSuccess()) {
                     Log.v("EXAMPLE", "Successfully authenticated.");
                     User user = app.currentUser();
-                    // :code-block-start: aggregate-documents-group
+                    // connect to a mongodb cluster linked to the realm app
                     MongoClient mongoClient =
                             user.getMongoClient("mongodb-atlas");
                     MongoDatabase mongoDatabase =
@@ -867,14 +875,22 @@ public class MongoDBDataAccessTest extends RealmTest {
                             mongoDatabase.getCollection("plant-data-collection");
                     Log.v("EXAMPLE",
                             "Successfully instantiated the MongoDB collection handle");
+                    // :code-block-start: aggregate-documents-group
+                    // create an aggregation pipeline
                     List<Document> pipeline = Arrays.asList(
                             new Document("$group", new Document("_id", "$type")
                                     .append("totalCount", new Document("$sum", 1))));
+
+                    // query mongodb using the pipeline
                     RealmResultTask<MongoCursor<Document>> aggregationTask =
                             mongoCollection.aggregate(pipeline).iterator();
+
+                    // handle success or failure of the query
                     aggregationTask.getAsync(task -> {
                         if (task.isSuccess()) {
                             MongoCursor<Document> results = task.get();
+
+                            // iterate over and print the results to the log
                             Log.v("EXAMPLE", "successfully aggregated the plants. Results:");
                             while (results.hasNext()) {
                                 Log.v("EXAMPLE", results.next().toString());
@@ -908,7 +924,7 @@ public class MongoDBDataAccessTest extends RealmTest {
                 if (it.isSuccess()) {
                     Log.v("EXAMPLE", "Successfully authenticated.");
                     User user = app.currentUser();
-                    // :code-block-start: aggregate-documents-project
+                    // connect to a mongodb cluster linked to the realm app
                     MongoClient mongoClient =
                             user.getMongoClient("mongodb-atlas");
                     MongoDatabase mongoDatabase =
@@ -917,6 +933,8 @@ public class MongoDBDataAccessTest extends RealmTest {
                             mongoDatabase.getCollection("plant-data-collection");
                     Log.v("EXAMPLE",
                             "Successfully instantiated the MongoDB collection handle");
+                    // :code-block-start: aggregate-documents-project
+                    // create an aggregation pipeline
                     List<Document> pipeline = Arrays.asList(
                             new Document("$project",
                                     new Document("_id", 0)
@@ -927,11 +945,17 @@ public class MongoDBDataAccessTest extends RealmTest {
                                                         new Document("$split",
                                                                 Arrays.asList("$_partition", " ")),
                                                         1)))));
+
+                    // query mongodb using the pipeline
                     RealmResultTask<MongoCursor<Document>> aggregationTask =
                             mongoCollection.aggregate(pipeline).iterator();
+
+                    // handle success or failure of the query
                     aggregationTask.getAsync(task -> {
                         if (task.isSuccess()) {
                             MongoCursor<Document> results = task.get();
+
+                            // iterate over and print the results to the log
                             Log.v("EXAMPLE", "successfully aggregated the plants. Results:");
                             while (results.hasNext()) {
                                 Log.v("EXAMPLE", results.next().toString());
@@ -965,7 +989,7 @@ public class MongoDBDataAccessTest extends RealmTest {
                 if (it.isSuccess()) {
                     Log.v("EXAMPLE", "Successfully authenticated.");
                     User user = app.currentUser();
-                    // :code-block-start: aggregate-documents-addfields
+                    // connect to a mongodb cluster linked to the realm app
                     MongoClient mongoClient =
                             user.getMongoClient("mongodb-atlas");
                     MongoDatabase mongoDatabase =
@@ -974,17 +998,25 @@ public class MongoDBDataAccessTest extends RealmTest {
                             mongoDatabase.getCollection("plant-data-collection");
                     Log.v("EXAMPLE",
                             "Successfully instantiated the MongoDB collection handle");
+                    // :code-block-start: aggregate-documents-addfields
+                    // create an aggregation pipeline
                     List<Document> pipeline = Arrays.asList(
                             new Document("$addFields",
                                     new Document("storeNumber",
                                             new Document("$arrayElemAt", Arrays.asList(
                                                     new Document("$split", Arrays.asList(
                                                             "$_partition", " ")), 1)))));
+
+                    // query mongodb using the pipeline
                     RealmResultTask<MongoCursor<Document>> aggregationTask =
                             mongoCollection.aggregate(pipeline).iterator();
+
+                    // handle success or failure of the query
                     aggregationTask.getAsync(task -> {
                         if (task.isSuccess()) {
                             MongoCursor<Document> results = task.get();
+
+                            // iterate over and print the results to the log
                             Log.v("EXAMPLE", "successfully aggregated the plants. Results:");
                             while (results.hasNext()) {
                                 Log.v("EXAMPLE", results.next().toString());
@@ -1018,7 +1050,7 @@ public class MongoDBDataAccessTest extends RealmTest {
                 if (it.isSuccess()) {
                     Log.v("EXAMPLE", "Successfully authenticated.");
                     User user = app.currentUser();
-                    // :code-block-start: aggregate-documents-unwind-arrays
+                    // connect to a mongodb cluster linked to the realm app
                     MongoClient mongoClient =
                             user.getMongoClient("mongodb-atlas");
                     MongoDatabase mongoDatabase =
@@ -1026,13 +1058,21 @@ public class MongoDBDataAccessTest extends RealmTest {
                     MongoCollection<Document> mongoCollection =
                             mongoDatabase.getCollection("plant-data-collection");
                     Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle");
+                    // :code-block-start: aggregate-documents-unwind-arrays
+                    // create an aggregation pipeline
                     List<Document> pipeline = Arrays.asList(
                             new Document("$unwind", new Document("path", "$items")
                                     .append("includeArrayIndex", "itemIndex")));
+
+                    // query mongodb using the pipeline
                     RealmResultTask<MongoCursor<Document>> aggregationTask = mongoCollection.aggregate(pipeline).iterator();
+
+                    // handle success or failure of the query
                     aggregationTask.getAsync(task -> {
                         if (task.isSuccess()) {
                             MongoCursor<Document> results = task.get();
+
+                            // iterate over and print the results to the log
                             Log.v("EXAMPLE", "successfully aggregated the plants. Results:");
                             while (results.hasNext()) {
                                 Log.v("EXAMPLE", results.next().toString());

@@ -858,7 +858,8 @@ class MongoDBDataAccessTest : RealmTest() {
                 if (it.isSuccess) {
                     Log.v("EXAMPLE", "Successfully authenticated.")
                     val user = app.currentUser()
-                    // :code-block-start: aggregate-documents-filter
+
+                    // connect to a mongodb cluster linked to the realm app
                     val mongoClient = user!!.getMongoClient("mongodb-atlas")
                     val mongoDatabase =
                         mongoClient.getDatabase("plant-data-database")
@@ -866,6 +867,9 @@ class MongoDBDataAccessTest : RealmTest() {
                         mongoDatabase.getCollection("plant-data-collection")
                     Log.v("EXAMPLE",
                         "Successfully instantiated the MongoDB collection handle")
+
+                    // :code-block-start: aggregate-documents-filter
+                    // create an aggregation pipeline
                     val pipeline =
                         listOf(
                             Document("\$match",
@@ -874,10 +878,16 @@ class MongoDBDataAccessTest : RealmTest() {
                                 )
                             )
                         )
+
+                    // query mongodb using the pipeline
                     val aggregationTask = mongoCollection.aggregate(pipeline).iterator()
+
+                    // handle success or failure of the query
                     aggregationTask.getAsync { task: App.Result<MongoCursor<Document>> ->
                         if (task.isSuccess) {
                             val results = task.get()
+
+                            // iterate over and print the results to the log
                             Log.v("EXAMPLE",
                                 "successfully aggregated the plants. Results:")
                             while (results.hasNext()) {
@@ -916,7 +926,7 @@ class MongoDBDataAccessTest : RealmTest() {
                 if (it.isSuccess) {
                     Log.v("EXAMPLE", "Successfully authenticated.")
                     val user = app.currentUser()
-                    // :code-block-start: aggregate-documents-group
+                    // connect to a mongodb cluster linked to the realm app
                     val mongoClient = user!!.getMongoClient("mongodb-atlas")
                     val mongoDatabase =
                         mongoClient.getDatabase("plant-data-database")
@@ -924,6 +934,9 @@ class MongoDBDataAccessTest : RealmTest() {
                         mongoDatabase.getCollection("plant-data-collection")
                     Log.v("EXAMPLE",
                         "Successfully instantiated the MongoDB collection handle")
+
+                    // :code-block-start: aggregate-documents-group
+                    // create an aggregation pipeline
                     val pipeline =
                         listOf(
                             Document("\$group",
@@ -931,10 +944,16 @@ class MongoDBDataAccessTest : RealmTest() {
                                     .append("totalCount", Document("\$sum", 1))
                             )
                         )
+
+                    // query mongodb using the pipeline
                     val aggregationTask = mongoCollection.aggregate(pipeline).iterator()
+
+                    // handle success or failure of the query
                     aggregationTask.getAsync { task: App.Result<MongoCursor<Document>> ->
                         if (task.isSuccess) {
                             val results = task.get()
+
+                            // iterate over and print the results to the log
                             Log.v("EXAMPLE",
                                 "successfully aggregated the plants. Results:")
                             while (results.hasNext()) {
@@ -973,7 +992,7 @@ class MongoDBDataAccessTest : RealmTest() {
                 if (it.isSuccess) {
                     Log.v("EXAMPLE", "Successfully authenticated.")
                     val user = app.currentUser()
-                    // :code-block-start: aggregate-documents-project
+                    // connect to a mongodb cluster linked to the realm app
                     val mongoClient = user!!.getMongoClient("mongodb-atlas")
                     val mongoDatabase =
                         mongoClient.getDatabase("plant-data-database")
@@ -981,6 +1000,9 @@ class MongoDBDataAccessTest : RealmTest() {
                         mongoDatabase.getCollection("plant-data-collection")
                     Log.v("EXAMPLE",
                         "Successfully instantiated the MongoDB collection handle")
+
+                    // :code-block-start: aggregate-documents-project
+                    // create an aggregation pipeline
                     val pipeline =
                         listOf(
                             Document("\$project",
@@ -1001,10 +1023,16 @@ class MongoDBDataAccessTest : RealmTest() {
                                     )
                             )
                         )
+
+                    // query mongodb using the pipeline
                     val aggregationTask = mongoCollection.aggregate(pipeline).iterator()
+
+                    // handle success or failure of the query
                     aggregationTask.getAsync { task: App.Result<MongoCursor<Document>> ->
                         if (task.isSuccess) {
                             val results = task.get()
+
+                            // iterate over and print the results to the log
                             Log.v("EXAMPLE",
                                 "successfully aggregated the plants. Results:")
                             while (results.hasNext()) {
@@ -1043,7 +1071,7 @@ class MongoDBDataAccessTest : RealmTest() {
                 if (it.isSuccess) {
                     Log.v("EXAMPLE", "Successfully authenticated.")
                     val user = app.currentUser()
-                    // :code-block-start: aggregate-documents-addfields
+                    // connect to a mongodb cluster linked to the realm app
                     val mongoClient = user!!.getMongoClient("mongodb-atlas")
                     val mongoDatabase =
                         mongoClient.getDatabase("plant-data-database")
@@ -1051,6 +1079,8 @@ class MongoDBDataAccessTest : RealmTest() {
                         mongoDatabase.getCollection("plant-data-collection")
                     Log.v("EXAMPLE",
                         "Successfully instantiated the MongoDB collection handle")
+                    // :code-block-start: aggregate-documents-addfields
+                    // create an aggregation pipeline
                     val pipeline =
                         listOf(
                             Document("\$addFields",
@@ -1069,10 +1099,16 @@ class MongoDBDataAccessTest : RealmTest() {
                                 )
                             )
                         )
+
+                    // query mongodb using the pipeline
                     val aggregationTask = mongoCollection.aggregate(pipeline).iterator()
+
+                    // handle success or failure of the query
                     aggregationTask.getAsync { task: App.Result<MongoCursor<Document>> ->
                         if (task.isSuccess) {
                             val results = task.get()
+
+                            // iterate over and print the results to the log
                             Log.v("EXAMPLE",
                                 "successfully aggregated the plants. Results:")
                             while (results.hasNext()) {
@@ -1111,7 +1147,7 @@ class MongoDBDataAccessTest : RealmTest() {
                 if (it.isSuccess) {
                     Log.v("EXAMPLE", "Successfully authenticated.")
                     val user = app.currentUser()
-                    // :code-block-start: aggregate-documents-unwind-arrays
+                    // connect to a mongodb cluster linked to the realm app
                     val mongoClient = user!!.getMongoClient("mongodb-atlas")
                     val mongoDatabase =
                         mongoClient.getDatabase("plant-data-database")
@@ -1119,15 +1155,24 @@ class MongoDBDataAccessTest : RealmTest() {
                         mongoDatabase.getCollection("plant-data-collection")
                     Log.v("EXAMPLE",
                         "Successfully instantiated the MongoDB collection handle")
+
+                    // :code-block-start: aggregate-documents-unwind-arrays
+                    // create an aggregation pipeline
                     val pipeline =
                         listOf(
                             Document("\$unwind", Document("path", "\$items")
                                     .append("includeArrayIndex", "itemIndex"))
                         )
+
+                    // query mongodb using the pipeline
                     val aggregationTask = mongoCollection.aggregate(pipeline).iterator()
+
+                    // handle success or failure of the query
                     aggregationTask.getAsync { task: App.Result<MongoCursor<Document>> ->
                         if (task.isSuccess) {
                             val results = task.get()
+
+                            // iterate over and print the results to the log
                             Log.v("EXAMPLE",
                                 "successfully aggregated the plants. Results:")
                             while (results.hasNext()) {

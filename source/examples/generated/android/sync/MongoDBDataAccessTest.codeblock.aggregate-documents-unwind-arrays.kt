@@ -1,19 +1,19 @@
-val mongoClient = user!!.getMongoClient("mongodb-atlas")
-val mongoDatabase =
-    mongoClient.getDatabase("plant-data-database")
-val mongoCollection =
-    mongoDatabase.getCollection("plant-data-collection")
-Log.v("EXAMPLE",
-    "Successfully instantiated the MongoDB collection handle")
+// create an aggregation pipeline
 val pipeline =
     listOf(
         Document("\$unwind", Document("path", "\$items")
                 .append("includeArrayIndex", "itemIndex"))
     )
+
+// query mongodb using the pipeline
 val aggregationTask = mongoCollection.aggregate(pipeline).iterator()
+
+// handle success or failure of the query
 aggregationTask.getAsync { task: App.Result<MongoCursor<Document>> ->
     if (task.isSuccess) {
         val results = task.get()
+
+        // iterate over and print the results to the log
         Log.v("EXAMPLE",
             "successfully aggregated the plants. Results:")
         while (results.hasNext()) {
