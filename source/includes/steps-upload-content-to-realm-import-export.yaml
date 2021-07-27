@@ -1,33 +1,19 @@
-title: Export Your Realm Application
-ref: export-your-application
+title: Pull Your App's Latest Configuration Files
+ref: pull-your-apps-latest-configuration-files
 content: |
-  To upload files to {+backend+} with :doc:`realm-cli
-  </deploy/realm-cli-reference>` you need an :ref:`application
-  directory <application-directory>` for your {+app+}.
-
-  You can :doc:`export </deploy/export-realm-app>` your application from the
-  :guilabel:`Import/Export App` tab of the :guilabel:`Deploy` page in the
-  {+ui+}, or by running the following command from an authenticated instance of
-  :doc:`realm-cli </deploy/realm-cli-reference>`:
-
   .. code-block:: shell
 
-     realm-cli export --app-id=<App ID> --include-hosting
+     realm-cli pull --remote=<App ID>
 ---
 title: Add a Hosting Directory
 ref: add-a-hosting-directory
 content: |
-  .. note::
-
-     This step is only necessary if you did not export your {+app+} with the
-     ``--include-hosting`` flag.
-
   {+backend+} looks for files to upload in the ``/hosting/files``
   subdirectory of your application directory. If this directory doesn't
   already exist, create it:
-
+  
   .. code-block:: shell
-
+     
      mkdir -p hosting/files
 ---
 title: Add a Metadata Configuration File
@@ -67,19 +53,17 @@ content: |
      ``/hosting/files`` subdirectory. Nested directories are listed
      before a file's name in its resource path.
 ---
-title: Import the Files
-ref: import-the-files
+title: Upload the Files
+ref: upload-the-files
 content: |
-  Once you have added the files you want to host to the
-  ``/hosting/files`` subdirectory, you can upload them to {+backend+} by
-  importing your updated application directory with the
-  ``--include-hosting`` flag:
+  To upload files from the ``/hosting/files`` subdirectory, push your
+  configuration directory with the ``--include-hosting`` flag:
 
   .. code-block:: shell
-
-     realm-cli import --include-hosting
-
-  After successfully importing the application directory, {+backend+} will
-  begin uploading your files. The rate of upload time will vary depending
-  on network connection speed and the number and size of the files
-  selected.
+     
+     realm-cli push --include-hosting
+  
+  .. note::
+     
+     The upload speed will vary depending on your network connection and the
+     number and size of the files that you upload.
