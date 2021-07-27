@@ -464,58 +464,6 @@ Running this snippet produces output resembling the following:
 
    V/EXAMPLE: succcessfully deleted 2 documents.
 
-.. _android-mongodb-aggregation-pipelines:
-
-Aggregate Documents
--------------------
-
-These code snippets demonstrate how to configure and run
-aggregation operations on a collection. Aggregation operations run all
-documents in a collection through a series of data :ref:`aggregation stages
-<realm-aggregation-stages>` called an
-:manual:`aggregation pipeline </core/aggregation-pipeline>` that allow
-you to filter and shape documents as well as collect summary data about
-groups of related documents.
-
-Aggregation operations accept a list of aggregation stages as input, and
-return a :android:`Task <reference/com/google/android/play/core/tasks/Task>` that
-resolves to a collection of documents processed by the pipeline.
-
-.. _android-mongodb-aggregate:
-
-Aggregate Documents in a Collection
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-You can execute an aggregation pipeline using
-:java-sdk:`collection.aggregate()
-<io/realm/mongodb/mongo/MongoCollection.html#aggregate-java.util.List->`.
-
-The following snippet groups all documents in the ``plants``
-collection by their ``type`` value and aggregates a count of the
-number of each type:
-
-.. tabs-realm-languages::
-
-   .. tab::
-      :tabid: kotlin
-
-      .. literalinclude:: /examples/generated/android/sync/MongoDBDataAccessTest.codeblock.aggregate-documents.kt
-         :language: kotlin
-
-   .. tab::
-      :tabid: java
-
-      .. literalinclude:: /examples/generated/android/sync/MongoDBDataAccessTest.codeblock.aggregate-documents.java
-         :language: java
-
-Running this snippet produces output resembling the following:
-
-.. code-block:: text
-
-   V/EXAMPLE: successfully aggregated the plants by type. Type summary: 
-   V/EXAMPLE: Document{{_id=perennial, totalCount=2}}
-   V/EXAMPLE: Document{{_id=annual, totalCount=3}}
-
 .. _android-mongodb-watch:
 
 Watch for Changes
@@ -605,8 +553,278 @@ Running this snippet produces output resembling the following:
    V/EXAMPLE: Event type: INSERT full document: Plant [id=5f6bb..., name=venomous tentacula, sunlight=low, color=brown, type=annual, partition=Store 42]
 
 .. _android-mongodb-aggregation-stages:
+.. _android-mongodb-aggregate:
+.. _android-mongodb-aggregation-pipelines:
 
-Aggregation Stages
-------------------
+Aggregate Documents in a Collection
+-----------------------------------
 
-.. include:: /includes/aggregation-stages.rst
+You can execute an aggregation pipeline using
+:java-sdk:`collection.aggregate()
+<io/realm/mongodb/mongo/MongoCollection.html#aggregate-java.util.List->`.
+
+These code snippets demonstrate how to configure and run
+aggregation operations on a collection. Aggregation operations run all
+documents in a collection through a series of data :ref:`aggregation stages
+<realm-aggregation-stages>` called an
+:manual:`aggregation pipeline </core/aggregation-pipeline>`. Aggregation
+pipelines can filter and shape documents as well as collect summary data
+about groups of related documents.
+
+An aggregation operation accepts a list of aggregation stages as input
+and returns a
+:android:`Task <reference/com/google/android/play/core/tasks/Task>` that
+resolves to a collection of documents processed by the pipeline.
+
+.. _android-mongodb-aggregation-filter-documents:
+
+Filter Documents
+~~~~~~~~~~~~~~~~
+
+You can use the :manual:`$match
+</reference/operator/aggregation/match/>` stage to filter
+documents according to a MongoDB Query Language :manual:`query filter
+</tutorial/query-documents>`.
+
+.. code-block:: javascript
+
+   {
+     "$match": {
+       "<Field Name>": <Query Expression>,
+       ...
+     }
+   }
+
+.. example::
+
+   The following ``$match`` stage filters documents to include
+   only those where the ``type`` field has a value equal to "perennial":
+
+   .. tabs-realm-languages::
+
+      .. tab::
+         :tabid: kotlin
+
+         .. literalinclude:: /examples/generated/android/sync/MongoDBDataAccessTest.codeblock.aggregate-documents-filter.kt
+            :language: kotlin
+
+      .. tab::
+         :tabid: java
+
+         .. literalinclude:: /examples/generated/android/sync/MongoDBDataAccessTest.codeblock.aggregate-documents-filter.java
+            :language: java
+
+.. _android-mongodb-aggregation-group-documents:
+
+Group Documents
+~~~~~~~~~~~~~~~
+
+You can use the :manual:`$group
+</reference/operator/aggregation/group/>` stage to aggregate summary
+data for one or more documents. MongoDB groups documents based
+on the expression defined in the ``_id`` field value of the ``$group``
+stage. You can reference a specific document field by prefixing the
+field name with a ``$``.
+
+The following snippet groups all documents in the ``plants``
+collection by their ``type`` value and aggregates a count of the
+number of each type:
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/generated/android/sync/MongoDBDataAccessTest.codeblock.aggregate-documents-group.kt
+         :language: kotlin
+
+   .. tab::
+      :tabid: java
+
+      .. literalinclude:: /examples/generated/android/sync/MongoDBDataAccessTest.codeblock.aggregate-documents-group.java
+         :language: java
+
+.. _android-mongodb-aggregation-project-document-fields:
+
+Project Document Fields
+~~~~~~~~~~~~~~~~~~~~~~~
+
+You can use the :manual:`$project
+</reference/operator/aggregation/project/>` stage to include or omit
+specific fields from documents. Additionally, you can calculate new
+fields using :manual:`aggregation operators
+</reference/operator/aggregation>`. Projections work in two ways:
+
+- Explicitly include fields with a value of 1. This has the side-effect
+  of implicitly excluding all unspecified fields.
+
+- Implicitly exclude fields with a value of 0. This has the side-effect
+  of implicitly including all unspecified fields.
+
+These two methods of projection are mutually exclusive: if you
+explicitly include fields, you cannot explicitly exclude fields, and
+vice versa.
+
+.. note::
+
+   The ``_id`` field is a special case: it is always included in every
+   query unless explicitly specified otherwise. For this reason, you
+   *can* exclude the ``_id`` field with a ``0`` value while simultaneously
+   including other fields, like ``_partition``, with a ``1``. Only the
+   special case of exclusion of the ``_id`` field allows both exclusion
+   and inclusion in one ``$project`` stage.
+
+.. code-block:: javascript
+
+   {
+     "$project": {
+       "<Field Name>": <0 | 1 | Expression>,
+       ...
+     }
+   }
+
+.. example::
+
+   The following ``$project`` stage omits the ``_id`` field, includes
+   the ``name`` field, and creates a new field named ``storeNumber``.
+   The ``storeNumber`` is generated using two aggregation operators:
+
+   1. ``$split`` separates the ``_partition`` value into two string
+      segments surrounding the space character. For example, the value
+      "Store 42" split in this way returns an array with two elements:
+      "Store" and "42".
+
+   2. ``$arrayElemAt`` selects a specific element from an array based
+      on the second argument. In this case, the value ``1`` selects the
+      second element from the array generated by the ``$split`` operator
+      since arrays index from ``0``. For example, the value ["Store", "42"]
+      passed to this operation would return a value of "42".
+
+   .. tabs-realm-languages::
+
+      .. tab::
+         :tabid: kotlin
+
+         .. literalinclude:: /examples/generated/android/sync/MongoDBDataAccessTest.codeblock.aggregate-documents-project.kt
+            :language: kotlin
+
+      .. tab::
+         :tabid: java
+
+         .. literalinclude:: /examples/generated/android/sync/MongoDBDataAccessTest.codeblock.aggregate-documents-project.java
+            :language: java
+
+.. _android-mongodb-aggregation-add-fields-to-documents:
+
+Add Fields to Documents
+~~~~~~~~~~~~~~~~~~~~~~~
+
+You can use the :manual:`$addFields
+</reference/operator/aggregation/addFields/>` stage to add new fields
+with calculated values using :manual:`aggregation operators
+</reference/operator/aggregation>`.
+
+.. note::
+
+   ``$addFields`` is similar to :manual:`$project
+   </reference/operator/aggregation/project/>` but does not allow you to
+   include or omit fields.
+
+.. example::
+
+   The following ``$addFields`` stage creates a new field named
+   ``storeNumber`` where the value is the output of two aggregate operators
+   that transform the value of the ``_partition`` field.
+
+   .. tabs-realm-languages::
+
+      .. tab::
+         :tabid: kotlin
+
+         .. literalinclude:: /examples/generated/android/sync/MongoDBDataAccessTest.codeblock.aggregate-documents-addfields.kt
+            :language: kotlin
+
+      .. tab::
+         :tabid: java
+
+         .. literalinclude:: /examples/generated/android/sync/MongoDBDataAccessTest.codeblock.aggregate-documents-addfields.java
+            :language: java
+
+.. _android-mongodb-aggregation-unwind-array-values:
+
+Unwind Array Values
+~~~~~~~~~~~~~~~~~~~
+
+You can use the :manual:`$unwind
+</reference/operator/aggregation/unwind/>` stage to transform a single
+document containing an array into multiple documents containing individual
+values from that array. When you unwind an array field,
+MongoDB copies each document once for each element of the array field
+but replaces the array value with the array element in each copy.
+
+.. code-block:: javascript
+
+   {
+     $unwind: {
+       path: <Array Field Path>,
+       includeArrayIndex: <string>,
+       preserveNullAndEmptyArrays: <boolean>
+     }
+   }
+
+.. example::
+
+   The following ``$unwind`` stage creates a new document for each
+   element of the ``items`` array in each document. It also adds a field
+   called ``itemIndex`` to each new document that specifies the
+   element's position index in the original array:
+
+   .. tabs-realm-languages::
+
+      .. tab::
+         :tabid: kotlin
+
+         .. literalinclude:: /examples/generated/android/sync/MongoDBDataAccessTest.codeblock.aggregate-documents-unwind-arrays.kt
+            :language: kotlin
+
+      .. tab::
+         :tabid: java
+
+         .. literalinclude:: /examples/generated/android/sync/MongoDBDataAccessTest.codeblock.aggregate-documents-unwind-arrays.java
+            :language: java
+
+Consider the following document from the a collection of purchases:
+
+.. code-block:: javascript
+
+      {
+        _id: 123,
+        customerId: 24601,
+        items: [
+          { name: "Baseball", quantity: 5 },
+          { name: "Baseball Mitt", quantity: 1 },
+          { name: "Baseball Bat", quantity: 1 },
+        ]
+      }
+
+If we apply the example ``$unwind`` stage to this document, the stage
+outputs the following three documents:
+
+.. code-block:: javascript
+
+      {
+        _id: 123,
+        customerId: 24601,
+        itemIndex: 0,
+        items: { name: "Baseball", quantity: 5 }
+      }, {
+        _id: 123,
+        customerId: 24601,
+        itemIndex: 1,
+        items: { name: "Baseball Mitt", quantity: 1 }
+      }, {
+        _id: 123,
+        customerId: 24601,
+        itemIndex: 2,
+        items: { name: "Baseball Bat", quantity: 1 }
+      }
