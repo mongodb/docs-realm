@@ -16,10 +16,9 @@ Overview
 --------
 
 A **partition** represents a subset of the documents in a synced cluster that
-all share a logical access pattern and have the same read/write permissions for
-a given user. Realm directly maps partitions to individual synced ``.realm``
-files so each object in a synced realm has a corresponding document in the
-partition.
+are related in some way and have the same read/write permissions for a given
+user. Realm directly maps partitions to individual synced ``.realm`` files so
+each object in a synced realm has a corresponding document in the partition.
 
 Partitions bridge the gap between the Realm data model and the MongoDB document
 model, which operate under different constraints and assumptions:
@@ -54,7 +53,9 @@ which partition a given document in a synced MongoDB cluster belongs to. Your
 app's partition key is a central part of the sync data model that you should
 consider during development. Once you have chosen a partition key and
 :ref:`enabled sync <enable-sync>`, you cannot reassign the partition key to a
-different field.
+different field. If you need to change a partition key, you can terminate sync
+and then enable it with the new partition key; however, this requires all client
+applications to reset and sync data into new realms.
 
 Depending on your data model and the complexity of your app, your partition key
 could be either:
@@ -82,7 +83,7 @@ Consider the following when choosing a partition key:
   Any field that clients can modify cannot be used as a partition key.
 
 - Partition keys use the same field name in every synced document. The partition
-  key should not collide with an another field name in any object's model.
+  key should not collide with any field name in any object's model.
 
 .. example::
    
@@ -154,8 +155,8 @@ delete from the old partition and an insert into the new partition.
 
 .. warning::
 
-   If you change a document's partition value, you will lose any un-synced
-   updates clients made to the corresponding object in its previous partition.
+   If you modify a document's partition value, you will lose any local changes
+   to the data that have not yet been synced.
 
 .. _partition-strategy:
 

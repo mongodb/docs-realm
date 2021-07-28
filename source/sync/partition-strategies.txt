@@ -59,7 +59,7 @@ Firehose Strategy
 
 A firehose partition strategy groups all documents into a single partition so
 that every user syncs all of your app's data to their device. This approach is
-functionally a decision to not partition data and is suitable only for basic
+functionally a decision not to partition data and is suitable only for basic
 applications or relatively small public data sets.
 
 - **Data Security:** All data in the firehose partition is public. If a
@@ -100,10 +100,10 @@ applications or relatively small public data sets.
         { name: "Uptown Bombers" }
       ]
    
-   The total number of historical games is relatively small and a small number
+   The total number of historical games is relatively small, and a small number
    of local teams only play a few games each year, so most devices should be
    able to download all of the game data for easy offline access. In this case,
-   the firehose strategy is appropriate and the documents don't need to have a
+   the firehose strategy is appropriate, and the documents don't need to have a
    partition key.
    
    The strategy maps the collections to the following realms:
@@ -133,11 +133,11 @@ has a specific owner, often identified by a username or ID, and no other users
 need access to the data.
 
 - **Data Security:** Data in a user partition is specific to a given user and
-  may contain information private to that user. In general each user syncs only
+  may contain information private to that user. In general, each user syncs only
   their own partition and other users cannot access documents in the partition.
 
 - **Storage Capacity:** In general, each user only syncs data from their own
-  partition so their data must fit within their device's storage constraints.
+  partition, so their data must fit within their device's storage constraints.
   You can use this strategy when data has specific owners that each own a
   manageable amount of data.
 
@@ -201,7 +201,7 @@ Team Strategy
 -------------
 
 A team partition strategy groups private documents shared by a team of users
-(e.g. a store location's emplyee, a band's members, etc) into a partition
+(e.g. a store location's employee, a band's members, etc) into a partition
 specific to that group. All users in the team share access and ownership of the
 team's documents.
 
@@ -308,7 +308,7 @@ list.
 
 .. example::
    
-   A social app lets users create chatrooms based around specific topics. Users
+   A social app lets users create chatrooms based on specific topics. Users
    can search for and join channels for any topic that interests them. Consider
    the following documents in the ``chatrooms`` and ``messages`` collections:
    
@@ -387,7 +387,7 @@ location or region into partitions specific to those areas.
 - **Storage Capacity:** The storage implications of a region strategy depend on
   the size and usage patterns for each region. Users typically only sync data in
   their own region, so at a minimum the data for any given region should fit
-  within a device's storage constraints. If users sync multiple regions you may
+  within a device's storage constraints. If users sync multiple regions, you may
   consider partitioning into smaller subregions to minimize syncing unneeded
   data.
 
