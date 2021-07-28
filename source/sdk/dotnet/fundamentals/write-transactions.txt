@@ -60,10 +60,9 @@ The ``Write()`` method is shorthand for using the
 :dotnet-sdk:`Transaction.Commit() <reference/Realms.Transaction.html#Realms_Transaction_Commit>`
 methods. In most cases, using ``Write()`` will meet your needs, but if you need 
 finer control over the transaction, use ``BeginWrite()`` with one of the 
-transaction methods (
-:dotnet-sdk:`Transaction.Commit() <reference/Realms.Transaction.html#Realms_Transaction_Commit>`,
-:dotnet-sdk:`Transaction.Dispose() <reference/Realms.Transaction.html#Realms_Transaction_Dispose>`, or 
-:dotnet-sdk:`Transaction.Rollback() <reference/Realms.Transaction.html#Realms_Transaction_Rollback>`). 
+``Transaction`` methods (:dotnet-sdk:`Commit() <reference/Realms.Transaction.html#Realms_Transaction_Commit>`,
+:dotnet-sdk:`Dispose() <reference/Realms.Transaction.html#Realms_Transaction_Dispose>`, or 
+:dotnet-sdk:`Rollback() <reference/Realms.Transaction.html#Realms_Transaction_Rollback>`). 
 The following code shows how to use both approaches:
 
 .. literalinclude:: /examples/generated/dotnet/Writes.codeblock.create.cs
