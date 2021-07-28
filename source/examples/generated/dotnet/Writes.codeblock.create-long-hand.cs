@@ -7,10 +7,10 @@ try
 {
     // Do other work that needs to be included in
     // this transaction
+    transaction.Commit();
 }
 catch (Exception ex)
 {
     // Something went wrong; roll back the transaction
     transaction.Dispose();
 }
-transaction.Commit();
