@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using MongoDB.Bson;
+using NUnit.Framework;
 using Realms;
 using Realms.Sync;
 
@@ -9,15 +10,27 @@ namespace Examples
 {
     public class Writes
     {
+
         Realm realm;
         public Writes()
         {
-            var app = App.Create("");
-            realm = Realm.GetInstance("");
+            realm = Realm.GetInstance();
         }
 
+        [OneTimeTearDown]
+        public void TearDown()
+        {
+            realm.Write(() =>
+            {
+                realm.RemoveAll<WriteDog>();
+                realm.RemoveAll<WritePerson>();
+            });
+        }
+
+        [Test]
         public void Foo()
         {
+            //TearDown();
             // :code-block-start: transaction
             // :replace-start: {
             //  "terms": {
@@ -27,7 +40,7 @@ namespace Examples
             realm.Write(() =>
             {
                 // Create someone to take care of ssome dogs.
-                var ali = new WritePerson { Id = 1, Name = "Ali" };
+                var ali = new WritePerson { Id = 44, Name = "Ali" };
                 realm.Add(ali);
 
                 // Find dogs younger than 2.
@@ -42,6 +55,22 @@ namespace Examples
             });
             // :replace-end:
             // :code-block-end:
+            var myDog = new WriteDog { Id = 411, Name = "Gracie", Age = 7 };
+            // :code-block-start: create-long-hand
+            // :replace-start: {
+            //  "terms": {
+            //   "WritePerson": "Person",
+            //   "WriteDog" : "Dog" }
+            // }
+            // Open a thread-safe transaction.
+            var transaction = realm.BeginWrite();
+            // Add the instance to the realm.
+            realm.Add(myDog);
+            // Do other work that needs to be including in
+            // this transaction
+            transaction.Commit();
+            // :replace-end:
+            // :code-block-end:
 
             // :code-block-start: create
             // :replace-start: {
@@ -49,12 +78,11 @@ namespace Examples
             //   "WritePerson": "Person",
             //   "WriteDog" : "Dog" }
             // }
+            // Instantiate a class, as normal.
+            var dog = new WriteDog { Id = 42, Name = "Max", Age = 5 };
             // Open a thread-safe transaction.
             realm.Write(() =>
             {
-                // Instantiate a class, as normal.
-                var dog = new WriteDog { Name = "Max", Age = 5 };
-
                 // Add the instance to the realm.
                 realm.Add(dog);
             });
@@ -124,17 +152,25 @@ namespace Examples
             });
             // :replace-end:
             // :code-block-end:
-            var dog = new WriteDog();
+            var foodog = new WriteDog { Id = 123, Name = "FiFi" };
+            realm.Write(() =>
+            {
+                realm.Add(foodog);
+            });
             // :code-block-start: delete-one
+            // :replace-start: {
+            //  "terms": {
+            //   "foodog": "dog"}
+            // }
             realm.Write(() =>
             {
                 // Remove the instance from the realm.
-                realm.Remove(dog);
+                realm.Remove(foodog);
 
                 // Discard the reference.
-                dog = null;
+                foodog = null;
             });
-
+            // :replace-end:
             // :code-block-end:
             // :code-block-start: delete-collection
             // :replace-start: {
@@ -154,7 +190,10 @@ namespace Examples
             // :code-block-end:
 
             var ali = new WritePerson();
-
+            realm.Write(() =>
+            {
+                realm.Add(ali);
+            });
             // :code-block-start: cascade-delete
             // :replace-start: {
             //  "terms": {
@@ -162,13 +201,13 @@ namespace Examples
             //   "WriteDog" : "Dog" }
             // }
             realm.Write(() =>
-            {
-                // Remove all of Ali's dogs.
-                realm.RemoveRange<WriteDog>(ali.Dogs);
+        {
+            // Remove all of Ali's dogs.
+            realm.RemoveRange<WriteDog>(ali.Dogs);
 
-                // Remove Ali.
-                realm.Remove(ali);
-            });
+            // Remove Ali.
+            realm.Remove(ali);
+        });
             // :replace-end:
             // :code-block-end:
             // :code-block-start: delete-all-of-type
