@@ -15,9 +15,9 @@ class SyncExamples_Task: Object {
 }
 
 class Sync: AnonymouslyLoggedInTestCase {
-    func testOpenSyncedRealm() throws {
+    func testAsyncOpenSyncedRealm() throws {
         let expectation = XCTestExpectation(description: "it completes")
-        // :code-block-start: login-and-open-synced-realm
+        // :code-block-start: login-asyncopen-synced-realm
         // Instantiate the app using your Realm app ID
         let app = App(id: YOUR_REALM_APP_ID)
         // Authenticate with the instance of the app that points
@@ -67,37 +67,97 @@ class Sync: AnonymouslyLoggedInTestCase {
         }
         // :code-block-end:
 
-        // :code-block-start: open-synced-realm-offline
-        // You can use the same configuration from the initial open to
-        // re-open a Realm that is already on the device immediately.
-        // This doesn't wait to download changes from the server.
-        // Changes will attempt to sync in the background, but will
-        // not block opening the Realm.
-        let realm = try! Realm(configuration: configuration)
-        print("Opened realm: \(realm)")
-        // :code-block-end:
-
-        // :code-block-start: always-use-async-open
-        // If you want to always download changes from the
-        // server before opening a realm, you can use asyncOpen
-        // exclusively; not just the first time you open a synced
-        // Realm. This only works when the user is online.
-        Realm.asyncOpen(configuration: configuration) { result in
-            switch result {
-            case .failure(let error):
-                print("Failed to open realm: \(error.localizedDescription)")
-                // Handle error
-            case .success(let realm):
-                print("Successfully opened realm: \(realm)")
-                // Use realm
-                // :hide-start:
-                expectation.fulfill()
-                // :hide-end:
+        // :code-block-start: use-async-open-with-cached-credentials
+        // Use asyncOpen to sync changes with the backend before
+        // opening the realm. This only works when the user is online,
+        // so first, check for a network connection.
+        let syncedRealm = try! Realm(configuration: configuration)
+        let syncSession = syncedRealm.syncSession!
+        let observer = syncSession.observe(\.connectionState, options: [.initial]) { (syncSession, change) in
+            switch syncSession.connectionState {
+            case .connecting:
+                print("Connecting...")
+            case .connected:
+                print("Connected")
+                // After the user is connected, use `asyncOpen`
+                // to sync changes before opening the realm.
+                Realm.asyncOpen(configuration: configuration) { result in
+                    switch result {
+                    case .failure(let error):
+                        print("Failed to open realm: \(error.localizedDescription)")
+                        // Handle error
+                    case .success(let realm):
+                        print("Successfully opened realm: \(realm)")
+                        // Use realm
+                        // :hide-start:
+                        expectation.fulfill()
+                        // :hide-end:
+                    }
+                }
+            case .disconnected:
+                // Let the user know they can't use the app
+                // as they are not currently connected. Alternately,
+                // you could fall back to `init` open if the user
+                // is offline.
+                print("Can't open the app because there is no network connection.")
+            default:
+                break
             }
         }
         // :code-block-end:
 
         wait(for: [expectation], timeout: 10)
+    }
+
+    func testInitOpenSyncedRealm() throws {
+        // :code-block-start: login-and-init-synced-realm
+        // Instantiate the app using your Realm app ID
+        let app = App(id: YOUR_REALM_APP_ID)
+        // Authenticate with the instance of the app that points
+        // to your backend. Here, we're using anonymous login.
+        app.login(credentials: Credentials.anonymous) { (result) in
+            switch result {
+            case .failure(let error):
+                fatalError("Login failed: \(error.localizedDescription)")
+            case .success:
+                // Continue
+                print("Successfully logged in to app")
+            }
+        }
+        // Assign user to the entity currently authenticated with
+        // this instance of your app.
+        let user = app.currentUser
+        // Specify which data this authenticated user should
+        // be able to access.
+        let partitionValue = "some partition value"
+        // Store a configuration that consists of the current user,
+        // authenticated to this instance of your app, who should be
+        // able to access this data (partition).
+        var configuration = user!.configuration(partitionValue: partitionValue)
+        // :hide-start:
+        // The following is only required if you want to specify exactly which
+        // types to include in the realm. By default, Realm automatically finds
+        // all subclasses of Object and EmbeddedObject to add to the realm.
+        configuration.objectTypes = [SyncExamples_Task.self]
+        // :hide-end:
+        // Initialize a synced realm on device with this configuration.
+        // Changes will attempt to sync in the background, but will
+        // not block opening the realm.
+        let realm = try! Realm(configuration: configuration)
+        print("Opened realm: \(realm)")
+        // :code-block-end:
+
+        // :code-block-start: open-synced-realm-offline
+        // Check to see if you have a logged-in user.
+        if app.currentUser != nil {
+            // If you have logged-in user credentials, open the realm.
+            let offlineRealm = try! Realm(configuration: configuration)
+            print("Opened realm: \(realm)")
+        } else {
+            // If the user is not logged in, proceed to the login flow.
+            print("Current user is not logged in.")
+        }
+        // :code-block-end:
     }
 
     func testPauseResumeSyncSession() {
