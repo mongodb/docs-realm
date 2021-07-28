@@ -99,6 +99,6 @@ public class OpenARealmTest extends RealmTest {
                 }
             });
         });
-        expectation.await();
+        //expectation.await();
     }
 }
