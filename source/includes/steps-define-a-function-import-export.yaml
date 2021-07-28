@@ -1,25 +1,48 @@
-title: Pull Your Realm Application
-ref: export-your-realm-application
+title: Pull Your App's Latest Configuration Files
+ref: pull-your-apps-latest-configuration-files
 content: |
-  To create new function with :doc:`realm-cli
-  </deploy/realm-cli-reference>`, you need a previously created
-  :ref:`application configuration <application-directory>`.
-  
-  You can :doc:`pull </deploy/export-realm-app>` your application from the
-  :guilabel:`Export App` tab of the :guilabel:`Deploy` page in the
-  {+ui+}, or by running the following command from an authenticated instance of
-  :doc:`realm-cli </deploy/realm-cli-reference>`:
-  
   .. code-block:: shell
-     
-     realm-cli pull --app-id=<App ID>
+
+     realm-cli pull --remote=<App ID>
 ---
-title: Add to the Function Configuration File
-ref: add-a-function-configuration-file
+title: Write the Function Source Code
+ref: write-the-function-source-code
 content: |
-  In the ``functions`` directory of your application, open the ``config.json`` 
-  file and add an object to the array that describes your new function. The
-  object must have the following form:
+  Realm functions run standard ES6+ JavaScript functions that you export from
+  individual files. Create a ``.js`` file with the same name as the function in
+  the ``functions`` directory or one of its subdirectories.
+  
+  .. code-block:: bash
+     
+     touch functions/myFunction.js
+  
+  .. code-block:: javascript
+     
+     exports = async function hello(...args) {
+       // Write your function logic here! You can...
+       // Import dependencies
+       const assert = require("assert")
+       assert(typeof args[0] === "string")
+       // Use ES6+ syntax
+       const sayHello = (name = "world") => {
+         console.log(`Hello, ${name}.`)
+       }
+       // Return values back to clients or other functions
+       return sayHello(args[0])
+     }
+  
+  .. note::
+     
+     You can use most modern (ES6+) JavaScript features in functions, including
+     async/await, destructuring, and template literals. To see if Realm supports
+     a specific feature, see :ref:`js-feature-compat`.
+---
+title: Configure the Function
+ref: configure-the-function
+content: |
+  In the ``functions`` directory of your application, open the ``config.json``
+  file and add a :ref:`configuration object <appconfig-functions>` for your new
+  function to the array. The object must have the following form:
   
   .. code-block:: json
 
@@ -32,14 +55,6 @@ content: |
        "run_as_user_id": "<Realm User ID>",
        "run_as_user_id_script_source": "<Function Source Code>"
      }
-
-  For more information about the properties of the function configuration object, 
-  see :ref:`Function Configuration Files <appconfig-functions>`.
-
----
-title: Configure Your Function
-ref: configure-your-function
-content: |
 
   Set User Authentication
   =======================
@@ -138,47 +153,15 @@ content: |
   webhooks and triggers.
 
 ---
-title: Write the Function Code
-ref: write-the-function-code
+title: Deploy the Function
+ref: deploy-the-function
 content: |
-  Once you've created and configured the new function, it's time to
-  write the actual javascript code that runs when you :doc:`call the
-  function </functions/call-a-function>`.
-
-  Create a subdirectory whose name matches the name of the function you 
-  specified in the configuration file, and then add a file named ``source.js``
-  to the new function directory. This file contains the javascript code for the 
-  function.
-
-  .. note::
-
-     You can use most modern (ES6+) JavaScript features in functions,
-     including async/await, destructuring, and template literals.
----
-title: Push the Function
-ref: import-the-function
-content: |
-  Once you've configured the function and written the source code, all
-  that's left is to push the function to {+service-short+}.
-
-  A. Ensure that your changes to ``config.json`` and ``source.js`` are saved.
-
-  #. Navigate to the root of your application directory.
-
-  #. Log in to MongoDB `{+atlas+} <https://www.mongodb.com/realm?tck=docs_realm#atlas-form-container>`_ 
-     with {+cli-bin+}:
-
-     .. code-block:: shell
-
-        realm-cli login --api-key="<my api key>" --private-api-key="<my private api key>"
-
-  #. Push the directory:
-
-     .. code-block:: shell
-
-        realm-cli push
-
-  Once you have pushed the function, you can begin using it immediately.
+  Push the function configuration and source code to deploy it to your app. Once
+  you have pushed the function, you can begin using it immediately.
+  
+  .. code-block:: shell
+     
+     realm-cli push
 
   For more information on using the function, see
   :doc:`/functions/call-a-function`.

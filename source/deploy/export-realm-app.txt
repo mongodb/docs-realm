@@ -42,16 +42,26 @@ the :guilabel:`Export App` button.
 Export with {+cli-bin+}
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-{+app+}s can be exported programmatically via the
-:doc:`Command Line Interface </deploy/realm-cli-reference>`
-({+cli-bin+}).
+{+app+}s can be exported programmatically via the :doc:`Command Line Interface
+</deploy/realm-cli-reference>` ({+cli-bin+}).
 
-Before beginning, ensure that you have properly :ref:`installed
-<install-realm-cli>` {+cli-bin+}.
-      
-.. include:: /includes/note-procedure-uses-cli-v1.rst
+.. tip::
+   
+   Ensure that you :ref:`installed <install-realm-cli>` {+cli-bin+} and logged
+   in with a valid API key.
 
-.. include:: /includes/steps/cli-export.rst
+You can export an application's configuration directory by specifying its remote
+App ID and an optional local path. If you do not specify a local path, the
+command outputs the configuration directory in the current working directory.
+
+.. code-block:: shell
+
+   realm-cli pull --remote=<App ID> --local=<Output Directory Path>
+
+.. warning::
+
+   The directory specified by ``--output`` must not already exist, otherwise
+   {+cli-bin+} throws an error and does not pull the configuration files.
 
 Output
 ------

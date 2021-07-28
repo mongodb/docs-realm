@@ -68,10 +68,38 @@
 // :code-block-end:
 
 @implementation SyncObjc
+- (void)testInitSyncedRealm {
+    // :code-block-start: init-synced-realm
+    RLMApp *app = [RLMApp appWithId:YOUR_REALM_APP_ID];
+    
+    // Log in...
+
+    RLMUser *user = [app currentUser];
+    NSString *partitionValue = @"some partition value";
+
+    RLMRealmConfiguration *configuration = [user configurationWithPartitionValue:partitionValue];
+    // :remove-start:
+    configuration.objectClasses = @[SyncObjcExamples_Task.class];
+    // :remove-end:
+    
+    NSError *error = nil;
+    RLMRealm *realm = [RLMRealm realmWithConfiguration:configuration
+                                                 error:&error];
+    
+    if (error != nil) {
+        NSLog(@"Failed to open realm: %@", [error localizedDescription]);
+        // handle error
+    } else {
+        NSLog(@"Opened realm: %@", realm);
+        // Use realm
+    }
+    // :code-block-end:
+}
+
 - (void)testOpenSyncedRealm {
     XCTestExpectation *expectation = [self expectationWithDescription:@"it completes"];
 
-    // :code-block-start: open-synced-realm
+    // :code-block-start: asyncopen-synced-realm
     RLMApp *app = [RLMApp appWithId:YOUR_REALM_APP_ID];
     
     // Log in...

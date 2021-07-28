@@ -85,8 +85,6 @@ Create an Authentication Trigger
       
    .. tab::
       :tabid: cli
-      
-      .. include:: /includes/note-procedure-uses-cli-v1.rst
 
       To create an authentication trigger with :doc:`{+cli+}
       </deploy/realm-cli-reference>`:
@@ -102,12 +100,11 @@ Create an Authentication Trigger
             rename each configuration file to match the name of the
             trigger it defines, e.g. ``mytrigger.json``.
       
-      2. :doc:`Import </deploy/deploy-cli>` the
-         application directory into your application.
+      2. :doc:`Deploy </deploy/deploy-cli>` the trigger:
       
          .. code-block:: shell
             
-            realm-cli import
+            realm-cli push
 
 .. _authentication-events:
 

@@ -1,10 +1,20 @@
-.. _backend_20210702:
+.. _backend_20210728:
+
+28 July 2021 Release
+~~~~~~~~~~~~~~~~~~~~
+
+- Deprecated the :github:`Stitch JS SDK <mongodb/stitch-js-sdk>`.
+- Released the :ref:`Trigger Preimages <trigger-preimages>` option for GA.
+
+.. _backend_20210715:
 
 15 July 2021 Release
 ~~~~~~~~~~~~~~~~~~~~
 
 - Improved usability of the Admin UI Dashboard.
 - Released :ref:`mongodb-realm-cli 2.0 <realm-cli>`.
+
+.. _backend_20210702:
 
 02 July 2021 Release
 ~~~~~~~~~~~~~~~~~~~~
