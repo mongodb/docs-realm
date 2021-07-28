@@ -16,16 +16,18 @@ Pause or Terminate Sync
 Overview
 --------
 
-You can temporarily pause, permanently terminate, or re-enable {+sync+}
-for your {+app+}.
+If you want to disable {+sync+} for your app, you can temporarily pause or 
+permanently terminate it. You can also re-enable {+sync-short+} after 
+disabling it.
 
-You can temporarily :ref:`pause <pause-sync>` {+sync-short+} before pausing your 
-cluster, and then :ref:`resume <resume-sync>` without resetting your 
-{+sync-short+} configuration or losing {+sync-short+} metadata.
+You might want to temporarily :ref:`pause <pause-sync>` {+sync-short+} if 
+you need to pause your cluster. With a short, temporary pause, you can 
+:ref:`resume <resume-sync>` without resetting your :ref:`{+sync-short+} 
+configuration <appconfig-sync>` or losing {+sync-short+} metadata.
 
 You can permanently :ref:`terminate <terminating-realm-sync>` and 
 :ref:`re-enable <re-enable-realm-sync>` {+sync-short+} for troubleshooting, or
-if you want to change your {+sync-short+} configuration.
+if you want to change your :ref:`{+sync-short+} configuration <appconfig-sync>`.
 
 .. _pause-sync:
 
@@ -62,6 +64,12 @@ pauses {+sync-short+} during a session, see your preferred SDK:
       iOS SDK <ios-suspend-or-resume-a-sync-session>`.
 
    .. tab::
+      :tabid: react-native
+      
+      Learn how to :ref:`pause or resume a {+sync-short+} session using the 
+      React Native SDK <react-native-pause-or-resume-a-sync-session>`.
+
+   .. tab::
       :tabid: node
       
       Learn how to :ref:`pause or resume a {+sync-short+} session using the 
@@ -75,19 +83,10 @@ pauses {+sync-short+} during a session, see your preferred SDK:
 
 After pausing {+sync-short+}, you can :ref:`re-enable it <resume-sync>`. 
 Pausing {+sync-short+} maintains the configuration settings and all of the 
-{+sync-short+} metadata. When you re-enable paused {+sync-short+}, your 
-clients can reconnect normally.
+{+sync-short+} metadata, which contains the sync history. When you re-enable 
+paused {+sync-short+}, your clients can reconnect normally.
 
-However, if your :manual:`oplog </core/replica-set-oplog/>` rolls past the 
-time that you paused {+sync-short+}, you must terminate and re-enable 
-{+sync-short+}. For example, if you only keep 12 hours of oplog for your 
-cluster, and you pause {+sync-short+} for longer than 12 hours, you must
-terminate and re-enable {+sync-short+}.
-
-Terminating and re-enabling paused {+sync+} for your {+app+} erases 
-{+sync+} metadata and requires you to specify configuration settings again. 
-Clients must perform a client reset when they reconnect after {+sync+} has
-been terminated. For more information, see: :ref:`Terminate Sync <terminating-realm-sync>`.
+.. include:: /includes/warn-cannot-renable-paused-sync.rst
 
 Procedure
 ~~~~~~~~~
@@ -100,10 +99,9 @@ Resume Sync
 -----------
 
 After you have paused {+sync+}, you can resume it to begin syncing again for
-all clients. If your :manual:`oplog </core/replica-set-oplog/>` rolls past 
-the time that you paused {+sync-short+}, you must :ref:`terminate 
-<terminating-realm-sync>` and :ref:`re-enable {+sync-short+} 
-<re-enable-realm-sync>`, instead.
+all clients. 
+
+.. include:: /includes/warn-cannot-renable-paused-sync.rst
 
 Procedure
 ~~~~~~~~~
@@ -155,6 +153,11 @@ terminate and re-enable {+sync+} under a few different circumstances:
       :tabid: node
       
       Learn how to perform a :ref:`Client Reset using the Node SDK <node-client-resets>`.
+
+   .. tab::
+      :tabid: react-native
+      
+      Learn how to perform a :ref:`Client Reset using the React Native SDK <react-native-client-resets>`.
 
    .. tab::
       :tabid: dotnet
