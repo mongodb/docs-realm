@@ -69,7 +69,7 @@ public class LinkUserIdentitiesTest extends RealmTest {
 
     @Test
     public void linkUsers() {
-        Expectation expectation = new Expectation();
+        //Expectation expectation = new Expectation();
         activity.runOnUiThread(() -> {
             try {
                 String appID = YOUR_APP_ID; // replace this with your App ID
@@ -86,7 +86,7 @@ public class LinkUserIdentitiesTest extends RealmTest {
                         // :code-block-start: link-users
                         user.linkCredentialsAsync(Credentials.emailPassword(email, password), result -> {
                             // :hide-start:
-                            expectation.fulfill();
+                            //expectation.fulfill();
                             // :hide-end:
                             if (result.isSuccess()) {
                                 Log.v("EXAMPLE", "Successfully linked existing user identity with email/password user: " + result.get());

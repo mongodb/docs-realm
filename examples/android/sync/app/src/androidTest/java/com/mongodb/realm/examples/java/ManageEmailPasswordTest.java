@@ -40,6 +40,9 @@ public class ManageEmailPasswordTest extends RealmTest {
                     // :hide-end:
                 } else {
                     Log.e("EXAMPLE", "Failed to register user: " + it.getError().getErrorMessage());
+                    // :hide-start:
+                    expectation.fulfill();
+                    // :hide-end:
                 }
             });
             // :code-block-end:

@@ -82,6 +82,9 @@ public class OpenARealmTest extends RealmTest {
                             .allowWritesOnUiThread(true)
                             .waitForInitialRemoteData(500, TimeUnit.MILLISECONDS)
                             .compactOnLaunch()
+                            // :hide-start:
+                            .inMemory()
+                            // :hide-end:
                             .build();
 
                     Realm.getInstanceAsync(config, new Realm.Callback() {
