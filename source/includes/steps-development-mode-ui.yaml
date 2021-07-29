@@ -23,6 +23,10 @@ content: |
   own collection in the linked cluster. The collections use the pluralized name
   of the object type and are located in a specific database.
 
+  .. seealso::
+ 
+     :ref:`Development Database <sync-development-database>`
+
   Determine which database in the linked cluster you want to contain the synced
   data and then enter it into the :guilabel:`Define a Database Name` input.
 
@@ -50,4 +54,16 @@ title: Turn On Development Mode
 ref: turn-on-development-mode
 content: |
   Click :guilabel:`Turn Dev Mode On` to enable development mode.
+---
+title: Deploy the Updated App
+ref: deploy-the-updated-app
+content: |
+  After you've enabled development mode, review your draft changes 
+  and confirm that you want to deploy them. Press the :guilabel:`Review
+  Draft & Deploy` button in the banner at the top of the UI. You'll see
+  a summary of your changes. Click the :guilabel:`Deploy` button. 
+  
+  {+service-short+} immediately deploys a new version of your application 
+  where Development Mode is enabled. Client applications will automatically 
+  use the newest version and can immediately start to sync their object models.
 ...
