@@ -15,11 +15,67 @@ Modify a Synced Object Schema
 Overview
 --------
 If you need to make changes to an object schema that is used in {+sync+}, you 
-can make :ref:`additive changes <additive-changes-synced-schema>`without any 
+can make :ref:`additive changes <additive-changes-synced-schema>` without any 
 additional work. :ref:`Destructive changes <destructive-changes-synced-schema>`, 
-however, require additional steps. 
+however, require additional steps. A destructive change includes renaming an 
+exiting field or changing a field's data type.
 
 This page guides you through making destructive changes to a {+sync+} schema.
+
+In the following procedure, the *initial* collection uses the JSON Schema below 
+for a ``Task`` collection. Note that the schema for the ``Task`` contains an 
+``_id`` field of type ``ObjectId``:
+
+.. code-block:: json
+    :caption: Task Schema
+    :emphasize-lines: 9-10
+
+    {
+        "title": "Task",
+        "bsonType": "object",
+        "required": [
+            "_id",
+            "name"
+        ],
+        "properties": {
+            "_id": {
+            "bsonType": "objectId"
+            },
+            "_partition": {
+            "bsonType": "string"
+            },
+            "name": {
+            "bsonType": "string"
+            }
+        }
+    }
+
+The new schema is the same, except we want the ``_id`` field to be a string:
+
+.. code-block:: json
+    :caption: Task Schema
+    :emphasize-lines: 9-10
+
+    {
+        "title": "Task",
+        "bsonType": "object",
+        "required": [
+            "_id",
+            "name"
+        ],
+        "properties": {
+            "_id": {
+            "bsonType": "string"
+            },
+            "_partition": {
+            "bsonType": "string"
+            },
+            "name": {
+            "bsonType": "string"
+            }
+        }
+    }
+
 
 Procedure
 ---------
