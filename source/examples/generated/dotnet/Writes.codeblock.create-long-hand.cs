@@ -1,16 +1,17 @@
 // Open a thread-safe transaction.
-var transaction = realm.BeginWrite();
-
-// Perform a write op...
-realm.Add(myDog);
-try
+using (var transaction = realm.BeginWrite())
 {
-    // Do other work that needs to be included in
-    // this transaction
-    transaction.Commit();
-}
-catch (Exception ex)
-{
-    // Something went wrong; roll back the transaction
-    transaction.Dispose();
+    try
+    {
+        // Perform a write op...
+        realm.Add(myDog);
+        // Do other work that needs to be included in
+        // this transaction
+        transaction.Commit();
+    }
+    catch (Exception ex)
+    {
+        // Something went wrong; roll back the transaction
+        transaction.Dispose();
+    }
 }
