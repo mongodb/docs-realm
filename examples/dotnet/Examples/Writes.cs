@@ -63,21 +63,19 @@ namespace Examples
             //   "WriteDog" : "Dog" }
             // }
             // Open a thread-safe transaction.
-            using (var transaction = realm.BeginWrite())
+            var transaction = realm.BeginWrite();
+            try
             {
-                try
-                {
-                    // Perform a write op...
-                    realm.Add(myDog);
-                    // Do other work that needs to be included in
-                    // this transaction
-                    transaction.Commit();
-                }
-                catch (Exception ex)
-                {
-                    // Something went wrong; roll back the transaction
-                    transaction.Dispose();
-                }
+                // Perform a write op...
+                realm.Add(myDog);
+                // Do other work that needs to be included in
+                // this transaction
+                transaction.Commit();
+            }
+            catch (Exception ex)
+            {
+                // Something went wrong; roll back the transaction
+                transaction.Dispose();
             }
             // :replace-end:
             // :code-block-end:
