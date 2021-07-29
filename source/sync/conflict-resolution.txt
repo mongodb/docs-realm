@@ -17,15 +17,15 @@ Overview
 
 Conflicts arise when two or more users make changes to the same piece of
 data independently. This can happen due to latency between device and
-server or loss of connectivity. In this event, {+service-short+} merges
-the changes according to specific rules that ensure all sides always
-converge on the same result, even though their changes may have been
-made in a different order. This is called conflict resolution.
+server or loss of connectivity. In this event, {+service-short+} automatically 
+uses conflict resolution strategies to merge the changes. Specifically,
+{+service-short+} handles conflict resolution using operational transformation,
+a function which provides specific rules that ensure all sides always converge 
+on the same result, even though their changes may have been made in a different order. 
 
 {+service-short+}'s conflict resolution system guarantees that all
-clients will eventually converge to identical states, which is called
-:wikipedia:`strong eventual consistency
-<Eventual_consistency#Strong_eventual_consistency>`. You have to be
+clients will have strong eventual consistency, meaning all clients' versions
+will eventually converge to identical states. You have to be
 aware of the rules to ensure the consistent results you want, but the
 upside is that by following those rules you can have devices work
 entirely offline and still converge on meaningful results when they
@@ -72,16 +72,16 @@ incrementing simultaneously (they may both read 10, increment it to 11,
 and when it merged you would get a result of 11 rather than the intended
 12).
 
-To support this common case, we offer a way to express the intent that
-you are incrementing (or decrementing) the value, giving enough hints to
-the merge that it can reach the correct result. You have the choice to
+To support this common case, we offer a way to express whether
+you are incrementing (or decrementing) the value, giving enough hints so
+the merge can reach the correct result. You have the choice to
 update the entire value or edit it in a way that conveys more meaning,
 allowing you to get more precise control of the conflict resolution.
 
 Strings
 ~~~~~~~
 
-{+service-short+} treats strings as atomic values and does not merge
+{+service-short+} interprets the whole value of a string and does not merge
 conflicts on a per-character basis.
 
 .. _custom-conflict-resolution:
