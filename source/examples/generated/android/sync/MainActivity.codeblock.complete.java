@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-        @Override
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         // the ui thread realm uses asynchronous transactions, so we can only safely close the realm

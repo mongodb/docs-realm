@@ -21,7 +21,7 @@ class UserAPIKeysTest : RealmTest() {
     @Before
     fun setUpUserAndKey() {
         val random = Random()
-        email = "test" + random.nextInt(100000)
+        email = "test" + random.nextInt(10000000)
         password = "testtest"
 
         val userIsRegistered = Expectation()

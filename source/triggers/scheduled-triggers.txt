@@ -58,14 +58,12 @@ Create a Scheduled Trigger
    .. tab::
       :tabid: cli
       
-      .. include:: /includes/note-procedure-uses-cli-v1.rst
-      
       To create a scheduled Trigger with :doc:`realm-cli
       </deploy/realm-cli-reference>`:
       
       1. Add a scheduled Trigger :ref:`configuration file
-         <scheduled-trigger-configuration>` to the ``triggers`` subdirectory of
-         a local application directory.
+         <config-scheduled-trigger>` to the ``triggers`` subdirectory of a local
+         application directory.
       
          .. note::
       
@@ -74,12 +72,11 @@ Create a Scheduled Trigger
             configurations must specify a :doc:`CRON expression
             </triggers/cron-expressions>`.
       
-      2. :doc:`Import </deploy/deploy-cli>` the application directory into your
-         application.
+      2. :doc:`Deploy </deploy/deploy-cli>` the trigger:
       
          .. code-block:: shell
       
-            realm-cli import
+            realm-cli push
 
 Reference
 ---------

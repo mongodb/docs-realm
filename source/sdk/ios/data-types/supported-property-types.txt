@@ -35,46 +35,124 @@ Property Cheat Sheet
            - Required
            - Optional
          * - Bool
-           - ``@Persisted var value: Bool``
-           - ``@Persisted var value: Bool?``
+           - .. code-block:: swift
+                :copyable: false
+
+                @Persisted var value: Bool
+           - .. code-block:: swift
+                :copyable: false
+
+                @Persisted var value: Bool?
          * - Int, Int8, Int16, Int32, Int64
-           - ``@Persisted var value: Int``
-           - ``@Persisted var value: Int?``
+           - .. code-block:: swift
+                :copyable: false
+
+                @Persisted var value: Int
+           - .. code-block:: swift
+                :copyable: false
+
+                @Persisted var value: Int?
          * - Float
-           - ``@Persisted var value: Float``
-           - ``@Persisted var value: Float?``
+           - .. code-block:: swift
+                :copyable: false
+
+                @Persisted var value: Float
+           - .. code-block:: swift
+                :copyable: false
+
+                @Persisted var value: Float?
          * - Double
-           - ``@Persisted var value: Double``
-           - ``@Persisted var value: Double?``
+           - .. code-block:: swift
+                :copyable: false
+
+                @Persisted var value: Double
+           - .. code-block:: swift
+                :copyable: false
+
+                @Persisted var value: Double?
          * - String
-           - ``@Persisted var value: String``
-           - ``@Persisted var value: String?``
+           - .. code-block:: swift
+                :copyable: false
+
+                @Persisted var value: String
+           - .. code-block:: swift
+                :copyable: false
+
+                @Persisted var value: String?
          * - Data
-           - ``@Persisted var value = Data()``
-           - ``@Persisted var value: Data?``
+           - .. code-block:: swift
+                :copyable: false
+
+                @Persisted var value = Data()
+           - .. code-block:: swift
+                :copyable: false
+
+                @Persisted var value: Data?
          * - Date
-           - ``@Persisted var value = Date()``
-           - ``@Persisted var value: Date?``
+           - .. code-block:: swift
+                :copyable: false
+
+                @Persisted var value = Date()
+           - .. code-block:: swift
+                :copyable: false
+
+                @Persisted var value: Date?
          * - Decimal128
-           - ``@Persisted var decimal: Decimal128``
-           - ``@Persisted var decimal: Decimal128?``
+           - .. code-block:: swift
+                :copyable: false
+
+                @Persisted var decimal: Decimal128
+           - .. code-block:: swift
+                :copyable: false
+
+                @Persisted var decimal: Decimal128?
          * - :swift-sdk:`UUID <Extensions.html#/s:10Foundation4UUIDV>`
-           - ``@Persisted var uuid: UUID``
-           - ``@Persisted var uuidOpt: UUID?``
+           - .. code-block:: swift
+                :copyable: false
+
+                @Persisted var uuid: UUID
+           - .. code-block:: swift
+                :copyable: false
+
+                @Persisted var uuidOpt: UUID?
          * - :swift-sdk:`ObjectId <Classes/ObjectId.html>`
-           - ``@Persisted var objectId: ObjectId``
-           - ``@Persisted var objectId: ObjectId?``
+           - .. code-block:: swift
+                :copyable: false
+
+                @Persisted var objectId: ObjectId
+           - .. code-block:: swift
+                :copyable: false
+
+                @Persisted var objectId: ObjectId?
          * - :swift-sdk:`List <Classes/List.html>`
-           - ``@Persisted var value: List<Type>``
-           - ``@Persisted var value: List<Type?>``
+           - .. code-block:: swift
+                :copyable: false
+
+                @Persisted var value: List<Type>
+           - .. code-block:: swift
+                :copyable: false
+
+                @Persisted var value: List<Type?>
          * - :ref:`MutableSet <ios-mutableset-data-type>` 
-           - ``@Persisted var value: MutableSet<Type>``
-           - ``@Persisted var value: MutableSet<Type?>``
+           - .. code-block:: swift
+                :copyable: false
+
+                @Persisted var value: MutableSet<Type>
+           - .. code-block:: swift
+                :copyable: false
+
+                @Persisted var value: MutableSet<Type?>
          * - :ref:`Map <ios-map>` 
-           - ``@Persisted var value = Map<String, String>``
+           - .. code-block:: swift
+                :copyable: false
+
+                @Persisted var value = Map<String, String>
            - N/A
          * - :ref:`AnyRealmValue <ios-anyrealmvalue-data-type>`
-           - ``@Persisted var value: AnyRealmValue``
+           - .. code-block:: swift
+                :copyable: false
+
+                @Persisted var value: AnyRealmValue
            - N/A
       
       Additionally:
@@ -124,41 +202,107 @@ Property Cheat Sheet
            - Required
            - Optional
          * - Boolean
-           - ``@property BOOL value;``
-           - ``@property NSNumber<RLMBool> *value;``
+           - .. code-block:: objectivec
+                :copyable: false
+
+                @property BOOL value;
+           - .. code-block:: objectivec
+                :copyable: false
+                
+                @property NSNumber<RLMBool> *value;
          * - Integer
-           - ``@property int value;``
-           - ``@property NSNumber<RLMInt> *value;``
+           - .. code-block:: objectivec
+                :copyable: false
+                
+                @property int value;
+           - .. code-block:: objectivec
+                :copyable: false
+                
+                @property NSNumber<RLMInt> *value;
          * - Float
-           - ``@property float value;``
-           - ``@property NSNumber<RLMFloat> *value;``
+           - .. code-block:: objectivec
+                :copyable: false
+                
+                @property float value;
+           - .. code-block:: objectivec
+                :copyable: false
+                
+                @property NSNumber<RLMFloat> *value;
          * - Double
-           - ``@property double value;``
-           - ``@property NSNumber<RLMDouble> *value;``
+           - .. code-block:: objectivec
+                :copyable: false
+                
+                @property double value;
+           - .. code-block:: objectivec
+                :copyable: false
+                
+                @property NSNumber<RLMDouble> *value;
          * - String
-           - ``@property NSString *value;``
-           - ``@property NSString *value;``
+           - .. code-block:: objectivec
+                :copyable: false
+                
+                @property NSString *value;
+           - .. code-block:: objectivec
+                :copyable: false
+                
+                @property NSString *value;
          * - Data
-           - ``@property NSData *value;``
-           - ``@property NSData *value;``
+           - .. code-block:: objectivec
+                :copyable: false
+                
+                @property NSData *value;
+           - .. code-block:: objectivec
+                :copyable: false
+                
+                @property NSData *value;
          * - Date
-           - ``@property NSDate *value;``
-           - ``@property NSDate *value;``
+           - .. code-block:: objectivec
+                :copyable: false
+                
+                @property NSDate *value;
+           - .. code-block:: objectivec
+                :copyable: false
+                
+                @property NSDate *value;
          * - Decimal128
-           - ``@property RLMDecimal128 *value;``
-           - ``@property RLMDecimal128 *value;``
+           - .. code-block:: objectivec
+                :copyable: false
+                
+                @property RLMDecimal128 *value;
+           - .. code-block:: objectivec
+                :copyable: false
+                
+                @property RLMDecimal128 *value;
          * - NSUUID
-           - ``@property NSUUID *uuid;``
+           - .. code-block:: objectivec
+                :copyable: false
+                
+                @property NSUUID *uuid;
            - 
          * - :objc-sdk:`RLMObjectId <Classes/RLMObjectId.html>`
-           - ``@property RLMObjectId *objectId;``
-           - ``@property RLMObjectId *objectId;``
+           - .. code-block:: objectivec
+                :copyable: false
+                
+                @property RLMObjectId *objectId;
+           - .. code-block:: objectivec
+                :copyable: false
+                
+                @property RLMObjectId *objectId;
          * - :objc-sdk:`RLMArray <Classes/RLMArray.html>`
-           - ``@property RLMArray<MyClass *><MyClass> *items;``
-           - ``@property RLMArray<MyClass *><MyClass> *items;``
+           - .. code-block:: objectivec
+                :copyable: false
+                
+                @property RLMArray<MyClass *><MyClass> *items;
+           - .. code-block:: objectivec
+                :copyable: false
+                
+                @property RLMArray<MyClass *><MyClass> *items;
          * - User-defined :objc-sdk:`RLMObject<Classes/RLMObject.html>`
            - N/A
-           - ``@property MyClass *value;``
+           - .. code-block:: objectivec
+                :copyable: false
+                
+                @property MyClass *value;
 
       Additionally:
 
@@ -186,50 +330,125 @@ Property Cheat Sheet
            - Required
            - Optional
          * - Bool
-           - ``@objc dynamic var value = false``
-           - ``let value = RealmProperty<Bool?>()``
+           - .. code-block:: swift
+                :copyable: false
+
+                @objc dynamic var value = false
+           - .. code-block:: swift
+                :copyable: false
+           
+                let value = RealmProperty<Bool?>()
          * - Int, Int8, Int16, Int32, Int64
-           - ``@objc dynamic var value = 0``
-           - ``let value = RealmProperty<Int?>()``
+           - .. code-block:: swift
+                :copyable: false
+
+                @objc dynamic var value = 0
+           - .. code-block:: swift
+                :copyable: false
+           
+                let value = RealmProperty<Int?>()
          * - Float
-           - ``@objc dynamic var value: Float = 0.0``
-           - ``let value = RealmProperty<Float?>()``
+           - .. code-block:: swift
+                :copyable: false
+           
+                @objc dynamic var value: Float = 0.0
+           - .. code-block:: swift
+                :copyable: false
+           
+                let value = RealmProperty<Float?>()
          * - Double
-           - ``@objc dynamic var value: Double = 0.0``
-           - ``let value = RealmProperty<Double?>()``
+           - .. code-block:: swift
+                :copyable: false
+           
+                @objc dynamic var value: Double = 0.0
+           - .. code-block:: swift
+                :copyable: false
+           
+                let value = RealmProperty<Double?>()
          * - String
-           - ``@objc dynamic var value = ""``
-           - ``@objc dynamic var value: String? = nil``
+           - .. code-block:: swift
+                :copyable: false
+           
+                @objc dynamic var value = ""
+           - .. code-block:: swift
+                :copyable: false
+           
+                @objc dynamic var value: String? = nil
          * - Data
-           - ``@objc dynamic var value = Data()``
-           - ``@objc dynamic var value: Data? = nil``
+           - .. code-block:: swift
+                :copyable: false
+           
+                @objc dynamic var value = Data()
+           - .. code-block:: swift
+                :copyable: false
+           
+                @objc dynamic var value: Data? = nil
          * - Date
-           - ``@objc dynamic var value = Date()``
-           - ``@objc dynamic var value: Date? = nil``
+           - .. code-block:: swift
+                :copyable: false
+           
+                @objc dynamic var value = Date()
+           - .. code-block:: swift
+                :copyable: false
+           
+                @objc dynamic var value: Date? = nil
          * - Decimal128
-           - ``@objc dynamic var decimal: Decimal128 = 0``
-           - ``@objc dynamic var decimal: Decimal128?``
+           - .. code-block:: swift
+                :copyable: false
+           
+                @objc dynamic var decimal: Decimal128 = 0
+           - .. code-block:: swift
+                :copyable: false
+           
+                @objc dynamic var decimal: Decimal128?
          * - :swift-sdk:`UUID <Extensions.html#/s:10Foundation4UUIDV>`
-           - ``@objc dynamic var uuid = UUID()``
-           - ``@objc dynamic var uuidOpt: UUID?``
+           - .. code-block:: swift
+                :copyable: false
+           
+                @objc dynamic var uuid = UUID()
+           - .. code-block:: swift
+                :copyable: false
+           
+                @objc dynamic var uuidOpt: UUID?
          * - :swift-sdk:`ObjectId <Classes/ObjectId.html>`
-           - ``@objc dynamic var objectId = ObjectId.generate()``
-           - ``@objc dynamic var objectId: ObjectId?``
+           - .. code-block:: swift
+                :copyable: false
+           
+                @objc dynamic var objectId = ObjectId.generate()
+           - .. code-block:: swift
+                :copyable: false
+           
+                @objc dynamic var objectId: ObjectId?
          * - :swift-sdk:`List <Classes/List.html>`
-           - ``let value = List<Type>()``
+           - .. code-block:: swift
+                :copyable: false
+           
+                let value = List<Type>()
            - 
          * - :ref:`MutableSet <ios-mutableset-data-type>` 
-           - ``let value = MutableSet<Type>()``
+           - .. code-block:: swift
+                :copyable: false
+           
+                let value = MutableSet<Type>()
            - 
          * - :ref:`Map <ios-map>` 
-           - ``let value = Map<String, String>()``
+           - .. code-block:: swift
+                :copyable: false
+           
+                let value = Map<String, String>()
            - 
          * - :ref:`AnyRealmValue <ios-anyrealmvalue-data-type>`
-           - ``let value = RealmProperty<AnyRealmValue>()``
+           - .. code-block:: swift
+                :copyable: false
+           
+                let value = RealmProperty<AnyRealmValue>()
            - N/A
          * - User-defined :swift-sdk:`Object <Extensions/Object.html>`
            - N/A
-           - ``@objc dynamic var value: MyClass?``
+           - .. code-block:: swift
+                :copyable: false
+           
+                @objc dynamic var value: MyClass?
       
       Additionally:
 

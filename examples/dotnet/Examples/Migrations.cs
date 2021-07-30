@@ -20,7 +20,7 @@ namespace Examples
                     //   "Person200": "Person",
                     //   "Person400":"Person"}
                     // }
-                    var oldPeople = migration.OldRealm.All<Person200>();
+                    var oldPeople = migration.OldRealm.DynamicApi.All("Person200");
                     var newPeople = migration.NewRealm.All<Person400>();
                     // :replace-end:
 

@@ -71,6 +71,15 @@ content: |
                // Valid
                // Can exclude _id while including other fields
                { "_id": 0, "name": 1 }
+
+     * - :guilabel:`Client Session`
+
+         | ``session: <ClientSession>``
+
+       - Optional. A client session that specifies the transaction context
+         in which the operation occurs. To learn more, see
+         :ref:`Transactions <transactions>`.
+
 ---
 ref: mongodb-action-params-findOne
 content: |
@@ -143,6 +152,15 @@ content: |
                // Valid
                // Can exclude _id while including other fields
                { "_id": 0, "name": 1 }
+
+     * - :guilabel:`Client Session`
+
+         | ``session: <ClientSession>``
+
+       - Optional. A client session that specifies the transaction context
+         in which the operation occurs. To learn more, see
+         :ref:`Transactions <transactions>`.
+
 ---
 ref: mongodb-action-params-count
 content: |
@@ -167,6 +185,15 @@ content: |
 
          Specify an empty query filter (``{}``) or omit this parameter
          to count all documents in the collection.
+
+     * - :guilabel:`Client Session`
+
+         | ``session: <ClientSession>``
+
+       - Optional. A client session that specifies the transaction context
+         in which the operation occurs. To learn more, see
+         :ref:`Transactions <transactions>`.
+
 ---
 ref: mongodb-action-params-updateMany
 content: |
@@ -224,6 +251,15 @@ content: |
          indicates that MongoDB should insert a new document that
          matches the query filter when the query does not match any
          existing documents in the collection.
+
+     * - :guilabel:`Client Session`
+
+         | ``session: <ClientSession>``
+
+       - Optional. A client session that specifies the transaction context
+         in which the operation occurs. To learn more, see
+         :ref:`Transactions <transactions>`.
+
 ---
 ref: mongodb-action-params-updateOne
 content: |
@@ -281,6 +317,15 @@ content: |
          indicates that MongoDB should insert a new document that
          matches the query filter when the query does not match any
          existing documents in the collection.
+
+     * - :guilabel:`Client Session`
+
+         | ``session: <ClientSession>``
+
+       - Optional. A client session that specifies the transaction context
+         in which the operation occurs. To learn more, see
+         :ref:`Transactions <transactions>`.
+
 ---
 ref: mongodb-action-params-deleteOne
 content: |
@@ -306,6 +351,15 @@ content: |
 
          If multiple documents match the query, only the first document
          in sort order or :term:`natural order` will be deleted.
+
+     * - :guilabel:`Client Session`
+
+         | ``session: <ClientSession>``
+
+       - Optional. A client session that specifies the transaction context
+         in which the operation occurs. To learn more, see
+         :ref:`Transactions <transactions>`.
+
 ---
 ref: mongodb-action-params-deleteMany
 content: |
@@ -328,6 +382,15 @@ content: |
          :manual:`geospatial </reference/operator/query/#geospatial>`,
          or :manual:`bitwise </reference/operator/query/#bitwise>`
          selectors.
+
+     * - :guilabel:`Client Session`
+
+         | ``session: <ClientSession>``
+
+       - Optional. A client session that specifies the transaction context
+         in which the operation occurs. To learn more, see
+         :ref:`Transactions <transactions>`.
+
 ---
 ref: mongodb-action-params-insertOne
 content: |
@@ -343,6 +406,15 @@ content: |
          | ``document: <document>``
 
        - A document to insert into the collection.
+
+     * - :guilabel:`Client Session`
+
+         | ``session: <ClientSession>``
+
+       - Optional. A client session that specifies the transaction context
+         in which the operation occurs. To learn more, see
+         :ref:`Transactions <transactions>`.
+
 ---
 ref: mongodb-action-params-insertMany
 content: |
@@ -358,6 +430,15 @@ content: |
          | ``documents: Array<document>``
 
        - An array of documents to insert into the collection.
+
+     * - :guilabel:`Client Session`
+
+         | ``session: <ClientSession>``
+
+       - Optional. A client session that specifies the transaction context
+         in which the operation occurs. To learn more, see
+         :ref:`Transactions <transactions>`.
+
 ---
 ref: mongodb-action-find-cursor
 content: |
@@ -439,6 +520,15 @@ content: |
 
                collection.find().toArray()
                  .then(docs => console.log("all documents", docs))
+
+     * - :guilabel:`Client Session`
+
+         | ``session: <ClientSession>``
+
+       - Optional. A client session that specifies the transaction context
+         in which the operation occurs. To learn more, see
+         :ref:`Transactions <transactions>`.
+
 ---
 ref: mongodb-action-aggregate-cursor
 content: |
@@ -483,6 +573,15 @@ content: |
             
             You cannot call this method after retrieving one or more
             documents using ``cursor.next()`` or ``cursor.toArray()``.
+
+     * - :guilabel:`Client Session`
+
+         | ``session: <ClientSession>``
+
+       - Optional. A client session that specifies the transaction context
+         in which the operation occurs. To learn more, see
+         :ref:`Transactions <transactions>`.
+
 ---
 ref: mongodb-action-params-findOneAndUpdate
 content: |
@@ -621,6 +720,15 @@ content: |
        - Optional. Default: ``false``. A boolean that, if ``true``,
          indicates that the action should return the document in its
          updated form instead of its original, pre-update form.
+
+     * - :guilabel:`Client Session`
+
+         | ``session: <ClientSession>``
+
+       - Optional. A client session that specifies the transaction context
+         in which the operation occurs. To learn more, see
+         :ref:`Transactions <transactions>`.
+
 ---
 ref: mongodb-action-params-findOneAndReplace
 content: |
@@ -759,6 +867,15 @@ content: |
          indicates that the action should return the document in its
          post-replace form instead of its original form from before the
          replace operation.
+
+     * - :guilabel:`Client Session`
+
+         | ``session: <ClientSession>``
+
+       - Optional. A client session that specifies the transaction context
+         in which the operation occurs. To learn more, see
+         :ref:`Transactions <transactions>`.
+
 ---
 ref: mongodb-action-params-findOneAndDelete
 content: |
@@ -869,6 +986,15 @@ content: |
                // Valid
                // Can exclude _id while including other fields
                { "_id": 0, "name": 1 }
+
+     * - :guilabel:`Client Session`
+
+         | ``session: <ClientSession>``
+
+       - Optional. A client session that specifies the transaction context
+         in which the operation occurs. To learn more, see
+         :ref:`Transactions <transactions>`.
+
 ---
 ref: mongodb-action-params-bulkWrite
 content: |

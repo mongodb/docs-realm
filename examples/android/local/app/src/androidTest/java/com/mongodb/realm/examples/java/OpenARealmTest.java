@@ -50,7 +50,6 @@ public class OpenARealmTest extends RealmTest {
                     .allowQueriesOnUiThread(true)
                     .allowWritesOnUiThread(true)
                     .compactOnLaunch()
-                    .inMemory()
                     .build();
 
             Realm realm = Realm.getInstance(config);
