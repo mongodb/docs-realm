@@ -14,6 +14,49 @@ schema as you develop your app.
 - If your schema does not match the server, **compare the class definitions from the SDKs tab in the Realm UI** with those in the client code.
 - When creating objects, make sure the **partition value of your new object matches** the partition value you opened the Realm with.
 
+## Building & Running the sample app with Expo
+
+- install [Expo](https://expo.io/) with `npm install -g expo-cli`
+
+- Clone repo & cd into it
+
+```bash
+git clone https://github.com/mongodb/docs-realm/
+cd docs-realm/tutorial/rn
+```
+
+- install all NPM packages and add `expo-dev-client` v0.0.4+
+
+```bash
+npm install
+npm install expo-dev-client@0.4.4
+
+```
+
+- add Expo to the project
+
+```bash
+npm add expo
+```
+
+### Use Expo to run the App in iOS
+
+`expo run:ios`
+
+If asked to install Expo Go (running in a new Simulator / Emulator) you need to install Expo Go using:
+
+```bash
+expo start --dev-client 
+```
+
+### Use Expo to run the App in Android
+
+`run:android`
+
+If we do expo `run:android` and it fails, we need to:
+
+`chmod a+x android/gradlew`
+
 ## Issues & Pull Requests
 
 If you find an issue or have a suggestion, please let us know using the feedback
