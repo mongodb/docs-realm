@@ -15,7 +15,8 @@ const TasksProvider = ({ children, projectPartition }) => {
   const realmRef = useRef(null);
 
   useEffect(() => {
-    // enable offline-first, syncing changes in the background
+    // Enables offline-first: opens a local realm immediately without waiting 
+    // for the download of a synchronized realm to be completed.
     const OpenRealmBehaviorConfiguration = {
       type: 'openImmediately',
     };
