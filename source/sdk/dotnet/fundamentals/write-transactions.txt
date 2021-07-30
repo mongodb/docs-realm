@@ -16,22 +16,18 @@ Write Transactions - .NET SDK
 Overview
 --------
 
-:term:`{+client-database+}` uses a highly efficient storage engine
-to persist objects. You can **create** objects in a :term:`{+realm+}`,
-**update** objects in a {+realm+}, and eventually **delete**
+In addition to reading objects, you can **create**, **update** , and **delete**
 objects from a {+realm+}. Because these operations modify the
-state of the {+realm+}, we call them writes.
+state of the {+realm+}, we call them "writes", and all writes to {+service-short+} 
+must be within a **transaction**.
 
-All writes to {+service-short+} must be within a **transaction**. A
-transaction is a list of read and write operations that
+A transaction is a list of read and write operations that
 {+service-short+} treats as a single indivisible operation. In other
 words, a transaction is *all or nothing*: either all of the
 operations in the transaction succeed or none of the
 operations in the transaction take effect.
 
-.. note:: Remember
-
-   All writes must happen in a transaction.
+**All writes must happen in a transaction.**
 
 A {+realm+} allows only one open transaction at a time. {+service-short+}
 blocks other writes on other threads until the open
@@ -49,6 +45,32 @@ When you are done with your transaction, {+service-short+} either
   the transaction causes an error, all changes are discarded
   (or "rolled back").
 
+.. _dotnet-open-a-transaction:
+
+Initiate a Transaction
+~~~~~~~~~~~~~~~~~~~~~~
+
+The .NET SDK provides a simple API you can use for most writes.  The 
+:dotnet-sdk:`Write() <reference/Realms.Realm.html#Realms_Realm_Write__1_System_Func___0__>` 
+method wraps all commands into a single transaction and then commits the 
+transaction. 
+
+The ``Write()`` method is shorthand for using the 
+:dotnet-sdk:`BeginWrite() <reference/Realms.Realm.html#Realms_Realm_BeginWrite>` and
+:dotnet-sdk:`Transaction.Commit() <reference/Realms.Transaction.html#Realms_Transaction_Commit>`
+methods. In most cases, using ``Write()`` will meet your needs, but if you need 
+finer control over the transaction, use ``BeginWrite()`` with one of the 
+``Transaction`` methods (:dotnet-sdk:`Commit() <reference/Realms.Transaction.html#Realms_Transaction_Commit>`,
+:dotnet-sdk:`Dispose() <reference/Realms.Transaction.html#Realms_Transaction_Dispose>`, or 
+:dotnet-sdk:`Rollback() <reference/Realms.Transaction.html#Realms_Transaction_Rollback>`). 
+The following code shows how to use both approaches:
+
+.. literalinclude:: /examples/generated/dotnet/Writes.codeblock.create.cs
+   :language: csharp
+
+.. literalinclude:: /examples/generated/dotnet/Writes.codeblock.create-long-hand.cs
+   :language: csharp
+
 .. _dotnet-acid-compliance:
 
 Realm is ACID Compliant
@@ -59,8 +81,3 @@ compliant. This means that all committed write
 operations are guaranteed to be valid and that clients don't
 see transient states in the event of a system crash.
 
-.. TODO: EXAMPLE
-.. _dotnet-open-a-transaction:
-
-.. Run a Transaction
-.. ~~~~~~~~~~~~~~~~~

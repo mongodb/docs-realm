@@ -6,4 +6,3 @@ realm.Write(() =>
     // Discard the reference.
     dog = null;
 });
-
