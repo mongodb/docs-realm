@@ -19,7 +19,8 @@ Conflicts arise when two or more users make changes to the same piece of
 data independently. This can happen due to latency between device and
 server or loss of connectivity. In this event, {+service-short+} automatically 
 uses conflict resolution strategies to merge the changes. Specifically,
-{+service-short+} handles conflict resolution using operational transformation,
+{+service-short+} handles conflict resolution using `operational transformation 
+<https://docs.mongodb.com/realm/sync/protocol/#operational-transformation>`__,
 a function which provides specific rules that ensure all sides always converge 
 on the same result, even though their changes may have been made in a different order. 
 
@@ -56,6 +57,19 @@ Primary keys designate object identity.
   If two sides both create objects of the same class with identical
   primary keys, they will be treated as instances of the same object.
 
+.. example:: <Delete always wins>
+
+Matt and Sarah are working on data for their dog walking business. Matt
+deletes data on one of their client's dogs, Doug, as they no longer need to walk him.
+While Sarah is out without internet connection, she edits Doug's required walk time 
+data on her local, offline version, as she does not know about Matt's deletion of Doug's data. 
+
+Once Sarah regains internet connection, her change will be sent to the server. The server will
+send her Matt's deletion operation. As deletes always win according to {+service-short+}'s
+conflict resolution rules, Matt's deletion is kept rather than Sarah's edit.
+The server will not send Sarah's edits to Matt's device. The data is again in agreement across
+Matt and Sarah's devices.
+
 .. _conflict-resolution-special-considerations:
 
 Special Considerations
@@ -81,8 +95,10 @@ allowing you to get more precise control of the conflict resolution.
 Strings
 ~~~~~~~
 
-{+service-short+} interprets the whole value of a string and does not merge
-conflicts on a per-character basis.
+{+service-short+} interprets the value of a string as a whole and does not merge
+conflicts on a per-character basis. For example, this means that if a character 
+or substring is inserted or deleted within a string, {+service-short+} will treat 
+this as a replacement of the entire value of the string.
 
 .. _custom-conflict-resolution:
 
