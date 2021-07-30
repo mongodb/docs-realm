@@ -31,12 +31,12 @@ use the :java-sdk:`waitForInitialRemoteData() <io/realm/mongodb/sync/SyncConfigu
 configuration option to force the SDK to fetch remote data before
 opening the {+realm+} to avoid these inconsistencies.
 
-The :ref:`partition value <partitioning>` specifies which subset of your data to sync.
+The :ref:`partition value <partition-value>` specifies which subset of your data to sync.
 This is typically a user ID, project ID, store ID, or some other category identifier in
 your app that has particular relevance to the current user. 
 
 .. seealso::
 
-   - :ref:`Partition Atlas Data into Realms <partitioning>`
+   - :ref:`Partitions <sync-partitions>`
    
    - :ref:`Fundamentals: Realms <android-realms>`

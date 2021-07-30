@@ -270,7 +270,7 @@ content: |
   ``ProjectActivity`` displays a list of projects that the current user
   can access. For each user, TaskTracker stores the list of accessible
   projects in the ``User`` object. Tasktracker stores each ``User``
-  object in a special :ref:`{+realm+} <partitioning>` with a value of
+  object in a special :ref:`{+realm+} <sync-partitions>` with a value of
   the following format: ``user=<user-id>``.
 
   .. include:: /includes/note-tutorial-custom-user-data-permissions.rst
@@ -336,7 +336,7 @@ content: |
   Navigate to the ``TaskActivity`` file, where we'll display the list
   of tasks that belong to a particular project. TaskTracker stores the
   list of tasks belonging to each project in a special :ref:`{+realm+}
-  <partitioning>` with a value of the following format:
+  <sync-partitions>` with a value of the following format:
   ``project=<user-id>`` (where ``<user-id>`` is equal to the user ID of
   the user who owns the project). We'll begin by initializing a
   connection to this {+realm+} when the activity starts:

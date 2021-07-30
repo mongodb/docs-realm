@@ -86,7 +86,7 @@ Log In and Open a Synced Realm with Data on the Device
 
       The first time you log in and open a synced {+realm+}, you'll log in the
       user, and pass the  user's :swift-sdk:`Configuration <Structs/Realm/Configuration.html>` 
-      object with the desired :ref:`partition <partitioning>` value to
+      object with the desired :ref:`partition value <partition-value>` to
       :swift-sdk:`Realm.asyncOpen(configuration:)
       <Structs/Realm.html#/s:10RealmSwift0A0V9asyncOpen13configuration13callbackQueue0F0AC05AsyncD4TaskVAC13ConfigurationV_So17OS_dispatch_queueCyACSg_s5Error_pSgtctFZ>`:
 
@@ -128,7 +128,7 @@ Log In and Download Changes Before Opening a Realm
       If you want to download data from your backend {+app+} before the user 
       can work with the synced {+realm+}, you'll log in the user, and pass the 
       user's :swift-sdk:`Configuration <Structs/Realm/Configuration.html>` 
-      object with the desired :ref:`partition <partitioning>` value to
+      object with the desired :ref:`partition value <partition-value>` to
       :swift-sdk:`Realm.asyncOpen(configuration:)
       <Structs/Realm.html#/s:10RealmSwift0A0V9asyncOpen13configuration13callbackQueue0F0AC05AsyncD4TaskVAC13ConfigurationV_So17OS_dispatch_queueCyACSg_s5Error_pSgtctFZ>`:
 
@@ -147,7 +147,7 @@ Log In and Download Changes Before Opening a Realm
       To open a synced {+realm+} asynchronously, pass the logged-in user's
       :objc-sdk:`RLMRealmConfiguration
       <Classes/RLMRealmConfiguration.html>` object with the desired
-      :ref:`partition <partitioning>` value to :objc-sdk:`+[RLMRealm
+      :ref:`partition value <partition-value>` to :objc-sdk:`+[RLMRealm
       asyncOpenWithConfiguration:callbackQueue:callback]
       <Classes/RLMRealm.html#/c:objc(cs)RLMRealm(cm)asyncOpenWithConfiguration:callbackQueue:callback:>`:
 
@@ -228,7 +228,7 @@ this method. You must have a cached, logged-in user.
 
       To open a synced {+realm+} with data on the device, pass the 
       logged-in user's :swift-sdk:`Configuration <Structs/Realm/Configuration.html>` 
-      object with the desired :ref:`partition <partitioning>` value to to 
+      object with the desired :ref:`partition value <partition-value>` to
       :swift-sdk:`Realm() <Structs/Realm.html>` initializers. This opens 
       the {+realm+} immediately, before downloading changesets from the server.
       This works if the device is offline, but may lead to temporary data
@@ -290,7 +290,7 @@ users from opening a realm while offline.
       To open a synced {+realm+} only after it has downloaded changes from your 
       {+app+}, verify that the user has :ref:`a network connection <ios-check-network-connection>`, 
       and then pass the logged-in user's :swift-sdk:`Configuration <Structs/Realm/Configuration.html>` 
-      object with the desired :ref:`partition <partitioning>` value to
+      object with the desired :ref:`partition value <partition-value>` to
       :swift-sdk:`Realm.asyncOpen(configuration:)
       <Structs/Realm.html#/s:10RealmSwift0A0V9asyncOpen13configuration13callbackQueue0F0AC05AsyncD4TaskVAC13ConfigurationV_So17OS_dispatch_queueCyACSg_s5Error_pSgtctFZ>`:
 
@@ -313,7 +313,7 @@ users from opening a realm while offline.
          To open a synced {+realm+} asynchronously, pass the logged-in user's
          :objc-sdk:`RLMRealmConfiguration
          <Classes/RLMRealmConfiguration.html>` object with the desired
-         :ref:`partition <partitioning>` value to :objc-sdk:`+[RLMRealm
+         :ref:`partition value <partition-value>` to :objc-sdk:`+[RLMRealm
          asyncOpenWithConfiguration:callbackQueue:callback]
          <Classes/RLMRealm.html#/c:objc(cs)RLMRealm(cm)asyncOpenWithConfiguration:callbackQueue:callback:>`:
 
