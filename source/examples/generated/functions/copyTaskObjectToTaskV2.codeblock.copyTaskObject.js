@@ -1,4 +1,3 @@
-// :code-block-start: copyTaskObject
 exports = function (changeEvent) {
   const db = context.services.get("mongodb-atlas").db("ExampleDB");
   const collection = db.collection("Task");
@@ -29,4 +28,3 @@ exports = function (changeEvent) {
     { $merge: "TaskV2" }]
   return collection.aggregate(pipeline);
 };
-// :code-block-end:

@@ -115,9 +115,9 @@ content: |
   ``TaskV2`` collection by using the 
   :manual:`$merge operator </reference/operator/aggregation/merge/>`:
 
-  .. literalinclude:: /examples/Triggers/copy-data-from-initial-collection.js
+  .. literalinclude:: /examples/generated/functions/copyTaskObjectToTaskV2.codeblock.copyTaskObject.js
      :language: javascript
-     :caption: copyTaskObjectToTaskV2 trigger
+     :caption: copyTaskObjectToTaskV2 function
 
   The reverse-migration function goes through similar steps as the example in the
   prior step. If a document has been deleted in one collection, the document is
@@ -125,6 +125,6 @@ content: |
   the changed document from ``TaskV2`` is extracted, transformed to match the 
   Task collection's schema, and written into the ``Task`` collection:
 
-  .. literalinclude:: /examples/Triggers/copy-data-from-second-version-collection.js
+  .. literalinclude:: /examples/generated/functions/copyTaskV2ObjectToTask.codeblock.copyTaskV2Object.js
      :language: javascript
-     :caption: copyTaskV2ObjectToTask trigger
+     :caption: copyTaskV2ObjectToTask function
