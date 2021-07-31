@@ -1,8 +1,10 @@
 import React, { useState } from "react";
-import { Text, ListItem } from "react-native-elements";
+import { ListItem, Text } from "react-native-elements";
 import { useTasks } from "../providers/TasksProvider";
 import { ActionSheet } from "./ActionSheet";
 import { Task } from "../schemas";
+
+import styles from "../stylesheet";
 
 export function TaskItem({ task }) {
   const [actionSheetVisible, setActionSheetVisible] = useState(false);
@@ -21,8 +23,6 @@ export function TaskItem({ task }) {
   // move the task into that status. Rather than creating a generic method to
   // avoid repetition, we split each status to separate each case in the code
   // below for demonstration purposes.
-  // :code-block-start: define-task-status-actions
-  // :state-start: final
   if (task.status !== "" && task.status !== Task.STATUS_OPEN) {
     actions.push({
       title: "Mark Open",
@@ -47,10 +47,6 @@ export function TaskItem({ task }) {
       },
     });
   }
-  // :state-end: :state-uncomment-start: start
-  //// TODO
-  // :state-uncomment-end:
-  // :code-block-end:
 
   return (
     <>
@@ -63,25 +59,24 @@ export function TaskItem({ task }) {
         }}
         actions={actions}
       />
-      <ListItem>
+      <ListItem 
+        key={task.id} 
+        onPress={() => {
+          setActionSheetVisible(true);
+        }}
+        bottomDivider>
         <ListItem.Content>
-          <ListItem.Title
-            key={task.id}
-            onPress={() => {
-              setActionSheetVisible(true);
-            }}
-            bottomDivider
-            checkmark={
-              task.status === Task.STATUS_COMPLETE ? (
-                <Text>&#10004; {/* checkmark */}</Text>
-              ) : task.status === Task.STATUS_IN_PROGRESS ? (
-                <Text>In Progress</Text>
-              ) : null
-            }
-          >        
+          <ListItem.Title>
             {task.name}
-          </ListItem.Title>
+            </ListItem.Title>
         </ListItem.Content>
+        {
+          task.status === Task.STATUS_COMPLETE ? (
+            <Text>&#10004; {/* checkmark */}</Text>
+          ) : task.status === Task.STATUS_IN_PROGRESS ? (
+            <Text>In Progress</Text>
+          ) : null
+        }
       </ListItem>
     </>
   );

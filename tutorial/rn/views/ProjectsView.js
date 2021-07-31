@@ -19,13 +19,13 @@ export function ProjectsView({ navigation }) {
     <View>
       {projectData.map((project) => (
         <View key={project.name}>
-          <ListItem>
+          <ListItem
+            onPress={() => onClickProject(project)}
+            bottomDivider
+            key={project.name}
+          >
             <ListItem.Content>
-              <ListItem.Title
-                onPress={() => onClickProject(project)}
-                bottomDivider
-                key={project.name}
-              >
+              <ListItem.Title>
                 {project.name}
               </ListItem.Title>
             </ListItem.Content>

@@ -18,21 +18,20 @@ export function ActionSheet({ actions, visible, closeOverlay }) {
       onBackdropPress={closeOverlay}
     >
       <>
-        <ListItem>
-          <ListItem.Content>
-            {[...actions, cancelAction].map(({ title, action }) => (
-              <ListItem.Title            
-                key={title}
-                onPress={() => {
-                  closeOverlay();
-                  action();
-                }}
-              >
-                {title}
-              </ListItem.Title>
-            ))}
-          </ListItem.Content> 
-        </ListItem>
+        {[...actions, cancelAction].map(({ title, action }) => (
+          <ListItem
+            key={title}
+            onPress={() => {
+              closeOverlay();
+              action();
+            }}>
+            <ListItem.Content>
+                <ListItem.Title>
+                  {title}
+                </ListItem.Title>
+            </ListItem.Content> 
+          </ListItem>
+        ))}
       </>
     </Overlay>
   );
