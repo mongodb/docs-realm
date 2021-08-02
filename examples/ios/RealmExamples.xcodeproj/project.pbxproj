@@ -66,7 +66,9 @@
 		48F38B5A252794B300DDEB65 /* AnonymouslyLoggedInTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48F38B59252794B300DDEB65 /* AnonymouslyLoggedInTestCase.swift */; };
 		48F38B5C2527A3FE00DDEB65 /* ManageApiKeys.m in Sources */ = {isa = PBXBuildFile; fileRef = 48F38B5B2527A3FE00DDEB65 /* ManageApiKeys.m */; };
 		48FE4E8B2666A93600720F92 /* MapExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48FE4E8A2666A93600720F92 /* MapExample.swift */; };
+		910ED01E26B88F4A00A58C56 /* MongoDBRemoteAccessAggregate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 910ED01D26B88F4A00A58C56 /* MongoDBRemoteAccessAggregate.swift */; };
 		9136A4DB26409A7E00FFA03B /* AnyRealmValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9136A4DA26409A7E00FFA03B /* AnyRealmValue.swift */; };
+		914601E826A6154B00BC91EA /* MongoDBRemoteAccess.swift in Sources */ = {isa = PBXBuildFile; fileRef = 914601E726A6154B00BC91EA /* MongoDBRemoteAccess.swift */; };
 		915E96A825FAB36500AABC09 /* LandingPageCodeExamples.swift in Sources */ = {isa = PBXBuildFile; fileRef = 915E96A725FAB36500AABC09 /* LandingPageCodeExamples.swift */; };
 		917D8C9F26167B69001B7A61 /* TestingAndDebugging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 917D8C9E26167B69001B7A61 /* TestingAndDebugging.swift */; };
 		9185DB1925E82C0300AF1389 /* LocalOnlyCompleteQuickStart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9185DB1825E82C0300AF1389 /* LocalOnlyCompleteQuickStart.swift */; };
@@ -152,7 +154,9 @@
 		582A61F6F341821B0C632B0C /* Pods-RealmExamples.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RealmExamples.debug.xcconfig"; path = "Target Support Files/Pods-RealmExamples/Pods-RealmExamples.debug.xcconfig"; sourceTree = "<group>"; };
 		5CF772D6D27E64F6EADF7006 /* Pods-RealmExamples.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RealmExamples.release.xcconfig"; path = "Target Support Files/Pods-RealmExamples/Pods-RealmExamples.release.xcconfig"; sourceTree = "<group>"; };
 		613FAD387146D4ABC57E754B /* Pods-QuickStartSwiftUI.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QuickStartSwiftUI.debug.xcconfig"; path = "Target Support Files/Pods-QuickStartSwiftUI/Pods-QuickStartSwiftUI.debug.xcconfig"; sourceTree = "<group>"; };
+		910ED01D26B88F4A00A58C56 /* MongoDBRemoteAccessAggregate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MongoDBRemoteAccessAggregate.swift; sourceTree = "<group>"; };
 		9136A4DA26409A7E00FFA03B /* AnyRealmValue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyRealmValue.swift; sourceTree = "<group>"; };
+		914601E726A6154B00BC91EA /* MongoDBRemoteAccess.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MongoDBRemoteAccess.swift; sourceTree = "<group>"; };
 		915E96A725FAB36500AABC09 /* LandingPageCodeExamples.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LandingPageCodeExamples.swift; sourceTree = "<group>"; };
 		917D8C9E26167B69001B7A61 /* TestingAndDebugging.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestingAndDebugging.swift; sourceTree = "<group>"; };
 		9185DB1825E82C0300AF1389 /* LocalOnlyCompleteQuickStart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalOnlyCompleteQuickStart.swift; sourceTree = "<group>"; };
@@ -273,13 +277,15 @@
 				48F38B57252793F600DDEB65 /* ManageApiKeys.swift */,
 				48C072052511B6DB004B02BB /* ManageEmailPasswordUsers.m */,
 				48C072032511B5D5004B02BB /* ManageEmailPasswordUsers.swift */,
+				48FE4E8A2666A93600720F92 /* MapExample.swift */,
 				48637F4E25C8B8EC002209AF /* Migrations.m */,
 				48C5BC3125A4CDE70004DA3D /* Migrations.swift */,
 				487F77CC253F9A4900BDC8CE /* Models.swift */,
+				914601E726A6154B00BC91EA /* MongoDBRemoteAccess.swift */,
+				910ED01D26B88F4A00A58C56 /* MongoDBRemoteAccessAggregate.swift */,
 				48924BBA2515309F00CC9567 /* MultipleUsers.m */,
 				48924B892514EAD900CC9567 /* MultipleUsers.swift */,
 				91FDC13A261E5DE3006A6E13 /* MutableSetExample.swift */,
-				48FE4E8A2666A93600720F92 /* MapExample.swift */,
 				48BF342025112A7F004139AF /* MyRealmApp.h */,
 				48BF341E251129AD004139AF /* MyRealmApp.m */,
 				4813482F25C21948006209FC /* Notifications.m */,
@@ -632,6 +638,7 @@
 				48F38B5425278ECB00DDEB65 /* CustomUserData.m in Sources */,
 				48924B8C2514FEFC00CC9567 /* TestSetup.swift in Sources */,
 				4847120225891A3B004BD6EF /* ReadWriteData.m in Sources */,
+				910ED01E26B88F4A00A58C56 /* MongoDBRemoteAccessAggregate.swift in Sources */,
 				48C072062511B6DB004B02BB /* ManageEmailPasswordUsers.m in Sources */,
 				482A85942576DC3400BA8700 /* QueryEngine.swift in Sources */,
 				4813483B25C244CA006209FC /* (null) in Sources */,
@@ -657,6 +664,7 @@
 				48F38B502527806600DDEB65 /* AccessMongoDB.swift in Sources */,
 				485C5D10258A9BDF0069AAE8 /* Encrypt.m in Sources */,
 				48BF341F251129AD004139AF /* MyRealmApp.m in Sources */,
+				914601E826A6154B00BC91EA /* MongoDBRemoteAccess.swift in Sources */,
 				487F77C3253F94C000BDC8CE /* OpenCloseRealm.swift in Sources */,
 				228B6F9226166ED10075A6E0 /* Errors.swift in Sources */,
 				48F38B5C2527A3FE00DDEB65 /* ManageApiKeys.m in Sources */,
