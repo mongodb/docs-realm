@@ -24,19 +24,14 @@ provides data access :ref:`rules <mongodb-rules>` for collections to
 securely retrieve results based on the logged-in user or the content of
 each document.
 
+.. _ios-mongodb-set-up:
+
 Prerequisites
 -------------
 
 Before you can remotely access MongoDB, you must:
 
 - :ref:`link-a-data-source` 
-
-.. _ios-mongodb-set-up:
-
-Set Up Your Project
--------------------
-
-.. include:: /includes/steps/crud-snippets-ios.rst
 
 .. _ios-mongodb-example-dataset:
 
@@ -56,6 +51,7 @@ its entirety resembles this:
 
 .. literalinclude:: /examples/generated/code/start/MongoDBRemoteAccess.codeblock.insert-sample-data.swift
    :language: swift
+   :emphasize-lines: 1-19
 
 .. _ios-mongodb-create-documents:
 
@@ -132,7 +128,7 @@ You can find a single document using :swift-sdk:`collection.findOneDocument() <E
 This snippet finds a single document from a :ref:`collection of documents 
 that describe coffee drinks for sale in a group of stores 
 <ios-mongodb-example-dataset>`, where the document's ``name`` field contains
-the string value ``Maple Latte``:
+the string value "Maple Latte":
 
 .. literalinclude:: /examples/generated/code/start/MongoDBRemoteAccess.codeblock.find-one.swift
    :language: swift
@@ -157,7 +153,7 @@ You can find multiple documents using :swift-sdk:`collection.find() <Extensions/
 
 This snippet finds all documents in a :ref:`collection of documents that 
 describe coffee drinks for sale in a group of stores <ios-mongodb-example-dataset>`, 
-where the document's ``name`` field contains the value ``Americano``:
+where the document's ``name`` field contains the value "Americano":
 
 .. literalinclude:: /examples/generated/code/start/MongoDBRemoteAccess.codeblock.find-many.swift
    :language: swift
@@ -193,7 +189,7 @@ documents in the collection.
 This snippet counts the number of documents in a :ref:`collection of documents 
 that describe coffee drinks for sale in a group of stores 
 <ios-mongodb-example-dataset>`, where the document's ``name`` field contains 
-the value ``Bean of the Day``:
+the value "Bean of the Day":
 
 .. literalinclude:: /examples/generated/code/start/MongoDBRemoteAccess.codeblock.count.swift
    :language: swift
@@ -300,7 +296,7 @@ Delete Documents
 These code snippets demonstrate how to delete documents that
 are stored in a MongoDB collection from a mobile application.
 Delete operations use a query filter to specify which documents to delete
-and returns results that resolve to an ``Int`` count of deleted documents 
+and return results that resolve to an ``Int`` count of deleted documents 
 or ``Error``.
 
 .. _ios-mongodb-deleteOne:
@@ -589,5 +585,6 @@ the following three documents:
       "name": Optional(RealmSwift.AnyBSON.string("Maple Latte"))]
 
 You could then ``$group`` by the value of ``featuredInPromotions`` and ``$sum`` 
-the number of coffee drinks in each promotion as in the :ref:`group documents example <>`,
-or perform other calculations or transformations based on your data.
+the number of coffee drinks in each promotion as in the :ref:`group documents 
+example <ios-mongodb-aggregate-group>`, or perform other calculations or 
+transformations based on your data.

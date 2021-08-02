@@ -4,5 +4,4 @@ class CoffeeDrink: Object {
     @Persisted var beanRegion: String?
     @Persisted var containsDairy: Bool
     @Persisted var partition: String?
-
 }
