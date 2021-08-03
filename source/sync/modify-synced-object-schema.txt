@@ -1,8 +1,8 @@
 .. _modify-synced-object-schema:
 
-=============================
-Modify a Synced Object Schema
-=============================
+===============
+Sync Migrations
+===============
 
 .. default-domain:: mongodb
 
@@ -20,8 +20,18 @@ additional work. :ref:`Destructive changes <destructive-changes-synced-schema>`,
 however, require additional steps. A destructive change includes renaming an 
 exiting field or changing a field's data type.
 
-This page guides you through making destructive changes to a {+sync+} schema.
+For more information, see :ref:`<synced-object-schema-overview>`.
 
+If you need to make a destructive schema change, you have two choices: 
+
+- :ref:`Terminate sync <terminating-realm-sync>` in the backend and then 
+  :ref:`re-enable <enable-sync>` it from the start.
+
+- Create a **"partner collection"**. The remainder of this guide leads you 
+  through this approach.
+
+Partner Collections
+-------------------
 In the following procedure, the *initial* collection uses the JSON Schema below 
 for a ``Task`` collection. Note that the schema for the ``Task`` contains an 
 ``_id`` field of type ``objectId``:
@@ -39,18 +49,18 @@ for a ``Task`` collection. Note that the schema for the ``Task`` contains an
         ],
         "properties": {
             "_id": {
-            "bsonType": "objectId"
+                "bsonType": "objectId"
             },
             "_partition": {
-            "bsonType": "string"
+                "bsonType": "string"
             },
             "name": {
-            "bsonType": "string"
+                "bsonType": "string"
             }
         }
     }
 
-The new schema is the same, except we want the ``_id`` field to be a string:
+The *new* schema is the same, except we want the ``_id`` field to be a string:
 
 .. code-block:: json
     :caption: Task Schema
@@ -65,19 +75,19 @@ The new schema is the same, except we want the ``_id`` field to be a string:
         ],
         "properties": {
             "_id": {
-            "bsonType": "string"
+                "bsonType": "string"
             },
             "_partition": {
-            "bsonType": "string"
+                "bsonType": "string"
             },
             "name": {
-            "bsonType": "string"
+                "bsonType": "string"
             }
         }
     }
 
 
 Procedure
----------
+~~~~~~~~~
 
 .. include:: /includes/steps/perform-destructive-changes-synced-schema.rst
