@@ -117,6 +117,16 @@ displays the ItemsView.
 .. literalinclude:: /examples/generated/swiftui/local/QuickStart.codeblock.local-only-content-view.swift
    :language: swift
 
+.. tip::
+
+   Starting in SDK version 10.12.0, you can use an optional key path parameter
+   with ``@ObservedResults`` to filter change notifications to only those
+   occurring on the provided key path or key paths. For example:
+
+   .. code-block::
+   
+      @ObservedResults(MyObject.self, keyPaths: ["myList.property"])
+
 The ItemsView receives the group from the parent view and stores it in
 an :swift-sdk:`@ObservedRealmObject <Structs/ObservedRealmObject.html>`
 property. This allows the ItemsView to "know" when the object has
