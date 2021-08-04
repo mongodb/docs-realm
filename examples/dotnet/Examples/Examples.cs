@@ -28,8 +28,8 @@ namespace Examples
             // :code-block-start: initialize-realm
             app = App.Create(myRealmAppId);
             // :code-block-end:
-            user = app.LogInAsync(Credentials.EmailPassword("foo@foo.com", "foobar")).Result;
             // :code-block-start: open-synced-realm
+            user = await app.LogInAsync(Credentials.EmailPassword("foo@foo.com", "foobar"));
             config = new SyncConfiguration("myPart", user);
             //:hide-start:
             config.ObjectClasses = new[]
@@ -141,6 +141,37 @@ namespace Examples
             {
 
             }
+        }
+
+        [Test]
+        public async System.Threading.Tasks.Task OpenIfUserExists()
+        {
+            User user3;
+            SyncConfiguration config3;
+            Realm realm3;
+            // :code-block-start: check-if-offline
+            // :replace-start: {
+            //  "terms": {
+            //   "user3": "user",
+            //   "config3" : "config",
+            //   "realm3": "realm" }
+            // }
+            if (app.CurrentUser == null)
+            {
+                // App must be online for user to authenticate
+                user3 = await app.LogInAsync(
+                    Credentials.EmailPassword("caleb@mongodb.com", "shhhItsASektrit!"));
+                config3 = new SyncConfiguration("myPart", user);
+                realm3 = await Realm.GetInstanceAsync(config);
+            }
+            else
+            {
+                user3 = app.CurrentUser;
+                config3 = new SyncConfiguration("myPart", user);
+                realm3 = Realm.GetInstance(config);
+            }
+            // :replace-end:
+            // :code-block-end:
         }
 
         [Test]

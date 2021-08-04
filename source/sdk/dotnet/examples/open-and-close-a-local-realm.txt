@@ -13,11 +13,11 @@ Open & Close a Local Realm - .NET SDK
    :depth: 2
    :class: singlecol
 
+
 .. _dotnet-open-a-local-realm:
 
-Open a Local Realm
-------------------
-
+Local Realms
+------------
 When opening a local (non-synced) {+realm+}, pass a 
 :dotnet-sdk:`RealmConfiguration <reference/Realms.RealmConfiguration.html#Realms_RealmConfiguration__ctor_System_String_>` 
 object to either ``GetInstanceAsync()`` or ``GetInstance()``. The following example 
@@ -28,8 +28,8 @@ configuration information:
 .. literalinclude:: /examples/generated/dotnet/Examples.codeblock.local-realm.cs
    :language: csharp
 
-In-Memory Realms
-----------------
+In-Memory Local Realms
+~~~~~~~~~~~~~~~~~~~~~~
 With an 
 :dotnet-sdk:`InMemoryConfiguration <reference/Realms.InMemoryConfiguration.html>` 
 object, you can create a {+realm+} that runs entirely in memory (that is, without 
@@ -48,6 +48,75 @@ closed. When creating an in-memory {+realm+}, the identifier must be unique to a
    When an in-memory {+realm+} is disposed or garbage-collected, the data is lost. 
    To keep an in-memory {+realm+} “alive” throughout your app’s execution, be sure 
    to hold a reference to {+realm+}. 
+
+
+Synced Realms
+-------------
+Opening a synced realm requires a device to be online at least for the initial 
+setup. A synced realm is opened after 
+obtaining a :dotnet-sdk:`User <reference/Realms.Sync.User.html>` object, and to 
+obtain an initial ``User`` instance, you need to authenticate against the 
+{+service-short+} backend. Once initial authentication has occurred, you can 
+:ref:`retrieve an existing user <dotnet-retrieve-current-user>` while offline.
+
+.. _dotnet-open-a-synced-realm:
+
+Open a Synced Realm While Online
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The first time you open a synced {+realm+}, the app must be able to connect to 
+your {+service-short+} backend. Your app code walks the user through 
+:ref:`authenticating <dotnet-authenticate>` first. Once you have a 
+:dotnet-sdk:`User <reference/Realms.Sync.User.html>` object, you open a synced 
+{+realm+} by calling the 
+:dotnet-sdk:`GetInstanceAsync() <reference/Realms.Realm.html#Realms_Realm_GetInstanceAsync_Realms_RealmConfigurationBase_System_Threading_CancellationToken_>` 
+method, passing in a 
+:dotnet-sdk:`SyncConfiguration <reference/Realms.Sync.SyncConfiguration.html>` 
+object that includes the :ref:`partition name <partition-value>` and 
+the :dotnet-sdk:`User <reference/Realms.Sync.User.html>` object. The following 
+code demonstrates this:
+
+.. literalinclude:: /examples/generated/code/start/Examples.codeblock.open-synced-realm.cs
+   :language: csharp
+
+In the above example, the code shows how to open the {+realm+} *asynchronously* 
+by calling ``GetInstanceAsync()``. You can also open a {+realm+} *synchronously* 
+by calling the 
+:dotnet-sdk:`GetInstance() <reference/Realms.Realm.html#Realms_Realm_GetInstance_System_String_>` 
+method:
+
+.. literalinclude:: /examples/generated/code/start/Examples.codeblock.open-synced-realm-sync.cs
+   :language: csharp
+
+.. seealso::
+
+   :ref:`Partitions <sync-partitions>`
+
+   :ref:`Partition Strategies <partition-strategies>`
+
+
+Open a Synced Realm While Offline
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Once a user authenticates on a device, the User object is persisted until the 
+User logs off. This allows your app to 
+:ref:`retrieve an existing user <dotnet-retrieve-current-user>` and open a 
+synced realm in an offline state. Changes that occur while offline will be 
+synced by {service-short+} once the device is reconnected.
+
+The following code shows how to check if there is an existing ``User`` object. 
+If none is found, it uses the process outlined about to obtain a user. If the 
+device already have a ``user``, it opens the synced {+realm+} with that user:
+
+.. literalinclude:: /examples/generated/code/start/Examples.codeblock.check-if-offline.cs
+   :language: csharp
+
+
+.. note::
+
+   The first time a user logs on to your realm app, you should open the realm 
+   *asynchronously* to sync data from the server to the device. After that initial 
+   connection, you can open a realm *synchronously* to ensure the app works in 
+   an offline state. 
+
 
 Scoping the Realm
 -----------------
@@ -89,16 +158,3 @@ how you specify two classes you want stored in the {+realm+}:
 
 .. literalinclude:: /examples/generated/dotnet/Program.codeblock.subset.cs
    :language: csharp
-
-
-.. TODO: other sections:
-
-.. _dotnet-local-realm-configuration:
-
-.. Local Realm Configuration
-.. -------------------------
-
-.. _dotnet-realm-modules:
-
-.. Realm Modules
-.. -------------
