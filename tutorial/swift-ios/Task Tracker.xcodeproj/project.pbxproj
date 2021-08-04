@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -15,7 +15,8 @@
 		48596AD1245C71C9005A6E3B /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48596AD0245C71C9005A6E3B /* WelcomeViewController.swift */; };
 		4871E6802465C2D4001A605A /* TasksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4871E67F2465C2BA001A605A /* TasksViewController.swift */; };
 		48C20EF424D3478F00318C2D /* ManageTeamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C20EF324D3478F00318C2D /* ManageTeamViewController.swift */; };
-		56824D4BEF3EE784989EF283 /* Pods_Task_Tracker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5862112E07E9FB7B89E32951 /* Pods_Task_Tracker.framework */; };
+		918B0B0B26B997DF00F346C4 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 918B0B0A26B997DF00F346C4 /* Realm */; };
+		918B0B0D26B997DF00F346C4 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 918B0B0C26B997DF00F346C4 /* RealmSwift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,9 +30,6 @@
 		48596AD0245C71C9005A6E3B /* WelcomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
 		4871E67F2465C2BA001A605A /* TasksViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksViewController.swift; sourceTree = "<group>"; };
 		48C20EF324D3478F00318C2D /* ManageTeamViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageTeamViewController.swift; sourceTree = "<group>"; };
-		5862112E07E9FB7B89E32951 /* Pods_Task_Tracker.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Task_Tracker.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		9C4F6D5DFECFE7406271DA17 /* Pods-Task Tracker.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Task Tracker.debug.xcconfig"; path = "Target Support Files/Pods-Task Tracker/Pods-Task Tracker.debug.xcconfig"; sourceTree = "<group>"; };
-		A40B2A1DA4109BB5084A3DF4 /* Pods-Task Tracker.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Task Tracker.release.xcconfig"; path = "Target Support Files/Pods-Task Tracker/Pods-Task Tracker.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -39,7 +37,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				56824D4BEF3EE784989EF283 /* Pods_Task_Tracker.framework in Frameworks */,
+				918B0B0D26B997DF00F346C4 /* RealmSwift in Frameworks */,
+				918B0B0B26B997DF00F346C4 /* Realm in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -52,7 +51,6 @@
 				4843E869245B5D0E0044669C /* Task Tracker */,
 				4843E868245B5D0E0044669C /* Products */,
 				EAD7A1C43DE7B15910FFED7B /* Pods */,
-				A53A96E34A1F676F503FC176 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -80,19 +78,9 @@
 			path = "Task Tracker";
 			sourceTree = "<group>";
 		};
-		A53A96E34A1F676F503FC176 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				5862112E07E9FB7B89E32951 /* Pods_Task_Tracker.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		EAD7A1C43DE7B15910FFED7B /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				9C4F6D5DFECFE7406271DA17 /* Pods-Task Tracker.debug.xcconfig */,
-				A40B2A1DA4109BB5084A3DF4 /* Pods-Task Tracker.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -104,17 +92,19 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4843E87B245B5D0F0044669C /* Build configuration list for PBXNativeTarget "Task Tracker" */;
 			buildPhases = (
-				E910750ED94D3B8CAE183272 /* [CP] Check Pods Manifest.lock */,
 				4843E863245B5D0E0044669C /* Sources */,
 				4843E864245B5D0E0044669C /* Frameworks */,
 				4843E865245B5D0E0044669C /* Resources */,
-				D267980E041BF0E63FC26E71 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = "Task Tracker";
+			packageProductDependencies = (
+				918B0B0A26B997DF00F346C4 /* Realm */,
+				918B0B0C26B997DF00F346C4 /* RealmSwift */,
+			);
 			productName = "Task Tracker";
 			productReference = 4843E867245B5D0E0044669C /* Task Tracker.app */;
 			productType = "com.apple.product-type.application";
@@ -143,6 +133,9 @@
 				Base,
 			);
 			mainGroup = 4843E85E245B5D0D0044669C;
+			packageReferences = (
+				918B0B0926B997DF00F346C4 /* XCRemoteSwiftPackageReference "realm-cocoa" */,
+			);
 			productRefGroup = 4843E868245B5D0E0044669C /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -162,48 +155,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		D267980E041BF0E63FC26E71 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Task Tracker/Pods-Task Tracker-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Task Tracker/Pods-Task Tracker-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Task Tracker/Pods-Task Tracker-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		E910750ED94D3B8CAE183272 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Task Tracker-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		4843E863245B5D0E0044669C /* Sources */ = {
@@ -249,6 +200,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -309,6 +261,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -339,7 +292,6 @@
 		};
 		4843E87C245B5D0F0044669C /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9C4F6D5DFECFE7406271DA17 /* Pods-Task Tracker.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -358,7 +310,6 @@
 		};
 		4843E87D245B5D0F0044669C /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A40B2A1DA4109BB5084A3DF4 /* Pods-Task Tracker.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -397,6 +348,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		918B0B0926B997DF00F346C4 /* XCRemoteSwiftPackageReference "realm-cocoa" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/realm-cocoa";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 10.11.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		918B0B0A26B997DF00F346C4 /* Realm */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 918B0B0926B997DF00F346C4 /* XCRemoteSwiftPackageReference "realm-cocoa" */;
+			productName = Realm;
+		};
+		918B0B0C26B997DF00F346C4 /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 918B0B0926B997DF00F346C4 /* XCRemoteSwiftPackageReference "realm-cocoa" */;
+			productName = RealmSwift;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 4843E85F245B5D0D0044669C /* Project object */;
 }

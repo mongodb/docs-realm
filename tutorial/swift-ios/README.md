@@ -2,20 +2,6 @@
 
 Follow along at https://docs.mongodb.com/realm/tutorial/ios-swift/
 
-To run:
-
-```
-pod install --repo-update
-```
-
-NOTE: CocoaPods >1.10.1 is REQUIRED.
-
-Then open 
-
-```
-open Task\ Tracker.xcworkspace/
-```
-
 ## Troubleshooting
 
 The most common issue is schema mismatch due to frequent little tweaks to the
