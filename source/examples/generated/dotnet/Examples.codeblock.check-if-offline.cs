@@ -8,6 +8,7 @@ if (app.CurrentUser == null)
 }
 else
 {
+    // This works whether online or offline
     user = app.CurrentUser;
     config = new SyncConfiguration("myPart", user);
     realm = Realm.GetInstance(config);

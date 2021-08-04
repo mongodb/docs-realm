@@ -166,6 +166,7 @@ namespace Examples
             }
             else
             {
+                // This works whether online or offline
                 user3 = app.CurrentUser;
                 config3 = new SyncConfiguration("myPart", user);
                 realm3 = Realm.GetInstance(config);
