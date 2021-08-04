@@ -1,8 +1,8 @@
-.. _synced-object-schema-overview:
+.. _synced-schema-overview:
 
-============================
-Synced Object Schema Changes
-============================
+=====================
+Synced Schema Changes
+=====================
 
 .. default-domain:: mongodb
 
@@ -14,17 +14,27 @@ Synced Object Schema Changes
 
 Overview
 --------
-When developing an application using {+sync+}, you may want to make changes to
-your schema at some point. {+service-short+} offers an API for making
+When developing an application using {+sync+}, you may need to make changes to
+your schema at some point: you have a new property to add to an already-synced 
+object, you decide to change the type stored in a property, or you now need to 
+make a property *required*, for example. 
+
+The {+service-short+} APIs provide for 
 backward-compatible schema changes to synced realms, allowing old clients to
-sync with newer ones.
+sync with newer ones. Destructive schema changes, however, take some planning and 
+work. 
+
+The problem with destructive schema changes is that older clients (those that 
+have not been updated to your new code and schema) still need access to the data 
+via the old schema definition, while clients that are updated need to work  
+with the new schema changes.
 
 .. _additive-changes-synced-schema:
 
 Additive Changes
 ----------------
 Additive changes, such as adding a class or adding a field to an existing class, 
-are applied automatically to synced {+realms+}, meaning you can make these 
+are applied automatically to synced {+realms+}; you can make these 
 additive schema changes with no additional configuration changes. 
 
 .. note:: Removing a Property from Your Schema Is Considered an Additive Change
@@ -65,6 +75,8 @@ schema change, you have two choices: :ref:`terminate sync <terminating-realm-syn
 in the backend and then :ref:`re-enable <enable-sync>` it from the start, or 
 create a **"partner collection"**.
 
+.. _partner_collections:
+
 Partner Collections
 ~~~~~~~~~~~~~~~~~~~
 A partner collection is a collection that contains the same data as
@@ -73,7 +85,7 @@ collections use database triggers to ensure that data flows in both directions,
 meaning that when one collection is written to, the other is also written to 
 (with the data modifications required for the new schema).
 
-To implement a schema change, see :ref:`<modify-synced-object-schema>`.
+To implement a schema change, see :ref:`<migrate-schema-partner-collection>`.
 
 Summary
 -------

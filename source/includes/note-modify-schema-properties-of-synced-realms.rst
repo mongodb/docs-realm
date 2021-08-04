@@ -2,4 +2,4 @@
 
    The following page demonstrates how to modify schema properties of a local
    {+realm+}. Learn how to :doc:`modify schema properties of a synced realm
-   </sync/synced-object-schema-overview>`.
+   </sync/synced-schema-overview>`.

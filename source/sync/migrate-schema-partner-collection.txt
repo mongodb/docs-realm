@@ -1,15 +1,15 @@
-.. _modify-synced-object-schema:
+.. _migrate-schema-partner-collection:
 
-===============
-Sync Migrations
-===============
+========================================
+Migrate Schemas with Partner Collections
+========================================
 
 .. default-domain:: mongodb
 
 .. contents:: On this page
    :local:
    :backlinks: none
-   :depth: 2
+   :depth: 3
    :class: singlecol
 
 Overview
@@ -20,15 +20,18 @@ additional work. :ref:`Destructive changes <destructive-changes-synced-schema>`,
 however, require additional steps. A destructive change includes renaming an 
 exiting field or changing a field's data type.
 
-For more information, see :ref:`<synced-object-schema-overview>`.
+For more information, see :ref:`<synced-schema-overview>`.
 
 If you need to make a destructive schema change, you have two choices: 
 
 - :ref:`Terminate sync <terminating-realm-sync>` in the backend and then 
   :ref:`re-enable <enable-sync>` it from the start.
 
-- Create a **"partner collection"**. The remainder of this guide leads you 
-  through this approach.
+- Create a :ref:`partner collection <partner_collections>`, copy the old 
+  data to this new collection, and set up triggers to ensure data 
+  consistency. 
+  
+  The remainder of this guide leads you through creating a partner collection.
 
 Partner Collections
 -------------------
@@ -88,6 +91,6 @@ The *new* schema is the same, except we want the ``_id`` field to be a string:
 
 
 Procedure
-~~~~~~~~~
+---------
 
 .. include:: /includes/steps/perform-destructive-changes-synced-schema.rst
