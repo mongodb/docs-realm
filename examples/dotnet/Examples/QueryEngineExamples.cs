@@ -32,24 +32,13 @@ namespace Examples
             //:hide-start:
             config.ObjectClasses = new[]
             {
-                typeof(Task),
+                //typeof(Task),
                 typeof(UserTask),
                 typeof(UserProject)
             };
             //:hide-end:
             var realm = await Realm.GetInstanceAsync(config);
             var synchronousRealm = await Realm.GetInstanceAsync(config);
-            var testTask = new Task
-            {
-                Name = "Do this thing",
-                Partition = "myPart",
-                Status = TaskStatus.Open.ToString()
-            };
-
-            realm.Write(() =>
-            {
-                realm.Add(testTask);
-            });
             return;
         }
 
