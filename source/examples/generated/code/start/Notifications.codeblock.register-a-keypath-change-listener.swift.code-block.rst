@@ -8,7 +8,7 @@
        @Persisted var age: Int?
    }
 
-   var ObjectNotificationToken: NotificationToken?
+   var objectNotificationToken: NotificationToken?
 
    func objectNotificationExample() {
        let dog = Dog()

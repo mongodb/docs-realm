@@ -4,7 +4,7 @@
 //     "NotificationExampleKeyPath_": "",
 //     "AlternateNotificationExampleKeyPath_": "",
 //     "keyPath_": "",
-//     "additional": ""
+//     "additionalObjectNotificationToken": "objectNotificationToken"
 //   }
 // }
 import RealmSwift
