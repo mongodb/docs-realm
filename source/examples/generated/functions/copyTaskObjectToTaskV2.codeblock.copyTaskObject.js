@@ -3,18 +3,15 @@ exports = function (changeEvent) {
   const collection = db.collection("Task");
   // The changed document's _id as an integer:
   const changedDocId = changeEvent.documentKey._id;
-
   // If a document in the Task collection has been deleted, 
   // delete the equivalent object in the TaskV2 collection:
   if (changeEvent.operationType === "delete") {
     const tasksV2Collection = db.collection("TaskV2");
-
     // Convert the deleted document's _id to a string value 
     // to match TaskV2's schema:
     const deletedDocumentID = changedDocId.toString();
     return tasksV2Collection.deleteOne({ _id: deletedDocumentID })
   }
-
   // A document in the Task collection has been created, 
   // modified, or replaced, so create a pipeline to handle the change:
   const pipeline = [

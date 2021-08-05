@@ -1,9 +1,9 @@
+// :code-block-start: copyTaskV2Object
 exports = function (changeEvent) {
   const db = context.services.get("mongodb-atlas").db("ExampleDB");
   const collection = db.collection("TaskV2");
   // The changed document's _id as a string:
   const changedDocId = changeEvent.documentKey._id;
-
   // If a document in the TaskV2 collection has been deleted, 
   // delete the equivalent object in the Task collection
   if (changeEvent.operationType === "delete") {
@@ -13,7 +13,6 @@ exports = function (changeEvent) {
     const deletedDocumentID = parseInt(changedDocId);
     return taskCollection.deleteOne({ _id: deletedDocumentID })
   }
-
   // A document in the Task collection has been created, 
   // modified, or replaced, so create a pipeline to handle the change:
   const pipeline = [
@@ -29,3 +28,4 @@ exports = function (changeEvent) {
   ]
   return collection.aggregate(pipeline);
 };
+// :code-block-end:
