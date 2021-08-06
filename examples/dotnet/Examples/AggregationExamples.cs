@@ -243,7 +243,6 @@ namespace Examples
         [OneTimeTearDown]
         public async Task TearDown()
         {
-
             await plantsCollection.DeleteManyAsync();
             return;
         }
