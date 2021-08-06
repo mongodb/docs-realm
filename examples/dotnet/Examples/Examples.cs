@@ -29,7 +29,7 @@ namespace Examples
             app = App.Create(myRealmAppId);
             // :code-block-end:
             // :code-block-start: open-synced-realm
-            user = await app.LogInAsync(Credentials.EmailPassword("foo@foo.com", "foobar"));
+            user = app.LogInAsync(Credentials.EmailPassword("foo@foo.com", "foobar")).Result;
             config = new SyncConfiguration("myPart", user);
             //:hide-start:
             config.ObjectClasses = new[]
@@ -143,7 +143,7 @@ namespace Examples
             }
         }
 
-        /*[Test]
+        [Test]
         public async System.Threading.Tasks.Task OpenIfUserExists()
         {
             User user3;
@@ -173,7 +173,7 @@ namespace Examples
             }
             // :replace-end:
             // :code-block-end:
-        }*/
+        }
 
         [Test]
         public async System.Threading.Tasks.Task GetsSyncedTasks()
