@@ -4,7 +4,7 @@
 1. Install Visual Studio 2019 Community Edition.
 
 2. Go to https://ci.realm.io/blue/organizations/jenkins/realm%2Frealm-dotnet/detail/PR-2011/48/artifacts/
-   and download Realm.10.0.0-alpha.....nupkg and Realm.Fody.10.0.0-alpha.....nupkg.
+   and download Realm.10.<latest version>.....nupkg and Realm.Fody.10.<latest>.....nupkg.
 
 3. Clone the ``mongodb/docs-realm`` repo.
 
