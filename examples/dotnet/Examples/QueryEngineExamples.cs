@@ -28,7 +28,7 @@ namespace Examples
         {
             app = App.Create(myRealmAppId);
             user = app.LogInAsync(Credentials.EmailPassword("foo@foo.com", "foobar")).Result;
-            config = new SyncConfiguration("myPart", user);
+            config = new SyncConfiguration("foo", user);
             //:hide-start:
             config.ObjectClasses = new[]
             {

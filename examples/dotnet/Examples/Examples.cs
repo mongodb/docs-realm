@@ -17,6 +17,7 @@ namespace Examples
     public class Examples
     {
         App app;
+        App app3;
         ObjectId testTaskId;
         User user;
         SyncConfiguration config;
@@ -146,29 +147,31 @@ namespace Examples
         [Test]
         public async System.Threading.Tasks.Task OpenIfUserExists()
         {
+            app3 = App.Create(myRealmAppId);
             User user3;
             SyncConfiguration config3;
             Realm realm3;
             // :code-block-start: check-if-offline
             // :replace-start: {
             //  "terms": {
+            //   "app3": "app",
             //   "user3": "user",
             //   "config3" : "config",
             //   "realm3": "realm" }
             // }
-            if (app.CurrentUser == null)
+            if (app3.CurrentUser == null)
             {
                 // App must be online for user to authenticate
                 user3 = await app.LogInAsync(
                     Credentials.EmailPassword("caleb@mongodb.com", "shhhItsASektrit!"));
-                config3 = new SyncConfiguration("myPart", user3);
+                config3 = new SyncConfiguration("_part", user3);
                 realm3 = await Realm.GetInstanceAsync(config3);
             }
             else
             {
                 // This works whether online or offline
                 user3 = app.CurrentUser;
-                config3 = new SyncConfiguration("myPart", user3);
+                config3 = new SyncConfiguration("_part", user3);
                 realm3 = Realm.GetInstance(config3);
             }
             // :replace-end:
@@ -434,7 +437,11 @@ namespace Examples
         {
             using (var realm = await Realm.GetInstanceAsync(config))
             {
-                var myTask = new Task();
+                var myTask = new Task() { Partition = "foo", Name = "foo2", Status = TaskStatus.Complete.ToString() };
+                realm.Write(() =>
+                {
+                    realm.Add(myTask);
+                });
                 // :code-block-start: delete
                 realm.Write(() =>
                 {
