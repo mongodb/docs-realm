@@ -328,6 +328,188 @@ users from opening a realm while offline.
          .. literalinclude:: /examples/generated/code/start/Sync.codeblock.open-synced-realm.m
             :language: objectivec
 
+.. _ios-open-synced-realm-swiftui:
+
+Open a Synced Realm with SwiftUI
+--------------------------------
+
+.. versionadded:: 10.12.0
+
+SwiftUI apps can use RealmSwift property wrappers to open {+realms+} and 
+populate views. These property wrappers provide a syntax that integrates nicely 
+with SwiftUI to let developers declare whether their client app should:
+
+- Only open a {+realm+} if they can download updates from the server first. 
+  This requires a successful network connection.
+- Attempt to download updates from the server, but open a {+realm+} offline if 
+  there is no network connection. This supports an offline-first approach at
+  the cost of potentially working with stale data.
+
+{+app+}s that need to always have up-to-date information from the server, such
+as game apps with live leaderboards that the user can play on multiple devices, 
+should use ``@AsyncOpen``to open a {+realm+}. This only works if the user has 
+a network connection when opening the {+realm+}, but ensures the user is never 
+using the app with stale data.
+
+{+app+}s that want to enable offline-first capability, where it's not a problem
+for the user to work with potentially stale data, should use ``@AutoOpen`` to
+open the {+realm+}. This attempts to download updates before opening the 
+{+realm+}. If a network connection is not available, it opens a local 
+{+realm+} instead.
+
+AsyncOpen
+~~~~~~~~~
+
+To download updates from your {+app+} before opening a {+realm+}, use the 
+:swift-sdk:`@AsyncOpen <Structs/AsyncOpen.html>` property wrapper. This requires
+the user to have a network connection.
+
+.. code-block:: swift
+
+   @AsyncOpen(appId: "app_id", partitionValue: <partition_value>) var asyncOpen
+
+This SwiftUI property wrapper initiates ``Realm.asyncOpen()`` for the current 
+user. The property wrapper publishes states, represented by the :swift-sdk:`AsyncOpenState 
+enum <Enums/AsyncOpenState.html#/s:10RealmSwift14AsyncOpenStateO5erroryACs5Error_pcACmF>`,
+which you can use to update the view. 
+
+When the {+realm+} has been opened, you can inject it into the view as an 
+environment value. The property wrapper uses this {+realm+} to populate
+the view.
+
+.. code-block:: swift
+
+   ListView()
+      .environment(\.realm, realm)
+
+.. example::
+
+   This example illustrates one way you might use ``@AsyncOpen`` to 
+   open a {+realm+} in a view. First, check for a user, or log them in.
+   Then, attempt to open the {+realm+}, switching on the ``AsyncOpenState``
+   to display an appropriate view. When the {+realm+} opens successfully,
+   inject it as an environment value to populate the view.
+
+   .. code-block:: swift
+
+      struct AsyncOpenView: View {
+         // If there is no user logged in, show the login view.
+         guard let user = app.currentUser else {
+            return AnyView(LoginView(app: app))
+         }
+         // If logged in but the realm is not open yet, open the realm. 
+         // @AutoOpen attempts to connect to the server and download remote changes 
+         // before the realm opens, which might take a moment.
+         @AsyncOpen(appId: YOUR_REALM_APP_ID_HERE, partitionValue: user.id, timeout: 4000) var asyncOpen
+
+         var body: some View {
+            // Switch on the AsyncOpenState enum to update the view
+            // based on AsyncOpen progress.
+            switch asyncOpen {
+            // Starting the Realm.asyncOpen process. 
+            // Show a progress view.
+            case .connecting:
+               ProgressView()
+            // Waiting for a user to be logged in before executing Realm.asyncOpen
+            // Show a login view
+            case .waitingForUser:
+               LoginView(app: app)
+            // The realm has been opened and is ready for use. 
+            // Show the content view.
+            case .open(let realm):
+               ListView()
+                  .environment(\.realm, realm)
+            // The realm is currently being downloaded from the server.
+            // Show a progress view.
+            case .progress(let progress):
+               ProgressView(progress)
+            // Opening the Realm failed.
+            // Show an error view.
+            case .error(_):
+               ErrorView()
+            }
+         }
+      }
+
+AutoOpen
+~~~~~~~~
+
+To open a synced {+realm+} regardless of whether the user has a network 
+connection, use the :swift-sdk:`@AutoOpen <Structs/AutoOpen.html>` property 
+wrapper. 
+
+.. code-block:: swift
+
+   @AutoOpen(appId: "app_id", partitionValue: <partition_value>) var autoOpen
+
+This SwiftUI property wrapper attempts to initiate a ``Realm.asyncOpen()`` 
+for the current user. If there is no internet connection, this property wrapper
+instead returns an opened realm for the given ``appId`` and ``partitionValue``.
+
+The property wrapper publishes states, represented by the :swift-sdk:`AsyncOpenState 
+enum <Enums/AsyncOpenState.html#/s:10RealmSwift14AsyncOpenStateO5erroryACs5Error_pcACmF>`,
+which you can use to update the view. 
+
+When the {+realm+} has been opened, you can inject it into the view as an 
+environment value. The property wrapper uses this {+realm+} to populate
+the view.
+
+.. code-block:: swift
+
+   ListView()
+      .environment(\.realm, realm)
+
+.. example::
+
+   This example illustrates one way you might use ``@AutoOpen`` to 
+   open a {+realm+} in a view. First, check for a user, or log them in.
+   Then, attempt to open the {+realm+}, switching on the ``AsyncOpenState``
+   to display an appropriate view. When the {+realm+} opens successfully,
+   inject it as an environment value to populate the view.
+
+   .. code-block:: swift
+
+      struct AutoOpenView: View {
+
+         // If there is no user logged in, show the login view.
+         guard let user = app.currentUser else {
+            return AnyView(LoginView(app: app))
+         }
+         // If logged in but the realm is not open yet, open the realm. 
+         // @AutoOpen attempts to connect to the server and download remote changes 
+         // before the realm opens, which might take a moment. However, if there is
+         // no network connection, AutoOpen will open a realm on the device.
+         @AutoOpen(appId: YOUR_REALM_APP_ID_HERE, partitionValue: user.id, timeout: 4000) var autoOpen
+
+         var body: some View {
+            // Switch on the AsyncOpenState enum to update the view
+            // based on AutoOpen progress.
+            switch autoOpen {
+            // Starting the Realm.asyncOpen process. 
+            // Show a progress view.
+            case .connecting:
+               ProgressView()
+            // Waiting for a user to be logged in before executing Realm.asyncOpen
+            // Show a login view
+            case .waitingForUser:
+               LoginView(app: app)
+            // The realm has been opened and is ready for use. 
+            // Show the content view.
+            case .open(let realm):
+               ListView()
+                  .environment(\.realm, realm)
+            // The realm is currently being downloaded from the server.
+            // Show a progress view.
+            case .progress(let progress):
+               ProgressView(progress)
+            // Opening the Realm failed.
+            // Show an error view.
+            case .error(_):
+               ErrorView()
+            }
+         }
+      }
+
 .. _ios-sync-changes-in-the-background:
 
 Sync Changes in the Background
