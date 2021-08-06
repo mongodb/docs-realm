@@ -161,15 +161,15 @@ namespace Examples
                 // App must be online for user to authenticate
                 user3 = await app.LogInAsync(
                     Credentials.EmailPassword("caleb@mongodb.com", "shhhItsASektrit!"));
-                config3 = new SyncConfiguration("myPart", user);
-                realm3 = await Realm.GetInstanceAsync(config);
+                config3 = new SyncConfiguration("myPart", user3);
+                realm3 = await Realm.GetInstanceAsync(config3);
             }
             else
             {
                 // This works whether online or offline
                 user3 = app.CurrentUser;
-                config3 = new SyncConfiguration("myPart", user);
-                realm3 = Realm.GetInstance(config);
+                config3 = new SyncConfiguration("myPart", user3);
+                realm3 = Realm.GetInstance(config3);
             }
             // :replace-end:
             // :code-block-end:
