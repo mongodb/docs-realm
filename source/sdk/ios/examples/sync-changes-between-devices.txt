@@ -413,7 +413,7 @@ the view.
             // Waiting for a user to be logged in before executing Realm.asyncOpen
             // Show a login view
             case .waitingForUser:
-               LoginView(app: app)
+               ProgressView("Waiting for user to log in...")
             // The realm has been opened and is ready for use. 
             // Show the content view.
             case .open(let realm):
@@ -492,7 +492,7 @@ the view.
             // Waiting for a user to be logged in before executing Realm.asyncOpen
             // Show a login view
             case .waitingForUser:
-               LoginView(app: app)
+               ProgressView("Waiting for user to log in...")
             // The realm has been opened and is ready for use. 
             // Show the content view.
             case .open(let realm):
