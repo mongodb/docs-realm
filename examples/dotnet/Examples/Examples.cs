@@ -143,7 +143,7 @@ namespace Examples
             }
         }
 
-        [Test]
+        /*[Test]
         public async System.Threading.Tasks.Task OpenIfUserExists()
         {
             User user3;
@@ -173,7 +173,7 @@ namespace Examples
             }
             // :replace-end:
             // :code-block-end:
-        }
+        }*/
 
         [Test]
         public async System.Threading.Tasks.Task GetsSyncedTasks()
