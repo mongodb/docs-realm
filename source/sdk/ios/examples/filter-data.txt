@@ -196,9 +196,13 @@ values.
    The type on both sides of the operator must be equivalent. For
    example, comparing an :ref:`ObjectId with string
    <ios-filter-object-id>` will result in a precondition failure with a
-   message like: ``"Expected object of type object id for property 'id'
-   on object of type 'User', but received: 11223344556677889900aabb
-   (Invalid value)"``.
+   message like: 
+   
+   .. code-block::
+      :copyable: false
+   
+      "Expected object of type object id for property 'id' on object of type 
+      'User', but received: 11223344556677889900aabb (Invalid value)"
    
    You can compare any :ref:`numeric type
    <ios-supported-property-types>` with any other numeric type.
@@ -317,16 +321,40 @@ Regex-like wildcards allow more flexibility in search.
 
    - ``[c]`` for case insensitivity.
 
-     .. code-block:: objective-c
+     .. tabs-realm-languages::
 
-        [NSPredicate predicateWithFormat: @"name CONTAINS[c] 'f'"]
+        .. tab::
+           :tabid: swift
+
+           .. code-block:: swift
+              
+              NSPredicate(format: "name CONTAINS[c] 'f'")
+
+        .. tab::
+           :tabid: objective-c
+
+           .. code-block:: objective-c
+
+              [NSPredicate predicateWithFormat: @"name CONTAINS[c] 'f'"]
+
 
    - ``[d]`` for diacritic insensitivity: Realm treats special characters as the base character (e.g. ``é`` -> ``e``).
 
-     .. code-block:: objective-c
+     .. tabs-realm-languages::
 
-        [NSPredicate predicateWithFormat: @"name CONTAINS[d] 'e'"]
+        .. tab::
+           :tabid: swift
 
+           .. code-block:: swift
+              
+              NSPredicate(format: "name CONTAINS[d] 'e'")
+
+        .. tab::
+           :tabid: objective-c
+
+           .. code-block:: objective-c
+
+              [NSPredicate predicateWithFormat: @"name CONTAINS[d] 'e'"]
 
 .. list-table::
    :header-rows: 1
@@ -336,7 +364,7 @@ Regex-like wildcards allow more flexibility in search.
      - Description
 
    * - | ``beginsWith``
-     - Evaluates to ``true`` if the left-hand string expression begins with the right-hand string expression. This is similar to ``contains``, but only matches if the left-hand string expression is found at the beginning of the right-hand string expression.
+     - Evaluates to ``true`` if the left-hand string expression begins with the right-hand string expression. This is similar to ``contains``, but only matches if the right-hand string expression is found at the beginning of the left-hand string expression.
 
    * - | ``contains``, ``in``
      - Evaluates to ``true`` if the left-hand string expression is found anywhere in the right-hand string expression.
