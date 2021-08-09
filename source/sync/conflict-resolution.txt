@@ -21,7 +21,7 @@ server or loss of connectivity. In this event, {+service-short+} automatically
 uses conflict resolution strategies to merge the changes. Specifically,
 {+service-short+} handles conflict resolution using `operational transformation 
 <https://docs.mongodb.com/realm/sync/protocol/#operational-transformation>`__,
-a function which provides specific rules that ensure all sides always converge 
+a set of rules that guarantee that all sides eventually converge
 on the same result, even though their changes may have been made in a different order. 
 
 {+service-short+}'s conflict resolution system guarantees that all
