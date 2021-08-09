@@ -336,26 +336,25 @@ Open a Synced Realm with SwiftUI
 .. versionadded:: 10.12.0
 
 SwiftUI apps can use RealmSwift property wrappers to open {+realms+} and 
-populate views. These property wrappers provide a syntax that integrates nicely 
-with SwiftUI to let developers declare whether their client app should:
+populate views. These property wrappers provide a syntax that integrates 
+with SwiftUI to let developers declare whether their clients should download 
+changesets before opening {+realm+}s, or open {+realm+}s with data on the 
+devices.
 
-- Only open a {+realm+} if they can download updates from the server first. 
-  This requires a successful network connection.
-- Attempt to download updates from the server, but open a {+realm+} offline if 
-  there is no network connection. This supports an offline-first approach at
-  the cost of potentially working with stale data.
+{+app+}s that require up-to-date information from the server, such as game apps 
+with live leaderboards that the user can play on multiple devices, should 
+:ref:`use @AsyncOpen to open a {+realm+}<swiftui-async-open-synced-realm>`. 
+This only works if the user has a network connection when opening the {+realm+}, 
+but ensures the user is never using the app with stale data.
 
-{+app+}s that need to always have up-to-date information from the server, such
-as game apps with live leaderboards that the user can play on multiple devices, 
-should use ``@AsyncOpen`` to open a {+realm+}. This only works if the user has 
-a network connection when opening the {+realm+}, but ensures the user is never 
-using the app with stale data.
+{+app+}s where it's not a problem for the user to work with potentially stale 
+data, and the developer instead wants to enable offline-first capability,
+should :ref:`use @AutoOpen to open the {+realm+}<swiftui-auto-open-synced-realm>`. 
+This attempts to download updates before opening the {+realm+}. If a network 
+connection is not available, this method opens a {+realm+} with data on the 
+device, instead, without downloading the latest changes.
 
-{+app+}s that want to enable offline-first capability, where it's not a problem
-for the user to work with potentially stale data, should use ``@AutoOpen`` to
-open the {+realm+}. This attempts to download updates before opening the 
-{+realm+}. If a network connection is not available, it opens a local 
-{+realm+} instead.
+.. _swiftui-async-open-synced-realm:
 
 AsyncOpen
 ~~~~~~~~~
@@ -430,6 +429,8 @@ the view.
             }
          }
       }
+
+.. _swiftui-auto-open-synced-realm:
 
 AutoOpen
 ~~~~~~~~
