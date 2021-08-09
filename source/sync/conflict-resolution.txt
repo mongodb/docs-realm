@@ -21,14 +21,13 @@ server or loss of connectivity. In this event, {+service-short+} automatically
 uses conflict resolution strategies to merge the changes. Specifically,
 {+service-short+} handles conflict resolution using `operational transformation 
 <https://docs.mongodb.com/realm/sync/protocol/#operational-transformation>`__,
-a set of rules that guarantee that all sides eventually converge
-on the same result, even though their changes may have been made in a different order. 
+a set of rules that guarantee strong eventual consistency, meaning all clients' versions
+will eventually converge to identical states. This will be true even if changes were
+made in a different order. 
 
-{+service-short+}'s conflict resolution system guarantees that all
-clients will have strong eventual consistency, meaning all clients' versions
-will eventually converge to identical states. You have to be
-aware of the rules to ensure the consistent results you want, but the
-upside is that by following those rules you can have devices work
+
+You must be aware of the rules to ensure consistent results, but the
+upside is that by following those rules, you can have devices work
 entirely offline and still converge on meaningful results when they
 meet.
 
