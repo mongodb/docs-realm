@@ -338,7 +338,7 @@ Open a Synced Realm with SwiftUI
 SwiftUI apps can use RealmSwift property wrappers to open {+realms+} and 
 populate views. These property wrappers provide a syntax that integrates 
 with SwiftUI to let developers declare whether their clients should download 
-changesets before opening {+realm+}s, or open {+realm+}s with data on the 
+changesets before opening {+realm+}s or open {+realm+}s with data on the 
 devices.
 
 Apps that require up-to-date information from the server, such as game apps 
@@ -355,6 +355,26 @@ download updates before opening the {+realm+}. However, if a network connection
 is not available, this method instead opens a {+realm+} with data on the 
 device. This property wrapper enables developers to design offline-first 
 capabilities into their apps.
+
+Pass Environment Values
+~~~~~~~~~~~~~~~~~~~~~~~
+
+You can inject the ``.partitionValue`` environment value into the view where 
+you are performing the ``@AsyncOpen`` or ``@AutoOpen`` to populate the 
+``partitionValue``:
+
+.. code-block:: swift
+
+   AsyncOpenView()
+      .environment(\.partitionValue, user.id)
+
+You can inject the opened {+realm+} into your content view as an environment 
+value. The property wrapper uses this {+realm+} to populate the view:
+
+.. code-block:: swift
+
+   ListView()
+      .environment(\.realm, realm)
 
 .. _swiftui-async-open-synced-realm:
 
@@ -373,24 +393,6 @@ This SwiftUI property wrapper initiates ``Realm.asyncOpen()`` for the current
 user. The property wrapper publishes states, represented by the :swift-sdk:`AsyncOpenState 
 enum <Enums/AsyncOpenState.html#/s:10RealmSwift14AsyncOpenStateO5erroryACs5Error_pcACmF>`,
 which you can use to update the view. 
-
-Pass Environment Values
-```````````````````````
-You can inject the ``.partitionValue`` environment value into the view where 
-you are performing the ``@AsyncOpen`` to populate the ``partitionValue``:
-
-.. code-block:: swift
-
-   AsyncOpenView()
-      .environment(\.partitionValue, user.id)
-
-You can inject the opened {+realm+} into your content view as an environment 
-value. The property wrapper uses this {+realm+} to populate the view:
-
-.. code-block:: swift
-
-   ListView()
-      .environment(\.realm, realm)
 
 .. example::
 
@@ -457,25 +459,7 @@ instead returns an opened realm for the given ``appId`` and ``partitionValue``.
 
 The property wrapper publishes states, represented by the :swift-sdk:`AsyncOpenState 
 enum <Enums/AsyncOpenState.html#/s:10RealmSwift14AsyncOpenStateO5erroryACs5Error_pcACmF>`,
-which you can use to update the view. 
-
-Pass Environment Values
-```````````````````````
-You can inject the ``.partitionValue`` environment value into the view where 
-you are performing the ``@AutoOpen`` to populate the ``partitionValue``:
-
-.. code-block:: swift
-
-   AutoOpenView()
-      .environment(\.partitionValue, user.id)
-
-You can inject the opened {+realm+} into your content view as an environment 
-value. The property wrapper uses this {+realm+} to populate the view:
-
-.. code-block:: swift
-
-   ListView()
-      .environment(\.realm, realm)
+which you can use to update the view.
 
 .. example::
 
