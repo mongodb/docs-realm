@@ -30,7 +30,8 @@ namespace Examples
             app = App.Create(myRealmAppId);
             // :code-block-end:
             // :code-block-start: open-synced-realm
-            user = app.LogInAsync(Credentials.EmailPassword("foo@foo.com", "foobar")).Result;
+            user = await app.LogInAsync(
+                Credentials.EmailPassword("foo@foo.com", "foobar"));
             config = new SyncConfiguration("myPart", user);
             //:hide-start:
             config.ObjectClasses = new[]
@@ -220,7 +221,7 @@ namespace Examples
                 typeof(CustomGetterSetter)
             };
             //:hide-end:
-            using (var realm = await Realm.GetInstanceAsync(config))
+            using (var realm = Realm.GetInstance(config))
             {
                 var allTasks = realm.All<Task>();
             }
@@ -418,7 +419,7 @@ namespace Examples
                 Email = "foo@foo.com"
             };
 
-            using (var realm = await Realm.GetInstanceAsync(config))
+            using (var realm = Realm.GetInstance(config))
             {
                 realm.Write(() =>
             {
@@ -435,7 +436,7 @@ namespace Examples
         [OneTimeTearDown]
         public async System.Threading.Tasks.Task TearDown()
         {
-            using (var realm = await Realm.GetInstanceAsync(config))
+            using (var realm = Realm.GetInstance(config))
             {
                 var myTask = new Task() { Partition = "foo", Name = "foo2", Status = TaskStatus.Complete.ToString() };
                 realm.Write(() =>
