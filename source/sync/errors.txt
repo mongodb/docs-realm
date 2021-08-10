@@ -41,8 +41,8 @@ errors and how to handle them. {+service+} reports errors in your
 
    * - ErrorBadClientFileIdent
      - This error occurs when the client is using a {+realm+} file that the
-       server cannot access after :doc:`terminating and re-enabling
-       {+sync-short+} </reference/terminating-and-reenabling-realm-sync>`.
+       server cannot access after :ref:`terminating and re-enabling
+       {+sync-short+} <terminating-and-reenabling-sync>`.
        
        To recover from this error, :ref:`perform a client reset
        <sync-errors-client-resets>`.
@@ -50,8 +50,8 @@ errors and how to handle them. {+service+} reports errors in your
    * - ErrorClientFileUserMismatch
      - This error indicates that the client attempted to synchronize a
        {+realm+} file associated with an identity other than the specified user.
-       This may occur if {+sync-short+} is :doc:`terminated and reenabled
-       </reference/terminating-and-reenabling-realm-sync>` while the user is
+       This may occur if {+sync-short+} is :ref:`terminated and reenabled
+       <terminating-and-reenabling-sync>` while the user is
        offline, which invalidates their previous identity.
        
        To recover from this error, delete the local realm file and then re-open
@@ -60,8 +60,8 @@ errors and how to handle them. {+service+} reports errors in your
    * - ErrorDivergingHistories
      - This error indicates that the client attempted to synchronize a 
        {+realm+} file that has a different sync history than the server
-       {+realm+}. This may occur if {+sync-short+} is :doc:`terminated and
-       reenabled </reference/terminating-and-reenabling-realm-sync>` while the
+       {+realm+}. This may occur if {+sync-short+} is :ref:`terminated and
+       reenabled <terminating-and-reenabling-sync>` while the
        user is offline, which invalidates their previous sync history.
        
        To recover from this error, :ref:`perform a client reset

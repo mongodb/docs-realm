@@ -59,6 +59,12 @@ inserted, and modified.
    in the following order: deletions, insertions, then
    modifications. Handling insertions before deletions may
    result in unexpected behavior.
+  
+Collection notifications provide a ``change`` parameter that reports which
+objects are deleted, added, or modified during the write transaction. This
+:swift-sdk:`RealmCollectionChange <Enums/RealmCollectionChange.html>` 
+resolves to an array of index paths that you can pass to a ``UITableView``'s 
+batch update methods.
 
 .. tabs-realm-languages::
 
@@ -101,6 +107,78 @@ and whether the object was deleted.
 
       .. literalinclude:: /examples/generated/code/start/Notifications.codeblock.register-an-object-change-listener.m
         :language: objectivec
+
+.. _ios-register-a-keypath-change-listener:
+
+Register a Key Path Change Listener
+-----------------------------------
+
+.. versionadded:: 10.12.0
+
+In addition to registering a notification handler on an :swift-sdk:`object 
+<Extensions/Object.html#/s:So16RealmSwiftObjectC0aB0E7observe8keyPaths2on_So20RLMNotificationTokenCSaySSGSg_So17OS_dispatch_queueCSgyAC0C6ChangeOyxGctSo13RLMObjectBaseCRbzlF>` 
+or :swift-sdk:`collection <Protocols/RealmCollection.html#/s:10RealmSwift0A10CollectionP7observe8keyPaths2on_So20RLMNotificationTokenCSaySSGSg_So17OS_dispatch_queueCSgyAA0aC6ChangeOyxGctF>`, you can pass an optional ``keyPaths`` parameter to specify the key path or 
+key paths to watch.
+
+.. example::
+
+   .. include:: /examples/generated/code/start/Notifications.codeblock.register-a-keypath-change-listener.swift.code-block.rst
+
+When you specify ``keyPaths``, *only* changes to those
+``keyPaths`` trigger notification blocks. Any other changes do not trigger
+notification blocks.
+
+.. example::
+
+   Consider a ``Dog`` object where one of its properties is a list of 
+   ``siblings``:
+
+   .. include:: /examples/generated/code/start/Notifications.codeblock.alternate-dog-class-for-keypaths.swift.code-block.rst
+
+   If you pass ``siblings`` as a ``keyPath`` to observe, any insertion, 
+   deletion, or modification to the ``siblings`` list would trigger a 
+   notification. However, a change to ``someSibling.name`` would not trigger
+   a notification, unless you explicitly observed ``["siblings.name"]``.
+
+.. note::
+
+   Multiple notification tokens on the same object which filter for
+   separate key paths *do not* filter exclusively. If one key path
+   change is satisfied for one notification token, then all notification
+   token blocks for that object will execute.
+
+Realm Collections
+~~~~~~~~~~~~~~~~~
+
+When you observe key paths on the various collection types, expect these 
+behaviors:
+
+- :swift-sdk:`LinkingObjects: <Structs/LinkingObjects.html#/s:10RealmSwift14LinkingObjectsV7observe8keyPaths2on_So20RLMNotificationTokenCSaySSGSg_So17OS_dispatch_queueCSgyAA0A16CollectionChangeOyACyxGGctF>`:
+  Observing a property of the LinkingObject triggers a notification for a 
+  change to that property, but does not trigger notifications for changes to 
+  its other properties. Insertions or deletions to the list or the object 
+  that the list is on trigger a notification. 
+- :swift-sdk:`Lists <Classes/List.html#/s:10RealmSwift4ListC7observe8keyPaths2on_So20RLMNotificationTokenCSaySSGSg_So17OS_dispatch_queueCSgyAA0A16CollectionChangeOyACyxGGctF>`:
+  Observing a property of the list's object will triggers a notification for 
+  a change to that property, but does not trigger notifications for changes 
+  to its other properties. Insertions or deletions to the list or the object 
+  that the list is on trigger a notification. 
+- :swift-sdk:`Map <Classes/Map.html#/s:10RealmSwift3MapC7observe8keyPaths2on_So20RLMNotificationTokenCSaySSGSg_So17OS_dispatch_queueCSgyAA0aC6ChangeOyACyxq_GGctF>`:
+  Observing a property of the map's object triggers a notification for a change
+  to that property, but does not trigger notifications for changes to its other
+  properties. Insertions or deletions to the Map or the object that the map is
+  on trigger a notification. The ``change`` parameter reports, in the form of 
+  keys within the map, which key-value pairs are added, removed, or modified 
+  during each write transaction. 
+- :swift-sdk:`MutableSet <Classes/MutableSet.html#/s:10RealmSwift10MutableSetC7observe8keyPaths2on_So20RLMNotificationTokenCSaySSGSg_So17OS_dispatch_queueCSgyAA0A16CollectionChangeOyACyxGGctF>`:
+  Observing a property of a MutableSet's object triggers a notification 
+  for a change to that property, but does not trigger notifications for changes 
+  to its other properties. Insertions or deletions to the MutableSet or the 
+  object that the MutableSet is on trigger a notification. 
+- :swift-sdk:`Results <Structs/Results.html#/s:10RealmSwift7ResultsV7observe8keyPaths2on_So20RLMNotificationTokenCSaySSGSg_So17OS_dispatch_queueCSgyAA0A16CollectionChangeOyACyxGGctF>`: 
+  Observing a property of the Result triggers a notification for a change to 
+  that property, but does not trigger notifications for changes to its other 
+  properties. Insertions or deletions to the Result trigger a notification.
 
 .. _ios-write-silently:
 

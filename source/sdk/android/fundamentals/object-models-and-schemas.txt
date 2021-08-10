@@ -50,7 +50,10 @@ created, modified, or deleted.
 Primary Keys
 ------------
 
-.. versionadded:: Since version 10.6.0, {+client-database+} automatically indexes primary keys.
+.. versionadded:: 10.6.0
+
+   {+client-database+} automatically :ref:`indexes <android-indexes-fundamentals>`
+   primary key fields. Previously, only ``String`` fields were automatically indexed.
 
 {+service-short+} treats fields marked with the
 :java-sdk:`@PrimaryKey <io/realm/annotations/PrimaryKey.html>` annotation
@@ -80,9 +83,6 @@ You can create a primary key with any of the following types:
 - ``Long`` or ``long``
 - ``Short`` or ``short``
 - ``Byte`` or ``byte[]``
-
-Using a ``String`` as a primary key implicitly
-:ref:`indexes <android-indexes-fundamentals>` the field.
 
 Non-primitive types can contain a value of ``null`` as a primary key
 value, but only for one object of a particular type, since each primary

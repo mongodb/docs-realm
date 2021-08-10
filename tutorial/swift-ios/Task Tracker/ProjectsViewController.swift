@@ -2,7 +2,7 @@
 //  ProjectsViewController.swift
 //
 //
-//  Created by MongoDB on 2020-05-04.
+//  Copyright © 2020-2021 MongoDB, Inc. All rights reserved.
 //
 
 import Foundation
@@ -17,12 +17,12 @@ class ProjectsViewController: UIViewController, UITableViewDelegate, UITableView
 
     init(userRealmConfiguration: Realm.Configuration) {
         // :code-block-start: user-in-realm-notification
-        // :state-start: local start
+        // :state-start: start
         // TODO: fetch user data object
-        // :state-end: :state-start: sync
+        // :state-end: :state-start: local sync
         self.userRealm = try! Realm(configuration: userRealmConfiguration)
-        // :state-end:
         super.init(nibName: nil, bundle: nil)
+        // :state-end:
         // :state-start: sync
         // There should only be one user in my realm - that is myself
         let usersInRealm = userRealm.objects(User.self)

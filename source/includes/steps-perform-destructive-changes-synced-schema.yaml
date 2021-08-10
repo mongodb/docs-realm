@@ -1,70 +1,50 @@
-title: Consider If You Want to Perform a Destructive Change
-ref: consider-destructive-change
-content: |
-  If you need to add or remove a field to a schema, you need to perform an
-  :ref:`additive change <additive-changes-synced-schema>`. You can do this by
-  changing your schema directly, without any additional configuration. 
-
-  If you want to modify an existing schema field, you need to perform a
-  :ref:`destructive change <destructive-changes-synced-schema>`. The following
-  steps detail how to perform a destructive change.
-
-  In the following example, the initial collection uses the JSON Schema below for a
-  ``Task`` collection. The schema for the ``Task`` contains an ``_id`` field of
-  ``int`` type and a ``name`` field of ``string`` type.
-
-  .. code-block:: json
-     :caption: Task Schema
-     :emphasize-lines: 10
-
-     {
-       "title": "Task",
-       "bsonType": "object",
-       "required": [
-         "_id",
-         "name"
-       ],
-       "properties": {
-         "_id": {
-           "bsonType": "int"
-         },
-         "_partition": {
-           "bsonType": "string"
-         },
-         "name": {
-           "bsonType": "string"
-         }
-       }
-     }
----
 title: Initialize Your Partner Collection
 ref: initialize-partner-collection
 content: |
   Since destructive changes cannot be performed directly on a synced object
-  schema, you can create a partner collection with a schema containing the
-  required changes. The partner collections should always have the same data to
-  ensure that newer clients can synchronize with older clients.
+  schema, you must create a partner collection with a schema containing the
+  required changes. You must ensure that the partner collection has the same 
+  data as the original collection so that newer clients can synchronize with 
+  older clients.
 
-  To copy the data from your initial collection to your partner collection,
-  perform an aggregation using the :manual:`db.collection.aggregate()
-  </reference/method/db.collection.aggregate>` method with the :manual:`Mongo
-  shell <mongo>`. 
-  
-  Match all the documents in the initial collection by passing
-  an empty filter to the :manual:`$match operator
-  </reference/operator/aggregation/match/>`.
+  The recommended approach to copying the data from your original collection to 
+  the new partner collection is to use the :manual:`Aggregation Framework 
+  <aggregation/>`. 
 
-  Modify the desired fields of the initial collection by using an
-  :manual:`aggregation pipeline operator </reference/operator/aggregation/>`. In
-  the following example, the data is transformed using the :manual:`$addFields
-  operator </reference/operator/aggregation/addFields/>`. The ``_id`` field is
-  transformed to a ``string`` type with the :manual:`$toString operator
-  </reference/operator/aggregation/toString/>`.
+  Creating an Aggregation Pipeline
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  You can create and run an aggregation pipeline from the :manual:`mongo shell </mongo>`,
+  by using the :compass:`</aggregation-pipeline-builder/>`, or with the 
+  :atlas:`</data-explorer/cloud-agg-pipeline/>`.
 
-  Finally, write the transformed data to the partner collection by using the
-  :manual:`$out operator </reference/operator/aggregation/out/>` and specifying
-  the partner collection name. In this example, we wrote the data to a new
-  collection named ``TaskV2``.
+  The pipeline will have the following stages:
+
+  1. Match all the documents in the initial collection by passing
+     an empty filter to the :manual:`$match operator
+     </reference/operator/aggregation/match/>`.
+
+  2. Modify the fields of the initial collection by using an
+     :manual:`aggregation pipeline operator </reference/operator/aggregation/>`. In
+     the following example, the data is transformed using the :manual:`$addFields
+     operator </reference/operator/aggregation/addFields/>`. The ``_id`` field is
+     transformed to a ``string`` type with the :manual:`$toString operator
+     </reference/operator/aggregation/toString/>`.
+
+  3. Write the transformed data to the partner collection by using the
+     :manual:`$out operator </reference/operator/aggregation/out/>` and specifying
+     the partner collection name. In this example, we wrote the data to a new
+     collection named ``TaskV2``.
+
+
+  Here the same pipeline as represented in the Atlas and Compass UIs. Note that 
+  both of these tools provide a preview of the changes; in this case, the 
+  conversion the ``_id`` field from an ObjectId to a string:
+
+  .. figure:: /images/agg-in-atlas.png
+     :alt: Atlas UI for Aggregation Builder
+
+  The following example shows the complete aggregation pipeline as it would 
+  look if you are using the :manual:`mongo shell </mongo>` to do the conversion:
 
   .. code-block:: shell
      :caption: Match All Documents in the Initial Collection and Output Them to the Partner Collection 
@@ -81,102 +61,70 @@ content: |
        { $out: "TaskV2" }, // output the data to a partner collection, TaskV2
      ]);
 
-  The partner collection, ``TaskV2``, has a JSON Schema that looks like the following:
-
-  .. code-block:: json
-     :caption: Task Schema
-     :emphasize-lines: 10
-
-     {
-       "title": "TaskV2",
-       "bsonType": "object",
-       "required": [
-         "_id",
-         "name"
-       ],
-       "properties": {
-         "_id": {
-           "bsonType": "string"
-         },
-         "_partition": {
-           "bsonType": "string"
-         },
-         "name": {
-           "bsonType": "string"
-         }
-       }
-     }
-
 ---
 title: Set up Database Triggers for Your Partner Collections
 ref: set-up-db-triggers-partner-collections
 content: |
   Once your partner collection is set up, you can use it to read existing data.
-  However, any new writes to the data of either collection will not be shown
-  on its partner. This will cause the old clients to be out of sync with the
-  new clients that are using the new collection with the modified schema. 
+  However, any new writes to the data of *either collection* will not be 
+  in the other collection. This causes the old clients to be out of sync with the
+  new clients. 
 
-  To ensure that data is reflected in both collections, you need to set up a
-  :ref:`database trigger <create-a-database-trigger>` for each respective
-  collection. When data is written to one collection, the trigger's function
-  should perform the write to the partner collection.
+  To ensure that data is reflected in both collections, you set up a
+  :ref:`database trigger <create-a-database-trigger>` on each collection. When 
+  data is written to one collection, the trigger's function performs the write 
+  to the partner collection.
 
   Follow the steps in the :ref:`database trigger <create-a-database-trigger>`
-  documentation to create a trigger to copy data from the ``Task`` collection to
-  the ``TaskV2`` collection. The trigger should fire for all operation types. 
- 
-  Repeat these steps and create a second trigger to copy data from the
-  ``TaskV2`` collection to the ``Task`` collection.
+  documentation to create a trigger that copies data from the ``Task`` collection to
+  the ``TaskV2`` collection for all operation types. Repeat these steps to create 
+  a second trigger that copies data from the ``TaskV2`` collection to the 
+  ``Task`` collection. The following image shows the first trigger being created: 
 
   .. figure:: /images/trigger-copyTaskObjectToTaskV2.png
      :alt: Create a Database Trigger to Copy Data from Task to TaskV2
      :width: 750px
      :lightbox:
+
 ---
-title: Create a Forward Migration Function
-ref: create-forward-migration-fn
+title: Add Trigger Functions
+ref: add-trigger-funcs
 content: |
-  A forward migration trigger listens for inserts, updates, and deletes in the
-  initial collection, modifies them to reflect the partner collection's schema, and
-  then applies them to the partner collection. 
-  
-  The forward migration function follows an :wikipedia:`Extract, transform, load
-  (ETL) <Extract,_transform,_load>` procedure. The function performs an
-  aggregation that extracts data from the initial collection, transforms the
-  data using an :manual:`aggregation pipeline operator
-  </reference/operator/aggregation/>`, and loads the data into the partner
-  collection. 
 
-  In the following example, if the operation type is delete, meaning a document
-  has been deleted in one collection, the document is also deleted in the other
-  collection. If the operation type is a write event, a pipeline is created following
-  the **ETL** procedure. The inserted or modified document in the initial
-  collection is extracted using the :manual:`$match operator
-  </reference/operator/aggregation/match/>`. The extracted document is then
-  transformed from an ``integer`` value to a ``string`` value to adhere to
-  ``TaskV2``'s schema. Finally, the transformed data is loaded into
-  ``TaskV2``, by using the :manual:`$merge operator </reference/operator/aggregation/merge/>`.
+  Triggers require backing functions that run when the trigger fires. In this 
+  case, we need to create two functions: a forward-migration function and a 
+  reverse-migration function.
 
-  .. literalinclude:: /examples/Triggers/copy-data-from-initial-collection.js
+  The forward migration trigger listens for inserts, updates, and deletes in the
+  Task collection, modifies them to reflect the TaskV2 collection's schema, and
+  then applies them to the TaskV2 collection. 
+
+  To listen for changes to the TaskV2 collection and apply them to the Task 
+  collection, write a reverse-migration function for the TaskV2 collection's
+  trigger. The reverse migration follows the same idea as the previous step.
+
+  In the forward-migration function, we check which operation has triggered the 
+  function: if the operation type is ``Delete`` (meaning a document
+  has been deleted in the Task collection), the document is also deleted in the 
+  TaskV2 collection. If the operation type is a ``Write`` (inserted or modified) 
+  event, an aggregation pipeline is created. In the pipeline, the inserted or 
+  modified document in the Task collection is extracted using the 
+  :manual:`$match operator </reference/operator/aggregation/match/>`. The 
+  extracted document is then transformed to adhere to the 
+  ``TaskV2`` collection's schema. Finally, the transformed data is written to the 
+  ``TaskV2`` collection by using the 
+  :manual:`$merge operator </reference/operator/aggregation/merge/>`:
+
+  .. literalinclude:: /examples/generated/functions/copyTaskObjectToTaskV2.codeblock.copyTaskObject.js
      :language: javascript
-     :caption: copyTaskObjectToTaskV2 trigger
+     :caption: copyTaskObjectToTaskV2 function
 
----
-title: Create a Reverse Migration Function
-ref: create-reverse-migration-fn
-content: |
-  To listen for changes to the second collection and apply them to the initial
-  collection, write a reverse migration function for your second collection's
-  trigger. The reverse migration follows the same idea as the previous step, but
-  this time inserts data from the second collection to the initial collection. 
-
-  The following example goes through similar steps as the example in the
+  The reverse-migration function goes through similar steps as the example in the
   prior step. If a document has been deleted in one collection, the document is
   also deleted in the other collection. If the operation type is a write event,
-  the changed document from ``TaskV2`` is extracted, transformed from a
-  ``string`` value to an ``integer`` value, and loaded into the ``Task``
-  collection.
+  the changed document from ``TaskV2`` is extracted, transformed to match the 
+  Task collection's schema, and written into the ``Task`` collection:
 
-  .. literalinclude:: /examples/Triggers/copy-data-from-second-version-collection.js
+  .. literalinclude:: /examples/generated/functions/copyTaskV2ObjectToTask.codeblock.copyTaskV2Object.js
      :language: javascript
-     :caption: copyTaskV2ObjectToTask trigger
+     :caption: copyTaskV2ObjectToTask function

@@ -99,8 +99,8 @@ the cluster.
    
    * - | ``sync.partition.key``
        | String
-     - The name of the field that :ref:`partitions <partitioning>` data into
-       client Realms.
+     - The name of the :ref:`partition key <partition-key>` field that maps data
+       into individual synced realms.
    
    * - | ``sync.partition.type``
        | String

@@ -20,13 +20,17 @@ Overview
 When you update your object schema, you must increment the schema version 
 and perform a migration. 
 
-If your schema update adds or removes properties, {+client-database+} can 
-perform the migration automatically, and you only need to increment the 
-``schemaVersion``. 
+If your schema update adds optional properties or removes properties, 
+{+client-database+} can perform the migration automatically. You only need to 
+increment the ``schemaVersion``. 
 
-For more complex schema updates, such as combining fields, renaming fields, or 
-converting from an object to an embedded object, you must also specify the 
-migration logic in a ``migrationBlock``.
+For more complex schema updates, you must also specify the migration logic 
+in a ``migrationBlock``. This might include changes such as:
+
+- Adding required properties that must be populated with default values
+- Combining fields
+- Renaming fields
+- Converting from an object to an embedded object
 
 Update a Schema Version
 -----------------------
@@ -37,8 +41,11 @@ these changes.
 
 .. note::
 
-   {+client-database+} does not automatically set values for new properties
-   unless the new object schema specifies a default value.
+   {+client-database+} does not automatically set values for new required 
+   properties. You must use a migration block to set default values for
+   new required properties. For new optional properties, existing records 
+   can have null values. This means you don't need a migration block when 
+   adding optional properties.
 
 .. example::
 
@@ -71,8 +78,6 @@ these changes.
    To resolve a migration error in these circumstances, pass 
    ``Realm.Configuration(schemaVersion: <Your Incremented Version>)`` 
    into the ``ObservedResults`` constructor.
-
-      
 
 .. _ios-perform-a-schema-migration:
 

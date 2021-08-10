@@ -3,7 +3,7 @@
    The :ref:`backend you imported
    <tutorial-task-tracker-create-realm-app>` makes exactly one custom
    user data object for each user upon signup. This custom user data
-   object contains a list of :ref:`partitions <partitioning>` a user can
+   object contains a list of :ref:`partitions <sync-partitions>` a user can
    read and a list of partitions a user can write to.
    
    The backend is set up so that every user has read-only access to
