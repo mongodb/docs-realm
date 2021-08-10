@@ -341,13 +341,13 @@ with SwiftUI to let developers declare whether their clients should download
 changesets before opening {+realm+}s, or open {+realm+}s with data on the 
 devices.
 
-{+app+}s that require up-to-date information from the server, such as game apps 
+Apps that require up-to-date information from the server, such as game apps 
 with live leaderboards that the user can play on multiple devices, should 
 :ref:`use @AsyncOpen to open a {+realm+}<swiftui-async-open-synced-realm>`. 
 This only works if the user has a network connection when opening the {+realm+}, 
 but ensures the user is never using the app with stale data.
 
-{+app+}s where it's not a problem for the user to work with potentially stale 
+Apps where it's not a problem for the user to work with potentially stale 
 data, such as note-taking apps where users should be able to work with data 
 on the device, should :ref:`use @AutoOpen to open the {+realm+}
 <swiftui-auto-open-synced-realm>`. Like ``@AsyncOpen``, this attempts to 
@@ -376,35 +376,21 @@ which you can use to update the view.
 
 Pass Environment Values
 ```````````````````````
-From the LoginView, you can inject the ``.partitionvalue`` environment value 
-into the view where you are performing the ``@AsyncOpen`` to populate the 
-``user.id``:
+You can inject the ``.partitionValue`` environment value into the view where 
+you are performing the ``@AsyncOpen`` to populate the ``partitionValue``:
 
 .. code-block:: swift
 
-   struct LoginView: View {
+   AsyncOpenView()
+      .environment(\.partitionValue, user.id)
 
-      var body: some View {
-         ...view code...
-         AsyncOpenView()
-            .environment(\.partitionValue, user.id)
-      }
-   }
-
-From the view where you're performing the ``@AsyncOpen``, you can inject 
-the opened {+realm+} into your content view as an environment value. The 
-property wrapper uses this {+realm+} to populate the view.
+You can inject the opened {+realm+} into your content view as an environment 
+value. The property wrapper uses this {+realm+} to populate the view:
 
 .. code-block:: swift
 
-   struct AsyncOpenView: View {
-
-      var body: some View {
-         ...view code...
-         ListView()
-            .environment(\.realm, realm)
-      }
-   }
+   ListView()
+      .environment(\.realm, realm)
 
 .. example::
 
@@ -475,35 +461,21 @@ which you can use to update the view.
 
 Pass Environment Values
 ```````````````````````
-From the LoginView, you can inject the ``.partitionvalue`` environment value 
-into the view where you are performing the ``@AutoOpen`` to populate the 
-``user.id``:
+You can inject the ``.partitionValue`` environment value into the view where 
+you are performing the ``@AutoOpen`` to populate the ``partitionValue``:
 
 .. code-block:: swift
 
-   struct LoginView: View {
+   AutoOpenView()
+      .environment(\.partitionValue, user.id)
 
-      var body: some View {
-         ...view code...
-         AutoOpenView()
-            .environment(\.partitionValue, user.id)
-      }
-   }
-
-From the view where you're performing the ``@AutoOpen``, you can inject 
-the opened {+realm+} into your content view as an environment value. The 
-property wrapper uses this {+realm+} to populate the view.
+You can inject the opened {+realm+} into your content view as an environment 
+value. The property wrapper uses this {+realm+} to populate the view:
 
 .. code-block:: swift
 
-   struct AutoOpenView: View {
-
-      var body: some View {
-         ...view code...
-         ListView()
-            .environment(\.realm, realm)
-      }
-   }
+   ListView()
+      .environment(\.realm, realm)
 
 .. example::
 
