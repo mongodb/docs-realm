@@ -356,26 +356,6 @@ is not available, this method instead opens a {+realm+} with data on the
 device. This property wrapper enables developers to design offline-first 
 capabilities into their apps.
 
-Pass Environment Values
-~~~~~~~~~~~~~~~~~~~~~~~
-
-You can inject the ``.partitionValue`` environment value into the view where 
-you are performing the ``@AsyncOpen`` or ``@AutoOpen`` to populate the 
-``partitionValue``:
-
-.. code-block:: swift
-
-   AsyncOpenView()
-      .environment(\.partitionValue, user.id)
-
-You can inject the opened {+realm+} into your content view as an environment 
-value. The property wrapper uses this {+realm+} to populate the view:
-
-.. code-block:: swift
-
-   ListView()
-      .environment(\.realm, realm)
-
 .. _swiftui-async-open-synced-realm:
 
 AsyncOpen
@@ -507,6 +487,28 @@ which you can use to update the view.
             }
          }
       }
+
+.. _ios-swiftui-pass-environment-values:
+
+Pass Environment Values
+~~~~~~~~~~~~~~~~~~~~~~~
+
+You can inject the ``.partitionValue`` environment value into the view where 
+you are performing the ``@AsyncOpen`` or ``@AutoOpen`` to populate the 
+``partitionValue``:
+
+.. code-block:: swift
+
+   AsyncOpenView()
+      .environment(\.partitionValue, user.id)
+
+You can inject the opened {+realm+} into your content view as an environment 
+value. The property wrapper uses this {+realm+} to populate the view:
+
+.. code-block:: swift
+
+   ListView()
+      .environment(\.realm, realm)
 
 .. _ios-sync-changes-in-the-background:
 
