@@ -39,27 +39,30 @@ namespace Examples
                 typeof(dotnet.User),
                 typeof(CustomGetterSetter)
             };
-            Realm realm;
+            Realm realm = Realm.GetInstance(config);
             //:hide-end:
             try
             {
-                realm = await Realm.GetInstanceAsync(config);
+                // :uncomment-start:
+                //realm = await Realm.GetInstanceAsync(config);
+                // :uncomment-end:
             }
             catch (RealmFileAccessErrorException ex)
             {
                 Console.WriteLine($@"Error creating or opening the
                     realm file. {ex.Message}");
             }
-            //:hide-start:
-            realm = await Realm.GetInstanceAsync(config);
+            // :code-block-end:
+
             realm.Write(() =>
             {
                 realm.RemoveAll<Task>();
             });
-            //:hide-end:
-            // :code-block-end:
+
             // :code-block-start: open-synced-realm-sync
-            var synchronousRealm = await Realm.GetInstanceAsync(config);
+            // :uncomment-start:
+            // var synchronousRealm = await Realm.GetInstanceAsync(config);
+            // :uncomment-end:
             // :code-block-end:
             // :code-block-start: create
             var testTask = new Task
