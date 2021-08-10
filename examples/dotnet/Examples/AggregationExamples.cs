@@ -40,9 +40,7 @@ namespace Examples
                 typeof(Plant)
             };
             //:hide-end:
-            mongoClient = user.GetMongoClient("mongodb-atlas");
-            dbPlantInventory = mongoClient.GetDatabase("inventory");
-            plantsCollection = dbPlantInventory.GetCollection<Plant>("plants");
+            SetupPlantCollection();
 
             await plantsCollection.DeleteManyAsync();
 
@@ -103,9 +101,20 @@ namespace Examples
             return;
         }
 
+        private void SetupPlantCollection()
+        {
+            mongoClient = user.GetMongoClient("mongodb-atlas");
+            dbPlantInventory = mongoClient.GetDatabase("inventory");
+            plantsCollection = dbPlantInventory.GetCollection<Plant>("plants");
+        }
+
         [Test]
         public async Task GroupsAndCounts()
         {
+            if (plantsCollection == null)
+            {
+                SetupPlantCollection();
+            }
             // :code-block-start: agg_group
             var groupStage =
                 new BsonDocument("$group",
@@ -163,6 +172,10 @@ namespace Examples
         [Test]
         public async Task Filters()
         {
+            if (plantsCollection == null)
+            {
+                SetupPlantCollection();
+            }
             // :code-block-start: agg_filter
             var matchStage = new BsonDocument("$match",
                     new BsonDocument("type",
@@ -192,6 +205,10 @@ namespace Examples
         [Test]
         public async Task Projects()
         {
+            if (plantsCollection == null)
+            {
+                SetupPlantCollection();
+            }
             // :code-block-start: agg_project
             var projectStage = new BsonDocument("$project",
                 new BsonDocument
@@ -243,7 +260,12 @@ namespace Examples
         [OneTimeTearDown]
         public async Task TearDown()
         {
+            if (plantsCollection == null)
+            {
+                SetupPlantCollection();
+            }
             await plantsCollection.DeleteManyAsync();
+
             return;
         }
     }
