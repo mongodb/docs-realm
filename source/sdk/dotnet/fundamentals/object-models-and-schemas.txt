@@ -188,14 +188,16 @@ be notified, and vice-versa; ViewModels typically implement
 the `INotifyPropertyChange <https://docs.microsoft.com/en-us/dotnet/api/system.componentmodel.inotifypropertychanged?view=net-5.0>`_ 
 interface to ensure this. 
 
-However, with managed {+realm+} objects, this notification happens automatically, 
-greatly simplifying your ViewModel code. The same is true when binding a UI 
-element to a {+realm+} query. If, for example, we bind a 
+However, when you bind UI elements to a {+realm+} object, this notification 
+happens automatically, thus greatly simplifying your ViewModel code. 
+
+You can also bind a UI element to a {+realm+} *query*. For example, if you bind a 
 `ListView <https://docs.microsoft.com/en-us/dotnet/api/xamarin.forms.listview?view=xamarin-forms>`_ 
 to a realm query, then the list will update automatically when the results of the 
-query change. You do not need to implement the ``INotifyPropertyChange interface``.
+query change; you do not need to implement the ``INotifyPropertyChange interface``.
 
-For example, if you have bound a ListView to a query that returns all products, 
+For example, if you have bound a ListView to a query that returns all Product 
+objects in a {+realm+}, 
 the list of available products updates automatically if a product is added, 
 changed, or removed from the ``Products`` collection:
 
@@ -213,9 +215,6 @@ changed, or removed from the ``Products`` collection:
    <ListView ItemsSource="{Binding AllProducts}">
 
 
-
-
-
 Summary
 -------
 
@@ -231,3 +230,6 @@ Summary
 - The {+service-short+} object's **schema** defines the properties of the object and
   which properties are optional, which properties have a default value,
   and which properties are indexed.
+
+- Using {+realm+} objects and queries in a MVVM architecture simplifies data 
+  binding.
