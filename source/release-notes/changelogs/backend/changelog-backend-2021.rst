@@ -3,7 +3,7 @@
 11 August 2021 Release
 ~~~~~~~~~~~~~~~~~~~~~~
 
-- Support the option of sending events using :manual:`Extended JSON </reference/mongodb-extended-json/>` in :ref:`AWS EventBridge Triggers <aws-eventbridge>` to support sending additional data types such as Decimal128
+- Support the option of sending events using :manual:`Extended JSON </reference/mongodb-extended-json/>` in :ref:`AWS EventBridge Triggers <aws-eventbridge>` to support sending additional data types such as Decimal128.
 - Display the generated data models in SDKs Data Models when :ref:`Development Mode <concept-development-mode>` is enabled for {+sync+}. 
 
 
