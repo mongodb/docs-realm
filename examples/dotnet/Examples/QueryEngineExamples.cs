@@ -28,28 +28,17 @@ namespace Examples
         {
             app = App.Create(myRealmAppId);
             user = app.LogInAsync(Credentials.EmailPassword("foo@foo.com", "foobar")).Result;
-            config = new SyncConfiguration("myPart", user);
+            config = new SyncConfiguration("foo", user);
             //:hide-start:
             config.ObjectClasses = new[]
             {
-                typeof(Task),
+                //typeof(Task),
                 typeof(UserTask),
                 typeof(UserProject)
             };
             //:hide-end:
             var realm = await Realm.GetInstanceAsync(config);
             var synchronousRealm = await Realm.GetInstanceAsync(config);
-            var testTask = new Task
-            {
-                Name = "Do this thing",
-                Partition = "myPart",
-                Status = TaskStatus.Open.ToString()
-            };
-
-            realm.Write(() =>
-            {
-                realm.Add(testTask);
-            });
             return;
         }
 

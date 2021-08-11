@@ -233,7 +233,7 @@ namespace Examples
             // :replace-end:
             // :code-block-end:
             Assert.AreEqual(1, oscillatorAssignees.Count());
-            Assert.AreEqual("Katie", oscillatorAssignees[0].Name);
+            Assert.AreEqual("Katie", oscillatorAssignees[0].Name, "matches");
             return;
         }
 

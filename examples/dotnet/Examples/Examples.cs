@@ -17,6 +17,7 @@ namespace Examples
     public class Examples
     {
         App app;
+        App app3;
         ObjectId testTaskId;
         User user;
         SyncConfiguration config;
@@ -28,8 +29,9 @@ namespace Examples
             // :code-block-start: initialize-realm
             app = App.Create(myRealmAppId);
             // :code-block-end:
-            user = app.LogInAsync(Credentials.EmailPassword("foo@foo.com", "foobar")).Result;
             // :code-block-start: open-synced-realm
+            user = await app.LogInAsync(
+                Credentials.EmailPassword("foo@foo.com", "foobar"));
             config = new SyncConfiguration("myPart", user);
             //:hide-start:
             config.ObjectClasses = new[]
@@ -39,27 +41,30 @@ namespace Examples
                 typeof(dotnet.User),
                 typeof(CustomGetterSetter)
             };
-            Realm realm;
+            Realm realm = Realm.GetInstance(config);
             //:hide-end:
             try
             {
-                realm = await Realm.GetInstanceAsync(config);
+                // :uncomment-start:
+                //realm = await Realm.GetInstanceAsync(config);
+                // :uncomment-end:
             }
             catch (RealmFileAccessErrorException ex)
             {
                 Console.WriteLine($@"Error creating or opening the
                     realm file. {ex.Message}");
             }
-            //:hide-start:
-            realm = await Realm.GetInstanceAsync(config);
+            // :code-block-end:
+
             realm.Write(() =>
             {
                 realm.RemoveAll<Task>();
             });
-            //:hide-end:
-            // :code-block-end:
+
             // :code-block-start: open-synced-realm-sync
-            var synchronousRealm = await Realm.GetInstanceAsync(config);
+            // :uncomment-start:
+            // var synchronousRealm = await Realm.GetInstanceAsync(config);
+            // :uncomment-end:
             // :code-block-end:
             // :code-block-start: create
             var testTask = new Task
@@ -141,6 +146,40 @@ namespace Examples
         }
 
         [Test]
+        public async System.Threading.Tasks.Task OpenIfUserExists()
+        {
+            app3 = App.Create(myRealmAppId);
+            User user3;
+            SyncConfiguration config3;
+            Realm realm3;
+            // :code-block-start: check-if-offline
+            // :replace-start: {
+            //  "terms": {
+            //   "app3": "app",
+            //   "user3": "user",
+            //   "config3" : "config",
+            //   "realm3": "realm" }
+            // }
+            if (app3.CurrentUser == null)
+            {
+                // App must be online for user to authenticate
+                user3 = await app.LogInAsync(
+                    Credentials.EmailPassword("caleb@mongodb.com", "shhhItsASektrit!"));
+                config3 = new SyncConfiguration("_part", user3);
+                realm3 = await Realm.GetInstanceAsync(config3);
+            }
+            else
+            {
+                // This works whether online or offline
+                user3 = app.CurrentUser;
+                config3 = new SyncConfiguration("_part", user3);
+                realm3 = Realm.GetInstance(config3);
+            }
+            // :replace-end:
+            // :code-block-end:
+        }
+
+        [Test]
         public async System.Threading.Tasks.Task GetsSyncedTasks()
         {
             // :code-block-start: anon-login
@@ -182,7 +221,7 @@ namespace Examples
                 typeof(CustomGetterSetter)
             };
             //:hide-end:
-            using (var realm = await Realm.GetInstanceAsync(config))
+            using (var realm = Realm.GetInstance(config))
             {
                 var allTasks = realm.All<Task>();
             }
@@ -380,7 +419,7 @@ namespace Examples
                 Email = "foo@foo.com"
             };
 
-            using (var realm = await Realm.GetInstanceAsync(config))
+            using (var realm = Realm.GetInstance(config))
             {
                 realm.Write(() =>
             {
@@ -397,9 +436,13 @@ namespace Examples
         [OneTimeTearDown]
         public async System.Threading.Tasks.Task TearDown()
         {
-            using (var realm = await Realm.GetInstanceAsync(config))
+            using (var realm = Realm.GetInstance(config))
             {
-                var myTask = new Task();
+                var myTask = new Task() { Partition = "foo", Name = "foo2", Status = TaskStatus.Complete.ToString() };
+                realm.Write(() =>
+                {
+                    realm.Add(myTask);
+                });
                 // :code-block-start: delete
                 realm.Write(() =>
                 {

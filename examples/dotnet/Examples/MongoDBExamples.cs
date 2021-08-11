@@ -183,19 +183,23 @@ namespace Examples
         [OneTimeTearDown]
         public async Task TearDown()
         {
-            using var realm = await Realm.GetInstanceAsync(config);
-            {
-                // :code-block-start: mongo-delete-one
-                var filter = new BsonDocument("name", "Thai Basil");
-                var deleteResult = await plantsCollection.DeleteOneAsync(filter);
-                // :code-block-end:
-            }
-            {
-                // :code-block-start: mongo-delete-many
-                var filter = new BsonDocument("type", PlantType.Annual);
-                var deleteResult = await plantsCollection.DeleteManyAsync(filter);
-                // :code-block-end:
-            }
+
+            // :code-block-start: mongo-delete-one
+            var filter = new BsonDocument("name", "Thai Basil");
+            var deleteResult = await plantsCollection.DeleteOneAsync(filter);
+            // :code-block-end:
+
+            // :code-block-start: mongo-delete-many
+            // :replace-start: {
+            //  "terms": {
+            //   "filter2": "filter",
+            //   "deleteResult2": "deleteResult" }
+            // }
+            var filter2 = new BsonDocument("type", PlantType.Annual);
+            var deleteResult2 = await plantsCollection.DeleteManyAsync(filter);
+            // :replace-end:
+            // :code-block-end:
+
             await plantsCollection.DeleteManyAsync();
             return;
         }

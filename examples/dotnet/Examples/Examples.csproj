@@ -7,14 +7,16 @@
     <PackageReference Include="nunit" Version="3.13.1" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.17.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.1" />
-    <PackageReference Include="Realm" Version="10.2.0-beta.2" />
-    <PackageReference Include="Realm.Fody" Version="10.2.0-beta.2">
+    <PackageReference Include="System.Reactive" Version="5.0.0" />
+    <PackageReference Include="Realm" Version="10.3.0" />
+    <PackageReference Include="Realm.Fody" Version="10.3.0">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="System.Reactive" Version="5.0.0" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Readme.md" />
+    <None Remove="Realm" />
+    <None Remove="Realm.Fody" />
   </ItemGroup>
 </Project>
