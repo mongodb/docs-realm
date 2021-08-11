@@ -182,25 +182,25 @@ Data Binding and MVVM
 ---------------------
 When building a Xamarin app using the 
 `MVVM <https://docs.microsoft.com/en-us/xamarin/xamarin-forms/xaml/xaml-basics/data-bindings-to-mvvm>`_ 
-pattern, you want to ensure proper data binding *in both directions* between the 
-View and ViewModel. If a property value changes in the UI, the ViewModel should 
-be notified, and vice-versa; ViewModels typically implement 
+pattern, you often want proper data binding *in both directions* between the 
+View and ViewModel: if a property value changes in the UI, the ViewModel should 
+be notified, and vice-versa. ViewModels typically implement 
 the `INotifyPropertyChange <https://docs.microsoft.com/en-us/dotnet/api/system.componentmodel.inotifypropertychanged?view=net-5.0>`_ 
 interface to ensure this. 
 
-However, when you bind UI elements to a {+realm+} object, this notification 
-happens automatically, thus greatly simplifying your ViewModel code. 
+However, when you bind UI elements to a :dotnet-sdk:`RealmObject <reference/Realms.RealmObject.html>`, 
+this notification happens automatically, thus greatly simplifying your ViewModel code. 
 
-You can also bind a UI element to a {+realm+} *query*. For example, if you bind a 
+You can also bind a UI element to a {+realm+} :ref:`Live Query <dotnet-live-queries>`. 
+For example, if you bind a 
 `ListView <https://docs.microsoft.com/en-us/dotnet/api/xamarin.forms.listview?view=xamarin-forms>`_ 
-to a realm query, then the list will update automatically when the results of the 
+to a live query, then the list will update automatically when the results of the 
 query change; you do not need to implement the ``INotifyPropertyChange`` 
 interface.
 
-For example, if you have bound a ListView to a query that returns all Product 
-objects in a {+realm+}, 
-the list of available products updates automatically if a product is added, 
-changed, or removed from the ``Products`` collection:
+For example, if you bind a ListView to a query that returns all Product 
+objects, the list of available products updates automatically 
+when a product is added, changed, or removed from the {+realm+}:
 
 .. code-block:: csharp
    :copyable: false
