@@ -111,14 +111,12 @@ device already have a ``user``, it opens the synced {+realm+} with that user:
 .. literalinclude:: /examples/generated/dotnet/Examples.codeblock.check-if-offline.cs
    :language: csharp
 
-
 .. note::
 
    The first time a user logs on to your app, you should open the {+realm+} 
    *asynchronously* to sync data from the server to the device. After that initial 
    connection, you can open a realm *synchronously* to ensure the app works in 
    an offline state. 
-
 
 Scoping the Realm
 -----------------
