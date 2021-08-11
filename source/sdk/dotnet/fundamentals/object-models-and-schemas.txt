@@ -177,6 +177,45 @@ You can index properties with the following types:
 
    :ref:`Usage Examples: Index a Property <dotnet-index-property-example>`
 
+
+Data Binding and MVVM
+---------------------
+When building a Xamarin app using the 
+`MVVM <https://docs.microsoft.com/en-us/xamarin/xamarin-forms/xaml/xaml-basics/data-bindings-to-mvvm>`_ 
+pattern, you want to ensure proper data binding *in both directions* between the 
+View and ViewModel. If a property value changes in the UI, the ViewModel should 
+be notified, and vice-versa; ViewModels typically implement 
+the `INotifyPropertyChange <https://docs.microsoft.com/en-us/dotnet/api/system.componentmodel.inotifypropertychanged?view=net-5.0>`_ 
+interface to ensure this. 
+
+However, with managed {+realm+} objects, this notification happens automatically, 
+greatly simplifying your ViewModel code. The same is true when binding a UI 
+element to a {+realm+} query. If, for example, we bind a 
+`ListView <https://docs.microsoft.com/en-us/dotnet/api/xamarin.forms.listview?view=xamarin-forms>`_ 
+to a realm query, then the list will update automatically when the results of the 
+query change. You do not need to implement the ``INotifyPropertyChange interface``.
+
+For example, if you have bound a ListView to a query that returns all products, 
+the list of available products updates automatically if a product is added, 
+changed, or removed from the ``Products`` collection:
+
+.. code-block:: csharp
+   :copyable: false
+
+   // Somewhere in your ViewModel
+   AllProducts = realm.All<Products>();
+
+
+.. code-block:: xaml
+   :copyable: false
+   
+   <!-- Somewhere in your View -->
+   <ListView ItemsSource="{Binding AllProducts}">
+
+
+
+
+
 Summary
 -------
 
