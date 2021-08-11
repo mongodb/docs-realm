@@ -58,6 +58,14 @@ obtain an initial ``User`` instance, you need to authenticate against the
 the first time a user logs in. Once initial authentication has occurred, you can 
 :ref:`retrieve an existing user <dotnet-retrieve-current-user>` while offline.
 
+.. note::
+
+   The first time a user logs on to your app, you should open the {+realm+} 
+   *asynchronously* to sync data from the server to the device in a background 
+   thread. After that initial sync, you can open a realm *synchronously* to 
+   ensure the app works in an offline state. 
+
+
 .. _dotnet-open-a-synced-realm:
 
 Open a Synced Realm While Online
@@ -111,12 +119,6 @@ device already have a ``user``, it opens the synced {+realm+} with that user:
 .. literalinclude:: /examples/generated/dotnet/Examples.codeblock.check-if-offline.cs
    :language: csharp
 
-.. note::
-
-   The first time a user logs on to your app, you should open the {+realm+} 
-   *asynchronously* to sync data from the server to the device. After that initial 
-   connection, you can open a realm *synchronously* to ensure the app works in 
-   an offline state. 
 
 Scoping the Realm
 -----------------
