@@ -191,6 +191,23 @@ namespace Examples
             var token = realm.All<Dog1000>()
                 .SubscribeForNotifications((sender, changes, error) =>
             {
+                if (error != null)
+                {
+                    // Show error message
+                    return;
+                }
+
+                if (changes == null)
+                {
+                    // This is the case when the notification is called
+                    // for the first time.
+                    // Populate tableview/listview with all the items
+                    // from `collection`
+                    return;
+                }
+
+                // Handle individual changes
+
                 foreach (var i in changes.DeletedIndices)
                 {
                     // ... handle deletions ...
