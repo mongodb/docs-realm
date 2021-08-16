@@ -35,7 +35,6 @@ const TaskList = () => {
       // cleanup function
       // :emphasize-start:
       return () => {
-        const tasks = realm.objects('Task');
         // Remember to remove the listener when you're done!
         tasks.removeAllListeners();
       // :emphasize-end:
