@@ -21,7 +21,7 @@
 ~~~~~~~~~~~~~~~~~~~~
 
 - Improved usability of the Admin UI Dashboard.
-- Released :ref:`mongodb-realm-cli 2.0 <realm-cli>`.
+- Released :ref:`mongodb-realm-cli 2.0 <realm-cli-quickstart>`.
 
 .. _backend_20210702:
 
