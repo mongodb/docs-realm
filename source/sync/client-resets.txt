@@ -1,0 +1,57 @@
+.. _client-resets:
+
+=============
+Client Resets
+=============
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+A **client reset** is an error scenario where a client application that uses a
+Realm SDK must erase all local data and download a new copy of the data from
+MongoDB Atlas before it can continue to sync data. Clients in this state may
+continue to run and save data locally but will not send or receive sync
+changesets until the client reset is complete.
+
+Client reset scenarios are generally rare and occur when the server's copy of a
+synced realm file has an older version than the client's realm file. The most
+common causes of client resets are:
+
+- **Realm server crashes**: A server may restore from a backup that has an earlier
+  version. An automatic client reset for this scenario would reset the client to
+  the earlier version and lose any changes that were saved on the client but not
+  yet synced with the server.
+
+- **Destructive schema changes**: A :ref:`destructive change
+  <destructive-changes-synced-schema>`, like changing a property type or a
+  primary key, requires you to terminate and re-enable sync. This creates a new
+  synced realm file with a version unrelated to the client's file.
+
+Handle a Client Reset
+---------------------
+
+The SDKs can detect and perform automatic client resets on application startup.
+They also expose an interface for you to add custom recovery code where you can
+triage and save local data before the reset occurs.
+
+.. important::
+   
+   Automatic client resets lose any changes saved in the client's realm file
+   since the client last successfully synced. To preserve these changes, you
+   must write a custom client reset error handler.
+   
+   To see how, check out a client reset usage example for your SDK:
+   
+   - :ref:`Android <android-client-resets>`
+   - :ref:`iOS, macOS, tvOS, and watchOS <ios-client-resets>`
+   - :ref:`.NET <dotnet-client-resets>`
+   - :ref:`React Native <react-native-client-resets>`
+   - :ref:`Node.js <node-client-resets>`
