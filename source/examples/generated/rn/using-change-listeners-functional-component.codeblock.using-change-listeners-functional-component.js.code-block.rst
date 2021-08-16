@@ -1,5 +1,5 @@
 .. code-block:: javascript
-   :emphasize-lines: 3, 12-15, 28-31
+   :emphasize-lines: 3, 12-15, 28-30
 
    const TaskList = () => {
      const [tasks, setTasks] = useState([]);
@@ -29,7 +29,6 @@
 
          // cleanup function
          return () => {
-           const tasks = realm.objects('Task');
            // Remember to remove the listener when you're done!
            tasks.removeAllListeners();
            // Call the close() method when done with a realm instance to avoid memory leaks.
