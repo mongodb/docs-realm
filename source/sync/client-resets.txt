@@ -18,8 +18,15 @@ Overview
 A **client reset** is an error scenario where a client application that uses a
 Realm SDK must erase all local data and download a new copy of the data from
 MongoDB Atlas before it can continue to sync data. Clients in this state may
-continue to run and save data locally but will not send or receive sync
-changesets until the client reset is complete.
+continue to run and save data locally but cannot send or receive sync changesets
+until the client reset is complete.
+
+.. warning::
+   
+   The client reset process loses any unsynced changes even if they were
+   successfully saved locally. To avoid data loss, you must manually back up and
+   restore any unsynced changes when you :ref:`handle a client reset
+   <handle-a-client-reset>`.
 
 Client reset scenarios are generally rare and occur when the server's copy of a
 synced realm file has an older version than the client's realm file. The most
@@ -34,6 +41,8 @@ common causes of client resets are:
   <destructive-changes-synced-schema>`, like changing a property type or a
   primary key, requires you to terminate and re-enable sync. This creates a new
   synced realm file with a version unrelated to the client's file.
+
+.. _handle-a-client-reset:
 
 Handle a Client Reset
 ---------------------
