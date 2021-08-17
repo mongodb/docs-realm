@@ -44,8 +44,8 @@ errors and how to handle them. {+service+} reports errors in your
        server cannot access after :ref:`terminating and re-enabling
        {+sync-short+} <terminating-and-reenabling-sync>`.
        
-       To recover from this error, :ref:`perform a client reset
-       <sync-errors-client-resets>`.
+       To recover from this error, perform a :ref:`client reset
+       <client-resets>`.
 
    * - ErrorClientFileUserMismatch
      - This error indicates that the client attempted to synchronize a
@@ -64,8 +64,8 @@ errors and how to handle them. {+service+} reports errors in your
        reenabled <terminating-and-reenabling-sync>` while the
        user is offline, which invalidates their previous sync history.
        
-       To recover from this error, :ref:`perform a client reset
-       <sync-errors-client-resets>`.
+       To recover from this error, perform a :ref:`client reset
+       <client-resets>`.
 
    * - ErrorIllegalRealmPath
      - This error indicates that the client attempted to open a {+realm+} with a
@@ -180,55 +180,3 @@ on their severity level. To learn how, check out the following examples:
       - :ref:`Handle Sync Errors <dotnet-handle-sync-errors>`
       
       - :ref:`Set the Client Log Level <dotnet-set-the-client-log-level>`
-
-.. _sync-errors-client-resets:
-
-Client Resets
--------------
-
-When using :doc:`{+sync+} </sync>`, a **client
-reset** is a serious error recovery task that your client
-app must perform in the following situation:
-
-- The given synced {+realm+} on the server was restored from a backup.
-  For example, due to a {+service-short+} server crash.
-
-- The client app made changes to that {+realm+} since the backup was made,
-  but did not sync those changes back to the server before the server
-  was restored.
-
-In other words, the client app must carry out a client reset
-on a given synced {+realm+} if the server is restored to a
-version older than the version on the client.
-
-A client reset erases all local data and downloads a new copy of the
-data stored in MongoDB Atlas. Performing a client reset loses all local
-changes made since the client last successfully synced.
-
-
-.. tabs-realm-sdks::
-
-   .. tab::
-      :tabid: android
-
-      To learn more about client resets with the Android SDK, see the :ref:`Android Client Reset <android-client-resets>` documentation.
-
-   .. tab::
-      :tabid: ios
-
-      To learn how to perform a client reset with the iOS SDK, see the :ref:`iOS Client Reset <ios-client-resets>` documentation.
-
-   .. tab::
-      :tabid: node
-      
-      To learn more about client resets with the Node.js SDK, see the :ref:`Node.js Client Reset <node-client-resets>` documentation.
-
-   .. tab::
-      :tabid: react-native
-      
-      To learn more about client resets with the React Native SDK, see the :ref:`React Native Client Reset <react-native-client-resets>` documentation.
-
-   .. tab::
-      :tabid: dotnet
-
-      To learn more about client resets with the .NET SDK, see the :ref:`.NET Client Reset <dotnet-client-resets>` documentation.
