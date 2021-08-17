@@ -1,8 +1,8 @@
-.. _realm-cli:
+.. _realm-cli-v1:
 
-=========
-Realm CLI
-=========
+============
+Realm CLI v1
+============
 
 .. default-domain:: mongodb
 
@@ -24,14 +24,14 @@ With {+cli-bin+}, you can create or update
 {+app+}s from a local directory as well as export
 existing applications to a local directory.
 
-.. _install-realm-cli:
+.. _install-realm-cli-v1:
 
 Installation
 ------------
 
-.. include:: /includes/install-realm-cli.rst
+.. include:: /includes/install-realm-cli-v1.rst
 
-.. _realm-cli-general-options:
+.. _realm-cli-general-options-v1:
 
 General Options
 ---------------
@@ -40,7 +40,8 @@ General Options
    
    This page documents commands, arguments, and flags for version 1 of
    {+cli-bin+}. If you have a newer version of {+cli+}, run {+cli-bin+}
-   ``--help`` for a list of updated commands and usage examples.
+   ``--help`` for a list of updated commands and usage examples. To check 
+   your CLI version, use: ``realm-cli --version``.
 
 The following options are available for all {+cli-bin+} commands:
 
@@ -83,7 +84,7 @@ The following options are available for all {+cli-bin+} commands:
 Authentication
 --------------
 
-.. _realm-cli-login:
+.. _realm-cli-login-v1:
 
 Authenticate a CLI User
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -117,7 +118,7 @@ with a :atlas:`MongoDB Atlas programmatic API Key
    with using :atlas:`personal API keys
    </configure-api-access/#personal-api-keys-deprecated>`.
 
-.. _realm-cli-logout:
+.. _realm-cli-logout-v1:
 
 Log Out the Current CLI User
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -131,7 +132,7 @@ Use ``realm-cli logout`` to log out the currently logged in user.
 
    realm-cli logout
 
-.. _realm-cli-whoami:
+.. _realm-cli-whoami-v1:
 
 View the Currently Logged In User
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -163,7 +164,7 @@ message:
 Realm Applications
 -------------------
 
-.. _realm-cli-import:
+.. _realm-cli-import-v1:
 
 Import an Application
 ~~~~~~~~~~~~~~~~~~~~~
@@ -223,7 +224,7 @@ that doesn't exist, {+cli-bin+} can :doc:`create the application
    | **Optional.**
    | **Default:** Merge
    
-   The :ref:`import strategy <realm-import-strategies>` that
+   The :ref:`import strategy <realm-import-strategies-v1>` that
    {+cli-bin+} should use when reconciling imported entities.
 
 .. option:: --project-id <MongoDB Cloud Project ID>
@@ -257,7 +258,7 @@ that doesn't exist, {+cli-bin+} can :doc:`create the application
    {+app+}.
 
 
-.. _realm-cli-export:
+.. _realm-cli-export-v1:
 
 Export an Application
 ~~~~~~~~~~~~~~~~~~~~~
@@ -323,7 +324,7 @@ a local application directory.
    service ID values, including the App ID. This simplifies the creation of new
    applications from an exported configuration.
 
-.. _realm-cli-diff:
+.. _realm-cli-diff-v1:
 
 Diff Pending Application Changes
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -381,7 +382,7 @@ The diff resembles the following:
 Secrets
 -------
 
-.. _realm-cli-secrets-list:
+.. _realm-cli-secrets-list-v1:
 
 List All Secrets
 ~~~~~~~~~~~~~~~~
@@ -404,7 +405,7 @@ The returned list of secrets resembles the following:
    5d5c25415e30c7ef857c6a10 test-secret-please-ignore
    5d56dd453b467e2a48a6ec32 some-other-secret
 
-.. _realm-cli-secrets-add:
+.. _realm-cli-secrets-add-v1:
 
 Create a Secret
 ~~~~~~~~~~~~~~~
@@ -428,7 +429,7 @@ Use ``realm-cli secrets add`` to create a new :ref:`Secret
    
    The value of the new Secret.
 
-.. _realm-cli-secrets-update:
+.. _realm-cli-secrets-update-v1:
 
 Update a Secret's Value
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -465,7 +466,7 @@ Use ``realm-cli secrets update`` to change the value of an existing
 
    The new value of the Secret.
 
-.. _realm-cli-secrets-remove:
+.. _realm-cli-secrets-remove-v1:
 
 Remove a Secret
 ~~~~~~~~~~~~~~~
@@ -498,7 +499,7 @@ Use ``realm-cli secrets remove`` to delete an existing :ref:`Secret
 
    The ID value of the Secret to remove from your {+app+}.
 
-.. _realm-import-strategies:
+.. _realm-import-strategies-v1:
 
 Import Strategies
 -----------------
@@ -509,7 +510,7 @@ strategies for handling existing entities.
 All imports default to the ``merge`` strategy unless otherwise
 specified.
 
-.. _realm-cli-import-merge:
+.. _realm-cli-import-merge-v1:
 
 Merge
 ~~~~~
@@ -575,7 +576,7 @@ non-ObjectID ``id`` value causes an error.
    with the ``merge`` strategy. ``FunctionD`` was imported as a new
    entity and assigned a system-generated ``id`` value.
 
-.. _realm-cli-import-replace:
+.. _realm-cli-import-replace-v1:
 
 Replace
 ~~~~~~~
@@ -635,7 +636,7 @@ a non-ObjectID ``id`` value does not throw an error.
    ``FunctionE`` were imported as new entities and assigned
    system-generated ``id`` values.
 
-.. _realm-cli-import-replace-by-name:
+.. _realm-cli-import-replace-by-name-v1:
 
 Replace by Name
 ~~~~~~~~~~~~~~~
