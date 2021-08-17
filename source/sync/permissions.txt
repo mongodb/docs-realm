@@ -55,17 +55,20 @@ Permission Strategies
 ---------------------
 
 You can structure your read and write permission expressions as a set of
-permission strategies that apply to the your :ref:`partition strategy
+permission strategies that apply to your :ref:`partition strategy
 <partition-strategies>`. The following strategies outline common approaches that
 you might take to define sync read and write permissions for your app.
 
 Global Permissions
 ~~~~~~~~~~~~~~~~~~
 
-You can define global permissions that apply to all users for all
-partitions. To define a global read or write permission, specify a boolean value
-or a :ref:`JSON expression <expressions>` that always evaluates to the same
-boolean value.
+You can define global permissions that apply to all users for all partitions.
+This is, in essence, a choice to not implement user-specific permissions in
+favor of universal read or write permissions that apply to all users.
+
+To define a global read or write permission, specify a boolean value or a
+:ref:`JSON expression <expressions>` that always evaluates to the same boolean
+value.
 
 .. list-table::
    :header-rows: 1
