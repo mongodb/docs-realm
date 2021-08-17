@@ -532,6 +532,12 @@ file protection settings. See
 Suspend or Resume a Sync Session
 --------------------------------
 
+Opening a synced {+realm+} starts a :swift-sdk:`SyncSession <Extensions/SyncSession.html>`
+for that {+realm+}. You can suspend and resume the sync session on the {+realm+}.
+Pausing a sync session only suspends that {+realm+}'s sync session. If you have
+more than one open {+realm+}, suspend does not affect the sync sessions for 
+other {+realms+}.
+
 .. tabs-realm-languages::
 
    .. tab::
