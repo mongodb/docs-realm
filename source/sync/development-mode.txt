@@ -88,6 +88,13 @@ in production can expose your app to security vulnerabilities.
    you enable development mode, {+service-short+} does not enforce data access 
    rules. If your development database contains production data, developer
    mode would leave that data vulnerable to inadvertent or malicious access.
+   
+.. note:: Specify Data Access Rules with Development Mode Enabled
+
+   By default, enabling development mode disables all data access rules,
+   allowing any user to access any data. However, if your application requires
+   permissions during schema development, you can :ref:`specify data access
+   rules <sync-rules>` after enabling development mode.
 
 Key Concepts
 ------------
