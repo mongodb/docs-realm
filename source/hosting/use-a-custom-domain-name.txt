@@ -46,34 +46,36 @@ Procedure
 .. note:: Add {+service-short+}'s AWS CAAs to Verify Your Domain
 
    If you have trouble verifying your domain:
+   
    - clear any unnecessary :wikipedia:`CAA <DNS_Certification_Authority_Authorization>`’s
      from your site's records
+     
    - add the following CAA records:
 
      .. list-table::
-     :header-rows: 1
-     :widths: 25 10 10
+        :header-rows: 1
+        :widths: 25 10 10
 
-     * - Domain
-       - Record Type
-       - Flags
-       - Tag
-       - Value
+        * - Domain
+          - Record Type
+          - Flags
+          - Tag
+          - Value
 
-     * - ``www.example.com``
-       - ``CAA``
-       - ``0``
-       - ``issue``
-       - ``"amazon.com"``
+        * - ``www.example.com``
+          - ``CAA``
+          - ``0``
+          - ``issue``
+          - ``"amazon.com"``
 
-     * - ``www.example.com``
-       - ``CAA``
-       - ``0``
-       - ``issue``
-       - ``"amazontrust.com"``
+        * - ``www.example.com``
+          - ``CAA``
+          - ``0``
+          - ``issue``
+          - ``"amazontrust.com"``
 
-     * - ``www.example.com``
-       - ``CAA``
-       - ``0``
-       - ``issue``
-       - ``awstrust.com``
+        * - ``www.example.com``
+          - ``CAA``
+          - ``0``
+          - ``issue``
+          - ``awstrust.com``
