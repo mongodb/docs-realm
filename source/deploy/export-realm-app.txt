@@ -24,7 +24,11 @@ functionality makes this possible.
 
 You can export {+app+}s to a local application
 directory from the {+ui+} or with the {+cli-bin+}
-:ref:`pull <realm-cli-pull>` command.
+:ref:`pull <realm-cli-pull>` command. If you'd like to export dependencies
+or hosting files, make sure to pass :ref:`the relevant CLI flags 
+<realm-cli-pull>` as options when exporting the {+app+}. For example, if you 
+want to export dependencies, add the ``--include-dependencies`` flag to the 
+``pull`` command.
 
 Exported application directories use the same name as the {+app+}
 by default. Every configuration file must conform to its
