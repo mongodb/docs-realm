@@ -21,6 +21,12 @@ The Anonymous authentication provider allows users to log in to your
 application without providing credentials. Anonymous user objects have a 
 unique ID value but no other metadata fields or configuration options.
 
+.. warning::
+
+   An Anonymous user object is not intended to persist data. Once a user logs 
+   out, either by explicit logout or because the refresh token expires, the 
+   user cannot retrieve any previous user data.
+
 Potential use cases for anonymous authentication include:
 
 - Authenticating the readers of a blog or news service.
@@ -39,11 +45,9 @@ Account Linking
 When someone authenticates anonymously, the provider generates an anonymous 
 user object. If the app does not explicitly log this anonymous user out, 
 the same anonymous user is reused. The anonymous user persists until 
-explicit logout, or until the ``refreshToken`` expires, which is currently 
-60 days. When the ``refreshToken`` expires, login fails.
+explicit logout, or until the refresh token expires, which is currently 
+60 days. When the refresh token expires, login fails.
 
-An Anonymous user object is not intended to be used to persist data, and once 
-a user logs out, they will not be able to retrieve any previous user data.
 To persist data associated with an Anonymous user, you can associate
 that existing Anonymous identity with a user account created by a
 different authentication provider.
