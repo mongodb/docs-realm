@@ -12,9 +12,10 @@ Bundle a Realm File with Your App - .NET SDK
    :depth: 2
    :class: singlecol
 
-You might want to seed your app with some initial data that will be available
-to users on first launch. To do so, you can bundle a :ref:`Realm file
-<dotnet-realm-file>` with your app. 
+You might want to seed your mobile app with some initial data that will be available
+to users on first launch. To do this, you can make a copy of an existing realm 
+(with only the data you want bundled) and then use Visual Studio to bundle the 
+:ref:`Realm file <dotnet-realm-file>` in your app. 
 
 .. _copy_a_realm_file:
 
@@ -27,11 +28,11 @@ Copy a Realm File
 #. Use the 
    :dotnet-sdk:`WriteCopy() <reference/Realms.Realm.html#Realms_Realm_WriteCopy_Realms_RealmConfigurationBase_>` 
    method to make a copy of the realm to a new location and/or name. The 
-   following example demonstratesw this:
+   following code demonstrates this:
 
    .. literalinclude:: /examples/generated/dotnet/WriteCopy.codeblock.copy_a_realm.cs
 
-Include the Realm File in your Project
+Include the Realm File in Your Project
 --------------------------------------
 
 1. Add the copy to your production app's Xamarin project. The simplest way to do 
@@ -49,3 +50,7 @@ Include the Realm File in your Project
    directory.
 
 
+.. note:: Cross-Platform Compatibility
+
+   Realm files are cross-platform compatible, which is why you can bundle the 
+   file within the shared project.
