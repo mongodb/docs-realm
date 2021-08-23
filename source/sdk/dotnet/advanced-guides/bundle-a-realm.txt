@@ -1,0 +1,51 @@
+.. _dotnet-bundle-a-realm:
+
+============================================
+Bundle a Realm File with Your App - .NET SDK
+============================================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+You might want to seed your app with some initial data that will be available
+to users on first launch. To do so, you can bundle a :ref:`Realm file
+<dotnet-realm-file>` with your app. 
+
+.. _copy_a_realm_file:
+
+Copy a Realm File
+-----------------
+
+1. Create a new project with the same data models as your production app. Open 
+   an existing {+realm+} with the data you wish to bundle.
+
+#. Use the 
+   :dotnet-sdk:`WriteCopy() <reference/Realms.Realm.html#Realms_Realm_WriteCopy_Realms_RealmConfigurationBase_>` 
+   method to make a copy of the realm to a new location and/or name. The 
+   following example demonstratesw this:
+
+   ..literalinclude:: /examples/generated/dotnet/WriteCopy.codeblock.copy_a_realm.cs
+
+Include the Realm File in your Project
+--------------------------------------
+
+1. Add the copy to your production app's Xamarin project. The simplest way to do 
+   this is as follows:
+
+   a. Navigate to the path you specified for the new realm, and then drag the 
+      newly-created .realm file to the shared Xamarin project in Visual Studio. 
+
+   #. When promoted, choose :guilabel:`Copy the file to the directory`.
+
+   #. In the shared project, right-click the realm file you just added, choose 
+      :guilabel:`Build Action`, and then choose :guilabel:`EmbeddedResource`.
+
+2. Update your code to read the realm file, which will be in your app's data 
+   directory.
+
+
