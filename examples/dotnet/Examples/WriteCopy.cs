@@ -13,10 +13,10 @@ namespace Examples
         {
             // :code-block-start: copy_a_realm
             // open an existing realm
-            var realm = Realm.GetInstance("/users/caleb/myRealm.realm");
+            var realm = Realm.GetInstance("myRealm.realm");
 
             // Create a RealmConfiguration for the *copy*
-            var config = new RealmConfiguration("/users/caleb/myRealm_copy.realm")
+            var config = new RealmConfiguration("myRealm_copy.realm")
             {
                 // optionally encrypt it
                 EncryptionKey = encryptionKey,
@@ -26,7 +26,15 @@ namespace Examples
             realm.WriteCopy(config);
             // :code-block-end:
         }
+
+        [OneTimeTearDown]
+        public void Cleanup()
+        {
+            var config = new RealmConfiguration("myRealm_copy.realm");
+            Realm.DeleteRealm(config);
+        }
     }
+
 }
 
 
