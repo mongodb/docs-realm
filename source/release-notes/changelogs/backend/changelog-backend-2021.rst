@@ -1,10 +1,21 @@
+
+.. _backend_20210825:
+
+25 August 2021 Release
+~~~~~~~~~~~~~~~~~~~~~~
+
+- Introduced ability to export and re-deploy deployments from the past 30 days.
+
 .. _backend_20210811:
 
 11 August 2021 Release
 ~~~~~~~~~~~~~~~~~~~~~~
 
-- Support the option of sending events using :manual:`Extended JSON </reference/mongodb-extended-json/>` in :ref:`AWS EventBridge Triggers <aws-eventbridge>` to support sending additional data types such as Decimal128.
-- Display the generated data models in SDKs Data Models when :ref:`Development Mode <concept-development-mode>` is enabled for {+sync+}. 
+- Support the option of sending events using :manual:`Extended JSON </reference/mongodb-extended-json/>`
+  in :ref:`AWS EventBridge Triggers <aws-eventbridge>` to support sending additional data types such as
+  ``Decimal128``.
+- Display the generated data models in SDKs Data Models when :ref:`Development Mode <concept-development-mode>`
+  is enabled for {+sync+}. 
 
 
 .. _backend_20210728:
