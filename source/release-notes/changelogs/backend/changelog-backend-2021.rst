@@ -4,7 +4,7 @@
 25 August 2021 Release
 ~~~~~~~~~~~~~~~~~~~~~~
 
-- Introduced ability to export and re-deploy deployments from the past 30 days.
+- Introduced ability to export and re-deploy the most recent 25 deploys.
 
 .. _backend_20210811:
 
