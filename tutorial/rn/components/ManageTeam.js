@@ -32,7 +32,7 @@ export function ManageTeam() {
   // team member to the logged in user's project
   const addTeamMember = async () => {
     try {
-      // :state-start: final
+       // :state-start: final
       await user.functions.addTeamMember(newTeamMember);
       getTeam();
       // :state-end: :state-uncomment-start: start
@@ -87,11 +87,16 @@ export function ManageTeam() {
       </View>
       {teamMemberList.map((member) => (
         <ListItem
-          title={member.name}
           onPress={() => openDeleteDialogue(member)}
           bottomDivider
           key={member.name}
-        />
+        >
+          <ListItem.Content>
+              <ListItem.Title>
+                {member.name}
+              </ListItem.Title>
+          </ListItem.Content>
+        </ListItem>
       ))}
 
       <Text h4> Add member:</Text>
