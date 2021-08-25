@@ -24,7 +24,7 @@ A **synced migration** is a migration for a {+realm+} that
 automatically :doc:`{+sync-short+}s </sync>` with
 another remote {+realm+}. Users do not need to add migration
 code when changing the schema, but if they modify any client model
-classes they must bump the schema version. {+client-database+}
+classes they must increase the schema version. {+client-database+}
 automatically handles new fields added on the server schema by
 ignoring them on the client until they are added to the
 client model classes.
@@ -89,6 +89,5 @@ Summary
   **local migrations**, i.e. migrations where the {+realm+} is not
   :doc:`synced </sync>` with {+backend+}.
 
-- {+service+} automatically handles **synced migration**, i.e. migrations
-  where the {+realm+} is synced. {+service+} does not allow migration
-  functions for such migrations.
+- Adding a field to a client model class requires you to manually increase the
+  schema version.
