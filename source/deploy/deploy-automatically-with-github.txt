@@ -39,20 +39,83 @@ Prerequisites
   repo. If you have not yet generated a programmatic API key for your
   Atlas organization, do so now.
 
-Procedure
----------
+.. _deploy-github-enable:
+
+Enable Automatic Deployment with GitHub
+---------------------------------------
 
 .. include:: /includes/steps/github-deploy.rst
+
+.. _deploy-github-rollback-to-prior-deploy:
+
+Rollback to a Previous Deploy
+-----------------------------
+
+When you view your deployment history, you'll see the 25 most recent 
+deployments. You can use the :guilabel:`Re-Deploy` button to roll back
+to one of the last 25 deploys.
+
+.. include:: /includes/steps/github-deploy-rollback.rst
+
+.. _deploy-github-make-changes-ui:
+
+Make Changes from the UI
+------------------------
+
+Enabling automatic GitHub deployment does not prevent you from making changes
+to your {+app+} from the {+service-short+} UI. You can make changes to your 
+app via the UI, and those changes are automatically committed back to your 
+linked GitHub repository.
+
+.. tip::
+
+   If your linked GitHub repository contains new commits that are not reflected
+   in your {+service+} UI changes, {+service-short+} can't automatically 
+   commit those changes to your repo. However, you can use the 
+   :guilabel:`Export` button to download the updated configuration files 
+   to your local machine, and then you push them manually to your GitHub 
+   repository.
+
+When changes are committed to your linked GitHub repository, you'll see a
+:guilabel:`Commit: <commit-hash>` link in your app's Deployment History.
+
+.. figure:: /images/deploy-history-link-to-github-commit.png
+   :alt: GitHub repository selection
+
+You can click that link to view the commit in GitHub. The ``mongodb-realm`` 
+bot appears as the commit author.
+
+.. figure:: /images/realm-ui-deploy-changes-in-github.png
+   :alt: GitHub repository selection
+
+.. _deploy-github-make-changes-cli:
+
+Avoid Making Changes from the CLI
+---------------------------------
+
+With automatic GitHub deployment enabled, avoid making changes to your app 
+using ``realm-cli push``. Pushing new configuration files via the CLI does not 
+kick off an update to the linked GitHub repository. This means that 
+contributors to your GitHub repository have stale configuration files. 
+When the the next commit to the linked repository triggers an automatic 
+deploy, changes that you made via the CLI could be reverted or overwritten 
+with stale configuration files.
 
 Summary
 -------
 
-- You can deploy your {+app+} by modifying a repo
-  hosted on GitHub.
+- You can deploy your {+app+} by modifying a repo hosted on GitHub.
 
 - When Automatic GitHub Deployment is enabled, {+service+} immediately
   deploys the latest commit. To deploy, commit your changes locally, then push
   them to your repo on GitHub.
 
 - {+service+} keeps track of your :ref:`Deployment History
-  <deployment-history>`.
+  <deployment-history>`. You can roll back to the last 25 deployments.
+
+- When you make changes via the {+service-short+} UI after enabling Automatic 
+  GitHub Deployment, those changes are automatically committed back to your 
+  linked repository.
+
+- Do not use ``realm-cli push`` to update configuration files after enabling 
+  Automatic GitHub Deployment.
