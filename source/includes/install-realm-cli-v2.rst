@@ -4,4 +4,4 @@ installed and then run the following command in your shell:
 
 .. code-block:: shell
 
-   npm i mongodb-realm-cli
+   npm install -g mongodb-realm-cli
