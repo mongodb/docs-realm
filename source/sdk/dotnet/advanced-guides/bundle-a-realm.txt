@@ -1,8 +1,8 @@
 .. _dotnet-bundle-a-realm:
 
-============================================
-Bundle a Realm File with Your App - .NET SDK
-============================================
+=======================================
+Copy and Bundle a Realm File - .NET SDK
+=======================================
 
 .. default-domain:: mongodb
 
@@ -13,9 +13,9 @@ Bundle a Realm File with Your App - .NET SDK
    :class: singlecol
 
 You might want to seed your mobile app with some initial data that will be available
-to users on first launch. To do this, you can make a copy of an existing realm 
-(with only the data you want bundled) and then use Visual Studio to bundle the 
-:ref:`Realm file <dotnet-realm-file>` in your app. 
+to users on the initial launch of the app. To do this, you can make a copy of 
+an existing realm (with only the data you want bundled) and then use Visual 
+Studio to bundle the :ref:`Realm file <dotnet-realm-file>` in your app. 
 
 .. _copy_a_realm_file:
 
@@ -31,6 +31,8 @@ Copy a Realm File
    following code demonstrates this:
 
    .. literalinclude:: /examples/generated/dotnet/WriteCopy.codeblock.copy_a_realm.cs
+      :language: csharp
+
 
 Include the Realm File in Your Project
 --------------------------------------
@@ -41,7 +43,7 @@ Include the Realm File in Your Project
    a. Navigate to the path you specified for the new realm, and then drag the 
       newly-created .realm file to the shared Xamarin project in Visual Studio. 
 
-   #. When promoted, choose :guilabel:`Copy the file to the directory`.
+   #. When prompted, choose :guilabel:`Copy the file to the directory`.
 
    #. In the shared project, right-click the realm file you just added, choose 
       :guilabel:`Build Action`, and then choose :guilabel:`EmbeddedResource`.
@@ -52,5 +54,5 @@ Include the Realm File in Your Project
 
 .. note:: Cross-Platform Compatibility
 
-   Realm files are cross-platform compatible, which is why you can bundle the 
+   Non-encrypted Realm files are cross-platform compatible, which is why you can bundle the 
    file within the shared project.
