@@ -13,9 +13,17 @@ Copy and Bundle a Realm File - .NET SDK
    :class: singlecol
 
 You might want to seed your mobile app with some initial data that will be available
-to users on the initial launch of the app. To do this, you can make a copy of 
-an existing realm (with only the data you want bundled) and then use Visual 
-Studio to bundle the :ref:`Realm file <dotnet-realm-file>` in your app. 
+to users on the initial launch of the app. To do this, you:
+
+- Build a temporary {+realm+} app,
+
+- Make a copy of an existing realm (with only the data you want bundled), and then 
+
+- Bundle the :ref:`Realm file <dotnet-realm-file>` in your app's shared project. 
+
+In your production app (the one that will use this bundled {+realm+} when first 
+loading), you add a few lines of code to extract the {+realm+} and save it in the 
+app data. The following sections provide more information on these steps.
 
 .. _copy_a_realm_file:
 
@@ -51,8 +59,18 @@ Include the Realm File in Your Project
 2. Update your code to read the realm file, which will be in your app's data 
    directory.
 
-
 .. note:: Cross-Platform Compatibility
 
-   Non-encrypted Realm files are cross-platform compatible, which is why you can bundle the 
-   file within the shared project.
+   Non-encrypted Realm files are cross-platform compatible, which is why you can 
+   bundle the file in the shared project.
+
+Extract the Realm File
+----------------------
+Before you deploy your app with the bundled {+realm+}, you need to add code to 
+extract the {+realm+} from the embedded resources, save it to the app's data 
+location, and then use this new copy in the app. The following code shows how 
+you can do this during start-up of the app; note that it will only run when no 
+{+realm+} file is found at the specified location:
+
+.. literalinclude:: /examples/generated/dotnet/WriteCopy.codeblock.extract_and_copy_realm.cs
+   :language: csharp

@@ -2,7 +2,7 @@
 var realm = Realm.GetInstance("myRealm.realm");
 
 // Create a RealmConfiguration for the *copy*
-var config = new RealmConfiguration("myRealm_copy.realm");
+var config = new RealmConfiguration("bundled.realm");
 // Make sure the file doesn't already exist
 Realm.DeleteRealm(config);
 

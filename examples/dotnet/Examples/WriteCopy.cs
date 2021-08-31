@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Reflection;
 using System.Security.Cryptography;
 using NUnit.Framework;
 using Realms;
@@ -15,7 +17,7 @@ namespace Examples
             var realm = Realm.GetInstance("myRealm.realm");
 
             // Create a RealmConfiguration for the *copy*
-            var config = new RealmConfiguration("myRealm_copy.realm");
+            var config = new RealmConfiguration("bundled.realm");
             // Make sure the file doesn't already exist
             Realm.DeleteRealm(config);
 
@@ -24,6 +26,22 @@ namespace Examples
 
             // Want to know where the copy is?
             var locationOfCopy = config.DatabasePath;
+            // :code-block-end:
+        }
+
+        public void ExtractAndLoadRealmFile()
+        {
+            // :code-block-start: extract_and_copy_realm
+            var config = RealmConfiguration.DefaultConfiguration;
+            if (!File.Exists(config.DatabasePath))
+            {
+                using var bundledDbStream = Assembly.GetExecutingAssembly()
+                    .GetManifestResourceStream("bundled.realm");
+                using var databaseFile = File.Create(config.DatabasePath);
+                bundledDbStream.CopyTo(databaseFile);
+            }
+
+            var realm = Realm.GetInstance(config);
             // :code-block-end:
         }
     }
