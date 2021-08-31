@@ -77,13 +77,9 @@ button, and you'll see your current IP address added. Click Save.
 Note that this restricts access to the IP address you are on right now. If you 
 will be working on this tutorial from multiple locations, you will want to specify 
 a range of IP addresses by using CIDR notation. If you need to, pause this video 
-and look up CIDR notation. A useful tool I've found is https://cidr.xyz/, in which 
+and look up CIDR notation -- there are several online tools in which 
 you can enter the range of IP addresses you need to support and get the 
-appropriate CIDR notation. 
-
-.. *** Question for reviewers: is it OK to refer to a site we don't own??? I don't 
-   feel great about it, but I also don't want to leave people confused and 
-   wondering what to do. 
+appropriate CIDR notation to enter here. 
 
 Click ``Save``, and then click ``Done``. You are now ready to use the CLI tools.
 
