@@ -178,20 +178,18 @@ content: |
   The ``ProjectPage.xaml.cs`` file is the default screen for this app. In the 
   ``OnAppearing()`` method, we check to see if we have an authenticated user 
   already. If not, we redirect to the Login page. If we do, or when control is 
-  returned from the Login page, we go to the ``LoadProjects()`` method.
+  returned from the Login page, we can instantiate a :dotnet-sdk:`SyncConfiguration 
+  <reference/Realms.Sync.SyncConfiguration.html>` object in the ``LoadProjects()`` 
+  method to get the user's custom realm.
   
-  In ``LoadProjects()``, we instantiate a
-  :dotnet-sdk:`SyncConfiguration <reference/Realms.Sync.SyncConfiguration.html>` 
-  object and pass that to the 
-  :dotnet-sdk:`GetInstanceAsync() <reference/Realms.Realm.html#Realms_Realm_GetInstanceAsync_Realms_RealmConfigurationBase_System_Threading_CancellationToken_>` 
-  method to get the user's custom realm. From this realm, we fetch the specific 
-  user document that has an ``_id`` value matching the ``Id`` property. 
+  From this realm, we fetch the specific user document that has an ``_id`` 
+  value matching the ``Id`` property. 
   Each ``User`` object contains a read-only ``IList<Project>`` 
   property called ``MemberOf``, and we iterate through this list to display the 
   Projects in the UI. 
 
   To implement this functionality, find the ``LoadProjects()`` method in 
-  ``ProjectPage.xaml.cs``. We won't reach this method until we have an 
+  ``ProjectPage.xaml.cs``. This method is only called when we have an 
   authenticated user. 
   
   Here, we instantiate the ``userRealm`` object by creating a 
