@@ -7,7 +7,7 @@ In this tutorial, I'll walk you through the first of the Realm tutorials -- the
 Backend for the Task Tracker app. This video follows the steps in the tutorial, 
 so you can follow along as I walk through it.
 
-There are 5 steps in this tutorial: we'll start by creating a free Atlas account,
+There are five steps in this tutorial: we'll start by creating a free Atlas account,
 set up a free Atlas cluster to hold our data, install and then configure the Realm 
 command line tools, and finally upload a pre-configured backend Realm app. 
 
@@ -16,29 +16,29 @@ So let's get started.
 .. <time tag 1> <see https://www.emergingedtech.com/2017/01/how-to-add-time-tags-to-youtube-video-jump-to-tagged-sections/>
 
 First, open your browser and go to **account.mongodb.com**.
-On the logon page, click "Sign Up". Of course, if you already have an Atlas 
+On the logon page, click ``Sign Up``. Of course, if you already have an Atlas 
 account, you can skip ahead to the next section. On the next page, you can 
-enter in your information, or -- if you already have a google account -- you can 
+enter in your information, or -- if you already have a Google account -- you can 
 save time by logging in with that account. I'm going to go ahead and do that:
 
 .. <time tag 2>
 
-Now that we have an account, let's set up a cluster. An Atlas cluster is 
+Now that we have an account, let's set up a cluster. An Atlas cluster is a 
 managed service that is hosted in Microsoft Azure, Google Cloud Platform, or 
 Amazon Web Services. For this demo, we'll set up a free Atlas cluster in 
 AWS.
 
-In the "Shared" section, click ``Create``.
+In the ``Shared`` section, click ``Create``.
 The default settings will create a cluster in an AWS M0 sandbox running on servers 
-in Virginia. The cluster will run MongoDB version 4.4, and the name of the 
-cluster will be "Cluster 0." You can leave everything on this page at the default 
-settings and then click "Create Cluster". 
+in Virginia. The cluster will run the latest version of MongoDB and the name of the 
+cluster will be "Cluster0." You can leave everything on this page at the default 
+settings and then click ``Create Cluster``. 
 
 .. You'll note that I changed the location ... maybe I'll re-record this to keep it simple.
 
-It takes 1-3 minutes to set up the cluster, after which the Atlas page refreshes.
-While the cluster is being set up, we can install the Realm CLI -- the command-
-line tools that we'll use to simplify the backend setup. 
+It takes one to three minutes to set up the cluster, after which the Atlas page 
+refreshes. While the cluster is being set up, we can install the Realm CLI -- 
+the command-line tools that we'll use to simplify the backend setup. 
 
 .. <time tag 3>
 
@@ -47,13 +47,13 @@ Type in ``npm install -g mongodb-realm-cli`` and hit enter. This command uses
 ``npm`` to globally install the Realm CLI, so you can run it from any location.
 When the installation is complete, return to the Atlas web page.
 
-When the cluster creation is complete, you will see Cluster 0 listed. Near the 
+When the cluster creation is complete, you will see "Cluster0" listed. Near the 
 top of the page, find the ``Access Manager`` menu. Click on that, and then choose 
-"Project Access". 
+``Project Access``. 
 Click on the ``API Keys`` tab, and then click on this ``Create API Key`` button.
 
 For the Description, let's add a name that will remind us -- and others -- why 
-this key was created. I'll type in "API Key for Ream CLI". 
+this key was created. I'll type in ``API Key for Ream CLI``. 
 
 For Project Permissions, we want to give the CLI tools Project Owner permissions 
 and remove the read-only permissions.
@@ -63,16 +63,16 @@ Click Next.
 This next screen shows us the new key pair that's been created -- the public key 
 and private key. We gave the CLI full control, which means we need to keep our 
 secret key truly secret. This is the last time we'll see the private key, so copy 
-it now and save it somewhere that you can find later...but not in public place
+it now and save it somewhere that you can find later...but not in a public place
 like a screencast that will be shared with the world.
 
-Finally, click the ``Add Access List Entry``. This allows us to restrict access 
-to one or more IP addresses, so even if someone got a hold of the private key, 
-they won't be able to access your Cluster unless they are within the range of 
-allowed API keys. 
+Finally, click the ``Add Access List Entry``. This opens a dialog that aloows us 
+to restrict access to one or more IP addresses, so even if someone got a hold of 
+the private key, they wouldn't be able to access your cluster unless the computer 
+they are on is within the range of allowed API keys. 
 
-In the dialog, click ``Use Current IP Address``, and you'll see your current IP 
-address in the filled it. Click Save.
+In the ``Add Access List Entry`` dialog, click the ``Use Current IP Address`` 
+button, and you'll see your current IP address added. Click Save.
 
 Note that this restricts access to the IP address you are on right now. If you 
 will be working on this tutorial from multiple locations, you will want to specify 
@@ -80,6 +80,7 @@ a range of IP addresses by using CIDR notation. If you need to, pause this video
 and look up CIDR notation. A useful tool I've found is https://cidr.xyz/, in which 
 you can enter the range of IP addresses you need to support and get the 
 appropriate CIDR notation. 
+
 .. *** Question for reviewers: is it OK to refer to a site we don't own??? I don't 
    feel great about it, but I also don't want to leave people confused and 
    wondering what to do. 
@@ -116,29 +117,30 @@ and we're ready to import this app to our cluster.
 
 Type ``realm-cli push``. When the push is complete, you'll see this message. 
 Let's switch back to our browser. When the app has finished being created, you 
-can click on this ``Realm`` tab, and you'll see we now have a new "tasktracker" 
-realm app. You can click on the name to open the management console for the app.
+can click on this ``Realm`` tab, and you'll see we now have a new realm app 
+named "tasktracker". You can click on the name to open the management console 
+for the app.
 
 .. <time tag 6>
 
 Spend some time looking around. Here are a few things you can explore to make 
 sure the app imported correctly:
 
-- The Schema section of the Realm UI displays information about the structure 
+- The ``Schema`` section of the Realm UI displays information about the structure 
   of the data stored in our linked Atlas cluster. We're using 2 objects in 
   this tutorial -- Tasks and Users. Click on each and you can see the data 
   structure defined for each type.
 
-- In Authentication, you'll see the different ways that users can log into a 
-  Realm app. For the  Task Tracker app, users can only log in via 
-  "Email/Password" authentication.
+- In ``Authentication``, you'll see the different ways that users can log into a 
+  Realm app. For the Task Tracker app, users can only log in via 
+  Email/Password authentication.
 
-- The Sync section shows us how Sync has been configured, and what the partition
+- The ``Sync`` section shows us how Sync has been configured, and what the partition
   key is. You'll learn more about this as you build the front-end.
 
-- The Functions section contains the Task Tracker app's executable backend logic.
+- The ``Functions`` section contains the Task Tracker app's executable backend logic.
 
-- The Triggers section shows one trigger, which defines certain 
+- The ``Triggers`` section shows one trigger, which defines certain 
     criteria that, when met, execute a function.
 
 Take a look at the last section of the tutorial for details on what you're seeing 
