@@ -68,6 +68,7 @@ namespace RealmDotnetTutorial
                 //// TODO: find the user in the userRealm
                 //// Because the user's ID is the Primary Key, we can easily
                 //// find the user by passing the ID to userRealm.Find<User>().
+                //// user = ...
                 // :state-uncomment-end:
                 // :code-block-end:
 
@@ -88,7 +89,7 @@ namespace RealmDotnetTutorial
                         await DisplayAlert("No User object",
                             "The User object for this user was not found on the server. " +
                             "If this is a new user acocunt, the backend trigger may not have completed, " +
-                            "or the tirgger doesn't exist. Check you backend set up and logs.", "OK");
+                            "or the tirgger doesn't exist. Check your backend set up and logs.", "OK");
 
                         Constants.AlreadyWarnedAboutBackendSetup = true;
                     }
