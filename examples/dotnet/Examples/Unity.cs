@@ -28,14 +28,14 @@ public class Cube
     {
         var app = App.Create("foo");
         var user = await app.LogInAsync(Credentials.Anonymous());
-        var syncConfiguration = new SyncConfiguration("playground_partition_key", user, "");
+        var syncConfiguration = new SyncConfiguration("partition_key", user, "");
         // :code-block-start: copy_a_realm_unity
         // Open an existing realm
-        Realm realm = await Realm.GetInstanceAsync(syncConfiguration);
+        Realm realm = Realm.GetInstance(syncConfiguration);
 
         // Create a RealmConfiguration for the *copy*
         RealmConfiguration copiedRealmCofiguration =
-            new RealmConfiguration("copy.realm");
+            new RealmConfiguration("bundle.realm");
 
         // Make sure an existing copy hasn't already been created...
         Realm.DeleteRealm(copiedRealmCofiguration);
@@ -47,21 +47,7 @@ public class Cube
         // :code-block-end:
     }
 
-    private async void ReadCopy()
-    {
-        var app = App.Create("foo");
-        var user = await app.LogInAsync(Credentials.Anonymous());
-        // :code-block-start: read_a_realm_unity
-        // After copying the above created file to the project folder,
-        // we can access it in Applicatoin.dataPath:
-        //:uncomment-start:
-        //var realmPath = Application.dataPath + "/copy.realm";
-        // // And then we open it like any other realm:
-        //Realm realm = await Realm.GetInstanceAsync(realmPath);
-        //:uncomment-end:
-        // :code-block-end:
 
-    }
 
 
 }
