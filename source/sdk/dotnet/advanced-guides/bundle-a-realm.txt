@@ -49,7 +49,7 @@ Copy a Realm File
       .. tab:: Unity
          :tabid: unity
 
-         .. literalinclude:: /examples/generated/dotnet/WriteCopy.codeblock.copy_a_realm.cs
+         .. literalinclude:: /examples/generated/dotnet/Unity.codeblock.copy_a_realm_unity.cs
             :language: csharp
 
    .. important:: Copying a Synced Realm
@@ -67,37 +67,34 @@ Copy a Realm File
 
 Include the Realm File in Your Project
 --------------------------------------
+Now that you have a copy of the {+realm+} with the "seed" data in it, you 
+need to bundle it with your production application.
 
 .. tabs::
 
    .. tab:: Xamarin
       :tabid: xamarin
 
-      1. Add the copy to your production app's Xamarin project. The simplest way to do 
-         this is as follows:
+      1. Navigate to the path you specified for the new realm, and then drag the 
+         newly-created .realm file to the shared Xamarin project in Visual Studio. 
 
-         a. Navigate to the path you specified for the new realm, and then drag the 
-            newly-created .realm file to the shared Xamarin project in Visual Studio. 
+      #. When prompted, choose :guilabel:`Copy the file to the directory`.
 
-         #. When prompted, choose :guilabel:`Copy the file to the directory`.
-
-         #. In the shared project, right-click the realm file you just added, choose 
-            :guilabel:`Build Action`, and then choose :guilabel:`EmbeddedResource`.
-
-      2. Update your code to read the realm file, which will be in your app's data 
-         directory.
+      #. In the shared project, right-click the realm file you just added, choose 
+         :guilabel:`Build Action`, and then choose :guilabel:`EmbeddedResource`.
 
       .. note:: Cross-Platform Compatibility
 
          Non-encrypted Realm files are cross-platform compatible, which is why you can 
          bundle the file in the shared project.
 
-
    .. tab:: Unity
       :tabid: unity
 
-      1. Copy the new {+realm+} file to the project folder.
-
+      1. Open your production Unity app.
+      
+      2. Copy the new {+realm+} file to the project folder of the app. It will 
+         now be deployed with the app.
 
 
 Using the Copied Realm File
@@ -111,7 +108,6 @@ add code to use it.
       {+realm+} is fully synced before using it. As with copying a Synced {+realm+}, 
       be sure to call ``WaitForUploadAsync()`` and ``WaitForDownloadAsync()``.
    
-
 .. tabs::
 
    .. tab:: Xamarin
@@ -131,9 +127,7 @@ add code to use it.
 
       The embedded {+realm+} is initialized like any other {+realm+} in a Unity 
       project:
-      
-      .. literalinclude:: /examples/generated/dotnet/WriteCopy.codeblock.copy_a_realm.cs
+
+      .. literalinclude:: /examples/generated/dotnet/Unity.codeblock.read_a_realm_unity.cs
          :language: csharp
-
-
 
