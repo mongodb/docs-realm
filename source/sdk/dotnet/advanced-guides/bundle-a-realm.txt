@@ -17,7 +17,7 @@ to users on the initial launch of the app. To do this, you:
 
 - Build a temporary {+realm+} app,
 
-- Make a copy of an existing realm (with only the data you want bundled), and then 
+- Make a copy of an existing {+realm+} (with only the data you want bundled), and then 
 
 - Bundle the :ref:`Realm file <dotnet-realm-file>` in your app's shared project. 
 
@@ -35,7 +35,7 @@ Copy a Realm File
 
 #. Use the 
    :dotnet-sdk:`WriteCopy() <reference/Realms.Realm.html#Realms_Realm_WriteCopy_Realms_RealmConfigurationBase_>` 
-   method to make a copy of the realm to a new location and/or name. The 
+   method to make a copy of the {+realm+} to a new location and/or name. The 
    following code demonstrates this:
 
    .. tabs::
@@ -76,17 +76,17 @@ need to bundle it with your production application.
       :tabid: xamarin
 
       1. Navigate to the path you specified for the new realm, and then drag the 
-         newly-created .realm file to the shared Xamarin project in Visual Studio. 
+         newly-created {+realm+} file to the shared Xamarin project in Visual Studio. 
 
       #. When prompted, choose :guilabel:`Copy the file to the directory`.
 
-      #. In the shared project, right-click the realm file you just added, choose 
+      #. In the shared project, right-click the {+realm+} file you just added, choose 
          :guilabel:`Build Action`, and then choose :guilabel:`EmbeddedResource`.
 
-      .. note:: Cross-Platform Compatibility
+         .. note:: Cross-Platform Compatibility
 
-         Non-encrypted Realm files are cross-platform compatible, which is why you can 
-         bundle the file in the shared project.
+            Non-encrypted {+realm+} files are cross-platform compatible, which 
+            is why you can bundle the file in the shared project.
 
    .. tab:: Unity
       :tabid: unity
@@ -102,12 +102,6 @@ Using the Copied Realm File
 Now that you have a copy of the {+realm+} included with your app, you need to 
 add code to use it. 
 
-.. important:: Reading a Synced Realm
-   
-      If you are instantiating a new copy of a Synced {+realm+}, ensure that the 
-      {+realm+} is fully synced before using it. As with copying a Synced {+realm+}, 
-      be sure to call ``WaitForUploadAsync()`` and ``WaitForDownloadAsync()``.
-   
 .. tabs::
 
    .. tab:: Xamarin
@@ -131,3 +125,10 @@ add code to use it.
       .. literalinclude:: /examples/generated/dotnet/Unity.codeblock.read_a_realm_unity.cs
          :language: csharp
 
+
+.. important:: Reading a Synced Realm
+   
+      If you are instantiating a new copy of a Synced {+realm+}, ensure that the 
+      {+realm+} is fully synced before using it. As with copying a Synced {+realm+}, 
+      be sure to call ``WaitForUploadAsync()`` and ``WaitForDownloadAsync()``.
+   
