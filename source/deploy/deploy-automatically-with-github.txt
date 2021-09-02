@@ -48,12 +48,12 @@ Enable Automatic Deployment with GitHub
 
 .. _deploy-github-rollback-to-prior-deploy:
 
-Rollback to a Previous Deploy
------------------------------
+Rollback to a Previous Deployment
+---------------------------------
 
 When you view your deployment history, you'll see the 25 most recent 
 deployments. You can use the :guilabel:`Re-Deploy` button to roll back
-to one of the last 25 deploys.
+to one of the last 25 deployments.
 
 .. include:: /includes/steps/github-deploy-rollback.rst
 
@@ -62,10 +62,10 @@ to one of the last 25 deploys.
 Make Changes from the UI
 ------------------------
 
-Enabling automatic GitHub deployment does not prevent you from making changes
+Automatic GitHub deployment does not prevent you from making changes
 to your {+app+} from the {+service-short+} UI. You can make changes to your 
-app via the UI, and those changes are automatically committed back to your 
-linked GitHub repository.
+app via the UI, and {+service-short+} automatically commits changes back to 
+your linked GitHub repository.
 
 .. tip::
 
@@ -94,12 +94,17 @@ Avoid Making Changes from the CLI
 ---------------------------------
 
 With automatic GitHub deployment enabled, avoid making changes to your app 
-using ``realm-cli push``. Pushing new configuration files via the CLI does not 
-kick off an update to the linked GitHub repository. This means that 
-contributors to your GitHub repository have stale configuration files. 
-When the the next commit to the linked repository triggers an automatic 
-deploy, changes that you made via the CLI could be reverted or overwritten 
-with stale configuration files.
+with {+cli+} because:
+
+- If you push changes with the CLI while GitHub deployment is enabled, Realm 
+  deploys the changes but does not commit them back to your linked repository.
+- The configuration files in your repository no longer reflect the current 
+  state of your app.
+- To get the changes you pushed, a contributor must manually pull the latest 
+  configuration files directly from your {+app+}. The GitHub repository is
+  no longer the source of truth. 
+- If a contributor adds a new commit to a stale repo, they overwrite any 
+  deployed but uncommitted changes.
 
 Summary
 -------
@@ -117,5 +122,5 @@ Summary
   GitHub Deployment, those changes are automatically committed back to your 
   linked repository.
 
-- Do not use ``realm-cli push`` to update configuration files after enabling 
+- Do not use {+cli+} to update configuration files after enabling 
   Automatic GitHub Deployment.
