@@ -33,22 +33,25 @@ content: |
   specify a descriptive name for your deploy that will be visible in the
   :guilabel:`Deployment History` list. 
   
-  After verifying the changes, press the :guilabel:`Deploy and Push to 
-  GitHub` button.
+  If you have :ref:`GitHub deployment <deploy-github>` enabled, you'll see 
+  a :guilabel:`Deploy and Push to GitHub` button. Push this button to confirm 
+  the rollback.
 
   .. figure:: /images/deployment-draft-deploy-and-push-to-github.png
-     :alt: GitHub repository selection
+     :alt: Screenshot of deployment draft with a Deploy and Push to GitHub button
 ---
 title: Confirm Rollback Success
 ref: confirm-rollback-success
 content: |
   After the deployment completes, you'll see the deployment success banner.
-  The new deployment appears in your Deployment History. It contains a link 
-  to the commit in the GitHub repository. 
+  The new deployment appears in your Deployment History. 
+  
+  If you have GitHub deployment enabled, it also contains a link to the 
+  commit in the GitHub repository. 
   
   In the linked GitHub repository, the commit author is the 
   ``mongodb-realm`` bot.
 
   .. figure:: /images/realm-ui-deploy-changes-in-github.png
-     :alt: GitHub repository selection
+     :alt: Screenshot of deployment changes in GitHub
    

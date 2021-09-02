@@ -20,6 +20,7 @@ Application Deployment
    Deploy from the Realm UI </deploy/deploy-ui>
    Deploy Automatically with GitHub </deploy/deploy-automatically-with-github>
    Deploy with the Realm CLI </deploy/deploy-cli>
+   Rollback Deployments </deploy/rollback-deployment>
    Export an Existing Realm Application </deploy/export-realm-app>
 
 Overview
@@ -192,10 +193,14 @@ changes.
 .. figure:: /images/deployment-history-table.png
    :alt: The table of application deployment history logs in the {+ui+}
 
+The :guilabel:`Deployment History` is also where you can :guilabel:`Export`
+your {+app+}, or use the :guilabel:`Re-Deploy` button to rollback to a prior 
+version.
+
 Summary
 -------
 
 - Deployment allows you to group updates to your application and make them available to client applications at the same time in a new version.
 - {+service-short+} provides four ways to deploy depending on your project's workflow: {+ui+} deployment, automatic GitHub deployment, {+cli-bin+} deployment, and {+service-short+} Admin API deployment.
 - A deployment consists of at least one new, updated, or deleted {+service-short+} component such as a Function, Trigger, Auth Provider, or Value.
-- {+service-short+} tracks deployment history up to 25 versions, allowing you to review past changes.
+- {+service-short+} tracks deployment history up to 25 versions, allowing you to review and rollback to prior versions.
