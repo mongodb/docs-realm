@@ -204,13 +204,26 @@ the interface to the MongoDB Realm backend, which provides the user
 authentication required for Sync. By observing the app instance, the
 SyncContentView can react when a user logs in or out.
 
-The SyncContentView also owns an optional :swift-sdk:`realm
+This view has two possible states:
+
+- If the {+service-short+} app does not have a currently logged-in user, show the **LoginView**.
+- If the {+app+} does have a logged-in user, show the **RealmContentView**.
+
+Here's the code for the SyncContentView:
+
+.. literalinclude:: /examples/generated/swiftui/sync/QuickStart.codeblock.sync-content-view.swift
+   :language: swift
+
+From here, we pass the logged in user to the RealmContentView. This is the 
+view responsible for opening a {+realm+} and working with the data.
+
+The RealmContentView owns an optional :swift-sdk:`realm
 <Structs/Realm.html>` wrapped in a :apple:`@State
 <documentation/swiftui/state>` property wrapper. With Sync, we can only
 open the {+realm+} once a user is logged in. Once logged in, we open the
 realm asynchronously with :swift-sdk:`asyncOpen()
 <Structs/Realm.html#/s:10RealmSwift0A0V9asyncOpen13configuration13callbackQueue0F0AC05AsyncD4TaskVAC13ConfigurationV_So17OS_dispatch_queueCys6ResultOyACs5Error_pGctFZ>`.
-The SyncContentView refreshes when a {+realm+} is eventually opened and
+The RealmContentView refreshes when a {+realm+} is eventually opened and
 assigned to the observable property ``@State var realm``.
 
 .. tip::
@@ -223,17 +236,16 @@ assigned to the observable property ``@State var realm``.
    <Structs/Realm.html#/s:10RealmSwift0A0V13configuration5queueA2C13ConfigurationV_So012OS_dispatch_D0CSgtKcfc>`
    intializer to open the {+realm+}.
 
-This view has three possible states:
+This view has two possible states:
 
-- If the {+service-short+} app does not have a currently logged-in user, show the **LoginView**.
-- Otherwise, if there is not already an open {+realm+}, show a loading indicator while opening one.
+- If there is not already an open {+realm+}, show a loading indicator while opening one.
   Ensure there is one group object in the {+realm+}.
 - Otherwise, there is a user and an open {+realm+}, so show the ItemsView for the group in the {+realm+}.
-  Provide a **LogoutButton** the ItemsView can display on the top left of the navigation bar.
+  Provide a **LogoutButton** that the ItemsView can display on the top left of the navigation bar.
 
-Here's the code for the SyncContentView:
+Here's the code for the RealmContentView:
 
-.. literalinclude:: /examples/generated/swiftui/sync/QuickStart.codeblock.sync-content-view.swift
+.. literalinclude:: /examples/generated/swiftui/sync/QuickStart.codeblock.realm-content-view.swift
    :language: swift
 
 Authenticate Users with MongoDB Realm
