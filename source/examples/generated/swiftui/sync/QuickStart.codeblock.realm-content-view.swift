@@ -1,10 +1,5 @@
 // The view for opening a realm and setting up a group
 struct RealmContentView: View {
-    // Get the user. You need this user from SyncContentView
-    // in order to open the synced realm.
-    var user: User
-
-    var leadingBarButton: AnyView?
     
     // Observe a realm that may be opened after login.
     @State var realm: Realm?
@@ -15,7 +10,7 @@ struct RealmContentView: View {
         // the realm opens, which might take a moment.
         guard let realm = realm else {
             return AnyView(ProgressView() // Show the activity indicator while the realm loads
-                            .onReceive(Realm.asyncOpen(configuration: user.configuration(partitionValue: user.id)).assertNoFailure()) { realm in
+                            .onReceive(Realm.asyncOpen(configuration: app!.currentUser!.configuration(partitionValue: app!.currentUser!.id)).assertNoFailure()) { realm in
                     // Preload one group if it does not exist. This app only ever allows
                     // one group per user partition, but you could expand it to allow many groups.
                     if realm.objects(Group.self).count == 0 {
