@@ -1,0 +1,1 @@
+// ScoreCardManager listens to changes to the score for the current run and displays them in the UI
