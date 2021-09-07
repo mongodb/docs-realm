@@ -16,7 +16,7 @@ public class Cube
         //:uncomment-start:
         //var realmPath = Path.Combine(Application.dataPath, "bundled.realm");
         // // And then we open it like any other realm:
-        //Realm realm = await Realm.GetInstanceAsync(realmPath);
+        //var realm = await Realm.GetInstanceAsync(realmPath);
         //:uncomment-end:
         // :code-block-end:
     }

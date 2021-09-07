@@ -73,11 +73,6 @@ depends on whether you are building a mobile app or Unity app:
       #. In the shared project, right-click the {+realm+} file you just added, choose 
          :guilabel:`Build Action`, and then choose :guilabel:`EmbeddedResource`.
 
-         .. note:: Cross-Platform Compatibility
-
-            Non-encrypted {+realm+} files are cross-platform compatible, which 
-            is why you can bundle the file in the shared project.
-
    .. tab:: Unity
       :tabid: unity
 
@@ -87,6 +82,10 @@ depends on whether you are building a mobile app or Unity app:
          Assets stored here are available to the app via the 
          ``Application.dataPath`` property. 
 
+.. note:: Cross-Platform Compatibility
+
+   Non-encrypted {+realm+} files are cross-platform compatible, which 
+   is why you can bundle the file in the shared project.
 
 Using the Copied Realm File
 ---------------------------
@@ -117,9 +116,10 @@ add code to use it. The code you add depends on the type of app:
          :language: csharp
 
 
-.. important:: Reading a Synced Realm
+.. note:: Reading a Synced Realm
    
-      If you are instantiating a new copy of a Synced {+realm+}, ensure that the 
-      {+realm+} is fully synced before using it. As with copying a Synced {+realm+}, 
-      be sure to call ``WaitForUploadAsync()`` and ``WaitForDownloadAsync()``.
-   
+   If you are instantiating a new copy of a synced {+realm+}, it may take time 
+   for the {+realm+} to be initially synced. In most cases, the user can use the 
+   app while the data syncs in the background, but if you need to ensure complete 
+   data synchronization, call the ``WaitForUploadAsync()`` and 
+   ``WaitForDownloadAsync()`` methods.
