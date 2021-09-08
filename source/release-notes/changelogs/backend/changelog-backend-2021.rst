@@ -1,6 +1,6 @@
 .. _backend_20210908:
 
-02 September 2021 Release
+08 September 2021 Release
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
 - Increased request limit from 3000 requests per second to 5000 requests per second.
