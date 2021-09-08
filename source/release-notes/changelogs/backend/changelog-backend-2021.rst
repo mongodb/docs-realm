@@ -1,3 +1,16 @@
+.. _backend_20210908:
+
+02 September 2021 Release
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+- Increased request limit from 3000 requests per second to 5000 requests per second.
+- Allows users to store non-{+service-short+} files in the {+service-short+}
+  :ref:`app structure <app-configuration>`.
+- Updates to documents that do not match an application's :ref:`schema <realm-schemas>`
+  can now enable {+sync+} for those documents.
+
+- Github Code Deployment will now allow non-Realm files to be stored in the Realm App Structure
+Updates can now be used to correct documents that didn’t match Realm Sync Schema
 
 .. _backend_20210825:
 
