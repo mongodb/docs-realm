@@ -147,6 +147,21 @@ notification blocks.
    change is satisfied for one notification token, then all notification
    token blocks for that object will execute.
 
+Observe Partial Key Paths
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. versionadded:: 10.14.0
+
+You can :swift-sdk:`observe <Extensions/Object.html#/s:So16RealmSwiftObjectC0aB0E7observe8keyPaths2on_So20RLMNotificationTokenCSays14PartialKeyPathCyxGG_So17OS_dispatch_queueCSgyAC0C6ChangeOyxGctSo13RLMObjectBaseCRbzlF>`
+a partially type-erased :apple:`PartialKeyPath <documentation/swift/partialkeypath>`
+on :swift-sdk:`Objects <Extensions/Object.html>` or :swift-sdk:`RealmCollections 
+<Protocols/RealmCollection.html>`.
+
+.. example::
+
+   .. include:: /examples/generated/code/start/Notifications.codeblock.register-a-partial-keypath-change-listener.swift.code-block.rst
+
+
 Realm Collections
 ~~~~~~~~~~~~~~~~~
 
