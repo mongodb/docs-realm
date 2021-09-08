@@ -9,8 +9,6 @@
 - Updates to documents that do not match an application's :ref:`schema <realm-schemas>`
   can now enable {+sync+} for those documents.
 
-- Github Code Deployment will now allow non-Realm files to be stored in the Realm App Structure
-Updates can now be used to correct documents that didn’t match Realm Sync Schema
 
 .. _backend_20210825:
 
