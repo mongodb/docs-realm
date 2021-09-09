@@ -117,7 +117,7 @@ Register a Key Path Change Listener
 
 In addition to registering a notification handler on an :swift-sdk:`object 
 <Extensions/Object.html#/s:So16RealmSwiftObjectC0aB0E7observe8keyPaths2on_So20RLMNotificationTokenCSaySSGSg_So17OS_dispatch_queueCSgyAC0C6ChangeOyxGctSo13RLMObjectBaseCRbzlF>` 
-or :swift-sdk:`collection <Protocols/RealmCollection.html#/s:10RealmSwift0A10CollectionP7observe8keyPaths2on_So20RLMNotificationTokenCSaySSGSg_So17OS_dispatch_queueCSgyAA0aC6ChangeOyxGctF>`, you can pass an optional ``keyPaths`` parameter to specify the key path or 
+or :swift-sdk:`collection <Protocols/RealmCollection.html#/s:10RealmSwift0A10CollectionP7observe8keyPaths2on_So20RLMNotificationTokenCSaySSGSg_So17OS_dispatch_queueCSgyAA0aC6ChangeOyxGctF>`, you can pass an optional string ``keyPaths`` parameter to specify the key path or 
 key paths to watch.
 
 .. example::
@@ -133,7 +133,7 @@ on :swift-sdk:`Objects <Extensions/Object.html>` or :swift-sdk:`RealmCollections
 
 .. code-block:: swift
 
-   objectNotificationToken = dog.observe(keyPaths: [\NotificationExamplePartialKeyPath_Dog.favoriteToy, \NotificationExamplePartialKeyPath_Dog.age], { change in
+   objectNotificationToken = dog.observe(keyPaths: [\Dog.favoriteToy, \Dog.age], { change in
 
 When you specify ``keyPaths``, *only* changes to those
 ``keyPaths`` trigger notification blocks. Any other changes do not trigger
