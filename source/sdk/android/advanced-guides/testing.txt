@@ -113,12 +113,14 @@ work on :android:`Looper <reference/android/os/Looper>` threads.
 Threads configured with a ``Looper`` object pass events over a message
 loop coordinated by the ``Looper``. Test functions normally don't have
 a ``Looper`` object, and configuring one to work in your tests can be
-very error-prone. Instead, you can use the :android:`Activity.runOnUiThread()
+very error-prone.
+
+Instead, you can use the :android:`Activity.runOnUiThread()
 <reference/android/app/Activity#runOnUiThread(java.lang.Runnable)>`
 method of your test activity to execute logic on a thread that already
 has a ``Looper`` configured. Combine ``Activity.runOnUiThread()`` with
-a ``CountDownLatch`` as described in the :ref:`next section
-<android-testing-delay-while-async>` above to prevent your test from completing
+a ``CountDownLatch`` as described in the :ref:`delay section
+<android-testing-delay-while-async>` to prevent your test from completing
 and exiting before your logic has executed. Within the ``runOnUiThread()``
 call, you can interact with the SDK just like you normally would in your
 application code:
@@ -152,13 +154,13 @@ uses Java's built-in `CountDownLatch
 1. Instantiate a ``CountDownLatch`` with a count of 1.
 #. After running the async logic your test needs to wait for, call that
    ``CountDownLatch`` instance's ``countDown()`` method.
-#. At the position in your code where you need to wait for the logic,
-   in a ``try``/``catch`` block that handles an ``InterruptedException``,
+#. When you need to wait for async logic, add a ``try``/``catch`` block
+   that handles an ``InterruptedException``. In that block,
    call that ``CountDownLatch`` instance's ``await()`` method.
 #. Pass a timeout interval and unit to ``await()``, and wrap
    the call in a ``Assert.assertTrue()`` assertion. If the logic takes
-   too long and the ``await()`` call times out, it'll return ``false``
-   and fail your test.
+   too long, the ``await()`` call times out, returning false and failing
+   the test.
 
 The following example demonstrates the use of a ``CountDownLatch`` to
 wait for authentication and opening a realm asynchronously on a separate
@@ -177,6 +179,32 @@ thread:
 
        .. literalinclude:: /examples/generated/android/sync/TestTest.codeblock.wait-for-async.java
          :language: java
+
+Testing Backend
+~~~~~~~~~~~~~~~
+
+Applications that use a {+app+} backend should not connect to the
+production backend for testing purposes for the following reasons:
+
+- you should always keep test users and production users separate
+  for security and privacy reasons
+- tests often require a clean initial state, so there's a good chance
+  your tests will include a setup or teardown method that deletes all
+  users or large chunks of data
+
+You can use :ref:`environments <appconfig-environment>` to manage separate
+apps for testing and production.
+
+Testing Atlas Cluster
+~~~~~~~~~~~~~~~~~~~~~
+
+Applications that use {+sync+} or :ref:`MongoDB queries
+<android-mongodb-data-access>` may read, write, update, or delete data
+stored in connected Atlas clusters. For security purposes, you shouldn't
+store production data and testing data on the same cluster. Additionally,
+tests may require schema changes before those changes are gracefully
+handled in your production application. As a result, you should use a
+separate Atlas cluster when testing your application.
 
 Full Example
 ~~~~~~~~~~~~
@@ -317,7 +345,7 @@ provide testing data in unit tests.
 Full Example
 ~~~~~~~~~~~~
 
-The following example shows a full Junit ``test``
+The following example shows a full JUnit ``test``
 example mocking {+client-database+} in unit tests. This example tests
 an activity that performs some basic {+client-database+} operations.
 The tests use mocking to simulate those operations when that activity is
