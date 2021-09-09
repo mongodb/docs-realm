@@ -44,9 +44,10 @@ class TestTest {
             Log.e("EXAMPLE", e.stackTraceToString())
         }
 
-        // :code-block-start: test-logic-looper
+        // :code-block-start: wait-for-async
         val testLatch = CountDownLatch(1)
 
+        // :code-block-start: test-logic-looper
         testActivity?.runOnUiThread {
             // instantiate an app connection
             val appID: String = YOUR_APP_ID // replace this with your App ID
@@ -87,6 +88,7 @@ class TestTest {
                 }
             }
         }
+        // :code-block-end:
 
         // block until the async calls in the test succeed or error out
         try {

@@ -50,9 +50,10 @@ public class TestTest {
         }
         // :code-block-end:
 
-        // :code-block-start: test-logic-looper
+        // :code-block-start: wait-for-async
         CountDownLatch testLatch = new CountDownLatch(1);
 
+        // :code-block-start: test-logic-looper
         testActivity.get().runOnUiThread(() -> {
             // instantiate an app connection
             String appID = YOUR_APP_ID; // replace this with your test application App ID
@@ -95,6 +96,7 @@ public class TestTest {
                 }
             });
         });
+        // :code-block-end:
 
         // block until the async calls in the test succeed or error out
         try {

@@ -15,8 +15,7 @@ Testing - Android SDK
 You can test your application using unit tests or integration tests.
 **Unit tests** only assess the logic written in your application's code.
 **Integration tests** assess your application logic, database queries and
-writes, and calls to your application's backend (if you use
-{+sync+} or App Services to connect to a backend {+app+}). Unit tests
+writes, and calls to your application's backend, if you have one. Unit tests
 run on your development machine using the JVM, while integration tests
 run on a physical or emulated Android device. You can run integration
 tests by communicating with actual instances of {+client-database+}
@@ -46,18 +45,20 @@ extensive interaction with the database.
 Integration Tests
 -----------------
 
-To integration test an application that uses the {+service-short+} SDK,
-you'll need:
+This section shows how to integration test an application that uses
+the {+service-short+} SDK. It covers the following concepts in the test
+environment:
 
-- an application context
-- a ``Looper`` thread
-- a way to delay test execution while asynchronous method calls complete
+- acquiring an application context
+- executing logic on a ``Looper`` thread
+- how to delay test execution while asynchronous method calls complete
 
-Applications that use {+sync+} or a backend {+app+} also require:
+Applications that use {+sync+} or a backend {+app+} also require (not
+covered here):
 
 - a separate {+app+} backend for testing, with separate user accounts
   and data
-- a separate Atlas cluster with test-only data
+- a separate Atlas cluster containing test-only data
 
 .. _android-testing-context:
 
@@ -82,22 +83,8 @@ your lambda (the newly created instance of your activity) for future
 use.
 
 Because the ``onActivity()`` method runs on a different thread, you
-should block your test from executing further until this initial setup
-completes. The following example uses Java's built-in
-`CountDownLatch <https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/concurrent/CountDownLatch.html>`__ class to wait for SDK initialization before
-moving on into testing logic. You can use a ``CountDownLatch`` in your
-own tests if you follow similar logic:
-
-1. Instantiate a ``CountDownLatch`` with a count of 1.
-#. After the logic your test needs to wait for, call that ``CountDownLatch``
-   instance's ``countDown()`` method.
-#. At the position in your code where you need to wait for the logic,
-   in a ``try``/``catch`` block that handles an ``InterruptedException``,
-   call that ``CountDownLatch`` instance's ``await()`` method.
-#. Pass a timeout interval and unit to ``await()``, and wrap
-   the call in a ``Assert.assertTrue()`` assertion. If the logic takes
-   too long and the ``await()`` call times out, it'll return ``false``
-   and fail your test.
+should :ref:`block your test from executing further
+<android-testing-delay-while-async>` until this initial setup completes. 
 
 The following example uses an ``ActivityScenario``, an empty testing
 activity, and a ``CountDownLatch`` to demonstrate how to set up an
@@ -130,8 +117,8 @@ very error-prone. Instead, you can use the :android:`Activity.runOnUiThread()
 <reference/android/app/Activity#runOnUiThread(java.lang.Runnable)>`
 method of your test activity to execute logic on a thread that already
 has a ``Looper`` configured. Combine ``Activity.runOnUiThread()`` with
-a ``CountDownLatch`` as described in the :ref:`application context guide
-<android-testing-context>` above to prevent your test from completing
+a ``CountDownLatch`` as described in the :ref:`next section
+<android-testing-delay-while-async>` above to prevent your test from completing
 and exiting before your logic has executed. Within the ``runOnUiThread()``
 call, you can interact with the SDK just like you normally would in your
 application code:
@@ -148,6 +135,47 @@ application code:
        :tabid: java
 
        .. literalinclude:: /examples/generated/android/sync/TestTest.codeblock.test-logic-looper.java
+         :language: java
+
+.. _android-testing-delay-while-async:
+
+Delay Test Execution While Async Calls Complete
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Because the SDK uses asynchronous calls for common operations such as
+database queries, authentication, and function calls, tests need a way
+to wait for those async calls to complete. Otherwise, your tests will
+exit before your asynchronous (or multi-threaded) calls run. This example
+uses Java's built-in `CountDownLatch
+<https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/concurrent/CountDownLatch.html>`__. Follow these steps to use a ``CountDownLatch`` in your own tests:
+
+1. Instantiate a ``CountDownLatch`` with a count of 1.
+#. After running the async logic your test needs to wait for, call that
+   ``CountDownLatch`` instance's ``countDown()`` method.
+#. At the position in your code where you need to wait for the logic,
+   in a ``try``/``catch`` block that handles an ``InterruptedException``,
+   call that ``CountDownLatch`` instance's ``await()`` method.
+#. Pass a timeout interval and unit to ``await()``, and wrap
+   the call in a ``Assert.assertTrue()`` assertion. If the logic takes
+   too long and the ``await()`` call times out, it'll return ``false``
+   and fail your test.
+
+The following example demonstrates the use of a ``CountDownLatch`` to
+wait for authentication and opening a realm asynchronously on a separate
+thread:
+
+.. tabs-realm-languages::
+   
+   .. tab::
+       :tabid: kotlin
+
+       .. literalinclude:: /examples/generated/android/sync/TestTest.codeblock.wait-for-async.kt
+         :language: kotlin
+
+   .. tab::
+       :tabid: java
+
+       .. literalinclude:: /examples/generated/android/sync/TestTest.codeblock.wait-for-async.java
          :language: java
 
 Full Example

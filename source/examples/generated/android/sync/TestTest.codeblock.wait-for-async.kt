@@ -1,3 +1,5 @@
+val testLatch = CountDownLatch(1)
+
 testActivity?.runOnUiThread {
     // instantiate an app connection
     val appID: String = YOUR_APP_ID // replace this with your App ID
@@ -37,4 +39,11 @@ testActivity?.runOnUiThread {
             Log.e("EXAMPLE", "Failed login: " + it.error.errorMessage)
         }
     }
+}
+
+// block until the async calls in the test succeed or error out
+try {
+    Assert.assertTrue(testLatch.await(5, TimeUnit.SECONDS))
+} catch (e: InterruptedException) {
+    Log.e("EXAMPLE", e.stackTraceToString())
 }

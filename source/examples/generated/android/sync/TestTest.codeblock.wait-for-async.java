@@ -1,3 +1,5 @@
+CountDownLatch testLatch = new CountDownLatch(1);
+
 testActivity.get().runOnUiThread(() -> {
     // instantiate an app connection
     String appID = YOUR_APP_ID; // replace this with your test application App ID
@@ -40,3 +42,10 @@ testActivity.get().runOnUiThread(() -> {
         }
     });
 });
+
+// block until the async calls in the test succeed or error out
+try {
+    Assert.assertTrue(testLatch.await(5, TimeUnit.SECONDS));
+} catch (InterruptedException e) {
+    Log.e("EXAMPLE", e.getMessage());
+}
