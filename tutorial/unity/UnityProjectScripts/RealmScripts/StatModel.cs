@@ -34,7 +34,7 @@ public class Stat : RealmObject
 // :state-end: 
 // :state-uncomment-start: start
 // // TODO: Realm-ify Player model
-// public class PlayerModel {
+// public class Stat {
 //  public ObjectId Id;
 //  public int score = 0;
 //  public int enemiesDefeated = 0;
