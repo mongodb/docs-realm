@@ -1,10 +1,11 @@
 app.loginAsync(credentials, it -> {
     if (it.isSuccess()) {
         User user = it.get();
-        AsyncTask.execute(new Runnable() {
-            @Override
-            public void run() {
-                app.removeUser(user);
+        user.removeAsync(result -> {
+            if (result.isSuccess()) {
+                Log.v("EXAMPLE", "Successfully removed user from device.");
+            } else {
+                Log.e("EXAMPLE", "Failed to remove user from device.");
             }
         });
     } else {

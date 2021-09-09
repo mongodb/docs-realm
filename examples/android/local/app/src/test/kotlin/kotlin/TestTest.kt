@@ -1,3 +1,4 @@
+package kotlin
 // :code-block-start: test-unit-testing
 import android.content.Context
 import android.view.View
