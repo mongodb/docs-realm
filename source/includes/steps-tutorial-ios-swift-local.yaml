@@ -60,7 +60,7 @@ content: |
        - Create the list view for the tasks in a given project.
 
      * - ProjectsViewController.swift
-       - Part 2: Display the list of projects where the logged
+       - Display the list of projects where the logged
          in user is a member.
 
      * - ManageTeamViewController.swift
@@ -83,6 +83,18 @@ content: |
 
      To learn more about how {+service-short+} Object models are used in iOS applications, 
      see :ref:`ios-read-and-write-data` in our iOS client guide.
+
+---
+title: Specify the Realm to Open
+ref: specify-the-realm-to-open
+content: |
+  Navigate to the ProjectsViewController.swift file. For the local application,
+  the user only has their own project - and their own Realm - to open. 
+  We'll specify the :ref:`configuration <ios-configure-and-open-a-realm>` to use 
+  when we open the Realm in ``init(userRealmConfiguration: Realm.Configuration)``:
+
+  .. literalinclude:: /tutorial/generated/swift-ios/local/ProjectsViewController.codeblock.user-in-realm-notification.swift
+     :language: swift 
 
 ---
 title: Implement the Tasks List
