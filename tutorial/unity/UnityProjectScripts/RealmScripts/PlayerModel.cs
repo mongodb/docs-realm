@@ -26,8 +26,8 @@ public class Player : RealmObject
 // // TODO: Realm-ify Player model
 // public class PlayerModel {
 //  public string _id;
-//  public string name
-//  public IList<Stat> stats
+//  public string name;
+//  public IList<Stat> stats;
 // }
 // :state-uncomment-end:
 // :code-block-end:
