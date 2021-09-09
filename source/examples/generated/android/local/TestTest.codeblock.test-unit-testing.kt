@@ -1,4 +1,3 @@
-// :code-block-start: test-unit-testing
 import android.content.Context
 import android.view.View
 import com.mongodb.realm.examples.R
@@ -29,7 +28,6 @@ import org.robolectric.RobolectricTestRunner
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 
-// :code-block-start: annotations
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [28])
 @PowerMockIgnore(
@@ -48,21 +46,17 @@ import org.robolectric.annotation.Config
     RealmCore::class,
     RealmLog::class
 )
-// :code-block-end:
 class TestTest {
-    // :code-block-start: bootstrap-powermock
     // bootstrap powermock
     @Rule
     var rule = PowerMockRule()
 
-    // :code-block-end:
     // mocked realm SDK components for tests
     private var mockRealm: Realm? = null
     private var cats: RealmResults<Cat>? = null
     @Before
     @Throws(Exception::class)
     fun setup() {
-        // :code-block-start: mock-realm-components
         // set up realm SDK components to be mocked. The order of these matters
         PowerMockito.mockStatic(RealmCore::class.java)
         PowerMockito.mockStatic(RealmLog::class.java)
@@ -71,9 +65,7 @@ class TestTest {
         Realm.init(RuntimeEnvironment.application)
         PowerMockito.doNothing().`when`(RealmCore::class.java)
         RealmCore.loadLibrary(ArgumentMatchers.any(Context::class.java))
-        // :code-block-end:
 
-        // :code-block-start: mock-a-realm
         // create the mocked realm
         val mockRealm = PowerMockito.mock(Realm::class.java)
         val mockRealmConfig = PowerMockito.mock(
@@ -84,7 +76,6 @@ class TestTest {
             .thenReturn(mockRealmConfig)
         // use this mock realm for all new default realms
         PowerMockito.`when`(Realm.getDefaultInstance()).thenReturn(mockRealm)
-        // :code-block-end:
 
         // any time we ask Realm to create a Cat, return a new instance.
         PowerMockito.`when`(mockRealm.createObject(Cat::class.java)).thenReturn(Cat())
@@ -197,4 +188,3 @@ class TestTest {
         return PowerMockito.mock(RealmResults::class.java) as RealmResults<T>
     }
 }
-// :code-block-end:
