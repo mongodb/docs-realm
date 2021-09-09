@@ -22,6 +22,10 @@ public class RealmController : MonoBehaviour
 
     public static Player currentPlayer; // current logged in player
     public static Stat currentStat; // current stats for this run/playthrough
+    // :state-uncomment-start: sync
+    private static App realmApp = App.Create(Constants.Realm.AppId);
+    public static Realms.Sync.User syncUser;
+    // :state-uncomment-end:
 
     // :state-start: start local    
     public static Realm GetRealm()
