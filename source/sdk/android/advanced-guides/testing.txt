@@ -19,10 +19,11 @@ writes, and calls to your application's backend (if you use
 {+sync+} or App Services to connect to a backend {+app+}). Unit tests
 run on your development machine using the JVM, while integration tests
 run on a physical or emulated Android device. You can run integration
-tests using Android's built-in instrumented tests.
+tests by communicating with actual instances of {+client-database+}
+or a {+app+} backend using Android's built-in instrumented tests.
 
 Android uses specific file paths and folder names in Android projects
-for unit tests and integration tests:
+for unit tests and instrumented tests:
 
 .. list-table::
    :stub-columns: 1
