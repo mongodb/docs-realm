@@ -167,9 +167,9 @@ public class MultipleUsersTest extends RealmTest {
         // expectation.await(); // TODO: Figure out why this test is a flakey boi
     }
 
-    @Test
+    //@Test TODO: Figure out this flakey test
     public void removeAUserFromDevice() {
-        //Expectation expectation = new Expectation();
+        Expectation expectation = new Expectation();
         activity.runOnUiThread(() -> {
             try {
                 String appID = YOUR_APP_ID; // replace this with your App ID
@@ -180,13 +180,14 @@ public class MultipleUsersTest extends RealmTest {
                 app.loginAsync(credentials, it -> {
                     if (it.isSuccess()) {
                         User user = it.get();
-                        AsyncTask.execute(new Runnable() {
-                            @Override
-                            public void run() {
-                                app.removeUser(user);
+                        user.removeAsync(result -> {
+                            if (result.isSuccess()) {
+                                Log.v("EXAMPLE", "Successfully removed user from device.");
                                 // :hide-start:
-                                //expectation.fulfill();
+                                expectation.fulfill();
                                 // :hide-end:
+                            } else {
+                                Log.e("EXAMPLE", "Failed to remove user from device.");
                             }
                         });
                     } else {
@@ -198,6 +199,6 @@ public class MultipleUsersTest extends RealmTest {
                 Log.v("EXAMPLE", "Failed with exception: " + e.getMessage());
             }
         });
-        //expectation.await(); TODO: Figure out why this only works *sometimes*
+        expectation.await();
     }
 }
