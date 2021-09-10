@@ -25,6 +25,12 @@ In your production app (the one that will use this bundled {+realm+} when first
 loading), you add a few lines of code to extract the {+realm+} and save it in the 
 app data. The following sections provide more information on these steps.
 
+.. important:: Synced Realms Are Not Supported
+
+   For now, bundling a synced {+realm+} is not supported. If you are using Sync, 
+   the local database will be synced when it is initialized.
+   
+
 .. _copy_a_realm_file:
 
 Copy a Realm File
@@ -41,18 +47,6 @@ Copy a Realm File
    .. literalinclude:: /examples/generated/dotnet/WriteCopy.codeblock.copy_a_realm.cs
       :language: csharp
 
-   .. important:: Copying a Synced Realm
-   
-      If you are making a copy of a Synced {+realm+}, you should ensure that the 
-      {+realm+} is up-to-date before making a copy. You can do this by calling 
-      ``WaitForUploadAsync()`` and ``WaitForDownloadAsync()``:
-      
-      .. code-block:: csharp
-         :copyable: false
-      
-         await realm.GetSession().WaitForUploadAsync();
-         await realm.GetSession().WaitForDownloadAsync();
-   
 
 Include the Realm File in Your Project
 --------------------------------------
@@ -114,12 +108,3 @@ add code to use it. The code you add depends on the type of app:
 
       .. literalinclude:: /examples/generated/dotnet/Unity.codeblock.read_a_realm_unity.cs
          :language: csharp
-
-
-.. note:: Reading a Synced Realm
-   
-   If you are instantiating a new copy of a synced {+realm+}, it may take time 
-   for the {+realm+} to be initially synced. In most cases, the user can use the 
-   app while the data syncs in the background, but if you need to ensure complete 
-   data synchronization, call the ``WaitForUploadAsync()`` and 
-   ``WaitForDownloadAsync()`` methods.
