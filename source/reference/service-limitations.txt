@@ -23,42 +23,7 @@ Keep this guidance in mind when deciding how to structure queries,
 selecting which CRUD and aggregation operations to use, and determining
 how to handle concurrent workloads.
 
-.. _mongodb-service-limitations-version-requirements:
-
-MongoDB Version Requirements
-----------------------------
-
-You can access most of the CRUD and Aggregation functionality of MongoDB
-version 3.6 with the :doc:`MongoDB service </mongodb>`; however, {+service+}
-does not support all operations and features available in standard tools
-and clients. For a list of specific MongoDB operations that
-are available when you connect to MongoDB through {+service-short+}, see
-:ref:`the CRUD & Aggregation API reference
-<mongodb-crud-and-aggregation-apis>`.
-
-{+sync+} requires {+atlas+} clusters to run
-MongoDB 4.4.0 or greater. 
-
-.. _mongodb-service-limitations-query-results:
-
-Query Results
--------------
-
-MongoDB queries executed through {+service-short+} can return a maximum of 50,000
-documents. If you need to return more documents, consider paginating
-your query.
-
-.. _mongodb-service-limitations-query-options:
-
-Query Options
--------------
-
-{+service-short+} supports all query options in :ref:`system functions
-<function-system-user>`. {+service-short+} does not support certain options for
-CRUD operations run from :ref:`user functions <function-active-user>`. For a
-list of specific options that are available when you connect to MongoDB through
-{+service-short+}, see :ref:`Query Options
-<mongodb-crud-and-aggregation-apis-query-options>`.
+.. Please keep these sections alphabetized by section title.
 
 .. _mongodb-service-limitations-aggregation:
 
@@ -77,19 +42,18 @@ reduced for security reasons.
 For a list of pipeline stages that are available and their allowed function
 context, see :ref:`Aggregation <mongodb-crud-and-aggregation-apis-aggregation>`.
 
-.. _mongodb-service-limitations-database-commmands:
+.. _mongodb-service-limitations-atlas-support:
 
-Database Commands
------------------
+Atlas Support 
+-------------
 
-{+service-short+} does not support any :manual:`database commands
-</reference/command>` in the Client SDKs or :doc:`Functions
-</functions>`. You can, however, call a limited subset of database
-commands when when connected to a MongoDB cluster over the :doc:`{+service-short+}
-wire protocol </mongodb/connect-over-the-wire-protocol>`. For a list of
-wire protocol supported commands, see
-:ref:`Database Commands
-<mongodb-crud-and-aggregation-apis-database-commands>`.
+{+sync+} does not currently support sharded {+atlas+} clusters. However,
+you can add a sharded cluster as a data source and access it through
+:ref:`functions <functions>` and
+:ref:`MongoDB Data Access <mongodb-data-access>`.
+
+When data is bulk/batch loaded into {+atlas+}, you may see a delay in
+data appearing on devices while {+service+} processes changes.
 
 .. _mongodb-service-limitations-change-streams:
 
@@ -152,23 +116,78 @@ following table lists the limitations for each cluster size:
    - Avoid data models that require you to Watch or Sync an unbounded
      number of collections.
 
-.. _mongodb-service-limitations-atlas-support:
+.. _mongodb-service-limitations-database-commmands:
 
-Atlas Support 
+Database Commands
+-----------------
+
+{+service-short+} does not support any :manual:`database commands
+</reference/command>` in the Client SDKs or :doc:`Functions
+</functions>`. You can, however, call a limited subset of database
+commands when when connected to a MongoDB cluster over the :doc:`{+service-short+}
+wire protocol </mongodb/connect-over-the-wire-protocol>`. For a list of
+wire protocol supported commands, see
+:ref:`Database Commands
+<mongodb-crud-and-aggregation-apis-database-commands>`.
+
+.. _mongodb-service-limitations-version-requirements:
+
+MongoDB Version Requirements
+----------------------------
+
+You can access most of the CRUD and Aggregation functionality of MongoDB
+version 3.6 with the :doc:`MongoDB service </mongodb>`; however, {+service+}
+does not support all operations and features available in standard tools
+and clients. For a list of specific MongoDB operations that
+are available when you connect to MongoDB through {+service-short+}, see
+:ref:`the CRUD & Aggregation API reference
+<mongodb-crud-and-aggregation-apis>`.
+
+{+sync+} requires {+atlas+} clusters to run
+MongoDB 4.4.0 or greater. 
+
+.. _mongodb-service-limitations-query-options:
+
+Query Options
 -------------
 
-{+sync+} does not currently support sharded {+atlas+} clusters. However,
-you can add a sharded cluster as a data source and access it through
-:ref:`functions <functions>` and
-:ref:`MongoDB Data Access <mongodb-data-access>`.
+{+service-short+} supports all query options in :ref:`system functions
+<function-system-user>`. {+service-short+} does not support certain options for
+CRUD operations run from :ref:`user functions <function-active-user>`. For a
+list of specific options that are available when you connect to MongoDB through
+{+service-short+}, see :ref:`Query Options
+<mongodb-crud-and-aggregation-apis-query-options>`.
 
-When data is bulk/batch loaded into {+atlas+}, you may see a delay in
-data appearing on devices while {+service+} processes changes.
+.. _mongodb-service-limitations-query-results:
+
+Query Results
+-------------
+
+MongoDB queries executed through {+service-short+} can return a maximum of 50,000
+documents. If you need to return more documents, consider paginating
+your query.
+
+.. _mongodb-service-limitations-rules:
+
+Rules 
+-----
+
+{+sync+} supports :ref:`{+sync-short+} rules<sync-rules>`.
+{+sync+} does not support :ref:`roles/field-level
+rules<define-roles-and-permissions>` at this time.
+
+.. _mongodb-service-limitations-static-hosting:
+
+Static Hosting
+--------------
+
+{+service-short+} enforces a 25MB maximum file size constraint on
+:doc:`static hosting </hosting/>`.
 
 .. _mongodb-service-limitations-concurrent-workloads:
 
-Concurrent Workloads with Sync
-------------------------------
+Sync - Concurrent Workloads
+---------------------------
 
 Writing:
   {+service+} supports up to 30 users concurrently writing data to an
@@ -185,18 +204,3 @@ Reading:
    
    When you intend to have many concurrent writers, have each writer
    work on a separate document. 
-
-.. _mongodb-service-limitations-rules:
-
-Rules 
------
-
-{+sync+} supports :ref:`{+sync-short+} rules<sync-rules>`.
-{+sync+} does not support :ref:`roles/field-level
-rules<define-roles-and-permissions>` at this time.
-
-Static Hosting
---------------
-
-{+service-short+} enforces a 25MB maximum file size constraint on
-:doc:`static hosting </hosting/>`.
