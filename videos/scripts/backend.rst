@@ -1,31 +1,36 @@
 Realm Backend Tutorial
 ======================
 
-Hi! My name is ...., and I'm one of the developer educators here at MongoDB. 
+Hi! My name is ...., and I'm an engineer here at MongoDB. 
 
-In this tutorial, I'll walk you through the first of the Realm tutorials -- the 
-Backend for the Task Tracker app. This video follows the steps in the tutorial, 
+We've created a series of tutorials that guide you through building a Task Tracker 
+app. All of the tutorials share a common Realm backend, and this walk-through, 
+we'll set up that backend app. This video follows the steps in the written tutorial, 
 so you can follow along as I walk through it.
 
-There are five steps in this tutorial: we'll start by creating a free Atlas account,
-set up a free Atlas cluster to hold our data, install and then configure the Realm 
-command line tools, and finally upload a pre-configured backend Realm app. 
+There are five steps in this tutorial: we'll start by creating an Atlas account,
+set up a free Atlas cluster to hold our data, install the Realm 
+command line tools, set up permissions for those CLI tools, and finally upload a 
+pre-configured backend Realm app. 
 
 So let's get started.
 
 .. <time tag 1> <see https://www.emergingedtech.com/2017/01/how-to-add-time-tags-to-youtube-video-jump-to-tagged-sections/>
 
-First, open your browser and go to **account.mongodb.com**.
-On the logon page, click ``Sign Up``. Of course, if you already have an Atlas 
-account, you can skip ahead to the next section. On the next page, you can 
+We're going to create a new Atlas account. If you already have an Atlas 
+account, you can skip ahead to the next section.
+
+First, open your browser and go to account.mongodb.com.
+
+On the login page, click ``Sign Up``.  On the next page, you can 
 enter in your information, or -- if you already have a Google account -- you can 
 save time by logging in with that account. I'm going to go ahead and do that:
 
 .. <time tag 2>
 
 Now that we have an account, let's set up a cluster. An Atlas cluster is a 
-managed service that is hosted in Microsoft Azure, Google Cloud Platform, or 
-Amazon Web Services. For this demo, we'll set up a free Atlas cluster in 
+MongoDB database that is hosted on one of the cloud providers -- Microsoft Azure, 
+Google Cloud Platform, or Amazon Web Services. For this demo, we'll set up a free Atlas cluster in 
 AWS.
 
 In the ``Shared`` section, click ``Create``.
@@ -53,29 +58,28 @@ top of the page, find the ``Access Manager`` menu. Click on that, and then choos
 Click on the ``API Keys`` tab, and then click on this ``Create API Key`` button.
 
 For the Description, let's add a name that will remind us -- and others -- why 
-this key was created. I'll type in ``API Key for Ream CLI``. 
+this key was created. I'll type in ``API Key for Realm CLI``. 
 
 For Project Permissions, we want to give the CLI tools Project Owner permissions 
 and remove the read-only permissions.
 
-Click Next.
+Click Next to create the new API key.
 
 This next screen shows us the new key pair that's been created -- the public key 
-and private key. We gave the CLI full control, which means we need to keep our 
-secret key truly secret. This is the last time we'll see the private key, so copy 
+and private key. This is the last time we'll see the private key, so copy 
 it now and save it somewhere that you can find later...but not in a public place
 like a screencast that will be shared with the world.
 
-Finally, click the ``Add Access List Entry``. This opens a dialog that aloows us 
+Finally, click ``Add Access List Entry``. This opens a dialog that allows us  
 to restrict access to one or more IP addresses, so even if someone got a hold of 
 the private key, they wouldn't be able to access your cluster unless the computer 
-they are on is within the range of allowed API keys. 
+they are on uses one of the allowed API keys. 
 
 In the ``Add Access List Entry`` dialog, click the ``Use Current IP Address`` 
 button, and you'll see your current IP address added. Click Save.
 
 Note that this restricts access to the IP address you are on right now. If you 
-will be working on this tutorial from multiple locations, you will want to specify 
+will be working on this tutorial from multiple locations, you need to specify 
 a range of IP addresses by using CIDR notation. If you need to, pause this video 
 and look up CIDR notation -- there are several online tools in which 
 you can enter the range of IP addresses you need to support and get the 
@@ -104,18 +108,21 @@ a new directory to store these files and switch to it.
 
 From this directory, let's clone the git directory. This command is 
 in the written part of the tutorial and it might be easier to copy-and-paste it 
-from there, rather than try to copy from this screencast.
+from there, rather than try to copy from this screencast. In the tutorial text, 
+search for ``mongodb-university/realm-tutorial-backend`` to get the git command.
 
 .. git clone https://github.com/mongodb-university/realm-tutorial-backend.git
 
 We now have a directory named ``realm-tutorial-backend``. Let's switch to that, 
 and we're ready to import this app to our cluster. 
 
-Type ``realm-cli push``. When the push is complete, you'll see this message. 
-Let's switch back to our browser. When the app has finished being created, you 
-can click on this ``Realm`` tab, and you'll see we now have a new realm app 
-named "tasktracker". You can click on the name to open the management console 
-for the app.
+Run the ``realm-cli push``command to create a new Realm backend app based on 
+the cloned configuration files. When the push is complete, you'll see the message 
+"Successfully pushed app up". 
+
+Let's switch back to our browser. Click on the ``Realm`` tab, and you'll see we 
+now have a new realm app named "tasktracker". Click on the name to open the 
+management console for the app.
 
 .. <time tag 6>
 
