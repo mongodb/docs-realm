@@ -1,8 +1,8 @@
 .. _database-trigger:
 
------------------
+=================
 Database Triggers
------------------
+=================
 
 .. default-domain:: mongodb
 
@@ -41,214 +41,98 @@ function.
    Database Triggers are only available for `{+atlas+} <https://www.mongodb.com/realm?tck=docs_realm#atlas-form-container>`_ 
    clusters that are running MongoDB version 3.6 or newer.
 
-.. _create-a-database-trigger:
+Example
+-------
 
-Create a Database Trigger
--------------------------
+An online store wants to notify its customers whenever one of their
+orders changes location. They record each order in the ``store.orders``
+collection as a document that resembles the following:
+
+.. code-block:: json
+
+   {
+     _id: ObjectId("59cf1860a95168b8f685e378"),
+     customerId: ObjectId("59cf17e1a95168b8f685e377"),
+     orderDate: ISODate("2018-06-26T16:20:42.313Z"),
+     shipDate: ISODate("2018-06-27T08:20:23.311Z"),
+     orderContents: [
+       { qty: 1, name: "Earl Grey Tea Bags - 100ct", price: NumberDecimal("10.99") }
+     ],
+     shippingLocation: [
+       { location: "Memphis", time: ISODate("2018-06-27T18:22:33.243Z") },
+     ]
+   }
+
+To automate this process, the store creates a database Trigger that
+listens for ``UPDATE`` change events in the ``store.orders`` collection.
+When the trigger observes an ``UPDATE`` event, it passes the
+:ref:`change event object <database-events>` to its associated Function,
+``textShippingUpdate``. The Function checks the change event for any
+changes to the ``shippingLocation`` field and, if it was updated, sends
+a text message to the customer with the new location of the order.
 
 .. tabs-realm-admin-interfaces::
    
    .. tab::
       :tabid: ui
       
-      To open the database trigger configuration screen in the {+ui+}, click
-      :guilabel:`Triggers` in the {+leftnav+}, select the
-      :guilabel:`Database Triggers` tab, and then click :guilabel:`Add a
-      Trigger`.
-         
-      Configure the trigger and then click :guilabel:`Save` at the bottom of
-      the page to add it to your current deployment draft.
-         
-      A database trigger has the following configuration options:
-         
-      .. list-table::
-         :header-rows: 1
-         :widths: 15 30
-         
-         * - Field
-           - Description
-         
-         * - :guilabel:`Trigger Type`
-         
-           - Required. The type of the Trigger. Set this value to ``DATABASE`` for database Triggers
-         
-         * - :guilabel:`Trigger Name`
-         
-           - Required. The name of the Trigger.
-         
-         * - :guilabel:`Linked Function`
-         
-           - Required. The name of the {+service-short+} Function that the Trigger
-             executes whenever it fires. The Trigger passes the
-             :ref:`database event object <database-events>` that
-             caused it to fire as the only argument to this Function.
-         
-         * - :guilabel:`Cluster`
-         
-           - Required. The name of the MongoDB Service that the Trigger is
-             associated with.
-         
-         * - :guilabel:`Database Name`
-         
-           - Required. The MongoDB database that contains the watched
-             collection.
-         
-         * - :guilabel:`Collection Name`
-         
-           - Required. The name of the collection that the Trigger watches for
-             change events.
-         
-         * - :guilabel:`Operation Types`
-         
-           - Required. A list of one or more :ref:`database operation
-             types <database-event-operation-types>` that cause the Trigger to
-             fire. Format each operation type as an uppercase string, e.g.,
-             ``"INSERT"``.
-         
-             .. warning::
-         
-                Update operations executed from {+compass+} or the {+atlas+}
-                Data Explorer fully replace the previous document. As a result,
-                update operations from these clients will generate ``REPLACE``
-                change events rather than ``UPDATE`` events.
-         
-         * - :guilabel:`Full Document`
-         
-           - If enabled, ``UPDATE`` change events include the latest
-             :manual:`majority-committed </reference/read-concern-majority/>`
-             version of the modified document *after* the change was applied in
-             the ``fullDocument`` field.
-         
-             .. note::
-         
-                Regardless of this setting:
-                
-                - ``INSERT`` and ``REPLACE`` events always include the
-                  ``fullDocument`` field.
-                
-                - ``DELETE`` events never include the ``fullDocument`` field.
-         
-         * - :guilabel:`Document Preimage`
-         
-           - If enabled, change events include a copy of the modified document
-             from immediately *before* the change was applied in the
-             ``fullDocumentBeforeChange`` field. All change events except for
-             ``INSERT`` events include the document preimage.
-             
-             .. important:: Collection-Level Preimage Settings
-                
-                Document preimages use extra information stored in the oplog.
-                The extra data may have performance implications for some apps.
-                
-                Once you've enabled document preimages for any trigger on a
-                given collection, that collection will include preimage data in
-                the oplog and other triggers on the collection can use preimages
-                with no additonal overhead.
-                
-                You can disable document preimages on a per-trigger basis to
-                exclude the preimage from change events. Regardless of your
-                trigger-level settings, a collection's oplog entries will
-                continue to include preimage data unless you explicitly disable
-                preimages for the collection.
-                
-                For more information, see :ref:`trigger-preimages`.
-         
-         * - :guilabel:`Event Ordering`
-         
-           - 
-             .. tabs-realm-admin-interfaces::
-                :hidden: true
-                
-                .. tab::
-                   :tabid: ui
-                       
-                   Default: Enabled.
-                       
-                   Indicates whether event ordering is enabled for this Trigger.
-                       
-                .. tab::
-                   :tabid: cli
-                       
-                   Optional. Default: ``false``.
-                       
-                   If ``true``, indicates that event ordering is disabled for
-                   this trigger.
-                
-             .. include:: /includes/trigger-event-ordering.rst
-         
-         * - :guilabel:`Match Expression`
-         
-           - Optional.
-             
-             .. include:: /includes/trigger-match-expression.rst
-         
-         * - :guilabel:`Project Expression`
-         
-           - Optional.
-             
-             .. include:: /includes/trigger-project-expression.rst
-
       .. figure:: /images/db-trigger-example-config-1.png
          :alt: Example UI that configures the trigger, including its type and name
-         :width: 750px
-         :lightbox:
       
       .. figure:: /images/db-trigger-example-config-2.png
          :alt: Example UI that configures the trigger function
-         :width: 750px
-         :lightbox:
-   
+      
    .. tab::
       :tabid: cli
       
-      To create a database trigger with :doc:`realm-cli
-      </cli>`:
-      
-      1. Add a database trigger :ref:`configuration file
-         <config-database-trigger>` to the ``triggers`` subdirectory of a
-         local application directory.
-      
-      2. :doc:`Deploy </deploy/deploy-cli>` the trigger:
-      
-         .. code-block:: shell
-      
-            realm-cli push
-      
-      .. note::
-      
-         {+service+} does not enforce specific filenames for Trigger
-         configuration files. However, once imported, {+backend+} will rename
-         each configuration file to match the name of the Trigger it defines,
-         e.g. ``mytrigger.json``.
+      .. code-block:: json
+         :caption: Trigger Configuration
+         
+         {
+           "type": "DATABASE",
+           "name": "shippingLocationUpdater",
+           "function_name": "textShippingUpdate",
+           "config": {
+             "service_name": "mongodb-atlas",
+             "database": "store",
+             "collection": "orders",
+             "operation_types": ["UPDATE"],
+             "unordered": false,
+             "full_document": true,
+             "match": {}
+           },
+           "disabled": false
+         }
 
-Restart a Database Trigger
---------------------------
+.. code-block:: javascript
+   :caption: textShippingUpdate
 
-Database Triggers may enter a :guilabel:`suspended` state in response to
-an event that prevents the Trigger's change stream from continuing, such
-as a network disruption or change to the underlying cluster. When a
-Trigger enters a suspended state, it does not receive change events and will not
-fire.
+   exports = async function (changeEvent) {
+     // Destructure out fields from the change stream event object
+     const { updateDescription, fullDocument } = changeEvent;
 
-.. note:: 
+     // Check if the shippingLocation field was updated
+     const updatedFields = Object.keys(updateDescription.updatedFields);
+     const isNewLocation = updatedFields.some(field =>
+       field.match(/shippingLocation/)
+     );
 
-   In the event of a suspended or failed trigger, {+service-short+} sends the 
-   project owner an email alerting them of the issue. 
+     // If the location changed, text the customer the updated location.
+     if (isNewLocation) {
+       const { customerId, shippingLocation } = fullDocument;
+       const twilio = context.services.get("myTwilioService");
+       const mongodb = context.services.get("mongodb-atlas");
+       const customers = mongodb.db("store").collection("customers");
 
-You can attempt to restart a suspended Trigger from the {+ui+} or by
-importing an application directory with {+cli-bin+}.
-
-.. tabs-realm-admin-interfaces::
-   
-   .. tab::
-      :tabid: ui
-      
-      .. include:: /includes/steps/restart-db-trigger-realm-ui.rst
-
-   .. tab::
-      :tabid: cli
-      
-      .. include:: /includes/steps/restart-db-trigger-import-export.rst
+       const { location } = shippingLocation.pop();
+       const customer = await customers.findOne({ _id: customer_id })
+       twilio.send({
+         to: customer.phoneNumber,
+         from: context.values.get("ourPhoneNumber"),
+         body: `Your order has moved! The new location is ${location}.`
+       });
+     }
+   };
 
 .. _database-events:
 

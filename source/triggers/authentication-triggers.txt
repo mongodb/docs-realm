@@ -12,7 +12,6 @@ Authentication Triggers
    :depth: 2
    :class: singlecol
 
-
 Overview
 --------
 
@@ -24,87 +23,59 @@ in your :term:`linked cluster`, maintaining data integrity upon user
 deletion, or calling a service with a user’s information when they log
 in.
 
-Create an Authentication Trigger
---------------------------------
+Example
+-------
+
+An online store wants to store custom metadata for each of its customers
+in `{+atlas+} <https://www.mongodb.com/realm?tck=docs_realm#atlas-form-container>`_.
+Each customer should have a document in the ``store.customers``
+collection where metadata about them can be recorded and queried.
+
+To guarantee that the collection represents each customer, the store
+creates an authentication Trigger that listens for newly created users
+in the :doc:`email/password </authentication/email-password>` authentication
+provider. When the trigger observes a ``CREATE`` event, it passes the
+:ref:`authentication event object <authentication-events>` to its linked
+function, ``createNewUserDocument``. The {+service-short+} Function creates a new document
+describing the user and their activity and inserts it into the
+``store.customers`` collection.
 
 .. tabs-realm-admin-interfaces::
    
    .. tab::
       :tabid: ui
       
-      To open the authentication trigger configuration screen in the {+ui+},
-      click :guilabel:`Triggers` in the {+leftnav+}, select the
-      :guilabel:`Authentication Triggers` tab, and then click :guilabel:`Add a
-      Trigger`.
-
-      Configure the trigger and then click :guilabel:`Save` at the bottom of the
-      page to add it to your current deployment draft.
-      
-      An authentication trigger has the following configuration options:
-      
-      .. list-table::
-         :header-rows: 1
-         :widths: 15 30
-      
-         * - Field
-           - Description
-      
-         * - :guilabel:`Trigger Type`
-      
-           - The type of the trigger. For authentication triggers,
-             this value should be set to ``AUTHENTICATION``.
-      
-         * - :guilabel:`Trigger Name`
-      
-           - The name of the trigger.
-      
-         * - :guilabel:`Linked Function`
-      
-           - The name of the {+service-short+} Function that the trigger
-             executes whenever it fires. The trigger passes the :ref:`authentication
-             event object <authentication-events>` that caused it to fire as the only
-             argument to this function.
-      
-         * - :guilabel:`Operation Type`
-      
-           - The :ref:`authentication operation
-             type <authentication-event-operation-types>` that causes the trigger to
-             fire.
-      
-         * - :guilabel:`Providers`
-      
-           - A list of one or more :doc:`authentication provider
-             </authentication/providers>` types. The trigger will only listen for
-             :ref:`authentication events <authentication-events>` produced by these
-             providers.
-      
       .. figure:: /images/auth-trigger-example-config.png
-         :alt: An example of a configured authentication trigger in the UI
-         :width: 750px
-         :lightbox:
+         :alt: Example UI that configures the trigger
       
    .. tab::
       :tabid: cli
+      
+      .. code-block:: json
+         :caption: Trigger Configuration
+         
+         {
+           "type": "AUTHENTICATION",
+           "name": "newUserHandler",
+           "function_name": "createNewUserDocument",
+           "config": {
+             "providers": ["local-userpass"],
+             "operation_type": "CREATE"
+           },
+           "disabled": false
+         }
 
-      To create an authentication trigger with :doc:`{+cli+}
-      </cli>`:
-      
-      1. Add an authentication trigger :ref:`configuration file
-         <config-authentication-trigger>` to the ``triggers`` subdirectory of a
-         local application directory.
-      
-         .. note::
-            
-            {+backend+} does not enforce specific filenames for {+service-short+} trigger
-            configuration files. However, once imported, {+backend+} will
-            rename each configuration file to match the name of the
-            trigger it defines, e.g. ``mytrigger.json``.
-      
-      2. :doc:`Deploy </deploy/deploy-cli>` the trigger:
-      
-         .. code-block:: shell
-            
-            realm-cli push
+.. code-block:: javascript
+   :caption: createNewUserDocument
+
+   exports = async function(authEvent) {
+     const mongodb = context.services.get("mongodb-atlas");
+     const customers = mongodb.db("store").collection("customers");
+
+     const { user, time } = authEvent;
+     const newUser = { ...user, eventLog: [ { "created": time } ] };
+     await customers.insertOne(newUser);
+   }
 
 .. _authentication-events:
 
