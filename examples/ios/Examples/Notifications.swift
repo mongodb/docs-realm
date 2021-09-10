@@ -1,10 +1,10 @@
 // :replace-start: {
 //   "terms": {
-//     "NotificationExample_": "",
-//     "NotificationExampleKeyPath_": "",
 //     "AlternateNotificationExampleKeyPath_": "",
+//     "additionalObjectNotificationToken": "objectNotificationToken",
 //     "keyPath_": "",
-//     "additionalObjectNotificationToken": "objectNotificationToken"
+//     "NotificationExample_": "",
+//     "NotificationExampleKeyPath_": ""
 //   }
 // }
 import RealmSwift
@@ -94,7 +94,7 @@ func keyPath_objectNotificationExample() {
     try! realm.write {
         dog.favoriteToy = "Frisbee"
     }
-    // When one or more keypaths is specified, changes to other properties
+    // When you specify one or more key paths, changes to other properties
     // do not trigger notifications. In this example, changing the "name"
     // property does not trigger a notification.
     try! realm.write {

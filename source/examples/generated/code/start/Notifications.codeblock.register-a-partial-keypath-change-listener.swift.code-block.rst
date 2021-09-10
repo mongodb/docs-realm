@@ -24,7 +24,7 @@
        // Observe notifications on some of the object's key paths. Keep a strong
        // reference to the notification token or the observation will stop.
        // Invalidate the token when done observing.
-       objectNotificationToken = dog.observe(keyPaths: ["favoriteToy", "age"], { change in 
+       objectNotificationToken = dog.observe(keyPaths: [\Dog.favoriteToy, \Dog.age], { change in 
            switch change {
            case .change(let object, let properties):
                for property in properties {
@@ -41,7 +41,7 @@
        try! realm.write {
            dog.favoriteToy = "Frisbee"
        }
-       // When you specify one or more key paths, changes to other properties
+       // When one or more keypaths is specified, changes to other properties
        // do not trigger notifications. In this example, changing the "name"
        // property does not trigger a notification.
        try! realm.write {
