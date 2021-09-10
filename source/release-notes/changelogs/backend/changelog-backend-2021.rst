@@ -3,7 +3,7 @@
 08 September 2021 Release
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-- Increased :ref:`request <billing-requests>` limit from 3000 requests per second to 5000 requests per second.
+- Increased :ref:`request limit <mongodb-service-limitations-request-traffic>` from 3000 requests per second to 5000 requests per second.
 - Allows users to store non-{+service-short+} files in the {+service-short+}
   :ref:`app structure <app-configuration>`.
 - Updates to documents that do not match an application's :ref:`schema <realm-schemas>`
