@@ -6,43 +6,10 @@ Create a Authentication Trigger
 
 .. default-domain:: mongodb
 
-Authentication Triggers have the following configuration options:
-      
-.. list-table::
-   :header-rows: 1
-   :widths: 15 30
+.. seealso::
 
-   * - Field
-     - Description
-
-   * - :guilabel:`Trigger Type`
-
-     - The type of the trigger. For authentication triggers,
-       this value should be set to ``AUTHENTICATION``.
-
-   * - :guilabel:`Trigger Name`
-
-     - The name of the trigger.
-
-   * - :guilabel:`Linked Function`
-
-     - The name of the {+service-short+} Function that the trigger
-       executes whenever it fires. The trigger passes the :ref:`authentication
-       event object <authentication-events>` that caused it to fire as the only
-       argument to this function.
-
-   * - :guilabel:`Operation Type`
-
-     - The :ref:`authentication operation
-       type <authentication-event-operation-types>` that causes the trigger to
-       fire.
-
-   * - :guilabel:`Providers`
-
-     - A list of one or more :doc:`authentication provider
-       </authentication/providers>` types. The trigger will only listen for
-       :ref:`authentication events <authentication-events>` produced by these
-       providers.
+   For more information about configuring Authentication Triggers, see the
+   :ref:`Authentication Trigger reference <authentication-triggers-configuration>`.
 
 .. tabs-realm-admin-interfaces::
    
