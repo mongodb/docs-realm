@@ -1,0 +1,33 @@
+---
+title: Enable Sign-in
+ref: fiz-bar-one
+content: |
+  Finally, go to the WelcomeViewController and implement the ``signIn()`` 
+  method. Create a {+realm+} configuration that specifies which "project" to 
+  open and pass it to the TasksViewController:
+
+  .. literalinclude:: /tutorial/generated/swift-ios/local/WelcomeViewController.codeblock.sign-in.swift
+     :language: swift
+
+  .. note::
+
+     TasksViewController works the same whether we're using Sync or not. That
+     makes it easier to add Sync later in Part 2. We'll only need to change the
+     configuration we pass into TasksViewController.
+---
+title: Run and Test
+ref: fiz-bar-two
+content: |
+  Once you have completed the code, you can run the app and check functionality.
+
+  Click the :guilabel:`Run` button in Xcode. If the app builds successfully,
+  here are some things you can try in the app:
+
+  - Create a user with username *test*
+  - Navigate to "My Project"
+  - Add, update, and remove some tasks
+
+  .. tip::
+   
+     If something isn't working for you, you can check out the ``local`` branch of 
+     this repo to compare your code with our finished solution.

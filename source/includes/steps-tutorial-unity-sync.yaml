@@ -1,0 +1,68 @@
+---
+title: Clone the Client App Repository
+ref: foo-bar-one
+content: |
+  We've already put together a task tracker iOS application that has most of the
+  code you'll need. You can clone the client application repository directly
+  from :github:`GitHub <mongodb-university/realm-tutorial-ios-swift>`:
+
+  .. code-block:: shell
+
+     git clone --branch start https://github.com/mongodb-university/realm-tutorial-ios-swift.git
+
+  .. tip::
+   
+     The ``start`` branch is an incomplete version of the app that we will
+     complete in this tutorial. To view a local-only version of the app:
+
+     1. Navigate to the root directory of the client application repository:
+
+        .. code-block:: shell
+
+           cd realm-tutorial-ios-swift
+
+     #. Check out the ``local`` branch:
+
+        .. code-block:: shell
+
+           git checkout local
+
+     #. Run the app by clicking the "Play" button in the upper-left
+        corner of the Xcode window.
+
+---
+title: Explore the App Structure
+ref: foo-bar-two
+content: |
+
+  In the Xcode Project Navigator, you can see the source files of the task
+  tracker application in the ``Task Tracker`` folder. The relevant files are as follows:
+
+  .. cssclass:: config-table
+  .. list-table::
+     :header-rows: 1
+     :widths: 40 60
+     
+     * - File
+       - Purpose
+
+     * - Models.swift
+       - Define the Realm object models used by this app.
+
+     * - SceneDelegate.swift
+       - Part 2: Declare the global {+app+} instance for the {+sync+} 
+         portion of the tutorial.
+     
+     * - WelcomeViewController.swift
+       - Implement the login and user registration functionality.
+     
+     * - TasksViewController.swift
+       - Create the list view for the tasks in a given project.
+
+     * - ProjectsViewController.swift
+       - Display the user's list of projects. In the local app, there is
+         only the local user's project. In Part 2, when we add Sync, 
+         we'll add the projects where the logged in user is a member.
+
+     * - ManageTeamViewController.swift
+       - Part 2: Manage members of a user's project.
