@@ -233,6 +233,41 @@ Database Triggers have the following configuration options:
           
           For more information, see :ref:`trigger-preimages`.
 
+   * - :guilabel:`Event Ordering`
+
+     - 
+       .. tabs-realm-admin-interfaces::
+          :hidden: true
+          
+          .. tab::
+             :tabid: ui
+                 
+             Default: Enabled.
+                 
+             Indicates whether event ordering is enabled for this Trigger.
+                 
+          .. tab::
+             :tabid: cli
+                 
+             Optional. Default: ``false``.
+                 
+             If ``true``, indicates that event ordering is disabled for
+             this trigger.
+          
+       .. include:: /includes/trigger-event-ordering.rst
+
+   * - :guilabel:`Match Expression`
+
+     - Optional.
+       
+       .. include:: /includes/trigger-match-expression.rst
+
+   * - :guilabel:`Project Expression`
+
+     - Optional.
+
+       .. include:: /includes/trigger-project-expression.rst
+
 .. _database-events:
 
 Database Change Events
