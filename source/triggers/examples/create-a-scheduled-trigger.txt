@@ -6,6 +6,44 @@ Create a Scheduled Trigger
 
 .. default-domain:: mongodb
 
+Scheduled Triggers have the following configuration options:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 15 30
+
+   * - Field
+     - Description
+
+   * - | :guilabel:`Trigger Type`
+       | ``type: <string>``
+
+     - Required. The type of the Trigger.
+       
+       For scheduled Triggers, this value should be set to ``SCHEDULED``.
+
+   * - | :guilabel:`Trigger Name`
+       | ``name: <string>``
+
+     - Required. The name of the Trigger.
+
+   * - | :guilabel:`Linked Function`
+       | ``function_name: <string>``
+
+     - Required. The name of the {+service-short+} Function that the Trigger
+       executes whenever it fires.
+
+       .. note::
+
+          A scheduled Trigger does not pass any arguments to its linked
+          Function.
+
+   * - | :guilabel:`Schedule`
+       | ``config.schedule: <string>``
+
+     - Required. The :ref:`CRON expression <CRON-expressions>`
+       that {+backend+} uses to determine when to fire the Trigger.
+
 .. tabs-realm-admin-interfaces::
    
    .. tab::
@@ -55,6 +93,21 @@ Create a Scheduled Trigger
             schedule using Realm CLI. All imported scheduled Trigger
             configurations must specify a :ref:`CRON expression
             <CRON-expressions>`.
+
+         Scheduled Trigger configuration files have the following form:
+
+         .. code-block:: none
+            :caption: /triggers/<triggers name>.json
+
+            {
+               "type": "SCHEDULED",
+               "name": "<Trigger Name>",
+               "function_name": "<Trigger Function Name>",
+               "config": {
+                 "schedule": "<CRON expression>"
+               },
+               "disabled": <boolean>
+            }
       
       2. :doc:`Deploy </deploy/deploy-cli>` the trigger:
       
