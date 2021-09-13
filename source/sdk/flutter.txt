@@ -17,6 +17,11 @@ The {+service+} Flutter SDK enables client applications written in
 `Dart <https://dart.dev/>`__ for the `Flutter <https://flutter.dev/>`__ 
 platform to access data stored in local {+realm+}s.
 
+.. note:: Local {+client-database+} Only
+
+   The Flutter SDK currently only supports local {+client-database+}.
+   You cannot use the SDK to connect to {+service+} backend apps.
+
 Supported Realm Features
 ------------------------
 The alpha version of the SDK supports the following {+realm+} features:
@@ -56,11 +61,6 @@ are specific configuration considerations:
 - New projects for iOS can not be created with ``flutter create``. As a workaround, 
   use the `Realm Flutter and Dart Samples <https://github.com/realm/realm-dart-samples>`__ 
   and modify the sample project ``provider_shopper``.
-
-
-.. note:: No Sync Support
-
-   The alpha SDK does not support {+sync+}.
 
 Get Started
 -----------
