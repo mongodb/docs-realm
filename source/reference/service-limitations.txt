@@ -44,16 +44,35 @@ context, see :ref:`Aggregation <mongodb-crud-and-aggregation-apis-aggregation>`.
 
 .. _mongodb-service-limitations-atlas-support:
 
-Atlas Support 
--------------
+Atlas
+-----
+
+Batch Loading
+~~~~~~~~~~~~~
+
+When data is bulk/batch loaded into {+atlas+}, you may see a delay in
+data appearing on devices while {+service+} processes changes.
+
+Serverless Instances
+~~~~~~~~~~~~~~~~~~~~
+
+{+service-short+} does not support `Serverless Instances
+<https://www.mongodb.com/cloud/atlas/serverless>`__ at this time.
+
+Sharded Clusters
+~~~~~~~~~~~~~~~~
 
 {+sync+} does not currently support sharded {+atlas+} clusters. However,
 you can add a sharded cluster as a data source and access it through
 :ref:`functions <functions>` and
 :ref:`MongoDB Data Access <mongodb-data-access>`.
 
-When data is bulk/batch loaded into {+atlas+}, you may see a delay in
-data appearing on devices while {+service+} processes changes.
+Time Series Collections
+~~~~~~~~~~~~~~~~~~~~~~~
+
+:manual:`Time series collections </core/timeseries-collections/>` do not
+yet support :manual:`change streams </changeStreams/>`. Therefore,
+you cannot define triggers on or sync to a time series collection.
 
 .. _mongodb-service-limitations-change-streams:
 
