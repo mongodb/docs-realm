@@ -253,10 +253,68 @@ content: |
   "Leaderboard" and the ScoreCard GameObject's Source Asset to "ScoreCard".
 
 ---
-title: Attach the Scripts to the UI Game Objects
+title: Attach the C# Scripts to the Game Objects to Allow Player's to Login
 ref: attach-scripts-to-ui-game-objects
 content: |
-  Navigate to your Unity Editor's `hierarchy window
-  <https://docs.unity3d.com/Manual/Hierarchy.html>`_ to create UI game objects
-  that will display the authentication screen, game leaderboard, and player's
-  score card for the current playthrough of the game. 
+  Now that you have created your UI Documents and set their UXML Source Assets,
+  click :guilabel:`Play` to enter ``Play Mode``. You will see something like the following:
+
+  .. figure:: /images/unity-after-add-uxml-login-btn-not-working.png
+     :width: 350px
+     :alt: Play Mode - Login Button is Not Working
+
+   The "Login & Start Game" button currently does not work or have any functionality yet. The
+   AuthenticationManager.cs script will be used to get the value of the username
+   TextField created by Authentication.uxml, and use it to set a logged in user.
+
+   In the following snippet of the pre-created AuthenticationManager.cs file,
+   when the "Login & Start Game" button is clicked the code below is executed.
+   The user input value is passed as a parameter to set the logged in the
+   RealmController, ScoreCardManager, and LeaderboardManager files. Once the
+   user is logged in, the root component is hidden to make the game
+   visible.
+
+   .. code-block:: csharp
+      :copyable: false
+      :emphasize-lines: 5,6,9
+      :caption: AuthenticationManager.cs
+ 
+      public static void onPressLogin()
+      {
+         try
+         {
+            loggedInUser = userInput.value;
+            RealmController.setLoggedInUser(loggedInUser);
+            ScoreCardManager.setLoggedInUser(loggedInUser);
+            LeaderboardManager.Instance.setLoggedInUser(loggedInUser);
+            root.AddToClassList("hide");
+         }
+         catch (Exception ex)
+         {
+            Debug.Log("an exception was thrown:" + ex.Message);
+         }
+      }
+
+
+  .. note::
+   
+     Since the AuthenticationManager.cs script currently does not contain any
+     {+realm+} functionality, this tutorial won't cover the code in that
+     file in depth. If you would like to see how the code works, you can open this
+     file in a Text Editor, such as Visual Studio.
+
+   To add AuthenticationManager.cs as a script, select the AuthenticationScreen
+   GameObject to open its `inspector window
+   <https://docs.unity3d.com/Manual/UsingTheInspector.html>`_. Click
+   "AddComponent" and then scroll to and click "Scripts".
+
+
+  .. figure:: /images/unity-authscreen-add-component-scripts.png
+     :width: 350px
+     :alt: AuthenticationScreen add component - scripts
+
+   Select the "AuthenticationManager.cs" script.
+
+  .. figure:: /images/unity-authscreen-add-component-scripts.png
+     :width: 350px
+     :alt: AuthenticationScreen add scripts - AuthenticationManager
