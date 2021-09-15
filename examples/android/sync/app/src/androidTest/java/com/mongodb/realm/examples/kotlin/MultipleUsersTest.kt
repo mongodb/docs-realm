@@ -59,7 +59,7 @@ class MultipleUsersTest : RealmTest() {
         secondUserIsRegistered.await()
     }
 
-    @Test
+    //@Test
     fun addANewUserToADevice() {
         val expectation = Expectation()
         activity!!.runOnUiThread {
