@@ -135,8 +135,8 @@ content: |
 
   .. tip::
    
-     HERE PLACE ME INTO NEXT STEPThe ``start`` branch is an incomplete version of the client scripts that you will
-     complete in this tutorial. To view a complete local-only version of the app:
+     The ``start`` branch is an incomplete version of the client scripts that you will
+     complete in this tutorial. To view a complete local-only (non-sync) version of the scripts:
 
      1. Navigate to the root directory of the client application repository:
 
@@ -149,9 +149,6 @@ content: |
         .. code-block:: shell
 
            git checkout local
-
-     #. Run the app by clicking the "Play" button in the upper-left
-        corner of the Xcode window.
 ---
 title: Explore the Client Scripts
 ref: explore-the-client-scripts
@@ -209,3 +206,33 @@ content: |
 
      * - StatModel.cs
        - Script containing a Statistics :ref:`{+frontend-schema+} <dotnet-object-models-and-schemas>`.
+---
+title: Create UI Game Objects
+ref: create-ui-game-objects
+content: |
+  Navigate to your Unity Editor's `hierarchy window
+  <https://docs.unity3d.com/Manual/Hierarchy.html>`_ to create UI game objects
+  that will display the authentication screen, game leaderboard, and player's
+  score card for the current playthrough of the game. 
+
+  Right click and select UI > Canvas to create a `Canvas
+  <https://docs.unity3d.com/Packages/com.unity.ugui@1.0/manual/UICanvas.html>`_
+  GameObject that will contain your UI elements. 
+
+  .. figure:: /images/unity-create-canvas.png
+     :width: 350px
+     :alt: Create the Canvas Game Object
+
+  Next, as a child of the Canvas game object, create three `UIDocuments <>`_ by
+  right clicking the Canvas object and selecting UI Toolkit > UI Document three times. 
+  Name these game objects, AuthenticationScreen, Leaderboard, and Scorecard respectively.
+
+  .. figure:: /images/unity-create-ui-documents.png
+     :width: 350px
+     :alt: Create the UI Documents
+
+  Your UI hierarchy should look something like this:
+
+  .. figure:: /images/unity-final-ui-hierarchy.png
+     :width: 350px
+     :alt: Create the UI Documents
