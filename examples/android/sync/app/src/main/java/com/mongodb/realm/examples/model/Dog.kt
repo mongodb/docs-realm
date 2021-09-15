@@ -1,6 +1,6 @@
 package com.mongodb.realm.examples.model
 // :code-block-start: complete
-import io.realm.RealmList
+
 import io.realm.RealmObject
 import io.realm.RealmResults
 import io.realm.annotations.LinkingObjects
@@ -11,6 +11,6 @@ open class Dog(var name : String? = null): RealmObject() {
     @PrimaryKey
     var _id : ObjectId = ObjectId()
     @LinkingObjects("dog")
-    var owner: RealmList<Person>? = null
+    val owner: RealmResults<Person>? = null
 }
 // :code-block-end:
