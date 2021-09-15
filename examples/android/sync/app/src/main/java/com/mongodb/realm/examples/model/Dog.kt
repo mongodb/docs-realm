@@ -10,6 +10,7 @@ import org.bson.types.ObjectId
 open class Dog(var name : String? = null): RealmObject() {
     @PrimaryKey
     var _id : ObjectId = ObjectId()
+    @LinkingObjects("dog")
     var owner: RealmList<Person>? = null
 }
 // :code-block-end:
