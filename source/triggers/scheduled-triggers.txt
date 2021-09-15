@@ -302,13 +302,13 @@ describes valid field values and expressions:
 
 .. list-table::
    :header-rows: 1
-   :widths: 40 60
+   :widths: 50 50
 
    * - Expression Type
      - Description
 
    * - | **All Values**
-       | (``*``)
+       | ``(*)``
      - Matches all possible field values.
 
        Available in all expression fields.
@@ -323,7 +323,7 @@ describes valid field values and expressions:
              * * * * *
 
    * - | **Specific Value**
-       | (``<Value>``)
+       | ``(<Value>)``
      - Matches a specific field value. For fields other than ``weekday``
        and ``month`` this value will always be an integer. A ``weekday``
        or ``month`` field can be either an integer or a three-letter
@@ -341,7 +341,7 @@ describes valid field values and expressions:
              0 11 * * *
 
    * - | **List of Values**
-       | (``<Expression1>,<Expression2>,...``)
+       | ``(<Expression1>,<Expression2>,...)``
 
      - Matches a list of two or more field expressions or specific
        values.
@@ -358,7 +358,7 @@ describes valid field values and expressions:
              0 11 * 1,3,7 *
 
    * - | **Range of Values**
-       | (``<Start Value>-<End Value>``)
+       | ``(<Start Value>-<End Value>)``
      - Matches a continuous range of field values between and including
        two specific field values.
 
@@ -375,7 +375,7 @@ describes valid field values and expressions:
              0 11 * 1-4 *
 
    * - | **Modular Time Step**
-       | (``<Field Expression>/<Step Value>``)
+       | ``(<Field Expression>/<Step Value>)``
      - Matches any time where the step value evenly divides the
        field value with no remainder (i.e. when ``Value % Step == 0``).
 
