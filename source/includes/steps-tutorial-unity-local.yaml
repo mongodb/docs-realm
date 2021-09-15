@@ -67,7 +67,29 @@ content: |
   In later steps, you will use {+realm+} to record how many enemies the player
   defeated per playthrough, how many tokens were collected, and a score.
 ---
-title: Import Realm
-ref: import-realm
+title: Install Realm
+ref: install-realm
 content: |
-  WTo import realm, do this (for a more detailed steps, view the integration guide)
+  Before you begin adding {+realm+} functionality to your project, install realm
+  by following the `Install Realm <unity-install-realm>` steps in the Unity
+  Integration guide. You can choose to install realm through a tarball or
+  through npm.
+---
+title: Install UI ToolKit and UIBuilder
+ref: install-ui-toolkit-and-builder
+content: |
+  Next, add `UI ToolKit <https://docs.unity3d.com/Manual/UIElements.html>`_ and
+  `UI Builder <https://docs.unity3d.com/Manual/com.unity.ui.builder.html>`_ to
+  your project. These packages will be used to develop user interfaces to
+  interact with and display data stored in {+realm+}. 
+
+  Open the `Unity package manager
+  <https://docs.unity3d.com/Manual/upm-ui.html>`_  by clicking the
+  :guilabel:`Window` tab on the top of the Unity menu. Click :guilabel:`Package
+  Manager` from the :guilabel:`Window dropdown`. Once the package manager model
+  opens, click the :guilabel:`+` icon in the top left corner of the model.
+  Select the :guilabel:`Add package from git URL...` option. 
+
+  .. figure:: /images/unity-add-package-from-git-url.png
+     :width: 500px
+     :alt: Unity Scroll to Platformer Microgame
