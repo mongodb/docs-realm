@@ -116,3 +116,96 @@ content: |
   .. figure:: /images/unity-com-unity-ui-builder.png
      :width: 350px
      :alt: Add package com-unity-ui-builder
+---
+title: Clone the Client Scripts Repository
+ref: clone-the-repository
+content: |
+  Now that {+realm+}, UI Builder, and UI Toolkit are installed into your
+  project, you can begin recording data into {+realm+} and building a user
+  interface that can read and interact with that data.
+
+  We've already put together a respository that has most of the code you'll need
+  to accomplish that. You can clone the client scripts repository directly from
+  :github:`GitHub <mongodb-university/realm-tutorial-unity>`:
+
+  .. code-block:: shell
+
+     cd <your-unity-microplatformer-game-path>/Assets/Scripts
+     git clone --branch start https://github.com/mongodb-university/realm-tutorial-unity.git
+
+  .. tip::
+   
+     HERE PLACE ME INTO NEXT STEPThe ``start`` branch is an incomplete version of the client scripts that you will
+     complete in this tutorial. To view a complete local-only version of the app:
+
+     1. Navigate to the root directory of the client application repository:
+
+        .. code-block:: shell
+
+           cd realm-tutorial-unity
+
+     #. Check out the ``local`` branch:
+
+        .. code-block:: shell
+
+           git checkout local
+
+     #. Run the app by clicking the "Play" button in the upper-left
+        corner of the Xcode window.
+---
+title: Explore the Client Scripts
+ref: explore-the-client-scripts
+content: |
+
+  In your text editor of choice, such as `Visual Studio <https://docs.microsoft.com/en-us/visualstudio/>`_,  you can see the script
+  files you will need to add to the game. The relevant files are as follows:
+
+  .. cssclass:: config-table
+  .. list-table::
+     :header-rows: 1
+     :widths: 40 60
+     
+     * - File
+       - Purpose
+
+     * - Stylesheet.uss
+       - `USS <https://docs.unity3d.com/Manual/UIE-USS.html>`_ file with the
+       global styles for your project.
+
+     * - Leaderboard.uxml
+       - `UXML <https://docs.unity3d.com/Manual/UIE-UXML.html>`_ file that is
+         mostly empty but serves as a base for the leaderboard UI to be created later.
+     
+     * - LeaderboardManager.cs
+       - Builds upon the base Leaderboard that was created in Leaderboard.uxml
+         and expands it using {+realm+} to show the highest game scores.
+     
+     * - Scorecard.uxml
+       - `UXML <https://docs.unity3d.com/Manual/UIE-UXML.html>`_ file that is
+         mostly empty but serves as a base for the UI for the player's scores to
+         be created later.
+
+     * - ScoreCardManager.cs
+       - Builds upon the base ScoreCard that was created in Scorecard.uxml and
+         expands it using {+realm+} to show the player's statistics (stats) for their
+         current playthrough.
+
+     * - AuthenticationScreen.uxml
+       - `UXML <https://docs.unity3d.com/Manual/UIE-UXML.html>`_ file with the
+         entire UI for the Authentication Screen. This UI allows players to input
+         their username and start the game.
+
+     * - AuthenticationManager.cs
+       - Interacts with the TextField's of AuthenticationScreen.uxml to implement user login.
+
+     * - RealmController.cs
+       - A script containing most of the {+realm+} code logic, such as opening a
+         {+realm+}, recording the player stats for the current playthrough, deleting
+         the current playthrough, calculating final scores, restarting the game,
+         and closing the {+realm+}.
+
+     * - PlayerModel.cs
+       - Script containing a Player :ref:`{+frontend-schema+} <dotnet-object-models-and-schemas>`.
+
+     * - StatModel.cs
+       - Script containing a Statistics :ref:`{+frontend-schema+} <dotnet-object-models-and-schemas>`.
