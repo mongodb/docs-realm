@@ -1,0 +1,86 @@
+.. _tutorial-task-tracker-preview:
+
+===================
+What you will build
+===================
+
+.. default-domain:: mongodb
+
+Task Tracker App
+----------------
+
+Regardless of which frontend tutorial you choose to follow, you'll make a collaborative 
+task tracker app where users can keep track of tasks in solo and team projects. 
+
+Users of your app will be able to:
+
+- Register themselves with email and password.
+- Sign in to their account with their email and password and sign out later.
+- View a list of projects they are a member of.
+- View, create, modify, and delete tasks in projects.
+- View a list of team members in their project.
+- Add and remove team members to their project.
+
+The UI varies by frontend, but the functionality is consistent. 
+Here is a walkthrough of the finished iOS Task Tracker.
+
+.. figure:: /images/task-tracker-walkthrough.gif
+    :alt: screencapture walkthrough of ios task tracker app
+    :figwidth: 300px
+
+Realm Architecture
+------------------
+
+This diagram demonstrates how data coming from one user's interactions flows
+through the different components of the app. 
+
+- The red flow shows what happens when a user, Alice, signs in to the app. 
+  The frontend communicates to the backend, which handles Authentication.
+- The black flow follows the action of Alice updating a task. The frontend writes
+  the update to the local realm database that sits on Alice's device. Then if the 
+  device has an internet connection, the data goes to the Realm backend
+  and :ref:`Atlas Cluster <mongodb-data-access>`.
+
+.. image:: /images/tutorial-1-user-dataflow-diagram.png
+    :alt: diagram showing how user actions flow through the app structure.
+
+
+This second diagram demonstrates how the actions of two separate users with 
+separate accounts and devices might interact in the Task Tracker. 
+
+- The red flow happens first, showing Alice adding Bob to her project. Once Alice's device
+  connects to the internet, this update is received by the Realm App and 
+  sent to Bob's device over the internet. At the end of the red flow, Bob has read 
+  and write access to Alice's project. 
+- The blue flow is started by Bob adding a task to Alice's project and reverses 
+  through all the steps that the red flow went through, again requiring an internet 
+  connection on both devices for the data to be consistent everywhere.
+
+.. image:: /images/tutorial-2-user-dataflow-diagram.png
+    :alt: diagram showing how 2 connected users' actions flow through the app structure.
+
+.. tip::
+  Generally all changes made on a device are stored locally
+  until it can connect to the internet and Sync with the backend. Once the 
+  device comes online it will be able to see all of the changes other users made during 
+  the time it was offline and its changes will be available to all other 
+  devices when they are online. This is facilitated by :ref:`Realm Sync <sync>`. 
+
+What We Cover in this Tutorial
+------------------------------
+
+In building the Task Tracker, you will take advantage of some of the 
+built-in functions available in Realm and the functionality of 
+Realm Sync. Once your Realm backend is set up, you will combine it with 
+the frontend of your choice to complete the app. 
+
+This tutorial will guide you through: 
+
+- Creating a MongoDB Atlas cluster to store your app's data in the cloud
+- Setting up a Realm App (the backend)
+- Setting up authentication through the Realm UI.
+- Using Realm Sync so you can have locally stored data on each device that 
+  syncs up with the data on your Atlas Cluster when the device has internet.
+- Creating a frontend that works with the Realm infrastructure you have created
+
+To get started, :doc:`set up the backend for the tutorial </tutorial/realm-app>`
