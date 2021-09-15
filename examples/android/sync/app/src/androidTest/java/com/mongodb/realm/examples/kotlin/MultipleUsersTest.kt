@@ -101,7 +101,7 @@ class MultipleUsersTest : RealmTest() {
         expectation.await()
     }
 
-    @Test
+    //@Test
     fun listAllOnDeviceUsers() {
         activity!!.runOnUiThread {
             try {
@@ -119,7 +119,7 @@ class MultipleUsersTest : RealmTest() {
         }
     }
 
-    @Test
+    //@Test
     fun switchTheActiveUser() {
         val expectation = Expectation()
         activity!!.runOnUiThread {

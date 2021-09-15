@@ -109,7 +109,7 @@ public class MultipleUsersTest extends RealmTest {
         expectation.await();
     }
 
-    @Test
+    //@Test
     public void listAllOnDeviceUsers() {
         activity.runOnUiThread(() -> {
             try {
