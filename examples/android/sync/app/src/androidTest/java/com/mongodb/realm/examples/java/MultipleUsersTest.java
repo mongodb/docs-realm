@@ -127,7 +127,7 @@ public class MultipleUsersTest extends RealmTest {
         });
     }
 
-    @Test
+    //@Test
     public void switchTheActiveUser() {
         Expectation expectation = new Expectation();
         activity.runOnUiThread(() -> {

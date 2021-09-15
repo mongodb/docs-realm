@@ -67,7 +67,7 @@ public class LinkUserIdentitiesTest extends RealmTest {
         secondUserIsRegistered.await();
     }
 
-    @Test
+    //@Test
     public void linkUsers() {
         //Expectation expectation = new Expectation();
         activity.runOnUiThread(() -> {
