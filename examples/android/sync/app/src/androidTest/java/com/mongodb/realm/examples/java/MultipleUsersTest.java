@@ -68,7 +68,7 @@ public class MultipleUsersTest extends RealmTest {
         secondUserIsRegistered.await();
     }
 
-    @Test
+    //@Test
     public void addANewUserToADevice() {
         Expectation expectation = new Expectation();
         activity.runOnUiThread(() -> {
