@@ -55,7 +55,7 @@ any other thread, you should configure a ``Looper`` for that thread.
    results in the SDK "pinning" that version of the data, which can cause
    an increased memory footprint for your instance of {+client-database+}.
    Avoid using {+realm+} instances on non-Looper threads when possible.
-   When unavoidable, you should always ensure that you close the {+realm+}
+   When unavoidable, always ensure that you close the {+realm+}
    when you're done using it, or the pinned version will consume
    application memory indefinitely.
    
