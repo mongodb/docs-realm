@@ -35,7 +35,12 @@ public class RealmController : MonoBehaviour
     // :state-uncomment-end:
     {
         // :code-block-start: get-realm-fn
-        // :state-start: local start
+        // :state-start: start 
+        // TODO: open a realm and return it
+        // :state-uncomment-start: start
+        // return null;
+        // :state-uncomment-end:
+        // :state-end: :state-start: local
         realm = Realm.GetInstance();
         return realm;
         // :state-end:
