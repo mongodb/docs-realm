@@ -424,14 +424,14 @@ content: |
           currentStat.EnemiesDefeated += 1;
       });
 
-   Call the ``defeatEnemy()`` method in the
-   ``<your-unity-microplatformer-game-path>/Assets/Scripts/Gameplay/EnemyDeath.cs``
-   file in the top of the ``Execute()`` method
+  Call the ``defeatEnemy()`` method in the
+  ``<your-unity-microplatformer-game-path>/Assets/Scripts/Gameplay/EnemyDeath.cs``
+  file in the top of the ``Execute()`` method
 
-  .. code-block:: csharp
-
-     RealmController.defeatEnemy();
-
+   .. code-block:: csharp
+ 
+      RealmController.defeatEnemy();
+ 
    Finally, create a listener that reacts to changes to the current playthrough's
    Stat and updates the Scorecard in the UI. In the ScoreCard.cs file, you can
    add a change listener to the current Stat {+realm+} object that is stored in
