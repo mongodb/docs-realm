@@ -12,8 +12,9 @@ Realm.getInstanceAsync(config, object : Realm.Callback() {
 
 
         realm.executeTransaction { transactionRealm ->
-            val dog = transactionRealm.where<Dog>().equalTo("owner.name", "dwayne").findFirst()
-            val owner = dog?.owner?.first()
+            val dog = transactionRealm.where<Dog>() 
+                .equalTo("owner.name", "dwayne").findFirst() 
+            val owner = dog?.owner?.first() 
             Log.v("EXAMPLE", "Queried for dogs with owners named 'dwayne'. Found $dog, owned by $owner")
         }
         realm.close()

@@ -9,8 +9,8 @@ public class Cat extends RealmObject {
     @PrimaryKey
     private ObjectId _id = new ObjectId();
     private String name = null;
-    @LinkingObjects("cat")
-    private final RealmResults<Human> owner = null;
+    @LinkingObjects("cat") 
+    private final RealmResults<Human> owner = null; 
     public Cat(String name) {
         this.name = name;
     }

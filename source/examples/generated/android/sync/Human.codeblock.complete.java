@@ -7,7 +7,7 @@ public class Human extends RealmObject {
     @PrimaryKey
     private ObjectId _id = new ObjectId();
     private String name;
-    private Cat cat;
+    private Cat cat; 
 
     public Human(String name) {
         this.name = name;

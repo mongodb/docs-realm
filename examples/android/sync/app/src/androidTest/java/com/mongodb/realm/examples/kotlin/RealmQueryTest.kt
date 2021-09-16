@@ -179,8 +179,9 @@ class RealmQueryTest : RealmTest() {
                             // :hide-end:
 
                             realm.executeTransaction { transactionRealm ->
-                                val dog = transactionRealm.where<Dog>().equalTo("owner.name", "dwayne").findFirst()
-                                val owner = dog?.owner?.first()
+                                val dog = transactionRealm.where<Dog>() // :emphasize:
+                                    .equalTo("owner.name", "dwayne").findFirst() // :emphasize:
+                                val owner = dog?.owner?.first() // :emphasize:
                                 Log.v("EXAMPLE", "Queried for dogs with owners named 'dwayne'. Found $dog, owned by $owner")
                             }
                             // :hide-start:

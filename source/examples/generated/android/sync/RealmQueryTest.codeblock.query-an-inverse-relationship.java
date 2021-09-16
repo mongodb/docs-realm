@@ -10,8 +10,9 @@ Realm.getInstanceAsync(config, new Realm.Callback() {
 
 
         realm.executeTransaction(transactionRealm -> {
-            Cat cat = transactionRealm.where(Cat.class).equalTo("owner.name", "steven").findFirst();
-            Human owner = cat.getOwner().first();
+            Cat cat = transactionRealm.where(Cat.class) 
+                    .equalTo("owner.name", "steven").findFirst(); 
+            Human owner = cat.getOwner().first(); 
             Log.v("EXAMPLE", "Queried for cats with owners named 'steven'. Found " + cat.getName() + ", owned by " + owner.getName());
         });
         realm.close();
