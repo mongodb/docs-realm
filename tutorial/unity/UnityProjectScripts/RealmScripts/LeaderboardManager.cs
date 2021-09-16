@@ -41,13 +41,13 @@ public class LeaderboardManager : MonoBehaviour
     // :code-block-end:
     // :code-block-start: set-logged-in-user-leaderboard-ui
     // :state-start: start local
-    public void setLoggedInUser(string loggedInUser)
+    public void setLoggedInUser(string userInput)
     // :state-end:
     // :state-uncomment-start: sync
-    // public async void setLoggedInUser(string loggedInUser)
+    // public async void setLoggedInUser(string userInput)
     // :state-uncomment-end:
     {
-        username = loggedInUser;
+        username = userInput;
 
         // :state-start: start local
         realm = Realm.GetInstance();
