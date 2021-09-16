@@ -48,7 +48,7 @@ public class RealmController : MonoBehaviour
 
     // :code-block-start: realmcontroller-set-logged-in-user
     // :state-start: start local
-    public static void setLoggedInUser(string loggedInUser)
+    public static void setLoggedInUser(string userInput)
     {
         realm = GetRealm();
         // :state-start: start
@@ -58,7 +58,7 @@ public class RealmController : MonoBehaviour
         // object
         // :state-end:
         // :state-start: sync local
-        var matchedPlayers = realm.All<Player>().Where(p => p.Name == loggedInUser);
+        var matchedPlayers = realm.All<Player>().Where(p => p.Name == userInput);
 
         if (matchedPlayers.Count() > 0) // if the player exists
         {
@@ -76,7 +76,7 @@ public class RealmController : MonoBehaviour
         {
             var p1 = new Player();
             p1.Id = ObjectId.GenerateNewId().ToString();
-            p1.Name = loggedInUser;
+            p1.Name = userInput;
 
             var s1 = new Stat();
             s1.StatOwner = p1;

@@ -3,7 +3,7 @@ using MongoDB.Bson;
 using Realms;
 
 // :code-block-start: player-model
-// :state-start: local sync
+// :state-start: local sync start
 public class Player : RealmObject
 {
 
