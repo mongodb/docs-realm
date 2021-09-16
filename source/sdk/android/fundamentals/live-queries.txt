@@ -47,7 +47,7 @@ The Android UI thread always contains a ``Looper`` instance. If you need
 to keep {+service-short+} objects around for long periods of time on
 any other thread, you should configure a ``Looper`` for that thread.
 
-.. warning:: Always Close Realm Instances on Non-Looper Threads
+.. warning:: Always Close Realm Instances on Non-Looper Threads to Avoid Resource Leaks
 
    Instances of a {+realm+} instantiated on a thread that does not have a
    :android:`Looper <reference/android/os/Looper>` message loop configured
