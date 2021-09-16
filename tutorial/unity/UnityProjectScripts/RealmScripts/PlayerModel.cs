@@ -22,12 +22,4 @@ public class Player : RealmObject
 
 }
 // :state-end: 
-// :state-uncomment-start: start
-// // TODO: Realm-ify Player model
-// public class Player {
-//  public string _id;
-//  public string name;
-//  public IList<Stat> stats;
-// }
-// :state-uncomment-end:
 // :code-block-end:

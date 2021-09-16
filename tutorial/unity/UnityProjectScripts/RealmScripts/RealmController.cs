@@ -35,9 +35,7 @@ public class RealmController : MonoBehaviour
     // :state-uncomment-end:
     {
         // :code-block-start: get-realm-fn
-        // :state-start: start 
-        // TODO: open a realm and return it
-        // :state-end: :state-start: local
+        // :state-start: local start
         realm = Realm.GetInstance();
         return realm;
         // :state-end:
@@ -270,12 +268,12 @@ public class RealmController : MonoBehaviour
         }
 
         // :code-block-start: player-won-game-fn
+        var finalScore = calculatePoints();
         // :state-start: start
         // TODO: within a write transaction, create a new Stat for the current player
         // :state-end:
         // :state-start: sync local
         // calculate final points + write to realm with points
-        var finalScore = calculatePoints();
         realm.Write(() =>
         {
             currentStat.Score = finalScore;

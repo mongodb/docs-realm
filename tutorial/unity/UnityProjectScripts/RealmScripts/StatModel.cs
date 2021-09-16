@@ -3,7 +3,7 @@ using System;
 using MongoDB.Bson;
 using Realms;
 // :code-block-start: stat-model
-// :state-start: local sync
+// :state-start: local sync start
 public class Stat : RealmObject
 {
 
@@ -32,14 +32,4 @@ public class Stat : RealmObject
     }
 }
 // :state-end: 
-// :state-uncomment-start: start
-// // TODO: Realm-ify Player model
-// public class Stat {
-//  public ObjectId Id;
-//  public int score = 0;
-//  public int enemiesDefeated = 0;
-//  public int tokensCollected = 0;
-//  public Player statOwner;
-// }
-// :state-uncomment-end:
 // :code-block-end:
