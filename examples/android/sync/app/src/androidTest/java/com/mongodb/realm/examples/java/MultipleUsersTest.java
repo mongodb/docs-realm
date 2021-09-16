@@ -68,7 +68,7 @@ public class MultipleUsersTest extends RealmTest {
         secondUserIsRegistered.await();
     }
 
-    @Test
+    //@Test
     public void addANewUserToADevice() {
         Expectation expectation = new Expectation();
         activity.runOnUiThread(() -> {
@@ -109,7 +109,7 @@ public class MultipleUsersTest extends RealmTest {
         expectation.await();
     }
 
-    @Test
+    //@Test
     public void listAllOnDeviceUsers() {
         activity.runOnUiThread(() -> {
             try {
@@ -127,7 +127,7 @@ public class MultipleUsersTest extends RealmTest {
         });
     }
 
-    @Test
+    //@Test
     public void switchTheActiveUser() {
         Expectation expectation = new Expectation();
         activity.runOnUiThread(() -> {

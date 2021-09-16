@@ -176,8 +176,9 @@ public class RealmQueryTest extends RealmTest {
                             // :hide-end:
 
                             realm.executeTransaction(transactionRealm -> {
-                                Cat cat = transactionRealm.where(Cat.class).equalTo("owner.name", "steven").findFirst();
-                                Human owner = cat.getOwner().first();
+                                Cat cat = transactionRealm.where(Cat.class) // :emphasize:
+                                        .equalTo("owner.name", "steven").findFirst(); // :emphasize:
+                                Human owner = cat.getOwner().first(); // :emphasize:
                                 Log.v("EXAMPLE", "Queried for cats with owners named 'steven'. Found " + cat.getName() + ", owned by " + owner.getName());
                                 // :hide-start:
                                 Assert.assertEquals(cat.getName(), "bucky");
