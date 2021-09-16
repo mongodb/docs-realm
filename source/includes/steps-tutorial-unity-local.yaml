@@ -47,7 +47,7 @@ content: |
   Unity editor, click :guilabel:`Load Scene` and continue to the next
   step in this tutorial.
 
-  Once the scene is loaded, click the :guilabel:`Play` button on the top of the
+  Once the scene is loaded, click the play button on the top of the
   screen to enter `play mode <https://docs.unity3d.com/Manual/GameView.html>`_
   and play the game. 
 
@@ -251,88 +251,35 @@ content: |
 
   Repeat this step twice, setting the Leaderboard GameObject's Source Asset to
   "Leaderboard" and the ScoreCard GameObject's Source Asset to "ScoreCard".
+
+  Finally, click the play button to enter play mode. You should see something like the following:
+
+  .. figure:: /images/unity-tutorial-static-ui.png
+     :width: 500px
+     :alt: Unity Tutorial Game with Static UI
+
 ---
-title: Attach the C# Scripts to the Game Objects to Allow Player's to Login
+title: Attach the C# Scripts to the UI Game Objects
 ref: attach-scripts-to-ui-game-objects
 content: |
   Now that you have created your UI Documents and set their UXML Source Assets,
-  click :guilabel:`Play` to enter ``Play Mode``. You will see something like the following:
+  it's time to replace the default static values with dynamic values for the top
+  leaderboard scores, player's username, and player's statistics for the current
+  playthrough. To do this, you will attach the following scripts that you've
+  cloned in step 5: 
 
-  .. figure:: /images/unity-create-ui-documents.png
-     :width: 350px
-     :alt: Login Button is Not Working
-      DELETE ABOVE ^
-  .. figure:: /images/unity-after-add-uxml-login-btn-not-working.png
-     :width: 350px
-     :alt: Play Mode, Login Button is Not Working
+  -  Attach the LeaderboardManager.cs to the Leaderboard GameObject.
+  -  Attach the ScoreCardManager.cs to the ScoreCard GameObject.
+  -  Attach the AuthenticationManager.cs to the AuthenticationScreen GameObject.
 
-   The "Login & Start Game" button currently does not work or have any functionality yet. The
-   AuthenticationManager.cs script will be used to get the value of the username
-   TextField created by Authentication.uxml, and use it to set a logged in user.
+  To attach a C# script to a GameObject, click the GameObject to open the
+  object's `inspector window
+  <https://docs.unity3d.com/Manual/UsingTheInspector.html>`_. Click the "Add
+  Component" button to add the "Scripts" field. Finally, select the desired C#
+  file to attach the script.
 
-   In the following snippet of the pre-created AuthenticationManager.cs file,
-   when the "Login & Start Game" button is clicked the code below is executed.
-   The user input value is passed as a parameter to set the logged in the
-   RealmController, ScoreCardManager, and LeaderboardManager files. Once the
-   user is logged in, the root component is hidden to make the game
-   visible.
-
-   .. code-block:: csharp
-      :copyable: false
-      :emphasize-lines: 5,6,9
-      :caption: AuthenticationManager.cs
- 
-      public static void onPressLogin()
-      {
-         try
-         {
-            loggedInUser = userInput.value;
-            RealmController.setLoggedInUser(loggedInUser);
-            ScoreCardManager.setLoggedInUser(loggedInUser);
-            LeaderboardManager.Instance.setLoggedInUser(loggedInUser);
-            root.AddToClassList("hide");
-         }
-         catch (Exception ex)
-         {
-            Debug.Log("an exception was thrown:" + ex.Message);
-         }
-      }
-
-
-  .. note::
-   
-     Since the AuthenticationManager.cs script does not contain any
-     {+realm+} functionality, this tutorial won't cover the code in that
-     file in depth. If you would like to see how the code works, you can open this
-     file in a Text Editor, such as Visual Studio.
-
-   To add AuthenticationManager.cs as a script, select the AuthenticationScreen
-   GameObject to open its `inspector window
-   <https://docs.unity3d.com/Manual/UsingTheInspector.html>`_. Click
-   "AddComponent" and then scroll to and click "Scripts".
-
-
-  .. figure:: /images/unity-authscreen-add-component-scripts.png
-     :width: 350px
-     :alt: AuthenticationScreen add component - scripts
-
-   Select the "AuthenticationManager.cs" script.
-
-  .. figure:: /images/unity-authscreen-add-component-scripts.png
-     :width: 350px
-     :alt: AuthenticationScreen add scripts - AuthenticationManager
----
-title: Create a Realm Controller
-ref: create-realm-controller
-content: |
-  Navigate to your Unity Editor's `hierarchy window
-  <https://docs.unity3d.com/Manual/Hierarchy.html>`_ to create an empty
-  GameObject named "RealmController". Attach a 
-
-   Next, create an empty GameObject titled "RealmController" and attach the
-   "RealmController.cs" file to it. Your Unity editor should look something like
-   this:
-
-  .. figure:: /images/unity-add-realm-controller-object-and-script.png
+  .. figure:: /images/unity-tutorial-attach-ui-script-gif.gif
      :width: 500px
-     :alt: RealmController  add GameObject & add component - scripts
+     :alt: Attach UI Script to UI Game Object
+
+  Repeat this step for the each script specified above.
