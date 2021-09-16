@@ -17,13 +17,11 @@ public class LeaderboardManager : MonoBehaviour
     private Realm realm;
     private IDisposable listenerToken;
     public ListView listView;
-    public Button toggleButton;
     public Label displayTitle;
     public int currentPlayerHighestScore = 0; // 0 til it's set
     public string username;
     public bool isLeaderboardGUICreated = false;
     public static LeaderboardManager Instance;
-    public bool isUIVisible;
     public int maximumAmountOfTopStats;
     public List<Stat> topStats;
     public VisualElement root;
@@ -32,7 +30,6 @@ public class LeaderboardManager : MonoBehaviour
     {
         Instance = this;
     }
-
     // :code-block-start: sync-open-realm-in-leaderboard
     // :state-uncomment-start: sync
     // public static async Task<Realm> GetRealm()
@@ -42,8 +39,6 @@ public class LeaderboardManager : MonoBehaviour
     // }
     // :state-uncomment-end:
     // :code-block-end:
-
-
     // :code-block-start: set-logged-in-user-leaderboard-ui
     // :state-start: start local
     public void setLoggedInUser(string loggedInUser)
@@ -66,17 +61,8 @@ public class LeaderboardManager : MonoBehaviour
         {
             root = GetComponent<UIDocument>().rootVisualElement;
             createLeaderboardUI();
-            root.Add(toggleButton);
             root.Add(displayTitle);
             root.Add(listView);
-            isUIVisible = true;
-
-            toggleUIVisible();
-
-            toggleButton.clicked += () =>
-            {
-                toggleUIVisible();
-            };
             setStatListener(); // start listening for score changes once the leaderboard GUI has launched
             isLeaderboardGUICreated = true;
         }
@@ -99,35 +85,8 @@ public class LeaderboardManager : MonoBehaviour
         // :state-end:
         // :code-block-end:
     }
-
-    void toggleUIVisible()
-    {
-        if (isUIVisible == true)
-        {
-            // if ui is already visible, and the toggle button is pressed, then hide it
-            displayTitle.RemoveFromClassList("visible");
-            displayTitle.AddToClassList("hide");
-            listView.RemoveFromClassList("visible");
-            listView.AddToClassList("hide");
-            isUIVisible = false;
-        }
-        else
-        {
-            // if ui is not visible, and the toggle button is pressed, then show it
-            displayTitle.RemoveFromClassList("hide");
-            displayTitle.AddToClassList("visible");
-            listView.RemoveFromClassList("hide");
-            listView.AddToClassList("visible");
-            isUIVisible = true;
-        }
-    }
     void createLeaderboardUI()
     {
-        // create toggle button
-        toggleButton = new Button();
-        toggleButton.text = "Toggle Leaderboard & Settings";
-        toggleButton.AddToClassList("toggle-button");
-
         // create leaderboard title
         displayTitle = new Label();
         displayTitle.text = "Leaderboard:";
@@ -223,15 +182,13 @@ public class LeaderboardManager : MonoBehaviour
     {
         foreach (var i in insertedIndices)
         {
-            // ... handle insertions ...
             var newStat = realm.All<Stat>().ElementAt(i);
 
             for (var scoreIndex = 0; scoreIndex < topStats.Count; scoreIndex++)
             {
                 if (topStats.ElementAt(scoreIndex).Score < newStat.Score)
                 {
-                    if (topStats.Count > 4)
-                    { // An item shouldnt be removed if its the leaderboard is less than 5 items
+                    if (topStats.Count > 4){   // An item shouldnt be removed if its the leaderboard is less than 5 items
                         topStats.RemoveAt(topStats.Count - 1);
                     }
                     topStats.Insert(scoreIndex, newStat);
