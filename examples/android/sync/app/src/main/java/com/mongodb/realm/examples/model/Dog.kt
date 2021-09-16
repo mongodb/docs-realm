@@ -1,6 +1,5 @@
 package com.mongodb.realm.examples.model
 // :code-block-start: complete
-
 import io.realm.RealmObject
 import io.realm.RealmResults
 import io.realm.annotations.LinkingObjects
