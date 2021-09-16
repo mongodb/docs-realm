@@ -309,10 +309,9 @@ title: Open a Realm
 ref: open-realm
 content: |
   Open the RealmController.cs file with a text editor, where we'll implement a
-  function to set the logged in user. 
-
-  To open a realm instance that you will use throughout the RealmController
-  class, add the following code to the ``GetRealm()`` method:
+  function to open a {+realm+}. To open a realm instance that you will use
+  throughout the RealmController class, add the following code to the
+  ``GetRealm()`` method:
 
   .. code-block:: csharp
 
@@ -322,17 +321,18 @@ content: |
 title: Set a Logged In User
 ref: set-logged-in-user
 content: |
-  Open the RealmController.cs file with a text editor, where we'll implement a
-  function to set the logged in user. 
+  In the RealmController.cs file you will need to implement a function to set
+  the logged in user. This function is called on a click event that has been
+  created for you in the AuthenticationManager.cs file.
   
   The ``setLoggedInUser()`` method takes a string, userInput. In this method,
   you will create code to do the following:
   
   - query the realm to determine if a player object already exists for the
-  given userInput. 
+    given userInput. 
   - create a conditional if else block that creates a player and a stat
-  {+realm+} object if the player does not exist, and only create a stat
-  {+realm+} object if the player does exist.
+    {+realm+} object if the player does not exist, and only create a stat
+    {+realm+} object if the player does exist.
 
   Add the following code to your ``setLoggedInUser()`` method:
 
@@ -340,8 +340,7 @@ content: |
 
      // query the realm to find any player objects with the matching name
      var matchedPlayers = realm.All<Player>().Where(p => p.Name == userInput);
-     if (matchedPlayers.Count() > 0)
-     {
+     if (matchedPlayers.Count() > 0){
          currentPlayer = matchedPlayers.First(); // if a player exists set the RealmController's currentPlayer to the first match
          var s1 = new Stat(); // create a new Stat object for the current playthrough of the game
          s1.StatOwner = currentPlayer // set the Stat object's owner as the currentPlayer
@@ -352,9 +351,7 @@ content: |
              currentStat = realm.Add(s1);
              currentPlayer.Stats.Add(currentStat);
          });
-     }
-     else
-     {
+     }else{
         // if a player does not exist, create one
          var p1 = new Player();
          p1.Id = ObjectId.GenerateNewId().ToString();
