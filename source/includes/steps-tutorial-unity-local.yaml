@@ -307,7 +307,7 @@ content: |
 
   Repeat this step for each C# script specified above.
 ---
-title: Create a RealmController Object
+title: Create a RealmController Game Object
 ref: create-realm-controller-object
 content: |
   To get and set dynamic values for the Leaderboard, ScoreCard, and
@@ -404,7 +404,7 @@ content: |
      view the player's name and initial stats for the playthrough on the
      top-right.
 ---
-title: Update the Current Stat Object and Watch for Changes to the Stat Object
+title: Update the Stats and Watch for Changes
 ref: watch-for-changes-to-stat-object
 content: |
   You've set the current score card to the player's initial stats for the
@@ -472,7 +472,7 @@ content: |
      :width: 350px
      :alt: Select Authentication.uxml as source asset
 ---
-title: Restart the Game on Player Victory
+title: Restart the Game When the Player Wins
 ref: restart-game-on-win
 content: |
   Currently, when the player reaches the end of the Microgame level, the game is
@@ -538,18 +538,6 @@ content: |
   time your player loses, you should be respawned to the start point with a new
   Stat object showing 0 enemies defeated, 0 tokens collected.
 ---
-title: Delete the Current Playthrough Stats When the Player Loses
-ref: delete-stats-on-lose
-content: |
-  Currently, when the player loses by colliding with an enemy or by falling from a
-  platform, the game starts a new playthrough and respawns the player back to
-  the start point but does not create a new Stat object for the new playthrough.
-  To expand upon this, you'll perform the following when the player loses the game:
-
-  - Fill out the RealmController's ``deleteCurrentStat()`` method to delete the current Stat for the current playthrough
-  - Call the RealmController's ``deleteCurrentStat()`` method
-  - Call the RealmController's ``restartGame()`` method to create a new Stat object for the new playthrough 
----
 title: Customize Your Game Assets (Optional)
 ref: customize-game
 content: |
@@ -575,12 +563,6 @@ content: |
      
   You can choose any tile colors and sprites you would like. We went with the
   following for an earth-toned and friendly look:
-
-  .. code-block:: none
- 
-     Fence Tile - fence
-     RealmController.restartGame();
-
 
   .. list-table::
     :header-rows: 1
