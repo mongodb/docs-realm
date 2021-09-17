@@ -1,15 +1,20 @@
 // In application(_:didFinishLaunchingWithOptions:)
 let config = Realm.Configuration(
-    schemaVersion: 2, // Set the new schema version.
+    schemaVersion: 3, // Set the new schema version.
     migrationBlock: { migration, oldSchemaVersion in
         if oldSchemaVersion < 2 {
-            // The enumerateObjects(ofType:_:) method iterates over
-            // every Person object stored in the Realm file to apply the migration
+            // Previous Migration.
             migration.enumerateObjects(ofType: Person.className()) { oldObject, newObject in
-                // combine name fields into a single field
                 let firstName = oldObject!["firstName"] as? String
                 let lastName = oldObject!["lastName"] as? String
                 newObject!["fullName"] = "\(firstName!) \(lastName!)"
+            }
+        }
+        if oldSchemaVersion < 3 {
+            // New Migration.
+            migration.enumerateObjects(ofType: Person.className()) { oldObject, newObject in
+                // Make age a String instead of an Int
+                newObject!["age"] = "\(oldObject!["age"] ?? 0)"
             }
         }
     }

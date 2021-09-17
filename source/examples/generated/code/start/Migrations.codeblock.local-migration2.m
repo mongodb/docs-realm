@@ -1,15 +1,23 @@
 RLMRealmConfiguration *config = [[RLMRealmConfiguration alloc] init];
 // Set the new schema version
-config.schemaVersion = 2;
+config.schemaVersion = 3;
 config.migrationBlock = ^(RLMMigration * _Nonnull migration, uint64_t oldSchemaVersion) {
     if (oldSchemaVersion < 2) {
-        // Iterate over every 'Person' object stored in the Realm file
+        // Previous Migration.
         [migration enumerateObjects:[Person className]
                             block:^(RLMObject * _Nullable oldObject, RLMObject * _Nullable newObject) {
-            // Combine name fields into a single field
             newObject[@"fullName"] = [NSString stringWithFormat:@"%@ %@",
                                         oldObject[@"firstName"],
                                         oldObject[@"lastName"]];
+            newObject[@"age"] = oldObject[@"age"];
+        }];
+    }
+    if (oldSchemaVersion < 3) {
+        // New Migration
+        [migration enumerateObjects:[Person className]
+                            block:^(RLMObject * _Nullable oldObject, RLMObject * _Nullable newObject) {
+            // Make age a String instead of an Int
+            newObject[@"age"] = [NSString stringWithFormat:@"%d", oldObject[@"age"]];
         }];
     }
 };
