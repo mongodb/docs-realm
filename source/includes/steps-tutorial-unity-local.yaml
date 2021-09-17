@@ -206,6 +206,27 @@ content: |
      * - StatModel.cs
        - Script containing a Statistics :ref:`{+frontend-schema+} <dotnet-object-models-and-schemas>`.
 ---
+title: Explore the Schemas
+ref: explore-schemas
+content: |
+  In the ``realm-tutorial-unity`` project that you have cloned, navigate to the
+  ``PlayerModel.cs`` and ``StatModel.cs`` files in a text editor. These C#
+  classes define the schemas for the objects we store in our realms. 
+  
+  Note the following about the schemas:
+
+  - A ``Stat`` is a {+realm+} object representing the statistics of a playthrough of the
+  game. For instance, in one playthrough a player may have defeated 7 enemies,
+  collected 20 tokens, and had a score of 200. Each Stat belongs to a player.
+
+  - A ``Player`` is a {+realm+} object representing the user's logged in
+  character. Each player has a collection (IList) of ``Stats`` of which they
+  own. 
+
+  - A ``Player`` has a string property, ``_id``, that defines the Players's unique partition.
+
+  - A ``Stat`` has a ``statOwner`` property that indicates the Player that the Stat belongs to.
+---
 title: Create UI Game Objects
 ref: create-ui-game-objects
 content: |
@@ -518,7 +539,7 @@ content: |
   Stat object showing 0 enemies defeated, 0 tokens collected.
 ---
 title: Delete the Current Playthrough Stats When the Player Loses
-ref: restart-game-on-win
+ref: delete-stats-on-lose
 content: |
   Currently, when the player loses by colliding with an enemy or by falling from a
   platform, the game starts a new playthrough and respawns the player back to
@@ -528,3 +549,69 @@ content: |
   - Fill out the RealmController's ``deleteCurrentStat()`` method to delete the current Stat for the current playthrough
   - Call the RealmController's ``deleteCurrentStat()`` method
   - Call the RealmController's ``restartGame()`` method to create a new Stat object for the new playthrough 
+---
+title: Customize Your Game Assets (Optional)
+ref: customize-game
+content: |
+  To add your own flair to the game, you can modify it's assets. From the Unity
+  Editor. Navigate to ``Assets/Tiles`` in the `Project Window
+  <https://docs.unity3d.com/Manual/ProjectView.html>`_ to find a set of tiles
+  that the game uses. 
+
+  To modify a tile, click the tile to open its `inspector window
+  <https://docs.unity3d.com/Manual/UsingTheInspector.html>`_. From the inspector
+  window you can modify the sprite that the tile uses, and the color of that sprite.
+
+  .. figure:: /images/unity-tutorial-customize-game-find-tiles.png
+     :width: 350px
+     :alt: Customize Tiles
+
+  In the example below, the fence tile's sprite is replaced with the
+  ``fence_brown`` sprite that comes with the Platformer Microgame.
+
+  .. figure:: /images/unity-tutorial-customize-change-sprite.png
+     :width: 350px
+     :alt: Customize Fence Sprite
+     
+  You can choose any tile colors and sprites you would like. We went with the
+  following for an earth-toned and friendly look:
+
+  .. code-block:: none
+ 
+     Fence Tile - fence
+     RealmController.restartGame();
+
+
+  .. list-table::
+    :header-rows: 1
+ 
+    * - Tile Name
+      - Sprite
+    
+    * - Fence
+      - fence_brown
+
+    * - House
+      - house_green
+
+    * - Plant
+      - plant_green
+
+    * - TileFloatingLeftEdge
+      - TileFloatingLeftEdge_green
+   
+    * - TileFloatingRightEdge
+      - TileFloatingRightEdge_green
+
+    * - TileFloatingMiddle
+      - TileFloatingMiddle_green
+
+    * - TileGround
+      - TileGroundDark_green
+
+    * - TileGroundTop
+      - TileGroundTop_green
+
+  .. figure:: /images/unity-tutorial-customize-final-look.png
+     :width: 350px
+     :alt: Customize Unity Game - Final Look
