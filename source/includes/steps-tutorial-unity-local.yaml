@@ -404,7 +404,7 @@ content: |
 
   Call the ``collectToken()`` method when the player collides with the token
   instance. This occurs in the platformer microgame file:
-  ``<your-unity-microplatformer-game-path>/Assets/Scripts/Mechanics/TokenInstance.cs``.
+  ``/Assets/Scripts/Mechanics/TokenInstance.cs``.
   In the ``TokenInstance.cs`` file, the ``OnPlayerEnter()`` occurs when a player
   has collided with the token instance. Add the following code to
   ``OnPlayerEnter()`` after ``collided=true``.
@@ -425,7 +425,7 @@ content: |
       });
 
   Call the ``defeatEnemy()`` method in the
-  ``<your-unity-microplatformer-game-path>/Assets/Scripts/Gameplay/EnemyDeath.cs``
+  ``/Assets/Scripts/Gameplay/EnemyDeath.cs``
   file in the top of the ``Execute()`` method
 
    .. code-block:: csharp
@@ -451,15 +451,15 @@ content: |
      :width: 350px
      :alt: Select Authentication.uxml as source asset
 ---
-title: Restart the Game on Player Victory // kind of need to keep it because we dont have control over playerenteredviczone
+title: Restart the Game on Player Victory
 ref: restart-game-on-win
 content: |
-  Currently, when the player reaches the end of the Microgame, the game is
-  complete. To expand upon this, you'll create code to alert the final score when the game is
+  Currently, when the player reaches the end of the Microgame level, the game is
+  complete but nothing happens. To expand upon this, you'll create code to alert the final score when the game is
   won and restart the game.
 
   Navigate to the Platformer Microgame file
-  ``<your-unity-microplatformer-game-path>/Assets/Scripts/Gameplay/PlayerEnteredVictoryZone.cs``
+  ``/Assets/Scripts/Gameplay/PlayerEnteredVictoryZone.cs``
   in your text editor. This script is executed when the player enters the
   victory zone. 
 
@@ -481,3 +481,38 @@ content: |
             RealmController.restartGame();
          }
      }
+---
+title: Delete the Current Playthrough Stats When the Player Loses
+ref: restart-game-on-win
+content: |
+  Currently, when the player loses by colliding with an enemy or by falling from a
+  platform, the game starts a new playthrough and respawns the player back to
+  the start point but does not create a new Stat object for the new playthrough.
+  To expand upon this, you'll perform the following when the player loses the game:
+
+  - Fill out the RealmController's ``deleteCurrentStat()`` method to delete the current Stat for the current playthrough
+  - Call the RealmController's ``deleteCurrentStat()`` method
+  - Call the RealmController's ``restartGame()`` method to create a new Stat object for the new playthrough 
+
+  Navigate to the RealmController's ``deleteCurrentStat()`` method and add the following code at the bottom of that method:
+
+  .. code-block:: csharp
+ 
+     realm.Write(() =>
+      {
+          realm.Remove(currentStat);
+          currentPlayer.Stats.Remove(currentStat); // remove the reference to the currentStat from the currentPlayer object
+      });
+  
+  Next, open the ``/Assets/Scripts/Gameplay/PlayerDeath.cs`` which handles the
+  player death event. Add the following code to the end of the PlayerDeath's ``Execute()``
+  method:
+
+  .. code-block:: csharp
+ 
+     RealmController.deleteCurrentStat();
+     RealmController.restartGame();
+
+  Return to the Unity Editor, and click play to enter ``play mode``. The next
+  time your player loses, you should be respawned to the start point with a new
+  Stat object showing 0 enemies defeated, 0 tokens collected, 
