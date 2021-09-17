@@ -383,8 +383,8 @@ content: |
      view the player's name and initial stats for the playthrough on the
      top-right.
 ---
-title: Collect Tokens and Defeat Enemies
-ref: set-logged-in-user
+title: Update the Current Stat Object and Watch for Changes to the Stat Object
+ref: watch-for-changes-to-stat-object
 content: |
   You've set the current score card to the player's initial stats for the
   current playthrough of the game, but currently collecting tokens or defeating
@@ -515,4 +515,16 @@ content: |
 
   Return to the Unity Editor, and click play to enter ``play mode``. The next
   time your player loses, you should be respawned to the start point with a new
-  Stat object showing 0 enemies defeated, 0 tokens collected, 
+  Stat object showing 0 enemies defeated, 0 tokens collected.
+---
+title: Delete the Current Playthrough Stats When the Player Loses
+ref: restart-game-on-win
+content: |
+  Currently, when the player loses by colliding with an enemy or by falling from a
+  platform, the game starts a new playthrough and respawns the player back to
+  the start point but does not create a new Stat object for the new playthrough.
+  To expand upon this, you'll perform the following when the player loses the game:
+
+  - Fill out the RealmController's ``deleteCurrentStat()`` method to delete the current Stat for the current playthrough
+  - Call the RealmController's ``deleteCurrentStat()`` method
+  - Call the RealmController's ``restartGame()`` method to create a new Stat object for the new playthrough 
