@@ -411,7 +411,7 @@ content: |
 
   .. code-block:: csharp
 
-       RealmController.collectToken();
+     RealmController.collectToken();
 
   When a player hops on an enemy to defeat it, the RealmController's
   ``defeatEnemy()`` method should be called and the
@@ -441,7 +441,7 @@ content: |
    
    .. code-block:: csharp
  
-        currentStat.PropertyChanged += propertyHandler;
+      currentStat.PropertyChanged += propertyHandler;
 
    When you click play to enter play mode, the "Enemies Defeated" and "Tokens
    Collected" labels of the ScoreCard will update when the player defeats
@@ -450,3 +450,34 @@ content: |
   .. figure:: /images/unity-tutorial-defeatEnem-collectTok-functionality.gif
      :width: 350px
      :alt: Select Authentication.uxml as source asset
+---
+title: Restart the Game on Player Victory // kind of need to keep it because we dont have control over playerenteredviczone
+ref: restart-game-on-win
+content: |
+  Currently, when the player reaches the end of the Microgame, the game is
+  complete. To expand upon this, you'll create code to alert the final score when the game is
+  won and restart the game.
+
+  Navigate to the Platformer Microgame file
+  ``<your-unity-microplatformer-game-path>/Assets/Scripts/Gameplay/PlayerEnteredVictoryZone.cs``
+  in your text editor. This script is executed when the player enters the
+  victory zone. 
+
+  Replace the existing ``Execute()`` method in the PlayerEnteredVictoryZone script with one that does the following:
+
+  - calls the RealmController's ``playerWon()`` method to calculate and write the final score to {+realm+}
+  - displays a dialog with the final score
+  - respawns the player and restarts the game if the player clicks the restart button
+
+  .. code-block:: csharp
+ 
+     public override void Execute()
+     {
+         var finalScore = RealmController.playerWon();
+         var didClickRestart = EditorUtility.DisplayDialog("You won!", $"Final Score = {finalScore}", "restart game", "cancel");
+         if (didClickRestart == true)
+         {
+            Simulation.Schedule<PlayerSpawn>(2);
+            RealmController.restartGame();
+         }
+     }
