@@ -181,9 +181,10 @@ entries.
      
      // Get logs for your Realm App
      const pager = new LogPager(projectId, appId, access_token);
-     console.log("First page", await pager.getNextPage());
-     console.log("Second page", await pager.getNextPage(firstPage));
-     console.log("All logs", await pager.getAllLogs());
+     const firstPage = await pager.getNextPage();
+     const secondPage = await pager.getNextPage(firstPage);
+     const thirdPage = await pager.getNextPage(secondPage);
+     const allLogs = await pager.getAllLogs();
    }
    
    class LogPager {
