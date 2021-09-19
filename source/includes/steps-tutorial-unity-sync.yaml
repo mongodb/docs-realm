@@ -30,11 +30,160 @@ content: |
   Opening a synced {+realm+} requires a logged in {+realm+} user, you'll set
   that up in the next step.
 ---
+title: Update the Authentication Screen
+ref: update-authentication-screen
+content: |
+  To add support for Email/Pass authentication, you'll need to update your
+  Authentication Screen to have a password field, and a button that let's
+  players toggle between a registration mode and login mode. 
+
+  Replace the code in your ``Authentication.uxml`` with the following:
+
+  .. code-block:: xml
+ 
+     <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+         <Style src="Stylesheet.uss" />
+         <ui:VisualElement name="auth-wrapper" style="width: 90%; height: 90%; border-top-left-radius: 5%; border-bottom-left-radius: 5%; border-top-right-radius: 5%; border-bottom-right-radius: 5%; border-left-width: 0; border-right-width: 0; border-top-width: 0; border-bottom-width: 0; left: 5%; top: 5%; background-color: rgb(0, 184, 148); -unity-text-align: upper-center; align-items: center;">
+             <ui:Label text="Realm Platformer" display-tooltip-when-elided="true" name="game-title" style="font-size: 120px; -unity-font-style: bold; color: rgb(45, 45, 45); margin-top: 2%; margin-bottom: 5%;" />
+             <ui:Label text="Defeat Enemies and  Collect Tokens!" display-tooltip-when-elided="true" name="defeat-enemies-subtitle" style="font-size: 40px; -unity-font-style: italic;" />
+             <ui:Label text="Earn Bonus Points by Completing the Game Quicker!" display-tooltip-when-elided="true" name="earn-bonus-points-subtitle" style="font-size: 40px; -unity-font-style: italic;" />
+             <ui:Label text="Play Your Way to the Top of the Leaderboard!" display-tooltip-when-elided="true" name="play-to-leaderboard-subtitle" style="font-size: 40px; -unity-font-style: italic;" />
+             <ui:Label text="Login:" display-tooltip-when-elided="true" name="subtitle" style="font-size: 40px; -unity-font-style: bold; -unity-text-align: upper-left; margin-left: 0; height: 48px;" />
+             <ui:TextField picking-mode="Ignore" label="username" value="username" text="your.name@example.com" name="username-input" style="font-size: 40px; flex-direction: row; align-items: flex-end; justify-content: space-between; margin-left: 0; width: 70%; margin-bottom: 10px; height: auto;" />
+             <ui:TextField input-type="password" picking-mode="Ignore" label="password" value="password" name="password-input" style="font-size: 40px; flex-direction: row; align-items: flex-end; justify-content: space-between; margin-left: 0; width: 70%;" />
+             <ui:Button text="Login &amp; Start Game" display-tooltip-when-elided="true" name="start-button" style="width: 25%; height: 100px; background-color: rgb(225, 112, 85); font-size: 40px; margin-left: 0; margin-top: 25px; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-top-left-radius: 5px; border-bottom-left-radius: 5px; border-top-right-radius: 5px; border-bottom-right-radius: 5px;" />
+             <ui:Button text="Don&apos;t have an account yet? Register" display-tooltip-when-elided="true" name="toggle-login-or-register-ui-button" style="background-color: rgba(88, 88, 88, 0); color: rgb(30, 46, 236); border-left-width: 0; border-right-width: 0; border-top-width: 0; border-bottom-width: 0; font-size: 24px;" />
+         </ui:VisualElement>
+     </ui:UXML>
+
+  In ``AuthenticationManager.cs``, declare the following variables:
+
+  .. code-block:: csharp
+ 
+     public static bool isInRegistrationMode = false; 
+     private static TextField passInput; 
+     public static Button toggleLoginOrRegisterUIButton;
+
+  You'll need to refactor your ``Start()`` method to contain code that does the following:
+
+  - defines the ``passInput`` variable as a `password TextField <https://docs.unity3d.com/ScriptReference/UIElements.TextInputBaseField_1-isPasswordField.html>`_.
+  - defines the ``toggleLoginOrRegisterUIButton`` variable as a `button <https://docs.unity3d.com/ScriptReference/UIElements.Button.html>`_.
+  - handles the toggle register/login button's click event and toggles between a register mode and login mode
+
+  Add the following code to your ``Start()`` method, replacing the existing ``startButton.clicked`` event handler with the one below:
+
+  .. code-block:: csharp
+ 
+     passInput = root.Q<TextField>("password-input");
+     passInput.isPasswordField = true;
+     
+     startButton.clicked += async () =>
+     {
+         if (isInRegistrationMode == true)
+         {
+             onPressRegister();
+         }
+         else
+         {
+             onPressLogin();
+         }
+     };
+     toggleLoginOrRegisterUIButton = root.Q<Button>("toggle-login-or-register-ui-button");
+     toggleLoginOrRegisterUIButton.clicked += () =>
+     {
+         // if the registerUI is already visible, switch to the loginUI and set isShowingRegisterUI to false	
+         if (isInRegistrationMode == true)
+         {
+             switchToLoginUI();
+             isInRegistrationMode = false;
+         }
+         else
+         {
+             switchToRegisterUI();
+             isInRegistrationMode = true;
+         }
+     };
+  
+  Next, create a ``switchToLoginUI()`` and ``switchToRegisterUI()`` method to toggle between authentication UI modes:
+
+  .. code-block:: csharp
+ 
+     public static void switchToLoginUI()
+     {
+         subtitle.text = "Login";
+         startButton.text = "Login & Start Game";
+         toggleLoginOrRegisterUIButton.text = "Don't have an account yet? Register";
+     }
+     public static void switchToRegisterUI()
+     {
+         subtitle.text = "Register";
+         startButton.text = "Signup & Start Game";
+         toggleLoginOrRegisterUIButton.text = "Have an account already? Login";
+     }
+
+  You'll need to replace the existing ``onPressLogin()`` method with one that is
+  configured for Email/Password Authentication:
+
+  .. code-block:: csharp
+ 
+     public static async void onPressLogin()
+     {
+         try
+         {
+             currentPlayer = await RealmController.setLoggedInUser(userInput.value, passInput.value);
+             if (currentPlayer != null)
+             {
+                 root.AddToClassList("hide");
+             }
+             ScoreCardManager.setLoggedInUser(currentPlayer.Name);
+             LeaderboardManager.Instance.setLoggedInUser(currentPlayer.Name);
+         }
+         catch (Exception ex)
+         {
+             Debug.Log("an exception was thrown:" + ex.Message);
+         }
+     }
+  
+  Notice that there is now a password parameter for the ``RealmController.setLoggedInUser()`` method, you will update that method in the next step.
+
+  Finally, create an ``onPressRegister()`` method that calls a ``RealmController.OnPressRegister()`` method that you will create in the next step:
+
+  .. code-block:: csharp
+ 
+     public static async void onPressRegister()
+     {
+         try
+         {
+             currentPlayer = await RealmController.OnPressRegister(userInput.value, passInput.value);
+ 
+             if (currentPlayer != null)
+             {
+                 root.AddToClassList("hide");
+             }
+             ScoreCardManager.setLoggedInUser(currentPlayer.Name);
+             LeaderboardManager.Instance.setLoggedInUser(currentPlayer.Name);
+ 
+         }
+         catch (Exception ex)
+         {
+             Debug.Log("an exception was thrown:" + ex.Message);
+         }
+     }
+
+---
 title: Setup Authentication in your Game
 ref: enable-email-pass-auth
 content: |
   Currently, the project's only form of authentication is a username input,
   let's replace that in the code with {+realm+} Email/Password authentication. 
+
+  Declare class variables in ``RealmController.cs`` for the {+realm-short+} app
+  and the {+realm-short+} user:
+
+  .. code-block:: csharp
+ 
+     private static App realmApp = App.Create(Constants.Realm.AppId);
+     public static Realms.Sync.User syncUser;  
 
   In the `RealmController.cs`` replace the ``setLoggedInUser()`` with an
   asynchronous method that logs in using the :dotnet-sdk:`LogInAsync()
@@ -104,6 +253,8 @@ content: |
         startGame();
         return currentPlayer;
      }
+
+  
 
 ---
 title: Enable Realm Sync
