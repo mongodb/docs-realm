@@ -325,8 +325,25 @@ content: |
   
   The ``setStatListener()`` should be called after the user is logged in, at the
   end of the LeaderboardManager's ``setLoggedInUser()`` method:
-    
+
   .. code-block:: csharp
  
      setStatListener();
+
+
+  Finally, dispose of the listener token once the Leaderboard GameObject is disabled in the ``OnDisable()`` method:
+
+  .. code-block:: csharp
+ 
+     listenerToken.Dispose();
+
+  .. note:: Simulate New Top Scores Through Realm Studio or {+atlas+} 
+
+     Since Unity Hub does allow opening multiple instances of the same project,
+     we recommend simulating a new top score by creating a new Stat object
+     through Realm Studio or {+atlas+}. When you create a new Stat object with a
+     high score, your leaderboard updates automatically and displays the new
+     high score. Alternatively, you can use the `Unity symbolic link workaround
+     <https://support.unity.com/hc/en-us/articles/115003118426-Running-multiple-instances-of-Unity-referencing-the-same-project>`_
+     to open a second instance of the project and login with a different user and get a new high score.
 
