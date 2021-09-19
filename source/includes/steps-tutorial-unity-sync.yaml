@@ -260,33 +260,73 @@ content: |
         startGame();
         return currentPlayer;
      }
-
-  
-
----
-title: Enable Realm Sync
-ref: enable-realm-sync
-content: |
-  Once you have completed the code, you can run the app and check functionality.
-
-  Click the :guilabel:`Run` button in Xcode. If the app builds successfully,
-  here are some things you can try in the app: 
-  
-  + devmode
----
-title: Setup Authentication in your Game
-ref: enable-email-pass-auth
-content: |
-  Once you have completed the code, you can run the app and check functionality.
-
-  Click the :guilabel:`Run` button in Xcode. If the app builds successfully,
-  here are some things you can try in the app:
 ---
 title: Create a Real-Time Leaderboard with Realm Sync
 ref: create-a-real-time-leaderboard-with-realm-sync
 content: |
-  Once you have completed the code, you can run the app and check functionality.
+  The current leaderboard is configured to show the top player stats when the
+  game first loads. However, if another player gets a new high score after the
+  game loads on your device, the leaderboard on your device will not be updated.
 
-  Click the :guilabel:`Run` button in Xcode. If the app builds successfully,
-  here are some things you can try in the app:
+  To fix this, you will update the code in the ``LeaderboardManager.cs`` file to do the following:
+
+  - Open a synced {+realm+}
+  - Listen to changes on all Stat objects
+  - Update the Leaderboard GameObject when there is a new high score
+
+  Navigate to ``LeaderboardManager.cs`` and add the following function that opens a synced {+realm+} using the ``RealmController.syncUser`` variable that you created earlier:
+
+  .. code-block:: csharp
+ 
+     public static async Task<Realm> GetRealm()
+     {
+         var syncConfiguration = new SyncConfiguration("UnityTutorialPartition", RealmController.syncUser);
+         return await Realm.GetInstanceAsync(syncConfiguration);
+     }
+
+  In ``LeaderboardManager.cs`` make the ``setLoggedInUser()`` an
+  asynchronous function and replace the existing ``Realm.GetInstance()`` call
+  with a call to the new ``GetRealm()`` method. Your code should look something like the following snippet:
+
+  .. code-block:: csharp
+ 
+     public async void setLoggedInUser(string loggedInUser)
+     {
+         username = loggedInUser;
+         realm = await GetRealm();
+         // ...
+     }
+
+  Next, create a :ref:`Change Listener <dotnet-register-a-realm-change-listener>` method:
+
+  .. code-block:: csharp
+ 
+     public void setStatListener()
+     {
+         listenerToken = realm.All<Stat>()
+             .SubscribeForNotifications((sender, changes, error) =>
+             {
+ 
+                 if (error != null)
+                 {
+                     // Show error message
+                     Debug.Log("an error occurred while listening for score changes :" + error);
+                     return;
+                 }
+ 
+                 if(changes != null)
+                 {
+                     setNewlyInsertedScores(changes.InsertedIndices);
+                 }
+                 // we only need to check for inserted because scores can't be modified or deleted after the run is complete
+ 
+             });
+     }
+  
+  The ``setStatListener()`` should be called after the user is logged in, at the
+  end of the LeaderboardManager's ``setLoggedInUser()`` method:
+    
+  .. code-block:: csharp
+ 
+     setStatListener();
 
