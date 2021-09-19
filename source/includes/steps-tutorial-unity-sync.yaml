@@ -1,38 +1,134 @@
 ---
-title: Foobar
-ref: test-one
+title: Connect to Your MongoDB Realm App
+ref: connect-your-mongodb-realm-app
 content: |
-  Once you have completed the code, you can run the app and check functionality.
+  To get your Unity project working with your {+backend+} app, you first need to
+  instantiate the Realm app. The Realm app is the interface to the MongoDB Realm
+  backend. Navigate to the ``Constants.cs`` file and complete the getRealmApp()
+  function implementation:
 
-  Click the :guilabel:`Run` button in Xcode. If the app builds successfully,
-  here are some things you can try in the app:
+  To get the app working with your backend, you first need to add your Realm App
+  ID to the ``Constants.cs`` file. 
 
-  - Create a user with username *test*
-  - Navigate to "My Project"
-  - Add, update, and remove some tasks
+  public const string AppId = "<your-realm-app-ID-here>";
 
-  .. tip::
-   
-     If something isn't working for you, you can check out the ``local`` branch of 
-     this repo to compare your code with our finished solution.
+  Change the value of ``AppId`` to your Realm app ID, which you can :ref:`find in
+  the Realm UI <find-your-app-id>`.
 
+  In the ``RealmController.cs`` file replace the existing ``GetRealm()`` method
+  with the one that takes in a User as a parameter and asynchronously gets a
+  synced {+realm+} instance: 
 
+  .. code-block:: csharp
+ 
+     public static async Task<Realm> GetRealm(Realms.Sync.User loggedInUser)
+     {
+         var syncConfiguration = new SyncConfiguration("UnityTutorialPartition", loggedInUser);
+         return await Realm.GetInstanceAsync(syncConfiguration);
+     }
+  
+  Opening a synced {+realm+} requires a logged in {+realm+} user, you'll set
+  that up in the next step.
+---
+title: Setup Authentication in your Game
+ref: enable-email-pass-auth
+content: |
+  Currently, the project's only form of authentication is a username input,
+  let's replace that in the code with {+realm+} Email/Password authentication. 
+
+  In the `RealmController.cs`` replace the ``setLoggedInUser()`` with an
+  asynchronous method that logs in using the :dotnet-sdk:`LogInAsync()
+  <reference/Realms.Sync.App.html#Realms_Sync_App_LogInAsync_Realms_Sync_Credentials_>`
+  method to authenticate and obtain a :dotnet-sdk:`User
+  <reference/Realms.Sync.User.html>` instance:
+
+  .. code-block:: csharp
+ 
+     public static async Task<Player> setLoggedInUser(string userInput, string passInput)
+     {        
+        syncUser = await realmApp.LogInAsync(Credentials.EmailPassword(userInput, passInput));
+        if (syncUser != null)
+        {
+            realm = await GetRealm(syncUser);
+            currentPlayer = realm.Find<Player>(syncUser.Id);
+
+            if (currentPlayer != null)
+            {
+                var s1 = new Stat();
+                s1.StatOwner = currentPlayer;
+
+                realm.Write(() =>
+                {
+                    currentStat = realm.Add(s1);
+                    currentPlayer.Stats.Add(currentStat);
+                });
+
+                startGame();
+            }
+            else
+            {
+                Debug.Log("This player exists a MongoDB Realm User but not as a Realm Object, please delete the Sync User and create one using the register button");
+            }
+        }
+
+        return currentPlayer;
+     }
+
+  Next, in the ``RealmController.cs`` file create an asynchronous method that
+  registers a new user by passing a user-provided email and password to the
+  :dotnet-sdk:`RegisterUserAsync()
+  <reference/Realms.Sync.App.EmailPasswordClient.html#Realms_Sync_App_EmailPasswordClient_RegisterUserAsync_System_String_System_String_>`
+  method:
+
+  .. code-block:: csharp
+ 
+     public static async Task<Player> OnPressRegister(string userInput, string passInput)
+     {
+        await realmApp.EmailPasswordAuth.RegisterUserAsync(userInput, passInput);
+        syncUser = await realmApp.LogInAsync(Credentials.EmailPassword(userInput, passInput));
+        realm = await GetRealm(syncUser);
+
+        var p1 = new Player();
+        p1.Id = syncUser.Id;
+        p1.Name = userInput;
+
+        var s1 = new Stat();
+        s1.StatOwner = p1;
+
+        realm.Write(() =>
+        {
+            currentPlayer = realm.Add(p1);
+            currentStat = realm.Add(s1);
+            currentPlayer.Stats.Add(currentStat);
+        });
+        startGame();
+        return currentPlayer;
+     }
 
 ---
-title: TestFoo
-ref: test-two
+title: Enable Realm Sync
+ref: enable-realm-sync
+content: |
+  Once you have completed the code, you can run the app and check functionality.
+
+  Click the :guilabel:`Run` button in Xcode. If the app builds successfully,
+  here are some things you can try in the app: 
+  
+  + devmode
+---
+title: Setup Authentication in your Game
+ref: enable-email-pass-auth
 content: |
   Once you have completed the code, you can run the app and check functionality.
 
   Click the :guilabel:`Run` button in Xcode. If the app builds successfully,
   here are some things you can try in the app:
+---
+title: Create a Real-Time Leaderboard with Realm Sync
+ref: create-a-real-time-leaderboard-with-realm-sync
+content: |
+  Once you have completed the code, you can run the app and check functionality.
 
-  - Create a user with username *test*
-  - Navigate to "My Project"
-  - Add, update, and remove some tasks
-
-  .. tip::
-   
-     If something isn't working for you, you can check out the ``local`` branch of 
-     this repo to compare your code with our finished solution.
+  Click the :guilabel:`Run` button in Xcode. If the app builds successfully,
+  here are some things you can try in the app:
 
