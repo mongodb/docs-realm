@@ -8,9 +8,10 @@ private class AuthenticationManager : MonoBehaviour
     private static VisualElement root;
     private static Label subtitle;
     private static Button startButton;
-    private static bool isInRegistrationMode = false;
     private static string loggedInUser;
     private static TextField userInput;
+
+    private static bool isInRegistrationMode = false; // (Part 2 Sync): isInRegistrationMode is used to toggle between authentication modes
     private static TextField passInput; // (Part 2 Sync): passInput represents the password input
     private static Button toggleLoginOrRegisterUIButton; // (Part 2 Sync): toggleLoginOrRegisterUIButton is the button to toggle between login or registration modes
 
