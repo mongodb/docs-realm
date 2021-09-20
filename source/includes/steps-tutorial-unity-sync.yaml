@@ -246,6 +246,13 @@ content: |
         startGame();
         return currentPlayer;
      }
+
+  Finally, add the following code at the end of the RealmController's ``logOut()`` method in order to log out of the {+realm+} user when the log out button is clicked:
+
+  .. code-block:: csharp
+ 
+      await syncUser.LogOutAsync();
+
 ---
 title: Create a Real-Time Leaderboard with Realm Sync
 ref: create-a-real-time-leaderboard-with-realm-sync
@@ -298,7 +305,7 @@ content: |
                      // Show error message
                      Debug.Log("an error occurred while listening for score changes :" + error);
                      return;
-                 }
+                }
  
                  if(changes != null)
                  {
