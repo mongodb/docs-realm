@@ -133,7 +133,8 @@ public class LeaderboardManager : MonoBehaviour
         Func<VisualElement> makeItem = () => new Label();
 
         // Bind Stats to the UI
-        Action<VisualElement, int> bindItem = (e, i) => {
+        Action<VisualElement, int> bindItem = (e, i) =>
+        {
             (e as Label).text = topStatsListItems[i];
             (e as Label).AddToClassList("list-item-game-name-label");
         };
@@ -167,12 +168,12 @@ public class LeaderboardManager : MonoBehaviour
                     return;
                 }
 
-                if(changes != null)
+                if (changes != null)
                 {
                     setNewlyInsertedScores(changes.InsertedIndices);
                 }
                 // we only need to check for inserted because scores can't be modified or deleted after the run is complete
-                
+
             });
         // :state-end:
         // :code-block-end:
@@ -188,7 +189,8 @@ public class LeaderboardManager : MonoBehaviour
             {
                 if (topStats.ElementAt(scoreIndex).Score < newStat.Score)
                 {
-                    if (topStats.Count > 4){   // An item shouldnt be removed if its the leaderboard is less than 5 items
+                    if (topStats.Count > 4)
+                    {   // An item shouldnt be removed if its the leaderboard is less than 5 items
                         topStats.RemoveAt(topStats.Count - 1);
                     }
                     topStats.Insert(scoreIndex, newStat);
