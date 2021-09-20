@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -10,9 +8,12 @@ public class AuthenticationManager : MonoBehaviour
     public static VisualElement root;
     public static Label subtitle;
     public static Button startButton;
-    public static bool isShowingRegisterUI = false;
+    public static bool isInRegistrationMode = false;
     public static string loggedInUser;
     public static TextField userInput;
+    private static TextField passInput; // (Part 2 Sync): passInput represents the password input
+    private static Button toggleLoginOrRegisterUIButton; // (Part 2 Sync): toggleLoginOrRegisterUIButton is the button to toggle between login or registration modes
+
     // :code-block-start: add-sync-variables-authentication-manager
     // :state-uncomment-start: sync
     // public static Realms.Sync.User syncUser;
@@ -26,57 +27,57 @@ public class AuthenticationManager : MonoBehaviour
     void Start()
     {
         root = GetComponent<UIDocument>().rootVisualElement;
-
+        authWrapper = root.Q<VisualElement>("auth-wrapper");
         subtitle = root.Q<Label>("subtitle");
         startButton = root.Q<Button>("start-button");
-
+        logoutButton = root.Q<Button>("logout-button");
         userInput = root.Q<TextField>("username-input");
 
-
+        logoutButton.clicked += RealmController.LogOut;
         startButton.clicked += () =>
         {
             onPressLogin();
         };
     }
     // :state-end:
-
     // :code-block-start: add-sync-authentication-start-with-handles
     // :state-uncomment-start: sync
     // void Start()
     // {
     //     root = GetComponent<UIDocument>().rootVisualElement;
-
+    //     authWrapper = root.Q<VisualElement>("auth-wrapper");
+    //     logoutButton = root.Q<Button>("logout-button");
     //     subtitle = root.Q<Label>("subtitle");
     //     startButton = root.Q<Button>("start-button");
     //     userInput = root.Q<TextField>("username-input");
     //     passInput = root.Q<TextField>("password-input");
-    //     passInput.isPasswordField = true; // sync line
-    //     toggleLoginOrRegisterUIButton = root.Q<Button>("toggle-login-or-register-ui-button");
+    //     passInput.isPasswordField = true;
 
-    //     toggleLoginOrRegisterUIButton.clicked += () =>
+    //     logoutButton.clicked += RealmController.LogOut;
+    //     startButton.clicked += () =>
     //     {
-    //         // if the registerUI is already visible, switch to the loginUI and set isShowingRegisterUI to false	
-    //         if (isShowingRegisterUI == true)
-    //         {
-    //             switchToLoginUI();
-    //             isShowingRegisterUI = false;
-    //         }
-    //         else
-    //         {
-    //             switchToRegisterUI();
-    //             isShowingRegisterUI = true;
-    //         }
-    //     };
-
-    //     startButton.clicked += async () =>
-    //     {
-    //         if (isShowingRegisterUI == true)
+    //         if (isInRegistrationMode == true)
     //         {
     //             onPressRegister();
     //         }
     //         else
     //         {
     //             onPressLogin();
+    //         }
+    //     };
+    //     toggleLoginOrRegisterUIButton = root.Q<Button>("toggle-login-or-register-ui-button");
+    //     toggleLoginOrRegisterUIButton.clicked += () =>
+    //     {
+    //         // if already in registration mode, switch to the login mode and set isInRegistrationMode to false
+    //         if (isInRegistrationMode == true)
+    //         {
+    //             switchToLoginUI();
+    //             isInRegistrationMode = false;
+    //         }
+    //         else
+    //         {
+    //             switchToRegisterUI();
+    //             isInRegistrationMode = true;
     //         }
     //     };
     // }

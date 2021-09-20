@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using Realms;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -9,13 +6,10 @@ using System.ComponentModel;
 public class ScoreCardManager : MonoBehaviour
 {
     private static Realm realm;
-    public static VisualElement root;
-    public static Label scoreCardHeader;
-    public static string username;
-    public static Player currentPlayer;
-    public static Stat currentStat;
-    public static PropertyChangedEventHandler propertyHandler = new PropertyChangedEventHandler((sender, e) => updateCurrentStats());
-
+    private static VisualElement root;
+    private static Label scoreCardHeader;
+    private static string username;
+    private static Stat currentStat;
     void Start()
     {
         root = GetComponent<UIDocument>().rootVisualElement;
@@ -46,7 +40,8 @@ public class ScoreCardManager : MonoBehaviour
         // :state-start: start
         // TODO: Create a listener that reacts to changes to the currentStat and calls updateCurrentStats() to update the UI when stats are changed
         // :state-end:
-        // :state-start: sync local
+        // :state-start: local sync
+        var propertyHandler = new PropertyChangedEventHandler((sender, e) => updateCurrentStats());
         currentStat.PropertyChanged += propertyHandler;
         // :state-end:
         // :code-block-end:
