@@ -208,7 +208,7 @@ public class RealmController : MonoBehaviour
     // deleteCurrentStat() is a method that performs a write transaction to delete the current playthrough Stat object and remove it from the current Player object's Stats' list
     public static void deleteCurrentStat()
     {
-        // :code-block-start: defeat-enemy-fn
+        // :code-block-start: delete-current-stat-method
         // :state-start: start
         // TODO: within a write transaction, delete the current Stat object, and it's reference in the current Player object
         // :state-end:
