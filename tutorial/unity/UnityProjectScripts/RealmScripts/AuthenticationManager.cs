@@ -142,9 +142,8 @@ private class AuthenticationManager : MonoBehaviour
     //         Debug.Log("an exception was thrown:" + ex.Message);
     //     }
     // }
-    // // onPressRegister() is a method that passes
-    // // RealmController.OnPressRegister() the values of the userInput and
-    // // passInput TextFields in order to register a user
+    // // onPressRegister() is a method that passes RealmController.OnPressRegister() the
+    // // values of the userInput and  passInput TextFields in order to register a user
     // private static async void onPressRegister()
     // {
     //     try
