@@ -1,7 +1,7 @@
 .. _tutorial-task-tracker-preview:
 
 ===================
-What you will build
+What You Will Build
 ===================
 
 .. default-domain:: mongodb
@@ -9,7 +9,7 @@ What you will build
 Task Tracker App
 ----------------
 
-Regardless of which frontend tutorial you choose to follow, you'll make a collaborative 
+When you complete the Task Tracker tutorial, you'll make a collaborative
 task tracker app where users can keep track of tasks in solo and team projects. 
 
 Users of your app will be able to:
@@ -37,7 +37,7 @@ through the different components of the app.
 - The red flow shows what happens when a user, Alice, signs in to the app. 
   The frontend communicates to the backend, which handles Authentication.
 - The black flow follows the action of Alice updating a task. The frontend writes
-  the update to the local realm database that sits on Alice's device. Then if the 
+  the update to the local {+client-database+} that sits on Alice's device. Then if the 
   device has an internet connection, the data goes to the Realm backend
   and :ref:`Atlas Cluster <mongodb-data-access>`.
 
@@ -52,7 +52,7 @@ separate accounts and devices might interact in the Task Tracker.
   connects to the internet, this update is received by the Realm App and 
   sent to Bob's device over the internet. At the end of the red flow, Bob has read 
   and write access to Alice's project. 
-- The blue flow is started by Bob adding a task to Alice's project and reverses 
+- The blue flow starts with Bob adding a task to Alice's project and reverses 
   through all the steps that the red flow went through, again requiring an internet 
   connection on both devices for the data to be consistent everywhere.
 
