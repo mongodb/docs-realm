@@ -50,7 +50,7 @@ private class AuthenticationManager : MonoBehaviour
     //     passInput.isPasswordField = true;
 
     //     logoutButton.clicked += RealmController.LogOut;
-    // //     when the start button is clicked, toggle between registration modes
+    // //  when the start button is clicked, toggle between registration modes
     //     startButton.clicked += () =>
     //     {
     //         if (isInRegistrationMode == true)
