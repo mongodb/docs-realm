@@ -116,7 +116,7 @@ content: |
      :width: 350px
      :alt: Add package com-unity-ui-builder
 ---
-title: Clone the Client Scripts Repository
+title: Clone the Realm Tutorial Repository
 ref: clone-the-repository
 content: |
   Now that {+realm+}, UI Builder, and UI Toolkit are installed into your
@@ -124,7 +124,7 @@ content: |
   interface that can read and interact with that data.
 
   We've already put together a respository that has most of the code you'll need
-  to accomplish that. You can clone the client scripts repository directly from
+  to accomplish that. You can clone the Realm Tutorial repository directly from
   :github:`GitHub <mongodb-university/realm-tutorial-unity>`:
 
   .. code-block:: shell
@@ -134,7 +134,7 @@ content: |
 
   .. tip::
    
-     The ``start`` branch is an incomplete version of the client scripts that you will
+     The ``start`` branch is an incomplete version of the Realm Tutorial repository that you will
      complete in this tutorial. To view a complete local-only (non-sync) version of the scripts:
 
      1. Navigate to the root directory of the client application repository:
@@ -149,8 +149,8 @@ content: |
 
            git checkout local
 ---
-title: Explore the Client Scripts
-ref: explore-the-client-scripts
+title: Explore the Realm Tutorial Repository
+ref: explore-the-realm-tutorial-repository
 content: |
 
   In your text editor of choice, such as `Visual Studio <https://docs.microsoft.com/en-us/visualstudio/>`_,  you can see the script
@@ -216,12 +216,12 @@ content: |
   Note the following about the schemas:
 
   - A ``Stat`` is a {+realm+} object representing the statistics of a playthrough of the
-  game. For instance, in one playthrough a player may have defeated 7 enemies,
-  collected 20 tokens, and had a score of 200. Each Stat belongs to a player.
+    game. For instance, in one playthrough a player may have defeated 7 enemies,
+    collected 20 tokens, and had a score of 200. Each Stat belongs to a player.
 
   - A ``Player`` is a {+realm+} object representing the user's logged in
-  character. Each player has a collection (IList) of ``Stats`` of which they
-  own. 
+    character. Each player has a collection (IList) of ``Stats`` of which they
+    own. 
 
   - A ``Player`` has a string property, ``_id``, that defines the Players's unique partition.
 
