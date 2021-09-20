@@ -16,6 +16,21 @@ public class RealmController : MonoBehaviour
     private static App realmApp = App.Create(Constants.Realm.AppId); // (Part 2 Sync): realmApp represents the MongoDB Realm backend application
     public static User syncUser; // (Part 2 Sync): syncUser represents the realmApp's currently logged in user
 
+
+    private void Start()
+    {
+        // Attach C# Scripts to UI GameObjects
+        var authScreen = GameObject.Find("AuthenticationScreen");
+        authScreen.AddComponent<AuthenticationManager>();
+
+        var leaderboard = GameObject.Find("Leaderboard");
+        leaderboard.AddComponent<LeaderboardManager>();
+
+        var scorecard = GameObject.Find("Scorecard");
+        scorecard.AddComponent<ScoreCardManager>();
+
+    }
+
     // :state-start: start local    
     // GetRealm() is a method that returns a realm instance
     private static Realm GetRealm()
