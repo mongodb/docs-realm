@@ -3,14 +3,12 @@ sealed class Constants
     public sealed class Realm
     {
         // :code-block-start: create-constants-sync
-        // :state-start: local start sync
         // :remove-start:
         public const string AppId = "unity-tutorial-3-kgzvn";
         // :remove-end: 
-        // :state-uncomment-start: local start sync 
+        // :uncomment-start: 
         // public const string AppId = "<your-realm-app-ID-here>";
-        // :state-uncomment-end:
-        // :state-end: sync
+        // :uncomment-end:
         // :code-block-end:
     }
 }

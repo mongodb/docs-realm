@@ -178,7 +178,7 @@ public class LeaderboardManager : MonoBehaviour
     // :state-end:
     // :code-block-end:
 
-    // :code-block-start: listen-for-stat-changes
+    // :code-block-start: set-newly-inserted-scores
     // :state-start: sync
     // setNewlyInsertedScores() is a method that determine if a new Stat is greater than any existing topStats, and if it is, inserts it into the topStats list in descending order
     // setNewlyInsertedScores() takes an array of insertedIndices
