@@ -1,38 +1,29 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 using Realms;
 using System.Linq;
-// :code-block-start: add-sync-variables-leaderboard-manager
-// :state-uncomment-start: sync
 using Realms.Sync;
 using System.Threading.Tasks;
-// :state-uncomment-end:
-// :code-block-end:
-
 public class LeaderboardManager : MonoBehaviour
 {
-    private Realm realm;
-    private IDisposable listenerToken;
-    public ListView listView;
-    public Label displayTitle;
-    public int currentPlayerHighestScore = 0; // 0 til it's set
-    public string username;
-    public bool isLeaderboardGUICreated = false;
     public static LeaderboardManager Instance;
-    public int maximumAmountOfTopStats;
-    public List<Stat> topStats;
-    public VisualElement root;
-
+    private Realm realm;
+    private VisualElement root;
+    private ListView listView;
+    private Label displayTitle;
+    private string username;
+    private bool isLeaderboardUICreated = false;
+    private List<Stat> topStats;
+    private IDisposable listenerToken;  // (Part 2 Sync): listenerToken is the token for registering a change listener on all Stat objects
     void Awake()
     {
         Instance = this;
     }
     // :code-block-start: sync-open-realm-in-leaderboard
     // :state-uncomment-start: sync
-    // public static async Task<Realm> GetRealm()
+    // private static async Task<Realm> GetRealm()
     // {
     //     var syncConfiguration = new SyncConfiguration("UnityTutorialPartition", RealmController.syncUser);
     //     return await Realm.GetInstanceAsync(syncConfiguration);
@@ -57,19 +48,21 @@ public class LeaderboardManager : MonoBehaviour
         // :state-end:
 
         // only create the leaderboard on the first run, consecutive restarts/reruns will already have a leaderboard created
-        if (isLeaderboardGUICreated == false)
+        if (isLeaderboardUICreated == false)
         {
             root = GetComponent<UIDocument>().rootVisualElement;
             createLeaderboardUI();
             root.Add(displayTitle);
             root.Add(listView);
-            setStatListener(); // start listening for score changes once the leaderboard GUI has launched
-            isLeaderboardGUICreated = true;
+            isLeaderboardUICreated = true;
         }
+        // :state-start: sync
+        setStatListener();
+        // :state-end:
     }
     // :code-block-end:
 
-    public int getRealmPlayerTopStat()
+    private int getRealmPlayerTopStat()
     {
         // :code-block-start: get-current-player-top-score
         // :state-start: start
@@ -85,7 +78,7 @@ public class LeaderboardManager : MonoBehaviour
         // :state-end:
         // :code-block-end:
     }
-    void createLeaderboardUI()
+    private void createLeaderboardUI()
     {
         // create leaderboard title
         displayTitle = new Label();
@@ -102,7 +95,7 @@ public class LeaderboardManager : MonoBehaviour
         // :code-block-end:
         createTopStatListView();
     }
-    public void createTopStatListView()
+    private void createTopStatListView()
     {
         if (topStats.Count > 4)
         {
@@ -147,7 +140,7 @@ public class LeaderboardManager : MonoBehaviour
         listView.AddToClassList("list-view");
 
     }
-    public void setStatListener()
+    private void setStatListener()
     {
         // :code-block-start: listen-for-stat-changes
         // :state-start: start
@@ -178,8 +171,7 @@ public class LeaderboardManager : MonoBehaviour
         // :state-end:
         // :code-block-end:
     }
-
-    public void setNewlyInsertedScores(int[] insertedIndices)
+    private void setNewlyInsertedScores(int[] insertedIndices)
     {
         foreach (var i in insertedIndices)
         {
@@ -205,15 +197,7 @@ public class LeaderboardManager : MonoBehaviour
     void OnDisable()
     {
         // :code-block-start: leaderboard-cleanup-fn
-        // :state-start: start
-        // TODO: dispose of the realm instance and the listenerToken 
-        // :state-end:
-        // :state-start: sync local
-        if (realm != null)
-        {
-            realm.Dispose();
-        }
-
+        // :state-start: sync
         if (listenerToken != null)
         {
             listenerToken.Dispose();

@@ -19,12 +19,12 @@ public class RealmController : MonoBehaviour
 
     // :state-start: start local    
     // GetRealm() is a method that returns a realm instance
-    public static Realm GetRealm()
+    private static Realm GetRealm()
     // :state-end:
     // :state-uncomment-start: sync
     // // GetRealm() is an asynchronous method that returns a synced realm
     // // GetRealm() takes a logged in Realms.Sync.User as a parameter
-    // public static async Task<Realm> GetRealm(User loggedInUser)
+    // private static async Task<Realm> GetRealm(User loggedInUser)
     // :state-uncomment-end:
     {
         // :code-block-start: get-realm-fn
@@ -208,7 +208,7 @@ public class RealmController : MonoBehaviour
     // deleteCurrentScore() is a method that performs a write transaction to delete the current playthrough Stat object and remove it from the current Player object's Stats' list
     public static void deleteCurrentScore()
     {
-        ScoreCardManager.unRegisterListener();
+        ScoreCardManager.UnRegisterListener();
 
         realm.Write(() =>
         {
@@ -227,8 +227,8 @@ public class RealmController : MonoBehaviour
             currentPlayer.Stats.Add(currentStat);
         });
 
-        ScoreCardManager.setCurrentStat(currentStat); // call `setCurrentStat()` to set the current stat in the UI using ScoreCardManager
-        ScoreCardManager.watchForChangesToCurrentStats(); // call `watchForChangesToCurrentStats()` to register a listener on the new score in the ScoreCardManager
+        ScoreCardManager.SetCurrentStat(currentStat); // call `SetCurrentStat()` to set the current stat in the UI using ScoreCardManager
+        ScoreCardManager.WatchForChangesToCurrentStats(); // call `WatchForChangesToCurrentStats()` to register a listener on the new score in the ScoreCardManager
 
         startGame(); // start the game by resetting the timer and officially starting a new run/playthrough
     }

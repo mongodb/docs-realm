@@ -21,7 +21,7 @@ public class ScoreCardManager : MonoBehaviour
         username = loggedInUser;
         currentStat = RealmController.currentStat;
         updateCurrentStats(); // set initial stats
-        watchForChangesToCurrentStats();
+        WatchForChangesToCurrentStats();
     }
 
     public static void updateCurrentStats() // updates stats in UI
@@ -33,7 +33,7 @@ public class ScoreCardManager : MonoBehaviour
     }
 
 
-    public static void watchForChangesToCurrentStats()
+    public static void WatchForChangesToCurrentStats()
     {
         // create a listener that responds to changes to the particular stats for this run/playthrough
         // :code-block-start: watch-for-changes-stat-propery-changed
@@ -58,7 +58,7 @@ public class ScoreCardManager : MonoBehaviour
 
     }
 
-    public static void setCurrentStat(Stat newStat)
+    public static void SetCurrentStat(Stat newStat)
     {
         // called when the game has reset
         currentStat = newStat;

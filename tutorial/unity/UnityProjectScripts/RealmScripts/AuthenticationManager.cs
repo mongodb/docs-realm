@@ -2,24 +2,24 @@ using System;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class AuthenticationManager : MonoBehaviour
+private class AuthenticationManager : MonoBehaviour
 {
 
-    public static VisualElement root;
-    public static Label subtitle;
-    public static Button startButton;
-    public static bool isInRegistrationMode = false;
-    public static string loggedInUser;
-    public static TextField userInput;
+    private static VisualElement root;
+    private static Label subtitle;
+    private static Button startButton;
+    private static bool isInRegistrationMode = false;
+    private static string loggedInUser;
+    private static TextField userInput;
     private static TextField passInput; // (Part 2 Sync): passInput represents the password input
     private static Button toggleLoginOrRegisterUIButton; // (Part 2 Sync): toggleLoginOrRegisterUIButton is the button to toggle between login or registration modes
 
     // :code-block-start: add-sync-variables-authentication-manager
     // :state-uncomment-start: sync
-    // public static Realms.Sync.User syncUser;
+    // private static Realms.Sync.User syncUser;
     // private static TextField passInput;
-    // public static Button toggleLoginOrRegisterUIButton;
-    // public static Player currentPlayer;
+    // private static Button toggleLoginOrRegisterUIButton;
+    // private static Player currentPlayer;
     // // :state-uncomment-end:
     // :code-block-end:
 
@@ -86,13 +86,13 @@ public class AuthenticationManager : MonoBehaviour
 
     // :code-block-start: add-sync-togglable-ui-methods
     // :state-uncomment-start: sync
-    // public static void switchToLoginUI()
+    // private static void switchToLoginUI()
     // {
     //     subtitle.text = "Login";
     //     startButton.text = "Login & Start Game";
     //     toggleLoginOrRegisterUIButton.text = "Don't have an account yet? Register";
     // }
-    // public static void switchToRegisterUI()
+    // private static void switchToRegisterUI()
     // {
     //     subtitle.text = "Register";
     //     startButton.text = "Signup & Start Game";
@@ -103,7 +103,7 @@ public class AuthenticationManager : MonoBehaviour
 
     // :code-block-start: on-press-login
     // :state-start: start local
-    public static void onPressLogin()
+    private static void onPressLogin()
     {
         try
         {
@@ -123,7 +123,7 @@ public class AuthenticationManager : MonoBehaviour
 
     // :code-block-start: add-sync-register-login-click-handlers
     // :state-uncomment-start: sync
-    // public static async void onPressLogin()
+    // private static async void onPressLogin()
     // {
     //     try
     //     {
@@ -140,7 +140,7 @@ public class AuthenticationManager : MonoBehaviour
     //         Debug.Log("an exception was thrown:" + ex.Message);
     //     }
     // }
-    // public static async void onPressRegister()
+    // private static async void onPressRegister()
     // {
     //     try
     //     {
