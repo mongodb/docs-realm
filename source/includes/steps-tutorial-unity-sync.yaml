@@ -65,21 +65,13 @@ content: |
          </ui:VisualElement>
      </ui:UXML>
 
-  In ``AuthenticationManager.cs``, declare the following variables:
-
-  .. code-block:: csharp
- 
-     public static bool isInRegistrationMode = false; 
-     private static TextField passInput; 
-     public static Button toggleLoginOrRegisterUIButton;
-
-  You'll need to refactor your ``Start()`` method to contain code that does the following:
+  You'll need to refactor your AuthenticationManager's ``Start()`` method to contain code that does the following:
 
   - defines the ``passInput`` variable as a `password TextField <https://docs.unity3d.com/ScriptReference/UIElements.TextInputBaseField_1-isPasswordField.html>`_.
   - defines the ``toggleLoginOrRegisterUIButton`` variable as a `button <https://docs.unity3d.com/ScriptReference/UIElements.Button.html>`_.
   - handles the toggle register/login button's click event and toggles between a register mode and login mode
 
-  Add the following code to your ``Start()`` method, replacing the existing ``startButton.clicked`` event handler with the one below:
+  In ``AuthenticationManager.cs``, add the following code to your ``Start()`` method, replacing the existing ``startButton.clicked`` event handler with the one below:
 
   .. code-block:: csharp
  
