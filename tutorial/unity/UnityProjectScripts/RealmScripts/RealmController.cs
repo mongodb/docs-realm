@@ -12,10 +12,9 @@ public class RealmController : MonoBehaviour
 
     private static Player currentPlayer; // the Player object for the current playthrough
     public static Stat currentStat; // the Stat object for the current playthrough
-    // :state-uncomment-start: sync
+
     private static App realmApp = App.Create(Constants.Realm.AppId); // (Part 2 Sync): realmApp represents the MongoDB Realm backend application
     public static User syncUser; // (Part 2 Sync): syncUser represents the realmApp's currently logged in user
-    // :state-uncomment-end:
 
     // :state-start: start local    
     // GetRealm() is a method that returns a realm instance
