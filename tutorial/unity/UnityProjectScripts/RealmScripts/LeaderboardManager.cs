@@ -23,6 +23,7 @@ public class LeaderboardManager : MonoBehaviour
     }
     // :code-block-start: sync-open-realm-in-leaderboard
     // :state-uncomment-start: sync
+    // // GetRealm() is an asynchronous method that returns a synced realm
     // private static async Task<Realm> GetRealm()
     // {
     //     var syncConfiguration = new SyncConfiguration("UnityTutorialPartition", RealmController.syncUser);
