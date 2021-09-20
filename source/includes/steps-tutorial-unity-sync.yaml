@@ -178,14 +178,6 @@ content: |
   Currently, the project's only form of authentication is a username input,
   let's replace that in the code with {+realm+} Email/Password authentication. 
 
-  Declare class variables in ``RealmController.cs`` for the {+realm-short+} app
-  and the {+realm-short+} user:
-
-  .. code-block:: csharp
- 
-     private static App realmApp = App.Create(Constants.Realm.AppId);
-     public static Realms.Sync.User syncUser;  
-
   In the `RealmController.cs`` replace the ``setLoggedInUser()`` with an
   asynchronous method that logs in using the :dotnet-sdk:`LogInAsync()
   <reference/Realms.Sync.App.html#Realms_Sync_App_LogInAsync_Realms_Sync_Credentials_>`
