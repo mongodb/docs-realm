@@ -337,8 +337,9 @@ content: |
 
   .. code-block:: csharp
  
-     listenerToken.Dispose();
-
+     if(listenerToken != null){
+        listenerToken.Dispose(); 
+     }
   .. note:: Simulate New Top Scores Through Realm Studio or {+atlas+} 
 
      Since Unity Hub does allow opening multiple instances of the same project,
@@ -350,4 +351,19 @@ content: |
      <https://support.unity.com/hc/en-us/articles/115003118426-Running-multiple-instances-of-Unity-referencing-the-same-project>`_
      to open a second instance of the project and login with a different user
      and get a new high score.
+---
+title: Run and Test
+ref: run-and-test
+content: |
+  Once you have completed the code, you can run the app and check its functionality.
 
+  Click the play button on the top of the screen to enter `play mode
+  <https://docs.unity3d.com/Manual/GameView.html>`_ and play the game. Once the
+  Unity Editor opens the `GameView
+  <https://docs.unity3d.com/Manual/GameView.html>`_, here are some things you
+  can try out:
+
+  - Registering a user.
+  - Logging in a user.
+  - Getting a new highscore and seeing the leaderboard update in real-time.
+  - Creating a new Stat object with a highscore in {+service-short+} Studio or {+atlas+}, and seeing the leaderboard update in real-time.
