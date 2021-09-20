@@ -130,7 +130,7 @@ private class AuthenticationManager : MonoBehaviour
     // {
     //     try
     //     {
-    //         currentPlayer = await RealmController.setLoggedInUser(userInput.value, passInput.value);
+    //         var currentPlayer = await RealmController.setLoggedInUser(userInput.value, passInput.value);
     //         if (currentPlayer != null)
     //         {
     //             root.AddToClassList("hide");
@@ -149,7 +149,7 @@ private class AuthenticationManager : MonoBehaviour
     // {
     //     try
     //     {
-    //         currentPlayer = await RealmController.OnPressRegister(userInput.value, passInput.value);
+    //         var currentPlayer = await RealmController.OnPressRegister(userInput.value, passInput.value);
 
     //         if (currentPlayer != null)
     //         {
