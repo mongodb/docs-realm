@@ -35,8 +35,8 @@ private class AuthenticationManager : MonoBehaviour
     // :state-end:
     // :code-block-start: add-sync-authentication-start-with-handles
     // :state-uncomment-start: sync
-    // Start() is a method inherited from MonoBehavior and is called on the frame when a script is enabled
-    // Start() defines AuthenticationScreen UI elements, and sets click event handlers for them
+    // // Start() is a method inherited from MonoBehavior and is called on the frame when a script is enabled
+    // // Start() defines AuthenticationScreen UI elements, and sets click event handlers for them
     // void Start()
     // {
     //     root = GetComponent<UIDocument>().rootVisualElement;
