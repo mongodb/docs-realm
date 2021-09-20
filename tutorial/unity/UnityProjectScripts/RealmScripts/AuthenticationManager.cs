@@ -49,7 +49,7 @@ private class AuthenticationManager : MonoBehaviour
     //     passInput.isPasswordField = true;
 
     //     logoutButton.clicked += RealmController.LogOut;
-    //     when the start button is clicked, toggle between registration modes
+    // //     when the start button is clicked, toggle between registration modes
     //     startButton.clicked += () =>
     //     {
     //         if (isInRegistrationMode == true)
@@ -142,9 +142,9 @@ private class AuthenticationManager : MonoBehaviour
     //         Debug.Log("an exception was thrown:" + ex.Message);
     //     }
     // }
-    // onPressRegister() is a method that passes
+    // // onPressRegister() is a method that passes
     // RealmController.OnPressRegister() the values of the userInput and
-    // passInput TextFields in order to register a user
+    // // passInput TextFields in order to register a user
     // private static async void onPressRegister()
     // {
     //     try
