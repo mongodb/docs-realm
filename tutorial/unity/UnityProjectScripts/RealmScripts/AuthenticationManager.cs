@@ -143,7 +143,7 @@ private class AuthenticationManager : MonoBehaviour
     //     }
     // }
     // // onPressRegister() is a method that passes
-    // RealmController.OnPressRegister() the values of the userInput and
+    // // RealmController.OnPressRegister() the values of the userInput and
     // // passInput TextFields in order to register a user
     // private static async void onPressRegister()
     // {
