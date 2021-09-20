@@ -34,8 +34,7 @@ public class RealmController : MonoBehaviour
         // return null;
         // :state-uncomment-end:
         // :state-end: :state-start: local
-        realm = Realm.GetInstance();
-        return realm;
+        return Realm.GetInstance();
         // :state-end:
         // :state-uncomment-start: sync
         // var syncConfiguration = new SyncConfiguration("UnityTutorialPartition", loggedInUser);
