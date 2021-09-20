@@ -16,6 +16,8 @@ public class ScoreCardManager : MonoBehaviour
         scoreCardHeader = root.Q<Label>("score-card-header");
     }
 
+    // setLoggedInUser() is a method that sets values that are displayed in the ScoreCard UI, such as the username and current Stat,
+    // and calls WatchForChangesToCurrentStats to watch for changes to the current Stat object
     public static void setLoggedInUser(string loggedInUser)
     {
         username = loggedInUser;
@@ -23,7 +25,7 @@ public class ScoreCardManager : MonoBehaviour
         updateCurrentStats(); // set initial stats
         WatchForChangesToCurrentStats();
     }
-
+    // updateCurrentStats() is a method that updates the EnemiesDefeated,TokensCollected, and Score in the UI
     public static void updateCurrentStats() // updates stats in UI
     {
         scoreCardHeader.text = username + "\n" +
@@ -32,7 +34,7 @@ public class ScoreCardManager : MonoBehaviour
         "Current Score: " + currentStat.Score;
     }
 
-
+    // WatchForChangesToCurrentStats() is a method that defines a property handler on the current playthrough Stat object
     public static void WatchForChangesToCurrentStats()
     {
         // create a listener that responds to changes to the particular stats for this run/playthrough
@@ -46,8 +48,9 @@ public class ScoreCardManager : MonoBehaviour
         // :state-end:
         // :code-block-end:
     }
-
-    public static void unRegisterListener()
+    // UnRegisterListener() is a method that removes a property handler on the current playthrough Stat object
+    // and resets the ScoreCard UI to it's initial values
+    public static void UnRegisterListener()
     {
         // unregister when the player has lost
         currentStat.PropertyChanged -= propertyHandler;
@@ -57,7 +60,8 @@ public class ScoreCardManager : MonoBehaviour
         "Current Score: " + 0;
 
     }
-
+    // SetCurrentStat() is a method that sets the current playthrough Stat object
+    // and calls updateCurrentStats() to update the UI
     public static void SetCurrentStat(Stat newStat)
     {
         // called when the game has reset
