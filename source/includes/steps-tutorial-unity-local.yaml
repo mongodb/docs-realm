@@ -287,32 +287,6 @@ content: |
 
   Notice, that the "Login & Start" button does not work yet, and the
   username at the top right corner is a default value. 
-
----
-title: Attach the C# Scripts to the UI Game Objects
-ref: attach-scripts-to-ui-game-objects
-content: |
-  Now that you have created your UI Documents and set their UXML Source Assets,
-  it's time to replace the default static values with dynamic values for the top
-  leaderboard scores, player's username, and player's statistics for the current
-  playthrough. To do this, you will attach the following scripts that you've
-  cloned in step 5: 
-
-  -  Attach the LeaderboardManager.cs to the Leaderboard GameObject.
-  -  Attach the ScoreCardManager.cs to the ScoreCard GameObject.
-  -  Attach the AuthenticationManager.cs to the AuthenticationScreen GameObject.
-
-  To attach a C# script to a GameObject, click the GameObject to open the
-  object's `inspector window
-  <https://docs.unity3d.com/Manual/UsingTheInspector.html>`_. Click the "Add
-  Component" button to add the "Scripts" field. Finally, select the desired C#
-  file to attach the script.
-
-  .. figure:: /images/unity-tutorial-attach-ui-script-gif.gif
-     :width: 350px
-     :alt: Attach UI Script to UI Game Object
-
-  Repeat this step for each C# script specified above.
 ---
 title: Create a RealmController Game Object
 ref: create-realm-controller-object
@@ -323,8 +297,7 @@ content: |
   it. To do this, right click the hierarchy window and select "Create Empty" and
   name the object "RealmController". Next, attach the "RealmController.cs"
   script to the "RealmController" object. 
-  
-  
+
   In later steps, you will add functionality to the RealmController script
   to perform the following:
   
@@ -332,6 +305,15 @@ content: |
   - set a logged in player
   - interact with the player and stat models
   - create, read, update, and delete player stats
+  
+  .. note:: 
+
+     The RealmController.cs script contains a ``Start()`` method, that
+     automatically attaches the AuthenticationManager.cs, LeaderboardManager.cs,
+     and ScoreCardManager.cs scripts to their respective UI GameObjects. These
+     scripts allow you to interact with the UI Game Object's you created through
+     C# code.
+  
 ---
 title: Open a Realm
 ref: open-realm
