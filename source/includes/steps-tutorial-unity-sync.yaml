@@ -308,7 +308,39 @@ content: |
  
              });
      }
-  
+
+  Create a method, ``setNewlyInsertedScores()`` that takes in a list of indices
+  that the new Stat's were inserted at, and loops through the newly inserted
+  Stat object to determine if the new Stat object's score is greater than any
+  existing top scores, and if it is, inserts it into the topStats list in
+  descending order:
+
+  .. code-block:: csharp
+ 
+     private void setNewlyInsertedScores(int[] insertedIndices)
+     {
+         foreach (var i in insertedIndices)
+         {
+             var newStat = realm.All<Stat>().ElementAt(i);
+ 
+             for (var scoreIndex = 0; scoreIndex < topStats.Count; scoreIndex++)
+             {
+                 if (topStats.ElementAt(scoreIndex).Score < newStat.Score)
+                 {
+                     if (topStats.Count > 4)
+                     {   // An item shouldnt be removed if its the leaderboard is less than 5 items
+                         topStats.RemoveAt(topStats.Count - 1);
+                     }
+                     topStats.Insert(scoreIndex, newStat);
+                     root.Remove(listView); // remove the old listView
+                     createTopStatListView(); // create a new listView
+                     root.Add(listView); // add the new listView to the UI
+                     break;
+                 }
+             }
+         }
+     }
+   
   The ``setStatListener()`` should be called after the user is logged in, at the
   end of the LeaderboardManager's ``setLoggedInUser()`` method:
 
