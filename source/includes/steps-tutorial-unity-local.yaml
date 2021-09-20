@@ -353,7 +353,7 @@ content: |
   the logged in user. This function is called on a click event that has been
   created for you in the AuthenticationManager.cs file.
   
-  The ``setLoggedInUser()`` method takes a string, userInput. In this method,
+  The RealmController's``setLoggedInUser()`` method takes a string, userInput. In this method,
   you will create code to do the following:
   
   - query the realm to determine if a player object already exists for the
@@ -362,7 +362,7 @@ content: |
     {+realm+} object if the player does not exist, and only create a stat
     {+realm+} object if the player does exist.
 
-  Add the following code to your ``setLoggedInUser()`` method:
+  Add the following code to your RealmController's ``setLoggedInUser()`` method:
 
   .. code-block:: csharp
 
