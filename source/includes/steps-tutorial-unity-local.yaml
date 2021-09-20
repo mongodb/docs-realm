@@ -67,54 +67,54 @@ content: |
   In later steps, you will use {+realm+} to record how many enemies the player
   defeated per playthrough, how many tokens were collected, and a score.
 ---
-title: Install Realm
-ref: install-realm
+title: Update Your Project Manifest 
+ref: update-project-manifest
 content: |
-  Before you begin adding {+realm+} functionality to your project, install realm
-  by following the :ref:`Install Realm <unity-install-realm>` steps in the Unity
-  Integration guide. 
----
-title: Install UI ToolKit and UIBuilder
-ref: install-ui-toolkit-and-builder
-content: |
-  Next, add `UI ToolKit <https://docs.unity3d.com/Manual/UIElements.html>`_ and
-  `UI Builder <https://docs.unity3d.com/Manual/com.unity.ui.builder.html>`_ to
-  your project. These packages will be used to develop user interfaces to
+  Unity uses the `Project Manifest
+  <https://docs.unity3d.com/Manual/upm-manifestPrj.html>`_ to determine packages
+  to install into your project. You'll need to update your Project Manifest to
+  install {+realm+} and the Unity UI ToolKit and UI Builder packages to develop user interfaces to
   interact with and display data stored in {+realm+}. 
+  
+  .. note:: Install the Latest Versions of the Necessary Packages
+
+     The code below lists the latest versions of the necessary packages at the
+     time of writing this documentation. Check the links below to see if there
+     is a later version to install and replace the versions below with the
+     latest versions available:
+
+     - `{+service-short+} .NET Releases <https://github.com/realm/realm-dotnet/releases>`_
+     - `com.unity.ui Changelog <https://docs.unity3d.com/Packages/com.unity.ui@1.0/changelog/CHANGELOG.html>`_
+     - `com.unity.ui.builder Changelog <https://docs.unity3d.com/Packages/com.unity.ui.builder@1.0/changelog/CHANGELOG.html>`_
+
+  Add the following to your project's ``/Assets/Packages/manifest.json`` file:
+
+  .. code-block:: json
+
+     {
+       "dependencies": {
+         // ... 
+         "io.realm.unity": "10.5.0",
+         "com.unity.ui": "1.0.0-preview.16",
+         "com.unity.ui.builder": "1.0.0-preview.17"
+       },
+       "scopedRegistries": [
+         {
+           "name": "NPM",
+           "url": "https://registry.npmjs.org/",
+           "scopes": [
+             "io.realm.unity"
+           ]
+         }
+       ]
+     }
 
   .. note:: 
 
      UI ToolKit and UI Builder are Preview Packages, meaning that they are still
      in development by the Unity engineering team. While they provide a simple
      API to develop user interfaces for a tutorial, they should not be used in
-     production at this time. 
-
-  Open the `Unity package manager
-  <https://docs.unity3d.com/Manual/upm-ui.html>`_  by clicking the
-  :guilabel:`Window` tab on the top of the Unity menu. Click :guilabel:`Package
-  Manager` from the :guilabel:`Window dropdown`. Once the package manager model
-  opens, click the :guilabel:`+` icon in the top left corner of the model.
-  Select the :guilabel:`Add package from git URL...` option. 
-
-  .. figure:: /images/unity-add-package-from-git-url.png
-     :width: 500px
-     :alt: Add Package From Git URL
-
-  In the input bar write the text "com.unity.ui" and click :guilabel:`Add` to
-  `install the UI ToolKit package
-  <https://docs.unity3d.com/2020.2/Documentation/Manual/UITK-package.html>`_.
-
-  .. figure:: /images/unity-com-unity-ui.png
-     :width: 350px
-     :alt: Add package com-unity-ui
-
-  Repeat the steps above, but this time write the text "com.unity.ui.builder" to
-  `install the UI Builder package
-  <https://docs.unity3d.com/Packages/com.unity.ui.builder@1.0/manual/index.html>`_.
-
-  .. figure:: /images/unity-com-unity-ui-builder.png
-     :width: 350px
-     :alt: Add package com-unity-ui-builder
+     production at this time.
 ---
 title: Clone the Realm Tutorial Repository
 ref: clone-the-repository
@@ -153,7 +153,8 @@ title: Explore the Realm Tutorial Repository
 ref: explore-the-realm-tutorial-repository
 content: |
 
-  In your text editor of choice, such as `Visual Studio <https://docs.microsoft.com/en-us/visualstudio/>`_,  you can see the script
+  In your text editor of choice, such as `Visual Studio
+  <https://docs.microsoft.com/en-us/visualstudio/>`_,  you can see the script
   files you will need to add to the game. The relevant files are as follows:
 
   .. cssclass:: config-table
