@@ -265,32 +265,32 @@ title: Create a RealmController Game Object
 ref: create-realm-controller-object
 content: |
   To get and set dynamic values for the Leaderboard, ScoreCard, and
-  AuthenticationScreen components you need a GameObject to interact with
+  AuthenticationScreen components, you need a GameObject to interact with
   {+realm+}. 
   
   Create an empty ``Game Object`` by right-clicking the hierarchy window and
   select "Create Empty". Name the object "RealmController". Next, `attach
   <https://docs.unity3d.com/Manual/UnityAnalyticsAttachSDK.html>`_ the
   "RealmController.cs" script to the "RealmController" object by clicking the
-  ``Game Object`` to open it's `inspector window
+  ``Game Object`` to open its `inspector window
   <https://docs.unity3d.com/Manual/UsingTheInspector.html>`_ and dragging and
-  drop the ``/Assets/Scripts/RealmController.cs`` file into it's inspector
+  drop the ``/Assets/Scripts/RealmController.cs`` file into its inspector
   window.
 
   In later steps, you will add functionality to the RealmController script
   to perform the following:
   
   - open a realm
-  - set a logged in player
+  - set a logged-in player
   - interact with the player and stat models
   - create, read, update, and delete player stats
   
   .. note:: 
 
-     The RealmController.cs script contains a ``Start()`` method, that
+     The RealmController.cs script contains a ``Start()`` method that
      automatically attaches the AuthenticationManager.cs, LeaderboardManager.cs,
      and ScoreCardManager.cs scripts to their respective UI GameObjects. These
-     scripts allow you to interact with the UI Game Object's you created through
+     scripts allow you to interact with the UI Game Objects you created through
      C# code.
   
 ---
@@ -310,7 +310,7 @@ title: Set a Logged In User
 ref: set-logged-in-user
 content: |
   In the RealmController.cs file you will need to implement a function to set
-  the logged in user. This function is called on a click event that has been
+  the logged-in user. This function is called on a click event that has been
   created for you in the AuthenticationManager.cs file.
   
   The RealmController's ``setLoggedInUser()`` method takes a string, userInput. In this method,
