@@ -280,10 +280,10 @@ content: |
   In later steps, you will add functionality to the ``RealmController`` script
   to perform the following:
   
-  - open a realm.
-  - set a logged-in ``Player``.
-  - interact with the ``Player`` and ``Stat`` models.
-  - create, read, update, and delete the current playthrough ``Stat`` object.
+  - Open a realm.
+  - Set a logged-in ``Player``.
+  - Interact with the ``Player`` and ``Stat`` models.
+  - Create, read, update, and delete the current playthrough ``Stat`` object.
   
   .. note:: 
 
@@ -309,7 +309,7 @@ content: |
 title: Set a Logged In User
 ref: set-logged-in-user
 content: |
-  In the ``RealmController.cs`` file you will need to implement a function to set
+  In the ``RealmController.cs`` file, you will need to implement a function to set
   the logged-in user. The ``AuthenticationManager.cs`` file calls this function
   when a user clicks the "Login & Start" button.
   
@@ -318,7 +318,7 @@ content: |
   
   - Query the {+realm+} to determine if a ``Player`` object already exists for the
     given userInput. 
-  - Create a if-else block that creates a new ``Player`` and a new ``Stat`` {+realm+}
+  - Create an if-else block that creates a new ``Player`` and a new ``Stat`` {+realm+}
     object if the ``Player`` does not exist, and uses the existing ``Player`` and
     creates a new ``Stat`` object if the ``Player`` does exist.
 
@@ -372,9 +372,11 @@ content: |
   enemies will not impact the current ``Stat`` object yet. To fix that, you'll edit the
   ``collectToken()`` an ``defeatEnemy()`` methods in the ``RealmController``.
 
-  When a player collects a token, the ``collectToken()`` should be called, and
-  the variable ``currentStat``, that you created in the last step should be
-  updated in a write transaction. 
+
+  Add the following code to the ``RealmController.collectToken()`` method to
+  perform a :doc:`write transaction
+  </sdk/dotnet/fundamentals/write-transactions>` and update the variable
+  ``currentStat`` that you created in the last step:
 
   .. code-block:: csharp
 
@@ -394,9 +396,10 @@ content: |
 
      RealmController.collectToken();
 
-  When a player hops on an enemy to defeat it, the you should call the
-  ``RealmController.defeatEnemy()`` method, and increment
-  ``currentStat.EnemiesDefeated`` field in a write transaction.
+  Add the following code to the ``RealmController.defeatEnemy()`` method to
+  perform a :doc:`write transaction
+  </sdk/dotnet/fundamentals/write-transactions>` and update the variable
+  ``currentStat`` that you created in the last step:
 
   .. code-block:: csharp
 
@@ -405,9 +408,8 @@ content: |
           currentStat.EnemiesDefeated += 1;
       });
 
-  Call the ``defeatEnemy()`` method in the
-  ``/Assets/Scripts/Gameplay/EnemyDeath.cs``
-  file in the top of the ``Execute()`` method
+  Call the ``defeatEnemy()`` method in the ``/Assets/Scripts/Gameplay/EnemyDeath.cs``
+  file in the top of the ``Execute()`` method.
 
    .. code-block:: csharp
  
