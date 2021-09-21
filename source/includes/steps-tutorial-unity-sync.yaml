@@ -14,15 +14,15 @@ content: |
 title: Connect to Your MongoDB Realm App
 ref: connect-your-mongodb-realm-app
 content: |
-  To get the app working with your backend, you first need to add your Realm App
+  To get the app working with your backend, you first need to add your {+backend+} App
   ID to the ``Constants.cs`` file:
 
   .. code-block:: csharp
  
      public const string AppId = "<your-realm-app-ID-here>";
 
-  Change the value of ``AppId`` to your Realm app ID, which you can :ref:`find in
-  the Realm UI <find-your-app-id>`.
+  Change the value of ``AppId`` to your {+backend+} app ID, which you can :ref:`find in
+  the {+backend+} UI <find-your-app-id>`.
 
   In the ``RealmController.cs`` file replace the existing ``GetRealm()`` method
   with the one that takes in a User as a parameter and asynchronously gets a
@@ -209,7 +209,7 @@ content: |
             }
             else
             {
-                Debug.Log("This player exists a MongoDB Realm User but not as a Realm Object, please delete the Sync User and create one using the register button");
+                Debug.Log("This player exists a MongoDB Realm User but not as a Realm Object, please delete the MongoDB Realm User and create one using the register button");
             }
         }
 
@@ -363,14 +363,15 @@ content: |
      if(listenerToken != null){
         listenerToken.Dispose(); 
      }
-  .. note:: Simulate New Top Scores Through Realm Studio or {+atlas+} 
+     
+  .. note:: Simulate New Top Scores Through {+service-short+} Studio or {+atlas+} 
 
-     Since Unity Hub does allow opening multiple instances of the same project,
-     we recommend simulating a new top score by creating a new Stat object
-     through :doc:`Realm Studio </studio/>` or :atlas:`{+atlas+} <>`. When you
-     create a new Stat object with a high score, your leaderboard updates
-     automatically and displays the new high score. Alternatively, you can use
-     the `Unity symbolic link workaround
+     Since Unity Hub does not allow opening multiple instances of the same
+     project by default, we recommend simulating a new top score by creating a
+     new Stat object through :doc:`{+service-short+} Studio </studio/>` or
+     :atlas:`{+atlas+} <>`. When you create a new Stat object with a high score,
+     your leaderboard updates automatically and displays the new high score.
+     Alternatively, you can use the `Unity symbolic link workaround
      <https://support.unity.com/hc/en-us/articles/115003118426-Running-multiple-instances-of-Unity-referencing-the-same-project>`_
      to open a second instance of the project and login with a different user
      and get a new high score.

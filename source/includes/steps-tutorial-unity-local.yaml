@@ -4,7 +4,7 @@ ref: download-and-import-unity-platform-microgame
 content: |
   Unity Hub comes pre-installed with templates, such as the Platformer
   Microgame, to learn to develop games on the Unity editor. In later steps, you
-  will import and Realm functionality to the game. 
+  will import and {+service-short+} functionality to the game. 
 
   Click the Learn tab on the left side of Unity Hub to view the list of template projects.
 
@@ -126,7 +126,7 @@ content: |
   interface that can read and interact with that data.
 
   We've already put together a respository that has most of the code you'll need
-  to accomplish that. You can clone the Realm Tutorial repository directly from
+  to accomplish that. You can clone the {+service-short+} Tutorial repository directly from
   :github:`GitHub <mongodb-university/realm-tutorial-unity>`:
 
   .. code-block:: shell
@@ -136,7 +136,7 @@ content: |
 
   .. tip::
    
-     The ``start`` branch is an incomplete version of the Realm Tutorial repository that you will
+     The ``start`` branch is an incomplete version of the {+service-short+} Tutorial repository that you will
      complete in this tutorial. To view a complete local-only (non-sync) version of the scripts:
 
      1. Navigate to the root directory of the client application repository:
@@ -210,7 +210,7 @@ content: |
        - Script containing a Statistics :ref:`{+frontend-schema+} <dotnet-object-models-and-schemas>`.
 
      * - Constants.cs (Part 2)
-       - Part 2: Declare the Realm App ID for the {+sync+} portion of the tutorial.
+       - Part 2: Declare the {+backend-short+} App ID for the {+sync+} portion of the tutorial.
 
 ---
 title: Explore the Schemas
@@ -319,7 +319,7 @@ title: Open a Realm
 ref: open-realm
 content: |
   Open the RealmController.cs file with a text editor, where we'll implement a
-  function to open a {+realm+}. To open a realm instance that you will use
+  function to open a {+realm+}. To open a {+realm+} instance that you will use
   throughout the RealmController class, add the following code to the
   ``GetRealm()`` method:
 
@@ -337,7 +337,7 @@ content: |
   The RealmController's ``setLoggedInUser()`` method takes a string, userInput. In this method,
   you will create code to do the following:
   
-  - query the realm to determine if a player object already exists for the
+  - query the {+realm+} to determine if a player object already exists for the
     given userInput. 
   - create a conditional if else block that creates a player and a stat
     {+realm+} object if the player does not exist, and only create a stat
@@ -390,7 +390,7 @@ content: |
   You've set the current score card to the player's initial stats for the
   current playthrough of the game, but currently collecting tokens or defeating
   enemies will not impact the player's stats. To fix that, you'll edit the
-  ``collectToken()`` an ``defeatEnemy()`` methods in the realm controller.
+  ``collectToken()`` an ``defeatEnemy()`` methods in the RealmController.
 
   When a player collects a token, the ``collectToken()`` should be called and
   the variable ``currentStat``, that you created in the last step, should be
