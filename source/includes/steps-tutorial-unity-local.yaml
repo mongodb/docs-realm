@@ -60,25 +60,34 @@ content: |
 title: Update Your Project Manifest 
 ref: update-project-manifest
 content: |
-  Unity uses the `Project Manifest
+  Unity uses the `project manifest
   <https://docs.unity3d.com/Manual/upm-manifestPrj.html>`_ to determine packages
-  to install into your project. You'll need to update your Project Manifest to
-  install {+realm+} and the Unity UI ToolKit and UI Builder packages to develop user interfaces to
-  interact with and display data stored in {+realm+}. 
+  to install into your project. You'll need to update your project's manifest
+  file to install {+realm+} and the Unity UI ToolKit and UI Builder packages to
+  develop user interfaces to interact with and display data stored in {+realm+}.
   
-  .. note:: Install the Latest Versions of the Necessary Packages
+
+  .. note:: 
+
+     UI ToolKit and UI Builder are `preview packages
+     <https://docs.unity3d.com/Manual/pack-preview.html>`_ that are in
+     development by the Unity engineering team. While they provide a simple API
+     to develop user interfaces for a tutorial, they should not be used in
+     production yet.
+  
+  .. note:: Package Versions
 
      The code below lists the latest versions of the necessary packages at the
      time of writing this documentation. Check the links below to see if there
-     is a later version to install and replace the versions below with the
-     latest versions available:
+     is a later version of any of the listed packages. However, since the Unity
+     UI ToolKit and UI Builder packages are preview packages, their APIs might
+     change in newer versions.
 
      - `{+service-short+} .NET Releases <https://github.com/realm/realm-dotnet/releases>`_
      - `com.unity.ui Changelog <https://docs.unity3d.com/Packages/com.unity.ui@1.0/changelog/CHANGELOG.html>`_
      - `com.unity.ui.builder Changelog <https://docs.unity3d.com/Packages/com.unity.ui.builder@1.0/changelog/CHANGELOG.html>`_
 
-  Add the following to your project's ``/Assets/Packages/manifest.json`` file,
-  replacing the version below with the latest version:
+  Update your project's ``/Assets/Packages/manifest.json`` file to include the following dependencies and scoped registries:
 
   .. code-block:: json
 
@@ -99,23 +108,15 @@ content: |
          }
        ]
      }
-
-  .. note:: 
-
-     UI ToolKit and UI Builder are `preview packages
-     <https://docs.unity3d.com/Manual/pack-preview.html>`_ that are in
-     development by the Unity engineering team. While they provide a simple API
-     to develop user interfaces for a tutorial, they should not be used in
-     production yet.
 ---
 title: Clone the Realm Tutorial Repository
 ref: clone-the-repository
 content: |
-  Now that {+realm+}, UI Builder, and UI Toolkit are installed into your
-  project, you can begin recording data into {+realm+} and building a user
-  interface that can read and interact with that data.
+  Now that {+realm+}, UI Builder, and UI Toolkit are installed, you can begin
+  recording data into {+service-short+} and building a user interface that can read and
+  interact with that data.
 
-  We've already put together a respository that has most of the code you'll need
+  We've already put together a repository with most of the code you'll need
   to accomplish that. You can clone the {+service-short+} Tutorial repository directly from
   :github:`GitHub <mongodb-university/realm-tutorial-unity>`:
 
@@ -162,42 +163,37 @@ content: |
          global styles for your project.
 
      * - Leaderboard.uxml
-       - `UXML <https://docs.unity3d.com/Manual/UIE-UXML.html>`_ file that is
-         mostly empty but serves as a base for the leaderboard UI to be created later.
+       - `UXML <https://docs.unity3d.com/Manual/UIE-UXML.html>`_ file; defines
+          the structure of the Leaderboard user interface.
      
      * - LeaderboardManager.cs
-       - Builds upon the base Leaderboard that was created in Leaderboard.uxml
-         and expands it using {+realm+} to show the highest game scores.
-     
+       - Query {+service-short+} and display the top stats.
+
      * - Scorecard.uxml
-       - `UXML <https://docs.unity3d.com/Manual/UIE-UXML.html>`_ file that is
-         mostly empty but serves as a base for the UI for the player's scores to
-         be created later.
+       - `UXML <https://docs.unity3d.com/Manual/UIE-UXML.html>`_ file; defines
+          the structure of the Scorecard user interface.
 
      * - ScoreCardManager.cs
-       - Builds upon the base ScoreCard that was created in Scorecard.uxml and
-         expands it using {+realm+} to show the player's statistics (stats) for their
-         current playthrough.
+       - Listen for changes to the current playthrough stats and update the Scorecard UI.
 
      * - AuthenticationScreen.uxml
-       - `UXML <https://docs.unity3d.com/Manual/UIE-UXML.html>`_ file with the
-         entire UI for the Authentication Screen. This UI allows players to input
-         their username and start the game.
+       - `UXML <https://docs.unity3d.com/Manual/UIE-UXML.html>`_ file; defines the structure of the Authentication Screen user interface.
 
      * - AuthenticationManager.cs
-       - Interacts with the TextField's of AuthenticationScreen.uxml to implement user login.
+       - Interacts with the TextField's of AuthenticationScreen.uxml to
+         implement user login. In part 2, you'll add user authentication with the
+         {+backend+} Email/Password provider.
 
      * - RealmController.cs
-       - A script containing most of the {+realm+} code logic, such as opening a
-         {+realm+}, recording the player stats for the current playthrough, deleting
-         the current playthrough, calculating final scores, restarting the game,
-         and closing the {+realm+}.
+       - Open a {+realm+}, query the {+realm+} for an existing player or create
+         a new one and a new stat for the current playthrough, and perform writes
+         to the new stat object.
 
      * - PlayerModel.cs
-       - Script containing a Player :ref:`{+frontend-schema+} <dotnet-object-models-and-schemas>`.
+       - Defines the Player :ref:`{+frontend-schema+} <dotnet-object-models-and-schemas>`.
 
      * - StatModel.cs
-       - Script containing a Statistics :ref:`{+frontend-schema+} <dotnet-object-models-and-schemas>`.
+       - Defines the playthrough Stat :ref:`{+frontend-schema+} <dotnet-object-models-and-schemas>`.
 
      * - Constants.cs (Part 2)
        - Part 2: Declare the {+backend-short+} App ID for the {+sync+} portion of the tutorial.
@@ -212,17 +208,16 @@ content: |
   
   Note the following about the schemas:
 
-  - A ``Stat`` is a {+realm+} object representing the statistics of a playthrough of the
-    game. For instance, in one playthrough a player may have defeated 7 enemies,
-    collected 20 tokens, and had a score of 200. Each Stat belongs to a player.
+  - A ``stat`` is a {+realm+} object representing the statistics of a
+    playthrough of the game. For instance, in one playthrough a ``player`` may have defeated 10
+    enemies, collected 15 tokens, and had a score of 210. Each Stat has a
+    ``statOwner`` that is a player object.
 
-  - A ``Player`` is a {+realm+} object representing the user's logged in
-    character. Each player has a collection (IList) of ``Stats`` of which they
+  - A ``player`` is a {+realm+} object representing the user's logged in
+    character. Each player has a collection (IList) of ``stats`` of which they
     own. 
 
-  - A ``Player`` has a string property, ``_id``, that defines the Players's unique partition.
-
-  - A ``Stat`` has a ``statOwner`` property that indicates the Player that the Stat belongs to.
+  - A ``player`` has a string property, ``_id``, that defines the Players's unique partition.
 ---
 title: Create UI Game Objects
 ref: create-ui-game-objects
