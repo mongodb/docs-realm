@@ -368,12 +368,12 @@ title: Update the Stats and Watch for Changes
 ref: watch-for-changes-to-stat-object
 content: |
   You've set the current scorecard to the player's initial stats for the
-  current playthrough of the game, but currently collecting tokens or defeating
-  enemies will not impact the player's stats. To fix that, you'll edit the
+  current playthrough of the game, but collecting tokens or defeating
+  enemies will not impact the player's stats yet. To fix that, you'll edit the
   ``collectToken()`` an ``defeatEnemy()`` methods in the ``RealmController``.
 
-  When a player collects a token, the ``collectToken()`` should be called and
-  the variable ``currentStat``, that you created in the last step, should be
+  When a player collects a token, the ``collectToken()`` should be called, and
+  the variable ``currentStat``, that you created in the last step should be
   updated in a write transaction. 
 
   .. code-block:: csharp
@@ -394,10 +394,9 @@ content: |
 
      RealmController.collectToken();
 
-  When a player hops on an enemy to defeat it, the
-  ``RealmController.defeatEnemy()`` method should be called and the
-  ``currentStat.EnemiesDefeated`` field should incremented in a write
-  transaction.
+  When a player hops on an enemy to defeat it, the you should call the
+  ``RealmController.defeatEnemy()`` method, and increment
+  ``currentStat.EnemiesDefeated`` field in a write transaction.
 
   .. code-block:: csharp
 
@@ -414,11 +413,11 @@ content: |
  
       RealmController.defeatEnemy();
  
-   Finally, create a listener that reacts to changes to the current playthrough's
-   Stat and updates the Scorecard in the UI. In the ``ScoreCardManager.cs`` file, you can
-   add a change listener to the current Stat {+realm+} object that is stored in
-   the ``RealmController.currentStat`` variable. In the
-   ``watchForChangesToCurrentStats()`` method, handle the currentStat's
+   Finally, create a listener that reacts to changes to the current
+   playthrough's Stat and updates the Scorecard in the UI. In the
+   ``ScoreCardManager.cs`` file, you can add a change listener to the current
+   Stat {+realm+} object defined as the ``RealmController.currentStat``
+   variable. In the ``watchForChangesToCurrentStats()`` method, handle the currentStat's
    :dotnet-sdk:`PropertyChanged event<Realms.RealmObjectBase.html#Realms_RealmObjectBase_PropertyChanged>`:
    
    .. code-block:: csharp
