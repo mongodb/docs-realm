@@ -24,7 +24,7 @@ content: |
   Change the value of ``AppId`` to your {+backend+} app ID, which you can :ref:`find in
   the {+backend+} UI <find-your-app-id>`.
 
-  In the ``RealmController.cs`` file replace the existing ``GetRealm()`` method
+  In the ``RealmController.cs`` file, replace the existing ``GetRealm()`` method
   with the one that takes in a User as a parameter and asynchronously gets a
   synced {+realm+} instance: 
 
@@ -36,14 +36,15 @@ content: |
          return await Realm.GetInstanceAsync(syncConfiguration);
      }
   
-  Opening a synced {+realm+} requires a logged in {+realm+} user, you'll set
+  Opening a synced {+realm+} requires a logged-in {+realm+} user; you'll set
   that up in the next step.
 ---
 title: Update the Authentication Screen and Manager
 ref: update-authentication-screen
 content: |
-  To add support for Email/Pass authentication, you'll need to update your
-  Authentication Screen to have a password field, and a button that let's
+  To add support for :doc:`Email/Password
+  Authentication </sdk/dotnet/examples/manage-email-password-users>`, you'll need to update your
+  Authentication Screen to have a password field and a button that allows
   players toggle between a registration mode and login mode. 
 
   Replace the code in your ``Authentication.uxml`` with the following:
@@ -67,9 +68,9 @@ content: |
 
   You'll need to refactor your AuthenticationManager's ``Start()`` method to contain code that does the following:
 
-  - defines the ``passInput`` variable as a `password TextField <https://docs.unity3d.com/ScriptReference/UIElements.TextInputBaseField_1-isPasswordField.html>`_.
-  - defines the ``toggleLoginOrRegisterUIButton`` variable as a `button <https://docs.unity3d.com/ScriptReference/UIElements.Button.html>`_.
-  - handles the toggle register/login button's click event and toggles between a register mode and login mode
+  - Defines the ``passInput`` variable as a `password TextField <https://docs.unity3d.com/ScriptReference/UIElements.TextInputBaseField_1-isPasswordField.html>`_.
+  - Defines the ``toggleLoginOrRegisterUIButton`` variable as a `button <https://docs.unity3d.com/ScriptReference/UIElements.Button.html>`_.
+  - Handles the toggle register/login button's click event and toggles between a register mode and login mode
 
   In ``AuthenticationManager.cs``, add the following code to your ``Start()`` method, replacing the existing ``startButton.clicked`` event handler with the one below:
 
@@ -122,8 +123,9 @@ content: |
          toggleLoginOrRegisterUIButton.text = "Have an account already? Login";
      }
 
-  You'll need to replace the existing ``onPressLogin()`` method with one that is
-  configured for Email/Password Authentication:
+  Replace the existing ``onPressLogin()`` method with the one below that uses
+  :doc:`Email/Password Authentication
+  </sdk/dotnet/examples/manage-email-password-users>`:
 
   .. code-block:: csharp
  
@@ -176,7 +178,8 @@ title: Setup Authentication in your Game
 ref: enable-email-pass-auth
 content: |
   Currently, the project's only form of authentication is a username input,
-  let's replace that in the code with {+realm+} Email/Password authentication. 
+  lets replace that in the code with {+realm+} :doc:`Email/Password
+  Authentication </sdk/dotnet/examples/manage-email-password-users>`
 
   In the `RealmController.cs`` replace the ``setLoggedInUser()`` with an
   asynchronous method that logs in using the :dotnet-sdk:`LogInAsync()
@@ -348,7 +351,7 @@ content: |
          }
      }
    
-  The ``setStatListener()`` should be called after the user is logged in, at the
+  The ``setStatListener()`` should be called after the user is logged-in, at the
   end of the LeaderboardManager's ``setLoggedInUser()`` method:
 
   .. code-block:: csharp
