@@ -232,25 +232,25 @@ content: |
   Next, as a child of the Canvas game object, create three `UIDocuments
   <https://docs.unity3d.com/2021.2/Documentation/ScriptReference/UIElements.UIDocument.html>`_
   by right-clicking the Canvas object and selecting UI Toolkit > UI Document
-  three times. Name these game objects: AuthenticationScreen, Leaderboard, and
-  Scorecard, respectively.
+  three times. Name these game objects: ``AuthenticationScreen``, ``Leaderboard``, and
+  ``Scorecard``, respectively.
 
   .. figure:: /images/unity-create-ui-documents.png
      :width: 350px
      :alt: Create the UI Documents
 
-  Next, attach the UXML files to the UI GameObjects. Click the
-  "AuthenticationScreen" GameObject to open the `inspector window
+  Next, attach the UXML files to the UI game objects. Click the
+  ``AuthenticationScreen`` GameObject to open the `inspector window
   <https://docs.unity3d.com/Manual/UsingTheInspector.html>`_. Then select
-  "Authentication" in the "Source Asset" field to set the AuthenticationScreen's
-  UXML file to Authentication.uxml.
+  "Authentication" in the "Source Asset" field to set the ``AuthenticationScreen`` game object's
+  UXML file to ``Authentication.uxml``.
 
   .. figure:: /images/unity-select-authentication-uxml-source-asset.png
      :width: 350px
      :alt: Select Authentication.uxml as source asset
 
-  Repeat this step twice, setting the Leaderboard GameObject's Source Asset to
-  "Leaderboard" and the ScoreCard GameObject's Source Asset to "ScoreCard".
+  Repeat this step twice, setting the ``Leaderboard`` game objects's ``Source Asset`` to
+  "Leaderboard" and the ``ScoreCard`` game object's ``Source Asset`` to "ScoreCard".
 
   Finally, click the play button to enter play mode. You should see something like the following:
 
@@ -264,20 +264,20 @@ content: |
 title: Create a RealmController Game Object
 ref: create-realm-controller-object
 content: |
-  To get and set dynamic values for the Leaderboard, ScoreCard, and
-  AuthenticationScreen components, you need a GameObject to interact with
+  To get and set dynamic values for the ``Leaderboard``, ``ScoreCard``, and
+  ``AuthenticationScreen`` components, you need a GameObject to interact with
   {+realm+}. 
   
   Create an empty ``Game Object`` by right-clicking the hierarchy window and
-  select "Create Empty". Name the object "RealmController". Next, `attach
+  select "Create Empty". Name the object ``"RealmController"``. Next, `attach
   <https://docs.unity3d.com/Manual/UnityAnalyticsAttachSDK.html>`_ the
-  "RealmController.cs" script to the "RealmController" object by clicking the
+  ``RealmController.cs`` script to the "RealmController" object by clicking the
   ``Game Object`` to open its `inspector window
   <https://docs.unity3d.com/Manual/UsingTheInspector.html>`_ and dragging and
   drop the ``/Assets/Scripts/RealmController.cs`` file into its inspector
   window.
 
-  In later steps, you will add functionality to the RealmController script
+  In later steps, you will add functionality to the ``RealmController`` script
   to perform the following:
   
   - open a realm
@@ -287,9 +287,9 @@ content: |
   
   .. note:: 
 
-     The RealmController.cs script contains a ``Start()`` method that
-     automatically attaches the AuthenticationManager.cs, LeaderboardManager.cs,
-     and ScoreCardManager.cs scripts to their respective UI GameObjects. These
+     The ``RealmController.cs`` script contains a ``Start()`` method that
+     automatically attaches the ``AuthenticationManager.cs``, ``LeaderboardManager.cs``,
+     and ``ScoreCardManager.cs`` scripts to their respective UI GameObjects. These
      scripts allow you to interact with the UI Game Objects you created through
      C# code.
   
@@ -297,9 +297,9 @@ content: |
 title: Open a Realm
 ref: open-realm
 content: |
-  Open the RealmController.cs file with a text editor, where we'll implement a
+  Open the ``RealmController.cs`` file with a text editor, where we'll implement a
   function to open a {+realm+}. To open a {+realm+} instance that you will use
-  throughout the RealmController class, add the following code to the
+  throughout the ``RealmController`` class, add the following code to the
   ``GetRealm()`` method:
 
   .. code-block:: csharp
@@ -309,11 +309,11 @@ content: |
 title: Set a Logged In User
 ref: set-logged-in-user
 content: |
-  In the RealmController.cs file you will need to implement a function to set
+  In the ``RealmController.cs`` file you will need to implement a function to set
   the logged-in user. The ``AuthenticationManager.cs`` file calls this function
   when a user clicks the "Login & Start" button.
   
-  The RealmController's ``setLoggedInUser()`` method takes a string, userInput.
+  The ``RealmController.setLoggedInUser()`` method takes a string, userInput.
   You will create code to do the following in this method:
   
   - Query the {+realm+} to determine if a player object already exists for the
@@ -322,7 +322,7 @@ content: |
     object if the player does not exist, and uses the existing player and
     creates a new stat object if the player does exist.
 
-  Add the following code to your RealmController's ``setLoggedInUser()`` method:
+  Add the following code to your ``RealmController.setLoggedInUser()`` method:
 
   .. code-block:: csharp
 
@@ -358,10 +358,11 @@ content: |
          });
      }
 
-  After the above code is executed, a function called ``startGame()`` is run to
-  begin the timer. The timer increments the RealmController's runTime variable,
-  and we use the runTime variable to calculate bonus points in the
-  ``playerWon()`` method when the game has completed.
+  After the above code is executed, the ``RealmController.setLoggedInUser()``
+  function calls ``startGame()`` to begin the timer. The timer increments the
+  RealmController's runTime variable, and we use the runTime variable to
+  calculate bonus points in the ``playerWon()`` method when the game has
+  completed.
 ---
 title: Update the Stats and Watch for Changes
 ref: watch-for-changes-to-stat-object
@@ -369,7 +370,7 @@ content: |
   You've set the current scorecard to the player's initial stats for the
   current playthrough of the game, but currently collecting tokens or defeating
   enemies will not impact the player's stats. To fix that, you'll edit the
-  ``collectToken()`` an ``defeatEnemy()`` methods in the RealmController.
+  ``collectToken()`` an ``defeatEnemy()`` methods in the ``RealmController``.
 
   When a player collects a token, the ``collectToken()`` should be called and
   the variable ``currentStat``, that you created in the last step, should be
@@ -393,9 +394,10 @@ content: |
 
      RealmController.collectToken();
 
-  When a player hops on an enemy to defeat it, the RealmController's
-  ``defeatEnemy()`` method should be called and the
-  ``currentStat.EnemiesDefeated`` field should incremented in a write transaction.
+  When a player hops on an enemy to defeat it, the
+  ``RealmController.defeatEnemy()`` method should be called and the
+  ``currentStat.EnemiesDefeated`` field should incremented in a write
+  transaction.
 
   .. code-block:: csharp
 
@@ -425,7 +427,7 @@ content: |
       currentStat.PropertyChanged += propertyHandler;
 
    When you click play to enter play mode, the "Enemies Defeated" and "Tokens
-   Collected" labels of the ScoreCard will update when the player defeats
+   Collected" of the ``ScoreCard`` game object updates when the player defeats
    enemies or collects tokens.
 
   .. figure:: /images/unity-tutorial-defeatEnem-collectTok-functionality.gif
@@ -446,7 +448,7 @@ content: |
 
   Replace the existing ``Execute()`` method in the PlayerEnteredVictoryZone script with one that does the following:
 
-  - calls the RealmController's ``playerWon()`` method to calculate and write the final score to {+realm+}
+  - calls the ``RealmController.playerWon()`` method to calculate and write the final score to {+realm+}
   - displays a dialog with the final score
   - respawns the player and restarts the game if the player clicks the restart button
 
@@ -471,11 +473,11 @@ content: |
   the start point but does not create a new Stat object for the new playthrough.
   To expand upon this, you'll perform the following when the player loses the game:
 
-  - Fill out the RealmController's ``deleteCurrentStat()`` method to delete the current Stat for the current playthrough
-  - Call the RealmController's ``deleteCurrentStat()`` method
-  - Call the RealmController's ``restartGame()`` method to create a new Stat object for the new playthrough 
+  - Fill out the ``RealmController.deleteCurrentStat()`` method to delete the current Stat for the current playthrough
+  - Call the ``RealmController.deleteCurrentStat()`` method
+  - Call the ``RealmController.restartGame()`` method to create a new Stat object for the new playthrough 
 
-  Navigate to the RealmController's ``deleteCurrentStat()`` method and add the following code at the bottom of that method:
+  Navigate to the ``RealmController.deleteCurrentStat()`` method and add the following code at the bottom of that method:
 
   .. code-block:: csharp
  
