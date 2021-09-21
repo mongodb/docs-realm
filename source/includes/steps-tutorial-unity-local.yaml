@@ -427,9 +427,7 @@ content: |
       var propertyHandler = new PropertyChangedEventHandler((sender, e) => updateCurrentStats());
       currentStat.PropertyChanged += propertyHandler;
 
-   When you click play to enter play mode, the "Enemies Defeated" and "Tokens
-   Collected" of the ``ScoreCard`` game object updates when the player defeats
-   enemies or collects tokens.
+  The Scorecard now updates if the player defeats an enemy or collects a token.
 
   .. figure:: /images/unity-tutorial-defeatEnem-collectTok-functionality.gif
      :width: 350px
@@ -438,27 +436,35 @@ content: |
 title: Restart the Game When the Player Wins
 ref: restart-game-on-win
 content: |
-  Currently, when the player reaches the end of the Microgame level, the game is
-  complete but nothing happens. To expand upon this, you'll create code to alert the final score when the game is
-  won and restart the game.
+  When the player reaches the end of the Microgame level, the game is complete,
+  but nothing else happens. To expand upon this, you will update the code to do
+  the following when the player wins the game:
 
-  Navigate to the Platformer Microgame file
-  ``/Assets/Scripts/Gameplay/PlayerEnteredVictoryZone.cs``
-  in your text editor. This script is executed when the player enters the
-  victory zone. 
+  - Calls the ``RealmController.playerWon()`` method to calculate and write the final score to {+realm+}
+  - Displays a dialog with the final score
+  - Respawns the player and restarts the game if the player clicks the restart button
 
-  Replace the existing ``Execute()`` method in the PlayerEnteredVictoryZone script with one that does the following:
 
-  - calls the ``RealmController.playerWon()`` method to calculate and write the final score to {+realm+}
-  - displays a dialog with the final score
-  - respawns the player and restarts the game if the player clicks the restart button
+  Navigate to the Platformer Microgame file, ``/Assets/Scripts/Gameplay/PlayerEnteredVictoryZone.cs``,
+  in your text editor. This script is executed when the player enters the victory zone. 
+
+  To create a dialogue, you'll need the `UnityEditor.EditorUtility
+  <https://docs.unity3d.com/ScriptReference/EditorUtility.html>`_ class. Add the
+  following code to the top of the file:
+
+  .. code-block:: csharp
+ 
+     using UnityEditor;
+
+  Replace the existing ``Execute()`` method in the PlayerEnteredVictoryZone
+  script with the snippet below:
 
   .. code-block:: csharp
  
      public override void Execute()
      {
          var finalScore = RealmController.playerWon();
-         var didClickRestart = EditorUtility.DisplayDialog("You won!", $"Final Score = {finalScore}", "restart game", "cancel");
+         var didClickRestart = EditorUtility.DisplayDialog("You won!", $"Final Score = {finalScore}", "restart game");
          if (didClickRestart == true)
          {
             Simulation.Schedule<PlayerSpawn>(2);
@@ -469,12 +475,12 @@ content: |
 title: Delete the Current Playthrough Stats When the Player Loses
 ref: restart-game-on-win
 content: |
-  Currently, when the player loses by colliding with an enemy or by falling from a
+  When the player loses by colliding with an enemy or by falling from a
   platform, the game starts a new playthrough and respawns the player back to
   the start point but does not create a new ``Stat`` object for the new playthrough.
   To expand upon this, you'll perform the following when the player loses the game:
 
-  - Fill out the ``RealmController.deleteCurrentStat()`` method to delete the current ``Stat`` object for the current playthrough
+  - Update the ``RealmController.deleteCurrentStat()`` method to delete the current ``Stat`` object for the current playthrough
   - Call the ``RealmController.deleteCurrentStat()`` method
   - Call the ``RealmController.restartGame()`` method to create a new ``Stat`` object for the new playthrough 
 
@@ -488,8 +494,9 @@ content: |
           currentPlayer.Stats.Remove(currentStat); // remove the reference to the currentStat from the currentPlayer object
       });
   
-  Next, open the ``/Assets/Scripts/Gameplay/PlayerDeath.cs`` which handles the
-  player death event. Add the following code to the end of the PlayerDeath's ``Execute()``
+  Next, open the Platformer Microgame file,
+  ``/Assets/Scripts/Gameplay/PlayerDeath.cs``, which handles the player death
+  event. Add the following code to the end of the PlayerDeath's ``Execute()``
   method:
 
   .. code-block:: csharp
@@ -498,26 +505,26 @@ content: |
      RealmController.restartGame();
 
   Return to the Unity Editor, and click play to enter ``play mode``. The next
-  time your player loses, you should be respawned to the start point with a new
+  time your player loses,  the game respawns the player to the start point with a new
   ``Stat`` object showing 0 enemies defeated, 0 tokens collected.
 ---
 title: Customize Your Game Assets (Optional)
 ref: customize-game
 content: |
-  To add your own flair to the game, you can modify it's assets. From the Unity
+  To add a personal touch to the game, you can modify its assets from the Unity
   Editor. Navigate to ``Assets/Tiles`` in the `Project Window
   <https://docs.unity3d.com/Manual/ProjectView.html>`_ to find a set of tiles
   that the game uses. 
 
   To modify a tile, click the tile to open its `inspector window
   <https://docs.unity3d.com/Manual/UsingTheInspector.html>`_. From the inspector
-  window you can modify the sprite that the tile uses, and the color of that sprite.
+  window, you can change the sprite that the tile uses and its color.
 
   .. figure:: /images/unity-tutorial-customize-game-find-tiles.png
-     :width: 350px
+     :width: 500px
      :alt: Customize Tiles
 
-  In the example below, the fence tile's sprite is replaced with the
+  In the example below, we replaced the fence tile's sprite with the
   ``fence_brown`` sprite that comes with the Platformer Microgame.
 
   .. figure:: /images/unity-tutorial-customize-change-sprite.png
@@ -558,7 +565,7 @@ content: |
       - TileGroundTop_green
 
   .. figure:: /images/unity-tutorial-customize-final-look.png
-     :width: 350px
+     :width: 500px
      :alt: Customize Unity Game - Final Look
 ---
 title: Run and Test
@@ -573,5 +580,5 @@ content: |
   can try out:
 
   - Logging in with a username.
-  - Getting a new highscore and seeing the leaderboard update with it on the next playthrough.
-  - Getting a new highscore using a different user, and seeing the leaderboard update with the highscore on the next playthrough.
+  - Achieving a new high score and seeing the leaderboard update with it on the next playthrough.
+  - Achieving a new high score using a different user and seeing the leaderboard update with the highscore on the next playthrough.
