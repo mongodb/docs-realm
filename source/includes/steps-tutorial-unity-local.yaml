@@ -318,9 +318,9 @@ content: |
   
   - query the {+realm+} to determine if a player object already exists for the
     given userInput. 
-  - create a conditional if else block that creates a player and a stat
-    {+realm+} object if the player does not exist, and only create a stat
-    {+realm+} object if the player does exist.
+  - create a if else block that creates a new player and a new stat {+realm+}
+    object if the player does not exist, and uses the existing player and
+    creates a new stat object if the player does exist.
 
   Add the following code to your RealmController's ``setLoggedInUser()`` method:
 
