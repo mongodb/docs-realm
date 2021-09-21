@@ -13,8 +13,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Force XCode 13.0
-        run: sudo xcode-select -switch /Applications/Xcode_13.0.app
       - name: Dependencies
         run: |
           cd examples/ios
