@@ -47,7 +47,7 @@ content: |
 
   In later steps, you will use {+realm+} to record how many enemies the player
   defeated per playthrough, how many tokens were collected, and a score that is
-  calculated based on the stats for the current playthrough and how quickly you
+  calculated based on the statistics for the current playthrough and how quickly you
   completed the playthrough.
 ---
 title: Update Your Project Manifest 
@@ -181,7 +181,7 @@ content: |
      * - RealmController.cs
        - Open a {+realm+}, query the {+realm+} for an existing player or create
          a new one and a new stat for the current playthrough, and perform writes
-         to the new stat object.
+         to the new ``Stat`` object.
 
      * - PlayerModel.cs
        - Defines the Player :ref:`{+frontend-schema+} <dotnet-object-models-and-schemas>`.
@@ -205,7 +205,7 @@ content: |
   - A ``stat`` is a {+realm+} object representing the statistics of a
     playthrough of the game. For instance, in one playthrough of the game, a
     ``player`` may have defeated 10 enemies, collected 15 tokens, and had a
-    score of 210. Each Stat has a ``statOwner`` that is a player object.
+    score of 210. Each ``Stat` has a ``statOwner`` that is a ``Player`` object.
 
   - A ``player`` is a {+realm+} object representing the user's logged-in
     character. Each player has a collection (IList) of ``stats`` of which they
@@ -280,10 +280,10 @@ content: |
   In later steps, you will add functionality to the ``RealmController`` script
   to perform the following:
   
-  - open a realm
-  - set a logged-in player
-  - interact with the player and stat models
-  - create, read, update, and delete player stats
+  - open a realm.
+  - set a logged-in ``Player``.
+  - interact with the ``Player`` and ``Stat`` models.
+  - create, read, update, and delete the current playthrough ``Stat`` object.
   
   .. note:: 
 
@@ -316,17 +316,17 @@ content: |
   The ``RealmController.setLoggedInUser()`` method takes a string, userInput.
   You will create code to do the following in this method:
   
-  - Query the {+realm+} to determine if a player object already exists for the
+  - Query the {+realm+} to determine if a ``Player`` object already exists for the
     given userInput. 
-  - Create a if-else block that creates a new player and a new stat {+realm+}
-    object if the player does not exist, and uses the existing player and
-    creates a new stat object if the player does exist.
+  - Create a if-else block that creates a new ``Player`` and a new ``Stat`` {+realm+}
+    object if the ``Player`` does not exist, and uses the existing ``Player`` and
+    creates a new ``Stat`` object if the ``Player`` does exist.
 
   Add the following code to your ``RealmController.setLoggedInUser()`` method:
 
   .. code-block:: csharp
 
-     // query the realm to find any player objects with the matching name
+     // query the realm to find any Player objects with the matching name
      var matchedPlayers = realm.All<Player>().Where(p => p.Name == userInput);
      if (matchedPlayers.Count() > 0){
          currentPlayer = matchedPlayers.First(); // if a player exists set the RealmController's currentPlayer to the first match
@@ -367,9 +367,9 @@ content: |
 title: Update the Stats and Watch for Changes
 ref: watch-for-changes-to-stat-object
 content: |
-  You've set the current scorecard to the player's initial stats for the
+  You've set the current Scorecard to the initial playthrough statistics for the
   current playthrough of the game, but collecting tokens or defeating
-  enemies will not impact the player's stats yet. To fix that, you'll edit the
+  enemies will not impact the current ``Stat`` object yet. To fix that, you'll edit the
   ``collectToken()`` an ``defeatEnemy()`` methods in the ``RealmController``.
 
   When a player collects a token, the ``collectToken()`` should be called, and
@@ -417,7 +417,7 @@ content: |
    playthrough's Stat and updates the Scorecard in the UI. In the
    ``ScoreCardManager.cs`` file, you can add a change listener to the current
    Stat {+realm+} object defined as the ``RealmController.currentStat``
-   variable. In the ``watchForChangesToCurrentStats()`` method, handle the currentStat's
+   variable. In the ``watchForChangesToCurrentStats()`` method, handle the ``Stat`` object's
    :dotnet-sdk:`PropertyChanged event<Realms.RealmObjectBase.html#Realms_RealmObjectBase_PropertyChanged>`:
    
    .. code-block:: csharp
@@ -469,12 +469,12 @@ ref: restart-game-on-win
 content: |
   Currently, when the player loses by colliding with an enemy or by falling from a
   platform, the game starts a new playthrough and respawns the player back to
-  the start point but does not create a new Stat object for the new playthrough.
+  the start point but does not create a new ``Stat`` object for the new playthrough.
   To expand upon this, you'll perform the following when the player loses the game:
 
-  - Fill out the ``RealmController.deleteCurrentStat()`` method to delete the current Stat for the current playthrough
+  - Fill out the ``RealmController.deleteCurrentStat()`` method to delete the current ``Stat`` object for the current playthrough
   - Call the ``RealmController.deleteCurrentStat()`` method
-  - Call the ``RealmController.restartGame()`` method to create a new Stat object for the new playthrough 
+  - Call the ``RealmController.restartGame()`` method to create a new ``Stat`` object for the new playthrough 
 
   Navigate to the ``RealmController.deleteCurrentStat()`` method and add the following code at the bottom of that method:
 
@@ -497,7 +497,7 @@ content: |
 
   Return to the Unity Editor, and click play to enter ``play mode``. The next
   time your player loses, you should be respawned to the start point with a new
-  Stat object showing 0 enemies defeated, 0 tokens collected.
+  ``Stat`` object showing 0 enemies defeated, 0 tokens collected.
 ---
 title: Customize Your Game Assets (Optional)
 ref: customize-game
