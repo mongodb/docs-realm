@@ -144,10 +144,16 @@ Regex-like wildcards allow more flexibility in search.
      - Description
 
    * - ``StartsWith``
-     - Evaluates to ``true`` if the left-hand string expression begins with the right-hand string expression. This is similar to ``contains``, but only matches if the left-hand string expression is found at the beginning of the right-hand string expression.
+     - Evaluates to ``true`` if the left-hand string expression begins with the 
+       right-hand string expression. This is similar to ``contains``, but only 
+       matches if the left-hand string expression is found at the beginning of 
+       the right-hand string expression.
 
    * - | ``EndsWith``
-     - Evaluates to ``true`` if the left-hand string expression ends with the right-hand string expression. This is similar to ``contains``, but only matches if the left-hand string expression is found at the very end of the right-hand string expression.
+     - Evaluates to ``true`` if the left-hand string expression ends with the 
+       right-hand string expression. This is similar to ``contains``, but only 
+       matches if the left-hand string expression is found at the very end of 
+       the right-hand string expression.
 
    * - | ``Like``
      - Evaluates to ``true`` if the left-hand string expression
@@ -162,9 +168,28 @@ Regex-like wildcards allow more flexibility in search.
        For example, the wildcard string "d?g" matches "dog",
        "dig", and "dug", but not "ding", "dg", or "a dog".
 
-   * - | ``Equals`` (C#)
-     - Evaluates to ``true`` if the left-hand string is lexicographically equal to the right-hand string.
+   * - | ``Equals``
+     - Evaluates to ``true`` if the left-hand string is lexicographically equal 
+       to the right-hand string.
 
+   * - | ``Contains``
+     - Evaluates to ``true`` if the left-hand string expression is found anywhere 
+       in the right-hand string expression.
+
+   * - | ``First``
+     - Evaluates to ``true`` if the left-hand string expression is found anywhere 
+       in the right-hand string expression.
+
+   * - | ``Second``
+     - Evaluates to ``true`` if the left-hand string expression is found anywhere 
+       in the right-hand string expression.
+
+   * - | ``Last``
+     - Evaluates to ``true`` if the left-hand string expression is found anywhere 
+       in the right-hand string expression.
+
+..   * - | ``IsNullOrEmpty``
+     - Evaluates to ``true`` if the left-hand string expression is null or empty.
 
 .. example::
 
@@ -175,6 +200,12 @@ Regex-like wildcards allow more flexibility in search.
    .. literalinclude:: /examples/generated/dotnet/QueryEngineExamples.codeblock.strings.cs
       :language: csharp
 
+.. important:: Case Comparisons
+
+   When evaluating strings, the second parameter in all functions _except_ ``Like`` 
+   must be either ``StringComparison.OrdinalIgnoreCase`` or 
+   ``StringComparison.Ordinal``. For the ``Like()`` method, the second 
+   parameter is a boolean value (where ``true`` means "case sensitive").
 
 Aggregate Operators
 ~~~~~~~~~~~~~~~~~~~
@@ -191,16 +222,29 @@ to a single value.
    * - Operator
      - Description
 
-   * - | ``Count`` (C#)
-     - Evaluates to the number of objects in the given collection.
+   * - | ``@avg``
+     - Evaluates to the average value of a given numerical property across a collection.
+
+   * - | ``@count``
+     - Evaluates to the number of objects in the given collection. This
+       is currently only supported on :ref:`to-many relationship
+       collections <dotnet-to-many-relationship>` and not on lists of
+       primitives. In order to use ``@count`` on a list of primitives,
+       consider wrapping the primitives in a :ref:`{+service-short+}
+       object <dotnet-realm-objects>`.
+
+   * - | ``@max``
+     - Evaluates to the highest value of a given numerical property across a collection.
+
+   * - | ``@min``
+     - Evaluates to the lowest value of a given numerical property across a collection.
+
+   * - | ``@sum``
+     - Evaluates to the sum of a given numerical property across a collection.
 
 .. example::
 
-   We create a couple of filters to show different facets of
-   the data:
-
-   - Projects with average tasks priority above 5.
-   - Long running projects.
+   The following examples show different ways to aggregate data:
 
    .. literalinclude:: /examples/generated/dotnet/QueryEngineExamples.codeblock.aggregate.cs
       :language: csharp

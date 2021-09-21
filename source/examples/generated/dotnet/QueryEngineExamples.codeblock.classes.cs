@@ -2,7 +2,7 @@ public class Task : RealmObject
 {
     [PrimaryKey]
     [MapTo("_id")]
-    public ObjectId Id { get; set; }
+    public ObjectId Id { get; set; } = ObjectId.GenerateNewId();
     public string Name { get; set; }
     public string Assignee { get; set; }
     public bool IsComplete { get; set; }
