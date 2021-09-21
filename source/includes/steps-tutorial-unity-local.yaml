@@ -7,27 +7,18 @@ content: |
   will import and {+service-short+} functionality to the game. 
 
   Click the Learn tab on the left side of Unity Hub to view the list of template projects.
-
-  .. figure:: /images/unity-click-learn-tab.png
-     :width: 750px
-     :alt: Unity Click Learn Tab
-
-  Scroll to the Platformer Microgame and click it. On the Modal that appears,
-  click the "Download Project" button to download the project.  
+  Scroll to the Platformer Microgame and click it.
 
   .. figure:: /images/unity-scroll-to-platformer-microgame.png
      :width: 750px
      :alt: Unity Scroll to Platformer Microgame
 
+  On the Modal that appears, click the "Download Project" button to download the
+  project. When the download is complete, click "Open Project" to open the project in Unity.  
+
   .. figure:: /images/unity-download-platformer-microgame.png
      :width: 350px
      :alt: The cluster selection dropown menu
-
-  Click "Open Project" to open the project in Unity.  
-
-  .. figure:: /images/unity-open-platformer-microgame.png
-     :width: 350px
-     :alt: Unity Open Platformer Microgame
 ---
 title: Load the Template's Scene
 ref: load-template-scene
@@ -51,21 +42,20 @@ content: |
   screen to enter `play mode <https://docs.unity3d.com/Manual/GameView.html>`_
   and play the game. 
 
-  .. figure:: /images/unity-click-to-enter-play-mode.png
-     :width: 350px
-     :alt: Enter Play Mode
-
-  To play the game, use the arrow keys to move your character, and the spacebar
-  to jump. Hop on the "red slime" enemies to defeat them, making them disappear.
-  Collide your character with the yellow "tokens" to collect them. Get to the
-  end of the level to win the game. 
-
   .. figure:: /images/unity-view-game-in-play-mode.png
      :width: 500px
      :alt: View Game in Play Mode
 
+  .. tip:: Playing the Game
+
+     Try the game to get a feel of what your users will experience. Use the arrow keys for player movement, and the spacebar
+     to jump. Navigate through a series of platforms and defeat the "red slime" enemies by hopping on them, making them disappear.
+     Collect the yellow "tokens" by touching them. Get to the end of the level to win the game. 
+
   In later steps, you will use {+realm+} to record how many enemies the player
-  defeated per playthrough, how many tokens were collected, and a score.
+  defeated per playthrough, how many tokens were collected, and a score that is
+  calculated based on the stats for the current playthrough and how quickly you
+  completed the playthrough.
 ---
 title: Update Your Project Manifest 
 ref: update-project-manifest
