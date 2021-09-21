@@ -310,11 +310,11 @@ title: Set a Logged In User
 ref: set-logged-in-user
 content: |
   In the RealmController.cs file you will need to implement a function to set
-  the logged-in user. This function is called on a click event that has been
-  created for you in the AuthenticationManager.cs file.
+  the logged-in user. The ``AuthenticationManager.cs`` file calls this function
+  when a user clicks the "Login & Start" button.
   
-  The RealmController's ``setLoggedInUser()`` method takes a string, userInput. In this method,
-  you will create code to do the following:
+  The RealmController's ``setLoggedInUser()`` method takes a string, userInput.
+  You will create code to do the following in this method:
   
   - Query the {+realm+} to determine if a player object already exists for the
     given userInput. 
