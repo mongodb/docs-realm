@@ -176,15 +176,15 @@ Regex-like wildcards allow more flexibility in search.
      - Evaluates to ``true`` if the left-hand string expression is found anywhere 
        in the right-hand string expression.
 
-   * - | ``First``
+..   * - | ``First``
      - Evaluates to ``true`` if the left-hand string expression is found anywhere 
        in the right-hand string expression.
 
-   * - | ``Second``
+..   * - | ``Second``
      - Evaluates to ``true`` if the left-hand string expression is found anywhere 
        in the right-hand string expression.
 
-   * - | ``Last``
+..   * - | ``Last``
      - Evaluates to ``true`` if the left-hand string expression is found anywhere 
        in the right-hand string expression.
 
@@ -194,18 +194,18 @@ Regex-like wildcards allow more flexibility in search.
 .. example::
 
    We use the query engine's string operators to find
-   tasks with a name starting with the letter 'e' and
-   tasks with names that contain 'ie' (regardless of case):
+   tasks with an Assignee starting with the letter 'e' or 'E' (case-insensitive)
+   and tasks with names that contain 'is' (case-sensitive):
 
    .. literalinclude:: /examples/generated/dotnet/QueryEngineExamples.codeblock.strings.cs
       :language: csharp
 
 .. important:: Case Comparisons
 
-   When evaluating strings, the second parameter in all functions _except_ ``Like`` 
+   When evaluating strings, the second parameter in all functions *except* ``Like`` 
    must be either ``StringComparison.OrdinalIgnoreCase`` or 
    ``StringComparison.Ordinal``. For the ``Like()`` method, the second 
-   parameter is a boolean value (where ``true`` means "case sensitive").
+   parameter is a boolean value (where "true" means "case sensitive").
 
 Aggregate Operators
 ~~~~~~~~~~~~~~~~~~~
