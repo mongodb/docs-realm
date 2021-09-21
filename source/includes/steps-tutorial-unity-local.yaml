@@ -203,15 +203,15 @@ content: |
   Note the following about the schemas:
 
   - A ``stat`` is a {+realm+} object representing the statistics of a
-    playthrough of the game. For instance, in one playthrough a ``player`` may have defeated 10
-    enemies, collected 15 tokens, and had a score of 210. Each Stat has a
-    ``statOwner`` that is a player object.
+    playthrough of the game. For instance, in one playthrough of the game, a
+    ``player`` may have defeated 10 enemies, collected 15 tokens, and had a
+    score of 210. Each Stat has a ``statOwner`` that is a player object.
 
-  - A ``player`` is a {+realm+} object representing the user's logged in
+  - A ``player`` is a {+realm+} object representing the user's logged-in
     character. Each player has a collection (IList) of ``stats`` of which they
     own. 
 
-  - A ``player`` has a string property, ``_id``, that defines the Players's unique partition.
+  - A ``player`` has a string property, ``_id``, that defines the Players' unique partition.
 ---
 title: Create UI Game Objects
 ref: create-ui-game-objects
@@ -219,9 +219,9 @@ content: |
   Navigate to your Unity Editor's `hierarchy window
   <https://docs.unity3d.com/Manual/Hierarchy.html>`_ to create UI game objects
   that will display the authentication screen, game leaderboard, and player's
-  score card for the current playthrough of the game. 
+  scorecard for the current playthrough of the game. 
 
-  Right click and select UI > Canvas to create a `Canvas
+  Right-click and select UI > Canvas to create a `Canvas
   <https://docs.unity3d.com/Packages/com.unity.ugui@1.0/manual/UICanvas.html>`_
   GameObject that will contain your UI elements. 
 
@@ -231,15 +231,15 @@ content: |
 
   Next, as a child of the Canvas game object, create three `UIDocuments
   <https://docs.unity3d.com/2021.2/Documentation/ScriptReference/UIElements.UIDocument.html>`_
-  by right clicking the Canvas object and selecting UI Toolkit > UI Document
+  by right-clicking the Canvas object and selecting UI Toolkit > UI Document
   three times. Name these game objects: AuthenticationScreen, Leaderboard, and
-  Scorecard respectively.
+  Scorecard, respectively.
 
   .. figure:: /images/unity-create-ui-documents.png
      :width: 350px
      :alt: Create the UI Documents
 
-  Next attach the UXML files to the UI GameObjects. Click the
+  Next, attach the UXML files to the UI GameObjects. Click the
   "AuthenticationScreen" GameObject to open the `inspector window
   <https://docs.unity3d.com/Manual/UsingTheInspector.html>`_. Then select
   "Authentication" in the "Source Asset" field to set the AuthenticationScreen's
@@ -258,7 +258,8 @@ content: |
      :width: 500px
      :alt: Unity Tutorial Game with Static UI
 
-  Notice, that the "Login & Start" button does not work yet.
+  Notice that the "Login & Start" button does not work yet. You'll add that
+  functionality in a later step.
 ---
 title: Create a RealmController Game Object
 ref: create-realm-controller-object
@@ -267,7 +268,7 @@ content: |
   AuthenticationScreen components you need a GameObject to interact with
   {+realm+}. 
   
-  Create an empty ``Game Object`` by right clicking the hierarchy window and
+  Create an empty ``Game Object`` by right-clicking the hierarchy window and
   select "Create Empty". Name the object "RealmController". Next, `attach
   <https://docs.unity3d.com/Manual/UnityAnalyticsAttachSDK.html>`_ the
   "RealmController.cs" script to the "RealmController" object by clicking the
@@ -365,7 +366,7 @@ content: |
 title: Update the Stats and Watch for Changes
 ref: watch-for-changes-to-stat-object
 content: |
-  You've set the current score card to the player's initial stats for the
+  You've set the current scorecard to the player's initial stats for the
   current playthrough of the game, but currently collecting tokens or defeating
   enemies will not impact the player's stats. To fix that, you'll edit the
   ``collectToken()`` an ``defeatEnemy()`` methods in the RealmController.
