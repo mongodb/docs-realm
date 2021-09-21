@@ -187,6 +187,28 @@ class Authenticate: XCTestCase {
         wait(for: [expectation], timeout: 10)
     }
 
+    // :code-block-start: async-await
+    func testAsyncAwaitLogin() async {
+        // :hide-start:
+        let expectation = XCTestExpectation(description: "login completes")
+        // :hide-end:
+        let anonCredentials = Credentials.anonymous
+
+        do {
+            let user = try await app.login(credentials: anonCredentials)
+            // :hide-start:
+            expectation.fulfill()
+            // :hide-end:
+            print("Successfully logged in as user \(user)")
+        } catch {
+            print("Login failed: \(error.localizedDescription)")
+        }
+        // :hide-start:
+        wait(for: [expectation], timeout: 10)
+        // :hide-end:
+    }
+    // :code-block-end:
+
     func testAnonymousCredentials() {
         let expectation = XCTestExpectation(description: "login completes")
 
