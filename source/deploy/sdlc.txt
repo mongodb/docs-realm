@@ -15,8 +15,8 @@ Overview
 
 Many developers use :wikipedia:`continuous integration, delivery, and deployment
 pipelines <CI/CD>` to automatically test and publish their applications whenever
-they make changes. This is particularly useful for larger apps where multiple
-people work on the codebase in parallel through a shared version control system
+they make changes. This is most common and useful for larger apps where multiple
+people work on the codebase in parallel using a shared version control system
 like git.
 
 This guide covers the high level stages common to most CI/CD pipelines and
@@ -35,9 +35,8 @@ your Realm applications.
 Pipeline Stages
 ---------------
 
-No two CI/CD pipelines are the same, but at a high level most pipelines share a
-common pattern of moving through multiple stages that each handle different
-concerns.
+At a high level most pipelines share a common pattern of moving through multiple
+stages that each handle different concerns.
 
 Development
 ~~~~~~~~~~~
@@ -46,16 +45,18 @@ The Development stage is the first step for creating new features and fixing
 bugs in a Realm app. In this stage you work with your application's
 configuration files and source code to implement your desired changes. 
 
-To develop new features for an existing app, you can use the following high
-level procedure:
+To develop new features for an existing app:
 
-1. Fork the main app and deploy a new development copy. This instance will have
-   a different App ID than your production app. You can also use
-   :ref:`environment value templates <config-expansions>` to use development
-   data sources and other services that are not linked to production.
+1. Fork the main app and :ref:`deploy a new development copy
+   <sdlc-create-app>`. This instance will have a different App ID than your
+   production app. You can also use :ref:`environment value templates
+   <config-expansions>` to use development data sources and other services that
+   are not linked to production.
 
 2. Develop your application. This could involve updating or adding a client app
-   screen, adding a new database trigger, or any other application features.
+   screen, adding a new database trigger, or any other application features. You
+   can use :ref:`development mode <concept-development-mode>` if you need to
+   make changes to your synced Realm object model.
 
 3. Run automated tests locally to ensure that your code does not introduce any
    new errors. Tests that pass locally do not guarantee that your app is free of
@@ -74,16 +75,21 @@ with live services without affecting production data.
 The specifics of your staging deployment depend on your application's needs.
 However, you can use the following high level procedure to set it up:
 
-1. Set up your staging environment. Use separate, non-production services and
+1. **Set up your staging environment.** Use separate, non-production services and
    data sources with configurations that mirror production as closely as
    possible. For example, you might use an Atlas cluster named ``staging`` that
    otherwise has the same configuration as your ``production`` cluster.
+   Depending on your use case, you may have a consistent Realm app that you
+   reuse for all staging builds or you may create a new Realm app for each
+   staging build.
 
-2. Create a staging build. This is best handled automatically as part of your
-   CI/CD process when you create a new new pull request, but you could also
-   manually build your staging environment.
+2. **Create or use an existing a staging build.** You can automatically create a
+   staging build as part of your CI/CD process, such as when you create a new
+   new pull request. You can :ref:`use a new app <sdlc-create-app>` for each
+   staging build or you can :ref:`reuse a prebuilt environment
+   <sdlc-update-app>` that you share across builds.
 
-3. Verify that your app behaves as expected. This might involve running an
+3. **Verify that your app behaves as expected.** This might involve running an
    automated test suite against your staging environment, manually checking
    behavior, or getting approval through a user-acceptance test.
 
@@ -94,7 +100,7 @@ The Production stage is the final deployment step where your modified app is
 deployed into your production environment. Ideally at this stage you have
 already tested your changes locally and in staging to confirm that they are safe
 to deploy. You can either deploy to production manually or automatically as part
-of your CI/CD workflow.
+of your CI/CD workflow by :ref:`updating your production app <sdlc-update-app>`.
 
 Build Tasks
 -----------
@@ -123,47 +129,100 @@ the Development stage or use your production App ID in the Production stage.
    # Use a new App ID for development branches - you'll need to create the app first!
    export REALM_APP_ID="myapp-dev-zyxwv"
 
+.. tip:: Find Your App ID
+   
+   You might not always be able to hardcode your App ID. You can look up a
+   specific App ID with Realm CLI. For an example, see :ref:`Create a Realm App
+   <sdlc-create-app>`.
+
 Set Up Realm CLI
 ~~~~~~~~~~~~~~~~
 
-Realm CLI is the easiest way to programmatically create, configure, and manage
-Realm apps. You should install and use the latest version in your deployment
-scripts.
+:ref:`Realm CLI <realm-cli>` is the easiest way to programmatically create,
+configure, and manage Realm apps. You should :ref:`install <install-realm-cli>`
+and use the latest version in your deployment scripts.
+
+.. code-block:: bash
+   
+   npm install -g mongodb-realm-cli
 
 You'll also need a MongoDB Atlas public/private API key pair to authenticate and
 use the CLI. For more information and a walkthrough of how to get an API key,
 see :atlas:`Programmatic API Keys
 </configure-api-access/#programmatic-api-keys>`.
 
+To log in, save your API keys in a new named profile configuration and then log
+in with that profile:
+
+.. code-block:: yaml
+   :caption: ``~/.config/realm-cli/<Profile Name>.yaml``
+   
+   <Profile Name>:
+     public_api_key: "<MongoDB Atlas Public API Key>"
+     private_api_key: "<MongoDB Atlas Private API Key>"
+     atlas_base_url: "https://cloud.mongodb.com"
+     realm_base_url: "https://realm.mongodb.com"
+     telemetry_mode: ""
+
 .. code-block:: bash
    
-   export ATLAS_PUBLIC_KEY="<REALM_API_PUBLIC_KEY>"
-   export ATLAS_PRIVATE_KEY="<REALM_API_PRIVATE_KEY>"
+   realm-cli login --profile="<Profile Name>"
 
-.. code-block:: bash
+.. tip::
    
-   npm install -g mongodb-realm-cli
-   realm-cli login --api-key=$ATLAS_PUBLIC_KEY --private-api-key=$ATLAS_PRIVATE_KEY
+   Make sure to use the ``--profile`` flag in all of your commands, otherwise
+   Realm CLI won't recognize that you're logged in.
 
-Create or Update a Realm App
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. _sdlc-create-app:
 
-You can use Realm CLI to create a new app or to update an existing app, like
-your production app. If your pipeline is in the Development or Staging phase,
-you should deploy and test changes with an app other than your live production
-app.
+Create a Realm App
+~~~~~~~~~~~~~~~~~~
+
+You can use Realm CLI to create new apps to use in development and testing. If
+your pipeline is in the Development or Staging phase, you should deploy and test
+changes with an app other than your live production app.
+
+To use a new app for your development or staging branch:
+
+1. **Create a New App**
+   
+   Push a new app based on your branch of the app's :ref:`configuration
+   files<app-configuration>`:
+   
+   .. code-block:: bash
+      
+      cd path/to/realmApp
+      realm-cli push -y --project="<MongoDB Atlas Project ID>" # e.g. --project="609ea544934fe445460219a2"
+
+2. **Save the App ID**
+   
+   The new app has a unique App ID value that you'll need to identify it later
+   in your pipeline and in your client app. You should save the value to an
+   environment variable, file, or other location.
+   
+   .. code-block:: bash
+      
+      # Save to an environment variable
+      output=$(realm-cli app describe)
+      app_id=$(echo $output | sed 's/^.*client_app_id": "\([^"]*\).*/\1/')
+      export REALM_APP_ID=app_id
+      # Save to a file
+      echo $REALM_APP_ID > ./clients/ios/realm-app-id.txt
+
+.. _sdlc-update-app:
+
+Update a Realm App
+~~~~~~~~~~~~~~~~~~
+
+You can use Realm CLI to update an existing app, like a shared staging app or
+your production deployment. The app already exists, so you should be able to
+look up its App ID.
 
 To update an existing app, specify its App ID in the ``--remote`` flag:
 
 .. code-block:: bash
    
    realm-cli push --remote=$REALM_APP_ID -y
-
-To create a new app, do not specify an App ID in the ``--remote`` flag:
-
-.. code-block:: bash
-   
-   realm-cli push -y
 
 Run Tests Against the Realm App
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
