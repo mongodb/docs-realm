@@ -187,27 +187,32 @@ class Authenticate: XCTestCase {
         wait(for: [expectation], timeout: 10)
     }
 
-    // :code-block-start: async-await
     func testAsyncAwaitLogin() async {
-        // :hide-start:
         let expectation = XCTestExpectation(description: "login completes")
-        // :hide-end:
-        let anonCredentials = Credentials.anonymous
+
+        // :code-block-start: async-await
+        func login() async throws -> User {
+            // Instantiate the app using your Realm app ID
+            let app = App(id: YOUR_REALM_APP_ID)
+            // Authenticate with the instance of the app that points
+            // to your backend. Here, we're using anonymous login.
+            let loggedInUser = try await app.login(credentials: Credentials.anonymous)
+            return loggedInUser
+        }
 
         do {
-            let user = try await app.login(credentials: anonCredentials)
+            let user = try await login()
+            // Do something with user
+            print("Successfully logged in user: \(user)")
             // :hide-start:
             expectation.fulfill()
             // :hide-end:
-            print("Successfully logged in as user \(user)")
         } catch {
-            print("Login failed: \(error.localizedDescription)")
+            print("Failed to log in user: \(error.localizedDescription)")
         }
-        // :hide-start:
+        // :code-block-end:
         wait(for: [expectation], timeout: 10)
-        // :hide-end:
     }
-    // :code-block-end:
 
     func testAnonymousCredentials() {
         let expectation = XCTestExpectation(description: "login completes")
