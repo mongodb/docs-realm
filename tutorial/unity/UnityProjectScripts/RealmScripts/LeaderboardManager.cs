@@ -71,17 +71,9 @@ public class LeaderboardManager : MonoBehaviour
     private int getRealmPlayerTopStat()
     {
         // :code-block-start: get-current-player-top-score
-        // :state-start: start
-        // TODO: Query the realm instance for the current player, find the current player's top score and return that value
-        // :state-uncomment-start: start
-        //  return 0;
-        // :state-uncomment-end:
-        // :state-end:
-        // :state-start: sync local     
         var realmPlayer = realm.All<Player>().Where(p => p.Name == username).First();
         var realmPlayerTopStat = realmPlayer.Stats.OrderByDescending(s => s.Score).First().Score;
         return realmPlayer.Stats.OrderByDescending(s => s.Score).First().Score;
-        // :state-end:
         // :code-block-end:
     }
     // createLeaderboardUI() is a method that creates a Leaderboard title for
