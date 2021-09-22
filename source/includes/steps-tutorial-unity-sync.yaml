@@ -288,9 +288,9 @@ content: |
 
   .. code-block:: csharp
  
-     public async void setLoggedInUser(string loggedInUser)
+     public async void setLoggedInUser(string userInput)
      {
-         username = loggedInUser;
+         username = userInput;
          realm = await GetRealm();
          // ...
      }
