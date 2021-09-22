@@ -1,10 +1,23 @@
 
+// Note: In each of the following examples, you can replace the
+// Where() method with First(), FirstOrDefault(),
+// Single(), SingleOrDefault(),
+// Last(), or LastOrDefault().
+
 // Get all tasks where the Assignee's name starts with "E" or "e"
-var tasksStartWitE = tasks.Where(t => t.Assignee.StartsWith("E",
+var tasksStartWitE = tasks.Last(t => t.Assignee.StartsWith("E",
     StringComparison.OrdinalIgnoreCase));
 
-// Get all tasks where the Assignee's name contains "is"
+// Get all tasks where the Assignee's name ends wth "is"
 // (lower case only)
-var tasksContains = tasks.Where(t => t.Assignee.Contains("is",
-     StringComparison.Ordinal));
+var endsWith = tasks.SingleOrDefault(t =>
+    t.Assignee.EndsWith("is", StringComparison.Ordinal));
+
+// Get all tasks where the Assignee's name contains the
+// letters "ami" in any casing
+var tasksContains = tasks.FirstOrDefault(t => t.Assignee.Contains("ami",
+     StringComparison.OrdinalIgnoreCase));
+
+// Get all tasks that have no assignee
+var null_or_empty = tasks.Where(t => string.IsNullOrEmpty(t.Assignee));
 

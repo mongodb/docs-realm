@@ -55,9 +55,7 @@ An **expression** consists of one of the following:
 
 Comparison Operators
 ~~~~~~~~~~~~~~~~~~~~
-
-The most straightforward operation in a search is to compare
-values.
+The most straightforward operation in a search is to compare values.
 
 .. list-table::
    :header-rows: 1
@@ -176,26 +174,14 @@ Regex-like wildcards allow more flexibility in search.
      - Evaluates to ``true`` if the left-hand string expression is found anywhere 
        in the right-hand string expression.
 
-..   * - | ``First``
-     - Evaluates to ``true`` if the left-hand string expression is found anywhere 
-       in the right-hand string expression.
-
-..   * - | ``Second``
-     - Evaluates to ``true`` if the left-hand string expression is found anywhere 
-       in the right-hand string expression.
-
-..   * - | ``Last``
-     - Evaluates to ``true`` if the left-hand string expression is found anywhere 
-       in the right-hand string expression.
-
-..   * - | ``IsNullOrEmpty``
+   * - | ``string.IsNullOrEmpty``
      - Evaluates to ``true`` if the left-hand string expression is null or empty.
+       Note that ``IsNullOrEmpty()`` is a static method on ``string``. 
 
 .. example::
 
-   We use the query engine's string operators to find
-   tasks with an Assignee starting with the letter 'e' or 'E' (case-insensitive)
-   and tasks with names that contain 'is' (case-sensitive):
+   The following examples use the query engine's string operators to find
+   tasks:
 
    .. literalinclude:: /examples/generated/dotnet/QueryEngineExamples.codeblock.strings.cs
       :language: csharp
@@ -249,7 +235,3 @@ to a single value.
    .. literalinclude:: /examples/generated/dotnet/QueryEngineExamples.codeblock.aggregate.cs
       :language: csharp
 
-Summary
--------
-
-- There are several categories of **operators** available to filter results: comparison, logical, string and aggregate operators.
