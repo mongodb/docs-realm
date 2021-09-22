@@ -424,7 +424,7 @@ content: |
    
    .. code-block:: csharp
  
-      var propertyHandler = new PropertyChangedEventHandler((sender, e) => updateCurrentStats());
+      propertyHandler = new PropertyChangedEventHandler((sender, e) => updateCurrentStats());
       currentStat.PropertyChanged += propertyHandler;
 
   The Scorecard now updates if the player defeats an enemy or collects a token.
