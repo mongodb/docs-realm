@@ -12,7 +12,7 @@
    indefinite periods of time, or time ranges in months and years. The functionality
    is not tested for these use cases, and you could encounter a range of issues
    when using it this way. These issues can relate to:  
-   
+
    - Syncing stores the operations that create the changes, which can quickly grow to 
-   become much larger than the actual state
+     become much larger than the actual state
    - Issues related to :ref:`compaction <glossary-compaction-definition>` of data
