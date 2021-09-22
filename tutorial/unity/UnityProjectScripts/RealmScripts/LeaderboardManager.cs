@@ -107,6 +107,7 @@ public class LeaderboardManager : MonoBehaviour
     // createTopStatListView() is a method that creates a set of Labels containing high stats
     private void createTopStatListView()
     {
+        int maximumAmountOfTopStats;
         // set the maximumAmountOfTopStats to 5 or less
         if (topStats.Count > 4)
         {
