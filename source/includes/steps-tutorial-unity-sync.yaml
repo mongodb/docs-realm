@@ -181,7 +181,7 @@ content: |
   lets replace that in the code with {+realm+} :doc:`Email/Password
   Authentication </sdk/dotnet/examples/manage-email-password-users>`
 
-  In the `RealmController.cs`` replace the ``setLoggedInUser()`` with an
+  In the ``RealmController.cs`` replace the ``setLoggedInUser()`` with an
   asynchronous method that logs in using the :dotnet-sdk:`LogInAsync()
   <reference/Realms.Sync.App.html#Realms_Sync_App_LogInAsync_Realms_Sync_Credentials_>`
   method to authenticate and obtain a :dotnet-sdk:`User
@@ -219,7 +219,7 @@ content: |
         return currentPlayer;
      }
 
-  Next, in the ``RealmController.cs`` file create an asynchronous method that
+  Next, in the ``RealmController.cs`` file, create an asynchronous method that
   registers a new user by passing a user-provided email and password to the
   :dotnet-sdk:`RegisterUserAsync()
   <reference/Realms.Sync.App.EmailPasswordClient.html#Realms_Sync_App_EmailPasswordClient_RegisterUserAsync_System_String_System_String_>`
@@ -250,7 +250,9 @@ content: |
         return currentPlayer;
      }
 
-  Finally, add the following code at the end of the RealmController's ``logOut()`` method in order to log out of the {+realm+} user when the log out button is clicked:
+  Finally, add the following code at the end of the RealmController's
+  ``logOut()`` method to log out of the {+realm+} user when a user clicks the
+  log out button:
 
   .. code-block:: csharp
  
@@ -260,9 +262,9 @@ content: |
 title: Create a Real-Time Leaderboard with Realm Sync
 ref: create-a-real-time-leaderboard-with-realm-sync
 content: |
-  The current leaderboard is configured to show the top player stats when the
-  game first loads. However, if another player gets a new high score after the
-  game loads on your device, the leaderboard on your device will not be updated.
+  The current leaderboard shows the top player stats when the game first loads.
+  However, if another player gets a new high score after the game loads on your
+  device, the leaderboard on your device will not be updated.
 
   To fix this, you will update the code in the ``LeaderboardManager.cs`` file to do the following:
 
@@ -319,11 +321,11 @@ content: |
              });
      }
 
-  Create a method, ``setNewlyInsertedScores()`` that takes in a list of indices
-  that the new Stat's were inserted at, and loops through the newly inserted
-  Stat object to determine if the new Stat object's score is greater than any
-  existing top scores, and if it is, inserts it into the topStats list in
-  descending order:
+  Create a method, ``setNewlyInsertedScores()`` that does the following:
+
+  - Loops through a list of indices of inserted elements to find the newly created ``Stat`` objects. 
+  - Loops through the current top scores to determine if the new Stat object's ``score`` is higher than the current score. 
+  - Updates the list of current top scores if there is a higher one and updates the UI to display the new list of top scores.
 
   .. code-block:: csharp
  
@@ -351,7 +353,7 @@ content: |
          }
      }
    
-  The ``setStatListener()`` should be called after the user is logged-in, at the
+  Call the ``setStatListener()``Ca after the user is logged-in, at the
   end of the LeaderboardManager's ``setLoggedInUser()`` method:
 
   .. code-block:: csharp
@@ -376,7 +378,7 @@ content: |
      your leaderboard updates automatically and displays the new high score.
      Alternatively, you can use the `Unity symbolic link workaround
      <https://support.unity.com/hc/en-us/articles/115003118426-Running-multiple-instances-of-Unity-referencing-the-same-project>`_
-     to open a second instance of the project and login with a different user
+     to open a second instance of the project and log in with a different user,
      and get a new high score.
 ---
 title: Run and Test
@@ -392,5 +394,7 @@ content: |
 
   - Registering a user.
   - Logging in a user.
-  - Getting a new highscore and seeing the leaderboard update in real-time.
-  - Creating a new Stat object with a highscore in {+service-short+} Studio or {+atlas+}, and seeing the leaderboard update in real-time.
+  - Getting a new high score and seeing the leaderboard update in real-time.
+  - Creating a new Stat object with a high score in {+service-short+} Studio or {+atlas+} and seeing the leaderboard update in real-time.
+
+  
