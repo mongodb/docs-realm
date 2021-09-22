@@ -1,3 +1,10 @@
+.. _backend_20210922:
+
+22 September 2021 Release
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+- Added the ability to configure an IP Access List.
+
 .. _backend_20210908:
 
 08 September 2021 Release
