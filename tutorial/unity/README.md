@@ -14,8 +14,6 @@ This codebase is not a complete client and requires importing the files into the
 - Click your RealmController GameObject and drag and drop RealmScripts/RealmController.cs file into your GameObject to [attach the C# file as a game script](https://docs.unity3d.com/Manual/UnityAnalyticsAttachSDK.html).
 - In your project's [hierarchy window](https://docs.unity3d.com/Manual/Hierarchy.html), right click and create a UI Canvas named "Canvas".
 - As children of your Canvas GameObject, create three UIDocument GameObjects named "ScoreCard", "Leaderboard", and "AuthenticationScreen".
-- Attach the scripts "ScoreCardManager.cs", "LeaderboardManager.cs", and "AuthenticationManager.cs" to each UIDocument GameObject respectively.
-- Replace the following files with the matching files in this codebase: Scripts/Gameplay/PlayerDeath.cs, Scripts/Gameplay/PlayerEnemyCollision, Scripts/Gameplay/PlayerEnteredVictoryZone.cs, Scripts/Gameplay/PlayerEnteredVictoryZone.cs, Scripts/Mechanics/TokenInstance.cs.
 - Click the "Play" button on the top of your screen to enter [Play Mode](https://docs.unity3d.com/Manual/GameView.html) and test your project.
 
 ## Troubleshooting
