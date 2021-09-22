@@ -2,12 +2,14 @@ using System;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-private class AuthenticationManager : MonoBehaviour
+public class AuthenticationManager : MonoBehaviour
 {
 
     private static VisualElement root;
+    private static VisualElement authWrapper;
     private static Label subtitle;
     private static Button startButton;
+    private static Button logoutButton;
     private static string loggedInUser;
     private static TextField userInput;
 
