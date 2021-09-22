@@ -1,13 +1,13 @@
 .. note::
-   The ``.pause()`` method gives developers control over what time of day the device sync. 
+   The ``.|pause_func_name|()`` method gives developers control over what time of day the device sync. 
    It is designed and tested with temporary use cases in mind.
 
-   Examples of when to use ``pause`` include: 
+   Examples of when to use ``|pause_func_name|`` include: 
    -  Syncing only in the evening
    - Spreading the sync load out across different times
    - Conserving battery
    
-   The ``pause`` function is not intended to determine if a Realm should sync for
+   The ``|pause_func_name|`` function is not intended to determine if a Realm should sync for
    indefinite periods of time, or time ranges in months and years. The functionality
    is not tested for these use cases, and you could encounter a range of issues
    when using it this way. These issues can relate to:  
