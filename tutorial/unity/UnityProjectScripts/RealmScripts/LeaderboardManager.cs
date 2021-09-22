@@ -87,12 +87,7 @@ public class LeaderboardManager : MonoBehaviour
         displayTitle.AddToClassList("display-title");
 
         // :code-block-start: get-highest-scores-global-leaderboard
-        // :state-start: start
-        // TODO: Query the realm instance for all stats, and order by the highest scores to the lowest scores
-        // :state-end:
-        // :state-start: sync local
         topStats = realm.All<Stat>().OrderByDescending(s => s.Score).ToList();
-        // :state-end:
         // :code-block-end:
         createTopStatListView();
     }
