@@ -49,9 +49,9 @@ public class LeaderboardManager : MonoBehaviour
         // :state-start: start local
         realm = Realm.GetInstance();
         // :state-end:
-        // :state-start: sync
-        realm = await GetRealm();
-        // :state-end:
+        // :state-uncomment-start: sync
+        // realm = await GetRealm();
+        // :state-uncomment-end:
 
         // only create the leaderboard on the first run, consecutive restarts/reruns will already have a leaderboard created
         if (isLeaderboardUICreated == false)
@@ -62,9 +62,9 @@ public class LeaderboardManager : MonoBehaviour
             root.Add(listView);
             isLeaderboardUICreated = true;
         }
-        // :state-start: sync
-        setStatListener();
-        // :state-end:
+        // :state-uncomment-start: sync
+        // setStatListener();
+        // :state-uncomment-end:
     }
     // :code-block-end:
     // getRealmPlayerTopStat() is a method that queries a realm for the player's Stat object with the highest score
