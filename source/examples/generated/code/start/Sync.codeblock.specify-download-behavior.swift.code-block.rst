@@ -1,5 +1,5 @@
 .. code-block:: swift
-   :emphasize-lines: 9
+   :emphasize-lines: 6
 
    func testSpecifyDownloadBehavior() async throws {
        let app = App(id: YOUR_REALM_APP_ID)
