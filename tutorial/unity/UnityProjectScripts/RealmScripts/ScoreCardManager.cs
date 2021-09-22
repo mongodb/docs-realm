@@ -10,6 +10,8 @@ public class ScoreCardManager : MonoBehaviour
     private static Label scoreCardHeader;
     private static string username;
     private static Stat currentStat;
+
+    private static PropertyChangedEventHandler propertyHandler;
     void Start()
     {
         root = GetComponent<UIDocument>().rootVisualElement;
@@ -43,7 +45,7 @@ public class ScoreCardManager : MonoBehaviour
         // TODO: Create a listener that reacts to changes to the currentStat and calls updateCurrentStats() to update the UI when stats are changed
         // :state-end:
         // :state-start: local sync
-        var propertyHandler = new PropertyChangedEventHandler((sender, e) => updateCurrentStats());
+        propertyHandler = new PropertyChangedEventHandler((sender, e) => updateCurrentStats());
         currentStat.PropertyChanged += propertyHandler;
         // :state-end:
         // :code-block-end:
