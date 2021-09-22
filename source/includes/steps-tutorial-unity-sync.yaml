@@ -64,6 +64,7 @@ content: |
              <ui:Button text="Login &amp; Start Game" display-tooltip-when-elided="true" name="start-button" class="start-button" />
              <ui:Button text="Don&apos;t have an account yet? Register" display-tooltip-when-elided="true" name="toggle-login-or-register-ui-button" class="toggle-login-or-register-ui-button" />
          </ui:VisualElement>
+         <ui:Button text="Logout" display-tooltip-when-elided="true" name="logout-button" class="logout-button hide" />
      </ui:UXML>
 
   You'll need to refactor your AuthenticationManager's ``Start()`` method to contain code that does the following:
