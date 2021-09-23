@@ -26,16 +26,16 @@ Operators
 
 There are several types of operators available to filter a
 :ref:`Realm collection <dotnet-client-collections>`.
-Filters work by **evaluating** an operator expression for
+Filters work by evaluating an operator expression for
 every :term:`object <Realm object>` in the collection being
-filtered. If the expression resolves to ``true``, Realm
-Database includes the object in the results collection.
+filtered. If the expression resolves to ``true``, {+realm+}
+includes the object in the results collection.
 
-An **expression** consists of one of the following:
+An expression consists of one of the following:
 
-- The name of a property of the object currently being evaluated.
-- An operator and up to two argument expression(s).
-- A literal string, number, or date.
+- The name of a property of the object currently being evaluated
+- An operator
+- An object of any type (string, date, number, boolean, etc.)
 
 .. note:: About the examples on this page
 
@@ -55,7 +55,7 @@ An **expression** consists of one of the following:
 
 Comparison Operators
 ~~~~~~~~~~~~~~~~~~~~
-The most straightforward operation in a search is to compare values.
+Value comparisons
 
 .. list-table::
    :header-rows: 1
@@ -65,32 +65,50 @@ The most straightforward operation in a search is to compare values.
      - Description
 
    * - | ``==``
-     - Evaluates to ``true`` if the left-hand expression is equal to the right-hand expression.
+     - Evaluates to ``true`` if the left-hand expression is equal to the 
+       right-hand expression.
 
    * - | ``>``
-     - Evaluates to ``true`` if the left-hand numerical or date expression is greater than the right-hand numerical or date expression. For dates, this evaluates to ``true`` if the left-hand date is later than the right-hand date.
+     - Evaluates to ``true`` if the left-hand numerical or date expression is 
+       greater than the right-hand numerical or date expression. For dates, this 
+       evaluates to ``true`` if the left-hand date is later than the right-hand 
+       date.
 
    * - | ``>=``
-     - Evaluates to ``true`` if the left-hand numerical or date expression is greater than or equal to the right-hand numerical or date expression. For dates, this evaluates to ``true`` if the left-hand date is later than or the same as the right-hand date.
+     - Evaluates to ``true`` if the left-hand numerical or date expression is 
+       greater than or equal to the right-hand numerical or date expression. For 
+       dates, this evaluates to ``true`` if the left-hand date is later than or 
+       the same as the right-hand date.
 
    * - | ``<``
-     - Evaluates to ``true`` if the left-hand numerical or date expression is less than the right-hand numerical or date expression. For dates, this evaluates to ``true`` if the left-hand date is earlier than the right-hand date.
+     - Evaluates to ``true`` if the left-hand numerical or date expression is 
+       less than the right-hand numerical or date expression. For dates, this 
+       evaluates to ``true`` if the left-hand date is earlier than the 
+       right-hand date.
 
    * - | ``<=``
-     - Evaluates to ``true`` if the left-hand numeric expression is less than or equal to the right-hand numeric expression. For dates, this evaluates to ``true`` if the left-hand date is earlier than or the same as the right-hand date.
+     - Evaluates to ``true`` if the left-hand numeric expression is less than 
+       or equal to the right-hand numeric expression. For dates, this evaluates 
+       to ``true`` if the left-hand date is earlier than or the same as the 
+       right-hand date.
 
    * - | ``!=``
-     - Evaluates to ``true`` if the left-hand expression is not equal to the right-hand expression.
+     - Evaluates to ``true`` if the left-hand expression is not equal to the 
+       right-hand expression.
 
 .. example::
 
    The following example uses the query engine's
    comparison operators to:
 
-   - Find high priority tasks by comparing the value of the ``priority`` property value with a threshold number, above which priority can be considered high.
-   - Find just-started or short-running tasks by seeing if the ``progressMinutes`` property falls within a certain range.
-   - Find unassigned tasks by finding tasks where the ``assignee`` property is equal to ``null``.
-   - Find tasks assigned to specific teammates Ali or Jamie by seeing if the ``assignee`` property is in a list of names.
+   - Find high priority tasks by comparing the value of the ``priority`` property 
+     value with a threshold number, above which priority can be considered high.
+   - Find just-started or short-running tasks by seeing if the ``progressMinutes`` 
+     property falls within a certain range.
+   - Find unassigned tasks by finding tasks where the ``assignee`` property is 
+     equal to ``null``.
+   - Find tasks assigned to specific teammates Ali or Jamie by seeing if the 
+     ``assignee`` property is in a list of names.
 
    .. literalinclude:: /examples/generated/dotnet/QueryEngineExamples.codeblock.comparisons.cs
       :language: csharp
@@ -99,7 +117,8 @@ The most straightforward operation in a search is to compare values.
 Logical Operators
 ~~~~~~~~~~~~~~~~~
 
-You can make compound predicates using logical operators.
+You can use the logical operators listed in the following table to make compound 
+predicates:
 
 .. list-table::
    :header-rows: 1
@@ -109,7 +128,8 @@ You can make compound predicates using logical operators.
      - Description
 
    * - | ``&&``
-     - Evaluates to ``true`` if both left-hand and right-hand expressions are ``true``.
+     - Evaluates to ``true`` if both left-hand and right-hand expressions are 
+       ``true``.
 
    * - | ``!``
      - Negates the result of the given expression.
@@ -131,8 +151,8 @@ You can make compound predicates using logical operators.
 String Operators
 ~~~~~~~~~~~~~~~~
 
-You can compare string values using these string operators.
-Regex-like wildcards allow more flexibility in search.
+You can compare string values using the string operators listed in the following 
+table. Regex-like wildcards allow more flexibility in search.
 
 .. list-table::
    :header-rows: 1
@@ -167,8 +187,9 @@ Regex-like wildcards allow more flexibility in search.
        "dig", and "dug", but not "ding", "dg", or "a dog".
 
    * - | ``Equals``
-     - Evaluates to ``true`` if the left-hand string is lexicographically equal 
-       to the right-hand string.
+     - Evaluates to ``true`` if the left-hand string is 
+       `lexicographically <https://en.wikipedia.org/wiki/Lexicographic_order>`_ 
+       equal to the right-hand string.
 
    * - | ``Contains``
      - Evaluates to ``true`` if the left-hand string expression is found anywhere 
@@ -196,10 +217,15 @@ Regex-like wildcards allow more flexibility in search.
 Aggregate Operators
 ~~~~~~~~~~~~~~~~~~~
 
-You can apply an aggregate operator to a collection property
-of a Realm object. Aggregate operators traverse a
+Aggregate operators traverse a
 :ref:`collection <dotnet-client-collections>` and reduce it
-to a single value.
+to a single value. Note that aggregations use the 
+:dotnet-sdk:`Filter() <reference/Realms.CollectionExtensions.html?q=Filter>` 
+method, which can be used to create more complex queries that are currently 
+unsupported by the LINQ provider. ``Filter()`` supports SORT and DISTINCT 
+clauses in addition to filtering.
+
+You can apply any of the following aggregate operators: 
 
 .. list-table::
    :header-rows: 1
