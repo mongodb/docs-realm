@@ -15,4 +15,4 @@
 
    - Syncing stores the operations that create the changes, which can quickly grow to 
      become much larger than the actual state
-   - Issues related to :ref:`compaction <glossary-compaction-definition>` of data
+   - :ref:`Compaction <glossary-compaction-definition>` of data
