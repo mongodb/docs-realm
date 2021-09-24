@@ -1269,7 +1269,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/AllowedIP"
+                properties:
+                 allowed_ips: {type: array of allowed IP addresses}
+                 current_ip: {type: string}
     post:
       tags: ["security"]
       operationId: "allowedIPAccessListCreate"
@@ -1301,8 +1303,7 @@ paths:
           content:
             application/json:
               schema:
-                items:
-                  type: string
+                $ref: "#/components/schemas/AllowedIP"
     delete:
       tags: ["security"]
       operationId: "allowedIPAccessListDelete"
@@ -2662,11 +2663,6 @@ components:
         created: {type: string}
         sent: {type: string}
         state: {$ref: "#/components/schemas/MessageState"}
-    AllowedIP:
-      properties:
-        allowed_ips: {type: array of allowed IP addresses}
-        current_ip: {type: string}
-        state: {$ref: "#/components/schemas/AllowedIP"}
     User:
       properties:
         _id: {type: string}
