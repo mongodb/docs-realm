@@ -1286,8 +1286,8 @@ paths:
                 description: An HTTP origin. Must be of the form ``<scheme>://<host>[:port]``.
                 type: string
       responses:
-        '204':
-          description: "The allowed HTTP origins were successfully set."
+        '201':
+          description: "The API model of the new entry created"
   /groups/{groupId}/apps/{appId}/security/access_list/{ipId}: 
     patch:
       tags: ["security"]
