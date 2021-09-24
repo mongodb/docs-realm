@@ -1284,6 +1284,14 @@ paths:
     parameters:
       - $ref: "#/components/parameters/GroupId"
       - $ref: "#/components/parameters/AppId"
+    post:
+      tags: ["security"]
+      operationId: "allowedIPAccessListCreate"
+      summary: >-
+        Create an IP address or CIDR block in the Access List for your Realm app
+    parameters:
+      - $ref: "#/components/parameters/GroupId"
+      - $ref: "#/components/parameters/AppId"
 
   /groups/{groupId}/apps/{appId}/logs:
     get:
