@@ -1301,6 +1301,9 @@ paths:
                   ip: {type: net.IP}
                   network: {type: net.IPNet}
                   comment: {type: string}
+      parameters:
+      - $ref: "#/components/parameters/GroupId"
+      - $ref: "#/components/parameters/AppId"
                     
 
   /groups/{groupId}/apps/{appId}/logs:
