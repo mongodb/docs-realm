@@ -1257,100 +1257,6 @@ paths:
       - $ref: "#/components/parameters/GroupId"
       - $ref: "#/components/parameters/AppId"
 
-  /groups/{groupId}/apps/{appId}/security/access_list:
-    get:
-      tags: ["security"]
-      operationId: "allowedIPAccessListGet"
-      summary: >-
-        List the allowed entries in the Access List of your Realm app.
-      responses:
-        '200':
-          description: ""
-          content:
-            application/json:
-              schema:
-                items:
-                  properties:
-                    current_ip: {type: string}
-                    allowed_ips: 
-                      type: array
-                      items:
-                        type: object
-                        properties:
-                          _id: {type: ObjectID}
-                          address: {type: string}
-                          ip: {type: net.IP}
-                          network: {type: net.IPNet}
-                          comment: {type: string}
-    parameters:
-      - $ref: "#/components/parameters/GroupId"
-      - $ref: "#/components/parameters/AppId"
-    post:
-      tags: ["security"]
-      operationId: "allowedIPAccessListCreate"
-      summary: >-
-        Create an IP address or CIDR block in the Access List for your Realm app
-      responses:
-        '201':
-          description: ""
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  _id: {type: ObjectID}
-                  address: {type: string}
-                  ip: {type: net.IP}
-                  network: {type: net.IPNet}
-                  comment: {type: string}
-    parameters:
-      - $ref: "#/components/parameters/GroupId"
-      - $ref: "#/components/parameters/AppId"      
-      
-  /groups/{groupId}/apps/{appId}/security/access_list/{ipId}: 
-    patch:
-      tags: ["security"]
-      operationId: "allowedIPAccessListUpdate"
-      summary: >-
-        Modify an IP address or CIDR block in the Access List of your Realm app
-      responses:
-        '201':
-          description: ""
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  _id: {type: ObjectID}
-                  address: {type: string}
-                  ip: {type: net.IP}
-                  network: {type: net.IPNet}
-                  comment: {type: string}
-    parameters:
-      - $ref: "#/components/parameters/GroupId"
-      - $ref: "#/components/parameters/AppId"
-      - name: ip_id
-        in: path
-        description: The IP address entry denoted by ip_id with the information given in the request body
-        schema: {type: string}
-        required: True           
-    delete:
-      tags: ["security"]
-      operationId: "allowedIPAccessListDelete"
-      summary: >-
-        Delete an IP address or CIDR block from the Access List of your Realm app
-      responses:
-        "404":
-          description: "No IP addresses or CIDR blocks to delete"
-    parameters:
-      - $ref: "#/components/parameters/GroupId"
-      - $ref: "#/components/parameters/AppId"
-      - name: ip_id
-        in: path
-        description: The IP address entry denoted by ip_id with the information given in the request body
-        schema: {type: string}
-        required: True
-
   /groups/{groupId}/apps/{appId}/logs:
     get:
       tags: ["logs"]
@@ -2683,7 +2589,7 @@ components:
         - topic
     Message:
       properties:
-        allowed_ips: {type: string}
+        _id: {type: string}
         appID: {type: string}
         label: {type: string}
         message: {type: string}
