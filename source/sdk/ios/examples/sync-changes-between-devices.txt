@@ -97,8 +97,8 @@ Open a Synced Realm
       to :objc-sdk:`+[RLMRealm realmWithConfiguration:error:]
       <Classes/RLMRealm.html#/c:objc(cs)RLMRealm(cm)realmWithConfiguration:error:>`.
 
-      This opens a synced {+realm+} on the device. The {+realm+} will 
-      attempt to sync with your {+app+} in the background to check for changes 
+      This opens a synced {+realm+} on the device. The {+realm+} 
+      attempts to sync with your {+app+} in the background to check for changes 
       on the server, or upload changes that the user has made.
 
       .. literalinclude:: /examples/generated/code/start/Sync.codeblock.init-synced-realm.m
@@ -123,7 +123,7 @@ accepts a case from the ``OpenBehavior`` enum:
   Requires the user to have an active internet connection.
 - ``once``: Download data before opening a {+realm+} for the first time, but
   open it without downloading changes on subsequent opens. This lets you 
-  populate a {+realm+} with initial data, but enables offline first 
+  populate a {+realm+} with initial data, but enables offline-first 
   functionality on subsequent opens.
 
 .. include:: /examples/generated/code/start/Sync.codeblock.specify-download-behavior.swift.code-block.rst
