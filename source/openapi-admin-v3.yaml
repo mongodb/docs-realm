@@ -1277,8 +1277,9 @@ paths:
                       items:
                         type: object
                         properties:
-                          role_name: {type: string}
-                          group_id: {type: string}
+                          address: {type: string}
+                          comment: {type: string}
+                          network: {type: net.IP}
     parameters:
       - $ref: "#/components/parameters/GroupId"
       - $ref: "#/components/parameters/AppId"
