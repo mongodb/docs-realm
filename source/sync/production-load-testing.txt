@@ -24,7 +24,7 @@ Recommended Strategy
 --------------------
 
 Use the Node.js SDK to simulate a common single user's workload for your
-mobile app. For example:
+mobile app. For example, you can use the SDK to:
 
 - Open a set number of {+realms+}.
 - Make a certain number of writes to each partition.
@@ -37,7 +37,7 @@ workload.
    The Node.js SDK uses the same underlying C++ database and sync client
    as the mobile (iOS, Android, .NET, etc.) SDKs. Therefore, you can
    exercise the same code paths as in your production mobile app while
-   benefiting from the headless/server environment of Node.js.
+   benefiting from the headless, server environment of Node.js.
 
 You can then deploy the single-user simulation to hundreds or thousands
 of concurrent nodes in order to test a real multi-user workload. For example:
