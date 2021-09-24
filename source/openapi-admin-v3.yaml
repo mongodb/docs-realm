@@ -1277,9 +1277,10 @@ paths:
                       items:
                         type: object
                         properties:
+                          _id: {type: ObjectID}
                           address: {type: string}
-                          comment: {type: string}
                           network: {type: net.IP}
+                          comment: {type: string}
     parameters:
       - $ref: "#/components/parameters/GroupId"
       - $ref: "#/components/parameters/AppId"
