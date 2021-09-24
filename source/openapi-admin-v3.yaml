@@ -1287,12 +1287,12 @@ paths:
       - $ref: "#/components/parameters/AppId"
     post:
       tags: ["security"]
-      operationId: "allowedIPAccessListGet"
+      operationId: "allowedIPAccessListCreate"
       summary: >-
         Create an IP address or CIDR block in the Access List for your Realm app
       responses:
         '201':
-          description: "The Secrets were successfully listed."
+          description: ""
           content:
             application/json:
               schema:
@@ -1305,7 +1305,35 @@ paths:
                   comment: {type: string}
     parameters:
       - $ref: "#/components/parameters/GroupId"
-      - $ref: "#/components/parameters/AppId"                 
+      - $ref: "#/components/parameters/AppId"      
+      
+  /groups/{groupId}/apps/{appId}/security/access_list/{ipId}: 
+    patch:
+      tags: ["security"]
+      operationId: "allowedIPAccessListUpdate"
+      summary: >-
+        Modify an IP address or CIDR block in the Access List of your Realm app
+      responses:
+        '201':
+          description: ""
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  _id: {type: ObjectID}
+                  address: {type: string}
+                  ip: {type: net.IP}
+                  network: {type: net.IPNet}
+                  comment: {type: string}
+    parameters:
+      - $ref: "#/components/parameters/GroupId"
+      - $ref: "#/components/parameters/AppId"
+      - name: ip_id
+        in: path
+        description: Modifies an existing IP address entry denoted by ip_id with the information given in the request body
+        schema: {type: string}
+        required: True           
 
   /groups/{groupId}/apps/{appId}/logs:
     get:
