@@ -1303,7 +1303,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/AllowedIP"
+                properties:
+                 allowed_ips: {type: array of allowed IP addresses}
+                 current_ip: {type: string}
     delete:
       tags: ["security"]
       operationId: "allowedIPAccessListDelete"
