@@ -1256,7 +1256,72 @@ paths:
     parameters:
       - $ref: "#/components/parameters/GroupId"
       - $ref: "#/components/parameters/AppId"
-
+  /groups/{groupId}/apps/{appId}/security/access_list:
+    get:
+      tags: ["security"]
+      operationId: "allowedIPAccessListGet"
+      summary: >-
+        Foo IPACCESSLISt
+      responses:
+        '200':
+          description: "Successfully listed."
+          content:
+            application/json:
+              schema:
+                items:
+                  type: string
+      post:
+      tags: ["security"]
+      operationId: "allowedIPAccessListCreate"
+      summary: >-
+        Set the allowed :mdn:`HTTP origins <Web/HTTP/Headers/Origin>`
+        from which MongoDB Realm should allow requests.
+      requestBody:
+        required: true
+        description: >-
+          A list of HTTP origins.
+        content:
+          application/json:
+            schema:
+              items:
+                description: An HTTP origin. Must be of the form ``<scheme>://<host>[:port]``.
+                type: string
+      responses:
+        '204':
+          description: "The allowed HTTP origins were successfully set."
+ /groups/{groupId}/apps/{appId}/security/access_list/:ip_id:
+    patch:
+      tags: ["security"]
+      operationId: "allowedIPAccessListUpdate"
+      summary: >-
+        Foo IPACCESSLISt
+      responses:
+        '200':
+          description: "Successfully listed."
+          content:
+            application/json:
+              schema:
+                items:
+                  type: string
+      delete:
+      tags: ["security"]
+      operationId: "allowedIPAccessListDelete"
+      summary: >-
+        Set the allowed :mdn:`HTTP origins <Web/HTTP/Headers/Origin>`
+        from which MongoDB Realm should allow requests.
+      requestBody:
+        required: true
+        description: >-
+          A list of HTTP origins.
+        content:
+          application/json:
+            schema:
+              items:
+                description: An HTTP origin. Must be of the form ``<scheme>://<host>[:port]``.
+                type: string
+      responses:
+        '204':
+          description: "The allowed HTTP origins were successfully set."
   /groups/{groupId}/apps/{appId}/logs:
     get:
       tags: ["logs"]
