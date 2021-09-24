@@ -1272,7 +1272,13 @@ paths:
                 items:
                   properties:
                     _id: {type: string}
-                    allowed_ips: {type: array}
+                    allowed_ips: 
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          role_name: {type: string}
+                          group_id: {type: string}
     parameters:
       - $ref: "#/components/parameters/GroupId"
       - $ref: "#/components/parameters/AppId"
