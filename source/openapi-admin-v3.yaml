@@ -1261,16 +1261,15 @@ paths:
       tags: ["security"]
       operationId: "allowedIPAccessListGet"
       summary: >-
-        Foo IPACCESSLISt
+        FooGEt IPACCESSLISt
       responses:
         '200':
           description: "Successfully listed."
           content:
             application/json:
               schema:
-                items:
-                  type: string
-      post:
+                $ref: "#/components/schemas/AllowedIP"
+    post:
       tags: ["security"]
       operationId: "allowedIPAccessListCreate"
       summary: >-
@@ -1289,7 +1288,7 @@ paths:
       responses:
         '204':
           description: "The allowed HTTP origins were successfully set."
-  /groups/{groupId}/apps/{appId}/security/access_list/{IPId}: 
+  /groups/{groupId}/apps/{appId}/security/access_list/{ipId}: 
     patch:
       tags: ["security"]
       operationId: "allowedIPAccessListUpdate"
@@ -2654,7 +2653,7 @@ components:
         - topic
     Message:
       properties:
-        _id: {type: string}
+        allowed_ips: {type: string}
         appID: {type: string}
         label: {type: string}
         message: {type: string}
@@ -2662,6 +2661,11 @@ components:
         created: {type: string}
         sent: {type: string}
         state: {$ref: "#/components/schemas/MessageState"}
+    AllowedIP:
+      properties:
+        allowed_ips: {type: array of allowed IP addresses}
+        current_ip: {type: string}
+        state: {$ref: "#/components/schemas/AllowedIP"}
     User:
       properties:
         _id: {type: string}
