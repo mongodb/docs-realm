@@ -1270,7 +1270,7 @@ paths:
             application/json:
               schema:
                 properties:
-                 allowed_ips: {type: array of allowed IP addresses}
+                 allowed_ips: {type: array, description: list of allowed IP addresses}
                  current_ip: {type: string}
     parameters:
       - $ref: "#/components/parameters/GroupId"
