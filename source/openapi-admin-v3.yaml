@@ -1256,12 +1256,13 @@ paths:
     parameters:
       - $ref: "#/components/parameters/GroupId"
       - $ref: "#/components/parameters/AppId"
+
   /groups/{groupId}/apps/{appId}/security/access_list:
     get:
       tags: ["security"]
       operationId: "allowedIPAccessListGet"
       summary: >-
-        FooGEt IPACCESSLISt
+        List the allowed entries in the Access List of your Realm app
       responses:
         '200':
           description: "Successfully listed."
@@ -1273,8 +1274,7 @@ paths:
       tags: ["security"]
       operationId: "allowedIPAccessListCreate"
       summary: >-
-        Set the allowed :mdn:`HTTP origins <Web/HTTP/Headers/Origin>`
-        from which MongoDB Realm should allow requests.
+        Create an IP address or CIDR block in the Access List for your Realm app
       requestBody:
         required: true
         description: >-
@@ -1288,12 +1288,13 @@ paths:
       responses:
         '201':
           description: "The API model of the new entry created"
+
   /groups/{groupId}/apps/{appId}/security/access_list/{ipId}: 
     patch:
       tags: ["security"]
       operationId: "allowedIPAccessListUpdate"
       summary: >-
-        Foo IPACCESSLISt
+        Modify an IP address or CIDR block in the Access List of your Realm app
       responses:
         '200':
           description: "Successfully listed."
@@ -1306,8 +1307,7 @@ paths:
       tags: ["security"]
       operationId: "allowedIPAccessListDelete"
       summary: >-
-        Set the allowed :mdn:`HTTP origins <Web/HTTP/Headers/Origin>`
-        from which MongoDB Realm should allow requests.
+        Delete an IP address or CIDR block from the Access List of your Realm app
       requestBody:
         required: true
         description: >-
@@ -1321,6 +1321,7 @@ paths:
       responses:
         '204':
           description: "The allowed HTTP origins were successfully set."
+
   /groups/{groupId}/apps/{appId}/logs:
     get:
       tags: ["logs"]
