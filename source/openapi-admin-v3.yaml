@@ -1279,11 +1279,31 @@ paths:
                         properties:
                           _id: {type: ObjectID}
                           address: {type: string}
-                          network: {type: net.IP}
+                          ip: {type: net.IP}
+                          network: {type: net.IPNet}
                           comment: {type: string}
     parameters:
       - $ref: "#/components/parameters/GroupId"
       - $ref: "#/components/parameters/AppId"
+    post:
+      tags: ["security"]
+      operationId: "allowedIPAccessListGet"
+      summary: >-
+        Create an IP address or CIDR block in the Access List for your Realm app
+      responses:
+        '201':
+          description: "The Secrets were successfully listed."
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  _id: {type: ObjectID}
+                  address: {type: string}
+                  ip: {type: net.IP}
+                  network: {type: net.IPNet}
+                  comment: {type: string}
+                    
 
   /groups/{groupId}/apps/{appId}/logs:
     get:
