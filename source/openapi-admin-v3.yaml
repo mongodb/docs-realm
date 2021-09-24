@@ -1265,13 +1265,14 @@ paths:
         List the allowed entries in the Access List of your Realm app.
       responses:
         '200':
-          description: "Successfully listed."
+          description: "The Secrets were successfully listed."
           content:
             application/json:
               schema:
                 items:
-                 allowed_ips: {type: array}
-                 current_ip: {type: string}
+                  properties:
+                    allowed_ips: {type: array}
+                    current_ip: {type: string}
     parameters:
       - $ref: "#/components/parameters/GroupId"
       - $ref: "#/components/parameters/AppId"
