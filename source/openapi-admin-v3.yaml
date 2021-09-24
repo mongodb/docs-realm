@@ -1289,7 +1289,7 @@ paths:
       responses:
         '204':
           description: "The allowed HTTP origins were successfully set."
- /groups/{groupId}/apps/{appId}/security/access_list/:ip_id:
+  /groups/{groupId}/apps/{appId}/security/access_list/{IPId}: 
     patch:
       tags: ["security"]
       operationId: "allowedIPAccessListUpdate"
@@ -1303,7 +1303,7 @@ paths:
               schema:
                 items:
                   type: string
-      delete:
+    delete:
       tags: ["security"]
       operationId: "allowedIPAccessListDelete"
       summary: >-
