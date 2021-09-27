@@ -7,6 +7,10 @@ using MongoDB.Bson;
 using System.Linq;
 public class RealmController : MonoBehaviour
 {
+    private VisualTreeAsset leaderboardUXMLVisualTree;
+    private VisualTreeAsset scoreCardUXMLVisualTree;
+    private VisualTreeAsset authenticationUXMLVisualTree;
+
     private static Realm realm;
     private static int runTime; // total amount of time you've been playing during this playthrough/run (losing/winning resets runtime)
     private static int bonusPoints = 0; // start with 0 bonus points and at the end of the game we add bonus points based on how long you played
@@ -17,18 +21,64 @@ public class RealmController : MonoBehaviour
     private static App realmApp = App.Create(Constants.Realm.AppId); // (Part 2 Sync): realmApp represents the MongoDB Realm backend application
     public static User syncUser; // (Part 2 Sync): syncUser represents the realmApp's currently logged in user
 
+    private void GenerateUIObjects(GameObject canvasGameObject, string uiObjectName)
+    {
+        var panelSettings = EditorGUIUtility.Load("Assets/Scripts/realm-tutorial-unity/UI ToolKit/UIPanelSettings.asset");
+
+        // create an empty GameObject
+        var gameObject = new GameObject();
+        // create a UI object to add to the GameObject
+        var uiDocument = gameObject.AddComponent<UIDocument>();
+        // attach existing panel settings to the UI Document
+        uiDocument.panelSettings = (PanelSettings)panelSettings;
+
+        // Attach Manager Scripts to interact with UI Documents and attach the UI Document's VisualTreeAsset 
+        switch (uiObjectName)
+        {
+            case "Authentication":
+                gameObject.AddComponent<AuthenticationManager>();
+                uiDocument.name = "Authentication";
+                uiDocument.visualTreeAsset = authenticationUXMLVisualTree;
+                break;
+            case "Leaderboard":
+                {
+                    gameObject.AddComponent<LeaderboardManager>();
+                    uiDocument.name = "Leaderboard";
+                    uiDocument.visualTreeAsset = leaderboardUXMLVisualTree;
+                }
+                break;
+            case "ScoreCard":
+                gameObject.AddComponent<ScoreCardManager>();
+                uiDocument.name = "ScoreCard";
+                uiDocument.visualTreeAsset = scoreCardUXMLVisualTree;
+                break;
+        }
+
+        // Attach the UI Document as a child of the Canvas
+        uiDocument.transform.parent = canvasGameObject.transform;
+    }
 
     private void Start()
     {
-        // Attach C# Scripts to UI GameObjects
-        var authScreen = GameObject.Find("AuthenticationScreen");
-        authScreen.AddComponent<AuthenticationManager>();
+        // Load UXML Assets
+        leaderboardUXMLVisualTree = EditorGUIUtility.Load("Assets/Scripts/realm-tutorial-unity/UI ToolKit/Leaderboard.uxml") as VisualTreeAsset;
+        scoreCardUXMLVisualTree = EditorGUIUtility.Load("Assets/Scripts/realm-tutorial-unity/UI ToolKit/ScoreCard.uxml") as VisualTreeAsset;
+        authenticationUXMLVisualTree = EditorGUIUtility.Load("Assets/Scripts/realm-tutorial-unity/UI ToolKit/Authentication.uxml") as VisualTreeAsset;
 
-        var leaderboard = GameObject.Find("Leaderboard");
-        leaderboard.AddComponent<LeaderboardManager>();
+        // Create canvas as a container to hold UIDocuments
+        var canvasGameObject = new GameObject();
+        canvasGameObject.name = "Canvas";
+        var canvas = canvasGameObject.AddComponent<Canvas>();
 
-        var scorecard = GameObject.Find("Scorecard");
-        scorecard.AddComponent<ScoreCardManager>();
+        // Configure canvas properties
+        canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+        canvasGameObject.AddComponent<CanvasScaler>();
+        canvasGameObject.AddComponent<GraphicRaycaster>();
+        
+        // Generate Authentication, Leaderboard, and Scorecard UI Objects
+        GenerateUIObjects(canvasGameObject, "Authentication");
+        GenerateUIObjects(canvasGameObject, "Leaderboard");
+        GenerateUIObjects(canvasGameObject, "ScoreCard");
     }
 
     // :state-start: start local    
