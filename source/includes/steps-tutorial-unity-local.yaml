@@ -24,12 +24,12 @@ content: |
   option to :guilabel:`Load Scene` or :guilabel:`Load Tutorials`. 
 
   If you are new to developing with Unity, click :guilabel:`Load Tutorials` to
-  learn Unity editor basics, interacting with `GameObjects
-  <https://docs.unity3d.com/ScriptReference/GameObject.html>`_, and more. Once
-  you feel comfortable working with the Unity Editor, you can continue to the
-  next step. Alternatively, if you are already comfortable working with the
-  Unity editor, click :guilabel:`Load Scene` and continue to the next
-  step in this tutorial.
+  learn Unity editor basics, interacting with 
+  `GameObjects <https://docs.unity3d.com/ScriptReference/GameObject.html>`_, and more. 
+  Once you feel comfortable working with the Unity Editor, you can continue to
+  the next step. Alternatively, if you are already comfortable working with the
+  Unity editor, click :guilabel:`Load Scene` and continue to the next step in
+  this tutorial.
 
   Once the scene is loaded, click the play button on the top of the
   screen to enter `play mode <https://docs.unity3d.com/Manual/GameView.html>`_
@@ -138,26 +138,36 @@ content: |
            git clone --branch start https://github.com/mongodb-university/realm-tutorial-unity.git
 
         .. tip::
-         
+
            The ``start`` branch is an incomplete version of the {+service-short+} Tutorial repository that you will
            complete in this tutorial. To view a complete local-only (non-sync) version of the scripts:
-      
+
            1. Navigate to the root directory of the client application repository:
-      
+
               .. code-block:: shell
-      
+
                  cd realm-tutorial-unity
-      
+
            #. Check out the ``local`` branch:
-      
+
               .. code-block:: shell
-      
+
                  git checkout local
 
     .. tab:: Download the Realm Tutorial Repository as a ZIP
         :tabid: zip
 
-        Bar
+        To download the Realm Tutorial repository as a zip, navigate to
+        :github:`https://github.com/mongodb-university/realm-tutorial-unity
+        <mongodb-university/realm-tutorial-unity>` in your browser. Click the
+        green :guilabel:`Code` dropdown and select the :guilabel:`Download ZIP`
+        option. Once the download completes, extract and move the repository
+        into your ``<your-unity-microplatformer-game-path>/Assets/Scripts``
+        folder.
+
+        .. figure:: /images/unity-tutorial-download-repo-as-zip.png
+           :width: 500px
+           :alt: Reveal in Finder
 
 ---
 title: Explore the Realm Tutorial Repository
@@ -446,7 +456,7 @@ content: |
      }
 ---
 title: Delete the Current Playthrough Stats When the Player Loses
-ref: restart-game-on-win
+ref: delete-stats-on-loss
 content: |
   When the player loses by colliding with an enemy or by falling from a
   platform, the game starts a new playthrough and respawns the player back to
