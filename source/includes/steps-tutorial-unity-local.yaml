@@ -173,45 +173,41 @@ content: |
      * - File
        - Purpose
 
-     * - Stylesheet.uss
-       - `USS <https://docs.unity3d.com/Manual/UIE-USS.html>`_ file with the
-         global styles for your project.
-
-     * - Leaderboard.uxml
+     * - UI Toolkit/Leaderboard.uxml
        - `UXML <https://docs.unity3d.com/Manual/UIE-UXML.html>`_ file; defines
          the structure of the Leaderboard user interface.
      
-     * - LeaderboardManager.cs
+     * - RealmScripts/LeaderboardManager.cs
        - Query {+service-short+} and display the top stats.
 
-     * - Scorecard.uxml
+     * - UI Toolkit/Scorecard.uxml
        - `UXML <https://docs.unity3d.com/Manual/UIE-UXML.html>`_ file; defines
          the structure of the Scorecard user interface.
 
-     * - ScoreCardManager.cs
+     * - RealmScripts/ScoreCardManager.cs
        - Listen for changes to the current playthrough stats and update the Scorecard UI.
 
-     * - AuthenticationScreen.uxml
+     * - UI Toolkit/AuthenticationScreen.uxml
        - `UXML <https://docs.unity3d.com/Manual/UIE-UXML.html>`_ file; defines
          the structure of the Authentication Screen user interface.
 
-     * - AuthenticationManager.cs
+     * - RealmScripts/AuthenticationManager.cs
        - Interacts with the TextField's of AuthenticationScreen.uxml to
          implement user login. In part 2, you'll add user authentication with the
          {+backend+} Email/Password provider.
 
-     * - RealmController.cs
+     * - RealmScripts/RealmController.cs
        - Open a {+realm+}, query the {+realm+} for an existing player or create
          a new one and a new stat for the current playthrough. Perform write
          transactions on the {+realm+} objects.
 
-     * - PlayerModel.cs
+     * - RealmScripts/PlayerModel.cs
        - Defines the Player :ref:`{+frontend-schema+} <dotnet-object-models-and-schemas>`.
 
-     * - StatModel.cs
+     * - RealmScripts/StatModel.cs
        - Defines the playthrough Stat :ref:`{+frontend-schema+} <dotnet-object-models-and-schemas>`.
 
-     * - Constants.cs (Part 2)
+     * - RealmScripts/Constants.cs (Part 2)
        - Part 2: Declare the {+backend-short+} App ID for the {+sync+} portion of the tutorial.
 
 ---
