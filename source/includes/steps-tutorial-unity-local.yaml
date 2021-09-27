@@ -113,27 +113,36 @@ content: |
   to accomplish that. You can clone the {+service-short+} Tutorial repository directly from
   :github:`GitHub <mongodb-university/realm-tutorial-unity>`:
 
-  .. code-block:: shell
+.. tabs::
 
-     cd <your-unity-microplatformer-game-path>/Assets/Scripts
-     git clone --branch start https://github.com/mongodb-university/realm-tutorial-unity.git
+   .. tab:: terminal
 
-  .. tip::
-   
-     The ``start`` branch is an incomplete version of the {+service-short+} Tutorial repository that you will
-     complete in this tutorial. To view a complete local-only (non-sync) version of the scripts:
+      .. code-block:: shell
 
-     1. Navigate to the root directory of the client application repository:
+         cd <your-unity-microplatformer-game-path>/Assets/Scripts
+         git clone --branch start https://github.com/mongodb-university/realm-tutorial-unity.git
 
-        .. code-block:: shell
+      .. tip::
+      
+         The ``start`` branch is an incomplete version of the {+service-short+} Tutorial repository that you will
+         complete in this tutorial. To view a complete local-only (non-sync) version of the scripts:
+        
+         1. Navigate to the root directory of the client application repository:
+        
+            .. code-block:: shell
+        
+               cd realm-tutorial-unity
+        
+         #. Check out the ``local`` branch:
+        
+            .. code-block:: shell
+        
+               git checkout local
+        
+   .. tab:: zip
 
-           cd realm-tutorial-unity
+      download the zip!
 
-     #. Check out the ``local`` branch:
-
-        .. code-block:: shell
-
-           git checkout local
 ---
 title: Explore the Realm Tutorial Repository
 ref: explore-the-realm-tutorial-repository
