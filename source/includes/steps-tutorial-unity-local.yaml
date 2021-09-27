@@ -59,14 +59,6 @@ content: |
   to install into your project. You'll need to update your project's manifest
   file to install {+realm+} and the Unity UI ToolKit and UI Builder packages to
   develop user interfaces to interact with and display data stored in {+realm+}.
-
-  .. note:: 
-
-     UI ToolKit and UI Builder are `preview packages
-     <https://docs.unity3d.com/Manual/pack-preview.html>`_ that are in
-     development by the Unity engineering team. While they provide a simple API
-     to develop user interfaces for a tutorial, they should not be used in
-     production yet.
   
   Open your project's manifest file by navigating to your project on Unity Hub
   and expanding the dropdown menu on the right-hand side of your project name.
@@ -99,6 +91,26 @@ content: |
          }
        ]
      }
+
+  .. warning:: UI ToolKit and UI Builder are Preview Packages
+
+     UI ToolKit and UI Builder are `preview packages
+     <https://docs.unity3d.com/Manual/pack-preview.html>`_ that are in
+     development by the Unity engineering team. While they provide a simple API
+     to develop user interfaces for a tutorial, they should not be used in
+     production yet.
+
+     Randomly experiencing the compiler warning "The type or namespace
+     'UIDocument could not be found"? 
+
+  .. warning:: The type or namespace 'UIDocument' could not be found
+     
+     If you are experiencing the compilation error: "The type or namespace
+     'UIDocument could not be found", this is a bug in the UI Toolkit preview
+     package. As a workaround, create an `Assembly Definition Reference
+     <https://docs.unity3d.com/Manual/class-AssemblyDefinitionReferenceImporter.html>`_.
+     Click "Assets" at the top of the screen. Then select "Create" in the
+     dropdown that appears. Finally, select "Assembly Definition Reference". This will cause Unity to recompile without the error.
 ---
 title: Download the Realm Tutorial Repository
 ref: clone-the-repository
@@ -110,7 +122,6 @@ content: |
   We've already put together a repository with most of the code you'll need
   to accomplish that. You can clone or download the {+service-short+} Tutorial repository directly from
   :github:`GitHub <mongodb-university/realm-tutorial-unity>`:
-
 
   .. tabs::
 
@@ -226,8 +237,7 @@ content: |
     score of 210. Each ``Stat`` has a ``statOwner`` that is a ``Player`` object.
 
   - A ``player`` is a {+realm+} object representing the user's logged-in
-    character. Each player has a collection (IList) of ``stats`` of which they
-    own. 
+    character. Each player has a collection (IList) of ``stats``.
 
   - A ``player`` has a string property, ``_id``, that defines the Players' unique partition.
 ---
