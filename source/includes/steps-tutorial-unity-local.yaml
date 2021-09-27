@@ -294,32 +294,28 @@ content: |
 
      // query the realm to find any Player objects with the matching name
      var matchedPlayers = realm.All<Player>().Where(p => p.Name == userInput);
-     if (matchedPlayers.Count() > 0){
-         currentPlayer = matchedPlayers.First(); // if a player exists set the RealmController's currentPlayer to the first match
-         var s1 = new Stat(); // create a new Stat object for the current playthrough of the game
-         s1.StatOwner = currentPlayer; // set the Stat object's owner as the currentPlayer
-
-         // create a write transaction to store the data in {+realm+}
+     if (matchedPlayers.Count() > 0) // if the player exists
+     {
+         currentPlayer = matchedPlayers.First();
+         var stat = new Stat();
+         stat.StatOwner = currentPlayer;
          realm.Write(() =>
          {
-             currentStat = realm.Add(s1);
+             currentStat = realm.Add(stat);
              currentPlayer.Stats.Add(currentStat);
          });
-     }else{
-        // if a player does not exist, create one
-         var p1 = new Player();
-         p1.Id = ObjectId.GenerateNewId().ToString();
-         p1.Name = userInput;
-
-         // create a new Stat object for the current playthrough of the game
-         var s1 = new Stat();
-         s1.StatOwner = p1; // set the Stat object's owner as the new player
-
-         // create a write transaction to store the data in {+realm+}
+     }
+     else
+     {
+         var player = new Player();
+         player.Id = ObjectId.GenerateNewId().ToString();
+         player.Name = userInput;
+         var stat = new Stat();
+         stat.StatOwner = player;
          realm.Write(() =>
          {
-             currentPlayer = realm.Add(p1);  // set the RealmController's currentPlayer to the newly created player {+realm+} object 
-             currentStat = realm.Add(s1);
+             currentPlayer = realm.Add(player);
+             currentStat = realm.Add(stat);
              currentPlayer.Stats.Add(currentStat);
          });
      }
