@@ -128,36 +128,37 @@ content: |
     .. tab:: Clone with Git CLI
         :tabid: shell
 
-        To download the Realm Tutorial repository using the `git` cli, open your
-        terminal and execute the following code:
+        To download the Realm Tutorial repository using the `git
+        <https://git-scm.com/book/en/v2/Getting-Started-The-Command-Line>`_ cli,
+        open your terminal and execute the following code:
 
         .. code-block:: shell
 
            cd <your-unity-microplatformer-game-path>/Assets/Scripts
            git clone --branch start https://github.com/mongodb-university/realm-tutorial-unity.git
 
+        .. tip::
+         
+           The ``start`` branch is an incomplete version of the {+service-short+} Tutorial repository that you will
+           complete in this tutorial. To view a complete local-only (non-sync) version of the scripts:
+      
+           1. Navigate to the root directory of the client application repository:
+      
+              .. code-block:: shell
+      
+                 cd realm-tutorial-unity
+      
+           #. Check out the ``local`` branch:
+      
+              .. code-block:: shell
+      
+                 git checkout local
+
     .. tab:: Download the Realm Tutorial Repository as a ZIP
         :tabid: zip
 
         Bar
 
-
-  .. tip::
-   
-     The ``start`` branch is an incomplete version of the {+service-short+} Tutorial repository that you will
-     complete in this tutorial. To view a complete local-only (non-sync) version of the scripts:
-
-     1. Navigate to the root directory of the client application repository:
-
-        .. code-block:: shell
-
-           cd realm-tutorial-unity
-
-     #. Check out the ``local`` branch:
-
-        .. code-block:: shell
-
-           git checkout local
 ---
 title: Explore the Realm Tutorial Repository
 ref: explore-the-realm-tutorial-repository
