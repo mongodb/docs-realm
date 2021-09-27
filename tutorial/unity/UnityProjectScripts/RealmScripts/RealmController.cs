@@ -29,7 +29,6 @@ public class RealmController : MonoBehaviour
 
         var scorecard = GameObject.Find("Scorecard");
         scorecard.AddComponent<ScoreCardManager>();
-
     }
 
     // :state-start: start local    
@@ -77,28 +76,28 @@ public class RealmController : MonoBehaviour
         if (matchedPlayers.Count() > 0) // if the player exists
         {
             currentPlayer = matchedPlayers.First();
-            var s1 = new Stat();
-            s1.StatOwner = currentPlayer;
+            var stat = new Stat();
+            stat.StatOwner = currentPlayer;
 
             realm.Write(() =>
             {
-                currentStat = realm.Add(s1);
+                currentStat = realm.Add(stat);
                 currentPlayer.Stats.Add(currentStat);
             });
         }
         else
         {
-            var p1 = new Player();
-            p1.Id = ObjectId.GenerateNewId().ToString();
-            p1.Name = userInput;
+            var player = new Player();
+            player.Id = ObjectId.GenerateNewId().ToString();
+            player.Name = userInput;
 
-            var s1 = new Stat();
-            s1.StatOwner = p1;
+            var stat = new Stat();
+            stat.StatOwner = player;
 
             realm.Write(() =>
             {
-                currentPlayer = realm.Add(p1);
-                currentStat = realm.Add(s1);
+                currentPlayer = realm.Add(player);
+                currentStat = realm.Add(stat);
                 currentPlayer.Stats.Add(currentStat);
             });
         }
@@ -122,11 +121,11 @@ public class RealmController : MonoBehaviour
     //         currentPlayer = realm.Find<Player>(syncUser.Id);
     //         if (currentPlayer != null)
     //         {
-    //             var s1 = new Stat();
-    //             s1.StatOwner = currentPlayer;
+    //             var stat = new Stat();
+    //             stat.StatOwner = currentPlayer;
     //             realm.Write(() =>
     //             {
-    //                 currentStat = realm.Add(s1);
+    //                 currentStat = realm.Add(stat);
     //                 currentPlayer.Stats.Add(currentStat);
     //             });
     //             startGame();
@@ -151,15 +150,15 @@ public class RealmController : MonoBehaviour
     //     syncUser = await realmApp.LogInAsync(Credentials.EmailPassword(userInput, passInput));
     //     realm = await GetRealm(syncUser);
 
-    //     var p1 = new Player();
-    //     p1.Id = syncUser.Id;
-    //     p1.Name = userInput;
-    //     var s1 = new Stat();
-    //     s1.StatOwner = p1;
+    //     var player = new Player();
+    //     player.Id = syncUser.Id;
+    //     player.Name = userInput;
+    //     var stat = new Stat();
+    //     stat.StatOwner = player;
     //     realm.Write(() =>
     //     {
-    //         currentPlayer = realm.Add(p1);
-    //         currentStat = realm.Add(s1);
+    //         currentPlayer = realm.Add(player);
+    //         currentStat = realm.Add(stat);
     //         currentPlayer.Stats.Add(currentStat);
     //     });
     //     startGame();
@@ -239,11 +238,11 @@ public class RealmController : MonoBehaviour
     // restartGame() is a method that creates a new plathrough Stat object and shares this new Stat object with the ScoreCardManager to update in the UI and listen for changes to it
     public static void restartGame()
     {
-        var s1 = new Stat();
-        s1.StatOwner = currentPlayer;
+        var stat = new Stat();
+        stat.StatOwner = currentPlayer;
         realm.Write(() =>
         {
-            currentStat = realm.Add(s1);
+            currentStat = realm.Add(stat);
             currentPlayer.Stats.Add(currentStat);
         });
 
