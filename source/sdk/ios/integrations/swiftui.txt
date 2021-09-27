@@ -154,6 +154,12 @@ property wrapper to display and update properties.
 .. literalinclude:: /examples/generated/swiftui/local/QuickStart.codeblock.item-row-and-details.swift
    :language: swift
 
+.. tip::
+
+   ``@ObservedRealmObject`` is a frozen object. If you want to :ref:`modify 
+   the properties <ios-modify-frozen-object>` of an ``@ObservedRealmObject`` 
+   directly in a write transaction, you must ``.thaw()`` it first.
+
 At this point, you have everything you need to work with
 {+client-database+} and SwiftUI. Test it out and see if everything is
 working as expected. Read on to learn how to integrate this app with
