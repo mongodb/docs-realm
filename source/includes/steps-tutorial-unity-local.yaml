@@ -58,8 +58,6 @@ content: |
   to install into your project. You'll need to update your project's manifest
   file to install {+realm+} and the Unity UI ToolKit and UI Builder packages to
   develop user interfaces to interact with and display data stored in {+realm+}.
-  
-
   .. note:: 
 
      UI ToolKit and UI Builder are `preview packages
@@ -80,7 +78,18 @@ content: |
      - `com.unity.ui Changelog <https://docs.unity3d.com/Packages/com.unity.ui@1.0/changelog/CHANGELOG.html>`_
      - `com.unity.ui.builder Changelog <https://docs.unity3d.com/Packages/com.unity.ui.builder@1.0/changelog/CHANGELOG.html>`_
 
-  Update your project's ``/Packages/manifest.json`` file to include the following dependencies and scoped registries:
+
+  Open your project's manifest file by navigating to your project on Unity Hub
+  and expanding the dropdown menu on the right-hand side of your project name.
+  Click the :guilabel:`Reveal in Finder` option if you're on a Mac or the `Show
+  in Explorer` option if you're on a Windows machine. Open your project's
+  ``/Packages/manifest.json`` file in a text editor.
+
+  .. figure:: /images/unity-tutorial-reveal-in-finder.png
+     :width: 500px
+     :alt: Reveal in Finder
+
+  Update your project's manifest file to include the following dependencies and scoped registries:
 
   .. code-block:: json
 
