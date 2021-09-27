@@ -1,21 +1,6 @@
 # Realm Unity Tutorial
 
 Follow along at https://docs.mongodb.com/realm/tutorial/unity/
-
-## Run the Unity SDK Tutorial Code
-
-This codebase is not a complete client and requires importing the files into the [Unity Learn Platformer Microgame](https://learn.unity.com/project/2d-platformer-template) client in order to run the project. To import this codebase into the Platformer Microgame client and run the project:
-
-- From Unity Hub > Click Download Project > Open Project to automatically open it in Unity.
-- Follow the steps in the [Unity SDK Integration Guide](https://docs.mongodb.com/realm/sdk/dotnet/unity/#install) to install Realm.
-- Through the Unity Package Manager, install [com.unity.ui.builder](https://docs.unity3d.com/Packages/com.unity.ui.builder@1.0/manual/index.html) and [com.unity.ui.builder](https://docs.unity3d.com/Packages/com.unity.ui@1.0/manual/index.html).
-- Drag and drop the RealmScripts from this codebase into your project's scripts folder to import your files.
-- In your project's [hierarchy window](https://docs.unity3d.com/Manual/Hierarchy.html), right click and create an empty GameObject named "RealmController".
-- Click your RealmController GameObject and drag and drop RealmScripts/RealmController.cs file into your GameObject to [attach the C# file as a game script](https://docs.unity3d.com/Manual/UnityAnalyticsAttachSDK.html).
-- In your project's [hierarchy window](https://docs.unity3d.com/Manual/Hierarchy.html), right click and create a UI Canvas named "Canvas".
-- As children of your Canvas GameObject, create three UIDocument GameObjects named "ScoreCard", "Leaderboard", and "AuthenticationScreen".
-- Click the "Play" button on the top of your screen to enter [Play Mode](https://docs.unity3d.com/Manual/GameView.html) and test your project.
-
 ## Troubleshooting
 
 The most common issue is schema mismatch due to frequent little tweaks to the
