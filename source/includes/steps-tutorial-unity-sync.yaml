@@ -257,14 +257,18 @@ content: |
         return currentPlayer;
      }
 
-  Finally, add the following code at the end of the RealmController's
-  ``logOut()`` method to log out of the {+realm+} user when a user clicks the
-  log out button:
+  Finally, replace the ``RealmController.LogOut()`` method with the one
+  below that calls :dotnet-sdk:`User.LogOutAsync()
+  <reference/Realms.Sync.User.html#Realms_Sync_User_LogOutAsync>` to 
+  log out of the {+realm+} user when log out button is clicked.
 
   .. code-block:: csharp
  
-      await syncUser.LogOutAsync();
-
+      public static async void LogOut()
+      {
+          await syncUser.LogOutAsync();
+          SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+      }
 ---
 title: Create a Real-Time Leaderboard with Realm Sync
 ref: create-a-real-time-leaderboard-with-realm-sync
@@ -341,10 +345,9 @@ content: |
          foreach (var i in insertedIndices)
          {
              var newStat = realm.All<Stat>().ElementAt(i);
- 
              for (var scoreIndex = 0; scoreIndex < topStats.Count; scoreIndex++)
              {
-                 if (topStats.ElementAt(scoreIndex).Score < newStat.Score)
+                 if (topStats.ElementAt(scoreIndex).IsValid == true && topStats.ElementAt(scoreIndex).Score < newStat.Score)
                  {
                      if (topStats.Count > 4)
                      {   // An item shouldn't be removed if the leaderboard has less than 5 items
