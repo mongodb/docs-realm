@@ -348,7 +348,7 @@ content: |
                  if (topStats.ElementAt(scoreIndex).Score < newStat.Score)
                  {
                      if (topStats.Count > 4)
-                     {   // An item shouldnt be removed if its the leaderboard is less than 5 items
+                     {   // An item shouldn't be removed if the leaderboard has less than 5 items
                          topStats.RemoveAt(topStats.Count - 1);
                      }
                      topStats.Insert(scoreIndex, newStat);
