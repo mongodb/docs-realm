@@ -176,7 +176,7 @@ class Migrations: XCTestCase {
 
     func testUpdateSchemaVersionSyntax() {
         // :code-block-start: update-schema-version
-        // When you open the file, specify that the schema
+        // When you open the realm, specify that the schema
         // is now using a newer version.
         let config = Realm.Configuration(
             // :hide-start:
@@ -184,6 +184,8 @@ class Migrations: XCTestCase {
             inMemoryIdentifier: "LocalMigrationExample",
             // :hide-end:
             schemaVersion: 2)
+        // Use this configuration when opening realms
+        Realm.Configuration.defaultConfiguration = config
         // :code-block-end:
         print(config)
     }

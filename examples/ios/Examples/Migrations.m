@@ -196,7 +196,7 @@
 
 - (void) testUpdateSchemaVersionSyntax {
     // :code-block-start: update-schema-version
-    // When you open the file, specify that the schema
+    // When you open the realm, specify that the schema
     // is now using a newer version.
     RLMRealmConfiguration *config = [[RLMRealmConfiguration alloc] init];
     // :remove-start:
