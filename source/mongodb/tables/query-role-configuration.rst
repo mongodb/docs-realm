@@ -37,28 +37,26 @@
 
    * - | ``apply_when``
        | Document
-     - A :doc:`JSON Expression </services/json-expressions>` that
-       evaluates to ``true`` when this role should be applied.
+     - A :ref:`rule expression <expressions>` that evaluates to ``true`` when
+       this role should be applied.
 
    * - | ``read``
        | Boolean or Document
        | *Default:* ``false``
-     - A boolean or :doc:`JSON Expression </services/json-expressions>`
-       that evaluates to ``true`` if the role has permission to read all
-       fields in the document.
+     - A :ref:`rule expression <expressions>` that evaluates to ``true`` if the
+       role has permission to read all fields in the document.
        
-       Document-level read permissions take priority over any
-       field-level permissions. If a role has a document-level ``read``
-       rule, it applies to all fields in the document and cannot be
-       overridden. To define specific field-level rules with a default
-       fallback, use ``additional_fields`` instead.
+       Document-level read permissions take priority over any field-level
+       permissions. If a role has a document-level ``read`` rule, it applies to
+       all fields in the document and cannot be overridden. To define specific
+       field-level rules with a default fallback, use ``additional_fields``
+       instead.
 
    * - | ``write``
        | Boolean or Document
        | *Default:* ``false``
-     - A boolean or :doc:`JSON Expression </services/json-expressions>`
-       that evaluates to ``true`` if the role has permission to add,
-       modify, or remove all fields in the document.
+     - A :ref:`rule expression <expressions>` that evaluates to ``true`` if the
+       role has permission to add, modify, or remove all fields in the document.
 
        Document-level write permissions take priority over any
        field-level permissions. If a role has a document-level ``write``
@@ -81,9 +79,9 @@
    * - | ``insert``
        | Boolean or Document
        | *Default:* ``true``
-     - A boolean or :doc:`JSON Expression </services/json-expressions>`
-       that evaluates to ``true`` if the role has permission to insert a
-       new document into the collection.
+     - A boolean or :ref:`rule expression <expressions>` that evaluates to
+       ``true`` if the role has permission to insert a new document into the
+       collection.
 
        .. note::
           
@@ -95,16 +93,15 @@
    * - | ``delete``
        | Boolean or Document
        | *Default:* ``true``
-     - A boolean or :doc:`JSON Expression </services/json-expressions>`
-       that evaluates to ``true`` if the role has permission to delete a
-       document from the collection.
+     - A :ref:`rule expression <expressions>` that evaluates to ``true`` if the
+       role has permission to delete a document from the collection.
 
    * - | ``search``
        | Boolean or Document
        | *Default:* ``true``
-     - A boolean or :doc:`JSON Expression </services/json-expressions>`
-       that evaluates to ``true`` if the role has permission to search the
-       collection using :atlas:`Atlas Search </atlas-search/>`.
+     - A :ref:`rule expression <expressions>` that evaluates to ``true`` if the
+       role has permission to search the collection using :atlas:`Atlas Search
+       </atlas-search/>`.
        
        .. include:: /includes/note-atlas-search-rules.rst
 
@@ -137,16 +134,14 @@
    * - | ``fields.<Field Name>.read``
        | Boolean or Document
        | *Default:* ``false``
-     - A boolean or :doc:`JSON Expression </services/json-expressions>`
-       that evaluates to ``true`` if the role has permission to read
-       the field.
+     - A :ref:`rule expression <expressions>` that evaluates to ``true`` if the
+       role has permission to read the field.
 
    * - | ``fields.<Field Name>.write``
        | Boolean or Document
        | *Default:* ``false``
-     - A boolean or :doc:`JSON Expression </services/json-expressions>`
-       that evaluates to ``true`` if the role has permission to add,
-       modify, or remove the field.
+     - A :ref:`rule expression <expressions>` that evaluates to ``true`` if the
+       role has permission to add, modify, or remove the field.
 
    * - | ``fields.<Field Name>.fields``
        | Document
@@ -176,14 +171,13 @@
    * - | ``additional_fields.read``
        | Boolean or Document
        | *Default:* ``false``
-     - A boolean or :doc:`JSON Expression </services/json-expressions>`
-       that evaluates to ``true`` if the role has permission to read
-       any field that does not have a field-level permission definition.
+     - A :ref:`rule expression <expressions>` that evaluates to ``true`` if the
+       role has permission to read any field that does not have a field-level
+       permission definition.
 
    * - | ``additional_fields.write``
        | Boolean or Document
        | *Default:* ``false``
-     - A boolean or :doc:`JSON Expression </services/json-expressions>`
-       that evaluates to ``true`` if the role has permission to add,
-       modify, or remove any field that does not have a field-level
-       permission definition.
+     - A :ref:`rule expression <expressions>` that evaluates to ``true`` if the
+       role has permission to add, modify, or remove any field that does not
+       have a field-level permission definition.
