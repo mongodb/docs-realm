@@ -102,6 +102,15 @@ integer strictly less than 2^63.
    free to generate identical identifiers for two client files if they are
    associated with different server files.
 
+.. _network-security: 
+
+Network Security
+~~~~~~~~~~~~~~~~
+
+The SDK syncs with the application server over a WebSocket connection secured by
+HTTPS using `TLS 1.3 <https://datatracker.ietf.org/doc/html/rfc8446>`__.
+
+
 .. _sync-session-process:
 
 Sync Session Process
@@ -114,7 +123,6 @@ protocol-specific requests.
 The SDK negotiates a WebSocket connection over HTTP and then establishes a sync
 session by sending :sync-client-message:`BIND` and :sync-client-message:`IDENT`
 requests to the server over the WebSocket connection. 
-The connection is encrypted with `TLS 1.3 <https://datatracker.ietf.org/doc/html/rfc8446>`__.
 Once the session is established, the SDK and server send synced changesets for a given
 {+service-short+} file to each other via :sync-client-message:`UPLOAD` and
 :sync-server-message:`DOWNLOAD` messages. To end the session, the SDK sends an
