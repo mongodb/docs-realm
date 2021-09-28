@@ -278,7 +278,7 @@ public class RealmController : MonoBehaviour
         // :code-block-start: delete-current-stat-method
         ScoreCardManager.UnRegisterListener();
         // :state-start: start
-        // TODO: within a write transaction, delete the current Stat object, and it's reference in the current Player object
+        // TODO: within a write transaction, delete the current Stat object, and its reference in the current Player object
         // :state-end:
         // :state-start: local sync
         realm.Write(() =>
