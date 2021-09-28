@@ -24,6 +24,13 @@ content: |
   Change the value of ``AppId`` to your {+backend+} app ID, which you can :ref:`find in
   the {+backend+} UI <find-your-app-id>`.
 
+---
+title: Open a Synced Realm
+ref: open-synced-realm
+content: |
+  To configure {+service-short+} to automatically synchronize data between
+  devices, you'll need to replace your local {+realm+} with a synced {+realm+}.
+  
   In the ``RealmController.cs`` file, replace the existing ``GetRealm()`` method
   with the one that takes in a User as a parameter and asynchronously gets a
   synced {+realm+} instance: 
