@@ -261,7 +261,7 @@ public class RealmController : MonoBehaviour
     {
         // :code-block-start: defeat-enemy-fn
         // :state-start: start
-        // TODO: within a write transaction, increment the number of enemies's defeated in the current playthrough/run's stat
+        // TODO: within a write transaction, increment the number of enemies defeated in the current playthrough/run's stat
         // :state-end:
         // :state-start: sync local
         realm.Write(() =>
