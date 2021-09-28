@@ -331,11 +331,11 @@ Database Triggers may enter a suspended state in response to an event
 that prevents the Trigger's change stream from continuing. Events that
 can suspend a Trigger include:
 
-- :manual:`invalidate events <reference/change-events/#invalidate-event>`
+- :manual:`invalidate events </reference/change-events/#invalidate-event>`
   such as ``dropDatabase``, ``renameCollection``, or those caused by
   a network disruption
 - the token required to resume the change stream is no longer in the
-  cluster :manual:`oplog <core/replica-set-oplog/>`
+  cluster :manual:`oplog </core/replica-set-oplog/>`
 - importing a {+app+} with the ``replace`` strategy instead of the
   ``merge`` strategy and consequently removing the database user that
   created the Trigger's change stream
