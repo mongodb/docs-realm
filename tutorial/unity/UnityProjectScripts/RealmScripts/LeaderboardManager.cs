@@ -179,7 +179,7 @@ public class LeaderboardManager : MonoBehaviour
 
             for (var scoreIndex = 0; scoreIndex < topStats.Count; scoreIndex++)
             {
-                if (topStats.ElementAt(scoreIndex).Score < newStat.Score)
+                if (topStats.ElementAt(scoreIndex).IsValid == true && topStats.ElementAt(scoreIndex).Score < newStat.Score)
                 {
                     if (topStats.Count > 4)
                     {   // An item shouldn't be removed if the leaderboard has less than 5 items
