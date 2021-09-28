@@ -12,7 +12,7 @@ public class ScoreCardManager : MonoBehaviour
     private static Stat currentStat;
 
     private static PropertyChangedEventHandler propertyHandler;
-    void Start()
+    private void Start()
     {
         root = GetComponent<UIDocument>().rootVisualElement;
         scoreCardHeader = root.Q<Label>("score-card-header");
