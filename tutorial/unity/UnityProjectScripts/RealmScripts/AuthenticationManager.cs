@@ -109,7 +109,8 @@ public class AuthenticationManager : MonoBehaviour
     {
         try
         {
-            root.AddToClassList("hide");
+            authWrapper.AddToClassList("hide");
+            logoutButton.AddToClassList("show");
             loggedInUser = userInput.value;
             RealmController.setLoggedInUser(loggedInUser);
             ScoreCardManager.setLoggedInUser(loggedInUser);
@@ -135,7 +136,8 @@ public class AuthenticationManager : MonoBehaviour
     //         var currentPlayer = await RealmController.setLoggedInUser(userInput.value, passInput.value);
     //         if (currentPlayer != null)
     //         {
-    //             root.AddToClassList("hide");
+    //             authWrapper.AddToClassList("hide");
+    //             logoutButton.AddToClassList("show");
     //         }
     //         ScoreCardManager.setLoggedInUser(currentPlayer.Name);
     //         LeaderboardManager.Instance.setLoggedInUser(currentPlayer.Name);
@@ -155,7 +157,8 @@ public class AuthenticationManager : MonoBehaviour
 
     //         if (currentPlayer != null)
     //         {
-    //             root.AddToClassList("hide");
+    //             authWrapper.AddToClassList("hide");
+    //             logoutButton.AddToClassList("show");
     //         }
     //         ScoreCardManager.setLoggedInUser(currentPlayer.Name);
     //         LeaderboardManager.Instance.setLoggedInUser(currentPlayer.Name);
