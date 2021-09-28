@@ -113,8 +113,9 @@ protocol-specific requests.
 
 The SDK negotiates a WebSocket connection over HTTP and then establishes a sync
 session by sending :sync-client-message:`BIND` and :sync-client-message:`IDENT`
-requests to the server over the WebSocket connections. Once the session is
-established, the SDK and server send synced changesets for a given
+requests to the server over the WebSocket connection. 
+The connection is encrypted with `TLS 1.3 <https://datatracker.ietf.org/doc/html/rfc8446>`__.
+Once the session is established, the SDK and server send synced changesets for a given
 {+service-short+} file to each other via :sync-client-message:`UPLOAD` and
 :sync-server-message:`DOWNLOAD` messages. To end the session, the SDK sends an
 :sync-client-message:`UNBIND` request.
