@@ -5,6 +5,10 @@ using Realms.Sync;
 using UnityEngine.SceneManagement;
 using MongoDB.Bson;
 using System.Linq;
+using UnityEngine.UIElements;
+using UnityEditor;
+using UnityEngine.UI;
+
 public class RealmController : MonoBehaviour
 {
     private VisualTreeAsset leaderboardUXMLVisualTree;
@@ -74,7 +78,7 @@ public class RealmController : MonoBehaviour
         canvas.renderMode = RenderMode.ScreenSpaceOverlay;
         canvasGameObject.AddComponent<CanvasScaler>();
         canvasGameObject.AddComponent<GraphicRaycaster>();
-        
+
         // Generate Authentication, Leaderboard, and Scorecard UI Objects
         GenerateUIObjects(canvasGameObject, "Authentication");
         GenerateUIObjects(canvasGameObject, "Leaderboard");
