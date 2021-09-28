@@ -221,11 +221,15 @@ public class RealmController : MonoBehaviour
     // :state-uncomment-end:
     // :code-block-end:
 
-
-    // LogOut() is an asynchronous method that logs out and reloads the scene
-    public static async void LogOut()
+    // :state-start: start local
+    // LogOut() is a method that logs out and reloads the scene
+    // :state-end:
+    public static void LogOut()
     {
         // :state-uncomment-start: sync
+        // LogOut() is an asynchronous method that logs out and reloads the scene
+        //public static async void LogOut()
+        //{
         // await syncUser.LogOutAsync();
         // :state-uncomment-end:
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
