@@ -100,17 +100,15 @@ content: |
      to develop user interfaces for a tutorial, they should not be used in
      production yet.
 
-     Randomly experiencing the compiler warning "The type or namespace
-     'UIDocument could not be found"? 
-
   .. warning:: The type or namespace 'UIDocument' could not be found
      
      If you are experiencing the compilation error: "The type or namespace
-     'UIDocument could not be found", this is a bug in the UI Toolkit preview
+     'UIDocument could not be found", this is a bug in the UI Toolkit
      package. As a workaround, create an `Assembly Definition Reference
      <https://docs.unity3d.com/Manual/class-AssemblyDefinitionReferenceImporter.html>`_.
      Click "Assets" at the top of the screen. Then select "Create" in the
-     dropdown that appears. Finally, select "Assembly Definition Reference". This will cause Unity to recompile without the error.
+     dropdown that appears. Finally, select "Assembly Definition Reference".
+     This will cause Unity to recompile without the error.
 ---
 title: Download the Realm Tutorial Repository
 ref: clone-the-repository
@@ -369,6 +367,7 @@ content: |
 
   Call the ``collectToken()`` method when the player collides with the token
   instance. This occurs in the platformer microgame file:
+
   ``/Assets/Scripts/Mechanics/TokenInstance.cs``.
   In the ``TokenInstance.cs`` file, the ``OnPlayerEnter()`` occurs when a player
   has collided with the token instance. Add the following code to
@@ -390,8 +389,8 @@ content: |
           currentStat.EnemiesDefeated += 1;
       });
 
-  Call the ``defeatEnemy()`` method in the ``/Assets/Scripts/Gameplay/EnemyDeath.cs``
-  file in the top of the ``Execute()`` method.
+  Navigate to the ``/Assets/Scripts/Gameplay/EnemyDeath.cs`` file and call
+  ``RealmController.defeatEnemy()`` at the beginning of the ``Execute()`` method.
 
    .. code-block:: csharp
  
