@@ -9,7 +9,6 @@ config.migrationBlock = ^(RLMMigration * _Nonnull migration, uint64_t oldSchemaV
             newObject[@"fullName"] = [NSString stringWithFormat:@"%@ %@",
                                         oldObject[@"firstName"],
                                         oldObject[@"lastName"]];
-            newObject[@"age"] = oldObject[@"age"];
         }];
     }
     if (oldSchemaVersion < 3) {
@@ -17,7 +16,7 @@ config.migrationBlock = ^(RLMMigration * _Nonnull migration, uint64_t oldSchemaV
         [migration enumerateObjects:[Person className]
                             block:^(RLMObject * _Nullable oldObject, RLMObject * _Nullable newObject) {
             // Make age a String instead of an Int
-            newObject[@"age"] = [NSString stringWithFormat:@"%d", oldObject[@"age"]];
+            newObject[@"age"] = [oldObject[@"age"] stringValue];
         }];
     }
 };

@@ -172,7 +172,6 @@
                 newObject[@"fullName"] = [NSString stringWithFormat:@"%@ %@",
                                             oldObject[@"firstName"],
                                             oldObject[@"lastName"]];
-                newObject[@"age"] = oldObject[@"age"];
             }];
         }
         if (oldSchemaVersion < 3) {
@@ -180,7 +179,7 @@
             [migration enumerateObjects:[MigrationObjcExampleV1_Person className]
                                 block:^(RLMObject * _Nullable oldObject, RLMObject * _Nullable newObject) {
                 // Make age a String instead of an Int
-                newObject[@"age"] = [NSString stringWithFormat:@"%d", oldObject[@"age"]];
+                newObject[@"age"] = [oldObject[@"age"] stringValue];
             }];
         }
     };
