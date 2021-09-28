@@ -41,13 +41,13 @@ content: |
 
   .. tip:: Playing the Game
 
-     Try the game to get a feel of what your users will experience. Use the arrow keys for player movement, and the spacebar
+     Try the game to get a feel of what your users will experience. Use the arrow keys for ``Player`` movement, and the spacebar
      to jump. Navigate through a series of platforms and defeat the "red slime" enemies by hopping on them, making them disappear.
      Collect the yellow "tokens" by touching them. Get to the end of the level to win the game. 
 
   In later steps, you will use {+realm+} to record: 
 
-  - how many enemies the player defeated per playthrough,
+  - how many enemies the ``Player`` defeated per playthrough,
   - how many tokens were collected
   -  a score that is calculated based on the statistics for the current playthrough and how quickly you completed the playthrough.
 ---
@@ -187,14 +187,14 @@ content: |
          the structure of the Leaderboard user interface.
      
      * - RealmScripts/LeaderboardManager.cs
-       - Query {+service-short+} and display the top stats.
+       - Query {+service-short+} and display the top ``Stat`` objects.
 
      * - UI Toolkit/ScoreCard.uxml
        - `UXML <https://docs.unity3d.com/Manual/UIE-UXML.html>`_ file; defines
          the structure of the Scorecard user interface.
 
      * - RealmScripts/ScoreCardManager.cs
-       - Listen for changes to the current playthrough stats and update the Scorecard UI.
+       - Listen for changes to the current playthrough ``Stat`` and update the Scorecard UI.
 
      * - UI Toolkit/Authentication.uxml
        - `UXML <https://docs.unity3d.com/Manual/UIE-UXML.html>`_ file; defines
@@ -206,15 +206,15 @@ content: |
          {+backend+} Email/Password provider.
 
      * - RealmScripts/RealmController.cs
-       - Open a {+realm+}, query the {+realm+} for an existing player or create
-         a new one and a new stat for the current playthrough. Perform write
+       - Open a {+realm+}, query the {+realm+} for an existing ``Player`` or create
+         a new one and a new ``Stat`` for the current playthrough. Perform write
          transactions on the {+realm+} objects.
 
      * - RealmScripts/PlayerModel.cs
-       - Defines the Player :ref:`{+frontend-schema+} <dotnet-object-models-and-schemas>`.
+       - Defines the ``Player`` :ref:`{+frontend-schema+} <dotnet-object-models-and-schemas>`.
 
      * - RealmScripts/StatModel.cs
-       - Defines the playthrough Stat :ref:`{+frontend-schema+} <dotnet-object-models-and-schemas>`.
+       - Defines the playthrough ``Stat`` :ref:`{+frontend-schema+} <dotnet-object-models-and-schemas>`.
 
      * - RealmScripts/Constants.cs (Part 2)
        - Part 2: Declare the {+backend-short+} App ID for the {+sync+} portion of the tutorial.
@@ -229,15 +229,15 @@ content: |
   
   Note the following about the schemas:
 
-  - A ``stat`` is a {+realm+} object representing the statistics of a
+  - A ``Stat`` is a {+realm+} object representing the statistics of a
     playthrough of the game. For instance, in one playthrough of the game, a
-    ``player`` may have defeated 10 enemies, collected 15 tokens, and had a
+    ``Player`` may have defeated 10 enemies, collected 15 tokens, and had a
     score of 210. Each ``Stat`` has a ``statOwner`` that is a ``Player`` object.
 
-  - A ``player`` is a {+realm+} object representing the user's logged-in
-    character. Each player has a collection (IList) of ``stats``.
+  - A ``Player`` is a {+realm+} object representing the user's logged-in
+    character. Each ``Player`` has a collection (IList) of ``Stat`` objects.
 
-  - A ``player`` has a string property, ``_id``, that defines the Players' unique partition.
+  - A ``Player`` has a string property, ``_id``, that defines the ``Player`` objects' unique partition.
 ---
 title: Create a RealmController Game Object
 ref: create-realm-controller-object
@@ -376,11 +376,11 @@ content: |
           currentStat.TokensCollected += 1;
       });
 
-  Call the ``collectToken()`` method when the player collides with the token
+  Call the ``collectToken()`` method when the ``Player`` collides with the token
   instance. This occurs in the platformer microgame file:
 
   ``/Assets/Scripts/Mechanics/TokenInstance.cs``.
-  In the ``TokenInstance.cs`` file, the ``OnPlayerEnter()`` occurs when a player
+  In the ``TokenInstance.cs`` file, the ``OnPlayerEnter()`` occurs when a ``Player``
   has collided with the token instance. Add the following code to
   ``OnPlayerEnter()`` after ``collected = true``.
 
@@ -408,9 +408,9 @@ content: |
       RealmController.defeatEnemy();
  
    Finally, create a listener that reacts to changes to the current
-   playthrough's Stat and updates the Scorecard in the UI. In the
+   playthrough's ``Stat`` and updates the Scorecard in the UI. In the
    ``ScoreCardManager.cs`` file, you can add a change listener to the current
-   Stat {+realm+} object defined as the ``RealmController.currentStat``
+   ``Stat`` {+realm+} object defined as the ``RealmController.currentStat``
    variable. In the ``watchForChangesToCurrentStats()`` method, handle the ``Stat`` object's
    :dotnet-sdk:`PropertyChanged event<Realms.RealmObjectBase.html#Realms_RealmObjectBase_PropertyChanged>`:
    
@@ -419,7 +419,7 @@ content: |
       propertyHandler = new PropertyChangedEventHandler((sender, e) => updateCurrentStats());
       currentStat.PropertyChanged += propertyHandler;
 
-  The Scorecard now updates if the player defeats an enemy or collects a token.
+  The Scorecard now updates if the ``Player`` defeats an enemy or collects a token.
 
   .. figure:: /images/unity-tutorial-defeatEnem-collectTok-functionality.gif
      :width: 350px
@@ -428,17 +428,17 @@ content: |
 title: Restart the Game When the Player Wins
 ref: restart-game-on-win
 content: |
-  When the player reaches the end of the Microgame level, the game is complete,
+  When the ``Player`` reaches the end of the Microgame level, the game is complete,
   but nothing else happens. To expand upon this, you will update the code to do
-  the following when the player wins the game:
+  the following when the ``Player`` wins the game:
 
   - Call the ``RealmController.playerWon()`` method to calculate and write the final score to {+realm+}
   - Displays a dialog with the final score
-  - Respawns the player and restarts the game if the player clicks the restart button
+  - Respawns the ``Player`` and restarts the game if the ``Player`` clicks the restart button
 
 
   Navigate to the Platformer Microgame file, ``/Assets/Scripts/Gameplay/PlayerEnteredVictoryZone.cs``,
-  in your text editor. This script is executed when the player enters the victory zone. 
+  in your text editor. This script is executed when the ``Player`` enters the victory zone. 
 
   To create a dialogue, you'll need the `UnityEditor.EditorUtility
   <https://docs.unity3d.com/ScriptReference/EditorUtility.html>`_ class. Add the
@@ -467,10 +467,10 @@ content: |
 title: Delete the Current Playthrough Stats When the Player Loses
 ref: delete-stats-on-loss
 content: |
-  When the player loses by colliding with an enemy or by falling from a
-  platform, the game starts a new playthrough and respawns the player back to
+  When the ``Player`` loses by colliding with an enemy or by falling from a
+  platform, the game starts a new playthrough and respawns the ``Player`` back to
   the start point but does not create a new ``Stat`` object for the new playthrough.
-  To expand upon this, you'll perform the following when the player loses the game:
+  To expand upon this, you'll perform the following when the ``Player`` loses the game:
 
   - Update the ``RealmController.deleteCurrentStat()`` method to delete the current ``Stat`` object for the current playthrough
   - Call the ``RealmController.deleteCurrentStat()`` method
@@ -497,7 +497,7 @@ content: |
      RealmController.restartGame();
 
   Return to the Unity Editor, and click play to enter ``play mode``. The next
-  time your player loses,  the game respawns the player to the start point with a new
+  time your ``Player`` loses,  the game respawns the ``Player`` to the start point with a new
   ``Stat`` object showing 0 enemies defeated, 0 tokens collected.
 ---
 title: Customize Your Game Assets (Optional)

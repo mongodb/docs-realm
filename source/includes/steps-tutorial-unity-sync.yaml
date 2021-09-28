@@ -49,10 +49,9 @@ content: |
 title: Update the Authentication Screen and Manager
 ref: update-authentication-screen
 content: |
-  To add support for :doc:`Email/Password
-  Authentication </sdk/dotnet/examples/manage-email-password-users>`, you'll need to update your
-  Authentication Screen to have a password field and a button that allows
-  players toggle between a registration mode and login mode. 
+  To add support for :doc:`Email/Password Authentication </sdk/dotnet/examples/manage-email-password-users>`,
+  you'll need to update your Authentication Screen to have a password field
+  and a button that allows users to toggle between a registration mode and login mode. 
 
   Replace the code in your ``Authentication.uxml`` with the following:
 
@@ -270,14 +269,14 @@ content: |
 title: Create a Real-Time Leaderboard with Realm Sync
 ref: create-a-real-time-leaderboard-with-realm-sync
 content: |
-  The current leaderboard shows the top stats when the game first loads.
-  However, if another player gets a new high score after the game loads on your
+  The current leaderboard shows the top ``Stat`` objects when the game first loads.
+  However, if another ``Player`` gets a new high score after the game loads on your
   device, the leaderboard on your device will not be updated.
 
   To fix this, you will update the code in the ``LeaderboardManager.cs`` file to do the following:
 
   - Open a synced {+realm+}
-  - Listen to changes on all Stat objects
+  - Listen to changes on all ``Stat`` objects
   - Update the Leaderboard GameObject when there is a new high score
 
   Navigate to ``LeaderboardManager.cs`` and add the following function that opens a synced {+realm+} using the ``RealmController.syncUser`` variable that you created earlier:
@@ -332,7 +331,7 @@ content: |
   Create a method, ``setNewlyInsertedScores()`` that does the following:
 
   - Loops through a list of indices of inserted elements to find the newly created ``Stat`` objects. 
-  - Loops through the current top scores to determine if the new Stat object's ``score`` is higher than the current score. 
+  - Loops through the current top scores to determine if the new ``Stat`` object's ``score`` is higher than the current score. 
   - Updates the list of current top scores if there is a higher one and updates the UI to display the new list of top scores.
 
   .. code-block:: csharp
@@ -381,8 +380,8 @@ content: |
 
      Since Unity Hub does not allow opening multiple instances of the same
      project by default, we recommend simulating a new top score by creating a
-     new Stat object through :doc:`{+service-short+} Studio </studio/>` or
-     :atlas:`{+atlas+} <>`. When you create a new Stat object with a high score,
+     new ``Stat`` object through :doc:`{+service-short+} Studio </studio/>` or
+     :atlas:`{+atlas+} <>`. When you create a new ``Stat`` object with a high score,
      your leaderboard updates automatically and displays the new high score.
      Alternatively, you can use the `Unity symbolic link workaround
      <https://support.unity.com/hc/en-us/articles/115003118426-Running-multiple-instances-of-Unity-referencing-the-same-project>`_
@@ -403,6 +402,6 @@ content: |
   - Registering a user.
   - Logging in a user.
   - Getting a new high score and seeing the leaderboard update in real-time.
-  - Creating a new Stat object with a high score in {+service-short+} Studio or {+atlas+} and seeing the leaderboard update in real-time.
+  - Creating a new ``Stat`` object with a high score in {+service-short+} Studio or {+atlas+} and seeing the leaderboard update in real-time.
 
   
