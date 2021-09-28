@@ -17,7 +17,7 @@ public class LeaderboardManager : MonoBehaviour
     private bool isLeaderboardUICreated = false;
     private List<Stat> topStats;
     private IDisposable listenerToken;  // (Part 2 Sync): listenerToken is the token for registering a change listener on all Stat objects
-    void Awake()
+    private void Awake()
     {
         Instance = this;
     }
