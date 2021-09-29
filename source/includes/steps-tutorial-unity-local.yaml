@@ -472,11 +472,11 @@ content: |
   the start point but does not create a new ``Stat`` object for the new playthrough.
   To expand upon this, you'll perform the following when the ``Player`` loses the game:
 
-  - Update the ``RealmController.deleteCurrentStat()`` method to delete the current ``Stat`` object for the current playthrough
-  - Call the ``RealmController.deleteCurrentStat()`` method
+  - Update the ``RealmController.DeleteCurrentStat()`` method to delete the current ``Stat`` object for the current playthrough
+  - Call the ``RealmController.DeleteCurrentStat()`` method
   - Call the ``RealmController.RestartGame()`` method to create a new ``Stat`` object for the new playthrough 
 
-  Navigate to the ``RealmController.deleteCurrentStat()`` method and add the following code at the bottom of that method:
+  Navigate to the ``RealmController.DeleteCurrentStat()`` method and add the following code at the bottom of that method:
 
   .. code-block:: csharp
  
@@ -493,7 +493,7 @@ content: |
 
   .. code-block:: csharp
  
-     RealmController.deleteCurrentStat();
+     RealmController.DeleteCurrentStat();
      RealmController.RestartGame();
 
   Return to the Unity Editor, and click play to enter ``play mode``. The next
