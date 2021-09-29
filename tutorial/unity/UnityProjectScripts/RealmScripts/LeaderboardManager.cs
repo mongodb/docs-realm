@@ -207,7 +207,7 @@ public class LeaderboardManager : MonoBehaviour
     {
         Instance = this;
     }
-    void OnDisable()
+    private void OnDisable()
     {
         // :code-block-start: leaderboard-cleanup-fn
         // :state-start: sync
