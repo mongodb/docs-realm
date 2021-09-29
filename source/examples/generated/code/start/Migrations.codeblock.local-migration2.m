@@ -24,6 +24,6 @@ config.migrationBlock = ^(RLMMigration * _Nonnull migration, uint64_t oldSchemaV
 // Use this configuration when opening realms
 [RLMRealmConfiguration setDefaultConfiguration:config];
 
-// Now that we've told Realm how to handle the schema change, opening the file
+// Now that we've told Realm how to handle the schema change, opening the realm
 // will automatically perform the migration
 RLMRealm *realm = [RLMRealm defaultRealm];

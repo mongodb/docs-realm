@@ -5,3 +5,4 @@ RLMRealmConfiguration *config = [[RLMRealmConfiguration alloc] init];
 config.schemaVersion = 2;
 // Use this configuration when opening realms
 [RLMRealmConfiguration setDefaultConfiguration:config];
+RLMRealm *realm = [RLMRealm defaultRealm];

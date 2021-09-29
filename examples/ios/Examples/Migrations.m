@@ -148,7 +148,7 @@
     // Use this configuration when opening realms
     [RLMRealmConfiguration setDefaultConfiguration:config];
     
-    // Now that we've told Realm how to handle the schema change, opening the file
+    // Now that we've told Realm how to handle the schema change, opening the realm
     // will automatically perform the migration
     RLMRealm *realm = [RLMRealm defaultRealm];
     // :code-block-end:
@@ -187,7 +187,7 @@
     // Use this configuration when opening realms
     [RLMRealmConfiguration setDefaultConfiguration:config];
     
-    // Now that we've told Realm how to handle the schema change, opening the file
+    // Now that we've told Realm how to handle the schema change, opening the realm
     // will automatically perform the migration
     RLMRealm *realm = [RLMRealm defaultRealm];
     // :code-block-end:
@@ -207,6 +207,7 @@
     config.schemaVersion = 2;
     // Use this configuration when opening realms
     [RLMRealmConfiguration setDefaultConfiguration:config];
+    RLMRealm *realm = [RLMRealm defaultRealm];
     // :code-block-end:
 }
 

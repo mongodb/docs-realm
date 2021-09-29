@@ -4,3 +4,4 @@ let config = Realm.Configuration(
     schemaVersion: 2)
 // Use this configuration when opening realms
 Realm.Configuration.defaultConfiguration = config
+let realm = try! Realm()
