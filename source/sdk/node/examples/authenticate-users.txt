@@ -27,7 +27,7 @@ object.
 Anonymous User
 --------------
 
-The :doc:`Anonymous </authentication/anonymous>` provider allows users to log in
+The :doc:`Anonymous </manage-apps/secure/authentication/anonymous>` provider allows users to log in
 to your application with temporary accounts that have no associated information.
 
 To log in, create an anonymous credential and pass it to ``App.logIn()``:
@@ -52,7 +52,7 @@ To log in, create an anonymous credential and pass it to ``App.logIn()``:
 Email/Password User
 -------------------
 
-The :doc:`email/password </authentication/email-password>` authentication
+The :doc:`email/password </manage-apps/secure/authentication/email-password>` authentication
 provider allows users to log in to your application with an email address and a
 password.
 
@@ -79,7 +79,7 @@ password and pass it to ``App.logIn()``:
 API Key User
 ------------
 
-The :doc:`API key </authentication/api-key>` authentication provider allows
+The :doc:`API key </manage-apps/secure/authentication/api-key>` authentication provider allows
 server processes to access to access your app directly or on behalf of a user.
 
 To log in with an API key, create an API Key credential with a server or user
@@ -105,7 +105,7 @@ API key and pass it to ``App.logIn()``:
 Custom JWT User
 ---------------
 
-The :doc:`Custom JWT </authentication/custom-jwt>` authentication provider
+The :doc:`Custom JWT </manage-apps/secure/authentication/custom-jwt>` authentication provider
 allows you to handle user authentication with any authentication system that
 returns a :ref:`JSON web token <json-web-tokens>`.
 
@@ -132,7 +132,7 @@ and pass it to ``App.logIn()``:
 Custom Function User
 --------------------
 
-The :doc:`Custom Function </authentication/custom-function>` authentication
+The :doc:`Custom Function </manage-apps/secure/authentication/custom-function>` authentication
 provider allows you to handle user authentication by running a :doc:`function
 </functions>` that receives a payload of arbitrary information about a user.
 
@@ -159,7 +159,7 @@ with a payload object and pass it to ``App.logIn()``:
 Facebook User
 -------------
 
-The :doc:`Facebook </authentication/facebook>` authentication provider allows
+The :doc:`Facebook </manage-apps/secure/authentication/facebook>` authentication provider allows
 you to authenticate users through a Facebook app using their existing Facebook
 account.
 
@@ -208,13 +208,13 @@ to your Node.js app and use to finish logging the user in to your app.
 Google User
 -----------
 
-The :doc:`Google </authentication/google>` authentication provider allows you to
+The :doc:`Google </manage-apps/secure/authentication/google>` authentication provider allows you to
 authenticate users through a Google project using their existing Google account.
 
 .. note:: Enable the Google Auth Provider
    
    To authenticate a Google user, you must configure the :doc:`Google
-   authentication provider </authentication/google>`.
+   authentication provider </manage-apps/secure/authentication/google>`.
 
 You can use the :google:`official Google SDK <identity>` to handle the user
 authentication and redirect flow from a client application. Once authenticated,
@@ -257,13 +257,13 @@ use to finish logging the user in to your app.
 Apple User
 ----------
 
-The :doc:`Apple </authentication/apple>` authentication provider allows you to
+The :doc:`Apple </manage-apps/secure/authentication/apple>` authentication provider allows you to
 authenticate users through Sign-in With Apple.
 
 .. note:: Enable the Apple Auth Provider
    
    To authenticate an Apple user, you must configure the :doc:`Apple
-   authentication provider </authentication/apple>`.
+   authentication provider </manage-apps/secure/authentication/apple>`.
 
 You can use the :apple:`official Sign in with Apple JS SDK
 <documentation/sign_in_with_apple/sign_in_with_apple_js>` to handle the user

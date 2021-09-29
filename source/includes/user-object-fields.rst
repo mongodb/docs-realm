@@ -24,13 +24,13 @@
             - Description
 
           * - "normal"
-            - The user is an :doc:`application user </authentication>` logged in
+            - The user is an :doc:`application user </manage-apps/secure/authentication>` logged in
               through an authentication provider other than the
-              :doc:`API Key </authentication/api-key>` provider.
+              :doc:`API Key </manage-apps/secure/authentication/api-key>` provider.
 
           * - "server"
             - The user is a server process logged in with any type of
-              :doc:`{+service-short+} API Key </authentication/api-key>`.
+              :doc:`{+service-short+} API Key </manage-apps/secure/authentication/api-key>`.
 
           * - "system"
             - The user is the :ref:`system user <system-user>` that
@@ -42,7 +42,7 @@
      - A document that contains metadata that describes the
        user. This field combines the data for all ``identities``
        associated with the user, so the exact field names and values
-       depend on which :doc:`authentication providers </authentication>`
+       depend on which :doc:`authentication providers </manage-apps/secure/authentication>`
        the user has authenticated with.
 
        .. note:: System Functions Have No User Data
@@ -55,7 +55,7 @@
      - document
      
      - A document from your application's :doc:`custom user
-       data collection </users/enable-custom-user-data>` that
+       data collection </manage-apps/secure/users/enable-custom-user-data>` that
        specifies the user's ID. You can use the custom user data
        collection to store arbitrary data about your application's
        users. If you set the ``name`` field, {+service-short+} populates the 

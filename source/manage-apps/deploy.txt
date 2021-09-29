@@ -17,12 +17,12 @@ Application Deployment
    :caption: Deployment Methods
    :hidden:
    
-   Deploy from the Realm UI </deploy/deploy-ui>
-   Deploy Automatically with GitHub </deploy/deploy-automatically-with-github>
-   Deploy with the Realm CLI </deploy/deploy-cli>
-   Rollback Deployments </deploy/rollback-deployment>
-   Export an Existing Realm Application </deploy/export-realm-app>
-   Set Up a CI/CD Pipeline </deploy/sdlc>
+   Deploy from the Realm UI </manage-apps/deploy/deploy-ui>
+   Deploy Automatically with GitHub </manage-apps/deploy/deploy-automatically-with-github>
+   Deploy with the Realm CLI </manage-apps/deploy/deploy-cli>
+   Rollback Deployments </manage-apps/deploy/rollback-deployment>
+   Export an Existing Realm Application </manage-apps/deploy/export-realm-app>
+   Set Up a CI/CD Pipeline </manage-apps/deploy/sdlc>
 
 Overview
 --------
@@ -62,7 +62,7 @@ particular development workflow.
        **Deployment Pattern**
 
        *For a detailed walkthrough, see* :doc:`Deploy from the {+ui+}
-       </deploy/deploy-ui>`
+       </manage-apps/deploy/deploy-ui>`
        
        1. Make changes in the UI that are saved in a draft state
           and not visible to client apps.
@@ -81,7 +81,7 @@ particular development workflow.
        **Deployment Pattern**
       
        *For a detailed walkthrough, see* :doc:`Deploy Automatically
-       with GitHub </deploy/deploy-automatically-with-github>`
+       with GitHub </manage-apps/deploy/deploy-automatically-with-github>`
        
        1. Host your exported application repository on GitHub.
        
@@ -100,7 +100,7 @@ particular development workflow.
        **Deployment Pattern**
 
        *For a detailed walkthrough, see* :doc:`Deploy Changes with
-       {+cli+} </deploy/deploy-cli>`
+       {+cli+} </manage-apps/deploy/deploy-cli>`
        
        1. Export a copy of your application to a directory of
           configuration files and download it to your computer.
@@ -138,8 +138,8 @@ Application Components
 
 {+app+}s are composed of components like
 :doc:`Functions </functions>`, :doc:`Triggers </triggers>`,
-:doc:`Auth Providers </authentication>`, and :doc:`Values
-</values-and-secrets>`. A deployment consist of at least one
+:doc:`Auth Providers </manage-apps/secure/authentication>`, and :doc:`Values
+</manage-apps/secure/values-and-secrets>`. A deployment consist of at least one
 new, updated, or deleted component.
 
 .. _app-config:
@@ -168,7 +168,7 @@ an **application directory** that contains configuration files for your
 application components. The configuration files are grouped into
 directories based on their component type. You can download a copy of
 the application directory for the most recently deployed version of an
-app by :doc:`exporting </deploy/export-realm-app>` it from the
+app by :doc:`exporting </manage-apps/deploy/export-realm-app>` it from the
 {+ui+} or {+cli-bin+}, or by cloning the underlying Git repository.
 
 For additional information on the structure of an application directory as well
