@@ -361,10 +361,10 @@ content: |
   You've set the current Scorecard to the initial playthrough statistics for the
   current playthrough of the game, but collecting tokens or defeating
   enemies will not impact the current ``Stat`` object yet. To fix that, you'll edit the
-  ``collectToken()`` and ``defeatEnemy()`` methods in the ``RealmController``.
+  ``CollectToken()`` and ``DefeatEnemy()`` methods in the ``RealmController``.
 
 
-  Add the following code to the ``RealmController.collectToken()`` method to
+  Add the following code to the ``RealmController.CollectToken()`` method to
   perform a :doc:`write transaction
   </sdk/dotnet/fundamentals/write-transactions>` and update the variable
   ``currentStat`` that you created in the last step:
@@ -376,7 +376,7 @@ content: |
           currentStat.TokensCollected += 1;
       });
 
-  Call the ``collectToken()`` method when the ``Player`` collides with the token
+  Call the ``CollectToken()`` method when the ``Player`` collides with the token
   instance. This occurs in the platformer microgame file:
 
   ``/Assets/Scripts/Mechanics/TokenInstance.cs``.
@@ -386,9 +386,9 @@ content: |
 
   .. code-block:: csharp
 
-     RealmController.collectToken();
+     RealmController.CollectToken();
 
-  Add the following code to the ``RealmController.defeatEnemy()`` method to
+  Add the following code to the ``RealmController.DefeatEnemy()`` method to
   perform a :doc:`write transaction
   </sdk/dotnet/fundamentals/write-transactions>` and update the variable
   ``currentStat`` that you created in the last step:
@@ -401,22 +401,22 @@ content: |
       });
 
   Navigate to the ``/Assets/Scripts/Gameplay/EnemyDeath.cs`` file and call
-  ``RealmController.defeatEnemy()`` at the beginning of the ``Execute()`` method.
+  ``RealmController.DefeatEnemy()`` at the beginning of the ``Execute()`` method.
 
    .. code-block:: csharp
  
-      RealmController.defeatEnemy();
+      RealmController.DefeatEnemy();
  
    Finally, create a listener that reacts to changes to the current
    playthrough's ``Stat`` and updates the Scorecard in the UI. In the
    ``ScoreCardManager.cs`` file, you can add a change listener to the current
    ``Stat`` {+realm+} object defined as the ``RealmController.currentStat``
-   variable. In the ``watchForChangesToCurrentStats()`` method, handle the ``Stat`` object's
+   variable. In the ``WatchForChangesToCurrentStats()`` method, handle the ``Stat`` object's
    :dotnet-sdk:`PropertyChanged event<Realms.RealmObjectBase.html#Realms_RealmObjectBase_PropertyChanged>`:
    
    .. code-block:: csharp
  
-      propertyHandler = new PropertyChangedEventHandler((sender, e) => updateCurrentStats());
+      propertyHandler = new PropertyChangedEventHandler((sender, e) => UpdateCurrentStats());
       currentStat.PropertyChanged += propertyHandler;
 
   The Scorecard now updates if the ``Player`` defeats an enemy or collects a token.
@@ -432,7 +432,7 @@ content: |
   but nothing else happens. To expand upon this, you will update the code to do
   the following when the ``Player`` wins the game:
 
-  - Call the ``RealmController.playerWon()`` method to calculate and write the final score to {+realm+}
+  - Call the ``RealmController.PlayerWon()`` method to calculate and write the final score to {+realm+}
   - Displays a dialog with the final score
   - Respawns the ``Player`` and restarts the game if the ``Player`` clicks the restart button
 
@@ -455,12 +455,12 @@ content: |
  
      public override void Execute()
      {
-         var finalScore = RealmController.playerWon();
+         var finalScore = RealmController.PlayerWon();
          var didClickRestart = EditorUtility.DisplayDialog("You won!", $"Final Score = {finalScore}", "restart game");
          if (didClickRestart == true)
          {
             Simulation.Schedule<PlayerSpawn>(2);
-            RealmController.restartGame();
+            RealmController.RestartGame();
          }
      }
 ---
@@ -474,7 +474,7 @@ content: |
 
   - Update the ``RealmController.deleteCurrentStat()`` method to delete the current ``Stat`` object for the current playthrough
   - Call the ``RealmController.deleteCurrentStat()`` method
-  - Call the ``RealmController.restartGame()`` method to create a new ``Stat`` object for the new playthrough 
+  - Call the ``RealmController.RestartGame()`` method to create a new ``Stat`` object for the new playthrough 
 
   Navigate to the ``RealmController.deleteCurrentStat()`` method and add the following code at the bottom of that method:
 
@@ -494,7 +494,7 @@ content: |
   .. code-block:: csharp
  
      RealmController.deleteCurrentStat();
-     RealmController.restartGame();
+     RealmController.RestartGame();
 
   Return to the Unity Editor, and click play to enter ``play mode``. The next
   time your ``Player`` loses,  the game respawns the ``Player`` to the start point with a new

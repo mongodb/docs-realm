@@ -70,7 +70,7 @@ content: |
              <ui:Button text="Login &amp; Start Game" display-tooltip-when-elided="true" name="start-button" class="start-button" />
              <ui:Button text="Don&apos;t have an account yet? Register" display-tooltip-when-elided="true" name="toggle-login-or-register-ui-button" class="toggle-login-or-register-ui-button" />
          </ui:VisualElement>
-         <ui:Button text="Logout" display-tooltip-when-elided="true" name="logout-button" class="logout-button hide" />
+         <ui:Button text="Logout" display-tooltip-when-elided="true" name="logout-button" class="logout-button hide" focusable="false" />
      </ui:UXML>
 
   You'll need to refactor your AuthenticationManager's ``Start()`` method to contain code that does the following:
@@ -90,11 +90,11 @@ content: |
      {
          if (isInRegistrationMode == true)
          {
-             onPressRegister();
+             OnPressRegister();
          }
          else
          {
-             onPressLogin();
+             OnPressLogin();
          }
      };
      toggleLoginOrRegisterUIButton = root.Q<Button>("toggle-login-or-register-ui-button");
@@ -103,50 +103,51 @@ content: |
          // if the registerUI is already visible, switch to the loginUI and set isShowingRegisterUI to false	
          if (isInRegistrationMode == true)
          {
-             switchToLoginUI();
+             SwitchToLoginUI();
              isInRegistrationMode = false;
          }
          else
          {
-             switchToRegisterUI();
+             SwitchToRegisterUI();
              isInRegistrationMode = true;
          }
      };
   
-  Next, create a ``switchToLoginUI()`` and ``switchToRegisterUI()`` method to toggle between authentication UI modes:
+  Next, create a ``SwitchToLoginUI()`` and ``SwitchToRegisterUI()`` method to toggle between authentication UI modes:
 
   .. code-block:: csharp
  
-     public static void switchToLoginUI()
+     public static void SwitchToLoginUI()
      {
          subtitle.text = "Login";
          startButton.text = "Login & Start Game";
          toggleLoginOrRegisterUIButton.text = "Don't have an account yet? Register";
      }
-     public static void switchToRegisterUI()
+     public static void SwitchToRegisterUI()
      {
          subtitle.text = "Register";
          startButton.text = "Signup & Start Game";
          toggleLoginOrRegisterUIButton.text = "Have an account already? Login";
      }
 
-  Replace the existing ``onPressLogin()`` method with the one below that uses
+  Replace the existing ``OnPressLogin()`` method with the one below that uses
   :doc:`Email/Password Authentication
   </sdk/dotnet/examples/manage-email-password-users>`:
 
   .. code-block:: csharp
  
-     public static async void onPressLogin()
+     public static async void OnPressLogin()
      {
          try
          {
-             var currentPlayer = await RealmController.setLoggedInUser(userInput.value, passInput.value);
+             var currentPlayer = await RealmController.SetLoggedInUser(userInput.value, passInput.value);
              if (currentPlayer != null)
              {
-                 root.AddToClassList("hide");
+                 authWrapper.AddToClassList("hide");
+                 logoutButton.AddToClassList("show");
              }
-             ScoreCardManager.setLoggedInUser(currentPlayer.Name);
-             LeaderboardManager.Instance.setLoggedInUser(currentPlayer.Name);
+             ScoreCardManager.SetLoggedInUser(currentPlayer.Name);
+             LeaderboardManager.Instance.SetLoggedInUser(currentPlayer.Name);
          }
          catch (Exception ex)
          {
@@ -154,13 +155,13 @@ content: |
          }
      }
   
-  Notice that there is now a password parameter for the ``RealmController.setLoggedInUser()`` method, you will update that method in the next step.
+  Notice that there is now a password parameter for the ``RealmController.SetLoggedInUser()`` method, you will update that method in the next step.
 
-  Finally, create an ``onPressRegister()`` method that calls a ``RealmController.OnPressRegister()`` method that you will create in the next step:
+  Finally, create an ``OnPressRegister()`` method that calls a ``RealmController.OnPressRegister()`` method that you will create in the next step:
 
   .. code-block:: csharp
  
-     public static async void onPressRegister()
+     public static async void OnPressRegister()
      {
          try
          {
@@ -168,10 +169,11 @@ content: |
  
              if (currentPlayer != null)
              {
-                 root.AddToClassList("hide");
+                 authWrapper.AddToClassList("hide");
+                 logoutButton.AddToClassList("show");
              }
-             ScoreCardManager.setLoggedInUser(currentPlayer.Name);
-             LeaderboardManager.Instance.setLoggedInUser(currentPlayer.Name);
+             ScoreCardManager.SetLoggedInUser(currentPlayer.Name);
+             LeaderboardManager.Instance.SetLoggedInUser(currentPlayer.Name);
  
          }
          catch (Exception ex)
@@ -188,7 +190,7 @@ content: |
   lets replace that in the code with {+realm+} :doc:`Email/Password
   Authentication </sdk/dotnet/examples/manage-email-password-users>`
 
-  In the ``RealmController.cs`` replace the ``setLoggedInUser()`` with an
+  In the ``RealmController.cs`` replace the ``SetLoggedInUser()`` with an
   asynchronous method that logs in using the :dotnet-sdk:`LogInAsync()
   <reference/Realms.Sync.App.html#Realms_Sync_App_LogInAsync_Realms_Sync_Credentials_>`
   method to authenticate and obtain a :dotnet-sdk:`User
@@ -196,7 +198,7 @@ content: |
 
   .. code-block:: csharp
  
-     public static async Task<Player> setLoggedInUser(string userInput, string passInput)
+     public static async Task<Player> SetLoggedInUser(string userInput, string passInput)
      {        
         syncUser = await realmApp.LogInAsync(Credentials.EmailPassword(userInput, passInput));
         if (syncUser != null)
@@ -215,7 +217,7 @@ content: |
                     currentPlayer.Stats.Add(currentStat);
                 });
 
-                startGame();
+                StartGame();
             }
             else
             {
@@ -253,7 +255,7 @@ content: |
             currentStat = realm.Add(s1);
             currentPlayer.Stats.Add(currentStat);
         });
-        startGame();
+        StartGame();
         return currentPlayer;
      }
 
@@ -293,13 +295,13 @@ content: |
          return await Realm.GetInstanceAsync(syncConfiguration);
      }
 
-  In ``LeaderboardManager.cs`` make the ``setLoggedInUser()`` an
+  In ``LeaderboardManager.cs`` make the ``SetLoggedInUser()`` an
   asynchronous function and replace the existing ``Realm.GetInstance()`` call
   with a call to the new ``GetRealm()`` method. Your code should look something like the following snippet:
 
   .. code-block:: csharp
  
-     public async void setLoggedInUser(string userInput)
+     public async void SetLoggedInUser(string userInput)
      {
          username = userInput;
          realm = await GetRealm();
@@ -310,7 +312,7 @@ content: |
 
   .. code-block:: csharp
  
-     public void setStatListener()
+     public void SetStatListener()
      {
          listenerToken = realm.All<Stat>()
              .SubscribeForNotifications((sender, changes, error) =>
@@ -325,14 +327,14 @@ content: |
  
                  if(changes != null)
                  {
-                     setNewlyInsertedScores(changes.InsertedIndices);
+                     SetNewlyInsertedScores(changes.InsertedIndices);
                  }
                  // we only need to check for inserted because scores can't be modified or deleted after the run is complete
  
              });
      }
 
-  Create a method, ``setNewlyInsertedScores()`` that does the following:
+  Create a method, ``SetNewlyInsertedScores()`` that does the following:
 
   - Loops through a list of indices of inserted elements to find the newly created ``Stat`` objects. 
   - Loops through the current top scores to determine if the new ``Stat`` object's ``score`` is higher than the current score. 
@@ -340,7 +342,7 @@ content: |
 
   .. code-block:: csharp
  
-     private void setNewlyInsertedScores(int[] insertedIndices)
+     private void SetNewlyInsertedScores(int[] insertedIndices)
      {
          foreach (var i in insertedIndices)
          {
@@ -355,7 +357,7 @@ content: |
                      }
                      topStats.Insert(scoreIndex, newStat);
                      root.Remove(listView); // remove the old listView
-                     createTopStatListView(); // create a new listView
+                     CreateTopStatListView(); // create a new listView
                      root.Add(listView); // add the new listView to the UI
                      break;
                  }
@@ -363,12 +365,12 @@ content: |
          }
      }
    
-  Call the ``setStatListener()``  after the user is logged-in, at the
-  end of the LeaderboardManager's ``setLoggedInUser()`` method:
+  Call the ``SetStatListener()``  after the user is logged-in, at the
+  end of the LeaderboardManager's ``SetLoggedInUser()`` method:
 
   .. code-block:: csharp
  
-     setStatListener();
+     SetStatListener();
 
 
   Finally, dispose of the listener token once the Leaderboard GameObject is disabled in the ``OnDisable()`` method:
