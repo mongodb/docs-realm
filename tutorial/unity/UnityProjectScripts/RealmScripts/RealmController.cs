@@ -25,97 +25,149 @@ public class RealmController : MonoBehaviour
     private static App realmApp = App.Create(Constants.Realm.AppId); // (Part 2 Sync): realmApp represents the MongoDB Realm backend application
     public static User syncUser; // (Part 2 Sync): syncUser represents the realmApp's currently logged in user
 
-    private void GenerateUIObjects(GameObject canvasGameObject, string uiObjectName)
+    #region PublicMethods
+    // CollectToken() is a method that performs a write transaction to update the current playthrough Stat object's TokensCollected count
+    public static void CollectToken()
     {
-        var panelSettings = EditorGUIUtility.Load("Assets/Scripts/realm-tutorial-unity/UI ToolKit/UIPanelSettings.asset");
-
-        // create an empty GameObject
-        var gameObject = new GameObject();
-        // create a UI object to add to the GameObject
-        var uiDocument = gameObject.AddComponent<UIDocument>();
-        // attach existing panel settings to the UI Document
-        uiDocument.panelSettings = (PanelSettings)panelSettings;
-
-        // Attach Manager Scripts to interact with UI Documents and attach the UI Document's VisualTreeAsset 
-        switch (uiObjectName)
+        // :code-block-start: collect-token-fn
+        // :state-start: start
+        // TODO: within a write transaction, increment the number of token's collected in the current playthrough/run's stat
+        // :state-end:
+        // :state-start: sync local
+        realm.Write(() =>
         {
-            case "Authentication":
-                gameObject.AddComponent<AuthenticationManager>();
-                uiDocument.name = "Authentication";
-                uiDocument.visualTreeAsset = authenticationUXMLVisualTree;
-                break;
-            case "Leaderboard":
-                {
-                    gameObject.AddComponent<LeaderboardManager>();
-                    uiDocument.name = "Leaderboard";
-                    uiDocument.visualTreeAsset = leaderboardUXMLVisualTree;
-                }
-                break;
-            case "ScoreCard":
-                gameObject.AddComponent<ScoreCardManager>();
-                uiDocument.name = "ScoreCard";
-                uiDocument.visualTreeAsset = scoreCardUXMLVisualTree;
-                break;
+            currentStat.TokensCollected += 1;
+        });
+        // :state-end:
+        // :code-block-end:
+    }
+
+    // DefeatEnemy() is a method that performs a write transaction to update the current playthrough Stat object's enemiesDefeated count
+    public static void DefeatEnemy()
+    {
+        // :code-block-start: defeat-enemy-fn
+        // :state-start: start
+        // TODO: within a write transaction, increment the number of enemies defeated in the current playthrough/run's stat
+        // :state-end:
+        // :state-start: sync local
+        realm.Write(() =>
+        {
+            currentStat.EnemiesDefeated += 1;
+        });
+        // :state-end:
+        // :code-block-end:
+    }
+
+    // DeleteCurrentStat() is a method that performs a write transaction to delete the current playthrough Stat object and remove it from the current Player object's Stats' list
+    public static void DeleteCurrentStat()
+    {
+        // :code-block-start: delete-current-stat-method
+        ScoreCardManager.UnRegisterListener();
+        // :state-start: start
+        // TODO: within a write transaction, delete the current Stat object, and its reference in the current Player object
+        // :state-end:
+        // :state-start: local sync
+        realm.Write(() =>
+        {
+            realm.Remove(currentStat);
+            currentPlayer.Stats.Remove(currentStat);
+        });
+        // :state-end:
+        // :code-block-end:
+    }
+
+    // :state-start: start local
+    // LogOut() is a method that logs out and reloads the scene
+    // :state-end:
+    public static void LogOut()
+    {
+        // :state-uncomment-start: sync
+        // LogOut() is an asynchronous method that logs out and reloads the scene
+        //public static async void LogOut()
+        //{
+        // await syncUser.LogOutAsync();
+        // :state-uncomment-end:
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    // :code-block-start: realmcontroller-press-register-sync
+    // :state-uncomment-start: sync
+    // // OnPressRegister() is an asynchronous method that registers as a Realms.Sync.User, creates a new Player and Stat object 
+    // // OnPressRegister takes a userInput and passInput, representing a username/password, as a parameter
+    // public static async Task<Player> OnPressRegister(string userInput, string passInput)
+    // {
+    //     await realmApp.EmailPasswordAuth.RegisterUserAsync(userInput, passInput);
+    //     syncUser = await realmApp.LogInAsync(Credentials.EmailPassword(userInput, passInput));
+    //     realm = await GetRealm(syncUser);
+
+    //     var player = new Player();
+    //     player.Id = syncUser.Id;
+    //     player.Name = userInput;
+    //     var stat = new Stat();
+    //     stat.StatOwner = player;
+    //     realm.Write(() =>
+    //     {
+    //         currentPlayer = realm.Add(player);
+    //         currentStat = realm.Add(stat);
+    //         currentPlayer.Stats.Add(currentStat);
+    //     });
+    //     StartGame();
+    //     return currentPlayer;
+    // }
+    // :state-uncomment-end:
+    // :code-block-end:
+
+    // PlayerWon() is a method that calculates and returns the final score for the current playthrough once the player has won the game
+    public static int PlayerWon()
+    {
+        if (runTime <= 30) // if the game is won in less than or equal to 30 seconds, +80 bonus points
+        {
+            bonusPoints = 80;
+        }
+        else if (runTime <= 60) // if the game is won in less than or equal to 1 min, +70 bonus points
+        {
+            bonusPoints = 70;
+        }
+        else if (runTime <= 90) // if the game is won in less than or equal to 1 min 30 seconds, +60 bonus points
+        {
+            bonusPoints = 60;
+        }
+        else if (runTime <= 120) // if the game is won in less than or equal to 2 mins, +50 bonus points
+        {
+            bonusPoints = 50;
         }
 
-        // Attach the UI Document as a child of the Canvas
-        uiDocument.transform.parent = canvasGameObject.transform;
+        var finalScore = (currentStat.EnemiesDefeated + 1) * (currentStat.TokensCollected + 1) + bonusPoints;
+        realm.Write(() =>
+        {
+            currentStat.Score = finalScore;
+        });
+
+        return finalScore;
     }
 
-    private void Start()
+    // RestartGame() is a method that creates a new plathrough Stat object and shares this new Stat object with the ScoreCardManager to update in the UI and listen for changes to it
+    public static void RestartGame()
     {
-        // Load UXML Assets
-        leaderboardUXMLVisualTree = EditorGUIUtility.Load("Assets/Scripts/realm-tutorial-unity/UI ToolKit/Leaderboard.uxml") as VisualTreeAsset;
-        scoreCardUXMLVisualTree = EditorGUIUtility.Load("Assets/Scripts/realm-tutorial-unity/UI ToolKit/ScoreCard.uxml") as VisualTreeAsset;
-        authenticationUXMLVisualTree = EditorGUIUtility.Load("Assets/Scripts/realm-tutorial-unity/UI ToolKit/Authentication.uxml") as VisualTreeAsset;
+        var stat = new Stat();
+        stat.StatOwner = currentPlayer;
+        realm.Write(() =>
+        {
+            currentStat = realm.Add(stat);
+            currentPlayer.Stats.Add(currentStat);
+        });
 
-        // Create canvas as a container to hold UIDocuments
-        var canvasGameObject = new GameObject();
-        canvasGameObject.name = "Canvas";
-        var canvas = canvasGameObject.AddComponent<Canvas>();
+        ScoreCardManager.SetCurrentStat(currentStat); // call `SetCurrentStat()` to set the current stat in the UI using ScoreCardManager
+        ScoreCardManager.WatchForChangesToCurrentStats(); // call `WatchForChangesToCurrentStats()` to register a listener on the new score in the ScoreCardManager
 
-        // Configure canvas properties
-        canvas.renderMode = RenderMode.ScreenSpaceOverlay;
-        canvasGameObject.AddComponent<CanvasScaler>();
-        canvasGameObject.AddComponent<GraphicRaycaster>();
-
-        // Generate Authentication, Leaderboard, and Scorecard UI Objects
-        GenerateUIObjects(canvasGameObject, "Authentication");
-        GenerateUIObjects(canvasGameObject, "Leaderboard");
-        GenerateUIObjects(canvasGameObject, "ScoreCard");
-    }
-
-    // :state-start: start local    
-    // GetRealm() is a method that returns a realm instance
-    private static Realm GetRealm()
-    // :state-end:
-    // :state-uncomment-start: sync
-    // // GetRealm() is an asynchronous method that returns a synced realm
-    // // GetRealm() takes a logged in Realms.Sync.User as a parameter
-    // private static async Task<Realm> GetRealm(User loggedInUser)
-    // :state-uncomment-end:
-    {
-        // :code-block-start: get-realm-fn
-        // :state-start: start 
-        // TODO: open a realm and return it
-        // :state-uncomment-start: start
-        // return null;
-        // :state-uncomment-end:
-        // :state-end: :state-start: local
-        return Realm.GetInstance();
-        // :state-end:
-        // :state-uncomment-start: sync
-        // var syncConfiguration = new SyncConfiguration("UnityTutorialPartition", loggedInUser);
-        // return await Realm.GetInstanceAsync(syncConfiguration);
-        // :state-uncomment-end:
-        // :code-block-end:
+        StartGame(); // start the game by resetting the timer and officially starting a new run/playthrough
     }
 
     // :code-block-start: realmcontroller-set-logged-in-user
     // :state-start: start local
-    // setLoggedInUser() is a method that finds a Player object and creates a new Stat object for the current playthrough
-    // setLoggedInUser() takes a userInput, representing a username, as a parameter
-    public static void setLoggedInUser(string userInput)
+    // SetLoggedInUser() is a method that finds a Player object and creates a new Stat object for the current playthrough
+    // SetLoggedInUser() takes a userInput, representing a username, as a parameter
+    public static void SetLoggedInUser(string userInput)
     {
         realm = GetRealm();
         // :state-start: start
@@ -156,17 +208,17 @@ public class RealmController : MonoBehaviour
             });
         }
         // :state-end:
-        startGame();
+        StartGame();
     }
     // :state-end:
     // :code-block-end:
 
     // :code-block-start: realmcontroller-set-logged-in-user-synced
     // :state-uncomment-start: sync
-    // // setLoggedInUser() is an asynchronous method that logs in as a Realms.Sync.User, creates a new Stat object for the current playthrough
+    // // SetLoggedInUser() is an asynchronous method that logs in as a Realms.Sync.User, creates a new Stat object for the current playthrough
     // // and returns the Player object that corresponds to the logged in Realms.Sync.User
-    // // setLoggedInUser() takes a userInput and passInput, representing a username/password, as a parameter
-    // public static async Task<Player> setLoggedInUser(string userInput, string passInput)
+    // // SetLoggedInUser() takes a userInput and passInput, representing a username/password, as a parameter
+    // public static async Task<Player> SetLoggedInUser(string userInput, string passInput)
     // {
     //     syncUser = await realmApp.LogInAsync(Credentials.EmailPassword(userInput, passInput));
     //     if (syncUser != null)
@@ -182,7 +234,7 @@ public class RealmController : MonoBehaviour
     //                 currentStat = realm.Add(stat);
     //                 currentPlayer.Stats.Add(currentStat);
     //             });
-    //             startGame();
+    //             StartGame();
     //         }
     //         else
     //         {
@@ -194,50 +246,74 @@ public class RealmController : MonoBehaviour
     // :state-uncomment-end:
     // :code-block-end:
 
-    // :code-block-start: realmcontroller-press-register-sync
-    // :state-uncomment-start: sync
-    // // OnPressRegister() is an asynchronous method that registers as a Realms.Sync.User, creates a new Player and Stat object 
-    // // OnPressRegister takes a userInput and passInput, representing a username/password, as a parameter
-    // public static async Task<Player> OnPressRegister(string userInput, string passInput)
-    // {
-    //     await realmApp.EmailPasswordAuth.RegisterUserAsync(userInput, passInput);
-    //     syncUser = await realmApp.LogInAsync(Credentials.EmailPassword(userInput, passInput));
-    //     realm = await GetRealm(syncUser);
+    #endregion
 
-    //     var player = new Player();
-    //     player.Id = syncUser.Id;
-    //     player.Name = userInput;
-    //     var stat = new Stat();
-    //     stat.StatOwner = player;
-    //     realm.Write(() =>
-    //     {
-    //         currentPlayer = realm.Add(player);
-    //         currentStat = realm.Add(stat);
-    //         currentPlayer.Stats.Add(currentStat);
-    //     });
-    //     startGame();
-    //     return currentPlayer;
-    // }
-    // :state-uncomment-end:
-    // :code-block-end:
-
-    // :state-start: start local
-    // LogOut() is a method that logs out and reloads the scene
-    // :state-end:
-    public static void LogOut()
+    #region PrivateMethods
+    private void GenerateUIObjects(GameObject canvasGameObject, string uiObjectName)
     {
-        // :state-uncomment-start: sync
-        // LogOut() is an asynchronous method that logs out and reloads the scene
-        //public static async void LogOut()
-        //{
-        // await syncUser.LogOutAsync();
-        // :state-uncomment-end:
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        var panelSettings = EditorGUIUtility.Load("Assets/Scripts/realm-tutorial-unity/UI ToolKit/UIPanelSettings.asset");
+
+        // create an empty GameObject
+        var gameObject = new GameObject();
+        // create a UI object to add to the GameObject
+        var uiDocument = gameObject.AddComponent<UIDocument>();
+        // attach existing panel settings to the UI Document
+        uiDocument.panelSettings = (PanelSettings)panelSettings;
+
+        // Attach Manager Scripts to interact with UI Documents and attach the UI Document's VisualTreeAsset 
+        switch (uiObjectName)
+        {
+            case "Authentication":
+                gameObject.AddComponent<AuthenticationManager>();
+                uiDocument.name = "Authentication";
+                uiDocument.visualTreeAsset = authenticationUXMLVisualTree;
+                break;
+            case "Leaderboard":
+                {
+                    gameObject.AddComponent<LeaderboardManager>();
+                    uiDocument.name = "Leaderboard";
+                    uiDocument.visualTreeAsset = leaderboardUXMLVisualTree;
+                }
+                break;
+            case "ScoreCard":
+                gameObject.AddComponent<ScoreCardManager>();
+                uiDocument.name = "ScoreCard";
+                uiDocument.visualTreeAsset = scoreCardUXMLVisualTree;
+                break;
+        }
+
+        // Attach the UI Document as a child of the Canvas
+        uiDocument.transform.parent = canvasGameObject.transform;
     }
 
+    // :state-start: start local    
+    // GetRealm() is a method that returns a realm instance
+    private static Realm GetRealm()
+    // :state-end:
+    // :state-uncomment-start: sync
+    // // GetRealm() is an asynchronous method that returns a synced realm
+    // // GetRealm() takes a logged in Realms.Sync.User as a parameter
+    // private static async Task<Realm> GetRealm(User loggedInUser)
+    // :state-uncomment-end:
+    {
+        // :code-block-start: get-realm-fn
+        // :state-start: start 
+        // TODO: open a realm and return it
+        // :state-uncomment-start: start
+        // return null;
+        // :state-uncomment-end:
+        // :state-end: :state-start: local
+        return Realm.GetInstance();
+        // :state-end:
+        // :state-uncomment-start: sync
+        // var syncConfiguration = new SyncConfiguration("UnityTutorialPartition", loggedInUser);
+        // return await Realm.GetInstanceAsync(syncConfiguration);
+        // :state-uncomment-end:
+        // :code-block-end:
+    }
 
-    // startGame() is a method that records how long the player has been playing during the current playthrough (i.e since logging in or since last losing or winning)
-    private static void startGame()
+    // StartGame() is a method that records how long the player has been playing during the current playthrough (i.e since logging in or since last losing or winning)
+    private static void StartGame()
     {
         // execute a timer every 10 second
         var myTimer = new System.Timers.Timer(10000);
@@ -245,98 +321,31 @@ public class RealmController : MonoBehaviour
         myTimer.Elapsed += (sender, e) => runTime += 10; // increment runTime (runTime will be used to calculate bonus points once the player wins the game)
     }
 
-    // collectToken() is a method that performs a write transaction to update the current playthrough Stat object's TokensCollected count
-    public static void collectToken()
+    #endregion
+
+    #region UnityLifecycleMethods
+    private void Start()
     {
-        // :code-block-start: collect-token-fn
-        // :state-start: start
-        // TODO: within a write transaction, increment the number of token's collected in the current playthrough/run's stat
-        // :state-end:
-        // :state-start: sync local
-        realm.Write(() =>
-        {
-            currentStat.TokensCollected += 1;
-        });
-        // :state-end:
-        // :code-block-end:
-    }
-    // defeatEnemy() is a method that performs a write transaction to update the current playthrough Stat object's enemiesDefeated count
-    public static void defeatEnemy()
-    {
-        // :code-block-start: defeat-enemy-fn
-        // :state-start: start
-        // TODO: within a write transaction, increment the number of enemies defeated in the current playthrough/run's stat
-        // :state-end:
-        // :state-start: sync local
-        realm.Write(() =>
-        {
-            currentStat.EnemiesDefeated += 1;
-        });
-        // :state-end:
-        // :code-block-end:
+        // Load UXML Assets
+        leaderboardUXMLVisualTree = EditorGUIUtility.Load("Assets/Scripts/realm-tutorial-unity/UI ToolKit/Leaderboard.uxml") as VisualTreeAsset;
+        scoreCardUXMLVisualTree = EditorGUIUtility.Load("Assets/Scripts/realm-tutorial-unity/UI ToolKit/ScoreCard.uxml") as VisualTreeAsset;
+        authenticationUXMLVisualTree = EditorGUIUtility.Load("Assets/Scripts/realm-tutorial-unity/UI ToolKit/Authentication.uxml") as VisualTreeAsset;
+
+        // Create canvas as a container to hold UIDocuments
+        var canvasGameObject = new GameObject();
+        canvasGameObject.name = "Canvas";
+        var canvas = canvasGameObject.AddComponent<Canvas>();
+
+        // Configure canvas properties
+        canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+        canvasGameObject.AddComponent<CanvasScaler>();
+        canvasGameObject.AddComponent<GraphicRaycaster>();
+
+        // Generate Authentication, Leaderboard, and Scorecard UI Objects
+        GenerateUIObjects(canvasGameObject, "Authentication");
+        GenerateUIObjects(canvasGameObject, "Leaderboard");
+        GenerateUIObjects(canvasGameObject, "ScoreCard");
     }
 
-    // deleteCurrentStat() is a method that performs a write transaction to delete the current playthrough Stat object and remove it from the current Player object's Stats' list
-    public static void deleteCurrentStat()
-    {
-        // :code-block-start: delete-current-stat-method
-        ScoreCardManager.UnRegisterListener();
-        // :state-start: start
-        // TODO: within a write transaction, delete the current Stat object, and its reference in the current Player object
-        // :state-end:
-        // :state-start: local sync
-        realm.Write(() =>
-        {
-            realm.Remove(currentStat);
-            currentPlayer.Stats.Remove(currentStat);
-        });
-        // :state-end:
-        // :code-block-end:
-    }
-    // restartGame() is a method that creates a new plathrough Stat object and shares this new Stat object with the ScoreCardManager to update in the UI and listen for changes to it
-    public static void restartGame()
-    {
-        var stat = new Stat();
-        stat.StatOwner = currentPlayer;
-        realm.Write(() =>
-        {
-            currentStat = realm.Add(stat);
-            currentPlayer.Stats.Add(currentStat);
-        });
-
-        ScoreCardManager.SetCurrentStat(currentStat); // call `SetCurrentStat()` to set the current stat in the UI using ScoreCardManager
-        ScoreCardManager.WatchForChangesToCurrentStats(); // call `WatchForChangesToCurrentStats()` to register a listener on the new score in the ScoreCardManager
-
-        startGame(); // start the game by resetting the timer and officially starting a new run/playthrough
-    }
-
-
-    // playerWon() is a method that calculates and returns the final score for the current playthrough once the player has won the game
-    public static int playerWon()
-    {
-        if (runTime <= 30) // if the game is won in less than or equal to 30 seconds, +80 bonus points
-        {
-            bonusPoints = 80;
-        }
-        else if (runTime <= 60) // if the game is won in less than or equal to 1 min, +70 bonus points
-        {
-            bonusPoints = 70;
-        }
-        else if (runTime <= 90) // if the game is won in less than or equal to 1 min 30 seconds, +60 bonus points
-        {
-            bonusPoints = 60;
-        }
-        else if (runTime <= 120) // if the game is won in less than or equal to 2 mins, +50 bonus points
-        {
-            bonusPoints = 50;
-        }
-
-        var finalScore = (currentStat.EnemiesDefeated + 1) * (currentStat.TokensCollected + 1) + bonusPoints;
-        realm.Write(() =>
-        {
-            currentStat.Score = finalScore;
-        });
-
-        return finalScore;
-    }
+    #endregion
 }
