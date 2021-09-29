@@ -308,7 +308,7 @@ content: |
   the logged-in user. The ``AuthenticationManager.cs`` file calls this function
   when a user clicks the "Login & Start" button.
   
-  The ``RealmController.setLoggedInUser()`` method takes a string, userInput.
+  The ``RealmController.SetLoggedInUser()`` method takes a string, userInput.
   You will create code to do the following in this method:
   
   - Query the {+realm+} to determine if a ``Player`` object already exists for the
@@ -317,7 +317,7 @@ content: |
     object if the ``Player`` does not exist, and uses the existing ``Player`` and
     creates a new ``Stat`` object if the ``Player`` does exist.
 
-  Add the following code to your ``RealmController.setLoggedInUser()`` method:
+  Add the following code to your ``RealmController.SetLoggedInUser()`` method:
 
   .. code-block:: csharp
 
@@ -349,7 +349,7 @@ content: |
          });
      }
 
-  After the above code is executed, the ``RealmController.setLoggedInUser()``
+  After the above code is executed, the ``RealmController.SetLoggedInUser()``
   function calls ``startGame()`` to begin the timer. The timer increments the
   RealmController's runTime variable, and we use the runTime variable to
   calculate bonus points in the ``playerWon()`` method when the game has
