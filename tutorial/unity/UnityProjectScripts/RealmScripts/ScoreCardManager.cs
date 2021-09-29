@@ -43,7 +43,7 @@ public class ScoreCardManager : MonoBehaviour
 
     }
     // UpdateCurrentStats() is a method that updates the EnemiesDefeated,TokensCollected, and Score in the UI
-    public static void UpdateCurrentStats() // updates stats in UI
+    private static void UpdateCurrentStats() // updates stats in UI
     {
         scoreCardHeader.text = username + "\n" +
         "Enemies Defeated: " + currentStat.EnemiesDefeated + "\n" +
