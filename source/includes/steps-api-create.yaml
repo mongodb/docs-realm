@@ -23,17 +23,33 @@ content: |
       "user_id": "<user_id>",
       "device_id": "<device_id>"
     }
+  
+  .. seealso::
+
+    :ref:`API Authentication Documentation <realm-api-authentication>`
+
+
 ---
 title: Create a new Realm App
-ref: hit-app-creation-endpoint
+ref: app-creation-endpoint
 content: |
-  The API has an endpoint through which you can create a new {+backend+}
+  The API has an :admin-api-endpoint:`endpoint <post-/groups/%7Bgroupid%7D/apps>`
+  through which you can create a new {+app+}. Make sure to include the access token 
+  from the response document of the previous step in a 
+  :mdn:`Bearer token <Web/HTTP/Authentication>` ``Authorization`` header. You will also
+  need your :ref:`Group ID <realm-api-project-and-application-ids>`.
+
 
   .. code-block:: shell
 
-     curl --request POST \
-     /groups/{groupId}/apps
-  
-  # :ref:`Create a new Realm App endpoint 
-  # <https://docs.mongodb.com/realm/admin/api/v3/#post-/groups/%7Bgroupid%7D/apps>`
-  :admin-api-endpoint:`some text <post-/groups/%7Bgroupid%7D/apps>`
+    curl --request POST 'https://realm.mongodb.com/api/admin/v3.0/groups/<group id>/apps' \
+      --header 'Authorization:  Bearer <access token>' \
+      --header 'Content-Type: application/json' \
+      --data '{"name": "<name of new app>"}'
+
+  If creation succeeds the {+backend+} returns a ``201`` response and a JSON document.
+
+  .. seealso::
+
+    :admin-api-endpoint:`API Documentation for the create endpoint <post-/groups/%7Bgroupid%7D/apps>`
+
