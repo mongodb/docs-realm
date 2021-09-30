@@ -39,7 +39,10 @@
 @interface MigrationObjcExampleV1Update1_Person : RLMObject
 @property NSString *firstName;
 @property NSString *lastName;
+// Add a new "email" property.
 @property NSString *email;
+// New properties can be migrated
+// automatically, but must update the schema version.
 @property int age;
 @end
 
@@ -56,6 +59,10 @@
 @interface MigrationObjcExampleV1Update2_Person : RLMObject
 @property NSString *firstName;
 @property NSString *lastName;
+// Remove the "age" property.
+// @property int age;
+// Removed properties can be migrated
+// automatically, but must update the schema version.
 @end
 
 @implementation MigrationObjcExampleV1Update2_Person
@@ -117,6 +124,8 @@
     config.schemaVersion = 2;
     config.migrationBlock = ^(RLMMigration * _Nonnull migration, uint64_t oldSchemaVersion) {
         if (oldSchemaVersion < 2) {
+            // Rename the "age" property to "yearsSinceBirth".
+            // The renaming operation should be done outside of calls to `enumerateObjects(ofType: _:)`.
             [migration renamePropertyForClass:[MigrationObjcExampleV3_Person className] oldName:@"age" newName:@"yearsSinceBirth"];
         }
     };
@@ -134,7 +143,8 @@
     config.schemaVersion = 2;
     config.migrationBlock = ^(RLMMigration * _Nonnull migration, uint64_t oldSchemaVersion) {
         if (oldSchemaVersion < 2) {
-            // Iterate over every 'Person' object stored in the Realm file
+            // Iterate over every 'Person' object stored in the Realm file to
+            // apply the migration
             [migration enumerateObjects:[MigrationObjcExampleV1_Person className]
                                 block:^(RLMObject * _Nullable oldObject, RLMObject * _Nullable newObject) {
                 // Combine name fields into a single field
@@ -145,7 +155,7 @@
         }
     };
     
-    // Use this configuration when opening realms
+    // Tell Realm to use this new configuration object for the default Realm
     [RLMRealmConfiguration setDefaultConfiguration:config];
     
     // Now that we've told Realm how to handle the schema change, opening the realm
@@ -184,7 +194,7 @@
         }
     };
     
-    // Use this configuration when opening realms
+    // Tell Realm to use this new configuration object for the default Realm
     [RLMRealmConfiguration setDefaultConfiguration:config];
     
     // Now that we've told Realm how to handle the schema change, opening the realm

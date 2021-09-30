@@ -21,7 +21,7 @@ config.migrationBlock = ^(RLMMigration * _Nonnull migration, uint64_t oldSchemaV
     }
 };
 
-// Use this configuration when opening realms
+// Tell Realm to use this new configuration object for the default Realm
 [RLMRealmConfiguration setDefaultConfiguration:config];
 
 // Now that we've told Realm how to handle the schema change, opening the realm
