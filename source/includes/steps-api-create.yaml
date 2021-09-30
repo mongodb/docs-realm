@@ -1,56 +1,39 @@
 title: Authenticate a MongoDB Atlas User
 ref: authenticate-atlas-user
 content: |
-  Use your MongoDB Cloud API Key to log in:
+  Use your MongoDB Cloud API Key to call the authentication endpoint:
 
-  .. code-block:: shell
+.. code-block:: shell
 
-     realm-api login --api-key="<my api key>" --private-api-key="<my private api key>"
+   curl --request POST \
+     --header 'Content-Type: application/json' \
+     --header 'Accept: application/json' \
+     --data '{"username": "<Public API Key>", "apiKey": "<Private API Key>"}' \
+     https://realm.mongodb.com/api/admin/v3.0/auth/providers/mongodb-cloud/login
+
+If authentication succeeds, {+backend+} returns an access token as part of
+the JSON response document:
+
+.. code-block:: json
+   :emphasize-lines: 2
+
+   {
+     "access_token": "<access_token>",
+     "refresh_token": "<refresh_token>",
+     "user_id": "<user_id>",
+     "device_id": "<device_id>"
+   }
+
 ---
-title: Run the App Creation Command
-ref: run-the-app-creation-command
+title: Create a new Realm App
+ref: hit-app-creation-endpoint
 content: |
-  The api can create an app and copy its :ref:`configuration files
-  <app-configuration>` to a local directory with a single command. The command
-  asks you to specify the app name and the Atlas project that should contain the
-  app. You can configure the command with flags or interactively.
+  The API has an endpoint through which you can create a new {+backend+}
 
   .. code-block:: shell
 
-     realm-api app create
+     curl --request POST \
+     /groups/{groupId}/apps
   
-  The command also supports additional flags that you can optionally include
-  to customize your app. The following table lists common flags you might use:
-
-  .. list-table::
-     
-     * - ``--deployment-model``
-       - Defines the app's :ref:`deployment model <deployment-model>`.
-         
-         Valid values:
-         
-         - ``GLOBAL``
-         - ``LOCAL``
-     
-     * - ``--location``
-       - Defines a local app's :ref:`deployment region <deployment-region>`.
-         
-         Valid values:
-         
-         - ``US-VA``
-         - ``US-OR``
-         - ``DE-FF``
-         - ``IE``
-         - ``AU``
-         - ``IN-MB``
-         - ``SG``
-     
-     * - ``--environment``
-       - Defines the app's :ref:`environment <environment-values>`.
-         
-         Valid values:
-         
-         - ``development``
-         - ``testing``
-         - ``qa``
-         - ``production``
+  :ref:`Create a new Realm App endpoint <#/components/schemas/NewApplication>`
+  :ref:`Create a new Realm App endpoint <NewApplication>`
