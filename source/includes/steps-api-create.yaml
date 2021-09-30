@@ -1,0 +1,56 @@
+title: Authenticate a MongoDB Atlas User
+ref: authenticate-atlas-user
+content: |
+  Use your MongoDB Cloud API Key to log in:
+
+  .. code-block:: shell
+
+     realm-api login --api-key="<my api key>" --private-api-key="<my private api key>"
+---
+title: Run the App Creation Command
+ref: run-the-app-creation-command
+content: |
+  The api can create an app and copy its :ref:`configuration files
+  <app-configuration>` to a local directory with a single command. The command
+  asks you to specify the app name and the Atlas project that should contain the
+  app. You can configure the command with flags or interactively.
+
+  .. code-block:: shell
+
+     realm-api app create
+  
+  The command also supports additional flags that you can optionally include
+  to customize your app. The following table lists common flags you might use:
+
+  .. list-table::
+     
+     * - ``--deployment-model``
+       - Defines the app's :ref:`deployment model <deployment-model>`.
+         
+         Valid values:
+         
+         - ``GLOBAL``
+         - ``LOCAL``
+     
+     * - ``--location``
+       - Defines a local app's :ref:`deployment region <deployment-region>`.
+         
+         Valid values:
+         
+         - ``US-VA``
+         - ``US-OR``
+         - ``DE-FF``
+         - ``IE``
+         - ``AU``
+         - ``IN-MB``
+         - ``SG``
+     
+     * - ``--environment``
+       - Defines the app's :ref:`environment <environment-values>`.
+         
+         Valid values:
+         
+         - ``development``
+         - ``testing``
+         - ``qa``
+         - ``production``
