@@ -24,7 +24,7 @@ determine read & write permissions for every object included
 in their request.
 
 Users log in through modular :doc:`authentication providers
-</manage-apps/secure/authentication/providers>` that each represent a specific method of
+</authentication/providers>` that each represent a specific method of
 authentication. {+service+} includes several built-in providers for
 common use cases as well as custom providers that allow you to integrate
 any external authentication system.
@@ -48,18 +48,18 @@ logs them in as the :ref:`active user <active-user>`.
 
 {+service+} includes built-in authentication providers for common
 use cases, including :doc:`anonymous
-</manage-apps/secure/authentication/anonymous>` users, :doc:`email/password
-</manage-apps/secure/authentication/email-password>` combinations, :doc:`API
-keys </manage-apps/secure/authentication/api-key>`, and OAuth 2.0 through
-:doc:`Facebook </manage-apps/secure/authentication/facebook>`, :doc:`Google
-</manage-apps/secure/authentication/google>`, and :doc:`Apple ID
-</manage-apps/secure/authentication/apple>`.
+</authentication/anonymous>` users, :doc:`email/password
+</authentication/email-password>` combinations, :doc:`API
+keys </authentication/api-key>`, and OAuth 2.0 through
+:doc:`Facebook </authentication/facebook>`, :doc:`Google
+</authentication/google>`, and :doc:`Apple ID
+</authentication/apple>`.
 
 You can also configure your own custom authentication
 providers to integrate external authentication systems. The
-:doc:`Custom JWT </manage-apps/secure/authentication/custom-jwt>` provider
+:doc:`Custom JWT </authentication/custom-jwt>` provider
 accepts JSON web tokens signed by the external system and
-the :doc:`Custom Function </manage-apps/secure/authentication/custom-function>`
+the :doc:`Custom Function </authentication/custom-function>`
 provider allows you to define custom logic in a :term:`{+service-short+} Function`.
 
 .. important:: User Authentication is Required
@@ -68,7 +68,7 @@ provider allows you to define custom logic in a :term:`{+service-short+} Functio
    configured and enabled before any client application can successfully
    connect. For more information on how to configure and enable
    authentication providers, see :doc:`Authentication Providers
-   </manage-apps/secure/authentication/providers>`.
+   </authentication/providers>`.
 
 .. _user-accounts:
 
@@ -82,7 +82,7 @@ identity <authentication-provider-identities>`. {+backend+}
 automatically sources user metadata, such as their email
 address or birthday, from authentication providers and
 allows you to associate each user with :doc:`custom data
-</manage-apps/secure/users/enable-custom-user-data>` stored in a collection
+</users/enable-custom-user-data>` stored in a collection
 of your :term:`linked {+atlas+} data source <data source>`.
 
 .. note:: Link Multiple Identities to One User Account
@@ -234,7 +234,7 @@ Summary
 -------
 
 - {+service+} supports authentication and user accounts through a
-  variety of :doc:`authentication providers </manage-apps/secure/authentication/providers>`.
+  variety of :doc:`authentication providers </authentication/providers>`.
   Users can associate themselves with multiple authentication providers
   and have identity information from multiple providers.
 
@@ -254,9 +254,9 @@ Summary
    :maxdepth: 2
    :hidden:
 
-   User Objects </manage-apps/secure/authentication/user-objects>
-   Create a User </manage-apps/secure/users/create>
-   Find and View a User </manage-apps/secure/users/find-and-view>
-   Enable Custom User Data </manage-apps/secure/users/enable-custom-user-data>
-   Delete or Prevent Users From Accessing a Realm Application </manage-apps/secure/users/delete-or-revoke>
-   Authentication Providers </manage-apps/secure/authentication/providers>
+   User Objects </authentication/user-objects>
+   Create a User </users/create>
+   Find and View a User </users/find-and-view>
+   Enable Custom User Data </users/enable-custom-user-data>
+   Delete or Prevent Users From Accessing a Realm Application </users/delete-or-revoke>
+   Authentication Providers </authentication/providers>

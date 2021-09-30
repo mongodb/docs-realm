@@ -17,7 +17,7 @@ Overview
 
 Authentication triggers allow you to execute server-side logic
 whenever a user interacts with an :doc:`authentication provider
-</manage-apps/secure/authentication/providers>`. You can use authentication triggers
+</authentication/providers>`. You can use authentication triggers
 to implement advanced user management, including storing new user data
 in your :term:`linked cluster`, maintaining data integrity upon user
 deletion, or calling a service with a user’s information when they log
@@ -33,7 +33,7 @@ collection where metadata about them can be recorded and queried.
 
 To guarantee that the collection represents each customer, the store
 creates an authentication Trigger that listens for newly created users
-in the :doc:`email/password </manage-apps/secure/authentication/email-password>` authentication
+in the :doc:`email/password </authentication/email-password>` authentication
 provider. When the trigger observes a ``CREATE`` event, it passes the
 :ref:`authentication event object <authentication-events>` to its linked
 function, ``createNewUserDocument``. The {+service-short+} Function creates a new document
@@ -116,7 +116,7 @@ Authentication Triggers have the following configuration options:
    * - :guilabel:`Providers`
 
      - A list of one or more :doc:`authentication provider
-       </manage-apps/secure/authentication/providers>` types. The trigger will only listen for
+       </authentication/providers>` types. The trigger will only listen for
        :ref:`authentication events <authentication-events>` produced by these
        providers.
 
@@ -169,7 +169,7 @@ Authentication event objects have the following form:
      - The :ref:`operation type <authentication-event-operation-types>`
        of the authentication event.
    * - ``providers``
-     - The :doc:`authentication providers </manage-apps/secure/authentication/providers>`
+     - The :doc:`authentication providers </authentication/providers>`
        that emitted the event.
 
        One of the following names represents each authentication provider:
@@ -183,7 +183,7 @@ Authentication event objects have the following form:
           multiple providers, the ``DELETE`` event for
           that user includes all linked providers. 
    * - ``user``
-     - The :doc:`user object </manage-apps/secure/authentication>` of the user that interacted with
+     - The :doc:`user object </authentication>` of the user that interacted with
        the authentication provider.
    * - ``time``
      - The time at which the event occurred.

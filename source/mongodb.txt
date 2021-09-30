@@ -65,7 +65,7 @@ Get Started
 
 To get started with the MongoDB service, :doc:`link a data source to
 your application </mongodb/link-a-data-source>` and :doc:`define roles
-and permissions </manage-apps/secure/data-access/define-roles-and-permissions>` for a
+and permissions </mongodb/define-roles-and-permissions>` for a
 collection. After you've created at least one role, you can start to
 work with data in the collection.
 
@@ -101,7 +101,7 @@ source <link-a-data-source>`:
    When working with a linked {+atlas+} cluster outside of a
    :ref:`system function <system-functions>`, {+backend+} dynamically
    determines which documents and fields in a collection each
-   :doc:`application user </manage-apps/secure/authentication>` can read and write for all
+   :doc:`application user </authentication>` can read and write for all
    incoming query operations by evaluating :ref:`collection rules
    <mongodb-rules>` that you define.
 
@@ -112,7 +112,7 @@ source <link-a-data-source>`:
 
    {+service+} does not support all MongoDB CRUD and Aggregation
    operations when you query MongoDB as a specific
-   :doc:`user </manage-apps/secure/authentication>`. You can bypass this limitation by
+   :doc:`user </authentication>`. You can bypass this limitation by
    querying MongoDB from a :term:`system function` that
    runs as the :ref:`system user <system-user>`, which has
    access to the full MongoDB CRUD and Aggregation APIs.
@@ -138,7 +138,7 @@ while transparently preventing unauthorized reads and
 writes. Rules are defined for entire collections in a linked
 MongoDB Atlas cluster and apply to individual documents in
 the collection dynamically based on the :doc:`application
-user </manage-apps/secure/authentication>` that issued a query.
+user </authentication>` that issued a query.
 
 .. include:: /includes/data-lake-rules-note.rst
 
@@ -264,7 +264,7 @@ Configuration Guides
    * - :doc:`Link a MongoDB Data Source </mongodb/link-a-data-source>`
      - Learn how to connect a MongoDB Atlas cluster or Data Lake to your application.
 
-   * - :doc:`Define Roles and Permissions </manage-apps/secure/data-access/define-roles-and-permissions>`
+   * - :doc:`Define Roles and Permissions </mongodb/define-roles-and-permissions>`
      - Learn how to set up role based data access controls on your
        MongoDB collections.
 
@@ -276,7 +276,7 @@ Configuration Guides
      - Learn how to specify a schema that controls the shape and
        contents of documents in a collection.
 
-   * - :doc:`Configure Advanced Rules </manage-apps/secure/data-access/configure-advanced-rules>`
+   * - :doc:`Configure Advanced Rules </mongodb/configure-advanced-rules>`
      - Learn how to specify complex MongoDB collection rules by
        modifying the underlying configuration file directly in the
        {+ui+}.

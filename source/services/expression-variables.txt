@@ -77,7 +77,7 @@ application.
 
    * - .. json-expansion:: %%values
      - Object
-     - An object that includes all :doc:`global values </manage-apps/secure/values-and-secrets>`.
+     - An object that includes all :doc:`global values </values-and-secrets>`.
        You can access a specific value from this document. Each property of the
        object maps the name of a value to its corresponding JSON or a secret.
        
@@ -85,7 +85,7 @@ application.
           
           The following JSON expression evaluates to ``true`` if the current
           user's ``id`` value is listed in the ``admin_ids`` :doc:`value
-          </manage-apps/secure/values-and-secrets>`:
+          </values-and-secrets>`:
           
           .. code-block:: json
              
@@ -128,7 +128,7 @@ Authenticated User
 ~~~~~~~~~~~~~~~~~~
 
 The :json-expansion:`%%user` expansion represents the
-currently authenticated :doc:`user </manage-apps/secure/authentication>` and
+currently authenticated :doc:`user </authentication>` and
 allows you to access their information. You can use this
 expansion to create expressions that evaluate based on the
 user that initiated a request or action.
@@ -144,7 +144,7 @@ user that initiated a request or action.
    * - .. json-expansion:: %%user
      - Document
      - A document containing information and data about the
-       authenticated :doc:`user </manage-apps/secure/authentication>`.
+       authenticated :doc:`user </authentication>`.
 
    * - .. json-expansion:: %%user.id
      - String
@@ -154,13 +154,13 @@ user that initiated a request or action.
      - String
 
      - The type of user that initiated the request. Evaluates to
-       ``"server"`` for :doc:`API key </manage-apps/secure/authentication/api-key>` users
+       ``"server"`` for :doc:`API key </authentication/api-key>` users
        and ``"normal"`` for all other users.
 
    * - .. json-expansion:: %%user.custom_data
      - Document
      - The user's custom data. The exact contents vary depending on
-       the :doc:`custom user data </manage-apps/secure/users/enable-custom-user-data/>`
+       the :doc:`custom user data </users/enable-custom-user-data/>`
        available.
 
        .. example::
@@ -174,7 +174,7 @@ user that initiated a request or action.
    * - .. json-expansion:: %%user.data
      - Document
      - The user's metadata. The exact contents will vary depending on
-       the :doc:`authentication provider </manage-apps/secure/authentication/providers>`
+       the :doc:`authentication provider </authentication/providers>`
        identities associated with the user.
 
        .. example::
@@ -190,7 +190,7 @@ user that initiated a request or action.
      - Array of Documents
 
      - A list of all :doc:`authentication provider
-       </manage-apps/secure/authentication/providers>` identities associated with the user.
+       </authentication/providers>` identities associated with the user.
        An identity consists of a unique identifier given to a user by an
        authorization provider along with the provider's type:
 
