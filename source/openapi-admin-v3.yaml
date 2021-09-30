@@ -338,10 +338,10 @@ paths:
     get:
       tags: ["values"]
       operationId: "adminListValues"
-      summary: "List all :doc:`values </values-and-secrets>` defined in an application."
+      summary: "List all :doc:`values </manage-apps/secure/values-and-secrets>` defined in an application."
       responses:
         '200':
-          description: ":doc:`values </values-and-secrets>` were successfully enumerated."
+          description: ":doc:`values </manage-apps/secure/values-and-secrets>` were successfully enumerated."
           content:
             application/json:
               schema:
@@ -350,7 +350,7 @@ paths:
     post:
       tags: ["values"]
       operationId: "adminCreateValue"
-      summary: "Define a :doc:`Value </values-and-secrets>` in an application."
+      summary: "Define a :doc:`Value </manage-apps/secure/values-and-secrets>` in an application."
       requestBody:
         description: "The value to create."
         required: true
@@ -360,7 +360,7 @@ paths:
               $ref: "#/components/schemas/NewValue"
       responses:
         '201':
-          description: "The :doc:`value </values-and-secrets>` was successfully defined."
+          description: "The :doc:`value </manage-apps/secure/values-and-secrets>` was successfully defined."
           content:
             application/json:
               schema:
@@ -373,7 +373,7 @@ paths:
     get:
       tags: ["values"]
       operationId: "adminGetValue"
-      summary: "Retrieve a :doc:`value </values-and-secrets>` definition from an application."
+      summary: "Retrieve a :doc:`value </manage-apps/secure/values-and-secrets>` definition from an application."
       responses:
         '200':
           description: "Successfully retrieved the value."
@@ -384,14 +384,14 @@ paths:
     delete:
       tags: ["values"]
       operationId: "adminDeleteValue"
-      summary: "Delete a :doc:`value </values-and-secrets>` defined in an application."
+      summary: "Delete a :doc:`value </manage-apps/secure/values-and-secrets>` defined in an application."
       responses:
         '204':
           description: "Successfully deleted the value."
     put:
       tags: ["values"]
       operationId: "adminUpdateValue"
-      summary: "Update a :doc:`value </values-and-secrets>` definition in an application."
+      summary: "Update a :doc:`value </manage-apps/secure/values-and-secrets>` definition in an application."
       responses:
         '200':
           description: "Successfully updated the value."
@@ -981,7 +981,7 @@ paths:
     post:
       tags: ["email"]
       operationId: "adminSendConfirmationEmail"
-      summary: "Send a :doc:`confirmation email </authentication/email-password>`."
+      summary: "Send a :doc:`confirmation email </manage-apps/secure/authentication/email-password>`."
       responses:
         '200':
           description: "Successfully sent."
@@ -1125,7 +1125,7 @@ paths:
     get:
       tags: ["authproviders"]
       operationId: "adminListAuthProviders"
-      summary: "List :doc:`authentication providers </authentication/providers>` within a Realm app."
+      summary: "List :doc:`authentication providers </manage-apps/secure/authentication/providers>` within a Realm app."
       responses:
         '200':
           description: "Successfully listed."
@@ -1137,7 +1137,7 @@ paths:
     post:
       tags: ["authproviders"]
       operationId: "adminCreateAuthProvider"
-      summary: "Create an :doc:`authentication provider </authentication/providers>`."
+      summary: "Create an :doc:`authentication provider </manage-apps/secure/authentication/providers>`."
       requestBody:
         required: true
         description: ""
@@ -1160,7 +1160,7 @@ paths:
     get:
       tags: ["authproviders"]
       operationId: "adminGetAuthProvider"
-      summary: "Retrieve information about one of an application's :doc:`authentication providers </authentication/providers>`"
+      summary: "Retrieve information about one of an application's :doc:`authentication providers </manage-apps/secure/authentication/providers>`"
       responses:
         '200':
           description: "Successfully retrieved."
@@ -1170,14 +1170,14 @@ paths:
     delete:
       tags: ["authproviders"]
       operationId: "adminDeleteAuthProvider"
-      summary: "Delete an :doc:`authentication provider </authentication/providers>`."
+      summary: "Delete an :doc:`authentication provider </manage-apps/secure/authentication/providers>`."
       responses:
         '204':
           description: "Successfully deleted."
     patch:
       tags: ["authproviders"]
       operationId: "adminUpdateAuthProvider"
-      summary: "Update an :doc:`authentication provider </authentication/providers>`."
+      summary: "Update an :doc:`authentication provider </manage-apps/secure/authentication/providers>`."
       requestBody:
         required: true
         description: ""
@@ -1197,7 +1197,7 @@ paths:
     put:
       tags: ["authproviders"]
       operationId: "adminDisableAuthProvider"
-      summary: "Disable an :doc:`authentication provider </authentication/providers>`."
+      summary: "Disable an :doc:`authentication provider </manage-apps/secure/authentication/providers>`."
       responses:
         '204':
           description: "Successfully disabled."
@@ -1210,7 +1210,7 @@ paths:
     put:
       tags: ["authproviders"]
       operationId: "adminEnableAuthProvider"
-      summary: "Enable an :doc:`authentication provider </authentication/providers>`."
+      summary: "Enable an :doc:`authentication provider </manage-apps/secure/authentication/providers>`."
       responses:
         '204':
           description: "Successfully enabled."
@@ -1360,7 +1360,7 @@ paths:
     get:
       tags: ["apikeys"]
       operationId: "adminListApiKeys"
-      summary: "List :doc:`API keys </authentication/api-key>` associated with a Realm app."
+      summary: "List :doc:`API keys </manage-apps/secure/authentication/api-key>` associated with a Realm app."
       responses:
         '200':
           description: "The API keys were successfully listed."
@@ -1375,7 +1375,7 @@ paths:
     post:
       tags: ["apikeys"]
       operationId: "adminCreateApiKey"
-      summary: "Create a new :doc:`API key </authentication/api-key>`."
+      summary: "Create a new :doc:`API key </manage-apps/secure/authentication/api-key>`."
       requestBody:
         description: "The API key to create."
         required: true
@@ -1400,7 +1400,7 @@ paths:
     get:
       tags: ["apikeys"]
       operationId: "adminGetApiKey"
-      summary: "Retrieve information about an :doc:`API key </authentication/api-key>`."
+      summary: "Retrieve information about an :doc:`API key </manage-apps/secure/authentication/api-key>`."
       responses:
         '200':
           description: "The API key was successfully retrieved."
@@ -1411,7 +1411,7 @@ paths:
     delete:
       tags: ["apikeys"]
       operationId: "adminDeleteApiKey"
-      summary: "Delete an :doc:`API key </authentication/api-key>`."
+      summary: "Delete an :doc:`API key </manage-apps/secure/authentication/api-key>`."
       responses:
         '204':
           description: "The API key was successfully deleted."
@@ -1424,7 +1424,7 @@ paths:
     put:
       tags: ["apikeys"]
       operationId: "adminEnableApiKey"
-      summary: "Enable an :doc:`API key </authentication/api-key>`."
+      summary: "Enable an :doc:`API key </manage-apps/secure/authentication/api-key>`."
       responses:
         '204':
           description: "The API key was successfully enabled."
@@ -1437,7 +1437,7 @@ paths:
     put:
       tags: ["apikeys"]
       operationId: "adminDisableApiKey"
-      summary: "Disable an :doc:`API key </authentication/api-key>`."
+      summary: "Disable an :doc:`API key </manage-apps/secure/authentication/api-key>`."
       responses:
         '204':
           description: "The API key was successfully disabled."
@@ -1467,7 +1467,7 @@ paths:
     post:
       tags: ["secrets"]
       operationId: "adminCreateASecret"
-      summary: "Create a new :doc:`Secret </values-and-secrets/define-and-manage-secrets>`."
+      summary: "Create a new :doc:`Secret </manage-apps/secure/values-and-secrets/define-and-manage-secrets>`."
       requestBody:
         description: "The Secret to create."
         required: true
@@ -1496,7 +1496,7 @@ paths:
     put:
       tags: ["secrets"]
       operationId: "adminModifyASecret"
-      summary: "Modify a :doc:`Secret </values-and-secrets/define-and-manage-secrets>` associated with a Realm app."
+      summary: "Modify a :doc:`Secret </manage-apps/secure/values-and-secrets/define-and-manage-secrets>` associated with a Realm app."
       requestBody:
         description: "The modified value of the Secret."
         required: true
@@ -1514,7 +1514,7 @@ paths:
     delete:
       tags: ["secrets"]
       operationId: "adminDeleteSecret"
-      summary: "Delete a :doc:`Secret </values-and-secrets/define-and-manage-secrets>` associated with a Realm app."
+      summary: "Delete a :doc:`Secret </manage-apps/secure/values-and-secrets/define-and-manage-secrets>` associated with a Realm app."
       responses:
         '204':
           description: "The Secret was successfully deleted."
@@ -2695,7 +2695,7 @@ components:
               description: >-
                 **Only Available for Authentication Triggers** --
                 A list of one or more :doc:`authentication provider
-                </authentication/providers>` id values. The trigger
+                </manage-apps/secure/authentication/providers>` id values. The trigger
                 will only listen for authentication events produced by
                 these providers.
             database:

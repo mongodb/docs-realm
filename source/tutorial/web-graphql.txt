@@ -245,7 +245,7 @@ F. Implement the Projects List
 
 As defined by our data model, a ``Project`` is an :term:`embedded object` inside
 of a ``User`` document. This means that we can use :doc:`custom user data
-</users/enable-custom-user-data>` to access a given user's list of projects
+</manage-apps/secure/users/enable-custom-user-data>` to access a given user's list of projects
 directly from their ``Realm.User`` object.
 
 In the file ``/graphql/useProjects.js``, add the following code to retrieve the
@@ -360,7 +360,7 @@ options to keep practicing and learn more:
     authentication events, and :doc:`scheduled triggers
     </triggers/scheduled-triggers>` which run on a fixed schedule.
 
-  - Built-in :doc:`authentication providers </authentication/providers>` and
+  - Built-in :doc:`authentication providers </manage-apps/secure/authentication/providers>` and
     and user management tools. You can allow users to log in through multiple
     methods, like API keys and Google OAuth, and associate :ref:`custom data
     <custom-user-data>` with every user.

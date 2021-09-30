@@ -17,7 +17,7 @@ Overview
 
 To connect to {+backend+} over the wire protocol, you must construct a
 :manual:`MongoDB connection string </reference/connection-string>` that
-includes credentials for an application :doc:`user </authentication>` and an
+includes credentials for an application :doc:`user </manage-apps/secure/authentication>` and an
 application-specific ``appName`` query parameter.
 
 .. important:: URL Encoding
@@ -43,9 +43,9 @@ Credentials
 All {+service+} operations that you issue over the wire protocol run in
 the context of a specific application user that you specify in the
 connection string. The user must be registered with the
-:doc:`Email/Password </authentication/email-password>`, :doc:`API Key
-</authentication/api-key>`, or :doc:`Custom JWT
-</authentication/custom-jwt>` authentication provider.
+:doc:`Email/Password </manage-apps/secure/authentication/email-password>`, :doc:`API Key
+</manage-apps/secure/authentication/api-key>`, or :doc:`Custom JWT
+</manage-apps/secure/authentication/custom-jwt>` authentication provider.
 
 The contents of connection string credentials depend on the
 authentication provider with which the user registered:
@@ -98,7 +98,7 @@ authentication provider with which the user registered:
 
                    * - ``<apiKey>``
                      - An active application :doc:`API Key
-                       </authentication/api-key>`.
+                       </manage-apps/secure/authentication/api-key>`.
 
             * - Example
               - .. code-block:: none
@@ -178,7 +178,7 @@ associated with the :ref:`credentials
 
           * - ``<provider>``
             - The :doc:`authentication provider
-              </authentication/providers>` for which you provided
+              </manage-apps/secure/authentication/providers>` for which you provided
               :ref:`credentials <wire-protocol-credentials>`.
 
               Valid values:
