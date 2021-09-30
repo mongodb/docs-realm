@@ -29,7 +29,7 @@ in a ``migrationBlock``. This might include changes such as:
 
 - Adding required properties that must be populated with default values
 - Combining fields
-- Renaming fields
+- Renaming a field
 - Changing a field's type
 - Converting from an object to an embedded object
 
@@ -72,7 +72,8 @@ these changes.
          .. literalinclude:: /examples/generated/code/start/Migrations.codeblock.model-v1.m
                   :language: objectivec
 
-   The developer decides that the ``Person`` class needs an ``email`` field.
+   The developer decides that the ``Person`` class needs an ``email`` field and updates 
+   the schema.
    
    .. tabs-realm-languages::
 
@@ -131,7 +132,7 @@ will not impact existing objects.
          .. literalinclude:: /examples/generated/code/start/Migrations.codeblock.model-v1.m
                   :language: objectivec
 
-   The developer decides that the ``Person`` does not need the ``age`` field.
+   The developer decides that the ``Person`` does not need the ``age`` field and updates the schema.
    
    .. tabs-realm-languages::
 
@@ -260,7 +261,7 @@ method to iterate over and update all instances of a given
 
    The developer decides that the ``Person`` class should use a combined
    ``fullName`` field instead of the separate ``firstName`` and
-   ``lastName`` fields. 
+   ``lastName`` fields and updates the schema. 
 
    To migrate the {+realm+} to conform to the updated ``Person`` schema,
    the developer sets the {+realm+}'s schema version to ``2`` and
@@ -288,7 +289,7 @@ method to iterate over and update all instances of a given
             :language: objectivec
 
    Later, the developer decides that the ``age`` field should be of type ``String``
-   rather than ``Int``. 
+   rather than ``Int`` and updates the schema. 
 
    To migrate the {+realm+} to conform to the updated ``Person`` schema,
    the developer sets the {+realm+}'s schema version to ``3`` and
