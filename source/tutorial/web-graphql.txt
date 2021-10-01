@@ -346,6 +346,42 @@ look and behave the same as the development version you made in the previous ste
 
 You can find the production bundle's code with your repository in a newly generated folder ``build``.
 
+J. Deploy the App with Realm
+----------------------------
+
+With the production bundle ready, it's time to deploy the app on the web. 
+You're going to deploy the app using :ref:`Realm Static Hosting <static-hosting>` via the Realm UI.
+
+.. note:: Deploying App with Realm CLI
+   You can also :ref:`deploy your app to static hosting using the Realm CLI <host-a-single-page-application>`.
+
+   However, in this tutorial we're just going to explore deployment using the Realm UI. 
+
+First, navigate to the **Hosting** section of the Realm UI. You can find it on the side menu under **Manage**. 
+Once you're on the Hosting page, click the **Enable Hosting** button. 
+
+Now that you have hosting enabled, replace the default ``index.html`` with the production 
+bundle you built in the last step. Delete the ``index.html`` file by clicking the check 
+box next to the file and then **Actions > Delete**. 
+
+To add your app, first open a file browser on your computer, such as Finder on Mac or 
+File Explorer on Windows. Navigate to the ``build`` folder in your app's root folder. 
+Select all the ``build`` folder's contents, and drag it over to the Realm Hosting UI's 
+Files page. Release the mouse to trigger uploading the assets. 
+
+Once the files finish uploading, click the **Review & Deploy** button at the top of the page. 
+A dialog will open with you changes. Review the changes and click the **Deploy** button
+at the bottom of the dialogue to start the deployment of your app.
+
+Realm then will deploy your site to ``<Your-App-Id>.mongodbstitch.com``. 
+Deployment can take up to a few minutes. You can track the status on the Hosting page. 
+
+Once deployment finishes, navigate to your app's new domain. Here you'll find the 
+app with the same backend and data that you were working with before, now live on the internet!
+
+For more detailed information about hosting your web app with Realm, refer to our documentation 
+on :ref:`hosting a single page application <host-a-single-page-application>`.  
+
 What's Next?
 ------------
 
@@ -366,6 +402,8 @@ options to keep practicing and learn more:
   - :doc:`Android (Kotlin) </tutorial/android-kotlin>`
   - :doc:`React Native (JavaScript) </tutorial/react-native>`
   - :doc:`Node.js (JavaScript) CLI </tutorial/nodejs-cli>`
+
+- Use the Realm CLI to automate deploying your frontend application.
 
 - Dive deeper into the docs to learn more about MongoDB Realm. You'll find
   information and guides on features like:
