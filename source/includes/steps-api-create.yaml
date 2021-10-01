@@ -1,33 +1,8 @@
 title: Authenticate a MongoDB Atlas User
 ref: authenticate-atlas-user
 content: |
-  Use your MongoDB Cloud API Key to call the authentication endpoint:
 
-  .. code-block:: shell
-
-    curl --request POST \
-      --header 'Content-Type: application/json' \
-      --header 'Accept: application/json' \
-      --data '{"username": "<Public API Key>", "apiKey": "<Private API Key>"}' \
-      https://realm.mongodb.com/api/admin/v3.0/auth/providers/mongodb-cloud/login
-
-  If authentication succeeds, {+backend+} returns an access token as part of
-  the JSON response document:
-
-  .. code-block:: json
-    :emphasize-lines: 2
-
-    {
-      "access_token": "<access_token>",
-      "refresh_token": "<refresh_token>",
-      "user_id": "<user_id>",
-      "device_id": "<device_id>"
-    }
-  
-  .. seealso::
-
-    :ref:`API Authentication Documentation <realm-api-authentication>`
-
+  .. include:: /includes/api-authenticate-instructions.rst
 
 ---
 title: Create a new Realm App
@@ -50,4 +25,3 @@ content: |
   .. seealso::
 
     :admin-api-endpoint:`API Documentation for the create endpoint <post-/groups/%7Bgroupid%7D/apps>`
-

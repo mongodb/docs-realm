@@ -1,11 +1,9 @@
 title: Authenticate a MongoDB Atlas User
 ref: authenticate-atlas-user
 content: |
-  Use your MongoDB Cloud API Key to log in:
 
-  .. code-block:: shell
+  .. include:: /includes/cli-login.rst
 
-     realm-cli login --api-key="<my api key>" --private-api-key="<my private api key>"
 ---
 title: Run the App Creation Command
 ref: run-the-app-creation-command
@@ -54,3 +52,8 @@ content: |
          - ``testing``
          - ``qa``
          - ``production``
+
+  .. seealso::
+
+    For more details and additional flags, see the
+    :ref:`CLI documentation for the create command <realm-cli-apps-create>`.

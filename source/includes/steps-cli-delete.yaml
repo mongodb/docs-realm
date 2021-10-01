@@ -1,0 +1,29 @@
+title: Authenticate a MongoDB Atlas User
+ref: authenticate-atlas-user
+content: |
+
+  .. include:: /includes/cli-login.rst
+
+---
+title: Run the App Delete Command
+ref: run-the-app-delete-command
+content: |
+  The CLI can delete one or more apps with the following command:
+
+  .. code-block:: shell
+
+     realm-cli apps delete
+  
+  If you have more than one {+app+}, you will be prompted to select one or 
+  more apps that you would like to delete from a list of all your {+app+}s.
+  
+  If you already know the name or id of the app you would like to delete, you can specify it:
+
+  .. code-block:: shell
+
+     realm-cli apps delete --app <name or id>
+
+  .. seealso::
+
+     For more details and additional flags, see the
+     :ref:`CLI documentation for the delete command <realm-cli-apps-delete>`.
