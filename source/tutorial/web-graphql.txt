@@ -88,7 +88,7 @@ B. Explore the App Structure & Components
 -----------------------------------------
 
 The web client is a standard React web application written in JavaScript and
-scaffolded with `create-react-app
+scaffolded with `Create React App
 <https://facebook.github.io/create-react-app/>`__. We encourage you to explore
 the files in the app for a few minutes before you continue the tutorial. This
 will help you to familiarize yourself with what the app contains and where
@@ -279,8 +279,8 @@ email address and pass it their respective server-side functions:
 .. literalinclude:: /tutorial/generated/code/final/EditPermissionsModal.codeblock.useTeamMembers.js
    :language: javascript
 
-Try It Out
-----------
+H. Try It Out Locally
+---------------------
 
 The task tracker app is now fully configured so you can start it up to start
 tracking tasks.
@@ -323,10 +323,33 @@ If the app builds successfully, here are some things you can try in the app:
 - Navigate to *second@example.com*'s project
 - Collaborate by adding, updating, and removing some new tasks
 
+I. Build the App
+----------------
+
+Now that you've validated that the app is working, it's time to get the app ready for deployment. 
+In this section, you're going to create a production build with `Create React App's build script <https://create-react-app.dev/docs/production-build/>`__.
+
+To create your production bundle, run the command: 
+
+.. code-block:: shell
+   
+   npm run build
+
+Once the build finishes, validate it's working by running:
+
+.. code-block:: shell
+   
+   npx serve -s build
+
+You will see a new browser window pop up running the app on ``localhost:5000``. The app should 
+look and behave the same as the development version you made in the previous step. 
+
+You can find the production bundle's code with your repository in a newly generated folder ``build``.
+
 What's Next?
 ------------
 
-You just built a functional task tracker web application built with MongoDB
+You just built and deployed a functional task tracker web application built with MongoDB
 Realm. Great job!
 
 Now that you have some hands-on experience with MongoDB Realm, consider these
