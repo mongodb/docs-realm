@@ -319,8 +319,8 @@ method to iterate over and update all instances of a given
 
 .. tip:: Linear Migrations
 
-   Avoid nesting ``if (oldSchemaVersion < X)`` statements in migration
-   blocks. This ensures that all updates can be applied in the correct order, 
+   Avoid nesting or otherwise skipping ``if (oldSchemaVersion < X)`` statements 
+   in migration blocks. This ensures that all updates can be applied in the correct order, 
    no matter which schema version a client starts from. The goal is to define 
    migration logic which can transform data from any outdated schema version to 
    match the current schema.
