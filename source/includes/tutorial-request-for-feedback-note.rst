@@ -1,4 +1,4 @@
-.. note:: Leave Feedback
+.. note:: Give Feedback
    
-   How did it go? Please let us know if this tutorial was helpful or if you had
-   any issues by using the feedback widget on the right side of the page.
+   How did it go? Use the Give Feedback tab at the bottom right of the page to let us know 
+   if this tutorial was helpful or if you had any issues. 
