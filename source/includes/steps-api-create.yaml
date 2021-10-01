@@ -1,0 +1,53 @@
+title: Authenticate a MongoDB Atlas User
+ref: authenticate-atlas-user
+content: |
+  Use your MongoDB Cloud API Key to call the authentication endpoint:
+
+  .. code-block:: shell
+
+    curl --request POST \
+      --header 'Content-Type: application/json' \
+      --header 'Accept: application/json' \
+      --data '{"username": "<Public API Key>", "apiKey": "<Private API Key>"}' \
+      https://realm.mongodb.com/api/admin/v3.0/auth/providers/mongodb-cloud/login
+
+  If authentication succeeds, {+backend+} returns an access token as part of
+  the JSON response document:
+
+  .. code-block:: json
+    :emphasize-lines: 2
+
+    {
+      "access_token": "<access_token>",
+      "refresh_token": "<refresh_token>",
+      "user_id": "<user_id>",
+      "device_id": "<device_id>"
+    }
+  
+  .. seealso::
+
+    :ref:`API Authentication Documentation <realm-api-authentication>`
+
+
+---
+title: Create a new Realm App
+ref: app-creation-endpoint
+content: |
+  You can create a new {+app+} through the :admin-api-endpoint:`create endpoint <post-/groups/%7Bgroupid%7D/apps>`.
+  Make sure to include the access token from the response document of the previous step in a 
+  :mdn:`Bearer token <Web/HTTP/Authentication>` ``Authorization`` header. You will also
+  need your :ref:`Group ID <realm-api-project-and-application-ids>`.
+
+  .. code-block:: shell
+
+    curl --request POST 'https://realm.mongodb.com/api/admin/v3.0/groups/<group id>/apps' \
+      --header 'Authorization:  Bearer <access token>' \
+      --header 'Content-Type: application/json' \
+      --data '{"name": "<name of new app>"}'
+
+  If creation succeeds the {+backend+} returns a ``201`` response and a JSON document.
+
+  .. seealso::
+
+    :admin-api-endpoint:`API Documentation for the create endpoint <post-/groups/%7Bgroupid%7D/apps>`
+
