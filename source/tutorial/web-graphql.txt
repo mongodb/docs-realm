@@ -326,7 +326,7 @@ If the app builds successfully, here are some things you can try in the app:
 I. Deploy the App
 -----------------
 
-Now that you've validated that the app is working, it's time to get the app ready for deployment. 
+Now that you've validated that the app is working, it's time to deploy the app. 
 In this section, you're going to create a production build with `Create React App's build script <https://create-react-app.dev/docs/production-build/>`__ 
 and deploy the app to be hosted with :ref:`Realm Static Hosting <static-hosting>`.
 
@@ -384,11 +384,9 @@ on :ref:`hosting a single page application <host-a-single-page-application>`.
 
 .. note:: Deploy Using the Realm CLI
 
-   The above instructions about :ref:`deploying the app with the Realm UI<deploy-web-app-realm-ui>`
-   should have successfully deployed 
+   It's also possible to deploy the app frontend using the Realm CLI. 
 
-   Now that you have the production-ready app code, you're ready to deploy the app 
-   using the Realm CLI. To do this, you need to have the `realm-tutorial-backend <https://github.com/mongodb-university/realm-tutorial-backend>`_ 
+   To do this, you need to have the `realm-tutorial-backend <https://github.com/mongodb-university/realm-tutorial-backend>`_ 
    repository handy, which you used in :ref:`the backend setup <tutorial-task-tracker-create-realm-app>`.
 
    In the **backend** directory, create the folder ``hosting/files``. This is where 
@@ -398,23 +396,25 @@ on :ref:`hosting a single page application <host-a-single-page-application>`.
    and have the following contents: 
 
    .. code-block:: json
+      
       {
          "enabled": true,
          "default_response_code": 200,
          "default_error_path": "/index.html",
       }
 
-   Copy the contents of the ``build`` folder from the realm-tutorial-web directory where 
-   you've been working to the ``hosting/files`` folder in the backend. You can do this
-   with the command:
+   Copy the contents of the ``build`` folder from the realm-tutorial-web directory  
+   to the ``hosting/files`` folder in the backend. You can do this with the command:
 
    .. code:: shell
-      cp -a path/to/realm-tutorial-web/build/. ..path/to/realm-tutorial-backend/hosting/files
+      
+      cp -a path/to/realm-tutorial-web/build/. path/to/realm-tutorial-backend/hosting/files
 
    Now you're ready to deploy the app using the Realm CLI. To deploy, simply run the 
    command: 
 
    .. code:: shell
+      
       realm-cli push --remote=<Your-App-Id> --include-hosting
 
    Realm then deploys your site to ``<Your-App-Id>.mongodbstitch.com``.  
