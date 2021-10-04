@@ -44,7 +44,7 @@ namespace Examples
             // Most advanced: mix and match
             var mixedSchema = new ObjectSchema.Builder(typeof(ClassA));
             mixedSchema.Add(Property.FromType<int>("ThisIsNotInTheCSharpClass"));
-            // mixedSchema now has all properties on the ClassA class
+            // `mixedSchema` now has all of the properties of the ClassA class
             // and an extra integer property called "ThisIsNotInTheCSharpClass"
 
             var mixedConfig = new RealmConfiguration
@@ -52,6 +52,17 @@ namespace Examples
                 Schema = new[] { mixedSchema.Build() }
             };
             // :code-block-end:
+
+            Assert.AreEqual(2, config.Schema.Count);
+            Assert.AreEqual(1, manualConfig.Schema.Count);
+            Assert.AreEqual(1, mixedConfig.Schema.Count);
+            ObjectSchema foo;
+            mixedConfig.Schema.TryFindObjectSchema("ClassA", out foo);
+            if (foo != null)
+            {
+                Property newProp;
+                Assert.IsTrue(foo.TryFindProperty("ThisIsNotInTheCSharpClass", out newProp));
+            }
         }
     }
 

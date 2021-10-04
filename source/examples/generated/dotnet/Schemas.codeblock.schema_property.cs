@@ -27,7 +27,7 @@ var manualConfig = new RealmConfiguration
 // Most advanced: mix and match
 var mixedSchema = new ObjectSchema.Builder(typeof(ClassA));
 mixedSchema.Add(Property.FromType<int>("ThisIsNotInTheCSharpClass"));
-// mixedSchema now has all properties on the ClassA class
+// `mixedSchema` now has all of the properties of the ClassA class
 // and an extra integer property called "ThisIsNotInTheCSharpClass"
 
 var mixedConfig = new RealmConfiguration
