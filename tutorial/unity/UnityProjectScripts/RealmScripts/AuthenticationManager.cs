@@ -20,8 +20,10 @@ public class AuthenticationManager : MonoBehaviour
     #region PrivateMethods
     // :code-block-start: add-sync-register-login-click-handlers
     // :state-uncomment-start: sync
-    // // OnPressLogin() is an asynchronous method that calls RealmController.SetLoggedInUser to login with the values from the userInput and passInput
-    // // and passes the currentPlayer to ScoreCardManager and LeaderboardManager; once logged in the login screen is hidden and the logout button is shown
+    // // OnPressLogin() is an asynchronous method that calls
+    // RealmController.SetLoggedInUser to login and passes the currentPlayer to
+    // ScoreCardManager and LeaderboardManager; once logged in the login screen
+    // is hidden and the logout button is shown
     // private static async void OnPressLogin()
     // {
     //     try
@@ -67,7 +69,8 @@ public class AuthenticationManager : MonoBehaviour
 
     // :code-block-start: on-press-login
     // :state-start: start local
-    // OnPressLogin() is a method that passes the username to the RealmController, ScoreCardManager, and LeaderboardManager
+    // OnPressLogin() is a method that passes the username to the
+    // RealmController, ScoreCardManager, and LeaderboardManager
     private static void OnPressLogin()
     {
         try
@@ -109,8 +112,9 @@ public class AuthenticationManager : MonoBehaviour
 
     #region UnityLifecycleMethods
     // :state-start: start local
-    // Start() is a method inherited from MonoBehavior and is called on the frame when a script is enabled
-    // Start() defines AuthenticationScreen UI elements, and sets click event handlers for them
+    // Start() is a method inherited from MonoBehavior and is called on the
+    // frame when a script is enabled Start() defines AuthenticationScreen UI
+    // elements, and sets click event handlers for them
     private void Start()
     {
         root = GetComponent<UIDocument>().rootVisualElement;
@@ -129,8 +133,9 @@ public class AuthenticationManager : MonoBehaviour
     // :state-end:
     // :code-block-start: add-sync-authentication-start-with-handles
     // :state-uncomment-start: sync
-    // // Start() is a method inherited from MonoBehavior and is called on the frame when a script is enabled
-    // // Start() defines AuthenticationScreen UI elements, and sets click event handlers for them
+    // // Start() is a method inherited from MonoBehavior and is called on the
+    // frame when a script is enabled // Start() defines AuthenticationScreen UI
+    // elements, and sets click event handlers for them
     // private void Start()
     // {
     //     root = GetComponent<UIDocument>().rootVisualElement;

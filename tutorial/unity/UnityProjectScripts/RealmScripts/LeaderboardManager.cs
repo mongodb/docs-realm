@@ -19,29 +19,29 @@ public class LeaderboardManager : MonoBehaviour
     private IDisposable listenerToken;  // (Part 2 Sync): listenerToken is the token for registering a change listener on all Stat objects
 
     #region PublicMethods
-    // :code-block-start: set-logged-in-user-leaderboard-ui
-    // :state-start: start local
-    // SetLoggedInUser() is a method that opens a realm, calls the CreateLeaderboardUI() method to create the LeaderboardUI and adds it to the Root Component
-    // SetLoggedInUser()  takes a userInput, representing a username, as a parameter
+    // :code-block-start: set-logged-in-user-leaderboard-ui :state-start: start
+    // local SetLoggedInUser() is a method that opens a realm, calls the
+    // CreateLeaderboardUI() method to create the LeaderboardUI and adds it to
+    // the Root Component SetLoggedInUser()  takes a userInput, representing a
+    // username, as a parameter
     public void SetLoggedInUser(string userInput)
-    // :state-end:
-    // :state-uncomment-start: sync
-    // // SetLoggedInUser() is an asynchronous method that opens a realm, calls the CreateLeaderboardUI() method to create the LeaderboardUI and adds it to the Root Component
-    // // and calls SetStatListener() to start listening for changes to all Stat objects in order to update the global leaderboard
-    // // SetLoggedInUser()  takes a userInput, representing a username, as a parameter
-    // public async void SetLoggedInUser(string userInput)
-    // :state-uncomment-end:
+    // :state-end: :state-uncomment-start: sync // SetLoggedInUser() is an
+    // asynchronous method that opens a realm, calls the CreateLeaderboardUI()
+    // method to create the LeaderboardUI and adds it to the Root Component //
+    // and calls SetStatListener() to start listening for changes to all Stat
+    // objects in order to update the global leaderboard // SetLoggedInUser()
+    // takes a userInput, representing a username, as a parameter public async
+    // void SetLoggedInUser(string userInput) :state-uncomment-end:
     {
         username = userInput;
 
         // :state-start: start local
         realm = Realm.GetInstance();
-        // :state-end:
-        // :state-uncomment-start: sync
-        // realm = await GetRealm();
+        // :state-end: :state-uncomment-start: sync realm = await GetRealm();
         // :state-uncomment-end:
 
-        // only create the leaderboard on the first run, consecutive restarts/reruns will already have a leaderboard created
+        // only create the leaderboard on the first run, consecutive
+        // restarts/reruns will already have a leaderboard created
         if (isLeaderboardUICreated == false)
         {
             root = GetComponent<UIDocument>().rootVisualElement;
@@ -50,9 +50,7 @@ public class LeaderboardManager : MonoBehaviour
             root.Add(listView);
             isLeaderboardUICreated = true;
         }
-        // :state-uncomment-start: sync
-        // SetStatListener();
-        // :state-uncomment-end:
+        // :state-uncomment-start: sync SetStatListener(); :state-uncomment-end:
     }
     // :code-block-end:
     #endregion
@@ -74,7 +72,8 @@ public class LeaderboardManager : MonoBehaviour
         CreateTopStatListView();
     }
 
-    // CreateTopStatListView() is a method that creates a set of Labels containing high stats
+    // CreateTopStatListView() is a method that creates a set of Labels
+    // containing high stats
     private void CreateTopStatListView()
     {
         int maximumAmountOfTopStats;
@@ -113,25 +112,24 @@ public class LeaderboardManager : MonoBehaviour
             (e as Label).AddToClassList("list-item-game-name-label");
         };
 
-        // Provide the list view with an explict height for every row
-        // so it can calculate how many items to actually display
+        // Provide the list view with an explict height for every row so it can
+        // calculate how many items to actually display
         const int itemHeight = 5;
 
         listView = new ListView(topStatsListItems, itemHeight, makeItem, bindItem);
         listView.AddToClassList("list-view");
     }
 
-    // :code-block-start: sync-open-realm-in-leaderboard
-    // :state-uncomment-start: sync
-    // // GetRealm() is an asynchronous method that returns a synced realm
+    // :code-block-start: sync-open-realm-in-leaderboard :state-uncomment-start:
+    // sync // GetRealm() is an asynchronous method that returns a synced realm
     // private static async Task<Realm> GetRealm()
     // {
     //     var syncConfiguration = new SyncConfiguration("UnityTutorialPartition", RealmController.syncUser);
     //     return await Realm.GetInstanceAsync(syncConfiguration);
     // }
-    // :state-uncomment-end:
-    // :code-block-end:
-    // GetRealmPlayerTopStat() is a method that queries a realm for the player's Stat object with the highest score
+    // :state-uncomment-end: :code-block-end: GetRealmPlayerTopStat() is a
+    // method that queries a realm for the player's Stat object with the highest
+    // score
     private int GetRealmPlayerTopStat()
     {
         // :code-block-start: get-current-player-top-score
@@ -141,10 +139,11 @@ public class LeaderboardManager : MonoBehaviour
         // :code-block-end:
     }
 
-    // :code-block-start: set-newly-inserted-scores
-    // :state-start: sync
-    // SetNewlyInsertedScores() is a method that determine if a new Stat is greater than any existing topStats, and if it is, inserts it into the topStats list in descending order
-    // SetNewlyInsertedScores() takes an array of insertedIndices
+    // :code-block-start: set-newly-inserted-scores :state-start: sync
+    // SetNewlyInsertedScores() is a method that determine if a new Stat is
+    // greater than any existing topStats, and if it is, inserts it into the
+    // topStats list in descending order SetNewlyInsertedScores() takes an array
+    // of insertedIndices
     private void SetNewlyInsertedScores(int[] insertedIndices)
     {
         foreach (var i in insertedIndices)
@@ -168,12 +167,11 @@ public class LeaderboardManager : MonoBehaviour
             }
         }
     }
-    // :state-end:
-    // :code-block-end:
+    // :state-end: :code-block-end:
 
-    // :code-block-start: listen-for-stat-changes
-    // :state-start: sync
-    // SetStatListener is a method that sets a listener on all Stat objects, and calls SetNewlyInsertedScores if one has been inserted
+    // :code-block-start: listen-for-stat-changes :state-start: sync
+    // SetStatListener is a method that sets a listener on all Stat objects, and
+    // calls SetNewlyInsertedScores if one has been inserted
     private void SetStatListener()
     {
 
@@ -193,12 +191,13 @@ public class LeaderboardManager : MonoBehaviour
                 {
                     SetNewlyInsertedScores(changes.InsertedIndices);
                 }
-                // we only need to check for inserted Stat objects because Stat objects can't be modified or deleted after the playthrough is complete
+                // we only need to check for inserted Stat objects because Stat
+                // objects can't be modified or deleted after the playthrough is
+                // complete
 
             });
     }
-    // :state-end:
-    // :code-block-end:
+    // :state-end: :code-block-end:
 
     #endregion
 
@@ -209,14 +208,12 @@ public class LeaderboardManager : MonoBehaviour
     }
     private void OnDisable()
     {
-        // :code-block-start: leaderboard-cleanup-fn
-        // :state-start: sync
+        // :code-block-start: leaderboard-cleanup-fn :state-start: sync
         if (listenerToken != null)
         {
             listenerToken.Dispose();
         }
-        // :state-end:
-        // :code-block-end:
+        // :state-end: :code-block-end:
     }
 
     #endregion
