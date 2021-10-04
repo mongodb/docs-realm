@@ -74,15 +74,10 @@ check out the SDK docs:
 Define Object Models
 ~~~~~~~~~~~~~~~~~~~~
 
-A synced realm uses the same idiomatic object models as an unsynced realm.
-Additionally, Sync requires a server-side document schema for each synced object
-type so that Realm can translate and apply changes between synced realms and
-MongoDB Atlas.
-
-There are two ways to define your synced data model. The method you choose
-depends on your preferred development approach: client-first SDK models or
-server-first document schemas. You can use either approach exclusively or
-combine them, but you only need to define each object or document type one way.
+A synced realm uses object models that you define to determine the type of
+objects in the realm. Additionally, Sync requires a server-side document schema
+for each synced object type so that Realm can translate and apply changes
+between synced realms and MongoDB Atlas.
 
 To define your synced object models, do one of the following for each object
 type:
