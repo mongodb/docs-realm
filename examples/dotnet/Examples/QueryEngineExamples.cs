@@ -27,7 +27,7 @@ namespace Examples
             user = app.LogInAsync(Credentials.EmailPassword("foo@foo.com", "foobar")).Result;
             config = new SyncConfiguration("foo", user);
             //:hide-start:
-            config.ObjectClasses = new[]
+            config.Schema = new[]
             {
                 //typeof(Task),
                 typeof(UserTask),

@@ -34,13 +34,13 @@ namespace Examples
                 Credentials.EmailPassword("foo@foo.com", "foobar"));
             config = new SyncConfiguration("myPart", user);
             //:hide-start:
-            config.ObjectClasses = new[]
-            {
+            config.Schema = new[] {
                 typeof(Task),
                 typeof(MyClass),
                 typeof(dotnet.User),
                 typeof(CustomGetterSetter)
             };
+
             Realm realm = Realm.GetInstance(config);
             //:hide-end:
             try
@@ -80,13 +80,6 @@ namespace Examples
             });
             // :code-block-end:
             testTaskId = testTask.Id;
-
-            /* var schemas = config.ObjectClasses;
-             foreach (var schema in schemas)
-             {
-                 Console.WriteLine(schema.FullName);
-             }*/
-
 
             // :code-block-start: pause-synced-realm
             var session = realm.GetSession();
@@ -188,7 +181,7 @@ namespace Examples
             // :code-block-start: config
             config = new SyncConfiguration("myPart", user);
             //:hide-start:
-            config.ObjectClasses = new[]
+            config.Schema = new[]
             {
                 typeof(Task),
                 typeof(dotnet.User),
@@ -214,7 +207,7 @@ namespace Examples
             // :code-block-start: scope
             config = new SyncConfiguration("myPart", user);
             //:hide-start:
-            config.ObjectClasses = new[]
+            config.Schema = new[]
             {
                 typeof(Task),
                 typeof(dotnet.User),
@@ -233,7 +226,7 @@ namespace Examples
         {
             config = new SyncConfiguration("myPart", user);
             //:hide-start:
-            config.ObjectClasses = new[]
+            config.Schema = new[]
             {
                 typeof(Task),
                 typeof(dotnet.User)
