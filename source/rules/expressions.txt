@@ -50,8 +50,9 @@ Embedded Expressions
 
 You can embed multiple expression documents in the fields of another expression
 document to handle complex evaluation logic. {+service+} evaluates expressions
-*depth-first, post-order*, i.e. it evaluates the most-deeply embedded documents
-first and works back to the root-level fields.
+*depth-first, post-order*, i.e. it starts at the bottom of the expression tree
+and works back to the root-level fields by evaluating each expression after all
+of its embedded expressions.
 
 .. example::
 
