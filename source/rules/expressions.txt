@@ -48,10 +48,10 @@ Expressions documents have the following general format:
 Embedded Expressions
 ~~~~~~~~~~~~~~~~~~~~
 
-You can embed multiple expression documents in the fields of another
-expression document to handle complex evaluation logic. {+service+}
-evaluates expressions *depth-first*, i.e. it evaluates the most-deeply
-embedded documents first and works back to the root-level fields.
+You can embed multiple expression documents in the fields of another expression
+document to handle complex evaluation logic. {+service+} evaluates expressions
+*depth-first, post-order*, i.e. it evaluates the most-deeply embedded documents
+first and works back to the root-level fields.
 
 .. example::
 
@@ -72,8 +72,10 @@ embedded documents first and works back to the root-level fields.
 Multi-Field Expressions
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-Expressions with multiple fields are analogous to an ``AND`` operation on the
-evaluated value of each field.
+When you have more than one field in an expression, that expression evaluates to
+``true`` if and only if every field in the expression evaluates to true. In
+other words, Realm treats multiple fields in a single expression as an "AND"
+operation.
 
 .. example::
 
