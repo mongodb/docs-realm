@@ -56,9 +56,8 @@ Configuration
    
    * - | ``can_evaluate``
        | Document
-     - A :doc:`rule expression </services/json-expressions>` that
-       evaluates to ``true`` when the function is allowed to execute in
-       response to a given request.
+     - A :ref:`rule expression <expressions>` that evaluates to ``true`` when
+       the function is allowed to execute in response to a given request.
    
    * - | ``disable_arg_logs``
        | Boolean

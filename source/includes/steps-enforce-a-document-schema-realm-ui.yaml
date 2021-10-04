@@ -123,12 +123,11 @@ title: Add Change Validation Expressions
 ref: add-change-validation-expressions
 level: 4
 content: |
-  In addition to configuring the content of each field, you can validate
-  changes to documents by defining a validation :doc:`expression
-  </services/json-expressions>` in the ``validate`` field of a schema.
-  Validation expressions can use the :json-expansion:`%%prev` and
-  :json-expansion:`%%prevRoot` expansions to access a field or
-  document's values *before* the insert or update operation occurred.
+  In addition to configuring the content of each field, you can validate changes
+  to documents by defining a validation :ref:`expression <expressions>` in the
+  ``validate`` field of a schema. Validation expressions can use the
+  :json-expansion:`%%prev` and :json-expansion:`%%prevRoot` expansions to access
+  a field or document's values *before* the insert or update operation occurred.
 
   .. example::
 

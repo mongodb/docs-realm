@@ -21,8 +21,8 @@
        Limited to 100 characters or fewer.
 
    * - ``apply_when``
-     - Required. A :doc:`JSON expression </services/json-expressions>`
-       that determines when this filter applies to a given query.
+     - Required. A :ref:`rule expression <expressions>` that determines when
+       this filter applies to a given query.
 
        .. include:: /includes/note-filters-no-mongodb-expansions.rst
 

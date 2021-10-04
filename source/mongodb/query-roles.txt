@@ -30,16 +30,16 @@ role is associated with a specific collection in a
 Role Evaluation Process
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-When {+backend+} receives a query request, it determines which documents
-in the collection the query applies to and evaluates a separate role for
-each document. To assign a role to a document, {+backend+} steps through
-each role definition in order and evaluates the :guilabel:`Apply When`
-:doc:`JSON expression </services/json-expressions>` that you defined for
-the role. If a role's :guilabel:`Apply When` expression evaluates to
-``true``, {+backend+} assigns the role to the current document and moves
-on to the next document. If the expression evaluates to ``false``, {+backend+}
-evaluates the next role definition. If no roles apply to a document,
-{+backend+} withholds the entire document and prevents any modifications.
+When {+backend+} receives a query request, it determines which documents in the
+collection the query applies to and evaluates a separate role for each document.
+To assign a role to a document, {+backend+} steps through each role definition
+in order and evaluates the :guilabel:`Apply When` :ref:`expression
+<expressions>` that you defined for the role. If a role's :guilabel:`Apply When`
+expression evaluates to ``true``, {+backend+} assigns the role to the current
+document and moves on to the next document. If the expression evaluates to
+``false``, {+backend+} evaluates the next role definition. If no roles apply to
+a document, {+backend+} withholds the entire document and prevents any
+modifications.
 
 .. _query-role-config:
 
@@ -57,9 +57,9 @@ you might encounter when you define roles for your collection.
 Apply When Expressions
 ~~~~~~~~~~~~~~~~~~~~~~
 
-{+backend+} determines if a role applies to a given document by evaluating
-the :guilabel:`Apply When` :doc:`expression
-</services/json-expressions>` that you define for each role.
+{+backend+} determines if a role applies to a given document by evaluating the
+:guilabel:`Apply When` :ref:`expression <expressions>` that you define for
+each role.
 
 This section contains :guilabel:`Apply When` templates for common
 scenarios. To apply an expression to a role, find the scenario that most
@@ -339,11 +339,10 @@ configuration with :doc:`{+cli+} </cli>`.
 Insert-Only Roles
 ~~~~~~~~~~~~~~~~~
 
-To allow a role to insert new documents but otherwise prevent them from
-reading or modifying any data, set ``insert`` to ``true`` and set the
-value of document-level ``write`` to a :doc:`JSON expression
-</services/json-expressions>` that evaluates to ``true`` only if the
-document didn't exist prior to the operation.
+To allow a role to insert new documents but otherwise prevent them from reading
+or modifying any data, set ``insert`` to ``true`` and set the value of
+document-level ``write`` to a :ref:`rule expression <expressions>` that
+evaluates to ``true`` only if the document didn't exist prior to the operation.
 
 .. code-block:: json
    :emphasize-lines: 5, 6-8
