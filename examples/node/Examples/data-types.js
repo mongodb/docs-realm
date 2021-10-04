@@ -463,6 +463,16 @@ describe("Node.js Data Types", () => {
     // :code-block-end:
     expect(playerTwo.inventory.size).toBe(0);
 
+    // convert set to array.
+    realm.write(() => {
+      playerTwo.inventory.add("gatling gun");
+      playerTwo.inventory.add("ray gun");
+      playerTwo.inventory.add("space laser");
+    });
+    console.log(playerTwo.inventory.values());
+
+    expect(playerTwo.inventory.size).toBe(3);
+
     // delete the object specifically created in this test to keep tests idempotent
     realm.write(() => {
       realm.delete(playerOne);
