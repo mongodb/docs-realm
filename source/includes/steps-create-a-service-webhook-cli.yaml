@@ -230,13 +230,11 @@ content: |
 title: Specify an Authorization Expression
 ref: specify-an-authorization-expression
 content: |
-  You can dynamically authorize requests based on the contents of each
-  request by defining a :guilabel:`Can Evaluate` :doc:`JSON expression
-  </services/json-expressions>`. Realm evaluates the expression for
-  every incoming request that the webhook receives. The expression can
-  expand standard :doc:`expression variables
-  </services/expression-variables>`, including the
-  :json-expansion:`%%request` expansion.
+  You can dynamically authorize requests based on the contents of each request
+  by defining a :guilabel:`Can Evaluate` :ref:`expression <expressions>`. Realm
+  evaluates the expression for every incoming request that the webhook receives.
+  The expression can expand standard :ref:`expression variables <expressions>`,
+  including the :json-expansion:`%%request` expansion.
 
   To define an authorization expression, set the value of the
   ``can_evaluate`` field to the expression. If you do not specify an

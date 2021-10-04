@@ -92,8 +92,8 @@ with the same name as the rule.
    
    * - | ``when``
        | Document
-     - A :doc:`rule expression </services/json-expressions>` that
-       evaluates to ``true`` when the rule applies to a given request.
+     - A :ref:`rule expression <expressions>` that evaluates to ``true`` when
+       the rule applies to a given request.
 
 .. _config-incoming-webhooks:
 
@@ -137,9 +137,9 @@ Configuration
    
    * - | ``can_evaluate``
        | JSON Expression (default: ``true``)
-     - A :doc:`JSON expression </services/json-expressions>` that
-       evaluates to ``true`` if the webhook is allowed to execute.
-       {+service-short+} evaluates this expression for every incoming request.
+     - A :ref:`JSON expression <expressions>` that evaluates to ``true`` if the
+       webhook is allowed to execute. {+service-short+} evaluates this
+       expression for every incoming request.
    
    * - | ``disable_arg_logs``
        | Boolean

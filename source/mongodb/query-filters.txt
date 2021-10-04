@@ -35,12 +35,11 @@ Filter Application Process
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 When {+backend+} receives a query request, it determines if any filters
-associated with the collection apply to the request and adds those to
-the query. To assign filters to a query, {+backend+} evaluates the
-:guilabel:`Apply When` :doc:`JSON expression </services/json-expressions>`
-that you defined for each filter. If a filter's :guilabel:`Apply When`
-evaluates to ``true``, {+backend+} merges the :guilabel:`Filter Query`
-into the incoming query document.
+associated with the collection apply to the request and adds those to the query.
+To assign filters to a query, {+backend+} evaluates the :guilabel:`Apply When`
+:ref:`expression <expressions>` that you defined for each filter. If a filter's
+:guilabel:`Apply When` evaluates to ``true``, {+backend+} merges the
+:guilabel:`Filter Query` into the incoming query document.
 
 .. example::
 
