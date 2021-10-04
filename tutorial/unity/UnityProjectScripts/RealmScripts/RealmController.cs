@@ -26,7 +26,8 @@ public class RealmController : MonoBehaviour
     public static User syncUser; // (Part 2 Sync): syncUser represents the realmApp's currently logged in user
 
     #region PublicMethods
-    // CollectToken() is a method that performs a write transaction to update the current playthrough Stat object's TokensCollected count
+    // CollectToken() performs a write transaction to update the current
+    // playthrough Stat object's TokensCollected count
     public static void CollectToken()
     {
         // :code-block-start: collect-token-fn
@@ -42,12 +43,14 @@ public class RealmController : MonoBehaviour
         // :code-block-end:
     }
 
-    // DefeatEnemy() is a method that performs a write transaction to update the current playthrough Stat object's enemiesDefeated count
+    // DefeatEnemy() performs a write transaction to update the current
+    // playthrough Stat object's enemiesDefeated count
     public static void DefeatEnemy()
     {
         // :code-block-start: defeat-enemy-fn
         // :state-start: start
-        // TODO: within a write transaction, increment the number of enemies defeated in the current playthrough/run's stat
+        // TODO: within a write transaction, increment the number of enemies
+        // defeated in the current playthrough/run's stat
         // :state-end:
         // :state-start: sync local
         realm.Write(() =>
@@ -58,13 +61,16 @@ public class RealmController : MonoBehaviour
         // :code-block-end:
     }
 
-    // DeleteCurrentStat() is a method that performs a write transaction to delete the current playthrough Stat object and remove it from the current Player object's Stats' list
+    // DeleteCurrentStat() performs a write transaction to delete the current
+    // playthrough Stat object and remove it from the current Player object's
+    // Stats' list
     public static void DeleteCurrentStat()
     {
         // :code-block-start: delete-current-stat-method
         ScoreCardManager.UnRegisterListener();
         // :state-start: start
-        // TODO: within a write transaction, delete the current Stat object, and its reference in the current Player object
+        // TODO: within a write transaction, delete the current Stat object, and
+        // its reference in the current Player object
         // :state-end:
         // :state-start: local sync
         realm.Write(() =>
@@ -77,47 +83,55 @@ public class RealmController : MonoBehaviour
     }
 
     // :state-start: start local
-    // LogOut() is a method that logs out and reloads the scene
-    // :state-end:
+    // LogOut() logs out and reloads the scene
     public static void LogOut()
     {
-        // :state-uncomment-start: sync
-        // LogOut() is an asynchronous method that logs out and reloads the scene
-        //public static async void LogOut()
-        //{
-        // await syncUser.LogOutAsync();
-        // :state-uncomment-end:
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
+    // :state-end:
 
-    // :code-block-start: realmcontroller-press-register-sync
-    // :state-uncomment-start: sync
-    // // OnPressRegister() is an asynchronous method that registers as a Realms.Sync.User, creates a new Player and Stat object 
-    // // OnPressRegister takes a userInput and passInput, representing a username/password, as a parameter
-    // public static async Task<Player> OnPressRegister(string userInput, string passInput)
-    // {
-    //     await realmApp.EmailPasswordAuth.RegisterUserAsync(userInput, passInput);
-    //     syncUser = await realmApp.LogInAsync(Credentials.EmailPassword(userInput, passInput));
-    //     realm = await GetRealm(syncUser);
-
-    //     var player = new Player();
-    //     player.Id = syncUser.Id;
-    //     player.Name = userInput;
-    //     var stat = new Stat();
-    //     stat.StatOwner = player;
-    //     realm.Write(() =>
-    //     {
-    //         currentPlayer = realm.Add(player);
-    //         currentStat = realm.Add(stat);
-    //         currentPlayer.Stats.Add(currentStat);
-    //     });
-    //     StartGame();
-    //     return currentPlayer;
-    // }
-    // :state-uncomment-end:
+    // :code-block-start: logout-backend
+    // :state-start: sync
+    // LogOutBackend() is an asynchronous method that logs out 
+    // the current MongoDB Realm User
+    public static async void LogOutBackend()
+    {
+        await syncUser.LogOutAsync();
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+    // :state-end: 
     // :code-block-end:
 
-    // PlayerWon() is a method that calculates and returns the final score for the current playthrough once the player has won the game
+    // :code-block-start: realmcontroller-press-register-sync
+    // :state-start: sync
+    // OnPressRegister() is an asynchronous method that registers a user,
+    // creates a new Player and Stat object OnPressRegister takes a userInput
+    // and passInput, representing a username/password, as a parameter
+    public static async Task<Player> OnPressRegister(string userInput, string passInput)
+    {
+        await realmApp.EmailPasswordAuth.RegisterUserAsync(userInput, passInput);
+        syncUser = await realmApp.LogInAsync(Credentials.EmailPassword(userInput, passInput));
+        realm = await GetRealm(syncUser);
+
+        var player = new Player();
+        player.Id = syncUser.Id;
+        player.Name = userInput;
+        var stat = new Stat();
+        stat.StatOwner = player;
+        realm.Write(() =>
+        {
+            currentPlayer = realm.Add(player);
+            currentStat = realm.Add(stat);
+            currentPlayer.Stats.Add(currentStat);
+        });
+        StartGame();
+        return currentPlayer;
+    }
+    // :state-end:
+    // :code-block-end:
+
+    // PlayerWon() calculates and returns the final score for the current
+    // playthrough once the player has won the game
     public static int PlayerWon()
     {
         if (runTime <= 30) // if the game is won in less than or equal to 30 seconds, +80 bonus points
@@ -146,7 +160,9 @@ public class RealmController : MonoBehaviour
         return finalScore;
     }
 
-    // RestartGame() is a method that creates a new plathrough Stat object and shares this new Stat object with the ScoreCardManager to update in the UI and listen for changes to it
+    // RestartGame() creates a new plathrough Stat object and shares this new
+    // Stat object with the ScoreCardManager to update in the UI and listen for
+    // changes to it
     public static void RestartGame()
     {
         var stat = new Stat();
@@ -165,8 +181,9 @@ public class RealmController : MonoBehaviour
 
     // :code-block-start: realmcontroller-set-logged-in-user
     // :state-start: start local
-    // SetLoggedInUser() is a method that finds a Player object and creates a new Stat object for the current playthrough
-    // SetLoggedInUser() takes a userInput, representing a username, as a parameter
+    // SetLoggedInUser() finds a Player object and creates a new Stat object for
+    // the current playthrough SetLoggedInUser() takes a userInput, representing
+    // a username, as a parameter
     public static void SetLoggedInUser(string userInput)
     {
         realm = GetRealm();
@@ -287,7 +304,7 @@ public class RealmController : MonoBehaviour
     }
 
     // :state-start: start local    
-    // GetRealm() is a method that returns a realm instance
+    // GetRealm() returns a realm instance
     private static Realm GetRealm()
     // :state-end:
     // :state-uncomment-start: sync
@@ -312,7 +329,9 @@ public class RealmController : MonoBehaviour
         // :code-block-end:
     }
 
-    // StartGame() is a method that records how long the player has been playing during the current playthrough (i.e since logging in or since last losing or winning)
+    // StartGame() records how long the player has been playing during the
+    // current playthrough (i.e since logging in or since last losing or
+    // winning)
     private static void StartGame()
     {
         // execute a timer every 10 second
