@@ -323,36 +323,6 @@ content: |
 
   Add the following code to your ``RealmController.SetLoggedInUser()`` method:
 
-  .. code-block:: csharp
-
-     // query the realm to find any Player objects with the matching name
-     var matchedPlayers = realm.All<Player>().Where(p => p.Name == userInput);
-     if (matchedPlayers.Count() > 0) // if the player exists
-     {
-         currentPlayer = matchedPlayers.First();
-         var stat = new Stat();
-         stat.StatOwner = currentPlayer;
-         realm.Write(() =>
-         {
-             currentStat = realm.Add(stat);
-             currentPlayer.Stats.Add(currentStat);
-         });
-     }
-     else
-     {
-         var player = new Player();
-         player.Id = ObjectId.GenerateNewId().ToString();
-         player.Name = userInput;
-         var stat = new Stat();
-         stat.StatOwner = player;
-         realm.Write(() =>
-         {
-             currentPlayer = realm.Add(player);
-             currentStat = realm.Add(stat);
-             currentPlayer.Stats.Add(currentStat);
-         });
-     }
-
   .. literalinclude:: /tutorial/generated/unity/RealmController.codeblock.realm-controller-set-logged-in-user.cs
      :language: csharp
 
@@ -375,13 +345,6 @@ content: |
   perform a :doc:`write transaction
   </sdk/dotnet/fundamentals/write-transactions>` and update the variable
   ``currentStat`` that you created in the last step:
-
-  .. code-block:: csharp
-
-     realm.Write(() =>
-      {
-          currentStat.TokensCollected += 1;
-      });
   
   .. literalinclude:: /tutorial/generated/unity/RealmController.codeblock.collect-token-fn.cs
      :language: csharp
@@ -403,13 +366,6 @@ content: |
   </sdk/dotnet/fundamentals/write-transactions>` and update the variable
   ``currentStat`` that you created in the last step:
 
-  .. code-block:: csharp
-
-     realm.Write(() =>
-      {
-          currentStat.EnemiesDefeated += 1;
-      });
-
   .. literalinclude:: /tutorial/generated/unity/RealmController.codeblock.defeat-enemy-fn.cs
      :language: csharp
 
@@ -427,11 +383,6 @@ content: |
    variable. In the ``WatchForChangesToCurrentStats()`` method, handle the ``Stat`` object's
    :dotnet-sdk:`PropertyChanged event<Realms.RealmObjectBase.html#Realms_RealmObjectBase_PropertyChanged>`:
    
-   .. code-block:: csharp
- 
-      propertyHandler = new PropertyChangedEventHandler((sender, e) => UpdateCurrentStats());
-      currentStat.PropertyChanged += propertyHandler;
-
   .. literalinclude:: /tutorial/generated/unity/ScoreCardManager.codeblock.watch-for-changes-stat-propery-changed.cs
      :language: csharp
   
@@ -493,14 +444,6 @@ content: |
   - Call the ``RealmController.RestartGame()`` method to create a new ``Stat`` object for the new playthrough 
 
   Navigate to the ``RealmController.DeleteCurrentStat()`` method and add the following code at the bottom of that method:
-
-  .. code-block:: csharp
- 
-     realm.Write(() =>
-      {
-          realm.Remove(currentStat);
-          currentPlayer.Stats.Remove(currentStat); // remove the reference to the currentStat from the currentPlayer object
-      });
 
   .. literalinclude:: /tutorial/generated/unity/RealmController.codeblock.delete-current-stat-method.cs
      :language: csharp
