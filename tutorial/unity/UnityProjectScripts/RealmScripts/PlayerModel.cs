@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using Realms;
-// :code-block-start: player-model
 // :state-start: local sync start
 public class Player : RealmObject
 {
@@ -18,4 +17,3 @@ public class Player : RealmObject
     public string Name { get; set; }
 }
 // :state-end: 
-// :code-block-end:

@@ -19,7 +19,6 @@ public class LeaderboardManager : MonoBehaviour
     private IDisposable listenerToken;  // (Part 2 Sync): listenerToken is the token for registering a change listener on all Stat objects
 
     #region PublicMethods
-    // :code-block-start: set-logged-in-user-leaderboard-ui
     // :state-start: start local
     // SetLoggedInUser() opens a realm, calls the CreateLeaderboardUI() method
     // to create the LeaderboardUI and adds it to the Root Component
@@ -27,21 +26,24 @@ public class LeaderboardManager : MonoBehaviour
     // parameter
     public void SetLoggedInUser(string userInput)
     // :state-end:
+    // :code-block-start: sync-leaderboard-setloggedinuser
     // :state-uncomment-start: sync
     // // SetLoggedInUser() is an asynchronous method that opens a realm, calls the CreateLeaderboardUI() method to create the LeaderboardUI and adds it to the Root Component
     // // and calls SetStatListener() to start listening for changes to all Stat objects in order to update the global leaderboard
     // // SetLoggedInUser() takes a userInput, representing a username, as a parameter
     // public async void SetLoggedInUser(string userInput)
+    // {
+    //     username = userInput;
+    //     realm = await GetRealm();
     // :state-uncomment-end:
+    // :code-block-end:
+
+    // :state-start: start local
     {
         username = userInput;
 
-        // :state-start: start local
         realm = Realm.GetInstance();
         // :state-end:
-        // :state-uncomment-start: sync
-        // realm = await GetRealm();
-        // :state-uncomment-end:
 
         // only create the leaderboard on the first run, consecutive
         // restarts/reruns will already have a leaderboard created
@@ -53,11 +55,12 @@ public class LeaderboardManager : MonoBehaviour
             root.Add(listView);
             isLeaderboardUICreated = true;
         }
+        // :code-block-start: call-setstatlistener
         // :state-uncomment-start: sync
         // SetStatListener();
         // :state-uncomment-end:
+        // :code-block-end:
     }
-    // :code-block-end:
     #endregion
 
     #region PrivateMethods
@@ -139,11 +142,9 @@ public class LeaderboardManager : MonoBehaviour
     // the highest score
     private int GetRealmPlayerTopStat()
     {
-        // :code-block-start: get-current-player-top-score
         var realmPlayer = realm.All<Player>().Where(p => p.Name == username).First();
         var realmPlayerTopStat = realmPlayer.Stats.OrderByDescending(s => s.Score).First().Score;
         return realmPlayer.Stats.OrderByDescending(s => s.Score).First().Score;
-        // :code-block-end:
     }
 
     // :code-block-start: set-newly-inserted-scores

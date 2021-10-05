@@ -30,10 +30,10 @@ public class RealmController : MonoBehaviour
     // playthrough Stat object's TokensCollected count
     public static void CollectToken()
     {
-        // :code-block-start: collect-token-fn
         // :state-start: start
         // TODO: within a write transaction, increment the number of token's collected in the current playthrough/run's stat
         // :state-end:
+        // :code-block-start: collect-token-fn
         // :state-start: sync local
         realm.Write(() =>
         {
@@ -47,11 +47,11 @@ public class RealmController : MonoBehaviour
     // playthrough Stat object's enemiesDefeated count
     public static void DefeatEnemy()
     {
-        // :code-block-start: defeat-enemy-fn
         // :state-start: start
         // TODO: within a write transaction, increment the number of enemies
         // defeated in the current playthrough/run's stat
         // :state-end:
+        // :code-block-start: defeat-enemy-fn
         // :state-start: sync local
         realm.Write(() =>
         {
@@ -66,12 +66,12 @@ public class RealmController : MonoBehaviour
     // Stats' list
     public static void DeleteCurrentStat()
     {
-        // :code-block-start: delete-current-stat-method
         ScoreCardManager.UnRegisterListener();
         // :state-start: start
         // TODO: within a write transaction, delete the current Stat object, and
         // its reference in the current Player object
         // :state-end:
+        // :code-block-start: delete-current-stat-method
         // :state-start: local sync
         realm.Write(() =>
         {
@@ -179,7 +179,6 @@ public class RealmController : MonoBehaviour
         StartGame(); // start the game by resetting the timer and officially starting a new run/playthrough
     }
 
-    // :code-block-start: realmcontroller-set-logged-in-user
     // :state-start: start local
     // SetLoggedInUser() finds a Player object and creates a new Stat object for
     // the current playthrough SetLoggedInUser() takes a userInput, representing
@@ -193,7 +192,9 @@ public class RealmController : MonoBehaviour
         // otherwise create a new player and give the new player a new Stat
         // object
         // :state-end:
+        // :code-block-start: realm-controller-set-logged-in-user
         // :state-start: local
+        // query the realm to find any Player objects with the matching name
         var matchedPlayers = realm.All<Player>().Where(p => p.Name == userInput);
 
         if (matchedPlayers.Count() > 0) // if the player exists
@@ -225,10 +226,10 @@ public class RealmController : MonoBehaviour
             });
         }
         // :state-end:
+        // :code-block-end:
         StartGame();
     }
     // :state-end:
-    // :code-block-end:
 
     // :code-block-start: realmcontroller-set-logged-in-user-synced
     // :state-uncomment-start: sync
@@ -306,29 +307,30 @@ public class RealmController : MonoBehaviour
     // :state-start: start local    
     // GetRealm() returns a realm instance
     private static Realm GetRealm()
+    {
+        // :state-uncomment-start: start
+        // // TODO: open a realm and return it
+        // return null;
+        // :state-uncomment-end:
+        // :code-block-start: get-realm-fn
+        // :state-start: local
+        return Realm.GetInstance();
+        // :state-end:
+        // :code-block-end:
+    }
     // :state-end:
+
+    // :code-block-start: get-realm-synced-realm-controller
     // :state-uncomment-start: sync
     // // GetRealm() is an asynchronous method that returns a synced realm
     // // GetRealm() takes a logged in Realms.Sync.User as a parameter
     // private static async Task<Realm> GetRealm(User loggedInUser)
+    // {
+    //     var syncConfiguration = new SyncConfiguration("UnityTutorialPartition", loggedInUser);
+    //     return await Realm.GetInstanceAsync(syncConfiguration);
+    // }
     // :state-uncomment-end:
-    {
-        // :code-block-start: get-realm-fn
-        // :state-start: start 
-        // TODO: open a realm and return it
-        // :state-uncomment-start: start
-        // return null;
-        // :state-uncomment-end:
-        // :state-end: :state-start: local
-        return Realm.GetInstance();
-        // :state-end:
-        // :state-uncomment-start: sync
-        // var syncConfiguration = new SyncConfiguration("UnityTutorialPartition", loggedInUser);
-        // return await Realm.GetInstanceAsync(syncConfiguration);
-        // :state-uncomment-end:
-        // :code-block-end:
-    }
-
+    // :code-block-end:
     // StartGame() records how long the player has been playing during the
     // current playthrough (i.e since logging in or since last losing or
     // winning)

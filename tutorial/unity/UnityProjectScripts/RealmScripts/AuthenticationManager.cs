@@ -29,7 +29,6 @@ public class AuthenticationManager : MonoBehaviour
         logoutButton.AddToClassList("show");
     }
 
-    // :code-block-start: on-press-login
     // :state-start: start local
     // OnPressLogin() passes the username to the RealmController,
     // ScoreCardManager, and LeaderboardManager
@@ -49,9 +48,8 @@ public class AuthenticationManager : MonoBehaviour
         }
     }
     // :state-end:
-    // :code-block-end:
 
-    // :code-block-start: add-sync-register-login-click-handlers
+    // :code-block-start: add-sync-login-click-handler
     // :state-start: sync
     // OnPressLoginWithBackend() is an asynchronous method that calls
     // RealmController.SetLoggedInUser to login and passes the currentPlayer to
@@ -74,6 +72,11 @@ public class AuthenticationManager : MonoBehaviour
             Debug.Log("an exception was thrown:" + ex.Message);
         }
     }
+    // :state-end:
+    // :code-block-end:
+
+    // :code-block-start: add-sync-register-click-handler
+    // :state-start: sync
     // OnPressRegister() passes RealmController.OnPressRegister() the values of
     // the userInput and  passInput TextFields in order to register a user
     private static async void OnPressRegister()
@@ -84,8 +87,7 @@ public class AuthenticationManager : MonoBehaviour
 
             if (currentPlayer != null)
             {
-                authWrapper.AddToClassList("hide");
-                logoutButton.AddToClassList("show");
+                HideAuthenticationUI();
             }
             ScoreCardManager.SetLoggedInUser(currentPlayer.Name);
             LeaderboardManager.Instance.SetLoggedInUser(currentPlayer.Name);
@@ -118,12 +120,10 @@ public class AuthenticationManager : MonoBehaviour
     // :state-end:
     // :code-block-end:
     #endregion
-
     #region UnityLifecycleMethods
     // Start() is inherited from MonoBehavior and is called on the frame when a
     // script is enabled Start() defines AuthenticationScreen UI elements, and
     // sets click event handlers for them
-    // :code-block-start: auth-manager-start-method
     private void Start()
     {
         root = GetComponent<UIDocument>().rootVisualElement;
@@ -140,6 +140,7 @@ public class AuthenticationManager : MonoBehaviour
         };
         // :state-end:
 
+        // :code-block-start: sync-auth-manager-start
         // :state-uncomment-start: sync
         logoutButton.clicked += RealmController.LogOutBackend;
         // passInput = root.Q<TextField>("password-input");
@@ -172,9 +173,8 @@ public class AuthenticationManager : MonoBehaviour
         //     }
         // };
         // :state-uncomment-end:
+        // :code-block-end:
     }
-    // :code-block-end:
     #endregion
-
 }
 
