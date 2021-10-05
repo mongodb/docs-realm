@@ -1,7 +1,34 @@
 title: Authenticate a MongoDB Atlas User
 ref: authenticate-atlas-user
 content: |
-  .. include:: /includes/api-authenticate-instructions.rst
+  Use your MongoDB Cloud API key pair to call the authentication endpoint:
+
+  .. code-block:: shell
+    
+     curl --request POST \
+       --header 'Content-Type: application/json' \
+       --header 'Accept: application/json' \
+       --data '{"username": "<Public API Key>", "apiKey": "<Private API Key>"}' \
+       https://realm.mongodb.com/api/admin/v3.0/auth/providers/mongodb-cloud/login
+
+  If authentication succeeds, {+backend+} returns an access token as part of
+  the JSON response document:
+
+  .. code-block:: json
+     :emphasize-lines: 2
+
+     {
+       "access_token": "<access_token>",
+       "refresh_token": "<refresh_token>",
+       "user_id": "<user_id>",
+       "device_id": "<device_id>"
+     }
+
+  Save the ``access_token``, which you'll use as the Bearer token to authenticate in the upcoming steps.
+
+  .. seealso::
+    
+     :ref:`API Authentication Documentation <realm-api-authentication>`
 
 ---
 title: Get the Group ID
@@ -29,20 +56,20 @@ content: |
   through which you can delete an {+app+}. 
   Your request should include: 
 
-    - The ``access_token`` from step 1 in a mdn:`Bearer token <Web/HTTP/Authentication>` ``Authorization`` header.
-    
-    - The :ref:`Group ID/Project ID <realm-api-project-and-application-ids>` from step 2.
-    
-    - The :ref:`Application ID <realm-api-application-id>` from step 3.
+  - The ``access_token`` from step 1 in a :mdn:`Bearer token <Web/HTTP/Authentication>` ``Authorization`` header.
+  
+  - The :ref:`Group ID/Project ID <realm-api-project-and-application-ids>` from step 2.
+  
+  - The :ref:`Application ID <realm-api-application-id>` from step 3.
 
   .. code-block:: shell
     
-    curl --request DELETE 'https://realm.mongodb.com/api/admin/v3.0/groups/<Group ID>/apps/<Application ID>' \
-      --header 'Authorization:  Bearer <access_token>' \
-      --header 'Content-Type: application/json'
+     curl --request DELETE 'https://realm.mongodb.com/api/admin/v3.0/groups/<GroupID>/apps/<ApplicationID>' \
+       --header 'Authorization:  Bearer <access_token>' \
+       --header 'Content-Type: application/json'
   
   If your application deletes successfully, the {+backend+} returns a ``204`` response.
   
   .. seealso::
     
-    :admin-api-endpoint:`API Documentation for the delete endpoint <delete-/groups/%7Bgroupid%7D/apps/%7Bappid%7D>`
+     :admin-api-endpoint:`API Documentation for the delete endpoint <delete-/groups/%7Bgroupid%7D/apps/%7Bappid%7D>`
