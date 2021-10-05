@@ -48,10 +48,7 @@ namespace Examples
             user = await app.LogInAsync(Credentials.Anonymous());
             config = new SyncConfiguration("myPartition", user);
             //:hide-start:
-            config.ObjectClasses = new[]
-            {
-                typeof(dotnet.User)
-            };
+            config.Schema = new[] { typeof(dotnet.User) };
             //:hide-end:
             var realm = await Realm.GetInstanceAsync(config);
 

@@ -10,7 +10,7 @@ private static async Task MainAsync(string[] args)
     var config = new SyncConfiguration("partition", user);
 
     using var realm = await Realm.GetInstanceAsync();
-    var foos = realm.All<Foo>().Where(f => f.Bar > 5);
+    var foos = realm.All<TestClass>().Where(f => f.Bar > 5);
     foreach (var foo in foos)
     {
         await Task.Delay(10); // Simulates some background work
