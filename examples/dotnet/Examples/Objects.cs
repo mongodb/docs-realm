@@ -322,10 +322,10 @@ namespace ObjectExamples
         {
             // Define your config with a single class
             var config = new RealmConfiguration("RealmWithOneClass.realm");
-            config.ObjectClasses = new[] { typeof(LoneClass) };
+            config.Schema = new[] { typeof(LoneClass) };
 
             // Or, specify multiple classes to use in the Realm
-            config.ObjectClasses = new[] { typeof(DogA), typeof(Cat) };
+            config.Schema = new[] { typeof(DogA), typeof(Cat) };
         }
     }
     // :replace-end:

@@ -5,11 +5,11 @@ let client = app.emailPasswordAuth
 // link sent in the confirmation email.
 let token = "someToken"
 let tokenId = "someTokenId"
-client.confirmUser(token, tokenId: tokenId) { (error) in
-    guard error == nil else {
-        print("User confirmation failed: \(error!.localizedDescription)")
-        return
-    }
+
+do {
+    try await client.confirmUser(token, tokenId: tokenId)
     // User email address confirmed.
     print("Successfully confirmed user.")
+} catch {
+    print("User confirmation failed: \(error.localizedDescription)")
 }

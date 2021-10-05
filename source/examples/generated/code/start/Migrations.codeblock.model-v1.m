@@ -1,5 +1,6 @@
 // In the first version of the app, the Person model
-// has separate fields for first and last names.
+// has separate fields for first and last names,
+// and an age property.
 @interface Person : RLMObject
 @property NSString *firstName;
 @property NSString *lastName;
@@ -8,6 +9,6 @@
 
 @implementation Person
 + (NSArray<NSString *> *)requiredProperties {
-    return @[@"firstName", @"lastName"];
+    return @[@"firstName", @"lastName", @"age"];
 }
 @end

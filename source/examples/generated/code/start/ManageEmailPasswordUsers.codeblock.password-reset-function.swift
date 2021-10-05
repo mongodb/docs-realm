@@ -11,10 +11,9 @@ let args: [AnyBSON] = []
 
 // This SDK call maps to the custom password reset
 // function that you define in the backend
-client.callResetPasswordFunction(email: email, password: newPassword, args: args) { (error) in
-    guard error == nil else {
-        print("Password reset failed: \(error!.localizedDescription)")
-        return
-    }
+do {
+    try await client.callResetPasswordFunction(email: email, password: newPassword, args: args)
     print("Password reset successful!")
+} catch {
+    print("Password reset failed: \(error.localizedDescription)")
 }

@@ -47,6 +47,19 @@ The Android UI thread always contains a ``Looper`` instance. If you need
 to keep {+service-short+} objects around for long periods of time on
 any other thread, you should configure a ``Looper`` for that thread.
 
+.. warning:: Always Close Realm Instances on Non-Looper Threads to Avoid Resource Leaks
+
+   Instances of a {+realm+} instantiated on a thread that does not have a
+   :android:`Looper <reference/android/os/Looper>` message loop configured
+   do not :java-sdk:`automatically advance <io/realm/Realm.html#refresh-->` their version of underlying data. This
+   results in the SDK "pinning" that version of the data, which can cause
+   an increased memory footprint for your instance of {+client-database+}.
+   Avoid using {+realm+} instances on non-Looper threads when possible.
+   When unavoidable, always ensure that you close the {+realm+}
+   when you're done using it, or the pinned version will consume
+   application memory indefinitely.
+   
+
 .. _android-read-operations:
 .. _android-realm-database-reads:
 

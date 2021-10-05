@@ -15,7 +15,78 @@ class SyncExamples_Task: Object {
 }
 
 class Sync: AnonymouslyLoggedInTestCase {
-    func testAsyncOpenSyncedRealm() throws {
+
+    func testAsyncAwaitOpenRealm() async throws {
+        let expectation = XCTestExpectation(description: "it completes")
+        // :code-block-start: open-synced-realm
+        // Get a user. If there is already a logged in user,
+        // return that user. If not, log in.
+        func getUser() async throws -> User {
+            // Check for a logged-in user
+            if app.currentUser != nil {
+                return app.currentUser!
+            } else {
+                // Instantiate the app using your Realm app ID
+                let app = App(id: YOUR_REALM_APP_ID)
+                // Authenticate with the instance of the app that points
+                // to your backend. Here, we're using anonymous login.
+                let loggedInUser = try await app.login(credentials: Credentials.anonymous)
+                return loggedInUser
+            }
+        }
+
+        // Establish the user, define the config, and
+        // return a realm for that user
+        func getRealm() async throws -> Realm {
+            // Get a logged-in app user
+            let user = try await getUser()
+            // Specify which data this authenticated user should
+            // be able to access.
+            let partitionValue = "some partition value"
+            // Store a configuration that consists of the current user,
+            // authenticated to this instance of your app, who should be
+            // able to access this data (partition).
+            var configuration = user.configuration(partitionValue: partitionValue)
+            // :hide-start:
+            configuration.objectTypes = [SyncExamples_Task.self]
+            // :hide-end:
+            // Open a Realm with this configuration.
+            let realm = try await Realm(configuration: configuration)
+            print("Successfully opened realm: \(realm)")
+            return realm
+        }
+
+        // Get a realm
+        let realm = try await getRealm()
+        // Do something with the realm
+        print("The open realm is: \(realm)")
+        // :code-block-end:
+        expectation.fulfill()
+        wait(for: [expectation], timeout: 10)
+    }
+
+    // :code-block-start: specify-download-behavior
+    func testSpecifyDownloadBehavior() async throws {
+        // :hide-start:
+        let expectation = XCTestExpectation(description: "it completes")
+        // :hide-end:
+        let app = App(id: YOUR_REALM_APP_ID)
+        let user = try await app.login(credentials: Credentials.anonymous)
+        let partitionValue = "some partition value"
+        var configuration = user.configuration(partitionValue: partitionValue)
+        // :hide-start:
+        configuration.objectTypes = [SyncExamples_Task.self]
+        // :hide-end:
+        let realm = try await Realm(configuration: configuration, downloadBeforeOpen: .always) // :emphasize:
+        print("Successfully opened realm after downloading: \(realm)")
+        // :hide-start:
+        expectation.fulfill()
+        wait(for: [expectation], timeout: 10)
+        // :hide-end:
+    }
+    // :code-block-end:
+
+    func testLegacyAsyncOpenSyncedRealm() throws {
         let expectation = XCTestExpectation(description: "it completes")
         // :code-block-start: login-asyncopen-synced-realm
         // Instantiate the app using your Realm app ID
@@ -109,7 +180,7 @@ class Sync: AnonymouslyLoggedInTestCase {
         wait(for: [expectation], timeout: 10)
     }
 
-    func testInitOpenSyncedRealm() throws {
+    func testLegacyInitOpenSyncedRealm() throws {
         // :code-block-start: login-and-init-synced-realm
         // Instantiate the app using your Realm app ID
         let app = App(id: YOUR_REALM_APP_ID)

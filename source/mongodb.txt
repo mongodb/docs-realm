@@ -240,15 +240,12 @@ synced, the Realm app is paused.
    You can read from the ``__realm_sync.unsynced_documents`` collection, but you 
    should not modify it in any way.
 
-To fix this problem, you must **replace** the invalid document with one that 
-conforms to the object model. Updating the existing document will not add it to 
-Sync. 
-
 **Summary**
-  If your data is used by Sync clients but can also be created or 
-  modified outside of Realm Sync, you must ensure those creations and modifications 
-  match the defined object schema on the collection. For documents that have 
-  failed, you must replace the entire document before it can sync.
+  If your data is used by Sync clients but can also be created or
+  modified outside of Realm Sync, you must ensure those creations and
+  modifications match the defined object schema on the collection. For
+  documents that have failed, you can replace, update, or delete &
+  re-add each document.
 
 
 Related Content

@@ -4,7 +4,7 @@ let config = Realm.Configuration(
     migrationBlock: { migration, oldSchemaVersion in
         if oldSchemaVersion < 2 {
             // The enumerateObjects(ofType:_:) method iterates over
-            // every Person object stored in the Realm file
+            // every Person object stored in the Realm file to apply the migration
             migration.enumerateObjects(ofType: Person.className()) { oldObject, newObject in
                 // combine name fields into a single field
                 let firstName = oldObject!["firstName"] as? String

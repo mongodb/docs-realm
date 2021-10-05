@@ -1,8 +1,8 @@
 .. _flutter-intro:
 
-=====================
-Flutter SDK (Preview)
-=====================
+===================
+Flutter SDK (Alpha)
+===================
 
 .. toctree::
    :titlesonly:
@@ -10,16 +10,21 @@ Flutter SDK (Preview)
    Realm SDK for Flutter Reference Manual <https://pub.dev/packages/realm>
    Realm SDK for Flutter APIs <https://pub.dev/documentation/realm/latest/realm/realm-library.html>
    Realm SDK for Dart APIs <https://pub.dev/documentation/realm_dart/latest/realm/realm-library.html>
+   
+.. include:: /includes/note-alpha-sdk.rst
 
 The {+service+} Flutter SDK enables client applications written in 
 `Dart <https://dart.dev/>`__ for the `Flutter <https://flutter.dev/>`__ 
-platform to access data stored in local {+realm+}s. 
+platform to access data stored in local {+realm+}s.
 
-.. include:: /includes/note-preview-sdk.rst
+.. note:: Local {+client-database+} Only
+
+   The Flutter SDK currently only supports local {+client-database+}.
+   You cannot use the SDK to connect to {+service+} backend apps.
 
 Supported Realm Features
 ------------------------
-The preview version of the SDK supports the following {+realm+} features:
+The alpha version of the SDK supports the following {+realm+} features:
 
 - creating Realm objects
 - retrieving Realm objects
@@ -29,22 +34,22 @@ The preview version of the SDK supports the following {+realm+} features:
 
 .. _flutter_limitations:
 
-Preview Limitations
--------------------
-Because this is a preview version of the SDK, functionality is limited and there 
+Alpha Limitations
+-----------------
+Because this is an alpha version of the SDK, functionality is limited and there 
 are specific configuration considerations:
 
-- The preview version of the SDK requires a custom engine based on Flutter 2.0. 
-  For more information, and a diff of the changes, see the 
+- The alpha version of the SDK requires a custom engine based on Flutter 2.0. 
+  For a :wikipedia:`diff <Diff>` of the changes and additional information, see the 
   `runtime diff <https://github.com/realm/realm-dart/tree/preview/runtime>`__
   readme page.
 
-- You cannot use the ``realm_dart`` preview package with the Dart SDK 2.12 shipped 
+- You cannot use the ``realm_dart`` alpha package with the Dart SDK 2.12 shipped 
   with Flutter 2.0. Flutter downloads a custom version of the Dart SDK,
   and this custom version has known problems loading native binaries. Instead, 
   use an official Dart SDK 2.12 installation and ensure it is in your PATH.
 
-- The preview version of the SDK enables working with a local-only (on device) 
+- The alpha version of the SDK enables working with a local-only (on device) 
   Realm database; Realm Sync functionality is not yet implemented.
 
 - Flutter Hot Reload is available when running on the Android x86 Emulator and 
@@ -56,11 +61,6 @@ are specific configuration considerations:
 - New projects for iOS can not be created with ``flutter create``. As a workaround, 
   use the `Realm Flutter and Dart Samples <https://github.com/realm/realm-dart-samples>`__ 
   and modify the sample project ``provider_shopper``.
-
-
-.. note:: No Sync Support
-
-   The preview SDK does not support {+sync+}.
 
 Get Started
 -----------

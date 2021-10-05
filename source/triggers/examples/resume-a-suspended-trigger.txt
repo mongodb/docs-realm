@@ -1,0 +1,33 @@
+.. _resume-a-suspended-trigger:
+
+==========================
+Resume a Suspended Trigger
+==========================
+
+.. default-domain:: mongodb
+
+Triggers may enter a :ref:`suspended <suspended_triggers>` state in
+response to an event that prevents the Trigger's change stream from
+continuing, such as a network disruption or change to the underlying
+cluster. When a Trigger enters a suspended state, it does not receive
+change events and will not fire.
+
+.. note:: 
+
+   In the event of a suspended or failed trigger, {+service-short+} sends the 
+   project owner an email alerting them of the issue. 
+
+You can attempt to restart a suspended Trigger from the {+ui+} or by
+importing an application directory with {+cli-bin+}.
+
+.. tabs-realm-admin-interfaces::
+   
+   .. tab::
+      :tabid: ui
+      
+      .. include:: /includes/steps/restart-db-trigger-realm-ui.rst
+
+   .. tab::
+      :tabid: cli
+      
+      .. include:: /includes/steps/restart-db-trigger-import-export.rst

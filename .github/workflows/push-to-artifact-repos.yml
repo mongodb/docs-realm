@@ -99,3 +99,15 @@ jobs:
           commitMessage: Update
 
             Initiated by https://github.com/mongodb/docs-realm/commit/${{ github.sha }}
+
+      - name: Unity
+        uses: ./.github/actions/push-to-artifact-repo
+        with:
+          email: chris.bush+arty-fact@mongodb.com
+          name: Arty Fact
+          states: start local sync
+          source: ./tutorial/unity
+          toRepo: https://${{ secrets.TUTORIAL_REPO_ACCESS_TOKEN }}@github.com/mongodb-university/realm-tutorial-unity
+          commitMessage: Update
+
+            Initiated by https://github.com/mongodb/docs-realm/commit/${{ github.sha }}
