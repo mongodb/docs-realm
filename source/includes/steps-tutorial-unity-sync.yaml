@@ -17,10 +17,6 @@ content: |
   To get the app working with your backend, you first need to add your {+backend+} App
   ID to the ``Constants.cs`` file:
 
-  .. code-block:: csharp
- 
-     public const string AppId = "<your-realm-app-ID-here>";
-
   .. literalinclude:: /tutorial/generated/unity/Constants.codeblock.create-constants-sync.cs
      :language: csharp
 
@@ -38,14 +34,6 @@ content: |
   with the one that takes in a User as a parameter and asynchronously gets a
   synced {+realm+} instance: 
 
-  .. code-block:: csharp
- 
-     public static async Task<Realm> GetRealm(Realms.Sync.User loggedInUser)
-     {
-         var syncConfiguration = new SyncConfiguration("UnityTutorialPartition", loggedInUser);
-         return await Realm.GetInstanceAsync(syncConfiguration);
-     }
-
   .. literalinclude:: /tutorial/generated/unity/RealmController.codeblock.get-realm-synced-realm-controller.cs
      :language: csharp  
 
@@ -61,24 +49,6 @@ content: |
 
   Replace the code in your ``Authentication.uxml`` with the following:
 
-  .. code-block:: xml
- 
-     <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-         <Style src="Stylesheet.uss" />
-         <ui:VisualElement name="auth-wrapper" class="auth-wrapper" >
-             <ui:Label text="Realm Platformer" display-tooltip-when-elided="true" name="game-title" class="game-title" />
-             <ui:Label text="Defeat Enemies and Collect Tokens!" display-tooltip-when-elided="true" name="defeat-enemies-subtitle" class="game-subtitle"/>
-             <ui:Label text="Earn Bonus Points by Completing the Game Quicker!" display-tooltip-when-elided="true" name="earn-bonus-points-subtitle" class="game-subtitle"/>
-             <ui:Label text="Play Your Way to the Top of the Leaderboard!" display-tooltip-when-elided="true" name="play-to-leaderboard-subtitle" class="game-subtitle" />
-             <ui:Label text="Login:" display-tooltip-when-elided="true" name="subtitle" class="subtitle" />
-             <ui:TextField picking-mode="Ignore" label="username" value="username" text="your.name@example.com" name="username-input" class="auth-input" />
-             <ui:TextField input-type="password" picking-mode="Ignore" label="password" value="password" name="password-input" class="auth-input" />
-             <ui:Button text="Login &amp; Start Game" display-tooltip-when-elided="true" name="start-button" class="start-button" />
-             <ui:Button text="Don&apos;t have an account yet? Register" display-tooltip-when-elided="true" name="toggle-login-or-register-ui-button" class="toggle-login-or-register-ui-button" />
-         </ui:VisualElement>
-         <ui:Button text="Logout" display-tooltip-when-elided="true" name="logout-button" class="logout-button hide" focusable="false" />
-     </ui:UXML>
-
   .. literalinclude:: /tutorial/generated/unity/Authentication.codeblock.sync-authentication-uxml.uxml
      :language: xml
 
@@ -90,57 +60,10 @@ content: |
 
   In ``AuthenticationManager.cs``, add the following code to your ``Start()`` method, replacing the existing ``startButton.clicked`` event handler with the one below:
 
-  .. code-block:: csharp
- 
-     passInput = root.Q<TextField>("password-input");
-     passInput.isPasswordField = true;
-     
-     startButton.clicked += () =>
-     {
-         if (isInRegistrationMode == true)
-         {
-             OnPressRegister();
-         }
-         else
-         {
-             OnPressLogin();
-         }
-     };
-     toggleLoginOrRegisterUIButton = root.Q<Button>("toggle-login-or-register-ui-button");
-     toggleLoginOrRegisterUIButton.clicked += () =>
-     {
-         // if the registerUI is already visible, switch to the loginUI and set isShowingRegisterUI to false	
-         if (isInRegistrationMode == true)
-         {
-             SwitchToLoginUI();
-             isInRegistrationMode = false;
-         }
-         else
-         {
-             SwitchToRegisterUI();
-             isInRegistrationMode = true;
-         }
-     };
-  
   .. literalinclude:: /tutorial/generated/unity/AuthenticationManager.codeblock.sync-auth-manager-start.cs
      :language: csharp
 
   Next, create a ``AuthenticationManager.SwitchToLoginUI()`` and ``AuthenticationManager.SwitchToRegisterUI()`` method to toggle between authentication UI modes:
-
-  .. code-block:: csharp
- 
-     public static void SwitchToLoginUI()
-     {
-         subtitle.text = "Login";
-         startButton.text = "Login & Start Game";
-         toggleLoginOrRegisterUIButton.text = "Don't have an account yet? Register";
-     }
-     public static void SwitchToRegisterUI()
-     {
-         subtitle.text = "Register";
-         startButton.text = "Signup & Start Game";
-         toggleLoginOrRegisterUIButton.text = "Have an account already? Login";
-     }
 
   .. literalinclude:: /tutorial/generated/unity/AuthenticationManager.codeblock.add-sync-togglable-ui-methods.cs
      :language: csharp
@@ -149,56 +72,12 @@ content: |
   ``OnPressLoginWithBackend`` that uses :doc:`Email/Password Authentication
   </sdk/dotnet/examples/manage-email-password-users>`:
 
-  .. code-block:: csharp
- 
-     public static async void OnPressLogin()
-     {
-         try
-         {
-             var currentPlayer = await RealmController.SetLoggedInUser(userInput.value, passInput.value);
-             if (currentPlayer != null)
-             {
-                 authWrapper.AddToClassList("hide");
-                 logoutButton.AddToClassList("show");
-             }
-             ScoreCardManager.SetLoggedInUser(currentPlayer.Name);
-             LeaderboardManager.Instance.SetLoggedInUser(currentPlayer.Name);
-         }
-         catch (Exception ex)
-         {
-             Debug.Log("an exception was thrown:" + ex.Message);
-         }
-     }
-
   .. literalinclude:: /tutorial/generated/unity/AuthenticationManager.codeblock.add-sync-login-click-handler.cs
      :language: csharp
   
   Notice that there is now a password parameter for the ``RealmController.SetLoggedInUser()`` method, you will update that method in the next step.
 
   Finally, create an ``AuthenticationManager.OnPressRegister()`` method that calls a ``RealmController.OnPressRegister()`` method that you will create in the next step:
-
-  .. code-block:: csharp
- 
-     public static async void OnPressRegister()
-     {
-         try
-         {
-             var currentPlayer = await RealmController.OnPressRegister(userInput.value, passInput.value);
- 
-             if (currentPlayer != null)
-             {
-                 authWrapper.AddToClassList("hide");
-                 logoutButton.AddToClassList("show");
-             }
-             ScoreCardManager.SetLoggedInUser(currentPlayer.Name);
-             LeaderboardManager.Instance.SetLoggedInUser(currentPlayer.Name);
- 
-         }
-         catch (Exception ex)
-         {
-             Debug.Log("an exception was thrown:" + ex.Message);
-         }
-     }
 
   .. literalinclude:: /tutorial/generated/unity/AuthenticationManager.codeblock.add-sync-register-click-handler.cs
      :language: csharp
@@ -217,38 +96,6 @@ content: |
   method to authenticate and obtain a :dotnet-sdk:`User
   <reference/Realms.Sync.User.html>` instance:
 
-  .. code-block:: csharp
- 
-     public static async Task<Player> SetLoggedInUser(string userInput, string passInput)
-     {        
-        syncUser = await realmApp.LogInAsync(Credentials.EmailPassword(userInput, passInput));
-        if (syncUser != null)
-        {
-            realm = await GetRealm(syncUser);
-            currentPlayer = realm.Find<Player>(syncUser.Id);
-
-            if (currentPlayer != null)
-            {
-                var s1 = new Stat();
-                s1.StatOwner = currentPlayer;
-
-                realm.Write(() =>
-                {
-                    currentStat = realm.Add(s1);
-                    currentPlayer.Stats.Add(currentStat);
-                });
-
-                StartGame();
-            }
-            else
-            {
-                Debug.Log("This player exists a MongoDB Realm User but not as a Realm Object, please delete the MongoDB Realm User and create one using the register button");
-            }
-        }
-
-        return currentPlayer;
-     }
-
   .. literalinclude:: /tutorial/generated/unity/RealmController.codeblock.realmcontroller-set-logged-in-user-synced.cs
      :language: csharp
 
@@ -258,47 +105,15 @@ content: |
   <reference/Realms.Sync.App.EmailPasswordClient.html#Realms_Sync_App_EmailPasswordClient_RegisterUserAsync_System_String_System_String_>`
   method:
 
-  .. code-block:: csharp
- 
-     public static async Task<Player> OnPressRegister(string userInput, string passInput)
-     {
-        await realmApp.EmailPasswordAuth.RegisterUserAsync(userInput, passInput);
-        syncUser = await realmApp.LogInAsync(Credentials.EmailPassword(userInput, passInput));
-        realm = await GetRealm(syncUser);
-
-        var p1 = new Player();
-        p1.Id = syncUser.Id;
-        p1.Name = userInput;
-
-        var s1 = new Stat();
-        s1.StatOwner = p1;
-
-        realm.Write(() =>
-        {
-            currentPlayer = realm.Add(p1);
-            currentStat = realm.Add(s1);
-            currentPlayer.Stats.Add(currentStat);
-        });
-        StartGame();
-        return currentPlayer;
-     }
-
   .. literalinclude:: /tutorial/generated/unity/RealmController.codeblock.realmcontroller-press-register-sync.cs
      :language: csharp
 
 
-  Finally, replace the ``RealmController.LogOut()`` method with the one
-  below that calls :dotnet-sdk:`User.LogOutAsync()
-  <reference/Realms.Sync.User.html#Realms_Sync_User_LogOutAsync>` to 
-  log out of the {+realm+} user when log out button is clicked.
-
-  .. code-block:: csharp
- 
-      public static async void LogOut()
-      {
-          await syncUser.LogOutAsync();
-          SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-      }
+  Finally, replace the ``RealmController.LogOut()`` method with the
+  ``RealmController.LogOutBackend()`` method below that calls
+  :dotnet-sdk:`User.LogOutAsync()
+  <reference/Realms.Sync.User.html#Realms_Sync_User_LogOutAsync>` to log out of
+  the {+realm+} user when log out button is clicked.
 
   .. literalinclude:: /tutorial/generated/unity/RealmController.codeblock.logout-backend.cs
      :language: csharp
@@ -318,14 +133,6 @@ content: |
 
   Navigate to ``LeaderboardManager.cs`` and add the following function that opens a synced {+realm+} using the ``RealmController.syncUser`` variable that you created earlier:
 
-  .. code-block:: csharp
- 
-     public static async Task<Realm> GetRealm()
-     {
-         var syncConfiguration = new SyncConfiguration("UnityTutorialPartition", RealmController.syncUser);
-         return await Realm.GetInstanceAsync(syncConfiguration);
-     }
-
   .. literalinclude:: /tutorial/generated/unity/LeaderboardManager.codeblock.sync-open-realm-in-leaderboard.cs
      :language: csharp
 
@@ -333,43 +140,10 @@ content: |
   asynchronous function and replace the existing ``Realm.GetInstance()`` call
   with a call to the new ``GetRealm()`` method. Your code should look something like the following snippet:
 
-  .. code-block:: csharp
- 
-     public async void SetLoggedInUser(string userInput)
-     {
-         username = userInput;
-         realm = await GetRealm();
-         // ...
-     }
-
   .. literalinclude:: /tutorial/generated/unity/LeaderboardManager.codeblock.sync-leaderboard-setloggedinuser.cs
      :language: csharp
 
   Next, create a :ref:`Change Listener <dotnet-register-a-realm-change-listener>` method:
-
-  .. code-block:: csharp
- 
-     public void SetStatListener()
-     {
-         listenerToken = realm.All<Stat>()
-             .SubscribeForNotifications((sender, changes, error) =>
-             {
- 
-                 if (error != null)
-                 {
-                     // Show error message
-                     Debug.Log("an error occurred while listening for score changes :" + error);
-                     return;
-                }
- 
-                 if(changes != null)
-                 {
-                     SetNewlyInsertedScores(changes.InsertedIndices);
-                 }
-                 // we only need to check for inserted because scores can't be modified or deleted after the run is complete
- 
-             });
-     }
 
   .. literalinclude:: /tutorial/generated/unity/LeaderboardManager.codeblock.listen-for-stat-changes.cs
      :language: csharp
@@ -380,51 +154,16 @@ content: |
   - Loops through the current top scores to determine if the new ``Stat`` object's ``score`` is higher than the current score. 
   - Updates the list of current top scores if there is a higher one and updates the UI to display the new list of top scores.
 
-  .. code-block:: csharp
- 
-     private void SetNewlyInsertedScores(int[] insertedIndices)
-     {
-         foreach (var i in insertedIndices)
-         {
-             var newStat = realm.All<Stat>().ElementAt(i);
-             for (var scoreIndex = 0; scoreIndex < topStats.Count; scoreIndex++)
-             {
-                 if (topStats.ElementAt(scoreIndex).IsValid == true && topStats.ElementAt(scoreIndex).Score < newStat.Score)
-                 {
-                     if (topStats.Count > 4)
-                     {   // An item shouldn't be removed if the leaderboard has less than 5 items
-                         topStats.RemoveAt(topStats.Count - 1);
-                     }
-                     topStats.Insert(scoreIndex, newStat);
-                     root.Remove(listView); // remove the old listView
-                     CreateTopStatListView(); // create a new listView
-                     root.Add(listView); // add the new listView to the UI
-                     break;
-                 }
-             }
-         }
-     }
-
   .. literalinclude:: /tutorial/generated/unity/LeaderboardManager.codeblock.set-newly-inserted-scores.cs
      :language: csharp
    
   Call the ``SetStatListener()``  after the user is logged-in, at the
   end of the LeaderboardManager's ``SetLoggedInUser()`` method:
 
-  .. code-block:: csharp
- 
-     SetStatListener();
-
   .. literalinclude:: /tutorial/generated/unity/LeaderboardManager.codeblock.call-setstatlistener.cs
      :language: csharp
 
   Finally, dispose of the listener token once the Leaderboard GameObject is disabled in the ``OnDisable()`` method:
-
-  .. code-block:: csharp
- 
-     if(listenerToken != null){
-        listenerToken.Dispose(); 
-     }
 
   .. literalinclude:: /tutorial/generated/unity/LeaderboardManager.codeblock.leaderboard-cleanup-fn.cs
      :language: csharp
