@@ -34,7 +34,8 @@ namespace Examples
                 Credentials.EmailPassword("foo@foo.com", "foobar"));
             config = new SyncConfiguration("myPart", user);
             //:hide-start:
-            config.Schema = new[] {
+            config.Schema = new[]
+            {
                 typeof(Task),
                 typeof(MyClass),
                 typeof(dotnet.User),
