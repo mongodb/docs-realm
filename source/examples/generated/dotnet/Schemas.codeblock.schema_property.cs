@@ -1,10 +1,12 @@
-// Construct the config automatically from C# classes
+// By default, all loaded RealmObject classes are included.
+// Use the RealmConfiguration when you want to 
+// construct a schema for only specific C# classes:
 var config = new RealmConfiguration
 {
     Schema = new[] { typeof(ClassA), typeof(ClassB) }
 };
 
-// More advanced: construct the configuration manually
+// More advanced: construct the schema manually
 var manualConfig = new RealmConfiguration
 {
     Schema = new RealmSchema.Builder
@@ -17,7 +19,7 @@ var manualConfig = new RealmConfiguration
     }
 };
 
-// Most advanced: Mix and match
+// Most advanced: mix and match
 var mixedSchema = new ObjectSchema.Builder(typeof(ClassA));
 mixedSchema.Add(Property.FromType<int>("ThisIsNotInTheCSharpClass"));
 // mixedSchema now has all properties on the ClassA class
