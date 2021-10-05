@@ -13,8 +13,13 @@ var manualConfig = new RealmConfiguration
     {
         new ObjectSchema.Builder("ClassA", isEmbedded: false)
         {
-            Property.Primitive("Id", RealmValueType.Guid, isPrimaryKey: true),
-            Property.Primitive("LastName", RealmValueType.String, isNullable: true, isIndexed: true)
+            Property.Primitive("Id",
+                RealmValueType.Guid,
+                isPrimaryKey: true),
+            Property.Primitive("LastName",
+                RealmValueType.String,
+                isNullable: true,
+                isIndexed: true)
         }
     }
 };
