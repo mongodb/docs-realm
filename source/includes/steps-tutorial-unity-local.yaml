@@ -353,6 +353,9 @@ content: |
          });
      }
 
+  .. literalinclude:: /tutorial/generated/unity/RealmController.codeblock.realm-controller-set-logged-in-user.cs
+     :language: csharp
+
   After the above code is executed, the ``RealmController.SetLoggedInUser()``
   function calls ``startGame()`` to begin the timer. The timer increments the
   RealmController's runTime variable, and we use the runTime variable to
@@ -379,6 +382,9 @@ content: |
       {
           currentStat.TokensCollected += 1;
       });
+  
+  .. literalinclude:: /tutorial/generated/unity/RealmController.codeblock.collect-token-fn.cs
+     :language: csharp
 
   Call the ``CollectToken()`` method when the ``Player`` collides with the token
   instance. This occurs in the platformer microgame file:
@@ -404,6 +410,9 @@ content: |
           currentStat.EnemiesDefeated += 1;
       });
 
+  .. literalinclude:: /tutorial/generated/unity/RealmController.codeblock.defeat-enemy-fn.cs
+     :language: csharp
+
   Navigate to the ``/Assets/Scripts/Gameplay/EnemyDeath.cs`` file and call
   ``RealmController.DefeatEnemy()`` at the beginning of the ``Execute()`` method.
 
@@ -423,6 +432,9 @@ content: |
       propertyHandler = new PropertyChangedEventHandler((sender, e) => UpdateCurrentStats());
       currentStat.PropertyChanged += propertyHandler;
 
+  .. literalinclude:: /tutorial/generated/unity/ScoreCardManager.codeblock.watch-for-changes-stat-propery-changed.cs
+     :language: csharp
+  
   The Scorecard now updates if the ``Player`` defeats an enemy or collects a token.
 
   .. figure:: /images/unity-tutorial-defeatEnem-collectTok-functionality.gif
@@ -489,6 +501,9 @@ content: |
           realm.Remove(currentStat);
           currentPlayer.Stats.Remove(currentStat); // remove the reference to the currentStat from the currentPlayer object
       });
+
+  .. literalinclude:: /tutorial/generated/unity/RealmController.codeblock.delete-current-stat-method.cs
+     :language: csharp
   
   Next, open the Platformer Microgame file,
   ``/Assets/Scripts/Gameplay/PlayerDeath.cs``, which handles the player death
