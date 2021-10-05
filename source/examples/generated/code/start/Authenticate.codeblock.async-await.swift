@@ -1,4 +1,4 @@
-func testAsyncAwaitLogin() async {
+func login() async {
     do {
         let app = App(id: YOUR_REALM_APP_ID)
         // Authenticate with the instance of the app that points
