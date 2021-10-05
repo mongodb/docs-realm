@@ -169,7 +169,7 @@ namespace.
    * - | ``schema``
        | Document
      - A :ref:`Document Schema <document-schema-config>`. The root level
-       schema must be an :ref:`object schema <schema-type-objects>`,
+       schema must be an :ref:`object schema <schema-type-object>`,
        which has the following form:
 
        .. code-block:: json
