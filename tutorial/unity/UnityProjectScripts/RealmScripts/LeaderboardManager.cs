@@ -73,9 +73,7 @@ public class LeaderboardManager : MonoBehaviour
         displayTitle.text = "Leaderboard:";
         displayTitle.AddToClassList("display-title");
 
-        // :code-block-start: get-highest-scores-global-leaderboard
         topStats = realm.All<Stat>().OrderByDescending(s => s.Score).ToList();
-        // :code-block-end:
         CreateTopStatListView();
     }
 

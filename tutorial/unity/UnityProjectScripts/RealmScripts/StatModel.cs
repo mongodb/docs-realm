@@ -2,7 +2,6 @@
 using System;
 using MongoDB.Bson;
 using Realms;
-// :code-block-start: stat-model
 // :state-start: local sync start
 public class Stat : RealmObject
 {
@@ -25,4 +24,3 @@ public class Stat : RealmObject
     public Player StatOwner { get; set; }
 }
 // :state-end: 
-// :code-block-end:
