@@ -1,10 +1,34 @@
 title: Authenticate a MongoDB Atlas User
 ref: authenticate-atlas-user
 content: |
-
   .. include:: /includes/cli-login.rst
 
 ---
+title: (Optional) List All Apps
+ref: list-apps
+content: |
+  Although the ``delete`` command will show you a list of apps available to delete, 
+  You may want to use the list command to see all your apps and find out which 
+  you plan to delete before running the ``delete`` command.
+
+  .. code-block:: shell
+
+     realm-cli apps list 
+
+  For more details about each app, you can use:
+  
+  .. code-block:: shell
+
+     realm-cli apps describe 
+
+  .. seealso::
+
+     For more details and additional flags, see the CLI documentation for the 
+     :ref:`list <realm-cli-apps-list>` 
+     and :ref:`describe <realm-cli-apps-describe>` commands.
+
+---
+
 title: Run the App Delete Command
 ref: run-the-app-delete-command
 content: |

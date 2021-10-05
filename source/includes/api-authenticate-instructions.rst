@@ -21,6 +21,8 @@ the JSON response document:
      "device_id": "<device_id>"
    }
 
+save the ``access_token``, which you'll use as the Bearer token to authenticate in the upcoming steps.
+
 .. seealso::
   
   :ref:`API Authentication Documentation <realm-api-authentication>`
