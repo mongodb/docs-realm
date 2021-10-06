@@ -11,10 +11,16 @@ const Car = {
 
 describe("Open and Close a Local Realm", () => {
   test("should open and close a local realm", async () => {
+    let realm;
     // :code-block-start: open-local-realm-with-car-schema
     // Open a local realm file with a particular path & predefined Car schema
     try {
-      const realm = await Realm.open({
+      // :remove-start:
+      realm = await Realm.open({
+        // :remove-end:
+        // :uncomment-start:
+        // const realm = await Realm.open({
+        // :uncomment-end:
         schema: [Car],
       });
     } catch (err) {
@@ -22,21 +28,21 @@ describe("Open and Close a Local Realm", () => {
     }
     // :code-block-end:
 
+    let synchronouslyOpenedRealm;
     // :code-block-start: open-local-realm-synchronously
-    // :replace-start: {
-    //   "terms": {
-    //     "synchronouslyOpenedRealm": "realm"
-    //   }
-    // }
     // Synchronously open a local realm file with a particular path & predefined Car schema
     try {
-      const synchronouslyOpenedRealm = new Realm({
+      // :remove-start:
+      synchronouslyOpenedRealm = new Realm({
+        // :remove-end:
+        // :uncomment-start:
+        // const realm = await Realm.open({
+        // :uncomment-end:
         schema: [Car],
       });
     } catch (err) {
       console.error("Failed to open the realm", err.message);
     }
-    // :replace-end:
     // :code-block-end:
 
     // you can test that a realm has been open in general (but not if a realm has been open with a specific path or schema)
