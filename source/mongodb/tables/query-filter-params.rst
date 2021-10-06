@@ -2,9 +2,9 @@
 
    {
      "name": "<Filter Name>",
-     "apply_when": <JSON Expression>,
-     "query": <Query Document>,
-     "projection": <Projection Document>
+     "apply_when": { Expression },
+     "query": { MongoDB Query },
+     "projection": { MongoDB Projection }
    }
 
 .. list-table::
@@ -20,34 +20,33 @@
        useful for identifying and distinguishing between filters.
        Limited to 100 characters or fewer.
 
-   * - ``apply_when``
-     - Required. A :ref:`rule expression <expressions>` that determines when
-       this filter applies to a given query.
+   * - | ``apply_when``
+       | Expression
+     - An :ref:`expression <expressions>` that determines when this filter
+       applies to an incoming MongoDB operation.
 
        .. include:: /includes/note-filters-no-mongodb-expansions.rst
 
    * - | ``query``
-       | Document
-     - Required. A :manual:`MongoDB query
-       </tutorial/query-documents/>` that contains additional
-       query predicates to merge into incoming queries that the
-       filter applies to.
+       | Object
+       | *Default:* ``{}``
+     - A :manual:`MongoDB query </tutorial/query-documents/>` that Realm merges
+       into a filtered operation's existing query.
 
        .. example::
 
-          A filter that withholds documents that have a ``score``
-          below ``20`` could use the following filter query:
+          A filter withholds documents that have a ``score`` below ``20`` using
+          the following query:
 
           .. code-block:: json
 
-             { "score": { "$gt": 20 } }
+             { "score": { "$gte": 20 } }
 
    * - | ``projection``
-       | Document
-     - Required. A :manual:`MongoDB projection document
-       </tutorial/project-fields-from-query-results/>` that specifies
-       additional field projections to merge into incoming queries that
-       the filter applies to.
+       | Object
+       | *Default:* ``{}``
+     - A :manual:`MongoDB projection </tutorial/project-fields-from-query-results/>`
+       that Realm merges into a filtered operation's existing projection.
 
        .. important:: Projection Conflicts
           
@@ -58,10 +57,10 @@
           projection, or the query will fail.
 
        .. example::
-
-          A filter that withholds the ``_internal`` field from all
-          documents could use the following filter projection:
+          
+          A filter withholds the ``_internal`` field from all documents using
+          the following projection:
 
           .. code-block:: json
-
+             
              { "_internal": 0 }

@@ -19,7 +19,7 @@ What is a Schema?
 A schema is a JSON object that defines the the structure and contents of your
 data. You can use Realm's BSON schemas, which extend the `JSON Schema
 <https://json-schema.org/>`_ standard, to define your application's data model
-and validate objects whenever they're created, changed, or deleted.
+and validate documents whenever they're created, changed, or deleted.
 
 Schemas represent *types* of data rather than specific values. Realm supports
 many built-in :ref:`schema types <schema-types>`. These include primitives, like
@@ -101,8 +101,7 @@ Realm uses schemas in many application services:
 Define a Schema
 ---------------
 
-You may define schemas to describe the documents in your linked MongoDB
-collections. A root-level collection schema can contain additional schemas that
+ A root-level collection schema can contain additional schemas that
 describe the type's properties.
 
 A root level collection schema is an ``object`` schema that has the following
