@@ -1,9 +1,8 @@
-.. _mongodb-filters:
-.. _query-filters:
+.. _filters:
 
-=============
-Query Filters
-=============
+=======
+Filters
+=======
 
 .. default-domain:: mongodb
 
@@ -16,23 +15,26 @@ Query Filters
 Overview
 --------
 
-A MongoDB **query filter** conditionally applies additional query
-predicates and projections to an incoming query before {+backend+} runs
-the query. Filters are useful for improving the performance of queries
-on collections that have many documents or :doc:`roles
-</mongodb/query-roles>` that use complex :guilabel:`Apply When`
-expressions.
+What is a Filter?
+~~~~~~~~~~~~~~~~~
 
-You can add filters to a collection to remove documents that you know
-are not relevant to incoming queries before {+backend+} evaluates any
-roles. This can help to reduce the amount of computation that
-{+backend+} needs to perform for a request. Filters can take advantage
-of indexes in a :term:`linked {+atlas+} cluster <linked cluster>`, so
-filtering out a document is generally faster than waiting for
-{+backend+} to evaluate a role for it.
+A **filter** conditionally applies additional query predicates and projections
+to an incoming query before {+backend+} runs the query. Filters are useful for
+improving the performance of queries on collections that have many documents or
+:ref:`roles <roles>` that use complex :guilabel:`Apply When` expressions.
 
-Filter Application Process
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+Why Define a Filter?
+~~~~~~~~~~~~~~~~~~~~
+
+You can add filters to a collection to remove documents that you know are not
+relevant to incoming queries before {+backend+} evaluates any roles. This can
+help to reduce the amount of computation that {+backend+} needs to perform for a
+request. Filters can take advantage of indexes in a :term:`linked {+atlas+}
+cluster <linked cluster>`, so filtering out a document is generally faster than
+waiting for {+backend+} to evaluate a role for it.
+
+How Realm Applies Filters
+-------------------------
 
 When {+backend+} receives a query request, it determines if any filters
 associated with the collection apply to the request and adds those to the query.
@@ -67,10 +69,3 @@ To assign filters to a query, {+backend+} evaluates the :guilabel:`Apply When`
       * - ``{ "%%true": true }``
         - ``{ "owner_id": "%%user.id" }``
         - ``{}``
-
-.. _query-filter-config:
-
-Query Filter Configuration
---------------------------
-
-.. include:: /mongodb/tables/query-filter-params.rst

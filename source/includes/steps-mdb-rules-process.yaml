@@ -9,30 +9,26 @@ content: |
   After evaluating, {+backend+} applies all relevant filters to the incoming
   query and then finds all documents that match the filtered query.
 
-  .. note:: Query Filters
+  .. note:: Filters
      
-     To learn how to configure a query filter for a collection, see
+     To learn how to configure a :ref:`filter <filters>` for a collection, see
      :doc:`Filter Incoming Queries </mongodb/filter-incoming-queries>`.
-     
-     To learn more about filters, explore the :doc:`Query Filters
-     </mongodb/query-filters>` reference page. There you'll find more
-     information, including configuration parameters and details on how
-     {+backend+} applies filters.
 ---
 title: Evaluate A Role For Each Document
 ref: evaluate-a-role-for-each-document
 content: |
-  {+backend+} evaluates a **Query Role** with specific read and write
+  {+backend+} evaluates a **Role** with specific read and write
   permissions for each document that matches the filtered query. You
   define the roles for each collection, including the permissions they
   have and the conditions under which they apply.
 
   .. note:: Roles
      
-     To learn how to configure roles for a collection, see :doc:`Define
-     Roles and Permissions </mongodb/define-roles-and-permissions>`.
+     To learn how to configure :ref:`role-based permissions <roles>` for a
+     collection, see :doc:`Define Roles and Permissions
+     </mongodb/define-roles-and-permissions>`.
      
-     To learn more about roles, explore the :doc:`Query Roles
+     To learn more about roles, explore the :doc:`roles
      </mongodb/query-roles>` reference page. There you'll find more
      information, including configuration parameters, use-case examples,
      and details on how {+backend+} assigns roles to documents.

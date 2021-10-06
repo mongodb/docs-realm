@@ -28,7 +28,7 @@
 
    * - | ``query``
        | Document
-     - Required. A :manual:`MongoDB query filter
+     - Required. A :manual:`MongoDB query
        </tutorial/query-documents/>` that contains additional
        query predicates to merge into incoming queries that the
        filter applies to.

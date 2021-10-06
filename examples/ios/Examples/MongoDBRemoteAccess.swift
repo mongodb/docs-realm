@@ -443,7 +443,7 @@ class MongoDBRemoteAccessTestCase: XCTestCase {
                 // Select the collection
                 let collection = database.collection(withName: "CoffeeDrinks")
 
-                // Insert a document so we can delete it. This query filter and document
+                // Insert a document so we can delete it. This filter and document
                 // duplicate what is visible in the code block, but was at the wrong level
                 // of indent when starting the code block here, so we've declared it again
                 // in the code snippet with a slightly different name.

@@ -1,0 +1,47 @@
+.. _roles:
+.. _permissions:
+
+======================
+Role-based Permissions
+======================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+What is a Role?
+~~~~~~~~~~~~~~~
+
+A MongoDB service **role** is a group of document-level and field-level
+CRUD permissions that {+backend+} evaluates and enforces for each document
+that matches an incoming request.
+
+Roles define what the user who issued a query is allowed to do with a
+particular document, including which fields they can read and write to
+and whether or not they can insert or delete entire documents. Every
+role is associated with a specific collection in a
+:term:`linked cluster`, and any collection can include multiple roles.
+
+Why Define a Role?
+~~~~~~~~~~~~~~~~~~
+
+How Realm Evaluates Roles
+-------------------------
+
+When {+backend+} receives a query request, it determines which documents in the
+collection the query applies to and evaluates a separate role for each document.
+To assign a role to a document, {+backend+} steps through each role definition
+in order and evaluates the :guilabel:`Apply When` :ref:`expression
+<expressions>` that you defined for the role. If a role's :guilabel:`Apply When`
+expression evaluates to ``true``, {+backend+} assigns the role to the current
+document and moves on to the next document. If the expression evaluates to
+``false``, {+backend+} evaluates the next role definition. If no roles apply to
+a document, {+backend+} withholds the entire document and prevents any
+modifications.
