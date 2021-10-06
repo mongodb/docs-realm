@@ -288,6 +288,25 @@ content: |
   .. figure:: /images/unity-tutorial-attach-realmcontroller-script.png
      :width: 500px
      :alt: Attach a script  
+
+  Once the scene is loaded, click the play button on the top of the
+  screen to enter `play mode <https://docs.unity3d.com/Manual/GameView.html>`_
+  and play the game. You should see something like the following:
+
+  .. figure:: /images/unity-tutorial-play-mode-1.png
+     :width: 500px
+     :alt: Enter Play Mode - Start Login Screen  
+
+  Notice, when you type a username and click "Login & Start Game", Unity
+  navigates you to the platformer game, but the username field on the right-hand
+  side of the game screen is a static username rather than the one you inputted.
+  You'll add functionality to replace the static username value with a dynamic
+  user input later.
+
+  .. figure:: /images/unity-tutorial-playmode-2.png
+     :width: 500px
+     :alt: Enter Play Mode - Initial Platformer Screen
+
 ---
 title: Open a Realm
 ref: open-realm
@@ -296,10 +315,6 @@ content: |
   function to open a {+realm+}. To open a {+realm+} instance that you will use
   throughout the ``RealmController`` class, add the following code to the
   ``GetRealm()`` method:
-
-  .. code-block:: csharp
-
-     return Realm.GetInstance();
 
   .. literalinclude:: /tutorial/generated/unity/RealmController.codeblock.get-realm-fn.cs
      :language: csharp
