@@ -15,11 +15,10 @@ Expose Data in a Collection
 Overview
 --------
 
-You can expose data from a MongoDB collection to client applications
-through the GraphQL API. Realm automatically generates GraphQL types
-and resolvers based on the :doc:`collection schema
-</mongodb/enforce-a-document-schema>` and enforces :ref:`collection
-rules <mongodb-rules>` for all GraphQL operations.
+You can expose data from a MongoDB collection to client applications through the
+GraphQL API. Realm automatically generates GraphQL types and resolvers based on
+the :doc:`collection schema <schemas>` and enforces :ref:`collection rules
+<mongodb-rules>` for all GraphQL operations.
 
 Procedure
 ---------
@@ -42,7 +41,7 @@ field, the field has a ``null`` value in the returned document.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 GraphQL requires that all data conforms to a well-defined type, so you
-must :doc:`define a schema </mongodb/enforce-a-document-schema>` for
+must :ref:`define a schema <enforce-a-schema>` for
 documents in the collection. Realm automatically generates
 :doc:`GraphQL types and resolvers
 </graphql/types-and-resolvers>` for documents in the collection
@@ -57,7 +56,7 @@ schema changes.
    the fields you want to include in your schema and then generate a
    schema based on the mock.
 
-3. Define Relationships to Other Collections
+1. Define Relationships to Other Collections
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 You can use a collection schema to define relationships that connect

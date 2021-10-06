@@ -26,8 +26,8 @@ content: |
      You can also download a copy of your application's configuration files from
      the :guilabel:`Deploy > Import/Export App` screen in the {+ui+}.
 ---
-title: Define the Document Schema
-ref: define-the-document-schema
+title: Define the Schema
+ref: define-the-schema
 content: |
   To define or modify the schema for a collection, open the ``schema.json``
   configuration file within the collection's configuration directory.
@@ -46,8 +46,7 @@ content: |
   
   The root-level schema for every document must be of type ``object``. You can
   use additional :ref:`schema <schemas>` to configure specific fields within the
-  ``properties`` array. At a minimum, the ``schema`` should resemble the
-  following:
+  ``properties`` array. At a minimum, the schema should resemble the following:
 
   .. code-block:: javascript
      :caption: /data_sources/<service>/<db>/<collection>/schema.json
