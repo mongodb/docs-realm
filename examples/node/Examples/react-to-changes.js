@@ -12,7 +12,6 @@ describe("React to Changes", () => {
   test("should register a change listener on the realm", async () => {
     // a realm is opened
     const realm = await Realm.open({
-      path: "myrealm",
       schema: [DogSchema],
     });
     let dog;
@@ -51,7 +50,6 @@ describe("React to Changes", () => {
   test("Register a Collection Change Listener", async () => {
     // a realm is opened
     const realm = await Realm.open({
-      path: "myrealm",
       schema: [DogSchema],
     });
     let dog;
@@ -125,7 +123,6 @@ describe("React to Changes", () => {
   test("should register a change listener on the realm object", async () => {
     // a realm is opened
     const realm = await Realm.open({
-      path: "myrealm",
       schema: [DogSchema],
     });
     let dog;
@@ -182,7 +179,6 @@ describe("React to Changes", () => {
   test("should remove all listeners", async () => {
     // a realm is opened
     const realm = await Realm.open({
-      path: "myrealm",
       schema: [DogSchema],
     });
     let dog;

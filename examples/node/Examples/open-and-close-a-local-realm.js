@@ -15,7 +15,6 @@ describe("Open and Close a Local Realm", () => {
     // Open a local realm file with a particular path & predefined Car schema
     try {
       const realm = await Realm.open({
-        path: "myrealm",
         schema: [Car],
       });
     } catch (err) {
@@ -32,7 +31,6 @@ describe("Open and Close a Local Realm", () => {
     // Synchronously open a local realm file with a particular path & predefined Car schema
     try {
       const synchronouslyOpenedRealm = new Realm({
-        path: "myrealm",
         schema: [Car],
       });
     } catch (err) {

@@ -24,7 +24,6 @@ describe("QuickStart Local", () => {
     async function quickStart() {
       // :code-block-start: open-a-realm
       const realm = await Realm.open({
-        path: "myrealm",
         schema: [TaskSchema],
       });
       // :code-block-end:
