@@ -44,10 +44,10 @@ content: |
         # Create the collection's schema file
         echo '{}' >> data_sources/<service>/<db>/<collection>/schema.json
   
-  The root-level schema for every document must be of type ``object``. You
-  can use additional :doc:`schema types </mongodb/document-schemas>` to
-  configure specific fields within the ``properties`` array. At a minimum, the
-  ``schema`` should resemble the following:
+  The root-level schema for every document must be of type ``object``. You can
+  use additional :ref:`schema <schemas>` to configure specific fields within the
+  ``properties`` array. At a minimum, the ``schema`` should resemble the
+  following:
 
   .. code-block:: javascript
      :caption: /data_sources/<service>/<db>/<collection>/schema.json
