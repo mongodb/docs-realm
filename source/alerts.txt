@@ -1,0 +1,127 @@
+.. _alerts:
+
+==================================
+Activity Feed & {+service+} Alerts
+==================================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Introduction
+------------
+{+atlas+} provides an Activity Feed for each 
+`project <https://docs.atlas.mongodb.com/organizations-projects/#std-label-projects>`_ 
+that displays events that occurred for that project. {+service+} activities are 
+included in this feed, and you can access them through the {+atlas+} UI and the 
+{+atlas+} API.
+
+{+atlas+} Activity Feed
+-----------------------
+The {+atlas+} Activity Feeds show events that have occurred at either the 
+organization level or project level. Within the Project feed, you can find events 
+related to your {+service+} applications. By using the filters, you can view 
+and/or download only {+service+} events.
+
+Access the Project Activity Feed
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+There are two ways to access the Project Activity Feed: through the {+atlas+} UI, and 
+via the Atlas API. The following {+atlas+} documentation pages describe each approach:
+
+- `UI <https://docs.atlas.mongodb.com/tutorial/activity-feed/>`_
+- `API <https://docs.atlas.mongodb.com/reference/api/events-projects-get-all/>`_
+
+You can filter the Project Activity Feed results to show only {+service+} events, 
+or a subset of {+service+} events. To do this, click the 
+:guilabel:`Filter by event(s)` menu and check :guilabel:`Realm`. In the 
+right-hand side of the menu, you will see 
+all {+service+} events selected. De-select any that you do not want to see. The 
+feed list automatically updates with each change you make.
+
+Realm Alerts
+------------
+{+service+} alerts are a subset of 
+`{+atlas+} alerts <https://docs.atlas.mongodb.com/alerts/>`_. The **Target** for 
+all {+service+} alerts is "Realm"; within that target, there are several **types** 
+for you to select:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
+
+   * - Event Type
+     - Condition
+     - Link for More Information
+     - Description 
+
+   * - Sync
+     - Sync Failure
+     - Sync Config
+     - A Sync process has failed and cannot be restarted  
+   
+   * - Sync
+     - Sync Failure
+     - Sync Config
+     - A Sync process has failed and cannot be restarted 
+   
+   * - Trigger 
+     - Trigger Failure
+     - Trigger 
+     - A Trigger has failed and cannot be restarted 
+   
+   * - Deployment
+     - URL Confirmation
+     - Static Hosting
+     - A Custom URL is confirmed for static hosting 
+   
+   * - Deployment
+     - Successful Deploy
+     - Deployment List
+     - A user (or Code Deployment) deploys changes successfully to a Realm application 
+   
+   * - Deployment
+     - Deployment Failure
+     - Deployment List
+     - A user (or Code Deployment) attempts to deploy changes but encounters an error 
+   
+   * - Limit
+     - Request Rate Limit
+     - App Dashboard
+     - An overall request rate limit is hit
+   
+   * - Limit
+     - Free Tier Usage
+     - App Dashboard
+     - The free tier is (75% / 100%) consumed for a Realm SKU
+
+.. TODO: the free tier alert does not show up in the current cloud-dev!!
+
+.. note:: Filtering By Application
+
+   Filtering events by {+service+} application is not supported, but each event 
+   (and its corresponding alert) provides context and routing information for the 
+   appropriate application.
+
+Default Alerts
+~~~~~~~~~~~~~~~
+.. TODO: UI is not showing any default alerts, AFAICT
+
+
+Set Up Custom {+service+} Alerts
+--------------------------------
+For any activity that is not present in the default alerts, you can set a custom 
+alert at the Project level.
+
+You create {+service+} alerts in the same way you 
+`create other {+atlas+} alerts <https://docs.atlas.mongodb.com/configure-alerts/>`_. 
+When creating a new alert, in the :guilabel:`Alert if` section, 
+select :guilabel:`Realm` from the :guilabel:`Target`. 
+The following table highlights the Types that are available to you:
+
+
+
+
