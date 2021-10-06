@@ -6,8 +6,8 @@
 - Added the ability to configure an :ref:`IP Access List <realm-cli-accessList-create>`.
 - Increased function :ref:`execution timeout <function-constraints>` from 90 seconds to 120 seconds.
 - Added the ability to create apps with a Template Starter Application.
-- {+service-short+} Events are now available to view on the :atlas:`Atlas Activity Feed <tutorial/activity-feed/>`.
-  You can configure these events in the :atlas:`Atlas Alert Settings <configure-alerts/>`.
+- {+service-short+} Events are now available to view on the :atlas:`Atlas Activity Feed </tutorial/activity-feed/>`.
+  You can configure these events in the :atlas:`Atlas Alert Settings </configure-alerts/>`.
 
 .. _backend_20210908:
 
