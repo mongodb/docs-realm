@@ -52,6 +52,7 @@ particular development workflow.
      - Details
 
    * - {+ui+}
+     - **Manual**
      - **Use This Method If:**
        
        - You want to use a browser-based GUI to develop and manage
@@ -67,29 +68,9 @@ particular development workflow.
        
        2. Review all draft changes and then deploy them together
           through the {+ui+}.
-
-   * - Automatic GitHub Deployment
-     - **Use This Method If:**
-       
-       - You want to use a code-first approach to app development.
-       - You want to use Git to version control your app.
-       - You want to automatically deploy changes when you push to
-         :github:`GitHub <>`.
-      
-       **Deployment Pattern**
-      
-       *For a detailed walkthrough, see* :doc:`Deploy Automatically
-       with GitHub </manage-apps/deploy/automated/deploy-automatically-with-github>`
-       
-       1. Host your exported application repository on GitHub.
-       
-       2. Add, remove, or modify configuration files in a local clone
-          of the repository to specify your updated application.
-       
-       3. When you've made all the changes that you want to, commit
-          them and push the changes to GitHub.
-
+   
    * - {+cli-bin+}
+     - **Manual**
      - **Use This Method If:**
        
        - You want to use a code-first approach to app development.
@@ -111,6 +92,7 @@ particular development workflow.
           directory.
 
    * - {+service-short+} Admin API
+     - **Manual**    
      - **Use This Method If:**
 
        - You want to use a code-first approach to app development.
@@ -128,6 +110,48 @@ particular development workflow.
        
        3. When you've made all the changes that you want to,
           deploy the draft through the API.
+
+   * - Automatic GitHub Deployment
+     - **Automatic**
+     - **Use This Method If:**
+       
+       - You want to use a code-first approach to app development.
+       - You want to use Git to version control your app.
+       - You want to automatically deploy changes when you push to
+         :github:`GitHub <>`.
+      
+       **Deployment Pattern**
+      
+       *For a detailed walkthrough, see* :doc:`Deploy Automatically
+       with GitHub </manage-apps/deploy/automated/deploy-automatically-with-github>`
+       
+       1. Host your exported application repository on GitHub.
+       
+       2. Add, remove, or modify configuration files in a local clone
+          of the repository to specify your updated application.
+       
+       3. When you've made all the changes that you want to, commit
+          them and push the changes to GitHub.
+
+   * - CI/CD Pipeline with the {+cli-bin+}
+     - **Automatic**
+     - **Use This Method If:**
+       
+       - You want to automatically test and deploy your app whenever you make changes.
+       - You work on a larger app with multiple developers working on the codebase.
+      
+       **Deployment Pattern**
+      
+       *For a detailed walkthrough, see* :ref:`Set Up a CI/CD Pipeline <CI-CD-pipeline>`
+       
+       1. Develop your application and set up staging and production environments
+          and a pipeline for any changes to flow through. 
+       
+       #. Use {+cli-bin+} commands in your pipeline to update the app in response to
+          changes in the configuration files. 
+       
+       #. When you make any changes, they should propagate through the CI/CD Pipeline
+          stages automatically.
 
 .. _app-components:
 
