@@ -14,7 +14,7 @@ public class RealmController : MonoBehaviour
     private VisualTreeAsset leaderboardUXMLVisualTree;
     private VisualTreeAsset scoreCardUXMLVisualTree;
     private VisualTreeAsset authenticationUXMLVisualTree;
-
+    private string uiToolKitPath = "Assets/Scripts/realm-tutorial-unity/UnityProjectScripts/UI ToolKit/";
     private static Realm realm;
     private static int runTime; // total amount of time you've been playing during this playthrough/run (losing/winning resets runtime)
     private static int bonusPoints = 0; // start with 0 bonus points and at the end of the game we add bonus points based on how long you played
@@ -269,8 +269,7 @@ public class RealmController : MonoBehaviour
     #region PrivateMethods
     private void GenerateUIObjects(GameObject canvasGameObject, string uiObjectName)
     {
-        var panelSettings = EditorGUIUtility.Load("Assets/Scripts/realm-tutorial-unity/UI ToolKit/UIPanelSettings.asset");
-
+        var panelSettings = EditorGUIUtility.Load(uiToolKitPath + "UIPanelSettings.asset");
         // create an empty GameObject
         var gameObject = new GameObject();
         // create a UI object to add to the GameObject
@@ -348,9 +347,9 @@ public class RealmController : MonoBehaviour
     private void Start()
     {
         // Load UXML Assets
-        leaderboardUXMLVisualTree = EditorGUIUtility.Load("Assets/Scripts/realm-tutorial-unity/UI ToolKit/Leaderboard.uxml") as VisualTreeAsset;
-        scoreCardUXMLVisualTree = EditorGUIUtility.Load("Assets/Scripts/realm-tutorial-unity/UI ToolKit/ScoreCard.uxml") as VisualTreeAsset;
-        authenticationUXMLVisualTree = EditorGUIUtility.Load("Assets/Scripts/realm-tutorial-unity/UI ToolKit/Authentication.uxml") as VisualTreeAsset;
+        leaderboardUXMLVisualTree = EditorGUIUtility.Load(uiToolKitPath + "Leaderboard.uxml") as VisualTreeAsset;
+        scoreCardUXMLVisualTree = EditorGUIUtility.Load(uiToolKitPath + "ScoreCard.uxml") as VisualTreeAsset;
+        authenticationUXMLVisualTree = EditorGUIUtility.Load(uiToolKitPath + "Authentication.uxml") as VisualTreeAsset;
 
         // Create canvas as a container to hold UIDocuments
         var canvasGameObject = new GameObject();
