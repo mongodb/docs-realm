@@ -163,6 +163,73 @@ class Threading: XCTestCase {
         wait(for: [expectation], timeout: 10)
     }
 
+    func testThreadSafeWrapper() {
+        let expectation = XCTestExpectation(description: "it completes")
+        // :code-block-start: threadsafe-wrapper
+        let realm = try! Realm()
+
+        let person = ThreadingExamples_Person(name: "Jane")
+        try! realm.write {
+            realm.add(person)
+        }
+
+        // Create thread-safe reference to person
+        @ThreadSafe var personRef = person
+
+        // @ThreadSafe vars are always optional. If the referenced object is deleted,
+        // the @ThreadSafe var will be nullified.
+        print("Person's name: \(personRef?.name ?? "unknown")")
+
+        // Pass the reference to a background thread
+        DispatchQueue(label: "background").async {
+            autoreleasepool {
+                let realm = try! Realm()
+                try! realm.write {
+                    // Resolve within the transaction to ensure you get the
+                    // latest changes from other threads. If the person
+                    // object was deleted, personRef will be nil.
+                    guard let person = personRef else {
+                        return // person was deleted
+                    }
+                    person.name = "Jane Doe"
+                }
+                expectation.fulfill() // :remove:
+            }
+        }
+        // :code-block-end:
+
+        wait(for: [expectation], timeout: 10)
+    }
+
+    func testThreadSafeWrapperParameter() async {
+        let expectation = XCTestExpectation(description: "it completes")
+        func someLongCallToGetNewName() async -> String {
+            return "Test"
+        }
+
+        // :code-block-start: threadsafe-wrapper-function-parameter
+        func loadNameInBackground(@ThreadSafe person: ThreadingExamples_Person?) async {
+            let newName = await someLongCallToGetNewName()
+            let realm = try! await Realm()
+            try! realm.write {
+                person?.name = newName
+            }
+            expectation.fulfill() // :remove:
+        }
+
+        let realm = try! await Realm()
+
+        let person = ThreadingExamples_Person(name: "Jane")
+        try! realm.write {
+            realm.add(person)
+        }
+        await loadNameInBackground(person: person)
+        // :code-block-end:
+
+        XCTAssertEqual(person.name, "Test")
+        wait(for: [expectation], timeout: 10)
+    }
+
     func testWriteAsyncExtension() {
         let expectation = XCTestExpectation(description: "it completes")
         // :code-block-start: use-write-async-extension
