@@ -168,7 +168,7 @@ namespace.
 
    * - | ``schema``
        | Document
-     - A :ref:`Document Schema <document-schema-config>`. The root level
+     - A :ref:`document schema <schemas>`. The root level
        schema must be an :ref:`object schema <schema-type-object>`,
        which has the following form:
 
