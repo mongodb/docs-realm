@@ -158,14 +158,15 @@ class property, or on a function parameter.
 .. example::
 
    The following example shows how to use ``@ThreadSafe`` on a function
-   parameter.
+   parameter. This is useful for functions that may run asynchronously
+   or on another thread.
 
    .. literalinclude:: /examples/generated/code/start/Threading.codeblock.threadsafe-wrapper-function-parameter.swift
       :language: swift
 
 
-Use the @ThreadSafe Wrapper (Legacy Swift / Objective-C)
-````````````````````````````````````````````````````````
+Use ThreadSafeReference (Legacy Swift / Objective-C)
+````````````````````````````````````````````````````
 
 Before Realm Swift SDK version 10.17.0 or in Objective-C, you can pass
 thread-confined instances to another thread as follows:
