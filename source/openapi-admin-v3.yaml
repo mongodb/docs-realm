@@ -1239,7 +1239,7 @@ paths:
       operationId: "adminSetAllowedRequestOrigins"
       summary: >-
         Set the allowed :mdn:`HTTP origins <Web/HTTP/Headers/Origin>`
-        from which MongoDB Realm should allow requests.
+        from which {+service+} should allow requests.
       requestBody:
         required: true
         description: >-
@@ -1289,7 +1289,7 @@ paths:
       tags: ["security"]
       operationId: "allowedIPAccessListCreate"
       summary: >-
-        Create an IP address or CIDR block in the Access List for your Realm app
+        Create an IP address or CIDR block in the Access List for your {+app+}.
       responses:
         '201':
           description: ""
@@ -1312,7 +1312,7 @@ paths:
       tags: ["security"]
       operationId: "allowedIPAccessListUpdate"
       summary: >-
-        Modify an IP address or CIDR block in the Access List of your Realm app
+        Modify an IP address or CIDR block in the Access List of your {+app+}
       responses:
         '201':
           description: ""
@@ -1331,14 +1331,14 @@ paths:
       - $ref: "#/components/parameters/AppId"
       - name: ip_id
         in: path
-        description: The IP address entry denoted by ip_id with the information given in the request body
+        description: The IP address entry denoted by ``ip_id`` with the information given in the request body
         schema: {type: string}
         required: True           
     delete:
       tags: ["security"]
       operationId: "allowedIPAccessListDelete"
       summary: >-
-        Delete an IP address or CIDR block from the Access List of your Realm app
+        Delete an IP address or CIDR block from the Access List of your {+app+}
       responses:
         "404":
           description: "No IP addresses or CIDR blocks to delete"
@@ -1347,7 +1347,7 @@ paths:
       - $ref: "#/components/parameters/AppId"
       - name: ip_id
         in: path
-        description: The IP address entry denoted by ip_id with the information given in the request body
+        description: The IP address entry denoted by ``ip_id`` with the information given in the request body
         schema: {type: string}
         required: True
 
