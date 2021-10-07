@@ -148,12 +148,11 @@ You can pass thread-confined instances to another thread as follows:
    :language: swift
 
 Another way to work with an object on another thread is to query for it
-again on that thread. But this can get complicated when the object does
-not have a :ref:`primary key
-<ios-find-a-specific-object-by-primary-key>`. You can use the
-``@ThreadSafe`` wrapper on any object, regardless of whether it has a
-primary key. You can also use it on lists and results, on a struct or
-class property, or on a function parameter.
+again on that thread. But if the object does not have a :ref:`primary
+key <ios-find-a-specific-object-by-primary-key>`, it is not trivial to
+query for it. You can use the ``@ThreadSafe`` wrapper on any object,
+regardless of whether it has a primary key. You can also use it on lists
+and results, on a struct or class property, or on a function parameter.
 
 .. example::
 
@@ -186,11 +185,11 @@ thread-confined instances to another thread as follows:
    :language: swift
 
 Another way to work with an object on another thread is to query for it
-again on that thread. But this can get complicated when the object does
-not have a :ref:`primary key
-<ios-find-a-specific-object-by-primary-key>`. You can use
-``ThreadSafeReference`` on any object, regardless of whether it has a
-primary key. You can also use it with lists and results.
+again on that thread. But if the object does not have a :ref:`primary
+key <ios-find-a-specific-object-by-primary-key>`, it is not trivial to
+query for it. You can use ``ThreadSafeReference`` on any object,
+regardless of whether it has a primary key. You can also use it with
+lists and results.
 
 The downside is that ``ThreadSafeReference`` requires some boilerplate.
 You must remember to wrap everything in an ``autoreleasepool`` so the
