@@ -36,6 +36,9 @@ documentation pages describe each approach:
 - :atlas:`View Activity Feed in the UI </tutorial/activity-feed/>`
 - :atlas:`Get All Project Events via the API </reference/api/events-projects-get-all/>`
 
+Filter Activities
+~~~~~~~~~~~~~~~~~
+
 You can filter the Project Activity Feed results to show only {+service-short+} 
 events, or a subset of {+service-short+} events. To do this, click the 
 :guilabel:`Filter by event(s)` menu and check :guilabel:`Realm`. In the 
@@ -43,8 +46,16 @@ right-hand side of the menu, you will see
 all {+service-short+} events selected. De-select any that you do not want to see. 
 The feed list automatically updates with each change you make.
 
-Realm Activities
-----------------
+.. note:: Filtering By {+service-short+} Application
+
+   Filtering events by {+service-short+} application is not supported, but each event 
+   (and its corresponding alert) provides context and routing information for the 
+   appropriate application.
+
+
+{+service-short+} Activities
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 {+service-short+} activities are a subset of 
 :atlas:`{+atlas-short+} alerts </alerts/>`. The **Target** for 
 all {+service-short+} activities is "Realm"; within that target, there are 
@@ -52,7 +63,7 @@ several **event types**:
 
 .. list-table::
    :header-rows: 1
-   :widths: 20 25 55
+   :widths: 25 20 55
 
    * - Event Type
      - Condition
@@ -71,7 +82,8 @@ several **event types**:
      - A Trigger has failed and cannot be restarted 
    
    * - :ref:`Deployment <static-hosting>` 
-     - URL Confirmation (Static Hosting)
+     - | URL Confirmation 
+         (Static Hosting)
      - A Custom URL is confirmed for static hosting 
    
    * - :ref:`Deployment <application-deployment>` 
@@ -90,13 +102,7 @@ several **event types**:
      - Free Tier Usage
      - Occurs twice when the free tier is at 75% and then 100% consumption
 
-.. TODO: the free tier alert does not show up in the current cloud-dev!!
-
-.. note:: Filtering By Application
-
-   Filtering events by {+service-short+} application is not supported, but each event 
-   (and its corresponding alert) provides context and routing information for the 
-   appropriate application.
+.. TODO: the free tier activity does not show up in the current cloud-dev!!
 
 {+service-short+} Alerts
 ------------------------
@@ -109,7 +115,7 @@ Default Alerts
 Default {+service-short+} alerts trigger a notification and email to the 
 Project Owners. The four default {+service-short+} alerts occur when:
 
-- A Sync process fails and cannot be restarted  
+- A {+sync-short+} process fails and cannot be restarted  
 
 - A trigger fails and cannot be restarted
 
