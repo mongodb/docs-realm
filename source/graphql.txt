@@ -45,9 +45,9 @@ Overview
 The {+service+} :graphql:`GraphQL <>` API allows client applications to access
 data stored in a linked MongoDB cluster using any standard GraphQL client.
 {+service-short+} automatically creates GraphQL types for every linked
-collection that has a defined :doc:`document schema
-</mongodb/enforce-a-document-schema>` and evaluates :doc:`role-based permissions
-</mongodb/define-roles-and-permissions>` for all GraphQL requests.
+collection that has a defined :doc:`schema <schemas>` and evaluates
+:doc:`role-based permissions </mongodb/define-roles-and-permissions>` for all
+GraphQL requests.
 
 .. note:: Create an Atlas Cluster for Free
 
@@ -105,10 +105,9 @@ type, see :doc:`Expose Data in a Collection </graphql/expose-data>`.
 Queries
 ~~~~~~~
 
-A GraphQL **query** is a read operation that requests specific fields
-from one or more types. {+service-short+} automatically generates query types for
-documents in each collection that has a defined :doc:`schema
-</mongodb/enforce-a-document-schema>`.
+A GraphQL **query** is a read operation that requests specific fields from one
+or more types. {+service-short+} automatically generates query types for
+documents in each collection that has a defined :ref:`schema <schemas>`.
 
 For more information and examples, including a list of all automatically
 generated query types, see :ref:`Query Resolvers
@@ -153,11 +152,10 @@ generated query types, see :ref:`Query Resolvers
 Mutations
 ~~~~~~~~~
 
-A GraphQL **mutation** is a write operation that creates, modifies, or
-deletes one or more documents. {+service-short+} automatically generates mutation
-types for documents in each collection that has a defined :doc:`schema
-</mongodb/enforce-a-document-schema>`. {+backend+} uses transactions to ensure
-safe writes via mutations.
+A GraphQL **mutation** is a write operation that creates, modifies, or deletes
+one or more documents. {+service-short+} automatically generates mutation types
+for documents in each collection that has a defined :ref:`schema <schemas>`.
+{+backend+} uses transactions to ensure safe writes via mutations.
 
 For more information and examples, including a list of all automatically
 generated mutation types, see :ref:`Mutation Resolvers
