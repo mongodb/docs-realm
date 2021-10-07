@@ -981,7 +981,7 @@ paths:
     post:
       tags: ["email"]
       operationId: "adminSendConfirmationEmail"
-      summary: "Send a :doc:`confirmation email </authentication/email-password>`."
+      summary: "Send a :doc:`confirmation email </email-password>`."
       responses:
         '200':
           description: "Successfully sent."
@@ -1243,7 +1243,7 @@ paths:
       requestBody:
         required: true
         description: >-
-          A list of HTTP origins.
+          A list of HTTP origins. 
         content:
           application/json:
             schema:

@@ -60,6 +60,41 @@ class MongoDBRemoteAccessTestCase: XCTestCase {
         wait(for: [expectation], timeout: 10)
     }
 
+    func testAsyncAwaitInsert() async {
+        do {
+            // Use the async method to login
+            let user = try await app.login(credentials: Credentials.anonymous)
+            print("Login as \(user) succeeded!")
+        } catch {
+            print("Login failed: \(error.localizedDescription)")
+        }
+
+        // mongodb-atlas is the cluster service name
+        let client = app.currentUser!.mongoClient("mongodb-atlas")
+
+        // Select the database
+        let database = client.database(named: "ios")
+
+        // Select the collection
+        let collection = database.collection(withName: "CoffeeDrinks")
+
+        // :code-block-start: async-await-insert
+        // This document represents a CoffeeDrink object
+        let drink: Document = [ "name": "Bean of the Day", "beanRegion": "Timbio, Colombia", "containsDairy": "false", "partition": "Store 43"]
+
+        do {
+            // Use the async collection method to insert the document
+            let objectId = try await collection.insertOne(drink)
+            // :hide-start:
+            XCTAssertNotNil(objectId)
+            // :hide-end:
+            print("Successfully inserted a document with id: \(objectId)")
+        } catch {
+            print("Call to MongoDB failed: \(error.localizedDescription)")
+        }
+        // :code-block-end:
+    }
+
     func testInsertMany() {
         let expectation = XCTestExpectation(description: "Multiple documents are inserted")
 

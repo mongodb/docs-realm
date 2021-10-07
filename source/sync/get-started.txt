@@ -1,8 +1,9 @@
 .. _realm-sync-get-started:
+.. _enable-sync:
 
-=====================
-Get Started with Sync
-=====================
+===================================
+Get Started with MongoDB Realm Sync
+===================================
 
 .. default-domain:: mongodb
 
@@ -15,49 +16,168 @@ Get Started with Sync
 Overview
 --------
 
-{+sync+} enables you to share data across devices, between :term:`{+service-short+}
-clients <{+service-short+} client>` and a :term:`synced {+atlas+} cluster <synced
-cluster>`.
+This guide covers the high level steps to add Realm Sync to any app. You will
+learn:
 
-.. _enable-sync:
+- how to enable and configure Sync in a server-side Realm App
+- how to connect to the Realm App and set up Sync in your client app with a Realm SDK
 
-Enable Sync
------------
+.. tip:: Check out the tutorial
+   
+   If you prefer to learn by example, check out the Realm :ref:`tutorial
+   <tutorial>`, which describes how to build a synced Task Tracker application
+   with clients for common platforms that Realm supports.
 
-You can enable {+sync-short+} on any {+app+} you have :ref:`created <create-a-realm-app>`.
+Before You Start
+----------------
 
-.. include:: /includes/mongodb-4.4-required-for-sync-admonition.rst
+- If you don't already have one, `sign up for a free MongoDB Atlas account
+  <https://www.mongodb.com/cloud/atlas/register?tck=docs_realm>`__.
+
+- Ensure that you have a MongoDB Atlas cluster that runs MongoDB version 4.4 or
+  later. You can use a free shared M0 cluster to explore and develop your app.
+  We recommend that you use a dedicated tier cluster (M10 and above) for
+  production applications.
+
+- If you don't already have one, :ref:`create a new Realm App
+  <create-a-realm-app>` linked to your Atlas cluster.
+
+Define Your Data Model
+----------------------
+
+Choose an SDK
+~~~~~~~~~~~~~
+
+The :ref:`Realm SDKs <realm-sdks>`, available for multiple languages and
+platforms, include everything you need to work with synced Realms in your client
+application code. You can use multiple SDKs to work with the same set of synced
+data across devices and platforms.
+
+This guide focuses on configuring sync with an SDK. For in-depth documentation
+that includes details on how to install and use the Realm SDKs more generally,
+check out the SDK docs:
+
+- :ref:`Android SDK <android-intro>`
+- :ref:`iOS SDK <ios-intro>`
+- :ref:`.NET SDK <dotnet-intro>`
+- :ref:`Node.js SDK <node-intro>`
+- :ref:`React Native SDK <react-native-intro>`
+- :ref:`Kotlin Multiplatform SDK <kotlin-multiplatform-intro>`
+- :ref:`Flutter SDK (Preview) <flutter-intro>`
 
 .. note::
 
-   {+service-short+} syncs all data from collections with a defined
-   :ref:`{+backend-schema+} <mongodb-schemas>` in your :term:`Atlas cluster <linked
-   cluster>`. If you do not specify a field in your schema, Realm will not sync that
-   field to the clients.
+   The Web SDK does not currently support Realm Database or Realm Sync directly.
+   However, it is compatible with apps that use sync through the MongoDB and
+   GraphQL APIs.
 
-.. include:: /includes/steps/enable-sync-ui.rst
+Define Object Models
+~~~~~~~~~~~~~~~~~~~~
+
+A synced realm uses object models that you define to determine the type of
+objects in the realm. Additionally, Sync requires a server-side document schema
+for each synced object type so that Realm can translate and apply changes
+between synced realms and MongoDB Atlas.
+
+To define your synced object models, do one of the following for each object
+type:
+
+- **Sync object models from an SDK:** In :ref:`development mode
+  <concept-development-mode>`, Realm automatically generates a document schema
+  for each synced object type and assigns that schema to a collection in the
+  linked cluster with the same name as the object type. Development mode lets
+  you configure your synced data model from a client application using the same
+  object models and code that you use in your production app. This is useful if
+  you prefer a client-first approach that uses idiomatic object models in your
+  preferred programming language.
+  
+  For a walkthrough of how to turn on development mode, see :ref:`Enable
+  Development Mode <enable-development-mode>`.
+  
+  .. tip:: Development Mode Configurations
+     
+     Development mode requires you to specify a partition key and database to
+     hold synced data.
+     
+     You may not know exactly what you want either of these to be long term, but
+     that's okay. You can always use a placeholder value like ``_partition`` or
+     ``devModeDatabase`` while you build your data model and then change it
+     later before you push to production.
+
+- **Generate object models from a document schema:** Realm can automatically
+  generate language-specific object models that you can use in your client
+  applications. The generated models match the document schemas defined for your
+  app's synced cluster. You can define these schemas manually or Realm can
+  sample existing data in the cluster to create them automatically. This is
+  useful if you prefer a server-first approach and/or plan to build apps with
+  multiple SDKs.
+  
+  For a walkthrough of how to generate your object models based on server-side
+  document schemas, see :ref:`Generate SDK Object Models
+  <generate-sdk-object-models>`.
+  
+  Once you have the generated object models, you can copy them directly into
+  your client application and use them the same way you would any regular object
+  or struct in your preferred programming language.
+
+Configure and Enable Sync
+-------------------------
+
+Once you have decided on your app's data model, you can define a partition
+strategy and access rules for your app's data.
+
+Define Data Access Rules
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+Data access rules determine how Realm divides your app's data into synced
+partitions as well as each user's ability to read and write data. Rules are
+closely linked to your app's data model.
+
+To design effective rules, :ref:`choose a partition strategy
+<partition-strategies>` and corresponding :ref:`read and write permissions
+<sync-permissions>` that match your app's data model and access patterns.
+
+.. important:: Define Rules for Production Apps
+   
+   In development mode, Realm does not enforce any rules and doesn't ask you to
+   define any. This allows you to develop your data models faster but is not
+   secure for user-facing apps.
+   
+   If you're using development mode to define your app's object models, you can
+   skip this step for now. However, you should disable development mode and
+   define rules before you push your app to production.
+
+Enable Sync
+~~~~~~~~~~~
+
+Once you have defined a data model and corresponding access rules, you can
+enable sync for your app. For a walkthrough of how to turn on sync, see
+:ref:`Define Sync Rules <sync-rules>`.
 
 Best Practices
 --------------
 
-We recommend following these best practices to ensure optimal {+app+}
-performance:
+In addition to the information in this guide, we recommend following these best
+practices to ensure optimal performance and a smooth user experience:
+
+Avoid destructive changes:
+  Once you've enabled sync, there are limitations on how you can modify your
+  data model. Specifically, sync does not support destructive changes to your
+  object types such as changing a given property's type. If you want to make a
+  destructive change you need to terminate and re-enable sync with the updated
+  data models.
+
+Define a client reset handler:
+  To recover from a serious error conditions where the client and server
+  histories diverge, you should define a :ref`client reset <client-resets>`
+  handler when you open each synced realm with an SDK.
 
 Deployment model and geographic regions:
-  Use a local {+service-short+} :ref:`deployment model<realm-local-deployment>` 
-  when building a {+sync+} application. Configure your {+app+} and
-  MongoDB data source to run within the same geographic region and cloud
-  provider.
+  Use a local {+service-short+} :ref:`deployment model<realm-local-deployment>`
+  when building a {+sync+} application. Configure your {+app+} and MongoDB data
+  source to run within the same geographic region and cloud provider.
 
 Atlas oplog:
-  {+sync+} requires access to the {+atlas+} oplog. For best results,
-  keep 48 hours of oplog for a cluster using {+sync-short+}. 
-
-.. seealso::
-
-   :atlas:`Atlas oplog </reference/atlas-oplog>`
-
-Summary
--------
-
-- You can enable {+sync+} on your :term:`linked cluster` for any {+app+} you have created.
+  {+sync+} requires access to the :atlas:`oplog </reference/atlas-oplog>` of
+  your synced cluster. For best results, keep 48 hours of oplog for a cluster
+  using {+sync-short+}.

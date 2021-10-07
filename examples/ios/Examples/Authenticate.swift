@@ -187,6 +187,28 @@ class Authenticate: XCTestCase {
         wait(for: [expectation], timeout: 10)
     }
 
+    func testAsyncAwaitLogin() async {
+        let expectation = XCTestExpectation(description: "login completes")
+        // :code-block-start: async-await
+        func login() async {
+            do {
+                let app = App(id: YOUR_REALM_APP_ID)
+                // Authenticate with the instance of the app that points
+                // to your backend. Here, we're using anonymous login.
+                let user = try await app.login(credentials: Credentials.anonymous)
+                print("Successfully logged in user: \(user)")
+                // :hide-start:
+                expectation.fulfill()
+                // :hide-end:
+            } catch {
+                print("Failed to log in user: \(error.localizedDescription)")
+            }
+        }
+        // :code-block-end:
+        await login()
+        wait(for: [expectation], timeout: 10)
+    }
+
     func testAnonymousCredentials() {
         let expectation = XCTestExpectation(description: "login completes")
 

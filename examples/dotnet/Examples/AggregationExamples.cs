@@ -35,10 +35,7 @@ namespace Examples
             user = app.LogInAsync(Credentials.EmailPassword("foo@foo.com", "foobar")).Result;
             config = new SyncConfiguration("myPart", user);
             //:hide-start:
-            config.ObjectClasses = new[]
-            {
-                typeof(Plant)
-            };
+            config.Schema = new[] { typeof(Plant) };
             //:hide-end:
             SetupPlantCollection();
 

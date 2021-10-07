@@ -1,0 +1,37 @@
+title: Authenticate a MongoDB Atlas User
+ref: authenticate-atlas-user
+content: |
+  .. include:: /includes/api-authenticate-instructions.rst
+
+---
+title: Get the Group ID
+ref: get-group-id
+content: |
+  To delete a {+app+} you will need to find the Group ID in Atlas.
+
+  :ref:`Follow these steps <find-your-project-id>` and save the Group ID for the last step.
+
+---
+title: Create a new Realm App
+ref: app-creation-endpoint
+content: |
+  You can create a new {+app+} through the :admin-api-endpoint:`create endpoint <post-/groups/%7Bgroupid%7D/apps>`.
+
+  Your request should include: 
+
+  - The ``access_token`` from step 1 in a :mdn:`Bearer token <Web/HTTP/Authentication>` ``Authorization`` header.
+  
+  - The :ref:`Group ID <realm-api-project-and-application-ids>` from step 2.
+
+  .. code-block:: shell
+
+     curl --request POST 'https://realm.mongodb.com/api/admin/v3.0/groups/<GroupID>/apps' \
+       --header 'Authorization:  Bearer <access token>' \
+       --header 'Content-Type: application/json' \
+       --data '{"name": "<name of new app>"}'
+
+  If creation succeeds, the {+backend+} returns a ``201`` response and a JSON document.
+
+  .. seealso::
+
+     :admin-api-endpoint:`API Documentation for the create endpoint <post-/groups/%7Bgroupid%7D/apps>`

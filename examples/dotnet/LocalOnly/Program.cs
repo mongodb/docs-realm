@@ -125,7 +125,7 @@ namespace LocalOnly
             //:code-block-start:subset
             var config = new RealmConfiguration()
             {
-                ObjectClasses = new Type[]
+                Schema = new Type[]
                 {
                     typeof(AClassWorthStoring),
                     typeof(AnotherClassWorthStoring)
