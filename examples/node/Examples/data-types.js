@@ -34,21 +34,22 @@ const BusinessSchema = {
 };
 // :code-block-end:
 
-describe("Node.js Data Types", () => {
-  test("should create, update and query Realm dictionaries", async () => {
-    // :code-block-start: define-dictionary-in-schema
-    const PersonSchema = {
-      name: "Person",
-      properties: {
-        name: "string",
-        home: "{}",
-      },
-    };
-    // :code-block-end:
+// :code-block-start: define-dictionary-in-schema
+const PersonSchema = {
+  name: "Person",
+  properties: {
+    name: "string",
+    home: "{}",
+  },
+};
+// :code-block-end:
 
+describe("Node.js Data Types", () => {
+  test.skip("should create, update and query Realm dictionaries", async () => {
     const realm = await Realm.open({
-      schema: [PersonSchema],
+      schema: [AddressSchema, ContactSchema, BusinessSchema, PersonSchema],
     });
+    console.log(realm.path);
 
     // :code-block-start: create-realm-obj-with-dictionary
     let johnDoe;
@@ -155,6 +156,7 @@ describe("Node.js Data Types", () => {
 
     const realm = await Realm.open({
       schema: [DogSchema],
+      deleteRealmIfMigrationNeeded: true,
     });
 
     // :code-block-start: create-objects-with-mixed-values

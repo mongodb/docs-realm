@@ -19,6 +19,7 @@ describe("Node Landing Page", () => {
     // open a local realm with the 'Cat' schema
     const realm = await Realm.open({
       schema: [Cat],
+      deleteRealmIfMigrationNeeded: true,
     });
     // :code-block-end:
     let cat1, cat2, cat3;

@@ -518,6 +518,7 @@ describe("Read & Write Data", () => {
   test("should delete all objects", async () => {
     // a realm is opened
     const realm = await Realm.open({
+      deleteRealmIfMigrationNeeded: true,
       schema: [CatSchema, TaskSchema],
     });
     let cat1, cat2, task1, task2;
