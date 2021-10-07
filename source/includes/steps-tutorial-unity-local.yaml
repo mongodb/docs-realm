@@ -325,13 +325,13 @@ ref: set-logged-in-user
 content: |
   In the ``RealmController.cs`` file, you will need to implement a function to set
   the logged-in user. The ``AuthenticationManager.cs`` file calls this function
-  when a user clicks the "Login & Start" button.
+  when a user clicks the :guilabel:`Login & Start` button.
   
-  The ``RealmController.SetLoggedInUser()`` method takes a string, userInput.
+  The ``RealmController.SetLoggedInUser()`` method takes a string, ``userInput``.
   You will create code to do the following in this method:
   
   - Query the {+realm+} to determine if a ``Player`` object already exists for the
-    given userInput. 
+    given ``userInput``. 
   - Create an if-else block that creates a new ``Player`` and a new ``Stat`` {+realm+}
     object if the ``Player`` does not exist, and uses the existing ``Player`` and
     creates a new ``Stat`` object if the ``Player`` does exist.
@@ -343,7 +343,7 @@ content: |
 
   After the above code is executed, the ``RealmController.SetLoggedInUser()``
   function calls ``startGame()`` to begin the timer. The timer increments the
-  RealmController's runTime variable, and we use the runTime variable to
+  RealmController's ``runTime`` variable, and we use the ``runTime`` variable to
   calculate bonus points in the ``playerWon()`` method when the game has
   completed.
 ---
@@ -352,7 +352,7 @@ ref: watch-for-changes-to-stat-object
 content: |
   You've set the current Scorecard to the initial playthrough statistics for the
   current playthrough of the game, but collecting tokens or defeating
-  enemies will not impact the current ``Stat`` object yet. To fix that, you'll edit the
+  enemies will not impact the current ``Stat`` object yet. To implement that, you'll edit the
   ``CollectToken()`` and ``DefeatEnemy()`` methods in the ``RealmController``.
 
 
@@ -415,8 +415,8 @@ content: |
   the following when the ``Player`` wins the game:
 
   - Call the ``RealmController.PlayerWon()`` method to calculate and write the final score to {+realm+}
-  - Displays a dialog with the final score
-  - Respawns the ``Player`` and restarts the game if the ``Player`` clicks the restart button
+  - Display a dialog with the final score
+  - Respawn the ``Player`` and restarts the game if the ``Player`` clicks the restart button
 
 
   Navigate to the Platformer Microgame file, ``/Assets/Scripts/Gameplay/PlayerEnteredVictoryZone.cs``,
