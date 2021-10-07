@@ -43,15 +43,16 @@ right-hand side of the menu, you will see
 all {+service-short+} events selected. De-select any that you do not want to see. 
 The feed list automatically updates with each change you make.
 
-Realm Alerts
-------------
-{+service-short+} alerts are a subset of 
+Realm Activities
+----------------
+{+service-short+} activities are a subset of 
 :atlas:`{+atlas-short+} alerts </alerts/>`. The **Target** for 
-all {+service-short+} alerts is "Realm"; within that target, there are several 
-**types** for you to select:
+all {+service-short+} activities is "Realm"; within that target, there are 
+several **event types**:
 
 .. list-table::
    :header-rows: 1
+   :widths: 20 25 55
 
    * - Event Type
      - Condition
@@ -65,7 +66,7 @@ all {+service-short+} alerts is "Realm"; within that target, there are several
      - Sync Failure
      - A Sync process has failed and cannot be restarted 
    
-   * - :ref:`Trigger <triggers>` 
+   * - :ref:`Trigger <trigger-types>` 
      - Trigger Failure
      - A Trigger has failed and cannot be restarted 
    
@@ -85,7 +86,7 @@ all {+service-short+} alerts is "Realm"; within that target, there are several
      - Request Rate Limit
      - An overall request rate limit is hit
    
-   * - :atlas:`Limit <reference/free-shared-limitations/>`
+   * - :atlas:`Limit </reference/free-shared-limitations/>`
      - Free Tier Usage
      - Occurs twice when the free tier is at 75% and then 100% consumption
 
@@ -97,20 +98,33 @@ all {+service-short+} alerts is "Realm"; within that target, there are several
    (and its corresponding alert) provides context and routing information for the 
    appropriate application.
 
+{+service-short+} Alerts
+------------------------
+There are default alerts that map to four of the activities listed above. In 
+addition, you can create custom alerts for the other {+service-short+} 
+activities.
+
 Default Alerts
 ~~~~~~~~~~~~~~~
+Default {+service-short+} alerts trigger a notification and email to the 
+Project Owners. The four default {+service-short+} alerts occur when:
 
-.. TODO: UI is not showing any default alerts, AFAICT
+- A Sync process fails and cannot be restarted  
 
+- A trigger fails and cannot be restarted
 
-Set Up Custom {+service-short+} Alerts
---------------------------------------
-For any activity that is not present in the default alerts, you can set a custom 
+- A {+service-short+} application hits an overall request rate limit
+
+- A {+service-short+} application's free tier is 75% / 100% exceeded
+
+Custom {+service-short+} Alerts
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+For any activity that is not mapped to a default alert, you can set a custom 
 alert at the Project level.
 
 You create {+service-short+} alerts in the same way you 
 `create other {+atlas-short+} alerts <https://docs.atlas.mongodb.com/configure-alerts/>`_. 
-When creating a new alert, in the :guilabel:`Alert if` section, 
+When creating a new alert, in the ":guilabel:`Alert if`" section, 
 select :guilabel:`Realm` from the :guilabel:`Target`. 
 
 
