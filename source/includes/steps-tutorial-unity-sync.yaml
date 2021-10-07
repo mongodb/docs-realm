@@ -9,7 +9,7 @@ content: |
   </sync/get-started>` guide. When enabling {+sync-short+}, you will need to configure your app to:
 
   - use ``Development Mode``. 
-  - add a required :doc:`Partition Key </sync/partitions>` with the name ``"_partition"`` and with the type ``string``.
+  - add a required :ref:`Partition Key <sync-partitions>` with the name ``"_partition"`` and with the type ``string``.
 ---
 title: Connect to Your MongoDB Realm App
 ref: connect-your-mongodb-realm-app
@@ -75,7 +75,7 @@ content: |
   .. literalinclude:: /tutorial/generated/unity/AuthenticationManager.codeblock.add-sync-login-click-handler.cs
      :language: csharp
   
-  Notice that there is now a password parameter for the ``RealmController.SetLoggedInUser()`` method, you will update that method in the next step.
+  Notice that there is now a password parameter for the ``RealmController.SetLoggedInUser()`` method. You will update that method in the next step.
 
   Finally, create an ``AuthenticationManager.OnPressRegister()`` method that calls a ``RealmController.OnPressRegister()`` method that you will create in the next step:
 
@@ -86,11 +86,11 @@ content: |
 title: Setup Authentication in your Game
 ref: enable-email-pass-auth
 content: |
-  Currently, the project's only form of authentication is a username input,
-  lets replace that in the code with {+realm+} :doc:`Email/Password
+  Currently, the project's only form of authentication is a username input.
+  Let's replace that in the code with {+realm+} :doc:`Email/Password
   Authentication </sdk/dotnet/examples/manage-email-password-users>`
 
-  In the ``RealmController.cs`` replace the ``SetLoggedInUser()`` with an
+  In the ``RealmController.cs``, replace the ``SetLoggedInUser()`` with an
   asynchronous method that logs in using the :dotnet-sdk:`LogInAsync()
   <reference/Realms.Sync.App.html#Realms_Sync_App_LogInAsync_Realms_Sync_Credentials_>`
   method to authenticate and obtain a :dotnet-sdk:`User
@@ -112,7 +112,7 @@ content: |
   Finally, replace the ``RealmController.LogOut()`` method with the
   ``RealmController.LogOutBackend()`` method below that calls
   :dotnet-sdk:`User.LogOutAsync()
-  <reference/Realms.Sync.User.html#Realms_Sync_User_LogOutAsync>` to log out of
+  <reference/Realms.Sync.User.html#Realms_Sync_User_LogOutAsync>` to log out
   the {+realm+} user when log out button is clicked.
 
   .. literalinclude:: /tutorial/generated/unity/RealmController.codeblock.logout-backend.cs
