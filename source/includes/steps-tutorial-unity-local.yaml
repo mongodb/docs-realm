@@ -188,7 +188,7 @@ content: |
          the structure of the Leaderboard user interface.
      
      * - RealmScripts/LeaderboardManager.cs
-       - Query {+service-short+} and display the top ``Stat`` objects.
+       - :ref:`Query {+service-short+} <dotnet-read-from-realm>` and display the top ``Stat`` objects.
 
      * - UI Toolkit/ScoreCard.uxml
        - `UXML <https://docs.unity3d.com/Manual/UIE-UXML.html>`_ file; defines
@@ -203,13 +203,15 @@ content: |
 
      * - RealmScripts/AuthenticationManager.cs
        - Interacts with the TextField's of AuthenticationScreen.uxml to
-         implement user login. In part 2, you'll add user authentication with the
-         {+backend+} Email/Password provider.
+         implement user login. In part 2, you'll add :ref:`user authentication
+         <dotnet-login-email-password>` with the {+backend+}
+         :ref:`Email/Password <email-password-authentication>` provider.
 
      * - RealmScripts/RealmController.cs
-       - Open a {+realm+}, query the {+realm+} for an existing ``Player`` or create
-         a new one and a new ``Stat`` for the current playthrough. Perform write
-         transactions on the {+realm+} objects.
+       - Open a {+realm+}, :ref:`query {+service-short+} <dotnet-read-from-realm>` the {+realm+}
+         for an existing ``Player`` or create a new one and a new ``Stat`` for the current
+         playthrough. Perform :ref:`write transactions <dotnet-write-transactions>` on the {+realm+}
+         objects.
 
      * - RealmScripts/PlayerModel.cs
        - Defines the ``Player`` :ref:`{+frontend-schema+} <dotnet-object-models-and-schemas>`.
@@ -218,7 +220,7 @@ content: |
        - Defines the playthrough ``Stat`` :ref:`{+frontend-schema+} <dotnet-object-models-and-schemas>`.
 
      * - RealmScripts/Constants.cs (Part 2)
-       - Part 2: Declare the {+backend-short+} App ID for the {+sync+} portion of the tutorial.
+       - Part 2: Declare the {+backend-short+} :ref:`App ID <find-your-project-or-app-id>` for the {+sync+} portion of the tutorial.
 
 ---
 title: Explore the Schemas
