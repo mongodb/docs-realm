@@ -18,8 +18,8 @@ Introduction
 :atlas:`project </organizations-projects/#std-label-projects>`
 that displays events for the project. {+service-short+} activities are included 
 in this feed, and you can access them through the {+atlas-short+} UI and the 
-{+atlas-short+} API. By using the available filters, you can view 
-and/or download only {+service-short+} events.
+{+atlas-short+} API. To view and/or download only {+service-short+} events, you 
+can specify a filter, as described below.
 
 Project Activity Feed
 ---------------------
@@ -33,27 +33,24 @@ documentation pages describe each approach:
 Filter Activities
 ~~~~~~~~~~~~~~~~~
 
-You can filter the Project Activity Feed results to show only {+service-short+} 
-events, or a subset of {+service-short+} events. To do this, click the 
+{+service-short+} activities are a subset of 
+:atlas:`{+atlas-short+} alerts </alerts/>`. You can filter the Project Activity 
+Feed results to show only {+service-short+} events, or a subset of 
+{+service-short+} events. To do this, click the 
 :guilabel:`Filter by event(s)` menu and check :guilabel:`Realm`. In the 
 right-hand side of the menu, you will see 
-all {+service-short+} events selected. De-select any that you do not want to see. 
+all {+service-short+} events selected. Deselect any that you do not want to see. 
 The feed list automatically updates with each change you make.
 
 .. note:: Filtering By {+service-short+} Application
 
-   Filtering events by {+service-short+} application is not supported, but each event 
-   (and its corresponding alert) provides context and routing information for the 
-   appropriate application.
+   The Activity Feed does not support filtering events by {+service-short+} 
+   application, but each event (and its corresponding alert) provides context 
+   and routing information for the appropriate application.
 
-
-{+service-short+} Activities
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-{+service-short+} activities are a subset of 
-:atlas:`{+atlas-short+} alerts </alerts/>`. The **Target** for 
-all {+service-short+} activities is "Realm"; within that target, there are 
-several **event types**:
+The **Category** for 
+all {+service-short+} activities is "Realm"; within that category, there are 
+several **Events**:
 
 .. list-table::
    :header-rows: 1
@@ -73,7 +70,7 @@ several **event types**:
    
    * - :ref:`Deployment <static-hosting>` 
      - | URL Confirmation 
-         (Static Hosting)
+         for Static Hosting
      - A Custom URL is confirmed for static hosting 
    
    * - :ref:`Deployment <application-deployment>` 
@@ -86,7 +83,10 @@ several **event types**:
    
    * - :ref:`Limit <mongodb-service-limitations-request-traffic>`
      - Request Rate Limit
-     - An overall request rate limit is hit
+     - An overall request rate limit was hit
+
+.. figure:: /images/filter-realm-activities.png
+   :alt: Filter Realm activities in the Atlas UI
 
 {+service-short+} Alerts
 ------------------------
@@ -114,5 +114,3 @@ You create {+service-short+} alerts in the same way you :atlas:`create other
 {+atlas-short+} alerts </configure-alerts/>`. When creating a new alert, in the 
 ":guilabel:`Alert if`" section, select :guilabel:`Realm` from the 
 :guilabel:`Target`. 
-
-
