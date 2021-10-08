@@ -1,21 +1,15 @@
-To open a synced {+realm+} while online, call :js-sdk:`Realm.open() <Realm.html#.open>`. 
-Pass in a :js-sdk:`Configuration <Realm.html#~Configuration>`
-object, which must include the ``sync`` property defining a 
-:js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>` object.
+If you're opening a synced {+realm+}, the method you should use depends on whether 
+or not the user's device is connected to the internet. Learn how to handle different
+connection states in the :ref:`Open a Synced Realm While Online <node-open-a-synced-realm-while-online>` 
+and :ref:`Open a Synced Realm While Offline <node-open-a-synced-realm-while-offline>` 
+sections.
 
-.. example::
+.. note::
 
-   In the following example, an online synced {+realm+} is opened with a 
-   ``SyncConfiguration`` object that uses a predefined
-   ``TaskSchema`` :doc:`schema </sdk/node/examples/define-a-realm-object-model>`, 
-   the currently logged in user, and a partition value of "MyPartition".
-
-   .. literalinclude:: /examples/SyncChanges/open-a-synced-realm.js
-      :language: javascript
-
-.. warning::
-
-   The ``Realm.open()`` function requires a different :js-sdk:`Configuration <Realm.html#~Configuration>`
-   object if you are attempting to synchronize a {+realm+} while not connected to 
-   the internet. Refer to the :ref:`Node Open a Synced Realm While Offline <node-open-a-synced-realm-while-offline>`
-   documentation for more information about connecting to your offline {+realm+}. 
+   The first time a user logs on to your {+realm+} app, you should open the {+realm+} 
+   *asynchronously* using the methods described in the below 
+   :ref:`Open a Synced Realm While Online <node-open-a-synced-realm-while-online>`
+   to sync data from the server to the device. After that initial connection, you 
+   can open the synced {+realm+} using the methods described in the 
+   :ref:`Open a Synced Realm While Offline <node-open-a-synced-realm-while-offline>` 
+   section.
