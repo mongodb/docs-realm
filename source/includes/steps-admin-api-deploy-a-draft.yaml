@@ -49,4 +49,9 @@ content: |
        --header 'Content-Type: application/json' \
        --header 'Authorization: Bearer <access_token>' \
        'https://realm.mongodb.com/api/admin/v3.0/groups/{groupId}/apps/{appId}/drafts/{draftId}/deployment'
+
+  .. important:: Draft Conflicts
+     
+     If you deploy changes via the API but have conflicting changes in a draft in the UI,
+     You will not be able to deploy your UI draft.
 ...
