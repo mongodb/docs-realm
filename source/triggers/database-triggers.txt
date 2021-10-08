@@ -28,6 +28,12 @@ to listen for changes to documents in a collection and pass
 :ref:`database events <database-events>` to their associated Trigger
 function.
 
+You can use a :manual:`$match </reference/operator/aggregation/match>`
+expression document to filter change events based on
+field values. For more information, see :manual:`Query on Embedded
+Documents </tutorial/query-embedded-documents>` in the MongoDB server
+manual.
+
 .. important:: Change Stream Limitations
    
    {+backend+} opens a single change stream for each collection with at least
@@ -38,8 +44,9 @@ function.
 
 .. note::
 
-   Database Triggers are only available for `{+atlas+} <https://www.mongodb.com/realm?tck=docs_realm#atlas-form-container>`_ 
-   clusters that are running MongoDB version 3.6 or newer.
+   Database Triggers are only available for `{+atlas+}
+   <https://www.mongodb.com/realm?tck=docs_realm#atlas-form-container>`_ 
+   clusters running MongoDB version 3.6 or newer.
 
 Example
 -------
