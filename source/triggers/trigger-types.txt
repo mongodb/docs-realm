@@ -40,10 +40,12 @@ Trigger.
 .. note::
 
    {+service+} limits the execution of Trigger
-   Functions to a rate of 1000 executions per second per Trigger. If there 
+   Functions to a rate of 2500 executions per second per Trigger. If there 
    are additional Trigger executions beyond this threshold, {+backend+} adds 
    their associated Function calls to a queue and executes each one when the 
-   capacity becomes available.
+   capacity becomes available. However, the real execution rate in your
+   environment may be lower than the theoretical limit of 2500 executions
+   per second, depending on your Atlas instance size.
 
    Database Triggers with *event ordering* enabled are an exception to
    this rule. Each ordered Trigger processes events in order,
