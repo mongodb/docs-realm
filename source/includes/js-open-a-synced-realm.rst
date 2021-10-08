@@ -5,7 +5,7 @@ If you're opening a synced {+realm+}, the method you should use depends on wheth
 or not the user's device is connected to the internet. Learn how to handle different
 connection states in the :ref:`Open a Synced Realm While Online <node-open-a-synced-realm-while-online>` 
 and :ref:`Open a Synced Realm While Offline <node-open-a-synced-realm-while-offline>` 
-sections below.
+sections.
 
 .. note::
 

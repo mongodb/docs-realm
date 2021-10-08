@@ -20,5 +20,5 @@ object, which must include the ``sync`` property defining a
 
    The ``Realm.open()`` function requires a different :js-sdk:`Configuration <Realm.html#~Configuration>`
    object if you are attempting to synchronize a {+realm+} while not connected to 
-   the internet. Refer to the :ref:`Node Open a Synced Realm While Offline <node-open-a-synced-realm-while-offline>`
+   the internet. Refer to the :ref:`Open a Synced Realm While Offline <node-open-a-synced-realm-while-offline>`
    documentation for more information about connecting to your offline {+realm+}. 
