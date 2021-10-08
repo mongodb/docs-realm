@@ -14,5 +14,5 @@ sections below.
    :ref:`Open a Synced Realm While Online <node-open-a-synced-realm-while-online>`
    to sync data from the server to the device. After that initial connection, you 
    can open the synced {+realm+} using the methods described in the 
-   :ref:`Open a Synced Realm While Offline <node-open-a-synced-realm-while-section>` 
+   :ref:`Open a Synced Realm While Offline <node-open-a-synced-realm-while-offline >` 
    section.
