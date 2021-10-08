@@ -89,6 +89,15 @@ indices:
 - The indices of the objects that were inserted.
 - The indices of the objects that were modified.
 
+Stop notification delivery by calling the ``removeChangeListener()`` or
+``removeAllChangeListeners()`` methods. Notifications also stop if:
+
+- the object on which the listener is registered gets garbage collected.
+- the {+realm+} instance closes.
+
+You should keep a strong reference of the object you’re listening to
+for as long as you need the notifications.
+
 .. important:: Order Matters
 
    In collection notification handlers, always apply changes
@@ -142,6 +151,15 @@ within a {+realm+}. {+client-database+} notifies your handler:
 
 The handler receives information about what fields changed
 and whether the object was deleted.
+
+Stop notification delivery by calling the ``removeChangeListener()`` or
+``removeAllChangeListeners()`` methods. Notifications also stop if:
+
+- the object on which the listener is registered gets garbage collected.
+- the {+realm+} instance closes.
+
+You should keep a strong reference of the object you’re listening to
+for as long as you need the notifications.
 
 .. example::
 
