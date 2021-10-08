@@ -1,6 +1,3 @@
-Close a Realm
--------------
-
 It is important to remember to call the ``close()`` method when done with a
 {+realm+} instance to avoid memory leaks.
 
