@@ -1,0 +1,117 @@
+.. _alerts:
+
+========================================
+Activity Feed & {+service-short+} Alerts
+========================================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Introduction
+------------
+{+atlas+} provides an Activity Feed that displays events for each 
+:atlas:`project </organizations-projects/#std-label-projects>`. {+service-short+} 
+activities are included in this feed. To view and/or download only 
+{+service-short+} events, you can specify a filter, as described below.
+
+Project Activity Feed
+---------------------
+There are two ways to access the Project Activity Feed: through the 
+{+atlas-short+} UI, and through the Atlas API. The following {+atlas-short+} 
+documentation pages describe each approach:
+
+- :atlas:`View Activity Feed in the UI </tutorial/activity-feed/>`
+- :atlas:`Get All Project Events through the API </reference/api/events-projects-get-all/>`
+
+Filter Activities
+~~~~~~~~~~~~~~~~~
+
+{+service-short+} activities are a subset of 
+:atlas:`{+atlas-short+} alerts </alerts/>`. You can filter the Project Activity 
+Feed results to show only {+service-short+} events, or a subset of 
+{+service-short+} events. To do this, click the 
+:guilabel:`Filter by event(s)` menu and check :guilabel:`Realm`. In the 
+right-hand side of the menu, you will see 
+all {+service-short+} events selected. Deselect any that you do not want to see. 
+The feed list automatically updates with each change you make.
+
+.. figure:: /images/filter-realm-activities.png
+   :alt: Filter Realm activities in the Atlas UI
+   :figwidth: 300px
+   :width: 300px
+
+.. note:: Filtering By {+service-short+} Application
+
+   The Activity Feed does not support filtering events by {+service-short+} 
+   application, but each event (and its corresponding alert) provides context 
+   and routing information for the appropriate application.
+
+The **Category** for 
+all {+service-short+} activities is "Realm"; within that category, there are 
+several **Events**:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 22 20 58
+
+   * - Event Type
+     - Condition
+     - Description 
+
+   * - :ref:`Sync <sync>`
+     - Sync Failure
+     - A Sync process has failed and cannot be restarted  
+   
+   * - :ref:`Trigger <trigger-types>` 
+     - Trigger Failure
+     - A Trigger has failed and cannot be restarted 
+   
+   * - :ref:`Deployment <static-hosting>` 
+     - | URL Confirmation 
+         for Static Hosting
+     - A Custom URL is confirmed for static hosting 
+   
+   * - :ref:`Deployment <application-deployment>` 
+     - Successful Deploy
+     - A user (or Code Deployment) deployment has succeeded 
+   
+   * - :ref:`Deployment <application-deployment>` 
+     - Deployment Failure
+     - A user (or Code Deployment) deployment has failed 
+   
+   * - :ref:`Limit <mongodb-service-limitations-request-traffic>`
+     - Request Rate Limit
+     - An overall request rate limit was hit
+
+
+{+service-short+} Alerts
+------------------------
+There are default alerts that map to three of the activities listed above. In 
+addition, you can create custom alerts for the other {+service-short+} 
+activities.
+
+Default Alerts
+~~~~~~~~~~~~~~~
+Default {+service-short+} alerts trigger a notification and email to the 
+Project Owners. The three default {+service-short+} alerts occur when:
+
+- A {+sync-short+} process fails and cannot be restarted  
+
+- A trigger fails and cannot be restarted
+
+- A {+service-short+} application hits an overall request rate limit
+
+Custom {+service-short+} Alerts
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+For any activity that is not mapped to a default alert, you can set a custom 
+alert at the Project level.
+
+You create {+service-short+} alerts in the same way you :atlas:`create other 
+{+atlas-short+} alerts </configure-alerts/>`. When creating a new alert, in the 
+":guilabel:`Alert if`" section, select :guilabel:`Realm` from the 
+:guilabel:`Target`. 
