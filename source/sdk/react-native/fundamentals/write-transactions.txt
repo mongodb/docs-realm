@@ -72,29 +72,3 @@ After processing a transaction, {+service-short+} either **commits** it or
 - {+service-short+} does not apply any operations in a **cancelled**
   transaction to the {+realm+}. Realm cancels a transaction if any operation in
   the transaction is invalid or fails.
-
-.. _react-native-acid-compliance:
-
-Realm is ACID Compliant
------------------------
-
-Write transactions provide :term:`ACID` guarantees, which ensure that all
-committed write operations are valid and that readers don't see transient or
-inconsistent states.
-
-- :wikipedia:`Atomicity <Atomicity_(database_systems)>`: Realm groups operations in
-  transactions and rolls back all operations in a transaction if any of them
-  fail.
-
-- :wikipedia:`Consistency <Consistency_(database_systems)>`: Realm avoids invalid
-  data by validating changes to each object against its schema. If the result of
-  any write operation is not valid, {+service-short+} cancels and rolls back
-  the entire transaction.
-
-- :wikipedia:`Isolation <Isolation_(database_systems)>`: Realm maintains a write
-  queue and applies only one write transaction at a time. This ensures thread
-  safety between transactions.
-
-- :wikipedia:`Durability <Durability_(database_systems)>`: Realm writes
-  operations to disk immediately after committing a transaction. In the event of
-  an app crash, for example, the changes are not lost or corrupted.
