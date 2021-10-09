@@ -46,12 +46,12 @@ an ORM, and often faster than raw SQLite.
 Memory Mapping
 --------------
 
-Writes use memory mapping to avoid copying data from memory to
-storage and vice versa. Mutators directly write to disk via memory
-mapping. Accessors directly read from disk via memory mapping. This
-means that object data is never stored on the stack or heap of your app.
-By default, data is memory-mapped as read-only to prevent accidental
-writes.
+Writes use :wikipedia:`memory mapping </Memory-mapped_file>` to avoid
+copying data back and forth from memory to storage. Mutators directly
+write to disk via memory mapping. Accessors directly read from disk via
+memory mapping. This means that object data is never stored on the stack
+or heap of your app. By default, data is memory-mapped as read-only to
+prevent accidental writes.
 
 {+client-database+} uses operating system level paging to leverage
 platform optimizations that the database itself can't reliably implement
