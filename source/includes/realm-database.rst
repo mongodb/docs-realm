@@ -20,7 +20,7 @@ Native Database Engine
 Instead of building on top of an underlying database
 engine like SQLite, {+client-database+} is written from
 scratch in C++. {+client-database+}'s underlying storage layer uses
-:wikipedia:`B+trees </B%2B_tree>` to organize objects. As a result,
+:wikipedia:`B+trees <B%2B_tree>` to organize objects. As a result,
 {+client-database+} controls optimizations from the storage level all
 the way up to the access level.
 
@@ -44,7 +44,7 @@ make queries faster than an ORM, and often faster than raw SQLite.
 Memory Mapping
 --------------
 
-Writes use :wikipedia:`memory mapping </Memory-mapped_file>` to avoid
+Writes use :wikipedia:`memory mapping <Memory-mapped_file>` to avoid
 copying data back and forth from memory to storage. Mutators directly
 write to disk via memory mapping. Accessors directly read from disk via
 memory mapping. This means that object data is never stored on the stack
