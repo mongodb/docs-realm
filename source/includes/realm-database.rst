@@ -1,20 +1,18 @@
 {+client-database+} is an reactive, object-oriented, cross-platform,
 mobile database. It is an alternative to SQLite and Core Data.
 
-- **Reactive** means that you can not only query the current state,
+- **Reactive**: you can not only query the current state,
   but subscribe to state changes like the result of a query or even a
   single object.
 
-- **Object-oriented** means that {+client-database+} stores data as
-  objects, rather than rows, documents, or columns.
+- **Object-oriented**: stores data as objects, rather than rows,
+  documents, or columns.
 
-- **Mobile** means that {+client-database+} is designed for the
-  low-power, battery-sensitive, real-time environment of a mobile
-  device.
+- **Mobile**: designed for the low-power, battery-sensitive, real-time
+  environment of a mobile device.
 
-- **Cross-platform** means that you can use the same {+realm+}
-  files on iOS, Android, Linux, macOS, or Windows. You just need a schema
-  defined in a language native to that platform.
+- **Cross-platform**: use the same {+realm+} files on iOS, Android,
+  Linux, macOS, or Windows. Just define a schema for each SDK you use.
 
 Native Database Engine
 ----------------------
