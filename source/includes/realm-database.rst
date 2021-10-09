@@ -38,8 +38,8 @@ operations.
 Inserts and updates write to a new location on disk, then update a
 pointer in the underlying B+ tree.
 
-{+client-database+} uses a zero-copy design to make queries faster than
-an ORM, and often faster than raw SQLite.
+{+client-database+} uses a :wikipedia:`zero-copy <Zero-copy>` design to
+make queries faster than an ORM, and often faster than raw SQLite.
 
 Memory Mapping
 --------------
