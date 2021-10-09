@@ -124,6 +124,6 @@ Realm Sync
 client devices on top of all of the functionality of {+client-database+}.
 When you use {+client-database+} with Sync, {+realm+}s exist on device
 just like when you only use {+client-database+}. However, changes to
-the data stored in those {+realm+}s synchronizes between all client
+the data stored in those {+realm+}s synchronize between all client
 devices through a backend {+backend+} instance. That backend also stores
 {+realm+} data in a cloud-based {+atlas+} cluster running MongoDB.
