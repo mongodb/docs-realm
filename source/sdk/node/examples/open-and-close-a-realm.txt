@@ -37,10 +37,6 @@ object, which must include the ``sync`` property defining a
 :js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>` object. 
 This method syncs data from the server before returning. 
 
-If you'd like to connect to the local {+realm+} immediately, and sync with the server
-in the background, call ``new Realm()`` with its Configuration object with a ``sync``
-property. 
-
 .. example:: Sync using ``Realm.open()``
 
    The following example shows how to open a synced {+realm+} with with a 
@@ -51,11 +47,28 @@ property.
    .. literalinclude:: /examples/generated/node/open-and-close-a-realm.codeblock.open-synced-realm-online-with-car-schema.js
       :language: javascript
 
-.. warning::
+.. _node-open-synced-realm-config:
 
-   The ``Realm.open()`` function requires a different :js-sdk:`Configuration <Realm.html#~Configuration>`
-   object if you are attempting to synchronize a {+realm+} while not connected to 
-   the internet. Refer to the :ref:`Open a Synced Realm While Offline <node-open-a-synced-realm-while-offline>`
+If you don't want to sync all data before before returning, include the ``newRealmFileBehavior``
+and ``existingRealmFileBehavior`` properties with a :js-sdk:`OpenRealmBehaviorConfiguration <Realm.App.Sync.html#~OpenRealmBehaviorConfiguration>`
+object set to have a ``timeOut: <time in milliseconds>`` and ``timeOutBehavior: 'openLocalRealm'``.
+These properties make the function return at the end of the ``timeOut`` period, and open the local {+realm+}. 
+Syncing between local data and the server continues in the background. You also use
+the same configuration when :ref:`opening a synced realm while offline <node-open-a-synced-realm-while-offline>`.
+For example: 
+
+.. literalinclude:: /examples/generated/node/open-and-close-a-realm.codeblock.open-synced-realm-config.js
+  :language: javascript
+
+.. warning:: 
+
+   If you are attempting to synchronize a {+realm+} while not connected to 
+   the internet, the ``Realm.open()`` function requires a :js-sdk:`Configuration <Realm.html#~Configuration>`
+   object with ``newRealmFileBehavior`` and ``existingRealmFileBehavior``. If you 
+   don't include these properties, the ``Realm.open()`` function continues trying
+   to connect to the server indefinitely without opening. 
+   
+   Refer to the :ref:`Open a Synced Realm While Offline <node-open-a-synced-realm-while-offline>`
    documentation for more information about connecting to your offline {+realm+}. 
 
 .. _node-open-a-synced-realm-while-offline:
@@ -63,34 +76,28 @@ property.
 Open a Synced Realm While Offline
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-If a user's device is not connected to the Internet, there are a variety of ways 
-to connect to the local {+realm+}. 
+If a user's device is not connected to the Internet or you're not certain if it's 
+connected, you must include ``newRealmFileBehavior`` and ``existingRealmFileBehavior`` 
+properties with the ``Configuration.sync`` property passed to the ``Realm.open()`` 
+method. 
 
-To access the local {+realm+} immediately, connect using the ``new Realm()`` method
-using a :js-sdk:`Configuration <Realm.html#~Configuration>`with it's ``sync``property
-set to a :js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>` object. 
-Synchronization occurs in the background when the device connects to the Internet. 
-
-.. TODO(Ben): resume on refactoring the next paragraph
-.. also regenerate the bluehawk stuff to take into account changes over there
-.. then validate and this should be ready for re-review
-
-If you're uncertain if the device is connected to the internet, configure the
-device's behavior for when it's unable to fully synchronize in a specified time period. 
-Regulate this timeout behavior in the :js-sdk:`Configuration <Realm.html#~Configuration>`
-object passed to ``Realm.open()``. In the ``sync`` property, add ``newRealmFileBehavior``
-and ``existingRealmFileBehavior`` properties with a :js-sdk:`OpenRealmBehaviorConfiguration <Realm.App.Sync.html#~OpenRealmBehaviorConfiguration>`
+In the ``sync`` property, add ``newRealmFileBehavior`` and ``existingRealmFileBehavior`` 
+properties with a :js-sdk:`OpenRealmBehaviorConfiguration <Realm.App.Sync.html#~OpenRealmBehaviorConfiguration>`
 object set to have a ``timeOut: <time in milliseconds>`` and ``timeOutBehavior: 'openLocalRealm'``.
-You must set the ``timeOut``, otherwise the devices continue to try to connect 
+You must set the ``timeOut``, otherwise the devices continues trying to connect 
 indefinitely. The ``timeOutBehavior`` specifies what the SDK does if it can't establish 
-a sync in the time specified in ``timeOut``. For example: 
+a sync in the time specified in ``timeOut``. 
+
+This configuration is the same as for 
+:ref:`opening a synced realm with data syncing in the background <node-open-synced-realm-config>`.
+For example: 
 
 .. literalinclude:: /examples/generated/node/open-and-close-a-realm.codeblock.open-synced-realm-config.js
   :language: javascript
 
 You can further manage the application based on if the device is online by using 
 the :js-sdk:`syncSession methods<Realm.App.Sync.Session.html>` 
-on your Realm object. 
+on your {+realm+} object. 
 
 .. example::
   
