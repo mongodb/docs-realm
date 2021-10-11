@@ -412,12 +412,12 @@ content: |
 
      RealmController.DefeatEnemy();
  
-   Finally, create a listener that :ref:`reacts to changes <dotnet-react-to-changes>` to the current
-   playthrough's ``Stat`` and updates the Scorecard in the UI. In the`
-   ``ScoreCardManager.cs`` file, you can add a change listener to the current
-   ``Stat`` {+realm+} object defined as the ``RealmController.currentStat``
-   variable. In the ``WatchForChangesToCurrentStats()`` method, handle the ``Stat`` object's
-   :dotnet-sdk:`PropertyChanged event<reference/Realms.RealmObjectBase.html#Realms_RealmObjectBase_PropertyChanged>`:
+  Finally, create a listener that :ref:`reacts to changes <dotnet-react-to-changes>` to the current
+  playthrough's ``Stat`` and updates the Scorecard in the UI. In the`
+  ``ScoreCardManager.cs`` file, you can add a change listener to the current
+  ``Stat`` {+realm+} object defined as the ``RealmController.currentStat``
+  variable. In the ``WatchForChangesToCurrentStats()`` method, handle the ``Stat`` object's
+  :dotnet-sdk:`PropertyChanged event<reference/Realms.RealmObjectBase.html#Realms_RealmObjectBase_PropertyChanged>`:
    
   .. literalinclude:: /tutorial/generated/unity/ScoreCardManager.codeblock.watch-for-changes-stat-propery-changed.cs
      :language: csharp
