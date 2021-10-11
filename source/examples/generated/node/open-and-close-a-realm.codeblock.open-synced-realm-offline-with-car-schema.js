@@ -15,9 +15,12 @@ const config = {
 };
 
 try {
-  const realm = await Realm.open(config)
+  const realm = await Realm.open(config);
+
   const syncSession = realm.syncSession;
   const connectionState = syncSession.isConnected(); //`false` if offline
+
+  realm.close();
 } catch (err) {
   console.error("failed to open realm", err.message);
 }
