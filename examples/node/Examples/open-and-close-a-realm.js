@@ -13,35 +13,33 @@ const Car = {
 // :remove-start:
 describe("Open and Close a Realm", () => {
   test("should open and close a local realm", async () => {
-    let realm;
     // :remove-end:
+
     // Open a local realm file with a particular path & predefined Car schema
     try {
-      // :remove-start:
-      realm = await Realm.open({
-        // :remove-end:
-        // :uncomment-start:
-        // const realm = await Realm.open({
-        // :uncomment-end:
+      const realm = await Realm.open({
         schema: [Car],
       });
+
+      // :code-block-start: close-local-realm
+      realm.close();
+      // :code-block-end:
+
+      expect(realm.isClosed).toBe(true); // :remove:
     } catch (err) {
       console.error("Failed to open the realm", err.message);
     }
     // :code-block-end:
 
-    let synchronouslyOpenedRealm;
     // :code-block-start: open-local-realm-synchronously
     // Synchronously open a local realm file with a particular path & predefined Car schema
     try {
-      // :remove-start:
-      synchronouslyOpenedRealm = new Realm({
-        // :remove-end:
-        // :uncomment-start:
-        // const realm = await Realm.open({
-        // :uncomment-end:
+      const synchronouslyOpenedRealm = new Realm({
         schema: [Car],
       });
+
+      synchronouslyOpenedRealm.close();
+      expect(synchronouslyOpenedRealm.isClosed).toBe(true); // :remove:
     } catch (err) {
       console.error("Failed to open the realm", err.message);
     }
@@ -49,12 +47,21 @@ describe("Open and Close a Realm", () => {
 
     // You can test whether a realm has been opened in general
     // (but not if a realm has been opened with a specific path or schema)
-    expect(realm).toStrictEqual(synchronouslyOpenedRealm);
-    // :code-block-start: close-local-realm
-    realm.close();
-    // :code-block-end:
-    synchronouslyOpenedRealm.close();
-    expect(realm.isClosed).toBe(true);
+    try {
+      const syncRealm = new Realm({
+        schema: [Car],
+      });
+
+      const asyncRealm = await Realm.open({
+        schema: [Car],
+      });
+
+      expect(asyncRealm).toStrictEqual(syncRealm);
+      syncRealm.close();
+      asyncRealm.close();
+    } catch (err) {
+      console.error(err);
+    }
   });
 
   test.skip("should open and close a synced realm with internet", async () => {
@@ -75,19 +82,16 @@ describe("Open and Close a Realm", () => {
       },
     };
 
-    let realm; // :remove:
     try {
-      realm = await Realm.open(config); // :remove:
-      // :uncomment-start:
-      // const realm = await Realm.open(config)
-      // :uncomment-end:
+      const realm = await Realm.open(config);
+
+      realm.close();
+      expect(realm.isClosed).toBe(true); // :remove:
     } catch (err) {
       console.error("failed to open realm", err.message);
     }
     // :code-block-end:
 
-    realm.close();
-    expect(realm.isClosed).toBe(true);
   });
 
   test.skip("should open and close a sycned realm without internet", async () => {
@@ -121,21 +125,19 @@ describe("Open and Close a Realm", () => {
     nock.disableNetConnect();
     // :remove-end:
 
-    let realm; // :remove:
     try {
-      realm = await Realm.open(config); // :remove:
-      // :uncomment-start:
-      // const realm = await Realm.open(config)
-      // :uncomment-end:
+      const realm = await Realm.open(config);
+
       const syncSession = realm.syncSession;
       const connectionState = syncSession.isConnected(); //`false` if offline
+
+      realm.close();
+      expect(realm.isClosed).toBe(true); // :remove:
     } catch (err) {
       console.error("failed to open realm", err.message);
     }
     // :code-block-end:
 
-    realm.close();
-    expect(realm.isClosed).toBe(true);
 
     nock.cleanAll();
     nock.enableNetConnect();
