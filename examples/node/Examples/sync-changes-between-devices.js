@@ -57,11 +57,17 @@ describe("Sync Changes Between Devices", () => {
     const credentials = Realm.Credentials.anonymous();
     await app.logIn(credentials);
     // :code-block-start: sync-changes-between-devices-pause-or-resume-sync-session
+    const OpenRealmBehaviorConfiguration = {
+      type: "openImmediately",
+    };
+
     var config = {
       schema: [DogSchema], // predefined schema
       sync: {
         user: app.currentUser,
         partitionValue: "MyPartitionValue",
+        newRealmFileBehavior: OpenRealmBehaviorConfiguration,
+        existingRealmFileBehavior: OpenRealmBehaviorConfiguration,
       },
     };
     let realm = await Realm.open(config);
@@ -112,11 +118,17 @@ describe("Sync Changes Between Devices", () => {
     const credentials = Realm.Credentials.anonymous();
     await app.logIn(credentials);
     // :code-block-start: sync-changes-between-devices-check-upload-and-download-progress
+    const OpenRealmBehaviorConfiguration = {
+      type: "openImmediately",
+    };
+
     var config = {
       schema: [DogSchema], // predefined schema
       sync: {
         user: app.currentUser,
         partitionValue: "MyPartitionValue",
+        newRealmFileBehavior: OpenRealmBehaviorConfiguration,
+        existingRealmFileBehavior: OpenRealmBehaviorConfiguration,
       },
     };
     let realm = await Realm.open(config);
