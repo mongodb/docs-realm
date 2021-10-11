@@ -27,7 +27,7 @@ deploy or discard as a single unit.
    * - :ref:`{+ui+} <deploy-ui>`
      - Yes
      - Any changes you make to your {+app+}'s configuration in the {+ui+} will be 
-       automatically saved as a draft which you can manually deploy, 
+       automatically saved as a draft that you can manually deploy, 
        unless you have disabled drafts in the settings.
 
    * - :ref:`{+service-short+} Admin API <deploy-api>`
@@ -38,17 +38,18 @@ deploy or discard as a single unit.
 
    * - :ref:`{+cli+} <deploy-cli>`
      - No 
-     - You make changes to configuration files locally, and :ref:`push <realm-cli-push>` 
-       them once ready to deploy. once you confirm your changes and push, 
+     - You make changes to configuration files locally, and once you are ready to deploy 
+       them, :ref:`push <realm-cli-push>` them. Once you confirm your changes and push, 
        a draft automatically gets created and deployed. 
 
    * - :ref:`Automatic GitHub Deployment <deploy-github>` or :ref:`CI/CD <ci-cd-pipeline>`
      - No
-     - You make changes to configuration files locally, and push them to GitHub or any 
-       CI/CD pipeline once ready to deploy. once you push, 
+     - You make changes to configuration files locally, and once you are ready to deploy 
+       them, push them to GitHub or any CI/CD pipeline. Once you push, 
        a draft automatically gets created and deployed. 
 
 .. important:: Draft Conflicts
    
    Avoid having multiple users make conflicting changes in UI or API drafts at the same time. 
-   One of the users will not be able to deploy their draft if there are conflicts. 
+   If there are multiple concurrent drafts that contain conflicting changes, you will not 
+   be able to deploy one or more of the drafts. 
