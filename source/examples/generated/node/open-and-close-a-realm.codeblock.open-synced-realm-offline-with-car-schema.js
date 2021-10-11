@@ -1,18 +1,16 @@
+const realmFileBehavior = {
+  type: "openImmediately",
+  timeOut: 1000,
+  timeOutBehavior: "openLocalRealm",
+};
+
 const config = {
   schema: [Car], // predefined schema
   sync: {
-    user: user, // already logged in user
+    user: app.currentUser, // already logged in user
     partitionValue: "myPartition",
-    existingRealmFileBehavior: {
-      type: "openImmediately",
-      timeOut: 1000,
-      timeOutBehavior: "openLocalRealm",
-    },
-    newRealmFileBehavior: {
-      type: "openImmediately",
-      timeOut: 1000,
-      timeOutBehavior: "openLocalRealm",
-    },
+    existingRealmFileBehavior: realmFileBehavior,
+    newRealmFileBehavior: realmFileBehavior,
   },
 };
 

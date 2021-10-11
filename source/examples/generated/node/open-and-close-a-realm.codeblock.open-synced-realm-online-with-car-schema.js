@@ -1,7 +1,7 @@
 const config = {
   schema: [Car], // predefined schema
   sync: {
-    user: user, // already logged in user
+    user: app.currentUser, // already logged in user
     partitionValue: "myPartition",
   },
 };
