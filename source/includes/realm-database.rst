@@ -50,7 +50,7 @@ storage. These files organize data as a tree structure:
 - The top level, known as a Group, stores object metadata, a transaction
   log, and a collection of Tables.
 
-- Each class in the {+realm+} schema corresponds to a Table
+- Each class in the {+realm+} schema corresponds to a Table.
 
 - Tables contain a Cluster Tree, a B+ tree.
 
@@ -58,8 +58,9 @@ storage. These files organize data as a tree structure:
   of objects.
 
 - Objects are stored in columns. Each column contains data for a single
-  property for multiple instances of a given object. Columns are just
+  property for multiple instances of a given object. Columns are
   arrays of data, with values of size 1, 2, 4, 8, 16, 32, or 64 bits.
+  Each column uses one value size, determined by the largest value.
 
 Since pointers refer to memory addresses, objects written to persistent
 files cannot store references as pointers. Instead, {+realm+} files
@@ -72,15 +73,14 @@ Memory Mapping
 --------------
 
 Writes use :wikipedia:`memory mapping <Memory-mapped_file>` to avoid
-copying data back and forth from memory to storage. Mutators directly
-write to disk via memory mapping. Accessors directly read from disk via
-memory mapping. This means that object data is never stored on the stack
-or heap of your app. By default, data is memory-mapped as read-only to
-prevent accidental writes.
+copying data back and forth from memory to storage. Accessors and
+mutators read and write to disk via memory mapping. As a result, object
+data is never stored on the stack or heap of your app. By default, data
+is memory-mapped as read-only to prevent accidental writes.
 
-{+client-database+} uses operating system level paging to leverage
-platform optimizations that the database itself can't reliably implement
-on each platform.
+{+client-database+} uses operating system level paging, trusting each
+operating system to implement memory mapping and persistence better than
+a single library could on its own.
 
 Indexes
 -------
@@ -123,7 +123,9 @@ optimization.
 Encryption
 ----------
 
-{+client-database+} supports on-device {+realm+} encryption.
+{+client-database+} supports on-device {+realm+} encryption. Since
+memory mapping does not support encryption, encrypted {+realm+}s use a
+simulated in-library form of memory mapping instead.
 
 Persistent or In-Memory
 -----------------------
