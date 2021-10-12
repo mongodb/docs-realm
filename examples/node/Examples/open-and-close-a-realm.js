@@ -1,20 +1,17 @@
 import Realm from "realm";
 import nock from "nock";
 
-// :code-block-start: open-local-realm-with-car-schema
-const Car = {
-  name: "Car",
-  properties: {
-    make: "string",
-    model: "string",
-    miles: "int",
-  },
-};
-// :remove-start:
 describe("Open and Close a Realm", () => {
   test("should open and close a local realm", async () => {
-    // :remove-end:
-
+    // :code-block-start: open-local-realm-with-car-schema
+    const Car = {
+      name: "Car",
+      properties: {
+        make: "string",
+        model: "string",
+        miles: "int",
+      },
+    };
     // Open a local realm file with a particular path & predefined Car schema
     try {
       const realm = await Realm.open({
@@ -65,6 +62,15 @@ describe("Open and Close a Realm", () => {
   });
 
   test.skip("should open and close a synced realm with internet", async () => {
+    const Car = {
+      name: "Car",
+      properties: {
+        make: "string",
+        model: "string",
+        miles: "int",
+      },
+    };
+
     const app = new Realm.App({ id: "demo_app-cicfi" });
 
     try {
@@ -94,6 +100,15 @@ describe("Open and Close a Realm", () => {
   });
 
   test.skip("should open and close a sycned realm without internet", async () => {
+    const Car = {
+      name: "Car",
+      properties: {
+        make: "string",
+        model: "string",
+        miles: "int",
+      },
+    };
+
     const app = new Realm.App({ id: "demo_app-cicfi" });
 
     try {
@@ -133,7 +148,6 @@ describe("Open and Close a Realm", () => {
       console.error("failed to open realm", err.message);
     }
     // :code-block-end:
-
 
     nock.cleanAll();
     nock.enableNetConnect();
