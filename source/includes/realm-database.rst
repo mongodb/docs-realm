@@ -200,7 +200,7 @@ objects. Sync uses this history to resolve conflicts between client
 changes and backend changes.
 
 Applications that use {+sync+} define their schema on the backend using
-`JSON Schema <https://json-schema.org/learn/getting-started-step-by-step.html>`.
+`JSON Schema <https://json-schema.org/learn/getting-started-step-by-step.html>`__.
 Client applications must match that backend schema to synchronize data.
 However, if you prefer to define your initial schema in your application's
 programming language, you can use :ref:`development mode
