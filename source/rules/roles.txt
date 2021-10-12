@@ -151,22 +151,22 @@ For example, in addition to ``Employee`` and ``Manager`` roles, you might add a
 the same team as the document's employee to meet a new business requirement.
 Teammates can read each other's data but cannot modify it.
 
-      .. code-block:: json
-         
-         {
-           "name": "Teammate",
-           "apply_when": { "email": "%%user.data.email" },
-           "insert": false,
-           "delete": false,
-           "read": true,
-           "write": false.,
-           "search": true,
-           "fields": {},
-           "additional_fields": {
-             "read": true,
-             "write": false
-           }
-         }
+.. code-block:: json
+   
+   {
+     "name": "Teammate",
+     "apply_when": { "team": "%%user.data.team" },
+     "insert": false,
+     "delete": false,
+     "read": true,
+     "write": false.,
+     "search": true,
+     "fields": {},
+     "additional_fields": {
+       "read": true,
+       "write": false
+     }
+   }
 
 How Realm Evaluates Roles
 -------------------------
@@ -193,4 +193,4 @@ You define roles for specific collections in your linked cluster.
 
 A role configuration has the following form:
 
-.. include:: /mongodb/tables/query-role-params.rst
+.. include:: /mongodb/tables/role-configuration.rst

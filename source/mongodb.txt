@@ -56,13 +56,8 @@ The :ref:`MongoDB service <mongodb-service>` secures your data with a
 dynamic, role-based :guilabel:`Rules` engine that proxies and modifies
 incoming queries
 based on rules that you define. There are three types of MongoDB
-<<<<<<< HEAD
-collection rules: :ref:`roles <mongodb-roles>`, :ref:`filters
-<mongodb-filters>`, and :ref:`schemas <schemas>`.
-=======
 collection rules: :ref:`roles <roles>`, :ref:`filters
-<filters>`, and :ref:`{+backend-schema+} <mongodb-schemas>`.
->>>>>>> Scaffold rules pages
+<filters>`, and :ref:`schemas <schemas>`.
 
 Get Started
 ~~~~~~~~~~~
@@ -104,7 +99,7 @@ source <link-a-data-source>`:
    determines which documents and fields in a collection each
    :doc:`application user </authentication>` can read and write for all
    incoming query operations by evaluating :ref:`collection rules
-   <mongodb-rules>` that you define.
+   <rules>` that you define.
 
    **If you do not define rules for a collection, queries on
    the collection will fail.**   
