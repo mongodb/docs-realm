@@ -22,6 +22,7 @@ const TasksProvider = ({ children, projectPartition }) => {
     };
     // :code-block-start: open-project-realm
     const config = {
+      schema: [Task.schema],
       sync: {
         user: user,
         partitionValue: projectPartition,
