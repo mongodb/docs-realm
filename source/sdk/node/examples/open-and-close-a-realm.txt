@@ -62,9 +62,10 @@ Return After Timeout with Background Sync
 If you don't need to sync all data before before returning, configure your SyncConfiguration
 to include ``newRealmFileBehavior`` and ``existingRealmFileBehavior`` each with
 the same :js-sdk:`OpenRealmBehaviorConfiguration <Realm.App.Sync.html#~OpenRealmBehaviorConfiguration>`.  
+
 Set the OpenRealmBehaviorConfiguration to have ``type: 'downloadBeforeOpen'``, 
 ``timeOut: <time in milliseconds>`` and ``timeOutBehavior: 'openLocalRealm'``.
-These properties make ``Realm.open()`` return at the end of the ``timeOut`` period, and open the local {+realm+}. 
+These properties make ``Realm.open()`` return at the end of the ``timeOut`` period, and open a local {+realm+}. 
 Syncing between local data and the server continues in the background. For example: 
 
 .. literalinclude:: /examples/generated/node/open-and-close-a-realm.codeblock.open-synced-realm-config.js
@@ -78,7 +79,7 @@ even if the it never connects to the server.
 .. example::
   
   The following example shows opening a synced {+realm+} with a 
-  ``Configuration`` object using a predefined ``TaskSchema`` :doc:`schema </sdk/node/examples/define-a-realm-object-model>`, 
+  ``Configuration`` object using a predefined ``Car`` :doc:`schema </sdk/node/examples/define-a-realm-object-model>`, 
   the currently logged in user, a partition value of "MyPartition", and a 
   :js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>`. The SyncConfiguration includes  
   ``existingRealmFileBehavior`` and ``newRealmFileBehavior`` set to allow the user 
@@ -111,7 +112,9 @@ properties.
 
 Create a :js-sdk:`OpenRealmBehaviorConfiguration
 <Realm.App.Sync.html#~OpenRealmBehaviorConfiguration>` object and set its
-``type`` to ``"openImmediately"``. 
+``type`` to ``"openImmediately"``. This configuration opens a local {+realm+} 
+immediately without attempting to sync with the server. The client continues  
+attempting to connect with the server in the background.
 
 .. literalinclude:: /examples/generated/node/sync-changes-between-devices.codeblock.sync-changes-between-devices-sync-changes-in-the-background-create-OpenRealmBehaviorObject.js
       :language: javascript
@@ -127,8 +130,7 @@ the ``newRealmFileBehavior`` and ``existingRealmFileBehavior`` fields of the
       :language: javascript
 
 Finally,  call :js-sdk:`Realm.open() <Realm.html#.open>`
-to open a synced {+realm+}. This creates a sync session and begins
-downloading any existing data from the server in the background.
+to open the local {+realm+} and attempt syncing with the server in the background. 
 
 .. _node-close-a-realm:
 
