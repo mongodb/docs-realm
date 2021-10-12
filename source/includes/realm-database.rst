@@ -20,7 +20,7 @@ Native Database Engine
 Instead of building on top of an underlying database
 engine like SQLite, {+client-database+} is written from
 scratch in C++. {+client-database+}'s underlying storage layer uses
-:wikipedia:`B+trees <B%2B_tree>` to organize objects. As a result,
+:wikipedia:`B+ trees <B%2B_tree>` to organize objects. As a result,
 {+client-database+} controls optimizations from the storage level all
 the way up to the access level.
 
@@ -35,11 +35,38 @@ row-based storage equivalents when unindexed, but fetching multiple
 objects can be much faster due to spatial locality and in-CPU vector
 operations.
 
-Inserts and updates write to a new location on disk, then update a
-pointer in the underlying B+ tree.
+Inserts and updates write to a new location on disk, then update
+references in the underlying B+ tree.
 
 {+client-database+} uses a :wikipedia:`zero-copy <Zero-copy>` design to
 make queries faster than an ORM, and often faster than raw SQLite.
+
+Realm Files
+-----------
+
+{+client-database+} persists data in {+realm+} files saved on device
+storage. These files organize data as a tree structure:
+
+- The top level, known as a Group, stores object metadata, a transaction
+  log, and a collection of Tables.
+
+- Each class in the {+realm+} schema corresponds to a Table
+
+- Tables contain a Cluster Tree, a B+ tree.
+
+- Leaves on the Cluster Tree are called Clusters. Each contains a range
+  of objects.
+
+- Objects are stored in columns. Each column contains data for a single
+  property for multiple instances of a given object. Columns are just
+  arrays of data, with values of size 1, 2, 4, 8, 16, 32, or 64 bits.
+
+Since pointers refer to memory addresses, objects written to persistent
+files cannot store references as pointers. Instead, {+realm+} files
+refer to data using the offset from the beginning of the file. We call
+this a ref. Since {+client-database+} uses memory mapping to read and
+write data, database operations translate these refs from offsets to
+memory pointers when navigating database structures.
 
 Memory Mapping
 --------------
@@ -54,6 +81,13 @@ prevent accidental writes.
 {+client-database+} uses operating system level paging to leverage
 platform optimizations that the database itself can't reliably implement
 on each platform.
+
+Indexes
+-------
+
+Indexes are implemented as trees containing values of a given property
+instead of a unique internal object key. This means that indexes only
+support one column at a time.
 
 Queries
 -------
@@ -73,6 +107,12 @@ must define a migration to move object data between schema versions.
 
 Compaction
 ----------
+
+{+client-database+} automatically reuses free space that is no longer
+needed after database writes. However, {+realm+} files never shrink
+automatically, even if the amount of data stored in your {+realm+}
+decreases significantly. Compact your {+realm+} to optimize storage
+space and decrease file size if possible.
 
 You should compact your {+realm+}s occasionally to keep them at an
 optimal size. You can do this manually, or by configuring your
@@ -125,3 +165,9 @@ just like when you only use {+client-database+}. However, changes to
 the data stored in those {+realm+}s synchronize between all client
 devices through a backend {+backend+} instance. That backend also stores
 {+realm+} data in a cloud-based {+atlas+} cluster running MongoDB.
+
+{+sync+} relies on a worker client that communicates with your
+application backend in a dedicated thread in your application.
+Additionally, synced {+realm+}s keep a history of changes to contained
+objects. Sync uses this history to resolve conflicts between client
+changes and backend changes.
