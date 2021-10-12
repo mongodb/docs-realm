@@ -1,0 +1,151 @@
+.. _node-open-close-realm:
+
+===================================
+Open & Close a Realm - Node.js SDK
+===================================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+.. _node-open-a-local-realm:
+
+Open a Local Realm
+------------------
+
+.. include:: /includes/js-open-a-local-realm.rst
+
+.. _node-open-a-synced-realm:
+
+Open a Synced Realm
+-------------------
+
+.. include:: /includes/node-open-a-synced-realm.rst
+
+.. _node-open-a-synced-realm-while-online:
+
+Open a Synced Realm While Online
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To open a synced {+realm+} while online, call :js-sdk:`Realm.open() <Realm.html#.open>`. 
+Pass in a :js-sdk:`Configuration <Realm.html#~Configuration>`
+object, which must include the ``sync`` property defining a 
+:js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>` object. 
+
+Sync All Data Before Returning
+``````````````````````````````
+
+The default behavior for {+realm+} is to sync all data from the server before returning. 
+In the :js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>`, 
+you must include include the ``user`` and ``partitionValue``.
+
+.. example:: 
+
+   The following example shows how to open a synced {+realm+} with with a 
+   ``SyncConfiguration`` object that uses a predefined
+   ``CarSchema`` :doc:`schema </sdk/node/examples/define-a-realm-object-model>`, 
+   the currently logged in user, and a partition value of "MyPartition".
+
+   .. literalinclude:: /examples/generated/node/open-and-close-a-realm.codeblock.open-synced-realm-online-with-car-schema.js
+      :language: javascript
+
+.. _node-open-synced-realm-config:
+
+
+Return After Timeout with Background Sync
+`````````````````````````````````````````
+
+If you don't need to sync all data before before returning, configure your SyncConfiguration
+to include ``newRealmFileBehavior`` and ``existingRealmFileBehavior`` each with
+the same :js-sdk:`OpenRealmBehaviorConfiguration <Realm.App.Sync.html#~OpenRealmBehaviorConfiguration>`.  
+
+Set the OpenRealmBehaviorConfiguration to have ``type: 'downloadBeforeOpen'``, 
+``timeOut: <time in milliseconds>`` and ``timeOutBehavior: 'openLocalRealm'``.
+These properties make ``Realm.open()`` return at the end of the ``timeOut`` period, and open a local {+realm+}. 
+Syncing between local data and the server continues in the background. For example: 
+
+.. literalinclude:: /examples/generated/node/open-and-close-a-realm.codeblock.open-synced-realm-config.js
+  :language: javascript
+
+This configuration is also useful if you're attempting to sync in an environment 
+where it's uncertain if the user has an Internet connection. The client attempts 
+to sync until the end of the the ``timeOut`` period, and then opens the local {+realm+},
+even if the it never connects to the server. 
+
+.. example::
+  
+  The following example shows opening a synced {+realm+} with a 
+  ``Configuration`` object using a predefined ``Car`` :doc:`schema </sdk/node/examples/define-a-realm-object-model>`, 
+  the currently logged in user, a partition value of "MyPartition", and a 
+  :js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>`. The SyncConfiguration includes  
+  ``existingRealmFileBehavior`` and ``newRealmFileBehavior`` set to allow the user 
+  to work with the local {+realm+} if the device is doesn't fully sync within the ``timeOut``
+  period of 1000 milliseconds.  
+
+  .. literalinclude:: /examples/generated/node/open-and-close-a-realm.codeblock.open-synced-realm-offline-with-car-schema.js
+    :language: javascript
+
+.. warning:: 
+
+   If you are attempting to synchronize a {+realm+} while not connected to 
+   the Internet, you must pass ``Realm.open()`` a :js-sdk:`Configuration <Realm.html#~Configuration>`
+   object with ``newRealmFileBehavior`` and ``existingRealmFileBehavior``. If you 
+   don't include these properties, ``Realm.open()`` continues trying
+   to connect to the server indefinitely without opening. 
+   
+   Refer to the :ref:`Open a Synced Realm While Offline <node-open-a-synced-realm-while-offline>`
+   documentation for more information about connecting to your offline {+realm+}. 
+
+.. _node-open-a-synced-realm-while-offline:
+
+Open a Synced Realm While Offline
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+If a user's device is not connected to the Internet or you're not certain if it's 
+connected, you must use  a a :js-sdk:`OpenRealmBehaviorConfiguration
+<Realm.App.Sync.html#~OpenRealmBehaviorConfiguration>` that includes ``newRealmFileBehavior`` and ``existingRealmFileBehavior`` 
+properties. 
+
+Create a :js-sdk:`OpenRealmBehaviorConfiguration
+<Realm.App.Sync.html#~OpenRealmBehaviorConfiguration>` object and set its
+``type`` to ``"openImmediately"``. This configuration opens a local {+realm+} 
+immediately without attempting to sync with the server. The client continues  
+attempting to connect with the server in the background.
+
+.. literalinclude:: /examples/generated/node/sync-changes-between-devices.codeblock.sync-changes-between-devices-sync-changes-in-the-background-create-OpenRealmBehaviorObject.js
+      :language: javascript
+
+Create a :js-sdk:`Configuration <Realm.html#~Configuration>` object, which must
+include the ``sync`` property defining a :js-sdk:`SyncConfiguration
+<Realm.App.Sync.html#~SyncConfiguration>` object. Set this
+``OpenRealmBehaviorConfiguration`` object as the value for
+the ``newRealmFileBehavior`` and ``existingRealmFileBehavior`` fields of the
+``SyncConfiguration``. 
+
+.. literalinclude:: /examples/generated/node/sync-changes-between-devices.codeblock.sync-changes-between-devices-sync-changes-in-the-background-create-config.js
+      :language: javascript
+
+Finally,  call :js-sdk:`Realm.open() <Realm.html#.open>`
+to open the local {+realm+} and attempt syncing with the server in the background. 
+
+.. _node-close-a-realm:
+
+Close a Realm
+-------------
+
+.. include:: /includes/js-close-a-realm.rst
+
+
+.. .. _node-local-realm-configuration:
+
+.. Local Realm Configuration
+.. -------------------------
+
+.. .. _node-provide-a-subset-of-classes-to-a-realm:
+
+.. Provide a Subset of Classes to a Realm
+.. ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
