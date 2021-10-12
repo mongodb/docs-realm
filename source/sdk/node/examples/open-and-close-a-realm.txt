@@ -60,7 +60,7 @@ Return After Timeout with Background Sync
 `````````````````````````````````````````
 
 If you don't need to sync all data before before returning, configure your SyncConfiguration
-that include ``newRealmFileBehavior`` and ``existingRealmFileBehavior`` each with
+to include ``newRealmFileBehavior`` and ``existingRealmFileBehavior`` each with
 the same :js-sdk:`OpenRealmBehaviorConfiguration <Realm.App.Sync.html#~OpenRealmBehaviorConfiguration>`.  
 Set the OpenRealmBehaviorConfiguration to have ``type: 'downloadBeforeOpen'``, 
 ``timeOut: <time in milliseconds>`` and ``timeOutBehavior: 'openLocalRealm'``.
@@ -91,9 +91,9 @@ even if the it never connects to the server.
 .. warning:: 
 
    If you are attempting to synchronize a {+realm+} while not connected to 
-   the Internet, the ``Realm.open()`` function requires a :js-sdk:`Configuration <Realm.html#~Configuration>`
+   the Internet, you must pass ``Realm.open()`` a :js-sdk:`Configuration <Realm.html#~Configuration>`
    object with ``newRealmFileBehavior`` and ``existingRealmFileBehavior``. If you 
-   don't include these properties, the ``Realm.open()`` function continues trying
+   don't include these properties, ``Realm.open()`` continues trying
    to connect to the server indefinitely without opening. 
    
    Refer to the :ref:`Open a Synced Realm While Offline <node-open-a-synced-realm-while-offline>`
@@ -105,9 +105,9 @@ Open a Synced Realm While Offline
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 If a user's device is not connected to the Internet or you're not certain if it's 
-connected, you must include ``newRealmFileBehavior`` and ``existingRealmFileBehavior`` 
-properties with a :js-sdk:`OpenRealmBehaviorConfiguration
-<Realm.App.Sync.html#~OpenRealmBehaviorConfiguration>` value in the ``Configuration.sync`` property passed to ``Realm.open()``. 
+connected, you must use  a a :js-sdk:`OpenRealmBehaviorConfiguration
+<Realm.App.Sync.html#~OpenRealmBehaviorConfiguration>` that includes ``newRealmFileBehavior`` and ``existingRealmFileBehavior`` 
+properties. 
 
 Create a :js-sdk:`OpenRealmBehaviorConfiguration
 <Realm.App.Sync.html#~OpenRealmBehaviorConfiguration>` object and set its
