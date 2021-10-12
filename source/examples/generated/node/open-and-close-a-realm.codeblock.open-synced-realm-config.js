@@ -1,7 +1,7 @@
 const realmFileBehavior = {
-  type: "openImmediately",
+  type: "downloadBeforeOpen",
   timeOut: 1000,
-  timeOutBehavior: "openLocalRealm",
+  timeOutBehavior: "openLocal",
 };
 
 const config = {

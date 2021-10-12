@@ -90,8 +90,7 @@ describe("Open and Close a Realm", () => {
     } catch (err) {
       console.error("failed to open realm", err.message);
     }
-    // :code-block-end:
-
+    // :code-block-end:xw
   });
 
   test.skip("should open and close a sycned realm without internet", async () => {
@@ -106,9 +105,9 @@ describe("Open and Close a Realm", () => {
     // :code-block-start: open-synced-realm-offline-with-car-schema
     // :code-block-start: open-synced-realm-config
     const realmFileBehavior = {
-      type: "openImmediately",
+      type: "downloadBeforeOpen",
       timeOut: 1000,
-      timeOutBehavior: "openLocalRealm",
+      timeOutBehavior: "openLocal",
     };
 
     const config = {
@@ -127,9 +126,6 @@ describe("Open and Close a Realm", () => {
 
     try {
       const realm = await Realm.open(config);
-
-      const syncSession = realm.syncSession;
-      const connectionState = syncSession.isConnected(); //`false` if offline
 
       realm.close();
       expect(realm.isClosed).toBe(true); // :remove:

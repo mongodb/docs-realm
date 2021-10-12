@@ -1,7 +1,7 @@
 const realmFileBehavior = {
-  type: "openImmediately",
+  type: "downloadBeforeOpen",
   timeOut: 1000,
-  timeOutBehavior: "openLocalRealm",
+  timeOutBehavior: "openLocal",
 };
 
 const config = {
@@ -16,9 +16,6 @@ const config = {
 
 try {
   const realm = await Realm.open(config);
-
-  const syncSession = realm.syncSession;
-  const connectionState = syncSession.isConnected(); //`false` if offline
 
   realm.close();
 } catch (err) {
