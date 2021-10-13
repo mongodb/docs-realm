@@ -1,6 +1,7 @@
 .. _android-modify-an-object-schema:
 .. _android-local-migrations:
 .. _android-local-migration:
+.. _android-client-migrations:
 
 =====================================
 Modify an Object Schema - Android SDK
@@ -8,148 +9,170 @@ Modify an Object Schema - Android SDK
 
 .. default-domain:: mongodb
 
-.. contents:: On this page
-   :local:
-   :backlinks: none
-   :depth: 2
-   :class: singlecol
+.. tabs::
+   
+   .. tab:: Local Realms
+      :tabid: local
+      
+      .. _android-og-schema:
 
-.. _android-og-schema:
+      The following examples demonstrate how to add, delete, and modify 
+      properties in a schema. First, make the required schema change.
+      Then, increment the schema version. Finally, if the change is destructive,
+      create a corresponding :ref:`migration function
+      <android-migration-function>` to move data from the original schema
+      to the updated schema.
 
-The following examples demonstrate how to add, delete, and modify 
-properties in a schema. First, make the required schema change. Then,
-create a corresponding :ref:`migration function
-<android-migration-function>` to move data from the original schema
-to the updated schema.
+      .. note:: Versions Update on Realm Open
 
-.. include:: /includes/note-modify-schema-properties-of-synced-realms.rst
+         Assume that each schema change shown in the following example
+         occurs after the application has used the existing schema. The
+         new schema version numbers apply only after you open the
+         {+realm+} and explicitly specify the new version number.
+         In other words, you can't specify version 3 without previously
+         specifying and using versions 0, 1, and 2.
 
-.. note:: Versions Update on Realm Open
+      A {+realm+} using schema version ``0`` has a ``Person`` object type:
 
-   Assume that each schema change in this example occurs after
-   an application has used each version for some amount of time. New
-   schema version numbers only apply once you open the {+realm+} 
-   with an updated schema and explicitly specify the new version
-   number, so in order to get to version 3, you would first need to
-   open the app with versions 1 and 2.
+      .. tabs-realm-languages::
+       
+         .. tab::
+            :tabid: kotlin
 
-A {+realm+} using schema version ``0`` has a ``Person`` object type:
+            .. literalinclude:: /examples/Migrations/PersonClassV1/PersonClassV1.kt
+               :language: kotlin
 
-.. tabs-realm-languages::
- 
-   .. tab::
-      :tabid: kotlin
+         .. tab::
+            :tabid: java
 
-      .. literalinclude:: /examples/Migrations/PersonClassV1/PersonClassV1.kt
-         :language: kotlin
+            .. literalinclude:: /examples/Migrations/PersonClassV1/PersonClassV1.java
+               :language: java
 
-   .. tab::
-      :tabid: java
+      .. _android-add-a-property:
 
-      .. literalinclude:: /examples/Migrations/PersonClassV1/PersonClassV1.java
-         :language: java
+      A. Add a Property
+      -----------------
 
-.. _android-add-a-property:
+      The following example adds a ``lastName`` property to the
+      :ref:`original Person schema <android-og-schema>`:
 
-Add a Property
---------------
+      .. tabs-realm-languages::
+       
+         .. tab::
+            :tabid: kotlin
 
-The following example adds a ``lastName`` property to the
-:ref:`original Person schema <android-og-schema>`:
+            .. literalinclude:: /examples/Migrations/PersonClassV2/PersonClassV2.kt
+               :language: kotlin
+               :emphasize-lines: 3
 
-.. tabs-realm-languages::
- 
-   .. tab::
-      :tabid: kotlin
+         .. tab::
+            :tabid: java
 
-      .. literalinclude:: /examples/Migrations/PersonClassV2/PersonClassV2.kt
-         :language: kotlin
-         :emphasize-lines: 3
+            .. literalinclude:: /examples/Migrations/PersonClassV2/PersonClassV2.java
+               :language: java
+               :emphasize-lines: 5
 
-   .. tab::
-      :tabid: java
+      .. _android-delete-a-property:
 
-      .. literalinclude:: /examples/Migrations/PersonClassV2/PersonClassV2.java
-         :language: java
-         :emphasize-lines: 5
+      B. Delete a Property
+      --------------------
 
-.. _android-delete-a-property:
+      The following example uses a combined
+      ``fullName`` property instead of the separate ``firstName`` and
+      ``lastName`` property in the :ref:`original Person schema <android-og-schema>`:
 
-Delete a Property
------------------
+      .. tabs-realm-languages::
 
-The following example uses a combined
-``fullName`` property instead of the separate ``firstName`` and
-``lastName`` property in the :ref:`original Person schema <android-og-schema>`:
+         .. tab::
+            :tabid: kotlin
 
-.. tabs-realm-languages::
+            .. literalinclude:: /examples/Migrations/PersonClassV3/PersonClassV3.kt
+               :language: kotlin
+               :emphasize-lines: 2
 
-   .. tab::
-      :tabid: kotlin
+         .. tab::
+            :tabid: java
 
-      .. literalinclude:: /examples/Migrations/PersonClassV3/PersonClassV3.kt
-         :language: kotlin
-         :emphasize-lines: 2
+            .. literalinclude:: /examples/Migrations/PersonClassV3/PersonClassV3.java
+               :language: java
+               :emphasize-lines: 3
 
-   .. tab::
-      :tabid: java
+      .. _android-modify-a-property-type:
+      .. _android-rename-a-property:
 
-      .. literalinclude:: /examples/Migrations/PersonClassV3/PersonClassV3.java
-         :language: java
-         :emphasize-lines: 3
+      C. Modify a Property Type or Rename a Property
+      ----------------------------------------------
 
-.. _android-modify-a-property-type:
-.. _android-rename-a-property:
+      The following example modifies the ``age`` property in the
+      :ref:`original Person schema <android-og-schema>` by
+      renaming it to ``birthday`` and changing the type to ``Date``:
 
-Modify a Property Type or Rename a Property
--------------------------------------------
+      .. tabs-realm-languages::
 
-The following example modifies the ``age`` property in the
-:ref:`original Person schema <android-og-schema>` by
-renaming it to ``birthday`` and changing the type to ``Date``:
+         .. tab::
+            :tabid: kotlin
 
-.. tabs-realm-languages::
+            .. literalinclude:: /examples/Migrations/PersonClassV4/PersonClassV4.kt
+               :language: kotlin
+               :emphasize-lines: 3
 
-   .. tab::
-      :tabid: kotlin
+         .. tab::
+            :tabid: java
 
-      .. literalinclude:: /examples/Migrations/PersonClassV4/PersonClassV4.kt
-         :language: kotlin
-         :emphasize-lines: 3
+            .. literalinclude:: /examples/Migrations/PersonClassV4/PersonClassV4.java
+               :language: java
+               :emphasize-lines: 5
 
-   .. tab::
-      :tabid: java
+      .. _android-migration-function:
 
-      .. literalinclude:: /examples/Migrations/PersonClassV4/PersonClassV4.java
-         :language: java
-         :emphasize-lines: 5
+      D. Migration Functions
+      ----------------------
 
-.. _android-migration-function:
+      To migrate the {+realm+} to conform to the updated
+      ``Person`` schema, set the {+realm+}'s
+      :ref:`schema version <android-schema-version>` to ``3``
+      and define a migration function to set the value of
+      ``fullName`` based on the existing ``firstName`` and
+      ``lastName`` properties and the value of ``birthday`` based on
+      ``age``:
 
-Migration Functions
--------------------
+      .. tabs-realm-languages::
 
-To migrate the {+realm+} to conform to the updated
-``Person`` schema, set the {+realm+}'s
-:ref:`schema version <android-schema-version>` to ``3``
-and define a migration function to set the value of
-``fullName`` based on the existing ``firstName`` and
-``lastName`` properties and the value of ``birthday`` based on
-``age``:
+         .. tab::
+            :tabid: kotlin
 
-.. tabs-realm-languages::
+            .. literalinclude:: /examples/Migrations/LocalMigration/LocalMigration.kt
+               :language: kotlin
 
-   .. tab::
-      :tabid: kotlin
+         .. tab::
+            :tabid: java
 
-      .. literalinclude:: /examples/Migrations/LocalMigration/LocalMigration.kt
-         :language: kotlin
+            .. literalinclude:: /examples/Migrations/LocalMigration/LocalMigration.java
+               :language: java
 
-   .. tab::
-      :tabid: java
+   .. tab:: Synchronized Realms
+      :tabid: sync
 
-      .. literalinclude:: /examples/Migrations/LocalMigration/LocalMigration.java
-         :language: java
+      You can make changes to the schema of a synchronized {+realm+} by
+      modifying the :ref:`JSON Schema <configure-your-data-model>`
+      defined in your application's backend. Synchronized {+realm+}s do
+      not require migration functions, since destructive changes to
+      synchronized schemas cause synchronization errors. {+sync+}
+      handles additive changes to synchronized {+realm+} schemas
+      automatically. As a result, both old versions of your schema and
+      new versions can synchronize as users upgrade their applications.
+
+      To learn more about schema changes to synchronized {+realm+}s,
+      see :ref:`synced schema changes <synced-schema-overview>`.
+
+      .. note:: Development Mode: Only for Defining Your Initial Schema
+
+         You can define the first version of your application's synced
+         schema using :ref:`development mode <concept-development-mode>`,
+         which automatically translates client models into
+         JSON Schema on the backend. However, you should make subsequent
+         changes to your schema through edits to the JSON Schema in your
+         {+app+}.
 
 .. seealso::
 
