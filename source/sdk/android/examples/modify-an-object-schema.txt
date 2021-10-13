@@ -155,20 +155,6 @@ Modify an Object Schema - Android SDK
             .. literalinclude:: /examples/Migrations/LocalMigration/LocalMigration.java
                :language: java
 
-      .. seealso::
-
-         :ref:`Fundamentals: Migrations <android-migrations>`
-
-      .. tip::
-
-         You can use the
-         :java-sdk:`RealmConfiguration.shouldDeleteRealmIfMigrationNeeded()
-         <io/realm/RealmConfiguration.html#shouldDeleteRealmIfMigrationNeeded-->`
-         builder method when constructing a {+realm+} to delete the {+realm+}
-         instead of performing a migration when a migration is required. This
-         can come in handy during development when schemas often change.
-
-   
    .. tab:: Synchronized Realms
       :tabid: sync
 
@@ -192,3 +178,16 @@ Modify an Object Schema - Android SDK
          JSON Schema on the backend. However, you should make subsequent
          changes to your schema through edits to the JSON Schema in your
          {+app+}.
+
+.. seealso::
+
+   :ref:`Fundamentals: Migrations <android-migrations>`
+
+.. tip::
+
+   You can use the
+   :java-sdk:`RealmConfiguration.shouldDeleteRealmIfMigrationNeeded()
+   <io/realm/RealmConfiguration.html#shouldDeleteRealmIfMigrationNeeded-->`
+   builder method when constructing a {+realm+} to delete the {+realm+}
+   instead of performing a migration when a migration is required. This
+   can come in handy during development when schemas often change.
