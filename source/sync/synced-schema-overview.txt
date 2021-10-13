@@ -35,8 +35,13 @@ updated need to work with the new schema changes.
 Additive Changes
 ----------------
 
-Additive changes, such as adding a class or adding a field to an existing class, 
-are applied automatically to synced {+realms+}; you can make these 
+Additive changes to a schema are usually optional **additions** to the
+schema, such as:
+
+- adding a class
+- adding an optional (not required) field to an existing class
+
+Additive changes apply automatically to synced {+realms+}; you can make these 
 additive schema changes with no additional configuration changes. Increase
 the schema version in your client applications to use the new schema
 properties.
@@ -60,6 +65,7 @@ such as:
 
 - Changing a property’s type but keeping the same name
 - Changing a primary key
+- Adding a new property that is required
 - Changing a property from optional to required (or vice-versa)
 
 Synchronized {+realms+} only support additive changes to a schema. Therefore,
