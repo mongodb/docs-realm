@@ -43,7 +43,7 @@ const PetOwnerSchema = {
     person: "Person",
     pets: {
       type: "list",
-      objectType: "Pet",
+      objectType: "string", // could also be of a Realm object, like "Pet"
       optional: false //null values are not allowed
     },
   },

@@ -45,16 +45,18 @@ Results have an associated query that determines their contents.
 Lists
 -----
 A :js-sdk:`List <Realm.List.html>` represents a collection of objects of a single 
-type. Lists are declared as a property of an :ref:`object model <node-object-schemas>` 
-and are not associated with a query.
+type. Lists are declared as a property within an 
+:ref:`object model <node-object-schemas>`, and are not associated with a query.
 
-Lists behave like normal JavaScript Arrays, except that they 
+Lists behave like normal JavaScript arrays, except that they 
 can only store values of a single type, which you indicate with the 
-:js-sdk:`type <Realm.List.html#type>` property, set to one of the 
-valid :js-sdk:`property types <Realm.html#~PropertyType>`. 
+:js-sdk:`type <Realm.List.html#type>` property set to one of the 
+valid :js-sdk:`property types <Realm.html#~PropertyType>` or another Realm 
+object type. 
 
 .. literalinclude:: /examples/generated/node/data-types.codeblock.node_list.js
   :language: javascript
+  :emphasize-lines: 7-11
 
 You can only modify a List within a write transaction, and Lists are mutable: 
 within the write transaction, you can add and remove elements to and from 
