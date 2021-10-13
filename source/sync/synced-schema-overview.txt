@@ -14,6 +14,7 @@ Synced Schema Changes
 
 Overview
 --------
+
 When developing an application using {+sync+}, you may need to make changes to
 your schema at some point: you have a new property to add to an already-synced 
 object, you decide to change the type stored in a property, or you now need to 
@@ -33,9 +34,12 @@ updated need to work with the new schema changes.
 
 Additive Changes
 ----------------
+
 Additive changes, such as adding a class or adding a field to an existing class, 
 are applied automatically to synced {+realms+}; you can make these 
-additive schema changes with no additional configuration changes. 
+additive schema changes with no additional configuration changes. Increase
+the schema version in your client applications to use the new schema
+properties.
 
 .. note:: Removing a Property from Your Schema Is Considered an Additive Change
 
@@ -46,11 +50,11 @@ additive schema changes with no additional configuration changes.
    appropriate empty value, such as a 0 for integer values or an empty string
    for string values.
 
-
 .. _destructive-changes-synced-schema:
 
 Destructive Changes
 -------------------
+
 Destructive changes to a schema are usually **modifications** of existing fields, 
 such as:
 
@@ -79,6 +83,7 @@ create a **"partner collection"**.
 
 Partner Collections
 ~~~~~~~~~~~~~~~~~~~
+
 A partner collection is a collection that contains the same data as
 the original collection, but has the new schema definition in place. Partner
 collections use database triggers to ensure that data flows in both directions,
@@ -89,6 +94,7 @@ To implement a schema change, see :ref:`<migrate-schema-partner-collection>`.
 
 Summary
 -------
+
 - Schema changes on synced {+realms+} are backward compatible, allowing old clients to sync with newer ones.
 - Additive changes to the schema of a synced {+realm+} do not require any additional configuration. 
 - Synchronized {+realms+} only support additive changes to a schema.
