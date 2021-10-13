@@ -34,6 +34,22 @@ const BusinessSchema = {
 };
 // :code-block-end:
 
+// :code-block-start:node_list
+const PetOwnerSchema = {
+  name: "PetOwner",
+  primaryKey: "_id",
+  properties: {
+    _id: "objectId",
+    person: "Person",
+    pets: {
+      type: "list",
+      objectType: "Pet",
+      optional: false //null values are not allowed
+    },
+  },
+};
+// :code-block-end:
+
 describe("Node.js Data Types", () => {
   test("should create, update and query Realm dictionaries", async () => {
     // :code-block-start: define-dictionary-in-schema

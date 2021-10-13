@@ -1,4 +1,5 @@
 realm.write(() => {
-  // remove the compass from characterOne's inventory by calling `Realm.Set.delete()` within a write transaction
-  characterOne.inventory.delete("compass");
+  // remove the compass from playerOne's inventory by calling `set.delete()` within a write transaction
+  playerOne.inventory.delete("compass");
 });
+

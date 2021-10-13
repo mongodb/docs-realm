@@ -44,16 +44,21 @@ Results have an associated query that determines their contents.
 
 Lists
 -----
-A :js-sdk:`List <Realm.List.html>` represents a :ref:`to-many
-relationship <node-to-many-relationship>` between two {+service-short+}
-types. Lists are mutable: within a write transaction, you can add and
-remove elements to and from a list. Lists are not associated with a
-query and are declared as a property of an :ref:`object model
-<node-object-schemas>`.
+A :js-sdk:`List <Realm.List.html>` represents a collection of objects of a single 
+type. Lists are declared as a property of an :ref:`object model <node-object-schemas>` 
+and are not associated with a query.
 
-.. seealso::
+Lists behave like normal JavaScript Arrays, except that they 
+can only store values of a single type, which you indicate with the 
+:js-sdk:`type <Realm.List.html#type>` property, set to one of the 
+valid :js-sdk:`property types <Realm.html#~PropertyType>`. 
 
-   :ref:`To-Many Relationships <node-to-many-relationship>`
+.. literalinclude:: /examples/generated/node/data-types.codeblock.node_list.js
+  :language: javascript
+
+You can only modify a List within a write transaction, and Lists are mutable: 
+within the write transaction, you can add and remove elements to and from 
+the List. 
 
 .. _node-lazy-evaluated-results:
 
