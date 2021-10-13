@@ -23,7 +23,7 @@ make a property *required*, for example.
 The {+service-short+} APIs provide for 
 backward-compatible schema changes to synced realms, allowing old clients to
 sync with newer ones. Destructive schema changes, however, take some planning and 
-work. 
+work.
 
 The difficulty with implementing a destructive schema changes is that older 
 clients (those that have not been updated to your new code and schema) still 
@@ -42,9 +42,7 @@ schema, such as:
 - adding an optional (not required) field to an existing class
 
 Additive changes apply automatically to synced {+realms+}; you can make these 
-additive schema changes with no additional configuration changes. Increase
-the schema version in your client applications to use the new schema
-properties.
+additive schema changes with no additional configuration changes.
 
 .. note:: Removing a Property from Your Schema Is Considered an Additive Change
 

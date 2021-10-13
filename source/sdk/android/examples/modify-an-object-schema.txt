@@ -176,10 +176,10 @@ Modify an Object Schema - Android SDK
       modifying the :ref:`JSON Schema <configure-your-data-model>`
       defined in your application's backend. Synchronized {+realm+}s do
       not require migration functions, since destructive changes to
-      synchronized schemas lead to a :ref:`client reset
-      <android-client-resets>`. Additive changes to a synchronized
-      {+realm+}'s schema require you to increase the schema version in
-      your client application before you can use the updated schema.
+      synchronized schemas cause synchronization errors. {+sync+}
+      handles additive changes to synchronized {+realm+} schemas
+      automatically. As a result, both old versions of your schema and
+      new versions can synchronize as users upgrade their applications.
 
       To learn more about schema changes to synchronized {+realm+}s,
       see :ref:`synced schema changes <synced-schema-overview>`.
