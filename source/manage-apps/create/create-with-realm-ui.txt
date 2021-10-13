@@ -66,11 +66,13 @@ To create an Atlas cluster to use with your {+app+}, following these steps:
 
 4. Click the :guilabel:`Create Cluster` button to save your changes.
 
-.. note::
+   .. note::
 
-   For detailed information about the options available when creating
-   an {+atlas-short+} cluster, see
-   :atlas:`Create a New Cluster </create-new-cluster/>`.
+      For detailed information about the options available when creating
+      an {+atlas-short+} cluster, see
+      :atlas:`Create a New Cluster </create-new-cluster/>`.
+
+   .. include:: /includes/mongodb-4.4-required-for-sync-admonition.rst
 
 C. Add a Realm App
 ~~~~~~~~~~~~~~~~~~~
@@ -78,31 +80,45 @@ C. Add a Realm App
 1. In {+atlas-short+}, select the :guilabel:`Realm` tab.
 
 #. If you are creating your first {+app+} in this {+atlas-short+}
-   project, click the :guilabel:`Start a New Realm App` button in the
-   center of the screen. If you have already created at least one {+app+}
-   in this {+atlas-short+} project, click the
-   :guilabel:`Create a New App` button in the top right of the screen.
+   project, you will be shown all the :ref:`template apps <template-apps>`
+   available for you to start with, and an option to start without a template 
+   (:guilabel:`Build your own App`). 
+   
+   .. figure:: /images/template-apps.png
+      :alt: Modal showing all available template apps to start building from.
+      :figwidth: 600px
+      :width: 600px
 
-#. In the :guilabel:`Name your Realm application` dialog, enter an
-   :guilabel:`Application Name` for your {+app+}.
+   If you have already created at least one {+app+}
+   in this {+atlas-short+} project, you can choose to use a template for your
+   new app or start without one.
+   
+   1. Click the :guilabel:`Create App from Template` button in the top right of the screen
+      to see a dropdown menu with all the template apps and pick one that suits your needs. 
 
-   .. include:: /includes/note-app-name-limitations.rst
+   2. Click the :guilabel:`Create a New App` button in the top right of the screen 
+      to start without a template.
+     
+      .. figure:: /images/template-apps-dropdown.png
+         :alt: Dropdown menu showing all available template apps to start building from.
+         :figwidth: 600px
+         :width: 600px
 
-#. Select a cluster in your project from the :guilabel:`Link your
-   Database` dropdown. {+service+} will automatically create a
-   :ref:`MongoDB service <mongodb-service>` linked to this cluster with
-   the name "mongodb-atlas".
-
-   .. include:: /includes/mongodb-4.4-required-for-sync-admonition.rst
-
-#. Select a :ref:`deployment model <realm-deployment-models>` and
-   :ref:`deployment region <realm-regions>` for your application.
+#. You will be shown a dialog where you can configure your {+app+}, including the: 
+   
+   - :guilabel:`Application Name`. 
+     
+     .. include:: /includes/note-app-name-limitations.rst
+   
+   - Linked {+atlas-short+} cluster. {+service+} will automatically create a
+     :ref:`MongoDB service <mongodb-service>` linked to this cluster with
+     the name "mongodb-atlas".
+   
+   - :ref:`Deployment model <realm-deployment-models>`. 
+   
+   - :ref:`Deployment region <realm-regions>`. 
 
 #. Click :guilabel:`Create Realm Application`.
-
-.. figure:: /images/create-new-app-modal.png
-   :alt: The app creation modal in the UI
-   :width: 480px
 
 Upon creation of your {+app+}, you will be redirected to the
 {+service+} console. Your {+app+} is created with a

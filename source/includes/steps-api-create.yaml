@@ -23,12 +23,48 @@ content: |
   
   - The :ref:`Group ID <realm-api-project-and-application-ids>` from step 2.
 
-  .. code-block:: shell
+  - A name for your new app.
 
-     curl --request POST 'https://realm.mongodb.com/api/admin/v3.0/groups/<GroupID>/apps' \
-       --header 'Authorization:  Bearer <access token>' \
-       --header 'Content-Type: application/json' \
-       --data '{"name": "<name of new app>"}'
+  .. tabs::
+   
+     .. tab:: Blank App
+        :tabid: blank
+ 
+        .. code-block:: shell
+ 
+           curl --request POST 'https://realm.mongodb.com/api/admin/v3.0/groups/<GroupID>/apps' \
+             --header 'Authorization:  Bearer <AccessToken>' \
+             --header 'Content-Type: application/json' \
+             --data '{ "name": "<AppName>" }'
+
+     .. tab:: Template App
+        :tabid: template
+        
+        If you want to create an app from a :ref:`template <template-apps>`, you must also 
+        include the following in the request body:
+            
+        - The ``template_id`` field with one of the following values: web.graphql.todo, 
+          web.mql.todo, triggers, ios.swift.todo, android.kotlin.todo, react-native.todo, 
+          xamarin.todo.
+        - Either a ``data_source`` field with information about an existing Atlas cluster or 
+          ``"create_cluster" : true`` if you do not have one set up already.
+        
+        .. code-block:: shell
+
+          curl --request POST 'https://realm.mongodb.com/api/admin/v3.0/groups/<GroupID>/apps' \
+            --header 'Authorization:  Bearer <AccessToken>' \
+            --header 'Content-Type: application/json' \
+            --data '{
+                "name": "<AppName>",
+                "template_id": "<ChosenTemplateAppId>",
+                "data_source": {
+                  "name": "mongodb-atlas",
+                  "type": "mongodb-atlas",
+                  "config": {
+                      "clusterName": "<NameOfExistingCluster>"
+                  }
+                }
+              }'
 
   If creation succeeds, the {+backend+} returns a ``201`` response and a JSON document.
 

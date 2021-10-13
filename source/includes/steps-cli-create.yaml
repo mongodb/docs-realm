@@ -15,13 +15,25 @@ content: |
 
   .. code-block:: shell
 
-     realm-cli app create
+     realm-cli apps create
   
   The command also supports additional flags that you can optionally include
   to customize your app. The following table lists common flags you might use:
 
   .. list-table::
-     
+    
+     * - ``--template``
+       - Choose a :ref:`template app <template-apps>` to start from.
+         
+         Valid values:
+        
+         - ``web.graphql.todo``
+         - ``web.mql.todo``
+         - ``triggers``
+         - ``ios.swift.todo``
+         - ``android.kotlin.todo``
+         - ``xamarin.todo``
+
      * - ``--deployment-model``
        - Defines the app's :ref:`deployment model <deployment-model>`.
          
