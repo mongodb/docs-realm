@@ -174,8 +174,15 @@ Modify an Object Schema - Android SDK
 
       You can make changes to the schema of a synchronized {+realm+} by
       modifying the :ref:`JSON Schema <configure-your-data-model>`
-      defined in your application's backend. To learn more, see
-      :ref:`synced schema changes <synced-schema-overview>`.
+      defined in your application's backend. Synchronized {+realm+}s do
+      not require migration functions, since destructive changes to
+      synchronized schemas lead to a :ref:`client reset
+      <android-client-resets>`. Additive changes to a synchronized
+      {+realm+}'s schema require you to increase the schema version in
+      your client application before you can use the updated schema.
+
+      To learn more about schema changes to synchronized {+realm+}s,
+      see :ref:`synced schema changes <synced-schema-overview>`.
 
       .. note:: Development Mode: Only for Defining Your Initial Schema
 
