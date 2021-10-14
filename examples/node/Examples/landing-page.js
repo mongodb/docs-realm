@@ -19,7 +19,6 @@ describe("Node Landing Page", () => {
     // open a local realm with the 'Cat' schema
     const realm = await Realm.open({
       schema: [Cat],
-      deleteRealmIfMigrationNeeded: true,
     });
     // :code-block-end:
     let cat1, cat2, cat3;
@@ -144,7 +143,7 @@ describe("Node Landing Page", () => {
   test.skip("should automatically sync data between realms", async () => {
     const app = new Realm.App({ id: "<Your App ID>" });
     const credentials = Realm.Credentials.anonymous();
-    await app.logIn(credentials);
+    const anonUser = await app.logIn(credentials);
     const Cat = {
       name: "Cat",
       properties: {
@@ -196,5 +195,6 @@ describe("Node Landing Page", () => {
       realm.delete(darukCat);
     });
     realm.close();
+    await anonUser.logOut();
   });
 });

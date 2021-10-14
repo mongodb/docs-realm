@@ -13,7 +13,6 @@ describe("React to Changes", () => {
     // a realm is opened
     const realm = await Realm.open({
       schema: [DogSchema],
-      deleteRealmIfMigrationNeeded: true,
     });
     let dog;
     let hasRealmChanged = false; // boolean value to test if a change has registered
@@ -52,7 +51,6 @@ describe("React to Changes", () => {
     // a realm is opened
     const realm = await Realm.open({
       schema: [DogSchema],
-      deleteRealmIfMigrationNeeded: true,
     });
     let dog;
 
@@ -126,7 +124,6 @@ describe("React to Changes", () => {
     // a realm is opened
     const realm = await Realm.open({
       schema: [DogSchema],
-      deleteRealmIfMigrationNeeded: true,
     });
     let dog;
     // boolean values to test if a change has registered
@@ -183,7 +180,6 @@ describe("React to Changes", () => {
     // a realm is opened
     const realm = await Realm.open({
       schema: [DogSchema],
-      deleteRealmIfMigrationNeeded: true,
     });
     let dog;
     const dogs = realm.objects("Dog");

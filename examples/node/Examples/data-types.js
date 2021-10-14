@@ -146,7 +146,7 @@ describe("Node.js Data Types", () => {
   test("should work with Mixed Type", async () => {
     // :code-block-start: define-mixed-in-schema
     const DogSchema = {
-      name: "Dog",
+      name: "DogThree", // Change name from 'Dog' -> 'DogThree' to prevent "Migration Needed error"
       properties: {
         name: "string",
         birthDate: "mixed",
@@ -156,26 +156,28 @@ describe("Node.js Data Types", () => {
 
     const realm = await Realm.open({
       schema: [DogSchema],
-      deleteRealmIfMigrationNeeded: true,
     });
 
     // :code-block-start: create-objects-with-mixed-values
     realm.write(() => {
       // create a Dog with a birthDate value of type string
-      realm.create("Dog", { name: "Euler", birthDate: "December 25th, 2017" });
+      realm.create("DogThree", {
+        name: "Euler",
+        birthDate: "December 25th, 2017",
+      });
 
       // create a Dog with a birthDate value of type date
-      realm.create("Dog", {
+      realm.create("DogThree", {
         name: "Blaise",
         birthDate: new Date("August 17, 2020"),
       });
       // create a Dog with a birthDate value of type int
-      realm.create("Dog", {
+      realm.create("DogThree", {
         name: "Euclid",
         birthDate: 10152021,
       });
       // create a Dog with a birthDate value of type null
-      realm.create("Dog", {
+      realm.create("DogThree", {
         name: "Pythagoras",
         birthDate: null,
       });
@@ -185,17 +187,20 @@ describe("Node.js Data Types", () => {
     // :code-block-start: query-objects-with-mixed-values
     // To query for Blaise's birthDate, filter for his name to retrieve the realm object.
     // Use dot notation to access the birthDate property.
-    let blaiseBirthDate = realm.objects("Dog").filtered(`name = 'Blaise'`)[0]
-      .birthDate;
+    let blaiseBirthDate = realm
+      .objects("DogThree")
+      .filtered(`name = 'Blaise'`)[0].birthDate;
     console.log(`Blaise's birth date is ${blaiseBirthDate}`);
     // :code-block-end:
     expect(blaiseBirthDate).toEqual(new Date("August 17, 2020"));
 
     // delete the objects specifically created in this test to keep tests idempotent
-    const Euler = realm.objects("Dog").filtered(`name = 'Euler'`)[0];
-    const Blaise = realm.objects("Dog").filtered(`name = 'Blaise'`)[0];
-    const Euclid = realm.objects("Dog").filtered(`name = 'Euclid'`)[0];
-    const Pythagoras = realm.objects("Dog").filtered(`name = 'Pythagoras'`)[0];
+    const Euler = realm.objects("DogThree").filtered(`name = 'Euler'`)[0];
+    const Blaise = realm.objects("DogThree").filtered(`name = 'Blaise'`)[0];
+    const Euclid = realm.objects("DogThree").filtered(`name = 'Euclid'`)[0];
+    const Pythagoras = realm
+      .objects("DogThree")
+      .filtered(`name = 'Pythagoras'`)[0];
     // delete the objects to keep the tests idempotent
     realm.write(() => {
       realm.delete(Euler);
@@ -316,6 +321,7 @@ describe("Node.js Data Types", () => {
     const realm = await Realm.open({
       schema: [ProfileSchema],
     });
+
     realm.write(() => {
       realm.create("Profile", {
         name: "John Doe.",
@@ -332,12 +338,17 @@ describe("Node.js Data Types", () => {
       .objects("Profile")
       .filtered("name = 'John Doe.'")[0];
 
+    const timDoeProfile = realm
+      .objects("Profile")
+      .filtered("name = 'Tim Doe.'")[0];
+
     // test if johnDoeProfile's _id is a valid UUID field
     expect(UUID.isValid(johnDoeProfile._id)).toBe(true);
 
     // delete the objects to keep the tests idempotent
     realm.write(() => {
       realm.delete(johnDoeProfile);
+      realm.delete(timDoeProfile);
     });
     // close the realm
     realm.close();

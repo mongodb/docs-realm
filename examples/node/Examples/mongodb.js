@@ -3,7 +3,7 @@ import BSON from "bson";
 
 // const alphabetized = (fieldName, arr) =>
 //   arr.sort((l, r) => (l[fieldName][0] < r[fieldName][0] ? -1 : 1));
-const ObjectId = (value) => new BSON.ObjectId(value);
+const ObjectId = (value) => new Realm.BSON.ObjectId(value);
 
 // prettier-ignore
 const PLANTS = [
@@ -119,7 +119,7 @@ describe("Read Documents", () => {
     console.log("venusFlytrap", venusFlytrap);
     // :code-block-end:
 
-    expect(venusFlytrap).toEqual(
+    expect(venusFlytrap).toMatchObject(
       // :code-block-start: find-a-single-document-result
       {
         _id: ObjectId("5f87976b7b800b285345a8b4"),

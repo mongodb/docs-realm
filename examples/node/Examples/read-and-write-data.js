@@ -20,7 +20,7 @@ const PersonSchema = {
   },
 };
 const DogSchema = {
-  name: "Dog",
+  name: "DogTwo", // Change name from 'Dog' -> 'DogTwo' to prevent "Migration Needed error"
   properties: {
     name: "string",
     owner: "Person?",
@@ -77,7 +77,7 @@ describe("Read & Write Data", () => {
     // write to a realm
     realm.write(() => {
       task = realm.create("Task", {
-        _id: 321512,
+        _id: Math.random(),
         name: "Walk the dog",
       });
     });
@@ -105,19 +105,19 @@ describe("Read & Write Data", () => {
     // write to a realm
     realm.write(() => {
       task = realm.create("Task", {
-        _id: 191230,
+        _id: Math.random(),
         name: "go grocery shopping",
         priority: 10,
         progressMinutes: 50,
       });
       task2 = realm.create("Task", {
-        _id: 325212012,
+        _id: Math.random(),
         name: "throw out the trash",
         priority: 4,
         progressMinutes: 0,
       });
       task3 = realm.create("Task", {
-        _id: 43259540,
+        _id: Math.random(),
         name: "do the laundry",
         priority: 2,
         progressMinutes: 5,
@@ -518,7 +518,6 @@ describe("Read & Write Data", () => {
   test("should delete all objects", async () => {
     // a realm is opened
     const realm = await Realm.open({
-      deleteRealmIfMigrationNeeded: true,
       schema: [CatSchema, TaskSchema],
     });
     let cat1, cat2, task1, task2;

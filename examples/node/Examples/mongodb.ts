@@ -489,6 +489,7 @@ describe("Watch for Changes", () => {
     }
     expect.assertions(1);
     return;
+
     // :state-end:
     // :state-uncomment-start: final
     // for await (const change of plants.watch()) {
