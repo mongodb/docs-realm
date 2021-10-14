@@ -8,11 +8,11 @@ mobile database:
 - **Object-oriented**: stores data as objects, rather than rows,
   documents, or columns.
 
-- **Mobile**: designed for the low-power, battery-sensitive, real-time
-  environment of a mobile device.
-
 - **Cross-platform**: use the same database on iOS, Android,
   Linux, macOS, or Windows. Just define a schema for each SDK you use.
+
+- **Mobile**: designed for the low-power, battery-sensitive, real-time
+  environment of a mobile device.
 
 {+client-database+} is an alternative to
 `SQLite <https://www.sqlite.org/index.html>`__ and
