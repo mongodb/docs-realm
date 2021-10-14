@@ -1,6 +1,7 @@
-- ``web.graphql.todo``
-- ``web.mql.todo``
 - ``triggers``
-- ``ios.swift.todo``
+- ``web.mql.todo``
+- ``web.graphql.todo``
 - ``android.kotlin.todo``
+- ``ios.swift.todo``
+- ``react-native.todo``
 - ``xamarin.todo``

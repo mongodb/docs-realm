@@ -22,6 +22,45 @@ template app in the :ref:`{+ui+} <create-a-realm-app>`, with :ref:`{+cli+} <crea
 or the :ref:`Admin API <create-app-api>`. 
 
 
+Template Apps Available
+-----------------------
+
+.. list-table::
+   :header-rows: 1
+   :widths: 30 30 50
+   
+   * - Name
+     - ID
+     - Description
+
+   * - Manage Database Views
+     - ``triggers``
+     - Event-driven :ref:`Database Trigger <database-trigger>` template to update a view in a separate collection.
+
+   * - React.JS + Realm Web Boilerplate
+     - ``web.mql.todo``
+     - Hosted Todo web app using the :ref:`Realm Web SDK <web-intro>`.
+   
+   * - GraphQL + React App Boilerplate
+     - ``web.graphql.todo``
+     - Hosted Todo web app using the :ref:`GraphQL API <graphql-api>`
+
+   * - Kotlin + Realm Sync Starter
+     - ``android.kotlin.todo``
+     - Android app using the :ref:`Realm Kotlin SDK <android-intro>` to sync data to Realm's server.
+
+   * - Swift + Realm Sync Starter
+     - ``ios.swift.todo``
+     - iOS app using the :ref:`Realm Swift SDK <ios-intro>` to sync data to Realm's server.
+
+   * - React Native + Realm Sync Starter
+     - ``react-native.todo``
+     - Cross-platform mobile app using the :ref:`Realm JS SDK <react-native-intro>` to sync data to Realm's server.
+
+   * - Xamarin + Realm Sync Starter
+     - ``xamarin.todo``
+     - Cross-platform mobile app using the :ref:`Realm C# SDK <dotnet-intro>` to sync data to Realm's server.
+
 Create a Template App
 ---------------------
 
@@ -39,13 +78,11 @@ Create a Template App
 
       Follow the procedure described in the 
       :ref:`Create a Realm App with Realm CLI <create-app-cli>` guide and include
-      the ``template`` flag followed by one of the allowed values: 
-
-      .. include:: /includes/template-app-ids.rst
+      the ``template`` flag followed by one of the template app IDs: 
       
       .. code-block:: shell
          
-         realm-cli apps create -n "<your new app name>" --template "<template to use>"
+         realm-cli apps create -n "<App Name>" --template "<Chosen Template App ID>"
 
    .. tab:: Admin API
       :tabid: api
@@ -54,17 +91,17 @@ Create a Template App
       :ref:`Create a Realm App with Realm API <create-app-api>` guide, making sure to choose
       the :guilabel:`Template` tab in the :guilabel:`Create a new Realm App` step. 
       When calling the create endpoint you should include a request body that looks like this:
-      
+
       .. code-block:: json
          
          { 
-            "name": "<AppName>",
-            "template_id": "<ChosenTemplateAppId>",
+            "name": "<Ap pName>",
+            "template_id": "<Chosen Template App ID>",
             "data_source": {
                "name": "mongodb-atlas",
                "type": "mongodb-atlas",
                "config": {
-                  "clusterName": "<NameOfExistingCluster"
+                  "clusterName": "<Name Of Existing Cluster>"
                }
             }
          }
@@ -90,10 +127,10 @@ navigate to your template app in the {+ui+}. You can:
 
    .. code-block:: shell
       
-      realm-cli pull --remote <App ID> --template <Template ID>
+      realm-cli pull --remote <App ID> --template <Template App ID>
 
    .. note::
-      All the template apps except Database Triggers come with a frontend that uses
+      All the template apps except "Manage Database Views" come with a frontend that uses
       the appropriate :ref:`{+client-database+} SDK <realm-sdks>`. The prebuilt app is a 
       todo app similar to the task tracker app introduced in the :ref:`tutorial <tutorial>`. 
 
