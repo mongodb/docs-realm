@@ -202,6 +202,10 @@ A **{+backend-schema+}** is a list of valid :ref:`object schemas
 <android-realm-objects>` that each define an object type that a {+app+}
 may persist. All objects in a {+realm+} must conform to the {+backend-schema+}.
 
+By default, the Android SDK automatically adds all classes in your project
+that derive from :java-sdk:`RealmObject <io/realm/RealmObject.html>` to the
+{+realm+} schema.
+
 Client applications provide a {+frontend-schema+} when they open a
 {+realm+}. If a {+realm+} already contains data, then {+client-database+}
 validates each existing object to ensure that an object schema was
