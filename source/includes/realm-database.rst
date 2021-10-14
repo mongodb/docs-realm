@@ -25,7 +25,7 @@ Database Internals
 {+client-database+} uses a completely unique database engine,
 file format, and design. This section describes some of the high-level
 details of those choices. This section applies to both the device-local
-version of {+client-database} as well as the networked {+sync+}.
+version of {+client-database} as well as the networked {+sync+} version.
 Differences between the local database and the synchronized database are
 explained in the next section, Realm Sync.
 
