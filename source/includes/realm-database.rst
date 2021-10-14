@@ -29,9 +29,9 @@ of {+client-database+} and {+sync+}. This page is for you if you are:
   {+sync+}
 
 This explanation begins with a deep dive into database internals,
-continues with an explanation of some of the high-level features of
-{+client-database+}, and wraps up with an explanation of how {+sync+}
-differs from the local database.
+continues with a high-level introduction to some of the features of
+{+client-database+}, and wraps up with some of the differences between
+{+sync+} and the local version of {+client-database+}.
 
 Database Internals
 ------------------
