@@ -27,7 +27,7 @@ file format, and design. This section describes some of the high-level
 details of those choices. This section applies to both the device-local
 version of {+client-database} as well as the networked {+sync+} version.
 Differences between the local database and the synchronized database are
-explained in the next section, Realm Sync.
+explained in the Realm Sync section.
 
 Native Database Engine
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -84,7 +84,7 @@ form:
 - Each class in the {+realm+} schema corresponds to a Table within the
   top-level Group.
 
-- Each Table contains a Cluster Tree, a B+ tree.
+- Each Table contains a Cluster Tree, an implementation of a B+ tree.
 
 - Leaves on the Cluster Tree are called Clusters. Each contains a range
   of objects.
@@ -106,7 +106,7 @@ this a ref. As {+client-database+} uses memory mapping to read and
 write data, database operations translate these refs from offsets to
 memory pointers when navigating database structures.
 
-Copy-on-Write: the Secret Sauce of Data Versioning
+Copy-on-Write: The Secret Sauce of Data Versioning
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 {+client-database+} uses a technique called **copy-on-write**, which
@@ -222,9 +222,9 @@ Persistent or In-Memory Realms
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 You can use {+client-database+} to store data persistently on disk, or
-ephemerally in memory. This can be useful in situations where you don't
-need to persist data between application instances, such as when a user
-works in a temporary workspace.
+ephemerally in memory. Ephemeral {+realm+}s can be useful in situations
+where you don't need to persist data between application instances, such
+as when a user works in a temporary workspace.
 
 Realm Sync
 ----------
