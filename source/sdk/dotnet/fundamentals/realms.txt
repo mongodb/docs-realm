@@ -90,7 +90,7 @@ to the schema automatically.
 Realm Files 
 ~~~~~~~~~~~
 
-Realm Database stores a binary encoded version of every object and type in a
+{+client-database+} stores a binary encoded version of every object and type in a
 realm in a single ``.realm`` file. The file is located at the path that
 you define in the 
 :dotnet-sdk:`RealmConfiguration <reference/Realms.RealmConfiguration.html#Realms_RealmConfiguration__ctor_System_String_>` 
@@ -102,13 +102,9 @@ stores app-specific data.
 
 .. note:: Auxiliary Realm Files
    
-   Realm Database creates two additional files for each {+realm+}. These files
-   are primarily for internal use and in general you can ignore them.
-
-   - ``.realm.lock``: The **lock file** enables synchronization between writes.
-   
-   - ``.realm.note``: The **note file** is a :wikipedia:`named pipe
-     <Named_pipe>` for inter-thread and inter-process notifications.
+   Realm Database creates additional files for each {+realm+}.
+   To learn more about these files, see :ref:`Realm Database Internals
+   <dotnet-realm-database>`.
 
 
 Deleting a Realm File

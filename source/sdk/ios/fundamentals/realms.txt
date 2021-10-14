@@ -129,22 +129,15 @@ constraints specified in the schema.
 Realm Files
 -----------
 
-Realm Database stores a binary encoded version of every object and type in a
+{+client-database+} stores a binary encoded version of every object and type in a
 realm in a single ``.realm`` file. The file is located at :ref:`a specific 
 path <find-the-default-realm-path>` that you define when you open the realm.
 
 .. note:: Auxiliary Realm Files
    
-   Realm Database creates a few additional files for each {+realm+}. These files
-   are primarily for internal use and in general you can ignore them.
-
-   - ``.realm.lock``: The **lock file** enables synchronization between writes.
-   
-   - ``.realm.note``: The **note file** is a :wikipedia:`named pipe
-     <Named_pipe>` for inter-thread and inter-process notifications.
-   
-   - ``.realm.management``: The **management directory** contains internal state
-     management files.
+   Realm Database creates additional files for each {+realm+}.
+   To learn more about these files, see :ref:`Realm Database Internals
+   <ios-realm-database>`.
 
 .. warning:: Use Caution When Deleting Realm Files
    

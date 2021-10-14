@@ -139,16 +139,9 @@ you define when you open the realm.
 
 .. note:: Auxiliary Realm Files
    
-   Realm Database creates a few additional files for each {+realm+}. These files
-   are primarily for internal use and in general you can ignore them.
-
-   - ``.realm.lock``: The **lock file** enables synchronization between writes.
-   
-   - ``.realm.note``: The **note file** is a :wikipedia:`named pipe
-     <Named_pipe>` for inter-thread and inter-process notifications.
-   
-   - ``.realm.management``: The **management directory** contains internal state
-     management files.
+   Realm Database creates additional files for each {+realm+}.
+   To learn more about these files, see :ref:`Realm Database Internals
+   <react-native-realm-database>`.
 
 .. warning:: Use Caution When Deleting Realm Files
    
@@ -189,7 +182,7 @@ opens a connection to an application server and syncs changes to and from other
 clients. The :ref:`Realm sync protocol <sync-protocol>` and server-side
 operational transforms guarantee that all fully synced instances of a realm see
 exactly the same data, even if some changes occurred offline and/or were
-receieved out of order.
+received out of order.
 
 .. tip:: Learn How to Configure and Use Sync
    

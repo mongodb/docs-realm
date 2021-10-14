@@ -261,7 +261,16 @@ You can customize permissions for these partitions of data using
 Find Your Realm File
 --------------------
 
+{+client-database+} stores a binary encoded version of every object
+and type in a realm in a single ``.realm`` file.
+
 .. include:: /includes/find-realm-file-android.rst
+
+.. note:: Auxiliary Realm Files
+   
+   Realm Database creates additional files for each {+realm+}.
+   To learn more about these files, see :ref:`Realm Database Internals
+   <android-realm-database>`.
 
 .. _android-realm-file-size:
 
