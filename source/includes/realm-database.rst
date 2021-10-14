@@ -60,17 +60,23 @@ Realm Files
 ~~~~~~~~~~~
 
 {+client-database+} persists data in files saved on device
-storage. The database only uses two kinds of file:
+storage. The database uses several kinds of file:
 
-- **realm files**, suffixed with "realm", e.g. ``default.realm``.
-- **lock files**, suffixed with "lock", e.g. ``default.realm.lock``.
+- **realm files**, suffixed with "realm", e.g. ``default.realm``:
+  contain object data.
+- **lock files**, suffixed with "lock", e.g. ``default.realm.lock``:
+  keep track of which versions of data in a {+realm+} are
+  actively in use. This prevents {+realm+} from reclaiming storage space
+  that is still used by a client application. 
+- **note files**, suffixed with "note", e.g. ``default.realm.note``:
+  enable inter-thread and inter-process notifications.
+- **management files**, suffixed with "management", e.g. ``default.realm.management``:
+  internal state management.
 
-Lock files keep track of which versions of data in a {+realm+} are
-actively in use. This prevents {+realm+} from reclaiming storage space
-that is still in use in a client application. Realm files contain object
-data with the following data structures: Groups, Tables, Cluster Trees,
-and Clusters. {+client-database+} organizes these data structures into a
-tree structure with the following form:
+Realm files contain object data with the following data structures:
+Groups, Tables, Cluster Trees, and Clusters. {+client-database+}
+organizes these data structures into a tree structure with the following
+form:
 
 - The top level, known as a Group, stores object metadata, a transaction
   log, and a collection of Tables.
