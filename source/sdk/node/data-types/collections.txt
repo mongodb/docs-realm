@@ -44,16 +44,23 @@ Results have an associated query that determines their contents.
 
 Lists
 -----
-A :js-sdk:`List <Realm.List.html>` represents a :ref:`to-many
-relationship <node-to-many-relationship>` between two {+service-short+}
-types. Lists are mutable: within a write transaction, you can add and
-remove elements to and from a list. Lists are not associated with a
-query and are declared as a property of an :ref:`object model
-<node-object-schemas>`.
+A :js-sdk:`List <Realm.List.html>` represents a collection of values of a single 
+type. Lists are declared as a property within an 
+:ref:`object model <node-object-schemas>`, and are not associated with a query.
 
-.. seealso::
+Lists behave like normal JavaScript arrays, except that they 
+can only store values of a single type, which you indicate by setting the 
+:js-sdk:`type <Realm.List.html#type>` property to one of the 
+valid :js-sdk:`property types <Realm.html#~PropertyType>` or to the name of 
+another Realm object type. 
 
-   :ref:`To-Many Relationships <node-to-many-relationship>`
+.. literalinclude:: /examples/generated/node/data-types.codeblock.node_list.js
+  :language: javascript
+  :emphasize-lines: 7-11
+
+You can only modify a List within a write transaction, and Lists are mutable: 
+within the write transaction, you can add and remove elements to and from 
+the List. 
 
 .. _node-lazy-evaluated-results:
 
@@ -76,7 +83,13 @@ are usually **live**:
 
 A collection is **not** live when: 
 
-- it is a :ref:`results collection <node-realm-results>` that you are iterating through using a :mdn:`for..in <Web/JavaScript/Reference/Statements/for...in>` or :mdn:`for..of <Web/JavaScript/Reference/Statements/for...of>` statement. Both statements will continue to iterate through objects in the collection even if you have deleted or modified the collection's objects to exclude them from the filter that produced the results collection.
+- it is a :ref:`results collection <node-realm-results>` that you are iterating 
+  through using a :mdn:`for..in <Web/JavaScript/Reference/Statements/for...in>` 
+  or :mdn:`for..of <Web/JavaScript/Reference/Statements/for...of>` statement. 
+  Both statements will continue to iterate through objects in the collection 
+  even if you have deleted or modified the collection's objects to exclude them 
+  from the filter that produced the results collection.
+
 - the collection is a frozen :js-sdk:`Results.snapshot() <Realm.Collection.html#snapshot>`.
 
 Combined with :ref:`collection notifications
