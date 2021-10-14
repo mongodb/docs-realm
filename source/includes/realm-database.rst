@@ -5,7 +5,7 @@ mobile database:
   and subscribe to state changes like the result of a query, or even
   changes to a single object.
 
-- **Object-oriented**: stores data as objects, rather than rows,
+- **Object-oriented**: organizes data as objects, rather than rows,
   documents, or columns.
 
 - **Cross-platform**: use the same database on iOS, Android,
@@ -55,7 +55,7 @@ the way up to the access level.
 
 {+client-database+} stores data in **{+realm+}s**: collections of
 heterogeneous {+realm+} objects. You can think of each {+realm+} as a
-database. Each object in that {+realm+} is equivalent to a row
+database. Each object in a {+realm+} is equivalent to a row
 in a SQL database table or a MongoDB document. Unlike SQL, {+realm+}s do
 not separate different object types into individual tables.
 
