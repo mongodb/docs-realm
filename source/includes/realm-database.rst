@@ -1,5 +1,5 @@
 {+client-database+} is a reactive, object-oriented, cross-platform,
-mobile database. It is an alternative to SQLite and Core Data.
+mobile database:
 
 - **Reactive**: query the current state of data
   and subscribe to state changes like the result of a query, or even
@@ -11,13 +11,27 @@ mobile database. It is an alternative to SQLite and Core Data.
 - **Mobile**: designed for the low-power, battery-sensitive, real-time
   environment of a mobile device.
 
-- **Cross-platform**: use the same {+realm+} files on iOS, Android,
+- **Cross-platform**: use the same database on iOS, Android,
   Linux, macOS, or Windows. Just define a schema for each SDK you use.
 
+{+client-database+} is an alternative to
+`SQLite <https://www.sqlite.org/index.html>`__ and
+:apple:`Core Data <documentation/coredata>`.
+
 This page explains some of the implementation details and inner workings
-of {+client-database+} and {+sync+}. It is intended for developers
-interested in learning more about {+client-database+}, and as a
-point of comparison with competing databases.
+of {+client-database+} and {+sync+}. This page is for you if you are:
+
+- a developer interested in learning more about {+client-database+}
+
+- comparing {+client-database+} with competing databases
+
+- trying to understand the difference between {+client-database+} and
+  {+sync+}
+
+This explanation begins with a deep dive into database internals,
+continues with an explanation of some of the high-level features of
+{+client-database+}, and wraps up with an explanation of how {+sync+}
+differs from the local database.
 
 Database Internals
 ------------------
