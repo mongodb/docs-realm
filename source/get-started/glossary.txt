@@ -443,7 +443,21 @@ Glossary
    relationship
      A relationship is an object property that references another object rather
      than a scalar or embedded object.
+
+   backlink
+      A backlink is a link within a RealmObject that indicates that the RealmObject
+      has an inverse relationship with another RealmObject. An 
+      :term:`embedded object <embedded object>` should have a backlink to its parent object.
      
+      For more information on how to define and work with backlinks and
+      inverse relationships, see the client guide for your SDK:
+       
+      - :ref:`iOS <ios-inverse-relationship>`
+      - :ref:`Node.js <node-inverse-relationship>`
+      - :ref:`React Native <react-native-inverse-relationship>`
+      - :ref:`Android <android-inverse-relationship>`
+      - :ref:`.NET <dotnet-inverse-relationship>`
+
    null partition
       A null partition is the default :term:`{+realm+}` on the client 
       device.
